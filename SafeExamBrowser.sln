@@ -10,7 +10,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0A9E6674-2FB4-42EA-85DE-B2445B9AE2D9}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE.txt = LICENSE.txt
+		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.UserInterface", "SafeExamBrowser.UserInterface\SafeExamBrowser.UserInterface.csproj", "{E1BE031A-4354-41E7-83E8-843DED4489FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Core.UnitTests", "SafeExamBrowser.Core.UnitTests\SafeExamBrowser.Core.UnitTests.csproj", "{48B9F2A1-B87D-40F0-BEC9-399E8909860F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +31,14 @@ Global
 		{3D6FDBB6-A4AF-4626-BB2B-BF329D44F9CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D6FDBB6-A4AF-4626-BB2B-BF329D44F9CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D6FDBB6-A4AF-4626-BB2B-BF329D44F9CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1BE031A-4354-41E7-83E8-843DED4489FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1BE031A-4354-41E7-83E8-843DED4489FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1BE031A-4354-41E7-83E8-843DED4489FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1BE031A-4354-41E7-83E8-843DED4489FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48B9F2A1-B87D-40F0-BEC9-399E8909860F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48B9F2A1-B87D-40F0-BEC9-399E8909860F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48B9F2A1-B87D-40F0-BEC9-399E8909860F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48B9F2A1-B87D-40F0-BEC9-399E8909860F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,9 +6,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Core
+namespace SafeExamBrowser.Core.I18n
 {
-	public class Class1
+	public enum Key
 	{
+		MessageBox_SingleInstance,
+		MessageBox_SingleInstanceTitle
 	}
 }
