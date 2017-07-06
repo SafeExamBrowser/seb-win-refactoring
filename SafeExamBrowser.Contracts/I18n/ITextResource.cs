@@ -6,12 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Core.I18n
+using System.Collections.Generic;
+
+namespace SafeExamBrowser.Contracts.I18n
 {
-	public enum Key
+	public interface ITextResource
 	{
-		MessageBox_FatalErrorTitle,
-		MessageBox_SingleInstance,
-		MessageBox_SingleInstanceTitle
+		IDictionary<Key, string> LoadText();
 	}
 }

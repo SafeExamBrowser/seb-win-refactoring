@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Xml.Linq;
-using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.Contracts.I18n;
 
 namespace SafeExamBrowser.Core.I18n
 {

@@ -7,7 +7,7 @@
  */
 
 using System.Windows;
-using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.UserInterface
 {

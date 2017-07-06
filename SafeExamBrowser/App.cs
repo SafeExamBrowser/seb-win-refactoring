@@ -9,7 +9,7 @@
 using System;
 using System.Threading;
 using System.Windows;
-using SafeExamBrowser.Core.I18n;
+using SafeExamBrowser.Contracts.I18n;
 
 namespace SafeExamBrowser
 {
@@ -27,23 +27,28 @@ namespace SafeExamBrowser
 				compositionRoot.InitializeGlobalModules();
 				compositionRoot.BuildObjectGraph();
 
-				StartApplication(compositionRoot.Taskbar);
+				StartApplication(compositionRoot);
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(e.Message + "\n\n" + e.StackTrace, Text.Instance.Get(Key.MessageBox_FatalErrorTitle));
+				MessageBox.Show(e.Message + "\n\n" + e.StackTrace, "Fatal Error");
 			}
 		}
 
-		private static void StartApplication(Window taskbar)
+		private static void StartApplication(CompositionRoot compositionRoot)
 		{
+			compositionRoot.Logger.Info("Testing the log...");
+
 			if (NoInstanceRunning())
 			{
-				new App().Run(taskbar);
+				new App().Run(compositionRoot.Taskbar);
 			}
 			else
 			{
-				MessageBox.Show(Text.Instance.Get(Key.MessageBox_SingleInstance), Text.Instance.Get(Key.MessageBox_SingleInstanceTitle));
+				var message = compositionRoot.Text.Get(Key.MessageBox_SingleInstance);
+				var title = compositionRoot.Text.Get(Key.MessageBox_SingleInstanceTitle);
+
+				MessageBox.Show(message, title);
 			}
 		}
 

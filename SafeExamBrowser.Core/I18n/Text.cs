@@ -8,16 +8,13 @@
 
 using System;
 using System.Collections.Generic;
-using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.Contracts.I18n;
 
 namespace SafeExamBrowser.Core.I18n
 {
-	public class Text
+	public class Text : IText
 	{
-		private static Text instance;
-		private static readonly object @lock = new object();
-
-		private IDictionary<Key, string> cache = new Dictionary<Key, string>();
+		private readonly IDictionary<Key, string> cache;
 
 		public Text(ITextResource resource)
 		{
@@ -26,25 +23,7 @@ namespace SafeExamBrowser.Core.I18n
 				throw new ArgumentNullException(nameof(resource));
 			}
 
-			cache = resource.LoadText();
-		}
-
-		public static Text Instance
-		{
-			get
-			{
-				lock (@lock)
-				{
-					return instance ?? new Text(new NullTextResource());
-				}
-			}
-			set
-			{
-				lock (@lock)
-				{
-					instance = value ?? throw new ArgumentNullException(nameof(value));
-				}
-			}
+			cache = resource.LoadText() ?? new Dictionary<Key, string>();
 		}
 
 		public string Get(Key key)

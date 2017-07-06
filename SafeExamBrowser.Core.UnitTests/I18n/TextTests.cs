@@ -7,33 +7,28 @@
  */
 
 using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Core.I18n;
 
-namespace SafeExamBrowser.Core.UnitTests
+namespace SafeExamBrowser.Core.UnitTests.I18n
 {
 	[TestClass]
 	public class TextTests
 	{
 		[TestMethod]
-		public void MustNeverBeNull()
-		{
-			Assert.IsNotNull(Text.Instance);
-		}
-
-		[TestMethod]
 		public void MustNeverReturnNull()
 		{
-			var text = Text.Instance.Get((Key) (-1));
+			var resource = new Mock<ITextResource>();
+			var sut = new Text(resource.Object);
+
+			resource.Setup(r => r.LoadText()).Returns<IDictionary<Key, string>>(null);
+
+			var text = sut.Get((Key)(-1));
 
 			Assert.IsNotNull(text);
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void MustNotAllowBeingNull()
-		{
-			Text.Instance = null;
 		}
 
 		[TestMethod]

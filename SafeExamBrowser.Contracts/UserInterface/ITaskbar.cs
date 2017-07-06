@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Core.Contracts
+namespace SafeExamBrowser.Contracts.UserInterface
 {
 	public interface ITaskbar
 	{

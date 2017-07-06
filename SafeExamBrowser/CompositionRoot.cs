@@ -7,18 +7,29 @@
  */
 
 using System.Windows;
+using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Core.Configuration;
 using SafeExamBrowser.Core.I18n;
+using SafeExamBrowser.Core.Logging;
 using SafeExamBrowser.UserInterface;
 
 namespace SafeExamBrowser
 {
 	class CompositionRoot
 	{
+		public ILogger Logger { get; private set; }
+		public ISettings Settings { get; private set; }
+		public IText Text { get; private set; }
 		public Window Taskbar { get; private set; }
 
 		public void InitializeGlobalModules()
 		{
-			Text.Instance = new Text(new XmlTextResource());
+			Settings = new Settings();
+			Logger = new Logger();
+			Logger.Subscribe(new LogFileWriter(Settings));
+			Text = new Text(new XmlTextResource());
 		}
 
 		public void BuildObjectGraph()

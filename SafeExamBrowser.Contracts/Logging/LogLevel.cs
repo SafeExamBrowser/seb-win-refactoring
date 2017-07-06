@@ -6,16 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Generic;
-using SafeExamBrowser.Core.Contracts;
-
-namespace SafeExamBrowser.Core.I18n
+namespace SafeExamBrowser.Contracts.Logging
 {
-	class NullTextResource : ITextResource
+	public enum LogLevel
 	{
-		public IDictionary<Key, string> LoadText()
-		{
-			return new Dictionary<Key, string>();
-		}
+		Info = 1,
+		Warn = 2,
+		Error = 3
 	}
 }

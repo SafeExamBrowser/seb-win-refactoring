@@ -6,13 +6,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Generic;
-using SafeExamBrowser.Core.I18n;
+using System;
 
-namespace SafeExamBrowser.Core.Contracts
+namespace SafeExamBrowser.Contracts.Logging
 {
-	public interface ITextResource
+	public interface ILogMessage : ICloneable
 	{
-		IDictionary<Key, string> LoadText();
+		DateTime DateTime { get; }
+		LogLevel Severity { get; }
+		string Message { get; }
 	}
 }
