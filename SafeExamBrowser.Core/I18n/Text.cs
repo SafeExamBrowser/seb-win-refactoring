@@ -12,21 +12,42 @@ using SafeExamBrowser.Core.Contracts;
 
 namespace SafeExamBrowser.Core.I18n
 {
-	public static class Strings
+	public class Text
 	{
-		private static IDictionary<Key, string> cache = new Dictionary<Key, string>();
+		private static Text instance;
+		private static readonly object @lock = new object();
 
-		public static void Initialize(IStringResource resource)
+		private IDictionary<Key, string> cache = new Dictionary<Key, string>();
+
+		public Text(ITextResource resource)
 		{
 			if (resource == null)
 			{
 				throw new ArgumentNullException(nameof(resource));
 			}
 
-			cache = resource.LoadStrings();
+			cache = resource.LoadText();
 		}
 
-		public static string Get(Key key)
+		public static Text Instance
+		{
+			get
+			{
+				lock (@lock)
+				{
+					return instance ?? new Text(new NullTextResource());
+				}
+			}
+			set
+			{
+				lock (@lock)
+				{
+					instance = value ?? throw new ArgumentNullException(nameof(value));
+				}
+			}
+		}
+
+		public string Get(Key key)
 		{
 			return cache.ContainsKey(key) ? cache[key] : $"Could not find string for key '{key}'!";
 		}

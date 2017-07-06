@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Text>
+  <MessageBox_FatalErrorTitle>Fatal Error</MessageBox_FatalErrorTitle>
   <MessageBox_SingleInstance>You can only run one instance of SEB at a time.</MessageBox_SingleInstance>
   <MessageBox_SingleInstanceTitle>Startup Not Allowed</MessageBox_SingleInstanceTitle>
 </Text>

@@ -7,12 +7,15 @@
  */
 
 using System.Collections.Generic;
-using SafeExamBrowser.Core.I18n;
+using SafeExamBrowser.Core.Contracts;
 
-namespace SafeExamBrowser.Core.Contracts
+namespace SafeExamBrowser.Core.I18n
 {
-	public interface IStringResource
+	class NullTextResource : ITextResource
 	{
-		IDictionary<Key, string> LoadStrings();
+		public IDictionary<Key, string> LoadText()
+		{
+			return new Dictionary<Key, string>();
+		}
 	}
 }

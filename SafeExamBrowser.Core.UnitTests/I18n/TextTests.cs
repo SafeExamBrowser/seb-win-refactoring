@@ -13,21 +13,34 @@ using SafeExamBrowser.Core.I18n;
 namespace SafeExamBrowser.Core.UnitTests
 {
 	[TestClass]
-	public class StringsTests
+	public class TextTests
 	{
+		[TestMethod]
+		public void MustNeverBeNull()
+		{
+			Assert.IsNotNull(Text.Instance);
+		}
+
 		[TestMethod]
 		public void MustNeverReturnNull()
 		{
-			var text = Strings.Get((Key) (-1));
+			var text = Text.Instance.Get((Key) (-1));
 
 			Assert.IsNotNull(text);
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
+		public void MustNotAllowBeingNull()
+		{
+			Text.Instance = null;
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
 		public void MustNotAllowNullResource()
 		{
-			Strings.Initialize(null);
+			new Text(null);
 		}
 	}
 }

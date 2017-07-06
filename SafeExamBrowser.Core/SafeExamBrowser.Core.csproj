@@ -40,14 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\IStringResource.cs" />
+    <Compile Include="Contracts\ITextResource.cs" />
     <Compile Include="Contracts\ITaskbar.cs" />
     <Compile Include="I18n\Key.cs" />
-    <Compile Include="I18n\Strings.cs" />
+    <Compile Include="I18n\NullTextResource.cs" />
+    <Compile Include="I18n\Text.cs" />
+    <Compile Include="I18n\XmlTextResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="I18n\Text.xml" />
+    <Content Include="I18n\Text.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
