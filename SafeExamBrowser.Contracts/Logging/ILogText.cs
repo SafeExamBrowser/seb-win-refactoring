@@ -8,8 +8,8 @@
 
 namespace SafeExamBrowser.Contracts.Logging
 {
-	public interface ILogObserver
+	public interface ILogText : ILogContent
 	{
-		void Notify(ILogContent content);
+		string Text { get; }
 	}
 }

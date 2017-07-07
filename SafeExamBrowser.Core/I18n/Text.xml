@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Text>
+  <MessageBox_ShutdownError>An unexpected error occurred during the shutdown procedure! Please consult the application log for more information...</MessageBox_ShutdownError>
+  <MessageBox_ShutdownErrorTitle>Shutdown Error</MessageBox_ShutdownErrorTitle>
   <MessageBox_SingleInstance>You can only run one instance of SEB at a time.</MessageBox_SingleInstance>
   <MessageBox_SingleInstanceTitle>Startup Not Allowed</MessageBox_SingleInstanceTitle>
+  <MessageBox_StartupError>An unexpected error occurred during the startup procedure! Please consult the application log for more information...</MessageBox_StartupError>
+  <MessageBox_StartupErrorTitle>Startup Error</MessageBox_StartupErrorTitle>
 </Text>

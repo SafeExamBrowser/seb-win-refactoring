@@ -11,5 +11,6 @@ namespace SafeExamBrowser.Contracts.Configuration
 	public interface ISettings
 	{
 		string LogFolderPath { get; }
+		string LogHeader { get; }
 	}
 }

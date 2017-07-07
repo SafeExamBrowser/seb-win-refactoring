@@ -6,10 +6,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Logging
+using SafeExamBrowser.Contracts.Logging;
+
+namespace SafeExamBrowser.Core.Logging
 {
-	public interface ILogObserver
+	public class LogText : ILogText
 	{
-		void Notify(ILogContent content);
+		public string Text { get; private set; }
+
+		public LogText(string text)
+		{
+			Text = text;
+		}
+
+		public object Clone()
+		{
+			return new LogText(Text);
+		}
 	}
 }

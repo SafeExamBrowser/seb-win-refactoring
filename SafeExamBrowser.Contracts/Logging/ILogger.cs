@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
 
 namespace SafeExamBrowser.Contracts.Logging
@@ -15,8 +16,11 @@ namespace SafeExamBrowser.Contracts.Logging
 		void Info(string message);
 		void Warn(string message);
 		void Error(string message);
+		void Error(string message, Exception exception);
+		void Log(string message);
+		void Log(ILogContent content);
 		void Subscribe(ILogObserver observer);
 		void Unsubscribe(ILogObserver observer);
-		IList<ILogMessage> GetLog();
+		IList<ILogContent> GetLog();
 	}
 }

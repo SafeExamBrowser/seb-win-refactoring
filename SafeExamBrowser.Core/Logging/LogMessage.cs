@@ -16,17 +16,19 @@ namespace SafeExamBrowser.Core.Entities
 		public DateTime DateTime { get; private set; }
 		public LogLevel Severity { get; private set; }
 		public string Message { get; private set; }
+		public int ThreadId { get; private set; }
 
-		public LogMessage(DateTime dateTime, LogLevel severity, string message)
+		public LogMessage(DateTime dateTime, LogLevel severity, int threadId, string message)
 		{
 			DateTime = dateTime;
 			Severity = severity;
 			Message = message;
+			ThreadId = threadId;
 		}
 
 		public object Clone()
 		{
-			return new LogMessage(DateTime, Severity, Message);
+			return new LogMessage(DateTime, Severity, ThreadId, Message);
 		}
 	}
 }

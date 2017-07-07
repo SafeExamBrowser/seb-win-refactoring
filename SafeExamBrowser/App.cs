@@ -15,19 +15,14 @@ namespace SafeExamBrowser
 {
 	public class App : Application
 	{
-		private static Mutex mutex = new Mutex(true, "safe_exam_browser_single_instance_mutex");
+		private static readonly Mutex mutex = new Mutex(true, "safe_exam_browser_single_instance_mutex");
 
 		[STAThread]
 		public static void Main()
 		{
 			try
 			{
-				var compositionRoot = new CompositionRoot();
-
-				compositionRoot.InitializeGlobalModules();
-				compositionRoot.BuildObjectGraph();
-
-				StartApplication(compositionRoot);
+				StartApplication();
 			}
 			catch (Exception e)
 			{
@@ -35,24 +30,36 @@ namespace SafeExamBrowser
 			}
 		}
 
-		private static void StartApplication(CompositionRoot compositionRoot)
+		private static void StartApplication()
 		{
-			compositionRoot.Logger.Info("Testing the log...");
+			var root = new CompositionRoot();
 
-			if (NoInstanceRunning())
+			root.BuildObjectGraph();
+
+			root.Logger.Log(root.Settings.LogHeader);
+			root.Logger.Log($"# Application started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}{Environment.NewLine}");
+
+			if (NoInstanceRunning(root))
 			{
-				new App().Run(compositionRoot.Taskbar);
+				var app = new App();
+
+				root.Logger.Info("No instance is running, initiating startup procedure.");
+
+				app.Startup += (o, args) => root.StartupController.InitializeApplication(app.Shutdown);
+				app.Exit += (o, args) => root.ShutdownController.FinalizeApplication();
+
+				app.Run(root.Taskbar);
 			}
 			else
 			{
-				var message = compositionRoot.Text.Get(Key.MessageBox_SingleInstance);
-				var title = compositionRoot.Text.Get(Key.MessageBox_SingleInstanceTitle);
-
-				MessageBox.Show(message, title);
+				root.Logger.Info("Could not start because of an already running instance.");
+				root.MessageBox.Show(root.Text.Get(Key.MessageBox_SingleInstance), root.Text.Get(Key.MessageBox_SingleInstanceTitle));
 			}
+
+			root.Logger.Log($"# Application terminating normally at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 		}
 
-		private static bool NoInstanceRunning()
+		private static bool NoInstanceRunning(CompositionRoot root)
 		{
 			return mutex.WaitOne(TimeSpan.Zero, true);
 		}

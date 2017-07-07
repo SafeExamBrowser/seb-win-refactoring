@@ -41,11 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Settings.cs" />
+    <Compile Include="Configuration\ShutdownController.cs" />
+    <Compile Include="Configuration\StartupController.cs" />
     <Compile Include="Logging\LogFileWriter.cs" />
     <Compile Include="Logging\LogMessage.cs" />
     <Compile Include="I18n\Text.cs" />
     <Compile Include="I18n\XmlTextResource.cs" />
     <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\LogText.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

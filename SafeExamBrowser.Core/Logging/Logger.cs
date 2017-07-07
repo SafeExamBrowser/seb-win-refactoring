@@ -9,6 +9,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Core.Entities;
 
@@ -17,29 +19,63 @@ namespace SafeExamBrowser.Core.Logging
 	public class Logger : ILogger
 	{
 		private static readonly object @lock = new object();
-		private readonly IList<ILogMessage> log = new List<ILogMessage>();
+		private readonly IList<ILogContent> log = new List<ILogContent>();
 		private readonly IList<ILogObserver> observers = new List<ILogObserver>();
-
-		public void Error(string message)
-		{
-			Log(LogLevel.Error, message);
-		}
 
 		public void Info(string message)
 		{
-			Log(LogLevel.Info, message);
+			Add(LogLevel.Info, message);
 		}
 
 		public void Warn(string message)
 		{
-			Log(LogLevel.Warn, message);
+			Add(LogLevel.Warn, message);
 		}
 
-		public IList<ILogMessage> GetLog()
+		public void Error(string message)
+		{
+			Add(LogLevel.Error, message);
+		}
+
+		public void Error(string message, Exception exception)
+		{
+			var details = new StringBuilder();
+
+			details.AppendLine();
+			details.AppendLine($"   Exception Message: {exception.Message}");
+			details.AppendLine($"   Exception Type: {exception.GetType()}");
+			details.AppendLine();
+			details.AppendLine(exception.StackTrace);
+
+			Add(LogLevel.Error, message);
+			Add(new LogText(details.ToString()));
+		}
+
+		public void Log(string text)
+		{
+			if (text == null)
+			{
+				throw new ArgumentNullException(nameof(text));
+			}
+
+			Add(new LogText(text));
+		}
+
+		public void Log(ILogContent content)
+		{
+			if (content == null)
+			{
+				throw new ArgumentNullException(nameof(content));
+			}
+
+			Add(content.Clone() as ILogContent);
+		}
+
+		public IList<ILogContent> GetLog()
 		{
 			lock (@lock)
 			{
-				return log.Select(m => m.Clone() as ILogMessage).ToList();
+				return log.Select(m => m.Clone() as ILogContent).ToList();
 			}
 		}
 
@@ -67,17 +103,22 @@ namespace SafeExamBrowser.Core.Logging
 			}
 		}
 
-		private void Log(LogLevel severity, string message)
+		private void Add(LogLevel severity, string message)
+		{
+			var threadId = Thread.CurrentThread.ManagedThreadId;
+
+			Add(new LogMessage(DateTime.Now, severity, threadId, message));
+		}
+
+		private void Add(ILogContent content)
 		{
 			lock (@lock)
 			{
-				var entry = new LogMessage(DateTime.Now, severity, message);
+				log.Add(content);
 
-				log.Add(entry);
-				
 				foreach (var observer in observers)
 				{
-					observer.Notify(entry);
+					observer.Notify(content);
 				}
 			}
 		}

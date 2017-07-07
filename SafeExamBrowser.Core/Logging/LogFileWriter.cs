@@ -9,7 +9,6 @@
 using System;
 using System.IO;
 using System.Text;
-using System.Threading;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 
@@ -22,7 +21,7 @@ namespace SafeExamBrowser.Core.Logging
 
 		public LogFileWriter(ISettings settings)
 		{
-			var fileName = $"{DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss")}.txt";
+			var fileName = $"{DateTime.Now.ToString("yyyy-MM-dd HH\\hmm\\mss\\s")}.txt";
 
 			if (!Directory.Exists(settings.LogFolderPath))
 			{
@@ -32,17 +31,39 @@ namespace SafeExamBrowser.Core.Logging
 			filePath = Path.Combine(settings.LogFolderPath, fileName);
 		}
 
-		public void Notify(ILogMessage message)
+		public void Notify(ILogContent content)
+		{
+			if (content is ILogText)
+			{
+				WriteLogText(content as ILogText);
+			}
+
+			if (content is ILogMessage)
+			{
+				WriteLogMessage(content as ILogMessage);
+			}
+		}
+
+		private void WriteLogText(ILogText text)
+		{
+			Write(text.Text);
+		}
+
+		private void WriteLogMessage(ILogMessage message)
+		{
+			var date = message.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+			var severity = message.Severity.ToString().ToUpper();
+
+			Write($"{date} [{message.ThreadId}] - {severity}: {message.Message}");
+		}
+
+		private void Write(string content)
 		{
 			lock (@lock)
 			{
 				using (var stream = new StreamWriter(filePath, true, Encoding.UTF8))
 				{
-					var date = message.DateTime.ToString("yyyy-MM-dd HH:mm:ss");
-					var threadId = Thread.CurrentThread.ManagedThreadId;
-					var severity = message.Severity.ToString().ToUpper();
-
-					stream.WriteLine($"{date} [{threadId}] - {severity}: {message.Message}");
+					stream.WriteLine(content);
 				}
 			}
 		}

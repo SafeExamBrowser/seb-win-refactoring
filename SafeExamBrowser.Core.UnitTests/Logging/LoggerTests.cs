@@ -34,14 +34,14 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 
 			Assert.IsTrue(log.Count == 3);
 
-			Assert.IsTrue(info.Equals(log[0].Message));
-			Assert.IsTrue(log[0].Severity == LogLevel.Info);
+			Assert.IsTrue(info.Equals((log[0] as ILogMessage).Message));
+			Assert.IsTrue((log[0] as ILogMessage).Severity == LogLevel.Info);
 
-			Assert.IsTrue(warn.Equals(log[1].Message));
-			Assert.IsTrue(log[1].Severity == LogLevel.Warn);
+			Assert.IsTrue(warn.Equals((log[1] as ILogMessage).Message));
+			Assert.IsTrue((log[1] as ILogMessage).Severity == LogLevel.Warn);
 
-			Assert.IsTrue(error.Equals(log[2].Message));
-			Assert.IsTrue(log[2].Severity == LogLevel.Error);
+			Assert.IsTrue(error.Equals((log[2] as ILogMessage).Message));
+			Assert.IsTrue((log[2] as ILogMessage).Severity == LogLevel.Error);
 		}
 
 		[TestMethod]
@@ -107,23 +107,23 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 			var sut = new Logger();
 			var observer = new Mock<ILogObserver>();
 			var message = "Blubb";
-			var messages = new List<ILogMessage>();
+			var messages = new List<ILogContent>();
 
-			observer.Setup(o => o.Notify(It.IsAny<ILogMessage>())).Callback<ILogMessage>(m => messages.Add(m));
+			observer.Setup(o => o.Notify(It.IsAny<ILogContent>())).Callback<ILogContent>(m => messages.Add(m));
 
 			sut.Subscribe(observer.Object);
 			sut.Info(message);
 			sut.Warn(message);
 
-			observer.Verify(o => o.Notify(It.IsAny<ILogMessage>()), Times.Exactly(2));
+			observer.Verify(o => o.Notify(It.IsAny<ILogContent>()), Times.Exactly(2));
 
 			Assert.IsTrue(messages.Count == 2);
 
-			Assert.IsTrue(messages[0].Severity == LogLevel.Info);
-			Assert.IsTrue(message.Equals(messages[0].Message));
+			Assert.IsTrue((messages[0] as ILogMessage).Severity == LogLevel.Info);
+			Assert.IsTrue(message.Equals((messages[0] as ILogMessage).Message));
 
-			Assert.IsTrue(messages[1].Severity == LogLevel.Warn);
-			Assert.IsTrue(message.Equals(messages[1].Message));
+			Assert.IsTrue((messages[1] as ILogMessage).Severity == LogLevel.Warn);
+			Assert.IsTrue(message.Equals((messages[1] as ILogMessage).Message));
 		}
 
 		[TestMethod]
@@ -132,21 +132,21 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 			var sut = new Logger();
 			var observer = new Mock<ILogObserver>();
 			var message = "Blubb";
-			var messages = new List<ILogMessage>();
+			var messages = new List<ILogContent>();
 
-			observer.Setup(o => o.Notify(It.IsAny<ILogMessage>())).Callback<ILogMessage>(m => messages.Add(m));
+			observer.Setup(o => o.Notify(It.IsAny<ILogContent>())).Callback<ILogContent>(m => messages.Add(m));
 
 			sut.Subscribe(observer.Object);
 			sut.Info(message);
 			sut.Unsubscribe(observer.Object);
 			sut.Warn(message);
 
-			observer.Verify(o => o.Notify(It.IsAny<ILogMessage>()), Times.Once());
+			observer.Verify(o => o.Notify(It.IsAny<ILogContent>()), Times.Once());
 
 			Assert.IsTrue(messages.Count == 1);
 
-			Assert.IsTrue(messages[0].Severity == LogLevel.Info);
-			Assert.IsTrue(message.Equals(messages[0].Message));
+			Assert.IsTrue((messages[0] as ILogMessage).Severity == LogLevel.Info);
+			Assert.IsTrue(message.Equals((messages[0] as ILogMessage).Message));
 		}
 	}
 }

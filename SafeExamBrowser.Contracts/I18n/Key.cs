@@ -10,7 +10,11 @@ namespace SafeExamBrowser.Contracts.I18n
 {
 	public enum Key
 	{
+		MessageBox_ShutdownError,
+		MessageBox_ShutdownErrorTitle,
 		MessageBox_SingleInstance,
-		MessageBox_SingleInstanceTitle
+		MessageBox_SingleInstanceTitle,
+		MessageBox_StartupError,
+		MessageBox_StartupErrorTitle
 	}
 }
