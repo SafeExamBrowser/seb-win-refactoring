@@ -12,5 +12,6 @@ namespace SafeExamBrowser.Contracts.UserInterface
 	{
 		void SetPosition(int x, int y);
 		void SetSize(int widht, int height);
+		void Show();
 	}
 }

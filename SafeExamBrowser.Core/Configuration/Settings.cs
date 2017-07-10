@@ -15,6 +15,17 @@ namespace SafeExamBrowser.Core.Configuration
 {
 	public class Settings : ISettings
 	{
+		public string CopyrightInfo
+		{
+			get
+			{
+				var executable = Assembly.GetEntryAssembly();
+				var copyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
+
+				return copyright;
+			}
+		}
+
 		public string LogFolderPath
 		{
 			get
@@ -27,21 +38,27 @@ namespace SafeExamBrowser.Core.Configuration
 		{
 			get
 			{
-				var executable = Assembly.GetEntryAssembly();
 				var newline = Environment.NewLine;
-				var version = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+				var executable = Assembly.GetEntryAssembly();
 				var title = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
-				var copyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
 
-				var titleLine = $"/* {title}, Version {version}{newline}";
-				var copyrightLine = $"/* {copyright}{newline}";
+				var titleLine = $"/* {title}, Version {ProgramVersion}{newline}";
+				var copyrightLine = $"/* {CopyrightInfo}{newline}";
 				var emptyLine = $"/* {newline}";
-				var license1 = $"/* The source code of this application is subject to the terms of the Mozilla Public{newline}";
-				var license2 = $"/* License, v. 2.0. If a copy of the MPL was not distributed with this software, You{newline}";
-				var license3 = $"/* can obtain one at http://mozilla.org/MPL/2.0/.{newline}";
-				var github = $"/* For more information or to issue bug reports, see https://github.com/SafeExamBrowser.{newline}";
+				var githubLine = $"/* Please visit https://github.com/SafeExamBrowser for more information.";
 
-				return $"{titleLine}{copyrightLine}{emptyLine}{license1}{license2}{license3}{emptyLine}{github}";
+				return $"{titleLine}{copyrightLine}{emptyLine}{githubLine}";
+			}
+		}
+
+		public string ProgramVersion
+		{
+			get
+			{
+				var executable = Assembly.GetEntryAssembly();
+				var version = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+
+				return version;
 			}
 		}
 	}

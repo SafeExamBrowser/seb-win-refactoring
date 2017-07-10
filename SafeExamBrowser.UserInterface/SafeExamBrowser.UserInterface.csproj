@@ -66,6 +66,7 @@
     <Compile Include="Taskbar.xaml.cs">
       <DependentUpon>Taskbar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\SplashScreenViewModel.cs" />
     <Compile Include="WpfMessageBox.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -91,6 +92,9 @@
       <Project>{47DA5933-BEF8-4729-94E6-ABDE2DB12262}</Project>
       <Name>SafeExamBrowser.Contracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SplashScreen.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

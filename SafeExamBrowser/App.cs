@@ -9,13 +9,14 @@
 using System;
 using System.Threading;
 using System.Windows;
-using SafeExamBrowser.Contracts.I18n;
 
 namespace SafeExamBrowser
 {
 	public class App : Application
 	{
 		private static readonly Mutex mutex = new Mutex(true, "safe_exam_browser_single_instance_mutex");
+
+		private CompositionRoot instances;
 
 		[STAThread]
 		public static void Main()
@@ -32,36 +33,59 @@ namespace SafeExamBrowser
 
 		private static void StartApplication()
 		{
-			var root = new CompositionRoot();
-
-			root.BuildObjectGraph();
-
-			root.Logger.Log(root.Settings.LogHeader);
-			root.Logger.Log($"# Application started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}{Environment.NewLine}");
-
-			if (NoInstanceRunning(root))
+			if (NoInstanceRunning())
 			{
-				var app = new App();
-
-				root.Logger.Info("No instance is running, initiating startup procedure.");
-
-				app.Startup += (o, args) => root.StartupController.InitializeApplication(app.Shutdown);
-				app.Exit += (o, args) => root.ShutdownController.FinalizeApplication();
-
-				app.Run(root.Taskbar);
+				new App().Run();
 			}
 			else
 			{
-				root.Logger.Info("Could not start because of an already running instance.");
-				root.MessageBox.Show(root.Text.Get(Key.MessageBox_SingleInstance), root.Text.Get(Key.MessageBox_SingleInstanceTitle));
+				MessageBox.Show("You can only run one instance of SEB at a time.", "Startup Not Allowed");
 			}
-
-			root.Logger.Log($"# Application terminating normally at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 		}
 
-		private static bool NoInstanceRunning(CompositionRoot root)
+		private static bool NoInstanceRunning()
 		{
 			return mutex.WaitOne(TimeSpan.Zero, true);
+		}
+
+		protected override void OnStartup(StartupEventArgs e)
+		{
+			base.OnStartup(e);
+
+			var initializationThread = new Thread(Initialize);
+
+			instances = new CompositionRoot();
+			instances.BuildObjectGraph();
+			instances.SplashScreen.Show();
+
+			MainWindow = instances.SplashScreen;
+
+			initializationThread.SetApartmentState(ApartmentState.STA);
+			initializationThread.Name = "Initialization Thread";
+			initializationThread.Start();
+		}
+
+		protected override void OnExit(ExitEventArgs e)
+		{
+			instances.ShutdownController.FinalizeApplication();
+
+			base.OnExit(e);
+		}
+
+		private void Initialize()
+		{
+			var success = instances.StartupController.TryInitializeApplication();
+
+			if (success)
+			{
+				instances.Taskbar.Dispatcher.Invoke(() =>
+				{
+					MainWindow = instances.Taskbar;
+					MainWindow.Show();
+				});
+			}
+
+			//instances.SplashScreen.Dispatcher.Invoke(instances.SplashScreen.Close);
 		}
 	}
 }

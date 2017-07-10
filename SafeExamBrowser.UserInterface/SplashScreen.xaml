@@ -3,23 +3,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SafeExamBrowser.UserInterface"
         mc:Ignorable="d"
-        Title="SplashScreen" Height="200" Width="350" WindowStyle="None" AllowsTransparency="True" Topmost="True"
-        WindowStartupLocation="CenterScreen" Cursor="Wait">
+        Title="SplashScreen" Height="200" Width="350" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Cursor="Wait">
     <Window.Background>
         <SolidColorBrush Color="Black" Opacity="0.8" />
     </Window.Background>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="180" />
-            <RowDefinition Height="20"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0" Text="Logo etc. goes here..." Foreground="White" />
-        <ProgressBar Grid.Column="0" Grid.Row="1" Minimum="0" Maximum="100" IsIndeterminate="True" IsEnabled="True" Height="20" Background="#00000000" BorderThickness="0" />
-        <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="..." Foreground="White" Background="#00000000" />
-    </Grid>
+    <Border BorderBrush="CadetBlue" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="25" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="155" />
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Grid.ColumnSpan="2" Source="pack://application:,,,/SafeExamBrowser.UserInterface;component/Images/SplashScreen.png" />
+                <TextBlock x:Name="InfoTextBlock" Grid.Column="1" Foreground="White" Margin="10,75,10,10" TextWrapping="Wrap" />
+            </Grid>
+            <ProgressBar x:Name="ProgressBar" Grid.Row="1" Minimum="0" Maximum="{Binding Path=MaxProgress}" Value="{Binding Path=CurrentProgress}" Background="#00000000" BorderThickness="0" />
+            <TextBlock x:Name="StatusTextBlock" Grid.Row="1" Text="{Binding Path=Status}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
+        </Grid>
+    </Border>
 </Window>

@@ -33,6 +33,8 @@ namespace SafeExamBrowser.Core.Configuration
 			{
 				// TODO:
 				// - Gather TODOs!
+
+				logger.Log($"{Environment.NewLine}# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 			}
 			catch (Exception e)
 			{

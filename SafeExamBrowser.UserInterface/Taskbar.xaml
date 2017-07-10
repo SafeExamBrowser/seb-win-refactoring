@@ -5,11 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface"
         mc:Ignorable="d"
-        Title="Taskbar" Height="40" Width="300" WindowStyle="None" AllowsTransparency="True" Topmost="True">
+        Title="Taskbar" Height="40" Width="750" WindowStyle="None" AllowsTransparency="True" Topmost="True">
     <Window.Background>
         <SolidColorBrush Color="Black" Opacity="0.8" />
     </Window.Background>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="75" />
+            <ColumnDefinition Width="40" />
+        </Grid.ColumnDefinitions>
     </Grid>
 </Window>

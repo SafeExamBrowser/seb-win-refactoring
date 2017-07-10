@@ -11,24 +11,29 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Entities
 {
-	public class LogMessage : ILogMessage
+	class LogMessage : ILogMessage
 	{
 		public DateTime DateTime { get; private set; }
 		public LogLevel Severity { get; private set; }
 		public string Message { get; private set; }
-		public int ThreadId { get; private set; }
+		public IThreadInfo ThreadInfo { get; private set; }
 
-		public LogMessage(DateTime dateTime, LogLevel severity, int threadId, string message)
+		public LogMessage(DateTime dateTime, LogLevel severity, string message, IThreadInfo threadInfo)
 		{
+			if (threadInfo == null)
+			{
+				throw new ArgumentNullException(nameof(threadInfo));
+			}
+
 			DateTime = dateTime;
 			Severity = severity;
 			Message = message;
-			ThreadId = threadId;
+			ThreadInfo = threadInfo;
 		}
 
 		public object Clone()
 		{
-			return new LogMessage(DateTime, Severity, ThreadId, Message);
+			return new LogMessage(DateTime, Severity, Message, ThreadInfo.Clone() as IThreadInfo);
 		}
 	}
 }

@@ -12,7 +12,9 @@ namespace SafeExamBrowser.Contracts.UserInterface
 {
 	public interface ISplashScreen : ILogObserver
 	{
-		void Show();
 		void Close();
+		void SetMaxProgress(int max);
+		void Show();
+		void UpdateProgress();
 	}
 }

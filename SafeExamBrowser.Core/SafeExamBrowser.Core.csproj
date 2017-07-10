@@ -49,6 +49,7 @@
     <Compile Include="I18n\XmlTextResource.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogText.cs" />
+    <Compile Include="Logging\ThreadInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

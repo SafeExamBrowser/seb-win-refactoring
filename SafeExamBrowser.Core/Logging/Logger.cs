@@ -106,8 +106,10 @@ namespace SafeExamBrowser.Core.Logging
 		private void Add(LogLevel severity, string message)
 		{
 			var threadId = Thread.CurrentThread.ManagedThreadId;
+			var threadName = Thread.CurrentThread.Name;
+			var threadInfo = new ThreadInfo(threadId, threadName);
 
-			Add(new LogMessage(DateTime.Now, severity, threadId, message));
+			Add(new LogMessage(DateTime.Now, severity, message, threadInfo));
 		}
 
 		private void Add(ILogContent content)

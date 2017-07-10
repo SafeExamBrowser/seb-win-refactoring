@@ -10,11 +10,10 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Logging
 {
-	public interface ILogMessage : ILogContent
+	public interface IThreadInfo : ICloneable
 	{
-		DateTime DateTime { get; }
-		LogLevel Severity { get; }
-		string Message { get; }
-		IThreadInfo ThreadInfo { get; }
+		int Id { get; }
+		string Name { get; }
+		bool HasName { get; }
 	}
 }

@@ -50,6 +50,7 @@
     <Compile Include="Logging\ILogMessage.cs" />
     <Compile Include="Logging\ILogObserver.cs" />
     <Compile Include="Logging\ILogText.cs" />
+    <Compile Include="Logging\IThreadInfo.cs" />
     <Compile Include="Logging\LogLevel.cs" />
     <Compile Include="UserInterface\IMessageBox.cs" />
     <Compile Include="UserInterface\ISplashScreen.cs" />

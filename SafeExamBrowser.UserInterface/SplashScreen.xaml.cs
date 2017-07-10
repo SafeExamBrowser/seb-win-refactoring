@@ -7,21 +7,47 @@
  */
 
 using System.Windows;
+using System.Windows.Documents;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.UserInterface.ViewModels;
 
 namespace SafeExamBrowser.UserInterface
 {
 	public partial class SplashScreen : Window, ISplashScreen
 	{
-		public SplashScreen()
+		private SplashScreenViewModel model = new SplashScreenViewModel();
+
+		public SplashScreen(ISettings settings)
 		{
 			InitializeComponent();
+
+			StatusTextBlock.DataContext = model;
+			ProgressBar.DataContext = model;
+
+			InfoTextBlock.Inlines.Add(new Run($"Version {settings.ProgramVersion}") { FontStyle = FontStyles.Italic });
+			InfoTextBlock.Inlines.Add(new LineBreak());
+			InfoTextBlock.Inlines.Add(new LineBreak());
+			InfoTextBlock.Inlines.Add(new Run(settings.CopyrightInfo) { FontSize = 10 });
 		}
 
 		public void Notify(ILogContent content)
 		{
-			// TODO
+			if (content is ILogMessage)
+			{
+				model.Status = (content as ILogMessage).Message;
+			}
+		}
+
+		public void SetMaxProgress(int max)
+		{
+			model.MaxProgress = max;
+		}
+
+		public void UpdateProgress()
+		{
+			model.CurrentProgress += 1;
 		}
 	}
 }

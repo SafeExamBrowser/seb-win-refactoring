@@ -10,7 +10,9 @@ namespace SafeExamBrowser.Contracts.Configuration
 {
 	public interface ISettings
 	{
+		string CopyrightInfo { get; }
 		string LogFolderPath { get; }
 		string LogHeader { get; }
+		string ProgramVersion { get; }
 	}
 }

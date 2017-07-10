@@ -6,12 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-
 namespace SafeExamBrowser.Contracts.Configuration
 {
 	public interface IStartupController
 	{
-		void InitializeApplication(Action terminationCallback);
+		bool TryInitializeApplication();
 	}
 }

@@ -53,8 +53,9 @@ namespace SafeExamBrowser.Core.Logging
 		{
 			var date = message.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
 			var severity = message.Severity.ToString().ToUpper();
+			var threadInfo = $"{message.ThreadInfo.Id}{(message.ThreadInfo.HasName ? ": " + message.ThreadInfo.Name : string.Empty)}";
 
-			Write($"{date} [{message.ThreadId}] - {severity}: {message.Message}");
+			Write($"{date} [{threadInfo}] - {severity}: {message.Message}");
 		}
 
 		private void Write(string content)
