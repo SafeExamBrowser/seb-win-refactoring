@@ -8,11 +8,10 @@
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
-	public interface ITaskbar
+	public delegate void TaskbarButtonClickHandler();
+
+	public interface ITaskbarButton
 	{
-		void AddButton(ITaskbarButton button);
-		void SetPosition(int x, int y);
-		void SetSize(int widht, int height);
-		void Show();
+		event TaskbarButtonClickHandler OnClick;
 	}
 }

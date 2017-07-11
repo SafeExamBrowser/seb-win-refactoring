@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SafeExamBrowser.UserInterface"
+        xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Controls"
         mc:Ignorable="d"
         Title="Taskbar" Height="40" Width="750" WindowStyle="None" AllowsTransparency="True" Topmost="True">
     <Window.Background>
@@ -16,5 +16,7 @@
             <ColumnDefinition Width="75" />
             <ColumnDefinition Width="40" />
         </Grid.ColumnDefinitions>
+        <StackPanel x:Name="ApplicationAreaStackPanel" Orientation="Horizontal" />
+        <local:DateTimeControl Grid.Column="2" />
     </Grid>
 </Window>

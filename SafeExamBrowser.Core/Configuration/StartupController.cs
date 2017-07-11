@@ -56,22 +56,22 @@ namespace SafeExamBrowser.Core.Configuration
 				// - Logging of all running processes
 				// - Setting of wallpaper
 				// - Initialization of taskbar
-				// - Killing explorer.exer
+				// - Killing explorer.exe
 				// - Minimizing all open windows
 				// - Emptying clipboard
 				// - Activation of process monitoring
 
-				Thread.Sleep(3000);
+				Thread.Sleep(1000);
 
 				splashScreen.UpdateProgress();
 				logger.Info("Baapa-dee boopa-dee!");
 
-				Thread.Sleep(3000);
+				Thread.Sleep(1000);
 
 				splashScreen.UpdateProgress();
 				logger.Info("Closing splash screen.");
 
-				Thread.Sleep(3000);
+				Thread.Sleep(1000);
 
 				splashScreen.UpdateProgress();
 				logger.Unsubscribe(splashScreen);

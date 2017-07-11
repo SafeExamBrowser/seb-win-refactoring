@@ -18,6 +18,14 @@ namespace SafeExamBrowser.UserInterface
 			InitializeComponent();
 		}
 
+		public void AddButton(ITaskbarButton button)
+		{
+			if (button is UIElement)
+			{
+				ApplicationAreaStackPanel.Children.Add(button as UIElement);
+			}
+		}
+
 		public void SetPosition(int x, int y)
 		{
 			Left = x;

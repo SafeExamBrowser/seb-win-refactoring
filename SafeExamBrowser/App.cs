@@ -85,7 +85,7 @@ namespace SafeExamBrowser
 				});
 			}
 
-			//instances.SplashScreen.Dispatcher.Invoke(instances.SplashScreen.Close);
+			instances.SplashScreen.Dispatcher.Invoke(instances.SplashScreen.Close);
 		}
 	}
 }
