@@ -9,6 +9,7 @@
 using System;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.UserInterface.Controls
@@ -17,17 +18,44 @@ namespace SafeExamBrowser.UserInterface.Controls
 	{
 		public event TaskbarButtonClickHandler OnClick;
 
-		public TaskbarButton(string imageUri)
+		public TaskbarButton(IApplicationInfo info)
 		{
 			InitializeComponent();
+			InitializeButton(info);
+		}
 
-			var icon = new BitmapImage();
+		public void RegisterInstance(Guid id, string title = null)
+		{
+			throw new NotImplementedException();
+		}
 
-			icon.BeginInit();
-			icon.UriSource = new Uri(imageUri);
-			icon.EndInit();
+		public void UnregisterInstance(Guid id)
+		{
+			throw new NotImplementedException();
+		}
 
-			IconImage.Source = icon;
+		private void InitializeButton(IApplicationInfo info)
+		{
+			Button.ToolTip = info.Tooltip;
+			
+			if (info.IconResource.IsUriResource)
+			{
+				var icon = new BitmapImage();
+
+				icon.BeginInit();
+				icon.UriSource = info.IconResource.Uri;
+				icon.EndInit();
+
+				IconImage.Source = icon;
+			}
+		}
+
+		private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+			// TODO
+			OnClick?.Invoke();
+
+			throw new NotImplementedException();
 		}
 	}
 }

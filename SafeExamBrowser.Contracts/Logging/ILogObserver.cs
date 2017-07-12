@@ -10,6 +10,9 @@ namespace SafeExamBrowser.Contracts.Logging
 {
 	public interface ILogObserver
 	{
+		/// <summary>
+		/// Notifies an observer once new content has been added to the application log.
+		/// </summary>
 		void Notify(ILogContent content);
 	}
 }

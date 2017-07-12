@@ -12,9 +12,24 @@ namespace SafeExamBrowser.Contracts.Logging
 {
 	public interface ILogMessage : ILogContent
 	{
+		/// <summary>
+		/// The date when the message was logged.
+		/// </summary>
 		DateTime DateTime { get; }
+
+		/// <summary>
+		/// The severity of the message.
+		/// </summary>
 		LogLevel Severity { get; }
+
+		/// <summary>
+		/// The message itself.
+		/// </summary>
 		string Message { get; }
+
+		/// <summary>
+		/// Information about the thread on which the message was logged.
+		/// </summary>
 		IThreadInfo ThreadInfo { get; }
 	}
 }

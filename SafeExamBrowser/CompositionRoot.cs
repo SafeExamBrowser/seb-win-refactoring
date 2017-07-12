@@ -6,10 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Browser;
+using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Core.Behaviour;
 using SafeExamBrowser.Core.Configuration;
 using SafeExamBrowser.Core.I18n;
 using SafeExamBrowser.Core.Logging;
@@ -19,28 +18,27 @@ namespace SafeExamBrowser
 {
 	internal class CompositionRoot
 	{
-		public ILogger Logger { get; private set; }
-		public IMessageBox MessageBox { get; private set; }
-		public ISettings Settings { get; private set; }
 		public IShutdownController ShutdownController { get; set; }
 		public IStartupController StartupController { get; private set; }
-		public IText Text { get; private set; }
+
 		public SplashScreen SplashScreen { get; private set; }
 		public Taskbar Taskbar { get; private set; }
 
 		public void BuildObjectGraph()
 		{
-			MessageBox = new WpfMessageBox();
-			Settings = new Settings();
-			Taskbar = new Taskbar();
+			var browserInfo = new BrowserApplicationInfo();
+			var messageBox = new WpfMessageBox();
+			var settings = new Settings();
+			var logger = new Logger();
+			var text = new Text(new XmlTextResource());
+			var uiFactory = new UiElementFactory();
 			
-			Logger = new Logger();
-			Logger.Subscribe(new LogFileWriter(Settings));
+			logger.Subscribe(new LogFileWriter(settings));
 
-			Text = new Text(new XmlTextResource());
-			SplashScreen = new SplashScreen(Settings);
-			ShutdownController = new ShutdownController(Logger, MessageBox, Text);
-			StartupController = new StartupController(Logger, MessageBox, Settings, SplashScreen, Taskbar, Text);
+			Taskbar = new Taskbar();
+			SplashScreen = new SplashScreen(settings);
+			ShutdownController = new ShutdownController(logger, messageBox, text);
+			StartupController = new StartupController(browserInfo, logger, messageBox, settings, SplashScreen, Taskbar, text, uiFactory);
 		}
 	}
 }

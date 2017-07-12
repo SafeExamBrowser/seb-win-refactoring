@@ -32,9 +32,9 @@ namespace SafeExamBrowser.UserInterface
 			Top = y;
 		}
 
-		public void SetSize(int widht, int height)
+		public void SetSize(int width, int height)
 		{
-			Width = widht;
+			Width = width;
 			Height = height;
 		}
 	}

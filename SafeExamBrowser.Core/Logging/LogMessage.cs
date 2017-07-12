@@ -20,15 +20,10 @@ namespace SafeExamBrowser.Core.Entities
 
 		public LogMessage(DateTime dateTime, LogLevel severity, string message, IThreadInfo threadInfo)
 		{
-			if (threadInfo == null)
-			{
-				throw new ArgumentNullException(nameof(threadInfo));
-			}
-
 			DateTime = dateTime;
 			Severity = severity;
 			Message = message;
-			ThreadInfo = threadInfo;
+			ThreadInfo = threadInfo ?? throw new ArgumentNullException(nameof(threadInfo));
 		}
 
 		public object Clone()

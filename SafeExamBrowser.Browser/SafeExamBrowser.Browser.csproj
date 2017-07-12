@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{47DA5933-BEF8-4729-94E6-ABDE2DB12262}</ProjectGuid>
+    <ProjectGuid>{04E653F1-98E6-4E34-9DD7-7F2BC1A8B767}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SafeExamBrowser.Contracts</RootNamespace>
-    <AssemblyName>SafeExamBrowser.Contracts</AssemblyName>
+    <RootNamespace>SafeExamBrowser.Browser</RootNamespace>
+    <AssemblyName>SafeExamBrowser.Browser</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,30 +40,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviour\IApplicationController.cs" />
-    <Compile Include="Configuration\IApplicationIconResource.cs" />
-    <Compile Include="Configuration\IApplicationInfo.cs" />
-    <Compile Include="Configuration\ISettings.cs" />
-    <Compile Include="Behaviour\IShutdownController.cs" />
-    <Compile Include="Behaviour\IStartupController.cs" />
-    <Compile Include="I18n\IText.cs" />
-    <Compile Include="I18n\Key.cs" />
-    <Compile Include="Logging\ILogContent.cs" />
-    <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="Logging\ILogMessage.cs" />
-    <Compile Include="Logging\ILogObserver.cs" />
-    <Compile Include="Logging\ILogText.cs" />
-    <Compile Include="Logging\IThreadInfo.cs" />
-    <Compile Include="Logging\LogLevel.cs" />
-    <Compile Include="UserInterface\IMessageBox.cs" />
-    <Compile Include="UserInterface\ISplashScreen.cs" />
-    <Compile Include="UserInterface\ITaskbar.cs" />
-    <Compile Include="I18n\ITextResource.cs" />
+    <Compile Include="BrowserApplicationInfo.cs" />
+    <Compile Include="BrowserIconResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserInterface\ITaskbarButton.cs" />
-    <Compile Include="UserInterface\IUiElementFactory.cs" />
-    <Compile Include="UserInterface\MessageBoxAction.cs" />
-    <Compile Include="UserInterface\MessageBoxIcon.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">
+      <Project>{47DA5933-BEF8-4729-94E6-ABDE2DB12262}</Project>
+      <Name>SafeExamBrowser.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Images\ChromiumLogo_Attribution.txt" />
+    <Resource Include="Images\ChromiumLogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

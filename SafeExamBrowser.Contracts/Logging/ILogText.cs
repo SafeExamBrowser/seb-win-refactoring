@@ -10,6 +10,9 @@ namespace SafeExamBrowser.Contracts.Logging
 {
 	public interface ILogText : ILogContent
 	{
+		/// <summary>
+		/// The raw text to be appended to the application log.
+		/// </summary>
 		string Text { get; }
 	}
 }

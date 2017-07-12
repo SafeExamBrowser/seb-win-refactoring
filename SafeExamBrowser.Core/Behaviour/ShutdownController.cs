@@ -7,12 +7,12 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 
-namespace SafeExamBrowser.Core.Configuration
+namespace SafeExamBrowser.Core.Behaviour
 {
 	public class ShutdownController : IShutdownController
 	{

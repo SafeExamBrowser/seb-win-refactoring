@@ -6,10 +6,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Configuration
+using SafeExamBrowser.Contracts.Configuration;
+
+namespace SafeExamBrowser.Browser
 {
-	public interface IStartupController
+	public class BrowserApplicationInfo : IApplicationInfo
 	{
-		bool TryInitializeApplication();
+		public string Name => "Chromium Browser";
+		public string Tooltip => Name;
+		public IApplicationIconResource IconResource { get; } = new BrowserIconResource();
 	}
 }

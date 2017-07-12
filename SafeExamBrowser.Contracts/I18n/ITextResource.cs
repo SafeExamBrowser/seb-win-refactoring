@@ -12,6 +12,9 @@ namespace SafeExamBrowser.Contracts.I18n
 {
 	public interface ITextResource
 	{
+		/// <summary>
+		/// Loads all text data from a resource.
+		/// </summary>
 		IDictionary<Key, string> LoadText();
 	}
 }

@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
+	/// <summary>
+	/// Defines all actions available for a message box.
+	/// </summary>
 	public enum MessageBoxAction
 	{
 		Confirm

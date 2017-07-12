@@ -6,14 +6,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.I18n
+using SafeExamBrowser.Contracts.Configuration;
+
+namespace SafeExamBrowser.Contracts.UserInterface
 {
-	public interface IText
+	public interface IUiElementFactory
 	{
 		/// <summary>
-		/// Gets the text associated with the specified key. If the key was not found, a default text indicating
-		/// that the given key is not configured shall be returned.
+		/// Creates a taskbar button, initialized with the given application information.
 		/// </summary>
-		string Get(Key key);
+		ITaskbarButton CreateButton(IApplicationInfo info);
 	}
 }

@@ -10,9 +10,24 @@ namespace SafeExamBrowser.Contracts.UserInterface
 {
 	public interface ITaskbar
 	{
+		/// <summary>
+		/// Adds the given application button to the taskbar.
+		/// </summary>
 		void AddButton(ITaskbarButton button);
+
+		/// <summary>
+		/// Moves the taskbar to the given location on the screen.
+		/// </summary>
 		void SetPosition(int x, int y);
-		void SetSize(int widht, int height);
+
+		/// <summary>
+		/// Sets the size of the taskbar.
+		/// </summary>
+		void SetSize(int width, int height);
+
+		/// <summary>
+		/// Displays the taskbar on the screen.
+		/// </summary>
 		void Show();
 	}
 }

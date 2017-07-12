@@ -10,9 +10,24 @@ namespace SafeExamBrowser.Contracts.Configuration
 {
 	public interface ISettings
 	{
+		/// <summary>
+		/// The copyright information for the application, to be displayed in e.g. the log or the splash screen.
+		/// </summary>
 		string CopyrightInfo { get; }
+
+		/// <summary>
+		/// The path where the log files are to be stored.
+		/// </summary>
 		string LogFolderPath { get; }
+
+		/// <summary>
+		/// The information to be printed at the beginning of the application log.
+		/// </summary>
 		string LogHeader { get; }
+
+		/// <summary>
+		/// The program version of the application.
+		/// </summary>
 		string ProgramVersion { get; }
 	}
 }

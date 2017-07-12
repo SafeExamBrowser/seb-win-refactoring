@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.I18n
 {
+	/// <summary>
+	/// Defines all text components of the user interface.
+	/// </summary>
 	public enum Key
 	{
 		MessageBox_ShutdownError,

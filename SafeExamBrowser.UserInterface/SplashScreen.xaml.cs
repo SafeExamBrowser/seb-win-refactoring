@@ -45,9 +45,9 @@ namespace SafeExamBrowser.UserInterface
 			model.MaxProgress = max;
 		}
 
-		public void UpdateProgress()
+		public void UpdateProgress(int amount = 1)
 		{
-			model.CurrentProgress += 1;
+			model.CurrentProgress += amount;
 		}
 	}
 }

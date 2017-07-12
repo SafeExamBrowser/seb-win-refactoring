@@ -6,25 +6,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-
-namespace SafeExamBrowser.Contracts.Logging
+namespace SafeExamBrowser.Contracts.Configuration
 {
-	public interface IThreadInfo : ICloneable
+	public interface IApplicationInfo
 	{
 		/// <summary>
-		/// The id of the thread.
-		/// </summary>
-		int Id { get; }
-
-		/// <summary>
-		/// The thread's name.
+		/// The name of the application.
 		/// </summary>
 		string Name { get; }
 
 		/// <summary>
-		/// A flag indicating whether the thread has a name.
+		/// The tooltip for the application.
 		/// </summary>
-		bool HasName { get; }
+		string Tooltip { get; }
+
+		/// <summary>
+		/// The resource providing the application icon.
+		/// </summary>
+		IApplicationIconResource IconResource { get; }
 	}
 }

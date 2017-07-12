@@ -12,9 +12,24 @@ namespace SafeExamBrowser.Contracts.UserInterface
 {
 	public interface ISplashScreen : ILogObserver
 	{
+		/// <summary>
+		/// Closes the splash screen.
+		/// </summary>
 		void Close();
+
+		/// <summary>
+		/// Set the maximum of the splash screen's progress bar.
+		/// </summary>
 		void SetMaxProgress(int max);
+
+		/// <summary>
+		/// Shows the splash screen to the user.
+		/// </summary>
 		void Show();
-		void UpdateProgress();
+
+		/// <summary>
+		/// Updates the progress bar of the splash screen according to the specified amount.
+		/// </summary>
+		void UpdateProgress(int amount = 1);
 	}
 }

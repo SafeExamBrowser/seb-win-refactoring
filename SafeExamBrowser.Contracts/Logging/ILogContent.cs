@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Logging
 {
+	/// <summary>
+	/// Defines a content element of the application log.
+	/// </summary>
 	public interface ILogContent : ICloneable
 	{
 	}

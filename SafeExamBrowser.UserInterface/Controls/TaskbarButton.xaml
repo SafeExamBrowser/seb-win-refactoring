@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="40" d:DesignWidth="40">
     <Grid>
-        <Button x:Name="Button" Background="#00000000" BorderThickness="0">
+        <Button x:Name="Button" Background="#00000000" BorderThickness="0" Click="Button_Click" Padding="5">
             <Image x:Name="IconImage" />
         </Button>
     </Grid>

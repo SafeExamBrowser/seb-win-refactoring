@@ -6,14 +6,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.I18n
+using System;
+using SafeExamBrowser.Contracts.Configuration;
+
+namespace SafeExamBrowser.Browser
 {
-	public interface IText
+	public class BrowserIconResource : IApplicationIconResource
 	{
-		/// <summary>
-		/// Gets the text associated with the specified key. If the key was not found, a default text indicating
-		/// that the given key is not configured shall be returned.
-		/// </summary>
-		string Get(Key key);
+		public Uri Uri => new Uri("pack://application:,,,/SafeExamBrowser.Browser;component/Images/ChromiumLogo.png");
+		public bool IsUriResource => true;
 	}
 }

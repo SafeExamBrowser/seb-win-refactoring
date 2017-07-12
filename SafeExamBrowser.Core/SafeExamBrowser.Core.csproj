@@ -41,8 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Settings.cs" />
-    <Compile Include="Configuration\ShutdownController.cs" />
-    <Compile Include="Configuration\StartupController.cs" />
+    <Compile Include="Behaviour\ShutdownController.cs" />
+    <Compile Include="Behaviour\StartupController.cs" />
     <Compile Include="Logging\LogFileWriter.cs" />
     <Compile Include="Logging\LogMessage.cs" />
     <Compile Include="I18n\Text.cs" />

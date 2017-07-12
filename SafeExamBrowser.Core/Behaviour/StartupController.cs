@@ -8,30 +8,35 @@
 
 using System;
 using System.Threading;
+using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 
-namespace SafeExamBrowser.Core.Configuration
+namespace SafeExamBrowser.Core.Behaviour
 {
 	public class StartupController : IStartupController
 	{
+		private IApplicationInfo browserInfo;
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private ISettings settings;
 		private ISplashScreen splashScreen;
 		private ITaskbar taskbar;
 		private IText text;
+		private IUiElementFactory uiFactory;
 
-		public StartupController(ILogger logger, IMessageBox messageBox, ISettings settings, ISplashScreen splashScreen, ITaskbar taskbar, IText text)
+		public StartupController(IApplicationInfo browserInfo, ILogger logger, IMessageBox messageBox, ISettings settings, ISplashScreen splashScreen, ITaskbar taskbar, IText text, IUiElementFactory uiFactory)
 		{
+			this.browserInfo = browserInfo;
 			this.logger = logger;
 			this.messageBox = messageBox;
 			this.settings = settings;
 			this.splashScreen = splashScreen;
 			this.taskbar = taskbar;
 			this.text = text;
+			this.uiFactory = uiFactory;
 		}
 
 		public bool TryInitializeApplication()
@@ -41,10 +46,15 @@ namespace SafeExamBrowser.Core.Configuration
 				logger.Log(settings.LogHeader);
 				logger.Log($"{Environment.NewLine}# Application started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}{Environment.NewLine}");
 				logger.Info("Initiating startup procedure.");
-
 				logger.Subscribe(splashScreen);
 
-				splashScreen.SetMaxProgress(4);
+				splashScreen.SetMaxProgress(3);
+				logger.Info("Initializing browser.");
+
+				var browserButton = uiFactory.CreateButton(browserInfo);
+
+				taskbar.AddButton(browserButton);
+
 				splashScreen.UpdateProgress();
 
 				// TODO (depending on specification):
@@ -72,8 +82,6 @@ namespace SafeExamBrowser.Core.Configuration
 				logger.Info("Closing splash screen.");
 
 				Thread.Sleep(1000);
-
-				splashScreen.UpdateProgress();
 				logger.Unsubscribe(splashScreen);
 				logger.Info("Application successfully initialized!");
 

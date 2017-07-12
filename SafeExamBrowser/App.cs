@@ -15,7 +15,6 @@ namespace SafeExamBrowser
 	public class App : Application
 	{
 		private static readonly Mutex mutex = new Mutex(true, "safe_exam_browser_single_instance_mutex");
-
 		private CompositionRoot instances;
 
 		[STAThread]
@@ -78,14 +77,18 @@ namespace SafeExamBrowser
 
 			if (success)
 			{
-				instances.Taskbar.Dispatcher.Invoke(() =>
+				Dispatcher.Invoke(() =>
 				{
 					MainWindow = instances.Taskbar;
 					MainWindow.Show();
 				});
 			}
+			else
+			{
+				Dispatcher.Invoke(Shutdown);
+			}
 
-			instances.SplashScreen.Dispatcher.Invoke(instances.SplashScreen.Close);
+			Dispatcher.Invoke(instances.SplashScreen.Close);
 		}
 	}
 }

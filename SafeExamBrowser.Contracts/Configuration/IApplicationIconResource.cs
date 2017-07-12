@@ -6,14 +6,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.I18n
+using System;
+
+namespace SafeExamBrowser.Contracts.Configuration
 {
-	public interface IText
+	public interface IApplicationIconResource
 	{
 		/// <summary>
-		/// Gets the text associated with the specified key. If the key was not found, a default text indicating
-		/// that the given key is not configured shall be returned.
+		/// The <c>Uri</c> pointing to the application icon.
 		/// </summary>
-		string Get(Key key);
+		Uri Uri { get; }
+
+		/// <summary>
+		/// Indicates whether the icon resource consists of a <c>Uri</c>.
+		/// </summary>
+		bool IsUriResource { get; }
 	}
 }
