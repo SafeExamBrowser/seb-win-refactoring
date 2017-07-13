@@ -15,7 +15,7 @@ namespace SafeExamBrowser
 	public class App : Application
 	{
 		private static readonly Mutex mutex = new Mutex(true, "safe_exam_browser_single_instance_mutex");
-		private CompositionRoot instances;
+		private CompositionRoot instances = new CompositionRoot();
 
 		[STAThread]
 		public static void Main()
@@ -51,17 +51,8 @@ namespace SafeExamBrowser
 		{
 			base.OnStartup(e);
 
-			var initializationThread = new Thread(Initialize);
-
-			instances = new CompositionRoot();
-			instances.BuildObjectGraph();
-			instances.SplashScreen.Show();
-
-			MainWindow = instances.SplashScreen;
-
-			initializationThread.SetApartmentState(ApartmentState.STA);
-			initializationThread.Name = "Initialization Thread";
-			initializationThread.Start();
+			ShowSplashScreen();
+			Initialize();
 		}
 
 		protected override void OnExit(ExitEventArgs e)
@@ -73,22 +64,43 @@ namespace SafeExamBrowser
 
 		private void Initialize()
 		{
+			instances.BuildObjectGraph();
+
 			var success = instances.StartupController.TryInitializeApplication();
 
 			if (success)
 			{
-				Dispatcher.Invoke(() =>
-				{
-					MainWindow = instances.Taskbar;
-					MainWindow.Show();
-				});
+				MainWindow = instances.Taskbar;
+				MainWindow.Show();
 			}
 			else
 			{
-				Dispatcher.Invoke(Shutdown);
+				Shutdown();
 			}
 
-			Dispatcher.Invoke(instances.SplashScreen.Close);
+			instances.SplashScreen?.Dispatcher.InvokeAsync(instances.SplashScreen.Close);
+		}
+
+		private void ShowSplashScreen()
+		{
+			var splashReadyEvent = new AutoResetEvent(false);
+			var splashScreenThread = new Thread(() =>
+			{
+				instances.SplashScreen = new UserInterface.SplashScreen(instances.Settings);
+				instances.SplashScreen.Closed += (o, args) => instances.SplashScreen.Dispatcher.InvokeShutdown();
+				instances.SplashScreen.Show();
+
+				splashReadyEvent.Set();
+
+				System.Windows.Threading.Dispatcher.Run();
+			});
+
+			splashScreenThread.SetApartmentState(ApartmentState.STA);
+			splashScreenThread.Name = "Splash Screen Thread";
+			splashScreenThread.IsBackground = true;
+			splashScreenThread.Start();
+
+			splashReadyEvent.WaitOne();
 		}
 	}
 }

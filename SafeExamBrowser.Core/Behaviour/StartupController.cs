@@ -7,6 +7,8 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
@@ -27,6 +29,23 @@ namespace SafeExamBrowser.Core.Behaviour
 		private IText text;
 		private IUiElementFactory uiFactory;
 
+		private IEnumerable<Action> StartupOperations
+		{
+			get
+			{
+				yield return InitializeApplicationLog;
+				yield return HandleCommandLineArguments;
+				yield return DetectOperatingSystem;
+				yield return EstablishWcfServiceConnection;
+				yield return DeactivateWindowsFeatures;
+				yield return InitializeProcessMonitoring;
+				yield return InitializeWorkArea;
+				yield return InitializeTaskbar;
+				yield return InitializeBrowser;
+				yield return FinishInitialization;
+			}
+		}
+
 		public StartupController(IApplicationInfo browserInfo, ILogger logger, IMessageBox messageBox, ISettings settings, ISplashScreen splashScreen, ITaskbar taskbar, IText text, IUiElementFactory uiFactory)
 		{
 			this.browserInfo = browserInfo;
@@ -43,47 +62,15 @@ namespace SafeExamBrowser.Core.Behaviour
 		{
 			try
 			{
-				logger.Log(settings.LogHeader);
-				logger.Log($"{Environment.NewLine}# Application started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}{Environment.NewLine}");
-				logger.Info("Initiating startup procedure.");
-				logger.Subscribe(splashScreen);
+				foreach (var operation in StartupOperations)
+				{
+					operation();
 
-				splashScreen.SetMaxProgress(3);
-				logger.Info("Initializing browser.");
+					splashScreen.UpdateProgress();
 
-				var browserButton = uiFactory.CreateButton(browserInfo);
-
-				taskbar.AddButton(browserButton);
-
-				splashScreen.UpdateProgress();
-
-				// TODO (depending on specification):
-				// - WCF service connection, termination if not available
-
-				// TODO:
-				// - Parse command line arguments
-				// - Detecting operating system and log that information
-				// - Logging of all running processes
-				// - Setting of wallpaper
-				// - Initialization of taskbar
-				// - Killing explorer.exe
-				// - Minimizing all open windows
-				// - Emptying clipboard
-				// - Activation of process monitoring
-
-				Thread.Sleep(1000);
-
-				splashScreen.UpdateProgress();
-				logger.Info("Baapa-dee boopa-dee!");
-
-				Thread.Sleep(1000);
-
-				splashScreen.UpdateProgress();
-				logger.Info("Closing splash screen.");
-
-				Thread.Sleep(1000);
-				logger.Unsubscribe(splashScreen);
-				logger.Info("Application successfully initialized!");
+					// TODO: Remove!
+					Thread.Sleep(250);
+				}
 
 				return true;
 			}
@@ -94,6 +81,89 @@ namespace SafeExamBrowser.Core.Behaviour
 
 				return false;
 			}
+		}
+
+		private void InitializeApplicationLog()
+		{
+			logger.Log(settings.LogHeader);
+			logger.Log($"{Environment.NewLine}# Application started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}{Environment.NewLine}");
+			logger.Info("Initiating startup procedure.");
+			logger.Subscribe(splashScreen);
+
+			splashScreen.SetMaxProgress(StartupOperations.Count());
+		}
+
+		private void HandleCommandLineArguments()
+		{
+			logger.Info("Parsing command line arguments.");
+
+			// TODO
+		}
+
+		private void DetectOperatingSystem()
+		{
+			logger.Info("Detecting operating system.");
+
+			// TODO
+		}
+
+		private void EstablishWcfServiceConnection()
+		{
+			logger.Info("Establishing connection to WCF service.");
+
+			// TODO
+		}
+
+		private void DeactivateWindowsFeatures()
+		{
+			logger.Info("Deactivating Windows Update.");
+
+			// TODO
+
+			logger.Info("Disabling lock screen options.");
+
+			// TODO
+		}
+
+		private void InitializeProcessMonitoring()
+		{
+			logger.Info("Initializing process monitoring.");
+
+			// TODO
+		}
+
+		private void InitializeWorkArea()
+		{
+			logger.Info("Initializing work area.");
+
+			// TODO
+			// - Killing explorer.exe
+			// - Minimizing all open windows
+			// - Emptying clipboard
+		}
+
+		private void InitializeTaskbar()
+		{
+			logger.Info("Initializing taskbar.");
+
+			// TODO
+		}
+
+		private void InitializeBrowser()
+		{
+			logger.Info("Initializing browser.");
+
+			var browserButton = uiFactory.CreateButton(browserInfo);
+
+			// TODO
+
+			taskbar.AddButton(browserButton);
+		}
+
+		private void FinishInitialization()
+		{
+			logger.Info("Application successfully initialized!");
+			logger.Unsubscribe(splashScreen);
 		}
 	}
 }

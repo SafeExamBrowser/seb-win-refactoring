@@ -22,14 +22,7 @@ namespace SafeExamBrowser.UserInterface
 		public SplashScreen(ISettings settings)
 		{
 			InitializeComponent();
-
-			StatusTextBlock.DataContext = model;
-			ProgressBar.DataContext = model;
-
-			InfoTextBlock.Inlines.Add(new Run($"Version {settings.ProgramVersion}") { FontStyle = FontStyles.Italic });
-			InfoTextBlock.Inlines.Add(new LineBreak());
-			InfoTextBlock.Inlines.Add(new LineBreak());
-			InfoTextBlock.Inlines.Add(new Run(settings.CopyrightInfo) { FontSize = 10 });
+			InitializeSplashScreen(settings);
 		}
 
 		public void Notify(ILogContent content)
@@ -48,6 +41,20 @@ namespace SafeExamBrowser.UserInterface
 		public void UpdateProgress(int amount = 1)
 		{
 			model.CurrentProgress += amount;
+		}
+
+		private void InitializeSplashScreen(ISettings settings)
+		{
+			InfoTextBlock.Inlines.Add(new Run($"Version {settings.ProgramVersion}") { FontStyle = FontStyles.Italic });
+			InfoTextBlock.Inlines.Add(new LineBreak());
+			InfoTextBlock.Inlines.Add(new LineBreak());
+			InfoTextBlock.Inlines.Add(new Run(settings.CopyrightInfo) { FontSize = 10 });
+			
+			StatusTextBlock.DataContext = model;
+			ProgressBar.DataContext = model;
+
+			// To prevent the progress bar going from max to min value at startup...
+			model.MaxProgress = 1;
 		}
 	}
 }
