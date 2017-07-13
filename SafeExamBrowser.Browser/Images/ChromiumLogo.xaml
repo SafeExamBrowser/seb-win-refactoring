@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--This file is NOT compatible with Silverlight-->
+<!--
+    The "Chromium 11 Logo" by The Chromium Development Documentation Project / The Chromium Authors is licensed under Creative
+    Commons attribution 2.5. Taken from https://commons.wikimedia.org/wiki/File:Chromium_11_Logo.svg and converted to XAML.
+-->
 <Viewbox xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Stretch="Uniform">
   <Canvas Name="svg3039" Width="273.06668" Height="273.06668">
     <Canvas.Resources>

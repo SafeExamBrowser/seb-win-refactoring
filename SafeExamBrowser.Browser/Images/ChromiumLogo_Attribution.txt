@@ -1,2 +1,0 @@
-﻿The "Chromium 11 Logo" by The Chromium Development Documentation Project / The Chromium Authors is licensed under Creative
-Commons attribution 2.5. Taken from https://commons.wikimedia.org/wiki/File:Chromium_11_Logo.svg and converted to XAML.
