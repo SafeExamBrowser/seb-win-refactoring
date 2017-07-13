@@ -19,6 +19,7 @@ namespace SafeExamBrowser.UserInterface.Controls
 		{
 			InitializeComponent();
 
+			DataContext = model;
 			TimeTextBlock.DataContext = model;
 			DateTextBlock.DataContext = model;
 		}

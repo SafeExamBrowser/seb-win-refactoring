@@ -18,8 +18,13 @@ namespace SafeExamBrowser.Contracts.Configuration
 		Uri Uri { get; }
 
 		/// <summary>
-		/// Indicates whether the icon resource consists of a <c>Uri</c>.
+		/// Indicates whether the icon resource consists of a bitmap image (i.e. raster graphics).
 		/// </summary>
-		bool IsUriResource { get; }
+		bool IsBitmapResource { get; }
+
+		/// <summary>
+		/// Indicates whether the icon resource consists of XAML markup (i.e. vector graphics).
+		/// </summary>
+		bool IsXamlResource { get; }
 	}
 }

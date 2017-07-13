@@ -7,7 +7,9 @@
  */
 
 using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using System.Windows.Media.Imaging;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -38,19 +40,28 @@ namespace SafeExamBrowser.UserInterface.Controls
 		{
 			Button.ToolTip = info.Tooltip;
 			
-			if (info.IconResource.IsUriResource)
+			if (info.IconResource.IsBitmapResource)
 			{
 				var icon = new BitmapImage();
+				var iconImage = new Image();
 
 				icon.BeginInit();
 				icon.UriSource = info.IconResource.Uri;
 				icon.EndInit();
 
-				IconImage.Source = icon;
+				iconImage.Source = icon;
+				Button.Content = iconImage;
+			}
+			else if (info.IconResource.IsXamlResource)
+			{
+				using (var stream = Application.GetResourceStream(info.IconResource.Uri)?.Stream)
+				{
+					Button.Content = XamlReader.Load(stream);
+				}
 			}
 		}
 
-		private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			// TODO
 			OnClick?.Invoke();

@@ -50,10 +50,14 @@
       <Name>SafeExamBrowser.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\ChromiumLogo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Images\ChromiumLogo_Attribution.txt" />
-    <Resource Include="Images\ChromiumLogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

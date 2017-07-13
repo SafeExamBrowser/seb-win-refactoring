@@ -13,7 +13,8 @@ namespace SafeExamBrowser.Browser
 {
 	public class BrowserIconResource : IApplicationIconResource
 	{
-		public Uri Uri => new Uri("pack://application:,,,/SafeExamBrowser.Browser;component/Images/ChromiumLogo.png");
-		public bool IsUriResource => true;
+		public Uri Uri => new Uri("pack://application:,,,/SafeExamBrowser.Browser;component/Images/ChromiumLogo.xaml");
+		public bool IsBitmapResource => false;
+		public bool IsXamlResource => true;
 	}
 }

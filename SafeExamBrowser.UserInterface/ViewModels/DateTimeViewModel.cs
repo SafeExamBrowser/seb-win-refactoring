@@ -25,16 +25,21 @@ namespace SafeExamBrowser.UserInterface.ViewModels
 			timer.Start();
 		}
 
-		public string Time { get; private set; }
 		public string Date { get; private set; }
+		public string Time { get; private set; }
+		public string ToolTip { get; private set; }
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			Time = DateTime.Now.ToShortTimeString();
-			Date = DateTime.Now.ToShortDateString();
+			var date = DateTime.Now;
+
+			Date = date.ToShortDateString();
+			Time = date.ToShortTimeString();
+			ToolTip = $"{date.ToLongDateString()} {date.ToLongTimeString()}";
 
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Time)));
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Date)));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ToolTip)));
 		}
 	}
 }
