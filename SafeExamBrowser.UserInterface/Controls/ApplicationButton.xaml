@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SafeExamBrowser.UserInterface.Controls.TaskbarButton"
+﻿<UserControl x:Class="SafeExamBrowser.UserInterface.Controls.ApplicationButton"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,6 +7,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="40" d:DesignWidth="50">
     <Grid>
+        <Popup x:Name="InstancePopup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}" AllowsTransparency="True">
+            <StackPanel x:Name="InstanceStackPanel">
+                <StackPanel.Background>
+                    <SolidColorBrush Color="Black" Opacity="0.8"/>
+                </StackPanel.Background>
+            </StackPanel>
+        </Popup>
         <Button x:Name="Button" BorderThickness="0" Click="Button_Click" Width="50">
             <Button.Template>
                 <ControlTemplate TargetType="Button">

@@ -13,7 +13,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// <summary>
 		/// Adds the given application button to the taskbar.
 		/// </summary>
-		void AddButton(ITaskbarButton button);
+		void AddButton(IApplicationButton button);
 
 		/// <summary>
 		/// Moves the taskbar to the given location on the screen.

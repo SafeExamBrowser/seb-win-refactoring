@@ -9,7 +9,7 @@
 using System.Windows;
 using System.Windows.Documents;
 using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.UserInterface.ViewModels;
 
@@ -18,19 +18,16 @@ namespace SafeExamBrowser.UserInterface
 	public partial class SplashScreen : Window, ISplashScreen
 	{
 		private SplashScreenViewModel model = new SplashScreenViewModel();
+		private ISettings settings;
+		private IText text;
 
-		public SplashScreen(ISettings settings)
+		public SplashScreen(ISettings settings, IText text)
 		{
+			this.settings = settings;
+			this.text = text;
+
 			InitializeComponent();
-			InitializeSplashScreen(settings);
-		}
-
-		public void Notify(ILogContent content)
-		{
-			if (content is ILogMessage)
-			{
-				model.Status = (content as ILogMessage).Message;
-			}
+			InitializeSplashScreen();
 		}
 
 		public void SetMaxProgress(int max)
@@ -43,12 +40,17 @@ namespace SafeExamBrowser.UserInterface
 			model.CurrentProgress += amount;
 		}
 
-		private void InitializeSplashScreen(ISettings settings)
+		public void UpdateText(Key key)
 		{
-			InfoTextBlock.Inlines.Add(new Run($"Version {settings.ProgramVersion}") { FontStyle = FontStyles.Italic });
+			model.Status = text.Get(key);
+		}
+
+		private void InitializeSplashScreen()
+		{
+			InfoTextBlock.Inlines.Add(new Run($"{text.Get(Key.Version)} {settings.ProgramVersion}") { FontStyle = FontStyles.Italic });
 			InfoTextBlock.Inlines.Add(new LineBreak());
 			InfoTextBlock.Inlines.Add(new LineBreak());
-			InfoTextBlock.Inlines.Add(new Run(settings.CopyrightInfo) { FontSize = 10 });
+			InfoTextBlock.Inlines.Add(new Run(settings.ProgramCopyright) { FontSize = 10 });
 			
 			StatusTextBlock.DataContext = model;
 			ProgressBar.DataContext = model;

@@ -7,12 +7,13 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
 	public delegate void TaskbarButtonClickHandler(Guid? instanceId = null);
 
-	public interface ITaskbarButton
+	public interface IApplicationButton
 	{
 		/// <summary>
 		/// OnClick handler, executed when the user clicks on the application button. If multiple instances of
@@ -21,11 +22,10 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		event TaskbarButtonClickHandler OnClick;
 
 		/// <summary>
-		/// Registers a new instance of an application, to be displayed when the user clicks the taskbar button.
+		/// Registers a new instance of an application, to be displayed if the user clicks the taskbar button
+		/// when there are already one or more instances of the same application running.
 		/// </summary>
-		/// <param name="id">The identifier for the application instance.</param>
-		/// <param name="title">An optional title to be displayed (if multiple instances are active).</param>
-		void RegisterInstance(Guid id, string title = null);
+		void RegisterInstance(IApplicationInstance instance);
 
 		/// <summary>
 		/// Unregisters an application instance, e.g. if it gets closed.

@@ -15,7 +15,15 @@ namespace SafeExamBrowser.Core.Configuration
 {
 	public class Settings : ISettings
 	{
-		public string CopyrightInfo
+		public string LogFolderPath
+		{
+			get
+			{
+				return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SafeExamBrowser", "Logs");
+			}
+		}
+
+		public string ProgramCopyright
 		{
 			get
 			{
@@ -26,28 +34,14 @@ namespace SafeExamBrowser.Core.Configuration
 			}
 		}
 
-		public string LogFolderPath
+		public string ProgramTitle
 		{
 			get
 			{
-				return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SafeExamBrowser", "Logs");
-			}
-		}
-
-		public string LogHeader
-		{
-			get
-			{
-				var newline = Environment.NewLine;
 				var executable = Assembly.GetEntryAssembly();
 				var title = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
 
-				var titleLine = $"/* {title}, Version {ProgramVersion}{newline}";
-				var copyrightLine = $"/* {CopyrightInfo}{newline}";
-				var emptyLine = $"/* {newline}";
-				var githubLine = $"/* Please visit https://github.com/SafeExamBrowser for more information.";
-
-				return $"{titleLine}{copyrightLine}{emptyLine}{githubLine}";
+				return title;
 			}
 		}
 

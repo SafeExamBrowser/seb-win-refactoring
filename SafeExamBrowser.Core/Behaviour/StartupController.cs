@@ -20,6 +20,7 @@ namespace SafeExamBrowser.Core.Behaviour
 {
 	public class StartupController : IStartupController
 	{
+		private IApplicationController browserController;
 		private IApplicationInfo browserInfo;
 		private ILogger logger;
 		private IMessageBox messageBox;
@@ -33,7 +34,6 @@ namespace SafeExamBrowser.Core.Behaviour
 		{
 			get
 			{
-				yield return InitializeApplicationLog;
 				yield return HandleCommandLineArguments;
 				yield return DetectOperatingSystem;
 				yield return EstablishWcfServiceConnection;
@@ -46,26 +46,38 @@ namespace SafeExamBrowser.Core.Behaviour
 			}
 		}
 
-		public StartupController(IApplicationInfo browserInfo, ILogger logger, IMessageBox messageBox, ISettings settings, ISplashScreen splashScreen, ITaskbar taskbar, IText text, IUiElementFactory uiFactory)
+		public StartupController(
+			IApplicationController browserController,
+			IApplicationInfo browserInfo,
+			ILogger logger,
+			IMessageBox messageBox,
+			ISettings settings,
+			ISplashScreen splashScreen,
+			ITaskbar taskbar,
+			IText text,
+			IUiElementFactory uiFactory)
 		{
-			this.browserInfo = browserInfo;
-			this.logger = logger;
-			this.messageBox = messageBox;
-			this.settings = settings;
-			this.splashScreen = splashScreen;
-			this.taskbar = taskbar;
-			this.text = text;
-			this.uiFactory = uiFactory;
+			this.browserController = browserController ?? throw new ArgumentNullException(nameof(browserController));
+			this.browserInfo = browserInfo ?? throw new ArgumentNullException(nameof(browserInfo));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger)); ;
+			this.messageBox = messageBox ?? throw new ArgumentNullException(nameof(messageBox)); ;
+			this.settings = settings ?? throw new ArgumentNullException(nameof(settings)); ;
+			this.splashScreen = splashScreen ?? throw new ArgumentNullException(nameof(splashScreen)); ;
+			this.taskbar = taskbar ?? throw new ArgumentNullException(nameof(taskbar)); ;
+			this.text = text ?? throw new ArgumentNullException(nameof(text)); ;
+			this.uiFactory = uiFactory ?? throw new ArgumentNullException(nameof(uiFactory)); ;
 		}
 
 		public bool TryInitializeApplication()
 		{
 			try
 			{
+				InitializeApplicationLog();
+				InitializeSplashScreen();
+
 				foreach (var operation in StartupOperations)
 				{
 					operation();
-
 					splashScreen.UpdateProgress();
 
 					// TODO: Remove!
@@ -85,12 +97,20 @@ namespace SafeExamBrowser.Core.Behaviour
 
 		private void InitializeApplicationLog()
 		{
-			logger.Log(settings.LogHeader);
+			var titleLine = $"/* {settings.ProgramTitle}, Version {settings.ProgramVersion}{Environment.NewLine}";
+			var copyrightLine = $"/* {settings.ProgramCopyright}{Environment.NewLine}";
+			var emptyLine = $"/* {Environment.NewLine}";
+			var githubLine = $"/* Please visit https://github.com/SafeExamBrowser for more information.";
+
+			logger.Log($"{titleLine}{copyrightLine}{emptyLine}{githubLine}");
 			logger.Log($"{Environment.NewLine}# Application started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}{Environment.NewLine}");
 			logger.Info("Initiating startup procedure.");
-			logger.Subscribe(splashScreen);
+		}
 
+		private void InitializeSplashScreen()
+		{
 			splashScreen.SetMaxProgress(StartupOperations.Count());
+			splashScreen.UpdateText(Key.SplashScreen_StartupProcedure);
 		}
 
 		private void HandleCommandLineArguments()
@@ -151,9 +171,12 @@ namespace SafeExamBrowser.Core.Behaviour
 
 		private void InitializeBrowser()
 		{
-			logger.Info("Initializing browser.");
+			var browserButton = uiFactory.CreateApplicationButton(browserInfo);
 
-			var browserButton = uiFactory.CreateButton(browserInfo);
+			logger.Info("Initializing browser.");
+			splashScreen.UpdateText(Key.SplashScreen_InitializeBrowser);
+
+			browserController.RegisterApplicationButton(browserButton);
 
 			// TODO
 
@@ -163,7 +186,6 @@ namespace SafeExamBrowser.Core.Behaviour
 		private void FinishInitialization()
 		{
 			logger.Info("Application successfully initialized!");
-			logger.Unsubscribe(splashScreen);
 		}
 	}
 }

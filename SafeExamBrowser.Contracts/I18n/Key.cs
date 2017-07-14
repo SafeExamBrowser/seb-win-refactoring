@@ -18,6 +18,9 @@ namespace SafeExamBrowser.Contracts.I18n
 		MessageBox_SingleInstance,
 		MessageBox_SingleInstanceTitle,
 		MessageBox_StartupError,
-		MessageBox_StartupErrorTitle
+		MessageBox_StartupErrorTitle,
+		SplashScreen_InitializeBrowser,
+		SplashScreen_StartupProcedure,
+		Version
 	}
 }

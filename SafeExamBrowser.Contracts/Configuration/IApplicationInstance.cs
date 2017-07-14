@@ -6,15 +6,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Configuration;
+using System;
 
-namespace SafeExamBrowser.Contracts.UserInterface
+namespace SafeExamBrowser.Contracts.Configuration
 {
-	public interface IUiElementFactory
+	public interface IApplicationInstance
 	{
 		/// <summary>
-		/// Creates a taskbar button, initialized with the given application information.
+		/// The unique identifier for the application instance.
 		/// </summary>
-		IApplicationButton CreateApplicationButton(IApplicationInfo info);
+		Guid Id { get; }
+
+		/// <summary>
+		/// The name or (document) title of the application instance.
+		/// </summary>
+		string Name { get; }
 	}
 }

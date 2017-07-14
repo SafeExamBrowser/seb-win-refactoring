@@ -13,8 +13,8 @@ namespace SafeExamBrowser.Contracts.Behaviour
 	public interface IApplicationController
 	{
 		/// <summary>
-		/// The handler to be executed when an application's taskbar button gets clicked.
+		/// Registers the taskbar button for this application.
 		/// </summary>
-		TaskbarButtonClickHandler OnClick { get; }
+		void RegisterApplicationButton(IApplicationButton button);
 	}
 }

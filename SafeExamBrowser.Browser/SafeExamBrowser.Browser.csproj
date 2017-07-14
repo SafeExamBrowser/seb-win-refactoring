@@ -40,7 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BrowserApplicationController.cs" />
     <Compile Include="BrowserApplicationInfo.cs" />
+    <Compile Include="BrowserApplicationInstance.cs" />
     <Compile Include="BrowserIconResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

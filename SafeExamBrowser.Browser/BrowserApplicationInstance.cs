@@ -6,17 +6,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.UserInterface.Controls;
 
-namespace SafeExamBrowser.UserInterface
+namespace SafeExamBrowser.Browser
 {
-	public class UiElementFactory : IUiElementFactory
+	public class BrowserApplicationInstance : IApplicationInstance
 	{
-		public IApplicationButton CreateApplicationButton(IApplicationInfo info)
+		public Guid Id { get; private set; }
+		public string Name { get; private set; }
+
+		public BrowserApplicationInstance(string name)
 		{
-			return new ApplicationButton(info);
+			Id = Guid.NewGuid();
+			Name = name;
 		}
 	}
 }

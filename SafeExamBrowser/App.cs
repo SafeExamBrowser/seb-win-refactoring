@@ -52,7 +52,7 @@ namespace SafeExamBrowser
 			base.OnStartup(e);
 
 			ShowSplashScreen();
-			Initialize();
+			InitializeApplication();
 		}
 
 		protected override void OnExit(ExitEventArgs e)
@@ -62,7 +62,7 @@ namespace SafeExamBrowser
 			base.OnExit(e);
 		}
 
-		private void Initialize()
+		private void InitializeApplication()
 		{
 			instances.BuildObjectGraph();
 
@@ -83,10 +83,12 @@ namespace SafeExamBrowser
 
 		private void ShowSplashScreen()
 		{
+			instances.BuildModulesRequiredBySplashScreen();
+
 			var splashReadyEvent = new AutoResetEvent(false);
 			var splashScreenThread = new Thread(() =>
 			{
-				instances.SplashScreen = new UserInterface.SplashScreen(instances.Settings);
+				instances.SplashScreen = new UserInterface.SplashScreen(instances.Settings, instances.Text);
 				instances.SplashScreen.Closed += (o, args) => instances.SplashScreen.Dispatcher.InvokeShutdown();
 				instances.SplashScreen.Show();
 

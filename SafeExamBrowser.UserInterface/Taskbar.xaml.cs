@@ -18,7 +18,7 @@ namespace SafeExamBrowser.UserInterface
 			InitializeComponent();
 		}
 
-		public void AddButton(ITaskbarButton button)
+		public void AddButton(IApplicationButton button)
 		{
 			if (button is UIElement)
 			{
