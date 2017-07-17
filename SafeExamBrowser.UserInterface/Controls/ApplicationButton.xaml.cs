@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using SafeExamBrowser.Contracts.Configuration;
@@ -38,11 +39,6 @@ namespace SafeExamBrowser.UserInterface.Controls
 			instances.Add(instance);
 			instanceButton.Click += (id) => OnClick?.Invoke(id);
 			InstanceStackPanel.Children.Add(instanceButton);
-
-			if (instances.Count > 1)
-			{
-				InstancePopup.IsOpen = true;
-			}
 		}
 
 		public void UnregisterInstance(Guid id)
@@ -57,13 +53,20 @@ namespace SafeExamBrowser.UserInterface.Controls
 			Button.Content = ApplicationIconResourceLoader.Load(info.IconResource);
 
 			InstancePopup.MouseLeave += (o, args) => InstancePopup.IsOpen = false;
+			InstanceStackPanel.SizeChanged += (o, args) =>
+			{
+				if (instances.Count > 9)
+				{
+					InstanceScrollViewer.MaxHeight = InstanceScrollViewer.ActualHeight;
+				}
+			};
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			if (instances.Count <= 1)
 			{
-				OnClick?.Invoke();
+				OnClick?.Invoke(instances.FirstOrDefault()?.Id);
 			}
 			else
 			{

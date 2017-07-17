@@ -39,7 +39,7 @@ namespace SafeExamBrowser.UserInterface.Controls
 			panel.Children.Add(ApplicationIconResourceLoader.Load(info.IconResource));
 			panel.Children.Add(new TextBlock { Text = instance.Name, Foreground = Brushes.White, Padding = new Thickness(5, 0, 5, 0) });
 
-			Button.ToolTip = info.Tooltip;
+			Button.ToolTip = $"{instance.Name} - {info.Tooltip}";
 			Button.Content = panel;
 		}
 

@@ -171,16 +171,35 @@ namespace SafeExamBrowser.Core.Behaviour
 
 		private void InitializeBrowser()
 		{
-			var browserButton = uiFactory.CreateApplicationButton(browserInfo);
-
 			logger.Info("Initializing browser.");
 			splashScreen.UpdateText(Key.SplashScreen_InitializeBrowser);
+
+			var browserButton = uiFactory.CreateApplicationButton(browserInfo);
 
 			browserController.RegisterApplicationButton(browserButton);
 
 			// TODO
 
 			taskbar.AddButton(browserButton);
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
+			taskbar.SetPosition(500, 500);
 		}
 
 		private void FinishInitialization()

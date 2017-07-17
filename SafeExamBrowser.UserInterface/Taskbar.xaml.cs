@@ -22,7 +22,7 @@ namespace SafeExamBrowser.UserInterface
 		{
 			if (button is UIElement)
 			{
-				ApplicationAreaStackPanel.Children.Add(button as UIElement);
+				ApplicationStackPanel.Children.Add(button as UIElement);
 			}
 		}
 
@@ -36,6 +36,37 @@ namespace SafeExamBrowser.UserInterface
 		{
 			Width = width;
 			Height = height;
+		}
+
+		private void ApplicationScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+		{
+			var scrollAmount = 20;
+
+			if (ApplicationScrollViewer.IsMouseOver)
+			{
+				if (e.Delta < 0)
+				{
+					if (ApplicationScrollViewer.HorizontalOffset + scrollAmount > 0)
+					{
+						ApplicationScrollViewer.ScrollToHorizontalOffset(ApplicationScrollViewer.HorizontalOffset + scrollAmount);
+					}
+					else
+					{
+						ApplicationScrollViewer.ScrollToLeftEnd();
+					}
+				}
+				else
+				{
+					if (ApplicationScrollViewer.ExtentWidth > ApplicationScrollViewer.HorizontalOffset - scrollAmount)
+					{
+						ApplicationScrollViewer.ScrollToHorizontalOffset(ApplicationScrollViewer.HorizontalOffset - scrollAmount);
+					}
+					else
+					{
+						ApplicationScrollViewer.ScrollToRightEnd();
+					}
+				}
+			}
 		}
 	}
 }

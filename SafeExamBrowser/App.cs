@@ -62,25 +62,6 @@ namespace SafeExamBrowser
 			base.OnExit(e);
 		}
 
-		private void InitializeApplication()
-		{
-			instances.BuildObjectGraph();
-
-			var success = instances.StartupController.TryInitializeApplication();
-
-			if (success)
-			{
-				MainWindow = instances.Taskbar;
-				MainWindow.Show();
-			}
-			else
-			{
-				Shutdown();
-			}
-
-			instances.SplashScreen?.Dispatcher.InvokeAsync(instances.SplashScreen.Close);
-		}
-
 		private void ShowSplashScreen()
 		{
 			instances.BuildModulesRequiredBySplashScreen();
@@ -103,6 +84,25 @@ namespace SafeExamBrowser
 			splashScreenThread.Start();
 
 			splashReadyEvent.WaitOne();
+		}
+
+		private void InitializeApplication()
+		{
+			instances.BuildObjectGraph();
+
+			var success = instances.StartupController.TryInitializeApplication();
+
+			if (success)
+			{
+				MainWindow = instances.Taskbar;
+				MainWindow.Show();
+			}
+			else
+			{
+				Shutdown();
+			}
+
+			instances.SplashScreen?.Dispatcher.InvokeAsync(instances.SplashScreen.Close);
 		}
 	}
 }

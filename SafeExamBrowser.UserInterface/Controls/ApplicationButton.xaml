@@ -4,15 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Controls"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="40" d:DesignWidth="50">
     <Grid>
         <Popup x:Name="InstancePopup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}" AllowsTransparency="True">
-            <StackPanel x:Name="InstanceStackPanel">
-                <StackPanel.Background>
+            <ScrollViewer x:Name="InstanceScrollViewer" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer.Background>
                     <SolidColorBrush Color="Black" Opacity="0.8"/>
-                </StackPanel.Background>
-            </StackPanel>
+                </ScrollViewer.Background>
+                <ScrollViewer.Resources>
+                    <s:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</s:Double>
+                </ScrollViewer.Resources>
+                <StackPanel x:Name="InstanceStackPanel" />
+            </ScrollViewer>
         </Popup>
         <Button x:Name="Button" BorderThickness="0" Click="Button_Click" Width="50">
             <Button.Template>
