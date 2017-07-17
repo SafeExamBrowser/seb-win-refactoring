@@ -14,9 +14,14 @@ namespace SafeExamBrowser.UserInterface
 {
 	public class UiElementFactory : IUiElementFactory
 	{
-		public IApplicationButton CreateApplicationButton(IApplicationInfo info)
+		public ITaskbarButton CreateApplicationButton(IApplicationInfo info)
 		{
 			return new ApplicationButton(info);
+		}
+
+		public ITaskbarNotification CreateNotification(INotificationInfo info)
+		{
+			return new NotificationIcon(info);
 		}
 	}
 }

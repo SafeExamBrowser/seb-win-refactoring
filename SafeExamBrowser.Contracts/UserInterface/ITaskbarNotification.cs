@@ -6,15 +6,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.UserInterface;
-
-namespace SafeExamBrowser.Contracts.Behaviour
+namespace SafeExamBrowser.Contracts.UserInterface
 {
-	public interface IApplicationController
+	public delegate void TaskbarNotificationClickHandler();
+
+	public interface ITaskbarNotification
 	{
 		/// <summary>
-		/// Registers the taskbar button for this application.
+		/// OnClick handler, executed when the user clicks on the notification icon.
 		/// </summary>
-		void RegisterApplicationButton(ITaskbarButton button);
+		event TaskbarNotificationClickHandler OnClick;
 	}
 }

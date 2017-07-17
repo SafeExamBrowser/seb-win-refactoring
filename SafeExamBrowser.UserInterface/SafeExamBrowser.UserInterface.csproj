@@ -56,6 +56,12 @@
     <Compile Include="Controls\ApplicationButton.xaml.cs">
       <DependentUpon>ApplicationButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\NotificationIcon.xaml.cs">
+      <DependentUpon>NotificationIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\QuitButton.xaml.cs">
+      <DependentUpon>QuitButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -76,7 +82,7 @@
       <DependentUpon>Taskbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UiElementFactory.cs" />
-    <Compile Include="Utilities\ApplicationIconResourceLoader.cs" />
+    <Compile Include="Utilities\IconResourceLoader.cs" />
     <Compile Include="ViewModels\DateTimeViewModel.cs" />
     <Compile Include="ViewModels\SplashScreenViewModel.cs" />
     <Compile Include="WpfMessageBox.cs" />
@@ -102,6 +108,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\NotificationIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\QuitButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SplashScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -121,7 +135,7 @@
     <Resource Include="Images\SplashScreen.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Icon.ico" />
+    <Resource Include="Images\SafeExamBrowser.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

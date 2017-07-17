@@ -15,22 +15,16 @@ using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.UserInterface.Utilities
 {
-	internal static class ApplicationIconResourceLoader
+	internal static class IconResourceLoader
 	{
-		internal static UIElement Load(IApplicationIconResource resource)
+		internal static UIElement Load(IIconResource resource)
 		{
 			if (resource.IsBitmapResource)
 			{
-				var icon = new BitmapImage();
-				var iconImage = new Image();
-
-				icon.BeginInit();
-				icon.UriSource = resource.Uri;
-				icon.EndInit();
-
-				iconImage.Source = icon;
-
-				return iconImage;
+				return new Image
+				{
+					Source = new BitmapImage(resource.Uri)
+				};
 			}
 			else if (resource.IsXamlResource)
 			{

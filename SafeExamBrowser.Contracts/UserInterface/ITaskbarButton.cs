@@ -13,7 +13,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 {
 	public delegate void TaskbarButtonClickHandler(Guid? instanceId = null);
 
-	public interface IApplicationButton
+	public interface ITaskbarButton
 	{
 		/// <summary>
 		/// OnClick handler, executed when the user clicks on the application button. If multiple instances of

@@ -7,6 +7,7 @@
  */
 
 using System.Windows;
+using System.Windows.Input;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.UserInterface
@@ -18,11 +19,19 @@ namespace SafeExamBrowser.UserInterface
 			InitializeComponent();
 		}
 
-		public void AddButton(IApplicationButton button)
+		public void AddButton(ITaskbarButton button)
 		{
 			if (button is UIElement)
 			{
 				ApplicationStackPanel.Children.Add(button as UIElement);
+			}
+		}
+
+		public void AddNotification(ITaskbarNotification button)
+		{
+			if (button is UIElement)
+			{
+				NotificationWrapPanel.Children.Add(button as UIElement);
 			}
 		}
 
@@ -38,7 +47,7 @@ namespace SafeExamBrowser.UserInterface
 			Height = height;
 		}
 
-		private void ApplicationScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+		private void ApplicationScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
 		{
 			var scrollAmount = 20;
 

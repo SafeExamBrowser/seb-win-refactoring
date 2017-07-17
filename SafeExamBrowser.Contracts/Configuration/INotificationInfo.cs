@@ -8,20 +8,15 @@
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
-	public interface IApplicationInfo
+	public interface INotificationInfo
 	{
 		/// <summary>
-		/// The name of the application.
-		/// </summary>
-		string Name { get; }
-
-		/// <summary>
-		/// The tooltip for the application.
+		/// The tooltip for the notification.
 		/// </summary>
 		string Tooltip { get; }
 
 		/// <summary>
-		/// The resource providing the application icon.
+		/// The resource providing the notification icon.
 		/// </summary>
 		IIconResource IconResource { get; }
 	}

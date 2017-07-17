@@ -33,7 +33,7 @@ namespace SafeExamBrowser.UserInterface.Controls
 
 		private void InitializeApplicationInstanceButton()
 		{
-			Icon.Content = ApplicationIconResourceLoader.Load(info.IconResource);
+			Icon.Content = IconResourceLoader.Load(info.IconResource);
 			Text.Text = instance.Name;
 			Button.ToolTip = $"{instance.Name} - {info.Tooltip}";
 		}

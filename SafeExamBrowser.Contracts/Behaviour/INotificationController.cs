@@ -10,11 +10,11 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Contracts.Behaviour
 {
-	public interface IApplicationController
+	public interface INotificationController
 	{
 		/// <summary>
-		/// Registers the taskbar button for this application.
+		/// Registers the taskbar notification.
 		/// </summary>
-		void RegisterApplicationButton(ITaskbarButton button);
+		void RegisterNotification(ITaskbarNotification notification);
 	}
 }

@@ -25,6 +25,7 @@ namespace SafeExamBrowser
 		private IApplicationController browserController;
 		private IApplicationInfo browserInfo;
 		private IMessageBox messageBox;
+		private INotificationInfo aboutInfo;
 		private ILogger logger;
 		private IUiElementFactory uiFactory;
 
@@ -45,15 +46,16 @@ namespace SafeExamBrowser
 		{
 			browserController = new BrowserApplicationController();
 			browserInfo = new BrowserApplicationInfo();
-			messageBox = new WpfMessageBox();
 			logger = new Logger();
-			uiFactory = new UiElementFactory();
+			messageBox = new WpfMessageBox();
 			Taskbar = new Taskbar();
+			uiFactory = new UiElementFactory();
 
 			logger.Subscribe(new LogFileWriter(Settings));
 
+			aboutInfo = new AboutNotificationInfo(Text);
 			ShutdownController = new ShutdownController(logger, messageBox, Text);
-			StartupController = new StartupController(browserController, browserInfo, logger, messageBox, Settings, SplashScreen, Taskbar, Text, uiFactory);
+			StartupController = new StartupController(browserController, browserInfo, logger, messageBox, aboutInfo, Settings, SplashScreen, Taskbar, Text, uiFactory);
 		}
 	}
 }

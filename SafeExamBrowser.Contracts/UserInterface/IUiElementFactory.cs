@@ -15,6 +15,11 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// <summary>
 		/// Creates a taskbar button, initialized with the given application information.
 		/// </summary>
-		IApplicationButton CreateApplicationButton(IApplicationInfo info);
+		ITaskbarButton CreateApplicationButton(IApplicationInfo info);
+
+		/// <summary>
+		/// Creates a taskbar notification, initialized with the given notification information.
+		/// </summary>
+		ITaskbarNotification CreateNotification(INotificationInfo info);
 	}
 }

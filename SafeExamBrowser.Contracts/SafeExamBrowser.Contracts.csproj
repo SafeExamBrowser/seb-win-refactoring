@@ -41,9 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviour\IApplicationController.cs" />
-    <Compile Include="Configuration\IApplicationIconResource.cs" />
+    <Compile Include="Behaviour\INotificationController.cs" />
+    <Compile Include="Configuration\IIconResource.cs" />
     <Compile Include="Configuration\IApplicationInfo.cs" />
     <Compile Include="Configuration\IApplicationInstance.cs" />
+    <Compile Include="Configuration\INotificationInfo.cs" />
     <Compile Include="Configuration\ISettings.cs" />
     <Compile Include="Behaviour\IShutdownController.cs" />
     <Compile Include="Behaviour\IStartupController.cs" />
@@ -57,11 +59,12 @@
     <Compile Include="Logging\IThreadInfo.cs" />
     <Compile Include="Logging\LogLevel.cs" />
     <Compile Include="UserInterface\IMessageBox.cs" />
+    <Compile Include="UserInterface\ITaskbarNotification.cs" />
     <Compile Include="UserInterface\ISplashScreen.cs" />
     <Compile Include="UserInterface\ITaskbar.cs" />
     <Compile Include="I18n\ITextResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserInterface\IApplicationButton.cs" />
+    <Compile Include="UserInterface\ITaskbarButton.cs" />
     <Compile Include="UserInterface\IUiElementFactory.cs" />
     <Compile Include="UserInterface\MessageBoxAction.cs" />
     <Compile Include="UserInterface\MessageBoxIcon.cs" />

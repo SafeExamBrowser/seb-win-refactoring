@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="SplashScreen" Height="200" Width="350" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Cursor="Wait" Icon="./Images/Icon.ico">
+        Title="SplashScreen" Height="200" Width="350" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Cursor="Wait" Icon="./Images/SafeExamBrowser.ico">
     <Window.Background>
         <SolidColorBrush Color="Black" Opacity="0.8" />
     </Window.Background>

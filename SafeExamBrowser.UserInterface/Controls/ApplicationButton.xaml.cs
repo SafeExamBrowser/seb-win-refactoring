@@ -14,11 +14,10 @@ using System.Windows.Controls;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.UserInterface.Utilities;
-using System.Windows.Media;
 
 namespace SafeExamBrowser.UserInterface.Controls
 {
-	public partial class ApplicationButton : UserControl, IApplicationButton
+	public partial class ApplicationButton : UserControl, ITaskbarButton
 	{
 		private IApplicationInfo info;
 		private IList<IApplicationInstance> instances = new List<IApplicationInstance>();
@@ -57,10 +56,11 @@ namespace SafeExamBrowser.UserInterface.Controls
 		private void InitializeApplicationButton()
 		{
 			Button.ToolTip = info.Tooltip;
-			Button.Content = ApplicationIconResourceLoader.Load(info.IconResource);
+			Button.Content = IconResourceLoader.Load(info.IconResource);
 
-			Button.MouseLeave += (o, args) => InstancePopup.IsOpen = InstancePopup.IsMouseOver;
+			Button.MouseLeave += (o, args) => InstancePopup.IsOpen &= InstancePopup.IsMouseOver || ActiveBar.IsMouseOver;
 			InstancePopup.MouseLeave += (o, args) => InstancePopup.IsOpen = false;
+			InstancePopup.Opened += (o, args) => ActiveBar.Width = Double.NaN;
 			InstancePopup.Closed += (o, args) => ActiveBar.Width = 40;
 			InstanceStackPanel.SizeChanged += (o, args) =>
 			{
@@ -80,7 +80,6 @@ namespace SafeExamBrowser.UserInterface.Controls
 			else
 			{
 				InstancePopup.IsOpen = true;
-				ActiveBar.Width = Double.NaN;
 			}
 		}
 	}

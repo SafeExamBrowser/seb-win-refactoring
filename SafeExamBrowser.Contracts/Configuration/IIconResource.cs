@@ -10,10 +10,10 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
-	public interface IApplicationIconResource
+	public interface IIconResource
 	{
 		/// <summary>
-		/// The <c>Uri</c> pointing to the application icon.
+		/// The <c>Uri</c> pointing to the icon.
 		/// </summary>
 		Uri Uri { get; }
 

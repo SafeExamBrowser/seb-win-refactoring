@@ -6,15 +6,15 @@
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Controls"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Taskbar" Height="40" Width="750" WindowStyle="None" AllowsTransparency="True" Topmost="True" Icon="./Images/Icon.ico">
+        Title="Taskbar" Height="40" Width="750" WindowStyle="None" AllowsTransparency="True" Topmost="True" Icon="./Images/SafeExamBrowser.ico">
     <Window.Background>
         <SolidColorBrush Color="Black" Opacity="0.8" />
     </Window.Background>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="100" />
-            <ColumnDefinition Width="75" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="40" />
         </Grid.ColumnDefinitions>
         <ScrollViewer Grid.Column="0" x:Name="ApplicationScrollViewer" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" PreviewMouseWheel="ApplicationScrollViewer_PreviewMouseWheel">
@@ -23,6 +23,13 @@
             </ScrollViewer.Resources>
             <StackPanel x:Name="ApplicationStackPanel" Orientation="Horizontal" />
         </ScrollViewer>
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+            <ScrollViewer.Resources>
+                <s:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</s:Double>
+            </ScrollViewer.Resources>
+            <WrapPanel x:Name="NotificationWrapPanel" Margin="10,2,5,2" MaxWidth="100" VerticalAlignment="Center" />
+        </ScrollViewer>
         <local:DateTimeControl Grid.Column="2" />
+        <local:QuitButton Grid.Column="3" />
     </Grid>
 </Window>

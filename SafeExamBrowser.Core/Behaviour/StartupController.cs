@@ -24,6 +24,7 @@ namespace SafeExamBrowser.Core.Behaviour
 		private IApplicationInfo browserInfo;
 		private ILogger logger;
 		private IMessageBox messageBox;
+		private INotificationInfo aboutInfo;
 		private ISettings settings;
 		private ISplashScreen splashScreen;
 		private ITaskbar taskbar;
@@ -51,21 +52,23 @@ namespace SafeExamBrowser.Core.Behaviour
 			IApplicationInfo browserInfo,
 			ILogger logger,
 			IMessageBox messageBox,
+			INotificationInfo aboutInfo,
 			ISettings settings,
 			ISplashScreen splashScreen,
 			ITaskbar taskbar,
 			IText text,
 			IUiElementFactory uiFactory)
 		{
-			this.browserController = browserController ?? throw new ArgumentNullException(nameof(browserController));
-			this.browserInfo = browserInfo ?? throw new ArgumentNullException(nameof(browserInfo));
-			this.logger = logger ?? throw new ArgumentNullException(nameof(logger)); ;
-			this.messageBox = messageBox ?? throw new ArgumentNullException(nameof(messageBox)); ;
-			this.settings = settings ?? throw new ArgumentNullException(nameof(settings)); ;
-			this.splashScreen = splashScreen ?? throw new ArgumentNullException(nameof(splashScreen)); ;
-			this.taskbar = taskbar ?? throw new ArgumentNullException(nameof(taskbar)); ;
-			this.text = text ?? throw new ArgumentNullException(nameof(text)); ;
-			this.uiFactory = uiFactory ?? throw new ArgumentNullException(nameof(uiFactory)); ;
+			this.browserController = browserController;
+			this.browserInfo = browserInfo;
+			this.logger = logger;
+			this.messageBox = messageBox;
+			this.aboutInfo = aboutInfo;
+			this.settings = settings;
+			this.splashScreen = splashScreen;
+			this.taskbar = taskbar;
+			this.text = text;
+			this.uiFactory = uiFactory;
 		}
 
 		public bool TryInitializeApplication()
@@ -166,7 +169,9 @@ namespace SafeExamBrowser.Core.Behaviour
 		{
 			logger.Info("Initializing taskbar.");
 
-			// TODO
+			var aboutNotification = uiFactory.CreateNotification(aboutInfo);
+
+			taskbar.AddNotification(aboutNotification);
 		}
 
 		private void InitializeBrowser()
@@ -177,9 +182,6 @@ namespace SafeExamBrowser.Core.Behaviour
 			var browserButton = uiFactory.CreateApplicationButton(browserInfo);
 
 			browserController.RegisterApplicationButton(browserButton);
-
-			// TODO
-
 			taskbar.AddButton(browserButton);
 		}
 

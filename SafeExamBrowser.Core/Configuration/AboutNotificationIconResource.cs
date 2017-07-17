@@ -9,12 +9,12 @@
 using System;
 using SafeExamBrowser.Contracts.Configuration;
 
-namespace SafeExamBrowser.Browser
+namespace SafeExamBrowser.Core.Configuration
 {
-	public class BrowserIconResource : IIconResource
+	public class AboutNotificationIconResource : IIconResource
 	{
-		public Uri Uri => new Uri("pack://application:,,,/SafeExamBrowser.Browser;component/Images/ChromiumLogo.xaml");
-		public bool IsBitmapResource => false;
-		public bool IsXamlResource => true;
+		public Uri Uri => new Uri("pack://application:,,,/SafeExamBrowser;component/SafeExamBrowser.ico");
+		public bool IsBitmapResource => true;
+		public bool IsXamlResource => false;
 	}
 }

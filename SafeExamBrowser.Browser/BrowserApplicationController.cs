@@ -14,9 +14,9 @@ namespace SafeExamBrowser.Browser
 {
 	public class BrowserApplicationController : IApplicationController
 	{
-		private IApplicationButton button;
+		private ITaskbarButton button;
 
-		public void RegisterApplicationButton(IApplicationButton button)
+		public void RegisterApplicationButton(ITaskbarButton button)
 		{
 			this.button = button;
 			this.button.OnClick += ButtonClick;

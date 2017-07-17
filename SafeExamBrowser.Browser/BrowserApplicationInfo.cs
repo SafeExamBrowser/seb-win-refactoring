@@ -14,6 +14,6 @@ namespace SafeExamBrowser.Browser
 	{
 		public string Name => "Chromium Browser";
 		public string Tooltip => Name;
-		public IApplicationIconResource IconResource { get; } = new BrowserIconResource();
+		public IIconResource IconResource { get; } = new BrowserIconResource();
 	}
 }
