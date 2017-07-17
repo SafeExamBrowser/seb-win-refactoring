@@ -14,6 +14,7 @@ using System.Windows.Controls;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.UserInterface.Utilities;
+using System.Windows.Media;
 
 namespace SafeExamBrowser.UserInterface.Controls
 {
@@ -39,20 +40,28 @@ namespace SafeExamBrowser.UserInterface.Controls
 			instances.Add(instance);
 			instanceButton.Click += (id) => OnClick?.Invoke(id);
 			InstanceStackPanel.Children.Add(instanceButton);
+
+			ActiveBar.Visibility = Visibility.Visible;
 		}
 
 		public void UnregisterInstance(Guid id)
 		{
-			throw new NotImplementedException();
+			instances.Remove(instances.FirstOrDefault(i => i.Id == id));
+
+			if (!instances.Any())
+			{
+				ActiveBar.Visibility = Visibility.Collapsed;
+			}
 		}
 
 		private void InitializeApplicationButton()
 		{
 			Button.ToolTip = info.Tooltip;
-			Button.MouseLeave += (o, args) => InstancePopup.IsOpen = InstancePopup.IsMouseOver;
 			Button.Content = ApplicationIconResourceLoader.Load(info.IconResource);
 
+			Button.MouseLeave += (o, args) => InstancePopup.IsOpen = InstancePopup.IsMouseOver;
 			InstancePopup.MouseLeave += (o, args) => InstancePopup.IsOpen = false;
+			InstancePopup.Closed += (o, args) => ActiveBar.Width = 40;
 			InstanceStackPanel.SizeChanged += (o, args) =>
 			{
 				if (instances.Count > 9)
@@ -71,6 +80,7 @@ namespace SafeExamBrowser.UserInterface.Controls
 			else
 			{
 				InstancePopup.IsOpen = true;
+				ActiveBar.Width = Double.NaN;
 			}
 		}
 	}

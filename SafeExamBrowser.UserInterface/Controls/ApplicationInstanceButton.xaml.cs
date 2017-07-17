@@ -9,7 +9,6 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.UserInterface.Utilities;
 
@@ -34,13 +33,9 @@ namespace SafeExamBrowser.UserInterface.Controls
 
 		private void InitializeApplicationInstanceButton()
 		{
-			var panel = new StackPanel { Orientation = Orientation.Horizontal };
-
-			panel.Children.Add(ApplicationIconResourceLoader.Load(info.IconResource));
-			panel.Children.Add(new TextBlock { Text = instance.Name, Foreground = Brushes.White, Padding = new Thickness(5, 0, 5, 0) });
-
+			Icon.Content = ApplicationIconResourceLoader.Load(info.IconResource);
+			Text.Text = instance.Name;
 			Button.ToolTip = $"{instance.Name} - {info.Tooltip}";
-			Button.Content = panel;
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)

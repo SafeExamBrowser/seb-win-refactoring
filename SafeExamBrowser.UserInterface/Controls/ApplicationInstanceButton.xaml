@@ -22,6 +22,10 @@
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Button.Template>
+            <StackPanel Orientation="Horizontal">
+                <ContentControl x:Name="Icon" />
+                <TextBlock x:Name="Text" Foreground="White" Padding="5,0,5,0" />
+            </StackPanel>
         </Button>
     </Grid>
 </UserControl>

@@ -181,25 +181,6 @@ namespace SafeExamBrowser.Core.Behaviour
 			// TODO
 
 			taskbar.AddButton(browserButton);
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.AddButton(uiFactory.CreateApplicationButton(browserInfo));
-			taskbar.SetPosition(500, 500);
 		}
 
 		private void FinishInitialization()

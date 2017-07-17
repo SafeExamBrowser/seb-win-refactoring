@@ -11,7 +11,7 @@
         <Popup x:Name="InstancePopup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}" AllowsTransparency="True">
             <ScrollViewer x:Name="InstanceScrollViewer" VerticalScrollBarVisibility="Auto">
                 <ScrollViewer.Background>
-                    <SolidColorBrush Color="Black" Opacity="0.8"/>
+                    <SolidColorBrush Color="Black" Opacity="0.8" />
                 </ScrollViewer.Background>
                 <ScrollViewer.Resources>
                     <s:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</s:Double>
@@ -19,10 +19,10 @@
                 <StackPanel x:Name="InstanceStackPanel" />
             </ScrollViewer>
         </Popup>
-        <Button x:Name="Button" BorderThickness="0" Click="Button_Click" Width="50">
+        <Button x:Name="Button" Background="#00000000" BorderThickness="0" Click="Button_Click" Width="50">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="ButtonContent" Background="#00000000" Padding="5">
+                    <Border x:Name="ButtonContent" Background="{TemplateBinding Background}" Padding="5">
                         <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Content" />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -36,5 +36,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+        <Grid Panel.ZIndex="10">
+            <Rectangle x:Name="ActiveBar" Height="3" Width="40" VerticalAlignment="Bottom" Fill="LightSteelBlue" Visibility="Collapsed" />
+        </Grid>
     </Grid>
 </UserControl>
