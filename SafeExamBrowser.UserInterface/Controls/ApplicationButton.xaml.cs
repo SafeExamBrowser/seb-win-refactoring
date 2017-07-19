@@ -58,7 +58,9 @@ namespace SafeExamBrowser.UserInterface.Controls
 			Button.ToolTip = info.Tooltip;
 			Button.Content = IconResourceLoader.Load(info.IconResource);
 
+			Button.MouseEnter += (o, args) => InstancePopup.IsOpen = instances.Count > 1;
 			Button.MouseLeave += (o, args) => InstancePopup.IsOpen &= InstancePopup.IsMouseOver || ActiveBar.IsMouseOver;
+			ActiveBar.MouseLeave += (o, args) => InstancePopup.IsOpen &= InstancePopup.IsMouseOver || Button.IsMouseOver;
 			InstancePopup.MouseLeave += (o, args) => InstancePopup.IsOpen = false;
 			InstancePopup.Opened += (o, args) => ActiveBar.Width = Double.NaN;
 			InstancePopup.Closed += (o, args) => ActiveBar.Width = 40;

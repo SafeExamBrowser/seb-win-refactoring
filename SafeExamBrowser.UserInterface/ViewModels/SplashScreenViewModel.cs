@@ -7,6 +7,7 @@
  */
 
 using System.ComponentModel;
+using System.Timers;
 
 namespace SafeExamBrowser.UserInterface.ViewModels
 {
@@ -15,6 +16,7 @@ namespace SafeExamBrowser.UserInterface.ViewModels
 		private int currentProgress;
 		private int maxProgress;
 		private string status;
+		private Timer busyTimer;
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -55,6 +57,42 @@ namespace SafeExamBrowser.UserInterface.ViewModels
 				status = value;
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Status)));
 			}
+		}
+
+		public void StartBusyIndication()
+		{
+			StopBusyIndication();
+
+			busyTimer = new Timer
+			{
+				AutoReset = true,
+				Interval = 750
+			};
+
+			busyTimer.Elapsed += BusyTimer_Elapsed;
+			busyTimer.Start();
+		}
+
+		public void StopBusyIndication()
+		{
+			busyTimer?.Stop();
+			busyTimer?.Close();
+		}
+
+		private void BusyTimer_Elapsed(object sender, ElapsedEventArgs e)
+		{
+			var next = Status ?? string.Empty;
+
+			if (next.EndsWith("..."))
+			{
+				next = Status.Substring(0, Status.Length - 3);
+			}
+			else
+			{
+				next += ".";
+			}
+
+			Status = next;
 		}
 	}
 }

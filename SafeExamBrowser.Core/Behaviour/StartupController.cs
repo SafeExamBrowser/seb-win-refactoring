@@ -14,6 +14,7 @@ using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour
@@ -25,6 +26,7 @@ namespace SafeExamBrowser.Core.Behaviour
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private INotificationInfo aboutInfo;
+		private IProcessMonitor processMonitor;
 		private ISettings settings;
 		private ISplashScreen splashScreen;
 		private ITaskbar taskbar;
@@ -53,8 +55,8 @@ namespace SafeExamBrowser.Core.Behaviour
 			ILogger logger,
 			IMessageBox messageBox,
 			INotificationInfo aboutInfo,
+			IProcessMonitor processMonitor,
 			ISettings settings,
-			ISplashScreen splashScreen,
 			ITaskbar taskbar,
 			IText text,
 			IUiElementFactory uiFactory)
@@ -64,8 +66,8 @@ namespace SafeExamBrowser.Core.Behaviour
 			this.logger = logger;
 			this.messageBox = messageBox;
 			this.aboutInfo = aboutInfo;
+			this.processMonitor = processMonitor;
 			this.settings = settings;
-			this.splashScreen = splashScreen;
 			this.taskbar = taskbar;
 			this.text = text;
 			this.uiFactory = uiFactory;
@@ -112,62 +114,63 @@ namespace SafeExamBrowser.Core.Behaviour
 
 		private void InitializeSplashScreen()
 		{
+			splashScreen = uiFactory.CreateSplashScreen(settings, text);
 			splashScreen.SetMaxProgress(StartupOperations.Count());
 			splashScreen.UpdateText(Key.SplashScreen_StartupProcedure);
+			splashScreen.InvokeShow();
 		}
 
 		private void HandleCommandLineArguments()
 		{
-			logger.Info("Parsing command line arguments.");
-
 			// TODO
 		}
 
 		private void DetectOperatingSystem()
 		{
-			logger.Info("Detecting operating system.");
-
 			// TODO
 		}
 
 		private void EstablishWcfServiceConnection()
 		{
-			logger.Info("Establishing connection to WCF service.");
-
 			// TODO
 		}
 
 		private void DeactivateWindowsFeatures()
 		{
-			logger.Info("Deactivating Windows Update.");
-
-			// TODO
-
-			logger.Info("Disabling lock screen options.");
-
 			// TODO
 		}
 
 		private void InitializeProcessMonitoring()
 		{
 			logger.Info("Initializing process monitoring.");
+			splashScreen.UpdateText(Key.SplashScreen_InitializeProcessMonitoring);
 
 			// TODO
+
+			processMonitor.StartMonitoringExplorer();
 		}
 
 		private void InitializeWorkArea()
 		{
 			logger.Info("Initializing work area.");
+			splashScreen.UpdateText(Key.SplashScreen_InitializeWorkArea);
 
 			// TODO
-			// - Killing explorer.exe
 			// - Minimizing all open windows
 			// - Emptying clipboard
+
+			splashScreen.UpdateText(Key.SplashScreen_WaitExplorerTermination);
+			splashScreen.StartBusyIndication();
+			processMonitor.CloseExplorerShell();
+			splashScreen.StopBusyIndication();
 		}
 
 		private void InitializeTaskbar()
 		{
 			logger.Info("Initializing taskbar.");
+			splashScreen.UpdateText(Key.SplashScreen_InitializeTaskbar);
+
+			// TODO
 
 			var aboutNotification = uiFactory.CreateNotification(aboutInfo);
 
@@ -179,6 +182,8 @@ namespace SafeExamBrowser.Core.Behaviour
 			logger.Info("Initializing browser.");
 			splashScreen.UpdateText(Key.SplashScreen_InitializeBrowser);
 
+			// TODO
+
 			var browserButton = uiFactory.CreateApplicationButton(browserInfo);
 
 			browserController.RegisterApplicationButton(browserButton);
@@ -188,6 +193,7 @@ namespace SafeExamBrowser.Core.Behaviour
 		private void FinishInitialization()
 		{
 			logger.Info("Application successfully initialized!");
+			splashScreen.InvokeClose();
 		}
 	}
 }

@@ -13,9 +13,14 @@ namespace SafeExamBrowser.Contracts.UserInterface
 	public interface ISplashScreen
 	{
 		/// <summary>
-		/// Closes the splash screen.
+		/// Closes the splash screen on its own thread.
 		/// </summary>
-		void Close();
+		void InvokeClose();
+
+		/// <summary>
+		/// Shows the splash screen on its own thread.
+		/// </summary>
+		void InvokeShow();
 
 		/// <summary>
 		/// Set the maximum of the splash screen's progress bar.
@@ -23,9 +28,14 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		void SetMaxProgress(int max);
 
 		/// <summary>
-		/// Shows the splash screen to the user.
+		/// Starts an animation indicating the user that something is going on.
 		/// </summary>
-		void Show();
+		void StartBusyIndication();
+
+		/// <summary>
+		/// Stops the busy animation, if it was running.
+		/// </summary>
+		void StopBusyIndication();
 
 		/// <summary>
 		/// Updates the progress bar of the splash screen according to the specified amount.

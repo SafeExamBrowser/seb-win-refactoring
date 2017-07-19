@@ -30,9 +30,29 @@ namespace SafeExamBrowser.UserInterface
 			InitializeSplashScreen();
 		}
 
+		public void InvokeClose()
+		{
+			Dispatcher.Invoke(Close);
+		}
+
+		public void InvokeShow()
+		{
+			Dispatcher.Invoke(Show);
+		}
+
 		public void SetMaxProgress(int max)
 		{
 			model.MaxProgress = max;
+		}
+
+		public void StartBusyIndication()
+		{
+			model.StartBusyIndication();
+		}
+
+		public void StopBusyIndication()
+		{
+			model.StopBusyIndication();
 		}
 
 		public void UpdateProgress(int amount = 1)

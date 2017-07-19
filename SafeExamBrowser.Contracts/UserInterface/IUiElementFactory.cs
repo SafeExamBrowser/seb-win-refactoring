@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.I18n;
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
@@ -16,6 +17,11 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// Creates a taskbar button, initialized with the given application information.
 		/// </summary>
 		ITaskbarButton CreateApplicationButton(IApplicationInfo info);
+
+		/// <summary>
+		/// Creates a new splash screen which runs on its own thread.
+		/// </summary>
+		ISplashScreen CreateSplashScreen(ISettings settings, IText text);
 
 		/// <summary>
 		/// Creates a taskbar notification, initialized with the given notification information.

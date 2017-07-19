@@ -30,10 +30,5 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// Sets the size of the taskbar.
 		/// </summary>
 		void SetSize(int width, int height);
-
-		/// <summary>
-		/// Displays the taskbar on the screen.
-		/// </summary>
-		void Show();
 	}
 }

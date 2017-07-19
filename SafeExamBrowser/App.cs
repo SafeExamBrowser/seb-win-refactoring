@@ -26,7 +26,11 @@ namespace SafeExamBrowser
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(e.Message + "\n\n" + e.StackTrace, "Fatal Error");
+				MessageBox.Show(e.Message + "\n\n" + e.StackTrace, "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+			finally
+			{
+				mutex.Close();
 			}
 		}
 
@@ -38,7 +42,7 @@ namespace SafeExamBrowser
 			}
 			else
 			{
-				MessageBox.Show("You can only run one instance of SEB at a time.", "Startup Not Allowed");
+				MessageBox.Show("You can only run one instance of SEB at a time.", "Startup Not Allowed", MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 		}
 
@@ -51,43 +55,6 @@ namespace SafeExamBrowser
 		{
 			base.OnStartup(e);
 
-			ShowSplashScreen();
-			InitializeApplication();
-		}
-
-		protected override void OnExit(ExitEventArgs e)
-		{
-			instances.ShutdownController.FinalizeApplication();
-
-			base.OnExit(e);
-		}
-
-		private void ShowSplashScreen()
-		{
-			instances.BuildModulesRequiredBySplashScreen();
-
-			var splashReadyEvent = new AutoResetEvent(false);
-			var splashScreenThread = new Thread(() =>
-			{
-				instances.SplashScreen = new UserInterface.SplashScreen(instances.Settings, instances.Text);
-				instances.SplashScreen.Closed += (o, args) => instances.SplashScreen.Dispatcher.InvokeShutdown();
-				instances.SplashScreen.Show();
-
-				splashReadyEvent.Set();
-
-				System.Windows.Threading.Dispatcher.Run();
-			});
-
-			splashScreenThread.SetApartmentState(ApartmentState.STA);
-			splashScreenThread.Name = "Splash Screen Thread";
-			splashScreenThread.IsBackground = true;
-			splashScreenThread.Start();
-
-			splashReadyEvent.WaitOne();
-		}
-
-		private void InitializeApplication()
-		{
 			instances.BuildObjectGraph();
 
 			var success = instances.StartupController.TryInitializeApplication();
@@ -95,14 +62,19 @@ namespace SafeExamBrowser
 			if (success)
 			{
 				MainWindow = instances.Taskbar;
+				MainWindow.Closing += (o, args) => ShutdownApplication();
 				MainWindow.Show();
 			}
 			else
 			{
 				Shutdown();
 			}
+		}
 
-			instances.SplashScreen?.Dispatcher.InvokeAsync(instances.SplashScreen.Close);
+		private void ShutdownApplication()
+		{
+			MainWindow.Hide();
+			instances.ShutdownController.FinalizeApplication();
 		}
 	}
 }

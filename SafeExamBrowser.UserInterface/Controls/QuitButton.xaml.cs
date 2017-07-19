@@ -20,7 +20,7 @@ namespace SafeExamBrowser.UserInterface.Controls
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			Application.Current.Shutdown();
+			Application.Current.MainWindow.Close();
 		}
 	}
 }

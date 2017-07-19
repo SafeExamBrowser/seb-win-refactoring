@@ -21,7 +21,15 @@ namespace SafeExamBrowser.Contracts.I18n
 		MessageBox_StartupErrorTitle,
 		Notification_AboutTooltip,
 		SplashScreen_InitializeBrowser,
+		SplashScreen_InitializeProcessMonitoring,
+		SplashScreen_InitializeTaskbar,
+		SplashScreen_InitializeWorkArea,
+		SplashScreen_RestoreWorkArea,
+		SplashScreen_ShutdownProcedure,
 		SplashScreen_StartupProcedure,
+		SplashScreen_StopProcessMonitoring,
+		SplashScreen_WaitExplorerStartup,
+		SplashScreen_WaitExplorerTermination,
 		Version
 	}
 }

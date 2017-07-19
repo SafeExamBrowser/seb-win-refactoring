@@ -11,11 +11,13 @@ using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Core.Behaviour;
 using SafeExamBrowser.Core.Configuration;
 using SafeExamBrowser.Core.I18n;
 using SafeExamBrowser.Core.Logging;
+using SafeExamBrowser.Monitoring.Processes;
 using SafeExamBrowser.UserInterface;
 
 namespace SafeExamBrowser
@@ -24,23 +26,18 @@ namespace SafeExamBrowser
 	{
 		private IApplicationController browserController;
 		private IApplicationInfo browserInfo;
+		private ILogger logger;
 		private IMessageBox messageBox;
 		private INotificationInfo aboutInfo;
-		private ILogger logger;
+		private IProcessMonitor processMonitor;
+		private ISettings settings;
+		private IText text;
 		private IUiElementFactory uiFactory;
+		private ITextResource textResource;
 
-		public ISettings Settings { get; private set; }
 		public IShutdownController ShutdownController { get; private set; }
 		public IStartupController StartupController { get; private set; }
-		public SplashScreen SplashScreen { get; set; }
 		public Taskbar Taskbar { get; private set; }
-		public IText Text { get; private set; }
-
-		public void BuildModulesRequiredBySplashScreen()
-		{
-			Settings = new Settings();
-			Text = new Text(new XmlTextResource());
-		}
 
 		public void BuildObjectGraph()
 		{
@@ -48,14 +45,18 @@ namespace SafeExamBrowser
 			browserInfo = new BrowserApplicationInfo();
 			logger = new Logger();
 			messageBox = new WpfMessageBox();
+			settings = new Settings();
 			Taskbar = new Taskbar();
+			textResource = new XmlTextResource();
 			uiFactory = new UiElementFactory();
 
-			logger.Subscribe(new LogFileWriter(Settings));
+			logger.Subscribe(new LogFileWriter(settings));
 
-			aboutInfo = new AboutNotificationInfo(Text);
-			ShutdownController = new ShutdownController(logger, messageBox, Text);
-			StartupController = new StartupController(browserController, browserInfo, logger, messageBox, aboutInfo, Settings, SplashScreen, Taskbar, Text, uiFactory);
+			text = new Text(textResource);
+			aboutInfo = new AboutNotificationInfo(text);
+			processMonitor = new ProcessMonitor(logger);
+			ShutdownController = new ShutdownController(logger, messageBox, processMonitor, settings, text, uiFactory);
+			StartupController = new StartupController(browserController, browserInfo, logger, messageBox, aboutInfo, processMonitor, settings, Taskbar, text, uiFactory);
 		}
 	}
 }
