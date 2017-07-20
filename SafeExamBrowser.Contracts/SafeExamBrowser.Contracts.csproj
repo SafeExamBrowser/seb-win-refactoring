@@ -49,6 +49,7 @@
     <Compile Include="Configuration\ISettings.cs" />
     <Compile Include="Behaviour\IShutdownController.cs" />
     <Compile Include="Behaviour\IStartupController.cs" />
+    <Compile Include="Configuration\IWorkingArea.cs" />
     <Compile Include="I18n\IText.cs" />
     <Compile Include="I18n\Key.cs" />
     <Compile Include="Logging\ILogContent.cs" />

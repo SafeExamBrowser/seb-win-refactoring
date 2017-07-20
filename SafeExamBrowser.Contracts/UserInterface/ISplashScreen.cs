@@ -28,23 +28,14 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		void SetMaxProgress(int max);
 
 		/// <summary>
-		/// Starts an animation indicating the user that something is going on.
-		/// </summary>
-		void StartBusyIndication();
-
-		/// <summary>
-		/// Stops the busy animation, if it was running.
-		/// </summary>
-		void StopBusyIndication();
-
-		/// <summary>
 		/// Updates the progress bar of the splash screen according to the specified amount.
 		/// </summary>
 		void UpdateProgress(int amount = 1);
 
 		/// <summary>
-		/// Updates the status text of the splash screen.
+		/// Updates the status text of the splash screen. If the busy flag is set,
+		/// the splash screen will show an animation to indicate a long-running operation.
 		/// </summary>
-		void UpdateText(Key key);
+		void UpdateText(Key key, bool showBusyIndication = false);
 	}
 }

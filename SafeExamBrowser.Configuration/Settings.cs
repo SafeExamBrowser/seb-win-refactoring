@@ -11,7 +11,7 @@ using System.IO;
 using System.Reflection;
 using SafeExamBrowser.Contracts.Configuration;
 
-namespace SafeExamBrowser.Core.Configuration
+namespace SafeExamBrowser.Configuration
 {
 	public class Settings : ISettings
 	{

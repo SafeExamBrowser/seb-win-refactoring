@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Browser;
+using SafeExamBrowser.Configuration;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
@@ -14,7 +15,6 @@ using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Core.Behaviour;
-using SafeExamBrowser.Core.Configuration;
 using SafeExamBrowser.Core.I18n;
 using SafeExamBrowser.Core.Logging;
 using SafeExamBrowser.Monitoring.Processes;
@@ -32,8 +32,9 @@ namespace SafeExamBrowser
 		private IProcessMonitor processMonitor;
 		private ISettings settings;
 		private IText text;
-		private IUiElementFactory uiFactory;
 		private ITextResource textResource;
+		private IUiElementFactory uiFactory;
+		private IWorkingArea workingArea;
 
 		public IShutdownController ShutdownController { get; private set; }
 		public IStartupController StartupController { get; private set; }
@@ -54,9 +55,10 @@ namespace SafeExamBrowser
 
 			text = new Text(textResource);
 			aboutInfo = new AboutNotificationInfo(text);
-			processMonitor = new ProcessMonitor(logger);
-			ShutdownController = new ShutdownController(logger, messageBox, processMonitor, settings, text, uiFactory);
-			StartupController = new StartupController(browserController, browserInfo, logger, messageBox, aboutInfo, processMonitor, settings, Taskbar, text, uiFactory);
+			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)));
+			workingArea = new WorkingArea(new ModuleLogger(logger, typeof(WorkingArea)));
+			ShutdownController = new ShutdownController(logger, messageBox, processMonitor, settings, text, uiFactory, workingArea);
+			StartupController = new StartupController(browserController, browserInfo, logger, messageBox, aboutInfo, processMonitor, settings, Taskbar, text, uiFactory, workingArea);
 		}
 	}
 }

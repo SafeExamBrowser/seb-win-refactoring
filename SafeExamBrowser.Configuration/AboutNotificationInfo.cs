@@ -9,7 +9,7 @@
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 
-namespace SafeExamBrowser.Core.Configuration
+namespace SafeExamBrowser.Configuration
 {
 	public class AboutNotificationInfo : INotificationInfo
 	{

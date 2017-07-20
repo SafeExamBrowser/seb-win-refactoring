@@ -28,13 +28,14 @@ namespace SafeExamBrowser.Core.Behaviour
 		private ISplashScreen splashScreen;
 		private IText text;
 		private IUiElementFactory uiFactory;
+		private IWorkingArea workingArea;
 
 		private IEnumerable<Action> ShutdownOperations
 		{
 			get
 			{
 				yield return StopProcessMonitoring;
-				yield return RestoreWorkArea;
+				yield return RestoreWorkingArea;
 				yield return FinalizeApplicationLog;
 			}
 		}
@@ -45,7 +46,8 @@ namespace SafeExamBrowser.Core.Behaviour
 			IProcessMonitor processMonitor,
 			ISettings settings,
 			IText text,
-			IUiElementFactory uiFactory)
+			IUiElementFactory uiFactory,
+			IWorkingArea workingArea)
 		{
 			this.logger = logger;
 			this.messageBox = messageBox;
@@ -53,6 +55,7 @@ namespace SafeExamBrowser.Core.Behaviour
 			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;
+			this.workingArea = workingArea;
 		}
 
 		public void FinalizeApplication()
@@ -83,11 +86,12 @@ namespace SafeExamBrowser.Core.Behaviour
 			splashScreen.SetMaxProgress(ShutdownOperations.Count());
 			splashScreen.UpdateText(Key.SplashScreen_ShutdownProcedure);
 			splashScreen.InvokeShow();
+			logger.Info("--- Initiating shutdown procedure ---");
 		}
 
 		private void StopProcessMonitoring()
 		{
-			logger.Info("Stopping process monitoring.");
+			logger.Info("--- Stopping process monitoring ---");
 			splashScreen.UpdateText(Key.SplashScreen_StopProcessMonitoring);
 
 			// TODO
@@ -95,21 +99,22 @@ namespace SafeExamBrowser.Core.Behaviour
 			processMonitor.StopMonitoringExplorer();
 		}
 
-		private void RestoreWorkArea()
+		private void RestoreWorkingArea()
 		{
-			logger.Info("Restoring work area.");
-			splashScreen.UpdateText(Key.SplashScreen_RestoreWorkArea);
+			logger.Info("--- Restoring working area ---");
+			splashScreen.UpdateText(Key.SplashScreen_RestoreWorkingArea);
 
 			// TODO
 
-			splashScreen.UpdateText(Key.SplashScreen_WaitExplorerStartup);
-			splashScreen.StartBusyIndication();
+			workingArea.Reset();
+
+			splashScreen.UpdateText(Key.SplashScreen_WaitExplorerStartup, true);
 			processMonitor.StartExplorerShell();
-			splashScreen.StopBusyIndication();
 		}
 
 		private void FinalizeApplicationLog()
 		{
+			logger.Info("--- Application successfully finalized! ---");
 			logger.Log($"{Environment.NewLine}# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 		}
 	}

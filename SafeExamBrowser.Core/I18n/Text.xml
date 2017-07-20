@@ -8,8 +8,8 @@
   <SplashScreen_InitializeBrowser>Initializing browser</SplashScreen_InitializeBrowser>
   <SplashScreen_InitializeProcessMonitoring>Initializing process monitoring</SplashScreen_InitializeProcessMonitoring>
   <SplashScreen_InitializeTaskbar>Initializing taskbar</SplashScreen_InitializeTaskbar>
-  <SplashScreen_InitializeWorkArea>Initializing work area</SplashScreen_InitializeWorkArea>
-  <SplashScreen_RestoreWorkArea>Restoring work area</SplashScreen_RestoreWorkArea>
+  <SplashScreen_InitializeWorkingArea>Initializing working area</SplashScreen_InitializeWorkingArea>
+  <SplashScreen_RestoreWorkingArea>Restoring working area</SplashScreen_RestoreWorkingArea>
   <SplashScreen_ShutdownProcedure>Initiating shutdown procedure</SplashScreen_ShutdownProcedure>
   <SplashScreen_StartupProcedure>Initiating startup procedure</SplashScreen_StartupProcedure>
   <SplashScreen_StopProcessMonitoring>Stopping process monitoring</SplashScreen_StopProcessMonitoring>

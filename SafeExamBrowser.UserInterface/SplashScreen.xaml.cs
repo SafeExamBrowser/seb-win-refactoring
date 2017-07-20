@@ -45,24 +45,20 @@ namespace SafeExamBrowser.UserInterface
 			model.MaxProgress = max;
 		}
 
-		public void StartBusyIndication()
-		{
-			model.StartBusyIndication();
-		}
-
-		public void StopBusyIndication()
-		{
-			model.StopBusyIndication();
-		}
-
 		public void UpdateProgress(int amount = 1)
 		{
 			model.CurrentProgress += amount;
 		}
 
-		public void UpdateText(Key key)
+		public void UpdateText(Key key, bool showBusyIndication = false)
 		{
+			model.StopBusyIndication();
 			model.Status = text.Get(key);
+
+			if (showBusyIndication)
+			{
+				model.StartBusyIndication();
+			}
 		}
 
 		private void InitializeSplashScreen()

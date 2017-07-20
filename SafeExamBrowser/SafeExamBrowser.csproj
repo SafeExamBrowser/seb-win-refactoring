@@ -103,6 +103,10 @@
       <Project>{04E653F1-98E6-4E34-9DD7-7F2BC1A8B767}</Project>
       <Name>SafeExamBrowser.Browser</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Configuration\SafeExamBrowser.Configuration.csproj">
+      <Project>{c388c4dd-a159-457d-af92-89f7ad185109}</Project>
+      <Name>SafeExamBrowser.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">
       <Project>{47DA5933-BEF8-4729-94E6-ABDE2DB12262}</Project>
       <Name>SafeExamBrowser.Contracts</Name>

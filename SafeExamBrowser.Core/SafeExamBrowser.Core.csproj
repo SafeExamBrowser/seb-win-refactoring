@@ -40,9 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\AboutNotificationIconResource.cs" />
-    <Compile Include="Configuration\AboutNotificationInfo.cs" />
-    <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Behaviour\ShutdownController.cs" />
     <Compile Include="Behaviour\StartupController.cs" />
     <Compile Include="Logging\LogFileWriter.cs" />
@@ -51,6 +48,7 @@
     <Compile Include="I18n\XmlTextResource.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogText.cs" />
+    <Compile Include="Logging\ModuleLogger.cs" />
     <Compile Include="Logging\ThreadInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

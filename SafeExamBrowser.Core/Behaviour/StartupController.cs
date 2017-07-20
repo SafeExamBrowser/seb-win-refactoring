@@ -32,6 +32,7 @@ namespace SafeExamBrowser.Core.Behaviour
 		private ITaskbar taskbar;
 		private IText text;
 		private IUiElementFactory uiFactory;
+		private IWorkingArea workingArea;
 
 		private IEnumerable<Action> StartupOperations
 		{
@@ -42,7 +43,7 @@ namespace SafeExamBrowser.Core.Behaviour
 				yield return EstablishWcfServiceConnection;
 				yield return DeactivateWindowsFeatures;
 				yield return InitializeProcessMonitoring;
-				yield return InitializeWorkArea;
+				yield return InitializeWorkingArea;
 				yield return InitializeTaskbar;
 				yield return InitializeBrowser;
 				yield return FinishInitialization;
@@ -59,7 +60,8 @@ namespace SafeExamBrowser.Core.Behaviour
 			ISettings settings,
 			ITaskbar taskbar,
 			IText text,
-			IUiElementFactory uiFactory)
+			IUiElementFactory uiFactory,
+			IWorkingArea workingArea)
 		{
 			this.browserController = browserController;
 			this.browserInfo = browserInfo;
@@ -71,6 +73,7 @@ namespace SafeExamBrowser.Core.Behaviour
 			this.taskbar = taskbar;
 			this.text = text;
 			this.uiFactory = uiFactory;
+			this.workingArea = workingArea;
 		}
 
 		public bool TryInitializeApplication()
@@ -109,7 +112,7 @@ namespace SafeExamBrowser.Core.Behaviour
 
 			logger.Log($"{titleLine}{copyrightLine}{emptyLine}{githubLine}");
 			logger.Log($"{Environment.NewLine}# Application started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}{Environment.NewLine}");
-			logger.Info("Initiating startup procedure.");
+			logger.Info("--- Initiating startup procedure ---");
 		}
 
 		private void InitializeSplashScreen()
@@ -142,7 +145,7 @@ namespace SafeExamBrowser.Core.Behaviour
 
 		private void InitializeProcessMonitoring()
 		{
-			logger.Info("Initializing process monitoring.");
+			logger.Info("--- Initializing process monitoring ---");
 			splashScreen.UpdateText(Key.SplashScreen_InitializeProcessMonitoring);
 
 			// TODO
@@ -150,24 +153,23 @@ namespace SafeExamBrowser.Core.Behaviour
 			processMonitor.StartMonitoringExplorer();
 		}
 
-		private void InitializeWorkArea()
+		private void InitializeWorkingArea()
 		{
-			logger.Info("Initializing work area.");
-			splashScreen.UpdateText(Key.SplashScreen_InitializeWorkArea);
+			logger.Info("--- Initializing working area ---");
+			splashScreen.UpdateText(Key.SplashScreen_WaitExplorerTermination, true);
+			processMonitor.CloseExplorerShell();
 
 			// TODO
 			// - Minimizing all open windows
 			// - Emptying clipboard
 
-			splashScreen.UpdateText(Key.SplashScreen_WaitExplorerTermination);
-			splashScreen.StartBusyIndication();
-			processMonitor.CloseExplorerShell();
-			splashScreen.StopBusyIndication();
+			splashScreen.UpdateText(Key.SplashScreen_InitializeWorkingArea);
+			workingArea.InitializeFor(taskbar);
 		}
 
 		private void InitializeTaskbar()
 		{
-			logger.Info("Initializing taskbar.");
+			logger.Info("--- Initializing taskbar ---");
 			splashScreen.UpdateText(Key.SplashScreen_InitializeTaskbar);
 
 			// TODO
@@ -179,7 +181,7 @@ namespace SafeExamBrowser.Core.Behaviour
 
 		private void InitializeBrowser()
 		{
-			logger.Info("Initializing browser.");
+			logger.Info("--- Initializing browser ---");
 			splashScreen.UpdateText(Key.SplashScreen_InitializeBrowser);
 
 			// TODO
@@ -192,7 +194,7 @@ namespace SafeExamBrowser.Core.Behaviour
 
 		private void FinishInitialization()
 		{
-			logger.Info("Application successfully initialized!");
+			logger.Info("--- Application successfully initialized! ---");
 			splashScreen.InvokeClose();
 		}
 	}

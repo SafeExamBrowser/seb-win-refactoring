@@ -22,13 +22,8 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		void AddNotification(ITaskbarNotification button);
 
 		/// <summary>
-		/// Moves the taskbar to the given location on the screen.
+		/// Returns the absolute height of the taskbar (i.e. in physical pixels).
 		/// </summary>
-		void SetPosition(int x, int y);
-
-		/// <summary>
-		/// Sets the size of the taskbar.
-		/// </summary>
-		void SetSize(int width, int height);
+		int GetAbsoluteHeight();
 	}
 }

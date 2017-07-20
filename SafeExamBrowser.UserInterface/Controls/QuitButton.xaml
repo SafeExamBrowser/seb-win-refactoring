@@ -15,10 +15,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="ButtonContent" Property="Background" Value="#40FF0000" />
+                            <Setter TargetName="ButtonContent" Property="Background" Value="#50FF0000" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="ButtonContent" Property="Background" Value="#60FF0000" />
+                            <Setter TargetName="ButtonContent" Property="Background" Value="#40FF0000" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

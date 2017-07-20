@@ -8,6 +8,8 @@
 
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
+using System.Windows.Media;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.UserInterface
@@ -17,6 +19,15 @@ namespace SafeExamBrowser.UserInterface
 		public Taskbar()
 		{
 			InitializeComponent();
+
+			Loaded += Taskbar_Loaded;
+		}
+
+		private void Taskbar_Loaded(object sender, RoutedEventArgs e)
+		{
+			Width = SystemParameters.WorkArea.Right;
+			Left = SystemParameters.WorkArea.Right - Width;
+			Top = SystemParameters.WorkArea.Bottom;
 		}
 
 		public void AddButton(ITaskbarButton button)
@@ -35,16 +46,28 @@ namespace SafeExamBrowser.UserInterface
 			}
 		}
 
-		public void SetPosition(int x, int y)
+		public int GetAbsoluteHeight()
 		{
-			Left = x;
-			Top = y;
-		}
+			// WPF works with device-independent pixels. The following code is required
+			// to get the real height of the taskbar (in absolute, device-specific pixels).
+			// Source: https://stackoverflow.com/questions/3286175/how-do-i-convert-a-wpf-size-to-physical-pixels
 
-		public void SetSize(int width, int height)
-		{
-			Width = width;
-			Height = height;
+			Matrix transformToDevice;
+			var source = PresentationSource.FromVisual(this);
+
+			if (source != null)
+			{
+				transformToDevice = source.CompositionTarget.TransformToDevice;
+			}
+			else
+			{
+				using (var newSource = new HwndSource(new HwndSourceParameters()))
+				{
+					transformToDevice = newSource.CompositionTarget.TransformToDevice;
+				}
+			}
+
+			return (int) transformToDevice.Transform((Vector) new Size(Width, Height)).Y;
 		}
 
 		private void ApplicationScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

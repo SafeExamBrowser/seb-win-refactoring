@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
+using SafeExamBrowser.WindowsApi;
 
 namespace SafeExamBrowser.Monitoring.Processes
 {
@@ -28,9 +29,9 @@ namespace SafeExamBrowser.Monitoring.Processes
 		public void StartExplorerShell()
 		{
 			var process = new Process();
-			var explorerPath = Path.Combine(Environment.GetEnvironmentVariable("WINDIR"), "explorer.exe");
+			var explorerPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe");
 
-			Log("Restarting explorer shell...");
+			logger.Info("Restarting explorer shell...");
 
 			process.StartInfo.CreateNoWindow = true;
 			process.StartInfo.FileName = explorerPath;
@@ -42,7 +43,7 @@ namespace SafeExamBrowser.Monitoring.Processes
 			}
 
 			process.Refresh();
-			Log($"Explorer shell successfully started with PID = {process.Id}.");
+			logger.Info($"Explorer shell successfully started with PID = {process.Id}.");
 			process.Close();
 		}
 
@@ -64,7 +65,7 @@ namespace SafeExamBrowser.Monitoring.Processes
 
 			if (shellProcess != null)
 			{
-				Log($"Found explorer shell processes with PID = {processId}. Sending close message...");
+				logger.Info($"Found explorer shell processes with PID = {processId}. Sending close message...");
 				User32.PostCloseMessageToShell();
 
 				while (!shellProcess.HasExited)
@@ -73,17 +74,12 @@ namespace SafeExamBrowser.Monitoring.Processes
 					Thread.Sleep(20);
 				}
 
-				Log($"Successfully terminated explorer shell process with PID = {processId}.");
+				logger.Info($"Successfully terminated explorer shell process with PID = {processId}.");
 			}
 			else
 			{
-				Log("The explorer shell seems to already be terminated. Skipping this step...");
+				logger.Info("The explorer shell seems to already be terminated. Skipping this step...");
 			}
-		}
-
-		private void Log(string message)
-		{
-			logger.Info($"[{nameof(ProcessMonitor)}] {message}");
 		}
 	}
 }
