@@ -14,7 +14,7 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
-	class TaskbarInitializationOperation : IOperation
+	public class TaskbarInitializationOperation : IOperation
 	{
 		private ILogger logger;
 		private ITaskbar taskbar;

@@ -15,6 +15,6 @@ namespace SafeExamBrowser.Contracts.Behaviour
 		/// <summary>
 		/// Reverts any changes performed during the startup or runtime and releases all used resources.
 		/// </summary>
-		void FinalizeApplication(Stack<IOperation> operations);
+		void FinalizeApplication(Queue<IOperation> operations);
 	}
 }

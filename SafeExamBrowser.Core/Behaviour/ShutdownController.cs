@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
@@ -48,7 +47,7 @@ namespace SafeExamBrowser.Core.Behaviour
 			this.workingArea = workingArea;
 		}
 
-		public void FinalizeApplication(Stack<IOperation> operations)
+		public void FinalizeApplication(Queue<IOperation> operations)
 		{
 			try
 			{
@@ -63,16 +62,12 @@ namespace SafeExamBrowser.Core.Behaviour
 			}
 		}
 
-		private void RevertOperations(Stack<IOperation> operations)
+		private void RevertOperations(Queue<IOperation> operations)
 		{
-			while (operations.Any())
+			foreach (var operation in operations)
 			{
-				var operation = operations.Pop();
-
 				operation.SplashScreen = splashScreen;
 				operation.Revert();
-
-				splashScreen.Progress();
 
 				// TODO: Remove!
 				Thread.Sleep(250);

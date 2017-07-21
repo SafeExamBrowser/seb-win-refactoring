@@ -16,7 +16,6 @@ using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Core.Behaviour.Operations;
 
 namespace SafeExamBrowser.Core.Behaviour
 {
@@ -35,7 +34,7 @@ namespace SafeExamBrowser.Core.Behaviour
 		private IUiElementFactory uiFactory;
 		private IWorkingArea workingArea;
 
-		private IEnumerable<IOperation> startupOperations;
+		private Stack<IOperation> stack = new Stack<IOperation>();
 
 		public StartupController(
 			IApplicationController browserController,
@@ -63,18 +62,14 @@ namespace SafeExamBrowser.Core.Behaviour
 			this.workingArea = workingArea;
 		}
 
-		public bool TryInitializeApplication(out Stack<IOperation> operations)
+		public bool TryInitializeApplication(Queue<IOperation> operations)
 		{
-			operations = new Stack<IOperation>();
-
 			try
 			{
-				CreateStartupOperations();
-
 				InitializeApplicationLog();
-				InitializeSplashScreen();
+				InitializeSplashScreen(operations.Count);
 
-				operations = PerformOperations();
+				PerformOperations(operations);
 
 				FinishInitialization();
 
@@ -83,20 +78,18 @@ namespace SafeExamBrowser.Core.Behaviour
 			catch (Exception e)
 			{
 				LogAndShowException(e);
-				RevertOperations(operations);
+				RevertOperations();
 				FinishInitialization(false);
 
 				return false;
 			}
 		}
 
-		private Stack<IOperation> PerformOperations()
+		private void PerformOperations(Queue<IOperation> operations)
 		{
-			var operations = new Stack<IOperation>();
-
-			foreach (var operation in startupOperations)
+			foreach (var operation in operations)
 			{
-				operations.Push(operation);
+				stack.Push(operation);
 
 				operation.SplashScreen = splashScreen;
 				operation.Perform();
@@ -106,15 +99,13 @@ namespace SafeExamBrowser.Core.Behaviour
 				// TODO: Remove!
 				Thread.Sleep(250);
 			}
-
-			return operations;
 		}
 
-		private void RevertOperations(Stack<IOperation> operations)
+		private void RevertOperations()
 		{
-			while (operations.Any())
+			while (stack.Any())
 			{
-				var operation = operations.Pop();
+				var operation = stack.Pop();
 
 				operation.Revert();
 				splashScreen.Regress();
@@ -122,17 +113,6 @@ namespace SafeExamBrowser.Core.Behaviour
 				// TODO: Remove!
 				Thread.Sleep(250);
 			}
-		}
-
-		private void CreateStartupOperations()
-		{
-			startupOperations = new IOperation[]
-			{
-				new ProcessMonitoringOperation(logger, processMonitor),
-				new WorkingAreaOperation(logger, processMonitor, taskbar, workingArea),
-				new TaskbarInitializationOperation(logger, aboutInfo, taskbar, uiFactory),
-				new BrowserInitializationOperation(browserController, browserInfo, logger, taskbar, uiFactory)
-			};
 		}
 
 		private void InitializeApplicationLog()
@@ -147,10 +127,10 @@ namespace SafeExamBrowser.Core.Behaviour
 			logger.Info("--- Initiating startup procedure ---");
 		}
 
-		private void InitializeSplashScreen()
+		private void InitializeSplashScreen(int operationCount)
 		{
 			splashScreen = uiFactory.CreateSplashScreen(settings, text);
-			splashScreen.SetMaxProgress(startupOperations.Count());
+			splashScreen.SetMaxProgress(operationCount);
 			splashScreen.UpdateText(Key.SplashScreen_StartupProcedure);
 			splashScreen.InvokeShow();
 		}

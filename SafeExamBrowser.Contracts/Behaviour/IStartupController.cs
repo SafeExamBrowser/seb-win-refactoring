@@ -13,10 +13,9 @@ namespace SafeExamBrowser.Contracts.Behaviour
 	public interface IStartupController
 	{
 		/// <summary>
-		/// Tries to initialize the application. Returns <c>true</c> if the initialization was successful,
-		/// <c>false</c> otherwise. All operations performed during the startup procedure will be registered
-		/// to the given <c>out</c> parameter.
+		/// Tries to initialize the application according to the given queue of operations.
+		/// Returns <c>true</c> if the initialization was successful, <c>false</c> otherwise.
 		/// </summary>
-		bool TryInitializeApplication(out Stack<IOperation> operations);
+		bool TryInitializeApplication(Queue<IOperation> operations);
 	}
 }

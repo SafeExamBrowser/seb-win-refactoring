@@ -14,7 +14,7 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
-	class ProcessMonitoringOperation : IOperation
+	public class ProcessMonitoringOperation : IOperation
 	{
 		private ILogger logger;
 		private IProcessMonitor processMonitor;

@@ -14,7 +14,7 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
-	class BrowserInitializationOperation : IOperation
+	public class BrowserInitializationOperation : IOperation
 	{
 		private IApplicationController browserController;
 		private IApplicationInfo browserInfo;

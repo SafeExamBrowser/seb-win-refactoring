@@ -54,6 +54,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviour\StartupControllerTests.cs" />
+    <Compile Include="Behaviour\ShutdownControllerTests.cs" />
     <Compile Include="I18n\TextTests.cs" />
     <Compile Include="Logging\LoggerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

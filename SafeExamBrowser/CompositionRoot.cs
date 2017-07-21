@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Generic;
 using SafeExamBrowser.Browser;
 using SafeExamBrowser.Configuration;
 using SafeExamBrowser.Contracts.Behaviour;
@@ -15,6 +16,7 @@ using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Core.Behaviour;
+using SafeExamBrowser.Core.Behaviour.Operations;
 using SafeExamBrowser.Core.I18n;
 using SafeExamBrowser.Core.Logging;
 using SafeExamBrowser.Monitoring.Processes;
@@ -38,6 +40,7 @@ namespace SafeExamBrowser
 
 		public IShutdownController ShutdownController { get; private set; }
 		public IStartupController StartupController { get; private set; }
+		public Queue<IOperation> StartupOperations { get; private set; }
 		public Taskbar Taskbar { get; private set; }
 
 		public void BuildObjectGraph()
@@ -59,6 +62,12 @@ namespace SafeExamBrowser
 			workingArea = new WorkingArea(new ModuleLogger(logger, typeof(WorkingArea)));
 			ShutdownController = new ShutdownController(logger, messageBox, processMonitor, settings, text, uiFactory, workingArea);
 			StartupController = new StartupController(browserController, browserInfo, logger, messageBox, aboutInfo, processMonitor, settings, Taskbar, text, uiFactory, workingArea);
+
+			StartupOperations = new Queue<IOperation>();
+			StartupOperations.Enqueue(new ProcessMonitoringOperation(logger, processMonitor));
+			StartupOperations.Enqueue(new WorkingAreaOperation(logger, processMonitor, Taskbar, workingArea));
+			StartupOperations.Enqueue(new TaskbarInitializationOperation(logger, aboutInfo, Taskbar, uiFactory));
+			StartupOperations.Enqueue(new BrowserInitializationOperation(browserController, browserInfo, logger, Taskbar, uiFactory));
 		}
 	}
 }
