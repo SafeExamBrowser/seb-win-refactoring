@@ -6,6 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Generic;
+
 namespace SafeExamBrowser.Contracts.Behaviour
 {
 	public interface IShutdownController
@@ -13,6 +15,6 @@ namespace SafeExamBrowser.Contracts.Behaviour
 		/// <summary>
 		/// Reverts any changes performed during the startup or runtime and releases all used resources.
 		/// </summary>
-		void FinalizeApplication();
+		void FinalizeApplication(Stack<IOperation> operations);
 	}
 }

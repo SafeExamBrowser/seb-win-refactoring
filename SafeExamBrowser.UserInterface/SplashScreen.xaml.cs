@@ -40,14 +40,24 @@ namespace SafeExamBrowser.UserInterface
 			Dispatcher.Invoke(Show);
 		}
 
+		public void Progress(int amount = 1)
+		{
+			model.CurrentProgress += amount;
+		}
+
+		public void Regress(int amount = 1)
+		{
+			model.CurrentProgress -= amount;
+		}
+
+		public void SetIndeterminate()
+		{
+			model.IsIndeterminate = true;
+		}
+
 		public void SetMaxProgress(int max)
 		{
 			model.MaxProgress = max;
-		}
-
-		public void UpdateProgress(int amount = 1)
-		{
-			model.CurrentProgress += amount;
 		}
 
 		public void UpdateText(Key key, bool showBusyIndication = false)

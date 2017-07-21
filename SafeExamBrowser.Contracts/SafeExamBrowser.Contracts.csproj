@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Behaviour\IApplicationController.cs" />
     <Compile Include="Behaviour\INotificationController.cs" />
+    <Compile Include="Behaviour\IOperation.cs" />
     <Compile Include="Configuration\IIconResource.cs" />
     <Compile Include="Configuration\IApplicationInfo.cs" />
     <Compile Include="Configuration\IApplicationInstance.cs" />

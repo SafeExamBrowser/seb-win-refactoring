@@ -14,6 +14,7 @@ namespace SafeExamBrowser.UserInterface.ViewModels
 	class SplashScreenViewModel : INotifyPropertyChanged
 	{
 		private int currentProgress;
+		private bool isIndeterminate;
 		private int maxProgress;
 		private string status;
 		private Timer busyTimer;
@@ -30,6 +31,19 @@ namespace SafeExamBrowser.UserInterface.ViewModels
 			{
 				currentProgress = value;
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentProgress)));
+			}
+		}
+
+		public bool IsIndeterminate
+		{
+			get
+			{
+				return isIndeterminate;
+			}
+			set
+			{
+				isIndeterminate = value;
+				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsIndeterminate)));
 			}
 		}
 

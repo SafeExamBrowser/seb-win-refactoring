@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Configuration
 	public class WorkingArea : IWorkingArea
 	{
 		private ILogger logger;
-		private RECT? initial;
+		private RECT? originalWorkingArea;
 
 		public WorkingArea(ILogger logger)
 		{
@@ -27,9 +27,9 @@ namespace SafeExamBrowser.Configuration
 
 		public void InitializeFor(ITaskbar taskbar)
 		{
-			initial = User32.GetWorkingArea();
+			originalWorkingArea = User32.GetWorkingArea();
 
-			LogWorkingArea("Saved initial working area", initial.Value);
+			LogWorkingArea("Saved original working area", originalWorkingArea.Value);
 
 			var area = new RECT
 			{
@@ -39,17 +39,17 @@ namespace SafeExamBrowser.Configuration
 				Bottom = Screen.PrimaryScreen.Bounds.Height - taskbar.GetAbsoluteHeight()
 			};
 
-			LogWorkingArea("Setting new working area", area);
+			LogWorkingArea("Trying to set new working area", area);
 			User32.SetWorkingArea(area);
 			LogWorkingArea("Working area is now set to", User32.GetWorkingArea());
 		}
 
 		public void Reset()
 		{
-			if (initial.HasValue)
+			if (originalWorkingArea.HasValue)
 			{
-				User32.SetWorkingArea(initial.Value);
-				LogWorkingArea("Restored initial working area", initial.Value);
+				User32.SetWorkingArea(originalWorkingArea.Value);
+				LogWorkingArea("Restored original working area", originalWorkingArea.Value);
 			}
 		}
 

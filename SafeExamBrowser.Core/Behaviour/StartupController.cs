@@ -16,6 +16,7 @@ using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Core.Behaviour.Operations;
 
 namespace SafeExamBrowser.Core.Behaviour
 {
@@ -34,21 +35,7 @@ namespace SafeExamBrowser.Core.Behaviour
 		private IUiElementFactory uiFactory;
 		private IWorkingArea workingArea;
 
-		private IEnumerable<Action> StartupOperations
-		{
-			get
-			{
-				yield return HandleCommandLineArguments;
-				yield return DetectOperatingSystem;
-				yield return EstablishWcfServiceConnection;
-				yield return DeactivateWindowsFeatures;
-				yield return InitializeProcessMonitoring;
-				yield return InitializeWorkingArea;
-				yield return InitializeTaskbar;
-				yield return InitializeBrowser;
-				yield return FinishInitialization;
-			}
-		}
+		private IEnumerable<IOperation> startupOperations;
 
 		public StartupController(
 			IApplicationController browserController,
@@ -76,31 +63,76 @@ namespace SafeExamBrowser.Core.Behaviour
 			this.workingArea = workingArea;
 		}
 
-		public bool TryInitializeApplication()
+		public bool TryInitializeApplication(out Stack<IOperation> operations)
 		{
+			operations = new Stack<IOperation>();
+
 			try
 			{
+				CreateStartupOperations();
+
 				InitializeApplicationLog();
 				InitializeSplashScreen();
 
-				foreach (var operation in StartupOperations)
-				{
-					operation();
-					splashScreen.UpdateProgress();
+				operations = PerformOperations();
 
-					// TODO: Remove!
-					Thread.Sleep(250);
-				}
+				FinishInitialization();
 
 				return true;
 			}
 			catch (Exception e)
 			{
-				logger.Error($"Failed to initialize application!", e);
-				messageBox.Show(text.Get(Key.MessageBox_StartupError), text.Get(Key.MessageBox_StartupErrorTitle), icon: MessageBoxIcon.Error);
+				LogAndShowException(e);
+				RevertOperations(operations);
+				FinishInitialization(false);
 
 				return false;
 			}
+		}
+
+		private Stack<IOperation> PerformOperations()
+		{
+			var operations = new Stack<IOperation>();
+
+			foreach (var operation in startupOperations)
+			{
+				operations.Push(operation);
+
+				operation.SplashScreen = splashScreen;
+				operation.Perform();
+
+				splashScreen.Progress();
+
+				// TODO: Remove!
+				Thread.Sleep(250);
+			}
+
+			return operations;
+		}
+
+		private void RevertOperations(Stack<IOperation> operations)
+		{
+			while (operations.Any())
+			{
+				var operation = operations.Pop();
+
+				operation.Revert();
+				splashScreen.Regress();
+
+				// TODO: Remove!
+				Thread.Sleep(250);
+			}
+		}
+
+		private void CreateStartupOperations()
+		{
+			startupOperations = new IOperation[]
+			{
+				new ProcessMonitoringOperation(logger, processMonitor),
+				new WorkingAreaOperation(logger, processMonitor, taskbar, workingArea),
+				new TaskbarInitializationOperation(logger, aboutInfo, taskbar, uiFactory),
+				new BrowserInitializationOperation(browserController, browserInfo, logger, taskbar, uiFactory)
+			};
 		}
 
 		private void InitializeApplicationLog()
@@ -118,84 +150,29 @@ namespace SafeExamBrowser.Core.Behaviour
 		private void InitializeSplashScreen()
 		{
 			splashScreen = uiFactory.CreateSplashScreen(settings, text);
-			splashScreen.SetMaxProgress(StartupOperations.Count());
+			splashScreen.SetMaxProgress(startupOperations.Count());
 			splashScreen.UpdateText(Key.SplashScreen_StartupProcedure);
 			splashScreen.InvokeShow();
 		}
 
-		private void HandleCommandLineArguments()
+		private void LogAndShowException(Exception e)
 		{
-			// TODO
+			logger.Error($"Failed to initialize application!", e);
+			messageBox.Show(text.Get(Key.MessageBox_StartupError), text.Get(Key.MessageBox_StartupErrorTitle), icon: MessageBoxIcon.Error);
+			logger.Info("Reverting operations...");
 		}
 
-		private void DetectOperatingSystem()
+		private void FinishInitialization(bool success = true)
 		{
-			// TODO
-		}
-
-		private void EstablishWcfServiceConnection()
-		{
-			// TODO
-		}
-
-		private void DeactivateWindowsFeatures()
-		{
-			// TODO
-		}
-
-		private void InitializeProcessMonitoring()
-		{
-			logger.Info("--- Initializing process monitoring ---");
-			splashScreen.UpdateText(Key.SplashScreen_InitializeProcessMonitoring);
-
-			// TODO
-
-			processMonitor.StartMonitoringExplorer();
-		}
-
-		private void InitializeWorkingArea()
-		{
-			logger.Info("--- Initializing working area ---");
-			splashScreen.UpdateText(Key.SplashScreen_WaitExplorerTermination, true);
-			processMonitor.CloseExplorerShell();
-
-			// TODO
-			// - Minimizing all open windows
-			// - Emptying clipboard
-
-			splashScreen.UpdateText(Key.SplashScreen_InitializeWorkingArea);
-			workingArea.InitializeFor(taskbar);
-		}
-
-		private void InitializeTaskbar()
-		{
-			logger.Info("--- Initializing taskbar ---");
-			splashScreen.UpdateText(Key.SplashScreen_InitializeTaskbar);
-
-			// TODO
-
-			var aboutNotification = uiFactory.CreateNotification(aboutInfo);
-
-			taskbar.AddNotification(aboutNotification);
-		}
-
-		private void InitializeBrowser()
-		{
-			logger.Info("--- Initializing browser ---");
-			splashScreen.UpdateText(Key.SplashScreen_InitializeBrowser);
-
-			// TODO
-
-			var browserButton = uiFactory.CreateApplicationButton(browserInfo);
-
-			browserController.RegisterApplicationButton(browserButton);
-			taskbar.AddButton(browserButton);
-		}
-
-		private void FinishInitialization()
-		{
-			logger.Info("--- Application successfully initialized! ---");
-			splashScreen.InvokeClose();
+			if (success)
+			{
+				logger.Info("--- Application successfully initialized! ---");
+				splashScreen.InvokeClose();
+			}
+			else
+			{
+				logger.Log($"{Environment.NewLine}# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+			}
 		}
 	}
 }

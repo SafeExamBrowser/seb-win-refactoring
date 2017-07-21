@@ -30,16 +30,6 @@ namespace SafeExamBrowser.Core.Behaviour
 		private IUiElementFactory uiFactory;
 		private IWorkingArea workingArea;
 
-		private IEnumerable<Action> ShutdownOperations
-		{
-			get
-			{
-				yield return StopProcessMonitoring;
-				yield return RestoreWorkingArea;
-				yield return FinalizeApplicationLog;
-			}
-		}
-
 		public ShutdownController(
 			ILogger logger,
 			IMessageBox messageBox,
@@ -58,64 +48,62 @@ namespace SafeExamBrowser.Core.Behaviour
 			this.workingArea = workingArea;
 		}
 
-		public void FinalizeApplication()
+		public void FinalizeApplication(Stack<IOperation> operations)
 		{
 			try
 			{
 				InitializeSplashScreen();
-
-				foreach (var operation in ShutdownOperations)
-				{
-					operation();
-					splashScreen.UpdateProgress();
-
-					// TODO: Remove!
-					Thread.Sleep(250);
-				}
+				RevertOperations(operations);
+				FinalizeApplicationLog();
 			}
 			catch (Exception e)
 			{
-				logger.Error($"Failed to finalize application!", e);
-				messageBox.Show(text.Get(Key.MessageBox_ShutdownError), text.Get(Key.MessageBox_ShutdownErrorTitle), icon: MessageBoxIcon.Error);
+				LogAndShowException(e);
+				FinalizeApplicationLog(false);
+			}
+		}
+
+		private void RevertOperations(Stack<IOperation> operations)
+		{
+			while (operations.Any())
+			{
+				var operation = operations.Pop();
+
+				operation.SplashScreen = splashScreen;
+				operation.Revert();
+
+				splashScreen.Progress();
+
+				// TODO: Remove!
+				Thread.Sleep(250);
 			}
 		}
 
 		private void InitializeSplashScreen()
 		{
 			splashScreen = uiFactory.CreateSplashScreen(settings, text);
-			splashScreen.SetMaxProgress(ShutdownOperations.Count());
+			splashScreen.SetIndeterminate();
 			splashScreen.UpdateText(Key.SplashScreen_ShutdownProcedure);
 			splashScreen.InvokeShow();
 			logger.Info("--- Initiating shutdown procedure ---");
 		}
 
-		private void StopProcessMonitoring()
+		private void LogAndShowException(Exception e)
 		{
-			logger.Info("--- Stopping process monitoring ---");
-			splashScreen.UpdateText(Key.SplashScreen_StopProcessMonitoring);
-
-			// TODO
-
-			processMonitor.StopMonitoringExplorer();
+			logger.Error($"Failed to finalize application!", e);
+			messageBox.Show(text.Get(Key.MessageBox_ShutdownError), text.Get(Key.MessageBox_ShutdownErrorTitle), icon: MessageBoxIcon.Error);
 		}
 
-		private void RestoreWorkingArea()
+		private void FinalizeApplicationLog(bool success = true)
 		{
-			logger.Info("--- Restoring working area ---");
-			splashScreen.UpdateText(Key.SplashScreen_RestoreWorkingArea);
-
-			// TODO
-
-			workingArea.Reset();
-
-			splashScreen.UpdateText(Key.SplashScreen_WaitExplorerStartup, true);
-			processMonitor.StartExplorerShell();
-		}
-
-		private void FinalizeApplicationLog()
-		{
-			logger.Info("--- Application successfully finalized! ---");
-			logger.Log($"{Environment.NewLine}# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+			if (success)
+			{
+				logger.Info("--- Application successfully finalized! ---");
+			}
+			else
+			{
+				logger.Log($"{Environment.NewLine}# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+			}
 		}
 	}
 }

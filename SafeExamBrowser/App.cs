@@ -7,8 +7,10 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Windows;
+using SafeExamBrowser.Contracts.Behaviour;
 
 namespace SafeExamBrowser
 {
@@ -57,12 +59,12 @@ namespace SafeExamBrowser
 
 			instances.BuildObjectGraph();
 
-			var success = instances.StartupController.TryInitializeApplication();
+			var success = instances.StartupController.TryInitializeApplication(out Stack<IOperation> operations);
 
 			if (success)
 			{
 				MainWindow = instances.Taskbar;
-				MainWindow.Closing += (o, args) => ShutdownApplication();
+				MainWindow.Closing += (o, args) => ShutdownApplication(operations);
 				MainWindow.Show();
 			}
 			else
@@ -71,10 +73,10 @@ namespace SafeExamBrowser
 			}
 		}
 
-		private void ShutdownApplication()
+		private void ShutdownApplication(Stack<IOperation> operations)
 		{
 			MainWindow.Hide();
-			instances.ShutdownController.FinalizeApplication();
+			instances.ShutdownController.FinalizeApplication(operations);
 		}
 	}
 }

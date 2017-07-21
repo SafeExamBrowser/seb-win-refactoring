@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviour\Operations\BrowserInitializationOperation.cs" />
+    <Compile Include="Behaviour\Operations\ProcessMonitoringOperation.cs" />
+    <Compile Include="Behaviour\Operations\TaskbarInitializationOperation.cs" />
+    <Compile Include="Behaviour\Operations\WorkingAreaOperation.cs" />
     <Compile Include="Behaviour\ShutdownController.cs" />
     <Compile Include="Behaviour\StartupController.cs" />
     <Compile Include="Logging\LogFileWriter.cs" />
