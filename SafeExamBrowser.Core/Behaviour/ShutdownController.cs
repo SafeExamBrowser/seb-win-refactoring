@@ -13,7 +13,6 @@ using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour
@@ -21,30 +20,17 @@ namespace SafeExamBrowser.Core.Behaviour
 	public class ShutdownController : IShutdownController
 	{
 		private ILogger logger;
-		private IMessageBox messageBox;
-		private IProcessMonitor processMonitor;
 		private ISettings settings;
 		private ISplashScreen splashScreen;
 		private IText text;
 		private IUiElementFactory uiFactory;
-		private IWorkingArea workingArea;
 
-		public ShutdownController(
-			ILogger logger,
-			IMessageBox messageBox,
-			IProcessMonitor processMonitor,
-			ISettings settings,
-			IText text,
-			IUiElementFactory uiFactory,
-			IWorkingArea workingArea)
+		public ShutdownController(ILogger logger, ISettings settings, IText text, IUiElementFactory uiFactory)
 		{
 			this.logger = logger;
-			this.messageBox = messageBox;
-			this.processMonitor = processMonitor;
 			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;
-			this.workingArea = workingArea;
 		}
 
 		public void FinalizeApplication(Queue<IOperation> operations)
@@ -86,7 +72,7 @@ namespace SafeExamBrowser.Core.Behaviour
 		private void LogAndShowException(Exception e)
 		{
 			logger.Error($"Failed to finalize application!", e);
-			messageBox.Show(text.Get(Key.MessageBox_ShutdownError), text.Get(Key.MessageBox_ShutdownErrorTitle), icon: MessageBoxIcon.Error);
+			uiFactory.Show(text.Get(Key.MessageBox_ShutdownError), text.Get(Key.MessageBox_ShutdownErrorTitle), icon: MessageBoxIcon.Error);
 		}
 
 		private void FinalizeApplicationLog(bool success = true)
@@ -95,10 +81,8 @@ namespace SafeExamBrowser.Core.Behaviour
 			{
 				logger.Info("--- Application successfully finalized! ---");
 			}
-			else
-			{
-				logger.Log($"{Environment.NewLine}# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
-			}
+
+			logger.Log($"{Environment.NewLine}# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 		}
 	}
 }

@@ -11,7 +11,7 @@ using SafeExamBrowser.Contracts.I18n;
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
-	public interface IUiElementFactory
+	public interface IUiElementFactory : IMessageBox
 	{
 		/// <summary>
 		/// Creates a taskbar button, initialized with the given application information.
@@ -19,13 +19,13 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		ITaskbarButton CreateApplicationButton(IApplicationInfo info);
 
 		/// <summary>
-		/// Creates a new splash screen which runs on its own thread.
-		/// </summary>
-		ISplashScreen CreateSplashScreen(ISettings settings, IText text);
-
-		/// <summary>
 		/// Creates a taskbar notification, initialized with the given notification information.
 		/// </summary>
 		ITaskbarNotification CreateNotification(INotificationInfo info);
+
+		/// <summary>
+		/// Creates a new splash screen which runs on its own thread.
+		/// </summary>
+		ISplashScreen CreateSplashScreen(ISettings settings, IText text);
 	}
 }

@@ -23,11 +23,13 @@ namespace SafeExamBrowser.Contracts.I18n
 		SplashScreen_InitializeBrowser,
 		SplashScreen_InitializeProcessMonitoring,
 		SplashScreen_InitializeTaskbar,
+		SplashScreen_InitializeWindowMonitoring,
 		SplashScreen_InitializeWorkingArea,
 		SplashScreen_RestoreWorkingArea,
 		SplashScreen_ShutdownProcedure,
 		SplashScreen_StartupProcedure,
 		SplashScreen_StopProcessMonitoring,
+		SplashScreen_StopWindowMonitoring,
 		SplashScreen_WaitExplorerStartup,
 		SplashScreen_WaitExplorerTermination,
 		Version

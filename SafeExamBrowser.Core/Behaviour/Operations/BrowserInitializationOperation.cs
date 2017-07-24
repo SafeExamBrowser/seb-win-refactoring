@@ -40,7 +40,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 		public void Perform()
 		{
-			logger.Info("--- Initializing browser ---");
+			logger.Info("Initializing browser...");
 			SplashScreen.UpdateText(Key.SplashScreen_InitializeBrowser);
 
 			var browserButton = uiFactory.CreateApplicationButton(browserInfo);

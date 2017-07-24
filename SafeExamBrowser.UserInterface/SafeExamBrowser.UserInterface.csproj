@@ -85,7 +85,6 @@
     <Compile Include="Utilities\IconResourceLoader.cs" />
     <Compile Include="ViewModels\DateTimeViewModel.cs" />
     <Compile Include="ViewModels\SplashScreenViewModel.cs" />
-    <Compile Include="WpfMessageBox.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

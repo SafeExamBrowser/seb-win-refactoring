@@ -14,52 +14,26 @@ using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour
 {
 	public class StartupController : IStartupController
 	{
-		private IApplicationController browserController;
-		private IApplicationInfo browserInfo;
 		private ILogger logger;
-		private IMessageBox messageBox;
-		private INotificationInfo aboutInfo;
-		private IProcessMonitor processMonitor;
 		private ISettings settings;
 		private ISplashScreen splashScreen;
-		private ITaskbar taskbar;
 		private IText text;
 		private IUiElementFactory uiFactory;
-		private IWorkingArea workingArea;
 
 		private Stack<IOperation> stack = new Stack<IOperation>();
 
-		public StartupController(
-			IApplicationController browserController,
-			IApplicationInfo browserInfo,
-			ILogger logger,
-			IMessageBox messageBox,
-			INotificationInfo aboutInfo,
-			IProcessMonitor processMonitor,
-			ISettings settings,
-			ITaskbar taskbar,
-			IText text,
-			IUiElementFactory uiFactory,
-			IWorkingArea workingArea)
+		public StartupController(ILogger logger, ISettings settings, IText text, IUiElementFactory uiFactory)
 		{
-			this.browserController = browserController;
-			this.browserInfo = browserInfo;
 			this.logger = logger;
-			this.messageBox = messageBox;
-			this.aboutInfo = aboutInfo;
-			this.processMonitor = processMonitor;
 			this.settings = settings;
-			this.taskbar = taskbar;
 			this.text = text;
 			this.uiFactory = uiFactory;
-			this.workingArea = workingArea;
 		}
 
 		public bool TryInitializeApplication(Queue<IOperation> operations)
@@ -138,7 +112,7 @@ namespace SafeExamBrowser.Core.Behaviour
 		private void LogAndShowException(Exception e)
 		{
 			logger.Error($"Failed to initialize application!", e);
-			messageBox.Show(text.Get(Key.MessageBox_StartupError), text.Get(Key.MessageBox_StartupErrorTitle), icon: MessageBoxIcon.Error);
+			uiFactory.Show(text.Get(Key.MessageBox_StartupError), text.Get(Key.MessageBox_StartupErrorTitle), icon: MessageBoxIcon.Error);
 			logger.Info("Reverting operations...");
 		}
 

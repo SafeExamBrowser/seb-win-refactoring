@@ -7,43 +7,42 @@
  */
 
 using SafeExamBrowser.Contracts.Behaviour;
-using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
-	public class TaskbarInitializationOperation : IOperation
+	public class WindowMonitoringOperation : IOperation
 	{
 		private ILogger logger;
-		private ITaskbar taskbar;
-		private IUiElementFactory uiFactory;
-		private INotificationInfo aboutInfo;
+		private IWindowMonitor windowMonitor;
 
 		public ISplashScreen SplashScreen { private get; set; }
 
-		public TaskbarInitializationOperation(ILogger logger, INotificationInfo aboutInfo, ITaskbar taskbar, IUiElementFactory uiFactory)
+		public WindowMonitoringOperation(ILogger logger, IWindowMonitor windowMonitor)
 		{
 			this.logger = logger;
-			this.aboutInfo = aboutInfo;
-			this.taskbar = taskbar;
-			this.uiFactory = uiFactory;
+			this.windowMonitor = windowMonitor;
 		}
 
 		public void Perform()
 		{
-			logger.Info("Initializing taskbar...");
-			SplashScreen.UpdateText(Key.SplashScreen_InitializeTaskbar);
+			logger.Info("Initializing window monitoring...");
+			SplashScreen.UpdateText(Key.SplashScreen_InitializeWindowMonitoring);
 
-			var aboutNotification = uiFactory.CreateNotification(aboutInfo);
-
-			taskbar.AddNotification(aboutNotification);
+			windowMonitor.HideAllWindows();
+			windowMonitor.StartMonitoringWindows();
 		}
 
 		public void Revert()
 		{
-			// Nothing to do here so far...
+			logger.Info("Stopping window monitoring...");
+			SplashScreen.UpdateText(Key.SplashScreen_StopWindowMonitoring);
+
+			windowMonitor.StopMonitoringWindows();
+			windowMonitor.RestoreHiddenWindows();
 		}
 	}
 }

@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="SplashScreen" Height="200" Width="350" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen" Cursor="Wait" Icon="./Images/SafeExamBrowser.ico">
+        Title="SplashScreen" Height="200" Width="350" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen"
+        Cursor="Wait" Icon="./Images/SafeExamBrowser.ico" ResizeMode="NoResize" Topmost="True">
     <Window.Background>
         <SolidColorBrush Color="Black" Opacity="0.8" />
     </Window.Background>
-    <Border BorderBrush="CadetBlue" BorderThickness="1">
+    <Border BorderBrush="DodgerBlue" BorderThickness="1">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />

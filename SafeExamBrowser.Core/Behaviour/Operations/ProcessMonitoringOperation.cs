@@ -29,7 +29,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 		public void Perform()
 		{
-			logger.Info("--- Initializing process monitoring ---");
+			logger.Info("Initializing process monitoring...");
 			SplashScreen.UpdateText(Key.SplashScreen_WaitExplorerTermination, true);
 
 			processMonitor.CloseExplorerShell();
@@ -42,7 +42,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 		public void Revert()
 		{
-			logger.Info("--- Stopping process monitoring ---");
+			logger.Info("Stopping process monitoring...");
 			SplashScreen.UpdateText(Key.SplashScreen_StopProcessMonitoring);
 
 			// TODO

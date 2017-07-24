@@ -7,8 +7,10 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Text;
 using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Types;
 
@@ -19,6 +21,30 @@ namespace SafeExamBrowser.WindowsApi
 	/// </summary>
 	public static class User32
 	{
+		/// <summary>
+		/// Retrieves a collection of handles to all currently open (i.e. visible) windows.
+		/// </summary>
+		public static IEnumerable<IntPtr> GetOpenWindows()
+		{
+			var windows = new List<IntPtr>();
+			var success = EnumWindows(delegate (IntPtr hWnd, IntPtr lParam)
+			{
+				if (hWnd != GetShellWindowHandle() && IsWindowVisible(hWnd) && GetWindowTextLength(hWnd) > 0)
+				{
+					windows.Add(hWnd);
+				}
+
+				return true;
+			}, IntPtr.Zero);
+
+			if (!success)
+			{
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
+
+			return windows;
+		}
+
 		/// <summary>
 		/// Retrieves a window handle to the Windows taskbar. Returns <c>IntPtr.Zero</c>
 		/// if the taskbar could not be found (i.e. if it isn't running).
@@ -32,13 +58,32 @@ namespace SafeExamBrowser.WindowsApi
 		/// Retrieves the process ID of the main Windows explorer instance controlling
 		/// desktop and taskbar or <c>0</c>, if the process isn't running.
 		/// </summary>
-		/// <returns></returns>
 		public static uint GetShellProcessId()
 		{
 			var handle = GetShellWindowHandle();
 			var threadId = GetWindowThreadProcessId(handle, out uint processId);
 
 			return processId;
+		}
+
+		/// <summary>
+		/// Retrieves the title of the specified window, or an empty string, if the
+		/// given window does not have a title.
+		/// </summary>
+		public static string GetWindowTitle(IntPtr window)
+		{
+			var length = GetWindowTextLength(window);
+
+			if (length > 0)
+			{
+				var builder = new StringBuilder(length);
+
+				GetWindowText(window, builder, length + 1);
+
+				return builder.ToString();
+			}
+
+			return string.Empty;
 		}
 
 		/// <summary>
@@ -92,6 +137,14 @@ namespace SafeExamBrowser.WindowsApi
 		}
 
 		/// <summary>
+		/// Restores the specified window to its original size and position.
+		/// </summary>
+		public static void RestoreWindow(IntPtr window)
+		{
+			ShowWindow(window, (int) ShowWindowCommand.Restore);
+		}
+
+		/// <summary>
 		/// Sets the working area of the primary screen according to the given dimensions.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">
@@ -107,21 +160,40 @@ namespace SafeExamBrowser.WindowsApi
 			}
 		}
 
+		private delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		private static extern bool EnumWindows(EnumWindowsProc enumProc, IntPtr lParam);
+
 		[DllImport("user32.dll", SetLastError = true)]
 		private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		private static extern int GetWindowText(IntPtr hWnd, StringBuilder strText, int maxCount);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		private static extern int GetWindowTextLength(IntPtr hWnd);
 
 		[DllImport("user32.dll", SetLastError = true)]
 		private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
 		[DllImport("user32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		private static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
-
-		[DllImport("user32.dll", EntryPoint = "SendMessage")]
-		private static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+		private static extern bool IsWindowVisible(IntPtr hWnd);
 
 		[DllImport("user32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		static extern bool SystemParametersInfo(SPI uiAction, uint uiParam, ref RECT pvParam, SPIF fWinIni);
+		private static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+
+		[DllImport("user32.dll", SetLastError = true, EntryPoint = "SendMessage")]
+		private static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		private static extern bool SystemParametersInfo(SPI uiAction, uint uiParam, ref RECT pvParam, SPIF fWinIni);
 	}
 }

@@ -11,6 +11,10 @@ namespace SafeExamBrowser.WindowsApi.Constants
 	static class Constant
 	{
 		internal const int WM_COMMAND = 0x111;
+
+		/// <summary>
+		/// Minimize all open windows.
+		/// </summary>
 		internal const int MIN_ALL = 419;
 	}
 }

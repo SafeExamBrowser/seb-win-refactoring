@@ -30,7 +30,6 @@ namespace SafeExamBrowser
 		private IApplicationController browserController;
 		private IApplicationInfo browserInfo;
 		private ILogger logger;
-		private IMessageBox messageBox;
 		private INotificationInfo aboutInfo;
 		private IProcessMonitor processMonitor;
 		private ISettings settings;
@@ -50,7 +49,6 @@ namespace SafeExamBrowser
 			browserController = new BrowserApplicationController();
 			browserInfo = new BrowserApplicationInfo();
 			logger = new Logger();
-			messageBox = new WpfMessageBox();
 			settings = new Settings();
 			Taskbar = new Taskbar();
 			textResource = new XmlTextResource();
@@ -63,10 +61,11 @@ namespace SafeExamBrowser
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)));
 			windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)));
 			workingArea = new WorkingArea(new ModuleLogger(logger, typeof(WorkingArea)));
-			ShutdownController = new ShutdownController(logger, messageBox, processMonitor, settings, text, uiFactory, workingArea);
-			StartupController = new StartupController(browserController, browserInfo, logger, messageBox, aboutInfo, processMonitor, settings, Taskbar, text, uiFactory, workingArea);
+			ShutdownController = new ShutdownController(logger, settings, text, uiFactory);
+			StartupController = new StartupController(logger, settings, text, uiFactory);
 
 			StartupOperations = new Queue<IOperation>();
+			StartupOperations.Enqueue(new WindowMonitoringOperation(logger, windowMonitor));
 			StartupOperations.Enqueue(new ProcessMonitoringOperation(logger, processMonitor));
 			StartupOperations.Enqueue(new WorkingAreaOperation(logger, Taskbar, workingArea));
 			StartupOperations.Enqueue(new TaskbarInitializationOperation(logger, aboutInfo, Taskbar, uiFactory));

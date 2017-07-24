@@ -31,7 +31,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 		public void Perform()
 		{
-			logger.Info("--- Initializing working area ---");
+			logger.Info("Initializing working area...");
 			SplashScreen.UpdateText(Key.SplashScreen_InitializeWorkingArea);
 
 			// TODO
@@ -42,7 +42,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 		public void Revert()
 		{
-			logger.Info("--- Restoring working area ---");
+			logger.Info("Restoring working area...");
 			SplashScreen.UpdateText(Key.SplashScreen_RestoreWorkingArea);
 
 			// TODO

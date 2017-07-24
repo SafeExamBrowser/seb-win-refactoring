@@ -7,6 +7,7 @@
  */
 
 using System.Threading;
+using System.Windows;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -19,6 +20,16 @@ namespace SafeExamBrowser.UserInterface
 		public ITaskbarButton CreateApplicationButton(IApplicationInfo info)
 		{
 			return new ApplicationButton(info);
+		}
+
+		public void Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information)
+		{
+			MessageBox.Show(message, title, ToButton(action), ToImage(icon));
+		}
+
+		public ITaskbarNotification CreateNotification(INotificationInfo info)
+		{
+			return new NotificationIcon(info);
 		}
 
 		public ISplashScreen CreateSplashScreen(ISettings settings, IText text)
@@ -46,9 +57,26 @@ namespace SafeExamBrowser.UserInterface
 			return splashScreen;
 		}
 
-		public ITaskbarNotification CreateNotification(INotificationInfo info)
+		private MessageBoxButton ToButton(MessageBoxAction action)
 		{
-			return new NotificationIcon(info);
+			switch (action)
+			{
+				default:
+					return MessageBoxButton.OK;
+			}
+		}
+
+		private MessageBoxImage ToImage(MessageBoxIcon icon)
+		{
+			switch (icon)
+			{
+				case MessageBoxIcon.Warning:
+					return MessageBoxImage.Warning;
+				case MessageBoxIcon.Error:
+					return MessageBoxImage.Error;
+				default:
+					return MessageBoxImage.Information;
+			}
 		}
 	}
 }
