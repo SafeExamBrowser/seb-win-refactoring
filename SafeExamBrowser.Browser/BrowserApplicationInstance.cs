@@ -8,6 +8,7 @@
 
 using System;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Browser
 {
@@ -15,11 +16,17 @@ namespace SafeExamBrowser.Browser
 	{
 		public Guid Id { get; private set; }
 		public string Name { get; private set; }
+		public IWindow Window { get; private set; }
 
 		public BrowserApplicationInstance(string name)
 		{
 			Id = Guid.NewGuid();
 			Name = name;
+		}
+
+		public void RegisterWindow(IWindow window)
+		{
+			Window = window;
 		}
 	}
 }

@@ -7,7 +7,11 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using CefSharp;
 using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Browser
@@ -15,6 +19,25 @@ namespace SafeExamBrowser.Browser
 	public class BrowserApplicationController : IApplicationController
 	{
 		private ITaskbarButton button;
+		private IList<IApplicationInstance> instances = new List<IApplicationInstance>();
+		private ISettings settings;
+		private IUiElementFactory uiFactory;
+
+		public BrowserApplicationController(ISettings settings, IUiElementFactory uiFactory)
+		{
+			this.settings = settings;
+			this.uiFactory = uiFactory;
+		}
+
+		public void Initialize()
+		{
+			var cefSettings = new CefSettings
+			{
+				CachePath = settings.BrowserCachePath
+			};
+
+			Cef.Initialize(cefSettings, true, null);
+		}
 
 		public void RegisterApplicationButton(ITaskbarButton button)
 		{
@@ -22,9 +45,32 @@ namespace SafeExamBrowser.Browser
 			this.button.OnClick += ButtonClick;
 		}
 
+		public void Terminate()
+		{
+			Cef.Shutdown();
+		}
+
 		private void ButtonClick(Guid? instanceId = null)
 		{
-			button.RegisterInstance(new BrowserApplicationInstance("A new instance. Yaji..."));
+			if (instanceId.HasValue)
+			{
+				instances.FirstOrDefault(i => i.Id == instanceId)?.Window?.BringToForeground();
+			}
+			else
+			{
+				CreateNewInstance();
+			}
+		}
+
+		private void CreateNewInstance()
+		{
+			var control = new BrowserControl("www.duckduckgo.com");
+			var window = uiFactory.CreateBrowserWindow(control);
+			var instance = new BrowserApplicationInstance("DuckDuckGo");
+
+			instances.Add(instance);
+			instance.RegisterWindow(window);
+			button.RegisterInstance(instance);
 		}
 	}
 }

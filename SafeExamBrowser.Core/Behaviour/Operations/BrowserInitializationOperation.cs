@@ -45,13 +45,17 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 			var browserButton = uiFactory.CreateApplicationButton(browserInfo);
 
+			browserController.Initialize();
 			browserController.RegisterApplicationButton(browserButton);
+
 			taskbar.AddButton(browserButton);
 		}
 
 		public void Revert()
 		{
-			// Nothing to do here so far...
+			logger.Info("Terminating browser...");
+			browserController.Terminate();
+			logger.Info("Browser successfully terminated.");
 		}
 	}
 }

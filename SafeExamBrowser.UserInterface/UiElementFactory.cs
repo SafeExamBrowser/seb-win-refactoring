@@ -22,9 +22,9 @@ namespace SafeExamBrowser.UserInterface
 			return new ApplicationButton(info);
 		}
 
-		public void Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information)
+		public IBrowserWindow CreateBrowserWindow(IBrowserControl control)
 		{
-			MessageBox.Show(message, title, ToButton(action), ToImage(icon));
+			return new BrowserWindow(control);
 		}
 
 		public ITaskbarNotification CreateNotification(INotificationInfo info)
@@ -55,6 +55,11 @@ namespace SafeExamBrowser.UserInterface
 			splashReadyEvent.WaitOne();
 
 			return splashScreen;
+		}
+
+		public void Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information)
+		{
+			MessageBox.Show(message, title, ToButton(action), ToImage(icon));
 		}
 
 		private MessageBoxButton ToButton(MessageBoxAction action)

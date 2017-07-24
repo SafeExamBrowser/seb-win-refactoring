@@ -46,7 +46,6 @@ namespace SafeExamBrowser
 
 		public void BuildObjectGraph()
 		{
-			browserController = new BrowserApplicationController();
 			browserInfo = new BrowserApplicationInfo();
 			logger = new Logger();
 			settings = new Settings();
@@ -58,6 +57,7 @@ namespace SafeExamBrowser
 
 			text = new Text(textResource);
 			aboutInfo = new AboutNotificationInfo(text);
+			browserController = new BrowserApplicationController(settings, uiFactory);
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)));
 			windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)));
 			workingArea = new WorkingArea(new ModuleLogger(logger, typeof(WorkingArea)));

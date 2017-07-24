@@ -35,7 +35,7 @@ namespace SafeExamBrowser.UserInterface.Controls
 		{
 			Icon.Content = IconResourceLoader.Load(info.IconResource);
 			Text.Text = instance.Name;
-			Button.ToolTip = $"{instance.Name} - {info.Tooltip}";
+			Button.ToolTip = $"{instance.Name} - {info.Name}";
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)

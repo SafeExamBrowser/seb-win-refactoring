@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
@@ -21,5 +22,15 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// The name or (document) title of the application instance.
 		/// </summary>
 		string Name { get; }
+
+		/// <summary>
+		/// The main window of the application instance.
+		/// </summary>
+		IWindow Window { get; }
+
+		/// <summary>
+		/// Registers the given window as the main window of the application instance.
+		/// </summary>
+		void RegisterWindow(IWindow window);
 	}
 }

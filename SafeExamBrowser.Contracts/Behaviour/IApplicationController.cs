@@ -13,8 +13,18 @@ namespace SafeExamBrowser.Contracts.Behaviour
 	public interface IApplicationController
 	{
 		/// <summary>
+		/// Performs any initialization work, if necessary.
+		/// </summary>
+		void Initialize();
+
+		/// <summary>
 		/// Registers the taskbar button for this application.
 		/// </summary>
 		void RegisterApplicationButton(ITaskbarButton button);
+
+		/// <summary>
+		/// Performs any termination work, e.g. freeing of resources.
+		/// </summary>
+		void Terminate();
 	}
 }

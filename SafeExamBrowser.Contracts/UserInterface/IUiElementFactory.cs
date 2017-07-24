@@ -19,6 +19,11 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		ITaskbarButton CreateApplicationButton(IApplicationInfo info);
 
 		/// <summary>
+		/// Creates a new browser window loaded with the given browser control.
+		/// </summary>
+		IBrowserWindow CreateBrowserWindow(IBrowserControl control);
+
+		/// <summary>
 		/// Creates a taskbar notification, initialized with the given notification information.
 		/// </summary>
 		ITaskbarNotification CreateNotification(INotificationInfo info);

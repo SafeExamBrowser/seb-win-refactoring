@@ -15,11 +15,21 @@ namespace SafeExamBrowser.Configuration
 {
 	public class Settings : ISettings
 	{
+		private const string AppDataFolder = "SafeExamBrowser";
+
+		public string BrowserCachePath
+		{
+			get
+			{
+				return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDataFolder, "Cache");
+			}
+		}
+
 		public string LogFolderPath
 		{
 			get
 			{
-				return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SafeExamBrowser", "Logs");
+				return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDataFolder, "Logs");
 			}
 		}
 
