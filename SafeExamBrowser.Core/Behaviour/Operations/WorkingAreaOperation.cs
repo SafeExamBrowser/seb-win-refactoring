@@ -10,7 +10,6 @@ using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
@@ -18,16 +17,14 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 	public class WorkingAreaOperation : IOperation
 	{
 		private ILogger logger;
-		private IProcessMonitor processMonitor;
 		private ITaskbar taskbar;
 		private IWorkingArea workingArea;
 
 		public ISplashScreen SplashScreen { private get; set; }
 
-		public WorkingAreaOperation(ILogger logger, IProcessMonitor processMonitor, ITaskbar taskbar, IWorkingArea workingArea)
+		public WorkingAreaOperation(ILogger logger, ITaskbar taskbar, IWorkingArea workingArea)
 		{
 			this.logger = logger;
-			this.processMonitor = processMonitor;
 			this.taskbar = taskbar;
 			this.workingArea = workingArea;
 		}
@@ -35,16 +32,11 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("--- Initializing working area ---");
-			SplashScreen.UpdateText(Key.SplashScreen_WaitExplorerTermination, true);
-
-			processMonitor.CloseExplorerShell();
-			processMonitor.StartMonitoringExplorer();
+			SplashScreen.UpdateText(Key.SplashScreen_InitializeWorkingArea);
 
 			// TODO
-			// - Minimizing all open windows
 			// - Emptying clipboard
 
-			SplashScreen.UpdateText(Key.SplashScreen_InitializeWorkingArea);
 			workingArea.InitializeFor(taskbar);
 		}
 
@@ -54,15 +46,9 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			SplashScreen.UpdateText(Key.SplashScreen_RestoreWorkingArea);
 
 			// TODO
-			// - Restore all windows?
 			// - Emptying clipboard
 
 			workingArea.Reset();
-
-			SplashScreen.UpdateText(Key.SplashScreen_WaitExplorerStartup, true);
-
-			processMonitor.StopMonitoringExplorer();
-			processMonitor.StartExplorerShell();
 		}
 	}
 }

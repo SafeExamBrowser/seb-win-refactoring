@@ -35,7 +35,7 @@ namespace SafeExamBrowser.WindowsApi
 		/// <returns></returns>
 		public static uint GetShellProcessId()
 		{
-			var handle = FindWindow("Shell_TrayWnd", null);
+			var handle = GetShellWindowHandle();
 			var threadId = GetWindowThreadProcessId(handle, out uint processId);
 
 			return processId;
@@ -61,6 +61,16 @@ namespace SafeExamBrowser.WindowsApi
 		}
 
 		/// <summary>
+		/// Minimizes all open windows.
+		/// </summary>
+		public static void MinimizeAllOpenWindows()
+		{
+			var handle = GetShellWindowHandle();
+
+			SendMessage(handle, Constant.WM_COMMAND, (IntPtr) Constant.MIN_ALL, IntPtr.Zero);
+		}
+
+		/// <summary>
 		/// Instructs the main Windows explorer process to shut down.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">
@@ -72,8 +82,8 @@ namespace SafeExamBrowser.WindowsApi
 		/// </remarks>
 		public static void PostCloseMessageToShell()
 		{
-			var taskbarHandle = FindWindow("Shell_TrayWnd", null);
-			var success = PostMessage(taskbarHandle, 0x5B4, IntPtr.Zero, IntPtr.Zero);
+			var handle = GetShellWindowHandle();
+			var success = PostMessage(handle, 0x5B4, IntPtr.Zero, IntPtr.Zero);
 
 			if (!success)
 			{
@@ -106,6 +116,9 @@ namespace SafeExamBrowser.WindowsApi
 		[DllImport("user32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		private static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+
+		[DllImport("user32.dll", EntryPoint = "SendMessage")]
+		private static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
 		[DllImport("user32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
