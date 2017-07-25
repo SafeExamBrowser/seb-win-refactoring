@@ -6,12 +6,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using CefSharp.Wpf;
+using System.Windows.Forms;
+using CefSharp.WinForms;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Browser
 {
 	class BrowserControl : ChromiumWebBrowser, IBrowserControl
 	{
+		public BrowserControl(string url) : base(url)
+		{
+			Dock = DockStyle.Fill;
+		}
 	}
 }

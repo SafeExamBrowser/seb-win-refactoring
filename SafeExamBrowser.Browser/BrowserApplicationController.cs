@@ -64,20 +64,20 @@ namespace SafeExamBrowser.Browser
 			else
 			{
 				CreateNewInstance();
+				CreateNewInstance();
+				CreateNewInstance();
 			}
 		}
 
 		private void CreateNewInstance()
 		{
-			var control = new BrowserControl();
+			var control = new BrowserControl("www.duckduckgo.com");
 			var window = uiFactory.CreateBrowserWindow(control);
 			var instance = new BrowserApplicationInstance("DuckDuckGo");
 
 			instances.Add(instance);
 			instance.RegisterWindow(window);
 			button.RegisterInstance(instance);
-
-			control.Address = "www.duckduckgo.com";
 
 			window.Display();
 		}

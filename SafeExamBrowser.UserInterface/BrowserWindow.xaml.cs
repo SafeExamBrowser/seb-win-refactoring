@@ -17,9 +17,9 @@ namespace SafeExamBrowser.UserInterface
 		{
 			InitializeComponent();
 
-			if (browserControl is UIElement)
+			if (browserControl is System.Windows.Forms.Control)
 			{
-				BrowserContainer.Content = browserControl;
+				BrowserControlHost.Child = browserControl as System.Windows.Forms.Control;
 			}
 		}
 

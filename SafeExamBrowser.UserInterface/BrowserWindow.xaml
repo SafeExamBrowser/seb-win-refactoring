@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface"
         mc:Ignorable="d"
         Title="BrowserWindow" Height="300" Width="300">
-    <ContentControl x:Name="BrowserContainer">
-        
-    </ContentControl>
+    <Grid>
+        <WindowsFormsHost x:Name="BrowserControlHost" />
+    </Grid>
 </Window>
