@@ -13,9 +13,5 @@ namespace SafeExamBrowser.Browser
 {
 	class BrowserControl : ChromiumWebBrowser, IBrowserControl
 	{
-		public BrowserControl(string url)
-		{
-			Address = url;
-		}
 	}
 }

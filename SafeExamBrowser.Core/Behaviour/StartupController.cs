@@ -121,7 +121,7 @@ namespace SafeExamBrowser.Core.Behaviour
 			if (success)
 			{
 				logger.Info("--- Application successfully initialized! ---");
-				splashScreen.InvokeClose();
+				splashScreen?.InvokeClose();
 			}
 			else
 			{

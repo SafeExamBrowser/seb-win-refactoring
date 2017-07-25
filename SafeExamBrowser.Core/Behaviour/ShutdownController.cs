@@ -39,12 +39,12 @@ namespace SafeExamBrowser.Core.Behaviour
 			{
 				InitializeSplashScreen();
 				RevertOperations(operations);
-				FinalizeApplicationLog();
+				FinishFinalization();
 			}
 			catch (Exception e)
 			{
 				LogAndShowException(e);
-				FinalizeApplicationLog(false);
+				FinishFinalization(false);
 			}
 		}
 
@@ -75,7 +75,7 @@ namespace SafeExamBrowser.Core.Behaviour
 			uiFactory.Show(text.Get(Key.MessageBox_ShutdownError), text.Get(Key.MessageBox_ShutdownErrorTitle), icon: MessageBoxIcon.Error);
 		}
 
-		private void FinalizeApplicationLog(bool success = true)
+		private void FinishFinalization(bool success = true)
 		{
 			if (success)
 			{
@@ -83,6 +83,7 @@ namespace SafeExamBrowser.Core.Behaviour
 			}
 
 			logger.Log($"{Environment.NewLine}# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+			splashScreen?.InvokeClose();
 		}
 	}
 }

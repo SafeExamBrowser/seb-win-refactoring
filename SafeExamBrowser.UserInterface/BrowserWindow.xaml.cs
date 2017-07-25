@@ -27,5 +27,10 @@ namespace SafeExamBrowser.UserInterface
 		{
 			Activate();
 		}
+
+		public void Display()
+		{
+			Show();
+		}
 	}
 }

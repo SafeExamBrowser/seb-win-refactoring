@@ -36,7 +36,12 @@ namespace SafeExamBrowser.Browser
 				CachePath = settings.BrowserCachePath
 			};
 
-			Cef.Initialize(cefSettings, true, null);
+			var success = Cef.Initialize(cefSettings, true, null);
+
+			if (!success)
+			{
+				throw new Exception("Failed to initialize the browser engine!");
+			}
 		}
 
 		public void RegisterApplicationButton(ITaskbarButton button)
@@ -64,13 +69,17 @@ namespace SafeExamBrowser.Browser
 
 		private void CreateNewInstance()
 		{
-			var control = new BrowserControl("www.duckduckgo.com");
+			var control = new BrowserControl();
 			var window = uiFactory.CreateBrowserWindow(control);
 			var instance = new BrowserApplicationInstance("DuckDuckGo");
 
 			instances.Add(instance);
 			instance.RegisterWindow(window);
 			button.RegisterInstance(instance);
+
+			control.Address = "www.duckduckgo.com";
+
+			window.Display();
 		}
 	}
 }
