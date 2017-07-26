@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 			Assert.IsTrue((log[0] as ILogMessage).Severity == LogLevel.Info);
 
 			Assert.IsTrue(warn.Equals((log[1] as ILogMessage).Message));
-			Assert.IsTrue((log[1] as ILogMessage).Severity == LogLevel.Warn);
+			Assert.IsTrue((log[1] as ILogMessage).Severity == LogLevel.Warning);
 
 			Assert.IsTrue(error.Equals((log[2] as ILogMessage).Message));
 			Assert.IsTrue((log[2] as ILogMessage).Severity == LogLevel.Error);
@@ -122,7 +122,7 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 			Assert.IsTrue((messages[0] as ILogMessage).Severity == LogLevel.Info);
 			Assert.IsTrue(message.Equals((messages[0] as ILogMessage).Message));
 
-			Assert.IsTrue((messages[1] as ILogMessage).Severity == LogLevel.Warn);
+			Assert.IsTrue((messages[1] as ILogMessage).Severity == LogLevel.Warning);
 			Assert.IsTrue(message.Equals((messages[1] as ILogMessage).Message));
 		}
 

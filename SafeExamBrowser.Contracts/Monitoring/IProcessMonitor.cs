@@ -8,8 +8,16 @@
 
 namespace SafeExamBrowser.Contracts.Monitoring
 {
+	public delegate void ExplorerStartedHandler();
+
 	public interface IProcessMonitor
 	{
+		/// <summary>
+		/// Event fired when the process monitor observes that a new instance of
+		/// the Windows explorer has been started.
+		/// </summary>
+		event ExplorerStartedHandler ExplorerStarted;
+
 		/// <summary>
 		/// Starts a new instance of the Windows explorer shell.
 		/// </summary>
@@ -17,7 +25,7 @@ namespace SafeExamBrowser.Contracts.Monitoring
 
 		/// <summary>
 		/// Starts monitoring the Windows explorer, i.e. any newly created instances of
-		/// <c>explorer.exe</c> will automatically be terminated.
+		/// <c>explorer.exe</c> will trigger the <c>ExplorerStarted</c> event.
 		/// </summary>
 		void StartMonitoringExplorer();
 

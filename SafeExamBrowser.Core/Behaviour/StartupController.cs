@@ -40,12 +40,9 @@ namespace SafeExamBrowser.Core.Behaviour
 		{
 			try
 			{
-				InitializeApplicationLog();
-				InitializeSplashScreen(operations.Count);
-
+				Initialize(operations.Count);
 				Perform(operations);
-
-				FinishInitialization();
+				Finish();
 
 				return true;
 			}
@@ -53,7 +50,7 @@ namespace SafeExamBrowser.Core.Behaviour
 			{
 				LogAndShowException(e);
 				RevertOperations();
-				FinishInitialization(false);
+				Finish(false);
 
 				return false;
 			}
@@ -89,7 +86,7 @@ namespace SafeExamBrowser.Core.Behaviour
 			}
 		}
 
-		private void InitializeApplicationLog()
+		private void Initialize(int operationCount)
 		{
 			var titleLine = $"/* {settings.ProgramTitle}, Version {settings.ProgramVersion}{Environment.NewLine}";
 			var copyrightLine = $"/* {settings.ProgramCopyright}{Environment.NewLine}";
@@ -99,10 +96,7 @@ namespace SafeExamBrowser.Core.Behaviour
 			logger.Log($"{titleLine}{copyrightLine}{emptyLine}{githubLine}");
 			logger.Log($"{Environment.NewLine}# Application started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}{Environment.NewLine}");
 			logger.Info("--- Initiating startup procedure ---");
-		}
 
-		private void InitializeSplashScreen(int operationCount)
-		{
 			splashScreen = uiFactory.CreateSplashScreen(settings, text);
 			splashScreen.SetMaxProgress(operationCount);
 			splashScreen.UpdateText(Key.SplashScreen_StartupProcedure);
@@ -116,11 +110,12 @@ namespace SafeExamBrowser.Core.Behaviour
 			logger.Info("Reverting operations...");
 		}
 
-		private void FinishInitialization(bool success = true)
+		private void Finish(bool success = true)
 		{
 			if (success)
 			{
 				logger.Info("--- Application successfully initialized! ---");
+				logger.Log(string.Empty);
 				splashScreen?.InvokeClose();
 			}
 			else

@@ -20,14 +20,7 @@ namespace SafeExamBrowser.UserInterface
 		{
 			InitializeComponent();
 
-			Loaded += Taskbar_Loaded;
-		}
-
-		private void Taskbar_Loaded(object sender, RoutedEventArgs e)
-		{
-			Width = SystemParameters.WorkArea.Right;
-			Left = SystemParameters.WorkArea.Right - Width;
-			Top = SystemParameters.WorkArea.Bottom;
+			Loaded += (o, args) => InitializeBounds();
 		}
 
 		public void AddButton(ITaskbarButton button)
@@ -52,22 +45,35 @@ namespace SafeExamBrowser.UserInterface
 			// to get the real height of the taskbar (in absolute, device-specific pixels).
 			// Source: https://stackoverflow.com/questions/3286175/how-do-i-convert-a-wpf-size-to-physical-pixels
 
-			Matrix transformToDevice;
-			var source = PresentationSource.FromVisual(this);
+			return Dispatcher.Invoke(() =>
+			{
+				Matrix transformToDevice;
+				var source = PresentationSource.FromVisual(this);
 
-			if (source != null)
-			{
-				transformToDevice = source.CompositionTarget.TransformToDevice;
-			}
-			else
-			{
-				using (var newSource = new HwndSource(new HwndSourceParameters()))
+				if (source != null)
 				{
-					transformToDevice = newSource.CompositionTarget.TransformToDevice;
+					transformToDevice = source.CompositionTarget.TransformToDevice;
 				}
-			}
+				else
+				{
+					using (var newSource = new HwndSource(new HwndSourceParameters()))
+					{
+						transformToDevice = newSource.CompositionTarget.TransformToDevice;
+					}
+				}
 
-			return (int) transformToDevice.Transform((Vector) new Size(Width, Height)).Y;
+				return (int)transformToDevice.Transform((Vector)new Size(Width, Height)).Y;
+			});
+		}
+
+		public void InitializeBounds()
+		{
+			Dispatcher.Invoke(() =>
+			{
+				Width = SystemParameters.WorkArea.Right;
+				Left = SystemParameters.WorkArea.Right - Width;
+				Top = SystemParameters.WorkArea.Bottom;
+			});
 		}
 
 		private void ApplicationScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

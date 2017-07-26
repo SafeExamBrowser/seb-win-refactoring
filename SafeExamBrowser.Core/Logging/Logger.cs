@@ -29,7 +29,7 @@ namespace SafeExamBrowser.Core.Logging
 
 		public void Warn(string message)
 		{
-			Add(LogLevel.Warn, message);
+			Add(LogLevel.Warning, message);
 		}
 
 		public void Error(string message)

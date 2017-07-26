@@ -14,7 +14,7 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
-	public class BrowserInitializationOperation : IOperation
+	public class BrowserOperation : IOperation
 	{
 		private IApplicationController browserController;
 		private IApplicationInfo browserInfo;
@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 		public ISplashScreen SplashScreen { private get; set; }
 
-		public BrowserInitializationOperation(
+		public BrowserOperation(
 			IApplicationController browserController,
 			IApplicationInfo browserInfo,
 			ILogger logger,
@@ -49,14 +49,14 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			browserController.RegisterApplicationButton(browserButton);
 
 			taskbar.AddButton(browserButton);
-			logger.Info("Browser successfully initialized.");
 		}
 
 		public void Revert()
 		{
 			logger.Info("Terminating browser...");
+			SplashScreen.UpdateText(Key.SplashScreen_TerminateBrowser);
+
 			browserController.Terminate();
-			logger.Info("Browser successfully terminated.");
 		}
 	}
 }

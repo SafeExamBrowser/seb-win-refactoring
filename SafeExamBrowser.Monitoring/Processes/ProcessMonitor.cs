@@ -10,6 +10,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Threading;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
@@ -20,6 +21,9 @@ namespace SafeExamBrowser.Monitoring.Processes
 	public class ProcessMonitor : IProcessMonitor
 	{
 		private ILogger logger;
+		private ManagementEventWatcher explorerWatcher;
+
+		public event ExplorerStartedHandler ExplorerStarted;
 
 		public ProcessMonitor(ILogger logger)
 		{
@@ -49,12 +53,14 @@ namespace SafeExamBrowser.Monitoring.Processes
 
 		public void StartMonitoringExplorer()
 		{
-			// TODO
+			explorerWatcher = new ManagementEventWatcher(@"\\.\root\CIMV2", GetQueryFor("explorer.exe"));
+			explorerWatcher.EventArrived += new EventArrivedEventHandler(ExplorerWatcher_EventArrived);
+			explorerWatcher.Start();
 		}
 
 		public void StopMonitoringExplorer()
 		{
-			// TODO
+			explorerWatcher?.Stop();
 		}
 
 		public void CloseExplorerShell()
@@ -80,6 +86,27 @@ namespace SafeExamBrowser.Monitoring.Processes
 			{
 				logger.Info("The explorer shell seems to already be terminated. Skipping this step...");
 			}
+		}
+
+		private void ExplorerWatcher_EventArrived(object sender, EventArrivedEventArgs e)
+		{
+			var eventName = e.NewEvent.ClassPath.ClassName;
+
+			if (eventName == "__InstanceCreationEvent")
+			{
+				logger.Warn("A new instance of Windows explorer has been started!");
+				ExplorerStarted?.Invoke();
+			}
+		}
+
+		private string GetQueryFor(string processName)
+		{
+			return $@"
+				SELECT *
+				FROM __InstanceOperationEvent
+				WITHIN 2
+				WHERE TargetInstance ISA 'Win32_Process'
+				AND TargetInstance.Name = '{processName}'";
 		}
 	}
 }

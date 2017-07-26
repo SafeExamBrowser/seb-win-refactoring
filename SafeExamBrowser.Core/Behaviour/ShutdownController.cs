@@ -37,18 +37,18 @@ namespace SafeExamBrowser.Core.Behaviour
 		{
 			try
 			{
-				InitializeSplashScreen();
-				RevertOperations(operations);
-				FinishFinalization();
+				Initialize();
+				Revert(operations);
+				Finish();
 			}
 			catch (Exception e)
 			{
 				LogAndShowException(e);
-				FinishFinalization(false);
+				Finish(false);
 			}
 		}
 
-		private void RevertOperations(Queue<IOperation> operations)
+		private void Revert(Queue<IOperation> operations)
 		{
 			foreach (var operation in operations)
 			{
@@ -60,13 +60,15 @@ namespace SafeExamBrowser.Core.Behaviour
 			}
 		}
 
-		private void InitializeSplashScreen()
+		private void Initialize()
 		{
+			logger.Log(string.Empty);
+			logger.Info("--- Initiating shutdown procedure ---");
+
 			splashScreen = uiFactory.CreateSplashScreen(settings, text);
 			splashScreen.SetIndeterminate();
 			splashScreen.UpdateText(Key.SplashScreen_ShutdownProcedure);
 			splashScreen.InvokeShow();
-			logger.Info("--- Initiating shutdown procedure ---");
 		}
 
 		private void LogAndShowException(Exception e)
@@ -75,7 +77,7 @@ namespace SafeExamBrowser.Core.Behaviour
 			uiFactory.Show(text.Get(Key.MessageBox_ShutdownError), text.Get(Key.MessageBox_ShutdownErrorTitle), icon: MessageBoxIcon.Error);
 		}
 
-		private void FinishFinalization(bool success = true)
+		private void Finish(bool success = true)
 		{
 			if (success)
 			{

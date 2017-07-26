@@ -6,15 +6,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Logging
+namespace SafeExamBrowser.Contracts.Behaviour
 {
-	/// <summary>
-	/// Defines the severity levels of the application log.
-	/// </summary>
-	public enum LogLevel
+	public interface IEventController
 	{
-		Info = 1,
-		Warning = 2,
-		Error = 3
+		/// <summary>
+		/// Wires up the event handling, i.e. subscribes to all relevant application events.
+		/// </summary>
+		void Start();
+
+		/// <summary>
+		/// Removes all event subscriptions.
+		/// </summary>
+		void Stop();
 	}
 }

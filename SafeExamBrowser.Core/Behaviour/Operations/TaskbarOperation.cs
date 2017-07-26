@@ -14,7 +14,7 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
-	public class TaskbarInitializationOperation : IOperation
+	public class TaskbarOperation : IOperation
 	{
 		private ILogger logger;
 		private ITaskbar taskbar;
@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 		public ISplashScreen SplashScreen { private get; set; }
 
-		public TaskbarInitializationOperation(ILogger logger, INotificationInfo aboutInfo, ITaskbar taskbar, IUiElementFactory uiFactory)
+		public TaskbarOperation(ILogger logger, INotificationInfo aboutInfo, ITaskbar taskbar, IUiElementFactory uiFactory)
 		{
 			this.logger = logger;
 			this.aboutInfo = aboutInfo;

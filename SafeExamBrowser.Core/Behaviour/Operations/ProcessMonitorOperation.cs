@@ -14,14 +14,14 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
-	public class ProcessMonitoringOperation : IOperation
+	public class ProcessMonitorOperation : IOperation
 	{
 		private ILogger logger;
 		private IProcessMonitor processMonitor;
 
 		public ISplashScreen SplashScreen { private get; set; }
 
-		public ProcessMonitoringOperation(ILogger logger, IProcessMonitor processMonitor)
+		public ProcessMonitorOperation(ILogger logger, IProcessMonitor processMonitor)
 		{
 			this.logger = logger;
 			this.processMonitor = processMonitor;
