@@ -49,6 +49,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			browserController.RegisterApplicationButton(browserButton);
 
 			taskbar.AddButton(browserButton);
+			logger.Info("Browser successfully initialized.");
 		}
 
 		public void Revert()

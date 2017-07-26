@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.IO;
 using System.Text;
 using SafeExamBrowser.Contracts.Configuration;
@@ -21,14 +20,12 @@ namespace SafeExamBrowser.Core.Logging
 
 		public LogFileWriter(ISettings settings)
 		{
-			var fileName = $"{DateTime.Now.ToString("yyyy-MM-dd HH\\hmm\\mss\\s")}.txt";
-
 			if (!Directory.Exists(settings.LogFolderPath))
 			{
 				Directory.CreateDirectory(settings.LogFolderPath);
 			}
 
-			filePath = Path.Combine(settings.LogFolderPath, fileName);
+			filePath = settings.ApplicationLogFile;
 		}
 
 		public void Notify(ILogContent content)

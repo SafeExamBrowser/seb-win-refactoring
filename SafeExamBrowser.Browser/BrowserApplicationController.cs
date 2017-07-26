@@ -33,7 +33,8 @@ namespace SafeExamBrowser.Browser
 		{
 			var cefSettings = new CefSettings
 			{
-				CachePath = settings.BrowserCachePath
+				CachePath = settings.BrowserCachePath,
+				LogFile = settings.BrowserLogFile
 			};
 
 			var success = Cef.Initialize(cefSettings, true, null);
@@ -64,8 +65,6 @@ namespace SafeExamBrowser.Browser
 			else
 			{
 				CreateNewInstance();
-				CreateNewInstance();
-				CreateNewInstance();
 			}
 		}
 
@@ -79,7 +78,7 @@ namespace SafeExamBrowser.Browser
 			instance.RegisterWindow(window);
 			button.RegisterInstance(instance);
 
-			window.Display();
+			window.Show();
 		}
 	}
 }

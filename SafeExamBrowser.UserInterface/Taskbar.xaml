@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Controls"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Taskbar" Height="40" Width="750" WindowStyle="None" AllowsTransparency="True" Topmost="True" Visibility="Collapsed" Icon="./Images/SafeExamBrowser.ico">
+        Title="Taskbar" Height="40" Width="750" WindowStyle="None" AllowsTransparency="True" Topmost="True" Visibility="Collapsed"
+        ResizeMode="NoResize" Icon="./Images/SafeExamBrowser.ico">
     <Window.Background>
         <SolidColorBrush Color="Black" Opacity="0.8" />
     </Window.Background>

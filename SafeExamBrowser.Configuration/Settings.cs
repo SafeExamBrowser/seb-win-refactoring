@@ -16,21 +16,26 @@ namespace SafeExamBrowser.Configuration
 	public class Settings : ISettings
 	{
 		private const string AppDataFolder = "SafeExamBrowser";
+		private static readonly string LogFileDate = DateTime.Now.ToString("yyyy-MM-dd HH\\hmm\\mss\\s");
+
+		public string ApplicationLogFile
+		{
+			get { return Path.Combine(LogFolderPath, $"{LogFileDate} Application.txt"); }
+		}
+
+		public string BrowserLogFile
+		{
+			get { return Path.Combine(LogFolderPath, $"{LogFileDate} Browser.txt"); }
+		}
 
 		public string BrowserCachePath
 		{
-			get
-			{
-				return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDataFolder, "Cache");
-			}
+			get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDataFolder, "Cache"); }
 		}
 
 		public string LogFolderPath
 		{
-			get
-			{
-				return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDataFolder, "Logs");
-			}
+			get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDataFolder, "Logs"); }
 		}
 
 		public string ProgramCopyright

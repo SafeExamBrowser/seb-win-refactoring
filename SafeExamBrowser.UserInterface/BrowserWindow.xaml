@@ -5,8 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface"
         mc:Ignorable="d"
-        Title="BrowserWindow" Height="300" Width="300">
+        Title="BrowserWindow" Height="500" Width="500" WindowState="Maximized">
     <Grid>
-        <WindowsFormsHost x:Name="BrowserControlHost" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" x:Name="UrlTextBox" Margin="5,5,2.5,5" Height="20" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+            <Button Grid.Column="1" x:Name="ReloadButton" Margin="2.5,5,2.5,5" HorizontalAlignment="Center" VerticalAlignment="Center">Reload</Button>
+            <Button Grid.Column="2" x:Name="BackButton" Margin="2.5,5,2.5,5" HorizontalAlignment="Center" VerticalAlignment="Center">Back</Button>
+            <Button Grid.Column="3" x:Name="ForwardButton" Margin="2.5,5,5,5" HorizontalAlignment="Center" VerticalAlignment="Center">Forward</Button>
+        </Grid>
+        <WindowsFormsHost Grid.Row="1" x:Name="BrowserControlHost" />
     </Grid>
 </Window>

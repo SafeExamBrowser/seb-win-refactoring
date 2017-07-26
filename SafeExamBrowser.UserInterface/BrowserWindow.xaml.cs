@@ -16,21 +16,25 @@ namespace SafeExamBrowser.UserInterface
 		public BrowserWindow(IBrowserControl browserControl)
 		{
 			InitializeComponent();
-
-			if (browserControl is System.Windows.Forms.Control)
-			{
-				BrowserControlHost.Child = browserControl as System.Windows.Forms.Control;
-			}
+			InitializeBrowserWindow(browserControl);
 		}
 
 		public void BringToForeground()
 		{
+			if (WindowState == WindowState.Minimized)
+			{
+				WindowState = WindowState.Normal;
+			}
+
 			Activate();
 		}
 
-		public void Display()
+		private void InitializeBrowserWindow(IBrowserControl browserControl)
 		{
-			Show();
+			if (browserControl is System.Windows.Forms.Control)
+			{
+				BrowserControlHost.Child = browserControl as System.Windows.Forms.Control;
+			}
 		}
 	}
 }

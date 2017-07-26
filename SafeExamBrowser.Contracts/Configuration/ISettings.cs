@@ -11,9 +11,19 @@ namespace SafeExamBrowser.Contracts.Configuration
 	public interface ISettings
 	{
 		/// <summary>
+		/// The file path under which the application log is to be stored.
+		/// </summary>
+		string ApplicationLogFile { get; }
+
+		/// <summary>
 		/// The path where the browser cache is to be stored.
 		/// </summary>
 		string BrowserCachePath { get; }
+
+		/// <summary>
+		/// The file path under which the browser log is to be stored.
+		/// </summary>
+		string BrowserLogFile { get; }
 
 		/// <summary>
 		/// The path where the log files are to be stored.

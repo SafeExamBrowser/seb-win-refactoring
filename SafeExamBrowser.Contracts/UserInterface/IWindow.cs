@@ -18,6 +18,6 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// <summary>
 		/// Shows the window to the user.
 		/// </summary>
-		void Display();
+		void Show();
 	}
 }

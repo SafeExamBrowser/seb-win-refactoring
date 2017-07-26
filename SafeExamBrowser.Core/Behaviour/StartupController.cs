@@ -43,7 +43,7 @@ namespace SafeExamBrowser.Core.Behaviour
 				InitializeApplicationLog();
 				InitializeSplashScreen(operations.Count);
 
-				PerformOperations(operations);
+				Perform(operations);
 
 				FinishInitialization();
 
@@ -59,7 +59,7 @@ namespace SafeExamBrowser.Core.Behaviour
 			}
 		}
 
-		private void PerformOperations(Queue<IOperation> operations)
+		private void Perform(Queue<IOperation> operations)
 		{
 			foreach (var operation in operations)
 			{
