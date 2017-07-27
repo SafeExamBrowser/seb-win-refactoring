@@ -14,20 +14,63 @@ using System.Management;
 using System.Threading;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.WindowsApi;
+using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Monitoring.Processes
 {
 	public class ProcessMonitor : IProcessMonitor
 	{
 		private ILogger logger;
+		private INativeMethods nativeMethods;
 		private ManagementEventWatcher explorerWatcher;
 
 		public event ExplorerStartedHandler ExplorerStarted;
 
-		public ProcessMonitor(ILogger logger)
+		public ProcessMonitor(ILogger logger, INativeMethods nativeMethods)
 		{
 			this.logger = logger;
+			this.nativeMethods = nativeMethods;
+		}
+
+		public void CloseExplorerShell()
+		{
+			var processId = nativeMethods.GetShellProcessId();
+			var explorerProcesses = Process.GetProcessesByName("explorer");
+			var shellProcess = explorerProcesses.FirstOrDefault(p => p.Id == processId);
+
+			if (shellProcess != null)
+			{
+				logger.Info($"Found explorer shell processes with PID = {processId}. Sending close message...");
+
+				nativeMethods.PostCloseMessageToShell();
+
+				while (!shellProcess.HasExited)
+				{
+					shellProcess.Refresh();
+					Thread.Sleep(20);
+				}
+
+				logger.Info($"Successfully terminated explorer shell process with PID = {processId}.");
+			}
+			else
+			{
+				logger.Info("The explorer shell seems to already be terminated. Skipping this step...");
+			}
+		}
+
+		public void OnWindowChanged(IntPtr window, out bool hide)
+		{
+			var processId = nativeMethods.GetProcessIdFor(window);
+			var process = Process.GetProcessById(Convert.ToInt32(processId));
+
+			if (process != null)
+			{
+				hide = process.ProcessName != "SafeExamBrowser";
+			}
+			else
+			{
+				hide = true;
+			}
 		}
 
 		public void StartExplorerShell()
@@ -41,7 +84,7 @@ namespace SafeExamBrowser.Monitoring.Processes
 			process.StartInfo.FileName = explorerPath;
 			process.Start();
 
-			while (User32.GetShellWindowHandle() == IntPtr.Zero)
+			while (nativeMethods.GetShellWindowHandle() == IntPtr.Zero)
 			{
 				Thread.Sleep(20);
 			}
@@ -56,36 +99,14 @@ namespace SafeExamBrowser.Monitoring.Processes
 			explorerWatcher = new ManagementEventWatcher(@"\\.\root\CIMV2", GetQueryFor("explorer.exe"));
 			explorerWatcher.EventArrived += new EventArrivedEventHandler(ExplorerWatcher_EventArrived);
 			explorerWatcher.Start();
+
+			logger.Info("Started monitoring process 'explorer.exe'.");
 		}
 
 		public void StopMonitoringExplorer()
 		{
 			explorerWatcher?.Stop();
-		}
-
-		public void CloseExplorerShell()
-		{
-			var processId = User32.GetShellProcessId();
-			var explorerProcesses = Process.GetProcessesByName("explorer");
-			var shellProcess = explorerProcesses.FirstOrDefault(p => p.Id == processId);
-
-			if (shellProcess != null)
-			{
-				logger.Info($"Found explorer shell processes with PID = {processId}. Sending close message...");
-				User32.PostCloseMessageToShell();
-
-				while (!shellProcess.HasExited)
-				{
-					shellProcess.Refresh();
-					Thread.Sleep(20);
-				}
-
-				logger.Info($"Successfully terminated explorer shell process with PID = {processId}.");
-			}
-			else
-			{
-				logger.Info("The explorer shell seems to already be terminated. Skipping this step...");
-			}
+			logger.Info("Stopped monitoring 'explorer.exe'.");
 		}
 
 		private void ExplorerWatcher_EventArrived(object sender, EventArrivedEventArgs e)

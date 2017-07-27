@@ -6,6 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+
 namespace SafeExamBrowser.Contracts.Monitoring
 {
 	public delegate void ExplorerStartedHandler();
@@ -17,6 +19,17 @@ namespace SafeExamBrowser.Contracts.Monitoring
 		/// the Windows explorer has been started.
 		/// </summary>
 		event ExplorerStartedHandler ExplorerStarted;
+
+		/// <summary>
+		/// Terminates the Windows explorer shell, i.e. the taskbar.
+		/// </summary>
+		void CloseExplorerShell();
+
+		/// <summary>
+		/// Performs a check whether the process associated to the given window is allowed,
+		/// i.e. whether the specified window should be hidden.
+		/// </summary>
+		void OnWindowChanged(IntPtr window, out bool hide);
 
 		/// <summary>
 		/// Starts a new instance of the Windows explorer shell.
@@ -33,10 +46,5 @@ namespace SafeExamBrowser.Contracts.Monitoring
 		/// Stops monitoring the Windows explorer.
 		/// </summary>
 		void StopMonitoringExplorer();
-
-		/// <summary>
-		/// Terminates the Windows explorer shell, i.e. the taskbar.
-		/// </summary>
-		void CloseExplorerShell();
 	}
 }

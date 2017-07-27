@@ -6,10 +6,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+
 namespace SafeExamBrowser.Contracts.Monitoring
 {
+	public delegate void WindowChangedHandler(IntPtr window, out bool hide);
+
 	public interface IWindowMonitor
 	{
+		/// <summary>
+		/// Event fired when the window monitor observes that the foreground window has changed.
+		/// </summary>
+		event WindowChangedHandler WindowChanged;
+
 		/// <summary>
 		/// Hides all currently opened windows.
 		/// </summary>

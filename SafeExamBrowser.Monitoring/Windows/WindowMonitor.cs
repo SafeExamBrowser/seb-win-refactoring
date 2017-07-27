@@ -10,30 +10,36 @@ using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.WindowsApi;
+using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Monitoring.Windows
 {
 	public class WindowMonitor : IWindowMonitor
 	{
+		private IntPtr captureStartHookHandle;
+		private IntPtr foregroundHookHandle;
 		private ILogger logger;
 		private IList<Window> minimizedWindows = new List<Window>();
+		private INativeMethods nativeMethods;
 
-		public WindowMonitor(ILogger logger)
+		public event WindowChangedHandler WindowChanged;
+
+		public WindowMonitor(ILogger logger, INativeMethods nativeMethods)
 		{
 			this.logger = logger;
+			this.nativeMethods = nativeMethods;
 		}
 
 		public void HideAllWindows()
 		{
 			logger.Info("Saving windows to be minimized...");
 
-			foreach (var handle in User32.GetOpenWindows())
+			foreach (var handle in nativeMethods.GetOpenWindows())
 			{
 				var window = new Window
 				{
 					Handle = handle,
-					Title = User32.GetWindowTitle(handle)
+					Title = nativeMethods.GetWindowTitle(handle)
 				};
 
 				minimizedWindows.Add(window);
@@ -41,7 +47,7 @@ namespace SafeExamBrowser.Monitoring.Windows
 			}
 
 			logger.Info("Minimizing all open windows...");
-			User32.MinimizeAllOpenWindows();
+			nativeMethods.MinimizeAllOpenWindows();
 			logger.Info("Open windows successfully minimized.");
 		}
 
@@ -51,7 +57,7 @@ namespace SafeExamBrowser.Monitoring.Windows
 			
 			foreach (var window in minimizedWindows)
 			{
-				User32.RestoreWindow(window.Handle);
+				nativeMethods.RestoreWindow(window.Handle);
 				logger.Info($"Restored window '{window.Title}' with handle = {window.Handle}.");
 			}
 
@@ -60,12 +66,42 @@ namespace SafeExamBrowser.Monitoring.Windows
 
 		public void StartMonitoringWindows()
 		{
-			// TODO
+			captureStartHookHandle = nativeMethods.RegisterSystemCaptureStartEvent(OnWindowChanged);
+			logger.Info($"Registered system capture start event with handle = {captureStartHookHandle}.");
+
+			foregroundHookHandle = nativeMethods.RegisterSystemForegroundEvent(OnWindowChanged);
+			logger.Info($"Registered system foreground event with handle = {foregroundHookHandle}.");
 		}
 
 		public void StopMonitoringWindows()
 		{
-			// TODO
+			if (captureStartHookHandle != IntPtr.Zero)
+			{
+				nativeMethods.UnregisterSystemEvent(captureStartHookHandle);
+				logger.Info($"Unregistered system capture start event with handle = {captureStartHookHandle}.");
+			}
+
+			if (foregroundHookHandle != IntPtr.Zero)
+			{
+				nativeMethods.UnregisterSystemEvent(foregroundHookHandle);
+				logger.Info($"Unregistered system foreground event with handle = {foregroundHookHandle}.");
+			}
+		}
+
+		private void OnWindowChanged(IntPtr window)
+		{
+			if (WindowChanged != null)
+			{
+				WindowChanged.Invoke(window, out bool hide);
+
+				if (hide)
+				{
+					var title = nativeMethods.GetWindowTitle(window);
+
+					nativeMethods.HideWindow(window);
+					logger.Info($"Hid window '{title}' with handle = {window}.");
+				}
+			}
 		}
 
 		private struct Window

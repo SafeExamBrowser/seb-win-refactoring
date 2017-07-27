@@ -15,6 +15,7 @@ using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.WindowsApi;
 using SafeExamBrowser.Core.Behaviour;
 using SafeExamBrowser.Core.Behaviour.Operations;
 using SafeExamBrowser.Core.I18n;
@@ -22,6 +23,7 @@ using SafeExamBrowser.Core.Logging;
 using SafeExamBrowser.Monitoring.Processes;
 using SafeExamBrowser.Monitoring.Windows;
 using SafeExamBrowser.UserInterface;
+using SafeExamBrowser.WindowsApi;
 
 namespace SafeExamBrowser
 {
@@ -31,6 +33,7 @@ namespace SafeExamBrowser
 		private IApplicationInfo browserInfo;
 		private IEventController eventController;
 		private ILogger logger;
+		private INativeMethods nativeMethods;
 		private INotificationInfo aboutInfo;
 		private IProcessMonitor processMonitor;
 		private ISettings settings;
@@ -49,6 +52,7 @@ namespace SafeExamBrowser
 		{
 			browserInfo = new BrowserApplicationInfo();
 			logger = new Logger();
+			nativeMethods = new NativeMethods();
 			settings = new Settings();
 			Taskbar = new Taskbar();
 			textResource = new XmlTextResource();
@@ -59,10 +63,10 @@ namespace SafeExamBrowser
 			text = new Text(textResource);
 			aboutInfo = new AboutNotificationInfo(text);
 			browserController = new BrowserApplicationController(settings, uiFactory);
-			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)));
-			windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)));
-			workingArea = new WorkingArea(new ModuleLogger(logger, typeof(WorkingArea)));
-			eventController = new EventController(new ModuleLogger(logger, typeof(EventController)), processMonitor, Taskbar, workingArea);
+			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
+			windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)), nativeMethods);
+			workingArea = new WorkingArea(new ModuleLogger(logger, typeof(WorkingArea)), nativeMethods);
+			eventController = new EventController(new ModuleLogger(logger, typeof(EventController)), processMonitor, Taskbar, windowMonitor, workingArea);
 			ShutdownController = new ShutdownController(logger, settings, text, uiFactory);
 			StartupController = new StartupController(logger, settings, text, uiFactory);
 

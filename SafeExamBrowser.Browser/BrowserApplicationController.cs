@@ -53,6 +53,11 @@ namespace SafeExamBrowser.Browser
 
 		public void Terminate()
 		{
+			foreach (var instance in instances)
+			{
+				instance.Window.Close();
+			}
+
 			Cef.Shutdown();
 		}
 

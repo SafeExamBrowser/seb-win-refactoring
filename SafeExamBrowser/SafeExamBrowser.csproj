@@ -143,6 +143,10 @@
       <Project>{e1be031a-4354-41e7-83e8-843ded4489ff}</Project>
       <Name>SafeExamBrowser.UserInterface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.WindowsApi\SafeExamBrowser.WindowsApi.csproj">
+      <Project>{73724659-4150-4792-A94E-42F5F3C1B696}</Project>
+      <Name>SafeExamBrowser.WindowsApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

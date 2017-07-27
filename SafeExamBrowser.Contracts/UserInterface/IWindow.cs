@@ -16,6 +16,11 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		void BringToForeground();
 
 		/// <summary>
+		/// Closes the window.
+		/// </summary>
+		void Close();
+
+		/// <summary>
 		/// Shows the window to the user.
 		/// </summary>
 		void Show();

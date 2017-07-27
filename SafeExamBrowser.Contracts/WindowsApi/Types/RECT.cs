@@ -8,7 +8,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace SafeExamBrowser.WindowsApi.Types
+namespace SafeExamBrowser.Contracts.WindowsApi.Types
 {
 	/// <summary>
 	/// See https://msdn.microsoft.com/en-us/library/windows/desktop/dd162897(v=vs.85).aspx.

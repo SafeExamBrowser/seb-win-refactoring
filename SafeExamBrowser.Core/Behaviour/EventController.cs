@@ -16,27 +16,36 @@ namespace SafeExamBrowser.Core.Behaviour
 {
 	public class EventController : IEventController
 	{
+		private ILogger logger;
 		private IProcessMonitor processMonitor;
 		private ITaskbar taskbar;
+		private IWindowMonitor windowMonitor;
 		private IWorkingArea workingArea;
-		private ILogger logger;
 
-		public EventController(ILogger logger, IProcessMonitor processMonitor, ITaskbar taskbar, IWorkingArea workingArea)
+		public EventController(
+			ILogger logger,
+			IProcessMonitor processMonitor,
+			ITaskbar taskbar,
+			IWindowMonitor windowMonitor,
+			IWorkingArea workingArea)
 		{
 			this.logger = logger;
 			this.processMonitor = processMonitor;
 			this.taskbar = taskbar;
+			this.windowMonitor = windowMonitor;
 			this.workingArea = workingArea;
 		}
 
 		public void Start()
 		{
 			processMonitor.ExplorerStarted += ProcessMonitor_ExplorerStarted;
+			windowMonitor.WindowChanged += processMonitor.OnWindowChanged;
 		}
 
 		public void Stop()
 		{
 			processMonitor.ExplorerStarted -= ProcessMonitor_ExplorerStarted;
+			windowMonitor.WindowChanged -= processMonitor.OnWindowChanged;
 		}
 
 		private void ProcessMonitor_ExplorerStarted()

@@ -68,10 +68,6 @@
       <Project>{47da5933-bef8-4729-94e6-abde2db12262}</Project>
       <Name>SafeExamBrowser.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SafeExamBrowser.WindowsApi\SafeExamBrowser.WindowsApi.csproj">
-      <Project>{73724659-4150-4792-a94e-42f5f3c1b696}</Project>
-      <Name>SafeExamBrowser.WindowsApi</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Keyboard\" />

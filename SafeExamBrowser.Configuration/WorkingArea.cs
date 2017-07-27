@@ -10,24 +10,26 @@ using System.Windows.Forms;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.WindowsApi;
-using SafeExamBrowser.WindowsApi.Types;
+using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.Contracts.WindowsApi.Types;
 
 namespace SafeExamBrowser.Configuration
 {
 	public class WorkingArea : IWorkingArea
 	{
 		private ILogger logger;
+		private INativeMethods nativeMethods;
 		private RECT? originalWorkingArea;
 
-		public WorkingArea(ILogger logger)
+		public WorkingArea(ILogger logger, INativeMethods nativeMethods)
 		{
 			this.logger = logger;
+			this.nativeMethods = nativeMethods;
 		}
 
 		public void InitializeFor(ITaskbar taskbar)
 		{
-			originalWorkingArea = User32.GetWorkingArea();
+			originalWorkingArea = nativeMethods.GetWorkingArea();
 
 			LogWorkingArea("Saved original working area", originalWorkingArea.Value);
 
@@ -40,15 +42,15 @@ namespace SafeExamBrowser.Configuration
 			};
 
 			LogWorkingArea("Trying to set new working area", area);
-			User32.SetWorkingArea(area);
-			LogWorkingArea("Working area is now set to", User32.GetWorkingArea());
+			nativeMethods.SetWorkingArea(area);
+			LogWorkingArea("Working area is now set to", nativeMethods.GetWorkingArea());
 		}
 
 		public void Reset()
 		{
 			if (originalWorkingArea.HasValue)
 			{
-				User32.SetWorkingArea(originalWorkingArea.Value);
+				nativeMethods.SetWorkingArea(originalWorkingArea.Value);
 				LogWorkingArea("Restored original working area", originalWorkingArea.Value);
 			}
 		}
