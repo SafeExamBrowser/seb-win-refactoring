@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 		private Mock<ILogger> loggerMock;
 		private Mock<ISettings> settingsMock;
 		private Mock<IText> textMock;
-		private Mock<IUiElementFactory> uiFactoryMock;
+		private Mock<IUserInterfaceFactory> uiFactoryMock;
 
 		private IShutdownController sut;
 
@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 			loggerMock = new Mock<ILogger>();
 			settingsMock = new Mock<ISettings>();
 			textMock = new Mock<IText>();
-			uiFactoryMock = new Mock<IUiElementFactory>();
+			uiFactoryMock = new Mock<IUserInterfaceFactory>();
 
 			uiFactoryMock.Setup(f => f.CreateSplashScreen(settingsMock.Object, textMock.Object)).Returns(new Mock<ISplashScreen>().Object);
 

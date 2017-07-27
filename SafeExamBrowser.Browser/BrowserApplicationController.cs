@@ -21,9 +21,9 @@ namespace SafeExamBrowser.Browser
 		private ITaskbarButton button;
 		private IList<IApplicationInstance> instances = new List<IApplicationInstance>();
 		private ISettings settings;
-		private IUiElementFactory uiFactory;
+		private IUserInterfaceFactory uiFactory;
 
-		public BrowserApplicationController(ISettings settings, IUiElementFactory uiFactory)
+		public BrowserApplicationController(ISettings settings, IUserInterfaceFactory uiFactory)
 		{
 			this.settings = settings;
 			this.uiFactory = uiFactory;

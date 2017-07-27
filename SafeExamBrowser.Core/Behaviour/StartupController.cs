@@ -24,11 +24,11 @@ namespace SafeExamBrowser.Core.Behaviour
 		private ISettings settings;
 		private ISplashScreen splashScreen;
 		private IText text;
-		private IUiElementFactory uiFactory;
+		private IUserInterfaceFactory uiFactory;
 
 		private Stack<IOperation> stack = new Stack<IOperation>();
 
-		public StartupController(ILogger logger, ISettings settings, IText text, IUiElementFactory uiFactory)
+		public StartupController(ILogger logger, ISettings settings, IText text, IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
 			this.settings = settings;

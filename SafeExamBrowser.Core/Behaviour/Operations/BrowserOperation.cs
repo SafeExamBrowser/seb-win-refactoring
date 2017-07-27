@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		private IApplicationInfo browserInfo;
 		private ILogger logger;
 		private ITaskbar taskbar;
-		private IUiElementFactory uiFactory;
+		private IUserInterfaceFactory uiFactory;
 
 		public ISplashScreen SplashScreen { private get; set; }
 
@@ -29,7 +29,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			IApplicationInfo browserInfo,
 			ILogger logger,
 			ITaskbar taskbar,
-			IUiElementFactory uiFactory)
+			IUserInterfaceFactory uiFactory)
 		{
 			this.browserController = browserController;
 			this.browserInfo = browserInfo;

@@ -18,12 +18,12 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 	{
 		private ILogger logger;
 		private ITaskbar taskbar;
-		private IUiElementFactory uiFactory;
+		private IUserInterfaceFactory uiFactory;
 		private INotificationInfo aboutInfo;
 
 		public ISplashScreen SplashScreen { private get; set; }
 
-		public TaskbarOperation(ILogger logger, INotificationInfo aboutInfo, ITaskbar taskbar, IUiElementFactory uiFactory)
+		public TaskbarOperation(ILogger logger, INotificationInfo aboutInfo, ITaskbar taskbar, IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
 			this.aboutInfo = aboutInfo;

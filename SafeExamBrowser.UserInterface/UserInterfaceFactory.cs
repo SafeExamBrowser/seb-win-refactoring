@@ -15,7 +15,7 @@ using SafeExamBrowser.UserInterface.Controls;
 
 namespace SafeExamBrowser.UserInterface
 {
-	public class UiElementFactory : IUiElementFactory
+	public class UserInterfaceFactory : IUserInterfaceFactory
 	{
 		public ITaskbarButton CreateApplicationButton(IApplicationInfo info)
 		{

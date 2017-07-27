@@ -128,8 +128,8 @@ namespace SafeExamBrowser.WindowsApi
 			var handle = User32.SetWinEventHook(Constant.EVENT_SYSTEM_FOREGROUND, Constant.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, eventProc, 0, 0, Constant.WINEVENT_OUTOFCONTEXT);
 
 			// IMORTANT:
-			// Ensures that the callback does not get garbage collected prematurely, as it will be passed to unmanaged code!
-			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash.
+			// Ensures that the callback does not get garbage collected prematurely, as it will be passed to unmanaged code.
+			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
 			EventDelegates[handle] = eventProc;
 
 			return handle;
@@ -145,8 +145,8 @@ namespace SafeExamBrowser.WindowsApi
 			var handle = User32.SetWinEventHook(Constant.EVENT_SYSTEM_CAPTURESTART, Constant.EVENT_SYSTEM_CAPTURESTART, IntPtr.Zero, eventProc, 0, 0, Constant.WINEVENT_OUTOFCONTEXT);
 
 			// IMORTANT:
-			// Ensures that the callback does not get garbage collected prematurely, as it will be passed to unmanaged code!
-			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash.
+			// Ensures that the callback does not get garbage collected prematurely, as it will be passed to unmanaged code.
+			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
 			EventDelegates[handle] = eventProc;
 
 			return handle;

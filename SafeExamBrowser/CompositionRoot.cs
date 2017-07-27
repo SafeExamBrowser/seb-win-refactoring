@@ -39,7 +39,7 @@ namespace SafeExamBrowser
 		private ISettings settings;
 		private IText text;
 		private ITextResource textResource;
-		private IUiElementFactory uiFactory;
+		private IUserInterfaceFactory uiFactory;
 		private IWindowMonitor windowMonitor;
 		private IWorkingArea workingArea;
 
@@ -56,7 +56,7 @@ namespace SafeExamBrowser
 			settings = new Settings();
 			Taskbar = new Taskbar();
 			textResource = new XmlTextResource();
-			uiFactory = new UiElementFactory();
+			uiFactory = new UserInterfaceFactory();
 
 			logger.Subscribe(new LogFileWriter(settings));
 

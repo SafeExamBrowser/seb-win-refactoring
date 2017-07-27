@@ -23,9 +23,9 @@ namespace SafeExamBrowser.Core.Behaviour
 		private ISettings settings;
 		private ISplashScreen splashScreen;
 		private IText text;
-		private IUiElementFactory uiFactory;
+		private IUserInterfaceFactory uiFactory;
 
-		public ShutdownController(ILogger logger, ISettings settings, IText text, IUiElementFactory uiFactory)
+		public ShutdownController(ILogger logger, ISettings settings, IText text, IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
 			this.settings = settings;

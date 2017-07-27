@@ -104,7 +104,7 @@
     <Compile Include="Taskbar.xaml.cs">
       <DependentUpon>Taskbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UiElementFactory.cs" />
+    <Compile Include="UserInterfaceFactory.cs" />
     <Compile Include="Utilities\IconResourceLoader.cs" />
     <Compile Include="ViewModels\DateTimeViewModel.cs" />
     <Compile Include="ViewModels\SplashScreenViewModel.cs" />

@@ -11,7 +11,7 @@ using SafeExamBrowser.Contracts.I18n;
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
-	public interface IUiElementFactory : IMessageBox
+	public interface IUserInterfaceFactory : IMessageBox
 	{
 		/// <summary>
 		/// Creates a taskbar button, initialized with the given application information.
