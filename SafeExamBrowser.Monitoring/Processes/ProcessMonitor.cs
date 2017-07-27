@@ -32,6 +32,26 @@ namespace SafeExamBrowser.Monitoring.Processes
 			this.nativeMethods = nativeMethods;
 		}
 
+		public bool BelongsToAllowedProcess(IntPtr window)
+		{
+			var processId = nativeMethods.GetProcessIdFor(window);
+			var process = Process.GetProcessById(Convert.ToInt32(processId));
+
+			if (process != null)
+			{
+				var allowed = process.ProcessName == "SafeExamBrowser";
+
+				if (!allowed)
+				{
+					logger.Warn($"Window with handle = {window} belongs to not allowed process '{process.ProcessName}'!");
+				}
+
+				return allowed;
+			}
+
+			return true;
+		}
+
 		public void CloseExplorerShell()
 		{
 			var processId = nativeMethods.GetShellProcessId();
@@ -55,21 +75,6 @@ namespace SafeExamBrowser.Monitoring.Processes
 			else
 			{
 				logger.Info("The explorer shell seems to already be terminated. Skipping this step...");
-			}
-		}
-
-		public void OnWindowChanged(IntPtr window, out bool hide)
-		{
-			var processId = nativeMethods.GetProcessIdFor(window);
-			var process = Process.GetProcessById(Convert.ToInt32(processId));
-
-			if (process != null)
-			{
-				hide = process.ProcessName != "SafeExamBrowser";
-			}
-			else
-			{
-				hide = true;
 			}
 		}
 

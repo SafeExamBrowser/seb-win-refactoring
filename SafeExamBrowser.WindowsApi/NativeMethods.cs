@@ -1,10 +1,10 @@
 ﻿/*
-* Copyright (c) 2017 ETH Zürich, Educational Development and Technology (LET)
-* 
-* This Source Code Form is subject to the terms of the Mozilla Public
-* License, v. 2.0. If a copy of the MPL was not distributed with this
-* file, You can obtain one at http://mozilla.org/MPL/2.0/.
-*/
+ * Copyright (c) 2017 ETH Zürich, Educational Development and Technology (LET)
+ * 
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 using System;
 using System.Collections.Concurrent;
@@ -92,9 +92,9 @@ namespace SafeExamBrowser.WindowsApi
 			return workingArea;
 		}
 
-		public void HideWindow(IntPtr window)
+		public bool HideWindow(IntPtr window)
 		{
-			User32.ShowWindow(window, (int)ShowWindowCommand.Hide);
+			return User32.ShowWindow(window, (int) ShowWindowCommand.Hide);
 		}
 
 		public void MinimizeAllOpenWindows()
@@ -155,6 +155,11 @@ namespace SafeExamBrowser.WindowsApi
 		public void RestoreWindow(IntPtr window)
 		{
 			User32.ShowWindow(window, (int)ShowWindowCommand.Restore);
+		}
+
+		public void SendCloseMessageTo(IntPtr window)
+		{
+			User32.SendMessage(window, Constant.WM_SYSCOMMAND, (IntPtr) SystemCommand.CLOSE, IntPtr.Zero);
 		}
 
 		public void SetWorkingArea(RECT bounds)

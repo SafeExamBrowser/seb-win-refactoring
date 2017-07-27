@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="Constants\Constant.cs" />
     <Compile Include="Constants\ShowWindowCommand.cs" />
+    <Compile Include="Constants\SystemCommand.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Constants\SPI.cs" />

@@ -10,7 +10,7 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Monitoring
 {
-	public delegate void WindowChangedHandler(IntPtr window, out bool hide);
+	public delegate void WindowChangedHandler(IntPtr window);
 
 	public interface IWindowMonitor
 	{
@@ -18,6 +18,16 @@ namespace SafeExamBrowser.Contracts.Monitoring
 		/// Event fired when the window monitor observes that the foreground window has changed.
 		/// </summary>
 		event WindowChangedHandler WindowChanged;
+
+		/// <summary>
+		/// Forcefully closes the specified window.
+		/// </summary>
+		void Close(IntPtr window);
+
+		/// <summary>
+		/// Hides the specified window. Returns <c>true</c> if the window was successfully hidden, otherwise <c>false</c>.
+		/// </summary>
+		bool Hide(IntPtr window);
 
 		/// <summary>
 		/// Hides all currently opened windows.

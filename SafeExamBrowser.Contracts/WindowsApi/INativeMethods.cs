@@ -54,9 +54,9 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		RECT GetWorkingArea();
 
 		/// <summary>
-		/// Hides the given window.
+		/// Hides the given window. Returns <c>true</c> if successful, otherwise <c>false</c>.
 		/// </summary>
-		void HideWindow(IntPtr window);
+		bool HideWindow(IntPtr window);
 
 		/// <summary>
 		/// Minimizes all open windows.
@@ -87,6 +87,11 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		/// Restores the specified window to its original size and position.
 		/// </summary>
 		void RestoreWindow(IntPtr window);
+
+		/// <summary>
+		/// Sends a close message to the given window.
+		/// </summary>
+		void SendCloseMessageTo(IntPtr window);
 
 		/// <summary>
 		/// Sets the working area of the primary screen according to the given dimensions.

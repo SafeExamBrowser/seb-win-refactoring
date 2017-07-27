@@ -30,6 +30,31 @@ namespace SafeExamBrowser.Monitoring.Windows
 			this.nativeMethods = nativeMethods;
 		}
 
+		public void Close(IntPtr window)
+		{
+			var title = nativeMethods.GetWindowTitle(window);
+
+			nativeMethods.SendCloseMessageTo(window);
+			logger.Info($"Sent close message to window '{title}' with handle = {window}.");
+		}
+
+		public bool Hide(IntPtr window)
+		{
+			var title = nativeMethods.GetWindowTitle(window);
+			var success = nativeMethods.HideWindow(window);
+
+			if (success)
+			{
+				logger.Info($"Hid window '{title}' with handle = {window}.");
+			}
+			else
+			{
+				logger.Warn($"Failed to hide window '{title}' with handle = {window}!");
+			}
+
+			return success;
+		}
+
 		public void HideAllWindows()
 		{
 			logger.Info("Saving windows to be minimized...");
@@ -90,18 +115,7 @@ namespace SafeExamBrowser.Monitoring.Windows
 
 		private void OnWindowChanged(IntPtr window)
 		{
-			if (WindowChanged != null)
-			{
-				WindowChanged.Invoke(window, out bool hide);
-
-				if (hide)
-				{
-					var title = nativeMethods.GetWindowTitle(window);
-
-					nativeMethods.HideWindow(window);
-					logger.Info($"Hid window '{title}' with handle = {window}.");
-				}
-			}
+			WindowChanged?.Invoke(window);
 		}
 
 		private struct Window

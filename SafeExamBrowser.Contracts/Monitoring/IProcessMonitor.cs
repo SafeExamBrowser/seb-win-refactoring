@@ -21,15 +21,14 @@ namespace SafeExamBrowser.Contracts.Monitoring
 		event ExplorerStartedHandler ExplorerStarted;
 
 		/// <summary>
+		/// Performs a check whether the process associated to the given window is allowed.
+		/// </summary>
+		bool BelongsToAllowedProcess(IntPtr window);
+
+		/// <summary>
 		/// Terminates the Windows explorer shell, i.e. the taskbar.
 		/// </summary>
 		void CloseExplorerShell();
-
-		/// <summary>
-		/// Performs a check whether the process associated to the given window is allowed,
-		/// i.e. whether the specified window should be hidden.
-		/// </summary>
-		void OnWindowChanged(IntPtr window, out bool hide);
 
 		/// <summary>
 		/// Starts a new instance of the Windows explorer shell.

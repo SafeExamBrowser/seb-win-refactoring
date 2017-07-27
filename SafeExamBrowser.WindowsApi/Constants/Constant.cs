@@ -48,5 +48,13 @@ namespace SafeExamBrowser.WindowsApi.Constants
 		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms647591(v=vs.85).aspx.
 		/// </summary>
 		internal const int WM_COMMAND = 0x111;
+
+		/// <summary>
+		/// A window receives this message when the user chooses a command from the Window menu (formerly known as the system or control
+		/// menu) or when the user chooses the maximize button, minimize button, restore button, or close button.
+		/// 
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms646360(v=vs.85).aspx.
+		/// </summary>
+		internal const int WM_SYSCOMMAND = 0x112;
 	}
 }

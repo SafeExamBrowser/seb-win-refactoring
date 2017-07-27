@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
@@ -39,13 +40,13 @@ namespace SafeExamBrowser.Core.Behaviour
 		public void Start()
 		{
 			processMonitor.ExplorerStarted += ProcessMonitor_ExplorerStarted;
-			windowMonitor.WindowChanged += processMonitor.OnWindowChanged;
+			windowMonitor.WindowChanged += WindowMonitor_WindowChanged;
 		}
 
 		public void Stop()
 		{
 			processMonitor.ExplorerStarted -= ProcessMonitor_ExplorerStarted;
-			windowMonitor.WindowChanged -= processMonitor.OnWindowChanged;
+			windowMonitor.WindowChanged -= WindowMonitor_WindowChanged;
 		}
 
 		private void ProcessMonitor_ExplorerStarted()
@@ -56,7 +57,22 @@ namespace SafeExamBrowser.Core.Behaviour
 			workingArea.InitializeFor(taskbar);
 			logger.Info("Reinitializing taskbar bounds...");
 			taskbar.InitializeBounds();
-			logger.Info("Desktop successfully restored!");
+			logger.Info("Desktop successfully restored.");
+		}
+
+		private void WindowMonitor_WindowChanged(IntPtr window)
+		{
+			var allowed = processMonitor.BelongsToAllowedProcess(window);
+
+			if (!allowed)
+			{
+				var success = windowMonitor.Hide(window);
+
+				if (!success)
+				{
+					windowMonitor.Close(window);
+				}
+			}
 		}
 	}
 }
