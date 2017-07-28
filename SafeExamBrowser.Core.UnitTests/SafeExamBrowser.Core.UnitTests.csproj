@@ -72,6 +72,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviour\EventControllerTests.cs" />
     <Compile Include="Behaviour\StartupControllerTests.cs" />
     <Compile Include="Behaviour\ShutdownControllerTests.cs" />
     <Compile Include="I18n\TextTests.cs" />
