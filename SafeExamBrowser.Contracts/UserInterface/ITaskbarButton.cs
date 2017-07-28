@@ -22,15 +22,8 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		event TaskbarButtonClickHandler OnClick;
 
 		/// <summary>
-		/// Registers a new instance of an application, to be displayed if the user clicks the taskbar button
-		/// when there are already one or more instances of the same application running.
+		/// Registers a new instance of an application, to be displayed if the user clicks the taskbar button.
 		/// </summary>
 		void RegisterInstance(IApplicationInstance instance);
-
-		/// <summary>
-		/// Unregisters an application instance, e.g. if it gets closed.
-		/// </summary>
-		/// <param name="id">The identifier for the application instance.</param>
-		void UnregisterInstance(Guid id);
 	}
 }

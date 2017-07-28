@@ -18,6 +18,8 @@ namespace SafeExamBrowser.Browser
 		public string Name { get; private set; }
 		public IWindow Window { get; private set; }
 
+		public event TerminationEventHandler OnTerminated;
+
 		public BrowserApplicationInstance(string name)
 		{
 			Id = Guid.NewGuid();
@@ -27,6 +29,7 @@ namespace SafeExamBrowser.Browser
 		public void RegisterWindow(IWindow window)
 		{
 			Window = window;
+			Window.OnClose += () => OnTerminated?.Invoke(Id);
 		}
 	}
 }

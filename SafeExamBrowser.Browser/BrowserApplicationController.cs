@@ -48,20 +48,36 @@ namespace SafeExamBrowser.Browser
 		public void RegisterApplicationButton(ITaskbarButton button)
 		{
 			this.button = button;
-			this.button.OnClick += ButtonClick;
+			this.button.OnClick += Button_OnClick;
 		}
 
 		public void Terminate()
 		{
 			foreach (var instance in instances)
 			{
+				instance.OnTerminated -= Instance_OnTerminated;
 				instance.Window.Close();
 			}
 
 			Cef.Shutdown();
 		}
 
-		private void ButtonClick(Guid? instanceId = null)
+		private void CreateNewInstance()
+		{
+			var control = new BrowserControl("www.duckduckgo.com");
+			var window = uiFactory.CreateBrowserWindow(control);
+			var instance = new BrowserApplicationInstance("DuckDuckGo");
+
+			instance.RegisterWindow(window);
+			instance.OnTerminated += Instance_OnTerminated;
+
+			button.RegisterInstance(instance);
+			instances.Add(instance);
+
+			window.Show();
+		}
+
+		private void Button_OnClick(Guid? instanceId = null)
 		{
 			if (instanceId.HasValue)
 			{
@@ -73,17 +89,9 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		private void CreateNewInstance()
+		private void Instance_OnTerminated(Guid id)
 		{
-			var control = new BrowserControl("www.duckduckgo.com");
-			var window = uiFactory.CreateBrowserWindow(control);
-			var instance = new BrowserApplicationInstance("DuckDuckGo");
-
-			instances.Add(instance);
-			instance.RegisterWindow(window);
-			button.RegisterInstance(instance);
-
-			window.Show();
+			instances.Remove(instances.FirstOrDefault(i => i.Id == id));
 		}
 	}
 }

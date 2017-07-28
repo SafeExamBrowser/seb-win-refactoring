@@ -11,6 +11,8 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
+	public delegate void TerminationEventHandler(Guid id);
+
 	public interface IApplicationInstance
 	{
 		/// <summary>
@@ -22,6 +24,11 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// The name or (document) title of the application instance.
 		/// </summary>
 		string Name { get; }
+
+		/// <summary>
+		/// Event fired when the application instance has been terminated.
+		/// </summary>
+		event TerminationEventHandler OnTerminated;
 
 		/// <summary>
 		/// The main window of the application instance.

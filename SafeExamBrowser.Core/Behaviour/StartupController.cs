@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
@@ -66,9 +65,6 @@ namespace SafeExamBrowser.Core.Behaviour
 				operation.Perform();
 
 				splashScreen.Progress();
-
-				// TODO: Remove!
-				Thread.Sleep(250);
 			}
 		}
 
@@ -80,9 +76,6 @@ namespace SafeExamBrowser.Core.Behaviour
 
 				operation.Revert();
 				splashScreen.Regress();
-
-				// TODO: Remove!
-				Thread.Sleep(250);
 			}
 		}
 

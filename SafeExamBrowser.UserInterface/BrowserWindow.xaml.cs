@@ -19,6 +19,8 @@ namespace SafeExamBrowser.UserInterface
 			InitializeBrowserWindow(browserControl);
 		}
 
+		public event WindowCloseHandler OnClose;
+
 		public void BringToForeground()
 		{
 			if (WindowState == WindowState.Minimized)
@@ -35,6 +37,8 @@ namespace SafeExamBrowser.UserInterface
 			{
 				BrowserControlHost.Child = browserControl as System.Windows.Forms.Control;
 			}
+
+			Closing += (o, args) => OnClose?.Invoke();
 		}
 	}
 }

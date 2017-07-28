@@ -36,21 +36,13 @@ namespace SafeExamBrowser.UserInterface.Controls
 		{
 			var instanceButton = new ApplicationInstanceButton(instance, info);
 
-			instances.Add(instance);
 			instanceButton.Click += (id) => OnClick?.Invoke(id);
+			instance.OnTerminated += (id) => Instance_OnTerminated(id, instanceButton);
+
+			instances.Add(instance);
 			InstanceStackPanel.Children.Add(instanceButton);
 
 			ActiveBar.Visibility = Visibility.Visible;
-		}
-
-		public void UnregisterInstance(Guid id)
-		{
-			instances.Remove(instances.FirstOrDefault(i => i.Id == id));
-
-			if (!instances.Any())
-			{
-				ActiveBar.Visibility = Visibility.Collapsed;
-			}
 		}
 
 		private void InitializeApplicationButton()
@@ -82,6 +74,17 @@ namespace SafeExamBrowser.UserInterface.Controls
 			else
 			{
 				InstancePopup.IsOpen = true;
+			}
+		}
+
+		private void Instance_OnTerminated(Guid id, ApplicationInstanceButton instanceButton)
+		{
+			instances.Remove(instances.FirstOrDefault(i => i.Id == id));
+			InstanceStackPanel.Children.Remove(instanceButton);
+
+			if (!instances.Any())
+			{
+				ActiveBar.Visibility = Visibility.Collapsed;
 			}
 		}
 	}

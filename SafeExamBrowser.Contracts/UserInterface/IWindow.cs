@@ -8,8 +8,15 @@
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
+	public delegate void WindowCloseHandler();
+
 	public interface IWindow
 	{
+		/// <summary>
+		/// Event fired when the window is closing.
+		/// </summary>
+		event WindowCloseHandler OnClose;
+
 		/// <summary>
 		/// Brings the window to the foreground.
 		/// </summary>
