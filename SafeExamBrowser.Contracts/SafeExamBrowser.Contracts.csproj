@@ -66,7 +66,8 @@
     <Compile Include="Configuration\IApplicationInfo.cs" />
     <Compile Include="Configuration\IApplicationInstance.cs" />
     <Compile Include="Configuration\INotificationInfo.cs" />
-    <Compile Include="Configuration\ISettings.cs" />
+    <Compile Include="Configuration\Settings\IBrowserSettings.cs" />
+    <Compile Include="Configuration\Settings\ISettings.cs" />
     <Compile Include="Behaviour\IShutdownController.cs" />
     <Compile Include="Behaviour\IStartupController.cs" />
     <Compile Include="Configuration\IWorkingArea.cs" />

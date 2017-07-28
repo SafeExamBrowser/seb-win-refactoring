@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 
 namespace SafeExamBrowser.Contracts.UserInterface
@@ -21,7 +22,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// <summary>
 		/// Creates a new browser window loaded with the given browser control.
 		/// </summary>
-		IBrowserWindow CreateBrowserWindow(IBrowserControl control);
+		IBrowserWindow CreateBrowserWindow(IBrowserControl control, IBrowserSettings settings);
 
 		/// <summary>
 		/// Creates a taskbar notification, initialized with the given notification information.

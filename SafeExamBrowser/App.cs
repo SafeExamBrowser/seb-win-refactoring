@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (c) 2017 ETH Zürich, Educational Development and Technology (LET)
- * 
+ *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -17,7 +17,7 @@ namespace SafeExamBrowser
 {
 	public class App : Application
 	{
-		private static readonly Mutex mutex = new Mutex(true, "safe_exam_browser_single_instance_mutex");
+		private static readonly Mutex Mutex = new Mutex(true, "safe_exam_browser_single_instance_mutex");
 		private CompositionRoot instances = new CompositionRoot();
 
 		[STAThread]
@@ -33,7 +33,7 @@ namespace SafeExamBrowser
 			}
 			finally
 			{
-				mutex.Close();
+				Mutex.Close();
 			}
 		}
 
@@ -51,7 +51,7 @@ namespace SafeExamBrowser
 
 		private static bool NoInstanceRunning()
 		{
-			return mutex.WaitOne(TimeSpan.Zero, true);
+			return Mutex.WaitOne(TimeSpan.Zero, true);
 		}
 
 		protected override void OnStartup(StartupEventArgs e)

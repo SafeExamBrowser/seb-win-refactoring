@@ -9,6 +9,7 @@
 using System.Threading;
 using System.Windows;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.UserInterface.Controls;
@@ -22,9 +23,9 @@ namespace SafeExamBrowser.UserInterface
 			return new ApplicationButton(info);
 		}
 
-		public IBrowserWindow CreateBrowserWindow(IBrowserControl control)
+		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, IBrowserSettings settings)
 		{
-			return new BrowserWindow(control);
+			return new BrowserWindow(control, settings);
 		}
 
 		public ITaskbarNotification CreateNotification(INotificationInfo info)

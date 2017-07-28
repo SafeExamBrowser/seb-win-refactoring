@@ -9,33 +9,35 @@
 using System;
 using System.IO;
 using System.Reflection;
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Configuration.Settings;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 
 namespace SafeExamBrowser.Configuration
 {
-	public class Settings : ISettings
+	/// <remarks>
+	/// TODO: Replace with proper implementation once configuration aspects are clear...
+	/// </remarks>
+	public class SettingsImpl : ISettings
 	{
-		private const string AppDataFolder = "SafeExamBrowser";
 		private static readonly string LogFileDate = DateTime.Now.ToString("yyyy-MM-dd\\_HH\\hmm\\mss\\s");
+
+		public SettingsImpl()
+		{
+			Browser = new BrowserSettings(this);
+		}
+
+		public string AppDataFolderName => "SafeExamBrowser";
 
 		public string ApplicationLogFile
 		{
-			get { return Path.Combine(LogFolderPath, $"{LogFileDate}_Application.txt"); }
+			get { return Path.Combine(LogFolderPath, $"{RuntimeIdentifier}_Application.txt"); }
 		}
 
-		public string BrowserLogFile
-		{
-			get { return Path.Combine(LogFolderPath, $"{LogFileDate}_Browser.txt"); }
-		}
-
-		public string BrowserCachePath
-		{
-			get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDataFolder, "Cache"); }
-		}
+		public IBrowserSettings Browser { get; private set; }
 
 		public string LogFolderPath
 		{
-			get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDataFolder, "Logs"); }
+			get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDataFolderName, "Logs"); }
 		}
 
 		public string ProgramCopyright
@@ -70,5 +72,7 @@ namespace SafeExamBrowser.Configuration
 				return version;
 			}
 		}
+
+		public string RuntimeIdentifier => LogFileDate;
 	}
 }

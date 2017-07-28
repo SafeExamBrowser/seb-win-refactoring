@@ -12,6 +12,7 @@ using System.Linq;
 using CefSharp;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Browser
@@ -33,8 +34,8 @@ namespace SafeExamBrowser.Browser
 		{
 			var cefSettings = new CefSettings
 			{
-				CachePath = settings.BrowserCachePath,
-				LogFile = settings.BrowserLogFile
+				CachePath = settings.Browser.CachePath,
+				LogFile = settings.Browser.LogFile
 			};
 
 			var success = Cef.Initialize(cefSettings, true, null);
@@ -65,7 +66,7 @@ namespace SafeExamBrowser.Browser
 		private void CreateNewInstance()
 		{
 			var control = new BrowserControl("www.duckduckgo.com");
-			var window = uiFactory.CreateBrowserWindow(control);
+			var window = uiFactory.CreateBrowserWindow(control, settings.Browser);
 			var instance = new BrowserApplicationInstance("DuckDuckGo");
 
 			instance.RegisterWindow(window);

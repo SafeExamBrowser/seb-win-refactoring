@@ -8,7 +8,7 @@
 
 using System.Windows;
 using System.Windows.Documents;
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.UserInterface.ViewModels;

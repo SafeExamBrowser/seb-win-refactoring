@@ -16,6 +16,10 @@ namespace SafeExamBrowser.UserInterface.ViewModels
 	{
 		private Timer timer;
 
+		public string Date { get; private set; }
+		public string Time { get; private set; }
+		public string ToolTip { get; private set; }
+
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		public DateTimeViewModel()
@@ -24,10 +28,6 @@ namespace SafeExamBrowser.UserInterface.ViewModels
 			timer.Elapsed += Timer_Elapsed;
 			timer.Start();
 		}
-
-		public string Date { get; private set; }
-		public string Time { get; private set; }
-		public string ToolTip { get; private set; }
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{

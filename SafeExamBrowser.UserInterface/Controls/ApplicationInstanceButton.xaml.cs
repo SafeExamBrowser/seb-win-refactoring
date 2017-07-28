@@ -20,6 +20,7 @@ namespace SafeExamBrowser.UserInterface.Controls
 		private IApplicationInstance instance;
 
 		public delegate void OnClickHandler(Guid instanceId);
+
 		public event OnClickHandler Click;
 
 		public ApplicationInstanceButton(IApplicationInstance instance, IApplicationInfo info)

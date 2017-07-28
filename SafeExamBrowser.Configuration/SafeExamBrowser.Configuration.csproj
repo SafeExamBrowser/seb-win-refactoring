@@ -62,7 +62,8 @@
   <ItemGroup>
     <Compile Include="AboutNotificationIconResource.cs" />
     <Compile Include="AboutNotificationInfo.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="Settings\BrowserSettings.cs" />
+    <Compile Include="Settings\SettingsImpl.cs" />
     <Compile Include="WorkingArea.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

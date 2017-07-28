@@ -7,19 +7,24 @@
  */
 
 using System.Windows;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.UserInterface
 {
 	public partial class BrowserWindow : Window, IBrowserWindow
 	{
-		public BrowserWindow(IBrowserControl browserControl)
+		private IBrowserSettings settings;
+
+		public event WindowCloseHandler OnClose;
+
+		public BrowserWindow(IBrowserControl browserControl, IBrowserSettings settings)
 		{
+			this.settings = settings;
+
 			InitializeComponent();
 			InitializeBrowserWindow(browserControl);
 		}
-
-		public event WindowCloseHandler OnClose;
 
 		public void BringToForeground()
 		{
@@ -37,6 +42,18 @@ namespace SafeExamBrowser.UserInterface
 			{
 				BrowserControlHost.Child = browserControl as System.Windows.Forms.Control;
 			}
+
+			UrlTextBox.IsEnabled = settings.AllowAddressBar;
+			UrlTextBox.Visibility = settings.AllowAddressBar ? Visibility.Visible : Visibility.Collapsed;
+
+			ReloadButton.IsEnabled = settings.AllowReloading;
+			ReloadButton.Visibility = settings.AllowReloading ? Visibility.Visible : Visibility.Collapsed;
+
+			BackButton.IsEnabled = settings.AllowBackwardNavigation;
+			BackButton.Visibility = settings.AllowBackwardNavigation ? Visibility.Visible : Visibility.Collapsed;
+
+			ForwardButton.IsEnabled = settings.AllowForwardNavigation;
+			ForwardButton.Visibility = settings.AllowForwardNavigation ? Visibility.Visible : Visibility.Collapsed;
 
 			Closing += (o, args) => OnClose?.Invoke();
 		}
