@@ -67,6 +67,7 @@
     <Compile Include="BrowserApplicationController.cs" />
     <Compile Include="BrowserApplicationInfo.cs" />
     <Compile Include="BrowserApplicationInstance.cs" />
+    <Compile Include="BrowserContextMenuHandler.cs" />
     <Compile Include="BrowserControl.cs">
       <SubType>Component</SubType>
     </Compile>

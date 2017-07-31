@@ -13,6 +13,7 @@ using CefSharp;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Browser
@@ -23,10 +24,12 @@ namespace SafeExamBrowser.Browser
 		private IList<IApplicationInstance> instances = new List<IApplicationInstance>();
 		private ISettings settings;
 		private IUserInterfaceFactory uiFactory;
+		private IText text;
 
-		public BrowserApplicationController(ISettings settings, IUserInterfaceFactory uiFactory)
+		public BrowserApplicationController(ISettings settings, IText text, IUserInterfaceFactory uiFactory)
 		{
 			this.settings = settings;
+			this.text = text;
 			this.uiFactory = uiFactory;
 		}
 
@@ -56,7 +59,7 @@ namespace SafeExamBrowser.Browser
 		{
 			foreach (var instance in instances)
 			{
-				instance.OnTerminated -= Instance_OnTerminated;
+				instance.Terminated -= Instance_Terminated;
 				instance.Window.Close();
 			}
 
@@ -65,17 +68,13 @@ namespace SafeExamBrowser.Browser
 
 		private void CreateNewInstance()
 		{
-			var control = new BrowserControl("www.duckduckgo.com");
-			var window = uiFactory.CreateBrowserWindow(control, settings.Browser);
-			var instance = new BrowserApplicationInstance("DuckDuckGo");
-
-			instance.RegisterWindow(window);
-			instance.OnTerminated += Instance_OnTerminated;
+			var instance = new BrowserApplicationInstance(settings.Browser, text, uiFactory, instances.Count == 0);
 
 			button.RegisterInstance(instance);
 			instances.Add(instance);
 
-			window.Show();
+			instance.Terminated += Instance_Terminated;
+			instance.Window.Show();
 		}
 
 		private void Button_OnClick(Guid? instanceId = null)
@@ -90,7 +89,7 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		private void Instance_OnTerminated(Guid id)
+		private void Instance_Terminated(Guid id)
 		{
 			instances.Remove(instances.FirstOrDefault(i => i.Id == id));
 		}

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface"
         mc:Ignorable="d"
-        Title="BrowserWindow" Height="500" Width="500" WindowState="Maximized">
+        Title="BrowserWindow" Height="500" Width="500" WindowState="Maximized" Icon=".\Images\Chromium.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />

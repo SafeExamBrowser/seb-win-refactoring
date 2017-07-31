@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.UserInterface.Utilities;
@@ -37,7 +38,7 @@ namespace SafeExamBrowser.UserInterface.Controls
 			var instanceButton = new ApplicationInstanceButton(instance, info);
 
 			instanceButton.Click += (id) => OnClick?.Invoke(id);
-			instance.OnTerminated += (id) => Instance_OnTerminated(id, instanceButton);
+			instance.Terminated += (id) => Instance_OnTerminated(id, instanceButton);
 
 			instances.Add(instance);
 			InstanceStackPanel.Children.Add(instanceButton);
@@ -49,13 +50,24 @@ namespace SafeExamBrowser.UserInterface.Controls
 		{
 			Button.ToolTip = info.Tooltip;
 			Button.Content = IconResourceLoader.Load(info.IconResource);
-
+			
 			Button.MouseEnter += (o, args) => InstancePopup.IsOpen = instances.Count > 1;
 			Button.MouseLeave += (o, args) => InstancePopup.IsOpen &= InstancePopup.IsMouseOver || ActiveBar.IsMouseOver;
 			ActiveBar.MouseLeave += (o, args) => InstancePopup.IsOpen &= InstancePopup.IsMouseOver || Button.IsMouseOver;
 			InstancePopup.MouseLeave += (o, args) => InstancePopup.IsOpen = false;
-			InstancePopup.Opened += (o, args) => ActiveBar.Width = Double.NaN;
-			InstancePopup.Closed += (o, args) => ActiveBar.Width = 40;
+
+			InstancePopup.Opened += (o, args) =>
+			{
+				ActiveBar.Width = Double.NaN;
+				Background = (Brush) new BrushConverter().ConvertFrom("#2AFFFFFF");
+			};
+
+			InstancePopup.Closed += (o, args) =>
+			{
+				ActiveBar.Width = 40;
+				Background = (Brush) new BrushConverter().ConvertFrom("#00000000");
+			};
+
 			InstanceStackPanel.SizeChanged += (o, args) =>
 			{
 				if (instances.Count > 9)

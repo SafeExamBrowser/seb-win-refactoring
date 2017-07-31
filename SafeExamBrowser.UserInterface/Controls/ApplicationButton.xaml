@@ -37,7 +37,7 @@
             </Button.Template>
         </Button>
         <Grid Panel.ZIndex="10">
-            <Rectangle x:Name="ActiveBar" Height="3" Width="40" VerticalAlignment="Bottom" Fill="LightSteelBlue" Visibility="Collapsed" />
+            <Rectangle x:Name="ActiveBar" Height="2" Width="40" VerticalAlignment="Bottom" Fill="LightSteelBlue" Visibility="Collapsed" />
         </Grid>
     </Grid>
 </UserControl>

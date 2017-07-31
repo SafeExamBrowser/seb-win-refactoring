@@ -12,6 +12,7 @@ using SafeExamBrowser.Contracts.UserInterface;
 namespace SafeExamBrowser.Contracts.Configuration
 {
 	public delegate void TerminationEventHandler(Guid id);
+	public delegate void NameChangedEventHandler(string name);
 
 	public interface IApplicationInstance
 	{
@@ -28,16 +29,16 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// <summary>
 		/// Event fired when the application instance has been terminated.
 		/// </summary>
-		event TerminationEventHandler OnTerminated;
+		event TerminationEventHandler Terminated;
+
+		/// <summary>
+		/// Event fired when the name or (document) title of the application instance has changed.
+		/// </summary>
+		event NameChangedEventHandler NameChanged;
 
 		/// <summary>
 		/// The main window of the application instance.
 		/// </summary>
 		IWindow Window { get; }
-
-		/// <summary>
-		/// Registers the given window as the main window of the application instance.
-		/// </summary>
-		void RegisterWindow(IWindow window);
 	}
 }

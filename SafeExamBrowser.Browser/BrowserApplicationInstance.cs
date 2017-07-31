@@ -8,28 +8,70 @@
 
 using System;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Browser
 {
 	public class BrowserApplicationInstance : IApplicationInstance
 	{
+		private IBrowserControl control;
+		private IBrowserWindow window;
+
 		public Guid Id { get; private set; }
 		public string Name { get; private set; }
-		public IWindow Window { get; private set; }
+		public IWindow Window { get { return window; } }
 
-		public event TerminationEventHandler OnTerminated;
+		public event TerminationEventHandler Terminated;
+		public event NameChangedEventHandler NameChanged;
 
-		public BrowserApplicationInstance(string name)
+		public BrowserApplicationInstance(IBrowserSettings settings, IText text, IUserInterfaceFactory uiFactory, bool isMainInstance)
 		{
 			Id = Guid.NewGuid();
-			Name = name;
+
+			control = new BrowserControl(settings, text);
+			control.AddressChanged += Control_AddressChanged;
+			control.TitleChanged += Control_TitleChanged;
+
+			window = uiFactory.CreateBrowserWindow(control, settings);
+			window.IsMainWindow = isMainInstance;
+			window.Closing += () => Terminated?.Invoke(Id);
+			window.AddressChanged += Window_AddressChanged;
+			window.ReloadRequested += Window_ReloadRequested;
+			window.BackwardNavigationRequested += Window_BackwardNavigationRequested;
+			window.ForwardNavigationRequested += Window_ForwardNavigationRequested;
 		}
 
-		public void RegisterWindow(IWindow window)
+		private void Control_AddressChanged(string address)
 		{
-			Window = window;
-			Window.OnClose += () => OnTerminated?.Invoke(Id);
+			window.UpdateAddress(address);
+		}
+
+		private void Control_TitleChanged(string title)
+		{
+			window.UpdateTitle(title);
+			NameChanged?.Invoke(title);
+		}
+
+		private void Window_AddressChanged(string address)
+		{
+			control.NavigateTo(address);
+		}
+
+		private void Window_ReloadRequested()
+		{
+			control.Reload();
+		}
+
+		private void Window_BackwardNavigationRequested()
+		{
+			control.NavigateBackwards();
+		}
+
+		private void Window_ForwardNavigationRequested()
+		{
+			control.NavigateForwards();
 		}
 	}
 }

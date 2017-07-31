@@ -6,17 +6,70 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.Windows.Forms;
+using System;
 using CefSharp.WinForms;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
+using IBrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.IBrowserSettings;
 
 namespace SafeExamBrowser.Browser
 {
 	class BrowserControl : ChromiumWebBrowser, IBrowserControl
 	{
-		public BrowserControl(string url) : base(url)
+		private AddressChangedHandler addressChanged;
+		private IBrowserSettings settings;
+		private TitleChangedHandler titleChanged;
+		private IText text;
+
+		event AddressChangedHandler IBrowserControl.AddressChanged
 		{
-			Dock = DockStyle.Fill;
+			add { addressChanged += value; }
+			remove { addressChanged -= value; }
+		}
+
+		event TitleChangedHandler IBrowserControl.TitleChanged
+		{
+			add { titleChanged += value; }
+			remove { titleChanged -= value; }
+		}
+
+		public BrowserControl(IBrowserSettings settings, IText text) : base(settings.StartUrl)
+		{
+			this.settings = settings;
+			this.text = text;
+
+			Initialize();
+		}
+		
+		public void NavigateBackwards()
+		{
+			GetBrowser().GoBack();
+		}
+
+		public void NavigateForwards()
+		{
+			GetBrowser().GoForward();
+		}
+
+		public void NavigateTo(string address)
+		{
+			if (!String.IsNullOrWhiteSpace(address) && Uri.IsWellFormedUriString(address, UriKind.RelativeOrAbsolute))
+			{
+				Load(address);
+			}
+		}
+
+		public void Reload()
+		{
+			GetBrowser().Reload();
+		}
+
+		private void Initialize()
+		{
+			AddressChanged += (o, args) => addressChanged?.Invoke(args.Address);
+			TitleChanged += (o, args) => titleChanged?.Invoke(args.Title);
+
+			MenuHandler = new BrowserContextMenuHandler(settings, text);
 		}
 	}
 }

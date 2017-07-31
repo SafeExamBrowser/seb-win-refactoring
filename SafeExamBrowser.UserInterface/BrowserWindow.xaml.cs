@@ -7,6 +7,7 @@
  */
 
 using System.Windows;
+using System.Windows.Controls;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.UserInterface;
 
@@ -14,9 +15,33 @@ namespace SafeExamBrowser.UserInterface
 {
 	public partial class BrowserWindow : Window, IBrowserWindow
 	{
+		private bool isMainWindow;
 		private IBrowserSettings settings;
+		public WindowClosingHandler closing;
 
-		public event WindowCloseHandler OnClose;
+		public bool IsMainWindow
+		{
+			get
+			{
+				return isMainWindow;
+			}
+			set
+			{
+				isMainWindow = value;
+				ApplySettings();
+			}
+		}
+
+		public event AddressChangedHandler AddressChanged;
+		public event ActionRequestedHandler BackwardNavigationRequested;
+		public event ActionRequestedHandler ForwardNavigationRequested;
+		public event ActionRequestedHandler ReloadRequested;
+
+		event WindowClosingHandler IWindow.Closing
+		{
+			add { closing += value; }
+			remove { closing -= value; }
+		}
 
 		public BrowserWindow(IBrowserControl browserControl, IBrowserSettings settings)
 		{
@@ -36,6 +61,26 @@ namespace SafeExamBrowser.UserInterface
 			Activate();
 		}
 
+		public void UpdateAddress(string url)
+		{
+			Dispatcher.Invoke(() =>
+			{
+				UrlTextBox.TextChanged -= UrlTextBox_TextChanged;
+				UrlTextBox.Text = url;
+				UrlTextBox.TextChanged += UrlTextBox_TextChanged;
+			});
+		}
+
+		public void UpdateTitle(string title)
+		{
+			Dispatcher.Invoke(() => Title = title);
+		}
+
+		private void UrlTextBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			AddressChanged?.Invoke(UrlTextBox.Text);
+		}
+
 		private void InitializeBrowserWindow(IBrowserControl browserControl)
 		{
 			if (browserControl is System.Windows.Forms.Control)
@@ -43,8 +88,26 @@ namespace SafeExamBrowser.UserInterface
 				BrowserControlHost.Child = browserControl as System.Windows.Forms.Control;
 			}
 
+			Closing += (o, args) => closing?.Invoke();
+			UrlTextBox.TextChanged += UrlTextBox_TextChanged;
+			ReloadButton.Click += (o, args) => ReloadRequested?.Invoke();
+			BackButton.Click += (o, args) => BackwardNavigationRequested?.Invoke();
+			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
+
+			ApplySettings();
+		}
+
+		private void ApplySettings()
+		{
+			if (IsMainWindow && settings.FullScreenMode)
+			{
+				MaxHeight = SystemParameters.WorkArea.Height;
+				ResizeMode = ResizeMode.NoResize;
+				WindowState = WindowState.Maximized;
+				WindowStyle = WindowStyle.None;
+			}
+
 			UrlTextBox.IsEnabled = settings.AllowAddressBar;
-			UrlTextBox.Visibility = settings.AllowAddressBar ? Visibility.Visible : Visibility.Collapsed;
 
 			ReloadButton.IsEnabled = settings.AllowReloading;
 			ReloadButton.Visibility = settings.AllowReloading ? Visibility.Visible : Visibility.Collapsed;
@@ -54,8 +117,6 @@ namespace SafeExamBrowser.UserInterface
 
 			ForwardButton.IsEnabled = settings.AllowForwardNavigation;
 			ForwardButton.Visibility = settings.AllowForwardNavigation ? Visibility.Visible : Visibility.Collapsed;
-
-			Closing += (o, args) => OnClose?.Invoke();
 		}
 	}
 }

@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		ITaskbarButton CreateApplicationButton(IApplicationInfo info);
 
 		/// <summary>
-		/// Creates a new browser window loaded with the given browser control.
+		/// Creates a new browser window loaded with the given browser control and settings.
 		/// </summary>
 		IBrowserWindow CreateBrowserWindow(IBrowserControl control, IBrowserSettings settings);
 

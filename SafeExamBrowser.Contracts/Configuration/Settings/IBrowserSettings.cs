@@ -21,9 +21,9 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		bool AllowBackwardNavigation { get; }
 
 		/// <summary>
-		/// Determines whether the user should be allowed to open the debug console of a browser window.
+		/// Determines whether the user should be allowed to open the developer console of a browser window.
 		/// </summary>
-		bool AllowDebugConsole { get; }
+		bool AllowDeveloperConsole { get; }
 
 		/// <summary>
 		/// Determines whether the user should be allowed to navigate forwards in a browser window.
@@ -49,5 +49,10 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		/// Determines whether the main browser window should be rendered in fullscreen mode, i.e. without window frame.
 		/// </summary>
 		bool FullScreenMode { get; }
+
+		/// <summary>
+		/// The start URL with which a new browser window should be loaded.
+		/// </summary>
+		string StartUrl { get; }
 	}
 }

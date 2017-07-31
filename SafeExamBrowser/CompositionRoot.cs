@@ -63,10 +63,11 @@ namespace SafeExamBrowser
 
 			text = new Text(textResource);
 			aboutInfo = new AboutNotificationInfo(text);
-			browserController = new BrowserApplicationController(settings, uiFactory);
+			browserController = new BrowserApplicationController(settings, text, uiFactory);
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
 			windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)), nativeMethods);
 			workingArea = new WorkingArea(new ModuleLogger(logger, typeof(WorkingArea)), nativeMethods);
+
 			eventController = new EventController(new ModuleLogger(logger, typeof(EventController)), processMonitor, Taskbar, windowMonitor, workingArea);
 			ShutdownController = new ShutdownController(logger, settings, text, uiFactory);
 			StartupController = new StartupController(logger, settings, text, uiFactory);

@@ -23,24 +23,26 @@ namespace SafeExamBrowser.Configuration.Settings
 
 		public bool AllowAddressBar => true;
 
-		public bool AllowBackwardNavigation => false;
+		public bool AllowBackwardNavigation => true;
 
-		public bool AllowDebugConsole => true;
+		public bool AllowDeveloperConsole => true;
 
-		public bool AllowForwardNavigation => false;
+		public bool AllowForwardNavigation => true;
 
-		public bool AllowReloading => false;
+		public bool AllowReloading => true;
 
 		public string CachePath
 		{
 			get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), settings.AppDataFolderName, "Cache"); }
 		}
 
-		public bool FullScreenMode => throw new NotImplementedException();
+		public bool FullScreenMode => false;
 
 		public string LogFile
 		{
 			get { return Path.Combine(settings.LogFolderPath, $"{settings.RuntimeIdentifier}_Browser.txt"); }
 		}
+
+		public string StartUrl => "www.duckduckgo.com";
 	}
 }

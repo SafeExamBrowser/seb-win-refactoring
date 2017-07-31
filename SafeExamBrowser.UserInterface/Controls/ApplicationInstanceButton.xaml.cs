@@ -36,7 +36,16 @@ namespace SafeExamBrowser.UserInterface.Controls
 		{
 			Icon.Content = IconResourceLoader.Load(info.IconResource);
 			Text.Text = instance.Name;
-			Button.ToolTip = $"{instance.Name} - {info.Name}";
+			Button.ToolTip = instance.Name;
+
+			instance.NameChanged += (name) =>
+			{
+				Dispatcher.Invoke(() =>
+				{
+					Text.Text = name;
+					Button.ToolTip = name;
+				});
+			};
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)

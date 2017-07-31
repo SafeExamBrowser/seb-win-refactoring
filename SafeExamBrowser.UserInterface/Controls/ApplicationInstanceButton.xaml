@@ -10,7 +10,7 @@
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="ButtonContent" Background="#00000000" Padding="5">
-                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Content" />
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Left" ContentSource="Content" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

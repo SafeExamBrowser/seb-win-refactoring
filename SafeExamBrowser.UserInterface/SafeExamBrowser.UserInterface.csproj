@@ -163,5 +163,8 @@
   <ItemGroup>
     <Resource Include="Images\SafeExamBrowser.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Chromium.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
