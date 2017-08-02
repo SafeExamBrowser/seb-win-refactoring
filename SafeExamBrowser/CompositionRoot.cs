@@ -35,7 +35,6 @@ namespace SafeExamBrowser
 		private IEventController eventController;
 		private ILogger logger;
 		private INativeMethods nativeMethods;
-		private INotificationInfo aboutInfo;
 		private IProcessMonitor processMonitor;
 		private ISettings settings;
 		private IText text;
@@ -62,7 +61,6 @@ namespace SafeExamBrowser
 			logger.Subscribe(new LogFileWriter(settings));
 
 			text = new Text(textResource);
-			aboutInfo = new AboutNotificationInfo(text);
 			browserController = new BrowserApplicationController(settings, text, uiFactory);
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
 			windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)), nativeMethods);
@@ -76,7 +74,7 @@ namespace SafeExamBrowser
 			StartupOperations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
 			StartupOperations.Enqueue(new ProcessMonitorOperation(logger, processMonitor));
 			StartupOperations.Enqueue(new WorkingAreaOperation(logger, Taskbar, workingArea));
-			StartupOperations.Enqueue(new TaskbarOperation(logger, aboutInfo, Taskbar, uiFactory));
+			StartupOperations.Enqueue(new TaskbarOperation(logger, settings, Taskbar, text, uiFactory));
 			StartupOperations.Enqueue(new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory));
 			StartupOperations.Enqueue(new EventControllerOperation(eventController, logger));
 		}

@@ -15,6 +15,11 @@ namespace SafeExamBrowser.Contracts.UserInterface
 	public interface IUserInterfaceFactory : IMessageBox
 	{
 		/// <summary>
+		/// Creates a new about window displaying information about the currently running application version.
+		/// </summary>
+		IWindow CreateAboutWindow(ISettings settings, IText text);
+
+		/// <summary>
 		/// Creates a taskbar button, initialized with the given application information.
 		/// </summary>
 		ITaskbarButton CreateApplicationButton(IApplicationInfo info);

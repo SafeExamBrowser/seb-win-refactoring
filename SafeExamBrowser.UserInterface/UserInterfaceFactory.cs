@@ -18,6 +18,11 @@ namespace SafeExamBrowser.UserInterface
 {
 	public class UserInterfaceFactory : IUserInterfaceFactory
 	{
+		public IWindow CreateAboutWindow(ISettings settings, IText text)
+		{
+			return new AboutWindow(settings, text);
+		}
+
 		public ITaskbarButton CreateApplicationButton(IApplicationInfo info)
 		{
 			return new ApplicationButton(info);

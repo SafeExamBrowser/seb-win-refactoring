@@ -9,7 +9,7 @@
 using System;
 using SafeExamBrowser.Contracts.Configuration;
 
-namespace SafeExamBrowser.Configuration
+namespace SafeExamBrowser.Core.Notifications
 {
 	public class AboutNotificationIconResource : IIconResource
 	{

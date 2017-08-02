@@ -75,6 +75,9 @@
     <Compile Include="Logging\LogText.cs" />
     <Compile Include="Logging\ModuleLogger.cs" />
     <Compile Include="Logging\ThreadInfo.cs" />
+    <Compile Include="Notifications\AboutNotificationController.cs" />
+    <Compile Include="Notifications\AboutNotificationIconResource.cs" />
+    <Compile Include="Notifications\AboutNotificationInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,27 +7,31 @@
  */
 
 using SafeExamBrowser.Contracts.Behaviour;
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Core.Notifications;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
 	public class TaskbarOperation : IOperation
 	{
 		private ILogger logger;
+		private INotificationController aboutController;
 		private ITaskbar taskbar;
 		private IUserInterfaceFactory uiFactory;
-		private INotificationInfo aboutInfo;
+		private IText text;
+		private ISettings settings;
 
 		public ISplashScreen SplashScreen { private get; set; }
 
-		public TaskbarOperation(ILogger logger, INotificationInfo aboutInfo, ITaskbar taskbar, IUserInterfaceFactory uiFactory)
+		public TaskbarOperation(ILogger logger, ISettings settings, ITaskbar taskbar, IText text, IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
-			this.aboutInfo = aboutInfo;
+			this.settings = settings;
 			this.taskbar = taskbar;
+			this.text = text;
 			this.uiFactory = uiFactory;
 		}
 
@@ -36,14 +40,18 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			logger.Info("Initializing taskbar...");
 			SplashScreen.UpdateText(Key.SplashScreen_InitializeTaskbar);
 
+			var aboutInfo = new AboutNotificationInfo(text);
 			var aboutNotification = uiFactory.CreateNotification(aboutInfo);
+
+			aboutController = new AboutNotificationController(settings, text, uiFactory);
+			aboutController.RegisterNotification(aboutNotification);
 
 			taskbar.AddNotification(aboutNotification);
 		}
 
 		public void Revert()
 		{
-			// Nothing to do here so far...
+			aboutController.Terminate();
 		}
 	}
 }

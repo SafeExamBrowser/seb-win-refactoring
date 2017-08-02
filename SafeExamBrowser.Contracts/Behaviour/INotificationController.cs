@@ -16,5 +16,10 @@ namespace SafeExamBrowser.Contracts.Behaviour
 		/// Registers the taskbar notification.
 		/// </summary>
 		void RegisterNotification(ITaskbarNotification notification);
+
+		/// <summary>
+		/// Instructs the controller to shut down and release all used resources.
+		/// </summary>
+		void Terminate();
 	}
 }
