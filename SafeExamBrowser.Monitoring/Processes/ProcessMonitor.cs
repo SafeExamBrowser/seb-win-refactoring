@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Monitoring.Processes
 		private INativeMethods nativeMethods;
 		private ManagementEventWatcher explorerWatcher;
 
-		public event ExplorerStartedHandler ExplorerStarted;
+		public event ExplorerStartedEventHandler ExplorerStarted;
 
 		public ProcessMonitor(ILogger logger, INativeMethods nativeMethods)
 		{

@@ -8,29 +8,29 @@
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
-	public delegate void ActionRequestedHandler();
+	public delegate void ActionRequestedEventHandler();
 
 	public interface IBrowserWindow : IWindow
 	{
 		/// <summary>
 		/// Event fired when the user changed the URL.
 		/// </summary>
-		event AddressChangedHandler AddressChanged;
+		event AddressChangedEventHandler AddressChanged;
 
 		/// <summary>
 		/// Event fired when the user would like to navigate backwards.
 		/// </summary>
-		event ActionRequestedHandler BackwardNavigationRequested;
+		event ActionRequestedEventHandler BackwardNavigationRequested;
 
 		/// <summary>
 		/// Event fired when the user would like to navigate forwards.
 		/// </summary>
-		event ActionRequestedHandler ForwardNavigationRequested;
+		event ActionRequestedEventHandler ForwardNavigationRequested;
 
 		/// <summary>
 		/// Event fired when the user would like to reload the current page.
 		/// </summary>
-		event ActionRequestedHandler ReloadRequested;
+		event ActionRequestedEventHandler ReloadRequested;
 
 		/// <summary>
 		/// Determines whether this window is the main browser window.

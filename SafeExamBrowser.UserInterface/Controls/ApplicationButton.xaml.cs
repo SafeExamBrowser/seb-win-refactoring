@@ -23,7 +23,7 @@ namespace SafeExamBrowser.UserInterface.Controls
 		private IApplicationInfo info;
 		private IList<IApplicationInstance> instances = new List<IApplicationInstance>();
 
-		public event TaskbarButtonClickHandler OnClick;
+		public event TaskbarButtonClickedEventHandler Clicked;
 
 		public ApplicationButton(IApplicationInfo info)
 		{
@@ -37,7 +37,7 @@ namespace SafeExamBrowser.UserInterface.Controls
 		{
 			var instanceButton = new ApplicationInstanceButton(instance, info);
 
-			instanceButton.Click += (id) => OnClick?.Invoke(id);
+			instanceButton.Clicked += (id) => Clicked?.Invoke(id);
 			instance.Terminated += (id) => Instance_OnTerminated(id, instanceButton);
 
 			instances.Add(instance);
@@ -81,7 +81,7 @@ namespace SafeExamBrowser.UserInterface.Controls
 		{
 			if (instances.Count <= 1)
 			{
-				OnClick?.Invoke(instances.FirstOrDefault()?.Id);
+				Clicked?.Invoke(instances.FirstOrDefault()?.Id);
 			}
 			else
 			{

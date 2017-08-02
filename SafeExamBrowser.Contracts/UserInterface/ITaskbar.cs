@@ -18,8 +18,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// <summary>
 		/// Adds the given notification button to the taskbar.
 		/// </summary>
-		/// <param name="button"></param>
-		void AddNotification(ITaskbarNotification button);
+		void AddNotification(ITaskbarNotification notification);
 
 		/// <summary>
 		/// Returns the absolute height of the taskbar (i.e. in physical pixels).

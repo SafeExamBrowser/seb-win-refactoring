@@ -17,7 +17,7 @@ namespace SafeExamBrowser.UserInterface
 	{
 		private bool isMainWindow;
 		private IBrowserSettings settings;
-		public WindowClosingHandler closing;
+		public WindowClosingEventHandler closing;
 
 		public bool IsMainWindow
 		{
@@ -32,12 +32,12 @@ namespace SafeExamBrowser.UserInterface
 			}
 		}
 
-		public event AddressChangedHandler AddressChanged;
-		public event ActionRequestedHandler BackwardNavigationRequested;
-		public event ActionRequestedHandler ForwardNavigationRequested;
-		public event ActionRequestedHandler ReloadRequested;
+		public event AddressChangedEventHandler AddressChanged;
+		public event ActionRequestedEventHandler BackwardNavigationRequested;
+		public event ActionRequestedEventHandler ForwardNavigationRequested;
+		public event ActionRequestedEventHandler ReloadRequested;
 
-		event WindowClosingHandler IWindow.Closing
+		event WindowClosingEventHandler IWindow.Closing
 		{
 			add { closing += value; }
 			remove { closing -= value; }

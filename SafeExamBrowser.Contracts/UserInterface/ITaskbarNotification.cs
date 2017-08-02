@@ -8,13 +8,13 @@
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
-	public delegate void TaskbarNotificationClickHandler();
+	public delegate void TaskbarNotificationClickedEventHandler();
 
 	public interface ITaskbarNotification
 	{
 		/// <summary>
-		/// OnClick handler, executed when the user clicks on the notification icon.
+		/// Event fired when the user clicked on the notification icon.
 		/// </summary>
-		event TaskbarNotificationClickHandler OnClick;
+		event TaskbarNotificationClickedEventHandler Clicked;
 	}
 }

@@ -8,20 +8,20 @@
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
-	public delegate void AddressChangedHandler(string address);
-	public delegate void TitleChangedHandler(string title);
+	public delegate void AddressChangedEventHandler(string address);
+	public delegate void TitleChangedEventHandler(string title);
 
 	public interface IBrowserControl
 	{
 		/// <summary>
 		/// Event fired when the address of the browser control changes.
 		/// </summary>
-		event AddressChangedHandler AddressChanged;
+		event AddressChangedEventHandler AddressChanged;
 
 		/// <summary>
 		/// Event fired when the current page (and thus the title) of the browser control changes.
 		/// </summary>
-		event TitleChangedHandler TitleChanged;
+		event TitleChangedEventHandler TitleChanged;
 
 		/// <summary>
 		/// Navigates to the previous page in the browser control history.

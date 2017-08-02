@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Monitoring.Windows
 		private IList<Window> minimizedWindows = new List<Window>();
 		private INativeMethods nativeMethods;
 
-		public event WindowChangedHandler WindowChanged;
+		public event WindowChangedEventHandler WindowChanged;
 
 		public WindowMonitor(ILogger logger, INativeMethods nativeMethods)
 		{

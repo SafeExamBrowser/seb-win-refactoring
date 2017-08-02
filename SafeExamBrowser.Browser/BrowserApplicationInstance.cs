@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Browser
 		public string Name { get; private set; }
 		public IWindow Window { get { return window; } }
 
-		public event TerminationEventHandler Terminated;
+		public event TerminatedEventHandler Terminated;
 		public event NameChangedEventHandler NameChanged;
 
 		public BrowserApplicationInstance(IBrowserSettings settings, IText text, IUserInterfaceFactory uiFactory, bool isMainInstance)

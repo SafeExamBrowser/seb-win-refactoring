@@ -10,7 +10,7 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Monitoring
 {
-	public delegate void ExplorerStartedHandler();
+	public delegate void ExplorerStartedEventHandler();
 
 	public interface IProcessMonitor
 	{
@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Contracts.Monitoring
 		/// Event fired when the process monitor observes that a new instance of
 		/// the Windows explorer has been started.
 		/// </summary>
-		event ExplorerStartedHandler ExplorerStarted;
+		event ExplorerStartedEventHandler ExplorerStarted;
 
 		/// <summary>
 		/// Performs a check whether the process associated to the given window is allowed.

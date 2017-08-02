@@ -11,7 +11,7 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
-	public delegate void TerminationEventHandler(Guid id);
+	public delegate void TerminatedEventHandler(Guid id);
 	public delegate void NameChangedEventHandler(string name);
 
 	public interface IApplicationInstance
@@ -29,7 +29,7 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// <summary>
 		/// Event fired when the application instance has been terminated.
 		/// </summary>
-		event TerminationEventHandler Terminated;
+		event TerminatedEventHandler Terminated;
 
 		/// <summary>
 		/// Event fired when the name or (document) title of the application instance has changed.

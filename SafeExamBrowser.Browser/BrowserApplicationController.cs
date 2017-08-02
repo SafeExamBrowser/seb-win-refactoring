@@ -52,7 +52,7 @@ namespace SafeExamBrowser.Browser
 		public void RegisterApplicationButton(ITaskbarButton button)
 		{
 			this.button = button;
-			this.button.OnClick += Button_OnClick;
+			this.button.Clicked += Button_OnClick;
 		}
 
 		public void Terminate()

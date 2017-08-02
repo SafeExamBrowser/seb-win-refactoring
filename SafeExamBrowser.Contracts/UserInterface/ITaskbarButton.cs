@@ -11,18 +11,18 @@ using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
-	public delegate void TaskbarButtonClickHandler(Guid? instanceId = null);
+	public delegate void TaskbarButtonClickedEventHandler(Guid? instanceId = null);
 
 	public interface ITaskbarButton
 	{
 		/// <summary>
-		/// OnClick handler, executed when the user clicks on the application button. If multiple instances of
-		/// an application are active, the handler is only executed when the user selects one of the instances.
+		/// Event fired when the user clicked on the application button. If multiple instances of an application
+		/// are active, the handler is only executed when the user selects one of the instances.
 		/// </summary>
-		event TaskbarButtonClickHandler OnClick;
+		event TaskbarButtonClickedEventHandler Clicked;
 
 		/// <summary>
-		/// Registers a new instance of an application, to be displayed if the user clicks the taskbar button.
+		/// Registers a new instance of an application, to be started / displayed if the user clicked the taskbar button.
 		/// </summary>
 		void RegisterInstance(IApplicationInstance instance);
 	}

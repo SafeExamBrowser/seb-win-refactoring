@@ -14,14 +14,14 @@ using SafeExamBrowser.UserInterface.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Controls
 {
+	internal delegate void InstanceButtonClickedEventHandler(Guid instanceId);
+
 	public partial class ApplicationInstanceButton : UserControl
 	{
 		private IApplicationInfo info;
 		private IApplicationInstance instance;
 
-		public delegate void OnClickHandler(Guid instanceId);
-
-		public event OnClickHandler Click;
+		internal event InstanceButtonClickedEventHandler Clicked;
 
 		public ApplicationInstanceButton(IApplicationInstance instance, IApplicationInfo info)
 		{
@@ -50,7 +50,7 @@ namespace SafeExamBrowser.UserInterface.Controls
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			Click?.Invoke(instance.Id);
+			Clicked?.Invoke(instance.Id);
 		}
 	}
 }

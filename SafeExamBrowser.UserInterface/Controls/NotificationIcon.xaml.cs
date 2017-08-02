@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Windows;
 using System.Windows.Controls;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -15,7 +16,7 @@ namespace SafeExamBrowser.UserInterface.Controls
 {
 	public partial class NotificationIcon : UserControl, ITaskbarNotification
 	{
-		public event TaskbarNotificationClickHandler OnClick;
+		public event TaskbarNotificationClickedEventHandler Clicked;
 
 		public NotificationIcon(INotificationInfo info)
 		{
@@ -23,9 +24,9 @@ namespace SafeExamBrowser.UserInterface.Controls
 			InitializeNotificationIcon(info);
 		}
 
-		private void Icon_Click(object sender, System.Windows.RoutedEventArgs e)
+		private void Icon_Click(object sender, RoutedEventArgs e)
 		{
-			OnClick?.Invoke();
+			Clicked?.Invoke();
 		}
 
 		private void InitializeNotificationIcon(INotificationInfo info)

@@ -16,18 +16,18 @@ namespace SafeExamBrowser.Browser
 {
 	class BrowserControl : ChromiumWebBrowser, IBrowserControl
 	{
-		private AddressChangedHandler addressChanged;
+		private AddressChangedEventHandler addressChanged;
 		private IBrowserSettings settings;
-		private TitleChangedHandler titleChanged;
+		private TitleChangedEventHandler titleChanged;
 		private IText text;
 
-		event AddressChangedHandler IBrowserControl.AddressChanged
+		event AddressChangedEventHandler IBrowserControl.AddressChanged
 		{
 			add { addressChanged += value; }
 			remove { addressChanged -= value; }
 		}
 
-		event TitleChangedHandler IBrowserControl.TitleChanged
+		event TitleChangedEventHandler IBrowserControl.TitleChanged
 		{
 			add { titleChanged += value; }
 			remove { titleChanged -= value; }

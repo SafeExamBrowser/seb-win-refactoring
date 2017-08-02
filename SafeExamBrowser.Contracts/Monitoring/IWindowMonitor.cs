@@ -10,14 +10,14 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Monitoring
 {
-	public delegate void WindowChangedHandler(IntPtr window);
+	public delegate void WindowChangedEventHandler(IntPtr window);
 
 	public interface IWindowMonitor
 	{
 		/// <summary>
 		/// Event fired when the window monitor observes that the foreground window has changed.
 		/// </summary>
-		event WindowChangedHandler WindowChanged;
+		event WindowChangedEventHandler WindowChanged;
 
 		/// <summary>
 		/// Forcefully closes the specified window.
