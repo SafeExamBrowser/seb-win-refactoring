@@ -7,7 +7,7 @@
  */
 
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Input;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.UserInterface;
 
@@ -63,22 +63,12 @@ namespace SafeExamBrowser.UserInterface
 
 		public void UpdateAddress(string url)
 		{
-			Dispatcher.Invoke(() =>
-			{
-				UrlTextBox.TextChanged -= UrlTextBox_TextChanged;
-				UrlTextBox.Text = url;
-				UrlTextBox.TextChanged += UrlTextBox_TextChanged;
-			});
+			Dispatcher.Invoke(() => UrlTextBox.Text = url);
 		}
 
 		public void UpdateTitle(string title)
 		{
 			Dispatcher.Invoke(() => Title = title);
-		}
-
-		private void UrlTextBox_TextChanged(object sender, TextChangedEventArgs e)
-		{
-			AddressChanged?.Invoke(UrlTextBox.Text);
 		}
 
 		private void InitializeBrowserWindow(IBrowserControl browserControl)
@@ -89,12 +79,20 @@ namespace SafeExamBrowser.UserInterface
 			}
 
 			Closing += (o, args) => closing?.Invoke();
-			UrlTextBox.TextChanged += UrlTextBox_TextChanged;
+			UrlTextBox.KeyUp += UrlTextBox_KeyUp;
 			ReloadButton.Click += (o, args) => ReloadRequested?.Invoke();
 			BackButton.Click += (o, args) => BackwardNavigationRequested?.Invoke();
 			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
 
 			ApplySettings();
+		}
+
+		private void UrlTextBox_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter)
+			{
+				AddressChanged?.Invoke(UrlTextBox.Text);
+			}
 		}
 
 		private void ApplySettings()
