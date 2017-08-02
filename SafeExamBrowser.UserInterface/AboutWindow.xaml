@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface"
         mc:Ignorable="d"
-        Title="About" Height="350" Width="450" ResizeMode="NoResize" Icon="./Images/SafeExamBrowser.ico"
+        Title="About Safe Exam Browser" Height="350" Width="450" ResizeMode="NoResize" Icon="./Images/SafeExamBrowser.ico"
         ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
     <Window.Background>
         <SolidColorBrush Color="Black" Opacity="0.8" />
@@ -19,8 +19,8 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Image Grid.ColumnSpan="2" Source="pack://application:,,,/SafeExamBrowser.UserInterface;component/Images/SplashScreen.png" />
-        <TextBlock x:Name="VersionInfo" Grid.Row="0" Grid.Column="1" Foreground="White" Margin="50,75,35,10" TextWrapping="Wrap" FontSize="10" />
+        <Image Grid.ColumnSpan="2" Source="pack://application:,,,/SafeExamBrowser.UserInterface;component/Images/SplashScreen.png" Margin="0,5,0,0" />
+        <TextBlock x:Name="VersionInfo" Grid.Row="0" Grid.Column="1" Foreground="DarkGray" Margin="25,70,50,10" TextWrapping="Wrap" />
         <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
             <TextBlock x:Name="MainText" Foreground="White" Margin="10" FontSize="10" TextWrapping="Wrap">
                 This application is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed

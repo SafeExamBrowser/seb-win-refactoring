@@ -8,6 +8,7 @@
 
 using System;
 using CefSharp.WinForms;
+using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
 using IBrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.IBrowserSettings;
@@ -70,6 +71,7 @@ namespace SafeExamBrowser.Browser
 			TitleChanged += (o, args) => titleChanged?.Invoke(args.Title);
 
 			MenuHandler = new BrowserContextMenuHandler(settings, text);
+			KeyboardHandler = new BrowserKeyboardHandler();
 		}
 	}
 }

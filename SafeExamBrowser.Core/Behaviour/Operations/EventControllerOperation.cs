@@ -16,11 +16,11 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 	public class EventControllerOperation : IOperation
 	{
 		private ILogger logger;
-		private IEventController controller;
+		private IRuntimeController controller;
 
 		public ISplashScreen SplashScreen { private get; set; }
 
-		public EventControllerOperation(IEventController controller, ILogger logger)
+		public EventControllerOperation(IRuntimeController controller, ILogger logger)
 		{
 			this.controller = controller;
 			this.logger = logger;

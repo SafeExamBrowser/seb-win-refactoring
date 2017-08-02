@@ -67,11 +67,12 @@
     <Compile Include="BrowserApplicationController.cs" />
     <Compile Include="BrowserApplicationInfo.cs" />
     <Compile Include="BrowserApplicationInstance.cs" />
-    <Compile Include="BrowserContextMenuHandler.cs" />
+    <Compile Include="Handlers\BrowserContextMenuHandler.cs" />
     <Compile Include="BrowserControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="BrowserIconResource.cs" />
+    <Compile Include="Handlers\BrowserKeyboardHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

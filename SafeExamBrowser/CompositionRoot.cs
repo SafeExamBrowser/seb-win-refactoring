@@ -32,7 +32,7 @@ namespace SafeExamBrowser
 	{
 		private IApplicationController browserController;
 		private IApplicationInfo browserInfo;
-		private IEventController eventController;
+		private IRuntimeController runtimeController;
 		private ILogger logger;
 		private INativeMethods nativeMethods;
 		private IProcessMonitor processMonitor;
@@ -66,7 +66,7 @@ namespace SafeExamBrowser
 			windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)), nativeMethods);
 			workingArea = new WorkingArea(new ModuleLogger(logger, typeof(WorkingArea)), nativeMethods);
 
-			eventController = new EventController(new ModuleLogger(logger, typeof(EventController)), processMonitor, Taskbar, windowMonitor, workingArea);
+			runtimeController = new RuntimeController(new ModuleLogger(logger, typeof(RuntimeController)), processMonitor, Taskbar, windowMonitor, workingArea);
 			ShutdownController = new ShutdownController(logger, settings, text, uiFactory);
 			StartupController = new StartupController(logger, settings, text, uiFactory);
 
@@ -76,7 +76,7 @@ namespace SafeExamBrowser
 			StartupOperations.Enqueue(new WorkingAreaOperation(logger, Taskbar, workingArea));
 			StartupOperations.Enqueue(new TaskbarOperation(logger, settings, Taskbar, text, uiFactory));
 			StartupOperations.Enqueue(new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory));
-			StartupOperations.Enqueue(new EventControllerOperation(eventController, logger));
+			StartupOperations.Enqueue(new EventControllerOperation(runtimeController, logger));
 		}
 	}
 }

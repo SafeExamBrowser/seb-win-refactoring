@@ -19,7 +19,7 @@ using SafeExamBrowser.Core.Behaviour;
 namespace SafeExamBrowser.Core.UnitTests.Behaviour
 {
 	[TestClass]
-	public class EventControllerTests
+	public class RuntimeControllerTests
 	{
 		private Mock<ILogger> loggerMock;
 		private Mock<IProcessMonitor> processMonitorMock;
@@ -27,7 +27,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 		private Mock<IWindowMonitor> windowMonitorMock;
 		private Mock<IWorkingArea> workingAreaMock;
 
-		private IEventController sut;
+		private IRuntimeController sut;
 
 		[TestInitialize]
 		public void Initialize()
@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 			windowMonitorMock= new Mock<IWindowMonitor>();
 			workingAreaMock = new Mock<IWorkingArea>();
 
-			sut = new EventController(
+			sut = new RuntimeController(
 				loggerMock.Object,
 				processMonitorMock.Object,
 				taskbarMock.Object,

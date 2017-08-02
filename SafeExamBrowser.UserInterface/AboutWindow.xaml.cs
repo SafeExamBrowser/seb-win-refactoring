@@ -46,7 +46,7 @@ namespace SafeExamBrowser.UserInterface
 			VersionInfo.Inlines.Add(new Run($"{text.Get(Key.Version)} {settings.ProgramVersion}") { FontStyle = FontStyles.Italic });
 			VersionInfo.Inlines.Add(new LineBreak());
 			VersionInfo.Inlines.Add(new LineBreak());
-			VersionInfo.Inlines.Add(new Run(settings.ProgramCopyright));
+			VersionInfo.Inlines.Add(new Run(settings.ProgramCopyright) { FontSize = 10 });
 		}
 	}
 }

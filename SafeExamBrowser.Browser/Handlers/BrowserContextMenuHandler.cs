@@ -10,7 +10,7 @@ using CefSharp;
 using SafeExamBrowser.Contracts.I18n;
 using IBrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.IBrowserSettings;
 
-namespace SafeExamBrowser.Browser
+namespace SafeExamBrowser.Browser.Handlers
 {
 	/// <remarks>
 	/// See https://cefsharp.github.io/api/57.0.0/html/T_CefSharp_IContextMenuHandler.htm.

@@ -8,7 +8,7 @@
 
 namespace SafeExamBrowser.Contracts.Behaviour
 {
-	public interface IEventController
+	public interface IRuntimeController
 	{
 		/// <summary>
 		/// Wires up the event handling, i.e. subscribes to all relevant application events.

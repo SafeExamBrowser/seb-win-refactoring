@@ -79,12 +79,21 @@ namespace SafeExamBrowser.UserInterface
 			}
 
 			Closing += (o, args) => closing?.Invoke();
+			KeyUp += BrowserWindow_KeyUp;
 			UrlTextBox.KeyUp += UrlTextBox_KeyUp;
 			ReloadButton.Click += (o, args) => ReloadRequested?.Invoke();
 			BackButton.Click += (o, args) => BackwardNavigationRequested?.Invoke();
 			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
 
 			ApplySettings();
+		}
+
+		private void BrowserWindow_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.F5)
+			{
+				ReloadRequested?.Invoke();
+			}
 		}
 
 		private void UrlTextBox_KeyUp(object sender, KeyEventArgs e)

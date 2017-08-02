@@ -15,7 +15,7 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour
 {
-	public class EventController : IEventController
+	public class RuntimeController : IRuntimeController
 	{
 		private ILogger logger;
 		private IProcessMonitor processMonitor;
@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Core.Behaviour
 		private IWindowMonitor windowMonitor;
 		private IWorkingArea workingArea;
 
-		public EventController(
+		public RuntimeController(
 			ILogger logger,
 			IProcessMonitor processMonitor,
 			ITaskbar taskbar,
