@@ -71,7 +71,7 @@ namespace SafeExamBrowser.Browser
 			TitleChanged += (o, args) => titleChanged?.Invoke(args.Title);
 
 			MenuHandler = new BrowserContextMenuHandler(settings, text);
-			KeyboardHandler = new BrowserKeyboardHandler();
+			KeyboardHandler = new BrowserKeyboardHandler(settings);
 		}
 	}
 }
