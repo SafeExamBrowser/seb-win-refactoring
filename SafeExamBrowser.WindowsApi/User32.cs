@@ -15,13 +15,17 @@ using SafeExamBrowser.WindowsApi.Constants;
 namespace SafeExamBrowser.WindowsApi
 {
 	internal delegate bool EnumWindowsDelegate(IntPtr hWnd, IntPtr lParam);
-	internal delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
+	internal delegate IntPtr HookProc(int code, IntPtr wParam, IntPtr lParam);
+	internal delegate void EventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
 
 	/// <summary>
 	/// Provides access to the native Windows API exposed by <c>user32.dll</c>.
 	/// </summary>
 	internal static class User32
 	{
+		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+
 		[DllImport("user32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool EnumWindows(EnumWindowsDelegate enumProc, IntPtr lParam);
@@ -50,7 +54,10 @@ namespace SafeExamBrowser.WindowsApi
 		internal static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
 		[DllImport("user32.dll", SetLastError = true)]
-		internal static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventDelegate lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
+		internal static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, EventProc lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern IntPtr SetWindowsHookEx(HookType hookType, HookProc lpfn, IntPtr hMod, uint dwThreadId);
 
 		[DllImport("user32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -62,5 +69,9 @@ namespace SafeExamBrowser.WindowsApi
 
 		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern bool UnhookWinEvent(IntPtr hWinEventHook);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		internal static extern bool UnhookWindowsHookEx(IntPtr hhk);
 	}
 }

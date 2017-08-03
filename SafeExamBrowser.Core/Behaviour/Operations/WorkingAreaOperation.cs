@@ -32,7 +32,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Initializing working area...");
-			SplashScreen.UpdateText(Key.SplashScreen_InitializeWorkingArea);
+			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeWorkingArea);
 
 			// TODO
 			// - Emptying clipboard
@@ -43,7 +43,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Restoring working area...");
-			SplashScreen.UpdateText(Key.SplashScreen_RestoreWorkingArea);
+			SplashScreen.UpdateText(TextKey.SplashScreen_RestoreWorkingArea);
 
 			// TODO
 			// - Emptying clipboard

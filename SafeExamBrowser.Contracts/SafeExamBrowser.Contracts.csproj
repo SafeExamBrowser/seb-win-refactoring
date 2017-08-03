@@ -72,7 +72,7 @@
     <Compile Include="Behaviour\IStartupController.cs" />
     <Compile Include="Configuration\IWorkingArea.cs" />
     <Compile Include="I18n\IText.cs" />
-    <Compile Include="I18n\Key.cs" />
+    <Compile Include="I18n\TextKey.cs" />
     <Compile Include="Logging\ILogContent.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\ILogMessage.cs" />
@@ -84,6 +84,7 @@
     <Compile Include="Monitoring\IMouseInterceptor.cs" />
     <Compile Include="Monitoring\IProcessMonitor.cs" />
     <Compile Include="Monitoring\IWindowMonitor.cs" />
+    <Compile Include="Monitoring\KeyModifier.cs" />
     <Compile Include="UserInterface\IBrowserControl.cs" />
     <Compile Include="UserInterface\IBrowserWindow.cs" />
     <Compile Include="UserInterface\IMessageBox.cs" />

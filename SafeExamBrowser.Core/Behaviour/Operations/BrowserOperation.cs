@@ -41,7 +41,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Initializing browser...");
-			SplashScreen.UpdateText(Key.SplashScreen_InitializeBrowser);
+			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeBrowser);
 
 			var browserButton = uiFactory.CreateApplicationButton(browserInfo);
 
@@ -54,7 +54,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Terminating browser...");
-			SplashScreen.UpdateText(Key.SplashScreen_TerminateBrowser);
+			SplashScreen.UpdateText(TextKey.SplashScreen_TerminateBrowser);
 
 			browserController.Terminate();
 		}

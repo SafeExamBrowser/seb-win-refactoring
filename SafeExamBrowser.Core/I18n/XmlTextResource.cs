@@ -17,16 +17,16 @@ namespace SafeExamBrowser.Core.I18n
 {
 	public class XmlTextResource : ITextResource
 	{
-		public IDictionary<Key, string> LoadText()
+		public IDictionary<TextKey, string> LoadText()
 		{
 			var assembly = Assembly.GetAssembly(typeof(XmlTextResource)).Location;
 			var path = Path.GetDirectoryName(assembly) + $@"\{nameof(I18n)}\Text.xml";
 			var xml = XDocument.Load(path);
-			var text = new Dictionary<Key, string>();
+			var text = new Dictionary<TextKey, string>();
 
 			foreach (var definition in xml.Root.Descendants())
 			{
-				if (Enum.TryParse(definition.Name.LocalName, out Key key))
+				if (Enum.TryParse(definition.Name.LocalName, out TextKey key))
 				{
 					text[key] = definition.Value;
 				}

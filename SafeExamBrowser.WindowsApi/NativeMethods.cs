@@ -10,17 +10,37 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.WindowsApi;
 using SafeExamBrowser.Contracts.WindowsApi.Types;
 using SafeExamBrowser.WindowsApi.Constants;
+using SafeExamBrowser.WindowsApi.Monitoring;
 
 namespace SafeExamBrowser.WindowsApi
 {
 	public class NativeMethods : INativeMethods
 	{
-		private ConcurrentDictionary<IntPtr, WinEventDelegate> EventDelegates = new ConcurrentDictionary<IntPtr, WinEventDelegate>();
+		private ConcurrentDictionary<IntPtr, EventProc> EventDelegates = new ConcurrentDictionary<IntPtr, EventProc>();
+		private ConcurrentDictionary<IntPtr, KeyboardHook> KeyboardHooks = new ConcurrentDictionary<IntPtr, KeyboardHook>();
+
+		/// <summary>
+		/// Upon finalization, unregister all system events and hooks...
+		/// </summary>
+		~NativeMethods()
+		{
+			foreach (var handle in EventDelegates.Keys)
+			{
+				User32.UnhookWinEvent(handle);
+			}
+
+			foreach (var handle in KeyboardHooks.Keys)
+			{
+				User32.UnhookWindowsHookEx(handle);
+			}
+		}
 
 		public IEnumerable<IntPtr> GetOpenWindows()
 		{
@@ -118,9 +138,21 @@ namespace SafeExamBrowser.WindowsApi
 			}
 		}
 
+		public void RegisterKeyboardHook(IKeyboardInterceptor interceptor)
+		{
+			var hook = new KeyboardHook(interceptor);
+
+			hook.Attach();
+
+			// IMORTANT:
+			// Ensures that the hook does not get garbage collected prematurely, as it will be passed to unmanaged code.
+			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
+			KeyboardHooks[hook.Handle] = hook;
+		}
+
 		public IntPtr RegisterSystemForegroundEvent(Action<IntPtr> callback)
 		{
-			WinEventDelegate eventProc = (IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime) =>
+			EventProc eventProc = (IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime) =>
 			{
 				callback(hwnd);
 			};
@@ -128,7 +160,7 @@ namespace SafeExamBrowser.WindowsApi
 			var handle = User32.SetWinEventHook(Constant.EVENT_SYSTEM_FOREGROUND, Constant.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, eventProc, 0, 0, Constant.WINEVENT_OUTOFCONTEXT);
 
 			// IMORTANT:
-			// Ensures that the callback does not get garbage collected prematurely, as it will be passed to unmanaged code.
+			// Ensures that the event delegate does not get garbage collected prematurely, as it will be passed to unmanaged code.
 			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
 			EventDelegates[handle] = eventProc;
 
@@ -137,7 +169,7 @@ namespace SafeExamBrowser.WindowsApi
 
 		public IntPtr RegisterSystemCaptureStartEvent(Action<IntPtr> callback)
 		{
-			WinEventDelegate eventProc = (IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime) =>
+			EventProc eventProc = (IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime) =>
 			{
 				callback(hwnd);
 			};
@@ -145,7 +177,7 @@ namespace SafeExamBrowser.WindowsApi
 			var handle = User32.SetWinEventHook(Constant.EVENT_SYSTEM_CAPTURESTART, Constant.EVENT_SYSTEM_CAPTURESTART, IntPtr.Zero, eventProc, 0, 0, Constant.WINEVENT_OUTOFCONTEXT);
 
 			// IMORTANT:
-			// Ensures that the callback does not get garbage collected prematurely, as it will be passed to unmanaged code.
+			// Ensures that the event delegate does not get garbage collected prematurely, as it will be passed to unmanaged code.
 			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
 			EventDelegates[handle] = eventProc;
 
@@ -172,6 +204,23 @@ namespace SafeExamBrowser.WindowsApi
 			}
 		}
 
+		public void UnregisterKeyboardHook(IKeyboardInterceptor interceptor)
+		{
+			var hook = KeyboardHooks.Values.FirstOrDefault(h => h.Interceptor == interceptor);
+
+			if (hook != null)
+			{
+				var success = hook.Detach();
+
+				if (!success)
+				{
+					throw new Win32Exception(Marshal.GetLastWin32Error());
+				}
+
+				KeyboardHooks.TryRemove(hook.Handle, out KeyboardHook h);
+			}
+		}
+
 		public void UnregisterSystemEvent(IntPtr handle)
 		{
 			var success = User32.UnhookWinEvent(handle);
@@ -180,10 +229,8 @@ namespace SafeExamBrowser.WindowsApi
 			{
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
-			else
-			{
-				EventDelegates.TryRemove(handle, out WinEventDelegate d);
-			}
+
+			EventDelegates.TryRemove(handle, out EventProc d);
 		}
 	}
 }

@@ -38,7 +38,7 @@ namespace SafeExamBrowser.WindowsApi.Constants
 
 		/// <summary>
 		/// Activates the window and displays it as a maximized window.
-		/// </summary>      
+		/// </summary>
 		ShowMaximized = 3,
 
 		/// <summary>

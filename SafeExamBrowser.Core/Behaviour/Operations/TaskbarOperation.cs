@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Initializing taskbar...");
-			SplashScreen.UpdateText(Key.SplashScreen_InitializeTaskbar);
+			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeTaskbar);
 
 			var aboutInfo = new AboutNotificationInfo(text);
 			var aboutNotification = uiFactory.CreateNotification(aboutInfo);

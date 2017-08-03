@@ -60,7 +60,7 @@ namespace SafeExamBrowser.UserInterface
 			model.MaxProgress = max;
 		}
 
-		public void UpdateText(Key key, bool showBusyIndication = false)
+		public void UpdateText(TextKey key, bool showBusyIndication = false)
 		{
 			model.StopBusyIndication();
 			model.Status = text.Get(key);
@@ -73,7 +73,7 @@ namespace SafeExamBrowser.UserInterface
 
 		private void InitializeSplashScreen()
 		{
-			InfoTextBlock.Inlines.Add(new Run($"{text.Get(Key.Version)} {settings.ProgramVersion}") { FontStyle = FontStyles.Italic });
+			InfoTextBlock.Inlines.Add(new Run($"{text.Get(TextKey.Version)} {settings.ProgramVersion}") { FontStyle = FontStyles.Italic });
 			InfoTextBlock.Inlines.Add(new LineBreak());
 			InfoTextBlock.Inlines.Add(new LineBreak());
 			InfoTextBlock.Inlines.Add(new Run(settings.ProgramCopyright) { FontSize = 10 });

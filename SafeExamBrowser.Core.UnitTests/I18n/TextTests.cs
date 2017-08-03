@@ -24,9 +24,9 @@ namespace SafeExamBrowser.Core.UnitTests.I18n
 			var resource = new Mock<ITextResource>();
 			var sut = new Text(resource.Object);
 
-			resource.Setup(r => r.LoadText()).Returns<IDictionary<Key, string>>(null);
+			resource.Setup(r => r.LoadText()).Returns<IDictionary<TextKey, string>>(null);
 
-			var text = sut.Get((Key)(-1));
+			var text = sut.Get((TextKey)(-1));
 
 			Assert.IsNotNull(text);
 		}

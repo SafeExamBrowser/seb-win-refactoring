@@ -63,14 +63,14 @@ namespace SafeExamBrowser.Core.Behaviour
 
 			splashScreen = uiFactory.CreateSplashScreen(settings, text);
 			splashScreen.SetIndeterminate();
-			splashScreen.UpdateText(Key.SplashScreen_ShutdownProcedure);
+			splashScreen.UpdateText(TextKey.SplashScreen_ShutdownProcedure);
 			splashScreen.InvokeShow();
 		}
 
 		private void LogAndShowException(Exception e)
 		{
 			logger.Error($"Failed to finalize application!", e);
-			uiFactory.Show(text.Get(Key.MessageBox_ShutdownError), text.Get(Key.MessageBox_ShutdownErrorTitle), icon: MessageBoxIcon.Error);
+			uiFactory.Show(text.Get(TextKey.MessageBox_ShutdownError), text.Get(TextKey.MessageBox_ShutdownErrorTitle), icon: MessageBoxIcon.Error);
 		}
 
 		private void Finish(bool success = true)

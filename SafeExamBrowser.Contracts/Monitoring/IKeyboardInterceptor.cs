@@ -10,5 +10,9 @@ namespace SafeExamBrowser.Contracts.Monitoring
 {
 	public interface IKeyboardInterceptor
 	{
+		/// <summary>
+		/// Returns <c>true</c> if the given key should be blocked, otherwise <c>false</c>.
+		/// </summary>
+		bool Block(uint keyCode, KeyModifier modifier);
 	}
 }

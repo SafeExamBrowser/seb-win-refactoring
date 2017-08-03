@@ -15,7 +15,7 @@ namespace SafeExamBrowser.Core.Notifications
 	{
 		private IText text;
 
-		public string Tooltip => text.Get(Key.Notification_AboutTooltip);
+		public string Tooltip => text.Get(TextKey.Notification_AboutTooltip);
 		public IIconResource IconResource { get; } = new AboutNotificationIconResource();
 
 		public AboutNotificationInfo(IText text)

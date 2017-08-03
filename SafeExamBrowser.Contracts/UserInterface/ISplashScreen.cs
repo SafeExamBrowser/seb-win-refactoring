@@ -47,6 +47,6 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// Updates the status text of the splash screen. If the busy flag is set,
 		/// the splash screen will show an animation to indicate a long-running operation.
 		/// </summary>
-		void UpdateText(Key key, bool showBusyIndication = false);
+		void UpdateText(TextKey key, bool showBusyIndication = false);
 	}
 }

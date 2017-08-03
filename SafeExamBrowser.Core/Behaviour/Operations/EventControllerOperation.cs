@@ -29,7 +29,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Starting event handling...");
-			SplashScreen.UpdateText(Key.SplashScreen_StartEventHandling);
+			SplashScreen.UpdateText(TextKey.SplashScreen_StartEventHandling);
 
 			controller.Start();
 		}
@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping event handling...");
-			SplashScreen.UpdateText(Key.SplashScreen_StopEventHandling);
+			SplashScreen.UpdateText(TextKey.SplashScreen_StopEventHandling);
 
 			controller.Stop();
 		}

@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Browser.Handlers
 
 			if (settings.AllowDeveloperConsole)
 			{
-				model.AddItem((CefMenuCommand) DEV_CONSOLE_COMMAND, text.Get(Key.Browser_ShowDeveloperConsole));
+				model.AddItem((CefMenuCommand) DEV_CONSOLE_COMMAND, text.Get(TextKey.Browser_ShowDeveloperConsole));
 			}
 		}
 

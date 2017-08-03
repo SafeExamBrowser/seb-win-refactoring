@@ -14,7 +14,7 @@ namespace SafeExamBrowser.Core.I18n
 {
 	public class Text : IText
 	{
-		private readonly IDictionary<Key, string> cache;
+		private readonly IDictionary<TextKey, string> cache;
 
 		public Text(ITextResource resource)
 		{
@@ -23,10 +23,10 @@ namespace SafeExamBrowser.Core.I18n
 				throw new ArgumentNullException(nameof(resource));
 			}
 
-			cache = resource.LoadText() ?? new Dictionary<Key, string>();
+			cache = resource.LoadText() ?? new Dictionary<TextKey, string>();
 		}
 
-		public string Get(Key key)
+		public string Get(TextKey key)
 		{
 			return cache.ContainsKey(key) ? cache[key] : $"Could not find string for key '{key}'!";
 		}

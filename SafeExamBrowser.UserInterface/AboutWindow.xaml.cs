@@ -43,7 +43,7 @@ namespace SafeExamBrowser.UserInterface
 		private void InitializeAboutWindow()
 		{
 			Closing += (o, args) => closing?.Invoke();
-			VersionInfo.Inlines.Add(new Run($"{text.Get(Key.Version)} {settings.ProgramVersion}") { FontStyle = FontStyles.Italic });
+			VersionInfo.Inlines.Add(new Run($"{text.Get(TextKey.Version)} {settings.ProgramVersion}") { FontStyle = FontStyles.Italic });
 			VersionInfo.Inlines.Add(new LineBreak());
 			VersionInfo.Inlines.Add(new LineBreak());
 			VersionInfo.Inlines.Add(new Run(settings.ProgramCopyright) { FontSize = 10 });

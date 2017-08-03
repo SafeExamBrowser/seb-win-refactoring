@@ -92,14 +92,14 @@ namespace SafeExamBrowser.Core.Behaviour
 
 			splashScreen = uiFactory.CreateSplashScreen(settings, text);
 			splashScreen.SetMaxProgress(operationCount);
-			splashScreen.UpdateText(Key.SplashScreen_StartupProcedure);
+			splashScreen.UpdateText(TextKey.SplashScreen_StartupProcedure);
 			splashScreen.InvokeShow();
 		}
 
 		private void LogAndShowException(Exception e)
 		{
 			logger.Error($"Failed to initialize application!", e);
-			uiFactory.Show(text.Get(Key.MessageBox_StartupError), text.Get(Key.MessageBox_StartupErrorTitle), icon: MessageBoxIcon.Error);
+			uiFactory.Show(text.Get(TextKey.MessageBox_StartupError), text.Get(TextKey.MessageBox_StartupErrorTitle), icon: MessageBoxIcon.Error);
 			logger.Info("Reverting operations...");
 		}
 

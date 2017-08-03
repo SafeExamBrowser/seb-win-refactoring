@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.WindowsApi.Types;
 
 namespace SafeExamBrowser.Contracts.WindowsApi
@@ -72,6 +73,11 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		void PostCloseMessageToShell();
 
 		/// <summary>
+		/// Registers a system hook for the given keyboard interceptor.
+		/// </summary>
+		void RegisterKeyboardHook(IKeyboardInterceptor interceptor);
+
+		/// <summary>
 		/// Registers a system event which will invoke the specified callback when the foreground window has changed.
 		/// Returns a handle to the newly registered Windows event hook.
 		/// </summary>
@@ -100,6 +106,14 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		/// If the working area could not be set.
 		/// </exception>
 		void SetWorkingArea(RECT bounds);
+
+		/// <summary>
+		/// Unregisters the system hook for the given keyboard interceptor.
+		/// </summary>
+		/// <exception cref="System.ComponentModel.Win32Exception">
+		/// If the hook for the given interceptor could not be successfully removed.
+		/// </exception>
+		void UnregisterKeyboardHook(IKeyboardInterceptor interceptor);
 
 		/// <summary>
 		/// Unregisters a previously registered system event.

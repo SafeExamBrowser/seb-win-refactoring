@@ -6,14 +6,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.I18n
+using System;
+
+namespace SafeExamBrowser.Contracts.Monitoring
 {
-	public interface IText
+	[Flags]
+	public enum KeyModifier
 	{
-		/// <summary>
-		/// Gets the text associated with the specified key. If the key was not found, a default text indicating
-		/// that the given key is not configured shall be returned.
-		/// </summary>
-		string Get(TextKey key);
+		None = 0,
+		Ctrl = 0b01,
+		Alt = 0b10
 	}
 }
