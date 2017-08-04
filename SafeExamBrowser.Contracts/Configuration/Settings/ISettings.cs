@@ -26,6 +26,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		IBrowserSettings Browser { get; }
 
 		/// <summary>
+		/// All keyboard-related settings.
+		/// </summary>
+		IKeyboardSettings Keyboard { get; }
+
+		/// <summary>
 		/// The path where the log files are to be stored.
 		/// </summary>
 		string LogFolderPath { get; }

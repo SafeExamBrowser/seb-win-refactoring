@@ -59,7 +59,7 @@ namespace SafeExamBrowser.WindowsApi.Constants
 
 		/// <summary>
 		/// Posted to the window with the keyboard focus when a nonsystem key is released. A nonsystem key is a key that is pressed when
-		/// the ALT key is not pressed, or a keyboard key that is pressed when a window has the keyboard focus. 
+		/// the ALT key is not pressed, or a keyboard key that is pressed when a window has the keyboard focus.
 		/// 
 		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms646281(v=vs.85).aspx.
 		/// </summary>

@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviour\Operations\DeviceInterceptionOperation.cs" />
     <Compile Include="Behaviour\RuntimeController.cs" />
     <Compile Include="Behaviour\Operations\BrowserOperation.cs" />
     <Compile Include="Behaviour\Operations\EventControllerOperation.cs" />

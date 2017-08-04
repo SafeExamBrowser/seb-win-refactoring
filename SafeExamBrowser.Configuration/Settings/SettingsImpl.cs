@@ -24,6 +24,7 @@ namespace SafeExamBrowser.Configuration
 		public SettingsImpl()
 		{
 			Browser = new BrowserSettings(this);
+			Keyboard = new KeyboardSettings();
 		}
 
 		public string AppDataFolderName => "SafeExamBrowser";
@@ -34,6 +35,8 @@ namespace SafeExamBrowser.Configuration
 		}
 
 		public IBrowserSettings Browser { get; private set; }
+
+		public IKeyboardSettings Keyboard { get; private set; }
 
 		public string LogFolderPath
 		{

@@ -6,15 +6,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 
-namespace SafeExamBrowser.Contracts.Monitoring
+namespace SafeExamBrowser.Configuration.Settings
 {
-	[Flags]
-	public enum KeyModifier
+	public class KeyboardSettings : IKeyboardSettings
 	{
-		None = 0,
-		Alt = 0b1,
-		Ctrl = 0b10
+		public bool AllowAltTab => false;
+
+		public bool AllowEsc => false;
+
+		public bool AllowF5 => true;
 	}
 }

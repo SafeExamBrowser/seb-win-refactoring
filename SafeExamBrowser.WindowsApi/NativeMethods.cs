@@ -27,7 +27,7 @@ namespace SafeExamBrowser.WindowsApi
 		private ConcurrentDictionary<IntPtr, KeyboardHook> KeyboardHooks = new ConcurrentDictionary<IntPtr, KeyboardHook>();
 
 		/// <summary>
-		/// Upon finalization, unregister all system events and hooks...
+		/// Upon finalization, unregister all active system events and hooks...
 		/// </summary>
 		~NativeMethods()
 		{
@@ -144,9 +144,6 @@ namespace SafeExamBrowser.WindowsApi
 
 			hook.Attach();
 
-			// IMORTANT:
-			// Ensures that the hook does not get garbage collected prematurely, as it will be passed to unmanaged code.
-			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
 			KeyboardHooks[hook.Handle] = hook;
 		}
 
