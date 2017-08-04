@@ -22,6 +22,7 @@ using SafeExamBrowser.Core.Behaviour.Operations;
 using SafeExamBrowser.Core.I18n;
 using SafeExamBrowser.Core.Logging;
 using SafeExamBrowser.Monitoring.Keyboard;
+using SafeExamBrowser.Monitoring.Mouse;
 using SafeExamBrowser.Monitoring.Processes;
 using SafeExamBrowser.Monitoring.Windows;
 using SafeExamBrowser.UserInterface;
@@ -35,6 +36,7 @@ namespace SafeExamBrowser
 		private IApplicationInfo browserInfo;
 		private IKeyboardInterceptor keyboardInterceptor;
 		private ILogger logger;
+		private IMouseInterceptor mouseInterceptor;
 		private INativeMethods nativeMethods;
 		private IProcessMonitor processMonitor;
 		private IRuntimeController runtimeController;
@@ -65,6 +67,7 @@ namespace SafeExamBrowser
 			text = new Text(textResource);
 			browserController = new BrowserApplicationController(settings, text, uiFactory);
 			keyboardInterceptor = new KeyboardInterceptor(settings.Keyboard, new ModuleLogger(logger, typeof(KeyboardInterceptor)));
+			mouseInterceptor = new MouseInterceptor(new ModuleLogger(logger, typeof(MouseInterceptor)), settings.Mouse);
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
 			windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)), nativeMethods);
 			workingArea = new WorkingArea(new ModuleLogger(logger, typeof(WorkingArea)), nativeMethods);
@@ -74,7 +77,7 @@ namespace SafeExamBrowser
 			StartupController = new StartupController(logger, settings, text, uiFactory);
 
 			StartupOperations = new Queue<IOperation>();
-			StartupOperations.Enqueue(new DeviceInterceptionOperation(keyboardInterceptor, logger, nativeMethods));
+			StartupOperations.Enqueue(new DeviceInterceptionOperation(keyboardInterceptor, logger, mouseInterceptor, nativeMethods));
 			StartupOperations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
 			StartupOperations.Enqueue(new ProcessMonitorOperation(logger, processMonitor));
 			StartupOperations.Enqueue(new WorkingAreaOperation(logger, Taskbar, workingArea));

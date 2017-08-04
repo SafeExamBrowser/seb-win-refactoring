@@ -102,13 +102,13 @@ namespace SafeExamBrowser.Monitoring.Windows
 		{
 			if (captureStartHookHandle != IntPtr.Zero)
 			{
-				nativeMethods.UnregisterSystemEvent(captureStartHookHandle);
+				nativeMethods.DeregisterSystemEvent(captureStartHookHandle);
 				logger.Info($"Unregistered system capture start event with handle = {captureStartHookHandle}.");
 			}
 
 			if (foregroundHookHandle != IntPtr.Zero)
 			{
-				nativeMethods.UnregisterSystemEvent(foregroundHookHandle);
+				nativeMethods.DeregisterSystemEvent(foregroundHookHandle);
 				logger.Info($"Unregistered system foreground event with handle = {foregroundHookHandle}.");
 			}
 		}

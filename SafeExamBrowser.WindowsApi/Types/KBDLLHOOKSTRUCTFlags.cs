@@ -11,7 +11,7 @@ namespace SafeExamBrowser.WindowsApi.Types
 	/// <remarks>
 	/// See http://www.pinvoke.net/default.aspx/Structures/KBDLLHOOKSTRUCT.html.
 	/// </remarks>
-	public enum KBDLLHOOKSTRUCTFlags
+	internal enum KBDLLHOOKSTRUCTFlags
 	{
 		/// <summary>
 		/// Test the extended-key flag. 

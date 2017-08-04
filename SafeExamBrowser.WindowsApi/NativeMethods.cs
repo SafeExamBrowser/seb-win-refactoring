@@ -25,6 +25,7 @@ namespace SafeExamBrowser.WindowsApi
 	{
 		private ConcurrentDictionary<IntPtr, EventProc> EventDelegates = new ConcurrentDictionary<IntPtr, EventProc>();
 		private ConcurrentDictionary<IntPtr, KeyboardHook> KeyboardHooks = new ConcurrentDictionary<IntPtr, KeyboardHook>();
+		private ConcurrentDictionary<IntPtr, MouseHook> MouseHooks = new ConcurrentDictionary<IntPtr, MouseHook>();
 
 		/// <summary>
 		/// Upon finalization, unregister all active system events and hooks...
@@ -40,6 +41,57 @@ namespace SafeExamBrowser.WindowsApi
 			{
 				User32.UnhookWindowsHookEx(handle);
 			}
+
+			foreach (var handle in MouseHooks.Keys)
+			{
+				User32.UnhookWindowsHookEx(handle);
+			}
+		}
+
+		public void DeregisterKeyboardHook(IKeyboardInterceptor interceptor)
+		{
+			var hook = KeyboardHooks.Values.FirstOrDefault(h => h.Interceptor == interceptor);
+
+			if (hook != null)
+			{
+				var success = hook.Detach();
+
+				if (!success)
+				{
+					throw new Win32Exception(Marshal.GetLastWin32Error());
+				}
+
+				KeyboardHooks.TryRemove(hook.Handle, out KeyboardHook h);
+			}
+		}
+
+		public void DeregisterMouseHook(IMouseInterceptor interceptor)
+		{
+			var hook = MouseHooks.Values.FirstOrDefault(h => h.Interceptor == interceptor);
+
+			if (hook != null)
+			{
+				var success = hook.Detach();
+
+				if (!success)
+				{
+					throw new Win32Exception(Marshal.GetLastWin32Error());
+				}
+
+				MouseHooks.TryRemove(hook.Handle, out MouseHook h);
+			}
+		}
+
+		public void DeregisterSystemEvent(IntPtr handle)
+		{
+			var success = User32.UnhookWinEvent(handle);
+
+			if (!success)
+			{
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
+
+			EventDelegates.TryRemove(handle, out EventProc d);
 		}
 
 		public IEnumerable<IntPtr> GetOpenWindows()
@@ -147,6 +199,15 @@ namespace SafeExamBrowser.WindowsApi
 			KeyboardHooks[hook.Handle] = hook;
 		}
 
+		public void RegisterMouseHook(IMouseInterceptor interceptor)
+		{
+			var hook = new MouseHook(interceptor);
+
+			hook.Attach();
+
+			MouseHooks[hook.Handle] = hook;
+		}
+
 		public IntPtr RegisterSystemForegroundEvent(Action<IntPtr> callback)
 		{
 			EventProc eventProc = (IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime) =>
@@ -200,35 +261,6 @@ namespace SafeExamBrowser.WindowsApi
 			{
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
-		}
-
-		public void UnregisterKeyboardHook(IKeyboardInterceptor interceptor)
-		{
-			var hook = KeyboardHooks.Values.FirstOrDefault(h => h.Interceptor == interceptor);
-
-			if (hook != null)
-			{
-				var success = hook.Detach();
-
-				if (!success)
-				{
-					throw new Win32Exception(Marshal.GetLastWin32Error());
-				}
-
-				KeyboardHooks.TryRemove(hook.Handle, out KeyboardHook h);
-			}
-		}
-
-		public void UnregisterSystemEvent(IntPtr handle)
-		{
-			var success = User32.UnhookWinEvent(handle);
-
-			if (!success)
-			{
-				throw new Win32Exception(Marshal.GetLastWin32Error());
-			}
-
-			EventDelegates.TryRemove(handle, out EventProc d);
 		}
 	}
 }

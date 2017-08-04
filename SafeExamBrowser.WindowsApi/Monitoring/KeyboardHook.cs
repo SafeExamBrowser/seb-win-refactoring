@@ -54,9 +54,9 @@ namespace SafeExamBrowser.WindowsApi.Monitoring
 		{
 			if (nCode >= 0)
 			{
-				var state = GetState(wParam.ToInt32());
 				var keyData = (KBDLLHOOKSTRUCT) Marshal.PtrToStructure(lParam, typeof(KBDLLHOOKSTRUCT));
 				var modifier = GetModifiers(keyData, wParam.ToInt32());
+				var state = GetState(wParam.ToInt32());
 
 				if (Interceptor.Block((int) keyData.KeyCode, modifier, state))
 				{

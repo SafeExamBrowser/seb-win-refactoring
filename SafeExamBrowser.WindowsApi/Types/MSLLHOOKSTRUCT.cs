@@ -6,13 +6,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Monitoring
+using System;
+using System.Runtime.InteropServices;
+
+namespace SafeExamBrowser.WindowsApi.Types
 {
-	public interface IMouseInterceptor
+	[StructLayout(LayoutKind.Sequential)]
+	internal struct MSLLHOOKSTRUCT
 	{
-		/// <summary>
-		/// Returns <c>true</c> if the given button should be blocked, otherwise <c>false</c>.
-		/// </summary>
-		bool Block(MouseButton button, KeyState state);
+		internal POINT Point;
+		internal int MouseData;
+		internal int Flags;
+		internal int Time;
+		internal UIntPtr DwExtraInfo;
 	}
 }

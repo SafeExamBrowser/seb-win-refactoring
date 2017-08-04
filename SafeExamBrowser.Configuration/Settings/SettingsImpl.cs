@@ -25,6 +25,7 @@ namespace SafeExamBrowser.Configuration
 		{
 			Browser = new BrowserSettings(this);
 			Keyboard = new KeyboardSettings();
+			Mouse = new MouseSettings();
 		}
 
 		public string AppDataFolderName => "SafeExamBrowser";
@@ -37,6 +38,8 @@ namespace SafeExamBrowser.Configuration
 		public IBrowserSettings Browser { get; private set; }
 
 		public IKeyboardSettings Keyboard { get; private set; }
+
+		public IMouseSettings Mouse { get; private set; }
 
 		public string LogFolderPath
 		{

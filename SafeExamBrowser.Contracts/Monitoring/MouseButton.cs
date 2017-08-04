@@ -8,11 +8,11 @@
 
 namespace SafeExamBrowser.Contracts.Monitoring
 {
-	public interface IMouseInterceptor
+	public enum MouseButton
 	{
-		/// <summary>
-		/// Returns <c>true</c> if the given button should be blocked, otherwise <c>false</c>.
-		/// </summary>
-		bool Block(MouseButton button, KeyState state);
+		None = 0,
+		Left,
+		Middle,
+		Right
 	}
 }

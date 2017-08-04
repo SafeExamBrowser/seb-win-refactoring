@@ -68,6 +68,7 @@
     <Compile Include="Configuration\INotificationInfo.cs" />
     <Compile Include="Configuration\Settings\IBrowserSettings.cs" />
     <Compile Include="Configuration\Settings\IKeyboardSettings.cs" />
+    <Compile Include="Configuration\Settings\IMouseSettings.cs" />
     <Compile Include="Configuration\Settings\ISettings.cs" />
     <Compile Include="Behaviour\IShutdownController.cs" />
     <Compile Include="Behaviour\IStartupController.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Monitoring\IWindowMonitor.cs" />
     <Compile Include="Monitoring\KeyModifier.cs" />
     <Compile Include="Monitoring\KeyState.cs" />
+    <Compile Include="Monitoring\MouseButton.cs" />
     <Compile Include="UserInterface\IBrowserControl.cs" />
     <Compile Include="UserInterface\IBrowserWindow.cs" />
     <Compile Include="UserInterface\IMessageBox.cs" />

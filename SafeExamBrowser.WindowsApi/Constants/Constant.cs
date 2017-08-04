@@ -66,6 +66,77 @@ namespace SafeExamBrowser.WindowsApi.Constants
 		internal const int WM_KEYUP = 0x101;
 
 		/// <summary>
+		/// Posted when the user presses the left mouse button while the cursor is in the client area of a window. If the mouse is not
+		/// captured, the message is posted to the window beneath the cursor. Otherwise, the message is posted to the window that has
+		/// captured the mouse.
+		/// 
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms645607(v=vs.85).aspx.
+		/// </summary>
+		internal const int WM_LBUTTONDOWN = 0x201;
+
+		/// <summary>
+		/// Posted when the user releases the left mouse button while the cursor is in the client area of a window. If the mouse is not
+		/// captured, the message is posted to the window beneath the cursor. Otherwise, the message is posted to the window that has
+		/// captured the mouse.
+		/// 
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms645608(v=vs.85).aspx.
+		/// </summary>
+		internal const int WM_LBUTTONUP = 0x202;
+
+		/// <summary>
+		/// Posted when the user presses the middle mouse button while the cursor is in the client area of a window. If the mouse is not
+		/// captured, the message is posted to the window beneath the cursor. Otherwise, the message is posted to the window that has
+		/// captured the mouse.
+		/// 
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms645610(v=vs.85).aspx.
+		/// </summary>
+		internal const int WM_MBUTTONDOWN = 0x207;
+
+		/// <summary>
+		/// Posted when the user releases the middle mouse button while the cursor is in the client area of a window. If the mouse is not
+		/// captured, the message is posted to the window beneath the cursor. Otherwise, the message is posted to the window that has
+		/// captured the mouse.
+		/// 
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms645611(v=vs.85).aspx.
+		/// </summary>
+		internal const int WM_MBUTTONUP = 0x208;
+
+		/// <summary>
+		/// Posted to a window when the cursor moves. If the mouse is not captured, the message is posted to the window that contains the
+		/// cursor. Otherwise, the message is posted to the window that has captured the mouse.
+		/// 
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms645616(v=vs.85).aspx.
+		/// </summary>
+		internal const int WM_MOUSEMOVE = 0x200;
+
+		/// <summary>
+		/// Sent to the focus window when the mouse wheel is rotated. The DefWindowProc function propagates the message to the window's
+		/// parent. There should be no internal forwarding of the message, since DefWindowProc propagates it up the parent chain until i
+		/// finds a window that processes it.
+		/// 
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms645617(v=vs.85).aspx.
+		/// </summary>
+		internal const int WM_MOUSEWHEEL = 0x20A;
+
+		/// <summary>
+		/// Posted when the user presses the right mouse button while the cursor is in the client area of a window. If the mouse is not
+		/// captured, the message is posted to the window beneath the cursor. Otherwise, the message is posted to the window that has
+		/// captured the mouse.
+		/// 
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms646242(v=vs.85).aspx.
+		/// </summary>
+		internal const int WM_RBUTTONDOWN = 0x204;
+
+		/// <summary>
+		/// Posted when the user releases the right mouse button while the cursor is in the client area of a window. If the mouse is not
+		/// captured, the message is posted to the window beneath the cursor. Otherwise, the message is posted to the window that has
+		/// captured the mouse.
+		/// 
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms646243(v=vs.85).aspx.
+		/// </summary>
+		internal const int WM_RBUTTONUP = 0x205;
+
+		/// <summary>
 		/// A window receives this message when the user chooses a command from the Window menu (formerly known as the system or control
 		/// menu) or when the user chooses the maximize button, minimize button, restore button, or close button.
 		/// 

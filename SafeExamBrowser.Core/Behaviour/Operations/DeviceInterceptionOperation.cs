@@ -18,14 +18,20 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 	{
 		private IKeyboardInterceptor keyboardInterceptor;
 		private ILogger logger;
+		private IMouseInterceptor mouseInterceptor;
 		private INativeMethods nativeMethods;
 
 		public ISplashScreen SplashScreen { private get; set; }
 		
-		public DeviceInterceptionOperation(IKeyboardInterceptor keyboardInterceptor, ILogger logger, INativeMethods nativeMethods)
+		public DeviceInterceptionOperation(
+			IKeyboardInterceptor keyboardInterceptor,
+			ILogger logger,
+			IMouseInterceptor mouseInterceptor,
+			INativeMethods nativeMethods)
 		{
 			this.keyboardInterceptor = keyboardInterceptor;
 			this.logger = logger;
+			this.mouseInterceptor = mouseInterceptor;
 			this.nativeMethods = nativeMethods;
 		}
 
@@ -34,13 +40,15 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			logger.Info("Starting keyboard and mouse interception...");
 
 			nativeMethods.RegisterKeyboardHook(keyboardInterceptor);
+			nativeMethods.RegisterMouseHook(mouseInterceptor);
 		}
 
 		public void Revert()
 		{
 			logger.Info("Stopping keyboard and mouse interception...");
 
-			nativeMethods.UnregisterKeyboardHook(keyboardInterceptor);
+			nativeMethods.DeregisterMouseHook(mouseInterceptor);
+			nativeMethods.DeregisterKeyboardHook(keyboardInterceptor);
 		}
 	}
 }

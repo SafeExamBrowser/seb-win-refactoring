@@ -63,6 +63,7 @@
     <Compile Include="Bounds.cs" />
     <Compile Include="Settings\BrowserSettings.cs" />
     <Compile Include="Settings\KeyboardSettings.cs" />
+    <Compile Include="Settings\MouseSettings.cs" />
     <Compile Include="Settings\SettingsImpl.cs" />
     <Compile Include="WorkingArea.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,13 +6,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Monitoring
+using SafeExamBrowser.Contracts.Configuration.Settings;
+
+namespace SafeExamBrowser.Configuration.Settings
 {
-	public interface IMouseInterceptor
+	public class MouseSettings : IMouseSettings
 	{
-		/// <summary>
-		/// Returns <c>true</c> if the given button should be blocked, otherwise <c>false</c>.
-		/// </summary>
-		bool Block(MouseButton button, KeyState state);
+		public bool AllowMiddleButton => false;
+
+		public bool AllowRightButton => false;
 	}
 }

@@ -15,17 +15,17 @@ namespace SafeExamBrowser.WindowsApi.Types
 	/// See http://www.pinvoke.net/default.aspx/Structures/KBDLLHOOKSTRUCT.html.
 	/// </remarks>
 	[StructLayout(LayoutKind.Sequential)]
-	public struct KBDLLHOOKSTRUCT
+	internal struct KBDLLHOOKSTRUCT
 	{
 		/// <summary>
 		/// A virtual-key code. The code must be a value in the range 1 to 254. 
 		/// </summary>
-		public uint KeyCode;
+		internal uint KeyCode;
 
 		/// <summary>
 		/// A hardware scan code for the key. 
 		/// </summary>
-		public uint ScanCode;
+		internal uint ScanCode;
 
 		/// <summary>
 		/// The extended-key flag, event-injected flags, context code, and transition-state flag. This member is specified as follows. An
@@ -33,16 +33,16 @@ namespace SafeExamBrowser.WindowsApi.Types
 		/// event was injected. If it was, then testing LLKHF_LOWER_IL_INJECTED (bit 1) will tell you whether or not the event was injected
 		/// from a process running at lower integrity level.
 		/// </summary>
-		public KBDLLHOOKSTRUCTFlags Flags;
+		internal KBDLLHOOKSTRUCTFlags Flags;
 
 		/// <summary>
 		/// The time stamp for this message, equivalent to what <c>GetMessageTime</c> would return for this message.
 		/// </summary>
-		public uint Time;
+		internal uint Time;
 
 		/// <summary>
 		/// Additional information associated with the message. 
 		/// </summary>
-		public IntPtr DwExtraInfo;
+		internal IntPtr DwExtraInfo;
 	}
 }

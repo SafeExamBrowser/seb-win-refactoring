@@ -31,6 +31,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		IKeyboardSettings Keyboard { get; }
 
 		/// <summary>
+		/// All mouse-related settings.
+		/// </summary>
+		IMouseSettings Mouse { get; }
+
+		/// <summary>
 		/// The path where the log files are to be stored.
 		/// </summary>
 		string LogFolderPath { get; }

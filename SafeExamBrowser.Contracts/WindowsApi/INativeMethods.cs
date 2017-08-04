@@ -15,6 +15,30 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 	public interface INativeMethods
 	{
 		/// <summary>
+		/// Deregisters the system hook for the given keyboard interceptor.
+		/// </summary>
+		/// <exception cref="System.ComponentModel.Win32Exception">
+		/// If the hook for the given interceptor could not be successfully removed.
+		/// </exception>
+		void DeregisterKeyboardHook(IKeyboardInterceptor interceptor);
+
+		/// <summary>
+		/// Deregisters the system hook for the given mouse interceptor.
+		/// </summary>
+		/// <exception cref="System.ComponentModel.Win32Exception">
+		/// If the hook for the given interceptor could not be successfully removed.
+		/// </exception>
+		void DeregisterMouseHook(IMouseInterceptor interceptor);
+
+		/// <summary>
+		/// Deregisters a previously registered system event.
+		/// </summary>
+		/// <exception cref="System.ComponentModel.Win32Exception">
+		/// If the event hook could not be successfully removed.
+		/// </exception>
+		void DeregisterSystemEvent(IntPtr handle);
+
+		/// <summary>
 		/// Retrieves a collection of handles to all currently open (i.e. visible) windows.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">
@@ -77,6 +101,11 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		void RegisterKeyboardHook(IKeyboardInterceptor interceptor);
 
 		/// <summary>
+		/// Registers a system hook for the given mouse interceptor.
+		/// </summary>
+		void RegisterMouseHook(IMouseInterceptor interceptor);
+
+		/// <summary>
 		/// Registers a system event which will invoke the specified callback when the foreground window has changed.
 		/// Returns a handle to the newly registered Windows event hook.
 		/// </summary>
@@ -105,21 +134,5 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		/// If the working area could not be set.
 		/// </exception>
 		void SetWorkingArea(IBounds bounds);
-
-		/// <summary>
-		/// Unregisters the system hook for the given keyboard interceptor.
-		/// </summary>
-		/// <exception cref="System.ComponentModel.Win32Exception">
-		/// If the hook for the given interceptor could not be successfully removed.
-		/// </exception>
-		void UnregisterKeyboardHook(IKeyboardInterceptor interceptor);
-
-		/// <summary>
-		/// Unregisters a previously registered system event.
-		/// </summary>
-		/// <exception cref="System.ComponentModel.Win32Exception">
-		/// If the event hook could not be successfully removed.
-		/// </exception>
-		void UnregisterSystemEvent(IntPtr handle);
 	}
 }
