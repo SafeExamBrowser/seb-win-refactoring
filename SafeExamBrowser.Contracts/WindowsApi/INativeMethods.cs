@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.Contracts.WindowsApi.Types;
 
 namespace SafeExamBrowser.Contracts.WindowsApi
 {
@@ -52,7 +51,7 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		/// <exception cref="System.ComponentModel.Win32Exception">
 		/// If the working area could not be retrieved.
 		/// </exception>
-		RECT GetWorkingArea();
+		IBounds GetWorkingArea();
 
 		/// <summary>
 		/// Hides the given window. Returns <c>true</c> if successful, otherwise <c>false</c>.
@@ -105,7 +104,7 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		/// <exception cref="System.ComponentModel.Win32Exception">
 		/// If the working area could not be set.
 		/// </exception>
-		void SetWorkingArea(RECT bounds);
+		void SetWorkingArea(IBounds bounds);
 
 		/// <summary>
 		/// Unregisters the system hook for the given keyboard interceptor.

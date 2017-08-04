@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.WindowsApi.Constants
+namespace SafeExamBrowser.WindowsApi.Types
 {
 	/// <remarks>
 	/// See http://www.pinvoke.net/default.aspx/Structures/KBDLLHOOKSTRUCT.html.

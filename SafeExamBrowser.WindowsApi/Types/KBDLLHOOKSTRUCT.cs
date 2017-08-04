@@ -9,7 +9,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace SafeExamBrowser.WindowsApi.Constants
+namespace SafeExamBrowser.WindowsApi.Types
 {
 	/// <remarks>
 	/// See http://www.pinvoke.net/default.aspx/Structures/KBDLLHOOKSTRUCT.html.

@@ -11,7 +11,6 @@ using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.WindowsApi;
-using SafeExamBrowser.Contracts.WindowsApi.Types;
 
 namespace SafeExamBrowser.Configuration
 {
@@ -19,7 +18,7 @@ namespace SafeExamBrowser.Configuration
 	{
 		private ILogger logger;
 		private INativeMethods nativeMethods;
-		private RECT? originalWorkingArea;
+		private IBounds originalWorkingArea;
 
 		public WorkingArea(ILogger logger, INativeMethods nativeMethods)
 		{
@@ -31,9 +30,9 @@ namespace SafeExamBrowser.Configuration
 		{
 			originalWorkingArea = nativeMethods.GetWorkingArea();
 
-			LogWorkingArea("Saved original working area", originalWorkingArea.Value);
+			LogWorkingArea("Saved original working area", originalWorkingArea);
 
-			var area = new RECT
+			var area = new Bounds
 			{
 				Left = 0,
 				Top = 0,
@@ -48,14 +47,14 @@ namespace SafeExamBrowser.Configuration
 
 		public void Reset()
 		{
-			if (originalWorkingArea.HasValue)
+			if (originalWorkingArea != null)
 			{
-				nativeMethods.SetWorkingArea(originalWorkingArea.Value);
-				LogWorkingArea("Restored original working area", originalWorkingArea.Value);
+				nativeMethods.SetWorkingArea(originalWorkingArea);
+				LogWorkingArea("Restored original working area", originalWorkingArea);
 			}
 		}
 
-		private void LogWorkingArea(string message, RECT area)
+		private void LogWorkingArea(string message, IBounds area)
 		{
 			logger.Info($"{message}: Left = {area.Left}, Top = {area.Top}, Right = {area.Right}, Bottom = {area.Bottom}.");
 		}

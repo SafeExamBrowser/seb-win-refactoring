@@ -7,18 +7,30 @@
  */
 
 using System.Runtime.InteropServices;
+using SafeExamBrowser.Contracts.WindowsApi;
 
-namespace SafeExamBrowser.Contracts.WindowsApi.Types
+namespace SafeExamBrowser.WindowsApi.Types
 {
 	/// <summary>
 	/// See https://msdn.microsoft.com/en-us/library/windows/desktop/dd162897(v=vs.85).aspx.
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
-	public struct RECT
+	internal struct RECT
 	{
-		public int Left;
-		public int Top;
-		public int Right;
-		public int Bottom;
+		internal int Left;
+		internal int Top;
+		internal int Right;
+		internal int Bottom;
+
+		internal IBounds ToBounds()
+		{
+			return new Bounds
+			{
+				Left = Left,
+				Top = Top,
+				Right = Right,
+				Bottom = Bottom
+			};
+		}
 	}
 }

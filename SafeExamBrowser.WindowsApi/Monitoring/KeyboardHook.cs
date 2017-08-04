@@ -10,6 +10,7 @@ using System;
 using System.Runtime.InteropServices;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.WindowsApi.Constants;
+using SafeExamBrowser.WindowsApi.Types;
 
 namespace SafeExamBrowser.WindowsApi.Monitoring
 {

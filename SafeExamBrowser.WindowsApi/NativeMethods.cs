@@ -15,9 +15,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.WindowsApi;
-using SafeExamBrowser.Contracts.WindowsApi.Types;
 using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Monitoring;
+using SafeExamBrowser.WindowsApi.Types;
 
 namespace SafeExamBrowser.WindowsApi
 {
@@ -99,7 +99,7 @@ namespace SafeExamBrowser.WindowsApi
 			return string.Empty;
 		}
 
-		public RECT GetWorkingArea()
+		public IBounds GetWorkingArea()
 		{
 			var workingArea = new RECT();
 			var success = User32.SystemParametersInfo(SPI.GETWORKAREA, 0, ref workingArea, SPIF.NONE);
@@ -109,7 +109,7 @@ namespace SafeExamBrowser.WindowsApi
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
 
-			return workingArea;
+			return workingArea.ToBounds();
 		}
 
 		public bool HideWindow(IntPtr window)
@@ -194,9 +194,10 @@ namespace SafeExamBrowser.WindowsApi
 			User32.SendMessage(window, Constant.WM_SYSCOMMAND, (IntPtr) SystemCommand.CLOSE, IntPtr.Zero);
 		}
 
-		public void SetWorkingArea(RECT bounds)
+		public void SetWorkingArea(IBounds bounds)
 		{
-			var success = User32.SystemParametersInfo(SPI.SETWORKAREA, 0, ref bounds, SPIF.UPDATEANDCHANGE);
+			var workingArea = new RECT { Left = bounds.Left, Top = bounds.Top, Right = bounds.Right, Bottom = bounds.Bottom };
+			var success = User32.SystemParametersInfo(SPI.SETWORKAREA, 0, ref workingArea, SPIF.UPDATEANDCHANGE);
 
 			if (!success)
 			{

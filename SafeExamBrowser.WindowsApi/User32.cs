@@ -9,8 +9,8 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using SafeExamBrowser.Contracts.WindowsApi.Types;
 using SafeExamBrowser.WindowsApi.Constants;
+using SafeExamBrowser.WindowsApi.Types;
 
 namespace SafeExamBrowser.WindowsApi
 {
