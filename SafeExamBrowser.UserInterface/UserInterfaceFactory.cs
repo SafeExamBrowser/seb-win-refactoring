@@ -50,7 +50,7 @@ namespace SafeExamBrowser.UserInterface
 			});
 
 			logWindowThread.SetApartmentState(ApartmentState.STA);
-			logWindowThread.Name = "Log Window Thread";
+			logWindowThread.Name = nameof(LogWindow);
 			logWindowThread.IsBackground = true;
 			logWindowThread.Start();
 
@@ -80,7 +80,7 @@ namespace SafeExamBrowser.UserInterface
 			});
 
 			splashScreenThread.SetApartmentState(ApartmentState.STA);
-			splashScreenThread.Name = "Splash Screen Thread";
+			splashScreenThread.Name = nameof(SplashScreen);
 			splashScreenThread.IsBackground = true;
 			splashScreenThread.Start();
 

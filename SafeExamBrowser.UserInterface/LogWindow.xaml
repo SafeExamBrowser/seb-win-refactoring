@@ -11,7 +11,7 @@
         <SolidColorBrush Color="Black" Opacity="0.8" />
     </Window.Background>
     <Grid>
-        <TextBox x:Name="LogContent" AcceptsReturn="True" Background="Transparent" FontFamily="Consolas"  Foreground="White"
+        <TextBox x:Name="LogContent" AcceptsReturn="True" Background="Transparent" FontFamily="Consolas" Foreground="ForestGreen"
                  HorizontalScrollBarVisibility="Auto" IsReadOnly="True" Text="{Binding Path=Text, Mode=OneWay}"
                  VerticalScrollBarVisibility="Auto" TextChanged="LogContent_TextChanged" />
     </Grid>

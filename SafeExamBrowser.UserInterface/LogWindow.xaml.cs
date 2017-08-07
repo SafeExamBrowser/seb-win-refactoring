@@ -28,15 +28,11 @@ namespace SafeExamBrowser.UserInterface
 
 		public LogWindow(ILogger logger, ILogContentFormatter formatter, IText text)
 		{
-			InitializeComponent();
-
 			this.logger = logger;
 			this.model = new LogViewModel(logger.GetLog(), formatter, text);
 
-			DataContext = model;
-			LogContent.DataContext = model;
-
-			logger.Subscribe(model);
+			InitializeComponent();
+			InitializeLogWindow();
 		}
 
 		public void BringToForeground()
@@ -46,11 +42,7 @@ namespace SafeExamBrowser.UserInterface
 
 		public new void Close()
 		{
-			Dispatcher.Invoke(() =>
-			{
-				logger.Unsubscribe(model);
-				base.Close();
-			});
+			Dispatcher.Invoke(base.Close);
 		}
 
 		public new void Show()
@@ -61,6 +53,24 @@ namespace SafeExamBrowser.UserInterface
 		private void LogContent_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
 		{
 			LogContent.ScrollToEnd();
+		}
+
+		private void InitializeLogWindow()
+		{
+			DataContext = model;
+			LogContent.DataContext = model;
+			Closing += LogWindow_Closing;
+
+			logger.Subscribe(model);
+			logger.Info("Opened log window.");
+		}
+
+		private void LogWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			logger.Unsubscribe(model);
+			logger.Info("Closed log window.");
+
+			closing?.Invoke();
 		}
 	}
 }
