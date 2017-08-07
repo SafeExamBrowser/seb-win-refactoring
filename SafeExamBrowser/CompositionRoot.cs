@@ -86,6 +86,7 @@ namespace SafeExamBrowser
 			StartupOperations.Enqueue(new TaskbarOperation(logger, logFormatter, settings, Taskbar, text, uiFactory));
 			StartupOperations.Enqueue(new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory));
 			StartupOperations.Enqueue(new RuntimeControllerOperation(runtimeController, logger));
+			StartupOperations.Enqueue(new ClipboardOperation(logger, nativeMethods));
 			StartupOperations.Enqueue(new MouseInterceptorOperation(logger, mouseInterceptor, nativeMethods));
 		}
 	}

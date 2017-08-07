@@ -9,7 +9,9 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using SafeExamBrowser.Contracts.Configuration;
 
@@ -19,22 +21,39 @@ namespace SafeExamBrowser.UserInterface.Utilities
 	{
 		internal static UIElement Load(IIconResource resource)
 		{
-			if (resource.IsBitmapResource)
+			try
 			{
-				return new Image
+				if (resource.IsBitmapResource)
 				{
-					Source = new BitmapImage(resource.Uri)
-				};
-			}
-			else if (resource.IsXamlResource)
-			{
-				using (var stream = Application.GetResourceStream(resource.Uri)?.Stream)
-				{
-					return XamlReader.Load(stream) as UIElement;
+					return LoadBitmapResource(resource);
 				}
+				else if (resource.IsXamlResource)
+				{
+					return LoadXamlResource(resource);
+				}
+			}
+			catch (Exception)
+			{
+				return new TextBlock(new Run("X") { Foreground = Brushes.Red, FontWeight = FontWeights.Bold });
 			}
 
 			throw new NotSupportedException($"Application icon resource of type '{resource.GetType()}' is not supported!");
+		}
+
+		private static UIElement LoadBitmapResource(IIconResource resource)
+		{
+			return new Image
+			{
+				Source = new BitmapImage(resource.Uri)
+			};
+		}
+
+		private static UIElement LoadXamlResource(IIconResource resource)
+		{
+			using (var stream = Application.GetResourceStream(resource.Uri)?.Stream)
+			{
+				return XamlReader.Load(stream) as UIElement;
+			}
 		}
 	}
 }

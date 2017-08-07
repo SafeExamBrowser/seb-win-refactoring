@@ -23,6 +23,7 @@ namespace SafeExamBrowser.Contracts.I18n
 		MessageBox_StartupErrorTitle,
 		Notification_AboutTooltip,
 		Notification_LogTooltip,
+		SplashScreen_EmptyClipboard,
 		SplashScreen_InitializeBrowser,
 		SplashScreen_InitializeProcessMonitoring,
 		SplashScreen_InitializeTaskbar,

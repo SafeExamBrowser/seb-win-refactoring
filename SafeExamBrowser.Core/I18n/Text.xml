@@ -8,6 +8,7 @@
   <MessageBox_StartupErrorTitle>Startup Error</MessageBox_StartupErrorTitle>
   <Notification_AboutTooltip>About Safe Exam Browser</Notification_AboutTooltip>
   <Notification_LogTooltip>Application Log</Notification_LogTooltip>
+  <SplashScreen_EmptyClipboard>Emptying clipboard</SplashScreen_EmptyClipboard>
   <SplashScreen_InitializeBrowser>Initializing browser</SplashScreen_InitializeBrowser>
   <SplashScreen_InitializeProcessMonitoring>Initializing process monitoring</SplashScreen_InitializeProcessMonitoring>
   <SplashScreen_InitializeTaskbar>Initializing taskbar</SplashScreen_InitializeTaskbar>

@@ -39,6 +39,14 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		void DeregisterSystemEvent(IntPtr handle);
 
 		/// <summary>
+		/// Empties the clipboard.
+		/// </summary>
+		/// <exception cref="System.ComponentModel.Win32Exception">
+		/// If the emptying of the clipboard failed.
+		/// </exception>
+		void EmptyClipboard();
+
+		/// <summary>
 		/// Retrieves a collection of handles to all currently open (i.e. visible) windows.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">

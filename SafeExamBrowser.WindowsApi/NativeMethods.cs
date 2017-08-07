@@ -94,6 +94,20 @@ namespace SafeExamBrowser.WindowsApi
 			EventDelegates.TryRemove(handle, out EventProc d);
 		}
 
+		public void EmptyClipboard()
+		{
+			var success = true;
+
+			success &= User32.OpenClipboard(IntPtr.Zero);
+			success &= User32.EmptyClipboard();
+			success &= User32.CloseClipboard();
+
+			if (!success)
+			{
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
+		}
+
 		public IEnumerable<IntPtr> GetOpenWindows()
 		{
 			var windows = new List<IntPtr>();
