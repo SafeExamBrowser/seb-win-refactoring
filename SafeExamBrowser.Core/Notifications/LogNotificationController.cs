@@ -7,23 +7,25 @@
  */
 
 using SafeExamBrowser.Contracts.Behaviour;
-using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Notifications
 {
-	public class AboutNotificationController : INotificationController
+	public class LogNotificationController : INotificationController
 	{
 		private ITaskbarNotification notification;
-		private ISettings settings;
+		private ILogger logger;
+		private ILogContentFormatter formatter;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		private IWindow window;
 
-		public AboutNotificationController(ISettings settings, IText text, IUserInterfaceFactory uiFactory)
+		public LogNotificationController(ILogger logger, ILogContentFormatter formatter, IText text, IUserInterfaceFactory uiFactory)
 		{
-			this.settings = settings;
+			this.logger = logger;
+			this.formatter = formatter;
 			this.text = text;
 			this.uiFactory = uiFactory;
 		}
@@ -44,7 +46,7 @@ namespace SafeExamBrowser.Core.Notifications
 		{
 			if (window == null)
 			{
-				window = uiFactory.CreateAboutWindow(settings, text);
+				window = uiFactory.CreateLogWindow(logger, formatter, text);
 
 				window.Closing += () => window = null;
 				window.Show();

@@ -76,6 +76,7 @@
     <Compile Include="I18n\IText.cs" />
     <Compile Include="I18n\TextKey.cs" />
     <Compile Include="Logging\ILogContent.cs" />
+    <Compile Include="Logging\ILogContentFormatter.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\ILogMessage.cs" />
     <Compile Include="Logging\ILogObserver.cs" />

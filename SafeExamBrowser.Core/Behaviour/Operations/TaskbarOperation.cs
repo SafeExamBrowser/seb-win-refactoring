@@ -18,7 +18,8 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 	public class TaskbarOperation : IOperation
 	{
 		private ILogger logger;
-		private INotificationController aboutController;
+		private ILogContentFormatter formatter;
+		private INotificationController aboutController, logController;
 		private ITaskbar taskbar;
 		private IUserInterfaceFactory uiFactory;
 		private IText text;
@@ -26,9 +27,16 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 		public ISplashScreen SplashScreen { private get; set; }
 
-		public TaskbarOperation(ILogger logger, ISettings settings, ITaskbar taskbar, IText text, IUserInterfaceFactory uiFactory)
+		public TaskbarOperation(
+			ILogger logger,
+			ILogContentFormatter formatter,
+			ISettings settings,
+			ITaskbar taskbar,
+			IText text,
+			IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
+			this.formatter = formatter;
 			this.settings = settings;
 			this.taskbar = taskbar;
 			this.text = text;
@@ -40,6 +48,22 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			logger.Info("Initializing taskbar...");
 			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeTaskbar);
 
+			if (settings.AllowApplicationLog)
+			{
+				CreateLogNotification();
+			}
+
+			CreateAboutNotification();
+		}
+
+		public void Revert()
+		{
+			logController?.Terminate();
+			aboutController.Terminate();
+		}
+
+		private void CreateAboutNotification()
+		{
 			var aboutInfo = new AboutNotificationInfo(text);
 			var aboutNotification = uiFactory.CreateNotification(aboutInfo);
 
@@ -49,9 +73,15 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			taskbar.AddNotification(aboutNotification);
 		}
 
-		public void Revert()
+		private void CreateLogNotification()
 		{
-			aboutController.Terminate();
+			var logInfo = new LogNotificationInfo(text);
+			var logNotification = uiFactory.CreateNotification(logInfo);
+
+			logController = new LogNotificationController(logger, formatter, text, uiFactory);
+			logController.RegisterNotification(logNotification);
+
+			taskbar.AddNotification(logNotification);
 		}
 	}
 }

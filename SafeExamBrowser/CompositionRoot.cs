@@ -36,6 +36,7 @@ namespace SafeExamBrowser
 		private IApplicationInfo browserInfo;
 		private IKeyboardInterceptor keyboardInterceptor;
 		private ILogger logger;
+		private ILogContentFormatter logFormatter;
 		private IMouseInterceptor mouseInterceptor;
 		private INativeMethods nativeMethods;
 		private IProcessMonitor processMonitor;
@@ -56,13 +57,14 @@ namespace SafeExamBrowser
 		{
 			browserInfo = new BrowserApplicationInfo();
 			logger = new Logger();
+			logFormatter = new DefaultLogFormatter();
 			nativeMethods = new NativeMethods();
 			settings = new SettingsImpl();
 			Taskbar = new Taskbar();
 			textResource = new XmlTextResource();
 			uiFactory = new UserInterfaceFactory();
 
-			logger.Subscribe(new LogFileWriter(settings));
+			logger.Subscribe(new LogFileWriter(logFormatter, settings));
 
 			text = new Text(textResource);
 			browserController = new BrowserApplicationController(settings, text, uiFactory);
@@ -81,7 +83,7 @@ namespace SafeExamBrowser
 			StartupOperations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
 			StartupOperations.Enqueue(new ProcessMonitorOperation(logger, processMonitor));
 			StartupOperations.Enqueue(new WorkingAreaOperation(logger, Taskbar, workingArea));
-			StartupOperations.Enqueue(new TaskbarOperation(logger, settings, Taskbar, text, uiFactory));
+			StartupOperations.Enqueue(new TaskbarOperation(logger, logFormatter, settings, Taskbar, text, uiFactory));
 			StartupOperations.Enqueue(new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory));
 			StartupOperations.Enqueue(new RuntimeControllerOperation(runtimeController, logger));
 			StartupOperations.Enqueue(new MouseInterceptorOperation(logger, mouseInterceptor, nativeMethods));

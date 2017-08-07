@@ -28,6 +28,8 @@ namespace SafeExamBrowser.Configuration
 			Mouse = new MouseSettings();
 		}
 
+		public bool AllowApplicationLog => true;
+
 		public string AppDataFolderName => "SafeExamBrowser";
 
 		public string ApplicationLogFile

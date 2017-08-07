@@ -14,6 +14,7 @@ namespace SafeExamBrowser.Contracts.I18n
 	public enum TextKey
 	{
 		Browser_ShowDeveloperConsole,
+		LogWindow_Title,
 		MessageBox_ShutdownError,
 		MessageBox_ShutdownErrorTitle,
 		MessageBox_SingleInstance,
@@ -21,6 +22,7 @@ namespace SafeExamBrowser.Contracts.I18n
 		MessageBox_StartupError,
 		MessageBox_StartupErrorTitle,
 		Notification_AboutTooltip,
+		Notification_LogTooltip,
 		SplashScreen_InitializeBrowser,
 		SplashScreen_InitializeProcessMonitoring,
 		SplashScreen_InitializeTaskbar,

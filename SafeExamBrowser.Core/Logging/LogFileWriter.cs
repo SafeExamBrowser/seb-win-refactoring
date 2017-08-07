@@ -17,51 +17,28 @@ namespace SafeExamBrowser.Core.Logging
 	{
 		private static readonly object @lock = new object();
 		private readonly string filePath;
+		private readonly ILogContentFormatter formatter;
 
-		public LogFileWriter(ISettings settings)
+		public LogFileWriter(ILogContentFormatter formatter, ISettings settings)
 		{
 			if (!Directory.Exists(settings.LogFolderPath))
 			{
 				Directory.CreateDirectory(settings.LogFolderPath);
 			}
 
-			filePath = settings.ApplicationLogFile;
+			this.filePath = settings.ApplicationLogFile;
+			this.formatter = formatter;
 		}
 
 		public void Notify(ILogContent content)
 		{
-			if (content is ILogText)
-			{
-				WriteLogText(content as ILogText);
-			}
-
-			if (content is ILogMessage)
-			{
-				WriteLogMessage(content as ILogMessage);
-			}
-		}
-
-		private void WriteLogText(ILogText text)
-		{
-			Write(text.Text);
-		}
-
-		private void WriteLogMessage(ILogMessage message)
-		{
-			var date = message.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
-			var severity = message.Severity.ToString().ToUpper();
-			var threadInfo = $"{message.ThreadInfo.Id}{(message.ThreadInfo.HasName ? ": " + message.ThreadInfo.Name : string.Empty)}";
-
-			Write($"{date} [{threadInfo}] - {severity}: {message.Message}");
-		}
-
-		private void Write(string content)
-		{
 			lock (@lock)
 			{
+				var raw = formatter.Format(content);
+
 				using (var stream = new StreamWriter(filePath, true, Encoding.UTF8))
 				{
-					stream.WriteLine(content);
+					stream.WriteLine(raw);
 				}
 			}
 		}

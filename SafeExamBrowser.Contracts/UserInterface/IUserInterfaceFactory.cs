@@ -9,6 +9,7 @@
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
@@ -28,6 +29,11 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// Creates a new browser window loaded with the given browser control and settings.
 		/// </summary>
 		IBrowserWindow CreateBrowserWindow(IBrowserControl control, IBrowserSettings settings);
+
+		/// <summary>
+		/// Creates a new log window which runs on its own thread.
+		/// </summary>
+		IWindow CreateLogWindow(ILogger logger, ILogContentFormatter formatter, IText text);
 
 		/// <summary>
 		/// Creates a taskbar notification, initialized with the given notification information.

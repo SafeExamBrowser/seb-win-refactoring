@@ -11,6 +11,7 @@ using System.Windows;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.UserInterface.Controls;
 
@@ -31,6 +32,31 @@ namespace SafeExamBrowser.UserInterface
 		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, IBrowserSettings settings)
 		{
 			return new BrowserWindow(control, settings);
+		}
+
+		public IWindow CreateLogWindow(ILogger logger, ILogContentFormatter formatter, IText text)
+		{
+			LogWindow logWindow = null;
+			var logWindowReadyEvent = new AutoResetEvent(false);
+			var logWindowThread = new Thread(() =>
+			{
+				logWindow = new LogWindow(logger, formatter, text);
+				logWindow.Closed += (o, args) => logWindow.Dispatcher.InvokeShutdown();
+				logWindow.Show();
+
+				logWindowReadyEvent.Set();
+
+				System.Windows.Threading.Dispatcher.Run();
+			});
+
+			logWindowThread.SetApartmentState(ApartmentState.STA);
+			logWindowThread.Name = "Log Window Thread";
+			logWindowThread.IsBackground = true;
+			logWindowThread.Start();
+
+			logWindowReadyEvent.WaitOne();
+
+			return logWindow;
 		}
 
 		public ITaskbarNotification CreateNotification(INotificationInfo info)

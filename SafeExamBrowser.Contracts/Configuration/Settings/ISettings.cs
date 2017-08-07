@@ -11,6 +11,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 	public interface ISettings
 	{
 		/// <summary>
+		/// Determines whether the user may access the application log during runtime.
+		/// </summary>
+		bool AllowApplicationLog { get; }
+
+		/// <summary>
 		/// The name used for the application data folder.
 		/// </summary>
 		string AppDataFolderName { get; }

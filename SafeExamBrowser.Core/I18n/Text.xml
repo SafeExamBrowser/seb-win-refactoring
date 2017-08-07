@@ -1,11 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Text>
   <Browser_ShowDeveloperConsole>Open Console</Browser_ShowDeveloperConsole>
+  <LogWindow_Title>Application Log</LogWindow_Title>
   <MessageBox_ShutdownError>An unexpected error occurred during the shutdown procedure! Please consult the application log for more information...</MessageBox_ShutdownError>
   <MessageBox_ShutdownErrorTitle>Shutdown Error</MessageBox_ShutdownErrorTitle>
   <MessageBox_StartupError>An unexpected error occurred during the startup procedure! Please consult the application log for more information...</MessageBox_StartupError>
   <MessageBox_StartupErrorTitle>Startup Error</MessageBox_StartupErrorTitle>
   <Notification_AboutTooltip>About Safe Exam Browser</Notification_AboutTooltip>
+  <Notification_LogTooltip>Application Log</Notification_LogTooltip>
   <SplashScreen_InitializeBrowser>Initializing browser</SplashScreen_InitializeBrowser>
   <SplashScreen_InitializeProcessMonitoring>Initializing process monitoring</SplashScreen_InitializeProcessMonitoring>
   <SplashScreen_InitializeTaskbar>Initializing taskbar</SplashScreen_InitializeTaskbar>

@@ -88,6 +88,9 @@
     <Compile Include="Controls\QuitButton.xaml.cs">
       <DependentUpon>QuitButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LogWindow.xaml.cs">
+      <DependentUpon>LogWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -110,6 +113,7 @@
     <Compile Include="UserInterfaceFactory.cs" />
     <Compile Include="Utilities\IconResourceLoader.cs" />
     <Compile Include="ViewModels\DateTimeViewModel.cs" />
+    <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\SplashScreenViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -149,6 +153,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="LogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SplashScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -172,6 +180,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Chromium.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\LogNotification.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -69,6 +69,7 @@
     <Compile Include="Behaviour\Operations\WorkingAreaOperation.cs" />
     <Compile Include="Behaviour\ShutdownController.cs" />
     <Compile Include="Behaviour\StartupController.cs" />
+    <Compile Include="Logging\DefaultLogFormatter.cs" />
     <Compile Include="Logging\LogFileWriter.cs" />
     <Compile Include="Logging\LogMessage.cs" />
     <Compile Include="I18n\Text.cs" />
@@ -80,6 +81,9 @@
     <Compile Include="Notifications\AboutNotificationController.cs" />
     <Compile Include="Notifications\AboutNotificationIconResource.cs" />
     <Compile Include="Notifications\AboutNotificationInfo.cs" />
+    <Compile Include="Notifications\LogNotificationController.cs" />
+    <Compile Include="Notifications\LogNotificationIconResource.cs" />
+    <Compile Include="Notifications\LogNotificationInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
