@@ -13,14 +13,14 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
-	public class EventControllerOperation : IOperation
+	public class RuntimeControllerOperation : IOperation
 	{
 		private ILogger logger;
 		private IRuntimeController controller;
 
 		public ISplashScreen SplashScreen { private get; set; }
 
-		public EventControllerOperation(IRuntimeController controller, ILogger logger)
+		public RuntimeControllerOperation(IRuntimeController controller, ILogger logger)
 		{
 			this.controller = controller;
 			this.logger = logger;
