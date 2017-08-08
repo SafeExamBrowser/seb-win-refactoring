@@ -43,7 +43,9 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 			block |= key == Key.F10;
 			block |= key == Key.F11;
 			block |= key == Key.F12;
+			block |= key == Key.LWin;
 			block |= key == Key.PrintScreen;
+			block |= key == Key.RWin;
 
 			block |= key == Key.Escape && modifier.HasFlag(KeyModifier.Alt);
 			block |= key == Key.Escape && modifier.HasFlag(KeyModifier.Ctrl);
