@@ -94,6 +94,11 @@ namespace SafeExamBrowser.WindowsApi
 			EventDelegates.TryRemove(handle, out EventProc d);
 		}
 
+		public void DisableSleep()
+		{
+			Kernel32.SetThreadExecutionState(EXECUTION_STATE.CONTINUOUS | EXECUTION_STATE.DISPLAY_REQUIRED | EXECUTION_STATE.SYSTEM_REQUIRED);
+		}
+
 		public void EmptyClipboard()
 		{
 			var success = true;
@@ -147,6 +152,22 @@ namespace SafeExamBrowser.WindowsApi
 			var threadId = User32.GetWindowThreadProcessId(handle, out uint processId);
 
 			return processId;
+		}
+
+		public string GetWallpaperPath()
+		{
+			const int MAX_PATH = 260;
+			var buffer = new String('\0', MAX_PATH);
+			var success = User32.SystemParametersInfo(SPI.GETDESKWALLPAPER, buffer.Length, buffer, 0);
+
+			if (!success)
+			{
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
+
+			var path = buffer.Substring(0, buffer.IndexOf('\0'));
+
+			return path;
 		}
 
 		public string GetWindowTitle(IntPtr window)
@@ -256,6 +277,11 @@ namespace SafeExamBrowser.WindowsApi
 			return handle;
 		}
 
+		public void RemoveWallpaper()
+		{
+			SetWallpaper(string.Empty);
+		}
+
 		public void RestoreWindow(IntPtr window)
 		{
 			User32.ShowWindow(window, (int)ShowWindowCommand.Restore);
@@ -264,6 +290,16 @@ namespace SafeExamBrowser.WindowsApi
 		public void SendCloseMessageTo(IntPtr window)
 		{
 			User32.SendMessage(window, Constant.WM_SYSCOMMAND, (IntPtr) SystemCommand.CLOSE, IntPtr.Zero);
+		}
+
+		public void SetWallpaper(string filePath)
+		{
+			var success = User32.SystemParametersInfo(SPI.SETDESKWALLPAPER, 0, filePath, SPIF.UPDATEANDCHANGE);
+
+			if (!success)
+			{
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
 		}
 
 		public void SetWorkingArea(IBounds bounds)

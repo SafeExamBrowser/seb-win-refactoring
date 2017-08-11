@@ -72,7 +72,6 @@
     <Compile Include="Configuration\Settings\ISettings.cs" />
     <Compile Include="Behaviour\IShutdownController.cs" />
     <Compile Include="Behaviour\IStartupController.cs" />
-    <Compile Include="Configuration\IWorkingArea.cs" />
     <Compile Include="I18n\IText.cs" />
     <Compile Include="I18n\TextKey.cs" />
     <Compile Include="Logging\ILogContent.cs" />
@@ -83,6 +82,7 @@
     <Compile Include="Logging\ILogText.cs" />
     <Compile Include="Logging\IThreadInfo.cs" />
     <Compile Include="Logging\LogLevel.cs" />
+    <Compile Include="Monitoring\IDisplayMonitor.cs" />
     <Compile Include="Monitoring\IKeyboardInterceptor.cs" />
     <Compile Include="Monitoring\IMouseInterceptor.cs" />
     <Compile Include="Monitoring\IProcessMonitor.cs" />

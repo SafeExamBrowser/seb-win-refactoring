@@ -8,6 +8,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using SafeExamBrowser.WindowsApi.Types;
 
 namespace SafeExamBrowser.WindowsApi
 {
@@ -16,7 +17,10 @@ namespace SafeExamBrowser.WindowsApi
 	/// </summary>
 	internal class Kernel32
 	{
-		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-		public static extern IntPtr GetModuleHandle(string lpModuleName);
+		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		internal static extern IntPtr GetModuleHandle(string lpModuleName);
+
+		[DllImport("kernel32.dll", SetLastError = true)]
+		internal static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
 	}
 }

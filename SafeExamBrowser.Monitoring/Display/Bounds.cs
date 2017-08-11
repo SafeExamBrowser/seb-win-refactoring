@@ -6,14 +6,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.WindowsApi;
 
-namespace SafeExamBrowser.Configuration.Settings
+namespace SafeExamBrowser.Monitoring.Display
 {
-	public class MouseSettings : IMouseSettings
+	internal class Bounds : IBounds
 	{
-		public bool AllowMiddleButton => false;
-
-		public bool AllowRightButton => false;
+		public int Left { get; set; }
+		public int Top { get; set; }
+		public int Right { get; set; }
+		public int Bottom { get; set; }
 	}
 }

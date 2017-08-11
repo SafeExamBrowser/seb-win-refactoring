@@ -11,9 +11,9 @@ using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.WindowsApi.Types
 {
-	/// <summary>
+	/// <remarks>
 	/// See https://msdn.microsoft.com/en-us/library/windows/desktop/dd162897(v=vs.85).aspx.
-	/// </summary>
+	/// </remarks>
 	[StructLayout(LayoutKind.Sequential)]
 	internal struct RECT
 	{

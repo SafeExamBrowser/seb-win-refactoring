@@ -8,7 +8,6 @@
 
 using System;
 using SafeExamBrowser.Contracts.Behaviour;
-using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -17,28 +16,29 @@ namespace SafeExamBrowser.Core.Behaviour
 {
 	public class RuntimeController : IRuntimeController
 	{
+		private IDisplayMonitor displayMonitor;
 		private ILogger logger;
 		private IProcessMonitor processMonitor;
 		private ITaskbar taskbar;
 		private IWindowMonitor windowMonitor;
-		private IWorkingArea workingArea;
 
 		public RuntimeController(
+			IDisplayMonitor displayMonitor,
 			ILogger logger,
 			IProcessMonitor processMonitor,
 			ITaskbar taskbar,
-			IWindowMonitor windowMonitor,
-			IWorkingArea workingArea)
+			IWindowMonitor windowMonitor)
 		{
+			this.displayMonitor = displayMonitor;
 			this.logger = logger;
 			this.processMonitor = processMonitor;
 			this.taskbar = taskbar;
 			this.windowMonitor = windowMonitor;
-			this.workingArea = workingArea;
 		}
 
 		public void Start()
 		{
+			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
 			processMonitor.ExplorerStarted += ProcessMonitor_ExplorerStarted;
 			windowMonitor.WindowChanged += WindowMonitor_WindowChanged;
 		}
@@ -49,12 +49,21 @@ namespace SafeExamBrowser.Core.Behaviour
 			windowMonitor.WindowChanged -= WindowMonitor_WindowChanged;
 		}
 
+		private void DisplayMonitor_DisplaySettingsChanged()
+		{
+			logger.Info("Reinitializing working area...");
+			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
+			logger.Info("Reinitializing taskbar bounds...");
+			taskbar.InitializeBounds();
+			logger.Info("Desktop successfully restored.");
+		}
+
 		private void ProcessMonitor_ExplorerStarted()
 		{
 			logger.Info("Trying to shut down explorer...");
 			processMonitor.CloseExplorerShell();
 			logger.Info("Reinitializing working area...");
-			workingArea.InitializeFor(taskbar);
+			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
 			logger.Info("Reinitializing taskbar bounds...");
 			taskbar.InitializeBounds();
 			logger.Info("Desktop successfully restored.");

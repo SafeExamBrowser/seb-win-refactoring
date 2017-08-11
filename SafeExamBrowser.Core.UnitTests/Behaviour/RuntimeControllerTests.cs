@@ -10,7 +10,6 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Behaviour;
-using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -21,31 +20,50 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 	[TestClass]
 	public class RuntimeControllerTests
 	{
+		private Mock<IDisplayMonitor> displayMonitorMock;
 		private Mock<ILogger> loggerMock;
 		private Mock<IProcessMonitor> processMonitorMock;
 		private Mock<ITaskbar> taskbarMock;
 		private Mock<IWindowMonitor> windowMonitorMock;
-		private Mock<IWorkingArea> workingAreaMock;
 
 		private IRuntimeController sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
+			displayMonitorMock = new Mock<IDisplayMonitor>();
 			loggerMock = new Mock<ILogger>();
 			processMonitorMock = new Mock<IProcessMonitor>();
 			taskbarMock = new Mock<ITaskbar>();
 			windowMonitorMock= new Mock<IWindowMonitor>();
-			workingAreaMock = new Mock<IWorkingArea>();
 
 			sut = new RuntimeController(
+				displayMonitorMock.Object,
 				loggerMock.Object,
 				processMonitorMock.Object,
 				taskbarMock.Object,
-				windowMonitorMock.Object,
-				workingAreaMock.Object);
+				windowMonitorMock.Object);
 
 			sut.Start();
+		}
+
+		[TestMethod]
+		public void MustHandleDisplayChangeCorrectly()
+		{
+			var order = 0;
+			var workingArea = 0;
+			var taskbar = 0;
+
+			displayMonitorMock.Setup(w => w.InitializePrimaryDisplay(taskbarMock.Object.GetAbsoluteHeight())).Callback(() => workingArea = ++order);
+			taskbarMock.Setup(t => t.InitializeBounds()).Callback(() => taskbar = ++order);
+
+			displayMonitorMock.Raise(d => d.DisplayChanged += null);
+
+			displayMonitorMock.Verify(w => w.InitializePrimaryDisplay(taskbarMock.Object.GetAbsoluteHeight()), Times.Once);
+			taskbarMock.Verify(t => t.InitializeBounds(), Times.Once);
+
+			Assert.IsTrue(workingArea == 1);
+			Assert.IsTrue(taskbar == 2);
 		}
 
 		[TestMethod]
@@ -57,13 +75,13 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 			var taskbar = 0;
 
 			processMonitorMock.Setup(p => p.CloseExplorerShell()).Callback(() => processManager = ++order);
-			workingAreaMock.Setup(w => w.InitializeFor(taskbarMock.Object)).Callback(() => workingArea = ++order);
+			displayMonitorMock.Setup(w => w.InitializePrimaryDisplay(taskbarMock.Object.GetAbsoluteHeight())).Callback(() => workingArea = ++order);
 			taskbarMock.Setup(t => t.InitializeBounds()).Callback(() => taskbar = ++order);
 
 			processMonitorMock.Raise(p => p.ExplorerStarted += null);
 
 			processMonitorMock.Verify(p => p.CloseExplorerShell(), Times.Once);
-			workingAreaMock.Verify(w => w.InitializeFor(taskbarMock.Object), Times.Once);
+			displayMonitorMock.Verify(w => w.InitializePrimaryDisplay(taskbarMock.Object.GetAbsoluteHeight()), Times.Once);
 			taskbarMock.Verify(t => t.InitializeBounds(), Times.Once);
 
 			Assert.IsTrue(processManager == 1);

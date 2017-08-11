@@ -6,15 +6,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.WindowsApi;
+using System;
 
-namespace SafeExamBrowser.Configuration
+namespace SafeExamBrowser.Monitoring.Windows
 {
-	internal class Bounds : IBounds
+	internal struct Window
 	{
-		public int Left { get; set; }
-		public int Top { get; set; }
-		public int Right { get; set; }
-		public int Bottom { get; set; }
+		internal IntPtr Handle { get; set; }
+		internal string Title { get; set; }
 	}
 }

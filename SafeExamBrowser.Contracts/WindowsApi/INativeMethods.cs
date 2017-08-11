@@ -39,6 +39,11 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		void DeregisterSystemEvent(IntPtr handle);
 
 		/// <summary>
+		/// Prevents Windows from entering sleep mode and keeps all displays powered on.
+		/// </summary>
+		void DisableSleep();
+
+		/// <summary>
 		/// Empties the clipboard.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">
@@ -72,8 +77,15 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		uint GetShellProcessId();
 
 		/// <summary>
-		/// Retrieves the title of the specified window, or an empty string, if the
-		/// given window does not have a title.
+		/// Retrieves the path of the currently configured wallpaper image, or an empty string, if there is no wallpaper set.
+		/// </summary>
+		/// <exception cref="System.ComponentModel.Win32Exception">
+		/// If the wallpaper path could not be retrieved.
+		/// </exception>
+		string GetWallpaperPath();
+
+		/// <summary>
+		/// Retrieves the title of the specified window, or an empty string, if the given window does not have a title.
 		/// </summary>
 		string GetWindowTitle(IntPtr window);
 
@@ -126,6 +138,14 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		IntPtr RegisterSystemCaptureStartEvent(Action<IntPtr> callback);
 
 		/// <summary>
+		/// Removes the currently configured desktop wallpaper.
+		/// </summary>
+		/// <exception cref="System.ComponentModel.Win32Exception">
+		/// If the wallpaper could not be removed.
+		/// </exception>
+		void RemoveWallpaper();
+
+		/// <summary>
 		/// Restores the specified window to its original size and position.
 		/// </summary>
 		void RestoreWindow(IntPtr window);
@@ -134,6 +154,14 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		/// Sends a close message to the given window.
 		/// </summary>
 		void SendCloseMessageTo(IntPtr window);
+
+		/// <summary>
+		/// Sets the wallpaper to the image located at the specified file path.
+		/// </summary>
+		/// <exception cref="System.ComponentModel.Win32Exception">
+		/// If the wallpaper could not be set.
+		/// </exception>
+		void SetWallpaper(string filePath);
 
 		/// <summary>
 		/// Sets the working area of the primary screen according to the given dimensions.

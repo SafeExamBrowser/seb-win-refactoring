@@ -10,7 +10,7 @@ using System;
 using System.IO;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 
-namespace SafeExamBrowser.Configuration.Settings
+namespace SafeExamBrowser.Configuration
 {
 	public class BrowserSettings : IBrowserSettings
 	{

@@ -9,7 +9,6 @@
 using System;
 using System.IO;
 using System.Reflection;
-using SafeExamBrowser.Configuration.Settings;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 
 namespace SafeExamBrowser.Configuration
@@ -17,11 +16,11 @@ namespace SafeExamBrowser.Configuration
 	/// <remarks>
 	/// TODO: Replace with proper implementation once configuration aspects are clear...
 	/// </remarks>
-	public class SettingsImpl : ISettings
+	public class Settings : ISettings
 	{
 		private static readonly string LogFileDate = DateTime.Now.ToString("yyyy-MM-dd\\_HH\\hmm\\mss\\s");
 
-		public SettingsImpl()
+		public Settings()
 		{
 			Browser = new BrowserSettings(this);
 			Keyboard = new KeyboardSettings();

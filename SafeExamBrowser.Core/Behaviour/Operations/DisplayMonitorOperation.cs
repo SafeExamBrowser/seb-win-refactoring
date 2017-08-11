@@ -7,26 +7,26 @@
  */
 
 using SafeExamBrowser.Contracts.Behaviour;
-using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
-	public class WorkingAreaOperation : IOperation
+	public class DisplayMonitorOperation : IOperation
 	{
+		private IDisplayMonitor displayMonitor;
 		private ILogger logger;
 		private ITaskbar taskbar;
-		private IWorkingArea workingArea;
 
 		public ISplashScreen SplashScreen { private get; set; }
 
-		public WorkingAreaOperation(ILogger logger, ITaskbar taskbar, IWorkingArea workingArea)
+		public DisplayMonitorOperation(IDisplayMonitor displayMonitor, ILogger logger, ITaskbar taskbar)
 		{
+			this.displayMonitor = displayMonitor;
 			this.logger = logger;
 			this.taskbar = taskbar;
-			this.workingArea = workingArea;
 		}
 
 		public void Perform()
@@ -34,10 +34,8 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			logger.Info("Initializing working area...");
 			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeWorkingArea);
 
-			// TODO
-			// - Emptying clipboard
-
-			workingArea.InitializeFor(taskbar);
+			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
+			displayMonitor.StartMonitoringDisplayChanges();
 		}
 
 		public void Revert()
@@ -45,10 +43,8 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			logger.Info("Restoring working area...");
 			SplashScreen.UpdateText(TextKey.SplashScreen_RestoreWorkingArea);
 
-			// TODO
-			// - Emptying clipboard
-
-			workingArea.Reset();
+			displayMonitor.StopMonitoringDisplayChanges();
+			displayMonitor.ResetPrimaryDisplay();
 		}
 	}
 }

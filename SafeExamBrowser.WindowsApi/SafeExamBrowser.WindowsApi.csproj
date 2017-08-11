@@ -62,6 +62,7 @@
     <Compile Include="Constants\HookType.cs" />
     <Compile Include="Monitoring\MouseHook.cs" />
     <Compile Include="Types\Bounds.cs" />
+    <Compile Include="Types\EXECUTION_STATE.cs" />
     <Compile Include="Types\KBDLLHOOKSTRUCT.cs" />
     <Compile Include="Types\KBDLLHOOKSTRUCTFlags.cs" />
     <Compile Include="Constants\ShowWindowCommand.cs" />

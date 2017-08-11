@@ -10,14 +10,19 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.UserInterface
 {
 	public partial class Taskbar : Window, ITaskbar
 	{
-		public Taskbar()
+		private ILogger logger;
+
+		public Taskbar(ILogger logger)
 		{
+			this.logger = logger;
+
 			InitializeComponent();
 
 			Loaded += (o, args) => InitializeBounds();
@@ -41,28 +46,13 @@ namespace SafeExamBrowser.UserInterface
 
 		public int GetAbsoluteHeight()
 		{
-			// WPF works with device-independent pixels. The following code is required
-			// to get the real height of the taskbar (in absolute, device-specific pixels).
-			// Source: https://stackoverflow.com/questions/3286175/how-do-i-convert-a-wpf-size-to-physical-pixels
-
 			return Dispatcher.Invoke(() =>
 			{
-				Matrix transformToDevice;
-				var source = PresentationSource.FromVisual(this);
+				var height = (int) TransformToPhysical(Width, Height).Y;
 
-				if (source != null)
-				{
-					transformToDevice = source.CompositionTarget.TransformToDevice;
-				}
-				else
-				{
-					using (var newSource = new HwndSource(new HwndSourceParameters()))
-					{
-						transformToDevice = newSource.CompositionTarget.TransformToDevice;
-					}
-				}
+				logger.Info($"Calculated absolute taskbar height is {height}px.");
 
-				return (int)transformToDevice.Transform((Vector)new Size(Width, Height)).Y;
+				return height;
 			});
 		}
 
@@ -73,6 +63,11 @@ namespace SafeExamBrowser.UserInterface
 				Width = SystemParameters.WorkArea.Right;
 				Left = SystemParameters.WorkArea.Right - Width;
 				Top = SystemParameters.WorkArea.Bottom;
+
+				var position = TransformToPhysical(Left, Top);
+				var size = TransformToPhysical(Width, Height);
+
+				logger.Info($"Set taskbar bounds to {Width}x{Height} at ({Left}/{Top}), in physical pixels: {size.X}x{size.Y} at ({position.X}/{position.Y}).");
 			});
 		}
 
@@ -105,6 +100,30 @@ namespace SafeExamBrowser.UserInterface
 					}
 				}
 			}
+		}
+
+		private Vector TransformToPhysical(double x, double y)
+		{
+			// WPF works with device-independent pixels. The following code is required
+			// to transform those values to their absolute, device-specific pixel value.
+			// Source: https://stackoverflow.com/questions/3286175/how-do-i-convert-a-wpf-size-to-physical-pixels
+
+			Matrix transformToDevice;
+			var source = PresentationSource.FromVisual(this);
+
+			if (source != null)
+			{
+				transformToDevice = source.CompositionTarget.TransformToDevice;
+			}
+			else
+			{
+				using (var newSource = new HwndSource(new HwndSourceParameters()))
+				{
+					transformToDevice = newSource.CompositionTarget.TransformToDevice;
+				}
+			}
+
+			return transformToDevice.Transform(new Vector(x, y));
 		}
 	}
 }

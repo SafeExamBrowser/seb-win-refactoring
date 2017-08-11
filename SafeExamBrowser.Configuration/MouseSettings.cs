@@ -8,14 +8,12 @@
 
 using SafeExamBrowser.Contracts.Configuration.Settings;
 
-namespace SafeExamBrowser.Configuration.Settings
+namespace SafeExamBrowser.Configuration
 {
-	public class KeyboardSettings : IKeyboardSettings
+	public class MouseSettings : IMouseSettings
 	{
-		public bool AllowAltTab => false;
+		public bool AllowMiddleButton => false;
 
-		public bool AllowEsc => false;
-
-		public bool AllowF5 => true;
+		public bool AllowRightButton => true;
 	}
 }

@@ -117,11 +117,5 @@ namespace SafeExamBrowser.Monitoring.Windows
 		{
 			WindowChanged?.Invoke(window);
 		}
-
-		private struct Window
-		{
-			internal IntPtr Handle { get; set; }
-			internal string Title { get; set; }
-		}
 	}
 }

@@ -38,10 +38,10 @@ namespace SafeExamBrowser.WindowsApi
 		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool EnumWindows(EnumWindowsDelegate enumProc, IntPtr lParam);
 
-		[DllImport("user32.dll", SetLastError = true)]
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
-		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		internal static extern int GetWindowText(IntPtr hWnd, StringBuilder strText, int maxCount);
 
 		[DllImport("user32.dll", SetLastError = true)]
@@ -78,6 +78,10 @@ namespace SafeExamBrowser.WindowsApi
 		[DllImport("user32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool SystemParametersInfo(SPI uiAction, uint uiParam, ref RECT pvParam, SPIF fWinIni);
+
+		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		internal static extern bool SystemParametersInfo(SPI uiAction, int uiParam, string pvParam, SPIF fWinIni);
 
 		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern bool UnhookWinEvent(IntPtr hWinEventHook);
