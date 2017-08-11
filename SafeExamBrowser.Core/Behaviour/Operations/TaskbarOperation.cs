@@ -18,7 +18,6 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 	public class TaskbarOperation : IOperation
 	{
 		private ILogger logger;
-		private ILogContentFormatter formatter;
 		private INotificationController aboutController, logController;
 		private ITaskbar taskbar;
 		private IUserInterfaceFactory uiFactory;
@@ -29,14 +28,12 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 		public TaskbarOperation(
 			ILogger logger,
-			ILogContentFormatter formatter,
 			ISettings settings,
 			ITaskbar taskbar,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
-			this.formatter = formatter;
 			this.settings = settings;
 			this.taskbar = taskbar;
 			this.text = text;
@@ -78,7 +75,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			var logInfo = new LogNotificationInfo(text);
 			var logNotification = uiFactory.CreateNotification(logInfo);
 
-			logController = new LogNotificationController(logger, formatter, text, uiFactory);
+			logController = new LogNotificationController(logger, text, uiFactory);
 			logController.RegisterNotification(logNotification);
 
 			taskbar.AddNotification(logNotification);

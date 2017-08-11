@@ -54,7 +54,7 @@ namespace SafeExamBrowser.Browser
 
 		public void NavigateTo(string address)
 		{
-			if (!String.IsNullOrWhiteSpace(address) && Uri.IsWellFormedUriString(address, UriKind.RelativeOrAbsolute))
+			if (!String.IsNullOrWhiteSpace(address))
 			{
 				Load(address);
 			}

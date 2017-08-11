@@ -34,13 +34,13 @@ namespace SafeExamBrowser.UserInterface
 			return new BrowserWindow(control, settings);
 		}
 
-		public IWindow CreateLogWindow(ILogger logger, ILogContentFormatter formatter, IText text)
+		public IWindow CreateLogWindow(ILogger logger, IText text)
 		{
 			LogWindow logWindow = null;
 			var logWindowReadyEvent = new AutoResetEvent(false);
 			var logWindowThread = new Thread(() =>
 			{
-				logWindow = new LogWindow(logger, formatter, text);
+				logWindow = new LogWindow(logger, text);
 				logWindow.Closed += (o, args) => logWindow.Dispatcher.InvokeShutdown();
 				logWindow.Show();
 

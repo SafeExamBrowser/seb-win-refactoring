@@ -17,15 +17,13 @@ namespace SafeExamBrowser.Core.Notifications
 	{
 		private ITaskbarNotification notification;
 		private ILogger logger;
-		private ILogContentFormatter formatter;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		private IWindow window;
 
-		public LogNotificationController(ILogger logger, ILogContentFormatter formatter, IText text, IUserInterfaceFactory uiFactory)
+		public LogNotificationController(ILogger logger, IText text, IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
-			this.formatter = formatter;
 			this.text = text;
 			this.uiFactory = uiFactory;
 		}
@@ -46,7 +44,7 @@ namespace SafeExamBrowser.Core.Notifications
 		{
 			if (window == null)
 			{
-				window = uiFactory.CreateLogWindow(logger, formatter, text);
+				window = uiFactory.CreateLogWindow(logger, text);
 
 				window.Closing += () => window = null;
 				window.Show();

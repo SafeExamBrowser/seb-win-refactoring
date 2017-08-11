@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.ComponentModel;
 using System.Windows;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -26,12 +27,13 @@ namespace SafeExamBrowser.UserInterface
 			remove { closing -= value; }
 		}
 
-		public LogWindow(ILogger logger, ILogContentFormatter formatter, IText text)
+		public LogWindow(ILogger logger, IText text)
 		{
-			this.logger = logger;
-			this.model = new LogViewModel(logger.GetLog(), formatter, text);
-
 			InitializeComponent();
+
+			this.logger = logger;
+			this.model = new LogViewModel(text, ScrollViewer, LogContent);
+
 			InitializeLogWindow();
 		}
 
@@ -50,22 +52,27 @@ namespace SafeExamBrowser.UserInterface
 			Dispatcher.Invoke(base.Show);
 		}
 
-		private void LogContent_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-		{
-			LogContent.ScrollToEnd();
-		}
-
 		private void InitializeLogWindow()
 		{
 			DataContext = model;
-			LogContent.DataContext = model;
 			Closing += LogWindow_Closing;
+			Loaded += LogWindow_Loaded;
+		}
+
+		private void LogWindow_Loaded(object sender, RoutedEventArgs e)
+		{
+			var log = logger.GetLog();
+
+			foreach (var content in log)
+			{
+				model.Notify(content);
+			}
 
 			logger.Subscribe(model);
 			logger.Info("Opened log window.");
 		}
 
-		private void LogWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		private void LogWindow_Closing(object sender, CancelEventArgs e)
 		{
 			logger.Unsubscribe(model);
 			logger.Info("Closed log window.");

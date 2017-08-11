@@ -33,7 +33,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// <summary>
 		/// Creates a new log window which runs on its own thread.
 		/// </summary>
-		IWindow CreateLogWindow(ILogger logger, ILogContentFormatter formatter, IText text);
+		IWindow CreateLogWindow(ILogger logger, IText text);
 
 		/// <summary>
 		/// Creates a taskbar notification, initialized with the given notification information.
