@@ -7,11 +7,9 @@
  */
 
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.UserInterface.Utilities;
 
 namespace SafeExamBrowser.UserInterface
 {
@@ -48,7 +46,7 @@ namespace SafeExamBrowser.UserInterface
 		{
 			return Dispatcher.Invoke(() =>
 			{
-				var height = (int) TransformToPhysical(Width, Height).Y;
+				var height = (int) this.TransformToPhysical(Width, Height).Y;
 
 				logger.Info($"Calculated physical taskbar height is {height}px.");
 
@@ -64,66 +62,11 @@ namespace SafeExamBrowser.UserInterface
 				Left = SystemParameters.WorkArea.Right - Width;
 				Top = SystemParameters.WorkArea.Bottom;
 
-				var position = TransformToPhysical(Left, Top);
-				var size = TransformToPhysical(Width, Height);
+				var position = this.TransformToPhysical(Left, Top);
+				var size = this.TransformToPhysical(Width, Height);
 
 				logger.Info($"Set taskbar bounds to {Width}x{Height} at ({Left}/{Top}), in physical pixels: {size.X}x{size.Y} at ({position.X}/{position.Y}).");
 			});
-		}
-
-		private void ApplicationScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-		{
-			var scrollAmount = 20;
-
-			if (ApplicationScrollViewer.IsMouseOver)
-			{
-				if (e.Delta < 0)
-				{
-					if (ApplicationScrollViewer.HorizontalOffset + scrollAmount > 0)
-					{
-						ApplicationScrollViewer.ScrollToHorizontalOffset(ApplicationScrollViewer.HorizontalOffset + scrollAmount);
-					}
-					else
-					{
-						ApplicationScrollViewer.ScrollToLeftEnd();
-					}
-				}
-				else
-				{
-					if (ApplicationScrollViewer.ExtentWidth > ApplicationScrollViewer.HorizontalOffset - scrollAmount)
-					{
-						ApplicationScrollViewer.ScrollToHorizontalOffset(ApplicationScrollViewer.HorizontalOffset - scrollAmount);
-					}
-					else
-					{
-						ApplicationScrollViewer.ScrollToRightEnd();
-					}
-				}
-			}
-		}
-
-		private Vector TransformToPhysical(double x, double y)
-		{
-			// WPF works with device-independent pixels. The following code is required
-			// to transform those values to their absolute, device-specific pixel value.
-			// Source: https://stackoverflow.com/questions/3286175/how-do-i-convert-a-wpf-size-to-physical-pixels
-
-			Matrix transformToDevice;
-			var source = PresentationSource.FromVisual(this);
-
-			if (source != null)
-			{
-				transformToDevice = source.CompositionTarget.TransformToDevice;
-			}
-			else
-			{
-				using (var newSource = new HwndSource(new HwndSourceParameters()))
-				{
-					transformToDevice = newSource.CompositionTarget.TransformToDevice;
-				}
-			}
-
-			return transformToDevice.Transform(new Vector(x, y));
 		}
 	}
 }

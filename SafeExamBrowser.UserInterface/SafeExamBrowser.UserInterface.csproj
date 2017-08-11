@@ -112,6 +112,7 @@
     </Compile>
     <Compile Include="UserInterfaceFactory.cs" />
     <Compile Include="Utilities\IconResourceLoader.cs" />
+    <Compile Include="Utilities\VisualExtensions.cs" />
     <Compile Include="ViewModels\DateTimeViewModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\SplashScreenViewModel.cs" />
