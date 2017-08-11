@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface"
         mc:Ignorable="d"
-        Title="{Binding Path=WindowTitle}" Height="500" Width="1000" MinHeight="350" MinWidth="350" WindowStartupLocation="CenterScreen"
+        Title="{Binding Path=WindowTitle}" Height="500" Width="1100" MinHeight="350" MinWidth="350" WindowStartupLocation="CenterScreen"
         Icon="./Images/LogNotification.ico">
     <Window.Background>
         <SolidColorBrush Color="Black" Opacity="0.8" />
