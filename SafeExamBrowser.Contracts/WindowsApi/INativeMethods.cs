@@ -39,11 +39,6 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		void DeregisterSystemEvent(IntPtr handle);
 
 		/// <summary>
-		/// Prevents Windows from entering sleep mode and keeps all displays powered on.
-		/// </summary>
-		void DisableSleep();
-
-		/// <summary>
 		/// Empties the clipboard.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">
@@ -114,6 +109,11 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		/// If the message could not be successfully posted. Does not apply if the process isn't running!
 		/// </exception>
 		void PostCloseMessageToShell();
+
+		/// <summary>
+		/// Prevents Windows from entering sleep mode and keeps all displays powered on.
+		/// </summary>
+		void PreventSleepMode();
 
 		/// <summary>
 		/// Registers a system hook for the given keyboard interceptor.

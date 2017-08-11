@@ -50,7 +50,7 @@ namespace SafeExamBrowser.UserInterface
 			{
 				var height = (int) TransformToPhysical(Width, Height).Y;
 
-				logger.Info($"Calculated absolute taskbar height is {height}px.");
+				logger.Info($"Calculated physical taskbar height is {height}px.");
 
 				return height;
 			});

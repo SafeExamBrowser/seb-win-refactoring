@@ -34,7 +34,12 @@ namespace SafeExamBrowser.Monitoring.Display
 		{
 			InitializeWorkingArea(taskbarHeight);
 			InitializeWallpaper();
-			PreventSleepMode();
+		}
+
+		public void PreventSleepMode()
+		{
+			nativeMethods.PreventSleepMode();
+			logger.Info("Disabled sleep mode and display timeout.");
 		}
 
 		public void ResetPrimaryDisplay()
@@ -92,12 +97,6 @@ namespace SafeExamBrowser.Monitoring.Display
 				nativeMethods.RemoveWallpaper();
 				logger.Info("Removed current wallpaper.");
 			}
-		}
-
-		private void PreventSleepMode()
-		{
-			nativeMethods.DisableSleep();
-			logger.Info("Disabled sleep mode and display timeout.");
 		}
 
 		private void ResetWorkingArea()

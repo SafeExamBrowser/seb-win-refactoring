@@ -34,6 +34,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			logger.Info("Initializing working area...");
 			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeWorkingArea);
 
+			displayMonitor.PreventSleepMode();
 			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
 			displayMonitor.StartMonitoringDisplayChanges();
 		}

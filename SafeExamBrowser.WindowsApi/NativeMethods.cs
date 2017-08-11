@@ -94,11 +94,6 @@ namespace SafeExamBrowser.WindowsApi
 			EventDelegates.TryRemove(handle, out EventProc d);
 		}
 
-		public void DisableSleep()
-		{
-			Kernel32.SetThreadExecutionState(EXECUTION_STATE.CONTINUOUS | EXECUTION_STATE.DISPLAY_REQUIRED | EXECUTION_STATE.SYSTEM_REQUIRED);
-		}
-
 		public void EmptyClipboard()
 		{
 			var success = true;
@@ -223,6 +218,11 @@ namespace SafeExamBrowser.WindowsApi
 			{
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
+		}
+
+		public void PreventSleepMode()
+		{
+			Kernel32.SetThreadExecutionState(EXECUTION_STATE.CONTINUOUS | EXECUTION_STATE.DISPLAY_REQUIRED | EXECUTION_STATE.SYSTEM_REQUIRED);
 		}
 
 		public void RegisterKeyboardHook(IKeyboardInterceptor interceptor)
