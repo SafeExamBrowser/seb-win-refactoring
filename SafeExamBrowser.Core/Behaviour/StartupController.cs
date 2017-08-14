@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -22,15 +23,17 @@ namespace SafeExamBrowser.Core.Behaviour
 		private ILogger logger;
 		private ISettings settings;
 		private ISplashScreen splashScreen;
+		private ISystemInfo systemInfo;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 
 		private Stack<IOperation> stack = new Stack<IOperation>();
 
-		public StartupController(ILogger logger, ISettings settings, IText text, IUserInterfaceFactory uiFactory)
+		public StartupController(ILogger logger, ISettings settings, ISystemInfo systemInfo, IText text, IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
 			this.settings = settings;
+			this.systemInfo = systemInfo;
 			this.text = text;
 			this.uiFactory = uiFactory;
 		}
@@ -87,7 +90,8 @@ namespace SafeExamBrowser.Core.Behaviour
 			var githubLine = $"/* Please visit https://github.com/SafeExamBrowser for more information.";
 
 			logger.Log($"{titleLine}{copyrightLine}{emptyLine}{githubLine}");
-			logger.Log($"{Environment.NewLine}# Application started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}{Environment.NewLine}");
+			logger.Log($"{Environment.NewLine}# Application started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+			logger.Log($"# Operating system: {systemInfo.OperatingSystemInfo}{Environment.NewLine}");
 			logger.Info("--- Initiating startup procedure ---");
 
 			splashScreen = uiFactory.CreateSplashScreen(settings, text);

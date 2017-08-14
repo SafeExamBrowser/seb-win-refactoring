@@ -44,6 +44,7 @@ namespace SafeExamBrowser
 		private IProcessMonitor processMonitor;
 		private IRuntimeController runtimeController;
 		private ISettings settings;
+		private ISystemInfo systemInfo;
 		private IText text;
 		private ITextResource textResource;
 		private IUserInterfaceFactory uiFactory;
@@ -61,6 +62,7 @@ namespace SafeExamBrowser
 			logFormatter = new DefaultLogFormatter();
 			nativeMethods = new NativeMethods();
 			settings = new Settings();
+			systemInfo = new SystemInfo();
 			textResource = new XmlTextResource();
 			uiFactory = new UserInterfaceFactory();
 
@@ -77,14 +79,14 @@ namespace SafeExamBrowser
 
 			runtimeController = new RuntimeController(displayMonitor, new ModuleLogger(logger, typeof(RuntimeController)), processMonitor, Taskbar, windowMonitor);
 			ShutdownController = new ShutdownController(logger, settings, text, uiFactory);
-			StartupController = new StartupController(logger, settings, text, uiFactory);
+			StartupController = new StartupController(logger, settings, systemInfo, text, uiFactory);
 
 			StartupOperations = new Queue<IOperation>();
 			StartupOperations.Enqueue(new KeyboardInterceptorOperation(keyboardInterceptor, logger, nativeMethods));
 			StartupOperations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
 			StartupOperations.Enqueue(new ProcessMonitorOperation(logger, processMonitor));
 			StartupOperations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, Taskbar));
-			StartupOperations.Enqueue(new TaskbarOperation(logger, settings, Taskbar, text, uiFactory));
+			StartupOperations.Enqueue(new TaskbarOperation(logger, settings, systemInfo, Taskbar, text, uiFactory));
 			StartupOperations.Enqueue(new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory));
 			StartupOperations.Enqueue(new RuntimeControllerOperation(runtimeController, logger));
 			StartupOperations.Enqueue(new ClipboardOperation(logger, nativeMethods));

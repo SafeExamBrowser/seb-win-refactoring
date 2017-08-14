@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -24,6 +25,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 	{
 		private Mock<ILogger> loggerMock;
 		private Mock<ISettings> settingsMock;
+		private Mock<ISystemInfo> systemInfoMock;
 		private Mock<IText> textMock;
 		private Mock<IUserInterfaceFactory> uiFactoryMock;
 
@@ -34,12 +36,13 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 		{
 			loggerMock = new Mock<ILogger>();
 			settingsMock = new Mock<ISettings>();
+			systemInfoMock = new Mock<ISystemInfo>();
 			textMock = new Mock<IText>();
 			uiFactoryMock = new Mock<IUserInterfaceFactory>();
 
 			uiFactoryMock.Setup(f => f.CreateSplashScreen(settingsMock.Object, textMock.Object)).Returns(new Mock<ISplashScreen>().Object);
 
-			sut = new StartupController(loggerMock.Object, settingsMock.Object, textMock.Object, uiFactoryMock.Object);
+			sut = new StartupController(loggerMock.Object, settingsMock.Object, systemInfoMock.Object, textMock.Object, uiFactoryMock.Object);
 		}
 
 		[TestMethod]

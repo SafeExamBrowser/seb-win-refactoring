@@ -4,8 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="16" d:DesignWidth="16" Margin="5,0">
+             mc:Ignorable="d" d:DesignHeight="16" d:DesignWidth="16" Margin="5,0">
     <Grid>
         <Button x:Name="IconButton" Click="Icon_Click" Background="#00000000" BorderThickness="0">
             <Button.Template>

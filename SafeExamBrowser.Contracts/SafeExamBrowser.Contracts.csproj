@@ -66,6 +66,8 @@
     <Compile Include="Configuration\IApplicationInfo.cs" />
     <Compile Include="Configuration\IApplicationInstance.cs" />
     <Compile Include="Configuration\INotificationInfo.cs" />
+    <Compile Include="Configuration\ISystemInfo.cs" />
+    <Compile Include="Configuration\OperatingSystem.cs" />
     <Compile Include="Configuration\Settings\IBrowserSettings.cs" />
     <Compile Include="Configuration\Settings\IKeyboardSettings.cs" />
     <Compile Include="Configuration\Settings\IMouseSettings.cs" />

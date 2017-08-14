@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -19,22 +20,25 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 	{
 		private ILogger logger;
 		private INotificationController aboutController, logController;
+		private ISettings settings;
+		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
 		private IUserInterfaceFactory uiFactory;
 		private IText text;
-		private ISettings settings;
 
 		public ISplashScreen SplashScreen { private get; set; }
 
 		public TaskbarOperation(
 			ILogger logger,
 			ISettings settings,
+			ISystemInfo systemInfo,
 			ITaskbar taskbar,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
 			this.settings = settings;
+			this.systemInfo = systemInfo;
 			this.taskbar = taskbar;
 			this.text = text;
 			this.uiFactory = uiFactory;
@@ -51,12 +55,32 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			}
 
 			CreateAboutNotification();
+
+			if (systemInfo.HasBattery)
+			{
+				CreateBatteryNotification();
+			}
+
+			CreateNetworkNotification();
+			CreateAudioNotification();
+			CreateKeyboardNotification();
 		}
 
 		public void Revert()
 		{
 			logController?.Terminate();
-			aboutController.Terminate();
+			aboutController?.Terminate();
+		}
+
+		private void CreateLogNotification()
+		{
+			var logInfo = new LogNotificationInfo(text);
+			var logNotification = uiFactory.CreateNotification(logInfo);
+
+			logController = new LogNotificationController(logger, text, uiFactory);
+			logController.RegisterNotification(logNotification);
+
+			taskbar.AddNotification(logNotification);
 		}
 
 		private void CreateAboutNotification()
@@ -70,15 +94,25 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			taskbar.AddNotification(aboutNotification);
 		}
 
-		private void CreateLogNotification()
+		private void CreateBatteryNotification()
 		{
-			var logInfo = new LogNotificationInfo(text);
-			var logNotification = uiFactory.CreateNotification(logInfo);
+			// TODO: Are these specializations of INotification -> ISystemNotification? If yes, is this the right place, or do they
+			// need to go to a separate assembly?
+		}
 
-			logController = new LogNotificationController(logger, text, uiFactory);
-			logController.RegisterNotification(logNotification);
+		private void CreateNetworkNotification()
+		{
+			// TODO
+		}
 
-			taskbar.AddNotification(logNotification);
+		private void CreateAudioNotification()
+		{
+			// TODO
+		}
+
+		private void CreateKeyboardNotification()
+		{
+			// TODO
 		}
 	}
 }
