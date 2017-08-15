@@ -36,10 +36,13 @@ namespace SafeExamBrowser.Configuration
 
 		private void InitializeOperatingSystem()
 		{
-			// See https://en.wikipedia.org/wiki/List_of_Microsoft_Windows_versions for mapping source...
+			// IMPORTANT:
+			// In order to be able to retrieve the correct operating system version via System.Environment.OSVersion, the executing
+			// assembly needs to define an application manifest where the supported Windows versions are specified!
 			var major = System.Environment.OSVersion.Version.Major;
 			var minor = System.Environment.OSVersion.Version.Minor;
 
+			// See https://en.wikipedia.org/wiki/List_of_Microsoft_Windows_versions for mapping source...
 			if (major == 6)
 			{
 				if (minor == 1)

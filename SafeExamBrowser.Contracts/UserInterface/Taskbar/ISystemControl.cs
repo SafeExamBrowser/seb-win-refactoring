@@ -6,15 +6,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.UserInterface
+namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
-	public delegate void TaskbarNotificationClickedEventHandler();
-
-	public interface ITaskbarNotification
+	public interface ISystemControl
 	{
 		/// <summary>
-		/// Event fired when the user clicked on the notification icon.
+		/// Sets the tooltip text of the system control.
 		/// </summary>
-		event TaskbarNotificationClickedEventHandler Clicked;
+		void SetTooltip(string text);
 	}
 }

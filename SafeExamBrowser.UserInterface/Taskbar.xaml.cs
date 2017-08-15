@@ -8,7 +8,7 @@
 
 using System.Windows;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SafeExamBrowser.UserInterface.Utilities;
 
 namespace SafeExamBrowser.UserInterface
@@ -26,7 +26,7 @@ namespace SafeExamBrowser.UserInterface
 			Loaded += (o, args) => InitializeBounds();
 		}
 
-		public void AddButton(ITaskbarButton button)
+		public void AddApplication(IApplicationButton button)
 		{
 			if (button is UIElement)
 			{
@@ -34,11 +34,19 @@ namespace SafeExamBrowser.UserInterface
 			}
 		}
 
-		public void AddNotification(ITaskbarNotification button)
+		public void AddNotification(INotificationButton button)
 		{
 			if (button is UIElement)
 			{
 				NotificationStackPanel.Children.Add(button as UIElement);
+			}
+		}
+
+		public void AddSystemControl(ISystemControl control)
+		{
+			if (control is UIElement)
+			{
+				SystemControlStackPanel.Children.Add(control as UIElement);
 			}
 		}
 

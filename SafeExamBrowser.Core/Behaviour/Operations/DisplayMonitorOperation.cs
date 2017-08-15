@@ -11,6 +11,7 @@ using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {

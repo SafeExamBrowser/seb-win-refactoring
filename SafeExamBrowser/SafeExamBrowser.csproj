@@ -135,6 +135,10 @@
       <Project>{ef563531-4eb5-44b9-a5ec-d6d6f204469b}</Project>
       <Name>SafeExamBrowser.Monitoring</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.SystemComponents\SafeExamBrowser.SystemComponents.csproj">
+      <Project>{ACEE2EF1-14D2-4B52-8994-5C053055BB51}</Project>
+      <Name>SafeExamBrowser.SystemComponents</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.UserInterface\SafeExamBrowser.UserInterface.csproj">
       <Project>{e1be031a-4354-41e7-83e8-843ded4489ff}</Project>
       <Name>SafeExamBrowser.UserInterface</Name>

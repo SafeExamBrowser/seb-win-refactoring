@@ -6,19 +6,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.UserInterface
+namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
 	public interface ITaskbar
 	{
 		/// <summary>
 		/// Adds the given application button to the taskbar.
 		/// </summary>
-		void AddButton(ITaskbarButton button);
+		void AddApplication(IApplicationButton button);
 
 		/// <summary>
 		/// Adds the given notification button to the taskbar.
 		/// </summary>
-		void AddNotification(ITaskbarNotification notification);
+		void AddNotification(INotificationButton button);
+
+		/// <summary>
+		/// Adds the given system control to the taskbar.
+		/// </summary>
+		void AddSystemControl(ISystemControl control);
 
 		/// <summary>
 		/// Returns the absolute height of the taskbar (i.e. in physical pixels).

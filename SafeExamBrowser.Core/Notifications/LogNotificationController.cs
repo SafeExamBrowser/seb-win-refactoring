@@ -10,12 +10,13 @@ using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
 namespace SafeExamBrowser.Core.Notifications
 {
 	public class LogNotificationController : INotificationController
 	{
-		private ITaskbarNotification notification;
+		private INotificationButton notification;
 		private ILogger logger;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
@@ -28,7 +29,7 @@ namespace SafeExamBrowser.Core.Notifications
 			this.uiFactory = uiFactory;
 		}
 
-		public void RegisterNotification(ITaskbarNotification notification)
+		public void RegisterNotification(INotificationButton notification)
 		{
 			this.notification = notification;
 

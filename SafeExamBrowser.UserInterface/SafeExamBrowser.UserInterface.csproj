@@ -77,8 +77,11 @@
     <Compile Include="Controls\ApplicationButton.xaml.cs">
       <DependentUpon>ApplicationButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NotificationIcon.xaml.cs">
-      <DependentUpon>NotificationIcon.xaml</DependentUpon>
+    <Compile Include="Controls\NotificationButton.xaml.cs">
+      <DependentUpon>NotificationButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PowerSupplyControl.xaml.cs">
+      <DependentUpon>PowerSupplyControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\QuitButton.xaml.cs">
       <DependentUpon>QuitButton.xaml</DependentUpon>
@@ -141,7 +144,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\NotificationIcon.xaml">
+    <Page Include="Controls\NotificationButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PowerSupplyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -154,6 +161,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ButtonStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

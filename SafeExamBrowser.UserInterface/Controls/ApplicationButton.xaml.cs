@@ -13,17 +13,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SafeExamBrowser.UserInterface.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Controls
 {
-	public partial class ApplicationButton : UserControl, ITaskbarButton
+	public partial class ApplicationButton : UserControl, IApplicationButton
 	{
 		private IApplicationInfo info;
 		private IList<IApplicationInstance> instances = new List<IApplicationInstance>();
 
-		public event TaskbarButtonClickedEventHandler Clicked;
+		public event ApplicationButtonClickedEventHandler Clicked;
 
 		public ApplicationButton(IApplicationInfo info)
 		{

@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
 namespace SafeExamBrowser.Contracts.Behaviour
 {
@@ -15,7 +16,7 @@ namespace SafeExamBrowser.Contracts.Behaviour
 		/// <summary>
 		/// Registers the taskbar notification.
 		/// </summary>
-		void RegisterNotification(ITaskbarNotification notification);
+		void RegisterNotification(INotificationButton notification);
 
 		/// <summary>
 		/// Instructs the controller to shut down and release all used resources.

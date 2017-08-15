@@ -10,7 +10,7 @@ using System;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
 namespace SafeExamBrowser.Core.Behaviour
 {

@@ -12,7 +12,7 @@ using Moq;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SafeExamBrowser.Core.Behaviour;
 
 namespace SafeExamBrowser.Core.UnitTests.Behaviour

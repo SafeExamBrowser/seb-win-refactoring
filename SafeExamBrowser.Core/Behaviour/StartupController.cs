@@ -91,7 +91,7 @@ namespace SafeExamBrowser.Core.Behaviour
 
 			logger.Log($"{titleLine}{copyrightLine}{emptyLine}{githubLine}");
 			logger.Log($"{Environment.NewLine}# Application started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
-			logger.Log($"# Operating system: {systemInfo.OperatingSystemInfo}{Environment.NewLine}");
+			logger.Log($"# Running on {systemInfo.OperatingSystemInfo}{Environment.NewLine}");
 			logger.Info("--- Initiating startup procedure ---");
 
 			splashScreen = uiFactory.CreateSplashScreen(settings, text);

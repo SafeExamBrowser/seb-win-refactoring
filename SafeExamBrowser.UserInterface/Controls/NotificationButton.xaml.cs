@@ -9,16 +9,16 @@
 using System.Windows;
 using System.Windows.Controls;
 using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SafeExamBrowser.UserInterface.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Controls
 {
-	public partial class NotificationIcon : UserControl, ITaskbarNotification
+	public partial class NotificationButton : UserControl, INotificationButton
 	{
-		public event TaskbarNotificationClickedEventHandler Clicked;
+		public event NotificationButtonClickedEventHandler Clicked;
 
-		public NotificationIcon(INotificationInfo info)
+		public NotificationButton(INotificationInfo info)
 		{
 			InitializeComponent();
 			InitializeNotificationIcon(info);

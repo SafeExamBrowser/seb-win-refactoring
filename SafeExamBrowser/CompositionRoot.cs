@@ -15,7 +15,9 @@ using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
+using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SafeExamBrowser.Contracts.WindowsApi;
 using SafeExamBrowser.Core.Behaviour;
 using SafeExamBrowser.Core.Behaviour.Operations;
@@ -26,6 +28,7 @@ using SafeExamBrowser.Monitoring.Keyboard;
 using SafeExamBrowser.Monitoring.Mouse;
 using SafeExamBrowser.Monitoring.Processes;
 using SafeExamBrowser.Monitoring.Windows;
+using SafeExamBrowser.SystemComponents;
 using SafeExamBrowser.UserInterface;
 using SafeExamBrowser.WindowsApi;
 
@@ -44,6 +47,7 @@ namespace SafeExamBrowser
 		private IProcessMonitor processMonitor;
 		private IRuntimeController runtimeController;
 		private ISettings settings;
+		private ISystemComponent<ISystemPowerSupplyControl> powerSupply;
 		private ISystemInfo systemInfo;
 		private IText text;
 		private ITextResource textResource;
@@ -74,6 +78,7 @@ namespace SafeExamBrowser
 			displayMonitor = new DisplayMonitor(new ModuleLogger(logger, typeof(DisplayMonitor)), nativeMethods);
 			keyboardInterceptor = new KeyboardInterceptor(settings.Keyboard, new ModuleLogger(logger, typeof(KeyboardInterceptor)));
 			mouseInterceptor = new MouseInterceptor(new ModuleLogger(logger, typeof(MouseInterceptor)), settings.Mouse);
+			powerSupply = new PowerSupply(new ModuleLogger(logger, typeof(PowerSupply)));
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
 			windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)), nativeMethods);
 
@@ -86,7 +91,7 @@ namespace SafeExamBrowser
 			StartupOperations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
 			StartupOperations.Enqueue(new ProcessMonitorOperation(logger, processMonitor));
 			StartupOperations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, Taskbar));
-			StartupOperations.Enqueue(new TaskbarOperation(logger, settings, systemInfo, Taskbar, text, uiFactory));
+			StartupOperations.Enqueue(new TaskbarOperation(logger, settings, powerSupply, systemInfo, Taskbar, text, uiFactory));
 			StartupOperations.Enqueue(new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory));
 			StartupOperations.Enqueue(new RuntimeControllerOperation(runtimeController, logger));
 			StartupOperations.Enqueue(new ClipboardOperation(logger, nativeMethods));

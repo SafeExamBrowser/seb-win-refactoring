@@ -15,12 +15,13 @@ using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
 namespace SafeExamBrowser.Browser
 {
 	public class BrowserApplicationController : IApplicationController
 	{
-		private ITaskbarButton button;
+		private IApplicationButton button;
 		private IList<IApplicationInstance> instances = new List<IApplicationInstance>();
 		private ISettings settings;
 		private IUserInterfaceFactory uiFactory;
@@ -49,7 +50,7 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		public void RegisterApplicationButton(ITaskbarButton button)
+		public void RegisterApplicationButton(IApplicationButton button)
 		{
 			this.button = button;
 			this.button.Clicked += Button_OnClick;

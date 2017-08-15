@@ -11,7 +11,9 @@ using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SafeExamBrowser.Core.Notifications;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
@@ -21,6 +23,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		private ILogger logger;
 		private INotificationController aboutController, logController;
 		private ISettings settings;
+		private ISystemComponent<ISystemPowerSupplyControl> powerSupply;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
 		private IUserInterfaceFactory uiFactory;
@@ -31,6 +34,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		public TaskbarOperation(
 			ILogger logger,
 			ISettings settings,
+			ISystemComponent<ISystemPowerSupplyControl> powerSupply,
 			ISystemInfo systemInfo,
 			ITaskbar taskbar,
 			IText text,
@@ -38,6 +42,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		{
 			this.logger = logger;
 			this.settings = settings;
+			this.powerSupply = powerSupply;
 			this.systemInfo = systemInfo;
 			this.taskbar = taskbar;
 			this.text = text;
@@ -55,21 +60,15 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			}
 
 			CreateAboutNotification();
-
-			if (systemInfo.HasBattery)
-			{
-				CreateBatteryNotification();
-			}
-
-			CreateNetworkNotification();
-			CreateAudioNotification();
-			CreateKeyboardNotification();
+			CreatePowerSupplyComponent();
 		}
 
 		public void Revert()
 		{
 			logController?.Terminate();
 			aboutController?.Terminate();
+
+			powerSupply.Terminate();
 		}
 
 		private void CreateLogNotification()
@@ -94,25 +93,14 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			taskbar.AddNotification(aboutNotification);
 		}
 
-		private void CreateBatteryNotification()
+		private void CreatePowerSupplyComponent()
 		{
-			// TODO: Are these specializations of INotification -> ISystemNotification? If yes, is this the right place, or do they
-			// need to go to a separate assembly?
-		}
+			var control = uiFactory.CreatePowerSupplyControl();
 
-		private void CreateNetworkNotification()
-		{
-			// TODO
-		}
+			powerSupply.RegisterControl(control);
+			powerSupply.Initialize();
 
-		private void CreateAudioNotification()
-		{
-			// TODO
-		}
-
-		private void CreateKeyboardNotification()
-		{
-			// TODO
+			taskbar.AddSystemControl(control);
 		}
 	}
 }

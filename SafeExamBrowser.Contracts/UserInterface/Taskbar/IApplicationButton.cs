@@ -9,17 +9,17 @@
 using System;
 using SafeExamBrowser.Contracts.Configuration;
 
-namespace SafeExamBrowser.Contracts.UserInterface
+namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
-	public delegate void TaskbarButtonClickedEventHandler(Guid? instanceId = null);
+	public delegate void ApplicationButtonClickedEventHandler(Guid? instanceId = null);
 
-	public interface ITaskbarButton
+	public interface IApplicationButton
 	{
 		/// <summary>
-		/// Event fired when the user clicked on the application button. If multiple instances of an application
-		/// are active, the handler is only executed when the user selects one of the instances.
+		/// Event fired when the user clicked on the application button. If multiple instances of an application are active,
+		/// the handler is only executed when the user selects one of the instances.
 		/// </summary>
-		event TaskbarButtonClickedEventHandler Clicked;
+		event ApplicationButtonClickedEventHandler Clicked;
 
 		/// <summary>
 		/// Registers a new instance of an application, to be started / displayed if the user clicked the taskbar button.

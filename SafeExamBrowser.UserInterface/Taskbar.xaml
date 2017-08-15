@@ -17,6 +17,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="40" />
             </Grid.ColumnDefinitions>
             <ScrollViewer Grid.Column="0" x:Name="ApplicationScrollViewer" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
@@ -26,8 +27,9 @@
                 <StackPanel x:Name="ApplicationStackPanel" Orientation="Horizontal" />
             </ScrollViewer>
             <StackPanel Grid.Column="1" x:Name="NotificationStackPanel" Margin="5,0,0,0" Orientation="Horizontal" VerticalAlignment="Stretch" />
-            <local:DateTimeControl Grid.Column="2" />
-            <local:QuitButton Grid.Column="3" />
+            <StackPanel Grid.Column="2" x:Name="SystemControlStackPanel" Orientation="Horizontal" VerticalAlignment="Stretch" />
+            <local:DateTimeControl Grid.Column="3" />
+            <local:QuitButton Grid.Column="4" />
         </Grid>
     </Border>
 </Window>

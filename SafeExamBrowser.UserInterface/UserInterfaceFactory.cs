@@ -13,6 +13,7 @@ using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SafeExamBrowser.UserInterface.Controls;
 
 namespace SafeExamBrowser.UserInterface
@@ -24,7 +25,7 @@ namespace SafeExamBrowser.UserInterface
 			return new AboutWindow(settings, text);
 		}
 
-		public ITaskbarButton CreateApplicationButton(IApplicationInfo info)
+		public IApplicationButton CreateApplicationButton(IApplicationInfo info)
 		{
 			return new ApplicationButton(info);
 		}
@@ -59,9 +60,14 @@ namespace SafeExamBrowser.UserInterface
 			return logWindow;
 		}
 
-		public ITaskbarNotification CreateNotification(INotificationInfo info)
+		public INotificationButton CreateNotification(INotificationInfo info)
 		{
-			return new NotificationIcon(info);
+			return new NotificationButton(info);
+		}
+
+		public ISystemPowerSupplyControl CreatePowerSupplyControl()
+		{
+			return new PowerSupplyControl();
 		}
 
 		public ISplashScreen CreateSplashScreen(ISettings settings, IText text)

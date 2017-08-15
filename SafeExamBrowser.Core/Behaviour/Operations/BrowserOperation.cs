@@ -11,6 +11,7 @@ using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
@@ -48,7 +49,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			browserController.Initialize();
 			browserController.RegisterApplicationButton(browserButton);
 
-			taskbar.AddButton(browserButton);
+			taskbar.AddApplication(browserButton);
 		}
 
 		public void Revert()

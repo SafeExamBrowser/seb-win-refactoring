@@ -5,8 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Controls"
              xmlns:s="clr-namespace:System;assembly=mscorlib"
-             mc:Ignorable="d" 
-             d:DesignHeight="40" d:DesignWidth="50">
+             mc:Ignorable="d" d:DesignHeight="40" d:DesignWidth="50">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/ButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Popup x:Name="InstancePopup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}" AllowsTransparency="True">
             <ScrollViewer x:Name="InstanceScrollViewer" VerticalScrollBarVisibility="Auto">
@@ -19,23 +25,8 @@
                 <StackPanel x:Name="InstanceStackPanel" />
             </ScrollViewer>
         </Popup>
-        <Button x:Name="Button" Background="#00000000" BorderThickness="0" Click="Button_Click" Width="50">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border x:Name="ButtonContent" Background="{TemplateBinding Background}" Padding="5">
-                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Content" />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="ButtonContent" Property="Background" Value="#2AFFFFFF" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="ButtonContent" Property="Background" Value="#10FFFFFF" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <Button x:Name="Button" Background="#00000000" BorderThickness="0" Click="Button_Click" Padding="5"
+                Template="{StaticResource ResourceKey=TaskbarButton}" Width="50" />
         <Grid Panel.ZIndex="10">
             <Rectangle x:Name="ActiveBar" Height="2" Width="40" VerticalAlignment="Bottom" Fill="LightSteelBlue" Visibility="Collapsed" />
         </Grid>

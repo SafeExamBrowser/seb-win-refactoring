@@ -6,25 +6,24 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
-namespace SafeExamBrowser.Contracts.Behaviour
+namespace SafeExamBrowser.Contracts.SystemComponents
 {
-	public interface IApplicationController
+	public interface ISystemComponent<TControl> where TControl : ISystemControl
 	{
 		/// <summary>
-		/// Performs any initialization work, if necessary.
+		/// Initializes the resources used by the component and starts its operations, if applicable.
 		/// </summary>
 		void Initialize();
 
 		/// <summary>
-		/// Registers the taskbar button for this application.
+		/// Registers the taskbar control for the system component.
 		/// </summary>
-		void RegisterApplicationButton(IApplicationButton button);
+		void RegisterControl(TControl control);
 
 		/// <summary>
-		/// Performs any termination work, e.g. freeing of resources.
+		/// Instructs the component to stop any running operations and release all used resources.
 		/// </summary>
 		void Terminate();
 	}
