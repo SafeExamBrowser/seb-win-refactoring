@@ -38,7 +38,7 @@ namespace SafeExamBrowser.UserInterface
 		{
 			if (button is UIElement)
 			{
-				NotificationWrapPanel.Children.Add(button as UIElement);
+				NotificationStackPanel.Children.Add(button as UIElement);
 			}
 		}
 
