@@ -90,8 +90,11 @@ namespace SafeExamBrowser.Core.Behaviour
 			var githubLine = $"/* Please visit https://github.com/SafeExamBrowser for more information.";
 
 			logger.Log($"{titleLine}{copyrightLine}{emptyLine}{githubLine}");
-			logger.Log($"{Environment.NewLine}# Application started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
-			logger.Log($"# Running on {systemInfo.OperatingSystemInfo}{Environment.NewLine}");
+			logger.Log(string.Empty);
+			logger.Log($"# Application started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+			logger.Log($"# Running on {systemInfo.OperatingSystemInfo}");
+			logger.Log(string.Empty);
+
 			logger.Info("--- Initiating startup procedure ---");
 
 			splashScreen = uiFactory.CreateSplashScreen(settings, text);

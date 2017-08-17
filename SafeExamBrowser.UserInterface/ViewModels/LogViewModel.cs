@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -50,7 +51,18 @@ namespace SafeExamBrowser.UserInterface.ViewModels
 
 		private void AppendLogText(ILogText logText)
 		{
-			textBlock.Dispatcher.Invoke(() => textBlock.Inlines.Add(new Run($"{logText.Text}{Environment.NewLine}")));
+			textBlock.Dispatcher.Invoke(() =>
+			{
+				var isHeader = logText.Text.StartsWith("/* ");
+				var isComment = logText.Text.StartsWith("# ");
+				var brush = isHeader || isComment ? Brushes.ForestGreen : textBlock.Foreground;
+
+				textBlock.Inlines.Add(new Run($"{logText.Text}{Environment.NewLine}")
+				{
+					FontWeight = isHeader ? FontWeights.Bold : FontWeights.Normal,
+					Foreground = brush
+				});
+			});
 		}
 
 		private void AppendLogMessage(ILogMessage message)

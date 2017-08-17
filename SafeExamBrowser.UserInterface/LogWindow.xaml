@@ -12,7 +12,7 @@
     </Window.Background>
     <Grid>
         <ScrollViewer x:Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <TextBlock x:Name="LogContent" Background="Transparent" FontFamily="Consolas" Foreground="ForestGreen" />
+            <TextBlock x:Name="LogContent" Background="Transparent" FontFamily="Consolas" Foreground="White" />
         </ScrollViewer>
     </Grid>
 </Window>
