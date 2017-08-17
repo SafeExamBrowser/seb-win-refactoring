@@ -14,9 +14,9 @@
     </UserControl.Resources>
     <Grid>
         <Popup x:Name="Popup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}" AllowsTransparency="True">
-            <Border BorderBrush="White" BorderThickness="0.5,0.5,0.5,0" MaxWidth="250" Padding="5">
+            <Border BorderBrush="White" BorderThickness="0.5,0.5,0.5,0" MaxWidth="250" Padding="20,10,20,20">
                 <Border.Background>
-                    <SolidColorBrush Color="Black" Opacity="0.8" />
+                    <SolidColorBrush Color="#404040" Opacity="0.8" />
                 </Border.Background>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -29,7 +29,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Button Grid.Column="1" Background="Transparent" Click="Button_Click" Cursor="Hand" FontWeight="Bold"
-                                Foreground="White" Template="{StaticResource ResourceKey=TaskbarButton}" Width="20">X</Button>
+                                Foreground="White" Margin="0,0,0,5" Template="{StaticResource ResourceKey=TaskbarButton}" Width="20">X</Button>
                     </Grid>
                     <TextBlock Grid.Row="1" x:Name="PopupText" Foreground="White" TextWrapping="Wrap" />
                 </Grid>

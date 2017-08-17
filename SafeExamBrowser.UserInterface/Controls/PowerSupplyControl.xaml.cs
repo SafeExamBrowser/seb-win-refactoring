@@ -33,8 +33,14 @@ namespace SafeExamBrowser.UserInterface.Controls
 		{
 			Dispatcher.Invoke(() =>
 			{
-				BatteryCharge.Width = BATTERY_CHARGE_MAX_WIDTH * charge;
-				BatteryCharge.Fill = status == BatteryChargeStatus.Low ? (status == BatteryChargeStatus.Critical ? Brushes.Red : Brushes.Orange) : Brushes.Green;
+				var width = BATTERY_CHARGE_MAX_WIDTH * charge;
+
+				width = width > BATTERY_CHARGE_MAX_WIDTH ? BATTERY_CHARGE_MAX_WIDTH : width;
+				width = width < 0 ? 0 : width;
+
+				BatteryCharge.Width = width;
+				BatteryCharge.Fill = status == BatteryChargeStatus.Low ? Brushes.Orange : BatteryCharge.Fill;
+				BatteryCharge.Fill = status == BatteryChargeStatus.Critical ? Brushes.Red : BatteryCharge.Fill;
 				Warning.Visibility = status == BatteryChargeStatus.Critical ? Visibility.Visible : Visibility.Collapsed;
 			});
 		}
