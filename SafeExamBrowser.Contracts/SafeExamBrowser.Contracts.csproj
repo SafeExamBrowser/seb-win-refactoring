@@ -86,6 +86,7 @@
     <Compile Include="Monitoring\KeyModifier.cs" />
     <Compile Include="Monitoring\KeyState.cs" />
     <Compile Include="Monitoring\MouseButton.cs" />
+    <Compile Include="SystemComponents\BatteryChargeStatus.cs" />
     <Compile Include="SystemComponents\ISystemComponent.cs" />
     <Compile Include="UserInterface\IBrowserControl.cs" />
     <Compile Include="UserInterface\IBrowserWindow.cs" />

@@ -60,7 +60,11 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			}
 
 			CreateAboutNotification();
-			CreatePowerSupplyComponent();
+
+			if (systemInfo.HasBattery)
+			{
+				CreatePowerSupplyComponent();
+			}
 		}
 
 		public void Revert()
@@ -68,7 +72,10 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			logController?.Terminate();
 			aboutController?.Terminate();
 
-			powerSupply.Terminate();
+			if (systemInfo.HasBattery)
+			{
+				powerSupply.Terminate();
+			}
 		}
 
 		private void CreateLogNotification()
@@ -97,9 +104,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		{
 			var control = uiFactory.CreatePowerSupplyControl();
 
-			powerSupply.RegisterControl(control);
-			powerSupply.Initialize();
-
+			powerSupply.Initialize(control);
 			taskbar.AddSystemControl(control);
 		}
 	}

@@ -6,18 +6,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
+namespace SafeExamBrowser.Contracts.SystemComponents
 {
-	public interface ISystemControl
+	public enum BatteryChargeStatus
 	{
-		/// <summary>
-		/// Closes any pop-up windows associated with this control.
-		/// </summary>
-		void Close();
+		Undefined = 0,
 
 		/// <summary>
-		/// Sets the tooltip text of the system control.
+		/// The battery charge is critical, i.e. below 20%.
 		/// </summary>
-		void SetTooltip(string text);
+		Critical,
+
+		/// <summary>
+		/// The battery charge is low, i.e. below 35%.
+		/// </summary>
+		Low,
+
+		/// <summary>
+		/// The battery charge is okay, i.e. above 35%.
+		/// </summary>
+		Okay
 	}
 }

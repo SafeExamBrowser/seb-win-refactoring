@@ -8,19 +8,46 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Styles/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="../Templates/Buttons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Button x:Name="Button" Background="#00000000" BorderThickness="0" Foreground="White" Padding="5,0"
-            Template="{StaticResource ResourceKey=TaskbarButton}" Width="28">
-        <Canvas Height="18" Width="18">
-            <Path Stroke="White" Data="M3,6 H17 V9 H18 V11 H17 V9 H17 V14 H3 Z" Panel.ZIndex="2" />
-            <Rectangle x:Name="BatteryCharge" Canvas.Left="3" Canvas.Top="6" Fill="Green" Height="8" Width="14" />
-            <Grid x:Name="PowerPlug" Panel.ZIndex="3">
-                <Path Stroke="White" Fill="Black" Data="M2.5,14.5 V10 Q5,10 5,6 H4 V4 H4 V6 H1 V4 H1 V6 H0 Q0,10 2.5,10" Panel.ZIndex="2" />
-                <Path Stroke="Black" Data="M4,14.5 V10 Q6,10 6,5.5" Panel.ZIndex="1" />
-            </Grid>
-        </Canvas>
-    </Button>
+    <Grid>
+        <Popup x:Name="Popup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}" AllowsTransparency="True">
+            <Border BorderBrush="White" BorderThickness="0.5,0.5,0.5,0" MaxWidth="250" Padding="5">
+                <Border.Background>
+                    <SolidColorBrush Color="Black" Opacity="0.8" />
+                </Border.Background>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="1" Background="Transparent" Click="Button_Click" Cursor="Hand" FontWeight="Bold"
+                                Foreground="White" Template="{StaticResource ResourceKey=TaskbarButton}" Width="20">X</Button>
+                    </Grid>
+                    <TextBlock Grid.Row="1" x:Name="PopupText" Foreground="White" TextWrapping="Wrap" />
+                </Grid>
+            </Border>
+        </Popup>
+        <Button x:Name="Button" Background="#00000000" BorderThickness="0" Foreground="White" Padding="5,0"
+                Template="{StaticResource ResourceKey=TaskbarButton}" Width="28">
+            <Viewbox Stretch="Uniform" Width="Auto">
+                <Canvas Height="18" Width="18">
+                    <Path Stroke="White" Data="M3,6 H17 V9 H18 V11 H17 V9 H17 V14 H3 Z" Panel.ZIndex="2" />
+                    <Rectangle x:Name="BatteryCharge" Canvas.Left="3.5" Canvas.Top="6" Fill="Green" Height="8" Width="13" />
+                    <Grid x:Name="PowerPlug" Panel.ZIndex="3">
+                        <Path Stroke="White" Fill="Black" Data="M2.5,14.5 V10 Q5,10 5,6 H4 V4 H4 V6 H1 V4 H1 V6 H0 Q0,10 2.5,10" Panel.ZIndex="2" />
+                        <Path Stroke="Black" Data="M4,14.5 V10 Q6,10 6,5.5" Panel.ZIndex="1" />
+                    </Grid>
+                    <TextBlock x:Name="Warning" FontSize="18" FontWeight="ExtraBold" Foreground="Red" Canvas.Left="7" Canvas.Top="-3.5" Panel.ZIndex="3">!</TextBlock>
+                </Canvas>
+            </Viewbox>
+        </Button>
+    </Grid>
 </UserControl>

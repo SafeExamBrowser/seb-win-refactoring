@@ -13,17 +13,12 @@ namespace SafeExamBrowser.Contracts.SystemComponents
 	public interface ISystemComponent<TControl> where TControl : ISystemControl
 	{
 		/// <summary>
-		/// Initializes the resources used by the component and starts its operations, if applicable.
+		/// Initializes the resources and operations of the component and registers its taskbar control.
 		/// </summary>
-		void Initialize();
+		void Initialize(TControl control);
 
 		/// <summary>
-		/// Registers the taskbar control for the system component.
-		/// </summary>
-		void RegisterControl(TControl control);
-
-		/// <summary>
-		/// Instructs the component to stop any running operations and release all used resources.
+		/// Instructs the component to stop any running operations and releases all used resources.
 		/// </summary>
 		void Terminate();
 	}

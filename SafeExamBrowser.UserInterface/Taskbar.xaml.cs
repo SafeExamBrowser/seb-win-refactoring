@@ -24,6 +24,7 @@ namespace SafeExamBrowser.UserInterface
 			InitializeComponent();
 
 			Loaded += (o, args) => InitializeBounds();
+			Closing += Taskbar_Closing;
 		}
 
 		public void AddApplication(IApplicationButton button)
@@ -75,6 +76,17 @@ namespace SafeExamBrowser.UserInterface
 
 				logger.Info($"Set taskbar bounds to {Width}x{Height} at ({Left}/{Top}), in physical pixels: {size.X}x{size.Y} at ({position.X}/{position.Y}).");
 			});
+		}
+
+		private void Taskbar_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			foreach (var child in SystemControlStackPanel.Children)
+			{
+				if (child is ISystemControl)
+				{
+					(child as ISystemControl).Close();
+				}
+			}
 		}
 	}
 }

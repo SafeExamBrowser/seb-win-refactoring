@@ -6,19 +6,30 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.SystemComponents;
+
 namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
 	public interface ISystemPowerSupplyControl : ISystemControl
 	{
 		/// <summary>
-		/// Sets the current charge of the system battery, if available. <c>0.0</c> means the battery is empty, <c>1.0</c> means it's
-		/// fully charged. Pass <c>null</c> to indicate that the computer system has no battery.
+		/// Sets the current charge of the system battery: <c>0.0</c> means the battery is empty, <c>1.0</c> means it's fully charged.
 		/// </summary>
-		void SetBatteryCharge(double? percentage);
+		void SetBatteryCharge(double charge, BatteryChargeStatus status);
 
 		/// <summary>
 		/// Sets the power supply status, i.e. whether the computer system is connected to the power grid or not.
 		/// </summary>
 		void SetPowerGridConnection(bool connected);
+
+		/// <summary>
+		/// Warns the user that the battery charge is critical.
+		/// </summary>
+		void ShowCriticalBatteryWarning(string warning);
+
+		/// <summary>
+		/// Indicates the user that the battery charge is low.
+		/// </summary>
+		void ShowLowBatteryInfo(string info);
 	}
 }
