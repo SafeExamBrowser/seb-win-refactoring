@@ -10,9 +10,9 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.UserInterface.Utilities;
+using SafeExamBrowser.UserInterface.Windows10.Utilities;
 
-namespace SafeExamBrowser.UserInterface.Controls
+namespace SafeExamBrowser.UserInterface.Windows10.Controls
 {
 	internal delegate void InstanceButtonClickedEventHandler(Guid instanceId);
 

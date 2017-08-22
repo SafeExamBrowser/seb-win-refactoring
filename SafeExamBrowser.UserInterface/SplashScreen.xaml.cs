@@ -11,9 +11,9 @@ using System.Windows.Documents;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.UserInterface.ViewModels;
+using SafeExamBrowser.UserInterface.Windows10.ViewModels;
 
-namespace SafeExamBrowser.UserInterface
+namespace SafeExamBrowser.UserInterface.Windows10
 {
 	public partial class SplashScreen : Window, ISplashScreen
 	{

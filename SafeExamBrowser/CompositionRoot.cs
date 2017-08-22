@@ -29,7 +29,7 @@ using SafeExamBrowser.Monitoring.Mouse;
 using SafeExamBrowser.Monitoring.Processes;
 using SafeExamBrowser.Monitoring.Windows;
 using SafeExamBrowser.SystemComponents;
-using SafeExamBrowser.UserInterface;
+using SafeExamBrowser.UserInterface.Windows10;
 using SafeExamBrowser.WindowsApi;
 
 namespace SafeExamBrowser

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
-namespace SafeExamBrowser.UserInterface.Controls
+namespace SafeExamBrowser.UserInterface.Windows10.Controls
 {
 	public partial class PowerSupplyControl : UserControl, ISystemPowerSupplyControl
 	{

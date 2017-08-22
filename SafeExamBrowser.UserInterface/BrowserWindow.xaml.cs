@@ -11,7 +11,7 @@ using System.Windows.Input;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.UserInterface;
 
-namespace SafeExamBrowser.UserInterface
+namespace SafeExamBrowser.UserInterface.Windows10
 {
 	public partial class BrowserWindow : Window, IBrowserWindow
 	{

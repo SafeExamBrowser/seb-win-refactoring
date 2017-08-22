@@ -9,7 +9,7 @@
 using System.ComponentModel;
 using System.Timers;
 
-namespace SafeExamBrowser.UserInterface.ViewModels
+namespace SafeExamBrowser.UserInterface.Windows10.ViewModels
 {
 	class SplashScreenViewModel : INotifyPropertyChanged
 	{

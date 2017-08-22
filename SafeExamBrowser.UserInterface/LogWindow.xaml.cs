@@ -11,9 +11,9 @@ using System.Windows;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.UserInterface.ViewModels;
+using SafeExamBrowser.UserInterface.Windows10.ViewModels;
 
-namespace SafeExamBrowser.UserInterface
+namespace SafeExamBrowser.UserInterface.Windows10
 {
 	public partial class LogWindow : Window, IWindow
 	{

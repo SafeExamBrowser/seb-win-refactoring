@@ -1,4 +1,4 @@
-﻿<Window x:Class="SafeExamBrowser.UserInterface.SplashScreen"
+﻿<Window x:Class="SafeExamBrowser.UserInterface.Windows10.SplashScreen"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -20,7 +20,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="155" />
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Grid.ColumnSpan="2" Source="pack://application:,,,/SafeExamBrowser.UserInterface;component/Images/SplashScreen.png" />
+                <Image Grid.Column="0" Grid.ColumnSpan="2" Source="pack://application:,,,/SafeExamBrowser.UserInterface.Windows10;component/Images/SplashScreen.png" />
                 <TextBlock x:Name="InfoTextBlock" Grid.Column="1" Foreground="White" Margin="10,75,10,10" TextWrapping="Wrap" />
             </Grid>
             <ProgressBar x:Name="ProgressBar" Grid.Row="1" Minimum="0" Maximum="{Binding Path=MaxProgress}" Value="{Binding Path=CurrentProgress}" IsIndeterminate="{Binding Path=IsIndeterminate}" Background="#00000000" BorderThickness="0" />

@@ -7,9 +7,9 @@
  */
 
 using System.Windows.Controls;
-using SafeExamBrowser.UserInterface.ViewModels;
+using SafeExamBrowser.UserInterface.Windows10.ViewModels;
 
-namespace SafeExamBrowser.UserInterface.Controls
+namespace SafeExamBrowser.UserInterface.Windows10.Controls
 {
 	public partial class DateTimeControl : UserControl
 	{

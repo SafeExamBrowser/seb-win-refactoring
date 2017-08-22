@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using SafeExamBrowser.Contracts.Configuration;
 
-namespace SafeExamBrowser.UserInterface.Utilities
+namespace SafeExamBrowser.UserInterface.Windows10.Utilities
 {
 	internal static class IconResourceLoader
 	{

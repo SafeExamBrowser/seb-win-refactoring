@@ -14,7 +14,7 @@ using System.Windows.Media;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.UserInterface.ViewModels
+namespace SafeExamBrowser.UserInterface.Windows10.ViewModels
 {
 	internal class LogViewModel : ILogObserver
 	{

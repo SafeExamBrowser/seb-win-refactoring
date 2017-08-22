@@ -12,7 +12,7 @@ using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
 
-namespace SafeExamBrowser.UserInterface
+namespace SafeExamBrowser.UserInterface.Windows10
 {
 	public partial class AboutWindow : Window, IWindow
 	{

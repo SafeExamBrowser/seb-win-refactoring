@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 
-namespace SafeExamBrowser.UserInterface.Utilities
+namespace SafeExamBrowser.UserInterface.Windows10.Utilities
 {
 	internal static class VisualExtensions
 	{

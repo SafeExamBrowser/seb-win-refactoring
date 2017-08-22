@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Styles">
+                    xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Windows10.Styles">
     <ControlTemplate x:Key="TaskbarButton" TargetType="Button">
         <Border x:Name="ButtonContent" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
             <ContentPresenter ContentSource="Content" HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" />

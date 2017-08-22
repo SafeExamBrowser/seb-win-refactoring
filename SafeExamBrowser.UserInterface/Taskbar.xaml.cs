@@ -9,9 +9,9 @@
 using System.Windows;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
-using SafeExamBrowser.UserInterface.Utilities;
+using SafeExamBrowser.UserInterface.Windows10.Utilities;
 
-namespace SafeExamBrowser.UserInterface
+namespace SafeExamBrowser.UserInterface.Windows10
 {
 	public partial class Taskbar : Window, ITaskbar
 	{

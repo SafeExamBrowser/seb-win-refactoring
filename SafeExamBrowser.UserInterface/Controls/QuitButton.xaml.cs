@@ -9,7 +9,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SafeExamBrowser.UserInterface.Controls
+namespace SafeExamBrowser.UserInterface.Windows10.Controls
 {
 	public partial class QuitButton : UserControl
 	{

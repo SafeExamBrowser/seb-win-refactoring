@@ -139,9 +139,9 @@
       <Project>{ACEE2EF1-14D2-4B52-8994-5C053055BB51}</Project>
       <Name>SafeExamBrowser.SystemComponents</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SafeExamBrowser.UserInterface\SafeExamBrowser.UserInterface.csproj">
+    <ProjectReference Include="..\SafeExamBrowser.UserInterface\SafeExamBrowser.UserInterface.Windows10.csproj">
       <Project>{e1be031a-4354-41e7-83e8-843ded4489ff}</Project>
-      <Name>SafeExamBrowser.UserInterface</Name>
+      <Name>SafeExamBrowser.UserInterface.Windows10</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.WindowsApi\SafeExamBrowser.WindowsApi.csproj">
       <Project>{73724659-4150-4792-A94E-42F5F3C1B696}</Project>

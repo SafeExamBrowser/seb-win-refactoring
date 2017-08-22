@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser", "SafeExamBrowser\SafeExamBrowser.csproj", "{E3AED2F8-B5DF-45D1-AC19-48066923D6D8}"
 EndProject
@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.UserInterface", "SafeExamBrowser.UserInterface\SafeExamBrowser.UserInterface.csproj", "{E1BE031A-4354-41E7-83E8-843DED4489FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.UserInterface.Windows10", "SafeExamBrowser.UserInterface\SafeExamBrowser.UserInterface.Windows10.csproj", "{E1BE031A-4354-41E7-83E8-843DED4489FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Core.UnitTests", "SafeExamBrowser.Core.UnitTests\SafeExamBrowser.Core.UnitTests.csproj", "{48B9F2A1-B87D-40F0-BEC9-399E8909860F}"
 EndProject
@@ -120,5 +120,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {42A10DA5-96FA-443F-B3DE-5399FC325752}
 	EndGlobalSection
 EndGlobal

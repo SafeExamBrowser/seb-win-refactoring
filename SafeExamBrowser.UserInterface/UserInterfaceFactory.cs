@@ -14,9 +14,9 @@ using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
-using SafeExamBrowser.UserInterface.Controls;
+using SafeExamBrowser.UserInterface.Windows10.Controls;
 
-namespace SafeExamBrowser.UserInterface
+namespace SafeExamBrowser.UserInterface.Windows10
 {
 	public class UserInterfaceFactory : IUserInterfaceFactory
 	{
