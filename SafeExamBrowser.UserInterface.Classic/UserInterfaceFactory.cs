@@ -23,8 +23,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 	{
 		public IWindow CreateAboutWindow(ISettings settings, IText text)
 		{
-			// TODO:
-			throw new NotImplementedException();
+			return new AboutWindow(settings, text);
 		}
 
 		public IApplicationButton CreateApplicationButton(IApplicationInfo info)
@@ -39,8 +38,27 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 		public IWindow CreateLogWindow(ILogger logger, IText text)
 		{
-			// TODO:
-			throw new NotImplementedException();
+			LogWindow logWindow = null;
+			var logWindowReadyEvent = new AutoResetEvent(false);
+			var logWindowThread = new Thread(() =>
+			{
+				logWindow = new LogWindow(logger, text);
+				logWindow.Closed += (o, args) => logWindow.Dispatcher.InvokeShutdown();
+				logWindow.Show();
+
+				logWindowReadyEvent.Set();
+
+				System.Windows.Threading.Dispatcher.Run();
+			});
+
+			logWindowThread.SetApartmentState(ApartmentState.STA);
+			logWindowThread.Name = nameof(LogWindow);
+			logWindowThread.IsBackground = true;
+			logWindowThread.Start();
+
+			logWindowReadyEvent.WaitOne();
+
+			return logWindow;
 		}
 
 		public INotificationButton CreateNotification(INotificationInfo info)

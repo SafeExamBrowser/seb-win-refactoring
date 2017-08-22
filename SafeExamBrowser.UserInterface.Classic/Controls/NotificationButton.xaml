@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Classic.Controls"
-             mc:Ignorable="d" d:DesignHeight="40" d:DesignWidth="28">
+             mc:Ignorable="d" d:DesignHeight="40" d:DesignWidth="40">
     <Grid>
-        <Button x:Name="IconButton" Click="Icon_Click" Padding="5,0" Width="28"/>
+        <Button x:Name="IconButton" Click="Icon_Click" Padding="5,0" Width="40"/>
     </Grid>
 </UserControl>

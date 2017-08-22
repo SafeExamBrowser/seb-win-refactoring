@@ -88,9 +88,9 @@ namespace SafeExamBrowser.UserInterface.Classic.ViewModels
 				case LogLevel.Error:
 					return Brushes.Red;
 				case LogLevel.Warning:
-					return Brushes.Yellow;
+					return Brushes.Orange;
 				default:
-					return Brushes.White;
+					return Brushes.Black;
 			}
 		}
 	}
