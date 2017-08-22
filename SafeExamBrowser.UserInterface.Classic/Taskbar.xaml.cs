@@ -9,6 +9,7 @@
 using System.Windows;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.UserInterface.Classic.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Classic
 {
@@ -30,7 +31,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 		{
 			if (button is UIElement)
 			{
-				// TODO: ApplicationStackPanel.Children.Add(button as UIElement);
+				ApplicationStackPanel.Children.Add(button as UIElement);
 			}
 		}
 
@@ -38,7 +39,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 		{
 			if (button is UIElement)
 			{
-				// TODO: NotificationStackPanel.Children.Add(button as UIElement);
+				NotificationStackPanel.Children.Add(button as UIElement);
 			}
 		}
 
@@ -46,7 +47,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 		{
 			if (control is UIElement)
 			{
-				// TODO: SystemControlStackPanel.Children.Add(control as UIElement);
+				SystemControlStackPanel.Children.Add(control as UIElement);
 			}
 		}
 
@@ -54,13 +55,11 @@ namespace SafeExamBrowser.UserInterface.Classic
 		{
 			return Dispatcher.Invoke(() =>
 			{
-				//var height = (int) this.TransformToPhysical(Width, Height).Y;
+				var height = (int) this.TransformToPhysical(Width, Height).Y;
 
-				//logger.Info($"Calculated physical taskbar height is {height}px.");
+				logger.Info($"Calculated physical taskbar height is {height}px.");
 
-				//return height;
-
-				return 40;
+				return height;
 			});
 		}
 
@@ -68,26 +67,26 @@ namespace SafeExamBrowser.UserInterface.Classic
 		{
 			Dispatcher.Invoke(() =>
 			{
-				//Width = SystemParameters.WorkArea.Right;
-				//Left = SystemParameters.WorkArea.Right - Width;
-				//Top = SystemParameters.WorkArea.Bottom;
+				Width = SystemParameters.WorkArea.Right;
+				Left = SystemParameters.WorkArea.Right - Width;
+				Top = SystemParameters.WorkArea.Bottom;
 
-				//var position = this.TransformToPhysical(Left, Top);
-				//var size = this.TransformToPhysical(Width, Height);
+				var position = this.TransformToPhysical(Left, Top);
+				var size = this.TransformToPhysical(Width, Height);
 
-				//logger.Info($"Set taskbar bounds to {Width}x{Height} at ({Left}/{Top}), in physical pixels: {size.X}x{size.Y} at ({position.X}/{position.Y}).");
+				logger.Info($"Set taskbar bounds to {Width}x{Height} at ({Left}/{Top}), in physical pixels: {size.X}x{size.Y} at ({position.X}/{position.Y}).");
 			});
 		}
 
 		private void Taskbar_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			//foreach (var child in SystemControlStackPanel.Children)
-			//{
-			//	if (child is ISystemControl)
-			//	{
-			//		(child as ISystemControl).Close();
-			//	}
-			//}
+			foreach (var child in SystemControlStackPanel.Children)
+			{
+				if (child is ISystemControl)
+				{
+					(child as ISystemControl).Close();
+				}
+			}
 		}
 	}
 }

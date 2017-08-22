@@ -61,10 +61,11 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 			CreateAboutNotification();
 
-			if (systemInfo.HasBattery)
-			{
-				CreatePowerSupplyComponent();
-			}
+			// TODO:
+			//if (systemInfo.HasBattery)
+			//{
+			//	CreatePowerSupplyComponent();
+			//}
 		}
 
 		public void Revert()
