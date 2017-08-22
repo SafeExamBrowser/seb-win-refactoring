@@ -6,12 +6,12 @@
              xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Classic.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Margin="5,0">
+    <Grid Background="Transparent" Margin="5,0" ToolTip="{Binding Path=ToolTip}">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <TextBlock x:Name="TimeTextBlock" Grid.Row="0" Text="{Binding Path=Time}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <TextBlock x:Name="DateTextBlock" Grid.Row="1" Text="{Binding Path=Date}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <TextBlock x:Name="TimeTextBlock" Grid.Row="0" Text="{Binding Path=Time}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+        <TextBlock x:Name="DateTextBlock" Grid.Row="1" Text="{Binding Path=Date}" HorizontalAlignment="Center" VerticalAlignment="Top" />
     </Grid>
 </UserControl>

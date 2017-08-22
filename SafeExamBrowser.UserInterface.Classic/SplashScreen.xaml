@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Classic"
         mc:Ignorable="d"
-        Title="SplashScreen" Height="200" Width="350" WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen"
+        Title="SplashScreen" Background="White" Height="200" Width="350" WindowStyle="None" WindowStartupLocation="CenterScreen"
         Cursor="Wait" Icon="./Images/SafeExamBrowser.ico" ResizeMode="NoResize" Topmost="True">
     <Border BorderBrush="DodgerBlue" BorderThickness="1">
         <Grid>

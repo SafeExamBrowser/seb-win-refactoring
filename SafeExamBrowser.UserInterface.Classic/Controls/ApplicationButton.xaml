@@ -6,18 +6,23 @@
              xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Classic.Controls"
              xmlns:s="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" d:DesignHeight="40" d:DesignWidth="50">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Templates/Buttons.xaml" />
+                <ResourceDictionary Source="../Templates/Colors.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Popup x:Name="InstancePopup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}">
-            <ScrollViewer x:Name="InstanceScrollViewer" VerticalScrollBarVisibility="Auto">
+            <ScrollViewer x:Name="InstanceScrollViewer" Background="{StaticResource BackgroundBrush}" VerticalScrollBarVisibility="Auto">
                 <ScrollViewer.Resources>
                     <s:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</s:Double>
                 </ScrollViewer.Resources>
                 <StackPanel x:Name="InstanceStackPanel" />
             </ScrollViewer>
         </Popup>
-        <Button x:Name="Button" Click="Button_Click" Padding="5" Width="50" />
-        <Grid Panel.ZIndex="10">
-            <Rectangle x:Name="ActiveBar" Height="2" Width="40" VerticalAlignment="Bottom" Fill="LightSteelBlue" Visibility="Collapsed" />
-        </Grid>
+        <Button x:Name="Button" Background="{StaticResource BackgroundBrush}" Click="Button_Click" Padding="4" Template="{StaticResource TaskbarButton}" Width="50" />
     </Grid>
 </UserControl>

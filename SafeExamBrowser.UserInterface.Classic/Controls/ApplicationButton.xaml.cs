@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SafeExamBrowser.UserInterface.Classic.Utilities;
@@ -41,21 +42,31 @@ namespace SafeExamBrowser.UserInterface.Classic.Controls
 
 			instances.Add(instance);
 			InstanceStackPanel.Children.Add(instanceButton);
-
-			ActiveBar.Visibility = Visibility.Visible;
 		}
 
 		private void InitializeApplicationButton()
 		{
+			var originalBrush = Button.Background;
+
 			Button.ToolTip = info.Tooltip;
 			Button.Content = IconResourceLoader.Load(info.IconResource);
 
 			Button.MouseEnter += (o, args) => InstancePopup.IsOpen = instances.Count > 1;
-			Button.MouseLeave += (o, args) => InstancePopup.IsOpen &= InstancePopup.IsMouseOver || ActiveBar.IsMouseOver;
-			ActiveBar.MouseLeave += (o, args) => InstancePopup.IsOpen &= InstancePopup.IsMouseOver || Button.IsMouseOver;
-			InstancePopup.MouseLeave += (o, args) => InstancePopup.IsOpen = false;
-			InstancePopup.Opened += (o, args) => ActiveBar.Width = Double.NaN;
-			InstancePopup.Closed += (o, args) => ActiveBar.Width = 40;
+			Button.MouseLeave += (o, args) => InstancePopup.IsOpen = InstancePopup.IsMouseOver;
+			InstancePopup.MouseLeave += (o, args) => InstancePopup.IsOpen = false || IsMouseOver;
+
+			InstancePopup.Opened += (o, args) =>
+			{
+				Background = Brushes.LightBlue;
+				Button.Background = Brushes.LightBlue;
+			};
+
+			InstancePopup.Closed += (o, args) =>
+			{
+				Background = originalBrush;
+				Button.Background = originalBrush;
+			};
+
 			InstanceStackPanel.SizeChanged += (o, args) =>
 			{
 				if (instances.Count > 9)
@@ -81,11 +92,6 @@ namespace SafeExamBrowser.UserInterface.Classic.Controls
 		{
 			instances.Remove(instances.FirstOrDefault(i => i.Id == id));
 			InstanceStackPanel.Children.Remove(instanceButton);
-
-			if (!instances.Any())
-			{
-				ActiveBar.Visibility = Visibility.Collapsed;
-			}
 		}
 	}
 }

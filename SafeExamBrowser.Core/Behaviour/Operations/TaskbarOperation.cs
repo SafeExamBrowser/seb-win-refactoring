@@ -59,9 +59,9 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 				CreateLogNotification();
 			}
 
-			CreateAboutNotification();
-
 			// TODO:
+			//CreateAboutNotification();
+
 			//if (systemInfo.HasBattery)
 			//{
 			//	CreatePowerSupplyComponent();

@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Classic"
         mc:Ignorable="d"
-        Title="{Binding Path=WindowTitle}" Height="500" Width="1100" MinHeight="350" MinWidth="350" WindowStartupLocation="CenterScreen"
-        Icon="./Images/LogNotification.ico">
+        Title="{Binding Path=WindowTitle}" Background="WhiteSmoke" Height="500" Width="1100" MinHeight="350" MinWidth="350"
+        WindowStartupLocation="CenterScreen" Icon="./Images/LogNotification.ico">
     <Grid>
         <ScrollViewer x:Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <TextBlock x:Name="LogContent" FontFamily="Consolas" />

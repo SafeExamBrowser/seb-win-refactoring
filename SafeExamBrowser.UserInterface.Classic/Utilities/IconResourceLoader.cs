@@ -34,7 +34,7 @@ namespace SafeExamBrowser.UserInterface.Classic.Utilities
 			}
 			catch (Exception)
 			{
-				return new TextBlock(new Run("X") { Foreground = Brushes.Red, FontWeight = FontWeights.Bold });
+				return NotFoundSymbol();
 			}
 
 			throw new NotSupportedException($"Application icon resource of type '{resource.GetType()}' is not supported!");
@@ -54,6 +54,15 @@ namespace SafeExamBrowser.UserInterface.Classic.Utilities
 			{
 				return XamlReader.Load(stream) as UIElement;
 			}
+		}
+
+		private static UIElement NotFoundSymbol()
+		{
+			return new TextBlock(new Run("X") { Foreground = Brushes.Red, FontWeight = FontWeights.Bold })
+			{
+				HorizontalAlignment = HorizontalAlignment.Center,
+				VerticalAlignment = VerticalAlignment.Center
+			};
 		}
 	}
 }

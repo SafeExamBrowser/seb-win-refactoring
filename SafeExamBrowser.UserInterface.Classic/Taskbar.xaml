@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Classic.Controls"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Taskbar" Height="40" Width="750" WindowStyle="None" AllowsTransparency="True" Topmost="True" Visibility="Visible"
+        Title="Taskbar" Background="#FFF0F0F0" Height="40" Width="750" WindowStyle="None" Topmost="True" Visibility="Visible"
         ResizeMode="NoResize" Icon="./Images/SafeExamBrowser.ico">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -22,9 +22,9 @@
             </ScrollViewer.Resources>
             <StackPanel x:Name="ApplicationStackPanel" Orientation="Horizontal" />
         </ScrollViewer>
-        <StackPanel Grid.Column="1" x:Name="NotificationStackPanel" Margin="5,0,0,0" Orientation="Horizontal" VerticalAlignment="Stretch" />
-        <StackPanel Grid.Column="2" x:Name="SystemControlStackPanel" Orientation="Horizontal" VerticalAlignment="Stretch" />
-        <local:DateTimeControl Grid.Column="3" />
+        <local:DateTimeControl Grid.Column="1" Foreground="DimGray" />
+        <StackPanel Grid.Column="2" x:Name="NotificationStackPanel" Margin="5,0,0,0" Orientation="Horizontal" VerticalAlignment="Stretch" />
+        <StackPanel Grid.Column="3" x:Name="SystemControlStackPanel" Orientation="Horizontal" VerticalAlignment="Stretch" />
         <local:QuitButton Grid.Column="4" />
     </Grid>
 </Window>

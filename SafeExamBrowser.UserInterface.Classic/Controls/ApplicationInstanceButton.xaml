@@ -5,11 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Classic.Controls"
              mc:Ignorable="d" d:DesignWidth="250">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Templates/Buttons.xaml" />
+                <ResourceDictionary Source="../Templates/Colors.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
-        <Button x:Name="Button" Click="Button_Click"  Height="25">
+        <Button x:Name="Button" Background="{StaticResource BackgroundBrush}"  Click="Button_Click" Height="25" Template="{StaticResource TaskbarButton}">
             <StackPanel Orientation="Horizontal">
-                <ContentControl x:Name="Icon" />
-                <TextBlock x:Name="Text" Padding="5,0,5,0" />
+                <ContentControl x:Name="Icon" HorizontalAlignment="Left" />
+                <TextBlock x:Name="Text" Padding="5,0,5,0" HorizontalAlignment="Left" VerticalAlignment="Center" />
             </StackPanel>
         </Button>
     </Grid>
