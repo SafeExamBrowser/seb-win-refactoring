@@ -59,13 +59,10 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 				CreateLogNotification();
 			}
 
-			// TODO:
-			//CreateAboutNotification();
-
-			//if (systemInfo.HasBattery)
-			//{
-			//	CreatePowerSupplyComponent();
-			//}
+			if (systemInfo.HasBattery)
+			{
+				CreatePowerSupplyComponent();
+			}
 		}
 
 		public void Revert()
@@ -88,17 +85,6 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			logController.RegisterNotification(logNotification);
 
 			taskbar.AddNotification(logNotification);
-		}
-
-		private void CreateAboutNotification()
-		{
-			var aboutInfo = new AboutNotificationInfo(text);
-			var aboutNotification = uiFactory.CreateNotification(aboutInfo);
-
-			aboutController = new AboutNotificationController(settings, text, uiFactory);
-			aboutController.RegisterNotification(aboutNotification);
-
-			taskbar.AddNotification(aboutNotification);
 		}
 
 		private void CreatePowerSupplyComponent()

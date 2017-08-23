@@ -1,12 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Classic.Templates">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Templates/Colors.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <ControlTemplate x:Key="TaskbarButton" TargetType="Button">
         <Border x:Name="ButtonContent" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding Background}"
-                BorderThickness="1" Padding="{TemplateBinding Padding}">
+                BorderThickness="1" Cursor="Hand" Padding="{TemplateBinding Padding}">
             <ContentPresenter ContentSource="Content" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                               RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="{TemplateBinding VerticalAlignment}" />
         </Border>
@@ -18,6 +17,7 @@
             <Trigger Property="IsPressed" Value="True">
                 <Setter TargetName="ButtonContent" Property="BorderBrush" Value="SkyBlue" />
                 <Setter TargetName="ButtonContent" Property="BorderThickness" Value="2" />
+                <Setter Property="Cursor" Value="Hand" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>

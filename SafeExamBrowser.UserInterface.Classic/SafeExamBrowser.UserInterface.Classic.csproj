@@ -81,6 +81,9 @@
     <Compile Include="Controls\NotificationButton.xaml.cs">
       <DependentUpon>NotificationButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PowerSupplyControl.xaml.cs">
+      <DependentUpon>PowerSupplyControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\QuitButton.xaml.cs">
       <DependentUpon>QuitButton.xaml</DependentUpon>
     </Compile>
@@ -120,6 +123,10 @@
     <Page Include="Controls\NotificationButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PowerSupplyControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\QuitButton.xaml">
       <SubType>Designer</SubType>

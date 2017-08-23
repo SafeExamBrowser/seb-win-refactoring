@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Threading;
 using System.Windows;
 using SafeExamBrowser.Contracts.Configuration;
@@ -68,8 +67,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 		public ISystemPowerSupplyControl CreatePowerSupplyControl()
 		{
-			// TODO:
-			throw new NotImplementedException();
+			return new PowerSupplyControl();
 		}
 
 		public ISplashScreen CreateSplashScreen(ISettings settings, IText text)
