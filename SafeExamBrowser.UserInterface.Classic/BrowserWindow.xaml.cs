@@ -6,10 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Windows;
 using System.Windows.Input;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.UserInterface.Classic.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Classic
 {
@@ -86,6 +88,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
 
 			ApplySettings();
+			LoadIcons();
 		}
 
 		private void BrowserWindow_KeyUp(object sender, KeyEventArgs e)
@@ -124,6 +127,20 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 			ForwardButton.IsEnabled = settings.AllowForwardNavigation;
 			ForwardButton.Visibility = settings.AllowForwardNavigation ? Visibility.Visible : Visibility.Collapsed;
+		}
+
+		private void LoadIcons()
+		{
+			var backUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Classic;component/Images/NavigateBack.xaml");
+			var forwardUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Classic;component/Images/NavigateForward.xaml");
+			var reloadUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Classic;component/Images/Reload.xaml");
+			var back = new XamlIconResource(backUri);
+			var forward = new XamlIconResource(forwardUri);
+			var reload = new XamlIconResource(reloadUri);
+
+			ReloadButton.Content = IconResourceLoader.Load(reload);
+			BackButton.Content = IconResourceLoader.Load(back);
+			ForwardButton.Content = IconResourceLoader.Load(forward);
 		}
 	}
 }

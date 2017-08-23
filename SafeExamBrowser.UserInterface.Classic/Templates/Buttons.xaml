@@ -5,7 +5,8 @@
         <ResourceDictionary Source="../Templates/Colors.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <ControlTemplate x:Key="TaskbarButton" TargetType="Button">
-        <Border x:Name="ButtonContent" Background="{TemplateBinding Background}" BorderThickness="1" Padding="{TemplateBinding Padding}">
+        <Border x:Name="ButtonContent" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding Background}"
+                BorderThickness="1" Padding="{TemplateBinding Padding}">
             <ContentPresenter ContentSource="Content" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                               RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="{TemplateBinding VerticalAlignment}" />
         </Border>

@@ -9,12 +9,17 @@
 using System;
 using SafeExamBrowser.Contracts.Configuration;
 
-namespace SafeExamBrowser.Browser
+namespace SafeExamBrowser.UserInterface.Classic.Utilities
 {
-	public class BrowserIconResource : IIconResource
+	internal class XamlIconResource : IIconResource
 	{
-		public Uri Uri => new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Classic;component/Images/SafeExamBrowser.ico");
-		public bool IsBitmapResource => true;
-		public bool IsXamlResource => false;
+		public Uri Uri { get; private set; }
+		public bool IsBitmapResource => false;
+		public bool IsXamlResource => true;
+
+		public XamlIconResource(Uri uri)
+		{
+			Uri = uri;
+		}
 	}
 }
