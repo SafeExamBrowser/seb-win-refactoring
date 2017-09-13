@@ -16,6 +16,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		bool AllowApplicationLog { get; }
 
 		/// <summary>
+		/// Determines whether the user may switch the keyboard layout during runtime.
+		/// </summary>
+		bool AllowKeyboardLayout { get; }
+
+		/// <summary>
 		/// The name used for the application data folder.
 		/// </summary>
 		string AppDataFolderName { get; }

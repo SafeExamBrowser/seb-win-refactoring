@@ -53,7 +53,7 @@ namespace SafeExamBrowser.UserInterface.Classic.Controls
 
 			Button.MouseEnter += (o, args) => InstancePopup.IsOpen = instances.Count > 1;
 			Button.MouseLeave += (o, args) => InstancePopup.IsOpen = InstancePopup.IsMouseOver;
-			InstancePopup.MouseLeave += (o, args) => InstancePopup.IsOpen = false || IsMouseOver;
+			InstancePopup.MouseLeave += (o, args) => InstancePopup.IsOpen = IsMouseOver;
 
 			InstancePopup.Opened += (o, args) =>
 			{

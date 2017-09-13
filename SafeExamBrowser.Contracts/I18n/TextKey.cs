@@ -41,6 +41,7 @@ namespace SafeExamBrowser.Contracts.I18n
 		SplashScreen_StopProcessMonitoring,
 		SplashScreen_StopWindowMonitoring,
 		SplashScreen_TerminateBrowser,
+		SplashScreen_TerminateTaskbar,
 		SplashScreen_WaitExplorerStartup,
 		SplashScreen_WaitExplorerTermination,
 		SystemControl_BatteryCharged,
@@ -48,6 +49,7 @@ namespace SafeExamBrowser.Contracts.I18n
 		SystemControl_BatteryChargeCriticalWarning,
 		SystemControl_BatteryChargeLowInfo,
 		SystemControl_BatteryRemainingCharge,
+		SystemControl_KeyboardLayoutTooltip,
 		Version
 	}
 }

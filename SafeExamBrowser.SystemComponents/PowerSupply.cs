@@ -47,16 +47,16 @@ namespace SafeExamBrowser.SystemComponents
 			logger.Info("Started monitoring the power supply.");
 		}
 
-		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-		{
-			UpdateControl();
-		}
-
 		public void Terminate()
 		{
 			timer?.Stop();
 			control?.Close();
 			logger.Info("Stopped monitoring the power supply.");
+		}
+
+		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+		{
+			UpdateControl();
 		}
 
 		private void UpdateControl()

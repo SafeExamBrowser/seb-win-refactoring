@@ -47,6 +47,7 @@ namespace SafeExamBrowser
 		private IProcessMonitor processMonitor;
 		private IRuntimeController runtimeController;
 		private ISettings settings;
+		private ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout;
 		private ISystemComponent<ISystemPowerSupplyControl> powerSupply;
 		private ISystemInfo systemInfo;
 		private IText text;
@@ -77,6 +78,7 @@ namespace SafeExamBrowser
 			browserController = new BrowserApplicationController(settings, text, uiFactory);
 			displayMonitor = new DisplayMonitor(new ModuleLogger(logger, typeof(DisplayMonitor)), nativeMethods);
 			keyboardInterceptor = new KeyboardInterceptor(settings.Keyboard, new ModuleLogger(logger, typeof(KeyboardInterceptor)));
+			keyboardLayout = new KeyboardLayout(new ModuleLogger(logger, typeof(KeyboardLayout)), text);
 			mouseInterceptor = new MouseInterceptor(new ModuleLogger(logger, typeof(MouseInterceptor)), settings.Mouse);
 			powerSupply = new PowerSupply(new ModuleLogger(logger, typeof(PowerSupply)), text);
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
@@ -91,7 +93,7 @@ namespace SafeExamBrowser
 			StartupOperations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
 			StartupOperations.Enqueue(new ProcessMonitorOperation(logger, processMonitor));
 			StartupOperations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, Taskbar));
-			StartupOperations.Enqueue(new TaskbarOperation(logger, settings, powerSupply, systemInfo, Taskbar, text, uiFactory));
+			StartupOperations.Enqueue(new TaskbarOperation(logger, settings, keyboardLayout, powerSupply, systemInfo, Taskbar, text, uiFactory));
 			StartupOperations.Enqueue(new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory));
 			StartupOperations.Enqueue(new RuntimeControllerOperation(runtimeController, logger));
 			StartupOperations.Enqueue(new ClipboardOperation(logger, nativeMethods));

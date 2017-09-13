@@ -53,6 +53,8 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="KeyboardLayoutDefinition.cs" />
+    <Compile Include="KeyboardLayout.cs" />
     <Compile Include="PowerSupply.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

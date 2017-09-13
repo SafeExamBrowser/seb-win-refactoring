@@ -42,6 +42,11 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		INotificationButton CreateNotification(INotificationInfo info);
 
 		/// <summary>
+		/// Creates a system control which allows to change the keyboard layout of the computer.
+		/// </summary>
+		ISystemKeyboardLayoutControl CreateKeyboardLayoutControl();
+
+		/// <summary>
 		/// Creates a system control displaying the power supply status of the computer.
 		/// </summary>
 		ISystemPowerSupplyControl CreatePowerSupplyControl();

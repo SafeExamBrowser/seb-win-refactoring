@@ -65,6 +65,11 @@ namespace SafeExamBrowser.UserInterface.Classic
 			return new NotificationButton(info);
 		}
 
+		public ISystemKeyboardLayoutControl CreateKeyboardLayoutControl()
+		{
+			return new KeyboardLayoutControl();
+		}
+
 		public ISystemPowerSupplyControl CreatePowerSupplyControl()
 		{
 			return new PowerSupplyControl();

@@ -28,7 +28,7 @@ namespace SafeExamBrowser.Configuration
 		}
 
 		public bool AllowApplicationLog => true;
-
+		public bool AllowKeyboardLayout => true;
 		public string AppDataFolderName => "SafeExamBrowser";
 
 		public string ApplicationLogFile
@@ -37,9 +37,7 @@ namespace SafeExamBrowser.Configuration
 		}
 
 		public IBrowserSettings Browser { get; private set; }
-
 		public IKeyboardSettings Keyboard { get; private set; }
-
 		public IMouseSettings Mouse { get; private set; }
 
 		public string LogFolderPath

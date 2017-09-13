@@ -1,37 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Text>
-	<Browser_ShowDeveloperConsole>Open Console</Browser_ShowDeveloperConsole>
-	<LogWindow_Title>Application Log</LogWindow_Title>
-	<MessageBox_ShutdownError>An unexpected error occurred during the shutdown procedure! Please consult the application log for more information...</MessageBox_ShutdownError>
-	<MessageBox_ShutdownErrorTitle>Shutdown Error</MessageBox_ShutdownErrorTitle>
-	<MessageBox_StartupError>An unexpected error occurred during the startup procedure! Please consult the application log for more information...</MessageBox_StartupError>
-	<MessageBox_StartupErrorTitle>Startup Error</MessageBox_StartupErrorTitle>
-	<Notification_AboutTooltip>About Safe Exam Browser</Notification_AboutTooltip>
-	<Notification_LogTooltip>Application Log</Notification_LogTooltip>
-	<SplashScreen_EmptyClipboard>Emptying clipboard</SplashScreen_EmptyClipboard>
-	<SplashScreen_InitializeBrowser>Initializing browser</SplashScreen_InitializeBrowser>
-	<SplashScreen_InitializeProcessMonitoring>Initializing process monitoring</SplashScreen_InitializeProcessMonitoring>
-	<SplashScreen_InitializeTaskbar>Initializing taskbar</SplashScreen_InitializeTaskbar>
-	<SplashScreen_InitializeWindowMonitoring>Initializing window monitoring</SplashScreen_InitializeWindowMonitoring>
-	<SplashScreen_InitializeWorkingArea>Initializing working area</SplashScreen_InitializeWorkingArea>
-	<SplashScreen_RestoreWorkingArea>Restoring working area</SplashScreen_RestoreWorkingArea>
-	<SplashScreen_ShutdownProcedure>Initiating shutdown procedure</SplashScreen_ShutdownProcedure>
-	<SplashScreen_StartEventHandling>Starting event handling</SplashScreen_StartEventHandling>
-	<SplashScreen_StartKeyboardInterception>Starting keyboard interception</SplashScreen_StartKeyboardInterception>
-	<SplashScreen_StartMouseInterception>Starting mouse interception</SplashScreen_StartMouseInterception>
-	<SplashScreen_StartupProcedure>Initiating startup procedure</SplashScreen_StartupProcedure>
-	<SplashScreen_StopEventHandling>Stopping event handling</SplashScreen_StopEventHandling>
-	<SplashScreen_StopKeyboardInterception>Stopping keyboard interception</SplashScreen_StopKeyboardInterception>
-	<SplashScreen_StopMouseInterception>Stopping mouse interception</SplashScreen_StopMouseInterception>
-	<SplashScreen_StopProcessMonitoring>Stopping process monitoring</SplashScreen_StopProcessMonitoring>
-	<SplashScreen_StopWindowMonitoring>Stopping window monitoring</SplashScreen_StopWindowMonitoring>
-	<SplashScreen_TerminateBrowser>Terminating browser</SplashScreen_TerminateBrowser>
-	<SplashScreen_WaitExplorerStartup>Waiting for Windows explorer to start up</SplashScreen_WaitExplorerStartup>
-	<SplashScreen_WaitExplorerTermination>Waiting for Windows explorer to shut down</SplashScreen_WaitExplorerTermination>
-	<SystemControl_BatteryCharging>Plugged in, charging... (%%CHARGE%%%)</SystemControl_BatteryCharging>
-	<SystemControl_BatteryCharged>Fully charged (%%CHARGE%%%)</SystemControl_BatteryCharged>
-	<SystemControl_BatteryChargeCriticalWarning>The battery charge is critically low. Please connect your computer to a power supply!</SystemControl_BatteryChargeCriticalWarning>
-	<SystemControl_BatteryChargeLowInfo>The battery charge is getting low. Consider connecting your computer to a power supply in time...</SystemControl_BatteryChargeLowInfo>
-	<SystemControl_BatteryRemainingCharge>%%HOURS%%h %%MINUTES%%min remaining (%%CHARGE%%%)</SystemControl_BatteryRemainingCharge>
-	<Version>Version</Version>
+  <Browser_ShowDeveloperConsole>Open Console</Browser_ShowDeveloperConsole>
+  <LogWindow_Title>Application Log</LogWindow_Title>
+  <MessageBox_ShutdownError>An unexpected error occurred during the shutdown procedure! Please consult the application log for more information...</MessageBox_ShutdownError>
+  <MessageBox_ShutdownErrorTitle>Shutdown Error</MessageBox_ShutdownErrorTitle>
+  <MessageBox_StartupError>An unexpected error occurred during the startup procedure! Please consult the application log for more information...</MessageBox_StartupError>
+  <MessageBox_StartupErrorTitle>Startup Error</MessageBox_StartupErrorTitle>
+  <Notification_AboutTooltip>About Safe Exam Browser</Notification_AboutTooltip>
+  <Notification_LogTooltip>Application Log</Notification_LogTooltip>
+  <SplashScreen_EmptyClipboard>Emptying clipboard</SplashScreen_EmptyClipboard>
+  <SplashScreen_InitializeBrowser>Initializing browser</SplashScreen_InitializeBrowser>
+  <SplashScreen_InitializeProcessMonitoring>Initializing process monitoring</SplashScreen_InitializeProcessMonitoring>
+  <SplashScreen_InitializeTaskbar>Initializing taskbar</SplashScreen_InitializeTaskbar>
+  <SplashScreen_InitializeWindowMonitoring>Initializing window monitoring</SplashScreen_InitializeWindowMonitoring>
+  <SplashScreen_InitializeWorkingArea>Initializing working area</SplashScreen_InitializeWorkingArea>
+  <SplashScreen_RestoreWorkingArea>Restoring working area</SplashScreen_RestoreWorkingArea>
+  <SplashScreen_ShutdownProcedure>Initiating shutdown procedure</SplashScreen_ShutdownProcedure>
+  <SplashScreen_StartEventHandling>Starting event handling</SplashScreen_StartEventHandling>
+  <SplashScreen_StartKeyboardInterception>Starting keyboard interception</SplashScreen_StartKeyboardInterception>
+  <SplashScreen_StartMouseInterception>Starting mouse interception</SplashScreen_StartMouseInterception>
+  <SplashScreen_StartupProcedure>Initiating startup procedure</SplashScreen_StartupProcedure>
+  <SplashScreen_StopEventHandling>Stopping event handling</SplashScreen_StopEventHandling>
+  <SplashScreen_StopKeyboardInterception>Stopping keyboard interception</SplashScreen_StopKeyboardInterception>
+  <SplashScreen_StopMouseInterception>Stopping mouse interception</SplashScreen_StopMouseInterception>
+  <SplashScreen_StopProcessMonitoring>Stopping process monitoring</SplashScreen_StopProcessMonitoring>
+  <SplashScreen_StopWindowMonitoring>Stopping window monitoring</SplashScreen_StopWindowMonitoring>
+  <SplashScreen_TerminateBrowser>Terminating browser</SplashScreen_TerminateBrowser>
+  <SplashScreen_TerminateTaskbar>Terminating taskbar</SplashScreen_TerminateTaskbar>
+  <SplashScreen_WaitExplorerStartup>Waiting for Windows explorer to start up</SplashScreen_WaitExplorerStartup>
+  <SplashScreen_WaitExplorerTermination>Waiting for Windows explorer to shut down</SplashScreen_WaitExplorerTermination>
+  <SystemControl_BatteryCharging>Plugged in, charging... (%%CHARGE%%%)</SystemControl_BatteryCharging>
+  <SystemControl_BatteryCharged>Fully charged (%%CHARGE%%%)</SystemControl_BatteryCharged>
+  <SystemControl_BatteryChargeCriticalWarning>The battery charge is critically low. Please connect your computer to a power supply!</SystemControl_BatteryChargeCriticalWarning>
+  <SystemControl_BatteryChargeLowInfo>The battery charge is getting low. Consider connecting your computer to a power supply in time...</SystemControl_BatteryChargeLowInfo>
+  <SystemControl_BatteryRemainingCharge>%%HOURS%%h %%MINUTES%%min remaining (%%CHARGE%%%)</SystemControl_BatteryRemainingCharge>
+  <SystemControl_KeyboardLayoutTooltip>Click to choose a different keyboard layout...</SystemControl_KeyboardLayoutTooltip>
+  <Version>Version</Version>
 </Text>

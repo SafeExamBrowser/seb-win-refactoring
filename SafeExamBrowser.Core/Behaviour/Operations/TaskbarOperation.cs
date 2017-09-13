@@ -21,8 +21,9 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 	public class TaskbarOperation : IOperation
 	{
 		private ILogger logger;
-		private INotificationController aboutController, logController;
+		private INotificationController logController;
 		private ISettings settings;
+		private ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout;
 		private ISystemComponent<ISystemPowerSupplyControl> powerSupply;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
@@ -34,6 +35,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		public TaskbarOperation(
 			ILogger logger,
 			ISettings settings,
+			ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout,
 			ISystemComponent<ISystemPowerSupplyControl> powerSupply,
 			ISystemInfo systemInfo,
 			ITaskbar taskbar,
@@ -42,6 +44,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		{
 			this.logger = logger;
 			this.settings = settings;
+			this.keyboardLayout = keyboardLayout;
 			this.powerSupply = powerSupply;
 			this.systemInfo = systemInfo;
 			this.taskbar = taskbar;
@@ -59,21 +62,52 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 				CreateLogNotification();
 			}
 
+			if (settings.AllowKeyboardLayout)
+			{
+				AddKeyboardLayoutControl();
+			}
+
 			if (systemInfo.HasBattery)
 			{
-				CreatePowerSupplyComponent();
+				AddPowerSupplyControl();
 			}
 		}
 
 		public void Revert()
 		{
-			logController?.Terminate();
-			aboutController?.Terminate();
+			logger.Info("Terminating taskbar...");
+			SplashScreen.UpdateText(TextKey.SplashScreen_TerminateTaskbar);
+
+			if (settings.AllowApplicationLog)
+			{
+				logController?.Terminate();
+			}
+
+			if (settings.AllowKeyboardLayout)
+			{
+				keyboardLayout.Terminate();
+			}
 
 			if (systemInfo.HasBattery)
 			{
 				powerSupply.Terminate();
 			}
+		}
+
+		private void AddKeyboardLayoutControl()
+		{
+			var control = uiFactory.CreateKeyboardLayoutControl();
+
+			keyboardLayout.Initialize(control);
+			taskbar.AddSystemControl(control);
+		}
+
+		private void AddPowerSupplyControl()
+		{
+			var control = uiFactory.CreatePowerSupplyControl();
+
+			powerSupply.Initialize(control);
+			taskbar.AddSystemControl(control);
 		}
 
 		private void CreateLogNotification()
@@ -85,14 +119,6 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			logController.RegisterNotification(logNotification);
 
 			taskbar.AddNotification(logNotification);
-		}
-
-		private void CreatePowerSupplyComponent()
-		{
-			var control = uiFactory.CreatePowerSupplyControl();
-
-			powerSupply.Initialize(control);
-			taskbar.AddSystemControl(control);
 		}
 	}
 }

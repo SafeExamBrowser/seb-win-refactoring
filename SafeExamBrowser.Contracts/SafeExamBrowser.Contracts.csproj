@@ -87,12 +87,14 @@
     <Compile Include="Monitoring\KeyState.cs" />
     <Compile Include="Monitoring\MouseButton.cs" />
     <Compile Include="SystemComponents\BatteryChargeStatus.cs" />
+    <Compile Include="SystemComponents\IKeyboardLayout.cs" />
     <Compile Include="SystemComponents\ISystemComponent.cs" />
     <Compile Include="UserInterface\IBrowserControl.cs" />
     <Compile Include="UserInterface\IBrowserWindow.cs" />
     <Compile Include="UserInterface\IMessageBox.cs" />
     <Compile Include="UserInterface\Taskbar\INotificationButton.cs" />
     <Compile Include="UserInterface\ISplashScreen.cs" />
+    <Compile Include="UserInterface\Taskbar\ISystemKeyboardLayoutControl.cs" />
     <Compile Include="UserInterface\Taskbar\ISystemPowerSupplyControl.cs" />
     <Compile Include="UserInterface\Taskbar\ISystemControl.cs" />
     <Compile Include="UserInterface\Taskbar\ITaskbar.cs" />

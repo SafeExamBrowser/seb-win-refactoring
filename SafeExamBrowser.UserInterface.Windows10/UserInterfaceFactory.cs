@@ -65,6 +65,12 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			return new NotificationButton(info);
 		}
 
+		public ISystemKeyboardLayoutControl CreateKeyboardLayoutControl()
+		{
+			// TODO
+			throw new System.NotImplementedException();
+		}
+
 		public ISystemPowerSupplyControl CreatePowerSupplyControl()
 		{
 			return new PowerSupplyControl();
