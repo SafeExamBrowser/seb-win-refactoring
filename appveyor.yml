@@ -1,0 +1,10 @@
+before_build:
+ - nuget restore
+build_script:
+ - msbuild /verbosity:quiet "SafeExamBrowser"
+test_script:
+ - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:"SafeExamBrowser.Core.UnitTests -noshadow" -output:"coverage.xml" -filter:"+[SafeExamBrowser.Core*]* -[SafeExamBrowser.Core.UnitTests*]*"
+after_test:
+ - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
+ - pip install codecov
+ - codecov -f "coverage.xml" -t YourUploadToken
