@@ -5,7 +5,7 @@ before_build:
 build_script:
  - msbuild /verbosity:quiet "SafeExamBrowser.sln"
 test_script:
- - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:"SafeExamBrowser.Core.UnitTests -noshadow" -output:"coverage.xml" -filter:"+[SafeExamBrowser.Core*]* -[SafeExamBrowser.Core.UnitTests*]*"
+ - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"vstest.console" -targetargs:"/logger:Appveyor SafeExamBrowser.Core.UnitTests.dll" -output:"coverage.xml"
 after_test:
  - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
  - pip install codecov
