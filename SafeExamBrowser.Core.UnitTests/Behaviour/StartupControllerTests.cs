@@ -150,6 +150,33 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 		}
 
 		[TestMethod]
+		public void MustContinueToRevertOperationsInCaseOfError()
+		{
+			var operationA = new Mock<IOperation>();
+			var operationB = new Mock<IOperation>();
+			var operationC = new Mock<IOperation>();
+			var operations = new Queue<IOperation>();
+
+			operationC.Setup(o => o.Perform()).Throws<Exception>();
+			operationC.Setup(o => o.Revert()).Throws<Exception>();
+			operationB.Setup(o => o.Revert()).Throws<Exception>();
+			operationA.Setup(o => o.Revert()).Throws<Exception>();
+
+			operations.Enqueue(operationA.Object);
+			operations.Enqueue(operationB.Object);
+			operations.Enqueue(operationC.Object);
+
+			var result = sut.TryInitializeApplication(operations);
+
+			operationA.Verify(o => o.Perform(), Times.Once);
+			operationA.Verify(o => o.Revert(), Times.Once);
+			operationB.Verify(o => o.Perform(), Times.Once);
+			operationB.Verify(o => o.Revert(), Times.Once);
+			operationC.Verify(o => o.Perform(), Times.Once);
+			operationC.Verify(o => o.Revert(), Times.Once);
+		}
+
+		[TestMethod]
 		public void MustSucceedWithEmptyQueue()
 		{
 			var result = sut.TryInitializeApplication(new Queue<IOperation>());

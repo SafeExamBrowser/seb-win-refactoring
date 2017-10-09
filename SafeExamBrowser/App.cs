@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -65,7 +66,7 @@ namespace SafeExamBrowser
 			if (success)
 			{
 				MainWindow = instances.Taskbar;
-				MainWindow.Closing += (o, args) => ShutdownApplication();
+				MainWindow.Closing += MainWindow_Closing;
 				MainWindow.Show();
 			}
 			else
@@ -74,7 +75,7 @@ namespace SafeExamBrowser
 			}
 		}
 
-		private void ShutdownApplication()
+		private void MainWindow_Closing(object sender, CancelEventArgs e)
 		{
 			var operations = new Queue<IOperation>(instances.StartupOperations.Reverse());
 

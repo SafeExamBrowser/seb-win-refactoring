@@ -77,7 +77,15 @@ namespace SafeExamBrowser.Core.Behaviour
 			{
 				var operation = stack.Pop();
 
-				operation.Revert();
+				try
+				{
+					operation.Revert();
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to revert operation '{operation.GetType().Name}'!", e);
+				}
+
 				splashScreen.Regress();
 			}
 		}

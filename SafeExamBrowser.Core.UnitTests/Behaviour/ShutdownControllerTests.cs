@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -82,6 +83,29 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 			Assert.IsTrue(a == 1);
 			Assert.IsTrue(b == 2);
 			Assert.IsTrue(c == 3);
+		}
+
+		[TestMethod]
+		public void MustContinueToRevertOperationsInCaseOfError()
+		{
+			var operationA = new Mock<IOperation>();
+			var operationB = new Mock<IOperation>();
+			var operationC = new Mock<IOperation>();
+			var operations = new Queue<IOperation>();
+
+			operationA.Setup(o => o.Revert()).Throws<Exception>();
+			operationB.Setup(o => o.Revert()).Throws<Exception>();
+			operationC.Setup(o => o.Revert()).Throws<Exception>();
+
+			operations.Enqueue(operationA.Object);
+			operations.Enqueue(operationB.Object);
+			operations.Enqueue(operationC.Object);
+
+			sut.FinalizeApplication(operations);
+
+			operationA.Verify(o => o.Revert(), Times.Once);
+			operationB.Verify(o => o.Revert(), Times.Once);
+			operationC.Verify(o => o.Revert(), Times.Once);
 		}
 
 		[TestMethod]

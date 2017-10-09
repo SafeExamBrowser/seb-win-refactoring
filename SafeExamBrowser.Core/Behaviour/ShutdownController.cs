@@ -52,7 +52,15 @@ namespace SafeExamBrowser.Core.Behaviour
 			foreach (var operation in operations)
 			{
 				operation.SplashScreen = splashScreen;
-				operation.Revert();
+
+				try
+				{
+					operation.Revert();
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to revert operation '{operation.GetType().Name}'!", e);
+				}
 			}
 		}
 
