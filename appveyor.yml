@@ -9,4 +9,4 @@ test_script:
 after_test:
  - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
  - pip install codecov
- - codecov -f "coverage.xml" -t YourUploadToken
+ - codecov -f "coverage.xml"
