@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Core.I18n;
 
 namespace SafeExamBrowser.Core.UnitTests.I18n
@@ -18,14 +19,18 @@ namespace SafeExamBrowser.Core.UnitTests.I18n
 	[TestClass]
 	public class TextTests
 	{
+		private Mock<ILogger> loggerMock;
+
+		[TestInitialize]
+		public void Initialize()
+		{
+			loggerMock = new Mock<ILogger>();
+		}
+
 		[TestMethod]
 		public void MustNeverReturnNull()
 		{
-			var resource = new Mock<ITextResource>();
-			var sut = new Text(resource.Object);
-
-			resource.Setup(r => r.LoadText()).Returns<IDictionary<TextKey, string>>(null);
-
+			var sut = new Text(loggerMock.Object);
 			var text = sut.Get((TextKey)(-1));
 
 			Assert.IsNotNull(text);
@@ -35,7 +40,39 @@ namespace SafeExamBrowser.Core.UnitTests.I18n
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void MustNotAllowNullResource()
 		{
-			new Text(null);
+			var sut = new Text(loggerMock.Object);
+
+			sut.Initialize(null);
+		}
+
+		[TestMethod]
+		public void MustNotFailWhenGettingNullFromResource()
+		{
+			var resource = new Mock<ITextResource>();
+			var sut = new Text(loggerMock.Object);
+
+			resource.Setup(r => r.LoadText()).Returns<IDictionary<TextKey, string>>(null);
+			sut.Initialize(resource.Object);
+
+			var text = sut.Get((TextKey)(-1));
+
+			Assert.IsNotNull(text);
+		}
+
+		[TestMethod]
+		public void MustNotFailWhenResourceThrowsException()
+		{
+			var resource = new Mock<ITextResource>();
+			var sut = new Text(loggerMock.Object);
+
+			resource.Setup(r => r.LoadText()).Throws<Exception>();
+			sut.Initialize(resource.Object);
+
+			var text = sut.Get((TextKey)(-1));
+
+			loggerMock.Verify(l => l.Error(It.IsAny<string>(), It.IsAny<Exception>()), Times.AtLeastOnce);
+
+			Assert.IsNotNull(text);
 		}
 	}
 }

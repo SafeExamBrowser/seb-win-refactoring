@@ -1,0 +1,13 @@
+﻿<?xyzml version="1.0" encoding="utf-8" ?>
+<Blubb>
+  Some random text here
+  <LogWindow_Title\>>
+  <Version *+()=?!
+  <xml>
+    Data
+  </xml>
+</Blubb>
+<Blobb>
+  <Blabb>
+    <Bappa-dee-boopa-dee>/Bappa-dee-boopa-dee>
+  </Blabb>

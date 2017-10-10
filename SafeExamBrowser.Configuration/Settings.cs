@@ -29,7 +29,7 @@ namespace SafeExamBrowser.Configuration
 
 		public bool AllowApplicationLog => true;
 		public bool AllowKeyboardLayout => true;
-		public string AppDataFolderName => "SafeExamBrowser";
+		public string AppDataFolderName => nameof(SafeExamBrowser);
 
 		public string ApplicationLogFile
 		{

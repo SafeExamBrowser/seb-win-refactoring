@@ -73,7 +73,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 		private void InitializeSplashScreen()
 		{
-			InfoTextBlock.Inlines.Add(new Run($"{text.Get(TextKey.Version)} {settings.ProgramVersion}") { FontStyle = FontStyles.Italic });
+			InfoTextBlock.Inlines.Add(new Run($"Version {settings.ProgramVersion}") { FontStyle = FontStyles.Italic });
 			InfoTextBlock.Inlines.Add(new LineBreak());
 			InfoTextBlock.Inlines.Add(new LineBreak());
 			InfoTextBlock.Inlines.Add(new Run(settings.ProgramCopyright) { FontSize = 10 });

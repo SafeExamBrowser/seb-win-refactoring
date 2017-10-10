@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviour\Operations\ClipboardOperation.cs" />
+    <Compile Include="Behaviour\Operations\I18nOperation.cs" />
     <Compile Include="Behaviour\Operations\KeyboardInterceptorOperation.cs" />
     <Compile Include="Behaviour\Operations\MouseInterceptorOperation.cs" />
     <Compile Include="Behaviour\RuntimeController.cs" />

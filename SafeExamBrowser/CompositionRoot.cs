@@ -51,7 +51,6 @@ namespace SafeExamBrowser
 		private ISystemComponent<ISystemPowerSupplyControl> powerSupply;
 		private ISystemInfo systemInfo;
 		private IText text;
-		private ITextResource textResource;
 		private IUserInterfaceFactory uiFactory;
 		private IWindowMonitor windowMonitor;
 
@@ -68,12 +67,11 @@ namespace SafeExamBrowser
 			nativeMethods = new NativeMethods();
 			settings = new Settings();
 			systemInfo = new SystemInfo();
-			textResource = new XmlTextResource();
 			uiFactory = new UserInterfaceFactory();
 
 			logger.Subscribe(new LogFileWriter(logFormatter, settings));
 
-			text = new Text(textResource);
+			text = new Text(logger);
 			Taskbar = new Taskbar(new ModuleLogger(logger, typeof(Taskbar)));
 			browserController = new BrowserApplicationController(settings, text, uiFactory);
 			displayMonitor = new DisplayMonitor(new ModuleLogger(logger, typeof(DisplayMonitor)), nativeMethods);
@@ -89,6 +87,7 @@ namespace SafeExamBrowser
 			StartupController = new StartupController(logger, settings, systemInfo, text, uiFactory);
 
 			StartupOperations = new Queue<IOperation>();
+			StartupOperations.Enqueue(new I18nOperation(logger, text));
 			StartupOperations.Enqueue(new KeyboardInterceptorOperation(keyboardInterceptor, logger, nativeMethods));
 			StartupOperations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
 			StartupOperations.Enqueue(new ProcessMonitorOperation(logger, processMonitor));

@@ -45,6 +45,7 @@ namespace SafeExamBrowser.Core.Behaviour
 
 		public void Stop()
 		{
+			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
 			processMonitor.ExplorerStarted -= ProcessMonitor_ExplorerStarted;
 			windowMonitor.WindowChanged -= WindowMonitor_WindowChanged;
 		}

@@ -69,12 +69,14 @@
       <HintPath>..\packages\Moq.4.7.63\lib\net45\Moq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviour\RuntimeControllerTests.cs" />
     <Compile Include="Behaviour\StartupControllerTests.cs" />
     <Compile Include="Behaviour\ShutdownControllerTests.cs" />
     <Compile Include="I18n\TextTests.cs" />
+    <Compile Include="I18n\XmlTextResourceTests.cs" />
     <Compile Include="Logging\LoggerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -90,6 +92,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="I18n\Text_Invalid.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="I18n\Text_Incompatible.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="I18n\Text_Valid.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
