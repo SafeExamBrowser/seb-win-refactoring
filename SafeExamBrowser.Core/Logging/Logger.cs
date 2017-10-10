@@ -12,7 +12,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Core.Entities;
 
 namespace SafeExamBrowser.Core.Logging
 {
@@ -24,21 +23,46 @@ namespace SafeExamBrowser.Core.Logging
 
 		public void Info(string message)
 		{
+			if (message == null)
+			{
+				throw new ArgumentNullException(nameof(message));
+			}
+
 			Add(LogLevel.Info, message);
 		}
 
 		public void Warn(string message)
 		{
+			if (message == null)
+			{
+				throw new ArgumentNullException(nameof(message));
+			}
+
 			Add(LogLevel.Warning, message);
 		}
 
 		public void Error(string message)
 		{
+			if (message == null)
+			{
+				throw new ArgumentNullException(nameof(message));
+			}
+
 			Add(LogLevel.Error, message);
 		}
 
 		public void Error(string message, Exception exception)
 		{
+			if (message == null)
+			{
+				throw new ArgumentNullException(nameof(message));
+			}
+
+			if (exception == null)
+			{
+				throw new ArgumentNullException(nameof(exception));
+			}
+
 			var details = new StringBuilder();
 
 			details.AppendLine();

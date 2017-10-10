@@ -9,27 +9,13 @@
 using System;
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Core.Logging
+namespace SafeExamBrowser.Core.UnitTests.Logging
 {
-	public class ThreadInfo : IThreadInfo
+	class NewLogContentType : ILogContent
 	{
-		public int Id { get; private set; }
-		public string Name { get; private set; }
-
-		public bool HasName
-		{
-			get { return !String.IsNullOrWhiteSpace(Name); }
-		}
-
-		public ThreadInfo(int id, string name = null)
-		{
-			Id = id;
-			Name = name;
-		}
-
 		public object Clone()
 		{
-			return new ThreadInfo(Id, Name);
+			throw new NotImplementedException();
 		}
 	}
 }

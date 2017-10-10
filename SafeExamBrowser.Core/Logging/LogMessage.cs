@@ -9,9 +9,9 @@
 using System;
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Core.Entities
+namespace SafeExamBrowser.Core.Logging
 {
-	class LogMessage : ILogMessage
+	public class LogMessage : ILogMessage
 	{
 		public DateTime DateTime { get; private set; }
 		public LogLevel Severity { get; private set; }

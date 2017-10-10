@@ -16,37 +16,44 @@ namespace SafeExamBrowser.Contracts.Logging
 		/// <summary>
 		/// Logs the given message with severity <b>INFO</b>.
 		/// </summary>
+		/// <exception cref="ArgumentNullException" />
 		void Info(string message);
 
 		/// <summary>
 		/// Logs the given message with severity <b>WARNING</b>.
 		/// </summary>
+		/// <exception cref="ArgumentNullException" />
 		void Warn(string message);
 
 		/// <summary>
 		/// Logs the given message with severity <b>ERROR</b>.
 		/// </summary>
+		/// <exception cref="ArgumentNullException" />
 		void Error(string message);
 
 		/// <summary>
 		/// Logs the given message with severity <b>ERROR</b> and includes information about
 		/// the specified exception (i.e. type, message and stacktrace).
 		/// </summary>
+		/// <exception cref="ArgumentNullException" />
 		void Error(string message, Exception exception);
 
 		/// <summary>
 		/// Logs the given message as raw text.
 		/// </summary>
+		/// <exception cref="ArgumentNullException" />
 		void Log(string message);
 
 		/// <summary>
 		/// Appends the given content to the log.
 		/// </summary>
+		/// <exception cref="ArgumentNullException" />
 		void Log(ILogContent content);
 
 		/// <summary>
 		/// Suscribes an observer to the application log.
 		/// </summary>
+		/// <exception cref="ArgumentNullException" />
 		void Subscribe(ILogObserver observer);
 
 		/// <summary>

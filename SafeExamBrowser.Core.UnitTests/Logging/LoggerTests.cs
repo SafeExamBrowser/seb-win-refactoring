@@ -68,6 +68,19 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 		}
 
 		[TestMethod]
+		public void MustNotAllowLoggingNull()
+		{
+			var sut = new Logger();
+
+			Assert.ThrowsException<ArgumentNullException>(() => sut.Info(null));
+			Assert.ThrowsException<ArgumentNullException>(() => sut.Warn(null));
+			Assert.ThrowsException<ArgumentNullException>(() => sut.Error(null));
+			Assert.ThrowsException<ArgumentNullException>(() => sut.Error(null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => sut.Log((string) null));
+			Assert.ThrowsException<ArgumentNullException>(() => sut.Log((ILogContent) null));
+		}
+
+		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void MustNotAllowNullObserver()
 		{
