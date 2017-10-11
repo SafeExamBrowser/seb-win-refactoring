@@ -72,6 +72,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviour\Operations\BrowserOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\ClipboardOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\DisplayMonitorOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\I18nOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\KeyboardInterceptorOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\MouseInterceptorOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\ProcessMonitorOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\RuntimeControllerOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\TaskbarOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\WindowMonitorOperationTests.cs" />
     <Compile Include="Behaviour\RuntimeControllerTests.cs" />
     <Compile Include="Behaviour\StartupControllerTests.cs" />
     <Compile Include="Behaviour\ShutdownControllerTests.cs" />
