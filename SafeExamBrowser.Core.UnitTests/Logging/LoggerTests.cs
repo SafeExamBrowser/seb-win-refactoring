@@ -25,14 +25,21 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 			var info = "I'm an info message";
 			var warn = "I'm a warning!";
 			var error = "I AM AN ERROR!!";
+			var exceptionMessage = "I'm an exception message";
+			var exception = new Exception(exceptionMessage);
+			var message = "I'm a simple text message";
+			var content = new LogText("I'm some raw log text...");
 
 			sut.Info(info);
 			sut.Warn(warn);
 			sut.Error(error);
+			sut.Error(error, exception);
+			sut.Log(message);
+			sut.Log(content);
 
 			var log = sut.GetLog();
 
-			Assert.IsTrue(log.Count == 3);
+			Assert.IsTrue(log.Count == 7);
 
 			Assert.IsTrue(info.Equals((log[0] as ILogMessage).Message));
 			Assert.IsTrue((log[0] as ILogMessage).Severity == LogLevel.Info);
@@ -42,6 +49,14 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 
 			Assert.IsTrue(error.Equals((log[2] as ILogMessage).Message));
 			Assert.IsTrue((log[2] as ILogMessage).Severity == LogLevel.Error);
+
+			Assert.IsTrue(error.Equals((log[3] as ILogMessage).Message));
+			Assert.IsTrue((log[3] as ILogMessage).Severity == LogLevel.Error);
+			Assert.IsTrue((log[4] as ILogText).Text.Contains(exceptionMessage));
+
+			Assert.IsTrue(message.Equals((log[5] as ILogText).Text));
+
+			Assert.IsTrue(content.Text.Equals((log[6] as ILogText).Text));
 		}
 
 		[TestMethod]
@@ -76,6 +91,8 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 			Assert.ThrowsException<ArgumentNullException>(() => sut.Warn(null));
 			Assert.ThrowsException<ArgumentNullException>(() => sut.Error(null));
 			Assert.ThrowsException<ArgumentNullException>(() => sut.Error(null, null));
+			Assert.ThrowsException<ArgumentNullException>(() => sut.Error("Hello world!", null));
+			Assert.ThrowsException<ArgumentNullException>(() => sut.Error(null, new Exception()));
 			Assert.ThrowsException<ArgumentNullException>(() => sut.Log((string) null));
 			Assert.ThrowsException<ArgumentNullException>(() => sut.Log((ILogContent) null));
 		}

@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Logging;
@@ -19,6 +20,7 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 		[TestMethod]
 		public void MustCorrectlyForwardCalls()
 		{
+			var exception = new Exception();
 			var loggerMock = new Mock<ILogger>();
 			var logObserverMock = new Mock<ILogObserver>();
 			var logText = new LogText("Log text");
@@ -27,6 +29,7 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 			sut.Info("Info");
 			sut.Warn("Warning");
 			sut.Error("Error");
+			sut.Error("Error", exception);
 			sut.Log("Raw text");
 			sut.Log(logText);
 			sut.Subscribe(logObserverMock.Object);
@@ -36,6 +39,7 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 			loggerMock.Verify(l => l.Info($"[{nameof(ModuleLoggerTests)}] Info"), Times.Once);
 			loggerMock.Verify(l => l.Warn($"[{nameof(ModuleLoggerTests)}] Warning"), Times.Once);
 			loggerMock.Verify(l => l.Error($"[{nameof(ModuleLoggerTests)}] Error"), Times.Once);
+			loggerMock.Verify(l => l.Error($"[{nameof(ModuleLoggerTests)}] Error", exception), Times.Once);
 			loggerMock.Verify(l => l.Log("Raw text"), Times.Once);
 			loggerMock.Verify(l => l.Log(logText), Times.Once);
 			loggerMock.Verify(l => l.Subscribe(logObserverMock.Object), Times.Once);
