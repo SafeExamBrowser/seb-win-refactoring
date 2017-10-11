@@ -113,5 +113,12 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 		{
 			sut.FinalizeApplication(new Queue<IOperation>());
 		}
+
+		[TestMethod]
+		public void MustNotFailInCaseOfUnexpectedError()
+		{
+			uiFactoryMock.Setup(l => l.CreateSplashScreen(It.IsAny<ISettings>(), It.IsAny<IText>())).Throws(new Exception());
+			sut.FinalizeApplication(new Queue<IOperation>());
+		}
 	}
 }
