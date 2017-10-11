@@ -81,6 +81,9 @@
     <Compile Include="Logging\LoggerTests.cs" />
     <Compile Include="Logging\ModuleLoggerTests.cs" />
     <Compile Include="Logging\NewLogContentType.cs" />
+    <Compile Include="Notifications\AboutNotificationControllerTests.cs" />
+    <Compile Include="Notifications\LogNotificationControllerTests.cs" />
+    <Compile Include="Notifications\NotificationButtonMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
