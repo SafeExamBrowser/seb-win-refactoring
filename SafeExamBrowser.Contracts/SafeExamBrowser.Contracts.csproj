@@ -68,6 +68,7 @@
     <Compile Include="Configuration\Settings\ISettings.cs" />
     <Compile Include="Behaviour\IShutdownController.cs" />
     <Compile Include="Behaviour\IStartupController.cs" />
+    <Compile Include="Configuration\Settings\ITaskbarSettings.cs" />
     <Compile Include="I18n\IText.cs" />
     <Compile Include="I18n\TextKey.cs" />
     <Compile Include="Logging\ILogContent.cs" />

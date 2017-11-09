@@ -11,16 +11,6 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 	public interface ISettings
 	{
 		/// <summary>
-		/// Determines whether the user may access the application log during runtime.
-		/// </summary>
-		bool AllowApplicationLog { get; }
-
-		/// <summary>
-		/// Determines whether the user may switch the keyboard layout during runtime.
-		/// </summary>
-		bool AllowKeyboardLayout { get; }
-
-		/// <summary>
 		/// The name used for the application data folder.
 		/// </summary>
 		string AppDataFolderName { get; }
@@ -41,14 +31,14 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		IKeyboardSettings Keyboard { get; }
 
 		/// <summary>
-		/// All mouse-related settings.
-		/// </summary>
-		IMouseSettings Mouse { get; }
-
-		/// <summary>
 		/// The path where the log files are to be stored.
 		/// </summary>
 		string LogFolderPath { get; }
+
+		/// <summary>
+		/// All mouse-related settings.
+		/// </summary>
+		IMouseSettings Mouse { get; }
 
 		/// <summary>
 		/// The copyright information for the application (i.e. the executing assembly).
@@ -69,5 +59,10 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		/// A string uniquely identifying the runtime of the application, used e.g. for the log file names.
 		/// </summary>
 		string RuntimeIdentifier { get; }
+
+		/// <summary>
+		/// All taskbar-related settings.
+		/// </summary>
+		ITaskbarSettings Taskbar { get; }
 	}
 }

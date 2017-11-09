@@ -25,20 +25,20 @@ namespace SafeExamBrowser.Configuration
 			Browser = new BrowserSettings(this);
 			Keyboard = new KeyboardSettings();
 			Mouse = new MouseSettings();
+			Taskbar = new TaskbarSettings();
 		}
 
-		public bool AllowApplicationLog => true;
-		public bool AllowKeyboardLayout => true;
 		public string AppDataFolderName => nameof(SafeExamBrowser);
+
+		public IBrowserSettings Browser { get; private set; }
+		public IKeyboardSettings Keyboard { get; private set; }
+		public IMouseSettings Mouse { get; private set; }
+		public ITaskbarSettings Taskbar { get; private set; }
 
 		public string ApplicationLogFile
 		{
 			get { return Path.Combine(LogFolderPath, $"{RuntimeIdentifier}_Application.txt"); }
 		}
-
-		public IBrowserSettings Browser { get; private set; }
-		public IKeyboardSettings Keyboard { get; private set; }
-		public IMouseSettings Mouse { get; private set; }
 
 		public string LogFolderPath
 		{
