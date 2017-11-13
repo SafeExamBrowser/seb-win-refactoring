@@ -48,8 +48,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SimpleWifi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleWifi.1.0.0.0\lib\net40\SimpleWifi.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
@@ -57,12 +61,17 @@
     <Compile Include="KeyboardLayout.cs" />
     <Compile Include="PowerSupply.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WirelessNetwork.cs" />
+    <Compile Include="WirelessNetworkDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">
       <Project>{47DA5933-BEF8-4729-94E6-ABDE2DB12262}</Project>
       <Name>SafeExamBrowser.Contracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

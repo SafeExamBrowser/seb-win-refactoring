@@ -93,6 +93,12 @@
     <Compile Include="Controls\QuitButton.xaml.cs">
       <DependentUpon>QuitButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\WirelessNetworkButton.xaml.cs">
+      <DependentUpon>WirelessNetworkButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WirelessNetworkControl.xaml.cs">
+      <DependentUpon>WirelessNetworkControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LogWindow.xaml.cs">
       <DependentUpon>LogWindow.xaml</DependentUpon>
     </Compile>
@@ -198,6 +204,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="Controls\WirelessNetworkButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\WirelessNetworkControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

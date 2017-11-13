@@ -49,6 +49,7 @@ namespace SafeExamBrowser
 		private ISettings settings;
 		private ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout;
 		private ISystemComponent<ISystemPowerSupplyControl> powerSupply;
+		private ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork;
 		private ISystemInfo systemInfo;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
@@ -81,6 +82,7 @@ namespace SafeExamBrowser
 			powerSupply = new PowerSupply(new ModuleLogger(logger, typeof(PowerSupply)), text);
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
 			windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)), nativeMethods);
+			wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, typeof(WirelessNetwork)));
 
 			runtimeController = new RuntimeController(displayMonitor, new ModuleLogger(logger, typeof(RuntimeController)), processMonitor, Taskbar, windowMonitor);
 			ShutdownController = new ShutdownController(logger, settings, text, uiFactory);
@@ -92,7 +94,7 @@ namespace SafeExamBrowser
 			StartupOperations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
 			StartupOperations.Enqueue(new ProcessMonitorOperation(logger, processMonitor));
 			StartupOperations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, Taskbar));
-			StartupOperations.Enqueue(new TaskbarOperation(logger, settings.Taskbar, keyboardLayout, powerSupply, systemInfo, Taskbar, text, uiFactory));
+			StartupOperations.Enqueue(new TaskbarOperation(logger, settings.Taskbar, keyboardLayout, powerSupply, wirelessNetwork, systemInfo, Taskbar, text, uiFactory));
 			StartupOperations.Enqueue(new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory));
 			StartupOperations.Enqueue(new RuntimeControllerOperation(runtimeController, logger));
 			StartupOperations.Enqueue(new ClipboardOperation(logger, nativeMethods));

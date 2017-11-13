@@ -55,5 +55,10 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// Creates a new splash screen which runs on its own thread.
 		/// </summary>
 		ISplashScreen CreateSplashScreen(ISettings settings, IText text);
+
+		/// <summary>
+		/// Creates a system control which allows to change the wireless network connection of the computer.
+		/// </summary>
+		ISystemWirelessNetworkControl CreateWirelessNetworkControl();
 	}
 }

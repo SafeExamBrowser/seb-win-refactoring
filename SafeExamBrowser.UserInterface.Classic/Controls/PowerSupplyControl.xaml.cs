@@ -72,12 +72,14 @@ namespace SafeExamBrowser.UserInterface.Classic.Controls
 			Popup.IsOpen = true;
 			PopupText.Text = text;
 			Background = Brushes.LightGray;
+			Button.IsEnabled = true;
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			Popup.IsOpen = false;
 			Background = Brushes.Transparent;
+			Button.IsEnabled = false;
 		}
 	}
 }

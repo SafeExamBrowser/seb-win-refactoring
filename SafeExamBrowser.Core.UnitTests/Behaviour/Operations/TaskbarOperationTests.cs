@@ -27,6 +27,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 		private Mock<ISplashScreen> splashScreenMock;
 		private Mock<ISystemComponent<ISystemKeyboardLayoutControl>> keyboardLayoutMock;
 		private Mock<ISystemComponent<ISystemPowerSupplyControl>> powerSupplyMock;
+		private Mock<ISystemComponent<ISystemWirelessNetworkControl>> wirelessNetworkMock;
 		private Mock<ISystemInfo> systemInfoMock;
 		private Mock<ITaskbar> taskbarMock;
 		private Mock<IText> textMock;
@@ -42,6 +43,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			splashScreenMock = new Mock<ISplashScreen>();
 			keyboardLayoutMock = new Mock<ISystemComponent<ISystemKeyboardLayoutControl>>();
 			powerSupplyMock = new Mock<ISystemComponent<ISystemPowerSupplyControl>>();
+			wirelessNetworkMock = new Mock<ISystemComponent<ISystemWirelessNetworkControl>>();
 			systemInfoMock = new Mock<ISystemInfo>();
 			taskbarMock = new Mock<ITaskbar>();
 			textMock = new Mock<IText>();
@@ -49,6 +51,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 
 			settingsMock.SetupGet(s => s.AllowApplicationLog).Returns(true);
 			settingsMock.SetupGet(s => s.AllowKeyboardLayout).Returns(true);
+			settingsMock.SetupGet(s => s.AllowWirelessNetwork).Returns(true);
 			systemInfoMock.SetupGet(s => s.HasBattery).Returns(true);
 			uiFactoryMock.Setup(u => u.CreateNotification(It.IsAny<INotificationInfo>())).Returns(new Mock<INotificationButton>().Object);
 
@@ -57,6 +60,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 				settingsMock.Object,
 				keyboardLayoutMock.Object,
 				powerSupplyMock.Object,
+				wirelessNetworkMock.Object,
 				systemInfoMock.Object,
 				taskbarMock.Object,
 				textMock.Object,
@@ -73,7 +77,8 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 
 			keyboardLayoutMock.Verify(k => k.Initialize(It.IsAny<ISystemKeyboardLayoutControl>()), Times.Once);
 			powerSupplyMock.Verify(p => p.Initialize(It.IsAny<ISystemPowerSupplyControl>()), Times.Once);
-			taskbarMock.Verify(t => t.AddSystemControl(It.IsAny<ISystemControl>()), Times.Exactly(2));
+			wirelessNetworkMock.Verify(w => w.Initialize(It.IsAny<ISystemWirelessNetworkControl>()), Times.Once);
+			taskbarMock.Verify(t => t.AddSystemControl(It.IsAny<ISystemControl>()), Times.Exactly(3));
 			taskbarMock.Verify(t => t.AddNotification(It.IsAny<INotificationButton>()), Times.Once);
 		}
 
@@ -84,6 +89,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 
 			keyboardLayoutMock.Verify(k => k.Terminate(), Times.Once);
 			powerSupplyMock.Verify(p => p.Terminate(), Times.Once);
+			wirelessNetworkMock.Verify(w => w.Terminate(), Times.Once);
 		}
 	}
 }

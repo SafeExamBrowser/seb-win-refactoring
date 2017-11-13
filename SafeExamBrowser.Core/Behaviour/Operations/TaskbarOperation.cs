@@ -25,6 +25,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		private ITaskbarSettings settings;
 		private ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout;
 		private ISystemComponent<ISystemPowerSupplyControl> powerSupply;
+		private ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
 		private IUserInterfaceFactory uiFactory;
@@ -37,6 +38,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			ITaskbarSettings settings,
 			ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout,
 			ISystemComponent<ISystemPowerSupplyControl> powerSupply,
+			ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork,
 			ISystemInfo systemInfo,
 			ITaskbar taskbar,
 			IText text,
@@ -50,6 +52,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			this.taskbar = taskbar;
 			this.text = text;
 			this.uiFactory = uiFactory;
+			this.wirelessNetwork = wirelessNetwork;
 		}
 
 		public void Perform()
@@ -70,6 +73,11 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			if (systemInfo.HasBattery)
 			{
 				AddPowerSupplyControl();
+			}
+
+			if (settings.AllowWirelessNetwork)
+			{
+				AddWirelessNetworkControl();
 			}
 		}
 
@@ -92,6 +100,11 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			{
 				powerSupply.Terminate();
 			}
+
+			if (settings.AllowWirelessNetwork)
+			{
+				wirelessNetwork.Terminate();
+			}
 		}
 
 		private void AddKeyboardLayoutControl()
@@ -107,6 +120,14 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			var control = uiFactory.CreatePowerSupplyControl();
 
 			powerSupply.Initialize(control);
+			taskbar.AddSystemControl(control);
+		}
+
+		private void AddWirelessNetworkControl()
+		{
+			var control = uiFactory.CreateWirelessNetworkControl();
+
+			wirelessNetwork.Initialize(control);
 			taskbar.AddSystemControl(control);
 		}
 

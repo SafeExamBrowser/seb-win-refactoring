@@ -101,6 +101,12 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			return splashScreen;
 		}
 
+		public ISystemWirelessNetworkControl CreateWirelessNetworkControl()
+		{
+			// TODO
+			throw new System.NotImplementedException();
+		}
+
 		public void Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information)
 		{
 			MessageBox.Show(message, title, ToButton(action), ToImage(icon));

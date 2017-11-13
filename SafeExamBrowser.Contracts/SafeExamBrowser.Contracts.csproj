@@ -90,6 +90,8 @@
     <Compile Include="SystemComponents\BatteryChargeStatus.cs" />
     <Compile Include="SystemComponents\IKeyboardLayout.cs" />
     <Compile Include="SystemComponents\ISystemComponent.cs" />
+    <Compile Include="SystemComponents\IWirelessNetwork.cs" />
+    <Compile Include="SystemComponents\WirelessNetworkStatus.cs" />
     <Compile Include="UserInterface\IBrowserControl.cs" />
     <Compile Include="UserInterface\IBrowserWindow.cs" />
     <Compile Include="UserInterface\IMessageBox.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="UserInterface\Taskbar\ISystemKeyboardLayoutControl.cs" />
     <Compile Include="UserInterface\Taskbar\ISystemPowerSupplyControl.cs" />
     <Compile Include="UserInterface\Taskbar\ISystemControl.cs" />
+    <Compile Include="UserInterface\Taskbar\ISystemWirelessNetworkControl.cs" />
     <Compile Include="UserInterface\Taskbar\ITaskbar.cs" />
     <Compile Include="I18n\ITextResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
