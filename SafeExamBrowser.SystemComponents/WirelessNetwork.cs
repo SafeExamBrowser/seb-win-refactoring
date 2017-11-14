@@ -8,15 +8,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Management;
-using System.Net.NetworkInformation;
 using System.Timers;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SimpleWifi;
 using SimpleWifi.Win32;
+using SimpleWifi.Win32.Interop;
 
 namespace SafeExamBrowser.SystemComponents
 {
@@ -91,61 +89,25 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			try
 			{
-				// See https://msdn.microsoft.com/en-us/library/aa394216(v=vs.85).aspx
-				string query = @"
-					SELECT *
-					FROM Win32_NetworkAdapter";
-				var searcher = new ManagementObjectSearcher(query);
-				var adapters = searcher.Get();
-				var interfaces = NetworkInterface.GetAllNetworkInterfaces().Where(i => i.NetworkInterfaceType == NetworkInterfaceType.Wireless80211).ToList();
+				var client = new WlanClient();
 
-				logger.Info("Interface count: " + interfaces.Count);
-
-				foreach (var i in interfaces)
+				foreach (var @interface in client.Interfaces)
 				{
-					logger.Info(i.Description);
-					logger.Info(i.Id);
-					logger.Info(i.Name);
-					logger.Info(i.NetworkInterfaceType.ToString());
-					logger.Info(i.OperationalStatus.ToString());
-					logger.Info("-----");
-				}
-
-				foreach (var adapter in adapters)
-				{
-					logger.Info("-------");
-					
-					foreach (var property in adapter.Properties)
+					foreach (var state in @interface.RadioState.PhyRadioState)
 					{
-						logger.Info($"{property.Name}: {property.Value} ({property.Type})");
-					}
-				}
-
-				logger.Info("Adapter count: " + adapters.Count);
-
-				return true;
-
-				using (var client = new WlanClient())
-				{
-					foreach (var @interface in client.Interfaces)
-					{
-						Trace.WriteLine($"[{@interface.InterfaceName}]");
-
-						foreach (var state in @interface.RadioState.PhyRadioState)
+						if (state.dot11SoftwareRadioState == Dot11RadioState.On && state.dot11HardwareRadioState == Dot11RadioState.On)
 						{
-							Trace.WriteLine($"PhyIndex: {state.dwPhyIndex}");
-							Trace.WriteLine($"SoftwareRadioState: {state.dot11SoftwareRadioState}");
-							Trace.WriteLine($"HardwareRadioState: {state.dot11HardwareRadioState}");
+							return false;
 						}
 					}
 				}
 			}
 			catch (Exception e)
 			{
-				logger.Error("Fail!", e);
-
-				return true;
+				logger.Error("Failed to determine the radio state of the wireless adapter(s)! Assuming it is (all are) turned off...", e);
 			}
+
+			return true;
 		}
 
 		private void UpdateControl()

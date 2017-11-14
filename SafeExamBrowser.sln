@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser", "SafeExamBrowser\SafeExamBrowser.csproj", "{E3AED2F8-B5DF-45D1-AC19-48066923D6D8}"
 EndProject
@@ -29,6 +29,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.SystemComponents", "SafeExamBrowser.SystemComponents\SafeExamBrowser.SystemComponents.csproj", "{ACEE2EF1-14D2-4B52-8994-5C053055BB51}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.UserInterface.Classic", "SafeExamBrowser.UserInterface.Classic\SafeExamBrowser.UserInterface.Classic.csproj", "{A502DF54-7169-4647-94BD-18B192924866}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{E03B19EC-8E4D-481C-9C1B-5C6C060D3D6B}"
+	ProjectSection(SolutionItems) = preProject
+		Libraries\SimpleWifi.dll = Libraries\SimpleWifi.dll
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
