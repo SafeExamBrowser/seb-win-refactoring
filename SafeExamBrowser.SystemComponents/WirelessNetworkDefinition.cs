@@ -8,11 +8,14 @@
 
 using System;
 using SafeExamBrowser.Contracts.SystemComponents;
+using SimpleWifi;
 
 namespace SafeExamBrowser.SystemComponents
 {
 	internal class WirelessNetworkDefinition : IWirelessNetwork
 	{
+		internal AccessPoint AccessPoint { get; set; }
+
 		public Guid Id { get; }
 		public string Name { get; set; }
 		public int SignalStrength { get; set; }

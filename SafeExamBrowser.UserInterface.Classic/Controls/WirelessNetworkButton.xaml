@@ -22,8 +22,8 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="IsCurrentTextBlock" Grid.Column="0" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">•</TextBlock>
-                <TextBlock x:Name="SignalStrengthTextBlock" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,0,5,0" VerticalAlignment="Center" />
-                <TextBlock x:Name="NetworkNameTextBlock" Grid.Column="2" Foreground="Gray" HorizontalAlignment="Left" Margin="5,0,10,0" VerticalAlignment="Center" />
+                <TextBlock x:Name="SignalStrengthTextBlock" Grid.Column="1" Foreground="Gray" HorizontalAlignment="Left" Margin="10,0,5,0" VerticalAlignment="Center" />
+                <TextBlock x:Name="NetworkNameTextBlock" Grid.Column="2" FontWeight="Bold" HorizontalAlignment="Left" Margin="5,0,10,0" VerticalAlignment="Center" />
             </Grid>
         </Button>
     </Grid>

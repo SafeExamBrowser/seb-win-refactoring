@@ -21,6 +21,11 @@ namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 		bool HasWirelessNetworkAdapter { set; }
 
 		/// <summary>
+		/// Indicates to the user that a wireless network connection is being established.
+		/// </summary>
+		bool IsConnecting { set; }
+
+		/// <summary>
 		/// Sets the current wireless network status.
 		/// </summary>
 		WirelessNetworkStatus NetworkStatus { set; }

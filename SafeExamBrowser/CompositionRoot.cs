@@ -82,7 +82,7 @@ namespace SafeExamBrowser
 			powerSupply = new PowerSupply(new ModuleLogger(logger, typeof(PowerSupply)), text);
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
 			windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)), nativeMethods);
-			wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, typeof(WirelessNetwork)));
+			wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, typeof(WirelessNetwork)), text);
 
 			runtimeController = new RuntimeController(displayMonitor, new ModuleLogger(logger, typeof(RuntimeController)), processMonitor, Taskbar, windowMonitor);
 			ShutdownController = new ShutdownController(logger, settings, text, uiFactory);

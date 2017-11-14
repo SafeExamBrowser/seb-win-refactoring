@@ -8,7 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
@@ -22,14 +24,17 @@ namespace SafeExamBrowser.SystemComponents
 	{
 		private const int TWO_SECONDS = 2000;
 
-		private ILogger logger;
 		private ISystemWirelessNetworkControl control;
+		private ILogger logger;
+		private IList<WirelessNetworkDefinition> networks = new List<WirelessNetworkDefinition>();
+		private IText text;
 		private Timer timer;
 		private Wifi wifi;
 
-		public WirelessNetwork(ILogger logger)
+		public WirelessNetwork(ILogger logger, IText text)
 		{
 			this.logger = logger;
+			this.text = text;
 		}
 
 		public void Initialize(ISystemWirelessNetworkControl control)
@@ -40,6 +45,7 @@ namespace SafeExamBrowser.SystemComponents
 			if (wifi.NoWifiAvailable || IsTurnedOff())
 			{
 				control.HasWirelessNetworkAdapter = false;
+				control.SetTooltip(text.Get(TextKey.SystemControl_WirelessNotAvailable));
 				logger.Info("Wireless networks cannot be monitored, as there is no hardware adapter available or it is turned off.");
 			}
 			else
@@ -72,7 +78,33 @@ namespace SafeExamBrowser.SystemComponents
 
 		private void Control_NetworkSelected(IWirelessNetwork network)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				var accessPoint = networks.First(n => n.Id == network.Id).AccessPoint;
+				var authRequest = new AuthRequest(accessPoint);
+
+				accessPoint.ConnectAsync(authRequest, false, (success) => AccessPoint_OnConnectComplete(network.Name, success));
+				control.IsConnecting = true;
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to connect to wireless network '{network.Name}!'", e);
+			}
+		}
+
+		private void AccessPoint_OnConnectComplete(string name, bool success)
+		{
+			if (success)
+			{
+				logger.Info($"Successfully connected to wireless network '{name}'.");
+			}
+			else
+			{
+				logger.Error($"Failed to connect to wireless network '{name}!'");
+			}
+
+			control.IsConnecting = false;
+			UpdateControl();
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -82,7 +114,7 @@ namespace SafeExamBrowser.SystemComponents
 
 		private void Wifi_ConnectionStatusChanged(object sender, WifiStatusEventArgs e)
 		{
-			control.NetworkStatus = ToStatus(e.NewStatus);
+			UpdateControl();
 		}
 
 		private bool IsTurnedOff()
@@ -112,32 +144,50 @@ namespace SafeExamBrowser.SystemComponents
 
 		private void UpdateControl()
 		{
-			var networks = new List<IWirelessNetwork>();
-
-			control.NetworkStatus = ToStatus(wifi.ConnectionStatus);
-
-			try
+			lock (networks)
 			{
-				foreach (var accessPoint in wifi.GetAccessPoints())
+				try
 				{
-					// The user may only connect to an already configured wireless network!
-					if (accessPoint.HasProfile)
+					networks.Clear();
+
+					foreach (var accessPoint in wifi.GetAccessPoints())
 					{
-						networks.Add(new WirelessNetworkDefinition
+						// The user may only connect to an already configured wireless network!
+						if (accessPoint.HasProfile)
 						{
-							Name = accessPoint.Name,
-							SignalStrength = Convert.ToInt32(accessPoint.SignalStrength),
-							Status = accessPoint.IsConnected ? WirelessNetworkStatus.Connected : WirelessNetworkStatus.Disconnected
-						});
+							networks.Add(ToDefinition(accessPoint));
+
+							if (accessPoint.IsConnected)
+							{
+								control.SetTooltip(text.Get(TextKey.SystemControl_WirelessConnected).Replace("%%NAME%%", accessPoint.Name));
+							}
+						}
 					}
+
+					if (wifi.ConnectionStatus == WifiStatus.Disconnected)
+					{
+						control.SetTooltip(text.Get(TextKey.SystemControl_WirelessDisconnected));
+					}
+
+					control.NetworkStatus = ToStatus(wifi.ConnectionStatus);
+					control.Update(new List<IWirelessNetwork>(networks));
+				}
+				catch (Exception e)
+				{
+					logger.Error("Failed to update the wireless network adapter status!", e);
 				}
 			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to update the wireless network adapter status!", e);
-			}
+		}
 
-			control.Update(networks);
+		private WirelessNetworkDefinition ToDefinition(AccessPoint accessPoint)
+		{
+			return new WirelessNetworkDefinition
+			{
+				AccessPoint = accessPoint,
+				Name = accessPoint.Name,
+				SignalStrength = Convert.ToInt32(accessPoint.SignalStrength),
+				Status = accessPoint.IsConnected ? WirelessNetworkStatus.Connected : WirelessNetworkStatus.Disconnected
+			};
 		}
 
 		private WirelessNetworkStatus ToStatus(WifiStatus status)
