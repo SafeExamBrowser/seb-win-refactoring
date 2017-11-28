@@ -21,4 +21,22 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
+    <ControlTemplate x:Key="BrowserButton" TargetType="Button">
+        <Border x:Name="ButtonContent" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" Cursor="Hand"
+                Padding="{TemplateBinding Padding}">
+            <ContentPresenter ContentSource="Content" HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                              RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="{TemplateBinding VerticalAlignment}" />
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="ButtonContent" Property="Background" Value="LightBlue" />
+                <Setter TargetName="ButtonContent" Property="BorderBrush" Value="DodgerBlue" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="ButtonContent" Property="BorderBrush" Value="SkyBlue" />
+                <Setter TargetName="ButtonContent" Property="BorderThickness" Value="2" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
 </ResourceDictionary>

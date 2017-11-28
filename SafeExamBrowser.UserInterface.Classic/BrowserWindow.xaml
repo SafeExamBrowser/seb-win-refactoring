@@ -4,25 +4,34 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Classic"
-        mc:Ignorable="d"
-        Title="BrowserWindow" Background="#FFF0F0F0" Height="500" Width="500" WindowState="Maximized" Icon=".\Images\SafeExamBrowser.ico">
+        mc:Ignorable="d" Title="BrowserWindow" Background="#FFF0F0F0" Height="500" Width="500" WindowState="Maximized" Icon=".\Images\SafeExamBrowser.ico">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Templates/Buttons.xaml" />
+                <ResourceDictionary Source="./Templates/Colors.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" x:Name="UrlTextBox" Margin="5,5,2.5,5" Height="20" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" />
-            <Button Grid.Column="1" x:Name="ReloadButton" Margin="2.5,5,2.5,5" HorizontalAlignment="Center" VerticalAlignment="Center">Reload</Button>
-            <Button Grid.Column="2" x:Name="BackButton" Margin="2.5,5,2.5,5" HorizontalAlignment="Center" VerticalAlignment="Center">Back</Button>
-            <Button Grid.Column="3" x:Name="ForwardButton" Margin="2.5,5,5,5" HorizontalAlignment="Center" VerticalAlignment="Center">Forward</Button>
-        </Grid>
+        <Border Grid.Row="0" BorderBrush="LightGray" BorderThickness="0 0 0 1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" x:Name="UrlTextBox" Height="25" HorizontalAlignment="Stretch" Padding="5,0" Margin="10" VerticalContentAlignment="Center" />
+                <Button Grid.Column="1" x:Name="ReloadButton" Height="30" HorizontalAlignment="Center" Margin="2.5,5,2.5,5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
+                <Button Grid.Column="2" x:Name="BackButton" Height="30" HorizontalAlignment="Center" Margin="2.5,5,2.5,5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
+                <Button Grid.Column="3" x:Name="ForwardButton" Height="30" HorizontalAlignment="Center" Margin="2.5,5,5,5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
+            </Grid>
+        </Border>
         <WindowsFormsHost Grid.Row="1" x:Name="BrowserControlHost" />
     </Grid>
 </Window>
