@@ -14,11 +14,11 @@ using System.Threading;
 using System.Windows;
 using SafeExamBrowser.Contracts.Behaviour;
 
-namespace SafeExamBrowser
+namespace SafeExamBrowser.Client
 {
 	public class App : Application
 	{
-		private static readonly Mutex Mutex = new Mutex(true, "safe_exam_browser_runtime_mutex");
+		private static readonly Mutex Mutex = new Mutex(true, "safe_exam_browser_client_mutex");
 		private CompositionRoot instances = new CompositionRoot();
 
 		[STAThread]
