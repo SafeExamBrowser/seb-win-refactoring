@@ -8,30 +8,30 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Contracts.Client;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Runtime;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Core.Behaviour.Operations;
 
 namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 {
 	[TestClass]
-	public class RuntimeControllerOperationTests
+	public class ClientControllerOperationTests
 	{
 		private Mock<ILogger> loggerMock;
-		private Mock<IRuntimeController> runtimeControllerMock;
+		private Mock<IClientController> clientControllerMock;
 		private Mock<ISplashScreen> splashScreenMock;
 
-		private RuntimeControllerOperation sut;
+		private ClientControllerOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
 			loggerMock = new Mock<ILogger>();
-			runtimeControllerMock = new Mock<IRuntimeController>();
+			clientControllerMock = new Mock<IClientController>();
 			splashScreenMock = new Mock<ISplashScreen>();
 
-			sut = new RuntimeControllerOperation(runtimeControllerMock.Object, loggerMock.Object)
+			sut = new ClientControllerOperation(clientControllerMock.Object, loggerMock.Object)
 			{
 				SplashScreen = splashScreenMock.Object
 			};
@@ -42,7 +42,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 		{
 			sut.Perform();
 
-			runtimeControllerMock.Verify(r => r.Start(), Times.Once);
+			clientControllerMock.Verify(r => r.Start(), Times.Once);
 		}
 
 		[TestMethod]
@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 		{
 			sut.Revert();
 
-			runtimeControllerMock.Verify(r => r.Stop(), Times.Once);
+			clientControllerMock.Verify(r => r.Stop(), Times.Once);
 		}
 	}
 }

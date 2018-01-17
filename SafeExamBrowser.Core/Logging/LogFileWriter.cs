@@ -8,7 +8,6 @@
 
 using System.IO;
 using System.Text;
-using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Logging
@@ -19,14 +18,9 @@ namespace SafeExamBrowser.Core.Logging
 		private readonly string filePath;
 		private readonly ILogContentFormatter formatter;
 
-		public LogFileWriter(ILogContentFormatter formatter, ISettings settings)
+		public LogFileWriter(ILogContentFormatter formatter, string filePath)
 		{
-			if (!Directory.Exists(settings.LogFolderPath))
-			{
-				Directory.CreateDirectory(settings.LogFolderPath);
-			}
-
-			this.filePath = settings.ApplicationLogFile;
+			this.filePath = filePath;
 			this.formatter = formatter;
 		}
 

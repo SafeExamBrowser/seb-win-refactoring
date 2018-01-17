@@ -7,14 +7,14 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Client;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
-namespace SafeExamBrowser.Core.Behaviour
+namespace SafeExamBrowser.Client
 {
-	public class RuntimeController : IRuntimeController
+	public class ClientController : IClientController
 	{
 		private IDisplayMonitor displayMonitor;
 		private ILogger logger;
@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Core.Behaviour
 		private ITaskbar taskbar;
 		private IWindowMonitor windowMonitor;
 
-		public RuntimeController(
+		public ClientController(
 			IDisplayMonitor displayMonitor,
 			ILogger logger,
 			IProcessMonitor processMonitor,

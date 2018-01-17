@@ -9,16 +9,15 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Client;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
-using SafeExamBrowser.Core.Behaviour;
 
-namespace SafeExamBrowser.Core.UnitTests.Behaviour
+namespace SafeExamBrowser.Client.UnitTests
 {
 	[TestClass]
-	public class RuntimeControllerTests
+	public class ClientControllerTests
 	{
 		private Mock<IDisplayMonitor> displayMonitorMock;
 		private Mock<ILogger> loggerMock;
@@ -26,7 +25,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 		private Mock<ITaskbar> taskbarMock;
 		private Mock<IWindowMonitor> windowMonitorMock;
 
-		private IRuntimeController sut;
+		private IClientController sut;
 
 		[TestInitialize]
 		public void Initialize()
@@ -37,7 +36,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 			taskbarMock = new Mock<ITaskbar>();
 			windowMonitorMock= new Mock<IWindowMonitor>();
 
-			sut = new RuntimeController(
+			sut = new ClientController(
 				displayMonitorMock.Object,
 				loggerMock.Object,
 				processMonitorMock.Object,

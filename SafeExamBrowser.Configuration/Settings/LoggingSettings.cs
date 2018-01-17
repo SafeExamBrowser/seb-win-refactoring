@@ -6,14 +6,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 
-namespace SafeExamBrowser.Configuration
+namespace SafeExamBrowser.Configuration.Settings
 {
-	public class MouseSettings : IMouseSettings
+	[Serializable]
+	internal class LoggingSettings : ILoggingSettings
 	{
-		public bool AllowMiddleButton => false;
-
-		public bool AllowRightButton => true;
+		public DateTime ApplicationStartTime { get; set; }
+		public string BrowserLogFile { get; set; }
+		public string ClientLogFile { get; set; }
+		public string RuntimeLogFile { get; set; }
 	}
 }

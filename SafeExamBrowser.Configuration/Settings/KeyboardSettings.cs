@@ -6,18 +6,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Behaviour
-{
-	public interface IRuntimeController
-	{
-		/// <summary>
-		/// Wires up the event handling, i.e. subscribes to all relevant application events.
-		/// </summary>
-		void Start();
+using System;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 
-		/// <summary>
-		/// Removes all event subscriptions.
-		/// </summary>
-		void Stop();
+namespace SafeExamBrowser.Configuration.Settings
+{
+	[Serializable]
+	internal class KeyboardSettings : IKeyboardSettings
+	{
+		public bool AllowAltTab => false;
+
+		public bool AllowEsc => false;
+
+		public bool AllowF5 => true;
 	}
 }

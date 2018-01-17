@@ -6,14 +6,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Configuration.Settings;
-
-namespace SafeExamBrowser.Configuration
+namespace SafeExamBrowser.Contracts.Client
 {
-	public class TaskbarSettings : ITaskbarSettings
+	public interface IClientController
 	{
-		public bool AllowApplicationLog => true;
-		public bool AllowKeyboardLayout => true;
-		public bool AllowWirelessNetwork => true;
+		/// <summary>
+		/// Wires up and starts the application event handling.
+		/// </summary>
+		void Start();
+
+		/// <summary>
+		/// Stops the event handling and removes all event subscriptions.
+		/// </summary>
+		void Stop();
 	}
 }

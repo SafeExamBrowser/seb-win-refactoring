@@ -12,10 +12,10 @@ using System.Linq;
 using CefSharp;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using IBrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.IBrowserSettings;
 
 namespace SafeExamBrowser.Browser
 {
@@ -23,11 +23,11 @@ namespace SafeExamBrowser.Browser
 	{
 		private IApplicationButton button;
 		private IList<IApplicationInstance> instances = new List<IApplicationInstance>();
-		private ISettings settings;
+		private IBrowserSettings settings;
 		private IUserInterfaceFactory uiFactory;
 		private IText text;
 
-		public BrowserApplicationController(ISettings settings, IText text, IUserInterfaceFactory uiFactory)
+		public BrowserApplicationController(IBrowserSettings settings, IText text, IUserInterfaceFactory uiFactory)
 		{
 			this.settings = settings;
 			this.text = text;
@@ -38,8 +38,8 @@ namespace SafeExamBrowser.Browser
 		{
 			var cefSettings = new CefSettings
 			{
-				CachePath = settings.Browser.CachePath,
-				LogFile = settings.Browser.LogFile
+				CachePath = settings.CachePath,
+				LogFile = settings.LogFile
 			};
 
 			var success = Cef.Initialize(cefSettings, true, null);
@@ -69,7 +69,7 @@ namespace SafeExamBrowser.Browser
 
 		private void CreateNewInstance()
 		{
-			var instance = new BrowserApplicationInstance(settings.Browser, text, uiFactory, instances.Count == 0);
+			var instance = new BrowserApplicationInstance(settings, text, uiFactory, instances.Count == 0);
 
 			button.RegisterInstance(instance);
 			instances.Add(instance);

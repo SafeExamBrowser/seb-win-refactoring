@@ -7,21 +7,21 @@
  */
 
 using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Client;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Runtime;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
-	public class RuntimeControllerOperation : IOperation
+	public class ClientControllerOperation : IOperation
 	{
 		private ILogger logger;
-		private IRuntimeController controller;
+		private IClientController controller;
 
 		public ISplashScreen SplashScreen { private get; set; }
 
-		public RuntimeControllerOperation(IRuntimeController controller, ILogger logger)
+		public ClientControllerOperation(IClientController controller, ILogger logger)
 		{
 			this.controller = controller;
 			this.logger = logger;

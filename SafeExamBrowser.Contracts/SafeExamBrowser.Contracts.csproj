@@ -53,9 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviour\IApplicationController.cs" />
-    <Compile Include="Behaviour\IRuntimeController.cs" />
+    <Compile Include="Runtime\IRuntimeController.cs" />
     <Compile Include="Behaviour\INotificationController.cs" />
     <Compile Include="Behaviour\IOperation.cs" />
+    <Compile Include="Client\IClientController.cs" />
     <Compile Include="Configuration\IIconResource.cs" />
     <Compile Include="Configuration\IApplicationInfo.cs" />
     <Compile Include="Configuration\IApplicationInstance.cs" />
@@ -64,10 +65,12 @@
     <Compile Include="Configuration\OperatingSystem.cs" />
     <Compile Include="Configuration\Settings\IBrowserSettings.cs" />
     <Compile Include="Configuration\Settings\IKeyboardSettings.cs" />
+    <Compile Include="Configuration\Settings\ILoggingSettings.cs" />
     <Compile Include="Configuration\Settings\IMouseSettings.cs" />
     <Compile Include="Configuration\Settings\ISettings.cs" />
     <Compile Include="Behaviour\IShutdownController.cs" />
     <Compile Include="Behaviour\IStartupController.cs" />
+    <Compile Include="Configuration\Settings\ISettingsRepository.cs" />
     <Compile Include="Configuration\Settings\ITaskbarSettings.cs" />
     <Compile Include="I18n\IText.cs" />
     <Compile Include="I18n\TextKey.cs" />
@@ -112,5 +115,6 @@
     <Compile Include="WindowsApi\IBounds.cs" />
     <Compile Include="WindowsApi\INativeMethods.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

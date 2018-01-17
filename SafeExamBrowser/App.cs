@@ -65,7 +65,8 @@ namespace SafeExamBrowser
 
 			if (success)
 			{
-				MainWindow = instances.Taskbar;
+				// TODO: Probably needs new window to display status of running application...
+				MainWindow = instances.SplashScreen;
 				MainWindow.Closing += MainWindow_Closing;
 				MainWindow.Show();
 			}

@@ -6,16 +6,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 
-namespace SafeExamBrowser.Configuration
+namespace SafeExamBrowser.Configuration.Settings
 {
-	public class KeyboardSettings : IKeyboardSettings
+	[Serializable]
+	internal class TaskbarSettings : ITaskbarSettings
 	{
-		public bool AllowAltTab => false;
-
-		public bool AllowEsc => false;
-
-		public bool AllowF5 => true;
+		public bool AllowApplicationLog => true;
+		public bool AllowKeyboardLayout => true;
+		public bool AllowWirelessNetwork => true;
 	}
 }

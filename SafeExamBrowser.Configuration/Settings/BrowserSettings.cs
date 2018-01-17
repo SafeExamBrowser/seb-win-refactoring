@@ -7,42 +7,21 @@
  */
 
 using System;
-using System.IO;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 
-namespace SafeExamBrowser.Configuration
+namespace SafeExamBrowser.Configuration.Settings
 {
-	public class BrowserSettings : IBrowserSettings
+	[Serializable]
+	internal class BrowserSettings : IBrowserSettings
 	{
-		private ISettings settings;
-
-		public BrowserSettings(ISettings settings)
-		{
-			this.settings = settings;
-		}
-
 		public bool AllowAddressBar => true;
-
 		public bool AllowBackwardNavigation => true;
-
 		public bool AllowDeveloperConsole => true;
-
 		public bool AllowForwardNavigation => true;
-
 		public bool AllowReloading => true;
-
-		public string CachePath
-		{
-			get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), settings.AppDataFolderName, "Cache"); }
-		}
-
+		public string CachePath { get; set; }
 		public bool FullScreenMode => false;
-
-		public string LogFile
-		{
-			get { return Path.Combine(settings.LogFolderPath, $"{settings.RuntimeIdentifier}_Browser.txt"); }
-		}
-
+		public string LogFile { get; set; }
 		public string StartUrl => "www.duckduckgo.com";
 	}
 }

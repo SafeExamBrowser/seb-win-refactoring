@@ -11,14 +11,9 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 	public interface ISettings
 	{
 		/// <summary>
-		/// The name used for the application data folder.
+		/// The path of the application data folder.
 		/// </summary>
-		string AppDataFolderName { get; }
-
-		/// <summary>
-		/// The file path under which the application log is to be stored.
-		/// </summary>
-		string ApplicationLogFile { get; }
+		string AppDataFolder { get; }
 
 		/// <summary>
 		/// All browser-related settings.
@@ -31,9 +26,9 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		IKeyboardSettings Keyboard { get; }
 
 		/// <summary>
-		/// The path where the log files are to be stored.
+		/// All logging-related settings.
 		/// </summary>
-		string LogFolderPath { get; }
+		ILoggingSettings Logging { get; }
 
 		/// <summary>
 		/// All mouse-related settings.
@@ -54,11 +49,6 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		/// The program version of the application (i.e. the executing assembly).
 		/// </summary>
 		string ProgramVersion { get; }
-
-		/// <summary>
-		/// A string uniquely identifying the runtime of the application, used e.g. for the log file names.
-		/// </summary>
-		string RuntimeIdentifier { get; }
 
 		/// <summary>
 		/// All taskbar-related settings.

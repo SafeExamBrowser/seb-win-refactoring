@@ -34,6 +34,29 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="ClientController.cs" />
     <Compile Include="CompositionRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -64,6 +88,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -73,13 +98,37 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SafeExamBrowser.Browser\SafeExamBrowser.Browser.csproj">
+      <Project>{04E653F1-98E6-4E34-9DD7-7F2BC1A8B767}</Project>
+      <Name>SafeExamBrowser.Browser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Configuration\SafeExamBrowser.Configuration.csproj">
+      <Project>{C388C4DD-A159-457D-AF92-89F7AD185109}</Project>
+      <Name>SafeExamBrowser.Configuration</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">
       <Project>{47DA5933-BEF8-4729-94E6-ABDE2DB12262}</Project>
       <Name>SafeExamBrowser.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Core\SafeExamBrowser.Core.csproj">
+      <Project>{3D6FDBB6-A4AF-4626-BB2B-BF329D44F9CC}</Project>
+      <Name>SafeExamBrowser.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Monitoring\SafeExamBrowser.Monitoring.csproj">
+      <Project>{EF563531-4EB5-44B9-A5EC-D6D6F204469B}</Project>
+      <Name>SafeExamBrowser.Monitoring</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.SystemComponents\SafeExamBrowser.SystemComponents.csproj">
+      <Project>{ACEE2EF1-14D2-4B52-8994-5C053055BB51}</Project>
+      <Name>SafeExamBrowser.SystemComponents</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.UserInterface.Classic\SafeExamBrowser.UserInterface.Classic.csproj">
       <Project>{A502DF54-7169-4647-94BD-18B192924866}</Project>
       <Name>SafeExamBrowser.UserInterface.Classic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.WindowsApi\SafeExamBrowser.WindowsApi.csproj">
+      <Project>{73724659-4150-4792-A94E-42F5F3C1B696}</Project>
+      <Name>SafeExamBrowser.WindowsApi</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
