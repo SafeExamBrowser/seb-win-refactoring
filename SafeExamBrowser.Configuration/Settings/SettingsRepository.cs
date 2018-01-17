@@ -7,8 +7,6 @@
  */
 
 using System;
-using System.IO;
-using System.Reflection;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 
 namespace SafeExamBrowser.Configuration.Settings
@@ -25,26 +23,11 @@ namespace SafeExamBrowser.Configuration.Settings
 		{
 			var browser = new BrowserSettings();
 			var keyboard = new KeyboardSettings();
-			var logging = new LoggingSettings();
 			var mouse = new MouseSettings();
 			var taskbar = new TaskbarSettings();
-			var settings = new Settings(browser, keyboard, logging, mouse, taskbar);
-			var executable = Assembly.GetEntryAssembly();
-			var startTime = DateTime.Now;
-			var logFolderName = "Logs";
-			var logFilePrefix = startTime.ToString("yyyy-MM-dd\\_HH\\hmm\\mss\\s");
-
-			settings.AppDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(SafeExamBrowser));
-			settings.ProgramCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
-			settings.ProgramTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
-			settings.ProgramVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-
-			browser.CachePath = Path.Combine(settings.AppDataFolder, "Cache");
-
-			logging.ApplicationStartTime = DateTime.Now;
-			logging.BrowserLogFile = Path.Combine(settings.AppDataFolder, logFolderName, $"{logFilePrefix}_Browser.txt");
-			logging.ClientLogFile = Path.Combine(settings.AppDataFolder, logFolderName, $"{logFilePrefix}_Client.txt");
-			logging.RuntimeLogFile = Path.Combine(settings.AppDataFolder, logFolderName, $"{logFilePrefix}_Runtime.txt");
+			var settings = new Settings(browser, keyboard, mouse, taskbar);
+			
+			// TODO
 
 			return settings;
 		}

@@ -24,11 +24,17 @@ namespace SafeExamBrowser.Browser
 		private IApplicationButton button;
 		private IList<IApplicationInstance> instances = new List<IApplicationInstance>();
 		private IBrowserSettings settings;
+		private IRuntimeInfo runtimeInfo;
 		private IUserInterfaceFactory uiFactory;
 		private IText text;
 
-		public BrowserApplicationController(IBrowserSettings settings, IText text, IUserInterfaceFactory uiFactory)
+		public BrowserApplicationController(
+			IBrowserSettings settings,
+			IRuntimeInfo runtimeInfo,
+			IText text,
+			IUserInterfaceFactory uiFactory)
 		{
+			this.runtimeInfo = runtimeInfo;
 			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;
@@ -38,8 +44,8 @@ namespace SafeExamBrowser.Browser
 		{
 			var cefSettings = new CefSettings
 			{
-				CachePath = settings.CachePath,
-				LogFile = settings.LogFile
+				CachePath = runtimeInfo.BrowserCachePath,
+				LogFile = runtimeInfo.BrowserLogFile
 			};
 
 			var success = Cef.Initialize(cefSettings, true, null);

@@ -8,7 +8,7 @@
 
 using System.Windows;
 using System.Windows.Documents;
-using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
 
@@ -16,7 +16,7 @@ namespace SafeExamBrowser.UserInterface.Windows10
 {
 	public partial class AboutWindow : Window, IWindow
 	{
-		private ISettings settings;
+		private IRuntimeInfo runtimeInfo;
 		private IText text;
 		private WindowClosingEventHandler closing;
 
@@ -26,9 +26,9 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			remove { closing -= value; }
 		}
 
-		public AboutWindow(ISettings settings, IText text)
+		public AboutWindow(IRuntimeInfo runtimeInfo, IText text)
 		{
-			this.settings = settings;
+			this.runtimeInfo = runtimeInfo;
 			this.text = text;
 
 			InitializeComponent();
@@ -43,10 +43,10 @@ namespace SafeExamBrowser.UserInterface.Windows10
 		private void InitializeAboutWindow()
 		{
 			Closing += (o, args) => closing?.Invoke();
-			VersionInfo.Inlines.Add(new Run($"{text.Get(TextKey.Version)} {settings.ProgramVersion}") { FontStyle = FontStyles.Italic });
+			VersionInfo.Inlines.Add(new Run($"{text.Get(TextKey.Version)} {runtimeInfo.ProgramVersion}") { FontStyle = FontStyles.Italic });
 			VersionInfo.Inlines.Add(new LineBreak());
 			VersionInfo.Inlines.Add(new LineBreak());
-			VersionInfo.Inlines.Add(new Run(settings.ProgramCopyright) { FontSize = 10 });
+			VersionInfo.Inlines.Add(new Run(runtimeInfo.ProgramCopyright) { FontSize = 10 });
 		}
 	}
 }

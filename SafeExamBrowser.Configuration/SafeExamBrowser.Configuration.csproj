@@ -53,9 +53,9 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RuntimeInfo.cs" />
     <Compile Include="Settings\BrowserSettings.cs" />
     <Compile Include="Settings\KeyboardSettings.cs" />
-    <Compile Include="Settings\LoggingSettings.cs" />
     <Compile Include="Settings\MouseSettings.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

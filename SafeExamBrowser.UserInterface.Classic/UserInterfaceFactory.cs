@@ -20,9 +20,9 @@ namespace SafeExamBrowser.UserInterface.Classic
 {
 	public class UserInterfaceFactory : IUserInterfaceFactory
 	{
-		public IWindow CreateAboutWindow(ISettings settings, IText text)
+		public IWindow CreateAboutWindow(IRuntimeInfo runtimeInfo, IText text)
 		{
-			return new AboutWindow(settings, text);
+			return new AboutWindow(runtimeInfo, text);
 		}
 
 		public IApplicationButton CreateApplicationButton(IApplicationInfo info)
@@ -75,13 +75,13 @@ namespace SafeExamBrowser.UserInterface.Classic
 			return new PowerSupplyControl();
 		}
 
-		public ISplashScreen CreateSplashScreen(ISettings settings, IText text)
+		public ISplashScreen CreateSplashScreen(IRuntimeInfo runtimeInfo, IText text)
 		{
 			SplashScreen splashScreen = null;
 			var splashReadyEvent = new AutoResetEvent(false);
 			var splashScreenThread = new Thread(() =>
 			{
-				splashScreen = new SplashScreen(settings, text);
+				splashScreen = new SplashScreen(runtimeInfo, text);
 				splashScreen.Closed += (o, args) => splashScreen.Dispatcher.InvokeShutdown();
 				splashScreen.Show();
 

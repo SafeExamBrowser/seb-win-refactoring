@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -19,15 +20,15 @@ namespace SafeExamBrowser.Core.Behaviour
 	public class ShutdownController : IShutdownController
 	{
 		private ILogger logger;
-		private ISettings settings;
+		private IRuntimeInfo runtimeInfo;
 		private ISplashScreen splashScreen;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 
-		public ShutdownController(ILogger logger, ISettings settings, IText text, IUserInterfaceFactory uiFactory)
+		public ShutdownController(ILogger logger, IRuntimeInfo runtimeInfo, IText text, IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
-			this.settings = settings;
+			this.runtimeInfo = runtimeInfo;
 			this.text = text;
 			this.uiFactory = uiFactory;
 		}
@@ -69,7 +70,7 @@ namespace SafeExamBrowser.Core.Behaviour
 			logger.Log(string.Empty);
 			logger.Info("--- Initiating shutdown procedure ---");
 
-			splashScreen = uiFactory.CreateSplashScreen(settings, text);
+			splashScreen = uiFactory.CreateSplashScreen(runtimeInfo, text);
 			splashScreen.SetIndeterminate();
 			splashScreen.UpdateText(TextKey.SplashScreen_ShutdownProcedure);
 			splashScreen.InvokeShow();

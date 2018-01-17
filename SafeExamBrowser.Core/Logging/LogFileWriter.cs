@@ -24,6 +24,16 @@ namespace SafeExamBrowser.Core.Logging
 			this.formatter = formatter;
 		}
 
+		public void Initialize()
+		{
+			var logFolder = Path.GetDirectoryName(filePath);
+
+			if (!Directory.Exists(logFolder))
+			{
+				Directory.CreateDirectory(logFolder);
+			}
+		}
+
 		public void Notify(ILogContent content)
 		{
 			lock (@lock)

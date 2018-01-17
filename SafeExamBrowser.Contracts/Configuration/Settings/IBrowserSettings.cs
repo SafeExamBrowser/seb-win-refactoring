@@ -36,16 +36,6 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		bool AllowReloading { get; }
 
 		/// <summary>
-		/// The path where the browser cache is to be stored.
-		/// </summary>
-		string CachePath { get; }
-
-		/// <summary>
-		/// The file path under which the browser log is to be stored.
-		/// </summary>
-		string LogFile { get; }
-
-		/// <summary>
 		/// Determines whether the main browser window should be rendered in fullscreen mode, i.e. without window frame.
 		/// </summary>
 		bool FullScreenMode { get; }

@@ -21,16 +21,8 @@ using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SafeExamBrowser.Contracts.WindowsApi;
-using SafeExamBrowser.Core.Behaviour;
-using SafeExamBrowser.Core.Behaviour.Operations;
 using SafeExamBrowser.Core.I18n;
 using SafeExamBrowser.Core.Logging;
-using SafeExamBrowser.Monitoring.Display;
-using SafeExamBrowser.Monitoring.Keyboard;
-using SafeExamBrowser.Monitoring.Mouse;
-using SafeExamBrowser.Monitoring.Processes;
-using SafeExamBrowser.Monitoring.Windows;
-using SafeExamBrowser.SystemComponents;
 using SafeExamBrowser.UserInterface.Classic;
 using SafeExamBrowser.WindowsApi;
 
@@ -64,46 +56,51 @@ namespace SafeExamBrowser.Client
 		internal void BuildObjectGraph()
 		{
 			browserInfo = new BrowserApplicationInfo();
+			logger = new Logger();
 			nativeMethods = new NativeMethods();
 			settings = new SettingsRepository().LoadDefaults();
 			systemInfo = new SystemInfo();
 			uiFactory = new UserInterfaceFactory();
 
-			InitializeLogger();
+			InitializeLogging();
 
 			text = new Text(logger);
-			Taskbar = new Taskbar(new ModuleLogger(logger, typeof(Taskbar)));
-			browserController = new BrowserApplicationController(settings.Browser, text, uiFactory);
-			displayMonitor = new DisplayMonitor(new ModuleLogger(logger, typeof(DisplayMonitor)), nativeMethods);
-			keyboardInterceptor = new KeyboardInterceptor(settings.Keyboard, new ModuleLogger(logger, typeof(KeyboardInterceptor)));
-			keyboardLayout = new KeyboardLayout(new ModuleLogger(logger, typeof(KeyboardLayout)), text);
-			mouseInterceptor = new MouseInterceptor(new ModuleLogger(logger, typeof(MouseInterceptor)), settings.Mouse);
-			powerSupply = new PowerSupply(new ModuleLogger(logger, typeof(PowerSupply)), text);
-			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
-			windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)), nativeMethods);
-			wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, typeof(WirelessNetwork)), text);
+			// TODO
+			//Taskbar = new Taskbar(new ModuleLogger(logger, typeof(Taskbar)));
+			//browserController = new BrowserApplicationController(settings.Browser, text, uiFactory);
+			//displayMonitor = new DisplayMonitor(new ModuleLogger(logger, typeof(DisplayMonitor)), nativeMethods);
+			//keyboardInterceptor = new KeyboardInterceptor(settings.Keyboard, new ModuleLogger(logger, typeof(KeyboardInterceptor)));
+			//keyboardLayout = new KeyboardLayout(new ModuleLogger(logger, typeof(KeyboardLayout)), text);
+			//mouseInterceptor = new MouseInterceptor(new ModuleLogger(logger, typeof(MouseInterceptor)), settings.Mouse);
+			//powerSupply = new PowerSupply(new ModuleLogger(logger, typeof(PowerSupply)), text);
+			//processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
+			//windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)), nativeMethods);
+			//wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, typeof(WirelessNetwork)), text);
 
-			clientController = new ClientController(displayMonitor, new ModuleLogger(logger, typeof(ClientController)), processMonitor, Taskbar, windowMonitor);
-			ShutdownController = new ShutdownController(logger, settings, text, uiFactory);
-			StartupController = new StartupController(logger, settings, systemInfo, text, uiFactory);
+			//clientController = new ClientController(displayMonitor, new ModuleLogger(logger, typeof(ClientController)), processMonitor, Taskbar, windowMonitor);
+			//ShutdownController = new ShutdownController(logger, settings, text, uiFactory);
+			//StartupController = new StartupController(logger, settings, systemInfo, text, uiFactory);
 
-			StartupOperations = new Queue<IOperation>();
-			StartupOperations.Enqueue(new I18nOperation(logger, text));
-			StartupOperations.Enqueue(new KeyboardInterceptorOperation(keyboardInterceptor, logger, nativeMethods));
-			StartupOperations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
-			StartupOperations.Enqueue(new ProcessMonitorOperation(logger, processMonitor));
-			StartupOperations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, Taskbar));
-			StartupOperations.Enqueue(new TaskbarOperation(logger, settings.Taskbar, keyboardLayout, powerSupply, wirelessNetwork, systemInfo, Taskbar, text, uiFactory));
-			StartupOperations.Enqueue(new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory));
-			StartupOperations.Enqueue(new ClientControllerOperation(clientController, logger));
-			StartupOperations.Enqueue(new ClipboardOperation(logger, nativeMethods));
-			StartupOperations.Enqueue(new MouseInterceptorOperation(logger, mouseInterceptor, nativeMethods));
+			//StartupOperations = new Queue<IOperation>();
+			//StartupOperations.Enqueue(new I18nOperation(logger, text));
+			//StartupOperations.Enqueue(new KeyboardInterceptorOperation(keyboardInterceptor, logger, nativeMethods));
+			//StartupOperations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
+			//StartupOperations.Enqueue(new ProcessMonitorOperation(logger, processMonitor));
+			//StartupOperations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, Taskbar));
+			//StartupOperations.Enqueue(new TaskbarOperation(logger, settings.Taskbar, keyboardLayout, powerSupply, wirelessNetwork, systemInfo, Taskbar, text, uiFactory));
+			//StartupOperations.Enqueue(new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory));
+			//StartupOperations.Enqueue(new ClientControllerOperation(clientController, logger));
+			//StartupOperations.Enqueue(new ClipboardOperation(logger, nativeMethods));
+			//StartupOperations.Enqueue(new MouseInterceptorOperation(logger, mouseInterceptor, nativeMethods));
 		}
 
-		private void InitializeLogger()
+		private void InitializeLogging()
 		{
-			logger = new Logger();
-			logger.Subscribe(new LogFileWriter(new DefaultLogFormatter(), settings.Logging.ClientLogFile));
+			// TODO
+			//var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), settings.Logging.ClientLogFile);
+
+			//logFileWriter.Initialize();
+			//logger.Subscribe(logFileWriter);
 		}
 	}
 }

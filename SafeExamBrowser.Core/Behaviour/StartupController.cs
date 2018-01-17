@@ -21,7 +21,7 @@ namespace SafeExamBrowser.Core.Behaviour
 	public class StartupController : IStartupController
 	{
 		private ILogger logger;
-		private ISettings settings;
+		private IRuntimeInfo runtimeInfo;
 		private ISplashScreen splashScreen;
 		private ISystemInfo systemInfo;
 		private IText text;
@@ -29,10 +29,10 @@ namespace SafeExamBrowser.Core.Behaviour
 
 		private Stack<IOperation> stack = new Stack<IOperation>();
 
-		public StartupController(ILogger logger, ISettings settings, ISystemInfo systemInfo, IText text, IUserInterfaceFactory uiFactory)
+		public StartupController(ILogger logger, IRuntimeInfo runtimeInfo, ISystemInfo systemInfo, IText text, IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
-			this.settings = settings;
+			this.runtimeInfo = runtimeInfo;
 			this.systemInfo = systemInfo;
 			this.text = text;
 			this.uiFactory = uiFactory;
@@ -92,8 +92,8 @@ namespace SafeExamBrowser.Core.Behaviour
 
 		private void Initialize(int operationCount)
 		{
-			var titleLine = $"/* {settings.ProgramTitle}, Version {settings.ProgramVersion}{Environment.NewLine}";
-			var copyrightLine = $"/* {settings.ProgramCopyright}{Environment.NewLine}";
+			var titleLine = $"/* {runtimeInfo.ProgramTitle}, Version {runtimeInfo.ProgramVersion}{Environment.NewLine}";
+			var copyrightLine = $"/* {runtimeInfo.ProgramCopyright}{Environment.NewLine}";
 			var emptyLine = $"/* {Environment.NewLine}";
 			var githubLine = $"/* Please visit https://github.com/SafeExamBrowser for more information.";
 
@@ -105,7 +105,7 @@ namespace SafeExamBrowser.Core.Behaviour
 
 			logger.Info("--- Initiating startup procedure ---");
 
-			splashScreen = uiFactory.CreateSplashScreen(settings, text);
+			splashScreen = uiFactory.CreateSplashScreen(runtimeInfo, text);
 			splashScreen.SetMaxProgress(operationCount);
 			splashScreen.UpdateText(TextKey.SplashScreen_StartupProcedure);
 			splashScreen.InvokeShow();

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Behaviour;
-using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 	public class ShutdownControllerTests
 	{
 		private Mock<ILogger> loggerMock;
-		private Mock<ISettings> settingsMock;
+		private Mock<IRuntimeInfo> runtimeInfoMock;
 		private Mock<IText> textMock;
 		private Mock<IUserInterfaceFactory> uiFactoryMock;
 
@@ -33,13 +33,13 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 		public void Initialize()
 		{
 			loggerMock = new Mock<ILogger>();
-			settingsMock = new Mock<ISettings>();
+			runtimeInfoMock = new Mock<IRuntimeInfo>();
 			textMock = new Mock<IText>();
 			uiFactoryMock = new Mock<IUserInterfaceFactory>();
 
-			uiFactoryMock.Setup(f => f.CreateSplashScreen(settingsMock.Object, textMock.Object)).Returns(new Mock<ISplashScreen>().Object);
+			uiFactoryMock.Setup(f => f.CreateSplashScreen(runtimeInfoMock.Object, textMock.Object)).Returns(new Mock<ISplashScreen>().Object);
 
-			sut = new ShutdownController(loggerMock.Object, settingsMock.Object, textMock.Object, uiFactoryMock.Object);
+			sut = new ShutdownController(loggerMock.Object, runtimeInfoMock.Object, textMock.Object, uiFactoryMock.Object);
 		}
 
 		[TestMethod]
@@ -117,7 +117,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 		[TestMethod]
 		public void MustNotFailInCaseOfUnexpectedError()
 		{
-			uiFactoryMock.Setup(l => l.CreateSplashScreen(It.IsAny<ISettings>(), It.IsAny<IText>())).Throws(new Exception());
+			uiFactoryMock.Setup(l => l.CreateSplashScreen(It.IsAny<IRuntimeInfo>(), It.IsAny<IText>())).Throws(new Exception());
 			sut.FinalizeApplication(new Queue<IOperation>());
 		}
 	}

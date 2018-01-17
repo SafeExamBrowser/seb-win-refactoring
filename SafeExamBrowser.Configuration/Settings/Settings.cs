@@ -14,22 +14,15 @@ namespace SafeExamBrowser.Configuration.Settings
 	[Serializable]
 	internal class Settings : ISettings
 	{
-		public string AppDataFolder { get; set; }
-		public string ProgramCopyright { get; set; }
-		public string ProgramTitle { get; set; }
-		public string ProgramVersion { get; set; }
-
 		public IBrowserSettings Browser { get; private set; }
 		public IKeyboardSettings Keyboard { get; private set; }
-		public ILoggingSettings Logging { get; private set; }
 		public IMouseSettings Mouse { get; private set; }
 		public ITaskbarSettings Taskbar { get; private set; }
 
-		public Settings(BrowserSettings browser, KeyboardSettings keyboard, LoggingSettings logging, MouseSettings mouse, TaskbarSettings taskbar)
+		public Settings(BrowserSettings browser, KeyboardSettings keyboard, MouseSettings mouse, TaskbarSettings taskbar)
 		{
 			Browser = browser;
 			Keyboard = keyboard;
-			Logging = logging;
 			Mouse = mouse;
 			Taskbar = taskbar;
 		}

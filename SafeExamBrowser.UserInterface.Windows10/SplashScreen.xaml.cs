@@ -8,7 +8,7 @@
 
 using System.Windows;
 using System.Windows.Documents;
-using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.UserInterface.Windows10.ViewModels;
@@ -18,12 +18,12 @@ namespace SafeExamBrowser.UserInterface.Windows10
 	public partial class SplashScreen : Window, ISplashScreen
 	{
 		private SplashScreenViewModel model = new SplashScreenViewModel();
-		private ISettings settings;
+		private IRuntimeInfo runtimeInfo;
 		private IText text;
 
-		public SplashScreen(ISettings settings, IText text)
+		public SplashScreen(IRuntimeInfo runtimeInfo, IText text)
 		{
-			this.settings = settings;
+			this.runtimeInfo = runtimeInfo;
 			this.text = text;
 
 			InitializeComponent();
@@ -73,10 +73,10 @@ namespace SafeExamBrowser.UserInterface.Windows10
 
 		private void InitializeSplashScreen()
 		{
-			InfoTextBlock.Inlines.Add(new Run($"Version {settings.ProgramVersion}") { FontStyle = FontStyles.Italic });
+			InfoTextBlock.Inlines.Add(new Run($"Version {runtimeInfo.ProgramVersion}") { FontStyle = FontStyles.Italic });
 			InfoTextBlock.Inlines.Add(new LineBreak());
 			InfoTextBlock.Inlines.Add(new LineBreak());
-			InfoTextBlock.Inlines.Add(new Run(settings.ProgramCopyright) { FontSize = 10 });
+			InfoTextBlock.Inlines.Add(new Run(runtimeInfo.ProgramCopyright) { FontSize = 10 });
 			
 			StatusTextBlock.DataContext = model;
 			ProgressBar.DataContext = model;

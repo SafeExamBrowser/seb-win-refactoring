@@ -19,7 +19,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// <summary>
 		/// Creates a new about window displaying information about the currently running application version.
 		/// </summary>
-		IWindow CreateAboutWindow(ISettings settings, IText text);
+		IWindow CreateAboutWindow(IRuntimeInfo runtimeInfo, IText text);
 
 		/// <summary>
 		/// Creates a taskbar button, initialized with the given application information.
@@ -54,7 +54,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// <summary>
 		/// Creates a new splash screen which runs on its own thread.
 		/// </summary>
-		ISplashScreen CreateSplashScreen(ISettings settings, IText text);
+		ISplashScreen CreateSplashScreen(IRuntimeInfo runtimeInfo, IText text);
 
 		/// <summary>
 		/// Creates a system control which allows to change the wireless network connection of the computer.

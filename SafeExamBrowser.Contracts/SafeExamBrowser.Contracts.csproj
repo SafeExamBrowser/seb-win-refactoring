@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviour\IApplicationController.cs" />
+    <Compile Include="Configuration\IRuntimeInfo.cs" />
     <Compile Include="Runtime\IRuntimeController.cs" />
     <Compile Include="Behaviour\INotificationController.cs" />
     <Compile Include="Behaviour\IOperation.cs" />
@@ -65,7 +66,6 @@
     <Compile Include="Configuration\OperatingSystem.cs" />
     <Compile Include="Configuration\Settings\IBrowserSettings.cs" />
     <Compile Include="Configuration\Settings\IKeyboardSettings.cs" />
-    <Compile Include="Configuration\Settings\ILoggingSettings.cs" />
     <Compile Include="Configuration\Settings\IMouseSettings.cs" />
     <Compile Include="Configuration\Settings\ISettings.cs" />
     <Compile Include="Behaviour\IShutdownController.cs" />

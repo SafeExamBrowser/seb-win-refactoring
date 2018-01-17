@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -17,14 +18,14 @@ namespace SafeExamBrowser.Core.Notifications
 	public class AboutNotificationController : INotificationController
 	{
 		private INotificationButton notification;
-		private ISettings settings;
+		private IRuntimeInfo runtimeInfo;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		private IWindow window;
 
-		public AboutNotificationController(ISettings settings, IText text, IUserInterfaceFactory uiFactory)
+		public AboutNotificationController(IRuntimeInfo runtimeInfo, IText text, IUserInterfaceFactory uiFactory)
 		{
-			this.settings = settings;
+			this.runtimeInfo = runtimeInfo;
 			this.text = text;
 			this.uiFactory = uiFactory;
 		}
@@ -45,7 +46,7 @@ namespace SafeExamBrowser.Core.Notifications
 		{
 			if (window == null)
 			{
-				window = uiFactory.CreateAboutWindow(settings, text);
+				window = uiFactory.CreateAboutWindow(runtimeInfo, text);
 
 				window.Closing += () => window = null;
 				window.Show();
