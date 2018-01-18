@@ -101,7 +101,8 @@
   <Import Project="..\packages\cef.redist.x86.3.2987.1601\build\cef.redist.x86.targets" Condition="Exists('..\packages\cef.redist.x86.3.2987.1601\build\cef.redist.x86.targets')" />
   <Import Project="..\packages\CefSharp.Common.57.0.0\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.57.0.0\build\CefSharp.Common.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /E /Y "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)" "$(SolutionDir)SafeExamBrowser\bin\$(PlatformName)\$(ConfigurationName)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\CefSharp.WinForms.57.0.0\build\CefSharp.WinForms.targets" Condition="Exists('..\packages\CefSharp.WinForms.57.0.0\build\CefSharp.WinForms.targets')" />
 </Project>

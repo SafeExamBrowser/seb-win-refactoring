@@ -4,16 +4,30 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7CC5A895-E0D3-4E43-9B39-CCEC05A5A6A7}</ProjectGuid>
+    <ProjectGuid>{E3AED2F8-B5DF-45D1-AC19-48066923D6D8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>SafeExamBrowser.Client</RootNamespace>
-    <AssemblyName>SafeExamBrowser.Client</AssemblyName>
+    <RootNamespace>SafeExamBrowser.Runtime</RootNamespace>
+    <AssemblyName>SafeExamBrowser</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>3.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,7 +49,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <StartupObject>SafeExamBrowser.Runtime.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>SafeExamBrowser.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -57,35 +74,21 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Xaml" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
-    <Compile Include="Behaviour\ClientController.cs" />
+    <Compile Include="Behaviour\Operations\RuntimeControllerOperation.cs" />
     <Compile Include="CompositionRoot.cs" />
-    <Compile Include="Notifications\AboutNotificationController.cs" />
-    <Compile Include="Notifications\AboutNotificationIconResource.cs" />
-    <Compile Include="Notifications\AboutNotificationInfo.cs" />
-    <Compile Include="Notifications\LogNotificationController.cs" />
-    <Compile Include="Notifications\LogNotificationIconResource.cs" />
-    <Compile Include="Notifications\LogNotificationInfo.cs" />
-    <Compile Include="Behaviour\Operations\BrowserOperation.cs" />
-    <Compile Include="Behaviour\Operations\ClientControllerOperation.cs" />
-    <Compile Include="Behaviour\Operations\ClipboardOperation.cs" />
-    <Compile Include="Behaviour\Operations\DisplayMonitorOperation.cs" />
-    <Compile Include="Behaviour\Operations\KeyboardInterceptorOperation.cs" />
-    <Compile Include="Behaviour\Operations\MouseInterceptorOperation.cs" />
-    <Compile Include="Behaviour\Operations\ProcessMonitorOperation.cs" />
-    <Compile Include="Behaviour\Operations\TaskbarOperation.cs" />
-    <Compile Include="Behaviour\Operations\WindowMonitorOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -99,11 +102,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Behaviour\RuntimeController.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.manifest" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -113,12 +118,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SafeExamBrowser.Browser\SafeExamBrowser.Browser.csproj">
-      <Project>{04E653F1-98E6-4E34-9DD7-7F2BC1A8B767}</Project>
-      <Name>SafeExamBrowser.Browser</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Configuration\SafeExamBrowser.Configuration.csproj">
-      <Project>{C388C4DD-A159-457D-AF92-89F7AD185109}</Project>
+      <Project>{c388c4dd-a159-457d-af92-89f7ad185109}</Project>
       <Name>SafeExamBrowser.Configuration</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">
@@ -126,19 +127,11 @@
       <Name>SafeExamBrowser.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Core\SafeExamBrowser.Core.csproj">
-      <Project>{3D6FDBB6-A4AF-4626-BB2B-BF329D44F9CC}</Project>
+      <Project>{3d6fdbb6-a4af-4626-bb2b-bf329d44f9cc}</Project>
       <Name>SafeExamBrowser.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SafeExamBrowser.Monitoring\SafeExamBrowser.Monitoring.csproj">
-      <Project>{EF563531-4EB5-44B9-A5EC-D6D6F204469B}</Project>
-      <Name>SafeExamBrowser.Monitoring</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SafeExamBrowser.SystemComponents\SafeExamBrowser.SystemComponents.csproj">
-      <Project>{ACEE2EF1-14D2-4B52-8994-5C053055BB51}</Project>
-      <Name>SafeExamBrowser.SystemComponents</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.UserInterface.Classic\SafeExamBrowser.UserInterface.Classic.csproj">
-      <Project>{A502DF54-7169-4647-94BD-18B192924866}</Project>
+      <Project>{a502df54-7169-4647-94bd-18b192924866}</Project>
       <Name>SafeExamBrowser.UserInterface.Classic</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.WindowsApi\SafeExamBrowser.WindowsApi.csproj">
@@ -146,8 +139,21 @@
       <Name>SafeExamBrowser.WindowsApi</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SafeExamBrowser.ico" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>xcopy /E /Y "$(SolutionDir)SafeExamBrowser.Browser\bin\$(PlatformName)\$(ConfigurationName)" "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)"</PostBuildEvent>
-  </PropertyGroup>
 </Project>

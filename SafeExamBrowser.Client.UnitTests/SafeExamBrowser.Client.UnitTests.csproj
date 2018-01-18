@@ -78,6 +78,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviour\Operations\BrowserOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\ClientControllerOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\ClipboardOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\DisplayMonitorOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\KeyboardInterceptorOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\MouseInterceptorOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\ProcessMonitorOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\TaskbarOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\WindowMonitorOperationTests.cs" />
+    <Compile Include="Notifications\AboutNotificationControllerTests.cs" />
+    <Compile Include="Notifications\LogNotificationControllerTests.cs" />
+    <Compile Include="Notifications\NotificationButtonMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ClientControllerTests.cs" />
   </ItemGroup>
