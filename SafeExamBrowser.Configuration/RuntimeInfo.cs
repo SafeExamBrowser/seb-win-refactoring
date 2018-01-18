@@ -19,7 +19,9 @@ namespace SafeExamBrowser.Configuration
 		public string BrowserCachePath { get; set; }
 		public string BrowserLogFile { get; set; }
 		public string ClientLogFile { get; set; }
+		public string DefaultSettingsFileName { get; set; }
 		public string ProgramCopyright { get; set; }
+		public string ProgramDataFolder { get; set; }
 		public string ProgramTitle { get; set; }
 		public string ProgramVersion { get; set; }
 		public string RuntimeLogFile { get; set; }

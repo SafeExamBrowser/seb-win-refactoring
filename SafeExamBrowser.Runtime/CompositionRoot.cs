@@ -6,12 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using SafeExamBrowser.Configuration;
+using SafeExamBrowser.Configuration.Settings;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
@@ -34,9 +34,11 @@ namespace SafeExamBrowser.Runtime
 
 		internal void BuildObjectGraph()
 		{
+			var args = Environment.GetCommandLineArgs();
 			var logger = new Logger();
 			var nativeMethods = new NativeMethods();
 			var runtimeInfo = new RuntimeInfo();
+			var settingsRepository = new SettingsRepository();
 			var systemInfo = new SystemInfo();
 			var uiFactory = new UserInterfaceFactory();
 
@@ -51,8 +53,7 @@ namespace SafeExamBrowser.Runtime
 
 			StartupOperations = new Queue<IOperation>();
 			StartupOperations.Enqueue(new I18nOperation(logger, text));
-			// TODO
-			//StartupOperations.Enqueue(new ConfigurationOperation());
+			StartupOperations.Enqueue(new ConfigurationOperation(logger, runtimeController, runtimeInfo, settingsRepository, args));
 			//StartupOperations.Enqueue(new KioskModeOperation());
 			StartupOperations.Enqueue(new RuntimeControllerOperation(runtimeController, logger));
 		}
@@ -70,7 +71,9 @@ namespace SafeExamBrowser.Runtime
 			runtimeInfo.BrowserCachePath = Path.Combine(appDataFolder, "Cache");
 			runtimeInfo.BrowserLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Browser.txt");
 			runtimeInfo.ClientLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Client.txt");
+			runtimeInfo.DefaultSettingsFileName = "SebClientSettings.seb";
 			runtimeInfo.ProgramCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
+			runtimeInfo.ProgramDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), nameof(SafeExamBrowser));
 			runtimeInfo.ProgramTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
 			runtimeInfo.ProgramVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
 			runtimeInfo.RuntimeLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Runtime.txt");

@@ -6,10 +6,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.Configuration.Settings;
+
 namespace SafeExamBrowser.Contracts.Runtime
 {
 	public interface IRuntimeController
 	{
+		/// <summary>
+		/// Allows to specify the application settings to be used during runtime.
+		/// </summary>
+		ISettings Settings { set; }
+
 		/// <summary>
 		/// Wires up and starts the application event handling.
 		/// </summary>

@@ -38,9 +38,19 @@ namespace SafeExamBrowser.Contracts.Configuration
 		string ClientLogFile { get; }
 
 		/// <summary>
+		/// The default file name for application settings.
+		/// </summary>
+		string DefaultSettingsFileName { get; }
+
+		/// <summary>
 		/// The copyright information for the application (i.e. the executing assembly).
 		/// </summary>
 		string ProgramCopyright { get; }
+
+		/// <summary>
+		/// The path of the program data folder.
+		/// </summary>
+		string ProgramDataFolder { get; }
 
 		/// <summary>
 		/// The program title of the application (i.e. the executing assembly).

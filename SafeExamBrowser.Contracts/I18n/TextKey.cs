@@ -25,6 +25,7 @@ namespace SafeExamBrowser.Contracts.I18n
 		Notification_LogTooltip,
 		SplashScreen_EmptyClipboard,
 		SplashScreen_InitializeBrowser,
+		SplashScreen_InitializeConfiguration,
 		SplashScreen_InitializeProcessMonitoring,
 		SplashScreen_InitializeTaskbar,
 		SplashScreen_InitializeWindowMonitoring,
