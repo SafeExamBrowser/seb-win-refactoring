@@ -21,6 +21,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private IMouseInterceptor mouseInterceptor;
 		private INativeMethods nativeMethods;
 
+		public bool AbortStartup { get; private set; }
 		public ISplashScreen SplashScreen { private get; set; }
 
 		public MouseInterceptorOperation(

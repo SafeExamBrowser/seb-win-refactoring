@@ -12,7 +12,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -46,6 +45,32 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 		}
 
 		[TestMethod]
+		public void MustCorrectlyAbortProcess()
+		{
+			var operationA = new Mock<IOperation>();
+			var operationB = new Mock<IOperation>();
+			var operationC = new Mock<IOperation>();
+			var operations = new Queue<IOperation>();
+
+			operationB.SetupGet(o => o.AbortStartup).Returns(true);
+
+			operations.Enqueue(operationA.Object);
+			operations.Enqueue(operationB.Object);
+			operations.Enqueue(operationC.Object);
+
+			var result = sut.TryInitializeApplication(operations);
+
+			operationA.Verify(o => o.Perform(), Times.Once);
+			operationA.Verify(o => o.Revert(), Times.Once);
+			operationB.Verify(o => o.Perform(), Times.Once);
+			operationB.Verify(o => o.Revert(), Times.Once);
+			operationC.Verify(o => o.Perform(), Times.Never);
+			operationC.Verify(o => o.Revert(), Times.Never);
+
+			Assert.IsFalse(result);
+		}
+
+		[TestMethod]
 		public void MustPerformOperations()
 		{
 			var operationA = new Mock<IOperation>();
@@ -60,8 +85,11 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 			var result = sut.TryInitializeApplication(operations);
 
 			operationA.Verify(o => o.Perform(), Times.Once);
+			operationA.Verify(o => o.Revert(), Times.Never);
 			operationB.Verify(o => o.Perform(), Times.Once);
+			operationB.Verify(o => o.Revert(), Times.Never);
 			operationC.Verify(o => o.Perform(), Times.Once);
+			operationC.Verify(o => o.Revert(), Times.Never);
 
 			Assert.IsTrue(result);
 		}
@@ -182,6 +210,14 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour
 			var result = sut.TryInitializeApplication(new Queue<IOperation>());
 
 			Assert.IsTrue(result);
+		}
+
+
+		[TestMethod]
+		public void MustNotFailInCaseOfUnexpectedError()
+		{
+			uiFactoryMock.Setup(l => l.CreateSplashScreen(It.IsAny<IRuntimeInfo>(), It.IsAny<IText>())).Throws(new Exception());
+			sut.TryInitializeApplication(new Queue<IOperation>());
 		}
 	}
 }

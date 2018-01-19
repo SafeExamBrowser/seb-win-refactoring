@@ -13,6 +13,11 @@ namespace SafeExamBrowser.Contracts.Behaviour
 	public interface IOperation
 	{
 		/// <summary>
+		/// Determines whether the startup procedure to which this operation belongs should be aborted.
+		/// </summary>
+		bool AbortStartup { get; }
+
+		/// <summary>
 		/// The splash screen to be used to show status information to the user.
 		/// </summary>
 		ISplashScreen SplashScreen { set; }

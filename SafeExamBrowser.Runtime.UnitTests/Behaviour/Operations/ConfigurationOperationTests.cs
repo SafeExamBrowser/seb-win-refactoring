@@ -157,5 +157,38 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			controller.VerifySet(c => c.Settings = It.IsAny<ISettings>(), Times.Once);
 			repository.Verify(r => r.LoadDefaults(), Times.Once);
 		}
+
+		[TestMethod]
+		public void MustAbortIfWishedByUser()
+		{
+			var location = Path.GetDirectoryName(GetType().Assembly.Location);
+
+			info.SetupGet(r => r.ProgramDataFolder).Returns(location);
+			uiFactory.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.Yes);
+
+			sut = new ConfigurationOperation(logger.Object, controller.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
+			{
+				SplashScreen = splashScreen.Object
+			};
+
+			sut.Perform();
+
+			Assert.IsTrue(sut.AbortStartup);
+		}
+
+		[TestMethod]
+		public void MustNotAbortIfNotWishedByUser()
+		{
+			uiFactory.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.No);
+
+			sut = new ConfigurationOperation(logger.Object, controller.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
+			{
+				SplashScreen = splashScreen.Object
+			};
+
+			sut.Perform();
+
+			Assert.IsFalse(sut.AbortStartup);
+		}
 	}
 }

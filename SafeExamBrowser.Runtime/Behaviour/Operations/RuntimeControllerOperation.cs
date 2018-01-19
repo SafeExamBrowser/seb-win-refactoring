@@ -19,6 +19,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private ILogger logger;
 		private IRuntimeController controller;
 
+		public bool AbortStartup { get; private set; }
 		public ISplashScreen SplashScreen { private get; set; }
 
 		public RuntimeControllerOperation(IRuntimeController controller, ILogger logger)

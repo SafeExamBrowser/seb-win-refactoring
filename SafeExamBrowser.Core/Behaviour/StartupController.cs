@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -40,35 +39,56 @@ namespace SafeExamBrowser.Core.Behaviour
 
 		public bool TryInitializeApplication(Queue<IOperation> operations)
 		{
+			var success = false;
+
 			try
 			{
 				Initialize(operations.Count);
-				Perform(operations);
-				Finish();
+				success = Perform(operations);
 
-				return true;
+				if (!success)
+				{
+					RevertOperations();
+				}
+
+				Finish(success);
 			}
 			catch (Exception e)
 			{
 				LogAndShowException(e);
-				RevertOperations();
 				Finish(false);
-
-				return false;
 			}
+
+			return success;
 		}
 
-		private void Perform(Queue<IOperation> operations)
+		private bool Perform(Queue<IOperation> operations)
 		{
 			foreach (var operation in operations)
 			{
 				stack.Push(operation);
-
 				operation.SplashScreen = splashScreen;
-				operation.Perform();
+
+				try
+				{
+					operation.Perform();
+				}
+				catch (Exception e)
+				{
+					LogAndShowException(e);
+
+					return false;
+				}
+
+				if (operation.AbortStartup)
+				{
+					return false;
+				}
 
 				splashScreen.Progress();
 			}
+
+			return true;
 		}
 
 		private void RevertOperations()
@@ -92,17 +112,6 @@ namespace SafeExamBrowser.Core.Behaviour
 
 		private void Initialize(int operationCount)
 		{
-			var titleLine = $"/* {runtimeInfo.ProgramTitle}, Version {runtimeInfo.ProgramVersion}{Environment.NewLine}";
-			var copyrightLine = $"/* {runtimeInfo.ProgramCopyright}{Environment.NewLine}";
-			var emptyLine = $"/* {Environment.NewLine}";
-			var githubLine = $"/* Please visit https://github.com/SafeExamBrowser for more information.";
-
-			logger.Log($"{titleLine}{copyrightLine}{emptyLine}{githubLine}");
-			logger.Log(string.Empty);
-			logger.Log($"# Application started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
-			logger.Log($"# Running on {systemInfo.OperatingSystemInfo}");
-			logger.Log(string.Empty);
-
 			logger.Info("--- Initiating startup procedure ---");
 
 			splashScreen = uiFactory.CreateSplashScreen(runtimeInfo, text);
@@ -124,12 +133,13 @@ namespace SafeExamBrowser.Core.Behaviour
 			{
 				logger.Info("--- Application successfully initialized! ---");
 				logger.Log(string.Empty);
-				splashScreen?.InvokeClose();
 			}
 			else
 			{
-				logger.Log($"{Environment.NewLine}# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+				logger.Info("--- Startup procedure aborted! ---");
 			}
+
+			splashScreen?.InvokeClose();
 		}
 	}
 }

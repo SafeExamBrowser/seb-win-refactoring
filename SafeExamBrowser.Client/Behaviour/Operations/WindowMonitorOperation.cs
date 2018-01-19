@@ -19,6 +19,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private ILogger logger;
 		private IWindowMonitor windowMonitor;
 
+		public bool AbortStartup { get; private set; }
 		public ISplashScreen SplashScreen { private get; set; }
 
 		public WindowMonitorOperation(ILogger logger, IWindowMonitor windowMonitor)

@@ -23,6 +23,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private ITaskbar taskbar;
 		private IUserInterfaceFactory uiFactory;
 
+		public bool AbortStartup { get; private set; }
 		public ISplashScreen SplashScreen { private get; set; }
 
 		public BrowserOperation(

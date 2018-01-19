@@ -60,6 +60,7 @@ namespace SafeExamBrowser.Runtime
 			base.OnStartup(e);
 
 			instances.BuildObjectGraph();
+			LogStartupInformation();
 
 			var success = instances.StartupController.TryInitializeApplication(instances.StartupOperations);
 
@@ -74,6 +75,29 @@ namespace SafeExamBrowser.Runtime
 			{
 				Shutdown();
 			}
+		}
+
+		protected override void OnExit(ExitEventArgs e)
+		{
+			instances.Logger?.Log($"{Environment.NewLine}# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+
+			base.OnExit(e);
+		}
+
+		private void LogStartupInformation()
+		{
+			var runtimeInfo = instances.RuntimeInfo;
+			var logger = instances.Logger;
+			var titleLine = $"/* {runtimeInfo.ProgramTitle}, Version {runtimeInfo.ProgramVersion}{Environment.NewLine}";
+			var copyrightLine = $"/* {runtimeInfo.ProgramCopyright}{Environment.NewLine}";
+			var emptyLine = $"/* {Environment.NewLine}";
+			var githubLine = $"/* Please visit https://github.com/SafeExamBrowser for more information.";
+
+			logger.Log($"{titleLine}{copyrightLine}{emptyLine}{githubLine}");
+			logger.Log(string.Empty);
+			logger.Log($"# Application started at {runtimeInfo.ApplicationStartTime.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+			logger.Log($"# Running on {instances.SystemInfo.OperatingSystemInfo}");
+			logger.Log(string.Empty);
 		}
 
 		private void MainWindow_Closing(object sender, CancelEventArgs e)

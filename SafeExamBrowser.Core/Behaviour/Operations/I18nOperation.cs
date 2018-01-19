@@ -22,6 +22,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		private ILogger logger;
 		private IText text;
 
+		public bool AbortStartup { get; private set; }
 		public ISplashScreen SplashScreen { private get; set; }
 
 		public I18nOperation(ILogger logger, IText text)

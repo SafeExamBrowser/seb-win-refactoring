@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -88,8 +87,11 @@ namespace SafeExamBrowser.Core.Behaviour
 			{
 				logger.Info("--- Application successfully finalized! ---");
 			}
+			else
+			{
+				logger.Info("--- Shutdown procedure failed! ---");
+			}
 
-			logger.Log($"{Environment.NewLine}# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 			splashScreen?.InvokeClose();
 		}
 	}

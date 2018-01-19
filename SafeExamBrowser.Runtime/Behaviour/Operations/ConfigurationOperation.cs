@@ -28,6 +28,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private IUserInterfaceFactory uiFactory;
 		private string[] commandLineArgs;
 
+		public bool AbortStartup { get; private set; }
 		public ISplashScreen SplashScreen { private get; set; }
 
 		public ConfigurationOperation(
@@ -60,23 +61,18 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			{
 				logger.Info($"Loading configuration from '{uri.AbsolutePath}'...");
 				settings = repository.Load(uri);
+
+				if (settings.ConfigurationMode == ConfigurationMode.ConfigureClient && Abort())
+				{
+					AbortStartup = true;
+
+					return;
+				}
 			}
 			else
 			{
 				logger.Info("No valid settings file specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
 				settings = repository.LoadDefaults();
-			}
-
-			if (settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
-			{
-				var message = text.Get(TextKey.MessageBox_ConfigureClientSuccess);
-				var title = text.Get(TextKey.MessageBox_ConfigureClientSuccessTitle);
-				var quitDialogResult = uiFactory.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question);
-
-				if (quitDialogResult == MessageBoxResult.Yes)
-				{
-					// TODO: Callback to terminate WPF application
-				}
 			}
 
 			controller.Settings = settings;
@@ -118,6 +114,25 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			}
 
 			return isValidUri;
+		}
+
+		private bool Abort()
+		{
+			var message = text.Get(TextKey.MessageBox_ConfigureClientSuccess);
+			var title = text.Get(TextKey.MessageBox_ConfigureClientSuccessTitle);
+			var quitDialogResult = uiFactory.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question);
+			var abort = quitDialogResult == MessageBoxResult.Yes;
+
+			if (abort)
+			{
+				logger.Info("The user chose to terminate the application after successful client configuration.");
+			}
+			else
+			{
+				logger.Info("The user chose to continue starting up the application after successful client configuration.");
+			}
+
+			return abort;
 		}
 	}
 }

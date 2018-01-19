@@ -28,37 +28,41 @@ namespace SafeExamBrowser.Runtime
 {
 	internal class CompositionRoot
 	{
+		internal ILogger Logger { get; private set; }
+		internal RuntimeInfo RuntimeInfo { get; private set; }
 		internal IShutdownController ShutdownController { get; private set; }
 		internal IStartupController StartupController { get; private set; }
+		internal ISystemInfo SystemInfo { get; private set; }
 		internal Queue<IOperation> StartupOperations { get; private set; }
 
 		internal void BuildObjectGraph()
 		{
 			var args = Environment.GetCommandLineArgs();
-			var logger = new Logger();
 			var nativeMethods = new NativeMethods();
-			var runtimeInfo = new RuntimeInfo();
 			var settingsRepository = new SettingsRepository();
-			var systemInfo = new SystemInfo();
 			var uiFactory = new UserInterfaceFactory();
 
-			Initialize(runtimeInfo);
-			Initialize(logger, runtimeInfo);
+			Logger = new Logger();
+			RuntimeInfo = new RuntimeInfo();
+			SystemInfo = new SystemInfo();
 
-			var text = new Text(logger);
-			var runtimeController = new RuntimeController(new ModuleLogger(logger, typeof(RuntimeController)));
+			InitializeRuntimeInfo();
+			InitializeLogging();
 
-			ShutdownController = new ShutdownController(logger, runtimeInfo, text, uiFactory);
-			StartupController = new StartupController(logger, runtimeInfo, systemInfo, text, uiFactory);
+			var text = new Text(Logger);
+			var runtimeController = new RuntimeController(new ModuleLogger(Logger, typeof(RuntimeController)));
+
+			ShutdownController = new ShutdownController(Logger, RuntimeInfo, text, uiFactory);
+			StartupController = new StartupController(Logger, RuntimeInfo, SystemInfo, text, uiFactory);
 
 			StartupOperations = new Queue<IOperation>();
-			StartupOperations.Enqueue(new I18nOperation(logger, text));
-			StartupOperations.Enqueue(new ConfigurationOperation(logger, runtimeController, runtimeInfo, settingsRepository, text, uiFactory, args));
+			StartupOperations.Enqueue(new I18nOperation(Logger, text));
+			StartupOperations.Enqueue(new ConfigurationOperation(Logger, runtimeController, RuntimeInfo, settingsRepository, text, uiFactory, args));
 			//StartupOperations.Enqueue(new KioskModeOperation());
-			StartupOperations.Enqueue(new RuntimeControllerOperation(runtimeController, logger));
+			StartupOperations.Enqueue(new RuntimeControllerOperation(runtimeController, Logger));
 		}
 
-		private void Initialize(RuntimeInfo runtimeInfo)
+		private void InitializeRuntimeInfo()
 		{
 			var appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(SafeExamBrowser));
 			var executable = Assembly.GetEntryAssembly();
@@ -66,25 +70,25 @@ namespace SafeExamBrowser.Runtime
 			var logFolder = Path.Combine(appDataFolder, "Logs");
 			var logFilePrefix = startTime.ToString("yyyy-MM-dd\\_HH\\hmm\\mss\\s");
 
-			runtimeInfo.ApplicationStartTime = startTime;
-			runtimeInfo.AppDataFolder = appDataFolder;
-			runtimeInfo.BrowserCachePath = Path.Combine(appDataFolder, "Cache");
-			runtimeInfo.BrowserLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Browser.txt");
-			runtimeInfo.ClientLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Client.txt");
-			runtimeInfo.DefaultSettingsFileName = "SebClientSettings.seb";
-			runtimeInfo.ProgramCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
-			runtimeInfo.ProgramDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), nameof(SafeExamBrowser));
-			runtimeInfo.ProgramTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
-			runtimeInfo.ProgramVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-			runtimeInfo.RuntimeLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Runtime.txt");
+			RuntimeInfo.ApplicationStartTime = startTime;
+			RuntimeInfo.AppDataFolder = appDataFolder;
+			RuntimeInfo.BrowserCachePath = Path.Combine(appDataFolder, "Cache");
+			RuntimeInfo.BrowserLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Browser.txt");
+			RuntimeInfo.ClientLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Client.txt");
+			RuntimeInfo.DefaultSettingsFileName = "SebClientSettings.seb";
+			RuntimeInfo.ProgramCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
+			RuntimeInfo.ProgramDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), nameof(SafeExamBrowser));
+			RuntimeInfo.ProgramTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
+			RuntimeInfo.ProgramVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+			RuntimeInfo.RuntimeLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Runtime.txt");
 		}
 
-		private void Initialize(ILogger logger, IRuntimeInfo runtimeInfo)
+		private void InitializeLogging()
 		{
-			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), runtimeInfo.RuntimeLogFile);
+			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), RuntimeInfo.RuntimeLogFile);
 
 			logFileWriter.Initialize();
-			logger.Subscribe(logFileWriter);
+			Logger.Subscribe(logFileWriter);
 		}
 	}
 }
