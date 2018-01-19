@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Behaviour\IApplicationController.cs" />
     <Compile Include="Configuration\IRuntimeInfo.cs" />
+    <Compile Include="Configuration\Settings\ConfigurationMode.cs" />
     <Compile Include="Runtime\IRuntimeController.cs" />
     <Compile Include="Behaviour\INotificationController.cs" />
     <Compile Include="Behaviour\IOperation.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="UserInterface\IBrowserControl.cs" />
     <Compile Include="UserInterface\IBrowserWindow.cs" />
     <Compile Include="UserInterface\IMessageBox.cs" />
+    <Compile Include="UserInterface\MessageBoxResult.cs" />
     <Compile Include="UserInterface\Taskbar\INotificationButton.cs" />
     <Compile Include="UserInterface\ISplashScreen.cs" />
     <Compile Include="UserInterface\Taskbar\ISystemKeyboardLayoutControl.cs" />

@@ -13,6 +13,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 	/// </summary>
 	public enum MessageBoxAction
 	{
-		Confirm
+		Confirm,
+		YesNo
 	}
 }

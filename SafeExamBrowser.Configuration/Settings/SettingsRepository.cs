@@ -16,16 +16,12 @@ namespace SafeExamBrowser.Configuration.Settings
 		public ISettings Load(Uri path)
 		{
 			// TODO
-			throw new NotImplementedException();
+			return LoadDefaults();
 		}
 
 		public ISettings LoadDefaults()
 		{
-			var browser = new BrowserSettings();
-			var keyboard = new KeyboardSettings();
-			var mouse = new MouseSettings();
-			var taskbar = new TaskbarSettings();
-			var settings = new Settings(browser, keyboard, mouse, taskbar);
+			var settings = new Settings();
 			
 			// TODO
 

@@ -15,6 +15,7 @@ using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SafeExamBrowser.UserInterface.Windows10.Controls;
+using MessageBoxResult = SafeExamBrowser.Contracts.UserInterface.MessageBoxResult;
 
 namespace SafeExamBrowser.UserInterface.Windows10
 {
@@ -107,15 +108,21 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			throw new System.NotImplementedException();
 		}
 
-		public void Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information)
+		public MessageBoxResult Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information)
 		{
-			MessageBox.Show(message, title, ToButton(action), ToImage(icon));
+			// The last two parameters are an unfortunate necessity, since e.g. splash screens are displayed topmost while running in their
+			// own thread / dispatcher, and would thus conceal the message box...
+			var result = MessageBox.Show(message, title, ToButton(action), ToImage(icon), System.Windows.MessageBoxResult.None, MessageBoxOptions.ServiceNotification);
+
+			return ToResult(result);
 		}
 
 		private MessageBoxButton ToButton(MessageBoxAction action)
 		{
 			switch (action)
 			{
+				case MessageBoxAction.YesNo:
+					return MessageBoxButton.YesNo;
 				default:
 					return MessageBoxButton.OK;
 			}
@@ -125,12 +132,31 @@ namespace SafeExamBrowser.UserInterface.Windows10
 		{
 			switch (icon)
 			{
-				case MessageBoxIcon.Warning:
-					return MessageBoxImage.Warning;
 				case MessageBoxIcon.Error:
 					return MessageBoxImage.Error;
+				case MessageBoxIcon.Question:
+					return MessageBoxImage.Question;
+				case MessageBoxIcon.Warning:
+					return MessageBoxImage.Warning;
 				default:
 					return MessageBoxImage.Information;
+			}
+		}
+
+		private MessageBoxResult ToResult(System.Windows.MessageBoxResult result)
+		{
+			switch (result)
+			{
+				case System.Windows.MessageBoxResult.Cancel:
+					return MessageBoxResult.Cancel;
+				case System.Windows.MessageBoxResult.No:
+					return MessageBoxResult.No;
+				case System.Windows.MessageBoxResult.OK:
+					return MessageBoxResult.Ok;
+				case System.Windows.MessageBoxResult.Yes:
+					return MessageBoxResult.Yes;
+				default:
+					return MessageBoxResult.None;
 			}
 		}
 	}

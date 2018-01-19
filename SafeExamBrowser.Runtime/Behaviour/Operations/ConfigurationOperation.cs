@@ -24,6 +24,8 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private IRuntimeController controller;
 		private IRuntimeInfo runtimeInfo;
 		private ISettingsRepository repository;
+		private IText text;
+		private IUserInterfaceFactory uiFactory;
 		private string[] commandLineArgs;
 
 		public ISplashScreen SplashScreen { private get; set; }
@@ -33,6 +35,8 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			IRuntimeController controller,
 			IRuntimeInfo runtimeInfo,
 			ISettingsRepository repository,
+			IText text,
+			IUserInterfaceFactory uiFactory,
 			string[] commandLineArgs)
 		{
 			this.logger = logger;
@@ -40,6 +44,8 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			this.commandLineArgs = commandLineArgs;
 			this.repository = repository;
 			this.runtimeInfo = runtimeInfo;
+			this.text = text;
+			this.uiFactory = uiFactory;
 		}
 
 		public void Perform()
@@ -47,20 +53,33 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			logger.Info("Initializing application configuration...");
 			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeConfiguration);
 
+			ISettings settings;
 			var isValidUri = TryGetSettingsUri(out Uri uri);
 
 			if (isValidUri)
 			{
 				logger.Info($"Loading configuration from '{uri.AbsolutePath}'...");
-				controller.Settings = repository.Load(uri);
+				settings = repository.Load(uri);
 			}
 			else
 			{
 				logger.Info("No valid settings file specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
-				controller.Settings = repository.LoadDefaults();
+				settings = repository.LoadDefaults();
 			}
 
-			// TODO: Allow user to quit if in Configure Client mode - callback to terminate WPF application?
+			if (settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
+			{
+				var message = text.Get(TextKey.MessageBox_ConfigureClientSuccess);
+				var title = text.Get(TextKey.MessageBox_ConfigureClientSuccessTitle);
+				var quitDialogResult = uiFactory.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question);
+
+				if (quitDialogResult == MessageBoxResult.Yes)
+				{
+					// TODO: Callback to terminate WPF application
+				}
+			}
+
+			controller.Settings = settings;
 		}
 
 		public void Revert()

@@ -8,14 +8,12 @@
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
-	/// <summary>
-	/// Defines all icons available in a message box.
-	/// </summary>
-	public enum MessageBoxIcon
+	public enum MessageBoxResult
 	{
-		Error,
-		Information,
-		Question,
-		Warning
+		None = 0,
+		Cancel,
+		No,
+		Ok,
+		Yes
 	}
 }

@@ -2,6 +2,8 @@
 <Text>
   <Browser_ShowDeveloperConsole>Open Console</Browser_ShowDeveloperConsole>
   <LogWindow_Title>Application Log</LogWindow_Title>
+  <MessageBox_ConfigureClientSuccess>The client configuration has been saved and will be used when you start the application the next time. Do you want to quit for now?</MessageBox_ConfigureClientSuccess>
+  <MessageBox_ConfigureClientSuccessTitle>Configuration Successful</MessageBox_ConfigureClientSuccessTitle>
   <MessageBox_ShutdownError>An unexpected error occurred during the shutdown procedure! Please consult the application log for more information...</MessageBox_ShutdownError>
   <MessageBox_ShutdownErrorTitle>Shutdown Error</MessageBox_ShutdownErrorTitle>
   <MessageBox_StartupError>An unexpected error occurred during the startup procedure! Please consult the application log for more information...</MessageBox_StartupError>

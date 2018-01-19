@@ -53,7 +53,7 @@ namespace SafeExamBrowser.Runtime
 
 			StartupOperations = new Queue<IOperation>();
 			StartupOperations.Enqueue(new I18nOperation(logger, text));
-			StartupOperations.Enqueue(new ConfigurationOperation(logger, runtimeController, runtimeInfo, settingsRepository, args));
+			StartupOperations.Enqueue(new ConfigurationOperation(logger, runtimeController, runtimeInfo, settingsRepository, text, uiFactory, args));
 			//StartupOperations.Enqueue(new KioskModeOperation());
 			StartupOperations.Enqueue(new RuntimeControllerOperation(runtimeController, logger));
 		}

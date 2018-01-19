@@ -11,8 +11,8 @@ namespace SafeExamBrowser.Contracts.UserInterface
 	public interface IMessageBox
 	{
 		/// <summary>
-		/// Shows a message box according to the specified parameters.
+		/// Shows a message box according to the specified parameters and returns the result chosen by the user.
 		/// </summary>
-		void Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information);
+		MessageBoxResult Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information);
 	}
 }

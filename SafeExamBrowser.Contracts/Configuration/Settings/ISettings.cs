@@ -11,6 +11,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 	public interface ISettings
 	{
 		/// <summary>
+		/// The mode which determines the configuration behaviour.
+		/// </summary>
+		ConfigurationMode ConfigurationMode { get; }
+
+		/// <summary>
 		/// All browser-related settings.
 		/// </summary>
 		IBrowserSettings Browser { get; }
