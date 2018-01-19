@@ -29,7 +29,7 @@ namespace SafeExamBrowser.Core.UnitTests.I18n
 			var text = sut.LoadText();
 
 			Assert.IsNotNull(text);
-			Assert.IsTrue(text.Count == 2);
+			Assert.IsTrue(text.Count == 4);
 			Assert.AreEqual("Application Log", text[TextKey.LogWindow_Title]);
 			Assert.AreEqual("Version", text[TextKey.Version]);
 		}
@@ -59,6 +59,19 @@ namespace SafeExamBrowser.Core.UnitTests.I18n
 		}
 
 		[TestMethod]
+		public void MustNeverSetNullValue()
+		{
+			var location = Assembly.GetAssembly(typeof(XmlTextResourceTests)).Location;
+			var path = Path.GetDirectoryName(location) + $@"\{nameof(I18n)}\Text_Valid.xml";
+			var sut = new XmlTextResource(path);
+
+			var text = sut.LoadText();
+
+			Assert.IsNotNull(text);
+			Assert.AreEqual(string.Empty, text[TextKey.Notification_LogTooltip]);
+		}
+
+		[TestMethod]
 		[ExpectedException(typeof(ArgumentException))]
 		public void MustNotAcceptInvalidPath()
 		{
@@ -70,6 +83,19 @@ namespace SafeExamBrowser.Core.UnitTests.I18n
 		public void MustNotAcceptNullAsPath()
 		{
 			new XmlTextResource(null);
+		}
+
+		[TestMethod]
+		public void MustTrimValues()
+		{
+			var location = Assembly.GetAssembly(typeof(XmlTextResourceTests)).Location;
+			var path = Path.GetDirectoryName(location) + $@"\{nameof(I18n)}\Text_Valid.xml";
+			var sut = new XmlTextResource(path);
+
+			var text = sut.LoadText();
+
+			Assert.IsNotNull(text);
+			Assert.AreEqual("Hello world", text[TextKey.Notification_AboutTooltip]);
 		}
 	}
 }

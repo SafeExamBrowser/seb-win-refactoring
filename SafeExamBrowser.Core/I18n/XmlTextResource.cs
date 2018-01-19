@@ -45,9 +45,12 @@ namespace SafeExamBrowser.Core.I18n
 
 			foreach (var definition in xml.Root.Descendants())
 			{
-				if (Enum.TryParse(definition.Name.LocalName, out TextKey key))
+				var isEntry = definition.Name.LocalName == "Entry";
+				var hasValidKey = Enum.TryParse(definition.Attribute("key")?.Value, out TextKey key);
+
+				if (isEntry && hasValidKey)
 				{
-					text[key] = definition.Value;
+					text[key] = definition.Value?.Trim() ?? string.Empty;
 				}
 			}
 

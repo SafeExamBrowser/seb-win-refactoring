@@ -1,45 +1,129 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Text>
-  <Browser_ShowDeveloperConsole>Open Console</Browser_ShowDeveloperConsole>
-  <LogWindow_Title>Application Log</LogWindow_Title>
-  <MessageBox_ConfigureClientSuccess>The client configuration has been saved and will be used when you start the application the next time. Do you want to quit for now?</MessageBox_ConfigureClientSuccess>
-  <MessageBox_ConfigureClientSuccessTitle>Configuration Successful</MessageBox_ConfigureClientSuccessTitle>
-  <MessageBox_ShutdownError>An unexpected error occurred during the shutdown procedure! Please consult the application log for more information...</MessageBox_ShutdownError>
-  <MessageBox_ShutdownErrorTitle>Shutdown Error</MessageBox_ShutdownErrorTitle>
-  <MessageBox_StartupError>An unexpected error occurred during the startup procedure! Please consult the application log for more information...</MessageBox_StartupError>
-  <MessageBox_StartupErrorTitle>Startup Error</MessageBox_StartupErrorTitle>
-  <Notification_AboutTooltip>About Safe Exam Browser</Notification_AboutTooltip>
-  <Notification_LogTooltip>Application Log</Notification_LogTooltip>
-  <SplashScreen_EmptyClipboard>Emptying clipboard</SplashScreen_EmptyClipboard>
-  <SplashScreen_InitializeBrowser>Initializing browser</SplashScreen_InitializeBrowser>
-  <SplashScreen_InitializeConfiguration>Initializing application configuration</SplashScreen_InitializeConfiguration>
-  <SplashScreen_InitializeProcessMonitoring>Initializing process monitoring</SplashScreen_InitializeProcessMonitoring>
-  <SplashScreen_InitializeTaskbar>Initializing taskbar</SplashScreen_InitializeTaskbar>
-  <SplashScreen_InitializeWindowMonitoring>Initializing window monitoring</SplashScreen_InitializeWindowMonitoring>
-  <SplashScreen_InitializeWorkingArea>Initializing working area</SplashScreen_InitializeWorkingArea>
-  <SplashScreen_RestoreWorkingArea>Restoring working area</SplashScreen_RestoreWorkingArea>
-  <SplashScreen_ShutdownProcedure>Initiating shutdown procedure</SplashScreen_ShutdownProcedure>
-  <SplashScreen_StartEventHandling>Starting event handling</SplashScreen_StartEventHandling>
-  <SplashScreen_StartKeyboardInterception>Starting keyboard interception</SplashScreen_StartKeyboardInterception>
-  <SplashScreen_StartMouseInterception>Starting mouse interception</SplashScreen_StartMouseInterception>
-  <SplashScreen_StartupProcedure>Initiating startup procedure</SplashScreen_StartupProcedure>
-  <SplashScreen_StopEventHandling>Stopping event handling</SplashScreen_StopEventHandling>
-  <SplashScreen_StopKeyboardInterception>Stopping keyboard interception</SplashScreen_StopKeyboardInterception>
-  <SplashScreen_StopMouseInterception>Stopping mouse interception</SplashScreen_StopMouseInterception>
-  <SplashScreen_StopProcessMonitoring>Stopping process monitoring</SplashScreen_StopProcessMonitoring>
-  <SplashScreen_StopWindowMonitoring>Stopping window monitoring</SplashScreen_StopWindowMonitoring>
-  <SplashScreen_TerminateBrowser>Terminating browser</SplashScreen_TerminateBrowser>
-  <SplashScreen_TerminateTaskbar>Terminating taskbar</SplashScreen_TerminateTaskbar>
-  <SplashScreen_WaitExplorerStartup>Waiting for Windows explorer to start up</SplashScreen_WaitExplorerStartup>
-  <SplashScreen_WaitExplorerTermination>Waiting for Windows explorer to shut down</SplashScreen_WaitExplorerTermination>
-  <SystemControl_BatteryCharging>Plugged in, charging... (%%CHARGE%%%)</SystemControl_BatteryCharging>
-  <SystemControl_BatteryCharged>Fully charged (%%CHARGE%%%)</SystemControl_BatteryCharged>
-  <SystemControl_BatteryChargeCriticalWarning>The battery charge is critically low. Please connect your computer to a power supply!</SystemControl_BatteryChargeCriticalWarning>
-  <SystemControl_BatteryChargeLowInfo>The battery charge is getting low. Consider connecting your computer to a power supply in time...</SystemControl_BatteryChargeLowInfo>
-  <SystemControl_BatteryRemainingCharge>%%HOURS%%h %%MINUTES%%min remaining (%%CHARGE%%%)</SystemControl_BatteryRemainingCharge>
-  <SystemControl_KeyboardLayoutTooltip>Click to choose a different keyboard layout...</SystemControl_KeyboardLayoutTooltip>
-  <SystemControl_WirelessConnected>Connected to '%%NAME%%'</SystemControl_WirelessConnected>
-  <SystemControl_WirelessDisconnected>Disconnected</SystemControl_WirelessDisconnected>
-  <SystemControl_WirelessNotAvailable>No wireless network adapter available or turned on</SystemControl_WirelessNotAvailable>
-  <Version>Version</Version>
+  <Entry key="Browser_ShowDeveloperConsole">
+    Open Console
+  </Entry>
+  <Entry key="LogWindow_Title">
+    Application Log
+  </Entry>
+  <Entry key="MessageBox_ConfigureClientSuccess">
+    The client configuration has been saved and will be used when you start the application the next time. Do you want to quit for now?
+  </Entry>
+  <Entry key="MessageBox_ConfigureClientSuccessTitle">
+    Configuration Successful
+  </Entry>
+  <Entry key="MessageBox_ShutdownError">
+    An unexpected error occurred during the shutdown procedure! Please consult the application log for more information...
+  </Entry>
+  <Entry key="MessageBox_ShutdownErrorTitle">
+    Shutdown Error
+  </Entry>
+  <Entry key="MessageBox_StartupError">
+    An unexpected error occurred during the startup procedure! Please consult the application log for more information...
+  </Entry>
+  <Entry key="MessageBox_StartupErrorTitle">
+    Startup Error
+  </Entry>
+  <Entry key="Notification_AboutTooltip">
+    About Safe Exam Browser
+  </Entry>
+  <Entry key="Notification_LogTooltip">
+    Application Log
+  </Entry>
+  <Entry key="SplashScreen_EmptyClipboard">
+    Emptying clipboard
+  </Entry>
+  <Entry key="SplashScreen_InitializeBrowser">
+    Initializing browser
+  </Entry>
+  <Entry key="SplashScreen_InitializeConfiguration">
+    Initializing application configuration
+  </Entry>
+  <Entry key="SplashScreen_InitializeProcessMonitoring">
+    Initializing process monitoring
+  </Entry>
+  <Entry key="SplashScreen_InitializeTaskbar">
+    Initializing taskbar
+  </Entry>
+  <Entry key="SplashScreen_InitializeWindowMonitoring">
+    Initializing window monitoring
+  </Entry>
+  <Entry key="SplashScreen_InitializeWorkingArea">
+    Initializing working area
+  </Entry>
+  <Entry key="SplashScreen_RestoreWorkingArea">
+    Restoring working area
+  </Entry>
+  <Entry key="SplashScreen_ShutdownProcedure">
+    Initiating shutdown procedure
+  </Entry>
+  <Entry key="SplashScreen_StartEventHandling">
+    Starting event handling
+  </Entry>
+  <Entry key="SplashScreen_StartKeyboardInterception">
+    Starting keyboard interception
+  </Entry>
+  <Entry key="SplashScreen_StartMouseInterception">
+    Starting mouse interception
+  </Entry>
+  <Entry key="SplashScreen_StartupProcedure">
+    Initiating startup procedure
+  </Entry>
+  <Entry key="SplashScreen_StopEventHandling">
+    Stopping event handling
+  </Entry>
+  <Entry key="SplashScreen_StopKeyboardInterception">
+    Stopping keyboard interception
+  </Entry>
+  <Entry key="SplashScreen_StopMouseInterception">
+    Stopping mouse interception
+  </Entry>
+  <Entry key="SplashScreen_StopProcessMonitoring">
+    Stopping process monitoring
+  </Entry>
+  <Entry key="SplashScreen_StopWindowMonitoring">
+    Stopping window monitoring
+  </Entry>
+  <Entry key="SplashScreen_TerminateBrowser">
+    Terminating browser
+  </Entry>
+  <Entry key="SplashScreen_TerminateTaskbar">
+    Terminating taskbar
+  </Entry>
+  <Entry key="SplashScreen_WaitExplorerStartup">
+    Waiting for Windows explorer to start up
+  </Entry>
+  <Entry key="SplashScreen_WaitExplorerTermination">
+    Waiting for Windows explorer to shut down
+  </Entry>
+  <Entry key="SystemControl_BatteryCharging">
+    Plugged in, charging... (%%CHARGE%%%)
+  </Entry>
+  <Entry key="SystemControl_BatteryCharged">
+    Fully charged (%%CHARGE%%%)
+  </Entry>
+  <Entry key="SystemControl_BatteryChargeCriticalWarning">
+    The battery charge is critically low. Please connect your computer to a power supply!
+  </Entry>
+  <Entry key="SystemControl_BatteryChargeLowInfo">
+    The battery charge is getting low. Consider connecting your computer to a power supply in time...
+  </Entry>
+  <Entry key="SystemControl_BatteryRemainingCharge">
+    %%HOURS%%h %%MINUTES%%min remaining (%%CHARGE%%%)
+  </Entry>
+  <Entry key="SystemControl_KeyboardLayoutTooltip">
+    Click to choose a different keyboard layout...
+  </Entry>
+  <Entry key="SystemControl_WirelessConnected">
+    Connected to '%%NAME%%'
+  </Entry>
+  <Entry key="SystemControl_WirelessDisconnected">
+    Disconnected
+  </Entry>
+  <Entry key="SystemControl_WirelessNotAvailable">
+    No wireless network adapter available or turned on
+  </Entry>
+  <Entry key="Version">
+    Version
+  </Entry>
 </Text>
