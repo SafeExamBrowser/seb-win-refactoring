@@ -13,19 +13,22 @@ namespace SafeExamBrowser.Configuration.Settings
 {
 	public class SettingsRepository : ISettingsRepository
 	{
+		public ISettings Current { get; private set; }
+
 		public ISettings Load(Uri path)
 		{
 			// TODO
+
 			return LoadDefaults();
 		}
 
 		public ISettings LoadDefaults()
 		{
-			var settings = new Settings();
+			Current = new Settings();
 			
 			// TODO
 
-			return settings;
+			return Current;
 		}
 	}
 }

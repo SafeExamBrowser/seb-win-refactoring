@@ -50,9 +50,14 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviour\IApplicationController.cs" />
+    <Compile Include="Communication\ICommunicationHost.cs" />
+    <Compile Include="Communication\Messages\IMessage.cs" />
+    <Compile Include="Communication\Responses\IResponse.cs" />
+    <Compile Include="Communication\Responses\IConnectResponse.cs" />
     <Compile Include="Configuration\IRuntimeInfo.cs" />
     <Compile Include="Configuration\Settings\ConfigurationMode.cs" />
     <Compile Include="Runtime\IRuntimeController.cs" />

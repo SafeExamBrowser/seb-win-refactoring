@@ -14,6 +14,12 @@ namespace SafeExamBrowser.Contracts.Logging
 	public interface ILogger
 	{
 		/// <summary>
+		/// Logs the given message with severity <b>DEBUG</b>.
+		/// </summary>
+		/// <exception cref="ArgumentNullException" />
+		void Debug(string message);
+
+		/// <summary>
 		/// Logs the given message with severity <b>INFO</b>.
 		/// </summary>
 		/// <exception cref="ArgumentNullException" />

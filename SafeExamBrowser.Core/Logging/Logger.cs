@@ -21,6 +21,16 @@ namespace SafeExamBrowser.Core.Logging
 		private readonly IList<ILogContent> log = new List<ILogContent>();
 		private readonly IList<ILogObserver> observers = new List<ILogObserver>();
 
+		public void Debug(string message)
+		{
+			if (message == null)
+			{
+				throw new ArgumentNullException(nameof(message));
+			}
+
+			Add(LogLevel.Debug, message);
+		}
+
 		public void Info(string message)
 		{
 			if (message == null)

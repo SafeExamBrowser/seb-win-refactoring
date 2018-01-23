@@ -14,7 +14,6 @@ using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Runtime;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Runtime.Behaviour.Operations;
 
@@ -24,7 +23,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 	public class ConfigurationOperationTests
 	{
 		private Mock<ILogger> logger;
-		private Mock<IRuntimeController> controller;
 		private Mock<IRuntimeInfo> info;
 		private Mock<ISettingsRepository> repository;
 		private Mock<ISettings> settings;
@@ -37,7 +35,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		public void Initialize()
 		{
 			logger = new Mock<ILogger>();
-			controller = new Mock<IRuntimeController>();
 			info = new Mock<IRuntimeInfo>();
 			repository = new Mock<ISettingsRepository>();
 			settings = new Mock<ISettings>();
@@ -55,23 +52,23 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		[TestMethod]
 		public void MustNotFailWithoutCommandLineArgs()
 		{
-			controller.SetupSet(c => c.Settings = It.IsAny<ISettings>());
+			repository.Setup(r => r.LoadDefaults());
 
-			sut = new ConfigurationOperation(logger.Object, controller.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
 			{
 				SplashScreen = splashScreen.Object
 			};
 
 			sut.Perform();
 
-			sut = new ConfigurationOperation(logger.Object, controller.Object, info.Object, repository.Object, text.Object, uiFactory.Object, new string[] { })
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, new string[] { })
 			{
 				SplashScreen = splashScreen.Object
 			};
 
 			sut.Perform();
 
-			controller.VerifySet(c => c.Settings = It.IsAny<ISettings>(), Times.Exactly(2));
+			repository.Verify(r => r.LoadDefaults(), Times.Exactly(2));
 		}
 
 		[TestMethod]
@@ -79,7 +76,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		{
 			var path = @"an/invalid\path.'*%yolo/()";
 
-			sut = new ConfigurationOperation(logger.Object, controller.Object, info.Object, repository.Object, text.Object, uiFactory.Object, new [] { "blubb.exe", path })
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, new [] { "blubb.exe", path })
 			{
 				SplashScreen = splashScreen.Object
 			};
@@ -96,14 +93,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			info.SetupGet(r => r.ProgramDataFolder).Returns(location);
 			info.SetupGet(r => r.AppDataFolder).Returns(location);
 
-			sut = new ConfigurationOperation(logger.Object, controller.Object, info.Object, repository.Object, text.Object, uiFactory.Object, new[] { "blubb.exe", path })
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, new[] { "blubb.exe", path })
 			{
 				SplashScreen = splashScreen.Object
 			};
 
 			sut.Perform();
 
-			controller.VerifySet(c => c.Settings = It.IsAny<ISettings>(), Times.Once);
 			repository.Verify(r => r.Load(It.Is<Uri>(u => u.Equals(new Uri(path)))), Times.Once);
 		}
 
@@ -115,14 +111,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			info.SetupGet(r => r.ProgramDataFolder).Returns(location);
 			info.SetupGet(r => r.AppDataFolder).Returns($@"{location}\WRONG");
 
-			sut = new ConfigurationOperation(logger.Object, controller.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
 			{
 				SplashScreen = splashScreen.Object
 			};
 
 			sut.Perform();
 
-			controller.VerifySet(c => c.Settings = It.IsAny<ISettings>(), Times.Once);
 			repository.Verify(r => r.Load(It.Is<Uri>(u => u.Equals(new Uri(Path.Combine(location, "SettingsDummy.txt"))))), Times.Once);
 		}
 
@@ -133,28 +128,26 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 
 			info.SetupGet(r => r.AppDataFolder).Returns(location);
 
-			sut = new ConfigurationOperation(logger.Object, controller.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
 			{
 				SplashScreen = splashScreen.Object
 			};
 
 			sut.Perform();
 
-			controller.VerifySet(c => c.Settings = It.IsAny<ISettings>(), Times.Once);
 			repository.Verify(r => r.Load(It.Is<Uri>(u => u.Equals(new Uri(Path.Combine(location, "SettingsDummy.txt"))))), Times.Once);
 		}
 
 		[TestMethod]
 		public void MustFallbackToDefaultsAsLastPrio()
 		{
-			sut = new ConfigurationOperation(logger.Object, controller.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
 			{
 				SplashScreen = splashScreen.Object
 			};
 
 			sut.Perform();
 
-			controller.VerifySet(c => c.Settings = It.IsAny<ISettings>(), Times.Once);
 			repository.Verify(r => r.LoadDefaults(), Times.Once);
 		}
 
@@ -166,7 +159,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			info.SetupGet(r => r.ProgramDataFolder).Returns(location);
 			uiFactory.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.Yes);
 
-			sut = new ConfigurationOperation(logger.Object, controller.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
 			{
 				SplashScreen = splashScreen.Object
 			};
@@ -181,7 +174,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		{
 			uiFactory.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.No);
 
-			sut = new ConfigurationOperation(logger.Object, controller.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
 			{
 				SplashScreen = splashScreen.Object
 			};

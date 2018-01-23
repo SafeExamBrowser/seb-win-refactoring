@@ -6,16 +6,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Logging
+using System.Runtime.Serialization;
+
+namespace SafeExamBrowser.Contracts.Communication.Responses
 {
-	/// <summary>
-	/// Defines the severity levels of the application log.
-	/// </summary>
-	public enum LogLevel
+	public interface IResponse : ISerializable
 	{
-		Debug = 1,
-		Info = 2,
-		Warning = 3,
-		Error = 4
 	}
 }

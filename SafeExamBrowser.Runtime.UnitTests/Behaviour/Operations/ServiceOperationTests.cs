@@ -6,16 +6,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Logging
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 {
-	/// <summary>
-	/// Defines the severity levels of the application log.
-	/// </summary>
-	public enum LogLevel
+	[TestClass]
+	public class ServiceOperationTests
 	{
-		Debug = 1,
-		Info = 2,
-		Warning = 3,
-		Error = 4
+		[TestMethod]
+		public void Test()
+		{
+			// TODO
+		}
 	}
 }

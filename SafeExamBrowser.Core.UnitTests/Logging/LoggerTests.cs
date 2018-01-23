@@ -22,6 +22,7 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 		public void MustAddMessagesToLog()
 		{
 			var sut = new Logger();
+			var debug = "I'm a debug message";
 			var info = "I'm an info message";
 			var warn = "I'm a warning!";
 			var error = "I AM AN ERROR!!";
@@ -30,6 +31,7 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 			var message = "I'm a simple text message";
 			var content = new LogText("I'm some raw log text...");
 
+			sut.Debug(debug);
 			sut.Info(info);
 			sut.Warn(warn);
 			sut.Error(error);
@@ -39,34 +41,39 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 
 			var log = sut.GetLog();
 
-			Assert.IsTrue(log.Count == 7);
+			Assert.IsTrue(log.Count == 8);
 
-			Assert.IsTrue(info.Equals((log[0] as ILogMessage).Message));
-			Assert.IsTrue((log[0] as ILogMessage).Severity == LogLevel.Info);
+			Assert.IsTrue(debug.Equals((log[0] as ILogMessage).Message));
+			Assert.IsTrue((log[0] as ILogMessage).Severity == LogLevel.Debug);
 
-			Assert.IsTrue(warn.Equals((log[1] as ILogMessage).Message));
-			Assert.IsTrue((log[1] as ILogMessage).Severity == LogLevel.Warning);
+			Assert.IsTrue(info.Equals((log[1] as ILogMessage).Message));
+			Assert.IsTrue((log[1] as ILogMessage).Severity == LogLevel.Info);
 
-			Assert.IsTrue(error.Equals((log[2] as ILogMessage).Message));
-			Assert.IsTrue((log[2] as ILogMessage).Severity == LogLevel.Error);
+			Assert.IsTrue(warn.Equals((log[2] as ILogMessage).Message));
+			Assert.IsTrue((log[2] as ILogMessage).Severity == LogLevel.Warning);
 
 			Assert.IsTrue(error.Equals((log[3] as ILogMessage).Message));
 			Assert.IsTrue((log[3] as ILogMessage).Severity == LogLevel.Error);
-			Assert.IsTrue((log[4] as ILogText).Text.Contains(exceptionMessage));
 
-			Assert.IsTrue(message.Equals((log[5] as ILogText).Text));
+			Assert.IsTrue(error.Equals((log[4] as ILogMessage).Message));
+			Assert.IsTrue((log[4] as ILogMessage).Severity == LogLevel.Error);
+			Assert.IsTrue((log[5] as ILogText).Text.Contains(exceptionMessage));
 
-			Assert.IsTrue(content.Text.Equals((log[6] as ILogText).Text));
+			Assert.IsTrue(message.Equals((log[6] as ILogText).Text));
+
+			Assert.IsTrue(content.Text.Equals((log[7] as ILogText).Text));
 		}
 
 		[TestMethod]
 		public void MustReturnCopyOfLog()
 		{
 			var sut = new Logger();
+			var debug = "I'm a debug message";
 			var info = "I'm an info message";
 			var warn = "I'm a warning!";
 			var error = "I AM AN ERROR!!";
 
+			sut.Debug(debug);
 			sut.Info(info);
 			sut.Warn(warn);
 			sut.Error(error);
@@ -87,6 +94,7 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 		{
 			var sut = new Logger();
 
+			Assert.ThrowsException<ArgumentNullException>(() => sut.Debug(null));
 			Assert.ThrowsException<ArgumentNullException>(() => sut.Info(null));
 			Assert.ThrowsException<ArgumentNullException>(() => sut.Warn(null));
 			Assert.ThrowsException<ArgumentNullException>(() => sut.Error(null));

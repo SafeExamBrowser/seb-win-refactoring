@@ -13,7 +13,6 @@ using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Runtime;
 using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Runtime.Behaviour.Operations
@@ -21,7 +20,6 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 	internal class ConfigurationOperation : IOperation
 	{
 		private ILogger logger;
-		private IRuntimeController controller;
 		private IRuntimeInfo runtimeInfo;
 		private ISettingsRepository repository;
 		private IText text;
@@ -33,7 +31,6 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 		public ConfigurationOperation(
 			ILogger logger,
-			IRuntimeController controller,
 			IRuntimeInfo runtimeInfo,
 			ISettingsRepository repository,
 			IText text,
@@ -41,7 +38,6 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			string[] commandLineArgs)
 		{
 			this.logger = logger;
-			this.controller = controller;
 			this.commandLineArgs = commandLineArgs;
 			this.repository = repository;
 			this.runtimeInfo = runtimeInfo;
@@ -62,11 +58,10 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 				logger.Info($"Loading configuration from '{uri.AbsolutePath}'...");
 				settings = repository.Load(uri);
 
-				if (settings.ConfigurationMode == ConfigurationMode.ConfigureClient && Abort())
+				if (settings.ConfigurationMode == ConfigurationMode.ConfigureClient && UserWantsToAbortStartup())
 				{
 					AbortStartup = true;
-
-					return;
+					logger.Info($"The user chose to {(AbortStartup ? "abort" : "continue")} the application startup after successful client configuration.");
 				}
 			}
 			else
@@ -74,8 +69,6 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 				logger.Info("No valid settings file specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
 				settings = repository.LoadDefaults();
 			}
-
-			controller.Settings = settings;
 		}
 
 		public void Revert()
@@ -116,23 +109,13 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			return isValidUri;
 		}
 
-		private bool Abort()
+		private bool UserWantsToAbortStartup()
 		{
 			var message = text.Get(TextKey.MessageBox_ConfigureClientSuccess);
 			var title = text.Get(TextKey.MessageBox_ConfigureClientSuccessTitle);
-			var quitDialogResult = uiFactory.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question);
-			var abort = quitDialogResult == MessageBoxResult.Yes;
+			var abort = uiFactory.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question);
 
-			if (abort)
-			{
-				logger.Info("The user chose to terminate the application after successful client configuration.");
-			}
-			else
-			{
-				logger.Info("The user chose to continue starting up the application after successful client configuration.");
-			}
-
-			return abort;
+			return abort == MessageBoxResult.Yes;
 		}
 	}
 }

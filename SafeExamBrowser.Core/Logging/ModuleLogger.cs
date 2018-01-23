@@ -27,6 +27,11 @@ namespace SafeExamBrowser.Core.Logging
 			this.module = module;
 		}
 
+		public void Debug(string message)
+		{
+			logger.Debug(AppendModuleInfo(message));
+		}
+
 		public void Error(string message)
 		{
 			logger.Error(AppendModuleInfo(message));
