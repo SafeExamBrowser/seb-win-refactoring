@@ -7,12 +7,9 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading;
 using System.Windows;
-using SafeExamBrowser.Contracts.Behaviour;
 
 namespace SafeExamBrowser.Runtime
 {
@@ -62,7 +59,7 @@ namespace SafeExamBrowser.Runtime
 			instances.BuildObjectGraph();
 			instances.LogStartupInformation();
 
-			var success = instances.StartupController.TryInitializeApplication(instances.StartupOperations);
+			var success = instances.RuntimeController.TryInitializeApplication(instances.StartupOperations);
 
 			if (success)
 			{
@@ -86,10 +83,8 @@ namespace SafeExamBrowser.Runtime
 
 		private void MainWindow_Closing(object sender, CancelEventArgs e)
 		{
-			var operations = new Queue<IOperation>(instances.StartupOperations.Reverse());
-
 			MainWindow.Hide();
-			instances.ShutdownController.FinalizeApplication(operations);
+			instances.RuntimeController.FinalizeApplication();
 		}
 	}
 }

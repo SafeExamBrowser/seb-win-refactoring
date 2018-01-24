@@ -11,7 +11,6 @@ using SafeExamBrowser.Browser;
 using SafeExamBrowser.Configuration;
 using SafeExamBrowser.Configuration.Settings;
 using SafeExamBrowser.Contracts.Behaviour;
-using SafeExamBrowser.Contracts.Client;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;

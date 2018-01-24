@@ -8,10 +8,10 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
+namespace SafeExamBrowser.Runtime.UnitTests.Behaviour
 {
 	[TestClass]
-	public class ServiceOperationTests
+	public class RuntimeControllerTests
 	{
 		[TestMethod]
 		public void Test()

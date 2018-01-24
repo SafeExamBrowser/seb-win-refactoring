@@ -88,7 +88,6 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Behaviour\Operations\ConfigurationOperation.cs" />
-    <Compile Include="Behaviour\Operations\RuntimeControllerOperation.cs" />
     <Compile Include="Behaviour\Operations\ServiceOperation.cs" />
     <Compile Include="CompositionRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

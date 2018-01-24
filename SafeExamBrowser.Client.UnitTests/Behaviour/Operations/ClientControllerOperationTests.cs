@@ -9,7 +9,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Behaviour.Operations;
-using SafeExamBrowser.Contracts.Client;
+using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 

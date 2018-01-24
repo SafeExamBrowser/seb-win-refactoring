@@ -33,8 +33,7 @@ namespace SafeExamBrowser.Runtime
 		private RuntimeInfo runtimeInfo;
 		private ISystemInfo systemInfo;
 
-		internal IShutdownController ShutdownController { get; private set; }
-		internal IStartupController StartupController { get; private set; }
+		internal IRuntimeController RuntimeController { get; private set; }
 		internal Queue<IOperation> StartupOperations { get; private set; }
 
 		internal void BuildObjectGraph()
@@ -52,18 +51,17 @@ namespace SafeExamBrowser.Runtime
 			InitializeLogging();
 
 			var text = new Text(logger);
-			var runtimeController = new RuntimeController(new ModuleLogger(logger, typeof(RuntimeController)));
 			var serviceProxy = new CommunicationHostProxy(new ModuleLogger(logger, typeof(CommunicationHostProxy)), "net.pipe://localhost/safeexambrowser/service");
+			var shutdownController = new ShutdownController(logger, runtimeInfo, text, uiFactory);
+			var startupController = new StartupController(logger, runtimeInfo, systemInfo, text, uiFactory);
 
-			ShutdownController = new ShutdownController(logger, runtimeInfo, text, uiFactory);
-			StartupController = new StartupController(logger, runtimeInfo, systemInfo, text, uiFactory);
+			RuntimeController = new RuntimeController(serviceProxy, new ModuleLogger(logger, typeof(RuntimeController)), settingsRepository, shutdownController, startupController);
 
 			StartupOperations = new Queue<IOperation>();
 			StartupOperations.Enqueue(new I18nOperation(logger, text));
 			StartupOperations.Enqueue(new ConfigurationOperation(logger, runtimeInfo, settingsRepository, text, uiFactory, args));
 			StartupOperations.Enqueue(new ServiceOperation(serviceProxy, logger, settingsRepository));
 			//StartupOperations.Enqueue(new KioskModeOperation());
-			StartupOperations.Enqueue(new RuntimeControllerOperation(runtimeController, logger));
 		}
 
 		internal void LogStartupInformation()

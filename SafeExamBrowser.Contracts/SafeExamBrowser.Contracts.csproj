@@ -54,16 +54,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviour\IApplicationController.cs" />
+    <Compile Include="Behaviour\IRuntimeController.cs" />
     <Compile Include="Communication\ICommunicationHost.cs" />
     <Compile Include="Communication\Messages\IMessage.cs" />
     <Compile Include="Communication\Responses\IResponse.cs" />
     <Compile Include="Communication\Responses\IConnectResponse.cs" />
     <Compile Include="Configuration\IRuntimeInfo.cs" />
     <Compile Include="Configuration\Settings\ConfigurationMode.cs" />
-    <Compile Include="Runtime\IRuntimeController.cs" />
     <Compile Include="Behaviour\INotificationController.cs" />
     <Compile Include="Behaviour\IOperation.cs" />
-    <Compile Include="Client\IClientController.cs" />
+    <Compile Include="Behaviour\IClientController.cs" />
     <Compile Include="Configuration\IIconResource.cs" />
     <Compile Include="Configuration\IApplicationInfo.cs" />
     <Compile Include="Configuration\IApplicationInstance.cs" />
@@ -122,6 +122,8 @@
     <Compile Include="WindowsApi\IBounds.cs" />
     <Compile Include="WindowsApi\INativeMethods.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Client\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
