@@ -58,7 +58,9 @@
     <Compile Include="Behaviour\Operations\I18nOperation.cs" />
     <Compile Include="Behaviour\ShutdownController.cs" />
     <Compile Include="Behaviour\StartupController.cs" />
-    <Compile Include="Communication\CommunicationHostProxy.cs" />
+    <Compile Include="Communication\BaseProxy.cs" />
+    <Compile Include="Communication\Messages\Message.cs" />
+    <Compile Include="Communication\ServiceProxy.cs" />
     <Compile Include="Logging\DefaultLogFormatter.cs" />
     <Compile Include="Logging\LogFileWriter.cs" />
     <Compile Include="Logging\LogMessage.cs" />
@@ -82,6 +84,8 @@
       <Name>SafeExamBrowser.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Communication\Responses\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

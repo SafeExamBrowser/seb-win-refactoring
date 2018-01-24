@@ -8,13 +8,10 @@
 
 using System;
 
-namespace SafeExamBrowser.Contracts.Communication.Messages
+namespace SafeExamBrowser.Contracts.Communication
 {
-	public interface IMessage
+	public interface IRuntimeProxy
 	{
-		/// <summary>
-		/// The communication token needed for authentication with the host.
-		/// </summary>
-		Guid CommunicationToken { get; }
+		bool Connect(Guid token);
 	}
 }

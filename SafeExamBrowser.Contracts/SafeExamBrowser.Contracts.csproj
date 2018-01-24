@@ -55,7 +55,10 @@
   <ItemGroup>
     <Compile Include="Behaviour\IApplicationController.cs" />
     <Compile Include="Behaviour\IRuntimeController.cs" />
-    <Compile Include="Communication\ICommunicationHost.cs" />
+    <Compile Include="Communication\ICommunication.cs" />
+    <Compile Include="Communication\IClientProxy.cs" />
+    <Compile Include="Communication\IRuntimeProxy.cs" />
+    <Compile Include="Communication\IServiceProxy.cs" />
     <Compile Include="Communication\Messages\IMessage.cs" />
     <Compile Include="Communication\Responses\IResponse.cs" />
     <Compile Include="Communication\Responses\IConnectResponse.cs" />
@@ -78,6 +81,7 @@
     <Compile Include="Behaviour\IStartupController.cs" />
     <Compile Include="Configuration\Settings\ISettingsRepository.cs" />
     <Compile Include="Configuration\Settings\ITaskbarSettings.cs" />
+    <Compile Include="Configuration\Settings\ServicePolicy.cs" />
     <Compile Include="I18n\IText.cs" />
     <Compile Include="I18n\TextKey.cs" />
     <Compile Include="Logging\ILogContent.cs" />

@@ -14,7 +14,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour
 	public class RuntimeControllerTests
 	{
 		[TestMethod]
-		public void Test()
+		public void TODO()
 		{
 			Assert.Fail();
 		}

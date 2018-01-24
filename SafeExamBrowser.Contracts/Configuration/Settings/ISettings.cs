@@ -31,6 +31,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		IMouseSettings Mouse { get; }
 
 		/// <summary>
+		/// The active service policy.
+		/// </summary>
+		ServicePolicy ServicePolicy { get; }
+
+		/// <summary>
 		/// All taskbar-related settings.
 		/// </summary>
 		ITaskbarSettings Taskbar { get; }

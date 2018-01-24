@@ -7,14 +7,13 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Communication.Messages;
 
-namespace SafeExamBrowser.Contracts.Communication.Messages
+namespace SafeExamBrowser.Core.Communication.Messages
 {
-	public interface IMessage
+	[Serializable]
+	internal class Message : IMessage
 	{
-		/// <summary>
-		/// The communication token needed for authentication with the host.
-		/// </summary>
-		Guid CommunicationToken { get; }
+		public Guid CommunicationToken { get; set; }
 	}
 }

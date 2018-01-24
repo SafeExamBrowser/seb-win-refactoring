@@ -17,7 +17,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 {
 	internal class RuntimeController : IRuntimeController
 	{
-		private ICommunicationHost serviceProxy;
+		private ICommunication serviceProxy;
 		private Queue<IOperation> operations;
 		private ILogger logger;
 		private ISettingsRepository settingsRepository;
@@ -27,7 +27,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		public ISettings Settings { private get; set; }
 
 		public RuntimeController(
-			ICommunicationHost serviceProxy,
+			ICommunication serviceProxy,
 			ILogger logger,
 			ISettingsRepository settingsRepository,
 			IShutdownController shutdownController,

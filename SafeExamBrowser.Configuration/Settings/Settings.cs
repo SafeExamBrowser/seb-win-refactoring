@@ -15,6 +15,7 @@ namespace SafeExamBrowser.Configuration.Settings
 	internal class Settings : ISettings
 	{
 		public ConfigurationMode ConfigurationMode { get; set; }
+		public ServicePolicy ServicePolicy { get; set; }
 
 		public IBrowserSettings Browser { get; set; }
 		public IKeyboardSettings Keyboard { get; set; }

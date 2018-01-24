@@ -15,30 +15,33 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Communication
 {
-	public class CommunicationHostProxy : ICommunicationHost
+	public abstract class BaseProxy : ICommunication
 	{
 		private string address;
-		private ILogger logger;
-		private ICommunicationHost channel;
+		private ICommunication channel;
 
-		public CommunicationHostProxy(ILogger logger, string address)
+		protected Guid? CommunicationToken { get; private set; }
+		protected ILogger Logger { get; private set; }
+
+		public BaseProxy(ILogger logger, string address)
 		{
 			this.address = address;
-			this.logger = logger;
+			this.Logger = logger;
 		}
 
 		public IConnectResponse Connect(Guid? token = null)
 		{
 			var endpoint = new EndpointAddress(address);
 
-			channel = ChannelFactory<ICommunicationHost>.CreateChannel(new NetNamedPipeBinding(NetNamedPipeSecurityMode.Transport), endpoint);
+			channel = ChannelFactory<ICommunication>.CreateChannel(new NetNamedPipeBinding(NetNamedPipeSecurityMode.Transport), endpoint);
 			(channel as ICommunicationObject).Closed += CommunicationHostProxy_Closed;
 			(channel as ICommunicationObject).Closing += CommunicationHostProxy_Closing;
 			(channel as ICommunicationObject).Faulted += CommunicationHostProxy_Faulted;
 
 			var response = channel.Connect(token);
 
-			logger.Debug($"Tried to connect to {address}, connection was {(response.ConnectionEstablished ? "established" : "refused")}.");
+			CommunicationToken = response.CommunicationToken;
+			Logger.Debug($"Tried to connect to {address}, connection was {(response.ConnectionEstablished ? "established" : "refused")}.");
 
 			return response;
 		}
@@ -48,7 +51,7 @@ namespace SafeExamBrowser.Core.Communication
 			if (ChannelIsReady())
 			{
 				channel.Disconnect(message);
-				logger.Debug($"Disconnected from {address}, transmitting {ToString(message)}.");
+				Logger.Debug($"Disconnected from {address}, transmitting {ToString(message)}.");
 			}
 
 			throw new CommunicationException($"Tried to disconnect from host, but channel was {GetChannelState()}!");
@@ -60,12 +63,20 @@ namespace SafeExamBrowser.Core.Communication
 			{
 				var response = channel.Send(message);
 
-				logger.Debug($"Sent {ToString(message)}, got {ToString(response)}.");
+				Logger.Debug($"Sent {ToString(message)}, got {ToString(response)}.");
 
 				return response;
 			}
 
 			throw new CommunicationException($"Tried to send {ToString(message)}, but channel was {GetChannelState()}!");
+		}
+
+		protected void FailIfNotConnected(string operationName)
+		{
+			if (!CommunicationToken.HasValue)
+			{
+				throw new InvalidOperationException($"Cannot perform '{operationName}' before being connected to endpoint!");
+			}
 		}
 
 		private bool ChannelIsReady()
@@ -75,17 +86,17 @@ namespace SafeExamBrowser.Core.Communication
 
 		private void CommunicationHostProxy_Closed(object sender, EventArgs e)
 		{
-			logger.Debug("Communication channel has been closed.");
+			Logger.Debug("Communication channel has been closed.");
 		}
 
 		private void CommunicationHostProxy_Closing(object sender, EventArgs e)
 		{
-			logger.Debug("Communication channel is closing.");
+			Logger.Debug("Communication channel is closing.");
 		}
 
 		private void CommunicationHostProxy_Faulted(object sender, EventArgs e)
 		{
-			logger.Error("Communication channel has faulted!");
+			Logger.Error("Communication channel has faulted!");
 		}
 
 		private string GetChannelState()

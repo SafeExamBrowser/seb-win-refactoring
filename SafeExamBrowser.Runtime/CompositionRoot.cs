@@ -51,7 +51,7 @@ namespace SafeExamBrowser.Runtime
 			InitializeLogging();
 
 			var text = new Text(logger);
-			var serviceProxy = new CommunicationHostProxy(new ModuleLogger(logger, typeof(CommunicationHostProxy)), "net.pipe://localhost/safeexambrowser/service");
+			var serviceProxy = new ServiceProxy(new ModuleLogger(logger, typeof(ServiceProxy)), "net.pipe://localhost/safeexambrowser/service");
 			var shutdownController = new ShutdownController(logger, runtimeInfo, text, uiFactory);
 			var startupController = new StartupController(logger, runtimeInfo, systemInfo, text, uiFactory);
 
@@ -60,7 +60,7 @@ namespace SafeExamBrowser.Runtime
 			StartupOperations = new Queue<IOperation>();
 			StartupOperations.Enqueue(new I18nOperation(logger, text));
 			StartupOperations.Enqueue(new ConfigurationOperation(logger, runtimeInfo, settingsRepository, text, uiFactory, args));
-			StartupOperations.Enqueue(new ServiceOperation(serviceProxy, logger, settingsRepository));
+			StartupOperations.Enqueue(new ServiceOperation(logger, serviceProxy, settingsRepository, text));
 			//StartupOperations.Enqueue(new KioskModeOperation());
 		}
 

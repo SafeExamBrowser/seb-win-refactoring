@@ -6,11 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.Runtime.Serialization;
-
 namespace SafeExamBrowser.Contracts.Communication.Responses
 {
-	public interface IResponse : ISerializable
+	public interface IResponse
 	{
 	}
 }

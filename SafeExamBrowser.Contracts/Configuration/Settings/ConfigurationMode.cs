@@ -10,7 +10,16 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 {
 	public enum ConfigurationMode
 	{
+		/// <summary>
+		/// In this mode, the application settings shall be used to configure the local client settings of a user. When running in this
+		/// mode, the user has the possiblity to re-configure the application during runtime.
+		/// </summary>
 		ConfigureClient,
+
+		/// <summary>
+		/// In this mode, the application settings shall only be used to start an exam. When running in this mode, the user cannot re-
+		/// configure the application during runtime.
+		/// </summary>
 		Exam
 	}
 }

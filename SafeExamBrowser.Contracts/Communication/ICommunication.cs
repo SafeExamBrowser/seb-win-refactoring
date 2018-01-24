@@ -14,7 +14,7 @@ using SafeExamBrowser.Contracts.Communication.Responses;
 namespace SafeExamBrowser.Contracts.Communication
 {
 	[ServiceContract(SessionMode = SessionMode.Required)]
-	public interface ICommunicationHost
+	public interface ICommunication
 	{
 		/// <summary>
 		/// Initiates a connection to the host and must thus be called before any other opertion. To authenticate itself to the host, the

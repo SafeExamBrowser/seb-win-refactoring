@@ -6,15 +6,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-
-namespace SafeExamBrowser.Contracts.Communication.Messages
+namespace SafeExamBrowser.Contracts.Communication
 {
-	public interface IMessage
+	public interface IServiceProxy
 	{
 		/// <summary>
-		/// The communication token needed for authentication with the host.
+		/// Tries to connect to the service host.
 		/// </summary>
-		Guid CommunicationToken { get; }
+		bool Connect();
+
+		/// <summary>
+		/// Disconnects from the service host.
+		/// </summary>
+		void Disconnect();
 	}
 }

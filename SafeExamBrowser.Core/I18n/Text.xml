@@ -30,6 +30,9 @@
   <Entry key="Notification_LogTooltip">
     Application Log
   </Entry>
+  <Entry key="SplashScreen_CloseServiceConnection">
+    Closing service connection
+  </Entry>
   <Entry key="SplashScreen_EmptyClipboard">
     Emptying clipboard
   </Entry>
@@ -41,6 +44,9 @@
   </Entry>
   <Entry key="SplashScreen_InitializeProcessMonitoring">
     Initializing process monitoring
+  </Entry>
+  <Entry key="SplashScreen_InitializeServiceConnection">
+    Initializing service connection
   </Entry>
   <Entry key="SplashScreen_InitializeTaskbar">
     Initializing taskbar
