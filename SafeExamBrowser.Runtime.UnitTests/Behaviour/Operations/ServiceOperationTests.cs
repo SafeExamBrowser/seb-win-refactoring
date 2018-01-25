@@ -102,6 +102,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 
 			sut.Perform();
 
+			service.VerifySet(s => s.Ignore = true);
 			Assert.IsFalse(sut.AbortStartup);
 		}
 
@@ -121,6 +122,19 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			sut.Revert();
 
 			service.Verify(s => s.Disconnect(), Times.Exactly(2));
+		}
+
+		[TestMethod]
+		public void MustNotFailWhenDisconnecting()
+		{
+			service.Setup(s => s.Connect()).Returns(true);
+			service.Setup(s => s.Disconnect()).Throws<Exception>();
+			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Optional);
+
+			sut.Perform();
+			sut.Revert();
+
+			service.Verify(s => s.Disconnect(), Times.Once);
 		}
 
 		[TestMethod]

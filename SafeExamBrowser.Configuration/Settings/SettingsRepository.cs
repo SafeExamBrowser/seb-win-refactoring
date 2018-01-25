@@ -24,11 +24,14 @@ namespace SafeExamBrowser.Configuration.Settings
 
 		public ISettings LoadDefaults()
 		{
-			Current = new Settings();
-			
-			// TODO
+			var settings = new Settings();
 
-			return Current;
+			// TODO
+			settings.ServicePolicy = ServicePolicy.Optional;
+
+			Current = settings;
+
+			return settings;
 		}
 	}
 }

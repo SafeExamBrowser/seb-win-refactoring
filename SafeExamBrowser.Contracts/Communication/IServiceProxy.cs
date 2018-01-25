@@ -11,6 +11,12 @@ namespace SafeExamBrowser.Contracts.Communication
 	public interface IServiceProxy
 	{
 		/// <summary>
+		/// Instructs the proxy to ignore all operations or simulate a connection, where applicable. To be set e.g. when the service
+		/// policy is optional and the service is not available.
+		/// </summary>
+		bool Ignore { set; }
+
+		/// <summary>
 		/// Tries to connect to the service host.
 		/// </summary>
 		bool Connect();

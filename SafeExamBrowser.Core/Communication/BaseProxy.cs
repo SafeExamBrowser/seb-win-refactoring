@@ -96,7 +96,7 @@ namespace SafeExamBrowser.Core.Communication
 
 		private void CommunicationHostProxy_Faulted(object sender, EventArgs e)
 		{
-			Logger.Error("Communication channel has faulted!");
+			Logger.Debug("Communication channel has faulted!");
 		}
 
 		private string GetChannelState()

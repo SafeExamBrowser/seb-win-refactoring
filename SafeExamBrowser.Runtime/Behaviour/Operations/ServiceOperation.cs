@@ -60,15 +60,19 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 				}
 			}
 
-			AbortStartup = serviceMandatory && !serviceAvailable;
-
-			if (AbortStartup)
+			if (serviceMandatory && !serviceAvailable)
 			{
+				AbortStartup = true;
 				logger.Info("Aborting startup because the service is mandatory but not available!");
+			}
+			else if (!serviceAvailable)
+			{
+				service.Ignore = true;
+				logger.Info("All service-related operations will be ignored, since the service is optional and not available.");
 			}
 			else
 			{
-				logger.Info($"The service is {(serviceMandatory ? "mandatory" : "optional")} and {(!serviceAvailable ? "not" : "")} available.");
+				logger.Info($"The service is {(serviceMandatory ? "mandatory" : "optional")} and available.");
 			}
 		}
 

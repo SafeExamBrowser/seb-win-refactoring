@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Core.Communication.Messages;
@@ -15,20 +14,40 @@ namespace SafeExamBrowser.Core.Communication
 {
 	public class ServiceProxy : BaseProxy, IServiceProxy
 	{
+		public bool Ignore { private get; set; }
+
 		public ServiceProxy(ILogger logger, string address) : base(logger, address)
 		{
 		}
 
 		public bool Connect()
 		{
-			throw new NotImplementedException();
+			if (!IgnoreOperation(nameof(Connect)))
+			{
+				return base.Connect().ConnectionEstablished;
+			}
+
+			return false;
 		}
 
 		public void Disconnect()
 		{
-			FailIfNotConnected(nameof(Disconnect));
+			if (!IgnoreOperation(nameof(Disconnect)))
+			{
+				FailIfNotConnected(nameof(Disconnect));
 
-			Disconnect(new Message { CommunicationToken = CommunicationToken.Value });
+				Disconnect(new Message { CommunicationToken = CommunicationToken.Value });
+			}
+		}
+
+		private bool IgnoreOperation(string operationName)
+		{
+			if (Ignore)
+			{
+				Logger.Debug($"Skipping {operationName} because the ignore flag is set.");
+			}
+
+			return Ignore;
 		}
 	}
 }
