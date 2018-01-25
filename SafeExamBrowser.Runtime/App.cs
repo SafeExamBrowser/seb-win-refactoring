@@ -63,10 +63,9 @@ namespace SafeExamBrowser.Runtime
 
 			if (success)
 			{
-				// TODO: Probably needs new window to display status of running application...
-				//MainWindow = instances.SplashScreen;
-				//MainWindow.Closing += MainWindow_Closing;
-				//MainWindow.Show();
+				MainWindow = instances.RuntimeWindow;
+				MainWindow.Closing += MainWindow_Closing;
+				MainWindow.Show();
 			}
 			else
 			{

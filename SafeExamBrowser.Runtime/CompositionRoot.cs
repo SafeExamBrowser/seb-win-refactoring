@@ -35,6 +35,7 @@ namespace SafeExamBrowser.Runtime
 
 		internal IRuntimeController RuntimeController { get; private set; }
 		internal Queue<IOperation> StartupOperations { get; private set; }
+		internal RuntimeWindow RuntimeWindow { get; private set; }
 
 		internal void BuildObjectGraph()
 		{
@@ -56,6 +57,9 @@ namespace SafeExamBrowser.Runtime
 			var startupController = new StartupController(logger, runtimeInfo, systemInfo, text, uiFactory);
 
 			RuntimeController = new RuntimeController(serviceProxy, new ModuleLogger(logger, typeof(RuntimeController)), settingsRepository, shutdownController, startupController);
+			RuntimeWindow = new RuntimeWindow(new DefaultLogFormatter(), runtimeInfo);
+
+			logger.Subscribe(RuntimeWindow);
 
 			StartupOperations = new Queue<IOperation>();
 			StartupOperations.Enqueue(new I18nOperation(logger, text));
