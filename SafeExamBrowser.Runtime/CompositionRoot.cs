@@ -56,8 +56,8 @@ namespace SafeExamBrowser.Runtime
 			var shutdownController = new ShutdownController(logger, runtimeInfo, text, uiFactory);
 			var startupController = new StartupController(logger, runtimeInfo, systemInfo, text, uiFactory);
 
-			RuntimeController = new RuntimeController(serviceProxy, new ModuleLogger(logger, typeof(RuntimeController)), settingsRepository, shutdownController, startupController);
-			RuntimeWindow = new RuntimeWindow(new DefaultLogFormatter(), runtimeInfo);
+			RuntimeWindow = new RuntimeWindow(new DefaultLogFormatter(), runtimeInfo, text);
+			RuntimeController = new RuntimeController(serviceProxy, new ModuleLogger(logger, typeof(RuntimeController)), RuntimeWindow, settingsRepository, shutdownController, startupController);
 
 			logger.Subscribe(RuntimeWindow);
 
@@ -65,7 +65,7 @@ namespace SafeExamBrowser.Runtime
 			StartupOperations.Enqueue(new I18nOperation(logger, text));
 			StartupOperations.Enqueue(new ConfigurationOperation(logger, runtimeInfo, settingsRepository, text, uiFactory, args));
 			StartupOperations.Enqueue(new ServiceOperation(logger, serviceProxy, settingsRepository, text));
-			//StartupOperations.Enqueue(new KioskModeOperation());
+			StartupOperations.Enqueue(new KioskModeOperation());
 		}
 
 		internal void LogStartupInformation()

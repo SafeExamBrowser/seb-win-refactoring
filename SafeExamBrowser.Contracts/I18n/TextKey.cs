@@ -25,6 +25,7 @@ namespace SafeExamBrowser.Contracts.I18n
 		MessageBox_StartupErrorTitle,
 		Notification_AboutTooltip,
 		Notification_LogTooltip,
+		RuntimeWindow_ApplicationRunning,
 		SplashScreen_CloseServiceConnection,
 		SplashScreen_EmptyClipboard,
 		SplashScreen_InitializeBrowser,

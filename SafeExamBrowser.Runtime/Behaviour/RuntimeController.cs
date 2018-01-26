@@ -11,7 +11,9 @@ using System.Linq;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Runtime.Behaviour
 {
@@ -20,6 +22,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		private ICommunication serviceProxy;
 		private Queue<IOperation> operations;
 		private ILogger logger;
+		private IRuntimeWindow runtimeWindow;
 		private ISettingsRepository settingsRepository;
 		private IShutdownController shutdownController;
 		private IStartupController startupController;
@@ -29,12 +32,14 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		public RuntimeController(
 			ICommunication serviceProxy,
 			ILogger logger,
+			IRuntimeWindow runtimeWindow,
 			ISettingsRepository settingsRepository,
 			IShutdownController shutdownController,
 			IStartupController startupController)
 		{
 			this.serviceProxy = serviceProxy;
 			this.logger = logger;
+			this.runtimeWindow = runtimeWindow;
 			this.settingsRepository = settingsRepository;
 			this.shutdownController = shutdownController;
 			this.startupController = startupController;
@@ -66,6 +71,8 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		{
 			logger.Info("Starting event handling...");
 			// TODO SplashScreen.UpdateText(TextKey.SplashScreen_StartEventHandling);
+
+			runtimeWindow.UpdateStatus(TextKey.RuntimeWindow_ApplicationRunning);
 		}
 
 		private void Stop()

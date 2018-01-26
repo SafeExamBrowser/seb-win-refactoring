@@ -30,6 +30,9 @@
   <Entry key="Notification_LogTooltip">
     Application Log
   </Entry>
+  <Entry key="RuntimeWindow_ApplicationRunning">
+    The application is running.
+  </Entry>
   <Entry key="SplashScreen_CloseServiceConnection">
     Closing service connection
   </Entry>
