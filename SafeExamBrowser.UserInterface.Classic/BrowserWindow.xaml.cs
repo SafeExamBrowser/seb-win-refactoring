@@ -55,12 +55,30 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 		public void BringToForeground()
 		{
-			if (WindowState == WindowState.Minimized)
+			Dispatcher.Invoke(() =>
 			{
-				WindowState = WindowState.Normal;
-			}
+				if (WindowState == WindowState.Minimized)
+				{
+					WindowState = WindowState.Normal;
+				}
 
-			Activate();
+				Activate();
+			});
+		}
+
+		public new void Close()
+		{
+			Dispatcher.Invoke(base.Close);
+		}
+
+		public new void Hide()
+		{
+			Dispatcher.Invoke(base.Hide);
+		}
+
+		public new void Show()
+		{
+			Dispatcher.Invoke(base.Show);
 		}
 
 		public void UpdateAddress(string url)

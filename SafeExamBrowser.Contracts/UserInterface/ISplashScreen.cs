@@ -10,18 +10,8 @@ using SafeExamBrowser.Contracts.I18n;
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
-	public interface ISplashScreen
+	public interface ISplashScreen : IWindow
 	{
-		/// <summary>
-		/// Closes the splash screen on its own thread.
-		/// </summary>
-		void InvokeClose();
-
-		/// <summary>
-		/// Shows the splash screen on its own thread.
-		/// </summary>
-		void InvokeShow();
-
 		/// <summary>
 		/// Updates the progress bar of the splash screen according to the specified amount.
 		/// </summary>

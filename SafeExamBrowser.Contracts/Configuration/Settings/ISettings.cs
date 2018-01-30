@@ -26,12 +26,17 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		IKeyboardSettings Keyboard { get; }
 
 		/// <summary>
+		/// The kiosk mode which determines how the computer is locked down.
+		/// </summary>
+		KioskMode KioskMode { get; }
+
+		/// <summary>
 		/// All mouse-related settings.
 		/// </summary>
 		IMouseSettings Mouse { get; }
 
 		/// <summary>
-		/// The active service policy.
+		/// The active policy for the service component.
 		/// </summary>
 		ServicePolicy ServicePolicy { get; }
 

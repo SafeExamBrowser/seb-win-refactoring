@@ -33,6 +33,12 @@
   <Entry key="RuntimeWindow_ApplicationRunning">
     The application is running.
   </Entry>
+  <Entry key="RuntimeWindow_StartSession">
+    Starting new session
+  </Entry>
+  <Entry key="RuntimeWindow_StopSession">
+    Stopping current session
+  </Entry>
   <Entry key="SplashScreen_CloseServiceConnection">
     Closing service connection
   </Entry>
@@ -44,6 +50,9 @@
   </Entry>
   <Entry key="SplashScreen_InitializeConfiguration">
     Initializing application configuration
+  </Entry>
+  <Entry key="SplashScreen_InitializeKioskMode">
+    Initializing kiosk mode
   </Entry>
   <Entry key="SplashScreen_InitializeProcessMonitoring">
     Initializing process monitoring
@@ -62,6 +71,9 @@
   </Entry>
   <Entry key="SplashScreen_RestoreWorkingArea">
     Restoring working area
+  </Entry>
+  <Entry key="SplashScreen_RevertKioskMode">
+    Reverting kiosk mode
   </Entry>
   <Entry key="SplashScreen_ShutdownProcedure">
     Initiating shutdown procedure

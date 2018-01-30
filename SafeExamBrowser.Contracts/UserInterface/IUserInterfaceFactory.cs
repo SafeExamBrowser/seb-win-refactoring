@@ -52,6 +52,12 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		ISystemPowerSupplyControl CreatePowerSupplyControl();
 
 		/// <summary>
+		/// Creates a new runtime window which runs on its own thread.
+		/// </summary>
+		/// <returns></returns>
+		IRuntimeWindow CreateRuntimeWindow(IRuntimeInfo runtimeInfo, IText text);
+
+		/// <summary>
 		/// Creates a new splash screen which runs on its own thread.
 		/// </summary>
 		ISplashScreen CreateSplashScreen(IRuntimeInfo runtimeInfo, IText text);

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Windows;
 using SafeExamBrowser.Configuration;
 using SafeExamBrowser.Configuration.Settings;
 using SafeExamBrowser.Contracts.Behaviour;
@@ -35,7 +36,6 @@ namespace SafeExamBrowser.Runtime
 
 		internal IRuntimeController RuntimeController { get; private set; }
 		internal Queue<IOperation> StartupOperations { get; private set; }
-		internal RuntimeWindow RuntimeWindow { get; private set; }
 
 		internal void BuildObjectGraph()
 		{
@@ -56,16 +56,13 @@ namespace SafeExamBrowser.Runtime
 			var shutdownController = new ShutdownController(logger, runtimeInfo, text, uiFactory);
 			var startupController = new StartupController(logger, runtimeInfo, systemInfo, text, uiFactory);
 
-			RuntimeWindow = new RuntimeWindow(new DefaultLogFormatter(), runtimeInfo, text);
-			RuntimeController = new RuntimeController(serviceProxy, new ModuleLogger(logger, typeof(RuntimeController)), RuntimeWindow, settingsRepository, shutdownController, startupController);
-
-			logger.Subscribe(RuntimeWindow);
+			RuntimeController = new RuntimeController(new ModuleLogger(logger, typeof(RuntimeController)), runtimeInfo, serviceProxy, settingsRepository, shutdownController, startupController, Application.Current.Shutdown, text, uiFactory);
 
 			StartupOperations = new Queue<IOperation>();
 			StartupOperations.Enqueue(new I18nOperation(logger, text));
 			StartupOperations.Enqueue(new ConfigurationOperation(logger, runtimeInfo, settingsRepository, text, uiFactory, args));
 			StartupOperations.Enqueue(new ServiceOperation(logger, serviceProxy, settingsRepository, text));
-			StartupOperations.Enqueue(new KioskModeOperation());
+			StartupOperations.Enqueue(new KioskModeOperation(logger, settingsRepository));
 		}
 
 		internal void LogStartupInformation()

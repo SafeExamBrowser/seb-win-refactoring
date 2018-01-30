@@ -81,6 +81,7 @@
     <Compile Include="Behaviour\IStartupController.cs" />
     <Compile Include="Configuration\Settings\ISettingsRepository.cs" />
     <Compile Include="Configuration\Settings\ITaskbarSettings.cs" />
+    <Compile Include="Configuration\Settings\KioskMode.cs" />
     <Compile Include="Configuration\Settings\ServicePolicy.cs" />
     <Compile Include="I18n\IText.cs" />
     <Compile Include="I18n\TextKey.cs" />

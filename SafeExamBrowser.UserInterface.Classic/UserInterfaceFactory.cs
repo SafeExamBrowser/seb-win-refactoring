@@ -15,6 +15,7 @@ using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SafeExamBrowser.UserInterface.Classic.Controls;
+using SafeExamBrowser.UserInterface.Classic.Utilities;
 using MessageBoxResult = SafeExamBrowser.Contracts.UserInterface.MessageBoxResult;
 
 namespace SafeExamBrowser.UserInterface.Classic
@@ -74,6 +75,30 @@ namespace SafeExamBrowser.UserInterface.Classic
 		public ISystemPowerSupplyControl CreatePowerSupplyControl()
 		{
 			return new PowerSupplyControl();
+		}
+
+		public IRuntimeWindow CreateRuntimeWindow(IRuntimeInfo runtimeInfo, IText text)
+		{
+			RuntimeWindow runtimeWindow = null;
+			var windowReadyEvent = new AutoResetEvent(false);
+			var runtimeWindowThread = new Thread(() =>
+			{
+				runtimeWindow = new RuntimeWindow(new RuntimeWindowLogFormatter(), runtimeInfo, text);
+				runtimeWindow.Closed += (o, args) => runtimeWindow.Dispatcher.InvokeShutdown();
+
+				windowReadyEvent.Set();
+
+				System.Windows.Threading.Dispatcher.Run();
+			});
+
+			runtimeWindowThread.SetApartmentState(ApartmentState.STA);
+			runtimeWindowThread.Name = nameof(RuntimeWindow);
+			runtimeWindowThread.IsBackground = true;
+			runtimeWindowThread.Start();
+
+			windowReadyEvent.WaitOne();
+
+			return runtimeWindow;
 		}
 
 		public ISplashScreen CreateSplashScreen(IRuntimeInfo runtimeInfo, IText text)

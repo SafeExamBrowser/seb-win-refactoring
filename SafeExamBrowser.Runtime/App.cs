@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 
@@ -56,6 +55,8 @@ namespace SafeExamBrowser.Runtime
 		{
 			base.OnStartup(e);
 
+			ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
 			instances.BuildObjectGraph();
 			instances.LogStartupInformation();
 
@@ -63,9 +64,7 @@ namespace SafeExamBrowser.Runtime
 
 			if (success)
 			{
-				MainWindow = instances.RuntimeWindow;
-				MainWindow.Closing += MainWindow_Closing;
-				MainWindow.Show();
+				instances.RuntimeController.StartSession();
 			}
 			else
 			{
@@ -75,15 +74,10 @@ namespace SafeExamBrowser.Runtime
 
 		protected override void OnExit(ExitEventArgs e)
 		{
+			instances.RuntimeController.FinalizeApplication();
 			instances.LogShutdownInformation();
 
 			base.OnExit(e);
-		}
-
-		private void MainWindow_Closing(object sender, CancelEventArgs e)
-		{
-			MainWindow.Hide();
-			instances.RuntimeController.FinalizeApplication();
 		}
 	}
 }

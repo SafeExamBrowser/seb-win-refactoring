@@ -14,5 +14,10 @@ namespace SafeExamBrowser.Contracts.Behaviour
 		/// Reverts any changes performed during the startup or runtime and releases all used resources.
 		/// </summary>
 		void FinalizeApplication();
+
+		/// <summary>
+		/// Initializes a new session and starts performing the runtime logic / event handling.
+		/// </summary>
+		void StartSession();
 	}
 }

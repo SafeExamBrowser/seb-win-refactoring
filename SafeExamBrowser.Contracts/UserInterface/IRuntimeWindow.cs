@@ -7,15 +7,16 @@
  */
 
 using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
-	public interface IRuntimeWindow : IWindow
+	public interface IRuntimeWindow : ILogObserver, IWindow
 	{
 		/// <summary>
 		/// Updates the status text of the runtime window. If the busy flag is set,
 		/// the window will show an animation to indicate a long-running operation.
 		/// </summary>
-		void UpdateStatus(TextKey key);
+		void UpdateStatus(TextKey key, bool showBusyIndication = false);
 	}
 }

@@ -117,7 +117,7 @@ namespace SafeExamBrowser.Core.Behaviour
 			splashScreen = uiFactory.CreateSplashScreen(runtimeInfo, text);
 			splashScreen.SetMaxProgress(operationCount);
 			splashScreen.UpdateText(TextKey.SplashScreen_StartupProcedure);
-			splashScreen.InvokeShow();
+			splashScreen.Show();
 		}
 
 		private void LogAndShowException(Exception e)
@@ -139,7 +139,7 @@ namespace SafeExamBrowser.Core.Behaviour
 				logger.Info("--- Startup procedure aborted! ---");
 			}
 
-			splashScreen?.InvokeClose();
+			splashScreen?.Close();
 		}
 	}
 }

@@ -28,6 +28,11 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		void Close();
 
 		/// <summary>
+		/// Hides the window.
+		/// </summary>
+		void Hide();
+
+		/// <summary>
 		/// Shows the window to the user.
 		/// </summary>
 		void Show();

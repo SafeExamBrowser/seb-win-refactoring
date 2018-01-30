@@ -77,6 +77,12 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			return new PowerSupplyControl();
 		}
 
+		public IRuntimeWindow CreateRuntimeWindow(IRuntimeInfo runtimeInfo, IText text)
+		{
+			// TODO
+			throw new System.NotImplementedException();
+		}
+
 		public ISplashScreen CreateSplashScreen(IRuntimeInfo runtimeInfo, IText text)
 		{
 			SplashScreen splashScreen = null;

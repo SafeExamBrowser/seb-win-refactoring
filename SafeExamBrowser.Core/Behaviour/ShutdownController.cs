@@ -72,7 +72,7 @@ namespace SafeExamBrowser.Core.Behaviour
 			splashScreen = uiFactory.CreateSplashScreen(runtimeInfo, text);
 			splashScreen.SetIndeterminate();
 			splashScreen.UpdateText(TextKey.SplashScreen_ShutdownProcedure);
-			splashScreen.InvokeShow();
+			splashScreen.Show();
 		}
 
 		private void LogAndShowException(Exception e)
@@ -92,7 +92,7 @@ namespace SafeExamBrowser.Core.Behaviour
 				logger.Info("--- Shutdown procedure failed! ---");
 			}
 
-			splashScreen?.InvokeClose();
+			splashScreen?.Close();
 		}
 	}
 }

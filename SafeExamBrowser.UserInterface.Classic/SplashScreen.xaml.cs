@@ -17,9 +17,17 @@ namespace SafeExamBrowser.UserInterface.Classic
 {
 	public partial class SplashScreen : Window, ISplashScreen
 	{
+		private bool allowClose;
 		private SplashScreenViewModel model = new SplashScreenViewModel();
 		private IRuntimeInfo runtimeInfo;
 		private IText text;
+		private WindowClosingEventHandler closing;
+
+		event WindowClosingEventHandler IWindow.Closing
+		{
+			add { closing += value; }
+			remove { closing -= value; }
+		}
 
 		public SplashScreen(IRuntimeInfo runtimeInfo, IText text)
 		{
@@ -30,14 +38,28 @@ namespace SafeExamBrowser.UserInterface.Classic
 			InitializeSplashScreen();
 		}
 
-		public void InvokeClose()
+		public void BringToForeground()
 		{
-			Dispatcher.Invoke(Close);
+			Dispatcher.Invoke(Activate);
 		}
 
-		public void InvokeShow()
+		public new void Close()
 		{
-			Dispatcher.Invoke(Show);
+			Dispatcher.Invoke(() =>
+			{
+				allowClose = true;
+				base.Close();
+			});
+		}
+
+		public new void Hide()
+		{
+			Dispatcher.Invoke(base.Hide);
+		}
+
+		public new void Show()
+		{
+			Dispatcher.Invoke(base.Show);
 		}
 
 		public void Progress(int amount = 1)
@@ -83,6 +105,8 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 			// To prevent the progress bar going from max to min value at startup...
 			model.MaxProgress = 1;
+
+			Closing += (o, args) => args.Cancel = !allowClose;
 		}
 	}
 }

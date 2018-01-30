@@ -47,6 +47,11 @@ namespace SafeExamBrowser.UserInterface.Classic
 			Dispatcher.Invoke(base.Close);
 		}
 
+		public new void Hide()
+		{
+			Dispatcher.Invoke(base.Hide);
+		}
+
 		public new void Show()
 		{
 			Dispatcher.Invoke(base.Show);

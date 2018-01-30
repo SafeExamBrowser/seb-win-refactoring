@@ -6,10 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Communication;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -19,66 +21,107 @@ namespace SafeExamBrowser.Runtime.Behaviour
 {
 	internal class RuntimeController : IRuntimeController
 	{
-		private ICommunication serviceProxy;
 		private Queue<IOperation> operations;
 		private ILogger logger;
+		private IRuntimeInfo runtimeInfo;
 		private IRuntimeWindow runtimeWindow;
+		private IServiceProxy serviceProxy;
 		private ISettingsRepository settingsRepository;
 		private IShutdownController shutdownController;
 		private IStartupController startupController;
-
-		public ISettings Settings { private get; set; }
+		private Action terminationCallback;
+		private IText text;
+		private IUserInterfaceFactory uiFactory;
 
 		public RuntimeController(
-			ICommunication serviceProxy,
 			ILogger logger,
-			IRuntimeWindow runtimeWindow,
+			IRuntimeInfo runtimeInfo,
+			IServiceProxy serviceProxy,
 			ISettingsRepository settingsRepository,
 			IShutdownController shutdownController,
-			IStartupController startupController)
+			IStartupController startupController,
+			Action terminationCallback,
+			IText text,
+			IUserInterfaceFactory uiFactory)
 		{
-			this.serviceProxy = serviceProxy;
 			this.logger = logger;
-			this.runtimeWindow = runtimeWindow;
+			this.runtimeInfo = runtimeInfo;
+			this.serviceProxy = serviceProxy;
 			this.settingsRepository = settingsRepository;
 			this.shutdownController = shutdownController;
 			this.startupController = startupController;
+			this.terminationCallback = terminationCallback;
+			this.text = text;
+			this.uiFactory = uiFactory;
 
 			operations = new Queue<IOperation>();
 		}
 
 		public bool TryInitializeApplication(Queue<IOperation> operations)
 		{
-			operations = new Queue<IOperation>(operations);
-
 			var success = startupController.TryInitializeApplication(operations);
+
+			runtimeWindow = uiFactory.CreateRuntimeWindow(runtimeInfo, text);
 
 			if (success)
 			{
-				Start();
+				this.operations = new Queue<IOperation>(operations);
+				logger.Subscribe(runtimeWindow);
 			}
 
 			return success;
 		}
 
+		public void StartSession()
+		{
+			runtimeWindow.Show();
+
+			logger.Info("Starting new session...");
+			runtimeWindow.UpdateStatus(TextKey.RuntimeWindow_StartSession, true);
+
+			// TODO:
+			// - Initialize configuration
+			// - Initialize kiosk mode
+			// - Initialize session data
+			// - Start runtime communication host
+			// - Create and connect to client
+			// - Initialize session with service
+			// - Verify session integrity and start event handling
+			System.Threading.Thread.Sleep(10000);
+
+			runtimeWindow.UpdateStatus(TextKey.RuntimeWindow_ApplicationRunning);
+
+			if (settingsRepository.Current.KioskMode == KioskMode.DisableExplorerShell)
+			{
+				runtimeWindow.Hide();
+			}
+		}
+
 		public void FinalizeApplication()
 		{
-			Stop();
+			StopSession();
+
+			// TODO:
+			// - Disconnect from service
+			// - Terminate runtime communication host
+			// - Revert kiosk mode (or do that when stopping session?)
+
+			logger.Unsubscribe(runtimeWindow);
+			runtimeWindow.Close();
 			shutdownController.FinalizeApplication(new Queue<IOperation>(operations.Reverse()));
 		}
 
-		private void Start()
+		private void StopSession()
 		{
-			logger.Info("Starting event handling...");
-			// TODO SplashScreen.UpdateText(TextKey.SplashScreen_StartEventHandling);
+			logger.Info("Stopping current session...");
+			runtimeWindow.Show();
+			runtimeWindow.BringToForeground();
+			runtimeWindow.UpdateStatus(TextKey.RuntimeWindow_StopSession, true);
 
-			runtimeWindow.UpdateStatus(TextKey.RuntimeWindow_ApplicationRunning);
-		}
-
-		private void Stop()
-		{
-			logger.Info("Stopping event handling...");
-			// TODO SplashScreen.UpdateText(TextKey.SplashScreen_StopEventHandling);
+			// TODO:
+			// - Terminate client (or does it terminate itself?)
+			// - Finalize session with service
+			// - Stop event handling and close session
 		}
 	}
 }
