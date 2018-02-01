@@ -91,7 +91,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 
 			sut.Perform();
 
-			Assert.IsTrue(sut.AbortStartup);
+			Assert.IsTrue(sut.Abort);
 		}
 
 		[TestMethod]
@@ -103,7 +103,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			sut.Perform();
 
 			service.VerifySet(s => s.Ignore = true);
-			Assert.IsFalse(sut.AbortStartup);
+			Assert.IsFalse(sut.Abort);
 		}
 
 		[TestMethod]

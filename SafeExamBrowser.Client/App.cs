@@ -12,7 +12,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
-using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 
 namespace SafeExamBrowser.Client
 {
@@ -61,18 +61,18 @@ namespace SafeExamBrowser.Client
 
 			instances.BuildObjectGraph();
 
-			var success = instances.StartupController.TryInitializeApplication(instances.StartupOperations);
+			//var success = instances.StartupController.TryInitializeApplication(instances.StartupOperations);
 
-			if (success)
-			{
-				MainWindow = instances.Taskbar;
-				MainWindow.Closing += MainWindow_Closing;
-				MainWindow.Show();
-			}
-			else
-			{
-				Shutdown();
-			}
+			//if (success)
+			//{
+			//	MainWindow = instances.Taskbar;
+			//	MainWindow.Closing += MainWindow_Closing;
+			//	MainWindow.Show();
+			//}
+			//else
+			//{
+			//	Shutdown();
+			//}
 		}
 
 		private void MainWindow_Closing(object sender, CancelEventArgs e)
@@ -80,7 +80,7 @@ namespace SafeExamBrowser.Client
 			var operations = new Queue<IOperation>(instances.StartupOperations.Reverse());
 
 			MainWindow.Hide();
-			instances.ShutdownController.FinalizeApplication(operations);
+			//instances.ShutdownController.FinalizeApplication(operations);
 		}
 	}
 }

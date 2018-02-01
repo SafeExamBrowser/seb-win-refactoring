@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Behaviour\IApplicationController.cs" />
     <Compile Include="Behaviour\IRuntimeController.cs" />
+    <Compile Include="Behaviour\Operations\IOperationSequence.cs" />
     <Compile Include="Communication\ICommunication.cs" />
     <Compile Include="Communication\IClientProxy.cs" />
     <Compile Include="Communication\IRuntimeProxy.cs" />
@@ -65,7 +66,7 @@
     <Compile Include="Configuration\IRuntimeInfo.cs" />
     <Compile Include="Configuration\Settings\ConfigurationMode.cs" />
     <Compile Include="Behaviour\INotificationController.cs" />
-    <Compile Include="Behaviour\IOperation.cs" />
+    <Compile Include="Behaviour\Operations\IOperation.cs" />
     <Compile Include="Behaviour\IClientController.cs" />
     <Compile Include="Configuration\IIconResource.cs" />
     <Compile Include="Configuration\IApplicationInfo.cs" />
@@ -77,8 +78,6 @@
     <Compile Include="Configuration\Settings\IKeyboardSettings.cs" />
     <Compile Include="Configuration\Settings\IMouseSettings.cs" />
     <Compile Include="Configuration\Settings\ISettings.cs" />
-    <Compile Include="Behaviour\IShutdownController.cs" />
-    <Compile Include="Behaviour\IStartupController.cs" />
     <Compile Include="Configuration\Settings\ISettingsRepository.cs" />
     <Compile Include="Configuration\Settings\ITaskbarSettings.cs" />
     <Compile Include="Configuration\Settings\KioskMode.cs" />

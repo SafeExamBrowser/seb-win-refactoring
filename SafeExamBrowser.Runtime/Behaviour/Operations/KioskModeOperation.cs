@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private ISettingsRepository settingsRepository;
 		private KioskMode kioskMode;
 
-		public bool AbortStartup { get; private set; }
+		public bool Abort { get; private set; }
 		public ISplashScreen SplashScreen { private get; set; }
 
 		public KioskModeOperation(ILogger logger, ISettingsRepository settingsRepository)
@@ -46,6 +46,11 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			}
 		}
 
+		public void Repeat()
+		{
+			// TODO
+		}
+
 		public void Revert()
 		{
 			logger.Info($"Reverting kiosk mode '{kioskMode}'...");
@@ -63,22 +68,22 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 		private void CreateNewDesktop()
 		{
-			
+			// TODO
 		}
 
 		private void CloseNewDesktop()
 		{
-			
+			// TODO
 		}
 
 		private void DisableExplorerShell()
 		{
-			
+			// TODO
 		}
 
 		private void RestartExplorerShell()
 		{
-			
+			// TODO
 		}
 	}
 }

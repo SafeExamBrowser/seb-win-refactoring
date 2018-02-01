@@ -79,8 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviour\Operations\I18nOperationTests.cs" />
-    <Compile Include="Behaviour\StartupControllerTests.cs" />
-    <Compile Include="Behaviour\ShutdownControllerTests.cs" />
+    <Compile Include="Behaviour\Operations\OperationSequenceTests.cs" />
     <Compile Include="I18n\TextTests.cs" />
     <Compile Include="I18n\XmlTextResourceTests.cs" />
     <Compile Include="Logging\DefaultLogFormatterTests.cs" />

@@ -8,8 +8,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
@@ -21,52 +21,56 @@ namespace SafeExamBrowser.Runtime.Behaviour
 {
 	internal class RuntimeController : IRuntimeController
 	{
-		private Queue<IOperation> operations;
 		private ILogger logger;
 		private IRuntimeInfo runtimeInfo;
 		private IRuntimeWindow runtimeWindow;
 		private IServiceProxy serviceProxy;
 		private ISettingsRepository settingsRepository;
-		private IShutdownController shutdownController;
-		private IStartupController startupController;
+		private IOperationSequence operationSequence;
 		private Action terminationCallback;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 
 		public RuntimeController(
 			ILogger logger,
+			IOperationSequence operationSequence,
 			IRuntimeInfo runtimeInfo,
 			IServiceProxy serviceProxy,
 			ISettingsRepository settingsRepository,
-			IShutdownController shutdownController,
-			IStartupController startupController,
 			Action terminationCallback,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
+			this.operationSequence = operationSequence;
 			this.runtimeInfo = runtimeInfo;
 			this.serviceProxy = serviceProxy;
 			this.settingsRepository = settingsRepository;
-			this.shutdownController = shutdownController;
-			this.startupController = startupController;
 			this.terminationCallback = terminationCallback;
 			this.text = text;
 			this.uiFactory = uiFactory;
-
-			operations = new Queue<IOperation>();
 		}
 
-		public bool TryInitializeApplication(Queue<IOperation> operations)
+		public bool TryStart(Queue<IOperation> operations)
 		{
-			var success = startupController.TryInitializeApplication(operations);
+			logger.Info("--- Initiating startup procedure ---");
+
+			var success = operationSequence.TryPerform(operations);
 
 			runtimeWindow = uiFactory.CreateRuntimeWindow(runtimeInfo, text);
 
 			if (success)
 			{
-				this.operations = new Queue<IOperation>(operations);
+				logger.Info("--- Application successfully initialized! ---");
+				logger.Log(string.Empty);
 				logger.Subscribe(runtimeWindow);
+
+				StartSession();
+			}
+			else
+			{
+				logger.Info("--- Application startup aborted! ---");
+				logger.Log(string.Empty);
 			}
 
 			return success;
@@ -95,9 +99,11 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			{
 				runtimeWindow.Hide();
 			}
+
+			terminationCallback.Invoke();
 		}
 
-		public void FinalizeApplication()
+		public void Terminate()
 		{
 			StopSession();
 
@@ -108,7 +114,20 @@ namespace SafeExamBrowser.Runtime.Behaviour
 
 			logger.Unsubscribe(runtimeWindow);
 			runtimeWindow.Close();
-			shutdownController.FinalizeApplication(new Queue<IOperation>(operations.Reverse()));
+
+			logger.Log(string.Empty);
+			logger.Info("--- Initiating shutdown procedure ---");
+
+			var success = operationSequence.TryRevert();
+
+			if (success)
+			{
+				logger.Info("--- Application successfully finalized! ---");
+			}
+			else
+			{
+				logger.Info("--- Shutdown procedure failed! ---");
+			}
 		}
 
 		private void StopSession()

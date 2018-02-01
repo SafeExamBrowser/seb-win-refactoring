@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
@@ -19,7 +19,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private ILogger logger;
 		private IProcessMonitor processMonitor;
 
-		public bool AbortStartup { get; private set; }
+		public bool Abort { get; private set; }
 		public ISplashScreen SplashScreen { private get; set; }
 
 		public ProcessMonitorOperation(ILogger logger, IProcessMonitor processMonitor)
@@ -39,6 +39,11 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeProcessMonitoring);
 
 			// TODO
+		}
+
+		public void Repeat()
+		{
+			// Nothing to do here...
 		}
 
 		public void Revert()

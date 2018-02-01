@@ -8,14 +8,14 @@
 
 using SafeExamBrowser.Contracts.UserInterface;
 
-namespace SafeExamBrowser.Contracts.Behaviour
+namespace SafeExamBrowser.Contracts.Behaviour.Operations
 {
 	public interface IOperation
 	{
 		/// <summary>
-		/// Determines whether the startup procedure to which this operation belongs should be aborted.
+		/// Determines whether the procedure to which this operation belongs should be aborted.
 		/// </summary>
-		bool AbortStartup { get; }
+		bool Abort { get; }
 
 		/// <summary>
 		/// The splash screen to be used to show status information to the user.
@@ -26,6 +26,11 @@ namespace SafeExamBrowser.Contracts.Behaviour
 		/// Performs the operation.
 		/// </summary>
 		void Perform();
+
+		/// <summary>
+		/// Repeats the operation.
+		/// </summary>
+		void Repeat();
 
 		/// <summary>
 		/// Reverts all changes which were made when performing the operation.

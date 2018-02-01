@@ -11,6 +11,7 @@ using SafeExamBrowser.Browser;
 using SafeExamBrowser.Configuration;
 using SafeExamBrowser.Configuration.Settings;
 using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
@@ -47,8 +48,8 @@ namespace SafeExamBrowser.Client
 		private IUserInterfaceFactory uiFactory;
 		private IWindowMonitor windowMonitor;
 
-		internal IShutdownController ShutdownController { get; private set; }
-		internal IStartupController StartupController { get; private set; }
+		//internal IShutdownController ShutdownController { get; private set; }
+		//internal IStartupController StartupController { get; private set; }
 		internal Queue<IOperation> StartupOperations { get; private set; }
 		internal Taskbar Taskbar { get; private set; }
 

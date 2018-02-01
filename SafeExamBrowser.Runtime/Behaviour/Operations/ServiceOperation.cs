@@ -7,7 +7,7 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
@@ -25,7 +25,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private ISettingsRepository settingsRepository;
 		private IText text;
 
-		public bool AbortStartup { get; private set; }
+		public bool Abort { get; private set; }
 		public ISplashScreen SplashScreen { private get; set; }
 
 		public ServiceOperation(ILogger logger, IServiceProxy service, ISettingsRepository settingsRepository, IText text)
@@ -48,32 +48,24 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			}
 			catch (Exception e)
 			{
-				var message = "Failed to connect to the service component!";
-
-				if (serviceMandatory)
-				{
-					logger.Error(message, e);
-				}
-				else
-				{
-					logger.Info($"{message} Reason: {e.Message}");
-				}
+				LogException(e);
 			}
 
 			if (serviceMandatory && !serviceAvailable)
 			{
-				AbortStartup = true;
+				Abort = true;
 				logger.Info("Aborting startup because the service is mandatory but not available!");
-			}
-			else if (!serviceAvailable)
-			{
-				service.Ignore = true;
-				logger.Info("All service-related operations will be ignored, since the service is optional and not available.");
 			}
 			else
 			{
-				logger.Info($"The service is {(serviceMandatory ? "mandatory" : "optional")} and available.");
+				service.Ignore = !serviceAvailable;
+				logger.Info($"The service is {(serviceMandatory ? "mandatory" : "optional")} and {(serviceAvailable ? "available." : "not available. All service-related operations will be ignored!")}");
 			}
+		}
+
+		public void Repeat()
+		{
+			// TODO
 		}
 
 		public void Revert()
@@ -91,6 +83,20 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 				{
 					logger.Error("Failed to disconnect from service component!", e);
 				}
+			}
+		}
+
+		private void LogException(Exception e)
+		{
+			var message = "Failed to connect to the service component!";
+
+			if (serviceMandatory)
+			{
+				logger.Error(message, e);
+			}
+			else
+			{
+				logger.Info($"{message} Reason: {e.Message}");
 			}
 		}
 	}

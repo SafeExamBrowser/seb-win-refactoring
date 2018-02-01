@@ -60,13 +60,9 @@ namespace SafeExamBrowser.Runtime
 			instances.BuildObjectGraph();
 			instances.LogStartupInformation();
 
-			var success = instances.RuntimeController.TryInitializeApplication(instances.StartupOperations);
+			var success = instances.RuntimeController.TryStart(instances.StartupOperations);
 
-			if (success)
-			{
-				instances.RuntimeController.StartSession();
-			}
-			else
+			if (!success)
 			{
 				Shutdown();
 			}
@@ -74,7 +70,7 @@ namespace SafeExamBrowser.Runtime
 
 		protected override void OnExit(ExitEventArgs e)
 		{
-			instances.RuntimeController.FinalizeApplication();
+			instances.RuntimeController.Terminate();
 			instances.LogShutdownInformation();
 
 			base.OnExit(e);

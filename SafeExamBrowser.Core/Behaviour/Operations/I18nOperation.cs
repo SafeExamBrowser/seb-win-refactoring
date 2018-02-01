@@ -9,7 +9,7 @@
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		private ILogger logger;
 		private IText text;
 
-		public bool AbortStartup { get; private set; }
+		public bool Abort { get; private set; }
 		public ISplashScreen SplashScreen { private get; set; }
 
 		public I18nOperation(ILogger logger, IText text)
@@ -40,6 +40,11 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			var textResource = new XmlTextResource(path);
 
 			text.Initialize(textResource);
+		}
+
+		public void Repeat()
+		{
+			// Nothing to do here...
 		}
 
 		public void Revert()

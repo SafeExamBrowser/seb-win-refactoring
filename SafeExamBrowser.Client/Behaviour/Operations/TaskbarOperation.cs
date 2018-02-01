@@ -8,6 +8,7 @@
 
 using SafeExamBrowser.Client.Notifications;
 using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
@@ -31,7 +32,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private IUserInterfaceFactory uiFactory;
 		private IText text;
 
-		public bool AbortStartup { get; private set; }
+		public bool Abort { get; private set; }
 		public ISplashScreen SplashScreen { private get; set; }
 
 		public TaskbarOperation(
@@ -80,6 +81,11 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			{
 				AddWirelessNetworkControl();
 			}
+		}
+
+		public void Repeat()
+		{
+			// Nothing to do here...
 		}
 
 		public void Revert()

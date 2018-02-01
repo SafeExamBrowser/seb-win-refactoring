@@ -9,35 +9,33 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 
-namespace SafeExamBrowser.Core.Behaviour
+namespace SafeExamBrowser.Core.Behaviour.Operations
 {
-	public class StartupController : IStartupController
+	public class OperationSequence : IOperationSequence
 	{
 		private ILogger logger;
 		private IRuntimeInfo runtimeInfo;
 		private ISplashScreen splashScreen;
-		private ISystemInfo systemInfo;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 
 		private Stack<IOperation> stack = new Stack<IOperation>();
 
-		public StartupController(ILogger logger, IRuntimeInfo runtimeInfo, ISystemInfo systemInfo, IText text, IUserInterfaceFactory uiFactory)
+		public OperationSequence(ILogger logger, IRuntimeInfo runtimeInfo, IText text, IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
 			this.runtimeInfo = runtimeInfo;
-			this.systemInfo = systemInfo;
 			this.text = text;
 			this.uiFactory = uiFactory;
 		}
 
-		public bool TryInitializeApplication(Queue<IOperation> operations)
+		public bool TryPerform(Queue<IOperation> operations)
 		{
 			var success = false;
 
@@ -50,16 +48,60 @@ namespace SafeExamBrowser.Core.Behaviour
 				{
 					RevertOperations();
 				}
-
-				Finish(success);
 			}
 			catch (Exception e)
 			{
-				LogAndShowException(e);
-				Finish(false);
+				logger.Error($"Failed to perform operations!", e);
+			}
+			finally
+			{
+				Finish();
 			}
 
 			return success;
+		}
+
+		public bool TryRepeat()
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool TryRevert()
+		{
+			var success = false;
+
+			try
+			{
+				Initialize();
+				success = RevertOperations(false);
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to revert operations!", e);
+			}
+			finally
+			{
+				Finish();
+			}
+
+			return success;
+		}
+
+		private void Initialize(int? operationCount = null)
+		{
+			splashScreen = uiFactory.CreateSplashScreen(runtimeInfo, text);
+
+			if (operationCount.HasValue)
+			{
+				splashScreen.SetMaxProgress(operationCount.Value);
+			}
+			else
+			{
+				splashScreen.SetIndeterminate();
+			}
+
+			splashScreen.UpdateText(TextKey.SplashScreen_StartupProcedure);
+			splashScreen.Show();
 		}
 
 		private bool Perform(Queue<IOperation> operations)
@@ -75,12 +117,12 @@ namespace SafeExamBrowser.Core.Behaviour
 				}
 				catch (Exception e)
 				{
-					LogAndShowException(e);
+					logger.Error($"Failed to perform operation '{operation.GetType().Name}'!", e);
 
 					return false;
 				}
 
-				if (operation.AbortStartup)
+				if (operation.Abort)
 				{
 					return false;
 				}
@@ -91,8 +133,10 @@ namespace SafeExamBrowser.Core.Behaviour
 			return true;
 		}
 
-		private void RevertOperations()
+		private bool RevertOperations(bool regress = true)
 		{
+			var success = true;
+
 			while (stack.Any())
 			{
 				var operation = stack.Pop();
@@ -104,41 +148,20 @@ namespace SafeExamBrowser.Core.Behaviour
 				catch (Exception e)
 				{
 					logger.Error($"Failed to revert operation '{operation.GetType().Name}'!", e);
+					success = false;
 				}
 
-				splashScreen.Regress();
-			}
-		}
-
-		private void Initialize(int operationCount)
-		{
-			logger.Info("--- Initiating startup procedure ---");
-
-			splashScreen = uiFactory.CreateSplashScreen(runtimeInfo, text);
-			splashScreen.SetMaxProgress(operationCount);
-			splashScreen.UpdateText(TextKey.SplashScreen_StartupProcedure);
-			splashScreen.Show();
-		}
-
-		private void LogAndShowException(Exception e)
-		{
-			logger.Error($"Failed to initialize application!", e);
-			uiFactory.Show(text.Get(TextKey.MessageBox_StartupError), text.Get(TextKey.MessageBox_StartupErrorTitle), icon: MessageBoxIcon.Error);
-			logger.Info("Reverting operations...");
-		}
-
-		private void Finish(bool success = true)
-		{
-			if (success)
-			{
-				logger.Info("--- Application successfully initialized! ---");
-				logger.Log(string.Empty);
-			}
-			else
-			{
-				logger.Info("--- Startup procedure aborted! ---");
+				if (regress)
+				{
+					splashScreen.Regress();
+				}
 			}
 
+			return success;
+		}
+
+		private void Finish()
+		{
 			splashScreen?.Close();
 		}
 	}

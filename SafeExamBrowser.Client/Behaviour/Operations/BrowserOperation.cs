@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -23,7 +24,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private ITaskbar taskbar;
 		private IUserInterfaceFactory uiFactory;
 
-		public bool AbortStartup { get; private set; }
+		public bool Abort { get; private set; }
 		public ISplashScreen SplashScreen { private get; set; }
 
 		public BrowserOperation(
@@ -51,6 +52,11 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			browserController.RegisterApplicationButton(browserButton);
 
 			taskbar.AddApplication(browserButton);
+		}
+
+		public void Repeat()
+		{
+			// Nothing to do here...
 		}
 
 		public void Revert()

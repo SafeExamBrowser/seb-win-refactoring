@@ -8,7 +8,7 @@
 
 using System;
 using System.IO;
-using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
@@ -26,7 +26,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private IUserInterfaceFactory uiFactory;
 		private string[] commandLineArgs;
 
-		public bool AbortStartup { get; private set; }
+		public bool Abort { get; private set; }
 		public ISplashScreen SplashScreen { private get; set; }
 
 		public ConfigurationOperation(
@@ -60,8 +60,8 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 				if (settings.ConfigurationMode == ConfigurationMode.ConfigureClient && UserWantsToAbortStartup())
 				{
-					AbortStartup = true;
-					logger.Info($"The user chose to {(AbortStartup ? "abort" : "continue")} the application startup after successful client configuration.");
+					Abort = true;
+					logger.Info($"The user chose to {(Abort ? "abort" : "continue")} the application startup after successful client configuration.");
 				}
 			}
 			else
@@ -69,6 +69,11 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 				logger.Info("No valid settings file specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
 				settings = repository.LoadDefaults();
 			}
+		}
+
+		public void Repeat()
+		{
+			// TODO
 		}
 
 		public void Revert()

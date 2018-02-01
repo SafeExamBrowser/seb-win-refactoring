@@ -14,9 +14,9 @@ using System.Windows;
 using SafeExamBrowser.Configuration;
 using SafeExamBrowser.Configuration.Settings;
 using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Core.Behaviour;
 using SafeExamBrowser.Core.Behaviour.Operations;
 using SafeExamBrowser.Core.Communication;
 using SafeExamBrowser.Core.I18n;
@@ -52,11 +52,10 @@ namespace SafeExamBrowser.Runtime
 			InitializeLogging();
 
 			var text = new Text(logger);
+			var operationSequence = new OperationSequence(logger, runtimeInfo, text, uiFactory);
 			var serviceProxy = new ServiceProxy(new ModuleLogger(logger, typeof(ServiceProxy)), "net.pipe://localhost/safeexambrowser/service");
-			var shutdownController = new ShutdownController(logger, runtimeInfo, text, uiFactory);
-			var startupController = new StartupController(logger, runtimeInfo, systemInfo, text, uiFactory);
 
-			RuntimeController = new RuntimeController(new ModuleLogger(logger, typeof(RuntimeController)), runtimeInfo, serviceProxy, settingsRepository, shutdownController, startupController, Application.Current.Shutdown, text, uiFactory);
+			RuntimeController = new RuntimeController(logger, operationSequence, runtimeInfo, serviceProxy, settingsRepository, Application.Current.Shutdown, text, uiFactory);
 
 			StartupOperations = new Queue<IOperation>();
 			StartupOperations.Enqueue(new I18nOperation(logger, text));

@@ -6,18 +6,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Generic;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
+
 namespace SafeExamBrowser.Contracts.Behaviour
 {
-	public interface IRuntimeController : IStartupController
+	public interface IRuntimeController
 	{
 		/// <summary>
-		/// Reverts any changes performed during the startup or runtime and releases all used resources.
+		/// Reverts any changes, releases all used resources and terminates the runtime.
 		/// </summary>
-		void FinalizeApplication();
+		void Terminate();
 
 		/// <summary>
-		/// Initializes a new session and starts performing the runtime logic / event handling.
+		/// Tries to start the runtime. Returns <c>true</c> if successful, otherwise <c>false</c>.
 		/// </summary>
-		void StartSession();
+		bool TryStart(Queue<IOperation> operations);
 	}
 }
