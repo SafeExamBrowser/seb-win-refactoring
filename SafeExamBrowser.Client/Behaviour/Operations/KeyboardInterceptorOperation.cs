@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Starting keyboard interception...");
-			ProgressIndicator?.UpdateText(TextKey.SplashScreen_StartKeyboardInterception);
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StartKeyboardInterception);
 
 			nativeMethods.RegisterKeyboardHook(keyboardInterceptor);
 		}
@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping keyboard interception...");
-			ProgressIndicator?.UpdateText(TextKey.SplashScreen_StopKeyboardInterception);
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StopKeyboardInterception);
 
 			nativeMethods.DeregisterKeyboardHook(keyboardInterceptor);
 		}

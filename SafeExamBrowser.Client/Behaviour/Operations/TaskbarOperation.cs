@@ -60,7 +60,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Initializing taskbar...");
-			ProgressIndicator?.UpdateText(TextKey.SplashScreen_InitializeTaskbar);
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeTaskbar);
 
 			if (settings.AllowApplicationLog)
 			{
@@ -91,7 +91,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Terminating taskbar...");
-			ProgressIndicator?.UpdateText(TextKey.SplashScreen_TerminateTaskbar);
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_TerminateTaskbar);
 
 			if (settings.AllowApplicationLog)
 			{

@@ -48,7 +48,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Initializing application configuration...");
-			ProgressIndicator?.UpdateText(TextKey.SplashScreen_InitializeConfiguration);
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeConfiguration);
 
 			ISettings settings;
 			var isValidUri = TryGetSettingsUri(out Uri uri);

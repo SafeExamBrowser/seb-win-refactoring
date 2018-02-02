@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Initializing working area...");
-			ProgressIndicator?.UpdateText(TextKey.SplashScreen_InitializeWorkingArea);
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeWorkingArea);
 
 			displayMonitor.PreventSleepMode();
 			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
@@ -49,7 +49,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Restoring working area...");
-			ProgressIndicator?.UpdateText(TextKey.SplashScreen_RestoreWorkingArea);
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_RestoreWorkingArea);
 
 			displayMonitor.StopMonitoringDisplayChanges();
 			displayMonitor.ResetPrimaryDisplay();

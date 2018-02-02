@@ -46,7 +46,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private void EmptyClipboard()
 		{
 			logger.Info("Emptying clipboard...");
-			ProgressIndicator?.UpdateText(TextKey.SplashScreen_EmptyClipboard);
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_EmptyClipboard);
 
 			nativeMethods.EmptyClipboard();
 		}

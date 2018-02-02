@@ -31,7 +31,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Starting event handling...");
-			ProgressIndicator?.UpdateText(TextKey.SplashScreen_StartEventHandling);
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StartEventHandling);
 
 			controller.Start();
 		}
@@ -44,7 +44,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping event handling...");
-			ProgressIndicator?.UpdateText(TextKey.SplashScreen_StopEventHandling);
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StopEventHandling);
 
 			controller.Stop();
 		}

@@ -31,7 +31,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Initializing window monitoring...");
-			ProgressIndicator?.UpdateText(TextKey.SplashScreen_InitializeWindowMonitoring);
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeWindowMonitoring);
 
 			windowMonitor.HideAllWindows();
 			windowMonitor.StartMonitoringWindows();
@@ -45,7 +45,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping window monitoring...");
-			ProgressIndicator?.UpdateText(TextKey.SplashScreen_StopWindowMonitoring);
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StopWindowMonitoring);
 
 			windowMonitor.StopMonitoringWindows();
 			windowMonitor.RestoreHiddenWindows();

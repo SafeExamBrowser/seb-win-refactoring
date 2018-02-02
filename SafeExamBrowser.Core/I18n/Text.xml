@@ -30,6 +30,81 @@
   <Entry key="Notification_LogTooltip">
     Application Log
   </Entry>
+  <Entry key="ProgressIndicator_CloseServiceConnection">
+    Closing service connection
+  </Entry>
+  <Entry key="ProgressIndicator_EmptyClipboard">
+    Emptying clipboard
+  </Entry>
+  <Entry key="ProgressIndicator_InitializeBrowser">
+    Initializing browser
+  </Entry>
+  <Entry key="ProgressIndicator_InitializeConfiguration">
+    Initializing application configuration
+  </Entry>
+  <Entry key="ProgressIndicator_InitializeKioskMode">
+    Initializing kiosk mode
+  </Entry>
+  <Entry key="ProgressIndicator_InitializeProcessMonitoring">
+    Initializing process monitoring
+  </Entry>
+  <Entry key="ProgressIndicator_InitializeServiceConnection">
+    Initializing service connection
+  </Entry>
+  <Entry key="ProgressIndicator_InitializeTaskbar">
+    Initializing taskbar
+  </Entry>
+  <Entry key="ProgressIndicator_InitializeWindowMonitoring">
+    Initializing window monitoring
+  </Entry>
+  <Entry key="ProgressIndicator_InitializeWorkingArea">
+    Initializing working area
+  </Entry>
+  <Entry key="ProgressIndicator_RestoreWorkingArea">
+    Restoring working area
+  </Entry>
+  <Entry key="ProgressIndicator_RevertKioskMode">
+    Reverting kiosk mode
+  </Entry>
+  <Entry key="ProgressIndicator_ShutdownProcedure">
+    Initiating shutdown procedure
+  </Entry>
+  <Entry key="ProgressIndicator_StartEventHandling">
+    Starting event handling
+  </Entry>
+  <Entry key="ProgressIndicator_StartKeyboardInterception">
+    Starting keyboard interception
+  </Entry>
+  <Entry key="ProgressIndicator_StartMouseInterception">
+    Starting mouse interception
+  </Entry>
+  <Entry key="ProgressIndicator_StopEventHandling">
+    Stopping event handling
+  </Entry>
+  <Entry key="ProgressIndicator_StopKeyboardInterception">
+    Stopping keyboard interception
+  </Entry>
+  <Entry key="ProgressIndicator_StopMouseInterception">
+    Stopping mouse interception
+  </Entry>
+  <Entry key="ProgressIndicator_StopProcessMonitoring">
+    Stopping process monitoring
+  </Entry>
+  <Entry key="ProgressIndicator_StopWindowMonitoring">
+    Stopping window monitoring
+  </Entry>
+  <Entry key="ProgressIndicator_TerminateBrowser">
+    Terminating browser
+  </Entry>
+  <Entry key="ProgressIndicator_TerminateTaskbar">
+    Terminating taskbar
+  </Entry>
+  <Entry key="ProgressIndicator_WaitExplorerStartup">
+    Waiting for Windows explorer to start up
+  </Entry>
+  <Entry key="ProgressIndicator_WaitExplorerTermination">
+    Waiting for Windows explorer to shut down
+  </Entry>
   <Entry key="RuntimeWindow_ApplicationRunning">
     The application is running.
   </Entry>
@@ -38,81 +113,6 @@
   </Entry>
   <Entry key="RuntimeWindow_StopSession">
     Stopping current session
-  </Entry>
-  <Entry key="SplashScreen_CloseServiceConnection">
-    Closing service connection
-  </Entry>
-  <Entry key="SplashScreen_EmptyClipboard">
-    Emptying clipboard
-  </Entry>
-  <Entry key="SplashScreen_InitializeBrowser">
-    Initializing browser
-  </Entry>
-  <Entry key="SplashScreen_InitializeConfiguration">
-    Initializing application configuration
-  </Entry>
-  <Entry key="SplashScreen_InitializeKioskMode">
-    Initializing kiosk mode
-  </Entry>
-  <Entry key="SplashScreen_InitializeProcessMonitoring">
-    Initializing process monitoring
-  </Entry>
-  <Entry key="SplashScreen_InitializeServiceConnection">
-    Initializing service connection
-  </Entry>
-  <Entry key="SplashScreen_InitializeTaskbar">
-    Initializing taskbar
-  </Entry>
-  <Entry key="SplashScreen_InitializeWindowMonitoring">
-    Initializing window monitoring
-  </Entry>
-  <Entry key="SplashScreen_InitializeWorkingArea">
-    Initializing working area
-  </Entry>
-  <Entry key="SplashScreen_RestoreWorkingArea">
-    Restoring working area
-  </Entry>
-  <Entry key="SplashScreen_RevertKioskMode">
-    Reverting kiosk mode
-  </Entry>
-  <Entry key="SplashScreen_ShutdownProcedure">
-    Initiating shutdown procedure
-  </Entry>
-  <Entry key="SplashScreen_StartEventHandling">
-    Starting event handling
-  </Entry>
-  <Entry key="SplashScreen_StartKeyboardInterception">
-    Starting keyboard interception
-  </Entry>
-  <Entry key="SplashScreen_StartMouseInterception">
-    Starting mouse interception
-  </Entry>
-  <Entry key="SplashScreen_StopEventHandling">
-    Stopping event handling
-  </Entry>
-  <Entry key="SplashScreen_StopKeyboardInterception">
-    Stopping keyboard interception
-  </Entry>
-  <Entry key="SplashScreen_StopMouseInterception">
-    Stopping mouse interception
-  </Entry>
-  <Entry key="SplashScreen_StopProcessMonitoring">
-    Stopping process monitoring
-  </Entry>
-  <Entry key="SplashScreen_StopWindowMonitoring">
-    Stopping window monitoring
-  </Entry>
-  <Entry key="SplashScreen_TerminateBrowser">
-    Terminating browser
-  </Entry>
-  <Entry key="SplashScreen_TerminateTaskbar">
-    Terminating taskbar
-  </Entry>
-  <Entry key="SplashScreen_WaitExplorerStartup">
-    Waiting for Windows explorer to start up
-  </Entry>
-  <Entry key="SplashScreen_WaitExplorerTermination">
-    Waiting for Windows explorer to shut down
   </Entry>
   <Entry key="SystemControl_BatteryCharging">
     Plugged in, charging... (%%CHARGE%%%)

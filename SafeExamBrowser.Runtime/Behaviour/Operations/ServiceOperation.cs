@@ -39,7 +39,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info($"Initializing service connection...");
-			ProgressIndicator?.UpdateText(TextKey.SplashScreen_InitializeServiceConnection);
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeServiceConnection);
 
 			try
 			{
@@ -71,7 +71,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Closing service connection...");
-			ProgressIndicator?.UpdateText(TextKey.SplashScreen_CloseServiceConnection);
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_CloseServiceConnection);
 
 			if (serviceAvailable)
 			{
