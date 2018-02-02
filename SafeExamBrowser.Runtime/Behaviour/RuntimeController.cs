@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Communication;
@@ -22,18 +21,21 @@ namespace SafeExamBrowser.Runtime.Behaviour
 	internal class RuntimeController : IRuntimeController
 	{
 		private ILogger logger;
+		private IOperationSequence bootstrapSequence;
+		private IOperationSequence sessionSequence;
 		private IRuntimeInfo runtimeInfo;
 		private IRuntimeWindow runtimeWindow;
 		private IServiceProxy serviceProxy;
 		private ISettingsRepository settingsRepository;
-		private IOperationSequence operationSequence;
+		private ISplashScreen splashScreen;
 		private Action terminationCallback;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 
 		public RuntimeController(
 			ILogger logger,
-			IOperationSequence operationSequence,
+			IOperationSequence bootstrapSequence,
+			IOperationSequence sessionSequence,
 			IRuntimeInfo runtimeInfo,
 			IServiceProxy serviceProxy,
 			ISettingsRepository settingsRepository,
@@ -42,7 +44,8 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
-			this.operationSequence = operationSequence;
+			this.bootstrapSequence = bootstrapSequence;
+			this.sessionSequence = sessionSequence;
 			this.runtimeInfo = runtimeInfo;
 			this.serviceProxy = serviceProxy;
 			this.settingsRepository = settingsRepository;
@@ -51,21 +54,30 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			this.uiFactory = uiFactory;
 		}
 
-		public bool TryStart(Queue<IOperation> operations)
+		public bool TryStart()
 		{
 			logger.Info("--- Initiating startup procedure ---");
 
-			var success = operationSequence.TryPerform(operations);
+			splashScreen = uiFactory.CreateSplashScreen(runtimeInfo, text);
+			splashScreen.Show();
 
-			runtimeWindow = uiFactory.CreateRuntimeWindow(runtimeInfo, text);
+			bootstrapSequence.ProgressIndicator = splashScreen;
+
+			var success = bootstrapSequence.TryPerform();
+
+			System.Threading.Thread.Sleep(5000);
 
 			if (success)
 			{
+				runtimeWindow = uiFactory.CreateRuntimeWindow(runtimeInfo, text);
+
 				logger.Info("--- Application successfully initialized! ---");
 				logger.Log(string.Empty);
 				logger.Subscribe(runtimeWindow);
 
-				StartSession();
+				splashScreen.Hide();
+
+				StartSession(true);
 			}
 			else
 			{
@@ -74,33 +86,6 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			}
 
 			return success;
-		}
-
-		public void StartSession()
-		{
-			runtimeWindow.Show();
-
-			logger.Info("Starting new session...");
-			runtimeWindow.UpdateStatus(TextKey.RuntimeWindow_StartSession, true);
-
-			// TODO:
-			// - Initialize configuration
-			// - Initialize kiosk mode
-			// - Initialize session data
-			// - Start runtime communication host
-			// - Create and connect to client
-			// - Initialize session with service
-			// - Verify session integrity and start event handling
-			System.Threading.Thread.Sleep(10000);
-
-			runtimeWindow.UpdateStatus(TextKey.RuntimeWindow_ApplicationRunning);
-
-			if (settingsRepository.Current.KioskMode == KioskMode.DisableExplorerShell)
-			{
-				runtimeWindow.Hide();
-			}
-
-			terminationCallback.Invoke();
 		}
 
 		public void Terminate()
@@ -113,12 +98,13 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			// - Revert kiosk mode (or do that when stopping session?)
 
 			logger.Unsubscribe(runtimeWindow);
-			runtimeWindow.Close();
+			runtimeWindow?.Close();
+			splashScreen?.Show();
 
 			logger.Log(string.Empty);
 			logger.Info("--- Initiating shutdown procedure ---");
 
-			var success = operationSequence.TryRevert();
+			var success = bootstrapSequence.TryRevert();
 
 			if (success)
 			{
@@ -128,6 +114,48 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			{
 				logger.Info("--- Shutdown procedure failed! ---");
 			}
+
+			splashScreen?.Close();
+		}
+
+		private void StartSession(bool initial = false)
+		{
+			logger.Info("Starting new session...");
+			runtimeWindow.UpdateText(TextKey.RuntimeWindow_StartSession, true);
+			runtimeWindow.Show();
+
+			sessionSequence.ProgressIndicator = runtimeWindow;
+
+			// TODO:
+			// - Initialize configuration
+			// - Initialize kiosk mode
+			// - Initialize session data
+			// - Create and connect to client
+			// - Initialize session with service
+			// - Verify session integrity and start event handling
+			var success = initial ? sessionSequence.TryPerform() : sessionSequence.TryRepeat();
+
+			if (success)
+			{
+
+			}
+			else
+			{
+
+			}
+
+			System.Threading.Thread.Sleep(5000);
+
+			runtimeWindow.UpdateText(TextKey.RuntimeWindow_ApplicationRunning);
+
+			if (settingsRepository.Current.KioskMode == KioskMode.DisableExplorerShell)
+			{
+				runtimeWindow.Hide();
+			}
+
+			System.Threading.Thread.Sleep(5000);
+
+			terminationCallback.Invoke();
 		}
 
 		private void StopSession()
@@ -135,7 +163,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			logger.Info("Stopping current session...");
 			runtimeWindow.Show();
 			runtimeWindow.BringToForeground();
-			runtimeWindow.UpdateStatus(TextKey.RuntimeWindow_StopSession, true);
+			runtimeWindow.UpdateText(TextKey.RuntimeWindow_StopSession, true);
 
 			// TODO:
 			// - Terminate client (or does it terminate itself?)

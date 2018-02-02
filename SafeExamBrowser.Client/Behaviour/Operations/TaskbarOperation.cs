@@ -33,7 +33,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private IText text;
 
 		public bool Abort { get; private set; }
-		public ISplashScreen SplashScreen { private get; set; }
+		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public TaskbarOperation(
 			ILogger logger,
@@ -60,7 +60,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Initializing taskbar...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeTaskbar);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_InitializeTaskbar);
 
 			if (settings.AllowApplicationLog)
 			{
@@ -91,7 +91,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Terminating taskbar...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_TerminateTaskbar);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_TerminateTaskbar);
 
 			if (settings.AllowApplicationLog)
 			{

@@ -11,7 +11,6 @@ using Moq;
 using SafeExamBrowser.Client.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 {
@@ -20,7 +19,6 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 	{
 		private Mock<ILogger> loggerMock;
 		private Mock<IProcessMonitor> processMonitorMock;
-		private Mock<ISplashScreen> splashScreenMock;
 
 		private ProcessMonitorOperation sut;
 
@@ -29,12 +27,8 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 		{
 			loggerMock = new Mock<ILogger>();
 			processMonitorMock = new Mock<IProcessMonitor>();
-			splashScreenMock = new Mock<ISplashScreen>();
 
-			sut = new ProcessMonitorOperation(loggerMock.Object, processMonitorMock.Object)
-			{
-				SplashScreen = splashScreenMock.Object
-			};
+			sut = new ProcessMonitorOperation(loggerMock.Object, processMonitorMock.Object);
 		}
 
 		[TestMethod]

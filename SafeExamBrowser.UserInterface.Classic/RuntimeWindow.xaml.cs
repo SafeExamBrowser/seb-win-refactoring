@@ -9,7 +9,6 @@
 using System;
 using System.Windows;
 using System.Windows.Documents;
-using System.Windows.Input;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -62,6 +61,11 @@ namespace SafeExamBrowser.UserInterface.Classic
 			Dispatcher.Invoke(base.Hide);
 		}
 
+		public void HideProgressBar()
+		{
+			model.ProgressBarVisibility = Visibility.Hidden;
+		}
+
 		public void Notify(ILogContent content)
 		{
 			Dispatcher.Invoke(() =>
@@ -71,26 +75,50 @@ namespace SafeExamBrowser.UserInterface.Classic
 			});
 		}
 
+		public void Progress(int amount = 1)
+		{
+			model.CurrentProgress += amount;
+		}
+
+		public void Regress(int amount = 1)
+		{
+			model.CurrentProgress -= amount;
+		}
+
+		public void SetIndeterminate()
+		{
+			model.IsIndeterminate = true;
+		}
+
+		public void SetMaxValue(int max)
+		{
+			model.MaxProgress = max;
+		}
+
+		public void SetValue(int value)
+		{
+			model.CurrentProgress = value;
+		}
+
+		public void ShowProgressBar()
+		{
+			model.ProgressBarVisibility = Visibility.Visible;
+		}
+
+		public void UpdateText(TextKey key, bool showBusyIndication = false)
+		{
+			model.StopBusyIndication();
+			model.Status = text.Get(key);
+
+			if (showBusyIndication)
+			{
+				model.StartBusyIndication();
+			}
+		}
+
 		public new void Show()
 		{
 			Dispatcher.Invoke(base.Show);
-		}
-
-		public void UpdateStatus(TextKey key, bool showBusyIndication = false)
-		{
-			Dispatcher.Invoke(() =>
-			{
-				AnimatedBorder.Visibility = showBusyIndication ? Visibility.Hidden : Visibility.Visible;
-				ProgressBar.Visibility = showBusyIndication ? Visibility.Visible : Visibility.Hidden;
-
-				model.StopBusyIndication();
-				model.Status = text.Get(key);
-
-				if (showBusyIndication)
-				{
-					model.StartBusyIndication();
-				}
-			});
 		}
 
 		private void InitializeRuntimeWindow()
@@ -103,6 +131,8 @@ namespace SafeExamBrowser.UserInterface.Classic
 			InfoTextBlock.Inlines.Add(new Run(runtimeInfo.ProgramCopyright) { FontSize = 10 });
 
 			model = new RuntimeWindowViewModel();
+			AnimatedBorder.DataContext = model;
+			ProgressBar.DataContext = model;
 			StatusTextBlock.DataContext = model;
 
 			Closing += (o, args) => args.Cancel = !allowClose;

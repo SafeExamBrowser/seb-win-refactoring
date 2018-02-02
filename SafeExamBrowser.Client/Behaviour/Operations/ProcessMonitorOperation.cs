@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private IProcessMonitor processMonitor;
 
 		public bool Abort { get; private set; }
-		public ISplashScreen SplashScreen { private get; set; }
+		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public ProcessMonitorOperation(ILogger logger, IProcessMonitor processMonitor)
 		{
@@ -31,12 +31,12 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Initializing process monitoring...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_WaitExplorerTermination, true);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_WaitExplorerTermination, true);
 
 			processMonitor.CloseExplorerShell();
 			processMonitor.StartMonitoringExplorer();
 
-			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeProcessMonitoring);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_InitializeProcessMonitoring);
 
 			// TODO
 		}
@@ -49,11 +49,11 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping process monitoring...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_StopProcessMonitoring);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_StopProcessMonitoring);
 
 			// TODO
 
-			SplashScreen.UpdateText(TextKey.SplashScreen_WaitExplorerStartup, true);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_WaitExplorerStartup, true);
 
 			processMonitor.StopMonitoringExplorer();
 			processMonitor.StartExplorerShell();

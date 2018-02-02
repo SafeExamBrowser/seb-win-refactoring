@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private INativeMethods nativeMethods;
 
 		public bool Abort { get; private set; }
-		public ISplashScreen SplashScreen { private get; set; }
+		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public MouseInterceptorOperation(
 			ILogger logger,
@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Starting mouse interception...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_StartMouseInterception);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_StartMouseInterception);
 
 			nativeMethods.RegisterMouseHook(mouseInterceptor);
 		}
@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping mouse interception...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_StopMouseInterception);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_StopMouseInterception);
 
 			nativeMethods.DeregisterMouseHook(mouseInterceptor);
 		}

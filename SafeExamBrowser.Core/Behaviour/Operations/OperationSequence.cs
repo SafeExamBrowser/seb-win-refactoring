@@ -10,8 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SafeExamBrowser.Contracts.Behaviour.Operations;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 
@@ -20,42 +18,34 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 	public class OperationSequence : IOperationSequence
 	{
 		private ILogger logger;
-		private IRuntimeInfo runtimeInfo;
-		private ISplashScreen splashScreen;
-		private IText text;
-		private IUserInterfaceFactory uiFactory;
-
+		private Queue<IOperation> operations = new Queue<IOperation>();
 		private Stack<IOperation> stack = new Stack<IOperation>();
 
-		public OperationSequence(ILogger logger, IRuntimeInfo runtimeInfo, IText text, IUserInterfaceFactory uiFactory)
+		public IProgressIndicator ProgressIndicator { private get; set; }
+
+		public OperationSequence(ILogger logger, Queue<IOperation> operations)
 		{
 			this.logger = logger;
-			this.runtimeInfo = runtimeInfo;
-			this.text = text;
-			this.uiFactory = uiFactory;
+			this.operations = new Queue<IOperation>(operations);
 		}
 
-		public bool TryPerform(Queue<IOperation> operations)
+		public bool TryPerform()
 		{
 			var success = false;
 
 			try
 			{
-				Initialize(operations.Count);
-				success = Perform(operations);
+				Initialize();
+				success = Perform();
 
 				if (!success)
 				{
-					RevertOperations();
+					Revert();
 				}
 			}
 			catch (Exception e)
 			{
-				logger.Error($"Failed to perform operations!", e);
-			}
-			finally
-			{
-				Finish();
+				logger.Error("Failed to perform operations!", e);
 			}
 
 			return success;
@@ -63,7 +53,19 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 		public bool TryRepeat()
 		{
-			throw new NotImplementedException();
+			var success = false;
+
+			try
+			{
+				Initialize();
+				success = Repeat();
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to repeat operations!", e);
+			}
+
+			return success;
 		}
 
 		public bool TryRevert()
@@ -73,46 +75,38 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			try
 			{
 				Initialize();
-				success = RevertOperations(false);
+				success = Revert(false);
 			}
 			catch (Exception e)
 			{
-				logger.Error($"Failed to revert operations!", e);
-			}
-			finally
-			{
-				Finish();
+				logger.Error("Failed to revert operations!", e);
 			}
 
 			return success;
 		}
 
-		private void Initialize(int? operationCount = null)
+		private void Initialize(bool indeterminate = false)
 		{
-			splashScreen = uiFactory.CreateSplashScreen(runtimeInfo, text);
-
-			if (operationCount.HasValue)
+			if (indeterminate)
 			{
-				splashScreen.SetMaxProgress(operationCount.Value);
+				ProgressIndicator?.SetIndeterminate();
 			}
 			else
 			{
-				splashScreen.SetIndeterminate();
+				ProgressIndicator?.SetValue(0);
+				ProgressIndicator?.SetMaxValue(operations.Count);
 			}
-
-			splashScreen.UpdateText(TextKey.SplashScreen_StartupProcedure);
-			splashScreen.Show();
 		}
 
-		private bool Perform(Queue<IOperation> operations)
+		private bool Perform()
 		{
 			foreach (var operation in operations)
 			{
 				stack.Push(operation);
-				operation.SplashScreen = splashScreen;
 
 				try
 				{
+					operation.ProgressIndicator = ProgressIndicator;
 					operation.Perform();
 				}
 				catch (Exception e)
@@ -127,13 +121,40 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 					return false;
 				}
 
-				splashScreen.Progress();
+				ProgressIndicator?.Progress();
 			}
 
 			return true;
 		}
 
-		private bool RevertOperations(bool regress = true)
+		private bool Repeat()
+		{
+			foreach (var operation in operations)
+			{
+				try
+				{
+					operation.ProgressIndicator = ProgressIndicator;
+					operation.Repeat();
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to repeat operation '{operation.GetType().Name}'!", e);
+
+					return false;
+				}
+
+				if (operation.Abort)
+				{
+					return false;
+				}
+
+				ProgressIndicator?.Progress();
+			}
+
+			return true;
+		}
+
+		private bool Revert(bool regress = true)
 		{
 			var success = true;
 
@@ -143,6 +164,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 				try
 				{
+					operation.ProgressIndicator = ProgressIndicator;
 					operation.Revert();
 				}
 				catch (Exception e)
@@ -153,16 +175,11 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 				if (regress)
 				{
-					splashScreen.Regress();
+					ProgressIndicator?.Regress();
 				}
 			}
 
 			return success;
-		}
-
-		private void Finish()
-		{
-			splashScreen?.Close();
 		}
 	}
 }

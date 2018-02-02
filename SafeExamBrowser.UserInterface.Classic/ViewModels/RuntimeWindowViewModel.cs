@@ -6,65 +6,52 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.ComponentModel;
-using System.Timers;
+using System.Windows;
 
 namespace SafeExamBrowser.UserInterface.Classic.ViewModels
 {
-	internal class RuntimeWindowViewModel : INotifyPropertyChanged
+	internal class RuntimeWindowViewModel : ProgressIndicatorViewModel
 	{
-		private string status;
-		private Timer timer;
+		private Visibility animatedBorderVisibility, progressBarVisibility;
 
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		public string Status
+		public Visibility AnimatedBorderVisibility
 		{
 			get
 			{
-				return status;
+				return animatedBorderVisibility;
 			}
 			set
 			{
-				status = value;
-				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Status)));
+				animatedBorderVisibility = value;
+				OnPropertyChanged(nameof(AnimatedBorderVisibility));
 			}
 		}
 
-		public void StartBusyIndication()
+		public Visibility ProgressBarVisibility
 		{
-			StopBusyIndication();
-
-			timer = new Timer
+			get
 			{
-				AutoReset = true,
-				Interval = 750
-			};
-
-			timer.Elapsed += Timer_Elapsed;
-			timer.Start();
+				return progressBarVisibility;
+			}
+			set
+			{
+				progressBarVisibility = value;
+				OnPropertyChanged(nameof(ProgressBarVisibility));
+			}
 		}
 
-		public void StopBusyIndication()
+		public override void StartBusyIndication()
 		{
-			timer?.Stop();
-			timer?.Close();
+			base.StartBusyIndication();
+
+			AnimatedBorderVisibility = Visibility.Hidden;
 		}
 
-		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+		public override void StopBusyIndication()
 		{
-			var next = Status ?? string.Empty;
+			base.StopBusyIndication();
 
-			if (next.EndsWith("..."))
-			{
-				next = Status.Substring(0, Status.Length - 3);
-			}
-			else
-			{
-				next += ".";
-			}
-
-			Status = next;
+			AnimatedBorderVisibility = Visibility.Visible;
 		}
 	}
 }

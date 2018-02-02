@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private IWindowMonitor windowMonitor;
 
 		public bool Abort { get; private set; }
-		public ISplashScreen SplashScreen { private get; set; }
+		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public WindowMonitorOperation(ILogger logger, IWindowMonitor windowMonitor)
 		{
@@ -31,7 +31,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Initializing window monitoring...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeWindowMonitoring);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_InitializeWindowMonitoring);
 
 			windowMonitor.HideAllWindows();
 			windowMonitor.StartMonitoringWindows();
@@ -45,7 +45,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping window monitoring...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_StopWindowMonitoring);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_StopWindowMonitoring);
 
 			windowMonitor.StopMonitoringWindows();
 			windowMonitor.RestoreHiddenWindows();

@@ -44,7 +44,6 @@ namespace SafeExamBrowser.Contracts.I18n
 		SplashScreen_StartEventHandling,
 		SplashScreen_StartKeyboardInterception,
 		SplashScreen_StartMouseInterception,
-		SplashScreen_StartupProcedure,
 		SplashScreen_StopEventHandling,
 		SplashScreen_StopKeyboardInterception,
 		SplashScreen_StopMouseInterception,

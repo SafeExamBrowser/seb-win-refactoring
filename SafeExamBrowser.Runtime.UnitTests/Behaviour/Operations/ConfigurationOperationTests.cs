@@ -26,7 +26,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		private Mock<IRuntimeInfo> info;
 		private Mock<ISettingsRepository> repository;
 		private Mock<ISettings> settings;
-		private Mock<ISplashScreen> splashScreen;
 		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
 		private ConfigurationOperation sut;
@@ -38,7 +37,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			info = new Mock<IRuntimeInfo>();
 			repository = new Mock<ISettingsRepository>();
 			settings = new Mock<ISettings>();
-			splashScreen = new Mock<ISplashScreen>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
@@ -54,17 +52,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		{
 			repository.Setup(r => r.LoadDefaults());
 
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
-			{
-				SplashScreen = splashScreen.Object
-			};
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null);
 
 			sut.Perform();
 
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, new string[] { })
-			{
-				SplashScreen = splashScreen.Object
-			};
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, new string[] { });
 
 			sut.Perform();
 
@@ -76,10 +68,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		{
 			var path = @"an/invalid\path.'*%yolo/()";
 
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, new [] { "blubb.exe", path })
-			{
-				SplashScreen = splashScreen.Object
-			};
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, new [] { "blubb.exe", path });
 
 			sut.Perform();
 		}
@@ -93,10 +82,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			info.SetupGet(r => r.ProgramDataFolder).Returns(location);
 			info.SetupGet(r => r.AppDataFolder).Returns(location);
 
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, new[] { "blubb.exe", path })
-			{
-				SplashScreen = splashScreen.Object
-			};
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, new[] { "blubb.exe", path });
 
 			sut.Perform();
 
@@ -111,10 +97,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			info.SetupGet(r => r.ProgramDataFolder).Returns(location);
 			info.SetupGet(r => r.AppDataFolder).Returns($@"{location}\WRONG");
 
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
-			{
-				SplashScreen = splashScreen.Object
-			};
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null);
 
 			sut.Perform();
 
@@ -128,10 +111,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 
 			info.SetupGet(r => r.AppDataFolder).Returns(location);
 
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
-			{
-				SplashScreen = splashScreen.Object
-			};
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null);
 
 			sut.Perform();
 
@@ -141,10 +121,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		[TestMethod]
 		public void MustFallbackToDefaultsAsLastPrio()
 		{
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
-			{
-				SplashScreen = splashScreen.Object
-			};
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null);
 
 			sut.Perform();
 
@@ -159,10 +136,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			info.SetupGet(r => r.ProgramDataFolder).Returns(location);
 			uiFactory.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.Yes);
 
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
-			{
-				SplashScreen = splashScreen.Object
-			};
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null);
 
 			sut.Perform();
 
@@ -174,10 +148,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		{
 			uiFactory.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.No);
 
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null)
-			{
-				SplashScreen = splashScreen.Object
-			};
+			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null);
 
 			sut.Perform();
 

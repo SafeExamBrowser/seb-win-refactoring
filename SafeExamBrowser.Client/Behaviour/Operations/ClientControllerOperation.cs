@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private IClientController controller;
 
 		public bool Abort { get; private set; }
-		public ISplashScreen SplashScreen { private get; set; }
+		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public ClientControllerOperation(IClientController controller, ILogger logger)
 		{
@@ -31,7 +31,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Starting event handling...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_StartEventHandling);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_StartEventHandling);
 
 			controller.Start();
 		}
@@ -44,7 +44,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping event handling...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_StopEventHandling);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_StopEventHandling);
 
 			controller.Stop();
 		}

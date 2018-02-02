@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private INativeMethods nativeMethods;
 
 		public bool Abort { get; private set; }
-		public ISplashScreen SplashScreen { private get; set; }
+		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public ClipboardOperation(ILogger logger, INativeMethods nativeMethods)
 		{
@@ -46,7 +46,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private void EmptyClipboard()
 		{
 			logger.Info("Emptying clipboard...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_EmptyClipboard);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_EmptyClipboard);
 
 			nativeMethods.EmptyClipboard();
 		}

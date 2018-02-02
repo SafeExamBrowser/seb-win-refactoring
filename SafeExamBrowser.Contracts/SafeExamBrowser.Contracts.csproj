@@ -108,6 +108,7 @@
     <Compile Include="UserInterface\IBrowserControl.cs" />
     <Compile Include="UserInterface\IBrowserWindow.cs" />
     <Compile Include="UserInterface\IMessageBox.cs" />
+    <Compile Include="UserInterface\IProgressIndicator.cs" />
     <Compile Include="UserInterface\IRuntimeWindow.cs" />
     <Compile Include="UserInterface\MessageBoxResult.cs" />
     <Compile Include="UserInterface\Taskbar\INotificationButton.cs" />

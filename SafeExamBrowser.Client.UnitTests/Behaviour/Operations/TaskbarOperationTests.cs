@@ -24,7 +24,6 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 	{
 		private Mock<ILogger> loggerMock;
 		private Mock<ITaskbarSettings> settingsMock;
-		private Mock<ISplashScreen> splashScreenMock;
 		private Mock<ISystemComponent<ISystemKeyboardLayoutControl>> keyboardLayoutMock;
 		private Mock<ISystemComponent<ISystemPowerSupplyControl>> powerSupplyMock;
 		private Mock<ISystemComponent<ISystemWirelessNetworkControl>> wirelessNetworkMock;
@@ -40,7 +39,6 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 		{
 			loggerMock = new Mock<ILogger>();
 			settingsMock = new Mock<ITaskbarSettings>();
-			splashScreenMock = new Mock<ISplashScreen>();
 			keyboardLayoutMock = new Mock<ISystemComponent<ISystemKeyboardLayoutControl>>();
 			powerSupplyMock = new Mock<ISystemComponent<ISystemPowerSupplyControl>>();
 			wirelessNetworkMock = new Mock<ISystemComponent<ISystemWirelessNetworkControl>>();
@@ -64,10 +62,7 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 				systemInfoMock.Object,
 				taskbarMock.Object,
 				textMock.Object,
-				uiFactoryMock.Object)
-			{
-				SplashScreen = splashScreenMock.Object
-			};
+				uiFactoryMock.Object);
 		}
 
 		[TestMethod]

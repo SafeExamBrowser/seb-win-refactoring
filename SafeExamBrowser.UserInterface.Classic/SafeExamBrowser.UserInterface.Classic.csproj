@@ -118,8 +118,8 @@
     <Compile Include="Utilities\XamlIconResource.cs" />
     <Compile Include="ViewModels\DateTimeViewModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
+    <Compile Include="ViewModels\ProgressIndicatorViewModel.cs" />
     <Compile Include="ViewModels\RuntimeWindowViewModel.cs" />
-    <Compile Include="ViewModels\SplashScreenViewModel.cs" />
     <Page Include="AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

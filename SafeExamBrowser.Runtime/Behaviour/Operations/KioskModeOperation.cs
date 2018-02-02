@@ -21,7 +21,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private KioskMode kioskMode;
 
 		public bool Abort { get; private set; }
-		public ISplashScreen SplashScreen { private get; set; }
+		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public KioskModeOperation(ILogger logger, ISettingsRepository settingsRepository)
 		{
@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			kioskMode = settingsRepository.Current.KioskMode;
 
 			logger.Info($"Initializing kiosk mode '{kioskMode}'...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeKioskMode);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_InitializeKioskMode);
 
 			if (kioskMode == KioskMode.CreateNewDesktop)
 			{
@@ -54,7 +54,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info($"Reverting kiosk mode '{kioskMode}'...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_RevertKioskMode);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_RevertKioskMode);
 
 			if (kioskMode == KioskMode.CreateNewDesktop)
 			{

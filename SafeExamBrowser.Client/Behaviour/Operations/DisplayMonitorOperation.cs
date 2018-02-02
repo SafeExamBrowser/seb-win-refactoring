@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private ITaskbar taskbar;
 
 		public bool Abort { get; private set; }
-		public ISplashScreen SplashScreen { private get; set; }
+		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public DisplayMonitorOperation(IDisplayMonitor displayMonitor, ILogger logger, ITaskbar taskbar)
 		{
@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Initializing working area...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeWorkingArea);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_InitializeWorkingArea);
 
 			displayMonitor.PreventSleepMode();
 			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
@@ -49,7 +49,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Restoring working area...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_RestoreWorkingArea);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_RestoreWorkingArea);
 
 			displayMonitor.StopMonitoringDisplayChanges();
 			displayMonitor.ResetPrimaryDisplay();

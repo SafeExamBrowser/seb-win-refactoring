@@ -25,7 +25,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private IUserInterfaceFactory uiFactory;
 
 		public bool Abort { get; private set; }
-		public ISplashScreen SplashScreen { private get; set; }
+		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public BrowserOperation(
 			IApplicationController browserController,
@@ -44,7 +44,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Initializing browser...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeBrowser, true);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_InitializeBrowser, true);
 
 			var browserButton = uiFactory.CreateApplicationButton(browserInfo);
 
@@ -62,7 +62,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Terminating browser...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_TerminateBrowser, true);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_TerminateBrowser, true);
 
 			browserController.Terminate();
 		}

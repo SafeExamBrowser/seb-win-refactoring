@@ -27,7 +27,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private string[] commandLineArgs;
 
 		public bool Abort { get; private set; }
-		public ISplashScreen SplashScreen { private get; set; }
+		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public ConfigurationOperation(
 			ILogger logger,
@@ -48,7 +48,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Initializing application configuration...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeConfiguration);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_InitializeConfiguration);
 
 			ISettings settings;
 			var isValidUri = TryGetSettingsUri(out Uri uri);
@@ -73,7 +73,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 		public void Repeat()
 		{
-			// TODO
+			// TODO: How will the new settings be retrieved? Uri passed to the repository? If yes, how does the Uri get here?!
 		}
 
 		public void Revert()

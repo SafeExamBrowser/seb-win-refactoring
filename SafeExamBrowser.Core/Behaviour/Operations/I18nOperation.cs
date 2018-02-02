@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		private IText text;
 
 		public bool Abort { get; private set; }
-		public ISplashScreen SplashScreen { private get; set; }
+		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public I18nOperation(ILogger logger, IText text)
 		{

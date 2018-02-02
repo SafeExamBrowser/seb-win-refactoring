@@ -11,7 +11,7 @@ using System.Timers;
 
 namespace SafeExamBrowser.UserInterface.Classic.ViewModels
 {
-	class SplashScreenViewModel : INotifyPropertyChanged
+	internal class ProgressIndicatorViewModel : INotifyPropertyChanged
 	{
 		private int currentProgress;
 		private bool isIndeterminate;
@@ -73,7 +73,7 @@ namespace SafeExamBrowser.UserInterface.Classic.ViewModels
 			}
 		}
 
-		public void StartBusyIndication()
+		public virtual void StartBusyIndication()
 		{
 			StopBusyIndication();
 
@@ -87,10 +87,15 @@ namespace SafeExamBrowser.UserInterface.Classic.ViewModels
 			busyTimer.Start();
 		}
 
-		public void StopBusyIndication()
+		public virtual void StopBusyIndication()
 		{
 			busyTimer?.Stop();
 			busyTimer?.Close();
+		}
+
+		protected void OnPropertyChanged(string propertyName)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 		private void BusyTimer_Elapsed(object sender, ElapsedEventArgs e)

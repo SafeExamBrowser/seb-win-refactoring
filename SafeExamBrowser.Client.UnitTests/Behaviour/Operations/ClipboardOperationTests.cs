@@ -10,7 +10,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
@@ -20,7 +19,6 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 	{
 		private Mock<ILogger> loggerMock;
 		private Mock<INativeMethods> nativeMethodsMock;
-		private Mock<ISplashScreen> splashScreenMock;
 
 		private ClipboardOperation sut;
 
@@ -29,12 +27,8 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 		{
 			loggerMock = new Mock<ILogger>();
 			nativeMethodsMock = new Mock<INativeMethods>();
-			splashScreenMock = new Mock<ISplashScreen>();
 
-			sut = new ClipboardOperation(loggerMock.Object, nativeMethodsMock.Object)
-			{
-				SplashScreen = splashScreenMock.Object
-			};
+			sut = new ClipboardOperation(loggerMock.Object, nativeMethodsMock.Object);
 		}
 
 		[TestMethod]

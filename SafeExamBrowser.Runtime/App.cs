@@ -60,7 +60,7 @@ namespace SafeExamBrowser.Runtime
 			instances.BuildObjectGraph();
 			instances.LogStartupInformation();
 
-			var success = instances.RuntimeController.TryStart(instances.StartupOperations);
+			var success = instances.RuntimeController.TryStart();
 
 			if (!success)
 			{

@@ -87,9 +87,6 @@
   <Entry key="SplashScreen_StartMouseInterception">
     Starting mouse interception
   </Entry>
-  <Entry key="SplashScreen_StartupProcedure">
-    Initiating startup procedure
-  </Entry>
   <Entry key="SplashScreen_StopEventHandling">
     Stopping event handling
   </Entry>

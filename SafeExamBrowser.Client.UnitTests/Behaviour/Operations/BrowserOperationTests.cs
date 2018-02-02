@@ -23,7 +23,6 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 		private Mock<IApplicationController> controllerMock;
 		private Mock<IApplicationInfo> appInfoMock;
 		private Mock<ILogger> loggerMock;
-		private Mock<ISplashScreen> splashScreenMock;
 		private Mock<ITaskbar> taskbarMock;
 		private Mock<IUserInterfaceFactory> uiFactoryMock;
 
@@ -35,14 +34,10 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 			controllerMock = new Mock<IApplicationController>();
 			appInfoMock = new Mock<IApplicationInfo>();
 			loggerMock = new Mock<ILogger>();
-			splashScreenMock = new Mock<ISplashScreen>();
 			taskbarMock = new Mock<ITaskbar>();
 			uiFactoryMock = new Mock<IUserInterfaceFactory>();
 
-			sut = new BrowserOperation(controllerMock.Object, appInfoMock.Object, loggerMock.Object, taskbarMock.Object, uiFactoryMock.Object)
-			{
-				SplashScreen = splashScreenMock.Object
-			};
+			sut = new BrowserOperation(controllerMock.Object, appInfoMock.Object, loggerMock.Object, taskbarMock.Object, uiFactoryMock.Object);
 		}
 
 		[TestMethod]

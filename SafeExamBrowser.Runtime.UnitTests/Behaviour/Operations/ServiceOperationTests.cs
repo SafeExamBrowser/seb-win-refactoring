@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		private Mock<ILogger> logger;
 		private Mock<IServiceProxy> service;
 		private Mock<ISettingsRepository> settings;
-		private Mock<ISplashScreen> splashScreen;
+		private Mock<IProgressIndicator> progressIndicator;
 		private Mock<IText> text;
 		private ServiceOperation sut;
 
@@ -34,13 +34,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			logger = new Mock<ILogger>();
 			service = new Mock<IServiceProxy>();
 			settings = new Mock<ISettingsRepository>();
-			splashScreen = new Mock<ISplashScreen>();
+			progressIndicator = new Mock<IProgressIndicator>();
 			text = new Mock<IText>();
 
-			sut = new ServiceOperation(logger.Object, service.Object, settings.Object, text.Object)
-			{
-				SplashScreen = splashScreen.Object
-			};
+			sut = new ServiceOperation(logger.Object, service.Object, settings.Object, text.Object);
 		}
 
 		[TestMethod]

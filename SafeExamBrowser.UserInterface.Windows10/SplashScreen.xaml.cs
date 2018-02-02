@@ -77,9 +77,14 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			model.IsIndeterminate = true;
 		}
 
-		public void SetMaxProgress(int max)
+		public void SetMaxValue(int max)
 		{
 			model.MaxProgress = max;
+		}
+
+		public void SetValue(int value)
+		{
+			model.CurrentProgress = value;
 		}
 
 		public void UpdateText(TextKey key, bool showBusyIndication = false)

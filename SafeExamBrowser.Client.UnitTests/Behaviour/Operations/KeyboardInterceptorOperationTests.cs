@@ -11,7 +11,6 @@ using Moq;
 using SafeExamBrowser.Client.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
@@ -22,7 +21,6 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 		private Mock<IKeyboardInterceptor> keyboardInterceptorMock;
 		private Mock<ILogger> loggerMock;
 		private Mock<INativeMethods> nativeMethodsMock;
-		private Mock<ISplashScreen> splashScreenMock;
 
 		private KeyboardInterceptorOperation sut;
 
@@ -32,12 +30,8 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 			keyboardInterceptorMock = new Mock<IKeyboardInterceptor>();
 			loggerMock = new Mock<ILogger>();
 			nativeMethodsMock = new Mock<INativeMethods>();
-			splashScreenMock = new Mock<ISplashScreen>();
 
-			sut = new KeyboardInterceptorOperation(keyboardInterceptorMock.Object, loggerMock.Object, nativeMethodsMock.Object)
-			{
-				SplashScreen = splashScreenMock.Object
-			};
+			sut = new KeyboardInterceptorOperation(keyboardInterceptorMock.Object, loggerMock.Object, nativeMethodsMock.Object);
 		}
 
 		[TestMethod]

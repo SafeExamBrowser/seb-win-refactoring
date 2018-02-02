@@ -35,11 +35,12 @@ namespace SafeExamBrowser.Runtime
 		private ISystemInfo systemInfo;
 
 		internal IRuntimeController RuntimeController { get; private set; }
-		internal Queue<IOperation> StartupOperations { get; private set; }
 
 		internal void BuildObjectGraph()
 		{
 			var args = Environment.GetCommandLineArgs();
+			var bootstrapOperations = new Queue<IOperation>();
+			var sessionOperations = new Queue<IOperation>();
 			var nativeMethods = new NativeMethods();
 			var settingsRepository = new SettingsRepository();
 			var uiFactory = new UserInterfaceFactory();
@@ -52,16 +53,19 @@ namespace SafeExamBrowser.Runtime
 			InitializeLogging();
 
 			var text = new Text(logger);
-			var operationSequence = new OperationSequence(logger, runtimeInfo, text, uiFactory);
 			var serviceProxy = new ServiceProxy(new ModuleLogger(logger, typeof(ServiceProxy)), "net.pipe://localhost/safeexambrowser/service");
 
-			RuntimeController = new RuntimeController(logger, operationSequence, runtimeInfo, serviceProxy, settingsRepository, Application.Current.Shutdown, text, uiFactory);
+			bootstrapOperations.Enqueue(new I18nOperation(logger, text));
+			// TODO: RuntimeHostOperation here (is IBootstrapOperation -> only performed once per runtime!)
 
-			StartupOperations = new Queue<IOperation>();
-			StartupOperations.Enqueue(new I18nOperation(logger, text));
-			StartupOperations.Enqueue(new ConfigurationOperation(logger, runtimeInfo, settingsRepository, text, uiFactory, args));
-			StartupOperations.Enqueue(new ServiceOperation(logger, serviceProxy, settingsRepository, text));
-			StartupOperations.Enqueue(new KioskModeOperation(logger, settingsRepository));
+			sessionOperations.Enqueue(new ConfigurationOperation(logger, runtimeInfo, settingsRepository, text, uiFactory, args));
+			sessionOperations.Enqueue(new ServiceOperation(logger, serviceProxy, settingsRepository, text));
+			sessionOperations.Enqueue(new KioskModeOperation(logger, settingsRepository));
+
+			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
+			var sessionSequence = new OperationSequence(logger, sessionOperations);
+
+			RuntimeController = new RuntimeController(logger, bootstrapSequence, sessionSequence, runtimeInfo, serviceProxy, settingsRepository, Application.Current.Shutdown, text, uiFactory);
 		}
 
 		internal void LogStartupInformation()

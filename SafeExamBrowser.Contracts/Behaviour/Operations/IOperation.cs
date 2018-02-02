@@ -13,14 +13,14 @@ namespace SafeExamBrowser.Contracts.Behaviour.Operations
 	public interface IOperation
 	{
 		/// <summary>
-		/// Determines whether the procedure to which this operation belongs should be aborted.
+		/// Determines whether the procedure to which this operation belongs to should be aborted.
 		/// </summary>
 		bool Abort { get; }
 
 		/// <summary>
-		/// The splash screen to be used to show status information to the user.
+		/// The progress indicator to be used to show status information to the user. Will be ignored if <c>null</c>.
 		/// </summary>
-		ISplashScreen SplashScreen { set; }
+		IProgressIndicator ProgressIndicator { set; }
 
 		/// <summary>
 		/// Performs the operation.

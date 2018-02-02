@@ -26,7 +26,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private IText text;
 
 		public bool Abort { get; private set; }
-		public ISplashScreen SplashScreen { private get; set; }
+		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public ServiceOperation(ILogger logger, IServiceProxy service, ISettingsRepository settingsRepository, IText text)
 		{
@@ -39,7 +39,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info($"Initializing service connection...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_InitializeServiceConnection);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_InitializeServiceConnection);
 
 			try
 			{
@@ -71,7 +71,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Closing service connection...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_CloseServiceConnection);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_CloseServiceConnection);
 
 			if (serviceAvailable)
 			{

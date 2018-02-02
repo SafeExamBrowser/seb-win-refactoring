@@ -10,7 +10,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Core.Behaviour.Operations;
 
 namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
@@ -19,7 +18,6 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 	public class I18nOperationTests
 	{
 		private Mock<ILogger> loggerMock;
-		private Mock<ISplashScreen> splashScreenMock;
 		private Mock<IText> textMock;
 
 		private I18nOperation sut;
@@ -28,13 +26,9 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 		public void Initialize()
 		{
 			loggerMock = new Mock<ILogger>();
-			splashScreenMock = new Mock<ISplashScreen>();
 			textMock = new Mock<IText>();
 
-			sut = new I18nOperation(loggerMock.Object, textMock.Object)
-			{
-				SplashScreen = splashScreenMock.Object
-			};
+			sut = new I18nOperation(loggerMock.Object, textMock.Object);
 		}
 
 		[TestMethod]

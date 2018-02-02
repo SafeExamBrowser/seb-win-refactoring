@@ -6,17 +6,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
-	public interface IRuntimeWindow : ILogObserver, IWindow
+	public interface IRuntimeWindow : ILogObserver, IProgressIndicator, IWindow
 	{
 		/// <summary>
-		/// Updates the status text of the runtime window. If the busy flag is set,
-		/// the window will show an animation to indicate a long-running operation.
+		/// Hides the progress bar.
 		/// </summary>
-		void UpdateStatus(TextKey key, bool showBusyIndication = false);
+		void HideProgressBar();
+
+		/// <summary>
+		/// Shows the progress bar.
+		/// </summary>
+		void ShowProgressBar();
 	}
 }

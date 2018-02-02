@@ -6,24 +6,29 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Generic;
+using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Contracts.Behaviour.Operations
 {
 	public interface IOperationSequence
 	{
 		/// <summary>
-		/// Tries to perform the given sequence of operations. Returns <c>true</c> if the procedure was successful, <c>false</c> otherwise.
+		/// The progress indicator to be used when performing any action. Will be ignored if <c>null</c>.
 		/// </summary>
-		bool TryPerform(Queue<IOperation> operations);
+		IProgressIndicator ProgressIndicator { set; }
 
 		/// <summary>
-		/// Tries to repeat all operations of this sequence. Returns <c>true</c> if the procedure was successful, <c>false</c> otherwise.
+		/// Tries to perform the operations of this sequence. Returns <c>true</c> if the procedure was successful, <c>false</c> otherwise.
+		/// </summary>
+		bool TryPerform();
+
+		/// <summary>
+		/// Tries to repeat the operations of this sequence. Returns <c>true</c> if the procedure was successful, <c>false</c> otherwise.
 		/// </summary>
 		bool TryRepeat();
 
 		/// <summary>
-		/// Tries to revert all operations of this sequence. Returns <c>true</c> if the procedure was successful, <c>false</c> otherwise.
+		/// Tries to revert the operations of this sequence. Returns <c>true</c> if the procedure was successful, <c>false</c> otherwise.
 		/// </summary>
 		bool TryRevert();
 	}

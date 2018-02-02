@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private INativeMethods nativeMethods;
 
 		public bool Abort { get; private set; }
-		public ISplashScreen SplashScreen { private get; set; }
+		public IProgressIndicator ProgressIndicator { private get; set; }
 		
 		public KeyboardInterceptorOperation(
 			IKeyboardInterceptor keyboardInterceptor,
@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Perform()
 		{
 			logger.Info("Starting keyboard interception...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_StartKeyboardInterception);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_StartKeyboardInterception);
 
 			nativeMethods.RegisterKeyboardHook(keyboardInterceptor);
 		}
@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping keyboard interception...");
-			SplashScreen.UpdateText(TextKey.SplashScreen_StopKeyboardInterception);
+			ProgressIndicator?.UpdateText(TextKey.SplashScreen_StopKeyboardInterception);
 
 			nativeMethods.DeregisterKeyboardHook(keyboardInterceptor);
 		}
