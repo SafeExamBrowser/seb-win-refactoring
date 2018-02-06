@@ -7,26 +7,32 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 
-namespace SafeExamBrowser.Contracts.Configuration.Settings
+namespace SafeExamBrowser.Contracts.Configuration
 {
-	public interface ISettingsRepository
+	public interface IConfigurationRepository
 	{
 		/// <summary>
 		/// Retrieves the current settings, i.e. the last ones which were loaded. If no settings have been loaded yet, this property will
-		/// be <c>null</c>.
+		/// be <c>null</c>!
 		/// </summary>
-		ISettings Current { get; }
+		ISettings CurrentSettings { get; }
+
+		/// <summary>
+		/// The runtime information for the currently running application instance.
+		/// </summary>
+		IRuntimeInfo RuntimeInfo { get; }
 
 		/// <summary>
 		/// Attempts to load settings from the specified path.
 		/// </summary>
-		/// <exception cref="System.ArgumentException">Thrown if the given path cannot be resolved to a settings file.</exception>
-		ISettings Load(Uri path);
+		/// <exception cref="ArgumentException">Thrown if the given path cannot be resolved to a settings file.</exception>
+		ISettings LoadSettings(Uri path);
 
 		/// <summary>
 		/// Loads the default settings.
 		/// </summary>
-		ISettings LoadDefaults();
+		ISettings LoadDefaultSettings();
 	}
 }

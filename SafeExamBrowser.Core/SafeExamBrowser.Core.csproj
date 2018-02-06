@@ -55,9 +55,11 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviour\Operations\CommunicationOperation.cs" />
     <Compile Include="Behaviour\Operations\I18nOperation.cs" />
     <Compile Include="Behaviour\Operations\OperationSequence.cs" />
     <Compile Include="Communication\BaseProxy.cs" />
+    <Compile Include="Communication\BaseHost.cs" />
     <Compile Include="Communication\Messages\Message.cs" />
     <Compile Include="Communication\ServiceProxy.cs" />
     <Compile Include="Logging\DefaultLogFormatter.cs" />

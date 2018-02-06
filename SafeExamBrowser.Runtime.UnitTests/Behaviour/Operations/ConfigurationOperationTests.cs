@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 	{
 		private Mock<ILogger> logger;
 		private Mock<IRuntimeInfo> info;
-		private Mock<ISettingsRepository> repository;
+		private Mock<IConfigurationRepository> repository;
 		private Mock<ISettings> settings;
 		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
@@ -35,7 +35,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		{
 			logger = new Mock<ILogger>();
 			info = new Mock<IRuntimeInfo>();
-			repository = new Mock<ISettingsRepository>();
+			repository = new Mock<IConfigurationRepository>();
 			settings = new Mock<ISettings>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
@@ -43,24 +43,24 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			info.SetupGet(i => i.AppDataFolder).Returns(@"C:\Not\Really\AppData");
 			info.SetupGet(i => i.DefaultSettingsFileName).Returns("SettingsDummy.txt");
 			info.SetupGet(i => i.ProgramDataFolder).Returns(@"C:\Not\Really\ProgramData");
-			repository.Setup(r => r.Load(It.IsAny<Uri>())).Returns(settings.Object);
-			repository.Setup(r => r.LoadDefaults()).Returns(settings.Object);
+			repository.Setup(r => r.LoadSettings(It.IsAny<Uri>())).Returns(settings.Object);
+			repository.Setup(r => r.LoadDefaultSettings()).Returns(settings.Object);
 		}
 
 		[TestMethod]
 		public void MustNotFailWithoutCommandLineArgs()
 		{
-			repository.Setup(r => r.LoadDefaults());
+			repository.Setup(r => r.LoadDefaultSettings());
 
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null);
-
-			sut.Perform();
-
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, new string[] { });
+			sut = new ConfigurationOperation(repository.Object, logger.Object, info.Object, text.Object, uiFactory.Object, null);
 
 			sut.Perform();
 
-			repository.Verify(r => r.LoadDefaults(), Times.Exactly(2));
+			sut = new ConfigurationOperation(repository.Object, logger.Object, info.Object, text.Object, uiFactory.Object, new string[] { });
+
+			sut.Perform();
+
+			repository.Verify(r => r.LoadDefaultSettings(), Times.Exactly(2));
 		}
 
 		[TestMethod]
@@ -68,7 +68,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		{
 			var path = @"an/invalid\path.'*%yolo/()";
 
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, new [] { "blubb.exe", path });
+			sut = new ConfigurationOperation(repository.Object, logger.Object, info.Object, text.Object, uiFactory.Object, new [] { "blubb.exe", path });
 
 			sut.Perform();
 		}
@@ -82,11 +82,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			info.SetupGet(r => r.ProgramDataFolder).Returns(location);
 			info.SetupGet(r => r.AppDataFolder).Returns(location);
 
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, new[] { "blubb.exe", path });
+			sut = new ConfigurationOperation(repository.Object, logger.Object, info.Object, text.Object, uiFactory.Object, new[] { "blubb.exe", path });
 
 			sut.Perform();
 
-			repository.Verify(r => r.Load(It.Is<Uri>(u => u.Equals(new Uri(path)))), Times.Once);
+			repository.Verify(r => r.LoadSettings(It.Is<Uri>(u => u.Equals(new Uri(path)))), Times.Once);
 		}
 
 		[TestMethod]
@@ -97,11 +97,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			info.SetupGet(r => r.ProgramDataFolder).Returns(location);
 			info.SetupGet(r => r.AppDataFolder).Returns($@"{location}\WRONG");
 
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null);
+			sut = new ConfigurationOperation(repository.Object, logger.Object, info.Object, text.Object, uiFactory.Object, null);
 
 			sut.Perform();
 
-			repository.Verify(r => r.Load(It.Is<Uri>(u => u.Equals(new Uri(Path.Combine(location, "SettingsDummy.txt"))))), Times.Once);
+			repository.Verify(r => r.LoadSettings(It.Is<Uri>(u => u.Equals(new Uri(Path.Combine(location, "SettingsDummy.txt"))))), Times.Once);
 		}
 
 		[TestMethod]
@@ -111,21 +111,21 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 
 			info.SetupGet(r => r.AppDataFolder).Returns(location);
 
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null);
+			sut = new ConfigurationOperation(repository.Object, logger.Object, info.Object, text.Object, uiFactory.Object, null);
 
 			sut.Perform();
 
-			repository.Verify(r => r.Load(It.Is<Uri>(u => u.Equals(new Uri(Path.Combine(location, "SettingsDummy.txt"))))), Times.Once);
+			repository.Verify(r => r.LoadSettings(It.Is<Uri>(u => u.Equals(new Uri(Path.Combine(location, "SettingsDummy.txt"))))), Times.Once);
 		}
 
 		[TestMethod]
 		public void MustFallbackToDefaultsAsLastPrio()
 		{
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null);
+			sut = new ConfigurationOperation(repository.Object, logger.Object, info.Object, text.Object, uiFactory.Object, null);
 
 			sut.Perform();
 
-			repository.Verify(r => r.LoadDefaults(), Times.Once);
+			repository.Verify(r => r.LoadDefaultSettings(), Times.Once);
 		}
 
 		[TestMethod]
@@ -136,7 +136,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			info.SetupGet(r => r.ProgramDataFolder).Returns(location);
 			uiFactory.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.Yes);
 
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null);
+			sut = new ConfigurationOperation(repository.Object, logger.Object, info.Object, text.Object, uiFactory.Object, null);
 
 			sut.Perform();
 
@@ -148,7 +148,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		{
 			uiFactory.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.No);
 
-			sut = new ConfigurationOperation(logger.Object, info.Object, repository.Object, text.Object, uiFactory.Object, null);
+			sut = new ConfigurationOperation(repository.Object, logger.Object, info.Object, text.Object, uiFactory.Object, null);
 
 			sut.Perform();
 

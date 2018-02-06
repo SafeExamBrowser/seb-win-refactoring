@@ -28,6 +28,29 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			loggerMock = new Mock<ILogger>();
 		}
 
+		[TestMethod]
+		public void MustCreateCopyOfOperationQueue()
+		{
+			var operationA = new Mock<IOperation>();
+			var operationB = new Mock<IOperation>();
+			var operationC = new Mock<IOperation>();
+			var operations = new Queue<IOperation>();
+
+			operations.Enqueue(operationA.Object);
+			operations.Enqueue(operationB.Object);
+			operations.Enqueue(operationC.Object);
+
+			var sut = new OperationSequence(loggerMock.Object, operations);
+
+			operations.Clear();
+
+			sut.TryPerform();
+
+			operationA.Verify(o => o.Perform(), Times.Once);
+			operationB.Verify(o => o.Perform(), Times.Once);
+			operationC.Verify(o => o.Perform(), Times.Once);
+		}
+
 		#region Perform Tests
 
 		[TestMethod]

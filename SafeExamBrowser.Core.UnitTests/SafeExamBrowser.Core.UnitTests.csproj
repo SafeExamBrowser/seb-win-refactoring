@@ -78,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviour\Operations\CommunicationOperationTests.cs" />
     <Compile Include="Behaviour\Operations\I18nOperationTests.cs" />
     <Compile Include="Behaviour\Operations\OperationSequenceTests.cs" />
     <Compile Include="I18n\TextTests.cs" />

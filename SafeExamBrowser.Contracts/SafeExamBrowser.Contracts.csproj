@@ -58,6 +58,8 @@
     <Compile Include="Behaviour\Operations\IOperationSequence.cs" />
     <Compile Include="Communication\ICommunication.cs" />
     <Compile Include="Communication\IClientProxy.cs" />
+    <Compile Include="Communication\ICommunicationHost.cs" />
+    <Compile Include="Communication\IRuntimeHost.cs" />
     <Compile Include="Communication\IRuntimeProxy.cs" />
     <Compile Include="Communication\IServiceProxy.cs" />
     <Compile Include="Communication\Messages\IMessage.cs" />
@@ -78,7 +80,7 @@
     <Compile Include="Configuration\Settings\IKeyboardSettings.cs" />
     <Compile Include="Configuration\Settings\IMouseSettings.cs" />
     <Compile Include="Configuration\Settings\ISettings.cs" />
-    <Compile Include="Configuration\Settings\ISettingsRepository.cs" />
+    <Compile Include="Configuration\IConfigurationRepository.cs" />
     <Compile Include="Configuration\Settings\ITaskbarSettings.cs" />
     <Compile Include="Configuration\Settings\KioskMode.cs" />
     <Compile Include="Configuration\Settings\ServicePolicy.cs" />

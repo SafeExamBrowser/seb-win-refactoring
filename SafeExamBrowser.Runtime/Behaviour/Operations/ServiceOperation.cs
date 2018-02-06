@@ -9,6 +9,7 @@
 using System;
 using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Communication;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -20,19 +21,19 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 	{
 		private bool serviceAvailable;
 		private bool serviceMandatory;
+		private IConfigurationRepository configuration;
 		private ILogger logger;
 		private IServiceProxy service;
-		private ISettingsRepository settingsRepository;
 		private IText text;
 
 		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
-		public ServiceOperation(ILogger logger, IServiceProxy service, ISettingsRepository settingsRepository, IText text)
+		public ServiceOperation(IConfigurationRepository configuration, ILogger logger, IServiceProxy service, IText text)
 		{
+			this.configuration = configuration;
 			this.service = service;
 			this.logger = logger;
-			this.settingsRepository = settingsRepository;
 			this.text = text;
 		}
 
@@ -43,7 +44,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 			try
 			{
-				serviceMandatory = settingsRepository.Current.ServicePolicy == ServicePolicy.Mandatory;
+				serviceMandatory = configuration.CurrentSettings.ServicePolicy == ServicePolicy.Mandatory;
 				serviceAvailable = service.Connect();
 			}
 			catch (Exception e)

@@ -16,7 +16,7 @@ namespace SafeExamBrowser.Core.Communication
 	{
 		public bool Ignore { private get; set; }
 
-		public ServiceProxy(ILogger logger, string address) : base(logger, address)
+		public ServiceProxy(string address, ILogger logger) : base(address, logger)
 		{
 		}
 

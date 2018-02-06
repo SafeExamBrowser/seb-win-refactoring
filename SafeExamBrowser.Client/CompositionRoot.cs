@@ -58,7 +58,7 @@ namespace SafeExamBrowser.Client
 			browserInfo = new BrowserApplicationInfo();
 			logger = new Logger();
 			nativeMethods = new NativeMethods();
-			settings = new SettingsRepository().LoadDefaults();
+			settings = new ConfigurationRepository().LoadDefaultSettings();
 			systemInfo = new SystemInfo();
 			uiFactory = new UserInterfaceFactory();
 

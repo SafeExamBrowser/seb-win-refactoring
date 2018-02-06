@@ -8,11 +8,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
 using System.Windows;
 using SafeExamBrowser.Configuration;
-using SafeExamBrowser.Configuration.Settings;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Configuration;
@@ -23,6 +20,7 @@ using SafeExamBrowser.Core.I18n;
 using SafeExamBrowser.Core.Logging;
 using SafeExamBrowser.Runtime.Behaviour;
 using SafeExamBrowser.Runtime.Behaviour.Operations;
+using SafeExamBrowser.Runtime.Communication;
 using SafeExamBrowser.UserInterface.Classic;
 using SafeExamBrowser.WindowsApi;
 
@@ -31,7 +29,7 @@ namespace SafeExamBrowser.Runtime
 	internal class CompositionRoot
 	{
 		private ILogger logger;
-		private RuntimeInfo runtimeInfo;
+		private IRuntimeInfo runtimeInfo;
 		private ISystemInfo systemInfo;
 
 		internal IRuntimeController RuntimeController { get; private set; }
@@ -42,30 +40,30 @@ namespace SafeExamBrowser.Runtime
 			var bootstrapOperations = new Queue<IOperation>();
 			var sessionOperations = new Queue<IOperation>();
 			var nativeMethods = new NativeMethods();
-			var settingsRepository = new SettingsRepository();
+			var configuration = new ConfigurationRepository();
 			var uiFactory = new UserInterfaceFactory();
 
 			logger = new Logger();
-			runtimeInfo = new RuntimeInfo();
+			runtimeInfo = configuration.RuntimeInfo;
 			systemInfo = new SystemInfo();
 
-			InitializeRuntimeInfo();
 			InitializeLogging();
 
 			var text = new Text(logger);
-			var serviceProxy = new ServiceProxy(new ModuleLogger(logger, typeof(ServiceProxy)), "net.pipe://localhost/safeexambrowser/service");
+			var runtimeHost = new RuntimeHost(runtimeInfo.RuntimeAddress, new ModuleLogger(logger, typeof(RuntimeHost)));
+			var serviceProxy = new ServiceProxy(runtimeInfo.ServiceAddress, new ModuleLogger(logger, typeof(ServiceProxy)));
 
 			bootstrapOperations.Enqueue(new I18nOperation(logger, text));
-			// TODO: RuntimeHostOperation here (is IBootstrapOperation -> only performed once per runtime!)
+			bootstrapOperations.Enqueue(new CommunicationOperation(runtimeHost, logger));
 
-			sessionOperations.Enqueue(new ConfigurationOperation(logger, runtimeInfo, settingsRepository, text, uiFactory, args));
-			sessionOperations.Enqueue(new ServiceOperation(logger, serviceProxy, settingsRepository, text));
-			sessionOperations.Enqueue(new KioskModeOperation(logger, settingsRepository));
+			sessionOperations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeInfo, text, uiFactory, args));
+			sessionOperations.Enqueue(new ServiceOperation(configuration, logger, serviceProxy, text));
+			sessionOperations.Enqueue(new KioskModeOperation(logger, configuration));
 
-			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
+			var boostrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new OperationSequence(logger, sessionOperations);
 
-			RuntimeController = new RuntimeController(logger, bootstrapSequence, sessionSequence, runtimeInfo, serviceProxy, settingsRepository, Application.Current.Shutdown, text, uiFactory);
+			RuntimeController = new RuntimeController(configuration, logger, boostrapSequence, sessionSequence, runtimeHost, runtimeInfo, serviceProxy, Application.Current.Shutdown, text, uiFactory);
 		}
 
 		internal void LogStartupInformation()
@@ -84,28 +82,7 @@ namespace SafeExamBrowser.Runtime
 
 		internal void LogShutdownInformation()
 		{
-			logger?.Log($"{Environment.NewLine}# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
-		}
-
-		private void InitializeRuntimeInfo()
-		{
-			var appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(SafeExamBrowser));
-			var executable = Assembly.GetEntryAssembly();
-			var startTime = DateTime.Now;
-			var logFolder = Path.Combine(appDataFolder, "Logs");
-			var logFilePrefix = startTime.ToString("yyyy-MM-dd\\_HH\\hmm\\mss\\s");
-
-			runtimeInfo.ApplicationStartTime = startTime;
-			runtimeInfo.AppDataFolder = appDataFolder;
-			runtimeInfo.BrowserCachePath = Path.Combine(appDataFolder, "Cache");
-			runtimeInfo.BrowserLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Browser.txt");
-			runtimeInfo.ClientLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Client.txt");
-			runtimeInfo.DefaultSettingsFileName = "SebClientSettings.seb";
-			runtimeInfo.ProgramCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
-			runtimeInfo.ProgramDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), nameof(SafeExamBrowser));
-			runtimeInfo.ProgramTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
-			runtimeInfo.ProgramVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-			runtimeInfo.RuntimeLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Runtime.txt");
+			logger?.Log($"# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 		}
 
 		private void InitializeLogging()

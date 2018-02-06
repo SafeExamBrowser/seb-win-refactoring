@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Core.Communication
 		protected Guid? CommunicationToken { get; private set; }
 		protected ILogger Logger { get; private set; }
 
-		public BaseProxy(ILogger logger, string address)
+		public BaseProxy(string address, ILogger logger)
 		{
 			this.address = address;
 			this.Logger = logger;
@@ -34,9 +34,11 @@ namespace SafeExamBrowser.Core.Communication
 			var endpoint = new EndpointAddress(address);
 
 			channel = ChannelFactory<ICommunication>.CreateChannel(new NetNamedPipeBinding(NetNamedPipeSecurityMode.Transport), endpoint);
-			(channel as ICommunicationObject).Closed += CommunicationHostProxy_Closed;
-			(channel as ICommunicationObject).Closing += CommunicationHostProxy_Closing;
-			(channel as ICommunicationObject).Faulted += CommunicationHostProxy_Faulted;
+			(channel as ICommunicationObject).Closed += BaseProxy_Closed;
+			(channel as ICommunicationObject).Closing += BaseProxy_Closing;
+			(channel as ICommunicationObject).Faulted += BaseProxy_Faulted;
+			(channel as ICommunicationObject).Opened += BaseProxy_Opened;
+			(channel as ICommunicationObject).Opening += BaseProxy_Opening;
 
 			var response = channel.Connect(token);
 
@@ -84,19 +86,29 @@ namespace SafeExamBrowser.Core.Communication
 			return channel != null && (channel as ICommunicationObject).State == CommunicationState.Opened;
 		}
 
-		private void CommunicationHostProxy_Closed(object sender, EventArgs e)
+		private void BaseProxy_Closed(object sender, EventArgs e)
 		{
 			Logger.Debug("Communication channel has been closed.");
 		}
 
-		private void CommunicationHostProxy_Closing(object sender, EventArgs e)
+		private void BaseProxy_Closing(object sender, EventArgs e)
 		{
-			Logger.Debug("Communication channel is closing.");
+			Logger.Debug("Communication channel is closing...");
 		}
 
-		private void CommunicationHostProxy_Faulted(object sender, EventArgs e)
+		private void BaseProxy_Faulted(object sender, EventArgs e)
 		{
 			Logger.Debug("Communication channel has faulted!");
+		}
+
+		private void BaseProxy_Opened(object sender, EventArgs e)
+		{
+			Logger.Debug("Communication channel has been opened.");
+		}
+
+		private void BaseProxy_Opening(object sender, EventArgs e)
+		{
+			Logger.Debug("Communication channel is opening...");
 		}
 
 		private string GetChannelState()

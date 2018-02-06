@@ -10,6 +10,7 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Communication;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -23,7 +24,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 	{
 		private Mock<ILogger> logger;
 		private Mock<IServiceProxy> service;
-		private Mock<ISettingsRepository> settings;
+		private Mock<IConfigurationRepository> configuration;
 		private Mock<IProgressIndicator> progressIndicator;
 		private Mock<IText> text;
 		private ServiceOperation sut;
@@ -33,23 +34,23 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		{
 			logger = new Mock<ILogger>();
 			service = new Mock<IServiceProxy>();
-			settings = new Mock<ISettingsRepository>();
+			configuration = new Mock<IConfigurationRepository>();
 			progressIndicator = new Mock<IProgressIndicator>();
 			text = new Mock<IText>();
 
-			sut = new ServiceOperation(logger.Object, service.Object, settings.Object, text.Object);
+			sut = new ServiceOperation(configuration.Object, logger.Object, service.Object, text.Object);
 		}
 
 		[TestMethod]
 		public void MustConnectToService()
 		{
 			service.Setup(s => s.Connect()).Returns(true);
-			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Mandatory);
+			configuration.SetupGet(s => s.CurrentSettings.ServicePolicy).Returns(ServicePolicy.Mandatory);
 
 			sut.Perform();
 
 			service.Setup(s => s.Connect()).Returns(true);
-			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Optional);
+			configuration.SetupGet(s => s.CurrentSettings.ServicePolicy).Returns(ServicePolicy.Optional);
 
 			sut.Perform();
 
@@ -60,22 +61,22 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		public void MustNotFailIfServiceNotAvailable()
 		{
 			service.Setup(s => s.Connect()).Returns(false);
-			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Mandatory);
+			configuration.SetupGet(s => s.CurrentSettings.ServicePolicy).Returns(ServicePolicy.Mandatory);
 
 			sut.Perform();
 
 			service.Setup(s => s.Connect()).Returns(false);
-			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Optional);
+			configuration.SetupGet(s => s.CurrentSettings.ServicePolicy).Returns(ServicePolicy.Optional);
 
 			sut.Perform();
 
 			service.Setup(s => s.Connect()).Throws<Exception>();
-			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Mandatory);
+			configuration.SetupGet(s => s.CurrentSettings.ServicePolicy).Returns(ServicePolicy.Mandatory);
 
 			sut.Perform();
 
 			service.Setup(s => s.Connect()).Throws<Exception>();
-			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Optional);
+			configuration.SetupGet(s => s.CurrentSettings.ServicePolicy).Returns(ServicePolicy.Optional);
 
 			sut.Perform();
 		}
@@ -84,7 +85,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		public void MustAbortIfServiceMandatoryAndNotAvailable()
 		{
 			service.Setup(s => s.Connect()).Returns(false);
-			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Mandatory);
+			configuration.SetupGet(s => s.CurrentSettings.ServicePolicy).Returns(ServicePolicy.Mandatory);
 
 			sut.Perform();
 
@@ -95,7 +96,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		public void MustNotAbortIfServiceOptionalAndNotAvailable()
 		{
 			service.Setup(s => s.Connect()).Returns(false);
-			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Optional);
+			configuration.SetupGet(s => s.CurrentSettings.ServicePolicy).Returns(ServicePolicy.Optional);
 
 			sut.Perform();
 
@@ -107,13 +108,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		public void MustDisconnectWhenReverting()
 		{
 			service.Setup(s => s.Connect()).Returns(true);
-			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Mandatory);
+			configuration.SetupGet(s => s.CurrentSettings.ServicePolicy).Returns(ServicePolicy.Mandatory);
 
 			sut.Perform();
 			sut.Revert();
 
 			service.Setup(s => s.Connect()).Returns(true);
-			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Optional);
+			configuration.SetupGet(s => s.CurrentSettings.ServicePolicy).Returns(ServicePolicy.Optional);
 
 			sut.Perform();
 			sut.Revert();
@@ -126,7 +127,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		{
 			service.Setup(s => s.Connect()).Returns(true);
 			service.Setup(s => s.Disconnect()).Throws<Exception>();
-			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Optional);
+			configuration.SetupGet(s => s.CurrentSettings.ServicePolicy).Returns(ServicePolicy.Optional);
 
 			sut.Perform();
 			sut.Revert();
@@ -138,25 +139,25 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		public void MustNotDisconnnectIfNotAvailable()
 		{
 			service.Setup(s => s.Connect()).Returns(false);
-			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Mandatory);
+			configuration.SetupGet(s => s.CurrentSettings.ServicePolicy).Returns(ServicePolicy.Mandatory);
 
 			sut.Perform();
 			sut.Revert();
 
 			service.Setup(s => s.Connect()).Returns(false);
-			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Optional);
+			configuration.SetupGet(s => s.CurrentSettings.ServicePolicy).Returns(ServicePolicy.Optional);
 
 			sut.Perform();
 			sut.Revert();
 
 			service.Setup(s => s.Connect()).Throws<Exception>();
-			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Mandatory);
+			configuration.SetupGet(s => s.CurrentSettings.ServicePolicy).Returns(ServicePolicy.Mandatory);
 
 			sut.Perform();
 			sut.Revert();
 
 			service.Setup(s => s.Connect()).Throws<Exception>();
-			settings.SetupGet(s => s.Current.ServicePolicy).Returns(ServicePolicy.Optional);
+			configuration.SetupGet(s => s.CurrentSettings.ServicePolicy).Returns(ServicePolicy.Optional);
 
 			sut.Perform();
 			sut.Revert();

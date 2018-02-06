@@ -19,9 +19,9 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 {
 	internal class ConfigurationOperation : IOperation
 	{
+		private IConfigurationRepository repository;
 		private ILogger logger;
 		private IRuntimeInfo runtimeInfo;
-		private ISettingsRepository repository;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		private string[] commandLineArgs;
@@ -30,16 +30,16 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public ConfigurationOperation(
+			IConfigurationRepository repository,
 			ILogger logger,
 			IRuntimeInfo runtimeInfo,
-			ISettingsRepository repository,
 			IText text,
 			IUserInterfaceFactory uiFactory,
 			string[] commandLineArgs)
 		{
+			this.repository = repository;
 			this.logger = logger;
 			this.commandLineArgs = commandLineArgs;
-			this.repository = repository;
 			this.runtimeInfo = runtimeInfo;
 			this.text = text;
 			this.uiFactory = uiFactory;
@@ -56,7 +56,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			if (isValidUri)
 			{
 				logger.Info($"Loading configuration from '{uri.AbsolutePath}'...");
-				settings = repository.Load(uri);
+				settings = repository.LoadSettings(uri);
 
 				if (settings.ConfigurationMode == ConfigurationMode.ConfigureClient && UserWantsToAbortStartup())
 				{
@@ -67,7 +67,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			else
 			{
 				logger.Info("No valid settings file specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
-				settings = repository.LoadDefaults();
+				settings = repository.LoadDefaultSettings();
 			}
 		}
 

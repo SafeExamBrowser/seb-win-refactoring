@@ -1,24 +1,28 @@
 ﻿/*
  * Copyright (c) 2018 ETH Zürich, Educational Development and Technology (LET)
- *
+ * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-
-namespace SafeExamBrowser.Contracts.Behaviour
+namespace SafeExamBrowser.Contracts.Communication
 {
-	public interface IRuntimeController
+	public interface ICommunicationHost
 	{
 		/// <summary>
-		/// Reverts any changes, releases all used resources and terminates the runtime.
+		/// Indicates whether the host is running and ready for communication.
 		/// </summary>
-		void Terminate();
+		bool IsRunning { get; }
 
 		/// <summary>
-		/// Tries to start the runtime. Returns <c>true</c> if successful, otherwise <c>false</c>.
+		/// Starts the host and opens it for communication.
 		/// </summary>
-		bool TryStart();
+		void Start();
+
+		/// <summary>
+		/// Closes and terminates the host.
+		/// </summary>
+		void Stop();
 	}
 }

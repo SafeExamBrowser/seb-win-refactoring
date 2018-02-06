@@ -18,12 +18,17 @@ namespace SafeExamBrowser.Configuration
 		public DateTime ApplicationStartTime { get; set; }
 		public string BrowserCachePath { get; set; }
 		public string BrowserLogFile { get; set; }
+		public string ClientAddress { get; set; }
+		public Guid ClientId { get; set; }
 		public string ClientLogFile { get; set; }
 		public string DefaultSettingsFileName { get; set; }
 		public string ProgramCopyright { get; set; }
 		public string ProgramDataFolder { get; set; }
 		public string ProgramTitle { get; set; }
 		public string ProgramVersion { get; set; }
+		public string RuntimeAddress { get; set; }
+		public Guid RuntimeId { get; set; }
 		public string RuntimeLogFile { get; set; }
+		public string ServiceAddress { get; set; }
 	}
 }

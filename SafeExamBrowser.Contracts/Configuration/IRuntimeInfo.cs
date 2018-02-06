@@ -33,6 +33,22 @@ namespace SafeExamBrowser.Contracts.Configuration
 		string BrowserLogFile { get; }
 
 		/// <summary>
+		/// The communication address of the client component.
+		/// 
+		/// TODO: Will need to be updated for each new client instance!
+		/// 
+		/// </summary>
+		string ClientAddress { get; }
+
+		/// <summary>
+		/// The unique identifier for the currently running client instance.
+		/// 
+		/// TODO: Will need to be updated for each new client instance!
+		/// 
+		/// </summary>
+		Guid ClientId { get; }
+
+		/// <summary>
 		/// The file path under which the log of the client component is to be stored.
 		/// </summary>
 		string ClientLogFile { get; }
@@ -63,8 +79,23 @@ namespace SafeExamBrowser.Contracts.Configuration
 		string ProgramVersion { get; }
 
 		/// <summary>
+		/// The communication address of the runtime component.
+		/// </summary>
+		string RuntimeAddress { get; }
+
+		/// <summary>
+		/// The unique identifier for the currently running runtime instance.
+		/// </summary>
+		Guid RuntimeId { get; }
+
+		/// <summary>
 		/// The file path under which the log of the runtime component is to be stored.
 		/// </summary>
 		string RuntimeLogFile { get; }
+
+		/// <summary>
+		/// The communication address of the service component.
+		/// </summary>
+		string ServiceAddress { get; }
 	}
 }

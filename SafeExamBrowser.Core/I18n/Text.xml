@@ -60,6 +60,9 @@
   <Entry key="ProgressIndicator_InitializeWorkingArea">
     Initializing working area
   </Entry>
+  <Entry key="ProgressIndicator_RestartCommunicationHost">
+    Restarting communication host
+  </Entry>
   <Entry key="ProgressIndicator_RestoreWorkingArea">
     Restoring working area
   </Entry>
@@ -69,6 +72,9 @@
   <Entry key="ProgressIndicator_ShutdownProcedure">
     Initiating shutdown procedure
   </Entry>
+  <Entry key="ProgressIndicator_StartCommunicationHost">
+    Starting communication host
+  </Entry>
   <Entry key="ProgressIndicator_StartEventHandling">
     Starting event handling
   </Entry>
@@ -77,6 +83,9 @@
   </Entry>
   <Entry key="ProgressIndicator_StartMouseInterception">
     Starting mouse interception
+  </Entry>
+  <Entry key="ProgressIndicator_StopCommunicationHost">
+    Stopping communication host
   </Entry>
   <Entry key="ProgressIndicator_StopEventHandling">
     Stopping event handling

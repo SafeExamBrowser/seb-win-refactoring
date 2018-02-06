@@ -40,7 +40,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 				if (!success)
 				{
-					Revert();
+					Revert(true);
 				}
 			}
 			catch (Exception e)
@@ -74,8 +74,8 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 
 			try
 			{
-				Initialize();
-				success = Revert(false);
+				Initialize(true);
+				success = Revert();
 			}
 			catch (Exception e)
 			{
@@ -154,7 +154,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			return true;
 		}
 
-		private bool Revert(bool regress = true)
+		private bool Revert(bool regress = false)
 		{
 			var success = true;
 

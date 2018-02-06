@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Contracts.Behaviour.Operations;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -17,21 +18,21 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 	internal class KioskModeOperation : IOperation
 	{
 		private ILogger logger;
-		private ISettingsRepository settingsRepository;
+		private IConfigurationRepository configuration;
 		private KioskMode kioskMode;
 
 		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
-		public KioskModeOperation(ILogger logger, ISettingsRepository settingsRepository)
+		public KioskModeOperation(ILogger logger, IConfigurationRepository configuration)
 		{
 			this.logger = logger;
-			this.settingsRepository = settingsRepository;
+			this.configuration = configuration;
 		}
 
 		public void Perform()
 		{
-			kioskMode = settingsRepository.Current.KioskMode;
+			kioskMode = configuration.CurrentSettings.KioskMode;
 
 			logger.Info($"Initializing kiosk mode '{kioskMode}'...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeKioskMode);
