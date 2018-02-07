@@ -19,14 +19,12 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 	public class AboutNotificationControllerTests
 	{
 		private Mock<IRuntimeInfo> runtimeInfoMock;
-		private Mock<IText> textMock;
 		private Mock<IUserInterfaceFactory> uiFactoryMock;
 
 		[TestInitialize]
 		public void Initialize()
 		{
 			runtimeInfoMock = new Mock<IRuntimeInfo>();
-			textMock = new Mock<IText>();
 			uiFactoryMock = new Mock<IUserInterfaceFactory>();
 		}
 
@@ -35,9 +33,9 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 		{
 			var button = new NotificationButtonMock();
 			var window = new Mock<IWindow>();
-			var sut = new AboutNotificationController(runtimeInfoMock.Object, textMock.Object, uiFactoryMock.Object);
+			var sut = new AboutNotificationController(runtimeInfoMock.Object, uiFactoryMock.Object);
 
-			uiFactoryMock.Setup(u => u.CreateAboutWindow(It.IsAny<IRuntimeInfo>(), It.IsAny<IText>())).Returns(window.Object);
+			uiFactoryMock.Setup(u => u.CreateAboutWindow(It.IsAny<IRuntimeInfo>())).Returns(window.Object);
 			sut.RegisterNotification(button);
 			button.Click();
 			sut.Terminate();
@@ -50,9 +48,9 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 		{
 			var button = new NotificationButtonMock();
 			var window = new Mock<IWindow>();
-			var sut = new AboutNotificationController(runtimeInfoMock.Object, textMock.Object, uiFactoryMock.Object);
+			var sut = new AboutNotificationController(runtimeInfoMock.Object, uiFactoryMock.Object);
 
-			uiFactoryMock.Setup(u => u.CreateAboutWindow(It.IsAny<IRuntimeInfo>(), It.IsAny<IText>())).Returns(window.Object);
+			uiFactoryMock.Setup(u => u.CreateAboutWindow(It.IsAny<IRuntimeInfo>())).Returns(window.Object);
 			sut.RegisterNotification(button);
 			button.Click();
 			button.Click();
@@ -60,7 +58,7 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 			button.Click();
 			button.Click();
 
-			uiFactoryMock.Verify(u => u.CreateAboutWindow(It.IsAny<IRuntimeInfo>(), It.IsAny<IText>()), Times.Once);
+			uiFactoryMock.Verify(u => u.CreateAboutWindow(It.IsAny<IRuntimeInfo>()), Times.Once);
 			window.Verify(u => u.Show(), Times.Once);
 			window.Verify(u => u.BringToForeground(), Times.Exactly(4));
 		}
@@ -69,7 +67,7 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 		public void MustSubscribeToClickEvent()
 		{
 			var button = new NotificationButtonMock();
-			var sut = new AboutNotificationController(runtimeInfoMock.Object, textMock.Object, uiFactoryMock.Object);
+			var sut = new AboutNotificationController(runtimeInfoMock.Object, uiFactoryMock.Object);
 
 			sut.RegisterNotification(button);
 

@@ -9,7 +9,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Notifications;
-using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 
@@ -19,14 +18,12 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 	public class LogNotificationControllerTests
 	{
 		private Mock<ILogger> loggerMock;
-		private Mock<IText> textMock;
 		private Mock<IUserInterfaceFactory> uiFactoryMock;
 
 		[TestInitialize]
 		public void Initialize()
 		{
 			loggerMock = new Mock<ILogger>();
-			textMock = new Mock<IText>();
 			uiFactoryMock = new Mock<IUserInterfaceFactory>();
 		}
 
@@ -35,9 +32,9 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 		{
 			var button = new NotificationButtonMock();
 			var window = new Mock<IWindow>();
-			var sut = new LogNotificationController(loggerMock.Object, textMock.Object, uiFactoryMock.Object);
+			var sut = new LogNotificationController(loggerMock.Object, uiFactoryMock.Object);
 
-			uiFactoryMock.Setup(u => u.CreateLogWindow(It.IsAny<ILogger>(), It.IsAny<IText>())).Returns(window.Object);
+			uiFactoryMock.Setup(u => u.CreateLogWindow(It.IsAny<ILogger>())).Returns(window.Object);
 			sut.RegisterNotification(button);
 			button.Click();
 			sut.Terminate();
@@ -50,9 +47,9 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 		{
 			var button = new NotificationButtonMock();
 			var window = new Mock<IWindow>();
-			var sut = new LogNotificationController(loggerMock.Object, textMock.Object, uiFactoryMock.Object);
+			var sut = new LogNotificationController(loggerMock.Object, uiFactoryMock.Object);
 
-			uiFactoryMock.Setup(u => u.CreateLogWindow(It.IsAny<ILogger>(), It.IsAny<IText>())).Returns(window.Object);
+			uiFactoryMock.Setup(u => u.CreateLogWindow(It.IsAny<ILogger>())).Returns(window.Object);
 			sut.RegisterNotification(button);
 			button.Click();
 			button.Click();
@@ -60,7 +57,7 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 			button.Click();
 			button.Click();
 
-			uiFactoryMock.Verify(u => u.CreateLogWindow(It.IsAny<ILogger>(), It.IsAny<IText>()), Times.Once);
+			uiFactoryMock.Verify(u => u.CreateLogWindow(It.IsAny<ILogger>()), Times.Once);
 			window.Verify(u => u.Show(), Times.Once);
 			window.Verify(u => u.BringToForeground(), Times.Exactly(4));
 		}
@@ -69,7 +66,7 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 		public void MustSubscribeToClickEvent()
 		{
 			var button = new NotificationButtonMock();
-			var sut = new LogNotificationController(loggerMock.Object, textMock.Object, uiFactoryMock.Object);
+			var sut = new LogNotificationController(loggerMock.Object, uiFactoryMock.Object);
 
 			sut.RegisterNotification(button);
 

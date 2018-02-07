@@ -41,7 +41,6 @@ namespace SafeExamBrowser.Runtime
 			var sessionOperations = new Queue<IOperation>();
 			var nativeMethods = new NativeMethods();
 			var configuration = new ConfigurationRepository();
-			var uiFactory = new UserInterfaceFactory();
 
 			logger = new Logger();
 			runtimeInfo = configuration.RuntimeInfo;
@@ -50,6 +49,7 @@ namespace SafeExamBrowser.Runtime
 			InitializeLogging();
 
 			var text = new Text(logger);
+			var uiFactory = new UserInterfaceFactory(text);
 			var runtimeHost = new RuntimeHost(runtimeInfo.RuntimeAddress, new ModuleLogger(logger, typeof(RuntimeHost)));
 			var serviceProxy = new ServiceProxy(runtimeInfo.ServiceAddress, new ModuleLogger(logger, typeof(ServiceProxy)));
 
@@ -63,7 +63,7 @@ namespace SafeExamBrowser.Runtime
 			var boostrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new OperationSequence(logger, sessionOperations);
 
-			RuntimeController = new RuntimeController(configuration, logger, boostrapSequence, sessionSequence, runtimeHost, runtimeInfo, serviceProxy, Application.Current.Shutdown, text, uiFactory);
+			RuntimeController = new RuntimeController(configuration, logger, boostrapSequence, sessionSequence, runtimeHost, runtimeInfo, serviceProxy, Application.Current.Shutdown, uiFactory);
 		}
 
 		internal void LogStartupInformation()

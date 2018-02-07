@@ -140,10 +140,11 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 
 		private void CreateLogNotification()
 		{
+			// TODO: Resolve dependencies -> CompositionRoot!
 			var logInfo = new LogNotificationInfo(text);
 			var logNotification = uiFactory.CreateNotification(logInfo);
 
-			logController = new LogNotificationController(logger, text, uiFactory);
+			logController = new LogNotificationController(logger, uiFactory);
 			logController.RegisterNotification(logNotification);
 
 			taskbar.AddNotification(logNotification);

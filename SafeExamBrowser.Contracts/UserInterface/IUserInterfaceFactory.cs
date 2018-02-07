@@ -8,7 +8,6 @@
 
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
@@ -19,7 +18,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// <summary>
 		/// Creates a new about window displaying information about the currently running application version.
 		/// </summary>
-		IWindow CreateAboutWindow(IRuntimeInfo runtimeInfo, IText text);
+		IWindow CreateAboutWindow(IRuntimeInfo runtimeInfo);
 
 		/// <summary>
 		/// Creates a taskbar button, initialized with the given application information.
@@ -34,7 +33,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// <summary>
 		/// Creates a new log window which runs on its own thread.
 		/// </summary>
-		IWindow CreateLogWindow(ILogger logger, IText text);
+		IWindow CreateLogWindow(ILogger logger);
 
 		/// <summary>
 		/// Creates a taskbar notification, initialized with the given notification information.
@@ -55,12 +54,12 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// Creates a new runtime window which runs on its own thread.
 		/// </summary>
 		/// <returns></returns>
-		IRuntimeWindow CreateRuntimeWindow(IRuntimeInfo runtimeInfo, IText text);
+		IRuntimeWindow CreateRuntimeWindow(IRuntimeInfo runtimeInfo);
 
 		/// <summary>
 		/// Creates a new splash screen which runs on its own thread.
 		/// </summary>
-		ISplashScreen CreateSplashScreen(IRuntimeInfo runtimeInfo, IText text);
+		ISplashScreen CreateSplashScreen(IRuntimeInfo runtimeInfo);
 
 		/// <summary>
 		/// Creates a system control which allows to change the wireless network connection of the computer.

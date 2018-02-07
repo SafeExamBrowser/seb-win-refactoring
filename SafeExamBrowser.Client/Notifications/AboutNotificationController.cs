@@ -18,14 +18,12 @@ namespace SafeExamBrowser.Client.Notifications
 	{
 		private INotificationButton notification;
 		private IRuntimeInfo runtimeInfo;
-		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		private IWindow window;
 
-		public AboutNotificationController(IRuntimeInfo runtimeInfo, IText text, IUserInterfaceFactory uiFactory)
+		public AboutNotificationController(IRuntimeInfo runtimeInfo, IUserInterfaceFactory uiFactory)
 		{
 			this.runtimeInfo = runtimeInfo;
-			this.text = text;
 			this.uiFactory = uiFactory;
 		}
 
@@ -45,7 +43,7 @@ namespace SafeExamBrowser.Client.Notifications
 		{
 			if (window == null)
 			{
-				window = uiFactory.CreateAboutWindow(runtimeInfo, text);
+				window = uiFactory.CreateAboutWindow(runtimeInfo);
 
 				window.Closing += () => window = null;
 				window.Show();

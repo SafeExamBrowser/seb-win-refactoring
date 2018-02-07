@@ -531,7 +531,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var sut = new OperationSequence(loggerMock.Object, new Queue<IOperation>());
 			var indicatorMock = new Mock<IProgressIndicator>();
 
-			indicatorMock.Setup(i => i.SetMaxValue(It.IsAny<int>())).Throws<Exception>();
+			indicatorMock.Setup(i => i.SetIndeterminate()).Throws<Exception>();
 			sut.ProgressIndicator = indicatorMock.Object;
 
 			var success = sut.TryRevert();

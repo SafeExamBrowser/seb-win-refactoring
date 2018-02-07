@@ -9,7 +9,6 @@
 using System.Collections.Generic;
 using SafeExamBrowser.Browser;
 using SafeExamBrowser.Configuration;
-using SafeExamBrowser.Configuration.Settings;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Configuration;
@@ -60,11 +59,11 @@ namespace SafeExamBrowser.Client
 			nativeMethods = new NativeMethods();
 			settings = new ConfigurationRepository().LoadDefaultSettings();
 			systemInfo = new SystemInfo();
-			uiFactory = new UserInterfaceFactory();
 
 			InitializeLogging();
 
 			text = new Text(logger);
+			uiFactory = new UserInterfaceFactory(text);
 			// TODO
 			//Taskbar = new Taskbar(new ModuleLogger(logger, typeof(Taskbar)));
 			//browserController = new BrowserApplicationController(settings.Browser, text, uiFactory);

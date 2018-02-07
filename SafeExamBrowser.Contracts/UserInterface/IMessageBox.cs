@@ -6,6 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.I18n;
+
 namespace SafeExamBrowser.Contracts.UserInterface
 {
 	public interface IMessageBox
@@ -14,5 +16,10 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// Shows a message box according to the specified parameters and returns the result chosen by the user.
 		/// </summary>
 		MessageBoxResult Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information);
+
+		/// <summary>
+		/// Shows a message box according to the specified parameters and returns the result chosen by the user.
+		/// </summary>
+		MessageBoxResult Show(TextKey message, TextKey title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information);
 	}
 }

@@ -17,6 +17,8 @@ namespace SafeExamBrowser.Contracts.I18n
 		LogWindow_Title,
 		MessageBox_ConfigureClientSuccess,
 		MessageBox_ConfigureClientSuccessTitle,
+		MessageBox_SessionStartError,
+		MessageBox_SessionStartErrorTitle,
 		MessageBox_ShutdownError,
 		MessageBox_ShutdownErrorTitle,
 		MessageBox_SingleInstance,

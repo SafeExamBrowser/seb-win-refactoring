@@ -13,14 +13,13 @@ namespace SafeExamBrowser.Client.Notifications
 {
 	internal class LogNotificationInfo : INotificationInfo
 	{
-		private IText text;
-
-		public string Tooltip => text.Get(TextKey.Notification_LogTooltip);
-		public IIconResource IconResource { get; } = new LogNotificationIconResource();
+		public string Tooltip { get; private set; }
+		public IIconResource IconResource { get; private set; }
 
 		public LogNotificationInfo(IText text)
 		{
-			this.text = text;
+			Tooltip = text.Get(TextKey.Notification_LogTooltip);
+			IconResource = new LogNotificationIconResource();
 		}
 	}
 }

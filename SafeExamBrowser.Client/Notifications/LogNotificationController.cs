@@ -18,14 +18,12 @@ namespace SafeExamBrowser.Client.Notifications
 	{
 		private INotificationButton notification;
 		private ILogger logger;
-		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		private IWindow window;
 
-		public LogNotificationController(ILogger logger, IText text, IUserInterfaceFactory uiFactory)
+		public LogNotificationController(ILogger logger, IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
-			this.text = text;
 			this.uiFactory = uiFactory;
 		}
 
@@ -45,7 +43,7 @@ namespace SafeExamBrowser.Client.Notifications
 		{
 			if (window == null)
 			{
-				window = uiFactory.CreateLogWindow(logger, text);
+				window = uiFactory.CreateLogWindow(logger);
 
 				window.Closing += () => window = null;
 				window.Show();

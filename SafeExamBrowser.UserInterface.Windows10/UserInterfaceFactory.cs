@@ -21,7 +21,14 @@ namespace SafeExamBrowser.UserInterface.Windows10
 {
 	public class UserInterfaceFactory : IUserInterfaceFactory
 	{
-		public IWindow CreateAboutWindow(IRuntimeInfo runtimeInfo, IText text)
+		private IText text;
+
+		public UserInterfaceFactory(IText text)
+		{
+			this.text = text;
+		}
+
+		public IWindow CreateAboutWindow(IRuntimeInfo runtimeInfo)
 		{
 			return new AboutWindow(runtimeInfo, text);
 		}
@@ -36,7 +43,7 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			return new BrowserWindow(control, settings);
 		}
 
-		public IWindow CreateLogWindow(ILogger logger, IText text)
+		public IWindow CreateLogWindow(ILogger logger)
 		{
 			LogWindow logWindow = null;
 			var logWindowReadyEvent = new AutoResetEvent(false);
@@ -77,13 +84,13 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			return new PowerSupplyControl();
 		}
 
-		public IRuntimeWindow CreateRuntimeWindow(IRuntimeInfo runtimeInfo, IText text)
+		public IRuntimeWindow CreateRuntimeWindow(IRuntimeInfo runtimeInfo)
 		{
 			// TODO
 			throw new System.NotImplementedException();
 		}
 
-		public ISplashScreen CreateSplashScreen(IRuntimeInfo runtimeInfo, IText text)
+		public ISplashScreen CreateSplashScreen(IRuntimeInfo runtimeInfo)
 		{
 			SplashScreen splashScreen = null;
 			var splashReadyEvent = new AutoResetEvent(false);
@@ -121,6 +128,11 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			var result = MessageBox.Show(message, title, ToButton(action), ToImage(icon), System.Windows.MessageBoxResult.None, MessageBoxOptions.ServiceNotification);
 
 			return ToResult(result);
+		}
+
+		public MessageBoxResult Show(TextKey message, TextKey title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information)
+		{
+			return Show(text.Get(message), text.Get(title), action, icon);
 		}
 
 		private MessageBoxButton ToButton(MessageBoxAction action)
