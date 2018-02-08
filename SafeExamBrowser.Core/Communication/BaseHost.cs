@@ -33,9 +33,38 @@ namespace SafeExamBrowser.Core.Communication
 			this.logger = logger;
 		}
 
-		public abstract IConnectResponse Connect(Guid? token = null);
-		public abstract void Disconnect(IMessage message);
-		public abstract IResponse Send(IMessage message);
+		protected abstract IConnectResponse OnConnect(Guid? token);
+		protected abstract void OnDisconnect(IMessage message);
+		protected abstract IResponse OnReceive(IMessage message);
+
+		public IConnectResponse Connect(Guid? token = null)
+		{
+			logger.Debug($"Received connection request with token '{token}'.");
+
+			var response = OnConnect(token);
+
+			logger.Debug($"{(response.ConnectionEstablished ? "Accepted" : "Denied")} connection request.");
+
+			return response;
+		}
+
+		public void Disconnect(IMessage message)
+		{
+			logger.Debug($"Received disconnection request with message '{message}'.");
+
+			OnDisconnect(message);
+		}
+
+		public IResponse Send(IMessage message)
+		{
+			logger.Debug($"Received message '{message}'.");
+
+			var response = OnReceive(message);
+
+			logger.Debug($"Sending response '{response}'.");
+
+			return response;
+		}
 
 		public void Start()
 		{

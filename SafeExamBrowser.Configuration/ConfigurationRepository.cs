@@ -18,6 +18,7 @@ namespace SafeExamBrowser.Configuration
 	{
 		private RuntimeInfo runtimeInfo;
 
+		public ISessionData CurrentSessionData { get; private set; }
 		public ISettings CurrentSettings { get; private set; }
 
 		public IRuntimeInfo RuntimeInfo
@@ -31,6 +32,17 @@ namespace SafeExamBrowser.Configuration
 
 				return runtimeInfo;
 			}
+		}
+
+		public ISessionData InitializeSessionData()
+		{
+			var sessionData = new SessionData();
+
+			sessionData.Id = Guid.NewGuid();
+
+			CurrentSessionData = sessionData;
+
+			return sessionData;
 		}
 
 		public ISettings LoadSettings(Uri path)

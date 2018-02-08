@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RuntimeInfo.cs" />
+    <Compile Include="SessionData.cs" />
     <Compile Include="Settings\BrowserSettings.cs" />
     <Compile Include="Settings\KeyboardSettings.cs" />
     <Compile Include="Settings\MouseSettings.cs" />

@@ -66,6 +66,7 @@
     <Compile Include="Communication\Responses\IResponse.cs" />
     <Compile Include="Communication\Responses\IConnectResponse.cs" />
     <Compile Include="Configuration\IRuntimeInfo.cs" />
+    <Compile Include="Configuration\ISessionData.cs" />
     <Compile Include="Configuration\Settings\ConfigurationMode.cs" />
     <Compile Include="Behaviour\INotificationController.cs" />
     <Compile Include="Behaviour\Operations\IOperation.cs" />

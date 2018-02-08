@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 {
 	internal class RuntimeController : IRuntimeController
 	{
-		private bool initialized;
+		private bool sessionRunning;
 
 		private IConfigurationRepository configuration;
 		private ILogger logger;
@@ -68,7 +68,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 
 			splashScreen.Show();
 
-			initialized = bootstrapSequence.TryPerform();
+			var initialized = bootstrapSequence.TryPerform();
 
 			if (initialized)
 			{
@@ -86,19 +86,15 @@ namespace SafeExamBrowser.Runtime.Behaviour
 				logger.Log(string.Empty);
 			}
 
-			return initialized;
+			return initialized && sessionRunning;
 		}
 
 		public void Terminate()
 		{
-			// TODO: Necessary here? Move to App.cs as private "started" flag if not...
-			if (!initialized)
+			if (sessionRunning)
 			{
-				return;
+				StopSession();
 			}
-
-			// TODO: Only if session is running!
-			StopSession();
 
 			logger.Unsubscribe(runtimeWindow);
 			runtimeWindow?.Close();
@@ -129,23 +125,12 @@ namespace SafeExamBrowser.Runtime.Behaviour
 
 		private void StartSession(bool initial = false)
 		{
-			logger.Info("Starting new session...");
-
-			runtimeWindow.UpdateText(TextKey.RuntimeWindow_StartSession, true);
 			runtimeWindow.Show();
 
-			var success = initial ? sessionSequence.TryPerform() : sessionSequence.TryRepeat();
+			sessionRunning = initial ? sessionSequence.TryPerform() : sessionSequence.TryRepeat();
 
-			if (success)
+			if (sessionRunning)
 			{
-				// TODO:
-				// - Initialize session data
-				// - Create and connect to client
-				// - Initialize session with service
-				// - Verify session integrity and start event handling
-
-
-
 				runtimeWindow.HideProgressBar();
 				runtimeWindow.UpdateText(TextKey.RuntimeWindow_ApplicationRunning);
 
@@ -157,34 +142,27 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			else
 			{
 				uiFactory.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error);
+				logger.Info($"Failed to start new session. Terminating application...");
 
-				if (initial)
+				if (!initial)
 				{
-					initialized = false;
-				}
-				else
-				{
-					shutdown();
+					shutdown.Invoke();
 				}
 			}
 		}
 
 		private void StopSession()
 		{
-			logger.Info("Stopping current session...");
 			runtimeWindow.Show();
 			runtimeWindow.BringToForeground();
 			runtimeWindow.ShowProgressBar();
-			runtimeWindow.UpdateText(TextKey.RuntimeWindow_StopSession, true);
 
-			// TODO:
-			// - Terminate client (or does it terminate itself?)
-			// - Finalize session with service
-			// - Stop event handling and close session
 			var success = sessionSequence.TryRevert();
 
 			if (success)
 			{
+				sessionRunning = false;
+
 				// TODO
 			}
 			else

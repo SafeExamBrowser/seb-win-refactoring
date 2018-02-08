@@ -6,6 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+using SafeExamBrowser.Contracts.Configuration.Settings;
+
 namespace SafeExamBrowser.Contracts.Communication
 {
 	public interface IServiceProxy
@@ -25,5 +28,15 @@ namespace SafeExamBrowser.Contracts.Communication
 		/// Disconnects from the service host.
 		/// </summary>
 		void Disconnect();
+
+		/// <summary>
+		/// Instructs the service to start a new session according to the given parameters.
+		/// </summary>
+		void StartSession(Guid sessionId, ISettings settings);
+
+		/// <summary>
+		/// Instructs the service to stop the specified session.
+		/// </summary>
+		void StopSession(Guid sessionId);
 	}
 }

@@ -74,6 +74,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		public void Repeat()
 		{
 			// TODO: How will the new settings be retrieved? Uri passed to the repository? If yes, how does the Uri get here?!
+			//		-> IDEA: Use configuration repository as container?
 		}
 
 		public void Revert()

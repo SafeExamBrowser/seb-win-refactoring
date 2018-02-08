@@ -37,10 +37,8 @@ namespace SafeExamBrowser.Runtime
 		internal void BuildObjectGraph()
 		{
 			var args = Environment.GetCommandLineArgs();
-			var bootstrapOperations = new Queue<IOperation>();
-			var sessionOperations = new Queue<IOperation>();
-			var nativeMethods = new NativeMethods();
 			var configuration = new ConfigurationRepository();
+			var nativeMethods = new NativeMethods();
 
 			logger = new Logger();
 			runtimeInfo = configuration.RuntimeInfo;
@@ -53,12 +51,17 @@ namespace SafeExamBrowser.Runtime
 			var runtimeHost = new RuntimeHost(runtimeInfo.RuntimeAddress, new ModuleLogger(logger, typeof(RuntimeHost)));
 			var serviceProxy = new ServiceProxy(runtimeInfo.ServiceAddress, new ModuleLogger(logger, typeof(ServiceProxy)));
 
+			var bootstrapOperations = new Queue<IOperation>();
+			var sessionOperations = new Queue<IOperation>();
+
 			bootstrapOperations.Enqueue(new I18nOperation(logger, text));
 			bootstrapOperations.Enqueue(new CommunicationOperation(runtimeHost, logger));
 
+			sessionOperations.Enqueue(new SessionSequenceStartOperation(configuration, logger, serviceProxy));
 			sessionOperations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeInfo, text, uiFactory, args));
 			sessionOperations.Enqueue(new ServiceOperation(configuration, logger, serviceProxy, text));
 			sessionOperations.Enqueue(new KioskModeOperation(logger, configuration));
+			sessionOperations.Enqueue(new SessionSequenceEndOperation(configuration, logger, serviceProxy));
 
 			var boostrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new OperationSequence(logger, sessionOperations);

@@ -90,6 +90,9 @@
   <Entry key="ProgressIndicator_StartMouseInterception">
     Starting mouse interception
   </Entry>
+  <Entry key="ProgressIndicator_StartSession">
+    Starting new session
+  </Entry>
   <Entry key="ProgressIndicator_StopCommunicationHost">
     Stopping communication host
   </Entry>
@@ -104,6 +107,9 @@
   </Entry>
   <Entry key="ProgressIndicator_StopProcessMonitoring">
     Stopping process monitoring
+  </Entry>
+  <Entry key="ProgressIndicator_StopSession">
+    Stopping current session
   </Entry>
   <Entry key="ProgressIndicator_StopWindowMonitoring">
     Stopping window monitoring
@@ -122,12 +128,6 @@
   </Entry>
   <Entry key="RuntimeWindow_ApplicationRunning">
     The application is running.
-  </Entry>
-  <Entry key="RuntimeWindow_StartSession">
-    Starting new session
-  </Entry>
-  <Entry key="RuntimeWindow_StopSession">
-    Stopping current session
   </Entry>
   <Entry key="SystemControl_BatteryCharging">
     Plugged in, charging... (%%CHARGE%%%)

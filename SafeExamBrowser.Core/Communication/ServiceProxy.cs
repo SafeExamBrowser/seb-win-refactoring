@@ -6,7 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Contracts.Communication;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Core.Communication.Messages;
 
@@ -22,22 +24,48 @@ namespace SafeExamBrowser.Core.Communication
 
 		public bool Connect()
 		{
-			if (!IgnoreOperation(nameof(Connect)))
+			if (IgnoreOperation(nameof(Connect)))
 			{
-				return base.Connect().ConnectionEstablished;
+				return false;
 			}
 
-			return false;
+			return base.Connect().ConnectionEstablished;
 		}
 
 		public void Disconnect()
 		{
-			if (!IgnoreOperation(nameof(Disconnect)))
+			if (IgnoreOperation(nameof(Disconnect)))
 			{
-				FailIfNotConnected(nameof(Disconnect));
-
-				Disconnect(new Message { CommunicationToken = CommunicationToken.Value });
+				return;
 			}
+
+			FailIfNotConnected(nameof(Disconnect));
+
+			Disconnect(new Message { CommunicationToken = CommunicationToken.Value });
+		}
+
+		public void StartSession(Guid sessionId, ISettings settings)
+		{
+			if (IgnoreOperation(nameof(StartSession)))
+			{
+				return;
+			}
+
+			FailIfNotConnected(nameof(StartSession));
+
+			// TODO: Send(new StartSessionMessage { Id = sessionId, Settings = settings });
+		}
+
+		public void StopSession(Guid sessionId)
+		{
+			if (IgnoreOperation(nameof(StopSession)))
+			{
+				return;
+			}
+
+			FailIfNotConnected(nameof(StopSession));
+
+			// TODO
 		}
 
 		private bool IgnoreOperation(string operationName)

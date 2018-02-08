@@ -8,18 +8,13 @@
 
 using System;
 
-namespace SafeExamBrowser.Contracts.Communication
+namespace SafeExamBrowser.Contracts.Configuration
 {
-	public interface IClientProxy
+	public interface ISessionData
 	{
 		/// <summary>
-		/// Tries to connect to the client host.
+		/// The unique session identifier.
 		/// </summary>
-		bool Connect(Guid token);
-
-		/// <summary>
-		/// Disconnects from the client host.
-		/// </summary>
-		void Disconnect();
+		Guid Id { get; }
 	}
 }

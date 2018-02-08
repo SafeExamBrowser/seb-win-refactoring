@@ -21,19 +21,19 @@ namespace SafeExamBrowser.Runtime.Communication
 		{
 		}
 
-		public override IConnectResponse Connect(Guid? token = null)
+		protected override IConnectResponse OnConnect(Guid? token = null)
 		{
 			// TODO
 			throw new NotImplementedException();
 		}
 
-		public override void Disconnect(IMessage message)
+		protected override void OnDisconnect(IMessage message)
 		{
 			// TODO
 			throw new NotImplementedException();
 		}
 
-		public override IResponse Send(IMessage message)
+		protected override IResponse OnReceive(IMessage message)
 		{
 			// TODO
 			throw new NotImplementedException();

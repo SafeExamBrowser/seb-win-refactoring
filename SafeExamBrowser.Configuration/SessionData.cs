@@ -7,19 +7,13 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Configuration;
 
-namespace SafeExamBrowser.Contracts.Communication
+namespace SafeExamBrowser.Configuration
 {
-	public interface IClientProxy
+	[Serializable]
+	public class SessionData : ISessionData
 	{
-		/// <summary>
-		/// Tries to connect to the client host.
-		/// </summary>
-		bool Connect(Guid token);
-
-		/// <summary>
-		/// Disconnects from the client host.
-		/// </summary>
-		void Disconnect();
+		public Guid Id { get; set; }
 	}
 }
