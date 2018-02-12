@@ -8,7 +8,7 @@
 
 namespace SafeExamBrowser.Contracts.Communication
 {
-	public interface IRuntimeHost : ICommunicationHost
+	public interface IClientHost : ICommunicationHost
 	{
 		// TODO: Necessary?
 	}

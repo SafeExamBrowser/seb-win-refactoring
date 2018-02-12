@@ -8,16 +8,17 @@
 
 namespace SafeExamBrowser.Contracts.Behaviour
 {
+	// TODO: Interface really needed?!
 	public interface IClientController
 	{
 		/// <summary>
-		/// Wires up and starts the application event handling.
+		/// Reverts any changes, releases all used resources and terminates the client.
 		/// </summary>
-		void Start();
+		void Terminate();
 
 		/// <summary>
-		/// Stops the event handling and removes all event subscriptions.
+		/// Tries to start the client. Returns <c>true</c> if successful, otherwise <c>false</c>.
 		/// </summary>
-		void Stop();
+		bool TryStart();
 	}
 }

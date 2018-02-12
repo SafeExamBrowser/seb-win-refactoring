@@ -9,6 +9,7 @@
 
 namespace SafeExamBrowser.Contracts.Behaviour
 {
+	// TODO: Interface really needed?!
 	public interface IRuntimeController
 	{
 		/// <summary>

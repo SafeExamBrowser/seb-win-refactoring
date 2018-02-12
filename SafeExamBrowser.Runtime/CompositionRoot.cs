@@ -59,7 +59,7 @@ namespace SafeExamBrowser.Runtime
 
 			sessionOperations.Enqueue(new SessionSequenceStartOperation(configuration, logger, serviceProxy));
 			sessionOperations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeInfo, text, uiFactory, args));
-			sessionOperations.Enqueue(new ServiceOperation(configuration, logger, serviceProxy, text));
+			sessionOperations.Enqueue(new ServiceConnectionOperation(configuration, logger, serviceProxy, text));
 			sessionOperations.Enqueue(new KioskModeOperation(logger, configuration));
 			sessionOperations.Enqueue(new SessionSequenceEndOperation(configuration, logger, serviceProxy));
 

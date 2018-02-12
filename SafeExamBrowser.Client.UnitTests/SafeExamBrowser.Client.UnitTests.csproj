@@ -79,7 +79,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviour\Operations\BrowserOperationTests.cs" />
-    <Compile Include="Behaviour\Operations\ClientControllerOperationTests.cs" />
     <Compile Include="Behaviour\Operations\ClipboardOperationTests.cs" />
     <Compile Include="Behaviour\Operations\DisplayMonitorOperationTests.cs" />
     <Compile Include="Behaviour\Operations\KeyboardInterceptorOperationTests.cs" />

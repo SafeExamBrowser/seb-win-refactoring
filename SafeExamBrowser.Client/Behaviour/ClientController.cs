@@ -8,6 +8,7 @@
 
 using System;
 using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
@@ -18,6 +19,7 @@ namespace SafeExamBrowser.Client.Behaviour
 	{
 		private IDisplayMonitor displayMonitor;
 		private ILogger logger;
+		private IOperationSequence operations;
 		private IProcessMonitor processMonitor;
 		private ITaskbar taskbar;
 		private IWindowMonitor windowMonitor;
@@ -25,29 +27,33 @@ namespace SafeExamBrowser.Client.Behaviour
 		public ClientController(
 			IDisplayMonitor displayMonitor,
 			ILogger logger,
+			IOperationSequence operations,
 			IProcessMonitor processMonitor,
 			ITaskbar taskbar,
 			IWindowMonitor windowMonitor)
 		{
 			this.displayMonitor = displayMonitor;
 			this.logger = logger;
+			this.operations = operations;
 			this.processMonitor = processMonitor;
 			this.taskbar = taskbar;
 			this.windowMonitor = windowMonitor;
 		}
 
-		public void Start()
-		{
-			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
-			processMonitor.ExplorerStarted += ProcessMonitor_ExplorerStarted;
-			windowMonitor.WindowChanged += WindowMonitor_WindowChanged;
-		}
-
-		public void Stop()
+		public void Terminate()
 		{
 			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
 			processMonitor.ExplorerStarted -= ProcessMonitor_ExplorerStarted;
 			windowMonitor.WindowChanged -= WindowMonitor_WindowChanged;
+		}
+
+		public bool TryStart()
+		{
+			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
+			processMonitor.ExplorerStarted += ProcessMonitor_ExplorerStarted;
+			windowMonitor.WindowChanged += WindowMonitor_WindowChanged;
+
+			return true;
 		}
 
 		private void DisplayMonitor_DisplaySettingsChanged()

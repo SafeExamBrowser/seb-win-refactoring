@@ -45,6 +45,16 @@ namespace SafeExamBrowser.Configuration
 			return sessionData;
 		}
 
+		public IClientConfiguration BuildClientConfiguration()
+		{
+			return new ClientConfiguration
+			{
+				RuntimeInfo = RuntimeInfo,
+				SessionData = CurrentSessionData,
+				Settings = CurrentSettings
+			};
+		}
+
 		public ISettings LoadSettings(Uri path)
 		{
 			// TODO

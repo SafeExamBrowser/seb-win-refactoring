@@ -17,10 +17,9 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Runtime.Behaviour.Operations
 {
-	internal class ServiceOperation : IOperation
+	internal class ServiceConnectionOperation : IOperation
 	{
-		private bool serviceAvailable;
-		private bool serviceMandatory;
+		private bool connected, mandatory;
 		private IConfigurationRepository configuration;
 		private ILogger logger;
 		private IServiceProxy service;
@@ -29,7 +28,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
-		public ServiceOperation(IConfigurationRepository configuration, ILogger logger, IServiceProxy service, IText text)
+		public ServiceConnectionOperation(IConfigurationRepository configuration, ILogger logger, IServiceProxy service, IText text)
 		{
 			this.configuration = configuration;
 			this.service = service;
@@ -44,23 +43,23 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 			try
 			{
-				serviceMandatory = configuration.CurrentSettings.ServicePolicy == ServicePolicy.Mandatory;
-				serviceAvailable = service.Connect();
+				mandatory = configuration.CurrentSettings.ServicePolicy == ServicePolicy.Mandatory;
+				connected = service.Connect();
 			}
 			catch (Exception e)
 			{
 				LogException(e);
 			}
 
-			if (serviceMandatory && !serviceAvailable)
+			if (mandatory && !connected)
 			{
 				Abort = true;
 				logger.Info("Aborting startup because the service is mandatory but not available!");
 			}
 			else
 			{
-				service.Ignore = !serviceAvailable;
-				logger.Info($"The service is {(serviceMandatory ? "mandatory" : "optional")} and {(serviceAvailable ? "available." : "not available. All service-related operations will be ignored!")}");
+				service.Ignore = !connected;
+				logger.Info($"The service is {(mandatory ? "mandatory" : "optional")} and {(connected ? "available." : "not available. All service-related operations will be ignored!")}");
 			}
 		}
 
@@ -74,7 +73,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			logger.Info("Closing service connection...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_CloseServiceConnection);
 
-			if (serviceAvailable)
+			if (connected)
 			{
 				try
 				{
@@ -82,7 +81,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 				}
 				catch (Exception e)
 				{
-					logger.Error("Failed to disconnect from service component!", e);
+					logger.Error("Failed to disconnect from service host!", e);
 				}
 			}
 		}
@@ -91,7 +90,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		{
 			var message = "Failed to connect to the service component!";
 
-			if (serviceMandatory)
+			if (mandatory)
 			{
 				logger.Error(message, e);
 			}

@@ -36,6 +36,9 @@
   <Entry key="Notification_LogTooltip">
     Application Log
   </Entry>
+  <Entry key="ProgressIndicator_CloseRuntimeConnection">
+    Closing runtime connection
+  </Entry>
   <Entry key="ProgressIndicator_CloseServiceConnection">
     Closing service connection
   </Entry>
@@ -53,6 +56,9 @@
   </Entry>
   <Entry key="ProgressIndicator_InitializeProcessMonitoring">
     Initializing process monitoring
+  </Entry>
+  <Entry key="ProgressIndicator_InitializeRuntimeConnection">
+    Initializing runtime connection
   </Entry>
   <Entry key="ProgressIndicator_InitializeServiceConnection">
     Initializing service connection

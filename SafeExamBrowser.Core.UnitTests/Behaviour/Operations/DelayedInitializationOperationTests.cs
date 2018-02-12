@@ -6,10 +6,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Communication
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 {
-	public interface IRuntimeHost : ICommunicationHost
+	[TestClass]
+	public class DelayedInitializationOperationTests
 	{
-		// TODO: Necessary?
+		[TestMethod]
+		public void Todo()
+		{
+			Assert.Fail();
+		}
 	}
 }

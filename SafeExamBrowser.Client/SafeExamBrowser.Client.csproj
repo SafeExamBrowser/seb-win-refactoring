@@ -70,6 +70,9 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="Behaviour\ClientController.cs" />
+    <Compile Include="Behaviour\Operations\ConfigurationOperation.cs" />
+    <Compile Include="Behaviour\Operations\RuntimeConnectionOperation.cs" />
+    <Compile Include="Communication\ClientHost.cs" />
     <Compile Include="CompositionRoot.cs" />
     <Compile Include="Notifications\AboutNotificationController.cs" />
     <Compile Include="Notifications\AboutNotificationIconResource.cs" />
@@ -78,7 +81,6 @@
     <Compile Include="Notifications\LogNotificationIconResource.cs" />
     <Compile Include="Notifications\LogNotificationInfo.cs" />
     <Compile Include="Behaviour\Operations\BrowserOperation.cs" />
-    <Compile Include="Behaviour\Operations\ClientControllerOperation.cs" />
     <Compile Include="Behaviour\Operations\ClipboardOperation.cs" />
     <Compile Include="Behaviour\Operations\DisplayMonitorOperation.cs" />
     <Compile Include="Behaviour\Operations\KeyboardInterceptorOperation.cs" />

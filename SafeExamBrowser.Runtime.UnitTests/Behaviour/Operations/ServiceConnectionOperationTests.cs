@@ -20,14 +20,14 @@ using SafeExamBrowser.Runtime.Behaviour.Operations;
 namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 {
 	[TestClass]
-	public class ServiceOperationTests
+	public class ServiceConnectionOperationTests
 	{
 		private Mock<ILogger> logger;
 		private Mock<IServiceProxy> service;
 		private Mock<IConfigurationRepository> configuration;
 		private Mock<IProgressIndicator> progressIndicator;
 		private Mock<IText> text;
-		private ServiceOperation sut;
+		private ServiceConnectionOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			progressIndicator = new Mock<IProgressIndicator>();
 			text = new Mock<IText>();
 
-			sut = new ServiceOperation(configuration.Object, logger.Object, service.Object, text.Object);
+			sut = new ServiceConnectionOperation(configuration.Object, logger.Object, service.Object, text.Object);
 		}
 
 		[TestMethod]

@@ -31,6 +31,11 @@ namespace SafeExamBrowser.Contracts.Configuration
 		IRuntimeInfo RuntimeInfo { get; }
 
 		/// <summary>
+		/// Builds a configuration for the client component, given the currently loaded settings, session data and runtime information.
+		/// </summary>
+		IClientConfiguration BuildClientConfiguration();
+
+		/// <summary>
 		/// Initializes all relevant data for a new session.
 		/// </summary>
 		ISessionData InitializeSessionData();

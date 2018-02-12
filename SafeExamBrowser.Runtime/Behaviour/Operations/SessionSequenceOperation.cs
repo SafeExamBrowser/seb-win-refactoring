@@ -17,7 +17,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 {
 	internal abstract class SessionSequenceOperation : IOperation
 	{
-		private bool sessionInitialized;
+		private bool sessionRunning;
 		private IConfigurationRepository configuration;
 		private ILogger logger;
 		private IServiceProxy serviceProxy;
@@ -50,13 +50,13 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			// - Verify session integrity and start event handling -> in runtime controller?
 			System.Threading.Thread.Sleep(5000);
 
-			sessionInitialized = true;
+			sessionRunning = true;
 			logger.Info($"Successfully started new session with identifier '{sessionData.Id}'.");
 		}
 
 		protected void StopSession()
 		{
-			if (sessionInitialized)
+			if (sessionRunning)
 			{
 				logger.Info($"Stopping session with identifier '{sessionData.Id}'...");
 				ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StopSession, true);
@@ -68,7 +68,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 				// - Stop event handling and verify session termination -> in runtime controller?
 				System.Threading.Thread.Sleep(5000);
 
-				sessionInitialized = false;
+				sessionRunning = false;
 				logger.Info($"Successfully stopped session with identifier '{sessionData.Id}'.");
 			}
 		}

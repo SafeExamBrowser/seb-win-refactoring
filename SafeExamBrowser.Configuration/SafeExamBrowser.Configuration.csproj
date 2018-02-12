@@ -53,6 +53,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientConfiguration.cs" />
     <Compile Include="RuntimeInfo.cs" />
     <Compile Include="SessionData.cs" />
     <Compile Include="Settings\BrowserSettings.cs" />
