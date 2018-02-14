@@ -10,7 +10,6 @@ using System;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Core.Communication.Messages;
 
 namespace SafeExamBrowser.Core.Communication
 {
@@ -22,26 +21,24 @@ namespace SafeExamBrowser.Core.Communication
 		{
 		}
 
-		public bool Connect()
+		public override bool Connect(Guid? token)
 		{
 			if (IgnoreOperation(nameof(Connect)))
 			{
 				return false;
 			}
 
-			return base.Connect().ConnectionEstablished;
+			return base.Connect();
 		}
 
-		public void Disconnect()
+		public override bool Disconnect()
 		{
 			if (IgnoreOperation(nameof(Disconnect)))
 			{
-				return;
+				return true;
 			}
 
-			FailIfNotConnected(nameof(Disconnect));
-
-			Disconnect(new Message { CommunicationToken = CommunicationToken.Value });
+			return base.Disconnect();
 		}
 
 		public void StartSession(Guid sessionId, ISettings settings)
@@ -50,8 +47,6 @@ namespace SafeExamBrowser.Core.Communication
 			{
 				return;
 			}
-
-			FailIfNotConnected(nameof(StartSession));
 
 			// TODO: Send(new StartSessionMessage { Id = sessionId, Settings = settings });
 		}
@@ -62,8 +57,6 @@ namespace SafeExamBrowser.Core.Communication
 			{
 				return;
 			}
-
-			FailIfNotConnected(nameof(StopSession));
 
 			// TODO
 		}

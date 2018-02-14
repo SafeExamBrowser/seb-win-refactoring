@@ -22,6 +22,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 	{
 		private bool sessionRunning;
 
+		private IClientProxy client;
 		private IConfigurationRepository configuration;
 		private ILogger logger;
 		private IOperationSequence bootstrapSequence;
@@ -29,29 +30,31 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		private IRuntimeHost runtimeHost;
 		private IRuntimeInfo runtimeInfo;
 		private IRuntimeWindow runtimeWindow;
-		private IServiceProxy serviceProxy;
+		private IServiceProxy service;
 		private ISplashScreen splashScreen;
 		private Action shutdown;
 		private IUserInterfaceFactory uiFactory;
 		
 		public RuntimeController(
+			IClientProxy client,
 			IConfigurationRepository configuration,
 			ILogger logger,
 			IOperationSequence bootstrapSequence,
 			IOperationSequence sessionSequence,
 			IRuntimeHost runtimeHost,
 			IRuntimeInfo runtimeInfo,
-			IServiceProxy serviceProxy,
+			IServiceProxy service,
 			Action shutdown,
 			IUserInterfaceFactory uiFactory)
 		{
+			this.client = client;
 			this.configuration = configuration;
 			this.logger = logger;
 			this.bootstrapSequence = bootstrapSequence;
 			this.sessionSequence = sessionSequence;
 			this.runtimeHost = runtimeHost;
 			this.runtimeInfo = runtimeInfo;
-			this.serviceProxy = serviceProxy;
+			this.service = service;
 			this.shutdown = shutdown;
 			this.uiFactory = uiFactory;
 		}
@@ -103,10 +106,6 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			logger.Log(string.Empty);
 			logger.Info("--- Initiating shutdown procedure ---");
 
-			// TODO:
-			// - Disconnect from service
-			// - Terminate runtime communication host
-			// - Revert kiosk mode (or do that when stopping session?)
 			var success = bootstrapSequence.TryRevert();
 
 			if (success)
@@ -142,7 +141,6 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			else
 			{
 				uiFactory.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error);
-				logger.Info($"Failed to start new session. Terminating application...");
 
 				if (!initial)
 				{

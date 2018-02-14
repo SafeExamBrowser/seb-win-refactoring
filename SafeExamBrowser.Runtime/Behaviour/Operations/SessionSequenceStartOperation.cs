@@ -9,12 +9,19 @@
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Runtime.Behaviour.Operations
 {
 	internal class SessionSequenceStartOperation : SessionSequenceOperation
 	{
-		public SessionSequenceStartOperation(IConfigurationRepository configuration, ILogger logger, IServiceProxy serviceProxy) : base(configuration, logger, serviceProxy)
+		public SessionSequenceStartOperation(
+			IClientProxy client,
+			IConfigurationRepository configuration,
+			ILogger logger,
+			IProcessFactory processFactory,
+			IRuntimeHost runtimeHost,
+			IServiceProxy service) : base(client, configuration, logger, processFactory, runtimeHost, service)
 		{
 		}
 

@@ -10,33 +10,54 @@ using System;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Messages;
 using SafeExamBrowser.Contracts.Communication.Responses;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Core.Communication;
+using SafeExamBrowser.Runtime.Communication.Responses;
 
 namespace SafeExamBrowser.Runtime.Communication
 {
 	internal class RuntimeHost : BaseHost, IRuntimeHost
 	{
-		public RuntimeHost(string address, ILogger logger) : base(address, logger)
+		private IConfigurationRepository configuration;
+
+		public Guid StartupToken { private get; set; }
+
+		public event CommunicationEventHandler ClientReady;
+
+		public RuntimeHost(string address, IConfigurationRepository configuration, ILogger logger) : base(address, logger)
 		{
+			this.configuration = configuration;
 		}
 
-		protected override IConnectResponse OnConnect(Guid? token = null)
+		protected override bool OnConnect(Guid? token = null)
 		{
-			// TODO
-			throw new NotImplementedException();
+			return StartupToken == token;
 		}
 
-		protected override void OnDisconnect(IMessage message)
+		protected override void OnDisconnect()
 		{
 			// TODO
-			throw new NotImplementedException();
 		}
 
 		protected override IResponse OnReceive(IMessage message)
 		{
 			// TODO
-			throw new NotImplementedException();
+			return null;
+		}
+
+		protected override IResponse OnReceive(Message message)
+		{
+			switch (message)
+			{
+				case Message.ClientIsReady:
+					ClientReady?.Invoke();
+					break;
+				case Message.ConfigurationNeeded:
+					return new ConfigurationResponse { Configuration = configuration.BuildClientConfiguration() };
+			}
+
+			return null;
 		}
 	}
 }

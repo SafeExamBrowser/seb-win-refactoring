@@ -13,8 +13,8 @@ namespace SafeExamBrowser.Contracts.Communication.Messages
 	public interface IMessage
 	{
 		/// <summary>
-		/// The communication token needed for authentication with the host.
+		/// The communication token needed for authentication.
 		/// </summary>
-		Guid CommunicationToken { get; }
+		Guid CommunicationToken { get; set; }
 	}
 }

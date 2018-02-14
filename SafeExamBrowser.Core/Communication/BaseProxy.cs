@@ -12,15 +12,16 @@ using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Messages;
 using SafeExamBrowser.Contracts.Communication.Responses;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Core.Communication.Messages;
 
 namespace SafeExamBrowser.Core.Communication
 {
-	public abstract class BaseProxy : ICommunication
+	public abstract class BaseProxy : ICommunicationProxy
 	{
 		private string address;
 		private ICommunication channel;
+		private Guid? communicationToken;
 
-		protected Guid? CommunicationToken { get; private set; }
 		protected ILogger Logger { get; private set; }
 
 		public BaseProxy(string address, ILogger logger)
@@ -29,7 +30,7 @@ namespace SafeExamBrowser.Core.Communication
 			this.Logger = logger;
 		}
 
-		public IConnectResponse Connect(Guid? token = null)
+		public virtual bool Connect(Guid? token = null)
 		{
 			var endpoint = new EndpointAddress(address);
 
@@ -42,48 +43,47 @@ namespace SafeExamBrowser.Core.Communication
 
 			var response = channel.Connect(token);
 
-			CommunicationToken = response.CommunicationToken;
+			communicationToken = response.CommunicationToken;
 			Logger.Debug($"Tried to connect to {address}, connection was {(response.ConnectionEstablished ? "established" : "refused")}.");
+
+			return response.ConnectionEstablished;
+		}
+
+		public virtual bool Disconnect()
+		{
+			FailIfNotConnected(nameof(Disconnect));
+
+			var message = new DisconnectionMessage { CommunicationToken = communicationToken.Value };
+			var response = channel.Disconnect(message);
+
+			Logger.Debug($"{(response.ConnectionTerminated ? "Disconnected" : "Failed to disconnect")} from {address}.");
+
+			return response.ConnectionTerminated;
+		}
+
+		protected IResponse Send(IMessage message)
+		{
+			FailIfNotConnected(nameof(Send));
+
+			message.CommunicationToken = communicationToken.Value;
+
+			var response = channel.Send(message);
+
+			Logger.Debug($"Sent {ToString(message)}, got {ToString(response)}.");
 
 			return response;
 		}
 
-		public void Disconnect(IMessage message)
+		protected IResponse Send(Message purport)
 		{
-			if (ChannelIsReady())
-			{
-				channel.Disconnect(message);
-				Logger.Debug($"Disconnected from {address}, transmitting {ToString(message)}.");
-			}
+			FailIfNotConnected(nameof(Send));
 
-			throw new CommunicationException($"Tried to disconnect from host, but channel was {GetChannelState()}!");
-		}
+			var message = new SimpleMessage { Purport = purport };
+			var response = channel.Send(message);
 
-		public IResponse Send(IMessage message)
-		{
-			if (ChannelIsReady())
-			{
-				var response = channel.Send(message);
+			Logger.Debug($"Sent {ToString(message)}, got {ToString(response)}.");
 
-				Logger.Debug($"Sent {ToString(message)}, got {ToString(response)}.");
-
-				return response;
-			}
-
-			throw new CommunicationException($"Tried to send {ToString(message)}, but channel was {GetChannelState()}!");
-		}
-
-		protected void FailIfNotConnected(string operationName)
-		{
-			if (!CommunicationToken.HasValue)
-			{
-				throw new InvalidOperationException($"Cannot perform '{operationName}' before being connected to endpoint!");
-			}
-		}
-
-		private bool ChannelIsReady()
-		{
-			return channel != null && (channel as ICommunicationObject).State == CommunicationState.Opened;
+			return response;
 		}
 
 		private void BaseProxy_Closed(object sender, EventArgs e)
@@ -109,6 +109,19 @@ namespace SafeExamBrowser.Core.Communication
 		private void BaseProxy_Opening(object sender, EventArgs e)
 		{
 			Logger.Debug("Communication channel is opening...");
+		}
+
+		private void FailIfNotConnected(string operationName)
+		{
+			if (!communicationToken.HasValue)
+			{
+				throw new InvalidOperationException($"Cannot perform '{operationName}' before being connected to endpoint!");
+			}
+
+			if (channel == null || (channel as ICommunicationObject).State != CommunicationState.Opened)
+			{
+				throw new CommunicationException($"Tried to perform {operationName}, but channel was {GetChannelState()}!");
+			}
 		}
 
 		private string GetChannelState()

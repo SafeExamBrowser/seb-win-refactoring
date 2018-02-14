@@ -7,14 +7,13 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Communication.Responses;
 
-namespace SafeExamBrowser.Contracts.Configuration
+namespace SafeExamBrowser.Core.Communication.Responses
 {
-	public interface ISessionData
+	[Serializable]
+	internal class DisconnectionResponse : IDisconnectionResponse
 	{
-		/// <summary>
-		/// The unique session identifier.
-		/// </summary>
-		Guid Id { get; }
+		public bool ConnectionTerminated { get; set; }
 	}
 }

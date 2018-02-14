@@ -41,9 +41,14 @@ namespace SafeExamBrowser.Contracts.Configuration
 		string ClientAddress { get; }
 
 		/// <summary>
+		/// The executable path of the client compontent.
+		/// </summary>
+		string ClientExecutablePath { get; }
+
+		/// <summary>
 		/// The unique identifier for the currently running client instance.
 		/// 
-		/// TODO: Will need to be updated for each new client instance!
+		/// TODO: Will need to be updated for each new client instance! -> Remove if unused!
 		/// 
 		/// </summary>
 		Guid ClientId { get; }
@@ -85,6 +90,9 @@ namespace SafeExamBrowser.Contracts.Configuration
 
 		/// <summary>
 		/// The unique identifier for the currently running runtime instance.
+		/// 
+		/// TODO: Remove if unused!
+		/// 
 		/// </summary>
 		Guid RuntimeId { get; }
 

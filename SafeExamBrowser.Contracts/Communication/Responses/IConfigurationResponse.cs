@@ -6,20 +6,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
+using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.Contracts.Communication.Responses
 {
-	public interface IConnectResponse : IResponse
+	public interface IConfigurationResponse : IResponse
 	{
 		/// <summary>
-		/// The communication token needed for authentication with the host. Is <c>null</c> if a connection was refused.
+		/// The configuration to be used by the client.
 		/// </summary>
-		Guid? CommunicationToken { get; }
-
-		/// <summary>
-		/// Indicates whether the host has accepted the connection request.
-		/// </summary>
-		bool ConnectionEstablished { get; }
+		IClientConfiguration Configuration { get; }
 	}
 }

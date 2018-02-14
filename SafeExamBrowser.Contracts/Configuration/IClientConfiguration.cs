@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 
 namespace SafeExamBrowser.Contracts.Configuration
@@ -13,9 +14,9 @@ namespace SafeExamBrowser.Contracts.Configuration
 	public interface IClientConfiguration
 	{
 		/// <summary>
-		/// The session data to be used by the client.
+		/// The unique identifier for the current session.
 		/// </summary>
-		ISessionData SessionData { get; set; }
+		Guid SessionId { get; set; }
 
 		/// <summary>
 		/// The application settings to be used by the client.

@@ -54,7 +54,10 @@
   <ItemGroup>
     <Compile Include="Constants\Constant.cs" />
     <Compile Include="Constants\HookType.cs" />
+    <Compile Include="Desktop.cs" />
     <Compile Include="Monitoring\MouseHook.cs" />
+    <Compile Include="Process.cs" />
+    <Compile Include="ProcessFactory.cs" />
     <Compile Include="Types\Bounds.cs" />
     <Compile Include="Types\EXECUTION_STATE.cs" />
     <Compile Include="Types\KBDLLHOOKSTRUCT.cs" />
@@ -69,7 +72,10 @@
     <Compile Include="Constants\SPIF.cs" />
     <Compile Include="Types\MSLLHOOKSTRUCT.cs" />
     <Compile Include="Types\POINT.cs" />
+    <Compile Include="Types\PROCESS_INFORMATION.cs" />
     <Compile Include="Types\RECT.cs" />
+    <Compile Include="Types\SECURITY_ATTRIBUTES.cs" />
+    <Compile Include="Types\STARTUPINFO.cs" />
     <Compile Include="User32.cs" />
   </ItemGroup>
   <ItemGroup>

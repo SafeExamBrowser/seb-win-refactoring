@@ -17,26 +17,32 @@ namespace SafeExamBrowser.Client.Communication
 {
 	internal class ClientHost : BaseHost, IClientHost
 	{
+		public Guid StartupToken { private get; set; }
+
 		public ClientHost(string address, ILogger logger) : base(address, logger)
 		{
 		}
 
-		protected override IConnectResponse OnConnect(Guid? token)
+		protected override bool OnConnect(Guid? token)
 		{
-			// TODO
-			throw new NotImplementedException();
+			return StartupToken == token;
 		}
 
-		protected override void OnDisconnect(IMessage message)
+		protected override void OnDisconnect()
 		{
 			// TODO
-			throw new NotImplementedException();
 		}
 
 		protected override IResponse OnReceive(IMessage message)
 		{
 			// TODO
-			throw new NotImplementedException();
+			return null;
+		}
+
+		protected override IResponse OnReceive(Message message)
+		{
+			// TODO
+			return null;
 		}
 	}
 }

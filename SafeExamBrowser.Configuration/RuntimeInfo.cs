@@ -19,6 +19,7 @@ namespace SafeExamBrowser.Configuration
 		public string BrowserCachePath { get; set; }
 		public string BrowserLogFile { get; set; }
 		public string ClientAddress { get; set; }
+		public string ClientExecutablePath { get; set; }
 		public Guid ClientId { get; set; }
 		public string ClientLogFile { get; set; }
 		public string DefaultSettingsFileName { get; set; }

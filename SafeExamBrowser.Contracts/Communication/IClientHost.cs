@@ -6,10 +6,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+
 namespace SafeExamBrowser.Contracts.Communication
 {
 	public interface IClientHost : ICommunicationHost
 	{
-		// TODO: Necessary?
+		/// <summary>
+		/// The startup token used for initial authentication.
+		/// </summary>
+		Guid StartupToken { set; }
 	}
 }

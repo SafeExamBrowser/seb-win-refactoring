@@ -9,6 +9,7 @@
 using System;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Behaviour.Operations;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
@@ -21,6 +22,7 @@ namespace SafeExamBrowser.Client.Behaviour
 		private ILogger logger;
 		private IOperationSequence operations;
 		private IProcessMonitor processMonitor;
+		private IRuntimeProxy runtime;
 		private ITaskbar taskbar;
 		private IWindowMonitor windowMonitor;
 
@@ -29,6 +31,7 @@ namespace SafeExamBrowser.Client.Behaviour
 			ILogger logger,
 			IOperationSequence operations,
 			IProcessMonitor processMonitor,
+			IRuntimeProxy runtime,
 			ITaskbar taskbar,
 			IWindowMonitor windowMonitor)
 		{
@@ -36,6 +39,7 @@ namespace SafeExamBrowser.Client.Behaviour
 			this.logger = logger;
 			this.operations = operations;
 			this.processMonitor = processMonitor;
+			this.runtime = runtime;
 			this.taskbar = taskbar;
 			this.windowMonitor = windowMonitor;
 		}
@@ -45,15 +49,29 @@ namespace SafeExamBrowser.Client.Behaviour
 			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
 			processMonitor.ExplorerStarted -= ProcessMonitor_ExplorerStarted;
 			windowMonitor.WindowChanged -= WindowMonitor_WindowChanged;
+
+			// TODO
+
+			operations.TryRevert();
 		}
 
 		public bool TryStart()
 		{
-			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
-			processMonitor.ExplorerStarted += ProcessMonitor_ExplorerStarted;
-			windowMonitor.WindowChanged += WindowMonitor_WindowChanged;
 
-			return true;
+			// TODO
+
+			var success = operations.TryPerform();
+
+			if (success)
+			{
+				displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
+				processMonitor.ExplorerStarted += ProcessMonitor_ExplorerStarted;
+				windowMonitor.WindowChanged += WindowMonitor_WindowChanged;
+
+				runtime.InformClientReady();
+			}
+
+			return success;
 		}
 
 		private void DisplayMonitor_DisplaySettingsChanged()

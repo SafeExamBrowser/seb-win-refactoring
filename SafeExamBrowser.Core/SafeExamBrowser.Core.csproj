@@ -61,7 +61,12 @@
     <Compile Include="Behaviour\Operations\OperationSequence.cs" />
     <Compile Include="Communication\BaseProxy.cs" />
     <Compile Include="Communication\BaseHost.cs" />
-    <Compile Include="Communication\Messages\Message.cs" />
+    <Compile Include="Communication\ClientProxy.cs" />
+    <Compile Include="Communication\Messages\DisconnectionMessage.cs" />
+    <Compile Include="Communication\Messages\BaseMessage.cs" />
+    <Compile Include="Communication\Messages\SimpleMessage.cs" />
+    <Compile Include="Communication\Responses\ConnectionResponse.cs" />
+    <Compile Include="Communication\Responses\DisconnectionResponse.cs" />
     <Compile Include="Communication\RuntimeProxy.cs" />
     <Compile Include="Communication\ServiceProxy.cs" />
     <Compile Include="Logging\DefaultLogFormatter.cs" />
@@ -87,8 +92,6 @@
       <Name>SafeExamBrowser.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Communication\Responses\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

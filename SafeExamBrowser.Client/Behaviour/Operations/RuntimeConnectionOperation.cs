@@ -40,18 +40,20 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			try
 			{
 				connected = runtime.Connect(token);
-
-				logger.Info("Successfully connected to the runtime host.");
 			}
 			catch (Exception e)
 			{
-				logger.Error("An unexpected error occurred while trying to connect to the runtime host!", e);
+				logger.Error("An unexpected error occurred while trying to connect to the runtime!", e);
 			}
 
-			if (!connected)
+			if (connected)
+			{
+				logger.Info("Successfully connected to the runtime.");
+			}
+			else
 			{
 				Abort = true;
-				logger.Info("Failed to connect to the runtime. Aborting startup...");
+				logger.Error("Failed to connect to the runtime. Aborting startup...");
 			}
 		}
 

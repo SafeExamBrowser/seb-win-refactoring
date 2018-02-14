@@ -93,6 +93,7 @@
     <Compile Include="Behaviour\Operations\SessionSequenceEndOperation.cs" />
     <Compile Include="Behaviour\Operations\SessionSequenceOperation.cs" />
     <Compile Include="Behaviour\Operations\SessionSequenceStartOperation.cs" />
+    <Compile Include="Communication\Responses\ConfigurationResponse.cs" />
     <Compile Include="Communication\RuntimeHost.cs" />
     <Compile Include="CompositionRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -162,4 +163,7 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /E /Y "$(SolutionDir)SafeExamBrowser.Client\bin\$(PlatformName)\$(ConfigurationName)" "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -87,7 +87,7 @@ namespace SafeExamBrowser.Client
 
 			var sequence = new OperationSequence(logger, operations);
 
-			ClientController = new ClientController(displayMonitor, logger, sequence, processMonitor, Taskbar, windowMonitor);
+			ClientController = new ClientController(displayMonitor, logger, sequence, processMonitor, runtimeProxy, Taskbar, windowMonitor);
 		}
 
 		private void Validate(string[] args)

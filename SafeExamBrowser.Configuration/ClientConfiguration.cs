@@ -15,7 +15,7 @@ namespace SafeExamBrowser.Configuration
 	[Serializable]
 	public class ClientConfiguration : IClientConfiguration
 	{
-		public ISessionData SessionData { get; set; }
+		public Guid SessionId { get; set; }
 		public ISettings Settings { get; set; }
 		public IRuntimeInfo RuntimeInfo { get; set; }
 	}

@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Configuration
 	{
 		private RuntimeInfo runtimeInfo;
 
-		public ISessionData CurrentSessionData { get; private set; }
+		public ISession CurrentSession { get; private set; }
 		public ISettings CurrentSettings { get; private set; }
 
 		public IRuntimeInfo RuntimeInfo
@@ -34,15 +34,17 @@ namespace SafeExamBrowser.Configuration
 			}
 		}
 
-		public ISessionData InitializeSessionData()
+		public ISession InitializeSession()
 		{
-			var sessionData = new SessionData();
+			var session = new Session
+			{
+				Id = Guid.NewGuid(),
+				StartupToken = Guid.NewGuid()
+			};
 
-			sessionData.Id = Guid.NewGuid();
+			CurrentSession = session;
 
-			CurrentSessionData = sessionData;
-
-			return sessionData;
+			return session;
 		}
 
 		public IClientConfiguration BuildClientConfiguration()
@@ -50,7 +52,7 @@ namespace SafeExamBrowser.Configuration
 			return new ClientConfiguration
 			{
 				RuntimeInfo = RuntimeInfo,
-				SessionData = CurrentSessionData,
+				SessionId = CurrentSession.Id,
 				Settings = CurrentSettings
 			};
 		}
@@ -64,10 +66,11 @@ namespace SafeExamBrowser.Configuration
 
 		public ISettings LoadDefaultSettings()
 		{
-			var settings = new Settings.Settings();
-
-			// TODO
-			settings.ServicePolicy = ServicePolicy.Optional;
+			var settings = new Settings.Settings
+			{
+				// TODO
+				ServicePolicy = ServicePolicy.Optional
+			};
 
 			CurrentSettings = settings;
 
@@ -93,6 +96,7 @@ namespace SafeExamBrowser.Configuration
 				BrowserLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Browser.txt"),
 				ClientId = Guid.NewGuid(),
 				ClientAddress = $"{baseAddress}/client/{clientId}",
+				ClientExecutablePath = Path.Combine(Path.GetDirectoryName(executable.Location), $"{nameof(SafeExamBrowser)}.Client.exe"),
 				ClientLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Client.txt"),
 				DefaultSettingsFileName = "SebClientSettings.seb",
 				ProgramCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright,

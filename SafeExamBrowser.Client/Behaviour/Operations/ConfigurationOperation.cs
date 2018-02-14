@@ -42,7 +42,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 				var config = runtime.GetConfiguration();
 
 				configuration.RuntimeInfo = config.RuntimeInfo;
-				configuration.SessionData = config.SessionData;
+				configuration.SessionId = config.SessionId;
 				configuration.Settings = config.Settings;
 
 				logger.Info("Successfully retrieved the application configuration from the runtime.");

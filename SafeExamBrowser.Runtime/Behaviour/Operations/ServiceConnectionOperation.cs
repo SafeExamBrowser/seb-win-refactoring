@@ -54,7 +54,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			if (mandatory && !connected)
 			{
 				Abort = true;
-				logger.Info("Aborting startup because the service is mandatory but not available!");
+				logger.Error("Aborting startup because the service is mandatory but not available!");
 			}
 			else
 			{
@@ -81,7 +81,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 				}
 				catch (Exception e)
 				{
-					logger.Error("Failed to disconnect from service host!", e);
+					logger.Error("Failed to disconnect from the service!", e);
 				}
 			}
 		}

@@ -203,7 +203,7 @@ namespace SafeExamBrowser.WindowsApi
 		{
 			var handle = GetShellWindowHandle();
 
-			User32.SendMessage(handle, Constant.WM_COMMAND, (IntPtr)Constant.MIN_ALL, IntPtr.Zero);
+			User32.SendMessage(handle, Constant.WM_COMMAND, (IntPtr) Constant.MIN_ALL, IntPtr.Zero);
 		}
 
 		public void PostCloseMessageToShell()
@@ -245,10 +245,10 @@ namespace SafeExamBrowser.WindowsApi
 
 		public IntPtr RegisterSystemForegroundEvent(Action<IntPtr> callback)
 		{
-			EventProc eventProc = (IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime) =>
+			void eventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
 			{
 				callback(hwnd);
-			};
+			}
 
 			var handle = User32.SetWinEventHook(Constant.EVENT_SYSTEM_FOREGROUND, Constant.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, eventProc, 0, 0, Constant.WINEVENT_OUTOFCONTEXT);
 
@@ -262,10 +262,10 @@ namespace SafeExamBrowser.WindowsApi
 
 		public IntPtr RegisterSystemCaptureStartEvent(Action<IntPtr> callback)
 		{
-			EventProc eventProc = (IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime) =>
+			void eventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
 			{
 				callback(hwnd);
-			};
+			}
 
 			var handle = User32.SetWinEventHook(Constant.EVENT_SYSTEM_CAPTURESTART, Constant.EVENT_SYSTEM_CAPTURESTART, IntPtr.Zero, eventProc, 0, 0, Constant.WINEVENT_OUTOFCONTEXT);
 

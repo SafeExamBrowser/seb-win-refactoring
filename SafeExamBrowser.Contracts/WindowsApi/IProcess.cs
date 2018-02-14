@@ -6,14 +6,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using SafeExamBrowser.Contracts.Configuration;
-
-namespace SafeExamBrowser.Configuration
+namespace SafeExamBrowser.Contracts.WindowsApi
 {
-	[Serializable]
-	public class SessionData : ISessionData
+	public interface IProcess
 	{
-		public Guid Id { get; set; }
+		/// <summary>
+		/// The process identifier.
+		/// </summary>
+		int Id { get; }
 	}
 }

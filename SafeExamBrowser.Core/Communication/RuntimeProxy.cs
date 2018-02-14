@@ -6,11 +6,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using SafeExamBrowser.Contracts.Communication;
+using SafeExamBrowser.Contracts.Communication.Messages;
+using SafeExamBrowser.Contracts.Communication.Responses;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Core.Communication.Messages;
 
 namespace SafeExamBrowser.Core.Communication
 {
@@ -20,22 +20,14 @@ namespace SafeExamBrowser.Core.Communication
 		{
 		}
 
-		public bool Connect(Guid token)
-		{
-			return base.Connect(token).ConnectionEstablished;
-		}
-
-		public void Disconnect()
-		{
-			FailIfNotConnected(nameof(Disconnect));
-
-			base.Disconnect(new Message { CommunicationToken = CommunicationToken.Value });
-		}
-
 		public IClientConfiguration GetConfiguration()
 		{
-			// TODO
-			throw new NotImplementedException();
+			return ((IConfigurationResponse) Send(Message.ConfigurationNeeded)).Configuration;
+		}
+
+		public void InformClientReady()
+		{
+			Send(Message.ClientIsReady);
 		}
 	}
 }

@@ -25,7 +25,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		private Mock<ITaskbar> taskbarMock;
 		private Mock<IWindowMonitor> windowMonitorMock;
 
-		private IClientController sut;
+		//private IClientController sut;
 
 		[TestInitialize]
 		public void Initialize()

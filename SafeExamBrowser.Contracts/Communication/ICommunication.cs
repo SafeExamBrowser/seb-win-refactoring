@@ -17,21 +17,20 @@ namespace SafeExamBrowser.Contracts.Communication
 	public interface ICommunication
 	{
 		/// <summary>
-		/// Initiates a connection to the host and must thus be called before any other opertion. To authenticate itself to the host, the
-		/// client can specify a security token. If the connection request was successful, a new session will be created by the host and
-		/// the client will subsequently be allowed to start communicating with the host.
+		/// Initiates a connection and must thus be called before any other opertion. Where applicable, an authentication token should be
+		/// specified. Returns a response indicating whether the connection request was successful or not.
 		/// </summary>
 		[OperationContract(IsInitiating = true)]
-		IConnectResponse Connect(Guid? token = null);
+		IConnectionResponse Connect(Guid? token = null);
 
 		/// <summary>
-		/// Closes the connection to the host and instructs it to terminate the communication session.
+		/// Closes a connection. Returns a response indicating whether the disconnection request was successful or not.
 		/// </summary>
 		[OperationContract(IsInitiating = false, IsTerminating = true)]
-		void Disconnect(IMessage message);
+		IDisconnectionResponse Disconnect(IDisconnectionMessage message);
 
 		/// <summary>
-		/// Sends a message to the host, optionally returning a response. If no response is expected, <c>null</c> will be returned.
+		/// Sends a message, optionally returning a response. If no response is expected, <c>null</c> will be returned.
 		/// </summary>
 		[OperationContract(IsInitiating = false)]
 		IResponse Send(IMessage message);

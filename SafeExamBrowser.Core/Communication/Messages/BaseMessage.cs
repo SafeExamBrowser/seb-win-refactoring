@@ -12,7 +12,7 @@ using SafeExamBrowser.Contracts.Communication.Messages;
 namespace SafeExamBrowser.Core.Communication.Messages
 {
 	[Serializable]
-	internal class Message : IMessage
+	internal class BaseMessage : IMessage
 	{
 		public Guid CommunicationToken { get; set; }
 	}

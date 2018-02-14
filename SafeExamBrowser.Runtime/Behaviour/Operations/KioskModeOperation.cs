@@ -37,13 +37,14 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			logger.Info($"Initializing kiosk mode '{kioskMode}'...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeKioskMode);
 
-			if (kioskMode == KioskMode.CreateNewDesktop)
+			switch (kioskMode)
 			{
-				CreateNewDesktop();
-			}
-			else
-			{
-				DisableExplorerShell();
+				case KioskMode.CreateNewDesktop:
+					CreateNewDesktop();
+					break;
+				case KioskMode.DisableExplorerShell:
+					DisableExplorerShell();
+					break;
 			}
 		}
 
@@ -57,13 +58,14 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			logger.Info($"Reverting kiosk mode '{kioskMode}'...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_RevertKioskMode);
 
-			if (kioskMode == KioskMode.CreateNewDesktop)
+			switch (kioskMode)
 			{
-				CloseNewDesktop();
-			}
-			else
-			{
-				RestartExplorerShell();
+				case KioskMode.CreateNewDesktop:
+					CloseNewDesktop();
+					break;
+				case KioskMode.DisableExplorerShell:
+					RestartExplorerShell();
+					break;
 			}
 		}
 

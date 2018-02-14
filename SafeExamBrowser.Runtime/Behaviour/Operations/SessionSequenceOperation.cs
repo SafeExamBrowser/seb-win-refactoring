@@ -6,31 +6,46 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+using System.Threading;
 using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Runtime.Behaviour.Operations
 {
 	internal abstract class SessionSequenceOperation : IOperation
 	{
 		private bool sessionRunning;
+		private IClientProxy client;
 		private IConfigurationRepository configuration;
 		private ILogger logger;
-		private IServiceProxy serviceProxy;
-		private ISessionData sessionData;
+		private IProcessFactory processFactory;
+		private IRuntimeHost runtimeHost;
+		private IServiceProxy service;
+		private ISession session;
 
 		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
-		public SessionSequenceOperation(IConfigurationRepository configuration, ILogger logger, IServiceProxy serviceProxy)
+		public SessionSequenceOperation(
+			IClientProxy client,
+			IConfigurationRepository configuration,
+			ILogger logger,
+			IProcessFactory processFactory,
+			IRuntimeHost runtimeHost,
+			IServiceProxy service)
 		{
+			this.client = client;
 			this.configuration = configuration;
 			this.logger = logger;
-			this.serviceProxy = serviceProxy;
+			this.processFactory = processFactory;
+			this.runtimeHost = runtimeHost;
+			this.service = service;
 		}
 
 		public abstract void Perform();
@@ -42,34 +57,80 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			logger.Info("Starting new session...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StartSession, true);
 
-			sessionData = configuration.InitializeSessionData();
-			serviceProxy.StartSession(sessionData.Id, configuration.CurrentSettings);
+			session = configuration.InitializeSession();
+			runtimeHost.StartupToken = session.StartupToken;
 
-			// TODO:
-			// - Create and connect to client
-			// - Verify session integrity and start event handling -> in runtime controller?
-			System.Threading.Thread.Sleep(5000);
+			service.StartSession(session.Id, configuration.CurrentSettings);
 
-			sessionRunning = true;
-			logger.Info($"Successfully started new session with identifier '{sessionData.Id}'.");
+			try
+			{
+				StartClient();
+			}
+			catch (Exception e)
+			{
+				service.StopSession(session.Id);
+				logger.Error("Failed to start client!", e);
+			}
+
+			if (sessionRunning)
+			{
+				logger.Info($"Successfully started new session with identifier '{session.Id}'.");
+			}
+			else
+			{
+				Abort = true;
+				logger.Info($"Failed to start new session! Aborting...");
+			}
 		}
 
 		protected void StopSession()
 		{
 			if (sessionRunning)
 			{
-				logger.Info($"Stopping session with identifier '{sessionData.Id}'...");
+				logger.Info($"Stopping session with identifier '{session.Id}'...");
 				ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StopSession, true);
 
-				serviceProxy.StopSession(sessionData.Id);
+				service.StopSession(session.Id);
 
 				// TODO:
 				// - Terminate client (or does it terminate itself?)
-				// - Stop event handling and verify session termination -> in runtime controller?
-				System.Threading.Thread.Sleep(5000);
 
 				sessionRunning = false;
-				logger.Info($"Successfully stopped session with identifier '{sessionData.Id}'.");
+				logger.Info($"Successfully stopped session with identifier '{session.Id}'.");
+			}
+		}
+
+		private void StartClient()
+		{
+			var clientReady = new AutoResetEvent(false);
+			var clientReadyHandler = new CommunicationEventHandler(() => clientReady.Set());
+			var clientExecutable = configuration.RuntimeInfo.ClientExecutablePath;
+			var hostUri = configuration.RuntimeInfo.RuntimeAddress;
+			var token = session.StartupToken.ToString("D");
+
+			runtimeHost.ClientReady += clientReadyHandler;
+			session.ClientProcess = processFactory.StartNew(clientExecutable, hostUri, token);
+
+			clientReady.WaitOne();
+			runtimeHost.ClientReady -= clientReadyHandler;
+
+			if (client.Connect(session.StartupToken))
+			{
+				var response = client.RequestAuthentication();
+
+				// TODO: Further integrity checks necessary?
+				if (session.ClientProcess.Id == response.ProcessId)
+				{
+					sessionRunning = true;
+				}
+				else
+				{
+					logger.Error("Failed to verify client integrity!");
+				}
+			}
+			else
+			{
+				logger.Error("Failed to connect to client!");
 			}
 		}
 	}

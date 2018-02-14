@@ -8,6 +8,8 @@
 
 namespace SafeExamBrowser.Contracts.Communication
 {
+	public delegate void CommunicationEventHandler();
+
 	public interface ICommunicationHost
 	{
 		/// <summary>

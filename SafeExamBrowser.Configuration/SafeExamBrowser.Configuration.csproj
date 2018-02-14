@@ -55,7 +55,7 @@
   <ItemGroup>
     <Compile Include="ClientConfiguration.cs" />
     <Compile Include="RuntimeInfo.cs" />
-    <Compile Include="SessionData.cs" />
+    <Compile Include="Session.cs" />
     <Compile Include="Settings\BrowserSettings.cs" />
     <Compile Include="Settings\KeyboardSettings.cs" />
     <Compile Include="Settings\MouseSettings.cs" />

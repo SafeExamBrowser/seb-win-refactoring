@@ -33,6 +33,13 @@ namespace SafeExamBrowser.WindowsApi.Constants
 		internal const int MIN_ALL = 419;
 
 		/// <summary>
+		/// Specifies the default priority class for processes, i.e. a process with no special scheduling needs.
+		/// 
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms686219(v=vs.85).aspx.
+		/// </summary>
+		internal const int NORMAL_PRIORITY_CLASS = 0x20;
+
+		/// <summary>
 		/// The callback function is not mapped into the address space of the process that generates the event. Because the hook function
 		/// is called across process boundaries, the system must queue events. Although this method is asynchronous, events are guaranteed
 		/// to be in sequential order.

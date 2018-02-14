@@ -6,10 +6,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+
 namespace SafeExamBrowser.Contracts.Communication
 {
 	public interface IRuntimeHost : ICommunicationHost
 	{
-		// TODO: Necessary?
+		/// <summary>
+		/// The startup token used for initial authentication.
+		/// </summary>
+		Guid StartupToken { set; }
+
+		/// <summary>
+		/// Event fired once the client has signaled that it is ready to operate.
+		/// </summary>
+		event CommunicationEventHandler ClientReady;
 	}
 }

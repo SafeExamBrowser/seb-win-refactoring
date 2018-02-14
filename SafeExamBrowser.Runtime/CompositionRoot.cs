@@ -39,6 +39,7 @@ namespace SafeExamBrowser.Runtime
 			var args = Environment.GetCommandLineArgs();
 			var configuration = new ConfigurationRepository();
 			var nativeMethods = new NativeMethods();
+			Action shutdown = Application.Current.Shutdown;
 
 			logger = new Logger();
 			runtimeInfo = configuration.RuntimeInfo;
@@ -48,7 +49,10 @@ namespace SafeExamBrowser.Runtime
 
 			var text = new Text(logger);
 			var uiFactory = new UserInterfaceFactory(text);
-			var runtimeHost = new RuntimeHost(runtimeInfo.RuntimeAddress, new ModuleLogger(logger, typeof(RuntimeHost)));
+			var desktop = new Desktop(new ModuleLogger(logger, typeof(Desktop)));
+			var processFactory = new ProcessFactory(desktop, new ModuleLogger(logger, typeof(ProcessFactory)));
+			var clientProxy = new ClientProxy(runtimeInfo.ClientAddress, new ModuleLogger(logger, typeof(ClientProxy)));
+			var runtimeHost = new RuntimeHost(runtimeInfo.RuntimeAddress, configuration, new ModuleLogger(logger, typeof(RuntimeHost)));
 			var serviceProxy = new ServiceProxy(runtimeInfo.ServiceAddress, new ModuleLogger(logger, typeof(ServiceProxy)));
 
 			var bootstrapOperations = new Queue<IOperation>();
@@ -57,16 +61,16 @@ namespace SafeExamBrowser.Runtime
 			bootstrapOperations.Enqueue(new I18nOperation(logger, text));
 			bootstrapOperations.Enqueue(new CommunicationOperation(runtimeHost, logger));
 
-			sessionOperations.Enqueue(new SessionSequenceStartOperation(configuration, logger, serviceProxy));
+			sessionOperations.Enqueue(new SessionSequenceStartOperation(clientProxy, configuration, logger, processFactory, runtimeHost, serviceProxy));
 			sessionOperations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeInfo, text, uiFactory, args));
 			sessionOperations.Enqueue(new ServiceConnectionOperation(configuration, logger, serviceProxy, text));
 			sessionOperations.Enqueue(new KioskModeOperation(logger, configuration));
-			sessionOperations.Enqueue(new SessionSequenceEndOperation(configuration, logger, serviceProxy));
+			sessionOperations.Enqueue(new SessionSequenceEndOperation(clientProxy, configuration, logger, processFactory, runtimeHost, serviceProxy));
 
 			var boostrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new OperationSequence(logger, sessionOperations);
 
-			RuntimeController = new RuntimeController(configuration, logger, boostrapSequence, sessionSequence, runtimeHost, runtimeInfo, serviceProxy, Application.Current.Shutdown, uiFactory);
+			RuntimeController = new RuntimeController(clientProxy, configuration, logger, boostrapSequence, sessionSequence, runtimeHost,  runtimeInfo, serviceProxy, shutdown, uiFactory);
 		}
 
 		internal void LogStartupInformation()
