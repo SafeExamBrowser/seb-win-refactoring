@@ -1,9 +1,10 @@
 image: Visual Studio 2017
 platform: x86
+configuration: Release
 before_build:
  - nuget restore
 build_script:
- - msbuild /verbosity:quiet "SafeExamBrowser.sln"
+ - msbuild /verbosity:minimal "SafeExamBrowser.sln"
 test_script:
  - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Client.UnitTests\bin\x86\Debug\SafeExamBrowser.Client.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]*" -mergebyhash -output:"coverage.xml"
  - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Core.UnitTests\bin\x86\Debug\SafeExamBrowser.Core.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]*" -mergebyhash -mergeoutput -output:"coverage.xml"
@@ -12,3 +13,7 @@ after_test:
  - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
  - pip install codecov
  - codecov -f "coverage.xml"
+artifacts:
+ - path: SafeExamBrowser.Runtime\bin\$(platform)\$(configuration)
+   name: Binaries
+   type: zip
