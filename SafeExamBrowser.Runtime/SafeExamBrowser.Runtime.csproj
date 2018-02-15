@@ -164,7 +164,9 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(SolutionDir)SafeExamBrowser.Client\bin\$(PlatformName)\$(ConfigurationName)" "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)" /d /e /i /y</PostBuildEvent>
+    <PostBuildEvent>robocopy "$(SolutionDir)SafeExamBrowser.Client\bin\$(PlatformName)\$(ConfigurationName)" "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)" /e /np /v
+if %25ERRORLEVEL%25 geq 8 exit 1
+exit 0</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
