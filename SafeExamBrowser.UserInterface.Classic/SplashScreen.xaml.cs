@@ -19,7 +19,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 	{
 		private bool allowClose;
 		private ProgressIndicatorViewModel model = new ProgressIndicatorViewModel();
-		private IRuntimeInfo runtimeInfo;
+		private RuntimeInfo runtimeInfo;
 		private IText text;
 		private WindowClosingEventHandler closing;
 
@@ -29,7 +29,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 			remove { closing -= value; }
 		}
 
-		public SplashScreen(IRuntimeInfo runtimeInfo, IText text)
+		public SplashScreen(RuntimeInfo runtimeInfo, IText text)
 		{
 			this.runtimeInfo = runtimeInfo;
 			this.text = text;

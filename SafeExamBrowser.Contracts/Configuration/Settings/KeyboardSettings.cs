@@ -6,23 +6,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+
 namespace SafeExamBrowser.Contracts.Configuration.Settings
 {
-	public interface ITaskbarSettings
+	[Serializable]
+	public class KeyboardSettings
 	{
 		/// <summary>
-		/// Determines whether the user may switch the keyboard layout during runtime.
+		/// Determines whether the user may use the ALT+TAB shortcut.
 		/// </summary>
-		bool AllowKeyboardLayout { get; }
+		public bool AllowAltTab { get; set; }
 
 		/// <summary>
-		/// Determines whether the user may access the application log during runtime.
+		/// Determines whether the user may use the escape key.
 		/// </summary>
-		bool AllowApplicationLog { get; }
+		public bool AllowEsc { get; set; }
 
 		/// <summary>
-		/// Determines whether the user may control the wireless network connection during runtime.
+		/// Determines whether the user may use the F5 key.
 		/// </summary>
-		bool AllowWirelessNetwork { get; }
+		public bool AllowF5 { get; set; }
 	}
 }

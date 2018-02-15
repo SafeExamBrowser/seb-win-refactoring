@@ -19,9 +19,9 @@ namespace SafeExamBrowser.Core.Communication
 		{
 		}
 
-		public IAuthenticationResponse RequestAuthentication()
+		public AuthenticationResponse RequestAuthentication()
 		{
-			return (IAuthenticationResponse) Send(Message.ClientIsReady);
+			return (AuthenticationResponse) Send(MessagePurport.ClientIsReady);
 		}
 	}
 }

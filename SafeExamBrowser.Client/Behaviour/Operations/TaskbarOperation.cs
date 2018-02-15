@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 	{
 		private ILogger logger;
 		private INotificationController logController;
-		private ITaskbarSettings settings;
+		private TaskbarSettings settings;
 		private ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout;
 		private ISystemComponent<ISystemPowerSupplyControl> powerSupply;
 		private ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork;
@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 
 		public TaskbarOperation(
 			ILogger logger,
-			ITaskbarSettings settings,
+			TaskbarSettings settings,
 			ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout,
 			ISystemComponent<ISystemPowerSupplyControl> powerSupply,
 			ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork,

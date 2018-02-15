@@ -20,14 +20,14 @@ namespace SafeExamBrowser.Core.Communication
 		{
 		}
 
-		public IClientConfiguration GetConfiguration()
+		public ClientConfiguration GetConfiguration()
 		{
-			return ((IConfigurationResponse) Send(Message.ConfigurationNeeded)).Configuration;
+			return ((ConfigurationResponse) Send(MessagePurport.ConfigurationNeeded)).Configuration;
 		}
 
 		public void InformClientReady()
 		{
-			Send(Message.ClientIsReady);
+			Send(MessagePurport.ClientIsReady);
 		}
 	}
 }

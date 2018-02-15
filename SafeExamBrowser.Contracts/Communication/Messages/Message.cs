@@ -6,23 +6,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+
 namespace SafeExamBrowser.Contracts.Communication.Messages
 {
-	public enum Message
+	[Serializable]
+	public class Message
 	{
 		/// <summary>
-		/// Requests an interlocutor to submit data for authentication.
+		/// The communication token needed for authentication.
 		/// </summary>
-		Authenticate = 1,
-
-		/// <summary>
-		/// Sent from the client to the runtime to indicate that the client is ready to operate.
-		/// </summary>
-		ClientIsReady,
-
-		/// <summary>
-		/// Sent from the client to the runtime to ask for the client configuration.
-		/// </summary>
-		ConfigurationNeeded,
+		public Guid CommunicationToken { get; set; }
 	}
 }

@@ -7,15 +7,15 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Configuration.Settings;
 
-namespace SafeExamBrowser.Configuration.Settings
+namespace SafeExamBrowser.Contracts.Communication.Messages
 {
 	[Serializable]
-	internal class MouseSettings : IMouseSettings
+	public class SimpleMessage : Message
 	{
-		public bool AllowMiddleButton => false;
-
-		public bool AllowRightButton => true;
+		/// <summary>
+		/// The purport of the message.
+		/// </summary>
+		public MessagePurport Purport { get; set; }
 	}
 }

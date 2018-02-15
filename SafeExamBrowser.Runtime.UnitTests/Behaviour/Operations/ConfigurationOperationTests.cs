@@ -23,9 +23,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 	public class ConfigurationOperationTests
 	{
 		private Mock<ILogger> logger;
-		private Mock<IRuntimeInfo> info;
+		private Mock<RuntimeInfo> info;
 		private Mock<IConfigurationRepository> repository;
-		private Mock<ISettings> settings;
+		private Mock<Settings> settings;
 		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
 		private ConfigurationOperation sut;
@@ -34,9 +34,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		public void Initialize()
 		{
 			logger = new Mock<ILogger>();
-			info = new Mock<IRuntimeInfo>();
+			info = new Mock<RuntimeInfo>();
 			repository = new Mock<IConfigurationRepository>();
-			settings = new Mock<ISettings>();
+			settings = new Mock<Settings>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 

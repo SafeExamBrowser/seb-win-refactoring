@@ -12,7 +12,6 @@ using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Messages;
 using SafeExamBrowser.Contracts.Communication.Responses;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Core.Communication.Messages;
 
 namespace SafeExamBrowser.Core.Communication
 {
@@ -41,10 +40,12 @@ namespace SafeExamBrowser.Core.Communication
 			(channel as ICommunicationObject).Opened += BaseProxy_Opened;
 			(channel as ICommunicationObject).Opening += BaseProxy_Opening;
 
+			Logger.Debug($"Trying to connect to endpoint {address} with authentication token '{token}'...");
+
 			var response = channel.Connect(token);
 
 			communicationToken = response.CommunicationToken;
-			Logger.Debug($"Tried to connect to {address}, connection was {(response.ConnectionEstablished ? "established" : "refused")}.");
+			Logger.Debug($"Connection was {(response.ConnectionEstablished ? "established" : "refused")}.");
 
 			return response.ConnectionEstablished;
 		}
@@ -61,7 +62,7 @@ namespace SafeExamBrowser.Core.Communication
 			return response.ConnectionTerminated;
 		}
 
-		protected IResponse Send(IMessage message)
+		protected Response Send(Message message)
 		{
 			FailIfNotConnected(nameof(Send));
 
@@ -74,7 +75,7 @@ namespace SafeExamBrowser.Core.Communication
 			return response;
 		}
 
-		protected IResponse Send(Message purport)
+		protected Response Send(MessagePurport purport)
 		{
 			FailIfNotConnected(nameof(Send));
 
@@ -129,12 +130,12 @@ namespace SafeExamBrowser.Core.Communication
 			return channel == null ? "null" : $"in state '{(channel as ICommunicationObject).State}'";
 		}
 
-		private string ToString(IMessage message)
+		private string ToString(Message message)
 		{
 			return message != null ? $"message of type '{message.GetType()}'" : "no message";
 		}
 
-		private string ToString(IResponse response)
+		private string ToString(Response response)
 		{
 			return response != null ? $"response of type '{response.GetType()}'" : "no response";
 		}

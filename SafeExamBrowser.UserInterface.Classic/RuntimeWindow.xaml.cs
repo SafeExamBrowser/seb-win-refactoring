@@ -21,7 +21,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 	{
 		private bool allowClose;
 		private ILogContentFormatter formatter;
-		private IRuntimeInfo runtimeInfo;
+		private RuntimeInfo runtimeInfo;
 		private IText text;
 		private RuntimeWindowViewModel model;
 		private WindowClosingEventHandler closing;
@@ -32,7 +32,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 			remove { closing -= value; }
 		}
 
-		public RuntimeWindow(ILogContentFormatter formatter, IRuntimeInfo runtimeInfo, IText text)
+		public RuntimeWindow(ILogContentFormatter formatter, RuntimeInfo runtimeInfo, IText text)
 		{
 			this.formatter = formatter;
 			this.runtimeInfo = runtimeInfo;

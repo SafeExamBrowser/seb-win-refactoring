@@ -10,11 +10,22 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Communication.Messages
 {
-	public interface IMessage
+	[Serializable]
+	public enum MessagePurport
 	{
 		/// <summary>
-		/// The communication token needed for authentication.
+		/// Requests an interlocutor to submit data for authentication.
 		/// </summary>
-		Guid CommunicationToken { get; set; }
+		Authenticate = 1,
+
+		/// <summary>
+		/// Sent from the client to the runtime to indicate that the client is ready to operate.
+		/// </summary>
+		ClientIsReady,
+
+		/// <summary>
+		/// Sent from the client to the runtime to ask for the client configuration.
+		/// </summary>
+		ConfigurationNeeded,
 	}
 }

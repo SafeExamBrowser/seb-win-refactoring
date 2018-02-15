@@ -7,17 +7,15 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Configuration.Settings;
 
-namespace SafeExamBrowser.Configuration.Settings
+namespace SafeExamBrowser.Contracts.Communication.Responses
 {
 	[Serializable]
-	internal class KeyboardSettings : IKeyboardSettings
+	public class DisconnectionResponse : Response
 	{
-		public bool AllowAltTab => false;
-
-		public bool AllowEsc => false;
-
-		public bool AllowF5 => true;
+		/// <summary>
+		/// Indicates whether the connection has been terminated.
+		/// </summary>
+		public bool ConnectionTerminated { get; set; }
 	}
 }

@@ -10,10 +10,15 @@ using System;
 using System.ServiceModel;
 using SafeExamBrowser.Contracts.Communication.Messages;
 using SafeExamBrowser.Contracts.Communication.Responses;
+using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.Contracts.Communication
 {
 	[ServiceContract(SessionMode = SessionMode.Required)]
+	[ServiceKnownType(typeof(SimpleMessage))]
+	[ServiceKnownType(typeof(AuthenticationResponse))]
+	[ServiceKnownType(typeof(ConfigurationResponse))]
+	[ServiceKnownType(typeof(ClientConfiguration))]
 	public interface ICommunication
 	{
 		/// <summary>
@@ -21,18 +26,18 @@ namespace SafeExamBrowser.Contracts.Communication
 		/// specified. Returns a response indicating whether the connection request was successful or not.
 		/// </summary>
 		[OperationContract(IsInitiating = true)]
-		IConnectionResponse Connect(Guid? token = null);
+		ConnectionResponse Connect(Guid? token = null);
 
 		/// <summary>
 		/// Closes a connection. Returns a response indicating whether the disconnection request was successful or not.
 		/// </summary>
 		[OperationContract(IsInitiating = false, IsTerminating = true)]
-		IDisconnectionResponse Disconnect(IDisconnectionMessage message);
+		DisconnectionResponse Disconnect(DisconnectionMessage message);
 
 		/// <summary>
 		/// Sends a message, optionally returning a response. If no response is expected, <c>null</c> will be returned.
 		/// </summary>
 		[OperationContract(IsInitiating = false)]
-		IResponse Send(IMessage message);
+		Response Send(Message message);
 	}
 }

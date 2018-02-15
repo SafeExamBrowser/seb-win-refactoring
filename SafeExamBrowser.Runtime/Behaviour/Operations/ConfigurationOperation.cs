@@ -21,7 +21,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 	{
 		private IConfigurationRepository repository;
 		private ILogger logger;
-		private IRuntimeInfo runtimeInfo;
+		private RuntimeInfo runtimeInfo;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		private string[] commandLineArgs;
@@ -32,7 +32,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		public ConfigurationOperation(
 			IConfigurationRepository repository,
 			ILogger logger,
-			IRuntimeInfo runtimeInfo,
+			RuntimeInfo runtimeInfo,
 			IText text,
 			IUserInterfaceFactory uiFactory,
 			string[] commandLineArgs)
@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			logger.Info("Initializing application configuration...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeConfiguration);
 
-			ISettings settings;
+			Settings settings;
 			var isValidUri = TryGetSettingsUri(out Uri uri);
 
 			if (isValidUri)

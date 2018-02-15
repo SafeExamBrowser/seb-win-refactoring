@@ -8,7 +8,7 @@
 
 using System.Windows.Forms;
 using CefSharp;
-using IBrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.IBrowserSettings;
+using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
@@ -17,9 +17,9 @@ namespace SafeExamBrowser.Browser.Handlers
 	/// </remarks>
 	internal class BrowserKeyboardHandler : IKeyboardHandler
 	{
-		private IBrowserSettings settings;
+		private BrowserSettings settings;
 
-		public BrowserKeyboardHandler(IBrowserSettings settings)
+		public BrowserKeyboardHandler(BrowserSettings settings)
 		{
 			this.settings = settings;
 		}

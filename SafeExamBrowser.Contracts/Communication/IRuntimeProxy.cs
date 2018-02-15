@@ -15,7 +15,7 @@ namespace SafeExamBrowser.Contracts.Communication
 		/// <summary>
 		/// Retrieves the application configuration from the runtime.
 		/// </summary>
-		IClientConfiguration GetConfiguration();
+		ClientConfiguration GetConfiguration();
 
 		/// <summary>
 		/// Informs the runtime that the client is ready.

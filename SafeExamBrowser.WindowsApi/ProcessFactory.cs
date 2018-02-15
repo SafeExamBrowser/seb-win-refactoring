@@ -29,15 +29,15 @@ namespace SafeExamBrowser.WindowsApi
 
 		public IProcess StartNew(string path, params string[] args)
 		{
+			var commandLine = $"{'"' + path + '"'} {String.Join(" ", args)}";
 			var processInfo = new PROCESS_INFORMATION();
-			var pAttr = new SECURITY_ATTRIBUTES();
-			var tAttr = new SECURITY_ATTRIBUTES();
 			var startupInfo = new STARTUPINFO();
 
 			startupInfo.cb = Marshal.SizeOf(startupInfo);
-			startupInfo.lpDesktop = desktop.CurrentName;
+			// TODO:
+			//startupInfo.lpDesktop = desktop.CurrentName;
 
-			var success = Kernel32.CreateProcess(null, path, ref pAttr, ref tAttr, true, Constant.NORMAL_PRIORITY_CLASS, IntPtr.Zero, null, ref startupInfo, out processInfo);
+			var success = Kernel32.CreateProcess(null, commandLine, IntPtr.Zero, IntPtr.Zero, true, Constant.NORMAL_PRIORITY_CLASS, IntPtr.Zero, null, ref startupInfo, ref processInfo);
 
 			if (!success)
 			{

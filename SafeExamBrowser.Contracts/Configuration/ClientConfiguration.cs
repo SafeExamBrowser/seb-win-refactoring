@@ -7,25 +7,25 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Configuration.Settings;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
-	public interface IClientConfiguration
+	[Serializable]
+	public class ClientConfiguration
 	{
 		/// <summary>
 		/// The unique identifier for the current session.
 		/// </summary>
-		Guid SessionId { get; set; }
+		public Guid SessionId { get; set; }
 
 		/// <summary>
 		/// The application settings to be used by the client.
 		/// </summary>
-		ISettings Settings { get; set; }
+		public Settings.Settings Settings { get; set; }
 
 		/// <summary>
 		/// The information about the current runtime.
 		/// </summary>
-		IRuntimeInfo RuntimeInfo { get; set; }
+		public RuntimeInfo RuntimeInfo { get; set; }
 	}
 }

@@ -16,7 +16,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 {
 	public partial class AboutWindow : Window, IWindow
 	{
-		private IRuntimeInfo runtimeInfo;
+		private RuntimeInfo runtimeInfo;
 		private IText text;
 		private WindowClosingEventHandler closing;
 
@@ -26,7 +26,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 			remove { closing -= value; }
 		}
 
-		public AboutWindow(IRuntimeInfo runtimeInfo, IText text)
+		public AboutWindow(RuntimeInfo runtimeInfo, IText text)
 		{
 			this.runtimeInfo = runtimeInfo;
 			this.text = text;

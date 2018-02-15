@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// <summary>
 		/// Creates a new about window displaying information about the currently running application version.
 		/// </summary>
-		IWindow CreateAboutWindow(IRuntimeInfo runtimeInfo);
+		IWindow CreateAboutWindow(RuntimeInfo runtimeInfo);
 
 		/// <summary>
 		/// Creates a taskbar button, initialized with the given application information.
@@ -28,7 +28,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// <summary>
 		/// Creates a new browser window loaded with the given browser control and settings.
 		/// </summary>
-		IBrowserWindow CreateBrowserWindow(IBrowserControl control, IBrowserSettings settings);
+		IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings);
 
 		/// <summary>
 		/// Creates a new log window which runs on its own thread.
@@ -54,12 +54,12 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// Creates a new runtime window which runs on its own thread.
 		/// </summary>
 		/// <returns></returns>
-		IRuntimeWindow CreateRuntimeWindow(IRuntimeInfo runtimeInfo);
+		IRuntimeWindow CreateRuntimeWindow(RuntimeInfo runtimeInfo);
 
 		/// <summary>
 		/// Creates a new splash screen which runs on its own thread.
 		/// </summary>
-		ISplashScreen CreateSplashScreen(IRuntimeInfo runtimeInfo);
+		ISplashScreen CreateSplashScreen(RuntimeInfo runtimeInfo);
 
 		/// <summary>
 		/// Creates a system control which allows to change the wireless network connection of the computer.

@@ -6,18 +6,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+
 namespace SafeExamBrowser.Contracts.Configuration.Settings
 {
-	public interface IMouseSettings
+	[Serializable]
+	public class MouseSettings
 	{
 		/// <summary>
 		/// Determines whether the user may use the middle mouse button.
 		/// </summary>
-		bool AllowMiddleButton { get; }
+		public bool AllowMiddleButton { get; set; }
 
 		/// <summary>
 		/// Determines whether the user may use the right mouse button.
 		/// </summary>
-		bool AllowRightButton { get; }
+		public bool AllowRightButton { get; set; }
 	}
 }

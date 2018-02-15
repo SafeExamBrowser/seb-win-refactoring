@@ -21,7 +21,7 @@ namespace SafeExamBrowser.Core.Communication
 		{
 		}
 
-		public override bool Connect(Guid? token)
+		public override bool Connect(Guid? token = null)
 		{
 			if (IgnoreOperation(nameof(Connect)))
 			{
@@ -41,7 +41,7 @@ namespace SafeExamBrowser.Core.Communication
 			return base.Disconnect();
 		}
 
-		public void StartSession(Guid sessionId, ISettings settings)
+		public void StartSession(Guid sessionId, Settings settings)
 		{
 			if (IgnoreOperation(nameof(StartSession)))
 			{

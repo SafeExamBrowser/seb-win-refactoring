@@ -6,43 +6,46 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+
 namespace SafeExamBrowser.Contracts.Configuration.Settings
 {
-	public interface IBrowserSettings
+	[Serializable]
+	public class BrowserSettings
 	{
 		/// <summary>
 		/// Determines whether the user should be allowed to change the URL of a browser window.
 		/// </summary>
-		bool AllowAddressBar { get; }
+		public bool AllowAddressBar { get; set; }
 
 		/// <summary>
 		/// Determines whether the user should be allowed to navigate backwards in a browser window.
 		/// </summary>
-		bool AllowBackwardNavigation { get; }
+		public bool AllowBackwardNavigation { get; set; }
 
 		/// <summary>
 		/// Determines whether the user should be allowed to open the developer console of a browser window.
 		/// </summary>
-		bool AllowDeveloperConsole { get; }
+		public bool AllowDeveloperConsole { get; set; }
 
 		/// <summary>
 		/// Determines whether the user should be allowed to navigate forwards in a browser window.
 		/// </summary>
-		bool AllowForwardNavigation { get; }
+		public bool AllowForwardNavigation { get; set; }
 
 		/// <summary>
 		/// Determines whether the user should be allowed to reload webpages.
 		/// </summary>
-		bool AllowReloading { get; }
+		public bool AllowReloading { get; set; }
 
 		/// <summary>
 		/// Determines whether the main browser window should be rendered in fullscreen mode, i.e. without window frame.
 		/// </summary>
-		bool FullScreenMode { get; }
+		public bool FullScreenMode { get; set; }
 
 		/// <summary>
 		/// The start URL with which a new browser window should be loaded.
 		/// </summary>
-		string StartUrl { get; }
+		public string StartUrl { get; set; }
 	}
 }

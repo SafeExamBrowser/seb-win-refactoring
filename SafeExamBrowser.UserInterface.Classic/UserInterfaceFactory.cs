@@ -29,7 +29,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 			this.text = text;
 		}
 
-		public IWindow CreateAboutWindow(IRuntimeInfo runtimeInfo)
+		public IWindow CreateAboutWindow(RuntimeInfo runtimeInfo)
 		{
 			return new AboutWindow(runtimeInfo, text);
 		}
@@ -39,7 +39,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 			return new ApplicationButton(info);
 		}
 
-		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, IBrowserSettings settings)
+		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings)
 		{
 			return new BrowserWindow(control, settings);
 		}
@@ -84,7 +84,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 			return new PowerSupplyControl();
 		}
 
-		public IRuntimeWindow CreateRuntimeWindow(IRuntimeInfo runtimeInfo)
+		public IRuntimeWindow CreateRuntimeWindow(RuntimeInfo runtimeInfo)
 		{
 			RuntimeWindow runtimeWindow = null;
 			var windowReadyEvent = new AutoResetEvent(false);
@@ -108,7 +108,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 			return runtimeWindow;
 		}
 
-		public ISplashScreen CreateSplashScreen(IRuntimeInfo runtimeInfo)
+		public ISplashScreen CreateSplashScreen(RuntimeInfo runtimeInfo)
 		{
 			SplashScreen splashScreen = null;
 			var splashReadyEvent = new AutoResetEvent(false);

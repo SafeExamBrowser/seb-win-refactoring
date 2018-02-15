@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 	public class TaskbarOperationTests
 	{
 		private Mock<ILogger> loggerMock;
-		private Mock<ITaskbarSettings> settingsMock;
+		private Mock<TaskbarSettings> settingsMock;
 		private Mock<ISystemComponent<ISystemKeyboardLayoutControl>> keyboardLayoutMock;
 		private Mock<ISystemComponent<ISystemPowerSupplyControl>> powerSupplyMock;
 		private Mock<ISystemComponent<ISystemWirelessNetworkControl>> wirelessNetworkMock;
@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 		public void Initialize()
 		{
 			loggerMock = new Mock<ILogger>();
-			settingsMock = new Mock<ITaskbarSettings>();
+			settingsMock = new Mock<TaskbarSettings>();
 			keyboardLayoutMock = new Mock<ISystemComponent<ISystemKeyboardLayoutControl>>();
 			powerSupplyMock = new Mock<ISystemComponent<ISystemPowerSupplyControl>>();
 			wirelessNetworkMock = new Mock<ISystemComponent<ISystemWirelessNetworkControl>>();

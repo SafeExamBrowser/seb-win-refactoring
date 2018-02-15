@@ -8,7 +8,7 @@
 
 using CefSharp;
 using SafeExamBrowser.Contracts.I18n;
-using IBrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.IBrowserSettings;
+using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
@@ -19,10 +19,10 @@ namespace SafeExamBrowser.Browser.Handlers
 	{
 		private const int DEV_CONSOLE_COMMAND = (int) CefMenuCommand.UserFirst + 1;
 
-		private IBrowserSettings settings;
+		private BrowserSettings settings;
 		private IText text;
 
-		public BrowserContextMenuHandler(IBrowserSettings settings, IText text)
+		public BrowserContextMenuHandler(BrowserSettings settings, IText text)
 		{
 			this.settings = settings;
 			this.text = text;

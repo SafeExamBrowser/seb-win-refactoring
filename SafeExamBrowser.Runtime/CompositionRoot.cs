@@ -29,7 +29,7 @@ namespace SafeExamBrowser.Runtime
 	internal class CompositionRoot
 	{
 		private ILogger logger;
-		private IRuntimeInfo runtimeInfo;
+		private RuntimeInfo runtimeInfo;
 		private ISystemInfo systemInfo;
 
 		internal IRuntimeController RuntimeController { get; private set; }

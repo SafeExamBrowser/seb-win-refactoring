@@ -28,7 +28,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		private IOperationSequence bootstrapSequence;
 		private IOperationSequence sessionSequence;
 		private IRuntimeHost runtimeHost;
-		private IRuntimeInfo runtimeInfo;
+		private RuntimeInfo runtimeInfo;
 		private IRuntimeWindow runtimeWindow;
 		private IServiceProxy service;
 		private ISplashScreen splashScreen;
@@ -42,7 +42,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			IOperationSequence bootstrapSequence,
 			IOperationSequence sessionSequence,
 			IRuntimeHost runtimeHost,
-			IRuntimeInfo runtimeInfo,
+			RuntimeInfo runtimeInfo,
 			IServiceProxy service,
 			Action shutdown,
 			IUserInterfaceFactory uiFactory)
@@ -140,6 +140,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			}
 			else
 			{
+				// TODO: Not when user chose to terminate after reconfiguration! Probably needs IOperationSequenceResult or alike...
 				uiFactory.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error);
 
 				if (!initial)

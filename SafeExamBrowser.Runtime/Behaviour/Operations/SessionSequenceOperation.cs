@@ -102,35 +102,47 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 		private void StartClient()
 		{
+			const int TEN_SECONDS = 10000;
+
 			var clientReady = new AutoResetEvent(false);
 			var clientReadyHandler = new CommunicationEventHandler(() => clientReady.Set());
 			var clientExecutable = configuration.RuntimeInfo.ClientExecutablePath;
+			var clientLogFile = $"{'"' + configuration.RuntimeInfo.ClientLogFile + '"'}";
 			var hostUri = configuration.RuntimeInfo.RuntimeAddress;
 			var token = session.StartupToken.ToString("D");
 
 			runtimeHost.ClientReady += clientReadyHandler;
-			session.ClientProcess = processFactory.StartNew(clientExecutable, hostUri, token);
+			session.ClientProcess = processFactory.StartNew(clientExecutable, clientLogFile, hostUri, token);
 
-			clientReady.WaitOne();
+			var clientStarted = clientReady.WaitOne(TEN_SECONDS);
+
 			runtimeHost.ClientReady -= clientReadyHandler;
 
-			if (client.Connect(session.StartupToken))
+			// TODO: Check if client process alive!
+			if (clientStarted)
 			{
-				var response = client.RequestAuthentication();
-
-				// TODO: Further integrity checks necessary?
-				if (session.ClientProcess.Id == response.ProcessId)
+				if (client.Connect(session.StartupToken))
 				{
-					sessionRunning = true;
+					var response = client.RequestAuthentication();
+
+					// TODO: Further integrity checks necessary?
+					if (session.ClientProcess.Id == response.ProcessId)
+					{
+						sessionRunning = true;
+					}
+					else
+					{
+						logger.Error("Failed to verify client integrity!");
+					}
 				}
 				else
 				{
-					logger.Error("Failed to verify client integrity!");
+					logger.Error("Failed to connect to client!");
 				}
 			}
 			else
 			{
-				logger.Error("Failed to connect to client!");
+				logger.Error($"Failed to start client within {TEN_SECONDS / 1000} seconds!");
 			}
 		}
 	}

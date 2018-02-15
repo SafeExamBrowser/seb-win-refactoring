@@ -33,13 +33,13 @@ namespace SafeExamBrowser.Client.Communication
 			// TODO
 		}
 
-		protected override IResponse OnReceive(IMessage message)
+		protected override Response OnReceive(Message message)
 		{
 			// TODO
 			return null;
 		}
 
-		protected override IResponse OnReceive(Message message)
+		protected override Response OnReceive(MessagePurport message)
 		{
 			// TODO
 			return null;

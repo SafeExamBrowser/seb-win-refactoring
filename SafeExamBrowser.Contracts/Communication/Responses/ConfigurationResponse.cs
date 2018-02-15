@@ -7,13 +7,16 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Communication.Responses;
+using SafeExamBrowser.Contracts.Configuration;
 
-namespace SafeExamBrowser.Core.Communication.Responses
+namespace SafeExamBrowser.Contracts.Communication.Responses
 {
 	[Serializable]
-	internal class DisconnectionResponse : IDisconnectionResponse
+	public class ConfigurationResponse : Response
 	{
-		public bool ConnectionTerminated { get; set; }
+		/// <summary>
+		/// The configuration to be used by the client.
+		/// </summary>
+		public ClientConfiguration Configuration { get; set; }
 	}
 }

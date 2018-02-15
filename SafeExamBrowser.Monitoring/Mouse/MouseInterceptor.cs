@@ -15,9 +15,9 @@ namespace SafeExamBrowser.Monitoring.Mouse
 	public class MouseInterceptor : IMouseInterceptor
 	{
 		private ILogger logger;
-		private IMouseSettings settings;
+		private MouseSettings settings;
 
-		public MouseInterceptor(ILogger logger, IMouseSettings settings)
+		public MouseInterceptor(ILogger logger, MouseSettings settings)
 		{
 			this.logger = logger;
 			this.settings = settings;

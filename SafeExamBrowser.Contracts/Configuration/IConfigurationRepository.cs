@@ -23,17 +23,17 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// Retrieves the current settings, i.e. the last ones which were loaded. If no settings have been loaded yet, this property will
 		/// be <c>null</c>!
 		/// </summary>
-		ISettings CurrentSettings { get; }
+		Settings.Settings CurrentSettings { get; }
 
 		/// <summary>
 		/// The runtime information for the currently running application instance.
 		/// </summary>
-		IRuntimeInfo RuntimeInfo { get; }
+		RuntimeInfo RuntimeInfo { get; }
 
 		/// <summary>
 		/// Builds a configuration for the client component, given the currently loaded settings, session and runtime information.
 		/// </summary>
-		IClientConfiguration BuildClientConfiguration();
+		ClientConfiguration BuildClientConfiguration();
 
 		/// <summary>
 		/// Initializes all relevant data for a new session.
@@ -44,11 +44,11 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// Attempts to load settings from the specified path.
 		/// </summary>
 		/// <exception cref="ArgumentException">Thrown if the given path cannot be resolved to a settings file.</exception>
-		ISettings LoadSettings(Uri path);
+		Settings.Settings LoadSettings(Uri path);
 
 		/// <summary>
 		/// Loads the default settings.
 		/// </summary>
-		ISettings LoadDefaultSettings();
+		Settings.Settings LoadDefaultSettings();
 	}
 }

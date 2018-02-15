@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Contracts.Communication
 		/// <summary>
 		/// Instructs the service to start a new session according to the given parameters.
 		/// </summary>
-		void StartSession(Guid sessionId, ISettings settings);
+		void StartSession(Guid sessionId, Settings settings);
 
 		/// <summary>
 		/// Instructs the service to stop the specified session.

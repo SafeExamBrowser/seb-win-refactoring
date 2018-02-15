@@ -10,27 +10,28 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
-	public interface IRuntimeInfo
+	[Serializable]
+	public class RuntimeInfo
 	{
 		/// <summary>
 		/// The path of the application data folder.
 		/// </summary>
-		string AppDataFolder { get; }
+		public string AppDataFolder { get; set; }
 
 		/// <summary>
 		/// The point in time when the application was started.
 		/// </summary>
-		DateTime ApplicationStartTime { get; }
+		public DateTime ApplicationStartTime { get; set; }
 
 		/// <summary>
 		/// The path where the browser cache is to be stored.
 		/// </summary>
-		string BrowserCachePath { get; }
+		public string BrowserCachePath { get; set; }
 
 		/// <summary>
 		/// The file path under which the log of the browser component is to be stored.
 		/// </summary>
-		string BrowserLogFile { get; }
+		public string BrowserLogFile { get; set; }
 
 		/// <summary>
 		/// The communication address of the client component.
@@ -38,12 +39,12 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// TODO: Will need to be updated for each new client instance!
 		/// 
 		/// </summary>
-		string ClientAddress { get; }
+		public string ClientAddress { get; set; }
 
 		/// <summary>
 		/// The executable path of the client compontent.
 		/// </summary>
-		string ClientExecutablePath { get; }
+		public string ClientExecutablePath { get; set; }
 
 		/// <summary>
 		/// The unique identifier for the currently running client instance.
@@ -51,42 +52,42 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// TODO: Will need to be updated for each new client instance! -> Remove if unused!
 		/// 
 		/// </summary>
-		Guid ClientId { get; }
+		public Guid ClientId { get; set; }
 
 		/// <summary>
 		/// The file path under which the log of the client component is to be stored.
 		/// </summary>
-		string ClientLogFile { get; }
+		public string ClientLogFile { get; set; }
 
 		/// <summary>
 		/// The default file name for application settings.
 		/// </summary>
-		string DefaultSettingsFileName { get; }
+		public string DefaultSettingsFileName { get; set; }
 
 		/// <summary>
 		/// The copyright information for the application (i.e. the executing assembly).
 		/// </summary>
-		string ProgramCopyright { get; }
+		public string ProgramCopyright { get; set; }
 
 		/// <summary>
 		/// The path of the program data folder.
 		/// </summary>
-		string ProgramDataFolder { get; }
+		public string ProgramDataFolder { get; set; }
 
 		/// <summary>
 		/// The program title of the application (i.e. the executing assembly).
 		/// </summary>
-		string ProgramTitle { get; }
+		public string ProgramTitle { get; set; }
 
 		/// <summary>
 		/// The program version of the application (i.e. the executing assembly).
 		/// </summary>
-		string ProgramVersion { get; }
+		public string ProgramVersion { get; set; }
 
 		/// <summary>
 		/// The communication address of the runtime component.
 		/// </summary>
-		string RuntimeAddress { get; }
+		public string RuntimeAddress { get; set; }
 
 		/// <summary>
 		/// The unique identifier for the currently running runtime instance.
@@ -94,16 +95,16 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// TODO: Remove if unused!
 		/// 
 		/// </summary>
-		Guid RuntimeId { get; }
+		public Guid RuntimeId { get; set; }
 
 		/// <summary>
 		/// The file path under which the log of the runtime component is to be stored.
 		/// </summary>
-		string RuntimeLogFile { get; }
+		public string RuntimeLogFile { get; set; }
 
 		/// <summary>
 		/// The communication address of the service component.
 		/// </summary>
-		string ServiceAddress { get; }
+		public string ServiceAddress { get; set; }
 	}
 }

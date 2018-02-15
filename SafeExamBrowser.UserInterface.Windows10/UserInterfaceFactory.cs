@@ -28,7 +28,7 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			this.text = text;
 		}
 
-		public IWindow CreateAboutWindow(IRuntimeInfo runtimeInfo)
+		public IWindow CreateAboutWindow(RuntimeInfo runtimeInfo)
 		{
 			return new AboutWindow(runtimeInfo, text);
 		}
@@ -38,7 +38,7 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			return new ApplicationButton(info);
 		}
 
-		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, IBrowserSettings settings)
+		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings)
 		{
 			return new BrowserWindow(control, settings);
 		}
@@ -84,13 +84,13 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			return new PowerSupplyControl();
 		}
 
-		public IRuntimeWindow CreateRuntimeWindow(IRuntimeInfo runtimeInfo)
+		public IRuntimeWindow CreateRuntimeWindow(RuntimeInfo runtimeInfo)
 		{
 			// TODO
 			throw new System.NotImplementedException();
 		}
 
-		public ISplashScreen CreateSplashScreen(IRuntimeInfo runtimeInfo)
+		public ISplashScreen CreateSplashScreen(RuntimeInfo runtimeInfo)
 		{
 			SplashScreen splashScreen = null;
 			var splashReadyEvent = new AutoResetEvent(false);

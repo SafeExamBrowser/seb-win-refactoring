@@ -6,43 +6,54 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+
 namespace SafeExamBrowser.Contracts.Configuration.Settings
 {
-	public interface ISettings
+	[Serializable]
+	public class Settings
 	{
 		/// <summary>
 		/// The mode which determines the configuration behaviour.
 		/// </summary>
-		ConfigurationMode ConfigurationMode { get; }
+		public ConfigurationMode ConfigurationMode { get; set; }
 
 		/// <summary>
 		/// All browser-related settings.
 		/// </summary>
-		IBrowserSettings Browser { get; }
+		public BrowserSettings Browser { get; set; }
 
 		/// <summary>
 		/// All keyboard-related settings.
 		/// </summary>
-		IKeyboardSettings Keyboard { get; }
+		public KeyboardSettings Keyboard { get; set; }
 
 		/// <summary>
 		/// The kiosk mode which determines how the computer is locked down.
 		/// </summary>
-		KioskMode KioskMode { get; }
+		public KioskMode KioskMode { get; set; }
 
 		/// <summary>
 		/// All mouse-related settings.
 		/// </summary>
-		IMouseSettings Mouse { get; }
+		public MouseSettings Mouse { get; set; }
 
 		/// <summary>
 		/// The active policy for the service component.
 		/// </summary>
-		ServicePolicy ServicePolicy { get; }
+		public ServicePolicy ServicePolicy { get; set; }
 
 		/// <summary>
 		/// All taskbar-related settings.
 		/// </summary>
-		ITaskbarSettings Taskbar { get; }
+		public TaskbarSettings Taskbar { get; set; }
+
+		public Settings()
+		{
+			Browser = new BrowserSettings();
+			Keyboard = new KeyboardSettings();
+			Mouse = new MouseSettings();
+			Taskbar = new TaskbarSettings();
+		}
 	}
 }

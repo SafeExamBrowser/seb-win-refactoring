@@ -26,7 +26,7 @@ namespace SafeExamBrowser.Browser
 		public event TerminatedEventHandler Terminated;
 		public event NameChangedEventHandler NameChanged;
 
-		public BrowserApplicationInstance(IBrowserSettings settings, IText text, IUserInterfaceFactory uiFactory, bool isMainInstance)
+		public BrowserApplicationInstance(BrowserSettings settings, IText text, IUserInterfaceFactory uiFactory, bool isMainInstance)
 		{
 			Id = Guid.NewGuid();
 

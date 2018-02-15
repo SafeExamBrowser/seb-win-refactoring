@@ -19,7 +19,7 @@ namespace SafeExamBrowser.UserInterface.Windows10
 	{
 		private bool allowClose;
 		private SplashScreenViewModel model = new SplashScreenViewModel();
-		private IRuntimeInfo runtimeInfo;
+		private RuntimeInfo runtimeInfo;
 		private IText text;
 		private WindowClosingEventHandler closing;
 
@@ -29,7 +29,7 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			remove { closing -= value; }
 		}
 
-		public SplashScreen(IRuntimeInfo runtimeInfo, IText text)
+		public SplashScreen(RuntimeInfo runtimeInfo, IText text)
 		{
 			this.runtimeInfo = runtimeInfo;
 			this.text = text;

@@ -15,6 +15,6 @@ namespace SafeExamBrowser.Contracts.Communication
 		/// <summary>
 		/// Instructs the client to submit its authentication data.
 		/// </summary>
-		IAuthenticationResponse RequestAuthentication();
+		AuthenticationResponse RequestAuthentication();
 	}
 }

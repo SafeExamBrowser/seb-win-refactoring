@@ -12,7 +12,6 @@ using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Messages;
 using SafeExamBrowser.Contracts.Communication.Responses;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Core.Communication.Responses;
 
 namespace SafeExamBrowser.Core.Communication
 {
@@ -39,10 +38,10 @@ namespace SafeExamBrowser.Core.Communication
 
 		protected abstract bool OnConnect(Guid? token);
 		protected abstract void OnDisconnect();
-		protected abstract IResponse OnReceive(IMessage message);
-		protected abstract IResponse OnReceive(Message message);
+		protected abstract Response OnReceive(Message message);
+		protected abstract Response OnReceive(MessagePurport message);
 
-		public IConnectionResponse Connect(Guid? token = null)
+		public ConnectionResponse Connect(Guid? token = null)
 		{
 			logger.Debug($"Received connection request with authentication token '{token}'.");
 
@@ -60,7 +59,7 @@ namespace SafeExamBrowser.Core.Communication
 			return response;
 		}
 
-		public IDisconnectionResponse Disconnect(IDisconnectionMessage message)
+		public DisconnectionResponse Disconnect(DisconnectionMessage message)
 		{
 			var response = new DisconnectionResponse();
 
@@ -78,17 +77,17 @@ namespace SafeExamBrowser.Core.Communication
 			return response;
 		}
 
-		public IResponse Send(IMessage message)
+		public Response Send(Message message)
 		{
-			IResponse response = null;
+			Response response = null;
 
 			logger.Debug($"Received message '{message}'.");
 
 			if (IsAuthorized(message?.CommunicationToken))
 			{
-				if (message is ISimpleMessage)
+				if (message is SimpleMessage)
 				{
-					response = OnReceive((message as ISimpleMessage).Purport);
+					response = OnReceive((message as SimpleMessage).Purport);
 				}
 				else
 				{

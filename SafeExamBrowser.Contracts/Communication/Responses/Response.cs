@@ -7,13 +7,11 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Communication.Messages;
 
-namespace SafeExamBrowser.Core.Communication.Messages
+namespace SafeExamBrowser.Contracts.Communication.Responses
 {
 	[Serializable]
-	internal class BaseMessage : IMessage
+	public class Response
 	{
-		public Guid CommunicationToken { get; set; }
 	}
 }

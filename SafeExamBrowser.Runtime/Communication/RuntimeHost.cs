@@ -7,13 +7,13 @@
  */
 
 using System;
+using System.Threading.Tasks;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Messages;
 using SafeExamBrowser.Contracts.Communication.Responses;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Core.Communication;
-using SafeExamBrowser.Runtime.Communication.Responses;
 
 namespace SafeExamBrowser.Runtime.Communication
 {
@@ -40,20 +40,20 @@ namespace SafeExamBrowser.Runtime.Communication
 			// TODO
 		}
 
-		protected override IResponse OnReceive(IMessage message)
+		protected override Response OnReceive(Message message)
 		{
 			// TODO
 			return null;
 		}
 
-		protected override IResponse OnReceive(Message message)
+		protected override Response OnReceive(MessagePurport message)
 		{
 			switch (message)
 			{
-				case Message.ClientIsReady:
+				case MessagePurport.ClientIsReady:
 					ClientReady?.Invoke();
 					break;
-				case Message.ConfigurationNeeded:
+				case MessagePurport.ConfigurationNeeded:
 					return new ConfigurationResponse { Configuration = configuration.BuildClientConfiguration() };
 			}
 

@@ -74,7 +74,6 @@
     <Compile Include="Types\POINT.cs" />
     <Compile Include="Types\PROCESS_INFORMATION.cs" />
     <Compile Include="Types\RECT.cs" />
-    <Compile Include="Types\SECURITY_ATTRIBUTES.cs" />
     <Compile Include="Types\STARTUPINFO.cs" />
     <Compile Include="User32.cs" />
   </ItemGroup>

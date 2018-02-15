@@ -53,17 +53,10 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientConfiguration.cs" />
-    <Compile Include="RuntimeInfo.cs" />
     <Compile Include="Session.cs" />
-    <Compile Include="Settings\BrowserSettings.cs" />
-    <Compile Include="Settings\KeyboardSettings.cs" />
-    <Compile Include="Settings\MouseSettings.cs" />
-    <Compile Include="Settings\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConfigurationRepository.cs" />
     <Compile Include="SystemInfo.cs" />
-    <Compile Include="Settings\TaskbarSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">

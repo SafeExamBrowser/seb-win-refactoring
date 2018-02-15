@@ -19,9 +19,9 @@ namespace SafeExamBrowser.Configuration
 		private RuntimeInfo runtimeInfo;
 
 		public ISession CurrentSession { get; private set; }
-		public ISettings CurrentSettings { get; private set; }
+		public Settings CurrentSettings { get; private set; }
 
-		public IRuntimeInfo RuntimeInfo
+		public RuntimeInfo RuntimeInfo
 		{
 			get
 			{
@@ -47,7 +47,7 @@ namespace SafeExamBrowser.Configuration
 			return session;
 		}
 
-		public IClientConfiguration BuildClientConfiguration()
+		public ClientConfiguration BuildClientConfiguration()
 		{
 			return new ClientConfiguration
 			{
@@ -57,20 +57,22 @@ namespace SafeExamBrowser.Configuration
 			};
 		}
 
-		public ISettings LoadSettings(Uri path)
+		public Settings LoadSettings(Uri path)
 		{
 			// TODO
 
 			return LoadDefaultSettings();
 		}
 
-		public ISettings LoadDefaultSettings()
+		public Settings LoadDefaultSettings()
 		{
-			var settings = new Settings.Settings
+			var settings = new Settings()
 			{
 				// TODO
 				ServicePolicy = ServicePolicy.Optional
 			};
+
+			settings.Browser.StartUrl = "https://www.duckduckgo.com";
 
 			CurrentSettings = settings;
 

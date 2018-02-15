@@ -21,14 +21,14 @@ namespace SafeExamBrowser.WindowsApi
 		internal static extern bool CreateProcess(
 			string lpApplicationName,
 			string lpCommandLine,
-			ref SECURITY_ATTRIBUTES lpProcessAttributes,
-			ref SECURITY_ATTRIBUTES lpThreadAttributes,
+			IntPtr lpProcessAttributes,
+			IntPtr lpThreadAttributes,
 			bool bInheritHandles,
 			uint dwCreationFlags,
 			IntPtr lpEnvironment,
 			string lpCurrentDirectory,
 			[In] ref STARTUPINFO lpStartupInfo,
-			out PROCESS_INFORMATION lpProcessInformation);
+			ref PROCESS_INFORMATION lpProcessInformation);
 
 		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
 		internal static extern IntPtr GetModuleHandle(string lpModuleName);

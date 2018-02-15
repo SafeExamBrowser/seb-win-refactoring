@@ -18,7 +18,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 	public partial class BrowserWindow : Window, IBrowserWindow
 	{
 		private bool isMainWindow;
-		private IBrowserSettings settings;
+		private BrowserSettings settings;
 		public WindowClosingEventHandler closing;
 
 		public bool IsMainWindow
@@ -45,7 +45,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 			remove { closing -= value; }
 		}
 
-		public BrowserWindow(IBrowserControl browserControl, IBrowserSettings settings)
+		public BrowserWindow(IBrowserControl browserControl, BrowserSettings settings)
 		{
 			this.settings = settings;
 

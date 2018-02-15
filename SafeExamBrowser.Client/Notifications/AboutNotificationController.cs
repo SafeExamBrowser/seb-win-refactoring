@@ -17,11 +17,11 @@ namespace SafeExamBrowser.Client.Notifications
 	internal class AboutNotificationController : INotificationController
 	{
 		private INotificationButton notification;
-		private IRuntimeInfo runtimeInfo;
+		private RuntimeInfo runtimeInfo;
 		private IUserInterfaceFactory uiFactory;
 		private IWindow window;
 
-		public AboutNotificationController(IRuntimeInfo runtimeInfo, IUserInterfaceFactory uiFactory)
+		public AboutNotificationController(RuntimeInfo runtimeInfo, IUserInterfaceFactory uiFactory)
 		{
 			this.runtimeInfo = runtimeInfo;
 			this.uiFactory = uiFactory;

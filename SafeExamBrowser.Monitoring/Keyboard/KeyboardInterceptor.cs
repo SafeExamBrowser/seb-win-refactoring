@@ -17,10 +17,10 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 {
 	public class KeyboardInterceptor : IKeyboardInterceptor
 	{
-		private IKeyboardSettings settings;
+		private KeyboardSettings settings;
 		private ILogger logger;
 
-		public KeyboardInterceptor(IKeyboardSettings settings, ILogger logger)
+		public KeyboardInterceptor(KeyboardSettings settings, ILogger logger)
 		{
 			this.logger = logger;
 			this.settings = settings;

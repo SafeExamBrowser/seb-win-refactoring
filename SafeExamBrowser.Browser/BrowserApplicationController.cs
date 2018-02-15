@@ -15,7 +15,7 @@ using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
-using IBrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.IBrowserSettings;
+using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
 
 namespace SafeExamBrowser.Browser
 {
@@ -23,14 +23,14 @@ namespace SafeExamBrowser.Browser
 	{
 		private IApplicationButton button;
 		private IList<IApplicationInstance> instances = new List<IApplicationInstance>();
-		private IBrowserSettings settings;
-		private IRuntimeInfo runtimeInfo;
+		private BrowserSettings settings;
+		private RuntimeInfo runtimeInfo;
 		private IUserInterfaceFactory uiFactory;
 		private IText text;
 
 		public BrowserApplicationController(
-			IBrowserSettings settings,
-			IRuntimeInfo runtimeInfo,
+			BrowserSettings settings,
+			RuntimeInfo runtimeInfo,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{

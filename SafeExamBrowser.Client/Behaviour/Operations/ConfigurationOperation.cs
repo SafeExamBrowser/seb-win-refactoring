@@ -18,14 +18,14 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 {
 	internal class ConfigurationOperation : IOperation
 	{
-		private IClientConfiguration configuration;
+		private ClientConfiguration configuration;
 		private ILogger logger;
 		private IRuntimeProxy runtime;
 
 		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
-		public ConfigurationOperation(IClientConfiguration configuration, ILogger logger, IRuntimeProxy runtime)
+		public ConfigurationOperation(ClientConfiguration configuration, ILogger logger, IRuntimeProxy runtime)
 		{
 			this.configuration = configuration;
 			this.logger = logger;

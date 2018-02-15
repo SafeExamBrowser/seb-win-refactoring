@@ -7,15 +7,15 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Configuration.Settings;
 
-namespace SafeExamBrowser.Configuration.Settings
+namespace SafeExamBrowser.Contracts.Communication.Responses
 {
 	[Serializable]
-	internal class TaskbarSettings : ITaskbarSettings
+	public class AuthenticationResponse : Response
 	{
-		public bool AllowApplicationLog => true;
-		public bool AllowKeyboardLayout => true;
-		public bool AllowWirelessNetwork => true;
+		/// <summary>
+		/// The process identifier used for authentication.
+		/// </summary>
+		public int ProcessId { get; }
 	}
 }

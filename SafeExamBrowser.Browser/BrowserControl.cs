@@ -11,14 +11,14 @@ using CefSharp.WinForms;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
-using IBrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.IBrowserSettings;
+using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
 
 namespace SafeExamBrowser.Browser
 {
 	class BrowserControl : ChromiumWebBrowser, IBrowserControl
 	{
 		private AddressChangedEventHandler addressChanged;
-		private IBrowserSettings settings;
+		private BrowserSettings settings;
 		private TitleChangedEventHandler titleChanged;
 		private IText text;
 
@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Browser
 			remove { titleChanged -= value; }
 		}
 
-		public BrowserControl(IBrowserSettings settings, IText text) : base(settings.StartUrl)
+		public BrowserControl(BrowserSettings settings, IText text) : base(settings.StartUrl)
 		{
 			this.settings = settings;
 			this.text = text;

@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Client
 {
 	internal class CompositionRoot
 	{
-		private IClientConfiguration configuration;
+		private ClientConfiguration configuration;
 		private ILogger logger;
 		private INativeMethods nativeMethods;
 		private ISystemInfo systemInfo;
@@ -92,9 +92,9 @@ namespace SafeExamBrowser.Client
 
 		private void Validate(string[] args)
 		{
-			var hasFourParameters = args?.Length == 4;
+			var hasFour = args?.Length == 4;
 
-			if (hasFourParameters)
+			if (hasFour)
 			{
 				var hasLogfilePath = Uri.TryCreate(args?[1], UriKind.Absolute, out Uri filePath) && filePath.IsFile;
 				var hasHostUri = Uri.TryCreate(args?[2], UriKind.Absolute, out Uri hostUri) && hostUri.IsWellFormedOriginalString();
