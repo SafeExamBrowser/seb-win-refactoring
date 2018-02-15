@@ -164,7 +164,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(SolutionDir)SafeExamBrowser.Client\bin\$(PlatformName)\$(ConfigurationName)" "$(ProjectDir)\bin\$(PlatformName)\$(ConfigurationName)" /e /y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(SolutionDir)SafeExamBrowser.Client\bin\$(PlatformName)\$(ConfigurationName)" "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)" /e /y</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
