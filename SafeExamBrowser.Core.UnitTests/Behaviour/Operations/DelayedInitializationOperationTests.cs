@@ -14,7 +14,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 	public class DelayedInitializationOperationTests
 	{
 		[TestMethod]
-		public void Todo()
+		public void TODO()
 		{
 			Assert.Fail();
 		}

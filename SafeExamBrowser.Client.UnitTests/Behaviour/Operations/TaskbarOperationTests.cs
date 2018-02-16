@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 	public class TaskbarOperationTests
 	{
 		private Mock<ILogger> loggerMock;
-		private Mock<TaskbarSettings> settingsMock;
+		private TaskbarSettings settings;
 		private Mock<ISystemComponent<ISystemKeyboardLayoutControl>> keyboardLayoutMock;
 		private Mock<ISystemComponent<ISystemPowerSupplyControl>> powerSupplyMock;
 		private Mock<ISystemComponent<ISystemWirelessNetworkControl>> wirelessNetworkMock;
@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 		public void Initialize()
 		{
 			loggerMock = new Mock<ILogger>();
-			settingsMock = new Mock<TaskbarSettings>();
+			settings = new TaskbarSettings();
 			keyboardLayoutMock = new Mock<ISystemComponent<ISystemKeyboardLayoutControl>>();
 			powerSupplyMock = new Mock<ISystemComponent<ISystemPowerSupplyControl>>();
 			wirelessNetworkMock = new Mock<ISystemComponent<ISystemWirelessNetworkControl>>();
@@ -47,15 +47,15 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 			textMock = new Mock<IText>();
 			uiFactoryMock = new Mock<IUserInterfaceFactory>();
 
-			settingsMock.SetupGet(s => s.AllowApplicationLog).Returns(true);
-			settingsMock.SetupGet(s => s.AllowKeyboardLayout).Returns(true);
-			settingsMock.SetupGet(s => s.AllowWirelessNetwork).Returns(true);
+			settings.AllowApplicationLog = true;
+			settings.AllowKeyboardLayout = true;
+			settings.AllowWirelessNetwork = true;
 			systemInfoMock.SetupGet(s => s.HasBattery).Returns(true);
 			uiFactoryMock.Setup(u => u.CreateNotification(It.IsAny<INotificationInfo>())).Returns(new Mock<INotificationButton>().Object);
 
 			sut = new TaskbarOperation(
 				loggerMock.Object,
-				settingsMock.Object,
+				settings,
 				keyboardLayoutMock.Object,
 				powerSupplyMock.Object,
 				wirelessNetworkMock.Object,

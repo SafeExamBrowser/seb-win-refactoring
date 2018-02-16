@@ -9,7 +9,9 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Client.Behaviour;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
@@ -22,10 +24,12 @@ namespace SafeExamBrowser.Client.UnitTests
 		private Mock<IDisplayMonitor> displayMonitorMock;
 		private Mock<ILogger> loggerMock;
 		private Mock<IProcessMonitor> processMonitorMock;
+		private Mock<IOperationSequence> operationSequenceMock;
+		private Mock<IRuntimeProxy> runtimeProxyMock;
 		private Mock<ITaskbar> taskbarMock;
 		private Mock<IWindowMonitor> windowMonitorMock;
 
-		//private IClientController sut;
+		private ClientController sut;
 
 		[TestInitialize]
 		public void Initialize()
@@ -33,19 +37,23 @@ namespace SafeExamBrowser.Client.UnitTests
 			displayMonitorMock = new Mock<IDisplayMonitor>();
 			loggerMock = new Mock<ILogger>();
 			processMonitorMock = new Mock<IProcessMonitor>();
+			operationSequenceMock = new Mock<IOperationSequence>();
+			runtimeProxyMock = new Mock<IRuntimeProxy>();
 			taskbarMock = new Mock<ITaskbar>();
 			windowMonitorMock= new Mock<IWindowMonitor>();
 
-			// TODO
+			operationSequenceMock.Setup(o => o.TryPerform()).Returns(true);
 
-			//sut = new ClientController(
-			//	displayMonitorMock.Object,
-			//	loggerMock.Object,
-			//	processMonitorMock.Object,
-			//	taskbarMock.Object,
-			//	windowMonitorMock.Object);
+			sut = new ClientController(
+				displayMonitorMock.Object,
+				loggerMock.Object,
+				operationSequenceMock.Object,
+				processMonitorMock.Object,
+				runtimeProxyMock.Object,
+				taskbarMock.Object,
+				windowMonitorMock.Object);
 
-			// sut.Start();
+			sut.TryStart();
 		}
 
 		[TestMethod]
