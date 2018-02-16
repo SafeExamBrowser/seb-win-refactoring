@@ -8,6 +8,7 @@
 
 using System;
 using System.ServiceModel;
+using System.Threading;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Messages;
 using SafeExamBrowser.Contracts.Communication.Responses;
@@ -18,16 +19,26 @@ namespace SafeExamBrowser.Core.Communication
 	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
 	public abstract class BaseHost : ICommunication, ICommunicationHost
 	{
+		private const int TWO_SECONDS = 2000;
+		private readonly object @lock = new object();
+
 		private string address;
 		private ILogger logger;
 		private ServiceHost host;
+		private Thread hostThread;
 
 		protected Guid? CommunicationToken { get; private set; }
 		protected ILogger Logger { get; private set; }
 
 		public bool IsRunning
 		{
-			get { return host?.State == CommunicationState.Opened; }
+			get
+			{
+				lock (@lock)
+				{
+					return host?.State == CommunicationState.Opened;
+				}
+			}
 		}
 
 		public BaseHost(string address, ILogger logger)
@@ -39,91 +50,162 @@ namespace SafeExamBrowser.Core.Communication
 		protected abstract bool OnConnect(Guid? token);
 		protected abstract void OnDisconnect();
 		protected abstract Response OnReceive(Message message);
-		protected abstract Response OnReceive(MessagePurport message);
+		protected abstract Response OnReceive(SimpleMessagePurport message);
 
 		public ConnectionResponse Connect(Guid? token = null)
 		{
-			logger.Debug($"Received connection request with authentication token '{token}'.");
-
-			var response = new ConnectionResponse();
-			var connected = OnConnect(token);
-
-			if (connected)
+			lock (@lock)
 			{
-				response.CommunicationToken = CommunicationToken = Guid.NewGuid();
-				response.ConnectionEstablished = true;
+				logger.Debug($"Received connection request with authentication token '{token}'.");
+
+				var response = new ConnectionResponse();
+				var connected = OnConnect(token);
+
+				if (connected)
+				{
+					response.CommunicationToken = CommunicationToken = Guid.NewGuid();
+					response.ConnectionEstablished = true;
+				}
+
+				logger.Debug($"{(connected ? "Accepted" : "Denied")} connection request.");
+
+				return response;
 			}
-
-			logger.Debug($"{(connected ? "Accepted" : "Denied")} connection request.");
-
-			return response;
 		}
 
 		public DisconnectionResponse Disconnect(DisconnectionMessage message)
 		{
-			var response = new DisconnectionResponse();
-
-			// TODO: Compare with ToString in BaseProxy - needed?
-			logger.Debug($"Received disconnection request with message '{message}'.");
-
-			if (IsAuthorized(message?.CommunicationToken))
+			lock (@lock)
 			{
-				OnDisconnect();
+				var response = new DisconnectionResponse();
 
-				CommunicationToken = null;
-				response.ConnectionTerminated = true;
+				logger.Debug($"Received disconnection request with message '{ToString(message)}'.");
+
+				if (IsAuthorized(message?.CommunicationToken))
+				{
+					OnDisconnect();
+
+					CommunicationToken = null;
+					response.ConnectionTerminated = true;
+				}
+
+				return response;
 			}
-
-			return response;
 		}
 
 		public Response Send(Message message)
 		{
-			Response response = null;
-
-			logger.Debug($"Received message '{message}'.");
-
-			if (IsAuthorized(message?.CommunicationToken))
+			lock (@lock)
 			{
-				if (message is SimpleMessage)
+				Response response = null;
+
+				logger.Debug($"Received message '{ToString(message)}'.");
+
+				if (IsAuthorized(message?.CommunicationToken))
 				{
-					response = OnReceive((message as SimpleMessage).Purport);
+					if (message is SimpleMessage)
+					{
+						response = OnReceive((message as SimpleMessage).Purport);
+					}
+					else
+					{
+						response = OnReceive(message);
+					}
 				}
-				else
-				{
-					response = OnReceive(message);
-				}
+
+				logger.Debug($"Sending response '{ToString(response)}'.");
+
+				return response;
 			}
-
-			logger.Debug($"Sending response '{response}'.");
-
-			return response;
 		}
 
 		public void Start()
 		{
-			host = new ServiceHost(this);
-			host.AddServiceEndpoint(typeof(ICommunication), new NetNamedPipeBinding(NetNamedPipeSecurityMode.Transport), address);
-			host.Closed += Host_Closed;
-			host.Closing += Host_Closing;
-			host.Faulted += Host_Faulted;
-			host.Opened += Host_Opened;
-			host.Opening += Host_Opening;
-			host.UnknownMessageReceived += Host_UnknownMessageReceived;
-			host.Open();
+			lock (@lock)
+			{
+				var exception = default(Exception);
+				var startedEvent = new AutoResetEvent(false);
 
-			logger.Debug($"Successfully started communication host for endpoint '{address}'.");
+				hostThread = new Thread(() => TryStartHost(startedEvent, out exception));
+				hostThread.SetApartmentState(ApartmentState.STA);
+				hostThread.IsBackground = true;
+				hostThread.Start();
+
+				var success = startedEvent.WaitOne(TWO_SECONDS);
+
+				if (!success)
+				{
+					throw new CommunicationException($"Failed to start communication host for endpoint '{address}' within {TWO_SECONDS / 1000} seconds!", exception);
+				}
+			}
 		}
 
 		public void Stop()
 		{
-			host?.Close();
-			logger.Debug($"Terminated communication host for endpoint '{address}'.");
+			lock (@lock)
+			{
+				var success = TryStopHost(out Exception exception);
+
+				if (success)
+				{
+					logger.Debug($"Terminated communication host for endpoint '{address}'.");
+				}
+				else
+				{
+					throw new CommunicationException($"Failed to terminate communication host for endpoint '{address}'!", exception);
+				}
+			}
 		}
 
 		private bool IsAuthorized(Guid? token)
 		{
 			return CommunicationToken == token;
+		}
+
+		private void TryStartHost(AutoResetEvent startedEvent, out Exception exception)
+		{
+			exception = null;
+
+			try
+			{
+				host = new ServiceHost(this);
+				host.AddServiceEndpoint(typeof(ICommunication), new NetNamedPipeBinding(NetNamedPipeSecurityMode.Transport), address);
+				host.Closed += Host_Closed;
+				host.Closing += Host_Closing;
+				host.Faulted += Host_Faulted;
+				host.Opened += Host_Opened;
+				host.Opening += Host_Opening;
+				host.UnknownMessageReceived += Host_UnknownMessageReceived;
+				host.Open();
+
+				logger.Debug($"Successfully started communication host for endpoint '{address}'.");
+
+				startedEvent.Set();
+			}
+			catch (Exception e)
+			{
+				exception = e;
+			}
+		}
+
+		private bool TryStopHost(out Exception exception)
+		{
+			var success = false;
+
+			exception = null;
+
+			try
+			{
+				host?.Close();
+				success = hostThread.Join(TWO_SECONDS);
+			}
+			catch (Exception e)
+			{
+				exception = e;
+				success = false;
+			}
+
+			return success;
 		}
 
 		private void Host_Closed(object sender, EventArgs e)
@@ -154,6 +236,16 @@ namespace SafeExamBrowser.Core.Communication
 		private void Host_UnknownMessageReceived(object sender, UnknownMessageReceivedEventArgs e)
 		{
 			logger.Debug($"Communication host has received an unknown message: {e?.Message}.");
+		}
+
+		private string ToString(Message message)
+		{
+			return message != null ? message.ToString() : "<null>";
+		}
+
+		private string ToString(Response response)
+		{
+			return response != null ? response.ToString() : "<null>";
 		}
 	}
 }

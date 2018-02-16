@@ -11,11 +11,21 @@ using System;
 namespace SafeExamBrowser.Contracts.Communication.Responses
 {
 	[Serializable]
-	public class AuthenticationResponse : Response
+	public class SimpleResponse : Response
 	{
 		/// <summary>
-		/// The process identifier used for authentication.
+		/// The purport of the response.
 		/// </summary>
-		public int ProcessId { get; set; }
+		public SimpleResponsePurport Purport { get; set; }
+
+		public SimpleResponse(SimpleResponsePurport purport)
+		{
+			Purport = purport;
+		}
+
+		public override string ToString()
+		{
+			return $"{base.ToString()} -> {Purport}";
+		}
 	}
 }

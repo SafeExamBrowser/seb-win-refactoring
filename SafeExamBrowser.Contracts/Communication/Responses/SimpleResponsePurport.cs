@@ -11,11 +11,16 @@ using System;
 namespace SafeExamBrowser.Contracts.Communication.Responses
 {
 	[Serializable]
-	public class AuthenticationResponse : Response
+	public enum SimpleResponsePurport
 	{
 		/// <summary>
-		/// The process identifier used for authentication.
+		/// Signals an interlocutor that a message has been understood.
 		/// </summary>
-		public int ProcessId { get; set; }
+		Acknowledged = 1,
+
+		/// <summary>
+		/// Signals an interlocutor that a message has not been understood.
+		/// </summary>
+		UnknownMessage
 	}
 }

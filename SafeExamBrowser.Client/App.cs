@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 
@@ -56,14 +55,16 @@ namespace SafeExamBrowser.Client
 		{
 			base.OnStartup(e);
 
+			ShutdownMode = ShutdownMode.OnMainWindowClose;
+
 			instances.BuildObjectGraph();
+			instances.LogStartupInformation();
 
 			var success = instances.ClientController.TryStart();
 
 			if (success)
 			{
 				MainWindow = instances.Taskbar;
-				MainWindow.Closing += MainWindow_Closing;
 				MainWindow.Show();
 			}
 			else
@@ -72,10 +73,12 @@ namespace SafeExamBrowser.Client
 			}
 		}
 
-		private void MainWindow_Closing(object sender, CancelEventArgs e)
+		protected override void OnExit(ExitEventArgs e)
 		{
-			MainWindow?.Hide();
 			instances.ClientController.Terminate();
+			instances.LogShutdownInformation();
+
+			base.OnExit(e);
 		}
 	}
 }

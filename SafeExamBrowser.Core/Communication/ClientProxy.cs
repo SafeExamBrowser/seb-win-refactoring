@@ -21,7 +21,9 @@ namespace SafeExamBrowser.Core.Communication
 
 		public AuthenticationResponse RequestAuthentication()
 		{
-			return (AuthenticationResponse) Send(MessagePurport.ClientIsReady);
+			var response = Send(SimpleMessagePurport.Authenticate);
+
+			return response as AuthenticationResponse;
 		}
 	}
 }

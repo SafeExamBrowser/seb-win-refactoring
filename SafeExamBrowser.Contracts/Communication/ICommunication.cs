@@ -19,6 +19,7 @@ namespace SafeExamBrowser.Contracts.Communication
 	[ServiceKnownType(typeof(AuthenticationResponse))]
 	[ServiceKnownType(typeof(ConfigurationResponse))]
 	[ServiceKnownType(typeof(ClientConfiguration))]
+	[ServiceKnownType(typeof(SimpleResponse))]
 	public interface ICommunication
 	{
 		/// <summary>

@@ -81,6 +81,15 @@ namespace SafeExamBrowser.Core.Logging
 			details.AppendLine();
 			details.AppendLine(exception.StackTrace);
 
+			for (var inner = exception.InnerException; inner != null; inner = inner.InnerException)
+			{
+				details.AppendLine();
+				details.AppendLine($"   Inner Exception Message: {inner.Message}");
+				details.AppendLine($"   Inner Exception Type: {inner.GetType()}");
+				details.AppendLine();
+				details.AppendLine(inner.StackTrace);
+			}
+
 			Add(LogLevel.Error, message);
 			Add(new LogText(details.ToString()));
 		}

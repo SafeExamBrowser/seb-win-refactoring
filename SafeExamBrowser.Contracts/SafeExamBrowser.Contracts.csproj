@@ -66,13 +66,15 @@
     <Compile Include="Communication\IServiceProxy.cs" />
     <Compile Include="Communication\Messages\Message.cs" />
     <Compile Include="Communication\Messages\DisconnectionMessage.cs" />
-    <Compile Include="Communication\Messages\MessagePurport.cs" />
+    <Compile Include="Communication\Messages\SimpleMessagePurport.cs" />
     <Compile Include="Communication\Messages\SimpleMessage.cs" />
     <Compile Include="Communication\Responses\AuthenticationResponse.cs" />
     <Compile Include="Communication\Responses\ConfigurationResponse.cs" />
     <Compile Include="Communication\Responses\ConnectionResponse.cs" />
     <Compile Include="Communication\Responses\DisconnectionResponse.cs" />
     <Compile Include="Communication\Responses\Response.cs" />
+    <Compile Include="Communication\Responses\SimpleResponsePurport.cs" />
+    <Compile Include="Communication\Responses\SimpleResponse.cs" />
     <Compile Include="Configuration\ClientConfiguration.cs" />
     <Compile Include="Configuration\RuntimeInfo.cs" />
     <Compile Include="Configuration\ISession.cs" />

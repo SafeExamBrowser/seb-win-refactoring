@@ -16,6 +16,16 @@ namespace SafeExamBrowser.Contracts.Communication.Messages
 		/// <summary>
 		/// The purport of the message.
 		/// </summary>
-		public MessagePurport Purport { get; set; }
+		public SimpleMessagePurport Purport { get; set; }
+
+		public SimpleMessage(SimpleMessagePurport purport)
+		{
+			Purport = purport;
+		}
+
+		public override string ToString()
+		{
+			return $"{base.ToString()} -> {Purport}";
+		}
 	}
 }

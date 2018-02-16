@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using SafeExamBrowser.Browser;
 using SafeExamBrowser.Client.Behaviour;
 using SafeExamBrowser.Client.Behaviour.Operations;
@@ -37,6 +38,10 @@ namespace SafeExamBrowser.Client
 {
 	internal class CompositionRoot
 	{
+		private string logFilePath;
+		private string runtimeHostUri;
+		private Guid startupToken;
+
 		private ClientConfiguration configuration;
 		private ILogger logger;
 		private INativeMethods nativeMethods;
@@ -49,21 +54,19 @@ namespace SafeExamBrowser.Client
 
 		internal void BuildObjectGraph()
 		{
-			var args = Environment.GetCommandLineArgs();
-
-			Validate(args);
+			ValidateCommandLineArguments();
 
 			configuration = new ClientConfiguration();
 			logger = new Logger();
 			nativeMethods = new NativeMethods();
 			systemInfo = new SystemInfo();
 
-			InitializeLogging(args[1]);
+			InitializeLogging();
 
 			text = new Text(logger);
 			uiFactory = new UserInterfaceFactory(text);
 
-			var runtimeProxy = new RuntimeProxy(args[2], new ModuleLogger(logger, typeof(RuntimeProxy)));
+			var runtimeProxy = new RuntimeProxy(runtimeHostUri, new ModuleLogger(logger, typeof(RuntimeProxy)));
 			var displayMonitor = new DisplayMonitor(new ModuleLogger(logger, typeof(DisplayMonitor)), nativeMethods);
 			var processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
 			var windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)), nativeMethods);
@@ -73,25 +76,38 @@ namespace SafeExamBrowser.Client
 			var operations = new Queue<IOperation>();
 
 			operations.Enqueue(new I18nOperation(logger, text));
-			operations.Enqueue(new RuntimeConnectionOperation(logger, runtimeProxy, Guid.Parse(args[3])));
+			operations.Enqueue(new RuntimeConnectionOperation(logger, runtimeProxy, startupToken));
 			operations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeProxy));
 			operations.Enqueue(new DelayedInitializationOperation(BuildCommunicationHostOperation));
-			operations.Enqueue(new DelayedInitializationOperation(BuildKeyboardInterceptorOperation));
-			operations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
-			operations.Enqueue(new ProcessMonitorOperation(logger, processMonitor));
+			// TODO
+			//operations.Enqueue(new DelayedInitializationOperation(BuildKeyboardInterceptorOperation));
+			//operations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
+			//operations.Enqueue(new ProcessMonitorOperation(logger, processMonitor));
 			operations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, Taskbar));
 			operations.Enqueue(new DelayedInitializationOperation(BuildTaskbarOperation));
 			operations.Enqueue(new DelayedInitializationOperation(BuildBrowserOperation));
 			operations.Enqueue(new ClipboardOperation(logger, nativeMethods));
-			operations.Enqueue(new DelayedInitializationOperation(BuildMouseInterceptorOperation));
+			//operations.Enqueue(new DelayedInitializationOperation(BuildMouseInterceptorOperation));
 
 			var sequence = new OperationSequence(logger, operations);
 
 			ClientController = new ClientController(displayMonitor, logger, sequence, processMonitor, runtimeProxy, Taskbar, windowMonitor);
 		}
 
-		private void Validate(string[] args)
+		internal void LogStartupInformation()
 		{
+			logger.Log($"# New client instance started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+			logger.Log(string.Empty);
+		}
+
+		internal void LogShutdownInformation()
+		{
+			logger?.Log($"# Client instance terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+		}
+
+		private void ValidateCommandLineArguments()
+		{
+			var args = Environment.GetCommandLineArgs();
 			var hasFour = args?.Length == 4;
 
 			if (hasFour)
@@ -102,16 +118,20 @@ namespace SafeExamBrowser.Client
 
 				if (hasLogfilePath && hasHostUri && hasToken)
 				{
+					logFilePath = args[1];
+					runtimeHostUri = args[2];
+					startupToken = Guid.Parse(args[3]);
+
 					return;
 				}
 			}
 
-			throw new ArgumentException("Invalid parameters! Required: SafeExamBrowser.Client.exe <logfile path> <host URI> <token>");
+			throw new ArgumentException("Invalid arguments! Required: SafeExamBrowser.Client.exe <logfile path> <host URI> <token>");
 		}
 
-		private void InitializeLogging(string filePath)
+		private void InitializeLogging()
 		{
-			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), filePath);
+			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), logFilePath);
 
 			logFileWriter.Initialize();
 			logger.Subscribe(logFileWriter);
@@ -128,8 +148,11 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildCommunicationHostOperation()
 		{
-			var host = new ClientHost(configuration.RuntimeInfo.ClientAddress, new ModuleLogger(logger, typeof(ClientHost)));
+			var processId = Process.GetCurrentProcess().Id;
+			var host = new ClientHost(configuration.RuntimeInfo.ClientAddress, new ModuleLogger(logger, typeof(ClientHost)), processId);
 			var operation = new CommunicationOperation(host, logger);
+
+			host.StartupToken = startupToken;
 
 			return operation;
 		}

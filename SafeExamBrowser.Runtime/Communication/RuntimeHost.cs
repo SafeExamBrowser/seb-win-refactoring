@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Threading.Tasks;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Messages;
 using SafeExamBrowser.Contracts.Communication.Responses;
@@ -43,21 +42,21 @@ namespace SafeExamBrowser.Runtime.Communication
 		protected override Response OnReceive(Message message)
 		{
 			// TODO
-			return null;
+			return new SimpleResponse(SimpleResponsePurport.UnknownMessage);
 		}
 
-		protected override Response OnReceive(MessagePurport message)
+		protected override Response OnReceive(SimpleMessagePurport message)
 		{
 			switch (message)
 			{
-				case MessagePurport.ClientIsReady:
+				case SimpleMessagePurport.ClientIsReady:
 					ClientReady?.Invoke();
-					break;
-				case MessagePurport.ConfigurationNeeded:
+					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
+				case SimpleMessagePurport.ConfigurationNeeded:
 					return new ConfigurationResponse { Configuration = configuration.BuildClientConfiguration() };
 			}
 
-			return null;
+			return new SimpleResponse(SimpleResponsePurport.UnknownMessage);
 		}
 	}
 }

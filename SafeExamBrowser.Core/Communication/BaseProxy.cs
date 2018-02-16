@@ -40,7 +40,7 @@ namespace SafeExamBrowser.Core.Communication
 			(channel as ICommunicationObject).Opened += BaseProxy_Opened;
 			(channel as ICommunicationObject).Opening += BaseProxy_Opening;
 
-			Logger.Debug($"Trying to connect to endpoint {address} with authentication token '{token}'...");
+			Logger.Debug($"Trying to connect to endpoint {address}{(token.HasValue ? $" with authentication token '{token}'" : string.Empty)}...");
 
 			var response = channel.Connect(token);
 
@@ -70,21 +70,14 @@ namespace SafeExamBrowser.Core.Communication
 
 			var response = channel.Send(message);
 
-			Logger.Debug($"Sent {ToString(message)}, got {ToString(response)}.");
+			Logger.Debug($"Sent message '{ToString(message)}', got response '{ToString(response)}'.");
 
 			return response;
 		}
 
-		protected Response Send(MessagePurport purport)
+		protected Response Send(SimpleMessagePurport purport)
 		{
-			FailIfNotConnected(nameof(Send));
-
-			var message = new SimpleMessage { Purport = purport };
-			var response = channel.Send(message);
-
-			Logger.Debug($"Sent {ToString(message)}, got {ToString(response)}.");
-
-			return response;
+			return Send(new SimpleMessage(purport));
 		}
 
 		private void BaseProxy_Closed(object sender, EventArgs e)
@@ -132,12 +125,12 @@ namespace SafeExamBrowser.Core.Communication
 
 		private string ToString(Message message)
 		{
-			return message != null ? $"message of type '{message.GetType()}'" : "no message";
+			return message != null ? message.ToString() : "<null>";
 		}
 
 		private string ToString(Response response)
 		{
-			return response != null ? $"response of type '{response.GetType()}'" : "no response";
+			return response != null ? response.ToString() : "<null>";
 		}
 	}
 }

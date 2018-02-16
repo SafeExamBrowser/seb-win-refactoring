@@ -23,6 +23,7 @@ namespace SafeExamBrowser.SystemComponents
 	public class WirelessNetwork : ISystemComponent<ISystemWirelessNetworkControl>
 	{
 		private const int TWO_SECONDS = 2000;
+		private readonly object @lock = new object();
 
 		private ISystemWirelessNetworkControl control;
 		private ILogger logger;
@@ -144,7 +145,7 @@ namespace SafeExamBrowser.SystemComponents
 
 		private void UpdateControl()
 		{
-			lock (networks)
+			lock (@lock)
 			{
 				try
 				{

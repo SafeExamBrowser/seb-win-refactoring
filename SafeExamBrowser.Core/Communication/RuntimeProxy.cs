@@ -22,12 +22,12 @@ namespace SafeExamBrowser.Core.Communication
 
 		public ClientConfiguration GetConfiguration()
 		{
-			return ((ConfigurationResponse) Send(MessagePurport.ConfigurationNeeded)).Configuration;
+			return ((ConfigurationResponse) Send(SimpleMessagePurport.ConfigurationNeeded)).Configuration;
 		}
 
 		public void InformClientReady()
 		{
-			Send(MessagePurport.ClientIsReady);
+			Send(SimpleMessagePurport.ClientIsReady);
 		}
 	}
 }

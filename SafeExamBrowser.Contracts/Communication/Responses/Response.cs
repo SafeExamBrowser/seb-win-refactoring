@@ -13,5 +13,9 @@ namespace SafeExamBrowser.Contracts.Communication.Responses
 	[Serializable]
 	public class Response
 	{
+		public override string ToString()
+		{
+			return GetType().Name;
+		}
 	}
 }

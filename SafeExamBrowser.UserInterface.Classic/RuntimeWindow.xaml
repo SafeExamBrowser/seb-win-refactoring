@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Classic"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
-        mc:Ignorable="d" Background="White" Foreground="White" Height="500" Width="750" WindowStyle="None" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" Background="White" Foreground="White" Height="500" Width="850" WindowStyle="None" WindowStartupLocation="CenterScreen"
         Icon="./Images/SafeExamBrowser.ico" ResizeMode="NoResize" Title="Safe Exam Browser" Topmost="True">
     <Grid>
         <Border x:Name="AnimatedBorder" Panel.ZIndex="10" BorderBrush="DodgerBlue" BorderThickness="5" Visibility="{Binding AnimatedBorderVisibility}">
@@ -36,10 +36,10 @@
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="350" />
+                        <ColumnDefinition Width="400" />
                     </Grid.ColumnDefinitions>
                     <Image Grid.Column="0" Grid.ColumnSpan="2" Margin="-25,0,0,0" Source="pack://application:,,,/SafeExamBrowser.UserInterface.Classic;component/Images/SplashScreen.png" />
-                    <TextBlock x:Name="InfoTextBlock" Grid.Column="1" Foreground="Gray" Margin="10,75,175,10" TextWrapping="Wrap" />
+                    <TextBlock x:Name="InfoTextBlock" Grid.Column="1" Foreground="Gray" Margin="10,75,225,10" TextWrapping="Wrap" />
                 </Grid>
                 <ProgressBar x:Name="ProgressBar" Grid.Row="1" Background="WhiteSmoke" BorderThickness="0" Foreground="DodgerBlue"
                              IsIndeterminate="{Binding IsIndeterminate}" Maximum="{Binding MaxProgress}" Value="{Binding CurrentProgress}"

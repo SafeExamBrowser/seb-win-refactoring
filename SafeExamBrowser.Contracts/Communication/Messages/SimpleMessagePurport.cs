@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Contracts.Communication.Messages
 {
 	[Serializable]
-	public enum MessagePurport
+	public enum SimpleMessagePurport
 	{
 		/// <summary>
 		/// Requests an interlocutor to submit data for authentication.

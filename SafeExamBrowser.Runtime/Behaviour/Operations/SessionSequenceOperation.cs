@@ -104,19 +104,19 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		{
 			const int TEN_SECONDS = 10000;
 
-			var clientReady = new AutoResetEvent(false);
-			var clientReadyHandler = new CommunicationEventHandler(() => clientReady.Set());
+			var clientStarted = false;
+			var clientReadyEvent = new AutoResetEvent(false);
+			var clientReadyEventHandler = new CommunicationEventHandler(() => clientReadyEvent.Set());
 			var clientExecutable = configuration.RuntimeInfo.ClientExecutablePath;
 			var clientLogFile = $"{'"' + configuration.RuntimeInfo.ClientLogFile + '"'}";
 			var hostUri = configuration.RuntimeInfo.RuntimeAddress;
 			var token = session.StartupToken.ToString("D");
 
-			runtimeHost.ClientReady += clientReadyHandler;
+			runtimeHost.ClientReady += clientReadyEventHandler;
 			session.ClientProcess = processFactory.StartNew(clientExecutable, clientLogFile, hostUri, token);
 
-			var clientStarted = clientReady.WaitOne(TEN_SECONDS);
-
-			runtimeHost.ClientReady -= clientReadyHandler;
+			clientStarted = clientReadyEvent.WaitOne(TEN_SECONDS);
+			runtimeHost.ClientReady -= clientReadyEventHandler;
 
 			// TODO: Check if client process alive!
 			if (clientStarted)
@@ -126,7 +126,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 					var response = client.RequestAuthentication();
 
 					// TODO: Further integrity checks necessary?
-					if (session.ClientProcess.Id == response.ProcessId)
+					if (session.ClientProcess.Id == response?.ProcessId)
 					{
 						sessionRunning = true;
 					}

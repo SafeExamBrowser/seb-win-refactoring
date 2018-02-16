@@ -73,6 +73,9 @@ namespace SafeExamBrowser.Configuration
 			};
 
 			settings.Browser.StartUrl = "https://www.duckduckgo.com";
+			settings.Taskbar.AllowApplicationLog = true;
+			settings.Taskbar.AllowKeyboardLayout = true;
+			settings.Taskbar.AllowWirelessNetwork = true;
 
 			CurrentSettings = settings;
 

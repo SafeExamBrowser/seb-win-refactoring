@@ -17,5 +17,10 @@ namespace SafeExamBrowser.Contracts.Communication.Messages
 		/// The communication token needed for authentication.
 		/// </summary>
 		public Guid CommunicationToken { get; set; }
+
+		public override string ToString()
+		{
+			return GetType().Name;
+		}
 	}
 }

@@ -17,10 +17,13 @@ namespace SafeExamBrowser.Client.Communication
 {
 	internal class ClientHost : BaseHost, IClientHost
 	{
+		private int processId;
+
 		public Guid StartupToken { private get; set; }
 
-		public ClientHost(string address, ILogger logger) : base(address, logger)
+		public ClientHost(string address, ILogger logger, int processId) : base(address, logger)
 		{
+			this.processId = processId;
 		}
 
 		protected override bool OnConnect(Guid? token)
@@ -36,13 +39,19 @@ namespace SafeExamBrowser.Client.Communication
 		protected override Response OnReceive(Message message)
 		{
 			// TODO
-			return null;
+
+			return new SimpleResponse(SimpleResponsePurport.UnknownMessage);
 		}
 
-		protected override Response OnReceive(MessagePurport message)
+		protected override Response OnReceive(SimpleMessagePurport message)
 		{
-			// TODO
-			return null;
+			switch (message)
+			{
+				case SimpleMessagePurport.Authenticate:
+					return new AuthenticationResponse { ProcessId = processId };
+			}
+
+			return new SimpleResponse(SimpleResponsePurport.UnknownMessage);
 		}
 	}
 }

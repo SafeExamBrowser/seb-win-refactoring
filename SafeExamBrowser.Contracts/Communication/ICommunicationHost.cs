@@ -20,11 +20,13 @@ namespace SafeExamBrowser.Contracts.Communication
 		/// <summary>
 		/// Starts the host and opens it for communication.
 		/// </summary>
+		/// <exception cref="System.ServiceModel.CommunicationException">If the host fails to start.</exception>
 		void Start();
 
 		/// <summary>
 		/// Closes and terminates the host.
 		/// </summary>
+		/// <exception cref="System.ServiceModel.CommunicationException">If the host fails to terminate.</exception>
 		void Stop();
 	}
 }
