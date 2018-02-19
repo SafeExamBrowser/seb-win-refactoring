@@ -91,9 +91,9 @@ namespace SafeExamBrowser.UserInterface.Windows10
 
 		private void InitializeBrowserWindow(IBrowserControl browserControl)
 		{
-			if (browserControl is System.Windows.Forms.Control)
+			if (browserControl is System.Windows.Forms.Control control)
 			{
-				BrowserControlHost.Child = browserControl as System.Windows.Forms.Control;
+				BrowserControlHost.Child = control;
 			}
 
 			Closing += (o, args) => closing?.Invoke();

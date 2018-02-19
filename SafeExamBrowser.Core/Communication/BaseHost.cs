@@ -103,9 +103,9 @@ namespace SafeExamBrowser.Core.Communication
 
 				if (IsAuthorized(message?.CommunicationToken))
 				{
-					if (message is SimpleMessage)
+					if (message is SimpleMessage simpleMessage)
 					{
-						response = OnReceive((message as SimpleMessage).Purport);
+						response = OnReceive(simpleMessage.Purport);
 					}
 					else
 					{

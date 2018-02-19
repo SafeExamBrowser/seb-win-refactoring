@@ -15,14 +15,14 @@ namespace SafeExamBrowser.Core.Logging
 	{
 		public string Format(ILogContent content)
 		{
-			if (content is ILogText)
+			if (content is ILogText text)
 			{
-				return (content as ILogText).Text;
+				return text.Text;
 			}
 
-			if (content is ILogMessage)
+			if (content is ILogMessage message)
 			{
-				return FormatLogMessage(content as ILogMessage);
+				return FormatLogMessage(message);
 			}
 
 			throw new NotImplementedException($"The default formatter is not yet implemented for log content of type {content.GetType()}!");

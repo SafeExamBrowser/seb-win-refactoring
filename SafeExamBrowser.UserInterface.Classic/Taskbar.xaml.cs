@@ -29,25 +29,25 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 		public void AddApplication(IApplicationButton button)
 		{
-			if (button is UIElement)
+			if (button is UIElement uiElement)
 			{
-				ApplicationStackPanel.Children.Add(button as UIElement);
+				ApplicationStackPanel.Children.Add(uiElement);
 			}
 		}
 
 		public void AddNotification(INotificationButton button)
 		{
-			if (button is UIElement)
+			if (button is UIElement uiElement)
 			{
-				NotificationStackPanel.Children.Add(button as UIElement);
+				NotificationStackPanel.Children.Add(uiElement);
 			}
 		}
 
 		public void AddSystemControl(ISystemControl control)
 		{
-			if (control is UIElement)
+			if (control is UIElement uiElement)
 			{
-				SystemControlStackPanel.Children.Add(control as UIElement);
+				SystemControlStackPanel.Children.Add(uiElement);
 			}
 		}
 
@@ -82,9 +82,9 @@ namespace SafeExamBrowser.UserInterface.Classic
 		{
 			foreach (var child in SystemControlStackPanel.Children)
 			{
-				if (child is ISystemControl)
+				if (child is ISystemControl systemControl)
 				{
-					(child as ISystemControl).Close();
+					systemControl.Close();
 				}
 			}
 		}

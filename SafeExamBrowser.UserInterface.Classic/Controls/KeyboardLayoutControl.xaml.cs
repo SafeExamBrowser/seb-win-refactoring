@@ -83,9 +83,9 @@ namespace SafeExamBrowser.UserInterface.Classic.Controls
 
 			foreach (var child in LayoutsStackPanel.Children)
 			{
-				if (child is KeyboardLayoutButton)
+				if (child is KeyboardLayoutButton keyboardLayoutButton)
 				{
-					(child as KeyboardLayoutButton).IsCurrent = false;
+					keyboardLayoutButton.IsCurrent = false;
 				}
 			}
 

@@ -33,13 +33,13 @@ namespace SafeExamBrowser.UserInterface.Windows10.ViewModels
 
 		public void Notify(ILogContent content)
 		{
-			if (content is ILogText)
+			if (content is ILogText text)
 			{
-				AppendLogText(content as ILogText);
+				AppendLogText(text);
 			}
-			else if (content is ILogMessage)
+			else if (content is ILogMessage message)
 			{
-				AppendLogMessage(content as ILogMessage);
+				AppendLogMessage(message);
 			}
 			else
 			{
