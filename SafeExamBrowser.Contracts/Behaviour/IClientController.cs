@@ -6,11 +6,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.Communication;
+
 namespace SafeExamBrowser.Contracts.Behaviour
 {
 	// TODO: Interface really needed?!
 	public interface IClientController
 	{
+		/// <summary>
+		/// The client host used for communication handling.
+		/// </summary>
+		IClientHost ClientHost { set; }
+
 		/// <summary>
 		/// Reverts any changes, releases all used resources and terminates the client.
 		/// </summary>

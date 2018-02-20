@@ -8,11 +8,28 @@
 
 namespace SafeExamBrowser.Contracts.WindowsApi
 {
+	public delegate void ProcessTerminatedEventHandler(int exitCode);
+
 	public interface IProcess
 	{
+		/// <summary>
+		/// Indicates whether the process has been terminated.
+		/// </summary>
+		bool HasTerminated { get; }
+
 		/// <summary>
 		/// The process identifier.
 		/// </summary>
 		int Id { get; }
+
+		/// <summary>
+		/// Event fired when the process has terminated.
+		/// </summary>
+		event ProcessTerminatedEventHandler Terminated;
+
+		/// <summary>
+		/// Immediately terminates the process.
+		/// </summary>
+		void Kill();
 	}
 }

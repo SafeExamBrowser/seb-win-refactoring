@@ -19,6 +19,16 @@ namespace SafeExamBrowser.Core.Communication
 		{
 		}
 
+		public void InitiateShutdown()
+		{
+			var response = Send(SimpleMessagePurport.Shutdown);
+
+			if (response is SimpleResponse simpleMessage && simpleMessage.Purport == SimpleResponsePurport.Acknowledged)
+			{
+				// TODO
+			}
+		}
+
 		public AuthenticationResponse RequestAuthentication()
 		{
 			var response = Send(SimpleMessagePurport.Authenticate);

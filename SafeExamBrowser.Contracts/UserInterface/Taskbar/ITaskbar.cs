@@ -8,8 +8,15 @@
 
 namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
+	public delegate void QuitButtonClickedEventHandler();
+
 	public interface ITaskbar
 	{
+		/// <summary>
+		/// Event fired when the user clicked the quit button in the taskbar.
+		/// </summary>
+		event QuitButtonClickedEventHandler QuitButtonClicked;
+
 		/// <summary>
 		/// Adds the given application button to the taskbar.
 		/// </summary>
@@ -24,6 +31,11 @@ namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 		/// Adds the given system control to the taskbar.
 		/// </summary>
 		void AddSystemControl(ISystemControl control);
+
+		/// <summary>
+		/// Closes the taskbar.
+		/// </summary>
+		void Close();
 
 		/// <summary>
 		/// Returns the absolute height of the taskbar (i.e. in physical pixels).

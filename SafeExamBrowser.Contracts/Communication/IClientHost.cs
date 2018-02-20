@@ -16,5 +16,10 @@ namespace SafeExamBrowser.Contracts.Communication
 		/// The startup token used for initial authentication.
 		/// </summary>
 		Guid StartupToken { set; }
+
+		/// <summary>
+		/// Event fired when the runtime commands the client to shutdown.
+		/// </summary>
+		event CommunicationEventHandler Shutdown;
 	}
 }

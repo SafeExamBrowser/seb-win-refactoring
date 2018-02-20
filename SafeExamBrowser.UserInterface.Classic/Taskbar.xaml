@@ -25,6 +25,6 @@
         <local:DateTimeControl Grid.Column="1" Foreground="DimGray" />
         <StackPanel Grid.Column="2" x:Name="NotificationStackPanel" Margin="5,0,0,0" Orientation="Horizontal" VerticalAlignment="Stretch" />
         <StackPanel Grid.Column="3" x:Name="SystemControlStackPanel" Orientation="Horizontal" VerticalAlignment="Stretch" />
-        <local:QuitButton Grid.Column="4" />
+        <local:QuitButton Grid.Column="4" x:Name="QuitButton" />
     </Grid>
 </Window>

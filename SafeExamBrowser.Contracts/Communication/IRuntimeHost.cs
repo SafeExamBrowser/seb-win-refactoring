@@ -18,8 +18,18 @@ namespace SafeExamBrowser.Contracts.Communication
 		Guid StartupToken { set; }
 
 		/// <summary>
+		/// Event fired when the client disconnected from the runtime.
+		/// </summary>
+		event CommunicationEventHandler ClientDisconnected;
+
+		/// <summary>
 		/// Event fired once the client has signaled that it is ready to operate.
 		/// </summary>
 		event CommunicationEventHandler ClientReady;
+
+		/// <summary>
+		/// Event fired when the client requests to shut down the application.
+		/// </summary>
+		event CommunicationEventHandler ShutdownRequested;
 	}
 }

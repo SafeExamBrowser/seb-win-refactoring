@@ -26,6 +26,8 @@ namespace SafeExamBrowser.Client.Behaviour
 		private ITaskbar taskbar;
 		private IWindowMonitor windowMonitor;
 
+		public IClientHost ClientHost { private get; set; }
+
 		public ClientController(
 			IDisplayMonitor displayMonitor,
 			ILogger logger,
@@ -44,34 +46,46 @@ namespace SafeExamBrowser.Client.Behaviour
 			this.windowMonitor = windowMonitor;
 		}
 
+		public bool TryStart()
+		{
+			var success = operations.TryPerform();
+
+			// TODO
+
+			if (success)
+			{
+				RegisterEvents();
+				runtime.InformClientReady();
+			}
+
+			return success;
+		}
+
 		public void Terminate()
 		{
-			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
-			processMonitor.ExplorerStarted -= ProcessMonitor_ExplorerStarted;
-			windowMonitor.WindowChanged -= WindowMonitor_WindowChanged;
+			DeregisterEvents();
 
 			// TODO
 
 			operations.TryRevert();
 		}
 
-		public bool TryStart()
+		private void RegisterEvents()
 		{
+			ClientHost.Shutdown += ClientHost_Shutdown;
+			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
+			processMonitor.ExplorerStarted += ProcessMonitor_ExplorerStarted;
+			taskbar.QuitButtonClicked += Taskbar_QuitButtonClicked;
+			windowMonitor.WindowChanged += WindowMonitor_WindowChanged;
+		}
 
-			// TODO
-
-			var success = operations.TryPerform();
-
-			if (success)
-			{
-				displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
-				processMonitor.ExplorerStarted += ProcessMonitor_ExplorerStarted;
-				windowMonitor.WindowChanged += WindowMonitor_WindowChanged;
-
-				runtime.InformClientReady();
-			}
-
-			return success;
+		private void DeregisterEvents()
+		{
+			ClientHost.Shutdown -= ClientHost_Shutdown;
+			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
+			processMonitor.ExplorerStarted -= ProcessMonitor_ExplorerStarted;
+			taskbar.QuitButtonClicked -= Taskbar_QuitButtonClicked;
+			windowMonitor.WindowChanged -= WindowMonitor_WindowChanged;
 		}
 
 		private void DisplayMonitor_DisplaySettingsChanged()
@@ -92,6 +106,24 @@ namespace SafeExamBrowser.Client.Behaviour
 			logger.Info("Reinitializing taskbar bounds...");
 			taskbar.InitializeBounds();
 			logger.Info("Desktop successfully restored.");
+		}
+
+		private void ClientHost_Shutdown()
+		{
+			// TODO: Better use callback to Application.Shutdown() as in runtime?
+			taskbar.Close();
+		}
+
+		private void Taskbar_QuitButtonClicked()
+		{
+			// TODO: MessageBox asking whether user really wants to quit -> args.Cancel
+
+			var acknowledged = runtime.RequestShutdown();
+
+			if (!acknowledged)
+			{
+				logger.Warn("The runtime did not acknowledge the shutdown request!");
+			}
 		}
 
 		private void WindowMonitor_WindowChanged(IntPtr window)

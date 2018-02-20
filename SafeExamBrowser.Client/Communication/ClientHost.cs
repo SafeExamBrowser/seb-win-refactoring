@@ -21,6 +21,8 @@ namespace SafeExamBrowser.Client.Communication
 
 		public Guid StartupToken { private get; set; }
 
+		public event CommunicationEventHandler Shutdown;
+
 		public ClientHost(string address, ILogger logger, int processId) : base(address, logger)
 		{
 			this.processId = processId;
@@ -49,6 +51,9 @@ namespace SafeExamBrowser.Client.Communication
 			{
 				case SimpleMessagePurport.Authenticate:
 					return new AuthenticationResponse { ProcessId = processId };
+				case SimpleMessagePurport.Shutdown:
+					Shutdown?.Invoke();
+					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 			}
 
 			return new SimpleResponse(SimpleResponsePurport.UnknownMessage);

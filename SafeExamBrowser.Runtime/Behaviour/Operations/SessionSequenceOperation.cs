@@ -20,6 +20,8 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 {
 	internal abstract class SessionSequenceOperation : IOperation
 	{
+		private const int TEN_SECONDS = 10000;
+
 		private bool sessionRunning;
 		private IClientProxy client;
 		private IConfigurationRepository configuration;
@@ -68,7 +70,6 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			}
 			catch (Exception e)
 			{
-				service.StopSession(session.Id);
 				logger.Error("Failed to start client!", e);
 			}
 
@@ -80,6 +81,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			{
 				Abort = true;
 				logger.Info($"Failed to start new session! Aborting...");
+				service.StopSession(session.Id);
 			}
 		}
 
@@ -92,8 +94,14 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 				service.StopSession(session.Id);
 
-				// TODO:
-				// - Terminate client (or does it terminate itself?)
+				try
+				{
+					StopClient();
+				}
+				catch (Exception e)
+				{
+					logger.Error("Failed to terminate client!", e);
+				}
 
 				sessionRunning = false;
 				logger.Info($"Successfully stopped session with identifier '{session.Id}'.");
@@ -102,9 +110,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 		private void StartClient()
 		{
-			const int TEN_SECONDS = 10000;
-
-			var clientStarted = false;
+			var clientReady = false;
 			var clientReadyEvent = new AutoResetEvent(false);
 			var clientReadyEventHandler = new CommunicationEventHandler(() => clientReadyEvent.Set());
 			var clientExecutable = configuration.RuntimeInfo.ClientExecutablePath;
@@ -113,13 +119,14 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			var token = session.StartupToken.ToString("D");
 
 			runtimeHost.ClientReady += clientReadyEventHandler;
-			session.ClientProcess = processFactory.StartNew(clientExecutable, clientLogFile, hostUri, token);
 
-			clientStarted = clientReadyEvent.WaitOne(TEN_SECONDS);
+			session.ClientProcess = processFactory.StartNew(clientExecutable, clientLogFile, hostUri, token);
+			clientReady = clientReadyEvent.WaitOne(TEN_SECONDS);
+
 			runtimeHost.ClientReady -= clientReadyEventHandler;
 
 			// TODO: Check if client process alive!
-			if (clientStarted)
+			if (clientReady)
 			{
 				if (client.Connect(session.StartupToken))
 				{
@@ -143,6 +150,72 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			else
 			{
 				logger.Error($"Failed to start client within {TEN_SECONDS / 1000} seconds!");
+			}
+		}
+
+		private void StopClient()
+		{
+			var disconnected = false;
+			var disconnectedEvent = new AutoResetEvent(false);
+			var disconnectedEventHandler = new CommunicationEventHandler(() => disconnectedEvent.Set());
+
+			var terminated = false;
+			var terminatedEvent = new AutoResetEvent(false);
+			var terminatedEventHandler = new ProcessTerminatedEventHandler((_) => terminatedEvent.Set());
+
+			runtimeHost.ClientDisconnected += disconnectedEventHandler;
+			session.ClientProcess.Terminated += terminatedEventHandler;
+
+			client.InitiateShutdown();
+			client.Disconnect();
+
+			disconnected = disconnectedEvent.WaitOne(TEN_SECONDS);
+			terminated = terminatedEvent.WaitOne(TEN_SECONDS);
+
+			runtimeHost.ClientDisconnected -= disconnectedEventHandler;
+			session.ClientProcess.Terminated -= terminatedEventHandler;
+
+			if (disconnected && terminated)
+			{
+				logger.Info("Client has been successfully terminated.");
+			}
+			else
+			{
+				if (!disconnected)
+				{
+					logger.Error($"Client failed to disconnect within {TEN_SECONDS / 1000} seconds!");
+				}
+				else if (!terminated)
+				{
+					logger.Error($"Client failed to terminate within {TEN_SECONDS / 1000} seconds!");
+				}
+
+				KillClient();
+			}
+		}
+
+		private void KillClient(int attempt = 0)
+		{
+			const int MAX_ATTEMPTS = 5;
+
+			if (attempt == MAX_ATTEMPTS)
+			{
+				logger.Error($"Failed to kill client process within {MAX_ATTEMPTS} attempts!");
+
+				return;
+			}
+
+			logger.Info($"Killing client process with ID = {session.ClientProcess.Id}.");
+			session.ClientProcess.Kill();
+
+			if (session.ClientProcess.HasTerminated)
+			{
+				logger.Info("Client process has terminated.");
+			}
+			else
+			{
+				logger.Warn("Failed to kill client process. Trying again...");
+				KillClient(attempt++);
 			}
 		}
 	}

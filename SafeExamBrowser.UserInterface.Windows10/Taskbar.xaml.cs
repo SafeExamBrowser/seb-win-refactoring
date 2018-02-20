@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.ComponentModel;
 using System.Windows;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
@@ -17,6 +18,8 @@ namespace SafeExamBrowser.UserInterface.Windows10
 	{
 		private ILogger logger;
 
+		public event QuitButtonClickedEventHandler QuitButtonClicked;
+
 		public Taskbar(ILogger logger)
 		{
 			this.logger = logger;
@@ -25,6 +28,7 @@ namespace SafeExamBrowser.UserInterface.Windows10
 
 			Loaded += (o, args) => InitializeBounds();
 			Closing += Taskbar_Closing;
+			QuitButtonClicked += Taskbar_QuitButtonClicked;
 		}
 
 		public void AddApplication(IApplicationButton button)
@@ -49,6 +53,11 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			{
 				SystemControlStackPanel.Children.Add(uiElement);
 			}
+		}
+
+		public new void Close()
+		{
+			Dispatcher.Invoke(base.Close);
 		}
 
 		public int GetAbsoluteHeight()
@@ -78,7 +87,12 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			});
 		}
 
-		private void Taskbar_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		private void Taskbar_QuitButtonClicked()
+		{
+			QuitButtonClicked?.Invoke();
+		}
+
+		private void Taskbar_Closing(object sender, CancelEventArgs e)
 		{
 			foreach (var child in SystemControlStackPanel.Children)
 			{

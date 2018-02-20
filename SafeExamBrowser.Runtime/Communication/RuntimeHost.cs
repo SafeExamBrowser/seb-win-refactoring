@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Threading.Tasks;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Messages;
 using SafeExamBrowser.Contracts.Communication.Responses;
@@ -22,7 +23,9 @@ namespace SafeExamBrowser.Runtime.Communication
 
 		public Guid StartupToken { private get; set; }
 
+		public event CommunicationEventHandler ClientDisconnected;
 		public event CommunicationEventHandler ClientReady;
+		public event CommunicationEventHandler ShutdownRequested;
 
 		public RuntimeHost(string address, IConfigurationRepository configuration, ILogger logger) : base(address, logger)
 		{
@@ -36,7 +39,7 @@ namespace SafeExamBrowser.Runtime.Communication
 
 		protected override void OnDisconnect()
 		{
-			// TODO
+			Task.Run(() => ClientDisconnected?.Invoke());
 		}
 
 		protected override Response OnReceive(Message message)
@@ -54,6 +57,9 @@ namespace SafeExamBrowser.Runtime.Communication
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 				case SimpleMessagePurport.ConfigurationNeeded:
 					return new ConfigurationResponse { Configuration = configuration.BuildClientConfiguration() };
+				case SimpleMessagePurport.RequestShutdown:
+					ShutdownRequested?.Invoke();
+					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 			}
 
 			return new SimpleResponse(SimpleResponsePurport.UnknownMessage);

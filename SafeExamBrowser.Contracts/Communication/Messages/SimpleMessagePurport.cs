@@ -27,5 +27,15 @@ namespace SafeExamBrowser.Contracts.Communication.Messages
 		/// Sent from the client to the runtime to ask for the client configuration.
 		/// </summary>
 		ConfigurationNeeded,
+
+		/// <summary>
+		/// Sent from the client to the runtime to request shutting down the application.
+		/// </summary>
+		RequestShutdown,
+
+		/// <summary>
+		/// Sent form the runtime to the client to command the latter to shut itself down.
+		/// </summary>
+		Shutdown
 	}
 }

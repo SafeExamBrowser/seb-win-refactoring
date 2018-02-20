@@ -39,7 +39,7 @@ namespace SafeExamBrowser.Runtime
 			var args = Environment.GetCommandLineArgs();
 			var configuration = new ConfigurationRepository();
 			var nativeMethods = new NativeMethods();
-			Action shutdown = Application.Current.Shutdown;
+			void shutdown() => Application.Current.Dispatcher.BeginInvoke(new Action(Application.Current.Shutdown));
 
 			logger = new Logger();
 			runtimeInfo = configuration.RuntimeInfo;
@@ -75,12 +75,10 @@ namespace SafeExamBrowser.Runtime
 
 		internal void LogStartupInformation()
 		{
-			var titleLine = $"/* {runtimeInfo.ProgramTitle}, Version {runtimeInfo.ProgramVersion}{Environment.NewLine}";
-			var copyrightLine = $"/* {runtimeInfo.ProgramCopyright}{Environment.NewLine}";
-			var emptyLine = $"/* {Environment.NewLine}";
-			var githubLine = $"/* Please visit https://www.github.com/SafeExamBrowser for more information.";
-
-			logger.Log($"{titleLine}{copyrightLine}{emptyLine}{githubLine}");
+			logger.Log($"/* {runtimeInfo.ProgramTitle}, Version {runtimeInfo.ProgramVersion}");
+			logger.Log($"/* {runtimeInfo.ProgramCopyright}");
+			logger.Log($"/* ");
+			logger.Log($"/* Please visit https://www.github.com/SafeExamBrowser for more information.");
 			logger.Log(string.Empty);
 			logger.Log($"# Application started at {runtimeInfo.ApplicationStartTime.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 			logger.Log($"# Running on {systemInfo.OperatingSystemInfo}");

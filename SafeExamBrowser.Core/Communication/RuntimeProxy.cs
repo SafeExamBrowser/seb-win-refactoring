@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.ServiceModel;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Messages;
 using SafeExamBrowser.Contracts.Communication.Responses;
@@ -22,12 +23,37 @@ namespace SafeExamBrowser.Core.Communication
 
 		public ClientConfiguration GetConfiguration()
 		{
-			return ((ConfigurationResponse) Send(SimpleMessagePurport.ConfigurationNeeded)).Configuration;
+			var response = Send(SimpleMessagePurport.ConfigurationNeeded);
+
+			if (response is ConfigurationResponse configurationResponse)
+			{
+				return configurationResponse.Configuration;
+			}
+
+			throw new CommunicationException($"Could not retrieve client configuration! Received: {ToString(response)}.");
 		}
 
 		public void InformClientReady()
 		{
-			Send(SimpleMessagePurport.ClientIsReady);
+			var response = Send(SimpleMessagePurport.ClientIsReady);
+
+			if (!IsAcknowledgeResponse(response))
+			{
+				throw new CommunicationException($"Runtime did not acknowledge that client is ready! Response: {ToString(response)}.");
+			}
+		}
+
+		public bool RequestShutdown()
+		{
+			var response = Send(SimpleMessagePurport.RequestShutdown);
+			var acknowledged = IsAcknowledgeResponse(response);
+
+			return acknowledged;
+		}
+
+		private bool IsAcknowledgeResponse(Response response)
+		{
+			return response is SimpleResponse simpleResponse && simpleResponse.Purport == SimpleResponsePurport.Acknowledged;
 		}
 	}
 }

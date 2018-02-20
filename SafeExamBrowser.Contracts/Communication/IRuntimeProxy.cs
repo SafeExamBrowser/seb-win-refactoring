@@ -15,11 +15,18 @@ namespace SafeExamBrowser.Contracts.Communication
 		/// <summary>
 		/// Retrieves the application configuration from the runtime.
 		/// </summary>
+		/// <exception cref="System.ServiceModel.CommunicationException">If the configuration could not be retrieved.</exception>
 		ClientConfiguration GetConfiguration();
 
 		/// <summary>
 		/// Informs the runtime that the client is ready.
 		/// </summary>
+		/// <exception cref="System.ServiceModel.CommunicationException">If the runtime did not acknowledge the status update.</exception>
 		void InformClientReady();
+
+		/// <summary>
+		/// Requests the runtime to shut down the application. Returns <c>true</c> if the request was acknowledged, otherwise <c>false</c>.
+		/// </summary>
+		bool RequestShutdown();
 	}
 }

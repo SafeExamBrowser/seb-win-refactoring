@@ -14,14 +14,33 @@ namespace SafeExamBrowser.WindowsApi
 	{
 		private System.Diagnostics.Process process;
 
+		public event ProcessTerminatedEventHandler Terminated;
+
 		public int Id
 		{
 			get { return process.Id; }
 		}
 
+		public bool HasTerminated
+		{
+			get { return process.HasExited; }
+		}
+
 		public Process(int id)
 		{
 			process = System.Diagnostics.Process.GetProcessById(id);
+			process.Exited += Process_Exited;
+			process.EnableRaisingEvents = true;
+		}
+
+		public void Kill()
+		{
+			process.Kill();
+		}
+
+		private void Process_Exited(object sender, System.EventArgs e)
+		{
+			Terminated?.Invoke(process.ExitCode);
 		}
 	}
 }

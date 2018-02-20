@@ -58,7 +58,7 @@ namespace SafeExamBrowser.Core.Communication
 				return;
 			}
 
-			// TODO
+			// TODO: Send(new StopSessionMessage { SessionId = sessionId });
 		}
 
 		private bool IgnoreOperation(string operationName)

@@ -102,6 +102,7 @@ namespace SafeExamBrowser.Client
 
 		internal void LogShutdownInformation()
 		{
+			logger?.Log(string.Empty);
 			logger?.Log($"# Client instance terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 		}
 
@@ -153,6 +154,7 @@ namespace SafeExamBrowser.Client
 			var operation = new CommunicationOperation(host, logger);
 
 			host.StartupToken = startupToken;
+			ClientController.ClientHost = host;
 
 			return operation;
 		}

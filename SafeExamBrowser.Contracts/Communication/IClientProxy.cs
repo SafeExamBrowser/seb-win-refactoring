@@ -13,6 +13,11 @@ namespace SafeExamBrowser.Contracts.Communication
 	public interface IClientProxy : ICommunicationProxy
 	{
 		/// <summary>
+		/// Instructs the client to initiate its shutdown procedure.
+		/// </summary>
+		void InitiateShutdown();
+
+		/// <summary>
 		/// Instructs the client to submit its authentication data.
 		/// </summary>
 		AuthenticationResponse RequestAuthentication();

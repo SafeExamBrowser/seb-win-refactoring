@@ -80,6 +80,16 @@ namespace SafeExamBrowser.Core.Communication
 			return Send(new SimpleMessage(purport));
 		}
 
+		protected string ToString(Message message)
+		{
+			return message != null ? message.ToString() : "<null>";
+		}
+
+		protected string ToString(Response response)
+		{
+			return response != null ? response.ToString() : "<null>";
+		}
+
 		private void BaseProxy_Closed(object sender, EventArgs e)
 		{
 			Logger.Debug("Communication channel has been closed.");
@@ -121,16 +131,6 @@ namespace SafeExamBrowser.Core.Communication
 		private string GetChannelState()
 		{
 			return channel == null ? "null" : $"in state '{(channel as ICommunicationObject).State}'";
-		}
-
-		private string ToString(Message message)
-		{
-			return message != null ? message.ToString() : "<null>";
-		}
-
-		private string ToString(Response response)
-		{
-			return response != null ? response.ToString() : "<null>";
 		}
 	}
 }

@@ -97,9 +97,7 @@ namespace SafeExamBrowser.Core.Communication
 		{
 			lock (@lock)
 			{
-				Response response = null;
-
-				logger.Debug($"Received message '{ToString(message)}'.");
+				var response = default(Response);
 
 				if (IsAuthorized(message?.CommunicationToken))
 				{
@@ -113,7 +111,7 @@ namespace SafeExamBrowser.Core.Communication
 					}
 				}
 
-				logger.Debug($"Sending response '{ToString(response)}'.");
+				logger.Debug($"Received message '{ToString(message)}', sending response '{ToString(response)}'.");
 
 				return response;
 			}

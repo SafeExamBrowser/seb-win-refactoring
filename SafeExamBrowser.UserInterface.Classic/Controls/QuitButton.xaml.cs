@@ -9,12 +9,15 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SafeExamBrowser.UserInterface.Classic.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Classic.Controls
 {
 	public partial class QuitButton : UserControl
 	{
+		public QuitButtonClickedEventHandler Clicked;
+
 		public QuitButton()
 		{
 			InitializeComponent();
@@ -23,7 +26,7 @@ namespace SafeExamBrowser.UserInterface.Classic.Controls
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			Application.Current.MainWindow.Close();
+			Clicked?.Invoke();
 		}
 
 		private void LoadIcon()

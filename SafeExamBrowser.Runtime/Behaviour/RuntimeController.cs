@@ -80,6 +80,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 				logger.Subscribe(runtimeWindow);
 
 				splashScreen.Hide();
+				runtimeHost.ShutdownRequested += RuntimeHost_ShutdownRequested;
 
 				StartSession(true);
 			}
@@ -168,6 +169,12 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			{
 				// TODO
 			}
+		}
+
+		private void RuntimeHost_ShutdownRequested()
+		{
+			logger.Info("Received shutdown request from client application.");
+			shutdown.Invoke();
 		}
 	}
 }
