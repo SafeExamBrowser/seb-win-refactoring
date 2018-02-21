@@ -6,7 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Contracts.Communication;
+using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 
 namespace SafeExamBrowser.Contracts.Behaviour
 {
@@ -17,6 +20,21 @@ namespace SafeExamBrowser.Contracts.Behaviour
 		/// The client host used for communication handling.
 		/// </summary>
 		IClientHost ClientHost { set; }
+
+		/// <summary>
+		/// The runtime information to be used during application execution.
+		/// </summary>
+		RuntimeInfo RuntimeInfo { set; }
+
+		/// <summary>
+		/// The session identifier of the currently running session.
+		/// </summary>
+		Guid SessionId { set; }
+
+		/// <summary>
+		/// The settings to be used during application execution.
+		/// </summary>
+		Settings Settings { set; }
 
 		/// <summary>
 		/// Reverts any changes, releases all used resources and terminates the client.

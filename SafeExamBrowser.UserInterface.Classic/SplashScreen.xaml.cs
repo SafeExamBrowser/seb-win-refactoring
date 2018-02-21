@@ -23,13 +23,25 @@ namespace SafeExamBrowser.UserInterface.Classic
 		private IText text;
 		private WindowClosingEventHandler closing;
 
+		public RuntimeInfo RuntimeInfo
+		{
+			set
+			{
+				Dispatcher.Invoke(() =>
+				{
+					runtimeInfo = value;
+					UpdateRuntimeInfo();
+				});
+			}
+		}
+
 		event WindowClosingEventHandler IWindow.Closing
 		{
 			add { closing += value; }
 			remove { closing -= value; }
 		}
 
-		public SplashScreen(RuntimeInfo runtimeInfo, IText text)
+		public SplashScreen(IText text, RuntimeInfo runtimeInfo = null)
 		{
 			this.runtimeInfo = runtimeInfo;
 			this.text = text;
@@ -100,10 +112,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 		private void InitializeSplashScreen()
 		{
-			InfoTextBlock.Inlines.Add(new Run($"Version {runtimeInfo.ProgramVersion}") { FontStyle = FontStyles.Italic });
-			InfoTextBlock.Inlines.Add(new LineBreak());
-			InfoTextBlock.Inlines.Add(new LineBreak());
-			InfoTextBlock.Inlines.Add(new Run(runtimeInfo.ProgramCopyright) { FontSize = 10 });
+			UpdateRuntimeInfo();
 
 			StatusTextBlock.DataContext = model;
 			ProgressBar.DataContext = model;
@@ -112,6 +121,17 @@ namespace SafeExamBrowser.UserInterface.Classic
 			model.MaxProgress = 1;
 
 			Closing += (o, args) => args.Cancel = !allowClose;
+		}
+
+		private void UpdateRuntimeInfo()
+		{
+			if (runtimeInfo != null)
+			{
+				InfoTextBlock.Inlines.Add(new Run($"Version {runtimeInfo.ProgramVersion}") { FontStyle = FontStyles.Italic });
+				InfoTextBlock.Inlines.Add(new LineBreak());
+				InfoTextBlock.Inlines.Add(new LineBreak());
+				InfoTextBlock.Inlines.Add(new Run(runtimeInfo.ProgramCopyright) { FontSize = 10 });
+			}
 		}
 	}
 }

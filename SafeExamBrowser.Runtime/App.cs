@@ -57,7 +57,7 @@ namespace SafeExamBrowser.Runtime
 
 			ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-			instances.BuildObjectGraph();
+			instances.BuildObjectGraph(Shutdown);
 			instances.LogStartupInformation();
 
 			var success = instances.RuntimeController.TryStart();
@@ -68,12 +68,17 @@ namespace SafeExamBrowser.Runtime
 			}
 		}
 
-		protected override void OnExit(ExitEventArgs e)
+		public new void Shutdown()
 		{
-			instances.RuntimeController.Terminate();
-			instances.LogShutdownInformation();
+			void shutdown()
+			{
+				instances.RuntimeController.Terminate();
+				instances.LogShutdownInformation();
 
-			base.OnExit(e);
+				base.Shutdown();
+			}
+
+			Dispatcher.BeginInvoke(new Action(shutdown));
 		}
 	}
 }

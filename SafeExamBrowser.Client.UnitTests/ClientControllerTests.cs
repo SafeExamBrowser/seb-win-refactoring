@@ -14,6 +14,7 @@ using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
+using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
 namespace SafeExamBrowser.Client.UnitTests
@@ -27,6 +28,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		private Mock<IOperationSequence> operationSequenceMock;
 		private Mock<IRuntimeProxy> runtimeProxyMock;
 		private Mock<ITaskbar> taskbarMock;
+		private Mock<IUserInterfaceFactory> uiFactoryMock;
 		private Mock<IWindowMonitor> windowMonitorMock;
 
 		private ClientController sut;
@@ -40,6 +42,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			operationSequenceMock = new Mock<IOperationSequence>();
 			runtimeProxyMock = new Mock<IRuntimeProxy>();
 			taskbarMock = new Mock<ITaskbar>();
+			uiFactoryMock = new Mock<IUserInterfaceFactory>();
 			windowMonitorMock= new Mock<IWindowMonitor>();
 
 			operationSequenceMock.Setup(o => o.TryPerform()).Returns(true);
@@ -50,7 +53,9 @@ namespace SafeExamBrowser.Client.UnitTests
 				operationSequenceMock.Object,
 				processMonitorMock.Object,
 				runtimeProxyMock.Object,
+				new Action(() => { }),
 				taskbarMock.Object,
+				uiFactoryMock.Object,
 				windowMonitorMock.Object);
 
 			sut.TryStart();

@@ -58,6 +58,7 @@
     <Compile Include="Behaviour\Operations\CommunicationOperation.cs" />
     <Compile Include="Behaviour\Operations\DelayedInitializationOperation.cs" />
     <Compile Include="Behaviour\Operations\I18nOperation.cs" />
+    <Compile Include="Behaviour\Operations\DelegateOperation.cs" />
     <Compile Include="Behaviour\Operations\OperationSequence.cs" />
     <Compile Include="Communication\BaseProxy.cs" />
     <Compile Include="Communication\BaseHost.cs" />

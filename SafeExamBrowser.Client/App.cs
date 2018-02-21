@@ -55,9 +55,9 @@ namespace SafeExamBrowser.Client
 		{
 			base.OnStartup(e);
 
-			ShutdownMode = ShutdownMode.OnMainWindowClose;
+			ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-			instances.BuildObjectGraph();
+			instances.BuildObjectGraph(Shutdown);
 			instances.LogStartupInformation();
 
 			var success = instances.ClientController.TryStart();
@@ -73,12 +73,17 @@ namespace SafeExamBrowser.Client
 			}
 		}
 
-		protected override void OnExit(ExitEventArgs e)
+		public new void Shutdown()
 		{
-			instances.ClientController.Terminate();
-			instances.LogShutdownInformation();
+			void shutdown()
+			{
+				instances.ClientController.Terminate();
+				instances.LogShutdownInformation();
 
-			base.OnExit(e);
+				base.Shutdown();
+			}
+
+			Dispatcher.BeginInvoke(new Action(shutdown));
 		}
 	}
 }

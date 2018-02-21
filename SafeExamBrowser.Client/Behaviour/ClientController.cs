@@ -10,8 +10,11 @@ using System;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Communication;
+using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
+using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
 namespace SafeExamBrowser.Client.Behaviour
@@ -23,10 +26,29 @@ namespace SafeExamBrowser.Client.Behaviour
 		private IOperationSequence operations;
 		private IProcessMonitor processMonitor;
 		private IRuntimeProxy runtime;
+		private Action shutdown;
+		private ISplashScreen splashScreen;
 		private ITaskbar taskbar;
+		private IUserInterfaceFactory uiFactory;
 		private IWindowMonitor windowMonitor;
+		private RuntimeInfo runtimeInfo;
 
 		public IClientHost ClientHost { private get; set; }
+		public Guid SessionId { private get; set; }
+		public Settings Settings { private get; set; }
+
+		public RuntimeInfo RuntimeInfo
+		{
+			set
+			{
+				runtimeInfo = value;
+
+				if (splashScreen != null)
+				{
+					splashScreen.RuntimeInfo = value;
+				}
+			}
+		}
 
 		public ClientController(
 			IDisplayMonitor displayMonitor,
@@ -34,7 +56,9 @@ namespace SafeExamBrowser.Client.Behaviour
 			IOperationSequence operations,
 			IProcessMonitor processMonitor,
 			IRuntimeProxy runtime,
+			Action shutdown,
 			ITaskbar taskbar,
+			IUserInterfaceFactory uiFactory,
 			IWindowMonitor windowMonitor)
 		{
 			this.displayMonitor = displayMonitor;
@@ -42,12 +66,17 @@ namespace SafeExamBrowser.Client.Behaviour
 			this.operations = operations;
 			this.processMonitor = processMonitor;
 			this.runtime = runtime;
+			this.shutdown = shutdown;
 			this.taskbar = taskbar;
+			this.uiFactory = uiFactory;
 			this.windowMonitor = windowMonitor;
 		}
 
 		public bool TryStart()
 		{
+			splashScreen = uiFactory.CreateSplashScreen();
+			operations.ProgressIndicator = splashScreen;
+
 			var success = operations.TryPerform();
 
 			// TODO
@@ -56,6 +85,7 @@ namespace SafeExamBrowser.Client.Behaviour
 			{
 				RegisterEvents();
 				runtime.InformClientReady();
+				splashScreen.Hide();
 			}
 
 			return success;
@@ -63,11 +93,15 @@ namespace SafeExamBrowser.Client.Behaviour
 
 		public void Terminate()
 		{
-			DeregisterEvents();
+			splashScreen.Show();
+			splashScreen.BringToForeground();
 
 			// TODO
 
+			DeregisterEvents();
 			operations.TryRevert();
+
+			splashScreen?.Close();
 		}
 
 		private void RegisterEvents()
@@ -110,8 +144,8 @@ namespace SafeExamBrowser.Client.Behaviour
 
 		private void ClientHost_Shutdown()
 		{
-			// TODO: Better use callback to Application.Shutdown() as in runtime?
 			taskbar.Close();
+			shutdown.Invoke();
 		}
 
 		private void Taskbar_QuitButtonClicked()

@@ -108,13 +108,13 @@ namespace SafeExamBrowser.UserInterface.Classic
 			return runtimeWindow;
 		}
 
-		public ISplashScreen CreateSplashScreen(RuntimeInfo runtimeInfo)
+		public ISplashScreen CreateSplashScreen(RuntimeInfo runtimeInfo = null)
 		{
 			SplashScreen splashScreen = null;
 			var splashReadyEvent = new AutoResetEvent(false);
 			var splashScreenThread = new Thread(() =>
 			{
-				splashScreen = new SplashScreen(runtimeInfo, text);
+				splashScreen = new SplashScreen(text, runtimeInfo);
 				splashScreen.Closed += (o, args) => splashScreen.Dispatcher.InvokeShutdown();
 				splashScreen.Show();
 

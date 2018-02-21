@@ -6,15 +6,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Configuration;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace SafeExamBrowser.Contracts.UserInterface
+namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 {
-	public interface ISplashScreen : IProgressIndicator, IWindow
+	[TestClass]
+	public class DelegateOperationTests
 	{
-		/// <summary>
-		/// The runtime information used to display version and copyright information.
-		/// </summary>
-		RuntimeInfo RuntimeInfo { set; }
+		[TestMethod]
+		public void TODO()
+		{
+			Assert.Fail();
+		}
 	}
 }

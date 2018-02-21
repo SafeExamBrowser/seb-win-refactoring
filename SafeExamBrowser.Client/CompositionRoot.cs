@@ -16,6 +16,7 @@ using SafeExamBrowser.Client.Communication;
 using SafeExamBrowser.Configuration;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Behaviour.Operations;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -43,6 +44,7 @@ namespace SafeExamBrowser.Client
 		private Guid startupToken;
 
 		private ClientConfiguration configuration;
+		private IClientHost clientHost;
 		private ILogger logger;
 		private INativeMethods nativeMethods;
 		private ISystemInfo systemInfo;
@@ -52,7 +54,7 @@ namespace SafeExamBrowser.Client
 		internal IClientController ClientController { get; private set; }
 		internal Taskbar Taskbar { get; private set; }
 
-		internal void BuildObjectGraph()
+		internal void BuildObjectGraph(Action shutdown)
 		{
 			ValidateCommandLineArguments();
 
@@ -79,6 +81,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new RuntimeConnectionOperation(logger, runtimeProxy, startupToken));
 			operations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeProxy));
 			operations.Enqueue(new DelayedInitializationOperation(BuildCommunicationHostOperation));
+			operations.Enqueue(new DelegateOperation(UpdateClientControllerDependencies));
 			// TODO
 			//operations.Enqueue(new DelayedInitializationOperation(BuildKeyboardInterceptorOperation));
 			//operations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
@@ -91,7 +94,7 @@ namespace SafeExamBrowser.Client
 
 			var sequence = new OperationSequence(logger, operations);
 
-			ClientController = new ClientController(displayMonitor, logger, sequence, processMonitor, runtimeProxy, Taskbar, windowMonitor);
+			ClientController = new ClientController(displayMonitor, logger, sequence, processMonitor, runtimeProxy, shutdown, Taskbar, uiFactory, windowMonitor);
 		}
 
 		internal void LogStartupInformation()
@@ -153,8 +156,8 @@ namespace SafeExamBrowser.Client
 			var host = new ClientHost(configuration.RuntimeInfo.ClientAddress, new ModuleLogger(logger, typeof(ClientHost)), processId);
 			var operation = new CommunicationOperation(host, logger);
 
-			host.StartupToken = startupToken;
-			ClientController.ClientHost = host;
+			clientHost = host;
+			clientHost.StartupToken = startupToken;
 
 			return operation;
 		}
@@ -183,6 +186,14 @@ namespace SafeExamBrowser.Client
 			var operation = new TaskbarOperation(logger, configuration.Settings.Taskbar, keyboardLayout, powerSupply, wirelessNetwork, systemInfo, Taskbar, text, uiFactory);
 
 			return operation;
+		}
+
+		private void UpdateClientControllerDependencies()
+		{
+			ClientController.ClientHost = clientHost;
+			ClientController.RuntimeInfo = configuration.RuntimeInfo;
+			ClientController.SessionId = configuration.SessionId;
+			ClientController.Settings = configuration.Settings;
 		}
 	}
 }

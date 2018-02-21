@@ -103,6 +103,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			logger.Unsubscribe(runtimeWindow);
 			runtimeWindow?.Close();
 			splashScreen?.Show();
+			splashScreen?.BringToForeground();
 
 			logger.Log(string.Empty);
 			logger.Info("--- Initiating shutdown procedure ---");

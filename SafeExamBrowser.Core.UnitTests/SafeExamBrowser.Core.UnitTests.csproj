@@ -81,6 +81,7 @@
     <Compile Include="Behaviour\Operations\CommunicationOperationTests.cs" />
     <Compile Include="Behaviour\Operations\DelayedInitializationOperationTests.cs" />
     <Compile Include="Behaviour\Operations\I18nOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\DelegateOperationTests.cs" />
     <Compile Include="Behaviour\Operations\OperationSequenceTests.cs" />
     <Compile Include="I18n\TextTests.cs" />
     <Compile Include="I18n\XmlTextResourceTests.cs" />

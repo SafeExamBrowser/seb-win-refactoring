@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Windows;
 using SafeExamBrowser.Configuration;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Behaviour.Operations;
@@ -34,12 +33,11 @@ namespace SafeExamBrowser.Runtime
 
 		internal IRuntimeController RuntimeController { get; private set; }
 
-		internal void BuildObjectGraph()
+		internal void BuildObjectGraph(Action shutdown)
 		{
 			var args = Environment.GetCommandLineArgs();
 			var configuration = new ConfigurationRepository();
 			var nativeMethods = new NativeMethods();
-			void shutdown() => Application.Current.Dispatcher.BeginInvoke(new Action(Application.Current.Shutdown));
 
 			logger = new Logger();
 			runtimeInfo = configuration.RuntimeInfo;
