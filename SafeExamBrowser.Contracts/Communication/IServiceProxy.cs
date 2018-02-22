@@ -22,11 +22,13 @@ namespace SafeExamBrowser.Contracts.Communication
 		/// <summary>
 		/// Instructs the service to start a new session according to the given parameters.
 		/// </summary>
+		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
 		void StartSession(Guid sessionId, Settings settings);
 
 		/// <summary>
 		/// Instructs the service to stop the specified session.
 		/// </summary>
+		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
 		void StopSession(Guid sessionId);
 	}
 }

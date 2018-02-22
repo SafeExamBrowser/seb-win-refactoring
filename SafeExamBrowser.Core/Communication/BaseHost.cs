@@ -97,7 +97,7 @@ namespace SafeExamBrowser.Core.Communication
 		{
 			lock (@lock)
 			{
-				var response = default(Response);
+				var response = new SimpleResponse(SimpleResponsePurport.Unauthorized) as Response;
 
 				if (IsAuthorized(message?.CommunicationToken))
 				{

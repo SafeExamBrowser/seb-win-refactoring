@@ -37,21 +37,23 @@ namespace SafeExamBrowser.Core.Communication
 		{
 			var response = Send(SimpleMessagePurport.ClientIsReady);
 
-			if (!IsAcknowledgeResponse(response))
+			if (!IsAcknowledged(response))
 			{
 				throw new CommunicationException($"Runtime did not acknowledge that client is ready! Response: {ToString(response)}.");
 			}
 		}
 
-		public bool RequestShutdown()
+		public void RequestShutdown()
 		{
 			var response = Send(SimpleMessagePurport.RequestShutdown);
-			var acknowledged = IsAcknowledgeResponse(response);
 
-			return acknowledged;
+			if (!IsAcknowledged(response))
+			{
+				throw new CommunicationException($"Runtime did not acknowledge shutdown request! Response: {ToString(response)}.");
+			}
 		}
 
-		private bool IsAcknowledgeResponse(Response response)
+		private bool IsAcknowledged(Response response)
 		{
 			return response is SimpleResponse simpleResponse && simpleResponse.Purport == SimpleResponsePurport.Acknowledged;
 		}

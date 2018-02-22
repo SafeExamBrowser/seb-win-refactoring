@@ -83,6 +83,7 @@
     <Compile Include="Behaviour\Operations\ConfigurationOperationTests.cs" />
     <Compile Include="Behaviour\Operations\KioskModeOperationTests.cs" />
     <Compile Include="Behaviour\Operations\ServiceConnectionOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\SessionSequenceOperationTests.cs" />
     <Compile Include="Behaviour\RuntimeControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

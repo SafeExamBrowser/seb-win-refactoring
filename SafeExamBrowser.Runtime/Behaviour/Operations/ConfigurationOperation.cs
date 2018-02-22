@@ -58,9 +58,9 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 				logger.Info($"Loading configuration from '{uri.AbsolutePath}'...");
 				settings = repository.LoadSettings(uri);
 
-				if (settings.ConfigurationMode == ConfigurationMode.ConfigureClient && UserWantsToAbortStartup())
+				if (settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
 				{
-					Abort = true;
+					Abort = IsConfigurationSufficient();
 					logger.Info($"The user chose to {(Abort ? "abort" : "continue")} the application startup after successful client configuration.");
 				}
 			}
@@ -75,6 +75,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		{
 			// TODO: How will the new settings be retrieved? Uri passed to the repository? If yes, how does the Uri get here?!
 			//		-> IDEA: Use configuration repository as container?
+			//		-> IDEA: Introduce IRepeatParams or alike?
 		}
 
 		public void Revert()
@@ -115,7 +116,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			return isValidUri;
 		}
 
-		private bool UserWantsToAbortStartup()
+		private bool IsConfigurationSufficient()
 		{
 			var message = text.Get(TextKey.MessageBox_ConfigureClientSuccess);
 			var title = text.Get(TextKey.MessageBox_ConfigureClientSuccessTitle);

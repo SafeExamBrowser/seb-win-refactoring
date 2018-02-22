@@ -15,11 +15,13 @@ namespace SafeExamBrowser.Contracts.Communication
 		/// <summary>
 		/// Instructs the client to initiate its shutdown procedure.
 		/// </summary>
+		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
 		void InitiateShutdown();
 
 		/// <summary>
 		/// Instructs the client to submit its authentication data.
 		/// </summary>
+		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
 		AuthenticationResponse RequestAuthentication();
 	}
 }

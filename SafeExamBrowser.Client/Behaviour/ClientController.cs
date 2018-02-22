@@ -86,6 +86,7 @@ namespace SafeExamBrowser.Client.Behaviour
 			if (success)
 			{
 				RegisterEvents();
+				// TODO: Handle communication exception!
 				runtime.InformClientReady();
 				splashScreen.Hide();
 
@@ -174,14 +175,9 @@ namespace SafeExamBrowser.Client.Behaviour
 
 		private void Taskbar_QuitButtonClicked()
 		{
-			// TODO: MessageBox asking whether user really wants to quit -> args.Cancel
-
-			var acknowledged = runtime.RequestShutdown();
-
-			if (!acknowledged)
-			{
-				logger.Warn("The runtime did not acknowledge the shutdown request!");
-			}
+			// TODO: MessageBox asking whether user really wants to quit -> only then request shutdown!
+			// TODO: Handle communication exception!
+			runtime.RequestShutdown();
 		}
 
 		private void WindowMonitor_WindowChanged(IntPtr window)

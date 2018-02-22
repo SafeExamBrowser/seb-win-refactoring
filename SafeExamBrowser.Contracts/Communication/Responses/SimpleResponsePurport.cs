@@ -19,6 +19,11 @@ namespace SafeExamBrowser.Contracts.Communication.Responses
 		Acknowledged = 1,
 
 		/// <summary>
+		/// Signals an interlocutor that it is not authorized to communicate.
+		/// </summary>
+		Unauthorized,
+
+		/// <summary>
 		/// Signals an interlocutor that a message has not been understood.
 		/// </summary>
 		UnknownMessage

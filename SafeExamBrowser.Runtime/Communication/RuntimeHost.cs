@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Threading.Tasks;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Messages;
 using SafeExamBrowser.Contracts.Communication.Responses;
@@ -39,7 +38,7 @@ namespace SafeExamBrowser.Runtime.Communication
 
 		protected override void OnDisconnect()
 		{
-			Task.Run(() => ClientDisconnected?.Invoke());
+			ClientDisconnected?.Invoke();
 		}
 
 		protected override Response OnReceive(Message message)
