@@ -62,11 +62,12 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			session = configuration.InitializeSession();
 			runtimeHost.StartupToken = session.StartupToken;
 
+			logger.Info("Initializing service session...");
 			service.StartSession(session.Id, configuration.CurrentSettings);
 
 			try
 			{
-				StartClient();
+				sessionRunning = TryStartClient();
 			}
 			catch (Exception e)
 			{
@@ -80,7 +81,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			else
 			{
 				Abort = true;
-				logger.Info($"Failed to start new session! Aborting...");
+				logger.Info($"Failed to start new session! Reverting service session and aborting procedure...");
 				service.StopSession(session.Id);
 			}
 		}
@@ -92,6 +93,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 				logger.Info($"Stopping session with identifier '{session.Id}'...");
 				ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StopSession, true);
 
+				logger.Info("Stopping service session...");
 				service.StopSession(session.Id);
 
 				try
@@ -108,7 +110,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			}
 		}
 
-		private void StartClient()
+		private bool TryStartClient()
 		{
 			var clientReady = false;
 			var clientReadyEvent = new AutoResetEvent(false);
@@ -118,39 +120,44 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			var hostUri = configuration.RuntimeInfo.RuntimeAddress;
 			var token = session.StartupToken.ToString("D");
 
+			logger.Info("Starting new client process.");
 			runtimeHost.ClientReady += clientReadyEventHandler;
-
 			session.ClientProcess = processFactory.StartNew(clientExecutable, clientLogFile, hostUri, token);
-			clientReady = clientReadyEvent.WaitOne(TEN_SECONDS);
 
+			logger.Info("Waiting for client to complete initialization...");
+			clientReady = clientReadyEvent.WaitOne(TEN_SECONDS);
 			runtimeHost.ClientReady -= clientReadyEventHandler;
 
-			// TODO: Check if client process alive!
-			if (clientReady)
-			{
-				if (client.Connect(session.StartupToken))
-				{
-					var response = client.RequestAuthentication();
-
-					// TODO: Further integrity checks necessary?
-					if (session.ClientProcess.Id == response?.ProcessId)
-					{
-						sessionRunning = true;
-					}
-					else
-					{
-						logger.Error("Failed to verify client integrity!");
-					}
-				}
-				else
-				{
-					logger.Error("Failed to connect to client!");
-				}
-			}
-			else
+			if (!clientReady)
 			{
 				logger.Error($"Failed to start client within {TEN_SECONDS / 1000} seconds!");
+
+				return false;
 			}
+
+			logger.Info("Client has been successfully started and initialized.");
+
+			if (!client.Connect(session.StartupToken))
+			{
+				logger.Error("Failed to connect to client!");
+
+				return false;
+			}
+
+			logger.Info("Connection with client has been established.");
+
+			var response = client.RequestAuthentication();
+
+			if (session.ClientProcess.Id != response?.ProcessId)
+			{
+				logger.Error("Failed to verify client integrity!");
+
+				return false;
+			}
+
+			logger.Info("Authentication of client has been successful.");
+
+			return true;
 		}
 
 		private void StopClient()
@@ -166,11 +173,27 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			runtimeHost.ClientDisconnected += disconnectedEventHandler;
 			session.ClientProcess.Terminated += terminatedEventHandler;
 
+			logger.Info("Instructing client to initiate shutdown procedure.");
 			client.InitiateShutdown();
+
+			logger.Info("Disconnecting from client communication host.");
 			client.Disconnect();
 
+			logger.Info("Waiting for client to disconnect from runtime communication host...");
 			disconnected = disconnectedEvent.WaitOne(TEN_SECONDS);
+
+			if (!disconnected)
+			{
+				logger.Error($"Client failed to disconnect within {TEN_SECONDS / 1000} seconds!");
+			}
+
+			logger.Info("Waiting for client process to terminate...");
 			terminated = terminatedEvent.WaitOne(TEN_SECONDS);
+
+			if (!terminated)
+			{
+				logger.Error($"Client failed to terminate within {TEN_SECONDS / 1000} seconds!");
+			}
 
 			runtimeHost.ClientDisconnected -= disconnectedEventHandler;
 			session.ClientProcess.Terminated -= terminatedEventHandler;
@@ -181,15 +204,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			}
 			else
 			{
-				if (!disconnected)
-				{
-					logger.Error($"Client failed to disconnect within {TEN_SECONDS / 1000} seconds!");
-				}
-				else if (!terminated)
-				{
-					logger.Error($"Client failed to terminate within {TEN_SECONDS / 1000} seconds!");
-				}
-
+				logger.Warn("Attempting to kill client process since graceful shutdown failed!");
 				KillClient();
 			}
 		}

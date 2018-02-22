@@ -75,7 +75,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 
 			if (initialized)
 			{
-				logger.Info("--- Application successfully initialized! ---");
+				logger.Info("--- Application successfully initialized ---");
 				logger.Log(string.Empty);
 				logger.Subscribe(runtimeWindow);
 
@@ -112,7 +112,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 
 			if (success)
 			{
-				logger.Info("--- Application successfully finalized! ---");
+				logger.Info("--- Application successfully finalized ---");
 				logger.Log(string.Empty);
 			}
 			else
@@ -127,11 +127,13 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		private void StartSession(bool initial = false)
 		{
 			runtimeWindow.Show();
+			logger.Info(">------ Initiating session procedure ------<");
 
 			sessionRunning = initial ? sessionSequence.TryPerform() : sessionSequence.TryRepeat();
 
 			if (sessionRunning)
 			{
+				logger.Info(">------ Session is running ------<");
 				runtimeWindow.HideProgressBar();
 				runtimeWindow.UpdateText(TextKey.RuntimeWindow_ApplicationRunning);
 
@@ -142,6 +144,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			}
 			else
 			{
+				logger.Info(">------ Session procedure was aborted! ------<");
 				// TODO: Not when user chose to terminate after reconfiguration! Probably needs IOperationSequenceResult or alike...
 				uiFactory.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error);
 
@@ -157,17 +160,21 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			runtimeWindow.Show();
 			runtimeWindow.BringToForeground();
 			runtimeWindow.ShowProgressBar();
+			logger.Info(">------ Reverting session operations ------<");
 
 			var success = sessionSequence.TryRevert();
 
 			if (success)
 			{
+				logger.Info(">------ Session is terminated ------<");
 				sessionRunning = false;
 
 				// TODO
 			}
 			else
 			{
+				logger.Info(">------ Session reversion was erroneous! ------<");
+
 				// TODO
 			}
 		}
