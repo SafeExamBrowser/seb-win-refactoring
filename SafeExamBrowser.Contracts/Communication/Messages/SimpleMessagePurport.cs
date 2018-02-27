@@ -29,6 +29,11 @@ namespace SafeExamBrowser.Contracts.Communication.Messages
 		ConfigurationNeeded,
 
 		/// <summary>
+		/// Requests an interlocutor to signal that the connection status is okay.
+		/// </summary>
+		Ping,
+
+		/// <summary>
 		/// Sent from the client to the runtime to request shutting down the application.
 		/// </summary>
 		RequestShutdown,

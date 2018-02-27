@@ -12,6 +12,7 @@ using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -81,13 +82,21 @@ namespace SafeExamBrowser.Client.Behaviour
 
 			var success = operations.TryPerform();
 
-			// TODO
-
 			if (success)
 			{
 				RegisterEvents();
-				// TODO: Handle communication exception!
-				runtime.InformClientReady();
+
+				try
+				{
+					runtime.InformClientReady();
+				}
+				catch (Exception e)
+				{
+					logger.Error("Failed to inform runtime that client is ready!", e);
+
+					return false;
+				}
+
 				splashScreen.Hide();
 
 				logger.Info("--- Application successfully initialized ---");
@@ -110,9 +119,8 @@ namespace SafeExamBrowser.Client.Behaviour
 			splashScreen.Show();
 			splashScreen.BringToForeground();
 
-			// TODO
-
 			DeregisterEvents();
+
 			var success = operations.TryRevert();
 
 			if (success)
@@ -134,6 +142,7 @@ namespace SafeExamBrowser.Client.Behaviour
 			ClientHost.Shutdown += ClientHost_Shutdown;
 			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
 			processMonitor.ExplorerStarted += ProcessMonitor_ExplorerStarted;
+			runtime.ConnectionLost += Runtime_ConnectionLost;
 			taskbar.QuitButtonClicked += Taskbar_QuitButtonClicked;
 			windowMonitor.WindowChanged += WindowMonitor_WindowChanged;
 		}
@@ -143,6 +152,7 @@ namespace SafeExamBrowser.Client.Behaviour
 			ClientHost.Shutdown -= ClientHost_Shutdown;
 			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
 			processMonitor.ExplorerStarted -= ProcessMonitor_ExplorerStarted;
+			runtime.ConnectionLost -= Runtime_ConnectionLost;
 			taskbar.QuitButtonClicked -= Taskbar_QuitButtonClicked;
 			windowMonitor.WindowChanged -= WindowMonitor_WindowChanged;
 		}
@@ -173,11 +183,31 @@ namespace SafeExamBrowser.Client.Behaviour
 			shutdown.Invoke();
 		}
 
+		private void Runtime_ConnectionLost()
+		{
+			logger.Error("Lost connection to the runtime!");
+			uiFactory.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
+
+			taskbar.Close();
+			shutdown.Invoke();
+		}
+
 		private void Taskbar_QuitButtonClicked()
 		{
-			// TODO: MessageBox asking whether user really wants to quit -> only then request shutdown!
-			// TODO: Handle communication exception!
-			runtime.RequestShutdown();
+			var result = uiFactory.Show(TextKey.MessageBox_Quit, TextKey.MessageBox_QuitTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
+
+			if (result == MessageBoxResult.Yes)
+			{
+				try
+				{
+					runtime.RequestShutdown();
+				}
+				catch (Exception e)
+				{
+					logger.Error("Failed to communicate shutdown request to the runtime!", e);
+					uiFactory.Show(TextKey.MessageBox_QuitError, TextKey.MessageBox_QuitErrorTitle, icon: MessageBoxIcon.Error);
+				}
+			}
 		}
 
 		private void WindowMonitor_WindowChanged(IntPtr window)

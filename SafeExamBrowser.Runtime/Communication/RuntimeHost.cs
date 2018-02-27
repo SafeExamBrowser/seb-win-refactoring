@@ -18,6 +18,7 @@ namespace SafeExamBrowser.Runtime.Communication
 {
 	internal class RuntimeHost : BaseHost, IRuntimeHost
 	{
+		private bool allowConnection = true;
 		private IConfigurationRepository configuration;
 
 		public Guid StartupToken { private get; set; }
@@ -33,7 +34,15 @@ namespace SafeExamBrowser.Runtime.Communication
 
 		protected override bool OnConnect(Guid? token = null)
 		{
-			return StartupToken == token;
+			var authenticated = StartupToken == token;
+			var accepted = allowConnection && authenticated;
+
+			if (accepted)
+			{
+				allowConnection = false;
+			}
+
+			return accepted;
 		}
 
 		protected override void OnDisconnect()
@@ -43,7 +52,6 @@ namespace SafeExamBrowser.Runtime.Communication
 
 		protected override Response OnReceive(Message message)
 		{
-			// TODO
 			return new SimpleResponse(SimpleResponsePurport.UnknownMessage);
 		}
 

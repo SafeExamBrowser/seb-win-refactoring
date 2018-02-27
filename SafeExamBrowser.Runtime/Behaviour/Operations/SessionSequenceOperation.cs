@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Threading;
 using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Communication;
@@ -65,14 +64,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			logger.Info("Initializing service session...");
 			service.StartSession(session.Id, configuration.CurrentSettings);
 
-			try
-			{
-				sessionRunning = TryStartClient();
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to start client!", e);
-			}
+			sessionRunning = TryStartClient();
 
 			if (sessionRunning)
 			{
@@ -96,13 +88,9 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 				logger.Info("Stopping service session...");
 				service.StopSession(session.Id);
 
-				try
+				if (!session.ClientProcess.HasTerminated)
 				{
 					StopClient();
-				}
-				catch (Exception e)
-				{
-					logger.Error("Failed to terminate client!", e);
 				}
 
 				sessionRunning = false;
@@ -204,7 +192,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			}
 			else
 			{
-				logger.Warn("Attempting to kill client process since graceful shutdown failed!");
+				logger.Warn("Attempting to kill client process since graceful termination failed!");
 				KillClient();
 			}
 		}

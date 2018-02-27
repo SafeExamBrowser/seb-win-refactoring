@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Contracts.Communication.Messages
 {
 	[Serializable]
-	public class Message
+	public abstract class Message
 	{
 		/// <summary>
 		/// The communication token needed for authentication.

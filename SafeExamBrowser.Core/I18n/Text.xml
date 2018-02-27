@@ -6,17 +6,41 @@
   <Entry key="LogWindow_Title">
     Application Log
   </Entry>
+  <Entry key="MessageBox_ApplicationError">
+    An unrecoverable error has occurred! Please consult the application log for more information. The application will now shut down...
+  </Entry>
+  <Entry key="MessageBox_ApplicationErrorTitle">
+    Application Error
+  </Entry>
   <Entry key="MessageBox_ConfigureClientSuccess">
     The client configuration has been saved and will be used when you start the application the next time. Do you want to quit for now?
   </Entry>
   <Entry key="MessageBox_ConfigureClientSuccessTitle">
     Configuration Successful
   </Entry>
+  <Entry key="MessageBox_Quit">
+    Would you really like to quit the application?
+  </Entry>
+  <Entry key="MessageBox_QuitTitle">
+    Quit?
+  </Entry>
+  <Entry key="MessageBox_QuitError">
+    The client failed to communicate the shutdown request to the runtime! Please try again...
+  </Entry>
+  <Entry key="MessageBox_QuitErrorTitle">
+    Quit Error
+  </Entry>
   <Entry key="MessageBox_SessionStartError">
     The application failed to start a new session. Please consult the application log for more information...
   </Entry>
   <Entry key="MessageBox_SessionStartErrorTitle">
     Session Start Error
+  </Entry>
+  <Entry key="MessageBox_SessionStopError">
+    The application failed to properly stop the running session. Please consult the application log for more information...
+  </Entry>
+  <Entry key="MessageBox_SessionStopErrorTitle">
+    Session Stop Error
   </Entry>
   <Entry key="MessageBox_ShutdownError">
     An unexpected error occurred during the shutdown procedure! Please consult the application log for more information...

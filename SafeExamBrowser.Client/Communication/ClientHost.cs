@@ -17,6 +17,7 @@ namespace SafeExamBrowser.Client.Communication
 {
 	internal class ClientHost : BaseHost, IClientHost
 	{
+		private bool allowConnection = true;
 		private int processId;
 
 		public Guid StartupToken { private get; set; }
@@ -30,18 +31,24 @@ namespace SafeExamBrowser.Client.Communication
 
 		protected override bool OnConnect(Guid? token)
 		{
-			return StartupToken == token;
+			var authenticated = StartupToken == token;
+			var accepted = allowConnection && authenticated;
+
+			if (accepted)
+			{
+				allowConnection = false;
+			}
+
+			return accepted;
 		}
 
 		protected override void OnDisconnect()
 		{
-			// TODO
+			// Nothing to do here...
 		}
 
 		protected override Response OnReceive(Message message)
 		{
-			// TODO
-
 			return new SimpleResponse(SimpleResponsePurport.UnknownMessage);
 		}
 

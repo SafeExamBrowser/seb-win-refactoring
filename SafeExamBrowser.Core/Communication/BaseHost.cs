@@ -101,13 +101,17 @@ namespace SafeExamBrowser.Core.Communication
 
 				if (IsAuthorized(message?.CommunicationToken))
 				{
-					if (message is SimpleMessage simpleMessage)
+					switch (message)
 					{
-						response = OnReceive(simpleMessage.Purport);
-					}
-					else
-					{
-						response = OnReceive(message);
+						case SimpleMessage simpleMessage when simpleMessage.Purport == SimpleMessagePurport.Ping:
+							response = new SimpleResponse(SimpleResponsePurport.Acknowledged);
+							break;
+						case SimpleMessage simpleMessage:
+							response = OnReceive(simpleMessage.Purport);
+							break;
+						default:
+							response = OnReceive(message);
+							break;
 					}
 				}
 
@@ -218,7 +222,7 @@ namespace SafeExamBrowser.Core.Communication
 
 		private void Host_Faulted(object sender, EventArgs e)
 		{
-			logger.Debug("Communication host has faulted!");
+			logger.Error("Communication host has faulted!");
 		}
 
 		private void Host_Opened(object sender, EventArgs e)
@@ -233,7 +237,7 @@ namespace SafeExamBrowser.Core.Communication
 
 		private void Host_UnknownMessageReceived(object sender, UnknownMessageReceivedEventArgs e)
 		{
-			logger.Debug($"Communication host has received an unknown message: {e?.Message}.");
+			logger.Warn($"Communication host has received an unknown message: {e?.Message}.");
 		}
 
 		private string ToString(Message message)

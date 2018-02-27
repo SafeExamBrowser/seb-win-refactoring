@@ -52,10 +52,5 @@ namespace SafeExamBrowser.Core.Communication
 				throw new CommunicationException($"Runtime did not acknowledge shutdown request! Response: {ToString(response)}.");
 			}
 		}
-
-		private bool IsAcknowledged(Response response)
-		{
-			return response is SimpleResponse simpleResponse && simpleResponse.Purport == SimpleResponsePurport.Acknowledged;
-		}
 	}
 }

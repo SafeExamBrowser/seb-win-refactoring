@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Contracts.Communication.Responses
 {
 	[Serializable]
-	public class Response
+	public abstract class Response
 	{
 		public override string ToString()
 		{

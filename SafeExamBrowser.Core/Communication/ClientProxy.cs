@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.ServiceModel;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Messages;
 using SafeExamBrowser.Contracts.Communication.Responses;
@@ -23,9 +24,9 @@ namespace SafeExamBrowser.Core.Communication
 		{
 			var response = Send(SimpleMessagePurport.Shutdown);
 
-			if (response is SimpleResponse simpleMessage && simpleMessage.Purport == SimpleResponsePurport.Acknowledged)
+			if (!IsAcknowledged(response))
 			{
-				// TODO
+				throw new CommunicationException($"Runtime did not acknowledge shutdown request! Received: {ToString(response)}.");
 			}
 		}
 
@@ -33,7 +34,12 @@ namespace SafeExamBrowser.Core.Communication
 		{
 			var response = Send(SimpleMessagePurport.Authenticate);
 
-			return response as AuthenticationResponse;
+			if (response is AuthenticationResponse authenticationResponse)
+			{
+				return authenticationResponse;
+			}
+
+			throw new CommunicationException($"Did not receive authentication response! Received: {ToString(response)}.");
 		}
 	}
 }
