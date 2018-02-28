@@ -13,11 +13,6 @@ namespace SafeExamBrowser.Contracts.Behaviour.Operations
 	public interface IOperation
 	{
 		/// <summary>
-		/// Determines whether the procedure to which this operation belongs to should be aborted.
-		/// </summary>
-		bool Abort { get; }
-
-		/// <summary>
 		/// The progress indicator to be used to show status information to the user. Will be ignored if <c>null</c>.
 		/// </summary>
 		IProgressIndicator ProgressIndicator { set; }
@@ -25,15 +20,15 @@ namespace SafeExamBrowser.Contracts.Behaviour.Operations
 		/// <summary>
 		/// Performs the operation.
 		/// </summary>
-		void Perform();
+		OperationResult Perform();
 
 		/// <summary>
 		/// Repeats the operation.
 		/// </summary>
-		void Repeat();
+		OperationResult Repeat();
 
 		/// <summary>
-		/// Reverts all changes which were made when performing the operation.
+		/// Reverts all changes which were made when executing the operation.
 		/// </summary>
 		void Revert();
 	}

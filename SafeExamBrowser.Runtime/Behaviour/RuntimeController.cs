@@ -71,7 +71,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 
 			splashScreen.Show();
 
-			var initialized = bootstrapSequence.TryPerform();
+			var initialized = bootstrapSequence.TryPerform() == OperationResult.Success;
 
 			if (initialized)
 			{
@@ -101,7 +101,6 @@ namespace SafeExamBrowser.Runtime.Behaviour
 
 			if (sessionRunning)
 			{
-				DeregisterSessionEvents();
 				StopSession();
 			}
 
@@ -141,9 +140,9 @@ namespace SafeExamBrowser.Runtime.Behaviour
 				DeregisterSessionEvents();
 			}
 
-			sessionRunning = initial ? sessionSequence.TryPerform() : sessionSequence.TryRepeat();
+			var result = initial ? sessionSequence.TryPerform() : sessionSequence.TryRepeat();
 
-			if (sessionRunning)
+			if (result == OperationResult.Success)
 			{
 				RegisterSessionEvents();
 
@@ -155,12 +154,17 @@ namespace SafeExamBrowser.Runtime.Behaviour
 				{
 					runtimeWindow.Hide();
 				}
+
+				sessionRunning = true;
 			}
 			else
 			{
-				logger.Info(">>>--- Session procedure was aborted! ---<<<");
-				// TODO: Not when user chose to terminate after reconfiguration! Probably needs IOperationSequenceResult or alike...
-				uiFactory.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error);
+				logger.Info($">>>--- Session procedure {(result == OperationResult.Aborted ? "was aborted." : "has failed!")} ---<<<");
+
+				if (result == OperationResult.Failed)
+				{
+					uiFactory.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error);
+				}
 
 				if (!initial)
 				{
@@ -175,6 +179,8 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			runtimeWindow.BringToForeground();
 			runtimeWindow.ShowProgressBar();
 			logger.Info(">>>--- Reverting session operations ---<<<");
+
+			DeregisterSessionEvents();
 
 			var success = sessionSequence.TryRevert();
 

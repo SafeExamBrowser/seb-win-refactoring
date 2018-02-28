@@ -26,7 +26,6 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private IUserInterfaceFactory uiFactory;
 		private string[] commandLineArgs;
 
-		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public ConfigurationOperation(
@@ -45,7 +44,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			this.uiFactory = uiFactory;
 		}
 
-		public void Perform()
+		public OperationResult Perform()
 		{
 			logger.Info("Initializing application configuration...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeConfiguration);
@@ -60,8 +59,14 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 				if (settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
 				{
-					Abort = IsConfigurationSufficient();
-					logger.Info($"The user chose to {(Abort ? "abort" : "continue")} the application startup after successful client configuration.");
+					var abort = IsConfigurationSufficient();
+
+					logger.Info($"The user chose to {(abort ? "abort" : "continue")} after successful client configuration.");
+
+					if (abort)
+					{
+						return OperationResult.Aborted;
+					}
 				}
 			}
 			else
@@ -69,13 +74,17 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 				logger.Info("No valid settings file specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
 				settings = repository.LoadDefaultSettings();
 			}
+
+			return OperationResult.Success;
 		}
 
-		public void Repeat()
+		public OperationResult Repeat()
 		{
 			// TODO: How will the new settings be retrieved? Uri passed to the repository? If yes, how does the Uri get here?!
 			//		-> IDEA: Use configuration repository as container?
 			//		-> IDEA: Introduce IRepeatParams or alike?
+
+			return OperationResult.Success;
 		}
 
 		public void Revert()

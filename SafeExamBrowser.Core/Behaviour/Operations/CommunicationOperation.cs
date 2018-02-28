@@ -19,7 +19,6 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		private ICommunicationHost host;
 		private ILogger logger;
 
-		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public CommunicationOperation(ICommunicationHost host, ILogger logger)
@@ -28,15 +27,17 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			this.logger = logger;
 		}
 
-		public void Perform()
+		public OperationResult Perform()
 		{
 			logger.Info("Starting communication host...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StartCommunicationHost);
 
 			host.Start();
+
+			return OperationResult.Success;
 		}
 
-		public void Repeat()
+		public OperationResult Repeat()
 		{
 			if (!host.IsRunning)
 			{
@@ -46,6 +47,8 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 				host.Stop();
 				host.Start();
 			}
+
+			return OperationResult.Success;
 		}
 
 		public void Revert()

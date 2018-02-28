@@ -21,7 +21,6 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private IConfigurationRepository configuration;
 		private KioskMode kioskMode;
 
-		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public KioskModeOperation(ILogger logger, IConfigurationRepository configuration)
@@ -30,7 +29,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			this.configuration = configuration;
 		}
 
-		public void Perform()
+		public OperationResult Perform()
 		{
 			kioskMode = configuration.CurrentSettings.KioskMode;
 
@@ -46,11 +45,15 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 					DisableExplorerShell();
 					break;
 			}
+
+			return OperationResult.Success;
 		}
 
-		public void Repeat()
+		public OperationResult Repeat()
 		{
 			// TODO: Depends on new kiosk mode!
+
+			return OperationResult.Success;
 		}
 
 		public void Revert()

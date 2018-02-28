@@ -22,7 +22,6 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private IRuntimeProxy runtime;
 		private Guid token;
 
-		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public RuntimeConnectionOperation(ILogger logger, IRuntimeProxy runtime, Guid token)
@@ -32,7 +31,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			this.token = token;
 		}
 
-		public void Perform()
+		public OperationResult Perform()
 		{
 			logger.Info("Initializing runtime connection...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeRuntimeConnection);
@@ -46,20 +45,21 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 				logger.Error("An unexpected error occurred while trying to connect to the runtime!", e);
 			}
 
-			if (connected)
+			if (!connected)
 			{
-				logger.Info("Successfully connected to the runtime.");
-			}
-			else
-			{
-				Abort = true;
 				logger.Error("Failed to connect to the runtime. Aborting startup...");
+
+				return OperationResult.Failed;
 			}
+
+			logger.Info("Successfully connected to the runtime.");
+
+			return OperationResult.Success;
 		}
 
-		public void Repeat()
+		public OperationResult Repeat()
 		{
-			// Nothing to do here...
+			return OperationResult.Success;
 		}
 
 		public void Revert()

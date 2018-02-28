@@ -19,7 +19,6 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private ILogger logger;
 		private IProcessMonitor processMonitor;
 
-		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public ProcessMonitorOperation(ILogger logger, IProcessMonitor processMonitor)
@@ -28,7 +27,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			this.processMonitor = processMonitor;
 		}
 
-		public void Perform()
+		public OperationResult Perform()
 		{
 			logger.Info("Initializing process monitoring...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_WaitExplorerTermination, true);
@@ -39,11 +38,13 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeProcessMonitoring);
 
 			// TODO: Implement process monitoring...
+
+			return OperationResult.Success;
 		}
 
-		public void Repeat()
+		public OperationResult Repeat()
 		{
-			// Nothing to do here...
+			return OperationResult.Success;
 		}
 
 		public void Revert()

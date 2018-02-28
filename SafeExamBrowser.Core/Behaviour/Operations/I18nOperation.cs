@@ -22,7 +22,6 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		private ILogger logger;
 		private IText text;
 
-		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public I18nOperation(ILogger logger, IText text)
@@ -31,7 +30,7 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			this.text = text;
 		}
 
-		public void Perform()
+		public OperationResult Perform()
 		{
 			logger.Info($"Loading default text data (the currently active culture is '{CultureInfo.CurrentCulture.Name}')...");
 
@@ -40,11 +39,13 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			var textResource = new XmlTextResource(path);
 
 			text.Initialize(textResource);
+
+			return OperationResult.Success;
 		}
 
-		public void Repeat()
+		public OperationResult Repeat()
 		{
-			// Nothing to do here...
+			return OperationResult.Success;
 		}
 
 		public void Revert()

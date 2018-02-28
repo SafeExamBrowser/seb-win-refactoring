@@ -17,7 +17,6 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		private Func<IOperation> initialize;
 		private IOperation operation;
 
-		public bool Abort { get; set; }
 		public IProgressIndicator ProgressIndicator { get; set; }
 
 		public DelayedInitializationOperation(Func<IOperation> initialize)
@@ -25,21 +24,19 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			this.initialize = initialize;
 		}
 
-		public void Perform()
+		public OperationResult Perform()
 		{
 			operation = initialize.Invoke();
 			operation.ProgressIndicator = ProgressIndicator;
-			operation.Perform();
 
-			Abort = operation.Abort;
+			return operation.Perform();
 		}
 
-		public void Repeat()
+		public OperationResult Repeat()
 		{
 			operation.ProgressIndicator = ProgressIndicator;
-			operation.Repeat();
 
-			Abort = operation.Abort;
+			return operation.Repeat();
 		}
 
 		public void Revert()

@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
@@ -136,9 +137,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 
 			sut = new ConfigurationOperation(repository.Object, logger.Object, info, text.Object, uiFactory.Object, null);
 
-			sut.Perform();
+			var result = sut.Perform();
 
-			Assert.IsTrue(sut.Abort);
+			Assert.AreEqual(OperationResult.Aborted, result);
 		}
 
 		[TestMethod]
@@ -148,9 +149,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 
 			sut = new ConfigurationOperation(repository.Object, logger.Object, info, text.Object, uiFactory.Object, null);
 
-			sut.Perform();
+			var result = sut.Perform();
 
-			Assert.IsFalse(sut.Abort);
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 	}
 }

@@ -9,6 +9,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
@@ -82,26 +83,27 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		}
 
 		[TestMethod]
-		public void MustAbortIfServiceMandatoryAndNotAvailable()
+		public void MustFailIfServiceMandatoryAndNotAvailable()
 		{
 			service.Setup(s => s.Connect(null)).Returns(false);
 			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Mandatory });
 
-			sut.Perform();
+			var result = sut.Perform();
 
-			Assert.IsTrue(sut.Abort);
+			Assert.AreEqual(OperationResult.Failed, result);
 		}
 
 		[TestMethod]
-		public void MustNotAbortIfServiceOptionalAndNotAvailable()
+		public void MustNotFailIfServiceOptionalAndNotAvailable()
 		{
 			service.Setup(s => s.Connect(null)).Returns(false);
 			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Optional });
 
-			sut.Perform();
+			var result = sut.Perform();
 
 			service.VerifySet(s => s.Ignore = true);
-			Assert.IsFalse(sut.Abort);
+
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]

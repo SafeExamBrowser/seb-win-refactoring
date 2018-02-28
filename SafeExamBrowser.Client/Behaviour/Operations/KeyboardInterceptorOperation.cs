@@ -21,7 +21,6 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private ILogger logger;
 		private INativeMethods nativeMethods;
 
-		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 		
 		public KeyboardInterceptorOperation(
@@ -34,17 +33,19 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			this.nativeMethods = nativeMethods;
 		}
 
-		public void Perform()
+		public OperationResult Perform()
 		{
 			logger.Info("Starting keyboard interception...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StartKeyboardInterception);
 
 			nativeMethods.RegisterKeyboardHook(keyboardInterceptor);
+
+			return OperationResult.Success;
 		}
 
-		public void Repeat()
+		public OperationResult Repeat()
 		{
-			// Nothing to do here...
+			return OperationResult.Success;
 		}
 
 		public void Revert()

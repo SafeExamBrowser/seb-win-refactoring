@@ -24,7 +24,6 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private ITaskbar taskbar;
 		private IUserInterfaceFactory uiFactory;
 
-		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public BrowserOperation(
@@ -41,7 +40,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			this.uiFactory = uiFactory;
 		}
 
-		public void Perform()
+		public OperationResult Perform()
 		{
 			logger.Info("Initializing browser...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeBrowser, true);
@@ -52,11 +51,13 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			browserController.RegisterApplicationButton(browserButton);
 
 			taskbar.AddApplication(browserButton);
+
+			return OperationResult.Success;
 		}
 
-		public void Repeat()
+		public OperationResult Repeat()
 		{
-			// Nothing to do here...
+			return OperationResult.Success;
 		}
 
 		public void Revert()

@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
@@ -25,14 +26,14 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		{
 		}
 
-		public override void Perform()
+		public override OperationResult Perform()
 		{
-			// Nothing to do here...
+			return OperationResult.Success;
 		}
 
-		public override void Repeat()
+		public override OperationResult Repeat()
 		{
-			StopSession();
+			return StopSession();
 		}
 
 		public override void Revert()

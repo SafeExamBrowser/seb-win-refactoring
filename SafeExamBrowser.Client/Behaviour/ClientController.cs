@@ -80,7 +80,7 @@ namespace SafeExamBrowser.Client.Behaviour
 			splashScreen = uiFactory.CreateSplashScreen();
 			operations.ProgressIndicator = splashScreen;
 
-			var success = operations.TryPerform();
+			var success = operations.TryPerform() == OperationResult.Success;
 
 			if (success)
 			{

@@ -36,6 +36,10 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var operationC = new Mock<IOperation>();
 			var operations = new Queue<IOperation>();
 
+			operationA.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationC.Setup(o => o.Perform()).Returns(OperationResult.Success);
+
 			operations.Enqueue(operationA.Object);
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
@@ -61,14 +65,15 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var operationC = new Mock<IOperation>();
 			var operations = new Queue<IOperation>();
 
-			operationB.SetupGet(o => o.Abort).Returns(true);
+			operationA.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Perform()).Returns(OperationResult.Aborted);
 
 			operations.Enqueue(operationA.Object);
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
 			var sut = new OperationSequence(loggerMock.Object, operations);
-			var success = sut.TryPerform();
+			var result = sut.TryPerform();
 
 			operationA.Verify(o => o.Perform(), Times.Once);
 			operationA.Verify(o => o.Revert(), Times.Once);
@@ -77,7 +82,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			operationC.Verify(o => o.Perform(), Times.Never);
 			operationC.Verify(o => o.Revert(), Times.Never);
 
-			Assert.IsFalse(success);
+			Assert.AreEqual(OperationResult.Aborted, result);
 		}
 
 		[TestMethod]
@@ -88,12 +93,16 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var operationC = new Mock<IOperation>();
 			var operations = new Queue<IOperation>();
 
+			operationA.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationC.Setup(o => o.Perform()).Returns(OperationResult.Success);
+
 			operations.Enqueue(operationA.Object);
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
 			var sut = new OperationSequence(loggerMock.Object, operations);
-			var success = sut.TryPerform();
+			var result = sut.TryPerform();
 
 			operationA.Verify(o => o.Perform(), Times.Once);
 			operationA.Verify(o => o.Revert(), Times.Never);
@@ -102,7 +111,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			operationC.Verify(o => o.Perform(), Times.Once);
 			operationC.Verify(o => o.Revert(), Times.Never);
 
-			Assert.IsTrue(success);
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]
@@ -114,18 +123,18 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var operationC = new Mock<IOperation>();
 			var operations = new Queue<IOperation>();
 
-			operationA.Setup(o => o.Perform()).Callback(() => a = ++current);
-			operationB.Setup(o => o.Perform()).Callback(() => b = ++current);
-			operationC.Setup(o => o.Perform()).Callback(() => c = ++current);
+			operationA.Setup(o => o.Perform()).Returns(OperationResult.Success).Callback(() => a = ++current);
+			operationB.Setup(o => o.Perform()).Returns(OperationResult.Success).Callback(() => b = ++current);
+			operationC.Setup(o => o.Perform()).Returns(OperationResult.Success).Callback(() => c = ++current);
 
 			operations.Enqueue(operationA.Object);
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
 			var sut = new OperationSequence(loggerMock.Object, operations);
-			var success = sut.TryPerform();
+			var result = sut.TryPerform();
 
-			Assert.IsTrue(success);
+			Assert.AreEqual(OperationResult.Success, result);
 			Assert.IsTrue(a == 1);
 			Assert.IsTrue(b == 2);
 			Assert.IsTrue(c == 3);
@@ -140,6 +149,8 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var operationD = new Mock<IOperation>();
 			var operations = new Queue<IOperation>();
 
+			operationA.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Perform()).Returns(OperationResult.Success);
 			operationC.Setup(o => o.Perform()).Throws<Exception>();
 
 			operations.Enqueue(operationA.Object);
@@ -148,7 +159,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			operations.Enqueue(operationD.Object);
 
 			var sut = new OperationSequence(loggerMock.Object, operations);
-			var success = sut.TryPerform();
+			var result = sut.TryPerform();
 
 			operationA.Verify(o => o.Perform(), Times.Once);
 			operationA.Verify(o => o.Revert(), Times.Once);
@@ -159,7 +170,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			operationD.Verify(o => o.Perform(), Times.Never);
 			operationD.Verify(o => o.Revert(), Times.Never);
 
-			Assert.IsFalse(success);
+			Assert.AreEqual(OperationResult.Failed, result);
 		}
 
 		[TestMethod]
@@ -172,10 +183,12 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var operationD = new Mock<IOperation>();
 			var operations = new Queue<IOperation>();
 
+			operationA.Setup(o => o.Perform()).Returns(OperationResult.Success);
 			operationA.Setup(o => o.Revert()).Callback(() => a = ++current);
+			operationB.Setup(o => o.Perform()).Returns(OperationResult.Success);
 			operationB.Setup(o => o.Revert()).Callback(() => b = ++current);
-			operationC.Setup(o => o.Revert()).Callback(() => c = ++current);
 			operationC.Setup(o => o.Perform()).Throws<Exception>();
+			operationC.Setup(o => o.Revert()).Callback(() => c = ++current);
 			operationD.Setup(o => o.Revert()).Callback(() => d = ++current);
 
 			operations.Enqueue(operationA.Object);
@@ -184,9 +197,9 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			operations.Enqueue(operationD.Object);
 
 			var sut = new OperationSequence(loggerMock.Object, operations);
-			var success = sut.TryPerform();
+			var result = sut.TryPerform();
 
-			Assert.IsFalse(success);
+			Assert.AreEqual(OperationResult.Failed, result);
 			Assert.IsTrue(d == 0);
 			Assert.IsTrue(c == 1);
 			Assert.IsTrue(b == 2);
@@ -201,7 +214,10 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var operationC = new Mock<IOperation>();
 			var operations = new Queue<IOperation>();
 
+			operationA.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Perform()).Returns(OperationResult.Success);
 			operationC.Setup(o => o.Perform()).Throws<Exception>();
+
 			operationC.Setup(o => o.Revert()).Throws<Exception>();
 			operationB.Setup(o => o.Revert()).Throws<Exception>();
 			operationA.Setup(o => o.Revert()).Throws<Exception>();
@@ -225,9 +241,9 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 		public void MustSucceedWithEmptyQueue()
 		{
 			var sut = new OperationSequence(loggerMock.Object, new Queue<IOperation>());
-			var success = sut.TryPerform();
+			var result = sut.TryPerform();
 
-			Assert.IsTrue(success);
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 
@@ -240,9 +256,9 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			indicatorMock.Setup(i => i.SetMaxValue(It.IsAny<int>())).Throws<Exception>();
 			sut.ProgressIndicator = indicatorMock.Object;
 
-			var success = sut.TryPerform();
+			var result = sut.TryPerform();
 
-			Assert.IsFalse(success);
+			Assert.AreEqual(OperationResult.Failed, result);
 		}
 
 		#endregion
@@ -257,14 +273,15 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var operationC = new Mock<IOperation>();
 			var operations = new Queue<IOperation>();
 
-			operationB.SetupGet(o => o.Abort).Returns(true);
+			operationA.Setup(o => o.Repeat()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Repeat()).Returns(OperationResult.Aborted);
 
 			operations.Enqueue(operationA.Object);
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
 			var sut = new OperationSequence(loggerMock.Object, operations);
-			var success = sut.TryRepeat();
+			var result = sut.TryRepeat();
 
 			operationA.Verify(o => o.Repeat(), Times.Once);
 			operationA.Verify(o => o.Revert(), Times.Never);
@@ -273,7 +290,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			operationC.Verify(o => o.Repeat(), Times.Never);
 			operationC.Verify(o => o.Revert(), Times.Never);
 
-			Assert.IsFalse(success);
+			Assert.AreEqual(OperationResult.Aborted, result);
 		}
 
 		[TestMethod]
@@ -284,12 +301,16 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var operationC = new Mock<IOperation>();
 			var operations = new Queue<IOperation>();
 
+			operationA.Setup(o => o.Repeat()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Repeat()).Returns(OperationResult.Success);
+			operationC.Setup(o => o.Repeat()).Returns(OperationResult.Success);
+
 			operations.Enqueue(operationA.Object);
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
 			var sut = new OperationSequence(loggerMock.Object, operations);
-			var success = sut.TryRepeat();
+			var result = sut.TryRepeat();
 
 			operationA.Verify(o => o.Perform(), Times.Never);
 			operationA.Verify(o => o.Repeat(), Times.Once);
@@ -301,7 +322,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			operationC.Verify(o => o.Repeat(), Times.Once);
 			operationC.Verify(o => o.Revert(), Times.Never);
 
-			Assert.IsTrue(success);
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]
@@ -313,18 +334,18 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var operationC = new Mock<IOperation>();
 			var operations = new Queue<IOperation>();
 
-			operationA.Setup(o => o.Repeat()).Callback(() => a = ++current);
-			operationB.Setup(o => o.Repeat()).Callback(() => b = ++current);
-			operationC.Setup(o => o.Repeat()).Callback(() => c = ++current);
+			operationA.Setup(o => o.Repeat()).Returns(OperationResult.Success).Callback(() => a = ++current);
+			operationB.Setup(o => o.Repeat()).Returns(OperationResult.Success).Callback(() => b = ++current);
+			operationC.Setup(o => o.Repeat()).Returns(OperationResult.Success).Callback(() => c = ++current);
 
 			operations.Enqueue(operationA.Object);
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
 			var sut = new OperationSequence(loggerMock.Object, operations);
-			var success = sut.TryRepeat();
+			var result = sut.TryRepeat();
 
-			Assert.IsTrue(success);
+			Assert.AreEqual(OperationResult.Success, result);
 			Assert.IsTrue(a == 1);
 			Assert.IsTrue(b == 2);
 			Assert.IsTrue(c == 3);
@@ -339,6 +360,8 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var operationD = new Mock<IOperation>();
 			var operations = new Queue<IOperation>();
 
+			operationA.Setup(o => o.Repeat()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Repeat()).Returns(OperationResult.Success);
 			operationC.Setup(o => o.Repeat()).Throws<Exception>();
 
 			operations.Enqueue(operationA.Object);
@@ -347,7 +370,7 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			operations.Enqueue(operationD.Object);
 
 			var sut = new OperationSequence(loggerMock.Object, operations);
-			var success = sut.TryRepeat();
+			var result = sut.TryRepeat();
 
 			operationA.Verify(o => o.Repeat(), Times.Once);
 			operationA.Verify(o => o.Revert(), Times.Never);
@@ -358,25 +381,25 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			operationD.Verify(o => o.Repeat(), Times.Never);
 			operationD.Verify(o => o.Revert(), Times.Never);
 
-			Assert.IsFalse(success);
+			Assert.AreEqual(OperationResult.Failed, result);
 		}
 
 		[TestMethod]
 		public void MustSucceedRepeatingWithEmptyQueue()
 		{
 			var sut = new OperationSequence(loggerMock.Object, new Queue<IOperation>());
-			var success = sut.TryRepeat();
+			var result = sut.TryRepeat();
 
-			Assert.IsTrue(success);
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]
 		public void MustSucceedRepeatingWithoutCallingPerform()
 		{
 			var sut = new OperationSequence(loggerMock.Object, new Queue<IOperation>());
-			var success = sut.TryRepeat();
+			var result = sut.TryRepeat();
 
-			Assert.IsTrue(success);
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]
@@ -388,9 +411,9 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			indicatorMock.Setup(i => i.SetMaxValue(It.IsAny<int>())).Throws<Exception>();
 			sut.ProgressIndicator = indicatorMock.Object;
 
-			var success = sut.TryRepeat();
+			var result = sut.TryRepeat();
 
-			Assert.IsFalse(success);
+			Assert.AreEqual(OperationResult.Failed, result);
 		}
 
 		#endregion
@@ -404,6 +427,13 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var operationB = new Mock<IOperation>();
 			var operationC = new Mock<IOperation>();
 			var operations = new Queue<IOperation>();
+
+			operationA.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationA.Setup(o => o.Repeat()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Repeat()).Returns(OperationResult.Success);
+			operationC.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationC.Setup(o => o.Repeat()).Returns(OperationResult.Success);
 
 			operations.Enqueue(operationA.Object);
 			operations.Enqueue(operationB.Object);
@@ -430,6 +460,10 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var operationB = new Mock<IOperation>();
 			var operationC = new Mock<IOperation>();
 			var operations = new Queue<IOperation>();
+
+			operationA.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationC.Setup(o => o.Perform()).Returns(OperationResult.Success);
 
 			operationA.Setup(o => o.Revert()).Callback(() => a = ++current);
 			operationB.Setup(o => o.Revert()).Callback(() => b = ++current);
@@ -458,6 +492,10 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var operationB = new Mock<IOperation>();
 			var operationC = new Mock<IOperation>();
 			var operations = new Queue<IOperation>();
+
+			operationA.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationC.Setup(o => o.Perform()).Returns(OperationResult.Success);
 
 			operationA.Setup(o => o.Revert()).Throws<Exception>();
 			operationB.Setup(o => o.Revert()).Throws<Exception>();
@@ -488,7 +526,10 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			var operationC = new Mock<IOperation>();
 			var operations = new Queue<IOperation>();
 
-			operationB.SetupGet(o => o.Abort).Returns(true);
+			operationA.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationA.Setup(o => o.Repeat()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Perform()).Returns(OperationResult.Aborted);
+			operationB.Setup(o => o.Repeat()).Returns(OperationResult.Success);
 
 			operations.Enqueue(operationA.Object);
 			operations.Enqueue(operationB.Object);

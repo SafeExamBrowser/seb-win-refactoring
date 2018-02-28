@@ -30,7 +30,6 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private IServiceProxy service;
 		private ISession session;
 
-		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public SessionSequenceOperation(
@@ -49,11 +48,11 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			this.service = service;
 		}
 
-		public abstract void Perform();
-		public abstract void Repeat();
+		public abstract OperationResult Perform();
+		public abstract OperationResult Repeat();
 		public abstract void Revert();
 
-		protected void StartSession()
+		protected OperationResult StartSession()
 		{
 			logger.Info("Starting new session...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StartSession, true);
@@ -66,19 +65,20 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 			sessionRunning = TryStartClient();
 
-			if (sessionRunning)
+			if (!sessionRunning)
 			{
-				logger.Info($"Successfully started new session with identifier '{session.Id}'.");
-			}
-			else
-			{
-				Abort = true;
 				logger.Info($"Failed to start new session! Reverting service session and aborting procedure...");
 				service.StopSession(session.Id);
+
+				return OperationResult.Failed;
 			}
+
+			logger.Info($"Successfully started new session with identifier '{session.Id}'.");
+
+			return OperationResult.Success;
 		}
 
-		protected void StopSession()
+		protected OperationResult StopSession()
 		{
 			if (sessionRunning)
 			{
@@ -96,6 +96,8 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 				sessionRunning = false;
 				logger.Info($"Successfully stopped session with identifier '{session.Id}'.");
 			}
+
+			return OperationResult.Success;
 		}
 
 		private bool TryStartClient()

@@ -32,7 +32,6 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private IUserInterfaceFactory uiFactory;
 		private IText text;
 
-		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public TaskbarOperation(
@@ -61,7 +60,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			this.wirelessNetwork = wirelessNetwork;
 		}
 
-		public void Perform()
+		public OperationResult Perform()
 		{
 			logger.Info("Initializing taskbar...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeTaskbar);
@@ -85,11 +84,13 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			{
 				AddWirelessNetworkControl();
 			}
+
+			return OperationResult.Success;
 		}
 
-		public void Repeat()
+		public OperationResult Repeat()
 		{
-			// Nothing to do here...
+			return OperationResult.Success;
 		}
 
 		public void Revert()

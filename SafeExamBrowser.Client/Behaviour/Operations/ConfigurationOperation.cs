@@ -22,7 +22,6 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private ILogger logger;
 		private IRuntimeProxy runtime;
 
-		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public ConfigurationOperation(ClientConfiguration configuration, ILogger logger, IRuntimeProxy runtime)
@@ -32,7 +31,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			this.runtime = runtime;
 		}
 
-		public void Perform()
+		public OperationResult Perform()
 		{
 			logger.Info("Initializing application configuration...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeConfiguration);
@@ -50,12 +49,16 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			catch (Exception e)
 			{
 				logger.Error("An unexpected error occurred while trying to retrieve the application configuration!", e);
+
+				return OperationResult.Failed;
 			}
+
+			return OperationResult.Success;
 		}
 
-		public void Repeat()
+		public OperationResult Repeat()
 		{
-			// Nothing to do here...
+			return OperationResult.Success;
 		}
 
 		public void Revert()

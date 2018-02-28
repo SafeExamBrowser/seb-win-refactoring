@@ -25,7 +25,6 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private IServiceProxy service;
 		private IText text;
 
-		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public ServiceConnectionOperation(IConfigurationRepository configuration, ILogger logger, IServiceProxy service, IText text)
@@ -36,7 +35,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			this.text = text;
 		}
 
-		public void Perform()
+		public OperationResult Perform()
 		{
 			logger.Info($"Initializing service connection...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeServiceConnection);
@@ -53,19 +52,22 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 			if (mandatory && !connected)
 			{
-				Abort = true;
 				logger.Error("Aborting startup because the service is mandatory but not available!");
+
+				return OperationResult.Failed;
 			}
-			else
-			{
-				service.Ignore = !connected;
-				logger.Info($"The service is {(mandatory ? "mandatory" : "optional")} and {(connected ? "available." : "not available. All service-related operations will be ignored!")}");
-			}
+
+			service.Ignore = !connected;
+			logger.Info($"The service is {(mandatory ? "mandatory" : "optional")} and {(connected ? "available." : "not available. All service-related operations will be ignored!")}");
+
+			return OperationResult.Success;
 		}
 
-		public void Repeat()
+		public OperationResult Repeat()
 		{
 			// TODO: Re-check if mandatory, if so, try to connect (if not connected) - otherwise, no action required (except maybe logging of status?)
+
+			return OperationResult.Success;
 		}
 
 		public void Revert()

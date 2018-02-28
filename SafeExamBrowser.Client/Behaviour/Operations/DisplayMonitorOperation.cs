@@ -21,7 +21,6 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 		private ILogger logger;
 		private ITaskbar taskbar;
 
-		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public DisplayMonitorOperation(IDisplayMonitor displayMonitor, ILogger logger, ITaskbar taskbar)
@@ -31,7 +30,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			this.taskbar = taskbar;
 		}
 
-		public void Perform()
+		public OperationResult Perform()
 		{
 			logger.Info("Initializing working area...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeWorkingArea);
@@ -39,11 +38,13 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			displayMonitor.PreventSleepMode();
 			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
 			displayMonitor.StartMonitoringDisplayChanges();
+
+			return OperationResult.Success;
 		}
 
-		public void Repeat()
+		public OperationResult Repeat()
 		{
-			// Nothing to do here...
+			return OperationResult.Success;
 		}
 
 		public void Revert()

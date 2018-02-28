@@ -18,7 +18,6 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 		private Action repeat;
 		private Action revert;
 
-		public bool Abort { get; private set; }
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public DelegateOperation(Action perform, Action repeat = null, Action revert = null)
@@ -28,14 +27,18 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			this.revert = revert;
 		}
 
-		public void Perform()
+		public OperationResult Perform()
 		{
 			perform?.Invoke();
+
+			return OperationResult.Success;
 		}
 
-		public void Repeat()
+		public OperationResult Repeat()
 		{
 			repeat?.Invoke();
+
+			return OperationResult.Success;
 		}
 
 		public void Revert()

@@ -56,6 +56,7 @@
     <Compile Include="Behaviour\IApplicationController.cs" />
     <Compile Include="Behaviour\IRuntimeController.cs" />
     <Compile Include="Behaviour\Operations\IOperationSequence.cs" />
+    <Compile Include="Behaviour\Operations\OperationResult.cs" />
     <Compile Include="Communication\IClientHost.cs" />
     <Compile Include="Communication\ICommunication.cs" />
     <Compile Include="Communication\IClientProxy.cs" />

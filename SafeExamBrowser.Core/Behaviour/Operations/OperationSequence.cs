@@ -29,16 +29,16 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			this.operations = new Queue<IOperation>(operations);
 		}
 
-		public bool TryPerform()
+		public OperationResult TryPerform()
 		{
-			var success = false;
+			var result = OperationResult.Failed;
 
 			try
 			{
 				Initialize();
-				success = Perform();
+				result = Perform();
 
-				if (!success)
+				if (result != OperationResult.Success)
 				{
 					Revert(true);
 				}
@@ -48,24 +48,24 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 				logger.Error("Failed to perform operations!", e);
 			}
 
-			return success;
+			return result;
 		}
 
-		public bool TryRepeat()
+		public OperationResult TryRepeat()
 		{
-			var success = false;
+			var result = OperationResult.Failed;
 
 			try
 			{
 				Initialize();
-				success = Repeat();
+				result = Repeat();
 			}
 			catch (Exception e)
 			{
 				logger.Error("Failed to repeat operations!", e);
 			}
 
-			return success;
+			return result;
 		}
 
 		public bool TryRevert()
@@ -98,60 +98,60 @@ namespace SafeExamBrowser.Core.Behaviour.Operations
 			}
 		}
 
-		private bool Perform()
+		private OperationResult Perform()
 		{
 			foreach (var operation in operations)
 			{
+				var result = OperationResult.Failed;
+
 				stack.Push(operation);
 
 				try
 				{
 					operation.ProgressIndicator = ProgressIndicator;
-					operation.Perform();
+					result = operation.Perform();
 				}
 				catch (Exception e)
 				{
-					logger.Error($"Failed to perform operation '{operation.GetType().Name}'!", e);
-
-					return false;
+					logger.Error($"Caught unexpected exception while performing operation '{operation.GetType().Name}'!", e);
 				}
 
-				if (operation.Abort)
+				if (result != OperationResult.Success)
 				{
-					return false;
+					return result;
 				}
 
 				ProgressIndicator?.Progress();
 			}
 
-			return true;
+			return OperationResult.Success;
 		}
 
-		private bool Repeat()
+		private OperationResult Repeat()
 		{
 			foreach (var operation in operations)
 			{
+				var result = OperationResult.Failed;
+
 				try
 				{
 					operation.ProgressIndicator = ProgressIndicator;
-					operation.Repeat();
+					result = operation.Repeat();
 				}
 				catch (Exception e)
 				{
-					logger.Error($"Failed to repeat operation '{operation.GetType().Name}'!", e);
-
-					return false;
+					logger.Error($"Caught unexpected exception while repeating operation '{operation.GetType().Name}'!", e);
 				}
 
-				if (operation.Abort)
+				if (result != OperationResult.Success)
 				{
-					return false;
+					return result;
 				}
 
 				ProgressIndicator?.Progress();
 			}
 
-			return true;
+			return OperationResult.Success;
 		}
 
 		private bool Revert(bool regress = false)

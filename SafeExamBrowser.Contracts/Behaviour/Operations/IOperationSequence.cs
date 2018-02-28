@@ -13,22 +13,23 @@ namespace SafeExamBrowser.Contracts.Behaviour.Operations
 	public interface IOperationSequence
 	{
 		/// <summary>
-		/// The progress indicator to be used when performing any action. Will be ignored if <c>null</c>.
+		/// The progress indicator to be used when executing an operation. Will be ignored if <c>null</c>.
 		/// </summary>
 		IProgressIndicator ProgressIndicator { set; }
 
 		/// <summary>
-		/// Tries to perform the operations of this sequence. Returns <c>true</c> if the procedure was successful, <c>false</c> otherwise.
+		/// Tries to perform the operations of this sequence.
 		/// </summary>
-		bool TryPerform();
+		OperationResult TryPerform();
 
 		/// <summary>
-		/// Tries to repeat the operations of this sequence. Returns <c>true</c> if the procedure was successful, <c>false</c> otherwise.
+		/// Tries to repeat the operations of this sequence.
 		/// </summary>
-		bool TryRepeat();
+		OperationResult TryRepeat();
 
 		/// <summary>
-		/// Tries to revert the operations of this sequence. Returns <c>true</c> if the procedure was successful, <c>false</c> otherwise.
+		/// Tries to revert the operations of this sequence. Returns <c>true</c> if all operations were reverted without errors,
+		/// otherwise <c>false</c>.
 		/// </summary>
 		bool TryRevert();
 	}
