@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeProcessMonitoring);
 
-			// TODO
+			// TODO: Implement process monitoring...
 		}
 
 		public void Repeat()
@@ -51,7 +51,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			logger.Info("Stopping process monitoring...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StopProcessMonitoring);
 
-			// TODO
+			// TODO: Implement process monitoring...
 
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_WaitExplorerStartup, true);
 

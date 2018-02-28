@@ -59,7 +59,7 @@ namespace SafeExamBrowser.Configuration
 
 		public Settings LoadSettings(Uri path)
 		{
-			// TODO
+			// TODO: Implement loading mechanism
 
 			return LoadDefaultSettings();
 		}
@@ -68,7 +68,7 @@ namespace SafeExamBrowser.Configuration
 		{
 			var settings = new Settings()
 			{
-				// TODO
+				// TODO: Implement default settings
 				ServicePolicy = ServicePolicy.Optional
 			};
 

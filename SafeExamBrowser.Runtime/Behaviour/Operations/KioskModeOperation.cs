@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 		public void Repeat()
 		{
-			// TODO
+			// TODO: Depends on new kiosk mode!
 		}
 
 		public void Revert()

@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Client.Notifications;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Behaviour.Operations;
 using SafeExamBrowser.Contracts.Configuration;
@@ -22,6 +21,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 	internal class TaskbarOperation : IOperation
 	{
 		private ILogger logger;
+		private INotificationInfo logInfo;
 		private INotificationController logController;
 		private TaskbarSettings settings;
 		private ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout;
@@ -37,19 +37,23 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 
 		public TaskbarOperation(
 			ILogger logger,
-			TaskbarSettings settings,
+			INotificationInfo logInfo,
+			INotificationController logController,
 			ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout,
 			ISystemComponent<ISystemPowerSupplyControl> powerSupply,
 			ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork,
 			ISystemInfo systemInfo,
 			ITaskbar taskbar,
+			TaskbarSettings settings,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
-			this.settings = settings;
+			this.logInfo = logInfo;
+			this.logController = logController;
 			this.keyboardLayout = keyboardLayout;
 			this.powerSupply = powerSupply;
+			this.settings = settings;
 			this.systemInfo = systemInfo;
 			this.taskbar = taskbar;
 			this.text = text;
@@ -95,7 +99,7 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 
 			if (settings.AllowApplicationLog)
 			{
-				logController?.Terminate();
+				logController.Terminate();
 			}
 
 			if (settings.AllowKeyboardLayout)
@@ -140,13 +144,9 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 
 		private void CreateLogNotification()
 		{
-			// TODO: Resolve dependencies -> CompositionRoot!
-			var logInfo = new LogNotificationInfo(text);
 			var logNotification = uiFactory.CreateNotification(logInfo);
-
-			logController = new LogNotificationController(logger, uiFactory);
+			
 			logController.RegisterNotification(logNotification);
-
 			taskbar.AddNotification(logNotification);
 		}
 	}

@@ -9,6 +9,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Behaviour.Operations;
+using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
@@ -24,6 +25,8 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 	{
 		private Mock<ILogger> loggerMock;
 		private TaskbarSettings settings;
+		private Mock<INotificationInfo> logInfoMock;
+		private Mock<INotificationController> logControllerMock;
 		private Mock<ISystemComponent<ISystemKeyboardLayoutControl>> keyboardLayoutMock;
 		private Mock<ISystemComponent<ISystemPowerSupplyControl>> powerSupplyMock;
 		private Mock<ISystemComponent<ISystemWirelessNetworkControl>> wirelessNetworkMock;
@@ -38,12 +41,14 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 		public void Initialize()
 		{
 			loggerMock = new Mock<ILogger>();
-			settings = new TaskbarSettings();
+			logInfoMock = new Mock<INotificationInfo>();
+			logControllerMock = new Mock<INotificationController>();
 			keyboardLayoutMock = new Mock<ISystemComponent<ISystemKeyboardLayoutControl>>();
 			powerSupplyMock = new Mock<ISystemComponent<ISystemPowerSupplyControl>>();
 			wirelessNetworkMock = new Mock<ISystemComponent<ISystemWirelessNetworkControl>>();
 			systemInfoMock = new Mock<ISystemInfo>();
 			taskbarMock = new Mock<ITaskbar>();
+			settings = new TaskbarSettings();
 			textMock = new Mock<IText>();
 			uiFactoryMock = new Mock<IUserInterfaceFactory>();
 
@@ -55,12 +60,14 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 
 			sut = new TaskbarOperation(
 				loggerMock.Object,
-				settings,
+				logInfoMock.Object,
+				logControllerMock.Object,
 				keyboardLayoutMock.Object,
 				powerSupplyMock.Object,
 				wirelessNetworkMock.Object,
 				systemInfoMock.Object,
 				taskbarMock.Object,
+				settings,
 				textMock.Object,
 				uiFactoryMock.Object);
 		}

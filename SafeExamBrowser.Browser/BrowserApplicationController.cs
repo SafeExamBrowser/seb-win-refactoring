@@ -45,7 +45,9 @@ namespace SafeExamBrowser.Browser
 			var cefSettings = new CefSettings
 			{
 				CachePath = runtimeInfo.BrowserCachePath,
-				LogFile = runtimeInfo.BrowserLogFile
+				LogFile = runtimeInfo.BrowserLogFile,
+				// TODO: Set according to current application LogLevel!
+				LogSeverity = LogSeverity.Verbose
 			};
 
 			var success = Cef.Initialize(cefSettings, true, null);

@@ -13,7 +13,6 @@ using SafeExamBrowser.Contracts.Configuration.Settings;
 
 namespace SafeExamBrowser.Contracts.Behaviour
 {
-	// TODO: Interface really needed?!
 	public interface IClientController
 	{
 		/// <summary>

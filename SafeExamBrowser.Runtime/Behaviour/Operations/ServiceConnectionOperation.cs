@@ -65,7 +65,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 		public void Repeat()
 		{
-			// TODO
+			// TODO: Re-check if mandatory, if so, try to connect (if not connected) - otherwise, no action required (except maybe logging of status?)
 		}
 
 		public void Revert()

@@ -34,7 +34,7 @@ namespace SafeExamBrowser.WindowsApi
 			var startupInfo = new STARTUPINFO();
 
 			startupInfo.cb = Marshal.SizeOf(startupInfo);
-			// TODO:
+			// TODO: Specify target desktop!
 			//startupInfo.lpDesktop = desktop.CurrentName;
 
 			var success = Kernel32.CreateProcess(null, commandLine, IntPtr.Zero, IntPtr.Zero, true, Constant.NORMAL_PRIORITY_CLASS, IntPtr.Zero, null, ref startupInfo, ref processInfo);

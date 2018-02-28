@@ -48,7 +48,8 @@ namespace SafeExamBrowser.Core.Communication
 				return;
 			}
 
-			// TODO: Send(new StartSessionMessage { Id = sessionId, Settings = settings });
+			// TODO: Implement service communication
+			// Send(new StartSessionMessage { Id = sessionId, Settings = settings });
 		}
 
 		public void StopSession(Guid sessionId)
@@ -58,7 +59,8 @@ namespace SafeExamBrowser.Core.Communication
 				return;
 			}
 
-			// TODO: Send(new StopSessionMessage { SessionId = sessionId });
+			// TODO: Implement service communication
+			// Send(new StopSessionMessage { SessionId = sessionId });
 		}
 
 		private bool IgnoreOperation(string operationName)

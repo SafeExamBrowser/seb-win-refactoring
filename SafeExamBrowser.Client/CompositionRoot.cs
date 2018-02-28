@@ -13,6 +13,7 @@ using SafeExamBrowser.Browser;
 using SafeExamBrowser.Client.Behaviour;
 using SafeExamBrowser.Client.Behaviour.Operations;
 using SafeExamBrowser.Client.Communication;
+using SafeExamBrowser.Client.Notifications;
 using SafeExamBrowser.Configuration;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Behaviour.Operations;
@@ -180,9 +181,11 @@ namespace SafeExamBrowser.Client
 		private IOperation BuildTaskbarOperation()
 		{
 			var keyboardLayout = new KeyboardLayout(new ModuleLogger(logger, typeof(KeyboardLayout)), text);
+			var logController = new LogNotificationController(logger, uiFactory);
+			var logInfo = new LogNotificationInfo(text);
 			var powerSupply = new PowerSupply(new ModuleLogger(logger, typeof(PowerSupply)), text);
 			var wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, typeof(WirelessNetwork)), text);
-			var operation = new TaskbarOperation(logger, configuration.Settings.Taskbar, keyboardLayout, powerSupply, wirelessNetwork, systemInfo, Taskbar, text, uiFactory);
+			var operation = new TaskbarOperation(logger, logInfo, logController, keyboardLayout, powerSupply, wirelessNetwork, systemInfo, Taskbar, configuration.Settings.Taskbar, text, uiFactory);
 
 			return operation;
 		}

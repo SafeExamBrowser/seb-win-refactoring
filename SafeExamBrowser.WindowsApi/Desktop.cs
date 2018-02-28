@@ -15,7 +15,7 @@ namespace SafeExamBrowser.WindowsApi
 	{
 		private ILogger logger;
 
-		// TODO!
+		// TODO: Implement desktop functionality!
 		public string CurrentName => "Default";
 
 		public Desktop(ILogger logger)
