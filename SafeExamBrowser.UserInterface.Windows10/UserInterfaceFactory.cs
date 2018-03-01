@@ -40,7 +40,9 @@ namespace SafeExamBrowser.UserInterface.Windows10
 
 		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings)
 		{
-			return new BrowserWindow(control, settings);
+			// TODO
+			// return new BrowserWindow(control, settings);
+			throw new System.NotImplementedException();
 		}
 
 		public IWindow CreateLogWindow(ILogger logger)

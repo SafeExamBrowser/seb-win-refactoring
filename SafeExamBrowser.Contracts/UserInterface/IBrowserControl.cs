@@ -9,6 +9,7 @@
 namespace SafeExamBrowser.Contracts.UserInterface
 {
 	public delegate void AddressChangedEventHandler(string address);
+	public delegate void LoadingStateChangedEventHandler(bool isLoading);
 	public delegate void TitleChangedEventHandler(string title);
 
 	public interface IBrowserControl
@@ -17,6 +18,11 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// Event fired when the address of the browser control changes.
 		/// </summary>
 		event AddressChangedEventHandler AddressChanged;
+
+		/// <summary>
+		/// Event fired when the loading state of the browser control changes.
+		/// </summary>
+		event LoadingStateChangedEventHandler LoadingStateChanged;
 
 		/// <summary>
 		/// Event fired when the current page (and thus the title) of the browser control changes.

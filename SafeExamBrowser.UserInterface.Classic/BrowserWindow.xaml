@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Classic"
-        mc:Ignorable="d" Title="BrowserWindow" Background="#FFF0F0F0" Height="500" Width="500" WindowState="Maximized" Icon=".\Images\SafeExamBrowser.ico">
+        mc:Ignorable="d" Title="BrowserWindow" Background="#FFF0F0F0" Height="500" Width="750" WindowState="Maximized" Icon=".\Images\SafeExamBrowser.ico">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -26,7 +27,10 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" x:Name="UrlTextBox" Height="25" HorizontalAlignment="Stretch" Padding="5,0" Margin="10" VerticalContentAlignment="Center" />
+                <Grid Grid.Column="0" Height="25" Margin="10">
+                    <TextBox x:Name="UrlTextBox" HorizontalAlignment="Stretch" Padding="5,0" VerticalContentAlignment="Center" />
+                    <fa:ImageAwesome x:Name="LoadingIcon" Foreground="Gray" HorizontalAlignment="Right" Icon="Spinner" Margin="5,3" Spin="True" SpinDuration="1.5" Visibility="Collapsed" />
+                </Grid>
                 <Button Grid.Column="1" x:Name="ReloadButton" Height="30" HorizontalAlignment="Center" Margin="2.5,5,2.5,5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
                 <Button Grid.Column="2" x:Name="BackButton" Height="30" HorizontalAlignment="Center" Margin="2.5,5,2.5,5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
                 <Button Grid.Column="3" x:Name="ForwardButton" Height="30" HorizontalAlignment="Center" Margin="2.5,5,5,5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />

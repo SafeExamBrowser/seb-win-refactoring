@@ -43,6 +43,11 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		void UpdateAddress(string adress);
 
 		/// <summary>
+		/// Updates the loading state according to the given value.
+		/// </summary>
+		void UpdateLoadingState(bool isLoading);
+
+		/// <summary>
 		/// Sets the title of the browser window to the given value;
 		/// </summary>
 		void UpdateTitle(string title);

@@ -86,6 +86,11 @@ namespace SafeExamBrowser.UserInterface.Classic
 			Dispatcher.Invoke(() => UrlTextBox.Text = url);
 		}
 
+		public void UpdateLoadingState(bool isLoading)
+		{
+			Dispatcher.Invoke(() => LoadingIcon.Visibility = isLoading ? Visibility.Visible : Visibility.Collapsed);
+		}
+
 		public void UpdateTitle(string title)
 		{
 			Dispatcher.Invoke(() => Title = title);

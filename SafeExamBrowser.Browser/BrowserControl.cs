@@ -15,17 +15,25 @@ using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.Browser
 
 namespace SafeExamBrowser.Browser
 {
-	class BrowserControl : ChromiumWebBrowser, IBrowserControl
+	internal class BrowserControl : ChromiumWebBrowser, IBrowserControl
 	{
-		private AddressChangedEventHandler addressChanged;
 		private BrowserSettings settings;
-		private TitleChangedEventHandler titleChanged;
 		private IText text;
+
+		private AddressChangedEventHandler addressChanged;
+		private LoadingStateChangedEventHandler loadingStateChanged;
+		private TitleChangedEventHandler titleChanged;
 
 		event AddressChangedEventHandler IBrowserControl.AddressChanged
 		{
 			add { addressChanged += value; }
 			remove { addressChanged -= value; }
+		}
+
+		event LoadingStateChangedEventHandler IBrowserControl.LoadingStateChanged
+		{
+			add { loadingStateChanged += value; }
+			remove { loadingStateChanged -= value; }
 		}
 
 		event TitleChangedEventHandler IBrowserControl.TitleChanged
@@ -68,6 +76,7 @@ namespace SafeExamBrowser.Browser
 		private void Initialize()
 		{
 			AddressChanged += (o, args) => addressChanged?.Invoke(args.Address);
+			LoadingStateChanged += (o, args) => loadingStateChanged?.Invoke(args.IsLoading);
 			TitleChanged += (o, args) => titleChanged?.Invoke(args.Title);
 
 			MenuHandler = new BrowserContextMenuHandler(settings, text);

@@ -32,6 +32,7 @@ namespace SafeExamBrowser.Browser
 
 			control = new BrowserControl(settings, text);
 			control.AddressChanged += Control_AddressChanged;
+			control.LoadingStateChanged += Control_LoadingStateChanged;
 			control.TitleChanged += Control_TitleChanged;
 
 			window = uiFactory.CreateBrowserWindow(control, settings);
@@ -46,6 +47,11 @@ namespace SafeExamBrowser.Browser
 		private void Control_AddressChanged(string address)
 		{
 			window.UpdateAddress(address);
+		}
+
+		private void Control_LoadingStateChanged(bool isLoading)
+		{
+			window.UpdateLoadingState(isLoading);
 		}
 
 		private void Control_TitleChanged(string title)
