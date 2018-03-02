@@ -26,6 +26,12 @@ namespace SafeExamBrowser.UserInterface.Classic
 		private RuntimeWindowViewModel model;
 		private WindowClosingEventHandler closing;
 
+		public bool TopMost
+		{
+			get { return Dispatcher.Invoke(() => Topmost); }
+			set { Dispatcher.Invoke(() => Topmost = value); }
+		}
+
 		event WindowClosingEventHandler IWindow.Closing
 		{
 			add { closing += value; }

@@ -133,6 +133,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		private void StartSession(bool initial = false)
 		{
 			runtimeWindow.Show();
+			runtimeWindow.BringToForeground();
 			logger.Info(">>>--- Initiating session procedure ---<<<");
 
 			if (sessionRunning)
@@ -149,6 +150,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 				logger.Info(">>>--- Session is running ---<<<");
 				runtimeWindow.HideProgressBar();
 				runtimeWindow.UpdateText(TextKey.RuntimeWindow_ApplicationRunning);
+				runtimeWindow.TopMost = configuration.CurrentSettings.KioskMode != KioskMode.None;
 
 				if (configuration.CurrentSettings.KioskMode == KioskMode.DisableExplorerShell)
 				{

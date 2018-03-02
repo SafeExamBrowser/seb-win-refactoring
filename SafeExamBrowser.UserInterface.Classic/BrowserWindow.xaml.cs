@@ -88,7 +88,11 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 		public void UpdateLoadingState(bool isLoading)
 		{
-			Dispatcher.Invoke(() => LoadingIcon.Visibility = isLoading ? Visibility.Visible : Visibility.Collapsed);
+			Dispatcher.Invoke(() =>
+			{
+				LoadingIcon.Visibility = isLoading ? Visibility.Visible : Visibility.Collapsed;
+				LoadingIcon.Spin = isLoading;
+			});
 		}
 
 		public void UpdateTitle(string title)
@@ -105,13 +109,27 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 			Closing += (o, args) => closing?.Invoke();
 			KeyUp += BrowserWindow_KeyUp;
+			UrlTextBox.GotKeyboardFocus += (o, args) => UrlTextBox.SelectAll();
+			UrlTextBox.GotMouseCapture += UrlTextBox_GotMouseCapture;
+			UrlTextBox.LostKeyboardFocus += (o, args) => UrlTextBox.Tag = null;
+			UrlTextBox.LostFocus += (o, args) => UrlTextBox.Tag = null;
 			UrlTextBox.KeyUp += UrlTextBox_KeyUp;
+			UrlTextBox.MouseDoubleClick += (o, args) => UrlTextBox.SelectAll();
 			ReloadButton.Click += (o, args) => ReloadRequested?.Invoke();
 			BackButton.Click += (o, args) => BackwardNavigationRequested?.Invoke();
 			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
 
 			ApplySettings();
 			LoadIcons();
+		}
+
+		private void UrlTextBox_GotMouseCapture(object sender, MouseEventArgs e)
+		{
+			if (UrlTextBox.Tag as bool? != true)
+			{
+				UrlTextBox.SelectAll();
+				UrlTextBox.Tag = true;
+			}
 		}
 
 		private void BrowserWindow_KeyUp(object sender, KeyEventArgs e)

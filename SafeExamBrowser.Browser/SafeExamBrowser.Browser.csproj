@@ -66,6 +66,8 @@
     </Compile>
     <Compile Include="BrowserIconResource.cs" />
     <Compile Include="Handlers\BrowserKeyboardHandler.cs" />
+    <Compile Include="Handlers\SebSchemeHandler.cs" />
+    <Compile Include="Handlers\SebSchemeHandlerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,12 +75,6 @@
       <Project>{47DA5933-BEF8-4729-94E6-ABDE2DB12262}</Project>
       <Name>SafeExamBrowser.Contracts</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\ChromiumLogo.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

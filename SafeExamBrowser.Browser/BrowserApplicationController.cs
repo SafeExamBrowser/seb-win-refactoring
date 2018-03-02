@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CefSharp;
+using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
@@ -42,14 +43,7 @@ namespace SafeExamBrowser.Browser
 
 		public void Initialize()
 		{
-			var cefSettings = new CefSettings
-			{
-				CachePath = runtimeInfo.BrowserCachePath,
-				LogFile = runtimeInfo.BrowserLogFile,
-				// TODO: Set according to current application LogLevel!
-				LogSeverity = LogSeverity.Verbose
-			};
-
+			var cefSettings = InitializeCefSettings();
 			var success = Cef.Initialize(cefSettings, true, null);
 
 			if (!success)
@@ -84,6 +78,36 @@ namespace SafeExamBrowser.Browser
 
 			instance.Terminated += Instance_Terminated;
 			instance.Window.Show();
+		}
+
+		private CefSettings InitializeCefSettings()
+		{
+			var schemeFactory = new SebSchemeHandlerFactory();
+			var cefSettings = new CefSettings
+			{
+				CachePath = runtimeInfo.BrowserCachePath,
+				LogFile = runtimeInfo.BrowserLogFile,
+				// TODO: Set according to current application LogLevel!
+				LogSeverity = LogSeverity.Verbose
+			};
+
+			schemeFactory.ConfigurationDetected += OnConfigurationDetected;
+
+			cefSettings.RegisterScheme(new CefCustomScheme { SchemeName = "seb", SchemeHandlerFactory = schemeFactory });
+			cefSettings.RegisterScheme(new CefCustomScheme { SchemeName = "sebs", SchemeHandlerFactory = schemeFactory });
+
+			return cefSettings;
+		}
+
+		private void OnConfigurationDetected(string url)
+		{
+			// TODO:
+			// 1. Ask whether reconfiguration should be attempted
+			// 2. Contact runtime and ask whether configuration valid and reconfiguration allowed
+			//    - If yes, do nothing and wait for shutdown command
+			//    - If no, show message box and NAVIGATE TO PREVIOUS PAGE -> but how?
+
+			uiFactory.Show("Detected re-configuration request for " + url, "Info");
 		}
 
 		private void Button_OnClick(Guid? instanceId = null)

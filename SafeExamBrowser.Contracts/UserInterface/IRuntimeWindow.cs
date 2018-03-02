@@ -13,6 +13,11 @@ namespace SafeExamBrowser.Contracts.UserInterface
 	public interface IRuntimeWindow : ILogObserver, IProgressIndicator, IWindow
 	{
 		/// <summary>
+		/// Determines whether the window will stay on top of other windows.
+		/// </summary>
+		bool TopMost { get; set; }
+
+		/// <summary>
 		/// Hides the progress bar.
 		/// </summary>
 		void HideProgressBar();

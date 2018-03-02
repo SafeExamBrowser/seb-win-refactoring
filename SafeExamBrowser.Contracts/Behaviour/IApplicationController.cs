@@ -10,6 +10,9 @@ using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
 namespace SafeExamBrowser.Contracts.Behaviour
 {
+	/// <summary>
+	/// Controls the lifetime and functionality of a (third-party) application which can be accessed via the taskbar.
+	/// </summary>
 	public interface IApplicationController
 	{
 		/// <summary>
@@ -23,7 +26,7 @@ namespace SafeExamBrowser.Contracts.Behaviour
 		void RegisterApplicationButton(IApplicationButton button);
 
 		/// <summary>
-		/// Performs any termination work, e.g. freeing of resources.
+		/// Performs any termination work, e.g. releasing of used resources.
 		/// </summary>
 		void Terminate();
 	}
