@@ -13,6 +13,9 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Communication
 {
+	/// <summary>
+	/// Default implementation of the <see cref="IServiceProxy"/>, to be used for communication with the service application component.
+	/// </summary>
 	public class ServiceProxy : BaseProxy, IServiceProxy
 	{
 		public bool Ignore { private get; set; }

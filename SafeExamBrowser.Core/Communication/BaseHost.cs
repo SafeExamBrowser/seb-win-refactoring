@@ -16,6 +16,9 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Communication
 {
+	/// <summary>
+	/// The base implementation of an <see cref="ICommunicationHost"/>. Runs the host on a new, separate thread.
+	/// </summary>
 	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
 	public abstract class BaseHost : ICommunication, ICommunicationHost
 	{

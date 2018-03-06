@@ -17,6 +17,9 @@ using SafeExamBrowser.Core.I18n;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
+	/// <summary>
+	/// An operation to handle the initialization of an <see cref="IText"/> module with text data from the default directory.
+	/// </summary>
 	public class I18nOperation : IOperation
 	{
 		private ILogger logger;

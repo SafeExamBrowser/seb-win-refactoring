@@ -15,6 +15,9 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
+	/// <summary>
+	/// Default implementation of the <see cref="IOperationSequence"/>.
+	/// </summary>
 	public class OperationSequence : IOperationSequence
 	{
 		private ILogger logger;

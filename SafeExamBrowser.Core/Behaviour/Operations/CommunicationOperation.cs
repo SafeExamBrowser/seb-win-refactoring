@@ -14,6 +14,10 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
+	/// <summary>
+	/// An operation to handle the lifetime of an <see cref="ICommunicationHost"/>. The host is started during <see cref="Perform"/>,
+	/// stopped and restarted during <see cref="Repeat"/> (if not running) and stopped during <see cref="Revert"/>.
+	/// </summary>
 	public class CommunicationOperation : IOperation
 	{
 		private ICommunicationHost host;

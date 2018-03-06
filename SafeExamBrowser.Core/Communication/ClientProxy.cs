@@ -14,6 +14,9 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Communication
 {
+	/// <summary>
+	/// Default implementation of the <see cref="IClientProxy"/>, to be used for communication with the client application component.
+	/// </summary>
 	public class ClientProxy : BaseProxy, IClientProxy
 	{
 		public ClientProxy(string address, ILogger logger) : base(address, logger)

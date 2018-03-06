@@ -11,6 +11,9 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Logging
 {
+	/// <summary>
+	/// Default implementation of <see cref="ILogContentFormatter"/>.
+	/// </summary>
 	public class DefaultLogFormatter : ILogContentFormatter
 	{
 		public string Format(ILogContent content)

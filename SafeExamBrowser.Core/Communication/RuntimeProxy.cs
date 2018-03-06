@@ -15,6 +15,9 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Communication
 {
+	/// <summary>
+	/// Default implementation of the <see cref="IRuntimeProxy"/>, to be used for communication with the runtime application component.
+	/// </summary>
 	public class RuntimeProxy : BaseProxy, IRuntimeProxy
 	{
 		public RuntimeProxy(string address, ILogger logger) : base(address, logger)

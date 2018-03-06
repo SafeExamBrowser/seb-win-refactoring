@@ -11,6 +11,9 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Logging
 {
+	/// <summary>
+	/// Default implementation of <see cref="IThreadInfo"/>.
+	/// </summary>
 	public class ThreadInfo : IThreadInfo
 	{
 		public int Id { get; private set; }

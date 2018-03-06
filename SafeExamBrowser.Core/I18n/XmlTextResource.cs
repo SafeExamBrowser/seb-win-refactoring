@@ -14,6 +14,9 @@ using SafeExamBrowser.Contracts.I18n;
 
 namespace SafeExamBrowser.Core.I18n
 {
+	/// <summary>
+	/// Default implementation of <see cref="ITextResource"/> to load text data from XML files.
+	/// </summary>
 	public class XmlTextResource : ITextResource
 	{
 		private string path;
@@ -21,8 +24,8 @@ namespace SafeExamBrowser.Core.I18n
 		/// <summary>
 		/// Initializes a new text resource for an XML file located at the specified path.
 		/// </summary>
-		/// <exception cref="System.ArgumentException">If the specifed file does not exist.</exception>
-		/// <exception cref="System.ArgumentNullException">If the given path is null.</exception>
+		/// <exception cref="ArgumentException">If the specifed file does not exist.</exception>
+		/// <exception cref="ArgumentNullException">If the given path is null.</exception>
 		public XmlTextResource(string path)
 		{
 			if (path == null)

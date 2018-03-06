@@ -12,6 +12,9 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Logging
 {
+	/// <summary>
+	/// <see cref="ILogObserver"/> which immediately saves new log content to disk.
+	/// </summary>
 	public class LogFileWriter : ILogObserver
 	{
 		private static readonly object @lock = new object();

@@ -11,7 +11,8 @@ using System;
 namespace SafeExamBrowser.Contracts.Communication
 {
 	/// <summary>
-	/// Defines the common functionality for all communication proxies.
+	/// Defines the common functionality for all communication proxies. A proxy is needed to be able to perform inter-process communication
+	/// with the <see cref="ICommunicationHost"/> of another application component.
 	/// </summary>
 	public interface ICommunicationProxy
 	{

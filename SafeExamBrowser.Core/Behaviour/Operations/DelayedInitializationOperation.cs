@@ -12,6 +12,11 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Behaviour.Operations
 {
+	/// <summary>
+	/// A wrapper operation to allow for a delayed (just-in-time) instantiation of an operation. Is useful when e.g. dependencies for a
+	/// certain operation are not available during execution of the composition root, but rather only after a preceding operation within
+	/// an <see cref="IOperationSequence"/> has finished.
+	/// </summary>
 	public class DelayedInitializationOperation : IOperation
 	{
 		private Func<IOperation> initialize;

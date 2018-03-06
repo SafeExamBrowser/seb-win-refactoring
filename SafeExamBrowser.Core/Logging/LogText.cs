@@ -10,6 +10,9 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Logging
 {
+	/// <summary>
+	/// Default implementation of <see cref="ILogText"/>.
+	/// </summary>
 	public class LogText : ILogText
 	{
 		public string Text { get; private set; }

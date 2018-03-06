@@ -15,6 +15,9 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Logging
 {
+	/// <summary>
+	/// Default, thread-safe implementation of <see cref="ILogger"/>.
+	/// </summary>
 	public class Logger : ILogger
 	{
 		private static readonly object @lock = new object();

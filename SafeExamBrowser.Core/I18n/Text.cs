@@ -13,6 +13,9 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.I18n
 {
+	/// <summary>
+	/// Default implementation of the <see cref="IText"/> module.
+	/// </summary>
 	public class Text : IText
 	{
 		private IDictionary<TextKey, string> cache = new Dictionary<TextKey, string>();

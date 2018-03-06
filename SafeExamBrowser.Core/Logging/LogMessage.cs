@@ -11,6 +11,9 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Logging
 {
+	/// <summary>
+	/// Default implementation of <see cref="ILogMessage"/>.
+	/// </summary>
 	public class LogMessage : ILogMessage
 	{
 		public DateTime DateTime { get; private set; }

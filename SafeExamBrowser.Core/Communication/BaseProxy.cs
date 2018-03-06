@@ -16,6 +16,10 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Communication
 {
+	/// <summary>
+	/// Base implementation of an <see cref="ICommunicationProxy"/>. Automatically starts a ping mechanism with a timeout of
+	/// <see cref="ONE_MINUTE"/> once a connection was established.
+	/// </summary>
 	public abstract class BaseProxy : ICommunicationProxy
 	{
 		private const int ONE_MINUTE = 60000;
