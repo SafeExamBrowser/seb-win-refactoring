@@ -8,7 +8,7 @@
 
 using SafeExamBrowser.Contracts.UserInterface;
 
-namespace SafeExamBrowser.Contracts.Behaviour.Operations
+namespace SafeExamBrowser.Contracts.Behaviour.OperationModel
 {
 	/// <summary>
 	/// Defines an operation which will be executed as part of an <see cref="IOperationSequence"/>.

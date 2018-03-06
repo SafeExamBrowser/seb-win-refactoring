@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Configuration;
 using SafeExamBrowser.Contracts.Behaviour;
-using SafeExamBrowser.Contracts.Behaviour.Operations;
+using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Core.Behaviour.Operations;

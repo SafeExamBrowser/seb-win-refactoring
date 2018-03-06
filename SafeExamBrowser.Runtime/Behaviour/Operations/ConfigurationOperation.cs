@@ -8,7 +8,7 @@
 
 using System;
 using System.IO;
-using SafeExamBrowser.Contracts.Behaviour.Operations;
+using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;

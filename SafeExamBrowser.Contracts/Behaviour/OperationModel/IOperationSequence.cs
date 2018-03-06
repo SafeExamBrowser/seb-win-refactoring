@@ -8,7 +8,7 @@
 
 using SafeExamBrowser.Contracts.UserInterface;
 
-namespace SafeExamBrowser.Contracts.Behaviour.Operations
+namespace SafeExamBrowser.Contracts.Behaviour.OperationModel
 {
 	/// <summary>
 	/// A sequence of <see cref="IOperation"/>s which can be used for sequential procedures, e.g. the initialization &amp; finalization of an

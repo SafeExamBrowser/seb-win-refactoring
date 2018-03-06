@@ -7,7 +7,7 @@
  */
 
 using SafeExamBrowser.Contracts.Behaviour;
-using SafeExamBrowser.Contracts.Behaviour.Operations;
+using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;

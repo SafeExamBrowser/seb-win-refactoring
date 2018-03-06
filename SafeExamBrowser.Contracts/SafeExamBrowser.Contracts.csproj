@@ -55,8 +55,8 @@
   <ItemGroup>
     <Compile Include="Behaviour\IApplicationController.cs" />
     <Compile Include="Behaviour\IRuntimeController.cs" />
-    <Compile Include="Behaviour\Operations\IOperationSequence.cs" />
-    <Compile Include="Behaviour\Operations\OperationResult.cs" />
+    <Compile Include="Behaviour\OperationModel\IOperationSequence.cs" />
+    <Compile Include="Behaviour\OperationModel\OperationResult.cs" />
     <Compile Include="Communication\IClientHost.cs" />
     <Compile Include="Communication\ICommunication.cs" />
     <Compile Include="Communication\IClientProxy.cs" />
@@ -81,7 +81,7 @@
     <Compile Include="Configuration\ISession.cs" />
     <Compile Include="Configuration\Settings\ConfigurationMode.cs" />
     <Compile Include="Behaviour\INotificationController.cs" />
-    <Compile Include="Behaviour\Operations\IOperation.cs" />
+    <Compile Include="Behaviour\OperationModel\IOperation.cs" />
     <Compile Include="Behaviour\IClientController.cs" />
     <Compile Include="Configuration\IIconResource.cs" />
     <Compile Include="Configuration\IApplicationInfo.cs" />

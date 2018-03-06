@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Behaviour.Operations
+namespace SafeExamBrowser.Contracts.Behaviour.OperationModel
 {
 	/// <summary>
 	/// Defines the result of the sequential execution of <see cref="IOperation"/>s (as part of an <see cref="IOperationSequence"/>).
