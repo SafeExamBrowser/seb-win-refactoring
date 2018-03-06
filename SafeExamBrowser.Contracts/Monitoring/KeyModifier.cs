@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Monitoring
 {
+	/// <summary>
+	/// The key modifiers which can be detected by the <see cref="IKeyboardInterceptor"/>.
+	/// </summary>
 	[Flags]
 	public enum KeyModifier
 	{

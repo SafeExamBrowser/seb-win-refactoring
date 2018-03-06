@@ -10,6 +10,9 @@ using System.Collections.Generic;
 
 namespace SafeExamBrowser.Contracts.I18n
 {
+	/// <summary>
+	/// Defines a text resource, i.e. a source from which text data can be loaded.
+	/// </summary>
 	public interface ITextResource
 	{
 		/// <summary>

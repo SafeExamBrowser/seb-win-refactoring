@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
+	/// <summary>
+	/// Defines the fundamental, global configuration information for all application components.
+	/// </summary>
 	[Serializable]
 	public class RuntimeInfo
 	{

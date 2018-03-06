@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.WindowsApi
 {
+	/// <summary>
+	/// Defines the API to retrieve information about desktops and perform desktop-related operations.
+	/// </summary>
 	public interface IDesktop
 	{
 		/// <summary>

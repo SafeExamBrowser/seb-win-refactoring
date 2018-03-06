@@ -8,6 +8,10 @@
 
 namespace SafeExamBrowser.Contracts.I18n
 {
+	/// <summary>
+	/// Provides access to text data. IMPORTANT: To allow for a complete internationalization of the application, all text elements which
+	/// are visible to the user must be retrieved via this module!
+	/// </summary>
 	public interface IText
 	{
 		/// <summary>

@@ -12,6 +12,9 @@ namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
 	public delegate void KeyboardLayoutSelectedEventHandler(IKeyboardLayout layout);
 
+	/// <summary>
+	/// The control of the keyboard layout system component.
+	/// </summary>
 	public interface ISystemKeyboardLayoutControl : ISystemControl
 	{
 		/// <summary>

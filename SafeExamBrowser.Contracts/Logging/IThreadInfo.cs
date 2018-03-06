@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Logging
 {
+	/// <summary>
+	/// Defines information about a thread, to be associated with an <see cref="ILogMessage"/>.
+	/// </summary>
 	public interface IThreadInfo : ICloneable
 	{
 		/// <summary>

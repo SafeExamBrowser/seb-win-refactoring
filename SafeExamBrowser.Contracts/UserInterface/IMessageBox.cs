@@ -10,6 +10,9 @@ using SafeExamBrowser.Contracts.I18n;
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
+	/// <summary>
+	/// Defines the API for message boxes.
+	/// </summary>
 	public interface IMessageBox
 	{
 		/// <summary>

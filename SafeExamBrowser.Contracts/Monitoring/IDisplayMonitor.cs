@@ -10,6 +10,9 @@ namespace SafeExamBrowser.Contracts.Monitoring
 {
 	public delegate void DisplayChangedEventHandler();
 
+	/// <summary>
+	/// Monitors the displays of the computer for (setup) changes and provides access to display-related functionality.
+	/// </summary>
 	public interface IDisplayMonitor
 	{
 		/// <summary>

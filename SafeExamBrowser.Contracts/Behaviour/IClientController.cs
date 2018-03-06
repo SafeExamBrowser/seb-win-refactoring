@@ -13,6 +13,9 @@ using SafeExamBrowser.Contracts.Configuration.Settings;
 
 namespace SafeExamBrowser.Contracts.Behaviour
 {
+	/// <summary>
+	/// Controls the lifetime and is responsible for the event handling of the client application component.
+	/// </summary>
 	public interface IClientController
 	{
 		/// <summary>

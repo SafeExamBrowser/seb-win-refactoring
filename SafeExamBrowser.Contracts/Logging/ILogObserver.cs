@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Logging
 {
+	/// <summary>
+	/// Defines an observer of the application log which can subscribe to a logger via <see cref="ILogger.Subscribe(ILogObserver)"/>.
+	/// </summary>
 	public interface ILogObserver
 	{
 		/// <summary>

@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Configuration.Settings
 {
+	/// <summary>
+	/// Defines all possible service policies which the application supports.
+	/// </summary>
 	public enum ServicePolicy
 	{
 		/// <summary>

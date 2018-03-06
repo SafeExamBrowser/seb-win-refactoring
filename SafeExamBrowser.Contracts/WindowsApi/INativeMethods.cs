@@ -12,6 +12,9 @@ using SafeExamBrowser.Contracts.Monitoring;
 
 namespace SafeExamBrowser.Contracts.WindowsApi
 {
+	/// <summary>
+	/// Defines and wraps the functionality available via the native Windows API.
+	/// </summary>
 	public interface INativeMethods
 	{
 		/// <summary>

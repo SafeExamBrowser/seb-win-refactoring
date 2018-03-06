@@ -13,6 +13,9 @@ namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
 	public delegate void ApplicationButtonClickedEventHandler(Guid? instanceId = null);
 
+	/// <summary>
+	/// The button of a (third-party) application which can be loaded into the <see cref="ITaskbar"/>.
+	/// </summary>
 	public interface IApplicationButton
 	{
 		/// <summary>

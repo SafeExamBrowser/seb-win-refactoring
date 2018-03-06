@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Communication
 {
+	/// <summary>
+	/// Defines the common functionality for all communication proxies.
+	/// </summary>
 	public interface ICommunicationProxy
 	{
 		/// <summary>

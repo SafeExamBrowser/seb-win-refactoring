@@ -13,6 +13,9 @@ namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
 	public delegate void WirelessNetworkSelectedEventHandler(IWirelessNetwork network);
 
+	/// <summary>
+	/// The control of the wireless network system component.
+	/// </summary>
 	public interface ISystemWirelessNetworkControl : ISystemControl
 	{
 		/// <summary>

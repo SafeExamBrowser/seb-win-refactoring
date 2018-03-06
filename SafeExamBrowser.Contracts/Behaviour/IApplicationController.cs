@@ -11,7 +11,7 @@ using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 namespace SafeExamBrowser.Contracts.Behaviour
 {
 	/// <summary>
-	/// Controls the lifetime and functionality of a (third-party) application which can be accessed via the taskbar.
+	/// Controls the lifetime and functionality of a (third-party) application which can be accessed via the <see cref="ITaskbar"/>.
 	/// </summary>
 	public interface IApplicationController
 	{

@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Communication.Responses
 {
+	/// <summary>
+	/// The response to be used to reply to an authentication request (see <see cref="Messages.SimpleMessagePurport.Authenticate"/>).
+	/// </summary>
 	[Serializable]
 	public class AuthenticationResponse : Response
 	{

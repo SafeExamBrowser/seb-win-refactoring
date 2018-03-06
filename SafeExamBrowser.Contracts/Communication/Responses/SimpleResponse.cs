@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Communication.Responses
 {
+	/// <summary>
+	/// A generic response to reply simple purports without data to an interlocutor.
+	/// </summary>
 	[Serializable]
 	public class SimpleResponse : Response
 	{

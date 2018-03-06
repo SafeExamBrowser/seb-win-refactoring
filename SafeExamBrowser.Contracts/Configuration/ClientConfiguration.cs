@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
+	/// <summary>
+	/// Container for the configuration of the client application component.
+	/// </summary>
 	[Serializable]
 	public class ClientConfiguration
 	{

@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Logging
 {
+	/// <summary>
+	/// Defines a formatter to be used to unify the look of and information rendered in an application log.
+	/// </summary>
 	public interface ILogContentFormatter
 	{
 		/// <summary>

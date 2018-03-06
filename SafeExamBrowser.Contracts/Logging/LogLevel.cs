@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.Contracts.Logging
 {
 	/// <summary>
-	/// Defines the severity levels of the application log.
+	/// Defines all possible severity levels supported by the application's <see cref="ILogger"/>.
 	/// </summary>
 	public enum LogLevel
 	{

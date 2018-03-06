@@ -10,6 +10,17 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Contracts.Behaviour.Operations
 {
+	/// <summary>
+	/// A sequence of <see cref="IOperation"/>s which can be used for sequential procedures, e.g. the initialization &amp; finalization of an
+	/// application component. Each operation will be executed failsafe, i.e. the return value will indicate whether a procedure completed
+	/// successfully or not.
+	/// 
+	/// The execution order of the individual operations (for an exemplary sequence initialized with operations A, B, C, D) is as follows:
+	/// 
+	/// <see cref="TryPerform"/>: The operations will be performed according to their initialized order (A -> B -> C -> D).
+	/// <see cref="TryRepeat"/>: The operations will be repeated according to their initialized order (A -> B -> C -> D).
+	/// <see cref="TryRevert"/>: The operations will be reverted according to the reversed initial order (D -> C -> B -> A).
+	/// </summary>
 	public interface IOperationSequence
 	{
 		/// <summary>

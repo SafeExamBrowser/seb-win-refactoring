@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Monitoring
 {
+	/// <summary>
+	/// Intercepts all keyboard input (except the Secure Attention Sequence: https://en.wikipedia.org/wiki/Secure_attention_key).
+	/// </summary>
 	public interface IKeyboardInterceptor
 	{
 		/// <summary>

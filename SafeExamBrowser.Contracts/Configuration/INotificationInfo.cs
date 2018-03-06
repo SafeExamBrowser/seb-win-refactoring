@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
+	/// <summary>
+	/// The information about a notification which is part of the <see cref="UserInterface.Taskbar.ITaskbar"/>.
+	/// </summary>
 	public interface INotificationInfo
 	{
 		/// <summary>

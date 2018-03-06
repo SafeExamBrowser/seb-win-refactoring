@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Monitoring
 {
+	/// <summary>
+	/// The key states which can be detected by the <see cref="IKeyboardInterceptor"/> or <see cref="IMouseInterceptor"/>.
+	/// </summary>
 	public enum KeyState
 	{
 		None = 0,

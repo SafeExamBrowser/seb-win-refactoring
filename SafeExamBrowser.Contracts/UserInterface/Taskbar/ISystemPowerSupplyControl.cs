@@ -10,6 +10,9 @@ using SafeExamBrowser.Contracts.SystemComponents;
 
 namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
+	/// <summary>
+	/// The control of the power supply system component.
+	/// </summary>
 	public interface ISystemPowerSupplyControl : ISystemControl
 	{
 		/// <summary>

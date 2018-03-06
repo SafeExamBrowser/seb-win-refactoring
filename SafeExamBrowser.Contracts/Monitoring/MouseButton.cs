@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Monitoring
 {
+	/// <summary>
+	/// The mouse buttons which can be detected by the <see cref="IMouseInterceptor"/>.
+	/// </summary>
 	public enum MouseButton
 	{
 		None = 0,

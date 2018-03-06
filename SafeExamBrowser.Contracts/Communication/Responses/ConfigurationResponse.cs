@@ -11,6 +11,9 @@ using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.Contracts.Communication.Responses
 {
+	/// <summary>
+	/// The response to be used to reply to a configuration request (see <see cref="Messages.SimpleMessagePurport.ConfigurationNeeded"/>).
+	/// </summary>
 	[Serializable]
 	public class ConfigurationResponse : Response
 	{

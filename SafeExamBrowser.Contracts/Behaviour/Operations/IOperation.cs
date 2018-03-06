@@ -10,6 +10,9 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Contracts.Behaviour.Operations
 {
+	/// <summary>
+	/// Defines an operation which will be executed as part of an <see cref="IOperationSequence"/>.
+	/// </summary>
 	public interface IOperation
 	{
 		/// <summary>

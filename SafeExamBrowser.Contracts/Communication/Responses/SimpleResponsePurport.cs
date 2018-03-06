@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Communication.Responses
 {
+	/// <summary>
+	/// The possible purports of a <see cref="SimpleResponse"/>.
+	/// </summary>
 	[Serializable]
 	public enum SimpleResponsePurport
 	{

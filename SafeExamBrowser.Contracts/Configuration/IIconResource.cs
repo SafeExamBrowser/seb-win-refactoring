@@ -10,10 +10,13 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
+	/// <summary>
+	/// Defines an icon resource, i.e. the path to and type of an icon.
+	/// </summary>
 	public interface IIconResource
 	{
 		/// <summary>
-		/// The <c>Uri</c> pointing to the icon.
+		/// The <see cref="System.Uri"/> pointing to the icon.
 		/// </summary>
 		Uri Uri { get; }
 

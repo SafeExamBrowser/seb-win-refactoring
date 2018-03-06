@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Monitoring
 {
+	/// <summary>
+	/// Intercepts all mouse input.
+	/// </summary>
 	public interface IMouseInterceptor
 	{
 		/// <summary>

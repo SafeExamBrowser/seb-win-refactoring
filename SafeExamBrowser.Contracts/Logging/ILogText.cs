@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Logging
 {
+	/// <summary>
+	/// Defines raw text data as content element of the application log.
+	/// </summary>
 	public interface ILogText : ILogContent
 	{
 		/// <summary>

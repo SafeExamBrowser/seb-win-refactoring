@@ -10,6 +10,10 @@ using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
 namespace SafeExamBrowser.Contracts.SystemComponents
 {
+	/// <summary>
+	/// Defines the functionality of a system component (e.g. the power supply). Each system component will get an <see cref="ISystemControl"/>
+	/// assigned, via which the user is able to interact with or get information about the underlying system component.
+	/// </summary>
 	public interface ISystemComponent<TControl> where TControl : ISystemControl
 	{
 		/// <summary>

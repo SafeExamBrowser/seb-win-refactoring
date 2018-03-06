@@ -9,7 +9,8 @@
 namespace SafeExamBrowser.Contracts.I18n
 {
 	/// <summary>
-	/// Defines all text components of the user interface.
+	/// Defines all text elements of the user interface. Use the pattern "Location_Description" to allow for a better overview over all
+	/// keys and their usage (where applicable).
 	/// </summary>
 	public enum TextKey
 	{

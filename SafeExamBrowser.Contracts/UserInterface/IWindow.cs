@@ -10,6 +10,9 @@ namespace SafeExamBrowser.Contracts.UserInterface
 {
 	public delegate void WindowClosingEventHandler();
 
+	/// <summary>
+	/// Defines the functionality of a window.
+	/// </summary>
 	public interface IWindow
 	{
 		/// <summary>

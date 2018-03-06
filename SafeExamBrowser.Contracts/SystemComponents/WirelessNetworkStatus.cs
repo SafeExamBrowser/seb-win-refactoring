@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.SystemComponents
 {
+	/// <summary>
+	/// Defines all possible network statuses which can be determined by the application.
+	/// </summary>
 	public enum WirelessNetworkStatus
 	{
 		Undefined = 0,

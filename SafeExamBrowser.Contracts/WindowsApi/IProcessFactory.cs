@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.WindowsApi
 {
+	/// <summary>
+	/// The factory for processes, to be used whenever a new process needs to be created (for internal components and third-party applications).
+	/// </summary>
 	public interface IProcessFactory
 	{
 		/// <summary>

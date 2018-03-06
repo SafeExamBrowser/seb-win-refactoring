@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Communication.Responses
 {
+	/// <summary>
+	/// The base class for respones, from which a response must inherit in order to be sent to an interlocutor as reply to <see cref="ICommunication.Send(Messages.Message)"/>.
+	/// </summary>
 	[Serializable]
 	public abstract class Response
 	{

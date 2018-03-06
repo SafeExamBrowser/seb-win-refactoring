@@ -7,10 +7,12 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Configuration.Settings;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
+	/// <summary>
+	/// The repository which controls the loading and initializing of configuration data.
+	/// </summary>
 	public interface IConfigurationRepository
 	{
 		/// <summary>

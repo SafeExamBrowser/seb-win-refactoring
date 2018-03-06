@@ -10,6 +10,9 @@ namespace SafeExamBrowser.Contracts.UserInterface
 {
 	public delegate void ActionRequestedEventHandler();
 
+	/// <summary>
+	/// Defines the functionality of a browser window, i.e. a window with an embedded browser instance (see <see cref="IBrowserControl"/>).
+	/// </summary>
 	public interface IBrowserWindow : IWindow
 	{
 		/// <summary>

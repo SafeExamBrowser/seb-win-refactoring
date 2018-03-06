@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
+	/// <summary>
+	/// The control of a system component which can be loaded into the <see cref="ITaskbar"/>.
+	/// </summary>
 	public interface ISystemControl
 	{
 		/// <summary>

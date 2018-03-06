@@ -11,6 +11,9 @@ using System.Collections.Generic;
 
 namespace SafeExamBrowser.Contracts.Logging
 {
+	/// <summary>
+	/// Defines the functionality of the logger.
+	/// </summary>
 	public interface ILogger
 	{
 		/// <summary>

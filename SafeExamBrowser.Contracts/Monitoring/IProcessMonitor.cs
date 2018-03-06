@@ -12,6 +12,9 @@ namespace SafeExamBrowser.Contracts.Monitoring
 {
 	public delegate void ExplorerStartedEventHandler();
 
+	/// <summary>
+	/// Monitors the processes running on the computer and provides access to process-related functionality.
+	/// </summary>
 	public interface IProcessMonitor
 	{
 		/// <summary>

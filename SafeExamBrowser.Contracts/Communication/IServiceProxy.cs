@@ -11,6 +11,9 @@ using SafeExamBrowser.Contracts.Configuration.Settings;
 
 namespace SafeExamBrowser.Contracts.Communication
 {
+	/// <summary>
+	/// Defines the functionality for a proxy to the communication host of the service application component.
+	/// </summary>
 	public interface IServiceProxy : ICommunicationProxy
 	{
 		/// <summary>

@@ -11,6 +11,9 @@ using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
+	/// <summary>
+	/// Defines all session-related (configuration) data.
+	/// </summary>
 	public interface ISession
 	{
 		/// <summary>

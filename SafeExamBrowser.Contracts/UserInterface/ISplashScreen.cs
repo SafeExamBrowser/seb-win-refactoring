@@ -10,10 +10,13 @@ using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
+	/// <summary>
+	/// Defines the functionality of a splash screen.
+	/// </summary>
 	public interface ISplashScreen : IProgressIndicator, IWindow
 	{
 		/// <summary>
-		/// The runtime information used to display version and copyright information.
+		/// The runtime information used to display version and copyright information. Can be updated during the execution of a procedure.
 		/// </summary>
 		RuntimeInfo RuntimeInfo { set; }
 	}

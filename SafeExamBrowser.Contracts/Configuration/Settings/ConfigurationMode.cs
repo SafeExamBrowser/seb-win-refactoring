@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Configuration.Settings
 {
+	/// <summary>
+	/// Defines all possible configuration modes for the application.
+	/// </summary>
 	public enum ConfigurationMode
 	{
 		/// <summary>

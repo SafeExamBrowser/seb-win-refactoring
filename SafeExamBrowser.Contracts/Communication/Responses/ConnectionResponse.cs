@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Communication.Responses
 {
+	/// <summary>
+	/// The response to a connection request (see <see cref="ICommunication.Connect(Guid?)"/>).
+	/// </summary>
 	[Serializable]
 	public class ConnectionResponse : Response
 	{

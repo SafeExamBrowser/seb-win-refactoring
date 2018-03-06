@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Behaviour.Operations
 {
+	/// <summary>
+	/// Defines the result of the sequential execution of <see cref="IOperation"/>s (as part of an <see cref="IOperationSequence"/>).
+	/// </summary>
 	public enum OperationResult
 	{
 		/// <summary>

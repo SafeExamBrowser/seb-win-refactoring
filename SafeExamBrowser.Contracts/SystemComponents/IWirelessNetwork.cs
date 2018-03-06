@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.SystemComponents
 {
+	/// <summary>
+	/// Defines a wireless network which can be connected to by the application.
+	/// </summary>
 	public interface IWirelessNetwork
 	{
 		/// <summary>

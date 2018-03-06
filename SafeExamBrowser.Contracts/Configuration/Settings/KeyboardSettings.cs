@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Configuration.Settings
 {
+	/// <summary>
+	/// Defines all configuration options for the <see cref="Monitoring.IKeyboardInterceptor"/>.
+	/// </summary>
 	[Serializable]
 	public class KeyboardSettings
 	{

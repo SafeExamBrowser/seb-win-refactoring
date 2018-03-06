@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
+	/// <summary>
+	/// Defines all operating systems supported by the application.
+	/// </summary>
 	public enum OperatingSystem
 	{
 		Unknown = 0,

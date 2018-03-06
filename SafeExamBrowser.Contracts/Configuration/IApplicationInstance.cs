@@ -14,6 +14,9 @@ namespace SafeExamBrowser.Contracts.Configuration
 	public delegate void TerminatedEventHandler(Guid id);
 	public delegate void NameChangedEventHandler(string name);
 
+	/// <summary>
+	/// Defines an instance of a (third-party) application which can be accessed via the <see cref="UserInterface.Taskbar.ITaskbar"/>.
+	/// </summary>
 	public interface IApplicationInstance
 	{
 		/// <summary>

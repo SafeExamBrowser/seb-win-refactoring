@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
+	/// <summary>
+	/// The information about a (third-party) application which can be accessed via the <see cref="UserInterface.Taskbar.ITaskbar"/>.
+	/// </summary>
 	public interface IApplicationInfo
 	{
 		/// <summary>

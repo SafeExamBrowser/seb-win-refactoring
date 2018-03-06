@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Behaviour
 {
+	/// <summary>
+	/// Controls the lifetime and is responsible for the event handling of the runtime application component.
+	/// </summary>
 	public interface IRuntimeController
 	{
 		/// <summary>

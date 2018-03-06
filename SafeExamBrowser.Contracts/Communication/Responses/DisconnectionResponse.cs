@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Communication.Responses
 {
+	/// <summary>
+	/// The response transmitted to a <see cref="Messages.DisconnectionMessage"/>
+	/// </summary>
 	[Serializable]
 	public class DisconnectionResponse : Response
 	{

@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
+	/// <summary>
+	/// Provides access to information about the operating system.
+	/// </summary>
 	public interface ISystemInfo
 	{
 		/// <summary>

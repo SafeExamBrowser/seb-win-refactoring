@@ -12,6 +12,10 @@ namespace SafeExamBrowser.Contracts.UserInterface
 	public delegate void LoadingStateChangedEventHandler(bool isLoading);
 	public delegate void TitleChangedEventHandler(string title);
 
+	/// <summary>
+	/// Defines the functionality of a browser control (i.e. an instance of the browser resp. its user interface) and is normally embedded
+	/// within an <see cref="IBrowserWindow"/>.
+	/// </summary>
 	public interface IBrowserControl
 	{
 		/// <summary>

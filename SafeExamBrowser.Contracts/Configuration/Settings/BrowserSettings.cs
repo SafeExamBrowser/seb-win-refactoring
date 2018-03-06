@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Configuration.Settings
 {
+	/// <summary>
+	/// Defines all configuration options for the browser of the application.
+	/// </summary>
 	[Serializable]
 	public class BrowserSettings
 	{

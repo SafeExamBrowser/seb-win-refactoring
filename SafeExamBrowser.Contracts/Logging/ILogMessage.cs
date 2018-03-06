@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Logging
 {
+	/// <summary>
+	/// Defines a typical (i.e. prioritized and timestamped) log message as content element of the application log.
+	/// </summary>
 	public interface ILogMessage : ILogContent
 	{
 		/// <summary>

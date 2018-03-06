@@ -10,6 +10,9 @@ namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
 	public delegate void NotificationButtonClickedEventHandler();
 
+	/// <summary>
+	/// The button of a notification which can be loaded into the <see cref="ITaskbar"/>.
+	/// </summary>
 	public interface INotificationButton
 	{
 		/// <summary>

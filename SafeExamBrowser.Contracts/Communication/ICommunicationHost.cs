@@ -10,6 +10,9 @@ namespace SafeExamBrowser.Contracts.Communication
 {
 	public delegate void CommunicationEventHandler();
 
+	/// <summary>
+	/// Defines the common functionality for all communication hosts.
+	/// </summary>
 	public interface ICommunicationHost
 	{
 		/// <summary>

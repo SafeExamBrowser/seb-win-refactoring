@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.SystemComponents
 {
+	/// <summary>
+	/// Defines a keyboard layout which can be loaded by the application.
+	/// </summary>
 	public interface IKeyboardLayout
 	{
 		/// <summary>

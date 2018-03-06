@@ -10,6 +10,9 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 {
 	public delegate void ProcessTerminatedEventHandler(int exitCode);
 
+	/// <summary>
+	/// Represents a process and defines its functionality.
+	/// </summary>
 	public interface IProcess
 	{
 		/// <summary>

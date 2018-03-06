@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Communication.Messages
 {
+	/// <summary>
+	/// This is the last message transmitted from a component to its interlocutor in order to terminate a communication session.
+	/// </summary>
 	[Serializable]
 	public class DisconnectionMessage : Message
 	{

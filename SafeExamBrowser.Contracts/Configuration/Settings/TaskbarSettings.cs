@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Configuration.Settings
 {
+	/// <summary>
+	/// Defines all configuration options for the <see cref="UserInterface.Taskbar.ITaskbar"/>.
+	/// </summary>
 	[Serializable]
 	public class TaskbarSettings
 	{

@@ -10,6 +10,9 @@ using SafeExamBrowser.Contracts.I18n;
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
+	/// <summary>
+	/// A progress indicator is a user interface element which displays the (completion) status of a procedure to the user.
+	/// </summary>
 	public interface IProgressIndicator
 	{
 		/// <summary>

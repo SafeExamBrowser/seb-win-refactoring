@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.SystemComponents
 {
+	/// <summary>
+	/// Defines all possible charge statuses which can be determined by the application.
+	/// </summary>
 	public enum BatteryChargeStatus
 	{
 		Undefined = 0,

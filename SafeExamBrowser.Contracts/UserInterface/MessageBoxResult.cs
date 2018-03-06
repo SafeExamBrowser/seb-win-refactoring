@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
+	/// <summary>
+	/// Defines all possible results of a message box.
+	/// </summary>
 	public enum MessageBoxResult
 	{
 		None = 0,

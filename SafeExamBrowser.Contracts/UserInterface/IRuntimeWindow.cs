@@ -10,6 +10,10 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Contracts.UserInterface
 {
+	/// <summary>
+	/// The main window of the runtime application component. It is controlled by the <see cref="Behaviour.IRuntimeController"/> and serves
+	/// first of all as progress indicator for the user (e.g. during application startup &amp; shutdown).
+	/// </summary>
 	public interface IRuntimeWindow : ILogObserver, IProgressIndicator, IWindow
 	{
 		/// <summary>

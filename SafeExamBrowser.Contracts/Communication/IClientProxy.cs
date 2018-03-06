@@ -10,6 +10,9 @@ using SafeExamBrowser.Contracts.Communication.Responses;
 
 namespace SafeExamBrowser.Contracts.Communication
 {
+	/// <summary>
+	/// Defines the functionality for a proxy to the communication host of the client application component.
+	/// </summary>
 	public interface IClientProxy : ICommunicationProxy
 	{
 		/// <summary>

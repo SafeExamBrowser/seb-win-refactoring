@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Communication.Messages
 {
+	/// <summary>
+	/// The base class for messages, from which a message must inherit in order to be sent to an interlocutor via <see cref="ICommunication.Send(Message)"/>.
+	/// </summary>
 	[Serializable]
 	public abstract class Message
 	{

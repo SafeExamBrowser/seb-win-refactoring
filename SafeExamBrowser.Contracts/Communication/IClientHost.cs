@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Communication
 {
+	/// <summary>
+	/// Defines the functionality of the communication host for the client application component.
+	/// </summary>
 	public interface IClientHost : ICommunicationHost
 	{
 		/// <summary>

@@ -10,6 +10,9 @@ using System;
 
 namespace SafeExamBrowser.Contracts.Communication.Messages
 {
+	/// <summary>
+	/// A generic message to send simple purports without data to an interlocutor.
+	/// </summary>
 	[Serializable]
 	public class SimpleMessage : Message
 	{
