@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using CefSharp;
 using SafeExamBrowser.Browser.Handlers;
@@ -76,13 +77,13 @@ namespace SafeExamBrowser.Browser
 			button.RegisterInstance(instance);
 			instances.Add(instance);
 
+			instance.ConfigurationDetected += Instance_ConfigurationDetected;
 			instance.Terminated += Instance_Terminated;
 			instance.Window.Show();
 		}
 
 		private CefSettings InitializeCefSettings()
 		{
-			var schemeFactory = new SebSchemeHandlerFactory();
 			var cefSettings = new CefSettings
 			{
 				CachePath = runtimeInfo.BrowserCachePath,
@@ -91,23 +92,10 @@ namespace SafeExamBrowser.Browser
 				LogSeverity = LogSeverity.Verbose
 			};
 
-			schemeFactory.ConfigurationDetected += OnConfigurationDetected;
-
-			cefSettings.RegisterScheme(new CefCustomScheme { SchemeName = "seb", SchemeHandlerFactory = schemeFactory });
-			cefSettings.RegisterScheme(new CefCustomScheme { SchemeName = "sebs", SchemeHandlerFactory = schemeFactory });
+			cefSettings.RegisterScheme(new CefCustomScheme { SchemeName = "seb", SchemeHandlerFactory = new SchemeHandlerFactory() });
+			cefSettings.RegisterScheme(new CefCustomScheme { SchemeName = "sebs", SchemeHandlerFactory = new SchemeHandlerFactory() });
 
 			return cefSettings;
-		}
-
-		private void OnConfigurationDetected(string url)
-		{
-			// TODO:
-			// 1. Ask whether reconfiguration should be attempted
-			// 2. Contact runtime and ask whether configuration valid and reconfiguration allowed
-			//    - If yes, do nothing and wait for shutdown command
-			//    - If no, show message box and NAVIGATE TO PREVIOUS PAGE -> but how?
-
-			uiFactory.Show("Detected re-configuration request for " + url, "Info");
 		}
 
 		private void Button_OnClick(Guid? instanceId = null)
@@ -120,6 +108,19 @@ namespace SafeExamBrowser.Browser
 			{
 				CreateNewInstance();
 			}
+		}
+
+		private void Instance_ConfigurationDetected(string url, CancelEventArgs args)
+		{
+			// TODO:
+			// 1. Ask whether reconfiguration should be attempted
+			// 2. Contact runtime and ask whether configuration valid and reconfiguration allowed
+			//    - If yes, do nothing and wait for shutdown command
+			//    - If no, show message box and NAVIGATE TO PREVIOUS PAGE -> but how?
+
+			var result = uiFactory.Show(TextKey.MessageBox_ReconfigureQuestion, TextKey.MessageBox_ReconfigureQuestionTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
+
+			args.Cancel = result == MessageBoxResult.No;
 		}
 
 		private void Instance_Terminated(Guid id)

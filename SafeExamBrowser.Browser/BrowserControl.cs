@@ -24,6 +24,8 @@ namespace SafeExamBrowser.Browser
 		private LoadingStateChangedEventHandler loadingStateChanged;
 		private TitleChangedEventHandler titleChanged;
 
+		internal event ConfigurationDetectedEventHandler ConfigurationDetected;
+
 		event AddressChangedEventHandler IBrowserControl.AddressChanged
 		{
 			add { addressChanged += value; }
@@ -75,12 +77,16 @@ namespace SafeExamBrowser.Browser
 
 		private void Initialize()
 		{
+			var requestHandler = new RequestHandler();
+
 			AddressChanged += (o, args) => addressChanged?.Invoke(args.Address);
 			LoadingStateChanged += (o, args) => loadingStateChanged?.Invoke(args.IsLoading);
 			TitleChanged += (o, args) => titleChanged?.Invoke(args.Title);
+			requestHandler.ConfigurationDetected += (url, args) => ConfigurationDetected?.Invoke(url, args);
 
-			MenuHandler = new BrowserContextMenuHandler(settings, text);
-			KeyboardHandler = new BrowserKeyboardHandler(settings);
+			KeyboardHandler = new KeyboardHandler(settings);
+			MenuHandler = new ContextMenuHandler(settings, text);
+			RequestHandler = requestHandler;
 		}
 	}
 }

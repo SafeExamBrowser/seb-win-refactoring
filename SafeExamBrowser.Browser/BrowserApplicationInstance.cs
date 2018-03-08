@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
@@ -14,7 +15,7 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Browser
 {
-	public class BrowserApplicationInstance : IApplicationInstance
+	internal class BrowserApplicationInstance : IApplicationInstance
 	{
 		private IBrowserControl control;
 		private IBrowserWindow window;
@@ -23,6 +24,7 @@ namespace SafeExamBrowser.Browser
 		public string Name { get; private set; }
 		public IWindow Window { get { return window; } }
 
+		internal event ConfigurationDetectedEventHandler ConfigurationDetected;
 		public event TerminatedEventHandler Terminated;
 		public event NameChangedEventHandler NameChanged;
 
@@ -30,8 +32,10 @@ namespace SafeExamBrowser.Browser
 		{
 			Id = Guid.NewGuid();
 
+			// TODO: Move to initialize method!
 			control = new BrowserControl(settings, text);
 			control.AddressChanged += Control_AddressChanged;
+			(control as BrowserControl).ConfigurationDetected += (url, args) => ConfigurationDetected?.Invoke(url, args);
 			control.LoadingStateChanged += Control_LoadingStateChanged;
 			control.TitleChanged += Control_TitleChanged;
 

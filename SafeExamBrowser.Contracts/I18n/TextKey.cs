@@ -24,6 +24,8 @@ namespace SafeExamBrowser.Contracts.I18n
 		MessageBox_QuitTitle,
 		MessageBox_QuitError,
 		MessageBox_QuitErrorTitle,
+		MessageBox_ReconfigureQuestion,
+		MessageBox_ReconfigureQuestionTitle,
 		MessageBox_SessionStartError,
 		MessageBox_SessionStartErrorTitle,
 		MessageBox_SessionStopError,

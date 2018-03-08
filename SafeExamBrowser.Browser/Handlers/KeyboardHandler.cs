@@ -13,13 +13,13 @@ using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.Browser
 namespace SafeExamBrowser.Browser.Handlers
 {
 	/// <remarks>
-	/// See https://cefsharp.github.io/api/57.0.0/html/T_CefSharp_IKeyboardHandler.htm.
+	/// See https://cefsharp.github.io/api/63.0.0/html/T_CefSharp_IKeyboardHandler.htm.
 	/// </remarks>
-	internal class BrowserKeyboardHandler : IKeyboardHandler
+	internal class KeyboardHandler : IKeyboardHandler
 	{
 		private BrowserSettings settings;
 
-		public BrowserKeyboardHandler(BrowserSettings settings)
+		public KeyboardHandler(BrowserSettings settings)
 		{
 			this.settings = settings;
 		}

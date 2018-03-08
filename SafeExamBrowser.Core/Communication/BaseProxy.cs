@@ -186,18 +186,18 @@ namespace SafeExamBrowser.Core.Communication
 
 						if (IsAcknowledged(response))
 						{
-							Logger.Info("Pinged proxy, connection is alive.");
+							Logger.Info("Pinged host, connection is alive.");
 						}
 						else
 						{
-							Logger.Error($"Proxy did not acknowledge ping message! Received: {ToString(response)}.");
+							Logger.Error($"Host did not acknowledge ping message! Received: {ToString(response)}.");
 							timer.Stop();
 							ConnectionLost?.Invoke();
 						}
 					}
 					catch (Exception e)
 					{
-						Logger.Error("Failed to ping proxy!", e);
+						Logger.Error("Failed to ping host!", e);
 						timer.Stop();
 						ConnectionLost?.Invoke();
 					}

@@ -30,6 +30,12 @@
   <Entry key="MessageBox_QuitErrorTitle">
     Quit Error
   </Entry>
+  <Entry key="MessageBox_ReconfigureQuestion">
+    Would you like to reconfigure the application?
+  </Entry>
+  <Entry key="MessageBox_ReconfigureQuestionTitle">
+    Configuration Detected
+  </Entry>
   <Entry key="MessageBox_SessionStartError">
     The application failed to start a new session. Please consult the application log for more information...
   </Entry>

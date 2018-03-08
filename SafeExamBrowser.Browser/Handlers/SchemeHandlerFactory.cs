@@ -11,17 +11,14 @@ using CefSharp;
 namespace SafeExamBrowser.Browser.Handlers
 {
 	/// <remarks>
-	/// See https://cefsharp.github.io/api/57.0.0/html/T_CefSharp_ISchemeHandlerFactory.htm.
+	/// See https://cefsharp.github.io/api/63.0.0/html/T_CefSharp_ISchemeHandlerFactory.htm.
 	/// </remarks>
-	internal class SebSchemeHandlerFactory : ISchemeHandlerFactory
+	internal class SchemeHandlerFactory : ISchemeHandlerFactory
 	{
-		internal event ConfigurationDetectedEventHandler ConfigurationDetected;
-
 		public IResourceHandler Create(IBrowser browser, IFrame frame, string schemeName, IRequest request)
 		{
-			var handler = new SebSchemeHandler();
-
-			handler.ConfigurationDetected += (url) => ConfigurationDetected?.Invoke(url);
+			var page = "<html><body style=\"height: 90%; display: flex; align-items: center; justify-content: center\"><progress /></body></html>";
+			var handler = ResourceHandler.FromString(page);
 
 			return handler;
 		}

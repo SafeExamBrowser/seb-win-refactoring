@@ -72,7 +72,7 @@ namespace SafeExamBrowser.Configuration
 				ServicePolicy = ServicePolicy.Optional
 			};
 
-			settings.Browser.StartUrl = "https://www.duckduckgo.com";
+			settings.Browser.StartUrl = "https://www.safeexambrowser.org/testing";
 			settings.Browser.AllowAddressBar = true;
 			settings.Browser.AllowBackwardNavigation = true;
 			settings.Browser.AllowDeveloperConsole = true;
