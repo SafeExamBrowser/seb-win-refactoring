@@ -127,8 +127,8 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 		private bool IsConfigurationSufficient()
 		{
-			var message = text.Get(TextKey.MessageBox_ConfigureClientSuccess);
-			var title = text.Get(TextKey.MessageBox_ConfigureClientSuccessTitle);
+			var message = text.Get(TextKey.MessageBox_ClientConfigurationQuestion);
+			var title = text.Get(TextKey.MessageBox_ClientConfigurationQuestionTitle);
 			var abort = uiFactory.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question);
 
 			return abort == MessageBoxResult.Yes;

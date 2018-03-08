@@ -16,16 +16,21 @@ namespace SafeExamBrowser.Contracts.Configuration
 	public interface IConfigurationRepository
 	{
 		/// <summary>
-		/// Retrieves the current session, i.e. the last one which was initialized. If no session has been initialized yet, this
+		/// Retrieves the current session data, i.e. the last one which was initialized. If no session has been initialized yet, this
 		/// property will be <c>null</c>!
 		/// </summary>
-		ISession CurrentSession { get; }
+		ISessionData CurrentSession { get; }
 
 		/// <summary>
 		/// Retrieves the current settings, i.e. the last ones which were loaded. If no settings have been loaded yet, this property will
 		/// be <c>null</c>!
 		/// </summary>
 		Settings.Settings CurrentSettings { get; }
+
+		/// <summary>
+		/// The locator of the configuration to be used when reconfiguring the application.
+		/// </summary>
+		string ReconfigurationUrl { get; set; }
 
 		/// <summary>
 		/// The runtime information for the currently running application instance.
@@ -40,7 +45,7 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// <summary>
 		/// Initializes all relevant data for a new session.
 		/// </summary>
-		ISession InitializeSession();
+		ISessionData InitializeSessionData();
 
 		/// <summary>
 		/// Attempts to load settings from the specified path.

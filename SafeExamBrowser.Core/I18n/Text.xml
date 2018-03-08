@@ -12,10 +12,10 @@
   <Entry key="MessageBox_ApplicationErrorTitle">
     Application Error
   </Entry>
-  <Entry key="MessageBox_ConfigureClientSuccess">
+  <Entry key="MessageBox_ClientConfigurationQuestion">
     The client configuration has been saved and will be used when you start the application the next time. Do you want to quit for now?
   </Entry>
-  <Entry key="MessageBox_ConfigureClientSuccessTitle">
+  <Entry key="MessageBox_ClientConfigurationQuestionTitle">
     Configuration Successful
   </Entry>
   <Entry key="MessageBox_Quit">
@@ -25,15 +25,27 @@
     Quit?
   </Entry>
   <Entry key="MessageBox_QuitError">
-    The client failed to communicate the shutdown request to the runtime! Please try again...
+    The client failed to communicate the shutdown request to the runtime!
   </Entry>
   <Entry key="MessageBox_QuitErrorTitle">
     Quit Error
   </Entry>
-  <Entry key="MessageBox_ReconfigureQuestion">
+  <Entry key="MessageBox_ReconfigurationDenied">
+    You are not allowed to reconfigure the application.
+  </Entry>
+  <Entry key="MessageBox_ReconfigurationDeniedTitle">
+    Reconfiguration Denied
+  </Entry>
+  <Entry key="MessageBox_ReconfigurationError">
+    The client failed to communicate the reconfiguration request to the runtime!
+  </Entry>
+  <Entry key="MessageBox_ReconfigurationErrorTitle">
+    Reconfiguration Error
+  </Entry>
+  <Entry key="MessageBox_ReconfigurationQuestion">
     Would you like to reconfigure the application?
   </Entry>
-  <Entry key="MessageBox_ReconfigureQuestionTitle">
+  <Entry key="MessageBox_ReconfigurationQuestionTitle">
     Configuration Detected
   </Entry>
   <Entry key="MessageBox_SessionStartError">

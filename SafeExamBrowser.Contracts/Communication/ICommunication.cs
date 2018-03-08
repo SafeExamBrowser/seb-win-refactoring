@@ -18,10 +18,12 @@ namespace SafeExamBrowser.Contracts.Communication
 	/// Defines the API for all communication between the three application components (runtime, service and client).
 	/// </summary>
 	[ServiceContract(SessionMode = SessionMode.Required)]
-	[ServiceKnownType(typeof(SimpleMessage))]
 	[ServiceKnownType(typeof(AuthenticationResponse))]
-	[ServiceKnownType(typeof(ConfigurationResponse))]
 	[ServiceKnownType(typeof(ClientConfiguration))]
+	[ServiceKnownType(typeof(ConfigurationResponse))]
+	[ServiceKnownType(typeof(ReconfigurationMessage))]
+	[ServiceKnownType(typeof(ReconfigurationResponse))]
+	[ServiceKnownType(typeof(SimpleMessage))]
 	[ServiceKnownType(typeof(SimpleResponse))]
 	public interface ICommunication
 	{

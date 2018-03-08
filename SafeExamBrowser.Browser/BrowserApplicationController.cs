@@ -13,8 +13,10 @@ using System.Linq;
 using CefSharp;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
@@ -26,6 +28,8 @@ namespace SafeExamBrowser.Browser
 		private IApplicationButton button;
 		private IList<IApplicationInstance> instances = new List<IApplicationInstance>();
 		private BrowserSettings settings;
+		private ILogger logger;
+		private IRuntimeProxy runtime;
 		private RuntimeInfo runtimeInfo;
 		private IUserInterfaceFactory uiFactory;
 		private IText text;
@@ -33,9 +37,13 @@ namespace SafeExamBrowser.Browser
 		public BrowserApplicationController(
 			BrowserSettings settings,
 			RuntimeInfo runtimeInfo,
+			ILogger logger,
+			IRuntimeProxy runtime,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
+			this.logger = logger;
+			this.runtime = runtime;
 			this.runtimeInfo = runtimeInfo;
 			this.settings = settings;
 			this.text = text;
@@ -112,15 +120,32 @@ namespace SafeExamBrowser.Browser
 
 		private void Instance_ConfigurationDetected(string url, CancelEventArgs args)
 		{
-			// TODO:
-			// 1. Ask whether reconfiguration should be attempted
-			// 2. Contact runtime and ask whether configuration valid and reconfiguration allowed
-			//    - If yes, do nothing and wait for shutdown command
-			//    - If no, show message box and NAVIGATE TO PREVIOUS PAGE -> but how?
+			var result = uiFactory.Show(TextKey.MessageBox_ReconfigurationQuestion, TextKey.MessageBox_ReconfigurationQuestionTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
+			var reconfigure = result == MessageBoxResult.Yes;
+			var allowed = false;
 
-			var result = uiFactory.Show(TextKey.MessageBox_ReconfigureQuestion, TextKey.MessageBox_ReconfigureQuestionTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
+			logger.Info($"Detected configuration request for '{url}'. The user chose to {(reconfigure ? "start" : "abort")} the reconfiguration.");
 
-			args.Cancel = result == MessageBoxResult.No;
+			if (reconfigure)
+			{
+				try
+				{
+					allowed = runtime.RequestReconfiguration(url);
+					logger.Info($"The runtime {(allowed ? "accepted" : "denied")} the reconfiguration request.");
+
+					if (!allowed)
+					{
+						uiFactory.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle);
+					}
+				}
+				catch (Exception e)
+				{
+					logger.Error("Failed to communicate the reconfiguration request to the runtime!", e);
+					uiFactory.Show(TextKey.MessageBox_ReconfigurationError, TextKey.MessageBox_ReconfigurationErrorTitle, icon: MessageBoxIcon.Error);
+				}
+			}
+
+			args.Cancel = !allowed;
 		}
 
 		private void Instance_Terminated(Guid id)

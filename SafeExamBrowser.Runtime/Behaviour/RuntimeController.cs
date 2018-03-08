@@ -134,6 +134,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		{
 			runtimeWindow.Show();
 			runtimeWindow.BringToForeground();
+			runtimeWindow.ShowProgressBar();
 			logger.Info(">>>--- Initiating session procedure ---<<<");
 
 			if (sessionRunning)
@@ -170,6 +171,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 
 				if (!initial)
 				{
+					logger.Info("Terminating application...");
 					shutdown.Invoke();
 				}
 			}
@@ -201,6 +203,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		private void RegisterEvents()
 		{
 			client.ConnectionLost += Client_ConnectionLost;
+			runtimeHost.ReconfigurationRequested += RuntimeHost_ReconfigurationRequested;
 			runtimeHost.ShutdownRequested += RuntimeHost_ShutdownRequested;
 		}
 
@@ -212,6 +215,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		private void DeregisterEvents()
 		{
 			client.ConnectionLost -= Client_ConnectionLost;
+			runtimeHost.ReconfigurationRequested -= RuntimeHost_ReconfigurationRequested;
 			runtimeHost.ShutdownRequested -= RuntimeHost_ShutdownRequested;
 		}
 
@@ -236,6 +240,12 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			uiFactory.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
 
 			shutdown.Invoke();
+		}
+
+		private void RuntimeHost_ReconfigurationRequested()
+		{
+			logger.Info($"Starting reconfiguration...");
+			StartSession();
 		}
 
 		private void RuntimeHost_ShutdownRequested()

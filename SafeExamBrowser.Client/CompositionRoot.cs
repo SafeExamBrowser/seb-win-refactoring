@@ -48,6 +48,7 @@ namespace SafeExamBrowser.Client
 		private IClientHost clientHost;
 		private ILogger logger;
 		private INativeMethods nativeMethods;
+		private IRuntimeProxy runtimeProxy;
 		private ISystemInfo systemInfo;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
@@ -68,8 +69,8 @@ namespace SafeExamBrowser.Client
 
 			text = new Text(logger);
 			uiFactory = new UserInterfaceFactory(text);
+			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ModuleLogger(logger, typeof(RuntimeProxy)));
 
-			var runtimeProxy = new RuntimeProxy(runtimeHostUri, new ModuleLogger(logger, typeof(RuntimeProxy)));
 			var displayMonitor = new DisplayMonitor(new ModuleLogger(logger, typeof(DisplayMonitor)), nativeMethods);
 			var processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
 			var windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)), nativeMethods);
@@ -143,7 +144,8 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildBrowserOperation()
 		{
-			var browserController = new BrowserApplicationController(configuration.Settings.Browser, configuration.RuntimeInfo, text, uiFactory);
+			var moduleLogger = new ModuleLogger(logger, typeof(BrowserApplicationController));
+			var browserController = new BrowserApplicationController(configuration.Settings.Browser, configuration.RuntimeInfo, moduleLogger, runtimeProxy, text, uiFactory);
 			var browserInfo = new BrowserApplicationInfo();
 			var operation = new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory);
 

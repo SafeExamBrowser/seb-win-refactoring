@@ -26,7 +26,6 @@ namespace SafeExamBrowser.Core.Communication
 		private readonly object @lock = new object();
 
 		private string address;
-		private ILogger logger;
 		private ServiceHost host;
 		private Thread hostThread;
 
@@ -47,7 +46,7 @@ namespace SafeExamBrowser.Core.Communication
 		public BaseHost(string address, ILogger logger)
 		{
 			this.address = address;
-			this.logger = logger;
+			this.Logger = logger;
 		}
 
 		protected abstract bool OnConnect(Guid? token);
@@ -59,7 +58,7 @@ namespace SafeExamBrowser.Core.Communication
 		{
 			lock (@lock)
 			{
-				logger.Debug($"Received connection request with authentication token '{token}'.");
+				Logger.Debug($"Received connection request with authentication token '{token}'.");
 
 				var response = new ConnectionResponse();
 				var connected = OnConnect(token);
@@ -70,7 +69,7 @@ namespace SafeExamBrowser.Core.Communication
 					response.ConnectionEstablished = true;
 				}
 
-				logger.Debug($"{(connected ? "Accepted" : "Denied")} connection request.");
+				Logger.Debug($"{(connected ? "Accepted" : "Denied")} connection request.");
 
 				return response;
 			}
@@ -82,7 +81,7 @@ namespace SafeExamBrowser.Core.Communication
 			{
 				var response = new DisconnectionResponse();
 
-				logger.Debug($"Received disconnection request with message '{ToString(message)}'.");
+				Logger.Debug($"Received disconnection request with message '{ToString(message)}'.");
 
 				if (IsAuthorized(message?.CommunicationToken))
 				{
@@ -118,7 +117,7 @@ namespace SafeExamBrowser.Core.Communication
 					}
 				}
 
-				logger.Debug($"Received message '{ToString(message)}', sending response '{ToString(response)}'.");
+				Logger.Debug($"Received message '{ToString(message)}', sending response '{ToString(response)}'.");
 
 				return response;
 			}
@@ -153,7 +152,7 @@ namespace SafeExamBrowser.Core.Communication
 
 				if (success)
 				{
-					logger.Debug($"Terminated communication host for endpoint '{address}'.");
+					Logger.Debug($"Terminated communication host for endpoint '{address}'.");
 				}
 				else
 				{
@@ -183,7 +182,7 @@ namespace SafeExamBrowser.Core.Communication
 				host.UnknownMessageReceived += Host_UnknownMessageReceived;
 				host.Open();
 
-				logger.Debug($"Successfully started communication host for endpoint '{address}'.");
+				Logger.Debug($"Successfully started communication host for endpoint '{address}'.");
 
 				startedEvent.Set();
 			}
@@ -215,32 +214,32 @@ namespace SafeExamBrowser.Core.Communication
 
 		private void Host_Closed(object sender, EventArgs e)
 		{
-			logger.Debug("Communication host has been closed.");
+			Logger.Debug("Communication host has been closed.");
 		}
 
 		private void Host_Closing(object sender, EventArgs e)
 		{
-			logger.Debug("Communication host is closing...");
+			Logger.Debug("Communication host is closing...");
 		}
 
 		private void Host_Faulted(object sender, EventArgs e)
 		{
-			logger.Error("Communication host has faulted!");
+			Logger.Error("Communication host has faulted!");
 		}
 
 		private void Host_Opened(object sender, EventArgs e)
 		{
-			logger.Debug("Communication host has been opened.");
+			Logger.Debug("Communication host has been opened.");
 		}
 
 		private void Host_Opening(object sender, EventArgs e)
 		{
-			logger.Debug("Communication host is opening...");
+			Logger.Debug("Communication host is opening...");
 		}
 
 		private void Host_UnknownMessageReceived(object sender, UnknownMessageReceivedEventArgs e)
 		{
-			logger.Warn($"Communication host has received an unknown message: {e?.Message}.");
+			Logger.Warn($"Communication host has received an unknown message: {e?.Message}.");
 		}
 
 		private string ToString(Message message)

@@ -51,7 +51,7 @@ namespace SafeExamBrowser.Core.Communication
 			(channel as ICommunicationObject).Opened += BaseProxy_Opened;
 			(channel as ICommunicationObject).Opening += BaseProxy_Opening;
 
-			Logger.Debug($"Trying to connect to endpoint {address}{(token.HasValue ? $" with authentication token '{token}'" : string.Empty)}...");
+			Logger.Debug($"Trying to connect to endpoint '{address}'{(token.HasValue ? $" with authentication token '{token}'" : string.Empty)}...");
 
 			var response = channel.Connect(token);
 
@@ -125,7 +125,6 @@ namespace SafeExamBrowser.Core.Communication
 		private void BaseProxy_Faulted(object sender, EventArgs e)
 		{
 			Logger.Error("Communication channel has faulted!");
-			ConnectionLost?.Invoke();
 		}
 
 		private void BaseProxy_Opened(object sender, EventArgs e)

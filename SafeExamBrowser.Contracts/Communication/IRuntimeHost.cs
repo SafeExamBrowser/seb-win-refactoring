@@ -31,6 +31,11 @@ namespace SafeExamBrowser.Contracts.Communication
 		event CommunicationEventHandler ClientReady;
 
 		/// <summary>
+		/// Event fired when the client detected a reconfiguration request.
+		/// </summary>
+		event CommunicationEventHandler ReconfigurationRequested;
+
+		/// <summary>
 		/// Event fired when the client requests to shut down the application.
 		/// </summary>
 		event CommunicationEventHandler ShutdownRequested;

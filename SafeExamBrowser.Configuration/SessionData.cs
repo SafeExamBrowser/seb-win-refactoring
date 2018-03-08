@@ -12,7 +12,7 @@ using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Configuration
 {
-	public class Session : ISession
+	public class SessionData : ISessionData
 	{
 		public IProcess ClientProcess { get; set; }
 		public Guid Id { get; set; }

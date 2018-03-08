@@ -14,7 +14,7 @@ namespace SafeExamBrowser.Contracts.Configuration
 	/// <summary>
 	/// Defines all session-related (configuration) data.
 	/// </summary>
-	public interface ISession
+	public interface ISessionData
 	{
 		/// <summary>
 		/// The process information of the client instance associated to this session.

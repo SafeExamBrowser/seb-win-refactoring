@@ -17,7 +17,7 @@ namespace SafeExamBrowser.Browser.Handlers
 	{
 		public IResourceHandler Create(IBrowser browser, IFrame frame, string schemeName, IRequest request)
 		{
-			var page = "<html><body style=\"height: 90%; display: flex; align-items: center; justify-content: center\"><progress /></body></html>";
+			var page = @"<html><body style=""height: 90%; display: flex; align-items: center; justify-content: center""><progress /></body></html>";
 			var handler = ResourceHandler.FromString(page);
 
 			return handler;

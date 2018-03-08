@@ -46,6 +46,18 @@ namespace SafeExamBrowser.Core.Communication
 			}
 		}
 
+		public bool RequestReconfiguration(string url)
+		{
+			var response = Send(new ReconfigurationMessage(url));
+
+			if (response is ReconfigurationResponse reconfiguration)
+			{
+				return reconfiguration.Accepted;
+			}
+
+			return false;
+		}
+
 		public void RequestShutdown()
 		{
 			var response = Send(SimpleMessagePurport.RequestShutdown);

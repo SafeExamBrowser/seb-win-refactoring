@@ -32,5 +32,12 @@ namespace SafeExamBrowser.Contracts.Communication
 		/// </summary>
 		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
 		void RequestShutdown();
+
+		/// <summary>
+		/// Requests the runtime to reconfigure the application with the configuration from the given location. Returns <c>true</c> if
+		/// the runtime accepted the request, otherwise <c>false</c>.
+		/// </summary>
+		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
+		bool RequestReconfiguration(string url);
 	}
 }

@@ -15,9 +15,9 @@ using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.WindowsApi;
 
-namespace SafeExamBrowser.Runtime.Behaviour.Operations
+namespace SafeExamBrowser.Runtime.Behaviour
 {
-	internal abstract class SessionSequenceOperation : IOperation
+	internal class SessionController
 	{
 		private const int TEN_SECONDS = 10000;
 
@@ -28,11 +28,11 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private IProcessFactory processFactory;
 		private IRuntimeHost runtimeHost;
 		private IServiceProxy service;
-		private ISession session;
+		private ISessionData session;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		internal IProgressIndicator ProgressIndicator { private get; set; }
 
-		public SessionSequenceOperation(
+		internal SessionController(
 			IClientProxy client,
 			IConfigurationRepository configuration,
 			ILogger logger,
@@ -48,16 +48,12 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			this.service = service;
 		}
 
-		public abstract OperationResult Perform();
-		public abstract OperationResult Repeat();
-		public abstract void Revert();
-
-		protected OperationResult StartSession()
+		internal OperationResult StartSession()
 		{
 			logger.Info("Starting new session...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StartSession, true);
 
-			session = configuration.InitializeSession();
+			session = configuration.InitializeSessionData();
 			runtimeHost.StartupToken = session.StartupToken;
 
 			logger.Info("Initializing service session...");
@@ -78,7 +74,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			return OperationResult.Success;
 		}
 
-		protected OperationResult StopSession()
+		internal OperationResult StopSession()
 		{
 			if (sessionRunning)
 			{

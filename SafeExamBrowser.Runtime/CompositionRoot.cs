@@ -52,6 +52,7 @@ namespace SafeExamBrowser.Runtime
 			var clientProxy = new ClientProxy(runtimeInfo.ClientAddress, new ModuleLogger(logger, typeof(ClientProxy)));
 			var runtimeHost = new RuntimeHost(runtimeInfo.RuntimeAddress, configuration, new ModuleLogger(logger, typeof(RuntimeHost)));
 			var serviceProxy = new ServiceProxy(runtimeInfo.ServiceAddress, new ModuleLogger(logger, typeof(ServiceProxy)));
+			var sessionController = new SessionController(clientProxy, configuration, logger, processFactory, runtimeHost, serviceProxy);
 
 			var bootstrapOperations = new Queue<IOperation>();
 			var sessionOperations = new Queue<IOperation>();
@@ -59,11 +60,11 @@ namespace SafeExamBrowser.Runtime
 			bootstrapOperations.Enqueue(new I18nOperation(logger, text));
 			bootstrapOperations.Enqueue(new CommunicationOperation(runtimeHost, logger));
 
-			sessionOperations.Enqueue(new SessionSequenceStartOperation(clientProxy, configuration, logger, processFactory, runtimeHost, serviceProxy));
+			sessionOperations.Enqueue(new SessionSequenceStartOperation(sessionController));
 			sessionOperations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeInfo, text, uiFactory, args));
 			sessionOperations.Enqueue(new ServiceConnectionOperation(configuration, logger, serviceProxy, text));
 			sessionOperations.Enqueue(new KioskModeOperation(logger, configuration));
-			sessionOperations.Enqueue(new SessionSequenceEndOperation(clientProxy, configuration, logger, processFactory, runtimeHost, serviceProxy));
+			sessionOperations.Enqueue(new SessionSequenceEndOperation(sessionController));
 
 			var boostrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new OperationSequence(logger, sessionOperations);

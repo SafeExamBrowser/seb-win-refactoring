@@ -18,8 +18,9 @@ namespace SafeExamBrowser.Configuration
 	{
 		private RuntimeInfo runtimeInfo;
 
-		public ISession CurrentSession { get; private set; }
+		public ISessionData CurrentSession { get; private set; }
 		public Settings CurrentSettings { get; private set; }
+		public string ReconfigurationUrl { get; set; }
 
 		public RuntimeInfo RuntimeInfo
 		{
@@ -34,9 +35,9 @@ namespace SafeExamBrowser.Configuration
 			}
 		}
 
-		public ISession InitializeSession()
+		public ISessionData InitializeSessionData()
 		{
-			var session = new Session
+			var session = new SessionData
 			{
 				Id = Guid.NewGuid(),
 				StartupToken = Guid.NewGuid()

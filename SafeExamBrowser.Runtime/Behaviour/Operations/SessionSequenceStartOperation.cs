@@ -7,36 +7,34 @@
  */
 
 using SafeExamBrowser.Contracts.Behaviour.OperationModel;
-using SafeExamBrowser.Contracts.Communication;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Runtime.Behaviour.Operations
 {
-	internal class SessionSequenceStartOperation : SessionSequenceOperation
+	internal class SessionSequenceStartOperation : IOperation
 	{
-		public SessionSequenceStartOperation(
-			IClientProxy client,
-			IConfigurationRepository configuration,
-			ILogger logger,
-			IProcessFactory processFactory,
-			IRuntimeHost runtimeHost,
-			IServiceProxy service) : base(client, configuration, logger, processFactory, runtimeHost, service)
+		private SessionController controller;
+
+		public IProgressIndicator ProgressIndicator { private get; set; }
+
+		public SessionSequenceStartOperation(SessionController controller)
 		{
+			this.controller = controller;
 		}
 
-		public override OperationResult Perform()
+		public OperationResult Perform()
 		{
 			return OperationResult.Success;
 		}
 
-		public override OperationResult Repeat()
+		public OperationResult Repeat()
 		{
-			return StopSession();
+			controller.ProgressIndicator = ProgressIndicator;
+
+			return controller.StopSession();
 		}
 
-		public override void Revert()
+		public void Revert()
 		{
 			// Nothing to do here...
 		}
