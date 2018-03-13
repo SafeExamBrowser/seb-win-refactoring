@@ -51,6 +51,12 @@ namespace SafeExamBrowser.Runtime.Communication
 		protected override void OnDisconnect()
 		{
 			ClientDisconnected?.Invoke();
+			// TODO: Handle client crash scenario!
+			// If a client crashes or hangs when terminating (which should not happen!), it could be that it never gets to disconnect from
+			// the RuntimeHost - in that case, allowConnection prohibits restarting a new session as long as it's only set here!
+			//		-> Move AllowConnection to interface and reset it in SessionController?
+			//		-> Only possible as long as just the client connects, with service and client a more elaborate solution will be needed!
+			//			-> E.g. ClientId and ServiceId, and then AllowClientConnection and AllowServiceConnection?
 			allowConnection = true;
 		}
 
