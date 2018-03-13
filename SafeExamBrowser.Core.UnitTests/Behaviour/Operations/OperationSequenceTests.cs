@@ -13,7 +13,7 @@ using Moq;
 using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Core.Behaviour.Operations;
+using SafeExamBrowser.Core.Behaviour.OperationModel;
 
 namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 {

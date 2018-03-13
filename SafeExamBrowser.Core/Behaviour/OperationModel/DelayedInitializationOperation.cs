@@ -10,7 +10,7 @@ using System;
 using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Contracts.UserInterface;
 
-namespace SafeExamBrowser.Core.Behaviour.Operations
+namespace SafeExamBrowser.Core.Behaviour.OperationModel
 {
 	/// <summary>
 	/// A wrapper operation to allow for a delayed (just-in-time) instantiation of an operation. Is useful when e.g. dependencies for a

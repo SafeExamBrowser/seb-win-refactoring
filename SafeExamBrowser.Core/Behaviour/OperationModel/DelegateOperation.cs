@@ -10,7 +10,7 @@ using System;
 using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Contracts.UserInterface;
 
-namespace SafeExamBrowser.Core.Behaviour.Operations
+namespace SafeExamBrowser.Core.Behaviour.OperationModel
 {
 	/// <summary>
 	/// A generic operation to allow for the (inline) definition of an operation via delegates. Useful if implementing a complete

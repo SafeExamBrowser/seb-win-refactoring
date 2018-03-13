@@ -12,7 +12,7 @@ using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 
-namespace SafeExamBrowser.Core.Behaviour.Operations
+namespace SafeExamBrowser.Core.Behaviour.OperationModel
 {
 	/// <summary>
 	/// An operation to handle the lifetime of an <see cref="ICommunicationHost"/>. The host is started during <see cref="Perform"/>,

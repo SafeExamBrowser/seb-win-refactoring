@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Core.Behaviour.Operations;
+using SafeExamBrowser.Core.Behaviour.OperationModel;
 
 namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 {

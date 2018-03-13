@@ -13,7 +13,7 @@ using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 
-namespace SafeExamBrowser.Core.Behaviour.Operations
+namespace SafeExamBrowser.Core.Behaviour.OperationModel
 {
 	/// <summary>
 	/// Default implementation of the <see cref="IOperationSequence"/>.

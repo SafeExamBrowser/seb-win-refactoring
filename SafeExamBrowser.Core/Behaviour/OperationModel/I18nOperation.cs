@@ -15,7 +15,7 @@ using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Core.I18n;
 
-namespace SafeExamBrowser.Core.Behaviour.Operations
+namespace SafeExamBrowser.Core.Behaviour.OperationModel
 {
 	/// <summary>
 	/// An operation to handle the initialization of an <see cref="IText"/> module with text data from the default directory.

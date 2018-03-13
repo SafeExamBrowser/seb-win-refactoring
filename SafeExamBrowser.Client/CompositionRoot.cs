@@ -23,7 +23,7 @@ using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.WindowsApi;
-using SafeExamBrowser.Core.Behaviour.Operations;
+using SafeExamBrowser.Core.Behaviour.OperationModel;
 using SafeExamBrowser.Core.Communication;
 using SafeExamBrowser.Core.I18n;
 using SafeExamBrowser.Core.Logging;
