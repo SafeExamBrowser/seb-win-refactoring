@@ -6,7 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.ComponentModel;
+using System.IO;
 using System.Threading.Tasks;
 using CefSharp;
 using CefSharp.Handler;
@@ -27,9 +29,9 @@ namespace SafeExamBrowser.Browser.Handlers
 			Task.Run(() =>
 			{
 				var allow = true;
+				var uri = new Uri(request.Url);
 
-				// TODO: Check if the requested resource is a configuration file, even if the URL does not indicate so!
-				if (request.Url.StartsWith("seb") || request.Url.StartsWith("sebs") || request.Url.EndsWith(".seb"))
+				if (uri.Scheme == "seb" || uri.Scheme == "sebs" || Path.HasExtension("seb"))
 				{
 					var args = new CancelEventArgs();
 
