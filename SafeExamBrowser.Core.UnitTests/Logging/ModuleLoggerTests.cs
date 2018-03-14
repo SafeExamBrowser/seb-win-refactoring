@@ -26,6 +26,7 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 			var logText = new LogText("Log text");
 			var sut = new ModuleLogger(loggerMock.Object, typeof(ModuleLoggerTests));
 
+			sut.Debug("Debug");
 			sut.Info("Info");
 			sut.Warn("Warning");
 			sut.Error("Error");
@@ -36,6 +37,7 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 			sut.Unsubscribe(logObserverMock.Object);
 			sut.GetLog();
 
+			loggerMock.Verify(l => l.Debug($"[{nameof(ModuleLoggerTests)}] Debug"), Times.Once);
 			loggerMock.Verify(l => l.Info($"[{nameof(ModuleLoggerTests)}] Info"), Times.Once);
 			loggerMock.Verify(l => l.Warn($"[{nameof(ModuleLoggerTests)}] Warning"), Times.Once);
 			loggerMock.Verify(l => l.Error($"[{nameof(ModuleLoggerTests)}] Error"), Times.Once);

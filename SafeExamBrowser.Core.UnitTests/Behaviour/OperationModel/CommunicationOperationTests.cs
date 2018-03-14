@@ -8,11 +8,12 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Core.Behaviour.OperationModel;
 
-namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
+namespace SafeExamBrowser.Core.UnitTests.Behaviour.OperationModel
 {
 	[TestClass]
 	public class CommunicationOperationTests
@@ -40,22 +41,38 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.Operations
 			hostMock.Setup(h => h.Stop()).Callback(() => stop = ++order);
 			hostMock.Setup(h => h.Start()).Callback(() => start = ++order);
 
-			sut.Repeat();
+			var result = sut.Repeat();
 
 			hostMock.Verify(h => h.Stop(), Times.Once);
 			hostMock.Verify(h => h.Start(), Times.Once);
 
 			Assert.AreEqual(stop, 1);
 			Assert.AreEqual(start, 2);
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void MustOnlyRestartHostOnRepeatIfNotRunning()
+		{
+			hostMock.SetupGet(h => h.IsRunning).Returns(true);
+
+			var result = sut.Repeat();
+
+			hostMock.Verify(h => h.Start(), Times.Never);
+			hostMock.Verify(h => h.Stop(), Times.Never);
+
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]
 		public void MustStartHostOnPerform()
 		{
-			sut.Perform();
+			var result = sut.Perform();
 
 			hostMock.Verify(h => h.Start(), Times.Once);
 			hostMock.Verify(h => h.Stop(), Times.Never);
+
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]

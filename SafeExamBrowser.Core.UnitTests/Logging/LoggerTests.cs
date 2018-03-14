@@ -65,6 +65,26 @@ namespace SafeExamBrowser.Core.UnitTests.Logging
 		}
 
 		[TestMethod]
+		public void MustAddInnerExceptionsToLog()
+		{
+			var sut = new Logger();
+			var outerMessage = "Some message for the outer exception";
+			var innerMessage = "BAAAAM! Inner one here.";
+			var innerInnerMessage = "Yikes, a null reference...";
+			var exception = new Exception(outerMessage, new ArgumentException(innerMessage, new NullReferenceException(innerInnerMessage)));
+
+			sut.Error("blubb", exception);
+
+			var log = sut.GetLog();
+			var logText = log[1] as ILogText;
+
+			Assert.AreEqual(2, log.Count);
+			Assert.IsTrue(logText.Text.Contains(outerMessage));
+			Assert.IsTrue(logText.Text.Contains(innerMessage));
+			Assert.IsTrue(logText.Text.Contains(innerInnerMessage));
+		}
+
+		[TestMethod]
 		public void MustReturnCopyOfLog()
 		{
 			var sut = new Logger();
