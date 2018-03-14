@@ -46,6 +46,7 @@ namespace SafeExamBrowser.Runtime
 			InitializeLogging();
 
 			var text = new Text(logger);
+			var messageBox = new MessageBox(text);
 			var uiFactory = new UserInterfaceFactory(text);
 			var desktop = new Desktop(new ModuleLogger(logger, typeof(Desktop)));
 			var processFactory = new ProcessFactory(desktop, new ModuleLogger(logger, typeof(ProcessFactory)));
@@ -61,7 +62,7 @@ namespace SafeExamBrowser.Runtime
 			bootstrapOperations.Enqueue(new CommunicationOperation(runtimeHost, logger));
 
 			sessionOperations.Enqueue(new SessionSequenceStartOperation(sessionController));
-			sessionOperations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeInfo, text, uiFactory, args));
+			sessionOperations.Enqueue(new ConfigurationOperation(configuration, logger, messageBox, runtimeInfo, text, args));
 			sessionOperations.Enqueue(new ServiceConnectionOperation(configuration, logger, serviceProxy, text));
 			sessionOperations.Enqueue(new KioskModeOperation(logger, configuration));
 			sessionOperations.Enqueue(new SessionSequenceEndOperation(sessionController));
@@ -69,7 +70,7 @@ namespace SafeExamBrowser.Runtime
 			var boostrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new OperationSequence(logger, sessionOperations);
 
-			RuntimeController = new RuntimeController(configuration, logger, boostrapSequence, sessionSequence, runtimeHost,  runtimeInfo, serviceProxy, shutdown, uiFactory);
+			RuntimeController = new RuntimeController(configuration, logger, messageBox, boostrapSequence, sessionSequence, runtimeHost,  runtimeInfo, serviceProxy, shutdown, uiFactory);
 		}
 
 		internal void LogStartupInformation()

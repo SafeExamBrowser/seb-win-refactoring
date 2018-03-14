@@ -12,7 +12,7 @@ using System.Windows.Documents;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Windows;
 using SafeExamBrowser.UserInterface.Classic.ViewModels;
 
 namespace SafeExamBrowser.UserInterface.Classic

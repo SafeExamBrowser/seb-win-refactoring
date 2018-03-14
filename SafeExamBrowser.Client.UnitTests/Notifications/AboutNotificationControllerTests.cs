@@ -10,8 +10,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Notifications;
 using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Windows;
 
 namespace SafeExamBrowser.Client.UnitTests.Notifications
 {

@@ -22,6 +22,7 @@ using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Contracts.WindowsApi;
 using SafeExamBrowser.Core.Behaviour.OperationModel;
 using SafeExamBrowser.Core.Communication;
@@ -47,6 +48,7 @@ namespace SafeExamBrowser.Client
 		private ClientConfiguration configuration;
 		private IClientHost clientHost;
 		private ILogger logger;
+		private IMessageBox messageBox;
 		private INativeMethods nativeMethods;
 		private IRuntimeProxy runtimeProxy;
 		private ISystemInfo systemInfo;
@@ -68,6 +70,7 @@ namespace SafeExamBrowser.Client
 			InitializeLogging();
 
 			text = new Text(logger);
+			messageBox = new MessageBox(text);
 			uiFactory = new UserInterfaceFactory(text);
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ModuleLogger(logger, typeof(RuntimeProxy)));
 
@@ -96,7 +99,7 @@ namespace SafeExamBrowser.Client
 
 			var sequence = new OperationSequence(logger, operations);
 
-			ClientController = new ClientController(displayMonitor, logger, sequence, processMonitor, runtimeProxy, shutdown, Taskbar, uiFactory, windowMonitor);
+			ClientController = new ClientController(displayMonitor, logger, messageBox, sequence, processMonitor, runtimeProxy, shutdown, Taskbar, uiFactory, windowMonitor);
 		}
 
 		internal void LogStartupInformation()
@@ -145,7 +148,7 @@ namespace SafeExamBrowser.Client
 		private IOperation BuildBrowserOperation()
 		{
 			var moduleLogger = new ModuleLogger(logger, typeof(BrowserApplicationController));
-			var browserController = new BrowserApplicationController(configuration.Settings.Browser, configuration.RuntimeInfo, moduleLogger, runtimeProxy, text, uiFactory);
+			var browserController = new BrowserApplicationController(configuration.Settings.Browser, configuration.RuntimeInfo, moduleLogger, messageBox, runtimeProxy, text, uiFactory);
 			var browserInfo = new BrowserApplicationInfo();
 			var operation = new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory);
 

@@ -16,7 +16,9 @@ using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Windows;
 
 namespace SafeExamBrowser.Client.Behaviour
 {
@@ -24,6 +26,7 @@ namespace SafeExamBrowser.Client.Behaviour
 	{
 		private IDisplayMonitor displayMonitor;
 		private ILogger logger;
+		private IMessageBox messageBox;
 		private IOperationSequence operations;
 		private IProcessMonitor processMonitor;
 		private IRuntimeProxy runtime;
@@ -54,6 +57,7 @@ namespace SafeExamBrowser.Client.Behaviour
 		public ClientController(
 			IDisplayMonitor displayMonitor,
 			ILogger logger,
+			IMessageBox messageBox,
 			IOperationSequence operations,
 			IProcessMonitor processMonitor,
 			IRuntimeProxy runtime,
@@ -64,6 +68,7 @@ namespace SafeExamBrowser.Client.Behaviour
 		{
 			this.displayMonitor = displayMonitor;
 			this.logger = logger;
+			this.messageBox = messageBox;
 			this.operations = operations;
 			this.processMonitor = processMonitor;
 			this.runtime = runtime;
@@ -186,7 +191,7 @@ namespace SafeExamBrowser.Client.Behaviour
 		private void Runtime_ConnectionLost()
 		{
 			logger.Error("Lost connection to the runtime!");
-			uiFactory.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
+			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
 
 			taskbar.Close();
 			shutdown.Invoke();
@@ -194,7 +199,7 @@ namespace SafeExamBrowser.Client.Behaviour
 
 		private void Taskbar_QuitButtonClicked()
 		{
-			var result = uiFactory.Show(TextKey.MessageBox_Quit, TextKey.MessageBox_QuitTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
+			var result = messageBox.Show(TextKey.MessageBox_Quit, TextKey.MessageBox_QuitTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
 
 			if (result == MessageBoxResult.Yes)
 			{
@@ -205,7 +210,7 @@ namespace SafeExamBrowser.Client.Behaviour
 				catch (Exception e)
 				{
 					logger.Error("Failed to communicate shutdown request to the runtime!", e);
-					uiFactory.Show(TextKey.MessageBox_QuitError, TextKey.MessageBox_QuitErrorTitle, icon: MessageBoxIcon.Error);
+					messageBox.Show(TextKey.MessageBox_QuitError, TextKey.MessageBox_QuitErrorTitle, icon: MessageBoxIcon.Error);
 				}
 			}
 		}

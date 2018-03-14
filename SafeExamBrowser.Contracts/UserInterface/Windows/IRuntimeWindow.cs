@@ -8,7 +8,7 @@
 
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Contracts.UserInterface
+namespace SafeExamBrowser.Contracts.UserInterface.Windows
 {
 	/// <summary>
 	/// The main window of the runtime application component. It is controlled by the <see cref="Behaviour.IRuntimeController"/> and serves

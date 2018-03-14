@@ -18,6 +18,7 @@ using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
 
@@ -29,6 +30,7 @@ namespace SafeExamBrowser.Browser
 		private IList<IApplicationInstance> instances = new List<IApplicationInstance>();
 		private BrowserSettings settings;
 		private ILogger logger;
+		private IMessageBox messageBox;
 		private IRuntimeProxy runtime;
 		private RuntimeInfo runtimeInfo;
 		private IUserInterfaceFactory uiFactory;
@@ -38,11 +40,13 @@ namespace SafeExamBrowser.Browser
 			BrowserSettings settings,
 			RuntimeInfo runtimeInfo,
 			ILogger logger,
+			IMessageBox messageBox,
 			IRuntimeProxy runtime,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
+			this.messageBox = messageBox;
 			this.runtime = runtime;
 			this.runtimeInfo = runtimeInfo;
 			this.settings = settings;
@@ -122,7 +126,7 @@ namespace SafeExamBrowser.Browser
 
 		private void Instance_ConfigurationDetected(string url, CancelEventArgs args)
 		{
-			var result = uiFactory.Show(TextKey.MessageBox_ReconfigurationQuestion, TextKey.MessageBox_ReconfigurationQuestionTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
+			var result = messageBox.Show(TextKey.MessageBox_ReconfigurationQuestion, TextKey.MessageBox_ReconfigurationQuestionTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
 			var reconfigure = result == MessageBoxResult.Yes;
 			var allowed = false;
 
@@ -137,13 +141,13 @@ namespace SafeExamBrowser.Browser
 
 					if (!allowed)
 					{
-						uiFactory.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle);
+						messageBox.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle);
 					}
 				}
 				catch (Exception e)
 				{
 					logger.Error("Failed to communicate the reconfiguration request to the runtime!", e);
-					uiFactory.Show(TextKey.MessageBox_ReconfigurationError, TextKey.MessageBox_ReconfigurationErrorTitle, icon: MessageBoxIcon.Error);
+					messageBox.Show(TextKey.MessageBox_ReconfigurationError, TextKey.MessageBox_ReconfigurationErrorTitle, icon: MessageBoxIcon.Error);
 				}
 			}
 

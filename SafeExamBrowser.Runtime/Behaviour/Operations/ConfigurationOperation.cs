@@ -14,6 +14,7 @@ using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 
 namespace SafeExamBrowser.Runtime.Behaviour.Operations
 {
@@ -21,9 +22,9 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 	{
 		private IConfigurationRepository repository;
 		private ILogger logger;
+		private IMessageBox messageBox;
 		private RuntimeInfo runtimeInfo;
 		private IText text;
-		private IUserInterfaceFactory uiFactory;
 		private string[] commandLineArgs;
 
 		public IProgressIndicator ProgressIndicator { private get; set; }
@@ -31,17 +32,17 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		public ConfigurationOperation(
 			IConfigurationRepository repository,
 			ILogger logger,
+			IMessageBox messageBox,
 			RuntimeInfo runtimeInfo,
 			IText text,
-			IUserInterfaceFactory uiFactory,
 			string[] commandLineArgs)
 		{
 			this.repository = repository;
 			this.logger = logger;
+			this.messageBox = messageBox;
 			this.commandLineArgs = commandLineArgs;
 			this.runtimeInfo = runtimeInfo;
 			this.text = text;
-			this.uiFactory = uiFactory;
 		}
 
 		public OperationResult Perform()
@@ -129,7 +130,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		{
 			var message = text.Get(TextKey.MessageBox_ClientConfigurationQuestion);
 			var title = text.Get(TextKey.MessageBox_ClientConfigurationQuestionTitle);
-			var abort = uiFactory.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question);
+			var abort = messageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question);
 
 			return abort == MessageBoxResult.Yes;
 		}

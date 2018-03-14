@@ -105,6 +105,7 @@
     <Compile Include="LogWindow.xaml.cs">
       <DependentUpon>LogWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MessageBox.cs" />
     <Compile Include="RuntimeWindow.xaml.cs">
       <DependentUpon>RuntimeWindow.xaml</DependentUpon>
     </Compile>

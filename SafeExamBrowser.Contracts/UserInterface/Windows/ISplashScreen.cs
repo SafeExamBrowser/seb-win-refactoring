@@ -8,7 +8,7 @@
 
 using SafeExamBrowser.Contracts.Configuration;
 
-namespace SafeExamBrowser.Contracts.UserInterface
+namespace SafeExamBrowser.Contracts.UserInterface.Windows
 {
 	/// <summary>
 	/// Defines the functionality of a splash screen.

@@ -8,7 +8,7 @@
 
 using SafeExamBrowser.Contracts.I18n;
 
-namespace SafeExamBrowser.Contracts.UserInterface
+namespace SafeExamBrowser.Contracts.UserInterface.MessageBox
 {
 	/// <summary>
 	/// Defines the API for message boxes.

@@ -15,6 +15,8 @@ using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
+using SafeExamBrowser.Contracts.UserInterface.Windows;
 
 namespace SafeExamBrowser.Runtime.Behaviour
 {
@@ -24,6 +26,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 
 		private IConfigurationRepository configuration;
 		private ILogger logger;
+		private IMessageBox messageBox;
 		private IOperationSequence bootstrapSequence;
 		private IOperationSequence sessionSequence;
 		private IRuntimeHost runtimeHost;
@@ -37,6 +40,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		public RuntimeController(
 			IConfigurationRepository configuration,
 			ILogger logger,
+			IMessageBox messageBox,
 			IOperationSequence bootstrapSequence,
 			IOperationSequence sessionSequence,
 			IRuntimeHost runtimeHost,
@@ -46,11 +50,12 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			IUserInterfaceFactory uiFactory)
 		{
 			this.configuration = configuration;
-			this.logger = logger;
 			this.bootstrapSequence = bootstrapSequence;
-			this.sessionSequence = sessionSequence;
+			this.logger = logger;
+			this.messageBox = messageBox;
 			this.runtimeHost = runtimeHost;
 			this.runtimeInfo = runtimeInfo;
+			this.sessionSequence = sessionSequence;
 			this.service = service;
 			this.shutdown = shutdown;
 			this.uiFactory = uiFactory;
@@ -86,7 +91,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 				logger.Info("--- Application startup aborted! ---");
 				logger.Log(string.Empty);
 
-				uiFactory.Show(TextKey.MessageBox_StartupError, TextKey.MessageBox_StartupErrorTitle, icon: MessageBoxIcon.Error);
+				messageBox.Show(TextKey.MessageBox_StartupError, TextKey.MessageBox_StartupErrorTitle, icon: MessageBoxIcon.Error);
 			}
 
 			return initialized && sessionRunning;
@@ -121,7 +126,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 				logger.Info("--- Shutdown procedure failed! ---");
 				logger.Log(string.Empty);
 
-				uiFactory.Show(TextKey.MessageBox_ShutdownError, TextKey.MessageBox_ShutdownErrorTitle, icon: MessageBoxIcon.Error);
+				messageBox.Show(TextKey.MessageBox_ShutdownError, TextKey.MessageBox_ShutdownErrorTitle, icon: MessageBoxIcon.Error);
 			}
 
 			splashScreen?.Close();
@@ -163,7 +168,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 
 				if (result == OperationResult.Failed)
 				{
-					uiFactory.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error);
+					messageBox.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error);
 				}
 
 				if (!initial)
@@ -193,7 +198,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			else
 			{
 				logger.Info(">>>--- Session reversion was erroneous! ---<<<");
-				uiFactory.Show(TextKey.MessageBox_SessionStopError, TextKey.MessageBox_SessionStopErrorTitle, icon: MessageBoxIcon.Error);
+				messageBox.Show(TextKey.MessageBox_SessionStopError, TextKey.MessageBox_SessionStopErrorTitle, icon: MessageBoxIcon.Error);
 			}
 		}
 
@@ -225,7 +230,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		{
 			logger.Error($"Client application has unexpectedly terminated with exit code {exitCode}!");
 			// TODO: Check if message box is rendered on new desktop as well -> otherwise shutdown is blocked!
-			uiFactory.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
+			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
 
 			shutdown.Invoke();
 		}
@@ -234,7 +239,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		{
 			logger.Error("Lost connection to the client application!");
 			// TODO: Check if message box is rendered on new desktop as well -> otherwise shutdown is blocked!
-			uiFactory.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
+			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
 
 			shutdown.Invoke();
 		}

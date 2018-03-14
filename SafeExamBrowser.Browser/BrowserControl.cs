@@ -10,7 +10,7 @@ using System;
 using CefSharp.WinForms;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Browser;
 using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
 
 namespace SafeExamBrowser.Browser

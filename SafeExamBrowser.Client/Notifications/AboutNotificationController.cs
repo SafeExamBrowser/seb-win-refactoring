@@ -8,9 +8,9 @@
 
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Windows;
 
 namespace SafeExamBrowser.Client.Notifications
 {

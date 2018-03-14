@@ -6,7 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.UserInterface
+using SafeExamBrowser.Contracts.UserInterface.Windows;
+
+namespace SafeExamBrowser.Contracts.UserInterface.Browser
 {
 	public delegate void ActionRequestedEventHandler();
 

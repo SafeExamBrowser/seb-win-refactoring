@@ -8,6 +8,7 @@
 
 using System;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Windows;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {

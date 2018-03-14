@@ -10,7 +10,7 @@ using System.ComponentModel;
 using System.Windows;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Windows;
 using SafeExamBrowser.UserInterface.Classic.ViewModels;
 
 namespace SafeExamBrowser.UserInterface.Classic

@@ -6,16 +6,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.UserInterface
+namespace SafeExamBrowser.Contracts.UserInterface.MessageBox
 {
 	/// <summary>
-	/// Defines all icons available in a message box.
+	/// Defines all possible results of a message box.
 	/// </summary>
-	public enum MessageBoxIcon
+	public enum MessageBoxResult
 	{
-		Error,
-		Information,
-		Question,
-		Warning
+		None = 0,
+		Cancel,
+		No,
+		Ok,
+		Yes
 	}
 }

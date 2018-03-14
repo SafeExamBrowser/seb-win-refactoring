@@ -16,6 +16,7 @@ using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Runtime.Behaviour.Operations;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
@@ -24,22 +25,22 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 	public class ConfigurationOperationTests
 	{
 		private Mock<ILogger> logger;
+		private Mock<IMessageBox> messageBox;
 		private RuntimeInfo info;
 		private Mock<IConfigurationRepository> repository;
 		private Settings settings;
 		private Mock<IText> text;
-		private Mock<IUserInterfaceFactory> uiFactory;
 		private ConfigurationOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
-			logger = new Mock<ILogger>();
 			info = new RuntimeInfo();
+			logger = new Mock<ILogger>();
+			messageBox = new Mock<IMessageBox>();
 			repository = new Mock<IConfigurationRepository>();
 			settings = new Settings();
 			text = new Mock<IText>();
-			uiFactory = new Mock<IUserInterfaceFactory>();
 
 			info.AppDataFolder = @"C:\Not\Really\AppData";
 			info.DefaultSettingsFileName = "SettingsDummy.txt";
@@ -53,11 +54,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		{
 			repository.Setup(r => r.LoadDefaultSettings());
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, info, text.Object, uiFactory.Object, null);
+			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
 
 			sut.Perform();
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, info, text.Object, uiFactory.Object, new string[] { });
+			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, new string[] { });
 
 			sut.Perform();
 
@@ -69,7 +70,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		{
 			var path = @"an/invalid\path.'*%yolo/()";
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, info, text.Object, uiFactory.Object, new [] { "blubb.exe", path });
+			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, new [] { "blubb.exe", path });
 
 			sut.Perform();
 		}
@@ -83,7 +84,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			info.ProgramDataFolder = location;
 			info.AppDataFolder = location;
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, info, text.Object, uiFactory.Object, new[] { "blubb.exe", path });
+			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, new[] { "blubb.exe", path });
 
 			sut.Perform();
 
@@ -98,7 +99,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			info.ProgramDataFolder = location;
 			info.AppDataFolder = $@"{location}\WRONG";
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, info, text.Object, uiFactory.Object, null);
+			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
 
 			sut.Perform();
 
@@ -112,7 +113,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 
 			info.AppDataFolder = location;
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, info, text.Object, uiFactory.Object, null);
+			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
 
 			sut.Perform();
 
@@ -122,7 +123,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		[TestMethod]
 		public void MustFallbackToDefaultsAsLastPrio()
 		{
-			sut = new ConfigurationOperation(repository.Object, logger.Object, info, text.Object, uiFactory.Object, null);
+			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
 
 			sut.Perform();
 
@@ -133,9 +134,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		public void MustAbortIfWishedByUser()
 		{
 			info.ProgramDataFolder = Path.GetDirectoryName(GetType().Assembly.Location);
-			uiFactory.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.Yes);
+			messageBox.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.Yes);
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, info, text.Object, uiFactory.Object, null);
+			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
 
 			var result = sut.Perform();
 
@@ -145,9 +146,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		[TestMethod]
 		public void MustNotAbortIfNotWishedByUser()
 		{
-			uiFactory.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.No);
+			messageBox.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.No);
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, info, text.Object, uiFactory.Object, null);
+			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
 
 			var result = sut.Perform();
 

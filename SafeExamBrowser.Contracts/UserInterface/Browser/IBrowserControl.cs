@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.UserInterface
+namespace SafeExamBrowser.Contracts.UserInterface.Browser
 {
 	public delegate void AddressChangedEventHandler(string address);
 	public delegate void LoadingStateChangedEventHandler(bool isLoading);
