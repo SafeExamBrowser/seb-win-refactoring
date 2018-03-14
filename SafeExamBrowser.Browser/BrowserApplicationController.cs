@@ -82,11 +82,13 @@ namespace SafeExamBrowser.Browser
 		{
 			var instance = new BrowserApplicationInstance(settings, text, uiFactory, instances.Count == 0);
 
+			instance.Initialize();
+			instance.ConfigurationDetected += Instance_ConfigurationDetected;
+			instance.Terminated += Instance_Terminated;
+
 			button.RegisterInstance(instance);
 			instances.Add(instance);
 
-			instance.ConfigurationDetected += Instance_ConfigurationDetected;
-			instance.Terminated += Instance_Terminated;
 			instance.Window.Show();
 		}
 

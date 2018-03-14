@@ -19,6 +19,10 @@ namespace SafeExamBrowser.Browser
 	{
 		private IBrowserControl control;
 		private IBrowserWindow window;
+		private bool isMainInstance;
+		private BrowserSettings settings;
+		private IText text;
+		private IUserInterfaceFactory uiFactory;
 
 		public Guid Id { get; private set; }
 		public string Name { get; private set; }
@@ -30,9 +34,16 @@ namespace SafeExamBrowser.Browser
 
 		public BrowserApplicationInstance(BrowserSettings settings, IText text, IUserInterfaceFactory uiFactory, bool isMainInstance)
 		{
+			this.isMainInstance = isMainInstance;
+			this.settings = settings;
+			this.text = text;
+			this.uiFactory = uiFactory;
+		}
+
+		internal void Initialize()
+		{
 			Id = Guid.NewGuid();
 
-			// TODO: Move to initialize method!
 			control = new BrowserControl(settings, text);
 			control.AddressChanged += Control_AddressChanged;
 			(control as BrowserControl).ConfigurationDetected += (url, args) => ConfigurationDetected?.Invoke(url, args);

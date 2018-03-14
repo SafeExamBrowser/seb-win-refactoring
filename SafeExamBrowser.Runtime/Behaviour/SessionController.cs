@@ -137,8 +137,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 				return false;
 			}
 
-			logger.Info("Client has been successfully started and initialized.");
-			logger.Info("Creating communication proxy for client host...");
+			logger.Info("Client has been successfully started and initialized. Creating communication proxy for client host...");
 			configuration.CurrentSession.ClientProxy = proxyFactory.CreateClientProxy(configuration.RuntimeInfo.ClientAddress);
 
 			if (!configuration.CurrentSession.ClientProxy.Connect(configuration.CurrentSession.StartupToken))
