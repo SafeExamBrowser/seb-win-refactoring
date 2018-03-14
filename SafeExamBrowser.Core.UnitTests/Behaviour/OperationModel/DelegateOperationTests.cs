@@ -7,6 +7,7 @@
  */
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Core.Behaviour.OperationModel;
 
 namespace SafeExamBrowser.Core.UnitTests.Behaviour.OperationModel
@@ -48,6 +49,20 @@ namespace SafeExamBrowser.Core.UnitTests.Behaviour.OperationModel
 			sut.Revert();
 
 			Assert.IsTrue(reverted);
+		}
+
+		[TestMethod]
+		public void MustNotFailIfActionsAreNull()
+		{
+			var sut = new DelegateOperation(null, null, null);
+
+			var perform = sut.Perform();
+			var repeat = sut.Repeat();
+
+			sut.Revert();
+
+			Assert.AreEqual(OperationResult.Success, perform);
+			Assert.AreEqual(OperationResult.Success, repeat);
 		}
 	}
 }
