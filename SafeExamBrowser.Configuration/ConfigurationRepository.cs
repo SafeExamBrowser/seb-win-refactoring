@@ -16,6 +16,9 @@ namespace SafeExamBrowser.Configuration
 {
 	public class ConfigurationRepository : IConfigurationRepository
 	{
+		private const string BASE_ADDRESS = "net.pipe://localhost/safeexambrowser";
+
+		private bool firstSession = true;
 		private RuntimeInfo runtimeInfo;
 
 		public ISessionData CurrentSession { get; private set; }
@@ -35,19 +38,6 @@ namespace SafeExamBrowser.Configuration
 			}
 		}
 
-		public ISessionData InitializeSessionData()
-		{
-			var session = new SessionData
-			{
-				Id = Guid.NewGuid(),
-				StartupToken = Guid.NewGuid()
-			};
-
-			CurrentSession = session;
-
-			return session;
-		}
-
 		public ClientConfiguration BuildClientConfiguration()
 		{
 			return new ClientConfiguration
@@ -56,6 +46,24 @@ namespace SafeExamBrowser.Configuration
 				SessionId = CurrentSession.Id,
 				Settings = CurrentSettings
 			};
+		}
+
+		public void InitializeSessionConfiguration()
+		{
+			CurrentSession = new SessionData
+			{
+				Id = Guid.NewGuid(),
+				StartupToken = Guid.NewGuid()
+			};
+
+			if (!firstSession)
+			{
+				UpdateRuntimeInfo();
+			}
+			else
+			{
+				firstSession = false;
+			}
 		}
 
 		public Settings LoadSettings(Uri path)
@@ -92,10 +100,7 @@ namespace SafeExamBrowser.Configuration
 		private void InitializeRuntimeInfo()
 		{
 			var appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(SafeExamBrowser));
-			var baseAddress = "net.pipe://localhost/safeexambrowser";
-			var clientId = Guid.NewGuid();
 			var executable = Assembly.GetEntryAssembly();
-			var runtimeId = Guid.NewGuid();
 			var startTime = DateTime.Now;
 			var logFolder = Path.Combine(appDataFolder, "Logs");
 			var logFilePrefix = startTime.ToString("yyyy-MM-dd\\_HH\\hmm\\mss\\s");
@@ -107,7 +112,7 @@ namespace SafeExamBrowser.Configuration
 				BrowserCachePath = Path.Combine(appDataFolder, "Cache"),
 				BrowserLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Browser.txt"),
 				ClientId = Guid.NewGuid(),
-				ClientAddress = $"{baseAddress}/client/{clientId}",
+				ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}",
 				ClientExecutablePath = Path.Combine(Path.GetDirectoryName(executable.Location), $"{nameof(SafeExamBrowser)}.Client.exe"),
 				ClientLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Client.txt"),
 				DefaultSettingsFileName = "SebClientSettings.seb",
@@ -116,10 +121,16 @@ namespace SafeExamBrowser.Configuration
 				ProgramTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title,
 				ProgramVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion,
 				RuntimeId = Guid.NewGuid(),
-				RuntimeAddress = $"{baseAddress}/runtime/{runtimeId}",
+				RuntimeAddress = $"{BASE_ADDRESS}/runtime/{Guid.NewGuid()}",
 				RuntimeLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Runtime.txt"),
-				ServiceAddress = $"{baseAddress}/service"
+				ServiceAddress = $"{BASE_ADDRESS}/service"
 			};
+		}
+
+		private void UpdateRuntimeInfo()
+		{
+			RuntimeInfo.ClientId = Guid.NewGuid();
+			RuntimeInfo.ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}";
 		}
 	}
 }

@@ -49,10 +49,10 @@ namespace SafeExamBrowser.Runtime
 			var uiFactory = new UserInterfaceFactory(text);
 			var desktop = new Desktop(new ModuleLogger(logger, typeof(Desktop)));
 			var processFactory = new ProcessFactory(desktop, new ModuleLogger(logger, typeof(ProcessFactory)));
-			var clientProxy = new ClientProxy(runtimeInfo.ClientAddress, new ModuleLogger(logger, typeof(ClientProxy)));
+			var proxyFactory = new ProxyFactory(logger);
 			var runtimeHost = new RuntimeHost(runtimeInfo.RuntimeAddress, configuration, new ModuleLogger(logger, typeof(RuntimeHost)));
 			var serviceProxy = new ServiceProxy(runtimeInfo.ServiceAddress, new ModuleLogger(logger, typeof(ServiceProxy)));
-			var sessionController = new SessionController(clientProxy, configuration, logger, processFactory, runtimeHost, serviceProxy);
+			var sessionController = new SessionController(configuration, logger, processFactory, proxyFactory, runtimeHost, serviceProxy);
 
 			var bootstrapOperations = new Queue<IOperation>();
 			var sessionOperations = new Queue<IOperation>();
@@ -69,7 +69,7 @@ namespace SafeExamBrowser.Runtime
 			var boostrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new OperationSequence(logger, sessionOperations);
 
-			RuntimeController = new RuntimeController(clientProxy, configuration, logger, boostrapSequence, sessionSequence, runtimeHost,  runtimeInfo, serviceProxy, shutdown, uiFactory);
+			RuntimeController = new RuntimeController(configuration, logger, boostrapSequence, sessionSequence, runtimeHost,  runtimeInfo, serviceProxy, shutdown, uiFactory);
 		}
 
 		internal void LogStartupInformation()
@@ -81,6 +81,7 @@ namespace SafeExamBrowser.Runtime
 			logger.Log(string.Empty);
 			logger.Log($"# Application started at {runtimeInfo.ApplicationStartTime.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 			logger.Log($"# Running on {systemInfo.OperatingSystemInfo}");
+			logger.Log($"# Runtime-ID: {runtimeInfo.RuntimeId}");
 			logger.Log(string.Empty);
 		}
 

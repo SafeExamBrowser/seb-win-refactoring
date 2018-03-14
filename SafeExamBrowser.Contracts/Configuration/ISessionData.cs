@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Contracts.Configuration
@@ -16,6 +17,11 @@ namespace SafeExamBrowser.Contracts.Configuration
 	/// </summary>
 	public interface ISessionData
 	{
+		/// <summary>
+		/// The communication proxy for the client instance associated to this session.
+		/// </summary>
+		IClientProxy ClientProxy { get; set; }
+
 		/// <summary>
 		/// The process information of the client instance associated to this session.
 		/// </summary>

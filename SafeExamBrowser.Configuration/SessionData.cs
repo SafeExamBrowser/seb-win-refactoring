@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.WindowsApi;
 
@@ -14,6 +15,7 @@ namespace SafeExamBrowser.Configuration
 {
 	public class SessionData : ISessionData
 	{
+		public IClientProxy ClientProxy { get; set; }
 		public IProcess ClientProcess { get; set; }
 		public Guid Id { get; set; }
 		public Guid StartupToken { get; set; }

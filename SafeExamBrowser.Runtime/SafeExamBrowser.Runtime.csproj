@@ -93,6 +93,7 @@
     <Compile Include="Behaviour\Operations\SessionSequenceEndOperation.cs" />
     <Compile Include="Behaviour\SessionController.cs" />
     <Compile Include="Behaviour\Operations\SessionSequenceStartOperation.cs" />
+    <Compile Include="Communication\ProxyFactory.cs" />
     <Compile Include="Communication\RuntimeHost.cs" />
     <Compile Include="CompositionRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

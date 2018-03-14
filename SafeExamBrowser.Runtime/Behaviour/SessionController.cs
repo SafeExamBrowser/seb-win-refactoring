@@ -22,28 +22,27 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		private const int TEN_SECONDS = 10000;
 
 		private bool sessionRunning;
-		private IClientProxy client;
 		private IConfigurationRepository configuration;
 		private ILogger logger;
 		private IProcessFactory processFactory;
+		private IProxyFactory proxyFactory;
 		private IRuntimeHost runtimeHost;
 		private IServiceProxy service;
-		private ISessionData session;
 
 		internal IProgressIndicator ProgressIndicator { private get; set; }
 
 		internal SessionController(
-			IClientProxy client,
 			IConfigurationRepository configuration,
 			ILogger logger,
 			IProcessFactory processFactory,
+			IProxyFactory proxyFactory,
 			IRuntimeHost runtimeHost,
 			IServiceProxy service)
 		{
-			this.client = client;
 			this.configuration = configuration;
 			this.logger = logger;
 			this.processFactory = processFactory;
+			this.proxyFactory = proxyFactory;
 			this.runtimeHost = runtimeHost;
 			this.service = service;
 		}
@@ -53,23 +52,19 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			logger.Info("Starting new session...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StartSession, true);
 
-			session = configuration.InitializeSessionData();
-			runtimeHost.StartupToken = session.StartupToken;
-
-			logger.Info("Initializing service session...");
-			service.StartSession(session.Id, configuration.CurrentSettings);
-
+			InitializeSessionConfiguration();
+			StartServiceSession();
 			sessionRunning = TryStartClient();
 
 			if (!sessionRunning)
 			{
 				logger.Info($"Failed to start new session! Reverting service session and aborting procedure...");
-				service.StopSession(session.Id);
+				service.StopSession(configuration.CurrentSession.Id);
 
 				return OperationResult.Failed;
 			}
 
-			logger.Info($"Successfully started new session with identifier '{session.Id}'.");
+			logger.Info($"Successfully started new session.");
 
 			return OperationResult.Success;
 		}
@@ -78,22 +73,43 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		{
 			if (sessionRunning)
 			{
-				logger.Info($"Stopping session with identifier '{session.Id}'...");
+				logger.Info($"Stopping session with identifier '{configuration.CurrentSession.Id}'...");
 				ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StopSession, true);
 
-				logger.Info("Stopping service session...");
-				service.StopSession(session.Id);
+				StopServiceSession();
 
-				if (!session.ClientProcess.HasTerminated)
+				if (!configuration.CurrentSession.ClientProcess.HasTerminated)
 				{
 					StopClient();
 				}
 
 				sessionRunning = false;
-				logger.Info($"Successfully stopped session with identifier '{session.Id}'.");
+				logger.Info($"Successfully stopped session.");
 			}
 
 			return OperationResult.Success;
+		}
+
+		private void InitializeSessionConfiguration()
+		{
+			configuration.InitializeSessionConfiguration();
+			runtimeHost.StartupToken = configuration.CurrentSession.StartupToken;
+
+			logger.Info($" -> Client-ID: {configuration.RuntimeInfo.ClientId}");
+			logger.Info($" -> Runtime-ID: {configuration.RuntimeInfo.RuntimeId} (as reference, does not change)");
+			logger.Info($" -> Session-ID: {configuration.CurrentSession.Id}");
+		}
+
+		private void StartServiceSession()
+		{
+			logger.Info("Initializing service session...");
+			service.StartSession(configuration.CurrentSession.Id, configuration.CurrentSettings);
+		}
+
+		private void StopServiceSession()
+		{
+			logger.Info("Stopping service session...");
+			service.StopSession(configuration.CurrentSession.Id);
 		}
 
 		private bool TryStartClient()
@@ -104,11 +120,11 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			var clientExecutable = configuration.RuntimeInfo.ClientExecutablePath;
 			var clientLogFile = $"{'"' + configuration.RuntimeInfo.ClientLogFile + '"'}";
 			var hostUri = configuration.RuntimeInfo.RuntimeAddress;
-			var token = session.StartupToken.ToString("D");
+			var token = configuration.CurrentSession.StartupToken.ToString("D");
 
-			logger.Info("Starting new client process.");
+			logger.Info("Starting new client process...");
 			runtimeHost.ClientReady += clientReadyEventHandler;
-			session.ClientProcess = processFactory.StartNew(clientExecutable, clientLogFile, hostUri, token);
+			configuration.CurrentSession.ClientProcess = processFactory.StartNew(clientExecutable, clientLogFile, hostUri, token);
 
 			logger.Info("Waiting for client to complete initialization...");
 			clientReady = clientReadyEvent.WaitOne(TEN_SECONDS);
@@ -122,8 +138,10 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			}
 
 			logger.Info("Client has been successfully started and initialized.");
+			logger.Info("Creating communication proxy for client host...");
+			configuration.CurrentSession.ClientProxy = proxyFactory.CreateClientProxy(configuration.RuntimeInfo.ClientAddress);
 
-			if (!client.Connect(session.StartupToken))
+			if (!configuration.CurrentSession.ClientProxy.Connect(configuration.CurrentSession.StartupToken))
 			{
 				logger.Error("Failed to connect to client!");
 
@@ -132,16 +150,16 @@ namespace SafeExamBrowser.Runtime.Behaviour
 
 			logger.Info("Connection with client has been established.");
 
-			var response = client.RequestAuthentication();
+			var response = configuration.CurrentSession.ClientProxy.RequestAuthentication();
 
-			if (session.ClientProcess.Id != response?.ProcessId)
+			if (configuration.CurrentSession.ClientProcess.Id != response?.ProcessId)
 			{
 				logger.Error("Failed to verify client integrity!");
 
 				return false;
 			}
 
-			logger.Info("Authentication of client has been successful.");
+			logger.Info("Authentication of client has been successful, client is ready to operate.");
 
 			return true;
 		}
@@ -157,13 +175,13 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			var terminatedEventHandler = new ProcessTerminatedEventHandler((_) => terminatedEvent.Set());
 
 			runtimeHost.ClientDisconnected += disconnectedEventHandler;
-			session.ClientProcess.Terminated += terminatedEventHandler;
+			configuration.CurrentSession.ClientProcess.Terminated += terminatedEventHandler;
 
 			logger.Info("Instructing client to initiate shutdown procedure.");
-			client.InitiateShutdown();
+			configuration.CurrentSession.ClientProxy.InitiateShutdown();
 
 			logger.Info("Disconnecting from client communication host.");
-			client.Disconnect();
+			configuration.CurrentSession.ClientProxy.Disconnect();
 
 			logger.Info("Waiting for client to disconnect from runtime communication host...");
 			disconnected = disconnectedEvent.WaitOne(TEN_SECONDS);
@@ -182,7 +200,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			}
 
 			runtimeHost.ClientDisconnected -= disconnectedEventHandler;
-			session.ClientProcess.Terminated -= terminatedEventHandler;
+			configuration.CurrentSession.ClientProcess.Terminated -= terminatedEventHandler;
 
 			if (disconnected && terminated)
 			{
@@ -206,10 +224,10 @@ namespace SafeExamBrowser.Runtime.Behaviour
 				return;
 			}
 
-			logger.Info($"Killing client process with ID = {session.ClientProcess.Id}.");
-			session.ClientProcess.Kill();
+			logger.Info($"Killing client process with ID = {configuration.CurrentSession.ClientProcess.Id}.");
+			configuration.CurrentSession.ClientProcess.Kill();
 
-			if (session.ClientProcess.HasTerminated)
+			if (configuration.CurrentSession.ClientProcess.HasTerminated)
 			{
 				logger.Info("Client process has terminated.");
 			}

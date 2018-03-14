@@ -22,7 +22,6 @@ namespace SafeExamBrowser.Runtime.Behaviour
 	{
 		private bool sessionRunning;
 
-		private IClientProxy client;
 		private IConfigurationRepository configuration;
 		private ILogger logger;
 		private IOperationSequence bootstrapSequence;
@@ -36,7 +35,6 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		private IUserInterfaceFactory uiFactory;
 		
 		public RuntimeController(
-			IClientProxy client,
 			IConfigurationRepository configuration,
 			ILogger logger,
 			IOperationSequence bootstrapSequence,
@@ -47,7 +45,6 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			Action shutdown,
 			IUserInterfaceFactory uiFactory)
 		{
-			this.client = client;
 			this.configuration = configuration;
 			this.logger = logger;
 			this.bootstrapSequence = bootstrapSequence;
@@ -202,7 +199,6 @@ namespace SafeExamBrowser.Runtime.Behaviour
 
 		private void RegisterEvents()
 		{
-			client.ConnectionLost += Client_ConnectionLost;
 			runtimeHost.ReconfigurationRequested += RuntimeHost_ReconfigurationRequested;
 			runtimeHost.ShutdownRequested += RuntimeHost_ShutdownRequested;
 		}
@@ -210,11 +206,11 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		private void RegisterSessionEvents()
 		{
 			configuration.CurrentSession.ClientProcess.Terminated += ClientProcess_Terminated;
+			configuration.CurrentSession.ClientProxy.ConnectionLost += Client_ConnectionLost;
 		}
 
 		private void DeregisterEvents()
 		{
-			client.ConnectionLost -= Client_ConnectionLost;
 			runtimeHost.ReconfigurationRequested -= RuntimeHost_ReconfigurationRequested;
 			runtimeHost.ShutdownRequested -= RuntimeHost_ShutdownRequested;
 		}
@@ -222,6 +218,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		private void DeregisterSessionEvents()
 		{
 			configuration.CurrentSession.ClientProcess.Terminated -= ClientProcess_Terminated;
+			configuration.CurrentSession.ClientProxy.ConnectionLost -= Client_ConnectionLost;
 		}
 
 		private void ClientProcess_Terminated(int exitCode)

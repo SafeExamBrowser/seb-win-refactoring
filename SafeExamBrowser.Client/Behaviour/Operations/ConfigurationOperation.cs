@@ -45,6 +45,9 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 				configuration.Settings = config.Settings;
 
 				logger.Info("Successfully retrieved the application configuration from the runtime.");
+				logger.Info($" -> Client-ID: {configuration.RuntimeInfo.ClientId}");
+				logger.Info($" -> Runtime-ID: {configuration.RuntimeInfo.RuntimeId}");
+				logger.Info($" -> Session-ID: {configuration.SessionId}");
 			}
 			catch (Exception e)
 			{

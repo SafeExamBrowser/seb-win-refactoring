@@ -62,6 +62,7 @@
     <Compile Include="Communication\IClientProxy.cs" />
     <Compile Include="Communication\ICommunicationHost.cs" />
     <Compile Include="Communication\ICommunicationProxy.cs" />
+    <Compile Include="Communication\IProxyFactory.cs" />
     <Compile Include="Communication\IRuntimeHost.cs" />
     <Compile Include="Communication\IRuntimeProxy.cs" />
     <Compile Include="Communication\IServiceProxy.cs" />

@@ -38,9 +38,6 @@ namespace SafeExamBrowser.Contracts.Configuration
 
 		/// <summary>
 		/// The communication address of the client component.
-		/// 
-		/// TODO: Will need to be updated for each new client instance!
-		/// 
 		/// </summary>
 		public string ClientAddress { get; set; }
 
@@ -51,9 +48,6 @@ namespace SafeExamBrowser.Contracts.Configuration
 
 		/// <summary>
 		/// The unique identifier for the currently running client instance.
-		/// 
-		/// TODO: Will need to be updated for each new client instance! -> Remove if unused!
-		/// 
 		/// </summary>
 		public Guid ClientId { get; set; }
 
@@ -94,9 +88,6 @@ namespace SafeExamBrowser.Contracts.Configuration
 
 		/// <summary>
 		/// The unique identifier for the currently running runtime instance.
-		/// 
-		/// TODO: Remove if unused!
-		/// 
 		/// </summary>
 		public Guid RuntimeId { get; set; }
 
