@@ -14,7 +14,6 @@ using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Messages;
 using SafeExamBrowser.Contracts.Communication.Responses;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Core.Communication;
 
 namespace SafeExamBrowser.Core.UnitTests.Communication
 {
@@ -23,7 +22,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication
 	{
 		private Mock<IProxyObjectFactory> proxyObjectFactory;
 		private Mock<ILogger> logger;
-		private BaseProxy sut;
+		private BaseProxyImpl sut;
 
 		[TestInitialize]
 		public void Initialize()
@@ -139,7 +138,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void MustFailToSendIfNotConnected()
 		{
-			(sut as BaseProxyImpl).Send(new Mock<Message>().Object);
+			sut.Send(new Mock<Message>().Object);
 		}
 
 		[TestMethod]
@@ -160,14 +159,14 @@ namespace SafeExamBrowser.Core.UnitTests.Communication
 			var token = Guid.NewGuid();
 
 			sut.Connect(token);
-			(sut as BaseProxyImpl).Send(new Mock<Message>().Object);
+			sut.Send(new Mock<Message>().Object);
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void MustNotAllowSendingNull()
 		{
-			(sut as BaseProxyImpl).Send(null);
+			sut.Send(null);
 		}
 
 		[TestMethod]
@@ -189,10 +188,143 @@ namespace SafeExamBrowser.Core.UnitTests.Communication
 
 			var token = Guid.NewGuid();
 			var connected = sut.Connect(token);
-			var received = (sut as BaseProxyImpl).Send(message);
+			var received = sut.Send(message);
 
 			Assert.AreEqual(response.Object, received);
 			Assert.AreEqual(connectionResponse.CommunicationToken, message.CommunicationToken);
+		}
+
+		[TestMethod]
+		public void MustSendSimpleMessageCorrectly()
+		{
+			var proxy = new Mock<ICommunication>();
+			var connectionResponse = new ConnectionResponse
+			{
+				CommunicationToken = Guid.NewGuid(),
+				ConnectionEstablished = true
+			};
+			var purport = SimpleMessagePurport.Authenticate;
+			var response = new Mock<Response>();
+
+			proxy.Setup(p => p.Connect(It.IsAny<Guid>())).Returns(connectionResponse);
+			proxy.Setup(p => p.Send(It.IsAny<Message>())).Returns(response.Object);
+			proxy.As<ICommunicationObject>().Setup(o => o.State).Returns(CommunicationState.Opened);
+			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
+
+			var token = Guid.NewGuid();
+			var connected = sut.Connect(token);
+			var received = sut.Send(purport);
+
+			proxy.Verify(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == purport)));
+		}
+
+		[TestMethod]
+		public void MustTestAcknowledgeResponsesCorrectly()
+		{
+			var nullResponse = sut.IsAcknowledged(null);
+			var notAcknowledge = sut.IsAcknowledged(new SimpleResponse(SimpleResponsePurport.Unauthorized));
+			var acknowledge = sut.IsAcknowledged(new SimpleResponse(SimpleResponsePurport.Acknowledged));
+
+			Assert.IsFalse(nullResponse);
+			Assert.IsFalse(notAcknowledge);
+			Assert.IsTrue(acknowledge);
+		}
+
+		[TestMethod]
+		public void MustToStringSafely()
+		{
+			var message = new Mock<Message>();
+			var response = new Mock<Response>();
+
+			message.Setup(m => m.ToString()).Returns(nameof(Message));
+			response.Setup(r => r.ToString()).Returns(nameof(Response));
+
+			var nullStringMessage = sut.ToString(null as Message);
+			var nullStringResponse = sut.ToString(null as Response);
+			var messageString = sut.ToString(message.Object);
+			var responseString = sut.ToString(response.Object);
+
+			Assert.IsNotNull(nullStringMessage);
+			Assert.IsNotNull(nullStringResponse);
+			Assert.IsNotNull(messageString);
+			Assert.IsNotNull(responseString);
+			Assert.AreEqual(message.Object.ToString(), messageString);
+			Assert.AreEqual(response.Object.ToString(), responseString);
+		}
+
+		[TestMethod]
+		public void TestConnectionMustPingHost()
+		{
+			var proxy = new Mock<ICommunication>();
+			var connectionResponse = new ConnectionResponse
+			{
+				CommunicationToken = Guid.NewGuid(),
+				ConnectionEstablished = true
+			};
+
+			proxy.Setup(p => p.Connect(It.IsAny<Guid>())).Returns(connectionResponse);
+			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.Ping))).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
+			proxy.As<ICommunicationObject>().Setup(o => o.State).Returns(CommunicationState.Opened);
+			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
+
+			var token = Guid.NewGuid();
+			var connected = sut.Connect(token);
+
+			sut.TestConnection();
+
+			proxy.Verify();
+		}
+
+		[TestMethod]
+		public void TestConnectionMustInvokeConnectionLostEvent()
+		{
+			var lost = false;
+			var proxy = new Mock<ICommunication>();
+			var connectionResponse = new ConnectionResponse
+			{
+				CommunicationToken = Guid.NewGuid(),
+				ConnectionEstablished = true
+			};
+
+			sut.ConnectionLost += () => lost = true;
+
+			proxy.Setup(p => p.Connect(It.IsAny<Guid>())).Returns(connectionResponse);
+			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.Ping))).Returns(new SimpleResponse(SimpleResponsePurport.UnknownMessage));
+			proxy.As<ICommunicationObject>().Setup(o => o.State).Returns(CommunicationState.Opened);
+			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
+
+			var token = Guid.NewGuid();
+			var connected = sut.Connect(token);
+
+			sut.TestConnection();
+
+			Assert.IsTrue(lost);
+		}
+
+		[TestMethod]
+		public void TestConnectionMustNotFail()
+		{
+			var lost = false;
+			var proxy = new Mock<ICommunication>();
+			var connectionResponse = new ConnectionResponse
+			{
+				CommunicationToken = Guid.NewGuid(),
+				ConnectionEstablished = true
+			};
+
+			sut.ConnectionLost += () => lost = true;
+
+			proxy.Setup(p => p.Connect(It.IsAny<Guid>())).Returns(connectionResponse);
+			proxy.Setup(p => p.Send(It.IsAny<Message>())).Throws<Exception>();
+			proxy.As<ICommunicationObject>().Setup(o => o.State).Returns(CommunicationState.Opened);
+			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
+
+			var token = Guid.NewGuid();
+			var connected = sut.Connect(token);
+
+			sut.TestConnection();
+
+			Assert.IsTrue(lost);
 		}
 	}
 }

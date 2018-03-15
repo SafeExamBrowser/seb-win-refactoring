@@ -123,6 +123,35 @@ namespace SafeExamBrowser.Core.Communication
 		}
 
 		/// <summary>
+		/// Tests whether the connection to the host is alive by sending a ping message. If the transmission of the message fails or it is
+		/// not acknowledged, the <see cref="ConnectionLost"/> event is fired and the auto-ping timer stopped (if it was initialized).
+		/// </summary>
+		protected void TestConnection()
+		{
+			try
+			{
+				var response = Send(SimpleMessagePurport.Ping);
+
+				if (IsAcknowledged(response))
+				{
+					Logger.Info("Pinged host, connection is alive.");
+				}
+				else
+				{
+					Logger.Error($"Host did not acknowledge ping message! Received: {ToString(response)}.");
+					timer?.Stop();
+					ConnectionLost?.Invoke();
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error("Failed to ping host!", e);
+				timer?.Stop();
+				ConnectionLost?.Invoke();
+			}
+		}
+
+		/// <summary>
 		/// Retrieves the string representation of the given <see cref="Message"/>, or indicates that a message is <c>null</c>.
 		/// </summary>
 		protected string ToString(Message message)
@@ -205,27 +234,7 @@ namespace SafeExamBrowser.Core.Communication
 			{
 				if (timer.Enabled)
 				{
-					try
-					{
-						var response = Send(SimpleMessagePurport.Ping);
-
-						if (IsAcknowledged(response))
-						{
-							Logger.Info("Pinged host, connection is alive.");
-						}
-						else
-						{
-							Logger.Error($"Host did not acknowledge ping message! Received: {ToString(response)}.");
-							timer.Stop();
-							ConnectionLost?.Invoke();
-						}
-					}
-					catch (Exception e)
-					{
-						Logger.Error("Failed to ping host!", e);
-						timer.Stop();
-						ConnectionLost?.Invoke();
-					}
+					TestConnection();
 				}
 			}
 		}

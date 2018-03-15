@@ -35,5 +35,30 @@ namespace SafeExamBrowser.Core.UnitTests.Communication
 		{
 			return base.Send(message);
 		}
+
+		public new Response Send(SimpleMessagePurport purport)
+		{
+			return base.Send(purport);
+		}
+
+		public new bool IsAcknowledged(Response response)
+		{
+			return base.IsAcknowledged(response);
+		}
+
+		public new void TestConnection()
+		{
+			base.TestConnection();
+		}
+
+		public new string ToString(Message message)
+		{
+			return base.ToString(message);
+		}
+
+		public new string ToString(Response response)
+		{
+			return base.ToString(response);
+		}
 	}
 }
