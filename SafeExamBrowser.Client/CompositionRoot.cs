@@ -72,7 +72,7 @@ namespace SafeExamBrowser.Client
 			text = new Text(logger);
 			messageBox = new MessageBox(text);
 			uiFactory = new UserInterfaceFactory(text);
-			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ModuleLogger(logger, typeof(RuntimeProxy)));
+			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), new ModuleLogger(logger, typeof(RuntimeProxy)));
 
 			var displayMonitor = new DisplayMonitor(new ModuleLogger(logger, typeof(DisplayMonitor)), nativeMethods);
 			var processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);

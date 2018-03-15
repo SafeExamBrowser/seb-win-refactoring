@@ -17,8 +17,7 @@ using SafeExamBrowser.Contracts.Logging;
 namespace SafeExamBrowser.Core.Communication
 {
 	/// <summary>
-	/// Base implementation of an <see cref="ICommunicationProxy"/>. Automatically starts a ping mechanism with a timeout of
-	/// <see cref="ONE_MINUTE"/> once a connection was established.
+	/// Base implementation of an <see cref="ICommunicationProxy"/>.
 	/// </summary>
 	public abstract class BaseProxy : ICommunicationProxy
 	{
@@ -26,7 +25,8 @@ namespace SafeExamBrowser.Core.Communication
 		private static readonly object @lock = new object();
 
 		private string address;
-		private ICommunication channel;
+		private ICommunication proxy;
+		private IProxyObjectFactory factory;
 		private Guid? communicationToken;
 		private Timer timer;
 
@@ -34,31 +34,34 @@ namespace SafeExamBrowser.Core.Communication
 
 		public event CommunicationEventHandler ConnectionLost;
 
-		public BaseProxy(string address, ILogger logger)
+		public BaseProxy(string address, IProxyObjectFactory factory, ILogger logger)
 		{
 			this.address = address;
+			this.factory = factory;
 			this.Logger = logger;
 		}
 
-		public virtual bool Connect(Guid? token = null)
+		public virtual bool Connect(Guid? token = null, bool autoPing = true)
 		{
-			var endpoint = new EndpointAddress(address);
+			proxy = factory.CreateObject(address);
 
-			channel = ChannelFactory<ICommunication>.CreateChannel(new NetNamedPipeBinding(NetNamedPipeSecurityMode.Transport), endpoint);
-			(channel as ICommunicationObject).Closed += BaseProxy_Closed;
-			(channel as ICommunicationObject).Closing += BaseProxy_Closing;
-			(channel as ICommunicationObject).Faulted += BaseProxy_Faulted;
-			(channel as ICommunicationObject).Opened += BaseProxy_Opened;
-			(channel as ICommunicationObject).Opening += BaseProxy_Opening;
+			if (proxy is ICommunicationObject communicationObject)
+			{
+				communicationObject.Closed += BaseProxy_Closed;
+				communicationObject.Closing += BaseProxy_Closing;
+				communicationObject.Faulted += BaseProxy_Faulted;
+				communicationObject.Opened += BaseProxy_Opened;
+				communicationObject.Opening += BaseProxy_Opening;
+			}
 
 			Logger.Debug($"Trying to connect to endpoint '{address}'{(token.HasValue ? $" with authentication token '{token}'" : string.Empty)}...");
 
-			var response = channel.Connect(token);
+			var response = proxy.Connect(token);
 
 			communicationToken = response.CommunicationToken;
 			Logger.Debug($"Connection was {(response.ConnectionEstablished ? "established" : "refused")}.");
 
-			if (response.ConnectionEstablished)
+			if (response.ConnectionEstablished && autoPing)
 			{
 				StartAutoPing();
 			}
@@ -72,41 +75,64 @@ namespace SafeExamBrowser.Core.Communication
 			StopAutoPing();
 
 			var message = new DisconnectionMessage { CommunicationToken = communicationToken.Value };
-			var response = channel.Disconnect(message);
+			var response = proxy.Disconnect(message);
 
 			Logger.Debug($"{(response.ConnectionTerminated ? "Disconnected" : "Failed to disconnect")} from {address}.");
 
 			return response.ConnectionTerminated;
 		}
 
-		protected Response Send(Message message)
+		/// <summary>
+		/// Sends the given message, optionally returning a response. If no response is expected, <c>null</c> will be returned.
+		/// </summary>
+		/// <exception cref="ArgumentNullException">If the given message is <c>null</c>.</exception>
+		/// <exception cref="InvalidOperationException">If no connection has been established yet.</exception>
+		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
+		protected virtual Response Send(Message message)
 		{
+			if (message is null)
+			{
+				throw new ArgumentNullException(nameof(message));
+			}
+
 			FailIfNotConnected(nameof(Send));
 
 			message.CommunicationToken = communicationToken.Value;
 
-			var response = channel.Send(message);
+			var response = proxy.Send(message);
 
 			Logger.Debug($"Sent message '{ToString(message)}', got response '{ToString(response)}'.");
 
 			return response;
 		}
 
+		/// <summary>
+		/// Sends the given purport as <see cref="SimpleMessage"/>.
+		/// </summary>
 		protected Response Send(SimpleMessagePurport purport)
 		{
 			return Send(new SimpleMessage(purport));
 		}
 
+		/// <summary>
+		/// Determines whether the given response is a <see cref="SimpleResponse"/> with purport <see cref="SimpleResponsePurport.Acknowledged"/>.
+		/// </summary>
 		protected bool IsAcknowledged(Response response)
 		{
 			return response is SimpleResponse simpleResponse && simpleResponse.Purport == SimpleResponsePurport.Acknowledged;
 		}
 
+		/// <summary>
+		/// Retrieves the string representation of the given <see cref="Message"/>, or indicates that a message is <c>null</c>.
+		/// </summary>
 		protected string ToString(Message message)
 		{
 			return message != null ? message.ToString() : "<null>";
 		}
 
+		/// <summary>
+		/// etrieves the string representation of the given <see cref="Response"/>, or indicates that a response is <c>null</c>.
+		/// </summary>
 		protected string ToString(Response response)
 		{
 			return response != null ? response.ToString() : "<null>";
@@ -144,7 +170,7 @@ namespace SafeExamBrowser.Core.Communication
 				throw new InvalidOperationException($"Cannot perform '{operationName}' before being connected to endpoint!");
 			}
 
-			if (channel == null || (channel as ICommunicationObject).State != CommunicationState.Opened)
+			if (proxy == null || (proxy as ICommunicationObject)?.State != CommunicationState.Opened)
 			{
 				throw new CommunicationException($"Tried to perform {operationName}, but channel was {GetChannelState()}!");
 			}
@@ -152,7 +178,7 @@ namespace SafeExamBrowser.Core.Communication
 
 		private string GetChannelState()
 		{
-			return channel == null ? "null" : $"in state '{(channel as ICommunicationObject).State}'";
+			return proxy == null ? "null" : $"in state '{(proxy as ICommunicationObject)?.State}'";
 		}
 
 		private void StartAutoPing()

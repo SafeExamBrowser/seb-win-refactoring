@@ -63,6 +63,7 @@
     <Compile Include="Communication\BaseProxy.cs" />
     <Compile Include="Communication\BaseHost.cs" />
     <Compile Include="Communication\ClientProxy.cs" />
+    <Compile Include="Communication\ProxyObjectFactory.cs" />
     <Compile Include="Communication\RuntimeProxy.cs" />
     <Compile Include="Communication\ServiceProxy.cs" />
     <Compile Include="Logging\DefaultLogFormatter.cs" />

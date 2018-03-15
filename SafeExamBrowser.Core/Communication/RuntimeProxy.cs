@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Core.Communication
 	/// </summary>
 	public class RuntimeProxy : BaseProxy, IRuntimeProxy
 	{
-		public RuntimeProxy(string address, ILogger logger) : base(address, logger)
+		public RuntimeProxy(string address, IProxyObjectFactory factory, ILogger logger) : base(address, factory, logger)
 		{
 		}
 

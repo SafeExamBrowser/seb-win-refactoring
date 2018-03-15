@@ -15,16 +15,18 @@ namespace SafeExamBrowser.Runtime.Communication
 {
 	internal class ProxyFactory : IProxyFactory
 	{
+		private IProxyObjectFactory factory;
 		private ILogger logger;
 
-		public ProxyFactory(ILogger logger)
+		public ProxyFactory(IProxyObjectFactory factory, ILogger logger)
 		{
+			this.factory = factory;
 			this.logger = logger;
 		}
 
 		public IClientProxy CreateClientProxy(string address)
 		{
-			return new ClientProxy(address, new ModuleLogger(logger, typeof(ClientProxy)));
+			return new ClientProxy(address, factory, new ModuleLogger(logger, typeof(ClientProxy)));
 		}
 	}
 }

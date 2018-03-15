@@ -20,18 +20,18 @@ namespace SafeExamBrowser.Core.Communication
 	{
 		public bool Ignore { private get; set; }
 
-		public ServiceProxy(string address, ILogger logger) : base(address, logger)
+		public ServiceProxy(string address, IProxyObjectFactory factory, ILogger logger) : base(address, factory, logger)
 		{
 		}
 
-		public override bool Connect(Guid? token = null)
+		public override bool Connect(Guid? token = null, bool autoPing = true)
 		{
 			if (IgnoreOperation(nameof(Connect)))
 			{
 				return false;
 			}
 
-			return base.Connect();
+			return base.Connect(autoPing: autoPing);
 		}
 
 		public override bool Disconnect()

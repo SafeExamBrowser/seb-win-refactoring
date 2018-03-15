@@ -69,6 +69,7 @@
       <HintPath>..\packages\Moq.4.8.1\lib\net45\Moq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.4.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -83,6 +84,8 @@
     <Compile Include="Behaviour\OperationModel\I18nOperationTests.cs" />
     <Compile Include="Behaviour\OperationModel\DelegateOperationTests.cs" />
     <Compile Include="Behaviour\OperationModel\OperationSequenceTests.cs" />
+    <Compile Include="Communication\BaseProxyImpl.cs" />
+    <Compile Include="Communication\BaseProxyTests.cs" />
     <Compile Include="I18n\TextTests.cs" />
     <Compile Include="I18n\XmlTextResourceTests.cs" />
     <Compile Include="Logging\DefaultLogFormatterTests.cs" />

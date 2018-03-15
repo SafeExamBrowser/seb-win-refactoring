@@ -19,7 +19,7 @@ namespace SafeExamBrowser.Core.Communication
 	/// </summary>
 	public class ClientProxy : BaseProxy, IClientProxy
 	{
-		public ClientProxy(string address, ILogger logger) : base(address, logger)
+		public ClientProxy(string address, IProxyObjectFactory factory, ILogger logger) : base(address, factory, logger)
 		{
 		}
 

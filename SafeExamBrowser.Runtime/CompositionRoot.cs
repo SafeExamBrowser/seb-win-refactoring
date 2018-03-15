@@ -50,9 +50,9 @@ namespace SafeExamBrowser.Runtime
 			var uiFactory = new UserInterfaceFactory(text);
 			var desktop = new Desktop(new ModuleLogger(logger, typeof(Desktop)));
 			var processFactory = new ProcessFactory(desktop, new ModuleLogger(logger, typeof(ProcessFactory)));
-			var proxyFactory = new ProxyFactory(logger);
+			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), logger);
 			var runtimeHost = new RuntimeHost(runtimeInfo.RuntimeAddress, configuration, new ModuleLogger(logger, typeof(RuntimeHost)));
-			var serviceProxy = new ServiceProxy(runtimeInfo.ServiceAddress, new ModuleLogger(logger, typeof(ServiceProxy)));
+			var serviceProxy = new ServiceProxy(runtimeInfo.ServiceAddress, new ProxyObjectFactory(), new ModuleLogger(logger, typeof(ServiceProxy)));
 			var sessionController = new SessionController(configuration, logger, processFactory, proxyFactory, runtimeHost, serviceProxy);
 
 			var bootstrapOperations = new Queue<IOperation>();

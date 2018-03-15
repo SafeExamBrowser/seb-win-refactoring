@@ -17,20 +17,21 @@ namespace SafeExamBrowser.Contracts.Communication
 	public interface ICommunicationProxy
 	{
 		/// <summary>
-		/// Fired when the connection to the proxy was lost, e.g. if a ping request failed or a communication fault occurred.
+		/// Fired when the connection to the host was lost, e.g. if a ping request failed or a communication fault occurred.
 		/// </summary>
 		event CommunicationEventHandler ConnectionLost;
 
 		/// <summary>
 		/// Tries to establish a connection. Returns <c>true</c> if the connection has been accepted, otherwise <c>false</c>. If a
-		/// connection was successfully established, a ping mechanism will be activated to periodically check the connection status.
+		/// connection was successfully established and the auto-ping flag is set, the connection status will be periodically checked.
 		/// </summary>
 		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
-		bool Connect(Guid? token = null);
+		bool Connect(Guid? token = null, bool autoPing = true);
 
 		/// <summary>
 		/// Terminates an open connection. Returns <c>true</c> if the disconnection has been acknowledged, otherwise <c>false</c>.
 		/// </summary>
+		/// <exception cref="InvalidOperationException">If no connection has been established.</exception>
 		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
 		bool Disconnect();
 	}
