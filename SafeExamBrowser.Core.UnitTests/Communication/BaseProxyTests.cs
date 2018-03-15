@@ -14,6 +14,7 @@ using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Messages;
 using SafeExamBrowser.Contracts.Communication.Responses;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Core.Communication;
 
 namespace SafeExamBrowser.Core.UnitTests.Communication
 {
@@ -22,7 +23,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication
 	{
 		private Mock<IProxyObjectFactory> proxyObjectFactory;
 		private Mock<ILogger> logger;
-		private BaseProxyImpl sut;
+		private BaseProxy sut;
 
 		[TestInitialize]
 		public void Initialize()
@@ -138,7 +139,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void MustFailToSendIfNotConnected()
 		{
-			sut.Send(new Mock<Message>().Object);
+			(sut as BaseProxyImpl).Send(new Mock<Message>().Object);
 		}
 
 		[TestMethod]
@@ -159,14 +160,14 @@ namespace SafeExamBrowser.Core.UnitTests.Communication
 			var token = Guid.NewGuid();
 
 			sut.Connect(token);
-			sut.Send(new Mock<Message>().Object);
+			(sut as BaseProxyImpl).Send(new Mock<Message>().Object);
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void MustNotAllowSendingNull()
 		{
-			sut.Send(null);
+			(sut as BaseProxyImpl).Send(null);
 		}
 
 		[TestMethod]
@@ -188,7 +189,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication
 
 			var token = Guid.NewGuid();
 			var connected = sut.Connect(token);
-			var received = sut.Send(message);
+			var received = (sut as BaseProxyImpl).Send(message);
 
 			Assert.AreEqual(response.Object, received);
 			Assert.AreEqual(connectionResponse.CommunicationToken, message.CommunicationToken);
