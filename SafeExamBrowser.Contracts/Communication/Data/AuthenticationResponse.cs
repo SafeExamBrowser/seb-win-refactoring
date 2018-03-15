@@ -8,17 +8,17 @@
 
 using System;
 
-namespace SafeExamBrowser.Contracts.Communication.Responses
+namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
-	/// The base class for respones, from which a response must inherit in order to be sent to an interlocutor as reply to <see cref="ICommunication.Send(Messages.Message)"/>.
+	/// The response to be used to reply to an authentication request (see <see cref="Messages.SimpleMessagePurport.Authenticate"/>).
 	/// </summary>
 	[Serializable]
-	public abstract class Response
+	public class AuthenticationResponse : Response
 	{
-		public override string ToString()
-		{
-			return GetType().Name;
-		}
+		/// <summary>
+		/// The process identifier used for authentication.
+		/// </summary>
+		public int ProcessId { get; set; }
 	}
 }

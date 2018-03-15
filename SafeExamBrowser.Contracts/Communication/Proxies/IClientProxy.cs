@@ -6,9 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Communication.Responses;
+using SafeExamBrowser.Contracts.Communication.Data;
 
-namespace SafeExamBrowser.Contracts.Communication
+namespace SafeExamBrowser.Contracts.Communication.Proxies
 {
 	/// <summary>
 	/// Defines the functionality for a proxy to the communication host of the client application component.

@@ -8,17 +8,17 @@
 
 using System;
 
-namespace SafeExamBrowser.Contracts.Communication.Responses
+namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
-	/// The response transmitted to a <see cref="Messages.DisconnectionMessage"/>
+	/// The response to a <see cref="Messages.ReconfigurationMessage"/>.
 	/// </summary>
 	[Serializable]
-	public class DisconnectionResponse : Response
+	public class ReconfigurationResponse : Response
 	{
 		/// <summary>
-		/// Indicates whether the connection has been terminated.
+		/// Indicates whether the reconfiguration request has been accepted.
 		/// </summary>
-		public bool ConnectionTerminated { get; set; }
+		public bool Accepted { get; set; }
 	}
 }

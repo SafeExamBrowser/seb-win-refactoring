@@ -8,22 +8,17 @@
 
 using System;
 
-namespace SafeExamBrowser.Contracts.Communication.Messages
+namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
-	/// This message is transmitted to the runtime to request that the application be reconfigured.
+	/// The response transmitted to a <see cref="Messages.DisconnectionMessage"/>
 	/// </summary>
 	[Serializable]
-	public class ReconfigurationMessage : Message
+	public class DisconnectionResponse : Response
 	{
 		/// <summary>
-		/// The locator of the new configuration to be used.
+		/// Indicates whether the connection has been terminated.
 		/// </summary>
-		public string ConfigurationUrl { get; private set; }
-
-		public ReconfigurationMessage(string url)
-		{
-			ConfigurationUrl = url;
-		}
+		public bool ConnectionTerminated { get; set; }
 	}
 }

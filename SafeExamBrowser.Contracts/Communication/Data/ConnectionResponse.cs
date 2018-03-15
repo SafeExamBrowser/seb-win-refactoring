@@ -8,7 +8,7 @@
 
 using System;
 
-namespace SafeExamBrowser.Contracts.Communication.Responses
+namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
 	/// The response to a connection request (see <see cref="ICommunication.Connect(Guid?)"/>).

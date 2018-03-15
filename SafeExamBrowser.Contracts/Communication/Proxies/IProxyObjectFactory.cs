@@ -6,16 +6,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Communication
+namespace SafeExamBrowser.Contracts.Communication.Proxies
 {
 	/// <summary>
-	/// A factory to create communication proxies during application runtime.
+	/// A factory to create communication objects for proxies.
 	/// </summary>
-	public interface IProxyFactory
+	public interface IProxyObjectFactory
 	{
 		/// <summary>
-		/// Creates a new <see cref="IClientProxy"/> for the given endpoint address.
+		/// Creates a communication object (see <see cref="ICommunication"/>) for the specified endpoint address.
 		/// </summary>
-		IClientProxy CreateClientProxy(string address);
+		ICommunication CreateObject(string address);
 	}
 }

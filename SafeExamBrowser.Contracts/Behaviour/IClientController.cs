@@ -7,7 +7,7 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Communication;
+using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 

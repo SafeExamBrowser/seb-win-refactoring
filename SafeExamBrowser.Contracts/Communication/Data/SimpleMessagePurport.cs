@@ -8,7 +8,7 @@
 
 using System;
 
-namespace SafeExamBrowser.Contracts.Communication.Messages
+namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
 	/// The possible purports of a <see cref="SimpleMessage"/>.

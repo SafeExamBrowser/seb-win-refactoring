@@ -8,7 +8,7 @@
 
 using System;
 
-namespace SafeExamBrowser.Contracts.Communication
+namespace SafeExamBrowser.Contracts.Communication.Hosts
 {
 	/// <summary>
 	/// Defines the functionality of the communication host for the runtime application component.

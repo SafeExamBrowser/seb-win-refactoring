@@ -11,8 +11,8 @@ using System.ServiceModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Communication;
-using SafeExamBrowser.Contracts.Communication.Messages;
-using SafeExamBrowser.Contracts.Communication.Responses;
+using SafeExamBrowser.Contracts.Communication.Data;
+using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.UnitTests.Communication

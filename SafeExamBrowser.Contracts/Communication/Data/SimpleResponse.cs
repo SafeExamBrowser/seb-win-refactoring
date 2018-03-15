@@ -8,20 +8,20 @@
 
 using System;
 
-namespace SafeExamBrowser.Contracts.Communication.Messages
+namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
-	/// A generic message to send simple purports without data to an interlocutor.
+	/// A generic response to reply simple purports without data to an interlocutor.
 	/// </summary>
 	[Serializable]
-	public class SimpleMessage : Message
+	public class SimpleResponse : Response
 	{
 		/// <summary>
-		/// The purport of the message.
+		/// The purport of the response.
 		/// </summary>
-		public SimpleMessagePurport Purport { get; set; }
+		public SimpleResponsePurport Purport { get; set; }
 
-		public SimpleMessage(SimpleMessagePurport purport)
+		public SimpleResponse(SimpleResponsePurport purport)
 		{
 			Purport = purport;
 		}

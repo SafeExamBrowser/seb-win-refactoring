@@ -8,7 +8,7 @@
 
 using SafeExamBrowser.Contracts.Configuration;
 
-namespace SafeExamBrowser.Contracts.Communication
+namespace SafeExamBrowser.Contracts.Communication.Proxies
 {
 	/// <summary>
 	/// Defines the functionality for a proxy to the communication host of the runtime application component.

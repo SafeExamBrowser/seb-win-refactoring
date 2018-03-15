@@ -9,7 +9,7 @@
 using System;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 
-namespace SafeExamBrowser.Contracts.Communication
+namespace SafeExamBrowser.Contracts.Communication.Proxies
 {
 	/// <summary>
 	/// Defines the functionality for a proxy to the communication host of the service application component.

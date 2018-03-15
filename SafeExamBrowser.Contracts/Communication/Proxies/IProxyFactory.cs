@@ -6,15 +6,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-
-namespace SafeExamBrowser.Contracts.Communication.Messages
+namespace SafeExamBrowser.Contracts.Communication.Proxies
 {
 	/// <summary>
-	/// This is the last message transmitted from a component to its interlocutor in order to terminate a communication session.
+	/// A factory to create communication proxies during application runtime.
 	/// </summary>
-	[Serializable]
-	public class DisconnectionMessage : Message
+	public interface IProxyFactory
 	{
+		/// <summary>
+		/// Creates a new <see cref="IClientProxy"/> for the given endpoint address.
+		/// </summary>
+		IClientProxy CreateClientProxy(string address);
 	}
 }

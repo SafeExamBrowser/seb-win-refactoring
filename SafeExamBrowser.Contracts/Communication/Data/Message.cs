@@ -8,7 +8,7 @@
 
 using System;
 
-namespace SafeExamBrowser.Contracts.Communication.Messages
+namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
 	/// The base class for messages, from which a message must inherit in order to be sent to an interlocutor via <see cref="ICommunication.Send(Message)"/>.

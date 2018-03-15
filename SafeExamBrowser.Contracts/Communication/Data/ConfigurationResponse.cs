@@ -7,18 +7,19 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Configuration;
 
-namespace SafeExamBrowser.Contracts.Communication.Responses
+namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
-	/// The response to be used to reply to an authentication request (see <see cref="Messages.SimpleMessagePurport.Authenticate"/>).
+	/// The response to be used to reply to a configuration request (see <see cref="Messages.SimpleMessagePurport.ConfigurationNeeded"/>).
 	/// </summary>
 	[Serializable]
-	public class AuthenticationResponse : Response
+	public class ConfigurationResponse : Response
 	{
 		/// <summary>
-		/// The process identifier used for authentication.
+		/// The configuration to be used by the client.
 		/// </summary>
-		public int ProcessId { get; set; }
+		public ClientConfiguration Configuration { get; set; }
 	}
 }

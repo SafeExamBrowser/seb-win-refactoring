@@ -7,7 +7,7 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Communication;
+using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
 

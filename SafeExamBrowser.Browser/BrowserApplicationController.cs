@@ -13,7 +13,7 @@ using System.Linq;
 using CefSharp;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Contracts.Behaviour;
-using SafeExamBrowser.Contracts.Communication;
+using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;

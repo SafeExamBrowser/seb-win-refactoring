@@ -8,17 +8,17 @@
 
 using System;
 
-namespace SafeExamBrowser.Contracts.Communication.Responses
+namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
-	/// The response to a <see cref="Messages.ReconfigurationMessage"/>.
+	/// The base class for respones, from which a response must inherit in order to be sent to an interlocutor as reply to <see cref="ICommunication.Send(Messages.Message)"/>.
 	/// </summary>
 	[Serializable]
-	public class ReconfigurationResponse : Response
+	public abstract class Response
 	{
-		/// <summary>
-		/// Indicates whether the reconfiguration request has been accepted.
-		/// </summary>
-		public bool Accepted { get; set; }
+		public override string ToString()
+		{
+			return GetType().Name;
+		}
 	}
 }

@@ -7,19 +7,23 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Configuration;
 
-namespace SafeExamBrowser.Contracts.Communication.Responses
+namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
-	/// The response to be used to reply to a configuration request (see <see cref="Messages.SimpleMessagePurport.ConfigurationNeeded"/>).
+	/// This message is transmitted to the runtime to request that the application be reconfigured.
 	/// </summary>
 	[Serializable]
-	public class ConfigurationResponse : Response
+	public class ReconfigurationMessage : Message
 	{
 		/// <summary>
-		/// The configuration to be used by the client.
+		/// The locator of the new configuration to be used.
 		/// </summary>
-		public ClientConfiguration Configuration { get; set; }
+		public string ConfigurationUrl { get; private set; }
+
+		public ReconfigurationMessage(string url)
+		{
+			ConfigurationUrl = url;
+		}
 	}
 }

@@ -8,6 +8,7 @@
 
 using System.ServiceModel;
 using SafeExamBrowser.Contracts.Communication;
+using SafeExamBrowser.Contracts.Communication.Proxies;
 
 namespace SafeExamBrowser.Core.Communication
 {

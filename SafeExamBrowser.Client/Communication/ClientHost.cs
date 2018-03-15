@@ -8,8 +8,8 @@
 
 using System;
 using SafeExamBrowser.Contracts.Communication;
-using SafeExamBrowser.Contracts.Communication.Messages;
-using SafeExamBrowser.Contracts.Communication.Responses;
+using SafeExamBrowser.Contracts.Communication.Data;
+using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Core.Communication;
 
