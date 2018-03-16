@@ -26,7 +26,7 @@ using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Contracts.WindowsApi;
 using SafeExamBrowser.Core.Behaviour.OperationModel;
-using SafeExamBrowser.Core.Communication;
+using SafeExamBrowser.Core.Communication.Proxies;
 using SafeExamBrowser.Core.I18n;
 using SafeExamBrowser.Core.Logging;
 using SafeExamBrowser.Monitoring.Display;

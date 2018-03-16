@@ -11,7 +11,7 @@ using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Core.Communication
+namespace SafeExamBrowser.Core.Communication.Proxies
 {
 	/// <summary>
 	/// Default implementation of the <see cref="IClientProxy"/>, to be used for communication with the client application component.

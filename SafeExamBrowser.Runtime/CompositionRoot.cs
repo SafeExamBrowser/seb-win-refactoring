@@ -14,7 +14,7 @@ using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Core.Behaviour.OperationModel;
-using SafeExamBrowser.Core.Communication;
+using SafeExamBrowser.Core.Communication.Proxies;
 using SafeExamBrowser.Core.I18n;
 using SafeExamBrowser.Core.Logging;
 using SafeExamBrowser.Runtime.Behaviour;

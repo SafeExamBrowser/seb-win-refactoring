@@ -10,7 +10,7 @@ using System.ServiceModel;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 
-namespace SafeExamBrowser.Core.Communication
+namespace SafeExamBrowser.Core.Communication.Proxies
 {
 	/// <summary>
 	/// Default implementation of the <see cref="IProxyObjectFactory"/> utilizing WCF (<see cref="ChannelFactory"/>).

@@ -10,9 +10,9 @@ using System;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Core.Communication;
+using SafeExamBrowser.Core.Communication.Proxies;
 
-namespace SafeExamBrowser.Core.UnitTests.Communication
+namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 {
 	internal class BaseProxyImpl : BaseProxy
 	{

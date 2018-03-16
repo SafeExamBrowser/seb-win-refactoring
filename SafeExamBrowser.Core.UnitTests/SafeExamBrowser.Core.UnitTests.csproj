@@ -84,8 +84,11 @@
     <Compile Include="Behaviour\OperationModel\I18nOperationTests.cs" />
     <Compile Include="Behaviour\OperationModel\DelegateOperationTests.cs" />
     <Compile Include="Behaviour\OperationModel\OperationSequenceTests.cs" />
-    <Compile Include="Communication\BaseProxyImpl.cs" />
-    <Compile Include="Communication\BaseProxyTests.cs" />
+    <Compile Include="Communication\Proxies\BaseProxyImpl.cs" />
+    <Compile Include="Communication\Proxies\BaseProxyTests.cs" />
+    <Compile Include="Communication\Proxies\ClientProxyTests.cs" />
+    <Compile Include="Communication\Proxies\RuntimeProxyTests.cs" />
+    <Compile Include="Communication\Proxies\ServiceProxyTests.cs" />
     <Compile Include="I18n\TextTests.cs" />
     <Compile Include="I18n\XmlTextResourceTests.cs" />
     <Compile Include="Logging\DefaultLogFormatterTests.cs" />

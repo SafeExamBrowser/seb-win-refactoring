@@ -14,7 +14,7 @@ using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Core.Communication
+namespace SafeExamBrowser.Core.Communication.Proxies
 {
 	/// <summary>
 	/// Base implementation of an <see cref="ICommunicationProxy"/>.

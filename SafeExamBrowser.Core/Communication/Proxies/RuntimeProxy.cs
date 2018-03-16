@@ -12,7 +12,7 @@ using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Core.Communication
+namespace SafeExamBrowser.Core.Communication.Proxies
 {
 	/// <summary>
 	/// Default implementation of the <see cref="IRuntimeProxy"/>, to be used for communication with the runtime application component.

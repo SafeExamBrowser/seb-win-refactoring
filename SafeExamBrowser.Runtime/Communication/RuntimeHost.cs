@@ -14,7 +14,7 @@ using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Core.Communication;
+using SafeExamBrowser.Core.Communication.Hosts;
 
 namespace SafeExamBrowser.Runtime.Communication
 {

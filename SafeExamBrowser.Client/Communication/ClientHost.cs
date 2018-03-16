@@ -11,7 +11,7 @@ using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Core.Communication;
+using SafeExamBrowser.Core.Communication.Hosts;
 
 namespace SafeExamBrowser.Client.Communication
 {

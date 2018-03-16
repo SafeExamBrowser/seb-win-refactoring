@@ -8,7 +8,7 @@
 
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Core.Communication;
+using SafeExamBrowser.Core.Communication.Proxies;
 using SafeExamBrowser.Core.Logging;
 
 namespace SafeExamBrowser.Runtime.Communication

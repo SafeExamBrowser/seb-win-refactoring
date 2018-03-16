@@ -15,7 +15,7 @@ using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Core.UnitTests.Communication
+namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 {
 	[TestClass]
 	public class BaseProxyTests

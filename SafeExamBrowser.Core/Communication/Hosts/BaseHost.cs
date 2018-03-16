@@ -13,7 +13,7 @@ using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Core.Communication
+namespace SafeExamBrowser.Core.Communication.Hosts
 {
 	/// <summary>
 	/// The base implementation of an <see cref="ICommunicationHost"/>. Runs the host on a new, separate thread.
