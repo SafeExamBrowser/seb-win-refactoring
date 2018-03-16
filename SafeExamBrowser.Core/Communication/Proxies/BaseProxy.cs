@@ -25,7 +25,7 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 		private static readonly object @lock = new object();
 
 		private string address;
-		private ICommunication proxy;
+		private IProxyObject proxy;
 		private IProxyObjectFactory factory;
 		private Guid? communicationToken;
 		private Timer timer;
@@ -43,18 +43,9 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 
 		public virtual bool Connect(Guid? token = null, bool autoPing = true)
 		{
-			proxy = factory.CreateObject(address);
-
-			if (proxy is ICommunicationObject communicationObject)
-			{
-				communicationObject.Closed += BaseProxy_Closed;
-				communicationObject.Closing += BaseProxy_Closing;
-				communicationObject.Faulted += BaseProxy_Faulted;
-				communicationObject.Opened += BaseProxy_Opened;
-				communicationObject.Opening += BaseProxy_Opening;
-			}
-
 			Logger.Debug($"Trying to connect to endpoint '{address}'{(token.HasValue ? $" with authentication token '{token}'" : string.Empty)}...");
+
+			InitializeProxyObject();
 
 			var response = proxy.Connect(token);
 
@@ -160,11 +151,22 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 		}
 
 		/// <summary>
-		/// etrieves the string representation of the given <see cref="Response"/>, or indicates that a response is <c>null</c>.
+		/// Retrieves the string representation of the given <see cref="Response"/>, or indicates that a response is <c>null</c>.
 		/// </summary>
 		protected string ToString(Response response)
 		{
 			return response != null ? response.ToString() : "<null>";
+		}
+
+		private void InitializeProxyObject()
+		{
+			proxy = factory.CreateObject(address);
+
+			proxy.Closed += BaseProxy_Closed;
+			proxy.Closing += BaseProxy_Closing;
+			proxy.Faulted += BaseProxy_Faulted;
+			proxy.Opened += BaseProxy_Opened;
+			proxy.Opening += BaseProxy_Opening;
 		}
 
 		private void BaseProxy_Closed(object sender, EventArgs e)
@@ -199,7 +201,7 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 				throw new InvalidOperationException($"Cannot perform '{operationName}' before being connected to endpoint!");
 			}
 
-			if (proxy == null || (proxy as ICommunicationObject)?.State != CommunicationState.Opened)
+			if (proxy == null || proxy.State != CommunicationState.Opened)
 			{
 				throw new CommunicationException($"Tried to perform {operationName}, but channel was {GetChannelState()}!");
 			}
@@ -207,7 +209,7 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 
 		private string GetChannelState()
 		{
-			return proxy == null ? "null" : $"in state '{(proxy as ICommunicationObject)?.State}'";
+			return proxy == null ? "null" : $"in state '{proxy.State}'";
 		}
 
 		private void StartAutoPing()

@@ -11,6 +11,7 @@ using System.ServiceModel;
 using System.Threading;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
+using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Communication.Hosts
@@ -25,7 +26,8 @@ namespace SafeExamBrowser.Core.Communication.Hosts
 		private readonly object @lock = new object();
 
 		private string address;
-		private ServiceHost host;
+		private IHostObject host;
+		private IHostObjectFactory factory;
 		private Thread hostThread;
 
 		protected Guid? CommunicationToken { get; private set; }
@@ -42,9 +44,10 @@ namespace SafeExamBrowser.Core.Communication.Hosts
 			}
 		}
 
-		public BaseHost(string address, ILogger logger)
+		public BaseHost(string address, IHostObjectFactory factory, ILogger logger)
 		{
 			this.address = address;
+			this.factory = factory;
 			this.Logger = logger;
 		}
 
@@ -153,7 +156,7 @@ namespace SafeExamBrowser.Core.Communication.Hosts
 				{
 					Logger.Debug($"Terminated communication host for endpoint '{address}'.");
 				}
-				else
+				else if (exception != null)
 				{
 					throw new CommunicationException($"Failed to terminate communication host for endpoint '{address}'!", exception);
 				}
@@ -171,16 +174,15 @@ namespace SafeExamBrowser.Core.Communication.Hosts
 
 			try
 			{
-				host = new ServiceHost(this);
-				host.AddServiceEndpoint(typeof(ICommunication), new NetNamedPipeBinding(NetNamedPipeSecurityMode.Transport), address);
+				host = factory.CreateObject(address, this);
+
 				host.Closed += Host_Closed;
 				host.Closing += Host_Closing;
 				host.Faulted += Host_Faulted;
 				host.Opened += Host_Opened;
 				host.Opening += Host_Opening;
-				host.UnknownMessageReceived += Host_UnknownMessageReceived;
-				host.Open();
 
+				host.Open();
 				Logger.Debug($"Successfully started communication host for endpoint '{address}'.");
 
 				startedEvent.Set();
@@ -200,7 +202,7 @@ namespace SafeExamBrowser.Core.Communication.Hosts
 			try
 			{
 				host?.Close();
-				success = hostThread.Join(TWO_SECONDS);
+				success = hostThread?.Join(TWO_SECONDS) == true;
 			}
 			catch (Exception e)
 			{
@@ -234,11 +236,6 @@ namespace SafeExamBrowser.Core.Communication.Hosts
 		private void Host_Opening(object sender, EventArgs e)
 		{
 			Logger.Debug("Communication host is opening...");
-		}
-
-		private void Host_UnknownMessageReceived(object sender, UnknownMessageReceivedEventArgs e)
-		{
-			Logger.Warn($"Communication host has received an unknown message: {e?.Message}.");
 		}
 
 		private string ToString(Message message)

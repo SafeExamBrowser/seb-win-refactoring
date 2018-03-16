@@ -30,7 +30,7 @@ namespace SafeExamBrowser.Runtime.Communication
 		public event CommunicationEventHandler ReconfigurationRequested;
 		public event CommunicationEventHandler ShutdownRequested;
 
-		public RuntimeHost(string address, IConfigurationRepository configuration, ILogger logger) : base(address, logger)
+		public RuntimeHost(string address, IConfigurationRepository configuration, IHostObjectFactory factory, ILogger logger) : base(address, factory, logger)
 		{
 			this.configuration = configuration;
 		}

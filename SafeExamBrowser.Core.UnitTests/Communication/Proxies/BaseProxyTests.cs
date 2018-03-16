@@ -10,7 +10,6 @@ using System;
 using System.ServiceModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
@@ -36,7 +35,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		[TestMethod]
 		public void MustConnectCorrectly()
 		{
-			var proxy = new Mock<ICommunication>();
+			var proxy = new Mock<IProxyObject>();
 			var response = new ConnectionResponse
 			{
 				CommunicationToken = Guid.NewGuid(),
@@ -58,7 +57,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		[TestMethod]
 		public void MustDisconnectCorrectly()
 		{
-			var proxy = new Mock<ICommunication>();
+			var proxy = new Mock<IProxyObject>();
 			var connectionResponse = new ConnectionResponse
 			{
 				CommunicationToken = Guid.NewGuid(),
@@ -71,7 +70,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 
 			proxy.Setup(p => p.Connect(It.IsAny<Guid>())).Returns(connectionResponse);
 			proxy.Setup(p => p.Disconnect(It.IsAny<DisconnectionMessage>())).Returns(disconnectionResponse);
-			proxy.As<ICommunicationObject>().Setup(o => o.State).Returns(CommunicationState.Opened);
+			proxy.Setup(o => o.State).Returns(CommunicationState.Opened);
 			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
 
 			var token = Guid.NewGuid();
@@ -87,7 +86,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		[TestMethod]
 		public void MustHandleConnectionRefusalCorrectly()
 		{
-			var proxy = new Mock<ICommunication>();
+			var proxy = new Mock<IProxyObject>();
 			var response = new ConnectionResponse
 			{
 				CommunicationToken = Guid.NewGuid(),
@@ -117,7 +116,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		[ExpectedException(typeof(CommunicationException))]
 		public void MustFailToDisconnectIfChannelNotOpen()
 		{
-			var proxy = new Mock<ICommunication>();
+			var proxy = new Mock<IProxyObject>();
 			var response = new ConnectionResponse
 			{
 				CommunicationToken = Guid.NewGuid(),
@@ -125,7 +124,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 			};
 
 			proxy.Setup(p => p.Connect(It.IsAny<Guid>())).Returns(response);
-			proxy.As<ICommunicationObject>().Setup(o => o.State).Returns(CommunicationState.Faulted);
+			proxy.Setup(o => o.State).Returns(CommunicationState.Faulted);
 			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
 
 			var token = Guid.NewGuid();
@@ -145,7 +144,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		[ExpectedException(typeof(CommunicationException))]
 		public void MustFailToSendIfChannelNotOpen()
 		{
-			var proxy = new Mock<ICommunication>();
+			var proxy = new Mock<IProxyObject>();
 			var response = new ConnectionResponse
 			{
 				CommunicationToken = Guid.NewGuid(),
@@ -153,7 +152,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 			};
 
 			proxy.Setup(p => p.Connect(It.IsAny<Guid>())).Returns(response);
-			proxy.As<ICommunicationObject>().Setup(o => o.State).Returns(CommunicationState.Faulted);
+			proxy.Setup(o => o.State).Returns(CommunicationState.Faulted);
 			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
 
 			var token = Guid.NewGuid();
@@ -172,7 +171,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		[TestMethod]
 		public void MustSendCorrectly()
 		{
-			var proxy = new Mock<ICommunication>();
+			var proxy = new Mock<IProxyObject>();
 			var connectionResponse = new ConnectionResponse
 			{
 				CommunicationToken = Guid.NewGuid(),
@@ -183,7 +182,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 
 			proxy.Setup(p => p.Connect(It.IsAny<Guid>())).Returns(connectionResponse);
 			proxy.Setup(p => p.Send(message)).Returns(response.Object);
-			proxy.As<ICommunicationObject>().Setup(o => o.State).Returns(CommunicationState.Opened);
+			proxy.Setup(o => o.State).Returns(CommunicationState.Opened);
 			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
 
 			var token = Guid.NewGuid();
@@ -197,7 +196,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		[TestMethod]
 		public void MustSendSimpleMessageCorrectly()
 		{
-			var proxy = new Mock<ICommunication>();
+			var proxy = new Mock<IProxyObject>();
 			var connectionResponse = new ConnectionResponse
 			{
 				CommunicationToken = Guid.NewGuid(),
@@ -208,7 +207,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 
 			proxy.Setup(p => p.Connect(It.IsAny<Guid>())).Returns(connectionResponse);
 			proxy.Setup(p => p.Send(It.IsAny<Message>())).Returns(response.Object);
-			proxy.As<ICommunicationObject>().Setup(o => o.State).Returns(CommunicationState.Opened);
+			proxy.Setup(o => o.State).Returns(CommunicationState.Opened);
 			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
 
 			var token = Guid.NewGuid();
@@ -255,7 +254,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		[TestMethod]
 		public void TestConnectionMustPingHost()
 		{
-			var proxy = new Mock<ICommunication>();
+			var proxy = new Mock<IProxyObject>();
 			var connectionResponse = new ConnectionResponse
 			{
 				CommunicationToken = Guid.NewGuid(),
@@ -264,7 +263,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 
 			proxy.Setup(p => p.Connect(It.IsAny<Guid>())).Returns(connectionResponse);
 			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.Ping))).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
-			proxy.As<ICommunicationObject>().Setup(o => o.State).Returns(CommunicationState.Opened);
+			proxy.Setup(o => o.State).Returns(CommunicationState.Opened);
 			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
 
 			var token = Guid.NewGuid();
@@ -279,7 +278,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		public void TestConnectionMustInvokeConnectionLostEvent()
 		{
 			var lost = false;
-			var proxy = new Mock<ICommunication>();
+			var proxy = new Mock<IProxyObject>();
 			var connectionResponse = new ConnectionResponse
 			{
 				CommunicationToken = Guid.NewGuid(),
@@ -290,7 +289,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 
 			proxy.Setup(p => p.Connect(It.IsAny<Guid>())).Returns(connectionResponse);
 			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.Ping))).Returns(new SimpleResponse(SimpleResponsePurport.UnknownMessage));
-			proxy.As<ICommunicationObject>().Setup(o => o.State).Returns(CommunicationState.Opened);
+			proxy.Setup(o => o.State).Returns(CommunicationState.Opened);
 			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
 
 			var token = Guid.NewGuid();
@@ -305,7 +304,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		public void TestConnectionMustNotFail()
 		{
 			var lost = false;
-			var proxy = new Mock<ICommunication>();
+			var proxy = new Mock<IProxyObject>();
 			var connectionResponse = new ConnectionResponse
 			{
 				CommunicationToken = Guid.NewGuid(),
@@ -316,7 +315,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 
 			proxy.Setup(p => p.Connect(It.IsAny<Guid>())).Returns(connectionResponse);
 			proxy.Setup(p => p.Send(It.IsAny<Message>())).Throws<Exception>();
-			proxy.As<ICommunicationObject>().Setup(o => o.State).Returns(CommunicationState.Opened);
+			proxy.Setup(o => o.State).Returns(CommunicationState.Opened);
 			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
 
 			var token = Guid.NewGuid();

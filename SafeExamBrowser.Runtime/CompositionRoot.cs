@@ -14,6 +14,7 @@ using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Core.Behaviour.OperationModel;
+using SafeExamBrowser.Core.Communication.Hosts;
 using SafeExamBrowser.Core.Communication.Proxies;
 using SafeExamBrowser.Core.I18n;
 using SafeExamBrowser.Core.Logging;
@@ -51,7 +52,7 @@ namespace SafeExamBrowser.Runtime
 			var desktop = new Desktop(new ModuleLogger(logger, typeof(Desktop)));
 			var processFactory = new ProcessFactory(desktop, new ModuleLogger(logger, typeof(ProcessFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), logger);
-			var runtimeHost = new RuntimeHost(runtimeInfo.RuntimeAddress, configuration, new ModuleLogger(logger, typeof(RuntimeHost)));
+			var runtimeHost = new RuntimeHost(runtimeInfo.RuntimeAddress, configuration, new HostObjectFactory(), new ModuleLogger(logger, typeof(RuntimeHost)));
 			var serviceProxy = new ServiceProxy(runtimeInfo.ServiceAddress, new ProxyObjectFactory(), new ModuleLogger(logger, typeof(ServiceProxy)));
 			var sessionController = new SessionController(configuration, logger, processFactory, proxyFactory, runtimeHost, serviceProxy);
 

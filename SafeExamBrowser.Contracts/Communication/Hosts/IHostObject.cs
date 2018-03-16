@@ -6,16 +6,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Communication.Proxies
+using System.ServiceModel;
+
+namespace SafeExamBrowser.Contracts.Communication.Hosts
 {
 	/// <summary>
-	/// A factory to create proxy objects for communication proxies.
+	/// The host object to be used in communication hosts.
 	/// </summary>
-	public interface IProxyObjectFactory
+	public interface IHostObject : ICommunicationObject
 	{
-		/// <summary>
-		/// Creates a proxy object (see <see cref="IProxyObject"/>) for the specified endpoint address.
-		/// </summary>
-		IProxyObject CreateObject(string address);
 	}
 }

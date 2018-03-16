@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Client.Communication
 
 		public event CommunicationEventHandler Shutdown;
 
-		public ClientHost(string address, ILogger logger, int processId) : base(address, logger)
+		public ClientHost(string address, IHostObjectFactory factory, ILogger logger, int processId) : base(address, factory, logger)
 		{
 			this.processId = processId;
 		}

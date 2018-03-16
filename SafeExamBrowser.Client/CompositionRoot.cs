@@ -26,6 +26,7 @@ using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Contracts.WindowsApi;
 using SafeExamBrowser.Core.Behaviour.OperationModel;
+using SafeExamBrowser.Core.Communication.Hosts;
 using SafeExamBrowser.Core.Communication.Proxies;
 using SafeExamBrowser.Core.I18n;
 using SafeExamBrowser.Core.Logging;
@@ -159,7 +160,8 @@ namespace SafeExamBrowser.Client
 		private IOperation BuildCommunicationHostOperation()
 		{
 			var processId = Process.GetCurrentProcess().Id;
-			var host = new ClientHost(configuration.RuntimeInfo.ClientAddress, new ModuleLogger(logger, typeof(ClientHost)), processId);
+			var factory = new HostObjectFactory();
+			var host = new ClientHost(configuration.RuntimeInfo.ClientAddress, factory, new ModuleLogger(logger, typeof(ClientHost)), processId);
 			var operation = new CommunicationOperation(host, logger);
 
 			clientHost = host;

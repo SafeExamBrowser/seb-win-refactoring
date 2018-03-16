@@ -58,10 +58,13 @@
     <Compile Include="Behaviour\OperationModel\IOperationSequence.cs" />
     <Compile Include="Behaviour\OperationModel\OperationResult.cs" />
     <Compile Include="Communication\Hosts\IClientHost.cs" />
+    <Compile Include="Communication\Hosts\IHostObject.cs" />
+    <Compile Include="Communication\Hosts\IHostObjectFactory.cs" />
     <Compile Include="Communication\ICommunication.cs" />
     <Compile Include="Communication\Proxies\IClientProxy.cs" />
     <Compile Include="Communication\ICommunicationHost.cs" />
     <Compile Include="Communication\ICommunicationProxy.cs" />
+    <Compile Include="Communication\Proxies\IProxyObject.cs" />
     <Compile Include="Communication\Proxies\IProxyObjectFactory.cs" />
     <Compile Include="Communication\Proxies\IProxyFactory.cs" />
     <Compile Include="Communication\Hosts\IRuntimeHost.cs" />

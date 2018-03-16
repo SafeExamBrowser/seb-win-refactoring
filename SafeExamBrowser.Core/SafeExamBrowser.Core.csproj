@@ -60,6 +60,7 @@
     <Compile Include="Behaviour\OperationModel\I18nOperation.cs" />
     <Compile Include="Behaviour\OperationModel\DelegateOperation.cs" />
     <Compile Include="Behaviour\OperationModel\OperationSequence.cs" />
+    <Compile Include="Communication\Hosts\HostObjectFactory.cs" />
     <Compile Include="Communication\Proxies\BaseProxy.cs" />
     <Compile Include="Communication\Hosts\BaseHost.cs" />
     <Compile Include="Communication\Proxies\ClientProxy.cs" />

@@ -84,6 +84,8 @@
     <Compile Include="Behaviour\OperationModel\I18nOperationTests.cs" />
     <Compile Include="Behaviour\OperationModel\DelegateOperationTests.cs" />
     <Compile Include="Behaviour\OperationModel\OperationSequenceTests.cs" />
+    <Compile Include="Communication\Hosts\BaseHostImpl.cs" />
+    <Compile Include="Communication\Hosts\BaseHostTests.cs" />
     <Compile Include="Communication\Proxies\BaseProxyImpl.cs" />
     <Compile Include="Communication\Proxies\BaseProxyTests.cs" />
     <Compile Include="Communication\Proxies\ClientProxyTests.cs" />

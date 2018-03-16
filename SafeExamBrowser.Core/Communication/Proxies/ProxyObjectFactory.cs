@@ -7,7 +7,6 @@
  */
 
 using System.ServiceModel;
-using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 
 namespace SafeExamBrowser.Core.Communication.Proxies
@@ -17,10 +16,10 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 	/// </summary>
 	public class ProxyObjectFactory : IProxyObjectFactory
 	{
-		public ICommunication CreateObject(string address)
+		public IProxyObject CreateObject(string address)
 		{
 			var endpoint = new EndpointAddress(address);
-			var channel = ChannelFactory<ICommunication>.CreateChannel(new NetNamedPipeBinding(NetNamedPipeSecurityMode.Transport), endpoint);
+			var channel = ChannelFactory<IProxyObject>.CreateChannel(new NetNamedPipeBinding(NetNamedPipeSecurityMode.Transport), endpoint);
 
 			return channel;
 		}

@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 	{
 		private Mock<ILogger> logger;
 		private Mock<IProxyObjectFactory> proxyObjectFactory;
-		private Mock<ICommunication> proxy;
+		private Mock<IProxyObject> proxy;
 		private RuntimeProxy sut;
 
 		[TestInitialize]
@@ -38,10 +38,10 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 
 			logger = new Mock<ILogger>();
 			proxyObjectFactory = new Mock<IProxyObjectFactory>();
-			proxy = new Mock<ICommunication>();
+			proxy = new Mock<IProxyObject>();
 
 			proxy.Setup(p => p.Connect(It.IsAny<Guid>())).Returns(response);
-			proxy.As<ICommunicationObject>().Setup(o => o.State).Returns(CommunicationState.Opened);
+			proxy.Setup(o => o.State).Returns(CommunicationState.Opened);
 			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
 
 			sut = new RuntimeProxy("net.pipe://random/address/here", proxyObjectFactory.Object, logger.Object);
