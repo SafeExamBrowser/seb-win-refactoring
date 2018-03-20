@@ -85,6 +85,7 @@
     <Compile Include="Behaviour\Operations\ServiceConnectionOperationTests.cs" />
     <Compile Include="Behaviour\Operations\SessionSequenceOperationTests.cs" />
     <Compile Include="Behaviour\RuntimeControllerTests.cs" />
+    <Compile Include="Communication\RuntimeHostTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +96,10 @@
     <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">
       <Project>{47DA5933-BEF8-4729-94E6-ABDE2DB12262}</Project>
       <Name>SafeExamBrowser.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Core\SafeExamBrowser.Core.csproj">
+      <Project>{3D6FDBB6-A4AF-4626-BB2B-BF329D44F9CC}</Project>
+      <Name>SafeExamBrowser.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Runtime\SafeExamBrowser.Runtime.csproj">
       <Project>{e3aed2f8-b5df-45d1-ac19-48066923d6d8}</Project>

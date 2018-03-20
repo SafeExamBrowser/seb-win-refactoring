@@ -86,6 +86,7 @@
     <Compile Include="Behaviour\Operations\ProcessMonitorOperationTests.cs" />
     <Compile Include="Behaviour\Operations\TaskbarOperationTests.cs" />
     <Compile Include="Behaviour\Operations\WindowMonitorOperationTests.cs" />
+    <Compile Include="Communication\ClientHostTests.cs" />
     <Compile Include="Notifications\AboutNotificationControllerTests.cs" />
     <Compile Include="Notifications\LogNotificationControllerTests.cs" />
     <Compile Include="Notifications\NotificationButtonMock.cs" />
@@ -104,6 +105,10 @@
     <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">
       <Project>{47DA5933-BEF8-4729-94E6-ABDE2DB12262}</Project>
       <Name>SafeExamBrowser.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Core\SafeExamBrowser.Core.csproj">
+      <Project>{3D6FDBB6-A4AF-4626-BB2B-BF329D44F9CC}</Project>
+      <Name>SafeExamBrowser.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

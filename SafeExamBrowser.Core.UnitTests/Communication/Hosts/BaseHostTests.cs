@@ -206,22 +206,71 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Hosts
 		[TestMethod]
 		public void MustCorrectlyHandlePingMessage()
 		{
-			// TODO
-			Assert.Fail();
+			var received = false;
+			var simpleReceived = false;
+			var message = new SimpleMessage(SimpleMessagePurport.Ping);
+
+			sut.OnReceiveStub = (m) => { received = true; return null; };
+			sut.OnReceiveSimpleMessageStub = (m) => { simpleReceived = true; return null; };
+			sut.OnConnectStub = (t) => { return true; };
+			sut.Connect();
+
+			message.CommunicationToken = sut.GetCommunicationToken().Value;
+
+			var response = sut.Send(message);
+
+			Assert.IsFalse(received);
+			Assert.IsFalse(simpleReceived);
+			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
+			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
 		}
 
 		[TestMethod]
 		public void MustCorrectlyReceiveSimpleMessage()
 		{
-			// TODO
-			Assert.Fail();
+			var received = false;
+			var simpleReceived = false;
+			var purport = default(SimpleMessagePurport);
+			var message = new SimpleMessage(SimpleMessagePurport.ConfigurationNeeded);
+			var simpleResponse = new SimpleResponse(SimpleResponsePurport.UnknownMessage);
+
+			sut.OnReceiveStub = (m) => { received = true; return null; };
+			sut.OnReceiveSimpleMessageStub = (m) => { simpleReceived = true; purport = m; return simpleResponse; };
+			sut.OnConnectStub = (t) => { return true; };
+			sut.Connect();
+
+			message.CommunicationToken = sut.GetCommunicationToken().Value;
+
+			var response = sut.Send(message);
+
+			Assert.IsFalse(received);
+			Assert.IsTrue(simpleReceived);
+			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
+			Assert.AreEqual(SimpleMessagePurport.ConfigurationNeeded, purport);
+			Assert.AreSame(simpleResponse, response);
 		}
 
 		[TestMethod]
 		public void MustCorrectlyReceiveMessage()
 		{
-			// TODO
-			Assert.Fail();
+			var received = false;
+			var simpleReceived = false;
+			var message = new ReconfigurationMessage(null);
+			var reconfigurationResponse = new ReconfigurationResponse();
+
+			sut.OnReceiveStub = (m) => { received = true; return reconfigurationResponse; };
+			sut.OnReceiveSimpleMessageStub = (m) => { simpleReceived = true; return null; };
+			sut.OnConnectStub = (t) => { return true; };
+			sut.Connect();
+
+			message.CommunicationToken = sut.GetCommunicationToken().Value;
+
+			var response = sut.Send(message);
+
+			Assert.IsTrue(received);
+			Assert.IsFalse(simpleReceived);
+			Assert.IsInstanceOfType(response, typeof(ReconfigurationResponse));
+			Assert.AreSame(reconfigurationResponse, response);
 		}
 	}
 }

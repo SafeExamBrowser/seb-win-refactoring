@@ -65,6 +65,7 @@ namespace SafeExamBrowser.Runtime.Communication
 			switch (message)
 			{
 				case ReconfigurationMessage reconfigurationMessage:
+					// TODO: Not the job of the host, fire event or alike!
 					return Handle(reconfigurationMessage);
 			}
 
@@ -79,6 +80,7 @@ namespace SafeExamBrowser.Runtime.Communication
 					ClientReady?.Invoke();
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 				case SimpleMessagePurport.ConfigurationNeeded:
+					// TODO: Not the job of the host, fire event or alike!
 					return new ConfigurationResponse { Configuration = configuration.BuildClientConfiguration() };
 				case SimpleMessagePurport.RequestShutdown:
 					ShutdownRequested?.Invoke();
