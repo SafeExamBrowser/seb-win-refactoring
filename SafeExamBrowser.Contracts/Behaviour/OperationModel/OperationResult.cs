@@ -16,7 +16,7 @@ namespace SafeExamBrowser.Contracts.Behaviour.OperationModel
 		/// <summary>
 		/// Indicates that the operation has been aborted due to an expected condition, e.g. as result of a user decision.
 		/// </summary>
-		Aborted,
+		Aborted = 1,
 
 		/// <summary>
 		/// Indicates that the operation has failed due to an invalid or unexpected condition.

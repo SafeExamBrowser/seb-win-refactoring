@@ -7,30 +7,30 @@
  */
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using SafeExamBrowser.Client.Behaviour;
-using SafeExamBrowser.Contracts.Behaviour.OperationModel;
-using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+//using Moq;
+//using SafeExamBrowser.Client.Behaviour;
+//using SafeExamBrowser.Contracts.Behaviour.OperationModel;
+//using SafeExamBrowser.Contracts.Communication.Proxies;
+//using SafeExamBrowser.Contracts.Logging;
+//using SafeExamBrowser.Contracts.Monitoring;
+//using SafeExamBrowser.Contracts.UserInterface;
+//using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
 namespace SafeExamBrowser.Client.UnitTests
 {
 	[TestClass]
 	public class ClientControllerTests
 	{
-		private Mock<IDisplayMonitor> displayMonitorMock;
-		private Mock<ILogger> loggerMock;
-		private Mock<IProcessMonitor> processMonitorMock;
-		private Mock<IOperationSequence> operationSequenceMock;
-		private Mock<IRuntimeProxy> runtimeProxyMock;
-		private Mock<ITaskbar> taskbarMock;
-		private Mock<IUserInterfaceFactory> uiFactoryMock;
-		private Mock<IWindowMonitor> windowMonitorMock;
+		//private Mock<IDisplayMonitor> displayMonitorMock;
+		//private Mock<ILogger> loggerMock;
+		//private Mock<IProcessMonitor> processMonitorMock;
+		//private Mock<IOperationSequence> operationSequenceMock;
+		//private Mock<IRuntimeProxy> runtimeProxyMock;
+		//private Mock<ITaskbar> taskbarMock;
+		//private Mock<IUserInterfaceFactory> uiFactoryMock;
+		//private Mock<IWindowMonitor> windowMonitorMock;
 
-		private ClientController sut;
+		//private ClientController sut;
 
 		[TestMethod]
 		public void TODO()

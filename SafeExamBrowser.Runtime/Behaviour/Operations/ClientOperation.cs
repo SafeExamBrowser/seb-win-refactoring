@@ -21,7 +21,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 {
 	internal class ClientOperation : IOperation
 	{
-		private const int TEN_SECONDS = 10000;
+		private readonly int timeout_ms;
 
 		protected IConfigurationRepository configuration;
 		protected ILogger logger;
@@ -38,13 +38,15 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			ILogger logger,
 			IProcessFactory processFactory,
 			IProxyFactory proxyFactory,
-			IRuntimeHost runtimeHost)
+			IRuntimeHost runtimeHost,
+			int timeout_ms)
 		{
 			this.configuration = configuration;
 			this.logger = logger;
 			this.processFactory = processFactory;
 			this.proxyFactory = proxyFactory;
 			this.runtimeHost = runtimeHost;
+			this.timeout_ms = timeout_ms;
 		}
 
 		public virtual OperationResult Perform()
@@ -84,6 +86,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			var clientReady = false;
 			var clientReadyEvent = new AutoResetEvent(false);
 			var clientReadyEventHandler = new CommunicationEventHandler(() => clientReadyEvent.Set());
+
 			var clientExecutable = configuration.RuntimeInfo.ClientExecutablePath;
 			var clientLogFile = $"{'"' + configuration.RuntimeInfo.ClientLogFile + '"'}";
 			var hostUri = configuration.RuntimeInfo.RuntimeAddress;
@@ -94,12 +97,12 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			ClientProcess = processFactory.StartNew(clientExecutable, clientLogFile, hostUri, token);
 
 			logger.Info("Waiting for client to complete initialization...");
-			clientReady = clientReadyEvent.WaitOne(TEN_SECONDS);
+			clientReady = clientReadyEvent.WaitOne(timeout_ms);
 			runtimeHost.ClientReady -= clientReadyEventHandler;
 
 			if (!clientReady)
 			{
-				logger.Error($"Failed to start client within {TEN_SECONDS / 1000} seconds!");
+				logger.Error($"Failed to start client within {timeout_ms / 1000} seconds!");
 
 				return false;
 			}
@@ -155,19 +158,19 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			ClientProxy.Disconnect();
 
 			logger.Info("Waiting for client to disconnect from runtime communication host...");
-			disconnected = disconnectedEvent.WaitOne(TEN_SECONDS);
+			disconnected = disconnectedEvent.WaitOne(timeout_ms);
 
 			if (!disconnected)
 			{
-				logger.Error($"Client failed to disconnect within {TEN_SECONDS / 1000} seconds!");
+				logger.Error($"Client failed to disconnect within {timeout_ms / 1000} seconds!");
 			}
 
 			logger.Info("Waiting for client process to terminate...");
-			terminated = terminatedEvent.WaitOne(TEN_SECONDS);
+			terminated = terminatedEvent.WaitOne(timeout_ms);
 
 			if (!terminated)
 			{
-				logger.Error($"Client failed to terminate within {TEN_SECONDS / 1000} seconds!");
+				logger.Error($"Client failed to terminate within {timeout_ms / 1000} seconds!");
 			}
 
 			runtimeHost.ClientDisconnected -= disconnectedEventHandler;
@@ -217,7 +220,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			{
 				logger.Warn("Failed to kill client process. Trying again...");
 
-				return TryKillClient(attempt++);
+				return TryKillClient(++attempt);
 			}
 		}
 	}

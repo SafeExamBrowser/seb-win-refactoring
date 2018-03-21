@@ -21,11 +21,13 @@ using SafeExamBrowser.Runtime.Behaviour.Operations;
 namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 {
 	[TestClass]
-	public class ServiceConnectionOperationTests
+	public class ServiceOperationTests
 	{
 		private Mock<ILogger> logger;
 		private Mock<IServiceProxy> service;
 		private Mock<IConfigurationRepository> configuration;
+		private Mock<ISessionData> session;
+		private Settings settings;
 		private Mock<IProgressIndicator> progressIndicator;
 		private Mock<IText> text;
 		private ServiceOperation sut;
@@ -36,8 +38,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			logger = new Mock<ILogger>();
 			service = new Mock<IServiceProxy>();
 			configuration = new Mock<IConfigurationRepository>();
+			session = new Mock<ISessionData>();
+			settings = new Settings();
 			progressIndicator = new Mock<IProgressIndicator>();
 			text = new Mock<IText>();
+
+			configuration.SetupGet(c => c.CurrentSession).Returns(session.Object);
+			configuration.SetupGet(c => c.CurrentSettings).Returns(settings);
 
 			sut = new ServiceOperation(configuration.Object, logger.Object, service.Object, text.Object);
 		}
@@ -56,6 +63,26 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			sut.Perform();
 
 			service.Verify(s => s.Connect(null, true), Times.Exactly(2));
+		}
+
+		[TestMethod]
+		public void MustStartSessionIfConnected()
+		{
+			service.Setup(s => s.Connect(null, true)).Returns(true);
+
+			sut.Perform();
+
+			service.Verify(s => s.StartSession(It.IsAny<Guid>(), It.IsAny<Settings>()), Times.Once);
+		}
+
+		[TestMethod]
+		public void MustNotStartSessionIfNotConnected()
+		{
+			service.Setup(s => s.Connect(null, true)).Returns(false);
+
+			sut.Perform();
+
+			service.Verify(s => s.StartSession(It.IsAny<Guid>(), It.IsAny<Settings>()), Times.Never);
 		}
 
 		[TestMethod]
@@ -122,6 +149,28 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			sut.Revert();
 
 			service.Verify(s => s.Disconnect(), Times.Exactly(2));
+		}
+
+		[TestMethod]
+		public void MustStopSessionWhenReverting()
+		{
+			service.Setup(s => s.Connect(null, true)).Returns(true);
+
+			sut.Perform();
+			sut.Revert();
+
+			service.Verify(s => s.StopSession(It.IsAny<Guid>()), Times.Once);
+		}
+
+		[TestMethod]
+		public void MustNotStopSessionWhenRevertingAndNotConnected()
+		{
+			service.Setup(s => s.Connect(null, true)).Returns(false);
+
+			sut.Perform();
+			sut.Revert();
+
+			service.Verify(s => s.StopSession(It.IsAny<Guid>()), Times.Never);
 		}
 
 		[TestMethod]

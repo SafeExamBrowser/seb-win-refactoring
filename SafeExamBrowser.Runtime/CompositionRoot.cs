@@ -36,6 +36,8 @@ namespace SafeExamBrowser.Runtime
 
 		internal void BuildObjectGraph(Action shutdown)
 		{
+			const int TEN_SECONDS = 10000;
+
 			var args = Environment.GetCommandLineArgs();
 			var configuration = new ConfigurationRepository();
 			var nativeMethods = new NativeMethods();
@@ -64,9 +66,9 @@ namespace SafeExamBrowser.Runtime
 			sessionOperations.Enqueue(new ConfigurationOperation(configuration, logger, messageBox, runtimeInfo, text, args));
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost));
 			sessionOperations.Enqueue(new ServiceOperation(configuration, logger, serviceProxy, text));
-			sessionOperations.Enqueue(new ClientTerminationOperation(configuration, logger, processFactory, proxyFactory, runtimeHost));
+			sessionOperations.Enqueue(new ClientTerminationOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, TEN_SECONDS));
 			sessionOperations.Enqueue(new KioskModeOperation(logger, configuration));
-			sessionOperations.Enqueue(new ClientOperation(configuration, logger, processFactory, proxyFactory, runtimeHost));
+			sessionOperations.Enqueue(new ClientOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, TEN_SECONDS));
 
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new OperationSequence(logger, sessionOperations);

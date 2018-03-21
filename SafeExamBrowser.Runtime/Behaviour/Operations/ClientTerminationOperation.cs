@@ -23,7 +23,8 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			ILogger logger,
 			IProcessFactory processFactory,
 			IProxyFactory proxyFactory,
-			IRuntimeHost runtimeHost) : base(configuration, logger, processFactory, proxyFactory, runtimeHost)
+			IRuntimeHost runtimeHost,
+			int timeout_ms) : base(configuration, logger, processFactory, proxyFactory, runtimeHost, timeout_ms)
 		{
 		}
 
