@@ -209,16 +209,16 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			runtimeHost.ShutdownRequested += RuntimeHost_ShutdownRequested;
 		}
 
-		private void RegisterSessionEvents()
-		{
-			configuration.CurrentSession.ClientProcess.Terminated += ClientProcess_Terminated;
-			configuration.CurrentSession.ClientProxy.ConnectionLost += Client_ConnectionLost;
-		}
-
 		private void DeregisterEvents()
 		{
 			runtimeHost.ReconfigurationRequested -= RuntimeHost_ReconfigurationRequested;
 			runtimeHost.ShutdownRequested -= RuntimeHost_ShutdownRequested;
+		}
+
+		private void RegisterSessionEvents()
+		{
+			configuration.CurrentSession.ClientProcess.Terminated += ClientProcess_Terminated;
+			configuration.CurrentSession.ClientProxy.ConnectionLost += Client_ConnectionLost;
 		}
 
 		private void DeregisterSessionEvents()

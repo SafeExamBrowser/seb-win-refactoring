@@ -54,7 +54,6 @@ namespace SafeExamBrowser.Runtime
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), logger);
 			var runtimeHost = new RuntimeHost(runtimeInfo.RuntimeAddress, configuration, new HostObjectFactory(), new ModuleLogger(logger, typeof(RuntimeHost)));
 			var serviceProxy = new ServiceProxy(runtimeInfo.ServiceAddress, new ProxyObjectFactory(), new ModuleLogger(logger, typeof(ServiceProxy)));
-			var sessionController = new SessionController(configuration, logger, processFactory, proxyFactory, runtimeHost, serviceProxy);
 
 			var bootstrapOperations = new Queue<IOperation>();
 			var sessionOperations = new Queue<IOperation>();
@@ -62,16 +61,17 @@ namespace SafeExamBrowser.Runtime
 			bootstrapOperations.Enqueue(new I18nOperation(logger, text));
 			bootstrapOperations.Enqueue(new CommunicationOperation(runtimeHost, logger));
 
-			sessionOperations.Enqueue(new SessionSequenceStartOperation(sessionController));
 			sessionOperations.Enqueue(new ConfigurationOperation(configuration, logger, messageBox, runtimeInfo, text, args));
-			sessionOperations.Enqueue(new ServiceConnectionOperation(configuration, logger, serviceProxy, text));
+			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost));
+			sessionOperations.Enqueue(new ServiceOperation(configuration, logger, serviceProxy, text));
+			sessionOperations.Enqueue(new ClientTerminationOperation(configuration, logger, processFactory, proxyFactory, runtimeHost));
 			sessionOperations.Enqueue(new KioskModeOperation(logger, configuration));
-			sessionOperations.Enqueue(new SessionSequenceEndOperation(sessionController));
+			sessionOperations.Enqueue(new ClientOperation(configuration, logger, processFactory, proxyFactory, runtimeHost));
 
-			var boostrapSequence = new OperationSequence(logger, bootstrapOperations);
+			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new OperationSequence(logger, sessionOperations);
 
-			RuntimeController = new RuntimeController(configuration, logger, messageBox, boostrapSequence, sessionSequence, runtimeHost,  runtimeInfo, serviceProxy, shutdown, uiFactory);
+			RuntimeController = new RuntimeController(configuration, logger, messageBox, bootstrapSequence, sessionSequence, runtimeHost,  runtimeInfo, serviceProxy, shutdown, uiFactory);
 		}
 
 		internal void LogStartupInformation()

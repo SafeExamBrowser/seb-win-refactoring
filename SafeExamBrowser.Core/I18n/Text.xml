@@ -81,11 +81,11 @@
   <Entry key="ProgressIndicator_CloseRuntimeConnection">
     Closing runtime connection
   </Entry>
-  <Entry key="ProgressIndicator_CloseServiceConnection">
-    Closing service connection
-  </Entry>
   <Entry key="ProgressIndicator_EmptyClipboard">
     Emptying clipboard
+  </Entry>
+  <Entry key="ProgressIndicator_FinalizeServiceSession">
+    Finalizing service session
   </Entry>
   <Entry key="ProgressIndicator_InitializeBrowser">
     Initializing browser
@@ -102,8 +102,11 @@
   <Entry key="ProgressIndicator_InitializeRuntimeConnection">
     Initializing runtime connection
   </Entry>
-  <Entry key="ProgressIndicator_InitializeServiceConnection">
-    Initializing service connection
+  <Entry key="ProgressIndicator_InitializeServiceSession">
+    Initializing service session
+  </Entry>
+  <Entry key="ProgressIndicator_InitializeSession">
+    Initializing new session
   </Entry>
   <Entry key="ProgressIndicator_InitializeTaskbar">
     Initializing taskbar
@@ -126,6 +129,9 @@
   <Entry key="ProgressIndicator_ShutdownProcedure">
     Initiating shutdown procedure
   </Entry>
+  <Entry key="ProgressIndicator_StartClient">
+    Starting client
+  </Entry>
   <Entry key="ProgressIndicator_StartCommunicationHost">
     Starting communication host
   </Entry>
@@ -138,8 +144,8 @@
   <Entry key="ProgressIndicator_StartMouseInterception">
     Starting mouse interception
   </Entry>
-  <Entry key="ProgressIndicator_StartSession">
-    Starting new session
+  <Entry key="ProgressIndicator_StopClient">
+    Stopping client
   </Entry>
   <Entry key="ProgressIndicator_StopCommunicationHost">
     Stopping communication host
@@ -155,9 +161,6 @@
   </Entry>
   <Entry key="ProgressIndicator_StopProcessMonitoring">
     Stopping process monitoring
-  </Entry>
-  <Entry key="ProgressIndicator_StopSession">
-    Stopping current session
   </Entry>
   <Entry key="ProgressIndicator_StopWindowMonitoring">
     Stopping window monitoring

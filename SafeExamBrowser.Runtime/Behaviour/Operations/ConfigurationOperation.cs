@@ -23,8 +23,8 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private IConfigurationRepository repository;
 		private ILogger logger;
 		private IMessageBox messageBox;
-		private RuntimeInfo runtimeInfo;
 		private IText text;
+		private RuntimeInfo runtimeInfo;
 		private string[] commandLineArgs;
 
 		public IProgressIndicator ProgressIndicator { private get; set; }
@@ -50,30 +50,23 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			logger.Info("Initializing application configuration...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeConfiguration);
 
-			Settings settings;
 			var isValidUri = TryGetSettingsUri(out Uri uri);
 
 			if (isValidUri)
 			{
 				logger.Info($"Loading configuration from '{uri.AbsolutePath}'...");
-				settings = repository.LoadSettings(uri);
 
-				if (settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
+				var abort = LoadSettings(uri);
+
+				if (abort)
 				{
-					var abort = IsConfigurationSufficient();
-
-					logger.Info($"The user chose to {(abort ? "abort" : "continue")} after successful client configuration.");
-
-					if (abort)
-					{
-						return OperationResult.Aborted;
-					}
+					return OperationResult.Aborted;
 				}
 			}
 			else
 			{
 				logger.Info("No valid settings file specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
-				settings = repository.LoadDefaultSettings();
+				repository.LoadDefaultSettings();
 			}
 
 			return OperationResult.Success;
@@ -124,6 +117,21 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			}
 
 			return isValidUri;
+		}
+
+		private bool LoadSettings(Uri uri)
+		{
+			var abort = false;
+			var settings = repository.LoadSettings(uri);
+
+			if (settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
+			{
+				abort = IsConfigurationSufficient();
+
+				logger.Info($"The user chose to {(abort ? "abort" : "continue")} after successful client configuration.");
+			}
+
+			return abort;
 		}
 
 		private bool IsConfigurationSufficient()

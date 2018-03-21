@@ -87,12 +87,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Behaviour\Operations\ClientOperation.cs" />
+    <Compile Include="Behaviour\Operations\ClientTerminationOperation.cs" />
     <Compile Include="Behaviour\Operations\ConfigurationOperation.cs" />
     <Compile Include="Behaviour\Operations\KioskModeOperation.cs" />
-    <Compile Include="Behaviour\Operations\ServiceConnectionOperation.cs" />
-    <Compile Include="Behaviour\Operations\SessionSequenceEndOperation.cs" />
-    <Compile Include="Behaviour\SessionController.cs" />
-    <Compile Include="Behaviour\Operations\SessionSequenceStartOperation.cs" />
+    <Compile Include="Behaviour\Operations\ServiceOperation.cs" />
+    <Compile Include="Behaviour\Operations\SessionInitializationOperation.cs" />
     <Compile Include="Communication\ProxyFactory.cs" />
     <Compile Include="Communication\RuntimeHost.cs" />
     <Compile Include="CompositionRoot.cs" />

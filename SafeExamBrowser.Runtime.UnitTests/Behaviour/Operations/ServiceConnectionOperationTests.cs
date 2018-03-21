@@ -28,7 +28,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		private Mock<IConfigurationRepository> configuration;
 		private Mock<IProgressIndicator> progressIndicator;
 		private Mock<IText> text;
-		private ServiceConnectionOperation sut;
+		private ServiceOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
@@ -39,7 +39,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			progressIndicator = new Mock<IProgressIndicator>();
 			text = new Mock<IText>();
 
-			sut = new ServiceConnectionOperation(configuration.Object, logger.Object, service.Object, text.Object);
+			sut = new ServiceOperation(configuration.Object, logger.Object, service.Object, text.Object);
 		}
 
 		[TestMethod]

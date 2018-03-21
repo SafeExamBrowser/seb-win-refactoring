@@ -17,7 +17,7 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Runtime.Behaviour.Operations
 {
-	internal class ServiceConnectionOperation : IOperation
+	internal class ServiceOperation : IOperation
 	{
 		private bool connected, mandatory;
 		private IConfigurationRepository configuration;
@@ -27,7 +27,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
-		public ServiceConnectionOperation(IConfigurationRepository configuration, ILogger logger, IServiceProxy service, IText text)
+		public ServiceOperation(IConfigurationRepository configuration, ILogger logger, IServiceProxy service, IText text)
 		{
 			this.configuration = configuration;
 			this.service = service;
@@ -37,8 +37,8 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 		public OperationResult Perform()
 		{
-			logger.Info($"Initializing service connection...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeServiceConnection);
+			logger.Info($"Initializing service session...");
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeServiceSession);
 
 			try
 			{
@@ -60,23 +60,35 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			service.Ignore = !connected;
 			logger.Info($"The service is {(mandatory ? "mandatory" : "optional")} and {(connected ? "available." : "not available. All service-related operations will be ignored!")}");
 
+			if (connected)
+			{
+				StartServiceSession();
+			}
+
 			return OperationResult.Success;
 		}
 
 		public OperationResult Repeat()
 		{
 			// TODO: Re-check if mandatory, if so, try to connect (if not connected) - otherwise, no action required (except maybe logging of status?)
+			if (connected)
+			{
+				StopServiceSession();
+				StartServiceSession();
+			}
 
 			return OperationResult.Success;
 		}
 
 		public void Revert()
 		{
-			logger.Info("Closing service connection...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_CloseServiceConnection);
+			logger.Info("Finalizing service session...");
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_FinalizeServiceSession);
 
 			if (connected)
 			{
+				StopServiceSession();
+
 				try
 				{
 					service.Disconnect();
@@ -86,6 +98,16 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 					logger.Error("Failed to disconnect from the service!", e);
 				}
 			}
+		}
+
+		private void StartServiceSession()
+		{
+			service.StartSession(configuration.CurrentSession.Id, configuration.CurrentSettings);
+		}
+
+		private void StopServiceSession()
+		{
+			service.StopSession(configuration.CurrentSession.Id);
 		}
 
 		private void LogException(Exception e)
