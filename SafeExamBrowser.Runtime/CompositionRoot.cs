@@ -73,7 +73,7 @@ namespace SafeExamBrowser.Runtime
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new OperationSequence(logger, sessionOperations);
 
-			RuntimeController = new RuntimeController(configuration, logger, messageBox, bootstrapSequence, sessionSequence, runtimeHost,  runtimeInfo, serviceProxy, shutdown, uiFactory);
+			RuntimeController = new RuntimeController(configuration, logger, messageBox, bootstrapSequence, sessionSequence, runtimeHost, runtimeInfo, serviceProxy, shutdown, uiFactory);
 		}
 
 		internal void LogStartupInformation()

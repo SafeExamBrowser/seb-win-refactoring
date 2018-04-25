@@ -56,6 +56,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Hosts
 		[ExpectedException(typeof(CommunicationException))]
 		public void MustCorrectlyHandleStartupException()
 		{
+			// TODO: Takes waaay too long, extract timeout (move to constructor like in ClientOperation)!
 			hostObject.Setup(h => h.Open()).Throws<Exception>();
 
 			sut.Start();

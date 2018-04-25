@@ -102,8 +102,8 @@ namespace SafeExamBrowser.Browser
 			{
 				CachePath = runtimeInfo.BrowserCachePath,
 				LogFile = runtimeInfo.BrowserLogFile,
-				// TODO: Set according to current application LogLevel!
-				LogSeverity = LogSeverity.Verbose
+				// TODO: Set according to current application LogLevel, but avoid verbose!
+				LogSeverity = LogSeverity.Info
 			};
 
 			cefSettings.RegisterScheme(new CefCustomScheme { SchemeName = "seb", SchemeHandlerFactory = new SchemeHandlerFactory() });
