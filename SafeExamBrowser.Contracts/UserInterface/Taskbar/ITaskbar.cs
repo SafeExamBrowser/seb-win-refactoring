@@ -8,8 +8,6 @@
 
 namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
-	public delegate void QuitButtonClickedEventHandler();
-
 	/// <summary>
 	/// Defines the functionality of the application taskbar. The taskbar is the main user interface element via which the user can access
 	/// the browser, third-party applications, system controls and so on.

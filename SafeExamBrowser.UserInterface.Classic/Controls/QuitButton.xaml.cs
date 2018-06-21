@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
@@ -16,7 +17,7 @@ namespace SafeExamBrowser.UserInterface.Classic.Controls
 {
 	public partial class QuitButton : UserControl
 	{
-		public QuitButtonClickedEventHandler Clicked;
+		public event QuitButtonClickedEventHandler Clicked;
 
 		public QuitButton()
 		{
@@ -26,7 +27,7 @@ namespace SafeExamBrowser.UserInterface.Classic.Controls
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			Clicked?.Invoke();
+			Clicked?.Invoke(new CancelEventArgs());
 		}
 
 		private void LoadIcon()

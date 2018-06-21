@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.ComponentModel;
 using System.IO;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Behaviour.OperationModel;
@@ -250,7 +251,7 @@ namespace SafeExamBrowser.Client.Behaviour
 			shutdown.Invoke();
 		}
 
-		private void Taskbar_QuitButtonClicked()
+		private void Taskbar_QuitButtonClicked(CancelEventArgs args)
 		{
 			var result = messageBox.Show(TextKey.MessageBox_Quit, TextKey.MessageBox_QuitTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
 
@@ -265,6 +266,10 @@ namespace SafeExamBrowser.Client.Behaviour
 					logger.Error("Failed to communicate shutdown request to the runtime!", e);
 					messageBox.Show(TextKey.MessageBox_QuitError, TextKey.MessageBox_QuitErrorTitle, icon: MessageBoxIcon.Error);
 				}
+			}
+			else
+			{
+				args.Cancel = true;
 			}
 		}
 

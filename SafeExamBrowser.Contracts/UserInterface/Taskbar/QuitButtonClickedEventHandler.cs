@@ -6,10 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Browser
+using System.ComponentModel;
+
+namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
 	/// <summary>
-	/// Event handler used to control (e.g. allow or prohibit) download requests.
+	/// Event handler used to define the control flow when the <see cref="ITaskbar"/>'s quit button is clicked.
 	/// </summary>
-	public delegate void DownloadRequestedEventHandler(string fileName, DownloadEventArgs args);
+	public delegate void QuitButtonClickedEventHandler(CancelEventArgs args);
 }

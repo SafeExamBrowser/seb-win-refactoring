@@ -138,6 +138,7 @@
     <Compile Include="UserInterface\Browser\IBrowserWindow.cs" />
     <Compile Include="UserInterface\MessageBox\IMessageBox.cs" />
     <Compile Include="UserInterface\IProgressIndicator.cs" />
+    <Compile Include="UserInterface\Taskbar\QuitButtonClickedEventHandler.cs" />
     <Compile Include="UserInterface\Windows\IRuntimeWindow.cs" />
     <Compile Include="UserInterface\MessageBox\MessageBoxResult.cs" />
     <Compile Include="UserInterface\Taskbar\INotificationButton.cs" />

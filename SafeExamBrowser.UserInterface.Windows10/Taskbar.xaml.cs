@@ -16,6 +16,7 @@ namespace SafeExamBrowser.UserInterface.Windows10
 {
 	public partial class Taskbar : Window, ITaskbar
 	{
+		private bool allowClose;
 		private ILogger logger;
 
 		public event QuitButtonClickedEventHandler QuitButtonClicked;
@@ -26,9 +27,9 @@ namespace SafeExamBrowser.UserInterface.Windows10
 
 			InitializeComponent();
 
-			Loaded += (o, args) => InitializeBounds();
 			Closing += Taskbar_Closing;
-			QuitButtonClicked += Taskbar_QuitButtonClicked;
+			Loaded += (o, args) => InitializeBounds();
+			QuitButtonClicked += QuitButton_Clicked;
 		}
 
 		public void AddApplication(IApplicationButton button)
@@ -87,13 +88,21 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			});
 		}
 
-		private void Taskbar_QuitButtonClicked()
+		private void QuitButton_Clicked(CancelEventArgs args)
 		{
-			QuitButtonClicked?.Invoke();
+			QuitButtonClicked?.Invoke(args);
+			allowClose = !args.Cancel;
 		}
 
 		private void Taskbar_Closing(object sender, CancelEventArgs e)
 		{
+			if (!allowClose)
+			{
+				e.Cancel = true;
+
+				return;
+			}
+
 			foreach (var child in SystemControlStackPanel.Children)
 			{
 				if (child is ISystemControl systemControl)

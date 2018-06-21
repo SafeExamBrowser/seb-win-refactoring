@@ -16,6 +16,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 {
 	public partial class Taskbar : Window, ITaskbar
 	{
+		private bool allowClose;
 		private ILogger logger;
 
 		public event QuitButtonClickedEventHandler QuitButtonClicked;
@@ -28,7 +29,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 			Closing += Taskbar_Closing;
 			Loaded += (o, args) => InitializeBounds();
-			QuitButton.Clicked += () => QuitButtonClicked?.Invoke();
+			QuitButton.Clicked += QuitButton_Clicked;
 		}
 
 		public void AddApplication(IApplicationButton button)
@@ -87,8 +88,21 @@ namespace SafeExamBrowser.UserInterface.Classic
 			});
 		}
 
+		private void QuitButton_Clicked(CancelEventArgs args)
+		{
+			QuitButtonClicked?.Invoke(args);
+			allowClose = !args.Cancel;
+		}
+
 		private void Taskbar_Closing(object sender, CancelEventArgs e)
 		{
+			if (!allowClose)
+			{
+				e.Cancel = true;
+
+				return;
+			}
+
 			foreach (var child in SystemControlStackPanel.Children)
 			{
 				if (child is ISystemControl systemControl)

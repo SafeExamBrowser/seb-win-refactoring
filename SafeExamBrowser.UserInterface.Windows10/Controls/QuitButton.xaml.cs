@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
@@ -23,7 +24,7 @@ namespace SafeExamBrowser.UserInterface.Windows10.Controls
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			Clicked?.Invoke();
+			Clicked?.Invoke(new CancelEventArgs());
 		}
 	}
 }
