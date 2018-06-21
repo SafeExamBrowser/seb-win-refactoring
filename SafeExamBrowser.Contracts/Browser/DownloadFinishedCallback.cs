@@ -8,5 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.Browser
 {
+	/// <summary>
+	/// Defines the method signature for callbacks to be executed once a download has been finished. Indicates whether the download was
+	/// successful, and if so, where it was saved.
+	/// </summary>
 	public delegate void DownloadFinishedCallback(bool success, string filePath = null);
 }

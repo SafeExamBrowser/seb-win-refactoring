@@ -6,16 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Runtime.Behaviour.Operations;
 
@@ -53,41 +49,43 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		[TestMethod]
 		public void MustNotFailWithoutCommandLineArgs()
 		{
-			repository.Setup(r => r.LoadDefaultSettings());
+			//repository.Setup(r => r.LoadDefaultSettings());
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
+			//sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
 
-			sut.Perform();
+			//sut.Perform();
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, new string[] { });
+			//sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, new string[] { });
 
-			sut.Perform();
+			//sut.Perform();
 
-			repository.Verify(r => r.LoadDefaultSettings(), Times.Exactly(2));
+			//repository.Verify(r => r.LoadDefaultSettings(), Times.Exactly(2));
+			Assert.Fail();
 		}
 
 		[TestMethod]
 		public void MustNotFailWithInvalidUri()
 		{
-			var path = @"an/invalid\path.'*%yolo/()";
+			//var path = @"an/invalid\path.'*%yolo/()";
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, new [] { "blubb.exe", path });
+			//sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, new [] { "blubb.exe", path });
 
-			sut.Perform();
+			//sut.Perform();
+			Assert.Fail();
 		}
 
 		[TestMethod]
 		public void MustUseCommandLineArgumentAs1stPrio()
 		{
-			var path = @"http://www.safeexambrowser.org/whatever.seb";
-			var location = Path.GetDirectoryName(GetType().Assembly.Location);
+			//var path = @"http://www.safeexambrowser.org/whatever.seb";
+			//var location = Path.GetDirectoryName(GetType().Assembly.Location);
 
-			info.ProgramDataFolder = location;
-			info.AppDataFolder = location;
+			//info.ProgramDataFolder = location;
+			//info.AppDataFolder = location;
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, new[] { "blubb.exe", path });
+			//sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, new[] { "blubb.exe", path });
 
-			sut.Perform();
+			//sut.Perform();
 
 			Assert.Fail();
 			//repository.Verify(r => r.LoadSettings(It.Is<Uri>(u => u.Equals(new Uri(path)))), Times.Once);
@@ -96,14 +94,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		[TestMethod]
 		public void MustUseProgramDataAs2ndPrio()
 		{
-			var location = Path.GetDirectoryName(GetType().Assembly.Location);
+			//var location = Path.GetDirectoryName(GetType().Assembly.Location);
 
-			info.ProgramDataFolder = location;
-			info.AppDataFolder = $@"{location}\WRONG";
+			//info.ProgramDataFolder = location;
+			//info.AppDataFolder = $@"{location}\WRONG";
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
+			//sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
 
-			sut.Perform();
+			//sut.Perform();
 
 			Assert.Fail();
 			//repository.Verify(r => r.LoadSettings(It.Is<Uri>(u => u.Equals(new Uri(Path.Combine(location, "SettingsDummy.txt"))))), Times.Once);
@@ -112,13 +110,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		[TestMethod]
 		public void MustUseAppDataAs3rdPrio()
 		{
-			var location = Path.GetDirectoryName(GetType().Assembly.Location);
+			//var location = Path.GetDirectoryName(GetType().Assembly.Location);
 
-			info.AppDataFolder = location;
+			//info.AppDataFolder = location;
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
+			//sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
 
-			sut.Perform();
+			//sut.Perform();
 
 			Assert.Fail();
 			//repository.Verify(r => r.LoadSettings(It.Is<Uri>(u => u.Equals(new Uri(Path.Combine(location, "SettingsDummy.txt"))))), Times.Once);
@@ -127,36 +125,41 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		[TestMethod]
 		public void MustFallbackToDefaultsAsLastPrio()
 		{
-			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
+			//sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
 
-			sut.Perform();
+			//sut.Perform();
 
-			repository.Verify(r => r.LoadDefaultSettings(), Times.Once);
+			//repository.Verify(r => r.LoadDefaultSettings(), Times.Once);
+			Assert.Fail();
 		}
 
 		[TestMethod]
 		public void MustAbortIfWishedByUser()
 		{
-			info.ProgramDataFolder = Path.GetDirectoryName(GetType().Assembly.Location);
-			messageBox.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.Yes);
+			//info.ProgramDataFolder = Path.GetDirectoryName(GetType().Assembly.Location);
+			//messageBox.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.Yes);
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
+			//sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
 
-			var result = sut.Perform();
+			//var result = sut.Perform();
 
-			Assert.AreEqual(OperationResult.Aborted, result);
+			//Assert.AreEqual(OperationResult.Aborted, result);
+
+			Assert.Fail();
 		}
 
 		[TestMethod]
 		public void MustNotAbortIfNotWishedByUser()
 		{
-			messageBox.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.No);
+			//messageBox.Setup(u => u.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.No);
 
-			sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
+			//sut = new ConfigurationOperation(repository.Object, logger.Object, messageBox.Object, info, text.Object, null);
 
-			var result = sut.Perform();
+			//var result = sut.Perform();
 
-			Assert.AreEqual(OperationResult.Success, result);
+			//Assert.AreEqual(OperationResult.Success, result);
+
+			Assert.Fail();
 		}
 	}
 }
