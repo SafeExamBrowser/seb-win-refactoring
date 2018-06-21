@@ -119,11 +119,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			{
 				status = repository.LoadSettings(uri, settingsPassword, adminPassword);
 
-				if (status == LoadStatus.InvalidData || status == LoadStatus.Success)
-				{
-					break;
-				}
-				else if (status == LoadStatus.AdminPasswordNeeded || status == LoadStatus.SettingsPasswordNeeded)
+				if (status == LoadStatus.AdminPasswordNeeded || status == LoadStatus.SettingsPasswordNeeded)
 				{
 					var isAdmin = status == LoadStatus.AdminPasswordNeeded;
 					var success = isAdmin ? TryGetAdminPassword(out adminPassword) : TryGetSettingsPassword(out settingsPassword);
@@ -137,6 +133,10 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 					{
 						return OperationResult.Aborted;
 					}
+				}
+				else
+				{
+					break;
 				}
 			}
 
