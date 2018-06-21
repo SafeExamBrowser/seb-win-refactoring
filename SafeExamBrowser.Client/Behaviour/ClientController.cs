@@ -7,8 +7,10 @@
  */
 
 using System;
+using System.IO;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Behaviour.OperationModel;
+using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
@@ -38,6 +40,7 @@ namespace SafeExamBrowser.Client.Behaviour
 		private IWindowMonitor windowMonitor;
 		private RuntimeInfo runtimeInfo;
 
+		public IBrowserApplicationController Browser { private get; set; }
 		public IClientHost ClientHost { private get; set; }
 		public Guid SessionId { private get; set; }
 		public Settings Settings { private get; set; }
@@ -145,6 +148,7 @@ namespace SafeExamBrowser.Client.Behaviour
 
 		private void RegisterEvents()
 		{
+			Browser.ConfigurationDownloadRequested += Browser_ConfigurationDownloadRequested;
 			ClientHost.Shutdown += ClientHost_Shutdown;
 			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
 			processMonitor.ExplorerStarted += ProcessMonitor_ExplorerStarted;
@@ -155,6 +159,7 @@ namespace SafeExamBrowser.Client.Behaviour
 
 		private void DeregisterEvents()
 		{
+			Browser.ConfigurationDownloadRequested -= Browser_ConfigurationDownloadRequested;
 			ClientHost.Shutdown -= ClientHost_Shutdown;
 			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
 			processMonitor.ExplorerStarted -= ProcessMonitor_ExplorerStarted;
@@ -181,6 +186,53 @@ namespace SafeExamBrowser.Client.Behaviour
 			logger.Info("Reinitializing taskbar bounds...");
 			taskbar.InitializeBounds();
 			logger.Info("Desktop successfully restored.");
+		}
+
+		private void Browser_ConfigurationDownloadRequested(string fileName, DownloadEventArgs args)
+		{
+			if (Settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
+			{
+				logger.Info($"Detected download request for configuration file '{fileName}'.");
+
+				var result = messageBox.Show(TextKey.MessageBox_ReconfigurationQuestion, TextKey.MessageBox_ReconfigurationQuestionTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
+				var reconfigure = result == MessageBoxResult.Yes;
+
+				logger.Info($"The user chose to {(reconfigure ? "start" : "abort")} the reconfiguration.");
+
+				if (reconfigure)
+				{
+					args.AllowDownload = true;
+					args.Callback = Browser_ConfigurationDownloadFinished;
+					args.DownloadPath = Path.Combine(runtimeInfo.DownloadDirectory, fileName);
+				}
+			}
+			else
+			{
+				logger.Info($"Denied download request for configuration file '{fileName}' due to '{Settings.ConfigurationMode}' mode.");
+				messageBox.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle);
+			}
+		}
+
+		private void Browser_ConfigurationDownloadFinished(bool success, string filePath = null)
+		{
+			if (success)
+			{
+				try
+				{
+					runtime.RequestReconfiguration(filePath);
+					logger.Info($"Sent reconfiguration request for '{filePath}' to the runtime.");
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to communicate reconfiguration request for '{filePath}'!", e);
+					messageBox.Show(TextKey.MessageBox_ReconfigurationError, TextKey.MessageBox_ReconfigurationErrorTitle, icon: MessageBoxIcon.Error);
+				}
+			}
+			else
+			{
+				logger.Error($"Failed to download configuration file '{filePath}'!");
+				messageBox.Show(TextKey.MessageBox_ConfigurationDownloadError, TextKey.MessageBox_ConfigurationDownloadErrorTitle, icon: MessageBoxIcon.Error);
+			}
 		}
 
 		private void ClientHost_Shutdown()

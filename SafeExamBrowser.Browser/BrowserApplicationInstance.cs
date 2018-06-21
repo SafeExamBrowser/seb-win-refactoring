@@ -8,6 +8,7 @@
 
 using System;
 using SafeExamBrowser.Browser.Handlers;
+using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
@@ -22,6 +23,7 @@ namespace SafeExamBrowser.Browser
 		private IBrowserControl control;
 		private IBrowserWindow window;
 		private bool isMainInstance;
+		private RuntimeInfo runtimeInfo;
 		private BrowserSettings settings;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
@@ -30,13 +32,19 @@ namespace SafeExamBrowser.Browser
 		public string Name { get; private set; }
 		public IWindow Window { get { return window; } }
 
-		internal event ConfigurationDetectedEventHandler ConfigurationDetected;
-		public event TerminatedEventHandler Terminated;
+		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 		public event NameChangedEventHandler NameChanged;
+		public event TerminatedEventHandler Terminated;
 
-		public BrowserApplicationInstance(BrowserSettings settings, IText text, IUserInterfaceFactory uiFactory, bool isMainInstance)
+		public BrowserApplicationInstance(
+			BrowserSettings settings,
+			RuntimeInfo runtimeInfo,
+			IText text,
+			IUserInterfaceFactory uiFactory,
+			bool isMainInstance)
 		{
 			this.isMainInstance = isMainInstance;
+			this.runtimeInfo = runtimeInfo;
 			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;
@@ -44,13 +52,17 @@ namespace SafeExamBrowser.Browser
 
 		internal void Initialize()
 		{
+			var downloadHandler = new DownloadHandler(settings, runtimeInfo);
+
 			Id = Guid.NewGuid();
+			downloadHandler.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
 
 			control = new BrowserControl(settings, text);
 			control.AddressChanged += Control_AddressChanged;
-			(control as BrowserControl).ConfigurationDetected += (url, args) => ConfigurationDetected?.Invoke(url, args);
 			control.LoadingStateChanged += Control_LoadingStateChanged;
 			control.TitleChanged += Control_TitleChanged;
+			(control as BrowserControl).DownloadHandler = downloadHandler;
+			(control as BrowserControl).Initialize();
 
 			window = uiFactory.CreateBrowserWindow(control, settings);
 			window.IsMainWindow = isMainInstance;

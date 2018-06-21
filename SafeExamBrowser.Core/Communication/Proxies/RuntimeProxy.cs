@@ -45,16 +45,14 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 			}
 		}
 
-		public bool RequestReconfiguration(string url)
+		public void RequestReconfiguration(string filePath)
 		{
-			var response = Send(new ReconfigurationMessage(url));
+			var response = Send(new ReconfigurationMessage(filePath));
 
-			if (response is ReconfigurationResponse reconfiguration)
+			if (!IsAcknowledged(response))
 			{
-				return reconfiguration.Accepted;
+				throw new CommunicationException($"Runtime did not acknowledge reconfiguration request! Response: {ToString(response)}.");
 			}
-
-			return false;
 		}
 
 		public void RequestShutdown()

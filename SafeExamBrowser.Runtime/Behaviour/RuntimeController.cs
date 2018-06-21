@@ -9,6 +9,7 @@
 using System;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Behaviour.OperationModel;
+using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
@@ -169,13 +170,14 @@ namespace SafeExamBrowser.Runtime.Behaviour
 
 				if (result == OperationResult.Failed)
 				{
+					// TODO: Check if message box is rendered on new desktop as well! -> E.g. if settings for reconfiguration are invalid
 					messageBox.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error);
-				}
 
-				if (!initial)
-				{
-					logger.Info("Terminating application...");
-					shutdown.Invoke();
+					if (!initial)
+					{
+						logger.Info("Terminating application...");
+						shutdown.Invoke();
+					}
 				}
 			}
 		}
@@ -245,10 +247,22 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			shutdown.Invoke();
 		}
 
-		private void RuntimeHost_ReconfigurationRequested()
+		private void RuntimeHost_ReconfigurationRequested(ReconfigurationEventArgs args)
 		{
-			logger.Info($"Starting reconfiguration...");
-			StartSession();
+			var mode = configuration.CurrentSettings.ConfigurationMode;
+
+			if (mode == ConfigurationMode.ConfigureClient)
+			{
+				logger.Info($"Accepted request for reconfiguration with '{args.ConfigurationPath}'.");
+				configuration.ReconfigurationFilePath = args.ConfigurationPath;
+
+				StartSession();
+			}
+			else
+			{
+				logger.Info($"Denied request for reconfiguration with '{args.ConfigurationPath}' due to '{mode}' mode!");
+				// TODO: configuration.CurrentSession.ClientProxy.InformReconfigurationDenied();
+			}
 		}
 
 		private void RuntimeHost_ShutdownRequested()

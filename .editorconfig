@@ -1,0 +1,14 @@
+# Defines coding style deviations from the Microsoft Minimum Recommended Rules ruleset, which is active per default in Visual Studio 2017
+# For more info, see https://editorconfig.org/ and https://docs.microsoft.com/en-us/visualstudio/ide/create-portable-custom-editor-options
+
+root = true
+
+[*]
+end_of_line = crlf
+
+[*.cs]
+dotnet_style_object_initializer = false:none
+indent_style = tab
+
+[*.xml]
+indent_style = space

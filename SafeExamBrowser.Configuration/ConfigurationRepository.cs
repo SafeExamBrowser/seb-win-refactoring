@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Configuration
 
 		public ISessionData CurrentSession { get; private set; }
 		public Settings CurrentSettings { get; private set; }
-		public string ReconfigurationUrl { get; set; }
+		public string ReconfigurationFilePath { get; set; }
 
 		public RuntimeInfo RuntimeInfo
 		{
@@ -66,35 +66,34 @@ namespace SafeExamBrowser.Configuration
 			}
 		}
 
-		public Settings LoadSettings(Uri path)
+		public LoadStatus LoadSettings(Uri resource, string settingsPassword = null, string adminPassword = null)
 		{
 			// TODO: Implement loading mechanism
 
-			return LoadDefaultSettings();
+			LoadDefaultSettings();
+
+			return LoadStatus.Success;
 		}
 
-		public Settings LoadDefaultSettings()
+		public void LoadDefaultSettings()
 		{
-			var settings = new Settings()
-			{
-				// TODO: Implement default settings
-				ServicePolicy = ServicePolicy.Optional
-			};
+			// TODO: Implement default settings
 
-			settings.Browser.StartUrl = "https://www.safeexambrowser.org/testing";
-			settings.Browser.AllowAddressBar = true;
-			settings.Browser.AllowBackwardNavigation = true;
-			settings.Browser.AllowDeveloperConsole = true;
-			settings.Browser.AllowForwardNavigation = true;
-			settings.Browser.AllowReloading = true;
+			CurrentSettings = new Settings();
 
-			settings.Taskbar.AllowApplicationLog = true;
-			settings.Taskbar.AllowKeyboardLayout = true;
-			settings.Taskbar.AllowWirelessNetwork = true;
+			CurrentSettings.ServicePolicy = ServicePolicy.Optional;
 
-			CurrentSettings = settings;
+			CurrentSettings.Browser.StartUrl = "https://www.safeexambrowser.org/testing";
+			CurrentSettings.Browser.AllowAddressBar = true;
+			CurrentSettings.Browser.AllowBackwardNavigation = true;
+			CurrentSettings.Browser.AllowDeveloperConsole = true;
+			CurrentSettings.Browser.AllowForwardNavigation = true;
+			CurrentSettings.Browser.AllowReloading = true;
+			CurrentSettings.Browser.AllowDownloads = true;
 
-			return settings;
+			CurrentSettings.Taskbar.AllowApplicationLog = true;
+			CurrentSettings.Taskbar.AllowKeyboardLayout = true;
+			CurrentSettings.Taskbar.AllowWirelessNetwork = true;
 		}
 
 		private void InitializeRuntimeInfo()
@@ -105,26 +104,26 @@ namespace SafeExamBrowser.Configuration
 			var logFolder = Path.Combine(appDataFolder, "Logs");
 			var logFilePrefix = startTime.ToString("yyyy-MM-dd\\_HH\\hmm\\mss\\s");
 
-			runtimeInfo = new RuntimeInfo
-			{
-				ApplicationStartTime = startTime,
-				AppDataFolder = appDataFolder,
-				BrowserCachePath = Path.Combine(appDataFolder, "Cache"),
-				BrowserLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Browser.txt"),
-				ClientId = Guid.NewGuid(),
-				ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}",
-				ClientExecutablePath = Path.Combine(Path.GetDirectoryName(executable.Location), $"{nameof(SafeExamBrowser)}.Client.exe"),
-				ClientLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Client.txt"),
-				DefaultSettingsFileName = "SebClientSettings.seb",
-				ProgramCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright,
-				ProgramDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), nameof(SafeExamBrowser)),
-				ProgramTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title,
-				ProgramVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion,
-				RuntimeId = Guid.NewGuid(),
-				RuntimeAddress = $"{BASE_ADDRESS}/runtime/{Guid.NewGuid()}",
-				RuntimeLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Runtime.txt"),
-				ServiceAddress = $"{BASE_ADDRESS}/service"
-			};
+			runtimeInfo = new RuntimeInfo();
+			runtimeInfo.ApplicationStartTime = startTime;
+			runtimeInfo.AppDataFolder = appDataFolder;
+			runtimeInfo.BrowserCachePath = Path.Combine(appDataFolder, "Cache");
+			runtimeInfo.BrowserLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Browser.txt");
+			runtimeInfo.ClientId = Guid.NewGuid();
+			runtimeInfo.ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}";
+			runtimeInfo.ClientExecutablePath = Path.Combine(Path.GetDirectoryName(executable.Location), $"{nameof(SafeExamBrowser)}.Client.exe");
+			runtimeInfo.ClientLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Client.txt");
+			runtimeInfo.ConfigurationFileExtension = ".seb";
+			runtimeInfo.DefaultSettingsFileName = "SebClientSettings.seb";
+			runtimeInfo.DownloadDirectory = Path.Combine(appDataFolder, "Downloads");
+			runtimeInfo.ProgramCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
+			runtimeInfo.ProgramDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), nameof(SafeExamBrowser));
+			runtimeInfo.ProgramTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
+			runtimeInfo.ProgramVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+			runtimeInfo.RuntimeId = Guid.NewGuid();
+			runtimeInfo.RuntimeAddress = $"{BASE_ADDRESS}/runtime/{Guid.NewGuid()}";
+			runtimeInfo.RuntimeLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Runtime.txt");
+			runtimeInfo.ServiceAddress = $"{BASE_ADDRESS}/service";
 		}
 
 		private void UpdateRuntimeInfo()

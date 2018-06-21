@@ -8,8 +8,6 @@
 
 namespace SafeExamBrowser.Contracts.Communication
 {
-	public delegate void CommunicationEventHandler();
-
 	/// <summary>
 	/// Defines the common functionality for all communication hosts. A communication host can be hosted by an application component to
 	/// allow for inter-process communication with other components (e.g. runtime -> client communication).

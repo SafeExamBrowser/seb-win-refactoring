@@ -45,8 +45,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			info.AppDataFolder = @"C:\Not\Really\AppData";
 			info.DefaultSettingsFileName = "SettingsDummy.txt";
 			info.ProgramDataFolder = @"C:\Not\Really\ProgramData";
-			repository.Setup(r => r.LoadSettings(It.IsAny<Uri>())).Returns(settings);
-			repository.Setup(r => r.LoadDefaultSettings()).Returns(settings);
+			// TODO
+			//repository.Setup(r => r.LoadSettings(It.IsAny<Uri>())).Returns(settings);
+			//repository.Setup(r => r.LoadDefaultSettings()).Returns(settings);
 		}
 
 		[TestMethod]
@@ -88,7 +89,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 
 			sut.Perform();
 
-			repository.Verify(r => r.LoadSettings(It.Is<Uri>(u => u.Equals(new Uri(path)))), Times.Once);
+			Assert.Fail();
+			//repository.Verify(r => r.LoadSettings(It.Is<Uri>(u => u.Equals(new Uri(path)))), Times.Once);
 		}
 
 		[TestMethod]
@@ -103,7 +105,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 
 			sut.Perform();
 
-			repository.Verify(r => r.LoadSettings(It.Is<Uri>(u => u.Equals(new Uri(Path.Combine(location, "SettingsDummy.txt"))))), Times.Once);
+			Assert.Fail();
+			//repository.Verify(r => r.LoadSettings(It.Is<Uri>(u => u.Equals(new Uri(Path.Combine(location, "SettingsDummy.txt"))))), Times.Once);
 		}
 
 		[TestMethod]
@@ -117,7 +120,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 
 			sut.Perform();
 
-			repository.Verify(r => r.LoadSettings(It.Is<Uri>(u => u.Equals(new Uri(Path.Combine(location, "SettingsDummy.txt"))))), Times.Once);
+			Assert.Fail();
+			//repository.Verify(r => r.LoadSettings(It.Is<Uri>(u => u.Equals(new Uri(Path.Combine(location, "SettingsDummy.txt"))))), Times.Once);
 		}
 
 		[TestMethod]

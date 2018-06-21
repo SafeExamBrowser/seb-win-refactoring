@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
@@ -18,6 +19,11 @@ namespace SafeExamBrowser.Contracts.Behaviour
 	/// </summary>
 	public interface IClientController
 	{
+		/// <summary>
+		/// The controller for the browser application.
+		/// </summary>
+		IBrowserApplicationController Browser { set; }
+
 		/// <summary>
 		/// The client host used for communication handling.
 		/// </summary>

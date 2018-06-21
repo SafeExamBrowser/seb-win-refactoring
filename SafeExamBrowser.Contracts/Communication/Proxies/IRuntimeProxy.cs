@@ -34,10 +34,9 @@ namespace SafeExamBrowser.Contracts.Communication.Proxies
 		void RequestShutdown();
 
 		/// <summary>
-		/// Requests the runtime to reconfigure the application with the configuration from the given location. Returns <c>true</c> if
-		/// the runtime accepted the request, otherwise <c>false</c>.
+		/// Requests the runtime to reconfigure the application with the specified configuration.
 		/// </summary>
 		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
-		bool RequestReconfiguration(string url);
+		void RequestReconfiguration(string filePath);
 	}
 }

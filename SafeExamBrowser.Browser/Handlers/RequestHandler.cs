@@ -7,46 +7,31 @@
  */
 
 using System;
-using System.ComponentModel;
-using System.IO;
-using System.Threading.Tasks;
 using CefSharp;
 using CefSharp.Handler;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
-	internal delegate void ConfigurationDetectedEventHandler(string url, CancelEventArgs args);
-
 	/// <remarks>
 	/// See https://cefsharp.github.io/api/63.0.0/html/T_CefSharp_Handler_DefaultRequestHandler.htm.
 	/// </remarks>
 	internal class RequestHandler : DefaultRequestHandler
 	{
-		internal event ConfigurationDetectedEventHandler ConfigurationDetected;
-
 		public override CefReturnValue OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
 		{
-			Task.Run(() =>
+			var uri = new Uri(request.Url);
+
+			// TODO: Move to globals -> SafeExamBrowserUriScheme, SafeExamBrowserSecureUriScheme
+			if (uri.Scheme == "seb")
 			{
-				var allow = true;
-				var uri = new Uri(request.Url);
+				request.Url = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttp }.ToString();
+			}
+			else if (uri.Scheme == "sebs")
+			{
+				request.Url = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttps }.ToString();
+			}
 
-				if (uri.Scheme == "seb" || uri.Scheme == "sebs" || Path.HasExtension("seb"))
-				{
-					var args = new CancelEventArgs();
-
-					ConfigurationDetected?.Invoke(request.Url, args);
-
-					allow = !args.Cancel;
-				}
-
-				using (callback)
-				{
-					callback.Continue(allow);
-				}
-			});
-
-			return CefReturnValue.ContinueAsync;
+			return base.OnBeforeResourceLoad(browserControl, browser, frame, request, callback);
 		}
 	}
 }

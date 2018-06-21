@@ -50,35 +50,58 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			logger.Info("Initializing application configuration...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeConfiguration);
 
-			var isValidUri = TryGetSettingsUri(out Uri uri);
+			var isValidUri = TryInitializeSettingsUri(out Uri uri);
 
 			if (isValidUri)
 			{
-				logger.Info($"Loading configuration from '{uri.AbsolutePath}'...");
+				logger.Info($"Loading settings from '{uri.AbsolutePath}'...");
 
-				var abort = LoadSettings(uri);
+				var result = LoadSettings(uri);
 
-				if (abort)
+				if (result == OperationResult.Success && repository.CurrentSettings.ConfigurationMode == ConfigurationMode.ConfigureClient)
 				{
-					return OperationResult.Aborted;
+					var abort = IsConfigurationSufficient();
+
+					logger.Info($"The user chose to {(abort ? "abort" : "continue")} after successful client configuration.");
+
+					if (abort)
+					{
+						return OperationResult.Aborted;
+					}
 				}
+
+				LogOperationResult(result);
+
+				return result;
 			}
-			else
-			{
-				logger.Info("No valid settings file specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
-				repository.LoadDefaultSettings();
-			}
+
+			logger.Info("No valid settings resource specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
+			repository.LoadDefaultSettings();
 
 			return OperationResult.Success;
 		}
 
 		public OperationResult Repeat()
 		{
-			// TODO: How will the new settings be retrieved? Uri passed to the repository? If yes, how does the Uri get here?!
-			//		-> IDEA: Use configuration repository as container?
-			//		-> IDEA: Introduce IRepeatParams or alike?
+			logger.Info("Initializing new application configuration...");
+			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeConfiguration);
 
-			return OperationResult.Success;
+			var isValidUri = TryValidateSettingsUri(repository.ReconfigurationFilePath, out Uri uri);
+
+			if (isValidUri)
+			{
+				logger.Info($"Loading settings from '{uri.AbsolutePath}'...");
+
+				var result = LoadSettings(uri);
+
+				LogOperationResult(result);
+
+				return result;
+			}
+
+			logger.Warn($"The resource specified for reconfiguration does not exist or is not a file!");
+
+			return OperationResult.Failed;
 		}
 
 		public void Revert()
@@ -86,7 +109,79 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			// Nothing to do here...
 		}
 
-		private bool TryGetSettingsUri(out Uri uri)
+		private OperationResult LoadSettings(Uri uri)
+		{
+			var adminPassword = default(string);
+			var settingsPassword = default(string);
+			var status = default(LoadStatus);
+
+			for (int adminAttempts = 0, settingsAttempts = 0; adminAttempts < 5 && settingsAttempts < 5;)
+			{
+				status = repository.LoadSettings(uri, settingsPassword, adminPassword);
+
+				if (status == LoadStatus.InvalidData || status == LoadStatus.Success)
+				{
+					break;
+				}
+				else if (status == LoadStatus.AdminPasswordNeeded || status == LoadStatus.SettingsPasswordNeeded)
+				{
+					var isAdmin = status == LoadStatus.AdminPasswordNeeded;
+					var success = isAdmin ? TryGetAdminPassword(out adminPassword) : TryGetSettingsPassword(out settingsPassword);
+
+					if (success)
+					{
+						adminAttempts += isAdmin ? 1 : 0;
+						settingsAttempts += isAdmin ? 0 : 1;
+					}
+					else
+					{
+						return OperationResult.Aborted;
+					}
+				}
+			}
+
+			if (status == LoadStatus.InvalidData)
+			{
+				if (IsHtmlPage(uri))
+				{
+					repository.LoadDefaultSettings();
+					repository.CurrentSettings.Browser.StartUrl = uri.AbsoluteUri;
+					logger.Info($"The specified URI '{uri.AbsoluteUri}' appears to point to a HTML page, setting it as startup URL.");
+
+					return OperationResult.Success;
+				}
+
+				logger.Error($"The specified settings resource '{uri.AbsoluteUri}' is invalid!");
+			}
+
+			return status == LoadStatus.Success ? OperationResult.Success : OperationResult.Failed;
+		}
+
+		private bool IsHtmlPage(Uri uri)
+		{
+			// TODO
+			return false;
+		}
+
+		private bool TryGetAdminPassword(out string password)
+		{
+			password = default(string);
+
+			// TODO
+
+			return true;
+		}
+
+		private bool TryGetSettingsPassword(out string password)
+		{
+			password = default(string);
+
+			// TODO
+
+			return true;
+		}
+
+		private bool TryInitializeSettingsUri(out Uri uri)
 		{
 			var path = string.Empty;
 			var isValidUri = false;
@@ -119,19 +214,14 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			return isValidUri;
 		}
 
-		private bool LoadSettings(Uri uri)
+		private bool TryValidateSettingsUri(string path, out Uri uri)
 		{
-			var abort = false;
-			var settings = repository.LoadSettings(uri);
+			var isValidUri = Uri.TryCreate(path, UriKind.Absolute, out uri);
 
-			if (settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
-			{
-				abort = IsConfigurationSufficient();
+			isValidUri &= uri != null && uri.IsFile;
+			isValidUri &= File.Exists(path);
 
-				logger.Info($"The user chose to {(abort ? "abort" : "continue")} after successful client configuration.");
-			}
-
-			return abort;
+			return isValidUri;
 		}
 
 		private bool IsConfigurationSufficient()
@@ -141,6 +231,22 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			var abort = messageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question);
 
 			return abort == MessageBoxResult.Yes;
+		}
+
+		private void LogOperationResult(OperationResult result)
+		{
+			switch (result)
+			{
+				case OperationResult.Aborted:
+					logger.Info("The configuration was aborted by the user.");
+					break;
+				case OperationResult.Failed:
+					logger.Warn("The configuration has failed!");
+					break;
+				case OperationResult.Success:
+					logger.Info("The configuration was successful.");
+					break;
+			}
 		}
 	}
 }

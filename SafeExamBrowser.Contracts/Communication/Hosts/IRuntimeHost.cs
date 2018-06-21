@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Communication.Events;
 
 namespace SafeExamBrowser.Contracts.Communication.Hosts
 {
@@ -31,9 +32,9 @@ namespace SafeExamBrowser.Contracts.Communication.Hosts
 		event CommunicationEventHandler ClientReady;
 
 		/// <summary>
-		/// Event fired when the client detected a reconfiguration request.
+		/// Event fired when the client requested a reconfiguration of the application.
 		/// </summary>
-		event CommunicationEventHandler ReconfigurationRequested;
+		event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationRequested;
 
 		/// <summary>
 		/// Event fired when the client requests to shut down the application.

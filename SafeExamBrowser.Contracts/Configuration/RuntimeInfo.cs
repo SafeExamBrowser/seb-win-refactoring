@@ -12,6 +12,7 @@ namespace SafeExamBrowser.Contracts.Configuration
 {
 	/// <summary>
 	/// Defines the fundamental, global configuration information for all application components.
+	/// TODO: Rename to Globals or GlobalConfiguration or alike!
 	/// </summary>
 	[Serializable]
 	public class RuntimeInfo
@@ -57,9 +58,19 @@ namespace SafeExamBrowser.Contracts.Configuration
 		public string ClientLogFile { get; set; }
 
 		/// <summary>
+		/// The file extension of configuration files for the application (including the period).
+		/// </summary>
+		public string ConfigurationFileExtension { get; set; }
+
+		/// <summary>
 		/// The default file name for application settings.
 		/// </summary>
 		public string DefaultSettingsFileName { get; set; }
+
+		/// <summary>
+		/// The default directory for file downloads.
+		/// </summary>
+		public string DownloadDirectory { get; set; }
 
 		/// <summary>
 		/// The copyright information for the application (i.e. the executing assembly).

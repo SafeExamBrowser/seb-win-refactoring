@@ -17,13 +17,13 @@ namespace SafeExamBrowser.Contracts.Communication.Data
 	public class ReconfigurationMessage : Message
 	{
 		/// <summary>
-		/// The locator of the new configuration to be used.
+		/// The full path of the configuration file to be used.
 		/// </summary>
-		public string ConfigurationUrl { get; private set; }
+		public string ConfigurationPath { get; private set; }
 
-		public ReconfigurationMessage(string url)
+		public ReconfigurationMessage(string path)
 		{
-			ConfigurationUrl = url;
+			ConfigurationPath = path;
 		}
 	}
 }

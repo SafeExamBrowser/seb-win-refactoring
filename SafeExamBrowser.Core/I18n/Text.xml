@@ -18,6 +18,12 @@
   <Entry key="MessageBox_ClientConfigurationQuestionTitle">
     Configuration Successful
   </Entry>
+  <Entry key="MessageBox_ConfigurationDownloadError">
+    Failed to download the new application configuration. Please try again or contact technical support.
+  </Entry>
+  <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
+    Download Error
+  </Entry>
   <Entry key="MessageBox_Quit">
     Would you really like to quit the application?
   </Entry>

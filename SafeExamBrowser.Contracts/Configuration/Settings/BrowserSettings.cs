@@ -32,6 +32,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public bool AllowDeveloperConsole { get; set; }
 
 		/// <summary>
+		/// Determines whether the user should be allowed to download files.
+		/// </summary>
+		public bool AllowDownloads { get; set; }
+
+		/// <summary>
 		/// Determines whether the user should be allowed to navigate forwards in a browser window.
 		/// </summary>
 		public bool AllowForwardNavigation { get; set; }

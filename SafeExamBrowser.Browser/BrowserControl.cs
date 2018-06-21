@@ -24,8 +24,6 @@ namespace SafeExamBrowser.Browser
 		private LoadingStateChangedEventHandler loadingStateChanged;
 		private TitleChangedEventHandler titleChanged;
 
-		internal event ConfigurationDetectedEventHandler ConfigurationDetected;
-
 		event AddressChangedEventHandler IBrowserControl.AddressChanged
 		{
 			add { addressChanged += value; }
@@ -48,8 +46,17 @@ namespace SafeExamBrowser.Browser
 		{
 			this.settings = settings;
 			this.text = text;
+		}
 
-			Initialize();
+		public void Initialize()
+		{
+			AddressChanged += (o, args) => addressChanged?.Invoke(args.Address);
+			LoadingStateChanged += (o, args) => loadingStateChanged?.Invoke(args.IsLoading);
+			TitleChanged += (o, args) => titleChanged?.Invoke(args.Title);
+
+			KeyboardHandler = new KeyboardHandler(settings);
+			MenuHandler = new ContextMenuHandler(settings, text);
+			RequestHandler = new RequestHandler();
 		}
 		
 		public void NavigateBackwards()
@@ -73,20 +80,6 @@ namespace SafeExamBrowser.Browser
 		public void Reload()
 		{
 			GetBrowser().Reload();
-		}
-
-		private void Initialize()
-		{
-			var requestHandler = new RequestHandler();
-
-			AddressChanged += (o, args) => addressChanged?.Invoke(args.Address);
-			LoadingStateChanged += (o, args) => loadingStateChanged?.Invoke(args.IsLoading);
-			TitleChanged += (o, args) => titleChanged?.Invoke(args.Title);
-			requestHandler.ConfigurationDetected += (url, args) => ConfigurationDetected?.Invoke(url, args);
-
-			KeyboardHandler = new KeyboardHandler(settings);
-			MenuHandler = new ContextMenuHandler(settings, text);
-			RequestHandler = requestHandler;
 		}
 	}
 }

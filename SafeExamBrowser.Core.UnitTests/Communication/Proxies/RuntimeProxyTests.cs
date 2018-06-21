@@ -96,47 +96,56 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		[TestMethod]
 		public void MustCorrectlyRequestReconfiguration()
 		{
-			var url = "sebs://some/url.seb";
-			var response = new ReconfigurationResponse
-			{
-				Accepted = true
-			};
+			//var url = "sebs://some/url.seb";
+			//var response = new ReconfigurationResponse
+			//{
+			//	Accepted = true
+			//};
 
-			proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationUrl == url))).Returns(response);
+			//proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationUrl == url))).Returns(response);
 
-			var accepted = sut.RequestReconfiguration(url);
+			//var accepted = sut.RequestReconfiguration(url);
 
-			proxy.Verify(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationUrl == url)), Times.Once);
+			//proxy.Verify(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationUrl == url)), Times.Once);
 
-			Assert.IsTrue(accepted);
+			//Assert.IsTrue(accepted);
+
+			// TODO
+			Assert.Fail();
 		}
 
 		[TestMethod]
 		public void MustCorrectlyHandleDeniedReconfigurationRequest()
 		{
-			var url = "sebs://some/url.seb";
-			var response = new ReconfigurationResponse
-			{
-				Accepted = false
-			};
+			//var url = "sebs://some/url.seb";
+			//var response = new ReconfigurationResponse
+			//{
+			//	Accepted = false
+			//};
 
-			proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationUrl == url))).Returns(response);
+			//proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationUrl == url))).Returns(response);
 
-			var accepted = sut.RequestReconfiguration(url);
+			//var accepted = sut.RequestReconfiguration(url);
 
-			Assert.IsFalse(accepted);
+			//Assert.IsFalse(accepted);
+
+			// TODO
+			Assert.Fail();
 		}
 
 		[TestMethod]
 		public void MustNotFailIfIncorrectResponseToReconfigurationRequest()
 		{
-			var url = "sebs://some/url.seb";
+			//var url = "sebs://some/url.seb";
 
-			proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationUrl == url))).Returns<Response>(null);
+			//proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationUrl == url))).Returns<Response>(null);
 
-			var accepted = sut.RequestReconfiguration(url);
+			//var accepted = sut.RequestReconfiguration(url);
 
-			Assert.IsFalse(accepted);
+			//Assert.IsFalse(accepted);
+
+			// TODO
+			Assert.Fail();
 		}
 
 		[TestMethod]

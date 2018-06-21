@@ -8,12 +8,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using CefSharp;
 using SafeExamBrowser.Browser.Handlers;
-using SafeExamBrowser.Contracts.Behaviour;
-using SafeExamBrowser.Contracts.Communication.Proxies;
+using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -24,30 +22,30 @@ using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.Browser
 
 namespace SafeExamBrowser.Browser
 {
-	public class BrowserApplicationController : IApplicationController
+	public class BrowserApplicationController : IBrowserApplicationController
 	{
 		private IApplicationButton button;
-		private IList<IApplicationInstance> instances = new List<IApplicationInstance>();
-		private BrowserSettings settings;
+		private IList<IApplicationInstance> instances;
 		private ILogger logger;
 		private IMessageBox messageBox;
-		private IRuntimeProxy runtime;
 		private RuntimeInfo runtimeInfo;
-		private IUserInterfaceFactory uiFactory;
+		private BrowserSettings settings;
 		private IText text;
+		private IUserInterfaceFactory uiFactory;
+
+		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 
 		public BrowserApplicationController(
 			BrowserSettings settings,
 			RuntimeInfo runtimeInfo,
 			ILogger logger,
 			IMessageBox messageBox,
-			IRuntimeProxy runtime,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
+			this.instances = new List<IApplicationInstance>();
 			this.logger = logger;
 			this.messageBox = messageBox;
-			this.runtime = runtime;
 			this.runtimeInfo = runtimeInfo;
 			this.settings = settings;
 			this.text = text;
@@ -84,15 +82,14 @@ namespace SafeExamBrowser.Browser
 
 		private void CreateNewInstance()
 		{
-			var instance = new BrowserApplicationInstance(settings, text, uiFactory, instances.Count == 0);
+			var instance = new BrowserApplicationInstance(settings, runtimeInfo, text, uiFactory, instances.Count == 0);
 
 			instance.Initialize();
-			instance.ConfigurationDetected += Instance_ConfigurationDetected;
+			instance.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
 			instance.Terminated += Instance_Terminated;
 
 			button.RegisterInstance(instance);
 			instances.Add(instance);
-
 			instance.Window.Show();
 		}
 
@@ -122,36 +119,6 @@ namespace SafeExamBrowser.Browser
 			{
 				CreateNewInstance();
 			}
-		}
-
-		private void Instance_ConfigurationDetected(string url, CancelEventArgs args)
-		{
-			var result = messageBox.Show(TextKey.MessageBox_ReconfigurationQuestion, TextKey.MessageBox_ReconfigurationQuestionTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
-			var reconfigure = result == MessageBoxResult.Yes;
-			var allowed = false;
-
-			logger.Info($"Detected configuration request for '{url}'. The user chose to {(reconfigure ? "start" : "abort")} the reconfiguration.");
-
-			if (reconfigure)
-			{
-				try
-				{
-					allowed = runtime.RequestReconfiguration(url);
-					logger.Info($"The runtime {(allowed ? "accepted" : "denied")} the reconfiguration request.");
-
-					if (!allowed)
-					{
-						messageBox.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle);
-					}
-				}
-				catch (Exception e)
-				{
-					logger.Error("Failed to communicate the reconfiguration request to the runtime!", e);
-					messageBox.Show(TextKey.MessageBox_ReconfigurationError, TextKey.MessageBox_ReconfigurationErrorTitle, icon: MessageBoxIcon.Error);
-				}
-			}
-
-			args.Cancel = !allowed;
 		}
 
 		private void Instance_Terminated(Guid id)

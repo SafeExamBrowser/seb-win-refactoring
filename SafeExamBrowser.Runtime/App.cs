@@ -75,6 +75,9 @@ namespace SafeExamBrowser.Runtime
 				instances.RuntimeController.Terminate();
 				instances.LogShutdownInformation();
 
+				// TODO: Which UI operation is being cancelled without the timeout? Same problem with client? -> Debug!
+				Thread.Sleep(20);
+
 				base.Shutdown();
 			}
 

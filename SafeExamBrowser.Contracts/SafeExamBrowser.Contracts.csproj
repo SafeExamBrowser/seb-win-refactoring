@@ -45,7 +45,6 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -57,6 +56,13 @@
     <Compile Include="Behaviour\IRuntimeController.cs" />
     <Compile Include="Behaviour\OperationModel\IOperationSequence.cs" />
     <Compile Include="Behaviour\OperationModel\OperationResult.cs" />
+    <Compile Include="Browser\DownloadEventArgs.cs" />
+    <Compile Include="Browser\DownloadFinishedCallback.cs" />
+    <Compile Include="Browser\DownloadRequestedEventHandler.cs" />
+    <Compile Include="Browser\IBrowserApplicationController.cs" />
+    <Compile Include="Communication\Events\CommunicationEventArgs.cs" />
+    <Compile Include="Communication\Events\CommunicationEventHandler.cs" />
+    <Compile Include="Communication\Events\ReconfigurationEventArgs.cs" />
     <Compile Include="Communication\Hosts\IClientHost.cs" />
     <Compile Include="Communication\Hosts\IHostObject.cs" />
     <Compile Include="Communication\Hosts\IHostObjectFactory.cs" />
@@ -84,6 +90,7 @@
     <Compile Include="Communication\Data\SimpleResponsePurport.cs" />
     <Compile Include="Communication\Data\SimpleResponse.cs" />
     <Compile Include="Configuration\ClientConfiguration.cs" />
+    <Compile Include="Configuration\LoadStatus.cs" />
     <Compile Include="Configuration\RuntimeInfo.cs" />
     <Compile Include="Configuration\ISessionData.cs" />
     <Compile Include="Configuration\Settings\ConfigurationMode.cs" />

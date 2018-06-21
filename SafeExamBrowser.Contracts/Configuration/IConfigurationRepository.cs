@@ -28,9 +28,9 @@ namespace SafeExamBrowser.Contracts.Configuration
 		Settings.Settings CurrentSettings { get; }
 
 		/// <summary>
-		/// The locator of the configuration to be used when reconfiguring the application.
+		/// The path of the settings file to be used when reconfiguring the application.
 		/// </summary>
-		string ReconfigurationUrl { get; set; }
+		string ReconfigurationFilePath { get; set; }
 
 		/// <summary>
 		/// The runtime information for the currently running application instance.
@@ -48,14 +48,14 @@ namespace SafeExamBrowser.Contracts.Configuration
 		void InitializeSessionConfiguration();
 
 		/// <summary>
-		/// Attempts to load settings from the specified path.
+		/// Attempts to load settings from the specified resource, using the optional passwords. Returns a <see cref="LoadStatus"/>
+		/// indicating the result of the operation.
 		/// </summary>
-		/// <exception cref="ArgumentException">Thrown if the given path cannot be resolved to a settings file.</exception>
-		Settings.Settings LoadSettings(Uri path);
+		LoadStatus LoadSettings(Uri resource, string settingsPassword = null, string adminPassword = null);
 
 		/// <summary>
 		/// Loads the default settings.
 		/// </summary>
-		Settings.Settings LoadDefaultSettings();
+		void LoadDefaultSettings();
 	}
 }

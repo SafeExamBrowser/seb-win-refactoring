@@ -17,6 +17,7 @@ using SafeExamBrowser.Client.Notifications;
 using SafeExamBrowser.Configuration;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Behaviour.OperationModel;
+using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
@@ -47,6 +48,7 @@ namespace SafeExamBrowser.Client
 		private string runtimeHostUri;
 		private Guid startupToken;
 
+		private IBrowserApplicationController browserController;
 		private ClientConfiguration configuration;
 		private IClientHost clientHost;
 		private ILogger logger;
@@ -88,7 +90,6 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new RuntimeConnectionOperation(logger, runtimeProxy, startupToken));
 			operations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeProxy));
 			operations.Enqueue(new DelayedInitializationOperation(BuildCommunicationHostOperation));
-			operations.Enqueue(new DelegateOperation(UpdateClientControllerDependencies));
 			// TODO
 			//operations.Enqueue(new DelayedInitializationOperation(BuildKeyboardInterceptorOperation));
 			//operations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
@@ -98,6 +99,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new DelayedInitializationOperation(BuildBrowserOperation));
 			operations.Enqueue(new ClipboardOperation(logger, nativeMethods));
 			//operations.Enqueue(new DelayedInitializationOperation(BuildMouseInterceptorOperation));
+			operations.Enqueue(new DelegateOperation(UpdateClientControllerDependencies));
 
 			var sequence = new OperationSequence(logger, operations);
 
@@ -150,9 +152,11 @@ namespace SafeExamBrowser.Client
 		private IOperation BuildBrowserOperation()
 		{
 			var moduleLogger = new ModuleLogger(logger, typeof(BrowserApplicationController));
-			var browserController = new BrowserApplicationController(configuration.Settings.Browser, configuration.RuntimeInfo, moduleLogger, messageBox, runtimeProxy, text, uiFactory);
+			var browserController = new BrowserApplicationController(configuration.Settings.Browser, configuration.RuntimeInfo, moduleLogger, messageBox, text, uiFactory);
 			var browserInfo = new BrowserApplicationInfo();
 			var operation = new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory);
+
+			this.browserController = browserController;
 
 			return operation;
 		}
@@ -200,6 +204,7 @@ namespace SafeExamBrowser.Client
 
 		private void UpdateClientControllerDependencies()
 		{
+			ClientController.Browser = browserController;
 			ClientController.ClientHost = clientHost;
 			ClientController.RuntimeInfo = configuration.RuntimeInfo;
 			ClientController.SessionId = configuration.SessionId;

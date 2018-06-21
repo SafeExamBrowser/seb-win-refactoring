@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Communication.Events;
 
 namespace SafeExamBrowser.Contracts.Communication
 {
