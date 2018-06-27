@@ -84,6 +84,18 @@
   <Entry key="Notification_LogTooltip">
     Application Log
   </Entry>
+  <Entry key="PasswordDialog_AdminPasswordRequired">
+    Please enter the administrator password for the application configuration:
+  </Entry>
+  <Entry key="PasswordDialog_AdminPasswordRequiredTitle">
+    Administrator Password Required
+  </Entry>
+  <Entry key="PasswordDialog_SettingsPasswordRequired">
+    Please enter the settings password for the application configuration:
+  </Entry>
+  <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
+    Settings Password Required
+  </Entry>
   <Entry key="ProgressIndicator_CloseRuntimeConnection">
     Closing runtime connection
   </Entry>

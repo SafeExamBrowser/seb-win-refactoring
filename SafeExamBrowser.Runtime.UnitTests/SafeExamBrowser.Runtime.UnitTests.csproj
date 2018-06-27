@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Behaviour\Operations\ConfigurationOperationTests.cs" />
     <Compile Include="Behaviour\Operations\KioskModeOperationTests.cs" />
+    <Compile Include="Behaviour\Operations\PasswordDialogResultStub.cs" />
     <Compile Include="Behaviour\Operations\ServiceOperationTests.cs" />
     <Compile Include="Behaviour\Operations\ClientOperationTests.cs" />
     <Compile Include="Behaviour\Operations\ClientTerminationOperationTests.cs" />

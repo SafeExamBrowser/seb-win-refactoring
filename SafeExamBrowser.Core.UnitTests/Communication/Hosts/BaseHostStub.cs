@@ -14,14 +14,14 @@ using SafeExamBrowser.Core.Communication.Hosts;
 
 namespace SafeExamBrowser.Core.UnitTests.Communication.Hosts
 {
-	internal class BaseHostImpl : BaseHost
+	internal class BaseHostStub : BaseHost
 	{
 		public Func<Guid?, bool> OnConnectStub { get; set; }
 		public Action OnDisconnectStub { get; set; }
 		public Func<Message, Response> OnReceiveStub { get; set; }
 		public Func<SimpleMessagePurport, Response> OnReceiveSimpleMessageStub { get; set; }
 
-		public BaseHostImpl(string address, IHostObjectFactory factory, ILogger logger) : base(address, factory, logger)
+		public BaseHostStub(string address, IHostObjectFactory factory, ILogger logger) : base(address, factory, logger)
 		{
 		}
 

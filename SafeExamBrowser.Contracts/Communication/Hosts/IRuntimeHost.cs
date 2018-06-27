@@ -32,6 +32,11 @@ namespace SafeExamBrowser.Contracts.Communication.Hosts
 		event CommunicationEventHandler ClientReady;
 
 		/// <summary>
+		/// Event fired when the client transmitted a password entered by the user.
+		/// </summary>
+		event CommunicationEventHandler<PasswordEventArgs> PasswordReceived;
+
+		/// <summary>
 		/// Event fired when the client requested a reconfiguration of the application.
 		/// </summary>
 		event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationRequested;

@@ -44,6 +44,11 @@ namespace SafeExamBrowser.UserInterface.Classic
 			return new BrowserWindow(control, settings);
 		}
 
+		public ISystemKeyboardLayoutControl CreateKeyboardLayoutControl()
+		{
+			return new KeyboardLayoutControl();
+		}
+
 		public IWindow CreateLogWindow(ILogger logger)
 		{
 			LogWindow logWindow = null;
@@ -74,9 +79,9 @@ namespace SafeExamBrowser.UserInterface.Classic
 			return new NotificationButton(info);
 		}
 
-		public ISystemKeyboardLayoutControl CreateKeyboardLayoutControl()
+		public IPasswordDialog CreatePasswordDialog(string message, string title)
 		{
-			return new KeyboardLayoutControl();
+			throw new System.NotImplementedException();
 		}
 
 		public ISystemPowerSupplyControl CreatePowerSupplyControl()

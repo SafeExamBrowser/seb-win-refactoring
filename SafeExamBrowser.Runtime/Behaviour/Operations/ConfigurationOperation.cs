@@ -8,7 +8,11 @@
 
 using System;
 using System.IO;
+using System.Threading;
 using SafeExamBrowser.Contracts.Behaviour.OperationModel;
+using SafeExamBrowser.Contracts.Communication.Data;
+using SafeExamBrowser.Contracts.Communication.Events;
+using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
@@ -23,8 +27,10 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private IConfigurationRepository repository;
 		private ILogger logger;
 		private IMessageBox messageBox;
-		private IText text;
+		private IRuntimeHost runtimeHost;
 		private RuntimeInfo runtimeInfo;
+		private IText text;
+		private IUserInterfaceFactory uiFactory;
 		private string[] commandLineArgs;
 
 		public IProgressIndicator ProgressIndicator { private get; set; }
@@ -33,16 +39,20 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			IConfigurationRepository repository,
 			ILogger logger,
 			IMessageBox messageBox,
+			IRuntimeHost runtimeHost,
 			RuntimeInfo runtimeInfo,
 			IText text,
+			IUserInterfaceFactory uiFactory,
 			string[] commandLineArgs)
 		{
 			this.repository = repository;
 			this.logger = logger;
 			this.messageBox = messageBox;
 			this.commandLineArgs = commandLineArgs;
+			this.runtimeHost = runtimeHost;
 			this.runtimeInfo = runtimeInfo;
 			this.text = text;
+			this.uiFactory = uiFactory;
 		}
 
 		public OperationResult Perform()
@@ -54,22 +64,11 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 			if (isValidUri)
 			{
-				logger.Info($"Loading settings from '{uri.AbsolutePath}'...");
+				logger.Info($"Attempting to load settings from '{uri.AbsolutePath}'...");
 
 				var result = LoadSettings(uri);
 
-				if (result == OperationResult.Success && repository.CurrentSettings.ConfigurationMode == ConfigurationMode.ConfigureClient)
-				{
-					var abort = IsConfigurationSufficient();
-
-					logger.Info($"The user chose to {(abort ? "abort" : "continue")} after successful client configuration.");
-
-					if (abort)
-					{
-						return OperationResult.Aborted;
-					}
-				}
-
+				HandleClientConfiguration(ref result);
 				LogOperationResult(result);
 
 				return result;
@@ -90,7 +89,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 			if (isValidUri)
 			{
-				logger.Info($"Loading settings from '{uri.AbsolutePath}'...");
+				logger.Info($"Attempting to load settings from '{uri.AbsolutePath}'...");
 
 				var result = LoadSettings(uri);
 
@@ -117,19 +116,19 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 			for (int adminAttempts = 0, settingsAttempts = 0; adminAttempts < 5 && settingsAttempts < 5;)
 			{
-				status = repository.LoadSettings(uri, settingsPassword, adminPassword);
+				status = repository.LoadSettings(uri, adminPassword, settingsPassword);
 
 				if (status == LoadStatus.AdminPasswordNeeded || status == LoadStatus.SettingsPasswordNeeded)
 				{
-					var isAdmin = status == LoadStatus.AdminPasswordNeeded;
-					var success = isAdmin ? TryGetAdminPassword(out adminPassword) : TryGetSettingsPassword(out settingsPassword);
+					var purpose = status == LoadStatus.AdminPasswordNeeded ? PasswordRequestPurpose.Administrator : PasswordRequestPurpose.Settings;
+					var aborted = !TryGetPassword(purpose, out string password);
 
-					if (success)
-					{
-						adminAttempts += isAdmin ? 1 : 0;
-						settingsAttempts += isAdmin ? 0 : 1;
-					}
-					else
+					adminAttempts += purpose == PasswordRequestPurpose.Administrator ? 1 : 0;
+					adminPassword = purpose == PasswordRequestPurpose.Administrator ? password : adminPassword;
+					settingsAttempts += purpose == PasswordRequestPurpose.Settings ? 1 : 0;
+					settingsPassword = purpose == PasswordRequestPurpose.Settings ? password : settingsPassword;
+
+					if (aborted)
 					{
 						return OperationResult.Aborted;
 					}
@@ -142,43 +141,99 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 			if (status == LoadStatus.InvalidData)
 			{
-				if (IsHtmlPage(uri))
-				{
-					repository.LoadDefaultSettings();
-					repository.CurrentSettings.Browser.StartUrl = uri.AbsoluteUri;
-					logger.Info($"The specified URI '{uri.AbsoluteUri}' appears to point to a HTML page, setting it as startup URL.");
-
-					return OperationResult.Success;
-				}
-
-				logger.Error($"The specified settings resource '{uri.AbsoluteUri}' is invalid!");
+				HandleInvalidData(ref status, uri);
 			}
 
 			return status == LoadStatus.Success ? OperationResult.Success : OperationResult.Failed;
 		}
 
+		private bool TryGetPassword(PasswordRequestPurpose purpose, out string password)
+		{
+			var isStartup = repository.CurrentSession == null;
+			var isRunningOnDefaultDesktop = repository.CurrentSettings?.KioskMode == KioskMode.DisableExplorerShell;
+
+			if (isStartup || isRunningOnDefaultDesktop)
+			{
+				return TryGetPasswordViaDialog(purpose, out password);
+			}
+			else
+			{
+				return TryGetPasswordViaClient(purpose, out password);
+			}
+		}
+
+		private bool TryGetPasswordViaDialog(PasswordRequestPurpose purpose, out string password)
+		{
+			var isAdmin = purpose == PasswordRequestPurpose.Administrator;
+			var message = isAdmin ? TextKey.PasswordDialog_AdminPasswordRequired : TextKey.PasswordDialog_SettingsPasswordRequired;
+			var title = isAdmin ? TextKey.PasswordDialog_AdminPasswordRequiredTitle : TextKey.PasswordDialog_SettingsPasswordRequiredTitle;
+			var dialog = uiFactory.CreatePasswordDialog(text.Get(message), text.Get(title));
+			var result = dialog.Show();
+
+			if (result.Success)
+			{
+				password = result.Password;
+			}
+			else
+			{
+				password = default(string);
+			}
+
+			return result.Success;
+		}
+
+		private bool TryGetPasswordViaClient(PasswordRequestPurpose purpose, out string password)
+		{
+			var requestId = Guid.NewGuid();
+			var response = default(PasswordEventArgs);
+			var responseEvent = new AutoResetEvent(false);
+			var responseEventHandler = new CommunicationEventHandler<PasswordEventArgs>((args) =>
+			{
+				if (args.RequestId == requestId)
+				{
+					response = args;
+					responseEvent.Set();
+				}
+			});
+
+			runtimeHost.PasswordReceived += responseEventHandler;
+			repository.CurrentSession.ClientProxy.RequestPassword(purpose, requestId);
+			responseEvent.WaitOne();
+			runtimeHost.PasswordReceived -= responseEventHandler;
+
+			if (response.Success)
+			{
+				password = response.Password;
+			}
+			else
+			{
+				password = default(string);
+			}
+
+			return response.Success;
+		}
+
+		private void HandleInvalidData(ref LoadStatus status, Uri uri)
+		{
+			if (IsHtmlPage(uri))
+			{
+				repository.LoadDefaultSettings();
+				repository.CurrentSettings.Browser.StartUrl = uri.AbsoluteUri;
+				logger.Info($"The specified URI '{uri.AbsoluteUri}' appears to point to a HTML page, setting it as startup URL.");
+
+				status = LoadStatus.Success;
+			}
+			else
+			{
+				logger.Error($"The specified settings resource '{uri.AbsoluteUri}' is invalid!");
+			}
+		}
+
 		private bool IsHtmlPage(Uri uri)
 		{
 			// TODO
+
 			return false;
-		}
-
-		private bool TryGetAdminPassword(out string password)
-		{
-			password = default(string);
-
-			// TODO
-
-			return true;
-		}
-
-		private bool TryGetSettingsPassword(out string password)
-		{
-			password = default(string);
-
-			// TODO
-
-			return true;
 		}
 
 		private bool TryInitializeSettingsUri(out Uri uri)
@@ -222,6 +277,21 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			isValidUri &= File.Exists(path);
 
 			return isValidUri;
+		}
+
+		private void HandleClientConfiguration(ref OperationResult result)
+		{
+			if (result == OperationResult.Success && repository.CurrentSettings.ConfigurationMode == ConfigurationMode.ConfigureClient)
+			{
+				var abort = IsConfigurationSufficient();
+
+				logger.Info($"The user chose to {(abort ? "abort" : "continue")} after successful client configuration.");
+
+				if (abort)
+				{
+					result = OperationResult.Aborted;
+				}
+			}
 		}
 
 		private bool IsConfigurationSufficient()

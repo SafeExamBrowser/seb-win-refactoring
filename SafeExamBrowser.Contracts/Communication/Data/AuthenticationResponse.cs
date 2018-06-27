@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
-	/// The response to be used to reply to an authentication request (see <see cref="Messages.SimpleMessagePurport.Authenticate"/>).
+	/// The response to be used to reply to an authentication request (see <see cref="SimpleMessagePurport.Authenticate"/>).
 	/// </summary>
 	[Serializable]
 	public class AuthenticationResponse : Response

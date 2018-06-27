@@ -6,20 +6,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using SafeExamBrowser.Contracts.Configuration;
-
 namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
-	/// The response to be used to reply to a configuration request (see <see cref="SimpleMessagePurport.ConfigurationNeeded"/>).
+	/// Defines all possible reasons for a <see cref="PasswordRequestMessage"/>.
 	/// </summary>
-	[Serializable]
-	public class ConfigurationResponse : Response
+	public enum PasswordRequestPurpose
 	{
+		Undefined = 0,
+
 		/// <summary>
-		/// The configuration to be used by the client.
+		/// The password is to be used as administrator password for an application configuration.
 		/// </summary>
-		public ClientConfiguration Configuration { get; set; }
+		Administrator,
+
+		/// <summary>
+		/// The password is to be used as settings password for an application configuration.
+		/// </summary>
+		Settings
 	}
 }

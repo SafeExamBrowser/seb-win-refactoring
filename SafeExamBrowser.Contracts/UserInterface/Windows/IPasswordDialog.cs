@@ -6,19 +6,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-
-namespace SafeExamBrowser.Contracts.Communication.Data
+namespace SafeExamBrowser.Contracts.UserInterface.Windows
 {
 	/// <summary>
-	/// The response to a <see cref="ReconfigurationMessage"/>.
+	/// Defines the functionality of a password dialog.
 	/// </summary>
-	[Serializable]
-	public class ReconfigurationResponse : Response
+	public interface IPasswordDialog : IWindow
 	{
 		/// <summary>
-		/// Indicates whether the reconfiguration request has been accepted.
+		/// Shows the dialog as topmost window. If a parent window is specified, the dialog is rendered modally for the given parent.
 		/// </summary>
-		public bool Accepted { get; set; }
+		IPasswordDialogResult Show(IWindow parent = null);
 	}
 }

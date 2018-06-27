@@ -51,7 +51,7 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// Attempts to load settings from the specified resource, using the optional passwords. Returns a <see cref="LoadStatus"/>
 		/// indicating the result of the operation.
 		/// </summary>
-		LoadStatus LoadSettings(Uri resource, string settingsPassword = null, string adminPassword = null);
+		LoadStatus LoadSettings(Uri resource, string adminPassword = null, string settingsPassword = null);
 
 		/// <summary>
 		/// Loads the default settings.

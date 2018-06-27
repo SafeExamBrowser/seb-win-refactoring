@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Hosts
 		private Mock<IHostObject> hostObject;
 		private Mock<IHostObjectFactory> hostObjectFactory;
 		private Mock<ILogger> logger;
-		private BaseHostImpl sut;
+		private BaseHostStub sut;
 
 		[TestInitialize]
 		public void Initialize()
@@ -35,7 +35,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Hosts
 
 			hostObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>(), It.IsAny<ICommunication>())).Returns(hostObject.Object);
 
-			sut = new BaseHostImpl("net.pipe://some/address/here", hostObjectFactory.Object, logger.Object);
+			sut = new BaseHostStub("net.pipe://some/address/here", hostObjectFactory.Object, logger.Object);
 		}
 
 		[TestMethod]

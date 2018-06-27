@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
-	/// The response transmitted to a <see cref="Messages.DisconnectionMessage"/>
+	/// The response transmitted to a <see cref="DisconnectionMessage"/>
 	/// </summary>
 	[Serializable]
 	public class DisconnectionResponse : Response

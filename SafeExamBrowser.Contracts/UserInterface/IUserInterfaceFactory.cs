@@ -38,6 +38,11 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings);
 
 		/// <summary>
+		/// Creates a system control which allows to change the keyboard layout of the computer.
+		/// </summary>
+		ISystemKeyboardLayoutControl CreateKeyboardLayoutControl();
+
+		/// <summary>
 		/// Creates a new log window which runs on its own thread.
 		/// </summary>
 		IWindow CreateLogWindow(ILogger logger);
@@ -48,9 +53,9 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		INotificationButton CreateNotification(INotificationInfo info);
 
 		/// <summary>
-		/// Creates a system control which allows to change the keyboard layout of the computer.
+		/// Creates a password dialog with the given message and title.
 		/// </summary>
-		ISystemKeyboardLayoutControl CreateKeyboardLayoutControl();
+		IPasswordDialog CreatePasswordDialog(string message, string title);
 
 		/// <summary>
 		/// Creates a system control displaying the power supply status of the computer.

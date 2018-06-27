@@ -60,8 +60,12 @@
     <Compile Include="Browser\DownloadFinishedCallback.cs" />
     <Compile Include="Browser\DownloadRequestedEventHandler.cs" />
     <Compile Include="Browser\IBrowserApplicationController.cs" />
+    <Compile Include="Communication\Data\PasswordRequestMessage.cs" />
+    <Compile Include="Communication\Data\PasswordRequestPurpose.cs" />
+    <Compile Include="Communication\Data\PasswordReplyMessage.cs" />
     <Compile Include="Communication\Events\CommunicationEventArgs.cs" />
     <Compile Include="Communication\Events\CommunicationEventHandler.cs" />
+    <Compile Include="Communication\Events\PasswordEventArgs.cs" />
     <Compile Include="Communication\Events\ReconfigurationEventArgs.cs" />
     <Compile Include="Communication\Hosts\IClientHost.cs" />
     <Compile Include="Communication\Hosts\IHostObject.cs" />
@@ -139,6 +143,8 @@
     <Compile Include="UserInterface\MessageBox\IMessageBox.cs" />
     <Compile Include="UserInterface\IProgressIndicator.cs" />
     <Compile Include="UserInterface\Taskbar\QuitButtonClickedEventHandler.cs" />
+    <Compile Include="UserInterface\Windows\IPasswordDialog.cs" />
+    <Compile Include="UserInterface\Windows\IPasswordDialogResult.cs" />
     <Compile Include="UserInterface\Windows\IRuntimeWindow.cs" />
     <Compile Include="UserInterface\MessageBox\MessageBoxResult.cs" />
     <Compile Include="UserInterface\Taskbar\INotificationButton.cs" />

@@ -63,7 +63,7 @@ namespace SafeExamBrowser.Runtime
 			bootstrapOperations.Enqueue(new I18nOperation(logger, text));
 			bootstrapOperations.Enqueue(new CommunicationOperation(runtimeHost, logger));
 
-			sessionOperations.Enqueue(new ConfigurationOperation(configuration, logger, messageBox, runtimeInfo, text, args));
+			sessionOperations.Enqueue(new ConfigurationOperation(configuration, logger, messageBox, runtimeHost, runtimeInfo, text, uiFactory, args));
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost));
 			sessionOperations.Enqueue(new ServiceOperation(configuration, logger, serviceProxy, text));
 			sessionOperations.Enqueue(new ClientTerminationOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, TEN_SECONDS));

@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.ServiceModel;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
@@ -42,6 +43,12 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 			}
 
 			throw new CommunicationException($"Did not receive authentication response! Received: {ToString(response)}.");
+		}
+
+		public void RequestPassword(PasswordRequestPurpose purpose, Guid requestId)
+		{
+			// TODO
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Contracts.Communication.Data;
 
 namespace SafeExamBrowser.Contracts.Communication.Proxies
@@ -26,5 +27,11 @@ namespace SafeExamBrowser.Contracts.Communication.Proxies
 		/// </summary>
 		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
 		AuthenticationResponse RequestAuthentication();
+
+		/// <summary>
+		/// Requests the client to render a password dialog and subsequently return the interaction result as separate message.
+		/// </summary>
+		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
+		void RequestPassword(PasswordRequestPurpose purpose, Guid requestId);
 	}
 }

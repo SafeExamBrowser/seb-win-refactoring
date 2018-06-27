@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
-	/// The base class for respones, from which a response must inherit in order to be sent to an interlocutor as reply to <see cref="ICommunication.Send(Messages.Message)"/>.
+	/// The base class for respones, from which a response must inherit in order to be sent to an interlocutor as reply to <see cref="ICommunication.Send(Message)"/>.
 	/// </summary>
 	[Serializable]
 	public abstract class Response
