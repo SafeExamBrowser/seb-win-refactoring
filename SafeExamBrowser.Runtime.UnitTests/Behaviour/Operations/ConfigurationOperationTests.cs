@@ -337,7 +337,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			var clientProxy = new Mock<IClientProxy>();
 			var passwordReceived = new Action<PasswordRequestPurpose, Guid>((p, id) =>
 			{
-				runtimeHost.Raise(r => r.PasswordReceived += null, new PasswordEventArgs { RequestId = id });
+				runtimeHost.Raise(r => r.PasswordReceived += null, new PasswordEventArgs { RequestId = id, Success = true });
 			});
 			var session = new Mock<ISessionData>();
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
