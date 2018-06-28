@@ -27,6 +27,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private IConfigurationRepository repository;
 		private ILogger logger;
 		private IMessageBox messageBox;
+		private IResourceLoader resourceLoader;
 		private IRuntimeHost runtimeHost;
 		private RuntimeInfo runtimeInfo;
 		private IText text;
@@ -39,6 +40,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			IConfigurationRepository repository,
 			ILogger logger,
 			IMessageBox messageBox,
+			IResourceLoader resourceLoader,
 			IRuntimeHost runtimeHost,
 			RuntimeInfo runtimeInfo,
 			IText text,
@@ -48,11 +50,12 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			this.repository = repository;
 			this.logger = logger;
 			this.messageBox = messageBox;
-			this.commandLineArgs = commandLineArgs;
+			this.resourceLoader = resourceLoader;
 			this.runtimeHost = runtimeHost;
 			this.runtimeInfo = runtimeInfo;
 			this.text = text;
 			this.uiFactory = uiFactory;
+			this.commandLineArgs = commandLineArgs;
 		}
 
 		public OperationResult Perform()
@@ -215,11 +218,11 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 		private void HandleInvalidData(ref LoadStatus status, Uri uri)
 		{
-			if (IsHtmlPage(uri))
+			if (resourceLoader.IsHtmlResource(uri))
 			{
 				repository.LoadDefaultSettings();
 				repository.CurrentSettings.Browser.StartUrl = uri.AbsoluteUri;
-				logger.Info($"The specified URI '{uri.AbsoluteUri}' appears to point to a HTML page, setting it as startup URL.");
+				logger.Info($"The specified URI '{uri.AbsoluteUri}' appears to point to a HTML resource, setting it as startup URL.");
 
 				status = LoadStatus.Success;
 			}
@@ -227,13 +230,6 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			{
 				logger.Error($"The specified settings resource '{uri.AbsoluteUri}' is invalid!");
 			}
-		}
-
-		private bool IsHtmlPage(Uri uri)
-		{
-			// TODO
-
-			return false;
 		}
 
 		private bool TryInitializeSettingsUri(out Uri uri)

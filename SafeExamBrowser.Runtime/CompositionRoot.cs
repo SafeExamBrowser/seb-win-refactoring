@@ -54,6 +54,7 @@ namespace SafeExamBrowser.Runtime
 			var desktop = new Desktop(new ModuleLogger(logger, typeof(Desktop)));
 			var processFactory = new ProcessFactory(desktop, new ModuleLogger(logger, typeof(ProcessFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), logger);
+			var resourceLoader = new ResourceLoader();
 			var runtimeHost = new RuntimeHost(runtimeInfo.RuntimeAddress, configuration, new HostObjectFactory(), new ModuleLogger(logger, typeof(RuntimeHost)));
 			var serviceProxy = new ServiceProxy(runtimeInfo.ServiceAddress, new ProxyObjectFactory(), new ModuleLogger(logger, typeof(ServiceProxy)));
 
@@ -63,7 +64,7 @@ namespace SafeExamBrowser.Runtime
 			bootstrapOperations.Enqueue(new I18nOperation(logger, text));
 			bootstrapOperations.Enqueue(new CommunicationOperation(runtimeHost, logger));
 
-			sessionOperations.Enqueue(new ConfigurationOperation(configuration, logger, messageBox, runtimeHost, runtimeInfo, text, uiFactory, args));
+			sessionOperations.Enqueue(new ConfigurationOperation(configuration, logger, messageBox, resourceLoader, runtimeHost, runtimeInfo, text, uiFactory, args));
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost));
 			sessionOperations.Enqueue(new ServiceOperation(configuration, logger, serviceProxy, text));
 			sessionOperations.Enqueue(new ClientTerminationOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, TEN_SECONDS));

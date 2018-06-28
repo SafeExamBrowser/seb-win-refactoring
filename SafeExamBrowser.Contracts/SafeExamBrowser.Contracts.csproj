@@ -94,6 +94,7 @@
     <Compile Include="Communication\Data\SimpleResponsePurport.cs" />
     <Compile Include="Communication\Data\SimpleResponse.cs" />
     <Compile Include="Configuration\ClientConfiguration.cs" />
+    <Compile Include="Configuration\IResourceLoader.cs" />
     <Compile Include="Configuration\LoadStatus.cs" />
     <Compile Include="Configuration\RuntimeInfo.cs" />
     <Compile Include="Configuration\ISessionData.cs" />
