@@ -24,12 +24,12 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 {
 	internal class ConfigurationOperation : IOperation
 	{
-		private IConfigurationRepository repository;
+		private IConfigurationRepository configuration;
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private IResourceLoader resourceLoader;
 		private IRuntimeHost runtimeHost;
-		private RuntimeInfo runtimeInfo;
+		private AppConfig appConfig;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		private string[] commandLineArgs;
@@ -37,22 +37,22 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
 		public ConfigurationOperation(
-			IConfigurationRepository repository,
+			AppConfig appConfig,
+			IConfigurationRepository configuration,
 			ILogger logger,
 			IMessageBox messageBox,
 			IResourceLoader resourceLoader,
 			IRuntimeHost runtimeHost,
-			RuntimeInfo runtimeInfo,
 			IText text,
 			IUserInterfaceFactory uiFactory,
 			string[] commandLineArgs)
 		{
-			this.repository = repository;
+			this.appConfig = appConfig;
 			this.logger = logger;
 			this.messageBox = messageBox;
+			this.configuration = configuration;
 			this.resourceLoader = resourceLoader;
 			this.runtimeHost = runtimeHost;
-			this.runtimeInfo = runtimeInfo;
 			this.text = text;
 			this.uiFactory = uiFactory;
 			this.commandLineArgs = commandLineArgs;
@@ -78,7 +78,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			}
 
 			logger.Info("No valid settings resource specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
-			repository.LoadDefaultSettings();
+			configuration.LoadDefaultSettings();
 
 			return OperationResult.Success;
 		}
@@ -88,7 +88,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			logger.Info("Initializing new application configuration...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeConfiguration);
 
-			var isValidUri = TryValidateSettingsUri(repository.ReconfigurationFilePath, out Uri uri);
+			var isValidUri = TryValidateSettingsUri(configuration.ReconfigurationFilePath, out Uri uri);
 
 			if (isValidUri)
 			{
@@ -119,7 +119,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 			for (int adminAttempts = 0, settingsAttempts = 0; adminAttempts < 5 && settingsAttempts < 5;)
 			{
-				status = repository.LoadSettings(uri, adminPassword, settingsPassword);
+				status = configuration.LoadSettings(uri, adminPassword, settingsPassword);
 
 				if (status == LoadStatus.AdminPasswordNeeded || status == LoadStatus.SettingsPasswordNeeded)
 				{
@@ -152,8 +152,8 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 		private bool TryGetPassword(PasswordRequestPurpose purpose, out string password)
 		{
-			var isStartup = repository.CurrentSession == null;
-			var isRunningOnDefaultDesktop = repository.CurrentSettings?.KioskMode == KioskMode.DisableExplorerShell;
+			var isStartup = configuration.CurrentSession == null;
+			var isRunningOnDefaultDesktop = configuration.CurrentSettings?.KioskMode == KioskMode.DisableExplorerShell;
 
 			if (isStartup || isRunningOnDefaultDesktop)
 			{
@@ -200,7 +200,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			});
 
 			runtimeHost.PasswordReceived += responseEventHandler;
-			repository.CurrentSession.ClientProxy.RequestPassword(purpose, requestId);
+			configuration.CurrentSession.ClientProxy.RequestPassword(purpose, requestId);
 			responseEvent.WaitOne();
 			runtimeHost.PasswordReceived -= responseEventHandler;
 
@@ -220,8 +220,8 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		{
 			if (resourceLoader.IsHtmlResource(uri))
 			{
-				repository.LoadDefaultSettings();
-				repository.CurrentSettings.Browser.StartUrl = uri.AbsoluteUri;
+				configuration.LoadDefaultSettings();
+				configuration.CurrentSettings.Browser.StartUrl = uri.AbsoluteUri;
 				logger.Info($"The specified URI '{uri.AbsoluteUri}' appears to point to a HTML resource, setting it as startup URL.");
 
 				status = LoadStatus.Success;
@@ -236,8 +236,8 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		{
 			var path = string.Empty;
 			var isValidUri = false;
-			var programDataSettings = Path.Combine(runtimeInfo.ProgramDataFolder, runtimeInfo.DefaultSettingsFileName);
-			var appDataSettings = Path.Combine(runtimeInfo.AppDataFolder, runtimeInfo.DefaultSettingsFileName);
+			var programDataSettings = Path.Combine(appConfig.ProgramDataFolder, appConfig.DefaultSettingsFileName);
+			var appDataSettings = Path.Combine(appConfig.AppDataFolder, appConfig.DefaultSettingsFileName);
 
 			uri = null;
 
@@ -277,7 +277,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 		private void HandleClientConfiguration(ref OperationResult result)
 		{
-			if (result == OperationResult.Success && repository.CurrentSettings.ConfigurationMode == ConfigurationMode.ConfigureClient)
+			if (result == OperationResult.Success && configuration.CurrentSettings.ConfigurationMode == ConfigurationMode.ConfigureClient)
 			{
 				var abort = IsConfigurationSufficient();
 

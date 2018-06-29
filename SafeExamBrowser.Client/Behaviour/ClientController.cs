@@ -39,22 +39,22 @@ namespace SafeExamBrowser.Client.Behaviour
 		private ITaskbar taskbar;
 		private IUserInterfaceFactory uiFactory;
 		private IWindowMonitor windowMonitor;
-		private RuntimeInfo runtimeInfo;
+		private AppConfig appConfig;
 
 		public IBrowserApplicationController Browser { private get; set; }
 		public IClientHost ClientHost { private get; set; }
 		public Guid SessionId { private get; set; }
 		public Settings Settings { private get; set; }
 
-		public RuntimeInfo RuntimeInfo
+		public AppConfig AppConfig
 		{
 			set
 			{
-				runtimeInfo = value;
+				appConfig = value;
 
 				if (splashScreen != null)
 				{
-					splashScreen.RuntimeInfo = value;
+					splashScreen.AppConfig = value;
 				}
 			}
 		}
@@ -204,7 +204,7 @@ namespace SafeExamBrowser.Client.Behaviour
 				{
 					args.AllowDownload = true;
 					args.Callback = Browser_ConfigurationDownloadFinished;
-					args.DownloadPath = Path.Combine(runtimeInfo.DownloadDirectory, fileName);
+					args.DownloadPath = Path.Combine(appConfig.DownloadDirectory, fileName);
 				}
 			}
 			else

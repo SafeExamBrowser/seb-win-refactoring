@@ -57,8 +57,8 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			configuration.InitializeSessionConfiguration();
 			runtimeHost.StartupToken = configuration.CurrentSession.StartupToken;
 
-			logger.Info($" -> Client-ID: {configuration.RuntimeInfo.ClientId}");
-			logger.Info($" -> Runtime-ID: {configuration.RuntimeInfo.RuntimeId} (as reference, does not change)");
+			logger.Info($" -> Client-ID: {configuration.AppConfig.ClientId}");
+			logger.Info($" -> Runtime-ID: {configuration.AppConfig.RuntimeId} (as reference, does not change)");
 			logger.Info($" -> Session-ID: {configuration.CurrentSession.Id}");
 		}
 	}

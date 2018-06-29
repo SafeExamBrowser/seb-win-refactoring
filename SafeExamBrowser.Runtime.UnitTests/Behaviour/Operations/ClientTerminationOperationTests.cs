@@ -22,6 +22,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 	public class ClientTerminationOperationTests
 	{
 		private Action clientReady;
+		private AppConfig appConfig;
 		private Mock<IConfigurationRepository> configuration;
 		private Mock<IClientProxy> proxy;
 		private Mock<ILogger> logger;
@@ -29,13 +30,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		private Mock<IProcessFactory> processFactory;
 		private Mock<IProxyFactory> proxyFactory;
 		private Mock<IRuntimeHost> runtimeHost;
-		private RuntimeInfo runtimeInfo;
 		private Mock<ISessionData> session;
 		private ClientTerminationOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
+			appConfig = new AppConfig();
 			configuration = new Mock<IConfigurationRepository>();
 			clientReady = new Action(() => runtimeHost.Raise(h => h.ClientReady += null));
 			logger = new Mock<ILogger>();
@@ -44,11 +45,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			proxy = new Mock<IClientProxy>();
 			proxyFactory = new Mock<IProxyFactory>();
 			runtimeHost = new Mock<IRuntimeHost>();
-			runtimeInfo = new RuntimeInfo();
 			session = new Mock<ISessionData>();
 
 			configuration.SetupGet(c => c.CurrentSession).Returns(session.Object);
-			configuration.SetupGet(c => c.RuntimeInfo).Returns(runtimeInfo);
+			configuration.SetupGet(c => c.AppConfig).Returns(appConfig);
 			proxyFactory.Setup(f => f.CreateClientProxy(It.IsAny<string>())).Returns(proxy.Object);
 
 			sut = new ClientTerminationOperation(configuration.Object, logger.Object, processFactory.Object, proxyFactory.Object, runtimeHost.Object, 0);

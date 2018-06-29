@@ -19,22 +19,22 @@ namespace SafeExamBrowser.Configuration
 		private const string BASE_ADDRESS = "net.pipe://localhost/safeexambrowser";
 
 		private bool firstSession = true;
-		private RuntimeInfo runtimeInfo;
+		private AppConfig appConfig;
 
 		public ISessionData CurrentSession { get; private set; }
 		public Settings CurrentSettings { get; private set; }
 		public string ReconfigurationFilePath { get; set; }
 
-		public RuntimeInfo RuntimeInfo
+		public AppConfig AppConfig
 		{
 			get
 			{
-				if (runtimeInfo == null)
+				if (appConfig == null)
 				{
-					InitializeRuntimeInfo();
+					InitializeAppConfig();
 				}
 
-				return runtimeInfo;
+				return appConfig;
 			}
 		}
 
@@ -42,7 +42,7 @@ namespace SafeExamBrowser.Configuration
 		{
 			return new ClientConfiguration
 			{
-				RuntimeInfo = RuntimeInfo,
+				AppConfig = AppConfig,
 				SessionId = CurrentSession.Id,
 				Settings = CurrentSettings
 			};
@@ -58,7 +58,7 @@ namespace SafeExamBrowser.Configuration
 
 			if (!firstSession)
 			{
-				UpdateRuntimeInfo();
+				UpdateAppConfig();
 			}
 			else
 			{
@@ -96,7 +96,7 @@ namespace SafeExamBrowser.Configuration
 			CurrentSettings.Taskbar.AllowWirelessNetwork = true;
 		}
 
-		private void InitializeRuntimeInfo()
+		private void InitializeAppConfig()
 		{
 			var appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(SafeExamBrowser));
 			var executable = Assembly.GetEntryAssembly();
@@ -104,32 +104,32 @@ namespace SafeExamBrowser.Configuration
 			var logFolder = Path.Combine(appDataFolder, "Logs");
 			var logFilePrefix = startTime.ToString("yyyy-MM-dd\\_HH\\hmm\\mss\\s");
 
-			runtimeInfo = new RuntimeInfo();
-			runtimeInfo.ApplicationStartTime = startTime;
-			runtimeInfo.AppDataFolder = appDataFolder;
-			runtimeInfo.BrowserCachePath = Path.Combine(appDataFolder, "Cache");
-			runtimeInfo.BrowserLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Browser.txt");
-			runtimeInfo.ClientId = Guid.NewGuid();
-			runtimeInfo.ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}";
-			runtimeInfo.ClientExecutablePath = Path.Combine(Path.GetDirectoryName(executable.Location), $"{nameof(SafeExamBrowser)}.Client.exe");
-			runtimeInfo.ClientLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Client.txt");
-			runtimeInfo.ConfigurationFileExtension = ".seb";
-			runtimeInfo.DefaultSettingsFileName = "SebClientSettings.seb";
-			runtimeInfo.DownloadDirectory = Path.Combine(appDataFolder, "Downloads");
-			runtimeInfo.ProgramCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
-			runtimeInfo.ProgramDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), nameof(SafeExamBrowser));
-			runtimeInfo.ProgramTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
-			runtimeInfo.ProgramVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-			runtimeInfo.RuntimeId = Guid.NewGuid();
-			runtimeInfo.RuntimeAddress = $"{BASE_ADDRESS}/runtime/{Guid.NewGuid()}";
-			runtimeInfo.RuntimeLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Runtime.txt");
-			runtimeInfo.ServiceAddress = $"{BASE_ADDRESS}/service";
+			appConfig = new AppConfig();
+			appConfig.ApplicationStartTime = startTime;
+			appConfig.AppDataFolder = appDataFolder;
+			appConfig.BrowserCachePath = Path.Combine(appDataFolder, "Cache");
+			appConfig.BrowserLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Browser.txt");
+			appConfig.ClientId = Guid.NewGuid();
+			appConfig.ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}";
+			appConfig.ClientExecutablePath = Path.Combine(Path.GetDirectoryName(executable.Location), $"{nameof(SafeExamBrowser)}.Client.exe");
+			appConfig.ClientLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Client.txt");
+			appConfig.ConfigurationFileExtension = ".seb";
+			appConfig.DefaultSettingsFileName = "SebClientSettings.seb";
+			appConfig.DownloadDirectory = Path.Combine(appDataFolder, "Downloads");
+			appConfig.ProgramCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
+			appConfig.ProgramDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), nameof(SafeExamBrowser));
+			appConfig.ProgramTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
+			appConfig.ProgramVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+			appConfig.RuntimeId = Guid.NewGuid();
+			appConfig.RuntimeAddress = $"{BASE_ADDRESS}/runtime/{Guid.NewGuid()}";
+			appConfig.RuntimeLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Runtime.txt");
+			appConfig.ServiceAddress = $"{BASE_ADDRESS}/service";
 		}
 
-		private void UpdateRuntimeInfo()
+		private void UpdateAppConfig()
 		{
-			RuntimeInfo.ClientId = Guid.NewGuid();
-			RuntimeInfo.ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}";
+			AppConfig.ClientId = Guid.NewGuid();
+			AppConfig.ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}";
 		}
 	}
 }

@@ -16,6 +16,11 @@ namespace SafeExamBrowser.Contracts.Configuration
 	public interface IConfigurationRepository
 	{
 		/// <summary>
+		/// The global configuration information for the currently running application instance.
+		/// </summary>
+		AppConfig AppConfig { get; }
+
+		/// <summary>
 		/// Retrieves the current session data, i.e. the last one which was initialized. If no session has been initialized yet, this
 		/// property will be <c>null</c>!
 		/// </summary>
@@ -31,11 +36,6 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// The path of the settings file to be used when reconfiguring the application.
 		/// </summary>
 		string ReconfigurationFilePath { get; set; }
-
-		/// <summary>
-		/// The runtime information for the currently running application instance.
-		/// </summary>
-		RuntimeInfo RuntimeInfo { get; }
 
 		/// <summary>
 		/// Builds a configuration for the client component, given the currently loaded settings, session and runtime information.

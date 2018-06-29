@@ -20,6 +20,11 @@ namespace SafeExamBrowser.Contracts.Behaviour
 	public interface IClientController
 	{
 		/// <summary>
+		/// The global configuration information to be used during application execution.
+		/// </summary>
+		AppConfig AppConfig { set; }
+
+		/// <summary>
 		/// The controller for the browser application.
 		/// </summary>
 		IBrowserApplicationController Browser { set; }
@@ -28,11 +33,6 @@ namespace SafeExamBrowser.Contracts.Behaviour
 		/// The client host used for communication handling.
 		/// </summary>
 		IClientHost ClientHost { set; }
-
-		/// <summary>
-		/// The runtime information to be used during application execution.
-		/// </summary>
-		RuntimeInfo RuntimeInfo { set; }
 
 		/// <summary>
 		/// The session identifier of the currently running session.

@@ -96,7 +96,7 @@
     <Compile Include="Configuration\ClientConfiguration.cs" />
     <Compile Include="Configuration\IResourceLoader.cs" />
     <Compile Include="Configuration\LoadStatus.cs" />
-    <Compile Include="Configuration\RuntimeInfo.cs" />
+    <Compile Include="Configuration\AppConfig.cs" />
     <Compile Include="Configuration\ISessionData.cs" />
     <Compile Include="Configuration\Settings\ConfigurationMode.cs" />
     <Compile Include="Behaviour\INotificationController.cs" />

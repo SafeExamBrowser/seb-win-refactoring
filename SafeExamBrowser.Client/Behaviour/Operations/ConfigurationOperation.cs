@@ -40,13 +40,13 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			{
 				var config = runtime.GetConfiguration();
 
-				configuration.RuntimeInfo = config.RuntimeInfo;
+				configuration.AppConfig = config.AppConfig;
 				configuration.SessionId = config.SessionId;
 				configuration.Settings = config.Settings;
 
 				logger.Info("Successfully retrieved the application configuration from the runtime.");
-				logger.Info($" -> Client-ID: {configuration.RuntimeInfo.ClientId}");
-				logger.Info($" -> Runtime-ID: {configuration.RuntimeInfo.RuntimeId}");
+				logger.Info($" -> Client-ID: {configuration.AppConfig.ClientId}");
+				logger.Info($" -> Runtime-ID: {configuration.AppConfig.RuntimeId}");
 				logger.Info($" -> Session-ID: {configuration.SessionId}");
 			}
 			catch (Exception e)

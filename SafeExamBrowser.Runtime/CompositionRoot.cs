@@ -28,8 +28,8 @@ namespace SafeExamBrowser.Runtime
 {
 	internal class CompositionRoot
 	{
+		private AppConfig appConfig;
 		private ILogger logger;
-		private RuntimeInfo runtimeInfo;
 		private ISystemInfo systemInfo;
 
 		internal IRuntimeController RuntimeController { get; private set; }
@@ -43,7 +43,7 @@ namespace SafeExamBrowser.Runtime
 			var nativeMethods = new NativeMethods();
 
 			logger = new Logger();
-			runtimeInfo = configuration.RuntimeInfo;
+			appConfig = configuration.AppConfig;
 			systemInfo = new SystemInfo();
 
 			InitializeLogging();
@@ -55,8 +55,8 @@ namespace SafeExamBrowser.Runtime
 			var processFactory = new ProcessFactory(desktop, new ModuleLogger(logger, typeof(ProcessFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), logger);
 			var resourceLoader = new ResourceLoader();
-			var runtimeHost = new RuntimeHost(runtimeInfo.RuntimeAddress, configuration, new HostObjectFactory(), new ModuleLogger(logger, typeof(RuntimeHost)));
-			var serviceProxy = new ServiceProxy(runtimeInfo.ServiceAddress, new ProxyObjectFactory(), new ModuleLogger(logger, typeof(ServiceProxy)));
+			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, configuration, new HostObjectFactory(), new ModuleLogger(logger, typeof(RuntimeHost)));
+			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), new ModuleLogger(logger, typeof(ServiceProxy)));
 
 			var bootstrapOperations = new Queue<IOperation>();
 			var sessionOperations = new Queue<IOperation>();
@@ -64,7 +64,7 @@ namespace SafeExamBrowser.Runtime
 			bootstrapOperations.Enqueue(new I18nOperation(logger, text));
 			bootstrapOperations.Enqueue(new CommunicationOperation(runtimeHost, logger));
 
-			sessionOperations.Enqueue(new ConfigurationOperation(configuration, logger, messageBox, resourceLoader, runtimeHost, runtimeInfo, text, uiFactory, args));
+			sessionOperations.Enqueue(new ConfigurationOperation(appConfig, configuration, logger, messageBox, resourceLoader, runtimeHost, text, uiFactory, args));
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost));
 			sessionOperations.Enqueue(new ServiceOperation(configuration, logger, serviceProxy, text));
 			sessionOperations.Enqueue(new ClientTerminationOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, TEN_SECONDS));
@@ -74,19 +74,19 @@ namespace SafeExamBrowser.Runtime
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new OperationSequence(logger, sessionOperations);
 
-			RuntimeController = new RuntimeController(configuration, logger, messageBox, bootstrapSequence, sessionSequence, runtimeHost, runtimeInfo, serviceProxy, shutdown, uiFactory);
+			RuntimeController = new RuntimeController(appConfig, configuration, logger, messageBox, bootstrapSequence, sessionSequence, runtimeHost, serviceProxy, shutdown, uiFactory);
 		}
 
 		internal void LogStartupInformation()
 		{
-			logger.Log($"/* {runtimeInfo.ProgramTitle}, Version {runtimeInfo.ProgramVersion}");
-			logger.Log($"/* {runtimeInfo.ProgramCopyright}");
+			logger.Log($"/* {appConfig.ProgramTitle}, Version {appConfig.ProgramVersion}");
+			logger.Log($"/* {appConfig.ProgramCopyright}");
 			logger.Log($"/* ");
 			logger.Log($"/* Please visit https://www.github.com/SafeExamBrowser for more information.");
 			logger.Log(string.Empty);
-			logger.Log($"# Application started at {runtimeInfo.ApplicationStartTime.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+			logger.Log($"# Application started at {appConfig.ApplicationStartTime.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 			logger.Log($"# Running on {systemInfo.OperatingSystemInfo}");
-			logger.Log($"# Runtime-ID: {runtimeInfo.RuntimeId}");
+			logger.Log($"# Runtime-ID: {appConfig.RuntimeId}");
 			logger.Log(string.Empty);
 		}
 
@@ -97,7 +97,7 @@ namespace SafeExamBrowser.Runtime
 
 		private void InitializeLogging()
 		{
-			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), runtimeInfo.RuntimeLogFile);
+			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), appConfig.RuntimeLogFile);
 
 			logFileWriter.Initialize();
 			logger.Subscribe(logFileWriter);

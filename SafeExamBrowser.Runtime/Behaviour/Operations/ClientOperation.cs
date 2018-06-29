@@ -87,9 +87,9 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			var clientReadyEvent = new AutoResetEvent(false);
 			var clientReadyEventHandler = new CommunicationEventHandler(() => clientReadyEvent.Set());
 
-			var clientExecutable = configuration.RuntimeInfo.ClientExecutablePath;
-			var clientLogFile = $"{'"' + configuration.RuntimeInfo.ClientLogFile + '"'}";
-			var hostUri = configuration.RuntimeInfo.RuntimeAddress;
+			var clientExecutable = configuration.AppConfig.ClientExecutablePath;
+			var clientLogFile = $"{'"' + configuration.AppConfig.ClientLogFile + '"'}";
+			var hostUri = configuration.AppConfig.RuntimeAddress;
 			var token = configuration.CurrentSession.StartupToken.ToString("D");
 
 			logger.Info("Starting new client process...");
@@ -108,7 +108,7 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			}
 
 			logger.Info("Client has been successfully started and initialized. Creating communication proxy for client host...");
-			ClientProxy = proxyFactory.CreateClientProxy(configuration.RuntimeInfo.ClientAddress);
+			ClientProxy = proxyFactory.CreateClientProxy(configuration.AppConfig.ClientAddress);
 
 			if (!ClientProxy.Connect(configuration.CurrentSession.StartupToken))
 			{

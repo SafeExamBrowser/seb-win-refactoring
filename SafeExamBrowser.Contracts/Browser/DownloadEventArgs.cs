@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.Contracts.Browser
 {
 	/// <summary>
-	/// TODO
+	/// The event arguments used for all download events fired by the <see cref="IBrowserApplicationController"/>.
 	/// </summary>
 	public class DownloadEventArgs
 	{

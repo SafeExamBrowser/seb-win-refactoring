@@ -19,24 +19,24 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 	[TestClass]
 	public class SessionInitializationOperationTests
 	{
-		private SessionInitializationOperation sut;
+		private AppConfig appConfig;
 		private Mock<IConfigurationRepository> configuration;
 		private Mock<ILogger> logger;
 		private Mock<IRuntimeHost> runtimeHost;
-		private RuntimeInfo runtimeInfo;
 		private Mock<ISessionData> session;
+		private SessionInitializationOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
+			appConfig = new AppConfig();
 			configuration = new Mock<IConfigurationRepository>();
 			logger = new Mock<ILogger>();
 			runtimeHost = new Mock<IRuntimeHost>();
-			runtimeInfo = new RuntimeInfo();
 			session = new Mock<ISessionData>();
 
 			configuration.SetupGet(c => c.CurrentSession).Returns(session.Object);
-			configuration.SetupGet(c => c.RuntimeInfo).Returns(runtimeInfo);
+			configuration.SetupGet(c => c.AppConfig).Returns(appConfig);
 
 			sut = new SessionInitializationOperation(configuration.Object, logger.Object, runtimeHost.Object);
 		}

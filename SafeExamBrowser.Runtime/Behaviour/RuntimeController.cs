@@ -26,13 +26,13 @@ namespace SafeExamBrowser.Runtime.Behaviour
 	{
 		private bool sessionRunning;
 
+		private AppConfig appConfig;
 		private IConfigurationRepository configuration;
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private IOperationSequence bootstrapSequence;
 		private IOperationSequence sessionSequence;
 		private IRuntimeHost runtimeHost;
-		private RuntimeInfo runtimeInfo;
 		private IRuntimeWindow runtimeWindow;
 		private IServiceProxy service;
 		private ISplashScreen splashScreen;
@@ -40,23 +40,23 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		private IUserInterfaceFactory uiFactory;
 		
 		public RuntimeController(
+			AppConfig appConfig,
 			IConfigurationRepository configuration,
 			ILogger logger,
 			IMessageBox messageBox,
 			IOperationSequence bootstrapSequence,
 			IOperationSequence sessionSequence,
 			IRuntimeHost runtimeHost,
-			RuntimeInfo runtimeInfo,
 			IServiceProxy service,
 			Action shutdown,
 			IUserInterfaceFactory uiFactory)
 		{
+			this.appConfig = appConfig;
 			this.configuration = configuration;
 			this.bootstrapSequence = bootstrapSequence;
 			this.logger = logger;
 			this.messageBox = messageBox;
 			this.runtimeHost = runtimeHost;
-			this.runtimeInfo = runtimeInfo;
 			this.sessionSequence = sessionSequence;
 			this.service = service;
 			this.shutdown = shutdown;
@@ -67,8 +67,8 @@ namespace SafeExamBrowser.Runtime.Behaviour
 		{
 			logger.Info("--- Initiating startup procedure ---");
 
-			runtimeWindow = uiFactory.CreateRuntimeWindow(runtimeInfo);
-			splashScreen = uiFactory.CreateSplashScreen(runtimeInfo);
+			runtimeWindow = uiFactory.CreateRuntimeWindow(appConfig);
+			splashScreen = uiFactory.CreateSplashScreen(appConfig);
 
 			bootstrapSequence.ProgressIndicator = splashScreen;
 			sessionSequence.ProgressIndicator = runtimeWindow;

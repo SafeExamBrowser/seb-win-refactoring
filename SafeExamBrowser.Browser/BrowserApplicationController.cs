@@ -24,11 +24,11 @@ namespace SafeExamBrowser.Browser
 {
 	public class BrowserApplicationController : IBrowserApplicationController
 	{
+		private AppConfig appConfig;
 		private IApplicationButton button;
 		private IList<IApplicationInstance> instances;
 		private ILogger logger;
 		private IMessageBox messageBox;
-		private RuntimeInfo runtimeInfo;
 		private BrowserSettings settings;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
@@ -36,17 +36,17 @@ namespace SafeExamBrowser.Browser
 		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 
 		public BrowserApplicationController(
+			AppConfig appConfig,
 			BrowserSettings settings,
-			RuntimeInfo runtimeInfo,
 			ILogger logger,
 			IMessageBox messageBox,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
+			this.appConfig = appConfig;
 			this.instances = new List<IApplicationInstance>();
 			this.logger = logger;
 			this.messageBox = messageBox;
-			this.runtimeInfo = runtimeInfo;
 			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;
@@ -82,7 +82,7 @@ namespace SafeExamBrowser.Browser
 
 		private void CreateNewInstance()
 		{
-			var instance = new BrowserApplicationInstance(settings, runtimeInfo, text, uiFactory, instances.Count == 0);
+			var instance = new BrowserApplicationInstance(appConfig, settings, text, uiFactory, instances.Count == 0);
 
 			instance.Initialize();
 			instance.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
@@ -97,8 +97,8 @@ namespace SafeExamBrowser.Browser
 		{
 			var cefSettings = new CefSettings
 			{
-				CachePath = runtimeInfo.BrowserCachePath,
-				LogFile = runtimeInfo.BrowserLogFile,
+				CachePath = appConfig.BrowserCachePath,
+				LogFile = appConfig.BrowserLogFile,
 				// TODO: Set according to current application LogLevel, but avoid verbose!
 				LogSeverity = LogSeverity.Info
 			};

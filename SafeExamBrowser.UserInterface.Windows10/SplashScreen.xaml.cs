@@ -19,18 +19,18 @@ namespace SafeExamBrowser.UserInterface.Windows10
 	{
 		private bool allowClose;
 		private SplashScreenViewModel model = new SplashScreenViewModel();
-		private RuntimeInfo runtimeInfo;
+		private AppConfig appConfig;
 		private IText text;
 		private WindowClosingEventHandler closing;
 
-		public RuntimeInfo RuntimeInfo
+		public AppConfig AppConfig
 		{
 			set
 			{
 				Dispatcher.Invoke(() =>
 				{
-					runtimeInfo = value;
-					UpdateRuntimeInfo();
+					appConfig = value;
+					UpdateAppInfo();
 				});
 			}
 		}
@@ -41,9 +41,9 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			remove { closing -= value; }
 		}
 
-		public SplashScreen(IText text, RuntimeInfo runtimeInfo = null)
+		public SplashScreen(IText text, AppConfig appConfig = null)
 		{
-			this.runtimeInfo = runtimeInfo;
+			this.appConfig = appConfig;
 			this.text = text;
 
 			InitializeComponent();
@@ -112,7 +112,7 @@ namespace SafeExamBrowser.UserInterface.Windows10
 
 		private void InitializeSplashScreen()
 		{
-			UpdateRuntimeInfo();
+			UpdateAppInfo();
 
 			StatusTextBlock.DataContext = model;
 			ProgressBar.DataContext = model;
@@ -123,14 +123,14 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			Closing += (o, args) => args.Cancel = !allowClose;
 		}
 
-		private void UpdateRuntimeInfo()
+		private void UpdateAppInfo()
 		{
-			if (runtimeInfo != null)
+			if (appConfig != null)
 			{
-				InfoTextBlock.Inlines.Add(new Run($"Version {runtimeInfo.ProgramVersion}") { FontStyle = FontStyles.Italic });
+				InfoTextBlock.Inlines.Add(new Run($"Version {appConfig.ProgramVersion}") { FontStyle = FontStyles.Italic });
 				InfoTextBlock.Inlines.Add(new LineBreak());
 				InfoTextBlock.Inlines.Add(new LineBreak());
-				InfoTextBlock.Inlines.Add(new Run(runtimeInfo.ProgramCopyright) { FontSize = 10 });
+				InfoTextBlock.Inlines.Add(new Run(appConfig.ProgramCopyright) { FontSize = 10 });
 			}
 		}
 	}

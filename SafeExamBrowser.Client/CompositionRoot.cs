@@ -152,7 +152,7 @@ namespace SafeExamBrowser.Client
 		private IOperation BuildBrowserOperation()
 		{
 			var moduleLogger = new ModuleLogger(logger, typeof(BrowserApplicationController));
-			var browserController = new BrowserApplicationController(configuration.Settings.Browser, configuration.RuntimeInfo, moduleLogger, messageBox, text, uiFactory);
+			var browserController = new BrowserApplicationController(configuration.AppConfig, configuration.Settings.Browser, moduleLogger, messageBox, text, uiFactory);
 			var browserInfo = new BrowserApplicationInfo();
 			var operation = new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory);
 
@@ -165,7 +165,7 @@ namespace SafeExamBrowser.Client
 		{
 			var processId = Process.GetCurrentProcess().Id;
 			var factory = new HostObjectFactory();
-			var host = new ClientHost(configuration.RuntimeInfo.ClientAddress, factory, new ModuleLogger(logger, typeof(ClientHost)), processId);
+			var host = new ClientHost(configuration.AppConfig.ClientAddress, factory, new ModuleLogger(logger, typeof(ClientHost)), processId);
 			var operation = new CommunicationOperation(host, logger);
 
 			clientHost = host;
@@ -204,9 +204,9 @@ namespace SafeExamBrowser.Client
 
 		private void UpdateClientControllerDependencies()
 		{
+			ClientController.AppConfig = configuration.AppConfig;
 			ClientController.Browser = browserController;
 			ClientController.ClientHost = clientHost;
-			ClientController.RuntimeInfo = configuration.RuntimeInfo;
 			ClientController.SessionId = configuration.SessionId;
 			ClientController.Settings = configuration.Settings;
 		}

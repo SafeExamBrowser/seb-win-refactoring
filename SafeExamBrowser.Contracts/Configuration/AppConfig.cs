@@ -12,10 +12,9 @@ namespace SafeExamBrowser.Contracts.Configuration
 {
 	/// <summary>
 	/// Defines the fundamental, global configuration information for all application components.
-	/// TODO: Rename to Globals or GlobalConfiguration or alike!
 	/// </summary>
 	[Serializable]
-	public class RuntimeInfo
+	public class AppConfig
 	{
 		/// <summary>
 		/// The path of the application data folder.

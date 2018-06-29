@@ -22,24 +22,24 @@ namespace SafeExamBrowser.Browser.Handlers
 	/// </remarks>
 	internal class DownloadHandler : IDownloadHandler
 	{
+		private AppConfig appConfig;
 		private BrowserSettings settings;
-		private RuntimeInfo runtimeInfo;
 		private ConcurrentDictionary<int, DownloadFinishedCallback> callbacks;
 
 		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 
-		public DownloadHandler(BrowserSettings settings, RuntimeInfo runtimeInfo)
+		public DownloadHandler(AppConfig appConfig, BrowserSettings settings)
 		{
+			this.appConfig = appConfig;
 			this.callbacks = new ConcurrentDictionary<int, DownloadFinishedCallback>();
 			this.settings = settings;
-			this.runtimeInfo = runtimeInfo;
 		}
 
 		public void OnBeforeDownload(IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
 			var uri = new Uri(downloadItem.Url);
 			var extension = Path.GetExtension(uri.AbsolutePath);
-			var isConfigFile = String.Equals(extension, runtimeInfo.ConfigurationFileExtension, StringComparison.InvariantCultureIgnoreCase);
+			var isConfigFile = String.Equals(extension, appConfig.ConfigurationFileExtension, StringComparison.InvariantCultureIgnoreCase);
 
 			if (isConfigFile)
 			{

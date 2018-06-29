@@ -17,13 +17,13 @@ namespace SafeExamBrowser.Client.Notifications
 	internal class AboutNotificationController : INotificationController
 	{
 		private INotificationButton notification;
-		private RuntimeInfo runtimeInfo;
+		private AppConfig appConfig;
 		private IUserInterfaceFactory uiFactory;
 		private IWindow window;
 
-		public AboutNotificationController(RuntimeInfo runtimeInfo, IUserInterfaceFactory uiFactory)
+		public AboutNotificationController(AppConfig appConfig, IUserInterfaceFactory uiFactory)
 		{
-			this.runtimeInfo = runtimeInfo;
+			this.appConfig = appConfig;
 			this.uiFactory = uiFactory;
 		}
 
@@ -43,7 +43,7 @@ namespace SafeExamBrowser.Client.Notifications
 		{
 			if (window == null)
 			{
-				window = uiFactory.CreateAboutWindow(runtimeInfo);
+				window = uiFactory.CreateAboutWindow(appConfig);
 
 				window.Closing += () => window = null;
 				window.Show();

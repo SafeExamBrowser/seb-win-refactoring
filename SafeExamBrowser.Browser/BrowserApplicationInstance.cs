@@ -20,10 +20,10 @@ namespace SafeExamBrowser.Browser
 {
 	internal class BrowserApplicationInstance : IApplicationInstance
 	{
+		private AppConfig appConfig;
 		private IBrowserControl control;
 		private IBrowserWindow window;
 		private bool isMainInstance;
-		private RuntimeInfo runtimeInfo;
 		private BrowserSettings settings;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
@@ -37,14 +37,14 @@ namespace SafeExamBrowser.Browser
 		public event TerminatedEventHandler Terminated;
 
 		public BrowserApplicationInstance(
+			AppConfig appConfig,
 			BrowserSettings settings,
-			RuntimeInfo runtimeInfo,
 			IText text,
 			IUserInterfaceFactory uiFactory,
 			bool isMainInstance)
 		{
+			this.appConfig = appConfig;
 			this.isMainInstance = isMainInstance;
-			this.runtimeInfo = runtimeInfo;
 			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;
@@ -52,7 +52,7 @@ namespace SafeExamBrowser.Browser
 
 		internal void Initialize()
 		{
-			var downloadHandler = new DownloadHandler(settings, runtimeInfo);
+			var downloadHandler = new DownloadHandler(appConfig, settings);
 
 			Id = Guid.NewGuid();
 			downloadHandler.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);

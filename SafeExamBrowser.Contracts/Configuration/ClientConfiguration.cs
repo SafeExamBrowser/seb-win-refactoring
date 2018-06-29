@@ -17,6 +17,11 @@ namespace SafeExamBrowser.Contracts.Configuration
 	public class ClientConfiguration
 	{
 		/// <summary>
+		/// The global application configuration.
+		/// </summary>
+		public AppConfig AppConfig { get; set; }
+
+		/// <summary>
 		/// The unique identifier for the current session.
 		/// </summary>
 		public Guid SessionId { get; set; }
@@ -25,10 +30,5 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// The application settings to be used by the client.
 		/// </summary>
 		public Settings.Settings Settings { get; set; }
-
-		/// <summary>
-		/// The information about the current runtime.
-		/// </summary>
-		public RuntimeInfo RuntimeInfo { get; set; }
 	}
 }

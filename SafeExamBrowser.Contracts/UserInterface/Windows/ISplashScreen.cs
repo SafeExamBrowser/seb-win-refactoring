@@ -16,8 +16,8 @@ namespace SafeExamBrowser.Contracts.UserInterface.Windows
 	public interface ISplashScreen : IProgressIndicator, IWindow
 	{
 		/// <summary>
-		/// The runtime information used to display version and copyright information. Can be updated during the execution of a procedure.
+		/// The global configuration used to display version and copyright information. Can be updated during the execution of a procedure.
 		/// </summary>
-		RuntimeInfo RuntimeInfo { set; }
+		AppConfig AppConfig { set; }
 	}
 }

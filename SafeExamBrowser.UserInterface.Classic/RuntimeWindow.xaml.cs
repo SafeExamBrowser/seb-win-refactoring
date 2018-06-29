@@ -20,8 +20,8 @@ namespace SafeExamBrowser.UserInterface.Classic
 	public partial class RuntimeWindow : Window, IRuntimeWindow
 	{
 		private bool allowClose;
+		private AppConfig appConfig;
 		private ILogContentFormatter formatter;
-		private RuntimeInfo runtimeInfo;
 		private IText text;
 		private RuntimeWindowViewModel model;
 		private WindowClosingEventHandler closing;
@@ -38,10 +38,10 @@ namespace SafeExamBrowser.UserInterface.Classic
 			remove { closing -= value; }
 		}
 
-		public RuntimeWindow(ILogContentFormatter formatter, RuntimeInfo runtimeInfo, IText text)
+		public RuntimeWindow(AppConfig appConfig, ILogContentFormatter formatter, IText text)
 		{
+			this.appConfig = appConfig;
 			this.formatter = formatter;
-			this.runtimeInfo = runtimeInfo;
 			this.text = text;
 
 			InitializeComponent();
@@ -129,12 +129,12 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 		private void InitializeRuntimeWindow()
 		{
-			Title = $"{runtimeInfo.ProgramTitle} - Version {runtimeInfo.ProgramVersion}";
+			Title = $"{appConfig.ProgramTitle} - Version {appConfig.ProgramVersion}";
 
-			InfoTextBlock.Inlines.Add(new Run($"Version {runtimeInfo.ProgramVersion}") { FontStyle = FontStyles.Italic });
+			InfoTextBlock.Inlines.Add(new Run($"Version {appConfig.ProgramVersion}") { FontStyle = FontStyles.Italic });
 			InfoTextBlock.Inlines.Add(new LineBreak());
 			InfoTextBlock.Inlines.Add(new LineBreak());
-			InfoTextBlock.Inlines.Add(new Run(runtimeInfo.ProgramCopyright) { FontSize = 10 });
+			InfoTextBlock.Inlines.Add(new Run(appConfig.ProgramCopyright) { FontSize = 10 });
 
 			model = new RuntimeWindowViewModel();
 			AnimatedBorder.DataContext = model;
