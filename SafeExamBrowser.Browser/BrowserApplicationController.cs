@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CefSharp;
-using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
@@ -102,9 +101,6 @@ namespace SafeExamBrowser.Browser
 				// TODO: Set according to current application LogLevel, but avoid verbose!
 				LogSeverity = LogSeverity.Info
 			};
-
-			cefSettings.RegisterScheme(new CefCustomScheme { SchemeName = "seb", SchemeHandlerFactory = new SchemeHandlerFactory() });
-			cefSettings.RegisterScheme(new CefCustomScheme { SchemeName = "sebs", SchemeHandlerFactory = new SchemeHandlerFactory() });
 
 			return cefSettings;
 		}

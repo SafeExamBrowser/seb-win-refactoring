@@ -73,7 +73,6 @@
     <Compile Include="Handlers\DownloadHandler.cs" />
     <Compile Include="Handlers\KeyboardHandler.cs" />
     <Compile Include="Handlers\RequestHandler.cs" />
-    <Compile Include="Handlers\SchemeHandlerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
