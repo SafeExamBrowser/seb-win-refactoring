@@ -23,13 +23,23 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 		{
 		}
 
+		public void InformReconfigurationDenied(string filePath)
+		{
+			var response = Send(new ReconfigurationDeniedMessage(filePath));
+
+			if (!IsAcknowledged(response))
+			{
+				throw new CommunicationException($"Client did not acknowledge shutdown request! Received: {ToString(response)}.");
+			}
+		}
+
 		public void InitiateShutdown()
 		{
 			var response = Send(SimpleMessagePurport.Shutdown);
 
 			if (!IsAcknowledged(response))
 			{
-				throw new CommunicationException($"Runtime did not acknowledge shutdown request! Received: {ToString(response)}.");
+				throw new CommunicationException($"Client did not acknowledge shutdown request! Received: {ToString(response)}.");
 			}
 		}
 
@@ -47,8 +57,12 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 
 		public void RequestPassword(PasswordRequestPurpose purpose, Guid requestId)
 		{
-			// TODO
-			throw new NotImplementedException();
+			var response = Send(new PasswordRequestMessage(purpose, requestId));
+
+			if (!IsAcknowledged(response))
+			{
+				throw new CommunicationException($"Client did not acknowledge shutdown request! Received: {ToString(response)}.");
+			}
 		}
 	}
 }

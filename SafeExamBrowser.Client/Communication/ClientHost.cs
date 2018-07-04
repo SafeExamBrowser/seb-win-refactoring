@@ -22,6 +22,8 @@ namespace SafeExamBrowser.Client.Communication
 
 		public Guid StartupToken { private get; set; }
 
+		public event CommunicationEventHandler<PasswordRequestEventArgs> PasswordRequested;
+		public event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationDenied;
 		public event CommunicationEventHandler Shutdown;
 
 		public ClientHost(string address, IHostObjectFactory factory, ILogger logger, int processId) : base(address, factory, logger)
@@ -49,6 +51,16 @@ namespace SafeExamBrowser.Client.Communication
 
 		protected override Response OnReceive(Message message)
 		{
+			switch (message)
+			{
+				case PasswordRequestMessage p:
+					PasswordRequested?.InvokeAsync(new PasswordRequestEventArgs { Purpose = p.Purpose, RequestId = p.RequestId });
+					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
+				case ReconfigurationDeniedMessage r:
+					ReconfigurationDenied?.InvokeAsync(new ReconfigurationEventArgs { ConfigurationPath = r.FilePath });
+					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
+			}
+
 			return new SimpleResponse(SimpleResponsePurport.UnknownMessage);
 		}
 

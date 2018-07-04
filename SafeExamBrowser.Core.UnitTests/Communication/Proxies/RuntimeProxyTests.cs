@@ -10,7 +10,6 @@ using System;
 using System.ServiceModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
@@ -96,56 +95,24 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		[TestMethod]
 		public void MustCorrectlyRequestReconfiguration()
 		{
-			//var url = "sebs://some/url.seb";
-			//var response = new ReconfigurationResponse
-			//{
-			//	Accepted = true
-			//};
+			var url = "file:///C:/Some/file/url.seb";
 
-			//proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationUrl == url))).Returns(response);
+			proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationPath == url))).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
 
-			//var accepted = sut.RequestReconfiguration(url);
+			sut.RequestReconfiguration(url);
 
-			//proxy.Verify(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationUrl == url)), Times.Once);
-
-			//Assert.IsTrue(accepted);
-
-			// TODO
-			Assert.Fail();
+			proxy.Verify(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationPath == url)), Times.Once);
 		}
 
 		[TestMethod]
-		public void MustCorrectlyHandleDeniedReconfigurationRequest()
+		[ExpectedException(typeof(CommunicationException))]
+		public void MustFailIfReconfigurationRequestNotAcknowledged()
 		{
-			//var url = "sebs://some/url.seb";
-			//var response = new ReconfigurationResponse
-			//{
-			//	Accepted = false
-			//};
+			var url = "file:///C:/Some/file/url.seb";
 
-			//proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationUrl == url))).Returns(response);
+			proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationPath == url))).Returns<Response>(null);
 
-			//var accepted = sut.RequestReconfiguration(url);
-
-			//Assert.IsFalse(accepted);
-
-			// TODO
-			Assert.Fail();
-		}
-
-		[TestMethod]
-		public void MustNotFailIfIncorrectResponseToReconfigurationRequest()
-		{
-			//var url = "sebs://some/url.seb";
-
-			//proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationUrl == url))).Returns<Response>(null);
-
-			//var accepted = sut.RequestReconfiguration(url);
-
-			//Assert.IsFalse(accepted);
-
-			// TODO
-			Assert.Fail();
+			sut.RequestReconfiguration(url);
 		}
 
 		[TestMethod]

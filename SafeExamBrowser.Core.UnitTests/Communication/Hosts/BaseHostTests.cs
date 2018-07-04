@@ -257,9 +257,9 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Hosts
 			var received = false;
 			var simpleReceived = false;
 			var message = new ReconfigurationMessage(null);
-			var reconfigurationResponse = new ReconfigurationResponse();
+			var configurationResponse = new ConfigurationResponse();
 
-			sut.OnReceiveStub = (m) => { received = true; return reconfigurationResponse; };
+			sut.OnReceiveStub = (m) => { received = true; return configurationResponse; };
 			sut.OnReceiveSimpleMessageStub = (m) => { simpleReceived = true; return null; };
 			sut.OnConnectStub = (t) => { return true; };
 			sut.Connect();
@@ -270,8 +270,8 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Hosts
 
 			Assert.IsTrue(received);
 			Assert.IsFalse(simpleReceived);
-			Assert.IsInstanceOfType(response, typeof(ReconfigurationResponse));
-			Assert.AreSame(reconfigurationResponse, response);
+			Assert.IsInstanceOfType(response, typeof(ConfigurationResponse));
+			Assert.AreSame(configurationResponse, response);
 		}
 	}
 }

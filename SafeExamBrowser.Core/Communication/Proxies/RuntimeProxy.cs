@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.ServiceModel;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
@@ -62,6 +63,16 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 			if (!IsAcknowledged(response))
 			{
 				throw new CommunicationException($"Runtime did not acknowledge shutdown request! Response: {ToString(response)}.");
+			}
+		}
+
+		public void SubmitPassword(Guid requestId, bool success, string password = null)
+		{
+			var response = Send(new PasswordReplyMessage(requestId, success, password));
+
+			if (!IsAcknowledged(response))
+			{
+				throw new CommunicationException($"Runtime did not acknowledge password submission! Response: {ToString(response)}.");
 			}
 		}
 	}

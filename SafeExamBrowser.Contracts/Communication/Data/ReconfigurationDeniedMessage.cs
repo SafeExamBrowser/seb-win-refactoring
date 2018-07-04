@@ -11,14 +11,19 @@ using System;
 namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
-	/// The response to a <see cref="ReconfigurationMessage"/>.
+	/// This message is transmitted from the runtime to the client in order to inform the latter that a reconfiguration request was denied.
 	/// </summary>
 	[Serializable]
-	public class ReconfigurationResponse : Response
+	public class ReconfigurationDeniedMessage : Message
 	{
 		/// <summary>
-		/// Indicates whether the reconfiguration request has been accepted.
+		/// The full path to the configuration file for which a reconfiguration was denied.
 		/// </summary>
-		public bool Accepted { get; set; }
+		public string FilePath { get; private set; }
+
+		public ReconfigurationDeniedMessage(string filePath)
+		{
+			FilePath = filePath;
+		}
 	}
 }

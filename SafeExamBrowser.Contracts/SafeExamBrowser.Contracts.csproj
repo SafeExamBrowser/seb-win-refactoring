@@ -63,9 +63,11 @@
     <Compile Include="Communication\Data\PasswordRequestMessage.cs" />
     <Compile Include="Communication\Data\PasswordRequestPurpose.cs" />
     <Compile Include="Communication\Data\PasswordReplyMessage.cs" />
+    <Compile Include="Communication\Data\ReconfigurationDeniedMessage.cs" />
     <Compile Include="Communication\Events\CommunicationEventArgs.cs" />
     <Compile Include="Communication\Events\CommunicationEventHandler.cs" />
-    <Compile Include="Communication\Events\PasswordEventArgs.cs" />
+    <Compile Include="Communication\Events\PasswordReplyEventArgs.cs" />
+    <Compile Include="Communication\Events\PasswordRequestEventArgs.cs" />
     <Compile Include="Communication\Events\ReconfigurationEventArgs.cs" />
     <Compile Include="Communication\Hosts\IClientHost.cs" />
     <Compile Include="Communication\Hosts\IHostObject.cs" />
@@ -89,7 +91,6 @@
     <Compile Include="Communication\Data\ConfigurationResponse.cs" />
     <Compile Include="Communication\Data\ConnectionResponse.cs" />
     <Compile Include="Communication\Data\DisconnectionResponse.cs" />
-    <Compile Include="Communication\Data\ReconfigurationResponse.cs" />
     <Compile Include="Communication\Data\Response.cs" />
     <Compile Include="Communication\Data\SimpleResponsePurport.cs" />
     <Compile Include="Communication\Data\SimpleResponse.cs" />

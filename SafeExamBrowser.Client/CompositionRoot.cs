@@ -103,7 +103,7 @@ namespace SafeExamBrowser.Client
 
 			var sequence = new OperationSequence(logger, operations);
 
-			ClientController = new ClientController(displayMonitor, logger, messageBox, sequence, processMonitor, runtimeProxy, shutdown, Taskbar, uiFactory, windowMonitor);
+			ClientController = new ClientController(displayMonitor, logger, messageBox, sequence, processMonitor, runtimeProxy, shutdown, Taskbar, text, uiFactory, windowMonitor);
 		}
 
 		internal void LogStartupInformation()

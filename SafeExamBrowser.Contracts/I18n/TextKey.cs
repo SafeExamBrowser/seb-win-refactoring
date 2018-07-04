@@ -46,6 +46,8 @@ namespace SafeExamBrowser.Contracts.I18n
 		Notification_LogTooltip,
 		PasswordDialog_AdminPasswordRequired,
 		PasswordDialog_AdminPasswordRequiredTitle,
+		PasswordDialog_Cancel,
+		PasswordDialog_Confirm,
 		PasswordDialog_SettingsPasswordRequired,
 		PasswordDialog_SettingsPasswordRequiredTitle,
 		ProgressIndicator_CloseRuntimeConnection,

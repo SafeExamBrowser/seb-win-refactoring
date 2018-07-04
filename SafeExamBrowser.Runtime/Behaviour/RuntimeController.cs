@@ -261,7 +261,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			else
 			{
 				logger.Info($"Denied request for reconfiguration with '{args.ConfigurationPath}' due to '{mode}' mode!");
-				// TODO: configuration.CurrentSession.ClientProxy.InformReconfigurationDenied();
+				configuration.CurrentSession.ClientProxy.InformReconfigurationDenied(args.ConfigurationPath);
 			}
 		}
 

@@ -7,27 +7,23 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Communication.Data;
 
 namespace SafeExamBrowser.Contracts.Communication.Events
 {
 	/// <summary>
-	/// The event arguments used for the password input event fired by the <see cref="Hosts.IRuntimeHost"/>.
+	/// The event arguments used for the password request event fired by the <see cref="Hosts.IClientHost"/>.
 	/// </summary>
-	public class PasswordEventArgs : CommunicationEventArgs
+	public class PasswordRequestEventArgs : CommunicationEventArgs
 	{
 		/// <summary>
-		/// The password entered by the user, or <c>null</c> if not available.
+		/// The purpose for which a password is requested.
 		/// </summary>
-		public string Password { get; set; }
+		public PasswordRequestPurpose Purpose { get; set; }
 
 		/// <summary>
 		/// Identifies the password request.
 		/// </summary>
 		public Guid RequestId { get; set; }
-
-		/// <summary>
-		/// Indicates whether the password has been successfully entered by the user.
-		/// </summary>
-		public bool Success { get; set; }
 	}
 }

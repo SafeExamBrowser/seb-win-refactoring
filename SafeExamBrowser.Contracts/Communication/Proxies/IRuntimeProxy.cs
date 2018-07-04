@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.Contracts.Communication.Proxies
@@ -38,5 +39,12 @@ namespace SafeExamBrowser.Contracts.Communication.Proxies
 		/// </summary>
 		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
 		void RequestReconfiguration(string filePath);
+
+		/// <summary>
+		/// Submits the result of a password input previously requested by the runtime. If the procedure was aborted by the user,
+		/// the password parameter will be <c>null</c>!
+		/// </summary>
+		/// /// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
+		void SubmitPassword(Guid requestId, bool success, string password = null);
 	}
 }

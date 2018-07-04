@@ -7,6 +7,7 @@
  */
 
 using System.Threading;
+using System.Windows;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
@@ -81,7 +82,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 		public IPasswordDialog CreatePasswordDialog(string message, string title)
 		{
-			throw new System.NotImplementedException();
+			return Application.Current.Dispatcher.Invoke(() => new PasswordDialog(message, title, text));
 		}
 
 		public ISystemPowerSupplyControl CreatePowerSupplyControl()

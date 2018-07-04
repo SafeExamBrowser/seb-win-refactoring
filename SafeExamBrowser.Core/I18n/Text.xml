@@ -90,6 +90,12 @@
   <Entry key="PasswordDialog_AdminPasswordRequiredTitle">
     Administrator Password Required
   </Entry>
+  <Entry key="PasswordDialog_Cancel">
+    Cancel
+  </Entry>
+  <Entry key="PasswordDialog_Confirm">
+    Confirm
+  </Entry>
   <Entry key="PasswordDialog_SettingsPasswordRequired">
     Please enter the settings password for the application configuration:
   </Entry>

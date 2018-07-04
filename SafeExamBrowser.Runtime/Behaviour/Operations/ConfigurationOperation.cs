@@ -188,9 +188,9 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private bool TryGetPasswordViaClient(PasswordRequestPurpose purpose, out string password)
 		{
 			var requestId = Guid.NewGuid();
-			var response = default(PasswordEventArgs);
+			var response = default(PasswordReplyEventArgs);
 			var responseEvent = new AutoResetEvent(false);
-			var responseEventHandler = new CommunicationEventHandler<PasswordEventArgs>((args) =>
+			var responseEventHandler = new CommunicationEventHandler<PasswordReplyEventArgs>((args) =>
 			{
 				if (args.RequestId == requestId)
 				{

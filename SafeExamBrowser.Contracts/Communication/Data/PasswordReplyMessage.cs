@@ -31,7 +31,7 @@ namespace SafeExamBrowser.Contracts.Communication.Data
 		/// </summary>
 		public bool Success { get; private set; }
 
-		public PasswordReplyMessage(string password, Guid requestId, bool success)
+		public PasswordReplyMessage(Guid requestId, bool success, string password = null)
 		{
 			Password = password;
 			RequestId = requestId;

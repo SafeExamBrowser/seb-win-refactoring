@@ -12,6 +12,8 @@ using System.IO;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Contracts.Browser;
+using SafeExamBrowser.Contracts.Communication.Data;
+using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
@@ -37,6 +39,7 @@ namespace SafeExamBrowser.Client.Behaviour
 		private Action shutdown;
 		private ISplashScreen splashScreen;
 		private ITaskbar taskbar;
+		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		private IWindowMonitor windowMonitor;
 		private AppConfig appConfig;
@@ -68,6 +71,7 @@ namespace SafeExamBrowser.Client.Behaviour
 			IRuntimeProxy runtime,
 			Action shutdown,
 			ITaskbar taskbar,
+			IText text,
 			IUserInterfaceFactory uiFactory,
 			IWindowMonitor windowMonitor)
 		{
@@ -79,6 +83,7 @@ namespace SafeExamBrowser.Client.Behaviour
 			this.runtime = runtime;
 			this.shutdown = shutdown;
 			this.taskbar = taskbar;
+			this.text = text;
 			this.uiFactory = uiFactory;
 			this.windowMonitor = windowMonitor;
 		}
@@ -150,6 +155,8 @@ namespace SafeExamBrowser.Client.Behaviour
 		private void RegisterEvents()
 		{
 			Browser.ConfigurationDownloadRequested += Browser_ConfigurationDownloadRequested;
+			ClientHost.PasswordRequested += ClientHost_PasswordRequested;
+			ClientHost.ReconfigurationDenied += ClientHost_ReconfigurationDenied;
 			ClientHost.Shutdown += ClientHost_Shutdown;
 			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
 			processMonitor.ExplorerStarted += ProcessMonitor_ExplorerStarted;
@@ -161,6 +168,8 @@ namespace SafeExamBrowser.Client.Behaviour
 		private void DeregisterEvents()
 		{
 			Browser.ConfigurationDownloadRequested -= Browser_ConfigurationDownloadRequested;
+			ClientHost.PasswordRequested -= ClientHost_PasswordRequested;
+			ClientHost.ReconfigurationDenied -= ClientHost_ReconfigurationDenied;
 			ClientHost.Shutdown -= ClientHost_Shutdown;
 			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
 			processMonitor.ExplorerStarted -= ProcessMonitor_ExplorerStarted;
@@ -234,6 +243,27 @@ namespace SafeExamBrowser.Client.Behaviour
 				logger.Error($"Failed to download configuration file '{filePath}'!");
 				messageBox.Show(TextKey.MessageBox_ConfigurationDownloadError, TextKey.MessageBox_ConfigurationDownloadErrorTitle, icon: MessageBoxIcon.Error);
 			}
+		}
+
+		private void ClientHost_PasswordRequested(PasswordRequestEventArgs args)
+		{
+			var isAdmin = args.Purpose == PasswordRequestPurpose.Administrator;
+			var message = isAdmin ? TextKey.PasswordDialog_AdminPasswordRequired : TextKey.PasswordDialog_SettingsPasswordRequired;
+			var title = isAdmin ? TextKey.PasswordDialog_AdminPasswordRequiredTitle : TextKey.PasswordDialog_SettingsPasswordRequiredTitle;
+			var dialog = uiFactory.CreatePasswordDialog(text.Get(message), text.Get(title));
+
+			logger.Info($"Received input request with id '{args.RequestId}' for the {args.Purpose.ToString().ToLower()} password.");
+
+			var result = dialog.Show();
+
+			runtime.SubmitPassword(args.RequestId, result.Success, result.Password);
+			logger.Info($"Password request with id '{args.RequestId}' was {(result.Success ? "successful" : "aborted by the user")}.");
+		}
+
+		private void ClientHost_ReconfigurationDenied(ReconfigurationEventArgs args)
+		{
+			logger.Info($"The reconfiguration request for '{args.ConfigurationPath}' was denied by the runtime!");
+			messageBox.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle);
 		}
 
 		private void ClientHost_Shutdown()

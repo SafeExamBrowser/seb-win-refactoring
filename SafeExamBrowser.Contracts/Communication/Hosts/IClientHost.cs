@@ -22,6 +22,16 @@ namespace SafeExamBrowser.Contracts.Communication.Hosts
 		Guid StartupToken { set; }
 
 		/// <summary>
+		/// Event fired when the runtime requests a password input from the user.
+		/// </summary>
+		event CommunicationEventHandler<PasswordRequestEventArgs> PasswordRequested;
+
+		/// <summary>
+		/// Event fired when the runtime denied a reconfiguration request.
+		/// </summary>
+		event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationDenied;
+
+		/// <summary>
 		/// Event fired when the runtime commands the client to shutdown.
 		/// </summary>
 		event CommunicationEventHandler Shutdown;

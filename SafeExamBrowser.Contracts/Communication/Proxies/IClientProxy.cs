@@ -17,6 +17,11 @@ namespace SafeExamBrowser.Contracts.Communication.Proxies
 	public interface IClientProxy : ICommunicationProxy
 	{
 		/// <summary>
+		/// Informs the client that the reconfiguration request for the specified file was denied.
+		/// </summary>
+		void InformReconfigurationDenied(string filePath);
+
+		/// <summary>
 		/// Instructs the client to initiate its shutdown procedure.
 		/// </summary>
 		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
