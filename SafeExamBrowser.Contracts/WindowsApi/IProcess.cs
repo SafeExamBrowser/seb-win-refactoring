@@ -6,10 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.WindowsApi.Events;
+
 namespace SafeExamBrowser.Contracts.WindowsApi
 {
-	public delegate void ProcessTerminatedEventHandler(int exitCode);
-
 	/// <summary>
 	/// Represents a process and defines its functionality.
 	/// </summary>

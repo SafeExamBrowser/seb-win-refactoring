@@ -8,6 +8,8 @@
 
 using System;
 using SafeExamBrowser.Browser.Handlers;
+using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Behaviour.Events;
 using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
@@ -34,7 +36,7 @@ namespace SafeExamBrowser.Browser
 
 		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 		public event NameChangedEventHandler NameChanged;
-		public event TerminatedEventHandler Terminated;
+		public event InstanceTerminatedEventHandler Terminated;
 
 		public BrowserApplicationInstance(
 			AppConfig appConfig,

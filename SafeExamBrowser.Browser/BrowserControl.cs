@@ -11,6 +11,7 @@ using CefSharp.WinForms;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface.Browser;
+using SafeExamBrowser.Contracts.UserInterface.Browser.Events;
 using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
 
 namespace SafeExamBrowser.Browser

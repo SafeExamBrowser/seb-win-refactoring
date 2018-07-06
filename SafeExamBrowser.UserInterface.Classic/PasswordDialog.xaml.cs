@@ -8,6 +8,7 @@
 
 using System.Windows;
 using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
 
 namespace SafeExamBrowser.UserInterface.Classic

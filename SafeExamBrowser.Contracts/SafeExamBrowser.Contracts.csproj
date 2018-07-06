@@ -52,6 +52,8 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviour\Events\InstanceTerminatedEventHandler.cs" />
+    <Compile Include="Behaviour\Events\NameChangedEventHandler.cs" />
     <Compile Include="Behaviour\IApplicationController.cs" />
     <Compile Include="Behaviour\IRuntimeController.cs" />
     <Compile Include="Behaviour\OperationModel\IOperationSequence.cs" />
@@ -105,7 +107,7 @@
     <Compile Include="Behaviour\IClientController.cs" />
     <Compile Include="Configuration\IIconResource.cs" />
     <Compile Include="Configuration\IApplicationInfo.cs" />
-    <Compile Include="Configuration\IApplicationInstance.cs" />
+    <Compile Include="Behaviour\IApplicationInstance.cs" />
     <Compile Include="Configuration\INotificationInfo.cs" />
     <Compile Include="Configuration\ISystemInfo.cs" />
     <Compile Include="Configuration\OperatingSystem.cs" />
@@ -127,6 +129,9 @@
     <Compile Include="Logging\ILogText.cs" />
     <Compile Include="Logging\IThreadInfo.cs" />
     <Compile Include="Logging\LogLevel.cs" />
+    <Compile Include="Monitoring\Events\DisplayChangedEventHandler.cs" />
+    <Compile Include="Monitoring\Events\ExplorerStartedEventHandler.cs" />
+    <Compile Include="Monitoring\Events\WindowChangedEventHandler.cs" />
     <Compile Include="Monitoring\IDisplayMonitor.cs" />
     <Compile Include="Monitoring\IKeyboardInterceptor.cs" />
     <Compile Include="Monitoring\IMouseInterceptor.cs" />
@@ -140,11 +145,20 @@
     <Compile Include="SystemComponents\ISystemComponent.cs" />
     <Compile Include="SystemComponents\IWirelessNetwork.cs" />
     <Compile Include="SystemComponents\WirelessNetworkStatus.cs" />
+    <Compile Include="UserInterface\Browser\Events\ActionRequestedEventHandler.cs" />
+    <Compile Include="UserInterface\Browser\Events\AddressChangedEventHandler.cs" />
+    <Compile Include="UserInterface\Browser\Events\LoadingStateChangedEventHandler.cs" />
+    <Compile Include="UserInterface\Browser\Events\TitleChangedEventHandler.cs" />
     <Compile Include="UserInterface\Browser\IBrowserControl.cs" />
     <Compile Include="UserInterface\Browser\IBrowserWindow.cs" />
     <Compile Include="UserInterface\MessageBox\IMessageBox.cs" />
     <Compile Include="UserInterface\IProgressIndicator.cs" />
-    <Compile Include="UserInterface\Taskbar\QuitButtonClickedEventHandler.cs" />
+    <Compile Include="UserInterface\Taskbar\Events\ApplicationButtonClickedEventHandler.cs" />
+    <Compile Include="UserInterface\Taskbar\Events\KeyboardLayoutSelectedEventHandler.cs" />
+    <Compile Include="UserInterface\Taskbar\Events\NotificationButtonClickedEventHandler.cs" />
+    <Compile Include="UserInterface\Taskbar\Events\WindowClosingEventHandler.cs" />
+    <Compile Include="UserInterface\Taskbar\Events\WirelessNetworkSelectedEventHandler.cs" />
+    <Compile Include="UserInterface\Taskbar\Events\QuitButtonClickedEventHandler.cs" />
     <Compile Include="UserInterface\Windows\IPasswordDialog.cs" />
     <Compile Include="UserInterface\Windows\IPasswordDialogResult.cs" />
     <Compile Include="UserInterface\Windows\IRuntimeWindow.cs" />
@@ -163,6 +177,7 @@
     <Compile Include="UserInterface\Windows\IWindow.cs" />
     <Compile Include="UserInterface\MessageBox\MessageBoxAction.cs" />
     <Compile Include="UserInterface\MessageBox\MessageBoxIcon.cs" />
+    <Compile Include="WindowsApi\Events\ProcessTerminatedEventHandler.cs" />
     <Compile Include="WindowsApi\IBounds.cs" />
     <Compile Include="WindowsApi\IDesktop.cs" />
     <Compile Include="WindowsApi\INativeMethods.cs" />

@@ -6,12 +6,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.UserInterface.Browser.Events;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
 
 namespace SafeExamBrowser.Contracts.UserInterface.Browser
 {
-	public delegate void ActionRequestedEventHandler();
-
 	/// <summary>
 	/// Defines the functionality of a browser window, i.e. a window with an embedded browser instance (see <see cref="IBrowserControl"/>).
 	/// </summary>

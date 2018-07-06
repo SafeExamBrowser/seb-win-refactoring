@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.Contracts.WindowsApi.Events;
 
 namespace SafeExamBrowser.WindowsApi
 {

@@ -6,10 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
+
 namespace SafeExamBrowser.Contracts.UserInterface.Windows
 {
-	public delegate void WindowClosingEventHandler();
-
 	/// <summary>
 	/// Defines the functionality of a window.
 	/// </summary>

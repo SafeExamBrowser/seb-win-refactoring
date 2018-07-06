@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
+using SafeExamBrowser.Contracts.Monitoring.Events;
 using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Monitoring.Display

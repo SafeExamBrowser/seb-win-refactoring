@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Windows;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
 using SafeExamBrowser.UserInterface.Windows10.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Windows10

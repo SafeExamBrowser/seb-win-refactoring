@@ -8,11 +8,10 @@
 
 using System.Collections.Generic;
 using SafeExamBrowser.Contracts.SystemComponents;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
 
 namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
-	public delegate void WirelessNetworkSelectedEventHandler(IWirelessNetwork network);
-
 	/// <summary>
 	/// The control of the wireless network system component.
 	/// </summary>

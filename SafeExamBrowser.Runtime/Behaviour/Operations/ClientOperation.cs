@@ -16,6 +16,7 @@ using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.Contracts.WindowsApi.Events;
 
 namespace SafeExamBrowser.Runtime.Behaviour.Operations
 {

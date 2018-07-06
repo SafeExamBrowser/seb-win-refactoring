@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
 
 namespace SafeExamBrowser.Client.UnitTests.Notifications
 {

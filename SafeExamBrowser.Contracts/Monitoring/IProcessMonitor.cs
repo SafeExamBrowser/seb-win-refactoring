@@ -7,19 +7,17 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Monitoring.Events;
 
 namespace SafeExamBrowser.Contracts.Monitoring
 {
-	public delegate void ExplorerStartedEventHandler();
-
 	/// <summary>
 	/// Monitors the processes running on the computer and provides access to process-related functionality.
 	/// </summary>
 	public interface IProcessMonitor
 	{
 		/// <summary>
-		/// Event fired when the process monitor observes that a new instance of
-		/// the Windows explorer has been started.
+		/// Event fired when the process monitor observes that a new instance of the Windows explorer has been started.
 		/// </summary>
 		event ExplorerStartedEventHandler ExplorerStarted;
 
@@ -39,8 +37,8 @@ namespace SafeExamBrowser.Contracts.Monitoring
 		void StartExplorerShell();
 
 		/// <summary>
-		/// Starts monitoring the Windows explorer, i.e. any newly created instances of
-		/// <c>explorer.exe</c> will trigger the <c>ExplorerStarted</c> event.
+		/// Starts monitoring the Windows explorer, i.e. any newly created instances of <c>explorer.exe</c> will trigger the
+		/// <see cref="ExplorerStarted"/> event.
 		/// </summary>
 		void StartMonitoringExplorer();
 

@@ -7,11 +7,10 @@
  */
 
 using SafeExamBrowser.Contracts.SystemComponents;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
 
 namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
-	public delegate void KeyboardLayoutSelectedEventHandler(IKeyboardLayout layout);
-
 	/// <summary>
 	/// The control of the keyboard layout system component.
 	/// </summary>

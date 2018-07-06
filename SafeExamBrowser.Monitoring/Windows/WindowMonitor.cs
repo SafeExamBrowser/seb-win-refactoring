@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
+using SafeExamBrowser.Contracts.Monitoring.Events;
 using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Monitoring.Windows

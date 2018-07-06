@@ -7,11 +7,10 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Monitoring.Events;
 
 namespace SafeExamBrowser.Contracts.Monitoring
 {
-	public delegate void WindowChangedEventHandler(IntPtr window);
-
 	/// <summary>
 	/// Monitors the windows associated with the current desktop and provides window-related functionality.
 	/// </summary>

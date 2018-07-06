@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CefSharp;
+using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;

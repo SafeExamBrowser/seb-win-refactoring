@@ -6,6 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
+
 namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
 	/// <summary>

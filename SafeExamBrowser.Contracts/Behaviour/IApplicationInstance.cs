@@ -7,14 +7,11 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.Behaviour.Events;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
 
-namespace SafeExamBrowser.Contracts.Configuration
+namespace SafeExamBrowser.Contracts.Behaviour
 {
-	public delegate void TerminatedEventHandler(Guid id);
-	public delegate void NameChangedEventHandler(string name);
-
 	/// <summary>
 	/// Defines an instance of a (third-party) application which can be accessed via the <see cref="UserInterface.Taskbar.ITaskbar"/>.
 	/// </summary>
@@ -33,7 +30,7 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// <summary>
 		/// Event fired when the application instance has been terminated.
 		/// </summary>
-		event TerminatedEventHandler Terminated;
+		event InstanceTerminatedEventHandler Terminated;
 
 		/// <summary>
 		/// Event fired when the name or (document) title of the application instance has changed.

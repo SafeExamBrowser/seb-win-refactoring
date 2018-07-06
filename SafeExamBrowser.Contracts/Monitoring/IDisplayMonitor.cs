@@ -6,10 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.Monitoring.Events;
+
 namespace SafeExamBrowser.Contracts.Monitoring
 {
-	public delegate void DisplayChangedEventHandler();
-
 	/// <summary>
 	/// Monitors the displays of the computer for (setup) changes and provides access to display-related functionality.
 	/// </summary>

@@ -11,6 +11,8 @@ using System.Windows;
 using System.Windows.Input;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.UserInterface.Browser;
+using SafeExamBrowser.Contracts.UserInterface.Browser.Events;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
 using SafeExamBrowser.UserInterface.Classic.Utilities;
 

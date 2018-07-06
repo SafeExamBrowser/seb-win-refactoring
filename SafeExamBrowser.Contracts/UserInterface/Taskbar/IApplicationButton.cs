@@ -6,13 +6,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
 
 namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 {
-	public delegate void ApplicationButtonClickedEventHandler(Guid? instanceId = null);
-
 	/// <summary>
 	/// The button of a (third-party) application which can be loaded into the <see cref="ITaskbar"/>.
 	/// </summary>

@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
 
 namespace SafeExamBrowser.UserInterface.Classic.Controls
 {

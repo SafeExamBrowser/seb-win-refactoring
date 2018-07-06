@@ -9,6 +9,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.UserInterface.Windows10.Utilities;
 
