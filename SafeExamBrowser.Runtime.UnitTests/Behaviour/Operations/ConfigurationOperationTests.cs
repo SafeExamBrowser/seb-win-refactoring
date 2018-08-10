@@ -335,6 +335,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		public void MustRequestPasswordViaClientDuringReconfigurationOnNewDesktop()
 		{
 			var clientProxy = new Mock<IClientProxy>();
+			var communication = new CommunicationResult(true);
 			var passwordReceived = new Action<PasswordRequestPurpose, Guid>((p, id) =>
 			{
 				runtimeHost.Raise(r => r.PasswordReceived += null, new PasswordReplyEventArgs { RequestId = id, Success = true });
@@ -342,7 +343,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			var session = new Mock<ISessionData>();
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			clientProxy.Setup(c => c.RequestPassword(It.IsAny<PasswordRequestPurpose>(), It.IsAny<Guid>())).Callback(passwordReceived);
+			clientProxy.Setup(c => c.RequestPassword(It.IsAny<PasswordRequestPurpose>(), It.IsAny<Guid>())).Returns(communication).Callback(passwordReceived);
 			passwordDialog.Setup(d => d.Show(null)).Returns(new PasswordDialogResultStub { Success = true });
 			repository.SetupGet(r => r.CurrentSession).Returns(session.Object);
 			repository.Setup(r => r.LoadSettings(It.IsAny<Uri>(), null, null)).Returns(LoadStatus.SettingsPasswordNeeded);
@@ -361,6 +362,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		public void MustAbortAskingForPasswordViaClientIfDecidedByUser()
 		{
 			var clientProxy = new Mock<IClientProxy>();
+			var communication = new CommunicationResult(true);
 			var passwordReceived = new Action<PasswordRequestPurpose, Guid>((p, id) =>
 			{
 				runtimeHost.Raise(r => r.PasswordReceived += null, new PasswordReplyEventArgs { RequestId = id, Success = false });
@@ -368,8 +370,28 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			var session = new Mock<ISessionData>();
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			clientProxy.Setup(c => c.RequestPassword(It.IsAny<PasswordRequestPurpose>(), It.IsAny<Guid>())).Callback(passwordReceived);
-			passwordDialog.Setup(d => d.Show(null)).Returns(new PasswordDialogResultStub { Success = true });
+			clientProxy.Setup(c => c.RequestPassword(It.IsAny<PasswordRequestPurpose>(), It.IsAny<Guid>())).Returns(communication).Callback(passwordReceived);
+			repository.SetupGet(r => r.CurrentSession).Returns(session.Object);
+			repository.Setup(r => r.LoadSettings(It.IsAny<Uri>(), null, null)).Returns(LoadStatus.SettingsPasswordNeeded);
+			session.SetupGet(r => r.ClientProxy).Returns(clientProxy.Object);
+			settings.KioskMode = KioskMode.CreateNewDesktop;
+
+			sut = new ConfigurationOperation(appConfig, repository.Object, logger.Object, messageBox.Object, resourceLoader.Object, runtimeHost.Object, text.Object, uiFactory.Object, new[] { "blubb.exe", url });
+
+			var result = sut.Perform();
+
+			Assert.AreEqual(OperationResult.Aborted, result);
+		}
+
+		[TestMethod]
+		public void MustNotWaitForPasswordViaClientIfCommunicationHasFailed()
+		{
+			var clientProxy = new Mock<IClientProxy>();
+			var communication = new CommunicationResult(false);
+			var session = new Mock<ISessionData>();
+			var url = @"http://www.safeexambrowser.org/whatever.seb";
+
+			clientProxy.Setup(c => c.RequestPassword(It.IsAny<PasswordRequestPurpose>(), It.IsAny<Guid>())).Returns(communication);
 			repository.SetupGet(r => r.CurrentSession).Returns(session.Object);
 			repository.Setup(r => r.LoadSettings(It.IsAny<Uri>(), null, null)).Returns(LoadStatus.SettingsPasswordNeeded);
 			session.SetupGet(r => r.ClientProxy).Returns(clientProxy.Object);

@@ -101,21 +101,20 @@ namespace SafeExamBrowser.Client.Behaviour
 			{
 				RegisterEvents();
 
-				try
+				var communication = runtime.InformClientReady();
+
+				if (communication.Success)
 				{
-					runtime.InformClientReady();
+					splashScreen.Hide();
+
+					logger.Info("--- Application successfully initialized ---");
+					logger.Log(string.Empty);
 				}
-				catch (Exception e)
+				else
 				{
-					logger.Error("Failed to inform runtime that client is ready!", e);
-
-					return false;
+					success = false;
+					logger.Error("Failed to inform runtime that client is ready!");
 				}
-
-				splashScreen.Hide();
-
-				logger.Info("--- Application successfully initialized ---");
-				logger.Log(string.Empty);
 			}
 			else
 			{
@@ -227,14 +226,15 @@ namespace SafeExamBrowser.Client.Behaviour
 		{
 			if (success)
 			{
-				try
+				var communication = runtime.RequestReconfiguration(filePath);
+
+				if (communication.Success)
 				{
-					runtime.RequestReconfiguration(filePath);
 					logger.Info($"Sent reconfiguration request for '{filePath}' to the runtime.");
 				}
-				catch (Exception e)
+				else
 				{
-					logger.Error($"Failed to communicate reconfiguration request for '{filePath}'!", e);
+					logger.Error($"Failed to communicate reconfiguration request for '{filePath}'!");
 					messageBox.Show(TextKey.MessageBox_ReconfigurationError, TextKey.MessageBox_ReconfigurationErrorTitle, icon: MessageBoxIcon.Error);
 				}
 			}
@@ -287,13 +287,11 @@ namespace SafeExamBrowser.Client.Behaviour
 
 			if (result == MessageBoxResult.Yes)
 			{
-				try
+				var communication = runtime.RequestShutdown();
+
+				if (!communication.Success)
 				{
-					runtime.RequestShutdown();
-				}
-				catch (Exception e)
-				{
-					logger.Error("Failed to communicate shutdown request to the runtime!", e);
+					logger.Error("Failed to communicate shutdown request to the runtime!");
 					messageBox.Show(TextKey.MessageBox_QuitError, TextKey.MessageBox_QuitErrorTitle, icon: MessageBoxIcon.Error);
 				}
 			}

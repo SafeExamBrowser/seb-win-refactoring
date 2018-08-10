@@ -172,17 +172,11 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			var title = isAdmin ? TextKey.PasswordDialog_AdminPasswordRequiredTitle : TextKey.PasswordDialog_SettingsPasswordRequiredTitle;
 			var dialog = uiFactory.CreatePasswordDialog(text.Get(message), text.Get(title));
 			var result = dialog.Show();
+			var success = result.Success;
 
-			if (result.Success)
-			{
-				password = result.Password;
-			}
-			else
-			{
-				password = default(string);
-			}
+			password = success ? result.Password : default(string);
 
-			return result.Success;
+			return success;
 		}
 
 		private bool TryGetPasswordViaClient(PasswordRequestPurpose purpose, out string password)
@@ -200,20 +194,20 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			});
 
 			runtimeHost.PasswordReceived += responseEventHandler;
-			configuration.CurrentSession.ClientProxy.RequestPassword(purpose, requestId);
-			responseEvent.WaitOne();
+
+			var communication = configuration.CurrentSession.ClientProxy.RequestPassword(purpose, requestId);
+
+			if (communication.Success)
+			{
+				responseEvent.WaitOne();
+			}
+
+			var success = response?.Success == true;
+
 			runtimeHost.PasswordReceived -= responseEventHandler;
+			password = success ? response.Password : default(string);
 
-			if (response.Success)
-			{
-				password = response.Password;
-			}
-			else
-			{
-				password = default(string);
-			}
-
-			return response.Success;
+			return success;
 		}
 
 		private void HandleInvalidData(ref LoadStatus status, Uri uri)

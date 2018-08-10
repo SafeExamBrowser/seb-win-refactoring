@@ -36,25 +36,18 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			logger.Info("Initializing runtime connection...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeRuntimeConnection);
 
-			try
-			{
-				connected = runtime.Connect(token);
-			}
-			catch (Exception e)
-			{
-				logger.Error("An unexpected error occurred while trying to connect to the runtime!", e);
-			}
+			connected = runtime.Connect(token);
 
-			if (!connected)
+			if (connected)
+			{
+				logger.Info("Successfully connected to the runtime.");
+			}
+			else
 			{
 				logger.Error("Failed to connect to the runtime. Aborting startup...");
-
-				return OperationResult.Failed;
 			}
 
-			logger.Info("Successfully connected to the runtime.");
-
-			return OperationResult.Success;
+			return connected ? OperationResult.Success : OperationResult.Failed;
 		}
 
 		public OperationResult Repeat()
@@ -69,13 +62,15 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 
 			if (connected)
 			{
-				try
+				var success = runtime.Disconnect();
+
+				if (success)
 				{
-					runtime.Disconnect();
+					logger.Info("Successfully disconnected from the runtime.");
 				}
-				catch (Exception e)
+				else
 				{
-					logger.Error("Failed to disconnect from runtime host!", e);
+					logger.Error("Failed to disconnect from the runtime!");
 				}
 			}
 		}

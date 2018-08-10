@@ -10,7 +10,6 @@ using System;
 using System.ServiceModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
@@ -52,18 +51,20 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		{
 			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.Shutdown))).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
 
-			sut.InitiateShutdown();
+			var communication = sut.InitiateShutdown();
 
 			proxy.Verify(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.Shutdown)), Times.Once);
+			Assert.IsTrue(communication.Success);
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(CommunicationException))]
-		public void MustFailIfShutdownCommandNotAcknowledged()
+		public void MustIndicateIfShutdownCommandNotAcknowledged()
 		{
 			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.Shutdown))).Returns<Response>(null);
 
-			sut.InitiateShutdown();
+			var communication = sut.InitiateShutdown();
+
+			Assert.IsFalse(communication.Success);
 		}
 
 		[TestMethod]
@@ -71,20 +72,24 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		{
 			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.Authenticate))).Returns(new AuthenticationResponse());
 
-			var response = sut.RequestAuthentication();
+			var communication = sut.RequestAuthentication();
+			var response = communication.Value;
 
 			proxy.Verify(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.Authenticate)), Times.Once);
 
+			Assert.IsTrue(communication.Success);
 			Assert.IsInstanceOfType(response, typeof(AuthenticationResponse));
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(CommunicationException))]
-		public void MustFailIfAuthenticationCommandNotFollowed()
+		public void MustIndicateIfAuthenticationCommandNotAcknowledged()
 		{
 			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.Authenticate))).Returns<Response>(null);
 
-			sut.RequestAuthentication();
+			var communication = sut.RequestAuthentication();
+
+			Assert.AreEqual(default(AuthenticationResponse), communication.Value);
+			Assert.IsFalse(communication.Success);
 		}
 	}
 }

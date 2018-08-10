@@ -31,6 +31,7 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 		private Guid? communicationToken;
 		private Timer timer;
 
+		protected bool IsConnected { get { return communicationToken.HasValue; } }
 		protected ILogger Logger { get; private set; }
 
 		public event CommunicationEventHandler ConnectionLost;
@@ -44,50 +45,76 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 
 		public virtual bool Connect(Guid? token = null, bool autoPing = true)
 		{
-			Logger.Debug($"Trying to connect to endpoint '{address}'{(token.HasValue ? $" with authentication token '{token}'" : string.Empty)}...");
-
-			InitializeProxyObject();
-
-			var response = proxy.Connect(token);
-
-			communicationToken = response.CommunicationToken;
-			Logger.Debug($"Connection was {(response.ConnectionEstablished ? "established" : "refused")}.");
-
-			if (response.ConnectionEstablished && autoPing)
+			try
 			{
-				StartAutoPing();
-			}
+				Logger.Debug($"Trying to connect to endpoint '{address}'{(token.HasValue ? $" with authentication token '{token}'" : string.Empty)}...");
 
-			return response.ConnectionEstablished;
+				InitializeProxyObject();
+
+				var response = proxy.Connect(token);
+				var success = response.ConnectionEstablished;
+
+				communicationToken = response.CommunicationToken;
+				Logger.Debug($"Connection was {(success ? "established" : "refused")}.");
+
+				if (success && autoPing)
+				{
+					StartAutoPing();
+				}
+
+				return success;
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to connect to endpoint '{address}'!", e);
+
+				return false;
+			}
 		}
 
 		public virtual bool Disconnect()
 		{
-			FailIfNotConnected(nameof(Disconnect));
-			StopAutoPing();
+			try
+			{
+				if (!IsConnected)
+				{
+					Logger.Warn($"Cannot disconnect from endpoint '{address}' before being connected!");
 
-			var message = new DisconnectionMessage { CommunicationToken = communicationToken.Value };
-			var response = proxy.Disconnect(message);
+					return false;
+				}
 
-			Logger.Debug($"{(response.ConnectionTerminated ? "Disconnected" : "Failed to disconnect")} from {address}.");
+				StopAutoPing();
 
-			return response.ConnectionTerminated;
+				var message = new DisconnectionMessage { CommunicationToken = communicationToken.Value };
+				var response = proxy.Disconnect(message);
+				var success = response.ConnectionTerminated;
+
+				Logger.Debug($"{(success ? "Disconnected" : "Failed to disconnect")} from {address}.");
+
+				if (success)
+				{
+					communicationToken = null;
+				}
+
+				return success;
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to disconnect from endpoint '{address}'!", e);
+
+				return false;
+			}
 		}
 
 		/// <summary>
 		/// Sends the given message, optionally returning a response. If no response is expected, <c>null</c> will be returned.
 		/// </summary>
 		/// <exception cref="ArgumentNullException">If the given message is <c>null</c>.</exception>
-		/// <exception cref="InvalidOperationException">If no connection has been established yet.</exception>
-		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
+		/// <exception cref="InvalidOperationException">If no connection has been established yet or the connection is corrupted.</exception>
 		protected virtual Response Send(Message message)
 		{
-			if (message is null)
-			{
-				throw new ArgumentNullException(nameof(message));
-			}
-
-			FailIfNotConnected(nameof(Send));
+			FailIfNull(message);
+			FailIfNotConnected();
 
 			message.CommunicationToken = communicationToken.Value;
 
@@ -195,16 +222,24 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 			Logger.Debug("Communication channel is opening...");
 		}
 
-		private void FailIfNotConnected(string operationName)
+		private void FailIfNull(Message message)
 		{
-			if (!communicationToken.HasValue)
+			if (message is null)
 			{
-				throw new InvalidOperationException($"Cannot perform '{operationName}' before being connected to endpoint!");
+				throw new ArgumentNullException(nameof(message));
+			}
+		}
+
+		private void FailIfNotConnected()
+		{
+			if (!IsConnected)
+			{
+				throw new InvalidOperationException($"Cannot send message before being connected to endpoint '{address}'!");
 			}
 
 			if (proxy == null || proxy.State != CommunicationState.Opened)
 			{
-				throw new CommunicationException($"Tried to perform {operationName}, but channel was {GetChannelState()}!");
+				throw new InvalidOperationException($"Tried to send message, but channel was {GetChannelState()}!");
 			}
 		}
 

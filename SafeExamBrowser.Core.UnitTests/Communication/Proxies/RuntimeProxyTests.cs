@@ -57,20 +57,23 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 
 			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.ConfigurationNeeded))).Returns(response);
 
-			var configuration = sut.GetConfiguration();
+			var communication = sut.GetConfiguration();
+			var configuration = communication.Value.Configuration;
 
 			proxy.Verify(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.ConfigurationNeeded)), Times.Once);
 
+			Assert.IsTrue(communication.Success);
 			Assert.IsInstanceOfType(configuration, typeof(ClientConfiguration));
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(CommunicationException))]
 		public void MustFailIfConfigurationNotRetrieved()
 		{
 			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.ConfigurationNeeded))).Returns<Response>(null);
 
-			sut.GetConfiguration();
+			var communication = sut.GetConfiguration();
+
+			Assert.IsFalse(communication.Success);
 		}
 
 		[TestMethod]
@@ -78,18 +81,20 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		{
 			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.ClientIsReady))).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
 
-			sut.InformClientReady();
+			var communication = sut.InformClientReady();
 
+			Assert.IsTrue(communication.Success);
 			proxy.Verify(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.ClientIsReady)), Times.Once);
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(CommunicationException))]
 		public void MustFailIfClientReadyNotAcknowledged()
 		{
 			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.ClientIsReady))).Returns<Response>(null);
 
-			sut.InformClientReady();
+			var communication = sut.InformClientReady();
+
+			Assert.IsFalse(communication.Success);
 		}
 
 		[TestMethod]
@@ -99,20 +104,22 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 
 			proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationPath == url))).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
 
-			sut.RequestReconfiguration(url);
+			var communication = sut.RequestReconfiguration(url);
 
+			Assert.IsTrue(communication.Success);
 			proxy.Verify(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationPath == url)), Times.Once);
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(CommunicationException))]
 		public void MustFailIfReconfigurationRequestNotAcknowledged()
 		{
 			var url = "file:///C:/Some/file/url.seb";
 
 			proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationPath == url))).Returns<Response>(null);
 
-			sut.RequestReconfiguration(url);
+			var communication = sut.RequestReconfiguration(url);
+
+			Assert.IsFalse(communication.Success);
 		}
 
 		[TestMethod]
@@ -120,18 +127,20 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		{
 			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.RequestShutdown))).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
 
-			sut.RequestShutdown();
+			var communication = sut.RequestShutdown();
 
+			Assert.IsTrue(communication.Success);
 			proxy.Verify(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.RequestShutdown)), Times.Once);
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(CommunicationException))]
 		public void MustFailIfShutdownRequestNotAcknowledged()
 		{
 			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.RequestShutdown))).Returns<Response>(null);
 
-			sut.RequestShutdown();
+			var communication = sut.RequestShutdown();
+
+			Assert.IsFalse(communication.Success);
 		}
 	}
 }

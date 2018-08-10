@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.ServiceModel;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
@@ -23,45 +22,107 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 		{
 		}
 
-		public void InformReconfigurationDenied(string filePath)
+		public CommunicationResult InformReconfigurationDenied(string filePath)
 		{
-			var response = Send(new ReconfigurationDeniedMessage(filePath));
-
-			if (!IsAcknowledged(response))
+			try
 			{
-				throw new CommunicationException($"Client did not acknowledge shutdown request! Received: {ToString(response)}.");
+				var response = Send(new ReconfigurationDeniedMessage(filePath));
+				var success = IsAcknowledged(response);
+
+				if (success)
+				{
+					Logger.Debug("Client acknowledged reconfiguration denial.");
+				}
+				else
+				{
+					Logger.Error($"Client did not acknowledge reconfiguration denial! Received: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(success);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(InformReconfigurationDenied)}'", e);
+
+				return new CommunicationResult(false);
 			}
 		}
 
-		public void InitiateShutdown()
+		public CommunicationResult InitiateShutdown()
 		{
-			var response = Send(SimpleMessagePurport.Shutdown);
-
-			if (!IsAcknowledged(response))
+			try
 			{
-				throw new CommunicationException($"Client did not acknowledge shutdown request! Received: {ToString(response)}.");
+				var response = Send(SimpleMessagePurport.Shutdown);
+				var success = IsAcknowledged(response);
+
+				if (success)
+				{
+					Logger.Debug("Client acknowledged shutdown request.");
+				}
+				else
+				{
+					Logger.Error($"Client did not acknowledge shutdown request! Received: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(success);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(InitiateShutdown)}'", e);
+
+				return new CommunicationResult(false);
 			}
 		}
 
-		public AuthenticationResponse RequestAuthentication()
+		public CommunicationResult<AuthenticationResponse> RequestAuthentication()
 		{
-			var response = Send(SimpleMessagePurport.Authenticate);
-
-			if (response is AuthenticationResponse authenticationResponse)
+			try
 			{
-				return authenticationResponse;
-			}
+				var response = Send(SimpleMessagePurport.Authenticate);
+				var success = response is AuthenticationResponse;
 
-			throw new CommunicationException($"Did not receive authentication response! Received: {ToString(response)}.");
+				if (success)
+				{
+					Logger.Debug("Received authentication response.");
+				}
+				else
+				{
+					Logger.Error($"Did not receive authentication response! Received: {ToString(response)}.");
+				}
+
+				return new CommunicationResult<AuthenticationResponse>(success, response as AuthenticationResponse);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(RequestAuthentication)}'", e);
+
+				return new CommunicationResult<AuthenticationResponse>(false, default(AuthenticationResponse));
+			}
 		}
 
-		public void RequestPassword(PasswordRequestPurpose purpose, Guid requestId)
+		public CommunicationResult RequestPassword(PasswordRequestPurpose purpose, Guid requestId)
 		{
-			var response = Send(new PasswordRequestMessage(purpose, requestId));
-
-			if (!IsAcknowledged(response))
+			try
 			{
-				throw new CommunicationException($"Client did not acknowledge shutdown request! Received: {ToString(response)}.");
+				var response = Send(new PasswordRequestMessage(purpose, requestId));
+				var success = IsAcknowledged(response);
+
+				if (success)
+				{
+					Logger.Debug("Client acknowledged password request.");
+				}
+				else
+				{
+					Logger.Error($"Client did not acknowledge password request! Received: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(success);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(RequestPassword)}'", e);
+
+				return new CommunicationResult(false);
 			}
 		}
 	}

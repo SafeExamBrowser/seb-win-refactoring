@@ -106,14 +106,14 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(InvalidOperationException))]
 		public void MustFailToDisconnectIfNotConnected()
 		{
-			sut.Disconnect();
+			var success = sut.Disconnect();
+
+			Assert.IsFalse(success);
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(CommunicationException))]
 		public void MustFailToDisconnectIfChannelNotOpen()
 		{
 			var proxy = new Mock<IProxyObject>();
@@ -130,7 +130,10 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 			var token = Guid.NewGuid();
 
 			sut.Connect(token);
-			sut.Disconnect();
+
+			var success = sut.Disconnect();
+
+			Assert.IsFalse(success);
 		}
 
 		[TestMethod]
@@ -141,7 +144,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(CommunicationException))]
+		[ExpectedException(typeof(InvalidOperationException))]
 		public void MustFailToSendIfChannelNotOpen()
 		{
 			var proxy = new Mock<IProxyObject>();

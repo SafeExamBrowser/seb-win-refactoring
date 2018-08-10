@@ -7,10 +7,8 @@
  */
 
 using System;
-using System.ServiceModel;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Core.Communication.Proxies
@@ -24,55 +22,133 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 		{
 		}
 
-		public ClientConfiguration GetConfiguration()
+		public CommunicationResult<ConfigurationResponse> GetConfiguration()
 		{
-			var response = Send(SimpleMessagePurport.ConfigurationNeeded);
-
-			if (response is ConfigurationResponse configurationResponse)
+			try
 			{
-				return configurationResponse.Configuration;
+				var response = Send(SimpleMessagePurport.ConfigurationNeeded);
+				var success = response is ConfigurationResponse;
+
+				if (success)
+				{
+					Logger.Debug("Received configuration response.");
+				}
+				else
+				{
+					Logger.Error($"Did not retrieve configuration response! Received: {ToString(response)}.");
+				}
+
+				return new CommunicationResult<ConfigurationResponse>(success, response as ConfigurationResponse);
 			}
-
-			throw new CommunicationException($"Could not retrieve client configuration! Received: {ToString(response)}.");
-		}
-
-		public void InformClientReady()
-		{
-			var response = Send(SimpleMessagePurport.ClientIsReady);
-
-			if (!IsAcknowledged(response))
+			catch (Exception e)
 			{
-				throw new CommunicationException($"Runtime did not acknowledge that client is ready! Response: {ToString(response)}.");
-			}
-		}
+				Logger.Error($"Failed to perform '{nameof(GetConfiguration)}'", e);
 
-		public void RequestReconfiguration(string filePath)
-		{
-			var response = Send(new ReconfigurationMessage(filePath));
-
-			if (!IsAcknowledged(response))
-			{
-				throw new CommunicationException($"Runtime did not acknowledge reconfiguration request! Response: {ToString(response)}.");
+				return new CommunicationResult<ConfigurationResponse>(false, default(ConfigurationResponse));
 			}
 		}
 
-		public void RequestShutdown()
+		public CommunicationResult InformClientReady()
 		{
-			var response = Send(SimpleMessagePurport.RequestShutdown);
-
-			if (!IsAcknowledged(response))
+			try
 			{
-				throw new CommunicationException($"Runtime did not acknowledge shutdown request! Response: {ToString(response)}.");
+				var response = Send(SimpleMessagePurport.ClientIsReady);
+				var success = IsAcknowledged(response);
+
+				if (success)
+				{
+					Logger.Debug("Runtime acknowledged that the client is ready.");
+				}
+				else
+				{
+					Logger.Error($"Runtime did not acknowledge that the client is ready! Response: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(success);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(InformClientReady)}'", e);
+
+				return new CommunicationResult(false);
 			}
 		}
 
-		public void SubmitPassword(Guid requestId, bool success, string password = null)
+		public CommunicationResult RequestReconfiguration(string filePath)
 		{
-			var response = Send(new PasswordReplyMessage(requestId, success, password));
-
-			if (!IsAcknowledged(response))
+			try
 			{
-				throw new CommunicationException($"Runtime did not acknowledge password submission! Response: {ToString(response)}.");
+				var response = Send(new ReconfigurationMessage(filePath));
+				var success = IsAcknowledged(response);
+
+				if (success)
+				{
+					Logger.Debug("Runtime acknowledged reconfiguration request.");
+				}
+				else
+				{
+					Logger.Error($"Runtime did not acknowledge reconfiguration request! Response: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(success);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(RequestReconfiguration)}'", e);
+
+				return new CommunicationResult(false);
+			}
+		}
+
+		public CommunicationResult RequestShutdown()
+		{
+			try
+			{
+				var response = Send(SimpleMessagePurport.RequestShutdown);
+				var success = IsAcknowledged(response);
+
+				if (success)
+				{
+					Logger.Debug("Runtime acknowledged shutdown request.");
+				}
+				else
+				{
+					Logger.Error($"Runtime did not acknowledge shutdown request! Response: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(success);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(RequestShutdown)}'", e);
+
+				return new CommunicationResult(false);
+			}
+		}
+
+		public CommunicationResult SubmitPassword(Guid requestId, bool success, string password = null)
+		{
+			try
+			{
+				var response = Send(new PasswordReplyMessage(requestId, success, password));
+				var acknowledged = IsAcknowledged(response);
+
+				if (acknowledged)
+				{
+					Logger.Debug("Runtime acknowledged password transmission.");
+				}
+				else
+				{
+					Logger.Error($"Runtime did not acknowledge password transmission! Response: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(acknowledged);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(SubmitPassword)}'", e);
+
+				return new CommunicationResult(false);
 			}
 		}
 	}

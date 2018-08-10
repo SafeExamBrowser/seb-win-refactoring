@@ -10,7 +10,6 @@ using System;
 using System.ServiceModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
@@ -68,8 +67,10 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		public void MustIgnoreStartSessionIfUnavaiable()
 		{
 			sut.Ignore = true;
-			sut.StartSession(Guid.Empty, null);
 
+			var communication = sut.StartSession(Guid.Empty, null);
+
+			Assert.IsTrue(communication.Success);
 			proxy.Verify(p => p.Send(It.IsAny<Message>()), Times.Never);
 		}
 
@@ -77,8 +78,10 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		public void MustIgnoreStopSessionIfUnavaiable()
 		{
 			sut.Ignore = true;
-			sut.StopSession(Guid.Empty);
 
+			var communication = sut.StopSession(Guid.Empty);
+
+			Assert.IsTrue(communication.Success);
 			proxy.Verify(p => p.Send(It.IsAny<Message>()), Times.Never);
 		}
 	}

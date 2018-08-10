@@ -19,24 +19,21 @@ namespace SafeExamBrowser.Contracts.Communication.Proxies
 		/// <summary>
 		/// Informs the client that the reconfiguration request for the specified file was denied.
 		/// </summary>
-		void InformReconfigurationDenied(string filePath);
+		CommunicationResult InformReconfigurationDenied(string filePath);
 
 		/// <summary>
 		/// Instructs the client to initiate its shutdown procedure.
 		/// </summary>
-		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
-		void InitiateShutdown();
+		CommunicationResult InitiateShutdown();
 
 		/// <summary>
 		/// Instructs the client to submit its authentication data.
 		/// </summary>
-		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
-		AuthenticationResponse RequestAuthentication();
+		CommunicationResult<AuthenticationResponse> RequestAuthentication();
 
 		/// <summary>
 		/// Requests the client to render a password dialog and subsequently return the interaction result as separate message.
 		/// </summary>
-		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
-		void RequestPassword(PasswordRequestPurpose purpose, Guid requestId);
+		CommunicationResult RequestPassword(PasswordRequestPurpose purpose, Guid requestId);
 	}
 }

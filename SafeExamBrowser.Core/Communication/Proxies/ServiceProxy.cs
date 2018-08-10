@@ -38,32 +38,36 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 		{
 			if (IgnoreOperation(nameof(Disconnect)))
 			{
-				return true;
+				return false;
 			}
 
 			return base.Disconnect();
 		}
 
-		public void StartSession(Guid sessionId, Settings settings)
+		public CommunicationResult StartSession(Guid sessionId, Settings settings)
 		{
 			if (IgnoreOperation(nameof(StartSession)))
 			{
-				return;
+				return new CommunicationResult(true);
 			}
 
 			// TODO: Implement service communication
 			// Send(new StartSessionMessage { Id = sessionId, Settings = settings });
+
+			throw new NotImplementedException();
 		}
 
-		public void StopSession(Guid sessionId)
+		public CommunicationResult StopSession(Guid sessionId)
 		{
 			if (IgnoreOperation(nameof(StopSession)))
 			{
-				return;
+				return new CommunicationResult(true);
 			}
 
 			// TODO: Implement service communication
 			// Send(new StopSessionMessage { SessionId = sessionId });
+
+			throw new NotImplementedException();
 		}
 
 		private bool IgnoreOperation(string operationName)

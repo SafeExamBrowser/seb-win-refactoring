@@ -67,10 +67,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		{
 			var result = default(OperationResult);
 			var response = new AuthenticationResponse { ProcessId = 1234 };
+			var communication = new CommunicationResult<AuthenticationResponse>(true, response);
 
 			process.SetupGet(p => p.Id).Returns(response.ProcessId);
 			processFactory.Setup(f => f.StartNew(It.IsAny<string>(), It.IsAny<string[]>())).Returns(process.Object).Callback(clientReady);
-			proxy.Setup(p => p.RequestAuthentication()).Returns(response);
+			proxy.Setup(p => p.RequestAuthentication()).Returns(communication);
 			proxy.Setup(p => p.Connect(It.IsAny<Guid>(), true)).Returns(true);
 
 			result = sut.Perform();
@@ -86,10 +87,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		{
 			var result = default(OperationResult);
 			var response = new AuthenticationResponse { ProcessId = 1234 };
+			var communication = new CommunicationResult<AuthenticationResponse>(true, response);
 
 			process.SetupGet(p => p.Id).Returns(response.ProcessId);
 			processFactory.Setup(f => f.StartNew(It.IsAny<string>(), It.IsAny<string[]>())).Returns(process.Object).Callback(clientReady);
-			proxy.Setup(p => p.RequestAuthentication()).Returns(response);
+			proxy.Setup(p => p.RequestAuthentication()).Returns(communication);
 			proxy.Setup(p => p.Connect(It.IsAny<Guid>(), true)).Returns(true);
 
 			result = sut.Repeat();
@@ -134,10 +136,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		{
 			var result = default(OperationResult);
 			var response = new AuthenticationResponse { ProcessId = -1 };
+			var communication = new CommunicationResult<AuthenticationResponse>(true, response);
 
 			process.SetupGet(p => p.Id).Returns(1234);
 			processFactory.Setup(f => f.StartNew(It.IsAny<string>(), It.IsAny<string[]>())).Returns(process.Object).Callback(clientReady);
-			proxy.Setup(p => p.RequestAuthentication()).Returns(response);
+			proxy.Setup(p => p.RequestAuthentication()).Returns(communication);
 			proxy.Setup(p => p.Connect(It.IsAny<Guid>(), true)).Returns(true);
 
 			result = sut.Perform();
@@ -204,10 +207,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		private void PerformNormally()
 		{
 			var response = new AuthenticationResponse { ProcessId = 1234 };
+			var communication = new CommunicationResult<AuthenticationResponse>(true, response);
 
 			process.SetupGet(p => p.Id).Returns(response.ProcessId);
 			processFactory.Setup(f => f.StartNew(It.IsAny<string>(), It.IsAny<string[]>())).Returns(process.Object).Callback(clientReady);
-			proxy.Setup(p => p.RequestAuthentication()).Returns(response);
+			proxy.Setup(p => p.RequestAuthentication()).Returns(communication);
 			proxy.Setup(p => p.Connect(It.IsAny<Guid>(), true)).Returns(true);
 
 			sut.Perform();

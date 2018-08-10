@@ -89,6 +89,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new I18nOperation(logger, text));
 			operations.Enqueue(new RuntimeConnectionOperation(logger, runtimeProxy, startupToken));
 			operations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeProxy));
+			operations.Enqueue(new DelegateOperation(UpdateAppConfig));
 			operations.Enqueue(new DelayedInitializationOperation(BuildCommunicationHostOperation));
 			// TODO
 			//operations.Enqueue(new DelayedInitializationOperation(BuildKeyboardInterceptorOperation));
@@ -202,9 +203,13 @@ namespace SafeExamBrowser.Client
 			return operation;
 		}
 
-		private void UpdateClientControllerDependencies()
+		private void UpdateAppConfig()
 		{
 			ClientController.AppConfig = configuration.AppConfig;
+		}
+
+		private void UpdateClientControllerDependencies()
+		{
 			ClientController.Browser = browserController;
 			ClientController.ClientHost = clientHost;
 			ClientController.SessionId = configuration.SessionId;

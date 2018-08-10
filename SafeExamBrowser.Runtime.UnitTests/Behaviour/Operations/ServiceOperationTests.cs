@@ -97,16 +97,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Optional });
 
 			sut.Perform();
-
-			service.Setup(s => s.Connect(null, true)).Throws<Exception>();
-			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Mandatory });
-
-			sut.Perform();
-
-			service.Setup(s => s.Connect(null, true)).Throws<Exception>();
-			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Optional });
-
-			sut.Perform();
 		}
 
 		[TestMethod]
@@ -177,7 +167,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 		public void MustNotFailWhenDisconnecting()
 		{
 			service.Setup(s => s.Connect(null, true)).Returns(true);
-			service.Setup(s => s.Disconnect()).Throws<Exception>();
+			service.Setup(s => s.Disconnect()).Returns(false);
 			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Optional });
 
 			sut.Perform();
@@ -196,18 +186,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Behaviour.Operations
 			sut.Revert();
 
 			service.Setup(s => s.Connect(null, true)).Returns(false);
-			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Optional });
-
-			sut.Perform();
-			sut.Revert();
-
-			service.Setup(s => s.Connect(null, true)).Throws<Exception>();
-			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Mandatory });
-
-			sut.Perform();
-			sut.Revert();
-
-			service.Setup(s => s.Connect(null, true)).Throws<Exception>();
 			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Optional });
 
 			sut.Perform();

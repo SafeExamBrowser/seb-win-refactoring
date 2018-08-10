@@ -38,7 +38,8 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 
 			try
 			{
-				var config = runtime.GetConfiguration();
+				var communication = runtime.GetConfiguration();
+				var config = communication.Value.Configuration;
 
 				configuration.AppConfig = config.AppConfig;
 				configuration.SessionId = config.SessionId;

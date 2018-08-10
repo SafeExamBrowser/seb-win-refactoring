@@ -120,9 +120,10 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 			logger.Info("Connection with client has been established. Requesting authentication...");
 
-			var response = ClientProxy.RequestAuthentication();
+			var communication = ClientProxy.RequestAuthentication();
+			var response = communication.Value;
 
-			if (ClientProcess.Id != response?.ProcessId)
+			if (!communication.Success || ClientProcess.Id != response?.ProcessId)
 			{
 				logger.Error("Failed to verify client integrity!");
 

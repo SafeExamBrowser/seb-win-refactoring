@@ -7,7 +7,7 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Communication.Data;
 
 namespace SafeExamBrowser.Contracts.Communication.Proxies
 {
@@ -19,32 +19,27 @@ namespace SafeExamBrowser.Contracts.Communication.Proxies
 		/// <summary>
 		/// Retrieves the application configuration from the runtime.
 		/// </summary>
-		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
-		ClientConfiguration GetConfiguration();
+		CommunicationResult<ConfigurationResponse> GetConfiguration();
 
 		/// <summary>
 		/// Informs the runtime that the client is ready.
 		/// </summary>
-		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
-		void InformClientReady();
+		CommunicationResult InformClientReady();
 
 		/// <summary>
 		/// Requests the runtime to shut down the application.
 		/// </summary>
-		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
-		void RequestShutdown();
+		CommunicationResult RequestShutdown();
 
 		/// <summary>
 		/// Requests the runtime to reconfigure the application with the specified configuration.
 		/// </summary>
-		/// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
-		void RequestReconfiguration(string filePath);
+		CommunicationResult RequestReconfiguration(string filePath);
 
 		/// <summary>
 		/// Submits the result of a password input previously requested by the runtime. If the procedure was aborted by the user,
 		/// the password parameter will be <c>null</c>!
 		/// </summary>
-		/// /// <exception cref="System.ServiceModel.*">If the communication failed.</exception>
-		void SubmitPassword(Guid requestId, bool success, string password = null);
+		CommunicationResult SubmitPassword(Guid requestId, bool success, string password = null);
 	}
 }

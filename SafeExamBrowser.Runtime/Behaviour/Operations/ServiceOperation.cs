@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
@@ -40,15 +39,8 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			logger.Info($"Initializing service session...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeServiceSession);
 
-			try
-			{
-				mandatory = configuration.CurrentSettings.ServicePolicy == ServicePolicy.Mandatory;
-				connected = service.Connect();
-			}
-			catch (Exception e)
-			{
-				LogException(e);
-			}
+			mandatory = configuration.CurrentSettings.ServicePolicy == ServicePolicy.Mandatory;
+			connected = service.Connect();
 
 			if (mandatory && !connected)
 			{
@@ -89,13 +81,15 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 			{
 				StopServiceSession();
 
-				try
+				var success = service.Disconnect();
+
+				if (success)
 				{
-					service.Disconnect();
+					logger.Info("Successfully disconnected from the service.");
 				}
-				catch (Exception e)
+				else
 				{
-					logger.Error("Failed to disconnect from the service!", e);
+					logger.Error("Failed to disconnect from the service!");
 				}
 			}
 		}
@@ -108,20 +102,6 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private void StopServiceSession()
 		{
 			service.StopSession(configuration.CurrentSession.Id);
-		}
-
-		private void LogException(Exception e)
-		{
-			var message = "Failed to connect to the service component!";
-
-			if (mandatory)
-			{
-				logger.Error(message, e);
-			}
-			else
-			{
-				logger.Info($"{message} Reason: {e.Message}");
-			}
 		}
 	}
 }

@@ -75,6 +75,7 @@
     <Compile Include="Communication\Hosts\IHostObject.cs" />
     <Compile Include="Communication\Hosts\IHostObjectFactory.cs" />
     <Compile Include="Communication\ICommunication.cs" />
+    <Compile Include="Communication\Proxies\CommunicationResult.cs" />
     <Compile Include="Communication\Proxies\IClientProxy.cs" />
     <Compile Include="Communication\ICommunicationHost.cs" />
     <Compile Include="Communication\ICommunicationProxy.cs" />
