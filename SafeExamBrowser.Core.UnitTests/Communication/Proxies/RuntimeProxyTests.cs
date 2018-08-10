@@ -142,5 +142,47 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 
 			Assert.IsFalse(communication.Success);
 		}
+
+		[TestMethod]
+		public void MustCorrectlySubmitPassword()
+		{
+			var password = "blubb";
+			var requestId = Guid.NewGuid();
+
+			proxy.Setup(p => p.Send(It.IsAny<PasswordReplyMessage>())).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
+
+			var communication = sut.SubmitPassword(requestId, true, password);
+
+			Assert.IsTrue(communication.Success);
+			proxy.Verify(p => p.Send(It.Is<PasswordReplyMessage>(m => m.Password == password && m.RequestId == requestId && m.Success)), Times.Once);
+		}
+
+		[TestMethod]
+		public void MustFailIfPasswordTransmissionNotAcknowledged()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<PasswordReplyMessage>())).Returns<Response>(null);
+
+			var communication = sut.SubmitPassword(default(Guid), false);
+
+			Assert.IsFalse(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustExecuteOperationsFailsafe()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<Message>())).Throws<Exception>();
+
+			var client = sut.InformClientReady();
+			var configuration = sut.GetConfiguration();
+			var password = sut.SubmitPassword(default(Guid), false);
+			var reconfiguration = sut.RequestReconfiguration(null);
+			var shutdown = sut.RequestShutdown();
+
+			Assert.IsFalse(client.Success);
+			Assert.IsFalse(configuration.Success);
+			Assert.IsFalse(password.Success);
+			Assert.IsFalse(reconfiguration.Success);
+			Assert.IsFalse(shutdown.Success);
+		}
 	}
 }

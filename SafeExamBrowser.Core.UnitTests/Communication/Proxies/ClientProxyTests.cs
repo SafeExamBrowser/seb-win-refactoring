@@ -58,7 +58,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		}
 
 		[TestMethod]
-		public void MustIndicateIfShutdownCommandNotAcknowledged()
+		public void MustFailIfShutdownCommandNotAcknowledged()
 		{
 			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.Shutdown))).Returns<Response>(null);
 
@@ -82,7 +82,7 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		}
 
 		[TestMethod]
-		public void MustIndicateIfAuthenticationCommandNotAcknowledged()
+		public void MustFailIfAuthenticationCommandNotAcknowledged()
 		{
 			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.Authenticate))).Returns<Response>(null);
 
@@ -90,6 +90,64 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 
 			Assert.AreEqual(default(AuthenticationResponse), communication.Value);
 			Assert.IsFalse(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustCorrectlyInformAboutReconfigurationDenial()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<ReconfigurationDeniedMessage>())).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
+
+			var communication = sut.InformReconfigurationDenied(null);
+
+			proxy.Verify(p => p.Send(It.IsAny<ReconfigurationDeniedMessage>()), Times.Once);
+			Assert.IsTrue(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustFailIfReconfigurationDenialNotAcknowledged()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<ReconfigurationDeniedMessage>())).Returns<Response>(null);
+
+			var communication = sut.InformReconfigurationDenied(null);
+
+			Assert.IsFalse(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustCorrectlyRequestPassword()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<PasswordRequestMessage>())).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
+
+			var communication = sut.RequestPassword(default(PasswordRequestPurpose), default(Guid));
+
+			proxy.Verify(p => p.Send(It.IsAny<PasswordRequestMessage>()), Times.Once);
+			Assert.IsTrue(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustFailIfPasswordRequestNotAcknowledged()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<PasswordRequestMessage>())).Returns<Response>(null);
+
+			var communication = sut.RequestPassword(default(PasswordRequestPurpose), default(Guid));
+
+			Assert.IsFalse(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustExecuteOperationsFailsafe()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<Message>())).Throws<Exception>();
+
+			var authenticate = sut.RequestAuthentication();
+			var password = sut.RequestPassword(default(PasswordRequestPurpose), default(Guid));
+			var reconfiguration = sut.InformReconfigurationDenied(null);
+			var shutdown = sut.InitiateShutdown();
+
+			Assert.IsFalse(authenticate.Success);
+			Assert.IsFalse(password.Success);
+			Assert.IsFalse(reconfiguration.Success);
+			Assert.IsFalse(shutdown.Success);
 		}
 	}
 }

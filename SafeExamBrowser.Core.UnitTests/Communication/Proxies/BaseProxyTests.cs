@@ -106,6 +106,21 @@ namespace SafeExamBrowser.Core.UnitTests.Communication.Proxies
 		}
 
 		[TestMethod]
+		public void MustHandleConnectionFailureCorrectly()
+		{
+			var proxy = new Mock<IProxyObject>();
+
+			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Throws<Exception>();
+
+			var token = Guid.NewGuid();
+			var connected = sut.Connect(token);
+
+			proxyObjectFactory.Verify(f => f.CreateObject(It.IsAny<string>()), Times.Once);
+
+			Assert.IsFalse(connected);
+		}
+
+		[TestMethod]
 		public void MustFailToDisconnectIfNotConnected()
 		{
 			var success = sut.Disconnect();
