@@ -59,7 +59,7 @@ namespace SafeExamBrowser.Browser
 			Id = Guid.NewGuid();
 			downloadHandler.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
 
-			control = new BrowserControl(settings, text);
+			control = new BrowserControl(appConfig, settings, text);
 			control.AddressChanged += Control_AddressChanged;
 			control.LoadingStateChanged += Control_LoadingStateChanged;
 			control.TitleChanged += Control_TitleChanged;

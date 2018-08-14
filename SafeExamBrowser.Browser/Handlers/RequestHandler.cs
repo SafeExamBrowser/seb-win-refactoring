@@ -9,6 +9,7 @@
 using System;
 using CefSharp;
 using CefSharp.Handler;
+using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
@@ -17,16 +18,22 @@ namespace SafeExamBrowser.Browser.Handlers
 	/// </remarks>
 	internal class RequestHandler : DefaultRequestHandler
 	{
+		private AppConfig appConfig;
+
+		internal RequestHandler(AppConfig appConfig)
+		{
+			this.appConfig = appConfig;
+		}
+
 		public override CefReturnValue OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
 		{
 			var uri = new Uri(request.Url);
 
-			// TODO: Move to globals -> SafeExamBrowserUriScheme, SafeExamBrowserSecureUriScheme
-			if (uri.Scheme == "seb")
+			if (uri.Scheme == appConfig.SebUriScheme)
 			{
 				request.Url = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttp }.ToString();
 			}
-			else if (uri.Scheme == "sebs")
+			else if (uri.Scheme == appConfig.SebUriSchemeSecure)
 			{
 				request.Url = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttps }.ToString();
 			}

@@ -123,6 +123,8 @@ namespace SafeExamBrowser.Configuration
 			appConfig.RuntimeId = Guid.NewGuid();
 			appConfig.RuntimeAddress = $"{BASE_ADDRESS}/runtime/{Guid.NewGuid()}";
 			appConfig.RuntimeLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Runtime.txt");
+			appConfig.SebUriScheme = "seb";
+			appConfig.SebUriSchemeSecure = "sebs";
 			appConfig.ServiceAddress = $"{BASE_ADDRESS}/service";
 		}
 

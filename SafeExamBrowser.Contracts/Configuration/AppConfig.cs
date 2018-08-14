@@ -107,6 +107,16 @@ namespace SafeExamBrowser.Contracts.Configuration
 		public string RuntimeLogFile { get; set; }
 
 		/// <summary>
+		/// The URI scheme for SEB resources.
+		/// </summary>
+		public string SebUriScheme { get; set; }
+
+		/// <summary>
+		/// The URI scheme for secure SEB resources.
+		/// </summary>
+		public string SebUriSchemeSecure { get; set; }
+
+		/// <summary>
 		/// The communication address of the service component.
 		/// </summary>
 		public string ServiceAddress { get; set; }

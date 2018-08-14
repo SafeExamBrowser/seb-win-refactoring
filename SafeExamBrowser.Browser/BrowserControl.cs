@@ -9,6 +9,7 @@
 using System;
 using CefSharp.WinForms;
 using SafeExamBrowser.Browser.Handlers;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface.Browser;
 using SafeExamBrowser.Contracts.UserInterface.Browser.Events;
@@ -18,6 +19,7 @@ namespace SafeExamBrowser.Browser
 {
 	internal class BrowserControl : ChromiumWebBrowser, IBrowserControl
 	{
+		private AppConfig appConfig;
 		private BrowserSettings settings;
 		private IText text;
 
@@ -43,8 +45,9 @@ namespace SafeExamBrowser.Browser
 			remove { titleChanged -= value; }
 		}
 
-		public BrowserControl(BrowserSettings settings, IText text) : base(settings.StartUrl)
+		public BrowserControl(AppConfig appConfig, BrowserSettings settings, IText text) : base(settings.StartUrl)
 		{
+			this.appConfig = appConfig;
 			this.settings = settings;
 			this.text = text;
 		}
@@ -57,7 +60,7 @@ namespace SafeExamBrowser.Browser
 
 			KeyboardHandler = new KeyboardHandler(settings);
 			MenuHandler = new ContextMenuHandler(settings, text);
-			RequestHandler = new RequestHandler();
+			RequestHandler = new RequestHandler(appConfig);
 		}
 		
 		public void NavigateBackwards()
