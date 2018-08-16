@@ -17,20 +17,23 @@ namespace SafeExamBrowser.WindowsApi
 	/// </summary>
 	internal class Kernel32
 	{
-		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		[DllImport("kernel32.dll", SetLastError = true)]
 		internal static extern bool CreateProcess(
 			string lpApplicationName,
 			string lpCommandLine,
 			IntPtr lpProcessAttributes,
 			IntPtr lpThreadAttributes,
 			bool bInheritHandles,
-			uint dwCreationFlags,
+			int dwCreationFlags,
 			IntPtr lpEnvironment,
 			string lpCurrentDirectory,
-			[In] ref STARTUPINFO lpStartupInfo,
+			ref STARTUPINFO lpStartupInfo,
 			ref PROCESS_INFORMATION lpProcessInformation);
 
-		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		[DllImport("kernel32.dll", SetLastError = true)]
+		internal static extern int GetCurrentThreadId();
+
+		[DllImport("kernel32.dll", SetLastError = true)]
 		internal static extern IntPtr GetModuleHandle(string lpModuleName);
 
 		[DllImport("kernel32.dll", SetLastError = true)]

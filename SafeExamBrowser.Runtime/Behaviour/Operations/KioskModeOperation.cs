@@ -12,21 +12,32 @@ using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Runtime.Behaviour.Operations
 {
 	internal class KioskModeOperation : IOperation
 	{
-		private ILogger logger;
 		private IConfigurationRepository configuration;
+		private IDesktopFactory desktopFactory;
 		private KioskMode kioskMode;
+		private ILogger logger;
+		private IProcessFactory processFactory;
+		private IDesktop newDesktop;
+		private IDesktop originalDesktop;
 
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
-		public KioskModeOperation(ILogger logger, IConfigurationRepository configuration)
+		public KioskModeOperation(
+			IConfigurationRepository configuration,
+			IDesktopFactory desktopFactory,
+			ILogger logger,
+			IProcessFactory processFactory)
 		{
-			this.logger = logger;
 			this.configuration = configuration;
+			this.desktopFactory = desktopFactory;
+			this.logger = logger;
+			this.processFactory = processFactory;
 		}
 
 		public OperationResult Perform()
@@ -74,12 +85,37 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 
 		private void CreateNewDesktop()
 		{
-			// TODO
+			originalDesktop = desktopFactory.GetCurrent();
+			logger.Info($"Current desktop is {ToString(originalDesktop)}.");
+			newDesktop = desktopFactory.CreateNew(nameof(SafeExamBrowser));
+			logger.Info($"Created new desktop {ToString(newDesktop)}.");
+			newDesktop.Activate();
+			logger.Info("Successfully activated new desktop.");
+			processFactory.StartupDesktop = newDesktop;
 		}
 
 		private void CloseNewDesktop()
 		{
-			// TODO
+			if (originalDesktop != null)
+			{
+				originalDesktop.Activate();
+				processFactory.StartupDesktop = originalDesktop;
+				logger.Info($"Switched back to original desktop {ToString(originalDesktop)}.");
+			}
+			else
+			{
+				logger.Warn($"No original desktop found when attempting to revert kiosk mode '{kioskMode}'!");
+			}
+
+			if (newDesktop != null)
+			{
+				newDesktop.Close();
+				logger.Info($"Closed new desktop {ToString(newDesktop)}.");
+			}
+			else
+			{
+				logger.Warn($"No new desktop found when attempting to revert kiosk mode '{kioskMode}'!");
+			}
 		}
 
 		private void DisableExplorerShell()
@@ -90,6 +126,11 @@ namespace SafeExamBrowser.Runtime.Behaviour.Operations
 		private void RestartExplorerShell()
 		{
 			// TODO
+		}
+
+		private string ToString(IDesktop desktop)
+		{
+			return $"'{desktop.Name}' [{desktop.Handle}]";
 		}
 	}
 }

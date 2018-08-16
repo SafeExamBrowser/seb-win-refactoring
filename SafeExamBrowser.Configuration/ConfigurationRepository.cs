@@ -81,6 +81,7 @@ namespace SafeExamBrowser.Configuration
 
 			CurrentSettings = new Settings();
 
+			CurrentSettings.KioskMode = KioskMode.CreateNewDesktop;
 			CurrentSettings.ServicePolicy = ServicePolicy.Optional;
 
 			CurrentSettings.Browser.StartUrl = "https://www.safeexambrowser.org/testing";
@@ -108,11 +109,11 @@ namespace SafeExamBrowser.Configuration
 			appConfig.ApplicationStartTime = startTime;
 			appConfig.AppDataFolder = appDataFolder;
 			appConfig.BrowserCachePath = Path.Combine(appDataFolder, "Cache");
-			appConfig.BrowserLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Browser.txt");
+			appConfig.BrowserLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Browser.log");
 			appConfig.ClientId = Guid.NewGuid();
 			appConfig.ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}";
 			appConfig.ClientExecutablePath = Path.Combine(Path.GetDirectoryName(executable.Location), $"{nameof(SafeExamBrowser)}.Client.exe");
-			appConfig.ClientLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Client.txt");
+			appConfig.ClientLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Client.log");
 			appConfig.ConfigurationFileExtension = ".seb";
 			appConfig.DefaultSettingsFileName = "SebClientSettings.seb";
 			appConfig.DownloadDirectory = Path.Combine(appDataFolder, "Downloads");
@@ -122,7 +123,7 @@ namespace SafeExamBrowser.Configuration
 			appConfig.ProgramVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
 			appConfig.RuntimeId = Guid.NewGuid();
 			appConfig.RuntimeAddress = $"{BASE_ADDRESS}/runtime/{Guid.NewGuid()}";
-			appConfig.RuntimeLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Runtime.txt");
+			appConfig.RuntimeLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Runtime.log");
 			appConfig.SebUriScheme = "seb";
 			appConfig.SebUriSchemeSecure = "sebs";
 			appConfig.ServiceAddress = $"{BASE_ADDRESS}/service";

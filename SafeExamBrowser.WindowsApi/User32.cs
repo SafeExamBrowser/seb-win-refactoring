@@ -10,14 +10,11 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using SafeExamBrowser.WindowsApi.Constants;
+using SafeExamBrowser.WindowsApi.Delegates;
 using SafeExamBrowser.WindowsApi.Types;
 
 namespace SafeExamBrowser.WindowsApi
 {
-	internal delegate bool EnumWindowsDelegate(IntPtr hWnd, IntPtr lParam);
-	internal delegate IntPtr HookProc(int code, IntPtr wParam, IntPtr lParam);
-	internal delegate void EventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
-
 	/// <summary>
 	/// Provides access to the native Windows API exposed by <c>user32.dll</c>.
 	/// </summary>
@@ -31,17 +28,36 @@ namespace SafeExamBrowser.WindowsApi
 		internal static extern bool CloseClipboard();
 
 		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern bool CloseDesktop(IntPtr hDesktop);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern IntPtr CreateDesktop(string lpszDesktop, IntPtr lpszDevice, IntPtr pDevmode, int dwFlags, uint dwDesiredAccess, IntPtr lpsa);
+
+		[DllImport("user32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool EmptyClipboard();
 
 		[DllImport("user32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
+		internal static extern bool EnumDesktops(IntPtr hwinsta, EnumDesktopDelegate lpEnumFunc, IntPtr lParam);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool EnumWindows(EnumWindowsDelegate enumProc, IntPtr lParam);
 
-		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
-		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern IntPtr GetThreadDesktop(int dwThreadId);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern IntPtr GetProcessWindowStation();
+
+		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern bool GetUserObjectInformation(IntPtr hObj, int nIndex, IntPtr pvInfo, int nLength, ref int lpnLengthNeeded);
+
+		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern int GetWindowText(IntPtr hWnd, StringBuilder strText, int maxCount);
 
 		[DllImport("user32.dll", SetLastError = true)]
@@ -66,20 +82,23 @@ namespace SafeExamBrowser.WindowsApi
 		internal static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
 		[DllImport("user32.dll", SetLastError = true)]
-		internal static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, EventProc lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
+		internal static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, EventDelegate lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
 
 		[DllImport("user32.dll", SetLastError = true)]
-		internal static extern IntPtr SetWindowsHookEx(HookType hookType, HookProc lpfn, IntPtr hMod, uint dwThreadId);
+		internal static extern IntPtr SetWindowsHookEx(HookType hookType, HookDelegate lpfn, IntPtr hMod, uint dwThreadId);
 
 		[DllImport("user32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
 		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern bool SwitchDesktop(IntPtr hDesktop);
+
+		[DllImport("user32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool SystemParametersInfo(SPI uiAction, uint uiParam, ref RECT pvParam, SPIF fWinIni);
 
-		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		[DllImport("user32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool SystemParametersInfo(SPI uiAction, int uiParam, string pvParam, SPIF fWinIni);
 

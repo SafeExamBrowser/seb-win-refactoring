@@ -1,0 +1,83 @@
+﻿/*
+ * Copyright (c) 2018 ETH Zürich, Educational Development and Technology (LET)
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+using System;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
+using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.WindowsApi.Constants;
+
+namespace SafeExamBrowser.WindowsApi
+{
+	public class DesktopFactory : IDesktopFactory
+	{
+		private ILogger logger;
+
+		public DesktopFactory(ILogger logger)
+		{
+			this.logger = logger;
+		}
+
+		public IDesktop CreateNew(string name)
+		{
+			logger.Debug($"Attempting to create new desktop '{name}'...");
+
+			var handle = User32.CreateDesktop(name, IntPtr.Zero, IntPtr.Zero, 0, (uint) ACCESS_MASK.GENERIC_ALL, IntPtr.Zero);
+
+			if (handle == IntPtr.Zero)
+			{
+				logger.Error($"Failed to create new desktop '{name}'!");
+
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
+
+			logger.Debug($"Successfully created desktop '{name}' [{handle}].");
+
+			return new Desktop(handle, name);
+		}
+
+		public IDesktop GetCurrent()
+		{
+			var threadId = Kernel32.GetCurrentThreadId();
+			var handle = User32.GetThreadDesktop(threadId);
+			var name = String.Empty;
+			var nameLength = 0;
+
+			if (handle != IntPtr.Zero)
+			{
+				logger.Debug($"Found desktop handle {handle} for thread {threadId}. Attempting to get desktop name...");
+			}
+			else
+			{
+				logger.Error($"Failed to get desktop handle for thread {threadId}!");
+
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
+
+			User32.GetUserObjectInformation(handle, Constant.UOI_NAME, IntPtr.Zero, 0, ref nameLength);
+
+			var namePointer = Marshal.AllocHGlobal(nameLength);
+			var success = User32.GetUserObjectInformation(handle, Constant.UOI_NAME, namePointer, nameLength, ref nameLength);
+
+			if (!success)
+			{
+				logger.Error($"Failed to retrieve name for desktop with handle {handle}!");
+
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
+
+			name = Marshal.PtrToStringAnsi(namePointer);
+			Marshal.FreeHGlobal(namePointer);
+
+			logger.Debug($"Successfully determined current desktop as '{name}' [{handle}].");
+
+			return new Desktop(handle, name);
+		}
+	}
+}

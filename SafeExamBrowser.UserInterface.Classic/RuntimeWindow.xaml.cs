@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Windows;
 using System.Windows.Documents;
 using SafeExamBrowser.Contracts.Configuration;
@@ -22,7 +21,6 @@ namespace SafeExamBrowser.UserInterface.Classic
 	{
 		private bool allowClose;
 		private AppConfig appConfig;
-		private ILogContentFormatter formatter;
 		private IText text;
 		private RuntimeWindowViewModel model;
 		private WindowClosingEventHandler closing;
@@ -39,10 +37,9 @@ namespace SafeExamBrowser.UserInterface.Classic
 			remove { closing -= value; }
 		}
 
-		public RuntimeWindow(AppConfig appConfig, ILogContentFormatter formatter, IText text)
+		public RuntimeWindow(AppConfig appConfig, IText text)
 		{
 			this.appConfig = appConfig;
-			this.formatter = formatter;
 			this.text = text;
 
 			InitializeComponent();
@@ -77,7 +74,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 		{
 			Dispatcher.Invoke(() =>
 			{
-				LogTextBlock.Text += formatter.Format(content) + Environment.NewLine;
+				model.Notify(content);
 				LogScrollViewer.ScrollToEnd();
 			});
 		}
@@ -137,7 +134,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 			InfoTextBlock.Inlines.Add(new LineBreak());
 			InfoTextBlock.Inlines.Add(new Run(appConfig.ProgramCopyright) { FontSize = 10 });
 
-			model = new RuntimeWindowViewModel();
+			model = new RuntimeWindowViewModel(LogTextBlock);
 			AnimatedBorder.DataContext = model;
 			ProgressBar.DataContext = model;
 			StatusTextBlock.DataContext = model;

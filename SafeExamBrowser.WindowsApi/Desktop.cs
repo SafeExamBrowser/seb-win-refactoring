@@ -6,21 +6,42 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Logging;
+using System;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
 using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.WindowsApi
 {
 	public class Desktop : IDesktop
 	{
-		private ILogger logger;
+		public IntPtr Handle { get; private set; }
+		public string Name { get; private set; }
 
-		// TODO: Implement desktop functionality!
-		public string CurrentName => "Default";
-
-		public Desktop(ILogger logger)
+		public Desktop(IntPtr handle, string name)
 		{
-			this.logger = logger;
+			Handle = handle;
+			Name = name;
+		}
+
+		public void Activate()
+		{
+			var success = User32.SwitchDesktop(Handle);
+
+			if (!success)
+			{
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
+		}
+
+		public void Close()
+		{
+			var success = User32.CloseDesktop(Handle);
+
+			if (!success)
+			{
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
 		}
 	}
 }

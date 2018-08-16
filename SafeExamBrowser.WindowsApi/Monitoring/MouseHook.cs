@@ -10,13 +10,14 @@ using System;
 using System.Runtime.InteropServices;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.WindowsApi.Constants;
+using SafeExamBrowser.WindowsApi.Delegates;
 using SafeExamBrowser.WindowsApi.Types;
 
 namespace SafeExamBrowser.WindowsApi.Monitoring
 {
 	internal class MouseHook
 	{
-		private HookProc hookProc;
+		private HookDelegate hookProc;
 
 		internal IntPtr Handle { get; private set; }
 		internal IMouseInterceptor Interceptor { get; private set; }
@@ -33,7 +34,7 @@ namespace SafeExamBrowser.WindowsApi.Monitoring
 			// IMORTANT:
 			// Ensures that the hook delegate does not get garbage collected prematurely, as it will be passed to unmanaged code.
 			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
-			hookProc = new HookProc(LowLevelMouseProc);
+			hookProc = new HookDelegate(LowLevelMouseProc);
 
 			Handle = User32.SetWindowsHookEx(HookType.WH_MOUSE_LL, hookProc, module, 0);
 		}

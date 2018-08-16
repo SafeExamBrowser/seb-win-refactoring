@@ -90,7 +90,7 @@ namespace SafeExamBrowser.Client.Behaviour
 
 		public bool TryStart()
 		{
-			logger.Info("--- Initiating startup procedure ---");
+			logger.Info("Initiating startup procedure...");
 
 			splashScreen = uiFactory.CreateSplashScreen();
 			operations.ProgressIndicator = splashScreen;
@@ -107,7 +107,7 @@ namespace SafeExamBrowser.Client.Behaviour
 				{
 					splashScreen.Hide();
 
-					logger.Info("--- Application successfully initialized ---");
+					logger.Info("Application successfully initialized.");
 					logger.Log(string.Empty);
 				}
 				else
@@ -118,7 +118,7 @@ namespace SafeExamBrowser.Client.Behaviour
 			}
 			else
 			{
-				logger.Info("--- Application startup aborted! ---");
+				logger.Info("Application startup aborted!");
 				logger.Log(string.Empty);
 			}
 
@@ -128,7 +128,7 @@ namespace SafeExamBrowser.Client.Behaviour
 		public void Terminate()
 		{
 			logger.Log(string.Empty);
-			logger.Info("--- Initiating shutdown procedure ---");
+			logger.Info("Initiating shutdown procedure...");
 
 			splashScreen.Show();
 			splashScreen.BringToForeground();
@@ -139,12 +139,12 @@ namespace SafeExamBrowser.Client.Behaviour
 
 			if (success)
 			{
-				logger.Info("--- Application successfully finalized ---");
+				logger.Info("Application successfully finalized.");
 				logger.Log(string.Empty);
 			}
 			else
 			{
-				logger.Info("--- Shutdown procedure failed! ---");
+				logger.Info("Shutdown procedure failed!");
 				logger.Log(string.Empty);
 			}
 

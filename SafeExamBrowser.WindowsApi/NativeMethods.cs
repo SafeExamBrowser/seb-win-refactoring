@@ -16,6 +16,7 @@ using System.Text;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.WindowsApi;
 using SafeExamBrowser.WindowsApi.Constants;
+using SafeExamBrowser.WindowsApi.Delegates;
 using SafeExamBrowser.WindowsApi.Monitoring;
 using SafeExamBrowser.WindowsApi.Types;
 
@@ -23,7 +24,7 @@ namespace SafeExamBrowser.WindowsApi
 {
 	public class NativeMethods : INativeMethods
 	{
-		private ConcurrentDictionary<IntPtr, EventProc> EventDelegates = new ConcurrentDictionary<IntPtr, EventProc>();
+		private ConcurrentDictionary<IntPtr, EventDelegate> EventDelegates = new ConcurrentDictionary<IntPtr, EventDelegate>();
 		private ConcurrentDictionary<IntPtr, KeyboardHook> KeyboardHooks = new ConcurrentDictionary<IntPtr, KeyboardHook>();
 		private ConcurrentDictionary<IntPtr, MouseHook> MouseHooks = new ConcurrentDictionary<IntPtr, MouseHook>();
 
@@ -91,7 +92,7 @@ namespace SafeExamBrowser.WindowsApi
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
 
-			EventDelegates.TryRemove(handle, out EventProc d);
+			EventDelegates.TryRemove(handle, out EventDelegate d);
 		}
 
 		public void EmptyClipboard()
@@ -111,7 +112,8 @@ namespace SafeExamBrowser.WindowsApi
 		public IEnumerable<IntPtr> GetOpenWindows()
 		{
 			var windows = new List<IntPtr>();
-			var success = User32.EnumWindows(delegate (IntPtr hWnd, IntPtr lParam)
+
+			bool EnumWindows(IntPtr hWnd, IntPtr lParam)
 			{
 				if (hWnd != GetShellWindowHandle() && User32.IsWindowVisible(hWnd) && User32.GetWindowTextLength(hWnd) > 0)
 				{
@@ -119,7 +121,9 @@ namespace SafeExamBrowser.WindowsApi
 				}
 
 				return true;
-			}, IntPtr.Zero);
+			}
+
+			var success = User32.EnumWindows(EnumWindows, IntPtr.Zero);
 
 			if (!success)
 			{
@@ -245,34 +249,34 @@ namespace SafeExamBrowser.WindowsApi
 
 		public IntPtr RegisterSystemForegroundEvent(Action<IntPtr> callback)
 		{
-			void eventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
+			void evenDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
 			{
 				callback(hwnd);
 			}
 
-			var handle = User32.SetWinEventHook(Constant.EVENT_SYSTEM_FOREGROUND, Constant.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, eventProc, 0, 0, Constant.WINEVENT_OUTOFCONTEXT);
+			var handle = User32.SetWinEventHook(Constant.EVENT_SYSTEM_FOREGROUND, Constant.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, evenDelegate, 0, 0, Constant.WINEVENT_OUTOFCONTEXT);
 
 			// IMORTANT:
 			// Ensures that the event delegate does not get garbage collected prematurely, as it will be passed to unmanaged code.
 			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
-			EventDelegates[handle] = eventProc;
+			EventDelegates[handle] = evenDelegate;
 
 			return handle;
 		}
 
 		public IntPtr RegisterSystemCaptureStartEvent(Action<IntPtr> callback)
 		{
-			void eventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
+			void eventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
 			{
 				callback(hwnd);
 			}
 
-			var handle = User32.SetWinEventHook(Constant.EVENT_SYSTEM_CAPTURESTART, Constant.EVENT_SYSTEM_CAPTURESTART, IntPtr.Zero, eventProc, 0, 0, Constant.WINEVENT_OUTOFCONTEXT);
+			var handle = User32.SetWinEventHook(Constant.EVENT_SYSTEM_CAPTURESTART, Constant.EVENT_SYSTEM_CAPTURESTART, IntPtr.Zero, eventDelegate, 0, 0, Constant.WINEVENT_OUTOFCONTEXT);
 
 			// IMORTANT:
 			// Ensures that the event delegate does not get garbage collected prematurely, as it will be passed to unmanaged code.
 			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
-			EventDelegates[handle] = eventProc;
+			EventDelegates[handle] = eventDelegate;
 
 			return handle;
 		}

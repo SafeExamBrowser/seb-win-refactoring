@@ -33,17 +33,16 @@ namespace SafeExamBrowser.UserInterface.Classic.ViewModels
 
 		public void Notify(ILogContent content)
 		{
-			if (content is ILogText text)
+			switch (content)
 			{
-				AppendLogText(text);
-			}
-			else if (content is ILogMessage message)
-			{
-				AppendLogMessage(message);
-			}
-			else
-			{
-				throw new NotImplementedException($"The default formatter is not yet implemented for log content of type {content.GetType()}!");
+				case ILogText text:
+					AppendLogText(text);
+					break;
+				case ILogMessage message:
+					AppendLogMessage(message);
+					break;
+				default:
+					throw new NotImplementedException($"The log window is not yet implemented for log content of type {content.GetType()}!");
 			}
 
 			scrollViewer.Dispatcher.Invoke(scrollViewer.ScrollToEnd);
@@ -85,6 +84,8 @@ namespace SafeExamBrowser.UserInterface.Classic.ViewModels
 		{
 			switch (severity)
 			{
+				case LogLevel.Debug:
+					return Brushes.Gray;
 				case LogLevel.Error:
 					return Brushes.Red;
 				case LogLevel.Warning:

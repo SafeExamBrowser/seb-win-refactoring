@@ -40,6 +40,20 @@ namespace SafeExamBrowser.WindowsApi.Constants
 		internal const int NORMAL_PRIORITY_CLASS = 0x20;
 
 		/// <summary>
+		/// Standard access rights required for a desktop.
+		/// 
+		/// See https://docs.microsoft.com/de-de/windows/desktop/SecAuthZ/standard-access-rights.
+		/// </summary>
+		internal const int STANDARD_RIGHTS_REQUIRED = 0xF0000;
+
+		/// <summary>
+		/// The constant for the name of a user object.
+		/// 
+		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms683238(v=vs.85).aspx.
+		/// </summary>
+		internal const int UOI_NAME = 2;
+
+		/// <summary>
 		/// The callback function is not mapped into the address space of the process that generates the event. Because the hook function
 		/// is called across process boundaries, the system must queue events. Although this method is asynchronous, events are guaranteed
 		/// to be in sequential order.

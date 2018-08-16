@@ -14,7 +14,13 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 	public interface IProcessFactory
 	{
 		/// <summary>
-		/// Starts a new process on the currently active desktop.
+		/// Allows to define the desktop on which new processes should be started. If no startup desktop is specified, processes will be
+		/// started on the same desktop which was active when the application itself was started.
+		/// </summary>
+		IDesktop StartupDesktop { set; }
+
+		/// <summary>
+		/// Starts a new process with the given command-line arguments.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">If the process could not be started.</exception>
 		IProcess StartNew(string path, params string[] args);

@@ -116,7 +116,6 @@
     </Compile>
     <Compile Include="UserInterfaceFactory.cs" />
     <Compile Include="Utilities\IconResourceLoader.cs" />
-    <Compile Include="Utilities\RuntimeWindowLogFormatter.cs" />
     <Compile Include="Utilities\VisualExtensions.cs" />
     <Compile Include="Utilities\XamlIconResource.cs" />
     <Compile Include="ViewModels\DateTimeViewModel.cs" />

@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.InteropServices;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.WindowsApi;
@@ -18,12 +19,12 @@ namespace SafeExamBrowser.WindowsApi
 {
 	public class ProcessFactory : IProcessFactory
 	{
-		private IDesktop desktop;
 		private ILogger logger;
 
-		public ProcessFactory(IDesktop desktop, ILogger logger)
+		public IDesktop StartupDesktop { private get; set; }
+
+		public ProcessFactory(ILogger logger)
 		{
-			this.desktop = desktop;
 			this.logger = logger;
 		}
 
@@ -34,13 +35,20 @@ namespace SafeExamBrowser.WindowsApi
 			var startupInfo = new STARTUPINFO();
 
 			startupInfo.cb = Marshal.SizeOf(startupInfo);
-			// TODO: Specify target desktop!
-			//startupInfo.lpDesktop = desktop.CurrentName;
+			startupInfo.lpDesktop = StartupDesktop?.Name;
+
+			logger.Info($"Attempting to start process '{path}'...");
 
 			var success = Kernel32.CreateProcess(null, commandLine, IntPtr.Zero, IntPtr.Zero, true, Constant.NORMAL_PRIORITY_CLASS, IntPtr.Zero, null, ref startupInfo, ref processInfo);
 
-			if (!success)
+			if (success)
 			{
+				logger.Info($"Successfully started process '{Path.GetFileName(path)}' with ID {processInfo.dwProcessId}.");
+			}
+			else
+			{
+				logger.Error($"Failed to start process '{Path.GetFileName(path)}'!");
+
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
 

@@ -89,7 +89,7 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 				var response = proxy.Disconnect(message);
 				var success = response.ConnectionTerminated;
 
-				Logger.Debug($"{(success ? "Disconnected" : "Failed to disconnect")} from {address}.");
+				Logger.Debug($"{(success ? "Disconnected" : "Failed to disconnect")} from '{address}'.");
 
 				if (success)
 				{

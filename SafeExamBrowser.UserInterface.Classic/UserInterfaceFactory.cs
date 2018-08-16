@@ -17,7 +17,6 @@ using SafeExamBrowser.Contracts.UserInterface.Browser;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
 using SafeExamBrowser.UserInterface.Classic.Controls;
-using SafeExamBrowser.UserInterface.Classic.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Classic
 {
@@ -66,7 +65,6 @@ namespace SafeExamBrowser.UserInterface.Classic
 			});
 
 			logWindowThread.SetApartmentState(ApartmentState.STA);
-			logWindowThread.Name = nameof(LogWindow);
 			logWindowThread.IsBackground = true;
 			logWindowThread.Start();
 
@@ -96,7 +94,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 			var windowReadyEvent = new AutoResetEvent(false);
 			var runtimeWindowThread = new Thread(() =>
 			{
-				runtimeWindow = new RuntimeWindow(appConfig, new RuntimeWindowLogFormatter(), text);
+				runtimeWindow = new RuntimeWindow(appConfig, text);
 				runtimeWindow.Closed += (o, args) => runtimeWindow.Dispatcher.InvokeShutdown();
 
 				windowReadyEvent.Set();

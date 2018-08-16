@@ -61,7 +61,6 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			});
 
 			logWindowThread.SetApartmentState(ApartmentState.STA);
-			logWindowThread.Name = nameof(LogWindow);
 			logWindowThread.IsBackground = true;
 			logWindowThread.Start();
 

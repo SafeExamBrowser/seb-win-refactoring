@@ -6,16 +6,35 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+
 namespace SafeExamBrowser.Contracts.WindowsApi
 {
 	/// <summary>
-	/// Defines the API to retrieve information about desktops and perform desktop-related operations.
+	/// Represents a desktop and defines its functionality.
 	/// </summary>
 	public interface IDesktop
 	{
 		/// <summary>
-		/// Retrieves the name of the currently active desktop.
+		/// The handle identifying the desktop.
 		/// </summary>
-		string CurrentName { get; }
+		IntPtr Handle { get; }
+
+		/// <summary>
+		/// The name of the desktop.
+		/// </summary>
+		string Name { get; }
+
+		/// <summary>
+		/// Activates the desktop.
+		/// </summary>
+		/// <exception cref="System.ComponentModel.Win32Exception">If the desktop could not be activated.</exception>
+		void Activate();
+
+		/// <summary>
+		/// Closes the desktop.
+		/// </summary>
+		/// <exception cref="System.ComponentModel.Win32Exception">If the desktop could not be closed.</exception>
+		void Close();
 	}
 }

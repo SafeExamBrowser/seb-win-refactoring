@@ -65,7 +65,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 
 		public bool TryStart()
 		{
-			logger.Info("--- Initiating startup procedure ---");
+			logger.Info("Initiating startup procedure...");
 
 			runtimeWindow = uiFactory.CreateRuntimeWindow(appConfig);
 			splashScreen = uiFactory.CreateSplashScreen(appConfig);
@@ -81,7 +81,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			{
 				RegisterEvents();
 
-				logger.Info("--- Application successfully initialized ---");
+				logger.Info("Application successfully initialized.");
 				logger.Log(string.Empty);
 				logger.Subscribe(runtimeWindow);
 				splashScreen.Hide();
@@ -90,7 +90,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			}
 			else
 			{
-				logger.Info("--- Application startup aborted! ---");
+				logger.Info("Application startup aborted!");
 				logger.Log(string.Empty);
 
 				messageBox.Show(TextKey.MessageBox_StartupError, TextKey.MessageBox_StartupErrorTitle, icon: MessageBoxIcon.Error);
@@ -114,18 +114,18 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			splashScreen?.BringToForeground();
 
 			logger.Log(string.Empty);
-			logger.Info("--- Initiating shutdown procedure ---");
+			logger.Info("Initiating shutdown procedure...");
 
 			var success = bootstrapSequence.TryRevert();
 
 			if (success)
 			{
-				logger.Info("--- Application successfully finalized ---");
+				logger.Info("Application successfully finalized.");
 				logger.Log(string.Empty);
 			}
 			else
 			{
-				logger.Info("--- Shutdown procedure failed! ---");
+				logger.Info("Shutdown procedure failed!");
 				logger.Log(string.Empty);
 
 				messageBox.Show(TextKey.MessageBox_ShutdownError, TextKey.MessageBox_ShutdownErrorTitle, icon: MessageBoxIcon.Error);
@@ -139,7 +139,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			runtimeWindow.Show();
 			runtimeWindow.BringToForeground();
 			runtimeWindow.ShowProgressBar();
-			logger.Info(">>>--- Initiating session procedure ---<<<");
+			logger.Info("Initiating session procedure...");
 
 			if (sessionRunning)
 			{
@@ -152,7 +152,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			{
 				RegisterSessionEvents();
 
-				logger.Info(">>>--- Session is running ---<<<");
+				logger.Info("Session is running.");
 				runtimeWindow.HideProgressBar();
 				runtimeWindow.UpdateText(TextKey.RuntimeWindow_ApplicationRunning);
 				runtimeWindow.TopMost = configuration.CurrentSettings.KioskMode != KioskMode.None;
@@ -166,7 +166,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			}
 			else
 			{
-				logger.Info($">>>--- Session procedure {(result == OperationResult.Aborted ? "was aborted." : "has failed!")} ---<<<");
+				logger.Info($"Session procedure {(result == OperationResult.Aborted ? "was aborted." : "has failed!")}");
 
 				if (result == OperationResult.Failed)
 				{
@@ -187,7 +187,7 @@ namespace SafeExamBrowser.Runtime.Behaviour
 			runtimeWindow.Show();
 			runtimeWindow.BringToForeground();
 			runtimeWindow.ShowProgressBar();
-			logger.Info(">>>--- Reverting session operations ---<<<");
+			logger.Info("Reverting session operations...");
 
 			DeregisterSessionEvents();
 
@@ -195,12 +195,12 @@ namespace SafeExamBrowser.Runtime.Behaviour
 
 			if (success)
 			{
-				logger.Info(">>>--- Session is terminated ---<<<");
+				logger.Info("Session is terminated.");
 				sessionRunning = false;
 			}
 			else
 			{
-				logger.Info(">>>--- Session reversion was erroneous! ---<<<");
+				logger.Info("Session reversion was erroneous!");
 				messageBox.Show(TextKey.MessageBox_SessionStopError, TextKey.MessageBox_SessionStopErrorTitle, icon: MessageBoxIcon.Error);
 			}
 		}
