@@ -43,5 +43,10 @@ namespace SafeExamBrowser.WindowsApi
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
 		}
+
+		public override string ToString()
+		{
+			return $"'{Name}' [{Handle}]";
+		}
 	}
 }

@@ -182,6 +182,7 @@
     <Compile Include="WindowsApi\IBounds.cs" />
     <Compile Include="WindowsApi\IDesktop.cs" />
     <Compile Include="WindowsApi\IDesktopFactory.cs" />
+    <Compile Include="WindowsApi\IExplorerShell.cs" />
     <Compile Include="WindowsApi\INativeMethods.cs" />
     <Compile Include="WindowsApi\IProcess.cs" />
     <Compile Include="WindowsApi\IProcessFactory.cs" />

@@ -23,6 +23,7 @@ using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Contracts.WindowsApi;
@@ -53,6 +54,7 @@ namespace SafeExamBrowser.Client
 		private IClientHost clientHost;
 		private ILogger logger;
 		private IMessageBox messageBox;
+		private IProcessMonitor processMonitor;
 		private INativeMethods nativeMethods;
 		private IRuntimeProxy runtimeProxy;
 		private ISystemInfo systemInfo;
@@ -75,11 +77,12 @@ namespace SafeExamBrowser.Client
 
 			text = new Text(logger);
 			messageBox = new MessageBox(text);
+			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
 			uiFactory = new UserInterfaceFactory(text);
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), new ModuleLogger(logger, typeof(RuntimeProxy)));
 
 			var displayMonitor = new DisplayMonitor(new ModuleLogger(logger, typeof(DisplayMonitor)), nativeMethods);
-			var processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
+			var explorerShell = new ExplorerShell(new ModuleLogger(logger, typeof(ExplorerShell)), nativeMethods);
 			var windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)), nativeMethods);
 
 			Taskbar = new Taskbar(new ModuleLogger(logger, typeof(Taskbar)));
@@ -94,7 +97,7 @@ namespace SafeExamBrowser.Client
 			// TODO
 			//operations.Enqueue(new DelayedInitializationOperation(BuildKeyboardInterceptorOperation));
 			//operations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
-			//operations.Enqueue(new ProcessMonitorOperation(logger, processMonitor));
+			operations.Enqueue(new DelayedInitializationOperation(BuildProcessMonitorOperation));
 			operations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, Taskbar));
 			operations.Enqueue(new DelayedInitializationOperation(BuildTaskbarOperation));
 			operations.Enqueue(new DelayedInitializationOperation(BuildBrowserOperation));
@@ -104,7 +107,7 @@ namespace SafeExamBrowser.Client
 
 			var sequence = new OperationSequence(logger, operations);
 
-			ClientController = new ClientController(displayMonitor, logger, messageBox, sequence, processMonitor, runtimeProxy, shutdown, Taskbar, text, uiFactory, windowMonitor);
+			ClientController = new ClientController(displayMonitor, explorerShell, logger, messageBox, sequence, processMonitor, runtimeProxy, shutdown, Taskbar, text, uiFactory, windowMonitor);
 		}
 
 		internal void LogStartupInformation()
@@ -189,6 +192,11 @@ namespace SafeExamBrowser.Client
 			var operation = new MouseInterceptorOperation(logger, mouseInterceptor, nativeMethods);
 
 			return operation;
+		}
+
+		private IOperation BuildProcessMonitorOperation()
+		{
+			return new ProcessMonitorOperation(logger, processMonitor, configuration.Settings);
 		}
 
 		private IOperation BuildTaskbarOperation()

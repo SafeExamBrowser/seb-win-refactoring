@@ -41,18 +41,18 @@ namespace SafeExamBrowser.WindowsApi
 
 			var success = Kernel32.CreateProcess(null, commandLine, IntPtr.Zero, IntPtr.Zero, true, Constant.NORMAL_PRIORITY_CLASS, IntPtr.Zero, null, ref startupInfo, ref processInfo);
 
-			if (success)
-			{
-				logger.Info($"Successfully started process '{Path.GetFileName(path)}' with ID {processInfo.dwProcessId}.");
-			}
-			else
+			if (!success)
 			{
 				logger.Error($"Failed to start process '{Path.GetFileName(path)}'!");
 
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
 
-			return new Process(processInfo.dwProcessId);
+			var process = new Process(processInfo.dwProcessId);
+
+			logger.Info($"Successfully started process '{Path.GetFileName(path)}' with ID = {process.Id}.");
+
+			return process;
 		}
 	}
 }

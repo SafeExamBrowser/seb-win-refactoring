@@ -9,6 +9,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Behaviour.Operations;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 
@@ -17,46 +18,57 @@ namespace SafeExamBrowser.Client.UnitTests.Behaviour.Operations
 	[TestClass]
 	public class ProcessMonitorOperationTests
 	{
-		private Mock<ILogger> loggerMock;
-		private Mock<IProcessMonitor> processMonitorMock;
-
+		private Mock<ILogger> logger;
+		private Mock<IProcessMonitor> processMonitor;
+		private Settings settings;
 		private ProcessMonitorOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
-			loggerMock = new Mock<ILogger>();
-			processMonitorMock = new Mock<IProcessMonitor>();
+			logger = new Mock<ILogger>();
+			processMonitor = new Mock<IProcessMonitor>();
+			settings = new Settings();
 
-			sut = new ProcessMonitorOperation(loggerMock.Object, processMonitorMock.Object);
+			sut = new ProcessMonitorOperation(logger.Object, processMonitor.Object,settings);
 		}
 
 		[TestMethod]
-		public void MustPerformCorrectly()
+		public void MustObserveExplorerWithDisableExplorerShell()
 		{
-			var order = 0;
+			var counter = 0;
+			var start = 0;
+			var stop = 0;
 
-			processMonitorMock.Setup(p => p.CloseExplorerShell()).Callback(() => Assert.AreEqual(++order, 1));
-			processMonitorMock.Setup(p => p.StartMonitoringExplorer()).Callback(() => Assert.AreEqual(++order, 2));
+			settings.KioskMode = KioskMode.DisableExplorerShell;
+			processMonitor.Setup(p => p.StartMonitoringExplorer()).Callback(() => start = ++counter);
+			processMonitor.Setup(p => p.StopMonitoringExplorer()).Callback(() => stop = ++counter);
 
 			sut.Perform();
+			sut.Revert();
 
-			processMonitorMock.Verify(p => p.CloseExplorerShell(), Times.Once);
-			processMonitorMock.Verify(p => p.StartMonitoringExplorer(), Times.Once);
+			processMonitor.Verify(p => p.StartMonitoringExplorer(), Times.Once);
+			processMonitor.Verify(p => p.StopMonitoringExplorer(), Times.Once);
+
+			Assert.AreEqual(1, start);
+			Assert.AreEqual(2, stop);
 		}
 
 		[TestMethod]
-		public void MustRevertCorrectly()
+		public void MustNotObserveExplorerWithOtherKioskModes()
 		{
-			var order = 0;
+			settings.KioskMode = KioskMode.CreateNewDesktop;
 
-			processMonitorMock.Setup(p => p.StopMonitoringExplorer()).Callback(() => Assert.AreEqual(++order, 1));
-			processMonitorMock.Setup(p => p.StartExplorerShell()).Callback(() => Assert.AreEqual(++order, 2));
-
+			sut.Perform();
 			sut.Revert();
 
-			processMonitorMock.Verify(p => p.StopMonitoringExplorer(), Times.Once);
-			processMonitorMock.Verify(p => p.StartExplorerShell(), Times.Once);
+			settings.KioskMode = KioskMode.None;
+
+			sut.Perform();
+			sut.Revert();
+
+			processMonitor.Verify(p => p.StartMonitoringExplorer(), Times.Never);
+			processMonitor.Verify(p => p.StopMonitoringExplorer(), Times.Never);
 		}
 	}
 }

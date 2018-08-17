@@ -25,12 +25,14 @@ using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
+using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Client.Behaviour
 {
 	internal class ClientController : IClientController
 	{
 		private IDisplayMonitor displayMonitor;
+		private IExplorerShell explorerShell;
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private IOperationSequence operations;
@@ -64,6 +66,7 @@ namespace SafeExamBrowser.Client.Behaviour
 
 		public ClientController(
 			IDisplayMonitor displayMonitor,
+			IExplorerShell explorerShell,
 			ILogger logger,
 			IMessageBox messageBox,
 			IOperationSequence operations,
@@ -76,6 +79,7 @@ namespace SafeExamBrowser.Client.Behaviour
 			IWindowMonitor windowMonitor)
 		{
 			this.displayMonitor = displayMonitor;
+			this.explorerShell = explorerShell;
 			this.logger = logger;
 			this.messageBox = messageBox;
 			this.operations = operations;
@@ -188,8 +192,8 @@ namespace SafeExamBrowser.Client.Behaviour
 
 		private void ProcessMonitor_ExplorerStarted()
 		{
-			logger.Info("Trying to shut down explorer...");
-			processMonitor.CloseExplorerShell();
+			logger.Info("Trying to terminate Windows explorer...");
+			explorerShell.Terminate();
 			logger.Info("Reinitializing working area...");
 			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
 			logger.Info("Reinitializing taskbar bounds...");

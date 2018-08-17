@@ -27,16 +27,6 @@ namespace SafeExamBrowser.Contracts.Monitoring
 		bool BelongsToAllowedProcess(IntPtr window);
 
 		/// <summary>
-		/// Terminates the Windows explorer shell, i.e. the taskbar.
-		/// </summary>
-		void CloseExplorerShell();
-
-		/// <summary>
-		/// Starts a new instance of the Windows explorer shell.
-		/// </summary>
-		void StartExplorerShell();
-
-		/// <summary>
 		/// Starts monitoring the Windows explorer, i.e. any newly created instances of <c>explorer.exe</c> will trigger the
 		/// <see cref="ExplorerStarted"/> event.
 		/// </summary>

@@ -37,9 +37,11 @@ namespace SafeExamBrowser.WindowsApi
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
 
-			logger.Debug($"Successfully created desktop '{name}' [{handle}].");
+			var desktop = new Desktop(handle, name);
 
-			return new Desktop(handle, name);
+			logger.Debug($"Successfully created desktop {desktop}.");
+
+			return desktop;
 		}
 
 		public IDesktop GetCurrent()
@@ -49,16 +51,14 @@ namespace SafeExamBrowser.WindowsApi
 			var name = String.Empty;
 			var nameLength = 0;
 
-			if (handle != IntPtr.Zero)
+			if (handle == IntPtr.Zero)
 			{
-				logger.Debug($"Found desktop handle {handle} for thread {threadId}. Attempting to get desktop name...");
-			}
-			else
-			{
-				logger.Error($"Failed to get desktop handle for thread {threadId}!");
+				logger.Error($"Failed to get desktop handle for thread with ID = {threadId}!");
 
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
+
+			logger.Debug($"Found desktop handle for thread with ID = {threadId}. Attempting to get desktop name...");
 
 			User32.GetUserObjectInformation(handle, Constant.UOI_NAME, IntPtr.Zero, 0, ref nameLength);
 
@@ -67,7 +67,7 @@ namespace SafeExamBrowser.WindowsApi
 
 			if (!success)
 			{
-				logger.Error($"Failed to retrieve name for desktop with handle {handle}!");
+				logger.Error($"Failed to retrieve name for desktop with handle = {handle}!");
 
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
@@ -75,9 +75,11 @@ namespace SafeExamBrowser.WindowsApi
 			name = Marshal.PtrToStringAnsi(namePointer);
 			Marshal.FreeHGlobal(namePointer);
 
-			logger.Debug($"Successfully determined current desktop as '{name}' [{handle}].");
+			var desktop = new Desktop(handle, name);
 
-			return new Desktop(handle, name);
+			logger.Debug($"Successfully determined current desktop {desktop}.");
+
+			return desktop;
 		}
 	}
 }

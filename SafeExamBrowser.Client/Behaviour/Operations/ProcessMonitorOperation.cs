@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Contracts.Behaviour.OperationModel;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
@@ -18,26 +19,26 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 	{
 		private ILogger logger;
 		private IProcessMonitor processMonitor;
+		private Settings settings;
 
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
-		public ProcessMonitorOperation(ILogger logger, IProcessMonitor processMonitor)
+		public ProcessMonitorOperation(ILogger logger, IProcessMonitor processMonitor, Settings settings)
 		{
 			this.logger = logger;
 			this.processMonitor = processMonitor;
+			this.settings = settings;
 		}
 
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing process monitoring...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_WaitExplorerTermination, true);
-
-			processMonitor.CloseExplorerShell();
-			processMonitor.StartMonitoringExplorer();
-
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeProcessMonitoring);
 
-			// TODO: Implement process monitoring...
+			if (settings.KioskMode == KioskMode.DisableExplorerShell)
+			{
+				processMonitor.StartMonitoringExplorer();
+			}
 
 			return OperationResult.Success;
 		}
@@ -52,12 +53,10 @@ namespace SafeExamBrowser.Client.Behaviour.Operations
 			logger.Info("Stopping process monitoring...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StopProcessMonitoring);
 
-			// TODO: Implement process monitoring...
-
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_WaitExplorerStartup, true);
-
-			processMonitor.StopMonitoringExplorer();
-			processMonitor.StartExplorerShell();
+			if (settings.KioskMode == KioskMode.DisableExplorerShell)
+			{
+				processMonitor.StopMonitoringExplorer();
+			}
 		}
 	}
 }
