@@ -80,15 +80,15 @@ namespace SafeExamBrowser.Client
 			InitializeText();
 
 			messageBox = new MessageBox(text);
-			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
+			processMonitor = new ProcessMonitor(new ModuleLogger(logger, nameof(ProcessMonitor)), nativeMethods);
 			uiFactory = new UserInterfaceFactory(text);
-			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), new ModuleLogger(logger, typeof(RuntimeProxy)));
+			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(RuntimeProxy)));
 
-			var displayMonitor = new DisplayMonitor(new ModuleLogger(logger, typeof(DisplayMonitor)), nativeMethods);
-			var explorerShell = new ExplorerShell(new ModuleLogger(logger, typeof(ExplorerShell)), nativeMethods);
-			var windowMonitor = new WindowMonitor(new ModuleLogger(logger, typeof(WindowMonitor)), nativeMethods);
+			var displayMonitor = new DisplayMonitor(new ModuleLogger(logger, nameof(DisplayMonitor)), nativeMethods);
+			var explorerShell = new ExplorerShell(new ModuleLogger(logger, nameof(ExplorerShell)), nativeMethods);
+			var windowMonitor = new WindowMonitor(new ModuleLogger(logger, nameof(WindowMonitor)), nativeMethods);
 
-			Taskbar = new Taskbar(new ModuleLogger(logger, typeof(Taskbar)));
+			Taskbar = new Taskbar(new ModuleLogger(logger, nameof(Taskbar)));
 
 			var operations = new Queue<IOperation>();
 
@@ -181,7 +181,7 @@ namespace SafeExamBrowser.Client
 		{
 			var processId = Process.GetCurrentProcess().Id;
 			var factory = new HostObjectFactory();
-			var host = new ClientHost(configuration.AppConfig.ClientAddress, factory, new ModuleLogger(logger, typeof(ClientHost)), processId);
+			var host = new ClientHost(configuration.AppConfig.ClientAddress, factory, new ModuleLogger(logger, nameof(ClientHost)), processId);
 			var operation = new CommunicationOperation(host, logger);
 
 			clientHost = host;
@@ -192,7 +192,7 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildKeyboardInterceptorOperation()
 		{
-			var keyboardInterceptor = new KeyboardInterceptor(configuration.Settings.Keyboard, new ModuleLogger(logger, typeof(KeyboardInterceptor)));
+			var keyboardInterceptor = new KeyboardInterceptor(configuration.Settings.Keyboard, new ModuleLogger(logger, nameof(KeyboardInterceptor)));
 			var operation = new KeyboardInterceptorOperation(keyboardInterceptor, logger, nativeMethods);
 
 			return operation;
@@ -200,7 +200,7 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildMouseInterceptorOperation()
 		{
-			var mouseInterceptor = new MouseInterceptor(new ModuleLogger(logger, typeof(MouseInterceptor)), configuration.Settings.Mouse);
+			var mouseInterceptor = new MouseInterceptor(new ModuleLogger(logger, nameof(MouseInterceptor)), configuration.Settings.Mouse);
 			var operation = new MouseInterceptorOperation(logger, mouseInterceptor, nativeMethods);
 
 			return operation;
@@ -213,11 +213,11 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildTaskbarOperation()
 		{
-			var keyboardLayout = new KeyboardLayout(new ModuleLogger(logger, typeof(KeyboardLayout)), text);
+			var keyboardLayout = new KeyboardLayout(new ModuleLogger(logger, nameof(KeyboardLayout)), text);
 			var logController = new LogNotificationController(logger, uiFactory);
 			var logInfo = new LogNotificationInfo(text);
-			var powerSupply = new PowerSupply(new ModuleLogger(logger, typeof(PowerSupply)), text);
-			var wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, typeof(WirelessNetwork)), text);
+			var powerSupply = new PowerSupply(new ModuleLogger(logger, nameof(PowerSupply)), text);
+			var wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, nameof(WirelessNetwork)), text);
 			var operation = new TaskbarOperation(logger, logInfo, logController, keyboardLayout, powerSupply, wirelessNetwork, systemInfo, Taskbar, configuration.Settings.Taskbar, text, uiFactory);
 
 			return operation;

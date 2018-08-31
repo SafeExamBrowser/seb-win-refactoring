@@ -55,13 +55,13 @@ namespace SafeExamBrowser.Runtime
 			InitializeText();
 
 			var messageBox = new MessageBox(text);
-			var desktopFactory = new DesktopFactory(new ModuleLogger(logger, typeof(DesktopFactory)));
-			var explorerShell = new ExplorerShell(new ModuleLogger(logger, typeof(ExplorerShell)), nativeMethods);
-			var processFactory = new ProcessFactory(new ModuleLogger(logger, typeof(ProcessFactory)));
+			var desktopFactory = new DesktopFactory(new ModuleLogger(logger, nameof(DesktopFactory)));
+			var explorerShell = new ExplorerShell(new ModuleLogger(logger, nameof(ExplorerShell)), nativeMethods);
+			var processFactory = new ProcessFactory(new ModuleLogger(logger, nameof(ProcessFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), logger);
 			var resourceLoader = new ResourceLoader();
-			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, configuration, new HostObjectFactory(), new ModuleLogger(logger, typeof(RuntimeHost)));
-			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), new ModuleLogger(logger, typeof(ServiceProxy)));
+			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, configuration, new HostObjectFactory(), new ModuleLogger(logger, nameof(RuntimeHost)));
+			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(ServiceProxy)));
 			var uiFactory = new UserInterfaceFactory(text);
 
 			var bootstrapOperations = new Queue<IOperation>();

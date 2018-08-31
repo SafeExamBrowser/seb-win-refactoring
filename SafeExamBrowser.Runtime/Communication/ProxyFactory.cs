@@ -26,7 +26,7 @@ namespace SafeExamBrowser.Runtime.Communication
 
 		public IClientProxy CreateClientProxy(string address)
 		{
-			return new ClientProxy(address, factory, new ModuleLogger(logger, typeof(ClientProxy)));
+			return new ClientProxy(address, factory, new ModuleLogger(logger, nameof(ClientProxy)));
 		}
 	}
 }

@@ -10,9 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CefSharp;
-using SafeExamBrowser.Contracts.Core;
 using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Core;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -29,7 +29,7 @@ namespace SafeExamBrowser.Browser
 		private AppConfig appConfig;
 		private IApplicationButton button;
 		private IList<IApplicationInstance> instances;
-		private ILogger logger;
+		private IModuleLogger logger;
 		private IMessageBox messageBox;
 		private BrowserSettings settings;
 		private IText text;
@@ -40,7 +40,7 @@ namespace SafeExamBrowser.Browser
 		public BrowserApplicationController(
 			AppConfig appConfig,
 			BrowserSettings settings,
-			ILogger logger,
+			IModuleLogger logger,
 			IMessageBox messageBox,
 			IText text,
 			IUserInterfaceFactory uiFactory)
@@ -92,7 +92,8 @@ namespace SafeExamBrowser.Browser
 		{
 			var id = new BrowserInstanceIdentifier(++instanceIdCounter);
 			var isMainInstance = instances.Count == 0;
-			var instance = new BrowserApplicationInstance(appConfig, settings, id, isMainInstance, text, uiFactory);
+			var instanceLogger = logger.CloneFor($"BrowserInstance {id}");
+			var instance = new BrowserApplicationInstance(appConfig, settings, id, isMainInstance, instanceLogger, text, uiFactory);
 
 			instance.Initialize();
 			instance.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);

@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using CefSharp;
 using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Logging;
 using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
 
 namespace SafeExamBrowser.Browser.Handlers
@@ -25,13 +26,15 @@ namespace SafeExamBrowser.Browser.Handlers
 		private AppConfig appConfig;
 		private BrowserSettings settings;
 		private ConcurrentDictionary<int, DownloadFinishedCallback> callbacks;
+		private ILogger logger;
 
 		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 
-		public DownloadHandler(AppConfig appConfig, BrowserSettings settings)
+		public DownloadHandler(AppConfig appConfig, BrowserSettings settings, ILogger logger)
 		{
 			this.appConfig = appConfig;
 			this.callbacks = new ConcurrentDictionary<int, DownloadFinishedCallback>();
+			this.logger = logger;
 			this.settings = settings;
 		}
 
@@ -41,16 +44,24 @@ namespace SafeExamBrowser.Browser.Handlers
 			var extension = Path.GetExtension(uri.AbsolutePath);
 			var isConfigFile = String.Equals(extension, appConfig.ConfigurationFileExtension, StringComparison.InvariantCultureIgnoreCase);
 
+			logger.Debug($"Handling download request for '{uri}'.");
+
 			if (isConfigFile)
 			{
 				Task.Run(() => RequestConfigurationFileDownload(downloadItem, callback));
 			}
-			else if (!isConfigFile && settings.AllowDownloads)
+			else if (settings.AllowDownloads)
 			{
+				logger.Debug($"Starting download of '{uri}'...");
+
 				using (callback)
 				{
 					callback.Continue(null, true);
 				}
+			}
+			else
+			{
+				logger.Info($"Aborted download request for '{uri}', as downloading is not allowed.");
 			}
 		}
 
@@ -62,6 +73,8 @@ namespace SafeExamBrowser.Browser.Handlers
 				{
 					Task.Run(() => finished.Invoke(downloadItem.IsComplete, downloadItem.FullPath));
 				}
+
+				logger.Debug($"Download of '{downloadItem.Url}' {(downloadItem.IsComplete ? "is complete" : "was cancelled")}.");
 			}
 		}
 
@@ -70,6 +83,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			var args = new DownloadEventArgs();
 
 			ConfigurationDownloadRequested?.Invoke(downloadItem.SuggestedFileName, args);
+			logger.Debug($"Download of configuration file '{downloadItem.Url}' was {(args.AllowDownload ? "granted" : "denied")}.");
 
 			if (args.AllowDownload)
 			{

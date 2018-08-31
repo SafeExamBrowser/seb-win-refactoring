@@ -10,7 +10,6 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Logging;
 
 namespace SafeExamBrowser.Logging.UnitTests
 {
@@ -18,13 +17,27 @@ namespace SafeExamBrowser.Logging.UnitTests
 	public class ModuleLoggerTests
 	{
 		[TestMethod]
+		public void MustCorrectlyClone()
+		{
+			var loggerMock = new Mock<ILogger>();
+			var sut = new ModuleLogger(loggerMock.Object, nameof(ModuleLoggerTests));
+			var clone = sut.CloneFor("blubb");
+
+			sut.Debug("Debug");
+			clone.Debug("Debug");
+
+			loggerMock.Verify(l => l.Debug($"[{nameof(ModuleLoggerTests)}] Debug"), Times.Once);
+			loggerMock.Verify(l => l.Debug($"[blubb] Debug"), Times.Once);
+		}
+
+		[TestMethod]
 		public void MustCorrectlyForwardCalls()
 		{
 			var exception = new Exception();
 			var loggerMock = new Mock<ILogger>();
 			var logObserverMock = new Mock<ILogObserver>();
 			var logText = new LogText("Log text");
-			var sut = new ModuleLogger(loggerMock.Object, typeof(ModuleLoggerTests));
+			var sut = new ModuleLogger(loggerMock.Object, nameof(ModuleLoggerTests));
 
 			sut.Debug("Debug");
 			sut.Info("Info");

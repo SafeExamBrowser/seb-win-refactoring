@@ -12,10 +12,7 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Logging
 {
-	/// <summary>
-	/// Wraps an implementation of <see cref="ILogger"/> in order to append information about the module from which messages are logged.
-	/// </summary>
-	public class ModuleLogger : ILogger
+	public class ModuleLogger : IModuleLogger
 	{
 		private ILogger logger;
 		private string moduleInfo;
@@ -26,8 +23,9 @@ namespace SafeExamBrowser.Logging
 			this.moduleInfo = moduleInfo;
 		}
 
-		public ModuleLogger(ILogger logger, Type module) : this(logger, module.Name)
+		public IModuleLogger CloneFor(string moduleInfo)
 		{
+			return new ModuleLogger(logger, moduleInfo);
 		}
 
 		public void Debug(string message)

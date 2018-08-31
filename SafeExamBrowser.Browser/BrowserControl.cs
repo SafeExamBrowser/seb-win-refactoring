@@ -7,10 +7,12 @@
  */
 
 using System;
+using CefSharp;
 using CefSharp.WinForms;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface.Browser;
 using SafeExamBrowser.Contracts.UserInterface.Browser.Events;
 using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
@@ -21,6 +23,7 @@ namespace SafeExamBrowser.Browser
 	{
 		private AppConfig appConfig;
 		private BrowserSettings settings;
+		private ILogger logger;
 		private IText text;
 
 		private AddressChangedEventHandler addressChanged;
@@ -45,16 +48,17 @@ namespace SafeExamBrowser.Browser
 			remove { titleChanged -= value; }
 		}
 
-		public BrowserControl(AppConfig appConfig, BrowserSettings settings, IText text) : base(settings.StartUrl)
+		public BrowserControl(AppConfig appConfig, BrowserSettings settings, ILogger logger, IText text) : base(settings.StartUrl)
 		{
 			this.appConfig = appConfig;
+			this.logger = logger;
 			this.settings = settings;
 			this.text = text;
 		}
 
 		public void Initialize()
 		{
-			AddressChanged += (o, args) => addressChanged?.Invoke(args.Address);
+			AddressChanged += BrowserControl_AddressChanged;
 			LoadingStateChanged += (o, args) => loadingStateChanged?.Invoke(args.IsLoading);
 			TitleChanged += (o, args) => titleChanged?.Invoke(args.Title);
 
@@ -62,7 +66,7 @@ namespace SafeExamBrowser.Browser
 			MenuHandler = new ContextMenuHandler(settings, text);
 			RequestHandler = new RequestHandler(appConfig);
 		}
-		
+
 		public void NavigateBackwards()
 		{
 			GetBrowser().GoBack();
@@ -84,6 +88,12 @@ namespace SafeExamBrowser.Browser
 		public void Reload()
 		{
 			GetBrowser().Reload();
+		}
+
+		private void BrowserControl_AddressChanged(object sender, AddressChangedEventArgs args)
+		{
+			logger.Debug($"Navigated to '{args.Address}'.");
+			addressChanged?.Invoke(args.Address);
 		}
 	}
 }

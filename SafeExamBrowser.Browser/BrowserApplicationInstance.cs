@@ -7,12 +7,13 @@
  */
 
 using SafeExamBrowser.Browser.Handlers;
-using SafeExamBrowser.Contracts.Core;
-using SafeExamBrowser.Contracts.Core.Events;
 using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Core;
+using SafeExamBrowser.Contracts.Core.Events;
 using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Browser;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
@@ -25,6 +26,7 @@ namespace SafeExamBrowser.Browser
 		private IBrowserControl control;
 		private IBrowserWindow window;
 		private bool isMainInstance;
+		private IModuleLogger logger;
 		private BrowserSettings settings;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
@@ -42,12 +44,14 @@ namespace SafeExamBrowser.Browser
 			BrowserSettings settings,
 			InstanceIdentifier id,
 			bool isMainInstance,
+			IModuleLogger logger,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
 			this.Id = id;
 			this.isMainInstance = isMainInstance;
+			this.logger = logger;
 			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;
@@ -55,16 +59,20 @@ namespace SafeExamBrowser.Browser
 
 		internal void Initialize()
 		{
-			var downloadHandler = new DownloadHandler(appConfig, settings);
+			var controlLogger = logger.CloneFor($"{nameof(BrowserControl)} {Id}");
+			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} {Id}");
+			var downloadHandler = new DownloadHandler(appConfig, settings, downloadLogger);
 
 			downloadHandler.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
 
-			control = new BrowserControl(appConfig, settings, text);
+			control = new BrowserControl(appConfig, settings, controlLogger, text);
 			control.AddressChanged += Control_AddressChanged;
 			control.LoadingStateChanged += Control_LoadingStateChanged;
 			control.TitleChanged += Control_TitleChanged;
 			(control as BrowserControl).DownloadHandler = downloadHandler;
 			(control as BrowserControl).Initialize();
+
+			logger.Debug("Initialized browser control.");
 
 			window = uiFactory.CreateBrowserWindow(control, settings);
 			window.IsMainWindow = isMainInstance;
@@ -73,6 +81,8 @@ namespace SafeExamBrowser.Browser
 			window.ReloadRequested += Window_ReloadRequested;
 			window.BackwardNavigationRequested += Window_BackwardNavigationRequested;
 			window.ForwardNavigationRequested += Window_ForwardNavigationRequested;
+
+			logger.Debug("Initialized browser window.");
 		}
 
 		private void Control_AddressChanged(string address)
@@ -93,21 +103,25 @@ namespace SafeExamBrowser.Browser
 
 		private void Window_AddressChanged(string address)
 		{
+			logger.Debug($"The user requested to navigate to '{address}'.");
 			control.NavigateTo(address);
 		}
 
 		private void Window_ReloadRequested()
 		{
+			logger.Debug($"The user requested to reload the current page.");
 			control.Reload();
 		}
 
 		private void Window_BackwardNavigationRequested()
 		{
+			logger.Debug($"The user requested to navigate backwards.");
 			control.NavigateBackwards();
 		}
 
 		private void Window_ForwardNavigationRequested()
 		{
+			logger.Debug($"The user requested to navigate forwards.");
 			control.NavigateForwards();
 		}
 	}
