@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
+using SafeExamBrowser.Contracts.Behaviour;
 
 namespace SafeExamBrowser.Contracts.UserInterface.Taskbar.Events
 {
@@ -14,5 +14,5 @@ namespace SafeExamBrowser.Contracts.UserInterface.Taskbar.Events
 	/// Indicates that an <see cref="IApplicationButton"/> has been clicked, optionally specifying the ID of the selected instance (if
 	/// multiple instances of the same application are running).
 	/// </summary>
-	public delegate void ApplicationButtonClickedEventHandler(Guid? instanceId = null);
+	public delegate void ApplicationButtonClickedEventHandler(InstanceIdentifier id = null);
 }

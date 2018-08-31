@@ -91,7 +91,7 @@ namespace SafeExamBrowser.UserInterface.Windows10.Controls
 			}
 		}
 
-		private void Instance_OnTerminated(Guid id, ApplicationInstanceButton instanceButton)
+		private void Instance_OnTerminated(InstanceIdentifier id, ApplicationInstanceButton instanceButton)
 		{
 			instances.Remove(instances.FirstOrDefault(i => i.Id == id));
 			InstanceStackPanel.Children.Remove(instanceButton);

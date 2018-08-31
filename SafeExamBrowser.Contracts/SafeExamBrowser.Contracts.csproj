@@ -55,6 +55,7 @@
     <Compile Include="Behaviour\Events\InstanceTerminatedEventHandler.cs" />
     <Compile Include="Behaviour\Events\NameChangedEventHandler.cs" />
     <Compile Include="Behaviour\IApplicationController.cs" />
+    <Compile Include="Behaviour\InstanceIdentifier.cs" />
     <Compile Include="Behaviour\IRuntimeController.cs" />
     <Compile Include="Behaviour\OperationModel\IOperationSequence.cs" />
     <Compile Include="Behaviour\OperationModel\OperationResult.cs" />

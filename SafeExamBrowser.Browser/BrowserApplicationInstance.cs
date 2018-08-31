@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Behaviour.Events;
@@ -30,7 +29,7 @@ namespace SafeExamBrowser.Browser
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 
-		public Guid Id { get; private set; }
+		public InstanceIdentifier Id { get; private set; }
 		public string Name { get; private set; }
 		public IWindow Window { get { return window; } }
 
@@ -41,11 +40,13 @@ namespace SafeExamBrowser.Browser
 		public BrowserApplicationInstance(
 			AppConfig appConfig,
 			BrowserSettings settings,
+			InstanceIdentifier id,
+			bool isMainInstance,
 			IText text,
-			IUserInterfaceFactory uiFactory,
-			bool isMainInstance)
+			IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
+			this.Id = id;
 			this.isMainInstance = isMainInstance;
 			this.settings = settings;
 			this.text = text;
@@ -56,7 +57,6 @@ namespace SafeExamBrowser.Browser
 		{
 			var downloadHandler = new DownloadHandler(appConfig, settings);
 
-			Id = Guid.NewGuid();
 			downloadHandler.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
 
 			control = new BrowserControl(appConfig, settings, text);

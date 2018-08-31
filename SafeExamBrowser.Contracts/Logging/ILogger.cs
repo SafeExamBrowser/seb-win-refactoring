@@ -17,32 +17,32 @@ namespace SafeExamBrowser.Contracts.Logging
 	public interface ILogger
 	{
 		/// <summary>
-		/// Logs the given message with severity <b>DEBUG</b>.
+		/// Logs the given message with severity <see cref="LogLevel.Debug"/>.
 		/// </summary>
 		/// <exception cref="ArgumentNullException" />
 		void Debug(string message);
 
 		/// <summary>
-		/// Logs the given message with severity <b>INFO</b>.
+		/// Logs the given message with severity <see cref="LogLevel.Info"/>.
 		/// </summary>
 		/// <exception cref="ArgumentNullException" />
 		void Info(string message);
 
 		/// <summary>
-		/// Logs the given message with severity <b>WARNING</b>.
+		/// Logs the given message with severity <see cref="LogLevel.Warning"/>.
 		/// </summary>
 		/// <exception cref="ArgumentNullException" />
 		void Warn(string message);
 
 		/// <summary>
-		/// Logs the given message with severity <b>ERROR</b>.
+		/// Logs the given message with severity <see cref="LogLevel.Error"/>.
 		/// </summary>
 		/// <exception cref="ArgumentNullException" />
 		void Error(string message);
 
 		/// <summary>
-		/// Logs the given message with severity <b>ERROR</b> and includes information about
-		/// the specified exception (i.e. type, message and stacktrace).
+		/// Logs the given message with severity <see cref="LogLevel.Error"/> and includes
+		/// information about the specified exception (i.e. type, message and stacktrace).
 		/// </summary>
 		/// <exception cref="ArgumentNullException" />
 		void Error(string message, Exception exception);
@@ -60,7 +60,7 @@ namespace SafeExamBrowser.Contracts.Logging
 		void Log(ILogContent content);
 
 		/// <summary>
-		/// Suscribes an observer to the application log.
+		/// Subscribes an observer to the application log.
 		/// </summary>
 		/// <exception cref="ArgumentNullException" />
 		void Subscribe(ILogObserver observer);

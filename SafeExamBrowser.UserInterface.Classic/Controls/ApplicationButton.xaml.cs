@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -90,7 +89,7 @@ namespace SafeExamBrowser.UserInterface.Classic.Controls
 			}
 		}
 
-		private void Instance_OnTerminated(Guid id, ApplicationInstanceButton instanceButton)
+		private void Instance_OnTerminated(InstanceIdentifier id, ApplicationInstanceButton instanceButton)
 		{
 			instances.Remove(instances.FirstOrDefault(i => i.Id == id));
 			InstanceStackPanel.Children.Remove(instanceButton);

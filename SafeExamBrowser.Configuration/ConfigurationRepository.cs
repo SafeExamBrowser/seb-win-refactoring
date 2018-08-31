@@ -11,6 +11,7 @@ using System.IO;
 using System.Reflection;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration
 {
@@ -81,7 +82,7 @@ namespace SafeExamBrowser.Configuration
 
 			CurrentSettings = new Settings();
 
-			CurrentSettings.KioskMode = KioskMode.DisableExplorerShell;
+			CurrentSettings.KioskMode = KioskMode.None;
 			CurrentSettings.ServicePolicy = ServicePolicy.Optional;
 
 			CurrentSettings.Browser.StartUrl = "https://www.safeexambrowser.org/testing";
@@ -117,6 +118,7 @@ namespace SafeExamBrowser.Configuration
 			appConfig.ConfigurationFileExtension = ".seb";
 			appConfig.DefaultSettingsFileName = "SebClientSettings.seb";
 			appConfig.DownloadDirectory = Path.Combine(appDataFolder, "Downloads");
+			appConfig.LogLevel = LogLevel.Debug;
 			appConfig.ProgramCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
 			appConfig.ProgramDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), nameof(SafeExamBrowser));
 			appConfig.ProgramTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;

@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Core.Logging
 	/// </summary>
 	public class Logger : ILogger
 	{
-		private static readonly object @lock = new object();
+		private readonly object @lock = new object();
 		private readonly IList<ILogContent> log = new List<ILogContent>();
 		private readonly IList<ILogObserver> observers = new List<ILogObserver>();
 

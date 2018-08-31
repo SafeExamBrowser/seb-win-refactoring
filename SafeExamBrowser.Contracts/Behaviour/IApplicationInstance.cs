@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using SafeExamBrowser.Contracts.Behaviour.Events;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
 
@@ -20,7 +19,7 @@ namespace SafeExamBrowser.Contracts.Behaviour
 		/// <summary>
 		/// The unique identifier for the application instance.
 		/// </summary>
-		Guid Id { get; }
+		InstanceIdentifier Id { get; }
 
 		/// <summary>
 		/// The name or (document) title of the application instance.

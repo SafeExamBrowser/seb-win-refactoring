@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
@@ -70,6 +71,11 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// The default directory for file downloads.
 		/// </summary>
 		public string DownloadDirectory { get; set; }
+
+		/// <summary>
+		/// The currently active, global log severity threshold.
+		/// </summary>
+		public LogLevel LogLevel { get; set; }
 
 		/// <summary>
 		/// The copyright information for the application (i.e. the executing assembly).

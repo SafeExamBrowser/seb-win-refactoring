@@ -8,6 +8,9 @@
 
 namespace SafeExamBrowser.Contracts.WindowsApi
 {
+	/// <summary>
+	/// Defines an abstraction of the Windows explorer shell (i.e. the process controlling the GUI of the operating system).
+	/// </summary>
 	public interface IExplorerShell
 	{
 		/// <summary>

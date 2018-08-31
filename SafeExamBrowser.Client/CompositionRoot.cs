@@ -155,7 +155,7 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildBrowserOperation()
 		{
-			var moduleLogger = new ModuleLogger(logger, typeof(BrowserApplicationController));
+			var moduleLogger = new ModuleLogger(logger, "BrowserController");
 			var browserController = new BrowserApplicationController(configuration.AppConfig, configuration.Settings.Browser, moduleLogger, messageBox, text, uiFactory);
 			var browserInfo = new BrowserApplicationInfo();
 			var operation = new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory);

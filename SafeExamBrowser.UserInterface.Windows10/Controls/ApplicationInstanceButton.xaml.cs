@@ -6,23 +6,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using SafeExamBrowser.Contracts.Behaviour;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
 using SafeExamBrowser.UserInterface.Windows10.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Windows10.Controls
 {
-	internal delegate void InstanceButtonClickedEventHandler(Guid instanceId);
-
 	public partial class ApplicationInstanceButton : UserControl
 	{
 		private IApplicationInfo info;
 		private IApplicationInstance instance;
 
-		internal event InstanceButtonClickedEventHandler Clicked;
+		internal event ApplicationButtonClickedEventHandler Clicked;
 
 		public ApplicationInstanceButton(IApplicationInstance instance, IApplicationInfo info)
 		{

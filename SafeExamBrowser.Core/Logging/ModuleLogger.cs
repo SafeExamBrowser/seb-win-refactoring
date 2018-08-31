@@ -18,12 +18,16 @@ namespace SafeExamBrowser.Core.Logging
 	public class ModuleLogger : ILogger
 	{
 		private ILogger logger;
-		private Type module;
+		private string moduleInfo;
 
-		public ModuleLogger(ILogger logger, Type module)
+		public ModuleLogger(ILogger logger, string moduleInfo)
 		{
 			this.logger = logger;
-			this.module = module;
+			this.moduleInfo = moduleInfo;
+		}
+
+		public ModuleLogger(ILogger logger, Type module) : this(logger, module.Name)
+		{
 		}
 
 		public void Debug(string message)
@@ -78,7 +82,7 @@ namespace SafeExamBrowser.Core.Logging
 
 		private string AppendModuleInfo(string message)
 		{
-			return $"[{module.Name}] {message}";
+			return $"[{moduleInfo}] {message}";
 		}
 	}
 }

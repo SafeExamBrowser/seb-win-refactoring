@@ -24,6 +24,8 @@ namespace SafeExamBrowser.Browser
 {
 	public class BrowserApplicationController : IBrowserApplicationController
 	{
+		private int instanceIdCounter = default(int);
+
 		private AppConfig appConfig;
 		private IApplicationButton button;
 		private IList<IApplicationInstance> instances;
@@ -57,6 +59,8 @@ namespace SafeExamBrowser.Browser
 			var cefSettings = InitializeCefSettings();
 			var success = Cef.Initialize(cefSettings, true, null);
 
+			logger.Info("Initialized CEF.");
+
 			if (!success)
 			{
 				throw new Exception("Failed to initialize the browser engine!");
@@ -75,14 +79,20 @@ namespace SafeExamBrowser.Browser
 			{
 				instance.Terminated -= Instance_Terminated;
 				instance.Window.Close();
+
+				logger.Info($"Terminated browser instance {instance.Id}.");
 			}
 
 			Cef.Shutdown();
+
+			logger.Info("Terminated CEF.");
 		}
 
 		private void CreateNewInstance()
 		{
-			var instance = new BrowserApplicationInstance(appConfig, settings, text, uiFactory, instances.Count == 0);
+			var id = new BrowserInstanceIdentifier(++instanceIdCounter);
+			var isMainInstance = instances.Count == 0;
+			var instance = new BrowserApplicationInstance(appConfig, settings, id, isMainInstance, text, uiFactory);
 
 			instance.Initialize();
 			instance.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
@@ -91,36 +101,44 @@ namespace SafeExamBrowser.Browser
 			button.RegisterInstance(instance);
 			instances.Add(instance);
 			instance.Window.Show();
+
+			logger.Info($"Created browser instance {instance.Id}.");
 		}
 
 		private CefSettings InitializeCefSettings()
 		{
+			var warning = appConfig.LogLevel == LogLevel.Warning;
+			var error = appConfig.LogLevel == LogLevel.Error;
 			var cefSettings = new CefSettings
 			{
 				CachePath = appConfig.BrowserCachePath,
 				LogFile = appConfig.BrowserLogFile,
-				// TODO: Set according to current application LogLevel, but avoid verbose!
-				LogSeverity = LogSeverity.Info
+				LogSeverity = error ? LogSeverity.Error : (warning ? LogSeverity.Warning : LogSeverity.Info)
 			};
+
+			logger.Debug($"CEF cache path is '{cefSettings.CachePath}'.");
+			logger.Debug($"CEF log file is '{cefSettings.LogFile}'.");
+			logger.Debug($"CEF log severity is '{cefSettings.LogSeverity}'.");
 
 			return cefSettings;
 		}
 
-		private void Button_OnClick(Guid? instanceId = null)
+		private void Button_OnClick(InstanceIdentifier id = null)
 		{
-			if (instanceId.HasValue)
-			{
-				instances.FirstOrDefault(i => i.Id == instanceId)?.Window?.BringToForeground();
-			}
-			else
+			if (id is null)
 			{
 				CreateNewInstance();
 			}
+			else
+			{
+				instances.FirstOrDefault(i => i.Id == id)?.Window?.BringToForeground();
+			}
 		}
 
-		private void Instance_Terminated(Guid id)
+		private void Instance_Terminated(InstanceIdentifier id)
 		{
 			instances.Remove(instances.FirstOrDefault(i => i.Id == id));
+			logger.Info($"Browser instance {id} was terminated.");
 		}
 	}
 }

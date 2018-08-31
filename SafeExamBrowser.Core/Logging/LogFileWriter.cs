@@ -17,7 +17,7 @@ namespace SafeExamBrowser.Core.Logging
 	/// </summary>
 	public class LogFileWriter : ILogObserver
 	{
-		private static readonly object @lock = new object();
+		private readonly object @lock = new object();
 		private readonly string filePath;
 		private readonly ILogContentFormatter formatter;
 

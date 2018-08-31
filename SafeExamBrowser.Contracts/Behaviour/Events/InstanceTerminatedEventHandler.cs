@@ -6,12 +6,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 
 namespace SafeExamBrowser.Contracts.Behaviour.Events
 {
 	/// <summary>
 	/// Event handler used to indicate that an application instance with a particular ID has terminated.
 	/// </summary>
-	public delegate void InstanceTerminatedEventHandler(Guid id);
+	public delegate void InstanceTerminatedEventHandler(InstanceIdentifier id);
 }

@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Core.Communication.Proxies
 	public abstract class BaseProxy : ICommunicationProxy
 	{
 		private const int ONE_MINUTE = 60000;
-		private static readonly object @lock = new object();
+		private readonly object @lock = new object();
 
 		private string address;
 		private IProxyObject proxy;
