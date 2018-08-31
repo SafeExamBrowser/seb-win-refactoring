@@ -7,8 +7,8 @@
  */
 
 using SafeExamBrowser.Browser.Handlers;
-using SafeExamBrowser.Contracts.Behaviour;
-using SafeExamBrowser.Contracts.Behaviour.Events;
+using SafeExamBrowser.Contracts.Core;
+using SafeExamBrowser.Contracts.Core.Events;
 using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;

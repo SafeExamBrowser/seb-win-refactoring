@@ -12,7 +12,7 @@ using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Core.Communication.Hosts;
+using SafeExamBrowser.Communication.Hosts;
 
 namespace SafeExamBrowser.Runtime.Communication
 {

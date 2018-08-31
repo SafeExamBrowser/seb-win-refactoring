@@ -8,7 +8,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
-using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Core;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
 using SafeExamBrowser.UserInterface.Classic.Utilities;

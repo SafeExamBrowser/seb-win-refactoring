@@ -52,13 +52,13 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviour\Events\InstanceTerminatedEventHandler.cs" />
-    <Compile Include="Behaviour\Events\NameChangedEventHandler.cs" />
-    <Compile Include="Behaviour\IApplicationController.cs" />
-    <Compile Include="Behaviour\InstanceIdentifier.cs" />
-    <Compile Include="Behaviour\IRuntimeController.cs" />
-    <Compile Include="Behaviour\OperationModel\IOperationSequence.cs" />
-    <Compile Include="Behaviour\OperationModel\OperationResult.cs" />
+    <Compile Include="Core\Events\InstanceTerminatedEventHandler.cs" />
+    <Compile Include="Core\Events\NameChangedEventHandler.cs" />
+    <Compile Include="Core\IApplicationController.cs" />
+    <Compile Include="Core\InstanceIdentifier.cs" />
+    <Compile Include="Core\IRuntimeController.cs" />
+    <Compile Include="Core\OperationModel\IOperationSequence.cs" />
+    <Compile Include="Core\OperationModel\OperationResult.cs" />
     <Compile Include="Browser\DownloadEventArgs.cs" />
     <Compile Include="Browser\DownloadFinishedCallback.cs" />
     <Compile Include="Browser\DownloadRequestedEventHandler.cs" />
@@ -104,12 +104,12 @@
     <Compile Include="Configuration\AppConfig.cs" />
     <Compile Include="Configuration\ISessionData.cs" />
     <Compile Include="Configuration\Settings\ConfigurationMode.cs" />
-    <Compile Include="Behaviour\INotificationController.cs" />
-    <Compile Include="Behaviour\OperationModel\IOperation.cs" />
-    <Compile Include="Behaviour\IClientController.cs" />
+    <Compile Include="Core\INotificationController.cs" />
+    <Compile Include="Core\OperationModel\IOperation.cs" />
+    <Compile Include="Core\IClientController.cs" />
     <Compile Include="Configuration\IIconResource.cs" />
     <Compile Include="Configuration\IApplicationInfo.cs" />
-    <Compile Include="Behaviour\IApplicationInstance.cs" />
+    <Compile Include="Core\IApplicationInstance.cs" />
     <Compile Include="Configuration\INotificationInfo.cs" />
     <Compile Include="Configuration\ISystemInfo.cs" />
     <Compile Include="Configuration\OperatingSystem.cs" />

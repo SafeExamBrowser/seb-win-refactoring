@@ -12,7 +12,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using SafeExamBrowser.Contracts.Behaviour;
+using SafeExamBrowser.Contracts.Core;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;

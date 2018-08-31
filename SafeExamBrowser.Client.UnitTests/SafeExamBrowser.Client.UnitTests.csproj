@@ -77,14 +77,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviour\Operations\BrowserOperationTests.cs" />
-    <Compile Include="Behaviour\Operations\ClipboardOperationTests.cs" />
-    <Compile Include="Behaviour\Operations\DisplayMonitorOperationTests.cs" />
-    <Compile Include="Behaviour\Operations\KeyboardInterceptorOperationTests.cs" />
-    <Compile Include="Behaviour\Operations\MouseInterceptorOperationTests.cs" />
-    <Compile Include="Behaviour\Operations\ProcessMonitorOperationTests.cs" />
-    <Compile Include="Behaviour\Operations\TaskbarOperationTests.cs" />
-    <Compile Include="Behaviour\Operations\WindowMonitorOperationTests.cs" />
+    <Compile Include="Operations\BrowserOperationTests.cs" />
+    <Compile Include="Operations\ClipboardOperationTests.cs" />
+    <Compile Include="Operations\DisplayMonitorOperationTests.cs" />
+    <Compile Include="Operations\KeyboardInterceptorOperationTests.cs" />
+    <Compile Include="Operations\MouseInterceptorOperationTests.cs" />
+    <Compile Include="Operations\ProcessMonitorOperationTests.cs" />
+    <Compile Include="Operations\TaskbarOperationTests.cs" />
+    <Compile Include="Operations\WindowMonitorOperationTests.cs" />
     <Compile Include="Communication\ClientHostTests.cs" />
     <Compile Include="Notifications\AboutNotificationControllerTests.cs" />
     <Compile Include="Notifications\LogNotificationControllerTests.cs" />
@@ -100,6 +100,10 @@
     <ProjectReference Include="..\SafeExamBrowser.Client\SafeExamBrowser.Client.csproj">
       <Project>{7CC5A895-E0D3-4E43-9B39-CCEC05A5A6A7}</Project>
       <Name>SafeExamBrowser.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Communication\SafeExamBrowser.Communication.csproj">
+      <Project>{c9416a62-0623-4d38-96aa-92516b32f02f}</Project>
+      <Name>SafeExamBrowser.Communication</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">
       <Project>{47DA5933-BEF8-4729-94E6-ABDE2DB12262}</Project>

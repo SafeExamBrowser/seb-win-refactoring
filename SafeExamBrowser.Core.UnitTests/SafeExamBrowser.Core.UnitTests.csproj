@@ -78,24 +78,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviour\OperationModel\CommunicationOperationTests.cs" />
-    <Compile Include="Behaviour\OperationModel\DelayedInitializationOperationTests.cs" />
-    <Compile Include="Behaviour\OperationModel\I18nOperationTests.cs" />
-    <Compile Include="Behaviour\OperationModel\DelegateOperationTests.cs" />
-    <Compile Include="Behaviour\OperationModel\OperationSequenceTests.cs" />
-    <Compile Include="Communication\Hosts\BaseHostStub.cs" />
-    <Compile Include="Communication\Hosts\BaseHostTests.cs" />
-    <Compile Include="Communication\Proxies\BaseProxyImpl.cs" />
-    <Compile Include="Communication\Proxies\BaseProxyTests.cs" />
-    <Compile Include="Communication\Proxies\ClientProxyTests.cs" />
-    <Compile Include="Communication\Proxies\RuntimeProxyTests.cs" />
-    <Compile Include="Communication\Proxies\ServiceProxyTests.cs" />
-    <Compile Include="I18n\TextTests.cs" />
-    <Compile Include="I18n\XmlTextResourceTests.cs" />
-    <Compile Include="Logging\DefaultLogFormatterTests.cs" />
-    <Compile Include="Logging\LoggerTests.cs" />
-    <Compile Include="Logging\ModuleLoggerTests.cs" />
-    <Compile Include="Logging\NewLogContentType.cs" />
+    <Compile Include="Operations\CommunicationOperationTests.cs" />
+    <Compile Include="Operations\DelayedInitializationOperationTests.cs" />
+    <Compile Include="Operations\I18nOperationTests.cs" />
+    <Compile Include="Operations\DelegateOperationTests.cs" />
+    <Compile Include="OperationModel\OperationSequenceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -107,17 +94,6 @@
       <Project>{3d6fdbb6-a4af-4626-bb2b-bf329d44f9cc}</Project>
       <Name>SafeExamBrowser.Core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="I18n\Text_Invalid.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="I18n\Text_Incompatible.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="I18n\Text_Valid.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

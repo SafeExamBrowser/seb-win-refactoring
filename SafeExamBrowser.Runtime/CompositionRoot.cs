@@ -8,19 +8,22 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using SafeExamBrowser.Communication.Hosts;
+using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration;
-using SafeExamBrowser.Contracts.Behaviour;
-using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Core;
+using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Core.Behaviour.OperationModel;
-using SafeExamBrowser.Core.Communication.Hosts;
-using SafeExamBrowser.Core.Communication.Proxies;
-using SafeExamBrowser.Core.I18n;
-using SafeExamBrowser.Core.Logging;
-using SafeExamBrowser.Runtime.Behaviour;
-using SafeExamBrowser.Runtime.Behaviour.Operations;
+using SafeExamBrowser.Core.OperationModel;
+using SafeExamBrowser.Core.Operations;
+using SafeExamBrowser.I18n;
+using SafeExamBrowser.Logging;
 using SafeExamBrowser.Runtime.Communication;
+using SafeExamBrowser.Runtime.Operations;
 using SafeExamBrowser.UserInterface.Classic;
 using SafeExamBrowser.WindowsApi;
 
@@ -31,6 +34,8 @@ namespace SafeExamBrowser.Runtime
 		private AppConfig appConfig;
 		private ILogger logger;
 		private ISystemInfo systemInfo;
+		private IText text;
+		private ITextResource textResource;
 
 		internal IRuntimeController RuntimeController { get; private set; }
 
@@ -47,8 +52,8 @@ namespace SafeExamBrowser.Runtime
 			systemInfo = new SystemInfo();
 
 			InitializeLogging();
+			InitializeText();
 
-			var text = new Text(logger);
 			var messageBox = new MessageBox(text);
 			var desktopFactory = new DesktopFactory(new ModuleLogger(logger, typeof(DesktopFactory)));
 			var explorerShell = new ExplorerShell(new ModuleLogger(logger, typeof(ExplorerShell)), nativeMethods);
@@ -62,7 +67,7 @@ namespace SafeExamBrowser.Runtime
 			var bootstrapOperations = new Queue<IOperation>();
 			var sessionOperations = new Queue<IOperation>();
 
-			bootstrapOperations.Enqueue(new I18nOperation(logger, text));
+			bootstrapOperations.Enqueue(new I18nOperation(logger, text, textResource));
 			bootstrapOperations.Enqueue(new CommunicationOperation(runtimeHost, logger));
 
 			sessionOperations.Enqueue(new ConfigurationOperation(appConfig, configuration, logger, messageBox, resourceLoader, runtimeHost, text, uiFactory, args));
@@ -102,6 +107,15 @@ namespace SafeExamBrowser.Runtime
 
 			logFileWriter.Initialize();
 			logger.Subscribe(logFileWriter);
+		}
+
+		private void InitializeText()
+		{
+			var location = Assembly.GetAssembly(typeof(XmlTextResource)).Location;
+			var path = $@"{Path.GetDirectoryName(location)}\Text.xml";
+
+			text = new Text(logger);
+			textResource = new XmlTextResource(path);
 		}
 	}
 }

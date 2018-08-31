@@ -79,14 +79,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviour\Operations\ConfigurationOperationTests.cs" />
-    <Compile Include="Behaviour\Operations\KioskModeOperationTests.cs" />
-    <Compile Include="Behaviour\Operations\PasswordDialogResultStub.cs" />
-    <Compile Include="Behaviour\Operations\ServiceOperationTests.cs" />
-    <Compile Include="Behaviour\Operations\ClientOperationTests.cs" />
-    <Compile Include="Behaviour\Operations\ClientTerminationOperationTests.cs" />
-    <Compile Include="Behaviour\Operations\SessionInitializationOperationTests.cs" />
-    <Compile Include="Behaviour\RuntimeControllerTests.cs" />
+    <Compile Include="Operations\ConfigurationOperationTests.cs" />
+    <Compile Include="Operations\KioskModeOperationTests.cs" />
+    <Compile Include="Operations\PasswordDialogResultStub.cs" />
+    <Compile Include="Operations\ServiceOperationTests.cs" />
+    <Compile Include="Operations\ClientOperationTests.cs" />
+    <Compile Include="Operations\ClientTerminationOperationTests.cs" />
+    <Compile Include="Operations\SessionInitializationOperationTests.cs" />
+    <Compile Include="RuntimeControllerTests.cs" />
     <Compile Include="Communication\RuntimeHostTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -95,6 +95,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SafeExamBrowser.Communication\SafeExamBrowser.Communication.csproj">
+      <Project>{c9416a62-0623-4d38-96aa-92516b32f02f}</Project>
+      <Name>SafeExamBrowser.Communication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">
       <Project>{47DA5933-BEF8-4729-94E6-ABDE2DB12262}</Project>
       <Name>SafeExamBrowser.Contracts</Name>

@@ -9,29 +9,31 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using SafeExamBrowser.Browser;
-using SafeExamBrowser.Client.Behaviour;
-using SafeExamBrowser.Client.Behaviour.Operations;
 using SafeExamBrowser.Client.Communication;
 using SafeExamBrowser.Client.Notifications;
+using SafeExamBrowser.Client.Operations;
+using SafeExamBrowser.Communication.Hosts;
+using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration;
-using SafeExamBrowser.Contracts.Behaviour;
-using SafeExamBrowser.Contracts.Behaviour.OperationModel;
 using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Core;
+using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Contracts.WindowsApi;
-using SafeExamBrowser.Core.Behaviour.OperationModel;
-using SafeExamBrowser.Core.Communication.Hosts;
-using SafeExamBrowser.Core.Communication.Proxies;
-using SafeExamBrowser.Core.I18n;
-using SafeExamBrowser.Core.Logging;
+using SafeExamBrowser.Core.OperationModel;
+using SafeExamBrowser.Core.Operations;
+using SafeExamBrowser.I18n;
+using SafeExamBrowser.Logging;
 using SafeExamBrowser.Monitoring.Display;
 using SafeExamBrowser.Monitoring.Keyboard;
 using SafeExamBrowser.Monitoring.Mouse;
@@ -59,6 +61,7 @@ namespace SafeExamBrowser.Client
 		private IRuntimeProxy runtimeProxy;
 		private ISystemInfo systemInfo;
 		private IText text;
+		private ITextResource textResource;
 		private IUserInterfaceFactory uiFactory;
 
 		internal IClientController ClientController { get; private set; }
@@ -74,8 +77,8 @@ namespace SafeExamBrowser.Client
 			systemInfo = new SystemInfo();
 
 			InitializeLogging();
+			InitializeText();
 
-			text = new Text(logger);
 			messageBox = new MessageBox(text);
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, typeof(ProcessMonitor)), nativeMethods);
 			uiFactory = new UserInterfaceFactory(text);
@@ -89,7 +92,7 @@ namespace SafeExamBrowser.Client
 
 			var operations = new Queue<IOperation>();
 
-			operations.Enqueue(new I18nOperation(logger, text));
+			operations.Enqueue(new I18nOperation(logger, text, textResource));
 			operations.Enqueue(new RuntimeConnectionOperation(logger, runtimeProxy, startupToken));
 			operations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeProxy));
 			operations.Enqueue(new DelegateOperation(UpdateAppConfig));
@@ -151,6 +154,15 @@ namespace SafeExamBrowser.Client
 
 			logFileWriter.Initialize();
 			logger.Subscribe(logFileWriter);
+		}
+
+		private void InitializeText()
+		{
+			var location = Assembly.GetAssembly(typeof(XmlTextResource)).Location;
+			var path = $@"{Path.GetDirectoryName(location)}\Text.xml";
+
+			text = new Text(logger);
+			textResource = new XmlTextResource(path);
 		}
 
 		private IOperation BuildBrowserOperation()

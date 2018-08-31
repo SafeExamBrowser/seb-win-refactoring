@@ -71,9 +71,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
-    <Compile Include="Behaviour\ClientController.cs" />
-    <Compile Include="Behaviour\Operations\ConfigurationOperation.cs" />
-    <Compile Include="Behaviour\Operations\RuntimeConnectionOperation.cs" />
+    <Compile Include="ClientController.cs" />
+    <Compile Include="Operations\ConfigurationOperation.cs" />
+    <Compile Include="Operations\RuntimeConnectionOperation.cs" />
     <Compile Include="Communication\ClientHost.cs" />
     <Compile Include="CompositionRoot.cs" />
     <Compile Include="Notifications\AboutNotificationController.cs" />
@@ -82,14 +82,14 @@
     <Compile Include="Notifications\LogNotificationController.cs" />
     <Compile Include="Notifications\LogNotificationIconResource.cs" />
     <Compile Include="Notifications\LogNotificationInfo.cs" />
-    <Compile Include="Behaviour\Operations\BrowserOperation.cs" />
-    <Compile Include="Behaviour\Operations\ClipboardOperation.cs" />
-    <Compile Include="Behaviour\Operations\DisplayMonitorOperation.cs" />
-    <Compile Include="Behaviour\Operations\KeyboardInterceptorOperation.cs" />
-    <Compile Include="Behaviour\Operations\MouseInterceptorOperation.cs" />
-    <Compile Include="Behaviour\Operations\ProcessMonitorOperation.cs" />
-    <Compile Include="Behaviour\Operations\TaskbarOperation.cs" />
-    <Compile Include="Behaviour\Operations\WindowMonitorOperation.cs" />
+    <Compile Include="Operations\BrowserOperation.cs" />
+    <Compile Include="Operations\ClipboardOperation.cs" />
+    <Compile Include="Operations\DisplayMonitorOperation.cs" />
+    <Compile Include="Operations\KeyboardInterceptorOperation.cs" />
+    <Compile Include="Operations\MouseInterceptorOperation.cs" />
+    <Compile Include="Operations\ProcessMonitorOperation.cs" />
+    <Compile Include="Operations\TaskbarOperation.cs" />
+    <Compile Include="Operations\WindowMonitorOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -121,6 +121,10 @@
       <Project>{04E653F1-98E6-4E34-9DD7-7F2BC1A8B767}</Project>
       <Name>SafeExamBrowser.Browser</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Communication\SafeExamBrowser.Communication.csproj">
+      <Project>{c9416a62-0623-4d38-96aa-92516b32f02f}</Project>
+      <Name>SafeExamBrowser.Communication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Configuration\SafeExamBrowser.Configuration.csproj">
       <Project>{C388C4DD-A159-457D-AF92-89F7AD185109}</Project>
       <Name>SafeExamBrowser.Configuration</Name>
@@ -132,6 +136,14 @@
     <ProjectReference Include="..\SafeExamBrowser.Core\SafeExamBrowser.Core.csproj">
       <Project>{3D6FDBB6-A4AF-4626-BB2B-BF329D44F9CC}</Project>
       <Name>SafeExamBrowser.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.I18n\SafeExamBrowser.I18n.csproj">
+      <Project>{10c62628-8e6a-45aa-9d97-339b119ad21d}</Project>
+      <Name>SafeExamBrowser.I18n</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Logging\SafeExamBrowser.Logging.csproj">
+      <Project>{e107026c-2011-4552-a7d8-3a0d37881df6}</Project>
+      <Name>SafeExamBrowser.Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Monitoring\SafeExamBrowser.Monitoring.csproj">
       <Project>{EF563531-4EB5-44B9-A5EC-D6D6F204469B}</Project>
