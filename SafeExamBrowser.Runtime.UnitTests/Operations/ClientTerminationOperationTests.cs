@@ -12,6 +12,7 @@ using Moq;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.WindowsApi;
 using SafeExamBrowser.Runtime.Operations;
@@ -50,6 +51,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			configuration.SetupGet(c => c.CurrentSession).Returns(session.Object);
 			configuration.SetupGet(c => c.AppConfig).Returns(appConfig);
 			proxyFactory.Setup(f => f.CreateClientProxy(It.IsAny<string>())).Returns(proxy.Object);
+			session.SetupGet(s => s.ClientProxy).Returns(proxy.Object);
 
 			sut = new ClientTerminationOperation(configuration.Object, logger.Object, processFactory.Object, proxyFactory.Object, runtimeHost.Object, 0);
 		}
@@ -59,9 +61,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			sut.Perform();
 
+			process.VerifyNoOtherCalls();
 			processFactory.VerifyNoOtherCalls();
 			proxy.VerifyNoOtherCalls();
 			proxyFactory.VerifyNoOtherCalls();
+			runtimeHost.VerifyNoOtherCalls();
 		}
 
 		[TestMethod]
@@ -70,15 +74,71 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			sut.Revert();
 
 			process.VerifyNoOtherCalls();
+			processFactory.VerifyNoOtherCalls();
 			proxy.VerifyNoOtherCalls();
+			proxyFactory.VerifyNoOtherCalls();
 			runtimeHost.VerifyNoOtherCalls();
 		}
 
 		[TestMethod]
-		public void TODO()
+		public void MustTerminateClientOnRepeat()
 		{
-			// TODO: MustStartClientOnRepeat -> Extract static fields from operation -> allows unit testing of this requirement etc.!
-			Assert.Fail();
+			var terminated = new Action(() =>
+			{
+				runtimeHost.Raise(h => h.ClientDisconnected += null);
+				process.Raise(p => p.Terminated += null, 0);
+			});
+
+			proxy.Setup(p => p.Disconnect()).Callback(terminated);
+			session.SetupGet(s => s.ClientProcess).Returns(process.Object);
+
+			var result = sut.Repeat();
+
+			proxy.Verify(p => p.InitiateShutdown(), Times.Once);
+			proxy.Verify(p => p.Disconnect(), Times.Once);
+			process.Verify(p => p.Kill(), Times.Never);
+			session.VerifySet(s => s.ClientProcess = null, Times.Once);
+			session.VerifySet(s => s.ClientProxy = null, Times.Once);
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void MustDoNothingIfNoClientCreated()
+		{
+			session.SetupGet(s => s.ClientProcess).Returns(null as IProcess);
+
+			var result = sut.Repeat();
+
+			session.VerifyGet(s => s.ClientProcess, Times.Once);
+
+			process.VerifyNoOtherCalls();
+			processFactory.VerifyNoOtherCalls();
+			proxy.VerifyNoOtherCalls();
+			proxyFactory.VerifyNoOtherCalls();
+			runtimeHost.VerifyNoOtherCalls();
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void MustDoNothingIfNoClientRunning()
+		{
+			process.SetupGet(p => p.HasTerminated).Returns(true);
+			session.SetupGet(s => s.ClientProcess).Returns(process.Object);
+
+			var result = sut.Repeat();
+
+			process.VerifyGet(p => p.HasTerminated, Times.Once);
+			session.VerifyGet(s => s.ClientProcess, Times.Exactly(2));
+
+			process.VerifyNoOtherCalls();
+			processFactory.VerifyNoOtherCalls();
+			proxy.VerifyNoOtherCalls();
+			proxyFactory.VerifyNoOtherCalls();
+			runtimeHost.VerifyNoOtherCalls();
+
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 	}
 }

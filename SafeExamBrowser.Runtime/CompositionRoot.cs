@@ -44,7 +44,7 @@ namespace SafeExamBrowser.Runtime
 			const int TEN_SECONDS = 10000;
 
 			var args = Environment.GetCommandLineArgs();
-			var configuration = new ConfigurationRepository();
+			var configuration = BuildConfigurationRepository();
 			var nativeMethods = new NativeMethods();
 
 			logger = new Logger();
@@ -99,6 +99,17 @@ namespace SafeExamBrowser.Runtime
 		internal void LogShutdownInformation()
 		{
 			logger?.Log($"# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+		}
+
+		private ConfigurationRepository BuildConfigurationRepository()
+		{
+			var executable = Assembly.GetExecutingAssembly();
+			var programCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
+			var programTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
+			var programVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+			var repository = new ConfigurationRepository(executable.Location, programCopyright, programTitle, programVersion);
+
+			return repository;
 		}
 
 		private void InitializeLogging()

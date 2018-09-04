@@ -10,13 +10,13 @@ using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -68,7 +68,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void MustUseCommandLineArgumentAs1stPrio()
 		{
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
-			var location = Path.GetDirectoryName(GetType().Assembly.Location);
+			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
 
 			appConfig.ProgramDataFolder = location;
 			appConfig.AppDataFolder = location;
@@ -86,7 +86,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void MustUseProgramDataAs2ndPrio()
 		{
-			var location = Path.GetDirectoryName(GetType().Assembly.Location);
+			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
 
 			appConfig.ProgramDataFolder = location;
 			appConfig.AppDataFolder = $@"{location}\WRONG";
@@ -104,7 +104,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void MustUseAppDataAs3rdPrio()
 		{
-			var location = Path.GetDirectoryName(GetType().Assembly.Location);
+			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
 
 			appConfig.AppDataFolder = location;
 
@@ -130,7 +130,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void MustAbortIfWishedByUser()
 		{
-			appConfig.ProgramDataFolder = Path.GetDirectoryName(GetType().Assembly.Location);
+			appConfig.ProgramDataFolder = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
 			messageBox.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>())).Returns(MessageBoxResult.Yes);
 			repository.Setup(r => r.LoadSettings(It.IsAny<Uri>(), null, null)).Returns(LoadStatus.Success);
 
@@ -439,7 +439,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void MustReconfigureSuccessfullyWithCorrectUri()
 		{
 			var location = Path.GetDirectoryName(GetType().Assembly.Location);
-			var resource = new Uri(Path.Combine(location, "SettingsDummy.txt"));
+			var resource = new Uri(Path.Combine(location, nameof(Operations), "SettingsDummy.txt"));
 
 			repository.SetupGet(r => r.ReconfigurationFilePath).Returns(resource.AbsolutePath);
 			repository.Setup(r => r.LoadSettings(It.Is<Uri>(u => u.Equals(resource)), null, null)).Returns(LoadStatus.Success);

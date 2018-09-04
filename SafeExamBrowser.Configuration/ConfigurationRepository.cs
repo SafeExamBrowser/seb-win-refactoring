@@ -8,7 +8,6 @@
 
 using System;
 using System.IO;
-using System.Reflection;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
@@ -19,7 +18,11 @@ namespace SafeExamBrowser.Configuration
 	{
 		private const string BASE_ADDRESS = "net.pipe://localhost/safeexambrowser";
 
-		private bool firstSession = true;
+		private readonly string executablePath;
+		private readonly string programCopyright;
+		private readonly string programTitle;
+		private readonly string programVersion;
+
 		private AppConfig appConfig;
 
 		public ISessionData CurrentSession { get; private set; }
@@ -39,6 +42,14 @@ namespace SafeExamBrowser.Configuration
 			}
 		}
 
+		public ConfigurationRepository(string executablePath, string programCopyright, string programTitle, string programVersion)
+		{
+			this.executablePath = executablePath ?? throw new ArgumentNullException(nameof(executablePath));
+			this.programCopyright = programCopyright ?? throw new ArgumentNullException(nameof(programCopyright));
+			this.programTitle = programTitle ?? throw new ArgumentNullException(nameof(programTitle));
+			this.programVersion = programVersion ?? throw new ArgumentNullException(nameof(programVersion));
+		}
+
 		public ClientConfiguration BuildClientConfiguration()
 		{
 			return new ClientConfiguration
@@ -53,18 +64,13 @@ namespace SafeExamBrowser.Configuration
 		{
 			CurrentSession = new SessionData
 			{
+				ClientProcess = CurrentSession?.ClientProcess,
+				ClientProxy = CurrentSession?.ClientProxy,
 				Id = Guid.NewGuid(),
 				StartupToken = Guid.NewGuid()
 			};
 
-			if (!firstSession)
-			{
-				UpdateAppConfig();
-			}
-			else
-			{
-				firstSession = false;
-			}
+			UpdateAppConfig();
 		}
 
 		public LoadStatus LoadSettings(Uri resource, string settingsPassword = null, string adminPassword = null)
@@ -101,7 +107,6 @@ namespace SafeExamBrowser.Configuration
 		private void InitializeAppConfig()
 		{
 			var appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(SafeExamBrowser));
-			var executable = Assembly.GetEntryAssembly();
 			var startTime = DateTime.Now;
 			var logFolder = Path.Combine(appDataFolder, "Logs");
 			var logFilePrefix = startTime.ToString("yyyy-MM-dd\\_HH\\hmm\\mss\\s");
@@ -113,16 +118,16 @@ namespace SafeExamBrowser.Configuration
 			appConfig.BrowserLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Browser.log");
 			appConfig.ClientId = Guid.NewGuid();
 			appConfig.ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}";
-			appConfig.ClientExecutablePath = Path.Combine(Path.GetDirectoryName(executable.Location), $"{nameof(SafeExamBrowser)}.Client.exe");
+			appConfig.ClientExecutablePath = Path.Combine(Path.GetDirectoryName(executablePath), $"{nameof(SafeExamBrowser)}.Client.exe");
 			appConfig.ClientLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Client.log");
 			appConfig.ConfigurationFileExtension = ".seb";
 			appConfig.DefaultSettingsFileName = "SebClientSettings.seb";
 			appConfig.DownloadDirectory = Path.Combine(appDataFolder, "Downloads");
 			appConfig.LogLevel = LogLevel.Debug;
-			appConfig.ProgramCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
+			appConfig.ProgramCopyright = programCopyright;
 			appConfig.ProgramDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), nameof(SafeExamBrowser));
-			appConfig.ProgramTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
-			appConfig.ProgramVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+			appConfig.ProgramTitle = programTitle;
+			appConfig.ProgramVersion = programVersion;
 			appConfig.RuntimeId = Guid.NewGuid();
 			appConfig.RuntimeAddress = $"{BASE_ADDRESS}/runtime/{Guid.NewGuid()}";
 			appConfig.RuntimeLogFile = Path.Combine(logFolder, $"{logFilePrefix}_Runtime.log");

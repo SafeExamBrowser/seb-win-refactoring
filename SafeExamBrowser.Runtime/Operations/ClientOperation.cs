@@ -30,9 +30,19 @@ namespace SafeExamBrowser.Runtime.Operations
 		protected IProxyFactory proxyFactory;
 		protected IRuntimeHost runtimeHost;
 
-		protected static IProcess ClientProcess { get; private set; }
-		protected static IClientProxy ClientProxy { get; private set; }
 		public IProgressIndicator ProgressIndicator { protected get; set; }
+
+		protected IProcess ClientProcess
+		{
+			get { return configuration.CurrentSession.ClientProcess; }
+			set { configuration.CurrentSession.ClientProcess = value; }
+		}
+
+		protected IClientProxy ClientProxy
+		{
+			get { return configuration.CurrentSession.ClientProxy; }
+			set { configuration.CurrentSession.ClientProxy = value; }
+		}
 
 		public ClientOperation(
 			IConfigurationRepository configuration,
@@ -132,9 +142,6 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			logger.Info("Authentication of client has been successful, client is ready to operate.");
 
-			configuration.CurrentSession.ClientProcess = ClientProcess;
-			configuration.CurrentSession.ClientProxy = ClientProxy;
-
 			return true;
 		}
 
@@ -191,8 +198,8 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (success)
 			{
-				configuration.CurrentSession.ClientProcess = null;
-				configuration.CurrentSession.ClientProxy = null;
+				ClientProcess = null;
+				ClientProxy = null;
 			}
 
 			return success;

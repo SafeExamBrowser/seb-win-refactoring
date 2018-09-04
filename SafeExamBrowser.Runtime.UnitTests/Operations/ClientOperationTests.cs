@@ -58,6 +58,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			configuration.SetupGet(c => c.CurrentSession).Returns(session.Object);
 			configuration.SetupGet(c => c.AppConfig).Returns(appConfig);
 			proxyFactory.Setup(f => f.CreateClientProxy(It.IsAny<string>())).Returns(proxy.Object);
+			session.SetupGet(s => s.ClientProcess).Returns(process.Object);
+			session.SetupGet(s => s.ClientProxy).Returns(proxy.Object);
 
 			sut = new ClientOperation(configuration.Object, logger.Object, processFactory.Object, proxyFactory.Object, runtimeHost.Object, 0);
 		}
@@ -125,8 +127,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			result = sut.Perform();
 
-			session.VerifySet(s => s.ClientProcess = process.Object, Times.Never);
-			session.VerifySet(s => s.ClientProxy = proxy.Object, Times.Never);
+			session.VerifySet(s => s.ClientProcess = process.Object, Times.Once);
+			session.VerifySet(s => s.ClientProxy = proxy.Object, Times.Once);
 
 			Assert.AreEqual(OperationResult.Failed, result);
 		}
@@ -145,8 +147,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			result = sut.Perform();
 
-			session.VerifySet(s => s.ClientProcess = process.Object, Times.Never);
-			session.VerifySet(s => s.ClientProxy = proxy.Object, Times.Never);
+			session.VerifySet(s => s.ClientProcess = process.Object, Times.Once);
+			session.VerifySet(s => s.ClientProxy = proxy.Object, Times.Once);
 
 			Assert.AreEqual(OperationResult.Failed, result);
 		}

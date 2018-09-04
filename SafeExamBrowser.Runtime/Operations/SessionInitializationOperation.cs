@@ -6,9 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -58,7 +58,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			runtimeHost.StartupToken = configuration.CurrentSession.StartupToken;
 
 			logger.Info($" -> Client-ID: {configuration.AppConfig.ClientId}");
-			logger.Info($" -> Runtime-ID: {configuration.AppConfig.RuntimeId} (as reference, does not change)");
+			logger.Info($" -> Runtime-ID: {configuration.AppConfig.RuntimeId}");
 			logger.Info($" -> Session-ID: {configuration.CurrentSession.Id}");
 		}
 	}
