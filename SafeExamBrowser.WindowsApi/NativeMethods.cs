@@ -291,6 +291,29 @@ namespace SafeExamBrowser.WindowsApi
 			User32.ShowWindow(window, (int)ShowWindowCommand.Restore);
 		}
 
+		public bool ResumeThread(int threadId)
+		{
+			const int FAILURE = -1;
+			var handle = Kernel32.OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint) threadId);
+
+			if (handle == IntPtr.Zero)
+			{
+				return false;
+			}
+
+			try
+			{
+				var result = Kernel32.ResumeThread(handle);
+				var success = result != FAILURE;
+
+				return success;
+			}
+			finally
+			{
+				Kernel32.CloseHandle(handle);
+			}
+		}
+
 		public void SendCloseMessageTo(IntPtr window)
 		{
 			User32.SendMessage(window, Constant.WM_SYSCOMMAND, (IntPtr) SystemCommand.CLOSE, IntPtr.Zero);
@@ -309,11 +332,34 @@ namespace SafeExamBrowser.WindowsApi
 		public void SetWorkingArea(IBounds bounds)
 		{
 			var workingArea = new RECT { Left = bounds.Left, Top = bounds.Top, Right = bounds.Right, Bottom = bounds.Bottom };
-			var success = User32.SystemParametersInfo(SPI.SETWORKAREA, 0, ref workingArea, SPIF.UPDATEANDCHANGE);
+			var success = User32.SystemParametersInfo(SPI.SETWORKAREA, 0, ref workingArea, SPIF.NONE);
 
 			if (!success)
 			{
 				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
+		}
+
+		public bool SuspendThread(int threadId)
+		{
+			const int FAILURE = -1;
+			var handle = Kernel32.OpenThread(ThreadAccess.SUSPEND_RESUME, false, (uint) threadId);
+
+			if (handle == IntPtr.Zero)
+			{
+				return false;
+			}
+
+			try
+			{
+				var result = Kernel32.SuspendThread(handle);
+				var success = result != FAILURE;
+
+				return success;
+			}
+			finally
+			{
+				Kernel32.CloseHandle(handle);
 			}
 		}
 	}

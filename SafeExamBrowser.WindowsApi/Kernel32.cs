@@ -8,6 +8,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Types;
 
 namespace SafeExamBrowser.WindowsApi
@@ -17,6 +18,10 @@ namespace SafeExamBrowser.WindowsApi
 	/// </summary>
 	internal class Kernel32
 	{
+		[DllImport("kernel32.dll", SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		internal static extern bool CloseHandle(IntPtr hObject);
+
 		[DllImport("kernel32.dll", SetLastError = true)]
 		internal static extern bool CreateProcess(
 			string lpApplicationName,
@@ -37,6 +42,15 @@ namespace SafeExamBrowser.WindowsApi
 		internal static extern IntPtr GetModuleHandle(string lpModuleName);
 
 		[DllImport("kernel32.dll", SetLastError = true)]
+		internal static extern IntPtr OpenThread(ThreadAccess dwDesiredAccess, bool bInheritHandle, uint dwThreadId);
+
+		[DllImport("kernel32.dll", SetLastError = true)]
+		internal static extern int ResumeThread(IntPtr hThread);
+
+		[DllImport("kernel32.dll", SetLastError = true)]
 		internal static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
+
+		[DllImport("kernel32.dll", SetLastError = true)]
+		internal static extern int SuspendThread(IntPtr hThread);
 	}
 }

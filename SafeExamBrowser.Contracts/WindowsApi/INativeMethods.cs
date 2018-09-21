@@ -154,6 +154,12 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		void RestoreWindow(IntPtr window);
 
 		/// <summary>
+		/// Attempts to resume the thread referenced by the given thread ID. Returns <c>true</c> if the thread was successfully resumed,
+		/// otherwise <c>false</c>.
+		/// </summary>
+		bool ResumeThread(int threadId);
+
+		/// <summary>
 		/// Sends a close message to the given window.
 		/// </summary>
 		void SendCloseMessageTo(IntPtr window);
@@ -173,5 +179,11 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		/// If the working area could not be set.
 		/// </exception>
 		void SetWorkingArea(IBounds bounds);
+
+		/// <summary>
+		/// Attempts to suspend the thread referenced by the given thread ID. Returns <c>true</c> if the thread was successfully suspended,
+		/// otherwise <c>false</c>.
+		/// </summary>
+		bool SuspendThread(int threadId);
 	}
 }

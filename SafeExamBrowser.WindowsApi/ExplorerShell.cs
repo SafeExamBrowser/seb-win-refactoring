@@ -7,6 +7,8 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -19,11 +21,43 @@ namespace SafeExamBrowser.WindowsApi
 	{
 		private ILogger logger;
 		private INativeMethods nativeMethods;
+		private IList<ProcessThread> suspendedThreads;
 
 		public ExplorerShell(ILogger logger, INativeMethods nativeMethods)
 		{
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;
+			this.suspendedThreads = new List<ProcessThread>();
+		}
+
+		public void Resume()
+		{
+			const int MAX_ATTEMPTS = 3;
+
+			logger.Debug($"Attempting to resume all {suspendedThreads.Count} previously suspended explorer shell threads...");
+
+			for (var attempts = 0; suspendedThreads.Any(); attempts++)
+			{
+				var thread = suspendedThreads.First();
+				var success = nativeMethods.ResumeThread(thread.Id);
+
+				if (success || attempts == MAX_ATTEMPTS)
+				{
+					attempts = 0;
+					suspendedThreads.Remove(thread);
+
+					if (success)
+					{
+						logger.Debug($"Successfully resumed thread #{thread.Id} of explorer shell process.");
+					}
+					else
+					{
+						logger.Warn($"Failed to resume thread #{thread.Id} of explorer shell process within {MAX_ATTEMPTS} attempts!");
+					}
+				}
+			}
+
+			logger.Info($"Successfully resumed explorer shell process.");
 		}
 
 		public void Start()
@@ -45,6 +79,39 @@ namespace SafeExamBrowser.WindowsApi
 			process.Refresh();
 			logger.Info($"Explorer shell successfully started with PID = {process.Id}.");
 			process.Close();
+		}
+
+		public void Suspend()
+		{
+			var processId = nativeMethods.GetShellProcessId();
+			var explorerProcesses = System.Diagnostics.Process.GetProcessesByName("explorer");
+			var shellProcess = explorerProcesses.FirstOrDefault(p => p.Id == processId);
+
+			if (shellProcess != null)
+			{
+				logger.Debug($"Found explorer shell processes with PID = {processId}.");
+
+				foreach (ProcessThread thread in shellProcess.Threads)
+				{
+					var success = nativeMethods.SuspendThread(thread.Id);
+
+					if (success)
+					{
+						suspendedThreads.Add(thread);
+						logger.Debug($"Successfully suspended thread #{thread.Id} of explorer shell process.");
+					}
+					else
+					{
+						logger.Warn($"Failed to suspend thread #{thread.Id} of explorer shell process!");
+					}
+				}
+
+				logger.Info($"Successfully suspended explorer shell process with PID = {processId}.");
+			}
+			else
+			{
+				logger.Info("The explorer shell can't be suspended, as it seems to not be running.");
+			}
 		}
 
 		public void Terminate()
@@ -69,7 +136,7 @@ namespace SafeExamBrowser.WindowsApi
 			}
 			else
 			{
-				logger.Info("The explorer shell seems to already be terminated. Skipping this step...");
+				logger.Info("The explorer shell seems to already be terminated.");
 			}
 		}
 	}

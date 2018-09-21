@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Constants\Constant.cs" />
     <Compile Include="Constants\HookType.cs" />
+    <Compile Include="Constants\ThreadAccess.cs" />
     <Compile Include="Delegates\EnumDesktopDelegate.cs" />
     <Compile Include="Delegates\EnumWindowsDelegate.cs" />
     <Compile Include="Delegates\EventDelegate.cs" />

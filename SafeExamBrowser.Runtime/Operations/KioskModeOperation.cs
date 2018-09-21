@@ -6,9 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -110,6 +110,8 @@ namespace SafeExamBrowser.Runtime.Operations
 			newDesktop.Activate();
 			processFactory.StartupDesktop = newDesktop;
 			logger.Info("Successfully activated new desktop.");
+
+			explorerShell.Suspend();
 		}
 
 		private void CloseNewDesktop()
@@ -134,6 +136,8 @@ namespace SafeExamBrowser.Runtime.Operations
 			{
 				logger.Warn($"No new desktop found when attempting to close new desktop!");
 			}
+
+			explorerShell.Resume();
 		}
 
 		private void TerminateExplorerShell()

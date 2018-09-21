@@ -41,7 +41,7 @@ namespace SafeExamBrowser.Runtime
 
 		internal void BuildObjectGraph(Action shutdown)
 		{
-			const int TEN_SECONDS = 10000;
+			const int STARTUP_TIMEOUT_MS = 30000;
 
 			var args = Environment.GetCommandLineArgs();
 			var configuration = BuildConfigurationRepository();
@@ -73,9 +73,9 @@ namespace SafeExamBrowser.Runtime
 			sessionOperations.Enqueue(new ConfigurationOperation(appConfig, configuration, logger, messageBox, resourceLoader, runtimeHost, text, uiFactory, args));
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost));
 			sessionOperations.Enqueue(new ServiceOperation(configuration, logger, serviceProxy, text));
-			sessionOperations.Enqueue(new ClientTerminationOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, TEN_SECONDS));
+			sessionOperations.Enqueue(new ClientTerminationOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, STARTUP_TIMEOUT_MS));
 			sessionOperations.Enqueue(new KioskModeOperation(configuration, desktopFactory, explorerShell, logger, processFactory));
-			sessionOperations.Enqueue(new ClientOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, TEN_SECONDS));
+			sessionOperations.Enqueue(new ClientOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, STARTUP_TIMEOUT_MS));
 
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new OperationSequence(logger, sessionOperations);
