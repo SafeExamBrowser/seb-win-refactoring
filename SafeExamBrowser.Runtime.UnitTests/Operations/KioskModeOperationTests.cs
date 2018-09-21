@@ -168,7 +168,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			explorerShell.Verify(s => s.Resume(), Times.Once);
 			explorerShell.Verify(s => s.Terminate(), Times.Once);
-			explorerShell.Verify(s => s.Suspend(), Times.Once);
+			explorerShell.Verify(s => s.Suspend(), Times.Exactly(2));
 			explorerShell.Verify(s => s.Start(), Times.Once);
 			newDesktop.Verify(d => d.Activate(), Times.Exactly(2));
 			newDesktop.Verify(d => d.Close(), Times.Once);

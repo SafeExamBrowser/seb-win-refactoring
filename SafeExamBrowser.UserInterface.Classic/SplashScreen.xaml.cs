@@ -49,6 +49,8 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 			InitializeComponent();
 			InitializeSplashScreen();
+
+			Loaded += SplashScreen_Loaded;
 		}
 
 		public void BringToForeground()
@@ -133,6 +135,12 @@ namespace SafeExamBrowser.UserInterface.Classic
 				InfoTextBlock.Inlines.Add(new LineBreak());
 				InfoTextBlock.Inlines.Add(new Run(appConfig.ProgramCopyright) { FontSize = 10 });
 			}
+		}
+
+		private void SplashScreen_Loaded(object sender, RoutedEventArgs e)
+		{
+			Left = (SystemParameters.WorkArea.Right / 2) - (Width / 2);
+			Top = (SystemParameters.WorkArea.Bottom / 2) - (Height / 2);
 		}
 	}
 }
