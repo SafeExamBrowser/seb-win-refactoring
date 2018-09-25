@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.WindowsApi;
 using SafeExamBrowser.WindowsApi.Constants;
@@ -231,20 +232,50 @@ namespace SafeExamBrowser.WindowsApi
 
 		public void RegisterKeyboardHook(IKeyboardInterceptor interceptor)
 		{
-			var hook = new KeyboardHook(interceptor);
+			var hookReadyEvent = new AutoResetEvent(false);
+			var hookThread = new Thread(() =>
+			{
+				var hook = new KeyboardHook(interceptor);
 
-			hook.Attach();
+				hook.Attach();
+				KeyboardHooks[hook.Handle] = hook;
+				hookReadyEvent.Set();
 
-			KeyboardHooks[hook.Handle] = hook;
+				while (true)
+				{
+					hook.InputEvent.WaitOne();
+				}
+			});
+
+			hookThread.SetApartmentState(ApartmentState.STA);
+			hookThread.IsBackground = true;
+			hookThread.Start();
+
+			hookReadyEvent.WaitOne();
 		}
 
 		public void RegisterMouseHook(IMouseInterceptor interceptor)
 		{
-			var hook = new MouseHook(interceptor);
+			var hookReadyEvent = new AutoResetEvent(false);
+			var hookThread = new Thread(() =>
+			{
+				var hook = new MouseHook(interceptor);
 
-			hook.Attach();
+				hook.Attach();
+				MouseHooks[hook.Handle] = hook;
+				hookReadyEvent.Set();
 
-			MouseHooks[hook.Handle] = hook;
+				while (true)
+				{
+					hook.InputEvent.WaitOne();
+				}
+			});
+
+			hookThread.SetApartmentState(ApartmentState.STA);
+			hookThread.IsBackground = true;
+			hookThread.Start();
+
+			hookReadyEvent.WaitOne();
 		}
 
 		public IntPtr RegisterSystemForegroundEvent(Action<IntPtr> callback)

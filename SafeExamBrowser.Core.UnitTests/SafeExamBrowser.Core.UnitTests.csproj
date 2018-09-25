@@ -79,7 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Operations\CommunicationOperationTests.cs" />
-    <Compile Include="Operations\DelayedInitializationOperationTests.cs" />
+    <Compile Include="Operations\LazyInitializationOperationTests.cs" />
     <Compile Include="Operations\I18nOperationTests.cs" />
     <Compile Include="Operations\DelegateOperationTests.cs" />
     <Compile Include="OperationModel\OperationSequenceTests.cs" />

@@ -8,6 +8,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Delegates;
@@ -20,23 +21,27 @@ namespace SafeExamBrowser.WindowsApi.Monitoring
 		private HookDelegate hookProc;
 
 		internal IntPtr Handle { get; private set; }
+		internal AutoResetEvent InputEvent { get; private set; }
 		internal IMouseInterceptor Interceptor { get; private set; }
 
 		internal MouseHook(IMouseInterceptor interceptor)
 		{
+			InputEvent = new AutoResetEvent(false);
 			Interceptor = interceptor;
 		}
 
 		internal void Attach()
 		{
-			var module = Kernel32.GetModuleHandle(null);
+			var process = System.Diagnostics.Process.GetCurrentProcess();
+			var module = process.MainModule;
+			var moduleHandle = Kernel32.GetModuleHandle(module.ModuleName);
 
 			// IMORTANT:
 			// Ensures that the hook delegate does not get garbage collected prematurely, as it will be passed to unmanaged code.
 			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
 			hookProc = new HookDelegate(LowLevelMouseProc);
 
-			Handle = User32.SetWindowsHookEx(HookType.WH_MOUSE_LL, hookProc, module, 0);
+			Handle = User32.SetWindowsHookEx(HookType.WH_MOUSE_LL, hookProc, moduleHandle, 0);
 		}
 
 		internal bool Detach()
@@ -46,6 +51,8 @@ namespace SafeExamBrowser.WindowsApi.Monitoring
 
 		private IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam)
 		{
+			InputEvent.Set();
+
 			if (nCode >= 0 && !Ignore(wParam.ToInt32()))
 			{
 				var mouseData = (MSLLHOOKSTRUCT) Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));

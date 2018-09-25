@@ -13,18 +13,18 @@ using SafeExamBrowser.Contracts.UserInterface;
 namespace SafeExamBrowser.Core.Operations
 {
 	/// <summary>
-	/// A wrapper operation to allow for a delayed (just-in-time) instantiation of an operation. Is useful when e.g. dependencies for a
-	/// certain operation are not available during execution of the composition root, but rather only after a preceding operation within
-	/// an <see cref="IOperationSequence"/> has finished.
+	/// A wrapper operation to allow for a lazy (just-in-time) instantiation of an operation, initialized on <see cref="Perform"/>.
+	/// Is useful when e.g. dependencies for a certain operation are not available during execution of the composition root, but rather
+	/// only after a preceding operation within an <see cref="IOperationSequence"/> has finished.
 	/// </summary>
-	public class DelayedInitializationOperation : IOperation
+	public class LazyInitializationOperation : IOperation
 	{
 		private Func<IOperation> initialize;
 		private IOperation operation;
 
 		public IProgressIndicator ProgressIndicator { get; set; }
 
-		public DelayedInitializationOperation(Func<IOperation> initialize)
+		public LazyInitializationOperation(Func<IOperation> initialize)
 		{
 			this.initialize = initialize;
 		}

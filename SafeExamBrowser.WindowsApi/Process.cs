@@ -24,7 +24,7 @@ namespace SafeExamBrowser.WindowsApi
 
 		public bool HasTerminated
 		{
-			get { return process.HasExited; }
+			get { process.Refresh(); return process.HasExited; }
 		}
 
 		public Process(int id)
@@ -36,7 +36,12 @@ namespace SafeExamBrowser.WindowsApi
 
 		public void Kill()
 		{
-			process.Kill();
+			process.Refresh();
+
+			if (!process.HasExited)
+			{
+				process.Kill();
+			}
 		}
 
 		private void Process_Exited(object sender, System.EventArgs e)

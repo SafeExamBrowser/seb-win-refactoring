@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Operations\CommunicationOperation.cs" />
-    <Compile Include="Operations\DelayedInitializationOperation.cs" />
+    <Compile Include="Operations\LazyInitializationOperation.cs" />
     <Compile Include="Operations\I18nOperation.cs" />
     <Compile Include="Operations\DelegateOperation.cs" />
     <Compile Include="OperationModel\OperationSequence.cs" />

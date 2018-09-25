@@ -16,7 +16,7 @@ using SafeExamBrowser.Core.Operations;
 namespace SafeExamBrowser.Core.UnitTests.Operations
 {
 	[TestClass]
-	public class DelayedInitializationOperationTests
+	public class LazyInitializationOperationTests
 	{
 		private Mock<IOperation> operationMock;
 
@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 				return operationMock.Object;
 			};
 
-			var sut = new DelayedInitializationOperation(initialize);
+			var sut = new LazyInitializationOperation(initialize);
 
 			sut.Perform();
 
@@ -53,7 +53,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 				return operationMock.Object;
 			};
 
-			var sut = new DelayedInitializationOperation(initialize);
+			var sut = new LazyInitializationOperation(initialize);
 
 			sut.Repeat();
 		}
@@ -67,7 +67,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 				return operationMock.Object;
 			};
 
-			var sut = new DelayedInitializationOperation(initialize);
+			var sut = new LazyInitializationOperation(initialize);
 
 			sut.Revert();
 		}
@@ -83,7 +83,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 			operationMock.Setup(o => o.Perform()).Returns(OperationResult.Success);
 			operationMock.Setup(o => o.Repeat()).Returns(OperationResult.Failed);
 
-			var sut = new DelayedInitializationOperation(initialize);
+			var sut = new LazyInitializationOperation(initialize);
 			var perform = sut.Perform();
 			var repeat = sut.Repeat();
 
@@ -101,7 +101,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 				return operationMock.Object;
 			};
 
-			var sut = new DelayedInitializationOperation(initialize)
+			var sut = new LazyInitializationOperation(initialize)
 			{
 				ProgressIndicator = new Mock<IProgressIndicator>().Object
 			};
@@ -128,7 +128,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 				return new Mock<IOperation>().Object;
 			};
 
-			var sut = new DelayedInitializationOperation(initialize);
+			var sut = new LazyInitializationOperation(initialize);
 
 			sut.Perform();
 			sut.Repeat();

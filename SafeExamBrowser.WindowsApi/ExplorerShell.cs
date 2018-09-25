@@ -48,11 +48,11 @@ namespace SafeExamBrowser.WindowsApi
 
 					if (success)
 					{
-						logger.Debug($"Successfully resumed thread #{thread.Id} of explorer shell process.");
+						logger.Debug($"Successfully resumed explorer shell thread with ID = {thread.Id}.");
 					}
 					else
 					{
-						logger.Warn($"Failed to resume thread #{thread.Id} of explorer shell process within {MAX_ATTEMPTS} attempts!");
+						logger.Warn($"Failed to resume explorer shell thread with ID = {thread.Id} within {MAX_ATTEMPTS} attempts!");
 					}
 				}
 			}
@@ -89,7 +89,7 @@ namespace SafeExamBrowser.WindowsApi
 
 			if (shellProcess != null)
 			{
-				logger.Debug($"Found explorer shell processes with PID = {processId}.");
+				logger.Debug($"Found explorer shell processes with PID = {processId} and {shellProcess.Threads.Count} threads.");
 
 				foreach (ProcessThread thread in shellProcess.Threads)
 				{
@@ -98,11 +98,11 @@ namespace SafeExamBrowser.WindowsApi
 					if (success)
 					{
 						suspendedThreads.Add(thread);
-						logger.Debug($"Successfully suspended thread #{thread.Id} of explorer shell process.");
+						logger.Debug($"Successfully suspended explorer shell thread with ID = {thread.Id}.");
 					}
 					else
 					{
-						logger.Warn($"Failed to suspend thread #{thread.Id} of explorer shell process!");
+						logger.Warn($"Failed to suspend explorer shell thread with ID = {thread.Id}!");
 					}
 				}
 

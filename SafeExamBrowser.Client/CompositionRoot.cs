@@ -96,16 +96,16 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new RuntimeConnectionOperation(logger, runtimeProxy, startupToken));
 			operations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeProxy));
 			operations.Enqueue(new DelegateOperation(UpdateAppConfig));
-			operations.Enqueue(new DelayedInitializationOperation(BuildCommunicationHostOperation));
+			operations.Enqueue(new LazyInitializationOperation(BuildCommunicationHostOperation));
+			operations.Enqueue(new LazyInitializationOperation(BuildKeyboardInterceptorOperation));
 			// TODO
-			//operations.Enqueue(new DelayedInitializationOperation(BuildKeyboardInterceptorOperation));
 			//operations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
-			operations.Enqueue(new DelayedInitializationOperation(BuildProcessMonitorOperation));
+			operations.Enqueue(new LazyInitializationOperation(BuildProcessMonitorOperation));
 			operations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, Taskbar));
-			operations.Enqueue(new DelayedInitializationOperation(BuildTaskbarOperation));
-			operations.Enqueue(new DelayedInitializationOperation(BuildBrowserOperation));
+			operations.Enqueue(new LazyInitializationOperation(BuildTaskbarOperation));
+			operations.Enqueue(new LazyInitializationOperation(BuildBrowserOperation));
 			operations.Enqueue(new ClipboardOperation(logger, nativeMethods));
-			//operations.Enqueue(new DelayedInitializationOperation(BuildMouseInterceptorOperation));
+			operations.Enqueue(new LazyInitializationOperation(BuildMouseInterceptorOperation));
 			operations.Enqueue(new DelegateOperation(UpdateClientControllerDependencies));
 
 			var sequence = new OperationSequence(logger, operations);
