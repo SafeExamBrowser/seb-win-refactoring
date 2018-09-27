@@ -64,12 +64,16 @@ namespace SafeExamBrowser.Communication.Proxies
 
 				return success;
 			}
+			catch (EndpointNotFoundException)
+			{
+				Logger.Warn($"Endpoint '{address}' could not be found!");
+			}
 			catch (Exception e)
 			{
 				Logger.Error($"Failed to connect to endpoint '{address}'!", e);
-
-				return false;
 			}
+
+			return false;
 		}
 
 		public virtual bool Disconnect()
@@ -209,7 +213,7 @@ namespace SafeExamBrowser.Communication.Proxies
 
 		private void BaseProxy_Faulted(object sender, EventArgs e)
 		{
-			Logger.Error("Communication channel has faulted!");
+			Logger.Warn("Communication channel has faulted!");
 		}
 
 		private void BaseProxy_Opened(object sender, EventArgs e)

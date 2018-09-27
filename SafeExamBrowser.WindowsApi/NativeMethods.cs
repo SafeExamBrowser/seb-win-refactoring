@@ -16,8 +16,8 @@ using System.Text;
 using System.Threading;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.Contracts.WindowsApi.Events;
 using SafeExamBrowser.WindowsApi.Constants;
-using SafeExamBrowser.WindowsApi.Delegates;
 using SafeExamBrowser.WindowsApi.Monitoring;
 using SafeExamBrowser.WindowsApi.Types;
 
@@ -25,28 +25,28 @@ namespace SafeExamBrowser.WindowsApi
 {
 	public class NativeMethods : INativeMethods
 	{
-		private ConcurrentDictionary<IntPtr, EventDelegate> EventDelegates = new ConcurrentDictionary<IntPtr, EventDelegate>();
 		private ConcurrentDictionary<IntPtr, KeyboardHook> KeyboardHooks = new ConcurrentDictionary<IntPtr, KeyboardHook>();
 		private ConcurrentDictionary<IntPtr, MouseHook> MouseHooks = new ConcurrentDictionary<IntPtr, MouseHook>();
+		private ConcurrentDictionary<IntPtr, SystemHook> SystemHooks = new ConcurrentDictionary<IntPtr, SystemHook>();
 
 		/// <summary>
 		/// Upon finalization, unregister all active system events and hooks...
 		/// </summary>
 		~NativeMethods()
 		{
-			foreach (var handle in EventDelegates.Keys)
+			foreach (var hook in SystemHooks.Values)
 			{
-				User32.UnhookWinEvent(handle);
+				hook.Detach();
 			}
 
-			foreach (var handle in KeyboardHooks.Keys)
+			foreach (var hook in KeyboardHooks.Values)
 			{
-				User32.UnhookWindowsHookEx(handle);
+				hook.Detach();
 			}
 
-			foreach (var handle in MouseHooks.Keys)
+			foreach (var hook in MouseHooks.Values)
 			{
-				User32.UnhookWindowsHookEx(handle);
+				hook.Detach();
 			}
 		}
 
@@ -63,7 +63,7 @@ namespace SafeExamBrowser.WindowsApi
 					throw new Win32Exception(Marshal.GetLastWin32Error());
 				}
 
-				KeyboardHooks.TryRemove(hook.Handle, out KeyboardHook h);
+				KeyboardHooks.TryRemove(hook.Handle, out _);
 			}
 		}
 
@@ -80,20 +80,25 @@ namespace SafeExamBrowser.WindowsApi
 					throw new Win32Exception(Marshal.GetLastWin32Error());
 				}
 
-				MouseHooks.TryRemove(hook.Handle, out MouseHook h);
+				MouseHooks.TryRemove(hook.Handle, out _);
 			}
 		}
 
-		public void DeregisterSystemEvent(IntPtr handle)
+		public void DeregisterSystemEventHook(Guid hookId)
 		{
-			var success = User32.UnhookWinEvent(handle);
+			var hook = SystemHooks.Values.FirstOrDefault(h => h.Id == hookId);
 
-			if (!success)
+			if (hook != null)
 			{
-				throw new Win32Exception(Marshal.GetLastWin32Error());
-			}
+				var success = hook.Detach();
 
-			EventDelegates.TryRemove(handle, out EventDelegate d);
+				if (!success)
+				{
+					throw new Win32Exception(Marshal.GetLastWin32Error());
+				}
+
+				SystemHooks.TryRemove(hook.Handle, out _);
+			}
 		}
 
 		public void EmptyClipboard()
@@ -236,6 +241,7 @@ namespace SafeExamBrowser.WindowsApi
 			var hookThread = new Thread(() =>
 			{
 				var hook = new KeyboardHook(interceptor);
+				var sleepEvent = new AutoResetEvent(false);
 
 				hook.Attach();
 				KeyboardHooks[hook.Handle] = hook;
@@ -243,7 +249,7 @@ namespace SafeExamBrowser.WindowsApi
 
 				while (true)
 				{
-					hook.InputEvent.WaitOne();
+					sleepEvent.WaitOne();
 				}
 			});
 
@@ -260,6 +266,7 @@ namespace SafeExamBrowser.WindowsApi
 			var hookThread = new Thread(() =>
 			{
 				var hook = new MouseHook(interceptor);
+				var sleepEvent = new AutoResetEvent(false);
 
 				hook.Attach();
 				MouseHooks[hook.Handle] = hook;
@@ -267,7 +274,7 @@ namespace SafeExamBrowser.WindowsApi
 
 				while (true)
 				{
-					hook.InputEvent.WaitOne();
+					sleepEvent.WaitOne();
 				}
 			});
 
@@ -278,38 +285,38 @@ namespace SafeExamBrowser.WindowsApi
 			hookReadyEvent.WaitOne();
 		}
 
-		public IntPtr RegisterSystemForegroundEvent(Action<IntPtr> callback)
+		public Guid RegisterSystemCaptureStartEvent(SystemEventCallback callback)
 		{
-			void evenDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
-			{
-				callback(hwnd);
-			}
-
-			var handle = User32.SetWinEventHook(Constant.EVENT_SYSTEM_FOREGROUND, Constant.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, evenDelegate, 0, 0, Constant.WINEVENT_OUTOFCONTEXT);
-
-			// IMORTANT:
-			// Ensures that the event delegate does not get garbage collected prematurely, as it will be passed to unmanaged code.
-			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
-			EventDelegates[handle] = evenDelegate;
-
-			return handle;
+			return RegisterSystemEvent(callback, Constant.EVENT_SYSTEM_CAPTURESTART);
 		}
 
-		public IntPtr RegisterSystemCaptureStartEvent(Action<IntPtr> callback)
+		public Guid RegisterSystemForegroundEvent(SystemEventCallback callback)
 		{
-			void eventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
+			return RegisterSystemEvent(callback, Constant.EVENT_SYSTEM_FOREGROUND);
+		}
+
+		internal Guid RegisterSystemEvent(SystemEventCallback callback, uint eventId)
+		{
+			var hookId = default(Guid);
+			var hookReadyEvent = new AutoResetEvent(false);
+			var hookThread = new Thread(() =>
 			{
-				callback(hwnd);
-			}
+				var hook = new SystemHook(callback, eventId);
 
-			var handle = User32.SetWinEventHook(Constant.EVENT_SYSTEM_CAPTURESTART, Constant.EVENT_SYSTEM_CAPTURESTART, IntPtr.Zero, eventDelegate, 0, 0, Constant.WINEVENT_OUTOFCONTEXT);
+				hook.Attach();
+				hookId = hook.Id;
+				SystemHooks[hook.Handle] = hook;
+				hookReadyEvent.Set();
+				hook.AwaitDetach();
+			});
 
-			// IMORTANT:
-			// Ensures that the event delegate does not get garbage collected prematurely, as it will be passed to unmanaged code.
-			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
-			EventDelegates[handle] = eventDelegate;
+			hookThread.SetApartmentState(ApartmentState.STA);
+			hookThread.IsBackground = true;
+			hookThread.Start();
 
-			return handle;
+			hookReadyEvent.WaitOne();
+
+			return hookId;
 		}
 
 		public void RemoveWallpaper()

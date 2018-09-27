@@ -63,6 +63,7 @@ namespace SafeExamBrowser.Client
 		private IText text;
 		private ITextResource textResource;
 		private IUserInterfaceFactory uiFactory;
+		private IWindowMonitor windowMonitor;
 
 		internal IClientController ClientController { get; private set; }
 		internal Taskbar Taskbar { get; private set; }
@@ -83,10 +84,10 @@ namespace SafeExamBrowser.Client
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, nameof(ProcessMonitor)), nativeMethods);
 			uiFactory = new UserInterfaceFactory(text);
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(RuntimeProxy)));
+			windowMonitor = new WindowMonitor(new ModuleLogger(logger, nameof(WindowMonitor)), nativeMethods);
 
 			var displayMonitor = new DisplayMonitor(new ModuleLogger(logger, nameof(DisplayMonitor)), nativeMethods);
 			var explorerShell = new ExplorerShell(new ModuleLogger(logger, nameof(ExplorerShell)), nativeMethods);
-			var windowMonitor = new WindowMonitor(new ModuleLogger(logger, nameof(WindowMonitor)), nativeMethods);
 
 			Taskbar = new Taskbar(new ModuleLogger(logger, nameof(Taskbar)));
 
@@ -98,8 +99,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new DelegateOperation(UpdateAppConfig));
 			operations.Enqueue(new LazyInitializationOperation(BuildCommunicationHostOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildKeyboardInterceptorOperation));
-			// TODO
-			//operations.Enqueue(new WindowMonitorOperation(logger, windowMonitor));
+			operations.Enqueue(new LazyInitializationOperation(BuildWindowMonitorOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildProcessMonitorOperation));
 			operations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, Taskbar));
 			operations.Enqueue(new LazyInitializationOperation(BuildTaskbarOperation));
@@ -221,6 +221,11 @@ namespace SafeExamBrowser.Client
 			var operation = new TaskbarOperation(logger, logInfo, logController, keyboardLayout, powerSupply, wirelessNetwork, systemInfo, Taskbar, configuration.Settings.Taskbar, text, uiFactory);
 
 			return operation;
+		}
+
+		private IOperation BuildWindowMonitorOperation()
+		{
+			return new WindowMonitorOperation(configuration.Settings.KioskMode, logger, windowMonitor);
 		}
 
 		private void UpdateAppConfig()

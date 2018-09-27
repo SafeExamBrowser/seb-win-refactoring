@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Communication.Hosts
 	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
 	public abstract class BaseHost : ICommunication, ICommunicationHost
 	{
-		private const int TWO_SECONDS = 2000;
+		private const int FIVE_SECONDS = 5000;
 		private readonly object @lock = new object();
 
 		private string address;
@@ -137,11 +137,11 @@ namespace SafeExamBrowser.Communication.Hosts
 				hostThread.IsBackground = true;
 				hostThread.Start();
 
-				var success = startedEvent.WaitOne(TWO_SECONDS);
+				var success = startedEvent.WaitOne(FIVE_SECONDS);
 
 				if (!success)
 				{
-					throw new CommunicationException($"Failed to start communication host for endpoint '{address}' within {TWO_SECONDS / 1000} seconds!", exception);
+					throw new CommunicationException($"Failed to start communication host for endpoint '{address}' within {FIVE_SECONDS / 1000} seconds!", exception);
 				}
 			}
 		}
@@ -202,7 +202,7 @@ namespace SafeExamBrowser.Communication.Hosts
 			try
 			{
 				host?.Close();
-				success = hostThread?.Join(TWO_SECONDS) == true;
+				success = hostThread?.Join(FIVE_SECONDS) == true;
 			}
 			catch (Exception e)
 			{

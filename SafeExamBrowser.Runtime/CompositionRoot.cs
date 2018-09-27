@@ -41,7 +41,7 @@ namespace SafeExamBrowser.Runtime
 
 		internal void BuildObjectGraph(Action shutdown)
 		{
-			const int STARTUP_TIMEOUT_MS = 30000;
+			const int STARTUP_TIMEOUT_MS = 15000;
 
 			var args = Environment.GetCommandLineArgs();
 			var configuration = BuildConfigurationRepository();

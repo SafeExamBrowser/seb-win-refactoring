@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Contracts.Monitoring;
+using SafeExamBrowser.Contracts.WindowsApi.Events;
 
 namespace SafeExamBrowser.Contracts.WindowsApi
 {
@@ -34,12 +35,12 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		void DeregisterMouseHook(IMouseInterceptor interceptor);
 
 		/// <summary>
-		/// Deregisters a previously registered system event.
+		/// Deregisters a previously registered system event hook.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">
 		/// If the event hook could not be successfully removed.
 		/// </exception>
-		void DeregisterSystemEvent(IntPtr handle);
+		void DeregisterSystemEventHook(Guid hookId);
 
 		/// <summary>
 		/// Empties the clipboard.
@@ -129,16 +130,16 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 		void RegisterMouseHook(IMouseInterceptor interceptor);
 
 		/// <summary>
+		/// Registers a system event which will invoke the specified callback when a window has received mouse capture.
+		/// Returns the ID of the newly registered Windows event hook.
+		/// </summary>
+		Guid RegisterSystemCaptureStartEvent(SystemEventCallback callback);
+
+		/// <summary>
 		/// Registers a system event which will invoke the specified callback when the foreground window has changed.
 		/// Returns a handle to the newly registered Windows event hook.
 		/// </summary>
-		IntPtr RegisterSystemForegroundEvent(Action<IntPtr> callback);
-
-		/// <summary>
-		/// Registers a system event which will invoke the specified callback when a window has received mouse capture.
-		/// Returns a handle to the newly registered Windows event hook.
-		/// </summary>
-		IntPtr RegisterSystemCaptureStartEvent(Action<IntPtr> callback);
+		Guid RegisterSystemForegroundEvent(SystemEventCallback callback);
 
 		/// <summary>
 		/// Removes the currently configured desktop wallpaper.

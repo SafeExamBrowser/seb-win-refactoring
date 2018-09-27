@@ -181,6 +181,7 @@
     <Compile Include="UserInterface\MessageBox\MessageBoxAction.cs" />
     <Compile Include="UserInterface\MessageBox\MessageBoxIcon.cs" />
     <Compile Include="WindowsApi\Events\ProcessTerminatedEventHandler.cs" />
+    <Compile Include="WindowsApi\Events\SystemEventCallback.cs" />
     <Compile Include="WindowsApi\IBounds.cs" />
     <Compile Include="WindowsApi\IDesktop.cs" />
     <Compile Include="WindowsApi\IDesktopFactory.cs" />

@@ -70,9 +70,11 @@ namespace SafeExamBrowser.UserInterface.Classic.ViewModels
 			{
 				var date = message.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
 				var severity = message.Severity.ToString().ToUpper();
-				var threadInfo = $"{message.ThreadInfo.Id}{(message.ThreadInfo.HasName ? ": " + message.ThreadInfo.Name : string.Empty)}";
+				var threadId = message.ThreadInfo.Id < 10 ? $"0{message.ThreadInfo.Id}" : message.ThreadInfo.Id.ToString();
+				var threadName = message.ThreadInfo.HasName ? ": " + message.ThreadInfo.Name : string.Empty;
+				var threadInfo = $"[{threadId}{threadName}]";
 
-				var infoRun = new Run($"{date} [{threadInfo}] - ") { Foreground = Brushes.Gray };
+				var infoRun = new Run($"{date} {threadInfo} - ") { Foreground = Brushes.Gray };
 				var messageRun = new Run($"{severity}: {message.Message}{Environment.NewLine}") { Foreground = GetBrushFor(message.Severity) };
 
 				textBlock.Inlines.Add(infoRun);

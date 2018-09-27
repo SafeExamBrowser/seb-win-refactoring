@@ -17,8 +17,9 @@ namespace SafeExamBrowser.Monitoring.Windows
 {
 	public class WindowMonitor : IWindowMonitor
 	{
-		private IntPtr captureStartHookHandle;
-		private IntPtr foregroundHookHandle;
+		private IntPtr activeWindow;
+		private Guid? captureHookId;
+		private Guid? foregroundHookId;
 		private ILogger logger;
 		private IList<Window> minimizedWindows = new List<Window>();
 		private INativeMethods nativeMethods;
@@ -92,31 +93,36 @@ namespace SafeExamBrowser.Monitoring.Windows
 
 		public void StartMonitoringWindows()
 		{
-			captureStartHookHandle = nativeMethods.RegisterSystemCaptureStartEvent(OnWindowChanged);
-			logger.Info($"Registered system capture start event with handle = {captureStartHookHandle}.");
+			captureHookId = nativeMethods.RegisterSystemCaptureStartEvent(OnWindowChanged);
+			logger.Info($"Registered system capture start event with ID = {captureHookId}.");
 
-			foregroundHookHandle = nativeMethods.RegisterSystemForegroundEvent(OnWindowChanged);
-			logger.Info($"Registered system foreground event with handle = {foregroundHookHandle}.");
+			foregroundHookId = nativeMethods.RegisterSystemForegroundEvent(OnWindowChanged);
+			logger.Info($"Registered system foreground event with ID = {foregroundHookId}.");
 		}
 
 		public void StopMonitoringWindows()
 		{
-			if (captureStartHookHandle != IntPtr.Zero)
+			if (captureHookId.HasValue)
 			{
-				nativeMethods.DeregisterSystemEvent(captureStartHookHandle);
-				logger.Info($"Unregistered system capture start event with handle = {captureStartHookHandle}.");
+				nativeMethods.DeregisterSystemEventHook(captureHookId.Value);
+				logger.Info($"Unregistered system capture start event with ID = {captureHookId}.");
 			}
 
-			if (foregroundHookHandle != IntPtr.Zero)
+			if (foregroundHookId.HasValue)
 			{
-				nativeMethods.DeregisterSystemEvent(foregroundHookHandle);
-				logger.Info($"Unregistered system foreground event with handle = {foregroundHookHandle}.");
+				nativeMethods.DeregisterSystemEventHook(foregroundHookId.Value);
+				logger.Info($"Unregistered system foreground event with ID = {foregroundHookId}.");
 			}
 		}
 
 		private void OnWindowChanged(IntPtr window)
 		{
-			WindowChanged?.Invoke(window);
+			if (activeWindow != window)
+			{
+				logger.Debug($"Window has changed from {activeWindow} to {window}.");
+				activeWindow = window;
+				WindowChanged?.Invoke(window);
+			}
 		}
 	}
 }

@@ -121,6 +121,24 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 		}
 
 		[TestMethod]
+		public void MustHandleMissingEndpointCorrectly()
+		{
+			var proxy = new Mock<IProxyObject>();
+
+			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Throws<EndpointNotFoundException>();
+
+			var token = Guid.NewGuid();
+			var connected = sut.Connect(token);
+
+			logger.Verify(l => l.Warn(It.IsAny<string>()), Times.AtLeastOnce());
+			logger.Verify(l => l.Error(It.IsAny<string>()), Times.Never());
+			logger.Verify(l => l.Error(It.IsAny<string>(), It.IsAny<Exception>()), Times.Never());
+			proxyObjectFactory.Verify(f => f.CreateObject(It.IsAny<string>()), Times.Once);
+
+			Assert.IsFalse(connected);
+		}
+
+		[TestMethod]
 		public void MustFailToDisconnectIfNotConnected()
 		{
 			var success = sut.Disconnect();

@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -16,13 +17,15 @@ namespace SafeExamBrowser.Client.Operations
 {
 	internal class WindowMonitorOperation : IOperation
 	{
+		private KioskMode kioskMode;
 		private ILogger logger;
 		private IWindowMonitor windowMonitor;
 
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
-		public WindowMonitorOperation(ILogger logger, IWindowMonitor windowMonitor)
+		public WindowMonitorOperation(KioskMode kioskMode, ILogger logger, IWindowMonitor windowMonitor)
 		{
+			this.kioskMode = kioskMode;
 			this.logger = logger;
 			this.windowMonitor = windowMonitor;
 		}
@@ -32,8 +35,15 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Initializing window monitoring...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeWindowMonitoring);
 
-			windowMonitor.HideAllWindows();
-			windowMonitor.StartMonitoringWindows();
+			if (kioskMode == KioskMode.DisableExplorerShell)
+			{
+				windowMonitor.HideAllWindows();
+			}
+
+			if (kioskMode != KioskMode.None)
+			{
+				windowMonitor.StartMonitoringWindows();
+			}
 
 			return OperationResult.Success;
 		}
@@ -48,8 +58,15 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Stopping window monitoring...");
 			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StopWindowMonitoring);
 
-			windowMonitor.StopMonitoringWindows();
-			windowMonitor.RestoreHiddenWindows();
+			if (kioskMode != KioskMode.None)
+			{
+				windowMonitor.StopMonitoringWindows();
+			}
+
+			if (kioskMode == KioskMode.DisableExplorerShell)
+			{
+				windowMonitor.RestoreHiddenWindows();
+			}
 		}
 	}
 }

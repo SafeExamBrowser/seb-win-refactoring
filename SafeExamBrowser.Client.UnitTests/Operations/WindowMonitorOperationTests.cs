@@ -9,6 +9,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Operations;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 
@@ -20,21 +21,58 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<ILogger> loggerMock;
 		private Mock<IWindowMonitor> windowMonitorMock;
 
-		private WindowMonitorOperation sut;
-
 		[TestInitialize]
 		public void Initialize()
 		{
 			loggerMock = new Mock<ILogger>();
 			windowMonitorMock = new Mock<IWindowMonitor>();
-
-			sut = new WindowMonitorOperation(loggerMock.Object, windowMonitorMock.Object);
 		}
 
 		[TestMethod]
-		public void MustPerformCorrectly()
+		public void MustPerformCorrectlyForCreateNewDesktop()
 		{
 			var order = 0;
+			var hideAll = 0;
+			var startMonitoring = 0;
+			var sut = new WindowMonitorOperation(KioskMode.CreateNewDesktop, loggerMock.Object, windowMonitorMock.Object);
+
+			windowMonitorMock.Setup(w => w.HideAllWindows()).Callback(() => hideAll = ++order);
+			windowMonitorMock.Setup(w => w.StartMonitoringWindows()).Callback(() => startMonitoring = ++order);
+
+			sut.Perform();
+
+			windowMonitorMock.Verify(w => w.HideAllWindows(), Times.Never);
+			windowMonitorMock.Verify(w => w.StartMonitoringWindows(), Times.Once);
+
+			Assert.AreEqual(0, hideAll);
+			Assert.AreEqual(1, startMonitoring);
+		}
+
+		[TestMethod]
+		public void MustRevertCorrectlyForCreateNewDesktop()
+		{
+			var order = 0;
+			var stop = 0;
+			var restore = 0;
+			var sut = new WindowMonitorOperation(KioskMode.CreateNewDesktop, loggerMock.Object, windowMonitorMock.Object);
+
+			windowMonitorMock.Setup(w => w.StopMonitoringWindows()).Callback(() => stop = ++order);
+			windowMonitorMock.Setup(w => w.RestoreHiddenWindows()).Callback(() => restore = ++order);
+
+			sut.Revert();
+
+			windowMonitorMock.Verify(w => w.StopMonitoringWindows(), Times.Once);
+			windowMonitorMock.Verify(w => w.RestoreHiddenWindows(), Times.Never);
+
+			Assert.AreEqual(0, restore);
+			Assert.AreEqual(1, stop);
+		}
+
+		[TestMethod]
+		public void MustPerformCorrectlyForDisableExplorerShell()
+		{
+			var order = 0;
+			var sut = new WindowMonitorOperation(KioskMode.DisableExplorerShell, loggerMock.Object, windowMonitorMock.Object);
 
 			windowMonitorMock.Setup(w => w.HideAllWindows()).Callback(() => Assert.AreEqual(++order, 1));
 			windowMonitorMock.Setup(w => w.StartMonitoringWindows()).Callback(() => Assert.AreEqual(++order, 2));
@@ -46,9 +84,10 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustRevertCorrectly()
+		public void MustRevertCorrectlyForDisableExplorerShell()
 		{
 			var order = 0;
+			var sut = new WindowMonitorOperation(KioskMode.DisableExplorerShell, loggerMock.Object, windowMonitorMock.Object);
 
 			windowMonitorMock.Setup(w => w.StopMonitoringWindows()).Callback(() => Assert.AreEqual(++order, 1));
 			windowMonitorMock.Setup(w => w.RestoreHiddenWindows()).Callback(() => Assert.AreEqual(++order, 2));
@@ -57,6 +96,14 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			windowMonitorMock.Verify(w => w.StopMonitoringWindows(), Times.Once);
 			windowMonitorMock.Verify(w => w.RestoreHiddenWindows(), Times.Once);
+		}
+
+		[TestMethod]
+		public void MustDoNothingWithoutKioskMode()
+		{
+			var sut = new WindowMonitorOperation(KioskMode.None, loggerMock.Object, windowMonitorMock.Object);
+
+			windowMonitorMock.VerifyNoOtherCalls();
 		}
 	}
 }

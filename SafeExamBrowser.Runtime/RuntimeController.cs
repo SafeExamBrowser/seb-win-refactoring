@@ -139,7 +139,7 @@ namespace SafeExamBrowser.Runtime
 			runtimeWindow.Show();
 			runtimeWindow.BringToForeground();
 			runtimeWindow.ShowProgressBar();
-			logger.Info("Initiating session procedure...");
+			logger.Info("### --- Session Start Procedure --- ###");
 
 			if (sessionRunning)
 			{
@@ -152,7 +152,7 @@ namespace SafeExamBrowser.Runtime
 			{
 				RegisterSessionEvents();
 
-				logger.Info("Session is running.");
+				logger.Info("### --- Session Running --- ###");
 				runtimeWindow.HideProgressBar();
 				runtimeWindow.UpdateText(TextKey.RuntimeWindow_ApplicationRunning);
 				runtimeWindow.TopMost = configuration.CurrentSettings.KioskMode != KioskMode.None;
@@ -166,7 +166,7 @@ namespace SafeExamBrowser.Runtime
 			}
 			else
 			{
-				logger.Info($"Session procedure {(result == OperationResult.Aborted ? "was aborted." : "has failed!")}");
+				logger.Info($"### --- Session Start {(result == OperationResult.Aborted ? "Aborted" : "Failed")} --- ###");
 
 				if (result == OperationResult.Failed)
 				{
@@ -187,7 +187,7 @@ namespace SafeExamBrowser.Runtime
 			runtimeWindow.Show();
 			runtimeWindow.BringToForeground();
 			runtimeWindow.ShowProgressBar();
-			logger.Info("Reverting session operations...");
+			logger.Info("### --- Session Stop Procedure --- ###");
 
 			DeregisterSessionEvents();
 
@@ -195,12 +195,12 @@ namespace SafeExamBrowser.Runtime
 
 			if (success)
 			{
-				logger.Info("Session is terminated.");
+				logger.Info("### --- Session Terminated --- ###");
 				sessionRunning = false;
 			}
 			else
 			{
-				logger.Info("Session reversion was erroneous!");
+				logger.Info("### --- Session Stop Failed --- ###");
 				messageBox.Show(TextKey.MessageBox_SessionStopError, TextKey.MessageBox_SessionStopErrorTitle, icon: MessageBoxIcon.Error);
 			}
 		}
