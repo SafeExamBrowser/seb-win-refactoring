@@ -17,6 +17,11 @@ namespace SafeExamBrowser.Contracts.Communication.Hosts
 	public interface IClientHost : ICommunicationHost
 	{
 		/// <summary>
+		/// Indicates whether the runtime has established a connection to this host.
+		/// </summary>
+		bool IsConnected { get; }
+
+		/// <summary>
 		/// The startup token used for initial authentication.
 		/// </summary>
 		Guid StartupToken { set; }
@@ -30,6 +35,11 @@ namespace SafeExamBrowser.Contracts.Communication.Hosts
 		/// Event fired when the runtime denied a reconfiguration request.
 		/// </summary>
 		event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationDenied;
+
+		/// <summary>
+		/// Event fired when the runtime disconnected from the client.
+		/// </summary>
+		event CommunicationEventHandler RuntimeDisconnected;
 
 		/// <summary>
 		/// Event fired when the runtime commands the client to shutdown.

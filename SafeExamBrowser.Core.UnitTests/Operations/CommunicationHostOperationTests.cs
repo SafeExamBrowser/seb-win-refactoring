@@ -16,11 +16,11 @@ using SafeExamBrowser.Core.Operations;
 namespace SafeExamBrowser.Core.UnitTests.Operations
 {
 	[TestClass]
-	public class CommunicationOperationTests
+	public class CommunicationHostOperationTests
 	{
 		private Mock<ICommunicationHost> hostMock;
 		private Mock<ILogger> loggerMock;
-		private CommunicationOperation sut;
+		private CommunicationHostOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
@@ -28,7 +28,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 			hostMock = new Mock<ICommunicationHost>();
 			loggerMock = new Mock<ILogger>();
 
-			sut = new CommunicationOperation(hostMock.Object, loggerMock.Object);
+			sut = new CommunicationHostOperation(hostMock.Object, loggerMock.Object);
 		}
 
 		[TestMethod]

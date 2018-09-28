@@ -68,7 +68,7 @@ namespace SafeExamBrowser.Runtime
 			var sessionOperations = new Queue<IOperation>();
 
 			bootstrapOperations.Enqueue(new I18nOperation(logger, text, textResource));
-			bootstrapOperations.Enqueue(new CommunicationOperation(runtimeHost, logger));
+			bootstrapOperations.Enqueue(new CommunicationHostOperation(runtimeHost, logger));
 
 			sessionOperations.Enqueue(new ConfigurationOperation(appConfig, configuration, logger, messageBox, resourceLoader, runtimeHost, text, uiFactory, args));
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost));

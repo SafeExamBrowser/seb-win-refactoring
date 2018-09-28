@@ -18,14 +18,14 @@ namespace SafeExamBrowser.Core.Operations
 	/// An operation to handle the lifetime of an <see cref="ICommunicationHost"/>. The host is started during <see cref="Perform"/>,
 	/// stopped and restarted during <see cref="Repeat"/> (if not running) and stopped during <see cref="Revert"/>.
 	/// </summary>
-	public class CommunicationOperation : IOperation
+	public class CommunicationHostOperation : IOperation
 	{
 		private ICommunicationHost host;
 		private ILogger logger;
 
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
-		public CommunicationOperation(ICommunicationHost host, ILogger logger)
+		public CommunicationHostOperation(ICommunicationHost host, ILogger logger)
 		{
 			this.host = host;
 			this.logger = logger;

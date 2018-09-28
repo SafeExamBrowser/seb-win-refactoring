@@ -7,11 +7,11 @@
  */
 
 using System;
+using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Communication.Hosts;
 
 namespace SafeExamBrowser.Client.Communication
 {
@@ -21,9 +21,11 @@ namespace SafeExamBrowser.Client.Communication
 		private int processId;
 
 		public Guid StartupToken { private get; set; }
+		public bool IsConnected { get; private set; }
 
 		public event CommunicationEventHandler<PasswordRequestEventArgs> PasswordRequested;
 		public event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationDenied;
+		public event CommunicationEventHandler RuntimeDisconnected;
 		public event CommunicationEventHandler Shutdown;
 
 		public ClientHost(string address, IHostObjectFactory factory, ILogger logger, int processId) : base(address, factory, logger)
@@ -39,6 +41,7 @@ namespace SafeExamBrowser.Client.Communication
 			if (accepted)
 			{
 				allowConnection = false;
+				IsConnected = true;
 			}
 
 			return accepted;
@@ -46,7 +49,8 @@ namespace SafeExamBrowser.Client.Communication
 
 		protected override void OnDisconnect()
 		{
-			// Nothing to do here...
+			RuntimeDisconnected?.Invoke();
+			IsConnected = false;
 		}
 
 		protected override Response OnReceive(Message message)

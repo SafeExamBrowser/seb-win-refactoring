@@ -121,10 +121,11 @@ namespace SafeExamBrowser.Communication.Proxies
 			FailIfNotConnected();
 
 			message.CommunicationToken = communicationToken.Value;
+			Logger.Debug($"Sending message '{ToString(message)}'...");
 
 			var response = proxy.Send(message);
 
-			Logger.Debug($"Sent message '{ToString(message)}', got response '{ToString(response)}'.");
+			Logger.Debug($"Received response '{ToString(response)}' for message '{ToString(message)}'.");
 
 			return response;
 		}

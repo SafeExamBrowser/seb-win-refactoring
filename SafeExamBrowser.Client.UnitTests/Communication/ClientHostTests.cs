@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Communication;
@@ -53,6 +54,7 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 
 			Assert.IsNotNull(response);
 			Assert.IsTrue(response.ConnectionEstablished);
+			Assert.IsTrue(sut.IsConnected);
 		}
 
 		[TestMethod]
@@ -80,8 +82,10 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 		[TestMethod]
 		public void MustCorrectlyDisconnect()
 		{
+			var eventFired = false;
 			var token = Guid.NewGuid();
 
+			sut.RuntimeDisconnected += () => eventFired = true;
 			sut.StartupToken = token;
 
 			var connectionResponse = sut.Connect(token);
@@ -89,6 +93,8 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 
 			Assert.IsNotNull(response);
 			Assert.IsTrue(response.ConnectionTerminated);
+			Assert.IsTrue(eventFired);
+			Assert.IsFalse(sut.IsConnected);
 		}
 
 		[TestMethod]
@@ -117,6 +123,59 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 			Assert.IsNotNull(response);
 			Assert.IsInstanceOfType(response, typeof(AuthenticationResponse));
 			Assert.AreEqual(PROCESS_ID, (response as AuthenticationResponse)?.ProcessId);
+		}
+
+		[TestMethod]
+		public void MustHandlePasswordRequestCorrectly()
+		{
+			var passwordRequested = false;
+			var purpose = PasswordRequestPurpose.Administrator;
+			var requestId = Guid.NewGuid();
+			var resetEvent = new AutoResetEvent(false);
+
+			sut.PasswordRequested += (args) =>
+			{
+				passwordRequested = args.Purpose == purpose && args.RequestId == requestId;
+				resetEvent.Set();
+			};
+			sut.StartupToken = Guid.Empty;
+
+			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
+			var message = new PasswordRequestMessage(purpose, requestId) { CommunicationToken = token };
+			var response = sut.Send(message);
+
+			resetEvent.WaitOne();
+
+			Assert.IsTrue(passwordRequested);
+			Assert.IsNotNull(response);
+			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
+			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
+		}
+
+		[TestMethod]
+		public void MustHandleReconfigurationDenialCorrectly()
+		{
+			var filePath = @"C:\Some\Random\Path\To\A\File.seb";
+			var reconfigurationDenied = false;
+			var resetEvent = new AutoResetEvent(false);
+
+			sut.ReconfigurationDenied += (args) =>
+			{
+				reconfigurationDenied = new Uri(args.ConfigurationPath).Equals(new Uri(filePath));
+				resetEvent.Set();
+			};
+			sut.StartupToken = Guid.Empty;
+
+			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
+			var message = new ReconfigurationDeniedMessage(filePath) { CommunicationToken = token };
+			var response = sut.Send(message);
+
+			resetEvent.WaitOne();
+
+			Assert.IsTrue(reconfigurationDenied);
+			Assert.IsNotNull(response);
+			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
+			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
 		}
 
 		[TestMethod]

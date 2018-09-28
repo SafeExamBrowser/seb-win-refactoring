@@ -97,7 +97,8 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new RuntimeConnectionOperation(logger, runtimeProxy, startupToken));
 			operations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeProxy));
 			operations.Enqueue(new DelegateOperation(UpdateAppConfig));
-			operations.Enqueue(new LazyInitializationOperation(BuildCommunicationHostOperation));
+			operations.Enqueue(new LazyInitializationOperation(BuildClientHostOperation));
+			operations.Enqueue(new LazyInitializationOperation(BuildClientHostDisconnectionOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildKeyboardInterceptorOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildWindowMonitorOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildProcessMonitorOperation));
@@ -177,15 +178,23 @@ namespace SafeExamBrowser.Client
 			return operation;
 		}
 
-		private IOperation BuildCommunicationHostOperation()
+		private IOperation BuildClientHostOperation()
 		{
 			var processId = Process.GetCurrentProcess().Id;
 			var factory = new HostObjectFactory();
 			var host = new ClientHost(configuration.AppConfig.ClientAddress, factory, new ModuleLogger(logger, nameof(ClientHost)), processId);
-			var operation = new CommunicationOperation(host, logger);
+			var operation = new CommunicationHostOperation(host, logger);
 
 			clientHost = host;
 			clientHost.StartupToken = startupToken;
+
+			return operation;
+		}
+
+		private IOperation BuildClientHostDisconnectionOperation()
+		{
+			var timeout_ms = 5000;
+			var operation = new ClientHostDisconnectionOperation(clientHost, logger, timeout_ms);
 
 			return operation;
 		}

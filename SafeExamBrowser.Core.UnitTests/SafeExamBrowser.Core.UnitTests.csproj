@@ -78,7 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Operations\CommunicationOperationTests.cs" />
+    <Compile Include="Operations\CommunicationHostOperationTests.cs" />
     <Compile Include="Operations\LazyInitializationOperationTests.cs" />
     <Compile Include="Operations\I18nOperationTests.cs" />
     <Compile Include="Operations\DelegateOperationTests.cs" />
