@@ -180,9 +180,10 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildClientHostOperation()
 		{
+			const int FIVE_SECONDS = 5000;
 			var processId = Process.GetCurrentProcess().Id;
 			var factory = new HostObjectFactory();
-			var host = new ClientHost(configuration.AppConfig.ClientAddress, factory, new ModuleLogger(logger, nameof(ClientHost)), processId);
+			var host = new ClientHost(configuration.AppConfig.ClientAddress, factory, new ModuleLogger(logger, nameof(ClientHost)), processId, FIVE_SECONDS);
 			var operation = new CommunicationHostOperation(host, logger);
 
 			clientHost = host;

@@ -7,12 +7,12 @@
  */
 
 using System;
+using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Communication.Hosts;
 
 namespace SafeExamBrowser.Runtime.Communication
 {
@@ -29,7 +29,12 @@ namespace SafeExamBrowser.Runtime.Communication
 		public event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationRequested;
 		public event CommunicationEventHandler ShutdownRequested;
 
-		public RuntimeHost(string address, IConfigurationRepository configuration, IHostObjectFactory factory, ILogger logger) : base(address, factory, logger)
+		public RuntimeHost(
+			string address,
+			IConfigurationRepository configuration,
+			IHostObjectFactory factory,
+			ILogger logger,
+			int timeout_ms) : base(address, factory, logger, timeout_ms)
 		{
 			this.configuration = configuration;
 		}

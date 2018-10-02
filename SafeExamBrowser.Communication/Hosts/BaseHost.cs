@@ -22,13 +22,13 @@ namespace SafeExamBrowser.Communication.Hosts
 	[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
 	public abstract class BaseHost : ICommunication, ICommunicationHost
 	{
-		private const int FIVE_SECONDS = 5000;
 		private readonly object @lock = new object();
 
 		private string address;
 		private IHostObject host;
 		private IHostObjectFactory factory;
 		private Thread hostThread;
+		private int timeout_ms;
 
 		protected Guid? CommunicationToken { get; private set; }
 		protected ILogger Logger { get; private set; }
@@ -44,11 +44,12 @@ namespace SafeExamBrowser.Communication.Hosts
 			}
 		}
 
-		public BaseHost(string address, IHostObjectFactory factory, ILogger logger)
+		public BaseHost(string address, IHostObjectFactory factory, ILogger logger, int timeout_ms)
 		{
 			this.address = address;
 			this.factory = factory;
 			this.Logger = logger;
+			this.timeout_ms = timeout_ms;
 		}
 
 		protected abstract bool OnConnect(Guid? token);
@@ -137,11 +138,11 @@ namespace SafeExamBrowser.Communication.Hosts
 				hostThread.IsBackground = true;
 				hostThread.Start();
 
-				var success = startedEvent.WaitOne(FIVE_SECONDS);
+				var success = startedEvent.WaitOne(timeout_ms);
 
 				if (!success)
 				{
-					throw new CommunicationException($"Failed to start communication host for endpoint '{address}' within {FIVE_SECONDS / 1000} seconds!", exception);
+					throw new CommunicationException($"Failed to start communication host for endpoint '{address}' within {timeout_ms / 1000} seconds!", exception);
 				}
 			}
 		}
@@ -202,7 +203,7 @@ namespace SafeExamBrowser.Communication.Hosts
 			try
 			{
 				host?.Close();
-				success = hostThread?.Join(FIVE_SECONDS) == true;
+				success = hostThread?.Join(timeout_ms) == true;
 			}
 			catch (Exception e)
 			{

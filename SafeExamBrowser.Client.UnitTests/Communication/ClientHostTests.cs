@@ -40,7 +40,7 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 
 			hostObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>(), It.IsAny<ICommunication>())).Returns(hostObject.Object);
 
-			sut = new ClientHost("net:pipe://some/address", hostObjectFactory.Object, logger.Object, PROCESS_ID);
+			sut = new ClientHost("net:pipe://some/address", hostObjectFactory.Object, logger.Object, PROCESS_ID, 0);
 		}
 
 		[TestMethod]

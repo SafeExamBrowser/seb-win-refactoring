@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 
 			hostObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>(), It.IsAny<ICommunication>())).Returns(hostObject.Object);
 
-			sut = new RuntimeHost("net:pipe://some/address", configuration.Object, hostObjectFactory.Object, logger.Object);
+			sut = new RuntimeHost("net:pipe://some/address", configuration.Object, hostObjectFactory.Object, logger.Object, 0);
 		}
 
 		[TestMethod]

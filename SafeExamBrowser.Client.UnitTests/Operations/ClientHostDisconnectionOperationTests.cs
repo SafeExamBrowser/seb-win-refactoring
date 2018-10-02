@@ -72,7 +72,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			clientHost.VerifyNoOtherCalls();
 
 			Assert.IsFalse(stopWatch.IsRunning);
-			Assert.IsTrue(stopWatch.ElapsedMilliseconds > timeout_ms);
+			Assert.IsTrue(stopWatch.ElapsedMilliseconds >= timeout_ms);
 		}
 
 		[TestMethod]

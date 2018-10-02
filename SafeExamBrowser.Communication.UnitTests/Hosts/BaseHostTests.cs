@@ -35,7 +35,7 @@ namespace SafeExamBrowser.Communication.UnitTests.Hosts
 
 			hostObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>(), It.IsAny<ICommunication>())).Returns(hostObject.Object);
 
-			sut = new BaseHostStub("net.pipe://some/address/here", hostObjectFactory.Object, logger.Object);
+			sut = new BaseHostStub("net.pipe://some/address/here", hostObjectFactory.Object, logger.Object, 10);
 		}
 
 		[TestMethod]
@@ -56,7 +56,6 @@ namespace SafeExamBrowser.Communication.UnitTests.Hosts
 		[ExpectedException(typeof(CommunicationException))]
 		public void MustCorrectlyHandleStartupException()
 		{
-			// TODO: Takes waaay too long, extract timeout (move to constructor like in ClientOperation)!
 			hostObject.Setup(h => h.Open()).Throws<Exception>();
 
 			sut.Start();

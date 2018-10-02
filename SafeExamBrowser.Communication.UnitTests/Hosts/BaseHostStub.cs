@@ -21,7 +21,7 @@ namespace SafeExamBrowser.Communication.UnitTests.Hosts
 		public Func<Message, Response> OnReceiveStub { get; set; }
 		public Func<SimpleMessagePurport, Response> OnReceiveSimpleMessageStub { get; set; }
 
-		public BaseHostStub(string address, IHostObjectFactory factory, ILogger logger) : base(address, factory, logger)
+		public BaseHostStub(string address, IHostObjectFactory factory, ILogger logger, int timeout_ms) : base(address, factory, logger, timeout_ms)
 		{
 		}
 

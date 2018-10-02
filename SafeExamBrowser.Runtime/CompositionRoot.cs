@@ -41,7 +41,8 @@ namespace SafeExamBrowser.Runtime
 
 		internal void BuildObjectGraph(Action shutdown)
 		{
-			const int STARTUP_TIMEOUT_MS = 15000;
+			const int FIVE_SECONDS = 5000;
+			const int FIFTEEN_SECONDS = 15000;
 
 			var args = Environment.GetCommandLineArgs();
 			var configuration = BuildConfigurationRepository();
@@ -60,7 +61,7 @@ namespace SafeExamBrowser.Runtime
 			var processFactory = new ProcessFactory(new ModuleLogger(logger, nameof(ProcessFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), logger);
 			var resourceLoader = new ResourceLoader();
-			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, configuration, new HostObjectFactory(), new ModuleLogger(logger, nameof(RuntimeHost)));
+			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, configuration, new HostObjectFactory(), new ModuleLogger(logger, nameof(RuntimeHost)), FIVE_SECONDS);
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(ServiceProxy)));
 			var uiFactory = new UserInterfaceFactory(text);
 
@@ -73,9 +74,9 @@ namespace SafeExamBrowser.Runtime
 			sessionOperations.Enqueue(new ConfigurationOperation(appConfig, configuration, logger, messageBox, resourceLoader, runtimeHost, text, uiFactory, args));
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost));
 			sessionOperations.Enqueue(new ServiceOperation(configuration, logger, serviceProxy, text));
-			sessionOperations.Enqueue(new ClientTerminationOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, STARTUP_TIMEOUT_MS));
+			sessionOperations.Enqueue(new ClientTerminationOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, FIFTEEN_SECONDS));
 			sessionOperations.Enqueue(new KioskModeOperation(configuration, desktopFactory, explorerShell, logger, processFactory));
-			sessionOperations.Enqueue(new ClientOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, STARTUP_TIMEOUT_MS));
+			sessionOperations.Enqueue(new ClientOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, FIFTEEN_SECONDS));
 
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new OperationSequence(logger, sessionOperations);
