@@ -59,7 +59,7 @@ namespace SafeExamBrowser.Monitoring.Windows
 
 		public void HideAllWindows()
 		{
-			logger.Info("Saving windows to be minimized...");
+			logger.Info("Searching for windows to be minimized...");
 
 			foreach (var handle in nativeMethods.GetOpenWindows())
 			{
@@ -70,7 +70,7 @@ namespace SafeExamBrowser.Monitoring.Windows
 				};
 
 				minimizedWindows.Add(window);
-				logger.Info($"Saved window '{window.Title}' with handle = {window.Handle}.");
+				logger.Info($"Found window '{window.Title}' with handle = {window.Handle}.");
 			}
 
 			logger.Info("Minimizing all open windows...");

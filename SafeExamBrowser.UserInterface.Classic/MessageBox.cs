@@ -24,9 +24,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 		public MessageBoxResult Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information)
 		{
-			// The last two parameters are an unfortunate necessity, since e.g. splash screens are displayed topmost while running in their
-			// own thread / dispatcher, and would thus conceal the message box...
-			var result = System.Windows.MessageBox.Show(message, title, ToButton(action), ToImage(icon), System.Windows.MessageBoxResult.None, MessageBoxOptions.ServiceNotification);
+			var result = System.Windows.MessageBox.Show(message, title, ToButton(action), ToImage(icon));
 
 			return ToResult(result);
 		}

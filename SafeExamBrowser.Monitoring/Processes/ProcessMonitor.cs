@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Monitoring.Processes
 
 			if (process != null)
 			{
-				var allowed = process.ProcessName == "SafeExamBrowser";
+				var allowed = process.ProcessName == "SafeExamBrowser" || process.ProcessName == "SafeExamBrowser.Client";
 
 				if (!allowed)
 				{

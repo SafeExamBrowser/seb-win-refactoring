@@ -6,10 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -22,16 +22,14 @@ namespace SafeExamBrowser.Runtime.Operations
 		private IConfigurationRepository configuration;
 		private ILogger logger;
 		private IServiceProxy service;
-		private IText text;
 
 		public IProgressIndicator ProgressIndicator { private get; set; }
 
-		public ServiceOperation(IConfigurationRepository configuration, ILogger logger, IServiceProxy service, IText text)
+		public ServiceOperation(IConfigurationRepository configuration, ILogger logger, IServiceProxy service)
 		{
 			this.configuration = configuration;
 			this.service = service;
 			this.logger = logger;
-			this.text = text;
 		}
 
 		public OperationResult Perform()

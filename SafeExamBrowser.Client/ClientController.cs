@@ -307,19 +307,17 @@ namespace SafeExamBrowser.Client
 
 		private void WindowMonitor_WindowChanged(IntPtr window)
 		{
-			// TODO!
+			var allowed = processMonitor.BelongsToAllowedProcess(window);
 
-			//var allowed = processMonitor.BelongsToAllowedProcess(window);
+			if (!allowed)
+			{
+				var success = windowMonitor.Hide(window);
 
-			//if (!allowed)
-			//{
-			//	var success = windowMonitor.Hide(window);
-
-			//	if (!success)
-			//	{
-			//		windowMonitor.Close(window);
-			//	}
-			//}
+				if (!success)
+				{
+					windowMonitor.Close(window);
+				}
+			}
 		}
 	}
 }

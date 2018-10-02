@@ -16,7 +16,6 @@ using SafeExamBrowser.Contracts.Core;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
 
@@ -30,7 +29,6 @@ namespace SafeExamBrowser.Browser
 		private IApplicationButton button;
 		private IList<IApplicationInstance> instances;
 		private IModuleLogger logger;
-		private IMessageBox messageBox;
 		private BrowserSettings settings;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
@@ -41,14 +39,12 @@ namespace SafeExamBrowser.Browser
 			AppConfig appConfig,
 			BrowserSettings settings,
 			IModuleLogger logger,
-			IMessageBox messageBox,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
 			this.instances = new List<IApplicationInstance>();
 			this.logger = logger;
-			this.messageBox = messageBox;
 			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;

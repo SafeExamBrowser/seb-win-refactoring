@@ -9,11 +9,10 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Runtime.Operations;
@@ -29,7 +28,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private Mock<ISessionData> session;
 		private Settings settings;
 		private Mock<IProgressIndicator> progressIndicator;
-		private Mock<IText> text;
 		private ServiceOperation sut;
 
 		[TestInitialize]
@@ -41,12 +39,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			session = new Mock<ISessionData>();
 			settings = new Settings();
 			progressIndicator = new Mock<IProgressIndicator>();
-			text = new Mock<IText>();
 
 			configuration.SetupGet(c => c.CurrentSession).Returns(session.Object);
 			configuration.SetupGet(c => c.CurrentSettings).Returns(settings);
 
-			sut = new ServiceOperation(configuration.Object, logger.Object, service.Object, text.Object);
+			sut = new ServiceOperation(configuration.Object, logger.Object, service.Object);
 		}
 
 		[TestMethod]
