@@ -84,6 +84,108 @@
   <Entry key="Notification_LogTooltip">
     Application Log
   </Entry>
+  <Entry key="OperationStatus_CloseRuntimeConnection">
+    Closing runtime connection
+  </Entry>
+  <Entry key="OperationStatus_EmptyClipboard">
+    Emptying clipboard
+  </Entry>
+  <Entry key="OperationStatus_FinalizeServiceSession">
+    Finalizing service session
+  </Entry>
+  <Entry key="OperationStatus_InitializeBrowser">
+    Initializing browser
+  </Entry>
+  <Entry key="OperationStatus_InitializeConfiguration">
+    Initializing application configuration
+  </Entry>
+  <Entry key="OperationStatus_InitializeKioskMode">
+    Initializing kiosk mode
+  </Entry>
+  <Entry key="OperationStatus_InitializeProcessMonitoring">
+    Initializing process monitoring
+  </Entry>
+  <Entry key="OperationStatus_InitializeRuntimeConnection">
+    Initializing runtime connection
+  </Entry>
+  <Entry key="OperationStatus_InitializeServiceSession">
+    Initializing service session
+  </Entry>
+  <Entry key="OperationStatus_InitializeSession">
+    Initializing new session
+  </Entry>
+  <Entry key="OperationStatus_InitializeTaskbar">
+    Initializing taskbar
+  </Entry>
+  <Entry key="OperationStatus_InitializeWindowMonitoring">
+    Initializing window monitoring
+  </Entry>
+  <Entry key="OperationStatus_InitializeWorkingArea">
+    Initializing working area
+  </Entry>
+  <Entry key="OperationStatus_RestartCommunicationHost">
+    Restarting communication host
+  </Entry>
+  <Entry key="OperationStatus_RestoreWorkingArea">
+    Restoring working area
+  </Entry>
+  <Entry key="OperationStatus_RevertKioskMode">
+    Reverting kiosk mode
+  </Entry>
+  <Entry key="OperationStatus_ShutdownProcedure">
+    Initiating shutdown procedure
+  </Entry>
+  <Entry key="OperationStatus_StartClient">
+    Starting client
+  </Entry>
+  <Entry key="OperationStatus_StartCommunicationHost">
+    Starting communication host
+  </Entry>
+  <Entry key="OperationStatus_StartEventHandling">
+    Starting event handling
+  </Entry>
+  <Entry key="OperationStatus_StartKeyboardInterception">
+    Starting keyboard interception
+  </Entry>
+  <Entry key="OperationStatus_StartMouseInterception">
+    Starting mouse interception
+  </Entry>
+  <Entry key="OperationStatus_StopClient">
+    Stopping client
+  </Entry>
+  <Entry key="OperationStatus_StopCommunicationHost">
+    Stopping communication host
+  </Entry>
+  <Entry key="OperationStatus_StopEventHandling">
+    Stopping event handling
+  </Entry>
+  <Entry key="OperationStatus_StopKeyboardInterception">
+    Stopping keyboard interception
+  </Entry>
+  <Entry key="OperationStatus_StopMouseInterception">
+    Stopping mouse interception
+  </Entry>
+  <Entry key="OperationStatus_StopProcessMonitoring">
+    Stopping process monitoring
+  </Entry>
+  <Entry key="OperationStatus_StopWindowMonitoring">
+    Stopping window monitoring
+  </Entry>
+  <Entry key="OperationStatus_TerminateBrowser">
+    Terminating browser
+  </Entry>
+  <Entry key="OperationStatus_TerminateTaskbar">
+    Terminating taskbar
+  </Entry>
+  <Entry key="OperationStatus_WaitExplorerStartup">
+    Waiting for Windows explorer to start up
+  </Entry>
+  <Entry key="OperationStatus_WaitExplorerTermination">
+    Waiting for Windows explorer to shut down
+  </Entry>
+  <Entry key="OperationStatus_WaitRuntimeDisconnection">
+    Waiting for the runtime to disconnect
+  </Entry>
   <Entry key="PasswordDialog_AdminPasswordRequired">
     Please enter the administrator password for the application configuration:
   </Entry>
@@ -101,105 +203,6 @@
   </Entry>
   <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
     Settings Password Required
-  </Entry>
-  <Entry key="ProgressIndicator_CloseRuntimeConnection">
-    Closing runtime connection
-  </Entry>
-  <Entry key="ProgressIndicator_EmptyClipboard">
-    Emptying clipboard
-  </Entry>
-  <Entry key="ProgressIndicator_FinalizeServiceSession">
-    Finalizing service session
-  </Entry>
-  <Entry key="ProgressIndicator_InitializeBrowser">
-    Initializing browser
-  </Entry>
-  <Entry key="ProgressIndicator_InitializeConfiguration">
-    Initializing application configuration
-  </Entry>
-  <Entry key="ProgressIndicator_InitializeKioskMode">
-    Initializing kiosk mode
-  </Entry>
-  <Entry key="ProgressIndicator_InitializeProcessMonitoring">
-    Initializing process monitoring
-  </Entry>
-  <Entry key="ProgressIndicator_InitializeRuntimeConnection">
-    Initializing runtime connection
-  </Entry>
-  <Entry key="ProgressIndicator_InitializeServiceSession">
-    Initializing service session
-  </Entry>
-  <Entry key="ProgressIndicator_InitializeSession">
-    Initializing new session
-  </Entry>
-  <Entry key="ProgressIndicator_InitializeTaskbar">
-    Initializing taskbar
-  </Entry>
-  <Entry key="ProgressIndicator_InitializeWindowMonitoring">
-    Initializing window monitoring
-  </Entry>
-  <Entry key="ProgressIndicator_InitializeWorkingArea">
-    Initializing working area
-  </Entry>
-  <Entry key="ProgressIndicator_RestartCommunicationHost">
-    Restarting communication host
-  </Entry>
-  <Entry key="ProgressIndicator_RestoreWorkingArea">
-    Restoring working area
-  </Entry>
-  <Entry key="ProgressIndicator_RevertKioskMode">
-    Reverting kiosk mode
-  </Entry>
-  <Entry key="ProgressIndicator_ShutdownProcedure">
-    Initiating shutdown procedure
-  </Entry>
-  <Entry key="ProgressIndicator_StartClient">
-    Starting client
-  </Entry>
-  <Entry key="ProgressIndicator_StartCommunicationHost">
-    Starting communication host
-  </Entry>
-  <Entry key="ProgressIndicator_StartEventHandling">
-    Starting event handling
-  </Entry>
-  <Entry key="ProgressIndicator_StartKeyboardInterception">
-    Starting keyboard interception
-  </Entry>
-  <Entry key="ProgressIndicator_StartMouseInterception">
-    Starting mouse interception
-  </Entry>
-  <Entry key="ProgressIndicator_StopClient">
-    Stopping client
-  </Entry>
-  <Entry key="ProgressIndicator_StopCommunicationHost">
-    Stopping communication host
-  </Entry>
-  <Entry key="ProgressIndicator_StopEventHandling">
-    Stopping event handling
-  </Entry>
-  <Entry key="ProgressIndicator_StopKeyboardInterception">
-    Stopping keyboard interception
-  </Entry>
-  <Entry key="ProgressIndicator_StopMouseInterception">
-    Stopping mouse interception
-  </Entry>
-  <Entry key="ProgressIndicator_StopProcessMonitoring">
-    Stopping process monitoring
-  </Entry>
-  <Entry key="ProgressIndicator_StopWindowMonitoring">
-    Stopping window monitoring
-  </Entry>
-  <Entry key="ProgressIndicator_TerminateBrowser">
-    Terminating browser
-  </Entry>
-  <Entry key="ProgressIndicator_TerminateTaskbar">
-    Terminating taskbar
-  </Entry>
-  <Entry key="ProgressIndicator_WaitExplorerStartup">
-    Waiting for Windows explorer to start up
-  </Entry>
-  <Entry key="ProgressIndicator_WaitExplorerTermination">
-    Waiting for Windows explorer to shut down
   </Entry>
   <Entry key="RuntimeWindow_ApplicationRunning">
     The application is running.

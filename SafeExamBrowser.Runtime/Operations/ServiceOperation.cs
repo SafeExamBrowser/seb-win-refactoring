@@ -36,7 +36,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		public OperationResult Perform()
 		{
 			logger.Info($"Initializing service session...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeServiceSession);
+			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeServiceSession);
 
 			mandatory = configuration.CurrentSettings.ServicePolicy == ServicePolicy.Mandatory;
 			connected = service.Connect();
@@ -74,7 +74,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		public void Revert()
 		{
 			logger.Info("Finalizing service session...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_FinalizeServiceSession);
+			StatusChanged?.Invoke(TextKey.OperationStatus_FinalizeServiceSession);
 
 			if (connected)
 			{

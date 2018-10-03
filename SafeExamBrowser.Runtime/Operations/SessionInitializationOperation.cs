@@ -53,7 +53,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		private void InitializeSessionConfiguration()
 		{
 			logger.Info("Initializing new session configuration...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeSession);
+			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeSession);
 
 			configuration.InitializeSessionConfiguration();
 			runtimeHost.StartupToken = configuration.CurrentSession.StartupToken;

@@ -45,7 +45,7 @@ namespace SafeExamBrowser.Client.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing browser...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeBrowser);
+			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeBrowser);
 
 			var browserButton = uiFactory.CreateApplicationButton(browserInfo);
 
@@ -65,7 +65,7 @@ namespace SafeExamBrowser.Client.Operations
 		public void Revert()
 		{
 			logger.Info("Terminating browser...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_TerminateBrowser);
+			StatusChanged?.Invoke(TextKey.OperationStatus_TerminateBrowser);
 
 			browserController.Terminate();
 		}

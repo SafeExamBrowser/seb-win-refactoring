@@ -51,7 +51,7 @@ namespace SafeExamBrowser.Communication.Proxies
 				return new CommunicationResult(true);
 			}
 
-			// TODO: Implement service communication
+			// Implement service communication...
 			// Send(new StartSessionMessage { Id = sessionId, Settings = settings });
 
 			throw new NotImplementedException();
@@ -64,7 +64,7 @@ namespace SafeExamBrowser.Communication.Proxies
 				return new CommunicationResult(true);
 			}
 
-			// TODO: Implement service communication
+			// Implement service communication...
 			// Send(new StopSessionMessage { SessionId = sessionId });
 
 			throw new NotImplementedException();

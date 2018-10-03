@@ -35,7 +35,7 @@ namespace SafeExamBrowser.Client.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing runtime connection...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeRuntimeConnection);
+			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeRuntimeConnection);
 
 			connected = runtime.Connect(token);
 
@@ -59,7 +59,7 @@ namespace SafeExamBrowser.Client.Operations
 		public void Revert()
 		{
 			logger.Info("Closing runtime connection...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_CloseRuntimeConnection);
+			StatusChanged?.Invoke(TextKey.OperationStatus_CloseRuntimeConnection);
 
 			if (connected)
 			{

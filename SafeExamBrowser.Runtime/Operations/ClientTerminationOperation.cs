@@ -43,7 +43,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (ClientProcess != null && !ClientProcess.HasTerminated)
 			{
-				StatusChanged?.Invoke(TextKey.ProgressIndicator_StopClient);
+				StatusChanged?.Invoke(TextKey.OperationStatus_StopClient);
 				success = TryStopClient();
 			}
 

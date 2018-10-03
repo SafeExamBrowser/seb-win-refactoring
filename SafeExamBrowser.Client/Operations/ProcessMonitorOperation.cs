@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Client.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing process monitoring...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeProcessMonitoring);
+			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeProcessMonitoring);
 
 			if (settings.KioskMode == KioskMode.DisableExplorerShell)
 			{
@@ -52,7 +52,7 @@ namespace SafeExamBrowser.Client.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping process monitoring...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_StopProcessMonitoring);
+			StatusChanged?.Invoke(TextKey.OperationStatus_StopProcessMonitoring);
 
 			if (settings.KioskMode == KioskMode.DisableExplorerShell)
 			{

@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Client.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing window monitoring...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeWindowMonitoring);
+			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeWindowMonitoring);
 
 			if (kioskMode == KioskMode.DisableExplorerShell)
 			{
@@ -57,7 +57,7 @@ namespace SafeExamBrowser.Client.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping window monitoring...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_StopWindowMonitoring);
+			StatusChanged?.Invoke(TextKey.OperationStatus_StopWindowMonitoring);
 
 			if (kioskMode != KioskMode.None)
 			{

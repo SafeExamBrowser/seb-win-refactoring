@@ -170,7 +170,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		//[TestCleanup]
 		//public void Cleanup()
 		//{
-		//	// TODO sut.Stop();
+		//	// sut.Stop();
 		//}
 	}
 }

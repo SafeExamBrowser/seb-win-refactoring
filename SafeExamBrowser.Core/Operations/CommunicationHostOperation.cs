@@ -35,7 +35,7 @@ namespace SafeExamBrowser.Core.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Starting communication host...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_StartCommunicationHost);
+			StatusChanged?.Invoke(TextKey.OperationStatus_StartCommunicationHost);
 
 			host.Start();
 
@@ -47,7 +47,7 @@ namespace SafeExamBrowser.Core.Operations
 			if (!host.IsRunning)
 			{
 				logger.Info("Restarting communication host...");
-				StatusChanged?.Invoke(TextKey.ProgressIndicator_RestartCommunicationHost);
+				StatusChanged?.Invoke(TextKey.OperationStatus_RestartCommunicationHost);
 
 				host.Stop();
 				host.Start();
@@ -59,7 +59,7 @@ namespace SafeExamBrowser.Core.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping communication host...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_StopCommunicationHost);
+			StatusChanged?.Invoke(TextKey.OperationStatus_StopCommunicationHost);
 
 			host.Stop();
 		}

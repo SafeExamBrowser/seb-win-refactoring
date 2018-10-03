@@ -47,7 +47,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing application configuration...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeConfiguration);
+			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeConfiguration);
 
 			var isValidUri = TryInitializeSettingsUri(out Uri uri);
 
@@ -72,7 +72,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		public OperationResult Repeat()
 		{
 			logger.Info("Initializing new application configuration...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeConfiguration);
+			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeConfiguration);
 
 			var isValidUri = TryValidateSettingsUri(configuration.ReconfigurationFilePath, out Uri uri);
 

@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Client.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing working area...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeWorkingArea);
+			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeWorkingArea);
 
 			displayMonitor.PreventSleepMode();
 			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
@@ -51,7 +51,7 @@ namespace SafeExamBrowser.Client.Operations
 		public void Revert()
 		{
 			logger.Info("Restoring working area...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_RestoreWorkingArea);
+			StatusChanged?.Invoke(TextKey.OperationStatus_RestoreWorkingArea);
 
 			displayMonitor.StopMonitoringDisplayChanges();
 			displayMonitor.ResetPrimaryDisplay();

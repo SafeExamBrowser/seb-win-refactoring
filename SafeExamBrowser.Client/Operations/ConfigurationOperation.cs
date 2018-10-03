@@ -35,7 +35,7 @@ namespace SafeExamBrowser.Client.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing application configuration...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeConfiguration);
+			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeConfiguration);
 
 			try
 			{

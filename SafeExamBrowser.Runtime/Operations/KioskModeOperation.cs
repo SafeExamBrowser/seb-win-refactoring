@@ -49,7 +49,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			kioskMode = configuration.CurrentSettings.KioskMode;
 
 			logger.Info($"Initializing kiosk mode '{kioskMode}'...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeKioskMode);
+			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeKioskMode);
 
 			switch (kioskMode)
 			{
@@ -87,7 +87,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		public void Revert()
 		{
 			logger.Info($"Reverting kiosk mode '{kioskMode}'...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_RevertKioskMode);
+			StatusChanged?.Invoke(TextKey.OperationStatus_RevertKioskMode);
 
 			switch (kioskMode)
 			{
@@ -143,13 +143,13 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private void TerminateExplorerShell()
 		{
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_WaitExplorerTermination);
+			StatusChanged?.Invoke(TextKey.OperationStatus_WaitExplorerTermination);
 			explorerShell.Terminate();
 		}
 
 		private void RestartExplorerShell()
 		{
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_WaitExplorerStartup);
+			StatusChanged?.Invoke(TextKey.OperationStatus_WaitExplorerStartup);
 			explorerShell.Start();
 		}
 	}

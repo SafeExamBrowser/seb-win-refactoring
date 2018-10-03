@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Client.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Starting mouse interception...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_StartMouseInterception);
+			StatusChanged?.Invoke(TextKey.OperationStatus_StartMouseInterception);
 
 			nativeMethods.RegisterMouseHook(mouseInterceptor);
 
@@ -52,7 +52,7 @@ namespace SafeExamBrowser.Client.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping mouse interception...");
-			StatusChanged?.Invoke(TextKey.ProgressIndicator_StopMouseInterception);
+			StatusChanged?.Invoke(TextKey.OperationStatus_StopMouseInterception);
 
 			nativeMethods.DeregisterMouseHook(mouseInterceptor);
 		}
