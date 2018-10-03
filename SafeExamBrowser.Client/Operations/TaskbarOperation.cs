@@ -6,10 +6,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Core;
-using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Core;
+using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
@@ -32,7 +33,8 @@ namespace SafeExamBrowser.Client.Operations
 		private IUserInterfaceFactory uiFactory;
 		private IText text;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged;
 
 		public TaskbarOperation(
 			ILogger logger,
@@ -63,7 +65,7 @@ namespace SafeExamBrowser.Client.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing taskbar...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeTaskbar);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeTaskbar);
 
 			if (settings.AllowApplicationLog)
 			{
@@ -96,7 +98,7 @@ namespace SafeExamBrowser.Client.Operations
 		public void Revert()
 		{
 			logger.Info("Terminating taskbar...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_TerminateTaskbar);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_TerminateTaskbar);
 
 			if (settings.AllowApplicationLog)
 			{

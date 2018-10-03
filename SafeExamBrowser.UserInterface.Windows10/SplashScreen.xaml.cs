@@ -75,14 +75,14 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			Dispatcher.Invoke(base.Show);
 		}
 
-		public void Progress(int amount = 1)
+		public void Progress()
 		{
-			model.CurrentProgress += amount;
+			model.CurrentProgress += 1;
 		}
 
-		public void Regress(int amount = 1)
+		public void Regress()
 		{
-			model.CurrentProgress -= amount;
+			model.CurrentProgress -= 1;
 		}
 
 		public void SetIndeterminate()

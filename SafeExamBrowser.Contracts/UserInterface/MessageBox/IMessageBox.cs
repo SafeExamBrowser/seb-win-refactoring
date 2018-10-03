@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.UserInterface.Windows;
 
 namespace SafeExamBrowser.Contracts.UserInterface.MessageBox
 {
@@ -18,11 +19,11 @@ namespace SafeExamBrowser.Contracts.UserInterface.MessageBox
 		/// <summary>
 		/// Shows a message box according to the specified parameters and returns the result chosen by the user.
 		/// </summary>
-		MessageBoxResult Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information);
+		MessageBoxResult Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null);
 
 		/// <summary>
 		/// Shows a message box according to the specified parameters and returns the result chosen by the user.
 		/// </summary>
-		MessageBoxResult Show(TextKey message, TextKey title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information);
+		MessageBoxResult Show(TextKey message, TextKey title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null);
 	}
 }

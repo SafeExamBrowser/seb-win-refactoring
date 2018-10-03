@@ -8,17 +8,14 @@
 
 using System;
 using System.IO;
-using System.Threading;
-using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Communication.Data;
-using SafeExamBrowser.Contracts.Communication.Events;
-using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Contracts.UserInterface.MessageBox;
+using SafeExamBrowser.Runtime.Operations.Events;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
@@ -26,42 +23,31 @@ namespace SafeExamBrowser.Runtime.Operations
 	{
 		private IConfigurationRepository configuration;
 		private ILogger logger;
-		private IMessageBox messageBox;
 		private IResourceLoader resourceLoader;
-		private IRuntimeHost runtimeHost;
 		private AppConfig appConfig;
-		private IText text;
-		private IUserInterfaceFactory uiFactory;
 		private string[] commandLineArgs;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired;
+		public event StatusChangedEventHandler StatusChanged;
 
 		public ConfigurationOperation(
 			AppConfig appConfig,
 			IConfigurationRepository configuration,
 			ILogger logger,
-			IMessageBox messageBox,
 			IResourceLoader resourceLoader,
-			IRuntimeHost runtimeHost,
-			IText text,
-			IUserInterfaceFactory uiFactory,
 			string[] commandLineArgs)
 		{
 			this.appConfig = appConfig;
 			this.logger = logger;
-			this.messageBox = messageBox;
 			this.configuration = configuration;
 			this.resourceLoader = resourceLoader;
-			this.runtimeHost = runtimeHost;
-			this.text = text;
-			this.uiFactory = uiFactory;
 			this.commandLineArgs = commandLineArgs;
 		}
 
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing application configuration...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeConfiguration);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeConfiguration);
 
 			var isValidUri = TryInitializeSettingsUri(out Uri uri);
 
@@ -86,7 +72,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		public OperationResult Repeat()
 		{
 			logger.Info("Initializing new application configuration...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeConfiguration);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeConfiguration);
 
 			var isValidUri = TryValidateSettingsUri(configuration.ReconfigurationFilePath, out Uri uri);
 
@@ -123,18 +109,17 @@ namespace SafeExamBrowser.Runtime.Operations
 
 				if (status == LoadStatus.AdminPasswordNeeded || status == LoadStatus.SettingsPasswordNeeded)
 				{
-					var purpose = status == LoadStatus.AdminPasswordNeeded ? PasswordRequestPurpose.Administrator : PasswordRequestPurpose.Settings;
-					var aborted = !TryGetPassword(purpose, out string password);
+					var result = TryGetPassword(status);
 
-					adminAttempts += purpose == PasswordRequestPurpose.Administrator ? 1 : 0;
-					adminPassword = purpose == PasswordRequestPurpose.Administrator ? password : adminPassword;
-					settingsAttempts += purpose == PasswordRequestPurpose.Settings ? 1 : 0;
-					settingsPassword = purpose == PasswordRequestPurpose.Settings ? password : settingsPassword;
-
-					if (aborted)
+					if (!result.Success)
 					{
 						return OperationResult.Aborted;
 					}
+
+					adminAttempts += status == LoadStatus.AdminPasswordNeeded ? 1 : 0;
+					adminPassword = status == LoadStatus.AdminPasswordNeeded ? result.Password : adminPassword;
+					settingsAttempts += status == LoadStatus.SettingsPasswordNeeded ? 1 : 0;
+					settingsPassword = status == LoadStatus.SettingsPasswordNeeded ? result.Password : settingsPassword;
 				}
 				else
 				{
@@ -150,64 +135,14 @@ namespace SafeExamBrowser.Runtime.Operations
 			return status == LoadStatus.Success ? OperationResult.Success : OperationResult.Failed;
 		}
 
-		private bool TryGetPassword(PasswordRequestPurpose purpose, out string password)
+		private PasswordRequiredEventArgs TryGetPassword(LoadStatus status)
 		{
-			var isStartup = configuration.CurrentSession == null;
-			var isRunningOnDefaultDesktop = configuration.CurrentSettings?.KioskMode == KioskMode.DisableExplorerShell;
+			var purpose = status == LoadStatus.AdminPasswordNeeded ? PasswordRequestPurpose.Administrator : PasswordRequestPurpose.Settings;
+			var args = new PasswordRequiredEventArgs { Purpose = purpose };
 
-			if (isStartup || isRunningOnDefaultDesktop)
-			{
-				return TryGetPasswordViaDialog(purpose, out password);
-			}
-			else
-			{
-				return TryGetPasswordViaClient(purpose, out password);
-			}
-		}
+			ActionRequired?.Invoke(args);
 
-		private bool TryGetPasswordViaDialog(PasswordRequestPurpose purpose, out string password)
-		{
-			var isAdmin = purpose == PasswordRequestPurpose.Administrator;
-			var message = isAdmin ? TextKey.PasswordDialog_AdminPasswordRequired : TextKey.PasswordDialog_SettingsPasswordRequired;
-			var title = isAdmin ? TextKey.PasswordDialog_AdminPasswordRequiredTitle : TextKey.PasswordDialog_SettingsPasswordRequiredTitle;
-			var dialog = uiFactory.CreatePasswordDialog(text.Get(message), text.Get(title));
-			var result = dialog.Show();
-			var success = result.Success;
-
-			password = success ? result.Password : default(string);
-
-			return success;
-		}
-
-		private bool TryGetPasswordViaClient(PasswordRequestPurpose purpose, out string password)
-		{
-			var requestId = Guid.NewGuid();
-			var response = default(PasswordReplyEventArgs);
-			var responseEvent = new AutoResetEvent(false);
-			var responseEventHandler = new CommunicationEventHandler<PasswordReplyEventArgs>((args) =>
-			{
-				if (args.RequestId == requestId)
-				{
-					response = args;
-					responseEvent.Set();
-				}
-			});
-
-			runtimeHost.PasswordReceived += responseEventHandler;
-
-			var communication = configuration.CurrentSession.ClientProxy.RequestPassword(purpose, requestId);
-
-			if (communication.Success)
-			{
-				responseEvent.WaitOne();
-			}
-
-			var success = response?.Success == true;
-
-			runtimeHost.PasswordReceived -= responseEventHandler;
-			password = success ? response.Password : default(string);
-
-			return success;
+			return args;
 		}
 
 		private void HandleInvalidData(ref LoadStatus status, Uri uri)
@@ -273,24 +208,17 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			if (result == OperationResult.Success && configuration.CurrentSettings.ConfigurationMode == ConfigurationMode.ConfigureClient)
 			{
-				var abort = IsConfigurationSufficient();
+				var args = new ConfigurationCompletedEventArgs();
 
-				logger.Info($"The user chose to {(abort ? "abort" : "continue")} after successful client configuration.");
+				ActionRequired?.Invoke(args);
 
-				if (abort)
+				logger.Info($"The user chose to {(args.AbortStartup ? "abort" : "continue")} after successful client configuration.");
+
+				if (args.AbortStartup)
 				{
 					result = OperationResult.Aborted;
 				}
 			}
-		}
-
-		private bool IsConfigurationSufficient()
-		{
-			var message = text.Get(TextKey.MessageBox_ClientConfigurationQuestion);
-			var title = text.Get(TextKey.MessageBox_ClientConfigurationQuestionTitle);
-			var abort = messageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question);
-
-			return abort == MessageBoxResult.Yes;
 		}
 
 		private void LogOperationResult(OperationResult result)

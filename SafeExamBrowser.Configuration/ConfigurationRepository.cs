@@ -88,7 +88,7 @@ namespace SafeExamBrowser.Configuration
 
 			CurrentSettings = new Settings();
 
-			CurrentSettings.KioskMode = KioskMode.CreateNewDesktop;
+			CurrentSettings.KioskMode = KioskMode.None;
 			CurrentSettings.ServicePolicy = ServicePolicy.Optional;
 
 			CurrentSettings.Browser.StartUrl = "https://www.safeexambrowser.org/testing";

@@ -7,6 +7,8 @@
  */
 
 using System;
+using System.Threading;
+using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
@@ -14,11 +16,13 @@ using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
+using SafeExamBrowser.Runtime.Operations.Events;
 
 namespace SafeExamBrowser.Runtime
 {
@@ -37,6 +41,7 @@ namespace SafeExamBrowser.Runtime
 		private IServiceProxy service;
 		private ISplashScreen splashScreen;
 		private Action shutdown;
+		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		
 		public RuntimeController(
@@ -49,6 +54,7 @@ namespace SafeExamBrowser.Runtime
 			IRuntimeHost runtimeHost,
 			IServiceProxy service,
 			Action shutdown,
+			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
@@ -60,6 +66,7 @@ namespace SafeExamBrowser.Runtime
 			this.sessionSequence = sessionSequence;
 			this.service = service;
 			this.shutdown = shutdown;
+			this.text = text;
 			this.uiFactory = uiFactory;
 		}
 
@@ -70,8 +77,11 @@ namespace SafeExamBrowser.Runtime
 			runtimeWindow = uiFactory.CreateRuntimeWindow(appConfig);
 			splashScreen = uiFactory.CreateSplashScreen(appConfig);
 
-			bootstrapSequence.ProgressIndicator = splashScreen;
-			sessionSequence.ProgressIndicator = runtimeWindow;
+			bootstrapSequence.ProgressChanged += BootstrapSequence_ProgressChanged;
+			bootstrapSequence.StatusChanged += BootstrapSequence_StatusChanged;
+			sessionSequence.ActionRequired += SessionSequence_ActionRequired;
+			sessionSequence.ProgressChanged += SessionSequence_ProgressChanged;
+			sessionSequence.StatusChanged += SessionSequence_StatusChanged;
 
 			splashScreen.Show();
 
@@ -93,7 +103,7 @@ namespace SafeExamBrowser.Runtime
 				logger.Info("Application startup aborted!");
 				logger.Log(string.Empty);
 
-				messageBox.Show(TextKey.MessageBox_StartupError, TextKey.MessageBox_StartupErrorTitle, icon: MessageBoxIcon.Error);
+				messageBox.Show(TextKey.MessageBox_StartupError, TextKey.MessageBox_StartupErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
 			}
 
 			return initialized && sessionRunning;
@@ -128,7 +138,7 @@ namespace SafeExamBrowser.Runtime
 				logger.Info("Shutdown procedure failed!");
 				logger.Log(string.Empty);
 
-				messageBox.Show(TextKey.MessageBox_ShutdownError, TextKey.MessageBox_ShutdownErrorTitle, icon: MessageBoxIcon.Error);
+				messageBox.Show(TextKey.MessageBox_ShutdownError, TextKey.MessageBox_ShutdownErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
 			}
 
 			splashScreen?.Close();
@@ -171,7 +181,7 @@ namespace SafeExamBrowser.Runtime
 				if (result == OperationResult.Failed)
 				{
 					// TODO: Check if message box is rendered on new desktop as well! -> E.g. if settings for reconfiguration are invalid
-					messageBox.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error);
+					messageBox.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
 
 					if (!initial)
 					{
@@ -201,7 +211,7 @@ namespace SafeExamBrowser.Runtime
 			else
 			{
 				logger.Info("### --- Session Stop Failed --- ###");
-				messageBox.Show(TextKey.MessageBox_SessionStopError, TextKey.MessageBox_SessionStopErrorTitle, icon: MessageBoxIcon.Error);
+				messageBox.Show(TextKey.MessageBox_SessionStopError, TextKey.MessageBox_SessionStopErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
 			}
 		}
 
@@ -229,10 +239,44 @@ namespace SafeExamBrowser.Runtime
 			configuration.CurrentSession.ClientProxy.ConnectionLost -= Client_ConnectionLost;
 		}
 
+		private void BootstrapSequence_ProgressChanged(ProgressChangedEventArgs args)
+		{
+			// TODO: Duplicated code (for splashScreen as well as runtimeWindow)!
+			if (args.CurrentValue.HasValue)
+			{
+				splashScreen?.SetValue(args.CurrentValue.Value);
+			}
+
+			if (args.IsIndeterminate == true)
+			{
+				splashScreen?.SetIndeterminate();
+			}
+
+			if (args.MaxValue.HasValue)
+			{
+				splashScreen?.SetMaxValue(args.MaxValue.Value);
+			}
+
+			if (args.Progress == true)
+			{
+				splashScreen?.Progress();
+			}
+
+			if (args.Regress == true)
+			{
+				splashScreen?.Regress();
+			}
+		}
+
+		private void BootstrapSequence_StatusChanged(TextKey status)
+		{
+			splashScreen?.UpdateText(status);
+		}
+
 		private void ClientProcess_Terminated(int exitCode)
 		{
 			logger.Error($"Client application has unexpectedly terminated with exit code {exitCode}!");
-			// TODO: Check if message box is rendered on new desktop as well -> otherwise shutdown is blocked!
+			// TODO: Check if message box is rendered on new desktop as well -> otherwise shutdown is blocked! Check if parent needed!
 			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
 
 			shutdown.Invoke();
@@ -241,7 +285,7 @@ namespace SafeExamBrowser.Runtime
 		private void Client_ConnectionLost()
 		{
 			logger.Error("Lost connection to the client application!");
-			// TODO: Check if message box is rendered on new desktop as well -> otherwise shutdown is blocked!
+			// TODO: Check if message box is rendered on new desktop as well -> otherwise shutdown is blocked! Check if parent needed!
 			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
 
 			shutdown.Invoke();
@@ -269,6 +313,121 @@ namespace SafeExamBrowser.Runtime
 		{
 			logger.Info("Received shutdown request from the client application.");
 			shutdown.Invoke();
+		}
+
+		private void SessionSequence_ActionRequired(ActionRequiredEventArgs args)
+		{
+			switch (args)
+			{
+				case ConfigurationCompletedEventArgs a:
+					AskIfConfigurationSufficient(a);
+					break;
+				case PasswordRequiredEventArgs p:
+					AskForPassword(p);
+					break;
+			}
+		}
+
+		private void AskIfConfigurationSufficient(ConfigurationCompletedEventArgs args)
+		{
+			var message = TextKey.MessageBox_ClientConfigurationQuestion;
+			var title = TextKey.MessageBox_ClientConfigurationQuestionTitle;
+			var result = messageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question, runtimeWindow);
+
+			args.AbortStartup = result == MessageBoxResult.Yes;
+		}
+
+		private void AskForPassword(PasswordRequiredEventArgs args)
+		{
+			var isStartup = configuration.CurrentSession == null;
+			var isRunningOnDefaultDesktop = configuration.CurrentSettings?.KioskMode == KioskMode.DisableExplorerShell;
+
+			if (isStartup || isRunningOnDefaultDesktop)
+			{
+				TryGetPasswordViaDialog(args);
+			}
+			else
+			{
+				TryGetPasswordViaClient(args);
+			}
+		}
+
+		private void TryGetPasswordViaDialog(PasswordRequiredEventArgs args)
+		{
+			var isAdmin = args.Purpose == PasswordRequestPurpose.Administrator;
+			var message = isAdmin ? TextKey.PasswordDialog_AdminPasswordRequired : TextKey.PasswordDialog_SettingsPasswordRequired;
+			var title = isAdmin ? TextKey.PasswordDialog_AdminPasswordRequiredTitle : TextKey.PasswordDialog_SettingsPasswordRequiredTitle;
+			var dialog = uiFactory.CreatePasswordDialog(text.Get(message), text.Get(title));
+			var result = dialog.Show(runtimeWindow);
+
+			args.Password = result.Password;
+			args.Success = result.Success;
+		}
+
+		private void TryGetPasswordViaClient(PasswordRequiredEventArgs args)
+		{
+			var requestId = Guid.NewGuid();
+			var response = default(PasswordReplyEventArgs);
+			var responseEvent = new AutoResetEvent(false);
+			var responseEventHandler = new CommunicationEventHandler<PasswordReplyEventArgs>((a) =>
+			{
+				if (a.RequestId == requestId)
+				{
+					response = a;
+					responseEvent.Set();
+				}
+			});
+
+			runtimeHost.PasswordReceived += responseEventHandler;
+
+			var communication = configuration.CurrentSession.ClientProxy.RequestPassword(args.Purpose, requestId);
+
+			if (communication.Success)
+			{
+				responseEvent.WaitOne();
+				args.Password = response.Password;
+				args.Success = response.Success;
+			}
+			else
+			{
+				args.Password = default(string);
+				args.Success = false;
+			}
+
+			runtimeHost.PasswordReceived -= responseEventHandler;
+		}
+
+		private void SessionSequence_ProgressChanged(ProgressChangedEventArgs args)
+		{
+			if (args.CurrentValue.HasValue)
+			{
+				runtimeWindow?.SetValue(args.CurrentValue.Value);
+			}
+
+			if (args.IsIndeterminate == true)
+			{
+				runtimeWindow?.SetIndeterminate();
+			}
+
+			if (args.MaxValue.HasValue)
+			{
+				runtimeWindow?.SetMaxValue(args.MaxValue.Value);
+			}
+
+			if (args.Progress == true)
+			{
+				runtimeWindow?.Progress();
+			}
+
+			if (args.Regress == true)
+			{
+				runtimeWindow?.Regress();
+			}
+		}
+
+		private void SessionSequence_StatusChanged(TextKey status)
+		{
+			runtimeWindow?.UpdateText(status);
 		}
 	}
 }

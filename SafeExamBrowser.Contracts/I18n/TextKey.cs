@@ -50,6 +50,7 @@ namespace SafeExamBrowser.Contracts.I18n
 		PasswordDialog_Confirm,
 		PasswordDialog_SettingsPasswordRequired,
 		PasswordDialog_SettingsPasswordRequiredTitle,
+		// TODO: Rename these...
 		ProgressIndicator_CloseRuntimeConnection,
 		ProgressIndicator_EmptyClipboard,
 		ProgressIndicator_FinalizeServiceSession,

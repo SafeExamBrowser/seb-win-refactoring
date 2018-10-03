@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.ComponentModel;
 using System.IO;
 using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Communication.Data;
@@ -18,6 +17,7 @@ using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
@@ -97,7 +97,8 @@ namespace SafeExamBrowser.Client
 			logger.Info("Initiating startup procedure...");
 
 			splashScreen = uiFactory.CreateSplashScreen();
-			operations.ProgressIndicator = splashScreen;
+			operations.ProgressChanged += Operations_ProgressChanged;
+			operations.StatusChanged += Operations_StatusChanged;
 
 			var success = operations.TryPerform() == OperationResult.Success;
 
@@ -276,6 +277,39 @@ namespace SafeExamBrowser.Client
 			shutdown.Invoke();
 		}
 
+		private void Operations_ProgressChanged(ProgressChangedEventArgs args)
+		{
+			if (args.CurrentValue.HasValue)
+			{
+				splashScreen?.SetValue(args.CurrentValue.Value);
+			}
+
+			if (args.IsIndeterminate == true)
+			{
+				splashScreen?.SetIndeterminate();
+			}
+
+			if (args.MaxValue.HasValue)
+			{
+				splashScreen?.SetMaxValue(args.MaxValue.Value);
+			}
+
+			if (args.Progress == true)
+			{
+				splashScreen?.Progress();
+			}
+
+			if (args.Regress == true)
+			{
+				splashScreen?.Regress();
+			}
+		}
+
+		private void Operations_StatusChanged(TextKey status)
+		{
+			splashScreen?.UpdateText(status);
+		}
+
 		private void Runtime_ConnectionLost()
 		{
 			logger.Error("Lost connection to the runtime!");
@@ -285,7 +319,7 @@ namespace SafeExamBrowser.Client
 			shutdown.Invoke();
 		}
 
-		private void Taskbar_QuitButtonClicked(CancelEventArgs args)
+		private void Taskbar_QuitButtonClicked(System.ComponentModel.CancelEventArgs args)
 		{
 			var result = messageBox.Show(TextKey.MessageBox_Quit, TextKey.MessageBox_QuitTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
 

@@ -7,9 +7,9 @@
  */
 
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Client.Operations
@@ -19,7 +19,8 @@ namespace SafeExamBrowser.Client.Operations
 		private ILogger logger;
 		private INativeMethods nativeMethods;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged;
 
 		public ClipboardOperation(ILogger logger, INativeMethods nativeMethods)
 		{
@@ -47,7 +48,7 @@ namespace SafeExamBrowser.Client.Operations
 		private void EmptyClipboard()
 		{
 			logger.Info("Emptying clipboard...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_EmptyClipboard);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_EmptyClipboard);
 
 			nativeMethods.EmptyClipboard();
 		}

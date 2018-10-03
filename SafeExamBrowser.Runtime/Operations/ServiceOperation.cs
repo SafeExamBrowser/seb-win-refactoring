@@ -10,9 +10,9 @@ using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
@@ -23,7 +23,8 @@ namespace SafeExamBrowser.Runtime.Operations
 		private ILogger logger;
 		private IServiceProxy service;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged;
 
 		public ServiceOperation(IConfigurationRepository configuration, ILogger logger, IServiceProxy service)
 		{
@@ -35,7 +36,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		public OperationResult Perform()
 		{
 			logger.Info($"Initializing service session...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeServiceSession);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeServiceSession);
 
 			mandatory = configuration.CurrentSettings.ServicePolicy == ServicePolicy.Mandatory;
 			connected = service.Connect();
@@ -73,7 +74,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		public void Revert()
 		{
 			logger.Info("Finalizing service session...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_FinalizeServiceSession);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_FinalizeServiceSession);
 
 			if (connected)
 			{

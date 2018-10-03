@@ -7,12 +7,12 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Client.Operations
 {
@@ -22,7 +22,8 @@ namespace SafeExamBrowser.Client.Operations
 		private ILogger logger;
 		private IRuntimeProxy runtime;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged;
 
 		public ConfigurationOperation(ClientConfiguration configuration, ILogger logger, IRuntimeProxy runtime)
 		{
@@ -34,7 +35,7 @@ namespace SafeExamBrowser.Client.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing application configuration...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeConfiguration);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeConfiguration);
 
 			try
 			{

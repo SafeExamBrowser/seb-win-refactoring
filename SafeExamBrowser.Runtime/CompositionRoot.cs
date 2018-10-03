@@ -71,7 +71,7 @@ namespace SafeExamBrowser.Runtime
 			bootstrapOperations.Enqueue(new I18nOperation(logger, text, textResource));
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(runtimeHost, logger));
 
-			sessionOperations.Enqueue(new ConfigurationOperation(appConfig, configuration, logger, messageBox, resourceLoader, runtimeHost, text, uiFactory, args));
+			sessionOperations.Enqueue(new ConfigurationOperation(appConfig, configuration, logger, resourceLoader, args));
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost));
 			sessionOperations.Enqueue(new ServiceOperation(configuration, logger, serviceProxy));
 			sessionOperations.Enqueue(new ClientTerminationOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, FIFTEEN_SECONDS));
@@ -81,7 +81,7 @@ namespace SafeExamBrowser.Runtime
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new OperationSequence(logger, sessionOperations);
 
-			RuntimeController = new RuntimeController(appConfig, configuration, logger, messageBox, bootstrapSequence, sessionSequence, runtimeHost, serviceProxy, shutdown, uiFactory);
+			RuntimeController = new RuntimeController(appConfig, configuration, logger, messageBox, bootstrapSequence, sessionSequence, runtimeHost, serviceProxy, shutdown, text, uiFactory);
 		}
 
 		internal void LogStartupInformation()

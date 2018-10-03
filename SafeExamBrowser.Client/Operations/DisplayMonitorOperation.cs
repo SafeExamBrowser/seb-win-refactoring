@@ -7,10 +7,10 @@
  */
 
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
 namespace SafeExamBrowser.Client.Operations
@@ -21,7 +21,8 @@ namespace SafeExamBrowser.Client.Operations
 		private ILogger logger;
 		private ITaskbar taskbar;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged;
 
 		public DisplayMonitorOperation(IDisplayMonitor displayMonitor, ILogger logger, ITaskbar taskbar)
 		{
@@ -33,7 +34,7 @@ namespace SafeExamBrowser.Client.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing working area...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeWorkingArea);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeWorkingArea);
 
 			displayMonitor.PreventSleepMode();
 			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
@@ -50,7 +51,7 @@ namespace SafeExamBrowser.Client.Operations
 		public void Revert()
 		{
 			logger.Info("Restoring working area...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_RestoreWorkingArea);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_RestoreWorkingArea);
 
 			displayMonitor.StopMonitoringDisplayChanges();
 			displayMonitor.ResetPrimaryDisplay();

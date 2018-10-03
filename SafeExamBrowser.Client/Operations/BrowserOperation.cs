@@ -9,6 +9,7 @@
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -24,7 +25,8 @@ namespace SafeExamBrowser.Client.Operations
 		private ITaskbar taskbar;
 		private IUserInterfaceFactory uiFactory;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged;
 
 		public BrowserOperation(
 			IApplicationController browserController,
@@ -43,7 +45,7 @@ namespace SafeExamBrowser.Client.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing browser...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeBrowser, true);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeBrowser);
 
 			var browserButton = uiFactory.CreateApplicationButton(browserInfo);
 
@@ -63,7 +65,7 @@ namespace SafeExamBrowser.Client.Operations
 		public void Revert()
 		{
 			logger.Info("Terminating browser...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_TerminateBrowser, true);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_TerminateBrowser);
 
 			browserController.Terminate();
 		}

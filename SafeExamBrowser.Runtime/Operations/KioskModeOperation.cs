@@ -9,9 +9,9 @@
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Runtime.Operations
@@ -27,7 +27,8 @@ namespace SafeExamBrowser.Runtime.Operations
 		private IDesktop newDesktop;
 		private IDesktop originalDesktop;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged;
 
 		public KioskModeOperation(
 			IConfigurationRepository configuration,
@@ -48,7 +49,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			kioskMode = configuration.CurrentSettings.KioskMode;
 
 			logger.Info($"Initializing kiosk mode '{kioskMode}'...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeKioskMode);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeKioskMode);
 
 			switch (kioskMode)
 			{
@@ -86,7 +87,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		public void Revert()
 		{
 			logger.Info($"Reverting kiosk mode '{kioskMode}'...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_RevertKioskMode);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_RevertKioskMode);
 
 			switch (kioskMode)
 			{
@@ -142,13 +143,13 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private void TerminateExplorerShell()
 		{
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_WaitExplorerTermination, true);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_WaitExplorerTermination);
 			explorerShell.Terminate();
 		}
 
 		private void RestartExplorerShell()
 		{
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_WaitExplorerStartup, true);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_WaitExplorerStartup);
 			explorerShell.Start();
 		}
 	}

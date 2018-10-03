@@ -16,14 +16,14 @@ namespace SafeExamBrowser.Contracts.UserInterface
 	public interface IProgressIndicator
 	{
 		/// <summary>
-		/// Updates the progress value according to the specified amount.
+		/// Increases the current progress value by 1.
 		/// </summary>
-		void Progress(int amount = 1);
+		void Progress();
 
 		/// <summary>
-		/// Regresses the progress value according to the specified amount.
+		/// Decreases the current progress value by 1.
 		/// </summary>
-		void Regress(int amount = 1);
+		void Regress();
 
 		/// <summary>
 		/// Sets the style of the progress indicator to indeterminate (<c>Progress</c> and <c>Regress</c> won't have any effect when called).
@@ -42,6 +42,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 
 		/// <summary>
 		/// Updates the status text. If the busy flag is set, an animation will be shown to indicate a long-running operation.
+		/// TODO: Automatically show busy indication in implementations after e.g. 2 seconds!
 		/// </summary>
 		void UpdateText(TextKey key, bool showBusyIndication = false);
 	}

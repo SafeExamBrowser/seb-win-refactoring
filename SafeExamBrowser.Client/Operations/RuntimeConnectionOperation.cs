@@ -7,11 +7,11 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Communication.Proxies;
+using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Client.Operations
 {
@@ -22,7 +22,8 @@ namespace SafeExamBrowser.Client.Operations
 		private IRuntimeProxy runtime;
 		private Guid token;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged;
 
 		public RuntimeConnectionOperation(ILogger logger, IRuntimeProxy runtime, Guid token)
 		{
@@ -34,7 +35,7 @@ namespace SafeExamBrowser.Client.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing runtime connection...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeRuntimeConnection);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeRuntimeConnection);
 
 			connected = runtime.Connect(token);
 
@@ -58,7 +59,7 @@ namespace SafeExamBrowser.Client.Operations
 		public void Revert()
 		{
 			logger.Info("Closing runtime connection...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_CloseRuntimeConnection);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_CloseRuntimeConnection);
 
 			if (connected)
 			{

@@ -9,9 +9,9 @@
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
@@ -21,7 +21,8 @@ namespace SafeExamBrowser.Runtime.Operations
 		private ILogger logger;
 		private IRuntimeHost runtimeHost;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged;
 
 		public SessionInitializationOperation(IConfigurationRepository configuration, ILogger logger, IRuntimeHost runtimeHost)
 		{
@@ -52,7 +53,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		private void InitializeSessionConfiguration()
 		{
 			logger.Info("Initializing new session configuration...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeSession, true);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeSession);
 
 			configuration.InitializeSessionConfiguration();
 			runtimeHost.StartupToken = configuration.CurrentSession.StartupToken;

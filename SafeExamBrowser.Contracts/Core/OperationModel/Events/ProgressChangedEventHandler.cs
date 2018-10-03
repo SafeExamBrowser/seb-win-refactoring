@@ -6,13 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.UserInterface.Windows;
-
-namespace SafeExamBrowser.Runtime.UnitTests.Operations
+namespace SafeExamBrowser.Contracts.Core.OperationModel.Events
 {
-	internal class PasswordDialogResultStub : IPasswordDialogResult
-	{
-		public string Password { get; set; }
-		public bool Success { get; set; }
-	}
+	/// <summary>
+	/// Event handler used to indicate that the progress of an <see cref="IOperationSequence"/> has changed.
+	/// </summary>
+	public delegate void ProgressChangedEventHandler(ProgressChangedEventArgs args);
 }

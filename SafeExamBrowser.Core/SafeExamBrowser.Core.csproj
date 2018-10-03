@@ -54,6 +54,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OperationModel\QueueExtensions.cs" />
     <Compile Include="Operations\CommunicationHostOperation.cs" />
     <Compile Include="Operations\LazyInitializationOperation.cs" />
     <Compile Include="Operations\I18nOperation.cs" />

@@ -6,12 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Client.Operations
 {
@@ -21,7 +21,8 @@ namespace SafeExamBrowser.Client.Operations
 		private IProcessMonitor processMonitor;
 		private Settings settings;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged;
 
 		public ProcessMonitorOperation(ILogger logger, IProcessMonitor processMonitor, Settings settings)
 		{
@@ -33,7 +34,7 @@ namespace SafeExamBrowser.Client.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing process monitoring...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeProcessMonitoring);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeProcessMonitoring);
 
 			if (settings.KioskMode == KioskMode.DisableExplorerShell)
 			{
@@ -51,7 +52,7 @@ namespace SafeExamBrowser.Client.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping process monitoring...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StopProcessMonitoring);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_StopProcessMonitoring);
 
 			if (settings.KioskMode == KioskMode.DisableExplorerShell)
 			{

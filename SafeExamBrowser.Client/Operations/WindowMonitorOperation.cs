@@ -8,10 +8,10 @@
 
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Client.Operations
 {
@@ -21,7 +21,8 @@ namespace SafeExamBrowser.Client.Operations
 		private ILogger logger;
 		private IWindowMonitor windowMonitor;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged;
 
 		public WindowMonitorOperation(KioskMode kioskMode, ILogger logger, IWindowMonitor windowMonitor)
 		{
@@ -33,7 +34,7 @@ namespace SafeExamBrowser.Client.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Initializing window monitoring...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_InitializeWindowMonitoring);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_InitializeWindowMonitoring);
 
 			if (kioskMode == KioskMode.DisableExplorerShell)
 			{
@@ -56,7 +57,7 @@ namespace SafeExamBrowser.Client.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping window monitoring...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StopWindowMonitoring);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_StopWindowMonitoring);
 
 			if (kioskMode != KioskMode.None)
 			{

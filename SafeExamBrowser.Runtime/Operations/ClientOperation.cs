@@ -12,9 +12,9 @@ using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.WindowsApi;
 using SafeExamBrowser.Contracts.WindowsApi.Events;
 
@@ -30,7 +30,8 @@ namespace SafeExamBrowser.Runtime.Operations
 		protected IProxyFactory proxyFactory;
 		protected IRuntimeHost runtimeHost;
 
-		public IProgressIndicator ProgressIndicator { protected get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged;
 
 		protected IProcess ClientProcess
 		{
@@ -62,7 +63,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public virtual OperationResult Perform()
 		{
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StartClient, true);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_StartClient);
 
 			var success = TryStartClient();
 
@@ -87,7 +88,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			if (ClientProcess != null && !ClientProcess.HasTerminated)
 			{
-				ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StopClient, true);
+				StatusChanged?.Invoke(TextKey.ProgressIndicator_StopClient);
 				TryStopClient();
 			}
 		}

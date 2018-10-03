@@ -12,7 +12,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Core.OperationModel;
 
 namespace SafeExamBrowser.Core.UnitTests.OperationModel
@@ -251,10 +250,8 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 		public void MustNotFailInCaseOfUnexpectedError()
 		{
 			var sut = new OperationSequence(loggerMock.Object, new Queue<IOperation>());
-			var indicatorMock = new Mock<IProgressIndicator>();
 
-			indicatorMock.Setup(i => i.SetMaxValue(It.IsAny<int>())).Throws<Exception>();
-			sut.ProgressIndicator = indicatorMock.Object;
+			sut.ProgressChanged += (args) => throw new Exception();
 
 			var result = sut.TryPerform();
 
@@ -406,10 +403,8 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 		public void MustNotFailInCaseOfUnexpectedErrorWhenRepeating()
 		{
 			var sut = new OperationSequence(loggerMock.Object, new Queue<IOperation>());
-			var indicatorMock = new Mock<IProgressIndicator>();
 
-			indicatorMock.Setup(i => i.SetMaxValue(It.IsAny<int>())).Throws<Exception>();
-			sut.ProgressIndicator = indicatorMock.Object;
+			sut.ProgressChanged += (args) => throw new Exception();
 
 			var result = sut.TryRepeat();
 
@@ -570,10 +565,8 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 		public void MustNotFailInCaseOfUnexpectedErrorWhenReverting()
 		{
 			var sut = new OperationSequence(loggerMock.Object, new Queue<IOperation>());
-			var indicatorMock = new Mock<IProgressIndicator>();
 
-			indicatorMock.Setup(i => i.SetIndeterminate()).Throws<Exception>();
-			sut.ProgressIndicator = indicatorMock.Object;
+			sut.ProgressChanged += (args) => throw new Exception();
 
 			var success = sut.TryRevert();
 

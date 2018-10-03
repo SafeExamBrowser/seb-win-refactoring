@@ -8,9 +8,9 @@
 
 using System.Globalization;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Operations
 {
@@ -23,7 +23,8 @@ namespace SafeExamBrowser.Core.Operations
 		private IText text;
 		private ITextResource textResource;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged { add { } remove { } }
 
 		public I18nOperation(ILogger logger, IText text, ITextResource textResource)
 		{

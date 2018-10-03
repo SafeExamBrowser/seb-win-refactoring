@@ -10,8 +10,8 @@ using System.Threading;
 using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Client.Operations
 {
@@ -25,7 +25,8 @@ namespace SafeExamBrowser.Client.Operations
 		private ILogger logger;
 		private int timeout_ms;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged { add { } remove { } }
 
 		public ClientHostDisconnectionOperation(IClientHost clientHost, ILogger logger, int timeout_ms)
 		{
@@ -49,6 +50,8 @@ namespace SafeExamBrowser.Client.Operations
 			var disconnected = false;
 			var disconnectedEvent = new AutoResetEvent(false);
 			var disconnectedEventHandler = new CommunicationEventHandler(() => disconnectedEvent.Set());
+
+			// TODO: Update status!
 
 			clientHost.RuntimeDisconnected += disconnectedEventHandler;
 

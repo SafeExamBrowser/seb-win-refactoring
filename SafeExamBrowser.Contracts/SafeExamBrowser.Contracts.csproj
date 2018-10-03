@@ -57,6 +57,11 @@
     <Compile Include="Core\IApplicationController.cs" />
     <Compile Include="Core\InstanceIdentifier.cs" />
     <Compile Include="Core\IRuntimeController.cs" />
+    <Compile Include="Core\OperationModel\Events\ActionRequiredEventArgs.cs" />
+    <Compile Include="Core\OperationModel\Events\ActionRequiredEventHandler.cs" />
+    <Compile Include="Core\OperationModel\Events\ProgressChangedEventArgs.cs" />
+    <Compile Include="Core\OperationModel\Events\ProgressChangedEventHandler.cs" />
+    <Compile Include="Core\OperationModel\Events\StatusChangedEventHandler.cs" />
     <Compile Include="Core\OperationModel\IOperationSequence.cs" />
     <Compile Include="Core\OperationModel\OperationResult.cs" />
     <Compile Include="Browser\DownloadEventArgs.cs" />

@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 
 namespace SafeExamBrowser.Contracts.Core.OperationModel
 {
@@ -24,9 +24,19 @@ namespace SafeExamBrowser.Contracts.Core.OperationModel
 	public interface IOperationSequence
 	{
 		/// <summary>
-		/// The progress indicator to be used when executing an operation. Will be ignored if <c>null</c>.
+		/// Event fired when an operation requires user interaction.
 		/// </summary>
-		IProgressIndicator ProgressIndicator { set; }
+		event ActionRequiredEventHandler ActionRequired;
+
+		/// <summary>
+		/// Event fired when the progress of the sequence has changed.
+		/// </summary>
+		event ProgressChangedEventHandler ProgressChanged;
+
+		/// <summary>
+		/// Event fired when the status of an operation has changed.
+		/// </summary>
+		event StatusChangedEventHandler StatusChanged;
 
 		/// <summary>
 		/// Tries to perform the operations of this sequence according to their initialized order. If any operation fails, the already

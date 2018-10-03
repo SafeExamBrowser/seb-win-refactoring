@@ -10,7 +10,8 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Core.Operations;
 
 namespace SafeExamBrowser.Core.UnitTests.Operations
@@ -94,23 +95,47 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustUpdateProgressIndicator()
+		public void MustCorrectlyHandleEventSubscription()
 		{
 			IOperation initialize()
 			{
 				return operationMock.Object;
 			};
 
-			var sut = new LazyInitializationOperation(initialize)
-			{
-				ProgressIndicator = new Mock<IProgressIndicator>().Object
-			};
+			var actionRequired = 0;
+			var actionRequiredHandler = new ActionRequiredEventHandler(args => actionRequired++);
+			var statusChanged = 0;
+			var statusChangedHandler = new StatusChangedEventHandler(t => statusChanged++);
+			var sut = new LazyInitializationOperation(initialize);
+
+			sut.ActionRequired += actionRequiredHandler;
+			sut.StatusChanged += statusChangedHandler;
 
 			sut.Perform();
-			sut.Repeat();
-			sut.Revert();
 
-			operationMock.VerifySet(o => o.ProgressIndicator = It.IsAny<IProgressIndicator>(), Times.Exactly(3));
+			operationMock.Raise(o => o.ActionRequired += null, new ActionRequiredEventArgs());
+			operationMock.Raise(o => o.StatusChanged += null, default(TextKey));
+
+			Assert.AreEqual(1, actionRequired);
+			Assert.AreEqual(1, statusChanged);
+
+			sut.ActionRequired -= actionRequiredHandler;
+			sut.StatusChanged -= statusChangedHandler;
+
+			operationMock.Raise(o => o.ActionRequired += null, new ActionRequiredEventArgs());
+			operationMock.Raise(o => o.StatusChanged += null, default(TextKey));
+
+			Assert.AreEqual(1, actionRequired);
+			Assert.AreEqual(1, statusChanged);
+
+			sut.ActionRequired += actionRequiredHandler;
+			sut.StatusChanged += statusChangedHandler;
+
+			operationMock.Raise(o => o.ActionRequired += null, new ActionRequiredEventArgs());
+			operationMock.Raise(o => o.StatusChanged += null, default(TextKey));
+
+			Assert.AreEqual(2, actionRequired);
+			Assert.AreEqual(2, statusChanged);
 		}
 
 		[TestMethod]

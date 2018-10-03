@@ -7,10 +7,10 @@
  */
 
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Client.Operations
@@ -21,8 +21,9 @@ namespace SafeExamBrowser.Client.Operations
 		private ILogger logger;
 		private INativeMethods nativeMethods;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
-		
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged;
+
 		public KeyboardInterceptorOperation(
 			IKeyboardInterceptor keyboardInterceptor,
 			ILogger logger,
@@ -36,7 +37,7 @@ namespace SafeExamBrowser.Client.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Starting keyboard interception...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StartKeyboardInterception);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_StartKeyboardInterception);
 
 			nativeMethods.RegisterKeyboardHook(keyboardInterceptor);
 
@@ -51,7 +52,7 @@ namespace SafeExamBrowser.Client.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping keyboard interception...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StopKeyboardInterception);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_StopKeyboardInterception);
 
 			nativeMethods.DeregisterKeyboardHook(keyboardInterceptor);
 		}

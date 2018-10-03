@@ -10,8 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.OperationModel
 {
@@ -24,7 +24,19 @@ namespace SafeExamBrowser.Core.OperationModel
 		private Queue<IOperation> operations = new Queue<IOperation>();
 		private Stack<IOperation> stack = new Stack<IOperation>();
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired
+		{
+			add { operations.ForEach(o => o.ActionRequired += value); }
+			remove { operations.ForEach(o => o.ActionRequired -= value); }
+		}
+
+		public event ProgressChangedEventHandler ProgressChanged;
+
+		public event StatusChangedEventHandler StatusChanged
+		{
+			add { operations.ForEach(o => o.StatusChanged += value); }
+			remove { operations.ForEach(o => o.StatusChanged -= value); }
+		}
 
 		public OperationSequence(ILogger logger, Queue<IOperation> operations)
 		{
@@ -92,12 +104,11 @@ namespace SafeExamBrowser.Core.OperationModel
 		{
 			if (indeterminate)
 			{
-				ProgressIndicator?.SetIndeterminate();
+				ProgressChanged?.Invoke(new ProgressChangedEventArgs { IsIndeterminate = true });
 			}
 			else
 			{
-				ProgressIndicator?.SetValue(0);
-				ProgressIndicator?.SetMaxValue(operations.Count);
+				ProgressChanged?.Invoke(new ProgressChangedEventArgs { CurrentValue = 0, MaxValue = operations.Count });
 			}
 		}
 
@@ -111,7 +122,6 @@ namespace SafeExamBrowser.Core.OperationModel
 
 				try
 				{
-					operation.ProgressIndicator = ProgressIndicator;
 					result = operation.Perform();
 				}
 				catch (Exception e)
@@ -124,7 +134,7 @@ namespace SafeExamBrowser.Core.OperationModel
 					return result;
 				}
 
-				ProgressIndicator?.Progress();
+				ProgressChanged?.Invoke(new ProgressChangedEventArgs { Progress = true });
 			}
 
 			return OperationResult.Success;
@@ -138,7 +148,6 @@ namespace SafeExamBrowser.Core.OperationModel
 
 				try
 				{
-					operation.ProgressIndicator = ProgressIndicator;
 					result = operation.Repeat();
 				}
 				catch (Exception e)
@@ -151,7 +160,7 @@ namespace SafeExamBrowser.Core.OperationModel
 					return result;
 				}
 
-				ProgressIndicator?.Progress();
+				ProgressChanged?.Invoke(new ProgressChangedEventArgs { Progress = true });
 			}
 
 			return OperationResult.Success;
@@ -167,7 +176,6 @@ namespace SafeExamBrowser.Core.OperationModel
 
 				try
 				{
-					operation.ProgressIndicator = ProgressIndicator;
 					operation.Revert();
 				}
 				catch (Exception e)
@@ -178,7 +186,7 @@ namespace SafeExamBrowser.Core.OperationModel
 
 				if (regress)
 				{
-					ProgressIndicator?.Regress();
+					ProgressChanged?.Invoke(new ProgressChangedEventArgs { Regress = true });
 				}
 			}
 

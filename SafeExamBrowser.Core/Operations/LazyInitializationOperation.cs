@@ -8,7 +8,7 @@
 
 using System;
 using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 
 namespace SafeExamBrowser.Core.Operations
 {
@@ -22,7 +22,52 @@ namespace SafeExamBrowser.Core.Operations
 		private Func<IOperation> initialize;
 		private IOperation operation;
 
-		public IProgressIndicator ProgressIndicator { get; set; }
+		private event ActionRequiredEventHandler ActionRequiredImpl;
+		private event StatusChangedEventHandler StatusChangedImpl;
+
+		public event ActionRequiredEventHandler ActionRequired
+		{
+			add
+			{
+				ActionRequiredImpl += value;
+
+				if (operation != null)
+				{
+					operation.ActionRequired += value;
+				}
+			}
+			remove
+			{
+				ActionRequiredImpl -= value;
+
+				if (operation != null)
+				{
+					operation.ActionRequired -= value;
+				}
+			}
+		}
+
+		public event StatusChangedEventHandler StatusChanged
+		{
+			add
+			{
+				StatusChangedImpl += value;
+
+				if (operation != null)
+				{
+					operation.StatusChanged += value;
+				}
+			}
+			remove
+			{
+				StatusChangedImpl -= value;
+
+				if (operation != null)
+				{
+					operation.StatusChanged -= value;
+				}
+			}
+		}
 
 		public LazyInitializationOperation(Func<IOperation> initialize)
 		{
@@ -32,21 +77,19 @@ namespace SafeExamBrowser.Core.Operations
 		public OperationResult Perform()
 		{
 			operation = initialize.Invoke();
-			operation.ProgressIndicator = ProgressIndicator;
+			operation.ActionRequired += ActionRequiredImpl;
+			operation.StatusChanged += StatusChangedImpl;
 
 			return operation.Perform();
 		}
 
 		public OperationResult Repeat()
 		{
-			operation.ProgressIndicator = ProgressIndicator;
-
 			return operation.Repeat();
 		}
 
 		public void Revert()
 		{
-			operation.ProgressIndicator = ProgressIndicator;
 			operation.Revert();
 		}
 	}

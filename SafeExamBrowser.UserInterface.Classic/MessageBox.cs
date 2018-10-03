@@ -9,6 +9,7 @@
 using System.Windows;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
+using SafeExamBrowser.Contracts.UserInterface.Windows;
 using MessageBoxResult = SafeExamBrowser.Contracts.UserInterface.MessageBox.MessageBoxResult;
 
 namespace SafeExamBrowser.UserInterface.Classic
@@ -22,16 +23,25 @@ namespace SafeExamBrowser.UserInterface.Classic
 			this.text = text;
 		}
 
-		public MessageBoxResult Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information)
+		public MessageBoxResult Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null)
 		{
-			var result = System.Windows.MessageBox.Show(message, title, ToButton(action), ToImage(icon));
+			var result = default(System.Windows.MessageBoxResult);
+
+			if (parent is Window window)
+			{
+				result = window.Dispatcher.Invoke(() => System.Windows.MessageBox.Show(window, message, title, ToButton(action), ToImage(icon)));
+			}
+			else
+			{
+				result = System.Windows.MessageBox.Show(message, title, ToButton(action), ToImage(icon));
+			}
 
 			return ToResult(result);
 		}
 
-		public MessageBoxResult Show(TextKey message, TextKey title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information)
+		public MessageBoxResult Show(TextKey message, TextKey title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null)
 		{
-			return Show(text.Get(message), text.Get(title), action, icon);
+			return Show(text.Get(message), text.Get(title), action, icon, parent);
 		}
 
 		private MessageBoxButton ToButton(MessageBoxAction action)

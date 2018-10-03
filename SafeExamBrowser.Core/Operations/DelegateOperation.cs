@@ -8,7 +8,7 @@
 
 using System;
 using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 
 namespace SafeExamBrowser.Core.Operations
 {
@@ -22,7 +22,8 @@ namespace SafeExamBrowser.Core.Operations
 		private Action repeat;
 		private Action revert;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged { add { } remove { } }
 
 		public DelegateOperation(Action perform, Action repeat = null, Action revert = null)
 		{

@@ -8,9 +8,9 @@
 
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Core.Operations
 {
@@ -23,7 +23,8 @@ namespace SafeExamBrowser.Core.Operations
 		private ICommunicationHost host;
 		private ILogger logger;
 
-		public IProgressIndicator ProgressIndicator { private get; set; }
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged;
 
 		public CommunicationHostOperation(ICommunicationHost host, ILogger logger)
 		{
@@ -34,7 +35,7 @@ namespace SafeExamBrowser.Core.Operations
 		public OperationResult Perform()
 		{
 			logger.Info("Starting communication host...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StartCommunicationHost);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_StartCommunicationHost);
 
 			host.Start();
 
@@ -46,7 +47,7 @@ namespace SafeExamBrowser.Core.Operations
 			if (!host.IsRunning)
 			{
 				logger.Info("Restarting communication host...");
-				ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_RestartCommunicationHost);
+				StatusChanged?.Invoke(TextKey.ProgressIndicator_RestartCommunicationHost);
 
 				host.Stop();
 				host.Start();
@@ -58,7 +59,7 @@ namespace SafeExamBrowser.Core.Operations
 		public void Revert()
 		{
 			logger.Info("Stopping communication host...");
-			ProgressIndicator?.UpdateText(TextKey.ProgressIndicator_StopCommunicationHost);
+			StatusChanged?.Invoke(TextKey.ProgressIndicator_StopCommunicationHost);
 
 			host.Stop();
 		}
