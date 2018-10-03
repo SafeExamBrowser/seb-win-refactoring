@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Core.OperationModel;
 
@@ -52,6 +54,47 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operationA.Verify(o => o.Perform(), Times.Once);
 			operationB.Verify(o => o.Perform(), Times.Once);
 			operationC.Verify(o => o.Perform(), Times.Once);
+		}
+
+		[TestMethod]
+		public void MustCorrectlyPropagateEventSubscription()
+		{
+			var actionRequiredCalled = false;
+			var actionRequiredHandler = new ActionRequiredEventHandler(args => actionRequiredCalled = true);
+			var statusChangedCalled = false;
+			var statusChangedHandler = new StatusChangedEventHandler(t => statusChangedCalled = true);
+			var operationA = new Mock<IOperation>();
+			var operationB = new Mock<IOperation>();
+			var operationC = new Mock<IOperation>();
+			var operations = new Queue<IOperation>();
+
+			operationA.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Perform()).Returns(OperationResult.Success).Raises(o => o.ActionRequired += null, new Mock<ActionRequiredEventArgs>().Object);
+			operationC.Setup(o => o.Perform()).Returns(OperationResult.Success).Raises(o => o.StatusChanged += null, default(TextKey));
+
+			operations.Enqueue(operationA.Object);
+			operations.Enqueue(operationB.Object);
+			operations.Enqueue(operationC.Object);
+
+			var sut = new OperationSequence(loggerMock.Object, operations);
+
+			sut.ActionRequired += actionRequiredHandler;
+			sut.StatusChanged += statusChangedHandler;
+
+			sut.TryPerform();
+
+			Assert.IsTrue(actionRequiredCalled);
+			Assert.IsTrue(statusChangedCalled);
+
+			actionRequiredCalled = false;
+			statusChangedCalled = false;
+			sut.ActionRequired -= actionRequiredHandler;
+			sut.StatusChanged -= statusChangedHandler;
+
+			sut.TryPerform();
+
+			Assert.IsFalse(actionRequiredCalled);
+			Assert.IsFalse(statusChangedCalled);
 		}
 
 		#region Perform Tests

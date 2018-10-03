@@ -113,7 +113,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 
 			sut.Perform();
 
-			operationMock.Raise(o => o.ActionRequired += null, new ActionRequiredEventArgs());
+			operationMock.Raise(o => o.ActionRequired += null, new Mock<ActionRequiredEventArgs>().Object);
 			operationMock.Raise(o => o.StatusChanged += null, default(TextKey));
 
 			Assert.AreEqual(1, actionRequired);
@@ -122,7 +122,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 			sut.ActionRequired -= actionRequiredHandler;
 			sut.StatusChanged -= statusChangedHandler;
 
-			operationMock.Raise(o => o.ActionRequired += null, new ActionRequiredEventArgs());
+			operationMock.Raise(o => o.ActionRequired += null, new Mock<ActionRequiredEventArgs>().Object);
 			operationMock.Raise(o => o.StatusChanged += null, default(TextKey));
 
 			Assert.AreEqual(1, actionRequired);
@@ -131,7 +131,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 			sut.ActionRequired += actionRequiredHandler;
 			sut.StatusChanged += statusChangedHandler;
 
-			operationMock.Raise(o => o.ActionRequired += null, new ActionRequiredEventArgs());
+			operationMock.Raise(o => o.ActionRequired += null, new Mock<ActionRequiredEventArgs>().Object);
 			operationMock.Raise(o => o.StatusChanged += null, default(TextKey));
 
 			Assert.AreEqual(2, actionRequired);
