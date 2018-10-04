@@ -58,6 +58,8 @@ namespace SafeExamBrowser.UserInterface.Classic
 			Dispatcher.Invoke(() =>
 			{
 				allowClose = true;
+				model.BusyIndication = false;
+
 				base.Close();
 			});
 		}
@@ -69,6 +71,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 		public void HideProgressBar()
 		{
+			model.AnimatedBorderVisibility = Visibility.Visible;
 			model.ProgressBarVisibility = Visibility.Hidden;
 		}
 
@@ -108,18 +111,14 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 		public void ShowProgressBar()
 		{
+			model.AnimatedBorderVisibility = Visibility.Hidden;
 			model.ProgressBarVisibility = Visibility.Visible;
 		}
 
-		public void UpdateText(TextKey key, bool showBusyIndication = false)
+		public void UpdateStatus(TextKey key, bool busyIndication = false)
 		{
-			model.StopBusyIndication();
 			model.Status = text.Get(key);
-
-			if (showBusyIndication)
-			{
-				model.StartBusyIndication();
-			}
+			model.BusyIndication = busyIndication;
 		}
 
 		public new void Show()

@@ -19,7 +19,7 @@
                     <ColumnDefinition Width="155" />
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0" Grid.ColumnSpan="2" Source="pack://application:,,,/SafeExamBrowser.UserInterface.Classic;component/Images/SplashScreen.png" />
-                <TextBlock x:Name="InfoTextBlock" Grid.Column="1" Margin="10,75,10,10" TextWrapping="Wrap" />
+                <TextBlock x:Name="InfoTextBlock" Grid.Column="1" Foreground="Gray" Margin="10,75,10,10" TextWrapping="Wrap" />
             </Grid>
             <ProgressBar x:Name="ProgressBar" Grid.Row="1" Minimum="0" Maximum="{Binding Path=MaxProgress}" Value="{Binding Path=CurrentProgress}" IsIndeterminate="{Binding Path=IsIndeterminate}" BorderThickness="0" />
             <TextBlock x:Name="StatusTextBlock" Grid.Row="1" Text="{Binding Path=Status}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" />

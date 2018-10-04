@@ -110,7 +110,7 @@ namespace SafeExamBrowser.Client
 
 				if (communication.Success)
 				{
-					splashScreen.Hide();
+					splashScreen.Close();
 
 					logger.Info("Application successfully initialized.");
 					logger.Log(string.Empty);
@@ -135,8 +135,8 @@ namespace SafeExamBrowser.Client
 			logger.Log(string.Empty);
 			logger.Info("Initiating shutdown procedure...");
 
+			splashScreen = uiFactory.CreateSplashScreen(appConfig);
 			splashScreen.Show();
-			splashScreen.BringToForeground();
 
 			DeregisterEvents();
 
@@ -153,7 +153,7 @@ namespace SafeExamBrowser.Client
 				logger.Log(string.Empty);
 			}
 
-			splashScreen?.Close();
+			splashScreen.Close();
 		}
 
 		private void RegisterEvents()
@@ -307,7 +307,7 @@ namespace SafeExamBrowser.Client
 
 		private void Operations_StatusChanged(TextKey status)
 		{
-			splashScreen?.UpdateText(status);
+			splashScreen?.UpdateStatus(status, true);
 		}
 
 		private void Runtime_ConnectionLost()

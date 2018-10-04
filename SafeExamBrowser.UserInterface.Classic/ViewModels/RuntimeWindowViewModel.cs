@@ -66,20 +66,6 @@ namespace SafeExamBrowser.UserInterface.Classic.ViewModels
 			}
 		}
 
-		public override void StartBusyIndication()
-		{
-			base.StartBusyIndication();
-
-			AnimatedBorderVisibility = Visibility.Hidden;
-		}
-
-		public override void StopBusyIndication()
-		{
-			base.StopBusyIndication();
-
-			AnimatedBorderVisibility = Visibility.Visible;
-		}
-
 		private void AppendLogMessage(ILogMessage message)
 		{
 			var time = message.DateTime.ToString("HH:mm:ss.fff");

@@ -100,15 +100,10 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			model.CurrentProgress = value;
 		}
 
-		public void UpdateText(TextKey key, bool showBusyIndication = false)
+		public void UpdateStatus(TextKey key, bool showBusyIndication = false)
 		{
-			model.StopBusyIndication();
+			// TODO: Handle auto-start of busy indication
 			model.Status = text.Get(key);
-
-			if (showBusyIndication)
-			{
-				model.StartBusyIndication();
-			}
 		}
 
 		private void InitializeSplashScreen()

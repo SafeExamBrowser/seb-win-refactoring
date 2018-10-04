@@ -94,7 +94,7 @@ namespace SafeExamBrowser.Runtime
 				logger.Info("Application successfully initialized.");
 				logger.Log(string.Empty);
 				logger.Subscribe(runtimeWindow);
-				splashScreen.Hide();
+				splashScreen.Close();
 
 				StartSession(true);
 			}
@@ -120,8 +120,9 @@ namespace SafeExamBrowser.Runtime
 
 			logger.Unsubscribe(runtimeWindow);
 			runtimeWindow?.Close();
-			splashScreen?.Show();
-			splashScreen?.BringToForeground();
+
+			splashScreen = uiFactory.CreateSplashScreen(appConfig);
+			splashScreen.Show();
 
 			logger.Log(string.Empty);
 			logger.Info("Initiating shutdown procedure...");
@@ -141,7 +142,7 @@ namespace SafeExamBrowser.Runtime
 				messageBox.Show(TextKey.MessageBox_ShutdownError, TextKey.MessageBox_ShutdownErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
 			}
 
-			splashScreen?.Close();
+			splashScreen.Close();
 		}
 
 		private void StartSession(bool initial = false)
@@ -164,7 +165,7 @@ namespace SafeExamBrowser.Runtime
 
 				logger.Info("### --- Session Running --- ###");
 				runtimeWindow.HideProgressBar();
-				runtimeWindow.UpdateText(TextKey.RuntimeWindow_ApplicationRunning);
+				runtimeWindow.UpdateStatus(TextKey.RuntimeWindow_ApplicationRunning);
 				runtimeWindow.TopMost = configuration.CurrentSettings.KioskMode != KioskMode.None;
 
 				if (configuration.CurrentSettings.KioskMode == KioskMode.DisableExplorerShell)
@@ -270,7 +271,7 @@ namespace SafeExamBrowser.Runtime
 
 		private void BootstrapSequence_StatusChanged(TextKey status)
 		{
-			splashScreen?.UpdateText(status);
+			splashScreen?.UpdateStatus(status, true);
 		}
 
 		private void ClientProcess_Terminated(int exitCode)
@@ -427,7 +428,7 @@ namespace SafeExamBrowser.Runtime
 
 		private void SessionSequence_StatusChanged(TextKey status)
 		{
-			runtimeWindow?.UpdateText(status);
+			runtimeWindow?.UpdateStatus(status, true);
 		}
 	}
 }

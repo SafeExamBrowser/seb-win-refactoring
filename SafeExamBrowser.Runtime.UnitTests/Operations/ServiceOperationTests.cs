@@ -14,7 +14,6 @@ using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Runtime.Operations;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
@@ -27,7 +26,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private Mock<IConfigurationRepository> configuration;
 		private Mock<ISessionData> session;
 		private Settings settings;
-		private Mock<IProgressIndicator> progressIndicator;
 		private ServiceOperation sut;
 
 		[TestInitialize]
@@ -38,7 +36,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			configuration = new Mock<IConfigurationRepository>();
 			session = new Mock<ISessionData>();
 			settings = new Settings();
-			progressIndicator = new Mock<IProgressIndicator>();
 
 			configuration.SetupGet(c => c.CurrentSession).Returns(session.Object);
 			configuration.SetupGet(c => c.CurrentSettings).Returns(settings);

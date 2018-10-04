@@ -42,8 +42,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 
 		/// <summary>
 		/// Updates the status text. If the busy flag is set, an animation will be shown to indicate a long-running operation.
-		/// TODO: Automatically show busy indication in implementations after e.g. 2 seconds!
 		/// </summary>
-		void UpdateText(TextKey key, bool showBusyIndication = false);
+		void UpdateStatus(TextKey key, bool busyIndication = false);
 	}
 }

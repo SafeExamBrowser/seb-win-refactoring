@@ -63,6 +63,8 @@ namespace SafeExamBrowser.UserInterface.Classic
 			Dispatcher.Invoke(() =>
 			{
 				allowClose = true;
+				model.BusyIndication = false;
+
 				base.Close();
 			});
 		}
@@ -102,15 +104,10 @@ namespace SafeExamBrowser.UserInterface.Classic
 			model.CurrentProgress = value;
 		}
 
-		public void UpdateText(TextKey key, bool showBusyIndication = false)
+		public void UpdateStatus(TextKey key, bool busyIndication = false)
 		{
-			model.StopBusyIndication();
 			model.Status = text.Get(key);
-
-			if (showBusyIndication)
-			{
-				model.StartBusyIndication();
-			}
+			model.BusyIndication = busyIndication;
 		}
 
 		private void InitializeSplashScreen()
@@ -119,9 +116,6 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 			StatusTextBlock.DataContext = model;
 			ProgressBar.DataContext = model;
-
-			// To prevent the progress bar going from max to min value at startup...
-			model.MaxProgress = 1;
 
 			Closing += (o, args) => args.Cancel = !allowClose;
 		}

@@ -13,13 +13,23 @@ namespace SafeExamBrowser.UserInterface.Classic.ViewModels
 {
 	internal class ProgressIndicatorViewModel : INotifyPropertyChanged
 	{
+		private readonly object @lock = new object();
+
+		private Timer busyTimer;
 		private int currentProgress;
 		private bool isIndeterminate;
 		private int maxProgress;
 		private string status;
-		private Timer busyTimer;
 
 		public event PropertyChangedEventHandler PropertyChanged;
+
+		public bool BusyIndication
+		{
+			set
+			{
+				HandleBusyIndication(value);
+			}
+		}
 
 		public int CurrentProgress
 		{
@@ -73,29 +83,33 @@ namespace SafeExamBrowser.UserInterface.Classic.ViewModels
 			}
 		}
 
-		public virtual void StartBusyIndication()
-		{
-			StopBusyIndication();
-
-			busyTimer = new Timer
-			{
-				AutoReset = true,
-				Interval = 750
-			};
-
-			busyTimer.Elapsed += BusyTimer_Elapsed;
-			busyTimer.Start();
-		}
-
-		public virtual void StopBusyIndication()
-		{
-			busyTimer?.Stop();
-			busyTimer?.Close();
-		}
-
 		protected void OnPropertyChanged(string propertyName)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+		private void HandleBusyIndication(bool start)
+		{
+			lock (@lock)
+			{
+				if (busyTimer != null)
+				{
+					busyTimer.Elapsed -= BusyTimer_Elapsed;
+					busyTimer.Stop();
+					busyTimer.Close();
+				}
+
+				if (start)
+				{
+					busyTimer = new Timer
+					{
+						AutoReset = true,
+						Interval = 1500,
+					};
+					busyTimer.Elapsed += BusyTimer_Elapsed;
+					busyTimer.Start();
+				}
+			}
 		}
 
 		private void BusyTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -112,6 +126,7 @@ namespace SafeExamBrowser.UserInterface.Classic.ViewModels
 			}
 
 			Status = next;
+			busyTimer.Interval = 750;
 		}
 	}
 }
