@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Operations;
@@ -104,6 +105,15 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			var sut = new WindowMonitorOperation(KioskMode.None, loggerMock.Object, windowMonitorMock.Object);
 
 			windowMonitorMock.VerifyNoOtherCalls();
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void MustNotAllowRepeating()
+		{
+			var sut = new WindowMonitorOperation(KioskMode.None, loggerMock.Object, windowMonitorMock.Object);
+
+			sut.Repeat();
 		}
 	}
 }

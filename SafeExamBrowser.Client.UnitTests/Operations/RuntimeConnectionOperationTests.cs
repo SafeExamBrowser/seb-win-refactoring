@@ -10,48 +10,36 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Operations;
+using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
 	[TestClass]
-	public class ClipboardOperationTests
+	public class RuntimeConnectionOperationTests
 	{
-		private Mock<ILogger> loggerMock;
-		private Mock<INativeMethods> nativeMethodsMock;
-
-		private ClipboardOperation sut;
+		private Mock<ILogger> logger;
+		private Mock<IRuntimeProxy> runtime;
 
 		[TestInitialize]
 		public void Initialize()
 		{
-			loggerMock = new Mock<ILogger>();
-			nativeMethodsMock = new Mock<INativeMethods>();
-
-			sut = new ClipboardOperation(loggerMock.Object, nativeMethodsMock.Object);
+			logger = new Mock<ILogger>();
+			runtime = new Mock<IRuntimeProxy>();
 		}
 
 		[TestMethod]
-		public void MustPerformCorrectly()
+		public void TODO()
 		{
-			sut.Perform();
-
-			nativeMethodsMock.Verify(n => n.EmptyClipboard(), Times.Once);
-		}
-
-		[TestMethod]
-		public void MustRevertCorrectly()
-		{
-			sut.Revert();
-
-			nativeMethodsMock.Verify(n => n.EmptyClipboard(), Times.Once);
+			Assert.Fail();
 		}
 
 		[TestMethod]
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void MustNotAllowRepeating()
 		{
+			var sut = new RuntimeConnectionOperation(logger.Object, runtime.Object, Guid.Empty);
+
 			sut.Repeat();
 		}
 	}

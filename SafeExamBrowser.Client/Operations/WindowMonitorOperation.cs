@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Core.OperationModel.Events;
@@ -51,7 +52,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		public OperationResult Repeat()
 		{
-			return OperationResult.Success;
+			throw new InvalidOperationException($"The '{nameof(WindowMonitorOperation)}' is not meant to be repeated!");
 		}
 
 		public void Revert()

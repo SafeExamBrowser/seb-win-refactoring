@@ -10,42 +10,34 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Operations;
+using SafeExamBrowser.Contracts.Communication.Proxies;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
 	[TestClass]
-	public class ClipboardOperationTests
+	public class ConfigurationOperationTests
 	{
-		private Mock<ILogger> loggerMock;
-		private Mock<INativeMethods> nativeMethodsMock;
-
-		private ClipboardOperation sut;
+		private ClientConfiguration configuration;
+		private Mock<ILogger> logger;
+		private Mock<IRuntimeProxy> runtime;
+		private ConfigurationOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
-			loggerMock = new Mock<ILogger>();
-			nativeMethodsMock = new Mock<INativeMethods>();
+			configuration = new ClientConfiguration();
+			logger = new Mock<ILogger>();
+			runtime = new Mock<IRuntimeProxy>();
 
-			sut = new ClipboardOperation(loggerMock.Object, nativeMethodsMock.Object);
+			sut = new ConfigurationOperation(configuration, logger.Object, runtime.Object);
 		}
 
 		[TestMethod]
-		public void MustPerformCorrectly()
+		public void TODO()
 		{
-			sut.Perform();
-
-			nativeMethodsMock.Verify(n => n.EmptyClipboard(), Times.Once);
-		}
-
-		[TestMethod]
-		public void MustRevertCorrectly()
-		{
-			sut.Revert();
-
-			nativeMethodsMock.Verify(n => n.EmptyClipboard(), Times.Once);
+			Assert.Fail();
 		}
 
 		[TestMethod]

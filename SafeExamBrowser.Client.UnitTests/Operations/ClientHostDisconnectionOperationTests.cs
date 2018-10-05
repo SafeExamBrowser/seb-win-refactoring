@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -97,13 +98,10 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustDoNothingOnRepeat()
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void MustNotAllowRepeating()
 		{
-			var result = sut.Repeat();
-
-			clientHost.VerifyNoOtherCalls();
-
-			Assert.AreEqual(OperationResult.Success, result);
+			sut.Repeat();
 		}
 	}
 }

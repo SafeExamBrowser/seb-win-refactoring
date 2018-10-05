@@ -80,10 +80,12 @@
     <Compile Include="Operations\BrowserOperationTests.cs" />
     <Compile Include="Operations\ClientHostDisconnectionOperationTests.cs" />
     <Compile Include="Operations\ClipboardOperationTests.cs" />
+    <Compile Include="Operations\ConfigurationOperationTests.cs" />
     <Compile Include="Operations\DisplayMonitorOperationTests.cs" />
     <Compile Include="Operations\KeyboardInterceptorOperationTests.cs" />
     <Compile Include="Operations\MouseInterceptorOperationTests.cs" />
     <Compile Include="Operations\ProcessMonitorOperationTests.cs" />
+    <Compile Include="Operations\RuntimeConnectionOperationTests.cs" />
     <Compile Include="Operations\TaskbarOperationTests.cs" />
     <Compile Include="Operations\WindowMonitorOperationTests.cs" />
     <Compile Include="Communication\ClientHostTests.cs" />

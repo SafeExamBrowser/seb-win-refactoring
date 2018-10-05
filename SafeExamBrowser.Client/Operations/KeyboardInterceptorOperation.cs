@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
@@ -46,7 +47,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		public OperationResult Repeat()
 		{
-			return OperationResult.Success;
+			throw new InvalidOperationException($"The '{nameof(KeyboardInterceptorOperation)}' is not meant to be repeated!");
 		}
 
 		public void Revert()
