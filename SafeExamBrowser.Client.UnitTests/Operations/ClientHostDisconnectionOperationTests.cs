@@ -96,12 +96,5 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}
-
-		[TestMethod]
-		[ExpectedException(typeof(InvalidOperationException))]
-		public void MustNotAllowRepeating()
-		{
-			sut.Repeat();
-		}
 	}
 }

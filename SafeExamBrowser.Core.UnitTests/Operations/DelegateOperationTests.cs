@@ -58,11 +58,11 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 
 			var perform = sut.Perform();
 			var repeat = sut.Repeat();
-
-			sut.Revert();
+			var revert = sut.Revert();
 
 			Assert.AreEqual(OperationResult.Success, perform);
 			Assert.AreEqual(OperationResult.Success, repeat);
+			Assert.AreEqual(OperationResult.Success, revert);
 		}
 	}
 }

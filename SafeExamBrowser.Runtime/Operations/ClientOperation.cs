@@ -20,26 +20,26 @@ using SafeExamBrowser.Contracts.WindowsApi.Events;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
-	internal class ClientOperation : IOperation
+	internal class ClientOperation : IRepeatableOperation
 	{
 		private readonly int timeout_ms;
 
-		protected IConfigurationRepository configuration;
-		protected ILogger logger;
-		protected IProcessFactory processFactory;
-		protected IProxyFactory proxyFactory;
-		protected IRuntimeHost runtimeHost;
+		private IConfigurationRepository configuration;
+		private ILogger logger;
+		private IProcessFactory processFactory;
+		private IProxyFactory proxyFactory;
+		private IRuntimeHost runtimeHost;
 
 		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged;
 
-		protected IProcess ClientProcess
+		private IProcess ClientProcess
 		{
 			get { return configuration.CurrentSession.ClientProcess; }
 			set { configuration.CurrentSession.ClientProcess = value; }
 		}
 
-		protected IClientProxy ClientProxy
+		private IClientProxy ClientProxy
 		{
 			get { return configuration.CurrentSession.ClientProxy; }
 			set { configuration.CurrentSession.ClientProxy = value; }
@@ -84,16 +84,20 @@ namespace SafeExamBrowser.Runtime.Operations
 			return Perform();
 		}
 
-		public virtual void Revert()
+		public virtual OperationResult Revert()
 		{
+			var success = true;
+
 			if (ClientProcess != null && !ClientProcess.HasTerminated)
 			{
 				StatusChanged?.Invoke(TextKey.OperationStatus_StopClient);
-				TryStopClient();
+				success = TryStopClient();
 			}
+
+			return success ? OperationResult.Success : OperationResult.Failed;
 		}
 
-		protected bool TryStartClient()
+		private bool TryStartClient()
 		{
 			var clientReady = false;
 			var clientReadyEvent = new AutoResetEvent(false);
@@ -146,7 +150,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			return true;
 		}
 
-		protected bool TryStopClient()
+		private bool TryStopClient()
 		{
 			var success = false;
 
@@ -206,7 +210,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			return success;
 		}
 
-		protected bool TryKillClient(int attempt = 0)
+		private bool TryKillClient(int attempt = 0)
 		{
 			const int MAX_ATTEMPTS = 5;
 

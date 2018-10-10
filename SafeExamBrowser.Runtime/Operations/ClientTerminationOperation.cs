@@ -10,18 +10,13 @@ using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.Core.OperationModel.Events;
-using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
-	internal class ClientTerminationOperation : ClientOperation
+	internal class ClientTerminationOperation : ClientOperation, IRepeatableOperation
 	{
-		public new event ActionRequiredEventHandler ActionRequired { add { } remove { } }
-		public new event StatusChangedEventHandler StatusChanged;
-
 		public ClientTerminationOperation(
 			IConfigurationRepository configuration,
 			ILogger logger,
@@ -39,20 +34,12 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public override OperationResult Repeat()
 		{
-			var success = true;
-
-			if (ClientProcess != null && !ClientProcess.HasTerminated)
-			{
-				StatusChanged?.Invoke(TextKey.OperationStatus_StopClient);
-				success = TryStopClient();
-			}
-
-			return success ? OperationResult.Success : OperationResult.Failed;
+			return base.Revert();
 		}
 
-		public override void Revert()
+		public override OperationResult Revert()
 		{
-			// Nothing to do here...
+			return OperationResult.Success;
 		}
 	}
 }

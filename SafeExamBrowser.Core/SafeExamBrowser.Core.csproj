@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OperationModel\QueueExtensions.cs" />
+    <Compile Include="OperationModel\RepeatableOperationSequence.cs" />
     <Compile Include="Operations\CommunicationHostOperation.cs" />
     <Compile Include="Operations\LazyInitializationOperation.cs" />
     <Compile Include="Operations\I18nOperation.cs" />

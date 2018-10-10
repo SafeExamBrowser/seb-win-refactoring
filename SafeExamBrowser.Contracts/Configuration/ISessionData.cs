@@ -13,7 +13,7 @@ using SafeExamBrowser.Contracts.WindowsApi;
 namespace SafeExamBrowser.Contracts.Configuration
 {
 	/// <summary>
-	/// Defines all session-related (configuration) data.
+	/// Holds all session-related configuration and runtime data.
 	/// </summary>
 	public interface ISessionData
 	{
@@ -31,6 +31,16 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// The unique session identifier.
 		/// </summary>
 		Guid Id { get; }
+
+		/// <summary>
+		/// The new desktop, if <see cref="Settings.KioskMode.CreateNewDesktop"/> is active for this session.
+		/// </summary>
+		IDesktop NewDesktop { get; set; }
+
+		/// <summary>
+		/// The original desktop, if <see cref="Settings.KioskMode.CreateNewDesktop"/> is active for this session.
+		/// </summary>
+		IDesktop OriginalDesktop { get; set; }
 
 		/// <summary>
 		/// The startup token used by the client and runtime components for initial authentication.

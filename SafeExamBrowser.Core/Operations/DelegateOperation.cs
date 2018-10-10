@@ -16,7 +16,7 @@ namespace SafeExamBrowser.Core.Operations
 	/// A generic operation to allow for the (inline) definition of an operation via delegates. Useful if implementing a complete
 	/// <see cref="IOperation"/> would be an unnecessary overhead.
 	/// </summary>
-	public class DelegateOperation : IOperation
+	public class DelegateOperation : IRepeatableOperation
 	{
 		private Action perform;
 		private Action repeat;
@@ -46,9 +46,11 @@ namespace SafeExamBrowser.Core.Operations
 			return OperationResult.Success;
 		}
 
-		public void Revert()
+		public OperationResult Revert()
 		{
 			revert?.Invoke();
+
+			return OperationResult.Success;
 		}
 	}
 }

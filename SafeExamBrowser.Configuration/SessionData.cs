@@ -18,6 +18,8 @@ namespace SafeExamBrowser.Configuration
 		public IClientProxy ClientProxy { get; set; }
 		public IProcess ClientProcess { get; set; }
 		public Guid Id { get; set; }
+		public IDesktop NewDesktop { get; set; }
+		public IDesktop OriginalDesktop { get; set; }
 		public Guid StartupToken { get; set; }
 	}
 }

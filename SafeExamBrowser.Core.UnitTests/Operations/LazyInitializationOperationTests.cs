@@ -47,20 +47,6 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 
 		[TestMethod]
 		[ExpectedException(typeof(NullReferenceException))]
-		public void MustNotInstantiateOperationOnRepeat()
-		{
-			IOperation initialize()
-			{
-				return operationMock.Object;
-			};
-
-			var sut = new LazyInitializationOperation(initialize);
-
-			sut.Repeat();
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(NullReferenceException))]
 		public void MustNotInstantiateOperationOnRevert()
 		{
 			IOperation initialize()
@@ -82,16 +68,14 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 			};
 
 			operationMock.Setup(o => o.Perform()).Returns(OperationResult.Success);
-			operationMock.Setup(o => o.Repeat()).Returns(OperationResult.Failed);
+			operationMock.Setup(o => o.Revert()).Returns(OperationResult.Failed);
 
 			var sut = new LazyInitializationOperation(initialize);
 			var perform = sut.Perform();
-			var repeat = sut.Repeat();
-
-			sut.Revert();
+			var revert = sut.Revert();
 
 			Assert.AreEqual(OperationResult.Success, perform);
-			Assert.AreEqual(OperationResult.Failed, repeat);
+			Assert.AreEqual(OperationResult.Failed, revert);
 		}
 
 		[TestMethod]
@@ -147,6 +131,8 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 			{
 				if (first)
 				{
+					first = false;
+
 					return operation;
 				}
 
@@ -156,11 +142,9 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 			var sut = new LazyInitializationOperation(initialize);
 
 			sut.Perform();
-			sut.Repeat();
 			sut.Revert();
 
 			operationMock.Verify(o => o.Perform(), Times.Once);
-			operationMock.Verify(o => o.Repeat(), Times.Once);
 			operationMock.Verify(o => o.Revert(), Times.Once);
 		}
 	}

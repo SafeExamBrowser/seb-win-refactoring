@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core;
 using SafeExamBrowser.Contracts.Core.OperationModel;
@@ -58,17 +57,14 @@ namespace SafeExamBrowser.Client.Operations
 			return OperationResult.Success;
 		}
 
-		public OperationResult Repeat()
-		{
-			throw new InvalidOperationException($"The '{nameof(BrowserOperation)}' is not meant to be repeated!");
-		}
-
-		public void Revert()
+		public OperationResult Revert()
 		{
 			logger.Info("Terminating browser...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_TerminateBrowser);
 
 			browserController.Terminate();
+
+			return OperationResult.Success;
 		}
 	}
 }

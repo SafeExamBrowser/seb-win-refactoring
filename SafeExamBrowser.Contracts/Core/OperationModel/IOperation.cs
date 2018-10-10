@@ -31,13 +31,8 @@ namespace SafeExamBrowser.Contracts.Core.OperationModel
 		OperationResult Perform();
 
 		/// <summary>
-		/// Repeats the operation.
+		/// Reverts all changes made when executing the operation.
 		/// </summary>
-		OperationResult Repeat();
-
-		/// <summary>
-		/// Reverts all changes which were made when executing the operation.
-		/// </summary>
-		void Revert();
+		OperationResult Revert();
 	}
 }

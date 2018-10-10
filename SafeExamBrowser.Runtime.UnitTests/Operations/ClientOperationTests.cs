@@ -85,26 +85,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustStartClientWhenRepeating()
-		{
-			var result = default(OperationResult);
-			var response = new AuthenticationResponse { ProcessId = 1234 };
-			var communication = new CommunicationResult<AuthenticationResponse>(true, response);
-
-			process.SetupGet(p => p.Id).Returns(response.ProcessId);
-			processFactory.Setup(f => f.StartNew(It.IsAny<string>(), It.IsAny<string[]>())).Returns(process.Object).Callback(clientReady);
-			proxy.Setup(p => p.RequestAuthentication()).Returns(communication);
-			proxy.Setup(p => p.Connect(It.IsAny<Guid>(), true)).Returns(true);
-
-			result = sut.Repeat();
-
-			session.VerifySet(s => s.ClientProcess = process.Object, Times.Once);
-			session.VerifySet(s => s.ClientProxy = proxy.Object, Times.Once);
-
-			Assert.AreEqual(OperationResult.Success, result);
-		}
-
-		[TestMethod]
 		public void MustFailStartupIfClientNotStartedWithinTimeout()
 		{
 			var result = default(OperationResult);
@@ -151,6 +131,87 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			session.VerifySet(s => s.ClientProxy = proxy.Object, Times.Once);
 
 			Assert.AreEqual(OperationResult.Failed, result);
+		}
+
+		[TestMethod]
+		public void MustStartClientWhenRepeating()
+		{
+			var result = default(OperationResult);
+			var response = new AuthenticationResponse { ProcessId = 1234 };
+			var communication = new CommunicationResult<AuthenticationResponse>(true, response);
+
+			process.SetupGet(p => p.Id).Returns(response.ProcessId);
+			processFactory.Setup(f => f.StartNew(It.IsAny<string>(), It.IsAny<string[]>())).Returns(process.Object).Callback(clientReady);
+			proxy.Setup(p => p.RequestAuthentication()).Returns(communication);
+			proxy.Setup(p => p.Connect(It.IsAny<Guid>(), true)).Returns(true);
+
+			result = sut.Repeat();
+
+			session.VerifySet(s => s.ClientProcess = process.Object, Times.Once);
+			session.VerifySet(s => s.ClientProxy = proxy.Object, Times.Once);
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void MustTerminateClientOnRepeat()
+		{
+			var terminated = new Action(() =>
+			{
+				runtimeHost.Raise(h => h.ClientDisconnected += null);
+				process.Raise(p => p.Terminated += null, 0);
+			});
+
+			proxy.Setup(p => p.Disconnect()).Callback(terminated);
+			session.SetupGet(s => s.ClientProcess).Returns(process.Object);
+
+			var result = sut.Repeat();
+
+			proxy.Verify(p => p.InitiateShutdown(), Times.Once);
+			proxy.Verify(p => p.Disconnect(), Times.Once);
+			process.Verify(p => p.Kill(), Times.Never);
+			session.VerifySet(s => s.ClientProcess = null, Times.Once);
+			session.VerifySet(s => s.ClientProxy = null, Times.Once);
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void MustDoNothingIfNoClientCreated()
+		{
+			session.SetupGet(s => s.ClientProcess).Returns(null as IProcess);
+
+			var result = sut.Repeat();
+
+			session.VerifyGet(s => s.ClientProcess, Times.Once);
+
+			process.VerifyNoOtherCalls();
+			processFactory.VerifyNoOtherCalls();
+			proxy.VerifyNoOtherCalls();
+			proxyFactory.VerifyNoOtherCalls();
+			runtimeHost.VerifyNoOtherCalls();
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void MustDoNothingIfNoClientRunning()
+		{
+			process.SetupGet(p => p.HasTerminated).Returns(true);
+			session.SetupGet(s => s.ClientProcess).Returns(process.Object);
+
+			var result = sut.Repeat();
+
+			process.VerifyGet(p => p.HasTerminated, Times.Once);
+			session.VerifyGet(s => s.ClientProcess, Times.Exactly(2));
+
+			process.VerifyNoOtherCalls();
+			processFactory.VerifyNoOtherCalls();
+			proxy.VerifyNoOtherCalls();
+			proxyFactory.VerifyNoOtherCalls();
+			runtimeHost.VerifyNoOtherCalls();
+
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]

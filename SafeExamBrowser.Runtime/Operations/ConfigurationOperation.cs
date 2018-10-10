@@ -19,7 +19,7 @@ using SafeExamBrowser.Runtime.Operations.Events;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
-	internal class ConfigurationOperation : IOperation
+	internal class ConfigurationOperation : IRepeatableOperation
 	{
 		private IConfigurationRepository configuration;
 		private ILogger logger;
@@ -92,9 +92,9 @@ namespace SafeExamBrowser.Runtime.Operations
 			return OperationResult.Failed;
 		}
 
-		public void Revert()
+		public OperationResult Revert()
 		{
-			// Nothing to do here...
+			return OperationResult.Success;
 		}
 
 		private OperationResult LoadSettings(Uri uri)

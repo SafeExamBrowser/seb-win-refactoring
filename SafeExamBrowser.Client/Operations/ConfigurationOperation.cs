@@ -61,14 +61,9 @@ namespace SafeExamBrowser.Client.Operations
 			return OperationResult.Success;
 		}
 
-		public OperationResult Repeat()
+		public OperationResult Revert()
 		{
-			throw new InvalidOperationException($"The '{nameof(ConfigurationOperation)}' is not meant to be repeated!");
-		}
-
-		public void Revert()
-		{
-			// Nothing to do here...
+			return OperationResult.Success;
 		}
 	}
 }

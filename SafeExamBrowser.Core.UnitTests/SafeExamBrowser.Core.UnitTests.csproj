@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OperationModel\QueueExtensionTests.cs" />
+    <Compile Include="OperationModel\RepeatableOperationSequenceTests.cs" />
     <Compile Include="Operations\CommunicationHostOperationTests.cs" />
     <Compile Include="Operations\LazyInitializationOperationTests.cs" />
     <Compile Include="Operations\I18nOperationTests.cs" />

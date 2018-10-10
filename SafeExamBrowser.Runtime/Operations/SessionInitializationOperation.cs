@@ -15,7 +15,7 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
-	internal class SessionInitializationOperation : IOperation
+	internal class SessionInitializationOperation : IRepeatableOperation
 	{
 		private IConfigurationRepository configuration;
 		private ILogger logger;
@@ -40,14 +40,12 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public OperationResult Repeat()
 		{
-			InitializeSessionConfiguration();
-
-			return OperationResult.Success;
+			return Perform();
 		}
 
-		public void Revert()
+		public OperationResult Revert()
 		{
-			// Nothing to do here...
+			return OperationResult.Success;
 		}
 
 		private void InitializeSessionConfiguration()

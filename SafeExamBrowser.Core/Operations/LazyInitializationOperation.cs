@@ -83,14 +83,9 @@ namespace SafeExamBrowser.Core.Operations
 			return operation.Perform();
 		}
 
-		public OperationResult Repeat()
+		public OperationResult Revert()
 		{
-			return operation.Repeat();
-		}
-
-		public void Revert()
-		{
-			operation.Revert();
+			return operation.Revert();
 		}
 	}
 }

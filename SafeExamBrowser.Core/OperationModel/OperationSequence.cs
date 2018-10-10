@@ -20,9 +20,9 @@ namespace SafeExamBrowser.Core.OperationModel
 	/// </summary>
 	public class OperationSequence : IOperationSequence
 	{
-		private ILogger logger;
-		private Queue<IOperation> operations = new Queue<IOperation>();
-		private Stack<IOperation> stack = new Stack<IOperation>();
+		protected ILogger logger;
+		protected Queue<IOperation> operations = new Queue<IOperation>();
+		protected Stack<IOperation> stack = new Stack<IOperation>();
 
 		public event ActionRequiredEventHandler ActionRequired
 		{
@@ -44,7 +44,7 @@ namespace SafeExamBrowser.Core.OperationModel
 			this.operations = new Queue<IOperation>(operations);
 		}
 
-		public OperationResult TryPerform()
+		public virtual OperationResult TryPerform()
 		{
 			var result = OperationResult.Failed;
 
@@ -66,53 +66,36 @@ namespace SafeExamBrowser.Core.OperationModel
 			return result;
 		}
 
-		public OperationResult TryRepeat()
+		public virtual OperationResult TryRevert()
 		{
 			var result = OperationResult.Failed;
 
 			try
 			{
-				Initialize();
-				result = Repeat();
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to repeat operations!", e);
-			}
-
-			return result;
-		}
-
-		public bool TryRevert()
-		{
-			var success = false;
-
-			try
-			{
 				Initialize(true);
-				success = Revert();
+				result = Revert();
 			}
 			catch (Exception e)
 			{
 				logger.Error("Failed to revert operations!", e);
 			}
 
-			return success;
+			return result;
 		}
 
-		private void Initialize(bool indeterminate = false)
+		protected virtual void Initialize(bool indeterminate = false)
 		{
 			if (indeterminate)
 			{
-				ProgressChanged?.Invoke(new ProgressChangedEventArgs { IsIndeterminate = true });
+				UpdateProgress(new ProgressChangedEventArgs { IsIndeterminate = true });
 			}
 			else
 			{
-				ProgressChanged?.Invoke(new ProgressChangedEventArgs { CurrentValue = 0, MaxValue = operations.Count });
+				UpdateProgress(new ProgressChangedEventArgs { CurrentValue = 0, MaxValue = operations.Count });
 			}
 		}
 
-		private OperationResult Perform()
+		protected virtual OperationResult Perform()
 		{
 			foreach (var operation in operations)
 			{
@@ -134,39 +117,13 @@ namespace SafeExamBrowser.Core.OperationModel
 					return result;
 				}
 
-				ProgressChanged?.Invoke(new ProgressChangedEventArgs { Progress = true });
+				UpdateProgress(new ProgressChangedEventArgs { Progress = true });
 			}
 
 			return OperationResult.Success;
 		}
 
-		private OperationResult Repeat()
-		{
-			foreach (var operation in operations)
-			{
-				var result = OperationResult.Failed;
-
-				try
-				{
-					result = operation.Repeat();
-				}
-				catch (Exception e)
-				{
-					logger.Error($"Caught unexpected exception while repeating operation '{operation.GetType().Name}'!", e);
-				}
-
-				if (result != OperationResult.Success)
-				{
-					return result;
-				}
-
-				ProgressChanged?.Invoke(new ProgressChangedEventArgs { Progress = true });
-			}
-
-			return OperationResult.Success;
-		}
-
-		private bool Revert(bool regress = false)
+		protected virtual OperationResult Revert(bool regress = false)
 		{
 			var success = true;
 
@@ -176,21 +133,31 @@ namespace SafeExamBrowser.Core.OperationModel
 
 				try
 				{
-					operation.Revert();
+					var result = operation.Revert();
+
+					if (result != OperationResult.Success)
+					{
+						success = false;
+					}
 				}
 				catch (Exception e)
 				{
-					logger.Error($"Failed to revert operation '{operation.GetType().Name}'!", e);
+					logger.Error($"Caught unexpected exception while reverting operation '{operation.GetType().Name}'!", e);
 					success = false;
 				}
 
 				if (regress)
 				{
-					ProgressChanged?.Invoke(new ProgressChangedEventArgs { Regress = true });
+					UpdateProgress(new ProgressChangedEventArgs { Regress = true });
 				}
 			}
 
-			return success;
+			return success ? OperationResult.Success : OperationResult.Failed;
+		}
+
+		protected void UpdateProgress(ProgressChangedEventArgs args)
+		{
+			ProgressChanged?.Invoke(args);
 		}
 	}
 }

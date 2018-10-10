@@ -63,6 +63,8 @@
     <Compile Include="Core\OperationModel\Events\ProgressChangedEventHandler.cs" />
     <Compile Include="Core\OperationModel\Events\StatusChangedEventHandler.cs" />
     <Compile Include="Core\OperationModel\IOperationSequence.cs" />
+    <Compile Include="Core\OperationModel\IRepeatableOperation.cs" />
+    <Compile Include="Core\OperationModel\IRepeatableOperationSequence.cs" />
     <Compile Include="Core\OperationModel\OperationResult.cs" />
     <Compile Include="Browser\DownloadEventArgs.cs" />
     <Compile Include="Browser\DownloadFinishedCallback.cs" />

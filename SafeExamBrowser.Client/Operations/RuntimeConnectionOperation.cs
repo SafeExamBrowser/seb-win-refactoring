@@ -51,12 +51,7 @@ namespace SafeExamBrowser.Client.Operations
 			return connected ? OperationResult.Success : OperationResult.Failed;
 		}
 
-		public OperationResult Repeat()
-		{
-			throw new InvalidOperationException($"The '{nameof(RuntimeConnectionOperation)}' is not meant to be repeated!");
-		}
-
-		public void Revert()
+		public OperationResult Revert()
 		{
 			logger.Info("Closing runtime connection...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_CloseRuntimeConnection);
@@ -73,7 +68,11 @@ namespace SafeExamBrowser.Client.Operations
 				{
 					logger.Error("Failed to disconnect from the runtime!");
 				}
+
+				return success ? OperationResult.Success : OperationResult.Failed;
 			}
+
+			return OperationResult.Success;
 		}
 	}
 }

@@ -35,7 +35,7 @@ namespace SafeExamBrowser.Runtime
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private IOperationSequence bootstrapSequence;
-		private IOperationSequence sessionSequence;
+		private IRepeatableOperationSequence sessionSequence;
 		private IRuntimeHost runtimeHost;
 		private IRuntimeWindow runtimeWindow;
 		private IServiceProxy service;
@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Runtime
 			ILogger logger,
 			IMessageBox messageBox,
 			IOperationSequence bootstrapSequence,
-			IOperationSequence sessionSequence,
+			IRepeatableOperationSequence sessionSequence,
 			IRuntimeHost runtimeHost,
 			IServiceProxy service,
 			Action shutdown,
@@ -127,7 +127,7 @@ namespace SafeExamBrowser.Runtime
 			logger.Log(string.Empty);
 			logger.Info("Initiating shutdown procedure...");
 
-			var success = bootstrapSequence.TryRevert();
+			var success = bootstrapSequence.TryRevert() == OperationResult.Success;
 
 			if (success)
 			{
@@ -181,8 +181,8 @@ namespace SafeExamBrowser.Runtime
 
 				if (result == OperationResult.Failed)
 				{
-					// TODO: Check if message box is rendered on new desktop as well! -> E.g. if settings for reconfiguration are invalid
-					messageBox.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
+					// TODO: Find solution for this; maybe manually switch back to original desktop?
+					// messageBox.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
 
 					if (!initial)
 					{
@@ -202,7 +202,7 @@ namespace SafeExamBrowser.Runtime
 
 			DeregisterSessionEvents();
 
-			var success = sessionSequence.TryRevert();
+			var success = sessionSequence.TryRevert() == OperationResult.Success;
 
 			if (success)
 			{
@@ -236,37 +236,20 @@ namespace SafeExamBrowser.Runtime
 
 		private void DeregisterSessionEvents()
 		{
-			configuration.CurrentSession.ClientProcess.Terminated -= ClientProcess_Terminated;
-			configuration.CurrentSession.ClientProxy.ConnectionLost -= Client_ConnectionLost;
+			if (configuration.CurrentSession.ClientProcess != null)
+			{
+				configuration.CurrentSession.ClientProcess.Terminated -= ClientProcess_Terminated;
+			}
+
+			if (configuration.CurrentSession.ClientProxy != null)
+			{
+				configuration.CurrentSession.ClientProxy.ConnectionLost -= Client_ConnectionLost;
+			}
 		}
 
 		private void BootstrapSequence_ProgressChanged(ProgressChangedEventArgs args)
 		{
-			// TODO: Duplicated code (for splashScreen as well as runtimeWindow)!
-			if (args.CurrentValue.HasValue)
-			{
-				splashScreen?.SetValue(args.CurrentValue.Value);
-			}
-
-			if (args.IsIndeterminate == true)
-			{
-				splashScreen?.SetIndeterminate();
-			}
-
-			if (args.MaxValue.HasValue)
-			{
-				splashScreen?.SetMaxValue(args.MaxValue.Value);
-			}
-
-			if (args.Progress == true)
-			{
-				splashScreen?.Progress();
-			}
-
-			if (args.Regress == true)
-			{
-				splashScreen?.Regress();
-			}
+			MapProgress(splashScreen, args);
 		}
 
 		private void BootstrapSequence_StatusChanged(TextKey status)
@@ -277,7 +260,12 @@ namespace SafeExamBrowser.Runtime
 		private void ClientProcess_Terminated(int exitCode)
 		{
 			logger.Error($"Client application has unexpectedly terminated with exit code {exitCode}!");
-			// TODO: Check if message box is rendered on new desktop as well -> otherwise shutdown is blocked! Check if parent needed!
+
+			if (sessionRunning)
+			{
+				StopSession();
+			}
+
 			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
 
 			shutdown.Invoke();
@@ -286,7 +274,12 @@ namespace SafeExamBrowser.Runtime
 		private void Client_ConnectionLost()
 		{
 			logger.Error("Lost connection to the client application!");
-			// TODO: Check if message box is rendered on new desktop as well -> otherwise shutdown is blocked! Check if parent needed!
+
+			if (sessionRunning)
+			{
+				StopSession();
+			}
+
 			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
 
 			shutdown.Invoke();
@@ -400,35 +393,40 @@ namespace SafeExamBrowser.Runtime
 
 		private void SessionSequence_ProgressChanged(ProgressChangedEventArgs args)
 		{
-			if (args.CurrentValue.HasValue)
-			{
-				runtimeWindow?.SetValue(args.CurrentValue.Value);
-			}
-
-			if (args.IsIndeterminate == true)
-			{
-				runtimeWindow?.SetIndeterminate();
-			}
-
-			if (args.MaxValue.HasValue)
-			{
-				runtimeWindow?.SetMaxValue(args.MaxValue.Value);
-			}
-
-			if (args.Progress == true)
-			{
-				runtimeWindow?.Progress();
-			}
-
-			if (args.Regress == true)
-			{
-				runtimeWindow?.Regress();
-			}
+			MapProgress(runtimeWindow, args);
 		}
 
 		private void SessionSequence_StatusChanged(TextKey status)
 		{
 			runtimeWindow?.UpdateStatus(status, true);
+		}
+
+		private void MapProgress(IProgressIndicator progressIndicator, ProgressChangedEventArgs args)
+		{
+			if (args.CurrentValue.HasValue)
+			{
+				progressIndicator?.SetValue(args.CurrentValue.Value);
+			}
+
+			if (args.IsIndeterminate == true)
+			{
+				progressIndicator?.SetIndeterminate();
+			}
+
+			if (args.MaxValue.HasValue)
+			{
+				progressIndicator?.SetMaxValue(args.MaxValue.Value);
+			}
+
+			if (args.Progress == true)
+			{
+				progressIndicator?.Progress();
+			}
+
+			if (args.Regress == true)
+			{
+				progressIndicator?.Regress();
+			}
 		}
 	}
 }

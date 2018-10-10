@@ -64,9 +64,9 @@ namespace SafeExamBrowser.Configuration
 		{
 			CurrentSession = new SessionData
 			{
-				ClientProcess = CurrentSession?.ClientProcess,
-				ClientProxy = CurrentSession?.ClientProxy,
 				Id = Guid.NewGuid(),
+				NewDesktop = CurrentSession?.NewDesktop,
+				OriginalDesktop = CurrentSession?.OriginalDesktop,
 				StartupToken = Guid.NewGuid()
 			};
 

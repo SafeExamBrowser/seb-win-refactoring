@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core;
@@ -91,12 +90,7 @@ namespace SafeExamBrowser.Client.Operations
 			return OperationResult.Success;
 		}
 
-		public OperationResult Repeat()
-		{
-			throw new InvalidOperationException($"The '{nameof(TaskbarOperation)}' is not meant to be repeated!");
-		}
-
-		public void Revert()
+		public OperationResult Revert()
 		{
 			logger.Info("Terminating taskbar...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_TerminateTaskbar);
@@ -120,6 +114,8 @@ namespace SafeExamBrowser.Client.Operations
 			{
 				wirelessNetwork.Terminate();
 			}
+
+			return OperationResult.Success;
 		}
 
 		private void AddKeyboardLayoutControl()

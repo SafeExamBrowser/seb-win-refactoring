@@ -83,7 +83,6 @@
     <Compile Include="Operations\KioskModeOperationTests.cs" />
     <Compile Include="Operations\ServiceOperationTests.cs" />
     <Compile Include="Operations\ClientOperationTests.cs" />
-    <Compile Include="Operations\ClientTerminationOperationTests.cs" />
     <Compile Include="Operations\SessionInitializationOperationTests.cs" />
     <Compile Include="RuntimeControllerTests.cs" />
     <Compile Include="Communication\RuntimeHostTests.cs" />

@@ -117,7 +117,7 @@ namespace SafeExamBrowser.Monitoring.Windows
 
 		private void OnWindowChanged(IntPtr window)
 		{
-			if (activeWindow != window)
+			if (window != IntPtr.Zero && activeWindow != window)
 			{
 				logger.Debug($"Window has changed from {activeWindow} to {window}.");
 				activeWindow = window;

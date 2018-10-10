@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.Contracts.Core.OperationModel
 {
 	/// <summary>
-	/// Defines the result of the sequential execution of <see cref="IOperation"/>s (as part of an <see cref="IOperationSequence"/>).
+	/// Defines the operation result of the execution of an <see cref="IOperation"/> resp. <see cref="IOperationSequence"/>.
 	/// </summary>
 	public enum OperationResult
 	{

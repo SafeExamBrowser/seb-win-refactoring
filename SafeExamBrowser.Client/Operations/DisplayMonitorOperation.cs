@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
@@ -44,18 +43,15 @@ namespace SafeExamBrowser.Client.Operations
 			return OperationResult.Success;
 		}
 
-		public OperationResult Repeat()
-		{
-			throw new InvalidOperationException($"The '{nameof(DisplayMonitorOperation)}' is not meant to be repeated!");
-		}
-
-		public void Revert()
+		public OperationResult Revert()
 		{
 			logger.Info("Restoring working area...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_RestoreWorkingArea);
 
 			displayMonitor.StopMonitoringDisplayChanges();
 			displayMonitor.ResetPrimaryDisplay();
+
+			return OperationResult.Success;
 		}
 	}
 }

@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Globalization;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Core.OperationModel.Events;
@@ -43,14 +42,9 @@ namespace SafeExamBrowser.Core.Operations
 			return OperationResult.Success;
 		}
 
-		public OperationResult Repeat()
+		public OperationResult Revert()
 		{
-			throw new InvalidOperationException($"The '{nameof(I18nOperation)}' is not meant to be repeated!");
-		}
-
-		public void Revert()
-		{
-			// Nothing to do here...
+			return OperationResult.Success;
 		}
 	}
 }

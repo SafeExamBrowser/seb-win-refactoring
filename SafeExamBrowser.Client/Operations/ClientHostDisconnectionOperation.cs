@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Threading;
 using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
@@ -42,29 +41,32 @@ namespace SafeExamBrowser.Client.Operations
 			return OperationResult.Success;
 		}
 
-		public OperationResult Repeat()
+		public OperationResult Revert()
 		{
-			throw new InvalidOperationException($"The '{nameof(ClientHostDisconnectionOperation)}' is not meant to be repeated!");
-		}
-
-		public void Revert()
-		{
-			var disconnected = false;
-			var disconnectedEvent = new AutoResetEvent(false);
-			var disconnectedEventHandler = new CommunicationEventHandler(() => disconnectedEvent.Set());
-
 			StatusChanged?.Invoke(TextKey.OperationStatus_WaitRuntimeDisconnection);
-
-			clientHost.RuntimeDisconnected += disconnectedEventHandler;
 
 			if (clientHost.IsConnected)
 			{
+				var disconnected = false;
+				var disconnectedEvent = new AutoResetEvent(false);
+				var disconnectedEventHandler = new CommunicationEventHandler(() => disconnectedEvent.Set());
+
+				clientHost.RuntimeDisconnected += disconnectedEventHandler;
+
 				logger.Info("Waiting for runtime to disconnect from client communication host...");
 				disconnected = disconnectedEvent.WaitOne(timeout_ms);
 
-				if (!disconnected)
+				clientHost.RuntimeDisconnected -= disconnectedEventHandler;
+
+				if (disconnected)
 				{
-					logger.Error($"Runtime failed to disconnect within {timeout_ms / 1000} seconds!");
+					logger.Info("The runtime has successfully disconnected from the client communication host.");
+				}
+				else
+				{
+					logger.Error($"The runtime failed to disconnect within {timeout_ms / 1000} seconds!");
+
+					return OperationResult.Failed;
 				}
 			}
 			else
@@ -72,7 +74,7 @@ namespace SafeExamBrowser.Client.Operations
 				logger.Info("The runtime has already disconnected from the client communication host.");
 			}
 
-			clientHost.RuntimeDisconnected -= disconnectedEventHandler;
+			return OperationResult.Success;
 		}
 	}
 }

@@ -90,8 +90,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void MustCorrectlyRevertCreateNewDesktop()
 		{
-			var originalDesktop = new Mock<IDesktop>();
 			var newDesktop = new Mock<IDesktop>();
+			var originalDesktop = new Mock<IDesktop>();
 			var order = 0;
 			var activate = 0;
 			var setStartup = 0;
@@ -135,8 +135,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void MustCorrectlySwitchToOtherKioskModeWhenRepeating()
 		{
-			var originalDesktop = new Mock<IDesktop>();
 			var newDesktop = new Mock<IDesktop>();
+			var originalDesktop = new Mock<IDesktop>();
 
 			desktopFactory.Setup(f => f.GetCurrent()).Returns(originalDesktop.Object);
 			desktopFactory.Setup(f => f.CreateNew(It.IsAny<string>())).Returns(newDesktop.Object);
@@ -192,8 +192,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void MustNotReinitializeCreateNewDesktopWhenRepeating()
 		{
-			var originalDesktop = new Mock<IDesktop>();
 			var newDesktop = new Mock<IDesktop>();
+			var originalDesktop = new Mock<IDesktop>();
 
 			settings.KioskMode = KioskMode.CreateNewDesktop;
 

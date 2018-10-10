@@ -16,7 +16,7 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
-	internal class ServiceOperation : IOperation
+	internal class ServiceOperation : IRepeatableOperation
 	{
 		private bool connected, mandatory;
 		private IConfigurationRepository configuration;
@@ -43,7 +43,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (mandatory && !connected)
 			{
-				logger.Error("Aborting startup because the service is mandatory but not available!");
+				logger.Error("Failed to initialize a service session since the service is mandatory but not available!");
 
 				return OperationResult.Failed;
 			}
@@ -61,17 +61,17 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public OperationResult Repeat()
 		{
-			// TODO: Re-check if mandatory, if so, try to connect (if not connected) - otherwise, no action required (except maybe logging of status?)
-			if (connected)
+			var result = Revert();
+
+			if (result != OperationResult.Success)
 			{
-				StopServiceSession();
-				StartServiceSession();
+				return result;
 			}
 
-			return OperationResult.Success;
+			return Perform();
 		}
 
-		public void Revert()
+		public OperationResult Revert()
 		{
 			logger.Info("Finalizing service session...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_FinalizeServiceSession);
@@ -91,6 +91,8 @@ namespace SafeExamBrowser.Runtime.Operations
 					logger.Error("Failed to disconnect from the service!");
 				}
 			}
+
+			return OperationResult.Success;
 		}
 
 		private void StartServiceSession()

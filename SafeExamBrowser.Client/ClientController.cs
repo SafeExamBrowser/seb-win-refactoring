@@ -140,7 +140,7 @@ namespace SafeExamBrowser.Client
 
 			DeregisterEvents();
 
-			var success = operations.TryRevert();
+			var success = operations.TryRevert() == OperationResult.Success;
 
 			if (success)
 			{

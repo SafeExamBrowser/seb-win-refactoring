@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Core.Operations
 	/// An operation to handle the lifetime of an <see cref="ICommunicationHost"/>. The host is started during <see cref="Perform"/>,
 	/// stopped and restarted during <see cref="Repeat"/> (if not running) and stopped during <see cref="Revert"/>.
 	/// </summary>
-	public class CommunicationHostOperation : IOperation
+	public class CommunicationHostOperation : IRepeatableOperation
 	{
 		private ICommunicationHost host;
 		private ILogger logger;
@@ -56,12 +56,14 @@ namespace SafeExamBrowser.Core.Operations
 			return OperationResult.Success;
 		}
 
-		public void Revert()
+		public OperationResult Revert()
 		{
 			logger.Info("Stopping communication host...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_StopCommunicationHost);
 
 			host.Stop();
+
+			return OperationResult.Success;
 		}
 	}
 }

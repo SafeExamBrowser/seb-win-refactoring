@@ -66,20 +66,21 @@ namespace SafeExamBrowser.Runtime
 			var uiFactory = new UserInterfaceFactory(text);
 
 			var bootstrapOperations = new Queue<IOperation>();
-			var sessionOperations = new Queue<IOperation>();
+			var sessionOperations = new Queue<IRepeatableOperation>();
 
 			bootstrapOperations.Enqueue(new I18nOperation(logger, text, textResource));
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(runtimeHost, logger));
 
 			sessionOperations.Enqueue(new ConfigurationOperation(appConfig, configuration, logger, resourceLoader, args));
+			sessionOperations.Enqueue(new ClientTerminationOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, FIFTEEN_SECONDS));
+			sessionOperations.Enqueue(new KioskModeTerminationOperation(configuration, desktopFactory, explorerShell, logger, processFactory));
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost));
 			sessionOperations.Enqueue(new ServiceOperation(configuration, logger, serviceProxy));
-			sessionOperations.Enqueue(new ClientTerminationOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, FIFTEEN_SECONDS));
 			sessionOperations.Enqueue(new KioskModeOperation(configuration, desktopFactory, explorerShell, logger, processFactory));
 			sessionOperations.Enqueue(new ClientOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, FIFTEEN_SECONDS));
 
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
-			var sessionSequence = new OperationSequence(logger, sessionOperations);
+			var sessionSequence = new RepeatableOperationSequence(logger, sessionOperations);
 
 			RuntimeController = new RuntimeController(appConfig, configuration, logger, messageBox, bootstrapSequence, sessionSequence, runtimeHost, serviceProxy, shutdown, text, uiFactory);
 		}
