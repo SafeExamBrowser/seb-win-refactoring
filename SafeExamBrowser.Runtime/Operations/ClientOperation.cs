@@ -66,11 +66,11 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (success)
 			{
-				logger.Info($"Successfully started new client instance.");
+				logger.Info("Successfully started new client instance.");
 			}
 			else
 			{
-				logger.Error($"Failed to start new client instance! Aborting procedure...");
+				logger.Error("Failed to start new client instance! Aborting procedure...");
 			}
 
 			return success ? OperationResult.Success : OperationResult.Failed;

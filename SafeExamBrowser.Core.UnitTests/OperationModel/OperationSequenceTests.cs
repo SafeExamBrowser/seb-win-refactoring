@@ -350,9 +350,9 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operationB.Setup(o => o.Perform()).Returns(OperationResult.Success);
 			operationC.Setup(o => o.Perform()).Returns(OperationResult.Success);
 
-			operationA.Setup(o => o.Revert()).Callback(() => a = ++current);
-			operationB.Setup(o => o.Revert()).Callback(() => b = ++current);
-			operationC.Setup(o => o.Revert()).Callback(() => c = ++current);
+			operationA.Setup(o => o.Revert()).Returns(OperationResult.Success).Callback(() => a = ++current);
+			operationB.Setup(o => o.Revert()).Returns(OperationResult.Success).Callback(() => b = ++current);
+			operationC.Setup(o => o.Revert()).Returns(OperationResult.Success).Callback(() => c = ++current);
 
 			operations.Enqueue(operationA.Object);
 			operations.Enqueue(operationB.Object);

@@ -26,21 +26,21 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private Action clientReady;
 		private Action terminated;
 		private AppConfig appConfig;
-		private Mock<IConfigurationRepository> configuration;
 		private Mock<IClientProxy> proxy;
 		private Mock<ILogger> logger;
 		private Mock<IProcess> process;
 		private Mock<IProcessFactory> processFactory;
 		private Mock<IProxyFactory> proxyFactory;
 		private Mock<IRuntimeHost> runtimeHost;
-		private Mock<ISessionData> session;
+		private Mock<ISessionConfiguration> session;
+		private SessionContext sessionContext;
+
 		private ClientOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
 			appConfig = new AppConfig();
-			configuration = new Mock<IConfigurationRepository>();
 			clientReady = new Action(() => runtimeHost.Raise(h => h.ClientReady += null));
 			logger = new Mock<ILogger>();
 			process = new Mock<IProcess>();
@@ -48,20 +48,20 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			proxy = new Mock<IClientProxy>();
 			proxyFactory = new Mock<IProxyFactory>();
 			runtimeHost = new Mock<IRuntimeHost>();
-			session = new Mock<ISessionData>();
+			session = new Mock<ISessionConfiguration>();
+			sessionContext = new SessionContext();
 			terminated = new Action(() =>
 			{
 				runtimeHost.Raise(h => h.ClientDisconnected += null);
 				process.Raise(p => p.Terminated += null, 0);
 			});
 
-			configuration.SetupGet(c => c.CurrentSession).Returns(session.Object);
-			configuration.SetupGet(c => c.AppConfig).Returns(appConfig);
+			session.SetupGet(s => s.AppConfig).Returns(appConfig);
+			sessionContext.Current = session.Object;
+			sessionContext.Next = session.Object;
 			proxyFactory.Setup(f => f.CreateClientProxy(It.IsAny<string>())).Returns(proxy.Object);
-			session.SetupGet(s => s.ClientProcess).Returns(process.Object);
-			session.SetupGet(s => s.ClientProxy).Returns(proxy.Object);
 
-			sut = new ClientOperation(configuration.Object, logger.Object, processFactory.Object, proxyFactory.Object, runtimeHost.Object, 0);
+			sut = new ClientOperation(logger.Object, processFactory.Object, proxyFactory.Object, runtimeHost.Object, sessionContext, 0);
 		}
 
 		[TestMethod]
@@ -78,9 +78,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			result = sut.Perform();
 
-			session.VerifySet(s => s.ClientProcess = process.Object, Times.Once);
-			session.VerifySet(s => s.ClientProxy = proxy.Object, Times.Once);
-
+			Assert.AreEqual(process.Object, sessionContext.ClientProcess);
+			Assert.AreEqual(proxy.Object, sessionContext.ClientProxy);
 			Assert.AreEqual(OperationResult.Success, result);
 		}
 
@@ -91,9 +90,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			result = sut.Perform();
 
-			session.VerifySet(s => s.ClientProcess = process.Object, Times.Never);
-			session.VerifySet(s => s.ClientProxy = proxy.Object, Times.Never);
-
+			Assert.IsNull(sessionContext.ClientProcess);
+			Assert.IsNull(sessionContext.ClientProxy);
 			Assert.AreEqual(OperationResult.Failed, result);
 		}
 
@@ -107,9 +105,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			result = sut.Perform();
 
-			session.VerifySet(s => s.ClientProcess = process.Object, Times.Once);
-			session.VerifySet(s => s.ClientProxy = proxy.Object, Times.Once);
-
+			Assert.IsNotNull(sessionContext.ClientProcess);
+			Assert.IsNotNull(sessionContext.ClientProxy);
 			Assert.AreEqual(OperationResult.Failed, result);
 		}
 
@@ -127,9 +124,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			result = sut.Perform();
 
-			session.VerifySet(s => s.ClientProcess = process.Object, Times.Once);
-			session.VerifySet(s => s.ClientProxy = proxy.Object, Times.Once);
-
+			Assert.IsNotNull(sessionContext.ClientProcess);
+			Assert.IsNotNull(sessionContext.ClientProxy);
 			Assert.AreEqual(OperationResult.Failed, result);
 		}
 
@@ -147,70 +143,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			result = sut.Repeat();
 
-			session.VerifySet(s => s.ClientProcess = process.Object, Times.Once);
-			session.VerifySet(s => s.ClientProxy = proxy.Object, Times.Once);
-
-			Assert.AreEqual(OperationResult.Success, result);
-		}
-
-		[TestMethod]
-		public void MustTerminateClientOnRepeat()
-		{
-			var terminated = new Action(() =>
-			{
-				runtimeHost.Raise(h => h.ClientDisconnected += null);
-				process.Raise(p => p.Terminated += null, 0);
-			});
-
-			proxy.Setup(p => p.Disconnect()).Callback(terminated);
-			session.SetupGet(s => s.ClientProcess).Returns(process.Object);
-
-			var result = sut.Repeat();
-
-			proxy.Verify(p => p.InitiateShutdown(), Times.Once);
-			proxy.Verify(p => p.Disconnect(), Times.Once);
-			process.Verify(p => p.Kill(), Times.Never);
-			session.VerifySet(s => s.ClientProcess = null, Times.Once);
-			session.VerifySet(s => s.ClientProxy = null, Times.Once);
-
-			Assert.AreEqual(OperationResult.Success, result);
-		}
-
-		[TestMethod]
-		public void MustDoNothingIfNoClientCreated()
-		{
-			session.SetupGet(s => s.ClientProcess).Returns(null as IProcess);
-
-			var result = sut.Repeat();
-
-			session.VerifyGet(s => s.ClientProcess, Times.Once);
-
-			process.VerifyNoOtherCalls();
-			processFactory.VerifyNoOtherCalls();
-			proxy.VerifyNoOtherCalls();
-			proxyFactory.VerifyNoOtherCalls();
-			runtimeHost.VerifyNoOtherCalls();
-
-			Assert.AreEqual(OperationResult.Success, result);
-		}
-
-		[TestMethod]
-		public void MustDoNothingIfNoClientRunning()
-		{
-			process.SetupGet(p => p.HasTerminated).Returns(true);
-			session.SetupGet(s => s.ClientProcess).Returns(process.Object);
-
-			var result = sut.Repeat();
-
-			process.VerifyGet(p => p.HasTerminated, Times.Once);
-			session.VerifyGet(s => s.ClientProcess, Times.Exactly(2));
-
-			process.VerifyNoOtherCalls();
-			processFactory.VerifyNoOtherCalls();
-			proxy.VerifyNoOtherCalls();
-			proxyFactory.VerifyNoOtherCalls();
-			runtimeHost.VerifyNoOtherCalls();
-
+			Assert.AreEqual(process.Object, sessionContext.ClientProcess);
+			Assert.AreEqual(proxy.Object, sessionContext.ClientProxy);
 			Assert.AreEqual(OperationResult.Success, result);
 		}
 
@@ -225,8 +159,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			proxy.Verify(p => p.InitiateShutdown(), Times.Once);
 			proxy.Verify(p => p.Disconnect(), Times.Once);
 			process.Verify(p => p.Kill(), Times.Never);
-			session.VerifySet(s => s.ClientProcess = null, Times.Once);
-			session.VerifySet(s => s.ClientProxy = null, Times.Once);
+
+			Assert.IsNull(sessionContext.ClientProcess);
+			Assert.IsNull(sessionContext.ClientProxy);
 		}
 
 		[TestMethod]
@@ -238,8 +173,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			sut.Revert();
 
 			process.Verify(p => p.Kill(), Times.AtLeastOnce);
-			session.VerifySet(s => s.ClientProcess = null, Times.Once);
-			session.VerifySet(s => s.ClientProxy = null, Times.Once);
+
+			Assert.IsNull(sessionContext.ClientProcess);
+			Assert.IsNull(sessionContext.ClientProxy);
 		}
 
 		[TestMethod]
@@ -249,12 +185,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			sut.Revert();
 
 			process.Verify(p => p.Kill(), Times.Exactly(5));
-			session.VerifySet(s => s.ClientProcess = null, Times.Never);
-			session.VerifySet(s => s.ClientProxy = null, Times.Never);
+
+			Assert.IsNotNull(sessionContext.ClientProcess);
+			Assert.IsNotNull(sessionContext.ClientProxy);
 		}
 
 		[TestMethod]
-		public void MustNotStopClientIfAlreadyTerminated()
+		public void MustNotStopClientOnRevertIfAlreadyTerminated()
 		{
 			process.SetupGet(p => p.HasTerminated).Returns(true);
 
@@ -263,8 +200,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			proxy.Verify(p => p.InitiateShutdown(), Times.Never);
 			proxy.Verify(p => p.Disconnect(), Times.Never);
 			process.Verify(p => p.Kill(), Times.Never);
-			session.VerifySet(s => s.ClientProcess = null, Times.Never);
-			session.VerifySet(s => s.ClientProxy = null, Times.Never);
+
+			Assert.IsNull(sessionContext.ClientProcess);
+			Assert.IsNull(sessionContext.ClientProxy);
 		}
 
 		private void PerformNormally()

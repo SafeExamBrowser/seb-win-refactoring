@@ -23,7 +23,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private Mock<IConfigurationRepository> configuration;
 		private Mock<ILogger> logger;
 		private Mock<IRuntimeHost> runtimeHost;
-		private Mock<ISessionData> session;
+		private Mock<ISessionConfiguration> session;
+		private SessionContext sessionContext;
+
 		private SessionInitializationOperation sut;
 
 		[TestInitialize]
@@ -33,12 +35,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			configuration = new Mock<IConfigurationRepository>();
 			logger = new Mock<ILogger>();
 			runtimeHost = new Mock<IRuntimeHost>();
-			session = new Mock<ISessionData>();
+			session = new Mock<ISessionConfiguration>();
+			sessionContext = new SessionContext();
 
-			configuration.SetupGet(c => c.CurrentSession).Returns(session.Object);
-			configuration.SetupGet(c => c.AppConfig).Returns(appConfig);
+			configuration.Setup(c => c.InitializeSessionConfiguration()).Returns(session.Object);
+			session.SetupGet(s => s.AppConfig).Returns(appConfig);
+			sessionContext.Next = session.Object;
 
-			sut = new SessionInitializationOperation(configuration.Object, logger.Object, runtimeHost.Object);
+			sut = new SessionInitializationOperation(configuration.Object, logger.Object, runtimeHost.Object, sessionContext);
 		}
 
 		[TestMethod]

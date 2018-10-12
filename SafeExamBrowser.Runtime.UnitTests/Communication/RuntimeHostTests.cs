@@ -12,7 +12,6 @@ using Moq;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Hosts;
-using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Runtime.Communication;
 
@@ -21,7 +20,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 	[TestClass]
 	public class RuntimeHostTests
 	{
-		private Mock<IConfigurationRepository> configuration;
 		private Mock<IHostObject> hostObject;
 		private Mock<IHostObjectFactory> hostObjectFactory;
 		private Mock<ILogger> logger;
@@ -30,14 +28,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		[TestInitialize]
 		public void Initialize()
 		{
-			configuration = new Mock<IConfigurationRepository>();
 			hostObject = new Mock<IHostObject>();
 			hostObjectFactory = new Mock<IHostObjectFactory>();
 			logger = new Mock<ILogger>();
 
 			hostObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>(), It.IsAny<ICommunication>())).Returns(hostObject.Object);
 
-			sut = new RuntimeHost("net:pipe://some/address", configuration.Object, hostObjectFactory.Object, logger.Object, 0);
+			sut = new RuntimeHost("net:pipe://some/address", hostObjectFactory.Object, logger.Object, 0);
 		}
 
 		[TestMethod]

@@ -17,15 +17,33 @@ namespace SafeExamBrowser.Runtime.Operations
 {
 	internal class KioskModeOperation : SessionOperation
 	{
-		protected IDesktopFactory desktopFactory;
-		protected IExplorerShell explorerShell;
+		private IDesktopFactory desktopFactory;
+		private IExplorerShell explorerShell;
+		private IProcessFactory processFactory;
+
 		protected ILogger logger;
-		protected IProcessFactory processFactory;
 
-		private static IDesktop newDesktop;
-		private static IDesktop originalDesktop;
+		private IDesktop NewDesktop
+		{
+			get { return Context.NewDesktop; }
+			set { Context.NewDesktop = value; }
+		}
 
-		protected static KioskMode? ActiveMode { get; private set; }
+		private IDesktop OriginalDesktop
+		{
+			get { return Context.OriginalDesktop; }
+			set { Context.OriginalDesktop = value; }
+		}
+
+		/// <summary>
+		/// TODO: This mechanism exposes the internal state of the operation! Find better solution which will keep the
+		/// state internal but still allow unit testing of both kiosk mode operations independently!
+		/// </summary>
+		protected KioskMode? ActiveMode
+		{
+			get { return Context.ActiveMode; }
+			set { Context.ActiveMode = value; }
+		}
 
 		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
@@ -97,14 +115,14 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private void CreateNewDesktop()
 		{
-			originalDesktop = desktopFactory.GetCurrent();
-			logger.Info($"Current desktop is {originalDesktop}.");
+			OriginalDesktop = desktopFactory.GetCurrent();
+			logger.Info($"Current desktop is {OriginalDesktop}.");
 
-			newDesktop = desktopFactory.CreateNew(nameof(SafeExamBrowser));
-			logger.Info($"Created new desktop {newDesktop}.");
+			NewDesktop = desktopFactory.CreateNew(nameof(SafeExamBrowser));
+			logger.Info($"Created new desktop {NewDesktop}.");
 
-			newDesktop.Activate();
-			processFactory.StartupDesktop = newDesktop;
+			NewDesktop.Activate();
+			processFactory.StartupDesktop = NewDesktop;
 			logger.Info("Successfully activated new desktop.");
 
 			explorerShell.Suspend();
@@ -112,21 +130,21 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private void CloseNewDesktop()
 		{
-			if (originalDesktop != null)
+			if (OriginalDesktop != null)
 			{
-				originalDesktop.Activate();
-				processFactory.StartupDesktop = originalDesktop;
-				logger.Info($"Switched back to original desktop {originalDesktop}.");
+				OriginalDesktop.Activate();
+				processFactory.StartupDesktop = OriginalDesktop;
+				logger.Info($"Switched back to original desktop {OriginalDesktop}.");
 			}
 			else
 			{
 				logger.Warn($"No original desktop found when attempting to close new desktop!");
 			}
 
-			if (newDesktop != null)
+			if (NewDesktop != null)
 			{
-				newDesktop.Close();
-				logger.Info($"Closed new desktop {newDesktop}.");
+				NewDesktop.Close();
+				logger.Info($"Closed new desktop {NewDesktop}.");
 			}
 			else
 			{

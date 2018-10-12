@@ -23,8 +23,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	{
 		private Mock<ILogger> logger;
 		private Mock<IServiceProxy> service;
-		private Mock<IConfigurationRepository> configuration;
-		private Mock<ISessionData> session;
+		private Mock<ISessionConfiguration> session;
+		private SessionContext sessionContext;
 		private Settings settings;
 		private ServiceOperation sut;
 
@@ -33,26 +33,27 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			logger = new Mock<ILogger>();
 			service = new Mock<IServiceProxy>();
-			configuration = new Mock<IConfigurationRepository>();
-			session = new Mock<ISessionData>();
+			session = new Mock<ISessionConfiguration>();
+			sessionContext = new SessionContext();
 			settings = new Settings();
 
-			configuration.SetupGet(c => c.CurrentSession).Returns(session.Object);
-			configuration.SetupGet(c => c.CurrentSettings).Returns(settings);
+			sessionContext.Current = session.Object;
+			sessionContext.Next = session.Object;
+			session.SetupGet(s => s.Settings).Returns(settings);
 
-			sut = new ServiceOperation(configuration.Object, logger.Object, service.Object);
+			sut = new ServiceOperation(logger.Object, service.Object, sessionContext);
 		}
 
 		[TestMethod]
 		public void MustConnectToService()
 		{
 			service.Setup(s => s.Connect(null, true)).Returns(true);
-			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Mandatory });
+			settings.ServicePolicy = ServicePolicy.Mandatory;
 
 			sut.Perform();
 
 			service.Setup(s => s.Connect(null, true)).Returns(true);
-			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Optional });
+			settings.ServicePolicy = ServicePolicy.Optional;
 
 			sut.Perform();
 
@@ -83,12 +84,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void MustNotFailIfServiceNotAvailable()
 		{
 			service.Setup(s => s.Connect(null, true)).Returns(false);
-			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Mandatory });
+			settings.ServicePolicy = ServicePolicy.Mandatory;
 
 			sut.Perform();
 
 			service.Setup(s => s.Connect(null, true)).Returns(false);
-			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Optional });
+			settings.ServicePolicy = ServicePolicy.Optional;
 
 			sut.Perform();
 		}
@@ -97,7 +98,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void MustFailIfServiceMandatoryAndNotAvailable()
 		{
 			service.Setup(s => s.Connect(null, true)).Returns(false);
-			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Mandatory });
+			settings.ServicePolicy = ServicePolicy.Mandatory;
 
 			var result = sut.Perform();
 
@@ -108,7 +109,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void MustNotFailIfServiceOptionalAndNotAvailable()
 		{
 			service.Setup(s => s.Connect(null, true)).Returns(false);
-			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Optional });
+			settings.ServicePolicy = ServicePolicy.Optional;
 
 			var result = sut.Perform();
 
@@ -121,13 +122,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void MustDisconnectWhenReverting()
 		{
 			service.Setup(s => s.Connect(null, true)).Returns(true);
-			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Mandatory });
+			settings.ServicePolicy = ServicePolicy.Mandatory;
 
 			sut.Perform();
 			sut.Revert();
 
 			service.Setup(s => s.Connect(null, true)).Returns(true);
-			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Optional });
+			settings.ServicePolicy = ServicePolicy.Optional;
 
 			sut.Perform();
 			sut.Revert();
@@ -162,7 +163,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			service.Setup(s => s.Connect(null, true)).Returns(true);
 			service.Setup(s => s.Disconnect()).Returns(false);
-			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Optional });
+			settings.ServicePolicy = ServicePolicy.Optional;
 
 			sut.Perform();
 			sut.Revert();
@@ -174,13 +175,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void MustNotDisconnnectIfNotAvailable()
 		{
 			service.Setup(s => s.Connect(null, true)).Returns(false);
-			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Mandatory });
+			settings.ServicePolicy = ServicePolicy.Mandatory;
 
 			sut.Perform();
 			sut.Revert();
 
 			service.Setup(s => s.Connect(null, true)).Returns(false);
-			configuration.SetupGet(s => s.CurrentSettings).Returns(new Settings { ServicePolicy = ServicePolicy.Optional });
+			settings.ServicePolicy = ServicePolicy.Optional;
 
 			sut.Perform();
 			sut.Revert();

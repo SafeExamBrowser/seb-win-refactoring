@@ -36,11 +36,6 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Initializing window monitoring...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeWindowMonitoring);
 
-			if (kioskMode == KioskMode.DisableExplorerShell)
-			{
-				windowMonitor.HideAllWindows();
-			}
-
 			if (kioskMode != KioskMode.None)
 			{
 				windowMonitor.StartMonitoringWindows();
@@ -57,11 +52,6 @@ namespace SafeExamBrowser.Client.Operations
 			if (kioskMode != KioskMode.None)
 			{
 				windowMonitor.StopMonitoringWindows();
-			}
-
-			if (kioskMode == KioskMode.DisableExplorerShell)
-			{
-				windowMonitor.RestoreHiddenWindows();
 			}
 
 			return OperationResult.Success;

@@ -79,10 +79,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Operations\ClientTerminationOperationTests.cs" />
     <Compile Include="Operations\ConfigurationOperationTests.cs" />
     <Compile Include="Operations\KioskModeOperationTests.cs" />
+    <Compile Include="Operations\KioskModeTerminationOperationTests.cs" />
     <Compile Include="Operations\ServiceOperationTests.cs" />
     <Compile Include="Operations\ClientOperationTests.cs" />
+    <Compile Include="Operations\SessionActivationOperationTests.cs" />
     <Compile Include="Operations\SessionInitializationOperationTests.cs" />
     <Compile Include="RuntimeControllerTests.cs" />
     <Compile Include="Communication\RuntimeHostTests.cs" />

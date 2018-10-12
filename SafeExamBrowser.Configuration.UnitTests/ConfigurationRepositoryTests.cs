@@ -9,9 +9,7 @@
 using System;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.Configuration.UnitTests
 {
@@ -29,129 +27,49 @@ namespace SafeExamBrowser.Configuration.UnitTests
 		}
 
 		[TestMethod]
-		public void AppConfigMustNeverBeNull()
-		{
-			Assert.IsNotNull(sut.AppConfig);
-		}
-
-		[TestMethod]
-		public void CurrentSessionIsInitiallyNull()
-		{
-			Assert.IsNull(sut.CurrentSession);
-		}
-
-		[TestMethod]
-		public void CurrentSettingsAreInitiallyNull()
-		{
-			Assert.IsNull(sut.CurrentSettings);
-		}
-
-		[TestMethod]
-		public void MustCorrectlyBuildClientConfiguration()
-		{
-			sut.LoadDefaultSettings();
-			sut.InitializeSessionConfiguration();
-
-			var appConfig = sut.AppConfig;
-			var clientConfig = sut.BuildClientConfiguration();
-			var session = sut.CurrentSession;
-			var settings = sut.CurrentSettings;
-
-			Assert.AreEqual(session.Id, clientConfig.SessionId);
-			Assert.AreSame(appConfig, clientConfig.AppConfig);
-			Assert.AreSame(settings, clientConfig.Settings);
-		}
-
-		[TestMethod]
 		public void MustCorrectlyInitializeSessionConfiguration()
 		{
-			sut.InitializeSessionConfiguration();
+			var appConfig = sut.InitializeAppConfig();
+			var configuration = sut.InitializeSessionConfiguration();
 
-			Assert.IsNull(sut.CurrentSession.ClientProcess);
-			Assert.IsNull(sut.CurrentSession.ClientProxy);
-			Assert.IsInstanceOfType(sut.CurrentSession.Id, typeof(Guid));
-			Assert.IsInstanceOfType(sut.CurrentSession.StartupToken, typeof(Guid));
+			Assert.IsInstanceOfType(configuration.AppConfig, typeof(AppConfig));
+			Assert.IsInstanceOfType(configuration.Id, typeof(Guid));
+			Assert.IsNull(configuration.Settings);
+			Assert.IsInstanceOfType(configuration.StartupToken, typeof(Guid));
 		}
 
 		[TestMethod]
 		public void MustCorrectlyUpdateAppConfig()
 		{
-			var clientAddress = sut.AppConfig.ClientAddress;
-			var clientId = sut.AppConfig.ClientId;
-			var clientLogFile = sut.AppConfig.ClientLogFile;
-			var runtimeAddress = sut.AppConfig.RuntimeAddress;
-			var runtimeId = sut.AppConfig.RuntimeId;
-			var runtimeLogFile = sut.AppConfig.RuntimeLogFile;
+			var appConfig = sut.InitializeAppConfig();
+			var clientAddress = appConfig.ClientAddress;
+			var clientId = appConfig.ClientId;
+			var clientLogFile = appConfig.ClientLogFile;
+			var runtimeAddress = appConfig.RuntimeAddress;
+			var runtimeId = appConfig.RuntimeId;
+			var runtimeLogFile = appConfig.RuntimeLogFile;
+			var configuration = sut.InitializeSessionConfiguration();
 
-			sut.InitializeSessionConfiguration();
-
-			Assert.AreNotEqual(sut.AppConfig.ClientAddress, clientAddress);
-			Assert.AreNotEqual(sut.AppConfig.ClientId, clientId);
-			Assert.AreEqual(sut.AppConfig.ClientLogFile, clientLogFile);
-			Assert.AreEqual(sut.AppConfig.RuntimeAddress, runtimeAddress);
-			Assert.AreEqual(sut.AppConfig.RuntimeId, runtimeId);
-			Assert.AreEqual(sut.AppConfig.RuntimeLogFile, runtimeLogFile);
+			Assert.AreNotEqual(configuration.AppConfig.ClientAddress, clientAddress);
+			Assert.AreNotEqual(configuration.AppConfig.ClientId, clientId);
+			Assert.AreEqual(configuration.AppConfig.ClientLogFile, clientLogFile);
+			Assert.AreEqual(configuration.AppConfig.RuntimeAddress, runtimeAddress);
+			Assert.AreEqual(configuration.AppConfig.RuntimeId, runtimeId);
+			Assert.AreEqual(configuration.AppConfig.RuntimeLogFile, runtimeLogFile);
 		}
 
 		[TestMethod]
 		public void MustCorrectlyUpdateSessionConfiguration()
 		{
-			var process = new Mock<IProcess>();
-			var proxy = new Mock<IClientProxy>();
+			var appConfig = sut.InitializeAppConfig();
+			var firstSession = sut.InitializeSessionConfiguration();
+			var secondSession = sut.InitializeSessionConfiguration();
+			var thirdSession = sut.InitializeSessionConfiguration();
 
-			sut.InitializeSessionConfiguration();
-
-			var firstSession = sut.CurrentSession;
-
-			sut.CurrentSession.ClientProcess = process.Object;
-			sut.CurrentSession.ClientProxy = proxy.Object;
-			sut.InitializeSessionConfiguration();
-
-			var secondSession = sut.CurrentSession;
-
-			Assert.AreSame(firstSession.ClientProcess, secondSession.ClientProcess);
-			Assert.AreSame(firstSession.ClientProxy, secondSession.ClientProxy);
 			Assert.AreNotEqual(firstSession.Id, secondSession.Id);
 			Assert.AreNotEqual(firstSession.StartupToken, secondSession.StartupToken);
-
-			sut.CurrentSession.ClientProcess = null;
-			sut.CurrentSession.ClientProxy = null;
-			sut.InitializeSessionConfiguration();
-
-			var thirdSession = sut.CurrentSession;
-
-			Assert.IsNull(thirdSession.ClientProcess);
-			Assert.IsNull(thirdSession.ClientProxy);
 			Assert.AreNotEqual(secondSession.Id, thirdSession.Id);
 			Assert.AreNotEqual(secondSession.StartupToken, thirdSession.StartupToken);
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void MustNotAllowNullForExecutablePath()
-		{
-			new ConfigurationRepository(null, null, null, null);
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void MustNotAllowNullForProgramCopyright()
-		{
-			new ConfigurationRepository(string.Empty, null, null, null);
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void MustNotAllowNullForProgramTitle()
-		{
-			new ConfigurationRepository(string.Empty, string.Empty, null, null);
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void MustNotAllowNullForProgramVersion()
-		{
-			new ConfigurationRepository(string.Empty, string.Empty, string.Empty, null);
 		}
 	}
 }

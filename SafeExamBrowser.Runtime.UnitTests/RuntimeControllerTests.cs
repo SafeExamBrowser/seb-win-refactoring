@@ -91,5 +91,26 @@ namespace SafeExamBrowser.Runtime.UnitTests
 
 		//	Assert.AreEqual(OperationResult.Aborted, result);
 		//}
+
+		//[TestMethod]
+		//public void MustNotWaitForPasswordViaClientIfCommunicationHasFailed()
+		//{
+		//	var clientProxy = new Mock<IClientProxy>();
+		//	var communication = new CommunicationResult(false);
+		//	var session = new Mock<ISessionData>();
+		//	var url = @"http://www.safeexambrowser.org/whatever.seb";
+
+		//	clientProxy.Setup(c => c.RequestPassword(It.IsAny<PasswordRequestPurpose>(), It.IsAny<Guid>())).Returns(communication);
+		//	repository.SetupGet(r => r.CurrentSession).Returns(session.Object);
+		//	repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), null, null)).Returns(LoadStatus.SettingsPasswordNeeded);
+		//	session.SetupGet(r => r.ClientProxy).Returns(clientProxy.Object);
+		//	settings.KioskMode = KioskMode.CreateNewDesktop;
+
+		//	sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, logger.Object, resourceLoader.Object, sessionContext);
+
+		//	var result = sut.Perform();
+
+		//	Assert.AreEqual(OperationResult.Aborted, result);
+		//}
 	}
 }
