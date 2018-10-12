@@ -28,10 +28,7 @@ namespace SafeExamBrowser.Runtime
 {
 	internal class RuntimeController : IRuntimeController
 	{
-		private bool sessionRunning;
-
 		private AppConfig appConfig;
-		private IConfigurationRepository configuration;
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private IOperationSequence bootstrapSequence;
@@ -39,32 +36,43 @@ namespace SafeExamBrowser.Runtime
 		private IRuntimeHost runtimeHost;
 		private IRuntimeWindow runtimeWindow;
 		private IServiceProxy service;
+		private SessionContext sessionContext;
 		private ISplashScreen splashScreen;
 		private Action shutdown;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		
+		private ISessionConfiguration Session
+		{
+			get { return sessionContext.Current; }
+		}
+
+		private bool SessionIsRunning
+		{
+			get { return Session != null; }
+		}
+
 		public RuntimeController(
 			AppConfig appConfig,
-			IConfigurationRepository configuration,
 			ILogger logger,
 			IMessageBox messageBox,
 			IOperationSequence bootstrapSequence,
 			IRepeatableOperationSequence sessionSequence,
 			IRuntimeHost runtimeHost,
 			IServiceProxy service,
+			SessionContext sessionContext,
 			Action shutdown,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
-			this.configuration = configuration;
 			this.bootstrapSequence = bootstrapSequence;
 			this.logger = logger;
 			this.messageBox = messageBox;
 			this.runtimeHost = runtimeHost;
 			this.sessionSequence = sessionSequence;
 			this.service = service;
+			this.sessionContext = sessionContext;
 			this.shutdown = shutdown;
 			this.text = text;
 			this.uiFactory = uiFactory;
@@ -96,7 +104,7 @@ namespace SafeExamBrowser.Runtime
 				logger.Subscribe(runtimeWindow);
 				splashScreen.Close();
 
-				StartSession(true);
+				StartSession();
 			}
 			else
 			{
@@ -106,14 +114,14 @@ namespace SafeExamBrowser.Runtime
 				messageBox.Show(TextKey.MessageBox_StartupError, TextKey.MessageBox_StartupErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
 			}
 
-			return initialized && sessionRunning;
+			return initialized && SessionIsRunning;
 		}
 
 		public void Terminate()
 		{
 			DeregisterEvents();
 
-			if (sessionRunning)
+			if (SessionIsRunning)
 			{
 				StopSession();
 			}
@@ -145,50 +153,78 @@ namespace SafeExamBrowser.Runtime
 			splashScreen.Close();
 		}
 
-		private void StartSession(bool initial = false)
+		private void StartSession()
 		{
 			runtimeWindow.Show();
 			runtimeWindow.BringToForeground();
 			runtimeWindow.ShowProgressBar();
 			logger.Info("### --- Session Start Procedure --- ###");
 
-			if (sessionRunning)
+			if (SessionIsRunning)
 			{
 				DeregisterSessionEvents();
 			}
 
-			var result = initial ? sessionSequence.TryPerform() : sessionSequence.TryRepeat();
+			var result = SessionIsRunning ? sessionSequence.TryRepeat() : sessionSequence.TryPerform();
 
 			if (result == OperationResult.Success)
 			{
-				RegisterSessionEvents();
-
 				logger.Info("### --- Session Running --- ###");
+
+				HandleSessionStartSuccess();
+			}
+			else if (result == OperationResult.Failed)
+			{
+				logger.Info("### --- Session Start Failed --- ###");
+
+				HandleSessionStartFailure();
+			}
+			else if (result == OperationResult.Aborted)
+			{
+				logger.Info("### --- Session Start Aborted --- ###");
+
+				HandleSessionStartAbortion();
+			}
+		}
+
+		private void HandleSessionStartSuccess()
+		{
+			RegisterSessionEvents();
+
+			runtimeWindow.HideProgressBar();
+			runtimeWindow.UpdateStatus(TextKey.RuntimeWindow_ApplicationRunning);
+			runtimeWindow.TopMost = Session.Settings.KioskMode != KioskMode.None;
+
+			if (Session.Settings.KioskMode == KioskMode.DisableExplorerShell)
+			{
+				runtimeWindow.Hide();
+			}
+		}
+
+		private void HandleSessionStartFailure()
+		{
+			if (SessionIsRunning)
+			{
+				StopSession();
+
+				messageBox.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
+				logger.Info("Terminating application...");
+
+				shutdown.Invoke();
+			}
+		}
+
+		private void HandleSessionStartAbortion()
+		{
+			if (SessionIsRunning)
+			{
 				runtimeWindow.HideProgressBar();
 				runtimeWindow.UpdateStatus(TextKey.RuntimeWindow_ApplicationRunning);
-				runtimeWindow.TopMost = configuration.CurrentSettings.KioskMode != KioskMode.None;
+				runtimeWindow.TopMost = Session.Settings.KioskMode != KioskMode.None;
 
-				if (configuration.CurrentSettings.KioskMode == KioskMode.DisableExplorerShell)
+				if (Session.Settings.KioskMode == KioskMode.DisableExplorerShell)
 				{
 					runtimeWindow.Hide();
-				}
-
-				sessionRunning = true;
-			}
-			else
-			{
-				logger.Info($"### --- Session Start {(result == OperationResult.Aborted ? "Aborted" : "Failed")} --- ###");
-
-				if (result == OperationResult.Failed)
-				{
-					// TODO: Find solution for this; maybe manually switch back to original desktop?
-					// messageBox.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
-
-					if (!initial)
-					{
-						logger.Info("Terminating application...");
-						shutdown.Invoke();
-					}
 				}
 			}
 		}
@@ -207,7 +243,6 @@ namespace SafeExamBrowser.Runtime
 			if (success)
 			{
 				logger.Info("### --- Session Terminated --- ###");
-				sessionRunning = false;
 			}
 			else
 			{
@@ -218,32 +253,34 @@ namespace SafeExamBrowser.Runtime
 
 		private void RegisterEvents()
 		{
+			runtimeHost.ClientConfigurationNeeded += RuntimeHost_ClientConfigurationNeeded;
 			runtimeHost.ReconfigurationRequested += RuntimeHost_ReconfigurationRequested;
 			runtimeHost.ShutdownRequested += RuntimeHost_ShutdownRequested;
 		}
 
 		private void DeregisterEvents()
 		{
+			runtimeHost.ClientConfigurationNeeded -= RuntimeHost_ClientConfigurationNeeded;
 			runtimeHost.ReconfigurationRequested -= RuntimeHost_ReconfigurationRequested;
 			runtimeHost.ShutdownRequested -= RuntimeHost_ShutdownRequested;
 		}
 
 		private void RegisterSessionEvents()
 		{
-			configuration.CurrentSession.ClientProcess.Terminated += ClientProcess_Terminated;
-			configuration.CurrentSession.ClientProxy.ConnectionLost += Client_ConnectionLost;
+			sessionContext.ClientProcess.Terminated += ClientProcess_Terminated;
+			sessionContext.ClientProxy.ConnectionLost += Client_ConnectionLost;
 		}
 
 		private void DeregisterSessionEvents()
 		{
-			if (configuration.CurrentSession.ClientProcess != null)
+			if (sessionContext.ClientProcess != null)
 			{
-				configuration.CurrentSession.ClientProcess.Terminated -= ClientProcess_Terminated;
+				sessionContext.ClientProcess.Terminated -= ClientProcess_Terminated;
 			}
 
-			if (configuration.CurrentSession.ClientProxy != null)
+			if (sessionContext.ClientProxy != null)
 			{
-				configuration.CurrentSession.ClientProxy.ConnectionLost -= Client_ConnectionLost;
+				sessionContext.ClientProxy.ConnectionLost -= Client_ConnectionLost;
 			}
 		}
 
@@ -261,7 +298,7 @@ namespace SafeExamBrowser.Runtime
 		{
 			logger.Error($"Client application has unexpectedly terminated with exit code {exitCode}!");
 
-			if (sessionRunning)
+			if (SessionIsRunning)
 			{
 				StopSession();
 			}
@@ -275,7 +312,7 @@ namespace SafeExamBrowser.Runtime
 		{
 			logger.Error("Lost connection to the client application!");
 
-			if (sessionRunning)
+			if (SessionIsRunning)
 			{
 				StopSession();
 			}
@@ -285,21 +322,31 @@ namespace SafeExamBrowser.Runtime
 			shutdown.Invoke();
 		}
 
+		private void RuntimeHost_ClientConfigurationNeeded(ClientConfigurationEventArgs args)
+		{
+			args.ClientConfiguration = new ClientConfiguration
+			{
+				AppConfig = sessionContext.Next.AppConfig,
+				SessionId = sessionContext.Next.Id,
+				Settings = sessionContext.Next.Settings
+			};
+		}
+
 		private void RuntimeHost_ReconfigurationRequested(ReconfigurationEventArgs args)
 		{
-			var mode = configuration.CurrentSettings.ConfigurationMode;
+			var mode = Session.Settings.ConfigurationMode;
 
 			if (mode == ConfigurationMode.ConfigureClient)
 			{
 				logger.Info($"Accepted request for reconfiguration with '{args.ConfigurationPath}'.");
-				configuration.ReconfigurationFilePath = args.ConfigurationPath;
+				sessionContext.ReconfigurationFilePath = args.ConfigurationPath;
 
 				StartSession();
 			}
 			else
 			{
 				logger.Info($"Denied request for reconfiguration with '{args.ConfigurationPath}' due to '{mode}' mode!");
-				configuration.CurrentSession.ClientProxy.InformReconfigurationDenied(args.ConfigurationPath);
+				sessionContext.ClientProxy.InformReconfigurationDenied(args.ConfigurationPath);
 			}
 		}
 
@@ -333,8 +380,8 @@ namespace SafeExamBrowser.Runtime
 
 		private void AskForPassword(PasswordRequiredEventArgs args)
 		{
-			var isStartup = configuration.CurrentSession == null;
-			var isRunningOnDefaultDesktop = configuration.CurrentSettings?.KioskMode == KioskMode.DisableExplorerShell;
+			var isStartup = !SessionIsRunning;
+			var isRunningOnDefaultDesktop = SessionIsRunning && Session.Settings.KioskMode == KioskMode.DisableExplorerShell;
 
 			if (isStartup || isRunningOnDefaultDesktop)
 			{
@@ -374,7 +421,7 @@ namespace SafeExamBrowser.Runtime
 
 			runtimeHost.PasswordReceived += responseEventHandler;
 
-			var communication = configuration.CurrentSession.ClientProxy.RequestPassword(args.Purpose, requestId);
+			var communication = sessionContext.ClientProxy.RequestPassword(args.Purpose, requestId);
 
 			if (communication.Success)
 			{
@@ -401,6 +448,9 @@ namespace SafeExamBrowser.Runtime
 			runtimeWindow?.UpdateStatus(status, true);
 		}
 
+		/// <summary>
+		/// TODO: Move to utility in core library and use in client controller!
+		/// </summary>
 		private void MapProgress(IProgressIndicator progressIndicator, ProgressChangedEventArgs args)
 		{
 			if (args.CurrentValue.HasValue)

@@ -52,6 +52,7 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Communication\Events\ClientConfigurationEventArgs.cs" />
     <Compile Include="Core\Events\InstanceTerminatedEventHandler.cs" />
     <Compile Include="Core\Events\NameChangedEventHandler.cs" />
     <Compile Include="Core\IApplicationController.cs" />
@@ -109,7 +110,7 @@
     <Compile Include="Configuration\IResourceLoader.cs" />
     <Compile Include="Configuration\LoadStatus.cs" />
     <Compile Include="Configuration\AppConfig.cs" />
-    <Compile Include="Configuration\ISessionData.cs" />
+    <Compile Include="Configuration\ISessionConfiguration.cs" />
     <Compile Include="Configuration\Settings\ConfigurationMode.cs" />
     <Compile Include="Core\INotificationController.cs" />
     <Compile Include="Core\OperationModel\IOperation.cs" />

@@ -7,19 +7,16 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 
 namespace SafeExamBrowser.Configuration
 {
-	public class SessionData : ISessionData
+	internal class SessionConfiguration : ISessionConfiguration
 	{
-		public IClientProxy ClientProxy { get; set; }
-		public IProcess ClientProcess { get; set; }
+		public AppConfig AppConfig { get; set; }
 		public Guid Id { get; set; }
-		public IDesktop NewDesktop { get; set; }
-		public IDesktop OriginalDesktop { get; set; }
+		public Settings Settings { get; set; }
 		public Guid StartupToken { get; set; }
 	}
 }

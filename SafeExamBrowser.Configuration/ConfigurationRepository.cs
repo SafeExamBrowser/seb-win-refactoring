@@ -25,86 +25,15 @@ namespace SafeExamBrowser.Configuration
 
 		private AppConfig appConfig;
 
-		public ISessionData CurrentSession { get; private set; }
-		public Settings CurrentSettings { get; private set; }
-		public string ReconfigurationFilePath { get; set; }
-
-		public AppConfig AppConfig
-		{
-			get
-			{
-				if (appConfig == null)
-				{
-					InitializeAppConfig();
-				}
-
-				return appConfig;
-			}
-		}
-
 		public ConfigurationRepository(string executablePath, string programCopyright, string programTitle, string programVersion)
 		{
-			this.executablePath = executablePath ?? throw new ArgumentNullException(nameof(executablePath));
-			this.programCopyright = programCopyright ?? throw new ArgumentNullException(nameof(programCopyright));
-			this.programTitle = programTitle ?? throw new ArgumentNullException(nameof(programTitle));
-			this.programVersion = programVersion ?? throw new ArgumentNullException(nameof(programVersion));
+			this.executablePath = executablePath ?? string.Empty;
+			this.programCopyright = programCopyright ?? string.Empty;
+			this.programTitle = programTitle ?? string.Empty;
+			this.programVersion = programVersion ?? string.Empty;
 		}
 
-		public ClientConfiguration BuildClientConfiguration()
-		{
-			return new ClientConfiguration
-			{
-				AppConfig = AppConfig,
-				SessionId = CurrentSession.Id,
-				Settings = CurrentSettings
-			};
-		}
-
-		public void InitializeSessionConfiguration()
-		{
-			CurrentSession = new SessionData
-			{
-				Id = Guid.NewGuid(),
-				NewDesktop = CurrentSession?.NewDesktop,
-				OriginalDesktop = CurrentSession?.OriginalDesktop,
-				StartupToken = Guid.NewGuid()
-			};
-
-			UpdateAppConfig();
-		}
-
-		public LoadStatus LoadSettings(Uri resource, string settingsPassword = null, string adminPassword = null)
-		{
-			// TODO: Implement loading mechanism
-
-			LoadDefaultSettings();
-
-			return LoadStatus.Success;
-		}
-
-		public void LoadDefaultSettings()
-		{
-			// TODO: Implement default settings
-
-			CurrentSettings = new Settings();
-
-			CurrentSettings.KioskMode = KioskMode.None;
-			CurrentSettings.ServicePolicy = ServicePolicy.Optional;
-
-			CurrentSettings.Browser.StartUrl = "https://www.safeexambrowser.org/testing";
-			CurrentSettings.Browser.AllowAddressBar = true;
-			CurrentSettings.Browser.AllowBackwardNavigation = true;
-			CurrentSettings.Browser.AllowDeveloperConsole = true;
-			CurrentSettings.Browser.AllowForwardNavigation = true;
-			CurrentSettings.Browser.AllowReloading = true;
-			CurrentSettings.Browser.AllowDownloads = true;
-
-			CurrentSettings.Taskbar.AllowApplicationLog = true;
-			CurrentSettings.Taskbar.AllowKeyboardLayout = true;
-			CurrentSettings.Taskbar.AllowWirelessNetwork = true;
-		}
-
-		private void InitializeAppConfig()
+		public AppConfig InitializeAppConfig()
 		{
 			var appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(SafeExamBrowser));
 			var startTime = DateTime.Now;
@@ -134,12 +63,89 @@ namespace SafeExamBrowser.Configuration
 			appConfig.SebUriScheme = "seb";
 			appConfig.SebUriSchemeSecure = "sebs";
 			appConfig.ServiceAddress = $"{BASE_ADDRESS}/service";
+
+			return appConfig;
+		}
+
+		public ISessionConfiguration InitializeSessionConfiguration()
+		{
+			var configuration = new SessionConfiguration();
+
+			UpdateAppConfig();
+
+			configuration.AppConfig = CloneAppConfig();
+			configuration.Id = Guid.NewGuid();
+			configuration.StartupToken = Guid.NewGuid();
+
+			return configuration;
+		}
+
+		public LoadStatus TryLoadSettings(Uri resource, out Settings settings, string adminPassword = null, string settingsPassword = null)
+		{
+			// TODO: Implement loading mechanism
+
+			settings = LoadDefaultSettings();
+
+			return LoadStatus.Success;
+		}
+
+		public Settings LoadDefaultSettings()
+		{
+			// TODO: Implement default settings
+
+			var settings = new Settings();
+
+			settings.KioskMode = new Random().Next(10) < 5 ? KioskMode.CreateNewDesktop : KioskMode.DisableExplorerShell;
+			settings.ServicePolicy = ServicePolicy.Optional;
+
+			settings.Browser.StartUrl = "https://www.safeexambrowser.org/testing";
+			settings.Browser.AllowAddressBar = true;
+			settings.Browser.AllowBackwardNavigation = true;
+			settings.Browser.AllowDeveloperConsole = true;
+			settings.Browser.AllowForwardNavigation = true;
+			settings.Browser.AllowReloading = true;
+			settings.Browser.AllowDownloads = true;
+
+			settings.Taskbar.AllowApplicationLog = true;
+			settings.Taskbar.AllowKeyboardLayout = true;
+			settings.Taskbar.AllowWirelessNetwork = true;
+
+			return settings;
+		}
+
+		private AppConfig CloneAppConfig()
+		{
+			return new AppConfig
+			{
+				AppDataFolder = appConfig.AppDataFolder,
+				ApplicationStartTime = appConfig.ApplicationStartTime,
+				BrowserCachePath = appConfig.BrowserCachePath,
+				BrowserLogFile = appConfig.BrowserLogFile,
+				ClientAddress = appConfig.ClientAddress,
+				ClientExecutablePath = appConfig.ClientExecutablePath,
+				ClientId = appConfig.ClientId,
+				ClientLogFile = appConfig.ClientLogFile,
+				ConfigurationFileExtension = appConfig.ConfigurationFileExtension,
+				DefaultSettingsFileName = appConfig.DefaultSettingsFileName,
+				DownloadDirectory = appConfig.DownloadDirectory,
+				LogLevel = appConfig.LogLevel,
+				ProgramCopyright = appConfig.ProgramCopyright,
+				ProgramDataFolder = appConfig.ProgramDataFolder,
+				ProgramTitle = appConfig.ProgramTitle,
+				ProgramVersion = appConfig.ProgramVersion,
+				RuntimeAddress = appConfig.RuntimeAddress,
+				RuntimeId = appConfig.RuntimeId,
+				RuntimeLogFile = appConfig.RuntimeLogFile,
+				SebUriScheme = appConfig.SebUriScheme,
+				SebUriSchemeSecure = appConfig.SebUriSchemeSecure,
+				ServiceAddress = appConfig.ServiceAddress
+			};
 		}
 
 		private void UpdateAppConfig()
 		{
-			AppConfig.ClientId = Guid.NewGuid();
-			AppConfig.ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}";
+			appConfig.ClientId = Guid.NewGuid();
+			appConfig.ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}";
 		}
 	}
 }

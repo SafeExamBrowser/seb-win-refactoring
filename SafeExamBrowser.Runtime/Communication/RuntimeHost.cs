@@ -11,7 +11,6 @@ using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
-using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Runtime.Communication
@@ -19,24 +18,18 @@ namespace SafeExamBrowser.Runtime.Communication
 	internal class RuntimeHost : BaseHost, IRuntimeHost
 	{
 		private bool allowConnection = true;
-		private IConfigurationRepository configuration;
 
 		public Guid StartupToken { private get; set; }
 
 		public event CommunicationEventHandler ClientDisconnected;
 		public event CommunicationEventHandler ClientReady;
+		public event CommunicationEventHandler<ClientConfigurationEventArgs> ClientConfigurationNeeded;
 		public event CommunicationEventHandler<PasswordReplyEventArgs> PasswordReceived;
 		public event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationRequested;
 		public event CommunicationEventHandler ShutdownRequested;
 
-		public RuntimeHost(
-			string address,
-			IConfigurationRepository configuration,
-			IHostObjectFactory factory,
-			ILogger logger,
-			int timeout_ms) : base(address, factory, logger, timeout_ms)
+		public RuntimeHost(string address, IHostObjectFactory factory, ILogger logger, int timeout_ms) : base(address, factory, logger, timeout_ms)
 		{
-			this.configuration = configuration;
 		}
 
 		protected override bool OnConnect(Guid? token = null)
@@ -87,14 +80,22 @@ namespace SafeExamBrowser.Runtime.Communication
 					ClientReady?.Invoke();
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 				case SimpleMessagePurport.ConfigurationNeeded:
-					// TODO: Not the job of the host, fire event or alike!
-					return new ConfigurationResponse { Configuration = configuration.BuildClientConfiguration() };
+					return HandleConfigurationRequest();
 				case SimpleMessagePurport.RequestShutdown:
 					ShutdownRequested?.Invoke();
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 			}
 
 			return new SimpleResponse(SimpleResponsePurport.UnknownMessage);
+		}
+
+		private Response HandleConfigurationRequest()
+		{
+			var args = new ClientConfigurationEventArgs();
+
+			ClientConfigurationNeeded?.Invoke(args);
+
+			return new ConfigurationResponse { Configuration = args.ClientConfiguration };
 		}
 	}
 }

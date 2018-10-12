@@ -53,9 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ResourceLoader.cs" />
-    <Compile Include="SessionData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConfigurationRepository.cs" />
+    <Compile Include="SessionConfiguration.cs" />
     <Compile Include="SystemInfo.cs" />
   </ItemGroup>
   <ItemGroup>

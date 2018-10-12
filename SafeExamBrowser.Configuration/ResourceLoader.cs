@@ -15,7 +15,7 @@ namespace SafeExamBrowser.Configuration
 	{
 		public bool IsHtmlResource(Uri resource)
 		{
-			// TODO
+			// TODO: Implement resource loader
 			return false;
 		}
 	}

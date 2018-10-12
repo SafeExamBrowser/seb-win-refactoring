@@ -49,7 +49,7 @@ namespace SafeExamBrowser.Runtime
 			var nativeMethods = new NativeMethods();
 
 			logger = new Logger();
-			appConfig = configuration.AppConfig;
+			appConfig = configuration.InitializeAppConfig();
 			systemInfo = new SystemInfo();
 
 			InitializeLogging();
@@ -61,8 +61,9 @@ namespace SafeExamBrowser.Runtime
 			var processFactory = new ProcessFactory(new ModuleLogger(logger, nameof(ProcessFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), logger);
 			var resourceLoader = new ResourceLoader();
-			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, configuration, new HostObjectFactory(), new ModuleLogger(logger, nameof(RuntimeHost)), FIVE_SECONDS);
+			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, new HostObjectFactory(), new ModuleLogger(logger, nameof(RuntimeHost)), FIVE_SECONDS);
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(ServiceProxy)));
+			var sessionContext = new SessionContext();
 			var uiFactory = new UserInterfaceFactory(text);
 
 			var bootstrapOperations = new Queue<IOperation>();
@@ -71,18 +72,19 @@ namespace SafeExamBrowser.Runtime
 			bootstrapOperations.Enqueue(new I18nOperation(logger, text, textResource));
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(runtimeHost, logger));
 
-			sessionOperations.Enqueue(new ConfigurationOperation(appConfig, configuration, logger, resourceLoader, args));
-			sessionOperations.Enqueue(new ClientTerminationOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, FIFTEEN_SECONDS));
-			sessionOperations.Enqueue(new KioskModeTerminationOperation(configuration, desktopFactory, explorerShell, logger, processFactory));
-			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost));
-			sessionOperations.Enqueue(new ServiceOperation(configuration, logger, serviceProxy));
-			sessionOperations.Enqueue(new KioskModeOperation(configuration, desktopFactory, explorerShell, logger, processFactory));
-			sessionOperations.Enqueue(new ClientOperation(configuration, logger, processFactory, proxyFactory, runtimeHost, FIFTEEN_SECONDS));
+			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost, sessionContext));
+			sessionOperations.Enqueue(new ConfigurationOperation(args, configuration, logger, resourceLoader, sessionContext));
+			sessionOperations.Enqueue(new ClientTerminationOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, FIFTEEN_SECONDS));
+			sessionOperations.Enqueue(new KioskModeTerminationOperation(desktopFactory, explorerShell, logger, processFactory, sessionContext));
+			sessionOperations.Enqueue(new ServiceOperation(logger, serviceProxy, sessionContext));
+			sessionOperations.Enqueue(new KioskModeOperation(desktopFactory, explorerShell, logger, processFactory, sessionContext));
+			sessionOperations.Enqueue(new ClientOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, FIFTEEN_SECONDS));
+			sessionOperations.Enqueue(new SessionActivationOperation(logger, sessionContext));
 
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new RepeatableOperationSequence(logger, sessionOperations);
 
-			RuntimeController = new RuntimeController(appConfig, configuration, logger, messageBox, bootstrapSequence, sessionSequence, runtimeHost, serviceProxy, shutdown, text, uiFactory);
+			RuntimeController = new RuntimeController(appConfig, logger, messageBox, bootstrapSequence, sessionSequence, runtimeHost, serviceProxy, sessionContext, shutdown, text, uiFactory);
 		}
 
 		internal void LogStartupInformation()
@@ -103,7 +105,7 @@ namespace SafeExamBrowser.Runtime
 			logger?.Log($"# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 		}
 
-		private ConfigurationRepository BuildConfigurationRepository()
+		private IConfigurationRepository BuildConfigurationRepository()
 		{
 			var executable = Assembly.GetExecutingAssembly();
 			var programCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;

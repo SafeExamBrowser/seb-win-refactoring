@@ -74,7 +74,7 @@ namespace SafeExamBrowser.Communication.Proxies
 		{
 			if (Ignore)
 			{
-				Logger.Debug($"Skipping {operationName} because the ignore flag is set.");
+				Logger.Debug($"Skipping '{operationName}' operation because the ignore flag is set.");
 			}
 
 			return Ignore;

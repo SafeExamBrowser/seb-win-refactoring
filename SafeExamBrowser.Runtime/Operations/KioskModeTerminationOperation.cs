@@ -6,8 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.WindowsApi;
@@ -16,36 +14,27 @@ namespace SafeExamBrowser.Runtime.Operations
 {
 	internal class KioskModeTerminationOperation : KioskModeOperation, IRepeatableOperation
 	{
-		private IConfigurationRepository configuration;
-		private KioskMode kioskMode;
-		private ILogger logger;
-
 		public KioskModeTerminationOperation(
-			IConfigurationRepository configuration,
 			IDesktopFactory desktopFactory,
 			IExplorerShell explorerShell,
 			ILogger logger,
-			IProcessFactory processFactory) : base(configuration, desktopFactory, explorerShell, logger, processFactory)
+			IProcessFactory processFactory,
+			SessionContext sessionContext) : base(desktopFactory, explorerShell, logger, processFactory, sessionContext)
 		{
-			this.configuration = configuration;
-			this.logger = logger;
 		}
 
 		public override OperationResult Perform()
 		{
-			kioskMode = configuration.CurrentSettings.KioskMode;
-
 			return OperationResult.Success;
 		}
 
 		public override OperationResult Repeat()
 		{
-			var oldMode = kioskMode;
-			var newMode = configuration.CurrentSettings.KioskMode;
+			var newMode = Context.Next.Settings.KioskMode;
 
-			if (newMode == oldMode)
+			if (ActiveMode == newMode)
 			{
-				logger.Info($"New kiosk mode '{newMode}' is equal to the currently active '{oldMode}', skipping termination...");
+				logger.Info($"New kiosk mode '{newMode}' is the same as the currently active, skipping termination...");
 
 				return OperationResult.Success;
 			}

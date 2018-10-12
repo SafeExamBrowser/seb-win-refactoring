@@ -19,32 +19,30 @@ using SafeExamBrowser.Runtime.Operations.Events;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
-	internal class ConfigurationOperation : IRepeatableOperation
+	internal class ConfigurationOperation : SessionOperation
 	{
+		private string[] commandLineArgs;
 		private IConfigurationRepository configuration;
 		private ILogger logger;
 		private IResourceLoader resourceLoader;
-		private AppConfig appConfig;
-		private string[] commandLineArgs;
 
-		public event ActionRequiredEventHandler ActionRequired;
-		public event StatusChangedEventHandler StatusChanged;
+		public override event ActionRequiredEventHandler ActionRequired;
+		public override event StatusChangedEventHandler StatusChanged;
 
 		public ConfigurationOperation(
-			AppConfig appConfig,
+			string[] commandLineArgs,
 			IConfigurationRepository configuration,
 			ILogger logger,
 			IResourceLoader resourceLoader,
-			string[] commandLineArgs)
+			SessionContext sessionContext) : base(sessionContext)
 		{
-			this.appConfig = appConfig;
+			this.commandLineArgs = commandLineArgs;
 			this.logger = logger;
 			this.configuration = configuration;
 			this.resourceLoader = resourceLoader;
-			this.commandLineArgs = commandLineArgs;
 		}
 
-		public OperationResult Perform()
+		public override OperationResult Perform()
 		{
 			logger.Info("Initializing application configuration...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeConfiguration);
@@ -69,12 +67,12 @@ namespace SafeExamBrowser.Runtime.Operations
 			return OperationResult.Success;
 		}
 
-		public OperationResult Repeat()
+		public override OperationResult Repeat()
 		{
 			logger.Info("Initializing new application configuration...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeConfiguration);
 
-			var isValidUri = TryValidateSettingsUri(configuration.ReconfigurationFilePath, out Uri uri);
+			var isValidUri = TryValidateSettingsUri(Context.ReconfigurationFilePath, out Uri uri);
 
 			if (isValidUri)
 			{
@@ -92,7 +90,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			return OperationResult.Failed;
 		}
 
-		public OperationResult Revert()
+		public override OperationResult Revert()
 		{
 			return OperationResult.Success;
 		}
@@ -101,11 +99,12 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var adminPassword = default(string);
 			var settingsPassword = default(string);
+			var settings = default(Settings);
 			var status = default(LoadStatus);
 
 			for (int adminAttempts = 0, settingsAttempts = 0; adminAttempts < 5 && settingsAttempts < 5;)
 			{
-				status = configuration.LoadSettings(uri, adminPassword, settingsPassword);
+				status = configuration.TryLoadSettings(uri, out settings, adminPassword, settingsPassword);
 
 				if (status == LoadStatus.AdminPasswordNeeded || status == LoadStatus.SettingsPasswordNeeded)
 				{
@@ -132,7 +131,15 @@ namespace SafeExamBrowser.Runtime.Operations
 				HandleInvalidData(ref status, uri);
 			}
 
-			return status == LoadStatus.Success ? OperationResult.Success : OperationResult.Failed;
+			if (status == LoadStatus.Success)
+			{
+				Context.Next.Settings = settings;
+
+				return OperationResult.Success;
+			}
+
+
+			return OperationResult.Failed;
 		}
 
 		private PasswordRequiredEventArgs TryGetPassword(LoadStatus status)
@@ -150,7 +157,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			if (resourceLoader.IsHtmlResource(uri))
 			{
 				configuration.LoadDefaultSettings();
-				configuration.CurrentSettings.Browser.StartUrl = uri.AbsoluteUri;
+				Context.Next.Settings.Browser.StartUrl = uri.AbsoluteUri;
 				logger.Info($"The specified URI '{uri.AbsoluteUri}' appears to point to a HTML resource, setting it as startup URL.");
 
 				status = LoadStatus.Success;
@@ -165,8 +172,8 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var path = string.Empty;
 			var isValidUri = false;
-			var programDataSettings = Path.Combine(appConfig.ProgramDataFolder, appConfig.DefaultSettingsFileName);
-			var appDataSettings = Path.Combine(appConfig.AppDataFolder, appConfig.DefaultSettingsFileName);
+			var programDataSettings = Path.Combine(Context.Next.AppConfig.ProgramDataFolder, Context.Next.AppConfig.DefaultSettingsFileName);
+			var appDataSettings = Path.Combine(Context.Next.AppConfig.AppDataFolder, Context.Next.AppConfig.DefaultSettingsFileName);
 
 			uri = null;
 
@@ -206,7 +213,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private void HandleClientConfiguration(ref OperationResult result)
 		{
-			if (result == OperationResult.Success && configuration.CurrentSettings.ConfigurationMode == ConfigurationMode.ConfigureClient)
+			if (result == OperationResult.Success && Context.Next.Settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
 			{
 				var args = new ConfigurationCompletedEventArgs();
 

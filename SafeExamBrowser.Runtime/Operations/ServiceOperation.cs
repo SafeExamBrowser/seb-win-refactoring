@@ -7,7 +7,6 @@
  */
 
 using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Core.OperationModel.Events;
@@ -16,29 +15,27 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
-	internal class ServiceOperation : IRepeatableOperation
+	internal class ServiceOperation : SessionOperation
 	{
 		private bool connected, mandatory;
-		private IConfigurationRepository configuration;
 		private ILogger logger;
 		private IServiceProxy service;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
-		public event StatusChangedEventHandler StatusChanged;
+		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public override event StatusChangedEventHandler StatusChanged;
 
-		public ServiceOperation(IConfigurationRepository configuration, ILogger logger, IServiceProxy service)
+		public ServiceOperation(ILogger logger, IServiceProxy service, SessionContext sessionContext) : base(sessionContext)
 		{
-			this.configuration = configuration;
-			this.service = service;
 			this.logger = logger;
+			this.service = service;
 		}
 
-		public OperationResult Perform()
+		public override OperationResult Perform()
 		{
 			logger.Info($"Initializing service session...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeServiceSession);
 
-			mandatory = configuration.CurrentSettings.ServicePolicy == ServicePolicy.Mandatory;
+			mandatory = Context.Next.Settings.ServicePolicy == ServicePolicy.Mandatory;
 			connected = service.Connect();
 
 			if (mandatory && !connected)
@@ -59,7 +56,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			return OperationResult.Success;
 		}
 
-		public OperationResult Repeat()
+		public override OperationResult Repeat()
 		{
 			var result = Revert();
 
@@ -71,7 +68,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			return Perform();
 		}
 
-		public OperationResult Revert()
+		public override OperationResult Revert()
 		{
 			logger.Info("Finalizing service session...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_FinalizeServiceSession);
@@ -97,12 +94,12 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private void StartServiceSession()
 		{
-			service.StartSession(configuration.CurrentSession.Id, configuration.CurrentSettings);
+			service.StartSession(Context.Next.Id, Context.Next.Settings);
 		}
 
 		private void StopServiceSession()
 		{
-			service.StopSession(configuration.CurrentSession.Id);
+			service.StopSession(Context.Current.Id);
 		}
 	}
 }

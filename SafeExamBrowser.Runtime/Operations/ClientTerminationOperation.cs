@@ -8,22 +8,21 @@
 
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
-	internal class ClientTerminationOperation : ClientOperation, IRepeatableOperation
+	internal class ClientTerminationOperation : ClientOperation
 	{
 		public ClientTerminationOperation(
-			IConfigurationRepository configuration,
 			ILogger logger,
 			IProcessFactory processFactory,
 			IProxyFactory proxyFactory,
 			IRuntimeHost runtimeHost,
-			int timeout_ms) : base(configuration, logger, processFactory, proxyFactory, runtimeHost, timeout_ms)
+			SessionContext sessionContext,
+			int timeout_ms) : base(logger, processFactory, proxyFactory, runtimeHost, sessionContext, timeout_ms)
 		{
 		}
 

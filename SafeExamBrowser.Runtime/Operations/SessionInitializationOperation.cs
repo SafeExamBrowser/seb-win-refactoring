@@ -15,35 +15,41 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
-	internal class SessionInitializationOperation : IRepeatableOperation
+	internal class SessionInitializationOperation : SessionOperation
 	{
 		private IConfigurationRepository configuration;
 		private ILogger logger;
 		private IRuntimeHost runtimeHost;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
-		public event StatusChangedEventHandler StatusChanged;
+		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public override event StatusChangedEventHandler StatusChanged;
 
-		public SessionInitializationOperation(IConfigurationRepository configuration, ILogger logger, IRuntimeHost runtimeHost)
+		public SessionInitializationOperation(
+			IConfigurationRepository configuration,
+			ILogger logger,
+			IRuntimeHost runtimeHost,
+			SessionContext sessionContext) : base(sessionContext)
 		{
 			this.configuration = configuration;
 			this.logger = logger;
 			this.runtimeHost = runtimeHost;
 		}
 
-		public OperationResult Perform()
+		public override OperationResult Perform()
 		{
 			InitializeSessionConfiguration();
 
 			return OperationResult.Success;
 		}
 
-		public OperationResult Repeat()
+		public override OperationResult Repeat()
 		{
-			return Perform();
+			InitializeSessionConfiguration();
+
+			return OperationResult.Success;
 		}
 
-		public OperationResult Revert()
+		public override OperationResult Revert()
 		{
 			return OperationResult.Success;
 		}
@@ -53,12 +59,12 @@ namespace SafeExamBrowser.Runtime.Operations
 			logger.Info("Initializing new session configuration...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeSession);
 
-			configuration.InitializeSessionConfiguration();
-			runtimeHost.StartupToken = configuration.CurrentSession.StartupToken;
+			Context.Next = configuration.InitializeSessionConfiguration();
+			runtimeHost.StartupToken = Context.Next.StartupToken;
 
-			logger.Info($" -> Client-ID: {configuration.AppConfig.ClientId}");
-			logger.Info($" -> Runtime-ID: {configuration.AppConfig.RuntimeId}");
-			logger.Info($" -> Session-ID: {configuration.CurrentSession.Id}");
+			logger.Info($" -> Client-ID: {Context.Next.AppConfig.ClientId}");
+			logger.Info($" -> Runtime-ID: {Context.Next.AppConfig.RuntimeId}");
+			logger.Info($" -> Session-ID: {Context.Next.Id}");
 		}
 	}
 }

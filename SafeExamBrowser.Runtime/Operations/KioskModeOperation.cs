@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Core.OperationModel.Events;
@@ -16,52 +15,40 @@ using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
-	internal class KioskModeOperation : IRepeatableOperation
+	internal class KioskModeOperation : SessionOperation
 	{
-		private IConfigurationRepository configuration;
-		private IDesktopFactory desktopFactory;
-		private IExplorerShell explorerShell;
-		private KioskMode kioskMode;
-		private ILogger logger;
-		private IProcessFactory processFactory;
+		protected IDesktopFactory desktopFactory;
+		protected IExplorerShell explorerShell;
+		protected ILogger logger;
+		protected IProcessFactory processFactory;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
-		public event StatusChangedEventHandler StatusChanged;
+		private static IDesktop newDesktop;
+		private static IDesktop originalDesktop;
 
-		private IDesktop NewDesktop
-		{
-			get { return configuration.CurrentSession.NewDesktop; }
-			set { configuration.CurrentSession.NewDesktop = value; }
-		}
+		protected static KioskMode? ActiveMode { get; private set; }
 
-		private IDesktop OriginalDesktop
-		{
-			get { return configuration.CurrentSession.OriginalDesktop; }
-			set { configuration.CurrentSession.OriginalDesktop = value; }
-		}
+		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public override event StatusChangedEventHandler StatusChanged;
 
 		public KioskModeOperation(
-			IConfigurationRepository configuration,
 			IDesktopFactory desktopFactory,
 			IExplorerShell explorerShell,
 			ILogger logger,
-			IProcessFactory processFactory)
+			IProcessFactory processFactory,
+			SessionContext sessionContext) : base(sessionContext)
 		{
-			this.configuration = configuration;
 			this.desktopFactory = desktopFactory;
 			this.explorerShell = explorerShell;
 			this.logger = logger;
 			this.processFactory = processFactory;
 		}
 
-		public virtual OperationResult Perform()
+		public override OperationResult Perform()
 		{
-			kioskMode = configuration.CurrentSettings.KioskMode;
-
-			logger.Info($"Initializing kiosk mode '{kioskMode}'...");
+			logger.Info($"Initializing kiosk mode '{Context.Next.Settings.KioskMode}'...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeKioskMode);
 
-			switch (kioskMode)
+			switch (Context.Next.Settings.KioskMode)
 			{
 				case KioskMode.CreateNewDesktop:
 					CreateNewDesktop();
@@ -71,17 +58,18 @@ namespace SafeExamBrowser.Runtime.Operations
 					break;
 			}
 
+			ActiveMode = Context.Next.Settings.KioskMode;
+
 			return OperationResult.Success;
 		}
 
-		public virtual OperationResult Repeat()
+		public override OperationResult Repeat()
 		{
-			var oldMode = kioskMode;
-			var newMode = configuration.CurrentSettings.KioskMode;
+			var newMode = Context.Next.Settings.KioskMode;
 
-			if (newMode == oldMode)
+			if (ActiveMode == newMode)
 			{
-				logger.Info($"New kiosk mode '{newMode}' is equal to the currently active '{oldMode}', skipping re-initialization...");
+				logger.Info($"New kiosk mode '{newMode}' is already active, skipping initialization...");
 
 				return OperationResult.Success;
 			}
@@ -89,12 +77,12 @@ namespace SafeExamBrowser.Runtime.Operations
 			return Perform();
 		}
 
-		public virtual OperationResult Revert()
+		public override OperationResult Revert()
 		{
-			logger.Info($"Reverting kiosk mode '{kioskMode}'...");
+			logger.Info($"Reverting kiosk mode '{ActiveMode}'...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_RevertKioskMode);
 
-			switch (kioskMode)
+			switch (ActiveMode)
 			{
 				case KioskMode.CreateNewDesktop:
 					CloseNewDesktop();
@@ -109,14 +97,14 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private void CreateNewDesktop()
 		{
-			OriginalDesktop = desktopFactory.GetCurrent();
-			logger.Info($"Current desktop is {OriginalDesktop}.");
+			originalDesktop = desktopFactory.GetCurrent();
+			logger.Info($"Current desktop is {originalDesktop}.");
 
-			NewDesktop = desktopFactory.CreateNew(nameof(SafeExamBrowser));
-			logger.Info($"Created new desktop {NewDesktop}.");
+			newDesktop = desktopFactory.CreateNew(nameof(SafeExamBrowser));
+			logger.Info($"Created new desktop {newDesktop}.");
 
-			NewDesktop.Activate();
-			processFactory.StartupDesktop = NewDesktop;
+			newDesktop.Activate();
+			processFactory.StartupDesktop = newDesktop;
 			logger.Info("Successfully activated new desktop.");
 
 			explorerShell.Suspend();
@@ -124,21 +112,21 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private void CloseNewDesktop()
 		{
-			if (OriginalDesktop != null)
+			if (originalDesktop != null)
 			{
-				OriginalDesktop.Activate();
-				processFactory.StartupDesktop = OriginalDesktop;
-				logger.Info($"Switched back to original desktop {OriginalDesktop}.");
+				originalDesktop.Activate();
+				processFactory.StartupDesktop = originalDesktop;
+				logger.Info($"Switched back to original desktop {originalDesktop}.");
 			}
 			else
 			{
 				logger.Warn($"No original desktop found when attempting to close new desktop!");
 			}
 
-			if (NewDesktop != null)
+			if (newDesktop != null)
 			{
-				NewDesktop.Close();
-				logger.Info($"Closed new desktop {NewDesktop}.");
+				newDesktop.Close();
+				logger.Info($"Closed new desktop {newDesktop}.");
 			}
 			else
 			{
@@ -151,6 +139,9 @@ namespace SafeExamBrowser.Runtime.Operations
 		private void TerminateExplorerShell()
 		{
 			StatusChanged?.Invoke(TextKey.OperationStatus_WaitExplorerTermination);
+
+			// TODO: Hiding all windows must be done here, as the explorer shell is needed to do so!
+
 			explorerShell.Terminate();
 		}
 
@@ -158,6 +149,8 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			StatusChanged?.Invoke(TextKey.OperationStatus_WaitExplorerStartup);
 			explorerShell.Start();
+
+			// TODO: Restore all hidden windows!
 		}
 	}
 }

@@ -10,7 +10,6 @@ using System.Threading;
 using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
@@ -20,40 +19,38 @@ using SafeExamBrowser.Contracts.WindowsApi.Events;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
-	internal class ClientOperation : IRepeatableOperation
+	internal class ClientOperation : SessionOperation
 	{
 		private readonly int timeout_ms;
 
-		private IConfigurationRepository configuration;
 		private ILogger logger;
 		private IProcessFactory processFactory;
 		private IProxyFactory proxyFactory;
 		private IRuntimeHost runtimeHost;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
-		public event StatusChangedEventHandler StatusChanged;
-
 		private IProcess ClientProcess
 		{
-			get { return configuration.CurrentSession.ClientProcess; }
-			set { configuration.CurrentSession.ClientProcess = value; }
+			get { return Context.ClientProcess; }
+			set { Context.ClientProcess = value; }
 		}
 
 		private IClientProxy ClientProxy
 		{
-			get { return configuration.CurrentSession.ClientProxy; }
-			set { configuration.CurrentSession.ClientProxy = value; }
+			get { return Context.ClientProxy; }
+			set { Context.ClientProxy = value; }
 		}
 
+		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public override event StatusChangedEventHandler StatusChanged;
+
 		public ClientOperation(
-			IConfigurationRepository configuration,
 			ILogger logger,
 			IProcessFactory processFactory,
 			IProxyFactory proxyFactory,
 			IRuntimeHost runtimeHost,
-			int timeout_ms)
+			SessionContext sessionContext,
+			int timeout_ms) : base(sessionContext)
 		{
-			this.configuration = configuration;
 			this.logger = logger;
 			this.processFactory = processFactory;
 			this.proxyFactory = proxyFactory;
@@ -61,7 +58,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			this.timeout_ms = timeout_ms;
 		}
 
-		public virtual OperationResult Perform()
+		public override OperationResult Perform()
 		{
 			StatusChanged?.Invoke(TextKey.OperationStatus_StartClient);
 
@@ -79,12 +76,12 @@ namespace SafeExamBrowser.Runtime.Operations
 			return success ? OperationResult.Success : OperationResult.Failed;
 		}
 
-		public virtual OperationResult Repeat()
+		public override OperationResult Repeat()
 		{
 			return Perform();
 		}
 
-		public virtual OperationResult Revert()
+		public override OperationResult Revert()
 		{
 			var success = true;
 
@@ -103,10 +100,10 @@ namespace SafeExamBrowser.Runtime.Operations
 			var clientReadyEvent = new AutoResetEvent(false);
 			var clientReadyEventHandler = new CommunicationEventHandler(() => clientReadyEvent.Set());
 
-			var clientExecutable = configuration.AppConfig.ClientExecutablePath;
-			var clientLogFile = $"{'"' + configuration.AppConfig.ClientLogFile + '"'}";
-			var hostUri = configuration.AppConfig.RuntimeAddress;
-			var token = configuration.CurrentSession.StartupToken.ToString("D");
+			var clientExecutable = Context.Next.AppConfig.ClientExecutablePath;
+			var clientLogFile = $"{'"' + Context.Next.AppConfig.ClientLogFile + '"'}";
+			var hostUri = Context.Next.AppConfig.RuntimeAddress;
+			var token = Context.Next.StartupToken.ToString("D");
 
 			logger.Info("Starting new client process...");
 			runtimeHost.ClientReady += clientReadyEventHandler;
@@ -124,9 +121,9 @@ namespace SafeExamBrowser.Runtime.Operations
 			}
 
 			logger.Info("Client has been successfully started and initialized. Creating communication proxy for client host...");
-			ClientProxy = proxyFactory.CreateClientProxy(configuration.AppConfig.ClientAddress);
+			ClientProxy = proxyFactory.CreateClientProxy(Context.Next.AppConfig.ClientAddress);
 
-			if (!ClientProxy.Connect(configuration.CurrentSession.StartupToken))
+			if (!ClientProxy.Connect(Context.Next.StartupToken))
 			{
 				logger.Error("Failed to connect to client!");
 

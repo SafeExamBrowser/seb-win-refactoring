@@ -94,6 +94,8 @@
     <Compile Include="Operations\KioskModeOperation.cs" />
     <Compile Include="Operations\KioskModeTerminationOperation.cs" />
     <Compile Include="Operations\ServiceOperation.cs" />
+    <Compile Include="Operations\SessionActivationOperation.cs" />
+    <Compile Include="Operations\SessionOperation.cs" />
     <Compile Include="Operations\SessionInitializationOperation.cs" />
     <Compile Include="Communication\ProxyFactory.cs" />
     <Compile Include="Communication\RuntimeHost.cs" />
@@ -112,6 +114,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="RuntimeController.cs" />
+    <Compile Include="SessionContext.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
