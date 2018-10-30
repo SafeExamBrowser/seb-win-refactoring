@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.WindowsApi.Types;
 
 namespace SafeExamBrowser.WindowsApi
 {
@@ -21,13 +22,49 @@ namespace SafeExamBrowser.WindowsApi
 	{
 		private ILogger logger;
 		private INativeMethods nativeMethods;
+		private IList<Window> minimizedWindows = new List<Window>();
 		private IList<ProcessThread> suspendedThreads;
 
 		public ExplorerShell(ILogger logger, INativeMethods nativeMethods)
 		{
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;
+			this.minimizedWindows = new List<Window>();
 			this.suspendedThreads = new List<ProcessThread>();
+		}
+
+		public void HideAllWindows()
+		{
+			logger.Info("Searching for windows to be minimized...");
+
+			foreach (var handle in nativeMethods.GetOpenWindows())
+			{
+				var window = new Window
+				{
+					Handle = handle,
+					Title = nativeMethods.GetWindowTitle(handle)
+				};
+
+				minimizedWindows.Add(window);
+				logger.Info($"Found window '{window.Title}' with handle = {window.Handle}.");
+			}
+
+			logger.Info("Minimizing all open windows...");
+			nativeMethods.MinimizeAllOpenWindows();
+			logger.Info("Open windows successfully minimized.");
+		}
+
+		public void RestoreAllWindows()
+		{
+			logger.Info("Restoring all minimized windows...");
+
+			foreach (var window in minimizedWindows)
+			{
+				nativeMethods.RestoreWindow(window.Handle);
+				logger.Info($"Restored window '{window.Title}' with handle = {window.Handle}.");
+			}
+
+			logger.Info("Minimized windows successfully restored.");
 		}
 
 		public void Resume()

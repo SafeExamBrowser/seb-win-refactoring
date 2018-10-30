@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.Monitoring.Events;
@@ -21,7 +20,6 @@ namespace SafeExamBrowser.Monitoring.Windows
 		private Guid? captureHookId;
 		private Guid? foregroundHookId;
 		private ILogger logger;
-		private IList<Window> minimizedWindows = new List<Window>();
 		private INativeMethods nativeMethods;
 
 		public event WindowChangedEventHandler WindowChanged;
@@ -55,40 +53,6 @@ namespace SafeExamBrowser.Monitoring.Windows
 			}
 
 			return success;
-		}
-
-		public void HideAllWindows()
-		{
-			logger.Info("Searching for windows to be minimized...");
-
-			foreach (var handle in nativeMethods.GetOpenWindows())
-			{
-				var window = new Window
-				{
-					Handle = handle,
-					Title = nativeMethods.GetWindowTitle(handle)
-				};
-
-				minimizedWindows.Add(window);
-				logger.Info($"Found window '{window.Title}' with handle = {window.Handle}.");
-			}
-
-			logger.Info("Minimizing all open windows...");
-			nativeMethods.MinimizeAllOpenWindows();
-			logger.Info("Open windows successfully minimized.");
-		}
-
-		public void RestoreHiddenWindows()
-		{
-			logger.Info("Restoring all minimized windows...");
-			
-			foreach (var window in minimizedWindows)
-			{
-				nativeMethods.RestoreWindow(window.Handle);
-				logger.Info($"Restored window '{window.Title}' with handle = {window.Handle}.");
-			}
-
-			logger.Info("Minimized windows successfully restored.");
 		}
 
 		public void StartMonitoringWindows()

@@ -448,9 +448,6 @@ namespace SafeExamBrowser.Runtime
 			runtimeWindow?.UpdateStatus(status, true);
 		}
 
-		/// <summary>
-		/// TODO: Move to utility in core library and use in client controller!
-		/// </summary>
 		private void MapProgress(IProgressIndicator progressIndicator, ProgressChangedEventArgs args)
 		{
 			if (args.CurrentValue.HasValue)

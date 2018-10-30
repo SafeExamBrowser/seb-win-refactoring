@@ -61,7 +61,6 @@
     <Compile Include="Mouse\MouseInterceptor.cs" />
     <Compile Include="Processes\ProcessMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Windows\Window.cs" />
     <Compile Include="Windows\WindowMonitor.cs" />
   </ItemGroup>
   <ItemGroup>

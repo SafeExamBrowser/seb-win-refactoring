@@ -80,6 +80,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			newDesktop.Verify(d => d.Activate(), Times.Once);
 			processFactory.VerifySet(f => f.StartupDesktop = newDesktop.Object, Times.Once);
 			explorerShell.Verify(s => s.Suspend(), Times.Once);
+			explorerShell.Verify(s => s.Terminate(), Times.Never);
+			explorerShell.Verify(s => s.HideAllWindows(), Times.Never);
 
 			Assert.AreSame(sessionContext.NewDesktop, newDesktop.Object);
 			Assert.AreSame(sessionContext.OriginalDesktop, originalDesktop.Object);
@@ -93,10 +95,15 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void MustCorrectlyInitializeDisableExplorerShell()
 		{
+			var order = 0;
+
 			nextSettings.KioskMode = KioskMode.DisableExplorerShell;
+			explorerShell.Setup(s => s.HideAllWindows()).Callback(() => Assert.AreEqual(1, ++order));
+			explorerShell.Setup(s => s.Terminate()).Callback(() => Assert.AreEqual(2, ++order));
 
 			sut.Perform();
 
+			explorerShell.Verify(s => s.HideAllWindows(), Times.Once);
 			explorerShell.Verify(s => s.Terminate(), Times.Once);
 		}
 
@@ -128,6 +135,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			processFactory.VerifySet(f => f.StartupDesktop = originalDesktop.Object, Times.Once);
 			newDesktop.Verify(d => d.Close(), Times.Once);
 			explorerShell.Verify(s => s.Resume(), Times.Once);
+			explorerShell.Verify(s => s.Start(), Times.Never);
+			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Never);
 
 			Assert.AreEqual(OperationResult.Success, performResult);
 			Assert.AreEqual(OperationResult.Success, revertResult);
@@ -140,13 +149,18 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void MustCorrectlyRevertDisableExplorerShell()
 		{
+			var order = 0;
+
 			currentSettings.KioskMode = KioskMode.DisableExplorerShell;
 			nextSettings.KioskMode = KioskMode.DisableExplorerShell;
+			explorerShell.Setup(s => s.Start()).Callback(() => Assert.AreEqual(1, ++order));
+			explorerShell.Setup(s => s.RestoreAllWindows()).Callback(() => Assert.AreEqual(2, ++order));
 
 			var performResult = sut.Perform();
 			var revertResult = sut.Revert();
 
 			explorerShell.Verify(s => s.Start(), Times.Once);
+			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, performResult);
 			Assert.AreEqual(OperationResult.Success, revertResult);
@@ -171,6 +185,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			explorerShell.Verify(s => s.Start(), Times.Never);
 			explorerShell.Verify(s => s.Resume(), Times.Never);
 			explorerShell.Verify(s => s.Suspend(), Times.Once);
+			explorerShell.Verify(s => s.HideAllWindows(), Times.Never);
+			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Never);
 			newDesktop.Verify(d => d.Activate(), Times.Once);
 			newDesktop.Verify(d => d.Close(), Times.Never);
 			originalDesktop.Verify(d => d.Activate(), Times.Never);
@@ -181,10 +197,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			Assert.AreEqual(OperationResult.Success, result);
 
-			explorerShell.Verify(s => s.Resume(), Times.Never);
 			explorerShell.Verify(s => s.Terminate(), Times.Once);
-			explorerShell.Verify(s => s.Suspend(), Times.Once);
 			explorerShell.Verify(s => s.Start(), Times.Never);
+			explorerShell.Verify(s => s.Resume(), Times.Never);
+			explorerShell.Verify(s => s.Suspend(), Times.Once);
+			explorerShell.Verify(s => s.HideAllWindows(), Times.Once);
+			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Never);
 			newDesktop.Verify(d => d.Activate(), Times.Once);
 			newDesktop.Verify(d => d.Close(), Times.Never);
 			originalDesktop.Verify(d => d.Activate(), Times.Never);
@@ -196,10 +214,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			Assert.AreEqual(OperationResult.Success, result);
 
-			explorerShell.Verify(s => s.Resume(), Times.Never);
 			explorerShell.Verify(s => s.Terminate(), Times.Once);
-			explorerShell.Verify(s => s.Suspend(), Times.Exactly(2));
 			explorerShell.Verify(s => s.Start(), Times.Never);
+			explorerShell.Verify(s => s.Resume(), Times.Never);
+			explorerShell.Verify(s => s.Suspend(), Times.Exactly(2));
+			explorerShell.Verify(s => s.HideAllWindows(), Times.Once);
+			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Never);
 			newDesktop.Verify(d => d.Activate(), Times.Exactly(2));
 			newDesktop.Verify(d => d.Close(), Times.Never);
 			originalDesktop.Verify(d => d.Activate(), Times.Never);

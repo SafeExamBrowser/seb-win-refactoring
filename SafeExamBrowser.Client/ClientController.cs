@@ -206,9 +206,11 @@ namespace SafeExamBrowser.Client
 		{
 			if (Settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
 			{
-				logger.Info($"Detected download request for configuration file '{fileName}'.");
+				logger.Debug($"Received download request for configuration file '{fileName}'. Asking user to confirm the reconfiguration...");
 
-				var result = messageBox.Show(TextKey.MessageBox_ReconfigurationQuestion, TextKey.MessageBox_ReconfigurationQuestionTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
+				var message = TextKey.MessageBox_ReconfigurationQuestion;
+				var title = TextKey.MessageBox_ReconfigurationQuestionTitle;
+				var result = messageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question, args.BrowserWindow);
 				var reconfigure = result == MessageBoxResult.Yes;
 
 				logger.Info($"The user chose to {(reconfigure ? "start" : "abort")} the reconfiguration.");
@@ -223,7 +225,7 @@ namespace SafeExamBrowser.Client
 			else
 			{
 				logger.Info($"Denied download request for configuration file '{fileName}' due to '{Settings.ConfigurationMode}' mode.");
-				messageBox.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle);
+				messageBox.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle, parent: args.BrowserWindow);
 			}
 		}
 

@@ -35,7 +35,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			sut.Perform();
 
-			windowMonitorMock.Verify(w => w.HideAllWindows(), Times.Never);
 			windowMonitorMock.Verify(w => w.StartMonitoringWindows(), Times.Once);
 		}
 
@@ -47,7 +46,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			sut.Revert();
 
 			windowMonitorMock.Verify(w => w.StopMonitoringWindows(), Times.Once);
-			windowMonitorMock.Verify(w => w.RestoreHiddenWindows(), Times.Never);
 		}
 
 		[TestMethod]
@@ -57,7 +55,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			sut.Perform();
 
-			windowMonitorMock.Verify(w => w.HideAllWindows(), Times.Never);
 			windowMonitorMock.Verify(w => w.StartMonitoringWindows(), Times.Once);
 		}
 
@@ -69,7 +66,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			sut.Revert();
 
 			windowMonitorMock.Verify(w => w.StopMonitoringWindows(), Times.Once);
-			windowMonitorMock.Verify(w => w.RestoreHiddenWindows(), Times.Never);
 		}
 
 		[TestMethod]

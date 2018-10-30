@@ -88,6 +88,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			explorerShell.Verify(s => s.Start(), Times.Once);
 			explorerShell.Verify(s => s.Suspend(), Times.Never);
 			explorerShell.Verify(s => s.Terminate(), Times.Never);
+			explorerShell.Verify(s => s.HideAllWindows(), Times.Never);
+			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Once);
 			newDesktop.Verify(d => d.Activate(), Times.Never);
 			newDesktop.Verify(d => d.Close(), Times.Never);
 			originalDesktop.Verify(d => d.Activate(), Times.Never);
@@ -103,6 +105,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			explorerShell.Verify(s => s.Start(), Times.Once);
 			explorerShell.Verify(s => s.Suspend(), Times.Never);
 			explorerShell.Verify(s => s.Terminate(), Times.Never);
+			explorerShell.Verify(s => s.HideAllWindows(), Times.Never);
+			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Once);
 			newDesktop.Verify(d => d.Activate(), Times.Never);
 			newDesktop.Verify(d => d.Close(), Times.Once);
 			originalDesktop.Verify(d => d.Activate(), Times.Once);
@@ -118,6 +122,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			explorerShell.Verify(s => s.Start(), Times.Exactly(2));
 			explorerShell.Verify(s => s.Suspend(), Times.Never);
 			explorerShell.Verify(s => s.Terminate(), Times.Never);
+			explorerShell.Verify(s => s.HideAllWindows(), Times.Never);
+			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Exactly(2));
 			newDesktop.Verify(d => d.Activate(), Times.Never);
 			newDesktop.Verify(d => d.Close(), Times.Once);
 			originalDesktop.Verify(d => d.Activate(), Times.Once);
@@ -126,7 +132,45 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void MustNotTerminateKioskModeIfSameInNextSesssion()
 		{
+			var newDesktop = new Mock<IDesktop>();
+			var originalDesktop = new Mock<IDesktop>();
+			var result = default(OperationResult);
 
+			sessionContext.NewDesktop = newDesktop.Object;
+			sessionContext.OriginalDesktop = originalDesktop.Object;
+			sessionContext.ActiveMode = KioskMode.DisableExplorerShell;
+			nextSettings.KioskMode = KioskMode.DisableExplorerShell;
+
+			result = sut.Repeat();
+
+			Assert.AreEqual(OperationResult.Success, result);
+
+			explorerShell.Verify(s => s.Resume(), Times.Never);
+			explorerShell.Verify(s => s.Start(), Times.Never);
+			explorerShell.Verify(s => s.Suspend(), Times.Never);
+			explorerShell.Verify(s => s.Terminate(), Times.Never);
+			explorerShell.Verify(s => s.HideAllWindows(), Times.Never);
+			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Never);
+			newDesktop.Verify(d => d.Activate(), Times.Never);
+			newDesktop.Verify(d => d.Close(), Times.Never);
+			originalDesktop.Verify(d => d.Activate(), Times.Never);
+
+			sessionContext.ActiveMode = KioskMode.CreateNewDesktop;
+			nextSettings.KioskMode = KioskMode.CreateNewDesktop;
+
+			result = sut.Repeat();
+
+			Assert.AreEqual(OperationResult.Success, result);
+
+			explorerShell.Verify(s => s.Resume(), Times.Never);
+			explorerShell.Verify(s => s.Start(), Times.Never);
+			explorerShell.Verify(s => s.Suspend(), Times.Never);
+			explorerShell.Verify(s => s.Terminate(), Times.Never);
+			explorerShell.Verify(s => s.HideAllWindows(), Times.Never);
+			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Never);
+			newDesktop.Verify(d => d.Activate(), Times.Never);
+			newDesktop.Verify(d => d.Close(), Times.Never);
+			originalDesktop.Verify(d => d.Activate(), Times.Never);
 		}
 
 		[TestMethod]

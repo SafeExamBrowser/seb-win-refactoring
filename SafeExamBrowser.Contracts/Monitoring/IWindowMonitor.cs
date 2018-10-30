@@ -32,16 +32,6 @@ namespace SafeExamBrowser.Contracts.Monitoring
 		bool Hide(IntPtr window);
 
 		/// <summary>
-		/// Hides all currently opened windows.
-		/// </summary>
-		void HideAllWindows();
-
-		/// <summary>
-		/// Restores all windows which were hidden during the startup procedure.
-		/// </summary>
-		void RestoreHiddenWindows();
-
-		/// <summary>
 		/// Starts monitoring application windows by subscribing to specific system events.
 		/// If a window is shown which is not supposed to do so, it will be automatically hidden.
 		/// </summary>

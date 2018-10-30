@@ -82,6 +82,7 @@ namespace SafeExamBrowser.Browser.Handlers
 		{
 			var args = new DownloadEventArgs();
 
+			logger.Debug($"Detected download request for configuration file '{downloadItem.Url}'.");
 			ConfigurationDownloadRequested?.Invoke(downloadItem.SuggestedFileName, args);
 			logger.Debug($"Download of configuration file '{downloadItem.Url}' was {(args.AllowDownload ? "granted" : "denied")}.");
 

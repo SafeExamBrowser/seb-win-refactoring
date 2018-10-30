@@ -158,17 +158,16 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			StatusChanged?.Invoke(TextKey.OperationStatus_WaitExplorerTermination);
 
-			// TODO: Hiding all windows must be done here, as the explorer shell is needed to do so!
-
+			explorerShell.HideAllWindows();
 			explorerShell.Terminate();
 		}
 
 		private void RestartExplorerShell()
 		{
 			StatusChanged?.Invoke(TextKey.OperationStatus_WaitExplorerStartup);
-			explorerShell.Start();
 
-			// TODO: Restore all hidden windows!
+			explorerShell.Start();
+			explorerShell.RestoreAllWindows();
 		}
 	}
 }

@@ -6,10 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.UserInterface.Browser;
+
 namespace SafeExamBrowser.Contracts.Browser
 {
 	/// <summary>
-	/// The event arguments used for all download events fired by the <see cref="IBrowserApplicationController"/>.
+	/// The event arguments used for all download events.
 	/// </summary>
 	public class DownloadEventArgs
 	{
@@ -17,6 +19,11 @@ namespace SafeExamBrowser.Contracts.Browser
 		/// Determines whether the specified download is allowed.
 		/// </summary>
 		public bool AllowDownload { get; set; }
+
+		/// <summary>
+		/// The browser window from which the download request originated.
+		/// </summary>
+		public IBrowserWindow BrowserWindow { get; set; }
 
 		/// <summary>
 		/// Callback executed once a download has been finished.

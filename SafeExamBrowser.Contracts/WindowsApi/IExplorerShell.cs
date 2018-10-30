@@ -14,6 +14,16 @@ namespace SafeExamBrowser.Contracts.WindowsApi
 	public interface IExplorerShell
 	{
 		/// <summary>
+		/// Hides all currently opened windows. The explorer shell needs to be running in order to execute this operation!
+		/// </summary>
+		void HideAllWindows();
+
+		/// <summary>
+		/// Restores all previously hidden windows. The explorer shell needs to be running in order to execute this operation!
+		/// </summary>
+		void RestoreAllWindows();
+
+		/// <summary>
 		/// Resumes the explorer shell process, if it was previously suspended.
 		/// </summary>
 		void Resume();

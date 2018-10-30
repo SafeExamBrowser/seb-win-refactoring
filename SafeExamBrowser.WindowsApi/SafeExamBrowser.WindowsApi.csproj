@@ -83,6 +83,7 @@
     <Compile Include="Types\PROCESS_INFORMATION.cs" />
     <Compile Include="Types\RECT.cs" />
     <Compile Include="Types\STARTUPINFO.cs" />
+    <Compile Include="Types\Window.cs" />
     <Compile Include="User32.cs" />
   </ItemGroup>
   <ItemGroup>

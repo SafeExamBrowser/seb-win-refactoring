@@ -63,7 +63,7 @@ namespace SafeExamBrowser.Browser
 			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} {Id}");
 			var downloadHandler = new DownloadHandler(appConfig, settings, downloadLogger);
 
-			downloadHandler.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
+			downloadHandler.ConfigurationDownloadRequested += DownloadHandler_ConfigurationDownloadRequested;
 
 			control = new BrowserControl(appConfig, settings, controlLogger, text);
 			control.AddressChanged += Control_AddressChanged;
@@ -99,6 +99,13 @@ namespace SafeExamBrowser.Browser
 		{
 			window.UpdateTitle(title);
 			NameChanged?.Invoke(title);
+		}
+
+		private void DownloadHandler_ConfigurationDownloadRequested(string fileName, DownloadEventArgs args)
+		{
+			args.BrowserWindow = window;
+
+			ConfigurationDownloadRequested?.Invoke(fileName, args);
 		}
 
 		private void Window_AddressChanged(string address)

@@ -8,7 +8,7 @@
 
 using System;
 
-namespace SafeExamBrowser.Monitoring.Windows
+namespace SafeExamBrowser.WindowsApi.Types
 {
 	internal struct Window
 	{
