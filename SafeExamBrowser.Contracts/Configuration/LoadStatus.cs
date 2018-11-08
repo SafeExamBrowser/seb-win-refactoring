@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.Contracts.Configuration
 {
 	/// <summary>
-	/// Defines all possible results of <see cref="IConfigurationRepository.LoadSettings(System.Uri)"/>.
+	/// Defines all possible results of an attempt to load a configuration file.
 	/// </summary>
 	public enum LoadStatus
 	{
@@ -24,13 +24,23 @@ namespace SafeExamBrowser.Contracts.Configuration
 		InvalidData,
 
 		/// <summary>
+		/// Indicates that a resource is not supported.
+		/// </summary>
+		NotSupported,
+
+		/// <summary>
 		/// Indicates that a settings password is needed in order to load the settings.
 		/// </summary>
 		SettingsPasswordNeeded,
 
 		/// <summary>
-		/// The <see cref="Settings.Settings"/> were loaded successfully.
+		/// The settings were loaded successfully.
 		/// </summary>
-		Success
+		Success,
+
+		/// <summary>
+		/// An unexpected error occurred while trying to load the settings.
+		/// </summary>
+		UnexpectedError
 	}
 }

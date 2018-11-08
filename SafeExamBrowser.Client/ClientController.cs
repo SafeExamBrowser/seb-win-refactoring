@@ -206,7 +206,7 @@ namespace SafeExamBrowser.Client
 		{
 			if (Settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
 			{
-				logger.Debug($"Received download request for configuration file '{fileName}'. Asking user to confirm the reconfiguration...");
+				logger.Info($"Received download request for configuration file '{fileName}'. Asking user to confirm the reconfiguration...");
 
 				var message = TextKey.MessageBox_ReconfigurationQuestion;
 				var title = TextKey.MessageBox_ReconfigurationQuestionTitle;

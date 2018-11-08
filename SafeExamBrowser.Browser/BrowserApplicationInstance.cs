@@ -103,9 +103,17 @@ namespace SafeExamBrowser.Browser
 
 		private void DownloadHandler_ConfigurationDownloadRequested(string fileName, DownloadEventArgs args)
 		{
-			args.BrowserWindow = window;
+			if (settings.AllowConfigurationDownloads)
+			{
+				args.BrowserWindow = window;
+				logger.Debug($"Forwarding download request for configuration file '{fileName}'.");
 
-			ConfigurationDownloadRequested?.Invoke(fileName, args);
+				ConfigurationDownloadRequested?.Invoke(fileName, args);
+			}
+			else
+			{
+				logger.Debug($"Discarded download request for configuration file '{fileName}'.");
+			}
 		}
 
 		private void Window_AddressChanged(string address)

@@ -90,7 +90,11 @@
     <Compile Include="Operations\ClientTerminationOperation.cs" />
     <Compile Include="Operations\ConfigurationOperation.cs" />
     <Compile Include="Operations\Events\ConfigurationCompletedEventArgs.cs" />
+    <Compile Include="Operations\Events\InvalidDataMessageArgs.cs" />
+    <Compile Include="Operations\Events\MessageEventArgs.cs" />
+    <Compile Include="Operations\Events\NotSupportedMessageArgs.cs" />
     <Compile Include="Operations\Events\PasswordRequiredEventArgs.cs" />
+    <Compile Include="Operations\Events\UnexpectedErrorMessageArgs.cs" />
     <Compile Include="Operations\KioskModeOperation.cs" />
     <Compile Include="Operations\KioskModeTerminationOperation.cs" />
     <Compile Include="Operations\ServiceOperation.cs" />

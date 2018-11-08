@@ -7,7 +7,11 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using SafeExamBrowser.Configuration.DataFormats;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
@@ -24,9 +28,16 @@ namespace SafeExamBrowser.Configuration
 		private readonly string programVersion;
 
 		private AppConfig appConfig;
+		private IList<IDataFormat> dataFormats;
+		private ILogger logger;
+		private IList<IResourceLoader> resourceLoaders;
 
-		public ConfigurationRepository(string executablePath, string programCopyright, string programTitle, string programVersion)
+		public ConfigurationRepository(ILogger logger, string executablePath, string programCopyright, string programTitle, string programVersion)
 		{
+			dataFormats = new List<IDataFormat>();
+			resourceLoaders = new List<IResourceLoader>();
+
+			this.logger = logger;
 			this.executablePath = executablePath ?? string.Empty;
 			this.programCopyright = programCopyright ?? string.Empty;
 			this.programTitle = programTitle ?? string.Empty;
@@ -73,38 +84,28 @@ namespace SafeExamBrowser.Configuration
 
 			UpdateAppConfig();
 
-			configuration.AppConfig = CloneAppConfig();
+			configuration.AppConfig = appConfig.Clone();
 			configuration.Id = Guid.NewGuid();
 			configuration.StartupToken = Guid.NewGuid();
 
 			return configuration;
 		}
 
-		public LoadStatus TryLoadSettings(Uri resource, out Settings settings, string adminPassword = null, string settingsPassword = null)
-		{
-			// TODO: Implement loading mechanism
-
-			settings = LoadDefaultSettings();
-
-			return LoadStatus.Success;
-		}
-
 		public Settings LoadDefaultSettings()
 		{
-			// TODO: Implement default settings
-
 			var settings = new Settings();
 
-			settings.KioskMode = new Random().Next(10) < 5 ? KioskMode.CreateNewDesktop : KioskMode.DisableExplorerShell;
+			settings.KioskMode = KioskMode.None;
 			settings.ServicePolicy = ServicePolicy.Optional;
 
 			settings.Browser.StartUrl = "https://www.safeexambrowser.org/testing";
 			settings.Browser.AllowAddressBar = true;
 			settings.Browser.AllowBackwardNavigation = true;
+			settings.Browser.AllowConfigurationDownloads = true;
 			settings.Browser.AllowDeveloperConsole = true;
+			settings.Browser.AllowDownloads = true;
 			settings.Browser.AllowForwardNavigation = true;
 			settings.Browser.AllowReloading = true;
-			settings.Browser.AllowDownloads = true;
 
 			settings.Taskbar.AllowApplicationLog = true;
 			settings.Taskbar.AllowKeyboardLayout = true;
@@ -113,33 +114,90 @@ namespace SafeExamBrowser.Configuration
 			return settings;
 		}
 
-		private AppConfig CloneAppConfig()
+		public void Register(IDataFormat dataFormat)
 		{
-			return new AppConfig
+			dataFormats.Add(dataFormat);
+		}
+
+		public void Register(IResourceLoader resourceLoader)
+		{
+			resourceLoaders.Add(resourceLoader);
+		}
+
+		public LoadStatus TryLoadSettings(Uri resource, out Settings settings, string adminPassword = null, string settingsPassword = null)
+		{
+			settings = default(Settings);
+
+			logger.Info($"Attempting to load '{resource}'...");
+
+			try
 			{
-				AppDataFolder = appConfig.AppDataFolder,
-				ApplicationStartTime = appConfig.ApplicationStartTime,
-				BrowserCachePath = appConfig.BrowserCachePath,
-				BrowserLogFile = appConfig.BrowserLogFile,
-				ClientAddress = appConfig.ClientAddress,
-				ClientExecutablePath = appConfig.ClientExecutablePath,
-				ClientId = appConfig.ClientId,
-				ClientLogFile = appConfig.ClientLogFile,
-				ConfigurationFileExtension = appConfig.ConfigurationFileExtension,
-				DefaultSettingsFileName = appConfig.DefaultSettingsFileName,
-				DownloadDirectory = appConfig.DownloadDirectory,
-				LogLevel = appConfig.LogLevel,
-				ProgramCopyright = appConfig.ProgramCopyright,
-				ProgramDataFolder = appConfig.ProgramDataFolder,
-				ProgramTitle = appConfig.ProgramTitle,
-				ProgramVersion = appConfig.ProgramVersion,
-				RuntimeAddress = appConfig.RuntimeAddress,
-				RuntimeId = appConfig.RuntimeId,
-				RuntimeLogFile = appConfig.RuntimeLogFile,
-				SebUriScheme = appConfig.SebUriScheme,
-				SebUriSchemeSecure = appConfig.SebUriSchemeSecure,
-				ServiceAddress = appConfig.ServiceAddress
-			};
+				var resourceLoader = resourceLoaders.FirstOrDefault(l => l.CanLoad(resource));
+
+				if (resourceLoader != null)
+				{
+					var data = resourceLoader.Load(resource);
+					var dataFormat = dataFormats.FirstOrDefault(f => f.CanParse(data));
+
+					logger.Info($"Successfully loaded {data.Length / 1000.0} KB data from '{resource}' using {resourceLoader.GetType().Name}.");
+
+					if (dataFormat is HtmlFormat)
+					{
+						return HandleHtml(resource, out settings);
+					}
+
+					if (dataFormat != null)
+					{
+						return dataFormat.TryParse(data, out settings, adminPassword, settingsPassword);
+					}
+				}
+
+				logger.Warn($"No {(resourceLoader == null ? "resource loader" : "data format")} found for '{resource}'!");
+
+				return LoadStatus.NotSupported;
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Unexpected error while trying to load '{resource}'!", e);
+
+				return LoadStatus.UnexpectedError;
+			}
+		}
+
+		private LoadStatus HandleHtml(Uri resource, out Settings settings)
+		{
+			logger.Info($"Loaded data appears to be HTML, loading default settings and using '{resource}' as startup URL.");
+
+			settings = LoadDefaultSettings();
+			settings.Browser.StartUrl = resource.AbsoluteUri;
+
+			return LoadStatus.Success;
+		}
+
+		private byte[] Decompress(byte[] bytes)
+		{
+			try
+			{
+				var buffer = new byte[4096];
+
+				using (var stream = new GZipStream(new MemoryStream(bytes), CompressionMode.Decompress))
+				using (var decompressed = new MemoryStream())
+				{
+					var bytesRead = 0;
+
+					do
+					{
+						bytesRead = stream.Read(buffer, 0, buffer.Length);
+						decompressed.Write(buffer, 0, bytesRead);
+					} while (bytesRead > 0);
+
+					return decompressed.ToArray();
+				}
+			}
+			catch (InvalidDataException)
+			{
+				return bytes;
+			}
 		}
 
 		private void UpdateAppConfig()

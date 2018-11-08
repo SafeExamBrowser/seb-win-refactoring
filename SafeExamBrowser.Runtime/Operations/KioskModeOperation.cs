@@ -35,10 +35,6 @@ namespace SafeExamBrowser.Runtime.Operations
 			set { Context.OriginalDesktop = value; }
 		}
 
-		/// <summary>
-		/// TODO: This mechanism exposes the internal state of the operation! Find better solution which will keep the
-		/// state internal but still allow unit testing of both kiosk mode operations independently!
-		/// </summary>
 		protected KioskMode? ActiveMode
 		{
 			get { return Context.ActiveMode; }

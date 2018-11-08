@@ -24,6 +24,18 @@
   <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
     Download Error
   </Entry>
+  <Entry key="MessageBox_InvalidConfigurationData">
+    The configuration resource '%%URI%%' contains invalid data!
+  </Entry>
+  <Entry key="MessageBox_InvalidConfigurationDataTitle">
+    Configuration Error
+  </Entry>
+  <Entry key="MessageBox_NotSupportedConfigurationResource">
+    The configuration resource '%%URI%%' is not supported!
+  </Entry>
+  <Entry key="MessageBox_NotSupportedConfigurationResourceTitle">
+    Configuration Error
+  </Entry>
   <Entry key="MessageBox_Quit">
     Would you really like to quit the application?
   </Entry>
@@ -77,6 +89,12 @@
   </Entry>
   <Entry key="MessageBox_StartupErrorTitle">
     Startup Error
+  </Entry>
+  <Entry key="MessageBox_UnexpectedConfigurationError">
+    An unexpected error occurred while trying to load configuration resource '%%URI%%'! Please consult the application log for more information...
+  </Entry>
+  <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
+    Configuration Error
   </Entry>
   <Entry key="Notification_AboutTooltip">
     About Safe Exam Browser

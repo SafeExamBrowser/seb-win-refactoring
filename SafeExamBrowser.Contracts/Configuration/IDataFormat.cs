@@ -6,23 +6,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-
 namespace SafeExamBrowser.Contracts.Configuration
 {
 	/// <summary>
-	/// Loads binary data from a particular resource.
+	/// Defines the data format for a configuration file.
 	/// </summary>
-	public interface IResourceLoader
+	public interface IDataFormat
 	{
 		/// <summary>
-		/// Indicates whether the resource loader is able to load data from the specified resource.
+		/// Indicates whether the given data complies with the required format.
 		/// </summary>
-		bool CanLoad(Uri resource);
+		bool CanParse(byte[] data);
 
 		/// <summary>
-		/// Loads the binary data from the specified resource.
+		/// Attempts to parse the given binary data.
 		/// </summary>
-		byte[] Load(Uri resource);
+		LoadStatus TryParse(byte[] data, out Settings.Settings settings, string adminPassword = null, string settingsPassword = null);
 	}
 }

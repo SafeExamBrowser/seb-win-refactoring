@@ -64,6 +64,7 @@ namespace SafeExamBrowser.WindowsApi
 				logger.Info($"Restored window '{window.Title}' with handle = {window.Handle}.");
 			}
 
+			minimizedWindows.Clear();
 			logger.Info("Minimized windows successfully restored.");
 		}
 

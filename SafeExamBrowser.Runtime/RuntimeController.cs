@@ -363,6 +363,9 @@ namespace SafeExamBrowser.Runtime
 				case ConfigurationCompletedEventArgs a:
 					AskIfConfigurationSufficient(a);
 					break;
+				case MessageEventArgs m:
+					ShowMessageBox(m);
+					break;
 				case PasswordRequiredEventArgs p:
 					AskForPassword(p);
 					break;
@@ -391,6 +394,24 @@ namespace SafeExamBrowser.Runtime
 			{
 				TryGetPasswordViaClient(args);
 			}
+		}
+
+		private void ShowMessageBox(MessageEventArgs args)
+		{
+			var message = text.Get(args.Message);
+			var title = text.Get(args.Title);
+
+			foreach (var placeholder in args.MessagePlaceholders)
+			{
+				message = message.Replace(placeholder.Key, placeholder.Value);
+			}
+
+			foreach (var placeholder in args.TitlePlaceholders)
+			{
+				title = title.Replace(placeholder.Key, placeholder.Value);
+			}
+
+			messageBox.Show(message, title, MessageBoxAction.Confirm, args.Icon, runtimeWindow);
 		}
 
 		private void TryGetPasswordViaDialog(PasswordRequiredEventArgs args)

@@ -26,15 +26,24 @@ namespace SafeExamBrowser.Contracts.Configuration
 		ISessionConfiguration InitializeSessionConfiguration();
 
 		/// <summary>
-		/// Attempts to load settings from the specified resource, using the optional passwords. Returns a <see cref="LoadStatus"/>
-		/// indicating the result of the operation. As long as the result is not <see cref="LoadStatus.Success"/>, the declared
-		/// <paramref name="settings"/> will be <c>null</c>!
-		/// </summary>
-		LoadStatus TryLoadSettings(Uri resource, out Settings.Settings settings, string adminPassword = null, string settingsPassword = null);
-
-		/// <summary>
 		/// Loads the default settings.
 		/// </summary>
 		Settings.Settings LoadDefaultSettings();
+
+		/// <summary>
+		/// Registers the specified <see cref="IDataFormat"/> as option to parse configuration data.
+		/// </summary>
+		void Register(IDataFormat dataFormat);
+
+		/// <summary>
+		/// Registers the specified <see cref="IResourceLoader"/> as option to load configuration data.
+		/// </summary>
+		void Register(IResourceLoader resourceLoader);
+
+		/// <summary>
+		/// Attempts to load settings from the specified resource, using the optional passwords. As long as the result is not
+		/// <see cref="LoadStatus.Success"/>, the referenced settings may be <c>null</c> or in an undefinable state!
+		/// </summary>
+		LoadStatus TryLoadSettings(Uri resource, out Settings.Settings settings, string adminPassword = null, string settingsPassword = null);
 	}
 }

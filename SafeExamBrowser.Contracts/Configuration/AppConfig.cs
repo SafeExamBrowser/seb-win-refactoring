@@ -126,5 +126,13 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// The communication address of the service component.
 		/// </summary>
 		public string ServiceAddress { get; set; }
+
+		/// <summary>
+		/// Creates a shallow clone.
+		/// </summary>
+		public AppConfig Clone()
+		{
+			return MemberwiseClone() as AppConfig;
+		}
 	}
 }

@@ -24,7 +24,6 @@ namespace SafeExamBrowser.Runtime.Operations
 		private string[] commandLineArgs;
 		private IConfigurationRepository configuration;
 		private ILogger logger;
-		private IResourceLoader resourceLoader;
 
 		public override event ActionRequiredEventHandler ActionRequired;
 		public override event StatusChangedEventHandler StatusChanged;
@@ -33,13 +32,11 @@ namespace SafeExamBrowser.Runtime.Operations
 			string[] commandLineArgs,
 			IConfigurationRepository configuration,
 			ILogger logger,
-			IResourceLoader resourceLoader,
 			SessionContext sessionContext) : base(sessionContext)
 		{
 			this.commandLineArgs = commandLineArgs;
 			this.logger = logger;
 			this.configuration = configuration;
-			this.resourceLoader = resourceLoader;
 		}
 
 		public override OperationResult Perform()
@@ -51,7 +48,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (isValidUri)
 			{
-				logger.Info($"Attempting to load settings from '{uri.AbsolutePath}'...");
+				logger.Info($"Attempting to load settings from '{uri}'...");
 
 				var result = LoadSettings(uri);
 
@@ -62,7 +59,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			}
 
 			logger.Info("No valid settings resource specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
-			configuration.LoadDefaultSettings();
+			Context.Next.Settings = configuration.LoadDefaultSettings();
 
 			return OperationResult.Success;
 		}
@@ -76,7 +73,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (isValidUri)
 			{
-				logger.Info($"Attempting to load settings from '{uri.AbsolutePath}'...");
+				logger.Info($"Attempting to load settings from '{uri}'...");
 
 				var result = LoadSettings(uri);
 
@@ -126,11 +123,6 @@ namespace SafeExamBrowser.Runtime.Operations
 				}
 			}
 
-			if (status == LoadStatus.InvalidData)
-			{
-				HandleInvalidData(ref status, uri);
-			}
-
 			if (status == LoadStatus.Success)
 			{
 				Context.Next.Settings = settings;
@@ -138,6 +130,18 @@ namespace SafeExamBrowser.Runtime.Operations
 				return OperationResult.Success;
 			}
 
+			switch (status)
+			{
+				case LoadStatus.InvalidData:
+					ActionRequired?.Invoke(new InvalidDataMessageArgs(uri.ToString()));
+					break;
+				case LoadStatus.NotSupported:
+					ActionRequired?.Invoke(new NotSupportedMessageArgs(uri.ToString()));
+					break;
+				case LoadStatus.UnexpectedError:
+					ActionRequired?.Invoke(new UnexpectedErrorMessageArgs(uri.ToString()));
+					break;
+			}
 
 			return OperationResult.Failed;
 		}
@@ -150,22 +154,6 @@ namespace SafeExamBrowser.Runtime.Operations
 			ActionRequired?.Invoke(args);
 
 			return args;
-		}
-
-		private void HandleInvalidData(ref LoadStatus status, Uri uri)
-		{
-			if (resourceLoader.IsHtmlResource(uri))
-			{
-				configuration.LoadDefaultSettings();
-				Context.Next.Settings.Browser.StartUrl = uri.AbsoluteUri;
-				logger.Info($"The specified URI '{uri.AbsoluteUri}' appears to point to a HTML resource, setting it as startup URL.");
-
-				status = LoadStatus.Success;
-			}
-			else
-			{
-				logger.Error($"The specified settings resource '{uri.AbsoluteUri}' is invalid!");
-			}
 		}
 
 		private bool TryInitializeSettingsUri(out Uri uri)

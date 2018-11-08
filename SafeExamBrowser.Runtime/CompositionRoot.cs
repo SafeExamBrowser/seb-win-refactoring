@@ -13,6 +13,8 @@ using System.Reflection;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration;
+using SafeExamBrowser.Configuration.DataFormats;
+using SafeExamBrowser.Configuration.ResourceLoaders;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core;
 using SafeExamBrowser.Contracts.Core.OperationModel;
@@ -32,6 +34,7 @@ namespace SafeExamBrowser.Runtime
 	internal class CompositionRoot
 	{
 		private AppConfig appConfig;
+		private IConfigurationRepository configuration;
 		private ILogger logger;
 		private ISystemInfo systemInfo;
 		private IText text;
@@ -45,13 +48,12 @@ namespace SafeExamBrowser.Runtime
 			const int FIFTEEN_SECONDS = 15000;
 
 			var args = Environment.GetCommandLineArgs();
-			var configuration = BuildConfigurationRepository();
 			var nativeMethods = new NativeMethods();
 
 			logger = new Logger();
-			appConfig = configuration.InitializeAppConfig();
 			systemInfo = new SystemInfo();
 
+			InitializeConfiguration();
 			InitializeLogging();
 			InitializeText();
 
@@ -60,7 +62,6 @@ namespace SafeExamBrowser.Runtime
 			var explorerShell = new ExplorerShell(new ModuleLogger(logger, nameof(ExplorerShell)), nativeMethods);
 			var processFactory = new ProcessFactory(new ModuleLogger(logger, nameof(ProcessFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), logger);
-			var resourceLoader = new ResourceLoader();
 			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, new HostObjectFactory(), new ModuleLogger(logger, nameof(RuntimeHost)), FIVE_SECONDS);
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(ServiceProxy)));
 			var sessionContext = new SessionContext();
@@ -73,7 +74,7 @@ namespace SafeExamBrowser.Runtime
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(runtimeHost, logger));
 
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost, sessionContext));
-			sessionOperations.Enqueue(new ConfigurationOperation(args, configuration, logger, resourceLoader, sessionContext));
+			sessionOperations.Enqueue(new ConfigurationOperation(args, configuration, logger, sessionContext));
 			sessionOperations.Enqueue(new ClientTerminationOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, FIFTEEN_SECONDS));
 			sessionOperations.Enqueue(new KioskModeTerminationOperation(desktopFactory, explorerShell, logger, processFactory, sessionContext));
 			sessionOperations.Enqueue(new ServiceOperation(logger, serviceProxy, sessionContext));
@@ -105,15 +106,22 @@ namespace SafeExamBrowser.Runtime
 			logger?.Log($"# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 		}
 
-		private IConfigurationRepository BuildConfigurationRepository()
+		private void InitializeConfiguration()
 		{
 			var executable = Assembly.GetExecutingAssembly();
 			var programCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
 			var programTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
 			var programVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-			var repository = new ConfigurationRepository(executable.Location, programCopyright, programTitle, programVersion);
+			var moduleLogger = new ModuleLogger(logger, nameof(ConfigurationRepository));
 
-			return repository;
+			configuration = new ConfigurationRepository(moduleLogger, executable.Location, programCopyright, programTitle, programVersion);
+			appConfig = configuration.InitializeAppConfig();
+
+			configuration.Register(new DefaultFormat(new ModuleLogger(logger, nameof(DefaultFormat))));
+			configuration.Register(new HtmlFormat(new ModuleLogger(logger, nameof(HtmlFormat))));
+			configuration.Register(new XmlFormat(new ModuleLogger(logger, nameof(XmlFormat))));
+			configuration.Register(new FileResourceLoader(new ModuleLogger(logger, nameof(FileResourceLoader))));
+			configuration.Register(new NetworkResourceLoader(appConfig, new ModuleLogger(logger, nameof(NetworkResourceLoader))));
 		}
 
 		private void InitializeLogging()

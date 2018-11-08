@@ -9,7 +9,9 @@
 using System;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.UnitTests
 {
@@ -22,8 +24,9 @@ namespace SafeExamBrowser.Configuration.UnitTests
 		public void Initialize()
 		{
 			var executablePath = Assembly.GetExecutingAssembly().Location;
+			var logger = new Mock<ILogger>();
 
-			sut = new ConfigurationRepository(executablePath, string.Empty, string.Empty, string.Empty);
+			sut = new ConfigurationRepository(logger.Object, executablePath, string.Empty, string.Empty, string.Empty);
 		}
 
 		[TestMethod]

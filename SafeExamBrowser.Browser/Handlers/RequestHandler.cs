@@ -31,11 +31,11 @@ namespace SafeExamBrowser.Browser.Handlers
 
 			if (uri.Scheme == appConfig.SebUriScheme)
 			{
-				request.Url = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttp }.ToString();
+				request.Url = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttp }.Uri.AbsoluteUri;
 			}
 			else if (uri.Scheme == appConfig.SebUriSchemeSecure)
 			{
-				request.Url = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttps }.ToString();
+				request.Url = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttps }.Uri.AbsoluteUri;
 			}
 
 			return base.OnBeforeResourceLoad(browserControl, browser, frame, request, callback);
