@@ -7,8 +7,11 @@
  */
 
 using System;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
@@ -19,6 +22,12 @@ namespace SafeExamBrowser.Configuration.ResourceLoaders
 	{
 		private AppConfig appConfig;
 		private ILogger logger;
+
+		private string[] SupportedContentTypes => new[]
+		{
+			MediaTypeNames.Application.Octet,
+			MediaTypeNames.Text.Xml
+		};
 
 		private string[] SupportedSchemes => new[]
 		{
@@ -36,54 +45,41 @@ namespace SafeExamBrowser.Configuration.ResourceLoaders
 
 		public bool CanLoad(Uri resource)
 		{
-			if (SupportedSchemes.Contains(resource.Scheme) && IsAvailable(resource))
+			var available = SupportedSchemes.Contains(resource.Scheme) && IsAvailable(resource);
+
+			if (available)
 			{
 				logger.Debug($"Can load '{resource}' as it references an existing network resource.");
-
-				return true;
+			}
+			else
+			{
+				logger.Debug($"Can't load '{resource}' since its URI scheme is not supported or the resource is unavailable.");
 			}
 
-			logger.Debug($"Can't load '{resource}' since its URI scheme is not supported or the resource is unavailable.");
-
-			return false;
+			return available;
 		}
 
-		public byte[] Load(Uri resource)
+		public LoadStatus TryLoad(Uri resource, out Stream data)
 		{
 			var uri = BuildUriFor(resource);
 
-			logger.Debug($"Downloading data from '{uri}'...");
+			logger.Debug($"Sending GET request for '{uri}'...");
 
 			var request = new HttpRequestMessage(HttpMethod.Get, uri);
 			var response = Execute(request);
 
-			logger.Debug($"Sent GET request for '{uri}', received response '{(int) response.StatusCode} - {response.ReasonPhrase}'.");
+			logger.Debug($"Received response '{ToString(response)}'.");
 
-			var data = Extract(response.Content);
-
-			logger.Debug($"Extracted {data.Length / 1000.0} KB data from response.");
-
-			return data;
-		}
-
-		private bool IsAvailable(Uri resource)
-		{
-			try
+			if (IsUnauthorized(response) || HasHtmlContent(response))
 			{
-				var uri = BuildUriFor(resource);
-				var request = new HttpRequestMessage(HttpMethod.Head, uri);
-				var response = Execute(request);
-
-				logger.Debug($"Sent HEAD request for '{uri}', received response '{(int) response.StatusCode} - {response.ReasonPhrase}'.");
-
-				return response.IsSuccessStatusCode;
+				return HandleBrowserResource(response, out data);
 			}
-			catch (Exception e)
-			{
-				logger.Error($"Failed to check availability of '{resource}'!", e);
 
-				return false;
-			}
+			logger.Debug($"Trying to extract response data...");
+			data = Extract(response.Content);
+			logger.Debug($"Created {data} for {data.Length / 1000.0} KB data of response body.");
+
+			return LoadStatus.Success;
 		}
 
 		private Uri BuildUriFor(Uri resource)
@@ -92,6 +88,29 @@ namespace SafeExamBrowser.Configuration.ResourceLoaders
 			var builder = new UriBuilder(resource) { Scheme = scheme };
 
 			return builder.Uri;
+		}
+
+		private HttpResponseMessage Execute(HttpRequestMessage request)
+		{
+			var task = Task.Run(async () =>
+			{
+				using (var client = new HttpClient())
+				{
+					return await client.SendAsync(request);
+				}
+			});
+
+			return task.GetAwaiter().GetResult();
+		}
+
+		private Stream Extract(HttpContent content)
+		{
+			var task = Task.Run(async () =>
+			{
+				return await content.ReadAsStreamAsync();
+			});
+
+			return task.GetAwaiter().GetResult();
 		}
 
 		private string GetSchemeFor(Uri resource)
@@ -109,27 +128,52 @@ namespace SafeExamBrowser.Configuration.ResourceLoaders
 			return resource.Scheme;
 		}
 
-		private HttpResponseMessage Execute(HttpRequestMessage request)
+		private LoadStatus HandleBrowserResource(HttpResponseMessage response, out Stream data)
 		{
-			var task = Task.Run(async () =>
-			{
-				using (var client = new HttpClient())
-				{
-					return await client.SendAsync(request);
-				}
-			});
+			data = default(Stream);
 
-			return task.GetAwaiter().GetResult();
+			logger.Debug($"The {(IsUnauthorized(response) ? "resource needs authentication" : " response data is HTML")}.");
+
+			return LoadStatus.LoadWithBrowser;
 		}
 
-		private byte[] Extract(HttpContent content)
+		private bool HasHtmlContent(HttpResponseMessage response)
 		{
-			var task = Task.Run(async () =>
-			{
-				return await content.ReadAsByteArrayAsync();
-			});
+			return response.Content.Headers.ContentType.MediaType == MediaTypeNames.Text.Html;
+		}
 
-			return task.GetAwaiter().GetResult();
+		private bool IsAvailable(Uri resource)
+		{
+			try
+			{
+				var uri = BuildUriFor(resource);
+
+				logger.Debug($"Sending HEAD request for '{uri}'...");
+
+				var request = new HttpRequestMessage(HttpMethod.Head, uri);
+				var response = Execute(request);
+				var isAvailable = response.IsSuccessStatusCode || IsUnauthorized(response);
+
+				logger.Debug($"Received response '{ToString(response)}'.");
+
+				return isAvailable;
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to check availability of '{resource}'!", e);
+
+				return false;
+			}
+		}
+
+		private bool IsUnauthorized(HttpResponseMessage response)
+		{
+			return response.StatusCode == HttpStatusCode.Unauthorized;
+		}
+
+		private string ToString(HttpResponseMessage response)
+		{
+			return $"{(int)response.StatusCode} - {response.ReasonPhrase}";
 		}
 	}
 }

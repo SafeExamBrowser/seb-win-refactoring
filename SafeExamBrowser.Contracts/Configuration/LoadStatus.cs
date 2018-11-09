@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.Contracts.Configuration
 {
 	/// <summary>
-	/// Defines all possible results of an attempt to load a configuration file.
+	/// Defines all possible results of an attempt to load a configuration resource.
 	/// </summary>
 	public enum LoadStatus
 	{
@@ -19,9 +19,14 @@ namespace SafeExamBrowser.Contracts.Configuration
 		AdminPasswordNeeded = 1,
 
 		/// <summary>
-		/// Indicates that a resource does not comply with the required data format.
+		/// Indicates that a resource does not comply with the declared data format.
 		/// </summary>
 		InvalidData,
+
+		/// <summary>
+		/// Indicates that a resource needs to be loaded with the browser.
+		/// </summary>
+		LoadWithBrowser,
 
 		/// <summary>
 		/// Indicates that a resource is not supported.

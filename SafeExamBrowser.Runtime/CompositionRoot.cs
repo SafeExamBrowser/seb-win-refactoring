@@ -118,7 +118,6 @@ namespace SafeExamBrowser.Runtime
 			appConfig = configuration.InitializeAppConfig();
 
 			configuration.Register(new DefaultFormat(new ModuleLogger(logger, nameof(DefaultFormat))));
-			configuration.Register(new HtmlFormat(new ModuleLogger(logger, nameof(HtmlFormat))));
 			configuration.Register(new XmlFormat(new ModuleLogger(logger, nameof(XmlFormat))));
 			configuration.Register(new FileResourceLoader(new ModuleLogger(logger, nameof(FileResourceLoader))));
 			configuration.Register(new NetworkResourceLoader(appConfig, new ModuleLogger(logger, nameof(NetworkResourceLoader))));

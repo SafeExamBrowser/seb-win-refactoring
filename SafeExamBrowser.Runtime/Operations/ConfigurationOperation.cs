@@ -48,17 +48,15 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (isValidUri)
 			{
-				logger.Info($"Attempting to load settings from '{uri}'...");
-
 				var result = LoadSettings(uri);
 
-				HandleClientConfiguration(ref result);
+				HandleClientConfiguration(ref result, uri);
 				LogOperationResult(result);
 
 				return result;
 			}
 
-			logger.Info("No valid settings resource specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
+			logger.Info("No valid configuration resource specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
 			Context.Next.Settings = configuration.LoadDefaultSettings();
 
 			return OperationResult.Success;
@@ -73,8 +71,6 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (isValidUri)
 			{
-				logger.Info($"Attempting to load settings from '{uri}'...");
-
 				var result = LoadSettings(uri);
 
 				LogOperationResult(result);
@@ -82,7 +78,7 @@ namespace SafeExamBrowser.Runtime.Operations
 				return result;
 			}
 
-			logger.Warn($"The resource specified for reconfiguration does not exist or is not a file!");
+			logger.Warn($"The resource specified for reconfiguration does not exist or is not valid!");
 
 			return OperationResult.Failed;
 		}
@@ -126,10 +122,17 @@ namespace SafeExamBrowser.Runtime.Operations
 			if (status == LoadStatus.Success)
 			{
 				Context.Next.Settings = settings;
-
-				return OperationResult.Success;
+			}
+			else
+			{
+				ShowFailureMessage(status, uri);
 			}
 
+			return status == LoadStatus.Success ? OperationResult.Success : OperationResult.Failed;
+		}
+
+		private void ShowFailureMessage(LoadStatus status, Uri uri)
+		{
 			switch (status)
 			{
 				case LoadStatus.InvalidData:
@@ -142,8 +145,6 @@ namespace SafeExamBrowser.Runtime.Operations
 					ActionRequired?.Invoke(new UnexpectedErrorMessageArgs(uri.ToString()));
 					break;
 			}
-
-			return OperationResult.Failed;
 		}
 
 		private PasswordRequiredEventArgs TryGetPassword(LoadStatus status)
@@ -169,21 +170,21 @@ namespace SafeExamBrowser.Runtime.Operations
 			{
 				path = commandLineArgs[1];
 				isValidUri = Uri.TryCreate(path, UriKind.Absolute, out uri);
-				logger.Info($"Found command-line argument for settings file: '{path}', the URI is {(isValidUri ? "valid" : "invalid")}.");
+				logger.Info($"Found command-line argument for configuration resource: '{path}', the URI is {(isValidUri ? "valid" : "invalid")}.");
 			}
 
 			if (!isValidUri && File.Exists(programDataSettings))
 			{
 				path = programDataSettings;
 				isValidUri = Uri.TryCreate(path, UriKind.Absolute, out uri);
-				logger.Info($"Found settings file in PROGRAMDATA: '{path}', the URI is {(isValidUri ? "valid" : "invalid")}.");
+				logger.Info($"Found configuration file in PROGRAMDATA: '{path}', the URI is {(isValidUri ? "valid" : "invalid")}.");
 			}
 
 			if (!isValidUri && File.Exists(appDataSettings))
 			{
 				path = appDataSettings;
 				isValidUri = Uri.TryCreate(path, UriKind.Absolute, out uri);
-				logger.Info($"Found settings file in APPDATA: '{path}', the URI is {(isValidUri ? "valid" : "invalid")}.");
+				logger.Info($"Found configuration file in APPDATA: '{path}', the URI is {(isValidUri ? "valid" : "invalid")}.");
 			}
 
 			return isValidUri;
@@ -199,9 +200,13 @@ namespace SafeExamBrowser.Runtime.Operations
 			return isValidUri;
 		}
 
-		private void HandleClientConfiguration(ref OperationResult result)
+		private void HandleClientConfiguration(ref OperationResult result, Uri uri)
 		{
-			if (result == OperationResult.Success && Context.Next.Settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
+			var configureMode = Context.Next.Settings?.ConfigurationMode == ConfigurationMode.ConfigureClient;
+			var loadWithBrowser = Context.Next.Settings?.Browser.StartUrl == uri.AbsoluteUri;
+			var successful = result == OperationResult.Success;
+
+			if (successful && configureMode && !loadWithBrowser)
 			{
 				var args = new ConfigurationCompletedEventArgs();
 

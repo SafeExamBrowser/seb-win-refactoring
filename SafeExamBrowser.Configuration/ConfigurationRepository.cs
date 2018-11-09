@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using SafeExamBrowser.Configuration.DataFormats;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
@@ -132,29 +131,17 @@ namespace SafeExamBrowser.Configuration
 
 			try
 			{
-				var resourceLoader = resourceLoaders.FirstOrDefault(l => l.CanLoad(resource));
+				var status = TryLoadData(resource, out Stream data);
 
-				if (resourceLoader != null)
+				switch (status)
 				{
-					var data = resourceLoader.Load(resource);
-					var dataFormat = dataFormats.FirstOrDefault(f => f.CanParse(data));
-
-					logger.Info($"Successfully loaded {data.Length / 1000.0} KB data from '{resource}' using {resourceLoader.GetType().Name}.");
-
-					if (dataFormat is HtmlFormat)
-					{
-						return HandleHtml(resource, out settings);
-					}
-
-					if (dataFormat != null)
-					{
-						return dataFormat.TryParse(data, out settings, adminPassword, settingsPassword);
-					}
+					case LoadStatus.LoadWithBrowser:
+						return HandleBrowserResource(resource, out settings);
+					case LoadStatus.Success:
+						return TryParseData(data, out settings, adminPassword, settingsPassword);
 				}
 
-				logger.Warn($"No {(resourceLoader == null ? "resource loader" : "data format")} found for '{resource}'!");
-
-				return LoadStatus.NotSupported;
+				return status;
 			}
 			catch (Exception e)
 			{
@@ -164,12 +151,52 @@ namespace SafeExamBrowser.Configuration
 			}
 		}
 
-		private LoadStatus HandleHtml(Uri resource, out Settings settings)
+		private LoadStatus TryLoadData(Uri resource, out Stream data)
 		{
-			logger.Info($"Loaded data appears to be HTML, loading default settings and using '{resource}' as startup URL.");
+			var status = LoadStatus.NotSupported;
+			var resourceLoader = resourceLoaders.FirstOrDefault(l => l.CanLoad(resource));
 
+			data = default(Stream);
+
+			if (resourceLoader != null)
+			{
+				status = resourceLoader.TryLoad(resource, out data);
+				logger.Info($"Tried to load data from '{resource}' using {resourceLoader.GetType().Name} -> Result: {status}.");
+			}
+			else
+			{
+				logger.Warn($"No resource loader found for '{resource}'!");
+			}
+
+			return status;
+		}
+
+		private LoadStatus TryParseData(Stream data, out Settings settings, string adminPassword, string settingsPassword)
+		{
+			var status = LoadStatus.NotSupported;
+			var dataFormat = dataFormats.FirstOrDefault(f => f.CanParse(data));
+
+			settings = default(Settings);
+
+			if (dataFormat != null)
+			{
+				status = dataFormat.TryParse(data, out settings, adminPassword, settingsPassword);
+				logger.Info($"Tried to parse data from '{data}' using {dataFormat.GetType().Name} -> Result: {status}.");
+			}
+			else
+			{
+				logger.Warn($"No data format found for '{data}'!");
+			}
+
+			return status;
+		}
+
+		private LoadStatus HandleBrowserResource(Uri resource, out Settings settings)
+		{
 			settings = LoadDefaultSettings();
 			settings.Browser.StartUrl = resource.AbsoluteUri;
+
+			logger.Info($"The resource needs authentication or is HTML data, loaded default settings with '{resource}' as startup URL.");
 
 			return LoadStatus.Success;
 		}

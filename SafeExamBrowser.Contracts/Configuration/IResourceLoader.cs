@@ -7,11 +7,12 @@
  */
 
 using System;
+using System.IO;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
 	/// <summary>
-	/// Loads binary data from a particular resource.
+	/// Provides functionality to load configuration data from a particular resource.
 	/// </summary>
 	public interface IResourceLoader
 	{
@@ -21,8 +22,8 @@ namespace SafeExamBrowser.Contracts.Configuration
 		bool CanLoad(Uri resource);
 
 		/// <summary>
-		/// Loads the binary data from the specified resource.
+		/// Tries to load the configuration data from the specified resource.
 		/// </summary>
-		byte[] Load(Uri resource);
+		LoadStatus TryLoad(Uri resource, out Stream data);
 	}
 }

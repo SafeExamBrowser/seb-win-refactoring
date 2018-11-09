@@ -24,23 +24,27 @@ namespace SafeExamBrowser.Configuration.ResourceLoaders
 
 		public bool CanLoad(Uri resource)
 		{
-			if (resource.IsFile && File.Exists(resource.AbsolutePath))
+			var exists = resource.IsFile && File.Exists(resource.AbsolutePath);
+
+			if (exists)
 			{
 				logger.Debug($"Can load '{resource}' as it references an existing file.");
-
-				return true;
+			}
+			else
+			{
+				logger.Debug($"Can't load '{resource}' since it isn't a file URI or no file exists at the specified path.");
 			}
 
-			logger.Debug($"Can't load '{resource}' since it isn't a file URI or no file exists at the specified path.");
-
-			return false;
+			return exists;
 		}
 
-		public byte[] Load(Uri resource)
+		public LoadStatus TryLoad(Uri resource, out Stream data)
 		{
 			logger.Debug($"Loading data from '{resource}'...");
+			data = new FileStream(resource.AbsolutePath, FileMode.Open, FileAccess.Read);
+			logger.Debug($"Created {data} for {data.Length / 1000.0} KB data in '{resource}'.");
 
-			return File.ReadAllBytes(resource.AbsolutePath);
+			return LoadStatus.Success;
 		}
 	}
 }

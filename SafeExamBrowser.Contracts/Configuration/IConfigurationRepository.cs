@@ -31,12 +31,12 @@ namespace SafeExamBrowser.Contracts.Configuration
 		Settings.Settings LoadDefaultSettings();
 
 		/// <summary>
-		/// Registers the specified <see cref="IDataFormat"/> as option to parse configuration data.
+		/// Registers the specified <see cref="IDataFormat"/> as option to parse data from a configuration resource.
 		/// </summary>
 		void Register(IDataFormat dataFormat);
 
 		/// <summary>
-		/// Registers the specified <see cref="IResourceLoader"/> as option to load configuration data.
+		/// Registers the specified <see cref="IResourceLoader"/> as option to load data from a configuration resource.
 		/// </summary>
 		void Register(IResourceLoader resourceLoader);
 

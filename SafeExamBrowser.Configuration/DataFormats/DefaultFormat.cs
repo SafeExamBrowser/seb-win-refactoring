@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.IO;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
@@ -21,17 +22,14 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			this.logger = logger;
 		}
 
-		public bool CanParse(byte[] data)
+		public bool CanParse(Stream data)
 		{
-			return true;
+			return false;
 		}
 
-		public LoadStatus TryParse(byte[] data, out Settings settings, string adminPassword = null, string settingsPassword = null)
+		public LoadStatus TryParse(Stream data, out Settings settings, string adminPassword = null, string settingsPassword = null)
 		{
-			settings = new Settings();
-			settings.ServicePolicy = ServicePolicy.Optional;
-
-			return LoadStatus.Success;
+			throw new System.NotImplementedException();
 		}
 	}
 }
