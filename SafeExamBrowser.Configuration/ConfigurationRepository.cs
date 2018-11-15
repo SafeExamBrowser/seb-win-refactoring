@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
@@ -133,12 +132,15 @@ namespace SafeExamBrowser.Configuration
 			{
 				var status = TryLoadData(resource, out Stream data);
 
-				switch (status)
+				using (data)
 				{
-					case LoadStatus.LoadWithBrowser:
-						return HandleBrowserResource(resource, out settings);
-					case LoadStatus.Success:
-						return TryParseData(data, out settings, adminPassword, settingsPassword);
+					switch (status)
+					{
+						case LoadStatus.LoadWithBrowser:
+							return HandleBrowserResource(resource, out settings);
+						case LoadStatus.Success:
+							return TryParseData(data, out settings, adminPassword, settingsPassword);
+					}
 				}
 
 				return status;
@@ -199,32 +201,6 @@ namespace SafeExamBrowser.Configuration
 			logger.Info($"The resource needs authentication or is HTML data, loaded default settings with '{resource}' as startup URL.");
 
 			return LoadStatus.Success;
-		}
-
-		private byte[] Decompress(byte[] bytes)
-		{
-			try
-			{
-				var buffer = new byte[4096];
-
-				using (var stream = new GZipStream(new MemoryStream(bytes), CompressionMode.Decompress))
-				using (var decompressed = new MemoryStream())
-				{
-					var bytesRead = 0;
-
-					do
-					{
-						bytesRead = stream.Read(buffer, 0, buffer.Length);
-						decompressed.Write(buffer, 0, bytesRead);
-					} while (bytesRead > 0);
-
-					return decompressed.ToArray();
-				}
-			}
-			catch (InvalidDataException)
-			{
-				return bytes;
-			}
 		}
 
 		private void UpdateAppConfig()

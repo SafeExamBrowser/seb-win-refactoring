@@ -69,6 +69,11 @@ namespace SafeExamBrowser.Browser
 			this.button.Clicked += Button_OnClick;
 		}
 
+		public void Start()
+		{
+			CreateNewInstance();
+		}
+
 		public void Terminate()
 		{
 			foreach (var instance in instances)

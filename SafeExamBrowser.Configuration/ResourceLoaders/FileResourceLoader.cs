@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Configuration.ResourceLoaders
 
 		public bool CanLoad(Uri resource)
 		{
-			var exists = resource.IsFile && File.Exists(resource.AbsolutePath);
+			var exists = resource.IsFile && File.Exists(resource.LocalPath);
 
 			if (exists)
 			{
@@ -41,8 +41,8 @@ namespace SafeExamBrowser.Configuration.ResourceLoaders
 		public LoadStatus TryLoad(Uri resource, out Stream data)
 		{
 			logger.Debug($"Loading data from '{resource}'...");
-			data = new FileStream(resource.AbsolutePath, FileMode.Open, FileAccess.Read);
-			logger.Debug($"Created {data} for {data.Length / 1000.0} KB data in '{resource}'.");
+			data = new FileStream(resource.LocalPath, FileMode.Open, FileAccess.Read);
+			logger.Debug($"Created '{data}' for {data.Length / 1000.0} KB data in '{resource}'.");
 
 			return LoadStatus.Success;
 		}

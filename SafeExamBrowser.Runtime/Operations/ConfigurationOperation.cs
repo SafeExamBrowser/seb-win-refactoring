@@ -44,22 +44,22 @@ namespace SafeExamBrowser.Runtime.Operations
 			logger.Info("Initializing application configuration...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeConfiguration);
 
+			var result = OperationResult.Failed;
 			var isValidUri = TryInitializeSettingsUri(out Uri uri);
 
 			if (isValidUri)
 			{
-				var result = LoadSettings(uri);
-
+				result = LoadSettings(uri);
 				HandleClientConfiguration(ref result, uri);
-				LogOperationResult(result);
-
-				return result;
+			}
+			else
+			{
+				result = LoadDefaultSettings();
 			}
 
-			logger.Info("No valid configuration resource specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
-			Context.Next.Settings = configuration.LoadDefaultSettings();
+			LogOperationResult(result);
 
-			return OperationResult.Success;
+			return result;
 		}
 
 		public override OperationResult Repeat()
@@ -67,24 +67,33 @@ namespace SafeExamBrowser.Runtime.Operations
 			logger.Info("Initializing new application configuration...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeConfiguration);
 
+			var result = OperationResult.Failed;
 			var isValidUri = TryValidateSettingsUri(Context.ReconfigurationFilePath, out Uri uri);
 
 			if (isValidUri)
 			{
-				var result = LoadSettings(uri);
-
-				LogOperationResult(result);
-
-				return result;
+				result = LoadSettings(uri);
+			}
+			else
+			{
+				logger.Warn($"The resource specified for reconfiguration does not exist or is not valid!");
 			}
 
-			logger.Warn($"The resource specified for reconfiguration does not exist or is not valid!");
+			LogOperationResult(result);
 
-			return OperationResult.Failed;
+			return result;
 		}
 
 		public override OperationResult Revert()
 		{
+			return OperationResult.Success;
+		}
+
+		private OperationResult LoadDefaultSettings()
+		{
+			logger.Info("No valid configuration resource specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
+			Context.Next.Settings = configuration.LoadDefaultSettings();
+
 			return OperationResult.Success;
 		}
 

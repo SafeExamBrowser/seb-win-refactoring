@@ -23,6 +23,9 @@ namespace SafeExamBrowser.Configuration.ResourceLoaders
 		private AppConfig appConfig;
 		private ILogger logger;
 
+		/// <remarks>
+		/// See https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types.
+		/// </remarks>
 		private string[] SupportedContentTypes => new[]
 		{
 			MediaTypeNames.Application.Octet,
@@ -77,7 +80,7 @@ namespace SafeExamBrowser.Configuration.ResourceLoaders
 
 			logger.Debug($"Trying to extract response data...");
 			data = Extract(response.Content);
-			logger.Debug($"Created {data} for {data.Length / 1000.0} KB data of response body.");
+			logger.Debug($"Created '{data}' for {data.Length / 1000.0} KB data of response body.");
 
 			return LoadStatus.Success;
 		}
@@ -137,6 +140,9 @@ namespace SafeExamBrowser.Configuration.ResourceLoaders
 			return LoadStatus.LoadWithBrowser;
 		}
 
+		/// <remarks>
+		/// See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type.
+		/// </remarks>
 		private bool HasHtmlContent(HttpResponseMessage response)
 		{
 			return response.Content.Headers.ContentType.MediaType == MediaTypeNames.Text.Html;

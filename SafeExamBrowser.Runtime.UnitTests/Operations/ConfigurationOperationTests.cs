@@ -381,7 +381,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var location = Path.GetDirectoryName(GetType().Assembly.Location);
 			var resource = new Uri(Path.Combine(location, nameof(Operations), "SettingsDummy.txt"));
 
-			sessionContext.ReconfigurationFilePath = resource.AbsolutePath;
+			sessionContext.ReconfigurationFilePath = resource.LocalPath;
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null, null)).Returns(LoadStatus.Success);
 
 			sut = new ConfigurationOperation(null, repository.Object, logger.Object, sessionContext);
@@ -408,7 +408,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null, null), Times.Never);
 			Assert.AreEqual(OperationResult.Failed, result);
 
-			sessionContext.ReconfigurationFilePath = resource.AbsolutePath;
+			sessionContext.ReconfigurationFilePath = resource.LocalPath;
 			result = sut.Repeat();
 
 			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null, null), Times.Never);

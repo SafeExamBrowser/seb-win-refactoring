@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Communication\Events\ClientConfigurationEventArgs.cs" />
+    <Compile Include="Configuration\IDataCompressor.cs" />
     <Compile Include="Configuration\IDataFormat.cs" />
     <Compile Include="Core\Events\InstanceTerminatedEventHandler.cs" />
     <Compile Include="Core\Events\NameChangedEventHandler.cs" />

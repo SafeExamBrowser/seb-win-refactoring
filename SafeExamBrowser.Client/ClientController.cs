@@ -105,6 +105,7 @@ namespace SafeExamBrowser.Client
 			if (success)
 			{
 				RegisterEvents();
+				StartBrowser();
 
 				var communication = runtime.InformClientReady();
 
@@ -180,6 +181,12 @@ namespace SafeExamBrowser.Client
 			runtime.ConnectionLost -= Runtime_ConnectionLost;
 			taskbar.QuitButtonClicked -= Taskbar_QuitButtonClicked;
 			windowMonitor.WindowChanged -= WindowMonitor_WindowChanged;
+		}
+
+		private void StartBrowser()
+		{
+			logger.Info("Starting browser application...");
+			Browser.Start();
 		}
 
 		private void DisplayMonitor_DisplaySettingsChanged()

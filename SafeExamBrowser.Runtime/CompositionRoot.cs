@@ -13,6 +13,7 @@ using System.Reflection;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration;
+using SafeExamBrowser.Configuration.Compression;
 using SafeExamBrowser.Configuration.DataFormats;
 using SafeExamBrowser.Configuration.ResourceLoaders;
 using SafeExamBrowser.Contracts.Configuration;
@@ -112,12 +113,13 @@ namespace SafeExamBrowser.Runtime
 			var programCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
 			var programTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
 			var programVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-			var moduleLogger = new ModuleLogger(logger, nameof(ConfigurationRepository));
+			var compressor = new GZipCompressor(new ModuleLogger(logger, nameof(GZipCompressor)));
+			var repositoryLogger = new ModuleLogger(logger, nameof(ConfigurationRepository));
 
-			configuration = new ConfigurationRepository(moduleLogger, executable.Location, programCopyright, programTitle, programVersion);
+			configuration = new ConfigurationRepository(repositoryLogger, executable.Location, programCopyright, programTitle, programVersion);
 			appConfig = configuration.InitializeAppConfig();
 
-			configuration.Register(new DefaultFormat(new ModuleLogger(logger, nameof(DefaultFormat))));
+			configuration.Register(new BinaryFormat(compressor, new ModuleLogger(logger, nameof(BinaryFormat))));
 			configuration.Register(new XmlFormat(new ModuleLogger(logger, nameof(XmlFormat))));
 			configuration.Register(new FileResourceLoader(new ModuleLogger(logger, nameof(FileResourceLoader))));
 			configuration.Register(new NetworkResourceLoader(appConfig, new ModuleLogger(logger, nameof(NetworkResourceLoader))));

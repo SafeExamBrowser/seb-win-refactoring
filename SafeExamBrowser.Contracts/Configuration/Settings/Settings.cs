@@ -57,6 +57,10 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 			Keyboard = new KeyboardSettings();
 			Mouse = new MouseSettings();
 			Taskbar = new TaskbarSettings();
+
+			// TODO: For version 3.0 alpha only, remove for final release!
+			ServicePolicy = ServicePolicy.Optional;
+			Taskbar.AllowApplicationLog = true;
 		}
 	}
 }

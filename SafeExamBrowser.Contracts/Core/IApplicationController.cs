@@ -26,6 +26,11 @@ namespace SafeExamBrowser.Contracts.Core
 		void RegisterApplicationButton(IApplicationButton button);
 
 		/// <summary>
+		/// Starts the execution of the application.
+		/// </summary>
+		void Start();
+
+		/// <summary>
 		/// Performs any termination work, e.g. releasing of used resources.
 		/// </summary>
 		void Terminate();
