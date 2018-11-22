@@ -90,26 +90,7 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 		public IRuntimeWindow CreateRuntimeWindow(AppConfig appConfig)
 		{
-			RuntimeWindow runtimeWindow = null;
-			var windowReadyEvent = new AutoResetEvent(false);
-			var runtimeWindowThread = new Thread(() =>
-			{
-				runtimeWindow = new RuntimeWindow(appConfig, text);
-				runtimeWindow.Closed += (o, args) => runtimeWindow.Dispatcher.InvokeShutdown();
-
-				windowReadyEvent.Set();
-
-				System.Windows.Threading.Dispatcher.Run();
-			});
-
-			runtimeWindowThread.SetApartmentState(ApartmentState.STA);
-			runtimeWindowThread.Name = nameof(RuntimeWindow);
-			runtimeWindowThread.IsBackground = true;
-			runtimeWindowThread.Start();
-
-			windowReadyEvent.WaitOne();
-
-			return runtimeWindow;
+			return Application.Current.Dispatcher.Invoke(() => new RuntimeWindow(appConfig, text));
 		}
 
 		public ISplashScreen CreateSplashScreen(AppConfig appConfig = null)

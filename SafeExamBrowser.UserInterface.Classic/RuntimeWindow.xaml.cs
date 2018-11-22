@@ -141,6 +141,10 @@ namespace SafeExamBrowser.UserInterface.Classic
 			StatusTextBlock.DataContext = model;
 
 			Closing += (o, args) => args.Cancel = !allowClose;
+
+#if DEBUG
+			Topmost = false;
+#endif
 		}
 
 		private void RuntimeWindow_Loaded(object sender, RoutedEventArgs e)

@@ -6,30 +6,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.IO;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.DataFormats
 {
-	public class XmlFormat : IDataFormat
+	public partial class BinaryFormat
 	{
-		private ILogger logger;
-
-		public XmlFormat(ILogger logger)
+		private LoadStatus ParsePublicKeyHash(Stream data, out Settings settings, string password)
 		{
-			this.logger = logger;
-		}
-
-		public bool CanParse(Stream data)
-		{
-			return false;
-		}
-
-		public LoadStatus TryParse(Stream data, out Settings settings, string password = null)
-		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 	}
 }

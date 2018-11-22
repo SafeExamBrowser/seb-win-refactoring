@@ -14,14 +14,9 @@ namespace SafeExamBrowser.Contracts.Configuration
 	public enum LoadStatus
 	{
 		/// <summary>
-		/// Indicates that an admin password is needed in order to load the settings.
-		/// </summary>
-		AdminPasswordNeeded = 1,
-
-		/// <summary>
 		/// Indicates that a resource does not comply with the declared data format.
 		/// </summary>
-		InvalidData,
+		InvalidData = 1,
 
 		/// <summary>
 		/// Indicates that a resource needs to be loaded with the browser.
@@ -34,9 +29,9 @@ namespace SafeExamBrowser.Contracts.Configuration
 		NotSupported,
 
 		/// <summary>
-		/// Indicates that a settings password is needed in order to load the settings.
+		/// Indicates that a password is needed in order to load the settings.
 		/// </summary>
-		SettingsPasswordNeeded,
+		PasswordNeeded,
 
 		/// <summary>
 		/// The settings were loaded successfully.

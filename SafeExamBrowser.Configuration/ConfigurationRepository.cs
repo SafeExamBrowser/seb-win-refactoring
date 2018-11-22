@@ -93,6 +93,8 @@ namespace SafeExamBrowser.Configuration
 		{
 			var settings = new Settings();
 
+			// TODO: Specify default settings
+
 			settings.KioskMode = KioskMode.None;
 			settings.ServicePolicy = ServicePolicy.Optional;
 
@@ -122,7 +124,7 @@ namespace SafeExamBrowser.Configuration
 			resourceLoaders.Add(resourceLoader);
 		}
 
-		public LoadStatus TryLoadSettings(Uri resource, out Settings settings, string adminPassword = null, string settingsPassword = null)
+		public LoadStatus TryLoadSettings(Uri resource, out Settings settings, string password = null)
 		{
 			settings = default(Settings);
 
@@ -139,7 +141,7 @@ namespace SafeExamBrowser.Configuration
 						case LoadStatus.LoadWithBrowser:
 							return HandleBrowserResource(resource, out settings);
 						case LoadStatus.Success:
-							return TryParseData(data, out settings, adminPassword, settingsPassword);
+							return TryParseData(data, out settings, password);
 					}
 				}
 
@@ -173,7 +175,7 @@ namespace SafeExamBrowser.Configuration
 			return status;
 		}
 
-		private LoadStatus TryParseData(Stream data, out Settings settings, string adminPassword, string settingsPassword)
+		private LoadStatus TryParseData(Stream data, out Settings settings, string password)
 		{
 			var status = LoadStatus.NotSupported;
 			var dataFormat = dataFormats.FirstOrDefault(f => f.CanParse(data));
@@ -182,7 +184,7 @@ namespace SafeExamBrowser.Configuration
 
 			if (dataFormat != null)
 			{
-				status = dataFormat.TryParse(data, out settings, adminPassword, settingsPassword);
+				status = dataFormat.TryParse(data, out settings, password);
 				logger.Info($"Tried to parse data from '{data}' using {dataFormat.GetType().Name} -> Result: {status}.");
 			}
 			else

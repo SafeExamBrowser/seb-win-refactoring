@@ -229,7 +229,7 @@ namespace SafeExamBrowser.Communication.Proxies
 
 		private void FailIfNull(Message message)
 		{
-			if (message is null)
+			if (message == null)
 			{
 				throw new ArgumentNullException(nameof(message));
 			}

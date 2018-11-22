@@ -99,33 +99,18 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private OperationResult LoadSettings(Uri uri)
 		{
-			var adminPassword = default(string);
-			var settingsPassword = default(string);
-			var settings = default(Settings);
-			var status = default(LoadStatus);
+			var status = configuration.TryLoadSettings(uri, out Settings settings);
 
-			for (int adminAttempts = 0, settingsAttempts = 0; adminAttempts < 5 && settingsAttempts < 5;)
+			for (var attempts = 0; attempts < 5 && status == LoadStatus.PasswordNeeded; attempts++)
 			{
-				status = configuration.TryLoadSettings(uri, out settings, adminPassword, settingsPassword);
+				var result = TryGetPassword(status);
 
-				if (status == LoadStatus.AdminPasswordNeeded || status == LoadStatus.SettingsPasswordNeeded)
+				if (!result.Success)
 				{
-					var result = TryGetPassword(status);
-
-					if (!result.Success)
-					{
-						return OperationResult.Aborted;
-					}
-
-					adminAttempts += status == LoadStatus.AdminPasswordNeeded ? 1 : 0;
-					adminPassword = status == LoadStatus.AdminPasswordNeeded ? result.Password : adminPassword;
-					settingsAttempts += status == LoadStatus.SettingsPasswordNeeded ? 1 : 0;
-					settingsPassword = status == LoadStatus.SettingsPasswordNeeded ? result.Password : settingsPassword;
+					return OperationResult.Aborted;
 				}
-				else
-				{
-					break;
-				}
+
+				status = configuration.TryLoadSettings(uri, out settings, result.Password);
 			}
 
 			if (status == LoadStatus.Success)
@@ -158,7 +143,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private PasswordRequiredEventArgs TryGetPassword(LoadStatus status)
 		{
-			var purpose = status == LoadStatus.AdminPasswordNeeded ? PasswordRequestPurpose.Administrator : PasswordRequestPurpose.Settings;
+			var purpose = PasswordRequestPurpose.Settings;
 			var args = new PasswordRequiredEventArgs { Purpose = purpose };
 
 			ActionRequired?.Invoke(args);

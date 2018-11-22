@@ -15,7 +15,7 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.DataFormats
 {
-	public class BinaryFormat : IDataFormat
+	public partial class BinaryFormat : IDataFormat
 	{
 		private const int PREFIX_LENGTH = 4;
 
@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 				if (longEnough)
 				{
 					var prefix = ParsePrefix(data);
-					var success = TryDetermineFormat(prefix, out DataFormat format);
+					var success = TryDetermineFormat(prefix, out FormatType format);
 
 					logger.Debug($"'{data}' starting with '{prefix}' does {(success ? string.Empty : "not ")}match the binary format.");
 
@@ -54,14 +54,40 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			return false;
 		}
 
-		public LoadStatus TryParse(Stream data, out Settings settings, string adminPassword = null, string settingsPassword = null)
+		public LoadStatus TryParse(Stream data, out Settings settings, string password = null)
 		{
-			settings = new Settings();
-			settings.Browser.AllowAddressBar = true;
-			settings.Browser.StartUrl = "www.duckduckgo.com";
-			settings.Browser.AllowConfigurationDownloads = true;
+			var prefix = ParsePrefix(data);
+			var success = TryDetermineFormat(prefix, out FormatType format);
 
-			return LoadStatus.Success;
+			settings = default(Settings);
+
+			if (success)
+			{
+				if (compressor.IsCompressed(data))
+				{
+					data = compressor.Decompress(data);
+				}
+
+				data = new SubStream(data, PREFIX_LENGTH, data.Length - PREFIX_LENGTH);
+
+				// TODO: Try to abstract (Parser -> Binary, Xml, ...; DataBlock -> Password, PlainData, ...) once fully implemented!
+				switch (format)
+				{
+					case FormatType.Password:
+					case FormatType.PasswordConfigureClient:
+						return ParsePassword(data, format, out settings, password);
+					case FormatType.PlainData:
+						return ParsePlainData(data, out settings);
+					case FormatType.PublicKeyHash:
+						return ParsePublicKeyHash(data, out settings, password);
+					case FormatType.PublicKeyHashSymmetricKey:
+						return ParsePublicKeyHashWithSymmetricKey(data, out settings, password);
+				}
+			}
+
+			logger.Error($"'{data}' starting with '{prefix}' does not match the binary format!");
+
+			return LoadStatus.InvalidData;
 		}
 
 		private string ParsePrefix(Stream data)
@@ -81,39 +107,39 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			return Encoding.UTF8.GetString(prefixData);
 		}
 
-		private bool TryDetermineFormat(string prefix, out DataFormat format)
+		private bool TryDetermineFormat(string prefix, out FormatType format)
 		{
-			format = default(DataFormat);
+			format = default(FormatType);
 
 			switch (prefix)
 			{
 				case "pswd":
-					format = DataFormat.Password;
+					format = FormatType.Password;
 					return true;
 				case "pwcc":
-					format = DataFormat.PasswordForConfigureClient;
+					format = FormatType.PasswordConfigureClient;
 					return true;
 				case "plnd":
-					format = DataFormat.PlainData;
+					format = FormatType.PlainData;
 					return true;
 				case "pkhs":
-					format = DataFormat.PublicKeyHash;
+					format = FormatType.PublicKeyHash;
 					return true;
 				case "phsk":
-					format = DataFormat.PublicKeyHashWithSymmetricKey;
+					format = FormatType.PublicKeyHashSymmetricKey;
 					return true;
 			}
 
 			return false;
 		}
 
-		private enum DataFormat
+		private enum FormatType
 		{
 			Password = 1,
-			PasswordForConfigureClient,
+			PasswordConfigureClient,
 			PlainData,
 			PublicKeyHash,
-			PublicKeyHashWithSymmetricKey
+			PublicKeyHashSymmetricKey
 		}
 	}
 }

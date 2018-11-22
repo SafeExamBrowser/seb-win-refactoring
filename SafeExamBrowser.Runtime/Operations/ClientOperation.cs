@@ -159,33 +159,36 @@ namespace SafeExamBrowser.Runtime.Operations
 			var terminatedEvent = new AutoResetEvent(false);
 			var terminatedEventHandler = new ProcessTerminatedEventHandler((_) => terminatedEvent.Set());
 
-			runtimeHost.ClientDisconnected += disconnectedEventHandler;
-			ClientProcess.Terminated += terminatedEventHandler;
-
-			logger.Info("Instructing client to initiate shutdown procedure.");
-			ClientProxy.InitiateShutdown();
-
-			logger.Info("Disconnecting from client communication host.");
-			ClientProxy.Disconnect();
-
-			logger.Info("Waiting for client to disconnect from runtime communication host...");
-			disconnected = disconnectedEvent.WaitOne(timeout_ms);
-
-			if (!disconnected)
+			if (ClientProxy != null)
 			{
-				logger.Error($"Client failed to disconnect within {timeout_ms / 1000} seconds!");
+				runtimeHost.ClientDisconnected += disconnectedEventHandler;
+				ClientProcess.Terminated += terminatedEventHandler;
+
+				logger.Info("Instructing client to initiate shutdown procedure.");
+				ClientProxy.InitiateShutdown();
+
+				logger.Info("Disconnecting from client communication host.");
+				ClientProxy.Disconnect();
+
+				logger.Info("Waiting for client to disconnect from runtime communication host...");
+				disconnected = disconnectedEvent.WaitOne(timeout_ms);
+
+				if (!disconnected)
+				{
+					logger.Error($"Client failed to disconnect within {timeout_ms / 1000} seconds!");
+				}
+
+				logger.Info("Waiting for client process to terminate...");
+				terminated = terminatedEvent.WaitOne(timeout_ms);
+
+				if (!terminated)
+				{
+					logger.Error($"Client failed to terminate within {timeout_ms / 1000} seconds!");
+				}
+
+				runtimeHost.ClientDisconnected -= disconnectedEventHandler;
+				ClientProcess.Terminated -= terminatedEventHandler;
 			}
-
-			logger.Info("Waiting for client process to terminate...");
-			terminated = terminatedEvent.WaitOne(timeout_ms);
-
-			if (!terminated)
-			{
-				logger.Error($"Client failed to terminate within {timeout_ms / 1000} seconds!");
-			}
-
-			runtimeHost.ClientDisconnected -= disconnectedEventHandler;
-			ClientProcess.Terminated -= terminatedEventHandler;
 
 			if (disconnected && terminated)
 			{

@@ -8,6 +8,7 @@
 
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace SafeExamBrowser.Runtime
@@ -60,6 +61,11 @@ namespace SafeExamBrowser.Runtime
 			instances.BuildObjectGraph(Shutdown);
 			instances.LogStartupInformation();
 
+			Task.Run(new Action(TryStart));
+		}
+
+		private void TryStart()
+		{
 			var success = instances.RuntimeController.TryStart();
 
 			if (!success)
@@ -70,18 +76,15 @@ namespace SafeExamBrowser.Runtime
 
 		public new void Shutdown()
 		{
-			void shutdown()
-			{
-				instances.RuntimeController.Terminate();
-				instances.LogShutdownInformation();
+			Task.Run(new Action(ShutdownInternal));
+		}
 
-				// TODO: Which UI operation is being cancelled without the timeout? Is this only a debugger issue? Same problem with client? -> Debug!
-				Thread.Sleep(20);
+		private void ShutdownInternal()
+		{
+			instances.RuntimeController.Terminate();
+			instances.LogShutdownInformation();
 
-				base.Shutdown();
-			}
-
-			Dispatcher.BeginInvoke(new Action(shutdown));
+			Dispatcher.Invoke(base.Shutdown);
 		}
 	}
 }

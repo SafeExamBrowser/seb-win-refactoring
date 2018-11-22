@@ -127,7 +127,7 @@ namespace SafeExamBrowser.Browser
 
 		private void Button_OnClick(InstanceIdentifier id = null)
 		{
-			if (id is null)
+			if (id == null)
 			{
 				CreateNewInstance();
 			}

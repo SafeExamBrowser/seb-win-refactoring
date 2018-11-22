@@ -21,9 +21,9 @@ namespace SafeExamBrowser.Contracts.Configuration
 		bool CanParse(Stream data);
 
 		/// <summary>
-		/// Tries to parse the given data, using the optional passwords. As long as the result is not <see cref="LoadStatus.Success"/>,
+		/// Tries to parse the given data, using the optional password. As long as the result is not <see cref="LoadStatus.Success"/>,
 		/// the referenced settings may be <c>null</c> or in an undefinable state!
 		/// </summary>
-		LoadStatus TryParse(Stream data, out Settings.Settings settings, string adminPassword = null, string settingsPassword = null);
+		LoadStatus TryParse(Stream data, out Settings.Settings settings, string password = null);
 	}
 }

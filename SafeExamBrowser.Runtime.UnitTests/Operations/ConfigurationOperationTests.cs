@@ -60,14 +60,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			appConfig.ProgramDataFolder = location;
 			appConfig.AppDataFolder = location;
 
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null)).Returns(LoadStatus.Success);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null)).Returns(LoadStatus.Success);
 
 			sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, logger.Object, sessionContext);
 			sut.Perform();
 
 			var resource = new Uri(url);
 
-			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null, null), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null), Times.Once);
 		}
 
 		[TestMethod]
@@ -78,14 +78,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			appConfig.ProgramDataFolder = location;
 			appConfig.AppDataFolder = $@"{location}\WRONG";
 
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null)).Returns(LoadStatus.Success);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null)).Returns(LoadStatus.Success);
 
 			sut = new ConfigurationOperation(null, repository.Object, logger.Object, sessionContext);
 			sut.Perform();
 
 			var resource = new Uri(Path.Combine(location, "SettingsDummy.txt"));
 
-			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null, null), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null), Times.Once);
 		}
 
 		[TestMethod]
@@ -95,14 +95,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			appConfig.AppDataFolder = location;
 
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null)).Returns(LoadStatus.Success);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null)).Returns(LoadStatus.Success);
 
 			sut = new ConfigurationOperation(null, repository.Object, logger.Object, sessionContext);
 			sut.Perform();
 
 			var resource = new Uri(Path.Combine(location, "SettingsDummy.txt"));
 
-			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null, null), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null), Times.Once);
 		}
 
 		[TestMethod]
@@ -127,7 +127,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void MustAbortIfWishedByUser()
 		{
 			appConfig.ProgramDataFolder = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null)).Returns(LoadStatus.Success);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null)).Returns(LoadStatus.Success);
 
 			sut = new ConfigurationOperation(null, repository.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
@@ -146,7 +146,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void MustNotAbortIfNotWishedByUser()
 		{
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null)).Returns(LoadStatus.Success);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null)).Returns(LoadStatus.Success);
 
 			sut = new ConfigurationOperation(null, repository.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
@@ -166,7 +166,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void MustNotAllowToAbortIfNotInConfigureClientMode()
 		{
 			settings.ConfigurationMode = ConfigurationMode.Exam;
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null)).Returns(LoadStatus.Success);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null)).Returns(LoadStatus.Success);
 
 			sut = new ConfigurationOperation(null, repository.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
@@ -218,7 +218,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null)).Returns(LoadStatus.AdminPasswordNeeded);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null)).Returns(LoadStatus.PasswordNeeded);
 
 			sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
@@ -231,7 +231,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			sut.Perform();
 
-			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null), Times.Exactly(5));
+			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null), Times.Exactly(5));
 		}
 
 		[TestMethod]
@@ -239,7 +239,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null)).Returns(LoadStatus.SettingsPasswordNeeded);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null)).Returns(LoadStatus.PasswordNeeded);
 
 			sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
@@ -252,7 +252,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			sut.Perform();
 
-			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null), Times.Exactly(5));
+			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null), Times.Exactly(5));
 		}
 
 		[TestMethod]
@@ -261,8 +261,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var password = "test";
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null)).Returns(LoadStatus.AdminPasswordNeeded);
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, password, null)).Returns(LoadStatus.Success);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null)).Returns(LoadStatus.PasswordNeeded);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, password)).Returns(LoadStatus.Success);
 
 			sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
@@ -276,8 +276,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			sut.Perform();
 
-			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null), Times.Once);
-			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, password, null), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, password), Times.Once);
 		}
 
 		[TestMethod]
@@ -286,8 +286,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var password = "test";
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null)).Returns(LoadStatus.SettingsPasswordNeeded);
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, password)).Returns(LoadStatus.Success);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null)).Returns(LoadStatus.PasswordNeeded);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, password)).Returns(LoadStatus.Success);
 
 			sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
@@ -301,8 +301,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			sut.Perform();
 
-			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null), Times.Once);
-			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, password), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, password), Times.Once);
 		}
 
 		[TestMethod]
@@ -310,7 +310,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null)).Returns(LoadStatus.AdminPasswordNeeded);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null)).Returns(LoadStatus.PasswordNeeded);
 
 			sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
@@ -331,7 +331,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null)).Returns(LoadStatus.SettingsPasswordNeeded);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null)).Returns(LoadStatus.PasswordNeeded);
 
 			sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
@@ -354,9 +354,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var settingsPassword = "abc";
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null)).Returns(LoadStatus.SettingsPasswordNeeded);
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, settingsPassword)).Returns(LoadStatus.AdminPasswordNeeded);
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, adminPassword, settingsPassword)).Returns(LoadStatus.Success);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null)).Returns(LoadStatus.PasswordNeeded);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, settingsPassword)).Returns(LoadStatus.Success);
 
 			sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
@@ -370,9 +369,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			sut.Perform();
 
-			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null), Times.Once);
-			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, settingsPassword), Times.Once);
-			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, adminPassword, settingsPassword), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, settingsPassword), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, settingsPassword), Times.Once);
 		}
 
 		[TestMethod]
@@ -382,13 +381,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var resource = new Uri(Path.Combine(location, nameof(Operations), "SettingsDummy.txt"));
 
 			sessionContext.ReconfigurationFilePath = resource.LocalPath;
-			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null, null)).Returns(LoadStatus.Success);
+			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null)).Returns(LoadStatus.Success);
 
 			sut = new ConfigurationOperation(null, repository.Object, logger.Object, sessionContext);
 
 			var result = sut.Repeat();
 
-			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null, null), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}
@@ -399,19 +398,19 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var resource = new Uri("file:///C:/does/not/exist.txt");
 
 			sessionContext.ReconfigurationFilePath = null;
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null, null)).Returns(LoadStatus.Success);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, null)).Returns(LoadStatus.Success);
 
 			sut = new ConfigurationOperation(null, repository.Object, logger.Object, sessionContext);
 
 			var result = sut.Repeat();
 
-			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null, null), Times.Never);
+			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null), Times.Never);
 			Assert.AreEqual(OperationResult.Failed, result);
 
 			sessionContext.ReconfigurationFilePath = resource.LocalPath;
 			result = sut.Repeat();
 
-			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null, null), Times.Never);
+			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, null), Times.Never);
 			Assert.AreEqual(OperationResult.Failed, result);
 		}
 	}
