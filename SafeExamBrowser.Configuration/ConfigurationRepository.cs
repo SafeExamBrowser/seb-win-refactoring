@@ -124,7 +124,7 @@ namespace SafeExamBrowser.Configuration
 			resourceLoaders.Add(resourceLoader);
 		}
 
-		public LoadStatus TryLoadSettings(Uri resource, out Settings settings, string password = null)
+		public LoadStatus TryLoadSettings(Uri resource, out Settings settings, string password = null, bool passwordIsHash = false)
 		{
 			settings = default(Settings);
 
@@ -141,7 +141,7 @@ namespace SafeExamBrowser.Configuration
 						case LoadStatus.LoadWithBrowser:
 							return HandleBrowserResource(resource, out settings);
 						case LoadStatus.Success:
-							return TryParseData(data, out settings, password);
+							return TryParseData(data, out settings, password, passwordIsHash);
 					}
 				}
 
@@ -175,7 +175,7 @@ namespace SafeExamBrowser.Configuration
 			return status;
 		}
 
-		private LoadStatus TryParseData(Stream data, out Settings settings, string password)
+		private LoadStatus TryParseData(Stream data, out Settings settings, string password = null, bool passwordIsHash = false)
 		{
 			var status = LoadStatus.NotSupported;
 			var dataFormat = dataFormats.FirstOrDefault(f => f.CanParse(data));
@@ -184,7 +184,7 @@ namespace SafeExamBrowser.Configuration
 
 			if (dataFormat != null)
 			{
-				status = dataFormat.TryParse(data, out settings, password);
+				status = dataFormat.TryParse(data, out settings, password, passwordIsHash);
 				logger.Info($"Tried to parse data from '{data}' using {dataFormat.GetType().Name} -> Result: {status}.");
 			}
 			else

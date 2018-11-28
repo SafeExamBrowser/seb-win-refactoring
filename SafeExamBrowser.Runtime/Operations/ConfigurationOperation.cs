@@ -73,6 +73,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			if (isValidUri)
 			{
 				result = LoadSettings(uri);
+				HandleClientConfiguration(ref result, uri);
 			}
 			else
 			{
@@ -99,11 +100,16 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private OperationResult LoadSettings(Uri uri)
 		{
-			var status = configuration.TryLoadSettings(uri, out Settings settings);
+			var status = configuration.TryLoadSettings(uri, out Settings settings, Context.Current?.Settings?.AdminPasswordHash, true);
+
+			if (status == LoadStatus.PasswordNeeded)
+			{
+				status = configuration.TryLoadSettings(uri, out settings, string.Empty);
+			}
 
 			for (var attempts = 0; attempts < 5 && status == LoadStatus.PasswordNeeded; attempts++)
 			{
-				var result = TryGetPassword(status);
+				var result = TryGetPassword();
 
 				if (!result.Success)
 				{
@@ -141,7 +147,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			}
 		}
 
-		private PasswordRequiredEventArgs TryGetPassword(LoadStatus status)
+		private PasswordRequiredEventArgs TryGetPassword()
 		{
 			var purpose = PasswordRequestPurpose.Settings;
 			var args = new PasswordRequiredEventArgs { Purpose = purpose };
@@ -203,7 +209,17 @@ namespace SafeExamBrowser.Runtime.Operations
 			if (successful && configureMode && !loadWithBrowser)
 			{
 				var args = new ConfigurationCompletedEventArgs();
+				var filePath = Path.Combine(Context.Next.AppConfig.AppDataFolder, Context.Next.AppConfig.DefaultSettingsFileName);
 
+				// TODO: Save / overwrite configuration file in APPDATA directory!
+				// -> Check whether current and new admin passwords are the same! If not, current needs to be verified before overwriting!
+				// -> Default settings password appears to be string.Empty for local client configuration
+				// -> Any (new?) certificates need to be imported and REMOVED from the settings before the data is saved!
+				//configuration.SaveSettings(Context.Next.Settings, filePath);
+
+				// TODO: If the client configuration happens while the application is already running, the new configuration should first
+				// be loaded and then the user should have the option to terminate!
+				// -> Introduce flag in Context, e.g. AskForTermination
 				ActionRequired?.Invoke(args);
 
 				logger.Info($"The user chose to {(args.AbortStartup ? "abort" : "continue")} after successful client configuration.");

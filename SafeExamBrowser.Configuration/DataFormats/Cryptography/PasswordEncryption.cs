@@ -10,13 +10,12 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Configuration.DataFormats
+namespace SafeExamBrowser.Configuration.DataFormats.Cryptography
 {
-	public partial class BinaryFormat
+	internal class PasswordEncryption
 	{
 		private const int BLOCK_SIZE = 16;
 		private const int HEADER_SIZE = 2;
@@ -26,9 +25,21 @@ namespace SafeExamBrowser.Configuration.DataFormats
 		private const int SALT_SIZE = 8;
 		private const int VERSION = 0x2;
 
-		private LoadStatus ParsePassword(Stream data, FormatType format, out Settings settings, string password = null)
+		private ILogger logger;
+
+		internal PasswordEncryption(ILogger logger)
 		{
-			settings = default(Settings);
+			this.logger = logger;
+		}
+
+		internal Stream Encrypt(Stream data, string password)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal LoadStatus Decrypt(Stream data, out Stream decrypted, string password)
+		{
+			decrypted = default(Stream);
 
 			if (password == null)
 			{
@@ -39,13 +50,9 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 			if (version != VERSION || options != OPTIONS)
 			{
-				return FailForInvalidPasswordHeader(version, options);
-			}
+				logger.Error($"Invalid encryption header! Expected: [{VERSION},{OPTIONS},...] - Actual: [{version},{options},...]");
 
-			if (format == FormatType.PasswordConfigureClient)
-			{
-				// TODO: Shouldn't this not only be done for admin password, and not settings password?!?
-				password = GeneratePasswordHash(password);
+				return LoadStatus.InvalidData;
 			}
 
 			var (authenticationKey, encryptionKey) = GenerateKeys(data, password);
@@ -53,13 +60,14 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 			if (!computedHmac.SequenceEqual(originalHmac))
 			{
-				return FailForInvalidPasswordHmac();
+				logger.Warn($"The authentication failed due to an invalid password or corrupted data!");
+
+				return LoadStatus.PasswordNeeded;
 			}
 
-			using (var plainData = Decrypt(data, encryptionKey, originalHmac.Length))
-			{
-				return ParsePlainData(plainData, out settings);
-			}
+			decrypted = Decrypt(data, encryptionKey, originalHmac.Length);
+
+			return LoadStatus.Success;
 		}
 
 		private (int version, int options) ParseHeader(Stream data)
@@ -70,25 +78,6 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			var options = data.ReadByte();
 
 			return (version, options);
-		}
-
-		private LoadStatus FailForInvalidPasswordHeader(int version, int options)
-		{
-			logger.Error($"Invalid encryption header! Expected: [{VERSION},{OPTIONS},...] - Actual: [{version},{options},...]");
-
-			return LoadStatus.InvalidData;
-		}
-
-		private string GeneratePasswordHash(string input)
-		{
-			using (var algorithm = new SHA256Managed())
-			{
-				var bytes = Encoding.UTF8.GetBytes(input);
-				var hash = algorithm.ComputeHash(bytes);
-				var @string = String.Join(String.Empty, hash.Select(b => b.ToString("x2")));
-
-				return @string;
-			}
 		}
 
 		private (byte[] authenticationKey, byte[] encryptionKey) GenerateKeys(Stream data, string password)
@@ -123,13 +112,6 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 				return (originalHmac, computedHmac);
 			}
-		}
-
-		private LoadStatus FailForInvalidPasswordHmac()
-		{
-			logger.Warn($"The authentication failed due to an invalid password or corrupted data!");
-
-			return LoadStatus.PasswordNeeded;
 		}
 
 		private Stream Decrypt(Stream data, byte[] encryptionKey, int hmacLength)

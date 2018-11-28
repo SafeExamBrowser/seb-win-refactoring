@@ -9,6 +9,7 @@
 using System;
 using System.IO;
 using System.Text;
+using SafeExamBrowser.Configuration.DataFormats.Cryptography;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
@@ -20,11 +21,13 @@ namespace SafeExamBrowser.Configuration.DataFormats
 		private const int PREFIX_LENGTH = 4;
 
 		private IDataCompressor compressor;
-		private ILogger logger;
+		private IHashAlgorithm hashAlgorithm;
+		private IModuleLogger logger;
 
-		public BinaryFormat(IDataCompressor compressor, ILogger logger)
+		public BinaryFormat(IDataCompressor compressor, IHashAlgorithm hashAlgorithm, IModuleLogger logger)
 		{
 			this.compressor = compressor;
+			this.hashAlgorithm = hashAlgorithm;
 			this.logger = logger;
 		}
 
@@ -54,7 +57,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			return false;
 		}
 
-		public LoadStatus TryParse(Stream data, out Settings settings, string password = null)
+		public LoadStatus TryParse(Stream data, out Settings settings, string password = null, bool passwordIsHash = false)
 		{
 			var prefix = ParsePrefix(data);
 			var success = TryDetermineFormat(prefix, out FormatType format);
@@ -69,25 +72,69 @@ namespace SafeExamBrowser.Configuration.DataFormats
 				}
 
 				data = new SubStream(data, PREFIX_LENGTH, data.Length - PREFIX_LENGTH);
+				logger.Debug($"Attempting to parse '{data}' with format '{prefix}'...");
 
-				// TODO: Try to abstract (Parser -> Binary, Xml, ...; DataBlock -> Password, PlainData, ...) once fully implemented!
 				switch (format)
 				{
 					case FormatType.Password:
 					case FormatType.PasswordConfigureClient:
-						return ParsePassword(data, format, out settings, password);
+						return ParsePasswordBlock(data, format, out settings, password, passwordIsHash);
 					case FormatType.PlainData:
-						return ParsePlainData(data, out settings);
+						return ParsePlainDataBlock(data, out settings);
 					case FormatType.PublicKeyHash:
-						return ParsePublicKeyHash(data, out settings, password);
-					case FormatType.PublicKeyHashSymmetricKey:
-						return ParsePublicKeyHashWithSymmetricKey(data, out settings, password);
+						return ParsePublicKeyHashBlock(data, out settings, password, passwordIsHash);
+					case FormatType.PublicKeyHashWithSymmetricKey:
+						return ParsePublicKeyHashWithSymmetricKeyBlock(data, out settings, password, passwordIsHash);
 				}
 			}
 
 			logger.Error($"'{data}' starting with '{prefix}' does not match the binary format!");
 
 			return LoadStatus.InvalidData;
+		}
+
+		private LoadStatus ParsePasswordBlock(Stream data, FormatType format, out Settings settings, string password, bool passwordIsHash)
+		{
+			var encryption = new PasswordEncryption(logger.CloneFor(nameof(PasswordEncryption)));
+
+			settings = default(Settings);
+
+			// TODO: Check whether the hashing (bool passwordIsHash) can be extracted and moved to ConfigurationOperation!
+			if (format == FormatType.PasswordConfigureClient && !passwordIsHash)
+			{
+				password = hashAlgorithm.GenerateHashFor(password);
+			}
+
+			var status = encryption.Decrypt(data, out Stream decrypted, password);
+
+			if (status == LoadStatus.Success)
+			{
+				return ParsePlainDataBlock(decrypted, out settings);
+			}
+
+			return status;
+		}
+
+		private LoadStatus ParsePlainDataBlock(Stream data, out Settings settings)
+		{
+			var xmlFormat = new XmlFormat(logger.CloneFor(nameof(XmlFormat)));
+
+			if (compressor.IsCompressed(data))
+			{
+				data = compressor.Decompress(data);
+			}
+
+			return xmlFormat.TryParse(data, out settings);
+		}
+
+		private LoadStatus ParsePublicKeyHashBlock(Stream data, out Settings settings, string password, bool passwordIsHash)
+		{
+			throw new NotImplementedException();
+		}
+
+		private LoadStatus ParsePublicKeyHashWithSymmetricKeyBlock(Stream data, out Settings settings, string password, bool passwordIsHash)
+		{
+			throw new NotImplementedException();
 		}
 
 		private string ParsePrefix(Stream data)
@@ -126,7 +173,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 					format = FormatType.PublicKeyHash;
 					return true;
 				case "phsk":
-					format = FormatType.PublicKeyHashSymmetricKey;
+					format = FormatType.PublicKeyHashWithSymmetricKey;
 					return true;
 			}
 
@@ -139,7 +186,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			PasswordConfigureClient,
 			PlainData,
 			PublicKeyHash,
-			PublicKeyHashSymmetricKey
+			PublicKeyHashWithSymmetricKey
 		}
 	}
 }

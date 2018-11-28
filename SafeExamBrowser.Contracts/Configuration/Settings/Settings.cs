@@ -17,6 +17,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 	public class Settings
 	{
 		/// <summary>
+		/// The hash code of the administrator password for the settings.
+		/// </summary>
+		public string AdminPasswordHash { get; set; }
+
+		/// <summary>
 		/// The mode which determines the configuration behaviour.
 		/// </summary>
 		public ConfigurationMode ConfigurationMode { get; set; }

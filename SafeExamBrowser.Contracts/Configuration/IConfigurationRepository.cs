@@ -44,6 +44,6 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// Attempts to load settings from the specified resource, using the optional password. As long as the result is not
 		/// <see cref="LoadStatus.Success"/>, the referenced settings may be <c>null</c> or in an undefinable state!
 		/// </summary>
-		LoadStatus TryLoadSettings(Uri resource, out Settings.Settings settings, string password = null);
+		LoadStatus TryLoadSettings(Uri resource, out Settings.Settings settings, string password = null, bool passwordIsHash = false);
 	}
 }

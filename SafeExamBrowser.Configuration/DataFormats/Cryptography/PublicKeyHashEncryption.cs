@@ -8,14 +8,17 @@
 
 using System;
 using System.IO;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Settings;
 
-namespace SafeExamBrowser.Configuration.DataFormats
+namespace SafeExamBrowser.Configuration.DataFormats.Cryptography
 {
-	public partial class BinaryFormat
+	internal class PublicKeyHashEncryption
 	{
-		private LoadStatus ParsePublicKeyHashWithSymmetricKey(Stream data, out Settings settings, string password)
+		internal Stream Encrypt(Stream data, string password)
+		{
+			throw new NotImplementedException();
+		}
+
+		internal Stream Decrypt(Stream data, string password)
 		{
 			throw new NotImplementedException();
 		}
