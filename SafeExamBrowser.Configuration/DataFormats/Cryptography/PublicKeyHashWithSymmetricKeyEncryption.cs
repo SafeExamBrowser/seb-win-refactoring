@@ -8,19 +8,61 @@
 
 using System;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
+using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.DataFormats.Cryptography
 {
-	internal class PublicKeyHashWithSymmetricKeyEncryption
+	internal class PublicKeyHashWithSymmetricKeyEncryption : PublicKeyHashEncryption
 	{
-		internal Stream Encrypt(Stream data, string password)
+		private const int KEY_LENGTH_SIZE = 4;
+
+		private PasswordEncryption passwordEncryption;
+
+		internal PublicKeyHashWithSymmetricKeyEncryption(ILogger logger, PasswordEncryption passwordEncryption) : base(logger)
 		{
-			throw new NotImplementedException();
+			this.passwordEncryption = passwordEncryption;
 		}
 
-		internal Stream Decrypt(Stream data, string password)
+		internal override LoadStatus Decrypt(Stream data, out Stream decrypted)
 		{
-			throw new NotImplementedException();
+			var keyHash = ParsePublicKeyHash(data);
+			var found = TryGetCertificateWith(keyHash, out X509Certificate2 certificate);
+
+			decrypted = default(Stream);
+
+			if (!found)
+			{
+				return FailForMissingCertificate();
+			}
+
+			var symmetricKey = ParseSymmetricKey(data, certificate);
+			var stream = new SubStream(data, data.Position, data.Length - data.Position);
+			var status = passwordEncryption.Decrypt(stream, out decrypted, symmetricKey);
+
+			return status;
+		}
+
+		private string ParseSymmetricKey(Stream data, X509Certificate2 certificate)
+		{
+			var keyLengthData = new byte[KEY_LENGTH_SIZE];
+
+			logger.Debug("Parsing symmetric key...");
+
+			data.Seek(PUBLIC_KEY_HASH_SIZE, SeekOrigin.Begin);
+			data.Read(keyLengthData, 0, keyLengthData.Length);
+
+			var keyLength = BitConverter.ToInt32(keyLengthData, 0);
+			var encryptedKey = new byte[keyLength];
+
+			data.Read(encryptedKey, 0, encryptedKey.Length);
+
+			var stream = new SubStream(data, PUBLIC_KEY_HASH_SIZE + KEY_LENGTH_SIZE, keyLength);
+			var decryptedKey = Decrypt(stream, 0, certificate);
+			var symmetricKey = Convert.ToBase64String(decryptedKey.ToArray());
+
+			return symmetricKey;
 		}
 	}
 }

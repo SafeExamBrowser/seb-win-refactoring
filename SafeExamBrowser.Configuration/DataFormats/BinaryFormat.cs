@@ -95,16 +95,15 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 		private LoadStatus ParsePasswordBlock(Stream data, FormatType format, out Settings settings, string password, bool passwordIsHash)
 		{
-			var encryption = new PasswordEncryption(logger.CloneFor(nameof(PasswordEncryption)));
 
 			settings = default(Settings);
 
-			// TODO: Check whether the hashing (bool passwordIsHash) can be extracted and moved to ConfigurationOperation!
 			if (format == FormatType.PasswordConfigureClient && !passwordIsHash)
 			{
 				password = hashAlgorithm.GenerateHashFor(password);
 			}
 
+			var encryption = new PasswordEncryption(logger.CloneFor(nameof(PasswordEncryption)));
 			var status = encryption.Decrypt(data, out Stream decrypted, password);
 
 			if (status == LoadStatus.Success)
@@ -129,12 +128,34 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 		private LoadStatus ParsePublicKeyHashBlock(Stream data, out Settings settings, string password, bool passwordIsHash)
 		{
-			throw new NotImplementedException();
+			var encryption = new PublicKeyHashEncryption(logger.CloneFor(nameof(PublicKeyHashEncryption)));
+			var status = encryption.Decrypt(data, out Stream decrypted);
+
+			settings = default(Settings);
+
+			if (status == LoadStatus.Success)
+			{
+				return TryParse(decrypted, out settings, password, passwordIsHash);
+			}
+
+			return status;
 		}
 
 		private LoadStatus ParsePublicKeyHashWithSymmetricKeyBlock(Stream data, out Settings settings, string password, bool passwordIsHash)
 		{
-			throw new NotImplementedException();
+			var logger = this.logger.CloneFor(nameof(PublicKeyHashWithSymmetricKeyEncryption));
+			var passwordEncryption = new PasswordEncryption(logger.CloneFor(nameof(PasswordEncryption)));
+			var encryption = new PublicKeyHashWithSymmetricKeyEncryption(logger, passwordEncryption);
+			var status = encryption.Decrypt(data, out Stream decrypted);
+
+			settings = default(Settings);
+
+			if (status == LoadStatus.Success)
+			{
+				return TryParse(decrypted, out settings, password, passwordIsHash);
+			}
+
+			return status;
 		}
 
 		private string ParsePrefix(Stream data)

@@ -81,8 +81,6 @@ namespace SafeExamBrowser.Configuration.Compression
 					var cm = data.ReadByte();
 					var compressed = id1 == ID1 && id2 == ID2 && cm == CM;
 
-					logger.Debug($"'{data}' is {(compressed ? string.Empty : "not ")}a gzip-compressed stream.");
-
 					return compressed;
 				}
 
@@ -100,7 +98,6 @@ namespace SafeExamBrowser.Configuration.Compression
 		{
 			var stream = new GZipStream(data, CompressionMode.Decompress);
 
-			logger.Debug($"Peeking {count} bytes from '{data}'...");
 			data.Seek(0, SeekOrigin.Begin);
 
 			using (var decompressed = new MemoryStream())
