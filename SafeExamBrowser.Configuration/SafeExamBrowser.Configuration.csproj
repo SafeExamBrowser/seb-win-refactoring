@@ -64,6 +64,7 @@
     <Compile Include="DataFormats\Cryptography\PublicKeyHashEncryption.cs" />
     <Compile Include="DataFormats\Cryptography\PublicKeyHashWithSymmetricKeyEncryption.cs" />
     <Compile Include="DataFormats\XmlFormat.cs" />
+    <Compile Include="DataFormats\DataMapper.cs" />
     <Compile Include="HashAlgorithm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConfigurationRepository.cs" />

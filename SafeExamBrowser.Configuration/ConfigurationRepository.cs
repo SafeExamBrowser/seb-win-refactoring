@@ -126,9 +126,9 @@ namespace SafeExamBrowser.Configuration
 
 		public LoadStatus TryLoadSettings(Uri resource, out Settings settings, string password = null, bool passwordIsHash = false)
 		{
-			settings = default(Settings);
-
 			logger.Info($"Attempting to load '{resource}'...");
+
+			settings = LoadDefaultSettings();
 
 			try
 			{
@@ -139,13 +139,13 @@ namespace SafeExamBrowser.Configuration
 					switch (status)
 					{
 						case LoadStatus.LoadWithBrowser:
-							return HandleBrowserResource(resource, out settings);
+							return HandleBrowserResource(resource, settings);
 						case LoadStatus.Success:
-							return TryParseData(data, out settings, password, passwordIsHash);
+							return TryParseData(data, settings, password, passwordIsHash);
 					}
-				}
 
-				return status;
+					return status;
+				}
 			}
 			catch (Exception e)
 			{
@@ -175,16 +175,14 @@ namespace SafeExamBrowser.Configuration
 			return status;
 		}
 
-		private LoadStatus TryParseData(Stream data, out Settings settings, string password = null, bool passwordIsHash = false)
+		private LoadStatus TryParseData(Stream data, Settings settings, string password = null, bool passwordIsHash = false)
 		{
 			var status = LoadStatus.NotSupported;
 			var dataFormat = dataFormats.FirstOrDefault(f => f.CanParse(data));
 
-			settings = default(Settings);
-
 			if (dataFormat != null)
 			{
-				status = dataFormat.TryParse(data, out settings, password, passwordIsHash);
+				status = dataFormat.TryParse(data, settings, password, passwordIsHash);
 				logger.Info($"Tried to parse data from '{data}' using {dataFormat.GetType().Name} -> Result: {status}.");
 			}
 			else
@@ -195,11 +193,9 @@ namespace SafeExamBrowser.Configuration
 			return status;
 		}
 
-		private LoadStatus HandleBrowserResource(Uri resource, out Settings settings)
+		private LoadStatus HandleBrowserResource(Uri resource, Settings settings)
 		{
-			settings = LoadDefaultSettings();
 			settings.Browser.StartUrl = resource.AbsoluteUri;
-
 			logger.Info($"The resource needs authentication or is HTML data, loaded default settings with '{resource}' as startup URL.");
 
 			return LoadStatus.Success;

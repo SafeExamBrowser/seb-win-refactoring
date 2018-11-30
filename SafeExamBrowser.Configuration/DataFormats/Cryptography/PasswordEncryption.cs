@@ -41,12 +41,6 @@ namespace SafeExamBrowser.Configuration.DataFormats.Cryptography
 			}
 
 			var (version, options) = ParseHeader(data);
-
-			if (version != VERSION || options != OPTIONS)
-			{
-				return FailForInvalidHeader(version, options);
-			}
-
 			var (authenticationKey, encryptionKey) = GenerateKeys(data, password);
 			var (originalHmac, computedHmac) = GenerateHmac(data, authenticationKey);
 
@@ -68,14 +62,12 @@ namespace SafeExamBrowser.Configuration.DataFormats.Cryptography
 			var version = data.ReadByte();
 			var options = data.ReadByte();
 
+			if (version != VERSION || options != OPTIONS)
+			{
+				logger.Warn($"Invalid encryption header! Expected: [{VERSION},{OPTIONS},...] - Actual: [{version},{options},...]");
+			}
+
 			return (version, options);
-		}
-
-		private LoadStatus FailForInvalidHeader(int version, int options)
-		{
-			logger.Error($"Invalid encryption header! Expected: [{VERSION},{OPTIONS},...] - Actual: [{version},{options},...]");
-
-			return LoadStatus.InvalidData;
 		}
 
 		private (byte[] authenticationKey, byte[] encryptionKey) GenerateKeys(Stream data, string password)

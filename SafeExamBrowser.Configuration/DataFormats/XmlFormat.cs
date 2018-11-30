@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -19,9 +20,6 @@ namespace SafeExamBrowser.Configuration.DataFormats
 {
 	public class XmlFormat : IDataFormat
 	{
-		private const string ARRAY = "array";
-		private const string DICTIONARY = "dict";
-		private const string KEY = "key";
 		private const string ROOT_NODE = "plist";
 		private const string XML_PREFIX = "<?xm";
 
@@ -61,151 +59,217 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			return false;
 		}
 
-		public LoadStatus TryParse(Stream data, out Settings settings, string password = null, bool passwordIsHash = false)
+		public LoadStatus TryParse(Stream data, Settings settings, string password = null, bool passwordIsHash = false)
 		{
 			var status = LoadStatus.InvalidData;
+			var xmlSettings = new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore };
 
-			settings = new Settings();
 			data.Seek(0, SeekOrigin.Begin);
 
-			using (var reader = XmlReader.Create(data, new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore }))
+			using (var reader = XmlReader.Create(data, xmlSettings))
 			{
 				var hasRoot = reader.ReadToFollowing(ROOT_NODE);
+				var hasDictionary = reader.ReadToDescendant(DataTypes.DICTIONARY);
+				var rawData = new Dictionary<string, object>();
 
-				if (hasRoot)
+				if (hasRoot && hasDictionary)
 				{
 					logger.Debug($"Found root node, starting to parse data...");
-					Parse(reader, settings, out status);
+					status = ParseDictionary(reader, rawData);
+
+					if (status == LoadStatus.Success)
+					{
+						logger.Debug("Mapping raw settings data...");
+						rawData.MapTo(settings);
+					}
+
 					logger.Debug($"Finished parsing -> Result: {status}.");
 				}
 				else
 				{
-					logger.Error($"Could not find root node '{ROOT_NODE}'!");
+					logger.Error($"Could not find root {(!hasRoot ? $"node '{ROOT_NODE}'" : $"dictionary '{DataTypes.DICTIONARY}'")}!");
 				}
 			}
 
 			return status;
 		}
 
-		private void Parse(XmlReader reader, Settings settings, out LoadStatus status)
+		private LoadStatus ParseArray(XmlReader reader, List<object> array)
 		{
-			status = LoadStatus.Success;
-
-			if (reader.NodeType == XmlNodeType.Element)
+			if (reader.IsEmptyElement)
 			{
-				switch (reader.Name)
-				{
-					case ARRAY:
-						ParseArray(reader, settings, out status);
-						break;
-					case DICTIONARY:
-						ParseDictionary(reader, settings, out status);
-						break;
-					case KEY:
-						ParseKeyValuePair(reader, settings, out status);
-						break;
-					case ROOT_NODE:
-						break;
-					default:
-						status = LoadStatus.InvalidData;
-						logger.Error($"Detected invalid element '{reader.Name}'!");
-						break;
-				}
+				return LoadStatus.Success;
 			}
 
-			reader.Read();
-			reader.MoveToContent();
-
-			if (!reader.EOF && status == LoadStatus.Success)
-			{
-				Parse(reader, settings, out status);
-			}
-		}
-
-		private void ParseArray(XmlReader reader, Settings settings, out LoadStatus status)
-		{
 			reader.Read();
 			reader.MoveToContent();
 
 			while (reader.NodeType == XmlNodeType.Element)
 			{
-				if (reader.Name == ARRAY)
+				var status = ParseElement(reader, out object element);
+
+				if (status == LoadStatus.Success)
 				{
-					ParseArray(reader, settings, out status);
-				}
-				else if (reader.Name == DICTIONARY)
-				{
-					ParseDictionary(reader, settings, out status);
+					array.Add(element);
 				}
 				else
 				{
-					var item = XNode.ReadFrom(reader) as XElement;
-
-					// TODO: Map data...
+					return status;
 				}
 
 				reader.Read();
 				reader.MoveToContent();
 			}
 
-			if (reader.NodeType == XmlNodeType.EndElement && reader.Name == ARRAY)
+			if (reader.NodeType == XmlNodeType.EndElement && reader.Name == DataTypes.ARRAY)
 			{
-				status = LoadStatus.Success;
+				return LoadStatus.Success;
 			}
 			else
 			{
-				logger.Error($"Expected closing tag for '{ARRAY}', but found '{reader.Name}{reader.Value}'!");
-				status = LoadStatus.InvalidData;
+				logger.Error($"Expected closing tag for '{DataTypes.ARRAY}', but found '{reader.Name}{reader.Value}'!");
+
+				return LoadStatus.InvalidData;
 			}
 		}
 
-		private void ParseDictionary(XmlReader reader, Settings settings, out LoadStatus status)
+		private LoadStatus ParseDictionary(XmlReader reader, Dictionary<string, object> dictionary)
 		{
+			if (reader.IsEmptyElement)
+			{
+				return LoadStatus.Success;
+			}
+
 			reader.Read();
 			reader.MoveToContent();
 
 			while (reader.NodeType == XmlNodeType.Element)
 			{
-				ParseKeyValuePair(reader, settings, out status);
+				var status = ParseKeyValuePair(reader, dictionary);
+
+				if (status != LoadStatus.Success)
+				{
+					return status;
+				}
 
 				reader.Read();
 				reader.MoveToContent();
 			}
 
-			if (reader.NodeType == XmlNodeType.EndElement && reader.Name == DICTIONARY)
+			if (reader.NodeType == XmlNodeType.EndElement && reader.Name == DataTypes.DICTIONARY)
 			{
-				status = LoadStatus.Success;
+				return LoadStatus.Success;
 			}
 			else
 			{
-				logger.Error($"Expected closing tag for '{DICTIONARY}', but found '{reader.Name}{reader.Value}'!");
-				status = LoadStatus.InvalidData;
+				logger.Error($"Expected closing tag for '{DataTypes.DICTIONARY}', but found '{reader.Name}{reader.Value}'!");
+
+				return LoadStatus.InvalidData;
 			}
 		}
 
-		private void ParseKeyValuePair(XmlReader reader, Settings settings, out LoadStatus status)
+		private LoadStatus ParseKeyValuePair(XmlReader reader, Dictionary<string, object> dictionary)
 		{
 			var key = XNode.ReadFrom(reader) as XElement;
+
+			if (key.Name.LocalName != DataTypes.KEY)
+			{
+				logger.Error($"Expected element '{DataTypes.KEY}', but found '{key}'!");
+
+				return LoadStatus.InvalidData;
+			}
 
 			reader.Read();
 			reader.MoveToContent();
 
-			if (reader.Name == ARRAY)
+			var status = ParseElement(reader, out object value);
+
+			if (status == LoadStatus.Success)
 			{
-				ParseArray(reader, settings, out status);
+				dictionary[key.Value] = value;
 			}
-			else if (reader.Name == DICTIONARY)
+
+			return status;
+		}
+
+		private LoadStatus ParseElement(XmlReader reader, out object element)
+		{
+			var array = default(List<object>);
+			var dictionary = default(Dictionary<string, object>);
+			var status = default(LoadStatus);
+			var value = default(object);
+
+			if (reader.Name == DataTypes.ARRAY)
 			{
-				ParseDictionary(reader, settings, out status);
+				array = new List<object>();
+				status = ParseArray(reader, array);
+			}
+			else if (reader.Name == DataTypes.DICTIONARY)
+			{
+				dictionary = new Dictionary<string, object>();
+				status = ParseDictionary(reader, dictionary);
 			}
 			else
 			{
-				var value = XNode.ReadFrom(reader) as XElement;
-
-				// TODO: Map data...
-
-				status = LoadStatus.Success;
+				status = ParseSimpleType(XNode.ReadFrom(reader) as XElement, out value);
 			}
+
+			element = array ?? dictionary ?? value;
+
+			return status;
+		}
+
+		private LoadStatus ParseSimpleType(XElement element, out object value)
+		{
+			value = null;
+
+			switch (element.Name.LocalName)
+			{
+				case DataTypes.DATA:
+					value = Convert.FromBase64String(element.Value);
+					break;
+				case DataTypes.DATE:
+					value = XmlConvert.ToDateTime(element.Value, XmlDateTimeSerializationMode.Utc);
+					break;
+				case DataTypes.FALSE:
+					value = false;
+					break;
+				case DataTypes.INTEGER:
+					value = Convert.ToInt32(element.Value);
+					break;
+				case DataTypes.REAL:
+					value = Convert.ToDouble(element.Value);
+					break;
+				case DataTypes.STRING:
+					value = element.Value;
+					break;
+				case DataTypes.TRUE:
+					value = true;
+					break;
+			}
+
+			if (value == null)
+			{
+				logger.Error($"Element '{element}' is not supported!");
+
+				return LoadStatus.InvalidData;
+			}
+
+			return LoadStatus.Success;
+		}
+
+		private struct DataTypes
+		{
+			public const string ARRAY = "array";
+			public const string DATA = "data";
+			public const string DATE = "date";
+			public const string DICTIONARY = "dict";
+			public const string FALSE = "false";
+			public const string INTEGER = "integer";
+			public const string KEY = "key";
+			public const string REAL = "real";
+			public const string STRING = "string";
+			public const string TRUE = "true";
 		}
 	}
 }
