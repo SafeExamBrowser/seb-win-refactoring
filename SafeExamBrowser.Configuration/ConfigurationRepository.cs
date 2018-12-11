@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using SafeExamBrowser.Configuration.DataFormats;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
@@ -26,15 +27,23 @@ namespace SafeExamBrowser.Configuration
 		private readonly string programVersion;
 
 		private AppConfig appConfig;
+		private IHashAlgorithm hashAlgorithm;
 		private IList<IDataFormat> dataFormats;
-		private ILogger logger;
 		private IList<IResourceLoader> resourceLoaders;
+		private ILogger logger;
 
-		public ConfigurationRepository(ILogger logger, string executablePath, string programCopyright, string programTitle, string programVersion)
+		public ConfigurationRepository(
+			IHashAlgorithm hashAlgorithm,
+			ILogger logger,
+			string executablePath,
+			string programCopyright,
+			string programTitle,
+			string programVersion)
 		{
 			dataFormats = new List<IDataFormat>();
 			resourceLoaders = new List<IResourceLoader>();
 
+			this.hashAlgorithm = hashAlgorithm;
 			this.logger = logger;
 			this.executablePath = executablePath ?? string.Empty;
 			this.programCopyright = programCopyright ?? string.Empty;
@@ -124,7 +133,7 @@ namespace SafeExamBrowser.Configuration
 			resourceLoaders.Add(resourceLoader);
 		}
 
-		public LoadStatus TryLoadSettings(Uri resource, out Settings settings, string password = null, bool passwordIsHash = false)
+		public LoadStatus TryLoadSettings(Uri resource, PasswordInfo passwordInfo, out Settings settings)
 		{
 			logger.Info($"Attempting to load '{resource}'...");
 
@@ -136,15 +145,17 @@ namespace SafeExamBrowser.Configuration
 
 				using (data)
 				{
-					switch (status)
+					if (status == LoadStatus.LoadWithBrowser)
 					{
-						case LoadStatus.LoadWithBrowser:
-							return HandleBrowserResource(resource, settings);
-						case LoadStatus.Success:
-							return TryParseData(data, settings, password, passwordIsHash);
+						return HandleBrowserResource(resource, settings);
 					}
 
-					return status;
+					if (status != LoadStatus.Success)
+					{
+						return status;
+					}
+
+					return TryParseData(data, passwordInfo, resource, settings);
 				}
 			}
 			catch (Exception e)
@@ -152,6 +163,35 @@ namespace SafeExamBrowser.Configuration
 				logger.Error($"Unexpected error while trying to load '{resource}'!", e);
 
 				return LoadStatus.UnexpectedError;
+			}
+		}
+
+		private void ExtractAndImportCertificates(IDictionary<string, object> data)
+		{
+			// TODO
+		}
+
+		private LoadStatus HandleBrowserResource(Uri resource, Settings settings)
+		{
+			settings.Browser.StartUrl = resource.AbsoluteUri;
+			logger.Info($"The resource needs authentication or is HTML data, loaded default settings with '{resource}' as startup URL.");
+
+			return LoadStatus.Success;
+		}
+
+		private void HandleParseSuccess(ParseResult result, Settings settings, PasswordInfo passwordInfo, Uri resource)
+		{
+			var appDataFile = new Uri(Path.Combine(appConfig.AppDataFolder, appConfig.DefaultSettingsFileName));
+			var programDataFile = new Uri(Path.Combine(appConfig.ProgramDataFolder, appConfig.DefaultSettingsFileName));
+			var isAppDataFile = resource.AbsolutePath.Equals(appDataFile.AbsolutePath, StringComparison.OrdinalIgnoreCase);
+			var isProgramDataFile = resource.AbsolutePath.Equals(programDataFile.AbsolutePath, StringComparison.OrdinalIgnoreCase);
+
+			logger.Info("Mapping settings data...");
+			result.RawData.MapTo(settings);
+
+			if (settings.ConfigurationMode == ConfigurationMode.ConfigureClient && !isAppDataFile && !isProgramDataFile)
+			{
+				result.Status = TryConfigureClient(result.RawData, settings, passwordInfo);
 			}
 		}
 
@@ -175,15 +215,23 @@ namespace SafeExamBrowser.Configuration
 			return status;
 		}
 
-		private LoadStatus TryParseData(Stream data, Settings settings, string password = null, bool passwordIsHash = false)
+		private LoadStatus TryParseData(Stream data, PasswordInfo passwordInfo, Uri resource, Settings settings)
 		{
-			var status = LoadStatus.NotSupported;
 			var dataFormat = dataFormats.FirstOrDefault(f => f.CanParse(data));
+			var status = LoadStatus.NotSupported;
 
 			if (dataFormat != null)
 			{
-				status = dataFormat.TryParse(data, settings, password, passwordIsHash);
-				logger.Info($"Tried to parse data from '{data}' using {dataFormat.GetType().Name} -> Result: {status}.");
+				var result = dataFormat.TryParse(data, passwordInfo);
+					
+				logger.Info($"Tried to parse data from '{data}' using {dataFormat.GetType().Name} -> Result: {result.Status}.");
+
+				if (result.Status == LoadStatus.Success || result.Status == LoadStatus.SuccessConfigureClient)
+				{
+					HandleParseSuccess(result, settings, passwordInfo, resource);
+				}
+
+				status = result.Status;
 			}
 			else
 			{
@@ -193,12 +241,42 @@ namespace SafeExamBrowser.Configuration
 			return status;
 		}
 
-		private LoadStatus HandleBrowserResource(Uri resource, Settings settings)
+		private LoadStatus TryConfigureClient(IDictionary<string, object> data, Settings settings, PasswordInfo passwordInfo)
 		{
-			settings.Browser.StartUrl = resource.AbsoluteUri;
-			logger.Info($"The resource needs authentication or is HTML data, loaded default settings with '{resource}' as startup URL.");
+			logger.Info("Attempting to configure local client settings...");
 
-			return LoadStatus.Success;
+			if (passwordInfo.AdminPasswordHash != null)
+			{
+				var adminPasswordHash = passwordInfo.AdminPassword != null ? hashAlgorithm.GenerateHashFor(passwordInfo.AdminPassword) : null;
+				var settingsPasswordHash = passwordInfo.SettingsPassword != null ? hashAlgorithm.GenerateHashFor(passwordInfo.SettingsPassword) : null;
+				var enteredCorrectPassword = passwordInfo.AdminPasswordHash.Equals(adminPasswordHash, StringComparison.OrdinalIgnoreCase);
+				var sameAdminPassword = passwordInfo.AdminPasswordHash.Equals(settings.AdminPasswordHash, StringComparison.OrdinalIgnoreCase);
+				var knowsAdminPassword = passwordInfo.AdminPasswordHash.Equals(settingsPasswordHash, StringComparison.OrdinalIgnoreCase);
+
+				if (sameAdminPassword || knowsAdminPassword || enteredCorrectPassword)
+				{
+					logger.Info("Authentication was successful.");
+				}
+				else
+				{
+					logger.Info("Authentication has failed!");
+
+					return LoadStatus.AdminPasswordNeeded;
+				}
+			}
+			else
+			{
+				logger.Info("Authentication is not required.");
+			}
+
+			// -> Certificates need to be imported and REMOVED from the settings before the data is saved!
+			ExtractAndImportCertificates(data);
+
+			// Save configuration data as local client config under %APPDATA%!
+			// -> Default settings password for local client configuration appears to be string.Empty
+			// -> Local client configuration needs to again be encrypted in the same way as the original file was!!
+
+			return LoadStatus.SuccessConfigureClient;
 		}
 
 		private void UpdateAppConfig()

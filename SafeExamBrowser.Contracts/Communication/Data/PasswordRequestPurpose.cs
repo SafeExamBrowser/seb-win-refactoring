@@ -13,8 +13,6 @@ namespace SafeExamBrowser.Contracts.Communication.Data
 	/// </summary>
 	public enum PasswordRequestPurpose
 	{
-		Undefined = 0,
-
 		/// <summary>
 		/// The password is to be used as administrator password for an application configuration.
 		/// </summary>

@@ -14,7 +14,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 {
 	internal static class DataMapper
 	{
-		internal static void MapTo(this Dictionary<string, object> rawData, Settings settings)
+		internal static void MapTo(this IDictionary<string, object> rawData, Settings settings)
 		{
 			foreach (var kvp in rawData)
 			{
@@ -26,12 +26,23 @@ namespace SafeExamBrowser.Configuration.DataFormats
 		{
 			switch (key)
 			{
+				case "hashedAdminPassword":
+					settings.MapAdminPasswordHash(value);
+					break;
 				case "sebConfigPurpose":
 					settings.MapConfigurationMode(value);
 					break;
 				case "startURL":
 					settings.MapStartUrl(value);
 					break;
+			}
+		}
+
+		private static void MapAdminPasswordHash(this Settings settings, object value)
+		{
+			if (value is string hash)
+			{
+				settings.AdminPasswordHash = hash;
 			}
 		}
 
@@ -45,9 +56,9 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 		private static void MapStartUrl(this Settings settings, object value)
 		{
-			if (value is string startUrl)
+			if (value is string url)
 			{
-				settings.Browser.StartUrl = startUrl;
+				settings.Browser.StartUrl = url;
 			}
 		}
 	}

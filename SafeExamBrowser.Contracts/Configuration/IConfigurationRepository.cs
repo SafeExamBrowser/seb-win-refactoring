@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Contracts.Configuration
 {
 	/// <summary>
-	/// The repository which controls the loading and initializing of configuration data.
+	/// The repository which controls the loading and saving of configuration data.
 	/// </summary>
 	public interface IConfigurationRepository
 	{
@@ -41,9 +41,9 @@ namespace SafeExamBrowser.Contracts.Configuration
 		void Register(IResourceLoader resourceLoader);
 
 		/// <summary>
-		/// Attempts to load settings from the specified resource, using the optional password. As long as the result is not
-		/// <see cref="LoadStatus.Success"/>, the referenced settings may be <c>null</c> or in an undefinable state!
+		/// Attempts to load settings from the specified resource. As long as the result is not <see cref="LoadStatus.Success"/>,
+		/// the referenced settings may be <c>null</c> or in an undefinable state!
 		/// </summary>
-		LoadStatus TryLoadSettings(Uri resource, out Settings.Settings settings, string password = null, bool passwordIsHash = false);
+		LoadStatus TryLoadSettings(Uri resource, PasswordInfo passwordInfo, out Settings.Settings settings);
 	}
 }

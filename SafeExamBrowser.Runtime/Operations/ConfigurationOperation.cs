@@ -35,8 +35,8 @@ namespace SafeExamBrowser.Runtime.Operations
 			SessionContext sessionContext) : base(sessionContext)
 		{
 			this.commandLineArgs = commandLineArgs;
-			this.logger = logger;
 			this.configuration = configuration;
+			this.logger = logger;
 		}
 
 		public override OperationResult Perform()
@@ -50,7 +50,6 @@ namespace SafeExamBrowser.Runtime.Operations
 			if (isValidUri)
 			{
 				result = LoadSettings(uri);
-				HandleClientConfiguration(ref result, uri);
 			}
 			else
 			{
@@ -73,7 +72,6 @@ namespace SafeExamBrowser.Runtime.Operations
 			if (isValidUri)
 			{
 				result = LoadSettings(uri);
-				HandleClientConfiguration(ref result, uri);
 			}
 			else
 			{
@@ -100,36 +98,55 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private OperationResult LoadSettings(Uri uri)
 		{
-			var status = configuration.TryLoadSettings(uri, out Settings settings, Context.Current?.Settings?.AdminPasswordHash, true);
+			var settings = default(Settings);
+			var status = default(LoadStatus);
+			var passwordInfo = new PasswordInfo { AdminPasswordHash = Context.Current?.Settings?.AdminPasswordHash };
 
-			for (var attempts = 0; attempts < 5 && status == LoadStatus.PasswordNeeded; attempts++)
+			for (int adminAttempts = 0, settingsAttempts = 0; adminAttempts < 5 && settingsAttempts < 5;)
 			{
-				var result = TryGetPassword();
+				status = configuration.TryLoadSettings(uri, passwordInfo, out settings);
 
-				if (!result.Success)
+				if (status != LoadStatus.AdminPasswordNeeded && status != LoadStatus.SettingsPasswordNeeded)
+				{
+					break;
+				}
+
+				var success = TryGetPassword(status, passwordInfo);
+
+				if (!success)
 				{
 					return OperationResult.Aborted;
 				}
 
-				status = configuration.TryLoadSettings(uri, out settings, result.Password);
+				adminAttempts += status == LoadStatus.AdminPasswordNeeded ? 1 : 0;
+				settingsAttempts += status == LoadStatus.SettingsPasswordNeeded ? 1 : 0;
 			}
+
+			Context.Next.Settings = settings;
 
 			if (status == LoadStatus.Success)
 			{
-				Context.Next.Settings = settings;
-			}
-			else
-			{
-				ShowFailureMessage(status, uri);
+				return OperationResult.Success;
 			}
 
-			return status == LoadStatus.Success ? OperationResult.Success : OperationResult.Failed;
+			if (status == LoadStatus.SuccessConfigureClient)
+			{
+				return HandleClientConfiguration();
+			}
+
+			ShowFailureMessage(status, uri);
+
+			return OperationResult.Failed;
 		}
 
 		private void ShowFailureMessage(LoadStatus status, Uri uri)
 		{
 			switch (status)
 			{
+				case LoadStatus.AdminPasswordNeeded:
+				case LoadStatus.SettingsPasswordNeeded:
+					ActionRequired?.Invoke(new InvalidPasswordMessageArgs());
+					break;
 				case LoadStatus.InvalidData:
 					ActionRequired?.Invoke(new InvalidDataMessageArgs(uri.ToString()));
 					break;
@@ -142,14 +159,23 @@ namespace SafeExamBrowser.Runtime.Operations
 			}
 		}
 
-		private PasswordRequiredEventArgs TryGetPassword()
+		private bool TryGetPassword(LoadStatus status, PasswordInfo passwordInfo)
 		{
-			var purpose = PasswordRequestPurpose.Settings;
+			var purpose = status == LoadStatus.AdminPasswordNeeded ? PasswordRequestPurpose.Administrator : PasswordRequestPurpose.Settings;
 			var args = new PasswordRequiredEventArgs { Purpose = purpose };
 
 			ActionRequired?.Invoke(args);
 
-			return args;
+			if (purpose == PasswordRequestPurpose.Administrator)
+			{
+				passwordInfo.AdminPassword = args.Password;
+			}
+			else
+			{
+				passwordInfo.SettingsPassword = args.Password;
+			}
+
+			return args.Success;
 		}
 
 		private bool TryInitializeSettingsUri(out Uri uri)
@@ -195,37 +221,30 @@ namespace SafeExamBrowser.Runtime.Operations
 			return isValidUri;
 		}
 
-		private void HandleClientConfiguration(ref OperationResult result, Uri uri)
+		private OperationResult HandleClientConfiguration()
 		{
-			var configureMode = Context.Next.Settings?.ConfigurationMode == ConfigurationMode.ConfigureClient;
-			var loadWithBrowser = Context.Next.Settings?.Browser.StartUrl == uri.AbsoluteUri;
-			var successful = result == OperationResult.Success;
+			var firstSession = Context.Current == null;
 
-			if (successful && configureMode && !loadWithBrowser)
+			if (firstSession)
 			{
 				var args = new ConfigurationCompletedEventArgs();
-				var filePath = Path.Combine(Context.Next.AppConfig.AppDataFolder, Context.Next.AppConfig.DefaultSettingsFileName);
-
-				// TODO: Save / overwrite configuration file in APPDATA directory!
-				// -> Check whether current and new admin passwords are the same! If not, current needs to be verified before overwriting!
-				//		-> Special case: If current admin password is same as new settings password, verification is not necessary!
-				// -> Default settings password appears to be string.Empty for local client configuration
-				// -> Any (new?) certificates need to be imported and REMOVED from the settings before the data is saved!
-				// -> DO NOT transform settings, just simply copy the given configuration file to %APPDATA%\SebClientSettings.seb !!!
-				//configuration.SaveSettings(Context.Next.Settings, filePath);
-
-				// TODO: If the client configuration happens while the application is already running, the new configuration should first
-				// be loaded and then the user should have the option to terminate!
-				// -> Introduce flag in Context, e.g. AskForTermination?
+					
 				ActionRequired?.Invoke(args);
-
 				logger.Info($"The user chose to {(args.AbortStartup ? "abort" : "continue")} after successful client configuration.");
 
 				if (args.AbortStartup)
 				{
-					result = OperationResult.Aborted;
+					return OperationResult.Aborted;
 				}
 			}
+			else
+			{
+				// TODO: If the client configuration happens while the application is already running, the new configuration should first
+				// be loaded and then the user should have the option to terminate!
+				// -> Introduce flag in Context, e.g. AskForTermination?
+			}
+
+			return OperationResult.Success;
 		}
 
 		private void LogOperationResult(OperationResult result)

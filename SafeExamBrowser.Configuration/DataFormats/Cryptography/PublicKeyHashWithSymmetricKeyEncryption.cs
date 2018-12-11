@@ -39,7 +39,7 @@ namespace SafeExamBrowser.Configuration.DataFormats.Cryptography
 
 			var symmetricKey = ParseSymmetricKey(data, certificate);
 			var stream = new SubStream(data, data.Position, data.Length - data.Position);
-			var status = passwordEncryption.Decrypt(stream, out decrypted, symmetricKey);
+			var status = passwordEncryption.Decrypt(stream, symmetricKey, out decrypted);
 
 			return status;
 		}

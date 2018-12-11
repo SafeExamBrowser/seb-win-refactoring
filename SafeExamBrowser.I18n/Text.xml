@@ -30,6 +30,12 @@
   <Entry key="MessageBox_InvalidConfigurationDataTitle">
     Configuration Error
   </Entry>
+  <Entry key="MessageBox_InvalidPasswordError">
+    You failed to enter the correct password within 5 attempts. The application will now terminate...
+  </Entry>
+  <Entry key="MessageBox_InvalidPasswordErrorTitle">
+    Invalid Password
+  </Entry>
   <Entry key="MessageBox_NotSupportedConfigurationResource">
     The configuration resource '%%URI%%' is not supported!
   </Entry>

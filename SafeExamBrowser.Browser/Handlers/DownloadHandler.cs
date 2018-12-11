@@ -42,7 +42,7 @@ namespace SafeExamBrowser.Browser.Handlers
 		{
 			var uri = new Uri(downloadItem.Url);
 			var extension = Path.GetExtension(uri.AbsolutePath);
-			var isConfigFile = String.Equals(extension, appConfig.ConfigurationFileExtension, StringComparison.InvariantCultureIgnoreCase);
+			var isConfigFile = String.Equals(extension, appConfig.ConfigurationFileExtension, StringComparison.OrdinalIgnoreCase);
 
 			logger.Debug($"Handling download request for '{uri}'.");
 

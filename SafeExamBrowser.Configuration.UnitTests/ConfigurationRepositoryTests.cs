@@ -24,9 +24,10 @@ namespace SafeExamBrowser.Configuration.UnitTests
 		public void Initialize()
 		{
 			var executablePath = Assembly.GetExecutingAssembly().Location;
+			var hashAlgorithm = new Mock<IHashAlgorithm>();
 			var logger = new Mock<ILogger>();
 
-			sut = new ConfigurationRepository(logger.Object, executablePath, string.Empty, string.Empty, string.Empty);
+			sut = new ConfigurationRepository(hashAlgorithm.Object, logger.Object, executablePath, string.Empty, string.Empty, string.Empty);
 		}
 
 		[TestMethod]

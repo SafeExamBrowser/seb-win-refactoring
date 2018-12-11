@@ -17,6 +17,11 @@ namespace SafeExamBrowser.Contracts.Communication.Hosts
 	public interface IRuntimeHost : ICommunicationHost
 	{
 		/// <summary>
+		/// Determines whether another application component may establish a connection with the host.
+		/// </summary>
+		bool AllowConnection { get; set; }
+
+		/// <summary>
 		/// The startup token used for initial authentication.
 		/// </summary>
 		Guid StartupToken { set; }

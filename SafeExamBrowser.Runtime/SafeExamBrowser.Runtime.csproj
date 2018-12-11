@@ -91,6 +91,7 @@
     <Compile Include="Operations\ConfigurationOperation.cs" />
     <Compile Include="Operations\Events\ConfigurationCompletedEventArgs.cs" />
     <Compile Include="Operations\Events\InvalidDataMessageArgs.cs" />
+    <Compile Include="Operations\Events\InvalidPasswordMessageArgs.cs" />
     <Compile Include="Operations\Events\MessageEventArgs.cs" />
     <Compile Include="Operations\Events\NotSupportedMessageArgs.cs" />
     <Compile Include="Operations\Events\PasswordRequiredEventArgs.cs" />

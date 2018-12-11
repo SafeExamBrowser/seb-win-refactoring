@@ -106,12 +106,14 @@ namespace SafeExamBrowser.Runtime.Operations
 			var token = Context.Next.StartupToken.ToString("D");
 
 			logger.Info("Starting new client process...");
+			runtimeHost.AllowConnection = true;
 			runtimeHost.ClientReady += clientReadyEventHandler;
 			ClientProcess = processFactory.StartNew(clientExecutable, clientLogFile, hostUri, token);
 
 			logger.Info("Waiting for client to complete initialization...");
 			clientReady = clientReadyEvent.WaitOne(timeout_ms);
 			runtimeHost.ClientReady -= clientReadyEventHandler;
+			runtimeHost.AllowConnection = false;
 
 			if (!clientReady)
 			{

@@ -13,7 +13,6 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.DataFormats
@@ -59,9 +58,9 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			return false;
 		}
 
-		public LoadStatus TryParse(Stream data, Settings settings, string password = null, bool passwordIsHash = false)
+		public ParseResult TryParse(Stream data, PasswordInfo passwordInfo)
 		{
-			var status = LoadStatus.InvalidData;
+			var result = new ParseResult { Status = LoadStatus.InvalidData };
 			var xmlSettings = new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore };
 
 			data.Seek(0, SeekOrigin.Begin);
@@ -75,15 +74,11 @@ namespace SafeExamBrowser.Configuration.DataFormats
 				if (hasRoot && hasDictionary)
 				{
 					logger.Debug($"Found root node, starting to parse data...");
-					status = ParseDictionary(reader, rawData);
 
-					if (status == LoadStatus.Success)
-					{
-						logger.Debug("Mapping raw settings data...");
-						rawData.MapTo(settings);
-					}
+					result.Status = ParseDictionary(reader, rawData);
+					result.RawData = rawData;
 
-					logger.Debug($"Finished parsing -> Result: {status}.");
+					logger.Debug($"Finished parsing -> Result: {result.Status}.");
 				}
 				else
 				{
@@ -91,7 +86,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 				}
 			}
 
-			return status;
+			return result;
 		}
 
 		private LoadStatus ParseArray(XmlReader reader, List<object> array)

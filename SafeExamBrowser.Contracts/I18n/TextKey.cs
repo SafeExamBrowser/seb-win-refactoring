@@ -24,6 +24,8 @@ namespace SafeExamBrowser.Contracts.I18n
 		MessageBox_ConfigurationDownloadErrorTitle,
 		MessageBox_InvalidConfigurationData,
 		MessageBox_InvalidConfigurationDataTitle,
+		MessageBox_InvalidPasswordError,
+		MessageBox_InvalidPasswordErrorTitle,
 		MessageBox_NotSupportedConfigurationResource,
 		MessageBox_NotSupportedConfigurationResourceTitle,
 		MessageBox_Quit,

@@ -116,7 +116,7 @@ namespace SafeExamBrowser.Runtime
 			var compressor = new GZipCompressor(new ModuleLogger(logger, nameof(GZipCompressor)));
 			var repositoryLogger = new ModuleLogger(logger, nameof(ConfigurationRepository));
 
-			configuration = new ConfigurationRepository(repositoryLogger, executable.Location, programCopyright, programTitle, programVersion);
+			configuration = new ConfigurationRepository(new HashAlgorithm(), repositoryLogger, executable.Location, programCopyright, programTitle, programVersion);
 			appConfig = configuration.InitializeAppConfig();
 
 			configuration.Register(new BinaryFormat(compressor, new HashAlgorithm(), new ModuleLogger(logger, nameof(BinaryFormat))));

@@ -6,23 +6,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.IO;
+using System.Collections.Generic;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
 	/// <summary>
-	/// Provides functionality to parse configuration data with a particular format.
+	/// Defines the result of a data parsing operation by an <see cref="IDataFormat"/>.
 	/// </summary>
-	public interface IDataFormat
+	public class ParseResult
 	{
 		/// <summary>
-		/// Indicates whether the given data complies with the required format.
+		/// The parsed settings data. Might be <c>null</c> or in an undefinable state, depending on <see cref="Status"/>.
 		/// </summary>
-		bool CanParse(Stream data);
+		public IDictionary<string, object> RawData { get; set; }
 
 		/// <summary>
-		/// Tries to parse the given data.
+		/// The status result of a parsing operation.
 		/// </summary>
-		ParseResult TryParse(Stream data, PasswordInfo passwordInfo);
+		public LoadStatus Status { get; set; }
 	}
 }

@@ -31,13 +31,13 @@ namespace SafeExamBrowser.Configuration.DataFormats.Cryptography
 			this.logger = logger;
 		}
 
-		internal LoadStatus Decrypt(Stream data, out Stream decrypted, string password)
+		internal LoadStatus Decrypt(Stream data, string password, out Stream decrypted)
 		{
 			decrypted = default(Stream);
 
 			if (password == null)
 			{
-				return LoadStatus.PasswordNeeded;
+				return LoadStatus.SettingsPasswordNeeded;
 			}
 
 			var (version, options) = ParseHeader(data);
@@ -64,7 +64,7 @@ namespace SafeExamBrowser.Configuration.DataFormats.Cryptography
 
 			if (version != VERSION || options != OPTIONS)
 			{
-				logger.Warn($"Invalid encryption header! Expected: [{VERSION},{OPTIONS},...] - Actual: [{version},{options},...]");
+				logger.Debug($"Unknown encryption header! Expected: [{VERSION},{OPTIONS},...] - Actual: [{version},{options},...]");
 			}
 
 			return (version, options);
@@ -110,9 +110,9 @@ namespace SafeExamBrowser.Configuration.DataFormats.Cryptography
 
 		private LoadStatus FailForInvalidHmac()
 		{
-			logger.Warn($"The authentication failed due to an invalid password or corrupted data!");
+			logger.Debug($"The authentication failed due to an invalid password or corrupted data!");
 
-			return LoadStatus.PasswordNeeded;
+			return LoadStatus.SettingsPasswordNeeded;
 		}
 
 		private Stream Decrypt(Stream data, byte[] encryptionKey, int hmacLength)
