@@ -10,6 +10,7 @@ using System;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 
 namespace SafeExamBrowser.Communication.Proxies
 {
@@ -121,6 +122,32 @@ namespace SafeExamBrowser.Communication.Proxies
 			catch (Exception e)
 			{
 				Logger.Error($"Failed to perform '{nameof(RequestPassword)}'", e);
+
+				return new CommunicationResult(false);
+			}
+		}
+
+		public CommunicationResult ShowMessage(string message, string title, MessageBoxAction action, MessageBoxIcon icon, Guid requestId)
+		{
+			try
+			{
+				var response = Send(new MessageBoxRequestMessage(action, icon, message, requestId, title));
+				var success = IsAcknowledged(response);
+
+				if (success)
+				{
+					Logger.Debug("Client acknowledged message box request.");
+				}
+				else
+				{
+					Logger.Error($"Client did not acknowledge message box request! Received: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(success);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(ShowMessage)}'", e);
 
 				return new CommunicationResult(false);
 			}

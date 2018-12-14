@@ -207,9 +207,7 @@ namespace SafeExamBrowser.Runtime
 			{
 				StopSession();
 
-				messageBox.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
 				logger.Info("Terminating application...");
-
 				shutdown.Invoke();
 			}
 		}
@@ -247,7 +245,6 @@ namespace SafeExamBrowser.Runtime
 			else
 			{
 				logger.Info("### --- Session Stop Failed --- ###");
-				messageBox.Show(TextKey.MessageBox_SessionStopError, TextKey.MessageBox_SessionStopErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
 			}
 		}
 
@@ -419,8 +416,38 @@ namespace SafeExamBrowser.Runtime
 			}
 			else
 			{
-				// TODO
+				ShowMessageBoxViaClient(message, title, MessageBoxAction.Confirm, args.Icon);
 			}
+		}
+
+		private MessageBoxResult ShowMessageBoxViaClient(string message, string title, MessageBoxAction confirm, MessageBoxIcon icon)
+		{
+			var requestId = Guid.NewGuid();
+			var result = MessageBoxResult.None;
+			var response = default(MessageBoxReplyEventArgs);
+			var responseEvent = new AutoResetEvent(false);
+			var responseEventHandler = new CommunicationEventHandler<MessageBoxReplyEventArgs>((args) =>
+			{
+				if (args.RequestId == requestId)
+				{
+					response = args;
+					responseEvent.Set();
+				}
+			});
+
+			runtimeHost.MessageBoxReplyReceived += responseEventHandler;
+
+			var communication = sessionContext.ClientProxy.ShowMessage(message, title, MessageBoxAction.Confirm, icon, requestId);
+
+			if (communication.Success)
+			{
+				responseEvent.WaitOne();
+				result = response.Result;
+			}
+
+			runtimeHost.MessageBoxReplyReceived -= responseEventHandler;
+
+			return result;
 		}
 
 		private void TryGetPasswordViaDialog(PasswordRequiredEventArgs args)

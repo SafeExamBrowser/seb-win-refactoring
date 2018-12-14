@@ -23,6 +23,7 @@ namespace SafeExamBrowser.Client.Communication
 		public Guid StartupToken { private get; set; }
 		public bool IsConnected { get; private set; }
 
+		public event CommunicationEventHandler<MessageBoxRequestEventArgs> MessageBoxRequested;
 		public event CommunicationEventHandler<PasswordRequestEventArgs> PasswordRequested;
 		public event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationDenied;
 		public event CommunicationEventHandler RuntimeDisconnected;
@@ -62,11 +63,14 @@ namespace SafeExamBrowser.Client.Communication
 		{
 			switch (message)
 			{
-				case PasswordRequestMessage p:
-					PasswordRequested?.InvokeAsync(new PasswordRequestEventArgs { Purpose = p.Purpose, RequestId = p.RequestId });
+				case MessageBoxRequestMessage m:
+					MessageBoxRequested?.InvokeAsync(new MessageBoxRequestEventArgs { Action = m.Action, Icon = m.Icon, Message = m.Message, RequestId = m.RequestId, Title = m.Title });
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
-				case ReconfigurationDeniedMessage r:
-					ReconfigurationDenied?.InvokeAsync(new ReconfigurationEventArgs { ConfigurationPath = r.FilePath });
+				case PasswordRequestMessage m:
+					PasswordRequested?.InvokeAsync(new PasswordRequestEventArgs { Purpose = m.Purpose, RequestId = m.RequestId });
+					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
+				case ReconfigurationDeniedMessage m:
+					ReconfigurationDenied?.InvokeAsync(new ReconfigurationEventArgs { ConfigurationPath = m.FilePath });
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 			}
 

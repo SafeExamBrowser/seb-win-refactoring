@@ -8,6 +8,7 @@
 
 using System;
 using SafeExamBrowser.Contracts.Communication.Data;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 
 namespace SafeExamBrowser.Contracts.Communication.Proxies
 {
@@ -35,6 +36,11 @@ namespace SafeExamBrowser.Contracts.Communication.Proxies
 		/// Requests the runtime to reconfigure the application with the specified configuration.
 		/// </summary>
 		CommunicationResult RequestReconfiguration(string filePath);
+
+		/// <summary>
+		/// Submits the result of a message box input previously requested by the runtime.
+		/// </summary>
+		CommunicationResult SubmitMessageBoxResult(Guid requestId, MessageBoxResult result);
 
 		/// <summary>
 		/// Submits the result of a password input previously requested by the runtime. If the procedure was aborted by the user,

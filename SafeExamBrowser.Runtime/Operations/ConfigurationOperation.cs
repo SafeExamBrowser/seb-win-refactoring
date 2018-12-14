@@ -273,6 +273,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			else
 			{
 				logger.Info("Authentication has failed!");
+				ActionRequired?.Invoke(new InvalidPasswordMessageArgs());
 
 				return OperationResult.Failed;
 			}

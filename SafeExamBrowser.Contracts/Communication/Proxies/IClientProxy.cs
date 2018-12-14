@@ -8,6 +8,7 @@
 
 using System;
 using SafeExamBrowser.Contracts.Communication.Data;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 
 namespace SafeExamBrowser.Contracts.Communication.Proxies
 {
@@ -35,5 +36,10 @@ namespace SafeExamBrowser.Contracts.Communication.Proxies
 		/// Requests the client to render a password dialog and subsequently return the interaction result as separate message.
 		/// </summary>
 		CommunicationResult RequestPassword(PasswordRequestPurpose purpose, Guid requestId);
+
+		/// <summary>
+		/// Requests the client to render a message box and subsequently return the interaction result as separate message.
+		/// </summary>
+		CommunicationResult ShowMessage(string message, string title, MessageBoxAction action, MessageBoxIcon icon, Guid requestId);
 	}
 }

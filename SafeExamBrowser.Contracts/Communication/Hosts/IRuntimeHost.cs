@@ -42,6 +42,11 @@ namespace SafeExamBrowser.Contracts.Communication.Hosts
 		event CommunicationEventHandler<ClientConfigurationEventArgs> ClientConfigurationNeeded;
 
 		/// <summary>
+		/// Event fired when the client submitted a message box result chosen by the user.
+		/// </summary>
+		event CommunicationEventHandler<MessageBoxReplyEventArgs> MessageBoxReplyReceived;
+
+		/// <summary>
 		/// Event fired when the client submitted a password entered by the user.
 		/// </summary>
 		event CommunicationEventHandler<PasswordReplyEventArgs> PasswordReceived;

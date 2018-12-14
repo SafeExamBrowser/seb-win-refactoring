@@ -10,6 +10,7 @@ using System;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 
 namespace SafeExamBrowser.Communication.Proxies
 {
@@ -121,6 +122,32 @@ namespace SafeExamBrowser.Communication.Proxies
 			catch (Exception e)
 			{
 				Logger.Error($"Failed to perform '{nameof(RequestShutdown)}'", e);
+
+				return new CommunicationResult(false);
+			}
+		}
+
+		public CommunicationResult SubmitMessageBoxResult(Guid requestId, MessageBoxResult result)
+		{
+			try
+			{
+				var response = Send(new MessageBoxReplyMessage(requestId, result));
+				var acknowledged = IsAcknowledged(response);
+
+				if (acknowledged)
+				{
+					Logger.Debug("Runtime acknowledged message box result transmission.");
+				}
+				else
+				{
+					Logger.Error($"Runtime did not acknowledge message box result transmission! Response: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(acknowledged);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(SubmitMessageBoxResult)}'", e);
 
 				return new CommunicationResult(false);
 			}

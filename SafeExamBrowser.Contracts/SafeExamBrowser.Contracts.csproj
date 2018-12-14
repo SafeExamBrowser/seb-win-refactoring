@@ -52,7 +52,11 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Communication\Data\MessageBoxReplyMessage.cs" />
+    <Compile Include="Communication\Data\MessageBoxRequestMessage.cs" />
     <Compile Include="Communication\Events\ClientConfigurationEventArgs.cs" />
+    <Compile Include="Communication\Events\MessageBoxReplyEventArgs.cs" />
+    <Compile Include="Communication\Events\MessageBoxRequestEventArgs.cs" />
     <Compile Include="Configuration\Cryptography\EncryptionParameters.cs" />
     <Compile Include="Configuration\Cryptography\PasswordParameters.cs" />
     <Compile Include="Configuration\Cryptography\PublicKeyHashParameters.cs" />

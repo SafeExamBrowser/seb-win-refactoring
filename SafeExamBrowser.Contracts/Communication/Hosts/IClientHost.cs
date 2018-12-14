@@ -27,6 +27,11 @@ namespace SafeExamBrowser.Contracts.Communication.Hosts
 		Guid StartupToken { set; }
 
 		/// <summary>
+		/// Event fired when the runtime requests a message box input from the user.
+		/// </summary>
+		event CommunicationEventHandler<MessageBoxRequestEventArgs> MessageBoxRequested;
+
+		/// <summary>
 		/// Event fired when the runtime requests a password input from the user.
 		/// </summary>
 		event CommunicationEventHandler<PasswordRequestEventArgs> PasswordRequested;

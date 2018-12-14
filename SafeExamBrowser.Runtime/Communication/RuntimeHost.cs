@@ -23,6 +23,7 @@ namespace SafeExamBrowser.Runtime.Communication
 		public event CommunicationEventHandler ClientDisconnected;
 		public event CommunicationEventHandler ClientReady;
 		public event CommunicationEventHandler<ClientConfigurationEventArgs> ClientConfigurationNeeded;
+		public event CommunicationEventHandler<MessageBoxReplyEventArgs> MessageBoxReplyReceived;
 		public event CommunicationEventHandler<PasswordReplyEventArgs> PasswordReceived;
 		public event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationRequested;
 		public event CommunicationEventHandler ShutdownRequested;
@@ -53,11 +54,14 @@ namespace SafeExamBrowser.Runtime.Communication
 		{
 			switch (message)
 			{
-				case PasswordReplyMessage r:
-					PasswordReceived?.InvokeAsync(new PasswordReplyEventArgs { Password = r.Password, RequestId = r.RequestId, Success = r.Success });
+				case MessageBoxReplyMessage m:
+					MessageBoxReplyReceived?.InvokeAsync(new MessageBoxReplyEventArgs { RequestId = m.RequestId, Result = m.Result });
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
-				case ReconfigurationMessage r:
-					ReconfigurationRequested?.InvokeAsync(new ReconfigurationEventArgs { ConfigurationPath = r.ConfigurationPath });
+				case PasswordReplyMessage m:
+					PasswordReceived?.InvokeAsync(new PasswordReplyEventArgs { Password = m.Password, RequestId = m.RequestId, Success = m.Success });
+					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
+				case ReconfigurationMessage m:
+					ReconfigurationRequested?.InvokeAsync(new ReconfigurationEventArgs { ConfigurationPath = m.ConfigurationPath });
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 			}
 

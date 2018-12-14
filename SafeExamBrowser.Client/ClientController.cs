@@ -160,6 +160,7 @@ namespace SafeExamBrowser.Client
 		private void RegisterEvents()
 		{
 			Browser.ConfigurationDownloadRequested += Browser_ConfigurationDownloadRequested;
+			ClientHost.MessageBoxRequested += ClientHost_MessageBoxRequested;
 			ClientHost.PasswordRequested += ClientHost_PasswordRequested;
 			ClientHost.ReconfigurationDenied += ClientHost_ReconfigurationDenied;
 			ClientHost.Shutdown += ClientHost_Shutdown;
@@ -173,6 +174,7 @@ namespace SafeExamBrowser.Client
 		private void DeregisterEvents()
 		{
 			Browser.ConfigurationDownloadRequested -= Browser_ConfigurationDownloadRequested;
+			ClientHost.MessageBoxRequested -= ClientHost_MessageBoxRequested;
 			ClientHost.PasswordRequested -= ClientHost_PasswordRequested;
 			ClientHost.ReconfigurationDenied -= ClientHost_ReconfigurationDenied;
 			ClientHost.Shutdown -= ClientHost_Shutdown;
@@ -257,6 +259,16 @@ namespace SafeExamBrowser.Client
 				logger.Error($"Failed to download configuration file '{filePath}'!");
 				messageBox.Show(TextKey.MessageBox_ConfigurationDownloadError, TextKey.MessageBox_ConfigurationDownloadErrorTitle, icon: MessageBoxIcon.Error);
 			}
+		}
+
+		private void ClientHost_MessageBoxRequested(MessageBoxRequestEventArgs args)
+		{
+			logger.Info($"Received message box request with id '{args.RequestId}'.");
+
+			var result = messageBox.Show(args.Message, args.Title, args.Action, args.Icon);
+
+			runtime.SubmitMessageBoxResult(args.RequestId, result);
+			logger.Info($"Message box request with id '{args.RequestId}' yielded result '{result}'.");
 		}
 
 		private void ClientHost_PasswordRequested(PasswordRequestEventArgs args)
