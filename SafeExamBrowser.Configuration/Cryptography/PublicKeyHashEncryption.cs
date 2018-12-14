@@ -13,7 +13,7 @@ using System.Security.Cryptography.X509Certificates;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Configuration.DataFormats.Cryptography
+namespace SafeExamBrowser.Configuration.Cryptography
 {
 	internal class PublicKeyHashEncryption
 	{
@@ -26,10 +26,10 @@ namespace SafeExamBrowser.Configuration.DataFormats.Cryptography
 			this.logger = logger;
 		}
 
-		internal virtual LoadStatus Decrypt(Stream data, out Stream decrypted)
+		internal virtual LoadStatus Decrypt(Stream data, out Stream decrypted, out X509Certificate2 certificate)
 		{
 			var keyHash = ParsePublicKeyHash(data);
-			var found = TryGetCertificateWith(keyHash, out X509Certificate2 certificate);
+			var found = TryGetCertificateWith(keyHash, out certificate);
 
 			decrypted = default(Stream);
 

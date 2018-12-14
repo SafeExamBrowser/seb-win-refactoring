@@ -12,7 +12,7 @@ using System.Security.Cryptography;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Configuration.DataFormats.Cryptography
+namespace SafeExamBrowser.Configuration.Cryptography
 {
 	internal class PasswordEncryption
 	{
@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Configuration.DataFormats.Cryptography
 
 			if (password == null)
 			{
-				return LoadStatus.SettingsPasswordNeeded;
+				return LoadStatus.PasswordNeeded;
 			}
 
 			var (version, options) = ParseHeader(data);
@@ -112,7 +112,7 @@ namespace SafeExamBrowser.Configuration.DataFormats.Cryptography
 		{
 			logger.Debug($"The authentication failed due to an invalid password or corrupted data!");
 
-			return LoadStatus.SettingsPasswordNeeded;
+			return LoadStatus.PasswordNeeded;
 		}
 
 		private Stream Decrypt(Stream data, byte[] encryptionKey, int hmacLength)

@@ -7,6 +7,9 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Configuration.Cryptography;
+using SafeExamBrowser.Contracts.Configuration.DataFormats;
+using SafeExamBrowser.Contracts.Configuration.DataResources;
 
 namespace SafeExamBrowser.Contracts.Configuration
 {
@@ -15,6 +18,11 @@ namespace SafeExamBrowser.Contracts.Configuration
 	/// </summary>
 	public interface IConfigurationRepository
 	{
+		/// <summary>
+		/// Saves the given resource as local client configuration.
+		/// </summary>
+		void ConfigureClientWith(Uri resource, EncryptionParameters encryption = null);
+
 		/// <summary>
 		/// Initializes the global configuration information for the currently running application instance.
 		/// </summary>
@@ -31,19 +39,23 @@ namespace SafeExamBrowser.Contracts.Configuration
 		Settings.Settings LoadDefaultSettings();
 
 		/// <summary>
-		/// Registers the specified <see cref="IDataFormat"/> as option to parse data from a configuration resource.
+		/// Registers the specified <see cref="IDataFormat"/> to be used when loading or saving configuration data.
 		/// </summary>
 		void Register(IDataFormat dataFormat);
 
 		/// <summary>
-		/// Registers the specified <see cref="IResourceLoader"/> as option to load data from a configuration resource.
+		/// Registers the specified <see cref="IDataResource"/> to be used when loading or saving configuration data.
 		/// </summary>
-		void Register(IResourceLoader resourceLoader);
+		void Register(IDataResource dataResource);
 
 		/// <summary>
-		/// Attempts to load settings from the specified resource. As long as the result is not <see cref="LoadStatus.Success"/>,
-		/// the referenced settings may be <c>null</c> or in an undefinable state!
+		/// Attempts to load settings from the specified resource.
 		/// </summary>
-		LoadStatus TryLoadSettings(Uri resource, PasswordInfo passwordInfo, out Settings.Settings settings);
+		LoadStatus TryLoadSettings(Uri resource, PasswordParameters password, out EncryptionParameters encryption, out Format format, out Settings.Settings settings);
+
+		/// <summary>
+		/// Attempts to save settings according to the specified parameters.
+		/// </summary>
+		SaveStatus TrySaveSettings(Uri resource, Format format, Settings.Settings settings, EncryptionParameters encryption = null);
 	}
 }

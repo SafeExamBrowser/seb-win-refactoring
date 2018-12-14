@@ -10,9 +10,9 @@ using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Cryptography;
 
-namespace SafeExamBrowser.Configuration
+namespace SafeExamBrowser.Configuration.Cryptography
 {
 	public class HashAlgorithm : IHashAlgorithm
 	{

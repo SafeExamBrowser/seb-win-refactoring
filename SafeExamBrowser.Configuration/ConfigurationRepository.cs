@@ -10,8 +10,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using SafeExamBrowser.Configuration.DataFormats;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Cryptography;
+using SafeExamBrowser.Contracts.Configuration.DataFormats;
+using SafeExamBrowser.Contracts.Configuration.DataResources;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
 
@@ -29,7 +33,7 @@ namespace SafeExamBrowser.Configuration
 		private AppConfig appConfig;
 		private IHashAlgorithm hashAlgorithm;
 		private IList<IDataFormat> dataFormats;
-		private IList<IResourceLoader> resourceLoaders;
+		private IList<IDataResource> dataResources;
 		private ILogger logger;
 
 		public ConfigurationRepository(
@@ -41,7 +45,7 @@ namespace SafeExamBrowser.Configuration
 			string programVersion)
 		{
 			dataFormats = new List<IDataFormat>();
-			resourceLoaders = new List<IResourceLoader>();
+			dataResources = new List<IDataResource>();
 
 			this.hashAlgorithm = hashAlgorithm;
 			this.logger = logger;
@@ -49,6 +53,35 @@ namespace SafeExamBrowser.Configuration
 			this.programCopyright = programCopyright ?? string.Empty;
 			this.programTitle = programTitle ?? string.Empty;
 			this.programVersion = programVersion ?? string.Empty;
+		}
+
+		public void ConfigureClientWith(Uri resource, EncryptionParameters encryption = null)
+		{
+			logger.Info($"Attempting to configure local client settings from '{resource}'...");
+
+			try
+			{
+				TryLoadData(resource, out Stream stream);
+
+				using (stream)
+				{
+					// TODO:
+					//TryParseData(stream, encryption, out _, out _, out var data);
+					//HandleIdentityCertificates(data);
+
+					// Save configuration data as local client config under %APPDATA%!
+					// -> New key will determine whether to use default password or current settings password!
+					//     -> "clientConfigEncryptUsingSettingsPassword"
+					//     -> Default settings password for local client configuration appears to be string.Empty -> passwords.SettingsPassword
+					//     -> Otherwise, the local client configuration must again be encrypted in the same way as the original file!!
+				}
+
+				logger.Info($"Successfully configured local client settings with '{resource}'.");
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Unexpected error while trying to configure local client settings '{resource}'!", e);
+			}
 		}
 
 		public AppConfig InitializeAppConfig()
@@ -128,34 +161,38 @@ namespace SafeExamBrowser.Configuration
 			dataFormats.Add(dataFormat);
 		}
 
-		public void Register(IResourceLoader resourceLoader)
+		public void Register(IDataResource dataResource)
 		{
-			resourceLoaders.Add(resourceLoader);
+			dataResources.Add(dataResource);
 		}
 
-		public LoadStatus TryLoadSettings(Uri resource, PasswordInfo passwordInfo, out Settings settings)
+		public LoadStatus TryLoadSettings(Uri resource, PasswordParameters password, out EncryptionParameters encryption, out Format format, out Settings settings)
 		{
 			logger.Info($"Attempting to load '{resource}'...");
 
+			encryption = default(EncryptionParameters);
+			format = default(Format);
 			settings = LoadDefaultSettings();
 
 			try
 			{
-				var status = TryLoadData(resource, out Stream data);
+				var status = TryLoadData(resource, out Stream stream);
 
-				using (data)
+				using (stream)
 				{
-					if (status == LoadStatus.LoadWithBrowser)
-					{
-						return HandleBrowserResource(resource, settings);
-					}
-
 					if (status != LoadStatus.Success)
 					{
 						return status;
 					}
 
-					return TryParseData(data, passwordInfo, resource, settings);
+					status = TryParseData(stream, password, out encryption, out format, out var data);
+
+					if (status == LoadStatus.Success)
+					{
+						data.MapTo(settings);
+					}
+
+					return status;
 				}
 			}
 			catch (Exception e)
@@ -166,39 +203,65 @@ namespace SafeExamBrowser.Configuration
 			}
 		}
 
-		private void ExtractAndImportCertificates(IDictionary<string, object> data)
+		public SaveStatus TrySaveSettings(Uri resource, Format format, Settings settings, EncryptionParameters encryption = null)
 		{
-			// TODO
+			throw new NotImplementedException();
 		}
 
-		private LoadStatus HandleBrowserResource(Uri resource, Settings settings)
+		private void HandleIdentityCertificates(IDictionary<string, object> data)
 		{
-			settings.Browser.StartUrl = resource.AbsoluteUri;
-			logger.Info($"The resource needs authentication or is HTML data, loaded default settings with '{resource}' as startup URL.");
+			const int IDENTITY_CERTIFICATE = 1;
+			var hasCertificates = data.TryGetValue("embeddedCertificates", out object value);
 
-			return LoadStatus.Success;
-		}
-
-		private void HandleParseSuccess(ParseResult result, Settings settings, PasswordInfo passwordInfo, Uri resource)
-		{
-			var appDataFile = new Uri(Path.Combine(appConfig.AppDataFolder, appConfig.DefaultSettingsFileName));
-			var programDataFile = new Uri(Path.Combine(appConfig.ProgramDataFolder, appConfig.DefaultSettingsFileName));
-			var isAppDataFile = resource.AbsolutePath.Equals(appDataFile.AbsolutePath, StringComparison.OrdinalIgnoreCase);
-			var isProgramDataFile = resource.AbsolutePath.Equals(programDataFile.AbsolutePath, StringComparison.OrdinalIgnoreCase);
-
-			logger.Info("Mapping settings data...");
-			result.RawData.MapTo(settings);
-
-			if (settings.ConfigurationMode == ConfigurationMode.ConfigureClient && !isAppDataFile && !isProgramDataFile)
+			if (hasCertificates && value is IList<IDictionary<string, object>> certificates)
 			{
-				result.Status = TryConfigureClient(result.RawData, settings, passwordInfo);
+				var toRemove = new List<IDictionary<string, object>>();
+
+				foreach (var certificate in certificates)
+				{
+					var isIdentity = certificate.TryGetValue("type", out object t) && t is int type && type == IDENTITY_CERTIFICATE;
+					var hasData = certificate.TryGetValue("certificateData", out value);
+
+					if (isIdentity && hasData && value is byte[] certificateData)
+					{
+						ImportIdentityCertificate(certificateData, new X509Store(StoreLocation.CurrentUser));
+						ImportIdentityCertificate(certificateData, new X509Store(StoreName.TrustedPeople, StoreLocation.LocalMachine));
+
+						toRemove.Add(certificate);
+					}
+				}
+
+				toRemove.ForEach(c => certificates.Remove(c));
+			}
+		}
+
+		private void ImportIdentityCertificate(byte[] certificateData, X509Store store)
+		{
+			try
+			{
+				var certificate = new X509Certificate2();
+
+				certificate.Import(certificateData, "Di𝈭l𝈖Ch𝈒ah𝉇t𝈁a𝉈Hai1972", X509KeyStorageFlags.UserKeySet | X509KeyStorageFlags.PersistKeySet);
+
+				store.Open(OpenFlags.ReadWrite);
+				store.Add(certificate);
+
+				logger.Info($"Successfully imported identity certificate into {store.Location}.{store.Name}.");
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to import identity certificate into {store.Location}.{store.Name}!", e);
+			}
+			finally
+			{
+				store.Close();
 			}
 		}
 
 		private LoadStatus TryLoadData(Uri resource, out Stream data)
 		{
 			var status = LoadStatus.NotSupported;
-			var resourceLoader = resourceLoaders.FirstOrDefault(l => l.CanLoad(resource));
+			var resourceLoader = dataResources.FirstOrDefault(l => l.CanLoad(resource));
 
 			data = default(Stream);
 
@@ -215,23 +278,25 @@ namespace SafeExamBrowser.Configuration
 			return status;
 		}
 
-		private LoadStatus TryParseData(Stream data, PasswordInfo passwordInfo, Uri resource, Settings settings)
+		private LoadStatus TryParseData(Stream data, PasswordParameters password, out EncryptionParameters encryption, out Format format, out IDictionary<string, object> rawData)
 		{
 			var dataFormat = dataFormats.FirstOrDefault(f => f.CanParse(data));
 			var status = LoadStatus.NotSupported;
 
+			encryption = default(EncryptionParameters);
+			format = default(Format);
+			rawData = default(Dictionary<string, object>);
+
 			if (dataFormat != null)
 			{
-				var result = dataFormat.TryParse(data, passwordInfo);
-					
-				logger.Info($"Tried to parse data from '{data}' using {dataFormat.GetType().Name} -> Result: {result.Status}.");
+				var result = dataFormat.TryParse(data, password);
 
-				if (result.Status == LoadStatus.Success || result.Status == LoadStatus.SuccessConfigureClient)
-				{
-					HandleParseSuccess(result, settings, passwordInfo, resource);
-				}
-
+				encryption = result.Encryption;
+				format = result.Format;
+				rawData = result.RawData;
 				status = result.Status;
+
+				logger.Info($"Tried to parse data from '{data}' using {dataFormat.GetType().Name} -> Result: {status}.");
 			}
 			else
 			{
@@ -239,44 +304,6 @@ namespace SafeExamBrowser.Configuration
 			}
 
 			return status;
-		}
-
-		private LoadStatus TryConfigureClient(IDictionary<string, object> data, Settings settings, PasswordInfo passwordInfo)
-		{
-			logger.Info("Attempting to configure local client settings...");
-
-			if (passwordInfo.AdminPasswordHash != null)
-			{
-				var adminPasswordHash = passwordInfo.AdminPassword != null ? hashAlgorithm.GenerateHashFor(passwordInfo.AdminPassword) : null;
-				var settingsPasswordHash = passwordInfo.SettingsPassword != null ? hashAlgorithm.GenerateHashFor(passwordInfo.SettingsPassword) : null;
-				var enteredCorrectPassword = passwordInfo.AdminPasswordHash.Equals(adminPasswordHash, StringComparison.OrdinalIgnoreCase);
-				var sameAdminPassword = passwordInfo.AdminPasswordHash.Equals(settings.AdminPasswordHash, StringComparison.OrdinalIgnoreCase);
-				var knowsAdminPassword = passwordInfo.AdminPasswordHash.Equals(settingsPasswordHash, StringComparison.OrdinalIgnoreCase);
-
-				if (sameAdminPassword || knowsAdminPassword || enteredCorrectPassword)
-				{
-					logger.Info("Authentication was successful.");
-				}
-				else
-				{
-					logger.Info("Authentication has failed!");
-
-					return LoadStatus.AdminPasswordNeeded;
-				}
-			}
-			else
-			{
-				logger.Info("Authentication is not required.");
-			}
-
-			// -> Certificates need to be imported and REMOVED from the settings before the data is saved!
-			ExtractAndImportCertificates(data);
-
-			// Save configuration data as local client config under %APPDATA%!
-			// -> Default settings password for local client configuration appears to be string.Empty
-			// -> Local client configuration needs to again be encrypted in the same way as the original file was!!
-
-			return LoadStatus.SuccessConfigureClient;
 		}
 
 		private void UpdateAppConfig()

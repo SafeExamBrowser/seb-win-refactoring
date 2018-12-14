@@ -6,23 +6,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.IO;
-
-namespace SafeExamBrowser.Contracts.Configuration
+namespace SafeExamBrowser.Contracts.Configuration.Cryptography
 {
 	/// <summary>
-	/// Provides functionality to parse configuration data with a particular format.
+	/// Holds all parameters for data encryption by password.
 	/// </summary>
-	public interface IDataFormat
+	public class PasswordParameters : EncryptionParameters
 	{
 		/// <summary>
-		/// Indicates whether the given data complies with the required format.
+		/// The password in plain text.
 		/// </summary>
-		bool CanParse(Stream data);
+		public string Password { get; set; }
 
 		/// <summary>
-		/// Tries to parse the given data.
+		/// Indicates whether the password is a hash code.
 		/// </summary>
-		ParseResult TryParse(Stream data, PasswordInfo passwordInfo);
+		public bool IsHash { get; set; }
 	}
 }

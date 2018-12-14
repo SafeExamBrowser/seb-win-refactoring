@@ -13,9 +13,10 @@ using System.Reflection;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration;
-using SafeExamBrowser.Configuration.Compression;
+using SafeExamBrowser.Configuration.Cryptography;
+using SafeExamBrowser.Configuration.DataCompression;
 using SafeExamBrowser.Configuration.DataFormats;
-using SafeExamBrowser.Configuration.ResourceLoaders;
+using SafeExamBrowser.Configuration.DataResources;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core;
 using SafeExamBrowser.Contracts.Core.OperationModel;
@@ -75,7 +76,7 @@ namespace SafeExamBrowser.Runtime
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(runtimeHost, logger));
 
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost, sessionContext));
-			sessionOperations.Enqueue(new ConfigurationOperation(args, configuration, logger, sessionContext));
+			sessionOperations.Enqueue(new ConfigurationOperation(args, configuration, new HashAlgorithm(), logger, sessionContext));
 			sessionOperations.Enqueue(new ClientTerminationOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, FIFTEEN_SECONDS));
 			sessionOperations.Enqueue(new KioskModeTerminationOperation(desktopFactory, explorerShell, logger, processFactory, sessionContext));
 			sessionOperations.Enqueue(new ServiceOperation(logger, serviceProxy, sessionContext));
@@ -121,8 +122,8 @@ namespace SafeExamBrowser.Runtime
 
 			configuration.Register(new BinaryFormat(compressor, new HashAlgorithm(), new ModuleLogger(logger, nameof(BinaryFormat))));
 			configuration.Register(new XmlFormat(new ModuleLogger(logger, nameof(XmlFormat))));
-			configuration.Register(new FileResourceLoader(new ModuleLogger(logger, nameof(FileResourceLoader))));
-			configuration.Register(new NetworkResourceLoader(appConfig, new ModuleLogger(logger, nameof(NetworkResourceLoader))));
+			configuration.Register(new FileResource(new ModuleLogger(logger, nameof(FileResource))));
+			configuration.Register(new NetworkResource(appConfig, new ModuleLogger(logger, nameof(NetworkResource))));
 		}
 
 		private void InitializeLogging()

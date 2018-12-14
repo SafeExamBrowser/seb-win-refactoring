@@ -8,9 +8,13 @@
 
 using System;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using SafeExamBrowser.Configuration.DataFormats.Cryptography;
+using SafeExamBrowser.Configuration.Cryptography;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Cryptography;
+using SafeExamBrowser.Contracts.Configuration.DataCompression;
+using SafeExamBrowser.Contracts.Configuration.DataFormats;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.DataFormats
@@ -56,7 +60,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			return false;
 		}
 
-		public ParseResult TryParse(Stream data, PasswordInfo passwordInfo)
+		public ParseResult TryParse(Stream data, PasswordParameters password)
 		{
 			var prefix = ParsePrefix(data);
 			var success = TryDetermineFormat(prefix, out FormatType format);
@@ -75,13 +79,13 @@ namespace SafeExamBrowser.Configuration.DataFormats
 				{
 					case FormatType.Password:
 					case FormatType.PasswordConfigureClient:
-						return ParsePasswordBlock(data, passwordInfo, format);
+						return ParsePasswordBlock(data, format, password);
 					case FormatType.PlainData:
-						return ParsePlainDataBlock(data, passwordInfo);
+						return ParsePlainDataBlock(data);
 					case FormatType.PublicKeyHash:
-						return ParsePublicKeyHashBlock(data, passwordInfo);
+						return ParsePublicKeyHashBlock(data, password);
 					case FormatType.PublicKeyHashWithSymmetricKey:
-						return ParsePublicKeyHashWithSymmetricKeyBlock(data, passwordInfo);
+						return ParsePublicKeyHashWithSymmetricKeyBlock(data, password);
 				}
 			}
 
@@ -90,40 +94,35 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			return new ParseResult { Status = LoadStatus.InvalidData };
 		}
 
-		private ParseResult ParsePasswordBlock(Stream data, PasswordInfo passwordInfo, FormatType format)
+		private ParseResult ParsePasswordBlock(Stream data, FormatType format, PasswordParameters password)
 		{
-			var decrypted = default(Stream);
 			var encryption = new PasswordEncryption(logger.CloneFor(nameof(PasswordEncryption)));
-			var status = default(LoadStatus);
+			var encryptionParams = new PasswordParameters();
+			var result = new ParseResult();
 
 			if (format == FormatType.PasswordConfigureClient)
 			{
-				status = encryption.Decrypt(data, string.Empty, out decrypted);
-
-				if (status == LoadStatus.SettingsPasswordNeeded && passwordInfo.AdminPasswordHash != null)
-				{
-					status = encryption.Decrypt(data, passwordInfo.AdminPasswordHash, out decrypted);
-				}
-
-				if (status == LoadStatus.SettingsPasswordNeeded && passwordInfo.SettingsPassword != null)
-				{
-					status = encryption.Decrypt(data, hashAlgorithm.GenerateHashFor(passwordInfo.SettingsPassword), out decrypted);
-				}
+				encryptionParams.Password = password.IsHash ? password.Password : hashAlgorithm.GenerateHashFor(password.Password);
+				encryptionParams.IsHash = true;
 			}
 			else
 			{
-				status = encryption.Decrypt(data, passwordInfo.SettingsPassword, out decrypted);
+				encryptionParams.Password = password.Password;
+				encryptionParams.IsHash = password.IsHash;
 			}
 
-			if (status == LoadStatus.Success)
+			result.Status = encryption.Decrypt(data, encryptionParams.Password, out var decrypted);
+
+			if (result.Status == LoadStatus.Success)
 			{
-				return ParsePlainDataBlock(decrypted, passwordInfo);
+				result = ParsePlainDataBlock(decrypted);
+				result.Encryption = encryptionParams;
 			}
 
-			return new ParseResult { Status = status };
+			return result;
 		}
 
-		private ParseResult ParsePlainDataBlock(Stream data, PasswordInfo passwordInfo)
+		private ParseResult ParsePlainDataBlock(Stream data)
 		{
 			var xmlFormat = new XmlFormat(logger.CloneFor(nameof(XmlFormat)));
 
@@ -132,35 +131,50 @@ namespace SafeExamBrowser.Configuration.DataFormats
 				data = compressor.Decompress(data);
 			}
 
-			return xmlFormat.TryParse(data, passwordInfo);
+			return xmlFormat.TryParse(data);
 		}
 
-		private ParseResult ParsePublicKeyHashBlock(Stream data, PasswordInfo passwordInfo)
+		private ParseResult ParsePublicKeyHashBlock(Stream data, PasswordParameters password)
 		{
 			var encryption = new PublicKeyHashEncryption(logger.CloneFor(nameof(PublicKeyHashEncryption)));
-			var status = encryption.Decrypt(data, out Stream decrypted);
+			var result = new ParseResult();
 
-			if (status == LoadStatus.Success)
+			result.Status = encryption.Decrypt(data, out var decrypted, out var certificate);
+
+			if (result.Status == LoadStatus.Success)
 			{
-				return TryParse(decrypted, passwordInfo);
+				result = TryParse(decrypted, password);
+				result.Encryption = new PublicKeyHashParameters
+				{
+					Certificate = certificate,
+					InnerEncryption = result.Encryption as PasswordParameters,
+					SymmetricEncryption = false
+				};
 			}
 
-			return new ParseResult { Status = status };
+			return result;
 		}
 
-		private ParseResult ParsePublicKeyHashWithSymmetricKeyBlock(Stream data, PasswordInfo passwordInfo)
+		private ParseResult ParsePublicKeyHashWithSymmetricKeyBlock(Stream data, PasswordParameters password)
 		{
-			var logger = this.logger.CloneFor(nameof(PublicKeyHashWithSymmetricKeyEncryption));
 			var passwordEncryption = new PasswordEncryption(logger.CloneFor(nameof(PasswordEncryption)));
-			var encryption = new PublicKeyHashWithSymmetricKeyEncryption(logger, passwordEncryption);
-			var status = encryption.Decrypt(data, out Stream decrypted);
+			var encryption = new PublicKeyHashWithSymmetricKeyEncryption(logger.CloneFor(nameof(PublicKeyHashWithSymmetricKeyEncryption)), passwordEncryption);
+			var result = new ParseResult();
 
-			if (status == LoadStatus.Success)
+			result.Status = encryption.Decrypt(data, out Stream decrypted, out X509Certificate2 certificate);
+
+			if (result.Status == LoadStatus.Success)
 			{
-				return TryParse(decrypted, passwordInfo);
+				result = TryParse(decrypted, password);
+				result.Encryption = new PublicKeyHashParameters
+				{
+					Certificate = certificate,
+					InnerEncryption = result.Encryption as PasswordParameters,
+					SymmetricEncryption = true
+				};
 			}
 
-			return new ParseResult { Status = status };
+			return result;
 		}
 
 		private string ParsePrefix(Stream data)

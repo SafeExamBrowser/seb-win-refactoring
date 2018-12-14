@@ -9,10 +9,10 @@
 using System;
 using System.IO;
 using System.IO.Compression;
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.DataCompression;
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Configuration.Compression
+namespace SafeExamBrowser.Configuration.DataCompression
 {
 	/// <summary>
 	/// Data compression using the GNU-Zip format (see https://en.wikipedia.org/wiki/Gzip).

@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Configuration
+namespace SafeExamBrowser.Contracts.Configuration.Cryptography
 {
 	/// <summary>
 	/// Provides functionality to calculate hash codes of different objects.

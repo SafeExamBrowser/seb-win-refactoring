@@ -53,11 +53,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Communication\Events\ClientConfigurationEventArgs.cs" />
-    <Compile Include="Configuration\IDataCompressor.cs" />
-    <Compile Include="Configuration\IDataFormat.cs" />
-    <Compile Include="Configuration\IHashAlgorithm.cs" />
-    <Compile Include="Configuration\ParseResult.cs" />
-    <Compile Include="Configuration\PasswordInfo.cs" />
+    <Compile Include="Configuration\Cryptography\EncryptionParameters.cs" />
+    <Compile Include="Configuration\Cryptography\PasswordParameters.cs" />
+    <Compile Include="Configuration\Cryptography\PublicKeyHashParameters.cs" />
+    <Compile Include="Configuration\DataFormats\Format.cs" />
+    <Compile Include="Configuration\DataCompression\IDataCompressor.cs" />
+    <Compile Include="Configuration\DataFormats\IDataFormat.cs" />
+    <Compile Include="Configuration\Cryptography\IHashAlgorithm.cs" />
+    <Compile Include="Configuration\DataFormats\ParseResult.cs" />
+    <Compile Include="Configuration\SaveStatus.cs" />
     <Compile Include="Core\Events\InstanceTerminatedEventHandler.cs" />
     <Compile Include="Core\Events\NameChangedEventHandler.cs" />
     <Compile Include="Core\IApplicationController.cs" />
@@ -112,7 +116,7 @@
     <Compile Include="Communication\Data\SimpleResponsePurport.cs" />
     <Compile Include="Communication\Data\SimpleResponse.cs" />
     <Compile Include="Configuration\ClientConfiguration.cs" />
-    <Compile Include="Configuration\IResourceLoader.cs" />
+    <Compile Include="Configuration\DataResources\IDataResource.cs" />
     <Compile Include="Configuration\LoadStatus.cs" />
     <Compile Include="Configuration\AppConfig.cs" />
     <Compile Include="Configuration\ISessionConfiguration.cs" />

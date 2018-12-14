@@ -8,7 +8,7 @@
 
 using System.IO;
 
-namespace SafeExamBrowser.Contracts.Configuration
+namespace SafeExamBrowser.Contracts.Configuration.DataCompression
 {
 	/// <summary>
 	/// Defines the functionality for data compression and decompression.

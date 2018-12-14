@@ -9,15 +9,16 @@
 using System;
 using System.IO;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.DataResources;
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Configuration.ResourceLoaders
+namespace SafeExamBrowser.Configuration.DataResources
 {
-	public class FileResourceLoader : IResourceLoader
+	public class FileResource: IDataResource
 	{
 		private ILogger logger;
 
-		public FileResourceLoader(ILogger logger)
+		public FileResource(ILogger logger)
 		{
 			this.logger = logger;
 		}
@@ -45,6 +46,11 @@ namespace SafeExamBrowser.Configuration.ResourceLoaders
 			logger.Debug($"Created '{data}' for {data.Length / 1000.0} KB data in '{resource}'.");
 
 			return LoadStatus.Success;
+		}
+
+		public SaveStatus TrySave(Uri resource, Stream data)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

@@ -13,6 +13,8 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Cryptography;
+using SafeExamBrowser.Contracts.Configuration.DataFormats;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.DataFormats
@@ -58,7 +60,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			return false;
 		}
 
-		public ParseResult TryParse(Stream data, PasswordInfo passwordInfo)
+		public ParseResult TryParse(Stream data, PasswordParameters password = null)
 		{
 			var result = new ParseResult { Status = LoadStatus.InvalidData };
 			var xmlSettings = new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore };
@@ -217,6 +219,11 @@ namespace SafeExamBrowser.Configuration.DataFormats
 		private LoadStatus ParseSimpleType(XElement element, out object value)
 		{
 			value = null;
+
+			if (element.IsEmpty)
+			{
+				return LoadStatus.Success;
+			}
 
 			switch (element.Name.LocalName)
 			{

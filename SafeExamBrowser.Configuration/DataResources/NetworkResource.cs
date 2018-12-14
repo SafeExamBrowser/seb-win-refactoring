@@ -14,11 +14,12 @@ using System.Net.Http;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.DataResources;
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Configuration.ResourceLoaders
+namespace SafeExamBrowser.Configuration.DataResources
 {
-	public class NetworkResourceLoader : IResourceLoader
+	public class NetworkResource : IDataResource
 	{
 		private AppConfig appConfig;
 		private ILogger logger;
@@ -40,7 +41,7 @@ namespace SafeExamBrowser.Configuration.ResourceLoaders
 			Uri.UriSchemeHttps
 		};
 
-		public NetworkResourceLoader(AppConfig appConfig, ILogger logger)
+		public NetworkResource(AppConfig appConfig, ILogger logger)
 		{
 			this.appConfig = appConfig;
 			this.logger = logger;
@@ -83,6 +84,11 @@ namespace SafeExamBrowser.Configuration.ResourceLoaders
 			logger.Debug($"Created '{data}' for {data.Length / 1000.0} KB data of response body.");
 
 			return LoadStatus.Success;
+		}
+
+		public SaveStatus TrySave(Uri resource, Stream data)
+		{
+			throw new NotImplementedException();
 		}
 
 		private Uri BuildUriFor(Uri resource)

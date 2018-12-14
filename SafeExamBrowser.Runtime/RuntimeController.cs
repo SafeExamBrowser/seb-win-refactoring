@@ -398,6 +398,8 @@ namespace SafeExamBrowser.Runtime
 
 		private void ShowMessageBox(MessageEventArgs args)
 		{
+			var isStartup = !SessionIsRunning;
+			var isRunningOnDefaultDesktop = SessionIsRunning && Session.Settings.KioskMode == KioskMode.DisableExplorerShell;
 			var message = text.Get(args.Message);
 			var title = text.Get(args.Title);
 
@@ -411,7 +413,14 @@ namespace SafeExamBrowser.Runtime
 				title = title.Replace(placeholder.Key, placeholder.Value);
 			}
 
-			messageBox.Show(message, title, MessageBoxAction.Confirm, args.Icon, runtimeWindow);
+			if (isStartup || isRunningOnDefaultDesktop)
+			{
+				messageBox.Show(message, title, MessageBoxAction.Confirm, args.Icon, runtimeWindow);
+			}
+			else
+			{
+				// TODO
+			}
 		}
 
 		private void TryGetPasswordViaDialog(PasswordRequiredEventArgs args)
