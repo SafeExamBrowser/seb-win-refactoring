@@ -11,7 +11,6 @@ using System.IO;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Cryptography;
-using SafeExamBrowser.Contracts.Configuration.DataFormats;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Core.OperationModel.Events;
@@ -114,14 +113,14 @@ namespace SafeExamBrowser.Runtime.Operations
 		private OperationResult LoadSettings(Uri uri)
 		{
 			var passwordParams = new PasswordParameters { Password = string.Empty, IsHash = true };
-			var status = configuration.TryLoadSettings(uri, passwordParams, out var encryption, out var format, out var settings);
+			var status = configuration.TryLoadSettings(uri, out var settings, passwordParams);
 
 			if (status == LoadStatus.PasswordNeeded && Context.Current?.Settings.AdminPasswordHash != null)
 			{
 				passwordParams.Password = Context.Current.Settings.AdminPasswordHash;
 				passwordParams.IsHash = true;
 
-				status = configuration.TryLoadSettings(uri, passwordParams, out encryption, out format, out settings);
+				status = configuration.TryLoadSettings(uri, out settings, passwordParams);
 			}
 
 			for (int attempts = 0; attempts < 5 && status == LoadStatus.PasswordNeeded; attempts++)
@@ -138,15 +137,15 @@ namespace SafeExamBrowser.Runtime.Operations
 					return OperationResult.Aborted;
 				}
 
-				status = configuration.TryLoadSettings(uri, passwordParams, out encryption, out format, out settings);
+				status = configuration.TryLoadSettings(uri, out settings, passwordParams);
 			}
 
 			Context.Next.Settings = settings;
 
-			return HandleLoadResult(uri, settings, status, passwordParams, encryption, format);
+			return HandleLoadResult(uri, settings, status, passwordParams);
 		}
 
-		private OperationResult HandleLoadResult(Uri uri, Settings settings, LoadStatus status, PasswordParameters password, EncryptionParameters encryption, Format format)
+		private OperationResult HandleLoadResult(Uri uri, Settings settings, LoadStatus status, PasswordParameters password)
 		{
 			if (status == LoadStatus.LoadWithBrowser)
 			{
@@ -155,7 +154,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (status == LoadStatus.Success && settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
 			{
-				return HandleClientConfiguration(uri, password, encryption, format);
+				return HandleClientConfiguration(uri, password);
 			}
 
 			if (status == LoadStatus.Success)
@@ -176,7 +175,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			return OperationResult.Success;
 		}
 
-		private OperationResult HandleClientConfiguration(Uri resource, PasswordParameters password, EncryptionParameters encryption, Format format)
+		private OperationResult HandleClientConfiguration(Uri resource, PasswordParameters password)
 		{
 			var isAppDataFile = Path.GetFullPath(resource.AbsolutePath).Equals(AppDataFile, StringComparison.OrdinalIgnoreCase);
 			var isProgramDataFile = Path.GetFullPath(resource.AbsolutePath).Equals(ProgramDataFile, StringComparison.OrdinalIgnoreCase);
@@ -202,11 +201,19 @@ namespace SafeExamBrowser.Runtime.Operations
 					logger.Info("Authentication is not required.");
 				}
 
-				configuration.ConfigureClientWith(resource, encryption);
+				var status = configuration.ConfigureClientWith(resource, password);
+
+				if (status != SaveStatus.Success)
+				{
+					logger.Error($"Client configuration failed with status '{status}'!");
+					ActionRequired?.Invoke(new ClientConfigurationErrorMessageArgs());
+
+					return OperationResult.Failed;
+				}
 
 				if (isFirstSession)
 				{
-					var result = HandleClientConfigurationSuccess();
+					var result = HandleClientConfigurationOnStartup();
 
 					if (result != OperationResult.Success)
 					{
@@ -270,21 +277,19 @@ namespace SafeExamBrowser.Runtime.Operations
 
 				return OperationResult.Success;
 			}
-			else
-			{
-				logger.Info("Authentication has failed!");
-				ActionRequired?.Invoke(new InvalidPasswordMessageArgs());
 
-				return OperationResult.Failed;
-			}
+			logger.Info("Authentication has failed!");
+			ActionRequired?.Invoke(new InvalidPasswordMessageArgs());
+
+			return OperationResult.Failed;
 		}
 
-		private OperationResult HandleClientConfigurationSuccess()
+		private OperationResult HandleClientConfigurationOnStartup()
 		{
 			var args = new ConfigurationCompletedEventArgs();
 
 			ActionRequired?.Invoke(args);
-			logger.Info($"The user chose to {(args.AbortStartup ? "abort" : "continue")} after successful client configuration.");
+			logger.Info($"The user chose to {(args.AbortStartup ? "abort" : "continue")} startup after successful client configuration.");
 
 			if (args.AbortStartup)
 			{

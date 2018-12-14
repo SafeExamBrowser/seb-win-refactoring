@@ -13,6 +13,14 @@ namespace SafeExamBrowser.Contracts.Configuration
 	/// </summary>
 	public enum SaveStatus
 	{
+		/// <summary>
+		/// The configuration was saved successfully.
+		/// </summary>
+		Success,
 
+		/// <summary>
+		/// An unexpected error occurred while trying to save the configuration.
+		/// </summary>
+		UnexpectedError
 	}
 }

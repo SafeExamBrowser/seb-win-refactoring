@@ -55,21 +55,20 @@ namespace SafeExamBrowser.Configuration
 			this.programVersion = programVersion ?? string.Empty;
 		}
 
-		public void ConfigureClientWith(Uri resource, EncryptionParameters encryption = null)
+		public SaveStatus ConfigureClientWith(Uri resource, PasswordParameters password = null)
 		{
 			logger.Info($"Attempting to configure local client settings from '{resource}'...");
 
 			try
 			{
-				TryLoadData(resource, out Stream stream);
+				TryLoadData(resource, out var stream);
 
 				using (stream)
 				{
-					// TODO:
-					//TryParseData(stream, encryption, out _, out _, out var data);
-					//HandleIdentityCertificates(data);
+					TryParseData(stream, out var encryption, out var format, out var data, password);
+					HandleIdentityCertificates(data);
 
-					// Save configuration data as local client config under %APPDATA%!
+					// TODO: Encrypt and save configuration data as local client config under %APPDATA%!
 					// -> New key will determine whether to use default password or current settings password!
 					//     -> "clientConfigEncryptUsingSettingsPassword"
 					//     -> Default settings password for local client configuration appears to be string.Empty -> passwords.SettingsPassword
@@ -77,10 +76,14 @@ namespace SafeExamBrowser.Configuration
 				}
 
 				logger.Info($"Successfully configured local client settings with '{resource}'.");
+
+				return SaveStatus.Success;
 			}
 			catch (Exception e)
 			{
 				logger.Error($"Unexpected error while trying to configure local client settings '{resource}'!", e);
+
+				return SaveStatus.UnexpectedError;
 			}
 		}
 
@@ -166,17 +169,15 @@ namespace SafeExamBrowser.Configuration
 			dataResources.Add(dataResource);
 		}
 
-		public LoadStatus TryLoadSettings(Uri resource, PasswordParameters password, out EncryptionParameters encryption, out Format format, out Settings settings)
+		public LoadStatus TryLoadSettings(Uri resource, out Settings settings, PasswordParameters password = null)
 		{
 			logger.Info($"Attempting to load '{resource}'...");
 
-			encryption = default(EncryptionParameters);
-			format = default(Format);
 			settings = LoadDefaultSettings();
 
 			try
 			{
-				var status = TryLoadData(resource, out Stream stream);
+				var status = TryLoadData(resource, out var stream);
 
 				using (stream)
 				{
@@ -185,7 +186,7 @@ namespace SafeExamBrowser.Configuration
 						return status;
 					}
 
-					status = TryParseData(stream, password, out encryption, out format, out var data);
+					status = TryParseData(stream, out _, out _, out var data, password);
 
 					if (status == LoadStatus.Success)
 					{
@@ -219,7 +220,7 @@ namespace SafeExamBrowser.Configuration
 
 				foreach (var certificate in certificates)
 				{
-					var isIdentity = certificate.TryGetValue("type", out object t) && t is int type && type == IDENTITY_CERTIFICATE;
+					var isIdentity = certificate.TryGetValue("type", out var o) && o is int type && type == IDENTITY_CERTIFICATE;
 					var hasData = certificate.TryGetValue("certificateData", out value);
 
 					if (isIdentity && hasData && value is byte[] certificateData)
@@ -278,7 +279,7 @@ namespace SafeExamBrowser.Configuration
 			return status;
 		}
 
-		private LoadStatus TryParseData(Stream data, PasswordParameters password, out EncryptionParameters encryption, out Format format, out IDictionary<string, object> rawData)
+		private LoadStatus TryParseData(Stream data, out EncryptionParameters encryption, out Format format, out IDictionary<string, object> rawData, PasswordParameters password = null)
 		{
 			var dataFormat = dataFormats.FirstOrDefault(f => f.CanParse(data));
 			var status = LoadStatus.NotSupported;

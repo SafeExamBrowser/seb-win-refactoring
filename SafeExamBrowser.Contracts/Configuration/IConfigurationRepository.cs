@@ -19,9 +19,9 @@ namespace SafeExamBrowser.Contracts.Configuration
 	public interface IConfigurationRepository
 	{
 		/// <summary>
-		/// Saves the given resource as local client configuration.
+		/// Attempts to save the given resource as local client configuration.
 		/// </summary>
-		void ConfigureClientWith(Uri resource, EncryptionParameters encryption = null);
+		SaveStatus ConfigureClientWith(Uri resource, PasswordParameters password = null);
 
 		/// <summary>
 		/// Initializes the global configuration information for the currently running application instance.
@@ -51,7 +51,7 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// <summary>
 		/// Attempts to load settings from the specified resource.
 		/// </summary>
-		LoadStatus TryLoadSettings(Uri resource, PasswordParameters password, out EncryptionParameters encryption, out Format format, out Settings.Settings settings);
+		LoadStatus TryLoadSettings(Uri resource, out Settings.Settings settings, PasswordParameters password = null);
 
 		/// <summary>
 		/// Attempts to save settings according to the specified parameters.

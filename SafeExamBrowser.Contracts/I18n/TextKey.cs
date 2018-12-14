@@ -18,6 +18,8 @@ namespace SafeExamBrowser.Contracts.I18n
 		LogWindow_Title,
 		MessageBox_ApplicationError,
 		MessageBox_ApplicationErrorTitle,
+		MessageBox_ClientConfigurationError,
+		MessageBox_ClientConfigurationErrorTitle,
 		MessageBox_ClientConfigurationQuestion,
 		MessageBox_ClientConfigurationQuestionTitle,
 		MessageBox_ConfigurationDownloadError,

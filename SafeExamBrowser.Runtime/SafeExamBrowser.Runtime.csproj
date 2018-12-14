@@ -89,6 +89,7 @@
     <Compile Include="Operations\ClientOperation.cs" />
     <Compile Include="Operations\ClientTerminationOperation.cs" />
     <Compile Include="Operations\ConfigurationOperation.cs" />
+    <Compile Include="Operations\Events\ClientConfigurationErrorMessageArgs.cs" />
     <Compile Include="Operations\Events\ConfigurationCompletedEventArgs.cs" />
     <Compile Include="Operations\Events\InvalidDataMessageArgs.cs" />
     <Compile Include="Operations\Events\InvalidPasswordMessageArgs.cs" />

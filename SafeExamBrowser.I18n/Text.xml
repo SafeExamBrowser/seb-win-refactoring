@@ -12,6 +12,12 @@
   <Entry key="MessageBox_ApplicationErrorTitle">
     Application Error
   </Entry>
+  <Entry key="MessageBox_ClientConfigurationError">
+    The local client configuration has failed! Please consult the application log for more information. The application will now shut down...
+  </Entry>
+  <Entry key="MessageBox_ClientConfigurationErrorTitle">
+    Client Configuration Error
+  </Entry>
   <Entry key="MessageBox_ClientConfigurationQuestion">
     The client configuration has been saved and will be used when you start the application the next time. Do you want to quit for now?
   </Entry>

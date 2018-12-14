@@ -29,17 +29,17 @@ namespace SafeExamBrowser.Contracts.Configuration
 		NotSupported,
 
 		/// <summary>
-		/// Indicates that a password is needed in order to decrypt the settings.
+		/// Indicates that a password is needed in order to decrypt the configuration.
 		/// </summary>
 		PasswordNeeded,
 
 		/// <summary>
-		/// The settings were loaded successfully.
+		/// The configuration was loaded successfully.
 		/// </summary>
 		Success,
 
 		/// <summary>
-		/// An unexpected error occurred while trying to load the settings.
+		/// An unexpected error occurred while trying to load the configuration.
 		/// </summary>
 		UnexpectedError
 	}
