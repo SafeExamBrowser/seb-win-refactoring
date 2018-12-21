@@ -222,11 +222,6 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 			value = null;
 
-			if (element.IsEmpty)
-			{
-				return status;
-			}
-
 			switch (element.Name.LocalName)
 			{
 				case XmlElement.Data:
@@ -245,7 +240,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 					value = Convert.ToDouble(element.Value);
 					break;
 				case XmlElement.String:
-					value = element.Value;
+					value = element.IsEmpty ? null : element.Value;
 					break;
 				case XmlElement.True:
 					value = true;
