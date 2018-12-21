@@ -41,8 +41,8 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			}
 
 			var (version, options) = ParseHeader(data);
-			var (authenticationKey, encryptionKey) = GenerateKeys(data, password);
-			var (originalHmac, computedHmac) = GenerateHmac(data, authenticationKey);
+			var (authenticationKey, encryptionKey) = GenerateKeysForDecryption(data, password);
+			var (originalHmac, computedHmac) = GenerateHmacForDecryption(authenticationKey, data);
 
 			if (!computedHmac.SequenceEqual(originalHmac))
 			{
@@ -52,6 +52,16 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			decrypted = Decrypt(data, encryptionKey, originalHmac.Length);
 
 			return LoadStatus.Success;
+		}
+
+		internal SaveStatus Encrypt(Stream data, string password, out Stream encrypted)
+		{
+			var (authKey, authSalt, encrKey, encrSalt) = GenerateKeysForEncryption(password);
+			
+			encrypted = Encrypt(data, encrKey, out var initVector);
+			encrypted = WriteEncryptionParameters(authKey, authSalt, encrSalt, initVector, encrypted);
+
+			return SaveStatus.Success;
 		}
 
 		private (int version, int options) ParseHeader(Stream data)
@@ -70,7 +80,7 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			return (version, options);
 		}
 
-		private (byte[] authenticationKey, byte[] encryptionKey) GenerateKeys(Stream data, string password)
+		private (byte[] authenticationKey, byte[] encryptionKey) GenerateKeysForDecryption(Stream data, string password)
 		{
 			var authenticationSalt = new byte[SALT_SIZE];
 			var encryptionSalt = new byte[SALT_SIZE];
@@ -91,7 +101,23 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			}
 		}
 
-		private (byte[] originalHmac, byte[] computedHmac) GenerateHmac(Stream data, byte[] authenticationKey)
+		private (byte[] authKey, byte[] authSalt, byte[] encrKey, byte[] encrSalt) GenerateKeysForEncryption(string password)
+		{
+			logger.Debug("Generating keys for authentication and encryption...");
+
+			using (var authenticationGenerator = new Rfc2898DeriveBytes(password, SALT_SIZE, ITERATIONS))
+			using (var encryptionGenerator = new Rfc2898DeriveBytes(password, SALT_SIZE, ITERATIONS))
+			{
+				var authenticationSalt = authenticationGenerator.Salt;
+				var authenticationKey = authenticationGenerator.GetBytes(KEY_SIZE);
+				var encryptionSalt = encryptionGenerator.Salt;
+				var encryptionKey = encryptionGenerator.GetBytes(KEY_SIZE);
+
+				return (authenticationKey, authenticationSalt, encryptionKey, encryptionSalt);
+			}
+		}
+
+		private (byte[] originalHmac, byte[] computedHmac) GenerateHmacForDecryption(byte[] authenticationKey, Stream data)
 		{
 			logger.Debug("Generating HMACs for authentication...");
 
@@ -105,6 +131,17 @@ namespace SafeExamBrowser.Configuration.Cryptography
 				data.Read(originalHmac, 0, originalHmac.Length);
 
 				return (originalHmac, computedHmac);
+			}
+		}
+
+		private byte[] GenerateHmacForEncryption(byte[] authenticationKey, Stream data)
+		{
+			data.Seek(0, SeekOrigin.Begin);
+			logger.Debug("Generating HMAC for authentication...");
+
+			using (var algorithm = new HMACSHA256(authenticationKey))
+			{
+				return algorithm.ComputeHash(data);
 			}
 		}
 
@@ -135,6 +172,51 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			}
 
 			return decryptedData;
+		}
+
+		private Stream Encrypt(Stream data, byte[] encryptionKey, out byte[] initializationVector)
+		{
+			var encryptedData = new MemoryStream();
+
+			logger.Debug("Encrypting data...");
+
+			using (var algorithm = new AesManaged { KeySize = KEY_SIZE * 8, BlockSize = BLOCK_SIZE * 8, Mode = CipherMode.CBC, Padding = PaddingMode.PKCS7 })
+			{
+				algorithm.GenerateIV();
+				data.Seek(0, SeekOrigin.Begin);
+				initializationVector = algorithm.IV;
+
+				using (var encryptor = algorithm.CreateEncryptor(encryptionKey, initializationVector))
+				using (var cryptoStream = new CryptoStream(data, encryptor, CryptoStreamMode.Read))
+				{
+					cryptoStream.CopyTo(encryptedData);
+				}
+
+				return encryptedData;
+			}
+		}
+
+		private Stream WriteEncryptionParameters(byte[] authKey, byte[] authSalt, byte[] encrSalt, byte[] initVector, Stream encryptedData)
+		{
+			var data = new MemoryStream();
+			var header = new byte[] { VERSION, OPTIONS };
+
+			logger.Debug("Writing encryption parameters...");
+
+			data.Write(header, 0, header.Length);
+			data.Write(encrSalt, 0, encrSalt.Length);
+			data.Write(authSalt, 0, authSalt.Length);
+			data.Write(initVector, 0, initVector.Length);
+
+			encryptedData.Seek(0, SeekOrigin.Begin);
+			encryptedData.CopyTo(data);
+
+			var hmac = GenerateHmacForEncryption(authKey, data);
+
+			data.Seek(0, SeekOrigin.End);
+			data.Write(hmac, 0, hmac.Length);
+
+			return data;
 		}
 	}
 }

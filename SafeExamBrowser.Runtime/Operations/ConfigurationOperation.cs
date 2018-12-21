@@ -179,10 +179,10 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var isAppDataFile = Path.GetFullPath(resource.AbsolutePath).Equals(AppDataFile, StringComparison.OrdinalIgnoreCase);
 			var isProgramDataFile = Path.GetFullPath(resource.AbsolutePath).Equals(ProgramDataFile, StringComparison.OrdinalIgnoreCase);
+			var isFirstSession = Context.Current == null;
 
 			if (!isAppDataFile && !isProgramDataFile)
 			{
-				var isFirstSession = Context.Current == null;
 				var requiresAuthentication = IsAuthenticationRequiredForClientConfiguration(password);
 
 				logger.Info("Starting client configuration...");
@@ -203,7 +203,11 @@ namespace SafeExamBrowser.Runtime.Operations
 
 				var status = configuration.ConfigureClientWith(resource, password);
 
-				if (status != SaveStatus.Success)
+				if (status == SaveStatus.Success)
+				{
+					logger.Info("Client configuration was successful.");
+				}
+				else
 				{
 					logger.Error($"Client configuration failed with status '{status}'!");
 					ActionRequired?.Invoke(new ClientConfigurationErrorMessageArgs());

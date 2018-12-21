@@ -44,6 +44,13 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			return status;
 		}
 
+		internal override SaveStatus Encrypt(Stream data, X509Certificate2 certificate, out Stream encrypted)
+		{
+			// TODO: Don't forget to write encryption parameters!
+
+			throw new NotImplementedException();
+		}
+
 		private string ParseSymmetricKey(Stream data, X509Certificate2 certificate)
 		{
 			var keyLengthData = new byte[KEY_LENGTH_SIZE];

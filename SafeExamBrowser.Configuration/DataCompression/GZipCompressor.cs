@@ -34,29 +34,36 @@ namespace SafeExamBrowser.Configuration.DataCompression
 
 		public Stream Compress(Stream data)
 		{
-			throw new NotImplementedException();
+			var compressed = new MemoryStream();
+			var originalSize = data.Length / 1000.0;
+
+			logger.Debug($"Starting compression of '{data}' with {originalSize} KB data...");
+			data.Seek(0, SeekOrigin.Begin);
+
+			using (var stream = new GZipStream(compressed, CompressionMode.Compress, true))
+			{
+				data.CopyTo(stream);
+			}
+
+			logger.Debug($"Successfully compressed {originalSize} KB to {compressed.Length / 1000.0} KB data.");
+
+			return compressed;
 		}
 
 		public Stream Decompress(Stream data)
 		{
 			var decompressed = new MemoryStream();
+			var originalSize = data.Length / 1000.0;
 
-			logger.Debug($"Starting decompression of '{data}' with {data.Length / 1000.0} KB data...");
+			logger.Debug($"Starting decompression of '{data}' with {originalSize} KB data...");
 			data.Seek(0, SeekOrigin.Begin);
 
 			using (var stream = new GZipStream(data, CompressionMode.Decompress))
 			{
-				var buffer = new byte[4096];
-				var bytesRead = 0;
-
-				do
-				{
-					bytesRead = stream.Read(buffer, 0, buffer.Length);
-					decompressed.Write(buffer, 0, bytesRead);
-				} while (bytesRead > 0);
+				stream.CopyTo(decompressed);
 			}
 
-			logger.Debug($"Successfully decompressed {decompressed.Length / 1000.0} KB data into '{decompressed}'.");
+			logger.Debug($"Successfully decompressed {originalSize} KB to {decompressed.Length / 1000.0} KB data.");
 
 			return decompressed;
 		}

@@ -19,14 +19,13 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.DataFormats
 {
-	public class XmlFormat : IDataFormat
+	public class XmlParser : IDataParser
 	{
-		private const string ROOT_NODE = "plist";
 		private const string XML_PREFIX = "<?xm";
 
 		private ILogger logger;
 
-		public XmlFormat(ILogger logger)
+		public XmlParser(ILogger logger)
 		{
 			this.logger = logger;
 		}
@@ -42,19 +41,20 @@ namespace SafeExamBrowser.Configuration.DataFormats
 				{
 					data.Seek(0, SeekOrigin.Begin);
 					data.Read(prefixData, 0, prefixData.Length);
+
 					var prefix = Encoding.UTF8.GetString(prefixData);
 					var success = prefix == XML_PREFIX;
 
-					logger.Debug($"'{data}' starting with '{prefix}' does {(success ? string.Empty : "not ")}match the XML format.");
+					logger.Debug($"'{data}' starting with '{prefix}' does {(success ? string.Empty : "not ")}match the {FormatType.Xml} format.");
 
 					return success;
 				}
 
-				logger.Debug($"'{data}' is not long enough ({data.Length} bytes) to match the XML format.");
+				logger.Debug($"'{data}' is not long enough ({data.Length} bytes) to match the {FormatType.Xml} format.");
 			}
 			catch (Exception e)
 			{
-				logger.Error($"Failed to determine whether '{data}' with {data.Length / 1000.0} KB data matches the XML format!", e);
+				logger.Error($"Failed to determine whether '{data}' with {data.Length / 1000.0} KB data matches the {FormatType.Xml} format!", e);
 			}
 
 			return false;
@@ -62,15 +62,15 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 		public ParseResult TryParse(Stream data, PasswordParameters password = null)
 		{
-			var result = new ParseResult { Status = LoadStatus.InvalidData };
-			var xmlSettings = new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore };
+			var result = new ParseResult { Format = FormatType.Xml, Status = LoadStatus.InvalidData };
+			var settings = new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore };
 
 			data.Seek(0, SeekOrigin.Begin);
 
-			using (var reader = XmlReader.Create(data, xmlSettings))
+			using (var reader = XmlReader.Create(data, settings))
 			{
-				var hasRoot = reader.ReadToFollowing(ROOT_NODE);
-				var hasDictionary = reader.ReadToDescendant(DataTypes.DICTIONARY);
+				var hasRoot = reader.ReadToFollowing(XmlElement.Root);
+				var hasDictionary = reader.ReadToDescendant(XmlElement.Dictionary);
 				var rawData = new Dictionary<string, object>();
 
 				if (hasRoot && hasDictionary)
@@ -84,7 +84,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 				}
 				else
 				{
-					logger.Error($"Could not find root {(!hasRoot ? $"node '{ROOT_NODE}'" : $"dictionary '{DataTypes.DICTIONARY}'")}!");
+					logger.Error($"Could not find root {(!hasRoot ? $"node '{XmlElement.Root}'" : $"dictionary '{XmlElement.Dictionary}'")}!");
 				}
 			}
 
@@ -118,13 +118,13 @@ namespace SafeExamBrowser.Configuration.DataFormats
 				reader.MoveToContent();
 			}
 
-			if (reader.NodeType == XmlNodeType.EndElement && reader.Name == DataTypes.ARRAY)
+			if (reader.NodeType == XmlNodeType.EndElement && reader.Name == XmlElement.Array)
 			{
 				return LoadStatus.Success;
 			}
 			else
 			{
-				logger.Error($"Expected closing tag for '{DataTypes.ARRAY}', but found '{reader.Name}{reader.Value}'!");
+				logger.Error($"Expected closing tag for '{XmlElement.Array}', but found '{reader.Name}{reader.Value}'!");
 
 				return LoadStatus.InvalidData;
 			}
@@ -153,13 +153,13 @@ namespace SafeExamBrowser.Configuration.DataFormats
 				reader.MoveToContent();
 			}
 
-			if (reader.NodeType == XmlNodeType.EndElement && reader.Name == DataTypes.DICTIONARY)
+			if (reader.NodeType == XmlNodeType.EndElement && reader.Name == XmlElement.Dictionary)
 			{
 				return LoadStatus.Success;
 			}
 			else
 			{
-				logger.Error($"Expected closing tag for '{DataTypes.DICTIONARY}', but found '{reader.Name}{reader.Value}'!");
+				logger.Error($"Expected closing tag for '{XmlElement.Dictionary}', but found '{reader.Name}{reader.Value}'!");
 
 				return LoadStatus.InvalidData;
 			}
@@ -169,9 +169,9 @@ namespace SafeExamBrowser.Configuration.DataFormats
 		{
 			var key = XNode.ReadFrom(reader) as XElement;
 
-			if (key.Name.LocalName != DataTypes.KEY)
+			if (key.Name.LocalName != XmlElement.Key)
 			{
-				logger.Error($"Expected element '{DataTypes.KEY}', but found '{key}'!");
+				logger.Error($"Expected element '{XmlElement.Key}', but found '{key}'!");
 
 				return LoadStatus.InvalidData;
 			}
@@ -196,12 +196,12 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			var status = default(LoadStatus);
 			var value = default(object);
 
-			if (reader.Name == DataTypes.ARRAY)
+			if (reader.Name == XmlElement.Array)
 			{
 				array = new List<object>();
 				status = ParseArray(reader, array);
 			}
-			else if (reader.Name == DataTypes.DICTIONARY)
+			else if (reader.Name == XmlElement.Dictionary)
 			{
 				dictionary = new Dictionary<string, object>();
 				status = ParseDictionary(reader, dictionary);
@@ -218,60 +218,49 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 		private LoadStatus ParseSimpleType(XElement element, out object value)
 		{
+			var status = LoadStatus.Success;
+
 			value = null;
 
 			if (element.IsEmpty)
 			{
-				return LoadStatus.Success;
+				return status;
 			}
 
 			switch (element.Name.LocalName)
 			{
-				case DataTypes.DATA:
+				case XmlElement.Data:
 					value = Convert.FromBase64String(element.Value);
 					break;
-				case DataTypes.DATE:
+				case XmlElement.Date:
 					value = XmlConvert.ToDateTime(element.Value, XmlDateTimeSerializationMode.Utc);
 					break;
-				case DataTypes.FALSE:
+				case XmlElement.False:
 					value = false;
 					break;
-				case DataTypes.INTEGER:
+				case XmlElement.Integer:
 					value = Convert.ToInt32(element.Value);
 					break;
-				case DataTypes.REAL:
+				case XmlElement.Real:
 					value = Convert.ToDouble(element.Value);
 					break;
-				case DataTypes.STRING:
+				case XmlElement.String:
 					value = element.Value;
 					break;
-				case DataTypes.TRUE:
+				case XmlElement.True:
 					value = true;
+					break;
+				default:
+					status = LoadStatus.InvalidData;
 					break;
 			}
 
-			if (value == null)
+			if (status != LoadStatus.Success)
 			{
 				logger.Error($"Element '{element}' is not supported!");
-
-				return LoadStatus.InvalidData;
 			}
 
-			return LoadStatus.Success;
-		}
-
-		private struct DataTypes
-		{
-			public const string ARRAY = "array";
-			public const string DATA = "data";
-			public const string DATE = "date";
-			public const string DICTIONARY = "dict";
-			public const string FALSE = "false";
-			public const string INTEGER = "integer";
-			public const string KEY = "key";
-			public const string REAL = "real";
-			public const string STRING = "string";
-			public const string TRUE = "true";
+			return status;
 		}
 	}
 }

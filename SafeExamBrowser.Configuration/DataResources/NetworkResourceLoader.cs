@@ -19,7 +19,7 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.DataResources
 {
-	public class NetworkResource : IDataResource
+	public class NetworkResourceLoader : IResourceLoader
 	{
 		private AppConfig appConfig;
 		private ILogger logger;
@@ -41,7 +41,7 @@ namespace SafeExamBrowser.Configuration.DataResources
 			Uri.UriSchemeHttps
 		};
 
-		public NetworkResource(AppConfig appConfig, ILogger logger)
+		public NetworkResourceLoader(AppConfig appConfig, ILogger logger)
 		{
 			this.appConfig = appConfig;
 			this.logger = logger;
@@ -84,11 +84,6 @@ namespace SafeExamBrowser.Configuration.DataResources
 			logger.Debug($"Created '{data}' for {data.Length / 1000.0} KB data of response body.");
 
 			return LoadStatus.Success;
-		}
-
-		public SaveStatus TrySave(Uri resource, Stream data)
-		{
-			throw new NotImplementedException();
 		}
 
 		private Uri BuildUriFor(Uri resource)

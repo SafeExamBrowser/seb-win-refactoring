@@ -12,9 +12,9 @@ using System.IO;
 namespace SafeExamBrowser.Contracts.Configuration.DataResources
 {
 	/// <summary>
-	/// Provides functionality to load and save configuration data from / as a particular resource.
+	/// Provides functionality to load configuration data from a particular resource type.
 	/// </summary>
-	public interface IDataResource
+	public interface IResourceLoader
 	{
 		/// <summary>
 		/// Indicates whether data can be loaded from the specified resource.
@@ -25,10 +25,5 @@ namespace SafeExamBrowser.Contracts.Configuration.DataResources
 		/// Tries to load the configuration data from the specified resource.
 		/// </summary>
 		LoadStatus TryLoad(Uri resource, out Stream data);
-
-		/// <summary>
-		/// Tries to save the given configuration data as the specified resource.
-		/// </summary>
-		SaveStatus TrySave(Uri resource, Stream data);
 	}
 }

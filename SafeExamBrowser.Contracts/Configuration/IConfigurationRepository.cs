@@ -39,14 +39,24 @@ namespace SafeExamBrowser.Contracts.Configuration
 		Settings.Settings LoadDefaultSettings();
 
 		/// <summary>
-		/// Registers the specified <see cref="IDataFormat"/> to be used when loading or saving configuration data.
+		/// Registers the specified <see cref="IDataParser"/> to be used to parse configuration data.
 		/// </summary>
-		void Register(IDataFormat dataFormat);
+		void Register(IDataParser parser);
 
 		/// <summary>
-		/// Registers the specified <see cref="IDataResource"/> to be used when loading or saving configuration data.
+		/// Registers the specified <see cref="IDataSerializer"/> to be used to serialize configuration data.
 		/// </summary>
-		void Register(IDataResource dataResource);
+		void Register(IDataSerializer serializer);
+
+		/// <summary>
+		/// Registers the specified <see cref="IResourceLoader"/> to be used to load configuration resources.
+		/// </summary>
+		void Register(IResourceLoader loader);
+
+		/// <summary>
+		/// Registers the specified <see cref="IResourceSaver"/> to be used to save configuration resources.
+		/// </summary>
+		void Register(IResourceSaver saver);
 
 		/// <summary>
 		/// Attempts to load settings from the specified resource.
@@ -56,6 +66,6 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// <summary>
 		/// Attempts to save settings according to the specified parameters.
 		/// </summary>
-		SaveStatus TrySaveSettings(Uri resource, Format format, Settings.Settings settings, EncryptionParameters encryption = null);
+		SaveStatus TrySaveSettings(Uri destination, FormatType format, Settings.Settings settings, EncryptionParameters encryption = null);
 	}
 }

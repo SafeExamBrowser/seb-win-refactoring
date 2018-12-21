@@ -11,7 +11,7 @@ namespace SafeExamBrowser.Contracts.Configuration.DataFormats
 	/// <summary>
 	/// Defines all supported data formats.
 	/// </summary>
-	public enum Format
+	public enum FormatType
 	{
 		Binary = 1,
 		Xml

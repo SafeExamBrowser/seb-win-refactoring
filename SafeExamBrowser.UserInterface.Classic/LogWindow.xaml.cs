@@ -40,7 +40,15 @@ namespace SafeExamBrowser.UserInterface.Classic
 
 		public void BringToForeground()
 		{
-			Dispatcher.Invoke(Activate);
+			Dispatcher.Invoke(() =>
+			{
+				if (WindowState == WindowState.Minimized)
+				{
+					WindowState = WindowState.Normal;
+				}
+
+				Activate();
+			});
 		}
 
 		public new void Close()

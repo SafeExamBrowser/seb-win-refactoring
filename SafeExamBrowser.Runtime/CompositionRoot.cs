@@ -120,10 +120,13 @@ namespace SafeExamBrowser.Runtime
 			configuration = new ConfigurationRepository(new HashAlgorithm(), repositoryLogger, executable.Location, programCopyright, programTitle, programVersion);
 			appConfig = configuration.InitializeAppConfig();
 
-			configuration.Register(new BinaryFormat(compressor, new HashAlgorithm(), new ModuleLogger(logger, nameof(BinaryFormat))));
-			configuration.Register(new XmlFormat(new ModuleLogger(logger, nameof(XmlFormat))));
-			configuration.Register(new FileResource(new ModuleLogger(logger, nameof(FileResource))));
-			configuration.Register(new NetworkResource(appConfig, new ModuleLogger(logger, nameof(NetworkResource))));
+			configuration.Register(new BinaryParser(compressor, new HashAlgorithm(), new ModuleLogger(logger, nameof(BinaryParser))));
+			configuration.Register(new BinarySerializer(compressor, new ModuleLogger(logger, nameof(BinarySerializer))));
+			configuration.Register(new XmlParser(new ModuleLogger(logger, nameof(XmlParser))));
+			configuration.Register(new XmlSerializer(new ModuleLogger(logger, nameof(XmlSerializer))));
+			configuration.Register(new FileResourceLoader(new ModuleLogger(logger, nameof(FileResourceLoader))));
+			configuration.Register(new FileResourceSaver(new ModuleLogger(logger, nameof(FileResourceSaver))));
+			configuration.Register(new NetworkResourceLoader(appConfig, new ModuleLogger(logger, nameof(NetworkResourceLoader))));
 		}
 
 		private void InitializeLogging()

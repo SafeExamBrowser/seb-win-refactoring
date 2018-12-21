@@ -12,7 +12,7 @@ using SafeExamBrowser.Contracts.Configuration.Cryptography;
 namespace SafeExamBrowser.Contracts.Configuration.DataFormats
 {
 	/// <summary>
-	/// Defines the result of a data parsing operation by an <see cref="IDataFormat"/>.
+	/// Defines the result of a data parsing operation by an <see cref="IDataParser"/>.
 	/// </summary>
 	public class ParseResult
 	{
@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Contracts.Configuration.DataFormats
 		/// <summary>
 		/// The original format of the data.
 		/// </summary>
-		public Format Format { get; set; }
+		public FormatType Format { get; set; }
 
 		/// <summary>
 		/// The parsed settings data. Might be <c>null</c> or in an undefinable state, depending on <see cref="Status"/>.
@@ -32,7 +32,7 @@ namespace SafeExamBrowser.Contracts.Configuration.DataFormats
 		public IDictionary<string, object> RawData { get; set; }
 
 		/// <summary>
-		/// The status result of a parsing operation.
+		/// The status result of the parsing operation.
 		/// </summary>
 		public LoadStatus Status { get; set; }
 	}

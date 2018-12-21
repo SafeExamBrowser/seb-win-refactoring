@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -41,6 +42,13 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			decrypted = Decrypt(data, PUBLIC_KEY_HASH_SIZE, certificate);
 
 			return LoadStatus.Success;
+		}
+
+		internal virtual SaveStatus Encrypt(Stream data, X509Certificate2 certificate, out Stream encrypted)
+		{
+			// TODO: Don't forget to write encryption parameters!
+
+			throw new NotImplementedException();
 		}
 
 		protected byte[] ParsePublicKeyHash(Stream data)

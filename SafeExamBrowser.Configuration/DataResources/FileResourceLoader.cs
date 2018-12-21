@@ -14,11 +14,11 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.DataResources
 {
-	public class FileResource: IDataResource
+	public class FileResourceLoader : IResourceLoader
 	{
 		private ILogger logger;
 
-		public FileResource(ILogger logger)
+		public FileResourceLoader(ILogger logger)
 		{
 			this.logger = logger;
 		}
@@ -29,11 +29,11 @@ namespace SafeExamBrowser.Configuration.DataResources
 
 			if (exists)
 			{
-				logger.Debug($"Can load '{resource}' as it references an existing file.");
+				logger.Debug($"Can load '{resource}' as it is an existing file.");
 			}
 			else
 			{
-				logger.Debug($"Can't load '{resource}' since it isn't a file URI or no file exists at the specified path.");
+				logger.Debug($"Can't load '{resource}' as it isn't an existing file.");
 			}
 
 			return exists;
@@ -46,11 +46,6 @@ namespace SafeExamBrowser.Configuration.DataResources
 			logger.Debug($"Created '{data}' for {data.Length / 1000.0} KB data in '{resource}'.");
 
 			return LoadStatus.Success;
-		}
-
-		public SaveStatus TrySave(Uri resource, Stream data)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

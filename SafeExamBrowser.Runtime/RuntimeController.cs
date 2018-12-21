@@ -158,7 +158,7 @@ namespace SafeExamBrowser.Runtime
 			runtimeWindow.Show();
 			runtimeWindow.BringToForeground();
 			runtimeWindow.ShowProgressBar();
-			logger.Info("### --- Session Start Procedure --- ###");
+			logger.Info(AppendDivider("Session Start Procedure"));
 
 			if (SessionIsRunning)
 			{
@@ -169,19 +169,19 @@ namespace SafeExamBrowser.Runtime
 
 			if (result == OperationResult.Success)
 			{
-				logger.Info("### --- Session Running --- ###");
+				logger.Info(AppendDivider("Session Running"));
 
 				HandleSessionStartSuccess();
 			}
 			else if (result == OperationResult.Failed)
 			{
-				logger.Info("### --- Session Start Failed --- ###");
+				logger.Info(AppendDivider("Session Start Failed"));
 
 				HandleSessionStartFailure();
 			}
 			else if (result == OperationResult.Aborted)
 			{
-				logger.Info("### --- Session Start Aborted --- ###");
+				logger.Info(AppendDivider("Session Start Aborted"));
 
 				HandleSessionStartAbortion();
 			}
@@ -232,7 +232,7 @@ namespace SafeExamBrowser.Runtime
 			runtimeWindow.Show();
 			runtimeWindow.BringToForeground();
 			runtimeWindow.ShowProgressBar();
-			logger.Info("### --- Session Stop Procedure --- ###");
+			logger.Info(AppendDivider("Session Stop Procedure"));
 
 			DeregisterSessionEvents();
 
@@ -240,11 +240,11 @@ namespace SafeExamBrowser.Runtime
 
 			if (success)
 			{
-				logger.Info("### --- Session Terminated --- ###");
+				logger.Info(AppendDivider("Session Terminated"));
 			}
 			else
 			{
-				logger.Info("### --- Session Stop Failed --- ###");
+				logger.Info(AppendDivider("Session Stop Failed"));
 			}
 		}
 
@@ -531,6 +531,14 @@ namespace SafeExamBrowser.Runtime
 			{
 				progressIndicator?.Regress();
 			}
+		}
+
+		private string AppendDivider(string message)
+		{
+			var dashesLeft = new String('-', 48 - message.Length / 2 - message.Length % 2);
+			var dashesRight = new String('-', 48 - message.Length / 2);
+
+			return $"### {dashesLeft} {message} {dashesRight} ###";
 		}
 	}
 }

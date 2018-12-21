@@ -7,23 +7,22 @@
  */
 
 using System.IO;
-using SafeExamBrowser.Contracts.Configuration.Cryptography;
 
 namespace SafeExamBrowser.Contracts.Configuration.DataFormats
 {
 	/// <summary>
-	/// Provides functionality to parse configuration data with a particular format.
+	/// Defines the result of a data serialization operation by an <see cref="IDataSerializer"/>.
 	/// </summary>
-	public interface IDataFormat
+	public class SerializeResult
 	{
 		/// <summary>
-		/// Indicates whether the given data complies with the required format.
+		/// The serialized data. Might be <c>null</c> or in an undefinable state, depending on <see cref="Status"/>.
 		/// </summary>
-		bool CanParse(Stream data);
+		public Stream Data { get; set; }
 
 		/// <summary>
-		/// Tries to parse the given data.
+		/// The status result of the serialization operation.
 		/// </summary>
-		ParseResult TryParse(Stream data, PasswordParameters password = null);
+		public SaveStatus Status { get; set; }
 	}
 }

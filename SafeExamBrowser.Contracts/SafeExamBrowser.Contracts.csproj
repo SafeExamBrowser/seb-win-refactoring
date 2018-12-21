@@ -60,11 +60,15 @@
     <Compile Include="Configuration\Cryptography\EncryptionParameters.cs" />
     <Compile Include="Configuration\Cryptography\PasswordParameters.cs" />
     <Compile Include="Configuration\Cryptography\PublicKeyHashParameters.cs" />
-    <Compile Include="Configuration\DataFormats\Format.cs" />
+    <Compile Include="Configuration\DataFormats\FormatType.cs" />
     <Compile Include="Configuration\DataCompression\IDataCompressor.cs" />
-    <Compile Include="Configuration\DataFormats\IDataFormat.cs" />
     <Compile Include="Configuration\Cryptography\IHashAlgorithm.cs" />
+    <Compile Include="Configuration\DataFormats\IDataParser.cs" />
+    <Compile Include="Configuration\DataFormats\IDataSerializer.cs" />
     <Compile Include="Configuration\DataFormats\ParseResult.cs" />
+    <Compile Include="Configuration\DataFormats\SerializeResult.cs" />
+    <Compile Include="Configuration\DataResources\IResourceLoader.cs" />
+    <Compile Include="Configuration\DataResources\IResourceSaver.cs" />
     <Compile Include="Configuration\SaveStatus.cs" />
     <Compile Include="Core\Events\InstanceTerminatedEventHandler.cs" />
     <Compile Include="Core\Events\NameChangedEventHandler.cs" />
@@ -120,7 +124,6 @@
     <Compile Include="Communication\Data\SimpleResponsePurport.cs" />
     <Compile Include="Communication\Data\SimpleResponse.cs" />
     <Compile Include="Configuration\ClientConfiguration.cs" />
-    <Compile Include="Configuration\DataResources\IDataResource.cs" />
     <Compile Include="Configuration\LoadStatus.cs" />
     <Compile Include="Configuration\AppConfig.cs" />
     <Compile Include="Configuration\ISessionConfiguration.cs" />

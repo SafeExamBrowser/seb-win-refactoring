@@ -9,10 +9,20 @@
 namespace SafeExamBrowser.Contracts.Configuration
 {
 	/// <summary>
-	/// Defines all possible results of an attempt to save an application configuration.
+	/// Defines all possible results of an attempt to save a configuration resource.
 	/// </summary>
 	public enum SaveStatus
 	{
+		/// <summary>
+		/// The configuration data is invalid or contains invalid elements.
+		/// </summary>
+		InvalidData,
+
+		/// <summary>
+		/// The configuration format or resource type is not supported.
+		/// </summary>
+		NotSupported,
+
 		/// <summary>
 		/// The configuration was saved successfully.
 		/// </summary>
