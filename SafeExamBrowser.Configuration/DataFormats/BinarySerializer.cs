@@ -105,25 +105,20 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 		private SerializeResult SerializePublicKeyHashBlock(IDictionary<string, object> data, PublicKeyHashParameters parameters)
 		{
-			var result = SerializePlainDataBlock(data);
+			var result = SerializePublicKeyHashInnerBlock(data, parameters);
 
 			if (result.Status == SaveStatus.Success)
 			{
-				result = SerializePublicKeyHashInnerBlock(data, parameters);
+				var encryption = DetermineEncryptionForPublicKeyHashBlock(parameters);
+				var prefix = parameters.SymmetricEncryption ? BinaryBlock.PublicKeyHashWithSymmetricKey : BinaryBlock.PublicKeyHash;
 
-				if (result.Status == SaveStatus.Success)
+				logger.Debug("Attempting to serialize public key hash block...");
+
+				var status = encryption.Encrypt(result.Data, parameters.Certificate, out var encrypted);
+
+				if (status == SaveStatus.Success)
 				{
-					var encryption = DetermineEncryptionForPublicKeyHashBlock(parameters);
-					var prefix = parameters.SymmetricEncryption ? BinaryBlock.PublicKeyHashWithSymmetricKey : BinaryBlock.PublicKeyHash;
-
-					logger.Debug("Attempting to serialize public key hash block...");
-
-					var status = encryption.Encrypt(result.Data, parameters.Certificate, out var encrypted);
-
-					if (status == SaveStatus.Success)
-					{
-						result.Data = WritePrefix(prefix, encrypted);
-					}
+					result.Data = WritePrefix(prefix, encrypted);
 				}
 			}
 

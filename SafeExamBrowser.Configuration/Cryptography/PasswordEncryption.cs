@@ -31,9 +31,9 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			this.logger = logger;
 		}
 
-		internal LoadStatus Decrypt(Stream data, string password, out Stream decrypted)
+		internal LoadStatus Decrypt(Stream data, string password, out Stream decryptedData)
 		{
-			decrypted = default(Stream);
+			decryptedData = default(Stream);
 
 			if (password == null)
 			{
@@ -49,17 +49,17 @@ namespace SafeExamBrowser.Configuration.Cryptography
 				return FailForInvalidHmac();
 			}
 
-			decrypted = Decrypt(data, encryptionKey, originalHmac.Length);
+			decryptedData = Decrypt(data, encryptionKey, originalHmac.Length);
 
 			return LoadStatus.Success;
 		}
 
-		internal SaveStatus Encrypt(Stream data, string password, out Stream encrypted)
+		internal SaveStatus Encrypt(Stream data, string password, out Stream encryptedData)
 		{
 			var (authKey, authSalt, encrKey, encrSalt) = GenerateKeysForEncryption(password);
 			
-			encrypted = Encrypt(data, encrKey, out var initVector);
-			encrypted = WriteEncryptionParameters(authKey, authSalt, encrSalt, initVector, encrypted);
+			encryptedData = Encrypt(data, encrKey, out var initVector);
+			encryptedData = WriteEncryptionParameters(authKey, authSalt, encrSalt, initVector, encryptedData);
 
 			return SaveStatus.Success;
 		}

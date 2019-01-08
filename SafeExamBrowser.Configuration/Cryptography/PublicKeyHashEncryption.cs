@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -27,28 +26,48 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			this.logger = logger;
 		}
 
-		internal virtual LoadStatus Decrypt(Stream data, out Stream decrypted, out X509Certificate2 certificate)
+		internal virtual LoadStatus Decrypt(Stream data, out Stream decryptedData, out X509Certificate2 certificate)
 		{
-			var keyHash = ParsePublicKeyHash(data);
-			var found = TryGetCertificateWith(keyHash, out certificate);
+			var publicKeyHash = ParsePublicKeyHash(data);
+			var found = TryGetCertificateWith(publicKeyHash, out certificate);
 
-			decrypted = default(Stream);
+			decryptedData = default(Stream);
 
 			if (!found)
 			{
 				return FailForMissingCertificate();
 			}
 
-			decrypted = Decrypt(data, PUBLIC_KEY_HASH_SIZE, certificate);
+			decryptedData = Decrypt(data, PUBLIC_KEY_HASH_SIZE, certificate);
 
 			return LoadStatus.Success;
 		}
 
-		internal virtual SaveStatus Encrypt(Stream data, X509Certificate2 certificate, out Stream encrypted)
+		internal virtual SaveStatus Encrypt(Stream data, X509Certificate2 certificate, out Stream encryptedData)
 		{
-			// TODO: Don't forget to write encryption parameters!
+			var publicKeyHash = GeneratePublicKeyHash(certificate);
 
-			throw new NotImplementedException();
+			encryptedData = Encrypt(data, certificate);
+			encryptedData = WriteEncryptionParameters(encryptedData, publicKeyHash);
+
+			return SaveStatus.Success;
+		}
+
+		protected LoadStatus FailForMissingCertificate()
+		{
+			logger.Error($"Could not find certificate which matches the given public key hash!");
+
+			return LoadStatus.InvalidData;
+		}
+
+		protected byte[] GeneratePublicKeyHash(X509Certificate2 certificate)
+		{
+			var publicKey = certificate.PublicKey.EncodedKeyValue.RawData;
+
+			using (var sha = new SHA1CryptoServiceProvider())
+			{
+				return sha.ComputeHash(publicKey);
+			}
 		}
 
 		protected byte[] ParsePublicKeyHash(Stream data)
@@ -102,42 +121,84 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			return false;
 		}
 
-		protected LoadStatus FailForMissingCertificate()
-		{
-			logger.Error($"Could not find certificate which matches the given public key hash!");
-
-			return LoadStatus.InvalidData;
-		}
-
 		protected MemoryStream Decrypt(Stream data, long offset, X509Certificate2 certificate)
 		{
 			var algorithm = certificate.PrivateKey as RSACryptoServiceProvider;
 			var blockSize = algorithm.KeySize / 8;
 			var blockCount = (data.Length - offset) / blockSize;
+			var decrypted = new MemoryStream();
+			var decryptedBuffer = new byte[blockSize];
+			var encryptedBuffer = new byte[blockSize];
 			var remainingBytes = data.Length - offset - (blockSize * blockCount);
-			var encrypted = new byte[blockSize];
-			var decrypted = default(byte[]);
-			var decryptedData = new MemoryStream();
 
 			data.Seek(offset, SeekOrigin.Begin);
 			logger.Debug("Decrypting data...");
 
-			for (int i = 0; i < blockCount; i++)
+			using (algorithm)
 			{
-				data.Read(encrypted, 0, encrypted.Length);
-				decrypted = algorithm.Decrypt(encrypted, false);
-				decryptedData.Write(decrypted, 0, decrypted.Length);
+				for (var block = 0; block < blockCount; block++)
+				{
+					data.Read(encryptedBuffer, 0, encryptedBuffer.Length);
+					decryptedBuffer = algorithm.Decrypt(encryptedBuffer, false);
+					decrypted.Write(decryptedBuffer, 0, decryptedBuffer.Length);
+				}
+
+				if (remainingBytes > 0)
+				{
+					encryptedBuffer = new byte[remainingBytes];
+					data.Read(encryptedBuffer, 0, encryptedBuffer.Length);
+					decryptedBuffer = algorithm.Decrypt(encryptedBuffer, false);
+					decrypted.Write(decryptedBuffer, 0, decryptedBuffer.Length);
+				}
 			}
 
-			if (remainingBytes > 0)
+			return decrypted;
+		}
+
+		protected Stream Encrypt(Stream data, X509Certificate2 certificate)
+		{
+			var algorithm = certificate.PublicKey.Key as RSACryptoServiceProvider;
+			var blockSize = (algorithm.KeySize / 8) - 32;
+			var blockCount = data.Length / blockSize;
+			var decryptedBuffer = new byte[blockSize];
+			var encrypted = new MemoryStream();
+			var encryptedBuffer = new byte[blockSize];
+			var remainingBytes = data.Length - (blockCount * blockSize);
+
+			data.Seek(0, SeekOrigin.Begin);
+			logger.Debug("Encrypting data...");
+
+			using (algorithm)
 			{
-				encrypted = new byte[remainingBytes];
-				data.Read(encrypted, 0, encrypted.Length);
-				decrypted = algorithm.Decrypt(encrypted, false);
-				decryptedData.Write(decrypted, 0, decrypted.Length);
+				for (var block = 0; block < blockCount; block++)
+				{
+					data.Read(decryptedBuffer, 0, decryptedBuffer.Length);
+					encryptedBuffer = algorithm.Encrypt(decryptedBuffer, false);
+					encrypted.Write(encryptedBuffer, 0, encryptedBuffer.Length);
+				}
+
+				if (remainingBytes > 0)
+				{
+					decryptedBuffer = new byte[remainingBytes];
+					data.Read(decryptedBuffer, 0, decryptedBuffer.Length);
+					encryptedBuffer = algorithm.Encrypt(decryptedBuffer, false);
+					encrypted.Write(encryptedBuffer, 0, encryptedBuffer.Length);
+				}
 			}
 
-			return decryptedData;
+			return encrypted;
+		}
+
+		private Stream WriteEncryptionParameters(Stream encryptedData, byte[] keyHash)
+		{
+			var data = new MemoryStream();
+
+			logger.Debug("Writing encryption parameters...");
+			data.Write(keyHash, 0, keyHash.Length);
+			encryptedData.Seek(0, SeekOrigin.Begin);
+			encryptedData.CopyTo(data);
+
+			return data;
 		}
 	}
 }

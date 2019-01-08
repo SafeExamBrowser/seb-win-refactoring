@@ -43,11 +43,11 @@ namespace SafeExamBrowser.Configuration.DataFormats
 					data.Read(prefixData, 0, prefixData.Length);
 
 					var prefix = Encoding.UTF8.GetString(prefixData);
-					var success = prefix == XML_PREFIX;
+					var isXml = prefix == XML_PREFIX;
 
-					logger.Debug($"'{data}' starting with '{prefix}' does {(success ? string.Empty : "not ")}match the {FormatType.Xml} format.");
+					logger.Debug($"'{data}' starting with '{prefix}' {(isXml ? "matches" : "does not match")} the {FormatType.Xml} format.");
 
-					return success;
+					return isXml;
 				}
 
 				logger.Debug($"'{data}' is not long enough ({data.Length} bytes) to match the {FormatType.Xml} format.");

@@ -46,7 +46,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 					var prefix = ReadPrefix(data);
 					var isValid = IsValid(prefix);
 
-					logger.Debug($"'{data}' starting with '{prefix}' does {(isValid ? string.Empty : "not ")}match the {FormatType.Binary} format.");
+					logger.Debug($"'{data}' starting with '{prefix}' {(isValid ? "matches" : "does not match")} the {FormatType.Binary} format.");
 
 					return isValid;
 				}
