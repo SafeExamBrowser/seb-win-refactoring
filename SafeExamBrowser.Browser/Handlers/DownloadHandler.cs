@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			this.settings = settings;
 		}
 
-		public void OnBeforeDownload(IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
+		public void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
 			var uri = new Uri(downloadItem.Url);
 			var extension = Path.GetExtension(uri.AbsolutePath);
@@ -65,7 +65,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			}
 		}
 
-		public void OnDownloadUpdated(IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
+		public void OnDownloadUpdated(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
 		{
 			if (downloadItem.IsComplete || downloadItem.IsCancelled)
 			{
