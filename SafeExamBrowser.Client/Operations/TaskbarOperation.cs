@@ -77,7 +77,7 @@ namespace SafeExamBrowser.Client.Operations
 
 			if (settings.AllowApplicationLog)
 			{
-				CreateLogNotification();
+				AddLogNotification();
 			}
 
 			if (settings.AllowKeyboardLayout)
@@ -144,6 +144,14 @@ namespace SafeExamBrowser.Client.Operations
 			taskbar.AddSystemControl(control);
 		}
 
+		private void AddLogNotification()
+		{
+			var logNotification = uiFactory.CreateNotification(logInfo);
+			
+			logController.RegisterNotification(logNotification);
+			taskbar.AddNotification(logNotification);
+		}
+
 		private void AddPowerSupplyControl()
 		{
 			var control = uiFactory.CreatePowerSupplyControl();
@@ -158,14 +166,6 @@ namespace SafeExamBrowser.Client.Operations
 
 			wirelessNetwork.Initialize(control);
 			taskbar.AddSystemControl(control);
-		}
-
-		private void CreateLogNotification()
-		{
-			var logNotification = uiFactory.CreateNotification(logInfo);
-			
-			logController.RegisterNotification(logNotification);
-			taskbar.AddNotification(logNotification);
 		}
 	}
 }

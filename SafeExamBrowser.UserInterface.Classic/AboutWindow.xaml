@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Classic"
         mc:Ignorable="d"
-        Title="Version &amp; License Information" Background="White" Height="325" Width="600" ResizeMode="NoResize" Icon="./Images/SafeExamBrowser.ico"
+        Title="Version &amp; License Information" Background="White" Height="325" Width="575" ResizeMode="NoResize" Icon="./Images/SafeExamBrowser.ico"
         ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
@@ -17,11 +17,11 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Image Grid.ColumnSpan="2" Source="pack://application:,,,/SafeExamBrowser.UserInterface.Classic;component/Images/SplashScreen.png" Margin="0,5,0,0" />
-        <TextBlock x:Name="VersionInfo" Grid.Row="0" Grid.Column="1" Foreground="Gray" Margin="25,75,125,10" TextWrapping="Wrap" />
+        <TextBlock x:Name="VersionInfo" Grid.Row="0" Grid.Column="1" Foreground="Gray" Margin="25,75,100,10" TextWrapping="Wrap" />
         <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
             <TextBlock x:Name="MainText" Margin="10" FontSize="10" TextWrapping="Wrap">
-                This application is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed
-                with this application, You can obtain one at http://mozilla.org/MPL/2.0/.
+                This application is subject to the terms of the Mozilla Public License, version 2.0. If a copy of the MPL was not
+                distributed with this application, you can obtain one at http://mozilla.org/MPL/2.0/.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>CefSharp (.NET bindings for the Chromium Embedded Framework)</Underline></Bold>

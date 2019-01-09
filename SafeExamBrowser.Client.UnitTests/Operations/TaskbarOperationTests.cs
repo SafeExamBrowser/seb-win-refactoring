@@ -87,7 +87,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			powerSupplyMock.Verify(p => p.Initialize(It.IsAny<ISystemPowerSupplyControl>()), Times.Once);
 			wirelessNetworkMock.Verify(w => w.Initialize(It.IsAny<ISystemWirelessNetworkControl>()), Times.Once);
 			taskbarMock.Verify(t => t.AddSystemControl(It.IsAny<ISystemControl>()), Times.Exactly(3));
-			taskbarMock.Verify(t => t.AddNotification(It.IsAny<INotificationButton>()), Times.Once);
+			taskbarMock.Verify(t => t.AddNotification(It.IsAny<INotificationButton>()), Times.Exactly(2));
 		}
 
 		[TestMethod]
@@ -95,6 +95,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			sut.Revert();
 
+			aboutControllerMock.Verify(c => c.Terminate(), Times.Once);
 			keyboardLayoutMock.Verify(k => k.Terminate(), Times.Once);
 			powerSupplyMock.Verify(p => p.Terminate(), Times.Once);
 			wirelessNetworkMock.Verify(w => w.Terminate(), Times.Once);

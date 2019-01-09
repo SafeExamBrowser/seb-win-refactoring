@@ -13,16 +13,16 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {
-	internal class Certificates
+	internal class CertificateImporter
 	{
 		private ILogger logger;
 
-		internal Certificates(ILogger logger)
+		internal CertificateImporter(ILogger logger)
 		{
 			this.logger = logger;
 		}
 
-		internal void ExtractAndImportIdentityCertificates(IDictionary<string, object> data)
+		internal void ExtractAndImportIdentities(IDictionary<string, object> data)
 		{
 			const int IDENTITY_CERTIFICATE = 1;
 			var hasCertificates = data.TryGetValue(Keys.Network.Certificates.EmbeddedCertificates, out var value);

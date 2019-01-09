@@ -11,7 +11,7 @@ using SafeExamBrowser.Contracts.Configuration.Settings;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {
-	internal class DataMapper
+	internal partial class DataMapper
 	{
 		internal void MapRawDataToSettings(IDictionary<string, object> rawData, Settings settings)
 		{
@@ -25,39 +25,75 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			switch (key)
 			{
+				case Keys.ConfigurationFile.ConfigurationPurpose:
+					MapConfigurationMode(settings, value);
+					break;
 				case Keys.General.AdminPasswordHash:
 					MapAdminPasswordHash(settings, value);
 					break;
 				case Keys.General.StartUrl:
 					MapStartUrl(settings, value);
 					break;
-				case Keys.ConfigurationFile.ConfigurationPurpose:
-					MapConfigurationMode(settings, value);
+				case Keys.Input.Keyboard.EnableAltEsc:
+					MapEnableAltEsc(settings, value);
 					break;
-			}
-		}
-
-		private void MapAdminPasswordHash(Settings settings, object value)
-		{
-			if (value is string hash)
-			{
-				settings.AdminPasswordHash = hash;
-			}
-		}
-
-		private void MapConfigurationMode(Settings settings, object value)
-		{
-			if (value is int mode)
-			{
-				settings.ConfigurationMode = mode == 1 ? ConfigurationMode.ConfigureClient : ConfigurationMode.Exam;
-			}
-		}
-
-		private void MapStartUrl(Settings settings, object value)
-		{
-			if (value is string url)
-			{
-				settings.Browser.StartUrl = url;
+				case Keys.Input.Keyboard.EnableAltF4:
+					MapEnableAltF4(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableAltTab:
+					MapEnableAltTab(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableCtrlEsc:
+					MapEnableCtrlEsc(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableEsc:
+					MapEnableEsc(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableF1:
+					MapEnableF1(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableF2:
+					MapEnableF2(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableF3:
+					MapEnableF3(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableF4:
+					MapEnableF4(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableF5:
+					MapEnableF5(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableF6:
+					MapEnableF6(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableF7:
+					MapEnableF7(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableF8:
+					MapEnableF8(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableF9:
+					MapEnableF9(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableF10:
+					MapEnableF10(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableF11:
+					MapEnableF11(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableF12:
+					MapEnableF12(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnablePrintScreen:
+					MapEnablePrintScreen(settings, value);
+					break;
+				case Keys.Input.Keyboard.EnableSystemKey:
+					MapEnableSystemKey(settings, value);
+					break;
+				case Keys.Input.Mouse.EnableRightMouse:
+					MapEnableRightMouse(settings, value);
+					break;
 			}
 		}
 	}
