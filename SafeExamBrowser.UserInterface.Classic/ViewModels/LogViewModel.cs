@@ -68,7 +68,7 @@ namespace SafeExamBrowser.UserInterface.Classic.ViewModels
 		{
 			textBlock.Dispatcher.Invoke(() =>
 			{
-				var date = message.DateTime.ToString("yyyy-MM-dd HH:mm:ss.fff");
+				var date = message.DateTime.ToString("HH:mm:ss.fff");
 				var severity = message.Severity.ToString().ToUpper();
 				var threadId = message.ThreadInfo.Id < 10 ? $"0{message.ThreadInfo.Id}" : message.ThreadInfo.Id.ToString();
 				var threadName = message.ThreadInfo.HasName ? ": " + message.ThreadInfo.Name : string.Empty;

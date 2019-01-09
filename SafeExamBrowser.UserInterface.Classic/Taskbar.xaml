@@ -22,9 +22,9 @@
             </ScrollViewer.Resources>
             <StackPanel x:Name="ApplicationStackPanel" Orientation="Horizontal" />
         </ScrollViewer>
-        <local:DateTimeControl Grid.Column="1" Foreground="DimGray" />
-        <StackPanel Grid.Column="2" x:Name="NotificationStackPanel" Margin="5,0,0,0" Orientation="Horizontal" VerticalAlignment="Stretch" />
-        <StackPanel Grid.Column="3" x:Name="SystemControlStackPanel" Orientation="Horizontal" VerticalAlignment="Stretch" />
+        <StackPanel Grid.Column="1" x:Name="NotificationStackPanel" Orientation="Horizontal" VerticalAlignment="Stretch" />
+        <StackPanel Grid.Column="2" x:Name="SystemControlStackPanel" Orientation="Horizontal" VerticalAlignment="Stretch" />
+        <local:DateTimeControl Grid.Column="3" Foreground="DimGray" Padding="10,0,10,0" />
         <local:QuitButton Grid.Column="4" x:Name="QuitButton" />
     </Grid>
 </Window>

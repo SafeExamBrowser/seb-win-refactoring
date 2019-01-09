@@ -25,6 +25,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	{
 		private Mock<ILogger> loggerMock;
 		private TaskbarSettings settings;
+		private Mock<INotificationInfo> aboutInfoMock;
+		private Mock<INotificationController> aboutControllerMock;
 		private Mock<INotificationInfo> logInfoMock;
 		private Mock<INotificationController> logControllerMock;
 		private Mock<ISystemComponent<ISystemKeyboardLayoutControl>> keyboardLayoutMock;
@@ -41,6 +43,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void Initialize()
 		{
 			loggerMock = new Mock<ILogger>();
+			aboutInfoMock = new Mock<INotificationInfo>();
+			aboutControllerMock = new Mock<INotificationController>();
 			logInfoMock = new Mock<INotificationInfo>();
 			logControllerMock = new Mock<INotificationController>();
 			keyboardLayoutMock = new Mock<ISystemComponent<ISystemKeyboardLayoutControl>>();
@@ -60,6 +64,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			sut = new TaskbarOperation(
 				loggerMock.Object,
+				aboutInfoMock.Object,
+				aboutControllerMock.Object,
 				logInfoMock.Object,
 				logControllerMock.Object,
 				keyboardLayoutMock.Object,

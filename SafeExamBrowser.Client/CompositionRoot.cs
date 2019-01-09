@@ -223,12 +223,14 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildTaskbarOperation()
 		{
+			var aboutInfo = new AboutNotificationInfo(text);
+			var aboutController = new AboutNotificationController(configuration.AppConfig, uiFactory);
 			var keyboardLayout = new KeyboardLayout(new ModuleLogger(logger, nameof(KeyboardLayout)), text);
 			var logController = new LogNotificationController(logger, uiFactory);
 			var logInfo = new LogNotificationInfo(text);
 			var powerSupply = new PowerSupply(new ModuleLogger(logger, nameof(PowerSupply)), text);
 			var wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, nameof(WirelessNetwork)), text);
-			var operation = new TaskbarOperation(logger, logInfo, logController, keyboardLayout, powerSupply, wirelessNetwork, systemInfo, Taskbar, configuration.Settings.Taskbar, text, uiFactory);
+			var operation = new TaskbarOperation(logger, aboutInfo, aboutController, logInfo, logController, keyboardLayout, powerSupply, wirelessNetwork, systemInfo, Taskbar, configuration.Settings.Taskbar, text, uiFactory);
 
 			return operation;
 		}

@@ -8,6 +8,8 @@
 
 using System.Threading;
 using System.Windows;
+using System.Windows.Media;
+using FontAwesome.WPF;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
@@ -27,6 +29,8 @@ namespace SafeExamBrowser.UserInterface.Classic
 		public UserInterfaceFactory(IText text)
 		{
 			this.text = text;
+
+			InitializeFontAwesome();
 		}
 
 		public IWindow CreateAboutWindow(AppConfig appConfig)
@@ -121,6 +125,13 @@ namespace SafeExamBrowser.UserInterface.Classic
 		public ISystemWirelessNetworkControl CreateWirelessNetworkControl()
 		{
 			return new WirelessNetworkControl();
+		}
+
+		private void InitializeFontAwesome()
+		{
+			// To be able to use FontAwesome in XAML icon resources, we need to make sure that the FontAwesome.WPF assembly is loaded into
+			// the AppDomain before attempting to load an icon resource - thus the creation of an unused image below...
+			ImageAwesome.CreateImageSource(FontAwesomeIcon.FontAwesome, Brushes.Black);
 		}
 	}
 }

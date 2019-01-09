@@ -22,6 +22,8 @@ namespace SafeExamBrowser.Client.Operations
 	internal class TaskbarOperation : IOperation
 	{
 		private ILogger logger;
+		private INotificationInfo aboutInfo;
+		private INotificationController aboutController;
 		private INotificationInfo logInfo;
 		private INotificationController logController;
 		private TaskbarSettings settings;
@@ -38,6 +40,8 @@ namespace SafeExamBrowser.Client.Operations
 
 		public TaskbarOperation(
 			ILogger logger,
+			INotificationInfo aboutInfo,
+			INotificationController aboutController,
 			INotificationInfo logInfo,
 			INotificationController logController,
 			ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout,
@@ -49,6 +53,8 @@ namespace SafeExamBrowser.Client.Operations
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
+			this.aboutInfo = aboutInfo;
+			this.aboutController = aboutController;
 			this.logger = logger;
 			this.logInfo = logInfo;
 			this.logController = logController;
@@ -67,6 +73,8 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Initializing taskbar...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeTaskbar);
 
+			AddAboutNotification();
+
 			if (settings.AllowApplicationLog)
 			{
 				CreateLogNotification();
@@ -77,14 +85,14 @@ namespace SafeExamBrowser.Client.Operations
 				AddKeyboardLayoutControl();
 			}
 
-			if (systemInfo.HasBattery)
-			{
-				AddPowerSupplyControl();
-			}
-
 			if (settings.AllowWirelessNetwork)
 			{
 				AddWirelessNetworkControl();
+			}
+
+			if (systemInfo.HasBattery)
+			{
+				AddPowerSupplyControl();
 			}
 
 			return OperationResult.Success;
@@ -94,6 +102,8 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			logger.Info("Terminating taskbar...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_TerminateTaskbar);
+
+			aboutController.Terminate();
 
 			if (settings.AllowApplicationLog)
 			{
@@ -105,17 +115,25 @@ namespace SafeExamBrowser.Client.Operations
 				keyboardLayout.Terminate();
 			}
 
-			if (systemInfo.HasBattery)
-			{
-				powerSupply.Terminate();
-			}
-
 			if (settings.AllowWirelessNetwork)
 			{
 				wirelessNetwork.Terminate();
 			}
 
+			if (systemInfo.HasBattery)
+			{
+				powerSupply.Terminate();
+			}
+
 			return OperationResult.Success;
+		}
+
+		private void AddAboutNotification()
+		{
+			var aboutNotification = uiFactory.CreateNotification(aboutInfo);
+
+			aboutController.RegisterNotification(aboutNotification);
+			taskbar.AddNotification(aboutNotification);
 		}
 
 		private void AddKeyboardLayoutControl()

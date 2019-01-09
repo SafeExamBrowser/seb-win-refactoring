@@ -63,7 +63,7 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			var charge = SystemInformation.PowerStatus.BatteryLifePercent;
 			var percentage = Math.Round(charge * 100);
-			var status = charge <= 0.35 ? (charge <= 0.2 ? BatteryChargeStatus.Critical : BatteryChargeStatus.Low) : BatteryChargeStatus.Okay;
+			var status = charge <= 0.4 ? (charge <= 0.2 ? BatteryChargeStatus.Critical : BatteryChargeStatus.Low) : BatteryChargeStatus.Okay;
 			var online = SystemInformation.PowerStatus.PowerLineStatus == PowerLineStatus.Online;
 			var tooltip = string.Empty;
 

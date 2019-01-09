@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:s="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Classic.Controls"
              mc:Ignorable="d" d:DesignHeight="40" d:DesignWidth="40">
@@ -25,15 +26,23 @@
                 </ScrollViewer>
             </Border>
         </Popup>
-        <Button x:Name="Button" Background="Transparent" HorizontalContentAlignment="Stretch" Template="{StaticResource TaskbarButton}"
-                VerticalContentAlignment="Stretch" Width="40">
+        <Button x:Name="Button" Background="Transparent" Template="{StaticResource TaskbarButton}" Padding="5" Width="40">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <TextBlock x:Name="LayoutCultureCode" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-                <TextBlock x:Name="LayoutName" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                <fa:ImageAwesome Panel.ZIndex="1" Foreground="LightGray" Icon="KeyboardOutline" VerticalAlignment="Center" />
+                <Viewbox Panel.ZIndex="2" Stretch="Uniform">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock x:Name="LayoutCultureCode" FontWeight="Bold" TextAlignment="Center" Text="ENG">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Color="White" BlurRadius="5" Direction="0" Opacity="1" ShadowDepth="0" />
+                            </TextBlock.Effect>
+                        </TextBlock>
+                        <TextBlock x:Name="LayoutName" Foreground="Gray" TextAlignment="Center" Text="SG">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Color="White" BlurRadius="5" Direction="0" Opacity="1" ShadowDepth="0" />
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </StackPanel>
+                </Viewbox>
             </Grid>
         </Button>
     </Grid>

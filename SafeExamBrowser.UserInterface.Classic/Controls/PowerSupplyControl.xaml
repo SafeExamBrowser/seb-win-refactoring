@@ -33,7 +33,7 @@
                 </Grid>
             </Border>
         </Popup>
-        <Button x:Name="Button" Background="Transparent" IsEnabled="False" Template="{StaticResource TaskbarButton}" ToolTipService.ShowOnDisabled="True">
+        <Button x:Name="Button" Background="Transparent" IsEnabled="False" Padding="5" Template="{StaticResource TaskbarButton}" ToolTipService.ShowOnDisabled="True">
             <Viewbox Stretch="Uniform" Width="Auto">
                 <Canvas Height="40" Width="40">
                     <Viewbox Stretch="Uniform" Width="40" Panel.ZIndex="2">

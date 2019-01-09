@@ -13,8 +13,8 @@ namespace SafeExamBrowser.Client.Notifications
 {
 	internal class AboutNotificationIconResource : IIconResource
 	{
-		public Uri Uri => new Uri("pack://application:,,,/SafeExamBrowser;component/SafeExamBrowser.ico");
-		public bool IsBitmapResource => true;
-		public bool IsXamlResource => false;
+		public Uri Uri => new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Classic;component/Images/AboutNotification.xaml");
+		public bool IsBitmapResource => false;
+		public bool IsXamlResource => true;
 	}
 }

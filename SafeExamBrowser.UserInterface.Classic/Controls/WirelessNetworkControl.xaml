@@ -26,7 +26,7 @@
                 </ScrollViewer>
             </Border>
         </Popup>
-        <Button x:Name="Button" Background="Transparent" HorizontalContentAlignment="Stretch" Template="{StaticResource TaskbarButton}"
+        <Button x:Name="Button" Background="Transparent" HorizontalContentAlignment="Stretch" Padding="5" Template="{StaticResource TaskbarButton}"
                 ToolTipService.ShowOnDisabled="True" VerticalContentAlignment="Stretch" Width="40">
             <Grid>
                 <Viewbox x:Name="SignalStrengthIcon" Stretch="Uniform" Width="Auto" />

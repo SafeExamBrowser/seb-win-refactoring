@@ -80,7 +80,7 @@ namespace SafeExamBrowser.UserInterface.Classic.Controls
 
 		private void SetCurrent(KeyboardLayoutButton button, IKeyboardLayout layout)
 		{
-			var name = layout.Name?.Length > 3 ? String.Join(string.Empty, layout.Name.Split(' ').Select(s => s.First())) : layout.Name;
+			var name = layout.Name?.Length > 3 ? String.Join(string.Empty, layout.Name.Split(' ').Where(s => Char.IsLetter(s.First())).Select(s => s.First())) : layout.Name;
 
 			foreach (var child in LayoutsStackPanel.Children)
 			{
