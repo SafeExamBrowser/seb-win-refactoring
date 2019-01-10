@@ -14,6 +14,7 @@ using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Cryptography;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core;
 using SafeExamBrowser.Contracts.Core.OperationModel;
@@ -33,6 +34,7 @@ namespace SafeExamBrowser.Client
 	{
 		private IDisplayMonitor displayMonitor;
 		private IExplorerShell explorerShell;
+		private IHashAlgorithm hashAlgorithm;
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private IOperationSequence operations;
@@ -67,6 +69,7 @@ namespace SafeExamBrowser.Client
 		public ClientController(
 			IDisplayMonitor displayMonitor,
 			IExplorerShell explorerShell,
+			IHashAlgorithm hashAlgorithm,
 			ILogger logger,
 			IMessageBox messageBox,
 			IOperationSequence operations,
@@ -80,6 +83,7 @@ namespace SafeExamBrowser.Client
 		{
 			this.displayMonitor = displayMonitor;
 			this.explorerShell = explorerShell;
+			this.hashAlgorithm = hashAlgorithm;
 			this.logger = logger;
 			this.messageBox = messageBox;
 			this.operations = operations;
@@ -342,9 +346,19 @@ namespace SafeExamBrowser.Client
 
 		private void Taskbar_QuitButtonClicked(System.ComponentModel.CancelEventArgs args)
 		{
-			var result = messageBox.Show(TextKey.MessageBox_Quit, TextKey.MessageBox_QuitTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
+			var hasQuitPassword = !String.IsNullOrEmpty(Settings.QuitPasswordHash);
+			var requestShutdown = false;
 
-			if (result == MessageBoxResult.Yes)
+			if (hasQuitPassword)
+			{
+				requestShutdown = TryValidateQuitPassword();
+			}
+			else
+			{
+				requestShutdown = TryConfirmShutdown();
+			}
+
+			if (requestShutdown)
 			{
 				var communication = runtime.RequestShutdown();
 
@@ -373,6 +387,45 @@ namespace SafeExamBrowser.Client
 					windowMonitor.Close(window);
 				}
 			}
+		}
+
+		private bool TryConfirmShutdown()
+		{
+			var result = messageBox.Show(TextKey.MessageBox_Quit, TextKey.MessageBox_QuitTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
+			var quit = result == MessageBoxResult.Yes;
+			
+			if (quit)
+			{
+				logger.Info("The user chose to terminate the application.");
+			}
+
+			return quit;
+		}
+
+		private bool TryValidateQuitPassword()
+		{
+			var dialog = uiFactory.CreatePasswordDialog(TextKey.PasswordDialog_QuitPasswordRequired, TextKey.PasswordDialog_QuitPasswordRequiredTitle);
+			var result = dialog.Show();
+
+			if (result.Success)
+			{
+				var passwordHash = hashAlgorithm.GenerateHashFor(result.Password);
+				var isCorrect = Settings.QuitPasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase);
+
+				if (isCorrect)
+				{
+					logger.Info("The user entered the correct quit password, the application will now terminate.");
+				}
+				else
+				{
+					logger.Info("The user entered the wrong quit password.");
+					messageBox.Show(TextKey.MessageBox_InvalidQuitPassword, TextKey.MessageBox_InvalidQuitPasswordTitle, icon: MessageBoxIcon.Warning);
+				}
+
+				return isCorrect;
+			}
+
+			return false;
 		}
 	}
 }

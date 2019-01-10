@@ -86,6 +86,12 @@ namespace SafeExamBrowser.UserInterface.Windows10
 			throw new System.NotImplementedException();
 		}
 
+		public IPasswordDialog CreatePasswordDialog(TextKey message, TextKey title)
+		{
+			// TODO
+			throw new System.NotImplementedException();
+		}
+
 		public ISystemPowerSupplyControl CreatePowerSupplyControl()
 		{
 			return new PowerSupplyControl();

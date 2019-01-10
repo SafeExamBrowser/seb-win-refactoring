@@ -18,6 +18,7 @@ using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration;
+using SafeExamBrowser.Configuration.Cryptography;
 using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
@@ -88,6 +89,7 @@ namespace SafeExamBrowser.Client
 
 			var displayMonitor = new DisplayMonitor(new ModuleLogger(logger, nameof(DisplayMonitor)), nativeMethods);
 			var explorerShell = new ExplorerShell(new ModuleLogger(logger, nameof(ExplorerShell)), nativeMethods);
+			var hashAlgorithm = new HashAlgorithm();
 
 			Taskbar = new Taskbar(new ModuleLogger(logger, nameof(Taskbar)));
 
@@ -111,7 +113,7 @@ namespace SafeExamBrowser.Client
 
 			var sequence = new OperationSequence(logger, operations);
 
-			ClientController = new ClientController(displayMonitor, explorerShell, logger, messageBox, sequence, processMonitor, runtimeProxy, shutdown, Taskbar, text, uiFactory, windowMonitor);
+			ClientController = new ClientController(displayMonitor, explorerShell, hashAlgorithm, logger, messageBox, sequence, processMonitor, runtimeProxy, shutdown, Taskbar, text, uiFactory, windowMonitor);
 		}
 
 		internal void LogStartupInformation()

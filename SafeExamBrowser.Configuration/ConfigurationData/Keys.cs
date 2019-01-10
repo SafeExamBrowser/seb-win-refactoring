@@ -35,6 +35,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		internal static class General
 		{
 			internal const string AdminPasswordHash = "hashedAdminPassword";
+			internal const string QuitPasswordHash = "hashedQuitPassword";
 			internal const string StartUrl = "startURL";
 		}
 
@@ -42,30 +43,30 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			internal static class Keyboard
 			{
-				public const string EnableAltEsc = "enableAltEsc";
-				public const string EnableAltTab = "enableAltTab";
-				public const string EnableAltF4 = "enableAltF4";
-				public const string EnableCtrlEsc = "enableCtrlEsc";
-				public const string EnableEsc = "enableEsc";
-				public const string EnableF1 = "enableF1";
-				public const string EnableF2 = "enableF2";
-				public const string EnableF3 = "enableF3";
-				public const string EnableF4 = "enableF4";
-				public const string EnableF5 = "enableF5";
-				public const string EnableF6 = "enableF6";
-				public const string EnableF7 = "enableF7";
-				public const string EnableF8 = "enableF8";
-				public const string EnableF9 = "enableF9";
-				public const string EnableF10 = "enableF10";
-				public const string EnableF11 = "enableF11";
-				public const string EnableF12 = "enableF12";
-				public const string EnablePrintScreen = "enablePrintScreen";
-				public const string EnableSystemKey = "enableStartMenu";
+				internal const string EnableAltEsc = "enableAltEsc";
+				internal const string EnableAltTab = "enableAltTab";
+				internal const string EnableAltF4 = "enableAltF4";
+				internal const string EnableCtrlEsc = "enableCtrlEsc";
+				internal const string EnableEsc = "enableEsc";
+				internal const string EnableF1 = "enableF1";
+				internal const string EnableF2 = "enableF2";
+				internal const string EnableF3 = "enableF3";
+				internal const string EnableF4 = "enableF4";
+				internal const string EnableF5 = "enableF5";
+				internal const string EnableF6 = "enableF6";
+				internal const string EnableF7 = "enableF7";
+				internal const string EnableF8 = "enableF8";
+				internal const string EnableF9 = "enableF9";
+				internal const string EnableF10 = "enableF10";
+				internal const string EnableF11 = "enableF11";
+				internal const string EnableF12 = "enableF12";
+				internal const string EnablePrintScreen = "enablePrintScreen";
+				internal const string EnableSystemKey = "enableStartMenu";
 			}
 
 			internal static class Mouse
 			{
-				public const string EnableRightMouse = "enableRightMouse";
+				internal const string EnableRightMouse = "enableRightMouse";
 			}
 		}
 

@@ -89,12 +89,47 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			var settings = new Settings();
 
-			// TODO: Specify default settings
+			settings.Browser.StartUrl = "https://www.safeexambrowser.org/start";
+			settings.Browser.AllowAddressBar = false;
+			settings.Browser.AllowBackwardNavigation = false;
+			settings.Browser.AllowConfigurationDownloads = true;
+			settings.Browser.AllowDeveloperConsole = false;
+			settings.Browser.AllowDownloads = false;
+			settings.Browser.AllowForwardNavigation = false;
+			settings.Browser.AllowReloading = true;
 
-			settings.KioskMode = KioskMode.None;
+			settings.Keyboard.AllowAltEsc = false;
+			settings.Keyboard.AllowAltF4 = false;
+			settings.Keyboard.AllowAltTab = true;
+			settings.Keyboard.AllowCtrlEsc = false;
+			settings.Keyboard.AllowEsc = true;
+			settings.Keyboard.AllowF1 = true;
+			settings.Keyboard.AllowF2 = true;
+			settings.Keyboard.AllowF3 = true;
+			settings.Keyboard.AllowF4 = true;
+			settings.Keyboard.AllowF5 = true;
+			settings.Keyboard.AllowF6 = true;
+			settings.Keyboard.AllowF7 = true;
+			settings.Keyboard.AllowF8 = true;
+			settings.Keyboard.AllowF9 = true;
+			settings.Keyboard.AllowF10 = true;
+			settings.Keyboard.AllowF11 = true;
+			settings.Keyboard.AllowF12 = true;
+			settings.Keyboard.AllowPrintScreen = false;
+			settings.Keyboard.AllowSystemKey = false;
+
+			settings.KioskMode = KioskMode.CreateNewDesktop;
+
+			settings.Mouse.AllowMiddleButton = false;
+			settings.Mouse.AllowRightButton = true;
+
 			settings.ServicePolicy = ServicePolicy.Optional;
 
-			settings.Browser.StartUrl = "https://www.safeexambrowser.org/testing";
+			settings.Taskbar.AllowApplicationLog = false;
+			settings.Taskbar.AllowKeyboardLayout = true;
+			settings.Taskbar.AllowWirelessNetwork = false;
+
+			// TODO: Default values for alpha version only, remove for final release!
 			settings.Browser.AllowAddressBar = true;
 			settings.Browser.AllowBackwardNavigation = true;
 			settings.Browser.AllowConfigurationDownloads = true;
@@ -102,9 +137,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AllowDownloads = true;
 			settings.Browser.AllowForwardNavigation = true;
 			settings.Browser.AllowReloading = true;
-
+			settings.KioskMode = KioskMode.None;
+			settings.ServicePolicy = ServicePolicy.Optional;
 			settings.Taskbar.AllowApplicationLog = true;
-			settings.Taskbar.AllowKeyboardLayout = true;
 			settings.Taskbar.AllowWirelessNetwork = true;
 
 			return settings;

@@ -8,6 +8,7 @@
 
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface.Browser;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
@@ -56,6 +57,11 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// Creates a password dialog with the given message and title.
 		/// </summary>
 		IPasswordDialog CreatePasswordDialog(string message, string title);
+
+		/// <summary>
+		/// Creates a password dialog with the given message and title.
+		/// </summary>
+		IPasswordDialog CreatePasswordDialog(TextKey message, TextKey title);
 
 		/// <summary>
 		/// Creates a system control displaying the power supply status of the computer.

@@ -42,6 +42,12 @@
   <Entry key="MessageBox_InvalidPasswordErrorTitle">
     Invalid Password
   </Entry>
+  <Entry key="MessageBox_InvalidQuitPassword">
+    The application can only be terminated by entering the correct quit password.
+  </Entry>
+  <Entry key="MessageBox_InvalidQuitPasswordTitle">
+    Invalid Quit Password
+  </Entry>
   <Entry key="MessageBox_NotSupportedConfigurationResource">
     The configuration resource '%%URI%%' is not supported!
   </Entry>
@@ -215,6 +221,12 @@
   </Entry>
   <Entry key="PasswordDialog_Confirm">
     Confirm
+  </Entry>
+  <Entry key="PasswordDialog_QuitPasswordRequired">
+    Please enter the quit password in order to terminate the application:
+  </Entry>
+  <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
+    Quit Password Required
   </Entry>
   <Entry key="PasswordDialog_SettingsPasswordRequired">
     Please enter the settings password for the application configuration:

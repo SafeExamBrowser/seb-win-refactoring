@@ -20,6 +20,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
+		private void MapQuitPasswordHash(Settings settings, object value)
+		{
+			if (value is string hash)
+			{
+				settings.QuitPasswordHash = hash;
+			}
+		}
+
 		private void MapStartUrl(Settings settings, object value)
 		{
 			if (value is string url)

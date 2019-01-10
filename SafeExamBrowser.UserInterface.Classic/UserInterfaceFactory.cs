@@ -87,6 +87,11 @@ namespace SafeExamBrowser.UserInterface.Classic
 			return Application.Current.Dispatcher.Invoke(() => new PasswordDialog(message, title, text));
 		}
 
+		public IPasswordDialog CreatePasswordDialog(TextKey message, TextKey title)
+		{
+			return Application.Current.Dispatcher.Invoke(() => new PasswordDialog(text.Get(message), text.Get(title), text));
+		}
+
 		public ISystemPowerSupplyControl CreatePowerSupplyControl()
 		{
 			return new PowerSupplyControl();

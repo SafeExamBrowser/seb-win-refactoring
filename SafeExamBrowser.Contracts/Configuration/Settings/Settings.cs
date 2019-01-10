@@ -47,6 +47,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public MouseSettings Mouse { get; set; }
 
 		/// <summary>
+		/// The hash code of the quit password.
+		/// </summary>
+		public string QuitPasswordHash { get; set; }
+
+		/// <summary>
 		/// The active policy for the service component.
 		/// </summary>
 		public ServicePolicy ServicePolicy { get; set; }
@@ -62,10 +67,6 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 			Keyboard = new KeyboardSettings();
 			Mouse = new MouseSettings();
 			Taskbar = new TaskbarSettings();
-
-			// TODO: For version 3.0 Alpha only, remove for final release!
-			ServicePolicy = ServicePolicy.Optional;
-			Taskbar.AllowApplicationLog = true;
 		}
 	}
 }
