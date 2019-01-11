@@ -160,9 +160,9 @@
       <Project>{e107026c-2011-4552-a7d8-3a0d37881df6}</Project>
       <Name>SafeExamBrowser.Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SafeExamBrowser.UserInterface.Classic\SafeExamBrowser.UserInterface.Classic.csproj">
+    <ProjectReference Include="..\SafeExamBrowser.UserInterface.Desktop\SafeExamBrowser.UserInterface.Desktop.csproj">
       <Project>{a502df54-7169-4647-94bd-18b192924866}</Project>
-      <Name>SafeExamBrowser.UserInterface.Classic</Name>
+      <Name>SafeExamBrowser.UserInterface.Desktop</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.WindowsApi\SafeExamBrowser.WindowsApi.csproj">
       <Project>{73724659-4150-4792-A94E-42F5F3C1B696}</Project>

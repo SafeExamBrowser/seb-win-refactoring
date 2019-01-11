@@ -9,12 +9,17 @@
 using System;
 using SafeExamBrowser.Contracts.Configuration;
 
-namespace SafeExamBrowser.Client.Notifications
+namespace SafeExamBrowser.UserInterface.Desktop.Utilities
 {
-	internal class AboutNotificationIconResource : IIconResource
+	internal class XamlIconResource : IIconResource
 	{
-		public Uri Uri => new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/AboutNotification.xaml");
+		public Uri Uri { get; private set; }
 		public bool IsBitmapResource => false;
 		public bool IsXamlResource => true;
+
+		public XamlIconResource(Uri uri)
+		{
+			Uri = uri;
+		}
 	}
 }

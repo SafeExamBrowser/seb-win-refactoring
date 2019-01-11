@@ -13,7 +13,7 @@ namespace SafeExamBrowser.Client.Notifications
 {
 	internal class LogNotificationIconResource : IIconResource
 	{
-		public Uri Uri => new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Classic;component/Images/LogNotification.ico");
+		public Uri Uri => new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/LogNotification.ico");
 		public bool IsBitmapResource => true;
 		public bool IsXamlResource => false;
 	}

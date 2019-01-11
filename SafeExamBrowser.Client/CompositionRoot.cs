@@ -41,7 +41,7 @@ using SafeExamBrowser.Monitoring.Mouse;
 using SafeExamBrowser.Monitoring.Processes;
 using SafeExamBrowser.Monitoring.Windows;
 using SafeExamBrowser.SystemComponents;
-using SafeExamBrowser.UserInterface.Classic;
+using SafeExamBrowser.UserInterface.Desktop;
 using SafeExamBrowser.WindowsApi;
 
 namespace SafeExamBrowser.Client

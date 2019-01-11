@@ -28,7 +28,7 @@ using SafeExamBrowser.I18n;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Runtime.Communication;
 using SafeExamBrowser.Runtime.Operations;
-using SafeExamBrowser.UserInterface.Classic;
+using SafeExamBrowser.UserInterface.Desktop;
 using SafeExamBrowser.WindowsApi;
 
 namespace SafeExamBrowser.Runtime
