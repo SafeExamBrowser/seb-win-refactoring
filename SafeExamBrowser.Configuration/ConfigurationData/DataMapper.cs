@@ -111,14 +111,17 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				case Keys.Input.Mouse.EnableRightMouse:
 					MapEnableRightMouse(settings, value);
 					break;
-				case Keys.UserInterface.ShowClock:
-					MapClock(settings, value);
-					break;
 				case Keys.UserInterface.AllowKeyboardLayout:
 					MapKeyboardLayout(settings, value);
 					break;
+				case Keys.UserInterface.AllowLog:
+					MapApplicationLog(settings, value);
+					break;
 				case Keys.UserInterface.AllowWirelessNetwork:
 					MapWirelessNetwork(settings, value);
+					break;
+				case Keys.UserInterface.ShowClock:
+					MapClock(settings, value);
 					break;
 				case Keys.UserInterface.UserInterfaceMode:
 					MapUserInterfaceMode(settings, value);

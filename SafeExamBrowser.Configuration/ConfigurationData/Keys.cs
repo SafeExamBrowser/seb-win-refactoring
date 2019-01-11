@@ -99,6 +99,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		internal static class UserInterface
 		{
 			internal const string AllowKeyboardLayout = "showInputLanguage";
+			internal const string AllowLog = "showLogButton";
 			internal const string AllowWirelessNetwork = "allowWlan";
 			internal const string ShowClock = "showTime";
 			internal const string UserInterfaceMode = "touchOptimized";

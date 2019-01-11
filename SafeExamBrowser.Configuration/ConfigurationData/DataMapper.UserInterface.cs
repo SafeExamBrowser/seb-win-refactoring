@@ -12,6 +12,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal partial class DataMapper
 	{
+		private void MapApplicationLog(Settings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Taskbar.AllowApplicationLog = allow;
+			}
+		}
+
 		private void MapClock(Settings settings, object value)
 		{
 			if (value is bool show)
