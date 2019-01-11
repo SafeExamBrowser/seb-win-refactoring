@@ -19,12 +19,26 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			{
 				Map(item.Key, item.Value, settings);
 			}
+
+			MapUserAgentMode(rawData, settings);
 		}
 
 		private void Map(string key, object value, Settings settings)
 		{
 			switch (key)
 			{
+				case Keys.Browser.EnablePageZoom:
+					// TODO: MapPageZoom(settings, value);
+					break;
+				case Keys.Browser.EnableTextZoom:
+					// TODO: MapTextZoom(settings, value);
+					break;
+				case Keys.Browser.MainWindowMode:
+					MapMainWindowMode(settings, value);
+					break;
+				case Keys.Browser.ZoomMode:
+					MapZoomMode(settings, value);
+					break;
 				case Keys.ConfigurationFile.ConfigurationPurpose:
 					MapConfigurationMode(settings, value);
 					break;
@@ -96,6 +110,18 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 					break;
 				case Keys.Input.Mouse.EnableRightMouse:
 					MapEnableRightMouse(settings, value);
+					break;
+				case Keys.UserInterface.ShowClock:
+					MapClock(settings, value);
+					break;
+				case Keys.UserInterface.AllowKeyboardLayout:
+					MapKeyboardLayout(settings, value);
+					break;
+				case Keys.UserInterface.AllowWirelessNetwork:
+					MapWirelessNetwork(settings, value);
+					break;
+				case Keys.UserInterface.UserInterfaceMode:
+					MapUserInterfaceMode(settings, value);
 					break;
 			}
 		}

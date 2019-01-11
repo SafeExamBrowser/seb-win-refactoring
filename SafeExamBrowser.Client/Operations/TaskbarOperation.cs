@@ -74,6 +74,7 @@ namespace SafeExamBrowser.Client.Operations
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeTaskbar);
 
 			AddAboutNotification();
+			taskbar.ShowClock = settings.ShowClock;
 
 			if (settings.AllowApplicationLog)
 			{

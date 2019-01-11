@@ -61,6 +61,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		/// </summary>
 		public TaskbarSettings Taskbar { get; set; }
 
+		/// <summary>
+		/// The mode which determines the look & feel of the user interface.
+		/// </summary>
+		public UserInterfaceMode UserInterfaceMode { get; set; }
+
 		public Settings()
 		{
 			Browser = new BrowserSettings();

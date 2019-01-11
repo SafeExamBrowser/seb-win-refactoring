@@ -20,6 +20,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class Browser
 		{
+			internal const string CustomUserAgentDesktop = "browserUserAgentWinDesktopModeCustom";
+			internal const string CustomUserAgentMobile = "browserUserAgentWinTouchModeCustom";
+			internal const string EnablePageZoom = "enableZoomPage";
+			internal const string EnableTextZoom = "enableZoomText";
+			internal const string MainWindowMode = "browserViewMode";
+			internal const string UserAgentModeDesktop = "browserUserAgentWinDesktopMode";
+			internal const string UserAgentModeMobile = "browserUserAgentWinTouchMode";
+			internal const string ZoomMode = "zoomMode";
 		}
 
 		internal static class ConfigurationFile
@@ -90,6 +98,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class UserInterface
 		{
+			internal const string AllowKeyboardLayout = "showInputLanguage";
+			internal const string AllowWirelessNetwork = "allowWlan";
+			internal const string ShowClock = "showTime";
+			internal const string UserInterfaceMode = "touchOptimized";
 		}
 	}
 }

@@ -32,6 +32,11 @@ namespace SafeExamBrowser.Contracts.UserInterface.Browser
 		event TitleChangedEventHandler TitleChanged;
 
 		/// <summary>
+		/// Initializes the browser control.
+		/// </summary>
+		void Initialize();
+
+		/// <summary>
 		/// Navigates to the previous page in the browser control history.
 		/// </summary>
 		void NavigateBackwards();

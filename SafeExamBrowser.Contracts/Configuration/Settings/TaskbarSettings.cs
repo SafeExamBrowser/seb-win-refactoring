@@ -30,5 +30,10 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		/// Determines whether the user may control the wireless network connection during runtime.
 		/// </summary>
 		public bool AllowWirelessNetwork { get; set; }
+
+		/// <summary>
+		/// Determines whether the current date and time will be rendered in the taskbar.
+		/// </summary>
+		public bool ShowClock { get; set; }
 	}
 }

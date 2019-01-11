@@ -65,12 +65,11 @@ namespace SafeExamBrowser.Browser
 
 			downloadHandler.ConfigurationDownloadRequested += DownloadHandler_ConfigurationDownloadRequested;
 
-			control = new BrowserControl(appConfig, settings, controlLogger, text);
+			control = new BrowserControl(appConfig, settings, downloadHandler, controlLogger, text);
 			control.AddressChanged += Control_AddressChanged;
 			control.LoadingStateChanged += Control_LoadingStateChanged;
 			control.TitleChanged += Control_TitleChanged;
-			(control as BrowserControl).DownloadHandler = downloadHandler;
-			(control as BrowserControl).Initialize();
+			control.Initialize();
 
 			logger.Debug("Initialized browser control.");
 

@@ -20,6 +20,11 @@ namespace SafeExamBrowser.UserInterface.Classic
 		private bool allowClose;
 		private ILogger logger;
 
+		public bool ShowClock
+		{
+			set { Dispatcher.Invoke(() => Clock.Visibility = value ? Visibility.Visible : Visibility.Collapsed); }
+		}
+
 		public event QuitButtonClickedEventHandler QuitButtonClicked;
 
 		public Taskbar(ILogger logger)

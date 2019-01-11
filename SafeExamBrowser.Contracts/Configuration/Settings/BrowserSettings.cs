@@ -52,6 +52,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public bool AllowReloading { get; set; }
 
 		/// <summary>
+		/// The custom user agent to optionally be used for all requests.
+		/// </summary>
+		public string CustomUserAgent { get; set; }
+
+		/// <summary>
 		/// Determines whether the main browser window should be rendered in fullscreen mode, i.e. without window frame.
 		/// </summary>
 		public bool FullScreenMode { get; set; }
@@ -60,5 +65,10 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		/// The start URL with which a new browser window should be loaded.
 		/// </summary>
 		public string StartUrl { get; set; }
+
+		/// <summary>
+		/// Determines whether a custom user agent should be used for all requests, see <see cref="CustomUserAgent"/>.
+		/// </summary>
+		public bool UseCustomUserAgent { get; set; }
 	}
 }

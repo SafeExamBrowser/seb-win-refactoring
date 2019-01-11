@@ -23,6 +23,7 @@ namespace SafeExamBrowser.Browser
 	{
 		private AppConfig appConfig;
 		private BrowserSettings settings;
+		private IDownloadHandler downloadHandler;
 		private ILogger logger;
 		private IText text;
 
@@ -48,9 +49,15 @@ namespace SafeExamBrowser.Browser
 			remove { titleChanged -= value; }
 		}
 
-		public BrowserControl(AppConfig appConfig, BrowserSettings settings, ILogger logger, IText text) : base(settings.StartUrl)
+		public BrowserControl(
+			AppConfig appConfig,
+			BrowserSettings settings,
+			IDownloadHandler downloadHandler,
+			ILogger logger,
+			IText text) : base(settings.StartUrl)
 		{
 			this.appConfig = appConfig;
+			this.downloadHandler = downloadHandler;
 			this.logger = logger;
 			this.settings = settings;
 			this.text = text;
@@ -62,6 +69,7 @@ namespace SafeExamBrowser.Browser
 			LoadingStateChanged += (o, args) => loadingStateChanged?.Invoke(args.IsLoading);
 			TitleChanged += (o, args) => titleChanged?.Invoke(args.Title);
 
+			DownloadHandler = downloadHandler;
 			KeyboardHandler = new KeyboardHandler(settings);
 			MenuHandler = new ContextMenuHandler(settings, text);
 			RequestHandler = new RequestHandler(appConfig);

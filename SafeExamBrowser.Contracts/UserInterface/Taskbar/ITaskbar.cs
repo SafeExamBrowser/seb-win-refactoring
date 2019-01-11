@@ -17,6 +17,11 @@ namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 	public interface ITaskbar
 	{
 		/// <summary>
+		/// Controls the visibility of the clock.
+		/// </summary>
+		bool ShowClock { set; }
+
+		/// <summary>
 		/// Event fired when the user clicked the quit button in the taskbar.
 		/// </summary>
 		event QuitButtonClickedEventHandler QuitButtonClicked;
