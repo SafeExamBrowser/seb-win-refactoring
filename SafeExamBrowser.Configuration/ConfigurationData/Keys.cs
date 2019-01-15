@@ -23,11 +23,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string CustomUserAgentDesktop = "browserUserAgentWinDesktopModeCustom";
 			internal const string CustomUserAgentMobile = "browserUserAgentWinTouchModeCustom";
 			internal const string EnablePageZoom = "enableZoomPage";
-			internal const string EnableTextZoom = "enableZoomText";
 			internal const string MainWindowMode = "browserViewMode";
 			internal const string UserAgentModeDesktop = "browserUserAgentWinDesktopMode";
 			internal const string UserAgentModeMobile = "browserUserAgentWinTouchMode";
-			internal const string ZoomMode = "zoomMode";
 		}
 
 		internal static class ConfigurationFile

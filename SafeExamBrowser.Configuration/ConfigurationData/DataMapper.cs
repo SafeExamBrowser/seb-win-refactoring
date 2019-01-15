@@ -28,16 +28,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			switch (key)
 			{
 				case Keys.Browser.EnablePageZoom:
-					// TODO: MapPageZoom(settings, value);
-					break;
-				case Keys.Browser.EnableTextZoom:
-					// TODO: MapTextZoom(settings, value);
+					MapPageZoom(settings, value);
 					break;
 				case Keys.Browser.MainWindowMode:
 					MapMainWindowMode(settings, value);
-					break;
-				case Keys.Browser.ZoomMode:
-					MapZoomMode(settings, value);
 					break;
 				case Keys.ConfigurationFile.ConfigurationPurpose:
 					MapConfigurationMode(settings, value);

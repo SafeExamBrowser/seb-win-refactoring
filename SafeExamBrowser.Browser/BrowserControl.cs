@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
 using SafeExamBrowser.Browser.Handlers;
@@ -67,6 +68,7 @@ namespace SafeExamBrowser.Browser
 		{
 			AddressChanged += BrowserControl_AddressChanged;
 			LoadingStateChanged += (o, args) => loadingStateChanged?.Invoke(args.IsLoading);
+			MouseWheel += BrowserControl_MouseWheel;
 			TitleChanged += (o, args) => titleChanged?.Invoke(args.Title);
 
 			DownloadHandler = downloadHandler;
@@ -102,6 +104,22 @@ namespace SafeExamBrowser.Browser
 		{
 			logger.Debug($"Navigated to '{args.Address}'.");
 			addressChanged?.Invoke(args.Address);
+		}
+
+		private void BrowserControl_MouseWheel(object sender, MouseEventArgs e)
+		{
+			if (settings.AllowPageZoom && ModifierKeys == Keys.Control)
+			{
+				var browser = GetBrowser();
+
+				browser.GetZoomLevelAsync().ContinueWith(task =>
+				{
+					if (task.IsCompleted)
+					{
+						browser.SetZoomLevel(task.Result + e.Delta * 0.1);
+					}
+				});
+			}
 		}
 	}
 }

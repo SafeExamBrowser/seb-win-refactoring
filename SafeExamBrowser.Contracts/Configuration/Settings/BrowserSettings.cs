@@ -47,6 +47,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public bool AllowForwardNavigation { get; set; }
 
 		/// <summary>
+		/// Determines whether the user should be allowed to zoom webpages.
+		/// </summary>
+		public bool AllowPageZoom { get; set; }
+
+		/// <summary>
 		/// Determines whether the user should be allowed to reload webpages.
 		/// </summary>
 		public bool AllowReloading { get; set; }

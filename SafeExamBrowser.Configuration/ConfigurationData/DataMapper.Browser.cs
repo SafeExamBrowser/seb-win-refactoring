@@ -23,6 +23,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
+		private void MapPageZoom(Settings settings, object value)
+		{
+			if (value is bool enabled)
+			{
+				settings.Browser.AllowPageZoom = enabled;
+			}
+		}
+
 		private void MapUserAgentMode(IDictionary<string, object> rawData, Settings settings)
 		{
 			const int DEFAULT = 0;
@@ -39,16 +47,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			{
 				settings.Browser.UseCustomUserAgent = true;
 				settings.Browser.CustomUserAgent = rawData[Keys.Browser.CustomUserAgentMobile] as string;
-			}
-		}
-
-		private void MapZoomMode(Settings settings, object value)
-		{
-			const int PAGE = 0;
-
-			if (value is int mode)
-			{
-				// TODO: settings.Browser.ZoomMode = mode == PAGE ? BrowserZoomMode.Page : BrowserZoomMode.Text;
 			}
 		}
 	}
