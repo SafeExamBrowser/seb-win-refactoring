@@ -9,6 +9,8 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.UserInterface.Browser;
 using SafeExamBrowser.Contracts.UserInterface.Browser.Events;
@@ -87,6 +89,11 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		public void UpdateAddress(string url)
 		{
 			Dispatcher.Invoke(() => UrlTextBox.Text = url);
+		}
+
+		public void UpdateIcon(IIconResource icon)
+		{
+			Dispatcher.BeginInvoke(new Action(() => Icon = new BitmapImage(icon.Uri)));
 		}
 
 		public void UpdateLoadingState(bool isLoading)

@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.UserInterface.Browser.Events;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
 
@@ -45,6 +46,11 @@ namespace SafeExamBrowser.Contracts.UserInterface.Browser
 		/// Updates the address bar of the browser window to the given value;
 		/// </summary>
 		void UpdateAddress(string adress);
+
+		/// <summary>
+		/// Updates the icon of the browser window.
+		/// </summary>
+		void UpdateIcon(IIconResource icon);
 
 		/// <summary>
 		/// Updates the loading state according to the given value.

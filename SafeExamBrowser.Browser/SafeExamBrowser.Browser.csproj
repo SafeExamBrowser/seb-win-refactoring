@@ -66,6 +66,7 @@
     <Compile Include="BrowserApplicationInfo.cs" />
     <Compile Include="BrowserApplicationInstance.cs" />
     <Compile Include="BrowserInstanceIdentifier.cs" />
+    <Compile Include="Events\FaviconChangedEventHandler.cs" />
     <Compile Include="Events\PopupRequestedEventArgs.cs" />
     <Compile Include="Events\PopupRequestedEventHandler.cs" />
     <Compile Include="Events\ReloadRequestedEventHandler.cs" />
@@ -74,6 +75,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="BrowserIconResource.cs" />
+    <Compile Include="Handlers\DisplayHandler.cs" />
     <Compile Include="Handlers\DownloadHandler.cs" />
     <Compile Include="Handlers\KeyboardHandler.cs" />
     <Compile Include="Handlers\LifeSpanHandler.cs" />

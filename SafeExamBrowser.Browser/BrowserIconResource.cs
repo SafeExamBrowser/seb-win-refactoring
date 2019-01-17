@@ -13,8 +13,13 @@ namespace SafeExamBrowser.Browser
 {
 	public class BrowserIconResource : IIconResource
 	{
-		public Uri Uri => new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/SafeExamBrowser.ico");
+		public Uri Uri { get; private set; }
 		public bool IsBitmapResource => true;
 		public bool IsXamlResource => false;
+
+		public BrowserIconResource(string uri = null)
+		{
+			Uri = new Uri(uri ?? "pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/SafeExamBrowser.ico");
+		}
 	}
 }

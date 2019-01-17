@@ -39,6 +39,7 @@ namespace SafeExamBrowser.Browser
 		public IWindow Window { get { return window; } }
 
 		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
+		public event IconChangedEventHandler IconChanged;
 		public event InstanceTerminatedEventHandler Terminated;
 		public event NameChangedEventHandler NameChanged;
 		public event PopupRequestedEventHandler PopupRequested;
@@ -66,17 +67,19 @@ namespace SafeExamBrowser.Browser
 		internal void Initialize()
 		{
 			var contextMenuHandler = new ContextMenuHandler(settings, text);
+			var displayHandler = new DisplayHandler();
 			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} {Id}");
 			var downloadHandler = new DownloadHandler(appConfig, settings, downloadLogger);
 			var keyboardHandler = new KeyboardHandler();
 			var lifeSpanHandler = new LifeSpanHandler();
 			var requestHandler = new RequestHandler(appConfig);
 
+			displayHandler.FaviconChanged += DisplayHandler_FaviconChanged;
 			downloadHandler.ConfigurationDownloadRequested += DownloadHandler_ConfigurationDownloadRequested;
 			keyboardHandler.ReloadRequested += KeyboardHandler_ReloadRequested;
 			lifeSpanHandler.PopupRequested += LifeSpanHandler_PopupRequested;
 
-			control = new BrowserControl(contextMenuHandler, downloadHandler, keyboardHandler, lifeSpanHandler, requestHandler, settings.StartUrl);
+			control = new BrowserControl(contextMenuHandler, displayHandler, downloadHandler, keyboardHandler, lifeSpanHandler, requestHandler, settings.StartUrl);
 			control.AddressChanged += Control_AddressChanged;
 			control.LoadingStateChanged += Control_LoadingStateChanged;
 			control.TitleChanged += Control_TitleChanged;
@@ -137,6 +140,14 @@ namespace SafeExamBrowser.Browser
 		{
 			window.UpdateTitle(title);
 			NameChanged?.Invoke(title);
+		}
+
+		private void DisplayHandler_FaviconChanged(string uri)
+		{
+			var icon = new BrowserIconResource(uri);
+
+			IconChanged?.Invoke(icon);
+			window.UpdateIcon(icon);
 		}
 
 		private void DownloadHandler_ConfigurationDownloadRequested(string fileName, DownloadEventArgs args)

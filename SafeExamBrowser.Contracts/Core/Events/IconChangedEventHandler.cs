@@ -6,10 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.Configuration;
+
 namespace SafeExamBrowser.Contracts.Core.Events
 {
 	/// <summary>
-	/// Event handler used to indicate that an <see cref="IApplicationInstance"/> with a particular ID has terminated.
+	/// Event handler used to indicate that the icon of an <see cref="IApplicationInstance"/> has changed.
 	/// </summary>
-	public delegate void InstanceTerminatedEventHandler(InstanceIdentifier id);
+	public delegate void IconChangedEventHandler(IIconResource icon);
 }

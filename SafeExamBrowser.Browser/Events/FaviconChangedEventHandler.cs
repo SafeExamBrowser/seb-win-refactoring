@@ -6,10 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Core.Events
+namespace SafeExamBrowser.Browser.Events
 {
-	/// <summary>
-	/// Event handler used to indicate that an <see cref="IApplicationInstance"/> with a particular ID has terminated.
-	/// </summary>
-	public delegate void InstanceTerminatedEventHandler(InstanceIdentifier id);
+	internal delegate void FaviconChangedEventHandler(string uri);
 }

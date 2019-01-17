@@ -71,6 +71,7 @@
     <Compile Include="Configuration\DataResources\IResourceSaver.cs" />
     <Compile Include="Configuration\SaveStatus.cs" />
     <Compile Include="Configuration\Settings\UserInterfaceMode.cs" />
+    <Compile Include="Core\Events\IconChangedEventHandler.cs" />
     <Compile Include="Core\Events\InstanceTerminatedEventHandler.cs" />
     <Compile Include="Core\Events\NameChangedEventHandler.cs" />
     <Compile Include="Core\IApplicationController.cs" />

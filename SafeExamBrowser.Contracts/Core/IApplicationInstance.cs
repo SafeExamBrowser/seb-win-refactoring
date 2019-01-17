@@ -27,6 +27,11 @@ namespace SafeExamBrowser.Contracts.Core
 		string Name { get; }
 
 		/// <summary>
+		/// Event fired when the icon of the application instance has changed.
+		/// </summary>
+		event IconChangedEventHandler IconChanged;
+
+		/// <summary>
 		/// Event fired when the application instance has been terminated.
 		/// </summary>
 		event InstanceTerminatedEventHandler Terminated;
