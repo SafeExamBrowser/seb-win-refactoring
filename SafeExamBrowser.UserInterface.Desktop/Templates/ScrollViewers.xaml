@@ -2,37 +2,57 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Templates">
     <ControlTemplate x:Key="Thumb" TargetType="{x:Type Thumb}">
-        <Border Background="DarkGray" Height="Auto" Width="Auto" />
+        <Rectangle x:Name="Rectangle" Fill="DarkGray" Height="Auto" Width="Auto" />
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsDragging" Value="True">
+                <Setter TargetName="Rectangle" Property="Fill" Value="Black" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <ControlTemplate x:Key="RepeatButton" TargetType="RepeatButton">
+        <Rectangle Fill="DarkGray" Height="Auto" Width="Auto" />
     </ControlTemplate>
     <ControlTemplate x:Key="VerticalScrollBar" TargetType="{x:Type ScrollBar}">
         <Track Name="PART_Track" Height="Auto" IsDirectionReversed="True" Width="10">
+            <Track.DecreaseRepeatButton>
+                <RepeatButton Margin="4.5,0" Template="{StaticResource RepeatButton}" />
+            </Track.DecreaseRepeatButton>
             <Track.Thumb>
-                <Thumb Template="{StaticResource Thumb}" Focusable="False" Margin="2.5" OverridesDefaultStyle="True" SnapsToDevicePixels="True" />
+                <Thumb Cursor="ScrollNS" Focusable="False" Margin="2.5,0" OverridesDefaultStyle="True" SnapsToDevicePixels="True" Template="{StaticResource Thumb}" />
             </Track.Thumb>
+            <Track.IncreaseRepeatButton>
+                <RepeatButton Margin="4.5,0" Template="{StaticResource RepeatButton}" />
+            </Track.IncreaseRepeatButton>
         </Track>
     </ControlTemplate>
     <ControlTemplate x:Key="HorizontalScrollBar" TargetType="{x:Type ScrollBar}">
         <Track Name="PART_Track" Height="10" IsDirectionReversed="False" Width="Auto">
+            <Track.DecreaseRepeatButton>
+                <RepeatButton Margin="0,4.5" Template="{StaticResource RepeatButton}" />
+            </Track.DecreaseRepeatButton>
             <Track.Thumb>
-                <Thumb Template="{StaticResource Thumb}" Focusable="False" Margin="2.5" OverridesDefaultStyle="True" SnapsToDevicePixels="True" />
+                <Thumb Cursor="ScrollWE" Focusable="False" Margin="0,2.5" OverridesDefaultStyle="True" SnapsToDevicePixels="True" Template="{StaticResource Thumb}" />
             </Track.Thumb>
+            <Track.IncreaseRepeatButton>
+                <RepeatButton Margin="0,4.5" Template="{StaticResource RepeatButton}" />
+            </Track.IncreaseRepeatButton>
         </Track>
     </ControlTemplate>
     <ControlTemplate x:Key="SmallBarScrollViewer" TargetType="{x:Type ScrollViewer}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <ScrollContentPresenter Grid.Column="0" Grid.Row="0" />
-            <ScrollBar Name="PART_VerticalScrollBar" Grid.Column="1" Grid.Row="0" OverridesDefaultStyle="True" Value="{TemplateBinding VerticalOffset}"
-                       Maximum="{TemplateBinding ScrollableHeight}" Template="{StaticResource VerticalScrollBar}"
+            <ScrollBar Name="PART_VerticalScrollBar" Grid.Column="1" Grid.Row="0" Background="LightGray" OverridesDefaultStyle="True"
+                       Value="{TemplateBinding VerticalOffset}" Maximum="{TemplateBinding ScrollableHeight}" Template="{StaticResource VerticalScrollBar}"
                        ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
-            <ScrollBar Name="PART_HorizontalScrollBar" Grid.Column="0" Grid.Row="1" OverridesDefaultStyle="True" Orientation="Horizontal"
+            <ScrollBar Name="PART_HorizontalScrollBar" Grid.Column="0" Grid.Row="1" Background="LightGray" OverridesDefaultStyle="True" Orientation="Horizontal"
                        Value="{TemplateBinding HorizontalOffset}" Maximum="{TemplateBinding ScrollableWidth}" Template="{StaticResource HorizontalScrollBar}"
                        ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
         </Grid>
