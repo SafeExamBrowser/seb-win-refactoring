@@ -13,6 +13,39 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal partial class DataMapper
 	{
+		private void MapAllowNavigation(Settings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.AllowBackwardNavigation = allow;
+				settings.Browser.AllowForwardNavigation = allow;
+			}
+		}
+
+		private void MapAllowPageZoom(Settings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.AllowPageZoom = allow;
+			}
+		}
+
+		private void MapAllowPopups(Settings settings, object value)
+		{
+			if (value is bool block)
+			{
+				settings.Browser.AllowPopups = !block;
+			}
+		}
+
+		private void MapAllowReload(Settings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.AllowReloading = allow;
+			}
+		}
+
 		private void MapMainWindowMode(Settings settings, object value)
 		{
 			const int FULLSCREEN = 1;
@@ -23,11 +56,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapPageZoom(Settings settings, object value)
+		private void MapShowReloadWarning(Settings settings, object value)
 		{
-			if (value is bool enabled)
+			if (value is bool show)
 			{
-				settings.Browser.AllowPageZoom = enabled;
+				settings.Browser.ShowReloadWarning = show;
 			}
 		}
 

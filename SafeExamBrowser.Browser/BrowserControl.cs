@@ -6,27 +6,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
-using SafeExamBrowser.Browser.Handlers;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface.Browser;
 using SafeExamBrowser.Contracts.UserInterface.Browser.Events;
-using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
 
 namespace SafeExamBrowser.Browser
 {
 	internal class BrowserControl : ChromiumWebBrowser, IBrowserControl
 	{
-		private AppConfig appConfig;
-		private BrowserSettings settings;
+		private IContextMenuHandler contextMenuHandler;
 		private IDownloadHandler downloadHandler;
-		private ILogger logger;
-		private IText text;
+		private IKeyboardHandler keyboardHandler;
+		private ILifeSpanHandler lifeSpanHandler;
+		private IRequestHandler requestHandler;
 
 		private AddressChangedEventHandler addressChanged;
 		private LoadingStateChangedEventHandler loadingStateChanged;
@@ -51,30 +44,31 @@ namespace SafeExamBrowser.Browser
 		}
 
 		public BrowserControl(
-			AppConfig appConfig,
-			BrowserSettings settings,
+			IContextMenuHandler contextMenuHandler,
 			IDownloadHandler downloadHandler,
-			ILogger logger,
-			IText text) : base(settings.StartUrl)
+			IKeyboardHandler keyboardHandler,
+			ILifeSpanHandler lifeSpanHandler,
+			IRequestHandler requestHandler,
+			string url) : base(url)
 		{
-			this.appConfig = appConfig;
+			this.contextMenuHandler = contextMenuHandler;
 			this.downloadHandler = downloadHandler;
-			this.logger = logger;
-			this.settings = settings;
-			this.text = text;
+			this.keyboardHandler = keyboardHandler;
+			this.lifeSpanHandler = lifeSpanHandler;
+			this.requestHandler = requestHandler;
 		}
 
 		public void Initialize()
 		{
-			AddressChanged += BrowserControl_AddressChanged;
+			AddressChanged += (o, args) => addressChanged?.Invoke(args.Address);
 			LoadingStateChanged += (o, args) => loadingStateChanged?.Invoke(args.IsLoading);
-			MouseWheel += BrowserControl_MouseWheel;
 			TitleChanged += (o, args) => titleChanged?.Invoke(args.Title);
 
 			DownloadHandler = downloadHandler;
-			KeyboardHandler = new KeyboardHandler(settings);
-			MenuHandler = new ContextMenuHandler(settings, text);
-			RequestHandler = new RequestHandler(appConfig);
+			KeyboardHandler = keyboardHandler;
+			LifeSpanHandler = lifeSpanHandler;
+			MenuHandler = contextMenuHandler;
+			RequestHandler = requestHandler;
 		}
 
 		public void NavigateBackwards()
@@ -89,37 +83,12 @@ namespace SafeExamBrowser.Browser
 
 		public void NavigateTo(string address)
 		{
-			if (!String.IsNullOrWhiteSpace(address))
-			{
-				Load(address);
-			}
+			Load(address);
 		}
 
 		public void Reload()
 		{
 			GetBrowser().Reload();
-		}
-
-		private void BrowserControl_AddressChanged(object sender, AddressChangedEventArgs args)
-		{
-			logger.Debug($"Navigated to '{args.Address}'.");
-			addressChanged?.Invoke(args.Address);
-		}
-
-		private void BrowserControl_MouseWheel(object sender, MouseEventArgs e)
-		{
-			if (settings.AllowPageZoom && ModifierKeys == Keys.Control)
-			{
-				var browser = GetBrowser();
-
-				browser.GetZoomLevelAsync().ContinueWith(task =>
-				{
-					if (task.IsCompleted)
-					{
-						browser.SetZoomLevel(task.Result + e.Delta * 0.1);
-					}
-				});
-			}
 		}
 	}
 }

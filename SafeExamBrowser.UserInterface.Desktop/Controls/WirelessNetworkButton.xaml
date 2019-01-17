@@ -14,7 +14,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Button x:Name="Button" Height="40" Padding="10,0" Template="{StaticResource TaskbarButton}">
+        <Button x:Name="Button" Background="Transparent" Height="40" Padding="10,0" Template="{StaticResource TaskbarButton}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

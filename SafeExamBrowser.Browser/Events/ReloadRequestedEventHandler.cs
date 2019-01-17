@@ -6,17 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Monitoring
+namespace SafeExamBrowser.Browser.Events
 {
-	/// <summary>
-	/// The mouse buttons which can be detected by the <see cref="IMouseInterceptor"/>.
-	/// </summary>
-	public enum MouseButton
-	{
-		Unknown = 0,
-		Auxiliary,
-		Left,
-		Middle,
-		Right
-	}
+	internal delegate void ReloadRequestedEventHandler();
 }

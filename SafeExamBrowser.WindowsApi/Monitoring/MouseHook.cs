@@ -82,8 +82,11 @@ namespace SafeExamBrowser.WindowsApi.Monitoring
 				case Constant.WM_RBUTTONDOWN:
 				case Constant.WM_RBUTTONUP:
 					return MouseButton.Right;
+				case Constant.WM_XBUTTONDOWN:
+				case Constant.WM_XBUTTONUP:
+					return MouseButton.Auxiliary;
 				default:
-					return MouseButton.None;
+					return MouseButton.Unknown;
 			}
 		}
 
@@ -94,13 +97,15 @@ namespace SafeExamBrowser.WindowsApi.Monitoring
 				case Constant.WM_LBUTTONDOWN:
 				case Constant.WM_MBUTTONDOWN:
 				case Constant.WM_RBUTTONDOWN:
+				case Constant.WM_XBUTTONDOWN:
 					return KeyState.Pressed;
 				case Constant.WM_LBUTTONUP:
 				case Constant.WM_MBUTTONUP:
 				case Constant.WM_RBUTTONUP:
+				case Constant.WM_XBUTTONUP:
 					return KeyState.Released;
 				default:
-					return KeyState.None;
+					return KeyState.Unknown;
 			}
 		}
 	}

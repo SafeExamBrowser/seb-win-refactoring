@@ -27,6 +27,7 @@ namespace SafeExamBrowser.Monitoring.Mouse
 		{
 			var block = false;
 
+			block |= button == MouseButton.Auxiliary;
 			block |= button == MouseButton.Middle && !settings.AllowMiddleButton;
 			block |= button == MouseButton.Right && !settings.AllowRightButton;
 

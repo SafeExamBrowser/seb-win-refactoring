@@ -153,12 +153,26 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		private void ApplySettings()
 		{
-			if (IsMainWindow && settings.FullScreenMode)
+			if (IsMainWindow)
 			{
-				MaxHeight = SystemParameters.WorkArea.Height;
-				ResizeMode = ResizeMode.NoResize;
-				WindowState = WindowState.Maximized;
-				WindowStyle = WindowStyle.None;
+				if (settings.FullScreenMode)
+				{
+					MaxHeight = SystemParameters.WorkArea.Height;
+					ResizeMode = ResizeMode.NoResize;
+					WindowState = WindowState.Maximized;
+					WindowStyle = WindowStyle.None;
+				}
+				else
+				{
+					WindowState = WindowState.Maximized;
+				}
+			}
+			else
+			{
+				Top = 0;
+				Left = SystemParameters.WorkArea.Width / 2;
+				Height = SystemParameters.WorkArea.Height;
+				Width = SystemParameters.WorkArea.Width / 2;
 			}
 
 			UrlTextBox.IsEnabled = settings.AllowAddressBar;

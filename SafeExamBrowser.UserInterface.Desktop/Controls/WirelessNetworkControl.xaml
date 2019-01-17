@@ -17,8 +17,8 @@
     </UserControl.Resources>
     <Grid>
         <Popup x:Name="Popup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}">
-            <Border Background="LightGray" BorderBrush="Gray" BorderThickness="0.5,0.5,0.5,0">
-                <ScrollViewer Background="{StaticResource BackgroundBrush}" MaxHeight="250" VerticalScrollBarVisibility="Auto">
+            <Border Background="LightGray" BorderBrush="Gray" BorderThickness="0.75,0.75,0.75,0">
+                <ScrollViewer MaxHeight="250" VerticalScrollBarVisibility="Auto">
                     <ScrollViewer.Resources>
                         <s:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</s:Double>
                     </ScrollViewer.Resources>

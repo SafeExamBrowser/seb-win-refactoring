@@ -8,21 +8,16 @@
 
 using System.Windows.Forms;
 using CefSharp;
-using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
+using SafeExamBrowser.Browser.Events;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
 	/// <remarks>
-	/// See https://cefsharp.github.io/api/63.0.0/html/T_CefSharp_IKeyboardHandler.htm.
+	/// See https://cefsharp.github.io/api/67.0.0/html/T_CefSharp_IKeyboardHandler.htm.
 	/// </remarks>
 	internal class KeyboardHandler : IKeyboardHandler
 	{
-		private BrowserSettings settings;
-
-		public KeyboardHandler(BrowserSettings settings)
-		{
-			this.settings = settings;
-		}
+		public event ReloadRequestedEventHandler ReloadRequested;
 
 		public bool OnKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey)
 		{
@@ -31,9 +26,9 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		public bool OnPreKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut)
 		{
-			if (settings.AllowReloading && type == KeyType.KeyUp && windowsKeyCode == (int) Keys.F5)
+			if (type == KeyType.KeyUp && windowsKeyCode == (int) Keys.F5)
 			{
-				browserControl.Reload();
+				ReloadRequested?.Invoke();
 
 				return true;
 			}

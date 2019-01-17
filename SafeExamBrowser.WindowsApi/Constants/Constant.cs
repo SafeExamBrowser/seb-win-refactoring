@@ -184,5 +184,23 @@ namespace SafeExamBrowser.WindowsApi.Constants
 		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms646287(v=vs.85).aspx
 		/// </summary>
 		internal const int WM_SYSKEYUP = 0x105;
+
+		/// <summary>
+		/// Posted when the user presses the first or second X button while the cursor is in the client area of a window. If the mouse is
+		/// not captured, the message is posted to the window beneath the cursor. Otherwise, the message is posted to the window that has
+		/// captured the mouse.
+		/// 
+		/// See https://docs.microsoft.com/de-de/windows/desktop/inputdev/wm-xbuttondown.
+		/// </summary>
+		internal const int WM_XBUTTONDOWN = 0x20B;
+
+		/// <summary>
+		/// Posted when the user releases the first or second X button while the cursor is in the client area of a window. If the mouse is
+		/// not captured, the message is posted to the window beneath the cursor. Otherwise, the message is posted to the window that has
+		/// captured the mouse.
+		/// 
+		/// See https://docs.microsoft.com/de-de/windows/desktop/inputdev/wm-xbuttonup.
+		/// </summary>
+		internal const int WM_XBUTTONUP = 0x20C;
 	}
 }

@@ -14,7 +14,7 @@ using SafeExamBrowser.Contracts.Configuration;
 namespace SafeExamBrowser.Browser.Handlers
 {
 	/// <remarks>
-	/// See https://cefsharp.github.io/api/63.0.0/html/T_CefSharp_Handler_DefaultRequestHandler.htm.
+	/// See https://cefsharp.github.io/api/67.0.0/html/T_CefSharp_Handler_DefaultRequestHandler.htm.
 	/// </remarks>
 	internal class RequestHandler : DefaultRequestHandler
 	{

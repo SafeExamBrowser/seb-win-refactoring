@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -114,13 +115,13 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 			SignalStrengthIcon.Child = GetIcon(0);
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
-			Button.MouseLeave += (o, args) => Popup.IsOpen = Popup.IsMouseOver;
-			Popup.MouseLeave += (o, args) => Popup.IsOpen = IsMouseOver;
+			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
+			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
 
 			Popup.Opened += (o, args) =>
 			{
-				Background = Brushes.LightBlue;
-				Button.Background = Brushes.LightBlue;
+				Background = Brushes.LightGray;
+				Button.Background = Brushes.LightGray;
 			};
 
 			Popup.Closed += (o, args) =>

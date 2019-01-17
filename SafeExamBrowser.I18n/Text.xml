@@ -84,6 +84,12 @@
   <Entry key="MessageBox_ReconfigurationQuestionTitle">
     Configuration Detected
   </Entry>
+  <Entry key="MessageBox_ReloadConfirmation">
+    Would you like to reload the current page?
+  </Entry>
+  <Entry key="MessageBox_ReloadConfirmationTitle">
+    Reload?
+  </Entry>
   <Entry key="MessageBox_ShutdownError">
     An unexpected error occurred during the shutdown procedure! Please consult the application log for more information...
   </Entry>

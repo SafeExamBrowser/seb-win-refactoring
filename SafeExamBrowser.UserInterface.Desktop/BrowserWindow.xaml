@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop"
-        mc:Ignorable="d" Title="BrowserWindow" Background="#FFF0F0F0" Height="500" Width="750" MinHeight="250" MinWidth="250"
-        WindowState="Maximized" Icon=".\Images\SafeExamBrowser.ico">
+        mc:Ignorable="d" Title="BrowserWindow" Background="#FFF0F0F0" Height="500" Width="750" MinHeight="250" MinWidth="250" Icon=".\Images\SafeExamBrowser.ico">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

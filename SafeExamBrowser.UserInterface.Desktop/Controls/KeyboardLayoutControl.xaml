@@ -17,8 +17,8 @@
     </UserControl.Resources>
     <Grid>
         <Popup x:Name="Popup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}">
-            <Border Background="LightGray" BorderBrush="Gray" BorderThickness="0.5,0.5,0.5,0">
-                <ScrollViewer x:Name="LayoutsScrollViewer" Background="{StaticResource BackgroundBrush}" MaxHeight="250" VerticalScrollBarVisibility="Auto">
+            <Border Background="LightGray" BorderBrush="Gray" BorderThickness="0.75,0.75,0.75,0">
+                <ScrollViewer x:Name="LayoutsScrollViewer" MaxHeight="250" VerticalScrollBarVisibility="Auto">
                     <ScrollViewer.Resources>
                         <s:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</s:Double>
                     </ScrollViewer.Resources>
@@ -28,7 +28,11 @@
         </Popup>
         <Button x:Name="Button" Background="Transparent" Template="{StaticResource TaskbarButton}" Padding="5" Width="40">
             <Grid>
-                <fa:ImageAwesome Panel.ZIndex="1" Foreground="LightGray" Icon="KeyboardOutline" VerticalAlignment="Center" />
+                <fa:ImageAwesome Panel.ZIndex="1" Foreground="LightGray" Icon="KeyboardOutline" VerticalAlignment="Center">
+                    <fa:ImageAwesome.Effect>
+                        <DropShadowEffect Color="White" BlurRadius="5" Direction="0" Opacity="1" ShadowDepth="0" />
+                    </fa:ImageAwesome.Effect>
+                </fa:ImageAwesome>
                 <Viewbox Panel.ZIndex="2" Stretch="Uniform">
                     <StackPanel Orientation="Vertical">
                         <TextBlock x:Name="LayoutCultureCode" FontWeight="Bold" TextAlignment="Center" Text="ENG">

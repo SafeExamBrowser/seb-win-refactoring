@@ -11,17 +11,17 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Templates/Buttons.xaml" />
                 <ResourceDictionary Source="../Templates/Colors.xaml" />
+                <ResourceDictionary Source="../Templates/ScrollViewers.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <Popup x:Name="InstancePopup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}">
-            <ScrollViewer x:Name="InstanceScrollViewer" Background="{StaticResource BackgroundBrush}" VerticalScrollBarVisibility="Auto">
-                <ScrollViewer.Resources>
-                    <s:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">5</s:Double>
-                </ScrollViewer.Resources>
-                <StackPanel x:Name="InstanceStackPanel" />
-            </ScrollViewer>
+            <Border Background="LightGray" BorderBrush="Gray" BorderThickness="0.75,0.75,0.75,0">
+                <ScrollViewer x:Name="InstanceScrollViewer" MaxHeight="400" VerticalScrollBarVisibility="Auto" Template="{StaticResource SmallBarScrollViewer}">
+                    <StackPanel x:Name="InstanceStackPanel" />
+                </ScrollViewer>
+            </Border>
         </Popup>
         <Button x:Name="Button" Background="{StaticResource BackgroundBrush}" Click="Button_Click" Padding="4" Template="{StaticResource TaskbarButton}" Width="50" />
     </Grid>

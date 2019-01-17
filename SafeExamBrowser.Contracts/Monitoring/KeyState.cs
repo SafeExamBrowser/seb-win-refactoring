@@ -13,7 +13,7 @@ namespace SafeExamBrowser.Contracts.Monitoring
 	/// </summary>
 	public enum KeyState
 	{
-		None = 0,
+		Unknown = 0,
 		Pressed,
 		Released
 	}

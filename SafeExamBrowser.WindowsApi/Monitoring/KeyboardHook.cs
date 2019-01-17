@@ -81,7 +81,7 @@ namespace SafeExamBrowser.WindowsApi.Monitoring
 				case Constant.WM_SYSKEYUP:
 					return KeyState.Released;
 				default:
-					return KeyState.None;
+					return KeyState.Unknown;
 			}
 		}
 

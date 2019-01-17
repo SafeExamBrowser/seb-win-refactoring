@@ -17,42 +17,47 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 	public class BrowserSettings
 	{
 		/// <summary>
-		/// Determines whether the user should be allowed to change the URL of a browser window.
+		/// Determines whether the user will be allowed to change the URL of a browser window.
 		/// </summary>
 		public bool AllowAddressBar { get; set; }
 
 		/// <summary>
-		/// Determines whether the user should be allowed to navigate backwards in a browser window.
+		/// Determines whether the user will be allowed to navigate backwards in a browser window.
 		/// </summary>
 		public bool AllowBackwardNavigation { get; set; }
 
 		/// <summary>
-		/// Determines whether the user should be allowed to download configuration files.
+		/// Determines whether the user will be allowed to download configuration files.
 		/// </summary>
 		public bool AllowConfigurationDownloads { get; set; }
 
 		/// <summary>
-		/// Determines whether the user should be allowed to open the developer console of a browser window.
+		/// Determines whether the user will be allowed to open the developer console of a browser window.
 		/// </summary>
 		public bool AllowDeveloperConsole { get; set; }
 
 		/// <summary>
-		/// Determines whether the user should be allowed to download files (excluding configuration files).
+		/// Determines whether the user will be allowed to download files (excluding configuration files).
 		/// </summary>
 		public bool AllowDownloads { get; set; }
 
 		/// <summary>
-		/// Determines whether the user should be allowed to navigate forwards in a browser window.
+		/// Determines whether the user will be allowed to navigate forwards in a browser window.
 		/// </summary>
 		public bool AllowForwardNavigation { get; set; }
 
 		/// <summary>
-		/// Determines whether the user should be allowed to zoom webpages.
+		/// Determines whether the user will be allowed to zoom webpages.
 		/// </summary>
 		public bool AllowPageZoom { get; set; }
 
 		/// <summary>
-		/// Determines whether the user should be allowed to reload webpages.
+		/// Determines whether popup windows will be opened or not.
+		/// </summary>
+		public bool AllowPopups { get; set; }
+
+		/// <summary>
+		/// Determines whether the user will be allowed to reload webpages.
 		/// </summary>
 		public bool AllowReloading { get; set; }
 
@@ -62,17 +67,22 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public string CustomUserAgent { get; set; }
 
 		/// <summary>
-		/// Determines whether the main browser window should be rendered in fullscreen mode, i.e. without window frame.
+		/// Determines whether the main browser window will be rendered in fullscreen mode, i.e. without window frame.
 		/// </summary>
 		public bool FullScreenMode { get; set; }
 
 		/// <summary>
-		/// The start URL with which a new browser window should be loaded.
+		/// Determines whether the user will need to confirm every reload attempt.
+		/// </summary>
+		public bool ShowReloadWarning { get; set; }
+
+		/// <summary>
+		/// The start URL with which a new browser window will be loaded.
 		/// </summary>
 		public string StartUrl { get; set; }
 
 		/// <summary>
-		/// Determines whether a custom user agent should be used for all requests, see <see cref="CustomUserAgent"/>.
+		/// Determines whether a custom user agent will be used for all requests, see <see cref="CustomUserAgent"/>.
 		/// </summary>
 		public bool UseCustomUserAgent { get; set; }
 	}

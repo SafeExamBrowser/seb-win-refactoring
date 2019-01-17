@@ -8,6 +8,7 @@
 
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using SafeExamBrowser.Contracts.SystemComponents;
@@ -62,13 +63,13 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			var originalBrush = Button.Background;
 
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
-			Button.MouseLeave += (o, args) => Popup.IsOpen = Popup.IsMouseOver;
-			Popup.MouseLeave += (o, args) => Popup.IsOpen = IsMouseOver;
+			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
+			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
 
 			Popup.Opened += (o, args) =>
 			{
-				Background = Brushes.LightBlue;
-				Button.Background = Brushes.LightBlue;
+				Background = Brushes.LightGray;
+				Button.Background = Brushes.LightGray;
 			};
 
 			Popup.Closed += (o, args) =>

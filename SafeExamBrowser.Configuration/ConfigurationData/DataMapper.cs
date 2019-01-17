@@ -27,11 +27,23 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			switch (key)
 			{
-				case Keys.Browser.EnablePageZoom:
-					MapPageZoom(settings, value);
+				case Keys.Browser.AllowNavigation:
+					MapAllowNavigation(settings, value);
+					break;
+				case Keys.Browser.AllowPageZoom:
+					MapAllowPageZoom(settings, value);
+					break;
+				case Keys.Browser.AllowPopups:
+					MapAllowPopups(settings, value);
+					break;
+				case Keys.Browser.AllowReload:
+					MapAllowReload(settings, value);
 					break;
 				case Keys.Browser.MainWindowMode:
 					MapMainWindowMode(settings, value);
+					break;
+				case Keys.Browser.ShowReloadWarning:
+					MapShowReloadWarning(settings, value);
 					break;
 				case Keys.ConfigurationFile.ConfigurationPurpose:
 					MapConfigurationMode(settings, value);

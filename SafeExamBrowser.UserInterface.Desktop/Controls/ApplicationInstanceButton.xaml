@@ -14,10 +14,10 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Button x:Name="Button" Background="{StaticResource BackgroundBrush}"  Click="Button_Click" Height="25" Template="{StaticResource TaskbarButton}">
+        <Button x:Name="Button" Background="Transparent" Click="Button_Click" Height="40" Padding="10" Template="{StaticResource TaskbarButton}">
             <StackPanel Orientation="Horizontal">
-                <ContentControl x:Name="Icon" HorizontalAlignment="Left" />
-                <TextBlock x:Name="Text" Padding="5,0,5,0" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                <ContentControl x:Name="Icon" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0" />
+                <TextBlock x:Name="Text" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="5" />
             </StackPanel>
         </Button>
     </Grid>
