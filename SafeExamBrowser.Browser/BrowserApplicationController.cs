@@ -61,11 +61,11 @@ namespace SafeExamBrowser.Browser
 			var cefSettings = InitializeCefSettings();
 			var success = Cef.Initialize(cefSettings, true, null);
 
-			logger.Info("Initialized browser engine.");
+			logger.Info("Initialized browser.");
 
 			if (!success)
 			{
-				throw new Exception("Failed to initialize the browser engine!");
+				throw new Exception("Failed to initialize browser!");
 			}
 		}
 
@@ -92,7 +92,7 @@ namespace SafeExamBrowser.Browser
 
 			Cef.Shutdown();
 
-			logger.Info("Terminated browser engine.");
+			logger.Info("Terminated browser.");
 		}
 
 		private void CreateNewInstance(BrowserSettings custom = null)
@@ -127,10 +127,10 @@ namespace SafeExamBrowser.Browser
 				UserAgent = settings.UseCustomUserAgent ? settings.CustomUserAgent : string.Empty
 			};
 
-			logger.Debug($"Browser cache path: {cefSettings.CachePath}");
-			logger.Debug($"Browser log file: {cefSettings.LogFile}");
-			logger.Debug($"Browser log severity: {cefSettings.LogSeverity}");
-			logger.Debug($"Browser engine version: Chromium {Cef.ChromiumVersion}, CEF {Cef.CefVersion}, CefSharp {Cef.CefSharpVersion}");
+			logger.Debug($"Cache path: {cefSettings.CachePath}");
+			logger.Debug($"Engine version: Chromium {Cef.ChromiumVersion}, CEF {Cef.CefVersion}, CefSharp {Cef.CefSharpVersion}");
+			logger.Debug($"Log file: {cefSettings.LogFile}");
+			logger.Debug($"Log severity: {cefSettings.LogSeverity}");
 
 			return cefSettings;
 		}

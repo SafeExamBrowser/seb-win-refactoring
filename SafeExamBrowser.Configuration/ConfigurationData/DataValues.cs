@@ -97,6 +97,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AllowDownloads = false;
 			settings.Browser.AllowForwardNavigation = false;
 			settings.Browser.AllowPageZoom = true;
+			settings.Browser.AllowPopups = true;
 			settings.Browser.AllowReloading = true;
 
 			settings.Keyboard.AllowAltEsc = false;

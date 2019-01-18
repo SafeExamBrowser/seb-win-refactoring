@@ -58,6 +58,7 @@ namespace SafeExamBrowser.Contracts.I18n
 		OperationStatus_EmptyClipboard,
 		OperationStatus_FinalizeServiceSession,
 		OperationStatus_InitializeBrowser,
+		OperationStatus_InitializeClient,
 		OperationStatus_InitializeConfiguration,
 		OperationStatus_InitializeKioskMode,
 		OperationStatus_InitializeProcessMonitoring,

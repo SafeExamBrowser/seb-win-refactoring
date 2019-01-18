@@ -95,6 +95,7 @@ namespace SafeExamBrowser.Client
 
 			var operations = new Queue<IOperation>();
 
+			operations.Enqueue(new InitializationOperation(logger));
 			operations.Enqueue(new I18nOperation(logger, text, textResource));
 			operations.Enqueue(new RuntimeConnectionOperation(logger, runtimeProxy, startupToken));
 			operations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeProxy));
