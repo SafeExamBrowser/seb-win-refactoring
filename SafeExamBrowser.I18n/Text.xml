@@ -3,6 +3,9 @@
   <Entry key="Browser_ShowDeveloperConsole">
     Open Console
   </Entry>
+  <Entry key="BrowserWindow_ZoomMenuItem">
+    Page Zoom
+  </Entry>
   <Entry key="LogWindow_Title">
     Application Log
   </Entry>

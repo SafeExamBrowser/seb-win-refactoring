@@ -15,6 +15,7 @@ namespace SafeExamBrowser.Contracts.I18n
 	public enum TextKey
 	{
 		Browser_ShowDeveloperConsole,
+		BrowserWindow_ZoomMenuItem,
 		LogWindow_Title,
 		MessageBox_ApplicationError,
 		MessageBox_ApplicationErrorTitle,

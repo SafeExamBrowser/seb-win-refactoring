@@ -174,7 +174,7 @@
     <Compile Include="SystemComponents\ISystemComponent.cs" />
     <Compile Include="SystemComponents\IWirelessNetwork.cs" />
     <Compile Include="SystemComponents\WirelessNetworkStatus.cs" />
-    <Compile Include="UserInterface\Browser\Events\ActionRequestedEventHandler.cs" />
+    <Compile Include="UserInterface\Events\ActionRequestedEventHandler.cs" />
     <Compile Include="UserInterface\Browser\Events\AddressChangedEventHandler.cs" />
     <Compile Include="UserInterface\Browser\Events\LoadingStateChangedEventHandler.cs" />
     <Compile Include="UserInterface\Browser\Events\TitleChangedEventHandler.cs" />

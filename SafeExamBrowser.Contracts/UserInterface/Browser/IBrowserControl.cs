@@ -55,5 +55,20 @@ namespace SafeExamBrowser.Contracts.UserInterface.Browser
 		/// Reloads the current web page.
 		/// </summary>
 		void Reload();
+
+		/// <summary>
+		/// Increases the page zoom.
+		/// </summary>
+		void ZoomIn();
+
+		/// <summary>
+		/// Decreases the page zoom.
+		/// </summary>
+		void ZoomOut();
+
+		/// <summary>
+		/// Resets the page zoom.
+		/// </summary>
+		void ZoomReset();
 	}
 }

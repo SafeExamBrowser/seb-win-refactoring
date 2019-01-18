@@ -7,11 +7,15 @@
  */
 
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Browser;
 using SafeExamBrowser.Contracts.UserInterface.Browser.Events;
 using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
@@ -24,7 +28,8 @@ namespace SafeExamBrowser.UserInterface.Desktop
 	{
 		private bool isMainWindow;
 		private BrowserSettings settings;
-		public WindowClosingEventHandler closing;
+		private IText text;
+		private WindowClosingEventHandler closing;
 
 		public bool IsMainWindow
 		{
@@ -43,6 +48,9 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		public event ActionRequestedEventHandler BackwardNavigationRequested;
 		public event ActionRequestedEventHandler ForwardNavigationRequested;
 		public event ActionRequestedEventHandler ReloadRequested;
+		public event ActionRequestedEventHandler ZoomInRequested;
+		public event ActionRequestedEventHandler ZoomOutRequested;
+		public event ActionRequestedEventHandler ZoomResetRequested;
 
 		event WindowClosingEventHandler IWindow.Closing
 		{
@@ -50,9 +58,10 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			remove { closing -= value; }
 		}
 
-		public BrowserWindow(IBrowserControl browserControl, BrowserSettings settings)
+		public BrowserWindow(IBrowserControl browserControl, BrowserSettings settings, IText text)
 		{
 			this.settings = settings;
+			this.text = text;
 
 			InitializeComponent();
 			InitializeBrowserWindow(browserControl);
@@ -112,25 +121,36 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		private void InitializeBrowserWindow(IBrowserControl browserControl)
 		{
+			var originalBrush = MenuButton.Background;
+
 			if (browserControl is System.Windows.Forms.Control control)
 			{
 				BrowserControlHost.Child = control;
 			}
 
+			BackButton.Click += (o, args) => BackwardNavigationRequested?.Invoke();
 			Closing += (o, args) => closing?.Invoke();
+			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
+			MenuButton.Click += (o, args) => MenuPopup.IsOpen = !MenuPopup.IsOpen;
+			MenuButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsMouseOver));
+			MenuPopup.Closed += (o, args) => { MenuButton.Background = originalBrush; };
+			MenuPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = IsMouseOver));
+			MenuPopup.Opened += (o, args) => { MenuButton.Background = Brushes.LightGray; };
 			KeyUp += BrowserWindow_KeyUp;
+			ReloadButton.Click += (o, args) => ReloadRequested?.Invoke();
 			UrlTextBox.GotKeyboardFocus += (o, args) => UrlTextBox.SelectAll();
 			UrlTextBox.GotMouseCapture += UrlTextBox_GotMouseCapture;
 			UrlTextBox.LostKeyboardFocus += (o, args) => UrlTextBox.Tag = null;
 			UrlTextBox.LostFocus += (o, args) => UrlTextBox.Tag = null;
 			UrlTextBox.KeyUp += UrlTextBox_KeyUp;
 			UrlTextBox.MouseDoubleClick += (o, args) => UrlTextBox.SelectAll();
-			ReloadButton.Click += (o, args) => ReloadRequested?.Invoke();
-			BackButton.Click += (o, args) => BackwardNavigationRequested?.Invoke();
-			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
+			ZoomInButton.Click += (o, args) => ZoomInRequested?.Invoke();
+			ZoomOutButton.Click += (o, args) => ZoomOutRequested?.Invoke();
+			ZoomResetButton.Click += (o, args) => ZoomResetRequested?.Invoke();
 
 			ApplySettings();
 			LoadIcons();
+			LoadText();
 		}
 
 		private void UrlTextBox_GotMouseCapture(object sender, MouseEventArgs e)
@@ -198,14 +218,22 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		{
 			var backUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/NavigateBack.xaml");
 			var forwardUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/NavigateForward.xaml");
+			var menuUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Menu.xaml");
 			var reloadUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Reload.xaml");
 			var back = new XamlIconResource(backUri);
 			var forward = new XamlIconResource(forwardUri);
+			var menu = new XamlIconResource(menuUri);
 			var reload = new XamlIconResource(reloadUri);
 
-			ReloadButton.Content = IconResourceLoader.Load(reload);
 			BackButton.Content = IconResourceLoader.Load(back);
 			ForwardButton.Content = IconResourceLoader.Load(forward);
+			MenuButton.Content = IconResourceLoader.Load(menu);
+			ReloadButton.Content = IconResourceLoader.Load(reload);
+		}
+
+		private void LoadText()
+		{
+			ZoomText.Text = text.Get(TextKey.BrowserWindow_ZoomMenuItem);
 		}
 	}
 }

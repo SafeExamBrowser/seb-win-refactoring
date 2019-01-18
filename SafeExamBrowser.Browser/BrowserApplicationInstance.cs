@@ -76,7 +76,10 @@ namespace SafeExamBrowser.Browser
 
 			displayHandler.FaviconChanged += DisplayHandler_FaviconChanged;
 			downloadHandler.ConfigurationDownloadRequested += DownloadHandler_ConfigurationDownloadRequested;
-			keyboardHandler.ReloadRequested += KeyboardHandler_ReloadRequested;
+			keyboardHandler.ReloadRequested += ReloadRequested;
+			keyboardHandler.ZoomInRequested += ZoomInRequested;
+			keyboardHandler.ZoomOutRequested += ZoomOutRequested;
+			keyboardHandler.ZoomResetRequested += ZoomResetRequested;
 			lifeSpanHandler.PopupRequested += LifeSpanHandler_PopupRequested;
 
 			control = new BrowserControl(contextMenuHandler, displayHandler, downloadHandler, keyboardHandler, lifeSpanHandler, requestHandler, settings.StartUrl);
@@ -91,38 +94,14 @@ namespace SafeExamBrowser.Browser
 			window.IsMainWindow = isMainInstance;
 			window.Closing += () => Terminated?.Invoke(Id);
 			window.AddressChanged += Window_AddressChanged;
-			window.ReloadRequested += Window_ReloadRequested;
+			window.ReloadRequested += ReloadRequested;
 			window.BackwardNavigationRequested += Window_BackwardNavigationRequested;
 			window.ForwardNavigationRequested += Window_ForwardNavigationRequested;
+			window.ZoomInRequested += ZoomInRequested;
+			window.ZoomOutRequested += ZoomOutRequested;
+			window.ZoomResetRequested += ZoomResetRequested;
 
 			logger.Debug("Initialized browser window.");
-		}
-
-		private void HandleReloadRequest()
-		{
-			if (settings.AllowReloading && settings.ShowReloadWarning)
-			{
-				var result = messageBox.Show(TextKey.MessageBox_ReloadConfirmation, TextKey.MessageBox_ReloadConfirmationTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question, window);
-
-				if (result == MessageBoxResult.Yes)
-				{
-					logger.Debug("The user confirmed reloading the current page...");
-					control.Reload();
-				}
-				else
-				{
-					logger.Debug("The user aborted reloading the current page.");
-				}
-			}
-			else if (settings.AllowReloading)
-			{
-				logger.Debug("Reloading current page...");
-				control.Reload();
-			}
-			else
-			{
-				logger.Debug("Blocked reload attempt, as the user is not allowed to reload web pages.");
-			}
 		}
 
 		private void Control_AddressChanged(string address)
@@ -164,11 +143,6 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		private void KeyboardHandler_ReloadRequested()
-		{
-			HandleReloadRequest();
-		}
-
 		private void LifeSpanHandler_PopupRequested(PopupRequestedEventArgs args)
 		{
 			if (settings.AllowPopups)
@@ -182,15 +156,37 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
+		private void ReloadRequested()
+		{
+			if (settings.AllowReloading && settings.ShowReloadWarning)
+			{
+				var result = messageBox.Show(TextKey.MessageBox_ReloadConfirmation, TextKey.MessageBox_ReloadConfirmationTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question, window);
+
+				if (result == MessageBoxResult.Yes)
+				{
+					logger.Debug("The user confirmed reloading the current page...");
+					control.Reload();
+				}
+				else
+				{
+					logger.Debug("The user aborted reloading the current page.");
+				}
+			}
+			else if (settings.AllowReloading)
+			{
+				logger.Debug("Reloading current page...");
+				control.Reload();
+			}
+			else
+			{
+				logger.Debug("Blocked reload attempt, as the user is not allowed to reload web pages.");
+			}
+		}
+
 		private void Window_AddressChanged(string address)
 		{
 			logger.Debug($"The user requested to navigate to '{address}'.");
 			control.NavigateTo(address);
-		}
-
-		private void Window_ReloadRequested()
-		{
-			HandleReloadRequest();
 		}
 
 		private void Window_BackwardNavigationRequested()
@@ -203,6 +199,33 @@ namespace SafeExamBrowser.Browser
 		{
 			logger.Debug($"Navigating backwards...");
 			control.NavigateForwards();
+		}
+
+		private void ZoomInRequested()
+		{
+			if (settings.AllowPageZoom)
+			{
+				control.ZoomIn();
+				logger.Debug("Increased page zoom.");
+			}
+		}
+
+		private void ZoomOutRequested()
+		{
+			if (settings.AllowPageZoom)
+			{
+				control.ZoomOut();
+				logger.Debug("Decreased page zoom.");
+			}
+		}
+
+		private void ZoomResetRequested()
+		{
+			if (settings.AllowPageZoom)
+			{
+				control.ZoomReset();
+				logger.Debug("Reset page zoom.");
+			}
 		}
 	}
 }

@@ -149,6 +149,7 @@ namespace SafeExamBrowser.Browser
 
 		private void Instance_PopupRequested(PopupRequestedEventArgs args)
 		{
+			// TODO: Use settings for additional browser windows!
 			var popupSettings = new BrowserSettings
 			{
 				AllowAddressBar = false,

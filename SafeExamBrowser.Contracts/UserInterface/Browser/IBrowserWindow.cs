@@ -38,6 +38,21 @@ namespace SafeExamBrowser.Contracts.UserInterface.Browser
 		event ActionRequestedEventHandler ReloadRequested;
 
 		/// <summary>
+		/// Event fired when the user would like to zoom in.
+		/// </summary>
+		event ActionRequestedEventHandler ZoomInRequested;
+
+		/// <summary>
+		/// Event fired when the user would like to zoom out.
+		/// </summary>
+		event ActionRequestedEventHandler ZoomOutRequested;
+
+		/// <summary>
+		/// Event fired when the user would like to reset the zoom factor.
+		/// </summary>
+		event ActionRequestedEventHandler ZoomResetRequested;
+
+		/// <summary>
 		/// Determines whether this window is the main browser window.
 		/// </summary>
 		bool IsMainWindow { get; set; }

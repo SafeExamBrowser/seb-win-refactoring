@@ -6,7 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Browser.Events
+namespace SafeExamBrowser.Contracts.UserInterface
 {
-	internal delegate void ReloadRequestedEventHandler();
+	/// <summary>
+	/// Indicates that the user requested an action.
+	/// </summary>
+	public delegate void ActionRequestedEventHandler();
 }
