@@ -13,7 +13,7 @@ using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.Browser
 namespace SafeExamBrowser.Browser.Handlers
 {
 	/// <remarks>
-	/// See https://cefsharp.github.io/api/67.0.0/html/T_CefSharp_IContextMenuHandler.htm.
+	/// See https://cefsharp.github.io/api/71.0.0/html/T_CefSharp_IContextMenuHandler.htm.
 	/// </remarks>
 	internal class ContextMenuHandler : IContextMenuHandler
 	{

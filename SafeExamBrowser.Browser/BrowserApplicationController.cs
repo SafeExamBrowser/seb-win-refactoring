@@ -59,7 +59,7 @@ namespace SafeExamBrowser.Browser
 		public void Initialize()
 		{
 			var cefSettings = InitializeCefSettings();
-			var success = Cef.Initialize(cefSettings, true, null);
+			var success = Cef.Initialize(cefSettings, true, default(IApp));
 
 			logger.Info("Initialized browser.");
 

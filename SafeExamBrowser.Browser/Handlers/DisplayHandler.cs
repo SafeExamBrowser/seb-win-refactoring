@@ -15,7 +15,7 @@ using SafeExamBrowser.Browser.Events;
 namespace SafeExamBrowser.Browser.Handlers
 {
 	/// <remarks>
-	/// See https://cefsharp.github.io/api/67.0.0/html/T_CefSharp_IDisplayHandler.htm.
+	/// See https://cefsharp.github.io/api/71.0.0/html/T_CefSharp_IDisplayHandler.htm.
 	/// </remarks>
 	internal class DisplayHandler : IDisplayHandler
 	{
