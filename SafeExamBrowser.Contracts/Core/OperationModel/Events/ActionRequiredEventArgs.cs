@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.Contracts.Core.OperationModel.Events
 {
 	/// <summary>
-	/// Base class for all event arguments used for <see cref="IOperationSequence.ProgressChanged"/>.
+	/// Base class for all event arguments used for <see cref="IOperationSequence.ActionRequired"/>.
 	/// </summary>
 	public abstract class ActionRequiredEventArgs
 	{
