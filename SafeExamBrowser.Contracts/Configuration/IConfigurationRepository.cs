@@ -62,10 +62,5 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// Attempts to load settings from the specified resource.
 		/// </summary>
 		LoadStatus TryLoadSettings(Uri resource, out Settings.Settings settings, PasswordParameters password = null);
-
-		/// <summary>
-		/// Attempts to save settings according to the specified parameters.
-		/// </summary>
-		SaveStatus TrySaveSettings(Uri destination, FormatType format, Settings.Settings settings, EncryptionParameters encryption = null);
 	}
 }

@@ -156,11 +156,6 @@ namespace SafeExamBrowser.Configuration
 			}
 		}
 
-		public SaveStatus TrySaveSettings(Uri destination, FormatType format, Settings settings, EncryptionParameters encryption = null)
-		{
-			throw new NotImplementedException("This functionality is not part of version 3.0 Alpha!");
-		}
-
 		private EncryptionParameters DetermineEncryptionForClientConfiguration(IDictionary<string, object> data, EncryptionParameters encryption)
 		{
 			var hasKey = data.TryGetValue(Keys.ConfigurationFile.KeepClientConfigEncryption, out var value);
