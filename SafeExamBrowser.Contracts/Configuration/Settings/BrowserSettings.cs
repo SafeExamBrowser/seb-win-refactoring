@@ -11,20 +11,15 @@ using System;
 namespace SafeExamBrowser.Contracts.Configuration.Settings
 {
 	/// <summary>
-	/// Defines all configuration options for the browser of the application.
+	/// Defines all configuration options for the browser engine of the application.
 	/// </summary>
 	[Serializable]
 	public class BrowserSettings
 	{
 		/// <summary>
-		/// Determines whether the user will be allowed to change the URL of a browser window.
+		/// The configuration to be used for additional browser windows.
 		/// </summary>
-		public bool AllowAddressBar { get; set; }
-
-		/// <summary>
-		/// Determines whether the user will be allowed to navigate backwards in a browser window.
-		/// </summary>
-		public bool AllowBackwardNavigation { get; set; }
+		public BrowserWindowSettings AdditionalWindowSettings { get; set; }
 
 		/// <summary>
 		/// Determines whether the user will be allowed to download configuration files.
@@ -42,11 +37,6 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public bool AllowDownloads { get; set; }
 
 		/// <summary>
-		/// Determines whether the user will be allowed to navigate forwards in a browser window.
-		/// </summary>
-		public bool AllowForwardNavigation { get; set; }
-
-		/// <summary>
 		/// Determines whether the user will be allowed to zoom webpages.
 		/// </summary>
 		public bool AllowPageZoom { get; set; }
@@ -57,27 +47,17 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public bool AllowPopups { get; set; }
 
 		/// <summary>
-		/// Determines whether the user will be allowed to reload webpages.
-		/// </summary>
-		public bool AllowReloading { get; set; }
-
-		/// <summary>
 		/// The custom user agent to optionally be used for all requests.
 		/// </summary>
 		public string CustomUserAgent { get; set; }
 
 		/// <summary>
-		/// Determines whether the main browser window will be rendered in fullscreen mode, i.e. without window frame.
+		/// The configuration to be used for the main browser window.
 		/// </summary>
-		public bool FullScreenMode { get; set; }
-
+		public BrowserWindowSettings MainWindowSettings { get; set; }
+		
 		/// <summary>
-		/// Determines whether the user will need to confirm every reload attempt.
-		/// </summary>
-		public bool ShowReloadWarning { get; set; }
-
-		/// <summary>
-		/// The start URL with which a new browser window will be loaded.
+		/// The URL with which the main browser window will be loaded.
 		/// </summary>
 		public string StartUrl { get; set; }
 
@@ -85,5 +65,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		/// Determines whether a custom user agent will be used for all requests, see <see cref="CustomUserAgent"/>.
 		/// </summary>
 		public bool UseCustomUserAgent { get; set; }
+
+		public BrowserSettings()
+		{
+			AdditionalWindowSettings = new BrowserWindowSettings();
+			MainWindowSettings = new BrowserWindowSettings();
+		}
 	}
 }

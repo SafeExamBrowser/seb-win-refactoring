@@ -17,8 +17,17 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool allow)
 			{
-				settings.Browser.AllowBackwardNavigation = allow;
-				settings.Browser.AllowForwardNavigation = allow;
+				settings.Browser.MainWindowSettings.AllowBackwardNavigation = allow;
+				settings.Browser.MainWindowSettings.AllowForwardNavigation = allow;
+			}
+		}
+
+		private void MapAllowNavigationAdditionalWindow(Settings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.AdditionalWindowSettings.AllowBackwardNavigation = allow;
+				settings.Browser.AdditionalWindowSettings.AllowForwardNavigation = allow;
 			}
 		}
 
@@ -42,7 +51,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool allow)
 			{
-				settings.Browser.AllowReloading = allow;
+				settings.Browser.MainWindowSettings.AllowReloading = allow;
+			}
+		}
+
+		private void MapAllowReloadAdditionalWindow(Settings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.AdditionalWindowSettings.AllowReloading = allow;
 			}
 		}
 
@@ -52,7 +69,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			if (value is int mode)
 			{
-				settings.Browser.FullScreenMode = mode == FULLSCREEN;
+				settings.Browser.MainWindowSettings.FullScreenMode = mode == FULLSCREEN;
 			}
 		}
 
@@ -60,7 +77,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool show)
 			{
-				settings.Browser.ShowReloadWarning = show;
+				settings.Browser.MainWindowSettings.ShowReloadWarning = show;
+			}
+		}
+
+		private void MapShowReloadWarningAdditionalWindow(Settings settings, object value)
+		{
+			if (value is bool show)
+			{
+				settings.Browser.AdditionalWindowSettings.ShowReloadWarning = show;
 			}
 		}
 

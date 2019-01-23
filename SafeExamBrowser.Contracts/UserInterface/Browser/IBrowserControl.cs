@@ -17,6 +17,16 @@ namespace SafeExamBrowser.Contracts.UserInterface.Browser
 	public interface IBrowserControl
 	{
 		/// <summary>
+		/// Indicates whether a backward navigation can be performed.
+		/// </summary>
+		bool CanNavigateBackwards { get; }
+
+		/// <summary>
+		/// Indicates whether a forward navigation can be performed.
+		/// </summary>
+		bool CanNavigateForwards { get; }
+
+		/// <summary>
 		/// Event fired when the address of the browser control changes.
 		/// </summary>
 		event AddressChangedEventHandler AddressChanged;

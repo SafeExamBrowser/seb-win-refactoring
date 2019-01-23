@@ -28,6 +28,9 @@
                               RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="{TemplateBinding VerticalAlignment}" />
         </Border>
         <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="ButtonContent" Property="Opacity" Value="0.25" />
+            </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter TargetName="ButtonContent" Property="Background" Value="LightBlue" />
                 <Setter TargetName="ButtonContent" Property="BorderBrush" Value="DodgerBlue" />

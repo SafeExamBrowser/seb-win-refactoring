@@ -18,6 +18,16 @@ namespace SafeExamBrowser.Contracts.UserInterface.Browser
 	public interface IBrowserWindow : IWindow
 	{
 		/// <summary>
+		/// Enables the backward navigation button.
+		/// </summary>
+		bool CanNavigateBackwards { set; }
+
+		/// <summary>
+		/// Enables the forward navigation button.
+		/// </summary>
+		bool CanNavigateForwards { set; }
+
+		/// <summary>
 		/// Event fired when the user changed the URL.
 		/// </summary>
 		event AddressChangedEventHandler AddressChanged;
@@ -51,11 +61,6 @@ namespace SafeExamBrowser.Contracts.UserInterface.Browser
 		/// Event fired when the user would like to reset the zoom factor.
 		/// </summary>
 		event ActionRequestedEventHandler ZoomResetRequested;
-
-		/// <summary>
-		/// Determines whether this window is the main browser window.
-		/// </summary>
-		bool IsMainWindow { get; set; }
 
 		/// <summary>
 		/// Updates the address bar of the browser window to the given value;

@@ -28,6 +28,9 @@ namespace SafeExamBrowser.Browser
 		private LoadingStateChangedEventHandler loadingStateChanged;
 		private TitleChangedEventHandler titleChanged;
 
+		public bool CanNavigateBackwards => GetBrowser().CanGoBack;
+		public bool CanNavigateForwards => GetBrowser().CanGoForward;
+
 		event AddressChangedEventHandler IBrowserControl.AddressChanged
 		{
 			add { addressChanged += value; }

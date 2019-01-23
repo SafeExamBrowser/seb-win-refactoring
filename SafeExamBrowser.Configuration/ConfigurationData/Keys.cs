@@ -21,13 +21,16 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		internal static class Browser
 		{
 			internal const string AllowNavigation = "allowBrowsingBackForward";
+			internal const string AllowNavigationAdditionalWindow = "newBrowserWindowNavigation";
 			internal const string AllowPageZoom = "enableZoomPage";
 			internal const string AllowPopups = "blockPopUpWindows";
 			internal const string AllowReload = "browserWindowAllowReload";
+			internal const string AllowReloadAdditionalWindow = "newBrowserWindowAllowReload";
 			internal const string CustomUserAgentDesktop = "browserUserAgentWinDesktopModeCustom";
 			internal const string CustomUserAgentMobile = "browserUserAgentWinTouchModeCustom";
 			internal const string MainWindowMode = "browserViewMode";
 			internal const string ShowReloadWarning = "showReloadWarning";
+			internal const string ShowReloadWarningAdditionalWindow = "newBrowserWindowShowReloadWarning";
 			internal const string UserAgentModeDesktop = "browserUserAgentWinDesktopMode";
 			internal const string UserAgentModeMobile = "browserUserAgentWinTouchMode";
 		}

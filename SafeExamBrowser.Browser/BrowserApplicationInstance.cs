@@ -33,6 +33,12 @@ namespace SafeExamBrowser.Browser
 		private BrowserSettings settings;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
+		private string url;
+
+		private BrowserWindowSettings WindowSettings
+		{
+			get { return isMainInstance ? settings.MainWindowSettings : settings.AdditionalWindowSettings; }
+		}
 
 		public InstanceIdentifier Id { get; private set; }
 		public string Name { get; private set; }
@@ -52,7 +58,8 @@ namespace SafeExamBrowser.Browser
 			IMessageBox messageBox,
 			IModuleLogger logger,
 			IText text,
-			IUserInterfaceFactory uiFactory)
+			IUserInterfaceFactory uiFactory,
+			string url)
 		{
 			this.appConfig = appConfig;
 			this.Id = id;
@@ -62,6 +69,7 @@ namespace SafeExamBrowser.Browser
 			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;
+			this.url = url;
 		}
 
 		internal void Initialize()
@@ -82,7 +90,7 @@ namespace SafeExamBrowser.Browser
 			keyboardHandler.ZoomResetRequested += ZoomResetRequested;
 			lifeSpanHandler.PopupRequested += LifeSpanHandler_PopupRequested;
 
-			control = new BrowserControl(contextMenuHandler, displayHandler, downloadHandler, keyboardHandler, lifeSpanHandler, requestHandler, settings.StartUrl);
+			control = new BrowserControl(contextMenuHandler, displayHandler, downloadHandler, keyboardHandler, lifeSpanHandler, requestHandler, url);
 			control.AddressChanged += Control_AddressChanged;
 			control.LoadingStateChanged += Control_LoadingStateChanged;
 			control.TitleChanged += Control_TitleChanged;
@@ -90,8 +98,7 @@ namespace SafeExamBrowser.Browser
 
 			logger.Debug("Initialized browser control.");
 
-			window = uiFactory.CreateBrowserWindow(control, settings);
-			window.IsMainWindow = isMainInstance;
+			window = uiFactory.CreateBrowserWindow(control, settings, isMainInstance);
 			window.Closing += () => Terminated?.Invoke(Id);
 			window.AddressChanged += Window_AddressChanged;
 			window.ReloadRequested += ReloadRequested;
@@ -112,6 +119,8 @@ namespace SafeExamBrowser.Browser
 
 		private void Control_LoadingStateChanged(bool isLoading)
 		{
+			window.CanNavigateBackwards = WindowSettings.AllowBackwardNavigation && control.CanNavigateBackwards;
+			window.CanNavigateForwards = WindowSettings.AllowForwardNavigation && control.CanNavigateForwards;
 			window.UpdateLoadingState(isLoading);
 		}
 
@@ -158,7 +167,7 @@ namespace SafeExamBrowser.Browser
 
 		private void ReloadRequested()
 		{
-			if (settings.AllowReloading && settings.ShowReloadWarning)
+			if (WindowSettings.AllowReloading && WindowSettings.ShowReloadWarning)
 			{
 				var result = messageBox.Show(TextKey.MessageBox_ReloadConfirmation, TextKey.MessageBox_ReloadConfirmationTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question, window);
 
@@ -172,7 +181,7 @@ namespace SafeExamBrowser.Browser
 					logger.Debug("The user aborted reloading the current page.");
 				}
 			}
-			else if (settings.AllowReloading)
+			else if (WindowSettings.AllowReloading)
 			{
 				logger.Debug("Reloading current page...");
 				control.Reload();
@@ -191,13 +200,13 @@ namespace SafeExamBrowser.Browser
 
 		private void Window_BackwardNavigationRequested()
 		{
-			logger.Debug($"Navigating forwards...");
+			logger.Debug($"Navigating backwards...");
 			control.NavigateBackwards();
 		}
 
 		private void Window_ForwardNavigationRequested()
 		{
-			logger.Debug($"Navigating backwards...");
+			logger.Debug($"Navigating forwards...");
 			control.NavigateForwards();
 		}
 

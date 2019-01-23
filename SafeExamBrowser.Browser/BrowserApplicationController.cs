@@ -95,13 +95,13 @@ namespace SafeExamBrowser.Browser
 			logger.Info("Terminated browser.");
 		}
 
-		private void CreateNewInstance(BrowserSettings custom = null)
+		private void CreateNewInstance(string url = null)
 		{
 			var id = new BrowserInstanceIdentifier(++instanceIdCounter);
 			var isMainInstance = instances.Count == 0;
 			var instanceLogger = logger.CloneFor($"BrowserInstance {id}");
-			var instanceSettings = custom ?? settings;
-			var instance = new BrowserApplicationInstance(appConfig, instanceSettings, id, isMainInstance, messageBox, instanceLogger, text, uiFactory);
+			var startUrl = url ?? settings.StartUrl;
+			var instance = new BrowserApplicationInstance(appConfig, settings, id, isMainInstance, messageBox, instanceLogger, text, uiFactory, startUrl);
 
 			instance.Initialize();
 			instance.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
@@ -149,24 +149,8 @@ namespace SafeExamBrowser.Browser
 
 		private void Instance_PopupRequested(PopupRequestedEventArgs args)
 		{
-			// TODO: Use settings for additional browser windows!
-			var popupSettings = new BrowserSettings
-			{
-				AllowAddressBar = false,
-				AllowBackwardNavigation = false,
-				AllowConfigurationDownloads = settings.AllowConfigurationDownloads,
-				AllowDeveloperConsole = settings.AllowDeveloperConsole,
-				AllowDownloads = settings.AllowDownloads,
-				AllowForwardNavigation = false,
-				AllowPageZoom = settings.AllowPageZoom,
-				AllowPopups = settings.AllowPopups,
-				AllowReloading = settings.AllowReloading,
-				ShowReloadWarning = settings.ShowReloadWarning,
-				StartUrl = args.Url
-			};
-
 			logger.Info($"Received request to create new instance for '{args.Url}'...");
-			CreateNewInstance(popupSettings);
+			CreateNewInstance(args.Url);
 		}
 
 		private void Instance_Terminated(InstanceIdentifier id)

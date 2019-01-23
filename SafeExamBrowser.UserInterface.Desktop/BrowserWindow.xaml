@@ -29,7 +29,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" x:Name="BackButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
+                <Button Grid.Column="0" x:Name="BackwardButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
                 <Button Grid.Column="1" x:Name="ForwardButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
                 <Button Grid.Column="2" x:Name="ReloadButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
                 <Grid Grid.Column="3" Height="25" Margin="5,0">

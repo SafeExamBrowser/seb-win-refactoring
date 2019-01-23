@@ -31,18 +31,13 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		private IText text;
 		private WindowClosingEventHandler closing;
 
-		public bool IsMainWindow
+		private BrowserWindowSettings WindowSettings
 		{
-			get
-			{
-				return isMainWindow;
-			}
-			set
-			{
-				isMainWindow = value;
-				ApplySettings();
-			}
+			get { return isMainWindow ? settings.MainWindowSettings : settings.AdditionalWindowSettings; }
 		}
+
+		public bool CanNavigateBackwards { set => Dispatcher.Invoke(() => BackwardButton.IsEnabled = value); }
+		public bool CanNavigateForwards { set => Dispatcher.Invoke(() => ForwardButton.IsEnabled = value); }
 
 		public event AddressChangedEventHandler AddressChanged;
 		public event ActionRequestedEventHandler BackwardNavigationRequested;
@@ -58,8 +53,9 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			remove { closing -= value; }
 		}
 
-		public BrowserWindow(IBrowserControl browserControl, BrowserSettings settings, IText text)
+		public BrowserWindow(IBrowserControl browserControl, BrowserSettings settings, bool isMainWindow, IText text)
 		{
+			this.isMainWindow = isMainWindow;
 			this.settings = settings;
 			this.text = text;
 
@@ -128,7 +124,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 				BrowserControlHost.Child = control;
 			}
 
-			BackButton.Click += (o, args) => BackwardNavigationRequested?.Invoke();
+			BackwardButton.Click += (o, args) => BackwardNavigationRequested?.Invoke();
 			Closing += (o, args) => closing?.Invoke();
 			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
 			MenuButton.Click += (o, args) => MenuPopup.IsOpen = !MenuPopup.IsOpen;
@@ -180,9 +176,9 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		private void ApplySettings()
 		{
-			if (IsMainWindow)
+			if (isMainWindow)
 			{
-				if (settings.FullScreenMode)
+				if (WindowSettings.FullScreenMode)
 				{
 					MaxHeight = SystemParameters.WorkArea.Height;
 					ResizeMode = ResizeMode.NoResize;
@@ -202,16 +198,16 @@ namespace SafeExamBrowser.UserInterface.Desktop
 				Width = SystemParameters.WorkArea.Width / 2;
 			}
 
-			UrlTextBox.IsEnabled = settings.AllowAddressBar;
+			UrlTextBox.IsEnabled = WindowSettings.AllowAddressBar;
 
-			ReloadButton.IsEnabled = settings.AllowReloading;
-			ReloadButton.Visibility = settings.AllowReloading ? Visibility.Visible : Visibility.Collapsed;
+			ReloadButton.IsEnabled = WindowSettings.AllowReloading;
+			ReloadButton.Visibility = WindowSettings.AllowReloading ? Visibility.Visible : Visibility.Collapsed;
 
-			BackButton.IsEnabled = settings.AllowBackwardNavigation;
-			BackButton.Visibility = settings.AllowBackwardNavigation ? Visibility.Visible : Visibility.Collapsed;
+			BackwardButton.IsEnabled = WindowSettings.AllowBackwardNavigation;
+			BackwardButton.Visibility = WindowSettings.AllowBackwardNavigation ? Visibility.Visible : Visibility.Collapsed;
 
-			ForwardButton.IsEnabled = settings.AllowForwardNavigation;
-			ForwardButton.Visibility = settings.AllowForwardNavigation ? Visibility.Visible : Visibility.Collapsed;
+			ForwardButton.IsEnabled = WindowSettings.AllowForwardNavigation;
+			ForwardButton.Visibility = WindowSettings.AllowForwardNavigation ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void LoadIcons()
@@ -220,12 +216,12 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			var forwardUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/NavigateForward.xaml");
 			var menuUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Menu.xaml");
 			var reloadUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Reload.xaml");
-			var back = new XamlIconResource(backUri);
+			var backward = new XamlIconResource(backUri);
 			var forward = new XamlIconResource(forwardUri);
 			var menu = new XamlIconResource(menuUri);
 			var reload = new XamlIconResource(reloadUri);
 
-			BackButton.Content = IconResourceLoader.Load(back);
+			BackwardButton.Content = IconResourceLoader.Load(backward);
 			ForwardButton.Content = IconResourceLoader.Load(forward);
 			MenuButton.Content = IconResourceLoader.Load(menu);
 			ReloadButton.Content = IconResourceLoader.Load(reload);

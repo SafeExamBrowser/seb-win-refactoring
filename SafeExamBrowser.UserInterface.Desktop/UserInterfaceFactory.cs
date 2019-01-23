@@ -43,9 +43,9 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			return new ApplicationButton(info);
 		}
 
-		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings)
+		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow)
 		{
-			return new BrowserWindow(control, settings, text);
+			return new BrowserWindow(control, settings, isMainWindow, text);
 		}
 
 		public ISystemKeyboardLayoutControl CreateKeyboardLayoutControl()

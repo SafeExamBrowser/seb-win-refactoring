@@ -89,15 +89,23 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			var settings = new Settings();
 
 			settings.Browser.StartUrl = "https://www.safeexambrowser.org/start";
-			settings.Browser.AllowAddressBar = false;
-			settings.Browser.AllowBackwardNavigation = false;
 			settings.Browser.AllowConfigurationDownloads = true;
 			settings.Browser.AllowDeveloperConsole = false;
 			settings.Browser.AllowDownloads = false;
-			settings.Browser.AllowForwardNavigation = false;
 			settings.Browser.AllowPageZoom = true;
 			settings.Browser.AllowPopups = true;
-			settings.Browser.AllowReloading = true;
+			settings.Browser.AdditionalWindowSettings.AllowAddressBar = false;
+			settings.Browser.AdditionalWindowSettings.AllowBackwardNavigation = true;
+			settings.Browser.AdditionalWindowSettings.AllowForwardNavigation = true;
+			settings.Browser.AdditionalWindowSettings.AllowReloading = true;
+			settings.Browser.AdditionalWindowSettings.FullScreenMode = false;
+			settings.Browser.AdditionalWindowSettings.ShowReloadWarning = false;
+			settings.Browser.MainWindowSettings.AllowAddressBar = false;
+			settings.Browser.MainWindowSettings.AllowBackwardNavigation = false;
+			settings.Browser.MainWindowSettings.AllowForwardNavigation = false;
+			settings.Browser.MainWindowSettings.AllowReloading = true;
+			settings.Browser.MainWindowSettings.FullScreenMode = false;
+			settings.Browser.MainWindowSettings.ShowReloadWarning = true;
 
 			settings.Keyboard.AllowAltEsc = false;
 			settings.Keyboard.AllowAltF4 = false;
@@ -133,18 +141,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Taskbar.AllowWirelessNetwork = false;
 			settings.Taskbar.ShowClock = true;
 
-			// TODO: Default values for alpha version only, remove for final release!
-			settings.Browser.AllowAddressBar = true;
-			settings.Browser.AllowBackwardNavigation = true;
-			settings.Browser.AllowConfigurationDownloads = true;
+			// TODO: Default values for testing of alpha version only, remove for final release!
 			settings.Browser.AllowDeveloperConsole = true;
-			settings.Browser.AllowDownloads = true;
-			settings.Browser.AllowForwardNavigation = true;
-			settings.Browser.AllowReloading = true;
 			settings.KioskMode = KioskMode.None;
-			settings.ServicePolicy = ServicePolicy.Optional;
 			settings.Taskbar.AllowApplicationLog = true;
-			settings.Taskbar.AllowWirelessNetwork = true;
 
 			return settings;
 		}

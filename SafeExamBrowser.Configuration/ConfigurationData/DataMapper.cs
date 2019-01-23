@@ -30,6 +30,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				case Keys.Browser.AllowNavigation:
 					MapAllowNavigation(settings, value);
 					break;
+				case Keys.Browser.AllowNavigationAdditionalWindow:
+					MapAllowNavigationAdditionalWindow(settings, value);
+					break;
 				case Keys.Browser.AllowPageZoom:
 					MapAllowPageZoom(settings, value);
 					break;
@@ -39,11 +42,17 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				case Keys.Browser.AllowReload:
 					MapAllowReload(settings, value);
 					break;
+				case Keys.Browser.AllowReloadAdditionalWindow:
+					MapAllowReloadAdditionalWindow(settings, value);
+					break;
 				case Keys.Browser.MainWindowMode:
 					MapMainWindowMode(settings, value);
 					break;
 				case Keys.Browser.ShowReloadWarning:
 					MapShowReloadWarning(settings, value);
+					break;
+				case Keys.Browser.ShowReloadWarningAdditionalWindow:
+					MapShowReloadWarningAdditionalWindow(settings, value);
 					break;
 				case Keys.ConfigurationFile.ConfigurationPurpose:
 					MapConfigurationMode(settings, value);

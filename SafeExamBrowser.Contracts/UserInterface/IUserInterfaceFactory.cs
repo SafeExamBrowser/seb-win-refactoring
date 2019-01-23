@@ -36,7 +36,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// <summary>
 		/// Creates a new browser window loaded with the given browser control and settings.
 		/// </summary>
-		IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings);
+		IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow);
 
 		/// <summary>
 		/// Creates a system control which allows to change the keyboard layout of the computer.
