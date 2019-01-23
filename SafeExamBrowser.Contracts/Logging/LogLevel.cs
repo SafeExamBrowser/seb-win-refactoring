@@ -13,9 +13,9 @@ namespace SafeExamBrowser.Contracts.Logging
 	/// </summary>
 	public enum LogLevel
 	{
-		Debug = 1,
-		Info = 2,
-		Warning = 3,
-		Error = 4
+		Debug,
+		Info,
+		Warning,
+		Error
 	}
 }

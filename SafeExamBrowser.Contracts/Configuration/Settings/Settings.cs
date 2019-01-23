@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Contracts.Configuration.Settings
 {
@@ -40,6 +41,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		/// The kiosk mode which determines how the computer is locked down.
 		/// </summary>
 		public KioskMode KioskMode { get; set; }
+
+		/// <summary>
+		/// The global log severity to be used.
+		/// </summary>
+		public LogLevel LogLevel { get; set; }
 
 		/// <summary>
 		/// All mouse-related settings.

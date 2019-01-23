@@ -56,7 +56,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			appConfig.ConfigurationFileExtension = ".seb";
 			appConfig.DefaultSettingsFileName = "SebClientSettings.seb";
 			appConfig.DownloadDirectory = Path.Combine(appDataFolder, "Downloads");
-			appConfig.LogLevel = LogLevel.Debug;
 			appConfig.ProgramCopyright = programCopyright;
 			appConfig.ProgramDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), nameof(SafeExamBrowser));
 			appConfig.ProgramTitle = programTitle;
@@ -121,6 +120,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Keyboard.AllowSystemKey = false;
 
 			settings.KioskMode = KioskMode.CreateNewDesktop;
+
+			settings.LogLevel = LogLevel.Debug;
 
 			settings.Mouse.AllowMiddleButton = false;
 			settings.Mouse.AllowRightButton = true;

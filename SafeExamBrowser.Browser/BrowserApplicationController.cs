@@ -117,8 +117,8 @@ namespace SafeExamBrowser.Browser
 
 		private CefSettings InitializeCefSettings()
 		{
-			var warning = appConfig.LogLevel == LogLevel.Warning;
-			var error = appConfig.LogLevel == LogLevel.Error;
+			var warning = logger.LogLevel == LogLevel.Warning;
+			var error = logger.LogLevel == LogLevel.Error;
 			var cefSettings = new CefSettings
 			{
 				CachePath = appConfig.BrowserCachePath,

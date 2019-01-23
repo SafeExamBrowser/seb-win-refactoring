@@ -49,6 +49,7 @@ namespace SafeExamBrowser.Client
 	internal class CompositionRoot
 	{
 		private string logFilePath;
+		private LogLevel logLevel;
 		private string runtimeHostUri;
 		private Guid startupToken;
 
@@ -131,25 +132,27 @@ namespace SafeExamBrowser.Client
 		private void ValidateCommandLineArguments()
 		{
 			var args = Environment.GetCommandLineArgs();
-			var hasFour = args?.Length == 4;
+			var hasFive = args?.Length == 5;
 
-			if (hasFour)
+			if (hasFive)
 			{
-				var hasLogfilePath = Uri.TryCreate(args?[1], UriKind.Absolute, out Uri filePath) && filePath.IsFile;
-				var hasHostUri = Uri.TryCreate(args?[2], UriKind.Absolute, out Uri hostUri) && hostUri.IsWellFormedOriginalString();
-				var hasToken = Guid.TryParse(args?[3], out Guid token);
+				var hasLogfilePath = Uri.TryCreate(args[1], UriKind.Absolute, out Uri filePath) && filePath.IsFile;
+				var hasLogLevel = Enum.TryParse(args[2], out LogLevel level);
+				var hasHostUri = Uri.TryCreate(args[3], UriKind.Absolute, out Uri hostUri) && hostUri.IsWellFormedOriginalString();
+				var hasToken = Guid.TryParse(args[4], out Guid token);
 
-				if (hasLogfilePath && hasHostUri && hasToken)
+				if (hasLogfilePath && hasLogLevel && hasHostUri && hasToken)
 				{
 					logFilePath = args[1];
-					runtimeHostUri = args[2];
-					startupToken = Guid.Parse(args[3]);
+					logLevel = level;
+					runtimeHostUri = args[3];
+					startupToken = token;
 
 					return;
 				}
 			}
 
-			throw new ArgumentException("Invalid arguments! Required: SafeExamBrowser.Client.exe <logfile path> <host URI> <token>");
+			throw new ArgumentException("Invalid arguments! Required: SafeExamBrowser.Client.exe <logfile path> <log level> <host URI> <token>");
 		}
 
 		private void InitializeLogging()
@@ -157,6 +160,7 @@ namespace SafeExamBrowser.Client
 			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), logFilePath);
 
 			logFileWriter.Initialize();
+			logger.LogLevel = logLevel;
 			logger.Subscribe(logFileWriter);
 		}
 

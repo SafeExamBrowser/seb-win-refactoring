@@ -45,7 +45,6 @@ namespace SafeExamBrowser.Logging.UnitTests
 			sut.Error("Error");
 			sut.Error("Error", exception);
 			sut.Log("Raw text");
-			sut.Log(logText);
 			sut.Subscribe(logObserverMock.Object);
 			sut.Unsubscribe(logObserverMock.Object);
 			sut.GetLog();
@@ -56,7 +55,6 @@ namespace SafeExamBrowser.Logging.UnitTests
 			loggerMock.Verify(l => l.Error($"[{nameof(ModuleLoggerTests)}] Error"), Times.Once);
 			loggerMock.Verify(l => l.Error($"[{nameof(ModuleLoggerTests)}] Error", exception), Times.Once);
 			loggerMock.Verify(l => l.Log("Raw text"), Times.Once);
-			loggerMock.Verify(l => l.Log(logText), Times.Once);
 			loggerMock.Verify(l => l.Subscribe(logObserverMock.Object), Times.Once);
 			loggerMock.Verify(l => l.Unsubscribe(logObserverMock.Object), Times.Once);
 			loggerMock.Verify(l => l.GetLog(), Times.Once);

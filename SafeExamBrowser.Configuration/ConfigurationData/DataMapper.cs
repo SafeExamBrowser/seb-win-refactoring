@@ -51,6 +51,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				case Keys.General.AdminPasswordHash:
 					MapAdminPasswordHash(settings, value);
 					break;
+				case Keys.General.LogLevel:
+					MapLogLevel(settings, value);
+					break;
 				case Keys.General.QuitPasswordHash:
 					MapQuitPasswordHash(settings, value);
 					break;

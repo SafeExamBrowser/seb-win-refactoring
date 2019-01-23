@@ -142,6 +142,11 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			Context.Next.Settings = settings;
 
+			if (settings != null)
+			{
+				logger.LogLevel = settings.LogLevel;
+			}
+
 			return HandleLoadResult(uri, settings, status, passwordParams);
 		}
 

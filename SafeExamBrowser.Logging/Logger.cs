@@ -24,6 +24,8 @@ namespace SafeExamBrowser.Logging
 		private readonly IList<ILogContent> log = new List<ILogContent>();
 		private readonly IList<ILogObserver> observers = new List<ILogObserver>();
 
+		public LogLevel LogLevel { get; set; }
+
 		public void Debug(string message)
 		{
 			if (message == null)
@@ -31,7 +33,10 @@ namespace SafeExamBrowser.Logging
 				throw new ArgumentNullException(nameof(message));
 			}
 
-			Add(LogLevel.Debug, message);
+			if (LogLevel <= LogLevel.Debug)
+			{
+				Add(LogLevel.Debug, message);
+			}
 		}
 
 		public void Info(string message)
@@ -41,7 +46,10 @@ namespace SafeExamBrowser.Logging
 				throw new ArgumentNullException(nameof(message));
 			}
 
-			Add(LogLevel.Info, message);
+			if (LogLevel <= LogLevel.Info)
+			{
+				Add(LogLevel.Info, message);
+			}
 		}
 
 		public void Warn(string message)
@@ -51,7 +59,10 @@ namespace SafeExamBrowser.Logging
 				throw new ArgumentNullException(nameof(message));
 			}
 
-			Add(LogLevel.Warning, message);
+			if (LogLevel <= LogLevel.Warning)
+			{
+				Add(LogLevel.Warning, message);
+			}
 		}
 
 		public void Error(string message)
@@ -61,7 +72,10 @@ namespace SafeExamBrowser.Logging
 				throw new ArgumentNullException(nameof(message));
 			}
 
-			Add(LogLevel.Error, message);
+			if (LogLevel <= LogLevel.Error)
+			{
+				Add(LogLevel.Error, message);
+			}
 		}
 
 		public void Error(string message, Exception exception)
@@ -101,8 +115,11 @@ namespace SafeExamBrowser.Logging
 				}
 			}
 
-			Add(LogLevel.Error, message);
-			Add(new LogText(details.ToString()));
+			if (LogLevel <= LogLevel.Error)
+			{
+				Add(LogLevel.Error, message);
+				Add(new LogText(details.ToString()));
+			}
 		}
 
 		public void Log(string text)
@@ -113,16 +130,6 @@ namespace SafeExamBrowser.Logging
 			}
 
 			Add(new LogText(text));
-		}
-
-		public void Log(ILogContent content)
-		{
-			if (content == null)
-			{
-				throw new ArgumentNullException(nameof(content));
-			}
-
-			Add(content.Clone() as ILogContent);
 		}
 
 		public IList<ILogContent> GetLog()

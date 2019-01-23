@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Logging;
 
 namespace SafeExamBrowser.Logging.UnitTests
 {
@@ -29,7 +28,6 @@ namespace SafeExamBrowser.Logging.UnitTests
 			var exceptionMessage = "I'm an exception message";
 			var exception = new Exception(exceptionMessage);
 			var message = "I'm a simple text message";
-			var content = new LogText("I'm some raw log text...");
 
 			sut.Debug(debug);
 			sut.Info(info);
@@ -37,11 +35,10 @@ namespace SafeExamBrowser.Logging.UnitTests
 			sut.Error(error);
 			sut.Error(error, exception);
 			sut.Log(message);
-			sut.Log(content);
 
 			var log = sut.GetLog();
 
-			Assert.IsTrue(log.Count == 8);
+			Assert.IsTrue(log.Count == 7);
 
 			Assert.IsTrue(debug.Equals((log[0] as ILogMessage).Message));
 			Assert.IsTrue((log[0] as ILogMessage).Severity == LogLevel.Debug);
@@ -60,8 +57,6 @@ namespace SafeExamBrowser.Logging.UnitTests
 			Assert.IsTrue((log[5] as ILogText).Text.Contains(exceptionMessage));
 
 			Assert.IsTrue(message.Equals((log[6] as ILogText).Text));
-
-			Assert.IsTrue(content.Text.Equals((log[7] as ILogText).Text));
 		}
 
 		[TestMethod]
@@ -122,7 +117,6 @@ namespace SafeExamBrowser.Logging.UnitTests
 			Assert.ThrowsException<ArgumentNullException>(() => sut.Error("Hello world!", null));
 			Assert.ThrowsException<ArgumentNullException>(() => sut.Error(null, new Exception()));
 			Assert.ThrowsException<ArgumentNullException>(() => sut.Log((string) null));
-			Assert.ThrowsException<ArgumentNullException>(() => sut.Log((ILogContent) null));
 		}
 
 		[TestMethod]

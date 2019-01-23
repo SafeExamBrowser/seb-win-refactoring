@@ -17,6 +17,11 @@ namespace SafeExamBrowser.Contracts.Logging
 	public interface ILogger
 	{
 		/// <summary>
+		/// The currently active severity threshold. All messages with a lower severity won't be logged!
+		/// </summary>
+		LogLevel LogLevel { get; set; }
+
+		/// <summary>
 		/// Logs the given message with severity <see cref="LogLevel.Debug"/>.
 		/// </summary>
 		/// <exception cref="ArgumentNullException" />
@@ -52,12 +57,6 @@ namespace SafeExamBrowser.Contracts.Logging
 		/// </summary>
 		/// <exception cref="ArgumentNullException" />
 		void Log(string message);
-
-		/// <summary>
-		/// Appends the given content to the log.
-		/// </summary>
-		/// <exception cref="ArgumentNullException" />
-		void Log(ILogContent content);
 
 		/// <summary>
 		/// Subscribes an observer to the application log.

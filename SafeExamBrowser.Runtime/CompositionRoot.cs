@@ -134,6 +134,7 @@ namespace SafeExamBrowser.Runtime
 			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), appConfig.RuntimeLogFile);
 
 			logFileWriter.Initialize();
+			logger.LogLevel = LogLevel.Debug;
 			logger.Subscribe(logFileWriter);
 		}
 

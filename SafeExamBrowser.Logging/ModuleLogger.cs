@@ -17,6 +17,12 @@ namespace SafeExamBrowser.Logging
 		private ILogger logger;
 		private string moduleInfo;
 
+		public LogLevel LogLevel
+		{
+			get { return logger.LogLevel; }
+			set { logger.LogLevel = value; }
+		}
+
 		public ModuleLogger(ILogger logger, string moduleInfo)
 		{
 			this.logger = logger;
@@ -56,11 +62,6 @@ namespace SafeExamBrowser.Logging
 		public void Log(string message)
 		{
 			logger.Log(message);
-		}
-
-		public void Log(ILogContent content)
-		{
-			logger.Log(content);
 		}
 
 		public void Subscribe(ILogObserver observer)

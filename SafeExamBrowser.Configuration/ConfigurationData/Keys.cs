@@ -45,6 +45,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		internal static class General
 		{
 			internal const string AdminPasswordHash = "hashedAdminPassword";
+			internal const string LogLevel = "logLevel";
 			internal const string QuitPasswordHash = "hashedQuitPassword";
 			internal const string StartUrl = "startURL";
 		}
