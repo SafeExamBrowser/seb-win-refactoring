@@ -177,16 +177,24 @@ namespace SafeExamBrowser.Client
 
 		private void DeregisterEvents()
 		{
-			Browser.ConfigurationDownloadRequested -= Browser_ConfigurationDownloadRequested;
-			ClientHost.MessageBoxRequested -= ClientHost_MessageBoxRequested;
-			ClientHost.PasswordRequested -= ClientHost_PasswordRequested;
-			ClientHost.ReconfigurationDenied -= ClientHost_ReconfigurationDenied;
-			ClientHost.Shutdown -= ClientHost_Shutdown;
 			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
 			processMonitor.ExplorerStarted -= ProcessMonitor_ExplorerStarted;
 			runtime.ConnectionLost -= Runtime_ConnectionLost;
 			taskbar.QuitButtonClicked -= Taskbar_QuitButtonClicked;
 			windowMonitor.WindowChanged -= WindowMonitor_WindowChanged;
+
+			if (Browser != null)
+			{
+				Browser.ConfigurationDownloadRequested -= Browser_ConfigurationDownloadRequested;
+			}
+
+			if (ClientHost != null)
+			{
+				ClientHost.MessageBoxRequested -= ClientHost_MessageBoxRequested;
+				ClientHost.PasswordRequested -= ClientHost_PasswordRequested;
+				ClientHost.ReconfigurationDenied -= ClientHost_ReconfigurationDenied;
+				ClientHost.Shutdown -= ClientHost_Shutdown;
+			}
 		}
 
 		private void StartBrowser()
