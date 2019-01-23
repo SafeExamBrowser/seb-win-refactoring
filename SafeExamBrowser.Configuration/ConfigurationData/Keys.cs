@@ -20,6 +20,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class Browser
 		{
+			internal const string AllowConfigurationDownloads = "downloadAndOpenSebConfig";
+			internal const string AllowDownloads = "allowDownUploads";
 			internal const string AllowNavigation = "allowBrowsingBackForward";
 			internal const string AllowNavigationAdditionalWindow = "newBrowserWindowNavigation";
 			internal const string AllowPageZoom = "enableZoomPage";

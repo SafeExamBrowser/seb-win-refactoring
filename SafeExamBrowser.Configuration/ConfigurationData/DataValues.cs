@@ -91,7 +91,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.StartUrl = "https://www.safeexambrowser.org/start";
 			settings.Browser.AllowConfigurationDownloads = true;
 			settings.Browser.AllowDeveloperConsole = false;
-			settings.Browser.AllowDownloads = false;
+			settings.Browser.AllowDownloads = true;
 			settings.Browser.AllowPageZoom = true;
 			settings.Browser.AllowPopups = true;
 			settings.Browser.AdditionalWindowSettings.AllowAddressBar = false;

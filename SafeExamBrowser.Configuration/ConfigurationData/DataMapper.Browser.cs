@@ -13,6 +13,22 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal partial class DataMapper
 	{
+		private void MapAllowConfigurationDownloads(Settings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.AllowConfigurationDownloads = allow;
+			}
+		}
+
+		private void MapAllowDownloads(Settings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.AllowDownloads = allow;
+			}
+		}
+
 		private void MapAllowNavigation(Settings settings, object value)
 		{
 			if (value is bool allow)

@@ -27,6 +27,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			switch (key)
 			{
+				case Keys.Browser.AllowConfigurationDownloads:
+					MapAllowConfigurationDownloads(settings, value);
+					break;
+				case Keys.Browser.AllowDownloads:
+					MapAllowDownloads(settings, value);
+					break;
 				case Keys.Browser.AllowNavigation:
 					MapAllowNavigation(settings, value);
 					break;
