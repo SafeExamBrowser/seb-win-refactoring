@@ -168,17 +168,11 @@
   <Entry key="OperationStatus_RevertKioskMode">
     Reverting kiosk mode
   </Entry>
-  <Entry key="OperationStatus_ShutdownProcedure">
-    Initiating shutdown procedure
-  </Entry>
   <Entry key="OperationStatus_StartClient">
     Starting client
   </Entry>
   <Entry key="OperationStatus_StartCommunicationHost">
     Starting communication host
-  </Entry>
-  <Entry key="OperationStatus_StartEventHandling">
-    Starting event handling
   </Entry>
   <Entry key="OperationStatus_StartKeyboardInterception">
     Starting keyboard interception
@@ -191,9 +185,6 @@
   </Entry>
   <Entry key="OperationStatus_StopCommunicationHost">
     Stopping communication host
-  </Entry>
-  <Entry key="OperationStatus_StopEventHandling">
-    Stopping event handling
   </Entry>
   <Entry key="OperationStatus_StopKeyboardInterception">
     Stopping keyboard interception
