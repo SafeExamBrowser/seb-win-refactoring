@@ -215,6 +215,8 @@ namespace SafeExamBrowser.Communication.Proxies
 		private void BaseProxy_Faulted(object sender, EventArgs e)
 		{
 			Logger.Warn("Communication channel has faulted!");
+			timer?.Stop();
+			ConnectionLost?.Invoke();
 		}
 
 		private void BaseProxy_Opened(object sender, EventArgs e)
