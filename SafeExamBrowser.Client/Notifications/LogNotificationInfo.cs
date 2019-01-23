@@ -6,7 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Client;
+using SafeExamBrowser.Contracts.Core;
 using SafeExamBrowser.Contracts.I18n;
 
 namespace SafeExamBrowser.Client.Notifications

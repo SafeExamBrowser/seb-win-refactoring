@@ -143,6 +143,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			// TODO: Default values for testing of alpha version only, remove for final release!
 			settings.Browser.AllowDeveloperConsole = true;
+			settings.Browser.MainWindowSettings.AllowAddressBar = true;
 			settings.KioskMode = KioskMode.None;
 			settings.Taskbar.AllowApplicationLog = true;
 

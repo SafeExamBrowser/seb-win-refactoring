@@ -6,10 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Core.Events
+namespace SafeExamBrowser.Contracts.Applications.Events
 {
 	/// <summary>
-	/// Event handler used to indicate that a name has changed to a new value.
+	/// Event handler used to indicate that an <see cref="IApplicationInstance"/> with a particular ID has terminated.
 	/// </summary>
-	public delegate void NameChangedEventHandler(string name);
+	public delegate void InstanceTerminatedEventHandler(InstanceIdentifier id);
 }

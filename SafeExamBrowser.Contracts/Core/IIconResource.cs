@@ -8,7 +8,7 @@
 
 using System;
 
-namespace SafeExamBrowser.Contracts.Configuration
+namespace SafeExamBrowser.Contracts.Core
 {
 	/// <summary>
 	/// Defines an icon resource, i.e. the path to and type of an icon.

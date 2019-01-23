@@ -6,7 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Configuration
+using SafeExamBrowser.Contracts.Core;
+
+namespace SafeExamBrowser.Contracts.Applications
 {
 	/// <summary>
 	/// The information about a (third-party) application which can be accessed via the <see cref="UserInterface.Taskbar.ITaskbar"/>.

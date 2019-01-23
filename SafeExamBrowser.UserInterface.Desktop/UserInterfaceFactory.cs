@@ -10,6 +10,8 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using FontAwesome.WPF;
+using SafeExamBrowser.Contracts.Applications;
+using SafeExamBrowser.Contracts.Client;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;

@@ -6,9 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Core;
 
-namespace SafeExamBrowser.Contracts.Core.Events
+namespace SafeExamBrowser.Contracts.Applications.Events
 {
 	/// <summary>
 	/// Event handler used to indicate that the icon of an <see cref="IApplicationInstance"/> has changed.

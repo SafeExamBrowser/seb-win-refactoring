@@ -6,7 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Configuration
+using SafeExamBrowser.Contracts.Core;
+
+namespace SafeExamBrowser.Contracts.Client
 {
 	/// <summary>
 	/// The information about a notification which is part of the <see cref="UserInterface.Taskbar.ITaskbar"/>.

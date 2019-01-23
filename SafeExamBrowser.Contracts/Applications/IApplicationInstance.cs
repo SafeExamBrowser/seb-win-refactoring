@@ -6,10 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Core.Events;
+using SafeExamBrowser.Contracts.Applications.Events;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
 
-namespace SafeExamBrowser.Contracts.Core
+namespace SafeExamBrowser.Contracts.Applications
 {
 	/// <summary>
 	/// Defines an instance of a (third-party) application which can be accessed via the <see cref="UserInterface.Taskbar.ITaskbar"/>.

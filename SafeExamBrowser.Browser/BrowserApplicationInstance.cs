@@ -8,11 +8,11 @@
 
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Browser.Handlers;
+using SafeExamBrowser.Contracts.Applications;
+using SafeExamBrowser.Contracts.Applications.Events;
 using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.Core;
-using SafeExamBrowser.Contracts.Core.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;

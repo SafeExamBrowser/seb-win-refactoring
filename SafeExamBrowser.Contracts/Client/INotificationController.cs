@@ -8,7 +8,7 @@
 
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
-namespace SafeExamBrowser.Contracts.Core
+namespace SafeExamBrowser.Contracts.Client
 {
 	/// <summary>
 	/// Controls the lifetime and functionality of a notification which is part of the <see cref="ITaskbar"/>.

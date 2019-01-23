@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.Core
+namespace SafeExamBrowser.Contracts.Runtime
 {
 	/// <summary>
 	/// Controls the lifetime and is responsible for the event handling of the runtime application component.

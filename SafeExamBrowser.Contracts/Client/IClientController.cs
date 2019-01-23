@@ -12,7 +12,7 @@ using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 
-namespace SafeExamBrowser.Contracts.Core
+namespace SafeExamBrowser.Contracts.Client
 {
 	/// <summary>
 	/// Controls the lifetime and is responsible for the event handling of the client application component.

@@ -7,7 +7,7 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Core;
 
 namespace SafeExamBrowser.Client.Notifications
 {

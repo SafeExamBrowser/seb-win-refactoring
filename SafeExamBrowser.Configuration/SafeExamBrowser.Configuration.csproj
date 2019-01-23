@@ -95,7 +95,6 @@
     <Compile Include="DataResources\NetworkResourceLoader.cs" />
     <Compile Include="SessionConfiguration.cs" />
     <Compile Include="SubStream.cs" />
-    <Compile Include="SystemInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">

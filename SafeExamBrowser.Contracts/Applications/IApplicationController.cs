@@ -8,7 +8,7 @@
 
 using SafeExamBrowser.Contracts.UserInterface.Taskbar;
 
-namespace SafeExamBrowser.Contracts.Core
+namespace SafeExamBrowser.Contracts.Applications
 {
 	/// <summary>
 	/// Controls the lifetime and functionality of a (third-party) application which can be accessed via the <see cref="ITaskbar"/>.

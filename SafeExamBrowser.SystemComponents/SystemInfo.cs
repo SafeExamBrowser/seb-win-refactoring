@@ -7,9 +7,10 @@
  */
 
 using System.Windows.Forms;
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.SystemComponents;
+using BatteryChargeStatus = System.Windows.Forms.BatteryChargeStatus;
 
-namespace SafeExamBrowser.Configuration
+namespace SafeExamBrowser.SystemComponents
 {
 	public class SystemInfo : ISystemInfo
 	{
