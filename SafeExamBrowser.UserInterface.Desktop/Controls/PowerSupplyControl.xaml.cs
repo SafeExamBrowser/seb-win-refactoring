@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -33,7 +32,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 		public void SetBatteryCharge(double charge, BatteryChargeStatus status)
 		{
-			Dispatcher.BeginInvoke(new Action(() =>
+			Dispatcher.InvokeAsync(() =>
 			{
 				var width = BATTERY_CHARGE_MAX_WIDTH * charge;
 
@@ -44,27 +43,27 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 				BatteryCharge.Fill = status == BatteryChargeStatus.Low ? Brushes.Orange : BatteryCharge.Fill;
 				BatteryCharge.Fill = status == BatteryChargeStatus.Critical ? Brushes.Red : BatteryCharge.Fill;
 				Warning.Visibility = status == BatteryChargeStatus.Critical ? Visibility.Visible : Visibility.Collapsed;
-			}));
+			});
 		}
 
 		public void SetPowerGridConnection(bool connected)
 		{
-			Dispatcher.BeginInvoke(new Action(() => PowerPlug.Visibility = connected ? Visibility.Visible : Visibility.Collapsed));
+			Dispatcher.InvokeAsync(() => PowerPlug.Visibility = connected ? Visibility.Visible : Visibility.Collapsed);
 		}
 
 		public void SetTooltip(string text)
 		{
-			Dispatcher.BeginInvoke(new Action(() => Button.ToolTip = text));
+			Dispatcher.InvokeAsync(() => Button.ToolTip = text);
 		}
 
 		public void ShowCriticalBatteryWarning(string warning)
 		{
-			Dispatcher.BeginInvoke(new Action(() => ShowPopup(warning)));
+			Dispatcher.InvokeAsync(() => ShowPopup(warning));
 		}
 
 		public void ShowLowBatteryInfo(string info)
 		{
-			Dispatcher.BeginInvoke(new Action(() => ShowPopup(info)));
+			Dispatcher.InvokeAsync(() => ShowPopup(info));
 		}
 
 		private void ShowPopup(string text)

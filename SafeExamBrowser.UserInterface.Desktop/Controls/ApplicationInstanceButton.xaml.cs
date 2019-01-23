@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using SafeExamBrowser.Contracts.Configuration;
@@ -44,7 +43,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 		private void Instance_IconChanged(IIconResource icon)
 		{
-			Dispatcher.BeginInvoke(new Action(() => Icon.Content = IconResourceLoader.Load(icon)));
+			Dispatcher.InvokeAsync(() => Icon.Content = IconResourceLoader.Load(icon));
 		}
 
 		private void Instance_NameChanged(string name)

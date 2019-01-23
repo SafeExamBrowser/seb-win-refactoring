@@ -26,11 +26,11 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 		{
 			set
 			{
-				Dispatcher.BeginInvoke(new Action(() =>
+				Dispatcher.InvokeAsync(() =>
 				{
 					Button.IsEnabled = value;
 					NoAdapterIcon.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
-				}));
+				});
 			}
 		}
 
@@ -38,12 +38,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 		{
 			set
 			{
-				Dispatcher.Invoke(new Action(() =>
+				Dispatcher.Invoke(() =>
 				{
 					LoadingIcon.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
 					SignalStrengthIcon.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
 					NetworkStatusIcon.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
-				}));
+				});
 			}
 		}
 
@@ -51,13 +51,13 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 		{
 			set
 			{
-				Dispatcher.BeginInvoke(new Action(() =>
+				Dispatcher.InvokeAsync(() =>
 				{
 					var icon = value == WirelessNetworkStatus.Connected ? FontAwesomeIcon.Check : FontAwesomeIcon.Close;
 					var brush = value == WirelessNetworkStatus.Connected ? Brushes.Green : Brushes.Orange;
 
 					NetworkStatusIcon.Source = ImageAwesome.CreateImageSource(icon, brush);
-				}));
+				});
 			}
 		}
 
@@ -76,12 +76,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 		public void SetTooltip(string text)
 		{
-			Dispatcher.BeginInvoke(new Action(() => Button.ToolTip = text));
+			Dispatcher.InvokeAsync(() => Button.ToolTip = text);
 		}
 
 		public void Update(IEnumerable<IWirelessNetwork> networks)
 		{
-			Dispatcher.BeginInvoke(new Action(() =>
+			Dispatcher.InvokeAsync(() =>
 			{
 				NetworksStackPanel.Children.Clear();
 
@@ -106,7 +106,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 					NetworksStackPanel.Children.Add(button);
 				}
-			}));
+			});
 		}
 
 		private void InitializeWirelessNetworkControl()

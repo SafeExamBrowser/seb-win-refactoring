@@ -98,7 +98,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		public void UpdateIcon(IIconResource icon)
 		{
-			Dispatcher.BeginInvoke(new Action(() => Icon = new BitmapImage(icon.Uri)));
+			Dispatcher.InvokeAsync(() => Icon = new BitmapImage(icon.Uri));
 		}
 
 		public void UpdateLoadingState(bool isLoading)

@@ -83,7 +83,7 @@ namespace SafeExamBrowser.Client
 				base.Shutdown();
 			}
 
-			Dispatcher.BeginInvoke(new Action(shutdown));
+			Dispatcher.InvokeAsync(shutdown);
 		}
 	}
 }

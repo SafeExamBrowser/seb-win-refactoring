@@ -89,11 +89,11 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 		private void Instance_OnTerminated(InstanceIdentifier id, ApplicationInstanceButton instanceButton)
 		{
-			Dispatcher.BeginInvoke(new Action(() =>
+			Dispatcher.InvokeAsync(() =>
 			{
 				instances.Remove(instances.FirstOrDefault(i => i.Id == id));
 				InstanceStackPanel.Children.Remove(instanceButton);
-			}));
+			});
 		}
 	}
 }
