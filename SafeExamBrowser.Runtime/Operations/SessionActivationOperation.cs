@@ -26,6 +26,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public override OperationResult Perform()
 		{
+			SwitchLogSeverity();
 			ActivateNewSession();
 
 			return OperationResult.Success;
@@ -33,6 +34,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public override OperationResult Repeat()
 		{
+			SwitchLogSeverity();
 			ActivateNewSession();
 
 			return OperationResult.Success;
@@ -41,6 +43,18 @@ namespace SafeExamBrowser.Runtime.Operations
 		public override OperationResult Revert()
 		{
 			return OperationResult.Success;
+		}
+
+		private void SwitchLogSeverity()
+		{
+			if (logger.LogLevel != Context.Next.Settings.LogLevel)
+			{
+				var current = logger.LogLevel.ToString().ToUpper();
+				var next = Context.Next.Settings.LogLevel.ToString().ToUpper();
+
+				logger.Info($"Switching from log severity '{current}' to '{next}' for new session.");
+				logger.LogLevel = Context.Next.Settings.LogLevel;
+			}
 		}
 
 		private void ActivateNewSession()

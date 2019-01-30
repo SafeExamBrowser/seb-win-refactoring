@@ -14,9 +14,14 @@ namespace SafeExamBrowser.Contracts.Communication.Data
 	public enum PasswordRequestPurpose
 	{
 		/// <summary>
-		/// The password is to be used as administrator password for an application configuration.
+		/// The password is to be used as administrator password for the local client configuration.
 		/// </summary>
-		Administrator,
+		LocalAdministrator,
+
+		/// <summary>
+		/// The password is to be used as settings password for the local client configuration.
+		/// </summary>
+		LocalSettings,
 
 		/// <summary>
 		/// The password is to be used as settings password for an application configuration.

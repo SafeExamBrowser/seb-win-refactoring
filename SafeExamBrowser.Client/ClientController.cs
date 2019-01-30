@@ -285,13 +285,28 @@ namespace SafeExamBrowser.Client
 
 		private void ClientHost_PasswordRequested(PasswordRequestEventArgs args)
 		{
-			var isAdmin = args.Purpose == PasswordRequestPurpose.Administrator;
-			var message = isAdmin ? TextKey.PasswordDialog_AdminPasswordRequired : TextKey.PasswordDialog_SettingsPasswordRequired;
-			var title = isAdmin ? TextKey.PasswordDialog_AdminPasswordRequiredTitle : TextKey.PasswordDialog_SettingsPasswordRequiredTitle;
-			var dialog = uiFactory.CreatePasswordDialog(text.Get(message), text.Get(title));
+			var message = default(TextKey);
+			var title = default(TextKey);
 
 			logger.Info($"Received input request with id '{args.RequestId}' for the {args.Purpose.ToString().ToLower()} password.");
 
+			switch (args.Purpose)
+			{
+				case PasswordRequestPurpose.LocalAdministrator:
+					message = TextKey.PasswordDialog_LocalAdminPasswordRequired;
+					title = TextKey.PasswordDialog_LocalAdminPasswordRequiredTitle;
+					break;
+				case PasswordRequestPurpose.LocalSettings:
+					message = TextKey.PasswordDialog_LocalSettingsPasswordRequired;
+					title = TextKey.PasswordDialog_LocalSettingsPasswordRequiredTitle;
+					break;
+				case PasswordRequestPurpose.Settings:
+					message = TextKey.PasswordDialog_SettingsPasswordRequired;
+					title = TextKey.PasswordDialog_SettingsPasswordRequiredTitle;
+					break;
+			}
+
+			var dialog = uiFactory.CreatePasswordDialog(text.Get(message), text.Get(title));
 			var result = dialog.Show();
 
 			runtime.SubmitPassword(args.RequestId, result.Success, result.Password);

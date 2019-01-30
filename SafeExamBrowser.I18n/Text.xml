@@ -213,17 +213,23 @@
   <Entry key="OperationStatus_WaitRuntimeDisconnection">
     Waiting for the runtime to disconnect
   </Entry>
-  <Entry key="PasswordDialog_AdminPasswordRequired">
-    Please enter the administrator password for the application configuration:
-  </Entry>
-  <Entry key="PasswordDialog_AdminPasswordRequiredTitle">
-    Administrator Password Required
-  </Entry>
   <Entry key="PasswordDialog_Cancel">
     Cancel
   </Entry>
   <Entry key="PasswordDialog_Confirm">
     Confirm
+  </Entry>
+  <Entry key="PasswordDialog_LocalAdminPasswordRequired">
+    Please enter the administrator password for the local client configuration:
+  </Entry>
+  <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
+    Administrator Password Required
+  </Entry>
+  <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
+    Please enter the settings password for the local client configuration:
+  </Entry>
+  <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
+    Settings Password Required
   </Entry>
   <Entry key="PasswordDialog_QuitPasswordRequired">
     Please enter the quit password in order to terminate the application:
@@ -232,7 +238,7 @@
     Quit Password Required
   </Entry>
   <Entry key="PasswordDialog_SettingsPasswordRequired">
-    Please enter the settings password for the application configuration:
+    Please enter the settings password for the selected application configuration:
   </Entry>
   <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
     Settings Password Required

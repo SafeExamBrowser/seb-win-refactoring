@@ -452,9 +452,25 @@ namespace SafeExamBrowser.Runtime
 
 		private void TryGetPasswordViaDialog(PasswordRequiredEventArgs args)
 		{
-			var isAdmin = args.Purpose == PasswordRequestPurpose.Administrator;
-			var message = isAdmin ? TextKey.PasswordDialog_AdminPasswordRequired : TextKey.PasswordDialog_SettingsPasswordRequired;
-			var title = isAdmin ? TextKey.PasswordDialog_AdminPasswordRequiredTitle : TextKey.PasswordDialog_SettingsPasswordRequiredTitle;
+			var message = default(TextKey);
+			var title = default(TextKey);
+
+			switch (args.Purpose)
+			{
+				case PasswordRequestPurpose.LocalAdministrator:
+					message = TextKey.PasswordDialog_LocalAdminPasswordRequired;
+					title = TextKey.PasswordDialog_LocalAdminPasswordRequiredTitle;
+					break;
+				case PasswordRequestPurpose.LocalSettings:
+					message = TextKey.PasswordDialog_LocalSettingsPasswordRequired;
+					title = TextKey.PasswordDialog_LocalSettingsPasswordRequiredTitle;
+					break;
+				case PasswordRequestPurpose.Settings:
+					message = TextKey.PasswordDialog_SettingsPasswordRequired;
+					title = TextKey.PasswordDialog_SettingsPasswordRequiredTitle;
+					break;
+			}
+
 			var dialog = uiFactory.CreatePasswordDialog(text.Get(message), text.Get(title));
 			var result = dialog.Show(runtimeWindow);
 

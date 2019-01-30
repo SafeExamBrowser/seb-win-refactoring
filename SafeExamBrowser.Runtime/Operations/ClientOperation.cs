@@ -102,7 +102,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			var clientExecutable = Context.Next.AppConfig.ClientExecutablePath;
 			var clientLogFile = $"{'"' + Context.Next.AppConfig.ClientLogFile + '"'}";
-			var clientLogLevel = logger.LogLevel.ToString();
+			var clientLogLevel = Context.Next.Settings.LogLevel.ToString();
 			var runtimeHostUri = Context.Next.AppConfig.RuntimeAddress;
 			var startupToken = Context.Next.StartupToken.ToString("D");
 

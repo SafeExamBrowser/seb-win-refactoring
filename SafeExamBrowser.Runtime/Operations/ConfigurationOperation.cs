@@ -59,11 +59,11 @@ namespace SafeExamBrowser.Runtime.Operations
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeConfiguration);
 
 			var result = OperationResult.Failed;
-			var isValidUri = TryInitializeSettingsUri(out Uri uri);
+			var isValidUri = TryInitializeSettingsUri(out var uri, out var source);
 
 			if (isValidUri)
 			{
-				result = LoadSettings(uri);
+				result = LoadSettingsForStartup(uri, source);
 			}
 			else
 			{
@@ -81,11 +81,11 @@ namespace SafeExamBrowser.Runtime.Operations
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeConfiguration);
 
 			var result = OperationResult.Failed;
-			var isValidUri = TryValidateSettingsUri(Context.ReconfigurationFilePath, out Uri uri);
+			var isValidUri = TryValidateSettingsUri(Context.ReconfigurationFilePath, out var uri);
 
 			if (isValidUri)
 			{
-				result = LoadSettings(uri);
+				result = LoadSettingsForReconfiguration(uri);
 			}
 			else
 			{
@@ -104,66 +104,88 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private OperationResult LoadDefaultSettings()
 		{
-			logger.Info("No valid configuration resource specified nor found in PROGRAMDATA or APPDATA - loading default settings...");
+			logger.Info("No valid configuration resource specified and no local client configuration found - loading default settings...");
 			Context.Next.Settings = configuration.LoadDefaultSettings();
 
 			return OperationResult.Success;
 		}
 
-		private OperationResult LoadSettings(Uri uri)
+		private OperationResult LoadSettingsForStartup(Uri uri, UriSource source)
 		{
-			var passwordParams = new PasswordParameters { Password = string.Empty, IsHash = true };
-			var status = configuration.TryLoadSettings(uri, out var settings, passwordParams);
+			var currentPassword = default(string);
+			var passwordParams = default(PasswordParameters);
+			var settings = default(Settings);
+			var status = default(LoadStatus?);
 
-			if (status == LoadStatus.PasswordNeeded && Context.Current?.Settings.AdminPasswordHash != null)
+			if (source == UriSource.CommandLine)
 			{
-				passwordParams.Password = Context.Current.Settings.AdminPasswordHash;
-				passwordParams.IsHash = true;
+				var hasAppDataFile = File.Exists(AppDataFile);
+				var hasProgramDataFile = File.Exists(ProgramDataFile);
 
-				status = configuration.TryLoadSettings(uri, out settings, passwordParams);
-			}
-
-			for (int attempts = 0; attempts < 5 && status == LoadStatus.PasswordNeeded; attempts++)
-			{
-				var success = TryGetPassword(PasswordRequestPurpose.Settings, out var password);
-
-				if (success)
+				if (hasProgramDataFile)
 				{
-					passwordParams.Password = password;
-					passwordParams.IsHash = false;
+					status = TryLoadSettings(new Uri(ProgramDataFile, UriKind.Absolute), UriSource.ProgramData, out _, out settings);
 				}
-				else
+				else if (hasAppDataFile)
 				{
-					return OperationResult.Aborted;
+					status = TryLoadSettings(new Uri(AppDataFile, UriKind.Absolute), UriSource.AppData, out _, out settings);
 				}
 
-				status = configuration.TryLoadSettings(uri, out settings, passwordParams);
+				if ((!hasProgramDataFile && !hasAppDataFile) || status == LoadStatus.Success)
+				{
+					currentPassword = settings?.AdminPasswordHash;
+					status = TryLoadSettings(uri, source, out passwordParams, out settings, currentPassword);
+				}
 			}
-
-			Context.Next.Settings = settings;
-
-			if (settings != null)
+			else
 			{
-				logger.LogLevel = settings.LogLevel;
+				status = TryLoadSettings(uri, source, out passwordParams, out settings);
 			}
 
-			return HandleLoadResult(uri, settings, status, passwordParams);
+			if (status.HasValue)
+			{
+				return DetermineLoadResult(uri, source, settings, status.Value, passwordParams, currentPassword);
+			}
+			else
+			{
+				return OperationResult.Aborted;
+			}
 		}
 
-		private OperationResult HandleLoadResult(Uri uri, Settings settings, LoadStatus status, PasswordParameters password)
+		private OperationResult LoadSettingsForReconfiguration(Uri uri)
 		{
-			if (status == LoadStatus.LoadWithBrowser)
-			{
-				return HandleBrowserResource(uri);
-			}
+			var currentPassword = Context.Current.Settings.AdminPasswordHash;
+			var source = UriSource.Reconfiguration;
+			var status = TryLoadSettings(uri, source, out var passwordParams, out var settings, currentPassword);
 
-			if (status == LoadStatus.Success && settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
+			if (status.HasValue)
 			{
-				return HandleClientConfiguration(uri, password);
+				return DetermineLoadResult(uri, source, settings, status.Value, passwordParams, currentPassword);
 			}
-
-			if (status == LoadStatus.Success)
+			else
 			{
+				return OperationResult.Aborted;
+			}
+		}
+
+		private OperationResult DetermineLoadResult(Uri uri, UriSource source, Settings settings, LoadStatus status, PasswordParameters passwordParams, string currentPassword = default(string))
+		{
+			if (status == LoadStatus.LoadWithBrowser || status == LoadStatus.Success)
+			{
+				var isNewConfiguration = source == UriSource.CommandLine || source == UriSource.Reconfiguration;
+
+				Context.Next.Settings = settings;
+
+				if (status == LoadStatus.LoadWithBrowser)
+				{
+					return HandleBrowserResource(uri);
+				}
+
+				if (isNewConfiguration && settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
+				{
+					return HandleClientConfiguration(uri, passwordParams, currentPassword);
+				}
+
 				return OperationResult.Success;
 			}
 
@@ -180,132 +202,171 @@ namespace SafeExamBrowser.Runtime.Operations
 			return OperationResult.Success;
 		}
 
-		private OperationResult HandleClientConfiguration(Uri resource, PasswordParameters password)
+		private OperationResult HandleClientConfiguration(Uri uri, PasswordParameters passwordParams, string currentPassword = default(string))
 		{
-			var isAppDataFile = Path.GetFullPath(resource.AbsolutePath).Equals(AppDataFile, StringComparison.OrdinalIgnoreCase);
-			var isProgramDataFile = Path.GetFullPath(resource.AbsolutePath).Equals(ProgramDataFile, StringComparison.OrdinalIgnoreCase);
 			var isFirstSession = Context.Current == null;
+			var success = TryConfigureClient(uri, passwordParams, currentPassword);
 
-			if (!isAppDataFile && !isProgramDataFile)
+			if (success == true)
 			{
-				var requiresAuthentication = IsAuthenticationRequiredForClientConfiguration(password);
-
-				logger.Info("Starting client configuration...");
-
-				if (requiresAuthentication)
+				if (isFirstSession && AbortAfterClientConfiguration())
 				{
-					var result = HandleClientConfigurationAuthentication();
-
-					if (result != OperationResult.Success)
-					{
-						return result;
-					}
-				}
-				else
-				{
-					logger.Info("Authentication is not required.");
-				}
-
-				var status = configuration.ConfigureClientWith(resource, password);
-
-				if (status == SaveStatus.Success)
-				{
-					logger.Info("Client configuration was successful.");
-				}
-				else
-				{
-					logger.Error($"Client configuration failed with status '{status}'!");
-					ActionRequired?.Invoke(new ClientConfigurationErrorMessageArgs());
-
-					return OperationResult.Failed;
-				}
-
-				if (isFirstSession)
-				{
-					var result = HandleClientConfigurationOnStartup();
-
-					if (result != OperationResult.Success)
-					{
-						return result;
-					}
-				}
-			}
-
-			return OperationResult.Success;
-		}
-
-		private bool IsAuthenticationRequiredForClientConfiguration(PasswordParameters password)
-		{
-			var requiresAuthentication = Context.Current?.Settings.AdminPasswordHash != null;
-
-			if (requiresAuthentication)
-			{
-				var currentPassword = Context.Current.Settings.AdminPasswordHash;
-				var nextPassword = Context.Next.Settings.AdminPasswordHash;
-				var hasSettingsPassword = password.Password != null;
-				var sameAdminPassword = currentPassword.Equals(nextPassword, StringComparison.OrdinalIgnoreCase);
-
-				requiresAuthentication = !sameAdminPassword;
-
-				if (requiresAuthentication && hasSettingsPassword)
-				{
-					var settingsPassword = password.IsHash ? password.Password : hashAlgorithm.GenerateHashFor(password.Password);
-					var knowsAdminPassword = currentPassword.Equals(settingsPassword, StringComparison.OrdinalIgnoreCase);
-
-					requiresAuthentication = !knowsAdminPassword;
-				}
-			}
-
-			return requiresAuthentication;
-		}
-
-		private OperationResult HandleClientConfigurationAuthentication()
-		{
-			var currentPassword = Context.Current.Settings.AdminPasswordHash;
-			var isSamePassword = false;
-
-			for (int attempts = 0; attempts < 5 && !isSamePassword; attempts++)
-			{
-				var success = TryGetPassword(PasswordRequestPurpose.Administrator, out var password);
-
-				if (success)
-				{
-					isSamePassword = currentPassword.Equals(hashAlgorithm.GenerateHashFor(password), StringComparison.OrdinalIgnoreCase);
-				}
-				else
-				{
-					logger.Info("Authentication was aborted.");
-
 					return OperationResult.Aborted;
 				}
-			}
-
-			if (isSamePassword)
-			{
-				logger.Info("Authentication was successful.");
 
 				return OperationResult.Success;
 			}
 
-			logger.Info("Authentication has failed!");
-			ActionRequired?.Invoke(new InvalidPasswordMessageArgs());
+			if (!success.HasValue)
+			{
+				return OperationResult.Aborted;
+			}
 
 			return OperationResult.Failed;
 		}
 
-		private OperationResult HandleClientConfigurationOnStartup()
+		private LoadStatus? TryLoadSettings(Uri uri, UriSource source, out PasswordParameters passwordParams, out Settings settings, string currentPassword = default(string))
+		{
+			passwordParams = new PasswordParameters { Password = string.Empty, IsHash = true };
+
+			var status = configuration.TryLoadSettings(uri, out settings, passwordParams);
+
+			if (status == LoadStatus.PasswordNeeded && currentPassword != default(string))
+			{
+				passwordParams.Password = currentPassword;
+				passwordParams.IsHash = true;
+
+				status = configuration.TryLoadSettings(uri, out settings, passwordParams);
+			}
+
+			for (int attempts = 0; attempts < 5 && status == LoadStatus.PasswordNeeded; attempts++)
+			{
+				var isLocalConfig = source == UriSource.AppData || source == UriSource.ProgramData;
+				var purpose = isLocalConfig ? PasswordRequestPurpose.LocalSettings : PasswordRequestPurpose.Settings;
+				var success = TryGetPassword(purpose, out var password);
+
+				if (success)
+				{
+					passwordParams.Password = password;
+					passwordParams.IsHash = false;
+				}
+				else
+				{
+					return null;
+				}
+
+				status = configuration.TryLoadSettings(uri, out settings, passwordParams);
+			}
+
+			return status;
+		}
+
+		private bool? TryConfigureClient(Uri uri, PasswordParameters passwordParams, string currentPassword = default(string))
+		{
+			var mustAuthenticate = IsRequiredToAuthenticateForClientConfiguration(passwordParams, currentPassword);
+
+			logger.Info("Starting client configuration...");
+
+			if (mustAuthenticate)
+			{
+				var authenticated = AuthenticateForClientConfiguration(currentPassword);
+
+				if (authenticated == true)
+				{
+					logger.Info("Authentication was successful.");
+				}
+
+				if (authenticated == false)
+				{
+					logger.Info("Authentication has failed!");
+					ActionRequired?.Invoke(new InvalidPasswordMessageArgs());
+
+					return false;
+				}
+
+				if (!authenticated.HasValue)
+				{
+					logger.Info("Authentication was aborted.");
+
+					return null;
+				}
+			}
+			else
+			{
+				logger.Info("Authentication is not required.");
+			}
+
+			var status = configuration.ConfigureClientWith(uri, passwordParams);
+			var success = status == SaveStatus.Success;
+
+			if (success)
+			{
+				logger.Info("Client configuration was successful.");
+			}
+			else
+			{
+				logger.Error($"Client configuration failed with status '{status}'!");
+				ActionRequired?.Invoke(new ClientConfigurationErrorMessageArgs());
+			}
+
+			return success;
+		}
+
+		private bool IsRequiredToAuthenticateForClientConfiguration(PasswordParameters passwordParams, string currentPassword = default(string))
+		{
+			var mustAuthenticate = currentPassword != default(string);
+
+			if (mustAuthenticate)
+			{
+				var nextPassword = Context.Next.Settings.AdminPasswordHash;
+				var hasSettingsPassword = passwordParams.Password != null;
+				var sameAdminPassword = currentPassword.Equals(nextPassword, StringComparison.OrdinalIgnoreCase);
+
+				if (sameAdminPassword)
+				{
+					mustAuthenticate = false;
+				}
+				else if (hasSettingsPassword)
+				{
+					var settingsPassword = passwordParams.IsHash ? passwordParams.Password : hashAlgorithm.GenerateHashFor(passwordParams.Password);
+					var knowsAdminPassword = currentPassword.Equals(settingsPassword, StringComparison.OrdinalIgnoreCase);
+
+					mustAuthenticate = !knowsAdminPassword;
+				}
+			}
+
+			return mustAuthenticate;
+		}
+
+		private bool? AuthenticateForClientConfiguration(string currentPassword)
+		{
+			var authenticated = false;
+
+			for (int attempts = 0; attempts < 5 && !authenticated; attempts++)
+			{
+				var success = TryGetPassword(PasswordRequestPurpose.LocalAdministrator, out var password);
+
+				if (success)
+				{
+					authenticated = currentPassword.Equals(hashAlgorithm.GenerateHashFor(password), StringComparison.OrdinalIgnoreCase);
+				}
+				else
+				{
+					return null;
+				}
+			}
+
+			return authenticated;
+		}
+
+		private bool AbortAfterClientConfiguration()
 		{
 			var args = new ConfigurationCompletedEventArgs();
 
 			ActionRequired?.Invoke(args);
 			logger.Info($"The user chose to {(args.AbortStartup ? "abort" : "continue")} startup after successful client configuration.");
 
-			if (args.AbortStartup)
-			{
-				return OperationResult.Aborted;
-			}
-
-			return OperationResult.Success;
+			return args.AbortStartup;
 		}
 
 		private void ShowFailureMessage(LoadStatus status, Uri uri)
@@ -337,32 +398,32 @@ namespace SafeExamBrowser.Runtime.Operations
 			return args.Success;
 		}
 
-		private bool TryInitializeSettingsUri(out Uri uri)
+		private bool TryInitializeSettingsUri(out Uri uri, out UriSource source)
 		{
-			var path = default(string);
 			var isValidUri = false;
 
 			uri = null;
+			source = default(UriSource);
 
 			if (commandLineArgs?.Length > 1)
 			{
-				path = commandLineArgs[1];
-				isValidUri = Uri.TryCreate(path, UriKind.Absolute, out uri);
-				logger.Info($"Found command-line argument for configuration resource: '{path}', the URI is {(isValidUri ? "valid" : "invalid")}.");
+				isValidUri = Uri.TryCreate(commandLineArgs[1], UriKind.Absolute, out uri);
+				source = UriSource.CommandLine;
+				logger.Info($"Found command-line argument for configuration resource: '{uri}', the URI is {(isValidUri ? "valid" : "invalid")}.");
 			}
 
 			if (!isValidUri && File.Exists(ProgramDataFile))
 			{
-				path = ProgramDataFile;
-				isValidUri = Uri.TryCreate(path, UriKind.Absolute, out uri);
-				logger.Info($"Found configuration file in PROGRAMDATA: '{path}', the URI is {(isValidUri ? "valid" : "invalid")}.");
+				isValidUri = Uri.TryCreate(ProgramDataFile, UriKind.Absolute, out uri);
+				source = UriSource.ProgramData;
+				logger.Info($"Found configuration file in PROGRAMDATA directory: '{uri}'.");
 			}
 
 			if (!isValidUri && File.Exists(AppDataFile))
 			{
-				path = AppDataFile;
-				isValidUri = Uri.TryCreate(path, UriKind.Absolute, out uri);
-				logger.Info($"Found configuration file in APPDATA: '{path}', the URI is {(isValidUri ? "valid" : "invalid")}.");
+				isValidUri = Uri.TryCreate(AppDataFile, UriKind.Absolute, out uri);
+				source = UriSource.AppData;
+				logger.Info($"Found configuration file in APPDATA directory: '{uri}'.");
 			}
 
 			return isValidUri;
@@ -392,6 +453,15 @@ namespace SafeExamBrowser.Runtime.Operations
 					logger.Info("The configuration was successful.");
 					break;
 			}
+		}
+
+		private enum UriSource
+		{
+			Undefined,
+			AppData,
+			CommandLine,
+			ProgramData,
+			Reconfiguration
 		}
 	}
 }

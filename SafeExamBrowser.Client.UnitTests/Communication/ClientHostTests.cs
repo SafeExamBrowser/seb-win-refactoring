@@ -129,7 +129,7 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 		public void MustHandlePasswordRequestCorrectly()
 		{
 			var passwordRequested = false;
-			var purpose = PasswordRequestPurpose.Administrator;
+			var purpose = PasswordRequestPurpose.LocalAdministrator;
 			var requestId = Guid.NewGuid();
 			var resetEvent = new AutoResetEvent(false);
 

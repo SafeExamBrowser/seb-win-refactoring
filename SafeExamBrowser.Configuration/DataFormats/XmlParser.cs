@@ -252,7 +252,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 			if (status != LoadStatus.Success)
 			{
-				logger.Error($"Element '{element}' is not supported!");
+				logger.Error($"Element '{element}' is not a supported value type!");
 			}
 
 			return status;
