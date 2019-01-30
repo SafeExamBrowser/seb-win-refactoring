@@ -8,7 +8,7 @@
         Title="{Binding Path=WindowTitle}" Background="WhiteSmoke" Height="500" Width="1100" MinHeight="350" MinWidth="350"
         WindowStartupLocation="CenterScreen" Icon="./Images/LogNotification.ico">
     <Grid>
-        <ScrollViewer x:Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer x:Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" Padding="5,5,5,0" VerticalScrollBarVisibility="Auto">
             <TextBlock x:Name="LogContent" FontFamily="Consolas" />
         </ScrollViewer>
     </Grid>

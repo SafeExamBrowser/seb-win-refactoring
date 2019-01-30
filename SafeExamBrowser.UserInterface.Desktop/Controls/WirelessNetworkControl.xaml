@@ -31,7 +31,7 @@
                 <Viewbox x:Name="SignalStrengthIcon" Stretch="Uniform" Width="Auto" />
                 <fa:ImageAwesome x:Name="NoAdapterIcon" Foreground="Red" Icon="Ban" Margin="1" Opacity="0.2" Visibility="Collapsed" />
                 <fa:ImageAwesome x:Name="LoadingIcon" Foreground="Gray" Icon="Cog" Margin="5" Spin="True" SpinDuration="2" Visibility="Collapsed" />
-                <Image x:Name="NetworkStatusIcon" Height="8" HorizontalAlignment="Right" Panel.ZIndex="10" VerticalAlignment="Bottom" />
+                <Image x:Name="NetworkStatusIcon" Height="8" HorizontalAlignment="Right" Margin="-1,2" Panel.ZIndex="10" VerticalAlignment="Bottom" />
             </Grid>
         </Button>
     </Grid>
