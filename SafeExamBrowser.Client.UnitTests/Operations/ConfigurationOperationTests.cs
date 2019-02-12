@@ -6,11 +6,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Operations;
+using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
@@ -34,9 +38,37 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void TODO()
+		public void MustCorrectlySetConfiguration()
 		{
-			Assert.Fail();
+			var response = new ConfigurationResponse
+			{
+				Configuration = new ClientConfiguration
+				{
+					AppConfig = new AppConfig(),
+					SessionId = Guid.NewGuid(),
+					Settings = new Settings()
+				}
+			};
+
+			runtime.Setup(r => r.GetConfiguration()).Returns(new CommunicationResult<ConfigurationResponse>(true, response));
+
+			var result = sut.Perform();
+
+			Assert.AreSame(configuration.AppConfig, response.Configuration.AppConfig);
+			Assert.AreEqual(configuration.SessionId, response.Configuration.SessionId);
+			Assert.AreSame(configuration.Settings, response.Configuration.Settings);
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void MustDoNothingOnRevert()
+		{
+			var result = sut.Revert();
+
+			logger.VerifyNoOtherCalls();
+			runtime.VerifyNoOtherCalls();
+
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 	}
 }

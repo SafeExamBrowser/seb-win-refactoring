@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core.OperationModel;
@@ -37,26 +36,17 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Initializing application configuration...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeConfiguration);
 
-			try
-			{
-				var communication = runtime.GetConfiguration();
-				var config = communication.Value.Configuration;
+			var communication = runtime.GetConfiguration();
+			var config = communication.Value.Configuration;
 
-				configuration.AppConfig = config.AppConfig;
-				configuration.SessionId = config.SessionId;
-				configuration.Settings = config.Settings;
+			configuration.AppConfig = config.AppConfig;
+			configuration.SessionId = config.SessionId;
+			configuration.Settings = config.Settings;
 
-				logger.Info("Successfully retrieved the application configuration from the runtime.");
-				logger.Info($" -> Client-ID: {configuration.AppConfig.ClientId}");
-				logger.Info($" -> Runtime-ID: {configuration.AppConfig.RuntimeId}");
-				logger.Info($" -> Session-ID: {configuration.SessionId}");
-			}
-			catch (Exception e)
-			{
-				logger.Error("An unexpected error occurred while trying to retrieve the application configuration!", e);
-
-				return OperationResult.Failed;
-			}
+			logger.Info("Successfully retrieved the application configuration from the runtime.");
+			logger.Info($" -> Client-ID: {configuration.AppConfig.ClientId}");
+			logger.Info($" -> Runtime-ID: {configuration.AppConfig.RuntimeId}");
+			logger.Info($" -> Session-ID: {configuration.SessionId}");
 
 			return OperationResult.Success;
 		}
