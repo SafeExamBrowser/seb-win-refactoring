@@ -9,6 +9,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Runtime.Operations;
@@ -21,6 +22,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private Mock<ISessionConfiguration> currentSession;
 		private Mock<ILogger> logger;
 		private Mock<ISessionConfiguration> nextSession;
+		private Settings nextSettings;
 		private SessionContext sessionContext;
 
 		private SessionActivationOperation sut;
@@ -31,8 +33,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			currentSession = new Mock<ISessionConfiguration>();
 			logger = new Mock<ILogger>();
 			nextSession = new Mock<ISessionConfiguration>();
+			nextSettings = new Settings();
 			sessionContext = new SessionContext();
 
+			nextSession.SetupGet(s => s.Settings).Returns(nextSettings);
 			sessionContext.Current = currentSession.Object;
 			sessionContext.Next = nextSession.Object;
 

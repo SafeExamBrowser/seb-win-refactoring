@@ -42,6 +42,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		{
 			var token = Guid.NewGuid();
 
+			sut.AllowConnection = true;
 			sut.StartupToken = token;
 
 			var response = sut.Connect(token);
@@ -55,6 +56,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		{
 			var token = Guid.NewGuid();
 
+			sut.AllowConnection = true;
 			sut.StartupToken = token;
 
 			var response1 = sut.Connect(token);
@@ -78,6 +80,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			var disconnected = false;
 			var token = Guid.NewGuid();
 
+			sut.AllowConnection = true;
 			sut.StartupToken = token;
 			sut.ClientDisconnected += () => disconnected = true;
 
@@ -92,10 +95,15 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		[TestMethod]
 		public void MustAllowReconnectionAfterDisconnection()
 		{
-			var token = sut.StartupToken = Guid.NewGuid();
+			var token = Guid.NewGuid();
+
+			sut.AllowConnection = true;
+			sut.StartupToken = token;
+
 			var response = sut.Connect(token);
 
 			sut.Disconnect(new DisconnectionMessage { CommunicationToken = response.CommunicationToken.Value });
+			sut.AllowConnection = true;
 			sut.StartupToken = token = Guid.NewGuid();
 
 			response = sut.Connect(token);
@@ -108,6 +116,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		{
 			var clientReady = false;
 
+			sut.AllowConnection = true;
 			sut.ClientReady += () => clientReady = true;
 			sut.StartupToken = Guid.Empty;
 
@@ -126,6 +135,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		{
 			var shutdownRequested = false;
 
+			sut.AllowConnection = true;
 			sut.ShutdownRequested += () => shutdownRequested = true;
 			sut.StartupToken = Guid.Empty;
 
@@ -142,6 +152,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		[TestMethod]
 		public void MustReturnUnknownMessageAsDefault()
 		{
+			sut.AllowConnection = true;
 			sut.StartupToken = Guid.Empty;
 
 			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
