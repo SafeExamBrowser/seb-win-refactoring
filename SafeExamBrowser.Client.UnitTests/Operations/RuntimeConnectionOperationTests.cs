@@ -6,9 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Contracts.Communication.Proxies;
+using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
@@ -18,18 +21,85 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	{
 		private Mock<ILogger> logger;
 		private Mock<IRuntimeProxy> runtime;
+		private Guid token;
+		private RuntimeConnectionOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
 			logger = new Mock<ILogger>();
 			runtime = new Mock<IRuntimeProxy>();
+			token = Guid.NewGuid();
+
+			sut = new RuntimeConnectionOperation(logger.Object, runtime.Object, token);
 		}
 
 		[TestMethod]
-		public void TODO()
+		public void MustConnectOnPerform()
 		{
-			Assert.Fail();
+			runtime.Setup(r => r.Connect(It.Is<Guid>(t => t == token), true)).Returns(true);
+
+			var result = sut.Perform();
+
+			runtime.Verify(r => r.Connect(It.Is<Guid>(t => t == token), true), Times.Once);
+			runtime.VerifyNoOtherCalls();
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void MustCorrectlyFailOnPerform()
+		{
+			runtime.Setup(r => r.Connect(It.Is<Guid>(t => t == token), true)).Returns(false);
+
+			var result = sut.Perform();
+
+			runtime.Verify(r => r.Connect(It.Is<Guid>(t => t == token), true), Times.Once);
+			runtime.VerifyNoOtherCalls();
+
+			Assert.AreEqual(OperationResult.Failed, result);
+		}
+
+		[TestMethod]
+		public void MustDisconnectOnRevert()
+		{
+			runtime.Setup(r => r.Connect(It.IsAny<Guid>(), It.IsAny<bool>())).Returns(true);
+			runtime.Setup(r => r.Disconnect()).Returns(true);
+			sut.Perform();
+
+			var result = sut.Revert();
+
+			runtime.Verify(r => r.Connect(It.IsAny<Guid>(), It.IsAny<bool>()), Times.Once);
+			runtime.Verify(r => r.Disconnect(), Times.Once);
+			runtime.VerifyNoOtherCalls();
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void MustCorrectlyFailOnRevert()
+		{
+			runtime.Setup(r => r.Connect(It.IsAny<Guid>(), It.IsAny<bool>())).Returns(true);
+			runtime.Setup(r => r.Disconnect()).Returns(false);
+			sut.Perform();
+
+			var result = sut.Revert();
+
+			runtime.Verify(r => r.Connect(It.IsAny<Guid>(), It.IsAny<bool>()), Times.Once);
+			runtime.Verify(r => r.Disconnect(), Times.Once);
+			runtime.VerifyNoOtherCalls();
+
+			Assert.AreEqual(OperationResult.Failed, result);
+		}
+
+		[TestMethod]
+		public void MustDoNothingOnRevertIfNotConnected()
+		{
+			var result = sut.Revert();
+
+			runtime.VerifyNoOtherCalls();
+
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 	}
 }
