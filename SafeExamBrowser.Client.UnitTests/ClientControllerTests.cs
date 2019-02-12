@@ -6,171 +6,200 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using Moq;
-//using SafeExamBrowser.Client.Behaviour;
-//using SafeExamBrowser.Contracts.Core.OperationModel;
-//using SafeExamBrowser.Contracts.Communication.Proxies;
-//using SafeExamBrowser.Contracts.Logging;
-//using SafeExamBrowser.Contracts.Monitoring;
-//using SafeExamBrowser.Contracts.UserInterface;
-//using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using Moq;
+using SafeExamBrowser.Contracts.Browser;
+using SafeExamBrowser.Contracts.Communication.Hosts;
+using SafeExamBrowser.Contracts.Communication.Proxies;
+using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Cryptography;
+using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.Monitoring;
+using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
+using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Windows;
+using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Client.UnitTests
 {
 	[TestClass]
 	public class ClientControllerTests
 	{
-		//private Mock<IDisplayMonitor> displayMonitorMock;
-		//private Mock<ILogger> loggerMock;
-		//private Mock<IProcessMonitor> processMonitorMock;
-		//private Mock<IOperationSequence> operationSequenceMock;
-		//private Mock<IRuntimeProxy> runtimeProxyMock;
-		//private Mock<ITaskbar> taskbarMock;
-		//private Mock<IUserInterfaceFactory> uiFactoryMock;
-		//private Mock<IWindowMonitor> windowMonitorMock;
+		private AppConfig appConfig;
+		private Mock<IBrowserApplicationController> browserController;
+		private Mock<IClientHost> clientHost;
+		private Mock<IDisplayMonitor> displayMonitor;
+		private Mock<IExplorerShell> explorerShell;
+		private Mock<IHashAlgorithm> hashAlgorithm;
+		private Mock<ILogger> logger;
+		private Mock<IMessageBox> messageBox;
+		private Mock<IProcessMonitor> processMonitor;
+		private Mock<IOperationSequence> operationSequence;
+		private Mock<IRuntimeProxy> runtimeProxy;
+		private Guid sessionId;
+		private Settings settings;
+		private Mock<Action> shutdown;
+		private Mock<ITaskbar> taskbar;
+		private Mock<IText> text;
+		private Mock<IUserInterfaceFactory> uiFactory;
+		private Mock<IWindowMonitor> windowMonitor;
 
-		//private ClientController sut;
+		private ClientController sut;
 
-		[TestMethod]
-		public void TODO()
+		[TestInitialize]
+		public void Initialize()
 		{
-			Assert.Fail();
+			appConfig = new AppConfig();
+			browserController = new Mock<IBrowserApplicationController>();
+			clientHost = new Mock<IClientHost>();
+			displayMonitor = new Mock<IDisplayMonitor>();
+			explorerShell = new Mock<IExplorerShell>();
+			hashAlgorithm = new Mock<IHashAlgorithm>();
+			logger = new Mock<ILogger>();
+			messageBox = new Mock<IMessageBox>();
+			processMonitor = new Mock<IProcessMonitor>();
+			operationSequence = new Mock<IOperationSequence>();
+			runtimeProxy = new Mock<IRuntimeProxy>();
+			sessionId = Guid.NewGuid();
+			settings = new Settings();
+			shutdown = new Mock<Action>();
+			taskbar = new Mock<ITaskbar>();
+			text = new Mock<IText>();
+			uiFactory = new Mock<IUserInterfaceFactory>();
+			windowMonitor = new Mock<IWindowMonitor>();
+
+			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
+			runtimeProxy.Setup(r => r.InformClientReady()).Returns(new CommunicationResult(true));
+			uiFactory.Setup(u => u.CreateSplashScreen(It.IsAny<AppConfig>())).Returns(new Mock<ISplashScreen>().Object);
+
+			sut = new ClientController(
+				displayMonitor.Object,
+				explorerShell.Object,
+				hashAlgorithm.Object,
+				logger.Object,
+				messageBox.Object,
+				operationSequence.Object,
+				processMonitor.Object,
+				runtimeProxy.Object,
+				shutdown.Object,
+				taskbar.Object,
+				text.Object,
+				uiFactory.Object,
+				windowMonitor.Object);
+
+			sut.AppConfig = appConfig;
+			sut.Browser = browserController.Object;
+			sut.ClientHost = clientHost.Object;
+			sut.SessionId = sessionId;
+			sut.Settings = settings;
+
+			sut.TryStart();
 		}
 
-		//[TestInitialize]
-		//public void Initialize()
-		//{
-		//	displayMonitorMock = new Mock<IDisplayMonitor>();
-		//	loggerMock = new Mock<ILogger>();
-		//	processMonitorMock = new Mock<IProcessMonitor>();
-		//	operationSequenceMock = new Mock<IOperationSequence>();
-		//	runtimeProxyMock = new Mock<IRuntimeProxy>();
-		//	taskbarMock = new Mock<ITaskbar>();
-		//	uiFactoryMock = new Mock<IUserInterfaceFactory>();
-		//	windowMonitorMock= new Mock<IWindowMonitor>();
+		[TestMethod]
+		public void MustHandleDisplayChangeCorrectly()
+		{
+			var order = 0;
+			var workingArea = 0;
+			var taskbar = 0;
 
-		//	operationSequenceMock.Setup(o => o.TryPerform()).Returns(true);
+			displayMonitor.Setup(w => w.InitializePrimaryDisplay(this.taskbar.Object.GetAbsoluteHeight())).Callback(() => workingArea = ++order);
+			this.taskbar.Setup(t => t.InitializeBounds()).Callback(() => taskbar = ++order);
 
-		//	sut = new ClientController(
-		//		displayMonitorMock.Object,
-		//		loggerMock.Object,
-		//		operationSequenceMock.Object,
-		//		processMonitorMock.Object,
-		//		runtimeProxyMock.Object,
-		//		new Action(() => { }),
-		//		taskbarMock.Object,
-		//		uiFactoryMock.Object,
-		//		windowMonitorMock.Object);
+			displayMonitor.Raise(d => d.DisplayChanged += null);
 
-		//	sut.TryStart();
-		//}
+			displayMonitor.Verify(w => w.InitializePrimaryDisplay(this.taskbar.Object.GetAbsoluteHeight()), Times.Once);
+			this.taskbar.Verify(t => t.InitializeBounds(), Times.Once);
 
-		//[TestMethod]
-		//public void MustHandleDisplayChangeCorrectly()
-		//{
-		//	var order = 0;
-		//	var workingArea = 0;
-		//	var taskbar = 0;
+			Assert.IsTrue(workingArea == 1);
+			Assert.IsTrue(taskbar == 2);
+		}
 
-		//	displayMonitorMock.Setup(w => w.InitializePrimaryDisplay(taskbarMock.Object.GetAbsoluteHeight())).Callback(() => workingArea = ++order);
-		//	taskbarMock.Setup(t => t.InitializeBounds()).Callback(() => taskbar = ++order);
+		[TestMethod]
+		public void MustHandleExplorerStartCorrectly()
+		{
+			var order = 0;
+			var shell = 0;
+			var workingArea = 0;
+			var bounds = 0;
 
-		//	displayMonitorMock.Raise(d => d.DisplayChanged += null);
+			explorerShell.Setup(e => e.Terminate()).Callback(() => shell = ++order);
+			displayMonitor.Setup(w => w.InitializePrimaryDisplay(taskbar.Object.GetAbsoluteHeight())).Callback(() => workingArea = ++order);
+			taskbar.Setup(t => t.InitializeBounds()).Callback(() => bounds = ++order);
 
-		//	displayMonitorMock.Verify(w => w.InitializePrimaryDisplay(taskbarMock.Object.GetAbsoluteHeight()), Times.Once);
-		//	taskbarMock.Verify(t => t.InitializeBounds(), Times.Once);
+			processMonitor.Raise(p => p.ExplorerStarted += null);
 
-		//	Assert.IsTrue(workingArea == 1);
-		//	Assert.IsTrue(taskbar == 2);
-		//}
+			explorerShell.Verify(p => p.Terminate(), Times.Once);
+			displayMonitor.Verify(w => w.InitializePrimaryDisplay(taskbar.Object.GetAbsoluteHeight()), Times.Once);
+			taskbar.Verify(t => t.InitializeBounds(), Times.Once);
 
-		//[TestMethod]
-		//public void MustHandleExplorerStartCorrectly()
-		//{
-		//	var order = 0;
-		//	var processManager = 0;
-		//	var workingArea = 0;
-		//	var taskbar = 0;
+			Assert.IsTrue(shell == 1);
+			Assert.IsTrue(workingArea == 2);
+			Assert.IsTrue(bounds == 3);
+		}
 
-		//	processMonitorMock.Setup(p => p.CloseExplorerShell()).Callback(() => processManager = ++order);
-		//	displayMonitorMock.Setup(w => w.InitializePrimaryDisplay(taskbarMock.Object.GetAbsoluteHeight())).Callback(() => workingArea = ++order);
-		//	taskbarMock.Setup(t => t.InitializeBounds()).Callback(() => taskbar = ++order);
+		[TestMethod]
+		public void MustHandleAllowedWindowChangeCorrectly()
+		{
+			var window = new IntPtr(12345);
 
-		//	processMonitorMock.Raise(p => p.ExplorerStarted += null);
+			processMonitor.Setup(p => p.BelongsToAllowedProcess(window)).Returns(true);
 
-		//	processMonitorMock.Verify(p => p.CloseExplorerShell(), Times.Once);
-		//	displayMonitorMock.Verify(w => w.InitializePrimaryDisplay(taskbarMock.Object.GetAbsoluteHeight()), Times.Once);
-		//	taskbarMock.Verify(t => t.InitializeBounds(), Times.Once);
+			windowMonitor.Raise(w => w.WindowChanged += null, window);
 
-		//	Assert.IsTrue(processManager == 1);
-		//	Assert.IsTrue(workingArea == 2);
-		//	Assert.IsTrue(taskbar == 3);
-		//}
+			processMonitor.Verify(p => p.BelongsToAllowedProcess(window), Times.Once);
+			windowMonitor.Verify(w => w.Hide(window), Times.Never);
+			windowMonitor.Verify(w => w.Close(window), Times.Never);
+		}
 
-		//[TestMethod]
-		//public void MustHandleAllowedWindowChangeCorrectly()
-		//{
-		//	var window = new IntPtr(12345);
+		[TestMethod]
+		public void MustHandleUnallowedWindowHideCorrectly()
+		{
+			var order = 0;
+			var belongs = 0;
+			var hide = 0;
+			var window = new IntPtr(12345);
 
-		//	processMonitorMock.Setup(p => p.BelongsToAllowedProcess(window)).Returns(true);
+			processMonitor.Setup(p => p.BelongsToAllowedProcess(window)).Returns(false).Callback(() => belongs = ++order);
+			windowMonitor.Setup(w => w.Hide(window)).Returns(true).Callback(() => hide = ++order);
 
-		//	windowMonitorMock.Raise(w => w.WindowChanged += null, window);
+			windowMonitor.Raise(w => w.WindowChanged += null, window);
 
-		//	processMonitorMock.Verify(p => p.BelongsToAllowedProcess(window), Times.Once);
-		//	windowMonitorMock.Verify(w => w.Hide(window), Times.Never);
-		//	windowMonitorMock.Verify(w => w.Close(window), Times.Never);
-		//}
+			processMonitor.Verify(p => p.BelongsToAllowedProcess(window), Times.Once);
+			windowMonitor.Verify(w => w.Hide(window), Times.Once);
+			windowMonitor.Verify(w => w.Close(window), Times.Never);
 
-		//[TestMethod]
-		//public void MustHandleUnallowedWindowHideCorrectly()
-		//{
-		//	var order = 0;
-		//	var belongs = 0;
-		//	var hide = 0;
-		//	var window = new IntPtr(12345);
+			Assert.IsTrue(belongs == 1);
+			Assert.IsTrue(hide == 2);
+		}
 
-		//	processMonitorMock.Setup(p => p.BelongsToAllowedProcess(window)).Returns(false).Callback(() => belongs = ++order);
-		//	windowMonitorMock.Setup(w => w.Hide(window)).Returns(true).Callback(() => hide = ++order);
+		[TestMethod]
+		public void MustHandleUnallowedWindowCloseCorrectly()
+		{
+			var order = 0;
+			var belongs = 0;
+			var hide = 0;
+			var close = 0;
+			var window = new IntPtr(12345);
 
-		//	windowMonitorMock.Raise(w => w.WindowChanged += null, window);
+			processMonitor.Setup(p => p.BelongsToAllowedProcess(window)).Returns(false).Callback(() => belongs = ++order);
+			windowMonitor.Setup(w => w.Hide(window)).Returns(false).Callback(() => hide = ++order);
+			windowMonitor.Setup(w => w.Close(window)).Callback(() => close = ++order);
 
-		//	processMonitorMock.Verify(p => p.BelongsToAllowedProcess(window), Times.Once);
-		//	windowMonitorMock.Verify(w => w.Hide(window), Times.Once);
-		//	windowMonitorMock.Verify(w => w.Close(window), Times.Never);
+			windowMonitor.Raise(w => w.WindowChanged += null, window);
 
-		//	Assert.IsTrue(belongs == 1);
-		//	Assert.IsTrue(hide == 2);
-		//}
+			processMonitor.Verify(p => p.BelongsToAllowedProcess(window), Times.Once);
+			windowMonitor.Verify(w => w.Hide(window), Times.Once);
+			windowMonitor.Verify(w => w.Close(window), Times.Once);
 
-		//[TestMethod]
-		//public void MustHandleUnallowedWindowCloseCorrectly()
-		//{
-		//	var order = 0;
-		//	var belongs = 0;
-		//	var hide = 0;
-		//	var close = 0;
-		//	var window = new IntPtr(12345);
-
-		//	processMonitorMock.Setup(p => p.BelongsToAllowedProcess(window)).Returns(false).Callback(() => belongs = ++order);
-		//	windowMonitorMock.Setup(w => w.Hide(window)).Returns(false).Callback(() => hide = ++order);
-		//	windowMonitorMock.Setup(w => w.Close(window)).Callback(() => close = ++order);
-
-		//	windowMonitorMock.Raise(w => w.WindowChanged += null, window);
-
-		//	processMonitorMock.Verify(p => p.BelongsToAllowedProcess(window), Times.Once);
-		//	windowMonitorMock.Verify(w => w.Hide(window), Times.Once);
-		//	windowMonitorMock.Verify(w => w.Close(window), Times.Once);
-
-		//	Assert.IsTrue(belongs == 1);
-		//	Assert.IsTrue(hide == 2);
-		//	Assert.IsTrue(close == 3);
-		//}
-
-		//[TestCleanup]
-		//public void Cleanup()
-		//{
-		//	// sut.Stop();
-		//}
+			Assert.IsTrue(belongs == 1);
+			Assert.IsTrue(hide == 2);
+			Assert.IsTrue(close == 3);
+		}
 	}
 }
