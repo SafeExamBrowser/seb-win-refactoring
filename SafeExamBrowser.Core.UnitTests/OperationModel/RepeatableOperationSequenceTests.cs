@@ -6,172 +6,174 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Core.OperationModel;
 
 namespace SafeExamBrowser.Core.UnitTests.OperationModel
 {
 	[TestClass]
 	public class RepeatableOperationSequenceTests
 	{
+		private Mock<ILogger> logger;
+
 		[TestInitialize]
 		public void Initialize()
 		{
-
+			logger = new Mock<ILogger>();
 		}
 
 		[TestMethod]
-		public void TODO()
+		public void MustCorrectlyAbortRepeat()
 		{
-			Assert.Fail();
+			var operationA = new Mock<IRepeatableOperation>();
+			var operationB = new Mock<IRepeatableOperation>();
+			var operationC = new Mock<IRepeatableOperation>();
+			var operations = new Queue<IRepeatableOperation>();
+
+			operationA.Setup(o => o.Repeat()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Repeat()).Returns(OperationResult.Aborted);
+
+			operations.Enqueue(operationA.Object);
+			operations.Enqueue(operationB.Object);
+			operations.Enqueue(operationC.Object);
+
+			var sut = new RepeatableOperationSequence(logger.Object, operations);
+			var result = sut.TryRepeat();
+
+			operationA.Verify(o => o.Repeat(), Times.Once);
+			operationA.Verify(o => o.Revert(), Times.Never);
+			operationB.Verify(o => o.Repeat(), Times.Once);
+			operationB.Verify(o => o.Revert(), Times.Never);
+			operationC.Verify(o => o.Repeat(), Times.Never);
+			operationC.Verify(o => o.Revert(), Times.Never);
+
+			Assert.AreEqual(OperationResult.Aborted, result);
 		}
 
-		//[TestMethod]
-		//public void MustCorrectlyAbortRepeat()
-		//{
-		//	var operationA = new Mock<IOperation>();
-		//	var operationB = new Mock<IOperation>();
-		//	var operationC = new Mock<IOperation>();
-		//	var operations = new Queue<IOperation>();
+		[TestMethod]
+		public void MustRepeatOperations()
+		{
+			var operationA = new Mock<IRepeatableOperation>();
+			var operationB = new Mock<IRepeatableOperation>();
+			var operationC = new Mock<IRepeatableOperation>();
+			var operations = new Queue<IRepeatableOperation>();
 
-		//	operationA.Setup(o => o.Repeat()).Returns(OperationResult.Success);
-		//	operationB.Setup(o => o.Repeat()).Returns(OperationResult.Aborted);
+			operationA.Setup(o => o.Repeat()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Repeat()).Returns(OperationResult.Success);
+			operationC.Setup(o => o.Repeat()).Returns(OperationResult.Success);
 
-		//	operations.Enqueue(operationA.Object);
-		//	operations.Enqueue(operationB.Object);
-		//	operations.Enqueue(operationC.Object);
+			operations.Enqueue(operationA.Object);
+			operations.Enqueue(operationB.Object);
+			operations.Enqueue(operationC.Object);
 
-		//	var sut = new OperationSequence(loggerMock.Object, operations);
-		//	var result = sut.TryRepeat();
+			var sut = new RepeatableOperationSequence(logger.Object, operations);
+			var result = sut.TryRepeat();
 
-		//	operationA.Verify(o => o.Repeat(), Times.Once);
-		//	operationA.Verify(o => o.Revert(), Times.Never);
-		//	operationB.Verify(o => o.Repeat(), Times.Once);
-		//	operationB.Verify(o => o.Revert(), Times.Never);
-		//	operationC.Verify(o => o.Repeat(), Times.Never);
-		//	operationC.Verify(o => o.Revert(), Times.Never);
+			operationA.Verify(o => o.Perform(), Times.Never);
+			operationA.Verify(o => o.Repeat(), Times.Once);
+			operationA.Verify(o => o.Revert(), Times.Never);
+			operationB.Verify(o => o.Perform(), Times.Never);
+			operationB.Verify(o => o.Repeat(), Times.Once);
+			operationB.Verify(o => o.Revert(), Times.Never);
+			operationC.Verify(o => o.Perform(), Times.Never);
+			operationC.Verify(o => o.Repeat(), Times.Once);
+			operationC.Verify(o => o.Revert(), Times.Never);
 
-		//	Assert.AreEqual(OperationResult.Aborted, result);
-		//}
+			Assert.AreEqual(OperationResult.Success, result);
+		}
 
-		//[TestMethod]
-		//public void MustRepeatOperations()
-		//{
-		//	var operationA = new Mock<IOperation>();
-		//	var operationB = new Mock<IOperation>();
-		//	var operationC = new Mock<IOperation>();
-		//	var operations = new Queue<IOperation>();
+		[TestMethod]
+		public void MustRepeatOperationsInSequence()
+		{
+			int current = 0, a = 0, b = 0, c = 0;
+			var operationA = new Mock<IRepeatableOperation>();
+			var operationB = new Mock<IRepeatableOperation>();
+			var operationC = new Mock<IRepeatableOperation>();
+			var operations = new Queue<IRepeatableOperation>();
 
-		//	operationA.Setup(o => o.Repeat()).Returns(OperationResult.Success);
-		//	operationB.Setup(o => o.Repeat()).Returns(OperationResult.Success);
-		//	operationC.Setup(o => o.Repeat()).Returns(OperationResult.Success);
+			operationA.Setup(o => o.Repeat()).Returns(OperationResult.Success).Callback(() => a = ++current);
+			operationB.Setup(o => o.Repeat()).Returns(OperationResult.Success).Callback(() => b = ++current);
+			operationC.Setup(o => o.Repeat()).Returns(OperationResult.Success).Callback(() => c = ++current);
 
-		//	operations.Enqueue(operationA.Object);
-		//	operations.Enqueue(operationB.Object);
-		//	operations.Enqueue(operationC.Object);
+			operations.Enqueue(operationA.Object);
+			operations.Enqueue(operationB.Object);
+			operations.Enqueue(operationC.Object);
 
-		//	var sut = new OperationSequence(loggerMock.Object, operations);
-		//	var result = sut.TryRepeat();
+			var sut = new RepeatableOperationSequence(logger.Object, operations);
+			var result = sut.TryRepeat();
 
-		//	operationA.Verify(o => o.Perform(), Times.Never);
-		//	operationA.Verify(o => o.Repeat(), Times.Once);
-		//	operationA.Verify(o => o.Revert(), Times.Never);
-		//	operationB.Verify(o => o.Perform(), Times.Never);
-		//	operationB.Verify(o => o.Repeat(), Times.Once);
-		//	operationB.Verify(o => o.Revert(), Times.Never);
-		//	operationC.Verify(o => o.Perform(), Times.Never);
-		//	operationC.Verify(o => o.Repeat(), Times.Once);
-		//	operationC.Verify(o => o.Revert(), Times.Never);
+			Assert.AreEqual(OperationResult.Success, result);
+			Assert.IsTrue(a == 1);
+			Assert.IsTrue(b == 2);
+			Assert.IsTrue(c == 3);
+		}
 
-		//	Assert.AreEqual(OperationResult.Success, result);
-		//}
+		[TestMethod]
+		public void MustNotRevertOperationsInCaseOfError()
+		{
+			var operationA = new Mock<IRepeatableOperation>();
+			var operationB = new Mock<IRepeatableOperation>();
+			var operationC = new Mock<IRepeatableOperation>();
+			var operationD = new Mock<IRepeatableOperation>();
+			var operations = new Queue<IRepeatableOperation>();
 
-		//[TestMethod]
-		//public void MustRepeatOperationsInSequence()
-		//{
-		//	int current = 0, a = 0, b = 0, c = 0;
-		//	var operationA = new Mock<IOperation>();
-		//	var operationB = new Mock<IOperation>();
-		//	var operationC = new Mock<IOperation>();
-		//	var operations = new Queue<IOperation>();
+			operationA.Setup(o => o.Repeat()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Repeat()).Returns(OperationResult.Success);
+			operationC.Setup(o => o.Repeat()).Throws<Exception>();
 
-		//	operationA.Setup(o => o.Repeat()).Returns(OperationResult.Success).Callback(() => a = ++current);
-		//	operationB.Setup(o => o.Repeat()).Returns(OperationResult.Success).Callback(() => b = ++current);
-		//	operationC.Setup(o => o.Repeat()).Returns(OperationResult.Success).Callback(() => c = ++current);
+			operations.Enqueue(operationA.Object);
+			operations.Enqueue(operationB.Object);
+			operations.Enqueue(operationC.Object);
+			operations.Enqueue(operationD.Object);
 
-		//	operations.Enqueue(operationA.Object);
-		//	operations.Enqueue(operationB.Object);
-		//	operations.Enqueue(operationC.Object);
+			var sut = new RepeatableOperationSequence(logger.Object, operations);
+			var result = sut.TryRepeat();
 
-		//	var sut = new OperationSequence(loggerMock.Object, operations);
-		//	var result = sut.TryRepeat();
+			operationA.Verify(o => o.Repeat(), Times.Once);
+			operationA.Verify(o => o.Revert(), Times.Never);
+			operationB.Verify(o => o.Repeat(), Times.Once);
+			operationB.Verify(o => o.Revert(), Times.Never);
+			operationC.Verify(o => o.Repeat(), Times.Once);
+			operationC.Verify(o => o.Revert(), Times.Never);
+			operationD.Verify(o => o.Repeat(), Times.Never);
+			operationD.Verify(o => o.Revert(), Times.Never);
 
-		//	Assert.AreEqual(OperationResult.Success, result);
-		//	Assert.IsTrue(a == 1);
-		//	Assert.IsTrue(b == 2);
-		//	Assert.IsTrue(c == 3);
-		//}
+			Assert.AreEqual(OperationResult.Failed, result);
+		}
 
-		//[TestMethod]
-		//public void MustNotRevertOperationsInCaseOfError()
-		//{
-		//	var operationA = new Mock<IOperation>();
-		//	var operationB = new Mock<IOperation>();
-		//	var operationC = new Mock<IOperation>();
-		//	var operationD = new Mock<IOperation>();
-		//	var operations = new Queue<IOperation>();
+		[TestMethod]
+		public void MustSucceedRepeatingWithEmptyQueue()
+		{
+			var sut = new RepeatableOperationSequence(logger.Object, new Queue<IRepeatableOperation>());
+			var result = sut.TryRepeat();
 
-		//	operationA.Setup(o => o.Repeat()).Returns(OperationResult.Success);
-		//	operationB.Setup(o => o.Repeat()).Returns(OperationResult.Success);
-		//	operationC.Setup(o => o.Repeat()).Throws<Exception>();
+			Assert.AreEqual(OperationResult.Success, result);
+		}
 
-		//	operations.Enqueue(operationA.Object);
-		//	operations.Enqueue(operationB.Object);
-		//	operations.Enqueue(operationC.Object);
-		//	operations.Enqueue(operationD.Object);
+		[TestMethod]
+		public void MustSucceedRepeatingWithoutCallingPerform()
+		{
+			var sut = new RepeatableOperationSequence(logger.Object, new Queue<IRepeatableOperation>());
+			var result = sut.TryRepeat();
 
-		//	var sut = new OperationSequence(loggerMock.Object, operations);
-		//	var result = sut.TryRepeat();
+			Assert.AreEqual(OperationResult.Success, result);
+		}
 
-		//	operationA.Verify(o => o.Repeat(), Times.Once);
-		//	operationA.Verify(o => o.Revert(), Times.Never);
-		//	operationB.Verify(o => o.Repeat(), Times.Once);
-		//	operationB.Verify(o => o.Revert(), Times.Never);
-		//	operationC.Verify(o => o.Repeat(), Times.Once);
-		//	operationC.Verify(o => o.Revert(), Times.Never);
-		//	operationD.Verify(o => o.Repeat(), Times.Never);
-		//	operationD.Verify(o => o.Revert(), Times.Never);
+		[TestMethod]
+		public void MustNotFailInCaseOfUnexpectedErrorWhenRepeating()
+		{
+			var sut = new RepeatableOperationSequence(logger.Object, new Queue<IRepeatableOperation>());
 
-		//	Assert.AreEqual(OperationResult.Failed, result);
-		//}
+			sut.ProgressChanged += (args) => throw new Exception();
 
-		//[TestMethod]
-		//public void MustSucceedRepeatingWithEmptyQueue()
-		//{
-		//	var sut = new OperationSequence(loggerMock.Object, new Queue<IOperation>());
-		//	var result = sut.TryRepeat();
+			var result = sut.TryRepeat();
 
-		//	Assert.AreEqual(OperationResult.Success, result);
-		//}
-
-		//[TestMethod]
-		//public void MustSucceedRepeatingWithoutCallingPerform()
-		//{
-		//	var sut = new OperationSequence(loggerMock.Object, new Queue<IOperation>());
-		//	var result = sut.TryRepeat();
-
-		//	Assert.AreEqual(OperationResult.Success, result);
-		//}
-
-		//[TestMethod]
-		//public void MustNotFailInCaseOfUnexpectedErrorWhenRepeating()
-		//{
-		//	var sut = new OperationSequence(loggerMock.Object, new Queue<IOperation>());
-
-		//	sut.ProgressChanged += (args) => throw new Exception();
-
-		//	var result = sut.TryRepeat();
-
-		//	Assert.AreEqual(OperationResult.Failed, result);
-		//}
+			Assert.AreEqual(OperationResult.Failed, result);
+		}
 	}
 }
