@@ -97,8 +97,144 @@ namespace SafeExamBrowser.Client.UnitTests
 			sut.ClientHost = clientHost.Object;
 			sut.SessionId = sessionId;
 			sut.Settings = settings;
+		}
+
+		[TestMethod]
+		public void MustPerformOperationsOnStartup()
+		{
+			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
+
+			var success = sut.TryStart();
+
+			operationSequence.Verify(o => o.TryPerform(), Times.Once);
+			Assert.IsTrue(success);
+		}
+
+		[TestMethod]
+		public void MustHandleCommunicationErrorOnStartup()
+		{
+			runtimeProxy.Setup(r => r.InformClientReady()).Returns(new CommunicationResult(false));
+
+			var success = sut.TryStart();
+
+			Assert.IsFalse(success);
+		}
+
+		[TestMethod]
+		public void MustHandleStartupFailure()
+		{
+			var success = true;
+
+			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Failed);
+			success = sut.TryStart();
+
+			Assert.IsFalse(success);
+
+			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Aborted);
+			success = sut.TryStart();
+
+			Assert.IsFalse(success);
+		}
+
+		[TestMethod]
+		public void MustRevertOperationsOnShutdown()
+		{
+			operationSequence.Setup(o => o.TryRevert()).Returns(OperationResult.Success);
+			sut.Terminate();
+			operationSequence.Verify(o => o.TryRevert(), Times.Once);
+		}
+
+		[TestMethod]
+		public void MustNotFailToTerminateIfDependenciesAreNull()
+		{
+			sut.Browser = null;
+			sut.ClientHost = null;
+
+			sut.Terminate();
+		}
+
+		[TestMethod]
+		public void MustAskUserToConfirmReconfiguration()
+		{
+			appConfig.DownloadDirectory = @"C:\Folder\Does\Not\Exist";
+			settings.ConfigurationMode = ConfigurationMode.ConfigureClient;
+			messageBox.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>())).Returns(MessageBoxResult.Yes);
 
 			sut.TryStart();
+			browserController.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", new DownloadEventArgs());
+
+			messageBox.Verify(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()), Times.Once);
+		}
+
+		[TestMethod]
+		public void MustDenyReconfigurationIfInExamMode()
+		{
+			settings.ConfigurationMode = ConfigurationMode.Exam;
+			messageBox.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>())).Returns(MessageBoxResult.Ok);
+
+			sut.TryStart();
+			browserController.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", new DownloadEventArgs());
+		}
+
+		[TestMethod]
+		public void MustCorrectlyHandleConfigurationDownload()
+		{
+			var downloadPath = @"C:\Folder\Does\Not\Exist\filepath.seb";
+			var filename = "filepath.seb";
+			var args = new DownloadEventArgs();
+
+			appConfig.DownloadDirectory = @"C:\Folder\Does\Not\Exist";
+			settings.ConfigurationMode = ConfigurationMode.ConfigureClient;
+			messageBox.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>())).Returns(MessageBoxResult.Yes);
+			runtimeProxy.Setup(r => r.RequestReconfiguration(It.Is<string>(p => p == downloadPath))).Returns(new CommunicationResult(true));
+
+			sut.TryStart();
+			browserController.Raise(b => b.ConfigurationDownloadRequested += null, filename, args);
+			args.Callback(true, downloadPath);
+
+			runtimeProxy.Verify(r => r.RequestReconfiguration(It.Is<string>(p => p == downloadPath)), Times.Once);
+
+			Assert.AreEqual(downloadPath, args.DownloadPath);
+			Assert.IsTrue(args.AllowDownload);
+		}
+
+		[TestMethod]
+		public void MustCorrectlyHandleFailedConfigurationDownload()
+		{
+			var downloadPath = @"C:\Folder\Does\Not\Exist\filepath.seb";
+			var filename = "filepath.seb";
+			var args = new DownloadEventArgs();
+
+			appConfig.DownloadDirectory = @"C:\Folder\Does\Not\Exist";
+			settings.ConfigurationMode = ConfigurationMode.ConfigureClient;
+			messageBox.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>())).Returns(MessageBoxResult.Yes);
+			runtimeProxy.Setup(r => r.RequestReconfiguration(It.Is<string>(p => p == downloadPath))).Returns(new CommunicationResult(true));
+
+			sut.TryStart();
+			browserController.Raise(b => b.ConfigurationDownloadRequested += null, filename, args);
+			args.Callback(false, downloadPath);
+
+			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>()), Times.Never);
+		}
+
+		[TestMethod]
+		public void MustCorrectlyHandleFailedReconfigurationRequest()
+		{
+			var downloadPath = @"C:\Folder\Does\Not\Exist\filepath.seb";
+			var filename = "filepath.seb";
+			var args = new DownloadEventArgs();
+
+			appConfig.DownloadDirectory = @"C:\Folder\Does\Not\Exist";
+			settings.ConfigurationMode = ConfigurationMode.ConfigureClient;
+			messageBox.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>())).Returns(MessageBoxResult.Yes);
+			runtimeProxy.Setup(r => r.RequestReconfiguration(It.Is<string>(p => p == downloadPath))).Returns(new CommunicationResult(false));
+
+			sut.TryStart();
+			browserController.Raise(b => b.ConfigurationDownloadRequested += null, filename, args);
+			args.Callback(true, downloadPath);
+
+			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>()), Times.Once);
+			messageBox.Verify(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.Is<MessageBoxIcon>(i => i == MessageBoxIcon.Error), It.IsAny<IWindow>()), Times.Once);
 		}
 
 		[TestMethod]
@@ -111,6 +247,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			displayMonitor.Setup(w => w.InitializePrimaryDisplay(this.taskbar.Object.GetAbsoluteHeight())).Callback(() => workingArea = ++order);
 			this.taskbar.Setup(t => t.InitializeBounds()).Callback(() => taskbar = ++order);
 
+			sut.TryStart();
 			displayMonitor.Raise(d => d.DisplayChanged += null);
 
 			displayMonitor.Verify(w => w.InitializePrimaryDisplay(this.taskbar.Object.GetAbsoluteHeight()), Times.Once);
@@ -132,6 +269,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			displayMonitor.Setup(w => w.InitializePrimaryDisplay(taskbar.Object.GetAbsoluteHeight())).Callback(() => workingArea = ++order);
 			taskbar.Setup(t => t.InitializeBounds()).Callback(() => bounds = ++order);
 
+			sut.TryStart();
 			processMonitor.Raise(p => p.ExplorerStarted += null);
 
 			explorerShell.Verify(p => p.Terminate(), Times.Once);
@@ -150,6 +288,7 @@ namespace SafeExamBrowser.Client.UnitTests
 
 			processMonitor.Setup(p => p.BelongsToAllowedProcess(window)).Returns(true);
 
+			sut.TryStart();
 			windowMonitor.Raise(w => w.WindowChanged += null, window);
 
 			processMonitor.Verify(p => p.BelongsToAllowedProcess(window), Times.Once);
@@ -168,6 +307,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			processMonitor.Setup(p => p.BelongsToAllowedProcess(window)).Returns(false).Callback(() => belongs = ++order);
 			windowMonitor.Setup(w => w.Hide(window)).Returns(true).Callback(() => hide = ++order);
 
+			sut.TryStart();
 			windowMonitor.Raise(w => w.WindowChanged += null, window);
 
 			processMonitor.Verify(p => p.BelongsToAllowedProcess(window), Times.Once);
@@ -191,6 +331,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			windowMonitor.Setup(w => w.Hide(window)).Returns(false).Callback(() => hide = ++order);
 			windowMonitor.Setup(w => w.Close(window)).Callback(() => close = ++order);
 
+			sut.TryStart();
 			windowMonitor.Raise(w => w.WindowChanged += null, window);
 
 			processMonitor.Verify(p => p.BelongsToAllowedProcess(window), Times.Once);
@@ -200,6 +341,19 @@ namespace SafeExamBrowser.Client.UnitTests
 			Assert.IsTrue(belongs == 1);
 			Assert.IsTrue(hide == 2);
 			Assert.IsTrue(close == 3);
+		}
+
+		[TestMethod]
+		public void MustUpdateAppConfigForSplashScreen()
+		{
+			var splashScreen = new Mock<ISplashScreen>();
+
+			uiFactory.Setup(u => u.CreateSplashScreen(It.IsAny<AppConfig>())).Returns(splashScreen.Object);
+
+			sut.TryStart();
+			sut.AppConfig = appConfig;
+
+			splashScreen.VerifySet(s => s.AppConfig = appConfig, Times.Once);
 		}
 	}
 }
