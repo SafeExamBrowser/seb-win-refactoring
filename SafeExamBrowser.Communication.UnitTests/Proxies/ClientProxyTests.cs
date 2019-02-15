@@ -10,10 +10,11 @@ using System;
 using System.ServiceModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Communication.Proxies;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 
 namespace SafeExamBrowser.Communication.UnitTests.Proxies
 {
@@ -135,16 +136,39 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 		}
 
 		[TestMethod]
-		public void MustExecuteOperationsFailsafe()
+		public void MustCorrectlyShowMessage()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<MessageBoxRequestMessage>())).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
+
+			var communication = sut.ShowMessage(default(string), default(string), default(MessageBoxAction), default(MessageBoxIcon), default(Guid));
+
+			proxy.Verify(p => p.Send(It.IsAny<MessageBoxRequestMessage>()), Times.Once);
+			Assert.IsTrue(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustFailIfMessageBoxRequestNotAchnowledged()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<MessageBoxRequestMessage>())).Returns<Response>(null);
+
+			var communication = sut.ShowMessage(default(string), default(string), default(MessageBoxAction), default(MessageBoxIcon), default(Guid));
+
+			Assert.IsFalse(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustExecuteAllOperationsFailsafe()
 		{
 			proxy.Setup(p => p.Send(It.IsAny<Message>())).Throws<Exception>();
 
 			var authenticate = sut.RequestAuthentication();
+			var message = sut.ShowMessage(default(string), default(string), default(MessageBoxAction), default(MessageBoxIcon), default(Guid));
 			var password = sut.RequestPassword(default(PasswordRequestPurpose), default(Guid));
 			var reconfiguration = sut.InformReconfigurationDenied(null);
 			var shutdown = sut.InitiateShutdown();
 
 			Assert.IsFalse(authenticate.Success);
+			Assert.IsFalse(message.Success);
 			Assert.IsFalse(password.Success);
 			Assert.IsFalse(reconfiguration.Success);
 			Assert.IsFalse(shutdown.Success);
