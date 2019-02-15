@@ -49,5 +49,24 @@ namespace SafeExamBrowser.Configuration.UnitTests.Cryptography
 			Assert.AreEqual(SaveStatus.Success, saveStatus);
 			Assert.AreEqual(LoadStatus.Success, loadStatus);
 		}
+
+		[TestMethod]
+		public void MustRequestPasswordForDecryption()
+		{
+			var status = sut.Decrypt(new MemoryStream(), null, out _);
+
+			Assert.AreEqual(LoadStatus.PasswordNeeded, status);
+		}
+
+		[TestMethod]
+		public void MustRequestPasswordIfInvalid()
+		{
+			var password = "test1234";
+			var saveStatus = sut.Encrypt(new MemoryStream(Encoding.UTF8.GetBytes("A super secret message!")), password, out var encrypted);
+			var loadStatus = sut.Decrypt(encrypted, "not the correct password", out _);
+
+			Assert.AreEqual(SaveStatus.Success, saveStatus);
+			Assert.AreEqual(LoadStatus.PasswordNeeded, loadStatus);
+		}
 	}
 }
