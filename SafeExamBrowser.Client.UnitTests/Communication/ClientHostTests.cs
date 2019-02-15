@@ -16,6 +16,7 @@ using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 
 namespace SafeExamBrowser.Client.UnitTests.Communication
 {
@@ -50,7 +51,13 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 
 			sut.StartupToken = token;
 
-			var response = sut.Connect(token);
+			var response = sut.Connect(Guid.Empty);
+
+			Assert.IsNotNull(response);
+			Assert.IsFalse(response.ConnectionEstablished);
+			Assert.IsFalse(sut.IsConnected);
+
+			response = sut.Connect(token);
 
 			Assert.IsNotNull(response);
 			Assert.IsTrue(response.ConnectionEstablished);
@@ -123,6 +130,36 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 			Assert.IsNotNull(response);
 			Assert.IsInstanceOfType(response, typeof(AuthenticationResponse));
 			Assert.AreEqual(PROCESS_ID, (response as AuthenticationResponse)?.ProcessId);
+		}
+
+		[TestMethod]
+		public void MustHandleMessageBoxRequestCorrectly()
+		{
+			var action = MessageBoxAction.YesNo;
+			var icon = MessageBoxIcon.Question;
+			var message = "Qwert kndorz safie abcd?";
+			var messageBoxRequested = false;
+			var requestId = Guid.NewGuid();
+			var resetEvent = new AutoResetEvent(false);
+			var title = "Poiuztrewq!";
+
+			sut.MessageBoxRequested += (args) =>
+			{
+				messageBoxRequested = args.Action == action && args.Icon == icon && args.Message == message && args.RequestId == requestId && args.Title == title;
+				resetEvent.Set();
+			};
+			sut.StartupToken = Guid.Empty;
+
+			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
+			var request = new MessageBoxRequestMessage(action, icon, message, requestId, title) { CommunicationToken = token };
+			var response = sut.Send(request);
+
+			resetEvent.WaitOne();
+
+			Assert.IsTrue(messageBoxRequested);
+			Assert.IsNotNull(response);
+			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
+			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
 		}
 
 		[TestMethod]
