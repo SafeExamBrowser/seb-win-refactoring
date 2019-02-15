@@ -272,5 +272,20 @@ namespace SafeExamBrowser.Communication.UnitTests.Hosts
 			Assert.IsInstanceOfType(response, typeof(ConfigurationResponse));
 			Assert.AreSame(configurationResponse, response);
 		}
+
+		[TestMethod]
+		public void MustLogStatusChangesOfHost()
+		{
+			sut.Start();
+
+			hostObject.Raise(h => h.Closed += null, It.IsAny<EventArgs>());
+			hostObject.Raise(h => h.Closing += null, It.IsAny<EventArgs>());
+			hostObject.Raise(h => h.Faulted += null, It.IsAny<EventArgs>());
+			hostObject.Raise(h => h.Opened += null, It.IsAny<EventArgs>());
+			hostObject.Raise(h => h.Opening += null, It.IsAny<EventArgs>());
+
+			logger.Verify(l => l.Debug(It.IsAny<string>()), Times.AtLeast(4));
+			logger.Verify(l => l.Error(It.IsAny<string>()), Times.Once);
+		}
 	}
 }
