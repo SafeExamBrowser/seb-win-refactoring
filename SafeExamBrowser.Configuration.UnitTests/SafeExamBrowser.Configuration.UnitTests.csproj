@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="ConfigurationRepositoryTests.cs" />
     <Compile Include="Cryptography\HashAlgorithmTests.cs" />
+    <Compile Include="Cryptography\PasswordEncryptionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -127,7 +127,7 @@ namespace SafeExamBrowser.Configuration.Cryptography
 				var hashStream = new SubStream(data, 0, data.Length - originalHmac.Length);
 				var computedHmac = algorithm.ComputeHash(hashStream);
 
-				data.Seek(originalHmac.Length, SeekOrigin.End);
+				data.Seek(-originalHmac.Length, SeekOrigin.End);
 				data.Read(originalHmac, 0, originalHmac.Length);
 
 				return (originalHmac, computedHmac);

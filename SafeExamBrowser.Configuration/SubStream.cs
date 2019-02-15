@@ -119,7 +119,7 @@ namespace SafeExamBrowser.Configuration
 					Position += offset;
 					break;
 				case SeekOrigin.End:
-					Position = length - offset;
+					Position = length + offset;
 					break;
 				default:
 					throw new NotImplementedException($"Seeking from position '{origin}' is not implemented!");
