@@ -361,5 +361,27 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 
 			Assert.IsTrue(lost);
 		}
+
+		[TestMethod]
+		public void MustLogStatusChanges()
+		{
+			var proxy = new Mock<IProxyObject>();
+			var connectionLost = false;
+
+			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
+			sut.ConnectionLost += () => connectionLost = true;
+			sut.Connect(Guid.Empty);
+
+			proxy.Raise(p => p.Closed += null, It.IsAny<EventArgs>());
+			proxy.Raise(p => p.Closing += null, It.IsAny<EventArgs>());
+			proxy.Raise(p => p.Faulted += null, It.IsAny<EventArgs>());
+			proxy.Raise(p => p.Opened += null, It.IsAny<EventArgs>());
+			proxy.Raise(p => p.Opening += null, It.IsAny<EventArgs>());
+
+			logger.Verify(l => l.Debug(It.IsAny<string>()), Times.AtLeast(4));
+			logger.Verify(l => l.Warn(It.IsAny<string>()), Times.AtLeastOnce);
+
+			Assert.IsTrue(connectionLost);
+		}
 	}
 }
