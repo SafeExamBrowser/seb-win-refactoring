@@ -43,7 +43,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 				case PasswordParameters p:
 					result = SerializePasswordBlock(data, p);
 					break;
-				case PublicKeyHashParameters p:
+				case PublicKeyParameters p:
 					result = SerializePublicKeyHashBlock(data, p);
 					break;
 				default:
@@ -103,14 +103,14 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			return result;
 		}
 
-		private SerializeResult SerializePublicKeyHashBlock(IDictionary<string, object> data, PublicKeyHashParameters parameters)
+		private SerializeResult SerializePublicKeyHashBlock(IDictionary<string, object> data, PublicKeyParameters parameters)
 		{
 			var result = SerializePublicKeyHashInnerBlock(data, parameters);
 
 			if (result.Status == SaveStatus.Success)
 			{
 				var encryption = DetermineEncryptionForPublicKeyHashBlock(parameters);
-				var prefix = parameters.SymmetricEncryption ? BinaryBlock.PublicKeyHashWithSymmetricKey : BinaryBlock.PublicKeyHash;
+				var prefix = parameters.SymmetricEncryption ? BinaryBlock.PublicKeySymmetric : BinaryBlock.PublicKey;
 
 				logger.Debug("Attempting to serialize public key hash block...");
 
@@ -125,7 +125,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			return result;
 		}
 
-		private SerializeResult SerializePublicKeyHashInnerBlock(IDictionary<string, object> data, PublicKeyHashParameters parameters)
+		private SerializeResult SerializePublicKeyHashInnerBlock(IDictionary<string, object> data, PublicKeyParameters parameters)
 		{
 			if (parameters.InnerEncryption is PasswordParameters password)
 			{
@@ -135,16 +135,16 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			return SerializePlainDataBlock(data, true);
 		}
 
-		private PublicKeyHashEncryption DetermineEncryptionForPublicKeyHashBlock(PublicKeyHashParameters parameters)
+		private PublicKeyEncryption DetermineEncryptionForPublicKeyHashBlock(PublicKeyParameters parameters)
 		{
 			var passwordEncryption = new PasswordEncryption(logger.CloneFor(nameof(PasswordEncryption)));
 
 			if (parameters.SymmetricEncryption)
 			{
-				return new PublicKeyHashWithSymmetricKeyEncryption(new CertificateStore(), logger.CloneFor(nameof(PublicKeyHashWithSymmetricKeyEncryption)), passwordEncryption);
+				return new PublicKeySymmetricEncryption(new CertificateStore(), logger.CloneFor(nameof(PublicKeySymmetricEncryption)), passwordEncryption);
 			}
 
-			return new PublicKeyHashEncryption(new CertificateStore(), logger.CloneFor(nameof(PublicKeyHashEncryption)));
+			return new PublicKeyEncryption(new CertificateStore(), logger.CloneFor(nameof(PublicKeyEncryption)));
 		}
 
 		private Stream WritePrefix(string prefix, Stream data)

@@ -13,7 +13,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 		internal const string Password = "pswd";
 		internal const string PasswordConfigureClient = "pwcc";
 		internal const string PlainData = "plnd";
-		internal const string PublicKeyHash = "pkhs";
-		internal const string PublicKeyHashWithSymmetricKey = "phsk";
+		internal const string PublicKey = "pkhs";
+		internal const string PublicKeySymmetric = "phsk";
 	}
 }

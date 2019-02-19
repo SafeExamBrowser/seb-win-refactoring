@@ -16,19 +16,19 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.Cryptography
 {
-	internal class PublicKeyHashWithSymmetricKeyEncryption : PublicKeyHashEncryption
+	public class PublicKeySymmetricEncryption : PublicKeyEncryption
 	{
 		private const int ENCRYPTION_KEY_LENGTH = 32;
 		private const int KEY_LENGTH_SIZE = 4;
 
 		private PasswordEncryption passwordEncryption;
 
-		internal PublicKeyHashWithSymmetricKeyEncryption(ICertificateStore store, ILogger logger, PasswordEncryption passwordEncryption) : base(store, logger)
+		public PublicKeySymmetricEncryption(ICertificateStore store, ILogger logger, PasswordEncryption passwordEncryption) : base(store, logger)
 		{
 			this.passwordEncryption = passwordEncryption;
 		}
 
-		internal override LoadStatus Decrypt(Stream data, out Stream decryptedData, out X509Certificate2 certificate)
+		public override LoadStatus Decrypt(Stream data, out Stream decryptedData, out X509Certificate2 certificate)
 		{
 			var publicKeyHash = ParsePublicKeyHash(data);
 			var found = store.TryGetCertificateWith(publicKeyHash, out certificate);
@@ -47,7 +47,7 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			return status;
 		}
 
-		internal override SaveStatus Encrypt(Stream data, X509Certificate2 certificate, out Stream encryptedData)
+		public override SaveStatus Encrypt(Stream data, X509Certificate2 certificate, out Stream encryptedData)
 		{
 			var publicKeyHash = GeneratePublicKeyHash(certificate);
 			var symmetricKey = GenerateSymmetricKey();

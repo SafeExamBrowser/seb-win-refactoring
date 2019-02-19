@@ -13,7 +13,7 @@ namespace SafeExamBrowser.Contracts.Configuration.Cryptography
 	/// <summary>
 	/// Holds all parameters for data encryption by certificate.
 	/// </summary>
-	public class PublicKeyHashParameters : EncryptionParameters
+	public class PublicKeyParameters : EncryptionParameters
 	{
 		/// <summary>
 		/// The certificate holding the public key used for encryption.

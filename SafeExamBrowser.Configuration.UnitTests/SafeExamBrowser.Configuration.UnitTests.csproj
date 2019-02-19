@@ -86,9 +86,13 @@
     <Compile Include="ConfigurationRepositoryTests.cs" />
     <Compile Include="Cryptography\HashAlgorithmTests.cs" />
     <Compile Include="Cryptography\PasswordEncryptionTests.cs" />
-    <Compile Include="Cryptography\PublicKeyHashEncryptionTests.cs" />
-    <Compile Include="Cryptography\PublicKeyHashWithSymmetricKeyEncryptionTests.cs" />
+    <Compile Include="Cryptography\PublicKeyEncryptionTests.cs" />
+    <Compile Include="Cryptography\PublicKeySymmetricEncryptionTests.cs" />
     <Compile Include="DataCompression\GZipCompressorTests.cs" />
+    <Compile Include="DataFormats\BinaryParserTests.cs" />
+    <Compile Include="DataFormats\BinarySerializerTests.cs" />
+    <Compile Include="DataFormats\XmlParserTests.cs" />
+    <Compile Include="DataFormats\XmlSerializerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

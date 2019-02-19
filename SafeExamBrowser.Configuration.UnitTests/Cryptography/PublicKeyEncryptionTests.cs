@@ -21,13 +21,13 @@ using SafeExamBrowser.Contracts.Logging;
 namespace SafeExamBrowser.Configuration.UnitTests.Cryptography
 {
 	[TestClass]
-	public class PublicKeyHashEncryptionTests
+	public class PublicKeyEncryptionTests
 	{
 		private Mock<ILogger> logger;
 		private Mock<ICertificateStore> store;
 		private X509Certificate2 certificate;
 
-		private PublicKeyHashEncryption sut;
+		private PublicKeyEncryption sut;
 
 		[TestInitialize]
 		public void Initialize()
@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Configuration.UnitTests.Cryptography
 			LoadCertificate();
 			store.Setup(s => s.TryGetCertificateWith(It.IsAny<byte[]>(), out certificate)).Returns(true);
 
-			sut = new PublicKeyHashEncryption(store.Object, logger.Object);
+			sut = new PublicKeyEncryption(store.Object, logger.Object);
 		}
 
 		[TestMethod]

@@ -64,8 +64,8 @@
     <Compile Include="Cryptography\CertificateStore.cs" />
     <Compile Include="DataCompression\GZipCompressor.cs" />
     <Compile Include="Cryptography\PasswordEncryption.cs" />
-    <Compile Include="Cryptography\PublicKeyHashEncryption.cs" />
-    <Compile Include="Cryptography\PublicKeyHashWithSymmetricKeyEncryption.cs" />
+    <Compile Include="Cryptography\PublicKeyEncryption.cs" />
+    <Compile Include="Cryptography\PublicKeySymmetricEncryption.cs" />
     <Compile Include="DataFormats\BinaryParser.cs" />
     <Compile Include="DataFormats\BinarySerializer.cs" />
     <Compile Include="DataFormats\BinaryBlock.cs" />

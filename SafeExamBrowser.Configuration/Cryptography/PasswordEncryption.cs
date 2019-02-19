@@ -10,11 +10,12 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Cryptography;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.Cryptography
 {
-	internal class PasswordEncryption
+	public class PasswordEncryption : IPasswordEncryption
 	{
 		private const int BLOCK_SIZE = 16;
 		private const int HEADER_SIZE = 2;
@@ -26,14 +27,14 @@ namespace SafeExamBrowser.Configuration.Cryptography
 
 		private ILogger logger;
 
-		internal PasswordEncryption(ILogger logger)
+		public PasswordEncryption(ILogger logger)
 		{
 			this.logger = logger;
 		}
 
-		internal LoadStatus Decrypt(Stream data, string password, out Stream decryptedData)
+		public LoadStatus Decrypt(Stream data, string password, out Stream decrypted)
 		{
-			decryptedData = default(Stream);
+			decrypted = default(Stream);
 
 			if (password == null)
 			{
@@ -49,17 +50,17 @@ namespace SafeExamBrowser.Configuration.Cryptography
 				return FailForInvalidHmac();
 			}
 
-			decryptedData = Decrypt(data, encryptionKey, originalHmac.Length);
+			decrypted = Decrypt(data, encryptionKey, originalHmac.Length);
 
 			return LoadStatus.Success;
 		}
 
-		internal SaveStatus Encrypt(Stream data, string password, out Stream encryptedData)
+		public SaveStatus Encrypt(Stream data, string password, out Stream encrypted)
 		{
 			var (authKey, authSalt, encrKey, encrSalt) = GenerateKeysForEncryption(password);
 			
-			encryptedData = Encrypt(data, encrKey, out var initVector);
-			encryptedData = WriteEncryptionParameters(authKey, authSalt, encrSalt, initVector, encryptedData);
+			encrypted = Encrypt(data, encrKey, out var initVector);
+			encrypted = WriteEncryptionParameters(authKey, authSalt, encrSalt, initVector, encrypted);
 
 			return SaveStatus.Success;
 		}

@@ -11,7 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using SafeExamBrowser.Configuration.Cryptography;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Cryptography;
 using SafeExamBrowser.Contracts.Configuration.DataCompression;
@@ -26,13 +25,28 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 		private IDataCompressor compressor;
 		private IHashAlgorithm hashAlgorithm;
-		private IModuleLogger logger;
+		private ILogger logger;
+		private IPasswordEncryption passwordEncryption;
+		private IPublicKeyEncryption publicKeyEncryption;
+		private IPublicKeyEncryption publicKeySymmetricEncryption;
+		private readonly IDataParser xmlParser;
 
-		public BinaryParser(IDataCompressor compressor, IHashAlgorithm hashAlgorithm, IModuleLogger logger)
+		public BinaryParser(
+			IDataCompressor compressor,
+			IHashAlgorithm hashAlgorithm,
+			ILogger logger,
+			IPasswordEncryption passwordEncryption,
+			IPublicKeyEncryption publicKeyEncryption,
+			IPublicKeyEncryption publicKeySymmetricEncryption,
+			IDataParser xmlParser)
 		{
 			this.compressor = compressor;
 			this.hashAlgorithm = hashAlgorithm;
 			this.logger = logger;
+			this.passwordEncryption = passwordEncryption;
+			this.publicKeyEncryption = publicKeyEncryption;
+			this.publicKeySymmetricEncryption = publicKeySymmetricEncryption;
+			this.xmlParser = xmlParser;
 		}
 
 		public bool CanParse(Stream data)
@@ -55,7 +69,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			}
 			catch (Exception e)
 			{
-				logger.Error($"Failed to determine whether '{data}' with {data.Length / 1000.0} KB data matches the {FormatType.Binary} format!", e);
+				logger.Error($"Failed to determine whether '{data}' with {data?.Length / 1000.0} KB data matches the {FormatType.Binary} format!", e);
 			}
 
 			return false;
@@ -78,9 +92,9 @@ namespace SafeExamBrowser.Configuration.DataFormats
 						return ParsePasswordBlock(data, prefix, password);
 					case BinaryBlock.PlainData:
 						return ParsePlainDataBlock(data);
-					case BinaryBlock.PublicKeyHash:
-					case BinaryBlock.PublicKeyHashWithSymmetricKey:
-						return ParsePublicKeyHashBlock(data, prefix, password);
+					case BinaryBlock.PublicKey:
+					case BinaryBlock.PublicKeySymmetric:
+						return ParsePublicKeyBlock(data, prefix, password);
 				}
 			}
 
@@ -91,20 +105,19 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 		private ParseResult ParsePasswordBlock(Stream data, string prefix, PasswordParameters password = null)
 		{
-			var encryption = new PasswordEncryption(logger.CloneFor(nameof(PasswordEncryption)));
 			var result = new ParseResult();
 
 			if (password != null)
 			{
-				var encryptionParameters = DetermineEncryptionParametersFor(prefix, password);
+				var parameters = DetermineEncryptionParametersFor(prefix, password);
 
 				logger.Debug($"Attempting to parse password block with prefix '{prefix}'...");
-				result.Status = encryption.Decrypt(data, encryptionParameters.Password, out var decrypted);
+				result.Status = passwordEncryption.Decrypt(data, parameters.Password, out var decrypted);
 
 				if (result.Status == LoadStatus.Success)
 				{
 					result = ParsePlainDataBlock(decrypted);
-					result.Encryption = encryptionParameters;
+					result.Encryption = parameters;
 				}
 			}
 			else
@@ -117,20 +130,18 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 		private ParseResult ParsePlainDataBlock(Stream data)
 		{
-			var xmlFormat = new XmlParser(logger.CloneFor(nameof(XmlParser)));
-
 			data = compressor.IsCompressed(data) ? compressor.Decompress(data) : data;
 			logger.Debug("Attempting to parse plain data block...");
 
-			var result = xmlFormat.TryParse(data);
+			var result = xmlParser.TryParse(data);
 			result.Format = FormatType.Binary;
 
 			return result;
 		}
 
-		private ParseResult ParsePublicKeyHashBlock(Stream data, string prefix, PasswordParameters password = null)
+		private ParseResult ParsePublicKeyBlock(Stream data, string prefix, PasswordParameters password = null)
 		{
-			var encryption = DetermineEncryptionForPublicKeyHashBlock(prefix);
+			var encryption = prefix == BinaryBlock.PublicKey ? publicKeyEncryption : publicKeySymmetricEncryption;
 			var result = new ParseResult();
 
 			logger.Debug($"Attempting to parse public key hash block with prefix '{prefix}'...");
@@ -139,27 +150,15 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			if (result.Status == LoadStatus.Success)
 			{
 				result = TryParse(decrypted, password);
-				result.Encryption = new PublicKeyHashParameters
+				result.Encryption = new PublicKeyParameters
 				{
 					Certificate = certificate,
 					InnerEncryption = result.Encryption as PasswordParameters,
-					SymmetricEncryption = prefix == BinaryBlock.PublicKeyHashWithSymmetricKey
+					SymmetricEncryption = prefix == BinaryBlock.PublicKeySymmetric
 				};
 			}
 
 			return result;
-		}
-
-		private PublicKeyHashEncryption DetermineEncryptionForPublicKeyHashBlock(string prefix)
-		{
-			var passwordEncryption = new PasswordEncryption(logger.CloneFor(nameof(PasswordEncryption)));
-
-			if (prefix == BinaryBlock.PublicKeyHash)
-			{
-				return new PublicKeyHashEncryption(new CertificateStore(), logger.CloneFor(nameof(PublicKeyHashEncryption)));
-			}
-
-			return new PublicKeyHashWithSymmetricKeyEncryption(new CertificateStore(), logger.CloneFor(nameof(PublicKeyHashWithSymmetricKeyEncryption)), passwordEncryption);
 		}
 
 		private PasswordParameters DetermineEncryptionParametersFor(string prefix, PasswordParameters password)

@@ -15,20 +15,20 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.Cryptography
 {
-	internal class PublicKeyHashEncryption
+	public class PublicKeyEncryption : IPublicKeyEncryption
 	{
 		protected const int PUBLIC_KEY_HASH_SIZE = 20;
 
 		protected ICertificateStore store;
 		protected ILogger logger;
 
-		internal PublicKeyHashEncryption(ICertificateStore store, ILogger logger)
+		public PublicKeyEncryption(ICertificateStore store, ILogger logger)
 		{
 			this.logger = logger;
 			this.store = store;
 		}
 
-		internal virtual LoadStatus Decrypt(Stream data, out Stream decryptedData, out X509Certificate2 certificate)
+		public virtual LoadStatus Decrypt(Stream data, out Stream decryptedData, out X509Certificate2 certificate)
 		{
 			var publicKeyHash = ParsePublicKeyHash(data);
 			var found = store.TryGetCertificateWith(publicKeyHash, out certificate);
@@ -45,7 +45,7 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			return LoadStatus.Success;
 		}
 
-		internal virtual SaveStatus Encrypt(Stream data, X509Certificate2 certificate, out Stream encryptedData)
+		public virtual SaveStatus Encrypt(Stream data, X509Certificate2 certificate, out Stream encryptedData)
 		{
 			var publicKeyHash = GeneratePublicKeyHash(certificate);
 

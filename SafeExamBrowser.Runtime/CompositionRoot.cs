@@ -62,12 +62,12 @@ namespace SafeExamBrowser.Runtime
 			InitializeText();
 
 			var messageBox = new MessageBox(text);
-			var desktopFactory = new DesktopFactory(new ModuleLogger(logger, nameof(DesktopFactory)));
-			var explorerShell = new ExplorerShell(new ModuleLogger(logger, nameof(ExplorerShell)), nativeMethods);
-			var processFactory = new ProcessFactory(new ModuleLogger(logger, nameof(ProcessFactory)));
+			var desktopFactory = new DesktopFactory(ModuleLogger(nameof(DesktopFactory)));
+			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
+			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), logger);
-			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, new HostObjectFactory(), new ModuleLogger(logger, nameof(RuntimeHost)), FIVE_SECONDS);
-			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(ServiceProxy)));
+			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, new HostObjectFactory(), ModuleLogger(nameof(RuntimeHost)), FIVE_SECONDS);
+			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)));
 			var sessionContext = new SessionContext();
 			var uiFactory = new UserInterfaceFactory(text);
 
@@ -116,18 +116,23 @@ namespace SafeExamBrowser.Runtime
 			var programCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
 			var programTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
 			var programVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-			var compressor = new GZipCompressor(new ModuleLogger(logger, nameof(GZipCompressor)));
-			var repositoryLogger = new ModuleLogger(logger, nameof(ConfigurationRepository));
+			var compressor = new GZipCompressor(ModuleLogger(nameof(GZipCompressor)));
+			var passwordEncryption = new PasswordEncryption(ModuleLogger(nameof(PasswordEncryption)));
+			var publicKeyEncryption = new PublicKeyEncryption(new CertificateStore(), ModuleLogger(nameof(PublicKeyEncryption)));
+			var symmetricInnerEncryption = new PasswordEncryption(ModuleLogger(nameof(PasswordEncryption)));
+			var symmetricEncryption = new PublicKeySymmetricEncryption(new CertificateStore(), ModuleLogger(nameof(PublicKeySymmetricEncryption)), symmetricInnerEncryption);
+			var repositoryLogger = ModuleLogger(nameof(ConfigurationRepository));
+			var xmlParser = new XmlParser(ModuleLogger(nameof(XmlParser)));
 
 			configuration = new ConfigurationRepository(new HashAlgorithm(), repositoryLogger, executable.Location, programCopyright, programTitle, programVersion);
 			appConfig = configuration.InitializeAppConfig();
 
-			configuration.Register(new BinaryParser(compressor, new HashAlgorithm(), new ModuleLogger(logger, nameof(BinaryParser))));
-			configuration.Register(new BinarySerializer(compressor, new ModuleLogger(logger, nameof(BinarySerializer))));
-			configuration.Register(new XmlParser(new ModuleLogger(logger, nameof(XmlParser))));
-			configuration.Register(new XmlSerializer(new ModuleLogger(logger, nameof(XmlSerializer))));
-			configuration.Register(new FileResourceLoader(new ModuleLogger(logger, nameof(FileResourceLoader))));
-			configuration.Register(new FileResourceSaver(new ModuleLogger(logger, nameof(FileResourceSaver))));
+			configuration.Register(new BinaryParser(compressor, new HashAlgorithm(), ModuleLogger(nameof(BinaryParser)), passwordEncryption, publicKeyEncryption, symmetricEncryption, xmlParser));
+			configuration.Register(new BinarySerializer(compressor, ModuleLogger(nameof(BinarySerializer))));
+			configuration.Register(new XmlParser(ModuleLogger(nameof(XmlParser))));
+			configuration.Register(new XmlSerializer(ModuleLogger(nameof(XmlSerializer))));
+			configuration.Register(new FileResourceLoader(ModuleLogger(nameof(FileResourceLoader))));
+			configuration.Register(new FileResourceSaver(ModuleLogger(nameof(FileResourceSaver))));
 			configuration.Register(new NetworkResourceLoader(appConfig, new ModuleLogger(logger, nameof(NetworkResourceLoader))));
 		}
 
@@ -147,6 +152,11 @@ namespace SafeExamBrowser.Runtime
 
 			text = new Text(logger);
 			textResource = new XmlTextResource(path);
+		}
+
+		private IModuleLogger ModuleLogger(string moduleInfo)
+		{
+			return new ModuleLogger(logger, moduleInfo);
 		}
 	}
 }

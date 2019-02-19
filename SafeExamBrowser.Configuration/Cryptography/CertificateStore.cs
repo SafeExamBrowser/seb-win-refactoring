@@ -13,7 +13,7 @@ using SafeExamBrowser.Contracts.Configuration.Cryptography;
 
 namespace SafeExamBrowser.Configuration.Cryptography
 {
-	internal class CertificateStore : ICertificateStore
+	public class CertificateStore : ICertificateStore
 	{
 		private readonly X509Store[] stores = new[]
 		{

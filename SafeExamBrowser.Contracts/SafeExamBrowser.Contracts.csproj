@@ -59,8 +59,10 @@
     <Compile Include="Communication\Events\MessageBoxRequestEventArgs.cs" />
     <Compile Include="Configuration\Cryptography\EncryptionParameters.cs" />
     <Compile Include="Configuration\Cryptography\ICertificateStore.cs" />
+    <Compile Include="Configuration\Cryptography\IPasswordEncryption.cs" />
+    <Compile Include="Configuration\Cryptography\IPublicKeyEncryption.cs" />
     <Compile Include="Configuration\Cryptography\PasswordParameters.cs" />
-    <Compile Include="Configuration\Cryptography\PublicKeyHashParameters.cs" />
+    <Compile Include="Configuration\Cryptography\PublicKeyParameters.cs" />
     <Compile Include="Configuration\DataFormats\FormatType.cs" />
     <Compile Include="Configuration\DataCompression\IDataCompressor.cs" />
     <Compile Include="Configuration\Cryptography\IHashAlgorithm.cs" />
