@@ -141,10 +141,10 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 			if (parameters.SymmetricEncryption)
 			{
-				return new PublicKeyHashWithSymmetricKeyEncryption(logger.CloneFor(nameof(PublicKeyHashWithSymmetricKeyEncryption)), passwordEncryption);
+				return new PublicKeyHashWithSymmetricKeyEncryption(new CertificateStore(), logger.CloneFor(nameof(PublicKeyHashWithSymmetricKeyEncryption)), passwordEncryption);
 			}
 
-			return new PublicKeyHashEncryption(logger.CloneFor(nameof(PublicKeyHashEncryption)));
+			return new PublicKeyHashEncryption(new CertificateStore(), logger.CloneFor(nameof(PublicKeyHashEncryption)));
 		}
 
 		private Stream WritePrefix(string prefix, Stream data)

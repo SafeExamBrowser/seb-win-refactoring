@@ -156,10 +156,10 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 			if (prefix == BinaryBlock.PublicKeyHash)
 			{
-				return new PublicKeyHashEncryption(logger.CloneFor(nameof(PublicKeyHashEncryption)));
+				return new PublicKeyHashEncryption(new CertificateStore(), logger.CloneFor(nameof(PublicKeyHashEncryption)));
 			}
 
-			return new PublicKeyHashWithSymmetricKeyEncryption(logger.CloneFor(nameof(PublicKeyHashWithSymmetricKeyEncryption)), passwordEncryption);
+			return new PublicKeyHashWithSymmetricKeyEncryption(new CertificateStore(), logger.CloneFor(nameof(PublicKeyHashWithSymmetricKeyEncryption)), passwordEncryption);
 		}
 
 		private PasswordParameters DetermineEncryptionParametersFor(string prefix, PasswordParameters password)

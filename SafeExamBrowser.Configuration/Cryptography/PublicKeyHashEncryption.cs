@@ -7,10 +7,10 @@
  */
 
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Cryptography;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.Cryptography
@@ -19,17 +19,19 @@ namespace SafeExamBrowser.Configuration.Cryptography
 	{
 		protected const int PUBLIC_KEY_HASH_SIZE = 20;
 
+		protected ICertificateStore store;
 		protected ILogger logger;
 
-		internal PublicKeyHashEncryption(ILogger logger)
+		internal PublicKeyHashEncryption(ICertificateStore store, ILogger logger)
 		{
 			this.logger = logger;
+			this.store = store;
 		}
 
 		internal virtual LoadStatus Decrypt(Stream data, out Stream decryptedData, out X509Certificate2 certificate)
 		{
 			var publicKeyHash = ParsePublicKeyHash(data);
-			var found = TryGetCertificateWith(publicKeyHash, out certificate);
+			var found = store.TryGetCertificateWith(publicKeyHash, out certificate);
 
 			decryptedData = default(Stream);
 
@@ -80,45 +82,6 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			data.Read(keyHash, 0, keyHash.Length);
 
 			return keyHash;
-		}
-
-		protected bool TryGetCertificateWith(byte[] keyHash, out X509Certificate2 certificate)
-		{
-			var storesToSearch = new[]
-			{
-				new X509Store(StoreLocation.CurrentUser),
-				new X509Store(StoreLocation.LocalMachine),
-				new X509Store(StoreName.TrustedPeople)
-			};
-
-			certificate = default(X509Certificate2);
-			logger.Debug("Searching certificate for decryption...");
-
-			using (var algorithm = new SHA1CryptoServiceProvider())
-			{
-				foreach (var store in storesToSearch)
-				{
-					store.Open(OpenFlags.ReadOnly);
-
-					foreach (var current in store.Certificates)
-					{
-						var publicKey = current.PublicKey.EncodedKeyValue.RawData;
-						var publicKeyHash = algorithm.ComputeHash(publicKey);
-
-						if (publicKeyHash.SequenceEqual(keyHash))
-						{
-							certificate = current;
-							store.Close();
-
-							return true;
-						}
-					}
-
-					store.Close();
-				}
-			}
-
-			return false;
 		}
 
 		protected MemoryStream Decrypt(Stream data, long offset, X509Certificate2 certificate)

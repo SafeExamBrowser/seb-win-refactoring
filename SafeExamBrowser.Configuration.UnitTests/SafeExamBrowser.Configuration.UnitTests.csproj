@@ -86,11 +86,14 @@
     <Compile Include="ConfigurationRepositoryTests.cs" />
     <Compile Include="Cryptography\HashAlgorithmTests.cs" />
     <Compile Include="Cryptography\PasswordEncryptionTests.cs" />
+    <Compile Include="Cryptography\PublicKeyHashEncryptionTests.cs" />
+    <Compile Include="Cryptography\PublicKeyHashWithSymmetricKeyEncryptionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <EmbeddedResource Include="UnitTestCert.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Configuration\SafeExamBrowser.Configuration.csproj">

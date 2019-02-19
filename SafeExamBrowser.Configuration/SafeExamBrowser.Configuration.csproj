@@ -61,6 +61,7 @@
     <Compile Include="ConfigurationData\CertificateImporter.cs" />
     <Compile Include="ConfigurationData\Keys.cs" />
     <Compile Include="ConfigurationData\DataValues.cs" />
+    <Compile Include="Cryptography\CertificateStore.cs" />
     <Compile Include="DataCompression\GZipCompressor.cs" />
     <Compile Include="Cryptography\PasswordEncryption.cs" />
     <Compile Include="Cryptography\PublicKeyHashEncryption.cs" />

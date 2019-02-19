@@ -11,6 +11,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Cryptography;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.Cryptography
@@ -22,7 +23,7 @@ namespace SafeExamBrowser.Configuration.Cryptography
 
 		private PasswordEncryption passwordEncryption;
 
-		internal PublicKeyHashWithSymmetricKeyEncryption(ILogger logger, PasswordEncryption passwordEncryption) : base(logger)
+		internal PublicKeyHashWithSymmetricKeyEncryption(ICertificateStore store, ILogger logger, PasswordEncryption passwordEncryption) : base(store, logger)
 		{
 			this.passwordEncryption = passwordEncryption;
 		}
@@ -30,7 +31,7 @@ namespace SafeExamBrowser.Configuration.Cryptography
 		internal override LoadStatus Decrypt(Stream data, out Stream decryptedData, out X509Certificate2 certificate)
 		{
 			var publicKeyHash = ParsePublicKeyHash(data);
-			var found = TryGetCertificateWith(publicKeyHash, out certificate);
+			var found = store.TryGetCertificateWith(publicKeyHash, out certificate);
 
 			decryptedData = default(Stream);
 
