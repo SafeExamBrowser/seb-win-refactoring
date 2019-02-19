@@ -88,6 +88,7 @@
     <Compile Include="Cryptography\PasswordEncryptionTests.cs" />
     <Compile Include="Cryptography\PublicKeyHashEncryptionTests.cs" />
     <Compile Include="Cryptography\PublicKeyHashWithSymmetricKeyEncryptionTests.cs" />
+    <Compile Include="DataCompression\GZipCompressorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

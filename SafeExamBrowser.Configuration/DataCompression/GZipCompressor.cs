@@ -95,7 +95,7 @@ namespace SafeExamBrowser.Configuration.DataCompression
 			}
 			catch (Exception e)
 			{
-				logger.Error($"Failed to check whether '{data}' with {data.Length / 1000.0} KB data is a gzip-compressed stream!", e);
+				logger.Error($"Failed to check whether '{data}' with {data?.Length / 1000.0} KB data is a gzip-compressed stream!", e);
 			}
 
 			return false;
