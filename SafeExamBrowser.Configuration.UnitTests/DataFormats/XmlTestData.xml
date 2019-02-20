@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<plist>
+  <dict>
+    <key>someString</key>
+    <string>test123</string>
+    <key>someInteger</key>
+    <integer>9876</integer>
+    <key>someData</key>
+    <data>/5vlF76sb+5vgkhjiNTOn7l1SN3Ho2UAMJD3TtLo49M=</data>
+    <key>anArray</key>
+    <array>
+      <dict>
+        <key>dictOneKeyOne</key>
+        <integer>3</integer>
+        <key>dictOneKeyTwo</key>
+        <integer>4</integer>
+      </dict>
+      <dict>
+        <key>dictTwoKeyOne</key>
+        <integer>5</integer>
+        <key>dictTwoKeyTwo</key>
+        <integer>6</integer>
+      </dict>
+      <dict>
+        <key>dictThreeKeyOne</key>
+        <integer>7</integer>
+        <key>dictThreeKeyTwo</key>
+        <array>
+          <integer>1</integer>
+          <integer>2</integer>
+          <integer>3</integer>
+          <integer>4</integer>
+        </array>
+      </dict>
+    </array>
+    <key>someBoolean</key>
+    <true />
+    <key>someReal</key>
+    <real>12.34</real>
+    <key>someDate</key>
+    <date>2019-02-20T14:30:00.1230000+02:00</date>
+  </dict>
+</plist>

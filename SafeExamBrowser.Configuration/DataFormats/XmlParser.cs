@@ -54,7 +54,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			}
 			catch (Exception e)
 			{
-				logger.Error($"Failed to determine whether '{data}' with {data.Length / 1000.0} KB data matches the {FormatType.Xml} format!", e);
+				logger.Error($"Failed to determine whether '{data}' with {data?.Length / 1000.0} KB data matches the {FormatType.Xml} format!", e);
 			}
 
 			return false;
