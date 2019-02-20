@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <plist>
   <dict>
     <key>someString</key>
@@ -35,6 +35,8 @@
     </array>
     <key>someBoolean</key>
     <true />
+    <key>anotherBoolean</key>
+    <false />
     <key>someReal</key>
     <real>12.34</real>
     <key>someDate</key>

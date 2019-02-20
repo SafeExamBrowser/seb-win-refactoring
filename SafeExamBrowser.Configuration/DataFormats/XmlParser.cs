@@ -176,7 +176,6 @@ namespace SafeExamBrowser.Configuration.DataFormats
 				return LoadStatus.InvalidData;
 			}
 
-			reader.Read();
 			reader.MoveToContent();
 
 			var status = ParseElement(reader, out object value);
