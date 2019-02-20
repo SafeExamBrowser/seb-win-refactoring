@@ -71,13 +71,12 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			{
 				var hasRoot = reader.ReadToFollowing(XmlElement.Root);
 				var hasDictionary = reader.ReadToDescendant(XmlElement.Dictionary);
-				var rawData = new Dictionary<string, object>();
 
 				if (hasRoot && hasDictionary)
 				{
 					logger.Debug($"Found root node, starting to parse data...");
 
-					result.Status = ParseDictionary(reader, rawData);
+					result.Status = ParseDictionary(reader, out var rawData);
 					result.RawData = rawData;
 
 					logger.Debug($"Finished parsing -> Result: {result.Status}.");
@@ -91,10 +90,15 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			return result;
 		}
 
-		private LoadStatus ParseArray(XmlReader reader, List<object> array)
+		private LoadStatus ParseArray(XmlReader reader, out List<object> array)
 		{
+			array = new List<object>();
+
 			if (reader.IsEmptyElement)
 			{
+				reader.Read();
+				reader.MoveToContent();
+
 				return LoadStatus.Success;
 			}
 
@@ -114,26 +118,31 @@ namespace SafeExamBrowser.Configuration.DataFormats
 					return status;
 				}
 
-				reader.Read();
 				reader.MoveToContent();
 			}
 
 			if (reader.NodeType == XmlNodeType.EndElement && reader.Name == XmlElement.Array)
 			{
+				reader.Read();
+				reader.MoveToContent();
+
 				return LoadStatus.Success;
 			}
-			else
-			{
-				logger.Error($"Expected closing tag for '{XmlElement.Array}', but found '{reader.Name}{reader.Value}'!");
 
-				return LoadStatus.InvalidData;
-			}
+			logger.Error($"Expected closing tag for '{XmlElement.Array}', but found '{reader.Name}{reader.Value}'!");
+
+			return LoadStatus.InvalidData;
 		}
 
-		private LoadStatus ParseDictionary(XmlReader reader, Dictionary<string, object> dictionary)
+		private LoadStatus ParseDictionary(XmlReader reader, out Dictionary<string, object> dictionary)
 		{
+			dictionary = new Dictionary<string, object>();
+
 			if (reader.IsEmptyElement)
 			{
+				reader.Read();
+				reader.MoveToContent();
+
 				return LoadStatus.Success;
 			}
 
@@ -142,47 +151,53 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 			while (reader.NodeType == XmlNodeType.Element)
 			{
-				var status = ParseKeyValuePair(reader, dictionary);
+				var status = ParseKeyValuePair(reader, out var pair);
 
-				if (status != LoadStatus.Success)
+				if (status == LoadStatus.Success)
+				{
+					dictionary[pair.Key] = pair.Value;
+				}
+				else
 				{
 					return status;
 				}
 
-				reader.Read();
 				reader.MoveToContent();
 			}
 
 			if (reader.NodeType == XmlNodeType.EndElement && reader.Name == XmlElement.Dictionary)
 			{
+				reader.Read();
+				reader.MoveToContent();
+
 				return LoadStatus.Success;
+			}
+
+			logger.Error($"Expected closing tag for '{XmlElement.Dictionary}', but found '{reader.Name}{reader.Value}'!");
+
+			return LoadStatus.InvalidData;
+		}
+
+		private LoadStatus ParseKeyValuePair(XmlReader reader, out KeyValuePair<string, object> pair)
+		{
+			var status = LoadStatus.InvalidData;
+			var key = XNode.ReadFrom(reader) as XElement;
+
+			pair = default(KeyValuePair<string, object>);
+
+			if (key.Name.LocalName == XmlElement.Key)
+			{
+				reader.MoveToContent();
+				status = ParseElement(reader, out object value);
+
+				if (status == LoadStatus.Success)
+				{
+					pair = new KeyValuePair<string, object>(key.Value, value);
+				}
 			}
 			else
 			{
-				logger.Error($"Expected closing tag for '{XmlElement.Dictionary}', but found '{reader.Name}{reader.Value}'!");
-
-				return LoadStatus.InvalidData;
-			}
-		}
-
-		private LoadStatus ParseKeyValuePair(XmlReader reader, Dictionary<string, object> dictionary)
-		{
-			var key = XNode.ReadFrom(reader) as XElement;
-
-			if (key.Name.LocalName != XmlElement.Key)
-			{
 				logger.Error($"Expected element '{XmlElement.Key}', but found '{key}'!");
-
-				return LoadStatus.InvalidData;
-			}
-
-			reader.MoveToContent();
-
-			var status = ParseElement(reader, out object value);
-
-			if (status == LoadStatus.Success)
-			{
-				dictionary[key.Value] = value;
 			}
 
 			return status;
@@ -197,13 +212,11 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 			if (reader.Name == XmlElement.Array)
 			{
-				array = new List<object>();
-				status = ParseArray(reader, array);
+				status = ParseArray(reader, out array);
 			}
 			else if (reader.Name == XmlElement.Dictionary)
 			{
-				dictionary = new Dictionary<string, object>();
-				status = ParseDictionary(reader, dictionary);
+				status = ParseDictionary(reader, out dictionary);
 			}
 			else
 			{

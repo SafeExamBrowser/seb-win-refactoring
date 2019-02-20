@@ -136,6 +136,16 @@ namespace SafeExamBrowser.Configuration.UnitTests.DataFormats
 		}
 
 		[TestMethod]
+		public void MustAbortParsingArrayOnError()
+		{
+			var xml = "<?xml version=\"1.0\"?><plist><dict><key>value</key><array><blobb /></array></dict></plist>";
+			var result = sut.TryParse(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
+
+			Assert.AreEqual(LoadStatus.InvalidData, result.Status);
+			Assert.AreEqual(0, result.RawData.Count);
+		}
+
+		[TestMethod]
 		public void MustAllowEmptyDictionary()
 		{
 			var xml = "<?xml version=\"1.0\"?><plist><dict><key>value</key><dict /></dict></plist>";
@@ -143,6 +153,16 @@ namespace SafeExamBrowser.Configuration.UnitTests.DataFormats
 
 			Assert.AreEqual(LoadStatus.Success, result.Status);
 			Assert.IsInstanceOfType(result.RawData["value"], typeof(IDictionary<string, object>));
+		}
+
+		[TestMethod]
+		public void MustMapNullForEmptyStringElement()
+		{
+			var xml = "<?xml version=\"1.0\"?><plist><dict><key>value</key><string /></dict></plist>";
+			var result = sut.TryParse(new MemoryStream(Encoding.UTF8.GetBytes(xml)));
+
+			Assert.AreEqual(LoadStatus.Success, result.Status);
+			Assert.IsNull(result.RawData["value"]);
 		}
 
 		private Stream LoadTestData()
