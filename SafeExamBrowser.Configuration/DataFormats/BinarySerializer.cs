@@ -9,7 +9,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using SafeExamBrowser.Configuration.Cryptography;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Cryptography;
 using SafeExamBrowser.Contracts.Configuration.DataCompression;
@@ -21,12 +20,26 @@ namespace SafeExamBrowser.Configuration.DataFormats
 	public class BinarySerializer : IDataSerializer
 	{
 		private IDataCompressor compressor;
-		private IModuleLogger logger;
+		private ILogger logger;
+		private IPasswordEncryption passwordEncryption;
+		private IPublicKeyEncryption publicKeyEncryption;
+		private IPublicKeyEncryption symmetricEncryption;
+		private IDataSerializer xmlSerializer;
 
-		public BinarySerializer(IDataCompressor compressor, IModuleLogger logger)
+		public BinarySerializer(
+			IDataCompressor compressor,
+			ILogger logger,
+			IPasswordEncryption passwordEncryption,
+			IPublicKeyEncryption publicKeyEncryption,
+			IPublicKeyEncryption symmetricEncryption,
+			IDataSerializer xmlSerializer)
 		{
 			this.compressor = compressor;
 			this.logger = logger;
+			this.passwordEncryption = passwordEncryption;
+			this.publicKeyEncryption = publicKeyEncryption;
+			this.symmetricEncryption = symmetricEncryption;
+			this.xmlSerializer = xmlSerializer;
 		}
 
 		public bool CanSerialize(FormatType format)
@@ -65,12 +78,11 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 			if (result.Status == SaveStatus.Success)
 			{
-				var encryption = new PasswordEncryption(logger.CloneFor(nameof(PasswordEncryption)));
 				var prefix = password.IsHash ? BinaryBlock.PasswordConfigureClient : BinaryBlock.Password;
 
 				logger.Debug("Attempting to serialize password block...");
 
-				var status = encryption.Encrypt(result.Data, password.Password, out var encrypted);
+				var status = passwordEncryption.Encrypt(result.Data, password.Password, out var encrypted);
 
 				if (status == SaveStatus.Success)
 				{
@@ -87,7 +99,6 @@ namespace SafeExamBrowser.Configuration.DataFormats
 		{
 			logger.Debug("Attempting to serialize plain data block...");
 
-			var xmlSerializer = new XmlSerializer(logger.CloneFor(nameof(XmlSerializer)));
 			var result = xmlSerializer.TrySerialize(data);
 
 			if (result.Status == SaveStatus.Success)
@@ -109,7 +120,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 			if (result.Status == SaveStatus.Success)
 			{
-				var encryption = DetermineEncryptionForPublicKeyHashBlock(parameters);
+				var encryption = parameters.SymmetricEncryption ? symmetricEncryption : publicKeyEncryption;
 				var prefix = parameters.SymmetricEncryption ? BinaryBlock.PublicKeySymmetric : BinaryBlock.PublicKey;
 
 				logger.Debug("Attempting to serialize public key hash block...");
@@ -133,18 +144,6 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			}
 
 			return SerializePlainDataBlock(data, true);
-		}
-
-		private PublicKeyEncryption DetermineEncryptionForPublicKeyHashBlock(PublicKeyParameters parameters)
-		{
-			var passwordEncryption = new PasswordEncryption(logger.CloneFor(nameof(PasswordEncryption)));
-
-			if (parameters.SymmetricEncryption)
-			{
-				return new PublicKeySymmetricEncryption(new CertificateStore(), logger.CloneFor(nameof(PublicKeySymmetricEncryption)), passwordEncryption);
-			}
-
-			return new PublicKeyEncryption(new CertificateStore(), logger.CloneFor(nameof(PublicKeyEncryption)));
 		}
 
 		private Stream WritePrefix(string prefix, Stream data)

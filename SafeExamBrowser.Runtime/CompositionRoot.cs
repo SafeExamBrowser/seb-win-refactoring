@@ -119,16 +119,16 @@ namespace SafeExamBrowser.Runtime
 			var compressor = new GZipCompressor(ModuleLogger(nameof(GZipCompressor)));
 			var passwordEncryption = new PasswordEncryption(ModuleLogger(nameof(PasswordEncryption)));
 			var publicKeyEncryption = new PublicKeyEncryption(new CertificateStore(), ModuleLogger(nameof(PublicKeyEncryption)));
-			var symmetricInnerEncryption = new PasswordEncryption(ModuleLogger(nameof(PasswordEncryption)));
-			var symmetricEncryption = new PublicKeySymmetricEncryption(new CertificateStore(), ModuleLogger(nameof(PublicKeySymmetricEncryption)), symmetricInnerEncryption);
+			var symmetricEncryption = new PublicKeySymmetricEncryption(new CertificateStore(), ModuleLogger(nameof(PublicKeySymmetricEncryption)), passwordEncryption);
 			var repositoryLogger = ModuleLogger(nameof(ConfigurationRepository));
 			var xmlParser = new XmlParser(ModuleLogger(nameof(XmlParser)));
+			var xmlSerializer = new XmlSerializer(ModuleLogger(nameof(XmlSerializer)));
 
 			configuration = new ConfigurationRepository(new HashAlgorithm(), repositoryLogger, executable.Location, programCopyright, programTitle, programVersion);
 			appConfig = configuration.InitializeAppConfig();
 
 			configuration.Register(new BinaryParser(compressor, new HashAlgorithm(), ModuleLogger(nameof(BinaryParser)), passwordEncryption, publicKeyEncryption, symmetricEncryption, xmlParser));
-			configuration.Register(new BinarySerializer(compressor, ModuleLogger(nameof(BinarySerializer))));
+			configuration.Register(new BinarySerializer(compressor, ModuleLogger(nameof(BinarySerializer)), passwordEncryption, publicKeyEncryption, symmetricEncryption, xmlSerializer));
 			configuration.Register(new XmlParser(ModuleLogger(nameof(XmlParser))));
 			configuration.Register(new XmlSerializer(ModuleLogger(nameof(XmlSerializer))));
 			configuration.Register(new FileResourceLoader(ModuleLogger(nameof(FileResourceLoader))));

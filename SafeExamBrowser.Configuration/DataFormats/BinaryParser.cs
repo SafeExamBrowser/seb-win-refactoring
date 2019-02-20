@@ -181,19 +181,19 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 		private string ReadPrefix(Stream data)
 		{
-			var prefixData = new byte[PREFIX_LENGTH];
+			var prefix = new byte[PREFIX_LENGTH];
 
 			if (compressor.IsCompressed(data))
 			{
-				prefixData = compressor.Peek(data, PREFIX_LENGTH);
+				prefix = compressor.Peek(data, PREFIX_LENGTH);
 			}
 			else
 			{
 				data.Seek(0, SeekOrigin.Begin);
-				data.Read(prefixData, 0, PREFIX_LENGTH);
+				data.Read(prefix, 0, PREFIX_LENGTH);
 			}
 
-			return Encoding.UTF8.GetString(prefixData);
+			return Encoding.UTF8.GetString(prefix);
 		}
 
 		private bool IsValid(string prefix)
