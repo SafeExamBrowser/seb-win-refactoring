@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Configuration.ConfigurationData;
 using SafeExamBrowser.Configuration.DataFormats;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.DataFormats;
@@ -78,6 +79,24 @@ namespace SafeExamBrowser.Configuration.UnitTests.DataFormats
 			Assert.AreEqual(2, (dictThree["dictThreeKeyTwo"] as List<object>)[1]);
 			Assert.AreEqual(3, (dictThree["dictThreeKeyTwo"] as List<object>)[2]);
 			Assert.AreEqual(4, (dictThree["dictThreeKeyTwo"] as List<object>)[3]);
+		}
+
+		[TestMethod]
+		public void MustCorrectlyParseTestSettings()
+		{
+			var data = LoadTestSettings();
+			var result = sut.TryParse(data);
+
+			Assert.AreEqual(LoadStatus.Success, result.Status);
+			Assert.AreEqual(FormatType.Xml, result.Format);
+			Assert.IsNull(result.Encryption);
+			Assert.IsNotNull(result.RawData);
+
+			Assert.AreEqual(true, result.RawData[Keys.Browser.AllowConfigurationDownloads]);
+			Assert.AreEqual(0, result.RawData[Keys.ConfigurationFile.ConfigurationPurpose]);
+			Assert.AreEqual("https://safeexambrowser.org/start", result.RawData[Keys.General.StartUrl]);
+			Assert.AreEqual(true, result.RawData[Keys.Input.Keyboard.EnableF5]);
+			Assert.IsInstanceOfType(result.RawData[Keys.Network.Certificates.EmbeddedCertificates], typeof(List<object>));
 		}
 
 		[TestMethod]
@@ -168,6 +187,14 @@ namespace SafeExamBrowser.Configuration.UnitTests.DataFormats
 		private Stream LoadTestData()
 		{
 			var path = $"{nameof(SafeExamBrowser)}.{nameof(Configuration)}.{nameof(UnitTests)}.{nameof(DataFormats)}.XmlTestData.xml";
+			var data = Assembly.GetAssembly(GetType()).GetManifestResourceStream(path);
+
+			return data;
+		}
+
+		private Stream LoadTestSettings()
+		{
+			var path = $"{nameof(SafeExamBrowser)}.{nameof(Configuration)}.{nameof(UnitTests)}.{nameof(DataFormats)}.XmlTestSettings.xml";
 			var data = Assembly.GetAssembly(GetType()).GetManifestResourceStream(path);
 
 			return data;
