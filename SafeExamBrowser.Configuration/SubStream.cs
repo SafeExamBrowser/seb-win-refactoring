@@ -13,7 +13,6 @@ namespace SafeExamBrowser.Configuration
 {
 	/// <summary>
 	/// A read-only wrapper for a subsection of another, larger stream.
-	/// TODO: Unit Test!
 	/// </summary>
 	internal class SubStream : Stream
 	{

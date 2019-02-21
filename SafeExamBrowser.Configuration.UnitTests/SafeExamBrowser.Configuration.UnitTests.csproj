@@ -96,6 +96,7 @@
     <Compile Include="DataFormats\XmlParserTests.cs" />
     <Compile Include="DataFormats\XmlSerializerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubStreamTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
