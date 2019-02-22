@@ -7,11 +7,16 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Configuration.ConfigurationData;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Cryptography;
+using SafeExamBrowser.Contracts.Configuration.DataFormats;
+using SafeExamBrowser.Contracts.Configuration.DataResources;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Configuration.UnitTests
@@ -20,19 +25,252 @@ namespace SafeExamBrowser.Configuration.UnitTests
 	public class ConfigurationRepositoryTests
 	{
 		private ConfigurationRepository sut;
+		private Mock<IDataParser> binaryParser;
+		private Mock<IDataSerializer> binarySerializer;
+		private Mock<ICertificateStore> certificateStore;
+		private Mock<IResourceLoader> fileLoader;
+		private Mock<IResourceSaver> fileSaver;
+		private Mock<IHashAlgorithm> hashAlgorithm;
+		private Mock<IModuleLogger> logger;
+		private Mock<IResourceLoader> networkLoader;
+		private Mock<IDataParser> xmlParser;
+		private Mock<IDataSerializer> xmlSerializer;
 
 		[TestInitialize]
 		public void Initialize()
 		{
 			var executablePath = Assembly.GetExecutingAssembly().Location;
-			var hashAlgorithm = new Mock<IHashAlgorithm>();
-			var logger = new Mock<IModuleLogger>();
 
-			sut = new ConfigurationRepository(hashAlgorithm.Object, logger.Object, executablePath, string.Empty, string.Empty, string.Empty);
+			binaryParser = new Mock<IDataParser>();
+			binarySerializer = new Mock<IDataSerializer>();
+			certificateStore = new Mock<ICertificateStore>();
+			fileLoader = new Mock<IResourceLoader>();
+			fileSaver = new Mock<IResourceSaver>();
+			hashAlgorithm = new Mock<IHashAlgorithm>();
+			logger = new Mock<IModuleLogger>();
+			networkLoader = new Mock<IResourceLoader>();
+			xmlParser = new Mock<IDataParser>();
+			xmlSerializer = new Mock<IDataSerializer>();
+
+			fileLoader.Setup(f => f.CanLoad(It.IsAny<Uri>())).Returns<Uri>(u => u.IsFile);
+			fileSaver.Setup(f => f.CanSave(It.IsAny<Uri>())).Returns<Uri>(u => u.IsFile);
+			networkLoader.Setup(n => n.CanLoad(It.IsAny<Uri>())).Returns<Uri>(u => u.Scheme.Equals("http") || u.Scheme.Equals("seb"));
+
+			sut = new ConfigurationRepository(certificateStore.Object, hashAlgorithm.Object, logger.Object, executablePath, string.Empty, string.Empty, string.Empty);
+			sut.InitializeAppConfig();
 		}
 
 		[TestMethod]
-		public void MustCorrectlyInitializeSessionConfiguration()
+		public void ConfigureClient_MustWorkAsExpected()
+		{
+			var stream = new MemoryStream() as Stream;
+			var password = new PasswordParameters { Password = "test123" };
+			var parseResult = new ParseResult
+			{
+				Format = FormatType.Binary,
+				RawData = new Dictionary<string, object>(),
+				Status = LoadStatus.Success
+			};
+			var serializeResult = new SerializeResult
+			{
+				Data = new MemoryStream(),
+				Status = SaveStatus.Success
+			};
+
+			RegisterModules();
+
+			fileLoader.Setup(n => n.TryLoad(It.IsAny<Uri>(), out stream)).Returns(LoadStatus.Success);
+			binaryParser.Setup(b => b.CanParse(It.IsAny<Stream>())).Returns(true);
+			binaryParser.Setup(b => b.TryParse(It.IsAny<Stream>(), It.IsAny<PasswordParameters>())).Returns(parseResult);
+			binarySerializer.Setup(b => b.CanSerialize(FormatType.Binary)).Returns(true);
+			binarySerializer.Setup(b => b.TrySerialize(It.IsAny<Dictionary<string, object>>(), It.IsAny<PasswordParameters>())).Returns(serializeResult);
+			fileSaver.Setup(f => f.TrySave(It.IsAny<Uri>(), It.IsAny<Stream>())).Returns(SaveStatus.Success);
+
+			var status = sut.ConfigureClientWith(new Uri("C:\\TEMP\\Some\\file.seb"), password);
+
+			fileLoader.Verify(n => n.TryLoad(It.IsAny<Uri>(), out stream), Times.Once);
+			binaryParser.Verify(b => b.TryParse(It.IsAny<Stream>(), It.IsAny<PasswordParameters>()), Times.Once);
+			certificateStore.Verify(c => c.ExtractAndImportIdentities(It.IsAny<Dictionary<string, object>>()), Times.Once);
+			binarySerializer.Verify(b => b.TrySerialize(
+				It.IsAny<Dictionary<string, object>>(),
+				It.Is<PasswordParameters>(p => p.IsHash == true && p.Password == string.Empty)), Times.Once);
+			fileSaver.Verify(f => f.TrySave(It.IsAny<Uri>(), It.IsAny<Stream>()), Times.Once);
+
+			Assert.AreEqual(SaveStatus.Success, status);
+		}
+
+		[TestMethod]
+		public void ConfigureClient_MustKeepSameEncryptionAccordingToConfiguration()
+		{
+			var stream = new MemoryStream() as Stream;
+			var password = new PasswordParameters { Password = "test123" };
+			var parseResult = new ParseResult
+			{
+				Encryption = new PublicKeyParameters
+				{
+					InnerEncryption = password,
+					SymmetricEncryption = true
+				},
+				Format = FormatType.Binary,
+				RawData = new Dictionary<string, object> { { Keys.ConfigurationFile.KeepClientConfigEncryption, true } },
+				Status = LoadStatus.Success
+			};
+			var serializeResult = new SerializeResult
+			{
+				Data = new MemoryStream(),
+				Status = SaveStatus.Success
+			};
+
+			RegisterModules();
+
+			fileLoader.Setup(n => n.TryLoad(It.IsAny<Uri>(), out stream)).Returns(LoadStatus.Success);
+			binaryParser.Setup(b => b.CanParse(It.IsAny<Stream>())).Returns(true);
+			binaryParser.Setup(b => b.TryParse(It.IsAny<Stream>(), It.IsAny<PasswordParameters>())).Returns(parseResult);
+			binarySerializer.Setup(b => b.CanSerialize(FormatType.Binary)).Returns(true);
+			binarySerializer.Setup(b => b.TrySerialize(It.IsAny<Dictionary<string, object>>(), It.IsAny<EncryptionParameters>())).Returns(serializeResult);
+			fileSaver.Setup(f => f.TrySave(It.IsAny<Uri>(), It.IsAny<Stream>())).Returns(SaveStatus.Success);
+
+			var status = sut.ConfigureClientWith(new Uri("C:\\TEMP\\Some\\file.seb"), password);
+
+			binarySerializer.Verify(b => b.TrySerialize(
+				It.IsAny<Dictionary<string, object>>(),
+				It.Is<PublicKeyParameters>(p => p.InnerEncryption == password && p.SymmetricEncryption)), Times.Once);
+
+			Assert.AreEqual(SaveStatus.Success, status);
+		}
+
+		[TestMethod]
+		public void ConfigureClient_MustAbortProcessOnError()
+		{
+			var stream = new MemoryStream() as Stream;
+			var password = new PasswordParameters { Password = "test123" };
+			var parseResult = new ParseResult
+			{
+				Format = FormatType.Binary,
+				RawData = new Dictionary<string, object>(),
+				Status = LoadStatus.Success
+			};
+			var serializeResult = new SerializeResult
+			{
+				Data = new MemoryStream(),
+				Status = SaveStatus.Success
+			};
+
+			RegisterModules();
+
+			fileLoader.Setup(n => n.TryLoad(It.IsAny<Uri>(), out stream)).Returns(LoadStatus.Success);
+			binaryParser.Setup(b => b.CanParse(It.IsAny<Stream>())).Throws<Exception>();
+
+			var status = sut.ConfigureClientWith(new Uri("C:\\TEMP\\Some\\file.seb"), password);
+
+			fileLoader.Verify(n => n.TryLoad(It.IsAny<Uri>(), out stream), Times.Once);
+			binaryParser.Verify(b => b.TryParse(It.IsAny<Stream>(), It.IsAny<PasswordParameters>()), Times.Never);
+			certificateStore.Verify(c => c.ExtractAndImportIdentities(It.IsAny<Dictionary<string, object>>()), Times.Never);
+			binarySerializer.Verify(b => b.TrySerialize(It.IsAny<Dictionary<string, object>>(), It.IsAny<EncryptionParameters>()), Times.Never);
+			fileSaver.Verify(f => f.TrySave(It.IsAny<Uri>(), It.IsAny<Stream>()), Times.Never);
+
+			Assert.AreEqual(SaveStatus.UnexpectedError, status);
+		}
+
+		[TestMethod]
+		public void TryLoad_MustWorkAsExpected()
+		{
+			var stream = new MemoryStream() as Stream;
+			var parseResult = new ParseResult { RawData = new Dictionary<string, object>(), Status = LoadStatus.Success };
+
+			RegisterModules();
+
+			networkLoader.Setup(n => n.TryLoad(It.IsAny<Uri>(), out stream)).Returns(LoadStatus.Success);
+			binaryParser.Setup(b => b.CanParse(It.IsAny<Stream>())).Returns(true);
+			binaryParser.Setup(b => b.TryParse(It.IsAny<Stream>(), It.IsAny<PasswordParameters>())).Returns(parseResult);
+
+			var result = sut.TryLoadSettings(new Uri("http://www.blubb.org"), out _);
+
+			fileLoader.Verify(f => f.CanLoad(It.IsAny<Uri>()), Times.Once);
+			fileLoader.Verify(f => f.TryLoad(It.IsAny<Uri>(), out stream), Times.Never);
+			networkLoader.Verify(n => n.CanLoad(It.IsAny<Uri>()), Times.Once);
+			networkLoader.Verify(n => n.TryLoad(It.IsAny<Uri>(), out stream), Times.Once);
+			binaryParser.Verify(b => b.CanParse(It.IsAny<Stream>()), Times.Once);
+			binaryParser.Verify(b => b.TryParse(It.IsAny<Stream>(), It.IsAny<PasswordParameters>()), Times.Once);
+			xmlParser.Verify(x => x.CanParse(It.IsAny<Stream>()), Times.AtMostOnce);
+			xmlParser.Verify(x => x.TryParse(It.IsAny<Stream>(), It.IsAny<PasswordParameters>()), Times.Never);
+
+			Assert.AreEqual(LoadStatus.Success, result);
+		}
+
+		[TestMethod]
+		public void TryLoad_MustReportPasswordNeed()
+		{
+			var stream = new MemoryStream() as Stream;
+			var parseResult = new ParseResult { Status = LoadStatus.PasswordNeeded };
+
+			RegisterModules();
+
+			networkLoader.Setup(n => n.TryLoad(It.IsAny<Uri>(), out stream)).Returns(LoadStatus.Success);
+			binaryParser.Setup(b => b.CanParse(It.IsAny<Stream>())).Returns(true);
+			binaryParser.Setup(b => b.TryParse(It.IsAny<Stream>(), It.IsAny<PasswordParameters>())).Returns(parseResult);
+
+			var result = sut.TryLoadSettings(new Uri("http://www.blubb.org"), out _);
+
+			Assert.AreEqual(LoadStatus.PasswordNeeded, result);
+		}
+
+		[TestMethod]
+		public void TryLoad_MustNotFailToIfNoLoaderRegistered()
+		{
+			var result = sut.TryLoadSettings(new Uri("http://www.blubb.org"), out _);
+
+			Assert.AreEqual(LoadStatus.NotSupported, result);
+
+			sut.Register(fileLoader.Object);
+			sut.Register(networkLoader.Object);
+
+			result = sut.TryLoadSettings(new Uri("ftp://www.blubb.org"), out _);
+
+			fileLoader.Verify(f => f.CanLoad(It.IsAny<Uri>()), Times.Once);
+			networkLoader.Verify(n => n.CanLoad(It.IsAny<Uri>()), Times.Once);
+
+			Assert.AreEqual(LoadStatus.NotSupported, result);
+		}
+
+		[TestMethod]
+		public void TryLoad_MustNotFailIfNoParserRegistered()
+		{
+			var data = default(Stream);
+
+			networkLoader.Setup(l => l.TryLoad(It.IsAny<Uri>(), out data)).Returns(LoadStatus.Success);
+			sut.Register(networkLoader.Object);
+
+			var result = sut.TryLoadSettings(new Uri("http://www.blubb.org"), out _);
+
+			networkLoader.Verify(n => n.TryLoad(It.IsAny<Uri>(), out data), Times.Once);
+
+			Assert.AreEqual(LoadStatus.NotSupported, result);
+		}
+
+		[TestMethod]
+		public void TryLoad_MustNotFailInCaseOfUnexpectedError()
+		{
+			var data = default(Stream);
+
+			networkLoader.Setup(l => l.TryLoad(It.IsAny<Uri>(), out data)).Throws<Exception>();
+			sut.Register(networkLoader.Object);
+
+			var result = sut.TryLoadSettings(new Uri("http://www.blubb.org"), out _);
+
+			Assert.AreEqual(LoadStatus.UnexpectedError, result);
+
+			binaryParser.Setup(b => b.CanParse(It.IsAny<Stream>())).Throws<Exception>();
+			networkLoader.Setup(l => l.TryLoad(It.IsAny<Uri>(), out data)).Returns(LoadStatus.Success);
+			sut.Register(binaryParser.Object);
+
+			result = sut.TryLoadSettings(new Uri("http://www.blubb.org"), out _);
+
+			Assert.AreEqual(LoadStatus.UnexpectedError, result);
+		}
+
+		[TestMethod]
+		public void MustInitializeSessionConfiguration()
 		{
 			var appConfig = sut.InitializeAppConfig();
 			var configuration = sut.InitializeSessionConfiguration();
@@ -44,7 +282,7 @@ namespace SafeExamBrowser.Configuration.UnitTests
 		}
 
 		[TestMethod]
-		public void MustCorrectlyUpdateAppConfig()
+		public void MustUpdateAppConfig()
 		{
 			var appConfig = sut.InitializeAppConfig();
 			var clientAddress = appConfig.ClientAddress;
@@ -64,7 +302,7 @@ namespace SafeExamBrowser.Configuration.UnitTests
 		}
 
 		[TestMethod]
-		public void MustCorrectlyUpdateSessionConfiguration()
+		public void MustUpdateSessionConfiguration()
 		{
 			var appConfig = sut.InitializeAppConfig();
 			var firstSession = sut.InitializeSessionConfiguration();
@@ -75,6 +313,17 @@ namespace SafeExamBrowser.Configuration.UnitTests
 			Assert.AreNotEqual(firstSession.StartupToken, secondSession.StartupToken);
 			Assert.AreNotEqual(secondSession.Id, thirdSession.Id);
 			Assert.AreNotEqual(secondSession.StartupToken, thirdSession.StartupToken);
+		}
+
+		private void RegisterModules()
+		{
+			sut.Register(binaryParser.Object);
+			sut.Register(binarySerializer.Object);
+			sut.Register(fileLoader.Object);
+			sut.Register(fileSaver.Object);
+			sut.Register(networkLoader.Object);
+			sut.Register(xmlParser.Object);
+			sut.Register(xmlSerializer.Object);
 		}
 	}
 }

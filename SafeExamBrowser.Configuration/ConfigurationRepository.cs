@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Configuration
 {
 	public class ConfigurationRepository : IConfigurationRepository
 	{
-		private CertificateImporter certificateImporter;
+		private ICertificateStore certificateStore;
 		private IList<IDataParser> dataParsers;
 		private IList<IDataSerializer> dataSerializers;
 		private DataMapper dataMapper;
@@ -33,6 +33,7 @@ namespace SafeExamBrowser.Configuration
 		private IList<IResourceSaver> resourceSavers;
 
 		public ConfigurationRepository(
+			ICertificateStore certificateStore,
 			IHashAlgorithm hashAlgorithm,
 			IModuleLogger logger,
 			string executablePath,
@@ -40,10 +41,10 @@ namespace SafeExamBrowser.Configuration
 			string programTitle,
 			string programVersion)
 		{
+			this.certificateStore = certificateStore;
 			this.hashAlgorithm = hashAlgorithm;
 			this.logger = logger;
 
-			certificateImporter = new CertificateImporter(logger.CloneFor(nameof(CertificateImporter)));
 			dataParsers = new List<IDataParser>();
 			dataSerializers = new List<IDataSerializer>();
 			dataMapper = new DataMapper();
@@ -64,7 +65,7 @@ namespace SafeExamBrowser.Configuration
 				{
 					TryParseData(data, out var encryption, out var format, out var rawData, password);
 
-					certificateImporter.ExtractAndImportIdentities(rawData);
+					certificateStore.ExtractAndImportIdentities(rawData);
 					encryption = DetermineEncryptionForClientConfiguration(rawData, encryption);
 
 					var status = TrySerializeData(rawData, format, out var serialized, encryption);

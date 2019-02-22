@@ -6,12 +6,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 
 namespace SafeExamBrowser.Contracts.Configuration.Cryptography
 {
 	/// <summary>
-	/// Provides functionality to load certificates installed on the computer.
+	/// Provides functionality related to certificates installed on the computer.
 	/// </summary>
 	public interface ICertificateStore
 	{
@@ -20,5 +21,10 @@ namespace SafeExamBrowser.Contracts.Configuration.Cryptography
 		/// Returns <c>true</c> if the certificate was found, otherwise <c>false</c>.
 		/// </summary>
 		bool TryGetCertificateWith(byte[] keyHash, out X509Certificate2 certificate);
+
+		/// <summary>
+		/// Extracts all identity certificates from the given configuration data and installs them on the computer.
+		/// </summary>
+		void ExtractAndImportIdentities(IDictionary<string, object> data);
 	}
 }

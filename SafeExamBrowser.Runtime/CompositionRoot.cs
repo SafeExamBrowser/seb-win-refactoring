@@ -116,15 +116,17 @@ namespace SafeExamBrowser.Runtime
 			var programCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
 			var programTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
 			var programVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+
+			var certificateStore = new CertificateStore(ModuleLogger(nameof(CertificateStore)));
 			var compressor = new GZipCompressor(ModuleLogger(nameof(GZipCompressor)));
 			var passwordEncryption = new PasswordEncryption(ModuleLogger(nameof(PasswordEncryption)));
-			var publicKeyEncryption = new PublicKeyEncryption(new CertificateStore(), ModuleLogger(nameof(PublicKeyEncryption)));
-			var symmetricEncryption = new PublicKeySymmetricEncryption(new CertificateStore(), ModuleLogger(nameof(PublicKeySymmetricEncryption)), passwordEncryption);
+			var publicKeyEncryption = new PublicKeyEncryption(certificateStore, ModuleLogger(nameof(PublicKeyEncryption)));
+			var symmetricEncryption = new PublicKeySymmetricEncryption(certificateStore, ModuleLogger(nameof(PublicKeySymmetricEncryption)), passwordEncryption);
 			var repositoryLogger = ModuleLogger(nameof(ConfigurationRepository));
 			var xmlParser = new XmlParser(ModuleLogger(nameof(XmlParser)));
 			var xmlSerializer = new XmlSerializer(ModuleLogger(nameof(XmlSerializer)));
 
-			configuration = new ConfigurationRepository(new HashAlgorithm(), repositoryLogger, executable.Location, programCopyright, programTitle, programVersion);
+			configuration = new ConfigurationRepository(certificateStore, new HashAlgorithm(), repositoryLogger, executable.Location, programCopyright, programTitle, programVersion);
 			appConfig = configuration.InitializeAppConfig();
 
 			configuration.Register(new BinaryParser(compressor, new HashAlgorithm(), ModuleLogger(nameof(BinaryParser)), passwordEncryption, publicKeyEncryption, symmetricEncryption, xmlParser));

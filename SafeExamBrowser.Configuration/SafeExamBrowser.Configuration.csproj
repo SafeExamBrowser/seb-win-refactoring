@@ -58,7 +58,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationData\CertificateImporter.cs" />
     <Compile Include="ConfigurationData\Keys.cs" />
     <Compile Include="ConfigurationData\DataValues.cs" />
     <Compile Include="Cryptography\CertificateStore.cs" />
