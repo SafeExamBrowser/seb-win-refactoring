@@ -105,5 +105,33 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}
+
+		[TestMethod]
+		public void MustDoNothingOnPerform()
+		{
+			var result = sut.Perform();
+
+			process.VerifyNoOtherCalls();
+			processFactory.VerifyNoOtherCalls();
+			proxy.VerifyNoOtherCalls();
+			proxyFactory.VerifyNoOtherCalls();
+			runtimeHost.VerifyNoOtherCalls();
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void MustDoNothingOnRevert()
+		{
+			var result = sut.Revert();
+
+			process.VerifyNoOtherCalls();
+			processFactory.VerifyNoOtherCalls();
+			proxy.VerifyNoOtherCalls();
+			proxyFactory.VerifyNoOtherCalls();
+			runtimeHost.VerifyNoOtherCalls();
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
 	}
 }
