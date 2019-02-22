@@ -7,12 +7,17 @@
  */
 
 using System;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
+using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
+using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Runtime.Communication;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Communication
@@ -131,6 +136,26 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		}
 
 		[TestMethod]
+		public void MustHandleConfigurationRequestCorrectly()
+		{
+			var args = default(ClientConfigurationEventArgs);
+			var configuration = new ClientConfiguration { Settings = new Settings { AdminPasswordHash = "12345" } };
+
+			sut.AllowConnection = true;
+			sut.ClientConfigurationNeeded += (a) => { args = a; args.ClientConfiguration = configuration; };
+			sut.StartupToken = Guid.Empty;
+
+			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
+			var message = new SimpleMessage(SimpleMessagePurport.ConfigurationNeeded) { CommunicationToken = token };
+			var response = sut.Send(message);
+
+			Assert.IsNotNull(args);
+			Assert.IsNotNull(response);
+			Assert.IsInstanceOfType(response, typeof(ConfigurationResponse));
+			Assert.AreEqual(configuration.Settings.AdminPasswordHash, (response as ConfigurationResponse)?.Configuration.Settings.AdminPasswordHash);
+		}
+
+		[TestMethod]
 		public void MustHandleShutdownRequestCorrectly()
 		{
 			var shutdownRequested = false;
@@ -147,6 +172,84 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			Assert.IsNotNull(response);
 			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
 			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
+		}
+
+		[TestMethod]
+		public void MustHandleMessageBoxReplyCorrectly()
+		{
+			var args = default(MessageBoxReplyEventArgs);
+			var requestId = Guid.NewGuid();
+			var result = MessageBoxResult.Ok;
+			var sync = new AutoResetEvent(false);
+
+			sut.AllowConnection = true;
+			sut.MessageBoxReplyReceived += (a) => { args = a; sync.Set(); };
+			sut.StartupToken = Guid.Empty;
+
+			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
+			var message = new MessageBoxReplyMessage(requestId, result) { CommunicationToken = token };
+			var response = sut.Send(message);
+
+			sync.WaitOne();
+
+			Assert.IsNotNull(args);
+			Assert.IsNotNull(response);
+			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
+			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
+			Assert.AreEqual(requestId, args.RequestId);
+			Assert.AreEqual(result, args.Result);
+		}
+
+		[TestMethod]
+		public void MustHandlePasswordReplyCorrectly()
+		{
+			var args = default(PasswordReplyEventArgs);
+			var password = "test1234";
+			var requestId = Guid.NewGuid();
+			var success = true;
+			var sync = new AutoResetEvent(false);
+
+			sut.AllowConnection = true;
+			sut.PasswordReceived += (a) => { args = a; sync.Set(); };
+			sut.StartupToken = Guid.Empty;
+
+			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
+			var message = new PasswordReplyMessage(requestId, success, password) { CommunicationToken = token };
+			var response = sut.Send(message);
+
+			sync.WaitOne();
+
+			Assert.IsNotNull(args);
+			Assert.IsNotNull(response);
+			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
+			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
+			Assert.AreEqual(password, args.Password);
+			Assert.AreEqual(requestId, args.RequestId);
+			Assert.AreEqual(success, args.Success);
+		}
+
+		[TestMethod]
+		public void MustHandleReconfigurationRequestCorrectly()
+		{
+			var args = default(ReconfigurationEventArgs);
+			var path = "C:\\Temp\\Some\\File.seb";
+			var sync = new AutoResetEvent(false);
+
+			sut.AllowConnection = true;
+			sut.ReconfigurationRequested += (a) => { args = a; sync.Set(); };
+			sut.StartupToken = Guid.Empty;
+
+			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
+			var message = new ReconfigurationMessage(path) { CommunicationToken = token };
+			var response = sut.Send(message);
+
+			sync.WaitOne();
+
+			Assert.IsNotNull(args);
+			Assert.IsNotNull(response);
+			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
+			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
+			Assert.AreEqual(path, args.ConfigurationPath);
 		}
 
 		[TestMethod]
