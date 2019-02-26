@@ -265,7 +265,7 @@ namespace SafeExamBrowser.Runtime
 		private void RegisterSessionEvents()
 		{
 			sessionContext.ClientProcess.Terminated += ClientProcess_Terminated;
-			sessionContext.ClientProxy.ConnectionLost += Client_ConnectionLost;
+			sessionContext.ClientProxy.ConnectionLost += ClientProxy_ConnectionLost;
 		}
 
 		private void DeregisterSessionEvents()
@@ -277,7 +277,7 @@ namespace SafeExamBrowser.Runtime
 
 			if (sessionContext.ClientProxy != null)
 			{
-				sessionContext.ClientProxy.ConnectionLost -= Client_ConnectionLost;
+				sessionContext.ClientProxy.ConnectionLost -= ClientProxy_ConnectionLost;
 			}
 		}
 
@@ -305,7 +305,7 @@ namespace SafeExamBrowser.Runtime
 			shutdown.Invoke();
 		}
 
-		private void Client_ConnectionLost()
+		private void ClientProxy_ConnectionLost()
 		{
 			logger.Error("Lost connection to the client application!");
 

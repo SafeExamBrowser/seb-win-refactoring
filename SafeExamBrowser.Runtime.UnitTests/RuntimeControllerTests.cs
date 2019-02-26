@@ -21,6 +21,7 @@ using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
+using SafeExamBrowser.Contracts.WindowsApi;
 using SafeExamBrowser.Runtime.Operations.Events;
 
 namespace SafeExamBrowser.Runtime.UnitTests
@@ -30,6 +31,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 	{
 		private AppConfig appConfig;
 		private Mock<IOperationSequence> bootstrapSequence;
+		private Mock<IProcess> clientProcess;
 		private Mock<IClientProxy> clientProxy;
 		private Mock<ISessionConfiguration> currentSession;
 		private Settings currentSettings;
@@ -51,6 +53,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		{
 			appConfig = new AppConfig();
 			bootstrapSequence = new Mock<IOperationSequence>();
+			clientProcess = new Mock<IProcess>();
 			clientProxy = new Mock<IClientProxy>();
 			currentSession = new Mock<ISessionConfiguration>();
 			currentSettings = new Settings();
@@ -69,6 +72,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			currentSession.SetupGet(s => s.Settings).Returns(currentSettings);
 			nextSession.SetupGet(s => s.Settings).Returns(nextSettings);
 
+			sessionContext.ClientProcess = clientProcess.Object;
 			sessionContext.ClientProxy = clientProxy.Object;
 			sessionContext.Current = currentSession.Object;
 			sessionContext.Next = nextSession.Object;
@@ -91,7 +95,114 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		}
 
 		[TestMethod]
-		public void MustRequestPasswordViaDialogOnDefaultDesktop()
+		public void ClientProcess_MustShutdownWhenClientTerminated()
+		{
+			StartSession();
+			clientProcess.Raise(c => c.Terminated += null, -1);
+
+			messageBox.Verify(m => m.Show(
+				It.IsAny<TextKey>(),
+				It.IsAny<TextKey>(),
+				It.IsAny<MessageBoxAction>(),
+				It.Is<MessageBoxIcon>(i => i == MessageBoxIcon.Error),
+				It.IsAny<IWindow>()), Times.Once);
+			sessionSequence.Verify(s => s.TryRevert(), Times.Once);
+			shutdown.Verify(s => s(), Times.Once);
+		}
+
+		[TestMethod]
+		public void ClientProxy_MustShutdownWhenConnectionLost()
+		{
+			StartSession();
+
+			clientProcess.Raise(c => c.Terminated += null, -1);
+
+			messageBox.Verify(m => m.Show(
+				It.IsAny<TextKey>(),
+				It.IsAny<TextKey>(),
+				It.IsAny<MessageBoxAction>(),
+				It.Is<MessageBoxIcon>(i => i == MessageBoxIcon.Error),
+				It.IsAny<IWindow>()), Times.Once);
+			sessionSequence.Verify(s => s.TryRevert(), Times.Once);
+			shutdown.Verify(s => s(), Times.Once);
+		}
+
+		[TestMethod]
+		public void Communication_MustProvideClientConfigurationUponRequest()
+		{
+			var args = new ClientConfigurationEventArgs();
+			var nextAppConfig = new AppConfig();
+			var nextSessionId = Guid.NewGuid();
+			var nextSettings = new Settings();
+
+			nextSession.SetupGet(s => s.AppConfig).Returns(nextAppConfig);
+			nextSession.SetupGet(s => s.Id).Returns(nextSessionId);
+			nextSession.SetupGet(s => s.Settings).Returns(nextSettings);
+			StartSession();
+
+			runtimeHost.Raise(r => r.ClientConfigurationNeeded += null, args);
+
+			Assert.AreSame(nextAppConfig, args.ClientConfiguration.AppConfig);
+			Assert.AreEqual(nextSessionId, args.ClientConfiguration.SessionId);
+			Assert.AreSame(nextSettings, args.ClientConfiguration.Settings);
+		}
+
+		[TestMethod]
+		public void Communication_MustStartNewSessionUponRequest()
+		{
+			var args = new ReconfigurationEventArgs { ConfigurationPath = "C:\\Some\\File\\Path.seb" };
+
+			StartSession();
+			currentSettings.ConfigurationMode = ConfigurationMode.ConfigureClient;
+			bootstrapSequence.Reset();
+			sessionSequence.Reset();
+			sessionSequence.Setup(s => s.TryRepeat()).Returns(OperationResult.Success);
+
+			runtimeHost.Raise(r => r.ReconfigurationRequested += null, args);
+
+			bootstrapSequence.VerifyNoOtherCalls();
+			sessionSequence.Verify(s => s.TryPerform(), Times.Never);
+			sessionSequence.Verify(s => s.TryRepeat(), Times.Once);
+			sessionSequence.Verify(s => s.TryRevert(), Times.Never);
+
+			Assert.AreEqual(sessionContext.ReconfigurationFilePath, args.ConfigurationPath);
+		}
+
+		[TestMethod]
+		public void Communication_MustInformClientAboutDeniedReconfiguration()
+		{
+			var args = new ReconfigurationEventArgs { ConfigurationPath = "C:\\Some\\File\\Path.seb" };
+
+			StartSession();
+			currentSettings.ConfigurationMode = ConfigurationMode.Exam;
+			bootstrapSequence.Reset();
+			sessionSequence.Reset();
+
+			runtimeHost.Raise(r => r.ReconfigurationRequested += null, args);
+
+			bootstrapSequence.VerifyNoOtherCalls();
+			clientProxy.Verify(c => c.InformReconfigurationDenied(It.Is<string>(s => s == args.ConfigurationPath)), Times.Once);
+			sessionSequence.VerifyNoOtherCalls();
+
+			Assert.AreNotEqual(sessionContext.ReconfigurationFilePath, args.ConfigurationPath);
+		}
+
+		[TestMethod]
+		public void Communication_MustShutdownUponRequest()
+		{
+			StartSession();
+			bootstrapSequence.Reset();
+			sessionSequence.Reset();
+
+			runtimeHost.Raise(r => r.ShutdownRequested += null);
+
+			bootstrapSequence.VerifyNoOtherCalls();
+			sessionSequence.VerifyNoOtherCalls();
+			shutdown.Verify(s => s(), Times.Once);
+		}
+
+		[TestMethod]
+		public void Operations_MustRequestPasswordViaDialogOnDefaultDesktop()
 		{
 			var args = new PasswordRequiredEventArgs();
 			var password = "test1234";
@@ -116,7 +227,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		}
 
 		[TestMethod]
-		public void MustRequestPasswordViaClientOnNewDesktop()
+		public void Operations_MustRequestPasswordViaClientOnNewDesktop()
 		{
 			var args = new PasswordRequiredEventArgs();
 			var passwordReceived = new Action<PasswordRequestPurpose, Guid>((p, id) =>
@@ -135,7 +246,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		}
 
 		[TestMethod]
-		public void MustAbortAskingForPasswordViaClientIfDecidedByUser()
+		public void Operations_MustAbortAskingForPasswordViaClientIfDecidedByUser()
 		{
 			var args = new PasswordRequiredEventArgs();
 			var passwordReceived = new Action<PasswordRequestPurpose, Guid>((p, id) =>
@@ -154,7 +265,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		}
 
 		[TestMethod]
-		public void MustNotWaitForPasswordViaClientIfCommunicationHasFailed()
+		public void Operations_MustNotWaitForPasswordViaClientIfCommunicationHasFailed()
 		{
 			var args = new PasswordRequiredEventArgs();
 
@@ -163,6 +274,179 @@ namespace SafeExamBrowser.Runtime.UnitTests
 
 			sut.TryStart();
 			sessionSequence.Raise(s => s.ActionRequired += null, args);
+		}
+
+		[TestMethod]
+		public void Operations_MustShowNormalMessageBoxOnDefaultDesktop()
+		{
+			var args = new MessageEventArgs
+			{
+				Icon = MessageBoxIcon.Question,
+				Message = TextKey.MessageBox_ClientConfigurationQuestion,
+				Title = TextKey.MessageBox_ClientConfigurationQuestionTitle
+			};
+
+			StartSession();
+			currentSettings.KioskMode = KioskMode.DisableExplorerShell;
+
+			sessionSequence.Raise(s => s.ActionRequired += null, args);
+
+			messageBox.Verify(m => m.Show(
+				It.IsAny<string>(),
+				It.IsAny<string>(),
+				It.Is<MessageBoxAction>(a => a == MessageBoxAction.Confirm),
+				It.Is<MessageBoxIcon>(i => i == args.Icon),
+				It.IsAny<IWindow>()), Times.Once);
+			clientProxy.VerifyNoOtherCalls();
+		}
+
+		[TestMethod]
+		public void Operations_MustShowMessageBoxViaClientOnNewDesktop()
+		{
+			var args = new MessageEventArgs
+			{
+				Icon = MessageBoxIcon.Question,
+				Message = TextKey.MessageBox_ClientConfigurationQuestion,
+				Title = TextKey.MessageBox_ClientConfigurationQuestionTitle
+			};
+			var reply = new MessageBoxReplyEventArgs();
+
+			StartSession();
+			currentSettings.KioskMode = KioskMode.CreateNewDesktop;
+
+			clientProxy.Setup(c => c.ShowMessage(
+				It.IsAny<string>(),
+				It.IsAny<string>(),
+				It.Is<MessageBoxAction>(a => a == MessageBoxAction.Confirm),
+				It.IsAny<MessageBoxIcon>(),
+				It.IsAny<Guid>()))
+				.Callback<string, string, MessageBoxAction, MessageBoxIcon, Guid>((m, t, a, i, id) =>
+				{
+					runtimeHost.Raise(r => r.MessageBoxReplyReceived += null, new MessageBoxReplyEventArgs { RequestId = id });
+				})
+				.Returns(new CommunicationResult(true));
+
+			sessionSequence.Raise(s => s.ActionRequired += null, args);
+
+			messageBox.Verify(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()), Times.Never);
+			clientProxy.Verify(c => c.ShowMessage(
+				It.IsAny<string>(),
+				It.IsAny<string>(),
+				It.Is<MessageBoxAction>(a => a == MessageBoxAction.Confirm),
+				It.Is<MessageBoxIcon>(i => i == args.Icon),
+				It.IsAny<Guid>()), Times.Once);
+		}
+
+		[TestMethod]
+		public void Shutdown_MustRevertSessionThenBootstrapSequence()
+		{
+			var order = 0;
+			var bootstrap = 0;
+			var session = 0;
+
+			sut.TryStart();
+
+			bootstrapSequence.Reset();
+			sessionSequence.Reset();
+
+			bootstrapSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Success).Callback(() => bootstrap = ++order);
+			sessionSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Success).Callback(() => session = ++order);
+
+			sut.Terminate();
+
+			bootstrapSequence.Verify(b => b.TryPerform(), Times.Never);
+			bootstrapSequence.Verify(b => b.TryRevert(), Times.Once);
+			sessionSequence.Verify(b => b.TryPerform(), Times.Never);
+			sessionSequence.Verify(b => b.TryRepeat(), Times.Never);
+			sessionSequence.Verify(b => b.TryRevert(), Times.Once);
+
+			Assert.AreEqual(1, session);
+			Assert.AreEqual(2, bootstrap);
+		}
+
+		[TestMethod]
+		public void Shutdown_MustOnlyRevertBootstrapSequenceIfNoSessionRunning()
+		{
+			var order = 0;
+			var bootstrap = 0;
+			var session = 0;
+
+			sut.TryStart();
+
+			bootstrapSequence.Reset();
+			sessionSequence.Reset();
+
+			bootstrapSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Success).Callback(() => bootstrap = ++order);
+			sessionSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Success).Callback(() => session = ++order);
+			sessionContext.Current = null;
+
+			sut.Terminate();
+
+			bootstrapSequence.Verify(b => b.TryPerform(), Times.Never);
+			bootstrapSequence.Verify(b => b.TryRevert(), Times.Once);
+			sessionSequence.Verify(b => b.TryPerform(), Times.Never);
+			sessionSequence.Verify(b => b.TryRepeat(), Times.Never);
+			sessionSequence.Verify(b => b.TryRevert(), Times.Never);
+
+			Assert.AreEqual(0, session);
+			Assert.AreEqual(1, bootstrap);
+		}
+
+		[TestMethod]
+		public void Startup_MustPerformBootstrapThenSessionSequence()
+		{
+			var order = 0;
+			var bootstrap = 0;
+			var session = 0;
+
+			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success).Callback(() => bootstrap = ++order);
+			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success).Callback(() => { session = ++order; sessionContext.Current = currentSession.Object; });
+			sessionContext.Current = null;
+
+			var success = sut.TryStart();
+
+			bootstrapSequence.Verify(b => b.TryPerform(), Times.Once);
+			bootstrapSequence.Verify(b => b.TryRevert(), Times.Never);
+			sessionSequence.Verify(b => b.TryPerform(), Times.Once);
+			sessionSequence.Verify(b => b.TryRepeat(), Times.Never);
+			sessionSequence.Verify(b => b.TryRevert(), Times.Never);
+
+			Assert.IsTrue(success);
+			Assert.AreEqual(1, bootstrap);
+			Assert.AreEqual(2, session);
+		}
+
+		[TestMethod]
+		public void Startup_MustNotPerformSessionSequenceIfBootstrapFails()
+		{
+			var order = 0;
+			var bootstrap = 0;
+			var session = 0;
+
+			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Failed).Callback(() => bootstrap = ++order);
+			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success).Callback(() => { session = ++order; sessionContext.Current = currentSession.Object; });
+			sessionContext.Current = null;
+
+			var success = sut.TryStart();
+
+			bootstrapSequence.Verify(b => b.TryPerform(), Times.Once);
+			bootstrapSequence.Verify(b => b.TryRevert(), Times.Never);
+			sessionSequence.Verify(b => b.TryPerform(), Times.Never);
+			sessionSequence.Verify(b => b.TryRepeat(), Times.Never);
+			sessionSequence.Verify(b => b.TryRevert(), Times.Never);
+
+			Assert.IsFalse(success);
+			Assert.AreEqual(1, bootstrap);
+			Assert.AreEqual(0, session);
+		}
+
+		private void StartSession()
+		{
+			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success).Callback(() => sessionContext.Current = currentSession.Object);
+			sessionContext.Current = null;
+
+			sut.TryStart();
 		}
 	}
 }
