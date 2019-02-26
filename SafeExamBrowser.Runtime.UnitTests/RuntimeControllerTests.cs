@@ -16,6 +16,7 @@ using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -114,8 +115,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		public void ClientProxy_MustShutdownWhenConnectionLost()
 		{
 			StartSession();
-
-			clientProcess.Raise(c => c.Terminated += null, -1);
+			clientProxy.Raise(c => c.ConnectionLost += null);
 
 			messageBox.Verify(m => m.Show(
 				It.IsAny<TextKey>(),
@@ -199,6 +199,19 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			bootstrapSequence.VerifyNoOtherCalls();
 			sessionSequence.VerifyNoOtherCalls();
 			shutdown.Verify(s => s(), Times.Once);
+		}
+
+		[TestMethod]
+		public void Operations_MustAllowToAbortStartupForClientConfiguration()
+		{
+			var args = new ConfigurationCompletedEventArgs();
+
+			messageBox.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>())).Returns(MessageBoxResult.Yes);
+
+			sut.TryStart();
+			sessionSequence.Raise(s => s.ActionRequired += null, args);
+
+			Assert.IsTrue(args.AbortStartup);
 		}
 
 		[TestMethod]
@@ -338,6 +351,45 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		}
 
 		[TestMethod]
+		public void Operations_MustUpdateProgress()
+		{
+			var args = new ProgressChangedEventArgs
+			{
+				CurrentValue = 23,
+				IsIndeterminate = true,
+				MaxValue = 150,
+				Progress = true,
+				Regress = true
+			};
+			var runtimeWindow = new Mock<IRuntimeWindow>();
+
+			uiFactory.Setup(u => u.CreateRuntimeWindow(It.IsAny<AppConfig>())).Returns(runtimeWindow.Object);
+
+			sut.TryStart();
+			sessionSequence.Raise(o => o.ProgressChanged += null, args);
+
+			runtimeWindow.Verify(s => s.SetValue(It.Is<int>(i => i == args.CurrentValue)), Times.Once);
+			runtimeWindow.Verify(s => s.SetIndeterminate(), Times.Once);
+			runtimeWindow.Verify(s => s.SetMaxValue(It.Is<int>(i => i == args.MaxValue)), Times.Once);
+			runtimeWindow.Verify(s => s.Progress(), Times.Once);
+			runtimeWindow.Verify(s => s.Regress(), Times.Once);
+		}
+
+		[TestMethod]
+		public void Operations_MustUpdateStatus()
+		{
+			var key = TextKey.OperationStatus_EmptyClipboard;
+			var runtimeWindow = new Mock<IRuntimeWindow>();
+
+			uiFactory.Setup(u => u.CreateRuntimeWindow(It.IsAny<AppConfig>())).Returns(runtimeWindow.Object);
+
+			sut.TryStart();
+			sessionSequence.Raise(o => o.StatusChanged += null, key);
+
+			runtimeWindow.Verify(s => s.UpdateStatus(It.Is<TextKey>(k => k == key), It.IsAny<bool>()), Times.Once);
+		}
+
+		[TestMethod]
 		public void Shutdown_MustRevertSessionThenBootstrapSequence()
 		{
 			var order = 0;
@@ -393,6 +445,26 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		}
 
 		[TestMethod]
+		public void Shutdown_MustIndicateFailureToUser()
+		{
+			var order = 0;
+			var bootstrap = 0;
+			var session = 0;
+
+			sut.TryStart();
+
+			bootstrapSequence.Reset();
+			sessionSequence.Reset();
+
+			bootstrapSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Failed).Callback(() => bootstrap = ++order);
+			sessionSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Success).Callback(() => session = ++order);
+
+			sut.Terminate();
+
+			messageBox.Verify(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()), Times.AtLeastOnce);
+		}
+
+		[TestMethod]
 		public void Startup_MustPerformBootstrapThenSessionSequence()
 		{
 			var order = 0;
@@ -438,6 +510,42 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			Assert.IsFalse(success);
 			Assert.AreEqual(1, bootstrap);
 			Assert.AreEqual(0, session);
+		}
+
+		[TestMethod]
+		public void Startup_MustTerminateOnSessionStartFailure()
+		{
+			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Failed).Callback(() => sessionContext.Current = currentSession.Object);
+			sessionContext.Current = null;
+
+			var success = sut.TryStart();
+
+			bootstrapSequence.Verify(b => b.TryPerform(), Times.Once);
+			bootstrapSequence.Verify(b => b.TryRevert(), Times.Never);
+			sessionSequence.Verify(b => b.TryPerform(), Times.Once);
+			sessionSequence.Verify(b => b.TryRepeat(), Times.Never);
+			sessionSequence.Verify(b => b.TryRevert(), Times.Once);
+
+			shutdown.Verify(s => s(), Times.Once);
+		}
+
+		[TestMethod]
+		public void Startup_MustNotTerminateOnSessionStartAbortion()
+		{
+			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Aborted).Callback(() => sessionContext.Current = currentSession.Object);
+			sessionContext.Current = null;
+
+			var success = sut.TryStart();
+
+			bootstrapSequence.Verify(b => b.TryPerform(), Times.Once);
+			bootstrapSequence.Verify(b => b.TryRevert(), Times.Never);
+			sessionSequence.Verify(b => b.TryPerform(), Times.Once);
+			sessionSequence.Verify(b => b.TryRepeat(), Times.Never);
+			sessionSequence.Verify(b => b.TryRevert(), Times.Never);
+
+			shutdown.Verify(s => s(), Times.Never);
 		}
 
 		private void StartSession()
