@@ -254,6 +254,20 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 			Assert.AreEqual(SimpleResponsePurport.UnknownMessage, (response as SimpleResponse)?.Purport);
 		}
 
+		[TestMethod]
+		public void MustNotFailIfNoEventHandlersSubscribed()
+		{
+			sut.StartupToken = Guid.Empty;
+
+			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
+
+			sut.Send(new MessageBoxRequestMessage(default(MessageBoxAction), default(MessageBoxIcon), "", Guid.Empty, "") { CommunicationToken = token });
+			sut.Send(new PasswordRequestMessage(default(PasswordRequestPurpose), Guid.Empty) { CommunicationToken = token });
+			sut.Send(new ReconfigurationDeniedMessage("") { CommunicationToken = token });
+			sut.Send(new SimpleMessage(SimpleMessagePurport.Shutdown) { CommunicationToken = token });
+			sut.Disconnect(new DisconnectionMessage { CommunicationToken = token });
+		}
+
 		private class TestMessage : Message { };
 	}
 }

@@ -53,7 +53,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustUseCommandLineArgumentAs1stPrio()
+		public void Perform_MustUseCommandLineArgumentAs1stPrio()
 		{
 			var settings = new Settings { ConfigurationMode = ConfigurationMode.Exam };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
@@ -74,7 +74,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustUseProgramDataAs2ndPrio()
+		public void Perform_MustUseProgramDataAs2ndPrio()
 		{
 			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
 			var settings = default(Settings);
@@ -93,7 +93,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustUseAppDataAs3rdPrio()
+		public void Perform_MustUseAppDataAs3rdPrio()
 		{
 			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
 			var settings = default(Settings);
@@ -110,7 +110,23 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustFallbackToDefaultsAsLastPrio()
+		public void Perform_MustCorrectlyHandleBrowserResource()
+		{
+			var settings = new Settings { ConfigurationMode = ConfigurationMode.Exam };
+			var url = @"http://www.safeexambrowser.org/whatever.seb";
+
+			nextSession.SetupGet(s => s.Settings).Returns(settings);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.LoadWithBrowser);
+
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var result = sut.Perform();
+
+			Assert.AreEqual(url, settings.Browser.StartUrl);
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Perform_MustFallbackToDefaultsAsLastPrio()
 		{
 			var actualSettings = default(Settings);
 			var defaultSettings = new Settings();
@@ -129,7 +145,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustAbortIfWishedByUser()
+		public void Perform_MustAbortIfWishedByUser()
 		{
 			var settings = new Settings();
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
@@ -154,7 +170,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustNotAbortIfNotWishedByUser()
+		public void Perform_MustNotAbortIfNotWishedByUser()
 		{
 			var settings = new Settings();
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
@@ -178,7 +194,33 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustNotAllowToAbortIfNotInConfigureClientMode()
+		public void Perform_MustInformAboutClientConfigurationError()
+		{
+			var informed = false;
+			var settings = new Settings();
+			var url = @"http://www.safeexambrowser.org/whatever.seb";
+
+			settings.ConfigurationMode = ConfigurationMode.ConfigureClient;
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+			repository.Setup(r => r.ConfigureClientWith(It.IsAny<Uri>(), It.IsAny<PasswordParameters>())).Returns(SaveStatus.UnexpectedError);
+
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			sut.ActionRequired += args =>
+			{
+				if (args is ClientConfigurationErrorMessageArgs)
+				{
+					informed = true;
+				}
+			};
+
+			var result = sut.Perform();
+
+			Assert.AreEqual(OperationResult.Failed, result);
+			Assert.IsTrue(informed);
+		}
+
+		[TestMethod]
+		public void Perform_MustNotAllowToAbortIfNotInConfigureClientMode()
 		{
 			var settings = new Settings();
 
@@ -200,7 +242,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustNotFailWithoutCommandLineArgs()
+		public void Perform_MustNotFailWithoutCommandLineArgs()
 		{
 			var actualSettings = default(Settings);
 			var defaultSettings = new Settings();
@@ -225,7 +267,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustNotFailWithInvalidUri()
+		public void Perform_MustNotFailWithInvalidUri()
 		{
 			var uri = @"an/invalid\uri.'*%yolo/()你好";
 			var sut = new ConfigurationOperation(new[] { "blubb.exe", uri }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
@@ -235,7 +277,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustOnlyAllowToEnterAdminPasswordFiveTimes()
+		public void Perform_MustOnlyAllowToEnterAdminPasswordFiveTimes()
 		{
 			var count = 0;
 			var localSettings = new Settings { AdminPasswordHash = "1234" };
@@ -265,7 +307,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustOnlyAllowToEnterSettingsPasswordFiveTimes()
+		public void Perform_MustOnlyAllowToEnterSettingsPasswordFiveTimes()
 		{
 			var count = 0;
 			var settings = default(Settings);
@@ -292,7 +334,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustSucceedIfAdminPasswordCorrect()
+		public void Perform_MustSucceedIfAdminPasswordCorrect()
 		{
 			var password = "test";
 			var currentSettings = new Settings { AdminPasswordHash = "1234", ConfigurationMode = ConfigurationMode.ConfigureClient };
@@ -325,7 +367,37 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustSucceedIfSettingsPasswordCorrect()
+		public void Perform_MustNotAuthenticateIfSameAdminPassword()
+		{
+			var currentSettings = new Settings { AdminPasswordHash = "1234", ConfigurationMode = ConfigurationMode.ConfigureClient };
+			var nextSettings = new Settings { AdminPasswordHash = "1234", ConfigurationMode = ConfigurationMode.ConfigureClient };
+			var url = @"http://www.safeexambrowser.org/whatever.seb";
+
+			appConfig.AppDataFolder = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
+			nextSession.SetupGet(s => s.Settings).Returns(nextSettings);
+
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out currentSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.AbsoluteUri == url), out nextSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+			repository.Setup(r => r.ConfigureClientWith(It.IsAny<Uri>(), It.IsAny<PasswordParameters>())).Returns(SaveStatus.Success);
+
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			sut.ActionRequired += args =>
+			{
+				if (args is PasswordRequiredEventArgs)
+				{
+					Assert.Fail();
+				}
+			};
+
+			var result = sut.Perform();
+
+			hashAlgorithm.Verify(h => h.GenerateHashFor(It.IsAny<string>()), Times.Never);
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Perform_MustSucceedIfSettingsPasswordCorrect()
 		{
 			var password = "test";
 			var settings = new Settings { ConfigurationMode = ConfigurationMode.Exam };
@@ -352,7 +424,67 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustAbortAskingForAdminPasswordIfDecidedByUser()
+		public void Perform_MustUseCurrentPasswordIfAvailable()
+		{
+			var url = @"http://www.safeexambrowser.org/whatever.seb";
+			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
+			var appDataFile = new Uri(Path.Combine(location, "SettingsDummy.txt"));
+			var settings = new Settings { AdminPasswordHash = "1234", ConfigurationMode = ConfigurationMode.Exam };
+
+			appConfig.AppDataFolder = location;
+			appConfig.DefaultSettingsFileName = "SettingsDummy.txt";
+
+			repository
+				.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>()))
+				.Returns(LoadStatus.PasswordNeeded);
+			repository
+				.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(appDataFile)), out settings, It.IsAny<PasswordParameters>()))
+				.Returns(LoadStatus.Success);
+			repository
+				.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.Is<PasswordParameters>(p => p.IsHash == true && p.Password == settings.AdminPasswordHash)))
+				.Returns(LoadStatus.Success);
+
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var result = sut.Perform();
+
+			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.Is<PasswordParameters>(p => p.Password == settings.AdminPasswordHash)), Times.AtLeastOnce);
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Perform_MustAbortAskingForAdminPasswordIfDecidedByUser()
+		{
+			var password = "test";
+			var currentSettings = new Settings { AdminPasswordHash = "1234", ConfigurationMode = ConfigurationMode.ConfigureClient };
+			var nextSettings = new Settings { AdminPasswordHash = "9876", ConfigurationMode = ConfigurationMode.ConfigureClient };
+			var url = @"http://www.safeexambrowser.org/whatever.seb";
+
+			appConfig.AppDataFolder = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
+			nextSession.SetupGet(s => s.Settings).Returns(nextSettings);
+
+			hashAlgorithm.Setup(h => h.GenerateHashFor(It.Is<string>(p => p == password))).Returns(currentSettings.AdminPasswordHash);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out currentSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.AbsoluteUri == url), out nextSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			sut.ActionRequired += args =>
+			{
+				if (args is PasswordRequiredEventArgs p && p.Purpose == PasswordRequestPurpose.LocalAdministrator)
+				{
+					p.Success = false;
+				}
+			};
+
+			var result = sut.Perform();
+
+			repository.Verify(r => r.ConfigureClientWith(It.IsAny<Uri>(), It.IsAny<PasswordParameters>()), Times.Never);
+
+			Assert.AreEqual(OperationResult.Aborted, result);
+		}
+
+		[TestMethod]
+		public void Perform_MustAbortAskingForSettingsPasswordIfDecidedByUser()
 		{
 			var settings = default(Settings);
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
@@ -374,29 +506,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustAbortAskingForSettingsPasswordIfDecidedByUser()
-		{
-			var settings = default(Settings);
-			var url = @"http://www.safeexambrowser.org/whatever.seb";
-
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.PasswordNeeded);
-
-			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
-			sut.ActionRequired += args =>
-			{
-				if (args is PasswordRequiredEventArgs p)
-				{
-					p.Success = false;
-				}
-			};
-
-			var result = sut.Perform();
-
-			Assert.AreEqual(OperationResult.Aborted, result);
-		}
-
-		[TestMethod]
-		public void MustReconfigureForExamWithCorrectUri()
+		public void Repeat_MustPerformForExamWithCorrectUri()
 		{
 			var currentSettings = new Settings();
 			var location = Path.GetDirectoryName(GetType().Assembly.Location);
@@ -418,7 +528,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustReconfigureForClientConfigurationWithCorrectUri()
+		public void Repeat_MustPerformForClientConfigurationWithCorrectUri()
 		{
 			var currentSettings = new Settings();
 			var location = Path.GetDirectoryName(GetType().Assembly.Location);
@@ -441,7 +551,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustFailToReconfigureWithInvalidUri()
+		public void Repeat_MustFailWithInvalidUri()
 		{
 			var resource = new Uri("file:///C:/does/not/exist.txt");
 			var settings = default(Settings);
@@ -463,7 +573,33 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustDoNothingOnRevert()
+		public void Repeat_MustAbortForSettingsPasswordIfWishedByUser()
+		{
+			var currentSettings = new Settings();
+			var location = Path.GetDirectoryName(GetType().Assembly.Location);
+			var resource = new Uri(Path.Combine(location, nameof(Operations), "SettingsDummy.txt"));
+			var settings = new Settings { ConfigurationMode = ConfigurationMode.ConfigureClient };
+
+			currentSession.SetupGet(s => s.Settings).Returns(currentSettings);
+			sessionContext.ReconfigurationFilePath = resource.LocalPath;
+			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.PasswordNeeded);
+
+			var sut = new ConfigurationOperation(null, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			sut.ActionRequired += args =>
+			{
+				if (args is PasswordRequiredEventArgs p)
+				{
+					p.Success = false;
+				}
+			};
+
+			var result = sut.Repeat();
+
+			Assert.AreEqual(OperationResult.Aborted, result);
+		}
+
+		[TestMethod]
+		public void Rever_MustDoNothing()
 		{
 			var sut = new ConfigurationOperation(null, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Revert();

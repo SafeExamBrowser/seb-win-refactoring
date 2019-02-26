@@ -44,7 +44,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustCorrectlyActivateFirstSession()
+		public void Perform_MustCorrectlyActivateFirstSession()
 		{
 			sessionContext.Current = null;
 
@@ -59,7 +59,17 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustCorrectlySwitchSession()
+		public void Perform_MustCorrectlySwitchLogSeverity()
+		{
+			nextSettings.LogLevel = LogLevel.Info;
+
+			sut.Perform();
+
+			logger.VerifySet(l => l.LogLevel = It.Is<LogLevel>(ll => ll == nextSettings.LogLevel));
+		}
+
+		[TestMethod]
+		public void Repeat_MustCorrectlySwitchSession()
 		{
 			var result = sut.Repeat();
 
@@ -72,7 +82,17 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustAlwaysRevertSuccessfully()
+		public void Repeat_MustCorrectlySwitchLogSeverity()
+		{
+			nextSettings.LogLevel = LogLevel.Warning;
+
+			sut.Perform();
+
+			logger.VerifySet(l => l.LogLevel = It.Is<LogLevel>(ll => ll == nextSettings.LogLevel));
+		}
+
+		[TestMethod]
+		public void Revert_MustAlwaysCompleteSuccessfully()
 		{
 			var result = sut.Revert();
 
