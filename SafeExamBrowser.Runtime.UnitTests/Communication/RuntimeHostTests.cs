@@ -288,6 +288,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			sut.Send(new MessageBoxReplyMessage(Guid.Empty, MessageBoxResult.Cancel) { CommunicationToken = token });
 			sut.Send(new PasswordReplyMessage(Guid.Empty, false, "") { CommunicationToken = token });
 			sut.Send(new ReconfigurationMessage("") { CommunicationToken = token });
+			sut.Disconnect(new DisconnectionMessage { CommunicationToken = token });
 		}
 
 		private class TestMessage : Message { };
