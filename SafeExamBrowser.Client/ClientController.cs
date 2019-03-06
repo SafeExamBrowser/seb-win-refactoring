@@ -24,7 +24,7 @@ using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Shell;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
 using SafeExamBrowser.Contracts.WindowsApi;
 
@@ -32,6 +32,7 @@ namespace SafeExamBrowser.Client
 {
 	internal class ClientController : IClientController
 	{
+		private IActionCenter actionCenter;
 		private IDisplayMonitor displayMonitor;
 		private IExplorerShell explorerShell;
 		private IHashAlgorithm hashAlgorithm;
@@ -67,6 +68,7 @@ namespace SafeExamBrowser.Client
 		}
 
 		public ClientController(
+			IActionCenter actionCenter,
 			IDisplayMonitor displayMonitor,
 			IExplorerShell explorerShell,
 			IHashAlgorithm hashAlgorithm,
@@ -81,6 +83,7 @@ namespace SafeExamBrowser.Client
 			IUserInterfaceFactory uiFactory,
 			IWindowMonitor windowMonitor)
 		{
+			this.actionCenter = actionCenter;
 			this.displayMonitor = displayMonitor;
 			this.explorerShell = explorerShell;
 			this.hashAlgorithm = hashAlgorithm;
@@ -109,14 +112,13 @@ namespace SafeExamBrowser.Client
 			if (success)
 			{
 				RegisterEvents();
+				ShowShell();
 				StartBrowser();
 
 				var communication = runtime.InformClientReady();
 
 				if (communication.Success)
 				{
-					splashScreen.Close();
-
 					logger.Info("Application successfully initialized.");
 					logger.Log(string.Empty);
 				}
@@ -132,6 +134,8 @@ namespace SafeExamBrowser.Client
 				logger.Log(string.Empty);
 			}
 
+			splashScreen.Close();
+
 			return success;
 		}
 
@@ -141,7 +145,8 @@ namespace SafeExamBrowser.Client
 			logger.Info("Initiating shutdown procedure...");
 
 			splashScreen = uiFactory.CreateSplashScreen(appConfig);
-			splashScreen.Show();
+			actionCenter.Close();
+			taskbar.Close();
 
 			DeregisterEvents();
 
@@ -194,6 +199,14 @@ namespace SafeExamBrowser.Client
 				ClientHost.PasswordRequested -= ClientHost_PasswordRequested;
 				ClientHost.ReconfigurationDenied -= ClientHost_ReconfigurationDenied;
 				ClientHost.Shutdown -= ClientHost_Shutdown;
+			}
+		}
+
+		private void ShowShell()
+		{
+			if (Settings.Taskbar.EnableTaskbar)
+			{
+				taskbar.Show();
 			}
 		}
 
@@ -321,7 +334,6 @@ namespace SafeExamBrowser.Client
 
 		private void ClientHost_Shutdown()
 		{
-			taskbar.Close();
 			shutdown.Invoke();
 		}
 
@@ -363,7 +375,6 @@ namespace SafeExamBrowser.Client
 			logger.Error("Lost connection to the runtime!");
 			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
 
-			taskbar.Close();
 			shutdown.Invoke();
 		}
 

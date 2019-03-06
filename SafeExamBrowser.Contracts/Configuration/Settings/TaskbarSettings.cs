@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Contracts.Configuration.Settings
 {
 	/// <summary>
-	/// Defines all configuration options for the <see cref="UserInterface.Taskbar.ITaskbar"/>.
+	/// Defines all configuration options for the <see cref="UserInterface.Shell.ITaskbar"/>.
 	/// </summary>
 	[Serializable]
 	public class TaskbarSettings
@@ -30,6 +30,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		/// Determines whether the user may control the wireless network connection during runtime.
 		/// </summary>
 		public bool AllowWirelessNetwork { get; set; }
+
+		/// <summary>
+		/// Determines whether the taskbar itself is enabled and visible to the user.
+		/// </summary>
+		public bool EnableTaskbar { get; set; }
 
 		/// <summary>
 		/// Determines whether the current date and time will be rendered in the taskbar.

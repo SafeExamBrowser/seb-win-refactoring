@@ -6,12 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.ComponentModel;
-
-namespace SafeExamBrowser.Contracts.UserInterface.Taskbar.Events
+namespace SafeExamBrowser.Contracts.UserInterface.Windows.Events
 {
 	/// <summary>
-	/// Event handler used to define the control flow when the <see cref="ITaskbar"/>'s quit button is clicked.
+	/// Indicates that a window is about to be closed.
 	/// </summary>
-	public delegate void QuitButtonClickedEventHandler(CancelEventArgs args);
+	public delegate void WindowClosingEventHandler();
 }

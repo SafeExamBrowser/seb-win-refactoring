@@ -6,10 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.UserInterface.Taskbar.Events
+using SafeExamBrowser.Contracts.SystemComponents;
+
+namespace SafeExamBrowser.Contracts.UserInterface.Shell.Events
 {
 	/// <summary>
-	/// Indicates that a window is about to be closed.
+	/// Indicates that a particular <see cref="IWirelessNetwork"/> has been selected by the user.
 	/// </summary>
-	public delegate void WindowClosingEventHandler();
+	public delegate void WirelessNetworkSelectedEventHandler(IWirelessNetwork network);
 }

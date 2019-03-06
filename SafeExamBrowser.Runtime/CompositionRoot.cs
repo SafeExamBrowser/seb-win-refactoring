@@ -89,7 +89,18 @@ namespace SafeExamBrowser.Runtime
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new RepeatableOperationSequence(logger, sessionOperations);
 
-			RuntimeController = new RuntimeController(appConfig, logger, messageBox, bootstrapSequence, sessionSequence, runtimeHost, serviceProxy, sessionContext, shutdown, text, uiFactory);
+			RuntimeController = new RuntimeController(
+				appConfig,
+				logger,
+				messageBox,
+				bootstrapSequence,
+				sessionSequence,
+				runtimeHost,
+				serviceProxy,
+				sessionContext,
+				shutdown,
+				text,
+				uiFactory);
 		}
 
 		internal void LogStartupInformation()
@@ -126,11 +137,30 @@ namespace SafeExamBrowser.Runtime
 			var xmlParser = new XmlParser(ModuleLogger(nameof(XmlParser)));
 			var xmlSerializer = new XmlSerializer(ModuleLogger(nameof(XmlSerializer)));
 
-			configuration = new ConfigurationRepository(certificateStore, new HashAlgorithm(), repositoryLogger, executable.Location, programCopyright, programTitle, programVersion);
+			configuration = new ConfigurationRepository(
+				certificateStore,
+				new HashAlgorithm(),
+				repositoryLogger,
+				executable.Location,
+				programCopyright,
+				programTitle,
+				programVersion);
 			appConfig = configuration.InitializeAppConfig();
 
-			configuration.Register(new BinaryParser(compressor, new HashAlgorithm(), ModuleLogger(nameof(BinaryParser)), passwordEncryption, publicKeyEncryption, symmetricEncryption, xmlParser));
-			configuration.Register(new BinarySerializer(compressor, ModuleLogger(nameof(BinarySerializer)), passwordEncryption, publicKeyEncryption, symmetricEncryption, xmlSerializer));
+			configuration.Register(new BinaryParser(
+				compressor,
+				new HashAlgorithm(),
+				ModuleLogger(nameof(BinaryParser)),
+				passwordEncryption,
+				publicKeyEncryption,
+				symmetricEncryption, xmlParser));
+			configuration.Register(new BinarySerializer(
+				compressor,
+				ModuleLogger(nameof(BinarySerializer)),
+				passwordEncryption,
+				publicKeyEncryption,
+				symmetricEncryption,
+				xmlSerializer));
 			configuration.Register(new XmlParser(ModuleLogger(nameof(XmlParser))));
 			configuration.Register(new XmlSerializer(ModuleLogger(nameof(XmlSerializer))));
 			configuration.Register(new FileResourceLoader(ModuleLogger(nameof(FileResourceLoader))));

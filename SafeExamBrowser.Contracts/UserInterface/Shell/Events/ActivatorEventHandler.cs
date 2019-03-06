@@ -6,12 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.SystemComponents;
-
-namespace SafeExamBrowser.Contracts.UserInterface.Taskbar.Events
+namespace SafeExamBrowser.Contracts.UserInterface.Shell.Events
 {
 	/// <summary>
-	/// Indicates that a particular <see cref="IKeyboardLayout"/> has been selected by the user.
+	/// Event handler fired by an <see cref="IActionCenterActivator"/> to control the visibility of the <see cref="IActionCenter"/>.
 	/// </summary>
-	public delegate void KeyboardLayoutSelectedEventHandler(IKeyboardLayout layout);
+	public delegate void ActivatorEventHandler();
 }

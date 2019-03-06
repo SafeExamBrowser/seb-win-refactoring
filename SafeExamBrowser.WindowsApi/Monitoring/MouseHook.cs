@@ -33,7 +33,7 @@ namespace SafeExamBrowser.WindowsApi.Monitoring
 			var module = process.MainModule;
 			var moduleHandle = Kernel32.GetModuleHandle(module.ModuleName);
 
-			// IMORTANT:
+			// IMPORTANT:
 			// Ensures that the hook delegate does not get garbage collected prematurely, as it will be passed to unmanaged code.
 			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
 			hookDelegate = new HookDelegate(LowLevelMouseProc);

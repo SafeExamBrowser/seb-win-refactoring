@@ -13,7 +13,7 @@ using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface.Browser;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Shell;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
 
 namespace SafeExamBrowser.Contracts.UserInterface

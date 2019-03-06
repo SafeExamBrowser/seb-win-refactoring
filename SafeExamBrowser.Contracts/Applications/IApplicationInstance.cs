@@ -12,7 +12,7 @@ using SafeExamBrowser.Contracts.UserInterface.Windows;
 namespace SafeExamBrowser.Contracts.Applications
 {
 	/// <summary>
-	/// Defines an instance of a (third-party) application which can be accessed via the <see cref="UserInterface.Taskbar.ITaskbar"/>.
+	/// Defines an instance of a (third-party) application which can be accessed via the shell.
 	/// </summary>
 	public interface IApplicationInstance
 	{

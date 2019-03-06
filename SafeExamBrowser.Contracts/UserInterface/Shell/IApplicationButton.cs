@@ -7,9 +7,9 @@
  */
 
 using SafeExamBrowser.Contracts.Applications;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
+using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 
-namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
+namespace SafeExamBrowser.Contracts.UserInterface.Shell
 {
 	/// <summary>
 	/// The button of a (third-party) application which can be loaded into the <see cref="ITaskbar"/>.

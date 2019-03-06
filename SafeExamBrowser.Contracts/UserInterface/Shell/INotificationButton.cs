@@ -6,9 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
+using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 
-namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
+namespace SafeExamBrowser.Contracts.UserInterface.Shell
 {
 	/// <summary>
 	/// The button of a notification which can be loaded into the <see cref="ITaskbar"/>.

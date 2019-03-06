@@ -9,8 +9,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using SafeExamBrowser.Contracts.Client;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
+using SafeExamBrowser.Contracts.UserInterface.Shell;
+using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 using SafeExamBrowser.UserInterface.Desktop.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls

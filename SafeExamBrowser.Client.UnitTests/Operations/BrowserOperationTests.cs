@@ -12,7 +12,7 @@ using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Contracts.Applications;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Shell;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {

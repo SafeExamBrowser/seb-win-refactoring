@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Shell;
 
 namespace SafeExamBrowser.SystemComponents
 {

@@ -5,9 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Controls"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
-        mc:Ignorable="d"
-        Title="Taskbar" Background="#FFF0F0F0" Height="40" Width="750" WindowStyle="None" Topmost="True" Visibility="Visible"
-        ResizeMode="NoResize" Icon="./Images/SafeExamBrowser.ico">
+        mc:Ignorable="d" Title="Taskbar" Background="#FFF0F0F0" Height="40" Width="750" WindowStyle="None" Topmost="True" ResizeMode="NoResize" Icon="./Images/SafeExamBrowser.ico">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

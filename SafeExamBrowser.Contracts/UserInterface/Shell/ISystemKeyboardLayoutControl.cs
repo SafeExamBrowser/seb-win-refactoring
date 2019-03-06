@@ -7,9 +7,9 @@
  */
 
 using SafeExamBrowser.Contracts.SystemComponents;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
+using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 
-namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
+namespace SafeExamBrowser.Contracts.UserInterface.Shell
 {
 	/// <summary>
 	/// The control of the keyboard layout system component.

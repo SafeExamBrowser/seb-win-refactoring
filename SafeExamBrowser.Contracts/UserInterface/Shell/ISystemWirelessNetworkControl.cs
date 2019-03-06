@@ -8,9 +8,9 @@
 
 using System.Collections.Generic;
 using SafeExamBrowser.Contracts.SystemComponents;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
+using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 
-namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
+namespace SafeExamBrowser.Contracts.UserInterface.Shell
 {
 	/// <summary>
 	/// The control of the wireless network system component.

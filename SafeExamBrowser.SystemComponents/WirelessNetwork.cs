@@ -13,7 +13,7 @@ using System.Timers;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Shell;
 using SimpleWifi;
 using SimpleWifi.Win32;
 using SimpleWifi.Win32.Interop;

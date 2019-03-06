@@ -49,6 +49,9 @@ namespace SafeExamBrowser.WindowsApi
 		internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
 		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern bool GetCursorPos(ref POINT pt);
+
+		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern IntPtr GetThreadDesktop(int dwThreadId);
 
 		[DllImport("user32.dll", SetLastError = true)]

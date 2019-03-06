@@ -30,6 +30,7 @@ using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
+using SafeExamBrowser.Contracts.UserInterface.Shell;
 using SafeExamBrowser.Contracts.WindowsApi;
 using SafeExamBrowser.Core.OperationModel;
 using SafeExamBrowser.Core.Operations;
@@ -48,27 +49,31 @@ namespace SafeExamBrowser.Client
 {
 	internal class CompositionRoot
 	{
+		private ClientConfiguration configuration;
 		private string logFilePath;
 		private LogLevel logLevel;
 		private string runtimeHostUri;
 		private Guid startupToken;
 
+		private IActionCenter actionCenter;
 		private IBrowserApplicationController browserController;
-		private ClientConfiguration configuration;
 		private IClientHost clientHost;
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private IProcessMonitor processMonitor;
 		private INativeMethods nativeMethods;
 		private IRuntimeProxy runtimeProxy;
+		private ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout;
+		private ISystemComponent<ISystemPowerSupplyControl> powerSupply;
+		private ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork;
 		private ISystemInfo systemInfo;
+		private ITaskbar taskbar;
 		private IText text;
 		private ITextResource textResource;
 		private IUserInterfaceFactory uiFactory;
 		private IWindowMonitor windowMonitor;
 
 		internal IClientController ClientController { get; private set; }
-		internal Taskbar Taskbar { get; private set; }
 
 		internal void BuildObjectGraph(Action shutdown)
 		{
@@ -82,17 +87,20 @@ namespace SafeExamBrowser.Client
 			InitializeLogging();
 			InitializeText();
 
+			actionCenter = new ActionCenter();
+			keyboardLayout = new KeyboardLayout(new ModuleLogger(logger, nameof(KeyboardLayout)), text);
 			messageBox = new MessageBox(text);
+			powerSupply = new PowerSupply(new ModuleLogger(logger, nameof(PowerSupply)), text);
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, nameof(ProcessMonitor)), nativeMethods);
 			uiFactory = new UserInterfaceFactory(text);
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(RuntimeProxy)));
+			taskbar = new Taskbar(new ModuleLogger(logger, nameof(taskbar)));
 			windowMonitor = new WindowMonitor(new ModuleLogger(logger, nameof(WindowMonitor)), nativeMethods);
+			wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, nameof(WirelessNetwork)), text);
 
 			var displayMonitor = new DisplayMonitor(new ModuleLogger(logger, nameof(DisplayMonitor)), nativeMethods);
 			var explorerShell = new ExplorerShell(new ModuleLogger(logger, nameof(ExplorerShell)), nativeMethods);
 			var hashAlgorithm = new HashAlgorithm();
-
-			Taskbar = new Taskbar(new ModuleLogger(logger, nameof(Taskbar)));
 
 			var operations = new Queue<IOperation>();
 
@@ -104,18 +112,33 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new LazyInitializationOperation(BuildClientHostOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildClientHostDisconnectionOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildKeyboardInterceptorOperation));
+			operations.Enqueue(new LazyInitializationOperation(BuildMouseInterceptorOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildWindowMonitorOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildProcessMonitorOperation));
-			operations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, Taskbar));
+			operations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, taskbar));
+			operations.Enqueue(new LazyInitializationOperation(BuildActionCenterOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildTaskbarOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildBrowserOperation));
 			operations.Enqueue(new ClipboardOperation(logger, nativeMethods));
-			operations.Enqueue(new LazyInitializationOperation(BuildMouseInterceptorOperation));
 			operations.Enqueue(new DelegateOperation(UpdateClientControllerDependencies));
 
 			var sequence = new OperationSequence(logger, operations);
 
-			ClientController = new ClientController(displayMonitor, explorerShell, hashAlgorithm, logger, messageBox, sequence, processMonitor, runtimeProxy, shutdown, Taskbar, text, uiFactory, windowMonitor);
+			ClientController = new ClientController(
+				actionCenter,
+				displayMonitor,
+				explorerShell,
+				hashAlgorithm,
+				logger,
+				messageBox,
+				sequence,
+				processMonitor,
+				runtimeProxy,
+				shutdown,
+				taskbar,
+				text,
+				uiFactory,
+				windowMonitor);
 		}
 
 		internal void LogStartupInformation()
@@ -173,12 +196,41 @@ namespace SafeExamBrowser.Client
 			textResource = new XmlTextResource(path);
 		}
 
+		private IOperation BuildActionCenterOperation()
+		{
+			var aboutInfo = new AboutNotificationInfo(text);
+			var aboutController = new AboutNotificationController(configuration.AppConfig, uiFactory);
+			var logInfo = new LogNotificationInfo(text);
+			var logController = new LogNotificationController(logger, uiFactory);
+			var activators = new IActionCenterActivator[]
+			{
+				new KeyboardActivator(new ModuleLogger(logger, nameof(KeyboardActivator))),
+				new TouchActivator(new ModuleLogger(logger, nameof(TouchActivator)))
+			};
+			var operation = new ActionCenterOperation(
+				actionCenter,
+				activators,
+				logger,
+				aboutInfo,
+				aboutController,
+				logInfo,
+				logController,
+				keyboardLayout,
+				powerSupply,
+				wirelessNetwork,
+				configuration.Settings.ActionCenter,
+				systemInfo,
+				uiFactory);
+
+			return operation;
+		}
+
 		private IOperation BuildBrowserOperation()
 		{
 			var moduleLogger = new ModuleLogger(logger, "BrowserController");
 			var browserController = new BrowserApplicationController(configuration.AppConfig, configuration.Settings.Browser, messageBox, moduleLogger, text, uiFactory);
 			var browserInfo = new BrowserApplicationInfo();
-			var operation = new BrowserOperation(browserController, browserInfo, logger, Taskbar, uiFactory);
+			var operation = new BrowserOperation(browserController, browserInfo, logger, taskbar, uiFactory);
 
 			this.browserController = browserController;
 
@@ -232,12 +284,21 @@ namespace SafeExamBrowser.Client
 		{
 			var aboutInfo = new AboutNotificationInfo(text);
 			var aboutController = new AboutNotificationController(configuration.AppConfig, uiFactory);
-			var keyboardLayout = new KeyboardLayout(new ModuleLogger(logger, nameof(KeyboardLayout)), text);
-			var logController = new LogNotificationController(logger, uiFactory);
 			var logInfo = new LogNotificationInfo(text);
-			var powerSupply = new PowerSupply(new ModuleLogger(logger, nameof(PowerSupply)), text);
-			var wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, nameof(WirelessNetwork)), text);
-			var operation = new TaskbarOperation(logger, aboutInfo, aboutController, logInfo, logController, keyboardLayout, powerSupply, wirelessNetwork, systemInfo, Taskbar, configuration.Settings.Taskbar, text, uiFactory);
+			var logController = new LogNotificationController(logger, uiFactory);
+			var operation = new TaskbarOperation(
+				logger,
+				aboutInfo,
+				aboutController,
+				logInfo,
+				logController,
+				keyboardLayout,
+				powerSupply,
+				wirelessNetwork,
+				systemInfo,
+				taskbar,
+				configuration.Settings.Taskbar,
+				uiFactory);
 
 			return operation;
 		}

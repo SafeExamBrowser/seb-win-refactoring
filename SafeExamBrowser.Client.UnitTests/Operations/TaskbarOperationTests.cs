@@ -15,7 +15,7 @@ using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Shell;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
@@ -33,7 +33,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<ISystemComponent<ISystemWirelessNetworkControl>> wirelessNetworkMock;
 		private Mock<ISystemInfo> systemInfoMock;
 		private Mock<ITaskbar> taskbarMock;
-		private Mock<IText> textMock;
 		private Mock<IUserInterfaceFactory> uiFactoryMock;
 
 		private TaskbarOperation sut;
@@ -52,7 +51,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			systemInfoMock = new Mock<ISystemInfo>();
 			taskbarMock = new Mock<ITaskbar>();
 			settings = new TaskbarSettings();
-			textMock = new Mock<IText>();
 			uiFactoryMock = new Mock<IUserInterfaceFactory>();
 
 			settings.AllowApplicationLog = true;
@@ -73,7 +71,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 				systemInfoMock.Object,
 				taskbarMock.Object,
 				settings,
-				textMock.Object,
 				uiFactoryMock.Object);
 		}
 

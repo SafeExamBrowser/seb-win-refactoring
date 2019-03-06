@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="ClientController.cs" />
+    <Compile Include="Operations\ActionCenterOperation.cs" />
     <Compile Include="Operations\ClientHostDisconnectionOperation.cs" />
     <Compile Include="Operations\ConfigurationOperation.cs" />
     <Compile Include="Operations\InitializationOperation.cs" />

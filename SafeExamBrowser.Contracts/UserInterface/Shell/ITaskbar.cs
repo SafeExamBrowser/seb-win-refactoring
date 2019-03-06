@@ -6,13 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
+using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 
-namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
+namespace SafeExamBrowser.Contracts.UserInterface.Shell
 {
 	/// <summary>
-	/// Defines the functionality of the application taskbar. The taskbar is the main user interface element via which the user can access
-	/// the browser, third-party applications, system controls and so on.
+	/// The taskbar is a user interface element via which the user can access and control various aspects of the application.
 	/// </summary>
 	public interface ITaskbar
 	{
@@ -55,5 +54,10 @@ namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
 		/// Moves the taskbar to the bottom of and resizes it according to the current working area.
 		/// </summary>
 		void InitializeBounds();
+
+		/// <summary>
+		/// Shows the taskbar.
+		/// </summary>
+		void Show();
 	}
 }

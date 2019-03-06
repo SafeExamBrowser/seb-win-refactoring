@@ -14,7 +14,7 @@ namespace SafeExamBrowser.WindowsApi.Constants
 	/// See https://docs.microsoft.com/de-de/windows/desktop/SecAuthZ/access-mask
 	/// </remarks>
 	[Flags]
-	internal enum ACCESS_MASK : uint
+	internal enum AccessMask : uint
 	{
 		DESKTOP_NONE = 0,
 		DESKTOP_READOBJECTS = 0x0001,

@@ -36,7 +36,7 @@ namespace SafeExamBrowser.WindowsApi.Monitoring
 
 		internal void Attach()
 		{
-			// IMORTANT:
+			// IMPORTANT:
 			// Ensures that the hook delegate does not get garbage collected prematurely, as it will be passed to unmanaged code.
 			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
 			eventDelegate = new EventDelegate(LowLevelSystemProc);

@@ -28,7 +28,7 @@ namespace SafeExamBrowser.WindowsApi
 		{
 			logger.Debug($"Attempting to create new desktop '{name}'...");
 
-			var handle = User32.CreateDesktop(name, IntPtr.Zero, IntPtr.Zero, 0, (uint) ACCESS_MASK.GENERIC_ALL, IntPtr.Zero);
+			var handle = User32.CreateDesktop(name, IntPtr.Zero, IntPtr.Zero, 0, (uint) AccessMask.GENERIC_ALL, IntPtr.Zero);
 
 			if (handle == IntPtr.Zero)
 			{

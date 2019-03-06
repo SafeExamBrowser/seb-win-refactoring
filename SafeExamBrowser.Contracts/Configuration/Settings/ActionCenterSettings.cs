@@ -6,23 +6,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Core;
+using System;
 
-namespace SafeExamBrowser.Contracts.Client
+namespace SafeExamBrowser.Contracts.Configuration.Settings
 {
 	/// <summary>
-	/// The information about a notification.
+	/// Defines all configuration options for the <see cref="UserInterface.Shell.IActionCenter"/>.
 	/// </summary>
-	public interface INotificationInfo
+	[Serializable]
+	public class ActionCenterSettings
 	{
 		/// <summary>
-		/// The tooltip for the notification.
+		/// Determines whether the action center itself is enabled and visible to the user.
 		/// </summary>
-		string Tooltip { get; }
-
-		/// <summary>
-		/// The resource providing the notification icon.
-		/// </summary>
-		IIconResource IconResource { get; }
+		public bool EnableActionCenter { get; set; }
 	}
 }

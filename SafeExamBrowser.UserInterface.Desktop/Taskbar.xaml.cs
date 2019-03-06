@@ -9,8 +9,8 @@
 using System.ComponentModel;
 using System.Windows;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
+using SafeExamBrowser.Contracts.UserInterface.Shell;
+using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 using SafeExamBrowser.UserInterface.Desktop.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop
@@ -92,6 +92,11 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 				logger.Info($"Set taskbar bounds to {Width}x{Height} at ({Left}/{Top}), in physical pixels: {size.X}x{size.Y} at ({position.X}/{position.Y}).");
 			});
+		}
+
+		public new void Show()
+		{
+			Dispatcher.Invoke(base.Show);
 		}
 
 		private void QuitButton_Clicked(CancelEventArgs args)

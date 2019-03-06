@@ -18,6 +18,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 	public class Settings
 	{
 		/// <summary>
+		/// All action center-related settings.
+		/// </summary>
+		public ActionCenterSettings ActionCenter { get; set; }
+
+		/// <summary>
 		/// The hash code of the administrator password for the settings.
 		/// </summary>
 		public string AdminPasswordHash { get; set; }
@@ -74,6 +79,7 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 
 		public Settings()
 		{
+			ActionCenter = new ActionCenterSettings();
 			Browser = new BrowserSettings();
 			Keyboard = new KeyboardSettings();
 			Mouse = new MouseSettings();

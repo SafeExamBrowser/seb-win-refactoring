@@ -18,8 +18,8 @@ using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Browser;
 using SafeExamBrowser.Contracts.UserInterface.Browser.Events;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
+using SafeExamBrowser.Contracts.UserInterface.Windows.Events;
 using SafeExamBrowser.UserInterface.Desktop.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop
@@ -117,33 +117,12 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		private void InitializeBrowserWindow(IBrowserControl browserControl)
 		{
-			var originalBrush = MenuButton.Background;
-
 			if (browserControl is System.Windows.Forms.Control control)
 			{
 				BrowserControlHost.Child = control;
 			}
 
-			BackwardButton.Click += (o, args) => BackwardNavigationRequested?.Invoke();
-			Closing += (o, args) => closing?.Invoke();
-			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
-			MenuButton.Click += (o, args) => MenuPopup.IsOpen = !MenuPopup.IsOpen;
-			MenuButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsMouseOver));
-			MenuPopup.Closed += (o, args) => { MenuButton.Background = originalBrush; };
-			MenuPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = IsMouseOver));
-			MenuPopup.Opened += (o, args) => { MenuButton.Background = Brushes.LightGray; };
-			KeyUp += BrowserWindow_KeyUp;
-			ReloadButton.Click += (o, args) => ReloadRequested?.Invoke();
-			UrlTextBox.GotKeyboardFocus += (o, args) => UrlTextBox.SelectAll();
-			UrlTextBox.GotMouseCapture += UrlTextBox_GotMouseCapture;
-			UrlTextBox.LostKeyboardFocus += (o, args) => UrlTextBox.Tag = null;
-			UrlTextBox.LostFocus += (o, args) => UrlTextBox.Tag = null;
-			UrlTextBox.KeyUp += UrlTextBox_KeyUp;
-			UrlTextBox.MouseDoubleClick += (o, args) => UrlTextBox.SelectAll();
-			ZoomInButton.Click += (o, args) => ZoomInRequested?.Invoke();
-			ZoomOutButton.Click += (o, args) => ZoomOutRequested?.Invoke();
-			ZoomResetButton.Click += (o, args) => ZoomResetRequested?.Invoke();
-
+			RegisterEvents();
 			ApplySettings();
 			LoadIcons();
 			LoadText();
@@ -172,6 +151,31 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			{
 				AddressChanged?.Invoke(UrlTextBox.Text);
 			}
+		}
+
+		private void RegisterEvents()
+		{
+			var originalBrush = MenuButton.Background;
+
+			BackwardButton.Click += (o, args) => BackwardNavigationRequested?.Invoke();
+			Closing += (o, args) => closing?.Invoke();
+			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
+			MenuButton.Click += (o, args) => MenuPopup.IsOpen = !MenuPopup.IsOpen;
+			MenuButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsMouseOver));
+			MenuPopup.Closed += (o, args) => { MenuButton.Background = originalBrush; };
+			MenuPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = IsMouseOver));
+			MenuPopup.Opened += (o, args) => { MenuButton.Background = Brushes.LightGray; };
+			KeyUp += BrowserWindow_KeyUp;
+			ReloadButton.Click += (o, args) => ReloadRequested?.Invoke();
+			UrlTextBox.GotKeyboardFocus += (o, args) => UrlTextBox.SelectAll();
+			UrlTextBox.GotMouseCapture += UrlTextBox_GotMouseCapture;
+			UrlTextBox.LostKeyboardFocus += (o, args) => UrlTextBox.Tag = null;
+			UrlTextBox.LostFocus += (o, args) => UrlTextBox.Tag = null;
+			UrlTextBox.KeyUp += UrlTextBox_KeyUp;
+			UrlTextBox.MouseDoubleClick += (o, args) => UrlTextBox.SelectAll();
+			ZoomInButton.Click += (o, args) => ZoomInRequested?.Invoke();
+			ZoomOutButton.Click += (o, args) => ZoomOutRequested?.Invoke();
+			ZoomResetButton.Click += (o, args) => ZoomResetRequested?.Invoke();
 		}
 
 		private void ApplySettings()

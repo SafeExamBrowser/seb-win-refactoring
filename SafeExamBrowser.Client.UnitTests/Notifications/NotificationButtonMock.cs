@@ -6,8 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.UserInterface.Taskbar;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar.Events;
+using SafeExamBrowser.Contracts.UserInterface.Shell;
+using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 
 namespace SafeExamBrowser.Client.UnitTests.Notifications
 {

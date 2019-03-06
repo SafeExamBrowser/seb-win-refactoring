@@ -14,7 +14,7 @@ using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Shell;
 
 namespace SafeExamBrowser.Client.Operations
 {
@@ -32,7 +32,6 @@ namespace SafeExamBrowser.Client.Operations
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
 		private IUserInterfaceFactory uiFactory;
-		private IText text;
 
 		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged;
@@ -49,7 +48,6 @@ namespace SafeExamBrowser.Client.Operations
 			ISystemInfo systemInfo,
 			ITaskbar taskbar,
 			TaskbarSettings settings,
-			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
 			this.aboutInfo = aboutInfo;
@@ -62,37 +60,44 @@ namespace SafeExamBrowser.Client.Operations
 			this.settings = settings;
 			this.systemInfo = systemInfo;
 			this.taskbar = taskbar;
-			this.text = text;
 			this.uiFactory = uiFactory;
 			this.wirelessNetwork = wirelessNetwork;
 		}
 
 		public OperationResult Perform()
 		{
-			logger.Info("Initializing taskbar...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeTaskbar);
 
-			AddAboutNotification();
-			taskbar.ShowClock = settings.ShowClock;
-
-			if (settings.AllowApplicationLog)
+			if (settings.EnableTaskbar)
 			{
-				AddLogNotification();
+				logger.Info("Initializing taskbar...");
+
+				AddAboutNotification();
+				taskbar.ShowClock = settings.ShowClock;
+
+				if (settings.AllowApplicationLog)
+				{
+					AddLogNotification();
+				}
+
+				if (settings.AllowKeyboardLayout)
+				{
+					AddKeyboardLayoutControl();
+				}
+
+				if (settings.AllowWirelessNetwork)
+				{
+					AddWirelessNetworkControl();
+				}
+
+				if (systemInfo.HasBattery)
+				{
+					AddPowerSupplyControl();
+				}
 			}
-
-			if (settings.AllowKeyboardLayout)
+			else
 			{
-				AddKeyboardLayoutControl();
-			}
-
-			if (settings.AllowWirelessNetwork)
-			{
-				AddWirelessNetworkControl();
-			}
-
-			if (systemInfo.HasBattery)
-			{
-				AddPowerSupplyControl();
+				logger.Info("Taskbar is disabled, skipping initialization.");
 			}
 
 			return OperationResult.Success;
@@ -100,29 +105,36 @@ namespace SafeExamBrowser.Client.Operations
 
 		public OperationResult Revert()
 		{
-			logger.Info("Terminating taskbar...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_TerminateTaskbar);
 
-			aboutController.Terminate();
-
-			if (settings.AllowApplicationLog)
+			if (settings.EnableTaskbar)
 			{
-				logController.Terminate();
+				logger.Info("Terminating taskbar...");
+				aboutController.Terminate();
+
+				if (settings.AllowApplicationLog)
+				{
+					logController.Terminate();
+				}
+
+				if (settings.AllowKeyboardLayout)
+				{
+					keyboardLayout.Terminate();
+				}
+
+				if (settings.AllowWirelessNetwork)
+				{
+					wirelessNetwork.Terminate();
+				}
+
+				if (systemInfo.HasBattery)
+				{
+					powerSupply.Terminate();
+				}
 			}
-
-			if (settings.AllowKeyboardLayout)
+			else
 			{
-				keyboardLayout.Terminate();
-			}
-
-			if (settings.AllowWirelessNetwork)
-			{
-				wirelessNetwork.Terminate();
-			}
-
-			if (systemInfo.HasBattery)
-			{
-				powerSupply.Terminate();
+				logger.Info("Taskbar was disabled, skipping termination.");
 			}
 
 			return OperationResult.Success;

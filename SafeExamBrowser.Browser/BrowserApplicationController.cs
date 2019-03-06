@@ -19,7 +19,7 @@ using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Shell;
 using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
 
 namespace SafeExamBrowser.Browser

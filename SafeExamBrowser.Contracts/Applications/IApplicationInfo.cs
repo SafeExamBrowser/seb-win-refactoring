@@ -11,7 +11,7 @@ using SafeExamBrowser.Contracts.Core;
 namespace SafeExamBrowser.Contracts.Applications
 {
 	/// <summary>
-	/// The information about a (third-party) application which can be accessed via the <see cref="UserInterface.Taskbar.ITaskbar"/>.
+	/// The information about a (third-party) application which can be accessed via the shell.
 	/// </summary>
 	public interface IApplicationInfo
 	{

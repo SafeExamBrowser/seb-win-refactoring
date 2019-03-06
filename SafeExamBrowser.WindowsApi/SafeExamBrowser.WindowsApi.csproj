@@ -54,6 +54,7 @@
     <Compile Include="Constants\Constant.cs" />
     <Compile Include="Constants\HookType.cs" />
     <Compile Include="Constants\ThreadAccess.cs" />
+    <Compile Include="Constants\VirtualKeyCode.cs" />
     <Compile Include="Delegates\EnumDesktopDelegate.cs" />
     <Compile Include="Delegates\EnumWindowsDelegate.cs" />
     <Compile Include="Delegates\EventDelegate.cs" />
@@ -61,11 +62,13 @@
     <Compile Include="Desktop.cs" />
     <Compile Include="DesktopFactory.cs" />
     <Compile Include="ExplorerShell.cs" />
+    <Compile Include="KeyboardActivator.cs" />
     <Compile Include="Monitoring\MouseHook.cs" />
     <Compile Include="Monitoring\SystemHook.cs" />
     <Compile Include="Process.cs" />
     <Compile Include="ProcessFactory.cs" />
-    <Compile Include="Constants\ACCESS_MASK.cs" />
+    <Compile Include="Constants\AccessMask.cs" />
+    <Compile Include="TouchActivator.cs" />
     <Compile Include="Types\Bounds.cs" />
     <Compile Include="Types\EXECUTION_STATE.cs" />
     <Compile Include="Types\KBDLLHOOKSTRUCT.cs" />

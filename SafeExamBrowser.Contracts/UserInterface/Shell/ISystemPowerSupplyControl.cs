@@ -8,7 +8,7 @@
 
 using SafeExamBrowser.Contracts.SystemComponents;
 
-namespace SafeExamBrowser.Contracts.UserInterface.Taskbar
+namespace SafeExamBrowser.Contracts.UserInterface.Shell
 {
 	/// <summary>
 	/// The control of the power supply system component.

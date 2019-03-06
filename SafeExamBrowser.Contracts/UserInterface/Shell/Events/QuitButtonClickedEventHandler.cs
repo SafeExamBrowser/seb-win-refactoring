@@ -6,12 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.SystemComponents;
+using System.ComponentModel;
 
-namespace SafeExamBrowser.Contracts.UserInterface.Taskbar.Events
+namespace SafeExamBrowser.Contracts.UserInterface.Shell.Events
 {
 	/// <summary>
-	/// Indicates that a particular <see cref="IWirelessNetwork"/> has been selected by the user.
+	/// Event handler used to define the control flow when the <see cref="ITaskbar"/>'s quit button is clicked.
 	/// </summary>
-	public delegate void WirelessNetworkSelectedEventHandler(IWirelessNetwork network);
+	public delegate void QuitButtonClickedEventHandler(CancelEventArgs args);
 }

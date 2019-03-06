@@ -1,17 +1,24 @@
 ﻿/*
  * Copyright (c) 2019 ETH Zürich, Educational Development and Technology (LET)
- *
+ * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-
-namespace SafeExamBrowser.WindowsApi.Delegates
+namespace SafeExamBrowser.WindowsApi.Constants
 {
 	/// <remarks>
-	/// See https://docs.microsoft.com/de-de/windows/desktop/api/winuser/nc-winuser-hookproc
+	/// See https://docs.microsoft.com/en-us/windows/desktop/inputdev/virtual-key-codes.
 	/// </remarks>
-	internal delegate IntPtr HookDelegate(int nCode, IntPtr wParam, IntPtr lParam);
+	internal enum VirtualKeyCode
+	{
+		A = 0x41,
+		Delete = 0x2E,
+		LeftAlt = 0xA4,
+		LeftControl = 0xA2,
+		LeftWindows = 0x5B,
+		RightAlt = 0xA5,
+		RightControl = 0xA3
+	}
 }

@@ -17,12 +17,6 @@ namespace SafeExamBrowser.WindowsApi.Monitoring
 {
 	internal class KeyboardHook
 	{
-		private const int LEFT_CTRL = 162;
-		private const int RIGHT_CTRL = 163;
-		private const int LEFT_ALT = 164;
-		private const int RIGHT_ALT = 165;
-		private const int DELETE = 46;
-
 		private bool altPressed, ctrlPressed;
 		private HookDelegate hookDelegate;
 
@@ -40,7 +34,7 @@ namespace SafeExamBrowser.WindowsApi.Monitoring
 			var module = process.MainModule;
 			var moduleHandle = Kernel32.GetModuleHandle(module.ModuleName);
 
-			// IMORTANT:
+			// IMPORTANT:
 			// Ensures that the hook delegate does not get garbage collected prematurely, as it will be passed to unmanaged code.
 			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
 			hookDelegate = new HookDelegate(LowLevelKeyboardProc);
@@ -108,16 +102,16 @@ namespace SafeExamBrowser.WindowsApi.Monitoring
 		{
 			var keyCode = keyData.KeyCode;
 
-			if (keyCode == LEFT_CTRL || keyCode == RIGHT_CTRL)
+			if (keyCode == (uint) VirtualKeyCode.LeftControl || keyCode == (uint) VirtualKeyCode.RightControl)
 			{
 				ctrlPressed = IsPressed(wParam);
 			}
-			else if (keyCode == LEFT_ALT || keyCode == RIGHT_ALT)
+			else if (keyCode == (uint) VirtualKeyCode.LeftAlt || keyCode == (uint) VirtualKeyCode.RightAlt)
 			{
 				altPressed = IsPressed(wParam);
 			}
 
-			if (ctrlPressed && altPressed && keyCode == DELETE)
+			if (ctrlPressed && altPressed && keyCode == (uint) VirtualKeyCode.Delete)
 			{
 				// When the Secure Attention Sequence is pressed, the WM_KEYUP / WM_SYSKEYUP messages for CTRL and ALT get lost...
 				ctrlPressed = false;

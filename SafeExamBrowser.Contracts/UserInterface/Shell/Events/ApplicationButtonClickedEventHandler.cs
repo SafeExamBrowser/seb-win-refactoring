@@ -8,7 +8,7 @@
 
 using SafeExamBrowser.Contracts.Applications;
 
-namespace SafeExamBrowser.Contracts.UserInterface.Taskbar.Events
+namespace SafeExamBrowser.Contracts.UserInterface.Shell.Events
 {
 	/// <summary>
 	/// Indicates that an <see cref="IApplicationButton"/> has been clicked, optionally specifying the ID of the selected instance (if

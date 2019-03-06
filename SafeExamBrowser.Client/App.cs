@@ -62,12 +62,7 @@ namespace SafeExamBrowser.Client
 
 			var success = instances.ClientController.TryStart();
 
-			if (success)
-			{
-				MainWindow = instances.Taskbar;
-				MainWindow.Show();
-			}
-			else
+			if (!success)
 			{
 				Shutdown();
 			}

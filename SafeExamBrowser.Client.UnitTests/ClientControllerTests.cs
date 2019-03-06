@@ -24,7 +24,7 @@ using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Shell;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
 using SafeExamBrowser.Contracts.WindowsApi;
 
@@ -34,6 +34,7 @@ namespace SafeExamBrowser.Client.UnitTests
 	public class ClientControllerTests
 	{
 		private AppConfig appConfig;
+		private Mock<IActionCenter> actionCenter;
 		private Mock<IBrowserApplicationController> browserController;
 		private Mock<IClientHost> clientHost;
 		private Mock<IDisplayMonitor> displayMonitor;
@@ -58,6 +59,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		public void Initialize()
 		{
 			appConfig = new AppConfig();
+			actionCenter = new Mock<IActionCenter>();
 			browserController = new Mock<IBrowserApplicationController>();
 			clientHost = new Mock<IClientHost>();
 			displayMonitor = new Mock<IDisplayMonitor>();
@@ -81,6 +83,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			uiFactory.Setup(u => u.CreateSplashScreen(It.IsAny<AppConfig>())).Returns(new Mock<ISplashScreen>().Object);
 
 			sut = new ClientController(
+				actionCenter.Object,
 				displayMonitor.Object,
 				explorerShell.Object,
 				hashAlgorithm.Object,
@@ -630,6 +633,21 @@ namespace SafeExamBrowser.Client.UnitTests
 			sut.AppConfig = appConfig;
 
 			splashScreen.VerifySet(s => s.AppConfig = appConfig, Times.Once);
+		}
+
+		[TestMethod]
+		public void Startup_MustCorrectlyHandleTaskbar()
+		{
+			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
+			sut.TryStart();
+
+			taskbar.Verify(t => t.Show(), Times.Once);
+
+			taskbar.Reset();
+			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Aborted);
+			sut.TryStart();
+
+			taskbar.Verify(t => t.Show(), Times.Never);
 		}
 
 		[TestMethod]

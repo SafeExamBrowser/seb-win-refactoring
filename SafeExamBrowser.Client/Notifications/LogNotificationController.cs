@@ -9,7 +9,7 @@
 using SafeExamBrowser.Contracts.Client;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Contracts.UserInterface.Taskbar;
+using SafeExamBrowser.Contracts.UserInterface.Shell;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
 
 namespace SafeExamBrowser.Client.Notifications

@@ -88,6 +88,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			var settings = new Settings();
 
+			settings.ActionCenter.EnableActionCenter = true;
+
 			settings.Browser.StartUrl = "https://www.safeexambrowser.org/start";
 			settings.Browser.AllowConfigurationDownloads = true;
 			settings.Browser.AllowDeveloperConsole = false;
@@ -139,12 +141,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Taskbar.AllowApplicationLog = false;
 			settings.Taskbar.AllowKeyboardLayout = true;
 			settings.Taskbar.AllowWirelessNetwork = false;
+			settings.Taskbar.EnableTaskbar = true;
 			settings.Taskbar.ShowClock = true;
 
 			// TODO: Default values for testing of alpha version only, remove for final release!
 			settings.Browser.AllowDeveloperConsole = true;
 			settings.Browser.MainWindowSettings.AllowAddressBar = true;
-			settings.KioskMode = KioskMode.None;
 			settings.Taskbar.AllowApplicationLog = true;
 
 			return settings;

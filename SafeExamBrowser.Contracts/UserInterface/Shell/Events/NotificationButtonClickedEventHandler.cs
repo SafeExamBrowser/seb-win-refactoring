@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Contracts.UserInterface.Taskbar.Events
+namespace SafeExamBrowser.Contracts.UserInterface.Shell.Events
 {
 	/// <summary>
 	/// Indicates that the user clicked on a <see cref="INotificationButton"/> in the <see cref="ITaskbar"/>.
