@@ -179,33 +179,15 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Communication_MustCorrectlyInitiateShutdown()
 		{
-			var order = 0;
-			var taskbarCall = 0;
-			var shutdownCall = 0;
-
-			taskbar.Setup(t => t.Close()).Callback(() => taskbarCall = ++order);
-			shutdown.Setup(s => s()).Callback(() => shutdownCall = ++order);
-
 			sut.TryStart();
 			clientHost.Raise(c => c.Shutdown += null);
 
-			taskbar.Verify(t => t.Close(), Times.Once);
 			shutdown.Verify(s => s(), Times.Once);
-
-			Assert.AreEqual(1, taskbarCall);
-			Assert.AreEqual(2, shutdownCall);
 		}
 
 		[TestMethod]
 		public void Communication_MustShutdownOnLostConnection()
 		{
-			var order = 0;
-			var taskbarCall = 0;
-			var shutdownCall = 0;
-
-			taskbar.Setup(t => t.Close()).Callback(() => taskbarCall = ++order);
-			shutdown.Setup(s => s()).Callback(() => shutdownCall = ++order);
-
 			sut.TryStart();
 			runtimeProxy.Raise(p => p.ConnectionLost += null);
 
@@ -215,11 +197,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				It.IsAny<MessageBoxAction>(),
 				It.IsAny<MessageBoxIcon>(),
 				It.IsAny<IWindow>()), Times.Once);
-			taskbar.Verify(t => t.Close(), Times.Once);
 			shutdown.Verify(s => s(), Times.Once);
-
-			Assert.AreEqual(1, taskbarCall);
-			Assert.AreEqual(2, shutdownCall);
 		}
 
 		[TestMethod]
@@ -490,6 +468,14 @@ namespace SafeExamBrowser.Client.UnitTests
 		}
 
 		[TestMethod]
+		public void Shutdown_MustCloseActionCenterAndTaskbar()
+		{
+			sut.Terminate();
+			actionCenter.Verify(a => a.Close(), Times.Once);
+			taskbar.Verify(o => o.Close(), Times.Once);
+		}
+
+		[TestMethod]
 		public void Shutdown_MustShowErrorMessageOnCommunicationFailure()
 		{
 			var args = new System.ComponentModel.CancelEventArgs();
@@ -638,6 +624,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Startup_MustCorrectlyHandleTaskbar()
 		{
+			settings.Taskbar.EnableTaskbar = true;
 			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
 			sut.TryStart();
 

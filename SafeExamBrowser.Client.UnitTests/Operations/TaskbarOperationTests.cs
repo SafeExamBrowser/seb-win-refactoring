@@ -56,6 +56,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			settings.AllowApplicationLog = true;
 			settings.AllowKeyboardLayout = true;
 			settings.AllowWirelessNetwork = true;
+			settings.EnableTaskbar = true;
 			systemInfoMock.SetupGet(s => s.HasBattery).Returns(true);
 			uiFactoryMock.Setup(u => u.CreateNotification(It.IsAny<INotificationInfo>())).Returns(new Mock<INotificationButton>().Object);
 
