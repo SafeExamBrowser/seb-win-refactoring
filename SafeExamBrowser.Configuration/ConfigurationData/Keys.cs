@@ -102,6 +102,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class Security
 		{
+			internal const string KioskModeCreateNewDesktop = "createNewDesktop";
+			internal const string KioskModeDisableExplorerShell = "killExplorerShell";
 		}
 
 		internal static class UserInterface

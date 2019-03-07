@@ -84,6 +84,9 @@
     <Compile Include="ConfigurationData\DataMapper.UserInterface.cs">
       <DependentUpon>DataMapper.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConfigurationData\DataMapper.Security.cs">
+      <DependentUpon>DataMapper.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cryptography\HashAlgorithm.cs" />
     <Compile Include="DataFormats\XmlElement.cs" />
     <Compile Include="DataFormats\XmlParser.cs" />

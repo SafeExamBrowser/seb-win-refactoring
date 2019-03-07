@@ -20,6 +20,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				Map(item.Key, item.Value, settings);
 			}
 
+			MapKioskMode(rawData, settings);
 			MapUserAgentMode(rawData, settings);
 		}
 
