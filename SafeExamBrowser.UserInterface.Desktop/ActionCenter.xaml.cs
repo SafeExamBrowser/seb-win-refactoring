@@ -18,7 +18,6 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		public ActionCenter()
 		{
 			InitializeComponent();
-			RegisterEvents();
 		}
 
 		public new void Close()
@@ -58,7 +57,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			Storyboard.SetTargetProperty(animation, new PropertyPath(LeftProperty));
 
 			storyboard.Children.Add(animation);
-			storyboard.Completed += (o, args) => Dispatcher.Invoke(base.Hide);
+			storyboard.Completed += HideAnimation_Completed;
 			storyboard.Begin();
 		}
 
@@ -78,10 +77,9 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 			InitializeBounds();
 			base.Show();
-			Activate();
 
 			storyboard.Children.Add(animation);
-			storyboard.Completed += (o, args) => Dispatcher.Invoke(Activate);
+			storyboard.Completed += ShowAnimation_Completed;
 			storyboard.Begin();
 		}
 
@@ -92,9 +90,21 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			Left = -Width;
 		}
 
-		private void RegisterEvents()
+		private void ShowAnimation_Completed(object sender, EventArgs e)
 		{
-			Deactivated += (o, args) => HideAnimated();
+			Activate();
+			Deactivated += ActionCenter_Deactivated;
+		}
+
+		private void HideAnimation_Completed(object sender, EventArgs e)
+		{
+			Deactivated -= ActionCenter_Deactivated;
+			base.Hide();
+		}
+
+		private void ActionCenter_Deactivated(object sender, EventArgs e)
+		{
+			HideAnimated();
 		}
 
 		private void Activator_Activate()
