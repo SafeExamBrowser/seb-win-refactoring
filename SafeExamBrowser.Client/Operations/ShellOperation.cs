@@ -1,0 +1,275 @@
+﻿/*
+ * Copyright (c) 2019 ETH Zürich, Educational Development and Technology (LET)
+ * 
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+using System.Collections.Generic;
+using SafeExamBrowser.Contracts.Client;
+using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Core.OperationModel.Events;
+using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.SystemComponents;
+using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.Contracts.UserInterface.Shell;
+
+namespace SafeExamBrowser.Client.Operations
+{
+	internal class ShellOperation : IOperation
+	{
+		private IActionCenter actionCenter;
+		private IEnumerable<IActionCenterActivator> activators;
+		private ActionCenterSettings actionCenterSettings;
+		private ILogger logger;
+		private INotificationInfo aboutInfo;
+		private INotificationController aboutController;
+		private INotificationInfo logInfo;
+		private INotificationController logController;
+		private ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout;
+		private ISystemComponent<ISystemPowerSupplyControl> powerSupply;
+		private ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork;
+		private ISystemInfo systemInfo;
+		private ITaskbar taskbar;
+		private TaskbarSettings taskbarSettings;
+		private IUserInterfaceFactory uiFactory;
+
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public event StatusChangedEventHandler StatusChanged;
+
+		public ShellOperation(
+			IActionCenter actionCenter,
+			IEnumerable<IActionCenterActivator> activators,
+			ActionCenterSettings actionCenterSettings,
+			ILogger logger,
+			INotificationInfo aboutInfo,
+			INotificationController aboutController,
+			INotificationInfo logInfo,
+			INotificationController logController,
+			ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout,
+			ISystemComponent<ISystemPowerSupplyControl> powerSupply,
+			ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork,
+			ISystemInfo systemInfo,
+			ITaskbar taskbar,
+			TaskbarSettings taskbarSettings,
+			IUserInterfaceFactory uiFactory)
+		{
+			this.aboutInfo = aboutInfo;
+			this.aboutController = aboutController;
+			this.actionCenter = actionCenter;
+			this.activators = activators;
+			this.actionCenterSettings = actionCenterSettings;
+			this.logger = logger;
+			this.logInfo = logInfo;
+			this.logController = logController;
+			this.keyboardLayout = keyboardLayout;
+			this.powerSupply = powerSupply;
+			this.taskbarSettings = taskbarSettings;
+			this.systemInfo = systemInfo;
+			this.taskbar = taskbar;
+			this.uiFactory = uiFactory;
+			this.wirelessNetwork = wirelessNetwork;
+		}
+
+		public OperationResult Perform()
+		{
+			logger.Info("Initializing shell...");
+			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeShell);
+
+			InitializeSystemComponents();
+			InitializeActionCenter();
+			InitializeTaskbar();
+
+			return OperationResult.Success;
+		}
+
+		public OperationResult Revert()
+		{
+			logger.Info("Terminating shell...");
+			StatusChanged?.Invoke(TextKey.OperationStatus_TerminateShell);
+
+			TerminateNotifications();
+			TerminateSystemComponents();
+
+			return OperationResult.Success;
+		}
+
+		private void InitializeActionCenter()
+		{
+			if (actionCenterSettings.EnableActionCenter)
+			{
+				logger.Info("Initializing action center...");
+
+				InitializeAboutNotificationForActionCenter();
+				InitializeClockForActionCenter();
+				InitializeLogNotificationForActionCenter();
+				InitializeKeyboardLayoutForActionCenter();
+				InitializeWirelessNetworkForActionCenter();
+				InitializePowerSupplyForActionCenter();
+
+				//if (settings.AllowKeyboardLayout)
+				//{
+				//	AddKeyboardLayoutControl();
+				//}
+
+				//if (settings.AllowWirelessNetwork)
+				//{
+				//	AddWirelessNetworkControl();
+				//}
+
+				//if (systemInfo.HasBattery)
+				//{
+				//	AddPowerSupplyControl();
+				//}
+
+				foreach (var activator in activators)
+				{
+					actionCenter.Register(activator);
+					activator.Start();
+				}
+			}
+			else
+			{
+				logger.Info("Action center is disabled, skipping initialization.");
+			}
+		}
+
+		private void InitializeTaskbar()
+		{
+			if (taskbarSettings.EnableTaskbar)
+			{
+				logger.Info("Initializing taskbar...");
+
+				InitializeAboutNotificationForTaskbar();
+				InitializeClockForTaskbar();
+				InitializeLogNotificationForTaskbar();
+				InitializeKeyboardLayoutForTaskbar();
+				InitializeWirelessNetworkForTaskbar();
+				InitializePowerSupplyForTaskbar();
+			}
+			else
+			{
+				logger.Info("Taskbar is disabled, skipping initialization.");
+			}
+		}
+
+		private void InitializeSystemComponents()
+		{
+			keyboardLayout.Initialize();
+			powerSupply.Initialize();
+			wirelessNetwork.Initialize();
+		}
+
+		private void InitializeAboutNotificationForActionCenter()
+		{
+			var notification = uiFactory.CreateNotificationControl(aboutInfo, Location.ActionCenter);
+
+			aboutController.RegisterNotification(notification);
+			actionCenter.AddNotificationControl(notification);
+		}
+
+		private void InitializeAboutNotificationForTaskbar()
+		{
+			var notification = uiFactory.CreateNotificationControl(aboutInfo, Location.Taskbar);
+
+			aboutController.RegisterNotification(notification);
+			taskbar.AddNotificationControl(notification);
+		}
+
+		private void InitializeClockForActionCenter()
+		{
+			//TODO: actionCenter.ShowClock = settings.ShowClock;
+		}
+
+		private void InitializeClockForTaskbar()
+		{
+			taskbar.ShowClock = taskbarSettings.ShowClock;
+		}
+
+		private void InitializeLogNotificationForActionCenter()
+		{
+			if (actionCenterSettings.AllowApplicationLog)
+			{
+				var notification = uiFactory.CreateNotificationControl(logInfo, Location.ActionCenter);
+
+				logController.RegisterNotification(notification);
+				actionCenter.AddNotificationControl(notification);
+			}
+		}
+
+		private void InitializeLogNotificationForTaskbar()
+		{
+			if (taskbarSettings.AllowApplicationLog)
+			{
+				var notification = uiFactory.CreateNotificationControl(logInfo, Location.Taskbar);
+
+				logController.RegisterNotification(notification);
+				taskbar.AddNotificationControl(notification);
+			}
+		}
+
+		private void InitializeKeyboardLayoutForActionCenter()
+		{
+			// TODO
+		}
+
+		private void InitializeKeyboardLayoutForTaskbar()
+		{
+			if (taskbarSettings.AllowKeyboardLayout)
+			{
+				var control = uiFactory.CreateKeyboardLayoutControl();
+
+				keyboardLayout.Register(control);
+				taskbar.AddSystemControl(control);
+			}
+		}
+
+		private void InitializePowerSupplyForActionCenter()
+		{
+			// TODO
+		}
+
+		private void InitializePowerSupplyForTaskbar()
+		{
+			if (systemInfo.HasBattery)
+			{
+				var control = uiFactory.CreatePowerSupplyControl();
+
+				powerSupply.Register(control);
+				taskbar.AddSystemControl(control);
+			}
+		}
+
+		private void InitializeWirelessNetworkForActionCenter()
+		{
+			// TODO
+		}
+
+		private void InitializeWirelessNetworkForTaskbar()
+		{
+			if (taskbarSettings.AllowWirelessNetwork)
+			{
+				var control = uiFactory.CreateWirelessNetworkControl();
+
+				wirelessNetwork.Register(control);
+				taskbar.AddSystemControl(control);
+			}
+		}
+
+		private void TerminateNotifications()
+		{
+			aboutController.Terminate();
+			logController.Terminate();
+		}
+
+		private void TerminateSystemComponents()
+		{
+			keyboardLayout.Terminate();
+			powerSupply.Terminate();
+			wirelessNetwork.Terminate();
+		}
+	}
+}

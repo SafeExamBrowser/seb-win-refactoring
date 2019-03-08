@@ -33,12 +33,18 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		public void AddNotificationControl(INotificationControl control)
 		{
-			
+			if (control is UIElement uiElement)
+			{
+				ControlPanel.Children.Add(uiElement);
+			}
 		}
 
 		public void AddSystemControl(ISystemControl control)
 		{
-			
+			if (control is UIElement uiElement)
+			{
+				ControlPanel.Children.Add(uiElement);
+			}
 		}
 
 		public new void Close()

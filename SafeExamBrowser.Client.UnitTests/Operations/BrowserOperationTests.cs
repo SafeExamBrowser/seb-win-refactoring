@@ -44,16 +44,11 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void MustPeformCorrectly()
 		{
-			var order = 0;
-
-			controller.Setup(c => c.Initialize()).Callback(() => Assert.AreEqual(++order, 1));
-			controller.Setup(c => c.RegisterApplicationControl(It.IsAny<IApplicationControl>())).Callback(() => Assert.AreEqual(++order, 2));
-			taskbar.Setup(t => t.AddApplicationControl(It.IsAny<IApplicationControl>())).Callback(() => Assert.AreEqual(++order, 3));
-
 			sut.Perform();
 
 			controller.Verify(c => c.Initialize(), Times.Once);
-			controller.Verify(c => c.RegisterApplicationControl(It.IsAny<IApplicationControl>()), Times.Once);
+			controller.Verify(c => c.RegisterApplicationControl(It.IsAny<IApplicationControl>()), Times.Exactly(2));
+			actionCenter.Verify(a => a.AddApplicationControl(It.IsAny<IApplicationControl>()), Times.Once);
 			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>()), Times.Once);
 		}
 
@@ -61,7 +56,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void MustRevertCorrectly()
 		{
 			sut.Revert();
-
 			controller.Verify(c => c.Terminate(), Times.Once);
 		}
 	}

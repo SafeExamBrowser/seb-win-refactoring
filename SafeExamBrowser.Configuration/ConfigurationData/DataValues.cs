@@ -145,6 +145,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Taskbar.ShowClock = true;
 
 			// TODO: Default values for testing of alpha version only, remove for final release!
+			settings.ActionCenter.AllowApplicationLog = true;
 			settings.Browser.AllowDeveloperConsole = true;
 			settings.Browser.MainWindowSettings.AllowAddressBar = true;
 			settings.Taskbar.AllowApplicationLog = true;

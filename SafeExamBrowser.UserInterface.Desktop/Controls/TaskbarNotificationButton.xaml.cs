@@ -15,11 +15,11 @@ using SafeExamBrowser.UserInterface.Desktop.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
-	public partial class NotificationButton : UserControl, INotificationControl
+	public partial class TaskbarNotificationButton : UserControl, INotificationControl
 	{
 		public event NotificationControlClickedEventHandler Clicked;
 
-		public NotificationButton(INotificationInfo info)
+		public TaskbarNotificationButton(INotificationInfo info)
 		{
 			InitializeComponent();
 			InitializeNotificationIcon(info);

@@ -80,6 +80,9 @@
     <Compile Include="Controls\ActionCenterApplicationButton.xaml.cs">
       <DependentUpon>ActionCenterApplicationButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ActionCenterNotificationButton.xaml.cs">
+      <DependentUpon>ActionCenterNotificationButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TaskbarApplicationControl.xaml.cs">
       <DependentUpon>TaskbarApplicationControl.xaml</DependentUpon>
     </Compile>
@@ -95,8 +98,8 @@
     <Compile Include="Controls\KeyboardLayoutControl.xaml.cs">
       <DependentUpon>KeyboardLayoutControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\NotificationButton.xaml.cs">
-      <DependentUpon>NotificationButton.xaml</DependentUpon>
+    <Compile Include="Controls\TaskbarNotificationButton.xaml.cs">
+      <DependentUpon>TaskbarNotificationButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PowerSupplyControl.xaml.cs">
       <DependentUpon>PowerSupplyControl.xaml</DependentUpon>
@@ -151,6 +154,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\ActionCenterNotificationButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\TaskbarApplicationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -171,7 +178,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\NotificationButton.xaml">
+    <Page Include="Controls\TaskbarNotificationButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

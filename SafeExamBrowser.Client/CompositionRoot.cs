@@ -116,8 +116,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new LazyInitializationOperation(BuildWindowMonitorOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildProcessMonitorOperation));
 			operations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, taskbar));
-			operations.Enqueue(new LazyInitializationOperation(BuildActionCenterOperation));
-			operations.Enqueue(new LazyInitializationOperation(BuildTaskbarOperation));
+			operations.Enqueue(new LazyInitializationOperation(BuildShellOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildBrowserOperation));
 			operations.Enqueue(new ClipboardOperation(logger, nativeMethods));
 			operations.Enqueue(new DelegateOperation(UpdateClientControllerDependencies));
@@ -196,35 +195,6 @@ namespace SafeExamBrowser.Client
 			textResource = new XmlTextResource(path);
 		}
 
-		private IOperation BuildActionCenterOperation()
-		{
-			var aboutInfo = new AboutNotificationInfo(text);
-			var aboutController = new AboutNotificationController(configuration.AppConfig, uiFactory);
-			var logInfo = new LogNotificationInfo(text);
-			var logController = new LogNotificationController(logger, uiFactory);
-			var activators = new IActionCenterActivator[]
-			{
-				new KeyboardActivator(new ModuleLogger(logger, nameof(KeyboardActivator))),
-				new TouchActivator(new ModuleLogger(logger, nameof(TouchActivator)))
-			};
-			var operation = new ActionCenterOperation(
-				actionCenter,
-				activators,
-				logger,
-				aboutInfo,
-				aboutController,
-				logInfo,
-				logController,
-				keyboardLayout,
-				powerSupply,
-				wirelessNetwork,
-				configuration.Settings.ActionCenter,
-				systemInfo,
-				uiFactory);
-
-			return operation;
-		}
-
 		private IOperation BuildBrowserOperation()
 		{
 			var moduleLogger = new ModuleLogger(logger, "BrowserController");
@@ -280,13 +250,21 @@ namespace SafeExamBrowser.Client
 			return new ProcessMonitorOperation(logger, processMonitor, configuration.Settings);
 		}
 
-		private IOperation BuildTaskbarOperation()
+		private IOperation BuildShellOperation()
 		{
 			var aboutInfo = new AboutNotificationInfo(text);
 			var aboutController = new AboutNotificationController(configuration.AppConfig, uiFactory);
 			var logInfo = new LogNotificationInfo(text);
 			var logController = new LogNotificationController(logger, uiFactory);
-			var operation = new TaskbarOperation(
+			var activators = new IActionCenterActivator[]
+			{
+				new KeyboardActivator(new ModuleLogger(logger, nameof(KeyboardActivator))),
+				new TouchActivator(new ModuleLogger(logger, nameof(TouchActivator)))
+			};
+			var operation = new ShellOperation(
+				actionCenter,
+				activators,
+				configuration.Settings.ActionCenter,
 				logger,
 				aboutInfo,
 				aboutController,

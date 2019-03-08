@@ -9,12 +9,12 @@
 namespace SafeExamBrowser.Contracts.UserInterface.Shell
 {
 	/// <summary>
-	/// The control of a system component which can be loaded into the <see cref="ITaskbar"/>.
+	/// The control of a system component which can be loaded into the shell.
 	/// </summary>
 	public interface ISystemControl
 	{
 		/// <summary>
-		/// Closes any pop-up windows associated with this control.
+		/// Closes the control and / or any associated user interface elements.
 		/// </summary>
 		void Close();
 

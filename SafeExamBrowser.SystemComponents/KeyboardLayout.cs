@@ -21,23 +21,19 @@ namespace SafeExamBrowser.SystemComponents
 		private IList<KeyboardLayoutDefinition> layouts = new List<KeyboardLayoutDefinition>();
 		private ILogger logger;
 		private InputLanguage originalLanguage;
-		private ISystemKeyboardLayoutControl control;
+		private IList<ISystemKeyboardLayoutControl> controls;
 		private IText text;
 
 		public KeyboardLayout(ILogger logger, IText text)
 		{
+			this.controls = new List<ISystemKeyboardLayoutControl>();
 			this.logger = logger;
 			this.text = text;
 		}
 
-		public void Initialize(ISystemKeyboardLayoutControl control)
+		public void Initialize()
 		{
-			this.control = control;
-
 			originalLanguage = InputLanguage.CurrentInputLanguage;
-			control.LayoutSelected += Control_LayoutSelected;
-			control.SetTooltip(text.Get(TextKey.SystemControl_KeyboardLayoutTooltip));
-
 			logger.Info($"Saved current keyboard layout {ToString(originalLanguage)}.");
 
 			foreach (InputLanguage language in InputLanguage.InstalledInputLanguages)
@@ -50,21 +46,35 @@ namespace SafeExamBrowser.SystemComponents
 					Name = language.LayoutName
 				};
 
-				control.Add(layout);
 				layouts.Add(layout);
-
-				logger.Info($"Added keyboard layout {ToString(language)} to system control.");
+				logger.Info($"Detected keyboard layout {ToString(language)}.");
 			}
+		}
+
+		public void Register(ISystemKeyboardLayoutControl control)
+		{
+			control.LayoutSelected += Control_LayoutSelected;
+			control.SetTooltip(text.Get(TextKey.SystemControl_KeyboardLayoutTooltip));
+
+			foreach (var layout in layouts)
+			{
+				control.Add(layout);
+			}
+
+			controls.Add(control);
 		}
 
 		public void Terminate()
 		{
-			control?.Close();
-
 			if (originalLanguage != null)
 			{
 				InputLanguage.CurrentInputLanguage = originalLanguage;
 				logger.Info($"Restored original keyboard layout {ToString(originalLanguage)}.");
+			}
+
+			foreach (var control in controls)
+			{
+				control.Close();
 			}
 		}
 

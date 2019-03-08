@@ -72,7 +72,6 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="ClientController.cs" />
-    <Compile Include="Operations\ActionCenterOperation.cs" />
     <Compile Include="Operations\ClientHostDisconnectionOperation.cs" />
     <Compile Include="Operations\ConfigurationOperation.cs" />
     <Compile Include="Operations\InitializationOperation.cs" />
@@ -91,7 +90,7 @@
     <Compile Include="Operations\KeyboardInterceptorOperation.cs" />
     <Compile Include="Operations\MouseInterceptorOperation.cs" />
     <Compile Include="Operations\ProcessMonitorOperation.cs" />
-    <Compile Include="Operations\TaskbarOperation.cs" />
+    <Compile Include="Operations\ShellOperation.cs" />
     <Compile Include="Operations\WindowMonitorOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

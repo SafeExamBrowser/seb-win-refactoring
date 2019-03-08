@@ -86,9 +86,16 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			return logWindow;
 		}
 
-		public INotificationControl CreateNotificationControl(INotificationInfo info)
+		public INotificationControl CreateNotificationControl(INotificationInfo info, Location location)
 		{
-			return new NotificationButton(info);
+			if (location == Location.ActionCenter)
+			{
+				return new ActionCenterNotificationButton(info);
+			}
+			else
+			{
+				return new TaskbarNotificationButton(info);
+			}
 		}
 
 		public IPasswordDialog CreatePasswordDialog(string message, string title)

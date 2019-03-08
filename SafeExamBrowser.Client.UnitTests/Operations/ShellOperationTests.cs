@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Operations;
@@ -19,10 +20,13 @@ using SafeExamBrowser.Contracts.UserInterface.Shell;
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
 	[TestClass]
-	public class TaskbarOperationTests
+	public class ShellOperationTests
 	{
+		private Mock<IActionCenter> actionCenter;
+		private Mock<IEnumerable<IActionCenterActivator>> activators;
+		private ActionCenterSettings actionCenterSettings;
 		private Mock<ILogger> loggerMock;
-		private TaskbarSettings settings;
+		private TaskbarSettings taskbarSettings;
 		private Mock<INotificationInfo> aboutInfoMock;
 		private Mock<INotificationController> aboutControllerMock;
 		private Mock<INotificationInfo> logInfoMock;
@@ -34,11 +38,14 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<ITaskbar> taskbarMock;
 		private Mock<IUserInterfaceFactory> uiFactoryMock;
 
-		private TaskbarOperation sut;
+		private ShellOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
+			actionCenter = new Mock<IActionCenter>();
+			activators = new Mock<IEnumerable<IActionCenterActivator>>();
+			actionCenterSettings = new ActionCenterSettings();
 			loggerMock = new Mock<ILogger>();
 			aboutInfoMock = new Mock<INotificationInfo>();
 			aboutControllerMock = new Mock<INotificationController>();
@@ -49,17 +56,20 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			wirelessNetworkMock = new Mock<ISystemComponent<ISystemWirelessNetworkControl>>();
 			systemInfoMock = new Mock<ISystemInfo>();
 			taskbarMock = new Mock<ITaskbar>();
-			settings = new TaskbarSettings();
+			taskbarSettings = new TaskbarSettings();
 			uiFactoryMock = new Mock<IUserInterfaceFactory>();
 
-			settings.AllowApplicationLog = true;
-			settings.AllowKeyboardLayout = true;
-			settings.AllowWirelessNetwork = true;
-			settings.EnableTaskbar = true;
+			taskbarSettings.AllowApplicationLog = true;
+			taskbarSettings.AllowKeyboardLayout = true;
+			taskbarSettings.AllowWirelessNetwork = true;
+			taskbarSettings.EnableTaskbar = true;
 			systemInfoMock.SetupGet(s => s.HasBattery).Returns(true);
-			uiFactoryMock.Setup(u => u.CreateNotificationControl(It.IsAny<INotificationInfo>())).Returns(new Mock<INotificationControl>().Object);
+			uiFactoryMock.Setup(u => u.CreateNotificationControl(It.IsAny<INotificationInfo>(), It.IsAny<Location>())).Returns(new Mock<INotificationControl>().Object);
 
-			sut = new TaskbarOperation(
+			sut = new ShellOperation(
+				actionCenter.Object,
+				activators.Object,
+				actionCenterSettings,
 				loggerMock.Object,
 				aboutInfoMock.Object,
 				aboutControllerMock.Object,
@@ -70,7 +80,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 				wirelessNetworkMock.Object,
 				systemInfoMock.Object,
 				taskbarMock.Object,
-				settings,
+				taskbarSettings,
 				uiFactoryMock.Object);
 		}
 
@@ -79,9 +89,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			sut.Perform();
 
-			keyboardLayoutMock.Verify(k => k.Initialize(It.IsAny<ISystemKeyboardLayoutControl>()), Times.Once);
-			powerSupplyMock.Verify(p => p.Initialize(It.IsAny<ISystemPowerSupplyControl>()), Times.Once);
-			wirelessNetworkMock.Verify(w => w.Initialize(It.IsAny<ISystemWirelessNetworkControl>()), Times.Once);
+			keyboardLayoutMock.Verify(k => k.Initialize(), Times.Once);
+			powerSupplyMock.Verify(p => p.Initialize(), Times.Once);
+			wirelessNetworkMock.Verify(w => w.Initialize(), Times.Once);
 			taskbarMock.Verify(t => t.AddSystemControl(It.IsAny<ISystemControl>()), Times.Exactly(3));
 			taskbarMock.Verify(t => t.AddNotificationControl(It.IsAny<INotificationControl>()), Times.Exactly(2));
 		}

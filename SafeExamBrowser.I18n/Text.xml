@@ -126,9 +126,6 @@
   <Entry key="OperationStatus_FinalizeServiceSession">
     Finalizing service session
   </Entry>
-  <Entry key="OperationStatus_InitializeActionCenter">
-    Initializing action center
-  </Entry>
   <Entry key="OperationStatus_InitializeBrowser">
     Initializing browser
   </Entry>
@@ -153,8 +150,8 @@
   <Entry key="OperationStatus_InitializeSession">
     Initializing new session
   </Entry>
-  <Entry key="OperationStatus_InitializeTaskbar">
-    Initializing taskbar
+  <Entry key="OperationStatus_InitializeShell">
+    Initializing user interface
   </Entry>
   <Entry key="OperationStatus_InitializeWindowMonitoring">
     Initializing window monitoring
@@ -201,14 +198,11 @@
   <Entry key="OperationStatus_StopWindowMonitoring">
     Stopping window monitoring
   </Entry>
-  <Entry key="OperationStatus_TerminateActionCenter">
-    Terminating action center
-  </Entry>
   <Entry key="OperationStatus_TerminateBrowser">
     Terminating browser
   </Entry>
-  <Entry key="OperationStatus_TerminateTaskbar">
-    Terminating taskbar
+  <Entry key="OperationStatus_TerminateShell">
+    Terminating user interface
   </Entry>
   <Entry key="OperationStatus_WaitExplorerStartup">
     Waiting for Windows explorer to start up

@@ -20,14 +20,6 @@
         <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Template="{StaticResource SmallBarScrollViewer}">
             <StackPanel x:Name="ApplicationPanel" Orientation="Vertical" />
         </ScrollViewer>
-        <UniformGrid x:Name="ControlPanel" Grid.Row="1" Columns="4" Margin="5">
-            <Label Height="60">Control</Label>
-            <Label Height="60">Control</Label>
-            <Label Height="60">Control</Label>
-            <Label Height="60">Control</Label>
-            <Label Height="60">Control</Label>
-            <Label Height="60">Control</Label>
-            <Label Height="60">Control</Label>
-        </UniformGrid>
+        <UniformGrid x:Name="ControlPanel" Grid.Row="1" Columns="4" Margin="5" />
     </Grid>
 </Window>

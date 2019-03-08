@@ -25,38 +25,30 @@ namespace SafeExamBrowser.SystemComponents
 		private const int TWO_SECONDS = 2000;
 		private readonly object @lock = new object();
 
-		private ISystemWirelessNetworkControl control;
+		private IList<ISystemWirelessNetworkControl> controls;
+		private IList<WirelessNetworkDefinition> networks;
+		private bool hasWifiAdapter;
 		private ILogger logger;
-		private IList<WirelessNetworkDefinition> networks = new List<WirelessNetworkDefinition>();
 		private IText text;
 		private Timer timer;
 		private Wifi wifi;
 
 		public WirelessNetwork(ILogger logger, IText text)
 		{
+			this.controls = new List<ISystemWirelessNetworkControl>();
 			this.logger = logger;
+			this.networks = new List<WirelessNetworkDefinition>();
 			this.text = text;
 		}
 
-		public void Initialize(ISystemWirelessNetworkControl control)
+		public void Initialize()
 		{
-			this.control = control;
-			this.wifi = new Wifi();
+			wifi = new Wifi();
+			wifi.ConnectionStatusChanged += Wifi_ConnectionStatusChanged;
+			hasWifiAdapter = !wifi.NoWifiAvailable && !IsTurnedOff();
 
-			if (wifi.NoWifiAvailable || IsTurnedOff())
+			if (hasWifiAdapter)
 			{
-				control.HasWirelessNetworkAdapter = false;
-				control.SetTooltip(text.Get(TextKey.SystemControl_WirelessNotAvailable));
-				logger.Info("Wireless networks cannot be monitored, as there is no hardware adapter available or it is turned off.");
-			}
-			else
-			{
-				control.HasWirelessNetworkAdapter = true;
-				control.NetworkSelected += Control_NetworkSelected;
-				wifi.ConnectionStatusChanged += Wifi_ConnectionStatusChanged;
-
-				UpdateControl();
-
 				timer = new Timer(TWO_SECONDS);
 				timer.Elapsed += Timer_Elapsed;
 				timer.AutoReset = true;
@@ -64,16 +56,44 @@ namespace SafeExamBrowser.SystemComponents
 
 				logger.Info("Started monitoring the wireless network adapter.");
 			}
+			else
+			{
+				logger.Info("Wireless networks cannot be monitored, as there is no hardware adapter available or it is turned off.");
+			}
+		}
+
+		public void Register(ISystemWirelessNetworkControl control)
+		{
+			if (hasWifiAdapter)
+			{
+				control.HasWirelessNetworkAdapter = true;
+				control.NetworkSelected += Control_NetworkSelected;
+			}
+			else
+			{
+				control.HasWirelessNetworkAdapter = false;
+				control.SetTooltip(text.Get(TextKey.SystemControl_WirelessNotAvailable));
+			}
+
+			controls.Add(control);
+
+			if (hasWifiAdapter)
+			{
+				UpdateControls();
+			}
 		}
 
 		public void Terminate()
 		{
-			timer?.Stop();
-			control?.Close();
-
 			if (timer != null)
 			{
+				timer.Stop();
 				logger.Info("Stopped monitoring the wireless network adapter.");
+			}
+
+			foreach (var control in controls)
+			{
+				control.Close();
 			}
 		}
 
@@ -85,7 +105,11 @@ namespace SafeExamBrowser.SystemComponents
 				var authRequest = new AuthRequest(accessPoint);
 
 				accessPoint.ConnectAsync(authRequest, false, (success) => AccessPoint_OnConnectComplete(network.Name, success));
-				control.IsConnecting = true;
+
+				foreach (var control in controls)
+				{
+					control.IsConnecting = true;
+				}
 			}
 			catch (Exception e)
 			{
@@ -104,18 +128,22 @@ namespace SafeExamBrowser.SystemComponents
 				logger.Error($"Failed to connect to wireless network '{name}!'");
 			}
 
-			control.IsConnecting = false;
-			UpdateControl();
+			foreach (var control in controls)
+			{
+				control.IsConnecting = false;
+			}
+
+			UpdateControls();
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			UpdateControl();
+			UpdateControls();
 		}
 
 		private void Wifi_ConnectionStatusChanged(object sender, WifiStatusEventArgs e)
 		{
-			UpdateControl();
+			UpdateControls();
 		}
 
 		private bool IsTurnedOff()
@@ -143,12 +171,15 @@ namespace SafeExamBrowser.SystemComponents
 			return true;
 		}
 
-		private void UpdateControl()
+		private void UpdateControls()
 		{
 			lock (@lock)
 			{
 				try
 				{
+					var isConnected = false;
+					var networkName = string.Empty;
+
 					networks.Clear();
 
 					foreach (var accessPoint in wifi.GetAccessPoints())
@@ -156,22 +187,28 @@ namespace SafeExamBrowser.SystemComponents
 						// The user may only connect to an already configured wireless network!
 						if (accessPoint.HasProfile)
 						{
-							networks.Add(ToDefinition(accessPoint));
+							networkName = accessPoint.Name;
+							isConnected = accessPoint.IsConnected;
 
-							if (accessPoint.IsConnected)
-							{
-								control.SetTooltip(text.Get(TextKey.SystemControl_WirelessConnected).Replace("%%NAME%%", accessPoint.Name));
-							}
+							networks.Add(ToDefinition(accessPoint));
 						}
 					}
 
-					if (wifi.ConnectionStatus == WifiStatus.Disconnected)
+					foreach (var control in controls)
 					{
-						control.SetTooltip(text.Get(TextKey.SystemControl_WirelessDisconnected));
-					}
+						if (wifi.ConnectionStatus == WifiStatus.Disconnected)
+						{
+							control.SetTooltip(text.Get(TextKey.SystemControl_WirelessDisconnected));
+						}
 
-					control.NetworkStatus = ToStatus(wifi.ConnectionStatus);
-					control.Update(new List<IWirelessNetwork>(networks));
+						if (isConnected)
+						{
+							control.SetTooltip(text.Get(TextKey.SystemControl_WirelessConnected).Replace("%%NAME%%", networkName));
+						}
+
+						control.NetworkStatus = ToStatus(wifi.ConnectionStatus);
+						control.Update(new List<IWirelessNetwork>(networks));
+					}
 				}
 				catch (Exception e)
 				{
