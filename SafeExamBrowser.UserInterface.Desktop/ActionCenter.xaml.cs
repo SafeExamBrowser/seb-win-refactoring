@@ -10,14 +10,35 @@ using System;
 using System.Windows;
 using System.Windows.Media.Animation;
 using SafeExamBrowser.Contracts.UserInterface.Shell;
+using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 
 namespace SafeExamBrowser.UserInterface.Desktop
 {
 	public partial class ActionCenter : Window, IActionCenter
 	{
+		public event QuitButtonClickedEventHandler QuitButtonClicked;
+
 		public ActionCenter()
 		{
 			InitializeComponent();
+		}
+
+		public void AddApplicationControl(IApplicationControl control)
+		{
+			if (control is UIElement uiElement)
+			{
+				ApplicationPanel.Children.Add(uiElement);
+			}
+		}
+
+		public void AddNotificationControl(INotificationControl control)
+		{
+			
+		}
+
+		public void AddSystemControl(ISystemControl control)
+		{
+			
 		}
 
 		public new void Close()

@@ -230,7 +230,7 @@ namespace SafeExamBrowser.Client
 			var moduleLogger = new ModuleLogger(logger, "BrowserController");
 			var browserController = new BrowserApplicationController(configuration.AppConfig, configuration.Settings.Browser, messageBox, moduleLogger, text, uiFactory);
 			var browserInfo = new BrowserApplicationInfo();
-			var operation = new BrowserOperation(browserController, browserInfo, logger, taskbar, uiFactory);
+			var operation = new BrowserOperation(actionCenter, browserController, browserInfo, logger, taskbar, uiFactory);
 
 			this.browserController = browserController;
 

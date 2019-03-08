@@ -38,17 +38,17 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			QuitButton.Clicked += QuitButton_Clicked;
 		}
 
-		public void AddApplication(IApplicationButton button)
+		public void AddApplicationControl(IApplicationControl control)
 		{
-			if (button is UIElement uiElement)
+			if (control is UIElement uiElement)
 			{
 				ApplicationStackPanel.Children.Add(uiElement);
 			}
 		}
 
-		public void AddNotification(INotificationButton button)
+		public void AddNotificationControl(INotificationControl control)
 		{
-			if (button is UIElement uiElement)
+			if (control is UIElement uiElement)
 			{
 				NotificationStackPanel.Children.Add(uiElement);
 			}

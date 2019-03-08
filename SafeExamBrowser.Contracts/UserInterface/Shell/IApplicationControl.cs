@@ -12,18 +12,18 @@ using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 namespace SafeExamBrowser.Contracts.UserInterface.Shell
 {
 	/// <summary>
-	/// The button of a (third-party) application which can be loaded into the <see cref="ITaskbar"/>.
+	/// The control for a (third-party) application which can be loaded into the shell.
 	/// </summary>
-	public interface IApplicationButton
+	public interface IApplicationControl
 	{
 		/// <summary>
-		/// Event fired when the user clicked on the application button. If multiple instances of an application are active,
-		/// the handler is only executed when the user selects one of the instances.
+		/// Event fired when the user clicked on the application control. If multiple instances of an application are active,
+		/// the handler should only executed when the user selects one of the instances.
 		/// </summary>
-		event ApplicationButtonClickedEventHandler Clicked;
+		event ApplicationControlClickedEventHandler Clicked;
 
 		/// <summary>
-		/// Registers a new instance of an application, to be started / displayed if the user clicked the taskbar button.
+		/// Registers a new instance of an application to be accessed via the application control.
 		/// </summary>
 		void RegisterInstance(IApplicationInstance instance);
 	}

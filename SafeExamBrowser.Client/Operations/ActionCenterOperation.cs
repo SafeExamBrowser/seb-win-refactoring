@@ -11,6 +11,7 @@ using SafeExamBrowser.Contracts.Client;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Core.OperationModel.Events;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -69,10 +70,21 @@ namespace SafeExamBrowser.Client.Operations
 
 		public OperationResult Perform()
 		{
-			foreach (var activator in activators)
+			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeActionCenter);
+
+			if (settings.EnableActionCenter)
 			{
-				actionCenter.Register(activator);
-				activator.Start();
+				logger.Info("Initializing action center...");
+
+				foreach (var activator in activators)
+				{
+					actionCenter.Register(activator);
+					activator.Start();
+				}
+			}
+			else
+			{
+				logger.Info("Action center is disabled, skipping initialization.");
 			}
 
 			return OperationResult.Success;
@@ -80,9 +92,20 @@ namespace SafeExamBrowser.Client.Operations
 
 		public OperationResult Revert()
 		{
-			foreach (var activator in activators)
+			StatusChanged?.Invoke(TextKey.OperationStatus_TerminateActionCenter);
+
+			if (settings.EnableActionCenter)
 			{
-				activator.Stop();
+				logger.Info("Terminating action center...");
+
+				foreach (var activator in activators)
+				{
+					activator.Stop();
+				}
+			}
+			else
+			{
+				logger.Info("Action center was disabled, skipping termination.");
 			}
 
 			return OperationResult.Success;

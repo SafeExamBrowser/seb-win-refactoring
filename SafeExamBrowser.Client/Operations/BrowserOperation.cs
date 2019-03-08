@@ -18,6 +18,7 @@ namespace SafeExamBrowser.Client.Operations
 {
 	internal class BrowserOperation : IOperation
 	{
+		private IActionCenter actionCenter;
 		private IApplicationController browserController;
 		private IApplicationInfo browserInfo;
 		private ILogger logger;
@@ -28,12 +29,14 @@ namespace SafeExamBrowser.Client.Operations
 		public event StatusChangedEventHandler StatusChanged;
 
 		public BrowserOperation(
+			IActionCenter actionCenter,
 			IApplicationController browserController,
 			IApplicationInfo browserInfo,
 			ILogger logger,
 			ITaskbar taskbar,
 			IUserInterfaceFactory uiFactory)
 		{
+			this.actionCenter = actionCenter;
 			this.browserController = browserController;
 			this.browserInfo = browserInfo;
 			this.logger = logger;
@@ -46,12 +49,15 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Initializing browser...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeBrowser);
 
-			var browserButton = uiFactory.CreateApplicationButton(browserInfo);
+			var actionCenterControl = uiFactory.CreateApplicationControl(browserInfo, Location.ActionCenter);
+			var taskbarControl = uiFactory.CreateApplicationControl(browserInfo, Location.Taskbar);
 
 			browserController.Initialize();
-			browserController.RegisterApplicationButton(browserButton);
+			browserController.RegisterApplicationControl(actionCenterControl);
+			browserController.RegisterApplicationControl(taskbarControl);
 
-			taskbar.AddApplication(browserButton);
+			actionCenter.AddApplicationControl(actionCenterControl);
+			taskbar.AddApplicationControl(taskbarControl);
 
 			return OperationResult.Success;
 		}

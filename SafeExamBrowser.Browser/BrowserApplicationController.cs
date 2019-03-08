@@ -29,7 +29,7 @@ namespace SafeExamBrowser.Browser
 		private int instanceIdCounter = default(int);
 
 		private AppConfig appConfig;
-		private IApplicationButton button;
+		private IList<IApplicationControl> controls;
 		private IList<IApplicationInstance> instances;
 		private IMessageBox messageBox;
 		private IModuleLogger logger;
@@ -48,6 +48,7 @@ namespace SafeExamBrowser.Browser
 			IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
+			this.controls = new List<IApplicationControl>();
 			this.instances = new List<IApplicationInstance>();
 			this.logger = logger;
 			this.messageBox = messageBox;
@@ -69,10 +70,10 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		public void RegisterApplicationButton(IApplicationButton button)
+		public void RegisterApplicationControl(IApplicationControl control)
 		{
-			this.button = button;
-			this.button.Clicked += Button_OnClick;
+			control.Clicked += ApplicationControl_Clicked;
+			controls.Add(control);
 		}
 
 		public void Start()
@@ -108,7 +109,11 @@ namespace SafeExamBrowser.Browser
 			instance.PopupRequested += Instance_PopupRequested;
 			instance.Terminated += Instance_Terminated;
 
-			button.RegisterInstance(instance);
+			foreach (var control in controls)
+			{
+				control.RegisterInstance(instance);
+			}
+
 			instances.Add(instance);
 			instance.Window.Show();
 
@@ -135,7 +140,7 @@ namespace SafeExamBrowser.Browser
 			return cefSettings;
 		}
 
-		private void Button_OnClick(InstanceIdentifier id = null)
+		private void ApplicationControl_Clicked(InstanceIdentifier id = null)
 		{
 			if (id == null)
 			{

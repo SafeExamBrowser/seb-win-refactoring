@@ -20,26 +20,26 @@ using SafeExamBrowser.UserInterface.Desktop.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
-	public partial class ApplicationButton : UserControl, IApplicationButton
+	public partial class TaskbarApplicationControl : UserControl, IApplicationControl
 	{
 		private IApplicationInfo info;
 		private IList<IApplicationInstance> instances = new List<IApplicationInstance>();
 
-		public event ApplicationButtonClickedEventHandler Clicked;
+		public event ApplicationControlClickedEventHandler Clicked;
 
-		public ApplicationButton(IApplicationInfo info)
+		public TaskbarApplicationControl(IApplicationInfo info)
 		{
 			this.info = info;
 
 			InitializeComponent();
-			InitializeApplicationButton();
+			InitializeApplicationControl();
 		}
 
 		public void RegisterInstance(IApplicationInstance instance)
 		{
 			Dispatcher.Invoke(() =>
 			{
-				var instanceButton = new ApplicationInstanceButton(instance, info);
+				var instanceButton = new TaskbarApplicationInstanceButton(instance, info);
 
 				instanceButton.Clicked += (id) => Clicked?.Invoke(id);
 				instance.Terminated += (id) => Instance_OnTerminated(id, instanceButton);
@@ -49,7 +49,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			});
 		}
 
-		private void InitializeApplicationButton()
+		private void InitializeApplicationControl()
 		{
 			var originalBrush = Button.Background;
 
@@ -85,7 +85,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			}
 		}
 
-		private void Instance_OnTerminated(InstanceIdentifier id, ApplicationInstanceButton instanceButton)
+		private void Instance_OnTerminated(InstanceIdentifier id, TaskbarApplicationInstanceButton instanceButton)
 		{
 			Dispatcher.InvokeAsync(() =>
 			{

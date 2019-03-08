@@ -15,14 +15,14 @@ using SafeExamBrowser.UserInterface.Desktop.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
-	public partial class ApplicationInstanceButton : UserControl
+	public partial class TaskbarApplicationInstanceButton : UserControl
 	{
 		private IApplicationInfo info;
 		private IApplicationInstance instance;
 
-		internal event ApplicationButtonClickedEventHandler Clicked;
+		internal event ApplicationControlClickedEventHandler Clicked;
 
-		public ApplicationInstanceButton(IApplicationInstance instance, IApplicationInfo info)
+		public TaskbarApplicationInstanceButton(IApplicationInstance instance, IApplicationInfo info)
 		{
 			this.info = info;
 			this.instance = instance;

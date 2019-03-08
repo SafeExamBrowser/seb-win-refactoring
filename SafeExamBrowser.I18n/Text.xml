@@ -126,6 +126,9 @@
   <Entry key="OperationStatus_FinalizeServiceSession">
     Finalizing service session
   </Entry>
+  <Entry key="OperationStatus_InitializeActionCenter">
+    Initializing action center
+  </Entry>
   <Entry key="OperationStatus_InitializeBrowser">
     Initializing browser
   </Entry>
@@ -197,6 +200,9 @@
   </Entry>
   <Entry key="OperationStatus_StopWindowMonitoring">
     Stopping window monitoring
+  </Entry>
+  <Entry key="OperationStatus_TerminateActionCenter">
+    Terminating action center
   </Entry>
   <Entry key="OperationStatus_TerminateBrowser">
     Terminating browser

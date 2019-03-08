@@ -188,11 +188,12 @@
     <Compile Include="UserInterface\MessageBox\IMessageBox.cs" />
     <Compile Include="UserInterface\IProgressIndicator.cs" />
     <Compile Include="UserInterface\Shell\Events\ActivatorEventHandler.cs" />
-    <Compile Include="UserInterface\Shell\Events\ApplicationButtonClickedEventHandler.cs" />
+    <Compile Include="UserInterface\Shell\Events\ApplicationControlClickedEventHandler.cs" />
     <Compile Include="UserInterface\Shell\Events\KeyboardLayoutSelectedEventHandler.cs" />
-    <Compile Include="UserInterface\Shell\Events\NotificationButtonClickedEventHandler.cs" />
+    <Compile Include="UserInterface\Shell\Events\NotificationControlClickedEventHandler.cs" />
     <Compile Include="UserInterface\Shell\IActionCenter.cs" />
     <Compile Include="UserInterface\Shell\IActionCenterActivator.cs" />
+    <Compile Include="UserInterface\Shell\Location.cs" />
     <Compile Include="UserInterface\Windows\Events\WindowClosingEventHandler.cs" />
     <Compile Include="UserInterface\Shell\Events\WirelessNetworkSelectedEventHandler.cs" />
     <Compile Include="UserInterface\Shell\Events\QuitButtonClickedEventHandler.cs" />
@@ -200,7 +201,7 @@
     <Compile Include="UserInterface\Windows\IPasswordDialogResult.cs" />
     <Compile Include="UserInterface\Windows\IRuntimeWindow.cs" />
     <Compile Include="UserInterface\MessageBox\MessageBoxResult.cs" />
-    <Compile Include="UserInterface\Shell\INotificationButton.cs" />
+    <Compile Include="UserInterface\Shell\INotificationControl.cs" />
     <Compile Include="UserInterface\Windows\ISplashScreen.cs" />
     <Compile Include="UserInterface\Shell\ISystemKeyboardLayoutControl.cs" />
     <Compile Include="UserInterface\Shell\ISystemPowerSupplyControl.cs" />
@@ -209,7 +210,7 @@
     <Compile Include="UserInterface\Shell\ITaskbar.cs" />
     <Compile Include="I18n\ITextResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserInterface\Shell\IApplicationButton.cs" />
+    <Compile Include="UserInterface\Shell\IApplicationControl.cs" />
     <Compile Include="UserInterface\IUserInterfaceFactory.cs" />
     <Compile Include="UserInterface\Windows\IWindow.cs" />
     <Compile Include="UserInterface\MessageBox\MessageBoxAction.cs" />

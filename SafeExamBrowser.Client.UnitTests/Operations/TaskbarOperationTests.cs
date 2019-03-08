@@ -11,7 +11,6 @@ using Moq;
 using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Contracts.Client;
 using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -58,7 +57,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			settings.AllowWirelessNetwork = true;
 			settings.EnableTaskbar = true;
 			systemInfoMock.SetupGet(s => s.HasBattery).Returns(true);
-			uiFactoryMock.Setup(u => u.CreateNotification(It.IsAny<INotificationInfo>())).Returns(new Mock<INotificationButton>().Object);
+			uiFactoryMock.Setup(u => u.CreateNotificationControl(It.IsAny<INotificationInfo>())).Returns(new Mock<INotificationControl>().Object);
 
 			sut = new TaskbarOperation(
 				loggerMock.Object,
@@ -84,7 +83,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			powerSupplyMock.Verify(p => p.Initialize(It.IsAny<ISystemPowerSupplyControl>()), Times.Once);
 			wirelessNetworkMock.Verify(w => w.Initialize(It.IsAny<ISystemWirelessNetworkControl>()), Times.Once);
 			taskbarMock.Verify(t => t.AddSystemControl(It.IsAny<ISystemControl>()), Times.Exactly(3));
-			taskbarMock.Verify(t => t.AddNotification(It.IsAny<INotificationButton>()), Times.Exactly(2));
+			taskbarMock.Verify(t => t.AddNotificationControl(It.IsAny<INotificationControl>()), Times.Exactly(2));
 		}
 
 		[TestMethod]

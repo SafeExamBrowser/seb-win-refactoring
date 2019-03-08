@@ -11,14 +11,14 @@ using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 
 namespace SafeExamBrowser.Client.UnitTests.Notifications
 {
-	class NotificationButtonMock : INotificationButton
+	class NotificationButtonMock : INotificationControl
 	{
-		private NotificationButtonClickedEventHandler clicked;
+		private NotificationControlClickedEventHandler clicked;
 
 		public bool HasSubscribed;
 		public bool HasUnsubscribed;
 
-		public event NotificationButtonClickedEventHandler Clicked
+		public event NotificationControlClickedEventHandler Clicked
 		{
 			add
 			{

@@ -11,8 +11,8 @@ using SafeExamBrowser.Contracts.Applications;
 namespace SafeExamBrowser.Contracts.UserInterface.Shell.Events
 {
 	/// <summary>
-	/// Indicates that an <see cref="IApplicationButton"/> has been clicked, optionally specifying the ID of the selected instance (if
+	/// Indicates that an <see cref="IApplicationControl"/> has been clicked, optionally specifying the identifier of the selected instance (if
 	/// multiple instances of the same application are running).
 	/// </summary>
-	public delegate void ApplicationButtonClickedEventHandler(InstanceIdentifier id = null);
+	public delegate void ApplicationControlClickedEventHandler(InstanceIdentifier id = null);
 }

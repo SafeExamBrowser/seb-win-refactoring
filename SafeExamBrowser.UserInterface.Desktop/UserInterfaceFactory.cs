@@ -40,9 +40,16 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			return new AboutWindow(appConfig, text);
 		}
 
-		public IApplicationButton CreateApplicationButton(IApplicationInfo info)
+		public IApplicationControl CreateApplicationControl(IApplicationInfo info, Location location)
 		{
-			return new ApplicationButton(info);
+			if (location == Location.ActionCenter)
+			{
+				return new ActionCenterApplicationControl(info);
+			}
+			else
+			{
+				return new TaskbarApplicationControl(info);
+			}
 		}
 
 		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow)
@@ -79,7 +86,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			return logWindow;
 		}
 
-		public INotificationButton CreateNotification(INotificationInfo info)
+		public INotificationControl CreateNotificationControl(INotificationInfo info)
 		{
 			return new NotificationButton(info);
 		}

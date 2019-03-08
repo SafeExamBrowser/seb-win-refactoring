@@ -19,24 +19,26 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	[TestClass]
 	public class BrowserOperationTests
 	{
-		private Mock<IApplicationController> controllerMock;
-		private Mock<IApplicationInfo> appInfoMock;
-		private Mock<ILogger> loggerMock;
-		private Mock<ITaskbar> taskbarMock;
-		private Mock<IUserInterfaceFactory> uiFactoryMock;
+		private Mock<IActionCenter> actionCenter;
+		private Mock<IApplicationController> controller;
+		private Mock<IApplicationInfo> appInfo;
+		private Mock<ILogger> logger;
+		private Mock<ITaskbar> taskbar;
+		private Mock<IUserInterfaceFactory> uiFactory;
 
 		private BrowserOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
-			controllerMock = new Mock<IApplicationController>();
-			appInfoMock = new Mock<IApplicationInfo>();
-			loggerMock = new Mock<ILogger>();
-			taskbarMock = new Mock<ITaskbar>();
-			uiFactoryMock = new Mock<IUserInterfaceFactory>();
+			actionCenter = new Mock<IActionCenter>();
+			controller = new Mock<IApplicationController>();
+			appInfo = new Mock<IApplicationInfo>();
+			logger = new Mock<ILogger>();
+			taskbar = new Mock<ITaskbar>();
+			uiFactory = new Mock<IUserInterfaceFactory>();
 
-			sut = new BrowserOperation(controllerMock.Object, appInfoMock.Object, loggerMock.Object, taskbarMock.Object, uiFactoryMock.Object);
+			sut = new BrowserOperation(actionCenter.Object, controller.Object, appInfo.Object, logger.Object, taskbar.Object, uiFactory.Object);
 		}
 
 		[TestMethod]
@@ -44,15 +46,15 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			var order = 0;
 
-			controllerMock.Setup(c => c.Initialize()).Callback(() => Assert.AreEqual(++order, 1));
-			controllerMock.Setup(c => c.RegisterApplicationButton(It.IsAny<IApplicationButton>())).Callback(() => Assert.AreEqual(++order, 2));
-			taskbarMock.Setup(t => t.AddApplication(It.IsAny<IApplicationButton>())).Callback(() => Assert.AreEqual(++order, 3));
+			controller.Setup(c => c.Initialize()).Callback(() => Assert.AreEqual(++order, 1));
+			controller.Setup(c => c.RegisterApplicationControl(It.IsAny<IApplicationControl>())).Callback(() => Assert.AreEqual(++order, 2));
+			taskbar.Setup(t => t.AddApplicationControl(It.IsAny<IApplicationControl>())).Callback(() => Assert.AreEqual(++order, 3));
 
 			sut.Perform();
 
-			controllerMock.Verify(c => c.Initialize(), Times.Once);
-			controllerMock.Verify(c => c.RegisterApplicationButton(It.IsAny<IApplicationButton>()), Times.Once);
-			taskbarMock.Verify(t => t.AddApplication(It.IsAny<IApplicationButton>()), Times.Once);
+			controller.Verify(c => c.Initialize(), Times.Once);
+			controller.Verify(c => c.RegisterApplicationControl(It.IsAny<IApplicationControl>()), Times.Once);
+			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>()), Times.Once);
 		}
 
 		[TestMethod]
@@ -60,7 +62,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			sut.Revert();
 
-			controllerMock.Verify(c => c.Terminate(), Times.Once);
+			controller.Verify(c => c.Terminate(), Times.Once);
 		}
 	}
 }

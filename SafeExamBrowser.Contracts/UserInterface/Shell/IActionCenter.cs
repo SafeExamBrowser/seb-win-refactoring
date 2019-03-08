@@ -6,6 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
+
 namespace SafeExamBrowser.Contracts.UserInterface.Shell
 {
 	/// <summary>
@@ -13,6 +15,26 @@ namespace SafeExamBrowser.Contracts.UserInterface.Shell
 	/// </summary>
 	public interface IActionCenter
 	{
+		/// <summary>
+		/// Event fired when the user clicked the quit button.
+		/// </summary>
+		event QuitButtonClickedEventHandler QuitButtonClicked;
+
+		/// <summary>
+		/// Adds the given application control to the action center.
+		/// </summary>
+		void AddApplicationControl(IApplicationControl control);
+
+		/// <summary>
+		/// Adds the given notification control to the action center.
+		/// </summary>
+		void AddNotificationControl(INotificationControl control);
+
+		/// <summary>
+		/// Adds the given system control to the action center.
+		/// </summary>
+		void AddSystemControl(ISystemControl control);
+
 		/// <summary>
 		/// Closes the action center.
 		/// </summary>

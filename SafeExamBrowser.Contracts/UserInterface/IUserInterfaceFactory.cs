@@ -31,9 +31,9 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		IWindow CreateAboutWindow(AppConfig appConfig);
 
 		/// <summary>
-		/// Creates a taskbar button, initialized with the given application information.
+		/// Creates an application control for the specified location, initialized with the given application information.
 		/// </summary>
-		IApplicationButton CreateApplicationButton(IApplicationInfo info);
+		IApplicationControl CreateApplicationControl(IApplicationInfo info, Location location);
 
 		/// <summary>
 		/// Creates a new browser window loaded with the given browser control and settings.
@@ -51,9 +51,9 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		IWindow CreateLogWindow(ILogger logger);
 
 		/// <summary>
-		/// Creates a taskbar notification, initialized with the given notification information.
+		/// Creates a notification control, initialized with the given notification information.
 		/// </summary>
-		INotificationButton CreateNotification(INotificationInfo info);
+		INotificationControl CreateNotificationControl(INotificationInfo info);
 
 		/// <summary>
 		/// Creates a password dialog with the given message and title.

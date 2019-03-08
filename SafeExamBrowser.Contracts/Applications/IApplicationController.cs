@@ -21,9 +21,9 @@ namespace SafeExamBrowser.Contracts.Applications
 		void Initialize();
 
 		/// <summary>
-		/// Registers the taskbar button for this application.
+		/// Registers an application control for this application.
 		/// </summary>
-		void RegisterApplicationButton(IApplicationButton button);
+		void RegisterApplicationControl(IApplicationControl control);
 
 		/// <summary>
 		/// Starts the execution of the application.

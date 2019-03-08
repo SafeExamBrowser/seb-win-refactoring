@@ -4,9 +4,30 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop"
-        mc:Ignorable="d" Title="ActionCenter" Height="1000" Width="400" Background="#EEF0F0F0" AllowsTransparency="True" WindowStyle="None"
-        Topmost="True" ResizeMode="NoResize">
+        mc:Ignorable="d" Title="ActionCenter" Height="1000" Width="400" Background="#EEF0F0F0" AllowsTransparency="True" WindowStyle="None" Topmost="True" ResizeMode="NoResize">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Templates/ScrollViewers.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Template="{StaticResource SmallBarScrollViewer}">
+            <StackPanel x:Name="ApplicationPanel" Orientation="Vertical" />
+        </ScrollViewer>
+        <UniformGrid x:Name="ControlPanel" Grid.Row="1" Columns="4" Margin="5">
+            <Label Height="60">Control</Label>
+            <Label Height="60">Control</Label>
+            <Label Height="60">Control</Label>
+            <Label Height="60">Control</Label>
+            <Label Height="60">Control</Label>
+            <Label Height="60">Control</Label>
+            <Label Height="60">Control</Label>
+        </UniformGrid>
     </Grid>
 </Window>

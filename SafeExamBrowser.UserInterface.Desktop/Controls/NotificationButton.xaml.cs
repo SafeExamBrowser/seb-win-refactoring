@@ -15,9 +15,9 @@ using SafeExamBrowser.UserInterface.Desktop.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
-	public partial class NotificationButton : UserControl, INotificationButton
+	public partial class NotificationButton : UserControl, INotificationControl
 	{
-		public event NotificationButtonClickedEventHandler Clicked;
+		public event NotificationControlClickedEventHandler Clicked;
 
 		public NotificationButton(INotificationInfo info)
 		{

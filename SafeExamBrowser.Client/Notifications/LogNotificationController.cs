@@ -16,7 +16,7 @@ namespace SafeExamBrowser.Client.Notifications
 {
 	internal class LogNotificationController : INotificationController
 	{
-		private INotificationButton notification;
+		private INotificationControl notification;
 		private ILogger logger;
 		private IUserInterfaceFactory uiFactory;
 		private IWindow window;
@@ -27,7 +27,7 @@ namespace SafeExamBrowser.Client.Notifications
 			this.uiFactory = uiFactory;
 		}
 
-		public void RegisterNotification(INotificationButton notification)
+		public void RegisterNotification(INotificationControl notification)
 		{
 			this.notification = notification;
 

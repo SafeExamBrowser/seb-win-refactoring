@@ -142,10 +142,10 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void AddAboutNotification()
 		{
-			var aboutNotification = uiFactory.CreateNotification(aboutInfo);
+			var aboutNotification = uiFactory.CreateNotificationControl(aboutInfo);
 
 			aboutController.RegisterNotification(aboutNotification);
-			taskbar.AddNotification(aboutNotification);
+			taskbar.AddNotificationControl(aboutNotification);
 		}
 
 		private void AddKeyboardLayoutControl()
@@ -158,10 +158,10 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void AddLogNotification()
 		{
-			var logNotification = uiFactory.CreateNotification(logInfo);
+			var logNotification = uiFactory.CreateNotificationControl(logInfo);
 			
 			logController.RegisterNotification(logNotification);
-			taskbar.AddNotification(logNotification);
+			taskbar.AddNotificationControl(logNotification);
 		}
 
 		private void AddPowerSupplyControl()

@@ -74,11 +74,17 @@
     <Compile Include="BrowserWindow.xaml.cs">
       <DependentUpon>BrowserWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ApplicationButton.xaml.cs">
-      <DependentUpon>ApplicationButton.xaml</DependentUpon>
+    <Compile Include="Controls\ActionCenterApplicationControl.xaml.cs">
+      <DependentUpon>ActionCenterApplicationControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ApplicationInstanceButton.xaml.cs">
-      <DependentUpon>ApplicationInstanceButton.xaml</DependentUpon>
+    <Compile Include="Controls\ActionCenterApplicationButton.xaml.cs">
+      <DependentUpon>ActionCenterApplicationButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TaskbarApplicationControl.xaml.cs">
+      <DependentUpon>TaskbarApplicationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TaskbarApplicationInstanceButton.xaml.cs">
+      <DependentUpon>TaskbarApplicationInstanceButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\DateTimeControl.xaml.cs">
       <DependentUpon>DateTimeControl.xaml</DependentUpon>
@@ -137,11 +143,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ApplicationButton.xaml">
+    <Page Include="Controls\ActionCenterApplicationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ApplicationInstanceButton.xaml">
+    <Page Include="Controls\ActionCenterApplicationButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TaskbarApplicationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TaskbarApplicationInstanceButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

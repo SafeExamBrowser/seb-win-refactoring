@@ -26,14 +26,14 @@ namespace SafeExamBrowser.Contracts.UserInterface.Shell
 		event QuitButtonClickedEventHandler QuitButtonClicked;
 
 		/// <summary>
-		/// Adds the given application button to the taskbar.
+		/// Adds the given application control to the taskbar.
 		/// </summary>
-		void AddApplication(IApplicationButton button);
+		void AddApplicationControl(IApplicationControl control);
 
 		/// <summary>
-		/// Adds the given notification button to the taskbar.
+		/// Adds the given notification control to the taskbar.
 		/// </summary>
-		void AddNotification(INotificationButton button);
+		void AddNotificationControl(INotificationControl control);
 
 		/// <summary>
 		/// Adds the given system control to the taskbar.

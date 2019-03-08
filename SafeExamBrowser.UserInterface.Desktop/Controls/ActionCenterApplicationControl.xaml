@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenterApplicationControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Controls"
+             mc:Ignorable="d" d:DesignHeight="250" d:DesignWidth="500">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Templates/Buttons.xaml" />
+                <ResourceDictionary Source="../Templates/Colors.xaml" />
+                <ResourceDictionary Source="../Templates/ScrollViewers.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" x:Name="ApplicationName" Background="#AAD3D3D3" FontWeight="Bold" Padding="5" TextAlignment="Center" />
+        <ContentControl Grid.Row="1" x:Name="ApplicationButton" />
+        <StackPanel Grid.Row="2" x:Name="InstancePanel" Orientation="Vertical" />
+        <Border Grid.Row="3" BorderBrush="LightGray" BorderThickness="0,0,0,1" Margin="75,4" />
+    </Grid>
+</UserControl>

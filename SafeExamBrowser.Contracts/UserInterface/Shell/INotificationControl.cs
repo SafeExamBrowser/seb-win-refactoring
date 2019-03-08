@@ -11,13 +11,13 @@ using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 namespace SafeExamBrowser.Contracts.UserInterface.Shell
 {
 	/// <summary>
-	/// The button of a notification which can be loaded into the <see cref="ITaskbar"/>.
+	/// The control for a notification which can be loaded into the shell.
 	/// </summary>
-	public interface INotificationButton
+	public interface INotificationControl
 	{
 		/// <summary>
-		/// Event fired when the user clicked on the notification icon.
+		/// Event fired when the user clicked on the notification control.
 		/// </summary>
-		event NotificationButtonClickedEventHandler Clicked;
+		event NotificationControlClickedEventHandler Clicked;
 	}
 }

@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.Contracts.UserInterface.Shell.Events
 {
 	/// <summary>
-	/// Indicates that the user clicked on a <see cref="INotificationButton"/> in the <see cref="ITaskbar"/>.
+	/// Indicates that the user clicked on a <see cref="INotificationControl"/> in the shell.
 	/// </summary>
-	public delegate void NotificationButtonClickedEventHandler();
+	public delegate void NotificationControlClickedEventHandler();
 }
