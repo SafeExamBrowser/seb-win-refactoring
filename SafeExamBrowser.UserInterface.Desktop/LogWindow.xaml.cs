@@ -83,13 +83,13 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			}
 
 			logger.Subscribe(model);
-			logger.Info("Opened log window.");
+			logger.Debug("Opened log window.");
 		}
 
 		private void LogWindow_Closing(object sender, CancelEventArgs e)
 		{
 			logger.Unsubscribe(model);
-			logger.Info("Closed log window.");
+			logger.Debug("Closed log window.");
 
 			closing?.Invoke();
 		}

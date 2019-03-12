@@ -57,9 +57,16 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			return new BrowserWindow(control, settings, isMainWindow, text);
 		}
 
-		public ISystemKeyboardLayoutControl CreateKeyboardLayoutControl()
+		public ISystemKeyboardLayoutControl CreateKeyboardLayoutControl(Location location)
 		{
-			return new KeyboardLayoutControl();
+			if (location == Location.ActionCenter)
+			{
+				return new ActionCenterKeyboardLayoutControl();
+			}
+			else
+			{
+				return new TaskbarKeyboardLayoutControl();
+			}
 		}
 
 		public IWindow CreateLogWindow(ILogger logger)

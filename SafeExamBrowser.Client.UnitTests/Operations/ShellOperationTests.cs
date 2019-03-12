@@ -59,8 +59,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			taskbarSettings = new TaskbarSettings();
 			uiFactoryMock = new Mock<IUserInterfaceFactory>();
 
-			taskbarSettings.AllowApplicationLog = true;
-			taskbarSettings.AllowKeyboardLayout = true;
+			taskbarSettings.ShowApplicationLog = true;
+			taskbarSettings.ShowKeyboardLayout = true;
 			taskbarSettings.AllowWirelessNetwork = true;
 			taskbarSettings.EnableTaskbar = true;
 			systemInfoMock.SetupGet(s => s.HasBattery).Returns(true);

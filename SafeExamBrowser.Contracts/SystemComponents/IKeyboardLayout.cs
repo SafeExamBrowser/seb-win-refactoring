@@ -26,11 +26,6 @@ namespace SafeExamBrowser.Contracts.SystemComponents
 		Guid Id { get; }
 
 		/// <summary>
-		/// Specifies whether this is the current keyboard layout.
-		/// </summary>
-		bool IsCurrent { get; }
-
-		/// <summary>
 		/// The name of this keyboard layout.
 		/// </summary>
 		string Name { get; }

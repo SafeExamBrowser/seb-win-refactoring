@@ -16,7 +16,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool allow)
 			{
-				settings.Taskbar.AllowApplicationLog = allow;
+				settings.Taskbar.ShowApplicationLog = allow;
 			}
 		}
 
@@ -32,7 +32,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool enabled)
 			{
-				settings.Taskbar.AllowKeyboardLayout = enabled;
+				settings.Taskbar.ShowKeyboardLayout = enabled;
 			}
 		}
 

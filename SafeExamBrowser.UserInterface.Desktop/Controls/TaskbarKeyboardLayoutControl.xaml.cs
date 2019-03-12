@@ -17,11 +17,11 @@ using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
-	public partial class KeyboardLayoutControl : UserControl, ISystemKeyboardLayoutControl
+	public partial class TaskbarKeyboardLayoutControl : UserControl, ISystemKeyboardLayoutControl
 	{
 		public event KeyboardLayoutSelectedEventHandler LayoutSelected;
 
-		public KeyboardLayoutControl()
+		public TaskbarKeyboardLayoutControl()
 		{
 			InitializeComponent();
 			InitializeKeyboardLayoutControl();
@@ -29,33 +29,44 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 		public void Add(IKeyboardLayout layout)
 		{
-			var button = new KeyboardLayoutButton();
-
-			button.Click += (o, args) =>
+			Dispatcher.Invoke(() =>
 			{
-				SetCurrent(button, layout);
-				Popup.IsOpen = false;
-				LayoutSelected?.Invoke(layout);
-			};
-			button.CultureCode = layout.CultureCode;
-			button.LayoutName = layout.Name;
+				var button = new TaskbarKeyboardLayoutButton(layout);
 
-			LayoutsStackPanel.Children.Add(button);
+				button.LayoutSelected += Button_LayoutSelected;
+				button.CultureCode = layout.CultureCode;
+				button.LayoutName = layout.Name;
 
-			if (layout.IsCurrent)
-			{
-				SetCurrent(button, layout);
-			}
+				LayoutsStackPanel.Children.Add(button);
+			});
 		}
 
 		public void Close()
 		{
-			Popup.IsOpen = false;
+			Dispatcher.Invoke(() => Popup.IsOpen = false);
+		}
+
+		public void SetCurrent(IKeyboardLayout layout)
+		{
+			Dispatcher.Invoke(() =>
+			{
+				var name = layout.Name?.Length > 3 ? String.Join(string.Empty, layout.Name.Split(' ').Where(s => Char.IsLetter(s.First())).Select(s => s.First())) : layout.Name;
+
+				foreach (var child in LayoutsStackPanel.Children)
+				{
+					if (child is TaskbarKeyboardLayoutButton layoutButton)
+					{
+						layoutButton.IsCurrent = layout.Id == layoutButton.LayoutId;
+					}
+				}
+
+				LayoutCultureCode.Text = layout.CultureCode;
+			});
 		}
 
 		public void SetTooltip(string text)
 		{
-			Button.ToolTip = text;
+			Dispatcher.Invoke(() => Button.ToolTip = text);
 		}
 
 		private void InitializeKeyboardLayoutControl()
@@ -79,21 +90,10 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			};
 		}
 
-		private void SetCurrent(KeyboardLayoutButton button, IKeyboardLayout layout)
+		private void Button_LayoutSelected(Guid id)
 		{
-			var name = layout.Name?.Length > 3 ? String.Join(string.Empty, layout.Name.Split(' ').Where(s => Char.IsLetter(s.First())).Select(s => s.First())) : layout.Name;
-
-			foreach (var child in LayoutsStackPanel.Children)
-			{
-				if (child is KeyboardLayoutButton keyboardLayoutButton)
-				{
-					keyboardLayoutButton.IsCurrent = false;
-				}
-			}
-
-			button.IsCurrent = true;
-			LayoutCultureCode.Text = layout.CultureCode;
-			LayoutName.Text = name;
+			Popup.IsOpen = false;
+			LayoutSelected?.Invoke(id);
 		}
 	}
 }

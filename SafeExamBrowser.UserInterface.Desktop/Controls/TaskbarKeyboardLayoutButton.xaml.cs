@@ -6,14 +6,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
+using SafeExamBrowser.Contracts.SystemComponents;
+using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
-	public partial class KeyboardLayoutButton : UserControl
+	public partial class TaskbarKeyboardLayoutButton : UserControl
 	{
-		public event RoutedEventHandler Click;
+		private IKeyboardLayout layout;
+
+		public event KeyboardLayoutSelectedEventHandler LayoutSelected;
 
 		public string CultureCode
 		{
@@ -30,11 +35,22 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			set { LayoutNameTextBlock.Text = value; }
 		}
 
-		public KeyboardLayoutButton()
+		public Guid LayoutId
 		{
-			InitializeComponent();
+			get { return layout.Id; }
+		}
 
-			Button.Click += (o, args) => Click?.Invoke(o, args);
+		public TaskbarKeyboardLayoutButton(IKeyboardLayout layout)
+		{
+			this.layout = layout;
+
+			InitializeComponent();
+			InitializeEvents();
+		}
+
+		private void InitializeEvents()
+		{
+			Button.Click += (o, args) => LayoutSelected?.Invoke(layout.Id);
 		}
 	}
 }

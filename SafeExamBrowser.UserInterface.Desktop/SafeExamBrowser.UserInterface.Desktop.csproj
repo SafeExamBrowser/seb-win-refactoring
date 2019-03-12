@@ -80,6 +80,12 @@
     <Compile Include="Controls\ActionCenterApplicationButton.xaml.cs">
       <DependentUpon>ActionCenterApplicationButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ActionCenterKeyboardLayoutButton.xaml.cs">
+      <DependentUpon>ActionCenterKeyboardLayoutButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ActionCenterKeyboardLayoutControl.xaml.cs">
+      <DependentUpon>ActionCenterKeyboardLayoutControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ActionCenterNotificationButton.xaml.cs">
       <DependentUpon>ActionCenterNotificationButton.xaml</DependentUpon>
     </Compile>
@@ -92,11 +98,11 @@
     <Compile Include="Controls\DateTimeControl.xaml.cs">
       <DependentUpon>DateTimeControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\KeyboardLayoutButton.xaml.cs">
-      <DependentUpon>KeyboardLayoutButton.xaml</DependentUpon>
+    <Compile Include="Controls\TaskbarKeyboardLayoutButton.xaml.cs">
+      <DependentUpon>TaskbarKeyboardLayoutButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\KeyboardLayoutControl.xaml.cs">
-      <DependentUpon>KeyboardLayoutControl.xaml</DependentUpon>
+    <Compile Include="Controls\TaskbarKeyboardLayoutControl.xaml.cs">
+      <DependentUpon>TaskbarKeyboardLayoutControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TaskbarNotificationButton.xaml.cs">
       <DependentUpon>TaskbarNotificationButton.xaml</DependentUpon>
@@ -154,6 +160,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\ActionCenterKeyboardLayoutButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ActionCenterKeyboardLayoutControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ActionCenterNotificationButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -170,11 +184,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\KeyboardLayoutButton.xaml">
+    <Page Include="Controls\TaskbarKeyboardLayoutButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\KeyboardLayoutControl.xaml">
+    <Page Include="Controls\TaskbarKeyboardLayoutControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

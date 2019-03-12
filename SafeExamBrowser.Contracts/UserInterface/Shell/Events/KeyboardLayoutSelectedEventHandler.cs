@@ -6,12 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.SystemComponents;
+using System;
 
 namespace SafeExamBrowser.Contracts.UserInterface.Shell.Events
 {
 	/// <summary>
-	/// Indicates that a particular <see cref="IKeyboardLayout"/> has been selected by the user.
+	/// Indicates that a keyboard layout has been selected by the user.
 	/// </summary>
-	public delegate void KeyboardLayoutSelectedEventHandler(IKeyboardLayout layout);
+	public delegate void KeyboardLayoutSelectedEventHandler(Guid id);
 }

@@ -17,13 +17,18 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 	public class ActionCenterSettings
 	{
 		/// <summary>
-		/// Determines whether the user may access the application log during runtime.
-		/// </summary>
-		public bool AllowApplicationLog { get; set; }
-
-		/// <summary>
 		/// Determines whether the action center itself is enabled and visible to the user.
 		/// </summary>
 		public bool EnableActionCenter { get; set; }
+
+		/// <summary>
+		/// Determines whether the application log is accessible via the action center.
+		/// </summary>
+		public bool ShowApplicationLog { get; set; }
+
+		/// <summary>
+		/// Determines whether the system control for the keyboard layout is accessible via the action center.
+		/// </summary>
+		public bool ShowKeyboardLayout { get; set; }
 	}
 }

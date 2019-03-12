@@ -17,28 +17,28 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 	public class TaskbarSettings
 	{
 		/// <summary>
-		/// Determines whether the user may switch the keyboard layout during runtime.
-		/// </summary>
-		public bool AllowKeyboardLayout { get; set; }
-
-		/// <summary>
-		/// Determines whether the user may access the application log during runtime.
-		/// </summary>
-		public bool AllowApplicationLog { get; set; }
-
-		/// <summary>
-		/// Determines whether the user may control the wireless network connection during runtime.
-		/// </summary>
-		public bool AllowWirelessNetwork { get; set; }
-
-		/// <summary>
 		/// Determines whether the taskbar itself is enabled and visible to the user.
 		/// </summary>
 		public bool EnableTaskbar { get; set; }
 
 		/// <summary>
+		/// Determines whether the application log is accessible via the taskbar.
+		/// </summary>
+		public bool ShowApplicationLog { get; set; }
+
+		/// <summary>
 		/// Determines whether the current date and time will be rendered in the taskbar.
 		/// </summary>
 		public bool ShowClock { get; set; }
+
+		/// <summary>
+		/// Determines whether the system control for the keyboard layout is accessible via the taskbar.
+		/// </summary>
+		public bool ShowKeyboardLayout { get; set; }
+
+		/// <summary>
+		/// Determines whether the system control for the wireless network is accessible via the taskbar.
+		/// </summary>
+		public bool AllowWirelessNetwork { get; set; }
 	}
 }

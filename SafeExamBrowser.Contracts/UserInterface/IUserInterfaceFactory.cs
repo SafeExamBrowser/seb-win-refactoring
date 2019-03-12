@@ -43,7 +43,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// <summary>
 		/// Creates a system control which allows to change the keyboard layout of the computer.
 		/// </summary>
-		ISystemKeyboardLayoutControl CreateKeyboardLayoutControl();
+		ISystemKeyboardLayoutControl CreateKeyboardLayoutControl(Location location);
 
 		/// <summary>
 		/// Creates a new log window which runs on its own thread.

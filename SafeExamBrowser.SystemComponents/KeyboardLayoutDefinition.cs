@@ -7,18 +7,17 @@
  */
 
 using System;
-using System.Windows.Forms;
+using System.Globalization;
 using SafeExamBrowser.Contracts.SystemComponents;
 
 namespace SafeExamBrowser.SystemComponents
 {
 	internal class KeyboardLayoutDefinition : IKeyboardLayout
 	{
-		internal InputLanguage Language { get; set; }
+		internal CultureInfo CultureInfo { get; set; }
 
 		public string CultureCode { get; set; }
 		public Guid Id { get; }
-		public bool IsCurrent { get; set; }
 		public string Name { get; set; }
 
 		public KeyboardLayoutDefinition()

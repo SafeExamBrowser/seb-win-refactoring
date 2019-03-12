@@ -25,5 +25,10 @@ namespace SafeExamBrowser.Contracts.UserInterface.Shell
 		/// Adds the given layout to the list of selectable keyboard layouts.
 		/// </summary>
 		void Add(IKeyboardLayout layout);
+
+		/// <summary>
+		/// Defines the given keyboard layout as the currently active one.
+		/// </summary>
+		void SetCurrent(IKeyboardLayout layout);
 	}
 }

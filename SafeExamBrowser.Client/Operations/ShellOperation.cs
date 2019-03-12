@@ -191,7 +191,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeLogNotificationForActionCenter()
 		{
-			if (actionCenterSettings.AllowApplicationLog)
+			if (actionCenterSettings.ShowApplicationLog)
 			{
 				var notification = uiFactory.CreateNotificationControl(logInfo, Location.ActionCenter);
 
@@ -202,7 +202,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeLogNotificationForTaskbar()
 		{
-			if (taskbarSettings.AllowApplicationLog)
+			if (taskbarSettings.ShowApplicationLog)
 			{
 				var notification = uiFactory.CreateNotificationControl(logInfo, Location.Taskbar);
 
@@ -213,14 +213,20 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeKeyboardLayoutForActionCenter()
 		{
-			// TODO
+			if (actionCenterSettings.ShowKeyboardLayout)
+			{
+				var control = uiFactory.CreateKeyboardLayoutControl(Location.ActionCenter);
+
+				keyboardLayout.Register(control);
+				actionCenter.AddSystemControl(control);
+			}
 		}
 
 		private void InitializeKeyboardLayoutForTaskbar()
 		{
-			if (taskbarSettings.AllowKeyboardLayout)
+			if (taskbarSettings.ShowKeyboardLayout)
 			{
-				var control = uiFactory.CreateKeyboardLayoutControl();
+				var control = uiFactory.CreateKeyboardLayoutControl(Location.Taskbar);
 
 				keyboardLayout.Register(control);
 				taskbar.AddSystemControl(control);
