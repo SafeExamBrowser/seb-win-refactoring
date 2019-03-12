@@ -84,11 +84,7 @@ namespace SafeExamBrowser.WindowsApi
 					attempts = 0;
 					suspendedThreads.Remove(thread);
 
-					if (success)
-					{
-						logger.Debug($"Successfully resumed explorer shell thread with ID = {thread.Id}.");
-					}
-					else
+					if (!success)
 					{
 						logger.Warn($"Failed to resume explorer shell thread with ID = {thread.Id} within {MAX_ATTEMPTS} attempts!");
 					}
@@ -136,7 +132,6 @@ namespace SafeExamBrowser.WindowsApi
 					if (success)
 					{
 						suspendedThreads.Add(thread);
-						logger.Debug($"Successfully suspended explorer shell thread with ID = {thread.Id}.");
 					}
 					else
 					{

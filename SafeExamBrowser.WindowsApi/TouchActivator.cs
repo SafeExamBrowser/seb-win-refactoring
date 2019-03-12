@@ -80,6 +80,7 @@ namespace SafeExamBrowser.WindowsApi
 				var position = $"{mouseData.Point.X}/{mouseData.Point.Y}";
 				var extraInfo = mouseData.DwExtraInfo.ToUInt32();
 				var isTouch = (extraInfo & Constant.MOUSEEVENTF_MASK) == Constant.MOUSEEVENTF_FROMTOUCH;
+				var inActivationArea = 0 < mouseData.Point.X && mouseData.Point.X < 100;
 
 				if (isTouch)
 				{
@@ -88,7 +89,7 @@ namespace SafeExamBrowser.WindowsApi
 						isDown = false;
 					}
 
-					if (message == Constant.WM_LBUTTONDOWN && 0 < mouseData.Point.X && mouseData.Point.X < 50)
+					if (message == Constant.WM_LBUTTONDOWN && inActivationArea)
 					{
 						isDown = true;
 						Task.Delay(100).ContinueWith(_ => CheckPosition());
@@ -102,10 +103,11 @@ namespace SafeExamBrowser.WindowsApi
 		private void CheckPosition()
 		{
 			var position = new POINT();
+			var hasMoved = position.X > 200;
 
 			User32.GetCursorPos(ref position);
 
-			if (isDown && position.X > 200)
+			if (isDown && hasMoved)
 			{
 				logger.Debug("Detected activation gesture for action center.");
 				Activate?.Invoke();
