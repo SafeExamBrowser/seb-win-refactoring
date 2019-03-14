@@ -34,7 +34,7 @@
     Download Error
   </Entry>
   <Entry key="MessageBox_InvalidConfigurationData">
-    The configuration resource '%%URI%%' contains invalid data!
+    The configuration resource "%%URI%%" contains invalid data!
   </Entry>
   <Entry key="MessageBox_InvalidConfigurationDataTitle">
     Configuration Error
@@ -52,7 +52,7 @@
     Invalid Quit Password
   </Entry>
   <Entry key="MessageBox_NotSupportedConfigurationResource">
-    The configuration resource '%%URI%%' is not supported!
+    The configuration resource "%%URI%%" is not supported!
   </Entry>
   <Entry key="MessageBox_NotSupportedConfigurationResourceTitle">
     Configuration Error
@@ -106,7 +106,7 @@
     Startup Error
   </Entry>
   <Entry key="MessageBox_UnexpectedConfigurationError">
-    An unexpected error occurred while trying to load configuration resource '%%URI%%'! Please consult the application log for more information...
+    An unexpected error occurred while trying to load configuration resource "%%URI%%"! Please consult the application log for more information...
   </Entry>
   <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
     Configuration Error
@@ -262,10 +262,10 @@
     %%HOURS%%h %%MINUTES%%min remaining (%%CHARGE%%%)
   </Entry>
   <Entry key="SystemControl_KeyboardLayoutTooltip">
-    Click to choose a different keyboard layout...
+    The current keyboard layout is "%%LAYOUT%%"
   </Entry>
   <Entry key="SystemControl_WirelessConnected">
-    Connected to '%%NAME%%'
+    Connected to "%%NAME%%"
   </Entry>
   <Entry key="SystemControl_WirelessDisconnected">
     Disconnected

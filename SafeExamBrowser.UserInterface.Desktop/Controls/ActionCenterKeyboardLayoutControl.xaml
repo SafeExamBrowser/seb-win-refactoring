@@ -15,9 +15,9 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Background="{StaticResource ActionCenterDarkBrush}" Height="64" Margin="2">
-        <Popup x:Name="Popup" AllowsTransparency="True" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}">
-            <Border Background="{StaticResource ActionCenterDarkBrush}">
+    <Grid x:Name="Grid" Background="{StaticResource ActionCenterDarkBrush}" Height="64" Margin="2">
+        <Popup x:Name="Popup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}">
+            <Border Background="Gray">
                 <ScrollViewer x:Name="LayoutsScrollViewer" MaxHeight="250" VerticalScrollBarVisibility="Auto" Template="{StaticResource SmallBarScrollViewer}">
                     <StackPanel x:Name="LayoutsStackPanel" />
                 </ScrollViewer>

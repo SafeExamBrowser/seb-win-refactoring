@@ -9,6 +9,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
 using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface.Shell;
 using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
@@ -60,16 +61,20 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			});
 		}
 
-		public void SetTooltip(string text)
+		public void SetInformation(string text)
 		{
 			Dispatcher.Invoke(() => Button.ToolTip = text);
 		}
 
 		private void InitializeKeyboardLayoutControl()
 		{
+			var originalBrush = Grid.Background;
+
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
 			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
 			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
+			Popup.Opened += (o, args) => Grid.Background = Brushes.Gray;
+			Popup.Closed += (o, args) => Grid.Background = originalBrush;
 		}
 
 		private void Button_LayoutSelected(Guid id)

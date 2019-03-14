@@ -110,21 +110,6 @@ namespace SafeExamBrowser.Client.Operations
 				InitializeWirelessNetworkForActionCenter();
 				InitializePowerSupplyForActionCenter();
 
-				//if (settings.AllowKeyboardLayout)
-				//{
-				//	AddKeyboardLayoutControl();
-				//}
-
-				//if (settings.AllowWirelessNetwork)
-				//{
-				//	AddWirelessNetworkControl();
-				//}
-
-				//if (systemInfo.HasBattery)
-				//{
-				//	AddPowerSupplyControl();
-				//}
-
 				foreach (var activator in activators)
 				{
 					actionCenter.Register(activator);
@@ -235,14 +220,20 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializePowerSupplyForActionCenter()
 		{
-			// TODO
+			if (systemInfo.HasBattery)
+			{
+				var control = uiFactory.CreatePowerSupplyControl(Location.ActionCenter);
+
+				powerSupply.Register(control);
+				actionCenter.AddSystemControl(control);
+			}
 		}
 
 		private void InitializePowerSupplyForTaskbar()
 		{
 			if (systemInfo.HasBattery)
 			{
-				var control = uiFactory.CreatePowerSupplyControl();
+				var control = uiFactory.CreatePowerSupplyControl(Location.Taskbar);
 
 				powerSupply.Register(control);
 				taskbar.AddSystemControl(control);

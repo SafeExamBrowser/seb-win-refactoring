@@ -72,7 +72,7 @@ namespace SafeExamBrowser.SystemComponents
 			else
 			{
 				control.HasWirelessNetworkAdapter = false;
-				control.SetTooltip(text.Get(TextKey.SystemControl_WirelessNotAvailable));
+				control.SetInformation(text.Get(TextKey.SystemControl_WirelessNotAvailable));
 			}
 
 			controls.Add(control);
@@ -198,12 +198,12 @@ namespace SafeExamBrowser.SystemComponents
 					{
 						if (wifi.ConnectionStatus == WifiStatus.Disconnected)
 						{
-							control.SetTooltip(text.Get(TextKey.SystemControl_WirelessDisconnected));
+							control.SetInformation(text.Get(TextKey.SystemControl_WirelessDisconnected));
 						}
 
 						if (isConnected)
 						{
-							control.SetTooltip(text.Get(TextKey.SystemControl_WirelessConnected).Replace("%%NAME%%", networkName));
+							control.SetInformation(text.Get(TextKey.SystemControl_WirelessConnected).Replace("%%NAME%%", networkName));
 						}
 
 						control.NetworkStatus = ToStatus(wifi.ConnectionStatus);

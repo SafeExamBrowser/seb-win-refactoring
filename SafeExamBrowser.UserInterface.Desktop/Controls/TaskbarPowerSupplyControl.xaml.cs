@@ -15,11 +15,11 @@ using SafeExamBrowser.Contracts.UserInterface.Shell;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
-	public partial class PowerSupplyControl : UserControl, ISystemPowerSupplyControl
+	public partial class TaskbarPowerSupplyControl : UserControl, ISystemPowerSupplyControl
 	{
 		private double BATTERY_CHARGE_MAX_WIDTH;
 
-		public PowerSupplyControl()
+		public TaskbarPowerSupplyControl()
 		{
 			InitializeComponent();
 			BATTERY_CHARGE_MAX_WIDTH = BatteryCharge.Width;
@@ -51,7 +51,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			Dispatcher.InvokeAsync(() => PowerPlug.Visibility = connected ? Visibility.Visible : Visibility.Collapsed);
 		}
 
-		public void SetTooltip(string text)
+		public void SetInformation(string text)
 		{
 			Dispatcher.InvokeAsync(() => Button.ToolTip = text);
 		}
@@ -71,14 +71,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			Popup.IsOpen = true;
 			PopupText.Text = text;
 			Background = Brushes.LightGray;
-			Button.IsEnabled = true;
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			Popup.IsOpen = false;
 			Background = Brushes.Transparent;
-			Button.IsEnabled = false;
 		}
 	}
 }

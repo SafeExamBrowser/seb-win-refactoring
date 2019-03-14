@@ -72,7 +72,7 @@ namespace SafeExamBrowser.SystemComponents
 
 			control.LayoutSelected += Control_LayoutSelected;
 			control.SetCurrent(currentLayout);
-			control.SetTooltip(text.Get(TextKey.SystemControl_KeyboardLayoutTooltip));
+			control.SetInformation(GetInfoTextFor(currentLayout));
 
 			controls.Add(control);
 		}
@@ -97,8 +97,8 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			var layout = layouts.First(l => l.Id == id);
 
+			logger.Info($"Changing keyboard layout to {ToString(layout.CultureInfo)}.");
 			InputLanguageManager.Current.CurrentInputLanguage = layout.CultureInfo;
-			logger.Info($"Changed keyboard layout to {ToString(layout.CultureInfo)}.");
 		}
 
 		private void Current_InputLanguageChanged(object sender, InputLanguageEventArgs e)
@@ -111,7 +111,13 @@ namespace SafeExamBrowser.SystemComponents
 			foreach (var control in controls)
 			{
 				control.SetCurrent(newLayout);
+				control.SetInformation(GetInfoTextFor(newLayout));
 			}
+		}
+
+		private string GetInfoTextFor(KeyboardLayoutDefinition layout)
+		{
+			return text.Get(TextKey.SystemControl_KeyboardLayoutTooltip).Replace("%%LAYOUT%%", layout.CultureInfo.NativeName);
 		}
 
 		private string ToString(CultureInfo info)

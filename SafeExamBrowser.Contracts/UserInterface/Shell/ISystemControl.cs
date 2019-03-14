@@ -19,8 +19,8 @@ namespace SafeExamBrowser.Contracts.UserInterface.Shell
 		void Close();
 
 		/// <summary>
-		/// Sets the tooltip text of the system control.
+		/// Sets the information text of the system control.
 		/// </summary>
-		void SetTooltip(string text);
+		void SetInformation(string text);
 	}
 }

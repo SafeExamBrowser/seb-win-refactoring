@@ -74,7 +74,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			Popup.IsOpen = false;
 		}
 
-		public void SetTooltip(string text)
+		public void SetInformation(string text)
 		{
 			Dispatcher.InvokeAsync(() => Button.ToolTip = text);
 		}

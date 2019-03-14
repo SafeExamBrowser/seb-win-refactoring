@@ -68,7 +68,7 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		/// <summary>
 		/// Creates a system control displaying the power supply status of the computer.
 		/// </summary>
-		ISystemPowerSupplyControl CreatePowerSupplyControl();
+		ISystemPowerSupplyControl CreatePowerSupplyControl(Location location);
 
 		/// <summary>
 		/// Creates a new runtime window which runs on its own thread.

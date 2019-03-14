@@ -115,9 +115,16 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			return Application.Current.Dispatcher.Invoke(() => new PasswordDialog(text.Get(message), text.Get(title), text));
 		}
 
-		public ISystemPowerSupplyControl CreatePowerSupplyControl()
+		public ISystemPowerSupplyControl CreatePowerSupplyControl(Location location)
 		{
-			return new PowerSupplyControl();
+			if (location == Location.ActionCenter)
+			{
+				return new ActionCenterPowerSupplyControl();
+			}
+			else
+			{
+				return new TaskbarPowerSupplyControl();
+			}
 		}
 
 		public IRuntimeWindow CreateRuntimeWindow(AppConfig appConfig)

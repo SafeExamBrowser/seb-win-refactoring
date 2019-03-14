@@ -78,46 +78,54 @@ namespace SafeExamBrowser.SystemComponents
 			var online = SystemInformation.PowerStatus.PowerLineStatus == PowerLineStatus.Online;
 			var tooltip = string.Empty;
 
+			if (online)
+			{
+				tooltip = text.Get(percentage == 100 ? TextKey.SystemControl_BatteryCharged : TextKey.SystemControl_BatteryCharging);
+				infoShown = false;
+				warningShown = false;
+			}
+			else
+			{
+				var hours = SystemInformation.PowerStatus.BatteryLifeRemaining / 3600;
+				var minutes = (SystemInformation.PowerStatus.BatteryLifeRemaining - (hours * 3600)) / 60;
+
+				HandleBatteryStatus(status);
+
+				tooltip = text.Get(TextKey.SystemControl_BatteryRemainingCharge);
+				tooltip = tooltip.Replace("%%HOURS%%", hours.ToString());
+				tooltip = tooltip.Replace("%%MINUTES%%", minutes.ToString());
+			}
+
+			tooltip = tooltip.Replace("%%CHARGE%%", percentage.ToString());
+
 			foreach (var control in controls)
 			{
-				if (online)
-				{
-					tooltip = text.Get(percentage == 100 ? TextKey.SystemControl_BatteryCharged : TextKey.SystemControl_BatteryCharging);
-					infoShown = false;
-					warningShown = false;
-				}
-				else
-				{
-					var hours = SystemInformation.PowerStatus.BatteryLifeRemaining / 3600;
-					var minutes = (SystemInformation.PowerStatus.BatteryLifeRemaining - (hours * 3600)) / 60;
-
-					HandleBatteryStatus(control, status);
-
-					tooltip = text.Get(TextKey.SystemControl_BatteryRemainingCharge);
-					tooltip = tooltip.Replace("%%HOURS%%", hours.ToString());
-					tooltip = tooltip.Replace("%%MINUTES%%", minutes.ToString());
-				}
-
-				tooltip = tooltip.Replace("%%CHARGE%%", percentage.ToString());
-
 				control.SetBatteryCharge(charge, status);
 				control.SetPowerGridConnection(online);
-				control.SetTooltip(tooltip);
+				control.SetInformation(tooltip);
 			}
 		}
 
-		private void HandleBatteryStatus(ISystemPowerSupplyControl control, BatteryChargeStatus status)
+		private void HandleBatteryStatus(BatteryChargeStatus status)
 		{
 			if (status == BatteryChargeStatus.Low && !infoShown)
 			{
-				control.ShowLowBatteryInfo(text.Get(TextKey.SystemControl_BatteryChargeLowInfo));
+				foreach (var control in controls)
+				{
+					control.ShowLowBatteryInfo(text.Get(TextKey.SystemControl_BatteryChargeLowInfo));
+				}
+
 				infoShown = true;
 				logger.Info("Informed the user about low battery charge.");
 			}
 
 			if (status == BatteryChargeStatus.Critical && !warningShown)
 			{
-				control.ShowCriticalBatteryWarning(text.Get(TextKey.SystemControl_BatteryChargeCriticalWarning));
+				foreach (var control in controls)
+				{
+					control.ShowCriticalBatteryWarning(text.Get(TextKey.SystemControl_BatteryChargeCriticalWarning));
+				}
+
 				warningShown = true;
 				logger.Warn("Warned the user about critical battery charge.");
 			}
