@@ -9,6 +9,7 @@
 using System;
 using System.Windows;
 using System.Windows.Media.Animation;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface.Shell;
 using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 
@@ -16,11 +17,17 @@ namespace SafeExamBrowser.UserInterface.Desktop
 {
 	public partial class ActionCenter : Window, IActionCenter
 	{
+		public bool ShowClock
+		{
+			set { Dispatcher.Invoke(() => Clock.Visibility = value ? Visibility.Visible : Visibility.Collapsed); }
+		}
+
 		public event QuitButtonClickedEventHandler QuitButtonClicked;
 
 		public ActionCenter()
 		{
 			InitializeComponent();
+			InitializeActionCenter();
 		}
 
 		public void AddApplicationControl(IApplicationControl control)
@@ -35,7 +42,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		{
 			if (control is UIElement uiElement)
 			{
-				ControlPanel.Children.Add(uiElement);
+				ControlPanel.Children.Insert(ControlPanel.Children.Count - 2, uiElement);
 			}
 		}
 
@@ -43,7 +50,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		{
 			if (control is UIElement uiElement)
 			{
-				ControlPanel.Children.Add(uiElement);
+				ControlPanel.Children.Insert(ControlPanel.Children.Count - 2, uiElement);
 			}
 		}
 
@@ -55,6 +62,12 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		public new void Hide()
 		{
 			Dispatcher.Invoke(HideAnimated);
+		}
+
+		public void InitializeText(IText text)
+		{
+			QuitButton.ToolTip = text.Get(TextKey.Shell_QuitButton);
+			QuitButton.Text.Text = text.Get(TextKey.Shell_QuitButton);
 		}
 
 		public void Register(IActionCenterActivator activator)
@@ -169,6 +182,11 @@ namespace SafeExamBrowser.UserInterface.Desktop
 					HideAnimated();
 				}
 			});
+		}
+
+		private void InitializeActionCenter()
+		{
+			QuitButton.Clicked += (args) => QuitButtonClicked?.Invoke(args);
 		}
 	}
 }

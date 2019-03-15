@@ -15,11 +15,11 @@ using SafeExamBrowser.UserInterface.Desktop.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
-	public partial class QuitButton : UserControl
+	public partial class TaskbarQuitButton : UserControl
 	{
 		public event QuitButtonClickedEventHandler Clicked;
 
-		public QuitButton()
+		public TaskbarQuitButton()
 		{
 			InitializeComponent();
 			LoadIcon();

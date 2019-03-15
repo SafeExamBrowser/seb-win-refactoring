@@ -12,6 +12,7 @@ using Moq;
 using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Contracts.Client;
 using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface;
@@ -25,18 +26,19 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<IActionCenter> actionCenter;
 		private Mock<IEnumerable<IActionCenterActivator>> activators;
 		private ActionCenterSettings actionCenterSettings;
-		private Mock<ILogger> loggerMock;
+		private Mock<ILogger> logger;
 		private TaskbarSettings taskbarSettings;
-		private Mock<INotificationInfo> aboutInfoMock;
-		private Mock<INotificationController> aboutControllerMock;
-		private Mock<INotificationInfo> logInfoMock;
-		private Mock<INotificationController> logControllerMock;
-		private Mock<ISystemComponent<ISystemKeyboardLayoutControl>> keyboardLayoutMock;
-		private Mock<ISystemComponent<ISystemPowerSupplyControl>> powerSupplyMock;
-		private Mock<ISystemComponent<ISystemWirelessNetworkControl>> wirelessNetworkMock;
-		private Mock<ISystemInfo> systemInfoMock;
-		private Mock<ITaskbar> taskbarMock;
-		private Mock<IUserInterfaceFactory> uiFactoryMock;
+		private Mock<INotificationInfo> aboutInfo;
+		private Mock<INotificationController> aboutController;
+		private Mock<INotificationInfo> logInfo;
+		private Mock<INotificationController> logController;
+		private Mock<ISystemComponent<ISystemKeyboardLayoutControl>> keyboardLayout;
+		private Mock<ISystemComponent<ISystemPowerSupplyControl>> powerSupply;
+		private Mock<ISystemComponent<ISystemWirelessNetworkControl>> wirelessNetwork;
+		private Mock<ISystemInfo> systemInfo;
+		private Mock<ITaskbar> taskbar;
+		private Mock<IText> text;
+		private Mock<IUserInterfaceFactory> uiFactory;
 
 		private ShellOperation sut;
 
@@ -46,42 +48,44 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			actionCenter = new Mock<IActionCenter>();
 			activators = new Mock<IEnumerable<IActionCenterActivator>>();
 			actionCenterSettings = new ActionCenterSettings();
-			loggerMock = new Mock<ILogger>();
-			aboutInfoMock = new Mock<INotificationInfo>();
-			aboutControllerMock = new Mock<INotificationController>();
-			logInfoMock = new Mock<INotificationInfo>();
-			logControllerMock = new Mock<INotificationController>();
-			keyboardLayoutMock = new Mock<ISystemComponent<ISystemKeyboardLayoutControl>>();
-			powerSupplyMock = new Mock<ISystemComponent<ISystemPowerSupplyControl>>();
-			wirelessNetworkMock = new Mock<ISystemComponent<ISystemWirelessNetworkControl>>();
-			systemInfoMock = new Mock<ISystemInfo>();
-			taskbarMock = new Mock<ITaskbar>();
+			logger = new Mock<ILogger>();
+			aboutInfo = new Mock<INotificationInfo>();
+			aboutController = new Mock<INotificationController>();
+			logInfo = new Mock<INotificationInfo>();
+			logController = new Mock<INotificationController>();
+			keyboardLayout = new Mock<ISystemComponent<ISystemKeyboardLayoutControl>>();
+			powerSupply = new Mock<ISystemComponent<ISystemPowerSupplyControl>>();
+			wirelessNetwork = new Mock<ISystemComponent<ISystemWirelessNetworkControl>>();
+			systemInfo = new Mock<ISystemInfo>();
+			taskbar = new Mock<ITaskbar>();
 			taskbarSettings = new TaskbarSettings();
-			uiFactoryMock = new Mock<IUserInterfaceFactory>();
+			text = new Mock<IText>();
+			uiFactory = new Mock<IUserInterfaceFactory>();
 
 			taskbarSettings.ShowApplicationLog = true;
 			taskbarSettings.ShowKeyboardLayout = true;
 			taskbarSettings.ShowWirelessNetwork = true;
 			taskbarSettings.EnableTaskbar = true;
-			systemInfoMock.SetupGet(s => s.HasBattery).Returns(true);
-			uiFactoryMock.Setup(u => u.CreateNotificationControl(It.IsAny<INotificationInfo>(), It.IsAny<Location>())).Returns(new Mock<INotificationControl>().Object);
+			systemInfo.SetupGet(s => s.HasBattery).Returns(true);
+			uiFactory.Setup(u => u.CreateNotificationControl(It.IsAny<INotificationInfo>(), It.IsAny<Location>())).Returns(new Mock<INotificationControl>().Object);
 
 			sut = new ShellOperation(
 				actionCenter.Object,
 				activators.Object,
 				actionCenterSettings,
-				loggerMock.Object,
-				aboutInfoMock.Object,
-				aboutControllerMock.Object,
-				logInfoMock.Object,
-				logControllerMock.Object,
-				keyboardLayoutMock.Object,
-				powerSupplyMock.Object,
-				wirelessNetworkMock.Object,
-				systemInfoMock.Object,
-				taskbarMock.Object,
+				logger.Object,
+				aboutInfo.Object,
+				aboutController.Object,
+				logInfo.Object,
+				logController.Object,
+				keyboardLayout.Object,
+				powerSupply.Object,
+				wirelessNetwork.Object,
+				systemInfo.Object,
+				taskbar.Object,
 				taskbarSettings,
-				uiFactoryMock.Object);
+				text.Object,
+				uiFactory.Object);
 		}
 
 		[TestMethod]
@@ -89,11 +93,11 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			sut.Perform();
 
-			keyboardLayoutMock.Verify(k => k.Initialize(), Times.Once);
-			powerSupplyMock.Verify(p => p.Initialize(), Times.Once);
-			wirelessNetworkMock.Verify(w => w.Initialize(), Times.Once);
-			taskbarMock.Verify(t => t.AddSystemControl(It.IsAny<ISystemControl>()), Times.Exactly(3));
-			taskbarMock.Verify(t => t.AddNotificationControl(It.IsAny<INotificationControl>()), Times.Exactly(2));
+			keyboardLayout.Verify(k => k.Initialize(), Times.Once);
+			powerSupply.Verify(p => p.Initialize(), Times.Once);
+			wirelessNetwork.Verify(w => w.Initialize(), Times.Once);
+			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemControl>()), Times.Exactly(3));
+			taskbar.Verify(t => t.AddNotificationControl(It.IsAny<INotificationControl>()), Times.Exactly(2));
 		}
 
 		[TestMethod]
@@ -101,10 +105,10 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			sut.Revert();
 
-			aboutControllerMock.Verify(c => c.Terminate(), Times.Once);
-			keyboardLayoutMock.Verify(k => k.Terminate(), Times.Once);
-			powerSupplyMock.Verify(p => p.Terminate(), Times.Once);
-			wirelessNetworkMock.Verify(w => w.Terminate(), Times.Once);
+			aboutController.Verify(c => c.Terminate(), Times.Once);
+			keyboardLayout.Verify(k => k.Terminate(), Times.Once);
+			powerSupply.Verify(p => p.Terminate(), Times.Once);
+			wirelessNetwork.Verify(w => w.Terminate(), Times.Once);
 		}
 	}
 }

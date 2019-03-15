@@ -11,14 +11,19 @@ using SafeExamBrowser.UserInterface.Desktop.ViewModels;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
-	public partial class DateTimeControl : UserControl
+	public partial class ActionCenterClock : UserControl
 	{
-		private DateTimeViewModel model = new DateTimeViewModel();
+		private DateTimeViewModel model;
 
-		public DateTimeControl()
+		public ActionCenterClock()
 		{
 			InitializeComponent();
+			InitializeControl();
+		}
 
+		private void InitializeControl()
+		{
+			model = new DateTimeViewModel(true);
 			DataContext = model;
 			TimeTextBlock.DataContext = model;
 			DateTextBlock.DataContext = model;

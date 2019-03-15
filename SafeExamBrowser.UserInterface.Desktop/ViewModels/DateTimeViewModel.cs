@@ -12,9 +12,10 @@ using System.Timers;
 
 namespace SafeExamBrowser.UserInterface.Desktop.ViewModels
 {
-	class DateTimeViewModel : INotifyPropertyChanged
+	internal class DateTimeViewModel : INotifyPropertyChanged
 	{
 		private Timer timer;
+		private readonly bool showSeconds;
 
 		public string Date { get; private set; }
 		public string Time { get; private set; }
@@ -22,11 +23,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.ViewModels
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public DateTimeViewModel()
+		public DateTimeViewModel(bool showSeconds)
 		{
-			timer = new Timer(1000);
-			timer.Elapsed += Timer_Elapsed;
-			timer.Start();
+			this.showSeconds = showSeconds;
+			this.timer = new Timer(1000);
+			this.timer.Elapsed += Timer_Elapsed;
+			this.timer.Start();
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -34,7 +36,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.ViewModels
 			var date = DateTime.Now;
 
 			Date = date.ToShortDateString();
-			Time = date.ToShortTimeString();
+			Time = showSeconds ? date.ToLongTimeString() : date.ToShortTimeString();
 			ToolTip = $"{date.ToLongDateString()} {date.ToLongTimeString()}";
 
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Time)));

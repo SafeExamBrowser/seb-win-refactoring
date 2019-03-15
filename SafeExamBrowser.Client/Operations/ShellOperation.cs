@@ -35,6 +35,7 @@ namespace SafeExamBrowser.Client.Operations
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
 		private TaskbarSettings taskbarSettings;
+		private IText text;
 		private IUserInterfaceFactory uiFactory;
 
 		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
@@ -55,6 +56,7 @@ namespace SafeExamBrowser.Client.Operations
 			ISystemInfo systemInfo,
 			ITaskbar taskbar,
 			TaskbarSettings taskbarSettings,
+			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
 			this.aboutInfo = aboutInfo;
@@ -67,8 +69,9 @@ namespace SafeExamBrowser.Client.Operations
 			this.logController = logController;
 			this.keyboardLayout = keyboardLayout;
 			this.powerSupply = powerSupply;
-			this.taskbarSettings = taskbarSettings;
 			this.systemInfo = systemInfo;
+			this.taskbarSettings = taskbarSettings;
+			this.text = text;
 			this.taskbar = taskbar;
 			this.uiFactory = uiFactory;
 			this.wirelessNetwork = wirelessNetwork;
@@ -102,6 +105,7 @@ namespace SafeExamBrowser.Client.Operations
 			if (actionCenterSettings.EnableActionCenter)
 			{
 				logger.Info("Initializing action center...");
+				actionCenter.InitializeText(text);
 
 				InitializeAboutNotificationForActionCenter();
 				InitializeClockForActionCenter();
@@ -127,6 +131,7 @@ namespace SafeExamBrowser.Client.Operations
 			if (taskbarSettings.EnableTaskbar)
 			{
 				logger.Info("Initializing taskbar...");
+				taskbar.InitializeText(text);
 
 				InitializeAboutNotificationForTaskbar();
 				InitializeClockForTaskbar();
@@ -166,7 +171,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeClockForActionCenter()
 		{
-			//TODO: actionCenter.ShowClock = settings.ShowClock;
+			actionCenter.ShowClock = actionCenterSettings.ShowClock;
 		}
 
 		private void InitializeClockForTaskbar()

@@ -8,6 +8,7 @@
 
 using System.ComponentModel;
 using System.Windows;
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.UserInterface.Shell;
 using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
@@ -29,13 +30,10 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		public Taskbar(ILogger logger)
 		{
-			InitializeComponent();
-
 			this.logger = logger;
 
-			Closing += Taskbar_Closing;
-			Loaded += (o, args) => InitializeBounds();
-			QuitButton.Clicked += QuitButton_Clicked;
+			InitializeComponent();
+			InitializeTaskbar();
 		}
 
 		public void AddApplicationControl(IApplicationControl control)
@@ -94,6 +92,14 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			});
 		}
 
+		public void InitializeText(IText text)
+		{
+			Dispatcher.Invoke(() =>
+			{
+				QuitButton.ToolTip = text.Get(TextKey.Shell_QuitButton);
+			});
+		}
+
 		public new void Show()
 		{
 			Dispatcher.Invoke(base.Show);
@@ -121,6 +127,13 @@ namespace SafeExamBrowser.UserInterface.Desktop
 					systemControl.Close();
 				}
 			}
+		}
+
+		private void InitializeTaskbar()
+		{
+			Closing += Taskbar_Closing;
+			Loaded += (o, args) => InitializeBounds();
+			QuitButton.Clicked += QuitButton_Clicked;
 		}
 	}
 }

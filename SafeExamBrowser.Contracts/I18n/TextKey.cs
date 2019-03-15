@@ -96,6 +96,7 @@ namespace SafeExamBrowser.Contracts.I18n
 		PasswordDialog_SettingsPasswordRequired,
 		PasswordDialog_SettingsPasswordRequiredTitle,
 		RuntimeWindow_ApplicationRunning,
+		Shell_QuitButton,
 		SystemControl_BatteryCharged,
 		SystemControl_BatteryCharging,
 		SystemControl_BatteryChargeCriticalWarning,

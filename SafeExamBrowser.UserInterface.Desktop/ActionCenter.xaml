@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop"
+        xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Controls"
         mc:Ignorable="d" Title="ActionCenter" Height="1000" Width="400" Background="#EEF0F0F0" AllowsTransparency="True" WindowStyle="None" Topmost="True" ResizeMode="NoResize">
     <Window.Resources>
         <ResourceDictionary>
@@ -20,6 +20,9 @@
         <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Template="{StaticResource SmallBarScrollViewer}">
             <StackPanel x:Name="ApplicationPanel" Orientation="Vertical" />
         </ScrollViewer>
-        <UniformGrid x:Name="ControlPanel" Grid.Row="1" Columns="4" Margin="10" />
+        <UniformGrid x:Name="ControlPanel" Grid.Row="1" Columns="4" Margin="10">
+            <local:ActionCenterClock x:Name="Clock" />
+            <local:ActionCenterQuitButton x:Name="QuitButton" />
+        </UniformGrid>
     </Grid>
 </Window>

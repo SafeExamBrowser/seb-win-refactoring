@@ -94,7 +94,7 @@ namespace SafeExamBrowser.Client
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, nameof(ProcessMonitor)), nativeMethods);
 			uiFactory = new UserInterfaceFactory(text);
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(RuntimeProxy)));
-			taskbar = new Taskbar(new ModuleLogger(logger, nameof(taskbar)));
+			taskbar = new Taskbar(new ModuleLogger(logger, nameof(Taskbar)));
 			windowMonitor = new WindowMonitor(new ModuleLogger(logger, nameof(WindowMonitor)), nativeMethods);
 			wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, nameof(WirelessNetwork)), text);
 
@@ -276,6 +276,7 @@ namespace SafeExamBrowser.Client
 				systemInfo,
 				taskbar,
 				configuration.Settings.Taskbar,
+				text,
 				uiFactory);
 
 			return operation;

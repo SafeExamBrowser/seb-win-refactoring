@@ -80,6 +80,9 @@
     <Compile Include="Controls\ActionCenterApplicationButton.xaml.cs">
       <DependentUpon>ActionCenterApplicationButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ActionCenterClock.xaml.cs">
+      <DependentUpon>ActionCenterClock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ActionCenterKeyboardLayoutButton.xaml.cs">
       <DependentUpon>ActionCenterKeyboardLayoutButton.xaml</DependentUpon>
     </Compile>
@@ -91,6 +94,9 @@
     </Compile>
     <Compile Include="Controls\ActionCenterPowerSupplyControl.xaml.cs">
       <DependentUpon>ActionCenterPowerSupplyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ActionCenterQuitButton.xaml.cs">
+      <DependentUpon>ActionCenterQuitButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ActionCenterWirelessNetworkButton.xaml.cs">
       <DependentUpon>ActionCenterWirelessNetworkButton.xaml</DependentUpon>
@@ -104,8 +110,8 @@
     <Compile Include="Controls\TaskbarApplicationInstanceButton.xaml.cs">
       <DependentUpon>TaskbarApplicationInstanceButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\DateTimeControl.xaml.cs">
-      <DependentUpon>DateTimeControl.xaml</DependentUpon>
+    <Compile Include="Controls\TaskbarClock.xaml.cs">
+      <DependentUpon>TaskbarClock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TaskbarKeyboardLayoutButton.xaml.cs">
       <DependentUpon>TaskbarKeyboardLayoutButton.xaml</DependentUpon>
@@ -119,8 +125,8 @@
     <Compile Include="Controls\TaskbarPowerSupplyControl.xaml.cs">
       <DependentUpon>TaskbarPowerSupplyControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\QuitButton.xaml.cs">
-      <DependentUpon>QuitButton.xaml</DependentUpon>
+    <Compile Include="Controls\TaskbarQuitButton.xaml.cs">
+      <DependentUpon>TaskbarQuitButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TaskbarWirelessNetworkButton.xaml.cs">
       <DependentUpon>TaskbarWirelessNetworkButton.xaml</DependentUpon>
@@ -169,6 +175,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\ActionCenterClock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ActionCenterKeyboardLayoutButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -182,6 +192,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ActionCenterPowerSupplyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ActionCenterQuitButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -201,7 +215,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\DateTimeControl.xaml">
+    <Page Include="Controls\TaskbarClock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -221,7 +235,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\QuitButton.xaml">
+    <Page Include="Controls\TaskbarQuitButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

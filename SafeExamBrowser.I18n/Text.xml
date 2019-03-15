@@ -112,7 +112,7 @@
     Configuration Error
   </Entry>
   <Entry key="Notification_AboutTooltip">
-    About Safe Exam Browser
+    Information about SEB
   </Entry>
   <Entry key="Notification_LogTooltip">
     Application Log
@@ -245,6 +245,9 @@
   </Entry>
   <Entry key="RuntimeWindow_ApplicationRunning">
     The application is running.
+  </Entry>
+  <Entry key="Shell_QuitButton">
+    Terminate Session
   </Entry>
   <Entry key="SystemControl_BatteryCharging">
     Plugged in, charging... (%%CHARGE%%%)

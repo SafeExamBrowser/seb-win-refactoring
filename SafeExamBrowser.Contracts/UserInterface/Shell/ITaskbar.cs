@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 
 namespace SafeExamBrowser.Contracts.UserInterface.Shell
@@ -54,6 +55,11 @@ namespace SafeExamBrowser.Contracts.UserInterface.Shell
 		/// Moves the taskbar to the bottom of and resizes it according to the current working area.
 		/// </summary>
 		void InitializeBounds();
+
+		/// <summary>
+		/// Initializes all text elements in the taskbar.
+		/// </summary>
+		void InitializeText(IText text);
 
 		/// <summary>
 		/// Shows the taskbar.

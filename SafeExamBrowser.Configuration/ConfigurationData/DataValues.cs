@@ -89,6 +89,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			var settings = new Settings();
 
 			settings.ActionCenter.EnableActionCenter = true;
+			settings.ActionCenter.ShowApplicationLog = false;
+			settings.ActionCenter.ShowKeyboardLayout = true;
+			settings.ActionCenter.ShowWirelessNetwork = false;
+			settings.ActionCenter.ShowClock = true;
 
 			settings.Browser.StartUrl = "https://www.safeexambrowser.org/start";
 			settings.Browser.AllowConfigurationDownloads = true;

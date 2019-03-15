@@ -25,6 +25,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		/// Determines whether the application log is accessible via the action center.
 		/// </summary>
 		public bool ShowApplicationLog { get; set; }
+		
+		/// <summary>
+		/// Determines whether the current date and time will be rendered in the action center.
+		/// </summary>
+		public bool ShowClock { get; set; }
 
 		/// <summary>
 		/// Determines whether the system control for the keyboard layout is accessible via the action center.

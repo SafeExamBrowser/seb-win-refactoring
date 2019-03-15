@@ -168,6 +168,7 @@ namespace SafeExamBrowser.Client
 
 		private void RegisterEvents()
 		{
+			actionCenter.QuitButtonClicked += Shell_QuitButtonClicked;
 			Browser.ConfigurationDownloadRequested += Browser_ConfigurationDownloadRequested;
 			ClientHost.MessageBoxRequested += ClientHost_MessageBoxRequested;
 			ClientHost.PasswordRequested += ClientHost_PasswordRequested;
@@ -176,16 +177,17 @@ namespace SafeExamBrowser.Client
 			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
 			processMonitor.ExplorerStarted += ProcessMonitor_ExplorerStarted;
 			runtime.ConnectionLost += Runtime_ConnectionLost;
-			taskbar.QuitButtonClicked += Taskbar_QuitButtonClicked;
+			taskbar.QuitButtonClicked += Shell_QuitButtonClicked;
 			windowMonitor.WindowChanged += WindowMonitor_WindowChanged;
 		}
 
 		private void DeregisterEvents()
 		{
+			actionCenter.QuitButtonClicked -= Shell_QuitButtonClicked;
 			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
 			processMonitor.ExplorerStarted -= ProcessMonitor_ExplorerStarted;
 			runtime.ConnectionLost -= Runtime_ConnectionLost;
-			taskbar.QuitButtonClicked -= Taskbar_QuitButtonClicked;
+			taskbar.QuitButtonClicked -= Shell_QuitButtonClicked;
 			windowMonitor.WindowChanged -= WindowMonitor_WindowChanged;
 
 			if (Browser != null)
@@ -214,26 +216,6 @@ namespace SafeExamBrowser.Client
 		{
 			logger.Info("Starting browser application...");
 			Browser.Start();
-		}
-
-		private void DisplayMonitor_DisplaySettingsChanged()
-		{
-			logger.Info("Reinitializing working area...");
-			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
-			logger.Info("Reinitializing taskbar bounds...");
-			taskbar.InitializeBounds();
-			logger.Info("Desktop successfully restored.");
-		}
-
-		private void ProcessMonitor_ExplorerStarted()
-		{
-			logger.Info("Trying to terminate Windows explorer...");
-			explorerShell.Terminate();
-			logger.Info("Reinitializing working area...");
-			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
-			logger.Info("Reinitializing taskbar bounds...");
-			taskbar.InitializeBounds();
-			logger.Info("Desktop successfully restored.");
 		}
 
 		private void Browser_ConfigurationDownloadRequested(string fileName, DownloadEventArgs args)
@@ -337,6 +319,15 @@ namespace SafeExamBrowser.Client
 			shutdown.Invoke();
 		}
 
+		private void DisplayMonitor_DisplaySettingsChanged()
+		{
+			logger.Info("Reinitializing working area...");
+			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
+			logger.Info("Reinitializing taskbar bounds...");
+			taskbar.InitializeBounds();
+			logger.Info("Desktop successfully restored.");
+		}
+
 		private void Operations_ProgressChanged(ProgressChangedEventArgs args)
 		{
 			if (args.CurrentValue.HasValue)
@@ -370,6 +361,17 @@ namespace SafeExamBrowser.Client
 			splashScreen?.UpdateStatus(status, true);
 		}
 
+		private void ProcessMonitor_ExplorerStarted()
+		{
+			logger.Info("Trying to terminate Windows explorer...");
+			explorerShell.Terminate();
+			logger.Info("Reinitializing working area...");
+			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
+			logger.Info("Reinitializing taskbar bounds...");
+			taskbar.InitializeBounds();
+			logger.Info("Desktop successfully restored.");
+		}
+
 		private void Runtime_ConnectionLost()
 		{
 			logger.Error("Lost connection to the runtime!");
@@ -378,7 +380,7 @@ namespace SafeExamBrowser.Client
 			shutdown.Invoke();
 		}
 
-		private void Taskbar_QuitButtonClicked(System.ComponentModel.CancelEventArgs args)
+		private void Shell_QuitButtonClicked(System.ComponentModel.CancelEventArgs args)
 		{
 			var hasQuitPassword = !String.IsNullOrEmpty(Settings.QuitPasswordHash);
 			var requestShutdown = false;

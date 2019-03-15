@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 
 namespace SafeExamBrowser.Contracts.UserInterface.Shell
@@ -15,6 +16,11 @@ namespace SafeExamBrowser.Contracts.UserInterface.Shell
 	/// </summary>
 	public interface IActionCenter
 	{
+		/// <summary>
+		/// Controls the visibility of the clock.
+		/// </summary>
+		bool ShowClock { set; }
+
 		/// <summary>
 		/// Event fired when the user clicked the quit button.
 		/// </summary>
@@ -44,6 +50,11 @@ namespace SafeExamBrowser.Contracts.UserInterface.Shell
 		/// Makes the action center invisible.
 		/// </summary>
 		void Hide();
+		
+		/// <summary>
+		/// Initializes all text elements in the action center.
+		/// </summary>
+		void InitializeText(IText text);
 
 		/// <summary>
 		/// Registers the specified activator to control the visibility of the action center.
