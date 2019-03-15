@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Contracts.Applications;
@@ -194,8 +195,18 @@ namespace SafeExamBrowser.Browser
 
 		private void Window_AddressChanged(string address)
 		{
-			logger.Debug($"The user requested to navigate to '{address}'.");
-			control.NavigateTo(address);
+			var isValid = Uri.TryCreate(address, UriKind.Absolute, out _) || Uri.TryCreate($"https://{address}", UriKind.Absolute, out _);
+
+			if (isValid)
+			{
+				logger.Debug($"The user requested to navigate to '{address}', the URI is valid.");
+				control.NavigateTo(address);
+			}
+			else
+			{
+				logger.Debug($"The user requested to navigate to '{address}', but the URI is not valid.");
+				window.UpdateAddress(string.Empty);
+			}
 		}
 
 		private void Window_BackwardNavigationRequested()
