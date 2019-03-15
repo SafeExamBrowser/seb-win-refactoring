@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -37,7 +38,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void MustWaitForDisconnectionIfConnectionIsActive()
 		{
-			var stopWatch = new Stopwatch();
+			var after = default(DateTime);
+			var before = default(DateTime);
 			var timeout_ms = 200;
 
 			sut = new ClientHostDisconnectionOperation(clientHost.Object, logger.Object, timeout_ms);
@@ -47,36 +49,35 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 				clientHost.Raise(h => h.RuntimeDisconnected += null);
 			}));
 
-			stopWatch.Start();
+			before = DateTime.Now;
 			sut.Revert();
-			stopWatch.Stop();
+			after = DateTime.Now;
 
 			clientHost.VerifyGet(h => h.IsConnected);
 			clientHost.VerifyNoOtherCalls();
 
-			Assert.IsFalse(stopWatch.IsRunning);
-			Assert.IsTrue(stopWatch.ElapsedMilliseconds < timeout_ms);
+			Assert.IsTrue(after - before < new TimeSpan(0, 0, 0, 0, timeout_ms));
 		}
 
 		[TestMethod]
 		public void MustRespectTimeoutIfWaitingForDisconnection()
 		{
-			var stopWatch = new Stopwatch();
+			var after = default(DateTime);
+			var before = default(DateTime);
 			var timeout_ms = 200;
 
 			sut = new ClientHostDisconnectionOperation(clientHost.Object, logger.Object, timeout_ms);
 
 			clientHost.SetupGet(h => h.IsConnected).Returns(true);
 
-			stopWatch.Start();
+			before = DateTime.Now;
 			sut.Revert();
-			stopWatch.Stop();
+			after = DateTime.Now;
 
 			clientHost.VerifyGet(h => h.IsConnected);
 			clientHost.VerifyNoOtherCalls();
 
-			Assert.IsFalse(stopWatch.IsRunning);
-			Assert.IsTrue(stopWatch.ElapsedMilliseconds >= timeout_ms);
+			Assert.IsTrue(after - before >= new TimeSpan(0, 0, 0, 0, timeout_ms));
 		}
 
 		[TestMethod]
