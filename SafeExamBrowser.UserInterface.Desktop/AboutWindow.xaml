@@ -31,7 +31,7 @@
                 <LineBreak />
                 <Bold><Underline>CEF (Chromium Embedded Framework)</Underline></Bold>
                 <LineBreak />
-                Copyright © 2008-2014 Marshall A. Greenblatt. Portions Copyright © 2006-2009 Google Inc. All rights reserved.
+                Copyright © 2008-2019 Marshall A. Greenblatt. Portions Copyright © 2006-2009 Google Inc. All rights reserved.
             </TextBlock>
         </ScrollViewer>
     </Grid>
