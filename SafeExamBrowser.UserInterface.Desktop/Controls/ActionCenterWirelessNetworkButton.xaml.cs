@@ -8,12 +8,14 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using SafeExamBrowser.Contracts.SystemComponents;
+using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
-	public partial class WirelessNetworkButton : UserControl
+	public partial class ActionCenterWirelessNetworkButton : UserControl
 	{
-		public event RoutedEventHandler Click;
+		private IWirelessNetwork network;
 
 		public bool IsCurrent
 		{
@@ -30,11 +32,19 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			set { SignalStrengthTextBlock.Text = $"{value}%"; }
 		}
 
-		public WirelessNetworkButton()
-		{
-			InitializeComponent();
+		public event WirelessNetworkSelectedEventHandler NetworkSelected;
 
-			Button.Click += (o, args) => Click?.Invoke(o, args);
+		public ActionCenterWirelessNetworkButton(IWirelessNetwork network)
+		{
+			this.network = network;
+
+			InitializeComponent();
+			InitializeEvents();
+		}
+
+		private void InitializeEvents()
+		{
+			Button.Click += (o, args) => NetworkSelected?.Invoke(network.Id);
 		}
 	}
 }

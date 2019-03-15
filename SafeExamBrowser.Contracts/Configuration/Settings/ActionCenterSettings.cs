@@ -30,5 +30,10 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		/// Determines whether the system control for the keyboard layout is accessible via the action center.
 		/// </summary>
 		public bool ShowKeyboardLayout { get; set; }
+
+		/// <summary>
+		/// Determines whether the system control for the wireless network is accessible via the action center.
+		/// </summary>
+		public bool ShowWirelessNetwork { get; set; }
 	}
 }

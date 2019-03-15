@@ -6,12 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.SystemComponents;
+using System;
 
 namespace SafeExamBrowser.Contracts.UserInterface.Shell.Events
 {
 	/// <summary>
-	/// Indicates that a particular <see cref="IWirelessNetwork"/> has been selected by the user.
+	/// Indicates that a particular wireless network has been selected by the user.
 	/// </summary>
-	public delegate void WirelessNetworkSelectedEventHandler(IWirelessNetwork network);
+	public delegate void WirelessNetworkSelectedEventHandler(Guid id);
 }

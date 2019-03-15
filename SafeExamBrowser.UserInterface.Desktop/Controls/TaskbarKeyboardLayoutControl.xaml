@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:s="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Controls"
              mc:Ignorable="d" d:DesignHeight="40" d:DesignWidth="40">
@@ -25,27 +24,9 @@
             </Border>
         </Popup>
         <Button x:Name="Button" Background="Transparent" Template="{StaticResource TaskbarButton}" Padding="5" Width="40">
-            <Grid>
-                <fa:ImageAwesome Panel.ZIndex="1" Foreground="LightGray" Icon="KeyboardOutline" VerticalAlignment="Center">
-                    <fa:ImageAwesome.Effect>
-                        <DropShadowEffect Color="White" BlurRadius="5" Direction="0" Opacity="1" ShadowDepth="0" />
-                    </fa:ImageAwesome.Effect>
-                </fa:ImageAwesome>
-                <Viewbox Panel.ZIndex="2" Stretch="Uniform">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1*" />
-                            <RowDefinition Height="1*" />
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" x:Name="LayoutCultureCode" FontWeight="Bold" TextAlignment="Center">
-                            <TextBlock.Effect>
-                                <DropShadowEffect Color="White" BlurRadius="5" Direction="0" Opacity="1" ShadowDepth="0" />
-                            </TextBlock.Effect>
-                        </TextBlock>
-                        <TextBlock Grid.Row="1" />
-                    </Grid>
-                </Viewbox>
-            </Grid>
+            <Viewbox Stretch="Uniform">
+                <TextBlock x:Name="LayoutCultureCode" FontWeight="Bold" Margin="2" TextAlignment="Center" VerticalAlignment="Center" />
+            </Viewbox>
         </Button>
     </Grid>
 </UserControl>

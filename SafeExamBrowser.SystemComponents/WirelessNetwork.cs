@@ -22,11 +22,11 @@ namespace SafeExamBrowser.SystemComponents
 {
 	public class WirelessNetwork : ISystemComponent<ISystemWirelessNetworkControl>
 	{
-		private const int TWO_SECONDS = 2000;
+		private const int FIVE_SECONDS = 5000;
 		private readonly object @lock = new object();
 
-		private IList<ISystemWirelessNetworkControl> controls;
-		private IList<WirelessNetworkDefinition> networks;
+		private List<ISystemWirelessNetworkControl> controls;
+		private List<WirelessNetworkDefinition> networks;
 		private bool hasWifiAdapter;
 		private ILogger logger;
 		private IText text;
@@ -49,10 +49,8 @@ namespace SafeExamBrowser.SystemComponents
 
 			if (hasWifiAdapter)
 			{
-				timer = new Timer(TWO_SECONDS);
-				timer.Elapsed += Timer_Elapsed;
-				timer.AutoReset = true;
-				timer.Start();
+				UpdateAvailableNetworks();
+				StartTimer();
 
 				logger.Info("Started monitoring the wireless network adapter.");
 			}
@@ -97,23 +95,28 @@ namespace SafeExamBrowser.SystemComponents
 			}
 		}
 
-		private void Control_NetworkSelected(IWirelessNetwork network)
+		private void Control_NetworkSelected(Guid id)
 		{
-			try
+			lock (@lock)
 			{
-				var accessPoint = networks.First(n => n.Id == network.Id).AccessPoint;
-				var authRequest = new AuthRequest(accessPoint);
+				var network = networks.First(n => n.Id == id);
 
-				accessPoint.ConnectAsync(authRequest, false, (success) => AccessPoint_OnConnectComplete(network.Name, success));
-
-				foreach (var control in controls)
+				try
 				{
-					control.IsConnecting = true;
+					var request = new AuthRequest(network.AccessPoint);
+
+					logger.Info($"Attempting to connect to '{network.Name}'...");
+					network.AccessPoint.ConnectAsync(request, false, (success) => AccessPoint_OnConnectComplete(network.Name, success));
+
+					foreach (var control in controls)
+					{
+						control.IsConnecting = true;
+					}
 				}
-			}
-			catch (Exception e)
-			{
-				logger.Error($"Failed to connect to wireless network '{network.Name}!'", e);
+				catch (Exception e)
+				{
+					logger.Error($"Failed to connect to wireless network '{network.Name}!'", e);
+				}
 			}
 		}
 
@@ -133,16 +136,19 @@ namespace SafeExamBrowser.SystemComponents
 				control.IsConnecting = false;
 			}
 
+			UpdateAvailableNetworks();
 			UpdateControls();
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
+			UpdateAvailableNetworks();
 			UpdateControls();
 		}
 
 		private void Wifi_ConnectionStatusChanged(object sender, WifiStatusEventArgs e)
 		{
+			UpdateAvailableNetworks();
 			UpdateControls();
 		}
 
@@ -177,22 +183,7 @@ namespace SafeExamBrowser.SystemComponents
 			{
 				try
 				{
-					var isConnected = false;
-					var networkName = string.Empty;
-
-					networks.Clear();
-
-					foreach (var accessPoint in wifi.GetAccessPoints())
-					{
-						// The user may only connect to an already configured wireless network!
-						if (accessPoint.HasProfile)
-						{
-							networkName = accessPoint.Name;
-							isConnected = accessPoint.IsConnected;
-
-							networks.Add(ToDefinition(accessPoint));
-						}
-					}
+					var currentNetwork = networks.FirstOrDefault(n => n.Status == WirelessNetworkStatus.Connected);
 
 					foreach (var control in controls)
 					{
@@ -201,13 +192,13 @@ namespace SafeExamBrowser.SystemComponents
 							control.SetInformation(text.Get(TextKey.SystemControl_WirelessDisconnected));
 						}
 
-						if (isConnected)
+						if (currentNetwork != null)
 						{
-							control.SetInformation(text.Get(TextKey.SystemControl_WirelessConnected).Replace("%%NAME%%", networkName));
+							control.SetInformation(text.Get(TextKey.SystemControl_WirelessConnected).Replace("%%NAME%%", currentNetwork.Name));
 						}
 
 						control.NetworkStatus = ToStatus(wifi.ConnectionStatus);
-						control.Update(new List<IWirelessNetwork>(networks));
+						control.Update(networks.ToList());
 					}
 				}
 				catch (Exception e)
@@ -215,6 +206,31 @@ namespace SafeExamBrowser.SystemComponents
 					logger.Error("Failed to update the wireless network adapter status!", e);
 				}
 			}
+		}
+
+		private void UpdateAvailableNetworks()
+		{
+			lock (@lock)
+			{
+				networks.Clear();
+
+				foreach (var accessPoint in wifi.GetAccessPoints())
+				{
+					// The user may only connect to an already configured wireless network!
+					if (accessPoint.HasProfile)
+					{
+						networks.Add(ToDefinition(accessPoint));
+					}
+				}
+			}
+		}
+
+		private void StartTimer()
+		{
+			timer = new Timer(FIVE_SECONDS);
+			timer.Elapsed += Timer_Elapsed;
+			timer.AutoReset = true;
+			timer.Start();
 		}
 
 		private WirelessNetworkDefinition ToDefinition(AccessPoint accessPoint)

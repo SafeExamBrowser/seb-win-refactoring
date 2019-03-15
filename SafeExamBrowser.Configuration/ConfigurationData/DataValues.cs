@@ -140,13 +140,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.Taskbar.ShowApplicationLog = false;
 			settings.Taskbar.ShowKeyboardLayout = true;
-			settings.Taskbar.AllowWirelessNetwork = false;
+			settings.Taskbar.ShowWirelessNetwork = false;
 			settings.Taskbar.EnableTaskbar = true;
 			settings.Taskbar.ShowClock = true;
 
 			// TODO: Default values for testing of alpha version only, remove for final release!
 			settings.ActionCenter.ShowApplicationLog = true;
 			settings.ActionCenter.ShowKeyboardLayout = true;
+			settings.ActionCenter.ShowWirelessNetwork = true;
 			settings.Browser.AllowDeveloperConsole = true;
 			settings.Browser.MainWindowSettings.AllowAddressBar = true;
 			settings.Taskbar.ShowApplicationLog = true;

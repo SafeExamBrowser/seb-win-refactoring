@@ -157,9 +157,16 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			return splashScreen;
 		}
 
-		public ISystemWirelessNetworkControl CreateWirelessNetworkControl()
+		public ISystemWirelessNetworkControl CreateWirelessNetworkControl(Location location)
 		{
-			return new WirelessNetworkControl();
+			if (location == Location.ActionCenter)
+			{
+				return new ActionCenterWirelessNetworkControl();
+			}
+			else
+			{
+				return new TaskbarWirelessNetworkControl();
+			}
 		}
 
 		private void InitializeFontAwesome()

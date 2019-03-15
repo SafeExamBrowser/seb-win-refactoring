@@ -40,7 +40,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool enabled)
 			{
-				settings.Taskbar.AllowWirelessNetwork = enabled;
+				settings.Taskbar.ShowWirelessNetwork = enabled;
 			}
 		}
 

@@ -20,7 +20,7 @@ using SafeExamBrowser.UserInterface.Desktop.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
-	public partial class WirelessNetworkControl : UserControl, ISystemWirelessNetworkControl
+	public partial class TaskbarWirelessNetworkControl : UserControl, ISystemWirelessNetworkControl
 	{
 		public bool HasWirelessNetworkAdapter
 		{
@@ -56,6 +56,11 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 					var icon = value == WirelessNetworkStatus.Connected ? FontAwesomeIcon.Check : FontAwesomeIcon.Close;
 					var brush = value == WirelessNetworkStatus.Connected ? Brushes.Green : Brushes.Orange;
 
+					if (value == WirelessNetworkStatus.Disconnected)
+					{
+						SignalStrengthIcon.Child = GetIcon(0);
+					}
+
 					NetworkStatusIcon.Source = ImageAwesome.CreateImageSource(icon, brush);
 				});
 			}
@@ -63,7 +68,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 		public event WirelessNetworkSelectedEventHandler NetworkSelected;
 
-		public WirelessNetworkControl()
+		public TaskbarWirelessNetworkControl()
 		{
 			InitializeComponent();
 			InitializeWirelessNetworkControl();
@@ -87,16 +92,13 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 				foreach (var network in networks)
 				{
-					var button = new WirelessNetworkButton();
+					var button = new TaskbarWirelessNetworkButton(network);
 					var isCurrent = network.Status == WirelessNetworkStatus.Connected;
 
-					button.Click += (o, args) =>
-					{
-						NetworkSelected?.Invoke(network);
-					};
 					button.IsCurrent = isCurrent;
 					button.NetworkName = network.Name;
 					button.SignalStrength = network.SignalStrength;
+					button.NetworkSelected += (id) => NetworkSelected?.Invoke(id);
 
 					if (isCurrent)
 					{

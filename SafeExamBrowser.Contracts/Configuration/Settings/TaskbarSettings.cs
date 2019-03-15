@@ -39,6 +39,6 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		/// <summary>
 		/// Determines whether the system control for the wireless network is accessible via the taskbar.
 		/// </summary>
-		public bool AllowWirelessNetwork { get; set; }
+		public bool ShowWirelessNetwork { get; set; }
 	}
 }

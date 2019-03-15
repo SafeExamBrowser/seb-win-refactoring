@@ -54,7 +54,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.ViewModels
 			{
 				var isHeader = logText.Text.StartsWith("/* ");
 				var isComment = logText.Text.StartsWith("# ");
-				var brush = isHeader || isComment ? Brushes.ForestGreen : textBlock.Foreground;
+				var brush = isHeader || isComment ? Brushes.LimeGreen : textBlock.Foreground;
 
 				textBlock.Inlines.Add(new Run($"{logText.Text}{Environment.NewLine}")
 				{
@@ -74,7 +74,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.ViewModels
 				var threadName = message.ThreadInfo.HasName ? ": " + message.ThreadInfo.Name : string.Empty;
 				var threadInfo = $"[{threadId}{threadName}]";
 
-				var infoRun = new Run($"{date} {threadInfo} - ") { Foreground = Brushes.Gray };
+				var infoRun = new Run($"{date} {threadInfo} - ") { Foreground = Brushes.DarkGray };
 				var messageRun = new Run($"{severity}: {message.Message}{Environment.NewLine}") { Foreground = GetBrushFor(message.Severity) };
 
 				textBlock.Inlines.Add(infoRun);
@@ -87,13 +87,13 @@ namespace SafeExamBrowser.UserInterface.Desktop.ViewModels
 			switch (severity)
 			{
 				case LogLevel.Debug:
-					return Brushes.Gray;
+					return Brushes.DarkGray;
 				case LogLevel.Error:
 					return Brushes.Red;
 				case LogLevel.Warning:
 					return Brushes.Orange;
 				default:
-					return Brushes.Black;
+					return Brushes.White;
 			}
 		}
 	}

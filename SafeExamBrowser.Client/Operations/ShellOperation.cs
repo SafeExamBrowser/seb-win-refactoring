@@ -242,14 +242,20 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeWirelessNetworkForActionCenter()
 		{
-			// TODO
+			if (actionCenterSettings.ShowWirelessNetwork)
+			{
+				var control = uiFactory.CreateWirelessNetworkControl(Location.ActionCenter);
+
+				wirelessNetwork.Register(control);
+				actionCenter.AddSystemControl(control);
+			}
 		}
 
 		private void InitializeWirelessNetworkForTaskbar()
 		{
-			if (taskbarSettings.AllowWirelessNetwork)
+			if (taskbarSettings.ShowWirelessNetwork)
 			{
-				var control = uiFactory.CreateWirelessNetworkControl();
+				var control = uiFactory.CreateWirelessNetworkControl(Location.Taskbar);
 
 				wirelessNetwork.Register(control);
 				taskbar.AddSystemControl(control);

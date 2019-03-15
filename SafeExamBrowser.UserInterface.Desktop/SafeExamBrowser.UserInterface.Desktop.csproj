@@ -92,6 +92,12 @@
     <Compile Include="Controls\ActionCenterPowerSupplyControl.xaml.cs">
       <DependentUpon>ActionCenterPowerSupplyControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ActionCenterWirelessNetworkButton.xaml.cs">
+      <DependentUpon>ActionCenterWirelessNetworkButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ActionCenterWirelessNetworkControl.xaml.cs">
+      <DependentUpon>ActionCenterWirelessNetworkControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TaskbarApplicationControl.xaml.cs">
       <DependentUpon>TaskbarApplicationControl.xaml</DependentUpon>
     </Compile>
@@ -116,11 +122,11 @@
     <Compile Include="Controls\QuitButton.xaml.cs">
       <DependentUpon>QuitButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\WirelessNetworkButton.xaml.cs">
-      <DependentUpon>WirelessNetworkButton.xaml</DependentUpon>
+    <Compile Include="Controls\TaskbarWirelessNetworkButton.xaml.cs">
+      <DependentUpon>TaskbarWirelessNetworkButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\WirelessNetworkControl.xaml.cs">
-      <DependentUpon>WirelessNetworkControl.xaml</DependentUpon>
+    <Compile Include="Controls\TaskbarWirelessNetworkControl.xaml.cs">
+      <DependentUpon>TaskbarWirelessNetworkControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="LogWindow.xaml.cs">
       <DependentUpon>LogWindow.xaml</DependentUpon>
@@ -179,6 +185,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\ActionCenterWirelessNetworkButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ActionCenterWirelessNetworkControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\TaskbarApplicationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -214,6 +228,22 @@
     <Resource Include="Images\Menu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Images\WiFi_Light_66.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\WiFi_Light_33.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\WiFi_Light_100.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\WiFi_Light_0.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Resource>
     <Page Include="Templates\ScrollViewers.xaml">
       <SubType>Designer</SubType>
@@ -271,11 +301,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-    <Page Include="Controls\WirelessNetworkButton.xaml">
+    <Page Include="Controls\TaskbarWirelessNetworkButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\WirelessNetworkControl.xaml">
+    <Page Include="Controls\TaskbarWirelessNetworkControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
