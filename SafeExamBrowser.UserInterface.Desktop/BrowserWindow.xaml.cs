@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -78,7 +79,12 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		public new void Close()
 		{
-			Dispatcher.Invoke(base.Close);
+			Dispatcher.Invoke(() =>
+			{
+				Closing -= BrowserWindow_Closing;
+				closing?.Invoke();
+				base.Close();
+			});
 		}
 
 		public new void Hide()
@@ -128,12 +134,15 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			LoadText();
 		}
 
-		private void UrlTextBox_GotMouseCapture(object sender, MouseEventArgs e)
+		private void BrowserWindow_Closing(object sender, CancelEventArgs e)
 		{
-			if (UrlTextBox.Tag as bool? != true)
+			if (isMainWindow)
 			{
-				UrlTextBox.SelectAll();
-				UrlTextBox.Tag = true;
+				e.Cancel = true;
+			}
+			else
+			{
+				closing?.Invoke();
 			}
 		}
 
@@ -142,6 +151,15 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			if (e.Key == Key.F5)
 			{
 				ReloadRequested?.Invoke();
+			}
+		}
+
+		private void UrlTextBox_GotMouseCapture(object sender, MouseEventArgs e)
+		{
+			if (UrlTextBox.Tag as bool? != true)
+			{
+				UrlTextBox.SelectAll();
+				UrlTextBox.Tag = true;
 			}
 		}
 
@@ -158,13 +176,13 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			var originalBrush = MenuButton.Background;
 
 			BackwardButton.Click += (o, args) => BackwardNavigationRequested?.Invoke();
-			Closing += (o, args) => closing?.Invoke();
+			Closing += BrowserWindow_Closing;
 			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
 			MenuButton.Click += (o, args) => MenuPopup.IsOpen = !MenuPopup.IsOpen;
 			MenuButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsMouseOver));
-			MenuPopup.Closed += (o, args) => { MenuButton.Background = originalBrush; };
+			MenuPopup.Closed += (o, args) => MenuButton.Background = originalBrush;
 			MenuPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = IsMouseOver));
-			MenuPopup.Opened += (o, args) => { MenuButton.Background = Brushes.LightGray; };
+			MenuPopup.Opened += (o, args) => MenuButton.Background = Brushes.LightGray;
 			KeyUp += BrowserWindow_KeyUp;
 			ReloadButton.Click += (o, args) => ReloadRequested?.Invoke();
 			UrlTextBox.GotKeyboardFocus += (o, args) => UrlTextBox.SelectAll();
