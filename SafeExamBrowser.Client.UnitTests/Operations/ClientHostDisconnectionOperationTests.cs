@@ -7,7 +7,6 @@
  */
 
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -39,13 +38,12 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void MustWaitForDisconnectionIfConnectionIsActive()
 		{
 			var stopWatch = new Stopwatch();
-			var timeout_ms = 1000;
+			var timeout_ms = 200;
 
 			sut = new ClientHostDisconnectionOperation(clientHost.Object, logger.Object, timeout_ms);
 
-			clientHost.SetupGet(h => h.IsConnected).Returns(true).Callback(() => Task.Run(() =>
+			clientHost.SetupGet(h => h.IsConnected).Returns(true).Callback(() => Task.Delay(10).ContinueWith((_) =>
 			{
-				Thread.Sleep(10);
 				clientHost.Raise(h => h.RuntimeDisconnected += null);
 			}));
 
@@ -64,7 +62,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void MustRespectTimeoutIfWaitingForDisconnection()
 		{
 			var stopWatch = new Stopwatch();
-			var timeout_ms = 50;
+			var timeout_ms = 200;
 
 			sut = new ClientHostDisconnectionOperation(clientHost.Object, logger.Object, timeout_ms);
 
