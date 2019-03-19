@@ -17,6 +17,8 @@ namespace SafeExamBrowser.UserInterface.Desktop
 {
 	public partial class ActionCenter : Window, IActionCenter
 	{
+		private int taskbarHeight = 40;
+
 		public bool ShowClock
 		{
 			set { Dispatcher.Invoke(() => Clock.Visibility = value ? Visibility.Visible : Visibility.Collapsed); }
@@ -82,6 +84,11 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			Dispatcher.Invoke(ShowAnimated);
 		}
 
+		public void UpdateTaskbarHeight(int height)
+		{
+			taskbarHeight = height;
+		}
+
 		private void HideAnimated()
 		{
 			var storyboard = new Storyboard();
@@ -125,7 +132,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		private void InitializeBounds()
 		{
-			Height = SystemParameters.WorkArea.Height;
+			Height = SystemParameters.PrimaryScreenHeight - taskbarHeight;
 			Top = 0;
 			Left = -Width;
 		}

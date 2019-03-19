@@ -359,7 +359,7 @@ namespace SafeExamBrowser.WindowsApi
 
 		public void SetWallpaper(string filePath)
 		{
-			var success = User32.SystemParametersInfo(SPI.SETDESKWALLPAPER, 0, filePath, SPIF.UPDATEANDCHANGE);
+			var success = User32.SystemParametersInfo(SPI.SETDESKWALLPAPER, 0, filePath, SPIF.NONE);
 
 			if (!success)
 			{
@@ -370,7 +370,7 @@ namespace SafeExamBrowser.WindowsApi
 		public void SetWorkingArea(IBounds bounds)
 		{
 			var workingArea = new RECT { Left = bounds.Left, Top = bounds.Top, Right = bounds.Right, Bottom = bounds.Bottom };
-			var success = User32.SystemParametersInfo(SPI.SETWORKAREA, 0, ref workingArea, SPIF.UPDATEINIFILE);
+			var success = User32.SystemParametersInfo(SPI.SETWORKAREA, 0, ref workingArea, SPIF.NONE);
 
 			if (!success)
 			{

@@ -134,7 +134,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			}
 			else
 			{
-				logger.Warn($"No original desktop found when attempting to close new desktop!");
+				logger.Warn($"No original desktop found to activate!");
 			}
 
 			if (NewDesktop != null)
@@ -144,7 +144,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			}
 			else
 			{
-				logger.Warn($"No new desktop found when attempting to close new desktop!");
+				logger.Warn($"No new desktop found to close!");
 			}
 
 			explorerShell.Resume();

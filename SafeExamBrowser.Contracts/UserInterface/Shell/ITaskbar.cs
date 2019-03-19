@@ -52,6 +52,11 @@ namespace SafeExamBrowser.Contracts.UserInterface.Shell
 		int GetAbsoluteHeight();
 
 		/// <summary>
+		/// Returns the relative height of the taskbar (i.e. in logical pixels).
+		/// </summary>
+		int GetRelativeHeight();
+
+		/// <summary>
 		/// Moves the taskbar to the bottom of and resizes it according to the current working area.
 		/// </summary>
 		void InitializeBounds();

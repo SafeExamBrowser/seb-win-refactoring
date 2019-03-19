@@ -62,6 +62,11 @@ namespace SafeExamBrowser.Contracts.UserInterface.Shell
 		void Register(IActionCenterActivator activator);
 
 		/// <summary>
+		/// Informs the action center about the relative height (i.e. height in logical pixels) of the taskbar.
+		/// </summary>
+		void UpdateTaskbarHeight(int height);
+
+		/// <summary>
 		/// Makes the action center visible.
 		/// </summary>
 		void Show();

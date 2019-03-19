@@ -71,7 +71,19 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			{
 				var height = (int) this.TransformToPhysical(Width, Height).Y;
 
-				logger.Info($"Calculated physical taskbar height is {height}px.");
+				logger.Debug($"Calculated physical taskbar height is {height}px.");
+
+				return height;
+			});
+		}
+
+		public int GetRelativeHeight()
+		{
+			return Dispatcher.Invoke(() =>
+			{
+				var height = (int) Height;
+
+				logger.Debug($"Logical taskbar height is {height}px.");
 
 				return height;
 			});
@@ -81,14 +93,14 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		{
 			Dispatcher.Invoke(() =>
 			{
-				Width = SystemParameters.WorkArea.Right;
-				Left = SystemParameters.WorkArea.Right - Width;
-				Top = SystemParameters.WorkArea.Bottom;
+				Width = SystemParameters.PrimaryScreenWidth;
+				Left = 0;
+				Top = SystemParameters.PrimaryScreenHeight - Height;
 
 				var position = this.TransformToPhysical(Left, Top);
 				var size = this.TransformToPhysical(Width, Height);
 
-				logger.Info($"Set taskbar bounds to {Width}x{Height} at ({Left}/{Top}), in physical pixels: {size.X}x{size.Y} at ({position.X}/{position.Y}).");
+				logger.Debug($"Set taskbar bounds to {Width}x{Height} at ({Left}/{Top}), in physical pixels: {size.X}x{size.Y} at ({position.X}/{position.Y}).");
 			});
 		}
 

@@ -12,7 +12,9 @@ using Microsoft.Win32;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.Monitoring.Events;
+using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.WindowsApi;
+using OperatingSystem = SafeExamBrowser.Contracts.SystemComponents.OperatingSystem;
 
 namespace SafeExamBrowser.Monitoring.Display
 {
@@ -21,14 +23,16 @@ namespace SafeExamBrowser.Monitoring.Display
 		private IBounds originalWorkingArea;
 		private ILogger logger;
 		private INativeMethods nativeMethods;
+		private ISystemInfo systemInfo;
 		private string wallpaper;
 
 		public event DisplayChangedEventHandler DisplayChanged;
 
-		public DisplayMonitor(ILogger logger, INativeMethods nativeMethods)
+		public DisplayMonitor(ILogger logger, INativeMethods nativeMethods, ISystemInfo systemInfo)
 		{
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;
+			this.systemInfo = systemInfo;
 		}
 
 		public void InitializePrimaryDisplay(int taskbarHeight)
@@ -89,12 +93,16 @@ namespace SafeExamBrowser.Monitoring.Display
 
 		private void InitializeWallpaper()
 		{
-			var path = nativeMethods.GetWallpaperPath();
-
-			if (!String.IsNullOrEmpty(path))
+			if (systemInfo.OperatingSystem == OperatingSystem.Windows7)
 			{
-				wallpaper = path;
-				logger.Info($"Saved wallpaper image: {wallpaper}.");
+				var path = nativeMethods.GetWallpaperPath();
+
+				if (!String.IsNullOrEmpty(path))
+				{
+					wallpaper = path;
+					logger.Info($"Saved wallpaper image: {wallpaper}.");
+				}
+
 				nativeMethods.RemoveWallpaper();
 				logger.Info("Removed current wallpaper.");
 			}
@@ -117,7 +125,7 @@ namespace SafeExamBrowser.Monitoring.Display
 
 		private void ResetWallpaper()
 		{
-			if (!String.IsNullOrEmpty(wallpaper))
+			if (systemInfo.OperatingSystem == OperatingSystem.Windows7 && !String.IsNullOrEmpty(wallpaper))
 			{
 				nativeMethods.SetWallpaper(wallpaper);
 				logger.Info($"Restored wallpaper image: {wallpaper}.");
