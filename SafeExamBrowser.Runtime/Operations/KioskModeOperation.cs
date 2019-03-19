@@ -62,6 +62,8 @@ namespace SafeExamBrowser.Runtime.Operations
 			logger.Info($"Initializing kiosk mode '{Context.Next.Settings.KioskMode}'...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeKioskMode);
 
+			ActiveMode = Context.Next.Settings.KioskMode;
+
 			switch (Context.Next.Settings.KioskMode)
 			{
 				case KioskMode.CreateNewDesktop:
@@ -71,8 +73,6 @@ namespace SafeExamBrowser.Runtime.Operations
 					TerminateExplorerShell();
 					break;
 			}
-
-			ActiveMode = Context.Next.Settings.KioskMode;
 
 			return OperationResult.Success;
 		}

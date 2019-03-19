@@ -370,7 +370,7 @@ namespace SafeExamBrowser.WindowsApi
 		public void SetWorkingArea(IBounds bounds)
 		{
 			var workingArea = new RECT { Left = bounds.Left, Top = bounds.Top, Right = bounds.Right, Bottom = bounds.Bottom };
-			var success = User32.SystemParametersInfo(SPI.SETWORKAREA, 0, ref workingArea, SPIF.NONE);
+			var success = User32.SystemParametersInfo(SPI.SETWORKAREA, 0, ref workingArea, SPIF.UPDATEINIFILE);
 
 			if (!success)
 			{

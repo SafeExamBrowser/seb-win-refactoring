@@ -16,7 +16,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		private void MapKioskMode(IDictionary<string, object> rawData, Settings settings)
 		{
 			var hasCreateNewDesktop = rawData.TryGetValue(Keys.Security.KioskModeCreateNewDesktop, out var createNewDesktop);
-			var hasDisableExplorerShell = rawData.TryGetValue(Keys.Security.KioskModeCreateNewDesktop, out var disableExplorerShell);
+			var hasDisableExplorerShell = rawData.TryGetValue(Keys.Security.KioskModeDisableExplorerShell, out var disableExplorerShell);
 
 			if (hasDisableExplorerShell && disableExplorerShell as bool? == true)
 			{
