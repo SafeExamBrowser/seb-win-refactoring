@@ -129,9 +129,6 @@
   <Entry key="OperationStatus_InitializeBrowser">
     Initializing browser
   </Entry>
-  <Entry key="OperationStatus_InitializeClient">
-    Initializing client application
-  </Entry>
   <Entry key="OperationStatus_InitializeConfiguration">
     Initializing application configuration
   </Entry>

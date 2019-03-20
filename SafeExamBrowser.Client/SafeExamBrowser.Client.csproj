@@ -74,7 +74,6 @@
     <Compile Include="ClientController.cs" />
     <Compile Include="Operations\ClientHostDisconnectionOperation.cs" />
     <Compile Include="Operations\ConfigurationOperation.cs" />
-    <Compile Include="Operations\InitializationOperation.cs" />
     <Compile Include="Operations\RuntimeConnectionOperation.cs" />
     <Compile Include="Communication\ClientHost.cs" />
     <Compile Include="CompositionRoot.cs" />

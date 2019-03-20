@@ -86,7 +86,6 @@
     <Compile Include="Operations\ClipboardOperationTests.cs" />
     <Compile Include="Operations\ConfigurationOperationTests.cs" />
     <Compile Include="Operations\DisplayMonitorOperationTests.cs" />
-    <Compile Include="Operations\InitializationOperationTests.cs" />
     <Compile Include="Operations\KeyboardInterceptorOperationTests.cs" />
     <Compile Include="Operations\MouseInterceptorOperationTests.cs" />
     <Compile Include="Operations\ProcessMonitorOperationTests.cs" />
