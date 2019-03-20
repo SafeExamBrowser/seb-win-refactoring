@@ -52,6 +52,11 @@ namespace SafeExamBrowser.Contracts.UserInterface.Shell
 		void Hide();
 		
 		/// <summary>
+		/// Moves the action center to the left of the screen and resizes it accordingly.
+		/// </summary>
+		void InitializeBounds();
+
+		/// <summary>
 		/// Initializes all text elements in the action center.
 		/// </summary>
 		void InitializeText(IText text);
@@ -60,11 +65,6 @@ namespace SafeExamBrowser.Contracts.UserInterface.Shell
 		/// Registers the specified activator to control the visibility of the action center.
 		/// </summary>
 		void Register(IActionCenterActivator activator);
-
-		/// <summary>
-		/// Informs the action center about the relative height (i.e. height in logical pixels) of the taskbar.
-		/// </summary>
-		void UpdateTaskbarHeight(int height);
 
 		/// <summary>
 		/// Makes the action center visible.

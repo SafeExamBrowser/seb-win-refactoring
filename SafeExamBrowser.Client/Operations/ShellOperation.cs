@@ -106,7 +106,6 @@ namespace SafeExamBrowser.Client.Operations
 			{
 				logger.Info("Initializing action center...");
 				actionCenter.InitializeText(text);
-				actionCenter.UpdateTaskbarHeight(taskbar.GetRelativeHeight());
 
 				InitializeAboutNotificationForActionCenter();
 				InitializeClockForActionCenter();

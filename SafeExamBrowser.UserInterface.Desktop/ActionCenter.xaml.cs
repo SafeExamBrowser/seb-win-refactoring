@@ -17,8 +17,6 @@ namespace SafeExamBrowser.UserInterface.Desktop
 {
 	public partial class ActionCenter : Window, IActionCenter
 	{
-		private int taskbarHeight = 40;
-
 		public bool ShowClock
 		{
 			set { Dispatcher.Invoke(() => Clock.Visibility = value ? Visibility.Visible : Visibility.Collapsed); }
@@ -66,6 +64,16 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			Dispatcher.Invoke(HideAnimated);
 		}
 
+		public void InitializeBounds()
+		{
+			Dispatcher.Invoke(() =>
+			{
+				Height = SystemParameters.WorkArea.Height;
+				Top = 0;
+				Left = -Width;
+			});
+		}
+
 		public void InitializeText(IText text)
 		{
 			QuitButton.ToolTip = text.Get(TextKey.Shell_QuitButton);
@@ -82,11 +90,6 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		public new void Show()
 		{
 			Dispatcher.Invoke(ShowAnimated);
-		}
-
-		public void UpdateTaskbarHeight(int height)
-		{
-			taskbarHeight = height;
 		}
 
 		private void HideAnimated()
@@ -128,13 +131,6 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			storyboard.Children.Add(animation);
 			storyboard.Completed += ShowAnimation_Completed;
 			storyboard.Begin();
-		}
-
-		private void InitializeBounds()
-		{
-			Height = SystemParameters.PrimaryScreenHeight - taskbarHeight;
-			Top = 0;
-			Left = -Width;
 		}
 
 		private void ShowAnimation_Completed(object sender, EventArgs e)

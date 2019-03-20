@@ -129,6 +129,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			}
 
 			RegisterEvents();
+			InitializeBounds();
 			ApplySettings();
 			LoadIcons();
 			LoadText();
@@ -151,6 +152,14 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			if (e.Key == Key.F5)
 			{
 				ReloadRequested?.Invoke();
+			}
+		}
+
+		private void SystemParameters_StaticPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(SystemParameters.WorkArea))
+			{
+				Dispatcher.InvokeAsync(InitializeBounds);
 			}
 		}
 
@@ -185,6 +194,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			MenuPopup.Opened += (o, args) => MenuButton.Background = Brushes.LightGray;
 			KeyUp += BrowserWindow_KeyUp;
 			ReloadButton.Click += (o, args) => ReloadRequested?.Invoke();
+			SystemParameters.StaticPropertyChanged += SystemParameters_StaticPropertyChanged;
 			UrlTextBox.GotKeyboardFocus += (o, args) => UrlTextBox.SelectAll();
 			UrlTextBox.GotMouseCapture += UrlTextBox_GotMouseCapture;
 			UrlTextBox.LostKeyboardFocus += (o, args) => UrlTextBox.Tag = null;
@@ -198,13 +208,29 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		private void ApplySettings()
 		{
+			UrlTextBox.IsEnabled = WindowSettings.AllowAddressBar;
+
+			ReloadButton.IsEnabled = WindowSettings.AllowReloading;
+			ReloadButton.Visibility = WindowSettings.AllowReloading ? Visibility.Visible : Visibility.Collapsed;
+
+			BackwardButton.IsEnabled = WindowSettings.AllowBackwardNavigation;
+			BackwardButton.Visibility = WindowSettings.AllowBackwardNavigation ? Visibility.Visible : Visibility.Collapsed;
+
+			ForwardButton.IsEnabled = WindowSettings.AllowForwardNavigation;
+			ForwardButton.Visibility = WindowSettings.AllowForwardNavigation ? Visibility.Visible : Visibility.Collapsed;
+		}
+
+		private void InitializeBounds()
+		{
 			if (isMainWindow)
 			{
 				if (WindowSettings.FullScreenMode)
 				{
-					MaxHeight = SystemParameters.WorkArea.Height;
+					Top = 0;
+					Left = 0;
+					Height = SystemParameters.WorkArea.Height;
+					Width = SystemParameters.WorkArea.Width;
 					ResizeMode = ResizeMode.NoResize;
-					WindowState = WindowState.Maximized;
 					WindowStyle = WindowStyle.None;
 				}
 				else
@@ -219,17 +245,6 @@ namespace SafeExamBrowser.UserInterface.Desktop
 				Height = SystemParameters.WorkArea.Height;
 				Width = SystemParameters.WorkArea.Width / 2;
 			}
-
-			UrlTextBox.IsEnabled = WindowSettings.AllowAddressBar;
-
-			ReloadButton.IsEnabled = WindowSettings.AllowReloading;
-			ReloadButton.Visibility = WindowSettings.AllowReloading ? Visibility.Visible : Visibility.Collapsed;
-
-			BackwardButton.IsEnabled = WindowSettings.AllowBackwardNavigation;
-			BackwardButton.Visibility = WindowSettings.AllowBackwardNavigation ? Visibility.Visible : Visibility.Collapsed;
-
-			ForwardButton.IsEnabled = WindowSettings.AllowForwardNavigation;
-			ForwardButton.Visibility = WindowSettings.AllowForwardNavigation ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void LoadIcons()

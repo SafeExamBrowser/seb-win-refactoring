@@ -324,8 +324,8 @@ namespace SafeExamBrowser.Client
 			logger.Info("Reinitializing working area...");
 			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
 			logger.Info("Reinitializing shell...");
+			actionCenter.InitializeBounds();
 			taskbar.InitializeBounds();
-			actionCenter.UpdateTaskbarHeight(taskbar.GetRelativeHeight());
 			logger.Info("Desktop successfully restored.");
 		}
 
@@ -369,8 +369,8 @@ namespace SafeExamBrowser.Client
 			logger.Info("Reinitializing working area...");
 			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
 			logger.Info("Reinitializing shell...");
+			actionCenter.InitializeBounds();
 			taskbar.InitializeBounds();
-			actionCenter.UpdateTaskbarHeight(taskbar.GetRelativeHeight());
 			logger.Info("Desktop successfully restored.");
 		}
 

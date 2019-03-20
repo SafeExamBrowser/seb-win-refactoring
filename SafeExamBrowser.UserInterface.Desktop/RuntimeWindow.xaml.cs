@@ -44,8 +44,6 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 			InitializeComponent();
 			InitializeRuntimeWindow();
-
-			Loaded += RuntimeWindow_Loaded;
 		}
 
 		public void BringToForeground()
@@ -145,12 +143,6 @@ namespace SafeExamBrowser.UserInterface.Desktop
 #if DEBUG
 			Topmost = false;
 #endif
-		}
-
-		private void RuntimeWindow_Loaded(object sender, RoutedEventArgs e)
-		{
-			Left = (SystemParameters.WorkArea.Right / 2) - (Width / 2);
-			Top = (SystemParameters.WorkArea.Bottom / 2) - (Height / 2);
 		}
 	}
 }
