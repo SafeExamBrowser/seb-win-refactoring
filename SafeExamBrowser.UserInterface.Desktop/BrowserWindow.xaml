@@ -20,7 +20,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" BorderBrush="LightGray" BorderThickness="0,0,0,1" Margin="5,0">
+        <Border x:Name="Toolbar" Grid.Row="0" BorderBrush="LightGray" BorderThickness="0,0,0,1" Margin="5,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -37,8 +37,8 @@
                     <fa:ImageAwesome x:Name="LoadingIcon" Foreground="Gray" HorizontalAlignment="Right" Icon="Spinner" Margin="5,3" SpinDuration="1.5" Visibility="Collapsed" />
                 </Grid>
                 <Button Grid.Column="4" x:Name="MenuButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
-                <Popup x:Name="MenuPopup" IsOpen="False" Placement="Bottom" PlacementTarget="{Binding ElementName=MenuButton}" HorizontalOffset="-215" VerticalOffset="4">
-                    <Border Background="{StaticResource BackgroundBrush}" BorderBrush="LightGray" BorderThickness="0.75,0,0.75,0.75" Width="250">
+                <Popup x:Name="MenuPopup" IsOpen="False" AllowsTransparency="True" PopupAnimation="Slide" Placement="Custom" PlacementTarget="{Binding ElementName=BrowserControlHost}">
+                    <Border Background="{StaticResource BackgroundBrush}" BorderBrush="LightGray" BorderThickness="1,0,1,1" Width="250">
                         <StackPanel Orientation="Vertical">
                             <Grid Height="40">
                                 <Grid.ColumnDefinitions>

@@ -10,6 +10,7 @@ using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -121,20 +122,6 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			Dispatcher.Invoke(() => Title = title);
 		}
 
-		private void InitializeBrowserWindow(IBrowserControl browserControl)
-		{
-			if (browserControl is System.Windows.Forms.Control control)
-			{
-				BrowserControlHost.Child = control;
-			}
-
-			RegisterEvents();
-			InitializeBounds();
-			ApplySettings();
-			LoadIcons();
-			LoadText();
-		}
-
 		private void BrowserWindow_Closing(object sender, CancelEventArgs e)
 		{
 			if (isMainWindow)
@@ -153,6 +140,14 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			{
 				ReloadRequested?.Invoke();
 			}
+		}
+
+		private CustomPopupPlacement[] MenuPopup_PlacementCallback(Size popupSize, Size targetSize, Point offset)
+		{
+			return new[]
+			{
+				new CustomPopupPlacement(new Point(targetSize.Width - Toolbar.Margin.Right - popupSize.Width, -2), PopupPrimaryAxis.None)
+			};
 		}
 
 		private void SystemParameters_StaticPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -180,6 +175,20 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			}
 		}
 
+		private void InitializeBrowserWindow(IBrowserControl browserControl)
+		{
+			if (browserControl is System.Windows.Forms.Control control)
+			{
+				BrowserControlHost.Child = control;
+			}
+
+			RegisterEvents();
+			InitializeBounds();
+			ApplySettings();
+			LoadIcons();
+			LoadText();
+		}
+
 		private void RegisterEvents()
 		{
 			var originalBrush = MenuButton.Background;
@@ -189,6 +198,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
 			MenuButton.Click += (o, args) => MenuPopup.IsOpen = !MenuPopup.IsOpen;
 			MenuButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsMouseOver));
+			MenuPopup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(MenuPopup_PlacementCallback);
 			MenuPopup.Closed += (o, args) => MenuButton.Background = originalBrush;
 			MenuPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = IsMouseOver));
 			MenuPopup.Opened += (o, args) => MenuButton.Background = Brushes.LightGray;
