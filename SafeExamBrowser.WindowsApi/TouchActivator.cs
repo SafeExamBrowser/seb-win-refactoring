@@ -103,9 +103,8 @@ namespace SafeExamBrowser.WindowsApi
 		private void CheckPosition()
 		{
 			var position = new POINT();
-			var hasMoved = position.X > 200;
-
 			User32.GetCursorPos(ref position);
+			var hasMoved = position.X > 200;
 
 			if (isDown && hasMoved)
 			{
