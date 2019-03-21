@@ -160,6 +160,10 @@
       <Project>{A502DF54-7169-4647-94BD-18B192924866}</Project>
       <Name>SafeExamBrowser.UserInterface.Desktop</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.UserInterface.Mobile\SafeExamBrowser.UserInterface.Mobile.csproj">
+      <Project>{89bc24dd-ff31-496e-9816-a160b686a3d4}</Project>
+      <Name>SafeExamBrowser.UserInterface.Mobile</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.WindowsApi\SafeExamBrowser.WindowsApi.csproj">
       <Project>{73724659-4150-4792-A94E-42F5F3C1B696}</Project>
       <Name>SafeExamBrowser.WindowsApi</Name>

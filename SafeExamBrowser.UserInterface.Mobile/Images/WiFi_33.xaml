@@ -1,0 +1,16 @@
+<Viewbox
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Canvas Width="1024.000" Height="1024.000">
+      <Canvas>
+            <Path Data=" M 0.000,0.000 L 1024.000,0.000 L 1024.000,1024.000 L 0.000,1024.000 L 0.000,0.000 Z"/>
+            <Path StrokeThickness="1.0" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Fill="#ff000000" Data=" M 467.000,811.000 C 467.000,786.150 487.150,766.000 512.000,766.000 C 536.850,766.000 557.000,786.150 557.000,811.000 C 557.000,835.850 536.850,856.000 512.000,856.000 C 487.150,856.000 467.000,835.850 467.000,811.000 Z"/>
+            <Path StrokeThickness="35.0" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data=" M 82.530,352.000 C 191.500,240.330 343.650,171.000 512.000,171.000 C 680.350,171.000 832.500,240.330 941.470,352.000"/>
+            <Path StrokeThickness="70.0" Stroke="#ffaaaaaa" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data=" M 82.530,352.000 C 191.500,240.330 343.650,171.000 512.000,171.000 C 680.350,171.000 832.500,240.330 941.470,352.000"/>
+            <Path StrokeThickness="35.0" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data=" M 346.620,660.000 C 384.600,610.220 444.550,578.100 512.000,578.100 C 579.900,578.100 640.200,610.650 678.140,661.000"/>
+            <Path StrokeThickness="70.0" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data=" M 346.620,660.000 C 384.600,610.220 444.550,578.100 512.000,578.100 C 579.900,578.100 640.200,610.650 678.140,661.000"/>
+            <Path StrokeThickness="35.0" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data=" M 213.050,505.000 C 288.650,426.810 394.650,378.200 512.000,378.200 C 629.350,378.200 735.350,426.810 810.950,505.000"/>
+            <Path StrokeThickness="70.0" Stroke="#ffaaaaaa" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data=" M 213.050,505.000 C 288.650,426.810 394.650,378.200 512.000,378.200 C 629.350,378.200 735.350,426.810 810.950,505.000"/>
+      </Canvas>
+    </Canvas>
+</Viewbox>

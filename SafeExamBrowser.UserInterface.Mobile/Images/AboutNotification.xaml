@@ -1,0 +1,14 @@
+﻿<Viewbox
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Canvas Width="1024.000" Height="1024.000">
+        <Canvas>
+            <Path Data=" M 0.000,0.000 L 1024.000,0.000 L 1024.000,1024.000 L 0.000,1024.000 L 0.000,0.000 Z"/>
+            <Path StrokeThickness="70.0" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data=" M 117.000,512.000 C 117.000,293.840 293.840,117.000 512.000,117.000 C 730.160,117.000 907.000,293.840 907.000,512.000 C 907.000,730.160 730.160,907.000 512.000,907.000 C 293.840,907.000 117.000,730.160 117.000,512.000 Z"/>
+            <Path StrokeThickness="70.0" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data=" M 619.210,298.700"/>
+            <Path StrokeThickness="70.0" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data=" M 619.210,727.560"/>
+            <Path StrokeThickness="70.0" Stroke="#ff000000" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data=" M 512.000,458.096 L 512.000,741.560"/>
+            <Path Fill="#ff000000" Data=" M 547.625,312.700 C 547.625,332.375 531.675,348.325 512.000,348.325 C 492.325,348.325 476.375,332.375 476.375,312.700 C 476.375,293.025 492.325,277.075 512.000,277.075 C 531.675,277.075 547.625,293.025 547.625,312.700 Z"/>
+        </Canvas>
+    </Canvas>
+</Viewbox>

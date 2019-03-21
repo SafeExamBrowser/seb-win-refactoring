@@ -54,6 +54,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Logging.Uni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Configuration.UnitTests", "SafeExamBrowser.Configuration.UnitTests\SafeExamBrowser.Configuration.UnitTests.csproj", "{9CDD03E7-ED65-409F-8C07-BD6F633A0170}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.UserInterface.Mobile", "SafeExamBrowser.UserInterface.Mobile\SafeExamBrowser.UserInterface.Mobile.csproj", "{89BC24DD-FF31-496E-9816-A160B686A3D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -222,6 +224,14 @@ Global
 		{9CDD03E7-ED65-409F-8C07-BD6F633A0170}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9CDD03E7-ED65-409F-8C07-BD6F633A0170}.Release|x86.ActiveCfg = Release|x86
 		{9CDD03E7-ED65-409F-8C07-BD6F633A0170}.Release|x86.Build.0 = Release|x86
+		{89BC24DD-FF31-496E-9816-A160B686A3D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89BC24DD-FF31-496E-9816-A160B686A3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89BC24DD-FF31-496E-9816-A160B686A3D4}.Debug|x86.ActiveCfg = Debug|x86
+		{89BC24DD-FF31-496E-9816-A160B686A3D4}.Debug|x86.Build.0 = Debug|x86
+		{89BC24DD-FF31-496E-9816-A160B686A3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89BC24DD-FF31-496E-9816-A160B686A3D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89BC24DD-FF31-496E-9816-A160B686A3D4}.Release|x86.ActiveCfg = Release|Any CPU
+		{89BC24DD-FF31-496E-9816-A160B686A3D4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

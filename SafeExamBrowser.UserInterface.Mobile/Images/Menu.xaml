@@ -1,0 +1,7 @@
+﻿<Viewbox Stretch="Uniform"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:fa="http://schemas.fontawesome.io/icons/">
+    <Canvas Height="120" Width="120">
+        <Path Stroke="Black" StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeThickness="8" Data="M 20,30 L 100,30 M 20,60 L 100,60 M 20,90 L 100,90" />
+    </Canvas>
+</Viewbox>

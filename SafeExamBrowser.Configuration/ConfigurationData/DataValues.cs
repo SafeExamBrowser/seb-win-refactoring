@@ -148,6 +148,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Taskbar.EnableTaskbar = true;
 			settings.Taskbar.ShowClock = true;
 
+			settings.UserInterfaceMode = UserInterfaceMode.Desktop;
+
 			// TODO: Default values for testing of alpha version only, remove for final release!
 			settings.ActionCenter.ShowApplicationLog = true;
 			settings.ActionCenter.ShowKeyboardLayout = true;

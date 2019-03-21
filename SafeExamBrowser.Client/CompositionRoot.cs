@@ -23,6 +23,7 @@ using SafeExamBrowser.Contracts.Client;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -42,7 +43,6 @@ using SafeExamBrowser.Monitoring.Mouse;
 using SafeExamBrowser.Monitoring.Processes;
 using SafeExamBrowser.Monitoring.Windows;
 using SafeExamBrowser.SystemComponents;
-using SafeExamBrowser.UserInterface.Desktop;
 using SafeExamBrowser.WindowsApi;
 
 namespace SafeExamBrowser.Client
@@ -54,6 +54,7 @@ namespace SafeExamBrowser.Client
 		private LogLevel logLevel;
 		private string runtimeHostUri;
 		private Guid startupToken;
+		private UserInterfaceMode uiMode;
 
 		private IActionCenter actionCenter;
 		private IBrowserApplicationController browserController;
@@ -87,14 +88,14 @@ namespace SafeExamBrowser.Client
 			InitializeLogging();
 			InitializeText();
 
-			actionCenter = new ActionCenter();
+			actionCenter = BuildActionCenter();
 			keyboardLayout = new KeyboardLayout(new ModuleLogger(logger, nameof(KeyboardLayout)), text);
-			messageBox = new MessageBox(text);
+			messageBox = BuildMessageBox();
 			powerSupply = new PowerSupply(new ModuleLogger(logger, nameof(PowerSupply)), text);
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, nameof(ProcessMonitor)), nativeMethods);
-			uiFactory = new UserInterfaceFactory(text);
+			uiFactory = BuildUserInterfaceFactory();
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(RuntimeProxy)));
-			taskbar = new Taskbar(new ModuleLogger(logger, nameof(Taskbar)));
+			taskbar = BuildTaskbar();
 			windowMonitor = new WindowMonitor(new ModuleLogger(logger, nameof(WindowMonitor)), nativeMethods);
 			wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, nameof(WirelessNetwork)), text);
 
@@ -153,7 +154,7 @@ namespace SafeExamBrowser.Client
 		private void ValidateCommandLineArguments()
 		{
 			var args = Environment.GetCommandLineArgs();
-			var hasFive = args?.Length == 5;
+			var hasFive = args?.Length >= 5;
 
 			if (hasFive)
 			{
@@ -168,6 +169,7 @@ namespace SafeExamBrowser.Client
 					logLevel = level;
 					runtimeHostUri = args[3];
 					startupToken = token;
+					uiMode = args.Length == 6 && Enum.TryParse(args[5], out uiMode) ? uiMode : UserInterfaceMode.Desktop;
 
 					return;
 				}
@@ -284,6 +286,50 @@ namespace SafeExamBrowser.Client
 		private IOperation BuildWindowMonitorOperation()
 		{
 			return new WindowMonitorOperation(configuration.Settings.KioskMode, logger, windowMonitor);
+		}
+
+		private IActionCenter BuildActionCenter()
+		{
+			switch (uiMode)
+			{
+				case UserInterfaceMode.Mobile:
+					return new UserInterface.Mobile.ActionCenter();
+				default:
+					return new UserInterface.Desktop.ActionCenter();
+			}
+		}
+
+		private IMessageBox BuildMessageBox()
+		{
+			switch (uiMode)
+			{
+				case UserInterfaceMode.Mobile:
+					return new UserInterface.Mobile.MessageBox(text);
+				default:
+					return new UserInterface.Desktop.MessageBox(text);
+			}
+		}
+
+		private ITaskbar BuildTaskbar()
+		{
+			switch (uiMode)
+			{
+				case UserInterfaceMode.Mobile:
+					return new UserInterface.Mobile.Taskbar(new ModuleLogger(logger, nameof(UserInterface.Mobile.Taskbar)));
+				default:
+					return new UserInterface.Desktop.Taskbar(new ModuleLogger(logger, nameof(UserInterface.Desktop.Taskbar)));
+			}
+		}
+
+		private IUserInterfaceFactory BuildUserInterfaceFactory()
+		{
+			switch (uiMode)
+			{
+				case UserInterfaceMode.Mobile:
+					return new UserInterface.Mobile.UserInterfaceFactory(text);
+				default:
+					return new UserInterface.Desktop.UserInterfaceFactory(text);
+			}
 		}
 
 		private void UpdateAppConfig()

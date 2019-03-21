@@ -1,0 +1,38 @@
+﻿<Window x:Class="SafeExamBrowser.UserInterface.Mobile.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Mobile"
+        mc:Ignorable="d"
+        Title="Version &amp; License Information" Background="White" Height="325" Width="575" ResizeMode="NoResize" Icon="./Images/SafeExamBrowser.ico"
+        ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Image Grid.ColumnSpan="2" Source="pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/SplashScreen.png" Margin="0,5,0,0" />
+        <TextBlock x:Name="VersionInfo" Grid.Row="0" Grid.Column="1" Foreground="Gray" Margin="25,75,100,10" TextWrapping="Wrap" />
+        <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
+            <TextBlock x:Name="MainText" Margin="10" FontSize="10" TextWrapping="Wrap">
+                This application is subject to the terms of the Mozilla Public License, version 2.0. If a copy of the MPL was not
+                distributed with this application, you can obtain one at http://mozilla.org/MPL/2.0/.
+                <LineBreak />
+                <LineBreak />
+                <Bold><Underline>CefSharp (.NET bindings for the Chromium Embedded Framework)</Underline></Bold>
+                <LineBreak />
+                Copyright © 2010-2019 The CefSharp Authors. All rights reserved.
+                <LineBreak />
+                <LineBreak />
+                <Bold><Underline>CEF (Chromium Embedded Framework)</Underline></Bold>
+                <LineBreak />
+                Copyright © 2008-2019 Marshall A. Greenblatt. Portions Copyright © 2006-2009 Google Inc. All rights reserved.
+            </TextBlock>
+        </ScrollViewer>
+    </Grid>
+</Window>

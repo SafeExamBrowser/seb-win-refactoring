@@ -12,7 +12,7 @@ using SafeExamBrowser.Contracts.Applications;
 using SafeExamBrowser.Contracts.UserInterface.Shell;
 using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
 
-namespace SafeExamBrowser.UserInterface.Desktop.Controls
+namespace SafeExamBrowser.UserInterface.Mobile.Controls
 {
 	public partial class ActionCenterApplicationControl : UserControl, IApplicationControl
 	{
