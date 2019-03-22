@@ -15,6 +15,9 @@
   <Entry key="MessageBox_ApplicationErrorTitle">
     Application Error
   </Entry>
+  <Entry key="MessageBox_CancelButton">
+    Cancel
+  </Entry>
   <Entry key="MessageBox_ClientConfigurationError">
     The local client configuration has failed! Please consult the application log for more information. The application will now shut down...
   </Entry>
@@ -51,11 +54,17 @@
   <Entry key="MessageBox_InvalidQuitPasswordTitle">
     Invalid Quit Password
   </Entry>
+  <Entry key="MessageBox_NoButton">
+    No
+  </Entry>
   <Entry key="MessageBox_NotSupportedConfigurationResource">
     The configuration resource "%%URI%%" is not supported!
   </Entry>
   <Entry key="MessageBox_NotSupportedConfigurationResourceTitle">
     Configuration Error
+  </Entry>
+  <Entry key="MessageBox_OkButton">
+    OK
   </Entry>
   <Entry key="MessageBox_Quit">
     Would you really like to quit the application?
@@ -110,6 +119,9 @@
   </Entry>
   <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
     Configuration Error
+  </Entry>
+  <Entry key="MessageBox_YesButton">
+    Yes
   </Entry>
   <Entry key="Notification_AboutTooltip">
     Information about SEB

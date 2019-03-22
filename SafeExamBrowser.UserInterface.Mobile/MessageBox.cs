@@ -25,66 +25,23 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		public MessageBoxResult Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null)
 		{
-			var result = default(System.Windows.MessageBoxResult);
+			var result = default(MessageBoxResult);
 
 			if (parent is Window window)
 			{
-				result = window.Dispatcher.Invoke(() => System.Windows.MessageBox.Show(window, message, title, ToButton(action), ToImage(icon)));
+				result = window.Dispatcher.Invoke(() => new MessageBoxDialog(text).Show(message, title, action, icon, window));
 			}
 			else
 			{
-				result = System.Windows.MessageBox.Show(message, title, ToButton(action), ToImage(icon));
+				result = new MessageBoxDialog(text).Show(message, title, action, icon);
 			}
 
-			return ToResult(result);
+			return result;
 		}
 
 		public MessageBoxResult Show(TextKey message, TextKey title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null)
 		{
 			return Show(text.Get(message), text.Get(title), action, icon, parent);
-		}
-
-		private MessageBoxButton ToButton(MessageBoxAction action)
-		{
-			switch (action)
-			{
-				case MessageBoxAction.YesNo:
-					return MessageBoxButton.YesNo;
-				default:
-					return MessageBoxButton.OK;
-			}
-		}
-
-		private MessageBoxImage ToImage(MessageBoxIcon icon)
-		{
-			switch (icon)
-			{
-				case MessageBoxIcon.Error:
-					return MessageBoxImage.Error;
-				case MessageBoxIcon.Question:
-					return MessageBoxImage.Question;
-				case MessageBoxIcon.Warning:
-					return MessageBoxImage.Warning;
-				default:
-					return MessageBoxImage.Information;
-			}
-		}
-
-		private MessageBoxResult ToResult(System.Windows.MessageBoxResult result)
-		{
-			switch (result)
-			{
-				case System.Windows.MessageBoxResult.Cancel:
-					return MessageBoxResult.Cancel;
-				case System.Windows.MessageBoxResult.No:
-					return MessageBoxResult.No;
-				case System.Windows.MessageBoxResult.OK:
-					return MessageBoxResult.Ok;
-				case System.Windows.MessageBoxResult.Yes:
-					return MessageBoxResult.Yes;
-				default:
-					return MessageBoxResult.None;
-			}
 		}
 	}
 }
