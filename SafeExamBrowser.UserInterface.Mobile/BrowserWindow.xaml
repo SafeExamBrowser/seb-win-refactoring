@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Mobile.Controls"
-        mc:Ignorable="d" Title="BrowserWindow" Background="#FFF0F0F0" Height="500" Width="750" MinHeight="250" MinWidth="250" Icon=".\Images\SafeExamBrowser.ico">
+        mc:Ignorable="d" Title="BrowserWindow" Background="#FFF0F0F0" FontSize="16" Height="500" Width="750" MinHeight="250" MinWidth="250" Icon=".\Images\SafeExamBrowser.ico">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -29,18 +29,18 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" x:Name="BackwardButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
-                <Button Grid.Column="1" x:Name="ForwardButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
-                <Button Grid.Column="2" x:Name="ReloadButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
-                <Grid Grid.Column="3" Height="25" Margin="5,0">
-                    <TextBox x:Name="UrlTextBox" HorizontalAlignment="Stretch" Padding="5,0" VerticalContentAlignment="Center" />
-                    <fa:ImageAwesome x:Name="LoadingIcon" Foreground="Gray" HorizontalAlignment="Right" Icon="Spinner" Margin="5,3" SpinDuration="1.5" Visibility="Collapsed" />
+                <Button Grid.Column="0" x:Name="BackwardButton" Height="50" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
+                <Button Grid.Column="1" x:Name="ForwardButton" Height="50" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
+                <Button Grid.Column="2" x:Name="ReloadButton" Height="50" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
+                <Grid Grid.Column="3" Height="50" Margin="5,0">
+                    <TextBox x:Name="UrlTextBox" HorizontalAlignment="Stretch" Margin="5" Padding="8" VerticalContentAlignment="Center" />
+                    <fa:ImageAwesome x:Name="LoadingIcon" Foreground="Gray" HorizontalAlignment="Right" Icon="Spinner" Margin="12,10" SpinDuration="1.5" Visibility="Collapsed" />
                 </Grid>
-                <Button Grid.Column="4" x:Name="MenuButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
+                <Button Grid.Column="4" x:Name="MenuButton" Height="50" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
                 <Popup x:Name="MenuPopup" IsOpen="False" AllowsTransparency="True" PopupAnimation="Slide" Placement="Custom" PlacementTarget="{Binding ElementName=BrowserControlHost}">
-                    <Border Background="{StaticResource BackgroundBrush}" BorderBrush="LightGray" BorderThickness="1,0,1,1" Width="250">
+                    <Border Background="{StaticResource BackgroundBrush}" BorderBrush="LightGray" BorderThickness="1,0,1,1" Width="350">
                         <StackPanel Orientation="Vertical">
-                            <Grid Height="40">
+                            <Grid Height="55">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />

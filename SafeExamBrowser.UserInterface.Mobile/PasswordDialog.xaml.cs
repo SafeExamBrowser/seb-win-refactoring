@@ -47,8 +47,9 @@ namespace SafeExamBrowser.UserInterface.Mobile
 				if (parent is Window)
 				{
 					Owner = parent as Window;
-					WindowStartupLocation = WindowStartupLocation.CenterOwner;
 				}
+
+				InitializeBounds();
 
 				if (ShowDialog() is true)
 				{
@@ -60,11 +61,20 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			});
 		}
 
+		private void InitializeBounds()
+		{
+			Left = 0;
+			Top = 0;
+			Height = SystemParameters.PrimaryScreenHeight;
+			Width = SystemParameters.PrimaryScreenWidth;
+		}
+
 		private void InitializePasswordDialog(string message, string title)
 		{
+			InitializeBounds();
+
 			Message.Text = message;
 			Title = title;
-			WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
 			CancelButton.Content = text.Get(TextKey.PasswordDialog_Cancel);
 			CancelButton.Click += CancelButton_Click;
@@ -74,6 +84,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 			Closing += (o, args) => closing?.Invoke();
 			Password.KeyUp += Password_KeyUp;
+			SystemParameters.StaticPropertyChanged += SystemParameters_StaticPropertyChanged;
 		}
 
 		private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -94,6 +105,14 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			{
 				DialogResult = true;
 				Close();
+			}
+		}
+
+		private void SystemParameters_StaticPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(SystemParameters.WorkArea))
+			{
+				Dispatcher.InvokeAsync(InitializeBounds);
 			}
 		}
 

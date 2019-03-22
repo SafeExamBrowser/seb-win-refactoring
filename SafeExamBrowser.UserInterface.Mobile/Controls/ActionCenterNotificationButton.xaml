@@ -21,7 +21,7 @@
                     <RowDefinition Height="3*" />
                 </Grid.RowDefinitions>
                 <ContentControl Grid.Row="0" x:Name="Icon" VerticalAlignment="Center" />
-                <TextBlock Grid.Row="1" x:Name="Text" Foreground="White" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" VerticalAlignment="Bottom" />
+                <TextBlock Grid.Row="1" x:Name="Text" FontSize="15" Foreground="White" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" VerticalAlignment="Bottom" />
             </Grid>
         </Button>
     </Grid>

@@ -35,7 +35,7 @@
                     <fa:ImageAwesome x:Name="LoadingIcon" Foreground="Black" Icon="Cog" Margin="5" Spin="True" SpinDuration="2" Visibility="Collapsed" />
                     <Image x:Name="NetworkStatusIcon" Height="8" HorizontalAlignment="Right" Margin="-2,0" Panel.ZIndex="10" VerticalAlignment="Bottom" />
                 </Grid>
-                <TextBlock Grid.Row="1" x:Name="Text" Foreground="White" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" VerticalAlignment="Bottom" />
+                <TextBlock Grid.Row="1" x:Name="Text" FontSize="15" Foreground="White" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" VerticalAlignment="Bottom" />
             </Grid>
         </Button>
     </Grid>

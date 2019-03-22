@@ -125,7 +125,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 				InfoTextBlock.Inlines.Add(new Run($"Version {appConfig.ProgramVersion}") { FontStyle = FontStyles.Italic });
 				InfoTextBlock.Inlines.Add(new LineBreak());
 				InfoTextBlock.Inlines.Add(new LineBreak());
-				InfoTextBlock.Inlines.Add(new Run(appConfig.ProgramCopyright) { FontSize = 10 });
+				InfoTextBlock.Inlines.Add(new Run(appConfig.ProgramCopyright) { FontSize = 12 });
 			}
 		}
 	}

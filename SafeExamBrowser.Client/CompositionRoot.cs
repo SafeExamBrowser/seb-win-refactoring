@@ -44,6 +44,8 @@ using SafeExamBrowser.Monitoring.Processes;
 using SafeExamBrowser.Monitoring.Windows;
 using SafeExamBrowser.SystemComponents;
 using SafeExamBrowser.WindowsApi;
+using Desktop = SafeExamBrowser.UserInterface.Desktop;
+using Mobile = SafeExamBrowser.UserInterface.Mobile;
 
 namespace SafeExamBrowser.Client
 {
@@ -293,9 +295,9 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					return new UserInterface.Mobile.ActionCenter();
+					return new Mobile.ActionCenter();
 				default:
-					return new UserInterface.Desktop.ActionCenter();
+					return new Desktop.ActionCenter();
 			}
 		}
 
@@ -304,9 +306,9 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					return new UserInterface.Mobile.MessageBox(text);
+					return new Mobile.MessageBox(text);
 				default:
-					return new UserInterface.Desktop.MessageBox(text);
+					return new Desktop.MessageBox(text);
 			}
 		}
 
@@ -315,9 +317,9 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					return new UserInterface.Mobile.Taskbar(new ModuleLogger(logger, nameof(UserInterface.Mobile.Taskbar)));
+					return new Mobile.Taskbar(new ModuleLogger(logger, nameof(Mobile.Taskbar)));
 				default:
-					return new UserInterface.Desktop.Taskbar(new ModuleLogger(logger, nameof(UserInterface.Desktop.Taskbar)));
+					return new Desktop.Taskbar(new ModuleLogger(logger, nameof(Desktop.Taskbar)));
 			}
 		}
 
@@ -326,9 +328,9 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					return new UserInterface.Mobile.UserInterfaceFactory(text);
+					return new Mobile.UserInterfaceFactory(text);
 				default:
-					return new UserInterface.Desktop.UserInterfaceFactory(text);
+					return new Desktop.UserInterfaceFactory(text);
 			}
 		}
 

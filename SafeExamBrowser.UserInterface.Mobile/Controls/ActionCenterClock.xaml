@@ -27,8 +27,8 @@
                         <RowDefinition Height="1*" />
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="TimeTextBlock" Grid.Row="0" Text="{Binding Path=Time}" Foreground="White" HorizontalAlignment="Center" />
-                    <TextBlock x:Name="DateTextBlock" Grid.Row="1" Text="{Binding Path=Date}" Foreground="White" HorizontalAlignment="Center" />
+                    <TextBlock x:Name="TimeTextBlock" Grid.Row="0" Text="{Binding Path=Time}" FontSize="15" Foreground="White" HorizontalAlignment="Center" />
+                    <TextBlock x:Name="DateTextBlock" Grid.Row="1" Text="{Binding Path=Date}" FontSize="15" Foreground="White" HorizontalAlignment="Center" />
                 </Grid>
             </Grid>
         </Button>
