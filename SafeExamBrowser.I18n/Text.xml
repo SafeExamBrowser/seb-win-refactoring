@@ -102,6 +102,12 @@
   <Entry key="MessageBox_ReloadConfirmationTitle">
     Reload?
   </Entry>
+  <Entry key="MessageBox_SessionStartError">
+    The application failed to start a new session! Please consult the application log for more information...
+  </Entry>
+  <Entry key="MessageBox_SessionStartErrorTitle">
+    Session Start Error
+  </Entry>
   <Entry key="MessageBox_ShutdownError">
     An unexpected error occurred during the shutdown procedure! Please consult the application log for more information...
   </Entry>

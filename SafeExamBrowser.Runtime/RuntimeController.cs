@@ -207,8 +207,14 @@ namespace SafeExamBrowser.Runtime
 			{
 				StopSession();
 
+				messageBox.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
+
 				logger.Info("Terminating application...");
 				shutdown.Invoke();
+			}
+			else
+			{
+				messageBox.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
 			}
 		}
 
@@ -301,7 +307,6 @@ namespace SafeExamBrowser.Runtime
 			}
 
 			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
-
 			shutdown.Invoke();
 		}
 
@@ -315,7 +320,6 @@ namespace SafeExamBrowser.Runtime
 			}
 
 			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
-
 			shutdown.Invoke();
 		}
 

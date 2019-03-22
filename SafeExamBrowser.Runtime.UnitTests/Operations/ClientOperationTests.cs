@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Communication.Data;
@@ -68,7 +69,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustStartClientWhenPerforming()
+		public void Perform_MustStartClient()
 		{
 			var result = default(OperationResult);
 			var response = new AuthenticationResponse { ProcessId = 1234 };
@@ -87,19 +88,42 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustFailStartupIfClientNotStartedWithinTimeout()
+		public void Perform_MustFailStartupIfClientNotStartedWithinTimeout()
 		{
 			var result = default(OperationResult);
 
+			processFactory.Setup(f => f.StartNew(It.IsAny<string>(), It.IsAny<string[]>())).Returns(process.Object);
+
 			result = sut.Perform();
 
-			Assert.IsNull(sessionContext.ClientProcess);
 			Assert.IsNull(sessionContext.ClientProxy);
+			Assert.AreEqual(process.Object, sessionContext.ClientProcess);
 			Assert.AreEqual(OperationResult.Failed, result);
 		}
 
 		[TestMethod]
-		public void MustFailStartupIfConnectionToClientNotEstablished()
+		public void Perform_MustFailStartupImmediatelyIfClientTerminates()
+		{
+			const int ONE_SECOND = 1000;
+
+			var after = default(DateTime);
+			var before = default(DateTime);
+			var result = default(OperationResult);
+			var terminateClient = new Action(() => Task.Delay(100).ContinueWith(_ => process.Raise(p => p.Terminated += null, 0)));
+
+			processFactory.Setup(f => f.StartNew(It.IsAny<string>(), It.IsAny<string[]>())).Returns(process.Object).Callback(terminateClient);
+			sut = new ClientOperation(logger.Object, processFactory.Object, proxyFactory.Object, runtimeHost.Object, sessionContext, ONE_SECOND);
+
+			before = DateTime.Now;
+			result = sut.Perform();
+			after = DateTime.Now;
+
+			Assert.IsTrue(after - before < new TimeSpan(0, 0, ONE_SECOND));
+			Assert.AreEqual(OperationResult.Failed, result);
+		}
+
+		[TestMethod]
+		public void Perform_MustFailStartupIfConnectionToClientNotEstablished()
 		{
 			var result = default(OperationResult);
 
@@ -114,7 +138,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustFailStartupIfAuthenticationNotSuccessful()
+		public void Perform_MustFailStartupIfAuthenticationNotSuccessful()
 		{
 			var result = default(OperationResult);
 			var response = new AuthenticationResponse { ProcessId = -1 };
@@ -133,7 +157,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustStartClientWhenRepeating()
+		public void Repeat_MustStartClient()
 		{
 			var result = default(OperationResult);
 			var response = new AuthenticationResponse { ProcessId = 1234 };
@@ -152,7 +176,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustStopClientWhenReverting()
+		public void Revert_MustStopClient()
 		{
 			proxy.Setup(p => p.Disconnect()).Callback(terminated);
 
@@ -168,7 +192,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustKillClientIfStoppingFailed()
+		public void Revert_MustKillClientIfStoppingFailed()
 		{
 			process.Setup(p => p.Kill()).Callback(() => process.SetupGet(p => p.HasTerminated).Returns(true));
 
@@ -182,7 +206,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustAttemptToKillFiveTimesThenAbort()
+		public void Revert_MustAttemptToKillFiveTimesThenAbort()
 		{
 			PerformNormally();
 			sut.Revert();
@@ -194,7 +218,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustNotStopClientOnRevertIfAlreadyTerminated()
+		public void Revert_MustNotStopClientIfAlreadyTerminated()
 		{
 			process.SetupGet(p => p.HasTerminated).Returns(true);
 

@@ -48,6 +48,8 @@ namespace SafeExamBrowser.Contracts.I18n
 		MessageBox_ReconfigurationQuestionTitle,
 		MessageBox_ReloadConfirmation,
 		MessageBox_ReloadConfirmationTitle,
+		MessageBox_SessionStartError,
+		MessageBox_SessionStartErrorTitle,
 		MessageBox_ShutdownError,
 		MessageBox_ShutdownErrorTitle,
 		MessageBox_StartupError,

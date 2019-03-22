@@ -96,10 +96,6 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private bool TryStartClient()
 		{
-			var clientReady = false;
-			var clientReadyEvent = new AutoResetEvent(false);
-			var clientReadyEventHandler = new CommunicationEventHandler(() => clientReadyEvent.Set());
-
 			var clientExecutable = Context.Next.AppConfig.ClientExecutablePath;
 			var clientLogFile = $"{'"' + Context.Next.AppConfig.ClientLogFile + '"'}";
 			var clientLogLevel = Context.Next.Settings.LogLevel.ToString();
@@ -107,48 +103,75 @@ namespace SafeExamBrowser.Runtime.Operations
 			var startupToken = Context.Next.StartupToken.ToString("D");
 			var uiMode = Context.Next.Settings.UserInterfaceMode.ToString();
 
+			var clientReady = false;
+			var clientReadyEvent = new AutoResetEvent(false);
+			var clientReadyEventHandler = new CommunicationEventHandler(() => clientReadyEvent.Set());
+
+			var clientTerminated = false;
+			var clientTerminatedEventHandler = new ProcessTerminatedEventHandler(_ => { clientTerminated = true; clientReadyEvent.Set(); });
+
 			logger.Info("Starting new client process...");
 			runtimeHost.AllowConnection = true;
 			runtimeHost.ClientReady += clientReadyEventHandler;
 			ClientProcess = processFactory.StartNew(clientExecutable, clientLogFile, clientLogLevel, runtimeHostUri, startupToken, uiMode);
+			ClientProcess.Terminated += clientTerminatedEventHandler;
 
 			logger.Info("Waiting for client to complete initialization...");
 			clientReady = clientReadyEvent.WaitOne(timeout_ms);
-			runtimeHost.ClientReady -= clientReadyEventHandler;
+
 			runtimeHost.AllowConnection = false;
+			runtimeHost.ClientReady -= clientReadyEventHandler;
+			ClientProcess.Terminated -= clientTerminatedEventHandler;
+
+			if (clientReady && !clientTerminated)
+			{
+				return TryStartCommunication();
+			}
 
 			if (!clientReady)
 			{
 				logger.Error($"Failed to start client within {timeout_ms / 1000} seconds!");
-
-				return false;
 			}
+
+			if (clientTerminated)
+			{
+				logger.Error("Client instance terminated unexpectedly during initialization!");
+			}
+
+			return false;
+		}
+
+		private bool TryStartCommunication()
+		{
+			var success = false;
 
 			logger.Info("Client has been successfully started and initialized. Creating communication proxy for client host...");
 			ClientProxy = proxyFactory.CreateClientProxy(Context.Next.AppConfig.ClientAddress);
 
-			if (!ClientProxy.Connect(Context.Next.StartupToken))
+			if (ClientProxy.Connect(Context.Next.StartupToken))
+			{
+				logger.Info("Connection with client has been established. Requesting authentication...");
+
+				var communication = ClientProxy.RequestAuthentication();
+				var response = communication.Value;
+
+				success = communication.Success && ClientProcess.Id == response?.ProcessId;
+
+				if (success)
+				{
+					logger.Info("Authentication of client has been successful, client is ready to operate.");
+				}
+				else
+				{
+					logger.Error("Failed to verify client integrity!");
+				}
+			}
+			else
 			{
 				logger.Error("Failed to connect to client!");
-
-				return false;
 			}
 
-			logger.Info("Connection with client has been established. Requesting authentication...");
-
-			var communication = ClientProxy.RequestAuthentication();
-			var response = communication.Value;
-
-			if (!communication.Success || ClientProcess.Id != response?.ProcessId)
-			{
-				logger.Error("Failed to verify client integrity!");
-
-				return false;
-			}
-
-			logger.Info("Authentication of client has been successful, client is ready to operate.");
-
-			return true;
+			return success;
 		}
 
 		private bool TryStopClient()
