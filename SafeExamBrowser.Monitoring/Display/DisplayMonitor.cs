@@ -75,8 +75,11 @@ namespace SafeExamBrowser.Monitoring.Display
 		{
 			var identifier = GetIdentifierForPrimaryDisplay();
 
-			originalWorkingArea = nativeMethods.GetWorkingArea();
-			LogWorkingArea($"Saved original working area for {identifier}", originalWorkingArea);
+			if (originalWorkingArea == null)
+			{
+				originalWorkingArea = nativeMethods.GetWorkingArea();
+				LogWorkingArea($"Saved original working area for {identifier}", originalWorkingArea);
+			}
 
 			var area = new Bounds
 			{
