@@ -94,6 +94,7 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Terminating shell...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_TerminateShell);
 
+			TerminateActivators();
 			TerminateNotifications();
 			TerminateSystemComponents();
 
@@ -264,6 +265,17 @@ namespace SafeExamBrowser.Client.Operations
 
 				wirelessNetwork.Register(control);
 				taskbar.AddSystemControl(control);
+			}
+		}
+
+		private void TerminateActivators()
+		{
+			if (actionCenterSettings.EnableActionCenter)
+			{
+				foreach (var activator in activators)
+				{
+					activator.Stop();
+				}
 			}
 		}
 
