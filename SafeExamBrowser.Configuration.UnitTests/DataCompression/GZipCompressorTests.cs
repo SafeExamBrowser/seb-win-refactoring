@@ -83,6 +83,16 @@ namespace SafeExamBrowser.Configuration.UnitTests.DataCompression
 
 			var preview = sut.Peek(compressed, 5);
 
+			try
+			{
+				var position = compressed.Position;
+				var length = compressed.Length;
+			}
+			catch (ObjectDisposedException)
+			{
+				Assert.Fail("Source stream was disposed after previewing data!");
+			}
+
 			Assert.AreEqual(5, preview.Length);
 			Assert.IsTrue(Encoding.UTF8.GetBytes("A com").SequenceEqual(preview));
 		}

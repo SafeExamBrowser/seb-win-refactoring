@@ -103,10 +103,9 @@ namespace SafeExamBrowser.Configuration.DataCompression
 
 		public byte[] Peek(Stream data, int count)
 		{
-			var stream = new GZipStream(data, CompressionMode.Decompress);
-
 			data.Seek(0, SeekOrigin.Begin);
 
+			using (var stream = new GZipStream(data, CompressionMode.Decompress, true))
 			using (var decompressed = new MemoryStream())
 			{
 				var buffer = new byte[count];
