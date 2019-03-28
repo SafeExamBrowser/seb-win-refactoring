@@ -50,6 +50,7 @@ namespace SafeExamBrowser.Runtime
 		{
 			const int FIVE_SECONDS = 5000;
 			const int FIFTEEN_SECONDS = 15000;
+			const int THIRTY_SECONDS = 30000;
 
 			var args = Environment.GetCommandLineArgs();
 			var nativeMethods = new NativeMethods();
@@ -79,11 +80,11 @@ namespace SafeExamBrowser.Runtime
 
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost, sessionContext));
 			sessionOperations.Enqueue(new ConfigurationOperation(args, configuration, new HashAlgorithm(), logger, sessionContext));
-			sessionOperations.Enqueue(new ClientTerminationOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, FIFTEEN_SECONDS));
+			sessionOperations.Enqueue(new ClientTerminationOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, THIRTY_SECONDS, FIFTEEN_SECONDS));
 			sessionOperations.Enqueue(new KioskModeTerminationOperation(desktopFactory, explorerShell, logger, processFactory, sessionContext));
 			sessionOperations.Enqueue(new ServiceOperation(logger, serviceProxy, sessionContext));
 			sessionOperations.Enqueue(new KioskModeOperation(desktopFactory, explorerShell, logger, processFactory, sessionContext));
-			sessionOperations.Enqueue(new ClientOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, FIFTEEN_SECONDS));
+			sessionOperations.Enqueue(new ClientOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, THIRTY_SECONDS, FIFTEEN_SECONDS));
 			sessionOperations.Enqueue(new SessionActivationOperation(logger, sessionContext));
 
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);

@@ -21,8 +21,8 @@ namespace SafeExamBrowser.Runtime.Operations
 {
 	internal class ClientOperation : SessionOperation
 	{
-		private readonly int timeout_ms;
-
+		private readonly int startup_timeout_ms;
+		private readonly int shutdown_timeout_ms;
 		private ILogger logger;
 		private IProcessFactory processFactory;
 		private IProxyFactory proxyFactory;
@@ -49,13 +49,15 @@ namespace SafeExamBrowser.Runtime.Operations
 			IProxyFactory proxyFactory,
 			IRuntimeHost runtimeHost,
 			SessionContext sessionContext,
-			int timeout_ms) : base(sessionContext)
+			int startup_timeout_ms,
+			int shutdown_timeout_ms) : base(sessionContext)
 		{
 			this.logger = logger;
 			this.processFactory = processFactory;
 			this.proxyFactory = proxyFactory;
 			this.runtimeHost = runtimeHost;
-			this.timeout_ms = timeout_ms;
+			this.startup_timeout_ms = startup_timeout_ms;
+			this.shutdown_timeout_ms = shutdown_timeout_ms;
 		}
 
 		public override OperationResult Perform()
@@ -117,7 +119,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			ClientProcess.Terminated += clientTerminatedEventHandler;
 
 			logger.Info("Waiting for client to complete initialization...");
-			clientReady = clientReadyEvent.WaitOne(timeout_ms);
+			clientReady = clientReadyEvent.WaitOne(startup_timeout_ms);
 
 			runtimeHost.AllowConnection = false;
 			runtimeHost.ClientReady -= clientReadyEventHandler;
@@ -130,7 +132,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (!clientReady)
 			{
-				logger.Error($"Failed to start client within {timeout_ms / 1000} seconds!");
+				logger.Error($"Failed to start client within {startup_timeout_ms / 1000} seconds!");
 			}
 
 			if (clientTerminated)
@@ -198,19 +200,19 @@ namespace SafeExamBrowser.Runtime.Operations
 				ClientProxy.Disconnect();
 
 				logger.Info("Waiting for client to disconnect from runtime communication host...");
-				disconnected = disconnectedEvent.WaitOne(timeout_ms);
+				disconnected = disconnectedEvent.WaitOne(shutdown_timeout_ms);
 
 				if (!disconnected)
 				{
-					logger.Error($"Client failed to disconnect within {timeout_ms / 1000} seconds!");
+					logger.Error($"Client failed to disconnect within {shutdown_timeout_ms / 1000} seconds!");
 				}
 
 				logger.Info("Waiting for client process to terminate...");
-				terminated = terminatedEvent.WaitOne(timeout_ms);
+				terminated = terminatedEvent.WaitOne(shutdown_timeout_ms);
 
 				if (!terminated)
 				{
-					logger.Error($"Client failed to terminate within {timeout_ms / 1000} seconds!");
+					logger.Error($"Client failed to terminate within {shutdown_timeout_ms / 1000} seconds!");
 				}
 
 				runtimeHost.ClientDisconnected -= disconnectedEventHandler;

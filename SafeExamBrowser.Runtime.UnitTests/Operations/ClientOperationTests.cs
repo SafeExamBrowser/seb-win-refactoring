@@ -65,7 +65,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			sessionContext.Next = session.Object;
 			proxyFactory.Setup(f => f.CreateClientProxy(It.IsAny<string>())).Returns(proxy.Object);
 
-			sut = new ClientOperation(logger.Object, processFactory.Object, proxyFactory.Object, runtimeHost.Object, sessionContext, 0);
+			sut = new ClientOperation(logger.Object, processFactory.Object, proxyFactory.Object, runtimeHost.Object, sessionContext, 0, 0);
 		}
 
 		[TestMethod]
@@ -112,7 +112,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var terminateClient = new Action(() => Task.Delay(100).ContinueWith(_ => process.Raise(p => p.Terminated += null, 0)));
 
 			processFactory.Setup(f => f.StartNew(It.IsAny<string>(), It.IsAny<string[]>())).Returns(process.Object).Callback(terminateClient);
-			sut = new ClientOperation(logger.Object, processFactory.Object, proxyFactory.Object, runtimeHost.Object, sessionContext, ONE_SECOND);
+			sut = new ClientOperation(logger.Object, processFactory.Object, proxyFactory.Object, runtimeHost.Object, sessionContext, ONE_SECOND, ONE_SECOND);
 
 			before = DateTime.Now;
 			result = sut.Perform();
