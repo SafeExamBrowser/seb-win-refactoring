@@ -2,13 +2,10 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("SafeExamBrowser.Communication.UnitTests")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyDescription("Safe Exam Browser")]
+[assembly: AssemblyCompany("ETH Zürich")]
 [assembly: AssemblyProduct("SafeExamBrowser.Communication.UnitTests")]
 [assembly: AssemblyCopyright("Copyright © 2019 ETH Zürich, Educational Development and Technology (LET)")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
 
