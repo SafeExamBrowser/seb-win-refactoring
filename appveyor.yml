@@ -1,13 +1,15 @@
-version: 3.0.0
+environment:
+  product_version: "3.0.0"
+version: "{product_version}.{build}"
 image: Visual Studio 2017
 platform: x86
 configuration: Release
 assembly_info:
   patch: true
   file: AssemblyInfo.*
-  assembly_version: "{version}.{build}"
-  assembly_file_version: "{version}.{build}"
-  assembly_informational_version: "{version} (alpha)"
+  assembly_version: "{version}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{product_version} (alpha)"
 before_build:
  - nuget restore
 build_script:
