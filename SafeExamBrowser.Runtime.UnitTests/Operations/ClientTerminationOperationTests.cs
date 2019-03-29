@@ -62,7 +62,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			sessionContext.Next = session.Object;
 			proxyFactory.Setup(f => f.CreateClientProxy(It.IsAny<string>())).Returns(proxy.Object);
 
-			sut = new ClientTerminationOperation(logger.Object, processFactory.Object, proxyFactory.Object, runtimeHost.Object, sessionContext, 0, 0);
+			sut = new ClientTerminationOperation(logger.Object, processFactory.Object, proxyFactory.Object, runtimeHost.Object, sessionContext, 0);
 		}
 
 		[TestMethod]

@@ -22,8 +22,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			IProxyFactory proxyFactory,
 			IRuntimeHost runtimeHost,
 			SessionContext sessionContext,
-			int startup_timeout_ms,
-			int shutdown_timeout_ms) : base(logger, processFactory, proxyFactory, runtimeHost, sessionContext, startup_timeout_ms, shutdown_timeout_ms)
+			int timeout_ms) : base(logger, processFactory, proxyFactory, runtimeHost, sessionContext, timeout_ms)
 		{
 		}
 
