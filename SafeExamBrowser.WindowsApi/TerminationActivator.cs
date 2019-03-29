@@ -10,28 +10,39 @@ using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface.Shell;
-using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
+using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.Contracts.WindowsApi.Events;
 using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Delegates;
 using SafeExamBrowser.WindowsApi.Types;
 
 namespace SafeExamBrowser.WindowsApi
 {
-	public class KeyboardActivator : IActionCenterActivator
+	public class TerminationActivator : ITerminationActivator
 	{
-		private bool A, LeftWindows;
+		private bool Q, LeftCtrl, RightCtrl, paused;
 		private IntPtr handle;
 		private HookDelegate hookDelegate;
 		private ILogger logger;
 
-		public event ActivatorEventHandler Activated { add { } remove { } }
-		public event ActivatorEventHandler Deactivated { add { } remove { } }
-		public event ActivatorEventHandler Toggled;
+		public event TerminationActivatorEventHandler Activated;
 
-		public KeyboardActivator(ILogger logger)
+		public TerminationActivator(ILogger logger)
 		{
 			this.logger = logger;
+		}
+
+		public void Pause()
+		{
+			paused = true;
+		}
+
+		public void Resume()
+		{
+			Q = false;
+			LeftCtrl = false;
+			RightCtrl = false;
+			paused = false;
 		}
 
 		public void Start()
@@ -72,7 +83,7 @@ namespace SafeExamBrowser.WindowsApi
 
 		private IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam)
 		{
-			if (nCode >= 0)
+			if (nCode >= 0 && !paused)
 			{
 				var changed = false;
 				var keyData = (KBDLLHOOKSTRUCT) Marshal.PtrToStructure(lParam, typeof(KBDLLHOOKSTRUCT));
@@ -80,20 +91,24 @@ namespace SafeExamBrowser.WindowsApi
 
 				switch (keyData.KeyCode)
 				{
-					case (uint) VirtualKeyCode.A:
-						changed = A != pressed;
-						A = pressed;
+					case (uint) VirtualKeyCode.Q:
+						changed = Q != pressed;
+						Q = pressed;
 						break;
-					case (uint) VirtualKeyCode.LeftWindows:
-						changed = LeftWindows != pressed;
-						LeftWindows = pressed;
+					case (uint) VirtualKeyCode.LeftControl:
+						changed = LeftCtrl != pressed;
+						LeftCtrl = pressed;
+						break;
+					case (uint) VirtualKeyCode.RightControl:
+						changed = RightCtrl != pressed;
+						RightCtrl = pressed;
 						break;
 				}
 
-				if (A && LeftWindows && changed)
+				if (Q && (LeftCtrl || RightCtrl) && changed)
 				{
-					logger.Debug("Detected toggle sequence for action center.");
-					Toggled?.Invoke();
+					logger.Debug("Detected termination sequence.");
+					Activated?.Invoke();
 
 					return (IntPtr) 1;
 				}

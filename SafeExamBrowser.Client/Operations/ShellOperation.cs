@@ -16,6 +16,7 @@ using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Shell;
+using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Client.Operations
 {
@@ -35,6 +36,7 @@ namespace SafeExamBrowser.Client.Operations
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
 		private TaskbarSettings taskbarSettings;
+		private ITerminationActivator terminationActivator;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 
@@ -56,6 +58,7 @@ namespace SafeExamBrowser.Client.Operations
 			ISystemInfo systemInfo,
 			ITaskbar taskbar,
 			TaskbarSettings taskbarSettings,
+			ITerminationActivator terminationActivator,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
@@ -71,6 +74,7 @@ namespace SafeExamBrowser.Client.Operations
 			this.powerSupply = powerSupply;
 			this.systemInfo = systemInfo;
 			this.taskbarSettings = taskbarSettings;
+			this.terminationActivator = terminationActivator;
 			this.text = text;
 			this.taskbar = taskbar;
 			this.uiFactory = uiFactory;
@@ -85,6 +89,7 @@ namespace SafeExamBrowser.Client.Operations
 			InitializeSystemComponents();
 			InitializeActionCenter();
 			InitializeTaskbar();
+			InitializeActivators();
 
 			return OperationResult.Success;
 		}
@@ -99,6 +104,11 @@ namespace SafeExamBrowser.Client.Operations
 			TerminateSystemComponents();
 
 			return OperationResult.Success;
+		}
+
+		private void InitializeActivators()
+		{
+			terminationActivator.Start();
 		}
 
 		private void InitializeActionCenter()
@@ -270,6 +280,8 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void TerminateActivators()
 		{
+			terminationActivator.Stop();
+
 			if (actionCenterSettings.EnableActionCenter)
 			{
 				foreach (var activator in activators)

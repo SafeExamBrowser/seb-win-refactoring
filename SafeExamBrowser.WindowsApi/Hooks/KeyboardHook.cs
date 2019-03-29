@@ -13,7 +13,7 @@ using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Delegates;
 using SafeExamBrowser.WindowsApi.Types;
 
-namespace SafeExamBrowser.WindowsApi.Monitoring
+namespace SafeExamBrowser.WindowsApi.Hooks
 {
 	internal class KeyboardHook
 	{

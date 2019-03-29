@@ -218,6 +218,7 @@
     <Compile Include="UserInterface\MessageBox\MessageBoxIcon.cs" />
     <Compile Include="WindowsApi\Events\ProcessTerminatedEventHandler.cs" />
     <Compile Include="WindowsApi\Events\SystemEventCallback.cs" />
+    <Compile Include="WindowsApi\Events\TerminationActivatorEventHandler.cs" />
     <Compile Include="WindowsApi\IBounds.cs" />
     <Compile Include="WindowsApi\IDesktop.cs" />
     <Compile Include="WindowsApi\IDesktopFactory.cs" />
@@ -225,6 +226,7 @@
     <Compile Include="WindowsApi\INativeMethods.cs" />
     <Compile Include="WindowsApi\IProcess.cs" />
     <Compile Include="WindowsApi\IProcessFactory.cs" />
+    <Compile Include="WindowsApi\ITerminationActivator.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

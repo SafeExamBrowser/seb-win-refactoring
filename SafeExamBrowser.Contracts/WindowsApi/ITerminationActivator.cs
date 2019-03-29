@@ -6,29 +6,29 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
+using SafeExamBrowser.Contracts.WindowsApi.Events;
 
-namespace SafeExamBrowser.Contracts.UserInterface.Shell
+namespace SafeExamBrowser.Contracts.WindowsApi
 {
 	/// <summary>
-	/// A module which can be used to control the visibility of the <see cref="IActionCenter"/>.
+	/// A module which observes user input and indicates when the user would like to terminate the application.
 	/// </summary>
-	public interface IActionCenterActivator
+	public interface ITerminationActivator
 	{
 		/// <summary>
-		/// Fired when the action center should be made visible.
+		/// Fired when a termination request has been detected.
 		/// </summary>
-		event ActivatorEventHandler Activated;
+		event TerminationActivatorEventHandler Activated;
 
 		/// <summary>
-		/// Fired when the action center should be made invisible.
+		/// Temporarily stops processing all user input.
 		/// </summary>
-		event ActivatorEventHandler Deactivated;
+		void Pause();
 
 		/// <summary>
-		/// Fired when the action center visibility should be toggled.
+		/// Resumes processing user input.
 		/// </summary>
-		event ActivatorEventHandler Toggled;
+		void Resume();
 
 		/// <summary>
 		/// Starts monitoring user input events.

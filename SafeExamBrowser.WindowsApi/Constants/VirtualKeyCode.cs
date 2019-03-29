@@ -14,6 +14,7 @@ namespace SafeExamBrowser.WindowsApi.Constants
 	internal enum VirtualKeyCode
 	{
 		A = 0x41,
+		Q = 0x51,
 		Delete = 0x2E,
 		LeftAlt = 0xA4,
 		LeftControl = 0xA2,

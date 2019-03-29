@@ -12,7 +12,7 @@ using SafeExamBrowser.Contracts.WindowsApi.Events;
 using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Delegates;
 
-namespace SafeExamBrowser.WindowsApi.Monitoring
+namespace SafeExamBrowser.WindowsApi.Hooks
 {
 	internal class SystemHook
 	{

@@ -82,9 +82,9 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		public void Register(IActionCenterActivator activator)
 		{
-			activator.Activate += Activator_Activate;
-			activator.Deactivate += Activator_Deactivate;
-			activator.Toggle += Activator_Toggle;
+			activator.Activated += Activator_Activated;
+			activator.Deactivated += Activator_Deactivated;
+			activator.Toggled += Activator_Toggled;
 		}
 
 		public new void Show()
@@ -150,7 +150,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			HideAnimated();
 		}
 
-		private void Activator_Activate()
+		private void Activator_Activated()
 		{
 			Dispatcher.InvokeAsync(() =>
 			{
@@ -161,7 +161,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			});
 		}
 
-		private void Activator_Deactivate()
+		private void Activator_Deactivated()
 		{
 			Dispatcher.InvokeAsync(() =>
 			{
@@ -172,7 +172,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			});
 		}
 
-		private void Activator_Toggle()
+		private void Activator_Toggled()
 		{
 			Dispatcher.InvokeAsync(() =>
 			{

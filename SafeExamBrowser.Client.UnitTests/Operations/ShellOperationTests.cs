@@ -17,6 +17,7 @@ using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface;
 using SafeExamBrowser.Contracts.UserInterface.Shell;
+using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
@@ -28,6 +29,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private ActionCenterSettings actionCenterSettings;
 		private Mock<ILogger> logger;
 		private TaskbarSettings taskbarSettings;
+		private Mock<ITerminationActivator> terminationActivator;
 		private Mock<INotificationInfo> aboutInfo;
 		private Mock<INotificationController> aboutController;
 		private Mock<INotificationInfo> logInfo;
@@ -59,6 +61,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			systemInfo = new Mock<ISystemInfo>();
 			taskbar = new Mock<ITaskbar>();
 			taskbarSettings = new TaskbarSettings();
+			terminationActivator = new Mock<ITerminationActivator>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
@@ -84,6 +87,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 				systemInfo.Object,
 				taskbar.Object,
 				taskbarSettings,
+				terminationActivator.Object,
 				text.Object,
 				uiFactory.Object);
 		}

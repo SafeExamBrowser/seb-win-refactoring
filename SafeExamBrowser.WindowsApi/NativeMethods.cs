@@ -18,7 +18,7 @@ using SafeExamBrowser.Contracts.Monitoring;
 using SafeExamBrowser.Contracts.WindowsApi;
 using SafeExamBrowser.Contracts.WindowsApi.Events;
 using SafeExamBrowser.WindowsApi.Constants;
-using SafeExamBrowser.WindowsApi.Monitoring;
+using SafeExamBrowser.WindowsApi.Hooks;
 using SafeExamBrowser.WindowsApi.Types;
 
 namespace SafeExamBrowser.WindowsApi

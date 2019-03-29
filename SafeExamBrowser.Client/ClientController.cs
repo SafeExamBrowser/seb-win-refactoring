@@ -44,6 +44,7 @@ namespace SafeExamBrowser.Client
 		private Action shutdown;
 		private ISplashScreen splashScreen;
 		private ITaskbar taskbar;
+		private ITerminationActivator terminationActivator;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		private IWindowMonitor windowMonitor;
@@ -79,6 +80,7 @@ namespace SafeExamBrowser.Client
 			IRuntimeProxy runtime,
 			Action shutdown,
 			ITaskbar taskbar,
+			ITerminationActivator terminationActivator,
 			IText text,
 			IUserInterfaceFactory uiFactory,
 			IWindowMonitor windowMonitor)
@@ -94,6 +96,7 @@ namespace SafeExamBrowser.Client
 			this.runtime = runtime;
 			this.shutdown = shutdown;
 			this.taskbar = taskbar;
+			this.terminationActivator = terminationActivator;
 			this.text = text;
 			this.uiFactory = uiFactory;
 			this.windowMonitor = windowMonitor;
@@ -178,6 +181,7 @@ namespace SafeExamBrowser.Client
 			processMonitor.ExplorerStarted += ProcessMonitor_ExplorerStarted;
 			runtime.ConnectionLost += Runtime_ConnectionLost;
 			taskbar.QuitButtonClicked += Shell_QuitButtonClicked;
+			terminationActivator.Activated += TerminationActivator_Activated;
 			windowMonitor.WindowChanged += WindowMonitor_WindowChanged;
 		}
 
@@ -188,6 +192,7 @@ namespace SafeExamBrowser.Client
 			processMonitor.ExplorerStarted -= ProcessMonitor_ExplorerStarted;
 			runtime.ConnectionLost -= Runtime_ConnectionLost;
 			taskbar.QuitButtonClicked -= Shell_QuitButtonClicked;
+			terminationActivator.Activated -= TerminationActivator_Activated;
 			windowMonitor.WindowChanged -= WindowMonitor_WindowChanged;
 
 			if (Browser != null)
@@ -384,6 +389,35 @@ namespace SafeExamBrowser.Client
 
 		private void Shell_QuitButtonClicked(System.ComponentModel.CancelEventArgs args)
 		{
+			terminationActivator.Pause();
+			args.Cancel = !TryInitiateShutdown();
+			terminationActivator.Resume();
+		}
+
+		private void TerminationActivator_Activated()
+		{
+			terminationActivator.Pause();
+			TryInitiateShutdown();
+			terminationActivator.Resume();
+		}
+
+		private void WindowMonitor_WindowChanged(IntPtr window)
+		{
+			var allowed = processMonitor.BelongsToAllowedProcess(window);
+
+			if (!allowed)
+			{
+				var success = windowMonitor.Hide(window);
+
+				if (!success)
+				{
+					windowMonitor.Close(window);
+				}
+			}
+		}
+
+		private bool TryInitiateShutdown()
+		{
 			var hasQuitPassword = !String.IsNullOrEmpty(Settings.QuitPasswordHash);
 			var requestShutdown = false;
 
@@ -400,31 +434,18 @@ namespace SafeExamBrowser.Client
 			{
 				var communication = runtime.RequestShutdown();
 
-				if (!communication.Success)
+				if (communication.Success)
+				{
+					return true;
+				}
+				else
 				{
 					logger.Error("Failed to communicate shutdown request to the runtime!");
 					messageBox.Show(TextKey.MessageBox_QuitError, TextKey.MessageBox_QuitErrorTitle, icon: MessageBoxIcon.Error);
 				}
 			}
-			else
-			{
-				args.Cancel = true;
-			}
-		}
 
-		private void WindowMonitor_WindowChanged(IntPtr window)
-		{
-			var allowed = processMonitor.BelongsToAllowedProcess(window);
-
-			if (!allowed)
-			{
-				var success = windowMonitor.Hide(window);
-
-				if (!success)
-				{
-					windowMonitor.Close(window);
-				}
-			}
+			return false;
 		}
 
 		private bool TryConfirmShutdown()

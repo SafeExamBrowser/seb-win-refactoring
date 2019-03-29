@@ -71,6 +71,7 @@ namespace SafeExamBrowser.Client
 		private ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
+		private ITerminationActivator terminationActivator;
 		private IText text;
 		private ITextResource textResource;
 		private IUserInterfaceFactory uiFactory;
@@ -98,6 +99,7 @@ namespace SafeExamBrowser.Client
 			uiFactory = BuildUserInterfaceFactory();
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(RuntimeProxy)));
 			taskbar = BuildTaskbar();
+			terminationActivator = new TerminationActivator(new ModuleLogger(logger, nameof(TerminationActivator)));
 			windowMonitor = new WindowMonitor(new ModuleLogger(logger, nameof(WindowMonitor)), nativeMethods);
 			wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, nameof(WirelessNetwork)), text);
 
@@ -137,6 +139,7 @@ namespace SafeExamBrowser.Client
 				runtimeProxy,
 				shutdown,
 				taskbar,
+				terminationActivator,
 				text,
 				uiFactory,
 				windowMonitor);
@@ -279,6 +282,7 @@ namespace SafeExamBrowser.Client
 				systemInfo,
 				taskbar,
 				configuration.Settings.Taskbar,
+				terminationActivator,
 				text,
 				uiFactory);
 

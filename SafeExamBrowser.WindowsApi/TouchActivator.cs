@@ -26,9 +26,9 @@ namespace SafeExamBrowser.WindowsApi
 		private bool isDown;
 		private ILogger logger;
 
-		public event ActivatorEventHandler Activate;
-		public event ActivatorEventHandler Deactivate { add { } remove { } }
-		public event ActivatorEventHandler Toggle { add { } remove { } }
+		public event ActivatorEventHandler Activated;
+		public event ActivatorEventHandler Deactivated { add { } remove { } }
+		public event ActivatorEventHandler Toggled { add { } remove { } }
 
 		public TouchActivator(ILogger logger)
 		{
@@ -109,7 +109,7 @@ namespace SafeExamBrowser.WindowsApi
 			if (isDown && hasMoved)
 			{
 				logger.Debug("Detected activation gesture for action center.");
-				Activate?.Invoke();
+				Activated?.Invoke();
 			}
 		}
 

@@ -49,6 +49,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		private Settings settings;
 		private Mock<Action> shutdown;
 		private Mock<ITaskbar> taskbar;
+		private Mock<ITerminationActivator> terminationActivator;
 		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
 		private Mock<IWindowMonitor> windowMonitor;
@@ -74,6 +75,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			settings = new Settings();
 			shutdown = new Mock<Action>();
 			taskbar = new Mock<ITaskbar>();
+			terminationActivator = new Mock<ITerminationActivator>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 			windowMonitor = new Mock<IWindowMonitor>();
@@ -94,6 +96,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				runtimeProxy.Object,
 				shutdown.Object,
 				taskbar.Object,
+				terminationActivator.Object,
 				text.Object,
 				uiFactory.Object,
 				windowMonitor.Object);
