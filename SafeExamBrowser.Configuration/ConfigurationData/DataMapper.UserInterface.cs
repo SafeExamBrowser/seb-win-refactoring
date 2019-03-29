@@ -14,9 +14,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 	{
 		private void MapApplicationLog(Settings settings, object value)
 		{
-			if (value is bool allow)
+			if (value is bool show)
 			{
-				settings.Taskbar.ShowApplicationLog = allow;
+				settings.ActionCenter.ShowApplicationLog = show;
+				settings.Taskbar.ShowApplicationLog = show;
 			}
 		}
 
@@ -24,23 +25,26 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool show)
 			{
+				settings.ActionCenter.ShowClock = show;
 				settings.Taskbar.ShowClock = show;
 			}
 		}
 
 		private void MapKeyboardLayout(Settings settings, object value)
 		{
-			if (value is bool enabled)
+			if (value is bool show)
 			{
-				settings.Taskbar.ShowKeyboardLayout = enabled;
+				settings.ActionCenter.ShowKeyboardLayout = show;
+				settings.Taskbar.ShowKeyboardLayout = show;
 			}
 		}
 
 		private void MapWirelessNetwork(Settings settings, object value)
 		{
-			if (value is bool enabled)
+			if (value is bool show)
 			{
-				settings.Taskbar.ShowWirelessNetwork = enabled;
+				settings.ActionCenter.ShowWirelessNetwork = show;
+				settings.Taskbar.ShowWirelessNetwork = show;
 			}
 		}
 
