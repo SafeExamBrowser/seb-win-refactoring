@@ -1,12 +1,19 @@
+version: 3.0.0.{build}
 image: Visual Studio 2017
 platform: x86
 configuration: Release
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "{version}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version} (alpha)"
 before_build:
  - nuget restore
 build_script:
  - msbuild /verbosity:minimal "SafeExamBrowser.sln"
 test_script:
- - .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"vstest.console.exe" -targetargs:"/logger:Appveyor SafeExamBrowser.Client.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.Client.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -output:"coverage.xml"
+ - .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Client.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.Client.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -output:"coverage.xml"
  - .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Communication.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.Communication.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -mergeoutput -output:"coverage.xml"
  - .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Configuration.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.Configuration.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -mergeoutput -output:"coverage.xml"
  - .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Core.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.Core.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -mergeoutput -output:"coverage.xml"
