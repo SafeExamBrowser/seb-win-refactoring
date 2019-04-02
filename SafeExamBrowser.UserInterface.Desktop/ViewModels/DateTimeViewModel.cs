@@ -8,13 +8,13 @@
 
 using System;
 using System.ComponentModel;
-using System.Timers;
+using System.Windows.Threading;
 
 namespace SafeExamBrowser.UserInterface.Desktop.ViewModels
 {
 	internal class DateTimeViewModel : INotifyPropertyChanged
 	{
-		private Timer timer;
+		private DispatcherTimer timer;
 		private readonly bool showSeconds;
 
 		public string Date { get; private set; }
@@ -26,12 +26,13 @@ namespace SafeExamBrowser.UserInterface.Desktop.ViewModels
 		public DateTimeViewModel(bool showSeconds)
 		{
 			this.showSeconds = showSeconds;
-			this.timer = new Timer(1000);
-			this.timer.Elapsed += Timer_Elapsed;
+			this.timer = new DispatcherTimer();
+			this.timer.Interval = TimeSpan.FromMilliseconds(250);
+			this.timer.Tick += Timer_Tick;
 			this.timer.Start();
 		}
 
-		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+		private void Timer_Tick(object sender, EventArgs e)
 		{
 			var date = DateTime.Now;
 
