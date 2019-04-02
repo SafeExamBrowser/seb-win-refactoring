@@ -306,7 +306,7 @@ namespace SafeExamBrowser.Runtime
 				StopSession();
 			}
 
-			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
+			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
 			shutdown.Invoke();
 		}
 
@@ -319,7 +319,7 @@ namespace SafeExamBrowser.Runtime
 				StopSession();
 			}
 
-			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
+			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
 			shutdown.Invoke();
 		}
 
