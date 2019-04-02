@@ -152,8 +152,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			// TODO: Default values for testing of alpha version only, remove for final release!
 			settings.ActionCenter.ShowApplicationLog = true;
-			settings.ActionCenter.ShowKeyboardLayout = true;
-			settings.ActionCenter.ShowWirelessNetwork = true;
 			settings.Browser.AllowDeveloperConsole = true;
 			settings.Browser.MainWindowSettings.AllowAddressBar = true;
 			settings.Taskbar.ShowApplicationLog = true;
