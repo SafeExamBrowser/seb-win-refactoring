@@ -73,5 +73,13 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 
 			Assert.IsTrue(button.HasSubscribed);
 		}
+
+		[TestMethod]
+		public void MustNotFailToTerminateIfNotStarted()
+		{
+			var sut = new AboutNotificationController(appConfig.Object, uiFactory.Object);
+
+			sut.Terminate();
+		}
 	}
 }

@@ -57,6 +57,20 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		}
 
 		[TestMethod]
+		public void MustRejectConnectionIfTokenInvalid()
+		{
+			var token = Guid.NewGuid();
+
+			sut.AllowConnection = true;
+			sut.StartupToken = token;
+
+			var response = sut.Connect(Guid.NewGuid());
+
+			Assert.IsNotNull(response);
+			Assert.IsFalse(response.ConnectionEstablished);
+		}
+
+		[TestMethod]
 		public void MustOnlyAllowOneConcurrentConnection()
 		{
 			var token = Guid.NewGuid();

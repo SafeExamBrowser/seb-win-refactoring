@@ -179,6 +179,43 @@ namespace SafeExamBrowser.Logging.UnitTests
 		}
 
 		[TestMethod]
+		public void MustRespectLogLevel()
+		{
+			var sut = new Logger();
+
+			sut.LogLevel = LogLevel.Error;
+			sut.Debug("debug");
+			sut.Info("info");
+			sut.Warn("warn");
+
+			Assert.AreEqual(0, sut.GetLog().Count);
+
+			sut = new Logger();
+			sut.LogLevel = LogLevel.Warning;
+			sut.Debug("debug");
+			sut.Info("info");
+			sut.Warn("warn");
+
+			Assert.AreEqual(1, sut.GetLog().Count);
+
+			sut = new Logger();
+			sut.LogLevel = LogLevel.Info;
+			sut.Debug("debug");
+			sut.Info("info");
+			sut.Warn("warn");
+
+			Assert.AreEqual(2, sut.GetLog().Count);
+
+			sut = new Logger();
+			sut.LogLevel = LogLevel.Debug;
+			sut.Debug("debug");
+			sut.Info("info");
+			sut.Warn("warn");
+
+			Assert.AreEqual(3, sut.GetLog().Count);
+		}
+
+		[TestMethod]
 		public void MustUnsubscribeObserver()
 		{
 			var sut = new Logger();

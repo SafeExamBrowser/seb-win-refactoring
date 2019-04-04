@@ -529,6 +529,28 @@ namespace SafeExamBrowser.Client.UnitTests
 		}
 
 		[TestMethod]
+		public void Shutdown_MustAbortAskingUserForQuitPassword()
+		{
+			var args = new System.ComponentModel.CancelEventArgs();
+			var dialog = new Mock<IPasswordDialog>();
+			var dialogResult = new Mock<IPasswordDialogResult>();
+
+			settings.QuitPasswordHash = "1234";
+			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(dialogResult.Object);
+			dialogResult.SetupGet(r => r.Success).Returns(false);
+			runtimeProxy.Setup(r => r.RequestShutdown()).Returns(new CommunicationResult(true));
+			uiFactory.Setup(u => u.CreatePasswordDialog(It.IsAny<TextKey>(), It.IsAny<TextKey>())).Returns(dialog.Object);
+
+			sut.TryStart();
+			taskbar.Raise(t => t.QuitButtonClicked += null, args as object);
+
+			uiFactory.Verify(u => u.CreatePasswordDialog(It.IsAny<TextKey>(), It.IsAny<TextKey>()), Times.Once);
+			runtimeProxy.Verify(p => p.RequestShutdown(), Times.Never);
+
+			Assert.IsTrue(args.Cancel);
+		}
+
+		[TestMethod]
 		public void Shutdown_MustNotInitiateIfQuitPasswordIncorrect()
 		{
 			var args = new System.ComponentModel.CancelEventArgs();
@@ -638,6 +660,33 @@ namespace SafeExamBrowser.Client.UnitTests
 			sut.TryStart();
 
 			taskbar.Verify(t => t.Show(), Times.Never);
+		}
+
+		[TestMethod]
+		public void TerminationActivator_MustCorrectlyInitiateShutdown()
+		{
+			var order = 0;
+			var pause = 0;
+			var resume = 0;
+
+			messageBox.Setup(m => m.Show(
+				It.IsAny<TextKey>(),
+				It.IsAny<TextKey>(),
+				It.IsAny<MessageBoxAction>(),
+				It.IsAny<MessageBoxIcon>(),
+				It.IsAny<IWindow>())).Returns(MessageBoxResult.Yes);
+			runtimeProxy.Setup(r => r.RequestShutdown()).Returns(new CommunicationResult(true));
+			terminationActivator.Setup(t => t.Pause()).Callback(() => pause = ++order);
+			terminationActivator.Setup(t => t.Resume()).Callback(() => resume = ++order);
+
+			sut.TryStart();
+			terminationActivator.Raise(t => t.Activated += null);
+
+			Assert.AreEqual(1, pause);
+			Assert.AreEqual(2, resume);
+			terminationActivator.Verify(t => t.Pause(), Times.Once);
+			terminationActivator.Verify(t => t.Resume(), Times.Once);
+			runtimeProxy.Verify(p => p.RequestShutdown(), Times.Once);
 		}
 
 		[TestMethod]

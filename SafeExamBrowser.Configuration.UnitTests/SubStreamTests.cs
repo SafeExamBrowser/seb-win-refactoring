@@ -95,15 +95,16 @@ namespace SafeExamBrowser.Configuration.UnitTests
 		{
 			var sut = new SubStream(stream.Object, 100, 200);
 
-			stream.SetupGet(s => s.Position).Returns(-100);
+			sut.Position = -100;
 			Assert.AreEqual(-1, sut.ReadByte());
 
-			stream.SetupGet(s => s.Position).Returns(200);
+			sut.Position = 200;
 			Assert.AreEqual(-1, sut.ReadByte());
 
-			stream.SetupGet(s => s.Position).Returns(25);
+			sut.Position = 25;
 			sut.ReadByte();
-			stream.Verify(s => s.Read(It.IsAny<byte[]>(), It.IsAny<int>(), It.IsAny<int>()), Times.AtLeastOnce);
+
+			stream.Verify(s => s.Read(It.IsAny<byte[]>(), It.IsAny<int>(), It.IsAny<int>()), Times.Once);
 		}
 
 		[TestMethod]

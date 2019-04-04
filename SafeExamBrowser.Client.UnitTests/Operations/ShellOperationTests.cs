@@ -25,7 +25,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	public class ShellOperationTests
 	{
 		private Mock<IActionCenter> actionCenter;
-		private Mock<IEnumerable<IActionCenterActivator>> activators;
+		private List<IActionCenterActivator> activators;
 		private ActionCenterSettings actionCenterSettings;
 		private Mock<ILogger> logger;
 		private TaskbarSettings taskbarSettings;
@@ -48,7 +48,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void Initialize()
 		{
 			actionCenter = new Mock<IActionCenter>();
-			activators = new Mock<IEnumerable<IActionCenterActivator>>();
+			activators = new List<IActionCenterActivator>();
 			actionCenterSettings = new ActionCenterSettings();
 			logger = new Mock<ILogger>();
 			aboutInfo = new Mock<INotificationInfo>();
@@ -65,16 +65,11 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
-			taskbarSettings.ShowApplicationLog = true;
-			taskbarSettings.ShowKeyboardLayout = true;
-			taskbarSettings.ShowWirelessNetwork = true;
-			taskbarSettings.EnableTaskbar = true;
-			systemInfo.SetupGet(s => s.HasBattery).Returns(true);
 			uiFactory.Setup(u => u.CreateNotificationControl(It.IsAny<INotificationInfo>(), It.IsAny<Location>())).Returns(new Mock<INotificationControl>().Object);
 
 			sut = new ShellOperation(
 				actionCenter.Object,
-				activators.Object,
+				activators,
 				actionCenterSettings,
 				logger.Object,
 				aboutInfo.Object,
@@ -93,23 +88,198 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustPerformCorrectly()
+		public void Perform_MustInitializeActivators()
 		{
+			var activatorMocks = new List<Mock<IActionCenterActivator>>
+			{
+				new Mock<IActionCenterActivator>(),
+				new Mock<IActionCenterActivator>(),
+				new Mock<IActionCenterActivator>()
+			};
+
+			actionCenterSettings.EnableActionCenter = true;
+			
+			foreach (var activator in activatorMocks)
+			{
+				activators.Add(activator.Object);
+			}
+
+			sut.Perform();
+
+			terminationActivator.Verify(t => t.Start(), Times.Once);
+
+			foreach (var activator in activatorMocks)
+			{
+				activator.Verify(a => a.Start(), Times.Once);
+			}
+		}
+
+		[TestMethod]
+		public void Perform_MustInitializeClock()
+		{
+			actionCenterSettings.EnableActionCenter = true;
+			actionCenterSettings.ShowClock = true;
+			taskbarSettings.EnableTaskbar = true;
+			taskbarSettings.ShowClock = true;
+
+			sut.Perform();
+
+			actionCenter.VerifySet(a => a.ShowClock = true, Times.Once);
+			taskbar.VerifySet(t => t.ShowClock = true, Times.Once);
+		}
+
+		[TestMethod]
+		public void Perform_MustNotInitializeClock()
+		{
+			actionCenterSettings.EnableActionCenter = true;
+			actionCenterSettings.ShowClock = false;
+			taskbarSettings.EnableTaskbar = true;
+			taskbarSettings.ShowClock = false;
+
+			sut.Perform();
+
+			actionCenter.VerifySet(a => a.ShowClock = false, Times.Once);
+			taskbar.VerifySet(t => t.ShowClock = false, Times.Once);
+		}
+
+		[TestMethod]
+		public void Perform_MustInitializeNotifications()
+		{
+			actionCenterSettings.EnableActionCenter = true;
+			actionCenterSettings.ShowApplicationLog = true;
+			taskbarSettings.EnableTaskbar = true;
+			taskbarSettings.ShowApplicationLog = true;
+
+			sut.Perform();
+
+			actionCenter.Verify(a => a.AddNotificationControl(It.IsAny<INotificationControl>()), Times.AtLeast(2));
+			taskbar.Verify(t => t.AddNotificationControl(It.IsAny<INotificationControl>()), Times.AtLeast(2));
+		}
+
+		[TestMethod]
+		public void Perform_MustNotInitializeNotifications()
+		{
+			var logControl = new Mock<INotificationControl>();
+
+			actionCenterSettings.EnableActionCenter = true;
+			actionCenterSettings.ShowApplicationLog = false;
+			taskbarSettings.EnableTaskbar = true;
+			taskbarSettings.ShowApplicationLog = false;
+
+			uiFactory.Setup(f => f.CreateNotificationControl(It.Is<INotificationInfo>(i => i == logInfo.Object), It.IsAny<Location>())).Returns(logControl.Object);
+
+			sut.Perform();
+
+			actionCenter.Verify(a => a.AddNotificationControl(It.Is<INotificationControl>(i => i == logControl.Object)), Times.Never);
+			taskbar.Verify(t => t.AddNotificationControl(It.Is<INotificationControl>(i => i == logControl.Object)), Times.Never);
+		}
+
+		[TestMethod]
+		public void Perform_MustInitializeSystemComponents()
+		{
+			actionCenterSettings.EnableActionCenter = true;
+			actionCenterSettings.ShowKeyboardLayout = true;
+			actionCenterSettings.ShowWirelessNetwork = true;
+			taskbarSettings.EnableTaskbar = true;
+			taskbarSettings.ShowKeyboardLayout = true;
+			taskbarSettings.ShowWirelessNetwork = true;
+
+			systemInfo.SetupGet(s => s.HasBattery).Returns(true);
+			uiFactory.Setup(f => f.CreateKeyboardLayoutControl(It.IsAny<Location>())).Returns(new Mock<ISystemKeyboardLayoutControl>().Object);
+			uiFactory.Setup(f => f.CreatePowerSupplyControl(It.IsAny<Location>())).Returns(new Mock<ISystemPowerSupplyControl>().Object);
+			uiFactory.Setup(f => f.CreateWirelessNetworkControl(It.IsAny<Location>())).Returns(new Mock<ISystemWirelessNetworkControl>().Object);
+
 			sut.Perform();
 
 			keyboardLayout.Verify(k => k.Initialize(), Times.Once);
 			powerSupply.Verify(p => p.Initialize(), Times.Once);
 			wirelessNetwork.Verify(w => w.Initialize(), Times.Once);
-			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemControl>()), Times.Exactly(3));
-			taskbar.Verify(t => t.AddNotificationControl(It.IsAny<INotificationControl>()), Times.Exactly(2));
+			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemKeyboardLayoutControl>()), Times.Once);
+			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemPowerSupplyControl>()), Times.Once);
+			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemWirelessNetworkControl>()), Times.Once);
+			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemKeyboardLayoutControl>()), Times.Once);
+			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemPowerSupplyControl>()), Times.Once);
+			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemWirelessNetworkControl>()), Times.Once);
 		}
 
 		[TestMethod]
-		public void MustRevertCorrectly()
+		public void Perform_MustNotInitializeSystemComponents()
+		{
+			actionCenterSettings.EnableActionCenter = true;
+			actionCenterSettings.ShowKeyboardLayout = false;
+			actionCenterSettings.ShowWirelessNetwork = false;
+			taskbarSettings.EnableTaskbar = true;
+			taskbarSettings.ShowKeyboardLayout = false;
+			taskbarSettings.ShowWirelessNetwork = false;
+
+			systemInfo.SetupGet(s => s.HasBattery).Returns(false);
+			uiFactory.Setup(f => f.CreateKeyboardLayoutControl(It.IsAny<Location>())).Returns(new Mock<ISystemKeyboardLayoutControl>().Object);
+			uiFactory.Setup(f => f.CreatePowerSupplyControl(It.IsAny<Location>())).Returns(new Mock<ISystemPowerSupplyControl>().Object);
+			uiFactory.Setup(f => f.CreateWirelessNetworkControl(It.IsAny<Location>())).Returns(new Mock<ISystemWirelessNetworkControl>().Object);
+
+			sut.Perform();
+
+			keyboardLayout.Verify(k => k.Initialize(), Times.Once);
+			powerSupply.Verify(p => p.Initialize(), Times.Once);
+			wirelessNetwork.Verify(w => w.Initialize(), Times.Once);
+			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemKeyboardLayoutControl>()), Times.Never);
+			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemPowerSupplyControl>()), Times.Never);
+			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemWirelessNetworkControl>()), Times.Never);
+			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemKeyboardLayoutControl>()), Times.Never);
+			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemPowerSupplyControl>()), Times.Never);
+			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemWirelessNetworkControl>()), Times.Never);
+		}
+
+		[TestMethod]
+		public void Perform_MustNotInitializeActionCenterIfNotEnabled()
+		{
+			actionCenterSettings.EnableActionCenter = false;
+			sut.Perform();
+			actionCenter.VerifyNoOtherCalls();
+		}
+
+		[TestMethod]
+		public void Perform_MustNotInitializeTaskbarIfNotEnabled()
+		{
+			taskbarSettings.EnableTaskbar = false;
+			sut.Perform();
+			taskbar.VerifyNoOtherCalls();
+		}
+
+		[TestMethod]
+		public void Revert_MustTerminateActivators()
+		{
+			var activatorMocks = new List<Mock<IActionCenterActivator>>
+			{
+				new Mock<IActionCenterActivator>(),
+				new Mock<IActionCenterActivator>(),
+				new Mock<IActionCenterActivator>()
+			};
+
+			actionCenterSettings.EnableActionCenter = true;
+
+			foreach (var activator in activatorMocks)
+			{
+				activators.Add(activator.Object);
+			}
+
+			sut.Revert();
+
+			terminationActivator.Verify(t => t.Stop(), Times.Once);
+
+			foreach (var activator in activatorMocks)
+			{
+				activator.Verify(a => a.Stop(), Times.Once);
+			}
+		}
+
+		[TestMethod]
+		public void Revert_MustTerminateControllers()
 		{
 			sut.Revert();
 
 			aboutController.Verify(c => c.Terminate(), Times.Once);
+			logController.Verify(c => c.Terminate(), Times.Once);
 			keyboardLayout.Verify(k => k.Terminate(), Times.Once);
 			powerSupply.Verify(p => p.Terminate(), Times.Once);
 			wirelessNetwork.Verify(w => w.Terminate(), Times.Once);

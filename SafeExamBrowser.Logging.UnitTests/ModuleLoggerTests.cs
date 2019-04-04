@@ -39,6 +39,9 @@ namespace SafeExamBrowser.Logging.UnitTests
 			var logText = new LogText("Log text");
 			var sut = new ModuleLogger(loggerMock.Object, nameof(ModuleLoggerTests));
 
+			loggerMock.SetupGet(l => l.LogLevel).Returns(LogLevel.Error);
+
+			sut.LogLevel = LogLevel.Debug;
 			sut.Debug("Debug");
 			sut.Info("Info");
 			sut.Warn("Warning");
@@ -49,6 +52,7 @@ namespace SafeExamBrowser.Logging.UnitTests
 			sut.Unsubscribe(logObserverMock.Object);
 			sut.GetLog();
 
+			loggerMock.VerifySet(l => l.LogLevel = LogLevel.Debug, Times.Once);
 			loggerMock.Verify(l => l.Debug($"[{nameof(ModuleLoggerTests)}] Debug"), Times.Once);
 			loggerMock.Verify(l => l.Info($"[{nameof(ModuleLoggerTests)}] Info"), Times.Once);
 			loggerMock.Verify(l => l.Warn($"[{nameof(ModuleLoggerTests)}] Warning"), Times.Once);
@@ -58,6 +62,8 @@ namespace SafeExamBrowser.Logging.UnitTests
 			loggerMock.Verify(l => l.Subscribe(logObserverMock.Object), Times.Once);
 			loggerMock.Verify(l => l.Unsubscribe(logObserverMock.Object), Times.Once);
 			loggerMock.Verify(l => l.GetLog(), Times.Once);
+
+			Assert.AreEqual(LogLevel.Error, sut.LogLevel);
 		}
 	}
 }

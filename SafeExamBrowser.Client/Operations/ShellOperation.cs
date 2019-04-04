@@ -109,6 +109,15 @@ namespace SafeExamBrowser.Client.Operations
 		private void InitializeActivators()
 		{
 			terminationActivator.Start();
+
+			if (actionCenterSettings.EnableActionCenter)
+			{
+				foreach (var activator in activators)
+				{
+					actionCenter.Register(activator);
+					activator.Start();
+				}
+			}
 		}
 
 		private void InitializeActionCenter()
@@ -124,12 +133,6 @@ namespace SafeExamBrowser.Client.Operations
 				InitializeKeyboardLayoutForActionCenter();
 				InitializeWirelessNetworkForActionCenter();
 				InitializePowerSupplyForActionCenter();
-
-				foreach (var activator in activators)
-				{
-					actionCenter.Register(activator);
-					activator.Start();
-				}
 			}
 			else
 			{

@@ -51,17 +51,26 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 
 			sut.StartupToken = token;
 
-			var response = sut.Connect(Guid.Empty);
-
-			Assert.IsNotNull(response);
-			Assert.IsFalse(response.ConnectionEstablished);
-			Assert.IsFalse(sut.IsConnected);
-
-			response = sut.Connect(token);
+			var response = sut.Connect(token);
 
 			Assert.IsNotNull(response);
 			Assert.IsTrue(response.ConnectionEstablished);
 			Assert.IsTrue(sut.IsConnected);
+		}
+
+
+		[TestMethod]
+		public void MustRejectConnectionIfTokenInvalid()
+		{
+			var token = Guid.NewGuid();
+
+			sut.StartupToken = token;
+
+			var response = sut.Connect(Guid.NewGuid());
+
+			Assert.IsNotNull(response);
+			Assert.IsFalse(response.ConnectionEstablished);
+			Assert.IsFalse(sut.IsConnected);
 		}
 
 		[TestMethod]
