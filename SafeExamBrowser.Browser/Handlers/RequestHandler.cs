@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Specialized;
 using CefSharp;
 using CefSharp.Handler;
 using SafeExamBrowser.Contracts.Configuration;
@@ -27,6 +28,23 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		public override CefReturnValue OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
 		{
+			AppendCustomUserAgent(request);
+			ReplaceCustomScheme(request);
+
+			return base.OnBeforeResourceLoad(browserControl, browser, frame, request, callback);
+		}
+
+		private void AppendCustomUserAgent(IRequest request)
+		{
+			var headers = new NameValueCollection(request.Headers);
+			var userAgent = request.Headers["User-Agent"];
+
+			headers["User-Agent"] = $"{userAgent} SEB/{appConfig.ProgramVersion}";
+			request.Headers = headers;
+		}
+
+		private void ReplaceCustomScheme(IRequest request)
+		{
 			var uri = new Uri(request.Url);
 
 			if (uri.Scheme == appConfig.SebUriScheme)
@@ -37,8 +55,6 @@ namespace SafeExamBrowser.Browser.Handlers
 			{
 				request.Url = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttps }.Uri.AbsoluteUri;
 			}
-
-			return base.OnBeforeResourceLoad(browserControl, browser, frame, request, callback);
 		}
 	}
 }
