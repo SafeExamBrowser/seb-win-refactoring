@@ -22,6 +22,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public bool EnableActionCenter { get; set; }
 
 		/// <summary>
+		/// Determines whether the about window is accessible via the action center.
+		/// </summary>
+		public bool ShowApplicationInfo { get; set; }
+
+		/// <summary>
 		/// Determines whether the application log is accessible via the action center.
 		/// </summary>
 		public bool ShowApplicationLog { get; set; }

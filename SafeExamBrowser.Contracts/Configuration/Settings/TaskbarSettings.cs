@@ -22,6 +22,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public bool EnableTaskbar { get; set; }
 
 		/// <summary>
+		/// Determines whether the about window is accessible via the taskbar.
+		/// </summary>
+		public bool ShowApplicationInfo { get; set; }
+
+		/// <summary>
 		/// Determines whether the application log is accessible via the taskbar.
 		/// </summary>
 		public bool ShowApplicationLog { get; set; }

@@ -89,6 +89,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			var settings = new Settings();
 
 			settings.ActionCenter.EnableActionCenter = true;
+			settings.ActionCenter.ShowApplicationInfo = true;
 			settings.ActionCenter.ShowApplicationLog = false;
 			settings.ActionCenter.ShowKeyboardLayout = true;
 			settings.ActionCenter.ShowWirelessNetwork = false;
@@ -142,10 +143,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.ServicePolicy = ServicePolicy.Optional;
 
+			settings.Taskbar.EnableTaskbar = true;
+			settings.Taskbar.ShowApplicationInfo = false;
 			settings.Taskbar.ShowApplicationLog = false;
 			settings.Taskbar.ShowKeyboardLayout = true;
 			settings.Taskbar.ShowWirelessNetwork = false;
-			settings.Taskbar.EnableTaskbar = true;
 			settings.Taskbar.ShowClock = true;
 
 			settings.UserInterfaceMode = UserInterfaceMode.Desktop;

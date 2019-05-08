@@ -169,18 +169,24 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeAboutNotificationForActionCenter()
 		{
-			var notification = uiFactory.CreateNotificationControl(aboutInfo, Location.ActionCenter);
+			if (actionCenterSettings.ShowApplicationInfo)
+			{
+				var notification = uiFactory.CreateNotificationControl(aboutInfo, Location.ActionCenter);
 
-			aboutController.RegisterNotification(notification);
-			actionCenter.AddNotificationControl(notification);
+				aboutController.RegisterNotification(notification);
+				actionCenter.AddNotificationControl(notification);
+			}
 		}
 
 		private void InitializeAboutNotificationForTaskbar()
 		{
-			var notification = uiFactory.CreateNotificationControl(aboutInfo, Location.Taskbar);
+			if (taskbarSettings.ShowApplicationInfo)
+			{
+				var notification = uiFactory.CreateNotificationControl(aboutInfo, Location.Taskbar);
 
-			aboutController.RegisterNotification(notification);
-			taskbar.AddNotificationControl(notification);
+				aboutController.RegisterNotification(notification);
+				taskbar.AddNotificationControl(notification);
+			}
 		}
 
 		private void InitializeClockForActionCenter()

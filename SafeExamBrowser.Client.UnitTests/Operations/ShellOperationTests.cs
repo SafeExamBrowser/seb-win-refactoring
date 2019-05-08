@@ -146,8 +146,10 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void Perform_MustInitializeNotifications()
 		{
 			actionCenterSettings.EnableActionCenter = true;
+			actionCenterSettings.ShowApplicationInfo = true;
 			actionCenterSettings.ShowApplicationLog = true;
 			taskbarSettings.EnableTaskbar = true;
+			taskbarSettings.ShowApplicationInfo = true;
 			taskbarSettings.ShowApplicationLog = true;
 
 			sut.Perform();
