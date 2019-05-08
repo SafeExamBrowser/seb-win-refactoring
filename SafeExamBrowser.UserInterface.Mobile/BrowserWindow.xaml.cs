@@ -142,6 +142,14 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			}
 		}
 
+		private void BrowserWindow_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (isMainWindow)
+			{
+				WindowUtility.DisableCloseButtonFor(this);
+			}
+		}
+
 		private CustomPopupPlacement[] MenuPopup_PlacementCallback(Size popupSize, Size targetSize, Point offset)
 		{
 			return new[]
@@ -196,6 +204,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			BackwardButton.Click += (o, args) => BackwardNavigationRequested?.Invoke();
 			Closing += BrowserWindow_Closing;
 			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
+			Loaded += BrowserWindow_Loaded;
 			MenuButton.Click += (o, args) => MenuPopup.IsOpen = !MenuPopup.IsOpen;
 			MenuButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsMouseOver));
 			MenuPopup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(MenuPopup_PlacementCallback);
