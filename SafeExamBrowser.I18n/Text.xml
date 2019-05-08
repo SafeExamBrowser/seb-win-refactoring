@@ -67,7 +67,7 @@
     OK
   </Entry>
   <Entry key="MessageBox_Quit">
-    Would you really like to quit the application?
+    Do you want to quit the application?
   </Entry>
   <Entry key="MessageBox_QuitTitle">
     Quit?
