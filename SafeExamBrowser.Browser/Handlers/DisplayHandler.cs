@@ -47,6 +47,10 @@ namespace SafeExamBrowser.Browser.Handlers
 		{
 		}
 
+		public void OnLoadingProgressChange(IWebBrowser chromiumWebBrowser, IBrowser browser, double progress)
+		{
+		}
+
 		public void OnStatusMessage(IWebBrowser chromiumWebBrowser, StatusMessageEventArgs statusMessageArgs)
 		{
 		}
