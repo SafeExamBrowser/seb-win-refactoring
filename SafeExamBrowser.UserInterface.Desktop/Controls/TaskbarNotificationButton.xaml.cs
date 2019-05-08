@@ -11,7 +11,7 @@ using System.Windows.Controls;
 using SafeExamBrowser.Contracts.Client;
 using SafeExamBrowser.Contracts.UserInterface.Shell;
 using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
-using SafeExamBrowser.UserInterface.Desktop.Utilities;
+using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {

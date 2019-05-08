@@ -159,9 +159,6 @@
       <DependentUpon>Taskbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserInterfaceFactory.cs" />
-    <Compile Include="Utilities\IconResourceLoader.cs" />
-    <Compile Include="Utilities\VisualExtensions.cs" />
-    <Compile Include="Utilities\XamlIconResource.cs" />
     <Compile Include="ViewModels\DateTimeViewModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\ProgressIndicatorViewModel.cs" />
@@ -171,6 +168,10 @@
     <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">
       <Project>{47da5933-bef8-4729-94e6-abde2db12262}</Project>
       <Name>SafeExamBrowser.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.UserInterface.Shared\SafeExamBrowser.UserInterface.Shared.csproj">
+      <Project>{38525928-87ba-4f8c-8010-4eb97bfaae13}</Project>
+      <Name>SafeExamBrowser.UserInterface.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

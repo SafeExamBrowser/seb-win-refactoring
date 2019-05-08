@@ -149,12 +149,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Taskbar.ShowClock = true;
 
 			settings.UserInterfaceMode = UserInterfaceMode.Desktop;
-
-			// TODO: Default values for testing of alpha version only, remove for final release!
+			
+			// TODO: Default value overrides for alpha version, remove for final release!
 			settings.ActionCenter.ShowApplicationLog = true;
 			settings.Browser.AllowDeveloperConsole = true;
-			settings.Browser.MainWindowSettings.AllowAddressBar = true;
-			settings.Taskbar.ShowApplicationLog = true;
 
 			return settings;
 		}

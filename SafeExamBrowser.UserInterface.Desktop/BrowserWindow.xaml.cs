@@ -22,7 +22,7 @@ using SafeExamBrowser.Contracts.UserInterface.Browser;
 using SafeExamBrowser.Contracts.UserInterface.Browser.Events;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
 using SafeExamBrowser.Contracts.UserInterface.Windows.Events;
-using SafeExamBrowser.UserInterface.Desktop.Utilities;
+using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop
 {
@@ -100,7 +100,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		public void UpdateAddress(string url)
 		{
-			Dispatcher.Invoke(() => UrlTextBox.Text = url);
+			Dispatcher.Invoke(() => UrlTextBox.Text = WindowSettings.AllowAddressBar ? url : UrlRandomizer.Randomize(url));
 		}
 
 		public void UpdateIcon(IIconResource icon)

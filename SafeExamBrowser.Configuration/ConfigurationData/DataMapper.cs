@@ -17,14 +17,18 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			foreach (var item in rawData)
 			{
-				Map(item.Key, item.Value, settings);
+				MapBrowserSettings(item.Key, item.Value, settings);
+				MapConfigurationFileSettings(item.Key, item.Value, settings);
+				MapGeneralSettings(item.Key, item.Value, settings);
+				MapInputSettings(item.Key, item.Value, settings);
+				MapUserInterfaceSettings(item.Key, item.Value, settings);
 			}
 
 			MapKioskMode(rawData, settings);
 			MapUserAgentMode(rawData, settings);
 		}
 
-		private void Map(string key, object value, Settings settings)
+		private void MapBrowserSettings(string key, object value, Settings settings)
 		{
 			switch (key)
 			{
@@ -61,9 +65,23 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				case Keys.Browser.ShowReloadWarningAdditionalWindow:
 					MapShowReloadWarningAdditionalWindow(settings, value);
 					break;
+			}
+		}
+
+		private void MapConfigurationFileSettings(string key, object value, Settings settings)
+		{
+			switch (key)
+			{
 				case Keys.ConfigurationFile.ConfigurationPurpose:
 					MapConfigurationMode(settings, value);
 					break;
+			}
+		}
+
+		private void MapGeneralSettings(string key, object value, Settings settings)
+		{
+			switch (key)
+			{
 				case Keys.General.AdminPasswordHash:
 					MapAdminPasswordHash(settings, value);
 					break;
@@ -76,6 +94,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				case Keys.General.StartUrl:
 					MapStartUrl(settings, value);
 					break;
+			}
+		}
+
+		private void MapInputSettings(string key, object value, Settings settings)
+		{
+			switch (key)
+			{
 				case Keys.Input.Keyboard.EnableAltEsc:
 					MapEnableAltEsc(settings, value);
 					break;
@@ -136,6 +161,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				case Keys.Input.Mouse.EnableRightMouse:
 					MapEnableRightMouse(settings, value);
 					break;
+			}
+		}
+
+		private void MapUserInterfaceSettings(string key, object value, Settings settings)
+		{
+			switch (key)
+			{
 				case Keys.UserInterface.AllowKeyboardLayout:
 					MapKeyboardLayout(settings, value);
 					break;

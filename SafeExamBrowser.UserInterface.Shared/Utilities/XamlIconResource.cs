@@ -9,9 +9,9 @@
 using System;
 using SafeExamBrowser.Contracts.Core;
 
-namespace SafeExamBrowser.UserInterface.Desktop.Utilities
+namespace SafeExamBrowser.UserInterface.Shared.Utilities
 {
-	internal class XamlIconResource : IIconResource
+	public class XamlIconResource : IIconResource
 	{
 		public Uri Uri { get; private set; }
 		public bool IsBitmapResource => false;

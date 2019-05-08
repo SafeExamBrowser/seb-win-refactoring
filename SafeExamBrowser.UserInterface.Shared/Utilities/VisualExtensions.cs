@@ -10,19 +10,16 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 
-namespace SafeExamBrowser.UserInterface.Mobile.Utilities
+namespace SafeExamBrowser.UserInterface.Shared.Utilities
 {
-	/// <summary>
-	/// TODO: Move to shared library?
-	/// </summary>
-	internal static class VisualExtensions
+	public static class VisualExtensions
 	{
 		/// <summary>
 		/// WPF works with device-independent pixels. This method is required to
 		/// transform such values to their absolute, device-specific pixel value.
 		/// Source: https://stackoverflow.com/questions/3286175/how-do-i-convert-a-wpf-size-to-physical-pixels
 		/// </summary>
-		internal static Vector TransformToPhysical(this Visual visual, double x, double y)
+		public static Vector TransformToPhysical(this Visual visual, double x, double y)
 		{
 			Matrix transformToDevice;
 			var source = PresentationSource.FromVisual(visual);

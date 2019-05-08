@@ -15,14 +15,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using SafeExamBrowser.Contracts.Core;
 
-namespace SafeExamBrowser.UserInterface.Mobile.Utilities
+namespace SafeExamBrowser.UserInterface.Shared.Utilities
 {
-	/// <summary>
-	/// TODO: Move to shared library?
-	/// </summary>
-	internal static class IconResourceLoader
+	public static class IconResourceLoader
 	{
-		internal static UIElement Load(IIconResource resource)
+		public static UIElement Load(IIconResource resource)
 		{
 			try
 			{
