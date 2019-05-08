@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Net.Http;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Contracts.Applications;
@@ -28,6 +29,7 @@ namespace SafeExamBrowser.Browser
 		private AppConfig appConfig;
 		private IBrowserControl control;
 		private IBrowserWindow window;
+		private HttpClient httpClient;
 		private bool isMainInstance;
 		private IMessageBox messageBox;
 		private IModuleLogger logger;
@@ -64,6 +66,7 @@ namespace SafeExamBrowser.Browser
 		{
 			this.appConfig = appConfig;
 			this.Id = id;
+			this.httpClient = new HttpClient();
 			this.isMainInstance = isMainInstance;
 			this.messageBox = messageBox;
 			this.logger = logger;
@@ -133,10 +136,17 @@ namespace SafeExamBrowser.Browser
 
 		private void DisplayHandler_FaviconChanged(string uri)
 		{
-			var icon = new BrowserIconResource(uri);
+			var request = new HttpRequestMessage(HttpMethod.Head, uri);
+			var response = httpClient.SendAsync(request).ContinueWith(task =>
+			{
+				if (task.IsCompleted && task.Result.IsSuccessStatusCode)
+				{
+					var icon = new BrowserIconResource(uri);
 
-			IconChanged?.Invoke(icon);
-			window.UpdateIcon(icon);
+					IconChanged?.Invoke(icon);
+					window.UpdateIcon(icon);
+				}
+			});
 		}
 
 		private void DownloadHandler_ConfigurationDownloadRequested(string fileName, DownloadEventArgs args)
