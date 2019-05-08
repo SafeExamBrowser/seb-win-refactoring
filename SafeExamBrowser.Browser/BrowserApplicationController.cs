@@ -132,6 +132,8 @@ namespace SafeExamBrowser.Browser
 				UserAgent = settings.UseCustomUserAgent ? settings.CustomUserAgent : string.Empty
 			};
 
+			cefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
+
 			logger.Debug($"Cache path: {cefSettings.CachePath}");
 			logger.Debug($"Engine version: Chromium {Cef.ChromiumVersion}, CEF {Cef.CefVersion}, CefSharp {Cef.CefSharpVersion}");
 			logger.Debug($"Log file: {cefSettings.LogFile}");
