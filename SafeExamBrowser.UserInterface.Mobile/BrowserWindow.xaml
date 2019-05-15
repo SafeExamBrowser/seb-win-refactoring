@@ -34,7 +34,9 @@
                 <Button Grid.Column="2" x:Name="ReloadButton" Height="50" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
                 <Grid Grid.Column="3" Height="50" Margin="5,0">
                     <TextBox x:Name="UrlTextBox" HorizontalAlignment="Stretch" Margin="5" Padding="8" VerticalContentAlignment="Center" />
-                    <fa:ImageAwesome x:Name="LoadingIcon" Foreground="Gray" HorizontalAlignment="Right" Icon="Spinner" Margin="12,10" SpinDuration="1.5" Visibility="Collapsed" />
+                    <Grid Background="#CCFFFFFF" HorizontalAlignment="Right" Margin="8" Visibility="{Binding ElementName=LoadingIcon, Path=Visibility}">
+                        <fa:ImageAwesome x:Name="LoadingIcon" Foreground="Gray" HorizontalAlignment="Right" Icon="Spinner" Margin="6,4" SpinDuration="1.5" Visibility="Collapsed" />
+                    </Grid>
                 </Grid>
                 <Button Grid.Column="4" x:Name="MenuButton" Height="50" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
                 <Popup x:Name="MenuPopup" IsOpen="False" AllowsTransparency="True" PopupAnimation="Slide" Placement="Custom" PlacementTarget="{Binding ElementName=BrowserControlHost}">
