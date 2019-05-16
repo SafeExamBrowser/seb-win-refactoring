@@ -28,7 +28,11 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		public override CefReturnValue OnBeforeResourceLoad(IWebBrowser browserControl, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
 		{
-			AppendCustomUserAgent(request);
+			// TODO: CEF does not yet support intercepting requests from service workers, thus the user agent must be statically set at browser
+			//       startup for now. Once CEF has full support of service workers, the static user agent should be removed and the method below
+			//       reactivated. See https://bitbucket.org/chromiumembedded/cef/issues/2622 for the current status of development.
+			// AppendCustomUserAgent(request);
+
 			ReplaceCustomScheme(request);
 
 			return base.OnBeforeResourceLoad(browserControl, browser, frame, request, callback);

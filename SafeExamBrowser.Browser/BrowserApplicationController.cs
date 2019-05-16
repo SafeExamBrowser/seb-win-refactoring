@@ -129,7 +129,7 @@ namespace SafeExamBrowser.Browser
 				CachePath = appConfig.BrowserCachePath,
 				LogFile = appConfig.BrowserLogFile,
 				LogSeverity = error ? LogSeverity.Error : (warning ? LogSeverity.Warning : LogSeverity.Info),
-				UserAgent = settings.UseCustomUserAgent ? settings.CustomUserAgent : string.Empty
+				UserAgent = InitializeUserAgent()
 			};
 
 			cefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
@@ -164,6 +164,25 @@ namespace SafeExamBrowser.Browser
 		{
 			instances.Remove(instances.FirstOrDefault(i => i.Id == id));
 			logger.Info($"Browser instance {id} was terminated.");
+		}
+
+		/// <summary>
+		/// TODO: Workaround to correctly set the user agent due to missing support for request interception for requests made by service workers.
+		///       Remove once CEF fully supports service workers and reactivate the functionality in <see cref="Handlers.RequestHandler"/>!
+		/// </summary>
+		private string InitializeUserAgent()
+		{
+			var osVersion = $"{Environment.OSVersion.Version.Major}.{Environment.OSVersion.Version.Minor}";
+			var sebVersion = $"SEB/{appConfig.ProgramVersion}";
+
+			if (settings.UseCustomUserAgent)
+			{
+				return $"{settings.CustomUserAgent} {sebVersion}";
+			}
+			else
+			{
+				return $"Mozilla/5.0 (Windows NT {osVersion}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{Cef.ChromiumVersion} {sebVersion}";
+			}
 		}
 	}
 }
