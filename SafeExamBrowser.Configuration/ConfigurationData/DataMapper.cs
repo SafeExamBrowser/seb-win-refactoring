@@ -24,6 +24,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				MapUserInterfaceSettings(item.Key, item.Value, settings);
 			}
 
+			MapApplicationLogAccess(rawData, settings);
 			MapKioskMode(rawData, settings);
 			MapUserAgentMode(rawData, settings);
 		}
@@ -177,13 +178,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			switch (key)
 			{
-				case Keys.UserInterface.AllowKeyboardLayout:
+				case Keys.UserInterface.ShowKeyboardLayout:
 					MapKeyboardLayout(settings, value);
 					break;
-				case Keys.UserInterface.AllowLog:
-					MapApplicationLog(settings, value);
-					break;
-				case Keys.UserInterface.AllowWirelessNetwork:
+				case Keys.UserInterface.ShowWirelessNetwork:
 					MapWirelessNetwork(settings, value);
 					break;
 				case Keys.UserInterface.ShowClock:
@@ -191,6 +189,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 					break;
 				case Keys.UserInterface.UserInterfaceMode:
 					MapUserInterfaceMode(settings, value);
+					break;
+				case Keys.UserInterface.Taskbar.ShowApplicationLog:
+					MapApplicationLogButton(settings, value);
 					break;
 			}
 		}

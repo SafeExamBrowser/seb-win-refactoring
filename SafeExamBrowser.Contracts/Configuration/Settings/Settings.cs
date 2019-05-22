@@ -28,14 +28,19 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public string AdminPasswordHash { get; set; }
 
 		/// <summary>
-		/// The mode which determines the configuration behaviour.
+		/// Determines whether any log information will be accessible via the user interface.
 		/// </summary>
-		public ConfigurationMode ConfigurationMode { get; set; }
+		public bool AllowApplicationLogAccess { get; set; }
 
 		/// <summary>
 		/// All browser-related settings.
 		/// </summary>
 		public BrowserSettings Browser { get; set; }
+
+		/// <summary>
+		/// The mode which determines the configuration behaviour.
+		/// </summary>
+		public ConfigurationMode ConfigurationMode { get; set; }
 
 		/// <summary>
 		/// All keyboard-related settings.

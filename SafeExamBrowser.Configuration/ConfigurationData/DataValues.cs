@@ -144,6 +144,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.ServicePolicy = ServicePolicy.Optional;
 
+			settings.AllowApplicationLogAccess = false;
+
 			settings.Taskbar.EnableTaskbar = true;
 			settings.Taskbar.ShowApplicationInfo = false;
 			settings.Taskbar.ShowApplicationLog = false;

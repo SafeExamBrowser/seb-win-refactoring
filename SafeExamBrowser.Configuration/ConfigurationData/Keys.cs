@@ -61,6 +61,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		internal static class General
 		{
 			internal const string AdminPasswordHash = "hashedAdminPassword";
+			internal const string AllowApplicationLog = "allowApplicationLog";
 			internal const string LogLevel = "logLevel";
 			internal const string QuitPasswordHash = "hashedQuitPassword";
 			internal const string StartUrl = "startURL";
@@ -119,11 +120,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class UserInterface
 		{
-			internal const string AllowKeyboardLayout = "showInputLanguage";
-			internal const string AllowLog = "showLogButton";
-			internal const string AllowWirelessNetwork = "allowWlan";
 			internal const string ShowClock = "showTime";
+			internal const string ShowKeyboardLayout = "showInputLanguage";
+			internal const string ShowWirelessNetwork = "allowWlan";
 			internal const string UserInterfaceMode = "touchOptimized";
+
+			internal static class Taskbar
+			{
+				internal const string ShowApplicationLog = "showApplicationLogButton";
+			}
 		}
 	}
 }

@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Generic;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Logging;
 
@@ -18,6 +19,26 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			if (value is string hash)
 			{
 				settings.AdminPasswordHash = hash;
+			}
+		}
+
+		private void MapApplicationLogAccess(IDictionary<string, object> rawData, Settings settings)
+		{
+			var hasValue = rawData.TryGetValue(Keys.General.AllowApplicationLog, out var value);
+
+			if (hasValue && value is bool allow)
+			{
+				settings.AllowApplicationLogAccess = allow;
+			}
+
+			if (settings.AllowApplicationLogAccess)
+			{
+				settings.ActionCenter.ShowApplicationLog = true;
+			}
+			else
+			{
+				settings.ActionCenter.ShowApplicationLog = false;
+				settings.Taskbar.ShowApplicationLog = false;
 			}
 		}
 

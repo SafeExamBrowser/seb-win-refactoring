@@ -25,10 +25,26 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		private RuntimeWindowViewModel model;
 		private WindowClosingEventHandler closing;
 
+		public bool ShowLog
+		{
+			set => Dispatcher.Invoke(() => LogScrollViewer.Visibility = value ? Visibility.Visible : Visibility.Collapsed);
+		}
+
+		bool IRuntimeWindow.ShowProgressBar
+		{
+			set
+			{
+				Dispatcher.Invoke(() =>
+				{
+					model.AnimatedBorderVisibility = value ? Visibility.Hidden : Visibility.Visible;
+					model.ProgressBarVisibility = value ? Visibility.Visible : Visibility.Hidden;
+				});
+			}
+		}
+
 		public bool TopMost
 		{
-			get { return Dispatcher.Invoke(() => Topmost); }
-			set { Dispatcher.Invoke(() => Topmost = value); }
+			set => Dispatcher.Invoke(() => Topmost = value);
 		}
 
 		event WindowClosingEventHandler IWindow.Closing
@@ -67,12 +83,6 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			Dispatcher.Invoke(base.Hide);
 		}
 
-		public void HideProgressBar()
-		{
-			model.AnimatedBorderVisibility = Visibility.Visible;
-			model.ProgressBarVisibility = Visibility.Hidden;
-		}
-
 		public void Notify(ILogContent content)
 		{
 			Dispatcher.Invoke(() =>
@@ -105,12 +115,6 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		public void SetValue(int value)
 		{
 			model.CurrentProgress = value;
-		}
-
-		public void ShowProgressBar()
-		{
-			model.AnimatedBorderVisibility = Visibility.Hidden;
-			model.ProgressBarVisibility = Visibility.Visible;
 		}
 
 		public void UpdateStatus(TextKey key, bool busyIndication = false)
