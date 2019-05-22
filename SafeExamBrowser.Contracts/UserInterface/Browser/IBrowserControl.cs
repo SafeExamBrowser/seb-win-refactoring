@@ -62,23 +62,18 @@ namespace SafeExamBrowser.Contracts.UserInterface.Browser
 		void NavigateTo(string address);
 
 		/// <summary>
+		/// Opens the developer console or actives it, if it is already open.
+		/// </summary>
+		void ShowDeveloperConsole();
+
+		/// <summary>
 		/// Reloads the current web page.
 		/// </summary>
 		void Reload();
 
 		/// <summary>
-		/// Increases the page zoom.
+		/// Sets the page zoom to the given level. A value of <c>0</c> resets the page zoom.
 		/// </summary>
-		void ZoomIn();
-
-		/// <summary>
-		/// Decreases the page zoom.
-		/// </summary>
-		void ZoomOut();
-
-		/// <summary>
-		/// Resets the page zoom.
-		/// </summary>
-		void ZoomReset();
+		void Zoom(double level);
 	}
 }

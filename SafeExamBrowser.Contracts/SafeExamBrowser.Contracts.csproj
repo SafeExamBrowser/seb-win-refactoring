@@ -53,6 +53,7 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Browser\ProgressChangedEventHandler.cs" />
     <Compile Include="Communication\Data\MessageBoxReplyMessage.cs" />
     <Compile Include="Communication\Data\MessageBoxRequestMessage.cs" />
     <Compile Include="Communication\Events\ClientConfigurationEventArgs.cs" />

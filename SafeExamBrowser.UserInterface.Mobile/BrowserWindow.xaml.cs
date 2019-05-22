@@ -43,6 +43,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		public event AddressChangedEventHandler AddressChanged;
 		public event ActionRequestedEventHandler BackwardNavigationRequested;
+		public event ActionRequestedEventHandler DeveloperConsoleRequested;
 		public event ActionRequestedEventHandler ForwardNavigationRequested;
 		public event ActionRequestedEventHandler ReloadRequested;
 		public event ActionRequestedEventHandler ZoomInRequested;
@@ -100,7 +101,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		public void UpdateAddress(string url)
 		{
-			Dispatcher.Invoke(() => UrlTextBox.Text = WindowSettings.AllowAddressBar ? url : UrlRandomizer.Randomize(url));
+			Dispatcher.Invoke(() => UrlTextBox.Text = url);
 		}
 
 		public void UpdateIcon(IIconResource icon)
@@ -110,16 +111,22 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		public void UpdateLoadingState(bool isLoading)
 		{
-			Dispatcher.Invoke(() =>
-			{
-				LoadingIcon.Visibility = isLoading ? Visibility.Visible : Visibility.Collapsed;
-				LoadingIcon.Spin = isLoading;
-			});
+			Dispatcher.Invoke(() => ProgressBar.Visibility = isLoading ? Visibility.Visible : Visibility.Hidden);
+		}
+
+		public void UpdateProgress(double value)
+		{
+			Dispatcher.Invoke(() => ProgressBar.Value = value * 100);
 		}
 
 		public void UpdateTitle(string title)
 		{
 			Dispatcher.Invoke(() => Title = title);
+		}
+
+		public void UpdateZoomLevel(double value)
+		{
+			Dispatcher.Invoke(() => ZoomLevel.Text = $"{value}%");
 		}
 
 		private void BrowserWindow_Closing(object sender, CancelEventArgs e)
@@ -203,6 +210,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 			BackwardButton.Click += (o, args) => BackwardNavigationRequested?.Invoke();
 			Closing += BrowserWindow_Closing;
+			DeveloperConsoleButton.Click += (o, args) => DeveloperConsoleRequested?.Invoke();
 			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
 			Loaded += BrowserWindow_Loaded;
 			MenuButton.Click += (o, args) => MenuPopup.IsOpen = !MenuPopup.IsOpen;
@@ -227,16 +235,18 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		private void ApplySettings()
 		{
-			UrlTextBox.IsEnabled = WindowSettings.AllowAddressBar;
+			BackwardButton.IsEnabled = WindowSettings.AllowBackwardNavigation;
+			BackwardButton.Visibility = WindowSettings.AllowBackwardNavigation ? Visibility.Visible : Visibility.Collapsed;
+
+			DeveloperConsoleMenuItem.Visibility = WindowSettings.AllowDeveloperConsole ? Visibility.Visible : Visibility.Collapsed;
+
+			ForwardButton.IsEnabled = WindowSettings.AllowForwardNavigation;
+			ForwardButton.Visibility = WindowSettings.AllowForwardNavigation ? Visibility.Visible : Visibility.Collapsed;
 
 			ReloadButton.IsEnabled = WindowSettings.AllowReloading;
 			ReloadButton.Visibility = WindowSettings.AllowReloading ? Visibility.Visible : Visibility.Collapsed;
 
-			BackwardButton.IsEnabled = WindowSettings.AllowBackwardNavigation;
-			BackwardButton.Visibility = WindowSettings.AllowBackwardNavigation ? Visibility.Visible : Visibility.Collapsed;
-
-			ForwardButton.IsEnabled = WindowSettings.AllowForwardNavigation;
-			ForwardButton.Visibility = WindowSettings.AllowForwardNavigation ? Visibility.Visible : Visibility.Collapsed;
+			UrlTextBox.Visibility = WindowSettings.AllowAddressBar ? Visibility.Visible : Visibility.Hidden;
 		}
 
 		private void InitializeBounds()
@@ -285,6 +295,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		private void LoadText()
 		{
+			DeveloperConsoleText.Text = text.Get(TextKey.BrowserWindow_DeveloperConsoleMenuItem);
 			ZoomText.Text = text.Get(TextKey.BrowserWindow_ZoomMenuItem);
 		}
 	}

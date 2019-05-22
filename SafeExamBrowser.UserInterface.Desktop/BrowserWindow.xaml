@@ -22,47 +22,61 @@
         </Grid.RowDefinitions>
         <Border x:Name="Toolbar" Grid.Row="0" BorderBrush="LightGray" BorderThickness="0,0,0,1" Margin="5,0">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" x:Name="BackwardButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
-                <Button Grid.Column="1" x:Name="ForwardButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
-                <Button Grid.Column="2" x:Name="ReloadButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
-                <Grid Grid.Column="3" Height="25" Margin="5,0">
-                    <TextBox x:Name="UrlTextBox" HorizontalAlignment="Stretch" Padding="5,0" VerticalContentAlignment="Center" />
-                    <Grid Background="#CCFFFFFF" HorizontalAlignment="Right" Margin="2" Visibility="{Binding ElementName=LoadingIcon, Path=Visibility}">
-                        <fa:ImageAwesome x:Name="LoadingIcon" Foreground="Gray" HorizontalAlignment="Right" Icon="Spinner" Margin="2,1" SpinDuration="1.5" Visibility="Collapsed" />
-                    </Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" x:Name="BackwardButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
+                    <Button Grid.Column="1" x:Name="ForwardButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
+                    <Button Grid.Column="2" x:Name="ReloadButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
+                    <TextBox Grid.Column="3" x:Name="UrlTextBox" Height="25" HorizontalAlignment="Stretch" Margin="5,0" Padding="5,0" VerticalContentAlignment="Center" />
+                    <Button Grid.Column="4" x:Name="MenuButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
+                    <Popup x:Name="MenuPopup" IsOpen="False" AllowsTransparency="True" PopupAnimation="Slide" Placement="Custom" PlacementTarget="{Binding ElementName=BrowserControlHost}">
+                        <Border Background="{StaticResource BackgroundBrush}" BorderBrush="LightGray" BorderThickness="1,0,1,1" Width="250">
+                            <StackPanel Orientation="Vertical">
+                                <Grid Height="40">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" x:Name="ZoomText" HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center" />
+                                    <Button Grid.Column="1" x:Name="ZoomInButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}">
+                                        <fa:ImageAwesome Icon="SearchPlus" />
+                                    </Button>
+                                    <Button Grid.Column="2" x:Name="ZoomResetButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}">
+                                        <Viewbox Stretch="Uniform">
+                                            <TextBlock x:Name="ZoomLevel" />
+                                        </Viewbox>
+                                    </Button>
+                                    <Button Grid.Column="3" x:Name="ZoomOutButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}">
+                                        <fa:ImageAwesome Icon="SearchMinus" />
+                                    </Button>
+                                </Grid>
+                                <Grid x:Name="DeveloperConsoleMenuItem" Height="40">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" x:Name="DeveloperConsoleText" HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center" />
+                                    <Button Grid.Column="1" x:Name="DeveloperConsoleButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}">
+                                        <fa:ImageAwesome Icon="Wrench" />
+                                    </Button>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
                 </Grid>
-                <Button Grid.Column="4" x:Name="MenuButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
-                <Popup x:Name="MenuPopup" IsOpen="False" AllowsTransparency="True" PopupAnimation="Slide" Placement="Custom" PlacementTarget="{Binding ElementName=BrowserControlHost}">
-                    <Border Background="{StaticResource BackgroundBrush}" BorderBrush="LightGray" BorderThickness="1,0,1,1" Width="250">
-                        <StackPanel Orientation="Vertical">
-                            <Grid Height="40">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" x:Name="ZoomText" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <Button Grid.Column="1" x:Name="ZoomInButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}">
-                                    <fa:ImageAwesome Icon="SearchPlus" />
-                                </Button>
-                                <Button Grid.Column="2" x:Name="ZoomResetButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}">
-                                    <fa:ImageAwesome Icon="Refresh" />
-                                </Button>
-                                <Button Grid.Column="3" x:Name="ZoomOutButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}">
-                                    <fa:ImageAwesome Icon="SearchMinus" />
-                                </Button>
-                            </Grid>
-                        </StackPanel>
-                    </Border>
-                </Popup>
+                <ProgressBar Grid.Row="1" x:Name="ProgressBar" Background="Transparent" BorderThickness="0" Foreground="DodgerBlue" Height="2" Margin="0,0,0,-1" />
             </Grid>
         </Border>
         <WindowsFormsHost Grid.Row="1" x:Name="BrowserControlHost" />

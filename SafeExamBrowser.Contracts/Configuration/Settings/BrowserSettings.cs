@@ -27,11 +27,6 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public bool AllowConfigurationDownloads { get; set; }
 
 		/// <summary>
-		/// Determines whether the user will be allowed to open the developer console of a browser window.
-		/// </summary>
-		public bool AllowDeveloperConsole { get; set; }
-
-		/// <summary>
 		/// Determines whether the user will be allowed to download files (excluding configuration files).
 		/// </summary>
 		public bool AllowDownloads { get; set; }

@@ -11,6 +11,7 @@ using System.Linq;
 using CefSharp;
 using CefSharp.Structs;
 using SafeExamBrowser.Browser.Events;
+using SafeExamBrowser.Contracts.Browser;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
@@ -20,6 +21,7 @@ namespace SafeExamBrowser.Browser.Handlers
 	internal class DisplayHandler : IDisplayHandler
 	{
 		public event FaviconChangedEventHandler FaviconChanged;
+		public event ProgressChangedEventHandler ProgressChanged;
 
 		public void OnAddressChanged(IWebBrowser chromiumWebBrowser, AddressChangedEventArgs addressChangedArgs)
 		{
@@ -49,6 +51,7 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		public void OnLoadingProgressChange(IWebBrowser chromiumWebBrowser, IBrowser browser, double progress)
 		{
+			ProgressChanged?.Invoke(progress);
 		}
 
 		public void OnStatusMessage(IWebBrowser chromiumWebBrowser, StatusMessageEventArgs statusMessageArgs)

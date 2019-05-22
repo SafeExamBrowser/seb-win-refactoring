@@ -97,18 +97,19 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.Browser.StartUrl = "https://www.safeexambrowser.org/start";
 			settings.Browser.AllowConfigurationDownloads = true;
-			settings.Browser.AllowDeveloperConsole = false;
 			settings.Browser.AllowDownloads = true;
 			settings.Browser.AllowPageZoom = true;
 			settings.Browser.AllowPopups = true;
 			settings.Browser.AdditionalWindowSettings.AllowAddressBar = false;
 			settings.Browser.AdditionalWindowSettings.AllowBackwardNavigation = true;
+			settings.Browser.AdditionalWindowSettings.AllowDeveloperConsole = false;
 			settings.Browser.AdditionalWindowSettings.AllowForwardNavigation = true;
 			settings.Browser.AdditionalWindowSettings.AllowReloading = true;
 			settings.Browser.AdditionalWindowSettings.FullScreenMode = false;
 			settings.Browser.AdditionalWindowSettings.ShowReloadWarning = false;
 			settings.Browser.MainWindowSettings.AllowAddressBar = false;
 			settings.Browser.MainWindowSettings.AllowBackwardNavigation = false;
+			settings.Browser.MainWindowSettings.AllowDeveloperConsole = false;
 			settings.Browser.MainWindowSettings.AllowForwardNavigation = false;
 			settings.Browser.MainWindowSettings.AllowReloading = true;
 			settings.Browser.MainWindowSettings.FullScreenMode = false;
@@ -152,10 +153,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.UserInterfaceMode = UserInterfaceMode.Desktop;
 			
-			// TODO: Default value overrides for alpha version, remove for final release!
-			settings.ActionCenter.ShowApplicationLog = true;
-			settings.Browser.AllowDeveloperConsole = true;
-
 			return settings;
 		}
 	}

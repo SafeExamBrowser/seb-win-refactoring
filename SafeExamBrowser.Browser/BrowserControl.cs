@@ -17,7 +17,6 @@ namespace SafeExamBrowser.Browser
 	internal class BrowserControl : ChromiumWebBrowser, IBrowserControl
 	{
 		private const uint WS_EX_NOACTIVATE = 0x08000000;
-		private const double ZOOM_FACTOR = 0.1;
 
 		private IContextMenuHandler contextMenuHandler;
 		private IDisplayHandler displayHandler;
@@ -97,36 +96,19 @@ namespace SafeExamBrowser.Browser
 			Load(address);
 		}
 
+		public void ShowDeveloperConsole()
+		{
+			GetBrowser().ShowDevTools();
+		}
+
 		public void Reload()
 		{
 			GetBrowser().Reload();
 		}
 
-		public void ZoomReset()
+		public void Zoom(double level)
 		{
-			GetBrowser().SetZoomLevel(0);
-		}
-
-		public void ZoomIn()
-		{
-			GetBrowser().GetZoomLevelAsync().ContinueWith(task =>
-			{
-				if (task.IsCompleted)
-				{
-					GetBrowser().SetZoomLevel(task.Result + ZOOM_FACTOR);
-				}
-			});
-		}
-
-		public void ZoomOut()
-		{
-			GetBrowser().GetZoomLevelAsync().ContinueWith(task =>
-			{
-				if (task.IsCompleted)
-				{
-					GetBrowser().SetZoomLevel(task.Result - ZOOM_FACTOR);
-				}
-			});
+			GetBrowser().SetZoomLevel(level);
 		}
 
 		/// <summary>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Text>
-  <Entry key="Browser_ShowDeveloperConsole">
-    Open Console
+  <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
+    Developer Console
   </Entry>
   <Entry key="BrowserWindow_ZoomMenuItem">
     Page Zoom

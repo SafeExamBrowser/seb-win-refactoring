@@ -25,6 +25,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		/// Determines whether the user will be allowed to navigate backwards.
 		/// </summary>
 		public bool AllowBackwardNavigation { get; set; }
+		
+		/// <summary>
+		/// Determines whether the user will be allowed to open the developer console.
+		/// </summary>
+		public bool AllowDeveloperConsole { get; set; }
 
 		/// <summary>
 		/// Determines whether the user will be allowed to navigate forwards.

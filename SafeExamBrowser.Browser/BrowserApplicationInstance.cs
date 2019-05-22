@@ -26,6 +26,8 @@ namespace SafeExamBrowser.Browser
 {
 	internal class BrowserApplicationInstance : IApplicationInstance
 	{
+		private const double ZOOM_FACTOR = 0.2;
+
 		private AppConfig appConfig;
 		private IBrowserControl control;
 		private IBrowserWindow window;
@@ -37,6 +39,7 @@ namespace SafeExamBrowser.Browser
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		private string url;
+		private double zoomLevel;
 
 		private BrowserWindowSettings WindowSettings
 		{
@@ -78,7 +81,7 @@ namespace SafeExamBrowser.Browser
 
 		internal void Initialize()
 		{
-			var contextMenuHandler = new ContextMenuHandler(settings, text);
+			var contextMenuHandler = new ContextMenuHandler();
 			var displayHandler = new DisplayHandler();
 			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} {Id}");
 			var downloadHandler = new DownloadHandler(appConfig, settings, downloadLogger);
@@ -87,6 +90,7 @@ namespace SafeExamBrowser.Browser
 			var requestHandler = new RequestHandler(appConfig);
 
 			displayHandler.FaviconChanged += DisplayHandler_FaviconChanged;
+			displayHandler.ProgressChanged += DisplayHandler_ProgressChanged;
 			downloadHandler.ConfigurationDownloadRequested += DownloadHandler_ConfigurationDownloadRequested;
 			keyboardHandler.ReloadRequested += ReloadRequested;
 			keyboardHandler.ZoomInRequested += ZoomInRequested;
@@ -105,12 +109,14 @@ namespace SafeExamBrowser.Browser
 			window = uiFactory.CreateBrowserWindow(control, settings, isMainInstance);
 			window.Closing += () => Terminated?.Invoke(Id);
 			window.AddressChanged += Window_AddressChanged;
-			window.ReloadRequested += ReloadRequested;
 			window.BackwardNavigationRequested += Window_BackwardNavigationRequested;
+			window.DeveloperConsoleRequested += Window_DeveloperConsoleRequested;
 			window.ForwardNavigationRequested += Window_ForwardNavigationRequested;
+			window.ReloadRequested += ReloadRequested;
 			window.ZoomInRequested += ZoomInRequested;
 			window.ZoomOutRequested += ZoomOutRequested;
 			window.ZoomResetRequested += ZoomResetRequested;
+			window.UpdateZoomLevel(CalculateZoomPercentage());
 
 			logger.Debug("Initialized browser window.");
 		}
@@ -147,6 +153,11 @@ namespace SafeExamBrowser.Browser
 					window.UpdateIcon(icon);
 				}
 			});
+		}
+
+		private void DisplayHandler_ProgressChanged(double value)
+		{
+			window.UpdateProgress(value);
 		}
 
 		private void DownloadHandler_ConfigurationDownloadRequested(string fileName, DownloadEventArgs args)
@@ -221,31 +232,41 @@ namespace SafeExamBrowser.Browser
 
 		private void Window_BackwardNavigationRequested()
 		{
-			logger.Debug($"Navigating backwards...");
+			logger.Debug("Navigating backwards...");
 			control.NavigateBackwards();
+		}
+
+		private void Window_DeveloperConsoleRequested()
+		{
+			logger.Debug("Showing developer console...");
+			control.ShowDeveloperConsole();
 		}
 
 		private void Window_ForwardNavigationRequested()
 		{
-			logger.Debug($"Navigating forwards...");
+			logger.Debug("Navigating forwards...");
 			control.NavigateForwards();
 		}
 
 		private void ZoomInRequested()
 		{
-			if (settings.AllowPageZoom)
+			if (settings.AllowPageZoom && CalculateZoomPercentage() < 300)
 			{
-				control.ZoomIn();
-				logger.Debug("Increased page zoom.");
+				zoomLevel += ZOOM_FACTOR;
+				control.Zoom(zoomLevel);
+				window.UpdateZoomLevel(CalculateZoomPercentage());
+				logger.Debug($"Increased page zoom to {CalculateZoomPercentage()}%.");
 			}
 		}
 
 		private void ZoomOutRequested()
 		{
-			if (settings.AllowPageZoom)
+			if (settings.AllowPageZoom && CalculateZoomPercentage() > 25)
 			{
-				control.ZoomOut();
-				logger.Debug("Decreased page zoom.");
+				zoomLevel -= ZOOM_FACTOR;
+				control.Zoom(zoomLevel);
+				window.UpdateZoomLevel(CalculateZoomPercentage());
+				logger.Debug($"Decreased page zoom to {CalculateZoomPercentage()}%.");
 			}
 		}
 
@@ -253,9 +274,16 @@ namespace SafeExamBrowser.Browser
 		{
 			if (settings.AllowPageZoom)
 			{
-				control.ZoomReset();
-				logger.Debug("Reset page zoom.");
+				zoomLevel = 0;
+				control.Zoom(0);
+				window.UpdateZoomLevel(CalculateZoomPercentage());
+				logger.Debug($"Reset page zoom to {CalculateZoomPercentage()}%.");
 			}
+		}
+
+		private double CalculateZoomPercentage()
+		{
+			return (zoomLevel * 25.0) + 100.0;
 		}
 	}
 }

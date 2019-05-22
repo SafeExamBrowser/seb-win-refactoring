@@ -13,11 +13,36 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal partial class DataMapper
 	{
+		private void MapAllowAddressBar(Settings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.MainWindowSettings.AllowAddressBar = allow;
+			}
+		}
+
+		private void MapAllowAddressBarAdditionalWindow(Settings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.AdditionalWindowSettings.AllowAddressBar = allow;
+			}
+		}
+
 		private void MapAllowConfigurationDownloads(Settings settings, object value)
 		{
 			if (value is bool allow)
 			{
 				settings.Browser.AllowConfigurationDownloads = allow;
+			}
+		}
+
+		private void MapAllowDeveloperConsole(Settings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.MainWindowSettings.AllowDeveloperConsole = allow;
+				settings.Browser.AdditionalWindowSettings.AllowDeveloperConsole = allow;
 			}
 		}
 

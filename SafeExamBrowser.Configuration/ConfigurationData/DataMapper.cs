@@ -35,14 +35,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				case Keys.Browser.AllowConfigurationDownloads:
 					MapAllowConfigurationDownloads(settings, value);
 					break;
+				case Keys.Browser.AllowDeveloperConsole:
+					MapAllowDeveloperConsole(settings, value);
+					break;
 				case Keys.Browser.AllowDownloads:
 					MapAllowDownloads(settings, value);
-					break;
-				case Keys.Browser.AllowNavigation:
-					MapAllowNavigation(settings, value);
-					break;
-				case Keys.Browser.AllowNavigationAdditionalWindow:
-					MapAllowNavigationAdditionalWindow(settings, value);
 					break;
 				case Keys.Browser.AllowPageZoom:
 					MapAllowPageZoom(settings, value);
@@ -50,19 +47,31 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				case Keys.Browser.AllowPopups:
 					MapAllowPopups(settings, value);
 					break;
-				case Keys.Browser.AllowReload:
-					MapAllowReload(settings, value);
-					break;
-				case Keys.Browser.AllowReloadAdditionalWindow:
-					MapAllowReloadAdditionalWindow(settings, value);
-					break;
 				case Keys.Browser.MainWindowMode:
 					MapMainWindowMode(settings, value);
 					break;
-				case Keys.Browser.ShowReloadWarning:
+				case Keys.Browser.MainWindow.AllowAddressBar:
+					MapAllowAddressBar(settings, value);
+					break;
+				case Keys.Browser.MainWindow.AllowNavigation:
+					MapAllowNavigation(settings, value);
+					break;
+				case Keys.Browser.MainWindow.AllowReload:
+					MapAllowReload(settings, value);
+					break;
+				case Keys.Browser.MainWindow.ShowReloadWarning:
 					MapShowReloadWarning(settings, value);
 					break;
-				case Keys.Browser.ShowReloadWarningAdditionalWindow:
+				case Keys.Browser.AdditionalWindow.AllowAddressBar:
+					MapAllowAddressBarAdditionalWindow(settings, value);
+					break;
+				case Keys.Browser.AdditionalWindow.AllowNavigation:
+					MapAllowNavigationAdditionalWindow(settings, value);
+					break;
+				case Keys.Browser.AdditionalWindow.AllowReload:
+					MapAllowReloadAdditionalWindow(settings, value);
+					break;
+				case Keys.Browser.AdditionalWindow.ShowReloadWarning:
 					MapShowReloadWarningAdditionalWindow(settings, value);
 					break;
 			}

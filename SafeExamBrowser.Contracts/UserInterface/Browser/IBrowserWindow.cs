@@ -38,6 +38,11 @@ namespace SafeExamBrowser.Contracts.UserInterface.Browser
 		event ActionRequestedEventHandler BackwardNavigationRequested;
 
 		/// <summary>
+		/// Event fired when the user would like to open the developer console.
+		/// </summary>
+		event ActionRequestedEventHandler DeveloperConsoleRequested;
+
+		/// <summary>
 		/// Event fired when the user would like to navigate forwards.
 		/// </summary>
 		event ActionRequestedEventHandler ForwardNavigationRequested;
@@ -63,7 +68,7 @@ namespace SafeExamBrowser.Contracts.UserInterface.Browser
 		event ActionRequestedEventHandler ZoomResetRequested;
 
 		/// <summary>
-		/// Updates the address bar of the browser window to the given value;
+		/// Updates the address bar of the browser window to the given value.
 		/// </summary>
 		void UpdateAddress(string adress);
 
@@ -78,8 +83,18 @@ namespace SafeExamBrowser.Contracts.UserInterface.Browser
 		void UpdateLoadingState(bool isLoading);
 
 		/// <summary>
-		/// Sets the title of the browser window to the given value;
+		/// Updates the page load progress according to the given value.
+		/// </summary>
+		void UpdateProgress(double value);
+
+		/// <summary>
+		/// Sets the title of the browser window to the given value.
 		/// </summary>
 		void UpdateTitle(string title);
+
+		/// <summary>
+		/// Updates the display value of the current page zoom. Value is expected to be in percentage.
+		/// </summary>
+		void UpdateZoomLevel(double value);
 	}
 }
