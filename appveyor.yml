@@ -1,13 +1,13 @@
-version: "3.0.0.{build}"
+version: '3.0.0.{build}'
 image: Visual Studio 2017
 platform: x86
 configuration: Release
 assembly_info:
   patch: true
   file: AssemblyInfo.*
-  assembly_version: "{version}"
-  assembly_file_version: "{version}"
-  assembly_informational_version: "3.0.0 Alpha"
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '3.0.0 Alpha'
 before_build:
  - nuget restore
 build_script:
@@ -26,5 +26,5 @@ after_test:
  - codecov -f "coverage.xml"
 artifacts:
  - path: SafeExamBrowser.Runtime\bin\$(platform)\$(configuration)
-   name: 3.0.0_Alpha
+   name: '$(appveyor_build_version)_Alpha'
    type: zip
