@@ -58,6 +58,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.UserInterfa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.UserInterface.Shared", "SafeExamBrowser.UserInterface.Shared\SafeExamBrowser.UserInterface.Shared.csproj", "{38525928-87BA-4F8C-8010-4EB97BFAAE13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Service", "SafeExamBrowser.Service\SafeExamBrowser.Service.csproj", "{FA3C6692-DFED-4AFA-BD58-9A3DA2753C78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Service.UnitTests", "SafeExamBrowser.Service.UnitTests\SafeExamBrowser.Service.UnitTests.csproj", "{26C4AAEE-3902-400C-A154-63A357DEA2F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -242,6 +246,22 @@ Global
 		{38525928-87BA-4F8C-8010-4EB97BFAAE13}.Release|Any CPU.Build.0 = Release|Any CPU
 		{38525928-87BA-4F8C-8010-4EB97BFAAE13}.Release|x86.ActiveCfg = Release|x86
 		{38525928-87BA-4F8C-8010-4EB97BFAAE13}.Release|x86.Build.0 = Release|x86
+		{FA3C6692-DFED-4AFA-BD58-9A3DA2753C78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA3C6692-DFED-4AFA-BD58-9A3DA2753C78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA3C6692-DFED-4AFA-BD58-9A3DA2753C78}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FA3C6692-DFED-4AFA-BD58-9A3DA2753C78}.Debug|x86.Build.0 = Debug|Any CPU
+		{FA3C6692-DFED-4AFA-BD58-9A3DA2753C78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA3C6692-DFED-4AFA-BD58-9A3DA2753C78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA3C6692-DFED-4AFA-BD58-9A3DA2753C78}.Release|x86.ActiveCfg = Release|Any CPU
+		{FA3C6692-DFED-4AFA-BD58-9A3DA2753C78}.Release|x86.Build.0 = Release|Any CPU
+		{26C4AAEE-3902-400C-A154-63A357DEA2F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26C4AAEE-3902-400C-A154-63A357DEA2F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26C4AAEE-3902-400C-A154-63A357DEA2F8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{26C4AAEE-3902-400C-A154-63A357DEA2F8}.Debug|x86.Build.0 = Debug|Any CPU
+		{26C4AAEE-3902-400C-A154-63A357DEA2F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26C4AAEE-3902-400C-A154-63A357DEA2F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26C4AAEE-3902-400C-A154-63A357DEA2F8}.Release|x86.ActiveCfg = Release|Any CPU
+		{26C4AAEE-3902-400C-A154-63A357DEA2F8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

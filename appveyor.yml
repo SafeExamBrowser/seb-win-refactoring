@@ -26,5 +26,8 @@ after_test:
  - codecov -f "coverage.xml"
 artifacts:
  - path: SafeExamBrowser.Runtime\bin\$(platform)\$(configuration)
-   name: '$(appveyor_build_version)_Base'
+   name: '$(appveyor_build_version)_Base_Application'
+   type: zip
+ - path: SafeExamBrowser.Service\bin\$(platform)\$(configuration)
+   name: '$(appveyor_build_version)_Base_Service'
    type: zip
