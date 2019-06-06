@@ -24,6 +24,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	[TestClass]
 	public class ConfigurationOperationTests
 	{
+		private const string FILE_NAME = "SebClientSettings.seb";
+
 		private AppConfig appConfig;
 		private Mock<IHashAlgorithm> hashAlgorithm;
 		private Mock<ILogger> logger;
@@ -43,9 +45,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			nextSession = new Mock<ISessionConfiguration>();
 			sessionContext = new SessionContext();
 
-			appConfig.AppDataFolder = @"C:\Not\Really\AppData";
-			appConfig.DefaultSettingsFileName = "SettingsDummy.txt";
-			appConfig.ProgramDataFolder = @"C:\Not\Really\ProgramData";
+			appConfig.AppDataFilePath = $@"C:\Not\Really\AppData\File.xml";
+			appConfig.ProgramDataFilePath = $@"C:\Not\Really\ProgramData\File.xml";
 			currentSession.SetupGet(s => s.AppConfig).Returns(appConfig);
 			nextSession.SetupGet(s => s.AppConfig).Returns(appConfig);
 			sessionContext.Current = currentSession.Object;
@@ -57,11 +58,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var settings = new Settings { ConfigurationMode = ConfigurationMode.Exam };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
-			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
+			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), FILE_NAME);
 
-			appConfig.AppDataFolder = location;
-			appConfig.ProgramDataFolder = location;
-			appConfig.DefaultSettingsFileName = "SettingsDummy.txt";
+			appConfig.AppDataFilePath = location;
+			appConfig.ProgramDataFilePath = location;
 
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
@@ -76,36 +76,33 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustUseProgramDataAs2ndPrio()
 		{
-			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
+			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), FILE_NAME);
 			var settings = default(Settings);
 
-			appConfig.ProgramDataFolder = location;
-			appConfig.AppDataFolder = $@"{location}\WRONG";
+			appConfig.ProgramDataFilePath = location;
 
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
 			var sut = new ConfigurationOperation(null, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Perform();
-			var resource = new Uri(Path.Combine(location, "SettingsDummy.txt"));
 
-			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>()), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(location)), out settings, It.IsAny<PasswordParameters>()), Times.Once);
 			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]
 		public void Perform_MustUseAppDataAs3rdPrio()
 		{
-			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
+			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), FILE_NAME);
 			var settings = default(Settings);
 
-			appConfig.AppDataFolder = location;
+			appConfig.AppDataFilePath = location;
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
 			var sut = new ConfigurationOperation(null, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Perform();
-			var resource = new Uri(Path.Combine(location, "SettingsDummy.txt"));
 
-			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>()), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(location)), out settings, It.IsAny<PasswordParameters>()), Times.Once);
 			Assert.AreEqual(OperationResult.Success, result);
 		}
 
@@ -284,10 +281,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var settings = new Settings { AdminPasswordHash = "9876", ConfigurationMode = ConfigurationMode.ConfigureClient };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			appConfig.AppDataFolder = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
+			appConfig.AppDataFilePath = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), FILE_NAME);
 
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
-			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.LocalPath.Contains("SettingsDummy")), out localSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.LocalPath.Contains(FILE_NAME)), out localSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			nextSession.SetupGet(s => s.Settings).Returns(settings);
 
 			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
@@ -341,7 +338,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var nextSettings = new Settings { AdminPasswordHash = "9876", ConfigurationMode = ConfigurationMode.ConfigureClient };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			appConfig.AppDataFolder = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
+			appConfig.AppDataFilePath = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), FILE_NAME);
 			nextSession.SetupGet(s => s.Settings).Returns(nextSettings);
 
 			hashAlgorithm.Setup(h => h.GenerateHashFor(It.Is<string>(p => p == password))).Returns(currentSettings.AdminPasswordHash);
@@ -373,7 +370,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var nextSettings = new Settings { AdminPasswordHash = "1234", ConfigurationMode = ConfigurationMode.ConfigureClient };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			appConfig.AppDataFolder = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
+			appConfig.AppDataFilePath = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), FILE_NAME);
 			nextSession.SetupGet(s => s.Settings).Returns(nextSettings);
 
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out currentSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
@@ -427,18 +424,16 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void Perform_MustUseCurrentPasswordIfAvailable()
 		{
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
-			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
-			var appDataFile = new Uri(Path.Combine(location, "SettingsDummy.txt"));
+			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), FILE_NAME);
 			var settings = new Settings { AdminPasswordHash = "1234", ConfigurationMode = ConfigurationMode.Exam };
 
-			appConfig.AppDataFolder = location;
-			appConfig.DefaultSettingsFileName = "SettingsDummy.txt";
+			appConfig.AppDataFilePath = location;
 
 			repository
 				.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>()))
 				.Returns(LoadStatus.PasswordNeeded);
 			repository
-				.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(appDataFile)), out settings, It.IsAny<PasswordParameters>()))
+				.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(new Uri(location))), out settings, It.IsAny<PasswordParameters>()))
 				.Returns(LoadStatus.Success);
 			repository
 				.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.Is<PasswordParameters>(p => p.IsHash == true && p.Password == settings.AdminPasswordHash)))
@@ -460,7 +455,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var nextSettings = new Settings { AdminPasswordHash = "9876", ConfigurationMode = ConfigurationMode.ConfigureClient };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			appConfig.AppDataFolder = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations));
+			appConfig.AppDataFilePath = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), FILE_NAME);
 			nextSession.SetupGet(s => s.Settings).Returns(nextSettings);
 
 			hashAlgorithm.Setup(h => h.GenerateHashFor(It.Is<string>(p => p == password))).Returns(currentSettings.AdminPasswordHash);
@@ -510,7 +505,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var currentSettings = new Settings();
 			var location = Path.GetDirectoryName(GetType().Assembly.Location);
-			var resource = new Uri(Path.Combine(location, nameof(Operations), "SettingsDummy.txt"));
+			var resource = new Uri(Path.Combine(location, nameof(Operations), FILE_NAME));
 			var settings = new Settings { ConfigurationMode = ConfigurationMode.Exam };
 
 			currentSession.SetupGet(s => s.Settings).Returns(currentSettings);
@@ -532,7 +527,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var currentSettings = new Settings();
 			var location = Path.GetDirectoryName(GetType().Assembly.Location);
-			var resource = new Uri(Path.Combine(location, nameof(Operations), "SettingsDummy.txt"));
+			var resource = new Uri(Path.Combine(location, nameof(Operations), FILE_NAME));
 			var settings = new Settings { ConfigurationMode = ConfigurationMode.ConfigureClient };
 
 			currentSession.SetupGet(s => s.Settings).Returns(currentSettings);
@@ -577,7 +572,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var currentSettings = new Settings();
 			var location = Path.GetDirectoryName(GetType().Assembly.Location);
-			var resource = new Uri(Path.Combine(location, nameof(Operations), "SettingsDummy.txt"));
+			var resource = new Uri(Path.Combine(location, nameof(Operations), FILE_NAME));
 			var settings = new Settings { ConfigurationMode = ConfigurationMode.ConfigureClient };
 
 			currentSession.SetupGet(s => s.Settings).Returns(currentSettings);

@@ -287,18 +287,18 @@ namespace SafeExamBrowser.Configuration.UnitTests
 			var appConfig = sut.InitializeAppConfig();
 			var clientAddress = appConfig.ClientAddress;
 			var clientId = appConfig.ClientId;
-			var clientLogFile = appConfig.ClientLogFile;
+			var clientLogFilePath = appConfig.ClientLogFilePath;
 			var runtimeAddress = appConfig.RuntimeAddress;
 			var runtimeId = appConfig.RuntimeId;
-			var runtimeLogFile = appConfig.RuntimeLogFile;
+			var runtimeLogFilePath = appConfig.RuntimeLogFilePath;
 			var configuration = sut.InitializeSessionConfiguration();
 
 			Assert.AreNotEqual(configuration.AppConfig.ClientAddress, clientAddress);
 			Assert.AreNotEqual(configuration.AppConfig.ClientId, clientId);
-			Assert.AreEqual(configuration.AppConfig.ClientLogFile, clientLogFile);
+			Assert.AreEqual(configuration.AppConfig.ClientLogFilePath, clientLogFilePath);
 			Assert.AreEqual(configuration.AppConfig.RuntimeAddress, runtimeAddress);
 			Assert.AreEqual(configuration.AppConfig.RuntimeId, runtimeId);
-			Assert.AreEqual(configuration.AppConfig.RuntimeLogFile, runtimeLogFile);
+			Assert.AreEqual(configuration.AppConfig.RuntimeLogFilePath, runtimeLogFilePath);
 		}
 
 		[TestMethod]

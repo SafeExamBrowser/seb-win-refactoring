@@ -26,6 +26,10 @@ namespace SafeExamBrowser.Runtime.Communication
 		public event CommunicationEventHandler<MessageBoxReplyEventArgs> MessageBoxReplyReceived;
 		public event CommunicationEventHandler<PasswordReplyEventArgs> PasswordReceived;
 		public event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationRequested;
+		public event CommunicationEventHandler ServiceDisconnected;
+		public event CommunicationEventHandler ServiceFailed;
+		public event CommunicationEventHandler ServiceSessionStarted;
+		public event CommunicationEventHandler ServiceSessionStopped;
 		public event CommunicationEventHandler ShutdownRequested;
 
 		public RuntimeHost(string address, IHostObjectFactory factory, ILogger logger, int timeout_ms) : base(address, factory, logger, timeout_ms)

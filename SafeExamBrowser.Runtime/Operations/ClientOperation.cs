@@ -96,7 +96,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		private bool TryStartClient()
 		{
 			var clientExecutable = Context.Next.AppConfig.ClientExecutablePath;
-			var clientLogFile = $"{'"' + Context.Next.AppConfig.ClientLogFile + '"'}";
+			var clientLogFile = $"{'"' + Context.Next.AppConfig.ClientLogFilePath + '"'}";
 			var clientLogLevel = Context.Next.Settings.LogLevel.ToString();
 			var runtimeHostUri = Context.Next.AppConfig.RuntimeAddress;
 			var startupToken = Context.Next.StartupToken.ToString("D");

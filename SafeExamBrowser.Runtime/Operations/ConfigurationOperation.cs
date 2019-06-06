@@ -27,15 +27,8 @@ namespace SafeExamBrowser.Runtime.Operations
 		private IHashAlgorithm hashAlgorithm;
 		private ILogger logger;
 
-		private string AppDataFile
-		{
-			get { return Path.Combine(Context.Next.AppConfig.AppDataFolder, Context.Next.AppConfig.DefaultSettingsFileName); }
-		}
-
-		private string ProgramDataFile
-		{
-			get { return Path.Combine(Context.Next.AppConfig.ProgramDataFolder, Context.Next.AppConfig.DefaultSettingsFileName); }
-		}
+		private string AppDataFilePath => Context.Next.AppConfig.AppDataFilePath;
+		private string ProgramDataFilePath => Context.Next.AppConfig.ProgramDataFilePath;
 
 		public override event ActionRequiredEventHandler ActionRequired;
 		public override event StatusChangedEventHandler StatusChanged;
@@ -119,16 +112,16 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (source == UriSource.CommandLine)
 			{
-				var hasAppDataFile = File.Exists(AppDataFile);
-				var hasProgramDataFile = File.Exists(ProgramDataFile);
+				var hasAppDataFile = File.Exists(AppDataFilePath);
+				var hasProgramDataFile = File.Exists(ProgramDataFilePath);
 
 				if (hasProgramDataFile)
 				{
-					status = TryLoadSettings(new Uri(ProgramDataFile, UriKind.Absolute), UriSource.ProgramData, out _, out settings);
+					status = TryLoadSettings(new Uri(ProgramDataFilePath, UriKind.Absolute), UriSource.ProgramData, out _, out settings);
 				}
 				else if (hasAppDataFile)
 				{
-					status = TryLoadSettings(new Uri(AppDataFile, UriKind.Absolute), UriSource.AppData, out _, out settings);
+					status = TryLoadSettings(new Uri(AppDataFilePath, UriKind.Absolute), UriSource.AppData, out _, out settings);
 				}
 
 				if ((!hasProgramDataFile && !hasAppDataFile) || status == LoadStatus.Success)
@@ -412,18 +405,18 @@ namespace SafeExamBrowser.Runtime.Operations
 				logger.Info($"Found command-line argument for configuration resource: '{uri}', the URI is {(isValidUri ? "valid" : "invalid")}.");
 			}
 
-			if (!isValidUri && File.Exists(ProgramDataFile))
+			if (!isValidUri && File.Exists(ProgramDataFilePath))
 			{
-				isValidUri = Uri.TryCreate(ProgramDataFile, UriKind.Absolute, out uri);
+				isValidUri = Uri.TryCreate(ProgramDataFilePath, UriKind.Absolute, out uri);
 				source = UriSource.ProgramData;
-				logger.Info($"Found configuration file in PROGRAMDATA directory: '{uri}'.");
+				logger.Info($"Found configuration file in program data directory: '{uri}'.");
 			}
 
-			if (!isValidUri && File.Exists(AppDataFile))
+			if (!isValidUri && File.Exists(AppDataFilePath))
 			{
-				isValidUri = Uri.TryCreate(AppDataFile, UriKind.Absolute, out uri);
+				isValidUri = Uri.TryCreate(AppDataFilePath, UriKind.Absolute, out uri);
 				source = UriSource.AppData;
-				logger.Info($"Found configuration file in APPDATA directory: '{uri}'.");
+				logger.Info($"Found configuration file in app data directory: '{uri}'.");
 			}
 
 			return isValidUri;

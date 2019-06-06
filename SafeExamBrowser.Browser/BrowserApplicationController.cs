@@ -127,7 +127,7 @@ namespace SafeExamBrowser.Browser
 			var cefSettings = new CefSettings
 			{
 				CachePath = appConfig.BrowserCachePath,
-				LogFile = appConfig.BrowserLogFile,
+				LogFile = appConfig.BrowserLogFilePath,
 				LogSeverity = error ? LogSeverity.Error : (warning ? LogSeverity.Warning : LogSeverity.Info),
 				UserAgent = InitializeUserAgent()
 			};

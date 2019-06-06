@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.ServiceProcess;
 
 namespace SafeExamBrowser.Service
@@ -27,22 +28,22 @@ namespace SafeExamBrowser.Service
 
 		protected override void OnStart(string[] args)
 		{
-			//instances = new CompositionRoot();
-			//instances.BuildObjectGraph();
-			//instances.LogStartupInformation();
+			instances = new CompositionRoot();
+			instances.BuildObjectGraph();
+			instances.LogStartupInformation();
 
-			//var success = instances.ServiceController.TryStart();
+			var success = instances.ServiceController.TryStart();
 
-			//if (!success)
-			//{
-			//	Environment.Exit(-1);
-			//}
+			if (!success)
+			{
+				Environment.Exit(-1);
+			}
 		}
 
 		protected override void OnStop()
 		{
-			//instances?.ServiceController?.Terminate();
-			//instances?.LogShutdownInformation();
+			instances?.ServiceController?.Terminate();
+			instances?.LogShutdownInformation();
 		}
 	}
 }

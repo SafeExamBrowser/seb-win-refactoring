@@ -17,9 +17,9 @@ namespace SafeExamBrowser.Contracts.Configuration
 	public class AppConfig
 	{
 		/// <summary>
-		/// The path of the application data folder.
+		/// The file path of the local client configuration for the active user.
 		/// </summary>
-		public string AppDataFolder { get; set; }
+		public string AppDataFilePath { get; set; }
 
 		/// <summary>
 		/// The point in time when the application was started.
@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// <summary>
 		/// The file path under which the log of the browser component is to be stored.
 		/// </summary>
-		public string BrowserLogFile { get; set; }
+		public string BrowserLogFilePath { get; set; }
 
 		/// <summary>
 		/// The communication address of the client component.
@@ -54,17 +54,12 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// <summary>
 		/// The file path under which the log of the client component is to be stored.
 		/// </summary>
-		public string ClientLogFile { get; set; }
+		public string ClientLogFilePath { get; set; }
 
 		/// <summary>
 		/// The file extension of configuration files for the application (including the period).
 		/// </summary>
 		public string ConfigurationFileExtension { get; set; }
-
-		/// <summary>
-		/// The default file name for application settings.
-		/// </summary>
-		public string DefaultSettingsFileName { get; set; }
 
 		/// <summary>
 		/// The default directory for file downloads.
@@ -77,9 +72,9 @@ namespace SafeExamBrowser.Contracts.Configuration
 		public string ProgramCopyright { get; set; }
 
 		/// <summary>
-		/// The path of the program data folder.
+		/// The file path of the local client configuration for all users.
 		/// </summary>
-		public string ProgramDataFolder { get; set; }
+		public string ProgramDataFilePath { get; set; }
 
 		/// <summary>
 		/// The program title of the application (i.e. the executing assembly).
@@ -104,7 +99,7 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// <summary>
 		/// The file path under which the log of the runtime component is to be stored.
 		/// </summary>
-		public string RuntimeLogFile { get; set; }
+		public string RuntimeLogFilePath { get; set; }
 
 		/// <summary>
 		/// The URI scheme for SEB resources.

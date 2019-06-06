@@ -81,7 +81,7 @@ namespace SafeExamBrowser.Runtime
 			sessionOperations.Enqueue(new ConfigurationOperation(args, configuration, new HashAlgorithm(), logger, sessionContext));
 			sessionOperations.Enqueue(new ClientTerminationOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, THIRTY_SECONDS));
 			sessionOperations.Enqueue(new KioskModeTerminationOperation(desktopFactory, explorerShell, logger, processFactory, sessionContext));
-			sessionOperations.Enqueue(new ServiceOperation(logger, serviceProxy, sessionContext));
+			sessionOperations.Enqueue(new ServiceOperation(logger, runtimeHost, serviceProxy, sessionContext, THIRTY_SECONDS));
 			sessionOperations.Enqueue(new KioskModeOperation(desktopFactory, explorerShell, logger, processFactory, sessionContext));
 			sessionOperations.Enqueue(new ClientOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, THIRTY_SECONDS));
 			sessionOperations.Enqueue(new SessionActivationOperation(logger, sessionContext));
@@ -170,7 +170,7 @@ namespace SafeExamBrowser.Runtime
 
 		private void InitializeLogging()
 		{
-			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), appConfig.RuntimeLogFile);
+			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), appConfig.RuntimeLogFilePath);
 
 			logFileWriter.Initialize();
 			logger.LogLevel = LogLevel.Debug;

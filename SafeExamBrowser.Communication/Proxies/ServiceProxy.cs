@@ -19,6 +19,7 @@ namespace SafeExamBrowser.Communication.Proxies
 	public class ServiceProxy : BaseProxy, IServiceProxy
 	{
 		public bool Ignore { private get; set; }
+		public new bool IsConnected => base.IsConnected;
 
 		public ServiceProxy(string address, IProxyObjectFactory factory, ILogger logger) : base(address, factory, logger)
 		{

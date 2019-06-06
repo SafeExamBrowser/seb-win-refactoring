@@ -144,6 +144,7 @@
     <Compile Include="Applications\IApplicationInfo.cs" />
     <Compile Include="Applications\IApplicationInstance.cs" />
     <Compile Include="Client\INotificationInfo.cs" />
+    <Compile Include="Service\IServiceController.cs" />
     <Compile Include="SystemComponents\ISystemInfo.cs" />
     <Compile Include="SystemComponents\OperatingSystem.cs" />
     <Compile Include="Configuration\Settings\BrowserSettings.cs" />

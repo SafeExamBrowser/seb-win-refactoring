@@ -32,7 +32,7 @@ namespace SafeExamBrowser.Contracts.Communication.Hosts
 		event CommunicationEventHandler ClientDisconnected;
 
 		/// <summary>
-		/// Event fired once the client has signaled that it is ready to operate.
+		/// Event fired when the client has signaled that it is ready to operate.
 		/// </summary>
 		event CommunicationEventHandler ClientReady;
 
@@ -55,6 +55,26 @@ namespace SafeExamBrowser.Contracts.Communication.Hosts
 		/// Event fired when the client requested a reconfiguration of the application.
 		/// </summary>
 		event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationRequested;
+
+		/// <summary>
+		/// Event fired when the service disconnected from the runtime.
+		/// </summary>
+		event CommunicationEventHandler ServiceDisconnected;
+
+		/// <summary>
+		/// Event fired when the service has experienced a critical failure.
+		/// </summary>
+		event CommunicationEventHandler ServiceFailed;
+
+		/// <summary>
+		/// Event fired when the service has successfully started a new session.
+		/// </summary>
+		event CommunicationEventHandler ServiceSessionStarted;
+
+		/// <summary>
+		/// Event fired when the service has successfully stopped the currently running session.
+		/// </summary>
+		event CommunicationEventHandler ServiceSessionStopped;
 
 		/// <summary>
 		/// Event fired when the client requests to shut down the application.
