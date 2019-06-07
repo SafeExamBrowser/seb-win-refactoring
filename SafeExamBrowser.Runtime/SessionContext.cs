@@ -21,41 +21,41 @@ namespace SafeExamBrowser.Runtime
 		/// <summary>
 		/// The currently active <see cref="KioskMode"/>.
 		/// </summary>
-		public KioskMode? ActiveMode { get; set; }
+		internal KioskMode? ActiveMode { get; set; }
 
 		/// <summary>
 		/// The currently running client process.
 		/// </summary>
-		public IProcess ClientProcess { get; set; }
+		internal IProcess ClientProcess { get; set; }
 
 		/// <summary>
 		/// The communication proxy for the currently running client process.
 		/// </summary>
-		public IClientProxy ClientProxy { get; set; }
+		internal IClientProxy ClientProxy { get; set; }
 
 		/// <summary>
 		/// The configuration of the currently active session.
 		/// </summary>
-		public ISessionConfiguration Current { get; set; }
+		internal ISessionConfiguration Current { get; set; }
 
 		/// <summary>
 		/// The new desktop, if <see cref="KioskMode.CreateNewDesktop"/> is currently active.
 		/// </summary>
-		public IDesktop NewDesktop { get; set; }
+		internal IDesktop NewDesktop { get; set; }
 
 		/// <summary>
 		/// The configuration of the next session to be activated.
 		/// </summary>
-		public ISessionConfiguration Next { get; set; }
+		internal ISessionConfiguration Next { get; set; }
 
 		/// <summary>
 		/// The original desktop, if <see cref="KioskMode.CreateNewDesktop"/> is currently active.
 		/// </summary>
-		public IDesktop OriginalDesktop { get; set; }
+		internal IDesktop OriginalDesktop { get; set; }
 
 		/// <summary>
 		/// The path of the configuration file to be used for reconfiguration.
 		/// </summary>
-		public string ReconfigurationFilePath { get; set; }
+		internal string ReconfigurationFilePath { get; set; }
 	}
 }

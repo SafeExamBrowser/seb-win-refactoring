@@ -7,10 +7,16 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using SafeExamBrowser.Communication.Hosts;
+using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Service;
+using SafeExamBrowser.Core.OperationModel;
+using SafeExamBrowser.Core.Operations;
 using SafeExamBrowser.Logging;
+using SafeExamBrowser.Service.Communication;
 
 namespace SafeExamBrowser.Service
 {
@@ -22,11 +28,30 @@ namespace SafeExamBrowser.Service
 
 		internal void BuildObjectGraph()
 		{
-			logger = new Logger();
+			const string SERVICE_ADDRESS = "net.pipe://localhost/safeexambrowser/service";
+			const int FIVE_SECONDS = 5000;
 
 			InitializeLogging();
 
-			ServiceController = new ServiceController();
+			var serviceHost = new ServiceHost(SERVICE_ADDRESS, new HostObjectFactory(), new ModuleLogger(logger, nameof(ServiceHost)), FIVE_SECONDS);
+			var sessionContext = new SessionContext();
+
+			var bootstrapOperations = new Queue<IOperation>();
+			var sessionOperations = new Queue<IRepeatableOperation>();
+
+			// TODO: bootstrapOperations.Enqueue(new RestoreOperation());
+			bootstrapOperations.Enqueue(new CommunicationHostOperation(serviceHost, logger));
+
+			// sessionOperations.Enqueue(new RuntimeConnectionOperation());
+			// sessionOperations.Enqueue(new LogOperation());
+			// sessionOperations.Enqueue(new RegistryOperation());
+			// sessionOperations.Enqueue(new WindowsUpdateOperation());
+			// sessionOperations.Enqueue(new SessionActivationOperation());
+
+			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
+			var sessionSequence = new RepeatableOperationSequence(logger, sessionOperations);
+
+			ServiceController = new ServiceController(bootstrapSequence, sessionSequence, serviceHost, sessionContext);
 		}
 
 		internal void LogStartupInformation()
@@ -37,6 +62,7 @@ namespace SafeExamBrowser.Service
 
 		internal void LogShutdownInformation()
 		{
+			logger?.Log(string.Empty);
 			logger?.Log($"# Service terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 		}
 
@@ -48,9 +74,10 @@ namespace SafeExamBrowser.Service
 			var logFilePath = Path.Combine(logFolder, $"{logFilePrefix}_Service.log");
 			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), logFilePath);
 
-			logFileWriter.Initialize();
+			logger = new Logger();
 			logger.LogLevel = LogLevel.Debug;
 			logger.Subscribe(logFileWriter);
+			logFileWriter.Initialize();
 		}
 	}
 }

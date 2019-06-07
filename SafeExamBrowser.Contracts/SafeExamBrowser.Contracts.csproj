@@ -59,6 +59,7 @@
     <Compile Include="Communication\Events\ClientConfigurationEventArgs.cs" />
     <Compile Include="Communication\Events\MessageBoxReplyEventArgs.cs" />
     <Compile Include="Communication\Events\MessageBoxRequestEventArgs.cs" />
+    <Compile Include="Communication\Hosts\IServiceHost.cs" />
     <Compile Include="Configuration\Cryptography\EncryptionParameters.cs" />
     <Compile Include="Configuration\Cryptography\ICertificateStore.cs" />
     <Compile Include="Configuration\Cryptography\IPasswordEncryption.cs" />

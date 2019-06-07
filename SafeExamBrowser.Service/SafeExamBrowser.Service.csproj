@@ -59,6 +59,7 @@
     <Reference Include="System.ServiceProcess" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Communication\ServiceHost.cs" />
     <Compile Include="CompositionRoot.cs" />
     <Compile Include="Installer.cs">
       <SubType>Component</SubType>
@@ -68,19 +69,31 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceController.cs" />
+    <Compile Include="SessionContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SafeExamBrowser.Communication\SafeExamBrowser.Communication.csproj">
+      <Project>{c9416a62-0623-4d38-96aa-92516b32f02f}</Project>
+      <Name>SafeExamBrowser.Communication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">
       <Project>{47da5933-bef8-4729-94e6-abde2db12262}</Project>
       <Name>SafeExamBrowser.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Core\SafeExamBrowser.Core.csproj">
+      <Project>{3d6fdbb6-a4af-4626-bb2b-bf329d44f9cc}</Project>
+      <Name>SafeExamBrowser.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Logging\SafeExamBrowser.Logging.csproj">
       <Project>{e107026c-2011-4552-a7d8-3a0d37881df6}</Project>
       <Name>SafeExamBrowser.Logging</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Operations\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

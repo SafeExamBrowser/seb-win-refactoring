@@ -121,10 +121,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Operations\SebClientSettings.seb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Operations\WRONG\SebClientSettings.seb">
+    <None Include="Operations\Testdata\SebClientSettings.seb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
