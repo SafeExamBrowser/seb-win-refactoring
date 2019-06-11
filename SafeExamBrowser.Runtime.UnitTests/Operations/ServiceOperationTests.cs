@@ -15,7 +15,9 @@ using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Runtime.Operations;
+using SafeExamBrowser.Runtime.Operations.Events;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
 {
@@ -134,15 +136,33 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
+		public void Perform_MustHandleCommunicationFailureWhenStartingSession()
+		{
+			service.SetupGet(s => s.IsConnected).Returns(true);
+			service.Setup(s => s.Connect(null, true)).Returns(true);
+			service.Setup(s => s.StartSession(It.IsAny<ServiceConfiguration>())).Returns(new CommunicationResult(false));
+
+			var result = sut.Perform();
+
+			service.Verify(s => s.StartSession(It.IsAny<ServiceConfiguration>()), Times.Once);
+
+			Assert.AreEqual(OperationResult.Failed, result);
+		}
+
+		[TestMethod]
 		public void Perform_MustFailIfServiceMandatoryAndNotAvailable()
 		{
+			var errorShown = false;
+
 			service.SetupGet(s => s.IsConnected).Returns(false);
 			service.Setup(s => s.Connect(null, true)).Returns(false);
 			settings.ServicePolicy = ServicePolicy.Mandatory;
+			sut.ActionRequired += (args) => errorShown = args is MessageEventArgs m && m.Icon == MessageBoxIcon.Error;
 
 			var result = sut.Perform();
 
 			Assert.AreEqual(OperationResult.Failed, result);
+			Assert.IsTrue(errorShown);
 		}
 
 		[TestMethod]
@@ -156,6 +176,22 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			service.VerifySet(s => s.Ignore = true);
 			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Perform_MustShowWarningIfServiceNotAvailableAndPolicyWarn()
+		{
+			var warningShown = false;
+
+			service.SetupGet(s => s.IsConnected).Returns(false);
+			service.Setup(s => s.Connect(null, true)).Returns(false);
+			settings.ServicePolicy = ServicePolicy.Warn;
+			sut.ActionRequired += (args) => warningShown = args is MessageEventArgs m && m.Icon == MessageBoxIcon.Warning;
+
+			var result = sut.Perform();
+
+			Assert.AreEqual(OperationResult.Success, result);
+			Assert.IsTrue(warningShown);
 		}
 
 		[TestMethod]
@@ -174,6 +210,26 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			service.Verify(s => s.StopSession(It.IsAny<Guid>()), Times.Once);
 			service.Verify(s => s.StartSession(It.IsAny<ServiceConfiguration>()), Times.Exactly(2));
 			service.Verify(s => s.Disconnect(), Times.Never);
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Repeat_MustEstablishConnectionIfNotConnected()
+		{
+			PerformNormally();
+
+			service.Reset();
+			service.SetupGet(s => s.IsConnected).Returns(false);
+			service.Setup(s => s.Connect(null, true)).Returns(true);
+			service
+				.Setup(s => s.StopSession(It.IsAny<Guid>()))
+				.Returns(new CommunicationResult(true))
+				.Callback(() => runtimeHost.Raise(h => h.ServiceSessionStopped += null));
+
+			var result = sut.Repeat();
+
+			service.Verify(s => s.Connect(It.IsAny<Guid?>(), It.IsAny<bool>()), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}
@@ -269,6 +325,21 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			service.Verify(s => s.StopSession(It.IsAny<Guid>()), Times.Once);
 			service.Verify(s => s.Disconnect(), Times.Once);
+
+			Assert.AreEqual(OperationResult.Failed, result);
+		}
+
+		[TestMethod]
+		public void Revert_MustFailIfSessionStopUnsuccessful()
+		{
+			service
+				.Setup(s => s.StopSession(It.IsAny<Guid>()))
+				.Returns(new CommunicationResult(true))
+				.Callback(() => runtimeHost.Raise(h => h.ServiceFailed += null));
+
+			PerformNormally();
+
+			var result = sut.Revert();
 
 			Assert.AreEqual(OperationResult.Failed, result);
 		}
