@@ -34,11 +34,11 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		private Mock<IOperationSequence> bootstrapSequence;
 		private Mock<IProcess> clientProcess;
 		private Mock<IClientProxy> clientProxy;
-		private Mock<ISessionConfiguration> currentSession;
+		private SessionConfiguration currentSession;
 		private Settings currentSettings;
 		private Mock<ILogger> logger;
 		private Mock<IMessageBox> messageBox;
-		private Mock<ISessionConfiguration> nextSession;
+		private SessionConfiguration nextSession;
 		private Settings nextSettings;
 		private Mock<Action> shutdown;
 		private Mock<IText> text;
@@ -56,11 +56,11 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			bootstrapSequence = new Mock<IOperationSequence>();
 			clientProcess = new Mock<IProcess>();
 			clientProxy = new Mock<IClientProxy>();
-			currentSession = new Mock<ISessionConfiguration>();
+			currentSession = new SessionConfiguration();
 			currentSettings = new Settings();
 			logger = new Mock<ILogger>();
 			messageBox = new Mock<IMessageBox>();
-			nextSession = new Mock<ISessionConfiguration>();
+			nextSession = new SessionConfiguration();
 			nextSettings = new Settings();
 			runtimeHost = new Mock<IRuntimeHost>();
 			service = new Mock<IServiceProxy>();
@@ -70,13 +70,13 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
-			currentSession.SetupGet(s => s.Settings).Returns(currentSettings);
-			nextSession.SetupGet(s => s.Settings).Returns(nextSettings);
+			currentSession.Settings = currentSettings;
+			nextSession.Settings = nextSettings;
 
 			sessionContext.ClientProcess = clientProcess.Object;
 			sessionContext.ClientProxy = clientProxy.Object;
-			sessionContext.Current = currentSession.Object;
-			sessionContext.Next = nextSession.Object;
+			sessionContext.Current = currentSession;
+			sessionContext.Next = nextSession;
 
 			uiFactory.Setup(u => u.CreateRuntimeWindow(It.IsAny<AppConfig>())).Returns(new Mock<IRuntimeWindow>().Object);
 			uiFactory.Setup(u => u.CreateSplashScreen(It.IsAny<AppConfig>())).Returns(new Mock<ISplashScreen>().Object);
@@ -135,9 +135,9 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			var nextSessionId = Guid.NewGuid();
 			var nextSettings = new Settings();
 
-			nextSession.SetupGet(s => s.AppConfig).Returns(nextAppConfig);
-			nextSession.SetupGet(s => s.Id).Returns(nextSessionId);
-			nextSession.SetupGet(s => s.Settings).Returns(nextSettings);
+			nextSession.AppConfig = nextAppConfig;
+			nextSession.SessionId = nextSessionId;
+			nextSession.Settings = nextSettings;
 			StartSession();
 
 			runtimeHost.Raise(r => r.ClientConfigurationNeeded += null, args);
@@ -472,7 +472,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			var session = 0;
 
 			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success).Callback(() => bootstrap = ++order);
-			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success).Callback(() => { session = ++order; sessionContext.Current = currentSession.Object; });
+			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success).Callback(() => { session = ++order; sessionContext.Current = currentSession; });
 			sessionContext.Current = null;
 
 			var success = sut.TryStart();
@@ -496,7 +496,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			var session = 0;
 
 			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Failed).Callback(() => bootstrap = ++order);
-			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success).Callback(() => { session = ++order; sessionContext.Current = currentSession.Object; });
+			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success).Callback(() => { session = ++order; sessionContext.Current = currentSession; });
 			sessionContext.Current = null;
 
 			var success = sut.TryStart();
@@ -516,7 +516,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		public void Startup_MustTerminateOnSessionStartFailure()
 		{
 			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
-			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Failed).Callback(() => sessionContext.Current = currentSession.Object);
+			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Failed).Callback(() => sessionContext.Current = currentSession);
 			sessionContext.Current = null;
 
 			var success = sut.TryStart();
@@ -534,7 +534,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		public void Startup_MustNotTerminateOnSessionStartAbortion()
 		{
 			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
-			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Aborted).Callback(() => sessionContext.Current = currentSession.Object);
+			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Aborted).Callback(() => sessionContext.Current = currentSession);
 			sessionContext.Current = null;
 
 			var success = sut.TryStart();
@@ -551,7 +551,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		private void StartSession()
 		{
 			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
-			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success).Callback(() => sessionContext.Current = currentSession.Object);
+			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success).Callback(() => sessionContext.Current = currentSession);
 			sessionContext.Current = null;
 
 			sut.TryStart();

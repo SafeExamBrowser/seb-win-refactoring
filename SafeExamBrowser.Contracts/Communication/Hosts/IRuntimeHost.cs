@@ -22,9 +22,9 @@ namespace SafeExamBrowser.Contracts.Communication.Hosts
 		bool AllowConnection { get; set; }
 
 		/// <summary>
-		/// The startup token used for initial authentication.
+		/// The token used for initial authentication.
 		/// </summary>
-		Guid StartupToken { set; }
+		Guid AuthenticationToken { set; }
 
 		/// <summary>
 		/// Event fired when the client disconnected from the runtime.

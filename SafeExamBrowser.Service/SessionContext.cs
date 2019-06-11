@@ -6,6 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.Configuration;
+
 namespace SafeExamBrowser.Service
 {
 	/// <summary>
@@ -16,11 +18,11 @@ namespace SafeExamBrowser.Service
 		/// <summary>
 		/// The configuration of the currently active session.
 		/// </summary>
-		internal object Current { get; set; }
+		internal ServiceConfiguration Current { get; set; }
 
 		/// <summary>
 		/// The configuration of the next session to be activated.
 		/// </summary>
-		internal object Next { get; set; }
+		internal ServiceConfiguration Next { get; set; }
 	}
 }

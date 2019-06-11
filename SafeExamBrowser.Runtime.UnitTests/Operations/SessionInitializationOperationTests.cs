@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private Mock<IConfigurationRepository> configuration;
 		private Mock<ILogger> logger;
 		private Mock<IRuntimeHost> runtimeHost;
-		private Mock<ISessionConfiguration> session;
+		private SessionConfiguration session;
 		private SessionContext sessionContext;
 
 		private SessionInitializationOperation sut;
@@ -35,12 +35,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			configuration = new Mock<IConfigurationRepository>();
 			logger = new Mock<ILogger>();
 			runtimeHost = new Mock<IRuntimeHost>();
-			session = new Mock<ISessionConfiguration>();
+			session = new SessionConfiguration();
 			sessionContext = new SessionContext();
 
-			configuration.Setup(c => c.InitializeSessionConfiguration()).Returns(session.Object);
-			session.SetupGet(s => s.AppConfig).Returns(appConfig);
-			sessionContext.Next = session.Object;
+			configuration.Setup(c => c.InitializeSessionConfiguration()).Returns(session);
+			session.AppConfig = appConfig;
+			sessionContext.Next = session;
 
 			sut = new SessionInitializationOperation(configuration.Object, logger.Object, runtimeHost.Object, sessionContext);
 		}
@@ -50,12 +50,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var token = Guid.NewGuid();
 
-			session.SetupGet(s => s.StartupToken).Returns(token);
+			session.ClientAuthenticationToken = token;
 
 			sut.Perform();
 
 			configuration.Verify(c => c.InitializeSessionConfiguration(), Times.Once);
-			runtimeHost.VerifySet(r => r.StartupToken = token, Times.Once);
+			runtimeHost.VerifySet(r => r.AuthenticationToken = token, Times.Once);
 		}
 
 		[TestMethod]
@@ -63,12 +63,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var token = Guid.NewGuid();
 
-			session.SetupGet(s => s.StartupToken).Returns(token);
+			session.ClientAuthenticationToken = token;
 
 			sut.Repeat();
 
 			configuration.Verify(c => c.InitializeSessionConfiguration(), Times.Once);
-			runtimeHost.VerifySet(r => r.StartupToken = token, Times.Once);
+			runtimeHost.VerifySet(r => r.AuthenticationToken = token, Times.Once);
 		}
 
 		[TestMethod]

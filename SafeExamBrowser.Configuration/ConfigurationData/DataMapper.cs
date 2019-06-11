@@ -21,6 +21,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				MapConfigurationFileSettings(item.Key, item.Value, settings);
 				MapGeneralSettings(item.Key, item.Value, settings);
 				MapInputSettings(item.Key, item.Value, settings);
+				MapSecuritySettings(item.Key, item.Value, settings);
 				MapUserInterfaceSettings(item.Key, item.Value, settings);
 			}
 
@@ -170,6 +171,16 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 					break;
 				case Keys.Input.Mouse.EnableRightMouse:
 					MapEnableRightMouse(settings, value);
+					break;
+			}
+		}
+
+		private void MapSecuritySettings(string key, object value, Settings settings)
+		{
+			switch (key)
+			{
+				case Keys.Security.ServicePolicy:
+					MapServicePolicy(settings, value);
 					break;
 			}
 		}

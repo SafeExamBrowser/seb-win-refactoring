@@ -48,7 +48,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			var token = Guid.NewGuid();
 
 			sut.AllowConnection = true;
-			sut.StartupToken = token;
+			sut.AuthenticationToken = token;
 
 			var response = sut.Connect(token);
 
@@ -62,7 +62,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			var token = Guid.NewGuid();
 
 			sut.AllowConnection = true;
-			sut.StartupToken = token;
+			sut.AuthenticationToken = token;
 
 			var response = sut.Connect(Guid.NewGuid());
 
@@ -76,7 +76,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			var token = Guid.NewGuid();
 
 			sut.AllowConnection = true;
-			sut.StartupToken = token;
+			sut.AuthenticationToken = token;
 
 			var response1 = sut.Connect(token);
 			var response2 = sut.Connect(token);
@@ -100,7 +100,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			var token = Guid.NewGuid();
 
 			sut.AllowConnection = true;
-			sut.StartupToken = token;
+			sut.AuthenticationToken = token;
 			sut.ClientDisconnected += () => disconnected = true;
 
 			var connectionResponse = sut.Connect(token);
@@ -117,13 +117,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			var token = Guid.NewGuid();
 
 			sut.AllowConnection = true;
-			sut.StartupToken = token;
+			sut.AuthenticationToken = token;
 
 			var response = sut.Connect(token);
 
 			sut.Disconnect(new DisconnectionMessage { CommunicationToken = response.CommunicationToken.Value });
 			sut.AllowConnection = true;
-			sut.StartupToken = token = Guid.NewGuid();
+			sut.AuthenticationToken = token = Guid.NewGuid();
 
 			response = sut.Connect(token);
 
@@ -137,7 +137,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 
 			sut.AllowConnection = true;
 			sut.ClientReady += () => clientReady = true;
-			sut.StartupToken = Guid.Empty;
+			sut.AuthenticationToken = Guid.Empty;
 
 			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
 			var message = new SimpleMessage(SimpleMessagePurport.ClientIsReady) { CommunicationToken = token };
@@ -157,7 +157,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 
 			sut.AllowConnection = true;
 			sut.ClientConfigurationNeeded += (a) => { args = a; args.ClientConfiguration = configuration; };
-			sut.StartupToken = Guid.Empty;
+			sut.AuthenticationToken = Guid.Empty;
 
 			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
 			var message = new SimpleMessage(SimpleMessagePurport.ConfigurationNeeded) { CommunicationToken = token };
@@ -176,7 +176,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 
 			sut.AllowConnection = true;
 			sut.ShutdownRequested += () => shutdownRequested = true;
-			sut.StartupToken = Guid.Empty;
+			sut.AuthenticationToken = Guid.Empty;
 
 			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
 			var message = new SimpleMessage(SimpleMessagePurport.RequestShutdown) { CommunicationToken = token };
@@ -198,7 +198,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 
 			sut.AllowConnection = true;
 			sut.MessageBoxReplyReceived += (a) => { args = a; sync.Set(); };
-			sut.StartupToken = Guid.Empty;
+			sut.AuthenticationToken = Guid.Empty;
 
 			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
 			var message = new MessageBoxReplyMessage(requestId, result) { CommunicationToken = token };
@@ -225,7 +225,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 
 			sut.AllowConnection = true;
 			sut.PasswordReceived += (a) => { args = a; sync.Set(); };
-			sut.StartupToken = Guid.Empty;
+			sut.AuthenticationToken = Guid.Empty;
 
 			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
 			var message = new PasswordReplyMessage(requestId, success, password) { CommunicationToken = token };
@@ -251,7 +251,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 
 			sut.AllowConnection = true;
 			sut.ReconfigurationRequested += (a) => { args = a; sync.Set(); };
-			sut.StartupToken = Guid.Empty;
+			sut.AuthenticationToken = Guid.Empty;
 
 			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
 			var message = new ReconfigurationMessage(path) { CommunicationToken = token };
@@ -270,7 +270,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		public void MustReturnUnknownMessageAsDefault()
 		{
 			sut.AllowConnection = true;
-			sut.StartupToken = Guid.Empty;
+			sut.AuthenticationToken = Guid.Empty;
 
 			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
 			var message = new TestMessage { CommunicationToken = token } as Message;
@@ -292,7 +292,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		public void MustNotFailIfNoEventHandlersSubscribed()
 		{
 			sut.AllowConnection = true;
-			sut.StartupToken = Guid.Empty;
+			sut.AuthenticationToken = Guid.Empty;
 
 			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
 

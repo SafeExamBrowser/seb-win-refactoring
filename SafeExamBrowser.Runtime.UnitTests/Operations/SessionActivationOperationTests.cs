@@ -19,9 +19,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	[TestClass]
 	public class SessionActivationOperationTests
 	{
-		private Mock<ISessionConfiguration> currentSession;
+		private SessionConfiguration currentSession;
 		private Mock<ILogger> logger;
-		private Mock<ISessionConfiguration> nextSession;
+		private SessionConfiguration nextSession;
 		private Settings nextSettings;
 		private SessionContext sessionContext;
 
@@ -30,15 +30,15 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestInitialize]
 		public void Initialize()
 		{
-			currentSession = new Mock<ISessionConfiguration>();
+			currentSession = new SessionConfiguration();
 			logger = new Mock<ILogger>();
-			nextSession = new Mock<ISessionConfiguration>();
+			nextSession = new SessionConfiguration();
 			nextSettings = new Settings();
 			sessionContext = new SessionContext();
 
-			nextSession.SetupGet(s => s.Settings).Returns(nextSettings);
-			sessionContext.Current = currentSession.Object;
-			sessionContext.Next = nextSession.Object;
+			nextSession.Settings = nextSettings;
+			sessionContext.Current = currentSession;
+			sessionContext.Next = nextSession;
 
 			sut = new SessionActivationOperation(logger.Object, sessionContext);
 		}
@@ -50,11 +50,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			var result = sut.Perform();
 
-			currentSession.VerifyNoOtherCalls();
-			nextSession.VerifyGet(s => s.Id);
-
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.AreSame(sessionContext.Current, nextSession.Object);
+			Assert.AreSame(sessionContext.Current, nextSession);
 			Assert.IsNull(sessionContext.Next);
 		}
 
@@ -73,11 +70,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var result = sut.Repeat();
 
-			currentSession.VerifyGet(s => s.Id);
-			nextSession.VerifyGet(s => s.Id);
-
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.AreSame(sessionContext.Current, nextSession.Object);
+			Assert.AreSame(sessionContext.Current, nextSession);
 			Assert.IsNull(sessionContext.Next);
 		}
 
@@ -95,9 +89,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void Revert_MustAlwaysCompleteSuccessfully()
 		{
 			var result = sut.Revert();
-
-			currentSession.VerifyNoOtherCalls();
-			nextSession.VerifyNoOtherCalls();
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}

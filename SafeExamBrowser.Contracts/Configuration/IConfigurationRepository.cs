@@ -31,7 +31,7 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// <summary>
 		/// Initializes all relevant configuration data for a new session.
 		/// </summary>
-		ISessionConfiguration InitializeSessionConfiguration();
+		SessionConfiguration InitializeSessionConfiguration();
 
 		/// <summary>
 		/// Loads the default settings.

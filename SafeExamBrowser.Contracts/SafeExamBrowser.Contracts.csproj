@@ -60,6 +60,7 @@
     <Compile Include="Communication\Events\MessageBoxReplyEventArgs.cs" />
     <Compile Include="Communication\Events\MessageBoxRequestEventArgs.cs" />
     <Compile Include="Communication\Hosts\IServiceHost.cs" />
+    <Compile Include="Configuration\ClientConfiguration.cs" />
     <Compile Include="Configuration\Cryptography\EncryptionParameters.cs" />
     <Compile Include="Configuration\Cryptography\ICertificateStore.cs" />
     <Compile Include="Configuration\Cryptography\IPasswordEncryption.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Configuration\DataResources\IResourceLoader.cs" />
     <Compile Include="Configuration\DataResources\IResourceSaver.cs" />
     <Compile Include="Configuration\SaveStatus.cs" />
+    <Compile Include="Configuration\ServiceConfiguration.cs" />
     <Compile Include="Configuration\Settings\ActionCenterSettings.cs" />
     <Compile Include="Configuration\Settings\BrowserWindowSettings.cs" />
     <Compile Include="Configuration\Settings\UserInterfaceMode.cs" />
@@ -133,10 +135,9 @@
     <Compile Include="Communication\Data\Response.cs" />
     <Compile Include="Communication\Data\SimpleResponsePurport.cs" />
     <Compile Include="Communication\Data\SimpleResponse.cs" />
-    <Compile Include="Configuration\ClientConfiguration.cs" />
     <Compile Include="Configuration\LoadStatus.cs" />
     <Compile Include="Configuration\AppConfig.cs" />
-    <Compile Include="Configuration\ISessionConfiguration.cs" />
+    <Compile Include="Configuration\SessionConfiguration.cs" />
     <Compile Include="Configuration\Settings\ConfigurationMode.cs" />
     <Compile Include="Client\INotificationController.cs" />
     <Compile Include="Core\OperationModel\IOperation.cs" />

@@ -9,6 +9,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Communication.Hosts;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 
 namespace SafeExamBrowser.Service.UnitTests
@@ -65,6 +66,7 @@ namespace SafeExamBrowser.Service.UnitTests
 
 			bootstrapSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Success).Callback(() => bootstrap = ++order);
 			sessionSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Success).Callback(() => session = ++order);
+			sessionContext.Current = new ServiceConfiguration();
 
 			sut.Terminate();
 

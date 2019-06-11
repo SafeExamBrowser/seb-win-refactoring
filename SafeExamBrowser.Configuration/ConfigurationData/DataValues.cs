@@ -72,7 +72,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			return appConfig;
 		}
 
-		internal ISessionConfiguration InitializeSessionConfiguration()
+		internal SessionConfiguration InitializeSessionConfiguration()
 		{
 			var configuration = new SessionConfiguration();
 
@@ -80,8 +80,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			appConfig.ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}";
 
 			configuration.AppConfig = appConfig.Clone();
-			configuration.Id = Guid.NewGuid();
-			configuration.StartupToken = Guid.NewGuid();
+			configuration.ClientAuthenticationToken = Guid.NewGuid();
+			configuration.ServiceAuthenticationToken = Guid.NewGuid();
+			configuration.SessionId = Guid.NewGuid();
 
 			return configuration;
 		}

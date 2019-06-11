@@ -7,7 +7,7 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.Contracts.Communication.Proxies
 {
@@ -28,9 +28,9 @@ namespace SafeExamBrowser.Contracts.Communication.Proxies
 		bool IsConnected { get; }
 
 		/// <summary>
-		/// Instructs the service to start a new session according to the given parameters.
+		/// Instructs the service to start a new session according to the given configuration.
 		/// </summary>
-		CommunicationResult StartSession(Guid sessionId, Settings settings);
+		CommunicationResult StartSession(ServiceConfiguration configuration);
 
 		/// <summary>
 		/// Instructs the service to stop the specified session.

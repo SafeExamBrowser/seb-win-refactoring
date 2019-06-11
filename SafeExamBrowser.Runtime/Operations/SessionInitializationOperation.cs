@@ -63,11 +63,11 @@ namespace SafeExamBrowser.Runtime.Operations
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeSession);
 
 			Context.Next = configuration.InitializeSessionConfiguration();
-			runtimeHost.StartupToken = Context.Next.StartupToken;
+			runtimeHost.AuthenticationToken = Context.Next.ClientAuthenticationToken;
 
 			logger.Info($" -> Client-ID: {Context.Next.AppConfig.ClientId}");
 			logger.Info($" -> Runtime-ID: {Context.Next.AppConfig.RuntimeId}");
-			logger.Info($" -> Session-ID: {Context.Next.Id}");
+			logger.Info($" -> Session-ID: {Context.Next.SessionId}");
 		}
 
 		private void FinalizeSessionConfiguration()

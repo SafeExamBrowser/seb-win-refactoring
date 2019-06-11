@@ -10,6 +10,7 @@ using System;
 using System.ServiceModel;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Configuration;
+using ServiceConfiguration = SafeExamBrowser.Contracts.Configuration.ServiceConfiguration;
 
 namespace SafeExamBrowser.Contracts.Communication
 {
@@ -26,6 +27,7 @@ namespace SafeExamBrowser.Contracts.Communication
 	[ServiceKnownType(typeof(PasswordRequestMessage))]
 	[ServiceKnownType(typeof(ReconfigurationMessage))]
 	[ServiceKnownType(typeof(ReconfigurationDeniedMessage))]
+	[ServiceKnownType(typeof(ServiceConfiguration))]
 	[ServiceKnownType(typeof(SimpleMessage))]
 	[ServiceKnownType(typeof(SimpleResponse))]
 	public interface ICommunication

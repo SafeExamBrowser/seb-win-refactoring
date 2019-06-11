@@ -25,7 +25,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private Mock<ILogger> logger;
 		private Mock<IRuntimeHost> runtimeHost;
 		private Mock<IServiceProxy> service;
-		private Mock<ISessionConfiguration> session;
+		private SessionConfiguration session;
 		private SessionContext sessionContext;
 		private Settings settings;
 		private ServiceOperation sut;
@@ -36,13 +36,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			logger = new Mock<ILogger>();
 			runtimeHost = new Mock<IRuntimeHost>();
 			service = new Mock<IServiceProxy>();
-			session = new Mock<ISessionConfiguration>();
+			session = new SessionConfiguration();
 			sessionContext = new SessionContext();
 			settings = new Settings();
 
-			sessionContext.Current = session.Object;
-			sessionContext.Next = session.Object;
-			session.SetupGet(s => s.Settings).Returns(settings);
+			sessionContext.Current = session;
+			sessionContext.Next = session;
+			session.Settings = settings;
 			settings.ServicePolicy = ServicePolicy.Mandatory;
 
 			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, 0);
@@ -70,13 +70,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			service.SetupGet(s => s.IsConnected).Returns(true);
 			service.Setup(s => s.Connect(null, true)).Returns(true);
 			service
-				.Setup(s => s.StartSession(It.IsAny<Guid>(), It.IsAny<Settings>()))
+				.Setup(s => s.StartSession(It.IsAny<ServiceConfiguration>()))
 				.Returns(new CommunicationResult(true))
 				.Callback(() => runtimeHost.Raise(h => h.ServiceSessionStarted += null));
 
 			var result = sut.Perform();
 
-			service.Verify(s => s.StartSession(It.IsAny<Guid>(), It.IsAny<Settings>()), Times.Once);
+			service.Verify(s => s.StartSession(It.IsAny<ServiceConfiguration>()), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}
@@ -87,13 +87,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			service.SetupGet(s => s.IsConnected).Returns(true);
 			service.Setup(s => s.Connect(null, true)).Returns(true);
 			service
-				.Setup(s => s.StartSession(It.IsAny<Guid>(), It.IsAny<Settings>()))
+				.Setup(s => s.StartSession(It.IsAny<ServiceConfiguration>()))
 				.Returns(new CommunicationResult(true))
 				.Callback(() => runtimeHost.Raise(h => h.ServiceFailed += null));
 
 			var result = sut.Perform();
 
-			service.Verify(s => s.StartSession(It.IsAny<Guid>(), It.IsAny<Settings>()), Times.Once);
+			service.Verify(s => s.StartSession(It.IsAny<ServiceConfiguration>()), Times.Once);
 
 			Assert.AreEqual(OperationResult.Failed, result);
 		}
@@ -108,7 +108,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			service.SetupGet(s => s.IsConnected).Returns(true);
 			service.Setup(s => s.Connect(null, true)).Returns(true);
-			service.Setup(s => s.StartSession(It.IsAny<Guid>(), It.IsAny<Settings>())).Returns(new CommunicationResult(true));
+			service.Setup(s => s.StartSession(It.IsAny<ServiceConfiguration>())).Returns(new CommunicationResult(true));
 
 			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, TIMEOUT);
 
@@ -116,7 +116,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var result = sut.Perform();
 			after = DateTime.Now;
 
-			service.Verify(s => s.StartSession(It.IsAny<Guid>(), It.IsAny<Settings>()), Times.Once);
+			service.Verify(s => s.StartSession(It.IsAny<ServiceConfiguration>()), Times.Once);
 
 			Assert.AreEqual(OperationResult.Failed, result);
 			Assert.IsTrue(after - before >= new TimeSpan(0, 0, 0, 0, TIMEOUT));
@@ -130,7 +130,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			sut.Perform();
 
-			service.Verify(s => s.StartSession(It.IsAny<Guid>(), It.IsAny<Settings>()), Times.Never);
+			service.Verify(s => s.StartSession(It.IsAny<ServiceConfiguration>()), Times.Never);
 		}
 
 		[TestMethod]
@@ -172,7 +172,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			service.Verify(s => s.Connect(It.IsAny<Guid?>(), It.IsAny<bool>()), Times.Once);
 			service.Verify(s => s.StopSession(It.IsAny<Guid>()), Times.Once);
-			service.Verify(s => s.StartSession(It.IsAny<Guid>(), It.IsAny<Settings>()), Times.Exactly(2));
+			service.Verify(s => s.StartSession(It.IsAny<ServiceConfiguration>()), Times.Exactly(2));
 			service.Verify(s => s.Disconnect(), Times.Never);
 
 			Assert.AreEqual(OperationResult.Success, result);
@@ -188,7 +188,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var result = sut.Repeat();
 
 			service.Verify(s => s.StopSession(It.IsAny<Guid>()), Times.Once);
-			service.Verify(s => s.StartSession(It.IsAny<Guid>(), It.IsAny<Settings>()), Times.Once);
+			service.Verify(s => s.StartSession(It.IsAny<ServiceConfiguration>()), Times.Once);
 			service.Verify(s => s.Disconnect(), Times.Never);
 
 			Assert.AreEqual(OperationResult.Failed, result);
@@ -320,7 +320,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			service.SetupGet(s => s.IsConnected).Returns(true);
 			service.Setup(s => s.Connect(null, true)).Returns(true);
 			service
-				.Setup(s => s.StartSession(It.IsAny<Guid>(), It.IsAny<Settings>()))
+				.Setup(s => s.StartSession(It.IsAny<ServiceConfiguration>()))
 				.Returns(new CommunicationResult(true))
 				.Callback(() => runtimeHost.Raise(h => h.ServiceSessionStarted += null));
 

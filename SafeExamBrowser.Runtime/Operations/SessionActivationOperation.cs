@@ -63,11 +63,11 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (isFirstSession)
 			{
-				logger.Info($"Successfully activated first session '{Context.Next.Id}'.");
+				logger.Info($"Successfully activated first session '{Context.Next.SessionId}'.");
 			}
 			else
 			{
-				logger.Info($"Successfully terminated old session '{Context.Current.Id}' and activated new session '{Context.Next.Id}'.");
+				logger.Info($"Successfully terminated old session '{Context.Current.SessionId}' and activated new session '{Context.Next.SessionId}'.");
 			}
 
 			Context.Current = Context.Next;

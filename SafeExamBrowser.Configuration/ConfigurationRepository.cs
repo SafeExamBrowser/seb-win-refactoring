@@ -94,7 +94,7 @@ namespace SafeExamBrowser.Configuration
 			return dataValues.InitializeAppConfig();
 		}
 
-		public ISessionConfiguration InitializeSessionConfiguration()
+		public SessionConfiguration InitializeSessionConfiguration()
 		{
 			return dataValues.InitializeSessionConfiguration();
 		}

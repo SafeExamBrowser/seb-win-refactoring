@@ -33,5 +33,16 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				settings.KioskMode = KioskMode.None;
 			}
 		}
+
+		private void MapServicePolicy(Settings settings, object value)
+		{
+			const int WARN = 1;
+			const int FORCE = 2;
+
+			if (value is int policy)
+			{
+				settings.ServicePolicy = policy == FORCE ? ServicePolicy.Mandatory : (policy == WARN ? ServicePolicy.Warn : ServicePolicy.Optional);
+			}
+		}
 	}
 }

@@ -23,32 +23,32 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private Mock<IDesktopFactory> desktopFactory;
 		private Mock<IExplorerShell> explorerShell;
 		private Mock<ILogger> logger;
-		private Mock<ISessionConfiguration> nextSession;
+		private SessionConfiguration nextSession;
 		private Settings nextSettings;
 		private Mock<IProcessFactory> processFactory;
 		private SessionContext sessionContext;
 
 		private KioskModeTerminationOperation sut;
-		private Mock<ISessionConfiguration> currentSession;
+		private SessionConfiguration currentSession;
 		private Settings currentSettings;
 
 		[TestInitialize]
 		public void Initialize()
 		{
-			currentSession = new Mock<ISessionConfiguration>();
+			currentSession = new SessionConfiguration();
 			currentSettings = new Settings();
 			desktopFactory = new Mock<IDesktopFactory>();
 			explorerShell = new Mock<IExplorerShell>();
 			logger = new Mock<ILogger>();
-			nextSession = new Mock<ISessionConfiguration>();
+			nextSession = new SessionConfiguration();
 			nextSettings = new Settings();
 			processFactory = new Mock<IProcessFactory>();
 			sessionContext = new SessionContext();
 
-			currentSession.SetupGet(s => s.Settings).Returns(currentSettings);
-			nextSession.SetupGet(s => s.Settings).Returns(nextSettings);
-			sessionContext.Current = currentSession.Object;
-			sessionContext.Next = nextSession.Object;
+			currentSession.Settings = currentSettings;
+			nextSession.Settings = nextSettings;
+			sessionContext.Current = currentSession;
+			sessionContext.Next = nextSession;
 
 			sut = new KioskModeTerminationOperation(desktopFactory.Object, explorerShell.Object, logger.Object, processFactory.Object, sessionContext);
 		}
@@ -58,11 +58,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var result = sut.Perform();
 
-			currentSession.VerifyNoOtherCalls();
 			desktopFactory.VerifyNoOtherCalls();
 			explorerShell.VerifyNoOtherCalls();
 			logger.VerifyNoOtherCalls();
-			nextSession.VerifyNoOtherCalls();
 			processFactory.VerifyNoOtherCalls();
 
 			Assert.AreEqual(OperationResult.Success, result);
@@ -178,11 +176,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var result = sut.Revert();
 
-			currentSession.VerifyNoOtherCalls();
 			desktopFactory.VerifyNoOtherCalls();
 			explorerShell.VerifyNoOtherCalls();
 			logger.VerifyNoOtherCalls();
-			nextSession.VerifyNoOtherCalls();
 			processFactory.VerifyNoOtherCalls();
 
 			Assert.AreEqual(OperationResult.Success, result);

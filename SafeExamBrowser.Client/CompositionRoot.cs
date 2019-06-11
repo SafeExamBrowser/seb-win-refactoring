@@ -51,11 +51,11 @@ namespace SafeExamBrowser.Client
 {
 	internal class CompositionRoot
 	{
+		private Guid authenticationToken;
 		private ClientConfiguration configuration;
 		private string logFilePath;
 		private LogLevel logLevel;
 		private string runtimeHostUri;
-		private Guid startupToken;
 		private UserInterfaceMode uiMode;
 
 		private IActionCenter actionCenter;
@@ -110,7 +110,7 @@ namespace SafeExamBrowser.Client
 			var operations = new Queue<IOperation>();
 
 			operations.Enqueue(new I18nOperation(logger, text, textResource));
-			operations.Enqueue(new RuntimeConnectionOperation(logger, runtimeProxy, startupToken));
+			operations.Enqueue(new RuntimeConnectionOperation(logger, runtimeProxy, authenticationToken));
 			operations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeProxy));
 			operations.Enqueue(new DelegateOperation(UpdateAppConfig));
 			operations.Enqueue(new LazyInitializationOperation(BuildClientHostOperation));
@@ -166,14 +166,14 @@ namespace SafeExamBrowser.Client
 				var hasLogfilePath = Uri.TryCreate(args[1], UriKind.Absolute, out Uri filePath) && filePath.IsFile;
 				var hasLogLevel = Enum.TryParse(args[2], out LogLevel level);
 				var hasHostUri = Uri.TryCreate(args[3], UriKind.Absolute, out Uri hostUri) && hostUri.IsWellFormedOriginalString();
-				var hasToken = Guid.TryParse(args[4], out Guid token);
+				var hasAuthenticationToken = Guid.TryParse(args[4], out Guid token);
 
-				if (hasLogfilePath && hasLogLevel && hasHostUri && hasToken)
+				if (hasLogfilePath && hasLogLevel && hasHostUri && hasAuthenticationToken)
 				{
 					logFilePath = args[1];
 					logLevel = level;
 					runtimeHostUri = args[3];
-					startupToken = token;
+					authenticationToken = token;
 					uiMode = args.Length == 6 && Enum.TryParse(args[5], out uiMode) ? uiMode : UserInterfaceMode.Desktop;
 
 					return;
@@ -222,7 +222,7 @@ namespace SafeExamBrowser.Client
 			var operation = new CommunicationHostOperation(host, logger);
 
 			clientHost = host;
-			clientHost.StartupToken = startupToken;
+			clientHost.AuthenticationToken = authenticationToken;
 
 			return operation;
 		}

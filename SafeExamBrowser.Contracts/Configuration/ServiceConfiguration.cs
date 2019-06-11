@@ -11,28 +11,29 @@ using System;
 namespace SafeExamBrowser.Contracts.Configuration
 {
 	/// <summary>
-	/// Holds all session-related configuration data.
+	/// The configuration for a session of the service application component.
 	/// </summary>
-	public interface ISessionConfiguration
+	[Serializable]
+	public class ServiceConfiguration
 	{
 		/// <summary>
-		/// The active application configuration for this session.
+		/// The global application configuration.
 		/// </summary>
-		AppConfig AppConfig { get; }
+		public AppConfig AppConfig { get; set; }
 
 		/// <summary>
-		/// The unique session identifier.
+		/// The token used for initial authentication with the runtime.
 		/// </summary>
-		Guid Id { get; }
+		public Guid AuthenticationToken { get; set; }
 
 		/// <summary>
-		/// The settings used for this session.
+		/// The unique identifier for the current session.
 		/// </summary>
-		Settings.Settings Settings { get; set; }
+		public Guid SessionId { get; set; }
 
 		/// <summary>
-		/// The startup token used by the client and runtime components for initial authentication.
+		/// The application settings to be used by the service.
 		/// </summary>
-		Guid StartupToken { get; }
+		public Settings.Settings Settings { get; set; }
 	}
 }

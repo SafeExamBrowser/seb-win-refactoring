@@ -17,14 +17,14 @@ namespace SafeExamBrowser.Contracts.Communication.Hosts
 	public interface IClientHost : ICommunicationHost
 	{
 		/// <summary>
+		/// The token used for initial authentication with the runtime.
+		/// </summary>
+		Guid AuthenticationToken { set; }
+
+		/// <summary>
 		/// Indicates whether the runtime has established a connection to this host.
 		/// </summary>
 		bool IsConnected { get; }
-
-		/// <summary>
-		/// The startup token used for initial authentication.
-		/// </summary>
-		Guid StartupToken { set; }
 
 		/// <summary>
 		/// Event fired when the runtime requests a message box input from the user.

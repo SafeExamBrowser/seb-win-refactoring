@@ -10,11 +10,14 @@ using System.Threading;
 using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.UserInterface.MessageBox;
+using SafeExamBrowser.Runtime.Operations.Events;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
@@ -25,7 +28,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		private IServiceProxy service;
 		private int timeout_ms;
 
-		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public override event ActionRequiredEventHandler ActionRequired;
 		public override event StatusChangedEventHandler StatusChanged;
 
 		public ServiceOperation(
@@ -99,6 +102,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		private bool TryEstablishConnection()
 		{
 			var mandatory = Context.Next.Settings.ServicePolicy == ServicePolicy.Mandatory;
+			var warn = Context.Next.Settings.ServicePolicy == ServicePolicy.Warn;
 			var connected = service.Connect();
 			var success = connected || !mandatory;
 
@@ -106,10 +110,26 @@ namespace SafeExamBrowser.Runtime.Operations
 			{
 				service.Ignore = !connected;
 				logger.Info($"The service is {(mandatory ? "mandatory" : "optional")} and {(connected ? "connected." : "not connected. All service-related operations will be ignored!")}");
+
+				if (!connected && warn)
+				{
+					ActionRequired?.Invoke(new MessageEventArgs
+					{
+						Icon = MessageBoxIcon.Warning,
+						Message = TextKey.MessageBox_ServiceUnavailableWarning,
+						Title = TextKey.MessageBox_ServiceUnavailableWarningTitle
+					});
+				}
 			}
 			else
 			{
 				logger.Error("The service is mandatory but no connection could be established!");
+				ActionRequired?.Invoke(new MessageEventArgs
+				{
+					Icon = MessageBoxIcon.Error,
+					Message = TextKey.MessageBox_ServiceUnavailableError,
+					Title = TextKey.MessageBox_ServiceUnavailableErrorTitle
+				});
 			}
 
 			return success;
@@ -151,6 +171,13 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private bool TryStartSession()
 		{
+			var configuration = new ServiceConfiguration
+			{
+				AppConfig = Context.Next.AppConfig,
+				AuthenticationToken = Context.Next.ServiceAuthenticationToken,
+				SessionId = Context.Next.SessionId,
+				Settings = Context.Next.Settings
+			};
 			var failure = false;
 			var success = false;
 			var serviceEvent = new AutoResetEvent(false);
@@ -162,7 +189,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			logger.Info("Starting new service session...");
 
-			var communication = service.StartSession(Context.Next.Id, Context.Next.Settings);
+			var communication = service.StartSession(configuration);
 
 			if (communication.Success)
 			{
@@ -205,7 +232,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			logger.Info("Stopping current service session...");
 
-			var communication = service.StopSession(Context.Current.Id);
+			var communication = service.StopSession(Context.Current.SessionId);
 
 			if (communication.Success)
 			{

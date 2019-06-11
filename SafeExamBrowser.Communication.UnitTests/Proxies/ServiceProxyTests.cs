@@ -68,7 +68,7 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 		{
 			sut.Ignore = true;
 
-			var communication = sut.StartSession(Guid.Empty, null);
+			var communication = sut.StartSession(null);
 
 			Assert.IsTrue(communication.Success);
 			proxy.Verify(p => p.Send(It.IsAny<Message>()), Times.Never);

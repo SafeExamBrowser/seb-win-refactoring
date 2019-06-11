@@ -36,7 +36,7 @@ namespace SafeExamBrowser.Runtime
 		/// <summary>
 		/// The configuration of the currently active session.
 		/// </summary>
-		internal ISessionConfiguration Current { get; set; }
+		internal SessionConfiguration Current { get; set; }
 
 		/// <summary>
 		/// The new desktop, if <see cref="KioskMode.CreateNewDesktop"/> is currently active.
@@ -46,7 +46,7 @@ namespace SafeExamBrowser.Runtime
 		/// <summary>
 		/// The configuration of the next session to be activated.
 		/// </summary>
-		internal ISessionConfiguration Next { get; set; }
+		internal SessionConfiguration Next { get; set; }
 
 		/// <summary>
 		/// The original desktop, if <see cref="KioskMode.CreateNewDesktop"/> is currently active.

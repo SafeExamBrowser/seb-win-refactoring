@@ -8,7 +8,7 @@
 
 using System;
 using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Communication.Proxies
@@ -45,7 +45,7 @@ namespace SafeExamBrowser.Communication.Proxies
 			return base.Disconnect();
 		}
 
-		public CommunicationResult StartSession(Guid sessionId, Settings settings)
+		public CommunicationResult StartSession(ServiceConfiguration configuration)
 		{
 			if (IgnoreOperation(nameof(StartSession)))
 			{

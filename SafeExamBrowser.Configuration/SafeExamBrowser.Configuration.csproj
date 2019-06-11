@@ -94,7 +94,6 @@
     <Compile Include="ConfigurationRepository.cs" />
     <Compile Include="DataResources\FileResourceLoader.cs" />
     <Compile Include="DataResources\NetworkResourceLoader.cs" />
-    <Compile Include="SessionConfiguration.cs" />
     <Compile Include="SubStream.cs" />
   </ItemGroup>
   <ItemGroup>

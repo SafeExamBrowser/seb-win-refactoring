@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private Mock<IProcessFactory> processFactory;
 		private Mock<IProxyFactory> proxyFactory;
 		private Mock<IRuntimeHost> runtimeHost;
-		private Mock<ISessionConfiguration> session;
+		private SessionConfiguration session;
 		private SessionContext sessionContext;
 		private Settings settings;
 		private ClientOperation sut;
@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			proxy = new Mock<IClientProxy>();
 			proxyFactory = new Mock<IProxyFactory>();
 			runtimeHost = new Mock<IRuntimeHost>();
-			session = new Mock<ISessionConfiguration>();
+			session = new SessionConfiguration();
 			sessionContext = new SessionContext();
 			settings = new Settings();
 			terminated = new Action(() =>
@@ -59,10 +59,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 				process.Raise(p => p.Terminated += null, 0);
 			});
 
-			session.SetupGet(s => s.AppConfig).Returns(appConfig);
-			session.SetupGet(s => s.Settings).Returns(settings);
-			sessionContext.Current = session.Object;
-			sessionContext.Next = session.Object;
+			session.AppConfig = appConfig;
+			session.Settings = settings;
+			sessionContext.Current = session;
+			sessionContext.Next = session;
 			proxyFactory.Setup(f => f.CreateClientProxy(It.IsAny<string>())).Returns(proxy.Object);
 
 			sut = new ClientOperation(logger.Object, processFactory.Object, proxyFactory.Object, runtimeHost.Object, sessionContext, 0);

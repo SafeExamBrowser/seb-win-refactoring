@@ -275,10 +275,11 @@ namespace SafeExamBrowser.Configuration.UnitTests
 			var appConfig = sut.InitializeAppConfig();
 			var configuration = sut.InitializeSessionConfiguration();
 
-			Assert.IsInstanceOfType(configuration.AppConfig, typeof(AppConfig));
-			Assert.IsInstanceOfType(configuration.Id, typeof(Guid));
 			Assert.IsNull(configuration.Settings);
-			Assert.IsInstanceOfType(configuration.StartupToken, typeof(Guid));
+			Assert.IsInstanceOfType(configuration.AppConfig, typeof(AppConfig));
+			Assert.IsInstanceOfType(configuration.ClientAuthenticationToken, typeof(Guid));
+			Assert.IsInstanceOfType(configuration.ServiceAuthenticationToken, typeof(Guid));
+			Assert.IsInstanceOfType(configuration.SessionId, typeof(Guid));
 		}
 
 		[TestMethod]
@@ -309,10 +310,12 @@ namespace SafeExamBrowser.Configuration.UnitTests
 			var secondSession = sut.InitializeSessionConfiguration();
 			var thirdSession = sut.InitializeSessionConfiguration();
 
-			Assert.AreNotEqual(firstSession.Id, secondSession.Id);
-			Assert.AreNotEqual(firstSession.StartupToken, secondSession.StartupToken);
-			Assert.AreNotEqual(secondSession.Id, thirdSession.Id);
-			Assert.AreNotEqual(secondSession.StartupToken, thirdSession.StartupToken);
+			Assert.AreNotEqual(firstSession.SessionId, secondSession.SessionId);
+			Assert.AreNotEqual(firstSession.ClientAuthenticationToken, secondSession.ClientAuthenticationToken);
+			Assert.AreNotEqual(firstSession.ServiceAuthenticationToken, secondSession.ServiceAuthenticationToken);
+			Assert.AreNotEqual(secondSession.SessionId, thirdSession.SessionId);
+			Assert.AreNotEqual(secondSession.ClientAuthenticationToken, thirdSession.ClientAuthenticationToken);
+			Assert.AreNotEqual(secondSession.ServiceAuthenticationToken, thirdSession.ServiceAuthenticationToken);
 		}
 
 		private void RegisterModules()

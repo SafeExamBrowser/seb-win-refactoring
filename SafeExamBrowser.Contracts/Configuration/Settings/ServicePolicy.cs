@@ -21,6 +21,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		/// <summary>
 		/// The service component is optional. If it is not running, all service-related actions are simply skipped.
 		/// </summary>
-		Optional
+		Optional,
+
+		/// <summary>
+		/// The service component should be running. If it is not running, the user will be warned that all service-related actions are skipped.
+		/// </summary>
+		Warn
 	}
 }

@@ -42,7 +42,7 @@ namespace SafeExamBrowser.Runtime
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		
-		private ISessionConfiguration Session
+		private SessionConfiguration Session
 		{
 			get { return sessionContext.Current; }
 		}
@@ -329,7 +329,7 @@ namespace SafeExamBrowser.Runtime
 			args.ClientConfiguration = new ClientConfiguration
 			{
 				AppConfig = sessionContext.Next.AppConfig,
-				SessionId = sessionContext.Next.Id,
+				SessionId = sessionContext.Next.SessionId,
 				Settings = sessionContext.Next.Settings
 			};
 		}

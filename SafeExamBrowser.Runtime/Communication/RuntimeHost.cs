@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Runtime.Communication
 	internal class RuntimeHost : BaseHost, IRuntimeHost
 	{
 		public bool AllowConnection { get; set; }
-		public Guid StartupToken { private get; set; }
+		public Guid AuthenticationToken { private get; set; }
 
 		public event CommunicationEventHandler ClientDisconnected;
 		public event CommunicationEventHandler ClientReady;
@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Runtime.Communication
 
 		protected override bool OnConnect(Guid? token = null)
 		{
-			var authenticated = StartupToken == token;
+			var authenticated = AuthenticationToken == token;
 			var accepted = AllowConnection && authenticated;
 
 			if (accepted)

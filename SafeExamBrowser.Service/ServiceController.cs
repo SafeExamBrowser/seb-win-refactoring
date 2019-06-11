@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Contracts.Communication.Hosts;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Service;
 
@@ -19,7 +20,7 @@ namespace SafeExamBrowser.Service
 		private IServiceHost serviceHost;
 		private SessionContext sessionContext;
 
-		private object Session
+		private ServiceConfiguration Session
 		{
 			get { return sessionContext.Current; }
 		}

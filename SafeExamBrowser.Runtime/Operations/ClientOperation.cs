@@ -95,11 +95,11 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private bool TryStartClient()
 		{
-			var clientExecutable = Context.Next.AppConfig.ClientExecutablePath;
-			var clientLogFile = $"{'"' + Context.Next.AppConfig.ClientLogFilePath + '"'}";
-			var clientLogLevel = Context.Next.Settings.LogLevel.ToString();
+			var authenticationToken = Context.Next.ClientAuthenticationToken.ToString("D");
+			var executablePath = Context.Next.AppConfig.ClientExecutablePath;
+			var logFilePath = $"{'"' + Context.Next.AppConfig.ClientLogFilePath + '"'}";
+			var logLevel = Context.Next.Settings.LogLevel.ToString();
 			var runtimeHostUri = Context.Next.AppConfig.RuntimeAddress;
-			var startupToken = Context.Next.StartupToken.ToString("D");
 			var uiMode = Context.Next.Settings.UserInterfaceMode.ToString();
 
 			var clientReady = false;
@@ -112,7 +112,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			logger.Info("Starting new client process...");
 			runtimeHost.AllowConnection = true;
 			runtimeHost.ClientReady += clientReadyEventHandler;
-			ClientProcess = processFactory.StartNew(clientExecutable, clientLogFile, clientLogLevel, runtimeHostUri, startupToken, uiMode);
+			ClientProcess = processFactory.StartNew(executablePath, logFilePath, logLevel, runtimeHostUri, authenticationToken, uiMode);
 			ClientProcess.Terminated += clientTerminatedEventHandler;
 
 			logger.Info("Waiting for client to complete initialization...");
@@ -147,7 +147,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			logger.Info("Client has been successfully started and initialized. Creating communication proxy for client host...");
 			ClientProxy = proxyFactory.CreateClientProxy(Context.Next.AppConfig.ClientAddress);
 
-			if (ClientProxy.Connect(Context.Next.StartupToken))
+			if (ClientProxy.Connect(Context.Next.ClientAuthenticationToken))
 			{
 				logger.Info("Connection with client has been established. Requesting authentication...");
 

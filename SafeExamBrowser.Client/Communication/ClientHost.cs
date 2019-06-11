@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Client.Communication
 		private bool allowConnection = true;
 		private int processId;
 
-		public Guid StartupToken { private get; set; }
+		public Guid AuthenticationToken { private get; set; }
 		public bool IsConnected { get; private set; }
 
 		public event CommunicationEventHandler<MessageBoxRequestEventArgs> MessageBoxRequested;
@@ -41,7 +41,7 @@ namespace SafeExamBrowser.Client.Communication
 
 		protected override bool OnConnect(Guid? token)
 		{
-			var authenticated = StartupToken == token;
+			var authenticated = AuthenticationToken == token;
 			var accepted = allowConnection && authenticated;
 
 			if (accepted)

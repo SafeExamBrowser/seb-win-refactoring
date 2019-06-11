@@ -11,23 +11,32 @@ using System;
 namespace SafeExamBrowser.Contracts.Configuration
 {
 	/// <summary>
-	/// The configuration for a session of the client application component.
+	/// Container holding all session-related configuration data.
 	/// </summary>
-	[Serializable]
-	public class ClientConfiguration
+	public class SessionConfiguration
 	{
 		/// <summary>
-		/// The global application configuration.
+		/// The active application configuration for this session.
 		/// </summary>
 		public AppConfig AppConfig { get; set; }
 
 		/// <summary>
-		/// The unique identifier for the current session.
+		/// The token used for initial communication authentication with the client.
+		/// </summary>
+		public Guid ClientAuthenticationToken { get; set; }
+
+		/// <summary>
+		/// The token used for initial communication authentication with the service.
+		/// </summary>
+		public Guid ServiceAuthenticationToken { get; set; }
+
+		/// <summary>
+		/// The unique session identifier.
 		/// </summary>
 		public Guid SessionId { get; set; }
 
 		/// <summary>
-		/// The application settings to be used by the client.
+		/// The settings used for this session.
 		/// </summary>
 		public Settings.Settings Settings { get; set; }
 	}

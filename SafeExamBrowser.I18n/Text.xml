@@ -102,6 +102,18 @@
   <Entry key="MessageBox_ReloadConfirmationTitle">
     Reload?
   </Entry>
+  <Entry key="MessageBox_ServiceUnavailableError">
+    Failed to initialize the Safe Exam Browser service! The application is not allowed to start since the current configuration requires the service to be running.
+  </Entry>
+  <Entry key="MessageBox_ServiceUnavailableErrorTitle">
+    Service Unavailable
+  </Entry>
+  <Entry key="MessageBox_ServiceUnavailableWarning">
+    Failed to initialize the Safe Exam Browser service. The application is allowed to start, but it should be ensured that the service is installed and running.
+  </Entry>
+  <Entry key="MessageBox_ServiceUnavailableWarningTitle">
+    Service Unavailable
+  </Entry>
   <Entry key="MessageBox_SessionStartError">
     The application failed to start a new session! Please consult the application log for more information...
   </Entry>
