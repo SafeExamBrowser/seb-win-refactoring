@@ -99,7 +99,6 @@
     <Compile Include="Operations\Events\PasswordRequiredEventArgs.cs" />
     <Compile Include="Operations\Events\UnexpectedErrorMessageArgs.cs" />
     <Compile Include="Operations\KioskModeOperation.cs" />
-    <Compile Include="Operations\KioskModeTerminationOperation.cs" />
     <Compile Include="Operations\ServiceOperation.cs" />
     <Compile Include="Operations\SessionActivationOperation.cs" />
     <Compile Include="Operations\SessionOperation.cs" />

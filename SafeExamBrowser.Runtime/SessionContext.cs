@@ -8,7 +8,6 @@
 
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.WindowsApi;
 
 namespace SafeExamBrowser.Runtime
@@ -18,11 +17,6 @@ namespace SafeExamBrowser.Runtime
 	/// </summary>
 	internal class SessionContext
 	{
-		/// <summary>
-		/// The currently active <see cref="KioskMode"/>.
-		/// </summary>
-		internal KioskMode? ActiveMode { get; set; }
-
 		/// <summary>
 		/// The currently running client process.
 		/// </summary>
@@ -39,19 +33,9 @@ namespace SafeExamBrowser.Runtime
 		internal SessionConfiguration Current { get; set; }
 
 		/// <summary>
-		/// The new desktop, if <see cref="KioskMode.CreateNewDesktop"/> is currently active.
-		/// </summary>
-		internal IDesktop NewDesktop { get; set; }
-
-		/// <summary>
 		/// The configuration of the next session to be activated.
 		/// </summary>
 		internal SessionConfiguration Next { get; set; }
-
-		/// <summary>
-		/// The original desktop, if <see cref="KioskMode.CreateNewDesktop"/> is currently active.
-		/// </summary>
-		internal IDesktop OriginalDesktop { get; set; }
 
 		/// <summary>
 		/// The path of the configuration file to be used for reconfiguration.

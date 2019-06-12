@@ -145,7 +145,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Mouse.AllowMiddleButton = false;
 			settings.Mouse.AllowRightButton = true;
 
-			settings.ServicePolicy = ServicePolicy.Optional;
+			settings.ServicePolicy = ServicePolicy.Mandatory;
 
 			settings.AllowApplicationLogAccess = false;
 

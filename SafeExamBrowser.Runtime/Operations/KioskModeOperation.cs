@@ -17,29 +17,13 @@ namespace SafeExamBrowser.Runtime.Operations
 {
 	internal class KioskModeOperation : SessionOperation
 	{
+		private IDesktop newDesktop;
+		private IDesktop originalDesktop;
 		private IDesktopFactory desktopFactory;
 		private IExplorerShell explorerShell;
+		private KioskMode? activeMode;
+		private ILogger logger;
 		private IProcessFactory processFactory;
-
-		protected ILogger logger;
-
-		private IDesktop NewDesktop
-		{
-			get { return Context.NewDesktop; }
-			set { Context.NewDesktop = value; }
-		}
-
-		private IDesktop OriginalDesktop
-		{
-			get { return Context.OriginalDesktop; }
-			set { Context.OriginalDesktop = value; }
-		}
-
-		protected KioskMode? ActiveMode
-		{
-			get { return Context.ActiveMode; }
-			set { Context.ActiveMode = value; }
-		}
 
 		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
@@ -62,7 +46,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			logger.Info($"Initializing kiosk mode '{Context.Next.Settings.KioskMode}'...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeKioskMode);
 
-			ActiveMode = Context.Next.Settings.KioskMode;
+			activeMode = Context.Next.Settings.KioskMode;
 
 			switch (Context.Next.Settings.KioskMode)
 			{
@@ -80,23 +64,31 @@ namespace SafeExamBrowser.Runtime.Operations
 		public override OperationResult Repeat()
 		{
 			var newMode = Context.Next.Settings.KioskMode;
+			var result = OperationResult.Success;
 
-			if (ActiveMode == newMode)
+			if (activeMode == newMode)
 			{
-				logger.Info($"New kiosk mode '{newMode}' is already active, skipping initialization...");
+				logger.Info($"New kiosk mode '{newMode}' is the same as the currently active mode, skipping re-initialization...");
+			}
+			else
+			{
+				result = Revert();
 
-				return OperationResult.Success;
+				if (result == OperationResult.Success)
+				{
+					result = Perform();
+				}
 			}
 
-			return Perform();
+			return result;
 		}
 
 		public override OperationResult Revert()
 		{
-			logger.Info($"Reverting kiosk mode '{ActiveMode}'...");
+			logger.Info($"Reverting kiosk mode '{activeMode}'...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_RevertKioskMode);
 
-			switch (ActiveMode)
+			switch (activeMode)
 			{
 				case KioskMode.CreateNewDesktop:
 					CloseNewDesktop();
@@ -111,14 +103,14 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private void CreateNewDesktop()
 		{
-			OriginalDesktop = desktopFactory.GetCurrent();
-			logger.Info($"Current desktop is {OriginalDesktop}.");
+			originalDesktop = desktopFactory.GetCurrent();
+			logger.Info($"Current desktop is {originalDesktop}.");
 
-			NewDesktop = desktopFactory.CreateNew(nameof(SafeExamBrowser));
-			logger.Info($"Created new desktop {NewDesktop}.");
+			newDesktop = desktopFactory.CreateNew(nameof(SafeExamBrowser));
+			logger.Info($"Created new desktop {newDesktop}.");
 
-			NewDesktop.Activate();
-			processFactory.StartupDesktop = NewDesktop;
+			newDesktop.Activate();
+			processFactory.StartupDesktop = newDesktop;
 			logger.Info("Successfully activated new desktop.");
 
 			explorerShell.Suspend();
@@ -126,21 +118,21 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private void CloseNewDesktop()
 		{
-			if (OriginalDesktop != null)
+			if (originalDesktop != null)
 			{
-				OriginalDesktop.Activate();
-				processFactory.StartupDesktop = OriginalDesktop;
-				logger.Info($"Switched back to original desktop {OriginalDesktop}.");
+				originalDesktop.Activate();
+				processFactory.StartupDesktop = originalDesktop;
+				logger.Info($"Switched back to original desktop {originalDesktop}.");
 			}
 			else
 			{
 				logger.Warn($"No original desktop found to activate!");
 			}
 
-			if (NewDesktop != null)
+			if (newDesktop != null)
 			{
-				NewDesktop.Close();
-				logger.Info($"Closed new desktop {NewDesktop}.");
+				newDesktop.Close();
+				logger.Info($"Closed new desktop {newDesktop}.");
 			}
 			else
 			{

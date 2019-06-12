@@ -259,6 +259,11 @@ namespace SafeExamBrowser.Client
 				if (communication.Success)
 				{
 					logger.Info($"Sent reconfiguration request for '{filePath}' to the runtime.");
+
+					splashScreen = uiFactory.CreateSplashScreen(appConfig);
+					splashScreen.SetIndeterminate();
+					splashScreen.UpdateStatus(TextKey.OperationStatus_InitializeSession, true);
+					splashScreen.Show();
 				}
 				else
 				{
@@ -277,7 +282,7 @@ namespace SafeExamBrowser.Client
 		{
 			logger.Info($"Received message box request with id '{args.RequestId}'.");
 
-			var result = messageBox.Show(args.Message, args.Title, args.Action, args.Icon);
+			var result = messageBox.Show(args.Message, args.Title, args.Action, args.Icon, parent: splashScreen);
 
 			runtime.SubmitMessageBoxResult(args.RequestId, result);
 			logger.Info($"Message box request with id '{args.RequestId}' yielded result '{result}'.");
@@ -311,12 +316,18 @@ namespace SafeExamBrowser.Client
 
 			runtime.SubmitPassword(args.RequestId, result.Success, result.Password);
 			logger.Info($"Password request with id '{args.RequestId}' was {(result.Success ? "successful" : "aborted by the user")}.");
+
+			if (!result.Success)
+			{
+				splashScreen?.Close();
+			}
 		}
 
 		private void ClientHost_ReconfigurationDenied(ReconfigurationEventArgs args)
 		{
 			logger.Info($"The reconfiguration request for '{args.ConfigurationPath}' was denied by the runtime!");
-			messageBox.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle);
+			messageBox.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle, parent: splashScreen);
+			splashScreen?.Close();
 		}
 
 		private void ClientHost_Shutdown()
