@@ -14,8 +14,8 @@ namespace SafeExamBrowser.Contracts.Communication.Proxies
 	public interface IProxyFactory
 	{
 		/// <summary>
-		/// Creates a new <see cref="IClientProxy"/> for the given endpoint address.
+		/// Creates a new <see cref="IClientProxy"/> for the given endpoint address and owner.
 		/// </summary>
-		IClientProxy CreateClientProxy(string address);
+		IClientProxy CreateClientProxy(string address, Interlocutor owner);
 	}
 }

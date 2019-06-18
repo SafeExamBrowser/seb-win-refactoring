@@ -11,6 +11,7 @@ using System.ServiceModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Communication.Proxies;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
@@ -43,7 +44,7 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 			proxy.Setup(o => o.State).Returns(CommunicationState.Opened);
 			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
 
-			sut = new ClientProxy("net.pipe://random/address/here", proxyObjectFactory.Object, logger.Object);
+			sut = new ClientProxy("net.pipe://random/address/here", proxyObjectFactory.Object, logger.Object, default(Interlocutor));
 			sut.Connect(Guid.NewGuid());
 		}
 

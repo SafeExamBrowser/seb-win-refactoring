@@ -28,6 +28,8 @@ namespace SafeExamBrowser.Contracts.Communication
 	[ServiceKnownType(typeof(ReconfigurationMessage))]
 	[ServiceKnownType(typeof(ReconfigurationDeniedMessage))]
 	[ServiceKnownType(typeof(ServiceConfiguration))]
+	[ServiceKnownType(typeof(SessionStartMessage))]
+	[ServiceKnownType(typeof(SessionStopMessage))]
 	[ServiceKnownType(typeof(SimpleMessage))]
 	[ServiceKnownType(typeof(SimpleResponse))]
 	public interface ICommunication

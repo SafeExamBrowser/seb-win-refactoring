@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core.OperationModel;
@@ -63,7 +62,6 @@ namespace SafeExamBrowser.Runtime.Operations
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeSession);
 
 			Context.Next = configuration.InitializeSessionConfiguration();
-			runtimeHost.AuthenticationToken = Context.Next.ClientAuthenticationToken;
 
 			logger.Info($" -> Client-ID: {Context.Next.AppConfig.ClientId}");
 			logger.Info($" -> Runtime-ID: {Context.Next.AppConfig.RuntimeId}");

@@ -105,7 +105,12 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 			sut.AuthenticationToken = token;
 
 			var connectionResponse = sut.Connect(token);
-			var response = sut.Disconnect(new DisconnectionMessage { CommunicationToken = connectionResponse.CommunicationToken.Value });
+			var message = new DisconnectionMessage
+			{
+				CommunicationToken = connectionResponse.CommunicationToken.Value,
+				Interlocutor = Interlocutor.Runtime
+			};
+			var response = sut.Disconnect(message);
 
 			Assert.IsNotNull(response);
 			Assert.IsTrue(response.ConnectionTerminated);
@@ -118,8 +123,13 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 		{
 			var token = sut.AuthenticationToken = Guid.NewGuid();
 			var response = sut.Connect(token);
+			var message = new DisconnectionMessage
+			{
+				CommunicationToken = response.CommunicationToken.Value,
+				Interlocutor = Interlocutor.Runtime
+			};
 
-			sut.Disconnect(new DisconnectionMessage { CommunicationToken = response.CommunicationToken.Value });
+			sut.Disconnect(message);
 			sut.AuthenticationToken = token = Guid.NewGuid();
 
 			response = sut.Connect(token);
@@ -274,7 +284,7 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 			sut.Send(new PasswordRequestMessage(default(PasswordRequestPurpose), Guid.Empty) { CommunicationToken = token });
 			sut.Send(new ReconfigurationDeniedMessage("") { CommunicationToken = token });
 			sut.Send(new SimpleMessage(SimpleMessagePurport.Shutdown) { CommunicationToken = token });
-			sut.Disconnect(new DisconnectionMessage { CommunicationToken = token });
+			sut.Disconnect(new DisconnectionMessage { CommunicationToken = token, Interlocutor = Interlocutor.Runtime });
 		}
 
 		private class TestMessage : Message { };

@@ -26,21 +26,23 @@ namespace SafeExamBrowser.Communication.Proxies
 		private readonly object @lock = new object();
 
 		private string address;
+		private Interlocutor owner;
 		private IProxyObject proxy;
 		private IProxyObjectFactory factory;
 		private Guid? communicationToken;
 		private Timer timer;
 
-		protected bool IsConnected { get { return communicationToken.HasValue; } }
-		protected ILogger Logger { get; private set; }
+		protected ILogger Logger { get; }
+		public bool IsConnected => communicationToken.HasValue;
 
 		public event CommunicationEventHandler ConnectionLost;
 
-		public BaseProxy(string address, IProxyObjectFactory factory, ILogger logger)
+		public BaseProxy(string address, IProxyObjectFactory factory, ILogger logger, Interlocutor owner)
 		{
 			this.address = address;
 			this.factory = factory;
 			this.Logger = logger;
+			this.owner = owner;
 		}
 
 		public virtual bool Connect(Guid? token = null, bool autoPing = true)
@@ -89,7 +91,11 @@ namespace SafeExamBrowser.Communication.Proxies
 
 				StopAutoPing();
 
-				var message = new DisconnectionMessage { CommunicationToken = communicationToken.Value };
+				var message = new DisconnectionMessage
+				{
+					CommunicationToken = communicationToken.Value,
+					Interlocutor = owner
+				};
 				var response = proxy.Disconnect(message);
 				var success = response.ConnectionTerminated;
 

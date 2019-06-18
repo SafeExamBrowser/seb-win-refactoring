@@ -11,14 +11,16 @@ using System;
 namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
-	/// This is the last message transmitted from a component to its interlocutor in order to terminate a communication session.
+	/// This message is transmitted to the service to request the termination of a currently running session.
 	/// </summary>
 	[Serializable]
-	public class DisconnectionMessage : Message
+	public class SessionStopMessage : Message
 	{
-		/// <summary>
-		/// Identifies the component sending the message.
-		/// </summary>
-		public Interlocutor Interlocutor { get; set; }
+		public Guid SessionId { get; }
+
+		public SessionStopMessage(Guid sessionId)
+		{
+			SessionId = sessionId;
+		}
 	}
 }

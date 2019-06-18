@@ -7,7 +7,9 @@
  */
 
 using System;
+using System.Linq;
 using SafeExamBrowser.Communication.Hosts;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Logging;
@@ -17,7 +19,7 @@ namespace SafeExamBrowser.Communication.UnitTests.Hosts
 	internal class BaseHostStub : BaseHost
 	{
 		public Func<Guid?, bool> OnConnectStub { get; set; }
-		public Action OnDisconnectStub { get; set; }
+		public Action<Interlocutor> OnDisconnectStub { get; set; }
 		public Func<Message, Response> OnReceiveStub { get; set; }
 		public Func<SimpleMessagePurport, Response> OnReceiveSimpleMessageStub { get; set; }
 
@@ -27,7 +29,7 @@ namespace SafeExamBrowser.Communication.UnitTests.Hosts
 
 		public Guid? GetCommunicationToken()
 		{
-			return CommunicationToken;
+			return CommunicationToken.Any() ? CommunicationToken.First() : default(Guid?);
 		}
 
 		protected override bool OnConnect(Guid? token)
@@ -35,9 +37,9 @@ namespace SafeExamBrowser.Communication.UnitTests.Hosts
 			return OnConnectStub?.Invoke(token) == true;
 		}
 
-		protected override void OnDisconnect()
+		protected override void OnDisconnect(Interlocutor interlocutor)
 		{
-			OnDisconnectStub?.Invoke();
+			OnDisconnectStub?.Invoke(interlocutor);
 		}
 
 		protected override Response OnReceive(Message message)

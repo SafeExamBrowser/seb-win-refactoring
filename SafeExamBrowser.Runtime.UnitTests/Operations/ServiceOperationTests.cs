@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Communication.Hosts;
@@ -24,9 +25,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	[TestClass]
 	public class ServiceOperationTests
 	{
+		private AppConfig appConfig;
 		private Mock<ILogger> logger;
 		private Mock<IRuntimeHost> runtimeHost;
 		private Mock<IServiceProxy> service;
+		private EventWaitHandle serviceEvent;
 		private SessionConfiguration session;
 		private SessionContext sessionContext;
 		private Settings settings;
@@ -35,15 +38,22 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestInitialize]
 		public void Initialize()
 		{
+			var serviceEventName = $"{nameof(SafeExamBrowser)}-{nameof(ServiceOperationTests)}";
+
+			appConfig = new AppConfig();
 			logger = new Mock<ILogger>();
 			runtimeHost = new Mock<IRuntimeHost>();
 			service = new Mock<IServiceProxy>();
+			serviceEvent = new EventWaitHandle(false, EventResetMode.AutoReset, serviceEventName);
 			session = new SessionConfiguration();
 			sessionContext = new SessionContext();
 			settings = new Settings();
 
+			appConfig.ServiceEventName = serviceEventName;
 			sessionContext.Current = session;
+			sessionContext.Current.AppConfig = appConfig;
 			sessionContext.Next = session;
+			sessionContext.Next.AppConfig = appConfig;
 			session.Settings = settings;
 			settings.ServicePolicy = ServicePolicy.Mandatory;
 
@@ -71,10 +81,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			service.SetupGet(s => s.IsConnected).Returns(true);
 			service.Setup(s => s.Connect(null, true)).Returns(true);
-			service
-				.Setup(s => s.StartSession(It.IsAny<ServiceConfiguration>()))
-				.Returns(new CommunicationResult(true))
-				.Callback(() => runtimeHost.Raise(h => h.ServiceSessionStarted += null));
+			service.Setup(s => s.StartSession(It.IsAny<ServiceConfiguration>())).Returns(new CommunicationResult(true)).Callback(() => serviceEvent.Set());
 
 			var result = sut.Perform();
 
@@ -88,10 +95,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			service.SetupGet(s => s.IsConnected).Returns(true);
 			service.Setup(s => s.Connect(null, true)).Returns(true);
-			service
-				.Setup(s => s.StartSession(It.IsAny<ServiceConfiguration>()))
-				.Returns(new CommunicationResult(true))
-				.Callback(() => runtimeHost.Raise(h => h.ServiceFailed += null));
+			service.Setup(s => s.StartSession(It.IsAny<ServiceConfiguration>())).Returns(new CommunicationResult(true));
 
 			var result = sut.Perform();
 
@@ -197,10 +201,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void Repeat_MustStopCurrentAndStartNewSession()
 		{
-			service
-				.Setup(s => s.StopSession(It.IsAny<Guid>()))
-				.Returns(new CommunicationResult(true))
-				.Callback(() => runtimeHost.Raise(h => h.ServiceSessionStopped += null));
+			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true)).Callback(() => serviceEvent.Set());
 
 			PerformNormally();
 
@@ -222,10 +223,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			service.Reset();
 			service.SetupGet(s => s.IsConnected).Returns(false);
 			service.Setup(s => s.Connect(null, true)).Returns(true);
-			service
-				.Setup(s => s.StopSession(It.IsAny<Guid>()))
-				.Returns(new CommunicationResult(true))
-				.Callback(() => runtimeHost.Raise(h => h.ServiceSessionStopped += null));
+			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true));
 
 			var result = sut.Repeat();
 
@@ -251,58 +249,49 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void Revert_MustDisconnect()
-		{
-			service.Setup(s => s.Disconnect()).Returns(true).Callback(() => runtimeHost.Raise(h => h.ServiceDisconnected += null));
-			service
-				.Setup(s => s.StopSession(It.IsAny<Guid>()))
-				.Returns(new CommunicationResult(true))
-				.Callback(() => runtimeHost.Raise(h => h.ServiceSessionStopped += null));
-
-			PerformNormally();
-
-			var result = sut.Revert();
-
-			service.Verify(s => s.Disconnect(), Times.Once);
-			Assert.AreEqual(OperationResult.Success, result);
-		}
-
-		[TestMethod]
-		public void Revert_MustFailIfServiceNotDisconnectedWithinTimeout()
+		public void Repeat_MustFailIfSessionNotStoppedWithinTimeout()
 		{
 			const int TIMEOUT = 50;
 
 			var after = default(DateTime);
 			var before = default(DateTime);
 
+			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true));
 			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, TIMEOUT);
-
-			service.Setup(s => s.Disconnect()).Returns(true);
-			service
-				.Setup(s => s.StopSession(It.IsAny<Guid>()))
-				.Returns(new CommunicationResult(true))
-				.Callback(() => runtimeHost.Raise(h => h.ServiceSessionStopped += null));
 
 			PerformNormally();
 
 			before = DateTime.Now;
-			var result = sut.Revert();
+			var result = sut.Repeat();
 			after = DateTime.Now;
 
-			service.Verify(s => s.Disconnect(), Times.Once);
+			service.Verify(s => s.StopSession(It.IsAny<Guid>()), Times.Once);
+			service.Verify(s => s.Disconnect(), Times.Never);
 
 			Assert.AreEqual(OperationResult.Failed, result);
 			Assert.IsTrue(after - before >= new TimeSpan(0, 0, 0, 0, TIMEOUT));
 		}
 
 		[TestMethod]
+		public void Revert_MustDisconnect()
+		{
+			service.Setup(s => s.Disconnect()).Returns(true);
+			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true)).Callback(() => serviceEvent.Set());
+
+			PerformNormally();
+
+			var result = sut.Revert();
+
+			service.Verify(s => s.Disconnect(), Times.Once);
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
 		public void Revert_MustStopSessionIfConnected()
 		{
-			service.Setup(s => s.Disconnect()).Returns(true).Callback(() => runtimeHost.Raise(h => h.ServiceDisconnected += null));
-			service
-				.Setup(s => s.StopSession(It.IsAny<Guid>()))
-				.Returns(new CommunicationResult(true))
-				.Callback(() => runtimeHost.Raise(h => h.ServiceSessionStopped += null));
+			service.Setup(s => s.Disconnect()).Returns(true);
+			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true)).Callback(() => serviceEvent.Set());
 
 			PerformNormally();
 
@@ -332,10 +321,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void Revert_MustFailIfSessionStopUnsuccessful()
 		{
-			service
-				.Setup(s => s.StopSession(It.IsAny<Guid>()))
-				.Returns(new CommunicationResult(true))
-				.Callback(() => runtimeHost.Raise(h => h.ServiceFailed += null));
+			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true));
 
 			PerformNormally();
 
@@ -378,6 +364,20 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
+		public void Revert_MustNotStopSessionIfNoSessionRunning()
+		{
+			sessionContext.Current = null;
+			service.SetupGet(s => s.IsConnected).Returns(true);
+			service.Setup(s => s.Disconnect()).Returns(true);
+
+			var result = sut.Revert();
+
+			service.Verify(s => s.StopSession(It.IsAny<Guid>()), Times.Never);
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
 		public void Revert_MustNotDisconnnectIfNotConnected()
 		{
 			var result = sut.Revert();
@@ -390,10 +390,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			service.SetupGet(s => s.IsConnected).Returns(true);
 			service.Setup(s => s.Connect(null, true)).Returns(true);
-			service
-				.Setup(s => s.StartSession(It.IsAny<ServiceConfiguration>()))
-				.Returns(new CommunicationResult(true))
-				.Callback(() => runtimeHost.Raise(h => h.ServiceSessionStarted += null));
+			service.Setup(s => s.StartSession(It.IsAny<ServiceConfiguration>())).Returns(new CommunicationResult(true)).Callback(() => serviceEvent.Set());
 
 			sut.Perform();
 		}

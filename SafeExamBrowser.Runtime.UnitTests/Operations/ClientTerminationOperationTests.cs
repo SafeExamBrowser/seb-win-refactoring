@@ -9,6 +9,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
@@ -60,7 +61,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			sessionContext.ClientProxy = proxy.Object;
 			sessionContext.Current = session;
 			sessionContext.Next = session;
-			proxyFactory.Setup(f => f.CreateClientProxy(It.IsAny<string>())).Returns(proxy.Object);
+			proxyFactory.Setup(f => f.CreateClientProxy(It.IsAny<string>(), It.IsAny<Interlocutor>())).Returns(proxy.Object);
 
 			sut = new ClientTerminationOperation(logger.Object, processFactory.Object, proxyFactory.Object, runtimeHost.Object, sessionContext, 0);
 		}

@@ -60,6 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proxies\BaseProxy.cs" />
     <Compile Include="Proxies\ClientProxy.cs" />
+    <Compile Include="Proxies\ProxyFactory.cs" />
     <Compile Include="Proxies\ProxyObjectFactory.cs" />
     <Compile Include="Proxies\RuntimeProxy.cs" />
     <Compile Include="Proxies\ServiceProxy.cs" />

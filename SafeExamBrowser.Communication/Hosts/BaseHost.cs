@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
 using SafeExamBrowser.Contracts.Communication;
@@ -30,7 +31,7 @@ namespace SafeExamBrowser.Communication.Hosts
 		private Thread hostThread;
 		private int timeout_ms;
 
-		protected Guid? CommunicationToken { get; private set; }
+		protected IList<Guid> CommunicationToken { get; private set; }
 		protected ILogger Logger { get; private set; }
 
 		public bool IsRunning
@@ -47,13 +48,14 @@ namespace SafeExamBrowser.Communication.Hosts
 		public BaseHost(string address, IHostObjectFactory factory, ILogger logger, int timeout_ms)
 		{
 			this.address = address;
+			this.CommunicationToken = new List<Guid>();
 			this.factory = factory;
 			this.Logger = logger;
 			this.timeout_ms = timeout_ms;
 		}
 
 		protected abstract bool OnConnect(Guid? token);
-		protected abstract void OnDisconnect();
+		protected abstract void OnDisconnect(Interlocutor interlocutor);
 		protected abstract Response OnReceive(Message message);
 		protected abstract Response OnReceive(SimpleMessagePurport message);
 
@@ -61,15 +63,19 @@ namespace SafeExamBrowser.Communication.Hosts
 		{
 			lock (@lock)
 			{
-				Logger.Debug($"Received connection request with authentication token '{token}'.");
+				Logger.Debug($"Received connection request {(token.HasValue ? $"with authentication token '{token}'" : "without authentication token")}.");
 
 				var response = new ConnectionResponse();
 				var connected = OnConnect(token);
 
 				if (connected)
 				{
-					response.CommunicationToken = CommunicationToken = Guid.NewGuid();
+					var communicationToken = Guid.NewGuid();
+
+					response.CommunicationToken = communicationToken;
 					response.ConnectionEstablished = true;
+
+					CommunicationToken.Add(communicationToken);
 				}
 
 				Logger.Debug($"{(connected ? "Accepted" : "Denied")} connection request.");
@@ -88,10 +94,10 @@ namespace SafeExamBrowser.Communication.Hosts
 
 				if (IsAuthorized(message?.CommunicationToken))
 				{
-					OnDisconnect();
+					OnDisconnect(message.Interlocutor);
 
-					CommunicationToken = null;
 					response.ConnectionTerminated = true;
+					CommunicationToken.Remove(message.CommunicationToken);
 				}
 
 				return response;
@@ -166,7 +172,7 @@ namespace SafeExamBrowser.Communication.Hosts
 
 		private bool IsAuthorized(Guid? token)
 		{
-			return CommunicationToken == token;
+			return token.HasValue && CommunicationToken.Contains(token.Value);
 		}
 
 		private void TryStartHost(AutoResetEvent startedEvent, out Exception exception)

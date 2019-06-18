@@ -64,6 +64,10 @@
     <Compile Include="Installer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Operations\ServiceEventCleanupOperation.cs" />
+    <Compile Include="Operations\SessionActivationOperation.cs" />
+    <Compile Include="Operations\SessionInitializationOperation.cs" />
+    <Compile Include="Operations\SessionOperation.cs" />
     <Compile Include="Service.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -92,8 +96,6 @@
       <Name>SafeExamBrowser.Logging</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Operations\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

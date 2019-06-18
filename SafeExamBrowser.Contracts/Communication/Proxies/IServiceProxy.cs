@@ -23,11 +23,6 @@ namespace SafeExamBrowser.Contracts.Communication.Proxies
 		bool Ignore { set; }
 
 		/// <summary>
-		/// Indicates whether a connection to the communication host of the service has been established.
-		/// </summary>
-		bool IsConnected { get; }
-
-		/// <summary>
 		/// Instructs the service to start a new session according to the given configuration.
 		/// </summary>
 		CommunicationResult StartSession(ServiceConfiguration configuration);

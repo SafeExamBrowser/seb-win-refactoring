@@ -43,7 +43,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		}
 
 		[TestMethod]
-		public void MustOnlyAllowConnectionIfTokenIsValid()
+		public void MustAllowConnectionIfTokenIsValid()
 		{
 			var token = Guid.NewGuid();
 
@@ -65,6 +65,19 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			sut.AuthenticationToken = token;
 
 			var response = sut.Connect(Guid.NewGuid());
+
+			Assert.IsNotNull(response);
+			Assert.IsFalse(response.ConnectionEstablished);
+		}
+
+		[TestMethod]
+		public void MustRejectConnectionIfNoAuthenticationTokenSet()
+		{
+			var token = Guid.Empty;
+
+			sut.AllowConnection = true;
+
+			var response = sut.Connect(token);
 
 			Assert.IsNotNull(response);
 			Assert.IsFalse(response.ConnectionEstablished);
@@ -94,7 +107,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		}
 
 		[TestMethod]
-		public void MustCorrectlyDisconnect()
+		public void MustCorrectlyDisconnectClient()
 		{
 			var disconnected = false;
 			var token = Guid.NewGuid();
@@ -104,7 +117,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			sut.ClientDisconnected += () => disconnected = true;
 
 			var connectionResponse = sut.Connect(token);
-			var response = sut.Disconnect(new DisconnectionMessage { CommunicationToken = connectionResponse.CommunicationToken.Value });
+			var message = new DisconnectionMessage
+			{
+				CommunicationToken = connectionResponse.CommunicationToken.Value,
+				Interlocutor = Interlocutor.Client
+			};
+			var response = sut.Disconnect(message);
 
 			Assert.IsNotNull(response);
 			Assert.IsTrue(disconnected);

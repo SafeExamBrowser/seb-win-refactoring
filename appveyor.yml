@@ -20,14 +20,15 @@ test_script:
  - .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.I18n.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.I18n.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -mergeoutput -output:"coverage.xml"
  - .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Logging.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.Logging.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -mergeoutput -output:"coverage.xml"
  - .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Runtime.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.Runtime.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -mergeoutput -output:"coverage.xml"
+ - .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Service.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.Service.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -mergeoutput -output:"coverage.xml"
 after_test:
  - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
  - pip install codecov
  - codecov -f "coverage.xml"
 artifacts:
  - path: SafeExamBrowser.Runtime\bin\$(platform)\$(configuration)
-   name: '$(appveyor_build_version)_Base_Application'
+   name: '$(appveyor_build_version)_Application'
    type: zip
  - path: SafeExamBrowser.Service\bin\$(platform)\$(configuration)
-   name: '$(appveyor_build_version)_Base_Service'
+   name: '$(appveyor_build_version)_Service'
    type: zip

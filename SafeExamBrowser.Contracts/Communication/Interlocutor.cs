@@ -8,27 +8,32 @@
 
 using System;
 
-namespace SafeExamBrowser.Contracts.Configuration
+namespace SafeExamBrowser.Contracts.Communication
 {
 	/// <summary>
-	/// The configuration for a session of the service application component.
+	/// Defines all possible interlocutors for inter-process communication within the application.
 	/// </summary>
 	[Serializable]
-	public class ServiceConfiguration
+	public enum Interlocutor
 	{
 		/// <summary>
-		/// The global application configuration.
+		/// The interlocutor is not an application component.
 		/// </summary>
-		public AppConfig AppConfig { get; set; }
+		Unknown = 0,
 
 		/// <summary>
-		/// The unique identifier for the current session.
+		/// The client application component.
 		/// </summary>
-		public Guid SessionId { get; set; }
+		Client,
 
 		/// <summary>
-		/// The application settings to be used by the service.
+		/// The runtime application component.
 		/// </summary>
-		public Settings.Settings Settings { get; set; }
+		Runtime,
+
+		/// <summary>
+		/// The service application component.
+		/// </summary>
+		Service
 	}
 }

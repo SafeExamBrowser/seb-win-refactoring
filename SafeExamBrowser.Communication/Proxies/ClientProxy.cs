@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
@@ -19,7 +20,7 @@ namespace SafeExamBrowser.Communication.Proxies
 	/// </summary>
 	public class ClientProxy : BaseProxy, IClientProxy
 	{
-		public ClientProxy(string address, IProxyObjectFactory factory, ILogger logger) : base(address, factory, logger)
+		public ClientProxy(string address, IProxyObjectFactory factory, ILogger logger, Interlocutor owner) : base(address, factory, logger, owner)
 		{
 		}
 

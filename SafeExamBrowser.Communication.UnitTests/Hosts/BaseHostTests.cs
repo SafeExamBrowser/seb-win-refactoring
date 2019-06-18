@@ -154,17 +154,19 @@ namespace SafeExamBrowser.Communication.UnitTests.Hosts
 		[TestMethod]
 		public void MustCorrectlyHandleDisconnectionRequest()
 		{
-			var message = new DisconnectionMessage();
+			var message = new DisconnectionMessage { Interlocutor = Interlocutor.Runtime };
 			var disconnected = false;
+			var interlocutor = Interlocutor.Unknown;
 
 			sut.OnConnectStub = (t) => { return true; };
-			sut.OnDisconnectStub = () => disconnected = true;
+			sut.OnDisconnectStub = (i) => { disconnected = true; interlocutor = i; };
 			sut.Connect();
 
 			message.CommunicationToken = sut.GetCommunicationToken().Value;
 
 			var response = sut.Disconnect(message);
 
+			Assert.AreEqual(message.Interlocutor, interlocutor);
 			Assert.IsTrue(disconnected);
 			Assert.IsTrue(response.ConnectionTerminated);
 			Assert.IsNull(sut.GetCommunicationToken());
@@ -176,7 +178,7 @@ namespace SafeExamBrowser.Communication.UnitTests.Hosts
 			var disconnected = false;
 
 			sut.OnConnectStub = (t) => { return true; };
-			sut.OnDisconnectStub = () => disconnected = true;
+			sut.OnDisconnectStub = (i) => disconnected = true;
 			sut.Connect();
 
 			var response = sut.Disconnect(new DisconnectionMessage());

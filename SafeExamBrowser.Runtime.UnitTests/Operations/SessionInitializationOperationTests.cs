@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Runtime.Operations;
 
@@ -52,33 +53,41 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			session.ClientAuthenticationToken = token;
 
-			sut.Perform();
+			var result = sut.Perform();
 
 			configuration.Verify(c => c.InitializeSessionConfiguration(), Times.Once);
-			runtimeHost.VerifySet(r => r.AuthenticationToken = token, Times.Once);
+
+			Assert.AreEqual(OperationResult.Success, result);
+			Assert.IsNull(sessionContext.Current);
 		}
 
 		[TestMethod]
 		public void MustInitializeConfigurationOnRepeat()
 		{
+			var currentSession = new SessionConfiguration();
 			var token = Guid.NewGuid();
 
 			session.ClientAuthenticationToken = token;
+			sessionContext.Current = currentSession;
 
-			sut.Repeat();
+			var result = sut.Repeat();
 
 			configuration.Verify(c => c.InitializeSessionConfiguration(), Times.Once);
-			runtimeHost.VerifySet(r => r.AuthenticationToken = token, Times.Once);
+
+			Assert.AreEqual(OperationResult.Success, result);
+			Assert.AreSame(currentSession,sessionContext.Current);
 		}
 
 		[TestMethod]
 		public void MustDoNothingOnRevert()
 		{
-			sut.Revert();
+			var result = sut.Revert();
 
 			configuration.VerifyNoOtherCalls();
 			logger.VerifyNoOtherCalls();
 			runtimeHost.VerifyNoOtherCalls();
+
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 	}
 }

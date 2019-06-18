@@ -8,17 +8,16 @@
 
 using System;
 
-namespace SafeExamBrowser.Contracts.Communication.Data
+namespace SafeExamBrowser.Contracts.Communication.Events
 {
 	/// <summary>
-	/// This is the last message transmitted from a component to its interlocutor in order to terminate a communication session.
+	/// The event arguments used for the session stop event fired by the <see cref="Hosts.IServiceHost"/>.
 	/// </summary>
-	[Serializable]
-	public class DisconnectionMessage : Message
+	public class SessionStopEventArgs : CommunicationEventArgs
 	{
 		/// <summary>
-		/// Identifies the component sending the message.
+		/// The identifier of the session to be stopped.
 		/// </summary>
-		public Interlocutor Interlocutor { get; set; }
+		public Guid SessionId { get; set; }
 	}
 }

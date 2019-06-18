@@ -11,12 +11,14 @@ using Moq;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Service.UnitTests
 {
 	[TestClass]
 	public class ServiceControllerTests
 	{
+		private Mock<ILogger> logger;
 		private Mock<IOperationSequence> bootstrapSequence;
 		private SessionContext sessionContext;
 		private Mock<IRepeatableOperationSequence> sessionSequence;
@@ -26,12 +28,13 @@ namespace SafeExamBrowser.Service.UnitTests
 		[TestInitialize]
 		public void Initialize()
 		{
+			logger = new Mock<ILogger>();
 			bootstrapSequence = new Mock<IOperationSequence>();
 			sessionContext = new SessionContext();
 			sessionSequence = new Mock<IRepeatableOperationSequence>();
 			serviceHost = new Mock<IServiceHost>();
 
-			sut = new ServiceController(bootstrapSequence.Object, sessionSequence.Object, serviceHost.Object, sessionContext);
+			sut = new ServiceController(logger.Object, bootstrapSequence.Object, sessionSequence.Object, serviceHost.Object, sessionContext);
 		}
 
 		[TestMethod]
@@ -39,7 +42,7 @@ namespace SafeExamBrowser.Service.UnitTests
 		{
 			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
 			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
-			sessionContext.Current = null;
+			sessionContext.Configuration = null;
 
 			var success = sut.TryStart();
 
@@ -66,7 +69,7 @@ namespace SafeExamBrowser.Service.UnitTests
 
 			bootstrapSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Success).Callback(() => bootstrap = ++order);
 			sessionSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Success).Callback(() => session = ++order);
-			sessionContext.Current = new ServiceConfiguration();
+			sessionContext.Configuration = new ServiceConfiguration();
 
 			sut.Terminate();
 
@@ -94,7 +97,7 @@ namespace SafeExamBrowser.Service.UnitTests
 
 			bootstrapSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Success).Callback(() => bootstrap = ++order);
 			sessionSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Success).Callback(() => session = ++order);
-			sessionContext.Current = null;
+			sessionContext.Configuration = null;
 
 			sut.Terminate();
 

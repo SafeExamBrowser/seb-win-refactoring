@@ -65,12 +65,14 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			runtime.Setup(r => r.Connect(It.IsAny<Guid>(), It.IsAny<bool>())).Returns(true);
 			runtime.Setup(r => r.Disconnect()).Returns(true);
+			runtime.SetupGet(r => r.IsConnected).Returns(true);
 			sut.Perform();
 
 			var result = sut.Revert();
 
 			runtime.Verify(r => r.Connect(It.IsAny<Guid>(), It.IsAny<bool>()), Times.Once);
 			runtime.Verify(r => r.Disconnect(), Times.Once);
+			runtime.VerifyGet(r => r.IsConnected, Times.Once);
 			runtime.VerifyNoOtherCalls();
 
 			Assert.AreEqual(OperationResult.Success, result);
@@ -81,12 +83,14 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			runtime.Setup(r => r.Connect(It.IsAny<Guid>(), It.IsAny<bool>())).Returns(true);
 			runtime.Setup(r => r.Disconnect()).Returns(false);
+			runtime.SetupGet(r => r.IsConnected).Returns(true);
 			sut.Perform();
 
 			var result = sut.Revert();
 
 			runtime.Verify(r => r.Connect(It.IsAny<Guid>(), It.IsAny<bool>()), Times.Once);
 			runtime.Verify(r => r.Disconnect(), Times.Once);
+			runtime.VerifyGet(r => r.IsConnected, Times.Once);
 			runtime.VerifyNoOtherCalls();
 
 			Assert.AreEqual(OperationResult.Failed, result);
@@ -97,6 +101,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			var result = sut.Revert();
 
+			runtime.VerifyGet(r => r.IsConnected, Times.Once);
 			runtime.VerifyNoOtherCalls();
 
 			Assert.AreEqual(OperationResult.Success, result);

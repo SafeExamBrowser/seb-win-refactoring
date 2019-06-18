@@ -18,6 +18,11 @@ namespace SafeExamBrowser.Contracts.Communication
 	public interface ICommunicationProxy
 	{
 		/// <summary>
+		/// Indicates whether a connection to the host has been established.
+		/// </summary>
+		bool IsConnected { get; }
+
+		/// <summary>
 		/// Fired when the connection to the host was lost, e.g. if a ping request failed or a communication fault occurred.
 		/// </summary>
 		event CommunicationEventHandler ConnectionLost;

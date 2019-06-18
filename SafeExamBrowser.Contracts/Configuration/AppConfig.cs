@@ -117,6 +117,11 @@ namespace SafeExamBrowser.Contracts.Configuration
 		public string ServiceAddress { get; set; }
 
 		/// <summary>
+		/// The name of the global inter-process synchronization event hosted by the service.
+		/// </summary>
+		public string ServiceEventName { get; set; }
+
+		/// <summary>
 		/// Creates a shallow clone.
 		/// </summary>
 		public AppConfig Clone()

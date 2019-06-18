@@ -8,6 +8,7 @@
 
 using System;
 using SafeExamBrowser.Communication.Hosts;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
@@ -18,7 +19,7 @@ namespace SafeExamBrowser.Runtime.Communication
 	internal class RuntimeHost : BaseHost, IRuntimeHost
 	{
 		public bool AllowConnection { get; set; }
-		public Guid AuthenticationToken { private get; set; }
+		public Guid? AuthenticationToken { private get; set; }
 
 		public event CommunicationEventHandler ClientDisconnected;
 		public event CommunicationEventHandler ClientReady;
@@ -26,10 +27,6 @@ namespace SafeExamBrowser.Runtime.Communication
 		public event CommunicationEventHandler<MessageBoxReplyEventArgs> MessageBoxReplyReceived;
 		public event CommunicationEventHandler<PasswordReplyEventArgs> PasswordReceived;
 		public event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationRequested;
-		public event CommunicationEventHandler ServiceDisconnected;
-		public event CommunicationEventHandler ServiceFailed;
-		public event CommunicationEventHandler ServiceSessionStarted;
-		public event CommunicationEventHandler ServiceSessionStopped;
 		public event CommunicationEventHandler ShutdownRequested;
 
 		public RuntimeHost(string address, IHostObjectFactory factory, ILogger logger, int timeout_ms) : base(address, factory, logger, timeout_ms)
@@ -38,7 +35,7 @@ namespace SafeExamBrowser.Runtime.Communication
 
 		protected override bool OnConnect(Guid? token = null)
 		{
-			var authenticated = AuthenticationToken == token;
+			var authenticated = AuthenticationToken.HasValue && AuthenticationToken == token;
 			var accepted = AllowConnection && authenticated;
 
 			if (accepted)
@@ -49,9 +46,12 @@ namespace SafeExamBrowser.Runtime.Communication
 			return accepted;
 		}
 
-		protected override void OnDisconnect()
+		protected override void OnDisconnect(Interlocutor interlocutor)
 		{
-			ClientDisconnected?.Invoke();
+			if (interlocutor == Interlocutor.Client)
+			{
+				ClientDisconnected?.Invoke();
+			}
 		}
 
 		protected override Response OnReceive(Message message)

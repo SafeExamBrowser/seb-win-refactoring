@@ -278,7 +278,6 @@ namespace SafeExamBrowser.Configuration.UnitTests
 			Assert.IsNull(configuration.Settings);
 			Assert.IsInstanceOfType(configuration.AppConfig, typeof(AppConfig));
 			Assert.IsInstanceOfType(configuration.ClientAuthenticationToken, typeof(Guid));
-			Assert.IsInstanceOfType(configuration.ServiceAuthenticationToken, typeof(Guid));
 			Assert.IsInstanceOfType(configuration.SessionId, typeof(Guid));
 		}
 
@@ -292,14 +291,18 @@ namespace SafeExamBrowser.Configuration.UnitTests
 			var runtimeAddress = appConfig.RuntimeAddress;
 			var runtimeId = appConfig.RuntimeId;
 			var runtimeLogFilePath = appConfig.RuntimeLogFilePath;
+			var serviceEventName = appConfig.ServiceEventName;
+
 			var configuration = sut.InitializeSessionConfiguration();
 
-			Assert.AreNotEqual(configuration.AppConfig.ClientAddress, clientAddress);
-			Assert.AreNotEqual(configuration.AppConfig.ClientId, clientId);
 			Assert.AreEqual(configuration.AppConfig.ClientLogFilePath, clientLogFilePath);
 			Assert.AreEqual(configuration.AppConfig.RuntimeAddress, runtimeAddress);
 			Assert.AreEqual(configuration.AppConfig.RuntimeId, runtimeId);
 			Assert.AreEqual(configuration.AppConfig.RuntimeLogFilePath, runtimeLogFilePath);
+
+			Assert.AreNotEqual(configuration.AppConfig.ClientAddress, clientAddress);
+			Assert.AreNotEqual(configuration.AppConfig.ClientId, clientId);
+			Assert.AreNotEqual(configuration.AppConfig.ServiceEventName, serviceEventName);
 		}
 
 		[TestMethod]
@@ -312,10 +315,8 @@ namespace SafeExamBrowser.Configuration.UnitTests
 
 			Assert.AreNotEqual(firstSession.SessionId, secondSession.SessionId);
 			Assert.AreNotEqual(firstSession.ClientAuthenticationToken, secondSession.ClientAuthenticationToken);
-			Assert.AreNotEqual(firstSession.ServiceAuthenticationToken, secondSession.ServiceAuthenticationToken);
 			Assert.AreNotEqual(secondSession.SessionId, thirdSession.SessionId);
 			Assert.AreNotEqual(secondSession.ClientAuthenticationToken, thirdSession.ClientAuthenticationToken);
-			Assert.AreNotEqual(secondSession.ServiceAuthenticationToken, thirdSession.ServiceAuthenticationToken);
 		}
 
 		private void RegisterModules()

@@ -103,7 +103,6 @@
     <Compile Include="Operations\SessionActivationOperation.cs" />
     <Compile Include="Operations\SessionOperation.cs" />
     <Compile Include="Operations\SessionInitializationOperation.cs" />
-    <Compile Include="Communication\ProxyFactory.cs" />
     <Compile Include="Communication\RuntimeHost.cs" />
     <Compile Include="CompositionRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

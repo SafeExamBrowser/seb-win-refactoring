@@ -20,6 +20,7 @@ using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration.Cryptography;
 using SafeExamBrowser.Contracts.Browser;
 using SafeExamBrowser.Contracts.Client;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
@@ -97,7 +98,7 @@ namespace SafeExamBrowser.Client
 			powerSupply = new PowerSupply(new ModuleLogger(logger, nameof(PowerSupply)), text);
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, nameof(ProcessMonitor)), nativeMethods);
 			uiFactory = BuildUserInterfaceFactory();
-			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(RuntimeProxy)));
+			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(RuntimeProxy)), Interlocutor.Client);
 			taskbar = BuildTaskbar();
 			terminationActivator = new TerminationActivator(new ModuleLogger(logger, nameof(TerminationActivator)));
 			windowMonitor = new WindowMonitor(new ModuleLogger(logger, nameof(WindowMonitor)), nativeMethods);

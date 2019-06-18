@@ -56,10 +56,15 @@
     <Compile Include="Browser\ProgressChangedEventHandler.cs" />
     <Compile Include="Communication\Data\MessageBoxReplyMessage.cs" />
     <Compile Include="Communication\Data\MessageBoxRequestMessage.cs" />
+    <Compile Include="Communication\Data\SessionStartMessage.cs" />
+    <Compile Include="Communication\Data\SessionStopMessage.cs" />
     <Compile Include="Communication\Events\ClientConfigurationEventArgs.cs" />
     <Compile Include="Communication\Events\MessageBoxReplyEventArgs.cs" />
     <Compile Include="Communication\Events\MessageBoxRequestEventArgs.cs" />
+    <Compile Include="Communication\Events\SessionStartEventArgs.cs" />
+    <Compile Include="Communication\Events\SessionStopEventArgs.cs" />
     <Compile Include="Communication\Hosts\IServiceHost.cs" />
+    <Compile Include="Communication\Interlocutor.cs" />
     <Compile Include="Configuration\ClientConfiguration.cs" />
     <Compile Include="Configuration\Cryptography\EncryptionParameters.cs" />
     <Compile Include="Configuration\Cryptography\ICertificateStore.cs" />

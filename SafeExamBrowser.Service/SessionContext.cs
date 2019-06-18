@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Threading;
 using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.Service
@@ -18,11 +19,11 @@ namespace SafeExamBrowser.Service
 		/// <summary>
 		/// The configuration of the currently active session.
 		/// </summary>
-		internal ServiceConfiguration Current { get; set; }
+		internal ServiceConfiguration Configuration { get; set; }
 
 		/// <summary>
-		/// The configuration of the next session to be activated.
+		/// The global inter-process event used for status synchronization with the runtime component.
 		/// </summary>
-		internal ServiceConfiguration Next { get; set; }
+		internal EventWaitHandle EventWaitHandle { get; set; }
 	}
 }

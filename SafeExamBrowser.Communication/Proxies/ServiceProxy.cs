@@ -7,6 +7,8 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Communication;
+using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Logging;
@@ -19,9 +21,8 @@ namespace SafeExamBrowser.Communication.Proxies
 	public class ServiceProxy : BaseProxy, IServiceProxy
 	{
 		public bool Ignore { private get; set; }
-		public new bool IsConnected => base.IsConnected;
 
-		public ServiceProxy(string address, IProxyObjectFactory factory, ILogger logger) : base(address, factory, logger)
+		public ServiceProxy(string address, IProxyObjectFactory factory, ILogger logger, Interlocutor owner) : base(address, factory, logger, owner)
 		{
 		}
 
@@ -52,10 +53,28 @@ namespace SafeExamBrowser.Communication.Proxies
 				return new CommunicationResult(true);
 			}
 
-			// Implement service communication...
-			// Send(new StartSessionMessage { Id = sessionId, Settings = settings });
+			try
+			{
+				var response = Send(new SessionStartMessage(configuration));
+				var success = IsAcknowledged(response);
 
-			throw new NotImplementedException();
+				if (success)
+				{
+					Logger.Debug("Service acknowledged session start.");
+				}
+				else
+				{
+					Logger.Error($"Service did not acknowledge session start! Received: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(success);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(StartSession)}'", e);
+
+				return new CommunicationResult(false);
+			}
 		}
 
 		public CommunicationResult StopSession(Guid sessionId)
@@ -65,10 +84,28 @@ namespace SafeExamBrowser.Communication.Proxies
 				return new CommunicationResult(true);
 			}
 
-			// Implement service communication...
-			// Send(new StopSessionMessage { SessionId = sessionId });
+			try
+			{
+				var response = Send(new SessionStopMessage(sessionId));
+				var success = IsAcknowledged(response);
 
-			throw new NotImplementedException();
+				if (success)
+				{
+					Logger.Debug("Service acknowledged session stop.");
+				}
+				else
+				{
+					Logger.Error($"Service did not acknowledge session stop! Received: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(success);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(StopSession)}'", e);
+
+				return new CommunicationResult(false);
+			}
 		}
 
 		private bool IgnoreOperation(string operationName)

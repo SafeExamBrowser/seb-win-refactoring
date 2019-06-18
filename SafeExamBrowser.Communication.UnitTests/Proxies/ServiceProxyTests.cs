@@ -14,6 +14,7 @@ using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Communication.Proxies;
+using SafeExamBrowser.Contracts.Communication;
 
 namespace SafeExamBrowser.Communication.UnitTests.Proxies
 {
@@ -42,7 +43,7 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 			proxy.Setup(o => o.State).Returns(CommunicationState.Opened);
 			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
 
-			sut = new ServiceProxy("net.pipe://random/address/here", proxyObjectFactory.Object, logger.Object);
+			sut = new ServiceProxy("net.pipe://random/address/here", proxyObjectFactory.Object, logger.Object, default(Interlocutor));
 		}
 
 		[TestMethod]

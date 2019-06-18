@@ -10,6 +10,7 @@ using System;
 using System.ServiceModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
@@ -29,7 +30,7 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 			proxyObjectFactory = new Mock<IProxyObjectFactory>();
 			logger = new Mock<ILogger>();
 
-			sut = new BaseProxyImpl("net.pipe://some/address/here", proxyObjectFactory.Object, logger.Object);
+			sut = new BaseProxyImpl("net.pipe://some/address/here", proxyObjectFactory.Object, logger.Object, default(Interlocutor));
 		}
 
 		[TestMethod]

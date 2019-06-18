@@ -78,10 +78,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			appConfig.ClientId = Guid.NewGuid();
 			appConfig.ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}";
+			appConfig.ServiceEventName = $@"Global\{nameof(SafeExamBrowser)}-{Guid.NewGuid()}";
 
 			configuration.AppConfig = appConfig.Clone();
 			configuration.ClientAuthenticationToken = Guid.NewGuid();
-			configuration.ServiceAuthenticationToken = Guid.NewGuid();
 			configuration.SessionId = Guid.NewGuid();
 
 			return configuration;

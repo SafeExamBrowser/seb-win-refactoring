@@ -26,11 +26,6 @@ namespace SafeExamBrowser.Contracts.Configuration
 		public Guid ClientAuthenticationToken { get; set; }
 
 		/// <summary>
-		/// The token used for initial communication authentication with the service.
-		/// </summary>
-		public Guid ServiceAuthenticationToken { get; set; }
-
-		/// <summary>
 		/// The unique session identifier.
 		/// </summary>
 		public Guid SessionId { get; set; }

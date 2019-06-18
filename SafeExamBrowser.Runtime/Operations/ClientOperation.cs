@@ -6,7 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Threading;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
@@ -111,6 +113,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			logger.Info("Starting new client process...");
 			runtimeHost.AllowConnection = true;
+			runtimeHost.AuthenticationToken = Context.Next.ClientAuthenticationToken;
 			runtimeHost.ClientReady += clientReadyEventHandler;
 			ClientProcess = processFactory.StartNew(executablePath, logFilePath, logLevel, runtimeHostUri, authenticationToken, uiMode);
 			ClientProcess.Terminated += clientTerminatedEventHandler;
@@ -119,6 +122,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			clientReady = clientReadyEvent.WaitOne(timeout_ms);
 
 			runtimeHost.AllowConnection = false;
+			runtimeHost.AuthenticationToken = default(Guid?);
 			runtimeHost.ClientReady -= clientReadyEventHandler;
 			ClientProcess.Terminated -= clientTerminatedEventHandler;
 
@@ -145,7 +149,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			var success = false;
 
 			logger.Info("Client has been successfully started and initialized. Creating communication proxy for client host...");
-			ClientProxy = proxyFactory.CreateClientProxy(Context.Next.AppConfig.ClientAddress);
+			ClientProxy = proxyFactory.CreateClientProxy(Context.Next.AppConfig.ClientAddress, Interlocutor.Runtime);
 
 			if (ClientProxy.Connect(Context.Next.ClientAuthenticationToken))
 			{

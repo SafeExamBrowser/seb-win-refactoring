@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using SafeExamBrowser.Communication.Hosts;
+using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Service;
@@ -17,6 +18,7 @@ using SafeExamBrowser.Core.OperationModel;
 using SafeExamBrowser.Core.Operations;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Service.Communication;
+using SafeExamBrowser.Service.Operations;
 
 namespace SafeExamBrowser.Service
 {
@@ -33,25 +35,26 @@ namespace SafeExamBrowser.Service
 
 			InitializeLogging();
 
+			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), new ModuleLogger(logger, nameof(ProxyFactory)));
 			var serviceHost = new ServiceHost(SERVICE_ADDRESS, new HostObjectFactory(), new ModuleLogger(logger, nameof(ServiceHost)), FIVE_SECONDS);
 			var sessionContext = new SessionContext();
 
 			var bootstrapOperations = new Queue<IOperation>();
-			var sessionOperations = new Queue<IRepeatableOperation>();
+			var sessionOperations = new Queue<IOperation>();
 
 			// TODO: bootstrapOperations.Enqueue(new RestoreOperation());
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(serviceHost, logger));
+			bootstrapOperations.Enqueue(new ServiceEventCleanupOperation(logger, sessionContext));
 
-			// sessionOperations.Enqueue(new RuntimeConnectionOperation());
-			// sessionOperations.Enqueue(new LogOperation());
-			// sessionOperations.Enqueue(new RegistryOperation());
-			// sessionOperations.Enqueue(new WindowsUpdateOperation());
-			// sessionOperations.Enqueue(new SessionActivationOperation());
+			sessionOperations.Enqueue(new SessionInitializationOperation(logger, serviceHost, sessionContext));
+			// TODO: sessionOperations.Enqueue(new RegistryOperation());
+			//       sessionOperations.Enqueue(new WindowsUpdateOperation());
+			sessionOperations.Enqueue(new SessionActivationOperation(logger, sessionContext));
 
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
-			var sessionSequence = new RepeatableOperationSequence(logger, sessionOperations);
+			var sessionSequence = new OperationSequence(logger, sessionOperations);
 
-			ServiceController = new ServiceController(bootstrapSequence, sessionSequence, serviceHost, sessionContext);
+			ServiceController = new ServiceController(logger, bootstrapSequence, sessionSequence, serviceHost, sessionContext);
 		}
 
 		internal void LogStartupInformation()
@@ -62,7 +65,6 @@ namespace SafeExamBrowser.Service
 
 		internal void LogShutdownInformation()
 		{
-			logger?.Log(string.Empty);
 			logger?.Log($"# Service terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 		}
 

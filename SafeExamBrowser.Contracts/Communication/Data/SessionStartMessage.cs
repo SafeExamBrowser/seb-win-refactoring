@@ -7,18 +7,24 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.Contracts.Communication.Data
 {
 	/// <summary>
-	/// This is the last message transmitted from a component to its interlocutor in order to terminate a communication session.
+	/// This message is transmitted to the service to request the initialization of a new session.
 	/// </summary>
 	[Serializable]
-	public class DisconnectionMessage : Message
+	public class SessionStartMessage : Message
 	{
 		/// <summary>
-		/// Identifies the component sending the message.
+		/// The configuration to be used by the service.
 		/// </summary>
-		public Interlocutor Interlocutor { get; set; }
+		public ServiceConfiguration Configuration { get; }
+
+		public SessionStartMessage(ServiceConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 	}
 }

@@ -6,8 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+using System.Security.AccessControl;
 using System.Threading;
-using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
@@ -46,7 +47,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public override OperationResult Perform()
 		{
-			logger.Info($"Initializing service session...");
+			logger.Info($"Initializing service...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeServiceSession);
 
 			var success = TryEstablishConnection();
@@ -61,7 +62,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public override OperationResult Repeat()
 		{
-			logger.Info($"Initializing new service session...");
+			logger.Info($"Initializing service...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeServiceSession);
 
 			var success = false;
@@ -85,14 +86,18 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public override OperationResult Revert()
 		{
-			logger.Info("Finalizing service session...");
+			logger.Info("Finalizing service...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_FinalizeServiceSession);
 
 			var success = true;
 
 			if (service.IsConnected)
 			{
-				success &= TryStopSession();
+				if (Context.Current != null)
+				{
+					success &= TryStopSession();
+				}
+
 				success &= TryTerminateConnection();
 			}
 
@@ -137,36 +142,18 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private bool TryTerminateConnection()
 		{
-			var serviceEvent = new AutoResetEvent(false);
-			var serviceEventHandler = new CommunicationEventHandler(() => serviceEvent.Set());
+			var disconnected = service.Disconnect();
 
-			runtimeHost.ServiceDisconnected += serviceEventHandler;
-
-			var success = service.Disconnect();
-
-			if (success)
+			if (disconnected)
 			{
-				logger.Info("Successfully disconnected from service. Waiting for service to disconnect...");
-
-				success = serviceEvent.WaitOne(timeout_ms);
-
-				if (success)
-				{
-					logger.Info("Service disconnected successfully.");
-				}
-				else
-				{
-					logger.Error($"Service failed to disconnect within {timeout_ms / 1000} seconds!");
-				}
+				logger.Info("Successfully disconnected from service.");
 			}
 			else
 			{
 				logger.Error("Failed to disconnect from service!");
 			}
 
-			runtimeHost.ServiceDisconnected -= serviceEventHandler;
-
-			return success;
+			return disconnected;
 		}
 
 		private bool TryStartSession()
@@ -174,18 +161,10 @@ namespace SafeExamBrowser.Runtime.Operations
 			var configuration = new ServiceConfiguration
 			{
 				AppConfig = Context.Next.AppConfig,
-				AuthenticationToken = Context.Next.ServiceAuthenticationToken,
 				SessionId = Context.Next.SessionId,
 				Settings = Context.Next.Settings
 			};
-			var failure = false;
-			var success = false;
-			var serviceEvent = new AutoResetEvent(false);
-			var failureEventHandler = new CommunicationEventHandler(() => { failure = true; serviceEvent.Set(); });
-			var successEventHandler = new CommunicationEventHandler(() => { success = true; serviceEvent.Set(); });
-
-			runtimeHost.ServiceFailed += failureEventHandler;
-			runtimeHost.ServiceSessionStarted += successEventHandler;
+			var started = false;
 
 			logger.Info("Starting new service session...");
 
@@ -193,15 +172,11 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (communication.Success)
 			{
-				serviceEvent.WaitOne(timeout_ms);
+				started = TryWaitForServiceEvent(Context.Next.AppConfig.ServiceEventName);
 
-				if (success)
+				if (started)
 				{
 					logger.Info("Successfully started new service session.");
-				}
-				else if (failure)
-				{
-					logger.Error("An error occurred while attempting to start a new service session! Please check the service log for further information.");
 				}
 				else
 				{
@@ -213,22 +188,12 @@ namespace SafeExamBrowser.Runtime.Operations
 				logger.Error("Failed to communicate session start to service!");
 			}
 
-			runtimeHost.ServiceFailed -= failureEventHandler;
-			runtimeHost.ServiceSessionStarted -= successEventHandler;
-
-			return success;
+			return started;
 		}
 
 		private bool TryStopSession()
 		{
-			var failure = false;
-			var success = false;
-			var serviceEvent = new AutoResetEvent(false);
-			var failureEventHandler = new CommunicationEventHandler(() => { failure = true; serviceEvent.Set(); });
-			var successEventHandler = new CommunicationEventHandler(() => { success = true; serviceEvent.Set(); });
-
-			runtimeHost.ServiceFailed += failureEventHandler;
-			runtimeHost.ServiceSessionStopped += successEventHandler;
+			var stopped = false;
 
 			logger.Info("Stopping current service session...");
 
@@ -236,15 +201,11 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (communication.Success)
 			{
-				serviceEvent.WaitOne(timeout_ms);
+				stopped = TryWaitForServiceEvent(Context.Current.AppConfig.ServiceEventName);
 
-				if (success)
+				if (stopped)
 				{
 					logger.Info("Successfully stopped service session.");
-				}
-				else if (failure)
-				{
-					logger.Error("An error occurred while attempting to stop the current service session! Please check the service log for further information.");
 				}
 				else
 				{
@@ -256,10 +217,31 @@ namespace SafeExamBrowser.Runtime.Operations
 				logger.Error("Failed to communicate session stop to service!");
 			}
 
-			runtimeHost.ServiceFailed -= failureEventHandler;
-			runtimeHost.ServiceSessionStopped -= successEventHandler;
+			return stopped;
+		}
 
-			return success;
+		private bool TryWaitForServiceEvent(string eventName)
+		{
+			var serviceEvent = default(EventWaitHandle);
+			var startTime = DateTime.Now;
+
+			do
+			{
+				if (EventWaitHandle.TryOpenExisting(eventName, EventWaitHandleRights.Synchronize, out serviceEvent))
+				{
+					break;
+				}
+			} while (startTime.AddMilliseconds(timeout_ms) > DateTime.Now);
+
+			if (serviceEvent != default(EventWaitHandle))
+			{
+				using (serviceEvent)
+				{
+					return serviceEvent.WaitOne(timeout_ms);
+				}
+			}
+
+			return false;
 		}
 	}
 }

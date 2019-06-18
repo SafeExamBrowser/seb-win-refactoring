@@ -7,16 +7,17 @@
  */
 
 using System;
+using SafeExamBrowser.Communication.Proxies;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Communication.Proxies;
 
 namespace SafeExamBrowser.Communication.UnitTests.Proxies
 {
 	internal class BaseProxyImpl : BaseProxy
 	{
-		public BaseProxyImpl(string address, IProxyObjectFactory factory, ILogger logger) : base(address, factory, logger)
+		public BaseProxyImpl(string address, IProxyObjectFactory factory, ILogger logger, Interlocutor owner) : base(address, factory, logger, owner)
 		{
 		}
 

@@ -17,6 +17,7 @@ using SafeExamBrowser.Configuration.Cryptography;
 using SafeExamBrowser.Configuration.DataCompression;
 using SafeExamBrowser.Configuration.DataFormats;
 using SafeExamBrowser.Configuration.DataResources;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.I18n;
@@ -65,9 +66,9 @@ namespace SafeExamBrowser.Runtime
 			var desktopFactory = new DesktopFactory(ModuleLogger(nameof(DesktopFactory)));
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
-			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), logger);
+			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), ModuleLogger(nameof(ProxyFactory)));
 			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, new HostObjectFactory(), ModuleLogger(nameof(RuntimeHost)), FIVE_SECONDS);
-			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)));
+			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)), Interlocutor.Runtime);
 			var sessionContext = new SessionContext();
 			var uiFactory = new UserInterfaceFactory(text);
 

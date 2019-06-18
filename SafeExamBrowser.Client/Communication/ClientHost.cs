@@ -8,6 +8,7 @@
 
 using System;
 using SafeExamBrowser.Communication.Hosts;
+using SafeExamBrowser.Contracts.Communication;
 using SafeExamBrowser.Contracts.Communication.Data;
 using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
@@ -53,10 +54,13 @@ namespace SafeExamBrowser.Client.Communication
 			return accepted;
 		}
 
-		protected override void OnDisconnect()
+		protected override void OnDisconnect(Interlocutor interlocutor)
 		{
-			RuntimeDisconnected?.Invoke();
-			IsConnected = false;
+			if (interlocutor == Interlocutor.Runtime)
+			{
+				RuntimeDisconnected?.Invoke();
+				IsConnected = false;
+			}
 		}
 
 		protected override Response OnReceive(Message message)

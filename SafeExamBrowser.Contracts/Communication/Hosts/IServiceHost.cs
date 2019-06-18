@@ -6,6 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.Communication.Events;
+
 namespace SafeExamBrowser.Contracts.Communication.Hosts
 {
 	/// <summary>
@@ -13,5 +15,19 @@ namespace SafeExamBrowser.Contracts.Communication.Hosts
 	/// </summary>
 	public interface IServiceHost : ICommunicationHost
 	{
+		/// <summary>
+		/// Determines whether another application component may establish a connection with the host.
+		/// </summary>
+		bool AllowConnection { get; set; }
+
+		/// <summary>
+		/// Event fired when the runtime requested to start a new session.
+		/// </summary>
+		event CommunicationEventHandler<SessionStartEventArgs> SessionStartRequested;
+
+		/// <summary>
+		/// Event fired when the runtime requested to stop a running session.
+		/// </summary>
+		event CommunicationEventHandler<SessionStopEventArgs> SessionStopRequested;
 	}
 }

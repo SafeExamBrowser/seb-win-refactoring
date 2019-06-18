@@ -17,7 +17,6 @@ namespace SafeExamBrowser.Client.Operations
 {
 	internal class RuntimeConnectionOperation : IOperation
 	{
-		private bool connected;
 		private ILogger logger;
 		private IRuntimeProxy runtime;
 		private Guid token;
@@ -37,7 +36,7 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Initializing runtime connection...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeRuntimeConnection);
 
-			connected = runtime.Connect(token);
+			var connected = runtime.Connect(token);
 
 			if (connected)
 			{
@@ -56,7 +55,7 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Closing runtime connection...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_CloseRuntimeConnection);
 
-			if (connected)
+			if (runtime.IsConnected)
 			{
 				var success = runtime.Disconnect();
 
