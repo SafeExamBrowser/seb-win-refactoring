@@ -24,6 +24,6 @@ namespace SafeExamBrowser.Service
 		/// <summary>
 		/// The global inter-process event used for status synchronization with the runtime component.
 		/// </summary>
-		internal EventWaitHandle EventWaitHandle { get; set; }
+		internal EventWaitHandle ServiceEvent { get; set; }
 	}
 }

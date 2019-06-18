@@ -122,6 +122,11 @@ namespace SafeExamBrowser.Contracts.Configuration
 		public string ServiceEventName { get; set; }
 
 		/// <summary>
+		/// The file path under which the log for the current session of the service component is to be stored.
+		/// </summary>
+		public string ServiceLogFilePath { get; set; }
+
+		/// <summary>
 		/// Creates a shallow clone.
 		/// </summary>
 		public AppConfig Clone()

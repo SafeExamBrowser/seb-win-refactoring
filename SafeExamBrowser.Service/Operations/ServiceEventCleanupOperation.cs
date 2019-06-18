@@ -33,10 +33,10 @@ namespace SafeExamBrowser.Service.Operations
 
 		public OperationResult Revert()
 		{
-			if (sessionContext.EventWaitHandle != null)
+			if (sessionContext.ServiceEvent != null)
 			{
 				logger.Info("Closing service event...");
-				sessionContext.EventWaitHandle.Close();
+				sessionContext.ServiceEvent.Close();
 				logger.Info("Service event successfully closed.");
 			}
 

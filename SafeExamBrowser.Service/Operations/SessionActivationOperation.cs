@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Service.Operations
 
 		public override OperationResult Perform()
 		{
-			var success = Context.EventWaitHandle.Set();
+			var success = Context.ServiceEvent.Set();
 
 			if (success)
 			{

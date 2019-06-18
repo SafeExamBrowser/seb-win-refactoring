@@ -46,7 +46,7 @@ namespace SafeExamBrowser.Service
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(serviceHost, logger));
 			bootstrapOperations.Enqueue(new ServiceEventCleanupOperation(logger, sessionContext));
 
-			sessionOperations.Enqueue(new SessionInitializationOperation(logger, serviceHost, sessionContext));
+			sessionOperations.Enqueue(new SessionInitializationOperation(logger, CreateLogWriter, serviceHost, sessionContext));
 			// TODO: sessionOperations.Enqueue(new RegistryOperation());
 			//       sessionOperations.Enqueue(new WindowsUpdateOperation());
 			sessionOperations.Enqueue(new SessionActivationOperation(logger, sessionContext));
@@ -80,6 +80,15 @@ namespace SafeExamBrowser.Service
 			logger.LogLevel = LogLevel.Debug;
 			logger.Subscribe(logFileWriter);
 			logFileWriter.Initialize();
+		}
+
+		private ILogObserver CreateLogWriter(string filePath)
+		{
+			var writer = new LogFileWriter(new DefaultLogFormatter(), filePath);
+
+			writer.Initialize();
+
+			return writer;
 		}
 	}
 }

@@ -29,11 +29,11 @@ namespace SafeExamBrowser.Logging
 
 		public void Initialize()
 		{
-			var logFolder = Path.GetDirectoryName(filePath);
+			var directory = Path.GetDirectoryName(filePath);
 
-			if (!Directory.Exists(logFolder))
+			if (!Directory.Exists(directory))
 			{
-				Directory.CreateDirectory(logFolder);
+				Directory.CreateDirectory(directory);
 			}
 		}
 

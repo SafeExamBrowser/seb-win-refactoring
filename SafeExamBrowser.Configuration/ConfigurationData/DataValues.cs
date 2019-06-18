@@ -68,6 +68,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			appConfig.SebUriScheme = "seb";
 			appConfig.SebUriSchemeSecure = "sebs";
 			appConfig.ServiceAddress = $"{BASE_ADDRESS}/service";
+			appConfig.ServiceEventName = $@"Global\{nameof(SafeExamBrowser)}-{Guid.NewGuid()}";
+			appConfig.ServiceLogFilePath = Path.Combine(logFolder, $"{logFilePrefix}_Service.log");
 
 			return appConfig;
 		}
