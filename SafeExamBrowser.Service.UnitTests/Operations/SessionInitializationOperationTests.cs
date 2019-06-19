@@ -59,11 +59,17 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void Perform_MustInitializeServiceEvent()
+		public void Perform_MustCloseOldAndInitializeNewServiceEvent()
 		{
+			var stub = new EventStub();
+
+			sessionContext.ServiceEvent = stub;
+
 			var result = sut.Perform();
 
 			Assert.AreEqual(OperationResult.Success, result);
+			Assert.IsTrue(stub.IsClosed);
+			Assert.AreNotSame(stub, sessionContext.ServiceEvent);
 			Assert.IsInstanceOfType(sessionContext.ServiceEvent, typeof(EventWaitHandle));
 		}
 
