@@ -7,8 +7,6 @@
  */
 
 using System;
-using System.Security.AccessControl;
-using System.Security.Principal;
 using System.Threading;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Core.OperationModel;
@@ -19,18 +17,21 @@ namespace SafeExamBrowser.Service.Operations
 	internal class SessionInitializationOperation : SessionOperation
 	{
 		private ILogger logger;
-		private Func<string, ILogObserver> createLogWriter;
+		private Func<string, ILogObserver> logWriterFactory;
+		private Func<string, EventWaitHandle> serviceEventFactory;
 		private IServiceHost serviceHost;
 		private ILogObserver sessionWriter;
 
 		public SessionInitializationOperation(
 			ILogger logger,
-			Func<string, ILogObserver> createLogWriter,
+			Func<string, ILogObserver> logWriterFactory,
+			Func<string, EventWaitHandle> serviceEventFactory,
 			IServiceHost serviceHost,
 			SessionContext sessionContext) : base(sessionContext)
 		{
 			this.logger = logger;
-			this.createLogWriter = createLogWriter;
+			this.logWriterFactory = logWriterFactory;
+			this.serviceEventFactory = serviceEventFactory;
 			this.serviceHost = serviceHost;
 		}
 
@@ -80,12 +81,6 @@ namespace SafeExamBrowser.Service.Operations
 
 		private void InitializeServiceEvent()
 		{
-			var securityIdentifier = new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null);
-			var accessRule = new EventWaitHandleAccessRule(securityIdentifier, EventWaitHandleRights.Synchronize, AccessControlType.Allow);
-			var security = new EventWaitHandleSecurity();
-
-			security.AddAccessRule(accessRule);
-
 			if (Context.ServiceEvent != null)
 			{
 				logger.Info("Closing service event from previous session...");
@@ -94,13 +89,13 @@ namespace SafeExamBrowser.Service.Operations
 			}
 
 			logger.Info("Attempting to create new service event...");
-			Context.ServiceEvent = new EventWaitHandle(false, EventResetMode.AutoReset, Context.Configuration.AppConfig.ServiceEventName, out _, security);
+			Context.ServiceEvent = serviceEventFactory.Invoke(Context.Configuration.AppConfig.ServiceEventName);
 			logger.Info("Service event successfully created.");
 		}
 
 		private void InitializeSessionWriter()
 		{
-			sessionWriter = createLogWriter.Invoke(Context.Configuration.AppConfig.ServiceLogFilePath);
+			sessionWriter = logWriterFactory.Invoke(Context.Configuration.AppConfig.ServiceLogFilePath);
 			logger.Subscribe(sessionWriter);
 		}
 	}

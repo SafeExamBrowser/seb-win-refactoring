@@ -160,7 +160,14 @@ namespace SafeExamBrowser.Service
 		{
 			if (SessionIsRunning)
 			{
-				StopSession();
+				if (Session.SessionId == args.SessionId)
+				{
+					StopSession();
+				}
+				else
+				{
+					logger.Warn("Received session stop request with wrong session ID!");
+				}
 			}
 			else
 			{

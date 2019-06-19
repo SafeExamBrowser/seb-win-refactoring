@@ -6,8 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core.OperationModel;
@@ -21,7 +23,7 @@ namespace SafeExamBrowser.Service.UnitTests
 		private Mock<ILogger> logger;
 		private Mock<IOperationSequence> bootstrapSequence;
 		private SessionContext sessionContext;
-		private Mock<IRepeatableOperationSequence> sessionSequence;
+		private Mock<IOperationSequence> sessionSequence;
 		private Mock<IServiceHost> serviceHost;
 		private ServiceController sut;
 
@@ -31,10 +33,84 @@ namespace SafeExamBrowser.Service.UnitTests
 			logger = new Mock<ILogger>();
 			bootstrapSequence = new Mock<IOperationSequence>();
 			sessionContext = new SessionContext();
-			sessionSequence = new Mock<IRepeatableOperationSequence>();
+			sessionSequence = new Mock<IOperationSequence>();
 			serviceHost = new Mock<IServiceHost>();
 
 			sut = new ServiceController(logger.Object, bootstrapSequence.Object, sessionSequence.Object, serviceHost.Object, sessionContext);
+		}
+
+		[TestMethod]
+		public void Communication_MustStartNewSessionUponRequest()
+		{
+			var args = new SessionStartEventArgs { Configuration = new ServiceConfiguration { SessionId = Guid.NewGuid() } };
+
+			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+
+			sut.TryStart();
+			serviceHost.Raise(h => h.SessionStartRequested += null, args);
+
+			sessionSequence.Verify(s => s.TryPerform(), Times.Once);
+
+			Assert.IsNotNull(sessionContext.Configuration);
+			Assert.AreEqual(args.Configuration.SessionId, sessionContext.Configuration.SessionId);
+		}
+
+		[TestMethod]
+		public void Communication_MustNotAllowNewSessionDuringActiveSession()
+		{
+			var args = new SessionStartEventArgs { Configuration = new ServiceConfiguration { SessionId = Guid.NewGuid() } };
+
+			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+			sessionContext.Configuration = new ServiceConfiguration { SessionId = Guid.NewGuid() };
+
+			sut.TryStart();
+			serviceHost.Raise(h => h.SessionStartRequested += null, args);
+
+			sessionSequence.Verify(s => s.TryPerform(), Times.Never);
+
+			Assert.AreNotEqual(args.Configuration.SessionId, sessionContext.Configuration.SessionId);
+		}
+
+		[TestMethod]
+		public void Communication_MustStopActiveSessionUponRequest()
+		{
+			var args = new SessionStopEventArgs { SessionId = Guid.NewGuid() };
+
+			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+			sessionContext.Configuration = new ServiceConfiguration { SessionId = args.SessionId };
+
+			sut.TryStart();
+			serviceHost.Raise(h => h.SessionStopRequested += null, args);
+
+			sessionSequence.Verify(s => s.TryRevert(), Times.Once);
+		}
+
+		[TestMethod]
+		public void Communication_MustNotStopSessionWithWrongId()
+		{
+			var args = new SessionStopEventArgs { SessionId = Guid.NewGuid() };
+
+			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+			sessionContext.Configuration = new ServiceConfiguration { SessionId = Guid.NewGuid() };
+
+			sut.TryStart();
+			serviceHost.Raise(h => h.SessionStopRequested += null, args);
+
+			sessionSequence.Verify(s => s.TryRevert(), Times.Never);
+		}
+
+		[TestMethod]
+		public void Communication_MustNotStopSessionWithoutActiveSession()
+		{
+			var args = new SessionStopEventArgs { SessionId = Guid.NewGuid() };
+
+			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+
+			sut.TryStart();
+			serviceHost.Raise(h => h.SessionStopRequested += null, args);
+
+			sessionSequence.Verify(s => s.TryRevert(), Times.Never);
 		}
 
 		[TestMethod]
@@ -49,7 +125,6 @@ namespace SafeExamBrowser.Service.UnitTests
 			bootstrapSequence.Verify(b => b.TryPerform(), Times.Once);
 			bootstrapSequence.Verify(b => b.TryRevert(), Times.Never);
 			sessionSequence.Verify(b => b.TryPerform(), Times.Never);
-			sessionSequence.Verify(b => b.TryRepeat(), Times.Never);
 			sessionSequence.Verify(b => b.TryRevert(), Times.Never);
 
 			Assert.IsTrue(success);
@@ -76,7 +151,6 @@ namespace SafeExamBrowser.Service.UnitTests
 			bootstrapSequence.Verify(b => b.TryPerform(), Times.Never);
 			bootstrapSequence.Verify(b => b.TryRevert(), Times.Once);
 			sessionSequence.Verify(b => b.TryPerform(), Times.Never);
-			sessionSequence.Verify(b => b.TryRepeat(), Times.Never);
 			sessionSequence.Verify(b => b.TryRevert(), Times.Once);
 
 			Assert.AreEqual(1, session);
@@ -104,7 +178,6 @@ namespace SafeExamBrowser.Service.UnitTests
 			bootstrapSequence.Verify(b => b.TryPerform(), Times.Never);
 			bootstrapSequence.Verify(b => b.TryRevert(), Times.Once);
 			sessionSequence.Verify(b => b.TryPerform(), Times.Never);
-			sessionSequence.Verify(b => b.TryRepeat(), Times.Never);
 			sessionSequence.Verify(b => b.TryRevert(), Times.Never);
 
 			Assert.AreEqual(0, session);

@@ -80,6 +80,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Communication\ServiceHostTests.cs" />
+    <Compile Include="Operations\EventStub.cs" />
+    <Compile Include="Operations\ServiceEventCleanupOperationTests.cs" />
+    <Compile Include="Operations\SessionActivationOperationTests.cs" />
+    <Compile Include="Operations\SessionInitializationOperationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceControllerTests.cs" />
   </ItemGroup>
@@ -87,6 +92,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SafeExamBrowser.Communication\SafeExamBrowser.Communication.csproj">
+      <Project>{c9416a62-0623-4d38-96aa-92516b32f02f}</Project>
+      <Name>SafeExamBrowser.Communication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">
       <Project>{47da5933-bef8-4729-94e6-abde2db12262}</Project>
       <Name>SafeExamBrowser.Contracts</Name>
@@ -96,10 +105,7 @@
       <Name>SafeExamBrowser.Service</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Communication\" />
-    <Folder Include="Operations\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

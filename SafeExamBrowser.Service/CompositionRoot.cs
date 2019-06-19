@@ -9,6 +9,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Threading;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Contracts.Core.OperationModel;
@@ -42,13 +45,10 @@ namespace SafeExamBrowser.Service
 			var bootstrapOperations = new Queue<IOperation>();
 			var sessionOperations = new Queue<IOperation>();
 
-			// TODO: bootstrapOperations.Enqueue(new RestoreOperation());
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(serviceHost, logger));
 			bootstrapOperations.Enqueue(new ServiceEventCleanupOperation(logger, sessionContext));
 
-			sessionOperations.Enqueue(new SessionInitializationOperation(logger, CreateLogWriter, serviceHost, sessionContext));
-			// TODO: sessionOperations.Enqueue(new RegistryOperation());
-			//       sessionOperations.Enqueue(new WindowsUpdateOperation());
+			sessionOperations.Enqueue(new SessionInitializationOperation(logger, LogWriterFactory, ServiceEventFactory, serviceHost, sessionContext));
 			sessionOperations.Enqueue(new SessionActivationOperation(logger, sessionContext));
 
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
@@ -82,13 +82,24 @@ namespace SafeExamBrowser.Service
 			logFileWriter.Initialize();
 		}
 
-		private ILogObserver CreateLogWriter(string filePath)
+		private ILogObserver LogWriterFactory(string filePath)
 		{
 			var writer = new LogFileWriter(new DefaultLogFormatter(), filePath);
 
 			writer.Initialize();
 
 			return writer;
+		}
+
+		private EventWaitHandle ServiceEventFactory(string eventName)
+		{
+			var securityIdentifier = new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null);
+			var accessRule = new EventWaitHandleAccessRule(securityIdentifier, EventWaitHandleRights.Synchronize, AccessControlType.Allow);
+			var security = new EventWaitHandleSecurity();
+
+			security.AddAccessRule(accessRule);
+
+			return new EventWaitHandle(false, EventResetMode.AutoReset, eventName, out _, security);
 		}
 	}
 }
