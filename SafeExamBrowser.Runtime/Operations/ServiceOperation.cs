@@ -106,8 +106,8 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private bool TryEstablishConnection()
 		{
-			var mandatory = Context.Next.Settings.ServicePolicy == ServicePolicy.Mandatory;
-			var warn = Context.Next.Settings.ServicePolicy == ServicePolicy.Warn;
+			var mandatory = Context.Next.Settings.Service.Policy == ServicePolicy.Mandatory;
+			var warn = Context.Next.Settings.Service.Policy == ServicePolicy.Warn;
 			var connected = service.Connect();
 			var success = connected || !mandatory;
 

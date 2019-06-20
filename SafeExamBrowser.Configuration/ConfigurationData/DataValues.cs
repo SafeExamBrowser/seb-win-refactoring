@@ -147,7 +147,19 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Mouse.AllowMiddleButton = false;
 			settings.Mouse.AllowRightButton = true;
 
-			settings.ServicePolicy = ServicePolicy.Mandatory;
+			settings.Service.AllowEaseOfAccessOptions = false;
+			settings.Service.AllowNetworkOptions = false;
+			settings.Service.AllowPasswordChange = false;
+			settings.Service.AllowPowerOptions = false;
+			settings.Service.AllowSignout = false;
+			settings.Service.AllowTaskManager = false;
+			settings.Service.AllowUserLock = false;
+			settings.Service.AllowUserSwitch = false;
+			settings.Service.DisableChromeNotifications = true;
+			settings.Service.DisableRemoteConnections = true;
+			settings.Service.DisableVmwareOverlay = true;
+			settings.Service.DisableWindowsUpdate = true;
+			settings.Service.Policy = ServicePolicy.Mandatory;
 
 			settings.AllowApplicationLogAccess = false;
 

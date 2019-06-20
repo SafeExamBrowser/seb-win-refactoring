@@ -45,10 +45,12 @@ namespace SafeExamBrowser.Service
 			var bootstrapOperations = new Queue<IOperation>();
 			var sessionOperations = new Queue<IOperation>();
 
+			bootstrapOperations.Enqueue(new RestoreOperation(logger));
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(serviceHost, logger));
 			bootstrapOperations.Enqueue(new ServiceEventCleanupOperation(logger, sessionContext));
 
 			sessionOperations.Enqueue(new SessionInitializationOperation(logger, LogWriterFactory, ServiceEventFactory, serviceHost, sessionContext));
+			sessionOperations.Enqueue(new LockdownOperation(logger, sessionContext));
 			sessionOperations.Enqueue(new SessionActivationOperation(logger, sessionContext));
 
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);

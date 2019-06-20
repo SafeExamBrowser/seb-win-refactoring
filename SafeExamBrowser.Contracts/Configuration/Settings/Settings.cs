@@ -68,9 +68,9 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public string QuitPasswordHash { get; set; }
 
 		/// <summary>
-		/// The active policy for the service component.
+		/// All service-related settings.
 		/// </summary>
-		public ServicePolicy ServicePolicy { get; set; }
+		public ServiceSettings Service { get; set; }
 
 		/// <summary>
 		/// All taskbar-related settings.
@@ -78,7 +78,7 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public TaskbarSettings Taskbar { get; set; }
 
 		/// <summary>
-		/// The mode which determines the look & feel of the user interface.
+		/// The mode which determines the look &amp; feel of the user interface.
 		/// </summary>
 		public UserInterfaceMode UserInterfaceMode { get; set; }
 
@@ -88,6 +88,7 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 			Browser = new BrowserSettings();
 			Keyboard = new KeyboardSettings();
 			Mouse = new MouseSettings();
+			Service = new ServiceSettings();
 			Taskbar = new TaskbarSettings();
 		}
 	}

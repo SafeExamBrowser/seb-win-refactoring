@@ -64,6 +64,8 @@
     <Compile Include="Installer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Operations\LockdownOperation.cs" />
+    <Compile Include="Operations\RestoreOperation.cs" />
     <Compile Include="Operations\ServiceEventCleanupOperation.cs" />
     <Compile Include="Operations\SessionActivationOperation.cs" />
     <Compile Include="Operations\SessionInitializationOperation.cs" />

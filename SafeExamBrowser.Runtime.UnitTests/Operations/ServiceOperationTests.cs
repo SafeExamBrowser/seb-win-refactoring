@@ -55,7 +55,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			sessionContext.Next = session;
 			sessionContext.Next.AppConfig = appConfig;
 			session.Settings = settings;
-			settings.ServicePolicy = ServicePolicy.Mandatory;
+			settings.Service.Policy = ServicePolicy.Mandatory;
 
 			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, 0);
 		}
@@ -64,12 +64,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void Perform_MustConnectToService()
 		{
 			service.Setup(s => s.Connect(null, true)).Returns(true);
-			settings.ServicePolicy = ServicePolicy.Mandatory;
+			settings.Service.Policy = ServicePolicy.Mandatory;
 
 			sut.Perform();
 
 			service.Setup(s => s.Connect(null, true)).Returns(true);
-			settings.ServicePolicy = ServicePolicy.Optional;
+			settings.Service.Policy = ServicePolicy.Optional;
 
 			sut.Perform();
 
@@ -160,7 +160,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			service.SetupGet(s => s.IsConnected).Returns(false);
 			service.Setup(s => s.Connect(null, true)).Returns(false);
-			settings.ServicePolicy = ServicePolicy.Mandatory;
+			settings.Service.Policy = ServicePolicy.Mandatory;
 			sut.ActionRequired += (args) => errorShown = args is MessageEventArgs m && m.Icon == MessageBoxIcon.Error;
 
 			var result = sut.Perform();
@@ -174,7 +174,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			service.SetupGet(s => s.IsConnected).Returns(false);
 			service.Setup(s => s.Connect(null, true)).Returns(false);
-			settings.ServicePolicy = ServicePolicy.Optional;
+			settings.Service.Policy = ServicePolicy.Optional;
 
 			var result = sut.Perform();
 
@@ -189,7 +189,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			service.SetupGet(s => s.IsConnected).Returns(false);
 			service.Setup(s => s.Connect(null, true)).Returns(false);
-			settings.ServicePolicy = ServicePolicy.Warn;
+			settings.Service.Policy = ServicePolicy.Warn;
 			sut.ActionRequired += (args) => warningShown = args is MessageEventArgs m && m.Icon == MessageBoxIcon.Warning;
 
 			var result = sut.Perform();

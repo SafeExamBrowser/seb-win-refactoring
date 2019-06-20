@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.Contracts.Configuration.Settings
 {
 	/// <summary>
-	/// Defines all possible look & feel options for the application.
+	/// Defines all possible look &amp; feel options for the application.
 	/// </summary>
 	public enum UserInterfaceMode
 	{

@@ -41,7 +41,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			if (value is int policy)
 			{
-				settings.ServicePolicy = policy == FORCE ? ServicePolicy.Mandatory : (policy == WARN ? ServicePolicy.Warn : ServicePolicy.Optional);
+				settings.Service.Policy = policy == FORCE ? ServicePolicy.Mandatory : (policy == WARN ? ServicePolicy.Warn : ServicePolicy.Optional);
 			}
 		}
 	}

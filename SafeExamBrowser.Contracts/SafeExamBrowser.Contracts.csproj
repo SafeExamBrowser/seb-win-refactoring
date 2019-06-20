@@ -85,6 +85,7 @@
     <Compile Include="Configuration\ServiceConfiguration.cs" />
     <Compile Include="Configuration\Settings\ActionCenterSettings.cs" />
     <Compile Include="Configuration\Settings\BrowserWindowSettings.cs" />
+    <Compile Include="Configuration\Settings\ServiceSettings.cs" />
     <Compile Include="Configuration\Settings\UserInterfaceMode.cs" />
     <Compile Include="Applications\Events\IconChangedEventHandler.cs" />
     <Compile Include="Applications\Events\InstanceTerminatedEventHandler.cs" />
