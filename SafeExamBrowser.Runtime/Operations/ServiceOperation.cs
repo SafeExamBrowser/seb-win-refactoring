@@ -17,6 +17,7 @@ using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Runtime.Operations.Events;
 
@@ -28,6 +29,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		private IRuntimeHost runtimeHost;
 		private IServiceProxy service;
 		private int timeout_ms;
+		private IUserInfo userInfo;
 
 		public override event ActionRequiredEventHandler ActionRequired;
 		public override event StatusChangedEventHandler StatusChanged;
@@ -37,12 +39,14 @@ namespace SafeExamBrowser.Runtime.Operations
 			IRuntimeHost runtimeHost,
 			IServiceProxy service,
 			SessionContext sessionContext,
-			int timeout_ms) : base(sessionContext)
+			int timeout_ms,
+			IUserInfo userInfo) : base(sessionContext)
 		{
 			this.logger = logger;
 			this.runtimeHost = runtimeHost;
 			this.service = service;
 			this.timeout_ms = timeout_ms;
+			this.userInfo = userInfo;
 		}
 
 		public override OperationResult Perform()
@@ -162,7 +166,9 @@ namespace SafeExamBrowser.Runtime.Operations
 			{
 				AppConfig = Context.Next.AppConfig,
 				SessionId = Context.Next.SessionId,
-				Settings = Context.Next.Settings
+				Settings = Context.Next.Settings,
+				UserName = userInfo.GetUserName(),
+				UserSid = userInfo.GetUserSid()
 			};
 			var started = false;
 

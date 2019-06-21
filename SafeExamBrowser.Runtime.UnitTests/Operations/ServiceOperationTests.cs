@@ -16,6 +16,7 @@ using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
 using SafeExamBrowser.Runtime.Operations;
 using SafeExamBrowser.Runtime.Operations.Events;
@@ -33,6 +34,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private SessionConfiguration session;
 		private SessionContext sessionContext;
 		private Settings settings;
+		private Mock<IUserInfo> userInfo;
 		private ServiceOperation sut;
 
 		[TestInitialize]
@@ -48,6 +50,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			session = new SessionConfiguration();
 			sessionContext = new SessionContext();
 			settings = new Settings();
+			userInfo = new Mock<IUserInfo>();
 
 			appConfig.ServiceEventName = serviceEventName;
 			sessionContext.Current = session;
@@ -57,7 +60,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			session.Settings = settings;
 			settings.Service.Policy = ServicePolicy.Mandatory;
 
-			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, 0);
+			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, 0, userInfo.Object);
 		}
 
 		[TestMethod]
@@ -86,6 +89,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var result = sut.Perform();
 
 			service.Verify(s => s.StartSession(It.IsAny<ServiceConfiguration>()), Times.Once);
+			userInfo.Verify(u => u.GetUserName(), Times.Once);
+			userInfo.Verify(u => u.GetUserSid(), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}
@@ -116,7 +121,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			service.Setup(s => s.Connect(null, true)).Returns(true);
 			service.Setup(s => s.StartSession(It.IsAny<ServiceConfiguration>())).Returns(new CommunicationResult(true));
 
-			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, TIMEOUT);
+			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, TIMEOUT, userInfo.Object);
 
 			before = DateTime.Now;
 			var result = sut.Perform();
@@ -257,7 +262,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var before = default(DateTime);
 
 			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true));
-			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, TIMEOUT);
+			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, TIMEOUT, userInfo.Object);
 
 			PerformNormally();
 
@@ -339,7 +344,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var before = default(DateTime);
 
 			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true));
-			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, TIMEOUT);
+			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, TIMEOUT, userInfo.Object);
 
 			PerformNormally();
 

@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ACEE2EF1-14D2-4B52-8994-5C053055BB51}</ProjectGuid>
+    <ProjectGuid>{386B6042-3E12-4753-9FC6-C88EA4F97030}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SafeExamBrowser.SystemComponents</RootNamespace>
-    <AssemblyName>SafeExamBrowser.SystemComponents</AssemblyName>
+    <RootNamespace>SafeExamBrowser.Lockdown</RootNamespace>
+    <AssemblyName>SafeExamBrowser.Lockdown</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,33 +46,35 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="SimpleWifi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Libraries\SimpleWifi.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KeyboardLayoutDefinition.cs" />
-    <Compile Include="KeyboardLayout.cs" />
-    <Compile Include="PowerSupply.cs" />
+    <Compile Include="FeatureConfigurationFactory.cs" />
+    <Compile Include="FeatureConfigurationBackup.cs" />
+    <Compile Include="FeatureConfigurations\ChromeNotificationConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\TaskManagerConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\EaseOfAccessConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\NetworkOptionsConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\PasswordChangeConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\PowerOptionsConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\RemoteConnectionConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\SignoutConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\UserLockConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\UserSwitchConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\VmwareOverlayConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\WindowsUpdateConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemInfo.cs" />
-    <Compile Include="UserInfo.cs" />
-    <Compile Include="WirelessNetwork.cs" />
-    <Compile Include="WirelessNetworkDefinition.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">
-      <Project>{47DA5933-BEF8-4729-94E6-ABDE2DB12262}</Project>
+      <Project>{47da5933-bef8-4729-94e6-abde2db12262}</Project>
       <Name>SafeExamBrowser.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -14,7 +14,7 @@ namespace SafeExamBrowser.Service.Operations
 {
 	internal class RestoreOperation : IOperation
 	{
-		private readonly ILogger logger;
+		private ILogger logger;
 
 		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged { add { } remove { } }
@@ -26,6 +26,9 @@ namespace SafeExamBrowser.Service.Operations
 
 		public OperationResult Perform()
 		{
+			// TODO: Must not delay startup! If restore does not succeed on first attempt, try again in separate thread!
+			//         -> Ensure session cannot be started until values are restored or alike!
+
 			return OperationResult.Success;
 		}
 

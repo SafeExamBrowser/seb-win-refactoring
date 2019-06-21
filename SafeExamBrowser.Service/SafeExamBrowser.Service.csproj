@@ -93,6 +93,10 @@
       <Project>{3d6fdbb6-a4af-4626-bb2b-bf329d44f9cc}</Project>
       <Name>SafeExamBrowser.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Lockdown\SafeExamBrowser.Lockdown.csproj">
+      <Project>{386b6042-3e12-4753-9fc6-c88ea4f97030}</Project>
+      <Name>SafeExamBrowser.Lockdown</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Logging\SafeExamBrowser.Logging.csproj">
       <Project>{e107026c-2011-4552-a7d8-3a0d37881df6}</Project>
       <Name>SafeExamBrowser.Logging</Name>

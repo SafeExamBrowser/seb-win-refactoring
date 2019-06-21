@@ -92,6 +92,9 @@
     <Compile Include="Applications\Events\NameChangedEventHandler.cs" />
     <Compile Include="Applications\IApplicationController.cs" />
     <Compile Include="Applications\InstanceIdentifier.cs" />
+    <Compile Include="Lockdown\IFeatureConfiguration.cs" />
+    <Compile Include="Lockdown\IFeatureConfigurationBackup.cs" />
+    <Compile Include="Lockdown\IFeatureConfigurationFactory.cs" />
     <Compile Include="Runtime\IRuntimeController.cs" />
     <Compile Include="Core\OperationModel\Events\ActionRequiredEventArgs.cs" />
     <Compile Include="Core\OperationModel\Events\ActionRequiredEventHandler.cs" />
@@ -154,6 +157,7 @@
     <Compile Include="Client\INotificationInfo.cs" />
     <Compile Include="Service\IServiceController.cs" />
     <Compile Include="SystemComponents\ISystemInfo.cs" />
+    <Compile Include="SystemComponents\IUserInfo.cs" />
     <Compile Include="SystemComponents\OperatingSystem.cs" />
     <Compile Include="Configuration\Settings\BrowserSettings.cs" />
     <Compile Include="Configuration\Settings\KeyboardSettings.cs" />

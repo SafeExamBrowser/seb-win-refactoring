@@ -30,5 +30,15 @@ namespace SafeExamBrowser.Contracts.Configuration
 		/// The application settings to be used by the service.
 		/// </summary>
 		public Settings.Settings Settings { get; set; }
+
+		/// <summary>
+		/// The user name of the currently logged in user.
+		/// </summary>
+		public string UserName { get; set; }
+
+		/// <summary>
+		/// The security identifier of the currently logged in user.
+		/// </summary>
+		public string UserSid { get; set; }
 	}
 }

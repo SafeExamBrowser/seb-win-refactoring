@@ -19,6 +19,7 @@ using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Service;
 using SafeExamBrowser.Core.OperationModel;
 using SafeExamBrowser.Core.Operations;
+using SafeExamBrowser.Lockdown;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Service.Communication;
 using SafeExamBrowser.Service.Operations;
@@ -38,6 +39,8 @@ namespace SafeExamBrowser.Service
 
 			InitializeLogging();
 
+			var featureBackup = new FeatureConfigurationBackup(new ModuleLogger(logger, nameof(FeatureConfigurationBackup)));
+			var featureFactory = new FeatureConfigurationFactory(new ModuleLogger(logger, nameof(FeatureConfigurationFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), new ModuleLogger(logger, nameof(ProxyFactory)));
 			var serviceHost = new ServiceHost(SERVICE_ADDRESS, new HostObjectFactory(), new ModuleLogger(logger, nameof(ServiceHost)), FIVE_SECONDS);
 			var sessionContext = new SessionContext();
@@ -50,7 +53,7 @@ namespace SafeExamBrowser.Service
 			bootstrapOperations.Enqueue(new ServiceEventCleanupOperation(logger, sessionContext));
 
 			sessionOperations.Enqueue(new SessionInitializationOperation(logger, LogWriterFactory, ServiceEventFactory, serviceHost, sessionContext));
-			sessionOperations.Enqueue(new LockdownOperation(logger, sessionContext));
+			sessionOperations.Enqueue(new LockdownOperation(featureBackup, featureFactory, logger, sessionContext));
 			sessionOperations.Enqueue(new SessionActivationOperation(logger, sessionContext));
 
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
