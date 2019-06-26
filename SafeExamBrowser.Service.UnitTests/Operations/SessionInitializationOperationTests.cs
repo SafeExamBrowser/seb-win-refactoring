@@ -14,6 +14,7 @@ using Moq;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Service.Operations;
 
@@ -22,6 +23,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 	[TestClass]
 	public class SessionInitializationOperationTests
 	{
+		private Mock<IAutoRestoreMechanism> autoRestoreMechanism;
 		private Mock<ILogger> logger;
 		private Mock<Func<string, ILogObserver>> logWriterFactory;
 		private Mock<IServiceHost> serviceHost;
@@ -32,6 +34,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 		[TestInitialize]
 		public void Initialize()
 		{
+			autoRestoreMechanism = new Mock<IAutoRestoreMechanism>();
 			logger = new Mock<ILogger>();
 			logWriterFactory = new Mock<Func<string, ILogObserver>>();
 			serviceHost = new Mock<IServiceHost>();
@@ -40,6 +43,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 
 			logWriterFactory.Setup(f => f.Invoke(It.IsAny<string>())).Returns(new Mock<ILogObserver>().Object);
 			serviceEventFactory.Setup(f => f.Invoke(It.IsAny<string>())).Returns(new EventStub());
+			sessionContext.AutoRestoreMechanism = autoRestoreMechanism.Object;
 			sessionContext.Configuration = new ServiceConfiguration
 			{
 				AppConfig = new AppConfig { ServiceEventName = $"{nameof(SafeExamBrowser)}-{nameof(SessionInitializationOperationTests)}" }
@@ -74,18 +78,12 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void Revert_MustSetServiceEvent()
+		public void Perform_MustStopAutoRestoreMechanism()
 		{
-			sessionContext.ServiceEvent = new EventWaitHandle(false, EventResetMode.AutoReset);
+			var result = sut.Perform();
 
-			var wasSet = false;
-			var task = Task.Run(() => wasSet = sessionContext.ServiceEvent.WaitOne(1000));
-			var result = sut.Revert();
-
-			task.Wait();
-
+			autoRestoreMechanism.Verify(m => m.Stop(), Times.Once);
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.IsTrue(wasSet);
 		}
 
 		[TestMethod]
@@ -108,6 +106,30 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 			var result = sut.Revert();
 
 			serviceHost.VerifySet(h => h.AllowConnection = true, Times.Once);
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Revert_MustSetServiceEvent()
+		{
+			sessionContext.ServiceEvent = new EventWaitHandle(false, EventResetMode.AutoReset);
+
+			var wasSet = false;
+			var task = Task.Run(() => wasSet = sessionContext.ServiceEvent.WaitOne(1000));
+			var result = sut.Revert();
+
+			task.Wait();
+
+			Assert.AreEqual(OperationResult.Success, result);
+			Assert.IsTrue(wasSet);
+		}
+
+		[TestMethod]
+		public void Revert_MustStartAutoRestoreMechanism()
+		{
+			var result = sut.Revert();
+
+			autoRestoreMechanism.Verify(m => m.Start(), Times.Once);
 			Assert.AreEqual(OperationResult.Success, result);
 		}
 	}

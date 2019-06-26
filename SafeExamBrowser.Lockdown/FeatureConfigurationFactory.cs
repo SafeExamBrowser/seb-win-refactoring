@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Lockdown.FeatureConfigurations;
@@ -21,64 +22,64 @@ namespace SafeExamBrowser.Lockdown
 			this.logger = logger;
 		}
 
-		public IFeatureConfiguration CreateChromeNotificationConfiguration()
+		public IFeatureConfiguration CreateChromeNotificationConfiguration(Guid groupId)
 		{
-			return new ChromeNotificationConfiguration();
+			return new ChromeNotificationConfiguration(groupId, logger.CloneFor(nameof(ChromeNotificationConfiguration)));
 		}
 
-		public IFeatureConfiguration CreateEaseOfAccessConfiguration()
+		public IFeatureConfiguration CreateEaseOfAccessConfiguration(Guid groupId)
 		{
-			return new EaseOfAccessConfiguration();
+			return new EaseOfAccessConfiguration(groupId, logger.CloneFor(nameof(EaseOfAccessConfiguration)));
 		}
 
-		public IFeatureConfiguration CreateNetworkOptionsConfiguration()
+		public IFeatureConfiguration CreateNetworkOptionsConfiguration(Guid groupId)
 		{
-			return new NetworkOptionsConfiguration();
+			return new NetworkOptionsConfiguration(groupId, logger.CloneFor(nameof(NetworkOptionsConfiguration)));
 		}
 
-		public IFeatureConfiguration CreatePasswordChangeConfiguration()
+		public IFeatureConfiguration CreatePasswordChangeConfiguration(Guid groupId)
 		{
-			return new PasswordChangeConfiguration();
+			return new PasswordChangeConfiguration(groupId, logger.CloneFor(nameof(PasswordChangeConfiguration)));
 		}
 
-		public IFeatureConfiguration CreatePowerOptionsConfiguration()
+		public IFeatureConfiguration CreatePowerOptionsConfiguration(Guid groupId)
 		{
-			return new PowerOptionsConfiguration();
+			return new PowerOptionsConfiguration(groupId, logger.CloneFor(nameof(PowerOptionsConfiguration)));
 		}
 
-		public IFeatureConfiguration CreateRemoteConnectionConfiguration()
+		public IFeatureConfiguration CreateRemoteConnectionConfiguration(Guid groupId)
 		{
-			return new RemoteConnectionConfiguration();
+			return new RemoteConnectionConfiguration(groupId, logger.CloneFor(nameof(RemoteConnectionConfiguration)));
 		}
 
-		public IFeatureConfiguration CreateSignoutConfiguration()
+		public IFeatureConfiguration CreateSignoutConfiguration(Guid groupId)
 		{
-			return new SignoutConfiguration();
+			return new SignoutConfiguration(groupId, logger.CloneFor(nameof(SignoutConfiguration)));
 		}
 
-		public IFeatureConfiguration CreateTaskManagerConfiguration()
+		public IFeatureConfiguration CreateTaskManagerConfiguration(Guid groupId)
 		{
-			return new TaskManagerConfiguration();
+			return new TaskManagerConfiguration(groupId, logger.CloneFor(nameof(TaskManagerConfiguration)));
 		}
 
-		public IFeatureConfiguration CreateUserLockConfiguration()
+		public IFeatureConfiguration CreateUserLockConfiguration(Guid groupId)
 		{
-			return new UserLockConfiguration();
+			return new UserLockConfiguration(groupId, logger.CloneFor(nameof(UserLockConfiguration)));
 		}
 
-		public IFeatureConfiguration CreateUserSwitchConfiguration()
+		public IFeatureConfiguration CreateUserSwitchConfiguration(Guid groupId)
 		{
-			return new UserSwitchConfiguration();
+			return new UserSwitchConfiguration(groupId, logger.CloneFor(nameof(UserSwitchConfiguration)));
 		}
 
-		public IFeatureConfiguration CreateVmwareOverlayConfiguration()
+		public IFeatureConfiguration CreateVmwareOverlayConfiguration(Guid groupId)
 		{
-			return new VmwareOverlayConfiguration();
+			return new VmwareOverlayConfiguration(groupId, logger.CloneFor(nameof(VmwareOverlayConfiguration)));
 		}
 
-		public IFeatureConfiguration CreateWindowsUpdateConfiguration()
+		public IFeatureConfiguration CreateWindowsUpdateConfiguration(Guid groupId)
 		{
-			return new WindowsUpdateConfiguration();
+			return new WindowsUpdateConfiguration(groupId, logger.CloneFor(nameof(WindowsUpdateConfiguration)));
 		}
 	}
 }

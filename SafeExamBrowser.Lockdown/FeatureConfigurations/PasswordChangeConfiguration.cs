@@ -6,28 +6,34 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Lockdown;
+using System;
+using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Lockdown.FeatureConfigurations
 {
-	internal class PasswordChangeConfiguration : IFeatureConfiguration
+	[Serializable]
+	internal class PasswordChangeConfiguration : FeatureConfiguration
 	{
-		public void DisableFeature()
+		public PasswordChangeConfiguration(Guid groupId, ILogger logger) : base(groupId, logger)
+		{
+		}
+
+		public override void DisableFeature()
 		{
 
 		}
 
-		public void EnableFeature()
+		public override void EnableFeature()
 		{
 
 		}
 
-		public void Monitor()
+		public override void Monitor()
 		{
 
 		}
 
-		public void Restore()
+		public override void Restore()
 		{
 
 		}

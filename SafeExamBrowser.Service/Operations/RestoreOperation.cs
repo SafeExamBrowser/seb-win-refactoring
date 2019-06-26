@@ -8,32 +8,40 @@
 
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Core.OperationModel.Events;
+using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Service.Operations
 {
 	internal class RestoreOperation : IOperation
 	{
+		private readonly IFeatureConfigurationBackup backup;
 		private ILogger logger;
+		private readonly SessionContext sessionContext;
 
 		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged { add { } remove { } }
 
-		public RestoreOperation(ILogger logger)
+		public RestoreOperation(IFeatureConfigurationBackup backup, ILogger logger, SessionContext sessionContext)
 		{
+			this.backup = backup;
 			this.logger = logger;
+			this.sessionContext = sessionContext;
 		}
 
 		public OperationResult Perform()
 		{
-			// TODO: Must not delay startup! If restore does not succeed on first attempt, try again in separate thread!
-			//         -> Ensure session cannot be started until values are restored or alike!
+			logger.Info("Starting auto-restore mechanism...");
+			sessionContext.AutoRestoreMechanism.Start();
 
 			return OperationResult.Success;
 		}
 
 		public OperationResult Revert()
 		{
+			logger.Info("Stopping auto-restore mechanism...");
+			sessionContext.AutoRestoreMechanism.Stop();
+
 			return OperationResult.Success;
 		}
 	}

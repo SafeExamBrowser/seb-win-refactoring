@@ -53,9 +53,11 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoRestoreMechanism.cs" />
     <Compile Include="FeatureConfigurationFactory.cs" />
     <Compile Include="FeatureConfigurationBackup.cs" />
     <Compile Include="FeatureConfigurations\ChromeNotificationConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\FeatureConfiguration.cs" />
     <Compile Include="FeatureConfigurations\TaskManagerConfiguration.cs" />
     <Compile Include="FeatureConfigurations\EaseOfAccessConfiguration.cs" />
     <Compile Include="FeatureConfigurations\NetworkOptionsConfiguration.cs" />

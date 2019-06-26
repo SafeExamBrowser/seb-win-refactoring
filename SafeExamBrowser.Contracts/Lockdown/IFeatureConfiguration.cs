@@ -6,6 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+
 namespace SafeExamBrowser.Contracts.Lockdown
 {
 	/// <summary>
@@ -13,6 +15,16 @@ namespace SafeExamBrowser.Contracts.Lockdown
 	/// </summary>
 	public interface IFeatureConfiguration
 	{
+		/// <summary>
+		/// The unique identifier of this feature configuration.
+		/// </summary>
+		Guid Id { get; }
+
+		/// <summary>
+		/// The identifier of the group of changes to which this feature configuration belongs.
+		/// </summary>
+		Guid GroupId { get; }
+
 		/// <summary>
 		/// Disables the feature.
 		/// </summary>
@@ -29,7 +41,7 @@ namespace SafeExamBrowser.Contracts.Lockdown
 		void Monitor();
 
 		/// <summary>
-		/// Restores the feature to its initial configuration.
+		/// Restores the feature to its previous configuration (i.e. before it was enabled or disabled).
 		/// </summary>
 		void Restore();
 	}

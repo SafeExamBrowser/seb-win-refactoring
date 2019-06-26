@@ -6,30 +6,36 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Lockdown;
+using System;
+using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Lockdown.FeatureConfigurations
 {
-	internal class ChromeNotificationConfiguration : IFeatureConfiguration
+	[Serializable]
+	internal class ChromeNotificationConfiguration : FeatureConfiguration
 	{
-		public void DisableFeature()
+		public ChromeNotificationConfiguration(Guid groupId, ILogger logger) : base(groupId, logger)
 		{
-			
 		}
 
-		public void EnableFeature()
+		public override void DisableFeature()
 		{
-			
+			logger.Info("Disabling...");
 		}
 
-		public void Monitor()
+		public override void EnableFeature()
 		{
-			
+			logger.Info("Enabling...");
 		}
 
-		public void Restore()
+		public override void Monitor()
 		{
-			
+			logger.Info("Monitoring...");
+		}
+
+		public override void Restore()
+		{
+			logger.Info("Restoring...");
 		}
 	}
 }

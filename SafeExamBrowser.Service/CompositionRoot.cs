@@ -14,6 +14,7 @@ using System.Security.Principal;
 using System.Threading;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
+using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Service;
@@ -34,21 +35,23 @@ namespace SafeExamBrowser.Service
 
 		internal void BuildObjectGraph()
 		{
-			const string SERVICE_ADDRESS = "net.pipe://localhost/safeexambrowser/service";
 			const int FIVE_SECONDS = 5000;
+			var backupFile = BuildBackupFilePath();
 
 			InitializeLogging();
 
-			var featureBackup = new FeatureConfigurationBackup(new ModuleLogger(logger, nameof(FeatureConfigurationBackup)));
+			var featureBackup = new FeatureConfigurationBackup(backupFile, new ModuleLogger(logger, nameof(FeatureConfigurationBackup)));
 			var featureFactory = new FeatureConfigurationFactory(new ModuleLogger(logger, nameof(FeatureConfigurationFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), new ModuleLogger(logger, nameof(ProxyFactory)));
-			var serviceHost = new ServiceHost(SERVICE_ADDRESS, new HostObjectFactory(), new ModuleLogger(logger, nameof(ServiceHost)), FIVE_SECONDS);
+			var serviceHost = new ServiceHost(AppConfig.SERVICE_ADDRESS, new HostObjectFactory(), new ModuleLogger(logger, nameof(ServiceHost)), FIVE_SECONDS);
 			var sessionContext = new SessionContext();
 
 			var bootstrapOperations = new Queue<IOperation>();
 			var sessionOperations = new Queue<IOperation>();
 
-			bootstrapOperations.Enqueue(new RestoreOperation(logger));
+			sessionContext.AutoRestoreMechanism = new AutoRestoreMechanism(featureBackup);
+
+			bootstrapOperations.Enqueue(new RestoreOperation(featureBackup, logger, sessionContext));
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(serviceHost, logger));
 			bootstrapOperations.Enqueue(new ServiceEventCleanupOperation(logger, sessionContext));
 
@@ -60,6 +63,14 @@ namespace SafeExamBrowser.Service
 			var sessionSequence = new OperationSequence(logger, sessionOperations);
 
 			ServiceController = new ServiceController(logger, bootstrapSequence, sessionSequence, serviceHost, sessionContext);
+		}
+
+		private string BuildBackupFilePath()
+		{
+			var appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), nameof(SafeExamBrowser));
+			var filePath = Path.Combine(appDataFolder, AppConfig.BACKUP_FILE_NAME);
+
+			return filePath;
 		}
 
 		internal void LogStartupInformation()

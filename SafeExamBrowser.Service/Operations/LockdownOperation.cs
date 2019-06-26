@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
@@ -17,6 +18,7 @@ namespace SafeExamBrowser.Service.Operations
 		private IFeatureConfigurationBackup backup;
 		private IFeatureConfigurationFactory factory;
 		private ILogger logger;
+		private Guid groupId;
 
 		public LockdownOperation(
 			IFeatureConfigurationBackup backup,
@@ -31,18 +33,21 @@ namespace SafeExamBrowser.Service.Operations
 
 		public override OperationResult Perform()
 		{
-			var chromeNotification = factory.CreateChromeNotificationConfiguration();
-			var easeOfAccess = factory.CreateEaseOfAccessConfiguration();
-			var networkOptions = factory.CreateNetworkOptionsConfiguration();
-			var passwordChange = factory.CreatePasswordChangeConfiguration();
-			var powerOptions = factory.CreatePowerOptionsConfiguration();
-			var remoteConnection = factory.CreateRemoteConnectionConfiguration();
-			var signout = factory.CreateSignoutConfiguration();
-			var taskManager = factory.CreateTaskManagerConfiguration();
-			var userLock = factory.CreateUserLockConfiguration();
-			var userSwitch = factory.CreateUserSwitchConfiguration();
-			var vmwareOverlay = factory.CreateVmwareOverlayConfiguration();
-			var windowsUpdate = factory.CreateWindowsUpdateConfiguration();
+			groupId = Guid.NewGuid();
+			logger.Info($"Attempting to perform lockdown (feature configuration group: {groupId})...");
+
+			var chromeNotification = factory.CreateChromeNotificationConfiguration(groupId);
+			var easeOfAccess = factory.CreateEaseOfAccessConfiguration(groupId);
+			var networkOptions = factory.CreateNetworkOptionsConfiguration(groupId);
+			var passwordChange = factory.CreatePasswordChangeConfiguration(groupId);
+			var powerOptions = factory.CreatePowerOptionsConfiguration(groupId);
+			var remoteConnection = factory.CreateRemoteConnectionConfiguration(groupId);
+			var signout = factory.CreateSignoutConfiguration(groupId);
+			var taskManager = factory.CreateTaskManagerConfiguration(groupId);
+			var userLock = factory.CreateUserLockConfiguration(groupId);
+			var userSwitch = factory.CreateUserSwitchConfiguration(groupId);
+			var vmwareOverlay = factory.CreateVmwareOverlayConfiguration(groupId);
+			var windowsUpdate = factory.CreateWindowsUpdateConfiguration(groupId);
 
 			SetConfiguration(chromeNotification, Context.Configuration.Settings.Service.DisableChromeNotifications);
 			SetConfiguration(easeOfAccess, Context.Configuration.Settings.Service.DisableEaseOfAccessOptions);
@@ -57,18 +62,24 @@ namespace SafeExamBrowser.Service.Operations
 			SetConfiguration(vmwareOverlay, Context.Configuration.Settings.Service.DisableVmwareOverlay);
 			SetConfiguration(windowsUpdate, Context.Configuration.Settings.Service.DisableWindowsUpdate);
 
+			logger.Info("Lockdown successful.");
+
 			return OperationResult.Success;
 		}
 
 		public override OperationResult Revert()
 		{
-			var configurations = backup.GetConfigurations();
+			logger.Info($"Attempting to revert lockdown (feature configuration group: {groupId})...");
+
+			var configurations = backup.GetBy(groupId);
 
 			foreach (var configuration in configurations)
 			{
 				configuration.Restore();
 				backup.Delete(configuration);
 			}
+
+			logger.Info("Lockdown reversion successful.");
 
 			return OperationResult.Success;
 		}

@@ -92,6 +92,7 @@
     <Compile Include="Applications\Events\NameChangedEventHandler.cs" />
     <Compile Include="Applications\IApplicationController.cs" />
     <Compile Include="Applications\InstanceIdentifier.cs" />
+    <Compile Include="Lockdown\IAutoRestoreMechanism.cs" />
     <Compile Include="Lockdown\IFeatureConfiguration.cs" />
     <Compile Include="Lockdown\IFeatureConfigurationBackup.cs" />
     <Compile Include="Lockdown\IFeatureConfigurationFactory.cs" />

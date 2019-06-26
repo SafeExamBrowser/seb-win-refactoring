@@ -40,11 +40,15 @@ namespace SafeExamBrowser.Service.Operations
 			InitializeSessionWriter();
 
 			logger.Info("Initializing new session...");
-
-			serviceHost.AllowConnection = false;
 			logger.Info($" -> Client-ID: {Context.Configuration.AppConfig.ClientId}");
 			logger.Info($" -> Runtime-ID: {Context.Configuration.AppConfig.RuntimeId}");
 			logger.Info($" -> Session-ID: {Context.Configuration.SessionId}");
+
+			logger.Info("Stopping auto-restore mechanism...");
+			Context.AutoRestoreMechanism.Stop();
+
+			logger.Info("Disabling service host...");
+			serviceHost.AllowConnection = false;
 
 			InitializeServiceEvent();
 
@@ -71,10 +75,16 @@ namespace SafeExamBrowser.Service.Operations
 				}
 			}
 
-			Context.Configuration = null;
-			logger.Unsubscribe(sessionWriter);
-			sessionWriter = null;
+			logger.Info("Starting auto-restore mechanism...");
+			Context.AutoRestoreMechanism.Start();
+
+			logger.Info("Enabling service host...");
 			serviceHost.AllowConnection = true;
+
+			logger.Info("Clearing session data...");
+			Context.Configuration = null;
+
+			FinalizeSessionWriter();
 
 			return success ? OperationResult.Success : OperationResult.Failed;
 		}
@@ -97,6 +107,14 @@ namespace SafeExamBrowser.Service.Operations
 		{
 			sessionWriter = logWriterFactory.Invoke(Context.Configuration.AppConfig.ServiceLogFilePath);
 			logger.Subscribe(sessionWriter);
+			logger.Debug($"Created session log file {Context.Configuration.AppConfig.ServiceLogFilePath}.");
+		}
+
+		private void FinalizeSessionWriter()
+		{
+			logger.Debug("Closed session log file.");
+			logger.Unsubscribe(sessionWriter);
+			sessionWriter = null;
 		}
 	}
 }

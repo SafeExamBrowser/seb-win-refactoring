@@ -17,6 +17,21 @@ namespace SafeExamBrowser.Contracts.Configuration
 	public class AppConfig
 	{
 		/// <summary>
+		/// The name of the backup data file used by the service component.
+		/// </summary>
+		public const string BACKUP_FILE_NAME = "Backup.bin";
+
+		/// <summary>
+		/// The base address for all communication hosts of the application.
+		/// </summary>
+		public const string BASE_ADDRESS = "net.pipe://localhost/safeexambrowser";
+
+		/// <summary>
+		/// The communication address of the service component.
+		/// </summary>
+		public const string SERVICE_ADDRESS = BASE_ADDRESS + "/service";
+
+		/// <summary>
 		/// The file path of the local client configuration for the active user.
 		/// </summary>
 		public string AppDataFilePath { get; set; }

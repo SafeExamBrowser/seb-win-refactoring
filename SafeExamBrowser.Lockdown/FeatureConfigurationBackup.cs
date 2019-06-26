@@ -6,7 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
 
@@ -14,26 +19,114 @@ namespace SafeExamBrowser.Lockdown
 {
 	public class FeatureConfigurationBackup : IFeatureConfigurationBackup
 	{
-		private ILogger logger;
+		private readonly object @lock = new object();
 
-		public FeatureConfigurationBackup(ILogger logger)
+		private string filePath;
+		private IModuleLogger logger;
+
+		public FeatureConfigurationBackup(string filePath, IModuleLogger logger)
 		{
+			this.filePath = filePath;
 			this.logger = logger;
 		}
 
 		public void Delete(IFeatureConfiguration configuration)
 		{
-			
+			lock (@lock)
+			{
+				var configurations = LoadFromFile();
+				var obsolete = configurations.Find(c => c.Id == configuration.Id);
+				
+				if (obsolete != default(IFeatureConfiguration))
+				{
+					configurations.Remove(obsolete);
+					SaveToFile(configurations);
+					logger.Info($"Successfully removed {configuration} from backup.");
+				}
+				else
+				{
+					logger.Warn($"Could not delete {configuration} as it does not exists in backup!");
+				}
+			}
 		}
 
-		public IList<IFeatureConfiguration> GetConfigurations()
+		public IList<IFeatureConfiguration> GetAllConfigurations()
 		{
-			return new List<IFeatureConfiguration>();
+			lock (@lock)
+			{
+				return LoadFromFile();
+			}
+		}
+
+		public IList<IFeatureConfiguration> GetBy(Guid groupId)
+		{
+			lock (@lock)
+			{
+				return LoadFromFile().Where(c => c.GroupId == groupId).ToList();
+			}
 		}
 
 		public void Save(IFeatureConfiguration configuration)
 		{
-			
+			lock (@lock)
+			{
+				var configurations = LoadFromFile();
+
+				configurations.Add(configuration);
+				SaveToFile(configurations);
+				logger.Info($"Successfully added {configuration} to backup.");
+			}
+		}
+
+		private void SaveToFile(List<IFeatureConfiguration> configurations)
+		{
+			try
+			{
+				logger.Debug($"Attempting to save backup data to '{filePath}'...");
+
+				using (var stream = File.Open(filePath, FileMode.Create))
+				{
+					new BinaryFormatter().Serialize(stream, configurations);
+				}
+
+				logger.Debug($"Successfully saved {configurations.Count} items.");
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to save backup data to '{filePath}'!", e);
+			}
+		}
+
+		private List<IFeatureConfiguration> LoadFromFile()
+		{
+			var configurations = new List<IFeatureConfiguration>();
+
+			try
+			{
+				if (File.Exists(filePath))
+				{
+					var context = new StreamingContext(StreamingContextStates.All, logger);
+
+					logger.Debug($"Attempting to load backup data from '{filePath}'...");
+
+					using (var stream = File.Open(filePath, FileMode.Open))
+					{
+						configurations = (List<IFeatureConfiguration>) new BinaryFormatter(null, context).Deserialize(stream);
+					}
+
+					logger.Debug($"Backup data successfully loaded, found {configurations.Count} items.");
+				}
+				else
+				{
+					logger.Debug($"No backup data found under '{filePath}'.");
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to load backup data from '{filePath}'!", e);
+			}
+
+			return configurations;
 		}
 	}
 }

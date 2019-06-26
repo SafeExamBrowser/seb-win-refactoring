@@ -8,6 +8,7 @@
 
 using System.Threading;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Lockdown;
 
 namespace SafeExamBrowser.Service
 {
@@ -16,6 +17,11 @@ namespace SafeExamBrowser.Service
 	/// </summary>
 	internal class SessionContext
 	{
+		/// <summary>
+		/// The mechanism trying to restore all changes after an application or system failure.
+		/// </summary>
+		internal IAutoRestoreMechanism AutoRestoreMechanism { get; set; }
+
 		/// <summary>
 		/// The configuration of the currently active session.
 		/// </summary>

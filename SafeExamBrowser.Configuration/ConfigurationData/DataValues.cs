@@ -16,8 +16,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal class DataValues
 	{
-		private const string BASE_ADDRESS = "net.pipe://localhost/safeexambrowser";
-		private const string DEFAULT_FILE_NAME = "SebClientSettings.seb";
+		private const string DEFAULT_CONFIGURATION_NAME = "SebClientSettings.seb";
 
 		private AppConfig appConfig;
 		private string executablePath;
@@ -48,26 +47,26 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			var logFilePrefix = startTime.ToString("yyyy-MM-dd\\_HH\\hmm\\mss\\s");
 
 			appConfig = new AppConfig();
-			appConfig.AppDataFilePath = Path.Combine(appDataRoamingFolder, DEFAULT_FILE_NAME);
+			appConfig.AppDataFilePath = Path.Combine(appDataRoamingFolder, DEFAULT_CONFIGURATION_NAME);
 			appConfig.ApplicationStartTime = startTime;
 			appConfig.BrowserCachePath = Path.Combine(appDataLocalFolder, "Cache");
 			appConfig.BrowserLogFilePath = Path.Combine(logFolder, $"{logFilePrefix}_Browser.log");
 			appConfig.ClientId = Guid.NewGuid();
-			appConfig.ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}";
+			appConfig.ClientAddress = $"{AppConfig.BASE_ADDRESS}/client/{Guid.NewGuid()}";
 			appConfig.ClientExecutablePath = Path.Combine(Path.GetDirectoryName(executablePath), $"{nameof(SafeExamBrowser)}.Client.exe");
 			appConfig.ClientLogFilePath = Path.Combine(logFolder, $"{logFilePrefix}_Client.log");
 			appConfig.ConfigurationFileExtension = ".seb";
 			appConfig.DownloadDirectory = Path.Combine(appDataLocalFolder, "Downloads");
 			appConfig.ProgramCopyright = programCopyright;
-			appConfig.ProgramDataFilePath = Path.Combine(programDataFolder, DEFAULT_FILE_NAME);
+			appConfig.ProgramDataFilePath = Path.Combine(programDataFolder, DEFAULT_CONFIGURATION_NAME);
 			appConfig.ProgramTitle = programTitle;
 			appConfig.ProgramVersion = programVersion;
 			appConfig.RuntimeId = Guid.NewGuid();
-			appConfig.RuntimeAddress = $"{BASE_ADDRESS}/runtime/{Guid.NewGuid()}";
+			appConfig.RuntimeAddress = $"{AppConfig.BASE_ADDRESS}/runtime/{Guid.NewGuid()}";
 			appConfig.RuntimeLogFilePath = Path.Combine(logFolder, $"{logFilePrefix}_Runtime.log");
 			appConfig.SebUriScheme = "seb";
 			appConfig.SebUriSchemeSecure = "sebs";
-			appConfig.ServiceAddress = $"{BASE_ADDRESS}/service";
+			appConfig.ServiceAddress = $"{AppConfig.BASE_ADDRESS}/service";
 			appConfig.ServiceEventName = $@"Global\{nameof(SafeExamBrowser)}-{Guid.NewGuid()}";
 			appConfig.ServiceLogFilePath = Path.Combine(logFolder, $"{logFilePrefix}_Service.log");
 
@@ -79,7 +78,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			var configuration = new SessionConfiguration();
 
 			appConfig.ClientId = Guid.NewGuid();
-			appConfig.ClientAddress = $"{BASE_ADDRESS}/client/{Guid.NewGuid()}";
+			appConfig.ClientAddress = $"{AppConfig.BASE_ADDRESS}/client/{Guid.NewGuid()}";
 			appConfig.ServiceEventName = $@"Global\{nameof(SafeExamBrowser)}-{Guid.NewGuid()}";
 
 			configuration.AppConfig = appConfig.Clone();
