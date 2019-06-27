@@ -33,6 +33,11 @@ namespace SafeExamBrowser.Browser.Handlers
 			//       reactivated. See https://bitbucket.org/chromiumembedded/cef/issues/2622 for the current status of development.
 			// AppendCustomUserAgent(request);
 
+			if (IsMailtoUrl(request.Url))
+			{
+				return CefReturnValue.Cancel;
+			}
+
 			ReplaceCustomScheme(request);
 
 			return base.OnBeforeResourceLoad(browserControl, browser, frame, request, callback);
@@ -47,17 +52,25 @@ namespace SafeExamBrowser.Browser.Handlers
 			request.Headers = headers;
 		}
 
+		private bool IsMailtoUrl(string url)
+		{
+			return url.StartsWith(Uri.UriSchemeMailto);
+		}
+
 		private void ReplaceCustomScheme(IRequest request)
 		{
-			var uri = new Uri(request.Url);
+			if (Uri.IsWellFormedUriString(request.Url, UriKind.RelativeOrAbsolute))
+			{
+				var uri = new Uri(request.Url);
 
-			if (uri.Scheme == appConfig.SebUriScheme)
-			{
-				request.Url = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttp }.Uri.AbsoluteUri;
-			}
-			else if (uri.Scheme == appConfig.SebUriSchemeSecure)
-			{
-				request.Url = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttps }.Uri.AbsoluteUri;
+				if (uri.Scheme == appConfig.SebUriScheme)
+				{
+					request.Url = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttp }.Uri.AbsoluteUri;
+				}
+				else if (uri.Scheme == appConfig.SebUriSchemeSecure)
+				{
+					request.Url = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttps }.Uri.AbsoluteUri;
+				}
 			}
 		}
 	}
