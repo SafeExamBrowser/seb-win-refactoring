@@ -247,6 +247,15 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			ReloadButton.Visibility = WindowSettings.AllowReloading ? Visibility.Visible : Visibility.Collapsed;
 
 			UrlTextBox.Visibility = WindowSettings.AllowAddressBar ? Visibility.Visible : Visibility.Hidden;
+
+			if (!WindowSettings.AllowAddressBar)
+			{
+				BackwardButton.Height = 35;
+				ForwardButton.Height = 35;
+				ReloadButton.Height = 35;
+				UrlTextBox.Height = 20;
+				MenuButton.Height = 35;
+			}
 		}
 
 		private void InitializeBounds()
