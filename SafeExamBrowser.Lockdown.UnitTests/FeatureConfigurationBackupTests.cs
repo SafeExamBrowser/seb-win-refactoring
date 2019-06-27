@@ -71,6 +71,20 @@ namespace SafeExamBrowser.Lockdown.UnitTests
 		}
 
 		[TestMethod]
+		public void Delete_MustNotFailIfDataNotInBackup()
+		{
+			var configuration = new FeatureConfigurationStub();
+
+			sut.Delete(configuration);
+
+			sut.Save(new FeatureConfigurationStub());
+			sut.Save(new FeatureConfigurationStub());
+			sut.Save(new FeatureConfigurationStub());
+
+			sut.Delete(configuration);
+		}
+
+		[TestMethod]
 		public void GetAll_MustReturnAllConfigurationData()
 		{
 			var configuration1 = new FeatureConfigurationStub { GroupId = Guid.NewGuid() };
