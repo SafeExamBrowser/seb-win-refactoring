@@ -135,6 +135,16 @@ namespace SafeExamBrowser.Service.UnitTests.Communication
 			Assert.AreEqual(SimpleResponsePurport.UnknownMessage, (response as SimpleResponse)?.Purport);
 		}
 
+		[TestMethod]
+		public void MustNotFailIfNoEventHandlersSubscribed()
+		{
+			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
+
+			sut.Send(new SessionStartMessage(null) { CommunicationToken = token });
+			sut.Send(new SessionStopMessage(Guid.Empty) { CommunicationToken = token });
+			sut.Disconnect(new DisconnectionMessage { CommunicationToken = token, Interlocutor = Interlocutor.Runtime });
+		}
+
 		private class TestMessage : Message { };
 	}
 }

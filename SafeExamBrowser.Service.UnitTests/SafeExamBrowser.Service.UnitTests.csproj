@@ -82,6 +82,8 @@
   <ItemGroup>
     <Compile Include="Communication\ServiceHostTests.cs" />
     <Compile Include="Operations\EventStub.cs" />
+    <Compile Include="Operations\LockdownOperationTests.cs" />
+    <Compile Include="Operations\RestoreOperationTests.cs" />
     <Compile Include="Operations\ServiceEventCleanupOperationTests.cs" />
     <Compile Include="Operations\SessionActivationOperationTests.cs" />
     <Compile Include="Operations\SessionInitializationOperationTests.cs" />

@@ -48,6 +48,28 @@ namespace SafeExamBrowser.Lockdown.UnitTests
 		}
 
 		[TestMethod]
+		public void MustNotStartMultipleTimes()
+		{
+			var counter = 0;
+			var list = new List<IFeatureConfiguration>();
+			var sync = new AutoResetEvent(false);
+
+			backup.Setup(b => b.GetAllConfigurations()).Returns(() => { counter++; Thread.Sleep(50); sync.Set(); return list; });
+
+			sut.Start();
+			sut.Start();
+			sut.Start();
+			sut.Start();
+			sut.Start();
+			sut.Start();
+			sut.Start();
+			sync.WaitOne();
+			sut.Stop();
+
+			Assert.AreEqual(1, counter);
+		}
+
+		[TestMethod]
 		public void MustNotTerminateUntilAllChangesReverted()
 		{
 			var configuration = new Mock<IFeatureConfiguration>();

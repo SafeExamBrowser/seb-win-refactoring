@@ -95,6 +95,7 @@ namespace SafeExamBrowser.Service.UnitTests
 
 			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
 			sessionContext.Configuration = new ServiceConfiguration { SessionId = Guid.NewGuid() };
+			sessionContext.IsRunning = true;
 
 			sut.TryStart();
 			serviceHost.Raise(h => h.SessionStopRequested += null, args);
