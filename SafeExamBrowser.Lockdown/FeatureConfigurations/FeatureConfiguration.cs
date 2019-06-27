@@ -29,10 +29,10 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations
 			this.logger = logger;
 		}
 
-		public abstract void DisableFeature();
-		public abstract void EnableFeature();
+		public abstract bool DisableFeature();
+		public abstract bool EnableFeature();
 		public abstract void Monitor();
-		public abstract void Restore();
+		public abstract bool Restore();
 
 		public override string ToString()
 		{

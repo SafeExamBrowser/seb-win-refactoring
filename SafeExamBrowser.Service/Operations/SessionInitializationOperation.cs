@@ -61,7 +61,7 @@ namespace SafeExamBrowser.Service.Operations
 
 			logger.Info("Finalizing current session...");
 
-			if (Context.ServiceEvent != null)
+			if (Context.ServiceEvent != null && Context.IsRunning)
 			{
 				success = Context.ServiceEvent.Set();
 
@@ -83,6 +83,7 @@ namespace SafeExamBrowser.Service.Operations
 
 			logger.Info("Clearing session data...");
 			Context.Configuration = null;
+			Context.IsRunning = false;
 
 			FinalizeSessionWriter();
 
@@ -107,7 +108,7 @@ namespace SafeExamBrowser.Service.Operations
 		{
 			sessionWriter = logWriterFactory.Invoke(Context.Configuration.AppConfig.ServiceLogFilePath);
 			logger.Subscribe(sessionWriter);
-			logger.Debug($"Created session log file {Context.Configuration.AppConfig.ServiceLogFilePath}.");
+			logger.Debug($"Created session log file '{Context.Configuration.AppConfig.ServiceLogFilePath}'.");
 		}
 
 		private void FinalizeSessionWriter()

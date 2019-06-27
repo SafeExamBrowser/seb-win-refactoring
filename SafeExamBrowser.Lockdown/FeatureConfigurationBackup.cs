@@ -45,7 +45,7 @@ namespace SafeExamBrowser.Lockdown
 				}
 				else
 				{
-					logger.Warn($"Could not delete {configuration} as it does not exists in backup!");
+					logger.Warn($"Could not delete {configuration} as it does not exist in backup!");
 				}
 			}
 		}
@@ -75,25 +75,6 @@ namespace SafeExamBrowser.Lockdown
 				configurations.Add(configuration);
 				SaveToFile(configurations);
 				logger.Info($"Successfully added {configuration} to backup.");
-			}
-		}
-
-		private void SaveToFile(List<IFeatureConfiguration> configurations)
-		{
-			try
-			{
-				logger.Debug($"Attempting to save backup data to '{filePath}'...");
-
-				using (var stream = File.Open(filePath, FileMode.Create))
-				{
-					new BinaryFormatter().Serialize(stream, configurations);
-				}
-
-				logger.Debug($"Successfully saved {configurations.Count} items.");
-			}
-			catch (Exception e)
-			{
-				logger.Error($"Failed to save backup data to '{filePath}'!", e);
 			}
 		}
 
@@ -127,6 +108,33 @@ namespace SafeExamBrowser.Lockdown
 			}
 
 			return configurations;
+		}
+
+		private void SaveToFile(List<IFeatureConfiguration> configurations)
+		{
+			try
+			{
+				if (configurations.Any())
+				{
+					logger.Debug($"Attempting to save backup data to '{filePath}'...");
+
+					using (var stream = File.Open(filePath, FileMode.Create))
+					{
+						new BinaryFormatter().Serialize(stream, configurations);
+					}
+
+					logger.Debug($"Successfully saved {configurations.Count} items.");
+				}
+				else
+				{
+					File.Delete(filePath);
+					logger.Debug("No backup data to save, deleted backup file.");
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to save backup data to '{filePath}'!", e);
+			}
 		}
 	}
 }

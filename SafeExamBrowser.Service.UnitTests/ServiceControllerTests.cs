@@ -63,6 +63,7 @@ namespace SafeExamBrowser.Service.UnitTests
 
 			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
 			sessionContext.Configuration = new ServiceConfiguration { SessionId = Guid.NewGuid() };
+			sessionContext.IsRunning = true;
 
 			sut.TryStart();
 			serviceHost.Raise(h => h.SessionStartRequested += null, args);
@@ -79,6 +80,7 @@ namespace SafeExamBrowser.Service.UnitTests
 
 			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
 			sessionContext.Configuration = new ServiceConfiguration { SessionId = args.SessionId };
+			sessionContext.IsRunning = true;
 
 			sut.TryStart();
 			serviceHost.Raise(h => h.SessionStopRequested += null, args);
@@ -106,6 +108,7 @@ namespace SafeExamBrowser.Service.UnitTests
 			var args = new SessionStopEventArgs { SessionId = Guid.NewGuid() };
 
 			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+			sessionContext.IsRunning = false;
 
 			sut.TryStart();
 			serviceHost.Raise(h => h.SessionStopRequested += null, args);
@@ -145,6 +148,7 @@ namespace SafeExamBrowser.Service.UnitTests
 			bootstrapSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Success).Callback(() => bootstrap = ++order);
 			sessionSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Success).Callback(() => session = ++order);
 			sessionContext.Configuration = new ServiceConfiguration();
+			sessionContext.IsRunning = true;
 
 			sut.Terminate();
 

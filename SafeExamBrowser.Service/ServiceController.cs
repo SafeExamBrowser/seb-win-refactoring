@@ -31,7 +31,7 @@ namespace SafeExamBrowser.Service
 
 		private bool SessionIsRunning
 		{
-			get { return Session != null; }
+			get { return sessionContext.IsRunning; }
 		}
 
 		public ServiceController(

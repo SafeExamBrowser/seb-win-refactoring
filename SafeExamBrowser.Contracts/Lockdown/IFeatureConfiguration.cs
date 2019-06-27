@@ -26,14 +26,14 @@ namespace SafeExamBrowser.Contracts.Lockdown
 		Guid GroupId { get; }
 
 		/// <summary>
-		/// Disables the feature.
+		/// Disables the feature. Returns <c>true</c> if successful, otherwise <c>false</c>.
 		/// </summary>
-		void DisableFeature();
+		bool DisableFeature();
 
 		/// <summary>
-		/// Enables the feature.
+		/// Enables the feature. Returns <c>true</c> if successful, otherwise <c>false</c>.
 		/// </summary>
-		void EnableFeature();
+		bool EnableFeature();
 
 		/// <summary>
 		/// Starts monitoring the feature to ensure that it remains as currently configured.
@@ -41,8 +41,9 @@ namespace SafeExamBrowser.Contracts.Lockdown
 		void Monitor();
 
 		/// <summary>
-		/// Restores the feature to its previous configuration (i.e. before it was enabled or disabled).
+		/// Restores the feature to its previous configuration (i.e. before it was enabled or disabled). Returns <c>true</c> if successful,
+		/// otherwise <c>false</c>.
 		/// </summary>
-		void Restore();
+		bool Restore();
 	}
 }

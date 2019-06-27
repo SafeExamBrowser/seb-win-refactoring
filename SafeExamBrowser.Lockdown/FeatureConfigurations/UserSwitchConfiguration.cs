@@ -18,14 +18,14 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations
 		{
 		}
 
-		public override void DisableFeature()
+		public override bool DisableFeature()
 		{
-
+			return true;
 		}
 
-		public override void EnableFeature()
+		public override bool EnableFeature()
 		{
-
+			return true;
 		}
 
 		public override void Monitor()
@@ -33,9 +33,9 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations
 
 		}
 
-		public override void Restore()
+		public override bool Restore()
 		{
-
+			return true;
 		}
 	}
 }

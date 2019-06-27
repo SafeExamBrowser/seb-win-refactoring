@@ -6,27 +6,107 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using SafeExamBrowser.Contracts.Lockdown;
+using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Lockdown
 {
 	public class AutoRestoreMechanism : IAutoRestoreMechanism
 	{
-		private IFeatureConfigurationBackup backup;
+		private readonly object @lock = new object();
 
-		public AutoRestoreMechanism(IFeatureConfigurationBackup backup)
+		private IFeatureConfigurationBackup backup;
+		private ILogger logger;
+		private bool running;
+		private int timeout_ms;
+
+		public AutoRestoreMechanism(IFeatureConfigurationBackup backup, ILogger logger, int timeout_ms)
 		{
+			if (timeout_ms < 0)
+			{
+				throw new ArgumentException("Must be 0 or greater!", nameof(timeout_ms));
+			}
+
 			this.backup = backup;
+			this.logger = logger;
+			this.timeout_ms = timeout_ms;
 		}
 
 		public void Start()
 		{
-			
+			lock (@lock)
+			{
+				if (!running)
+				{
+					running = true;
+					Task.Run(new Action(RestoreAll));
+					logger.Info("Started auto-restore mechanism.");
+				}
+				else
+				{
+					logger.Info("Auto-restore mechanism is already running.");
+				}
+			}
 		}
 
 		public void Stop()
 		{
-			
+			lock (@lock)
+			{
+				if (running)
+				{
+					running = false;
+					logger.Info("Stopped auto-restore mechanism.");
+				}
+				else
+				{
+					logger.Info("Auto-restore mechanism is not running.");
+				}
+			}
+		}
+
+		private void RestoreAll()
+		{
+			var configurations = backup.GetAllConfigurations();
+
+			if (!configurations.Any())
+			{
+				running = false;
+				logger.Info("Nothing to restore, stopped auto-restore mechanism.");
+
+				return;
+			}
+
+			logger.Info($"Attempting to restore {configurations.Count} items...");
+
+			foreach (var configuration in configurations)
+			{
+				var success = configuration.Restore();
+
+				if (success)
+				{
+					backup.Delete(configuration);
+				}
+				else
+				{
+					logger.Warn($"Failed to restore {configuration}!");
+				}
+
+				lock (@lock)
+				{
+					if (!running)
+					{
+						logger.Info("Auto-restore mechanism was aborted.");
+
+						return;
+					}
+				}
+			}
+
+			Task.Delay(timeout_ms).ContinueWith((_) => RestoreAll());
 		}
 	}
 }

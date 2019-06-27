@@ -28,6 +28,11 @@ namespace SafeExamBrowser.Service
 		internal ServiceConfiguration Configuration { get; set; }
 
 		/// <summary>
+		/// Indicates whether a session is currently running.
+		/// </summary>
+		internal bool IsRunning { get; set; }
+
+		/// <summary>
 		/// The global inter-process event used for status synchronization with the runtime component.
 		/// </summary>
 		internal EventWaitHandle ServiceEvent { get; set; }

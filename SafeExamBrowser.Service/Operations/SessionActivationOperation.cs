@@ -33,6 +33,8 @@ namespace SafeExamBrowser.Service.Operations
 				logger.Error("Failed to inform runtime about new session activation!");
 			}
 
+			Context.IsRunning = success;
+
 			return success ? OperationResult.Success : OperationResult.Failed;
 		}
 

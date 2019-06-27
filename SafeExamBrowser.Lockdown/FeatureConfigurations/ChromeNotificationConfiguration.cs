@@ -18,14 +18,18 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations
 		{
 		}
 
-		public override void DisableFeature()
+		public override bool DisableFeature()
 		{
 			logger.Info("Disabling...");
+
+			return true;
 		}
 
-		public override void EnableFeature()
+		public override bool EnableFeature()
 		{
 			logger.Info("Enabling...");
+
+			return true;
 		}
 
 		public override void Monitor()
@@ -33,9 +37,11 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations
 			logger.Info("Monitoring...");
 		}
 
-		public override void Restore()
+		public override bool Restore()
 		{
 			logger.Info("Restoring...");
+
+			return true;
 		}
 	}
 }

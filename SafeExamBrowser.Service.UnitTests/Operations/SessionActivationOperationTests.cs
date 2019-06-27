@@ -45,14 +45,18 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 
 			Assert.AreEqual(OperationResult.Success, result);
 			Assert.IsTrue(wasSet);
+			Assert.IsTrue(sessionContext.IsRunning);
 		}
 
 		[TestMethod]
 		public void Revert_MustDoNothing()
 		{
+			sessionContext.IsRunning = true;
+
 			var result = sut.Revert();
 
 			Assert.AreEqual(OperationResult.Success, result);
+			Assert.IsTrue(sessionContext.IsRunning);
 		}
 	}
 }

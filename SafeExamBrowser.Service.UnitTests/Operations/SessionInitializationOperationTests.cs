@@ -112,6 +112,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 		[TestMethod]
 		public void Revert_MustSetServiceEvent()
 		{
+			sessionContext.IsRunning = true;
 			sessionContext.ServiceEvent = new EventWaitHandle(false, EventResetMode.AutoReset);
 
 			var wasSet = false;
@@ -125,12 +126,39 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 		}
 
 		[TestMethod]
+		public void Revert_MustNotSetServiceEventIfNoSessionActive()
+		{
+			sessionContext.IsRunning = false;
+			sessionContext.ServiceEvent = new EventWaitHandle(false, EventResetMode.AutoReset);
+
+			var wasSet = false;
+			var task = Task.Run(() => wasSet = sessionContext.ServiceEvent.WaitOne(1000));
+			var result = sut.Revert();
+
+			task.Wait();
+
+			Assert.AreEqual(OperationResult.Success, result);
+			Assert.IsFalse(wasSet);
+		}
+
+		[TestMethod]
 		public void Revert_MustStartAutoRestoreMechanism()
 		{
 			var result = sut.Revert();
 
 			autoRestoreMechanism.Verify(m => m.Start(), Times.Once);
 			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Revert_MustResetSessionFlag()
+		{
+			sessionContext.IsRunning = true;
+
+			var result = sut.Revert();
+
+			Assert.AreEqual(OperationResult.Success, result);
+			Assert.IsFalse(sessionContext.IsRunning);
 		}
 	}
 }

@@ -34,37 +34,46 @@ namespace SafeExamBrowser.Service.Operations
 		public override OperationResult Perform()
 		{
 			groupId = Guid.NewGuid();
+
+			var success = true;
+			var configurations = new []
+			{
+				(factory.CreateChromeNotificationConfiguration(groupId), Context.Configuration.Settings.Service.DisableChromeNotifications),
+				(factory.CreateEaseOfAccessConfiguration(groupId), Context.Configuration.Settings.Service.DisableEaseOfAccessOptions),
+				(factory.CreateNetworkOptionsConfiguration(groupId), Context.Configuration.Settings.Service.DisableNetworkOptions),
+				(factory.CreatePasswordChangeConfiguration(groupId), Context.Configuration.Settings.Service.DisablePasswordChange),
+				(factory.CreatePowerOptionsConfiguration(groupId), Context.Configuration.Settings.Service.DisablePowerOptions),
+				(factory.CreateRemoteConnectionConfiguration(groupId), Context.Configuration.Settings.Service.DisableRemoteConnections),
+				(factory.CreateSignoutConfiguration(groupId), Context.Configuration.Settings.Service.DisableSignout),
+				(factory.CreateTaskManagerConfiguration(groupId), Context.Configuration.Settings.Service.DisableTaskManager),
+				(factory.CreateUserLockConfiguration(groupId), Context.Configuration.Settings.Service.DisableUserLock),
+				(factory.CreateUserSwitchConfiguration(groupId), Context.Configuration.Settings.Service.DisableUserSwitch),
+				(factory.CreateVmwareOverlayConfiguration(groupId), Context.Configuration.Settings.Service.DisableVmwareOverlay),
+				(factory.CreateWindowsUpdateConfiguration(groupId), Context.Configuration.Settings.Service.DisableWindowsUpdate)
+			};
+
 			logger.Info($"Attempting to perform lockdown (feature configuration group: {groupId})...");
 
-			var chromeNotification = factory.CreateChromeNotificationConfiguration(groupId);
-			var easeOfAccess = factory.CreateEaseOfAccessConfiguration(groupId);
-			var networkOptions = factory.CreateNetworkOptionsConfiguration(groupId);
-			var passwordChange = factory.CreatePasswordChangeConfiguration(groupId);
-			var powerOptions = factory.CreatePowerOptionsConfiguration(groupId);
-			var remoteConnection = factory.CreateRemoteConnectionConfiguration(groupId);
-			var signout = factory.CreateSignoutConfiguration(groupId);
-			var taskManager = factory.CreateTaskManagerConfiguration(groupId);
-			var userLock = factory.CreateUserLockConfiguration(groupId);
-			var userSwitch = factory.CreateUserSwitchConfiguration(groupId);
-			var vmwareOverlay = factory.CreateVmwareOverlayConfiguration(groupId);
-			var windowsUpdate = factory.CreateWindowsUpdateConfiguration(groupId);
+			foreach (var (configuration, disable) in configurations)
+			{
+				success &= SetConfiguration(configuration, disable);
 
-			SetConfiguration(chromeNotification, Context.Configuration.Settings.Service.DisableChromeNotifications);
-			SetConfiguration(easeOfAccess, Context.Configuration.Settings.Service.DisableEaseOfAccessOptions);
-			SetConfiguration(networkOptions, Context.Configuration.Settings.Service.DisableNetworkOptions);
-			SetConfiguration(passwordChange, Context.Configuration.Settings.Service.DisablePasswordChange);
-			SetConfiguration(powerOptions, Context.Configuration.Settings.Service.DisablePowerOptions);
-			SetConfiguration(remoteConnection, Context.Configuration.Settings.Service.DisableRemoteConnections);
-			SetConfiguration(signout, Context.Configuration.Settings.Service.DisableSignout);
-			SetConfiguration(taskManager, Context.Configuration.Settings.Service.DisableTaskManager);
-			SetConfiguration(userLock, Context.Configuration.Settings.Service.DisableUserLock);
-			SetConfiguration(userSwitch, Context.Configuration.Settings.Service.DisableUserSwitch);
-			SetConfiguration(vmwareOverlay, Context.Configuration.Settings.Service.DisableVmwareOverlay);
-			SetConfiguration(windowsUpdate, Context.Configuration.Settings.Service.DisableWindowsUpdate);
+				if (!success)
+				{
+					break;
+				}
+			}
 
-			logger.Info("Lockdown successful.");
+			if (success)
+			{
+				logger.Info("Lockdown successful.");
+			}
+			else
+			{
+				logger.Error("Lockdown was not successful!");
+			}
 
-			return OperationResult.Success;
+			return success ? OperationResult.Success : OperationResult.Failed;
 		}
 
 		public override OperationResult Revert()
@@ -72,32 +81,60 @@ namespace SafeExamBrowser.Service.Operations
 			logger.Info($"Attempting to revert lockdown (feature configuration group: {groupId})...");
 
 			var configurations = backup.GetBy(groupId);
+			var success = true;
 
 			foreach (var configuration in configurations)
 			{
-				configuration.Restore();
-				backup.Delete(configuration);
+				var restored = configuration.Restore();
+
+				if (restored)
+				{
+					backup.Delete(configuration);
+				}
+				else
+				{
+					logger.Error($"Failed to restore {configuration}!");
+					success = false;
+				}
 			}
 
-			logger.Info("Lockdown reversion successful.");
+			if (success)
+			{
+				logger.Info("Lockdown reversion successful.");
+			}
+			else
+			{
+				logger.Warn("Lockdown reversion was not successful!");
+			}
 
-			return OperationResult.Success;
+			return success ? OperationResult.Success : OperationResult.Failed;
 		}
 
-		private void SetConfiguration(IFeatureConfiguration configuration, bool disable)
+		private bool SetConfiguration(IFeatureConfiguration configuration, bool disable)
 		{
+			var success = false;
+
 			backup.Save(configuration);
 
 			if (disable)
 			{
-				configuration.DisableFeature();
+				success = configuration.DisableFeature();
 			}
 			else
 			{
-				configuration.EnableFeature();
+				success = configuration.EnableFeature();
 			}
 
-			configuration.Monitor();
+			if (success)
+			{
+				configuration.Monitor();
+			}
+			else
+			{
+				logger.Error($"Failed to configure {configuration}!");
+			}
+
+			return success;
 		}
 	}
 }
