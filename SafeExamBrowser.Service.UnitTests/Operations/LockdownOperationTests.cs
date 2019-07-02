@@ -37,7 +37,10 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 			factory = new Mock<IFeatureConfigurationFactory>();
 			logger = new Mock<ILogger>();
 			settings = new Settings();
-			sessionContext = new SessionContext { Configuration = new ServiceConfiguration { Settings = settings } };
+			sessionContext = new SessionContext
+			{
+				Configuration = new ServiceConfiguration { Settings = settings, UserName = "TestName", UserSid = "S-1-234-TEST" }
+			};
 
 			sut = new LockdownOperation(backup.Object, factory.Object, logger.Object, sessionContext);
 		}
@@ -57,6 +60,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 			var result = sut.Perform();
 
 			backup.Verify(b => b.Save(It.Is<IFeatureConfiguration>(c => c == configuration.Object)), Times.Exactly(count));
+			configuration.Verify(c => c.Initialize(), Times.Exactly(count));
 			configuration.Verify(c => c.DisableFeature(), Times.Exactly(3));
 			configuration.Verify(c => c.EnableFeature(), Times.Exactly(count - 3));
 			configuration.Verify(c => c.Monitor(), Times.Exactly(count));
@@ -71,12 +75,15 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 			var groupId = default(Guid);
 
 			configuration.SetReturnsDefault(true);
-			factory.Setup(f => f.CreateChromeNotificationConfiguration(It.IsAny<Guid>())).Returns(configuration.Object).Callback<Guid>(id => groupId = id);
+			factory
+				.Setup(f => f.CreateChromeNotificationConfiguration(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()))
+				.Returns(configuration.Object)
+				.Callback<Guid, string, string>((id, name, sid) => groupId = id);
 			factory.SetReturnsDefault(configuration.Object);
 
 			sut.Perform();
 
-			factory.Verify(f => f.CreateChromeNotificationConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
+			factory.Verify(f => f.CreateChromeNotificationConfiguration(It.Is<Guid>(id => id == groupId), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 			factory.Verify(f => f.CreateEaseOfAccessConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
 			factory.Verify(f => f.CreateNetworkOptionsConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
 			factory.Verify(f => f.CreatePasswordChangeConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
@@ -104,6 +111,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 			var result = sut.Perform();
 
 			backup.Verify(b => b.Save(It.Is<IFeatureConfiguration>(c => c == configuration.Object)), Times.Exactly(count - offset));
+			configuration.Verify(c => c.Initialize(), Times.Exactly(count - offset));
 			configuration.Verify(c => c.DisableFeature(), Times.Never);
 			configuration.Verify(c => c.EnableFeature(), Times.Exactly(count - offset));
 			configuration.Verify(c => c.Monitor(), Times.Exactly(count - offset - 1));
@@ -141,18 +149,22 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 
 			configuration1.Verify(c => c.DisableFeature(), Times.Never);
 			configuration1.Verify(c => c.EnableFeature(), Times.Never);
+			configuration1.Verify(c => c.Initialize(), Times.Never);
 			configuration1.Verify(c => c.Restore(), Times.Once);
 
 			configuration2.Verify(c => c.DisableFeature(), Times.Never);
 			configuration2.Verify(c => c.EnableFeature(), Times.Never);
+			configuration2.Verify(c => c.Initialize(), Times.Never);
 			configuration2.Verify(c => c.Restore(), Times.Once);
 
 			configuration3.Verify(c => c.DisableFeature(), Times.Never);
 			configuration3.Verify(c => c.EnableFeature(), Times.Never);
+			configuration3.Verify(c => c.Initialize(), Times.Never);
 			configuration3.Verify(c => c.Restore(), Times.Once);
 
 			configuration4.Verify(c => c.DisableFeature(), Times.Never);
 			configuration4.Verify(c => c.EnableFeature(), Times.Never);
+			configuration4.Verify(c => c.Initialize(), Times.Never);
 			configuration4.Verify(c => c.Restore(), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
@@ -188,18 +200,22 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 
 			configuration1.Verify(c => c.DisableFeature(), Times.Never);
 			configuration1.Verify(c => c.EnableFeature(), Times.Never);
+			configuration1.Verify(c => c.Initialize(), Times.Never);
 			configuration1.Verify(c => c.Restore(), Times.Once);
 
 			configuration2.Verify(c => c.DisableFeature(), Times.Never);
 			configuration2.Verify(c => c.EnableFeature(), Times.Never);
+			configuration2.Verify(c => c.Initialize(), Times.Never);
 			configuration2.Verify(c => c.Restore(), Times.Once);
 
 			configuration3.Verify(c => c.DisableFeature(), Times.Never);
 			configuration3.Verify(c => c.EnableFeature(), Times.Never);
+			configuration3.Verify(c => c.Initialize(), Times.Never);
 			configuration3.Verify(c => c.Restore(), Times.Once);
 
 			configuration4.Verify(c => c.DisableFeature(), Times.Never);
 			configuration4.Verify(c => c.EnableFeature(), Times.Never);
+			configuration4.Verify(c => c.Initialize(), Times.Never);
 			configuration4.Verify(c => c.Restore(), Times.Once);
 
 			Assert.AreEqual(OperationResult.Failed, result);

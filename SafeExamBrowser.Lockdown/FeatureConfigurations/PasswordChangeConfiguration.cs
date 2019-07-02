@@ -28,6 +28,11 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations
 			return true;
 		}
 
+		public override void Initialize()
+		{
+
+		}
+
 		public override void Monitor()
 		{
 

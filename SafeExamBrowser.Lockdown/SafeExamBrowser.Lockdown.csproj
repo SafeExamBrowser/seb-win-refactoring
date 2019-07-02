@@ -56,8 +56,13 @@
     <Compile Include="AutoRestoreMechanism.cs" />
     <Compile Include="FeatureConfigurationFactory.cs" />
     <Compile Include="FeatureConfigurationBackup.cs" />
-    <Compile Include="FeatureConfigurations\ChromeNotificationConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\RegistryConfigurations\RegistryDataItem.cs" />
+    <Compile Include="FeatureConfigurations\RegistryConfigurations\RegistryConfigurationItem.cs" />
+    <Compile Include="FeatureConfigurations\RegistryConfigurations\UserHive\ChromeNotificationConfiguration.cs" />
     <Compile Include="FeatureConfigurations\FeatureConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\RegistryConfigurations\MachineHiveConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\RegistryConfigurations\RegistryConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\RegistryConfigurations\UserHiveConfiguration.cs" />
     <Compile Include="FeatureConfigurations\TaskManagerConfiguration.cs" />
     <Compile Include="FeatureConfigurations\EaseOfAccessConfiguration.cs" />
     <Compile Include="FeatureConfigurations\NetworkOptionsConfiguration.cs" />
@@ -77,6 +82,8 @@
       <Name>SafeExamBrowser.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="FeatureConfigurations\RegistryConfigurations\MachineHive\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -36,9 +36,11 @@ namespace SafeExamBrowser.Service.Operations
 			groupId = Guid.NewGuid();
 
 			var success = true;
+			var sid = Context.Configuration.UserSid;
+			var userName = Context.Configuration.UserName;
 			var configurations = new []
 			{
-				(factory.CreateChromeNotificationConfiguration(groupId), Context.Configuration.Settings.Service.DisableChromeNotifications),
+				(factory.CreateChromeNotificationConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableChromeNotifications),
 				(factory.CreateEaseOfAccessConfiguration(groupId), Context.Configuration.Settings.Service.DisableEaseOfAccessOptions),
 				(factory.CreateNetworkOptionsConfiguration(groupId), Context.Configuration.Settings.Service.DisableNetworkOptions),
 				(factory.CreatePasswordChangeConfiguration(groupId), Context.Configuration.Settings.Service.DisablePasswordChange),
@@ -114,6 +116,7 @@ namespace SafeExamBrowser.Service.Operations
 		{
 			var success = false;
 
+			configuration.Initialize();
 			backup.Save(configuration);
 
 			if (disable)

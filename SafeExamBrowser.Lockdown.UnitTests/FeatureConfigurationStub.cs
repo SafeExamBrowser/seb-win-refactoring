@@ -32,6 +32,11 @@ namespace SafeExamBrowser.Lockdown.UnitTests
 			throw new NotImplementedException();
 		}
 
+		public void Initialize()
+		{
+			throw new NotImplementedException();
+		}
+
 		public void Monitor()
 		{
 			throw new NotImplementedException();

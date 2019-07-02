@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Contracts.Lockdown
 		/// <summary>
 		/// Creates an <see cref="IFeatureConfiguration"/> to control notifications of the Google Chrome browser.
 		/// </summary>
-		IFeatureConfiguration CreateChromeNotificationConfiguration(Guid groupId);
+		IFeatureConfiguration CreateChromeNotificationConfiguration(Guid groupId, string sid, string userName);
 
 		/// <summary>
 		/// Creates an <see cref="IFeatureConfiguration"/> to control the ease of access options on the security screen.

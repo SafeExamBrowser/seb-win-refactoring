@@ -36,6 +36,11 @@ namespace SafeExamBrowser.Contracts.Lockdown
 		bool EnableFeature();
 
 		/// <summary>
+		/// Initializes the currently active configuration of the feature.
+		/// </summary>
+		void Initialize();
+
+		/// <summary>
 		/// Starts monitoring the feature to ensure that it remains as currently configured.
 		/// </summary>
 		void Monitor();

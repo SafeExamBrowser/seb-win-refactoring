@@ -10,6 +10,7 @@ using System;
 using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Lockdown.FeatureConfigurations;
+using SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.UserHive;
 
 namespace SafeExamBrowser.Lockdown
 {
@@ -22,9 +23,9 @@ namespace SafeExamBrowser.Lockdown
 			this.logger = logger;
 		}
 
-		public IFeatureConfiguration CreateChromeNotificationConfiguration(Guid groupId)
+		public IFeatureConfiguration CreateChromeNotificationConfiguration(Guid groupId, string sid, string userName)
 		{
-			return new ChromeNotificationConfiguration(groupId, logger.CloneFor(nameof(ChromeNotificationConfiguration)));
+			return new ChromeNotificationConfiguration(groupId, logger.CloneFor(nameof(ChromeNotificationConfiguration)), sid, userName);
 		}
 
 		public IFeatureConfiguration CreateEaseOfAccessConfiguration(Guid groupId)
