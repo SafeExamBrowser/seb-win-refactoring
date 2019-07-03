@@ -12,6 +12,7 @@ using Moq;
 using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
 
@@ -21,6 +22,7 @@ namespace SafeExamBrowser.Service.UnitTests
 	public class ServiceControllerTests
 	{
 		private Mock<ILogger> logger;
+		private Mock<Func<string, ILogObserver>> logWriterFactory;
 		private Mock<IOperationSequence> bootstrapSequence;
 		private SessionContext sessionContext;
 		private Mock<IOperationSequence> sessionSequence;
@@ -31,12 +33,15 @@ namespace SafeExamBrowser.Service.UnitTests
 		public void Initialize()
 		{
 			logger = new Mock<ILogger>();
+			logWriterFactory = new Mock<Func<string, ILogObserver>>();
 			bootstrapSequence = new Mock<IOperationSequence>();
 			sessionContext = new SessionContext();
 			sessionSequence = new Mock<IOperationSequence>();
 			serviceHost = new Mock<IServiceHost>();
 
-			sut = new ServiceController(logger.Object, bootstrapSequence.Object, sessionSequence.Object, serviceHost.Object, sessionContext);
+			logWriterFactory.Setup(f => f.Invoke(It.IsAny<string>())).Returns(new Mock<ILogObserver>().Object);
+
+			sut = new ServiceController(logger.Object, logWriterFactory.Object, bootstrapSequence.Object, sessionSequence.Object, serviceHost.Object, sessionContext);
 		}
 
 		[TestMethod]
@@ -57,6 +62,28 @@ namespace SafeExamBrowser.Service.UnitTests
 		}
 
 		[TestMethod]
+		public void Communication_MustInitializeSessionLogging()
+		{
+			var args = new SessionStartEventArgs
+			{
+				Configuration = new ServiceConfiguration
+				{
+					AppConfig = new AppConfig { ServiceLogFilePath = "Test.log" },
+					SessionId = Guid.NewGuid(),
+					Settings = new Settings { LogLevel = LogLevel.Warning }
+				}
+			};
+
+			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+
+			sut.TryStart();
+			serviceHost.Raise(h => h.SessionStartRequested += null, args);
+
+			logger.VerifySet(l => l.LogLevel = It.Is<LogLevel>(ll => ll == args.Configuration.Settings.LogLevel), Times.Once);
+		}
+
+		[TestMethod]
 		public void Communication_MustNotAllowNewSessionDuringActiveSession()
 		{
 			var args = new SessionStartEventArgs { Configuration = new ServiceConfiguration { SessionId = Guid.NewGuid() } };
@@ -71,6 +98,22 @@ namespace SafeExamBrowser.Service.UnitTests
 			sessionSequence.Verify(s => s.TryPerform(), Times.Never);
 
 			Assert.AreNotEqual(args.Configuration.SessionId, sessionContext.Configuration.SessionId);
+		}
+
+		[TestMethod]
+		public void Communication_MustNotFailIfNoValidSessionData()
+		{
+			var args = new SessionStartEventArgs { Configuration = null };
+
+			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+
+			sut.TryStart();
+			serviceHost.Raise(h => h.SessionStartRequested += null, args);
+
+			sessionSequence.Verify(s => s.TryPerform(), Times.Once);
+
+			Assert.IsNull(sessionContext.Configuration);
 		}
 
 		[TestMethod]

@@ -18,11 +18,13 @@ namespace SafeExamBrowser.Service
 {
 	internal class ServiceController : IServiceController
 	{
-		private readonly ILogger logger;
+		private ILogger logger;
+		private Func<string, ILogObserver> logWriterFactory;
 		private IOperationSequence bootstrapSequence;
 		private IOperationSequence sessionSequence;
 		private IServiceHost serviceHost;
 		private SessionContext sessionContext;
+		private ILogObserver sessionWriter;
 
 		private ServiceConfiguration Session
 		{
@@ -36,12 +38,14 @@ namespace SafeExamBrowser.Service
 
 		public ServiceController(
 			ILogger logger,
+			Func<string, ILogObserver> logWriterFactory,
 			IOperationSequence bootstrapSequence,
 			IOperationSequence sessionSequence,
 			IServiceHost serviceHost,
 			SessionContext sessionContext)
 		{
 			this.logger = logger;
+			this.logWriterFactory = logWriterFactory;
 			this.bootstrapSequence = bootstrapSequence;
 			this.sessionSequence = sessionSequence;
 			this.serviceHost = serviceHost;
@@ -100,6 +104,7 @@ namespace SafeExamBrowser.Service
 
 		private void StartSession()
 		{
+			InitializeSessionLogging();
 			logger.Info(AppendDivider("Session Start Procedure"));
 
 			var result = sessionSequence.TryPerform();
@@ -128,6 +133,8 @@ namespace SafeExamBrowser.Service
 			{
 				logger.Info(AppendDivider("Session Stop Failed"));
 			}
+
+			FinalizeSessionLogging();
 		}
 
 		private void RegisterEvents()
@@ -181,6 +188,29 @@ namespace SafeExamBrowser.Service
 			var dashesRight = new String('-', 48 - message.Length / 2);
 
 			return $"### {dashesLeft} {message} {dashesRight} ###";
+		}
+
+		private void InitializeSessionLogging()
+		{
+			if (Session?.AppConfig?.ServiceLogFilePath != null)
+			{
+				sessionWriter = logWriterFactory.Invoke(Session.AppConfig.ServiceLogFilePath);
+				logger.Subscribe(sessionWriter);
+				logger.LogLevel = Session.Settings.LogLevel;
+			}
+			else
+			{
+				logger.Warn("Could not initialize session writer due to missing configuration data!");
+			}
+		}
+
+		private void FinalizeSessionLogging()
+		{
+			if (sessionWriter != null)
+			{
+				logger.Unsubscribe(sessionWriter);
+				sessionWriter = null;
+			}
 		}
 	}
 }

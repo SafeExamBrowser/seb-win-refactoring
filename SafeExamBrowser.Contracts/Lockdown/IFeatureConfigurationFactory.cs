@@ -16,6 +16,11 @@ namespace SafeExamBrowser.Contracts.Lockdown
 	public interface IFeatureConfigurationFactory
 	{
 		/// <summary>
+		/// Creates an <see cref="IFeatureConfiguration"/> to control the option to change the password of a user account via the security screen.
+		/// </summary>
+		IFeatureConfiguration CreateChangePasswordConfiguration(Guid groupId, string sid, string userName);
+
+		/// <summary>
 		/// Creates an <see cref="IFeatureConfiguration"/> to control notifications of the Google Chrome browser.
 		/// </summary>
 		IFeatureConfiguration CreateChromeNotificationConfiguration(Guid groupId, string sid, string userName);
@@ -26,14 +31,14 @@ namespace SafeExamBrowser.Contracts.Lockdown
 		IFeatureConfiguration CreateEaseOfAccessConfiguration(Guid groupId);
 
 		/// <summary>
+		/// Creates an <see cref="IFeatureConfiguration"/> to control the option to lock the computer via the security screen.
+		/// </summary>
+		IFeatureConfiguration CreateLockWorkstationConfiguration(Guid groupId, string sid, string userName);
+
+		/// <summary>
 		/// Creates an <see cref="IFeatureConfiguration"/> to control the network options on the security screen.
 		/// </summary>
 		IFeatureConfiguration CreateNetworkOptionsConfiguration(Guid groupId);
-
-		/// <summary>
-		/// Creates an <see cref="IFeatureConfiguration"/> to control the option to change the password of a user account via the security screen.
-		/// </summary>
-		IFeatureConfiguration CreatePasswordChangeConfiguration(Guid groupId);
 
 		/// <summary>
 		/// Creates an <see cref="IFeatureConfiguration"/> to control the power options on the security screen.
@@ -48,27 +53,22 @@ namespace SafeExamBrowser.Contracts.Lockdown
 		/// <summary>
 		/// Creates an <see cref="IFeatureConfiguration"/> to control the option to sign out out via security screen.
 		/// </summary>
-		IFeatureConfiguration CreateSignoutConfiguration(Guid groupId);
-
-		/// <summary>
-		/// Creates an <see cref="IFeatureConfiguration"/> to control the task manager of Windows.
-		/// </summary>
-		IFeatureConfiguration CreateTaskManagerConfiguration(Guid groupId);
-
-		/// <summary>
-		/// Creates an <see cref="IFeatureConfiguration"/> to control the option to lock the computer via the security screen.
-		/// </summary>
-		IFeatureConfiguration CreateUserLockConfiguration(Guid groupId);
+		IFeatureConfiguration CreateSignoutConfiguration(Guid groupId, string sid, string userName);
 
 		/// <summary>
 		/// Creates an <see cref="IFeatureConfiguration"/> to control the option to switch to another user account via the security screen.
 		/// </summary>
-		IFeatureConfiguration CreateUserSwitchConfiguration(Guid groupId);
+		IFeatureConfiguration CreateSwitchUserConfiguration(Guid groupId);
+
+		/// <summary>
+		/// Creates an <see cref="IFeatureConfiguration"/> to control the task manager of Windows.
+		/// </summary>
+		IFeatureConfiguration CreateTaskManagerConfiguration(Guid groupId, string sid, string userName);
 
 		/// <summary>
 		/// Creates an <see cref="IFeatureConfiguration"/> to control the user interface overlay for VMware clients.
 		/// </summary>
-		IFeatureConfiguration CreateVmwareOverlayConfiguration(Guid groupId);
+		IFeatureConfiguration CreateVmwareOverlayConfiguration(Guid groupId, string sid, string userName);
 
 		/// <summary>
 		/// Creates an <see cref="IFeatureConfiguration"/> to control Windows Update.

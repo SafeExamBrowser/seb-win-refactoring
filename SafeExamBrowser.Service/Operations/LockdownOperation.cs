@@ -40,17 +40,17 @@ namespace SafeExamBrowser.Service.Operations
 			var userName = Context.Configuration.UserName;
 			var configurations = new []
 			{
+				(factory.CreateChangePasswordConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisablePasswordChange),
 				(factory.CreateChromeNotificationConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableChromeNotifications),
 				(factory.CreateEaseOfAccessConfiguration(groupId), Context.Configuration.Settings.Service.DisableEaseOfAccessOptions),
+				(factory.CreateLockWorkstationConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableUserLock),
 				(factory.CreateNetworkOptionsConfiguration(groupId), Context.Configuration.Settings.Service.DisableNetworkOptions),
-				(factory.CreatePasswordChangeConfiguration(groupId), Context.Configuration.Settings.Service.DisablePasswordChange),
 				(factory.CreatePowerOptionsConfiguration(groupId), Context.Configuration.Settings.Service.DisablePowerOptions),
 				(factory.CreateRemoteConnectionConfiguration(groupId), Context.Configuration.Settings.Service.DisableRemoteConnections),
-				(factory.CreateSignoutConfiguration(groupId), Context.Configuration.Settings.Service.DisableSignout),
-				(factory.CreateTaskManagerConfiguration(groupId), Context.Configuration.Settings.Service.DisableTaskManager),
-				(factory.CreateUserLockConfiguration(groupId), Context.Configuration.Settings.Service.DisableUserLock),
-				(factory.CreateUserSwitchConfiguration(groupId), Context.Configuration.Settings.Service.DisableUserSwitch),
-				(factory.CreateVmwareOverlayConfiguration(groupId), Context.Configuration.Settings.Service.DisableVmwareOverlay),
+				(factory.CreateSignoutConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableSignout),
+				(factory.CreateSwitchUserConfiguration(groupId), Context.Configuration.Settings.Service.DisableUserSwitch),
+				(factory.CreateTaskManagerConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableTaskManager),
+				(factory.CreateVmwareOverlayConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableVmwareOverlay),
 				(factory.CreateWindowsUpdateConfiguration(groupId), Context.Configuration.Settings.Service.DisableWindowsUpdate)
 			};
 

@@ -83,17 +83,17 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 
 			sut.Perform();
 
+			factory.Verify(f => f.CreateChangePasswordConfiguration(It.Is<Guid>(id => id == groupId), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 			factory.Verify(f => f.CreateChromeNotificationConfiguration(It.Is<Guid>(id => id == groupId), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 			factory.Verify(f => f.CreateEaseOfAccessConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
+			factory.Verify(f => f.CreateLockWorkstationConfiguration(It.Is<Guid>(id => id == groupId), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 			factory.Verify(f => f.CreateNetworkOptionsConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
-			factory.Verify(f => f.CreatePasswordChangeConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
 			factory.Verify(f => f.CreatePowerOptionsConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
 			factory.Verify(f => f.CreateRemoteConnectionConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
-			factory.Verify(f => f.CreateSignoutConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
-			factory.Verify(f => f.CreateTaskManagerConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
-			factory.Verify(f => f.CreateUserLockConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
-			factory.Verify(f => f.CreateUserSwitchConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
-			factory.Verify(f => f.CreateVmwareOverlayConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
+			factory.Verify(f => f.CreateSignoutConfiguration(It.Is<Guid>(id => id == groupId), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+			factory.Verify(f => f.CreateSwitchUserConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
+			factory.Verify(f => f.CreateTaskManagerConfiguration(It.Is<Guid>(id => id == groupId), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+			factory.Verify(f => f.CreateVmwareOverlayConfiguration(It.Is<Guid>(id => id == groupId), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 			factory.Verify(f => f.CreateWindowsUpdateConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
 		}
 

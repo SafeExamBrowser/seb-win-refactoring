@@ -56,14 +56,14 @@ namespace SafeExamBrowser.Service
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(serviceHost, logger));
 			bootstrapOperations.Enqueue(new ServiceEventCleanupOperation(logger, sessionContext));
 
-			sessionOperations.Enqueue(new SessionInitializationOperation(logger, LogWriterFactory, ServiceEventFactory, serviceHost, sessionContext));
+			sessionOperations.Enqueue(new SessionInitializationOperation(logger, ServiceEventFactory, serviceHost, sessionContext));
 			sessionOperations.Enqueue(new LockdownOperation(featureBackup, featureFactory, logger, sessionContext));
 			sessionOperations.Enqueue(new SessionActivationOperation(logger, sessionContext));
 
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
 			var sessionSequence = new OperationSequence(logger, sessionOperations);
 
-			ServiceController = new ServiceController(logger, bootstrapSequence, sessionSequence, serviceHost, sessionContext);
+			ServiceController = new ServiceController(logger, LogWriterFactory, bootstrapSequence, sessionSequence, serviceHost, sessionContext);
 		}
 
 		private string BuildBackupFilePath()

@@ -10,6 +10,7 @@ using System;
 using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Lockdown.FeatureConfigurations;
+using SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.MachineHive;
 using SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.UserHive;
 
 namespace SafeExamBrowser.Lockdown
@@ -23,6 +24,11 @@ namespace SafeExamBrowser.Lockdown
 			this.logger = logger;
 		}
 
+		public IFeatureConfiguration CreateChangePasswordConfiguration(Guid groupId, string sid, string userName)
+		{
+			return new ChangePasswordConfiguration(groupId, logger.CloneFor(nameof(ChangePasswordConfiguration)), sid, userName);
+		}
+
 		public IFeatureConfiguration CreateChromeNotificationConfiguration(Guid groupId, string sid, string userName)
 		{
 			return new ChromeNotificationConfiguration(groupId, logger.CloneFor(nameof(ChromeNotificationConfiguration)), sid, userName);
@@ -33,14 +39,14 @@ namespace SafeExamBrowser.Lockdown
 			return new EaseOfAccessConfiguration(groupId, logger.CloneFor(nameof(EaseOfAccessConfiguration)));
 		}
 
+		public IFeatureConfiguration CreateLockWorkstationConfiguration(Guid groupId, string sid, string userName)
+		{
+			return new LockWorkstationConfiguration(groupId, logger.CloneFor(nameof(LockWorkstationConfiguration)), sid, userName);
+		}
+
 		public IFeatureConfiguration CreateNetworkOptionsConfiguration(Guid groupId)
 		{
 			return new NetworkOptionsConfiguration(groupId, logger.CloneFor(nameof(NetworkOptionsConfiguration)));
-		}
-
-		public IFeatureConfiguration CreatePasswordChangeConfiguration(Guid groupId)
-		{
-			return new PasswordChangeConfiguration(groupId, logger.CloneFor(nameof(PasswordChangeConfiguration)));
 		}
 
 		public IFeatureConfiguration CreatePowerOptionsConfiguration(Guid groupId)
@@ -53,29 +59,24 @@ namespace SafeExamBrowser.Lockdown
 			return new RemoteConnectionConfiguration(groupId, logger.CloneFor(nameof(RemoteConnectionConfiguration)));
 		}
 
-		public IFeatureConfiguration CreateSignoutConfiguration(Guid groupId)
+		public IFeatureConfiguration CreateSignoutConfiguration(Guid groupId, string sid, string userName)
 		{
-			return new SignoutConfiguration(groupId, logger.CloneFor(nameof(SignoutConfiguration)));
+			return new SignoutConfiguration(groupId, logger.CloneFor(nameof(SignoutConfiguration)), sid, userName);
 		}
 
-		public IFeatureConfiguration CreateTaskManagerConfiguration(Guid groupId)
+		public IFeatureConfiguration CreateSwitchUserConfiguration(Guid groupId)
 		{
-			return new TaskManagerConfiguration(groupId, logger.CloneFor(nameof(TaskManagerConfiguration)));
+			return new SwitchUserConfiguration(groupId, logger.CloneFor(nameof(SwitchUserConfiguration)));
 		}
 
-		public IFeatureConfiguration CreateUserLockConfiguration(Guid groupId)
+		public IFeatureConfiguration CreateTaskManagerConfiguration(Guid groupId, string sid, string userName)
 		{
-			return new UserLockConfiguration(groupId, logger.CloneFor(nameof(UserLockConfiguration)));
+			return new TaskManagerConfiguration(groupId, logger.CloneFor(nameof(TaskManagerConfiguration)), sid, userName);
 		}
 
-		public IFeatureConfiguration CreateUserSwitchConfiguration(Guid groupId)
+		public IFeatureConfiguration CreateVmwareOverlayConfiguration(Guid groupId, string sid, string userName)
 		{
-			return new UserSwitchConfiguration(groupId, logger.CloneFor(nameof(UserSwitchConfiguration)));
-		}
-
-		public IFeatureConfiguration CreateVmwareOverlayConfiguration(Guid groupId)
-		{
-			return new VmwareOverlayConfiguration(groupId, logger.CloneFor(nameof(VmwareOverlayConfiguration)));
+			return new VmwareOverlayConfiguration(groupId, logger.CloneFor(nameof(VmwareOverlayConfiguration)), sid, userName);
 		}
 
 		public IFeatureConfiguration CreateWindowsUpdateConfiguration(Guid groupId)

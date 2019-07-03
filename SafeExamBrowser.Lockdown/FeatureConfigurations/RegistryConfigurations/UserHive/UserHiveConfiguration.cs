@@ -10,7 +10,7 @@ using System;
 using Microsoft.Win32;
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations
+namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.UserHive
 {
 	[Serializable]
 	internal abstract class UserHiveConfiguration : RegistryConfiguration

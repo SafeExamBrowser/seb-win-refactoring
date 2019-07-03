@@ -13,6 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
@@ -25,7 +26,6 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 	{
 		private Mock<IAutoRestoreMechanism> autoRestoreMechanism;
 		private Mock<ILogger> logger;
-		private Mock<Func<string, ILogObserver>> logWriterFactory;
 		private Mock<IServiceHost> serviceHost;
 		private Mock<Func<string, EventWaitHandle>> serviceEventFactory;
 		private SessionContext sessionContext;
@@ -36,20 +36,19 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 		{
 			autoRestoreMechanism = new Mock<IAutoRestoreMechanism>();
 			logger = new Mock<ILogger>();
-			logWriterFactory = new Mock<Func<string, ILogObserver>>();
 			serviceHost = new Mock<IServiceHost>();
 			serviceEventFactory = new Mock<Func<string, EventWaitHandle>>();
 			sessionContext = new SessionContext();
 
-			logWriterFactory.Setup(f => f.Invoke(It.IsAny<string>())).Returns(new Mock<ILogObserver>().Object);
 			serviceEventFactory.Setup(f => f.Invoke(It.IsAny<string>())).Returns(new EventStub());
 			sessionContext.AutoRestoreMechanism = autoRestoreMechanism.Object;
 			sessionContext.Configuration = new ServiceConfiguration
 			{
-				AppConfig = new AppConfig { ServiceEventName = $"{nameof(SafeExamBrowser)}-{nameof(SessionInitializationOperationTests)}" }
+				AppConfig = new AppConfig { ServiceEventName = $"{nameof(SafeExamBrowser)}-{nameof(SessionInitializationOperationTests)}" },
+				Settings = new Settings()
 			};
 
-			sut = new SessionInitializationOperation(logger.Object, logWriterFactory.Object, serviceEventFactory.Object, serviceHost.Object, sessionContext);
+			sut = new SessionInitializationOperation(logger.Object, serviceEventFactory.Object, serviceHost.Object, sessionContext);
 		}
 
 		[TestMethod]

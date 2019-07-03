@@ -17,28 +17,22 @@ namespace SafeExamBrowser.Service.Operations
 	internal class SessionInitializationOperation : SessionOperation
 	{
 		private ILogger logger;
-		private Func<string, ILogObserver> logWriterFactory;
 		private Func<string, EventWaitHandle> serviceEventFactory;
 		private IServiceHost serviceHost;
-		private ILogObserver sessionWriter;
 
 		public SessionInitializationOperation(
 			ILogger logger,
-			Func<string, ILogObserver> logWriterFactory,
 			Func<string, EventWaitHandle> serviceEventFactory,
 			IServiceHost serviceHost,
 			SessionContext sessionContext) : base(sessionContext)
 		{
 			this.logger = logger;
-			this.logWriterFactory = logWriterFactory;
 			this.serviceEventFactory = serviceEventFactory;
 			this.serviceHost = serviceHost;
 		}
 
 		public override OperationResult Perform()
 		{
-			InitializeSessionWriter();
-
 			logger.Info("Initializing new session...");
 			logger.Info($" -> Client-ID: {Context.Configuration.AppConfig.ClientId}");
 			logger.Info($" -> Runtime-ID: {Context.Configuration.AppConfig.RuntimeId}");
@@ -85,8 +79,6 @@ namespace SafeExamBrowser.Service.Operations
 			Context.Configuration = null;
 			Context.IsRunning = false;
 
-			FinalizeSessionWriter();
-
 			return success ? OperationResult.Success : OperationResult.Failed;
 		}
 
@@ -102,20 +94,6 @@ namespace SafeExamBrowser.Service.Operations
 			logger.Info("Attempting to create new service event...");
 			Context.ServiceEvent = serviceEventFactory.Invoke(Context.Configuration.AppConfig.ServiceEventName);
 			logger.Info("Service event successfully created.");
-		}
-
-		private void InitializeSessionWriter()
-		{
-			sessionWriter = logWriterFactory.Invoke(Context.Configuration.AppConfig.ServiceLogFilePath);
-			logger.Subscribe(sessionWriter);
-			logger.Debug($"Created session log file '{Context.Configuration.AppConfig.ServiceLogFilePath}'.");
-		}
-
-		private void FinalizeSessionWriter()
-		{
-			logger.Debug("Closed session log file.");
-			logger.Unsubscribe(sessionWriter);
-			sessionWriter = null;
 		}
 	}
 }
