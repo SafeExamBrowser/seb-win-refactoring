@@ -16,6 +16,7 @@ using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Core.OperationModel.Events;
 using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
@@ -28,6 +29,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		private ILogger logger;
 		private IRuntimeHost runtimeHost;
 		private IServiceProxy service;
+		private ISystemConfigurationUpdate systemConfigurationUpdate;
 		private int timeout_ms;
 		private IUserInfo userInfo;
 
@@ -39,12 +41,14 @@ namespace SafeExamBrowser.Runtime.Operations
 			IRuntimeHost runtimeHost,
 			IServiceProxy service,
 			SessionContext sessionContext,
+			ISystemConfigurationUpdate systemConfigurationUpdate,
 			int timeout_ms,
 			IUserInfo userInfo) : base(sessionContext)
 		{
 			this.logger = logger;
 			this.runtimeHost = runtimeHost;
 			this.service = service;
+			this.systemConfigurationUpdate = systemConfigurationUpdate;
 			this.timeout_ms = timeout_ms;
 			this.userInfo = userInfo;
 		}
@@ -188,6 +192,9 @@ namespace SafeExamBrowser.Runtime.Operations
 				{
 					logger.Error($"Failed to start new service session within {timeout_ms / 1000} seconds!");
 				}
+
+				StatusChanged?.Invoke(TextKey.OperationStatus_UpdateSystemConfiguration);
+				systemConfigurationUpdate.Execute();
 			}
 			else
 			{
@@ -217,6 +224,9 @@ namespace SafeExamBrowser.Runtime.Operations
 				{
 					logger.Error($"Failed to stop service session within {timeout_ms / 1000} seconds!");
 				}
+
+				StatusChanged?.Invoke(TextKey.OperationStatus_UpdateSystemConfiguration);
+				systemConfigurationUpdate.Execute();
 			}
 			else
 			{

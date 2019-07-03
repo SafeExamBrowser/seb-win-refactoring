@@ -20,10 +20,15 @@ namespace SafeExamBrowser.Lockdown
 
 		private IFeatureConfigurationBackup backup;
 		private ILogger logger;
+		private ISystemConfigurationUpdate systemConfigurationUpdate;
 		private bool running;
 		private int timeout_ms;
 
-		public AutoRestoreMechanism(IFeatureConfigurationBackup backup, ILogger logger, int timeout_ms)
+		public AutoRestoreMechanism(
+			IFeatureConfigurationBackup backup,
+			ILogger logger,
+			ISystemConfigurationUpdate systemConfigurationUpdate,
+			int timeout_ms)
 		{
 			if (timeout_ms < 0)
 			{
@@ -32,6 +37,7 @@ namespace SafeExamBrowser.Lockdown
 
 			this.backup = backup;
 			this.logger = logger;
+			this.systemConfigurationUpdate = systemConfigurationUpdate;
 			this.timeout_ms = timeout_ms;
 		}
 
@@ -71,42 +77,53 @@ namespace SafeExamBrowser.Lockdown
 		private void RestoreAll()
 		{
 			var configurations = backup.GetAllConfigurations();
+			var all = configurations.Count;
+			var restored = 0;
 
-			if (!configurations.Any())
+			if (configurations.Any())
 			{
-				running = false;
-				logger.Info("Nothing to restore, stopped auto-restore mechanism.");
+				logger.Info($"Attempting to restore {configurations.Count} items...");
 
-				return;
-			}
-
-			logger.Info($"Attempting to restore {configurations.Count} items...");
-
-			foreach (var configuration in configurations)
-			{
-				var success = configuration.Restore();
-
-				if (success)
+				foreach (var configuration in configurations)
 				{
-					backup.Delete(configuration);
-				}
-				else
-				{
-					logger.Warn($"Failed to restore {configuration}!");
-				}
+					var success = configuration.Restore();
 
-				lock (@lock)
-				{
-					if (!running)
+					if (success)
 					{
-						logger.Info("Auto-restore mechanism was aborted.");
+						backup.Delete(configuration);
+						restored++;
+					}
+					else
+					{
+						logger.Warn($"Failed to restore {configuration}!");
+					}
 
-						return;
+					lock (@lock)
+					{
+						if (!running)
+						{
+							logger.Info("Auto-restore mechanism was aborted.");
+
+							return;
+						}
 					}
 				}
-			}
 
-			Task.Delay(timeout_ms).ContinueWith((_) => RestoreAll());
+				if (all == restored)
+				{
+					systemConfigurationUpdate.ExecuteAsync();
+				}
+
+				Task.Delay(timeout_ms).ContinueWith((_) => RestoreAll());
+			}
+			else
+			{
+				lock (@lock)
+				{
+					running = false;
+					logger.Info("Nothing to restore, stopped auto-restore mechanism.");
+				}
+			}
 		}
 	}
 }

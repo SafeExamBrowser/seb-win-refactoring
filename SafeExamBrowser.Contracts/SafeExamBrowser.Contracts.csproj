@@ -96,6 +96,7 @@
     <Compile Include="Lockdown\IFeatureConfiguration.cs" />
     <Compile Include="Lockdown\IFeatureConfigurationBackup.cs" />
     <Compile Include="Lockdown\IFeatureConfigurationFactory.cs" />
+    <Compile Include="Lockdown\ISystemConfigurationUpdate.cs" />
     <Compile Include="Runtime\IRuntimeController.cs" />
     <Compile Include="Core\OperationModel\Events\ActionRequiredEventArgs.cs" />
     <Compile Include="Core\OperationModel\Events\ActionRequiredEventHandler.cs" />

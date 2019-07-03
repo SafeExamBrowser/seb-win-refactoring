@@ -21,6 +21,7 @@ namespace SafeExamBrowser.Lockdown.UnitTests
 	{
 		private Mock<IFeatureConfigurationBackup> backup;
 		private Mock<ILogger> logger;
+		private Mock<ISystemConfigurationUpdate> systemConfigurationUpdate;
 		private AutoRestoreMechanism sut;
 
 		[TestInitialize]
@@ -28,8 +29,9 @@ namespace SafeExamBrowser.Lockdown.UnitTests
 		{
 			backup = new Mock<IFeatureConfigurationBackup>();
 			logger = new Mock<ILogger>();
+			systemConfigurationUpdate = new Mock<ISystemConfigurationUpdate>();
 
-			sut = new AutoRestoreMechanism(backup.Object, logger.Object, 0);
+			sut = new AutoRestoreMechanism(backup.Object, logger.Object, systemConfigurationUpdate.Object, 0);
 		}
 
 		[TestMethod]
@@ -78,17 +80,20 @@ namespace SafeExamBrowser.Lockdown.UnitTests
 			var list = new List<IFeatureConfiguration> { configuration.Object };
 			var sync = new AutoResetEvent(false);
 
-			backup.Setup(b => b.GetAllConfigurations()).Returns(list).Callback(() => counter++);
-			backup.Setup(b => b.Delete(It.IsAny<IFeatureConfiguration>())).Callback(() => { list.Clear(); sync.Set(); });
-			configuration.Setup(c => c.Restore()).Returns(() => counter == limit);
+			backup.Setup(b => b.GetAllConfigurations()).Returns(() => new List<IFeatureConfiguration>(list)).Callback(() => counter++);
+			backup.Setup(b => b.Delete(It.IsAny<IFeatureConfiguration>())).Callback(() => list.Clear());
+			configuration.Setup(c => c.Restore()).Returns(() => counter >= limit);
+			systemConfigurationUpdate.Setup(u => u.ExecuteAsync()).Callback(() => sync.Set());
 
 			sut.Start();
 			sync.WaitOne();
 			sut.Stop();
 
-			backup.Verify(b => b.GetAllConfigurations(), Times.Exactly(limit));
+			backup.Verify(b => b.GetAllConfigurations(), Times.Exactly(limit + 1));
 			backup.Verify(b => b.Delete(It.Is<IFeatureConfiguration>(c => c == configuration.Object)), Times.Once);
 			configuration.Verify(c => c.Restore(), Times.Exactly(limit));
+			systemConfigurationUpdate.Verify(u => u.Execute(), Times.Never);
+			systemConfigurationUpdate.Verify(u => u.ExecuteAsync(), Times.Once);
 		}
 
 		[TestMethod]
@@ -103,7 +108,7 @@ namespace SafeExamBrowser.Lockdown.UnitTests
 			var list = new List<IFeatureConfiguration> { configuration.Object };
 			var sync = new AutoResetEvent(false);
 
-			sut = new AutoRestoreMechanism(backup.Object, logger.Object, TIMEOUT);
+			sut = new AutoRestoreMechanism(backup.Object, logger.Object, systemConfigurationUpdate.Object, TIMEOUT);
 
 			backup.Setup(b => b.GetAllConfigurations()).Returns(list).Callback(() =>
 			{
@@ -144,9 +149,10 @@ namespace SafeExamBrowser.Lockdown.UnitTests
 		}
 
 		[TestMethod]
+		[ExpectedException(typeof(ArgumentException))]
 		public void MustValidateTimeout()
 		{
-			Assert.ThrowsException<ArgumentException>(() => new AutoRestoreMechanism(backup.Object, logger.Object, new Random().Next(int.MinValue, -1)));
+			new AutoRestoreMechanism(backup.Object, logger.Object, systemConfigurationUpdate.Object, new Random().Next(int.MinValue, -1));
 		}
 	}
 }

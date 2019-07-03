@@ -46,11 +46,12 @@ namespace SafeExamBrowser.Service
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), new ModuleLogger(logger, nameof(ProxyFactory)));
 			var serviceHost = new ServiceHost(AppConfig.SERVICE_ADDRESS, new HostObjectFactory(), new ModuleLogger(logger, nameof(ServiceHost)), FIVE_SECONDS);
 			var sessionContext = new SessionContext();
+			var systemConfigurationUpdate = new SystemConfigurationUpdate(new ModuleLogger(logger, nameof(SystemConfigurationUpdate)));
 
 			var bootstrapOperations = new Queue<IOperation>();
 			var sessionOperations = new Queue<IOperation>();
 
-			sessionContext.AutoRestoreMechanism = new AutoRestoreMechanism(featureBackup, new ModuleLogger(logger, nameof(AutoRestoreMechanism)), FIVE_SECONDS);
+			sessionContext.AutoRestoreMechanism = new AutoRestoreMechanism(featureBackup, new ModuleLogger(logger, nameof(AutoRestoreMechanism)), systemConfigurationUpdate, FIVE_SECONDS);
 
 			bootstrapOperations.Enqueue(new RestoreOperation(featureBackup, logger, sessionContext));
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(serviceHost, logger));

@@ -91,6 +91,7 @@ namespace SafeExamBrowser.Contracts.I18n
 		OperationStatus_StopWindowMonitoring,
 		OperationStatus_TerminateBrowser,
 		OperationStatus_TerminateShell,
+		OperationStatus_UpdateSystemConfiguration,
 		OperationStatus_WaitExplorerStartup,
 		OperationStatus_WaitExplorerTermination,
 		OperationStatus_WaitRuntimeDisconnection,
