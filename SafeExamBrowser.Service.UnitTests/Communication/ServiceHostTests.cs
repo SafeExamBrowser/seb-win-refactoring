@@ -48,7 +48,6 @@ namespace SafeExamBrowser.Service.UnitTests.Communication
 			var response3 = sut.Connect();
 
 			Assert.IsTrue(response.ConnectionEstablished);
-			Assert.IsFalse(sut.AllowConnection);
 			Assert.IsFalse(response2.ConnectionEstablished);
 			Assert.IsFalse(response3.ConnectionEstablished);
 		}
@@ -59,13 +58,31 @@ namespace SafeExamBrowser.Service.UnitTests.Communication
 			var connect = sut.Connect();
 			var disconnect = sut.Disconnect(new DisconnectionMessage { CommunicationToken = connect.CommunicationToken.Value, Interlocutor = Interlocutor.Runtime });
 
-			Assert.IsTrue(sut.AllowConnection);
 			Assert.IsTrue(disconnect.ConnectionTerminated);
 
 			var connect2 = sut.Connect();
 
-			Assert.IsFalse(sut.AllowConnection);
 			Assert.IsTrue(connect2.ConnectionEstablished);
+		}
+
+		[TestMethod]
+		public void Send_MustHandleSystemConfigurationUpdate()
+		{
+			var sync = new AutoResetEvent(false);
+			var systemConfigurationUpdateRequested = false;
+
+			sut.SystemConfigurationUpdateRequested += () => { systemConfigurationUpdateRequested = true; sync.Set(); };
+
+			var token = sut.Connect().CommunicationToken.Value;
+			var message = new SimpleMessage(SimpleMessagePurport.UpdateSystemConfiguration) { CommunicationToken = token };
+			var response = sut.Send(message);
+
+			sync.WaitOne();
+
+			Assert.IsTrue(systemConfigurationUpdateRequested);
+			Assert.IsNotNull(response);
+			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
+			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
 		}
 
 		[TestMethod]

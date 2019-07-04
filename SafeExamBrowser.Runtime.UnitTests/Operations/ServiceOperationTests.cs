@@ -15,7 +15,6 @@ using SafeExamBrowser.Contracts.Communication.Proxies;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Contracts.UserInterface.MessageBox;
@@ -35,7 +34,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private SessionConfiguration session;
 		private SessionContext sessionContext;
 		private Settings settings;
-		private Mock<ISystemConfigurationUpdate> systemConfigurationUpdate;
 		private Mock<IUserInfo> userInfo;
 		private ServiceOperation sut;
 
@@ -52,7 +50,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			session = new SessionConfiguration();
 			sessionContext = new SessionContext();
 			settings = new Settings();
-			systemConfigurationUpdate = new Mock<ISystemConfigurationUpdate>();
 			userInfo = new Mock<IUserInfo>();
 
 			appConfig.ServiceEventName = serviceEventName;
@@ -63,7 +60,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			session.Settings = settings;
 			settings.Service.Policy = ServicePolicy.Mandatory;
 
-			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, systemConfigurationUpdate.Object, 0, userInfo.Object);
+			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, 0, userInfo.Object);
 		}
 
 		[TestMethod]
@@ -92,7 +89,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var result = sut.Perform();
 
 			service.Verify(s => s.StartSession(It.IsAny<ServiceConfiguration>()), Times.Once);
-			systemConfigurationUpdate.Verify(u => u.Execute(), Times.Once);
+			service.Verify(s => s.RunSystemConfigurationUpdate(), Times.Never);
 			userInfo.Verify(u => u.GetUserName(), Times.Once);
 			userInfo.Verify(u => u.GetUserSid(), Times.Once);
 
@@ -125,7 +122,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			service.Setup(s => s.Connect(null, true)).Returns(true);
 			service.Setup(s => s.StartSession(It.IsAny<ServiceConfiguration>())).Returns(new CommunicationResult(true));
 
-			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, systemConfigurationUpdate.Object, TIMEOUT, userInfo.Object);
+			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, TIMEOUT, userInfo.Object);
 
 			before = DateTime.Now;
 			var result = sut.Perform();
@@ -158,7 +155,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var result = sut.Perform();
 
 			service.Verify(s => s.StartSession(It.IsAny<ServiceConfiguration>()), Times.Once);
-			systemConfigurationUpdate.Verify(u => u.Execute(), Times.Never);
 
 			Assert.AreEqual(OperationResult.Failed, result);
 		}
@@ -213,7 +209,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true)).Callback(() => serviceEvent.Set());
 			PerformNormally();
-			systemConfigurationUpdate.Reset();
 
 			var result = sut.Repeat();
 
@@ -221,7 +216,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			service.Verify(s => s.StopSession(It.IsAny<Guid>()), Times.Once);
 			service.Verify(s => s.StartSession(It.IsAny<ServiceConfiguration>()), Times.Exactly(2));
 			service.Verify(s => s.Disconnect(), Times.Never);
-			systemConfigurationUpdate.Verify(u => u.Execute(), Times.Exactly(2));
+			service.Verify(s => s.RunSystemConfigurationUpdate(), Times.Never);
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}
@@ -268,7 +263,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var before = default(DateTime);
 
 			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true));
-			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, systemConfigurationUpdate.Object, TIMEOUT, userInfo.Object);
+			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, TIMEOUT, userInfo.Object);
 
 			PerformNormally();
 
@@ -288,6 +283,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			service.Setup(s => s.Disconnect()).Returns(true);
 			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true)).Callback(() => serviceEvent.Set());
+			service.Setup(s => s.RunSystemConfigurationUpdate()).Returns(new CommunicationResult(true));
 
 			PerformNormally();
 
@@ -303,14 +299,15 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			service.Setup(s => s.Disconnect()).Returns(true);
 			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true)).Callback(() => serviceEvent.Set());
+			service.Setup(s => s.RunSystemConfigurationUpdate()).Returns(new CommunicationResult(true));
+
 			PerformNormally();
-			systemConfigurationUpdate.Reset();
 
 			var result = sut.Revert();
 
 			service.Verify(s => s.StopSession(It.IsAny<Guid>()), Times.Once);
 			service.Verify(s => s.Disconnect(), Times.Once);
-			systemConfigurationUpdate.Verify(u => u.Execute(), Times.Once);
+			service.Verify(s => s.RunSystemConfigurationUpdate(), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}
@@ -319,14 +316,31 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void Revert_MustHandleCommunicationFailureWhenStoppingSession()
 		{
 			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(false));
+
 			PerformNormally();
-			systemConfigurationUpdate.Reset();
 
 			var result = sut.Revert();
 
 			service.Verify(s => s.StopSession(It.IsAny<Guid>()), Times.Once);
 			service.Verify(s => s.Disconnect(), Times.Once);
-			systemConfigurationUpdate.Verify(u => u.Execute(), Times.Never);
+			service.Verify(s => s.RunSystemConfigurationUpdate(), Times.Never);
+
+			Assert.AreEqual(OperationResult.Failed, result);
+		}
+
+		[TestMethod]
+		public void Revert_MustHandleCommunicationFailureWhenInitiatingSystemConfigurationUpdate()
+		{
+			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true)).Callback(() => serviceEvent.Set());
+			service.Setup(s => s.RunSystemConfigurationUpdate()).Returns(new CommunicationResult(false));
+
+			PerformNormally();
+
+			var result = sut.Revert();
+
+			service.Verify(s => s.StopSession(It.IsAny<Guid>()), Times.Once);
+			service.Verify(s => s.Disconnect(), Times.Once);
+			service.Verify(s => s.RunSystemConfigurationUpdate(), Times.Once);
 
 			Assert.AreEqual(OperationResult.Failed, result);
 		}
@@ -340,6 +354,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			var result = sut.Revert();
 
+			service.Verify(s => s.RunSystemConfigurationUpdate(), Times.Never);
+
 			Assert.AreEqual(OperationResult.Failed, result);
 		}
 
@@ -352,7 +368,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var before = default(DateTime);
 
 			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true));
-			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, systemConfigurationUpdate.Object, TIMEOUT, userInfo.Object);
+			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, sessionContext, TIMEOUT, userInfo.Object);
 
 			PerformNormally();
 
@@ -362,6 +378,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			service.Verify(s => s.StopSession(It.IsAny<Guid>()), Times.Once);
 			service.Verify(s => s.Disconnect(), Times.Once);
+			service.Verify(s => s.RunSystemConfigurationUpdate(), Times.Never);
 
 			Assert.AreEqual(OperationResult.Failed, result);
 			Assert.IsTrue(after - before >= new TimeSpan(0, 0, 0, 0, TIMEOUT));

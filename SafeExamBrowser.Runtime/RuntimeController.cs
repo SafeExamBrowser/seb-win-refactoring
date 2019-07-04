@@ -260,6 +260,7 @@ namespace SafeExamBrowser.Runtime
 			runtimeHost.ClientConfigurationNeeded += RuntimeHost_ClientConfigurationNeeded;
 			runtimeHost.ReconfigurationRequested += RuntimeHost_ReconfigurationRequested;
 			runtimeHost.ShutdownRequested += RuntimeHost_ShutdownRequested;
+			service.ConnectionLost += ServiceProxy_ConnectionLost;
 		}
 
 		private void DeregisterEvents()
@@ -267,6 +268,7 @@ namespace SafeExamBrowser.Runtime
 			runtimeHost.ClientConfigurationNeeded -= RuntimeHost_ClientConfigurationNeeded;
 			runtimeHost.ReconfigurationRequested -= RuntimeHost_ReconfigurationRequested;
 			runtimeHost.ShutdownRequested -= RuntimeHost_ShutdownRequested;
+			service.ConnectionLost -= ServiceProxy_ConnectionLost;
 		}
 
 		private void RegisterSessionEvents()
@@ -356,6 +358,21 @@ namespace SafeExamBrowser.Runtime
 		{
 			logger.Info("Received shutdown request from the client application.");
 			shutdown.Invoke();
+		}
+
+		private void ServiceProxy_ConnectionLost()
+		{
+			if (SessionIsRunning && Session.Settings.Service.Policy == ServicePolicy.Mandatory)
+			{
+				logger.Error("Lost connection to the service component!");
+				StopSession();
+				messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
+				shutdown.Invoke();
+			}
+			else
+			{
+				logger.Warn("Lost connection to the service component!");
+			}
 		}
 
 		private void SessionSequence_ActionRequired(ActionRequiredEventArgs args)

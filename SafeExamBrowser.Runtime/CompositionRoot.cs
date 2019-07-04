@@ -27,7 +27,6 @@ using SafeExamBrowser.Contracts.SystemComponents;
 using SafeExamBrowser.Core.OperationModel;
 using SafeExamBrowser.Core.Operations;
 using SafeExamBrowser.I18n;
-using SafeExamBrowser.Lockdown;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Runtime.Communication;
 using SafeExamBrowser.Runtime.Operations;
@@ -71,7 +70,6 @@ namespace SafeExamBrowser.Runtime
 			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, new HostObjectFactory(), ModuleLogger(nameof(RuntimeHost)), FIVE_SECONDS);
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)), Interlocutor.Runtime);
 			var sessionContext = new SessionContext();
-			var systemConfigurationUpdate = new SystemConfigurationUpdate(ModuleLogger(nameof(SystemConfigurationUpdate)));
 			var uiFactory = new UserInterfaceFactory(text);
 			var userInfo = new UserInfo();
 
@@ -83,7 +81,7 @@ namespace SafeExamBrowser.Runtime
 
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost, sessionContext));
 			sessionOperations.Enqueue(new ConfigurationOperation(args, configuration, new HashAlgorithm(), logger, sessionContext));
-			sessionOperations.Enqueue(new ServiceOperation(logger, runtimeHost, serviceProxy, sessionContext, systemConfigurationUpdate, THIRTY_SECONDS, userInfo));
+			sessionOperations.Enqueue(new ServiceOperation(logger, runtimeHost, serviceProxy, sessionContext, THIRTY_SECONDS, userInfo));
 			sessionOperations.Enqueue(new ClientTerminationOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, THIRTY_SECONDS));
 			sessionOperations.Enqueue(new KioskModeOperation(desktopFactory, explorerShell, logger, processFactory, sessionContext));
 			sessionOperations.Enqueue(new ClientOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, THIRTY_SECONDS));

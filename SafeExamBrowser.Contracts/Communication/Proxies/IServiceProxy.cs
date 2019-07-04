@@ -23,6 +23,11 @@ namespace SafeExamBrowser.Contracts.Communication.Proxies
 		bool Ignore { set; }
 
 		/// <summary>
+		/// Instructs the service to start a system configuration update.
+		/// </summary>
+		CommunicationResult RunSystemConfigurationUpdate();
+
+		/// <summary>
 		/// Instructs the service to start a new session according to the given configuration.
 		/// </summary>
 		CommunicationResult StartSession(ServiceConfiguration configuration);

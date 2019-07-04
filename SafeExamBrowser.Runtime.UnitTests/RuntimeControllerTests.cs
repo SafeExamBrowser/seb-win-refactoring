@@ -390,6 +390,42 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		}
 
 		[TestMethod]
+		public void ServiceProxy_MustShutdownWhenConnectionLostAndMandatory()
+		{
+			currentSettings.Service.Policy = ServicePolicy.Mandatory;
+
+			StartSession();
+			service.Raise(c => c.ConnectionLost += null);
+
+			messageBox.Verify(m => m.Show(
+				It.IsAny<TextKey>(),
+				It.IsAny<TextKey>(),
+				It.IsAny<MessageBoxAction>(),
+				It.Is<MessageBoxIcon>(i => i == MessageBoxIcon.Error),
+				It.IsAny<IWindow>()), Times.Once);
+			sessionSequence.Verify(s => s.TryRevert(), Times.Once);
+			shutdown.Verify(s => s(), Times.Once);
+		}
+
+		[TestMethod]
+		public void ServiceProxy_MustNotShutdownWhenConnectionLostAndNotMandatory()
+		{
+			currentSettings.Service.Policy = ServicePolicy.Optional;
+
+			StartSession();
+			service.Raise(c => c.ConnectionLost += null);
+
+			messageBox.Verify(m => m.Show(
+				It.IsAny<TextKey>(),
+				It.IsAny<TextKey>(),
+				It.IsAny<MessageBoxAction>(),
+				It.Is<MessageBoxIcon>(i => i == MessageBoxIcon.Error),
+				It.IsAny<IWindow>()), Times.Never);
+			sessionSequence.Verify(s => s.TryRevert(), Times.Never);
+			shutdown.Verify(s => s(), Times.Never);
+		}
+
+		[TestMethod]
 		public void Shutdown_MustRevertSessionThenBootstrapSequence()
 		{
 			var order = 0;

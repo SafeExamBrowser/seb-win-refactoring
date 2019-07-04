@@ -11,7 +11,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
@@ -26,7 +25,6 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 	{
 		private Mock<IAutoRestoreMechanism> autoRestoreMechanism;
 		private Mock<ILogger> logger;
-		private Mock<IServiceHost> serviceHost;
 		private Mock<Func<string, EventWaitHandle>> serviceEventFactory;
 		private SessionContext sessionContext;
 		private SessionInitializationOperation sut;
@@ -36,7 +34,6 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 		{
 			autoRestoreMechanism = new Mock<IAutoRestoreMechanism>();
 			logger = new Mock<ILogger>();
-			serviceHost = new Mock<IServiceHost>();
 			serviceEventFactory = new Mock<Func<string, EventWaitHandle>>();
 			sessionContext = new SessionContext();
 
@@ -48,17 +45,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 				Settings = new Settings()
 			};
 
-			sut = new SessionInitializationOperation(logger.Object, serviceEventFactory.Object, serviceHost.Object, sessionContext);
-		}
-
-		[TestMethod]
-		public void Perform_MustDisableNewConnections()
-		{
-			var result = sut.Perform();
-
-			serviceHost.VerifySet(h => h.AllowConnection = false, Times.Once);
-
-			Assert.AreEqual(OperationResult.Success, result);
+			sut = new SessionInitializationOperation(logger.Object, serviceEventFactory.Object, sessionContext);
 		}
 
 		[TestMethod]
@@ -95,17 +82,6 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 
 			Assert.AreEqual(OperationResult.Success, result);
 			Assert.IsNull(sessionContext.Configuration);
-		}
-
-		[TestMethod]
-		public void Revert_MustEnableNewConnections()
-		{
-			sessionContext.ServiceEvent = new EventStub();
-
-			var result = sut.Revert();
-
-			serviceHost.VerifySet(h => h.AllowConnection = true, Times.Once);
-			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]

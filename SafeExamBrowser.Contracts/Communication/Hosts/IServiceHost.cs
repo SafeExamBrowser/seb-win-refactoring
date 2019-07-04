@@ -16,11 +16,6 @@ namespace SafeExamBrowser.Contracts.Communication.Hosts
 	public interface IServiceHost : ICommunicationHost
 	{
 		/// <summary>
-		/// Determines whether another application component may establish a connection with the host.
-		/// </summary>
-		bool AllowConnection { get; set; }
-
-		/// <summary>
 		/// Event fired when the runtime requested to start a new session.
 		/// </summary>
 		event CommunicationEventHandler<SessionStartEventArgs> SessionStartRequested;
@@ -29,5 +24,10 @@ namespace SafeExamBrowser.Contracts.Communication.Hosts
 		/// Event fired when the runtime requested to stop a running session.
 		/// </summary>
 		event CommunicationEventHandler<SessionStopEventArgs> SessionStopRequested;
+
+		/// <summary>
+		/// Event fired when the runtime requested to update the system configuration.
+		/// </summary>
+		event CommunicationEventHandler SystemConfigurationUpdateRequested;
 	}
 }

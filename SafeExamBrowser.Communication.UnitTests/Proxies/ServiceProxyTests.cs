@@ -7,14 +7,14 @@
  */
 
 using System;
-using System.ServiceModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Contracts.Communication.Data;
-using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Contracts.Communication;
+using SafeExamBrowser.Contracts.Communication.Data;
+using SafeExamBrowser.Contracts.Communication.Proxies;
+using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Communication.UnitTests.Proxies
 {
@@ -39,18 +39,19 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 			proxyObjectFactory = new Mock<IProxyObjectFactory>();
 			proxy = new Mock<IProxyObject>();
 
-			proxy.Setup(p => p.Connect(It.IsAny<Guid>())).Returns(response);
-			proxy.Setup(o => o.State).Returns(CommunicationState.Opened);
+			proxy.Setup(p => p.Connect(null)).Returns(response);
+			proxy.Setup(o => o.State).Returns(System.ServiceModel.CommunicationState.Opened);
 			proxyObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>())).Returns(proxy.Object);
 
 			sut = new ServiceProxy("net.pipe://random/address/here", proxyObjectFactory.Object, logger.Object, default(Interlocutor));
+			sut.Connect();
 		}
 
 		[TestMethod]
 		public void MustIgnoreConnectIfUnavailable()
 		{
 			sut.Ignore = true;
-			sut.Connect(Guid.NewGuid());
+			sut.Connect();
 
 			proxy.Verify(p => p.Connect(It.IsAny<Guid>()), Times.Never);
 		}
@@ -65,6 +66,61 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 		}
 
 		[TestMethod]
+		public void MustCorrectlySendSystemConfigurationUpdate()
+		{
+			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.UpdateSystemConfiguration))).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
+
+			var communication = sut.RunSystemConfigurationUpdate();
+
+			proxy.Verify(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.UpdateSystemConfiguration)), Times.Once);
+
+			Assert.IsTrue(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustFailIfSystemConfigurationUpdateNotAcknowledged()
+		{
+			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.UpdateSystemConfiguration))).Returns<Response>(null);
+
+			var communication = sut.RunSystemConfigurationUpdate();
+
+			Assert.IsFalse(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustIgnoreSystemConfigurationUpdateIfUnavailable()
+		{
+			sut.Ignore = true;
+			sut.RunSystemConfigurationUpdate();
+
+			proxy.Verify(p => p.Send(It.IsAny<Message>()), Times.Never);
+		}
+
+		[TestMethod]
+		public void MustCorrectlyStartSession()
+		{
+			var configuration = new ServiceConfiguration { SessionId = Guid.NewGuid() };
+
+			proxy.Setup(p => p.Send(It.IsAny<SessionStartMessage>())).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
+
+			var communication = sut.StartSession(configuration);
+
+			proxy.Verify(p => p.Send(It.Is<SessionStartMessage>(m => m.Configuration.SessionId == configuration.SessionId)), Times.Once);
+
+			Assert.IsTrue(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustFailIfSessionStartNotAcknowledged()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<SessionStartMessage>())).Returns<Response>(null);
+
+			var communication = sut.StartSession(new ServiceConfiguration());
+
+			Assert.IsFalse(communication.Success);
+		}
+
+		[TestMethod]
 		public void MustIgnoreStartSessionIfUnavaiable()
 		{
 			sut.Ignore = true;
@@ -73,6 +129,30 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 
 			Assert.IsTrue(communication.Success);
 			proxy.Verify(p => p.Send(It.IsAny<Message>()), Times.Never);
+		}
+
+		[TestMethod]
+		public void MustCorrectlyStopSession()
+		{
+			var sessionId = Guid.NewGuid();
+
+			proxy.Setup(p => p.Send(It.IsAny<SessionStopMessage>())).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
+
+			var communication = sut.StopSession(sessionId);
+
+			proxy.Verify(p => p.Send(It.Is<SessionStopMessage>(m => m.SessionId == sessionId)), Times.Once);
+
+			Assert.IsTrue(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustFailIfSessionStopNotAcknowledged()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<SessionStopMessage>())).Returns<Response>(null);
+
+			var communication = sut.StopSession(Guid.Empty);
+
+			Assert.IsFalse(communication.Success);
 		}
 
 		[TestMethod]

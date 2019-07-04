@@ -11,6 +11,7 @@ using SafeExamBrowser.Contracts.Communication.Events;
 using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.Service;
 
@@ -24,6 +25,7 @@ namespace SafeExamBrowser.Service
 		private IOperationSequence sessionSequence;
 		private IServiceHost serviceHost;
 		private SessionContext sessionContext;
+		private ISystemConfigurationUpdate systemConfigurationUpdate;
 		private ILogObserver sessionWriter;
 
 		private ServiceConfiguration Session
@@ -42,7 +44,8 @@ namespace SafeExamBrowser.Service
 			IOperationSequence bootstrapSequence,
 			IOperationSequence sessionSequence,
 			IServiceHost serviceHost,
-			SessionContext sessionContext)
+			SessionContext sessionContext,
+			ISystemConfigurationUpdate systemConfigurationUpdate)
 		{
 			this.logger = logger;
 			this.logWriterFactory = logWriterFactory;
@@ -50,6 +53,7 @@ namespace SafeExamBrowser.Service
 			this.sessionSequence = sessionSequence;
 			this.serviceHost = serviceHost;
 			this.sessionContext = sessionContext;
+			this.systemConfigurationUpdate = systemConfigurationUpdate;
 		}
 
 		public bool TryStart()
@@ -141,12 +145,14 @@ namespace SafeExamBrowser.Service
 		{
 			serviceHost.SessionStartRequested += ServiceHost_SessionStartRequested;
 			serviceHost.SessionStopRequested += ServiceHost_SessionStopRequested;
+			serviceHost.SystemConfigurationUpdateRequested += ServiceHost_SystemConfigurationUpdateRequested;
 		}
 
 		private void DeregisterEvents()
 		{
 			serviceHost.SessionStartRequested -= ServiceHost_SessionStartRequested;
 			serviceHost.SessionStopRequested -= ServiceHost_SessionStopRequested;
+			serviceHost.SystemConfigurationUpdateRequested -= ServiceHost_SystemConfigurationUpdateRequested;
 		}
 
 		private void ServiceHost_SessionStartRequested(SessionStartEventArgs args)
@@ -180,6 +186,12 @@ namespace SafeExamBrowser.Service
 			{
 				logger.Warn("Received session stop request, even though no session is currently running!");
 			}
+		}
+
+		private void ServiceHost_SystemConfigurationUpdateRequested()
+		{
+			logger.Info("Received request to initiate system configuration update.");
+			systemConfigurationUpdate.ExecuteAsync();
 		}
 
 		private string AppendDivider(string message)

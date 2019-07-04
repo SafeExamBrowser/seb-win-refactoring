@@ -8,7 +8,6 @@
 
 using System;
 using System.Threading;
-using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Core.OperationModel;
 using SafeExamBrowser.Contracts.Logging;
 
@@ -18,17 +17,11 @@ namespace SafeExamBrowser.Service.Operations
 	{
 		private ILogger logger;
 		private Func<string, EventWaitHandle> serviceEventFactory;
-		private IServiceHost serviceHost;
 
-		public SessionInitializationOperation(
-			ILogger logger,
-			Func<string, EventWaitHandle> serviceEventFactory,
-			IServiceHost serviceHost,
-			SessionContext sessionContext) : base(sessionContext)
+		public SessionInitializationOperation(ILogger logger, Func<string, EventWaitHandle> serviceEventFactory, SessionContext sessionContext) : base(sessionContext)
 		{
 			this.logger = logger;
 			this.serviceEventFactory = serviceEventFactory;
-			this.serviceHost = serviceHost;
 		}
 
 		public override OperationResult Perform()
@@ -40,9 +33,6 @@ namespace SafeExamBrowser.Service.Operations
 
 			logger.Info("Stopping auto-restore mechanism...");
 			Context.AutoRestoreMechanism.Stop();
-
-			logger.Info("Disabling service host...");
-			serviceHost.AllowConnection = false;
 
 			InitializeServiceEvent();
 
@@ -71,9 +61,6 @@ namespace SafeExamBrowser.Service.Operations
 
 			logger.Info("Starting auto-restore mechanism...");
 			Context.AutoRestoreMechanism.Start();
-
-			logger.Info("Enabling service host...");
-			serviceHost.AllowConnection = true;
 
 			logger.Info("Clearing session data...");
 			Context.Configuration = null;

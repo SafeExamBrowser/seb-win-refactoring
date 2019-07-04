@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Contracts.Communication.Events;
@@ -14,6 +15,7 @@ using SafeExamBrowser.Contracts.Communication.Hosts;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Service.UnitTests
@@ -27,6 +29,7 @@ namespace SafeExamBrowser.Service.UnitTests
 		private SessionContext sessionContext;
 		private Mock<IOperationSequence> sessionSequence;
 		private Mock<IServiceHost> serviceHost;
+		private Mock<ISystemConfigurationUpdate> systemConfigurationUpdate;
 		private ServiceController sut;
 
 		[TestInitialize]
@@ -38,10 +41,18 @@ namespace SafeExamBrowser.Service.UnitTests
 			sessionContext = new SessionContext();
 			sessionSequence = new Mock<IOperationSequence>();
 			serviceHost = new Mock<IServiceHost>();
+			systemConfigurationUpdate = new Mock<ISystemConfigurationUpdate>();
 
 			logWriterFactory.Setup(f => f.Invoke(It.IsAny<string>())).Returns(new Mock<ILogObserver>().Object);
 
-			sut = new ServiceController(logger.Object, logWriterFactory.Object, bootstrapSequence.Object, sessionSequence.Object, serviceHost.Object, sessionContext);
+			sut = new ServiceController(
+				logger.Object,
+				logWriterFactory.Object,
+				bootstrapSequence.Object,
+				sessionSequence.Object,
+				serviceHost.Object,
+				sessionContext,
+				systemConfigurationUpdate.Object);
 		}
 
 		[TestMethod]
@@ -158,6 +169,23 @@ namespace SafeExamBrowser.Service.UnitTests
 			serviceHost.Raise(h => h.SessionStopRequested += null, args);
 
 			sessionSequence.Verify(s => s.TryRevert(), Times.Never);
+		}
+
+		[TestMethod]
+		public void Communication_MustStartSystemConfigurationUpdate()
+		{
+			var sync = new AutoResetEvent(false);
+
+			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+			systemConfigurationUpdate.Setup(u => u.ExecuteAsync()).Callback(() => sync.Set());
+
+			sut.TryStart();
+			serviceHost.Raise(h => h.SystemConfigurationUpdateRequested += null);
+
+			sync.WaitOne();
+
+			systemConfigurationUpdate.Verify(u => u.Execute(), Times.Never);
+			systemConfigurationUpdate.Verify(u => u.ExecuteAsync(), Times.Once);
 		}
 
 		[TestMethod]

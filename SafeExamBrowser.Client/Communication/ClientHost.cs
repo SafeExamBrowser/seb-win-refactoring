@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Client.Communication
 {
 	internal class ClientHost : BaseHost, IClientHost
 	{
-		private bool allowConnection = true;
+		private bool allowConnection;
 		private int processId;
 
 		public Guid AuthenticationToken { private get; set; }
@@ -37,6 +37,7 @@ namespace SafeExamBrowser.Client.Communication
 			int processId,
 			int timeout_ms) : base(address, factory, logger, timeout_ms)
 		{
+			this.allowConnection = true;
 			this.processId = processId;
 		}
 

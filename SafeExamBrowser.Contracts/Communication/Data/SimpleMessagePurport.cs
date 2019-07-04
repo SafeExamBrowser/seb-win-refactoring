@@ -44,6 +44,11 @@ namespace SafeExamBrowser.Contracts.Communication.Data
 		/// <summary>
 		/// Sent form the runtime to the client to command the latter to shut itself down.
 		/// </summary>
-		Shutdown
+		Shutdown,
+
+		/// <summary>
+		/// Sent from the runtime to the service to command the latter to update the system configuration.
+		/// </summary>
+		UpdateSystemConfiguration
 	}
 }

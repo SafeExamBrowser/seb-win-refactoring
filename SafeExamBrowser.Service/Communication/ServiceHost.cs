@@ -18,47 +18,34 @@ namespace SafeExamBrowser.Service.Communication
 {
 	internal class ServiceHost : BaseHost, IServiceHost
 	{
-		private readonly object @lock = new object();
-
 		private bool allowConnection;
-
-		public bool AllowConnection
-		{
-			get { lock (@lock) { return allowConnection; } }
-			set { lock (@lock) { allowConnection = value; } }
-		}
 
 		public event CommunicationEventHandler<SessionStartEventArgs> SessionStartRequested;
 		public event CommunicationEventHandler<SessionStopEventArgs> SessionStopRequested;
+		public event CommunicationEventHandler SystemConfigurationUpdateRequested;
 
 		internal ServiceHost(string address, IHostObjectFactory factory, ILogger logger, int timeout_ms) : base(address, factory, logger, timeout_ms)
 		{
-			AllowConnection = true;
+			allowConnection = true;
 		}
 
 		protected override bool OnConnect(Guid? token)
 		{
-			lock (@lock)
+			var allow = allowConnection;
+
+			if (allow)
 			{
-				var allow = AllowConnection;
-
-				if (allow)
-				{
-					AllowConnection = false;
-				}
-
-				return allow;
+				allowConnection = false;
 			}
+
+			return allow;
 		}
 
 		protected override void OnDisconnect(Interlocutor interlocutor)
 		{
 			if (interlocutor == Interlocutor.Runtime)
 			{
-				lock (@lock)
-				{
-					AllowConnection = true;
-				}
+				allowConnection = true;
 			}
 		}
 
@@ -79,6 +66,13 @@ namespace SafeExamBrowser.Service.Communication
 
 		protected override Response OnReceive(SimpleMessagePurport message)
 		{
+			switch (message)
+			{
+				case SimpleMessagePurport.UpdateSystemConfiguration:
+					SystemConfigurationUpdateRequested?.InvokeAsync();
+					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
+			}
+
 			return new SimpleResponse(SimpleResponsePurport.UnknownMessage);
 		}
 	}

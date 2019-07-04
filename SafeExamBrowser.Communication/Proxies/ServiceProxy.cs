@@ -46,6 +46,37 @@ namespace SafeExamBrowser.Communication.Proxies
 			return base.Disconnect();
 		}
 
+		public CommunicationResult RunSystemConfigurationUpdate()
+		{
+			if (IgnoreOperation(nameof(RunSystemConfigurationUpdate)))
+			{
+				return new CommunicationResult(true);
+			}
+
+			try
+			{
+				var response = Send(SimpleMessagePurport.UpdateSystemConfiguration);
+				var success = IsAcknowledged(response);
+
+				if (success)
+				{
+					Logger.Debug("Service acknowledged system configuration update.");
+				}
+				else
+				{
+					Logger.Error($"Service did not acknowledge system configuration update! Received: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(success);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(RunSystemConfigurationUpdate)}'", e);
+
+				return new CommunicationResult(false);
+			}
+		}
+
 		public CommunicationResult StartSession(ServiceConfiguration configuration)
 		{
 			if (IgnoreOperation(nameof(StartSession)))
