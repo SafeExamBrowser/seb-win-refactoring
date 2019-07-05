@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Win32;
+using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations
@@ -88,9 +89,31 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations
 			}
 		}
 
-		public override void Monitor()
+		public override FeatureConfigurationStatus GetStatus()
 		{
-			// TODO!
+			var status = FeatureConfigurationStatus.Undefined;
+
+			foreach (var item in Items)
+			{
+				var current = ReadItem(item.Key, item.Value);
+
+				if (current.Data?.Equals(item.Disabled) == true && status != FeatureConfigurationStatus.Enabled)
+				{
+					status = FeatureConfigurationStatus.Disabled;
+				}
+				else if (current.Data?.Equals(item.Enabled) == true && status != FeatureConfigurationStatus.Disabled)
+				{
+					status = FeatureConfigurationStatus.Enabled;
+				}
+				else
+				{
+					status = FeatureConfigurationStatus.Undefined;
+
+					break;
+				}
+			}
+
+			return status;
 		}
 
 		public override bool Restore()

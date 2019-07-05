@@ -35,6 +35,7 @@ namespace SafeExamBrowser.Service
 
 		internal void BuildObjectGraph()
 		{
+			const int ONE_SECOND = 1000;
 			const int FIVE_SECONDS = 5000;
 
 			var backupFilePath = BuildBackupFilePath();
@@ -43,6 +44,7 @@ namespace SafeExamBrowser.Service
 
 			var featureBackup = new FeatureConfigurationBackup(backupFilePath, new ModuleLogger(logger, nameof(FeatureConfigurationBackup)));
 			var featureFactory = new FeatureConfigurationFactory(new ModuleLogger(logger, nameof(FeatureConfigurationFactory)));
+			var featureMonitor = new FeatureConfigurationMonitor(new ModuleLogger(logger, nameof(FeatureConfigurationMonitor)), ONE_SECOND);
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), new ModuleLogger(logger, nameof(ProxyFactory)));
 			var serviceHost = new ServiceHost(AppConfig.SERVICE_ADDRESS, new HostObjectFactory(), new ModuleLogger(logger, nameof(ServiceHost)), FIVE_SECONDS);
 			var sessionContext = new SessionContext();
@@ -58,7 +60,7 @@ namespace SafeExamBrowser.Service
 			bootstrapOperations.Enqueue(new ServiceEventCleanupOperation(logger, sessionContext));
 
 			sessionOperations.Enqueue(new SessionInitializationOperation(logger, ServiceEventFactory, sessionContext));
-			sessionOperations.Enqueue(new LockdownOperation(featureBackup, featureFactory, logger, sessionContext));
+			sessionOperations.Enqueue(new LockdownOperation(featureBackup, featureFactory, featureMonitor, logger, sessionContext));
 			sessionOperations.Enqueue(new SessionActivationOperation(logger, sessionContext));
 
 			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);

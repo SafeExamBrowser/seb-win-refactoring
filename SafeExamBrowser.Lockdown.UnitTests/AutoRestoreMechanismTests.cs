@@ -89,7 +89,7 @@ namespace SafeExamBrowser.Lockdown.UnitTests
 			sync.WaitOne();
 			sut.Stop();
 
-			backup.Verify(b => b.GetAllConfigurations(), Times.Exactly(limit + 1));
+			backup.Verify(b => b.GetAllConfigurations(), Times.Exactly(limit));
 			backup.Verify(b => b.Delete(It.Is<IFeatureConfiguration>(c => c == configuration.Object)), Times.Once);
 			configuration.Verify(c => c.Restore(), Times.Exactly(limit));
 			systemConfigurationUpdate.Verify(u => u.Execute(), Times.Never);
@@ -145,7 +145,7 @@ namespace SafeExamBrowser.Lockdown.UnitTests
 			Thread.Sleep(25);
 			sut.Stop();
 
-			backup.Verify(b => b.GetAllConfigurations(), Times.Between(counter, counter + 1, Range.Inclusive));
+			backup.Verify(b => b.GetAllConfigurations(), Times.Exactly(counter));
 		}
 
 		[TestMethod]

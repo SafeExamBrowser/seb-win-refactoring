@@ -25,6 +25,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 	{
 		private Mock<IFeatureConfigurationBackup> backup;
 		private Mock<IFeatureConfigurationFactory> factory;
+		private Mock<IFeatureConfigurationMonitor> monitor;
 		private Mock<ILogger> logger;
 		private Settings settings;
 		private SessionContext sessionContext;
@@ -35,6 +36,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 		{
 			backup = new Mock<IFeatureConfigurationBackup>();
 			factory = new Mock<IFeatureConfigurationFactory>();
+			monitor = new Mock<IFeatureConfigurationMonitor>();
 			logger = new Mock<ILogger>();
 			settings = new Settings();
 			sessionContext = new SessionContext
@@ -42,7 +44,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 				Configuration = new ServiceConfiguration { Settings = settings, UserName = "TestName", UserSid = "S-1-234-TEST" }
 			};
 
-			sut = new LockdownOperation(backup.Object, factory.Object, logger.Object, sessionContext);
+			sut = new LockdownOperation(backup.Object, factory.Object, monitor.Object, logger.Object, sessionContext);
 		}
 
 		[TestMethod]
@@ -63,7 +65,9 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 			configuration.Verify(c => c.Initialize(), Times.Exactly(count));
 			configuration.Verify(c => c.DisableFeature(), Times.Exactly(3));
 			configuration.Verify(c => c.EnableFeature(), Times.Exactly(count - 3));
-			configuration.Verify(c => c.Monitor(), Times.Exactly(count));
+			monitor.Verify(m => m.Observe(It.Is<IFeatureConfiguration>(c => c == configuration.Object), It.Is<FeatureConfigurationStatus>(s => s == FeatureConfigurationStatus.Disabled)), Times.Exactly(3));
+			monitor.Verify(m => m.Observe(It.Is<IFeatureConfiguration>(c => c == configuration.Object), It.Is<FeatureConfigurationStatus>(s => s == FeatureConfigurationStatus.Enabled)), Times.Exactly(count - 3));
+			monitor.Verify(m => m.Start(), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}
@@ -114,7 +118,8 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 			configuration.Verify(c => c.Initialize(), Times.Exactly(count - offset));
 			configuration.Verify(c => c.DisableFeature(), Times.Never);
 			configuration.Verify(c => c.EnableFeature(), Times.Exactly(count - offset));
-			configuration.Verify(c => c.Monitor(), Times.Exactly(count - offset - 1));
+			monitor.Verify(m => m.Observe(It.Is<IFeatureConfiguration>(c => c == configuration.Object), It.Is<FeatureConfigurationStatus>(s => s == FeatureConfigurationStatus.Enabled)), Times.Exactly(count - offset - 1));
+			monitor.Verify(m => m.Start(), Times.Never);
 
 			Assert.AreEqual(OperationResult.Failed, result);
 		}
@@ -167,6 +172,8 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 			configuration4.Verify(c => c.Initialize(), Times.Never);
 			configuration4.Verify(c => c.Restore(), Times.Once);
 
+			monitor.Verify(m => m.Reset(), Times.Once);
+
 			Assert.AreEqual(OperationResult.Success, result);
 		}
 
@@ -217,6 +224,8 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 			configuration4.Verify(c => c.EnableFeature(), Times.Never);
 			configuration4.Verify(c => c.Initialize(), Times.Never);
 			configuration4.Verify(c => c.Restore(), Times.Once);
+
+			monitor.Verify(m => m.Reset(), Times.Once);
 
 			Assert.AreEqual(OperationResult.Failed, result);
 		}

@@ -17,17 +17,20 @@ namespace SafeExamBrowser.Service.Operations
 	{
 		private IFeatureConfigurationBackup backup;
 		private IFeatureConfigurationFactory factory;
+		private IFeatureConfigurationMonitor monitor;
 		private ILogger logger;
 		private Guid groupId;
 
 		public LockdownOperation(
 			IFeatureConfigurationBackup backup,
 			IFeatureConfigurationFactory factory,
+			IFeatureConfigurationMonitor monitor,
 			ILogger logger,
 			SessionContext sessionContext) : base(sessionContext)
 		{
 			this.backup = backup;
 			this.factory = factory;
+			this.monitor = monitor;
 			this.logger = logger;
 		}
 
@@ -58,7 +61,7 @@ namespace SafeExamBrowser.Service.Operations
 
 			foreach (var (configuration, disable) in configurations)
 			{
-				success &= SetConfiguration(configuration, disable);
+				success &= TrySet(configuration, disable);
 
 				if (!success)
 				{
@@ -68,6 +71,7 @@ namespace SafeExamBrowser.Service.Operations
 
 			if (success)
 			{
+				monitor.Start();
 				logger.Info("Lockdown successful.");
 			}
 			else
@@ -85,19 +89,11 @@ namespace SafeExamBrowser.Service.Operations
 			var configurations = backup.GetBy(groupId);
 			var success = true;
 
+			monitor.Reset();
+
 			foreach (var configuration in configurations)
 			{
-				var restored = configuration.Restore();
-
-				if (restored)
-				{
-					backup.Delete(configuration);
-				}
-				else
-				{
-					logger.Error($"Failed to restore {configuration}!");
-					success = false;
-				}
+				success &= TryRestore(configuration);
 			}
 
 			if (success)
@@ -112,9 +108,26 @@ namespace SafeExamBrowser.Service.Operations
 			return success ? OperationResult.Success : OperationResult.Failed;
 		}
 
-		private bool SetConfiguration(IFeatureConfiguration configuration, bool disable)
+		private bool TryRestore(IFeatureConfiguration configuration)
+		{
+			var success = configuration.Restore();
+
+			if (success)
+			{
+				backup.Delete(configuration);
+			}
+			else
+			{
+				logger.Error($"Failed to restore {configuration}!");
+			}
+
+			return success;
+		}
+
+		private bool TrySet(IFeatureConfiguration configuration, bool disable)
 		{
 			var success = false;
+			var status = FeatureConfigurationStatus.Undefined;
 
 			configuration.Initialize();
 			backup.Save(configuration);
@@ -122,15 +135,17 @@ namespace SafeExamBrowser.Service.Operations
 			if (disable)
 			{
 				success = configuration.DisableFeature();
+				status = FeatureConfigurationStatus.Disabled;
 			}
 			else
 			{
 				success = configuration.EnableFeature();
+				status = FeatureConfigurationStatus.Enabled;
 			}
 
 			if (success)
 			{
-				configuration.Monitor();
+				monitor.Observe(configuration, status);
 			}
 			else
 			{

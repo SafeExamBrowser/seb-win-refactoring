@@ -92,10 +92,12 @@
     <Compile Include="Applications\Events\NameChangedEventHandler.cs" />
     <Compile Include="Applications\IApplicationController.cs" />
     <Compile Include="Applications\InstanceIdentifier.cs" />
+    <Compile Include="Lockdown\FeatureConfigurationStatus.cs" />
     <Compile Include="Lockdown\IAutoRestoreMechanism.cs" />
     <Compile Include="Lockdown\IFeatureConfiguration.cs" />
     <Compile Include="Lockdown\IFeatureConfigurationBackup.cs" />
     <Compile Include="Lockdown\IFeatureConfigurationFactory.cs" />
+    <Compile Include="Lockdown\IFeatureConfigurationMonitor.cs" />
     <Compile Include="Lockdown\ISystemConfigurationUpdate.cs" />
     <Compile Include="Runtime\IRuntimeController.cs" />
     <Compile Include="Core\OperationModel\Events\ActionRequiredEventArgs.cs" />

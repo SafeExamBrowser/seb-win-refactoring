@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Lockdown.FeatureConfigurations
@@ -28,12 +29,12 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations
 			return true;
 		}
 
-		public override void Initialize()
+		public override FeatureConfigurationStatus GetStatus()
 		{
-
+			return FeatureConfigurationStatus.Undefined;
 		}
 
-		public override void Monitor()
+		public override void Initialize()
 		{
 
 		}

@@ -31,8 +31,8 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations
 
 		public abstract bool DisableFeature();
 		public abstract bool EnableFeature();
+		public abstract FeatureConfigurationStatus GetStatus();
 		public abstract void Initialize();
-		public abstract void Monitor();
 		public abstract bool Restore();
 
 		public override string ToString()
