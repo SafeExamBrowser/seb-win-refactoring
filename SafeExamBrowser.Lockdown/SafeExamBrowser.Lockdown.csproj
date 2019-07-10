@@ -51,6 +51,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.ServiceProcess" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoRestoreMechanism.cs" />
@@ -74,7 +75,11 @@
     <Compile Include="FeatureConfigurations\RegistryConfigurations\UserHive\LockWorkstationConfiguration.cs" />
     <Compile Include="FeatureConfigurations\RegistryConfigurations\MachineHive\SwitchUserConfiguration.cs" />
     <Compile Include="FeatureConfigurations\RegistryConfigurations\UserHive\VmwareOverlayConfiguration.cs" />
-    <Compile Include="FeatureConfigurations\WindowsUpdateConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\ServiceConfigurations\ServiceConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\ServiceConfigurations\ServiceConfigurationItem.cs" />
+    <Compile Include="FeatureConfigurations\ServiceConfigurations\ServiceDataItem.cs" />
+    <Compile Include="FeatureConfigurations\ServiceConfigurations\ServiceStatus.cs" />
+    <Compile Include="FeatureConfigurations\ServiceConfigurations\WindowsUpdateConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemConfigurationUpdate.cs" />
   </ItemGroup>

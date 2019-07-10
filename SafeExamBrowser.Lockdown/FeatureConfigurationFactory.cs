@@ -9,9 +9,9 @@
 using System;
 using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Lockdown.FeatureConfigurations;
 using SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.MachineHive;
 using SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.UserHive;
+using SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations;
 
 namespace SafeExamBrowser.Lockdown
 {

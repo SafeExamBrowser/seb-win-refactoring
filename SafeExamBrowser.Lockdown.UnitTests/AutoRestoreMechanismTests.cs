@@ -145,7 +145,7 @@ namespace SafeExamBrowser.Lockdown.UnitTests
 			Thread.Sleep(25);
 			sut.Stop();
 
-			backup.Verify(b => b.GetAllConfigurations(), Times.Exactly(counter));
+			backup.Verify(b => b.GetAllConfigurations(), Times.Between(counter, counter + 1, Range.Inclusive));
 		}
 
 		[TestMethod]
