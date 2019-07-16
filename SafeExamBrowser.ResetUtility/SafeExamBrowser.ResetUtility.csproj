@@ -70,6 +70,7 @@
     <Compile Include="Procedure\Reset.cs" />
     <Compile Include="Procedure\Restore.cs" />
     <Compile Include="Procedure\ShowLog.cs" />
+    <Compile Include="Procedure\ShowVersion.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

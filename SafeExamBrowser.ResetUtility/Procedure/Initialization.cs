@@ -22,7 +22,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 
 		internal override ProcedureStepResult Execute()
 		{
-			Initialize();
+			InitializeConsole();
 
 			if (IsSingleInstance() && HasAdminPrivileges() && SebNotRunning())
 			{

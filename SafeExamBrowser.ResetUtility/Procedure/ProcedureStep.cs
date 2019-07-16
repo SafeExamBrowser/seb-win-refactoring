@@ -26,7 +26,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 		internal abstract ProcedureStepResult Execute();
 		internal abstract ProcedureStep GetNextStep();
 
-		protected void Initialize()
+		protected void InitializeConsole()
 		{
 			var title = "SEB Reset Utility";
 

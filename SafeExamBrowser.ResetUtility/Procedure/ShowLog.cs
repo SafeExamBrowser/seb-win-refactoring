@@ -27,7 +27,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 			{
 				offset = UpdateOffset(key, offset, log.Count);
 
-				Initialize();
+				InitializeConsole();
 				PrintInstructions();
 				PrintLogSection(log, offset);
 			}
@@ -135,7 +135,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 				case LogLevel.Warning:
 					return ConsoleColor.DarkYellow;
 				default:
-					return ForegroundColor;
+					return ConsoleColor.DarkBlue;
 			}
 		}
 	}

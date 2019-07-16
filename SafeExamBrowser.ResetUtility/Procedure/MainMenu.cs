@@ -22,6 +22,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 			{
 				new Option { IsSelected = true, NextStep = new Restore(Context), Result = ProcedureStepResult.Continue, Text = "Restore system configuration via backup mechanism" },
 				new Option { NextStep = new Reset(Context), Result = ProcedureStepResult.Continue, Text = "Reset system configuration to default values" },
+				new Option { NextStep = new ShowVersion(Context), Result = ProcedureStepResult.Continue, Text = "Show version information" },
 				new Option { NextStep = new ShowLog(Context), Result = ProcedureStepResult.Continue, Text = "Show application log" },
 				new Option { Result = ProcedureStepResult.Terminate, Text = "Exit" }
 			};
@@ -50,7 +51,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 
 		private void PrintMenu()
 		{
-			Initialize();
+			InitializeConsole();
 
 			Console.WriteLine("Please choose one of the following options:");
 			Console.WriteLine();
