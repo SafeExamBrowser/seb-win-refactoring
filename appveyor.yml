@@ -30,6 +30,9 @@ artifacts:
  - path: SafeExamBrowser.Runtime\bin\$(platform)\$(configuration)
    name: '$(appveyor_build_version)_Application'
    type: zip
+ - path: SafeExamBrowser.ResetUtility\bin\$(platform)\$(configuration)
+   name: '$(appveyor_build_version)_Reset'
+   type: zip
  - path: SafeExamBrowser.Service\bin\$(platform)\$(configuration)
    name: '$(appveyor_build_version)_Service'
    type: zip
