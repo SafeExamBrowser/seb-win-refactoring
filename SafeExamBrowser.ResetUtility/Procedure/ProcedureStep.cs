@@ -15,8 +15,8 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 	{
 		protected Context Context { get; }
 		protected ILogger Logger => Context.Logger;
-		protected ConsoleColor BackgroundColor => ConsoleColor.Black;
-		protected ConsoleColor ForegroundColor => ConsoleColor.White;
+		protected ConsoleColor BackgroundColor => ConsoleColor.White;
+		protected ConsoleColor ForegroundColor => ConsoleColor.Black;
 
 		internal ProcedureStep(Context context)
 		{

@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.ResetUtility.Procedure
@@ -19,10 +20,43 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 
 		internal override ProcedureStepResult Execute()
 		{
-			Initialize();
+			var log = Logger.GetLog();
+			var offset = 0;
 
-			foreach (var item in Logger.GetLog())
+			for (var key = default(ConsoleKey); key != ConsoleKey.Enter; key = Console.ReadKey(true).Key)
 			{
+				offset = UpdateOffset(key, offset, log.Count);
+
+				Initialize();
+				PrintInstructions();
+				PrintLogSection(log, offset);
+			}
+
+			return ProcedureStepResult.Continue;
+		}
+
+		internal override ProcedureStep GetNextStep()
+		{
+			return new MainMenu(Context);
+		}
+
+		private void PrintInstructions()
+		{
+			Console.WriteLine("Use the up/down arrow keys to scroll. Press enter to return to the main menu.");
+			Console.WriteLine();
+		}
+
+		private void PrintLogSection(IList<ILogContent> log, int offset)
+		{
+			var count = 0;
+
+			foreach (var item in log)
+			{
+				if (offset > log.IndexOf(item))
+				{
+					continue;
+				}
+
 				if (item is ILogMessage message)
 				{
 					PrintMessage(message);
@@ -32,18 +66,33 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 				{
 					PrintText(text);
 				}
+
+				count++;
+
+				if (Console.CursorTop >= Console.BufferHeight - 3)
+				{
+					break;
+				}
 			}
 
+			Console.SetCursorPosition(0, Console.BufferHeight - 3);
 			Console.WriteLine();
-			Console.WriteLine("Press any key to return to the main menu.");
-			Console.ReadKey(true);
-
-			return ProcedureStepResult.Continue;
+			Console.WriteLine($"Showing entries {offset + 1} - {offset + count} of total {log.Count}.");
 		}
 
-		internal override ProcedureStep GetNextStep()
+		private int UpdateOffset(ConsoleKey key, int offset, int total)
 		{
-			return new MainMenu(Context);
+			if (key == ConsoleKey.DownArrow)
+			{
+				offset = offset == total - 1 ? offset : offset + 1;
+			}
+
+			if (key == ConsoleKey.UpArrow)
+			{
+				offset = offset == 0 ? offset : offset - 1;
+			}
+
+			return offset;
 		}
 
 		private void PrintMessage(ILogMessage message)
@@ -80,7 +129,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 			switch (severity)
 			{
 				case LogLevel.Debug:
-					return ConsoleColor.Gray;
+					return ConsoleColor.DarkGray;
 				case LogLevel.Error:
 					return ConsoleColor.Red;
 				case LogLevel.Warning:
