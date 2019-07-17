@@ -8,20 +8,9 @@
 
 namespace SafeExamBrowser.ResetUtility.Procedure
 {
-	internal class Reset : ProcedureStep
+	internal class MainMenuOption : MenuOption
 	{
-		public Reset(Context context) : base(context)
-		{
-		}
-
-		internal override ProcedureStepResult Execute()
-		{
-			return ProcedureStepResult.Continue;
-		}
-
-		internal override ProcedureStep GetNextStep()
-		{
-			return new MainMenu(Context);
-		}
+		internal ProcedureStep NextStep { get; set; }
+		internal ProcedureStepResult Result { get; set; }
 	}
 }

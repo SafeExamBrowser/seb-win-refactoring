@@ -11,9 +11,9 @@ using System.Reflection;
 
 namespace SafeExamBrowser.ResetUtility.Procedure
 {
-	internal class ShowVersion : ProcedureStep
+	internal class Version : ProcedureStep
 	{
-		public ShowVersion(Context context) : base(context)
+		public Version(Context context) : base(context)
 		{
 		}
 

@@ -65,12 +65,14 @@
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Procedure\Initialization.cs" />
     <Compile Include="Procedure\MainMenu.cs" />
+    <Compile Include="Procedure\MainMenuOption.cs" />
+    <Compile Include="Procedure\MenuOption.cs" />
     <Compile Include="Procedure\ProcedureStep.cs" />
     <Compile Include="Procedure\ProcedureStepResult.cs" />
     <Compile Include="Procedure\Reset.cs" />
     <Compile Include="Procedure\Restore.cs" />
-    <Compile Include="Procedure\ShowLog.cs" />
-    <Compile Include="Procedure\ShowVersion.cs" />
+    <Compile Include="Procedure\Log.cs" />
+    <Compile Include="Procedure\Version.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

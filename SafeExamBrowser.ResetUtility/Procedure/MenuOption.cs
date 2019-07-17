@@ -8,20 +8,14 @@
 
 namespace SafeExamBrowser.ResetUtility.Procedure
 {
-	internal class Reset : ProcedureStep
+	internal class MenuOption
 	{
-		public Reset(Context context) : base(context)
-		{
-		}
+		internal bool IsSelected { get; set; }
+		internal string Text { get; set; }
 
-		internal override ProcedureStepResult Execute()
+		public override string ToString()
 		{
-			return ProcedureStepResult.Continue;
-		}
-
-		internal override ProcedureStep GetNextStep()
-		{
-			return new MainMenu(Context);
+			return $"[{(IsSelected ? "x" : " ")}] {Text}";
 		}
 	}
 }

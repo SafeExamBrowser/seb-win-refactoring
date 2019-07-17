@@ -12,9 +12,9 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.ResetUtility.Procedure
 {
-	internal class ShowLog : ProcedureStep
+	internal class Log : ProcedureStep
 	{
-		public ShowLog(Context context) : base(context)
+		public Log(Context context) : base(context)
 		{
 		}
 
