@@ -16,7 +16,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 	{
 		private static readonly Mutex mutex = new Mutex(true, "safe_exam_browser_reset_mutex");
 
-		public Initialization(Context context) : base(context)
+		public Initialization(ProcedureContext context) : base(context)
 		{
 		}
 

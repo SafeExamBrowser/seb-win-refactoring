@@ -13,7 +13,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 {
 	internal class Version : ProcedureStep
 	{
-		public Version(Context context) : base(context)
+		public Version(ProcedureContext context) : base(context)
 		{
 		}
 

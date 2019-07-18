@@ -9,18 +9,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.ResetUtility.Procedure
 {
 	internal abstract class ProcedureStep
 	{
-		protected Context Context { get; }
+		private CancellationTokenSource progressAnimationToken;
+		private Task progressAnimation;
+
+		protected ProcedureContext Context { get; }
 		protected ILogger Logger => Context.Logger;
 		protected ConsoleColor BackgroundColor => ConsoleColor.White;
 		protected ConsoleColor ForegroundColor => ConsoleColor.Black;
 
-		internal ProcedureStep(Context context)
+		internal ProcedureStep(ProcedureContext context)
 		{
 			Context = context;
 		}
@@ -87,6 +92,18 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 			Console.Write($"[{new String('■', (int) progress)}{new String('─', (int) remaining)}] {current * 100 / total}%");
 		}
 
+		protected void StartProgressAnimation()
+		{
+			progressAnimationToken = new CancellationTokenSource();
+			progressAnimation = Task.Run(new Action(ProgressAnimation));
+		}
+
+		protected void StopProgressAnimation()
+		{
+			progressAnimationToken?.Cancel();
+			progressAnimation?.Wait();
+		}
+
 		private void PrintMenu(IList<MenuOption> options, int left, int top, bool showInstructions)
 		{
 			Console.SetCursorPosition(left, top);
@@ -107,6 +124,43 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 				Console.WriteLine();
 				Console.WriteLine("Use the up/down arrow keys and enter to navigate the menu.");
 			}
+		}
+
+		private void ProgressAnimation()
+		{
+			var length = 12;
+			var max = Console.BufferWidth - 8;
+			var min = 1;
+			var left = 1;
+			var operand = 1;
+
+			Console.Write($"[{new String('■', length)}{new String('─', max - length)}]");
+
+			while (!progressAnimationToken.IsCancellationRequested)
+			{
+				Console.SetCursorPosition(left, Console.CursorTop);
+				Console.Write(new String('─', length));
+
+				if (left + length > max)
+				{
+					operand = -1;
+				}
+				else if (left <= min)
+				{
+					operand = 1;
+				}
+
+				left += operand;
+
+				Console.SetCursorPosition(left, Console.CursorTop);
+				Console.Write(new String('■', length));
+
+				Thread.Sleep(20);
+			}
+
+			Console.SetCursorPosition(0, Console.CursorTop);
+			Console.WriteLine(new String(' ', Console.BufferWidth));
+			Console.SetCursorPosition(0, Console.CursorTop - 2);
 		}
 
 		private void SelectNextOption(ConsoleKey key, IList<MenuOption> options)

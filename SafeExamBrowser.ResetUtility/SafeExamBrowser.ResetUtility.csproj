@@ -60,7 +60,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context.cs" />
+    <Compile Include="Procedure\ProcedureContext.cs" />
     <Compile Include="CompositionRoot.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Procedure\Initialization.cs" />

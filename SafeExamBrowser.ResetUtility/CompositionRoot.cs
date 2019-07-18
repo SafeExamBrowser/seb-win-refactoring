@@ -26,7 +26,7 @@ namespace SafeExamBrowser.ResetUtility
 
 		internal void BuildObjectGraph()
 		{
-			var context = new Context();
+			var context = new ProcedureContext();
 
 			InitializeLogging();
 
@@ -51,7 +51,7 @@ namespace SafeExamBrowser.ResetUtility
 			logger?.Log($"# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 		}
 
-		private IList<MainMenuOption> BuildMainMenu(Context context)
+		private IList<MainMenuOption> BuildMainMenu(ProcedureContext context)
 		{
 			return new List<MainMenuOption>
 			{

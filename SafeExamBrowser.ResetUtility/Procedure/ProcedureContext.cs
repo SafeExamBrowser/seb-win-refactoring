@@ -10,11 +10,10 @@ using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.ResetUtility.Procedure;
 
-namespace SafeExamBrowser.ResetUtility
+namespace SafeExamBrowser.ResetUtility.Procedure
 {
-	internal class Context
+	internal class ProcedureContext
 	{
 		internal Func<string, IFeatureConfigurationBackup> CreateBackup { get; set; }
 		internal ILogger Logger { get; set; }

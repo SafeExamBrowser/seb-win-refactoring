@@ -10,7 +10,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 {
 	internal class Reset : ProcedureStep
 	{
-		public Reset(Context context) : base(context)
+		public Reset(ProcedureContext context) : base(context)
 		{
 		}
 

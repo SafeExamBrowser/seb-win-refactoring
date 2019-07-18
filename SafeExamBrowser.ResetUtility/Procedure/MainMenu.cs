@@ -12,7 +12,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 {
 	internal class MainMenu : ProcedureStep
 	{
-		public MainMenu(Context context) : base(context)
+		public MainMenu(ProcedureContext context) : base(context)
 		{
 		}
 

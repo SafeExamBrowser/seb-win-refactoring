@@ -20,7 +20,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 	{
 		private ProcedureStep next;
 
-		public Restore(Context context) : base(context)
+		public Restore(ProcedureContext context) : base(context)
 		{
 			next = new MainMenu(Context);
 		}
@@ -67,6 +67,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 
 			Logger.Info($"Found backup file '{filePath}' with {configurations.Count} items. Initiating restore procedure...");
 			Console.WriteLine($"Found backup file with {configurations.Count} items.");
+			Console.WriteLine();
 			Console.WriteLine("Initiating restore procedure...");
 
 			foreach (var configuration in configurations)
@@ -106,7 +107,9 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 			Logger.Info("Starting system configuration update...");
 			Console.WriteLine();
 			Console.WriteLine("Performing system configuration update, please wait...");
+			StartProgressAnimation();
 			Context.Update.Execute();
+			StopProgressAnimation();
 			Logger.Info("Update completed.");
 			Console.WriteLine("Update completed.");
 		}

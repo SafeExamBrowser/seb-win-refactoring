@@ -14,7 +14,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 {
 	internal class Log : ProcedureStep
 	{
-		public Log(Context context) : base(context)
+		public Log(ProcedureContext context) : base(context)
 		{
 		}
 
