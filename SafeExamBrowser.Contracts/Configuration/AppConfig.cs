@@ -27,9 +27,24 @@ namespace SafeExamBrowser.Contracts.Configuration
 		public const string BASE_ADDRESS = "net.pipe://localhost/safeexambrowser";
 
 		/// <summary>
+		/// The name of the synchronization primitive for the client component.
+		/// </summary>
+		public const string CLIENT_MUTEX_NAME = "safe_exam_browser_client_mutex";
+
+		/// <summary>
+		/// The name of the synchronization primitive for the runtime component.
+		/// </summary>
+		public const string RUNTIME_MUTEX_NAME = "safe_exam_browser_runtime_mutex";
+
+		/// <summary>
 		/// The communication address of the service component.
 		/// </summary>
 		public const string SERVICE_ADDRESS = BASE_ADDRESS + "/service";
+
+		/// <summary>
+		/// The name of the synchronization primitive for the service component.
+		/// </summary>
+		public const string SERVICE_MUTEX_NAME = "safe_exam_browser_reset_mutex";
 
 		/// <summary>
 		/// The file path of the local client configuration for the active user.

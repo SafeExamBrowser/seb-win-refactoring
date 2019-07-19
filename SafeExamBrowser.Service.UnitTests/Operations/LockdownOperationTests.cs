@@ -51,7 +51,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 		public void Perform_MustSetConfigurationsCorrectly()
 		{
 			var configuration = new Mock<IFeatureConfiguration>();
-			var count = typeof(IFeatureConfigurationFactory).GetMethods().Where(m => m.Name.StartsWith("Create")).Count();
+			var count = typeof(IFeatureConfigurationFactory).GetMethods().Where(m => m.Name.StartsWith("Create") && m.Name != nameof(IFeatureConfigurationFactory.CreateAll)).Count();
 
 			configuration.SetReturnsDefault(true);
 			factory.SetReturnsDefault(configuration.Object);
@@ -105,7 +105,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 		public void Perform_MustImmediatelyAbortOnFailure()
 		{
 			var configuration = new Mock<IFeatureConfiguration>();
-			var count = typeof(IFeatureConfigurationFactory).GetMethods().Where(m => m.Name.StartsWith("Create")).Count();
+			var count = typeof(IFeatureConfigurationFactory).GetMethods().Where(m => m.Name.StartsWith("Create") && m.Name != nameof(IFeatureConfigurationFactory.CreateAll)).Count();
 			var counter = 0;
 			var offset = 3;
 

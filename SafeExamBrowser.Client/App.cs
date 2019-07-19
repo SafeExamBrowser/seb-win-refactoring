@@ -9,12 +9,13 @@
 using System;
 using System.Threading;
 using System.Windows;
+using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.Client
 {
 	public class App : Application
 	{
-		private static readonly Mutex Mutex = new Mutex(true, "safe_exam_browser_client_mutex");
+		private static readonly Mutex Mutex = new Mutex(true, AppConfig.CLIENT_MUTEX_NAME);
 		private CompositionRoot instances = new CompositionRoot();
 
 		[STAThread]

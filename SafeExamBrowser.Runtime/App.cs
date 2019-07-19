@@ -10,12 +10,13 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.Runtime
 {
 	public class App : Application
 	{
-		private static readonly Mutex Mutex = new Mutex(true, "safe_exam_browser_runtime_mutex");
+		private static readonly Mutex Mutex = new Mutex(true, AppConfig.RUNTIME_MUTEX_NAME);
 		private CompositionRoot instances = new CompositionRoot();
 
 		[STAThread]

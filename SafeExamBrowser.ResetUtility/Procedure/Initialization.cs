@@ -9,12 +9,13 @@
 using System;
 using System.Security.Principal;
 using System.Threading;
+using SafeExamBrowser.Contracts.Configuration;
 
 namespace SafeExamBrowser.ResetUtility.Procedure
 {
 	internal class Initialization : ProcedureStep
 	{
-		private static readonly Mutex mutex = new Mutex(true, "safe_exam_browser_reset_mutex");
+		private static readonly Mutex mutex = new Mutex(true, AppConfig.SERVICE_MUTEX_NAME);
 
 		public Initialization(ProcedureContext context) : base(context)
 		{
@@ -77,7 +78,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 
 		private bool SebNotRunning()
 		{
-			var isRunning = Mutex.TryOpenExisting("safe_exam_browser_runtime_mutex", out _);
+			var isRunning = Mutex.TryOpenExisting(AppConfig.RUNTIME_MUTEX_NAME, out _);
 
 			if (isRunning)
 			{
