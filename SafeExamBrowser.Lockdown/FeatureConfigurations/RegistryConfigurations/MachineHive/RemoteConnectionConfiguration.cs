@@ -12,6 +12,13 @@ using SafeExamBrowser.Contracts.Logging;
 
 namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.MachineHive
 {
+	/// <summary>
+	/// Specifies whether Remote Desktop connections are enabled.
+	/// 
+	/// See https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-terminalservices-localsessionmanager-fdenytsconnections:
+	/// •	0 = Specifies that remote desktop connections are enabled.
+	/// •	1 = Specifies that remote desktop connections are denied. This is the default value.
+	/// </summary>
 	[Serializable]
 	internal class RemoteConnectionConfiguration : MachineHiveConfiguration
 	{
@@ -22,6 +29,11 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.
 
 		public RemoteConnectionConfiguration(Guid groupId, ILogger logger) : base(groupId, logger)
 		{
+		}
+
+		public override bool Reset()
+		{
+			return DisableFeature();
 		}
 	}
 }

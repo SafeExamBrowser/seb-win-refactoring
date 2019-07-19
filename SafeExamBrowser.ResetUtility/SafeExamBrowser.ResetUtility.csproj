@@ -92,6 +92,10 @@
       <Project>{e107026c-2011-4552-a7d8-3a0d37881df6}</Project>
       <Name>SafeExamBrowser.Logging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.SystemComponents\SafeExamBrowser.SystemComponents.csproj">
+      <Project>{acee2ef1-14d2-4b52-8994-5c053055bb51}</Project>
+      <Name>SafeExamBrowser.SystemComponents</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="SafeExamBrowser.ico" />

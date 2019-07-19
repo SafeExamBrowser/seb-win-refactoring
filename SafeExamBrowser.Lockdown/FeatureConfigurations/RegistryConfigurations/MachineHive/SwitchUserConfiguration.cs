@@ -23,5 +23,10 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.
 		public SwitchUserConfiguration(Guid groupId, ILogger logger) : base(groupId, logger)
 		{
 		}
+
+		public override bool Reset()
+		{
+			return DeleteConfiguration();
+		}
 	}
 }

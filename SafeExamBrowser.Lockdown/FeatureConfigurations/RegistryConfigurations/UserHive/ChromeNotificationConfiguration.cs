@@ -16,9 +16,9 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.
 	/// IMPORTANT: This registry configuration only has an effect after Chrome is restarted!
 	/// 
 	/// See https://www.chromium.org/administrators/policy-list-3#DefaultNotificationsSetting:
-	/// •	1 = Allow sites to show desktop notifications
-	/// •	2 = Do not allow any site to show desktop notifications
-	/// •	3 = Ask every time a site wants to show desktop notifications
+	/// •	1 = Allow sites to show desktop notifications.
+	/// •	2 = Do not allow any site to show desktop notifications.
+	/// •	3 = Ask every time a site wants to show desktop notifications.
 	/// </summary>
 	[Serializable]
 	internal class ChromeNotificationConfiguration : UserHiveConfiguration
@@ -30,6 +30,11 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.
 
 		public ChromeNotificationConfiguration(Guid groupId, ILogger logger, string sid, string userName) : base(groupId, logger, sid, userName)
 		{
+		}
+
+		public override bool Reset()
+		{
+			return DeleteConfiguration();
 		}
 	}
 }

@@ -71,7 +71,7 @@ namespace SafeExamBrowser.Runtime
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)), Interlocutor.Runtime);
 			var sessionContext = new SessionContext();
 			var uiFactory = new UserInterfaceFactory(text);
-			var userInfo = new UserInfo();
+			var userInfo = new UserInfo(ModuleLogger(nameof(UserInfo)));
 
 			var bootstrapOperations = new Queue<IOperation>();
 			var sessionOperations = new Queue<IRepeatableOperation>();

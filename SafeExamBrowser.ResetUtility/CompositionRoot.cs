@@ -14,11 +14,13 @@ using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Lockdown;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.ResetUtility.Procedure;
+using SafeExamBrowser.SystemComponents;
 
 namespace SafeExamBrowser.ResetUtility
 {
 	internal class CompositionRoot
 	{
+		private ProcedureContext context;
 		private ILogger logger;
 
 		internal ProcedureStep InitialStep { get; private set; }
@@ -26,14 +28,8 @@ namespace SafeExamBrowser.ResetUtility
 
 		internal void BuildObjectGraph()
 		{
-			var context = new ProcedureContext();
-
 			InitializeLogging();
-
-			context.CreateBackup = CreateBackup;
-			context.Logger = logger;
-			context.MainMenu = BuildMainMenu(context);
-			context.Update = new SystemConfigurationUpdate(new ModuleLogger(logger, nameof(SystemConfigurationUpdate)));
+			InitializeContext();
 
 			InitialStep = new Initialization(context);
 			NativeMethods = new NativeMethods();
@@ -66,6 +62,17 @@ namespace SafeExamBrowser.ResetUtility
 		private IFeatureConfigurationBackup CreateBackup(string filePath)
 		{
 			return new FeatureConfigurationBackup(filePath, new ModuleLogger(logger, nameof(FeatureConfigurationBackup)));
+		}
+
+		private void InitializeContext()
+		{
+			context = new ProcedureContext();
+			context.ConfigurationFactory = new FeatureConfigurationFactory(new ModuleLogger(logger, nameof(FeatureConfigurationFactory)));
+			context.CreateBackup = CreateBackup;
+			context.Logger = logger;
+			context.MainMenu = BuildMainMenu(context);
+			context.Update = new SystemConfigurationUpdate(new ModuleLogger(logger, nameof(SystemConfigurationUpdate)));
+			context.UserInfo = new UserInfo(new ModuleLogger(logger, nameof(UserInfo)));
 		}
 
 		private void InitializeLogging()

@@ -57,6 +57,25 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 			Console.CursorVisible = false;
 		}
 
+		protected void ClearLine(int top)
+		{
+			Console.SetCursorPosition(0, top);
+			Console.WriteLine(new String(' ', Console.BufferWidth));
+			Console.SetCursorPosition(0, top);
+		}
+
+		protected string ReadLine()
+		{
+			Console.Write("> ");
+			Console.CursorVisible = true;
+
+			var input = Console.ReadLine();
+
+			Console.CursorVisible = false;
+
+			return input;
+		}
+
 		protected void ShowError(string message)
 		{
 			Console.ForegroundColor = ConsoleColor.Red;

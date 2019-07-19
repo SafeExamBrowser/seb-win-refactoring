@@ -30,6 +30,8 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations
 			itemsToRestore = new List<RegistryDataItem>();
 		}
 
+		protected abstract bool IsHiveAvailable(RegistryDataItem item);
+
 		public override bool DisableFeature()
 		{
 			var success = true;
@@ -66,7 +68,7 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations
 			}
 			else
 			{
-				logger.Warn("Failed to enabled feature!");
+				logger.Warn("Failed to enable feature!");
 			}
 
 			return success;
@@ -148,7 +150,26 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations
 			return success;
 		}
 
-		protected abstract bool IsHiveAvailable(RegistryDataItem item);
+		protected bool DeleteConfiguration()
+		{
+			var success = true;
+
+			foreach (var item in Items)
+			{
+				success &= TryDelete(new RegistryDataItem { Key = item.Key, Value = item.Value });
+			}
+
+			if (success)
+			{
+				logger.Info("Successfully deleted feature configuration.");
+			}
+			else
+			{
+				logger.Warn("Failed to delete feature configuration!");
+			}
+
+			return success;
+		}
 
 		private RegistryDataItem ReadItem(string key, string value)
 		{

@@ -23,5 +23,10 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 		public WindowsUpdateConfiguration(Guid groupId, ILogger logger) : base(groupId, logger)
 		{
 		}
+
+		public override bool Reset()
+		{
+			return EnableFeature();
+		}
 	}
 }

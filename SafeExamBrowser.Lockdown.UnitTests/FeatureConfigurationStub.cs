@@ -42,6 +42,11 @@ namespace SafeExamBrowser.Lockdown.UnitTests
 			throw new NotImplementedException();
 		}
 
+		public bool Reset()
+		{
+			throw new NotImplementedException();
+		}
+
 		public bool Restore()
 		{
 			throw new NotImplementedException();

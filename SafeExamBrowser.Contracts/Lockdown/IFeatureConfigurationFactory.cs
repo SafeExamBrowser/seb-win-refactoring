@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace SafeExamBrowser.Contracts.Lockdown
 {
@@ -15,6 +16,11 @@ namespace SafeExamBrowser.Contracts.Lockdown
 	/// </summary>
 	public interface IFeatureConfigurationFactory
 	{
+		/// <summary>
+		/// Creates all feature configurations.
+		/// </summary>
+		IList<IFeatureConfiguration> CreateAll(Guid groupId, string sid, string userName);
+
 		/// <summary>
 		/// Creates an <see cref="IFeatureConfiguration"/> to control the option to change the password of a user account via the security screen.
 		/// </summary>

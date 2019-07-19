@@ -24,5 +24,10 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.
 		public VmwareOverlayConfiguration(Guid groupId, ILogger logger, string sid, string userName) : base(groupId, logger, sid, userName)
 		{
 		}
+
+		public override bool Reset()
+		{
+			return EnableFeature();
+		}
 	}
 }

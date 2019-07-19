@@ -46,6 +46,11 @@ namespace SafeExamBrowser.Contracts.Lockdown
 		void Initialize();
 
 		/// <summary>
+		/// Resets the feature to its default configuration. Returns <c>true</c> if successful, otherwise <c>false</c>.
+		/// </summary>
+		bool Reset();
+
+		/// <summary>
 		/// Restores the feature to its previous configuration (i.e. before it was enabled or disabled). Returns <c>true</c> if successful,
 		/// otherwise <c>false</c>.
 		/// </summary>

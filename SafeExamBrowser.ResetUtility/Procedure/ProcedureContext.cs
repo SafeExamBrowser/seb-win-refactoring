@@ -10,14 +10,17 @@ using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Contracts.SystemComponents;
 
 namespace SafeExamBrowser.ResetUtility.Procedure
 {
 	internal class ProcedureContext
 	{
+		internal IFeatureConfigurationFactory ConfigurationFactory { get; set; }
 		internal Func<string, IFeatureConfigurationBackup> CreateBackup { get; set; }
 		internal ILogger Logger { get; set; }
 		internal IList<MainMenuOption> MainMenu { get; set; }
 		internal ISystemConfigurationUpdate Update { get; set; }
+		internal IUserInfo UserInfo { get; set; }
 	}
 }

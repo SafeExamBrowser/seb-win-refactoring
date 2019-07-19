@@ -22,5 +22,10 @@ namespace SafeExamBrowser.Contracts.SystemComponents
 		/// Retrieves the security identifier of the currently logged in user.
 		/// </summary>
 		string GetUserSid();
+
+		/// <summary>
+		/// Tries to retrieve the security identifier for the specified user name. Returns <c>true</c> if successful, otherwise <c>false</c>.
+		/// </summary>
+		bool TryGetSidForUser(string userName, out string sid);
 	}
 }

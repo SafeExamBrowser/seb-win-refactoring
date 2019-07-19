@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using SafeExamBrowser.Contracts.Lockdown;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.MachineHive;
@@ -22,6 +23,25 @@ namespace SafeExamBrowser.Lockdown
 		public FeatureConfigurationFactory(IModuleLogger logger)
 		{
 			this.logger = logger;
+		}
+
+		public IList<IFeatureConfiguration> CreateAll(Guid groupId, string sid, string userName)
+		{
+			return new List<IFeatureConfiguration>
+			{
+				CreateChangePasswordConfiguration(groupId, sid, userName),
+				CreateChromeNotificationConfiguration(groupId, sid, userName),
+				CreateEaseOfAccessConfiguration(groupId),
+				CreateLockWorkstationConfiguration(groupId, sid, userName),
+				CreateNetworkOptionsConfiguration(groupId),
+				CreatePowerOptionsConfiguration(groupId),
+				CreateRemoteConnectionConfiguration(groupId),
+				CreateSignoutConfiguration(groupId, sid, userName),
+				CreateSwitchUserConfiguration(groupId),
+				CreateTaskManagerConfiguration(groupId, sid, userName),
+				CreateVmwareOverlayConfiguration(groupId, sid, userName),
+				CreateWindowsUpdateConfiguration(groupId)
+			};
 		}
 
 		public IFeatureConfiguration CreateChangePasswordConfiguration(Guid groupId, string sid, string userName)

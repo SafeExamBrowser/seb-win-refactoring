@@ -7,13 +7,25 @@
  */
 
 using System;
+using System.Diagnostics;
 using System.Security.Principal;
+using System.Text.RegularExpressions;
+using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
 
 namespace SafeExamBrowser.SystemComponents
 {
 	public class UserInfo : IUserInfo
 	{
+		private const string SID_REGEX_PATTERN = @"S-\d(-\d+)+";
+
+		private ILogger logger;
+
+		public UserInfo(ILogger logger)
+		{
+			this.logger = logger;
+		}
+
 		public string GetUserName()
 		{
 			return Environment.UserName;
@@ -22,6 +34,78 @@ namespace SafeExamBrowser.SystemComponents
 		public string GetUserSid()
 		{
 			return WindowsIdentity.GetCurrent().User.Value;
+		}
+
+		public bool TryGetSidForUser(string userName, out string sid)
+		{
+			var strategies = new Func<string, string>[] { NtAccount, Wmi };
+			var success = false;
+
+			sid = default(string);
+
+			foreach (var strategy in strategies)
+			{
+				try
+				{
+					sid = strategy.Invoke(userName);
+
+					if (IsValid(sid))
+					{
+						logger.Info($"Found SID '{sid}' via '{strategy.Method.Name}' for user name '{userName}'!");
+						success = true;
+
+						break;
+					}
+
+					logger.Warn($"Retrieved invalid SID '{sid}' via '{strategy.Method.Name}' for user name '{userName}'!");
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to get SID via '{strategy.Method.Name}' for user name '{userName}'!", e);
+				}
+			}
+
+			if (!success)
+			{
+				logger.Error($"All attempts to retrieve SID for user name '{userName}' failed!");
+			}
+
+			return success;
+		}
+
+		private string NtAccount(string userName)
+		{
+			var account = new NTAccount(userName);
+
+			if (account.IsValidTargetType(typeof(SecurityIdentifier)))
+			{
+				return account.Translate(typeof(SecurityIdentifier)).Value;
+			}
+
+			return null;
+		}
+
+		private string Wmi(string userName)
+		{
+			var process = new Process();
+
+			process.StartInfo.FileName = "cmd.exe";
+			process.StartInfo.Arguments = string.Format("/c \"wmic useraccount where name='{0}' get sid\"", userName);
+			process.StartInfo.UseShellExecute = false;
+			process.StartInfo.RedirectStandardOutput = true;
+			process.StartInfo.CreateNoWindow = true;
+			process.Start();
+			process.WaitForExit(5000);
+
+			var output = process.StandardOutput.ReadToEnd();
+			var match = Regex.Match(output, SID_REGEX_PATTERN);
+
+			return match.Success ? match.Value : null;
+		}
+
+		private bool IsValid(string sid)
+		{
+			return !String.IsNullOrWhiteSpace(sid) && Regex.IsMatch(sid, $"^{SID_REGEX_PATTERN}$");
 		}
 	}
 }

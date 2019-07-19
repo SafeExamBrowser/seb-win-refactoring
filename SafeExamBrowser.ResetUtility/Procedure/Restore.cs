@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -104,13 +103,11 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 
 		private void PerformUpdate()
 		{
-			Logger.Info("Starting system configuration update...");
 			Console.WriteLine();
 			Console.WriteLine("Performing system configuration update, please wait...");
 			StartProgressAnimation();
 			Context.Update.Execute();
 			StopProgressAnimation();
-			Logger.Info("Update completed.");
 			Console.WriteLine("Update completed.");
 		}
 
@@ -160,7 +157,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 				next = new Reset(Context);
 			}
 
-			Logger.Info($"The user chose {(yes.IsSelected ? "" : "not ")}to perform a reset for now.");
+			Logger.Info($"The user chose {(yes.IsSelected ? "" : "not ")}to perform a reset.");
 		}
 	}
 }
