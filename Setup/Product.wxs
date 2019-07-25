@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="*" Name="Safe Exam Browser" Language="1033" Codepage="1252" Version="3.0.0" Manufacturer="ETH Zürich" UpgradeCode="97A8B13E-48FB-4BE1-A7C2-DD1863F95CCB">
+        <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+        <MediaTemplate EmbedCab="yes" />
+        <UIRef Id="WixUI_Minimal" />
+        <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." AllowSameVersionUpgrades="yes" />
+        <Icon Id="ApplicationIcon" SourceFile="SafeExamBrowser.ico" />
+        <Property Id="ARPPRODUCTICON" Value="ApplicationIcon" />
+        <Feature Id="ProductFeature" Title="Safe Exam Browser" Level="1">
+            <ComponentGroupRef Id="ApplicationComponents" />
+            <ComponentGroupRef Id="Shortcuts" />
+            <!--<ComponentGroupRef Id="ResetComponents" />-->
+            <!--<ComponentGroupRef Id="ServiceComponents" />-->
+        </Feature>
+    </Product>
+</Wix>

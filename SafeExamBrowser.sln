@@ -68,6 +68,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Lockdown.Un
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.ResetUtility", "SafeExamBrowser.ResetUtility\SafeExamBrowser.ResetUtility.csproj", "{BC229E80-FF93-424F-9930-D9C07D9B57B4}"
 EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Setup", "Setup\Setup.wixproj", "{0E14D163-557E-469E-9112-96936AF43A7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -292,6 +294,12 @@ Global
 		{BC229E80-FF93-424F-9930-D9C07D9B57B4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BC229E80-FF93-424F-9930-D9C07D9B57B4}.Release|x86.ActiveCfg = Release|x86
 		{BC229E80-FF93-424F-9930-D9C07D9B57B4}.Release|x86.Build.0 = Release|x86
+		{0E14D163-557E-469E-9112-96936AF43A7B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0E14D163-557E-469E-9112-96936AF43A7B}.Debug|x86.ActiveCfg = Debug|x86
+		{0E14D163-557E-469E-9112-96936AF43A7B}.Debug|x86.Build.0 = Debug|x86
+		{0E14D163-557E-469E-9112-96936AF43A7B}.Release|Any CPU.ActiveCfg = Release|x86
+		{0E14D163-557E-469E-9112-96936AF43A7B}.Release|x86.ActiveCfg = Release|x86
+		{0E14D163-557E-469E-9112-96936AF43A7B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
