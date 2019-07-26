@@ -197,4 +197,7 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
+  <Target Name="AfterClean" AfterTargets="Clean">
+    <RemoveDir Directories="$(TargetDir)" />
+  </Target>
 </Project>
