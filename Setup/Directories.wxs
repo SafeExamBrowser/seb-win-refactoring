@@ -5,12 +5,12 @@
             <Directory Id="ProgramFilesFolder">
                 <Directory Id="INSTALLFOLDER" Name="SafeExamBrowser">
                     <Directory Id="ApplicationDirectory" Name="Application" />
-                    <!--<Directory Id="ResetDirectory" Name="Reset" />-->
+                    <Directory Id="ResetDirectory" Name="Reset" />
                     <!--<Directory Id="ServiceDirectory" Name="Service" />-->
                 </Directory>
             </Directory>
             <Directory Id="ProgramMenuFolder">
-                <Directory Id="StartMenuDirectory" Name="SafeExamBrowser"/>
+                <Directory Id="StartMenuDirectory" Name="SafeExamBrowser" />
             </Directory>
         </Directory>
     </Fragment>

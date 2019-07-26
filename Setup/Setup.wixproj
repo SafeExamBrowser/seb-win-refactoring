@@ -51,6 +51,14 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.ResetUtility\SafeExamBrowser.ResetUtility.csproj">
+      <Name>SafeExamBrowser.ResetUtility</Name>
+      <Project>{bc229e80-ff93-424f-9930-d9c07d9b57b4}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Runtime\SafeExamBrowser.Runtime.csproj">
       <Name>SafeExamBrowser.Runtime</Name>
       <Project>{e3aed2f8-b5df-45d1-ac19-48066923d6d8}</Project>
@@ -62,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Components\Application.xslt" />
+    <Content Include="Components\Reset.xslt" />
     <Content Include="Resources\License.rtf" />
     <Content Include="Resources\SafeExamBrowser.ico" />
   </ItemGroup>
@@ -71,10 +80,12 @@
     <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -srd -cg ApplicationComponents -dr ApplicationDirectory -sfrag -var var.SafeExamBrowser.Runtime.TargetDir -out $(ProjectDir)Components\Application.wxs -t $(ProjectDir)Components\Application.xslt</PreBuildEvent>
+    <PostBuildEvent>git -C $(SolutionDir) checkout -- Setup/Components/Application.wxs
+git -C $(SolutionDir) checkout -- Setup/Components/Reset.wxs</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>git -C $(SolutionDir) checkout -- Setup/Components/Application.wxs</PostBuildEvent>
+    <PreBuildEvent>"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.ResetUtility\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -srd -cg ResetComponents -dr ResetDirectory -sfrag -var var.SafeExamBrowser.ResetUtility.TargetDir -out $(ProjectDir)Components\Reset.wxs -t $(ProjectDir)Components\Reset.xslt
+"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -srd -cg ApplicationComponents -dr ApplicationDirectory -sfrag -var var.SafeExamBrowser.Runtime.TargetDir -out $(ProjectDir)Components\Application.wxs -t $(ProjectDir)Components\Application.xslt</PreBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
