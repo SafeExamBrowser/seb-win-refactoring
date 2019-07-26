@@ -36,6 +36,6 @@ artifacts:
  - path: SafeExamBrowser.Service\bin\$(platform)\$(configuration)
    name: 'SEB_$(appveyor_build_version)_Service'
    type: zip
- - path: SafeExamBrowser.Setup\bin\$(configuration)\Setup.msi
+ - path: Setup\bin\$(configuration)\Setup.msi
    name: 'SEB_$(appveyor_build_version)_Setup'
    type: file
