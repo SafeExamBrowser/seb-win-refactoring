@@ -12,6 +12,8 @@ before_build:
  - nuget restore
 build_script:
  - msbuild /verbosity:minimal "SafeExamBrowser.sln"
+after_build:
+ - appveyor PushArtifact "Setup\bin\$(configuration)\Setup.msi" -FileName "SEB_$(appveyor_build_version)_Setup.msi" -DeploymentName "SEB_$(appveyor_build_version)_Setup"
 test_script:
  - .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Client.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.Client.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -output:"coverage.xml"
  - .\packages\OpenCover.4.7.922\tools\OpenCover.Console.exe -register:user -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Communication.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.Communication.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -mergeoutput -output:"coverage.xml"
@@ -36,6 +38,3 @@ artifacts:
  - path: SafeExamBrowser.Service\bin\$(platform)\$(configuration)
    name: 'SEB_$(appveyor_build_version)_Service'
    type: zip
- - path: Setup\bin\$(configuration)\Setup.msi
-   name: 'SEB_$(appveyor_build_version)_Setup'
-   type: file
