@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
-        <Component Id="ShortcutComponents" Guid="F6B8A57A-84BB-4264-96C5-3DD59F745E58" Directory="StartMenuDirectory">
+        <Component Id="ShortcutComponent" Directory="StartMenuDirectory">
             <Shortcut Id="ApplicationShortcut" Name="Safe Exam Browser" Icon="ApplicationIcon" IconIndex="0" Advertise="no" Directory="ProgramMenuFolder"
-                        Target="[ApplicationDirectory]\$(var.SafeExamBrowser.Runtime.TargetFileName)" WorkingDirectory="ApplicationDirectory"
-                        Description="Starts the main application." />
+                      Target="[ApplicationDirectory]\$(var.SafeExamBrowser.Runtime.TargetFileName)" WorkingDirectory="ApplicationDirectory"
+                      Description="Starts the main application." />
             <Shortcut Id="ResetUtilityShortcut" Name="SEB Reset Utility" Icon="ApplicationIcon" IconIndex="0" Advertise="no" Directory="StartMenuDirectory"
-                        Target="[ResetDirectory]\$(var.SafeExamBrowser.ResetUtility.TargetFileName)" WorkingDirectory="ResetDirectory"
-                        Description="Provides options to reset any changes made by the main application." />
+                      Target="[ResetDirectory]\$(var.SafeExamBrowser.ResetUtility.TargetFileName)" WorkingDirectory="ResetDirectory"
+                      Description="Provides options to reset any changes made by the main application." />
             <RemoveFolder Id="StartMenuDirectory" On="uninstall" />
-            <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+            <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes" />
         </Component>
     </Fragment>
 </Wix>
