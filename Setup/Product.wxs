@@ -14,7 +14,7 @@
         <Feature Id="ProductFeature" Title="Safe Exam Browser" Level="1">
             <ComponentGroupRef Id="ApplicationComponents" />
             <ComponentGroupRef Id="ResetComponents" />
-            <!--<ComponentGroupRef Id="ServiceComponents" />-->
+            <ComponentGroupRef Id="ServiceComponents" />
             <ComponentRef Id="ShortcutComponent" />
         </Feature>
     </Product>

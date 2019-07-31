@@ -67,9 +67,18 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Service\SafeExamBrowser.Service.csproj">
+      <Name>SafeExamBrowser.Service</Name>
+      <Project>{fa3c6692-dfed-4afa-bd58-9a3da2753c78}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Components\Application.xslt" />
+    <Content Include="Components\Service.xslt" />
     <Content Include="Components\Reset.xslt" />
     <Content Include="Resources\License.rtf" />
     <Content Include="Resources\Application.ico" />
@@ -82,11 +91,13 @@
   </Target>
   <PropertyGroup>
     <PreBuildEvent>"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.ResetUtility\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -srd -cg ResetComponents -dr ResetDirectory -sfrag -var var.SafeExamBrowser.ResetUtility.TargetDir -out $(ProjectDir)Components\Reset.wxs -t $(ProjectDir)Components\Reset.xslt
-"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -srd -cg ApplicationComponents -dr ApplicationDirectory -sfrag -var var.SafeExamBrowser.Runtime.TargetDir -out $(ProjectDir)Components\Application.wxs -t $(ProjectDir)Components\Application.xslt</PreBuildEvent>
+"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -srd -cg ApplicationComponents -dr ApplicationDirectory -sfrag -var var.SafeExamBrowser.Runtime.TargetDir -out $(ProjectDir)Components\Application.wxs -t $(ProjectDir)Components\Application.xslt
+"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.Service\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -srd -cg ServiceComponents -dr ServiceDirectory -sfrag -var var.SafeExamBrowser.Service.TargetDir -out $(ProjectDir)Components\Service.wxs -t $(ProjectDir)Components\Service.xslt</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>git -C $(SolutionDir) checkout -- Setup/Components/Application.wxs
-git -C $(SolutionDir) checkout -- Setup/Components/Reset.wxs</PostBuildEvent>
+git -C $(SolutionDir) checkout -- Setup/Components/Reset.wxs
+git -C $(SolutionDir) checkout -- Setup/Components/Service.wxs</PostBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.

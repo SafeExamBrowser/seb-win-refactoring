@@ -6,7 +6,7 @@
                 <Directory Id="InstallFolder" Name="SafeExamBrowser">
                     <Directory Id="ApplicationDirectory" Name="Application" />
                     <Directory Id="ResetDirectory" Name="Reset" />
-                    <!--<Directory Id="ServiceDirectory" Name="Service" />-->
+                    <Directory Id="ServiceDirectory" Name="Service" />
                 </Directory>
             </Directory>
             <Directory Id="ProgramMenuFolder">
