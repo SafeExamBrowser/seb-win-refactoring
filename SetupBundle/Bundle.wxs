@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+    <Bundle Name="!(bind.packageName.Setup)" Version="!(bind.packageVersion.Setup)" Manufacturer="!(bind.packageManufacturer.Setup)"
+            UpgradeCode="26C1045A-99CC-4479-987B-376390379441" IconSourceFile="$(var.Setup.ProjectDir)Resources\Application.ico">
+        <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLargeLicense">
+            <bal:WixStandardBootstrapperApplication LicenseFile="$(var.Setup.ProjectDir)Resources\License.rtf" ShowVersion="yes" SuppressOptionsUI="yes" />
+        </BootstrapperApplicationRef>
+        <Chain>
+            <PackageGroupRef Id="DotNetFramework" />
+            <PackageGroupRef Id="VisualCppRuntime" />
+            <MsiPackage Id="Setup" SourceFile="$(var.Setup.TargetPath)" Compressed="yes" DisplayInternalUI="no" Vital="yes" />
+        </Chain>
+    </Bundle>
+</Wix>

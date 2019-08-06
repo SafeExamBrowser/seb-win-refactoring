@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+    <!--
+        The official NetFxExtension of WiX does not yet support versions newer than 4.6.2. See the following link for the
+        source used and further issue information: https://github.com/wixtoolset/issues/issues/5575#issuecomment-386223409.
+    -->
+    <Fragment>
+        <util:RegistrySearchRef Id="NETFRAMEWORK45" />
+        <Variable Name="DotNetMinimumVersion" Type="numeric" Value="461808" />
+        <PackageGroup Id="DotNetFramework">
+            <ExePackage Id="NetFx472Redist" PerMachine="yes" Vital="yes" Permanent="yes" Protocol="netfx4" Compressed="no" 
+                        Name="NDP472-KB4054530-x86-x64-AllOS-ENU.exe" DownloadUrl="http://go.microsoft.com/fwlink/?LinkId=863265"
+                        DetectCondition="NETFRAMEWORK45 >= DotNetMinimumVersion"
+                        InstallCommand="/q /norestart /ChainingPackage &quot;[WixBundleName]&quot;"
+                        RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot;"
+                        UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot;">
+                <RemotePayload CertificatePublicKey="C090C1A2CAFA9B967D9C87C7FE02F7C01FBDE4F2" CertificateThumbprint="5EAD300DC7E4D637948ECB0ED829A072BD152E17"
+                               Description="Microsoft .NET Framework 4.7.2 Setup" Hash="D3A416DC5FC75758D41B4C0158ACA69270D2A904"
+                               ProductName="Microsoft .NET Framework 4.7.2" Size="71607232" Version="4.7.3062.0" />
+            </ExePackage>
+        </PackageGroup>
+    </Fragment>
+</Wix>

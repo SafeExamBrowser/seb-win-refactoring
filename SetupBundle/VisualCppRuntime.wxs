@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+    <Fragment>
+        <!-- Must be the same as the version specified by the RemotePayload -->
+        <Variable Name="VisualCppMinimumVersion" Type="version" Value="14.0.24215.1" />
+        <util:ProductSearch Variable="VisualCppInstalledVersion" UpgradeCode="65E5BD06-6392-3027-8C26-853107D3CF1A" />
+        <PackageGroup Id="VisualCppRuntime">
+            <ExePackage Id="VisualCppPackage" Name="vc_redist.x86.exe" DisplayName="Microsoft Visual C++ 2015 Redistributable (x86) - 14.0.24215" Cache="no"
+                        Compressed="no" PerMachine="yes" Permanent="yes" Vital="yes" DetectCondition="VisualCppInstalledVersion >= VisualCppMinimumVersion"
+                        DownloadUrl="https://download.microsoft.com/download/6/A/A/6AA4EDFF-645B-48C5-81CC-ED5963AEAD48/vc_redist.x86.exe"
+                        InstallCommand="/install /quiet /norestart" RepairCommand="/repair /quiet /norestart" UninstallCommand="/uninstall /quiet /norestart">
+                <!-- Must be generated with the following command: "heat payload vc_redist.x86.exe -out vc_redist.x86.wxs" -->
+                <RemotePayload CertificatePublicKey="371DD003A37769487A2A89A5A9DDB3026451B906" CertificateThumbprint="98ED99A67886D020C564923B7DF25E9AC019DF26"
+                               Description="Microsoft Visual C++ 2015 Redistributable (x86) - 14.0.24215" Hash="72211BD2E7DFC91EA7C8FAC549C49C0543BA791B"
+                               ProductName="Microsoft Visual C++ 2015 Redistributable (x86) - 14.0.24215" Size="14456872" Version="14.0.24215.1" />
+            </ExePackage>
+        </PackageGroup>
+    </Fragment>
+</Wix>
