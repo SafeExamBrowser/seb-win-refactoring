@@ -13,6 +13,7 @@
         <!-- <WixVariable Id="WixUIBannerBmp" Value="Resources\Banner.bmp" /> 493 × 58 -->
         <Feature Id="ProductFeature" Title="Safe Exam Browser" Level="1">
             <ComponentGroupRef Id="ApplicationComponents" />
+            <ComponentGroupRef Id="ConfigurationComponents" />
             <ComponentGroupRef Id="ResetComponents" />
             <ComponentGroupRef Id="ServiceComponents" />
             <ComponentRef Id="ShortcutComponent" />

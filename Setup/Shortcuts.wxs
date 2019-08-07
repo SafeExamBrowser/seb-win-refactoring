@@ -5,6 +5,9 @@
             <Shortcut Id="ApplicationShortcut" Name="Safe Exam Browser" Icon="ApplicationIcon" IconIndex="0" Advertise="no" Directory="ProgramMenuFolder"
                       Target="[ApplicationDirectory]\$(var.SafeExamBrowser.Runtime.TargetFileName)" WorkingDirectory="ApplicationDirectory"
                       Description="Starts the main application." />
+            <Shortcut Id="ConfigurationToolShortcut" Name="SEB Configuration Tool" Icon="ApplicationIcon" IconIndex="0" Advertise="no" Directory="StartMenuDirectory"
+                      Target="[ConfigurationDirectory]\$(var.SebWindowsConfig.TargetFileName)" WorkingDirectory="ConfigurationDirectory"
+                      Description="Provides options to edit configuration files for the main application." />
             <Shortcut Id="ResetUtilityShortcut" Name="SEB Reset Utility" Icon="ApplicationIcon" IconIndex="0" Advertise="no" Directory="StartMenuDirectory"
                       Target="[ResetDirectory]\$(var.SafeExamBrowser.ResetUtility.TargetFileName)" WorkingDirectory="ResetDirectory"
                       Description="Provides options to reset any changes made by the main application." />
