@@ -1,0 +1,480 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="alertWebSocketPortBlocked" xml:space="preserve">
+    <value>WebSocket Port Blocked</value>
+  </data>
+  <data name="alertWebSocketPortBlockedMessage" xml:space="preserve">
+    <value>Your TCP port 8706 is blocked. SEB uses this port to communicate with the browser. Although SEB is working without this, full functionality is not guaranteed.</value>
+  </data>
+  <data name="cannotOpenSEBLink" xml:space="preserve">
+    <value>Cannot Open SEB Link</value>
+  </data>
+  <data name="cannotOpenSEBLinkMessage" xml:space="preserve">
+    <value>Opening the SEB link failed. Check your internet connection and try again.</value>
+  </data>
+  <data name="certificateNotFoundInStore" xml:space="preserve">
+    <value>The certificate needed to decrypt settings has not been found in the Windows Certificate Store.</value>
+  </data>
+  <data name="closeProcesses" xml:space="preserve">
+    <value>Permitted or Prohibited Processes Are Running</value>
+  </data>
+  <data name="closeProcessesQuestion" xml:space="preserve">
+    <value>The processes below are running, they need to be closed before starting the exam. Do you want to close those processes now (this may lead to loss of data!)? Otherwise SEB will quit and you can close those applications yourself before trying to start the exam again.</value>
+  </data>
+  <data name="confirmQuitting" xml:space="preserve">
+    <value>Quit Safe Exam Browser</value>
+  </data>
+  <data name="confirmQuittingQuestion" xml:space="preserve">
+    <value>Are you sure you want to quit SEB?</value>
+  </data>
+  <data name="createNewDesktopFailed" xml:space="preserve">
+    <value>Creating New Desktop Failed</value>
+  </data>
+  <data name="createNewDesktopFailedReason" xml:space="preserve">
+    <value>SetThreadDesktop failed! Looks like the thread has hooks or windows in the current desktop.</value>
+  </data>
+  <data name="decryptingSettingsFailed" xml:space="preserve">
+    <value>Cannot Decrypt Settings</value>
+  </data>
+  <data name="decryptingSettingsFailedReason" xml:space="preserve">
+    <value>You either entered the wrong password or these settings were saved with an incompatible SEB version.</value>
+  </data>
+  <data name="detectedVirtualMachine" xml:space="preserve">
+    <value>Virtual Machine Detected</value>
+  </data>
+  <data name="detectedVirtualMachineForbiddenMessage" xml:space="preserve">
+    <value>It is not allowed to run SEB on a virtual machine! SEB will quit now.</value>
+  </data>
+  <data name="detectedRemoteConnection" xml:space="preserve">
+    <value>Remote Connection Detected</value>
+  </data>
+  <data name="detectedRemoteConnectionMessage" xml:space="preserve">
+    <value>It is not allowed to run SEB in a remote session! SEB will quit now.</value>
+  </data>
+  <data name="enterAdminPasswordRequired" xml:space="preserve">
+    <value>Enter the SEB administrator password used in these settings:</value>
+  </data>
+  <data name="enterAdminPasswordRequiredAgain" xml:space="preserve">
+    <value>Wrong password! Try again to enter the correct SEB administrator password from these settings:</value>
+  </data>
+  <data name="enterCurrentAdminPwdForReconfiguring" xml:space="preserve">
+    <value>You can only reconfigure SEB by entering the current SEB administrator password:</value>
+  </data>
+  <data name="enterCurrentAdminPwdForReconfiguringAgain" xml:space="preserve">
+    <value>Wrong password! Try again to enter the correct current SEB administrator password:</value>
+  </data>
+  <data name="enterEncryptionPassword" xml:space="preserve">
+    <value>Enter password used to encrypt these settings:</value>
+  </data>
+  <data name="enterEncryptionPasswordAgain" xml:space="preserve">
+    <value>Wrong password! Try again to enter the correct password used to encrypt these settings:</value>
+  </data>
+  <data name="enterPassword" xml:space="preserve">
+    <value>Enter password:</value>
+  </data>
+  <data name="enterPasswordAgain" xml:space="preserve">
+    <value>Wrong password! Try again to enter the correct password:</value>
+  </data>
+  <data name="errorDecryptingSettings" xml:space="preserve">
+    <value>Error Decrypting Settings</value>
+  </data>
+  <data name="forceSebServiceMessage" xml:space="preserve">
+    <value>SEB Windows service is stopped or the installed SEB got corrupted. Rebooting your machine or reinstalling SEB might help. Inform your exam administrator/supporter. The exam cannot be started, SEB will quit now.</value>
+  </data>
+  <data name="indicateMissingService" xml:space="preserve">
+    <value>SEB Windows Service Not Available</value>
+  </data>
+  <data name="indicateMissingServiceReason" xml:space="preserve">
+    <value>SEB Windows service is stopped or the installed SEB got corrupted. Rebooting your machine or reinstalling SEB might help. Inform your exam administrator/supporter. </value>
+  </data>
+  <data name="loadingSettings" xml:space="preserve">
+    <value>Loading Settings</value>
+  </data>
+  <data name="loadingSettingsFailed" xml:space="preserve">
+    <value>Loading Settings Failed</value>
+  </data>
+  <data name="loadingSettingsFailedReason" xml:space="preserve">
+    <value>These settings are corrupted and cannot be used.</value>
+  </data>
+  <data name="loadingSettingsFailedWrongAdminPwd" xml:space="preserve">
+    <value>If you don't enter the right administrator password from these settings you cannot open them.</value>
+  </data>
+  <data name="loadingSettingsNotAllowed" xml:space="preserve">
+    <value>Loading New SEB Settings Not Allowed!</value>
+  </data>
+  <data name="loadingSettingsNotAllowedReason" xml:space="preserve">
+    <value>SEB is already running in exam mode and it is not allowed to interupt this by starting another exam. Finish the exam and quit SEB before starting another exam.</value>
+  </data>
+  <data name="locatePermittedApplication" xml:space="preserve">
+    <value>Locate Third Party Application</value>
+  </data>
+  <data name="noEncryptionChosen" xml:space="preserve">
+    <value>No Encryption Credentials Chosen</value>
+  </data>
+  <data name="noEncryptionChosenSaveUnencrypted" xml:space="preserve">
+    <value>You should either enter a password or choose a certificate to encrypt the settings file. Do you really want to save an unencrypted SEB file (not recommended for use in exams)?</value>
+  </data>
+  <data name="openingSettingsFailed" xml:space="preserve">
+    <value>Opening Settings Failed</value>
+  </data>
+  <data name="openingSettingsFailedMessage" xml:space="preserve">
+    <value>The configuration file could not be openend.</value>
+  </data>
+  <data name="permittedApplicationNotFound" xml:space="preserve">
+    <value>Third Party Application Not Found</value>
+  </data>
+  <data name="permittedApplicationNotFoundMessage" xml:space="preserve">
+    <value>The permitted application %s wasn't found on this system. If exam settings don't indicate a precise path, SEB can find applications installed in the Program Files or Windows System directory and those which are registered in the system.</value>
+  </data>
+  <data name="quittingFailed" xml:space="preserve">
+    <value>Wrong Password: Quitting SEB Failed</value>
+  </data>
+  <data name="quittingFailedReason" xml:space="preserve">
+    <value>You can only quit SEB by entering the correct quit password. Ask your exam supporter for the correct password. DO NOT RESET YOUR MACHINE! This may have undesired effects on your system's settings (see www.safeexambrowser.org/faq).</value>
+  </data>
+  <data name="reconfiguringLocalSettings" xml:space="preserve">
+    <value>Opening Settings for Reconfiguring Client</value>
+  </data>
+  <data name="reconfiguringLocalSettingsFailed" xml:space="preserve">
+    <value>Opening Settings for Reconfiguring Client Failed</value>
+  </data>
+  <data name="reconfiguringLocalSettingsFailedWrongAdminPwd" xml:space="preserve">
+    <value>If you don't enter the right administrator password from these settings you cannot use them.</value>
+  </data>
+  <data name="reconfiguringLocalSettingsFailedWrongPassword" xml:space="preserve">
+    <value>If you don't enter the correct password these settings were encrypted with, you cannot use them.</value>
+  </data>
+  <data name="reloadPage" xml:space="preserve">
+    <value>Reload Current Page</value>
+  </data>
+  <data name="reloadPageMessage" xml:space="preserve">
+    <value>Do you really want to reload the current web page?</value>
+  </data>
+  <data name="restartExamDefaultTitle" xml:space="preserve">
+    <value>Back to Start</value>
+  </data>
+  <data name="restartExamEnterPassword" xml:space="preserve">
+    <value>Enter quit/restart password: (This function doesn't log you out if you are logged in on a website)</value>
+  </data>
+  <data name="savingSettingsFailed" xml:space="preserve">
+    <value>Saving Settings Failed</value>
+  </data>
+  <data name="savingSettingsFailedMessage" xml:space="preserve">
+    <value>The configuration file could not be saved.</value>
+  </data>
+  <data name="sebFileTypeName" xml:space="preserve">
+    <value>SEB Configuration Files</value>
+  </data>
+  <data name="sebReconfigured" xml:space="preserve">
+    <value>SEB Re-Configured</value>
+  </data>
+  <data name="sebReconfiguredQuestion" xml:space="preserve">
+    <value>New settings have been saved, they will be used when you start SEB next time again. Do you want to quit SEB for now?</value>
+  </data>
+  <data name="sebReconfiguredRestartNeeded" xml:space="preserve">
+    <value>SEB Needs to be Restarted</value>
+  </data>
+  <data name="sebReconfiguredRestartNeededReason" xml:space="preserve">
+    <value>Local settings have been reconfigured, but SEB needs to be restarted for the changed "Create new desktop" setting to take effect. SEB will quit now, please restart it manually.</value>
+  </data>
+  <data name="settingsDuplicateSuffix" xml:space="preserve">
+    <value> copy</value>
+  </data>
+  <data name="settingsNotUsable" xml:space="preserve">
+    <value>Opening New Settings Failed</value>
+  </data>
+  <data name="settingsNotUsableReason" xml:space="preserve">
+    <value>These settings cannot be used. They may have been created by an newer, incompatible version of SEB or are corrupted.</value>
+  </data>
+  <data name="settingsRequireNewDesktop" xml:space="preserve">
+    <value>Settings Require New Desktop Kiosk Mode</value>
+  </data>
+  <data name="settingsRequireNewDesktopReason" xml:space="preserve">
+    <value>Loaded exam settings require a new desktop, but currently SEB is running on the standard desktop. Ask your exam administrator/supporter to reconfigure local SEB client settings with the "Create new desktop" kiosk mode. SEB will quit now.</value>
+  </data>
+  <data name="settingsRequireNotNewDesktop" xml:space="preserve">
+    <value>Settings Require Standard Desktop</value>
+  </data>
+  <data name="settingsRequireNotNewDesktopReason" xml:space="preserve">
+    <value>Loaded exam settings require the standard desktop, but currently SEB is running on a new desktop. Ask your exam administrator/supporter to reconfigure local SEB client settings with the kiosk mode set to another than "Create new desktop". SEB will quit now.</value>
+  </data>
+  <data name="settingsTitleDefaultSettings" xml:space="preserve">
+    <value>Default Settings</value>
+  </data>
+  <data name="settingsUntitledFilename" xml:space="preserve">
+    <value>untitled</value>
+  </data>
+  <data name="unsavedChangesQuestion" xml:space="preserve">
+    <value>Current settings have unsaved changes. Do you want to save those first?</value>
+  </data>
+  <data name="unsavedChangesTitle" xml:space="preserve">
+    <value>Unsaved Changes</value>
+  </data>
+  <data name="KeyboardLayout_CURRENTCULTURE" xml:space="preserve">
+    <value>Keyboard Layout: {0} - Click to change</value>
+  </data>
+  <data name="ChooseEmbeddedCert" xml:space="preserve">
+    <value>Choose certificate to add</value>
+  </data>
+  <data name="ErrorCaption" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ErrorWhenOpeningSettingsFile" xml:space="preserve">
+    <value>Error when opening the file SebClientSettings.seb!</value>
+  </data>
+  <data name="OSNotSupported" xml:space="preserve">
+    <value>This OS is not supported!</value>
+  </data>
+  <data name="passwordAdmin" xml:space="preserve">
+    <value>administrator password</value>
+  </data>
+  <data name="passwordQuit" xml:space="preserve">
+    <value>quit/restart password</value>
+  </data>
+  <data name="passwordSettings" xml:space="preserve">
+    <value>settings password</value>
+  </data>
+  <data name="unconfirmedPasswordMessage" xml:space="preserve">
+    <value>Please enter the correct confirm %s first.</value>
+  </data>
+  <data name="unconfirmedPasswordTitle" xml:space="preserve">
+    <value>No Correct Confirm Password</value>
+  </data>
+  <data name="toolTipConnectedToWiFiNetwork" xml:space="preserve">
+    <value>Connected to {0}</value>
+  </data>
+  <data name="toolTipNotConnectedToWiFiNetwork" xml:space="preserve">
+    <value>Not Connected</value>
+  </data>
+  <data name="toolTipNoWiFiInterface" xml:space="preserve">
+    <value>No WiFi Interface Found</value>
+  </data>
+  <data name="toolTipOnScreenKeyboard" xml:space="preserve">
+    <value>Show/Hide On-Screen Keyboard</value>
+  </data>
+  <data name="identityExportError" xml:space="preserve">
+    <value>Exporting Identity Failed</value>
+  </data>
+  <data name="identityExportErrorMessage" xml:space="preserve">
+    <value>The identity (certificate with private key) '{0}' could not be exported. Its private key might be flagged as non-exportable.</value>
+  </data>
+  <data name="certificateDecryptingError" xml:space="preserve">
+    <value>Decrypting settings using a certificate and private key stored in the Windows Certificate Store failed with error: </value>
+  </data>
+  <data name="webSocketServerNotStarted" xml:space="preserve">
+    <value>Couldn't Establish Communication with the SEB Browser</value>
+  </data>
+  <data name="webSocketServerNotStartedMessage" xml:space="preserve">
+    <value>SEB will quit, try to restart SEB, if this doesn't help restart your machine.</value>
+  </data>
+  <data name="reconfiguringLocalSettingsFailedWrongCurrentAdminPwd" xml:space="preserve">
+    <value>You didn't enter the correct current SEB administrator password.</value>
+  </data>
+  <data name="savingSettingsSucceeded" xml:space="preserve">
+    <value>Saved Settings Purpose</value>
+  </data>
+  <data name="savingSettingsSucceededMessageConfigureClient" xml:space="preserve">
+    <value>Settings have been saved, use this file to configure local settings of a SEB client.</value>
+  </data>
+  <data name="savingSettingsSucceededStartExam" xml:space="preserve">
+    <value>Settings have been saved, use this file to start an exam with SEB.</value>
+  </data>
+  <data name="NoWLANInterface" xml:space="preserve">
+    <value>No WiFi Interface found</value>
+  </data>
+  <data name="WLANNotConnected" xml:space="preserve">
+    <value>Not connected</value>
+  </data>
+  <data name="wrongQuitRestartPasswordText" xml:space="preserve">
+    <value>Wrong quit/restart password</value>
+  </data>
+  <data name="restartExamConfirm" xml:space="preserve">
+    <value>Are you sure? (This function doesn't log you out if you are logged in on a website)</value>
+  </data>
+  <data name="WlanConnectionFailedMessage" xml:space="preserve">
+    <value>Connection to WiFi network failed, try again.</value>
+  </data>
+  <data name="WlanConnectionFailedMessageTitle" xml:space="preserve">
+    <value>Connection failed</value>
+  </data>
+  <data name="WlanConnecting" xml:space="preserve">
+    <value>Connecting...</value>
+  </data>
+  <data name="WlanNoNetworkInterfaceFound" xml:space="preserve">
+    <value>No network interface found</value>
+  </data>
+  <data name="WlanNoNetworksFound" xml:space="preserve">
+    <value>No known networks found!</value>
+  </data>
+  <data name="WlanYouCanOnlyConnectToNetworks" xml:space="preserve">
+    <value>you can only connect to networks</value>
+  </data>
+  <data name="WlanThatYouHaveUsedBefore" xml:space="preserve">
+    <value>that you have used before.</value>
+  </data>
+  <data name="toolTipOnScreenKeyboardNotEnabled" xml:space="preserve">
+    <value>To use the on-screen-keyboard, enable tablet mode and detach the keyboard</value>
+  </data>
+  <data name="tableModeNotEnabledWarningText" xml:space="preserve">
+    <value>Please enable Windows Tablet Mode and start SEB again.</value>
+  </data>
+  <data name="tableModeNotEnabledWarningTitle" xml:space="preserve">
+    <value>Enable Windows Tablet Mode</value>
+  </data>
+  <data name="errorOpeningResource" xml:space="preserve">
+    <value>Opening embedded resource with permitted application failed</value>
+  </data>
+  <data name="prohibitedProcessDetectedQuitPassword" xml:space="preserve">
+    <value>SEB detected a prohibited process which it was unable to exit, enter the quit password to continue. </value>
+  </data>
+  <data name="prohibitedProcessDetectedText" xml:space="preserve">
+    <value>SEB detected a prohibited process which it was unable to exit: </value>
+  </data>
+  <data name="prohibitedProcessDetectedTitle" xml:space="preserve">
+    <value>Prohibited Process detected</value>
+  </data>
+  <data name="unableToCloseProcessesText" xml:space="preserve">
+    <value>SEB was unable to terminate the following processes, close them manually and restart SEB afterwards</value>
+  </data>
+  <data name="unableToCloseProcessesTitle" xml:space="preserve">
+    <value>SEB was unable to close processes</value>
+  </data>
+  <data name="loadingString" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="cannotOpenSEBConfig" xml:space="preserve">
+    <value>Cannot Open SEB Config</value>
+  </data>
+  <data name="cannotOpenSEBConfigMessage" xml:space="preserve">
+    <value>Opening an external SEB config is disabled in current settings. Start the SEB application directly.</value>
+  </data>
+  <data name="AdditionalResourceConfirmMessage" xml:space="preserve">
+    <value>Would you like to open the resource "%%TITLE%%"?</value>
+  </data>
+  <data name="AdditionalResourceConfirmTitle" xml:space="preserve">
+    <value>Open Resource?</value>
+  </data>
+  <data name="spareBrowserFileNamesFound" xml:space="preserve">
+    <value>SEB installation is corrupted </value>
+  </data>
+  <data name="spareBrowserFileNamesFoundText" xml:space="preserve">
+    <value>SEB found irregular files in its program directory. These might have been left from an older SEB version if an update failed. Uninstall SEB using the Windows Control Panel, afterwards delete the SafeExamBrowser subdirectory from the Program Files (x86) directory and re-install this SEB version freshly. List of spare files:</value>
+  </data>
+</root>

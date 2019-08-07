@@ -1,0 +1,453 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="alertWebSocketPortBlocked" xml:space="preserve">
+    <value>WebSocket-Port blockiert</value>
+  </data>
+  <data name="alertWebSocketPortBlockedMessage" xml:space="preserve">
+    <value>Der TCP-Port 8706 ist blockiert. SEB benutzt diesen Port zur Kommunikation mit dem Browser. Obwohl SEB trotzdem läuft, ist keine volle Funktionalität garantiert.</value>
+  </data>
+  <data name="certificateNotFoundInStore" xml:space="preserve">
+    <value>Das zum Entschlüsseln der Einstellungen notwendige Zertifikat wurde nicht im Windows-Zertifikatsspeicher gefunden.</value>
+  </data>
+  <data name="closeProcesses" xml:space="preserve">
+    <value>Zugelassene oder verbotene Prozesse laufen</value>
+  </data>
+  <data name="closeProcessesQuestion" xml:space="preserve">
+    <value>Die untenstehenden Applikationen/Prozesse laufen momentan, sie müssen geschlossen werden, bevor die Prüfung gestartet wird. Wollen Sie diese Prozesse nun beenden (dies kann zu Datenverlust führen!)? Ansonsten wird SEB geschlossen und sie können diese Applikationen selber beenden, bevor Sie die Prüfung erneut starten.</value>
+  </data>
+  <data name="confirmQuitting" xml:space="preserve">
+    <value>Safe Exam Browser beenden</value>
+  </data>
+  <data name="confirmQuittingQuestion" xml:space="preserve">
+    <value>SEB wirklich beenden?</value>
+  </data>
+  <data name="createNewDesktopFailed" xml:space="preserve">
+    <value>Öffnen des neuen Desktops fehlgeschlagen</value>
+  </data>
+  <data name="createNewDesktopFailedReason" xml:space="preserve">
+    <value>Befehl "SetThreadDesktop" fehlgeschlagen: "Looks like the thread has hooks or windows in the current desktop."</value>
+  </data>
+  <data name="decryptingSettingsFailed" xml:space="preserve">
+    <value>Einstellungen konnten nicht entschlüsselt werden</value>
+  </data>
+  <data name="decryptingSettingsFailedReason" xml:space="preserve">
+    <value>Sie haben entweder das falsche Passwort eingegeben oder diese Einstellungen wurden mit einer inkompatiblen SEB-Version gespeichert.</value>
+  </data>
+  <data name="detectedVirtualMachine" xml:space="preserve">
+    <value>Virtuelle Maschine erkannt</value>
+  </data>
+  <data name="detectedVirtualMachineForbiddenMessage" xml:space="preserve">
+    <value>SEB darf nicht auf einer virtuellen Maschine ausgeführt werden! SEB wird jetzt beendet.</value>
+  </data>
+  <data name="detectedRemoteConnection" xml:space="preserve">
+    <value>Remote Session erkannt</value>
+  </data>
+  <data name="detectedRemoteConnectionMessage" xml:space="preserve">
+    <value>SEB darf nicht in einer Remote Session ausgeführt werden! SEB wird jetzt beendet.</value>
+  </data>
+  <data name="enterAdminPasswordRequired" xml:space="preserve">
+    <value>In diesen Einstellungen benutztes SEB-Administrator-Passwort eingeben:</value>
+  </data>
+  <data name="enterAdminPasswordRequiredAgain" xml:space="preserve">
+    <value>Falsches Passwort! In diesen Einstellungen benutztes SEB-Administrator-Passwort erneut eingeben:</value>
+  </data>
+  <data name="enterCurrentAdminPwdForReconfiguring" xml:space="preserve">
+    <value>SEB kann nur umkonfiguriert werden, wenn das aktuelle SEB-Administrator-Passwort eingegeben wird:</value>
+  </data>
+  <data name="enterCurrentAdminPwdForReconfiguringAgain" xml:space="preserve">
+    <value>Falsches Passwort! SEB-Administrator-Passwort erneut eingeben:</value>
+  </data>
+  <data name="enterEncryptionPassword" xml:space="preserve">
+    <value>Für die Verschlüsselung dieser Einstellungen benutztes Passwort eingeben:</value>
+  </data>
+  <data name="enterEncryptionPasswordAgain" xml:space="preserve">
+    <value>Falsches Passwort! Für die Verschlüsselung dieser Einstellungen benutztes Passwort erneut eingeben:</value>
+  </data>
+  <data name="enterPassword" xml:space="preserve">
+    <value>Passwort eingeben:</value>
+  </data>
+  <data name="enterPasswordAgain" xml:space="preserve">
+    <value>Falsches Passwort! Passwort erneut eingeben:</value>
+  </data>
+  <data name="ErrorCaption" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="errorDecryptingSettings" xml:space="preserve">
+    <value>Fehler beim Entschlüsseln der Einstellungen</value>
+  </data>
+  <data name="ErrorWhenOpeningSettingsFile" xml:space="preserve">
+    <value>Fehler beim Öffnen der Datei SebClientSettings.seb!</value>
+  </data>
+  <data name="forceSebServiceMessage" xml:space="preserve">
+    <value>Der SEB-Windows-Dienst läuft nicht oder die SEB-Installation wurde beschädigt. Möglicherweise hilft ein Neustart des Rechners oder eine Neuinstallation von SEB. Informieren Sie Ihren Prüfungs-Administrator/Supporter. Die Prüfung kann nicht gestartet werden, SEB wird beendet.</value>
+  </data>
+  <data name="indicateMissingService" xml:space="preserve">
+    <value>SEB-Windows-Dienst nicht verfügbar</value>
+  </data>
+  <data name="indicateMissingServiceReason" xml:space="preserve">
+    <value>Der SEB-Windows-Dienst läuft nicht oder die SEB-Installation wurde beschädigt. Möglicherweise hilft ein Neustart des Rechners oder eine Neuinstallation von SEB. Informieren Sie Ihren Prüfungs-Administrator/Supporter. </value>
+  </data>
+  <data name="loadingSettings" xml:space="preserve">
+    <value>Einstellungen werden geladen</value>
+  </data>
+  <data name="loadingSettingsFailed" xml:space="preserve">
+    <value>Laden der Einstellungen fehlgeschlagen</value>
+  </data>
+  <data name="loadingSettingsFailedReason" xml:space="preserve">
+    <value>Diese Einstellungen sind beschädigt und können nicht verwendet werden.</value>
+  </data>
+  <data name="loadingSettingsFailedWrongAdminPwd" xml:space="preserve">
+    <value>Ohne das richtige Administrator-Passwort können diese Einstellungen nicht geöffnet werden.</value>
+  </data>
+  <data name="loadingSettingsNotAllowed" xml:space="preserve">
+    <value>Laden von neuen SEB-Einstellungen nicht erlaubt!</value>
+  </data>
+  <data name="loadingSettingsNotAllowedReason" xml:space="preserve">
+    <value>SEB läuft bereits im Prüfungsmodus und es ist nicht erlaubt, dies mittels Starten einer anderen Prüfung zu unterbrechen. Beenden Sie die Prüfung und schliessen Sie SEB, bevor Sie eine andere Prüfung starten.</value>
+  </data>
+  <data name="locatePermittedApplication" xml:space="preserve">
+    <value>Drittapplikation suchen</value>
+  </data>
+  <data name="noEncryptionChosen" xml:space="preserve">
+    <value>Keine Verschlüsselung ausgewählt</value>
+  </data>
+  <data name="noEncryptionChosenSaveUnencrypted" xml:space="preserve">
+    <value>Sie sollten entweder ein Passwort oder ein Zertifikat verwenden, um die Einstellungen zu verschlüsseln. Wollen Sie wirklich eine unverschlüsselte SEB-Einstellungsdatei speichern (für Prüfungseinsatz nicht empfohlen)?</value>
+  </data>
+  <data name="OSNotSupported" xml:space="preserve">
+    <value>Dieses Betriebssystem wird nicht unterstützt!</value>
+  </data>
+  <data name="permittedApplicationNotFound" xml:space="preserve">
+    <value>Drittapplikation nicht gefunden</value>
+  </data>
+  <data name="permittedApplicationNotFoundMessage" xml:space="preserve">
+    <value>Die zugelassene Applikation %s wurde auf diesem System nicht gefunden. Wenn in den Prüfungseinstellungen kein exakter Dateipfad angegeben ist, kann SEB Applikationen im Programme- oder Windows-Systemverzeichnis finden, und solche, die im System registriert sind.</value>
+  </data>
+  <data name="quittingFailed" xml:space="preserve">
+    <value>Beenden von SEB fehlgeschlagen: Falsches Passwort</value>
+  </data>
+  <data name="quittingFailedReason" xml:space="preserve">
+    <value>SEB kann nur nach Eingabe des korrekten Passworts beendet werden. Fragen Sie Ihren Prüfungs-Supporter nach dem Passwort. FÜHREN SIE KEINEN NEUSTART/RESET DURCH! Dies könnte unerwünschte Effekte auf Ihre Systemeinstellungen haben (siehe www.safeexambrowser.org/faq).</value>
+  </data>
+  <data name="reconfiguringLocalSettings" xml:space="preserve">
+    <value>Einstellungen zum Neu-Konfigurieren des Clients öffnen</value>
+  </data>
+  <data name="reconfiguringLocalSettingsFailed" xml:space="preserve">
+    <value>Öffnen der Einstellungen zum Neu-Konfigurieren des Clients fehlgeschlagen!</value>
+  </data>
+  <data name="reconfiguringLocalSettingsFailedWrongAdminPwd" xml:space="preserve">
+    <value>Ohne das richtige Administrator-Passwort aus diesen Einstellungen können diese nicht verwendet werden.</value>
+  </data>
+  <data name="reconfiguringLocalSettingsFailedWrongPassword" xml:space="preserve">
+    <value>Ohne das korrekte Passwort, mit dem diese Einstellungen verschlüsselt wurden, können diese nicht verwendet werden.</value>
+  </data>
+  <data name="reloadPage" xml:space="preserve">
+    <value>Seite neu laden</value>
+  </data>
+  <data name="reloadPageMessage" xml:space="preserve">
+    <value>Wollen Sie die geöffnete Webseite wirklich neu laden?</value>
+  </data>
+  <data name="restartExamDefaultTitle" xml:space="preserve">
+    <value>Zurück zum Start</value>
+  </data>
+  <data name="restartExamEnterPassword" xml:space="preserve">
+    <value>Beenden-/Neustart-Passwort eingeben: (Diese Funktion loggt Sie nicht aus, falls Sie sich auf einer Website eingeloggt haben)</value>
+  </data>
+  <data name="sebFileTypeName" xml:space="preserve">
+    <value>SEB Konfigurationsdateien</value>
+  </data>
+  <data name="sebReconfigured" xml:space="preserve">
+    <value>SEB neu konfiguriert</value>
+  </data>
+  <data name="sebReconfiguredQuestion" xml:space="preserve">
+    <value>Neue Konfiguration wurde gespeichert, diese wird benutzt, wenn SEB das nächste Mal gestartet wird. Wollen Sie SEB jetzt beenden?</value>
+  </data>
+  <data name="sebReconfiguredRestartNeeded" xml:space="preserve">
+    <value>SEB muss neu gestartet werden</value>
+  </data>
+  <data name="sebReconfiguredRestartNeededReason" xml:space="preserve">
+    <value>Die lokalen Client-Einstellungen von SEB wurden neu konfiguriert, aber wegen der geänderten "Create New Desktop"-Einstellung ist ein Neustart notwendig. SEB wird beendet, bitte manuell neu starten.</value>
+  </data>
+  <data name="settingsNotUsable" xml:space="preserve">
+    <value>Öffnen der neuen Einstellungen fehlgeschlagen</value>
+  </data>
+  <data name="settingsNotUsableReason" xml:space="preserve">
+    <value>Diese Einstellungen können nicht benutzt werden. Sie wurden möglicherweise mit einer neueren, inkompatiblen Version von SEB erstellt oder sind beschädigt.</value>
+  </data>
+  <data name="settingsRequireNewDesktop" xml:space="preserve">
+    <value>Einstellungen verlangen "Create new desktop"-Kiosk-Modus</value>
+  </data>
+  <data name="settingsRequireNewDesktopReason" xml:space="preserve">
+    <value>Die geöffneten Prüfungseinstellungen verlangen das Öffnen eines neuen Desktops, aber momentan läuf SEB auf dem Standard-Desktop. Ein Prüfungsadministrator/Supporter muss die lokalen SEB Client-Einstellungen ändern (Kiosk-Modus "Create new desktop"). SEB wird jetzt beendet.</value>
+  </data>
+  <data name="settingsRequireNotNewDesktop" xml:space="preserve">
+    <value>Einstellungen verlangen den Standard-Desktop</value>
+  </data>
+  <data name="settingsRequireNotNewDesktopReason" xml:space="preserve">
+    <value>Die geöffneten Prüfungseinstellungen verlangen den Standard-Desktop, aber momentan läuf SEB auf einem neuen Desktop. Ein Prüfungsadministrator/Supporter muss die lokalen SEB Client-Einstellungen ändern: Kiosk-Modus darf nicht auf "Create new desktop" gesetzt sein. SEB wird jetzt beendet.</value>
+  </data>
+  <data name="settingsTitleDefaultSettings" xml:space="preserve">
+    <value>Voreinstellungen</value>
+  </data>
+  <data name="settingsUntitledFilename" xml:space="preserve">
+    <value>Unbenannt</value>
+  </data>
+  <data name="unsavedChangesQuestion" xml:space="preserve">
+    <value>Aktuelle Einstellungen haben ungesicherte Änderungen. Wollen Sie diese speichern?</value>
+  </data>
+  <data name="unsavedChangesTitle" xml:space="preserve">
+    <value>Ungesicherte Änderungen</value>
+  </data>
+  <data name="KeyboardLayout_CURRENTCULTURE" xml:space="preserve">
+    <value>Keyboard-Layout: {0} - Zum Wechseln Anklicken</value>
+  </data>
+  <data name="identityExportError" xml:space="preserve">
+    <value>Export der kryptografischen Identität fehlgeschlagen</value>
+  </data>
+  <data name="toolTipConnectedToWiFiNetwork" xml:space="preserve">
+    <value>Verbunden mit {0}</value>
+  </data>
+  <data name="toolTipNotConnectedToWiFiNetwork" xml:space="preserve">
+    <value>Nicht verbunden</value>
+  </data>
+  <data name="toolTipNoWiFiInterface" xml:space="preserve">
+    <value>Kein WLAN-Adapter gefunden</value>
+  </data>
+  <data name="toolTipOnScreenKeyboard" xml:space="preserve">
+    <value>Bildschirmtastatur ein-/ausblenden</value>
+  </data>
+  <data name="identityExportErrorMessage" xml:space="preserve">
+    <value>Die Identität (Zertifikat mit privatem Schlüssel) '{0}' konnte nicht exportiert werden. Ihr privater Schlüssel könnte als nicht-exportierbar gekennzeichnet sein.</value>
+  </data>
+  <data name="certificateDecryptingError" xml:space="preserve">
+    <value>Das Entschlüsseln der Einstellungen mittels Zertifikat und privatem Schlüssel aus dem Windows-Zertifikatsspeicher schlug fehl mit Fehlermeldung: </value>
+  </data>
+  <data name="webSocketServerNotStarted" xml:space="preserve">
+    <value>Kommunikation mit dem SEB-Browser konnte nicht aufgebaut werden</value>
+  </data>
+  <data name="webSocketServerNotStartedMessage" xml:space="preserve">
+    <value>SEB wird beendet, versuchen Sie, SEB neu zu starten. Wenn dies nicht hilft, starten Sie Ihren Rechner neu.</value>
+  </data>
+  <data name="restartExamConfirm" xml:space="preserve">
+    <value>Sind Sie sicher? (Diese Funktion loggt Sie nicht aus, falls Sie sich auf einer Website eingeloggt haben)</value>
+  </data>
+  <data name="wrongQuitRestartPasswordText" xml:space="preserve">
+    <value>Falsches Beenden-/Neustart-Passwort</value>
+  </data>
+  <data name="toolTipOnScreenKeyboardNotEnabled" xml:space="preserve">
+    <value>Um die Bildschirmtastatur nutzen zu können, bitte den Windows Tablet-Modus aktivieren und die physische Tastatur entfernen</value>
+  </data>
+  <data name="tableModeNotEnabledWarningText" xml:space="preserve">
+    <value>Bitte den Windows Tablet Modus aktivieren und SEB erneut starten.</value>
+  </data>
+  <data name="tableModeNotEnabledWarningTitle" xml:space="preserve">
+    <value>Windows Tablet Modus aktivieren</value>
+  </data>
+  <data name="errorOpeningResource" xml:space="preserve">
+    <value>Eingebettete Ressource konnte nicht mit zugelassener Applikation geöffnet werden</value>
+  </data>
+  <data name="prohibitedProcessDetectedQuitPassword" xml:space="preserve">
+    <value>SEB hat einen verbotenen Prozess detektiert, welcher nicht beendet werden konnte. Geben Sie das Beenden-Passwort ein, um fortzufahren. </value>
+  </data>
+  <data name="prohibitedProcessDetectedText" xml:space="preserve">
+    <value>SEB hat einen verbotenen Prozess detektiert, welcher nicht beendet werden konnte: </value>
+  </data>
+  <data name="prohibitedProcessDetectedTitle" xml:space="preserve">
+    <value>Verbotener Prozess detektiert</value>
+  </data>
+  <data name="unableToCloseProcessesText" xml:space="preserve">
+    <value>SEB konnte die untenstehenden Prozesse nicht beennden, schliessen Sie diese manuell und starten Sie SEB danach wieder</value>
+  </data>
+  <data name="unableToCloseProcessesTitle" xml:space="preserve">
+    <value>SEB konnte Prozesse nicht beenden</value>
+  </data>
+  <data name="loadingString" xml:space="preserve">
+    <value>Laden</value>
+  </data>
+  <data name="cannotOpenSEBConfig" xml:space="preserve">
+    <value>SEB-Einstellungen können nicht geöffnet werden</value>
+  </data>
+  <data name="cannotOpenSEBConfigMessage" xml:space="preserve">
+    <value>Das Öffnen von externen SEB-Konfigurationen wird durch die lokalen Client-Einstellungen nicht erlaubt. Starten Sie die SEB-Applikation direkt.</value>
+  </data>
+  <data name="cannotOpenSEBLink" xml:space="preserve">
+    <value>SEB-Link kann nicht geöffnet werden</value>
+  </data>
+  <data name="cannotOpenSEBLinkMessage" xml:space="preserve">
+    <value>Öffnen des SEB-Links ist fehlgeschlagen. Überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.</value>
+  </data>
+  <data name="NoWLANInterface" xml:space="preserve">
+    <value>Kein WLAN-Interface gefunden</value>
+  </data>
+  <data name="openingSettingsFailed" xml:space="preserve">
+    <value>Öffnen der Einstellungen fehlgeschlagen</value>
+  </data>
+  <data name="openingSettingsFailedMessage" xml:space="preserve">
+    <value>Die Konfigurationsdatei konnte nicht geöffnet werden.</value>
+  </data>
+  <data name="reconfiguringLocalSettingsFailedWrongCurrentAdminPwd" xml:space="preserve">
+    <value>Ohne das aktuelle Administrator-Passwort können diese Einstellungen nicht verwendet werden.</value>
+  </data>
+  <data name="settingsDuplicateSuffix" xml:space="preserve">
+    <value> Kopie</value>
+  </data>
+  <data name="unconfirmedPasswordMessage" xml:space="preserve">
+    <value>Bitte zuerst das %s bestätigen.</value>
+  </data>
+  <data name="unconfirmedPasswordTitle" xml:space="preserve">
+    <value>Passwort nicht korrekt bestätigt</value>
+  </data>
+  <data name="WlanConnecting" xml:space="preserve">
+    <value>Verbinden...</value>
+  </data>
+  <data name="WlanConnectionFailedMessage" xml:space="preserve">
+    <value>Verbindung mit dem WLAN-Netzwerk ist fehlgeschlagen, bitte erneut versuchen.</value>
+  </data>
+  <data name="WlanConnectionFailedMessageTitle" xml:space="preserve">
+    <value>Verbindung fehlgeschlagen</value>
+  </data>
+  <data name="WlanNoNetworkInterfaceFound" xml:space="preserve">
+    <value>Kein Netzwerk-Interface gefunden</value>
+  </data>
+  <data name="WlanNoNetworksFound" xml:space="preserve">
+    <value>Keine bekannten Netzwerke gefunden</value>
+  </data>
+  <data name="WLANNotConnected" xml:space="preserve">
+    <value>Nicht verbunden</value>
+  </data>
+  <data name="WlanThatYouHaveUsedBefore" xml:space="preserve">
+    <value>die Sie zuvor benutzt haben.</value>
+  </data>
+  <data name="WlanYouCanOnlyConnectToNetworks" xml:space="preserve">
+    <value>Sie können sich nur mit Netzwerken verbinden</value>
+  </data>
+  <data name="AdditionalResourceConfirmMessage" xml:space="preserve">
+    <value>Möchten Sie die Ressource "%%TITLE%%" öffnen?</value>
+  </data>
+  <data name="AdditionalResourceConfirmTitle" xml:space="preserve">
+    <value>Ressource öffnen?</value>
+  </data>
+  <data name="spareBrowserFileNamesFound" xml:space="preserve">
+    <value>SEB Installation ist beschädigt </value>
+  </data>
+  <data name="spareBrowserFileNamesFoundText" xml:space="preserve">
+    <value>SEB hat irreguläre Dateien in seinem Programmverzeichnis gefunden. Diese könnten von einer älteren Version stammen, falls ein Fehler bei einem SEB-Update aufgetreten ist. Deinstallieren Sie SEB mittels des Windows Kontrollzentrums, danach löschen Sie das SafeExamBrowser-Unterverzeichnis aus dem Program Files (x86) Verzeichnis und installieren Sie diese SEB-Version neu. Liste der überzähligen Dateien:</value>
+  </data>
+</root>
