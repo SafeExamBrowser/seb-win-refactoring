@@ -14,7 +14,7 @@
             </xsl:attribute>
         </xsl:copy>
         <wix:File Id="ApplicationIconFile" Source="Resources\Application.ico" />
-        <wix:File Id="ConfigurationIconFile" Source="Resources\Configuration.ico" />
+        <wix:File Id="ConfigurationIconFile" Source="Resources\ConfigurationFile.ico" />
         <wix:ProgId Id="ConfigurationFileExtension" Description="SEB Configuration File" Icon="ConfigurationIconFile" Advertise="no">
             <wix:Extension Id="seb" ContentType="application/seb" Advertise="no">
                 <wix:Verb Id="open" Command="Open" Argument="&quot;%1&quot;" TargetFile="MainExecutable" />

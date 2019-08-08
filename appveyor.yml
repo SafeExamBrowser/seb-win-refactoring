@@ -33,6 +33,9 @@ artifacts:
  - path: SafeExamBrowser.Runtime\bin\$(platform)\$(configuration)
    name: 'SEB_$(appveyor_build_version)_Application'
    type: zip
+ - path: SebWindowsConfig\bin\$(platform)\$(configuration)
+   name: 'SEB_$(appveyor_build_version)_Configuration'
+   type: zip
  - path: SafeExamBrowser.ResetUtility\bin\$(platform)\$(configuration)
    name: 'SEB_$(appveyor_build_version)_Reset'
    type: zip
