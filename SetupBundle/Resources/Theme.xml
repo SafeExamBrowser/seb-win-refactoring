@@ -3,7 +3,7 @@
 <!-- Original File Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the Microsoft Reciprocal License. -->
 
 <Theme xmlns="http://wixtoolset.org/schemas/thmutil/2010">
-    <Window Width="500" Height="400" HexStyle="100a0000" FontId="0">#(loc.Caption)</Window>
+    <Window Width="525" Height="450" HexStyle="100a0000" FontId="0">#(loc.Caption)</Window>
     <Font Id="0" Height="-12" Weight="500" Foreground="000000" Background="F0F0F0">Segoe UI</Font>
     <Font Id="1" Height="-24" Weight="750" Foreground="000000" Background="F0F0F0">Segoe UI</Font>
     <Font Id="2" Height="-22" Weight="500" Foreground="444444" Background="F0F0F0">Segoe UI</Font>

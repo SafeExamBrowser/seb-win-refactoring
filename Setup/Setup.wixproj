@@ -26,6 +26,7 @@
     <Compile Include="Components\Reset.wxs" />
     <Compile Include="Components\Service.wxs" />
     <Compile Include="Directories.wxs" />
+    <Compile Include="LegacyCleanup.wxs" />
     <Compile Include="Product.wxs" />
     <Compile Include="Shortcuts.wxs" />
   </ItemGroup>

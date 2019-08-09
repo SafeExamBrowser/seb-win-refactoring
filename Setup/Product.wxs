@@ -19,5 +19,8 @@
             <ComponentGroupRef Id="ServiceComponents" />
             <ComponentRef Id="ShortcutComponent" />
         </Feature>
+        <InstallExecuteSequence>
+            <Custom Action="LegacyCleanupAction" After="RemoveFiles" />
+        </InstallExecuteSequence>
     </Product>
 </Wix>
