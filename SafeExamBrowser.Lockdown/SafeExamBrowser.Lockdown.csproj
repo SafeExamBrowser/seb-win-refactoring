@@ -64,12 +64,13 @@
     <Compile Include="FeatureConfigurations\FeatureConfiguration.cs" />
     <Compile Include="FeatureConfigurations\RegistryConfigurations\MachineHive\MachineHiveConfiguration.cs" />
     <Compile Include="FeatureConfigurations\RegistryConfigurations\RegistryConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\RegistryConfigurations\UserHive\UserPowerOptionsConfiguration.cs" />
     <Compile Include="FeatureConfigurations\RegistryConfigurations\UserHive\UserHiveConfiguration.cs" />
     <Compile Include="FeatureConfigurations\RegistryConfigurations\UserHive\TaskManagerConfiguration.cs" />
     <Compile Include="FeatureConfigurations\RegistryConfigurations\MachineHive\EaseOfAccessConfiguration.cs" />
     <Compile Include="FeatureConfigurations\RegistryConfigurations\MachineHive\NetworkOptionsConfiguration.cs" />
     <Compile Include="FeatureConfigurations\RegistryConfigurations\UserHive\ChangePasswordConfiguration.cs" />
-    <Compile Include="FeatureConfigurations\RegistryConfigurations\MachineHive\PowerOptionsConfiguration.cs" />
+    <Compile Include="FeatureConfigurations\RegistryConfigurations\MachineHive\MachinePowerOptionsConfiguration.cs" />
     <Compile Include="FeatureConfigurations\RegistryConfigurations\MachineHive\RemoteConnectionConfiguration.cs" />
     <Compile Include="FeatureConfigurations\RegistryConfigurations\UserHive\SignoutConfiguration.cs" />
     <Compile Include="FeatureConfigurations\RegistryConfigurations\UserHive\LockWorkstationConfiguration.cs" />

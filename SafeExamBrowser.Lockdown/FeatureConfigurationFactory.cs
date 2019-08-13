@@ -33,12 +33,13 @@ namespace SafeExamBrowser.Lockdown
 				CreateChromeNotificationConfiguration(groupId, sid, userName),
 				CreateEaseOfAccessConfiguration(groupId),
 				CreateLockWorkstationConfiguration(groupId, sid, userName),
+				CreateMachinePowerOptionsConfiguration(groupId),
 				CreateNetworkOptionsConfiguration(groupId),
-				CreatePowerOptionsConfiguration(groupId),
 				CreateRemoteConnectionConfiguration(groupId),
 				CreateSignoutConfiguration(groupId, sid, userName),
 				CreateSwitchUserConfiguration(groupId),
 				CreateTaskManagerConfiguration(groupId, sid, userName),
+				CreateUserPowerOptionsConfiguration(groupId, sid, userName),
 				CreateVmwareOverlayConfiguration(groupId, sid, userName),
 				CreateWindowsUpdateConfiguration(groupId)
 			};
@@ -64,14 +65,14 @@ namespace SafeExamBrowser.Lockdown
 			return new LockWorkstationConfiguration(groupId, logger.CloneFor(nameof(LockWorkstationConfiguration)), sid, userName);
 		}
 
+		public IFeatureConfiguration CreateMachinePowerOptionsConfiguration(Guid groupId)
+		{
+			return new MachinePowerOptionsConfiguration(groupId, logger.CloneFor(nameof(MachinePowerOptionsConfiguration)));
+		}
+
 		public IFeatureConfiguration CreateNetworkOptionsConfiguration(Guid groupId)
 		{
 			return new NetworkOptionsConfiguration(groupId, logger.CloneFor(nameof(NetworkOptionsConfiguration)));
-		}
-
-		public IFeatureConfiguration CreatePowerOptionsConfiguration(Guid groupId)
-		{
-			return new PowerOptionsConfiguration(groupId, logger.CloneFor(nameof(PowerOptionsConfiguration)));
 		}
 
 		public IFeatureConfiguration CreateRemoteConnectionConfiguration(Guid groupId)
@@ -92,6 +93,11 @@ namespace SafeExamBrowser.Lockdown
 		public IFeatureConfiguration CreateTaskManagerConfiguration(Guid groupId, string sid, string userName)
 		{
 			return new TaskManagerConfiguration(groupId, logger.CloneFor(nameof(TaskManagerConfiguration)), sid, userName);
+		}
+
+		public IFeatureConfiguration CreateUserPowerOptionsConfiguration(Guid groupId, string sid, string userName)
+		{
+			return new UserPowerOptionsConfiguration(groupId, logger.CloneFor(nameof(UserPowerOptionsConfiguration)), sid, userName);
 		}
 
 		public IFeatureConfiguration CreateVmwareOverlayConfiguration(Guid groupId, string sid, string userName)

@@ -10,17 +10,17 @@ using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Contracts.Logging;
 
-namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.MachineHive
+namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.UserHive
 {
 	[Serializable]
-	internal class PowerOptionsConfiguration : MachineHiveConfiguration
+	internal class UserPowerOptionsConfiguration : UserHiveConfiguration
 	{
-		protected override IEnumerable<RegistryConfigurationItem> Items => new []
+		protected override IEnumerable<RegistryConfigurationItem> Items => new[]
 		{
-			new RegistryConfigurationItem(@"HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer", "NoClose", 1, 0)
+			new RegistryConfigurationItem($@"HKEY_USERS\{SID}\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer", "NoClose", 1, 0)
 		};
 
-		public PowerOptionsConfiguration(Guid groupId, ILogger logger) : base(groupId, logger)
+		public UserPowerOptionsConfiguration(Guid groupId, ILogger logger, string sid, string userName) : base(groupId, logger, sid, userName)
 		{
 		}
 

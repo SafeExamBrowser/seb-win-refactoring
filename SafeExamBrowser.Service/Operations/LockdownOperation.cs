@@ -47,12 +47,13 @@ namespace SafeExamBrowser.Service.Operations
 				(factory.CreateChromeNotificationConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableChromeNotifications),
 				(factory.CreateEaseOfAccessConfiguration(groupId), Context.Configuration.Settings.Service.DisableEaseOfAccessOptions),
 				(factory.CreateLockWorkstationConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableUserLock),
+				(factory.CreateMachinePowerOptionsConfiguration(groupId), Context.Configuration.Settings.Service.DisablePowerOptions),
 				(factory.CreateNetworkOptionsConfiguration(groupId), Context.Configuration.Settings.Service.DisableNetworkOptions),
-				(factory.CreatePowerOptionsConfiguration(groupId), Context.Configuration.Settings.Service.DisablePowerOptions),
 				(factory.CreateRemoteConnectionConfiguration(groupId), Context.Configuration.Settings.Service.DisableRemoteConnections),
 				(factory.CreateSignoutConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableSignout),
 				(factory.CreateSwitchUserConfiguration(groupId), Context.Configuration.Settings.Service.DisableUserSwitch),
 				(factory.CreateTaskManagerConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableTaskManager),
+				(factory.CreateUserPowerOptionsConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisablePowerOptions),
 				(factory.CreateVmwareOverlayConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableVmwareOverlay),
 				(factory.CreateWindowsUpdateConfiguration(groupId), Context.Configuration.Settings.Service.DisableWindowsUpdate)
 			};

@@ -42,14 +42,14 @@ namespace SafeExamBrowser.Contracts.Lockdown
 		IFeatureConfiguration CreateLockWorkstationConfiguration(Guid groupId, string sid, string userName);
 
 		/// <summary>
+		/// Creates an <see cref="IFeatureConfiguration"/> to control the power options on the security screen.
+		/// </summary>
+		IFeatureConfiguration CreateMachinePowerOptionsConfiguration(Guid groupId);
+
+		/// <summary>
 		/// Creates an <see cref="IFeatureConfiguration"/> to control the network options on the security screen.
 		/// </summary>
 		IFeatureConfiguration CreateNetworkOptionsConfiguration(Guid groupId);
-
-		/// <summary>
-		/// Creates an <see cref="IFeatureConfiguration"/> to control the power options on the security screen.
-		/// </summary>
-		IFeatureConfiguration CreatePowerOptionsConfiguration(Guid groupId);
 
 		/// <summary>
 		/// Creates an <see cref="IFeatureConfiguration"/> to control remote desktop connections.
@@ -70,6 +70,11 @@ namespace SafeExamBrowser.Contracts.Lockdown
 		/// Creates an <see cref="IFeatureConfiguration"/> to control the task manager of Windows.
 		/// </summary>
 		IFeatureConfiguration CreateTaskManagerConfiguration(Guid groupId, string sid, string userName);
+
+		/// <summary>
+		/// Creates an <see cref="IFeatureConfiguration"/> to control the power options in the start menu.
+		/// </summary>
+		IFeatureConfiguration CreateUserPowerOptionsConfiguration(Guid groupId, string sid, string userName);
 
 		/// <summary>
 		/// Creates an <see cref="IFeatureConfiguration"/> to control the user interface overlay for VMware clients.
