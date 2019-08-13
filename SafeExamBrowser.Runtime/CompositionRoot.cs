@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using SafeExamBrowser.Communication.Hosts;
@@ -106,7 +107,7 @@ namespace SafeExamBrowser.Runtime
 
 		internal void LogStartupInformation()
 		{
-			logger.Log($"/* {appConfig.ProgramTitle}, Version {appConfig.ProgramVersion}");
+			logger.Log($"/* {appConfig.ProgramTitle}, Version {appConfig.ProgramInformationalVersion}, Build {appConfig.ProgramBuildVersion}");
 			logger.Log($"/* {appConfig.ProgramCopyright}");
 			logger.Log($"/* ");
 			logger.Log($"/* Please visit https://www.github.com/SafeExamBrowser for more information.");
@@ -125,6 +126,7 @@ namespace SafeExamBrowser.Runtime
 		private void InitializeConfiguration()
 		{
 			var executable = Assembly.GetExecutingAssembly();
+			var programBuild = FileVersionInfo.GetVersionInfo(executable.Location).FileVersion;
 			var programCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
 			var programTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
 			var programVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
@@ -143,6 +145,7 @@ namespace SafeExamBrowser.Runtime
 				new HashAlgorithm(),
 				repositoryLogger,
 				executable.Location,
+				programBuild,
 				programCopyright,
 				programTitle,
 				programVersion);

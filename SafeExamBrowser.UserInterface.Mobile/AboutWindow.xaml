@@ -17,7 +17,7 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Image Grid.ColumnSpan="2" Source="pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/SplashScreen.png" Margin="0,5,0,0" />
-        <TextBlock x:Name="VersionInfo" Grid.Row="0" Grid.Column="1" Foreground="Gray" Margin="25,75,100,10" TextWrapping="Wrap" />
+        <TextBlock x:Name="VersionInfo" Grid.Row="0" Grid.Column="1" FontSize="10" Foreground="DimGray" Margin="25,70,100,10" TextWrapping="Wrap" />
         <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
             <TextBlock x:Name="MainText" Margin="10" FontSize="10" TextWrapping="Wrap">
                 This application is subject to the terms of the Mozilla Public License, version 2.0. If a copy of the MPL was not

@@ -97,7 +97,12 @@ namespace SafeExamBrowser.Contracts.Configuration
 		public string DownloadDirectory { get; set; }
 
 		/// <summary>
-		/// The copyright information for the application (i.e. the executing assembly).
+		/// The build version of the application.
+		/// </summary>
+		public string ProgramBuildVersion { get; set; }
+
+		/// <summary>
+		/// The copyright information for the application.
 		/// </summary>
 		public string ProgramCopyright { get; set; }
 
@@ -107,14 +112,14 @@ namespace SafeExamBrowser.Contracts.Configuration
 		public string ProgramDataFilePath { get; set; }
 
 		/// <summary>
-		/// The program title of the application (i.e. the executing assembly).
+		/// The program title of the application.
 		/// </summary>
 		public string ProgramTitle { get; set; }
 
 		/// <summary>
-		/// The program version of the application (i.e. the executing assembly).
+		/// The informational version of the application.
 		/// </summary>
-		public string ProgramVersion { get; set; }
+		public string ProgramInformationalVersion { get; set; }
 
 		/// <summary>
 		/// The communication address of the runtime component.

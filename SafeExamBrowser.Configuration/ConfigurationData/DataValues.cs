@@ -20,13 +20,20 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		private AppConfig appConfig;
 		private string executablePath;
+		private string programBuild;
 		private string programCopyright;
 		private string programTitle;
 		private string programVersion;
 
-		internal DataValues(string executablePath, string programCopyright, string programTitle, string programVersion)
+		internal DataValues(
+			string executablePath,
+			string programBuild,
+			string programCopyright,
+			string programTitle,
+			string programVersion)
 		{
 			this.executablePath = executablePath ?? string.Empty;
+			this.programBuild = programBuild ?? string.Empty;
 			this.programCopyright = programCopyright ?? string.Empty;
 			this.programTitle = programTitle ?? string.Empty;
 			this.programVersion = programVersion ?? string.Empty;
@@ -57,10 +64,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			appConfig.ClientLogFilePath = Path.Combine(logFolder, $"{logFilePrefix}_Client.log");
 			appConfig.ConfigurationFileExtension = ".seb";
 			appConfig.DownloadDirectory = Path.Combine(appDataLocalFolder, "Downloads");
+			appConfig.ProgramBuildVersion = programBuild;
 			appConfig.ProgramCopyright = programCopyright;
 			appConfig.ProgramDataFilePath = Path.Combine(programDataFolder, DEFAULT_CONFIGURATION_NAME);
 			appConfig.ProgramTitle = programTitle;
-			appConfig.ProgramVersion = programVersion;
+			appConfig.ProgramInformationalVersion = programVersion;
 			appConfig.RuntimeId = Guid.NewGuid();
 			appConfig.RuntimeAddress = $"{AppConfig.BASE_ADDRESS}/runtime/{Guid.NewGuid()}";
 			appConfig.RuntimeLogFilePath = Path.Combine(logFolder, $"{logFilePrefix}_Runtime.log");

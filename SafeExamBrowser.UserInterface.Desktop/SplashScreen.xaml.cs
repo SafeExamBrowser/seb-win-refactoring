@@ -8,6 +8,7 @@
 
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Media;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface.Windows;
@@ -122,7 +123,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		{
 			if (appConfig != null)
 			{
-				InfoTextBlock.Inlines.Add(new Run($"Version {appConfig.ProgramVersion}") { FontStyle = FontStyles.Italic });
+				InfoTextBlock.Inlines.Add(new Run($"Version {appConfig.ProgramInformationalVersion}") { Foreground = Brushes.DimGray });
 				InfoTextBlock.Inlines.Add(new LineBreak());
 				InfoTextBlock.Inlines.Add(new LineBreak());
 				InfoTextBlock.Inlines.Add(new Run(appConfig.ProgramCopyright) { FontSize = 10 });

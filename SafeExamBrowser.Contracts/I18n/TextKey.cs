@@ -16,6 +16,7 @@ namespace SafeExamBrowser.Contracts.I18n
 	{
 		BrowserWindow_DeveloperConsoleMenuItem,
 		BrowserWindow_ZoomMenuItem,
+		Build,
 		LogWindow_Title,
 		MessageBox_ApplicationError,
 		MessageBox_ApplicationErrorTitle,

@@ -37,6 +37,7 @@ namespace SafeExamBrowser.Configuration
 			IHashAlgorithm hashAlgorithm,
 			IModuleLogger logger,
 			string executablePath,
+			string programBuild,
 			string programCopyright,
 			string programTitle,
 			string programVersion)
@@ -48,7 +49,7 @@ namespace SafeExamBrowser.Configuration
 			dataParsers = new List<IDataParser>();
 			dataSerializers = new List<IDataSerializer>();
 			dataMapper = new DataMapper();
-			dataValues = new DataValues(executablePath, programCopyright, programTitle, programVersion);
+			dataValues = new DataValues(executablePath, programBuild, programCopyright, programTitle, programVersion);
 			resourceLoaders = new List<IResourceLoader>();
 			resourceSavers = new List<IResourceSaver>();
 		}

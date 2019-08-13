@@ -48,7 +48,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			var headers = new NameValueCollection(request.Headers);
 			var userAgent = request.Headers["User-Agent"];
 
-			headers["User-Agent"] = $"{userAgent} SEB/{appConfig.ProgramVersion}";
+			headers["User-Agent"] = $"{userAgent} SEB/{appConfig.ProgramInformationalVersion}";
 			request.Headers = headers;
 		}
 

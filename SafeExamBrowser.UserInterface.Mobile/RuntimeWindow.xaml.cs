@@ -8,6 +8,7 @@
 
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Media;
 using SafeExamBrowser.Contracts.Configuration;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
@@ -130,12 +131,14 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		private void InitializeRuntimeWindow()
 		{
-			Title = $"{appConfig.ProgramTitle} - Version {appConfig.ProgramVersion}";
+			Title = $"{appConfig.ProgramTitle} - Version {appConfig.ProgramInformationalVersion}";
 
-			InfoTextBlock.Inlines.Add(new Run($"Version {appConfig.ProgramVersion}") { FontStyle = FontStyles.Italic });
+			InfoTextBlock.Inlines.Add(new Run($"Version {appConfig.ProgramInformationalVersion}") { FontSize = 12 });
+			InfoTextBlock.Inlines.Add(new LineBreak());
+			InfoTextBlock.Inlines.Add(new Run($"Build {appConfig.ProgramBuildVersion}") { FontSize = 8, Foreground = Brushes.Gray });
 			InfoTextBlock.Inlines.Add(new LineBreak());
 			InfoTextBlock.Inlines.Add(new LineBreak());
-			InfoTextBlock.Inlines.Add(new Run(appConfig.ProgramCopyright) { FontSize = 10 });
+			InfoTextBlock.Inlines.Add(new Run(appConfig.ProgramCopyright) { FontSize = 10, Foreground = Brushes.Gray });
 
 			model = new RuntimeWindowViewModel(LogTextBlock);
 			AnimatedBorder.DataContext = model;

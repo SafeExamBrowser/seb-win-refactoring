@@ -173,7 +173,7 @@ namespace SafeExamBrowser.Browser
 		private string InitializeUserAgent()
 		{
 			var osVersion = $"{Environment.OSVersion.Version.Major}.{Environment.OSVersion.Version.Minor}";
-			var sebVersion = $"SEB/{appConfig.ProgramVersion}";
+			var sebVersion = $"SEB/{appConfig.ProgramInformationalVersion}";
 
 			if (settings.UseCustomUserAgent)
 			{
