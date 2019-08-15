@@ -121,6 +121,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class UserInterface
 		{
+			internal const string ShowAudio = "audioControlEnabled";
 			internal const string ShowClock = "showTime";
 			internal const string ShowKeyboardLayout = "showInputLanguage";
 			internal const string ShowWirelessNetwork = "allowWlan";

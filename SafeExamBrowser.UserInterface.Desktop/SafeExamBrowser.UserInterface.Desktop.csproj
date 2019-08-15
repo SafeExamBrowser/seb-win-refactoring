@@ -110,6 +110,9 @@
     <Compile Include="Controls\TaskbarApplicationInstanceButton.xaml.cs">
       <DependentUpon>TaskbarApplicationInstanceButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TaskbarAudioControl.xaml.cs">
+      <DependentUpon>TaskbarAudioControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TaskbarClock.xaml.cs">
       <DependentUpon>TaskbarClock.xaml</DependentUpon>
     </Compile>
@@ -212,6 +215,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\TaskbarAudioControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\TaskbarClock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -253,6 +260,26 @@
       <SubType>Designer</SubType>
     </Resource>
     <Resource Include="Images\WiFi_Light_0.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\AudioNoDevice.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\Audio_66.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\Audio_33.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\Audio_100.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\AudioMuted.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>

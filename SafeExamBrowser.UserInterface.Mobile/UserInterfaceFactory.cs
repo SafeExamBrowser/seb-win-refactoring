@@ -52,6 +52,12 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			}
 		}
 
+		public ISystemAudioControl CreateAudioControl(Location location)
+		{
+			// TODO
+			throw new System.NotImplementedException();
+		}
+
 		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow)
 		{
 			return new BrowserWindow(control, settings, isMainWindow, text);

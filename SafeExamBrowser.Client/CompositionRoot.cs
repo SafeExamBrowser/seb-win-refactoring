@@ -67,6 +67,7 @@ namespace SafeExamBrowser.Client
 		private IProcessMonitor processMonitor;
 		private INativeMethods nativeMethods;
 		private IRuntimeProxy runtimeProxy;
+		private ISystemComponent<ISystemAudioControl> audio;
 		private ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout;
 		private ISystemComponent<ISystemPowerSupplyControl> powerSupply;
 		private ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork;
@@ -93,6 +94,7 @@ namespace SafeExamBrowser.Client
 			InitializeText();
 
 			actionCenter = BuildActionCenter();
+			audio = new Audio(new ModuleLogger(logger, nameof(Audio)), text);
 			keyboardLayout = new KeyboardLayout(new ModuleLogger(logger, nameof(KeyboardLayout)), text);
 			messageBox = BuildMessageBox();
 			powerSupply = new PowerSupply(new ModuleLogger(logger, nameof(PowerSupply)), text);
@@ -277,6 +279,7 @@ namespace SafeExamBrowser.Client
 				aboutController,
 				logInfo,
 				logController,
+				audio,
 				keyboardLayout,
 				powerSupply,
 				wirelessNetwork,

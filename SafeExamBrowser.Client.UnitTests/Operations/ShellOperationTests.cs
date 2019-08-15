@@ -34,6 +34,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<INotificationController> aboutController;
 		private Mock<INotificationInfo> logInfo;
 		private Mock<INotificationController> logController;
+		private Mock<ISystemComponent<ISystemAudioControl>> audio;
 		private Mock<ISystemComponent<ISystemKeyboardLayoutControl>> keyboardLayout;
 		private Mock<ISystemComponent<ISystemPowerSupplyControl>> powerSupply;
 		private Mock<ISystemComponent<ISystemWirelessNetworkControl>> wirelessNetwork;
@@ -55,6 +56,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			aboutController = new Mock<INotificationController>();
 			logInfo = new Mock<INotificationInfo>();
 			logController = new Mock<INotificationController>();
+			audio = new Mock<ISystemComponent<ISystemAudioControl>>();
 			keyboardLayout = new Mock<ISystemComponent<ISystemKeyboardLayoutControl>>();
 			powerSupply = new Mock<ISystemComponent<ISystemPowerSupplyControl>>();
 			wirelessNetwork = new Mock<ISystemComponent<ISystemWirelessNetworkControl>>();
@@ -76,6 +78,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 				aboutController.Object,
 				logInfo.Object,
 				logController.Object,
+				audio.Object,
 				keyboardLayout.Object,
 				powerSupply.Object,
 				wirelessNetwork.Object,

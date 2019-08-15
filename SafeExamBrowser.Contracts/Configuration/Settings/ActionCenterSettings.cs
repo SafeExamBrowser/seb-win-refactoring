@@ -32,6 +32,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public bool ShowApplicationLog { get; set; }
 		
 		/// <summary>
+		/// Determines whether the system control for audio is accessible via the action center.
+		/// </summary>
+		public bool ShowAudio { get; set; }
+
+		/// <summary>
 		/// Determines whether the current date and time will be rendered in the action center.
 		/// </summary>
 		public bool ShowClock { get; set; }

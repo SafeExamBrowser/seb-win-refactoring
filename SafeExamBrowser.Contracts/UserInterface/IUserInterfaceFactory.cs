@@ -34,6 +34,11 @@ namespace SafeExamBrowser.Contracts.UserInterface
 		IApplicationControl CreateApplicationControl(IApplicationInfo info, Location location);
 
 		/// <summary>
+		/// Creates a system control which allows to change the audio settings of the computer.
+		/// </summary>
+		ISystemAudioControl CreateAudioControl(Location location);
+
+		/// <summary>
 		/// Creates a new browser window loaded with the given browser control and settings.
 		/// </summary>
 		IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow);

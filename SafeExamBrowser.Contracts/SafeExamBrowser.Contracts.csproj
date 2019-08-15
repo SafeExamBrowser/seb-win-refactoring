@@ -212,6 +212,7 @@
     <Compile Include="UserInterface\Shell\Events\NotificationControlClickedEventHandler.cs" />
     <Compile Include="UserInterface\Shell\IActionCenter.cs" />
     <Compile Include="UserInterface\Shell\IActionCenterActivator.cs" />
+    <Compile Include="UserInterface\Shell\ISystemAudioControl.cs" />
     <Compile Include="UserInterface\Shell\Location.cs" />
     <Compile Include="UserInterface\Windows\Events\WindowClosingEventHandler.cs" />
     <Compile Include="UserInterface\Shell\Events\WirelessNetworkSelectedEventHandler.cs" />

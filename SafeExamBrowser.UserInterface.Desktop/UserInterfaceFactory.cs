@@ -52,6 +52,19 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			}
 		}
 
+		public ISystemAudioControl CreateAudioControl(Location location)
+		{
+			// TODO
+			//if (location == Location.ActionCenter)
+			//{
+			//	return new ActionCenterAudioControl();
+			//}
+			//else
+			{
+				return new TaskbarAudioControl();
+			}
+		}
+
 		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow)
 		{
 			return new BrowserWindow(control, settings, isMainWindow, text);

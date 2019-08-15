@@ -279,6 +279,15 @@
     <Entry key="Shell_QuitButton">
         Terminate Session
     </Entry>
+    <Entry key="SystemControl_AudioDeviceInfo">
+        %%NAME%%: %%VOLUME%%%
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfoMuted">
+        %%NAME%%: Muted
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceNotFound">
+        No audio device found
+    </Entry>
     <Entry key="SystemControl_BatteryCharging">
         Plugged in, charging... (%%CHARGE%%%)
     </Entry>

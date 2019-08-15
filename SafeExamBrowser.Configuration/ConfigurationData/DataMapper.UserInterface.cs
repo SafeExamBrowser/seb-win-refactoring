@@ -20,6 +20,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
+		private void MapAudio(Settings settings, object value)
+		{
+			if (value is bool show)
+			{
+				settings.ActionCenter.ShowAudio = show;
+				settings.Taskbar.ShowAudio = show;
+			}
+		}
+
 		private void MapClock(Settings settings, object value)
 		{
 			if (value is bool show)

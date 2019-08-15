@@ -30,6 +30,7 @@ namespace SafeExamBrowser.Client.Operations
 		private INotificationController aboutController;
 		private INotificationInfo logInfo;
 		private INotificationController logController;
+		private ISystemComponent<ISystemAudioControl> audio;
 		private ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout;
 		private ISystemComponent<ISystemPowerSupplyControl> powerSupply;
 		private ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork;
@@ -52,6 +53,7 @@ namespace SafeExamBrowser.Client.Operations
 			INotificationController aboutController,
 			INotificationInfo logInfo,
 			INotificationController logController,
+			ISystemComponent<ISystemAudioControl> audio,
 			ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout,
 			ISystemComponent<ISystemPowerSupplyControl> powerSupply,
 			ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork,
@@ -70,6 +72,7 @@ namespace SafeExamBrowser.Client.Operations
 			this.logger = logger;
 			this.logInfo = logInfo;
 			this.logController = logController;
+			this.audio = audio;
 			this.keyboardLayout = keyboardLayout;
 			this.powerSupply = powerSupply;
 			this.systemInfo = systemInfo;
@@ -128,6 +131,7 @@ namespace SafeExamBrowser.Client.Operations
 				actionCenter.InitializeText(text);
 
 				InitializeAboutNotificationForActionCenter();
+				InitializeAudioForActionCenter();
 				InitializeClockForActionCenter();
 				InitializeLogNotificationForActionCenter();
 				InitializeKeyboardLayoutForActionCenter();
@@ -148,11 +152,12 @@ namespace SafeExamBrowser.Client.Operations
 				taskbar.InitializeText(text);
 
 				InitializeAboutNotificationForTaskbar();
-				InitializeClockForTaskbar();
 				InitializeLogNotificationForTaskbar();
-				InitializeKeyboardLayoutForTaskbar();
-				InitializeWirelessNetworkForTaskbar();
 				InitializePowerSupplyForTaskbar();
+				InitializeWirelessNetworkForTaskbar();
+				InitializeAudioForTaskbar();
+				InitializeKeyboardLayoutForTaskbar();
+				InitializeClockForTaskbar();
 			}
 			else
 			{
@@ -162,6 +167,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeSystemComponents()
 		{
+			audio.Initialize();
 			keyboardLayout.Initialize();
 			powerSupply.Initialize();
 			wirelessNetwork.Initialize();
@@ -186,6 +192,28 @@ namespace SafeExamBrowser.Client.Operations
 
 				aboutController.RegisterNotification(notification);
 				taskbar.AddNotificationControl(notification);
+			}
+		}
+
+		private void InitializeAudioForActionCenter()
+		{
+			if (actionCenterSettings.ShowAudio)
+			{
+				var control = uiFactory.CreateAudioControl(Location.ActionCenter);
+
+				audio.Register(control);
+				actionCenter.AddSystemControl(control);
+			}
+		}
+
+		private void InitializeAudioForTaskbar()
+		{
+			if (taskbarSettings.ShowAudio)
+			{
+				var control = uiFactory.CreateAudioControl(Location.Taskbar);
+
+				audio.Register(control);
+				taskbar.AddSystemControl(control);
 			}
 		}
 
@@ -308,6 +336,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void TerminateSystemComponents()
 		{
+			audio.Terminate();
 			keyboardLayout.Terminate();
 			powerSupply.Terminate();
 			wirelessNetwork.Terminate();

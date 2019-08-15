@@ -189,6 +189,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			switch (key)
 			{
+				case Keys.UserInterface.ShowAudio:
+					MapAudio(settings, value);
+					break;
 				case Keys.UserInterface.ShowKeyboardLayout:
 					MapKeyboardLayout(settings, value);
 					break;

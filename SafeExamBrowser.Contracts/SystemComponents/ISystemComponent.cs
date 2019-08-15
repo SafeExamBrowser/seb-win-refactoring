@@ -11,8 +11,8 @@ using SafeExamBrowser.Contracts.UserInterface.Shell;
 namespace SafeExamBrowser.Contracts.SystemComponents
 {
 	/// <summary>
-	/// Defines the functionality of a system component (e.g. the power supply). Each system component will get an <see cref="ISystemControl"/>
-	/// assigned, via which the user is able to interact with or get information about the underlying system component.
+	/// Defines the functionality of a system component (e.g. the power supply). Each system component can get multiple <see cref="ISystemControl"/>
+	/// assigned, which in turn allow the user to interact with or get information about the underlying system component.
 	/// </summary>
 	public interface ISystemComponent<TControl> where TControl : ISystemControl
 	{
