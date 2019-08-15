@@ -208,6 +208,8 @@
     <Compile Include="UserInterface\IProgressIndicator.cs" />
     <Compile Include="UserInterface\Shell\Events\ActivatorEventHandler.cs" />
     <Compile Include="UserInterface\Shell\Events\ApplicationControlClickedEventHandler.cs" />
+    <Compile Include="UserInterface\Shell\Events\AudioMuteRequestedEventHandler.cs" />
+    <Compile Include="UserInterface\Shell\Events\AudioVolumeSelectedEventHandler.cs" />
     <Compile Include="UserInterface\Shell\Events\KeyboardLayoutSelectedEventHandler.cs" />
     <Compile Include="UserInterface\Shell\Events\NotificationControlClickedEventHandler.cs" />
     <Compile Include="UserInterface\Shell\IActionCenter.cs" />

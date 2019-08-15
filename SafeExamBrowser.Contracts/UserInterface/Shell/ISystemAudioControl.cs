@@ -6,6 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
+
 namespace SafeExamBrowser.Contracts.UserInterface.Shell
 {
 	/// <summary>
@@ -32,5 +34,15 @@ namespace SafeExamBrowser.Contracts.UserInterface.Shell
 		/// Shows the current audio output volume, where <c>0.0</c> is the lowest and <c>1.0</c> the highest possible value.
 		/// </summary>
 		double OutputDeviceVolume { set; }
+
+		/// <summary>
+		/// Event fired when the user requests to mute the current output device.
+		/// </summary>
+		event AudioMuteRequestedEventHandler MuteRequested;
+
+		/// <summary>
+		/// Event fired when the user requests to set the volume of the current output device.
+		/// </summary>
+		event AudioVolumeSelectedEventHandler VolumeSelected;
 	}
 }

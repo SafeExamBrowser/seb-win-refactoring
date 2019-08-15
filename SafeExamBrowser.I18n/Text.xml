@@ -285,8 +285,14 @@
     <Entry key="SystemControl_AudioDeviceInfoMuted">
         %%NAME%%: Muted
     </Entry>
+    <Entry key="SystemControl_AudioDeviceMuteTooltip">
+        Click to mute audio
+    </Entry>
     <Entry key="SystemControl_AudioDeviceNotFound">
         No audio device found
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceUnmuteTooltip">
+        Click to unmute audio
     </Entry>
     <Entry key="SystemControl_BatteryCharging">
         Plugged in, charging... (%%CHARGE%%%)

@@ -21,11 +21,13 @@
                 <StackPanel Orientation="Vertical">
                     <TextBlock x:Name="AudioDeviceName" Margin="5" TextAlignment="Center" />
                     <StackPanel Orientation="Horizontal" Height="40">
-                        <Button x:Name="Mute" Background="Transparent" Padding="5" Template="{StaticResource TaskbarButton}" Width="40">
+                        <Button x:Name="MuteButton" Background="Transparent" Padding="5" Template="{StaticResource TaskbarButton}" Width="40">
                             <ContentControl x:Name="PopupIcon" />
                         </Button>
-                        <Slider x:Name="Volume" Grid.Column="1" Orientation="Horizontal" TickFrequency="1" IsSnapToTickEnabled="True" Maximum="100" VerticalAlignment="Center" Width="250" />
-                        <TextBlock Grid.Column="2" FontWeight="DemiBold" FontSize="16" Text="{Binding ElementName=Volume, Path=Value}" TextAlignment="Center" VerticalAlignment="Center" Width="40" />
+                        <Slider x:Name="Volume" Grid.Column="1" Orientation="Horizontal" TickFrequency="1" Maximum="100" IsSnapToTickEnabled="True"
+                                IsMoveToPointEnabled="True" VerticalAlignment="Center" Width="250" Thumb.DragStarted="Volume_DragStarted" Thumb.DragCompleted="Volume_DragCompleted" />
+                        <TextBlock Grid.Column="2" FontWeight="DemiBold" FontSize="16" Text="{Binding ElementName=Volume, Path=Value}"
+                                   TextAlignment="Center" VerticalAlignment="Center" Width="40" />
                     </StackPanel>
                 </StackPanel>
             </Border>

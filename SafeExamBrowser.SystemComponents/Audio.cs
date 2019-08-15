@@ -49,6 +49,9 @@ namespace SafeExamBrowser.SystemComponents
 
 		public void Register(ISystemAudioControl control)
 		{
+			control.MuteRequested += Control_MuteRequested;
+			control.VolumeSelected += Control_VolumeSelected;
+
 			lock (@lock)
 			{
 				controls.Add(control);
@@ -108,6 +111,8 @@ namespace SafeExamBrowser.SystemComponents
 			{
 				var info = BuildInfoText(data.MasterVolume, data.Muted);
 
+				logger.Debug($"Detected audio device change: Volume {data.MasterVolume * 100}, {(data.Muted ? "muted" : "unmuted")}");
+
 				foreach (var control in controls)
 				{
 					control.OutputDeviceMuted = data.Muted;
@@ -115,6 +120,16 @@ namespace SafeExamBrowser.SystemComponents
 					control.SetInformation(info);
 				}
 			}
+		}
+
+		private void Control_MuteRequested(bool mute)
+		{
+			audioDevice.AudioEndpointVolume.Mute = mute;
+		}
+
+		private void Control_VolumeSelected(double volume)
+		{
+			audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar = (float) volume;
 		}
 
 		private void UpdateControls()
@@ -154,7 +169,7 @@ namespace SafeExamBrowser.SystemComponents
 			var info = text.Get(muted ? TextKey.SystemControl_AudioDeviceInfoMuted : TextKey.SystemControl_AudioDeviceInfo);
 
 			info = info.Replace("%%NAME%%", audioDeviceShortName);
-			info = info.Replace("%%VOLUME%%", Convert.ToString(volume * 100));
+			info = info.Replace("%%VOLUME%%", Convert.ToString(Math.Round(volume * 100)));
 
 			return info;
 		}

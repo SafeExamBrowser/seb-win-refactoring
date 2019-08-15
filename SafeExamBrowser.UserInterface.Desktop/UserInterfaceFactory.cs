@@ -61,7 +61,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			//}
 			//else
 			{
-				return new TaskbarAudioControl();
+				return new TaskbarAudioControl(text);
 			}
 		}
 
