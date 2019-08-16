@@ -2713,7 +2713,6 @@ namespace SebWindowsConfig
 				permittedApplicationInformation.OriginalName = FileVersionInfo.GetVersionInfo(filename).OriginalFilename;
 
 				return permittedApplicationInformation;
-				//TODO (pwyss 2015/03/13): Keep a list with tools that need special configurations and fill them accordingly (WindowHandlingProcess for example)
 			}
 			return null;
 		}
