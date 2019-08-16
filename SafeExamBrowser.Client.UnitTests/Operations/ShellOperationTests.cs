@@ -183,25 +183,31 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void Perform_MustInitializeSystemComponents()
 		{
 			actionCenterSettings.EnableActionCenter = true;
+			actionCenterSettings.ShowAudio = true;
 			actionCenterSettings.ShowKeyboardLayout = true;
 			actionCenterSettings.ShowWirelessNetwork = true;
 			taskbarSettings.EnableTaskbar = true;
+			taskbarSettings.ShowAudio = true;
 			taskbarSettings.ShowKeyboardLayout = true;
 			taskbarSettings.ShowWirelessNetwork = true;
 
 			systemInfo.SetupGet(s => s.HasBattery).Returns(true);
+			uiFactory.Setup(f => f.CreateAudioControl(It.IsAny<Location>())).Returns(new Mock<ISystemAudioControl>().Object);
 			uiFactory.Setup(f => f.CreateKeyboardLayoutControl(It.IsAny<Location>())).Returns(new Mock<ISystemKeyboardLayoutControl>().Object);
 			uiFactory.Setup(f => f.CreatePowerSupplyControl(It.IsAny<Location>())).Returns(new Mock<ISystemPowerSupplyControl>().Object);
 			uiFactory.Setup(f => f.CreateWirelessNetworkControl(It.IsAny<Location>())).Returns(new Mock<ISystemWirelessNetworkControl>().Object);
 
 			sut.Perform();
 
+			audio.Verify(a => a.Initialize(), Times.Once);
 			keyboardLayout.Verify(k => k.Initialize(), Times.Once);
 			powerSupply.Verify(p => p.Initialize(), Times.Once);
 			wirelessNetwork.Verify(w => w.Initialize(), Times.Once);
+			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemAudioControl>()), Times.Once);
 			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemKeyboardLayoutControl>()), Times.Once);
 			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemPowerSupplyControl>()), Times.Once);
 			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemWirelessNetworkControl>()), Times.Once);
+			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemAudioControl>()), Times.Once);
 			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemKeyboardLayoutControl>()), Times.Once);
 			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemPowerSupplyControl>()), Times.Once);
 			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemWirelessNetworkControl>()), Times.Once);
@@ -211,25 +217,31 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void Perform_MustNotInitializeSystemComponents()
 		{
 			actionCenterSettings.EnableActionCenter = true;
+			actionCenterSettings.ShowAudio = false;
 			actionCenterSettings.ShowKeyboardLayout = false;
 			actionCenterSettings.ShowWirelessNetwork = false;
 			taskbarSettings.EnableTaskbar = true;
+			taskbarSettings.ShowAudio = false;
 			taskbarSettings.ShowKeyboardLayout = false;
 			taskbarSettings.ShowWirelessNetwork = false;
 
 			systemInfo.SetupGet(s => s.HasBattery).Returns(false);
+			uiFactory.Setup(f => f.CreateAudioControl(It.IsAny<Location>())).Returns(new Mock<ISystemAudioControl>().Object);
 			uiFactory.Setup(f => f.CreateKeyboardLayoutControl(It.IsAny<Location>())).Returns(new Mock<ISystemKeyboardLayoutControl>().Object);
 			uiFactory.Setup(f => f.CreatePowerSupplyControl(It.IsAny<Location>())).Returns(new Mock<ISystemPowerSupplyControl>().Object);
 			uiFactory.Setup(f => f.CreateWirelessNetworkControl(It.IsAny<Location>())).Returns(new Mock<ISystemWirelessNetworkControl>().Object);
 
 			sut.Perform();
 
+			audio.Verify(a => a.Initialize(), Times.Once);
 			keyboardLayout.Verify(k => k.Initialize(), Times.Once);
 			powerSupply.Verify(p => p.Initialize(), Times.Once);
 			wirelessNetwork.Verify(w => w.Initialize(), Times.Once);
+			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemAudioControl>()), Times.Never);
 			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemKeyboardLayoutControl>()), Times.Never);
 			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemPowerSupplyControl>()), Times.Never);
 			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemWirelessNetworkControl>()), Times.Never);
+			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemAudioControl>()), Times.Never);
 			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemKeyboardLayoutControl>()), Times.Never);
 			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemPowerSupplyControl>()), Times.Never);
 			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemWirelessNetworkControl>()), Times.Never);
@@ -284,6 +296,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			sut.Revert();
 
 			aboutController.Verify(c => c.Terminate(), Times.Once);
+			audio.Verify(a => a.Terminate(), Times.Once);
 			logController.Verify(c => c.Terminate(), Times.Once);
 			keyboardLayout.Verify(k => k.Terminate(), Times.Once);
 			powerSupply.Verify(p => p.Terminate(), Times.Once);
