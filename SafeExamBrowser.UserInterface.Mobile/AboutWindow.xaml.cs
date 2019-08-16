@@ -45,12 +45,12 @@ namespace SafeExamBrowser.UserInterface.Mobile
 		private void InitializeAboutWindow()
 		{
 			Closing += (o, args) => closing?.Invoke();
-			VersionInfo.Inlines.Add(new Run($"{text.Get(TextKey.Version)} {appConfig.ProgramInformationalVersion}") { FontSize = 12 });
+			VersionInfo.Inlines.Add(new Run($"{text.Get(TextKey.Version)} {appConfig.ProgramInformationalVersion}"));
 			VersionInfo.Inlines.Add(new LineBreak());
-			VersionInfo.Inlines.Add(new Run($"{text.Get(TextKey.Build)} {appConfig.ProgramBuildVersion}") { FontSize = 8, Foreground = Brushes.Gray });
+			VersionInfo.Inlines.Add(new Run($"{text.Get(TextKey.Build)} {appConfig.ProgramBuildVersion}") { FontSize = 10, Foreground = Brushes.Gray });
 			VersionInfo.Inlines.Add(new LineBreak());
 			VersionInfo.Inlines.Add(new LineBreak());
-			VersionInfo.Inlines.Add(new Run(appConfig.ProgramCopyright) { FontSize = 10, Foreground = Brushes.Gray });
+			VersionInfo.Inlines.Add(new Run(appConfig.ProgramCopyright) { FontSize = 12, Foreground = Brushes.Gray });
 		}
 	}
 }
