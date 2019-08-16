@@ -18,6 +18,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 		}
 
+		internal static class Audio
+		{
+			internal const string InitialVolumeLevel = "audioVolumeLevel";
+			internal const string MuteAudio = "audioMute";
+			internal const string SetInitialVolumeLevel = "audioSetVolumeLevel";
+		}
+
 		internal static class Browser
 		{
 			internal const string AllowConfigurationDownloads = "downloadAndOpenSebConfig";

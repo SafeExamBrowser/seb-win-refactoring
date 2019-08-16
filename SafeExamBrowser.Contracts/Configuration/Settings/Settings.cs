@@ -33,6 +33,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public bool AllowApplicationLogAccess { get; set; }
 
 		/// <summary>
+		/// All audio-related settings.
+		/// </summary>
+		public AudioSettings Audio { get; set; }
+
+		/// <summary>
 		/// All browser-related settings.
 		/// </summary>
 		public BrowserSettings Browser { get; set; }
@@ -85,6 +90,7 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public Settings()
 		{
 			ActionCenter = new ActionCenterSettings();
+			Audio = new AudioSettings();
 			Browser = new BrowserSettings();
 			Keyboard = new KeyboardSettings();
 			Mouse = new MouseSettings();

@@ -67,10 +67,6 @@ namespace SafeExamBrowser.Client
 		private IProcessMonitor processMonitor;
 		private INativeMethods nativeMethods;
 		private IRuntimeProxy runtimeProxy;
-		private ISystemComponent<ISystemAudioControl> audio;
-		private ISystemComponent<ISystemKeyboardLayoutControl> keyboardLayout;
-		private ISystemComponent<ISystemPowerSupplyControl> powerSupply;
-		private ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
 		private ITerminationActivator terminationActivator;
@@ -94,17 +90,13 @@ namespace SafeExamBrowser.Client
 			InitializeText();
 
 			actionCenter = BuildActionCenter();
-			audio = new Audio(new ModuleLogger(logger, nameof(Audio)), text);
-			keyboardLayout = new KeyboardLayout(new ModuleLogger(logger, nameof(KeyboardLayout)), text);
 			messageBox = BuildMessageBox();
-			powerSupply = new PowerSupply(new ModuleLogger(logger, nameof(PowerSupply)), text);
 			processMonitor = new ProcessMonitor(new ModuleLogger(logger, nameof(ProcessMonitor)), nativeMethods);
 			uiFactory = BuildUserInterfaceFactory();
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(RuntimeProxy)), Interlocutor.Client);
 			taskbar = BuildTaskbar();
 			terminationActivator = new TerminationActivator(new ModuleLogger(logger, nameof(TerminationActivator)));
 			windowMonitor = new WindowMonitor(new ModuleLogger(logger, nameof(WindowMonitor)), nativeMethods);
-			wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, nameof(WirelessNetwork)), text);
 
 			var displayMonitor = new DisplayMonitor(new ModuleLogger(logger, nameof(DisplayMonitor)), nativeMethods, systemInfo);
 			var explorerShell = new ExplorerShell(new ModuleLogger(logger, nameof(ExplorerShell)), nativeMethods);
@@ -263,8 +255,12 @@ namespace SafeExamBrowser.Client
 		{
 			var aboutInfo = new AboutNotificationInfo(text);
 			var aboutController = new AboutNotificationController(configuration.AppConfig, uiFactory);
+			var audio = new Audio(configuration.Settings.Audio, new ModuleLogger(logger, nameof(Audio)), text);
+			var keyboardLayout = new KeyboardLayout(new ModuleLogger(logger, nameof(KeyboardLayout)), text);
 			var logInfo = new LogNotificationInfo(text);
 			var logController = new LogNotificationController(logger, uiFactory);
+			var powerSupply = new PowerSupply(new ModuleLogger(logger, nameof(PowerSupply)), text);
+			var wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, nameof(WirelessNetwork)), text);
 			var activators = new IActionCenterActivator[]
 			{
 				new KeyboardActivator(new ModuleLogger(logger, nameof(KeyboardActivator))),

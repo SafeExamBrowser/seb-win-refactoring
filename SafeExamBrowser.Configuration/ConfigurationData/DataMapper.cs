@@ -17,6 +17,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			foreach (var item in rawData)
 			{
+				MapAudioSettings(item.Key, item.Value, settings);
 				MapBrowserSettings(item.Key, item.Value, settings);
 				MapConfigurationFileSettings(item.Key, item.Value, settings);
 				MapGeneralSettings(item.Key, item.Value, settings);
@@ -28,6 +29,22 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			MapApplicationLogAccess(rawData, settings);
 			MapKioskMode(rawData, settings);
 			MapUserAgentMode(rawData, settings);
+		}
+
+		private void MapAudioSettings(string key, object value, Settings settings)
+		{
+			switch (key)
+			{
+				case Keys.Audio.InitialVolumeLevel:
+					MapInitialVolumeLevel(settings, value);
+					break;
+				case Keys.Audio.MuteAudio:
+					MapMuteAudio(settings, value);
+					break;
+				case Keys.Audio.SetInitialVolumeLevel:
+					MapSetInitialVolumeLevel(settings, value);
+					break;
+			}
 		}
 
 		private void MapBrowserSettings(string key, object value, Settings settings)

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NAudio.CoreAudioApi;
+using SafeExamBrowser.Contracts.Configuration.Settings;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.Logging;
 using SafeExamBrowser.Contracts.SystemComponents;
@@ -21,15 +22,18 @@ namespace SafeExamBrowser.SystemComponents
 	{
 		private readonly object @lock = new object();
 
+		private AudioSettings settings;
 		private MMDevice audioDevice;
 		private string audioDeviceShortName;
 		private List<ISystemAudioControl> controls;
+		private float originalVolume;
 		private ILogger logger;
 		private IText text;
 
-		public Audio(ILogger logger, IText text)
+		public Audio(AudioSettings settings, ILogger logger, IText text)
 		{
 			this.controls = new List<ISystemAudioControl>();
+			this.settings = settings;
 			this.logger = logger;
 			this.text = text;
 		}
@@ -64,9 +68,8 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			if (audioDevice != default(MMDevice))
 			{
-				audioDevice.AudioEndpointVolume.OnVolumeNotification -= AudioEndpointVolume_OnVolumeNotification;
-				audioDevice.Dispose();
-				logger.Info("Stopped monitoring the audio device.");
+				RevertSettings();
+				FinalizeAudioDevice();
 			}
 
 			foreach (var control in controls)
@@ -100,9 +103,43 @@ namespace SafeExamBrowser.SystemComponents
 			logger.Info("Started monitoring the audio device.");
 		}
 
+		private void FinalizeAudioDevice()
+		{
+			audioDevice.AudioEndpointVolume.OnVolumeNotification -= AudioEndpointVolume_OnVolumeNotification;
+			audioDevice.Dispose();
+			logger.Info("Stopped monitoring the audio device.");
+		}
+
 		private void InitializeSettings()
 		{
-			// TODO: Mute on startup & initial volume!
+			if (settings.InitializeVolume)
+			{
+				originalVolume = audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar;
+				logger.Info($"Saved original volume of {Math.Round(originalVolume * 100)}%.");
+				audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar = settings.InitialVolume / 100f;
+				logger.Info($"Set initial volume to {settings.InitialVolume}%.");
+			}
+
+			if (settings.MuteAudio)
+			{
+				audioDevice.AudioEndpointVolume.Mute = true;
+				logger.Info("Muted audio device.");
+			}
+		}
+
+		private void RevertSettings()
+		{
+			if (settings.InitializeVolume)
+			{
+				audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar = originalVolume;
+				logger.Info($"Reverted volume to original value of {Math.Round(originalVolume * 100)}%.");
+			}
+
+			if (settings.MuteAudio)
+			{
+				audioDevice.AudioEndpointVolume.Mute = false;
+				logger.Info("Unmuted audio device.");
+			}
 		}
 
 		private void AudioEndpointVolume_OnVolumeNotification(AudioVolumeNotificationData data)
@@ -111,7 +148,7 @@ namespace SafeExamBrowser.SystemComponents
 			{
 				var info = BuildInfoText(data.MasterVolume, data.Muted);
 
-				logger.Debug($"Detected audio device change: Volume {data.MasterVolume * 100}, {(data.Muted ? "muted" : "unmuted")}");
+				logger.Debug($"Volume {data.MasterVolume * 100}%, {(data.Muted ? "muted" : "unmuted")}");
 
 				foreach (var control in controls)
 				{

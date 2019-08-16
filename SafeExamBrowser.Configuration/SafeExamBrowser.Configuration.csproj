@@ -66,6 +66,9 @@
     <Compile Include="DataFormats\BinarySerializer.cs" />
     <Compile Include="DataFormats\BinaryBlock.cs" />
     <Compile Include="ConfigurationData\DataMapper.cs" />
+    <Compile Include="ConfigurationData\DataMapper.Audio.cs">
+      <DependentUpon>DataMapper.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConfigurationData\DataMapper.Browser.cs">
       <DependentUpon>DataMapper.cs</DependentUpon>
     </Compile>
