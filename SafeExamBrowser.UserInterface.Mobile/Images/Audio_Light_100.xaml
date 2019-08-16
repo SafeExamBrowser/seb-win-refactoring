@@ -1,0 +1,13 @@
+﻿<Viewbox
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:fa="http://schemas.fontawesome.io/icons/"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <fa:ImageAwesome Icon="VolumeOff" HorizontalAlignment="Left" />
+        <Canvas Width="100" Height="100">
+            <Path StrokeThickness="5.0" Stroke="Black" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data="M 55,35 C 65,45 65,55 55,65"/>
+            <Path StrokeThickness="5.0" Stroke="Black" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data="M 65,25 C 80,35 80,65 65,75"/>
+            <Path StrokeThickness="5.0" Stroke="Black" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Data="M 75,15 C 95,30 95,70 75,85"/>
+        </Canvas>
+    </Grid>
+</Viewbox>
