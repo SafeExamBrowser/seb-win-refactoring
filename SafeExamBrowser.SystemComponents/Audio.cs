@@ -148,7 +148,7 @@ namespace SafeExamBrowser.SystemComponents
 			{
 				var info = BuildInfoText(data.MasterVolume, data.Muted);
 
-				logger.Debug($"Volume {data.MasterVolume * 100}%, {(data.Muted ? "muted" : "unmuted")}");
+				logger.Debug($"Volume is set to {data.MasterVolume * 100}%, audio device is {(data.Muted ? "muted" : "not muted")}.");
 
 				foreach (var control in controls)
 				{
