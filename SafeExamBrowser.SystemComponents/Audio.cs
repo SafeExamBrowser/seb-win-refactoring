@@ -175,11 +175,11 @@ namespace SafeExamBrowser.SystemComponents
 			{
 				try
 				{
-					var info = BuildInfoText(audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar, audioDevice.AudioEndpointVolume.Mute);
-
-					foreach (var control in controls)
+					if (audioDevice != default(MMDevice))
 					{
-						if (audioDevice != default(MMDevice))
+						var info = BuildInfoText(audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar, audioDevice.AudioEndpointVolume.Mute);
+
+						foreach (var control in controls)
 						{
 							control.HasOutputDevice = true;
 							control.OutputDeviceMuted = audioDevice.AudioEndpointVolume.Mute;
@@ -187,7 +187,10 @@ namespace SafeExamBrowser.SystemComponents
 							control.OutputDeviceVolume = audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar;
 							control.SetInformation(info);
 						}
-						else
+					}
+					else
+					{
+						foreach (var control in controls)
 						{
 							control.HasOutputDevice = false;
 							control.SetInformation(text.Get(TextKey.SystemControl_AudioDeviceNotFound));

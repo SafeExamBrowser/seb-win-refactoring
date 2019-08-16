@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Threading;
 using SafeExamBrowser.Contracts.I18n;
 using SafeExamBrowser.Contracts.UserInterface.Shell;
 using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
@@ -19,7 +20,7 @@ using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
-	public partial class TaskbarAudioControl : UserControl, ISystemAudioControl
+	public partial class ActionCenterAudioControl : UserControl, ISystemAudioControl
 	{
 		private readonly IText text;
 		private bool muted;
@@ -29,7 +30,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 		public event AudioMuteRequestedEventHandler MuteRequested;
 		public event AudioVolumeSelectedEventHandler VolumeSelected;
 
-		public TaskbarAudioControl(IText text)
+		public ActionCenterAudioControl(IText text)
 		{
 			this.text = text;
 
@@ -110,32 +111,26 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 		public void SetInformation(string text)
 		{
-			Dispatcher.InvokeAsync(() => Button.ToolTip = text);
+			Dispatcher.InvokeAsync(() =>
+			{
+				Button.ToolTip = text;
+				Text.Text = text;
+			});
 		}
 
 		private void InitializeAudioControl()
 		{
-			var originalBrush = Button.Background;
+			var originalBrush = Grid.Background;
 
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
 			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
 			MuteButton.Click += (o, args) => MuteRequested?.Invoke(!muted);
 			MutedIcon = new XamlIconResource(new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Audio_Muted.xaml"));
-			NoDeviceIcon = new XamlIconResource(new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Audio_NoDevice.xaml"));
+			NoDeviceIcon = new XamlIconResource(new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Audio_Light_NoDevice.xaml"));
 			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
+			Popup.Opened += (o, args) => Grid.Background = Brushes.Gray;
+			Popup.Closed += (o, args) => Grid.Background = originalBrush;
 			Volume.ValueChanged += Volume_ValueChanged;
-
-			Popup.Opened += (o, args) =>
-			{
-				Background = Brushes.LightGray;
-				Button.Background = Brushes.LightGray;
-			};
-
-			Popup.Closed += (o, args) =>
-			{
-				Background = originalBrush;
-				Button.Background = originalBrush;
-			};
 		}
 
 		private void Volume_DragStarted(object sender, DragStartedEventArgs e)
@@ -157,7 +152,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 		private UIElement LoadIcon(double volume)
 		{
 			var icon = volume > 0.66 ? "100" : (volume > 0.33 ? "66" : "33");
-			var uri = new Uri($"pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Audio_{icon}.xaml");
+			var uri = new Uri($"pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Audio_Light_{icon}.xaml");
 			var resource = new XamlIconResource(uri);
 
 			return IconResourceLoader.Load(resource);

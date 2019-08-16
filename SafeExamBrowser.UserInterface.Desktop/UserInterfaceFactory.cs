@@ -54,12 +54,11 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		public ISystemAudioControl CreateAudioControl(Location location)
 		{
-			// TODO
-			//if (location == Location.ActionCenter)
-			//{
-			//	return new ActionCenterAudioControl();
-			//}
-			//else
+			if (location == Location.ActionCenter)
+			{
+				return new ActionCenterAudioControl(text);
+			}
+			else
 			{
 				return new TaskbarAudioControl(text);
 			}

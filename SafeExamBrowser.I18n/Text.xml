@@ -289,7 +289,7 @@
         Click to mute audio
     </Entry>
     <Entry key="SystemControl_AudioDeviceNotFound">
-        No audio device found
+        No active audio device found
     </Entry>
     <Entry key="SystemControl_AudioDeviceUnmuteTooltip">
         Click to unmute audio

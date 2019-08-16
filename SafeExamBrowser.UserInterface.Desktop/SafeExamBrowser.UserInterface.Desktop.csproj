@@ -80,6 +80,9 @@
     <Compile Include="Controls\ActionCenterApplicationButton.xaml.cs">
       <DependentUpon>ActionCenterApplicationButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ActionCenterAudioControl.xaml.cs">
+      <DependentUpon>ActionCenterAudioControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ActionCenterClock.xaml.cs">
       <DependentUpon>ActionCenterClock.xaml</DependentUpon>
     </Compile>
@@ -175,6 +178,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\ActionCenterAudioControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ActionCenterClock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -263,7 +270,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-    <Resource Include="Images\AudioNoDevice.xaml">
+    <Resource Include="Images\Audio_NoDevice.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
@@ -279,7 +286,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-    <Resource Include="Images\AudioMuted.xaml">
+    <Resource Include="Images\Audio_Muted.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\Audio_Light_66.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\Audio_Light_33.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\Audio_Light_100.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\Audio_Light_NoDevice.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
