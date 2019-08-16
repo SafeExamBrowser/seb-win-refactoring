@@ -28,7 +28,7 @@ test_script:
 after_test:
  - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
  - pip install codecov
- - codecov -f "coverage.xml" -X gcov
+ - codecov -f "coverage.xml"
 artifacts:
  - path: SafeExamBrowser.Runtime\bin\$(platform)\$(configuration)
    name: 'SEB_$(appveyor_build_version)_Application'
