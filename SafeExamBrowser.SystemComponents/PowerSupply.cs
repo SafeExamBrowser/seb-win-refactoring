@@ -20,7 +20,7 @@ namespace SafeExamBrowser.SystemComponents
 {
 	public class PowerSupply : ISystemComponent<ISystemPowerSupplyControl>
 	{
-		private const int TWO_SECONDS = 2000;
+		private readonly object @lock = new object();
 
 		private bool infoShown, warningShown;
 		private ILogger logger;
@@ -37,6 +37,8 @@ namespace SafeExamBrowser.SystemComponents
 
 		public void Initialize()
 		{
+			const int TWO_SECONDS = 2000;
+
 			timer = new Timer(TWO_SECONDS);
 			timer.Elapsed += Timer_Elapsed;
 			timer.AutoReset = true;
@@ -47,7 +49,11 @@ namespace SafeExamBrowser.SystemComponents
 
 		public void Register(ISystemPowerSupplyControl control)
 		{
-			controls.Add(control);
+			lock (@lock)
+			{
+				controls.Add(control);
+			}
+
 			UpdateControls();
 		}
 
@@ -72,37 +78,40 @@ namespace SafeExamBrowser.SystemComponents
 
 		private void UpdateControls()
 		{
-			var charge = SystemInformation.PowerStatus.BatteryLifePercent;
-			var percentage = Math.Round(charge * 100);
-			var status = charge <= 0.4 ? (charge <= 0.2 ? BatteryChargeStatus.Critical : BatteryChargeStatus.Low) : BatteryChargeStatus.Okay;
-			var online = SystemInformation.PowerStatus.PowerLineStatus == PowerLineStatus.Online;
-			var tooltip = string.Empty;
-
-			if (online)
+			lock (@lock)
 			{
-				tooltip = text.Get(percentage == 100 ? TextKey.SystemControl_BatteryCharged : TextKey.SystemControl_BatteryCharging);
-				infoShown = false;
-				warningShown = false;
-			}
-			else
-			{
-				var hours = SystemInformation.PowerStatus.BatteryLifeRemaining / 3600;
-				var minutes = (SystemInformation.PowerStatus.BatteryLifeRemaining - (hours * 3600)) / 60;
+				var charge = SystemInformation.PowerStatus.BatteryLifePercent;
+				var percentage = Math.Round(charge * 100);
+				var status = charge <= 0.4 ? (charge <= 0.2 ? BatteryChargeStatus.Critical : BatteryChargeStatus.Low) : BatteryChargeStatus.Okay;
+				var online = SystemInformation.PowerStatus.PowerLineStatus == PowerLineStatus.Online;
+				var tooltip = string.Empty;
 
-				HandleBatteryStatus(status);
+				if (online)
+				{
+					tooltip = text.Get(percentage == 100 ? TextKey.SystemControl_BatteryCharged : TextKey.SystemControl_BatteryCharging);
+					infoShown = false;
+					warningShown = false;
+				}
+				else
+				{
+					var hours = SystemInformation.PowerStatus.BatteryLifeRemaining / 3600;
+					var minutes = (SystemInformation.PowerStatus.BatteryLifeRemaining - (hours * 3600)) / 60;
 
-				tooltip = text.Get(TextKey.SystemControl_BatteryRemainingCharge);
-				tooltip = tooltip.Replace("%%HOURS%%", hours.ToString());
-				tooltip = tooltip.Replace("%%MINUTES%%", minutes.ToString());
-			}
+					HandleBatteryStatus(status);
 
-			tooltip = tooltip.Replace("%%CHARGE%%", percentage.ToString());
+					tooltip = text.Get(TextKey.SystemControl_BatteryRemainingCharge);
+					tooltip = tooltip.Replace("%%HOURS%%", hours.ToString());
+					tooltip = tooltip.Replace("%%MINUTES%%", minutes.ToString());
+				}
 
-			foreach (var control in controls)
-			{
-				control.SetBatteryCharge(charge, status);
-				control.SetPowerGridConnection(online);
-				control.SetInformation(tooltip);
+				tooltip = tooltip.Replace("%%CHARGE%%", percentage.ToString());
+
+				foreach (var control in controls)
+				{
+					control.SetBatteryCharge(charge, status);
+					control.SetPowerGridConnection(online);
+					control.SetInformation(tooltip);
+				}
 			}
 		}
 

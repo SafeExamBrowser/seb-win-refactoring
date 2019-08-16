@@ -22,7 +22,6 @@ namespace SafeExamBrowser.SystemComponents
 {
 	public class WirelessNetwork : ISystemComponent<ISystemWirelessNetworkControl>
 	{
-		private const int FIVE_SECONDS = 5000;
 		private readonly object @lock = new object();
 
 		private List<ISystemWirelessNetworkControl> controls;
@@ -73,7 +72,10 @@ namespace SafeExamBrowser.SystemComponents
 				control.SetInformation(text.Get(TextKey.SystemControl_WirelessNotAvailable));
 			}
 
-			controls.Add(control);
+			lock (@lock)
+			{
+				controls.Add(control);
+			}
 
 			if (hasWifiAdapter)
 			{
@@ -131,9 +133,12 @@ namespace SafeExamBrowser.SystemComponents
 				logger.Error($"Failed to connect to wireless network '{name}!'");
 			}
 
-			foreach (var control in controls)
+			lock (@lock)
 			{
-				control.IsConnecting = false;
+				foreach (var control in controls)
+				{
+					control.IsConnecting = false;
+				}
 			}
 
 			UpdateAvailableNetworks();
@@ -227,6 +232,8 @@ namespace SafeExamBrowser.SystemComponents
 
 		private void StartTimer()
 		{
+			const int FIVE_SECONDS = 5000;
+
 			timer = new Timer(FIVE_SECONDS);
 			timer.Elapsed += Timer_Elapsed;
 			timer.AutoReset = true;
