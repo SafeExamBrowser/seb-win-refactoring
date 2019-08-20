@@ -10,6 +10,7 @@ assembly_info:
   assembly_informational_version: '3.0.0 Base'
 install:
  - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+ - set PATH=%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin;%PATH%
 before_build:
  - nuget restore
 build_script:
