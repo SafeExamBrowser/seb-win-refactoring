@@ -1,5 +1,5 @@
 version: '{build}'
-image: Windows
+image: Visual Studio 2017
 platform: x86
 configuration: Debug
 before_build:
