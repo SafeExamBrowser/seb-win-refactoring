@@ -1,4 +1,4 @@
-version: {build}
+version: '{build}'
 image: Visual Studio 2017
 platform: x86
 configuration: Debug
