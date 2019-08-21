@@ -19,16 +19,3 @@ after_build:
  - appveyor PushArtifact "Setup\bin\%CONFIGURATION%\Setup.msi" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_Setup.msi" -DeploymentName "SEB_%APPVEYOR_BUILD_VERSION%_Setup"
  - appveyor PushArtifact "SetupBundle\bin\%CONFIGURATION%\SetupBundle.exe" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_SetupBundle.exe" -DeploymentName "SEB_%APPVEYOR_BUILD_VERSION%_SetupBundle"
 test: off
-artifacts:
- - path: SafeExamBrowser.Runtime\bin\$(platform)\$(configuration)
-   name: 'SEB_$(appveyor_build_version)_Application'
-   type: zip
- - path: SebWindowsConfig\bin\$(platform)\$(configuration)
-   name: 'SEB_$(appveyor_build_version)_Configuration'
-   type: zip
- - path: SafeExamBrowser.ResetUtility\bin\$(platform)\$(configuration)
-   name: 'SEB_$(appveyor_build_version)_Reset'
-   type: zip
- - path: SafeExamBrowser.Service\bin\$(platform)\$(configuration)
-   name: 'SEB_$(appveyor_build_version)_Service'
-   type: zip
