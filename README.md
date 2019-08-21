@@ -1,12 +1,14 @@
-# Safe Exam Browser, Version 3.x
+# Safe Exam Browser, Version 3
 Refactored version of Safe Exam Browser for Windows with Chromium as integrated browser engine.
 
-**Requirements**\
+### Requirements
+
 SEB 3.x requires these prerequisites in order to work correctly:
 * .NET Framework 4.7.2 Runtime: https://dotnet.microsoft.com/download/dotnet-framework/net472
 * Visual C++ Runtime Redistributable (x86, 2015): https://www.microsoft.com/en-us/download/details.aspx?id=53840
 
-**Project Status**\
+### Project Status
+
 | Aspect        | Status                                                                                                    | Details                                                                  |
 | ------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
 | Release Build | ![Release Build status](https://sebdev-let.ethz.ch/api/projects/status/f3mfkagmsauv5ml9?svg=true)         | n/a                                                                      |
