@@ -102,16 +102,28 @@
     <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
   </Target>
   <PropertyGroup>
-    <PreBuildEvent>"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ApplicationComponents -dr ApplicationDirectory -sfrag -var var.SafeExamBrowser.Runtime.TargetDir -out $(ProjectDir)Components\Application.wxs -t $(ProjectDir)Components\Application.xslt
-"$(WIX)bin\heat.exe" dir "$(SolutionDir)SebWindowsConfig\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ConfigurationComponents -dr ConfigurationDirectory -sfrag -var var.SebWindowsConfig.TargetDir -out $(ProjectDir)Components\Configuration.wxs -t $(ProjectDir)Components\Configuration.xslt
-"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.ResetUtility\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ResetComponents -dr ResetDirectory -sfrag -var var.SafeExamBrowser.ResetUtility.TargetDir -out $(ProjectDir)Components\Reset.wxs -t $(ProjectDir)Components\Reset.xslt
-"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.Service\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ServiceComponents -dr ServiceDirectory -sfrag -var var.SafeExamBrowser.Service.TargetDir -out $(ProjectDir)Components\Service.wxs -t $(ProjectDir)Components\Service.xslt</PreBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>git -C $(SolutionDir) checkout -- Setup/Components/Application.wxs
+    <PostBuildEvent>signtool sign /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 $(TargetPath)
+
+git -C $(SolutionDir) checkout -- Setup/Components/Application.wxs
 git -C $(SolutionDir) checkout -- Setup/Components/Configuration.wxs
 git -C $(SolutionDir) checkout -- Setup/Components/Reset.wxs
 git -C $(SolutionDir) checkout -- Setup/Components/Service.wxs</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>setlocal enabledelayedexpansion
+set binaries=
+
+FOR /F %25%25G IN (%27dir "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
+FOR /F %25%25G IN (%27dir "$(SolutionDir)SebWindowsConfig\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SebWindowsConfig\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
+FOR /F %25%25G IN (%27dir "$(SolutionDir)SafeExamBrowser.ResetUtility\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SafeExamBrowser.ResetUtility\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
+FOR /F %25%25G IN (%27dir "$(SolutionDir)SafeExamBrowser.Service\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SafeExamBrowser.Service\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
+
+signtool sign /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
+
+"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ApplicationComponents -dr ApplicationDirectory -sfrag -var var.SafeExamBrowser.Runtime.TargetDir -out $(ProjectDir)Components\Application.wxs -t $(ProjectDir)Components\Application.xslt
+"$(WIX)bin\heat.exe" dir "$(SolutionDir)SebWindowsConfig\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ConfigurationComponents -dr ConfigurationDirectory -sfrag -var var.SebWindowsConfig.TargetDir -out $(ProjectDir)Components\Configuration.wxs -t $(ProjectDir)Components\Configuration.xslt
+"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.ResetUtility\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ResetComponents -dr ResetDirectory -sfrag -var var.SafeExamBrowser.ResetUtility.TargetDir -out $(ProjectDir)Components\Reset.wxs -t $(ProjectDir)Components\Reset.xslt
+"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.Service\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ServiceComponents -dr ServiceDirectory -sfrag -var var.SafeExamBrowser.Service.TargetDir -out $(ProjectDir)Components\Service.wxs -t $(ProjectDir)Components\Service.xslt</PreBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
