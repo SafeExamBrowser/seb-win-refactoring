@@ -10,9 +10,6 @@ using CefSharp;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
-	/// <remarks>
-	/// See https://cefsharp.github.io/api/73.1.x/html/T_CefSharp_IContextMenuHandler.htm.
-	/// </remarks>
 	internal class ContextMenuHandler : IContextMenuHandler
 	{
 		public void OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)

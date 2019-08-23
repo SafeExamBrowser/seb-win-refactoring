@@ -11,9 +11,6 @@ using SafeExamBrowser.Browser.Events;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
-	/// <remarks>
-	/// See https://cefsharp.github.io/api/73.1.x/html/T_CefSharp_ILifeSpanHandler.htm.
-	/// </remarks>
 	internal class LifeSpanHandler : ILifeSpanHandler
 	{
 		public event PopupRequestedEventHandler PopupRequested;

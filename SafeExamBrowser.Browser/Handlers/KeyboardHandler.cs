@@ -12,9 +12,6 @@ using SafeExamBrowser.Contracts.UserInterface;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
-	/// <remarks>
-	/// See https://cefsharp.github.io/api/73.1.x/html/T_CefSharp_IKeyboardHandler.htm.
-	/// </remarks>
 	internal class KeyboardHandler : IKeyboardHandler
 	{
 		public event ActionRequestedEventHandler ReloadRequested;

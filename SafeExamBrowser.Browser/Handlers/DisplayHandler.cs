@@ -15,9 +15,6 @@ using SafeExamBrowser.Contracts.Browser;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
-	/// <remarks>
-	/// See https://cefsharp.github.io/api/73.1.x/html/T_CefSharp_IDisplayHandler.htm.
-	/// </remarks>
 	internal class DisplayHandler : IDisplayHandler
 	{
 		public event FaviconChangedEventHandler FaviconChanged;

@@ -18,9 +18,6 @@ using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.Browser
 
 namespace SafeExamBrowser.Browser.Handlers
 {
-	/// <remarks>
-	/// See https://cefsharp.github.io/api/73.1.x/html/T_CefSharp_IDownloadHandler.htm.
-	/// </remarks>
 	internal class DownloadHandler : IDownloadHandler
 	{
 		private AppConfig appConfig;
