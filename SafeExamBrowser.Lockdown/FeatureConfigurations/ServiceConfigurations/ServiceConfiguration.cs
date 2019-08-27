@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 	[Serializable]
 	internal abstract class ServiceConfiguration : FeatureConfiguration
 	{
-		private static readonly TimeSpan FIVE_SECONDS = TimeSpan.FromSeconds(5);
+		private static readonly TimeSpan TEN_SECONDS = TimeSpan.FromSeconds(10);
 		private IList<ServiceDataItem> originalItems;
 
 		protected abstract IEnumerable<ServiceConfigurationItem> Items { get; }
@@ -201,7 +201,7 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 
 			if (service.Status == ServiceControllerStatus.PausePending)
 			{
-				service.WaitForStatus(ServiceControllerStatus.Paused, FIVE_SECONDS);
+				service.WaitForStatus(ServiceControllerStatus.Paused, TEN_SECONDS);
 				service.Refresh();
 			}
 
@@ -219,7 +219,7 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 
 			if (service.Status == ServiceControllerStatus.StartPending || service.Status == ServiceControllerStatus.ContinuePending)
 			{
-				service.WaitForStatus(ServiceControllerStatus.Running, FIVE_SECONDS);
+				service.WaitForStatus(ServiceControllerStatus.Running, TEN_SECONDS);
 				service.Refresh();
 			}
 
@@ -243,7 +243,7 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 
 			if (service.Status == ServiceControllerStatus.StartPending || service.Status == ServiceControllerStatus.ContinuePending)
 			{
-				service.WaitForStatus(ServiceControllerStatus.Running, FIVE_SECONDS);
+				service.WaitForStatus(ServiceControllerStatus.Running, TEN_SECONDS);
 				service.Refresh();
 			}
 
@@ -255,7 +255,7 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 
 			if (service.Status == ServiceControllerStatus.StopPending)
 			{
-				service.WaitForStatus(ServiceControllerStatus.Stopped, FIVE_SECONDS);
+				service.WaitForStatus(ServiceControllerStatus.Stopped, TEN_SECONDS);
 				service.Refresh();
 			}
 
