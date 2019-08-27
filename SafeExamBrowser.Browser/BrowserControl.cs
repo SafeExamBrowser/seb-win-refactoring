@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using CefSharp;
 using CefSharp.WinForms;
 using SafeExamBrowser.Contracts.UserInterface.Browser;
@@ -107,17 +106,6 @@ namespace SafeExamBrowser.Browser
 		public void Zoom(double level)
 		{
 			GetBrowser().SetZoomLevel(level);
-		}
-
-		protected override IWindowInfo CreateBrowserWindowInfo(IntPtr handle)
-		{
-			const uint WS_EX_NOACTIVATE = 0x8000000;
-			var windowInfo = base.CreateBrowserWindowInfo(handle);
-
-			// Ensures that input elements within the browser control actually receive input when activated via touch.
-			windowInfo.ExStyle &= ~WS_EX_NOACTIVATE;
-
-			return windowInfo;
 		}
 	}
 }
