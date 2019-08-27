@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using CefSharp;
 using CefSharp.WinForms;
 using SafeExamBrowser.Contracts.UserInterface.Browser;
@@ -16,8 +15,6 @@ namespace SafeExamBrowser.Browser
 {
 	internal class BrowserControl : ChromiumWebBrowser, IBrowserControl
 	{
-		private const uint WS_EX_NOACTIVATE = 0x08000000;
-
 		private IContextMenuHandler contextMenuHandler;
 		private IDisplayHandler displayHandler;
 		private IDownloadHandler downloadHandler;
@@ -109,19 +106,6 @@ namespace SafeExamBrowser.Browser
 		public void Zoom(double level)
 		{
 			GetBrowser().SetZoomLevel(level);
-		}
-
-		/// <summary>
-		/// TODO: This is a workaround due to the broken initial touch activation in version 73.1.130, it must be removed once fixed in CefSharp.
-		///       See https://github.com/cefsharp/CefSharp/issues/2776 for more information.
-		/// </summary>
-		protected override IWindowInfo CreateBrowserWindowInfo(IntPtr handle)
-		{
-			var windowInfo = base.CreateBrowserWindowInfo(handle);
-
-			windowInfo.ExStyle &= ~WS_EX_NOACTIVATE;
-
-			return windowInfo;
 		}
 	}
 }
