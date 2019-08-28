@@ -18,7 +18,9 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 	[Serializable]
 	internal abstract class ServiceConfiguration : FeatureConfiguration
 	{
-		private static readonly TimeSpan TEN_SECONDS = TimeSpan.FromSeconds(10);
+		private static readonly TimeSpan FIVE_SECONDS = TimeSpan.FromSeconds(5);
+		private const int MAX_ATTEMPTS = 5;
+
 		private IList<ServiceDataItem> originalItems;
 
 		protected abstract IEnumerable<ServiceConfigurationItem> Items { get; }
@@ -34,7 +36,7 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 
 			foreach (var item in Items)
 			{
-				success &= TrySet(new ServiceDataItem { Name = item.Name, Status = item.Disabled });
+				success &= TrySetWithRetry(new ServiceDataItem { Name = item.Name, Status = item.Disabled });
 			}
 
 			if (success)
@@ -55,7 +57,7 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 
 			foreach (var item in Items)
 			{
-				success &= TrySet(new ServiceDataItem { Name = item.Name, Status = item.Enabled });
+				success &= TrySetWithRetry(new ServiceDataItem { Name = item.Name, Status = item.Enabled });
 			}
 
 			if (success)
@@ -114,7 +116,7 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 		{
 			foreach (var item in new List<ServiceDataItem>(originalItems))
 			{
-				if (TrySet(item))
+				if (TrySetWithRetry(item))
 				{
 					originalItems.Remove(item);
 				}
@@ -153,38 +155,56 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 			return item;
 		}
 
+		private bool TrySetWithRetry(ServiceDataItem item)
+		{
+			var success = false;
+
+			if (IsAvailable(item))
+			{
+				for (var attempt = 1; attempt <= MAX_ATTEMPTS && !success; attempt++)
+				{
+					logger.Debug($"Attempt {attempt}/{MAX_ATTEMPTS} to set service {item}...");
+					success = TrySet(item);
+				}
+
+				if (!success)
+				{
+					logger.Error($"All attempts to set service {item} have failed!");
+				}
+			}
+			else
+			{
+				logger.Warn($"Cannot set service {item} as it does not exist!");
+			}
+
+			return success;
+		}
+
 		private bool TrySet(ServiceDataItem item)
 		{
 			var success = false;
 
 			try
 			{
-				if (IsAvailable(item))
+				using (var service = new ServiceController(item.Name))
 				{
-					using (var service = new ServiceController(item.Name))
+					if (item.Status == ServiceStatus.Running)
 					{
-						if (item.Status == ServiceStatus.Running)
-						{
-							success = TryStart(service);
-						}
-						else if (item.Status == ServiceStatus.Stopped)
-						{
-							success = TryStop(service);
-						}
-
-						if (success)
-						{
-							logger.Debug($"Successfully set service {item}.");
-						}
-						else
-						{
-							logger.Warn($"Could not set service {item}! Current status: {service.Status}.");
-						}
+						success = TryStart(service);
 					}
-				}
-				else
-				{
-					logger.Warn($"Cannot set service {item} as it does not exist!");
+					else if (item.Status == ServiceStatus.Stopped)
+					{
+						success = TryStop(service);
+					}
+
+					if (success)
+					{
+						logger.Debug($"Successfully set service {item}.");
+					}
+					else
+					{
+						logger.Warn($"Could not set service {item}! Current status: {service.Status}.");
+					}
 				}
 			}
 			catch (Exception e)
@@ -197,11 +217,11 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 
 		private bool TryStart(ServiceController service)
 		{
-			var success = true;
+			var success = false;
 
 			if (service.Status == ServiceControllerStatus.PausePending)
 			{
-				service.WaitForStatus(ServiceControllerStatus.Paused, TEN_SECONDS);
+				service.WaitForStatus(ServiceControllerStatus.Paused, FIVE_SECONDS);
 				service.Refresh();
 			}
 
@@ -219,7 +239,7 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 
 			if (service.Status == ServiceControllerStatus.StartPending || service.Status == ServiceControllerStatus.ContinuePending)
 			{
-				service.WaitForStatus(ServiceControllerStatus.Running, TEN_SECONDS);
+				service.WaitForStatus(ServiceControllerStatus.Running, FIVE_SECONDS);
 				service.Refresh();
 			}
 
@@ -243,7 +263,7 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 
 			if (service.Status == ServiceControllerStatus.StartPending || service.Status == ServiceControllerStatus.ContinuePending)
 			{
-				service.WaitForStatus(ServiceControllerStatus.Running, TEN_SECONDS);
+				service.WaitForStatus(ServiceControllerStatus.Running, FIVE_SECONDS);
 				service.Refresh();
 			}
 
@@ -255,7 +275,7 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 
 			if (service.Status == ServiceControllerStatus.StopPending)
 			{
-				service.WaitForStatus(ServiceControllerStatus.Stopped, TEN_SECONDS);
+				service.WaitForStatus(ServiceControllerStatus.Stopped, FIVE_SECONDS);
 				service.Refresh();
 			}
 
@@ -269,7 +289,18 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations
 
 		private bool IsAvailable(ServiceDataItem item)
 		{
-			return ServiceController.GetServices().Any(s => s.ServiceName == item.Name);
+			var available = false;
+
+			try
+			{
+				available = ServiceController.GetServices().Any(s => s.ServiceName == item.Name);
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to check whether service '{item.Name}' is available!", e);
+			}
+
+			return available;
 		}
 
 		private ServiceStatus ToStatus(ServiceControllerStatus status)
