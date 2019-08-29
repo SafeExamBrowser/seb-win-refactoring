@@ -113,6 +113,17 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				internal const string CertificateType = "type";
 				internal const string EmbeddedCertificates = "embeddedCertificates";
 			}
+
+			internal static class Filter
+			{
+				internal const string EnableContentRequestFilter = "URLFilterEnableContentFilter";
+				internal const string EnableMainRequestFilter = "URLFilterEnable";
+				internal const string RuleAction = "action";
+				internal const string RuleIsActive = "active";
+				internal const string RuleExpression = "expression";
+				internal const string RuleExpressionIsRegex = "regex";
+				internal const string UrlFilterRules = "URLFilterRules";
+			}
 		}
 
 		internal static class Registry

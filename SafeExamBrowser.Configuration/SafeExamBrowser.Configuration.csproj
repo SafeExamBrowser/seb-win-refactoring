@@ -81,6 +81,9 @@
     <Compile Include="ConfigurationData\DataMapper.Input.cs">
       <DependentUpon>DataMapper.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConfigurationData\DataMapper.Network.cs">
+      <DependentUpon>DataMapper.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConfigurationData\DataMapper.UserInterface.cs">
       <DependentUpon>DataMapper.cs</DependentUpon>
     </Compile>

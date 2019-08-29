@@ -22,6 +22,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				MapConfigurationFileSettings(item.Key, item.Value, settings);
 				MapGeneralSettings(item.Key, item.Value, settings);
 				MapInputSettings(item.Key, item.Value, settings);
+				MapNetworkSettings(item.Key, item.Value, settings);
 				MapSecuritySettings(item.Key, item.Value, settings);
 				MapUserInterfaceSettings(item.Key, item.Value, settings);
 			}
@@ -188,6 +189,22 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 					break;
 				case Keys.Input.Mouse.EnableRightMouse:
 					MapEnableRightMouse(settings, value);
+					break;
+			}
+		}
+
+		private void MapNetworkSettings(string key, object value, Settings settings)
+		{
+			switch (key)
+			{
+				case Keys.Network.Filter.EnableContentRequestFilter:
+					MapEnableContentRequestFilter(settings, value);
+					break;
+				case Keys.Network.Filter.EnableMainRequestFilter:
+					MapEnableMainRequestFilter(settings, value);
+					break;
+				case Keys.Network.Filter.UrlFilterRules:
+					MapUrlFilterRules(settings, value);
 					break;
 			}
 		}

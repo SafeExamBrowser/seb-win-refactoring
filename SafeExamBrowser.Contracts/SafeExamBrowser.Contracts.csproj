@@ -86,6 +86,8 @@
     <Compile Include="Configuration\Settings\ActionCenterSettings.cs" />
     <Compile Include="Configuration\Settings\AudioSettings.cs" />
     <Compile Include="Configuration\Settings\BrowserWindowSettings.cs" />
+    <Compile Include="Network\Filter\FilterRule.cs" />
+    <Compile Include="Configuration\Settings\NetworkSettings.cs" />
     <Compile Include="Configuration\Settings\ServiceSettings.cs" />
     <Compile Include="Configuration\Settings\UserInterfaceMode.cs" />
     <Compile Include="Applications\Events\IconChangedEventHandler.cs" />
@@ -100,6 +102,10 @@
     <Compile Include="Lockdown\IFeatureConfigurationFactory.cs" />
     <Compile Include="Lockdown\IFeatureConfigurationMonitor.cs" />
     <Compile Include="Lockdown\ISystemConfigurationUpdate.cs" />
+    <Compile Include="Network\Filter\FilterType.cs" />
+    <Compile Include="Network\Filter\IRequestFilter.cs" />
+    <Compile Include="Network\Filter\FilterResult.cs" />
+    <Compile Include="Network\Request.cs" />
     <Compile Include="Runtime\IRuntimeController.cs" />
     <Compile Include="Core\OperationModel\Events\ActionRequiredEventArgs.cs" />
     <Compile Include="Core\OperationModel\Events\ActionRequiredEventHandler.cs" />

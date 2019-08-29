@@ -68,6 +68,11 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 		public MouseSettings Mouse { get; set; }
 
 		/// <summary>
+		/// All network-related settings.
+		/// </summary>
+		public NetworkSettings Network { get; set; }
+
+		/// <summary>
 		/// The hash code of the quit password.
 		/// </summary>
 		public string QuitPasswordHash { get; set; }
@@ -94,6 +99,7 @@ namespace SafeExamBrowser.Contracts.Configuration.Settings
 			Browser = new BrowserSettings();
 			Keyboard = new KeyboardSettings();
 			Mouse = new MouseSettings();
+			Network = new NetworkSettings();
 			Service = new ServiceSettings();
 			Taskbar = new TaskbarSettings();
 		}
