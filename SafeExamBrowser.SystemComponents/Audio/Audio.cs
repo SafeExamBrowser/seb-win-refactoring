@@ -12,24 +12,33 @@ using NAudio.CoreAudioApi;
 using SafeExamBrowser.Configuration.Contracts.Settings;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.Audio;
+using SafeExamBrowser.SystemComponents.Contracts.Audio.Events;
 
-namespace SafeExamBrowser.SystemComponents
+namespace SafeExamBrowser.SystemComponents.Audio
 {
-	public class Audio// TODO : ISystemComponent<ISystemAudioControl>
+	public class Audio : IAudio
 	{
 		private readonly object @lock = new object();
 
 		private AudioSettings settings;
 		private MMDevice audioDevice;
+		private string audioDeviceFullName;
 		private string audioDeviceShortName;
-		// TODOprivate List<ISystemAudioControl> controls;
 		private float originalVolume;
 		private ILogger logger;
 		private IText text;
 
+		public string DeviceFullName => audioDeviceFullName ?? string.Empty;
+		public string DeviceShortName => audioDeviceShortName ?? string.Empty;
+		public bool HasOutputDevice => audioDevice != default(MMDevice);
+		public bool OutputMuted => audioDevice?.AudioEndpointVolume.Mute == true;
+		public double OutputVolume => audioDevice?.AudioEndpointVolume.MasterVolumeLevelScalar ?? 0;
+
+		public event AudioVolumeChangedEventHandler VolumeChanged;
+
 		public Audio(AudioSettings settings, ILogger logger, IText text)
 		{
-			// TODOthis.controls = new List<ISystemAudioControl>();
 			this.settings = settings;
 			this.logger = logger;
 			this.text = text;
@@ -48,19 +57,29 @@ namespace SafeExamBrowser.SystemComponents
 			}
 		}
 
-		// TODO
-		//public void Register(ISystemAudioControl control)
-		//{
-		//	control.MuteRequested += Control_MuteRequested;
-		//	control.VolumeSelected += Control_VolumeSelected;
+		public void Mute()
+		{
+			if (audioDevice != default(MMDevice))
+			{
+				audioDevice.AudioEndpointVolume.Mute = true;
+			}
+		}
 
-		//	lock (@lock)
-		//	{
-		//		controls.Add(control);
-		//	}
+		public void Unmute()
+		{
+			if (audioDevice != default(MMDevice))
+			{
+				audioDevice.AudioEndpointVolume.Mute = false;
+			}
+		}
 
-		//	UpdateControls();
-		//}
+		public void SetVolume(double value)
+		{
+			if (audioDevice != default(MMDevice))
+			{
+				audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar = (float) value;
+			}
+		}
 
 		public void Terminate()
 		{
@@ -69,12 +88,6 @@ namespace SafeExamBrowser.SystemComponents
 				RevertSettings();
 				FinalizeAudioDevice();
 			}
-
-			// TODO
-			//foreach (var control in controls)
-			//{
-			//	control.Close();
-			//}
 		}
 
 		private bool TryLoadAudioDevice()
@@ -98,6 +111,7 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			logger.Info($"Found '{audioDevice}' to be the active audio device.");
 			audioDevice.AudioEndpointVolume.OnVolumeNotification += AudioEndpointVolume_OnVolumeNotification;
+			audioDeviceFullName = audioDevice.FriendlyName;
 			audioDeviceShortName = audioDevice.FriendlyName.Length > 25 ? audioDevice.FriendlyName.Split(' ').First() : audioDevice.FriendlyName;
 			logger.Info("Started monitoring the audio device.");
 		}
@@ -145,75 +159,9 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			lock (@lock)
 			{
-				var info = BuildInfoText(data.MasterVolume, data.Muted);
-
 				logger.Debug($"Volume is set to {data.MasterVolume * 100}%, audio device is {(data.Muted ? "muted" : "not muted")}.");
-
-				// TODO
-				//foreach (var control in controls)
-				//{
-				//	control.OutputDeviceMuted = data.Muted;
-				//	control.OutputDeviceVolume = data.MasterVolume;
-				//	control.SetInformation(info);
-				//}
+				VolumeChanged?.Invoke(data.MasterVolume, data.Muted);
 			}
-		}
-
-		private void Control_MuteRequested(bool mute)
-		{
-			audioDevice.AudioEndpointVolume.Mute = mute;
-		}
-
-		private void Control_VolumeSelected(double volume)
-		{
-			audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar = (float) volume;
-		}
-
-		private void UpdateControls()
-		{
-			lock (@lock)
-			{
-				try
-				{
-					if (audioDevice != default(MMDevice))
-					{
-						var info = BuildInfoText(audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar, audioDevice.AudioEndpointVolume.Mute);
-
-						// TODO
-						//foreach (var control in controls)
-						//{
-						//	control.HasOutputDevice = true;
-						//	control.OutputDeviceMuted = audioDevice.AudioEndpointVolume.Mute;
-						//	control.OutputDeviceName = audioDevice.FriendlyName;
-						//	control.OutputDeviceVolume = audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar;
-						//	control.SetInformation(info);
-						//}
-					}
-					else
-					{
-						// TODO
-						//foreach (var control in controls)
-						//{
-						//	control.HasOutputDevice = false;
-						//	control.SetInformation(text.Get(TextKey.SystemControl_AudioDeviceNotFound));
-						//}
-					}
-				}
-				catch (Exception e)
-				{
-					logger.Error("Failed to update audio device status!", e);
-				}
-			}
-		}
-
-		private string BuildInfoText(float volume, bool muted)
-		{
-			var info = text.Get(muted ? TextKey.SystemControl_AudioDeviceInfoMuted : TextKey.SystemControl_AudioDeviceInfo);
-
-			info = info.Replace("%%NAME%%", audioDeviceShortName);
-			info = info.Replace("%%VOLUME%%", Convert.ToString(Math.Round(volume * 100)));
-
-			return info;
 		}
 	}
 }

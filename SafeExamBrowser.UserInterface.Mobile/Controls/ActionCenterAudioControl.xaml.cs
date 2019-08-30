@@ -14,94 +14,27 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Threading;
 using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
-using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Controls
 {
-	public partial class ActionCenterAudioControl : UserControl, ISystemAudioControl
+	public partial class ActionCenterAudioControl : UserControl, ISystemControl
 	{
+		private readonly IAudio audio;
 		private readonly IText text;
 		private bool muted;
 		private XamlIconResource MutedIcon;
 		private XamlIconResource NoDeviceIcon;
 
-		public event AudioMuteRequestedEventHandler MuteRequested;
-		public event AudioVolumeSelectedEventHandler VolumeSelected;
-
-		public ActionCenterAudioControl(IText text)
+		public ActionCenterAudioControl(IAudio audio, IText text)
 		{
+			this.audio = audio;
 			this.text = text;
 
 			InitializeComponent();
 			InitializeAudioControl();
-		}
-
-		public bool HasOutputDevice
-		{
-			set
-			{
-				Dispatcher.InvokeAsync(() =>
-				{
-					Button.IsEnabled = value;
-
-					if (!value)
-					{
-						TaskbarIcon.Content = IconResourceLoader.Load(NoDeviceIcon);
-					}
-				});
-			}
-		}
-
-		public bool OutputDeviceMuted
-		{
-			set
-			{
-				Dispatcher.InvokeAsync(() =>
-				{
-					muted = value;
-
-					if (value)
-					{
-						MuteButton.ToolTip = text.Get(TextKey.SystemControl_AudioDeviceUnmuteTooltip);
-						PopupIcon.Content = IconResourceLoader.Load(MutedIcon);
-						TaskbarIcon.Content = IconResourceLoader.Load(MutedIcon);
-					}
-					else
-					{
-						MuteButton.ToolTip = text.Get(TextKey.SystemControl_AudioDeviceMuteTooltip);
-						TaskbarIcon.Content = LoadIcon(Volume.Value / 100);
-					}
-				});
-			}
-		}
-
-		public string OutputDeviceName
-		{
-			set
-			{
-				Dispatcher.InvokeAsync(() => AudioDeviceName.Text = value);
-			}
-		}
-
-		public double OutputDeviceVolume
-		{
-			set
-			{
-				Dispatcher.InvokeAsync(() =>
-				{
-					Volume.ValueChanged -= Volume_ValueChanged;
-					Volume.Value = Math.Round(value * 100);
-					Volume.ValueChanged += Volume_ValueChanged;
-
-					if (!muted)
-					{
-						PopupIcon.Content = LoadIcon(value);
-						TaskbarIcon.Content = LoadIcon(value);
-					}
-				});
-			}
 		}
 
 		public void Close()
@@ -109,28 +42,51 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 			Popup.IsOpen = false;
 		}
 
-		public void SetInformation(string text)
-		{
-			Dispatcher.InvokeAsync(() =>
-			{
-				Button.ToolTip = text;
-				Text.Text = text;
-			});
-		}
-
 		private void InitializeAudioControl()
 		{
 			var originalBrush = Grid.Background;
 
+			audio.VolumeChanged += Audio_VolumeChanged;
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
 			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
-			MuteButton.Click += (o, args) => MuteRequested?.Invoke(!muted);
-			MutedIcon = new XamlIconResource(new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Audio_Muted.xaml"));
-			NoDeviceIcon = new XamlIconResource(new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Audio_Light_NoDevice.xaml"));
+			MuteButton.Click += MuteButton_Click;
+			MutedIcon = new XamlIconResource(new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Audio_Muted.xaml"));
+			NoDeviceIcon = new XamlIconResource(new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Audio_Light_NoDevice.xaml"));
 			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
 			Popup.Opened += (o, args) => Grid.Background = Brushes.Gray;
 			Popup.Closed += (o, args) => Grid.Background = originalBrush;
 			Volume.ValueChanged += Volume_ValueChanged;
+
+			if (audio.HasOutputDevice)
+			{
+				AudioDeviceName.Text = audio.DeviceFullName;
+				Button.IsEnabled = true;
+				UpdateVolume(audio.OutputVolume, audio.OutputMuted);
+			}
+			else
+			{
+				AudioDeviceName.Text = text.Get(TextKey.SystemControl_AudioDeviceNotFound);
+				Button.IsEnabled = false;
+				Button.ToolTip = text.Get(TextKey.SystemControl_AudioDeviceNotFound);
+				ButtonIcon.Content = IconResourceLoader.Load(NoDeviceIcon);
+			}
+		}
+
+		private void Audio_VolumeChanged(double volume, bool muted)
+		{
+			Dispatcher.InvokeAsync(() => UpdateVolume(volume, muted));
+		}
+
+		private void MuteButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (muted)
+			{
+				audio.Unmute();
+			}
+			else
+			{
+				audio.Mute();
+			}
 		}
 
 		private void Volume_DragStarted(object sender, DragStartedEventArgs e)
@@ -140,19 +96,55 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 
 		private void Volume_DragCompleted(object sender, DragCompletedEventArgs e)
 		{
-			VolumeSelected?.Invoke(Volume.Value / 100);
+			audio.SetVolume(Volume.Value / 100);
 			Volume.ValueChanged += Volume_ValueChanged;
 		}
 
 		private void Volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			VolumeSelected?.Invoke(Volume.Value / 100);
+			audio.SetVolume(Volume.Value / 100);
+		}
+
+		private void UpdateVolume(double volume, bool muted)
+		{
+			var info = BuildInfoText(volume, muted);
+
+			this.muted = muted;
+
+			Button.ToolTip = info;
+			Text.Text = info;
+			Volume.ValueChanged -= Volume_ValueChanged;
+			Volume.Value = Math.Round(volume * 100);
+			Volume.ValueChanged += Volume_ValueChanged;
+
+			if (muted)
+			{
+				ButtonIcon.Content = IconResourceLoader.Load(MutedIcon);
+				MuteButton.ToolTip = text.Get(TextKey.SystemControl_AudioDeviceUnmuteTooltip);
+				PopupIcon.Content = IconResourceLoader.Load(MutedIcon);
+			}
+			else
+			{
+				ButtonIcon.Content = LoadIcon(volume);
+				MuteButton.ToolTip = text.Get(TextKey.SystemControl_AudioDeviceMuteTooltip);
+				PopupIcon.Content = LoadIcon(volume);
+			}
+		}
+
+		private string BuildInfoText(double volume, bool muted)
+		{
+			var info = text.Get(muted ? TextKey.SystemControl_AudioDeviceInfoMuted : TextKey.SystemControl_AudioDeviceInfo);
+
+			info = info.Replace("%%NAME%%", audio.DeviceShortName);
+			info = info.Replace("%%VOLUME%%", Convert.ToString(Math.Round(volume * 100)));
+
+			return info;
 		}
 
 		private UIElement LoadIcon(double volume)
 		{
 			var icon = volume > 0.66 ? "100" : (volume > 0.33 ? "66" : "33");
-			var uri = new Uri($"pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Audio_Light_{icon}.xaml");
+			var uri = new Uri($"pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Audio_Light_{icon}.xaml");
 			var resource = new XamlIconResource(uri);
 
 			return IconResourceLoader.Load(resource);

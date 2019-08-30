@@ -12,6 +12,7 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Settings;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -37,7 +38,7 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// <summary>
 		/// Creates a system control which allows to change the audio settings of the computer.
 		/// </summary>
-		ISystemAudioControl CreateAudioControl(Location location);
+		ISystemControl CreateAudioControl(IAudio audio, Location location);
 
 		/// <summary>
 		/// Creates a new browser window loaded with the given browser control and settings.

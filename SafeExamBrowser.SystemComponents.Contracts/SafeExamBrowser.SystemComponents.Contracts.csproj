@@ -53,6 +53,8 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio\Events\AudioVolumeChangedEventHandler.cs" />
+    <Compile Include="Audio\IAudio.cs" />
     <Compile Include="BatteryChargeStatus.cs" />
     <Compile Include="Keyboard\Events\KeyboardLayoutChangedEventHandler.cs" />
     <Compile Include="Keyboard\IKeyboard.cs" />

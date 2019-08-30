@@ -16,7 +16,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard.Events;
 
-namespace SafeExamBrowser.SystemComponents
+namespace SafeExamBrowser.SystemComponents.Keyboard
 {
 	public class Keyboard : IKeyboard
 	{

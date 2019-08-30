@@ -37,7 +37,7 @@
             </Border>
         </Popup>
         <Button x:Name="Button" Background="Transparent" Padding="5" Template="{StaticResource TaskbarButton}" ToolTipService.ShowOnDisabled="True" Width="60">
-            <ContentControl x:Name="TaskbarIcon" />
+            <ContentControl x:Name="ButtonIcon" />
         </Button>
     </Grid>
 </UserControl>

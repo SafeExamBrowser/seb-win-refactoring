@@ -15,6 +15,7 @@ using SafeExamBrowser.Configuration.Contracts.Settings;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -28,6 +29,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<IActionCenter> actionCenter;
 		private List<IActionCenterActivator> activators;
 		private ActionCenterSettings actionCenterSettings;
+		private Mock<IAudio> audio;
 		private Mock<ILogger> logger;
 		private TaskbarSettings taskbarSettings;
 		private Mock<ITerminationActivator> terminationActivator;
@@ -37,7 +39,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<INotificationInfo> logInfo;
 		private Mock<INotificationController> logController;
 		// TODO 
-		//private Mock<ISystemComponent<ISystemAudioControl>> audio;
 		//private Mock<ISystemComponent<ISystemPowerSupplyControl>> powerSupply;
 		//private Mock<ISystemComponent<ISystemWirelessNetworkControl>> wirelessNetwork;
 		private Mock<ISystemInfo> systemInfo;
@@ -53,6 +54,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			actionCenter = new Mock<IActionCenter>();
 			activators = new List<IActionCenterActivator>();
 			actionCenterSettings = new ActionCenterSettings();
+			audio = new Mock<IAudio>();
 			logger = new Mock<ILogger>();
 			aboutInfo = new Mock<INotificationInfo>();
 			aboutController = new Mock<INotificationController>();
@@ -60,7 +62,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			logInfo = new Mock<INotificationInfo>();
 			logController = new Mock<INotificationController>();
 			// TODO 
-			//audio = new Mock<ISystemComponent<ISystemAudioControl>>();
 			//powerSupply = new Mock<ISystemComponent<ISystemPowerSupplyControl>>();
 			//wirelessNetwork = new Mock<ISystemComponent<ISystemWirelessNetworkControl>>();
 			systemInfo = new Mock<ISystemInfo>();
@@ -76,6 +77,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 				actionCenter.Object,
 				activators,
 				actionCenterSettings,
+				audio.Object,
 				logger.Object,
 				aboutInfo.Object,
 				aboutController.Object,
@@ -196,7 +198,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			taskbarSettings.ShowWirelessNetwork = true;
 
 			systemInfo.SetupGet(s => s.HasBattery).Returns(true);
-			uiFactory.Setup(f => f.CreateAudioControl(It.IsAny<Location>())).Returns(new Mock<ISystemAudioControl>().Object);
+			uiFactory.Setup(f => f.CreateAudioControl(It.IsAny<IAudio>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
 			uiFactory.Setup(f => f.CreateKeyboardLayoutControl(It.IsAny<IKeyboard>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
 			uiFactory.Setup(f => f.CreatePowerSupplyControl(It.IsAny<Location>())).Returns(new Mock<ISystemPowerSupplyControl>().Object);
 			uiFactory.Setup(f => f.CreateWirelessNetworkControl(It.IsAny<Location>())).Returns(new Mock<ISystemWirelessNetworkControl>().Object);
@@ -225,7 +227,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			taskbarSettings.ShowWirelessNetwork = false;
 
 			systemInfo.SetupGet(s => s.HasBattery).Returns(false);
-			uiFactory.Setup(f => f.CreateAudioControl(It.IsAny<Location>())).Returns(new Mock<ISystemAudioControl>().Object);
+			uiFactory.Setup(f => f.CreateAudioControl(It.IsAny<IAudio>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
 			uiFactory.Setup(f => f.CreateKeyboardLayoutControl(It.IsAny<IKeyboard>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
 			uiFactory.Setup(f => f.CreatePowerSupplyControl(It.IsAny<Location>())).Returns(new Mock<ISystemPowerSupplyControl>().Object);
 			uiFactory.Setup(f => f.CreateWirelessNetworkControl(It.IsAny<Location>())).Returns(new Mock<ISystemWirelessNetworkControl>().Object);

@@ -16,6 +16,7 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Settings;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
@@ -53,15 +54,15 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			}
 		}
 
-		public ISystemAudioControl CreateAudioControl(Location location)
+		public ISystemControl CreateAudioControl(IAudio audio, Location location)
 		{
 			if (location == Location.ActionCenter)
 			{
-				return new ActionCenterAudioControl(text);
+				return new ActionCenterAudioControl(audio, text);
 			}
 			else
 			{
-				return new TaskbarAudioControl(text);
+				return new TaskbarAudioControl(audio, text);
 			}
 		}
 

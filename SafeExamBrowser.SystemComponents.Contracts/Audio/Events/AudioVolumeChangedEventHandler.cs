@@ -6,11 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.UserInterface.Contracts.Shell.Events
+namespace SafeExamBrowser.SystemComponents.Contracts.Audio.Events
 {
 	/// <summary>
-	/// Indicates that the user would like to set the audio volume to the given value, where <c>0.0</c> is the lowest and <c>1.0</c> the highest
-	/// possible value.
+	/// Indicates that the volume of the system audio component has changed.
 	/// </summary>
-	public delegate void AudioVolumeSelectedEventHandler(double volume);
+	public delegate void AudioVolumeChangedEventHandler(double volume, bool muted);
 }

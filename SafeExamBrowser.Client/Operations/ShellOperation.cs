@@ -14,6 +14,7 @@ using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -26,13 +27,13 @@ namespace SafeExamBrowser.Client.Operations
 		private IActionCenter actionCenter;
 		private IEnumerable<IActionCenterActivator> activators;
 		private ActionCenterSettings actionCenterSettings;
+		private IAudio audio;
 		private ILogger logger;
 		private INotificationInfo aboutInfo;
 		private INotificationController aboutController;
 		private IKeyboard keyboard;
 		private INotificationInfo logInfo;
 		private INotificationController logController;
-		// TODO private ISystemComponent<ISystemAudioControl> audio;
 		// TODO private ISystemComponent<ISystemPowerSupplyControl> powerSupply;
 		// TODO private ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork;
 		private ISystemInfo systemInfo;
@@ -49,13 +50,13 @@ namespace SafeExamBrowser.Client.Operations
 			IActionCenter actionCenter,
 			IEnumerable<IActionCenterActivator> activators,
 			ActionCenterSettings actionCenterSettings,
+			IAudio audio,
 			ILogger logger,
 			INotificationInfo aboutInfo,
 			INotificationController aboutController,
 			IKeyboard keyboard,
 			INotificationInfo logInfo,
 			INotificationController logController,
-			 // TODO ISystemComponent<ISystemAudioControl> audio,
 			// TODO ISystemComponent<ISystemPowerSupplyControl> powerSupply,
 			// TODO ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork,
 			ISystemInfo systemInfo,
@@ -70,11 +71,11 @@ namespace SafeExamBrowser.Client.Operations
 			this.actionCenter = actionCenter;
 			this.activators = activators;
 			this.actionCenterSettings = actionCenterSettings;
+			this.audio = audio;
 			this.keyboard = keyboard;
 			this.logger = logger;
 			this.logInfo = logInfo;
 			this.logController = logController;
-			// TODO this.audio = audio;
 			// TODO this.powerSupply = powerSupply;
 			this.systemInfo = systemInfo;
 			this.taskbarSettings = taskbarSettings;
@@ -168,9 +169,9 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeSystemComponents()
 		{
-			// TODO 
-			//audio.Initialize();
+			audio.Initialize();
 			keyboard.Initialize();
+			// TODO 
 			//powerSupply.Initialize();
 			//wirelessNetwork.Initialize();
 		}
@@ -201,10 +202,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (actionCenterSettings.ShowAudio)
 			{
-				var control = uiFactory.CreateAudioControl(Location.ActionCenter);
-
-				// TODO audio.Register(control);
-				actionCenter.AddSystemControl(control);
+				actionCenter.AddSystemControl(uiFactory.CreateAudioControl(audio, Location.ActionCenter));
 			}
 		}
 
@@ -212,10 +210,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (taskbarSettings.ShowAudio)
 			{
-				var control = uiFactory.CreateAudioControl(Location.Taskbar);
-
-				// TODO audio.Register(control);
-				taskbar.AddSystemControl(control);
+				taskbar.AddSystemControl(uiFactory.CreateAudioControl(audio, Location.Taskbar));
 			}
 		}
 
@@ -332,11 +327,11 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void TerminateSystemComponents()
 		{
+			audio.Terminate();
+			keyboard.Terminate();
 			// TODO 
-			//audio.Terminate();
 			//powerSupply.Terminate();
 			//wirelessNetwork.Terminate();
-			keyboard.Terminate();
 		}
 	}
 }

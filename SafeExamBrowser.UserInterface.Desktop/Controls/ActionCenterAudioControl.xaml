@@ -37,7 +37,7 @@
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="3*" />
                 </Grid.RowDefinitions>
-                <ContentControl x:Name="TaskbarIcon" />
+                <ContentControl x:Name="ButtonIcon" />
                 <TextBlock Grid.Row="1" x:Name="Text" FontSize="11" Foreground="White" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" VerticalAlignment="Bottom" />
             </Grid>
         </Button>

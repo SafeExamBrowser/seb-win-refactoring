@@ -39,7 +39,9 @@ using SafeExamBrowser.Monitoring.Mouse;
 using SafeExamBrowser.Monitoring.Processes;
 using SafeExamBrowser.Monitoring.Windows;
 using SafeExamBrowser.SystemComponents;
+using SafeExamBrowser.SystemComponents.Audio;
 using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.SystemComponents.Keyboard;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -270,6 +272,7 @@ namespace SafeExamBrowser.Client
 				actionCenter,
 				activators,
 				configuration.Settings.ActionCenter,
+				audio,
 				logger,
 				aboutInfo,
 				aboutController,
@@ -277,7 +280,6 @@ namespace SafeExamBrowser.Client
 				logInfo,
 				logController,
 				// TODO 
-				//audio,
 				//powerSupply,
 				//wirelessNetwork,
 				systemInfo,

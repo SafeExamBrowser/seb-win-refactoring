@@ -10,7 +10,7 @@ using System;
 using System.Globalization;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 
-namespace SafeExamBrowser.SystemComponents
+namespace SafeExamBrowser.SystemComponents.Keyboard
 {
 	internal class KeyboardLayout : IKeyboardLayout
 	{

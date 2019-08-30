@@ -62,9 +62,9 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audio.cs" />
-    <Compile Include="KeyboardLayout.cs" />
-    <Compile Include="Keyboard.cs" />
+    <Compile Include="Audio\Audio.cs" />
+    <Compile Include="Keyboard\KeyboardLayout.cs" />
+    <Compile Include="Keyboard\Keyboard.cs" />
     <Compile Include="PowerSupply.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemInfo.cs" />
