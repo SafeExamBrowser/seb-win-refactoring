@@ -9,7 +9,7 @@
 using System;
 using System.Security.Principal;
 using System.Threading;
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Configuration.Contracts;
 
 namespace SafeExamBrowser.ResetUtility.Procedure
 {

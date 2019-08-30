@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
-using SafeExamBrowser.Contracts.I18n;
+using SafeExamBrowser.I18n.Contracts;
 
 namespace SafeExamBrowser.I18n
 {

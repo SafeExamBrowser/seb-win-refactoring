@@ -7,13 +7,13 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Communication.Events;
-using SafeExamBrowser.Contracts.Communication.Hosts;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.Lockdown;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Service;
+using SafeExamBrowser.Communication.Contracts.Events;
+using SafeExamBrowser.Communication.Contracts.Hosts;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.Lockdown.Contracts;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Service.Contracts;
 
 namespace SafeExamBrowser.Service
 {

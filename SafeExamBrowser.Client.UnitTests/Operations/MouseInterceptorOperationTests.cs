@@ -9,9 +9,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Operations;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
+using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {

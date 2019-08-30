@@ -66,9 +66,17 @@
     <Compile Include="Proxies\ServiceProxy.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">
-      <Project>{47DA5933-BEF8-4729-94E6-ABDE2DB12262}</Project>
-      <Name>SafeExamBrowser.Contracts</Name>
+    <ProjectReference Include="..\SafeExamBrowser.Communication.Contracts\SafeExamBrowser.Communication.Contracts.csproj">
+      <Project>{0cd2c5fe-711a-4c32-afe0-bb804fe8b220}</Project>
+      <Name>SafeExamBrowser.Communication.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Configuration.Contracts\SafeExamBrowser.Configuration.Contracts.csproj">
+      <Project>{7d74555e-63e1-4c46-bd0a-8580552368c8}</Project>
+      <Name>SafeExamBrowser.Configuration.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
+      <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
+      <Name>SafeExamBrowser.Logging.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

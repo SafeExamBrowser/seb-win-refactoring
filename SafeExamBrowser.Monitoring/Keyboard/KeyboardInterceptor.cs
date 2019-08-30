@@ -9,9 +9,9 @@
 using System;
 using System.Linq;
 using System.Windows.Input;
-using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Monitoring;
+using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
 
 namespace SafeExamBrowser.Monitoring.Keyboard
 {

@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7D74555E-63E1-4C46-BD0A-8580552368C8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SafeExamBrowser.Configuration.Contracts</RootNamespace>
+    <AssemblyName>SafeExamBrowser.Configuration.Contracts</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppConfig.cs" />
+    <Compile Include="ClientConfiguration.cs" />
+    <Compile Include="Cryptography\EncryptionParameters.cs" />
+    <Compile Include="Cryptography\ICertificateStore.cs" />
+    <Compile Include="Cryptography\IHashAlgorithm.cs" />
+    <Compile Include="Cryptography\IPasswordEncryption.cs" />
+    <Compile Include="Cryptography\IPublicKeyEncryption.cs" />
+    <Compile Include="Cryptography\PasswordParameters.cs" />
+    <Compile Include="Cryptography\PublicKeyParameters.cs" />
+    <Compile Include="DataCompression\IDataCompressor.cs" />
+    <Compile Include="DataFormats\FormatType.cs" />
+    <Compile Include="DataFormats\IDataParser.cs" />
+    <Compile Include="DataFormats\IDataSerializer.cs" />
+    <Compile Include="DataFormats\ParseResult.cs" />
+    <Compile Include="DataFormats\SerializeResult.cs" />
+    <Compile Include="DataResources\IResourceLoader.cs" />
+    <Compile Include="DataResources\IResourceSaver.cs" />
+    <Compile Include="IConfigurationRepository.cs" />
+    <Compile Include="LoadStatus.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SaveStatus.cs" />
+    <Compile Include="ServiceConfiguration.cs" />
+    <Compile Include="SessionConfiguration.cs" />
+    <Compile Include="Settings\ActionCenterSettings.cs" />
+    <Compile Include="Settings\AudioSettings.cs" />
+    <Compile Include="Settings\BrowserSettings.cs" />
+    <Compile Include="Settings\BrowserWindowSettings.cs" />
+    <Compile Include="Settings\ConfigurationMode.cs" />
+    <Compile Include="Settings\KeyboardSettings.cs" />
+    <Compile Include="Settings\KioskMode.cs" />
+    <Compile Include="Settings\MouseSettings.cs" />
+    <Compile Include="Settings\NetworkSettings.cs" />
+    <Compile Include="Settings\ServicePolicy.cs" />
+    <Compile Include="Settings\ServiceSettings.cs" />
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Settings\TaskbarSettings.cs" />
+    <Compile Include="Settings\UserInterfaceMode.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
+      <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
+      <Name>SafeExamBrowser.Logging.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Network.Contracts\SafeExamBrowser.Network.Contracts.csproj">
+      <Project>{2947da3c-61f3-44be-81cf-d1d5c10aec95}</Project>
+      <Name>SafeExamBrowser.Network.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

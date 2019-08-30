@@ -11,10 +11,10 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Threading.Tasks;
 using CefSharp;
-using SafeExamBrowser.Contracts.Browser;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Logging;
-using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
+using SafeExamBrowser.Browser.Contracts;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Logging.Contracts;
+using BrowserSettings = SafeExamBrowser.Configuration.Contracts.Settings.BrowserSettings;
 
 namespace SafeExamBrowser.Browser.Handlers
 {

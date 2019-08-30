@@ -10,7 +10,7 @@ using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using SafeExamBrowser.Contracts.Configuration.Cryptography;
+using SafeExamBrowser.Configuration.Contracts.Cryptography;
 
 namespace SafeExamBrowser.Configuration.Cryptography
 {

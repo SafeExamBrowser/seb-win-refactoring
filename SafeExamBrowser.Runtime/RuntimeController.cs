@@ -8,21 +8,21 @@
 
 using System;
 using System.Threading;
-using SafeExamBrowser.Contracts.Communication.Data;
-using SafeExamBrowser.Contracts.Communication.Events;
-using SafeExamBrowser.Contracts.Communication.Hosts;
-using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.Core.OperationModel.Events;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Runtime;
-using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Contracts.UserInterface.MessageBox;
-using SafeExamBrowser.Contracts.UserInterface.Windows;
+using SafeExamBrowser.Communication.Contracts.Data;
+using SafeExamBrowser.Communication.Contracts.Events;
+using SafeExamBrowser.Communication.Contracts.Hosts;
+using SafeExamBrowser.Communication.Contracts.Proxies;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.Core.Contracts.OperationModel.Events;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Runtime.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
+using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Runtime
 {
@@ -459,12 +459,12 @@ namespace SafeExamBrowser.Runtime
 
 			runtimeHost.MessageBoxReplyReceived += responseEventHandler;
 
-			var communication = sessionContext.ClientProxy.ShowMessage(message, title, MessageBoxAction.Confirm, icon, requestId);
+			var communication = sessionContext.ClientProxy.ShowMessage(message, title, /*// TODO MessageBoxAction.Confirm, icon, */requestId);
 
 			if (communication.Success)
 			{
 				responseEvent.WaitOne();
-				result = response.Result;
+				// TODO result = response.Result;
 			}
 
 			runtimeHost.MessageBoxReplyReceived -= responseEventHandler;

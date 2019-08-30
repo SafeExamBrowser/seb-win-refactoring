@@ -7,12 +7,12 @@
  */
 
 using System.Threading;
-using SafeExamBrowser.Contracts.Communication.Events;
-using SafeExamBrowser.Contracts.Communication.Hosts;
-using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.Core.OperationModel.Events;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Communication.Contracts.Events;
+using SafeExamBrowser.Communication.Contracts.Hosts;
+using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.Core.Contracts.OperationModel.Events;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Client.Operations
 {

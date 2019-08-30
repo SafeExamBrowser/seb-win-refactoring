@@ -6,13 +6,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Applications;
-using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.Core.OperationModel.Events;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Contracts.UserInterface.Shell;
+using SafeExamBrowser.Applications.Contracts;
+using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.Core.Contracts.OperationModel.Events;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Shell;
 
 namespace SafeExamBrowser.Client.Operations
 {
@@ -53,8 +53,9 @@ namespace SafeExamBrowser.Client.Operations
 			var taskbarControl = uiFactory.CreateApplicationControl(browserInfo, Location.Taskbar);
 
 			browserController.Initialize();
-			browserController.RegisterApplicationControl(actionCenterControl);
-			browserController.RegisterApplicationControl(taskbarControl);
+			// TODO 
+			//browserController.RegisterApplicationControl(actionCenterControl);
+			//browserController.RegisterApplicationControl(taskbarControl);
 
 			actionCenter.AddApplicationControl(actionCenterControl);
 			taskbar.AddApplicationControl(taskbarControl);

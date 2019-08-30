@@ -135,37 +135,69 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SafeExamBrowser.Communication.Contracts\SafeExamBrowser.Communication.Contracts.csproj">
+      <Project>{0cd2c5fe-711a-4c32-afe0-bb804fe8b220}</Project>
+      <Name>SafeExamBrowser.Communication.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Communication\SafeExamBrowser.Communication.csproj">
       <Project>{c9416a62-0623-4d38-96aa-92516b32f02f}</Project>
       <Name>SafeExamBrowser.Communication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Configuration.Contracts\SafeExamBrowser.Configuration.Contracts.csproj">
+      <Project>{7d74555e-63e1-4c46-bd0a-8580552368c8}</Project>
+      <Name>SafeExamBrowser.Configuration.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Configuration\SafeExamBrowser.Configuration.csproj">
       <Project>{c388c4dd-a159-457d-af92-89f7ad185109}</Project>
       <Name>SafeExamBrowser.Configuration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SafeExamBrowser.Contracts\SafeExamBrowser.Contracts.csproj">
-      <Project>{47DA5933-BEF8-4729-94E6-ABDE2DB12262}</Project>
-      <Name>SafeExamBrowser.Contracts</Name>
+    <ProjectReference Include="..\SafeExamBrowser.Core.Contracts\SafeExamBrowser.Core.Contracts.csproj">
+      <Project>{fe0e1224-b447-4b14-81e7-ed7d84822aa0}</Project>
+      <Name>SafeExamBrowser.Core.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Core\SafeExamBrowser.Core.csproj">
       <Project>{3d6fdbb6-a4af-4626-bb2b-bf329d44f9cc}</Project>
       <Name>SafeExamBrowser.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.I18n.Contracts\SafeExamBrowser.I18n.Contracts.csproj">
+      <Project>{1858ddf3-bc2a-4bff-b663-4ce2ffeb8b7d}</Project>
+      <Name>SafeExamBrowser.I18n.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.I18n\SafeExamBrowser.I18n.csproj">
       <Project>{10c62628-8e6a-45aa-9d97-339b119ad21d}</Project>
       <Name>SafeExamBrowser.I18n</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
+      <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
+      <Name>SafeExamBrowser.Logging.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Logging\SafeExamBrowser.Logging.csproj">
       <Project>{e107026c-2011-4552-a7d8-3a0d37881df6}</Project>
       <Name>SafeExamBrowser.Logging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Runtime.Contracts\SafeExamBrowser.Runtime.Contracts.csproj">
+      <Project>{5d0136b4-6d21-4f99-ae42-3fb7f478ae0a}</Project>
+      <Name>SafeExamBrowser.Runtime.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.SystemComponents.Contracts\SafeExamBrowser.SystemComponents.Contracts.csproj">
+      <Project>{903129c6-e236-493b-9ad6-c6a57f647a3a}</Project>
+      <Name>SafeExamBrowser.SystemComponents.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.SystemComponents\SafeExamBrowser.SystemComponents.csproj">
       <Project>{acee2ef1-14d2-4b52-8994-5c053055bb51}</Project>
       <Name>SafeExamBrowser.SystemComponents</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.UserInterface.Contracts\SafeExamBrowser.UserInterface.Contracts.csproj">
+      <Project>{c7889e97-6ff6-4a58-b7cb-521ed276b316}</Project>
+      <Name>SafeExamBrowser.UserInterface.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.UserInterface.Desktop\SafeExamBrowser.UserInterface.Desktop.csproj">
       <Project>{a502df54-7169-4647-94bd-18b192924866}</Project>
       <Name>SafeExamBrowser.UserInterface.Desktop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.WindowsApi.Contracts\SafeExamBrowser.WindowsApi.Contracts.csproj">
+      <Project>{7016f080-9aa5-41b2-a225-385ad877c171}</Project>
+      <Name>SafeExamBrowser.WindowsApi.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.WindowsApi\SafeExamBrowser.WindowsApi.csproj">
       <Project>{73724659-4150-4792-A94E-42F5F3C1B696}</Project>

@@ -11,9 +11,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
-using SafeExamBrowser.Contracts.SystemComponents;
-using SafeExamBrowser.Contracts.UserInterface.Shell;
-using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
+using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Shell;
+using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {

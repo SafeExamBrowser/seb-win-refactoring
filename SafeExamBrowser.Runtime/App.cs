@@ -10,7 +10,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Configuration.Contracts;
 
 namespace SafeExamBrowser.Runtime
 {

@@ -9,8 +9,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using SafeExamBrowser.Contracts.SystemComponents;
-using SafeExamBrowser.Contracts.UserInterface.Shell;
+using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Shell;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Controls
 {

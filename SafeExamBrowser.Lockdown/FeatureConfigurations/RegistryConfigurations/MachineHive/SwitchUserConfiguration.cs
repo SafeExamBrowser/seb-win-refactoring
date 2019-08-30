@@ -8,7 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.MachineHive
 {

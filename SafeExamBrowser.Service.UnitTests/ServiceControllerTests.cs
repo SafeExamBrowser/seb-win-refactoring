@@ -10,13 +10,13 @@ using System;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Contracts.Communication.Events;
-using SafeExamBrowser.Contracts.Communication.Hosts;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.Lockdown;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Communication.Contracts.Events;
+using SafeExamBrowser.Communication.Contracts.Hosts;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.Lockdown.Contracts;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Service.UnitTests
 {

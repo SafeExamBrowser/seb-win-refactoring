@@ -8,25 +8,25 @@
 
 using System;
 using System.IO;
-using SafeExamBrowser.Contracts.Browser;
-using SafeExamBrowser.Contracts.Client;
-using SafeExamBrowser.Contracts.Communication.Data;
-using SafeExamBrowser.Contracts.Communication.Events;
-using SafeExamBrowser.Contracts.Communication.Hosts;
-using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Cryptography;
-using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.Core.OperationModel.Events;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Contracts.UserInterface.MessageBox;
-using SafeExamBrowser.Contracts.UserInterface.Shell;
-using SafeExamBrowser.Contracts.UserInterface.Windows;
-using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.Browser.Contracts;
+using SafeExamBrowser.Client.Contracts;
+using SafeExamBrowser.Communication.Contracts.Data;
+using SafeExamBrowser.Communication.Contracts.Events;
+using SafeExamBrowser.Communication.Contracts.Hosts;
+using SafeExamBrowser.Communication.Contracts.Proxies;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Cryptography;
+using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.Core.Contracts.OperationModel.Events;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
+using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Shell;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Client
 {
@@ -231,7 +231,7 @@ namespace SafeExamBrowser.Client
 
 				var message = TextKey.MessageBox_ReconfigurationQuestion;
 				var title = TextKey.MessageBox_ReconfigurationQuestionTitle;
-				var result = messageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question, args.BrowserWindow);
+				var result = messageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question/*// TODO , args.BrowserWindow*/);
 				var reconfigure = result == MessageBoxResult.Yes;
 
 				logger.Info($"The user chose to {(reconfigure ? "start" : "abort")} the reconfiguration.");
@@ -246,7 +246,7 @@ namespace SafeExamBrowser.Client
 			else
 			{
 				logger.Info($"Denied download request for configuration file '{fileName}' due to '{Settings.ConfigurationMode}' mode.");
-				messageBox.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle, parent: args.BrowserWindow);
+				messageBox.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle/*,// TODO  parent: args.BrowserWindow*/);
 			}
 		}
 
@@ -282,9 +282,9 @@ namespace SafeExamBrowser.Client
 		{
 			logger.Info($"Received message box request with id '{args.RequestId}'.");
 
-			var result = messageBox.Show(args.Message, args.Title, args.Action, args.Icon, parent: splashScreen);
+			var result = messageBox.Show(args.Message, args.Title/*,// TODO  args.Action, args.Icon*/, parent: splashScreen);
 
-			runtime.SubmitMessageBoxResult(args.RequestId, result);
+			runtime.SubmitMessageBoxResult(args.RequestId/*// TODO , result*/);
 			logger.Info($"Message box request with id '{args.RequestId}' yielded result '{result}'.");
 		}
 

@@ -12,10 +12,10 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Cryptography;
-using SafeExamBrowser.Contracts.Configuration.DataFormats;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Cryptography;
+using SafeExamBrowser.Configuration.Contracts.DataFormats;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Configuration.DataFormats
 {

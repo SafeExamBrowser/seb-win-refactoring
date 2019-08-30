@@ -9,9 +9,9 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.WindowsApi;
-using SafeExamBrowser.Contracts.WindowsApi.Events;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.WindowsApi.Contracts;
+using SafeExamBrowser.WindowsApi.Contracts.Events;
 using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Delegates;
 using SafeExamBrowser.WindowsApi.Types;

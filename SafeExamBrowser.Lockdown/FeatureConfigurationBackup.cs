@@ -12,8 +12,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using SafeExamBrowser.Contracts.Lockdown;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Lockdown.Contracts;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Lockdown
 {

@@ -14,14 +14,14 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.Core;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Contracts.UserInterface.Browser;
-using SafeExamBrowser.Contracts.UserInterface.Browser.Events;
-using SafeExamBrowser.Contracts.UserInterface.Windows;
-using SafeExamBrowser.Contracts.UserInterface.Windows.Events;
+using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Browser;
+using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Contracts.Windows.Events;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Mobile

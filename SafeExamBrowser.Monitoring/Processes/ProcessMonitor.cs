@@ -9,10 +9,10 @@
 using System;
 using System.Diagnostics;
 using System.Management;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.Contracts.Monitoring.Events;
-using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Events;
+using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Monitoring.Processes
 {

@@ -7,7 +7,7 @@
  */
 
 using System.Collections.Generic;
-using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Configuration.Contracts.Settings;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {

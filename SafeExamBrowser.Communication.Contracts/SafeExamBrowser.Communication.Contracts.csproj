@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0CD2C5FE-711A-4C32-AFE0-BB804FE8B220}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SafeExamBrowser.Communication.Contracts</RootNamespace>
+    <AssemblyName>SafeExamBrowser.Communication.Contracts</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\AuthenticationResponse.cs" />
+    <Compile Include="Data\ConfigurationResponse.cs" />
+    <Compile Include="Data\ConnectionResponse.cs" />
+    <Compile Include="Data\DisconnectionMessage.cs" />
+    <Compile Include="Data\DisconnectionResponse.cs" />
+    <Compile Include="Data\Message.cs" />
+    <Compile Include="Data\MessageBoxReplyMessage.cs" />
+    <Compile Include="Data\MessageBoxRequestMessage.cs" />
+    <Compile Include="Data\PasswordReplyMessage.cs" />
+    <Compile Include="Data\PasswordRequestMessage.cs" />
+    <Compile Include="Data\PasswordRequestPurpose.cs" />
+    <Compile Include="Data\ReconfigurationDeniedMessage.cs" />
+    <Compile Include="Data\ReconfigurationMessage.cs" />
+    <Compile Include="Data\Response.cs" />
+    <Compile Include="Data\SessionStartMessage.cs" />
+    <Compile Include="Data\SessionStopMessage.cs" />
+    <Compile Include="Data\SimpleMessage.cs" />
+    <Compile Include="Data\SimpleMessagePurport.cs" />
+    <Compile Include="Data\SimpleResponse.cs" />
+    <Compile Include="Data\SimpleResponsePurport.cs" />
+    <Compile Include="Events\ClientConfigurationEventArgs.cs" />
+    <Compile Include="Events\CommunicationEventArgs.cs" />
+    <Compile Include="Events\CommunicationEventHandler.cs" />
+    <Compile Include="Events\MessageBoxReplyEventArgs.cs" />
+    <Compile Include="Events\MessageBoxRequestEventArgs.cs" />
+    <Compile Include="Events\PasswordReplyEventArgs.cs" />
+    <Compile Include="Events\PasswordRequestEventArgs.cs" />
+    <Compile Include="Events\ReconfigurationEventArgs.cs" />
+    <Compile Include="Events\SessionStartEventArgs.cs" />
+    <Compile Include="Events\SessionStopEventArgs.cs" />
+    <Compile Include="Hosts\IClientHost.cs" />
+    <Compile Include="Hosts\IHostObject.cs" />
+    <Compile Include="Hosts\IHostObjectFactory.cs" />
+    <Compile Include="Hosts\IRuntimeHost.cs" />
+    <Compile Include="Hosts\IServiceHost.cs" />
+    <Compile Include="ICommunication.cs" />
+    <Compile Include="ICommunicationHost.cs" />
+    <Compile Include="ICommunicationProxy.cs" />
+    <Compile Include="Interlocutor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxies\CommunicationResult.cs" />
+    <Compile Include="Proxies\IClientProxy.cs" />
+    <Compile Include="Proxies\IProxyFactory.cs" />
+    <Compile Include="Proxies\IProxyObject.cs" />
+    <Compile Include="Proxies\IProxyObjectFactory.cs" />
+    <Compile Include="Proxies\IRuntimeProxy.cs" />
+    <Compile Include="Proxies\IServiceProxy.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SafeExamBrowser.Configuration.Contracts\SafeExamBrowser.Configuration.Contracts.csproj">
+      <Project>{7d74555e-63e1-4c46-bd0a-8580552368c8}</Project>
+      <Name>SafeExamBrowser.Configuration.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

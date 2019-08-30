@@ -9,11 +9,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Cryptography;
-using SafeExamBrowser.Contracts.Configuration.DataCompression;
-using SafeExamBrowser.Contracts.Configuration.DataFormats;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Cryptography;
+using SafeExamBrowser.Configuration.Contracts.DataCompression;
+using SafeExamBrowser.Configuration.Contracts.DataFormats;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Configuration.DataFormats
 {

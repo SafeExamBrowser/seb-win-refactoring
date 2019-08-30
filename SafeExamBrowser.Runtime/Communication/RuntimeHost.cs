@@ -7,12 +7,12 @@
  */
 
 using System;
+using SafeExamBrowser.Communication.Contracts;
+using SafeExamBrowser.Communication.Contracts.Data;
+using SafeExamBrowser.Communication.Contracts.Events;
+using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Hosts;
-using SafeExamBrowser.Contracts.Communication;
-using SafeExamBrowser.Contracts.Communication.Data;
-using SafeExamBrowser.Contracts.Communication.Events;
-using SafeExamBrowser.Contracts.Communication.Hosts;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Runtime.Communication
 {
@@ -59,7 +59,7 @@ namespace SafeExamBrowser.Runtime.Communication
 			switch (message)
 			{
 				case MessageBoxReplyMessage m:
-					MessageBoxReplyReceived?.InvokeAsync(new MessageBoxReplyEventArgs { RequestId = m.RequestId, Result = m.Result });
+					MessageBoxReplyReceived?.InvokeAsync(new MessageBoxReplyEventArgs { RequestId = m.RequestId/*// TODO , Result = m.Result*/ });
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 				case PasswordReplyMessage m:
 					PasswordReceived?.InvokeAsync(new PasswordReplyEventArgs { Password = m.Password, RequestId = m.RequestId, Success = m.Success });

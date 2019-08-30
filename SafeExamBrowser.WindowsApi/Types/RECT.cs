@@ -7,7 +7,7 @@
  */
 
 using System.Runtime.InteropServices;
-using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.WindowsApi.Types
 {

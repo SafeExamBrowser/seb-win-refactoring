@@ -11,12 +11,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using SafeExamBrowser.Configuration.ConfigurationData;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Cryptography;
-using SafeExamBrowser.Contracts.Configuration.DataFormats;
-using SafeExamBrowser.Contracts.Configuration.DataResources;
-using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Cryptography;
+using SafeExamBrowser.Configuration.Contracts.DataFormats;
+using SafeExamBrowser.Configuration.Contracts.DataResources;
+using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Configuration
 {

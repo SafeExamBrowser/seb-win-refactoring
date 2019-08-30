@@ -7,7 +7,7 @@
  */
 
 using System.ServiceModel;
-using SafeExamBrowser.Contracts.Communication.Proxies;
+using SafeExamBrowser.Communication.Contracts.Proxies;
 
 namespace SafeExamBrowser.Communication.Proxies
 {

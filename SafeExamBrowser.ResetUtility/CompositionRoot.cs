@@ -9,8 +9,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using SafeExamBrowser.Contracts.Lockdown;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Lockdown.Contracts;
+using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Lockdown;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.ResetUtility.Procedure;

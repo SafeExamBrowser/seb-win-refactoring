@@ -8,7 +8,7 @@
 
 using System;
 using System.Threading;
-using SafeExamBrowser.Contracts.WindowsApi.Events;
+using SafeExamBrowser.WindowsApi.Contracts.Events;
 using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Delegates;
 

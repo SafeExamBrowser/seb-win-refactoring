@@ -8,8 +8,8 @@
 
 using System;
 using System.Runtime.Serialization;
-using SafeExamBrowser.Contracts.Lockdown;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Lockdown.Contracts;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Lockdown.FeatureConfigurations
 {

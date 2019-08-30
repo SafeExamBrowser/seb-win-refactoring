@@ -8,7 +8,7 @@
 
 using System;
 using System.Globalization;
-using SafeExamBrowser.Contracts.SystemComponents;
+using SafeExamBrowser.SystemComponents.Contracts;
 
 namespace SafeExamBrowser.SystemComponents
 {

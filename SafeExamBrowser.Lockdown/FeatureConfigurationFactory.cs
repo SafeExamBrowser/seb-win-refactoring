@@ -8,8 +8,8 @@
 
 using System;
 using System.Collections.Generic;
-using SafeExamBrowser.Contracts.Lockdown;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Lockdown.Contracts;
+using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.MachineHive;
 using SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.UserHive;
 using SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations;

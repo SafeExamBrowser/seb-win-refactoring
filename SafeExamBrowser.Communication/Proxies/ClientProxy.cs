@@ -7,11 +7,10 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Communication;
-using SafeExamBrowser.Contracts.Communication.Data;
-using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface.MessageBox;
+using SafeExamBrowser.Communication.Contracts;
+using SafeExamBrowser.Communication.Contracts.Data;
+using SafeExamBrowser.Communication.Contracts.Proxies;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Communication.Proxies
 {
@@ -128,11 +127,12 @@ namespace SafeExamBrowser.Communication.Proxies
 			}
 		}
 
-		public CommunicationResult ShowMessage(string message, string title, MessageBoxAction action, MessageBoxIcon icon, Guid requestId)
+		// TODO
+		public CommunicationResult ShowMessage(string message, string title, /*MessageBoxAction action, MessageBoxIcon icon, */Guid requestId)
 		{
 			try
 			{
-				var response = Send(new MessageBoxRequestMessage(action, icon, message, requestId, title));
+				var response = Send(new MessageBoxRequestMessage(/*action, icon, */message, requestId, title));
 				var success = IsAcknowledged(response);
 
 				if (success)

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Logging
 {

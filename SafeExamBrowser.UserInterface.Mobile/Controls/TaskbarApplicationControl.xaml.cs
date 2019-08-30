@@ -13,9 +13,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using SafeExamBrowser.Contracts.Applications;
-using SafeExamBrowser.Contracts.UserInterface.Shell;
-using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
+using SafeExamBrowser.Applications.Contracts;
+using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Shell;
+using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Controls

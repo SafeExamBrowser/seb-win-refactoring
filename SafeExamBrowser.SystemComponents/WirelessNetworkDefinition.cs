@@ -7,7 +7,7 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.SystemComponents;
+using SafeExamBrowser.SystemComponents.Contracts;
 using SimpleWifi;
 
 namespace SafeExamBrowser.SystemComponents

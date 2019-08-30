@@ -7,7 +7,7 @@
  */
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SafeExamBrowser.Contracts.Core.OperationModel;
+using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Operations;
 
 namespace SafeExamBrowser.Core.UnitTests.Operations

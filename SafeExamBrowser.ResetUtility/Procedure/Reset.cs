@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SafeExamBrowser.Contracts.Lockdown;
+using SafeExamBrowser.Lockdown.Contracts;
 
 namespace SafeExamBrowser.ResetUtility.Procedure
 {

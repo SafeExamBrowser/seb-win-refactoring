@@ -11,14 +11,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Input;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.SystemComponents;
-using SafeExamBrowser.Contracts.UserInterface.Shell;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.SystemComponents
 {
-	public class KeyboardLayout : ISystemComponent<ISystemKeyboardLayoutControl>
+	public class KeyboardLayout // TODO: ISystemComponent<ISystemKeyboardLayoutControl>
 	{
 		private const int TWO_SECONDS = 2000;
 
@@ -26,12 +24,12 @@ namespace SafeExamBrowser.SystemComponents
 		private IList<KeyboardLayoutDefinition> layouts;
 		private ILogger logger;
 		private CultureInfo originalLanguage;
-		private IList<ISystemKeyboardLayoutControl> controls;
+		// TODOprivate IList<ISystemKeyboardLayoutControl> controls;
 		private IText text;
 
 		public KeyboardLayout(ILogger logger, IText text)
 		{
-			this.controls = new List<ISystemKeyboardLayoutControl>();
+			// TODOthis.controls = new List<ISystemKeyboardLayoutControl>();
 			this.layouts = new List<KeyboardLayoutDefinition>();
 			this.logger = logger;
 			this.text = text;
@@ -63,19 +61,20 @@ namespace SafeExamBrowser.SystemComponents
 			InputLanguageManager.Current.InputLanguageChanged += Current_InputLanguageChanged;
 		}
 
-		public void Register(ISystemKeyboardLayoutControl control)
-		{
-			foreach (var layout in layouts)
-			{
-				control.Add(layout);
-			}
+		// TODO
+		//public void Register(ISystemKeyboardLayoutControl control)
+		//{
+		//	foreach (var layout in layouts)
+		//	{
+		//		control.Add(layout);
+		//	}
 
-			control.LayoutSelected += Control_LayoutSelected;
-			control.SetCurrent(currentLayout);
-			control.SetInformation(GetInfoTextFor(currentLayout));
+		//	control.LayoutSelected += Control_LayoutSelected;
+		//	control.SetCurrent(currentLayout);
+		//	control.SetInformation(GetInfoTextFor(currentLayout));
 
-			controls.Add(control);
-		}
+		//	controls.Add(control);
+		//}
 
 		public void Terminate()
 		{
@@ -87,10 +86,11 @@ namespace SafeExamBrowser.SystemComponents
 				logger.Info($"Restored original keyboard layout {ToString(originalLanguage)}.");
 			}
 
-			foreach (var control in controls)
-			{
-				control.Close();
-			}
+			// TODO
+			//foreach (var control in controls)
+			//{
+			//	control.Close();
+			//}
 		}
 
 		private void Control_LayoutSelected(Guid id)
@@ -108,11 +108,12 @@ namespace SafeExamBrowser.SystemComponents
 			logger.Info($"Detected keyboard layout change from {ToString(e.PreviousLanguage)} to {ToString(e.NewLanguage)}.");
 			currentLayout = newLayout;
 
-			foreach (var control in controls)
-			{
-				control.SetCurrent(newLayout);
-				control.SetInformation(GetInfoTextFor(newLayout));
-			}
+			// TODO
+			//foreach (var control in controls)
+			//{
+			//	control.SetCurrent(newLayout);
+			//	control.SetInformation(GetInfoTextFor(newLayout));
+			//}
 		}
 
 		private string GetInfoTextFor(KeyboardLayoutDefinition layout)

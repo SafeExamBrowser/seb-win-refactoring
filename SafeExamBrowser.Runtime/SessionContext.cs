@@ -6,9 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.Communication.Contracts.Proxies;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Runtime
 {

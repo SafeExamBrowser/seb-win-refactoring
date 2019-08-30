@@ -8,8 +8,8 @@
 
 using System;
 using System.ServiceModel;
-using SafeExamBrowser.Contracts.Communication;
-using SafeExamBrowser.Contracts.Communication.Hosts;
+using SafeExamBrowser.Communication.Contracts;
+using SafeExamBrowser.Communication.Contracts.Hosts;
 
 namespace SafeExamBrowser.Communication.Hosts
 {

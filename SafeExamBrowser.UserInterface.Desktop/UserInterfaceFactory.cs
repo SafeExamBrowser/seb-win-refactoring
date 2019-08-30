@@ -10,16 +10,16 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using FontAwesome.WPF;
-using SafeExamBrowser.Contracts.Applications;
-using SafeExamBrowser.Contracts.Client;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Contracts.UserInterface.Browser;
-using SafeExamBrowser.Contracts.UserInterface.Shell;
-using SafeExamBrowser.Contracts.UserInterface.Windows;
+using SafeExamBrowser.Applications.Contracts;
+using SafeExamBrowser.Client.Contracts;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Browser;
+using SafeExamBrowser.UserInterface.Contracts.Shell;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Desktop.Controls;
 
 namespace SafeExamBrowser.UserInterface.Desktop

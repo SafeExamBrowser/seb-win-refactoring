@@ -9,13 +9,13 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Contracts.Communication;
-using SafeExamBrowser.Contracts.Communication.Hosts;
-using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.Communication.Contracts;
+using SafeExamBrowser.Communication.Contracts.Hosts;
+using SafeExamBrowser.Communication.Contracts.Proxies;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.WindowsApi.Contracts;
 using SafeExamBrowser.Runtime.Operations;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations

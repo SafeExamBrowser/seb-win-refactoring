@@ -8,7 +8,7 @@
 
 using System;
 using System.Runtime.InteropServices;
-using SafeExamBrowser.Contracts.Monitoring;
+using SafeExamBrowser.Monitoring.Contracts;
 using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Delegates;
 using SafeExamBrowser.WindowsApi.Types;

@@ -9,8 +9,8 @@
 using System;
 using System.IO;
 using System.IO.Compression;
-using SafeExamBrowser.Contracts.Configuration.DataCompression;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Configuration.Contracts.DataCompression;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Configuration.DataCompression
 {

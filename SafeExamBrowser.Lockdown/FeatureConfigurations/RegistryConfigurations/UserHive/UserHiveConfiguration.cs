@@ -8,7 +8,7 @@
 
 using System;
 using Microsoft.Win32;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.UserHive
 {

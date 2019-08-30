@@ -7,30 +7,28 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Timers;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.SystemComponents;
-using SafeExamBrowser.Contracts.UserInterface.Shell;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts;
 using PowerLineStatus = System.Windows.Forms.PowerLineStatus;
 using SystemInformation = System.Windows.Forms.SystemInformation;
 
 namespace SafeExamBrowser.SystemComponents
 {
-	public class PowerSupply : ISystemComponent<ISystemPowerSupplyControl>
+	public class PowerSupply // TODO: ISystemComponent<ISystemPowerSupplyControl>
 	{
 		private readonly object @lock = new object();
 
 		private bool infoShown, warningShown;
 		private ILogger logger;
-		private IList<ISystemPowerSupplyControl> controls;
+		// TODOprivate IList<ISystemPowerSupplyControl> controls;
 		private IText text;
 		private Timer timer;
 
 		public PowerSupply(ILogger logger, IText text)
 		{
-			this.controls = new List<ISystemPowerSupplyControl>();
+			// TODOthis.controls = new List<ISystemPowerSupplyControl>();
 			this.logger = logger;
 			this.text = text;
 		}
@@ -47,15 +45,16 @@ namespace SafeExamBrowser.SystemComponents
 			logger.Info("Started monitoring the power supply.");
 		}
 
-		public void Register(ISystemPowerSupplyControl control)
-		{
-			lock (@lock)
-			{
-				controls.Add(control);
-			}
+		// TODO
+		//public void Register(ISystemPowerSupplyControl control)
+		//{
+		//	lock (@lock)
+		//	{
+		//		controls.Add(control);
+		//	}
 
-			UpdateControls();
-		}
+		//	UpdateControls();
+		//}
 
 		public void Terminate()
 		{
@@ -65,10 +64,11 @@ namespace SafeExamBrowser.SystemComponents
 				logger.Info("Stopped monitoring the power supply.");
 			}
 
-			foreach (var control in controls)
-			{
-				control.Close();
-			}
+			// TODO
+			//foreach (var control in controls)
+			//{
+			//	control.Close();
+			//}
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -106,12 +106,13 @@ namespace SafeExamBrowser.SystemComponents
 
 				tooltip = tooltip.Replace("%%CHARGE%%", percentage.ToString());
 
-				foreach (var control in controls)
-				{
-					control.SetBatteryCharge(charge, status);
-					control.SetPowerGridConnection(online);
-					control.SetInformation(tooltip);
-				}
+				// TODO
+				//foreach (var control in controls)
+				//{
+				//	control.SetBatteryCharge(charge, status);
+				//	control.SetPowerGridConnection(online);
+				//	control.SetInformation(tooltip);
+				//}
 			}
 		}
 
@@ -119,10 +120,11 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			if (status == BatteryChargeStatus.Low && !infoShown)
 			{
-				foreach (var control in controls)
-				{
-					control.ShowLowBatteryInfo(text.Get(TextKey.SystemControl_BatteryChargeLowInfo));
-				}
+				// TODO
+				//foreach (var control in controls)
+				//{
+				//	control.ShowLowBatteryInfo(text.Get(TextKey.SystemControl_BatteryChargeLowInfo));
+				//}
 
 				infoShown = true;
 				logger.Info("Informed the user about low battery charge.");
@@ -130,10 +132,11 @@ namespace SafeExamBrowser.SystemComponents
 
 			if (status == BatteryChargeStatus.Critical && !warningShown)
 			{
-				foreach (var control in controls)
-				{
-					control.ShowCriticalBatteryWarning(text.Get(TextKey.SystemControl_BatteryChargeCriticalWarning));
-				}
+				// TODO
+				//foreach (var control in controls)
+				//{
+				//	control.ShowCriticalBatteryWarning(text.Get(TextKey.SystemControl_BatteryChargeCriticalWarning));
+				//}
 
 				warningShown = true;
 				logger.Warn("Warned the user about critical battery charge.");

@@ -11,12 +11,12 @@ using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Communication;
-using SafeExamBrowser.Contracts.Communication;
-using SafeExamBrowser.Contracts.Communication.Data;
-using SafeExamBrowser.Contracts.Communication.Hosts;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface.MessageBox;
+using SafeExamBrowser.Communication.Contracts;
+using SafeExamBrowser.Communication.Contracts.Data;
+using SafeExamBrowser.Communication.Contracts.Hosts;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 
 namespace SafeExamBrowser.Client.UnitTests.Communication
 {
@@ -164,13 +164,15 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 
 			sut.MessageBoxRequested += (args) =>
 			{
-				messageBoxRequested = args.Action == action && args.Icon == icon && args.Message == message && args.RequestId == requestId && args.Title == title;
+				// TODO 
+				messageBoxRequested = /*args.Action == action && args.Icon == icon &&*/ args.Message == message && args.RequestId == requestId && args.Title == title;
 				resetEvent.Set();
 			};
 			sut.AuthenticationToken = Guid.Empty;
 
 			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
-			var request = new MessageBoxRequestMessage(action, icon, message, requestId, title) { CommunicationToken = token };
+			// TODO 
+			var request = new MessageBoxRequestMessage(/*action, icon, */message, requestId, title) { CommunicationToken = token };
 			var response = sut.Send(request);
 
 			resetEvent.WaitOne();
@@ -280,7 +282,8 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 
 			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
 
-			sut.Send(new MessageBoxRequestMessage(default(MessageBoxAction), default(MessageBoxIcon), "", Guid.Empty, "") { CommunicationToken = token });
+			// TODO 
+			sut.Send(new MessageBoxRequestMessage(/*default(MessageBoxAction), default(MessageBoxIcon), */"", Guid.Empty, "") { CommunicationToken = token });
 			sut.Send(new PasswordRequestMessage(default(PasswordRequestPurpose), Guid.Empty) { CommunicationToken = token });
 			sut.Send(new ReconfigurationDeniedMessage("") { CommunicationToken = token });
 			sut.Send(new SimpleMessage(SimpleMessagePurport.Shutdown) { CommunicationToken = token });

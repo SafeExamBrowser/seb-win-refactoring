@@ -7,10 +7,10 @@
  */
 
 using System.Windows;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.UserInterface.MessageBox;
-using SafeExamBrowser.Contracts.UserInterface.Windows;
-using MessageBoxResult = SafeExamBrowser.Contracts.UserInterface.MessageBox.MessageBoxResult;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
+using MessageBoxResult = SafeExamBrowser.UserInterface.Contracts.MessageBox.MessageBoxResult;
 
 namespace SafeExamBrowser.UserInterface.Mobile
 {

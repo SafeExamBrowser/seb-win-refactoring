@@ -7,7 +7,7 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Core;
+using SafeExamBrowser.Core.Contracts;
 
 namespace SafeExamBrowser.UserInterface.Shared.Utilities
 {

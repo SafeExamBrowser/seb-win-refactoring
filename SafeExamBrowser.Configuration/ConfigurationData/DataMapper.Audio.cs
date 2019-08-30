@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Contracts.Configuration.Settings;
+using SafeExamBrowser.Configuration.Contracts.Settings;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {

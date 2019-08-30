@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Operations;
-using SafeExamBrowser.Contracts.Communication.Hosts;
-using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Communication.Contracts.Hosts;
+using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {

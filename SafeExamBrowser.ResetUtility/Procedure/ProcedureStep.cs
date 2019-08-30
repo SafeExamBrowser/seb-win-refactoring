@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.ResetUtility.Procedure
 {

@@ -9,8 +9,8 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.WindowsApi.Contracts;
 using SafeExamBrowser.WindowsApi.Constants;
 
 namespace SafeExamBrowser.WindowsApi

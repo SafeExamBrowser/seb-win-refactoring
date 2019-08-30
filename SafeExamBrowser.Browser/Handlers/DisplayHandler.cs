@@ -11,7 +11,7 @@ using System.Linq;
 using CefSharp;
 using CefSharp.Structs;
 using SafeExamBrowser.Browser.Events;
-using SafeExamBrowser.Contracts.Browser;
+using SafeExamBrowser.Browser.Contracts;
 
 namespace SafeExamBrowser.Browser.Handlers
 {

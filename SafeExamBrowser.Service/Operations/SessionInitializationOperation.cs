@@ -8,8 +8,8 @@
 
 using System;
 using System.Threading;
-using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Service.Operations
 {

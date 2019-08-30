@@ -8,7 +8,7 @@
 
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Logging.UnitTests
 {

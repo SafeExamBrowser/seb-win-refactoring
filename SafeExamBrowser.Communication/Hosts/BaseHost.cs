@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
-using SafeExamBrowser.Contracts.Communication;
-using SafeExamBrowser.Contracts.Communication.Data;
-using SafeExamBrowser.Contracts.Communication.Hosts;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Communication.Contracts;
+using SafeExamBrowser.Communication.Contracts.Data;
+using SafeExamBrowser.Communication.Contracts.Hosts;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Communication.Hosts
 {

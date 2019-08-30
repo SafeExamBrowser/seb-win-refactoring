@@ -13,7 +13,7 @@ using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using SafeExamBrowser.Contracts.Core;
+using SafeExamBrowser.Core.Contracts;
 
 namespace SafeExamBrowser.UserInterface.Shared.Utilities
 {

@@ -7,8 +7,8 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.Core.OperationModel.Events;
+using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 
 namespace SafeExamBrowser.Core.Operations
 {

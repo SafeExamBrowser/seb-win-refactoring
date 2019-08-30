@@ -12,39 +12,39 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using SafeExamBrowser.Browser;
+using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Client.Communication;
+using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Client.Notifications;
 using SafeExamBrowser.Client.Operations;
+using SafeExamBrowser.Communication.Contracts;
+using SafeExamBrowser.Communication.Contracts.Hosts;
+using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Settings;
 using SafeExamBrowser.Configuration.Cryptography;
-using SafeExamBrowser.Contracts.Browser;
-using SafeExamBrowser.Contracts.Client;
-using SafeExamBrowser.Contracts.Communication;
-using SafeExamBrowser.Contracts.Communication.Hosts;
-using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.Contracts.SystemComponents;
-using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Contracts.UserInterface.MessageBox;
-using SafeExamBrowser.Contracts.UserInterface.Shell;
-using SafeExamBrowser.Contracts.WindowsApi;
+using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.OperationModel;
 using SafeExamBrowser.Core.Operations;
 using SafeExamBrowser.I18n;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
 using SafeExamBrowser.Monitoring.Display;
 using SafeExamBrowser.Monitoring.Keyboard;
 using SafeExamBrowser.Monitoring.Mouse;
 using SafeExamBrowser.Monitoring.Processes;
 using SafeExamBrowser.Monitoring.Windows;
 using SafeExamBrowser.SystemComponents;
+using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.WindowsApi;
+using SafeExamBrowser.WindowsApi.Contracts;
 using Desktop = SafeExamBrowser.UserInterface.Desktop;
 using Mobile = SafeExamBrowser.UserInterface.Mobile;
 
@@ -275,10 +275,11 @@ namespace SafeExamBrowser.Client
 				aboutController,
 				logInfo,
 				logController,
-				audio,
-				keyboardLayout,
-				powerSupply,
-				wirelessNetwork,
+				// TODO 
+				//audio,
+				//keyboardLayout,
+				//powerSupply,
+				//wirelessNetwork,
 				systemInfo,
 				taskbar,
 				configuration.Settings.Taskbar,

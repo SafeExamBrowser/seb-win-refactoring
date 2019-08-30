@@ -10,21 +10,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.SystemComponents;
-using SafeExamBrowser.Contracts.UserInterface.Shell;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts;
 using SimpleWifi;
 using SimpleWifi.Win32;
 using SimpleWifi.Win32.Interop;
 
 namespace SafeExamBrowser.SystemComponents
 {
-	public class WirelessNetwork : ISystemComponent<ISystemWirelessNetworkControl>
+	public class WirelessNetwork // TODO: ISystemComponent<ISystemWirelessNetworkControl>
 	{
 		private readonly object @lock = new object();
 
-		private List<ISystemWirelessNetworkControl> controls;
+		// TODOprivate List<ISystemWirelessNetworkControl> controls;
 		private List<WirelessNetworkDefinition> networks;
 		private bool hasWifiAdapter;
 		private ILogger logger;
@@ -34,7 +33,7 @@ namespace SafeExamBrowser.SystemComponents
 
 		public WirelessNetwork(ILogger logger, IText text)
 		{
-			this.controls = new List<ISystemWirelessNetworkControl>();
+			// TODOthis.controls = new List<ISystemWirelessNetworkControl>();
 			this.logger = logger;
 			this.networks = new List<WirelessNetworkDefinition>();
 			this.text = text;
@@ -59,29 +58,30 @@ namespace SafeExamBrowser.SystemComponents
 			}
 		}
 
-		public void Register(ISystemWirelessNetworkControl control)
-		{
-			if (hasWifiAdapter)
-			{
-				control.HasWirelessNetworkAdapter = true;
-				control.NetworkSelected += Control_NetworkSelected;
-			}
-			else
-			{
-				control.HasWirelessNetworkAdapter = false;
-				control.SetInformation(text.Get(TextKey.SystemControl_WirelessNotAvailable));
-			}
+		// TODO
+		//public void Register(ISystemWirelessNetworkControl control)
+		//{
+		//	if (hasWifiAdapter)
+		//	{
+		//		control.HasWirelessNetworkAdapter = true;
+		//		control.NetworkSelected += Control_NetworkSelected;
+		//	}
+		//	else
+		//	{
+		//		control.HasWirelessNetworkAdapter = false;
+		//		control.SetInformation(text.Get(TextKey.SystemControl_WirelessNotAvailable));
+		//	}
 
-			lock (@lock)
-			{
-				controls.Add(control);
-			}
+		//	lock (@lock)
+		//	{
+		//		controls.Add(control);
+		//	}
 
-			if (hasWifiAdapter)
-			{
-				UpdateControls();
-			}
-		}
+		//	if (hasWifiAdapter)
+		//	{
+		//		UpdateControls();
+		//	}
+		//}
 
 		public void Terminate()
 		{
@@ -91,10 +91,11 @@ namespace SafeExamBrowser.SystemComponents
 				logger.Info("Stopped monitoring the wireless network adapter.");
 			}
 
-			foreach (var control in controls)
-			{
-				control.Close();
-			}
+			// TODO
+			//foreach (var control in controls)
+			//{
+			//	control.Close();
+			//}
 		}
 
 		private void Control_NetworkSelected(Guid id)
@@ -110,10 +111,11 @@ namespace SafeExamBrowser.SystemComponents
 					logger.Info($"Attempting to connect to '{network.Name}'...");
 					network.AccessPoint.ConnectAsync(request, false, (success) => AccessPoint_OnConnectComplete(network.Name, success));
 
-					foreach (var control in controls)
-					{
-						control.IsConnecting = true;
-					}
+					// TODO
+					//foreach (var control in controls)
+					//{
+					//	control.IsConnecting = true;
+					//}
 				}
 				catch (Exception e)
 				{
@@ -135,10 +137,11 @@ namespace SafeExamBrowser.SystemComponents
 
 			lock (@lock)
 			{
-				foreach (var control in controls)
-				{
-					control.IsConnecting = false;
-				}
+				// TODO
+				//foreach (var control in controls)
+				//{
+				//	control.IsConnecting = false;
+				//}
 			}
 
 			UpdateAvailableNetworks();
@@ -190,21 +193,22 @@ namespace SafeExamBrowser.SystemComponents
 				{
 					var currentNetwork = networks.FirstOrDefault(n => n.Status == WirelessNetworkStatus.Connected);
 
-					foreach (var control in controls)
-					{
-						if (wifi.ConnectionStatus == WifiStatus.Disconnected)
-						{
-							control.SetInformation(text.Get(TextKey.SystemControl_WirelessDisconnected));
-						}
+					// TODO
+					//foreach (var control in controls)
+					//{
+					//	if (wifi.ConnectionStatus == WifiStatus.Disconnected)
+					//	{
+					//		control.SetInformation(text.Get(TextKey.SystemControl_WirelessDisconnected));
+					//	}
 
-						if (currentNetwork != null)
-						{
-							control.SetInformation(text.Get(TextKey.SystemControl_WirelessConnected).Replace("%%NAME%%", currentNetwork.Name));
-						}
+					//	if (currentNetwork != null)
+					//	{
+					//		control.SetInformation(text.Get(TextKey.SystemControl_WirelessConnected).Replace("%%NAME%%", currentNetwork.Name));
+					//	}
 
-						control.NetworkStatus = ToStatus(wifi.ConnectionStatus);
-						control.Update(networks.ToList());
-					}
+					//	control.NetworkStatus = ToStatus(wifi.ConnectionStatus);
+					//	control.Update(networks.ToList());
+					//}
 				}
 				catch (Exception e)
 				{

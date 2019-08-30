@@ -10,8 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Lockdown;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Lockdown.Contracts;
 
 namespace SafeExamBrowser.ResetUtility.Procedure
 {

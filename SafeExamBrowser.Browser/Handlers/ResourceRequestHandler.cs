@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Specialized;
 using CefSharp;
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Configuration.Contracts;
 
 namespace SafeExamBrowser.Browser.Handlers
 {

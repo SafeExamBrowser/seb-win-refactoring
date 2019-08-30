@@ -9,9 +9,9 @@
 using System;
 using System.Windows;
 using System.Windows.Media.Animation;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.UserInterface.Shell;
-using SafeExamBrowser.Contracts.UserInterface.Shell.Events;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Shell;
+using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 
 namespace SafeExamBrowser.UserInterface.Desktop
 {

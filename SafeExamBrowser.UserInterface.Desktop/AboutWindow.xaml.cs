@@ -9,10 +9,10 @@
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.UserInterface.Windows;
-using SafeExamBrowser.Contracts.UserInterface.Windows.Events;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Contracts.Windows.Events;
 
 namespace SafeExamBrowser.UserInterface.Desktop
 {

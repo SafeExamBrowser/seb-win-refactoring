@@ -8,19 +8,20 @@
 
 using System;
 using System.Net.Http;
+using SafeExamBrowser.Applications.Contracts;
+using SafeExamBrowser.Applications.Contracts.Events;
+using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Browser.Handlers;
-using SafeExamBrowser.Contracts.Applications;
-using SafeExamBrowser.Contracts.Applications.Events;
-using SafeExamBrowser.Contracts.Browser;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Contracts.UserInterface.Browser;
-using SafeExamBrowser.Contracts.UserInterface.MessageBox;
-using SafeExamBrowser.Contracts.UserInterface.Windows;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Browser;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Browser
 {
@@ -164,7 +165,7 @@ namespace SafeExamBrowser.Browser
 		{
 			if (settings.AllowConfigurationDownloads)
 			{
-				args.BrowserWindow = window;
+				// TODO args.BrowserWindow = window;
 				logger.Debug($"Forwarding download request for configuration file '{fileName}'.");
 				ConfigurationDownloadRequested?.Invoke(fileName, args);
 			}

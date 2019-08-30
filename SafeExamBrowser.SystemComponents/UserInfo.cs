@@ -10,8 +10,8 @@ using System;
 using System.Diagnostics;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.SystemComponents;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts;
 
 namespace SafeExamBrowser.SystemComponents
 {

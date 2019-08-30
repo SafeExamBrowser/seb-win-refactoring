@@ -9,7 +9,7 @@
 using System;
 using System.Threading;
 using System.Windows;
-using SafeExamBrowser.Contracts.Configuration;
+using SafeExamBrowser.Configuration.Contracts;
 
 namespace SafeExamBrowser.Client
 {

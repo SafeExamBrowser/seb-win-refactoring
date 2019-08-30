@@ -7,32 +7,29 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using NAudio.CoreAudioApi;
-using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.SystemComponents;
-using SafeExamBrowser.Contracts.UserInterface.Shell;
+using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.SystemComponents
 {
-	public class Audio : ISystemComponent<ISystemAudioControl>
+	public class Audio// TODO : ISystemComponent<ISystemAudioControl>
 	{
 		private readonly object @lock = new object();
 
 		private AudioSettings settings;
 		private MMDevice audioDevice;
 		private string audioDeviceShortName;
-		private List<ISystemAudioControl> controls;
+		// TODOprivate List<ISystemAudioControl> controls;
 		private float originalVolume;
 		private ILogger logger;
 		private IText text;
 
 		public Audio(AudioSettings settings, ILogger logger, IText text)
 		{
-			this.controls = new List<ISystemAudioControl>();
+			// TODOthis.controls = new List<ISystemAudioControl>();
 			this.settings = settings;
 			this.logger = logger;
 			this.text = text;
@@ -51,18 +48,19 @@ namespace SafeExamBrowser.SystemComponents
 			}
 		}
 
-		public void Register(ISystemAudioControl control)
-		{
-			control.MuteRequested += Control_MuteRequested;
-			control.VolumeSelected += Control_VolumeSelected;
+		// TODO
+		//public void Register(ISystemAudioControl control)
+		//{
+		//	control.MuteRequested += Control_MuteRequested;
+		//	control.VolumeSelected += Control_VolumeSelected;
 
-			lock (@lock)
-			{
-				controls.Add(control);
-			}
+		//	lock (@lock)
+		//	{
+		//		controls.Add(control);
+		//	}
 
-			UpdateControls();
-		}
+		//	UpdateControls();
+		//}
 
 		public void Terminate()
 		{
@@ -72,10 +70,11 @@ namespace SafeExamBrowser.SystemComponents
 				FinalizeAudioDevice();
 			}
 
-			foreach (var control in controls)
-			{
-				control.Close();
-			}
+			// TODO
+			//foreach (var control in controls)
+			//{
+			//	control.Close();
+			//}
 		}
 
 		private bool TryLoadAudioDevice()
@@ -150,12 +149,13 @@ namespace SafeExamBrowser.SystemComponents
 
 				logger.Debug($"Volume is set to {data.MasterVolume * 100}%, audio device is {(data.Muted ? "muted" : "not muted")}.");
 
-				foreach (var control in controls)
-				{
-					control.OutputDeviceMuted = data.Muted;
-					control.OutputDeviceVolume = data.MasterVolume;
-					control.SetInformation(info);
-				}
+				// TODO
+				//foreach (var control in controls)
+				//{
+				//	control.OutputDeviceMuted = data.Muted;
+				//	control.OutputDeviceVolume = data.MasterVolume;
+				//	control.SetInformation(info);
+				//}
 			}
 		}
 
@@ -179,22 +179,24 @@ namespace SafeExamBrowser.SystemComponents
 					{
 						var info = BuildInfoText(audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar, audioDevice.AudioEndpointVolume.Mute);
 
-						foreach (var control in controls)
-						{
-							control.HasOutputDevice = true;
-							control.OutputDeviceMuted = audioDevice.AudioEndpointVolume.Mute;
-							control.OutputDeviceName = audioDevice.FriendlyName;
-							control.OutputDeviceVolume = audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar;
-							control.SetInformation(info);
-						}
+						// TODO
+						//foreach (var control in controls)
+						//{
+						//	control.HasOutputDevice = true;
+						//	control.OutputDeviceMuted = audioDevice.AudioEndpointVolume.Mute;
+						//	control.OutputDeviceName = audioDevice.FriendlyName;
+						//	control.OutputDeviceVolume = audioDevice.AudioEndpointVolume.MasterVolumeLevelScalar;
+						//	control.SetInformation(info);
+						//}
 					}
 					else
 					{
-						foreach (var control in controls)
-						{
-							control.HasOutputDevice = false;
-							control.SetInformation(text.Get(TextKey.SystemControl_AudioDeviceNotFound));
-						}
+						// TODO
+						//foreach (var control in controls)
+						//{
+						//	control.HasOutputDevice = false;
+						//	control.SetInformation(text.Get(TextKey.SystemControl_AudioDeviceNotFound));
+						//}
 					}
 				}
 				catch (Exception e)

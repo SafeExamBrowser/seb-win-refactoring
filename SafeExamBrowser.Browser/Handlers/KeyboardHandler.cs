@@ -8,7 +8,7 @@
 
 using System.Windows.Forms;
 using CefSharp;
-using SafeExamBrowser.Contracts.UserInterface;
+using SafeExamBrowser.UserInterface.Contracts;
 
 namespace SafeExamBrowser.Browser.Handlers
 {

@@ -8,9 +8,9 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Contracts.Core.OperationModel;
-using SafeExamBrowser.Contracts.Lockdown;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.Lockdown.Contracts;
+using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Service.Operations;
 
 namespace SafeExamBrowser.Service.UnitTests.Operations

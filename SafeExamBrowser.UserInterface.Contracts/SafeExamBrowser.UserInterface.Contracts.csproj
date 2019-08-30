@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C7889E97-6FF6-4A58-B7CB-521ED276B316}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SafeExamBrowser.UserInterface.Contracts</RootNamespace>
+    <AssemblyName>SafeExamBrowser.UserInterface.Contracts</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Browser\Events\AddressChangedEventHandler.cs" />
+    <Compile Include="Browser\Events\LoadingStateChangedEventHandler.cs" />
+    <Compile Include="Browser\Events\TitleChangedEventHandler.cs" />
+    <Compile Include="Browser\IBrowserControl.cs" />
+    <Compile Include="Browser\IBrowserWindow.cs" />
+    <Compile Include="Events\ActionRequestedEventHandler.cs" />
+    <Compile Include="IProgressIndicator.cs" />
+    <Compile Include="IUserInterfaceFactory.cs" />
+    <Compile Include="MessageBox\IMessageBox.cs" />
+    <Compile Include="MessageBox\MessageBoxAction.cs" />
+    <Compile Include="MessageBox\MessageBoxIcon.cs" />
+    <Compile Include="MessageBox\MessageBoxResult.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shell\Events\ActivatorEventHandler.cs" />
+    <Compile Include="Shell\Events\ApplicationControlClickedEventHandler.cs" />
+    <Compile Include="Shell\Events\AudioMuteRequestedEventHandler.cs" />
+    <Compile Include="Shell\Events\AudioVolumeSelectedEventHandler.cs" />
+    <Compile Include="Shell\Events\KeyboardLayoutSelectedEventHandler.cs" />
+    <Compile Include="Shell\Events\NotificationControlClickedEventHandler.cs" />
+    <Compile Include="Shell\Events\QuitButtonClickedEventHandler.cs" />
+    <Compile Include="Shell\Events\WirelessNetworkSelectedEventHandler.cs" />
+    <Compile Include="Shell\IActionCenter.cs" />
+    <Compile Include="Shell\IActionCenterActivator.cs" />
+    <Compile Include="Shell\IApplicationControl.cs" />
+    <Compile Include="Shell\INotificationControl.cs" />
+    <Compile Include="Shell\ISystemAudioControl.cs" />
+    <Compile Include="Shell\ISystemControl.cs" />
+    <Compile Include="Shell\ISystemKeyboardLayoutControl.cs" />
+    <Compile Include="Shell\ISystemPowerSupplyControl.cs" />
+    <Compile Include="Shell\ISystemWirelessNetworkControl.cs" />
+    <Compile Include="Shell\ITaskbar.cs" />
+    <Compile Include="Shell\Location.cs" />
+    <Compile Include="Windows\Events\WindowClosingEventHandler.cs" />
+    <Compile Include="Windows\IPasswordDialog.cs" />
+    <Compile Include="Windows\IPasswordDialogResult.cs" />
+    <Compile Include="Windows\IRuntimeWindow.cs" />
+    <Compile Include="Windows\ISplashScreen.cs" />
+    <Compile Include="Windows\IWindow.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SafeExamBrowser.Applications.Contracts\SafeExamBrowser.Applications.Contracts.csproj">
+      <Project>{ac77745d-3b41-43e2-8e84-d40e5a4ee77f}</Project>
+      <Name>SafeExamBrowser.Applications.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Client.Contracts\SafeExamBrowser.Client.Contracts.csproj">
+      <Project>{d39aea14-9d5e-404d-be39-a552e1bd2c7d}</Project>
+      <Name>SafeExamBrowser.Client.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Configuration.Contracts\SafeExamBrowser.Configuration.Contracts.csproj">
+      <Project>{7d74555e-63e1-4c46-bd0a-8580552368c8}</Project>
+      <Name>SafeExamBrowser.Configuration.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Core.Contracts\SafeExamBrowser.Core.Contracts.csproj">
+      <Project>{fe0e1224-b447-4b14-81e7-ed7d84822aa0}</Project>
+      <Name>SafeExamBrowser.Core.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.I18n.Contracts\SafeExamBrowser.I18n.Contracts.csproj">
+      <Project>{1858ddf3-bc2a-4bff-b663-4ce2ffeb8b7d}</Project>
+      <Name>SafeExamBrowser.I18n.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
+      <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
+      <Name>SafeExamBrowser.Logging.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

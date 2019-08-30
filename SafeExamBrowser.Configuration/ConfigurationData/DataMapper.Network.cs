@@ -7,8 +7,8 @@
  */
 
 using System.Collections.Generic;
-using SafeExamBrowser.Contracts.Configuration.Settings;
-using SafeExamBrowser.Contracts.Network.Filter;
+using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Network.Contracts.Filter;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {

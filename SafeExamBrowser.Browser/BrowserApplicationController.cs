@@ -11,16 +11,17 @@ using System.Collections.Generic;
 using System.Linq;
 using CefSharp;
 using CefSharp.WinForms;
+using SafeExamBrowser.Applications.Contracts;
+using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Events;
-using SafeExamBrowser.Contracts.Applications;
-using SafeExamBrowser.Contracts.Browser;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.UserInterface;
-using SafeExamBrowser.Contracts.UserInterface.MessageBox;
-using SafeExamBrowser.Contracts.UserInterface.Shell;
-using BrowserSettings = SafeExamBrowser.Contracts.Configuration.Settings.BrowserSettings;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Shell;
+using BrowserSettings = SafeExamBrowser.Configuration.Contracts.Settings.BrowserSettings;
 
 namespace SafeExamBrowser.Browser
 {
@@ -86,7 +87,7 @@ namespace SafeExamBrowser.Browser
 			foreach (var instance in instances)
 			{
 				instance.Terminated -= Instance_Terminated;
-				instance.Window.Close();
+				// TODO instance.Window.Close();
 
 				logger.Info($"Terminated browser instance {instance.Id}.");
 			}
@@ -106,18 +107,31 @@ namespace SafeExamBrowser.Browser
 
 			instance.Initialize();
 			instance.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
+			instance.IconChanged += Instance_IconChanged;
+			instance.NameChanged += Instance_NameChanged;
 			instance.PopupRequested += Instance_PopupRequested;
 			instance.Terminated += Instance_Terminated;
-
-			foreach (var control in controls)
-			{
-				control.RegisterInstance(instance);
-			}
 
 			instances.Add(instance);
 			instance.Window.Show();
 
 			logger.Info($"Created browser instance {instance.Id}.");
+		}
+
+		private void Instance_NameChanged(string name)
+		{
+			foreach (var control in controls)
+			{
+				// TODO
+			}
+		}
+
+		private void Instance_IconChanged(IIconResource icon)
+		{
+			foreach (var control in controls)
+			{
+				// TODO
+			}
 		}
 
 		private CefSettings InitializeCefSettings()
@@ -150,7 +164,7 @@ namespace SafeExamBrowser.Browser
 			}
 			else
 			{
-				instances.FirstOrDefault(i => i.Id == id)?.Window?.BringToForeground();
+				// TODO instances.FirstOrDefault(i => i.Id == id)?.Window?.BringToForeground();
 			}
 		}
 

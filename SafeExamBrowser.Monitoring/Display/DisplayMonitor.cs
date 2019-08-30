@@ -9,12 +9,12 @@
 using System;
 using System.Windows.Forms;
 using Microsoft.Win32;
-using SafeExamBrowser.Contracts.Logging;
-using SafeExamBrowser.Contracts.Monitoring;
-using SafeExamBrowser.Contracts.Monitoring.Events;
-using SafeExamBrowser.Contracts.SystemComponents;
-using SafeExamBrowser.Contracts.WindowsApi;
-using OperatingSystem = SafeExamBrowser.Contracts.SystemComponents.OperatingSystem;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Events;
+using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.WindowsApi.Contracts;
+using OperatingSystem = SafeExamBrowser.SystemComponents.Contracts.OperatingSystem;
 
 namespace SafeExamBrowser.Monitoring.Display
 {

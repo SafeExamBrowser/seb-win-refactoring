@@ -8,9 +8,9 @@
 
 using System.Windows;
 using System.Windows.Input;
-using SafeExamBrowser.Contracts.I18n;
-using SafeExamBrowser.Contracts.UserInterface.Windows;
-using SafeExamBrowser.Contracts.UserInterface.Windows.Events;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Contracts.Windows.Events;
 
 namespace SafeExamBrowser.UserInterface.Mobile
 {

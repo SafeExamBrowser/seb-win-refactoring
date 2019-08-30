@@ -9,11 +9,11 @@
 using System;
 using System.ServiceModel;
 using System.Timers;
-using SafeExamBrowser.Contracts.Communication;
-using SafeExamBrowser.Contracts.Communication.Data;
-using SafeExamBrowser.Contracts.Communication.Events;
-using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Communication.Contracts;
+using SafeExamBrowser.Communication.Contracts.Data;
+using SafeExamBrowser.Communication.Contracts.Events;
+using SafeExamBrowser.Communication.Contracts.Proxies;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Communication.Proxies
 {

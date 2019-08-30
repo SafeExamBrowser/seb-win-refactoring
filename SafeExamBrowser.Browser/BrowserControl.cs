@@ -8,8 +8,8 @@
 
 using CefSharp;
 using CefSharp.WinForms;
-using SafeExamBrowser.Contracts.UserInterface.Browser;
-using SafeExamBrowser.Contracts.UserInterface.Browser.Events;
+using SafeExamBrowser.UserInterface.Contracts.Browser;
+using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
 
 namespace SafeExamBrowser.Browser
 {

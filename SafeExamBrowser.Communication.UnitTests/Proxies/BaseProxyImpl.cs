@@ -8,10 +8,10 @@
 
 using System;
 using SafeExamBrowser.Communication.Proxies;
-using SafeExamBrowser.Contracts.Communication;
-using SafeExamBrowser.Contracts.Communication.Data;
-using SafeExamBrowser.Contracts.Communication.Proxies;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Communication.Contracts;
+using SafeExamBrowser.Communication.Contracts.Data;
+using SafeExamBrowser.Communication.Contracts.Proxies;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Communication.UnitTests.Proxies
 {

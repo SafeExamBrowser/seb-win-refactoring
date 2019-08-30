@@ -7,7 +7,7 @@
  */
 
 using System;
-using SafeExamBrowser.Contracts.Lockdown;
+using SafeExamBrowser.Lockdown.Contracts;
 
 namespace SafeExamBrowser.Lockdown.UnitTests
 {

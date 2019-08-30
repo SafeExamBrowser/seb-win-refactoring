@@ -7,12 +7,12 @@
  */
 
 using System;
+using SafeExamBrowser.Communication.Contracts;
+using SafeExamBrowser.Communication.Contracts.Data;
+using SafeExamBrowser.Communication.Contracts.Events;
+using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Hosts;
-using SafeExamBrowser.Contracts.Communication;
-using SafeExamBrowser.Contracts.Communication.Data;
-using SafeExamBrowser.Contracts.Communication.Events;
-using SafeExamBrowser.Contracts.Communication.Hosts;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Client.Communication
 {
@@ -69,7 +69,7 @@ namespace SafeExamBrowser.Client.Communication
 			switch (message)
 			{
 				case MessageBoxRequestMessage m:
-					MessageBoxRequested?.InvokeAsync(new MessageBoxRequestEventArgs { Action = m.Action, Icon = m.Icon, Message = m.Message, RequestId = m.RequestId, Title = m.Title });
+					MessageBoxRequested?.InvokeAsync(new MessageBoxRequestEventArgs { /*// TODO Action = m.Action, Icon = m.Icon,*/ Message = m.Message, RequestId = m.RequestId, Title = m.Title });
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 				case PasswordRequestMessage m:
 					PasswordRequested?.InvokeAsync(new PasswordRequestEventArgs { Purpose = m.Purpose, RequestId = m.RequestId });

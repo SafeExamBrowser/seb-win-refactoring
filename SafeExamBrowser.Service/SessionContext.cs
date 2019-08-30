@@ -7,8 +7,8 @@
  */
 
 using System.Threading;
-using SafeExamBrowser.Contracts.Configuration;
-using SafeExamBrowser.Contracts.Lockdown;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Lockdown.Contracts;
 
 namespace SafeExamBrowser.Service
 {

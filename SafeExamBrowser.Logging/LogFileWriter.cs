@@ -8,7 +8,7 @@
 
 using System.IO;
 using System.Text;
-using SafeExamBrowser.Contracts.Logging;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Logging
 {
