@@ -7,123 +7,23 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Windows.Input;
-using SafeExamBrowser.I18n.Contracts;
-using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 
 namespace SafeExamBrowser.SystemComponents
 {
-	public class KeyboardLayout // TODO: ISystemComponent<ISystemKeyboardLayoutControl>
+	internal class KeyboardLayout : IKeyboardLayout
 	{
-		private const int TWO_SECONDS = 2000;
+		internal CultureInfo CultureInfo { get; set; }
 
-		private KeyboardLayoutDefinition currentLayout;
-		private IList<KeyboardLayoutDefinition> layouts;
-		private ILogger logger;
-		private CultureInfo originalLanguage;
-		// TODOprivate IList<ISystemKeyboardLayoutControl> controls;
-		private IText text;
+		public string CultureCode { get; set; }
+		public Guid Id { get; }
+		public bool IsCurrent { get; set; }
+		public string Name { get; set; }
 
-		public KeyboardLayout(ILogger logger, IText text)
+		public KeyboardLayout()
 		{
-			// TODOthis.controls = new List<ISystemKeyboardLayoutControl>();
-			this.layouts = new List<KeyboardLayoutDefinition>();
-			this.logger = logger;
-			this.text = text;
-		}
-
-		public void Initialize()
-		{
-			originalLanguage = InputLanguageManager.Current.CurrentInputLanguage;
-			logger.Info($"Saved current keyboard layout {ToString(originalLanguage)}.");
-
-			foreach (CultureInfo info in InputLanguageManager.Current.AvailableInputLanguages)
-			{
-				var layout = new KeyboardLayoutDefinition
-				{
-					CultureCode = info.ThreeLetterISOLanguageName.ToUpper(),
-					CultureInfo = info,
-					Name = info.NativeName
-				};
-
-				if (originalLanguage.Equals(info))
-				{
-					currentLayout = layout;
-				}
-
-				layouts.Add(layout);
-				logger.Info($"Detected keyboard layout {ToString(info)}.");
-			}
-
-			InputLanguageManager.Current.InputLanguageChanged += Current_InputLanguageChanged;
-		}
-
-		// TODO
-		//public void Register(ISystemKeyboardLayoutControl control)
-		//{
-		//	foreach (var layout in layouts)
-		//	{
-		//		control.Add(layout);
-		//	}
-
-		//	control.LayoutSelected += Control_LayoutSelected;
-		//	control.SetCurrent(currentLayout);
-		//	control.SetInformation(GetInfoTextFor(currentLayout));
-
-		//	controls.Add(control);
-		//}
-
-		public void Terminate()
-		{
-			InputLanguageManager.Current.InputLanguageChanged -= Current_InputLanguageChanged;
-
-			if (originalLanguage != null)
-			{
-				InputLanguageManager.Current.CurrentInputLanguage = originalLanguage;
-				logger.Info($"Restored original keyboard layout {ToString(originalLanguage)}.");
-			}
-
-			// TODO
-			//foreach (var control in controls)
-			//{
-			//	control.Close();
-			//}
-		}
-
-		private void Control_LayoutSelected(Guid id)
-		{
-			var layout = layouts.First(l => l.Id == id);
-
-			logger.Info($"Changing keyboard layout to {ToString(layout.CultureInfo)}.");
-			InputLanguageManager.Current.CurrentInputLanguage = layout.CultureInfo;
-		}
-
-		private void Current_InputLanguageChanged(object sender, InputLanguageEventArgs e)
-		{
-			var newLayout = layouts.First(l => l.CultureInfo.Equals(e.NewLanguage));
-
-			logger.Info($"Detected keyboard layout change from {ToString(e.PreviousLanguage)} to {ToString(e.NewLanguage)}.");
-			currentLayout = newLayout;
-
-			// TODO
-			//foreach (var control in controls)
-			//{
-			//	control.SetCurrent(newLayout);
-			//	control.SetInformation(GetInfoTextFor(newLayout));
-			//}
-		}
-
-		private string GetInfoTextFor(KeyboardLayoutDefinition layout)
-		{
-			return text.Get(TextKey.SystemControl_KeyboardLayoutTooltip).Replace("%%LAYOUT%%", layout.CultureInfo.NativeName);
-		}
-
-		private string ToString(CultureInfo info)
-		{
-			return $"'{info.DisplayName}' ({info.ThreeLetterISOLanguageName.ToUpper()})";
+			Id = Guid.NewGuid();
 		}
 	}
 }

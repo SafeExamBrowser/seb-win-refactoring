@@ -6,38 +6,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
-using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
-using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Controls
 {
-	public partial class ActionCenterKeyboardLayoutControl : UserControl, ISystemKeyboardLayoutControl
+	public partial class ActionCenterKeyboardLayoutControl : UserControl, ISystemControl
 	{
-		public event KeyboardLayoutSelectedEventHandler LayoutSelected;
+		private IKeyboard keyboard;
+		private IText text;
 
-		public ActionCenterKeyboardLayoutControl()
+		public ActionCenterKeyboardLayoutControl(IKeyboard keyboard, IText text)
 		{
+			this.keyboard = keyboard;
+			this.text = text;
+
 			InitializeComponent();
 			InitializeKeyboardLayoutControl();
-		}
-
-		public void Add(IKeyboardLayout layout)
-		{
-			Dispatcher.Invoke(() =>
-			{
-				var button = new ActionCenterKeyboardLayoutButton(layout);
-
-				button.LayoutSelected += Button_LayoutSelected;
-				button.CultureCode = layout.CultureCode;
-				button.LayoutName = layout.Name;
-
-				LayoutsStackPanel.Children.Add(button);
-			});
 		}
 
 		public void Close()
@@ -45,31 +34,13 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 			Dispatcher.Invoke(() => Popup.IsOpen = false);
 		}
 
-		public void SetCurrent(IKeyboardLayout layout)
-		{
-			Dispatcher.Invoke(() =>
-			{
-				foreach (var child in LayoutsStackPanel.Children)
-				{
-					if (child is ActionCenterKeyboardLayoutButton layoutButton)
-					{
-						layoutButton.IsCurrent = layout.Id == layoutButton.LayoutId;
-					}
-				}
-
-				Text.Text = layout.Name;
-			});
-		}
-
-		public void SetInformation(string text)
-		{
-			Dispatcher.Invoke(() => Button.ToolTip = text);
-		}
-
 		private void InitializeKeyboardLayoutControl()
 		{
 			var originalBrush = Grid.Background;
 
+			InitializeLayouts();
+
+			keyboard.LayoutChanged += Keyboard_LayoutChanged;
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
 			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
 			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
@@ -77,10 +48,47 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 			Popup.Closed += (o, args) => Grid.Background = originalBrush;
 		}
 
-		private void Button_LayoutSelected(Guid id)
+		private void Keyboard_LayoutChanged(IKeyboardLayout layout)
+		{
+			Dispatcher.InvokeAsync(() => SetCurrent(layout));
+		}
+
+		private void InitializeLayouts()
+		{
+			foreach (var layout in keyboard.GetLayouts())
+			{
+				var button = new ActionCenterKeyboardLayoutButton(layout);
+
+				button.LayoutSelected += (o, args) => ActivateLayout(layout);
+				LayoutsStackPanel.Children.Add(button);
+
+				if (layout.IsCurrent)
+				{
+					SetCurrent(layout);
+				}
+			}
+		}
+
+		private void ActivateLayout(IKeyboardLayout layout)
 		{
 			Popup.IsOpen = false;
-			LayoutSelected?.Invoke(id);
+			keyboard.ActivateLayout(layout.Id);
+		}
+
+		private void SetCurrent(IKeyboardLayout layout)
+		{
+			var tooltip = text.Get(TextKey.SystemControl_KeyboardLayoutTooltip).Replace("%%LAYOUT%%", layout.Name);
+
+			foreach (var child in LayoutsStackPanel.Children)
+			{
+				if (child is ActionCenterKeyboardLayoutButton layoutButton)
+				{
+					layoutButton.IsCurrent = layout.Id == layoutButton.LayoutId;
+				}
+			}
+
+			Text.Text = layout.Name;
+			Button.ToolTip = tooltip;
 		}
 	}
 }

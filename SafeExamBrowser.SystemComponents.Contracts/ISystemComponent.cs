@@ -9,21 +9,14 @@
 namespace SafeExamBrowser.SystemComponents.Contracts
 {
 	/// <summary>
-	/// Defines the functionality of a system component (e.g. the power supply). Each system component can get multiple <see cref="ISystemControl"/>
-	/// assigned, which in turn allow the user to interact with or get information about the underlying system component.
+	/// Defines the functionality of a system component (e.g. the power supply).
 	/// </summary>
-	public interface ISystemComponent// TODO <TControl> where TControl : ISystemControl
+	public interface ISystemComponent
 	{
 		/// <summary>
 		/// Initializes the resources and operations of the component.
 		/// </summary>
 		void Initialize();
-
-		// TODO
-		///// <summary>
-		///// Registers a system control which will be loaded into shell.
-		///// </summary>
-		//void Register(TControl control);
 
 		/// <summary>
 		/// Instructs the component to stop any running operations and releases all used resources.

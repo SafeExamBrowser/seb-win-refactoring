@@ -13,14 +13,10 @@ namespace SafeExamBrowser.UserInterface.Contracts.Shell
 	/// </summary>
 	public interface ISystemControl
 	{
+		// TODO: Check if needed after all changes!
 		/// <summary>
 		/// Closes the control and / or any associated user interface elements.
 		/// </summary>
 		void Close();
-
-		/// <summary>
-		/// Sets the information text of the system control.
-		/// </summary>
-		void SetInformation(string text);
 	}
 }

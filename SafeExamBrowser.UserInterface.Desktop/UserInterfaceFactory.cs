@@ -16,6 +16,7 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Settings;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -69,15 +70,15 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			return new BrowserWindow(control, settings, isMainWindow, text);
 		}
 
-		public ISystemKeyboardLayoutControl CreateKeyboardLayoutControl(Location location)
+		public ISystemControl CreateKeyboardLayoutControl(IKeyboard keyboard, Location location)
 		{
 			if (location == Location.ActionCenter)
 			{
-				return new ActionCenterKeyboardLayoutControl();
+				return new ActionCenterKeyboardLayoutControl(keyboard, text);
 			}
 			else
 			{
-				return new TaskbarKeyboardLayoutControl();
+				return new TaskbarKeyboardLayoutControl(keyboard, text);
 			}
 		}
 

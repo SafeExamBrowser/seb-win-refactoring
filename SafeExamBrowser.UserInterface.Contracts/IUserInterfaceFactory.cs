@@ -12,6 +12,7 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Settings;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
@@ -46,7 +47,7 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// <summary>
 		/// Creates a system control which allows to change the keyboard layout of the computer.
 		/// </summary>
-		ISystemKeyboardLayoutControl CreateKeyboardLayoutControl(Location location);
+		ISystemControl CreateKeyboardLayoutControl(IKeyboard keyboard, Location location);
 
 		/// <summary>
 		/// Creates a new log window which runs on its own thread.

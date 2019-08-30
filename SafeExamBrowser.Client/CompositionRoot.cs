@@ -256,7 +256,7 @@ namespace SafeExamBrowser.Client
 			var aboutInfo = new AboutNotificationInfo(text);
 			var aboutController = new AboutNotificationController(configuration.AppConfig, uiFactory);
 			var audio = new Audio(configuration.Settings.Audio, new ModuleLogger(logger, nameof(Audio)), text);
-			var keyboardLayout = new KeyboardLayout(new ModuleLogger(logger, nameof(KeyboardLayout)), text);
+			var keyboard = new Keyboard(new ModuleLogger(logger, nameof(Keyboard)), text);
 			var logInfo = new LogNotificationInfo(text);
 			var logController = new LogNotificationController(logger, uiFactory);
 			var powerSupply = new PowerSupply(new ModuleLogger(logger, nameof(PowerSupply)), text);
@@ -273,11 +273,11 @@ namespace SafeExamBrowser.Client
 				logger,
 				aboutInfo,
 				aboutController,
+				keyboard,
 				logInfo,
 				logController,
 				// TODO 
 				//audio,
-				//keyboardLayout,
 				//powerSupply,
 				//wirelessNetwork,
 				systemInfo,

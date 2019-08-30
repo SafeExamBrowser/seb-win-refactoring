@@ -8,7 +8,7 @@
 
 using System;
 
-namespace SafeExamBrowser.SystemComponents.Contracts
+namespace SafeExamBrowser.SystemComponents.Contracts.Keyboard
 {
 	/// <summary>
 	/// Defines a keyboard layout which can be loaded by the application.
@@ -24,6 +24,11 @@ namespace SafeExamBrowser.SystemComponents.Contracts
 		/// The unique identifier of the keyboard layout.
 		/// </summary>
 		Guid Id { get; }
+
+		/// <summary>
+		/// Indicates whether this is the currently active keyboard layout.
+		/// </summary>
+		bool IsCurrent { get; }
 
 		/// <summary>
 		/// The name of this keyboard layout.

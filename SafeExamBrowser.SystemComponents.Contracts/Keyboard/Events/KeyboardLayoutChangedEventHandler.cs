@@ -6,12 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-
-namespace SafeExamBrowser.UserInterface.Contracts.Shell.Events
+namespace SafeExamBrowser.SystemComponents.Contracts.Keyboard.Events
 {
 	/// <summary>
-	/// Indicates that a keyboard layout has been selected by the user.
+	/// Indicates that the active keyboard layout has changed.
 	/// </summary>
-	public delegate void KeyboardLayoutSelectedEventHandler(Guid id);
+	public delegate void KeyboardLayoutChangedEventHandler(IKeyboardLayout layout);
 }

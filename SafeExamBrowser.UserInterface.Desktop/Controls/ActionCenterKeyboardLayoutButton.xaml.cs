@@ -9,8 +9,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using SafeExamBrowser.SystemComponents.Contracts;
-using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
+using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
@@ -18,27 +17,17 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 	{
 		private IKeyboardLayout layout;
 
-		public event KeyboardLayoutSelectedEventHandler LayoutSelected;
-
-		public string CultureCode
-		{
-			set { CultureCodeTextBlock.Text = value; }
-		}
-
 		public bool IsCurrent
 		{
 			set { IsCurrentTextBlock.Visibility = value ? Visibility.Visible : Visibility.Hidden; }
-		}
-
-		public string LayoutName
-		{
-			set { LayoutNameTextBlock.Text = value; }
 		}
 
 		public Guid LayoutId
 		{
 			get { return layout.Id; }
 		}
+
+		public event EventHandler LayoutSelected;
 
 		public ActionCenterKeyboardLayoutButton(IKeyboardLayout layout)
 		{
@@ -50,7 +39,9 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 		private void InitializeEvents()
 		{
-			Button.Click += (o, args) => LayoutSelected?.Invoke(layout.Id);
+			Button.Click += (o, args) => LayoutSelected?.Invoke(this, EventArgs.Empty);
+			CultureCodeTextBlock.Text = layout.CultureCode;
+			LayoutNameTextBlock.Text = layout.Name;
 		}
 	}
 }
