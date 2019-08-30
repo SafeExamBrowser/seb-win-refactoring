@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Applications.Contracts
 		InstanceIdentifier Id { get; }
 
 		/// <summary>
-		/// The name or (document) title of the application instance.
+		/// The name or document title of the application instance.
 		/// </summary>
 		string Name { get; }
 
@@ -41,10 +41,9 @@ namespace SafeExamBrowser.Applications.Contracts
 		/// </summary>
 		event NameChangedEventHandler NameChanged;
 
-		// TODO
-		///// <summary>
-		///// The main window of the application instance.
-		///// </summary>
-		//IWindow Window { get; }
+		/// <summary>
+		/// Makes this instance the currently active one and brings it to the foreground.
+		/// </summary>
+		void Activate();
 	}
 }

@@ -6,23 +6,29 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Applications.Contracts.Events;
+
 namespace SafeExamBrowser.Applications.Contracts
 {
 	/// <summary>
-	/// Controls the lifetime and functionality of a (third-party) application which can be accessed via the <see cref="ITaskbar"/>.
+	/// Controls the lifetime and functionality of a (third-party) application.
 	/// </summary>
-	public interface IApplicationController
+	public interface IApplication
 	{
+		/// <summary>
+		/// Provides information about the application.
+		/// </summary>
+		IApplicationInfo Info { get; }
+
+		/// <summary>
+		/// Fired when a new <see cref="IApplicationInstance"/> has started.
+		/// </summary>
+		event InstanceStartedEventHandler InstanceStarted;
+
 		/// <summary>
 		/// Performs any initialization work, if necessary.
 		/// </summary>
 		void Initialize();
-
-		// TODO
-		///// <summary>
-		///// Registers an application control for this application.
-		///// </summary>
-		//void RegisterApplicationControl(IApplicationControl control);
 
 		/// <summary>
 		/// Starts the execution of the application.

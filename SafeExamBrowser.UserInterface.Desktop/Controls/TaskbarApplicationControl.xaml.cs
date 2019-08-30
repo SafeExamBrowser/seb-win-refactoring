@@ -6,59 +6,41 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using SafeExamBrowser.Applications.Contracts;
-using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
-using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
 	public partial class TaskbarApplicationControl : UserControl, IApplicationControl
 	{
-		private IApplicationInfo info;
-		private IList<IApplicationInstance> instances = new List<IApplicationInstance>();
+		private IApplication application;
+		private IApplicationInstance single;
 
-		public event ApplicationControlClickedEventHandler Clicked;
-
-		public TaskbarApplicationControl(IApplicationInfo info)
+		public TaskbarApplicationControl(IApplication application)
 		{
-			this.info = info;
+			this.application = application;
 
 			InitializeComponent();
 			InitializeApplicationControl();
-		}
-
-		public void RegisterInstance(IApplicationInstance instance)
-		{
-			Dispatcher.Invoke(() =>
-			{
-				var instanceButton = new TaskbarApplicationInstanceButton(instance, info);
-
-				instanceButton.Clicked += (id) => Clicked?.Invoke(id);
-				instance.Terminated += (id) => Instance_OnTerminated(id, instanceButton);
-
-				instances.Add(instance);
-				InstanceStackPanel.Children.Add(instanceButton);
-			});
 		}
 
 		private void InitializeApplicationControl()
 		{
 			var originalBrush = Button.Background;
 
-			Button.ToolTip = info.Tooltip;
-			Button.Content = IconResourceLoader.Load(info.IconResource);
+			application.InstanceStarted += Application_InstanceStarted;
 
-			Button.MouseEnter += (o, args) => InstancePopup.IsOpen = instances.Count > 1;
+			Button.Click += Button_Click;
+			Button.Content = IconResourceLoader.Load(application.Info.IconResource);
+			Button.MouseEnter += (o, args) => InstancePopup.IsOpen = InstanceStackPanel.Children.Count > 1;
 			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => InstancePopup.IsOpen = InstancePopup.IsMouseOver));
+			Button.ToolTip = application.Info.Tooltip;
 			InstancePopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => InstancePopup.IsOpen = IsMouseOver));
 
 			InstancePopup.Opened += (o, args) =>
@@ -74,11 +56,31 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			};
 		}
 
+		private void Application_InstanceStarted(IApplicationInstance instance)
+		{
+			Dispatcher.Invoke(() =>
+			{
+				var button = new TaskbarApplicationInstanceButton(instance, application.Info);
+
+				instance.Terminated += (_) => RemoveInstance(button);
+				InstanceStackPanel.Children.Add(button);
+
+				if (single == default(IApplicationInstance))
+				{
+					single = instance;
+				}
+			});
+		}
+
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			if (instances.Count <= 1)
+			if (InstanceStackPanel.Children.Count == 0)
 			{
-				Clicked?.Invoke(instances.FirstOrDefault()?.Id);
+				application.Start();
+			}
+			else if (InstanceStackPanel.Children.Count == 1)
+			{
+				single.Activate();
 			}
 			else
 			{
@@ -86,12 +88,16 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			}
 		}
 
-		private void Instance_OnTerminated(InstanceIdentifier id, TaskbarApplicationInstanceButton instanceButton)
+		private void RemoveInstance(TaskbarApplicationInstanceButton button)
 		{
 			Dispatcher.InvokeAsync(() =>
 			{
-				instances.Remove(instances.FirstOrDefault(i => i.Id == id));
-				InstanceStackPanel.Children.Remove(instanceButton);
+				InstanceStackPanel.Children.Remove(button);
+
+				if (InstanceStackPanel.Children.Count == 0)
+				{
+					single = default(IApplicationInstance);
+				}
 			});
 		}
 	}

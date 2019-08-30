@@ -40,15 +40,15 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			return new AboutWindow(appConfig, text);
 		}
 
-		public IApplicationControl CreateApplicationControl(IApplicationInfo info, Location location)
+		public IApplicationControl CreateApplicationControl(IApplication application, Location location)
 		{
 			if (location == Location.ActionCenter)
 			{
-				return new ActionCenterApplicationControl(info);
+				return new ActionCenterApplicationControl(application);
 			}
 			else
 			{
-				return new TaskbarApplicationControl(info);
+				return new TaskbarApplicationControl(application);
 			}
 		}
 

@@ -20,8 +20,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	public class BrowserOperationTests
 	{
 		private Mock<IActionCenter> actionCenter;
-		private Mock<IApplicationController> controller;
-		private Mock<IApplicationInfo> appInfo;
+		private Mock<IApplication> application;
 		private Mock<ILogger> logger;
 		private Mock<ITaskbar> taskbar;
 		private Mock<IUserInterfaceFactory> uiFactory;
@@ -32,13 +31,12 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void Initialize()
 		{
 			actionCenter = new Mock<IActionCenter>();
-			controller = new Mock<IApplicationController>();
-			appInfo = new Mock<IApplicationInfo>();
+			application = new Mock<IApplication>();
 			logger = new Mock<ILogger>();
 			taskbar = new Mock<ITaskbar>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
-			sut = new BrowserOperation(actionCenter.Object, controller.Object, appInfo.Object, logger.Object, taskbar.Object, uiFactory.Object);
+			sut = new BrowserOperation(actionCenter.Object, application.Object, logger.Object, taskbar.Object, uiFactory.Object);
 		}
 
 		[TestMethod]
@@ -46,7 +44,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			sut.Perform();
 
-			controller.Verify(c => c.Initialize(), Times.Once);
+			application.Verify(c => c.Initialize(), Times.Once);
 			// TODO controller.Verify(c => c.RegisterApplicationControl(It.IsAny<IApplicationControl>()), Times.Exactly(2));
 			actionCenter.Verify(a => a.AddApplicationControl(It.IsAny<IApplicationControl>()), Times.Once);
 			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>()), Times.Once);
@@ -56,7 +54,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void MustRevertCorrectly()
 		{
 			sut.Revert();
-			controller.Verify(c => c.Terminate(), Times.Once);
+			application.Verify(c => c.Terminate(), Times.Once);
 		}
 	}
 }

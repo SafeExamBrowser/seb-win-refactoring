@@ -11,7 +11,7 @@ using SafeExamBrowser.Core.Contracts;
 namespace SafeExamBrowser.Applications.Contracts.Events
 {
 	/// <summary>
-	/// Event handler used to indicate that an <see cref="IApplicationInstance"/> with a particular ID has terminated.
+	/// Event handler used to indicate that an <see cref="IApplicationInstance"/> has terminated.
 	/// </summary>
 	public delegate void InstanceTerminatedEventHandler(InstanceIdentifier id);
 }

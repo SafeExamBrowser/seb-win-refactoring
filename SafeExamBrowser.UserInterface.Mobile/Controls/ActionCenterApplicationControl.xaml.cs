@@ -9,34 +9,40 @@
 using System.Windows;
 using System.Windows.Controls;
 using SafeExamBrowser.Applications.Contracts;
-using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
-using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Controls
 {
 	public partial class ActionCenterApplicationControl : UserControl, IApplicationControl
 	{
-		private IApplicationInfo info;
+		private IApplication application;
 
-		public event ApplicationControlClickedEventHandler Clicked;
-
-		public ActionCenterApplicationControl(IApplicationInfo info)
+		public ActionCenterApplicationControl(IApplication application)
 		{
-			this.info = info;
+			this.application = application;
 
 			InitializeComponent();
-			InitializeApplicationControl(info);
+			InitializeApplicationControl();
 		}
 
-		public void RegisterInstance(IApplicationInstance instance)
+		private void InitializeApplicationControl()
 		{
-			Dispatcher.Invoke(() =>
-			{
-				var button = new ActionCenterApplicationButton(info, instance);
+			var button = new ActionCenterApplicationButton(application.Info);
 
-				button.Clicked += (id) => Clicked?.Invoke(id);
-				instance.Terminated += (id) => Instance_OnTerminated(id, button);
+			application.InstanceStarted += Application_InstanceStarted;
+			button.Clicked += (o, args) => application.Start();
+			ApplicationName.Text = application.Info.Name;
+			ApplicationButton.Content = button;
+		}
+
+		private void Application_InstanceStarted(IApplicationInstance instance)
+		{
+			Dispatcher.InvokeAsync(() =>
+			{
+				var button = new ActionCenterApplicationButton(application.Info, instance);
+
+				button.Clicked += (o, args) => instance.Activate();
+				instance.Terminated += (_) => RemoveInstance(button);
 				InstancePanel.Children.Add(button);
 
 				ApplicationName.Visibility = Visibility.Visible;
@@ -44,16 +50,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 			});
 		}
 
-		private void InitializeApplicationControl(IApplicationInfo info)
-		{
-			var button = new ActionCenterApplicationButton(info);
-
-			button.Button.Click += (o, args) => Clicked?.Invoke();
-			ApplicationName.Text = info.Name;
-			ApplicationButton.Content = button;
-		}
-
-		private void Instance_OnTerminated(InstanceIdentifier id, ActionCenterApplicationButton button)
+		private void RemoveInstance(ActionCenterApplicationButton button)
 		{
 			Dispatcher.InvokeAsync(() =>
 			{

@@ -6,12 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.UserInterface.Contracts.Shell
+namespace SafeExamBrowser.Applications.Contracts.Events
 {
 	/// <summary>
-	/// The control for a (third-party) application which can be loaded into the shell.
+	/// Event handler used to inform about the existence of a new <see cref="IApplicationInstance"/>.
 	/// </summary>
-	public interface IApplicationControl
-	{
-	}
+	public delegate void InstanceStartedEventHandler(IApplicationInstance instance);
 }

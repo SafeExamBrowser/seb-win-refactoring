@@ -14,7 +14,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Button x:Name="Button" Background="Transparent" Click="Button_Click" Height="40" Padding="10" Template="{StaticResource ActionCenterButton}">
+        <Button x:Name="Button" Background="Transparent" Height="40" Padding="10" Template="{StaticResource ActionCenterButton}">
             <StackPanel Orientation="Horizontal">
                 <ContentControl x:Name="Icon" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0" Width="20" />
                 <TextBlock x:Name="Text" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="5" MaxWidth="350" TextTrimming="CharacterEllipsis" />

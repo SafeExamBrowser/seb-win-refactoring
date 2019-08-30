@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Client
 		private IWindowMonitor windowMonitor;
 		private AppConfig appConfig;
 
-		public IBrowserApplicationController Browser { private get; set; }
+		public IBrowserApplication Browser { private get; set; }
 		public IClientHost ClientHost { private get; set; }
 		public Guid SessionId { private get; set; }
 		public Settings Settings { private get; set; }

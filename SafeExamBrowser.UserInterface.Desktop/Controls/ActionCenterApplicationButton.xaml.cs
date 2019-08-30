@@ -6,11 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.Windows;
+using System;
 using System.Windows.Controls;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Core.Contracts;
-using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
@@ -20,7 +19,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 		private IApplicationInfo info;
 		private IApplicationInstance instance;
 
-		internal event ApplicationControlClickedEventHandler Clicked;
+		internal event EventHandler Clicked;
 
 		public ActionCenterApplicationButton(IApplicationInfo info, IApplicationInstance instance = null)
 		{
@@ -35,6 +34,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 		{
 			Icon.Content = IconResourceLoader.Load(info.IconResource);
 			Text.Text = instance?.Name ?? info.Name;
+			Button.Click += (o, args) => Clicked?.Invoke(this, EventArgs.Empty);
 			Button.ToolTip = instance?.Name ?? info.Tooltip;
 
 			if (instance != null)
@@ -51,16 +51,11 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 		private void Instance_NameChanged(string name)
 		{
-			Dispatcher.Invoke(() =>
+			Dispatcher.InvokeAsync(() =>
 			{
 				Text.Text = name;
 				Button.ToolTip = name;
 			});
-		}
-
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			Clicked?.Invoke(instance?.Id);
 		}
 	}
 }

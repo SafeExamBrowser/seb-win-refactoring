@@ -19,8 +19,7 @@ namespace SafeExamBrowser.Client.Operations
 	internal class BrowserOperation : IOperation
 	{
 		private IActionCenter actionCenter;
-		private IApplicationController browserController;
-		private IApplicationInfo browserInfo;
+		private IApplication browser;
 		private ILogger logger;
 		private ITaskbar taskbar;
 		private IUserInterfaceFactory uiFactory;
@@ -30,15 +29,13 @@ namespace SafeExamBrowser.Client.Operations
 
 		public BrowserOperation(
 			IActionCenter actionCenter,
-			IApplicationController browserController,
-			IApplicationInfo browserInfo,
+			IApplication browser,
 			ILogger logger,
 			ITaskbar taskbar,
 			IUserInterfaceFactory uiFactory)
 		{
 			this.actionCenter = actionCenter;
-			this.browserController = browserController;
-			this.browserInfo = browserInfo;
+			this.browser = browser;
 			this.logger = logger;
 			this.taskbar = taskbar;
 			this.uiFactory = uiFactory;
@@ -49,16 +46,10 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Initializing browser...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeBrowser);
 
-			var actionCenterControl = uiFactory.CreateApplicationControl(browserInfo, Location.ActionCenter);
-			var taskbarControl = uiFactory.CreateApplicationControl(browserInfo, Location.Taskbar);
+			browser.Initialize();
 
-			browserController.Initialize();
-			// TODO 
-			//browserController.RegisterApplicationControl(actionCenterControl);
-			//browserController.RegisterApplicationControl(taskbarControl);
-
-			actionCenter.AddApplicationControl(actionCenterControl);
-			taskbar.AddApplicationControl(taskbarControl);
+			actionCenter.AddApplicationControl(uiFactory.CreateApplicationControl(browser, Location.ActionCenter));
+			taskbar.AddApplicationControl(uiFactory.CreateApplicationControl(browser, Location.Taskbar));
 
 			return OperationResult.Success;
 		}
@@ -68,7 +59,7 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Terminating browser...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_TerminateBrowser);
 
-			browserController.Terminate();
+			browser.Terminate();
 
 			return OperationResult.Success;
 		}

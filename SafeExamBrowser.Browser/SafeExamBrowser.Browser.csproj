@@ -64,7 +64,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrowserApplicationController.cs" />
+    <Compile Include="BrowserApplication.cs" />
     <Compile Include="BrowserApplicationInfo.cs" />
     <Compile Include="BrowserApplicationInstance.cs" />
     <Compile Include="BrowserInstanceIdentifier.cs" />

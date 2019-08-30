@@ -35,7 +35,7 @@ namespace SafeExamBrowser.Client.UnitTests
 	{
 		private AppConfig appConfig;
 		private Mock<IActionCenter> actionCenter;
-		private Mock<IBrowserApplicationController> browserController;
+		private Mock<IBrowserApplication> browserController;
 		private Mock<IClientHost> clientHost;
 		private Mock<IDisplayMonitor> displayMonitor;
 		private Mock<IExplorerShell> explorerShell;
@@ -61,7 +61,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		{
 			appConfig = new AppConfig();
 			actionCenter = new Mock<IActionCenter>();
-			browserController = new Mock<IBrowserApplicationController>();
+			browserController = new Mock<IBrowserApplication>();
 			clientHost = new Mock<IClientHost>();
 			displayMonitor = new Mock<IDisplayMonitor>();
 			explorerShell = new Mock<IExplorerShell>();

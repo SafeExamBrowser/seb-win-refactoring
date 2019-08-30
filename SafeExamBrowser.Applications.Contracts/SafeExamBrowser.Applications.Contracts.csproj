@@ -54,9 +54,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\IconChangedEventHandler.cs" />
+    <Compile Include="Events\InstanceStartedEventHandler.cs" />
     <Compile Include="Events\InstanceTerminatedEventHandler.cs" />
     <Compile Include="Events\NameChangedEventHandler.cs" />
-    <Compile Include="IApplicationController.cs" />
+    <Compile Include="IApplication.cs" />
     <Compile Include="IApplicationInfo.cs" />
     <Compile Include="IApplicationInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

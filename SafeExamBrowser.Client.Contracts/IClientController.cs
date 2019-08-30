@@ -25,9 +25,9 @@ namespace SafeExamBrowser.Client.Contracts
 		AppConfig AppConfig { set; }
 
 		/// <summary>
-		/// The controller for the browser application.
+		/// The browser application.
 		/// </summary>
-		IBrowserApplicationController Browser { set; }
+		IBrowserApplication Browser { set; }
 
 		/// <summary>
 		/// The client host used for communication handling.

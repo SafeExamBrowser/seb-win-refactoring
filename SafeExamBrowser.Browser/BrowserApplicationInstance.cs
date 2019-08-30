@@ -21,7 +21,6 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
-using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Browser
 {
@@ -49,7 +48,6 @@ namespace SafeExamBrowser.Browser
 
 		public InstanceIdentifier Id { get; private set; }
 		public string Name { get; private set; }
-		public IWindow Window { get { return window; } }
 
 		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 		public event IconChangedEventHandler IconChanged;
@@ -78,6 +76,11 @@ namespace SafeExamBrowser.Browser
 			this.text = text;
 			this.uiFactory = uiFactory;
 			this.url = url;
+		}
+
+		public void Activate()
+		{
+			window?.BringToForeground();
 		}
 
 		internal void Initialize()
@@ -118,8 +121,14 @@ namespace SafeExamBrowser.Browser
 			window.ZoomOutRequested += ZoomOutRequested;
 			window.ZoomResetRequested += ZoomResetRequested;
 			window.UpdateZoomLevel(CalculateZoomPercentage());
+			window.Show();
 
 			logger.Debug("Initialized browser window.");
+		}
+
+		internal void Terminate()
+		{
+			window?.Close();
 		}
 
 		private void Control_AddressChanged(string address)

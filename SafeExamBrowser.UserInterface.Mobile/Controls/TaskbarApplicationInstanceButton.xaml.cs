@@ -10,7 +10,6 @@ using System.Windows;
 using System.Windows.Controls;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Core.Contracts;
-using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Controls
@@ -19,8 +18,6 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 	{
 		private IApplicationInfo info;
 		private IApplicationInstance instance;
-
-		internal event ApplicationControlClickedEventHandler Clicked;
 
 		public TaskbarApplicationInstanceButton(IApplicationInstance instance, IApplicationInfo info)
 		{
@@ -33,12 +30,17 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 
 		private void InitializeApplicationInstanceButton()
 		{
-			Icon.Content = IconResourceLoader.Load(info.IconResource);
-			Text.Text = instance.Name;
+			Button.Click += Button_Click;
 			Button.ToolTip = instance.Name;
-
+			Icon.Content = IconResourceLoader.Load(info.IconResource);
 			instance.IconChanged += Instance_IconChanged;
 			instance.NameChanged += Instance_NameChanged;
+			Text.Text = instance.Name;
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			instance.Activate();
 		}
 
 		private void Instance_IconChanged(IIconResource icon)
@@ -53,11 +55,6 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 				Text.Text = name;
 				Button.ToolTip = name;
 			});
-		}
-
-		private void Button_Click(object sender, RoutedEventArgs e)
-		{
-			Clicked?.Invoke(instance.Id);
 		}
 	}
 }

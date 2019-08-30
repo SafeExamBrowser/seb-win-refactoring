@@ -12,6 +12,7 @@ using System.Linq;
 using CefSharp;
 using CefSharp.WinForms;
 using SafeExamBrowser.Applications.Contracts;
+using SafeExamBrowser.Applications.Contracts.Events;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Configuration.Contracts;
@@ -20,27 +21,28 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
-using SafeExamBrowser.UserInterface.Contracts.Shell;
 using BrowserSettings = SafeExamBrowser.Configuration.Contracts.Settings.BrowserSettings;
 
 namespace SafeExamBrowser.Browser
 {
-	public class BrowserApplicationController : IBrowserApplicationController
+	public class BrowserApplication : IBrowserApplication
 	{
 		private int instanceIdCounter = default(int);
 
 		private AppConfig appConfig;
-		private IList<IApplicationControl> controls;
-		private IList<IApplicationInstance> instances;
+		private List<BrowserApplicationInstance> instances;
 		private IMessageBox messageBox;
 		private IModuleLogger logger;
 		private BrowserSettings settings;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 
-		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
+		public IApplicationInfo Info { get; private set; }
 
-		public BrowserApplicationController(
+		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
+		public event InstanceStartedEventHandler InstanceStarted;
+
+		public BrowserApplication(
 			AppConfig appConfig,
 			BrowserSettings settings,
 			IMessageBox messageBox,
@@ -49,8 +51,7 @@ namespace SafeExamBrowser.Browser
 			IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
-			this.controls = new List<IApplicationControl>();
-			this.instances = new List<IApplicationInstance>();
+			this.instances = new List<BrowserApplicationInstance>();
 			this.logger = logger;
 			this.messageBox = messageBox;
 			this.settings = settings;
@@ -63,18 +64,16 @@ namespace SafeExamBrowser.Browser
 			var cefSettings = InitializeCefSettings();
 			var success = Cef.Initialize(cefSettings, true, default(IApp));
 
-			logger.Info("Initialized browser.");
+			Info = new BrowserApplicationInfo();
 
-			if (!success)
+			if (success)
+			{
+				logger.Info("Initialized browser.");
+			}
+			else
 			{
 				throw new Exception("Failed to initialize browser!");
 			}
-		}
-
-		public void RegisterApplicationControl(IApplicationControl control)
-		{
-			control.Clicked += ApplicationControl_Clicked;
-			controls.Add(control);
 		}
 
 		public void Start()
@@ -87,13 +86,11 @@ namespace SafeExamBrowser.Browser
 			foreach (var instance in instances)
 			{
 				instance.Terminated -= Instance_Terminated;
-				// TODO instance.Window.Close();
-
+				instance.Terminate();
 				logger.Info($"Terminated browser instance {instance.Id}.");
 			}
 
 			Cef.Shutdown();
-
 			logger.Info("Terminated browser.");
 		}
 
@@ -105,33 +102,15 @@ namespace SafeExamBrowser.Browser
 			var startUrl = url ?? settings.StartUrl;
 			var instance = new BrowserApplicationInstance(appConfig, settings, id, isMainInstance, messageBox, instanceLogger, text, uiFactory, startUrl);
 
-			instance.Initialize();
 			instance.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
-			instance.IconChanged += Instance_IconChanged;
-			instance.NameChanged += Instance_NameChanged;
 			instance.PopupRequested += Instance_PopupRequested;
 			instance.Terminated += Instance_Terminated;
 
+			instance.Initialize();
 			instances.Add(instance);
-			instance.Window.Show();
+			InstanceStarted?.Invoke(instance);
 
 			logger.Info($"Created browser instance {instance.Id}.");
-		}
-
-		private void Instance_NameChanged(string name)
-		{
-			foreach (var control in controls)
-			{
-				// TODO
-			}
-		}
-
-		private void Instance_IconChanged(IIconResource icon)
-		{
-			foreach (var control in controls)
-			{
-				// TODO
-			}
 		}
 
 		private CefSettings InitializeCefSettings()
@@ -154,18 +133,6 @@ namespace SafeExamBrowser.Browser
 			logger.Debug($"Log severity: {cefSettings.LogSeverity}");
 
 			return cefSettings;
-		}
-
-		private void ApplicationControl_Clicked(InstanceIdentifier id = null)
-		{
-			if (id == null)
-			{
-				CreateNewInstance();
-			}
-			else
-			{
-				// TODO instances.FirstOrDefault(i => i.Id == id)?.Window?.BringToForeground();
-			}
 		}
 
 		private void Instance_PopupRequested(PopupRequestedEventArgs args)

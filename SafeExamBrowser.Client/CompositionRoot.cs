@@ -60,7 +60,7 @@ namespace SafeExamBrowser.Client
 		private UserInterfaceMode uiMode;
 
 		private IActionCenter actionCenter;
-		private IBrowserApplicationController browserController;
+		private IBrowserApplication browser;
 		private IClientHost clientHost;
 		private ILogger logger;
 		private IMessageBox messageBox;
@@ -199,11 +199,11 @@ namespace SafeExamBrowser.Client
 		private IOperation BuildBrowserOperation()
 		{
 			var moduleLogger = new ModuleLogger(logger, "BrowserController");
-			var browserController = new BrowserApplicationController(configuration.AppConfig, configuration.Settings.Browser, messageBox, moduleLogger, text, uiFactory);
+			var browser = new BrowserApplication(configuration.AppConfig, configuration.Settings.Browser, messageBox, moduleLogger, text, uiFactory);
 			var browserInfo = new BrowserApplicationInfo();
-			var operation = new BrowserOperation(actionCenter, browserController, browserInfo, logger, taskbar, uiFactory);
+			var operation = new BrowserOperation(actionCenter, browser, logger, taskbar, uiFactory);
 
-			this.browserController = browserController;
+			this.browser = browser;
 
 			return operation;
 		}
@@ -346,7 +346,7 @@ namespace SafeExamBrowser.Client
 
 		private void UpdateClientControllerDependencies()
 		{
-			ClientController.Browser = browserController;
+			ClientController.Browser = browser;
 			ClientController.ClientHost = clientHost;
 			ClientController.SessionId = configuration.SessionId;
 			ClientController.Settings = configuration.Settings;
