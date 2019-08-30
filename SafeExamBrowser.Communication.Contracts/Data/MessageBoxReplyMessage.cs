@@ -21,16 +21,15 @@ namespace SafeExamBrowser.Communication.Contracts.Data
 		/// </summary>
 		public Guid RequestId { get; private set; }
 
-		// TODO
-		///// <summary>
-		///// The result of the interaction.
-		///// </summary>
-		//public MessageBoxResult Result { get; private set; }
+		/// <summary>
+		/// The result of the interaction.
+		/// </summary>
+		public int Result { get; private set; }
 
-		public MessageBoxReplyMessage(Guid requestId)// TODO, MessageBoxResult result)
+		public MessageBoxReplyMessage(Guid requestId, int result)
 		{
 			RequestId = requestId;
-			// TODOResult = result;
+			Result = result;
 		}
 	}
 }

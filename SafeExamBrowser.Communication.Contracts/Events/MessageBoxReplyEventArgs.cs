@@ -20,10 +20,9 @@ namespace SafeExamBrowser.Communication.Contracts.Events
 		/// </summary>
 		public Guid RequestId { get; set; }
 
-		// TODO
-		///// <summary>
-		///// The result of the interaction.
-		///// </summary>
-		//public MessageBoxResult Result { get; set; }
+		/// <summary>
+		/// The result of the interaction.
+		/// </summary>
+		public int Result { get; set; }
 	}
 }

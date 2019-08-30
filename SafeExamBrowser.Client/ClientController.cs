@@ -282,9 +282,11 @@ namespace SafeExamBrowser.Client
 		{
 			logger.Info($"Received message box request with id '{args.RequestId}'.");
 
-			var result = messageBox.Show(args.Message, args.Title/*,// TODO  args.Action, args.Icon*/, parent: splashScreen);
+			var action = (MessageBoxAction) args.Action;
+			var icon = (MessageBoxIcon) args.Icon;
+			var result = messageBox.Show(args.Message, args.Title, action, icon, parent: splashScreen);
 
-			runtime.SubmitMessageBoxResult(args.RequestId/*// TODO , result*/);
+			runtime.SubmitMessageBoxResult(args.RequestId, (int) result);
 			logger.Info($"Message box request with id '{args.RequestId}' yielded result '{result}'.");
 		}
 

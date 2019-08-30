@@ -113,9 +113,8 @@ namespace SafeExamBrowser.Client.UnitTests
 		{
 			var args = new MessageBoxRequestEventArgs
 			{
-				// TODO 
-				//Action = MessageBoxAction.YesNo,
-				//Icon = MessageBoxIcon.Question,
+				Action = (int) MessageBoxAction.YesNo,
+				Icon = (int) MessageBoxIcon.Question,
 				Message = "Some question to be answered",
 				RequestId = Guid.NewGuid(),
 				Title = "A Title"
@@ -123,18 +122,17 @@ namespace SafeExamBrowser.Client.UnitTests
 
 			messageBox.Setup(m => m.Show(
 				It.Is<string>(s => s == args.Message), 
-				It.Is<string>(s => s == args.Title), default(MessageBoxAction), default(MessageBoxIcon), null
-				// TODO 
-				//It.Is<MessageBoxAction>(a => a == args.Action),
-				//It.Is<MessageBoxIcon>(i => i == args.Icon),
-				/*It.IsAny<IWindow>()*/)).Returns(MessageBoxResult.No);
+				It.Is<string>(s => s == args.Title),
+				It.Is<MessageBoxAction>(a => a == (MessageBoxAction) args.Action),
+				It.Is<MessageBoxIcon>(i => i == (MessageBoxIcon) args.Icon),
+				It.IsAny<IWindow>())).Returns(MessageBoxResult.No);
 
 			sut.TryStart();
 			clientHost.Raise(c => c.MessageBoxRequested += null, args);
 
 			runtimeProxy.Verify(p => p.SubmitMessageBoxResult(
-				It.Is<Guid>(g => g == args.RequestId)// TODO ,
-													 /*It.Is<MessageBoxResult>(r => r == MessageBoxResult.No)*/), Times.Once);
+				It.Is<Guid>(g => g == args.RequestId),
+				It.Is<int>(r => r == (int) MessageBoxResult.No)), Times.Once);
 		}
 
 		[TestMethod]

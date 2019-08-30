@@ -59,7 +59,7 @@ namespace SafeExamBrowser.Runtime.Communication
 			switch (message)
 			{
 				case MessageBoxReplyMessage m:
-					MessageBoxReplyReceived?.InvokeAsync(new MessageBoxReplyEventArgs { RequestId = m.RequestId/*// TODO , Result = m.Result*/ });
+					MessageBoxReplyReceived?.InvokeAsync(new MessageBoxReplyEventArgs { RequestId = m.RequestId, Result = m.Result });
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 				case PasswordReplyMessage m:
 					PasswordReceived?.InvokeAsync(new PasswordReplyEventArgs { Password = m.Password, RequestId = m.RequestId, Success = m.Success });

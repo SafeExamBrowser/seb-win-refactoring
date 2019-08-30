@@ -211,7 +211,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		{
 			var args = default(MessageBoxReplyEventArgs);
 			var requestId = Guid.NewGuid();
-			var result = MessageBoxResult.Ok;
+			var result = (int) MessageBoxResult.Ok;
 			var sync = new AutoResetEvent(false);
 
 			sut.AllowConnection = true;
@@ -219,7 +219,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			sut.AuthenticationToken = Guid.Empty;
 
 			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
-			var message = new MessageBoxReplyMessage(requestId/*// TODO , result*/) { CommunicationToken = token };
+			var message = new MessageBoxReplyMessage(requestId, result) { CommunicationToken = token };
 			var response = sut.Send(message);
 
 			sync.WaitOne();
@@ -229,7 +229,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
 			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
 			Assert.AreEqual(requestId, args.RequestId);
-			// TODO Assert.AreEqual(result, args.Result);
+			Assert.AreEqual(result, args.Result);
 		}
 
 		[TestMethod]
@@ -317,7 +317,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			sut.Send(new SimpleMessage(SimpleMessagePurport.ClientIsReady) { CommunicationToken = token });
 			sut.Send(new SimpleMessage(SimpleMessagePurport.ConfigurationNeeded) { CommunicationToken = token });
 			sut.Send(new SimpleMessage(SimpleMessagePurport.RequestShutdown) { CommunicationToken = token });
-			sut.Send(new MessageBoxReplyMessage(Guid.Empty/*// TODO , MessageBoxResult.Cancel*/) { CommunicationToken = token });
+			sut.Send(new MessageBoxReplyMessage(Guid.Empty, (int) MessageBoxResult.Cancel) { CommunicationToken = token });
 			sut.Send(new PasswordReplyMessage(Guid.Empty, false, "") { CommunicationToken = token });
 			sut.Send(new ReconfigurationMessage("") { CommunicationToken = token });
 			sut.Disconnect(new DisconnectionMessage { CommunicationToken = token });

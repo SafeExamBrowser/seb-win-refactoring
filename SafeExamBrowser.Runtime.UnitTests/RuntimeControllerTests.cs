@@ -330,11 +330,10 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			clientProxy.Setup(c => c.ShowMessage(
 				It.IsAny<string>(),
 				It.IsAny<string>(),
-				// TODO 
-				//It.Is<MessageBoxAction>(a => a == MessageBoxAction.Confirm),
-				//It.IsAny<MessageBoxIcon>(),
+				It.Is<int>(a => a == (int) MessageBoxAction.Confirm),
+				It.IsAny<int>(),
 				It.IsAny<Guid>()))
-				.Callback<string, string, MessageBoxAction, MessageBoxIcon, Guid>((m, t, a, i, id) =>
+				.Callback<string, string, int, int, Guid>((m, t, a, i, id) =>
 				{
 					runtimeHost.Raise(r => r.MessageBoxReplyReceived += null, new MessageBoxReplyEventArgs { RequestId = id });
 				})
@@ -346,9 +345,8 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			clientProxy.Verify(c => c.ShowMessage(
 				It.IsAny<string>(),
 				It.IsAny<string>(),
-				// TODO 
-				//It.Is<MessageBoxAction>(a => a == MessageBoxAction.Confirm),
-				//It.Is<MessageBoxIcon>(i => i == args.Icon),
+				It.Is<int>(a => a == (int) MessageBoxAction.Confirm),
+				It.Is<int>(i => i == (int) args.Icon),
 				It.IsAny<Guid>()), Times.Once);
 		}
 

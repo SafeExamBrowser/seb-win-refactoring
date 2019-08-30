@@ -16,16 +16,15 @@ namespace SafeExamBrowser.Communication.Contracts.Data
 	[Serializable]
 	public class MessageBoxRequestMessage : Message
 	{
-		// TODO
-		///// <summary>
-		///// The action to be displayed.
-		///// </summary>
-		//public MessageBoxAction Action { get; private set; }
+		/// <summary>
+		/// The action to be displayed.
+		/// </summary>
+		public int Action { get; private set; }
 
-		///// <summary>
-		///// The icon to be displayed.
-		///// </summary>
-		//public MessageBoxIcon Icon { get; private set; }
+		/// <summary>
+		/// The icon to be displayed.
+		/// </summary>
+		public int Icon { get; private set; }
 
 		/// <summary>
 		/// The message to be displayed.
@@ -42,11 +41,10 @@ namespace SafeExamBrowser.Communication.Contracts.Data
 		/// </summary>
 		public string Title { get; private set; }
 
-		public MessageBoxRequestMessage(/*MessageBoxAction action, MessageBoxIcon icon, */string message, Guid requestId, string title)
+		public MessageBoxRequestMessage(int action, int icon, string message, Guid requestId, string title)
 		{
-			// TODO
-			//Action = action;
-			//Icon = icon;
+			Action = action;
+			Icon = icon;
 			Message = message;
 			RequestId = requestId;
 			Title = title;

@@ -15,16 +15,15 @@ namespace SafeExamBrowser.Communication.Contracts.Events
 	/// </summary>
 	public class MessageBoxRequestEventArgs : CommunicationEventArgs
 	{
-		// TODO
-		///// <summary>
-		///// The action to be displayed.
-		///// </summary>
-		//public MessageBoxAction Action { get; set; }
+		/// <summary>
+		/// The action to be displayed.
+		/// </summary>
+		public int Action { get; set; }
 
-		///// <summary>
-		///// The icon to be displayed.
-		///// </summary>
-		//public MessageBoxIcon Icon { get; set; }
+		/// <summary>
+		/// The icon to be displayed.
+		/// </summary>
+		public int Icon { get; set; }
 
 		/// <summary>
 		/// The message to be displayed.

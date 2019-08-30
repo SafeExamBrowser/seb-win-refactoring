@@ -127,12 +127,11 @@ namespace SafeExamBrowser.Communication.Proxies
 			}
 		}
 
-		// TODO
-		public CommunicationResult ShowMessage(string message, string title, /*MessageBoxAction action, MessageBoxIcon icon, */Guid requestId)
+		public CommunicationResult ShowMessage(string message, string title, int action, int icon, Guid requestId)
 		{
 			try
 			{
-				var response = Send(new MessageBoxRequestMessage(/*action, icon, */message, requestId, title));
+				var response = Send(new MessageBoxRequestMessage(action, icon, message, requestId, title));
 				var success = IsAcknowledged(response);
 
 				if (success)

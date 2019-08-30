@@ -154,8 +154,8 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 		[TestMethod]
 		public void MustHandleMessageBoxRequestCorrectly()
 		{
-			var action = MessageBoxAction.YesNo;
-			var icon = MessageBoxIcon.Question;
+			var action = (int) MessageBoxAction.YesNo;
+			var icon = (int) MessageBoxIcon.Question;
 			var message = "Qwert kndorz safie abcd?";
 			var messageBoxRequested = false;
 			var requestId = Guid.NewGuid();
@@ -164,15 +164,13 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 
 			sut.MessageBoxRequested += (args) =>
 			{
-				// TODO 
-				messageBoxRequested = /*args.Action == action && args.Icon == icon &&*/ args.Message == message && args.RequestId == requestId && args.Title == title;
+				messageBoxRequested = args.Action == action && args.Icon == icon && args.Message == message && args.RequestId == requestId && args.Title == title;
 				resetEvent.Set();
 			};
 			sut.AuthenticationToken = Guid.Empty;
 
 			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
-			// TODO 
-			var request = new MessageBoxRequestMessage(/*action, icon, */message, requestId, title) { CommunicationToken = token };
+			var request = new MessageBoxRequestMessage(action, icon, message, requestId, title) { CommunicationToken = token };
 			var response = sut.Send(request);
 
 			resetEvent.WaitOne();
@@ -282,8 +280,7 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 
 			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
 
-			// TODO 
-			sut.Send(new MessageBoxRequestMessage(/*default(MessageBoxAction), default(MessageBoxIcon), */"", Guid.Empty, "") { CommunicationToken = token });
+			sut.Send(new MessageBoxRequestMessage(default(int), default(int), "", Guid.Empty, "") { CommunicationToken = token });
 			sut.Send(new PasswordRequestMessage(default(PasswordRequestPurpose), Guid.Empty) { CommunicationToken = token });
 			sut.Send(new ReconfigurationDeniedMessage("") { CommunicationToken = token });
 			sut.Send(new SimpleMessage(SimpleMessagePurport.Shutdown) { CommunicationToken = token });

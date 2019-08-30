@@ -36,10 +36,9 @@ namespace SafeExamBrowser.Communication.Contracts.Proxies
 		/// </summary>
 		CommunicationResult RequestPassword(PasswordRequestPurpose purpose, Guid requestId);
 
-		// TODO
 		/// <summary>
 		/// Requests the client to render a message box and subsequently return the interaction result as separate message.
 		/// </summary>
-		CommunicationResult ShowMessage(string message, string title, /*MessageBoxAction action, MessageBoxIcon icon, */Guid requestId);
+		CommunicationResult ShowMessage(string message, string title, int action, int icon, Guid requestId);
 	}
 }

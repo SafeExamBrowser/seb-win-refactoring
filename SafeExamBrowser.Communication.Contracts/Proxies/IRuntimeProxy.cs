@@ -36,11 +36,10 @@ namespace SafeExamBrowser.Communication.Contracts.Proxies
 		/// </summary>
 		CommunicationResult RequestReconfiguration(string filePath);
 
-		// TODO
 		/// <summary>
 		/// Submits the result of a message box input previously requested by the runtime.
 		/// </summary>
-		CommunicationResult SubmitMessageBoxResult(Guid requestId/*, MessageBoxResult result*/);
+		CommunicationResult SubmitMessageBoxResult(Guid requestId, int result);
 
 		/// <summary>
 		/// Submits the result of a password input previously requested by the runtime. If the procedure was aborted by the user,

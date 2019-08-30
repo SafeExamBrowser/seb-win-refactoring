@@ -69,7 +69,7 @@ namespace SafeExamBrowser.Client.Communication
 			switch (message)
 			{
 				case MessageBoxRequestMessage m:
-					MessageBoxRequested?.InvokeAsync(new MessageBoxRequestEventArgs { /*// TODO Action = m.Action, Icon = m.Icon,*/ Message = m.Message, RequestId = m.RequestId, Title = m.Title });
+					MessageBoxRequested?.InvokeAsync(new MessageBoxRequestEventArgs { Action = m.Action, Icon = m.Icon, Message = m.Message, RequestId = m.RequestId, Title = m.Title });
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 				case PasswordRequestMessage m:
 					PasswordRequested?.InvokeAsync(new PasswordRequestEventArgs { Purpose = m.Purpose, RequestId = m.RequestId });

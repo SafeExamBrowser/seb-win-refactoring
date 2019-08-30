@@ -442,7 +442,7 @@ namespace SafeExamBrowser.Runtime
 			}
 		}
 
-		private MessageBoxResult ShowMessageBoxViaClient(string message, string title, MessageBoxAction confirm, MessageBoxIcon icon)
+		private MessageBoxResult ShowMessageBoxViaClient(string message, string title, MessageBoxAction action, MessageBoxIcon icon)
 		{
 			var requestId = Guid.NewGuid();
 			var result = MessageBoxResult.None;
@@ -459,12 +459,12 @@ namespace SafeExamBrowser.Runtime
 
 			runtimeHost.MessageBoxReplyReceived += responseEventHandler;
 
-			var communication = sessionContext.ClientProxy.ShowMessage(message, title, /*// TODO MessageBoxAction.Confirm, icon, */requestId);
+			var communication = sessionContext.ClientProxy.ShowMessage(message, title, (int) action, (int) icon, requestId);
 
 			if (communication.Success)
 			{
 				responseEvent.WaitOne();
-				// TODO result = response.Result;
+				result = (MessageBoxResult) response.Result;
 			}
 
 			runtimeHost.MessageBoxReplyReceived -= responseEventHandler;
