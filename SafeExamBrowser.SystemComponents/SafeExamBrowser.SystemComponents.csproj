@@ -65,7 +65,8 @@
     <Compile Include="Audio\Audio.cs" />
     <Compile Include="Keyboard\KeyboardLayout.cs" />
     <Compile Include="Keyboard\Keyboard.cs" />
-    <Compile Include="PowerSupply.cs" />
+    <Compile Include="PowerSupply\PowerSupply.cs" />
+    <Compile Include="PowerSupply\PowerSupplyStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="UserInfo.cs" />

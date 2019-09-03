@@ -18,6 +18,7 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
+using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -129,15 +130,15 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			return Application.Current.Dispatcher.Invoke(() => new PasswordDialog(text.Get(message), text.Get(title), text));
 		}
 
-		public ISystemPowerSupplyControl CreatePowerSupplyControl(Location location)
+		public ISystemControl CreatePowerSupplyControl(IPowerSupply powerSupply, Location location)
 		{
 			if (location == Location.ActionCenter)
 			{
-				return new ActionCenterPowerSupplyControl();
+				return new ActionCenterPowerSupplyControl(powerSupply, text);
 			}
 			else
 			{
-				return new TaskbarPowerSupplyControl();
+				return new TaskbarPowerSupplyControl(powerSupply, text);
 			}
 		}
 

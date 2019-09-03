@@ -10,7 +10,6 @@ using System;
 using System.Linq;
 using NAudio.CoreAudioApi;
 using SafeExamBrowser.Configuration.Contracts.Settings;
-using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Audio.Events;
@@ -19,15 +18,12 @@ namespace SafeExamBrowser.SystemComponents.Audio
 {
 	public class Audio : IAudio
 	{
-		private readonly object @lock = new object();
-
 		private AudioSettings settings;
 		private MMDevice audioDevice;
 		private string audioDeviceFullName;
 		private string audioDeviceShortName;
 		private float originalVolume;
 		private ILogger logger;
-		private IText text;
 
 		public string DeviceFullName => audioDeviceFullName ?? string.Empty;
 		public string DeviceShortName => audioDeviceShortName ?? string.Empty;
@@ -37,11 +33,10 @@ namespace SafeExamBrowser.SystemComponents.Audio
 
 		public event AudioVolumeChangedEventHandler VolumeChanged;
 
-		public Audio(AudioSettings settings, ILogger logger, IText text)
+		public Audio(AudioSettings settings, ILogger logger)
 		{
 			this.settings = settings;
 			this.logger = logger;
-			this.text = text;
 		}
 
 		public void Initialize()
@@ -157,11 +152,8 @@ namespace SafeExamBrowser.SystemComponents.Audio
 
 		private void AudioEndpointVolume_OnVolumeNotification(AudioVolumeNotificationData data)
 		{
-			lock (@lock)
-			{
-				logger.Debug($"Volume is set to {data.MasterVolume * 100}%, audio device is {(data.Muted ? "muted" : "not muted")}.");
-				VolumeChanged?.Invoke(data.MasterVolume, data.Muted);
-			}
+			logger.Debug($"Volume is set to {data.MasterVolume * 100}%, audio device is {(data.Muted ? "muted" : "not muted")}.");
+			VolumeChanged?.Invoke(data.MasterVolume, data.Muted);
 		}
 	}
 }

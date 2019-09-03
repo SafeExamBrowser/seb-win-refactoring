@@ -6,10 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.SystemComponents.Contracts
+namespace SafeExamBrowser.SystemComponents.Contracts.PowerSupply
 {
 	/// <summary>
-	/// Defines all possible charge statuses which can be determined by the application.
+	/// Defines all possible battery charge statuses which can be determined by the application.
 	/// </summary>
 	public enum BatteryChargeStatus
 	{

@@ -16,6 +16,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
+using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.WindowsApi.Contracts;
@@ -34,7 +35,7 @@ namespace SafeExamBrowser.Client.Operations
 		private IKeyboard keyboard;
 		private INotificationInfo logInfo;
 		private INotificationController logController;
-		// TODO private ISystemComponent<ISystemPowerSupplyControl> powerSupply;
+		private IPowerSupply powerSupply;
 		// TODO private ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
@@ -57,7 +58,7 @@ namespace SafeExamBrowser.Client.Operations
 			IKeyboard keyboard,
 			INotificationInfo logInfo,
 			INotificationController logController,
-			// TODO ISystemComponent<ISystemPowerSupplyControl> powerSupply,
+			IPowerSupply powerSupply,
 			// TODO ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork,
 			ISystemInfo systemInfo,
 			ITaskbar taskbar,
@@ -76,7 +77,7 @@ namespace SafeExamBrowser.Client.Operations
 			this.logger = logger;
 			this.logInfo = logInfo;
 			this.logController = logController;
-			// TODO this.powerSupply = powerSupply;
+			this.powerSupply = powerSupply;
 			this.systemInfo = systemInfo;
 			this.taskbarSettings = taskbarSettings;
 			this.terminationActivator = terminationActivator;
@@ -171,8 +172,8 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			audio.Initialize();
 			keyboard.Initialize();
+			powerSupply.Initialize();
 			// TODO 
-			//powerSupply.Initialize();
 			//wirelessNetwork.Initialize();
 		}
 
@@ -266,10 +267,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (systemInfo.HasBattery)
 			{
-				var control = uiFactory.CreatePowerSupplyControl(Location.ActionCenter);
-
-				// TODO powerSupply.Register(control);
-				actionCenter.AddSystemControl(control);
+				actionCenter.AddSystemControl(uiFactory.CreatePowerSupplyControl(powerSupply, Location.ActionCenter));
 			}
 		}
 
@@ -277,10 +275,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (systemInfo.HasBattery)
 			{
-				var control = uiFactory.CreatePowerSupplyControl(Location.Taskbar);
-
-				// TODO powerSupply.Register(control);
-				taskbar.AddSystemControl(control);
+				taskbar.AddSystemControl(uiFactory.CreatePowerSupplyControl(powerSupply, Location.Taskbar));
 			}
 		}
 
@@ -329,8 +324,8 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			audio.Terminate();
 			keyboard.Terminate();
+			powerSupply.Terminate();
 			// TODO 
-			//powerSupply.Terminate();
 			//wirelessNetwork.Terminate();
 		}
 	}

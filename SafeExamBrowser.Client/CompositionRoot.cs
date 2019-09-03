@@ -42,6 +42,7 @@ using SafeExamBrowser.SystemComponents;
 using SafeExamBrowser.SystemComponents.Audio;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.SystemComponents.Keyboard;
+using SafeExamBrowser.SystemComponents.PowerSupply;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -257,11 +258,11 @@ namespace SafeExamBrowser.Client
 		{
 			var aboutInfo = new AboutNotificationInfo(text);
 			var aboutController = new AboutNotificationController(configuration.AppConfig, uiFactory);
-			var audio = new Audio(configuration.Settings.Audio, new ModuleLogger(logger, nameof(Audio)), text);
-			var keyboard = new Keyboard(new ModuleLogger(logger, nameof(Keyboard)), text);
+			var audio = new Audio(configuration.Settings.Audio, new ModuleLogger(logger, nameof(Audio)));
+			var keyboard = new Keyboard(new ModuleLogger(logger, nameof(Keyboard)));
 			var logInfo = new LogNotificationInfo(text);
 			var logController = new LogNotificationController(logger, uiFactory);
-			var powerSupply = new PowerSupply(new ModuleLogger(logger, nameof(PowerSupply)), text);
+			var powerSupply = new PowerSupply(new ModuleLogger(logger, nameof(PowerSupply)));
 			var wirelessNetwork = new WirelessNetwork(new ModuleLogger(logger, nameof(WirelessNetwork)), text);
 			var activators = new IActionCenterActivator[]
 			{
@@ -279,8 +280,8 @@ namespace SafeExamBrowser.Client
 				keyboard,
 				logInfo,
 				logController,
+				powerSupply,
 				// TODO 
-				//powerSupply,
 				//wirelessNetwork,
 				systemInfo,
 				taskbar,

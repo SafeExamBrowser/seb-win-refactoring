@@ -55,7 +55,9 @@
   <ItemGroup>
     <Compile Include="Audio\Events\AudioVolumeChangedEventHandler.cs" />
     <Compile Include="Audio\IAudio.cs" />
-    <Compile Include="BatteryChargeStatus.cs" />
+    <Compile Include="PowerSupply\Events\PowerSupplyStatusChangedEventHandler.cs" />
+    <Compile Include="PowerSupply\IPowerSupply.cs" />
+    <Compile Include="PowerSupply\BatteryChargeStatus.cs" />
     <Compile Include="Keyboard\Events\KeyboardLayoutChangedEventHandler.cs" />
     <Compile Include="Keyboard\IKeyboard.cs" />
     <Compile Include="Keyboard\IKeyboardLayout.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="IUserInfo.cs" />
     <Compile Include="IWirelessNetwork.cs" />
     <Compile Include="OperatingSystem.cs" />
+    <Compile Include="PowerSupply\IPowerSupplyStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WirelessNetworkStatus.cs" />
   </ItemGroup>

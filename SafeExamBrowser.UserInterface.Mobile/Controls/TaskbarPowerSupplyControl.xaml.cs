@@ -6,64 +6,126 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Controls
 {
-	public partial class TaskbarPowerSupplyControl : UserControl, ISystemPowerSupplyControl
+	public partial class TaskbarPowerSupplyControl : UserControl, ISystemControl
 	{
-		private double BATTERY_CHARGE_MAX_WIDTH;
+		private Brush initialBrush;
+		private bool infoShown, warningShown;
+		private double maxWidth;
+		private IPowerSupply powerSupply;
+		private IText text;
 
-		public TaskbarPowerSupplyControl()
+		public TaskbarPowerSupplyControl(IPowerSupply powerSupply, IText text)
 		{
+			this.powerSupply = powerSupply;
+			this.text = text;
+
 			InitializeComponent();
-			BATTERY_CHARGE_MAX_WIDTH = BatteryCharge.Width;
+			InitializePowerSupplyControl();
 		}
 
 		public void Close()
 		{
-			Popup.IsOpen = false;
-		}
-
-		public void SetBatteryCharge(double charge, BatteryChargeStatus status)
-		{
-			Dispatcher.InvokeAsync(() =>
-			{
-				var width = BATTERY_CHARGE_MAX_WIDTH * charge;
-
-				width = width > BATTERY_CHARGE_MAX_WIDTH ? BATTERY_CHARGE_MAX_WIDTH : width;
-				width = width < 0 ? 0 : width;
-
-				BatteryCharge.Width = width;
-				BatteryCharge.Fill = status == BatteryChargeStatus.Low ? Brushes.Orange : BatteryCharge.Fill;
-				BatteryCharge.Fill = status == BatteryChargeStatus.Critical ? Brushes.Red : BatteryCharge.Fill;
-				Warning.Visibility = status == BatteryChargeStatus.Critical ? Visibility.Visible : Visibility.Collapsed;
-			});
-		}
-
-		public void SetPowerGridConnection(bool connected)
-		{
-			Dispatcher.InvokeAsync(() => PowerPlug.Visibility = connected ? Visibility.Visible : Visibility.Collapsed);
+			Dispatcher.InvokeAsync(ClosePopup);
 		}
 
 		public void SetInformation(string text)
 		{
-			Dispatcher.InvokeAsync(() => Button.ToolTip = text);
+			Dispatcher.InvokeAsync(() => PopupText.Text = text);
 		}
 
-		public void ShowCriticalBatteryWarning(string warning)
+		private void InitializePowerSupplyControl()
 		{
-			Dispatcher.InvokeAsync(() => ShowPopup(warning));
+			initialBrush = BatteryCharge.Fill;
+			maxWidth = BatteryCharge.Width;
+			powerSupply.StatusChanged += PowerSupply_StatusChanged;
+			UpdateStatus(powerSupply.GetStatus());
 		}
 
-		public void ShowLowBatteryInfo(string info)
+		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			Dispatcher.InvokeAsync(() => ShowPopup(info));
+			ClosePopup();
+		}
+
+		private void PowerSupply_StatusChanged(IPowerSupplyStatus status)
+		{
+			Dispatcher.InvokeAsync(() => UpdateStatus(status));
+		}
+
+		private void UpdateStatus(IPowerSupplyStatus status)
+		{
+			var percentage = Math.Round(status.BatteryCharge * 100);
+			var tooltip = string.Empty;
+
+			RenderCharge(status.BatteryCharge, status.BatteryChargeStatus);
+
+			if (status.IsOnline)
+			{
+				infoShown = false;
+				warningShown = false;
+				tooltip = text.Get(percentage == 100 ? TextKey.SystemControl_BatteryCharged : TextKey.SystemControl_BatteryCharging);
+				tooltip = tooltip.Replace("%%CHARGE%%", percentage.ToString());
+
+				ClosePopup();
+			}
+			else
+			{
+				tooltip = text.Get(TextKey.SystemControl_BatteryRemainingCharge);
+				tooltip = tooltip.Replace("%%CHARGE%%", percentage.ToString());
+				tooltip = tooltip.Replace("%%HOURS%%", status.BatteryTimeRemaining.Hours.ToString());
+				tooltip = tooltip.Replace("%%MINUTES%%", status.BatteryTimeRemaining.Minutes.ToString());
+
+				HandleBatteryStatus(status.BatteryChargeStatus);
+			}
+
+			Button.ToolTip = tooltip;
+			PowerPlug.Visibility = status.IsOnline ? Visibility.Visible : Visibility.Collapsed;
+			Warning.Visibility = status.BatteryChargeStatus == BatteryChargeStatus.Critical ? Visibility.Visible : Visibility.Collapsed;
+		}
+
+		private void RenderCharge(double charge, BatteryChargeStatus status)
+		{
+			var width = maxWidth * charge;
+
+			BatteryCharge.Width = width > maxWidth ? maxWidth : (width < 0 ? 0 : width);
+
+			switch (status)
+			{
+				case BatteryChargeStatus.Critical:
+					BatteryCharge.Fill = Brushes.Red;
+					break;
+				case BatteryChargeStatus.Low:
+					BatteryCharge.Fill = Brushes.Orange;
+					break;
+				default:
+					BatteryCharge.Fill = initialBrush;
+					break;
+			}
+		}
+
+		private void HandleBatteryStatus(BatteryChargeStatus chargeStatus)
+		{
+			if (chargeStatus == BatteryChargeStatus.Low && !infoShown)
+			{
+				ShowPopup(text.Get(TextKey.SystemControl_BatteryChargeLowInfo));
+				infoShown = true;
+			}
+
+			if (chargeStatus == BatteryChargeStatus.Critical && !warningShown)
+			{
+				ShowPopup(text.Get(TextKey.SystemControl_BatteryChargeCriticalWarning));
+				warningShown = true;
+			}
 		}
 
 		private void ShowPopup(string text)
@@ -73,7 +135,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 			Background = Brushes.LightGray;
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
+		private void ClosePopup()
 		{
 			Popup.IsOpen = false;
 			Background = Brushes.Transparent;

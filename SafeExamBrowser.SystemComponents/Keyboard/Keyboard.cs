@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Input;
-using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard.Events;
@@ -23,15 +22,13 @@ namespace SafeExamBrowser.SystemComponents.Keyboard
 		private IList<KeyboardLayout> layouts;
 		private ILogger logger;
 		private CultureInfo originalLanguage;
-		private IText text;
 
 		public event KeyboardLayoutChangedEventHandler LayoutChanged;
 
-		public Keyboard(ILogger logger, IText text)
+		public Keyboard(ILogger logger)
 		{
 			this.layouts = new List<KeyboardLayout>();
 			this.logger = logger;
-			this.text = text;
 		}
 
 		public void ActivateLayout(Guid layoutId)

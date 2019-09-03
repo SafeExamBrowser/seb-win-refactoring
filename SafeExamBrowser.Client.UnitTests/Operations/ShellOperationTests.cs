@@ -17,6 +17,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
+using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.WindowsApi.Contracts;
@@ -38,8 +39,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<IKeyboard> keyboard;
 		private Mock<INotificationInfo> logInfo;
 		private Mock<INotificationController> logController;
+		private Mock<IPowerSupply> powerSupply;
 		// TODO 
-		//private Mock<ISystemComponent<ISystemPowerSupplyControl>> powerSupply;
 		//private Mock<ISystemComponent<ISystemWirelessNetworkControl>> wirelessNetwork;
 		private Mock<ISystemInfo> systemInfo;
 		private Mock<ITaskbar> taskbar;
@@ -61,8 +62,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			keyboard = new Mock<IKeyboard>();
 			logInfo = new Mock<INotificationInfo>();
 			logController = new Mock<INotificationController>();
+			powerSupply = new Mock<IPowerSupply>();
 			// TODO 
-			//powerSupply = new Mock<ISystemComponent<ISystemPowerSupplyControl>>();
 			//wirelessNetwork = new Mock<ISystemComponent<ISystemWirelessNetworkControl>>();
 			systemInfo = new Mock<ISystemInfo>();
 			taskbar = new Mock<ITaskbar>();
@@ -84,9 +85,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 				keyboard.Object,
 				logInfo.Object,
 				logController.Object,
+				powerSupply.Object,
 				// TODO 
-				//audio.Object,
-				//powerSupply.Object,
 				//wirelessNetwork.Object,
 				systemInfo.Object,
 				taskbar.Object,
@@ -200,14 +200,14 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			systemInfo.SetupGet(s => s.HasBattery).Returns(true);
 			uiFactory.Setup(f => f.CreateAudioControl(It.IsAny<IAudio>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
 			uiFactory.Setup(f => f.CreateKeyboardLayoutControl(It.IsAny<IKeyboard>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
-			uiFactory.Setup(f => f.CreatePowerSupplyControl(It.IsAny<Location>())).Returns(new Mock<ISystemPowerSupplyControl>().Object);
+			uiFactory.Setup(f => f.CreatePowerSupplyControl(It.IsAny<IPowerSupply>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
 			uiFactory.Setup(f => f.CreateWirelessNetworkControl(It.IsAny<Location>())).Returns(new Mock<ISystemWirelessNetworkControl>().Object);
 
 			sut.Perform();
 
+			audio.Verify(a => a.Initialize(), Times.Once);
+			powerSupply.Verify(p => p.Initialize(), Times.Once);
 			// TODO 
-			//audio.Verify(a => a.Initialize(), Times.Once);
-			//powerSupply.Verify(p => p.Initialize(), Times.Once);
 			//wirelessNetwork.Verify(w => w.Initialize(), Times.Once);
 			keyboard.Verify(k => k.Initialize(), Times.Once);
 			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemControl>()), Times.Exactly(4));
@@ -229,14 +229,14 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			systemInfo.SetupGet(s => s.HasBattery).Returns(false);
 			uiFactory.Setup(f => f.CreateAudioControl(It.IsAny<IAudio>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
 			uiFactory.Setup(f => f.CreateKeyboardLayoutControl(It.IsAny<IKeyboard>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
-			uiFactory.Setup(f => f.CreatePowerSupplyControl(It.IsAny<Location>())).Returns(new Mock<ISystemPowerSupplyControl>().Object);
+			uiFactory.Setup(f => f.CreatePowerSupplyControl(It.IsAny<IPowerSupply>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
 			uiFactory.Setup(f => f.CreateWirelessNetworkControl(It.IsAny<Location>())).Returns(new Mock<ISystemWirelessNetworkControl>().Object);
 
 			sut.Perform();
 
+			audio.Verify(a => a.Initialize(), Times.Once);
+			powerSupply.Verify(p => p.Initialize(), Times.Once);
 			// TODO 
-			//audio.Verify(a => a.Initialize(), Times.Once);
-			//powerSupply.Verify(p => p.Initialize(), Times.Once);
 			//wirelessNetwork.Verify(w => w.Initialize(), Times.Once);
 			keyboard.Verify(k => k.Initialize(), Times.Once);
 			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemControl>()), Times.Never);
@@ -292,11 +292,11 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			sut.Revert();
 
 			aboutController.Verify(c => c.Terminate(), Times.Once);
+			audio.Verify(a => a.Terminate(), Times.Once);
 			logController.Verify(c => c.Terminate(), Times.Once);
-			// TODO 
-			//audio.Verify(a => a.Terminate(), Times.Once);
+			powerSupply.Verify(p => p.Terminate(), Times.Once);
 			keyboard.Verify(k => k.Terminate(), Times.Once);
-			//powerSupply.Verify(p => p.Terminate(), Times.Once);
+			// TODO 
 			//wirelessNetwork.Verify(w => w.Terminate(), Times.Once);
 		}
 	}

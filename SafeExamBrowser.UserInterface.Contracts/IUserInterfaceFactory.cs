@@ -14,6 +14,7 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
+using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
@@ -73,7 +74,7 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// <summary>
 		/// Creates a system control displaying the power supply status of the computer.
 		/// </summary>
-		ISystemPowerSupplyControl CreatePowerSupplyControl(Location location);
+		ISystemControl CreatePowerSupplyControl(IPowerSupply powerSupply, Location location);
 
 		/// <summary>
 		/// Creates a new runtime window which runs on its own thread.
