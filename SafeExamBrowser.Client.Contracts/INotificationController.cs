@@ -9,16 +9,15 @@
 namespace SafeExamBrowser.Client.Contracts
 {
 	/// <summary>
-	/// Controls the lifetime and functionality of a notification which is part of the <see cref="ITaskbar"/>.
+	/// Controls the lifetime and functionality of a notification which can be activated via the UI.
 	/// </summary>
 	public interface INotificationController
 	{
-		// TODO
-		///// <summary>
-		///// Registers the taskbar notification.
-		///// </summary>
-		//void RegisterNotification(INotificationControl notification);
-
+		/// <summary>
+		/// Executes the notification functionality.
+		/// </summary>
+		void Activate();
+		
 		/// <summary>
 		/// Instructs the controller to shut down and release all used resources.
 		/// </summary>

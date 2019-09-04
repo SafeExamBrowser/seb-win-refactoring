@@ -71,17 +71,19 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			uiFactory = new Mock<IUserInterfaceFactory>();
 			wirelessAdapter = new Mock<IWirelessAdapter>();
 
-			uiFactory.Setup(u => u.CreateNotificationControl(It.IsAny<INotificationInfo>(), It.IsAny<Location>())).Returns(new Mock<INotificationControl>().Object);
+			uiFactory
+				.Setup(u => u.CreateNotificationControl(It.IsAny<INotificationController>(), It.IsAny<INotificationInfo>(), It.IsAny<Location>()))
+				.Returns(new Mock<INotificationControl>().Object);
 
 			sut = new ShellOperation(
 				actionCenter.Object,
 				activators,
 				actionCenterSettings,
 				audio.Object,
-				logger.Object,
 				aboutInfo.Object,
 				aboutController.Object,
 				keyboard.Object,
+				logger.Object,
 				logInfo.Object,
 				logController.Object,
 				powerSupply.Object,
@@ -175,7 +177,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			taskbarSettings.EnableTaskbar = true;
 			taskbarSettings.ShowApplicationLog = false;
 
-			uiFactory.Setup(f => f.CreateNotificationControl(It.Is<INotificationInfo>(i => i == logInfo.Object), It.IsAny<Location>())).Returns(logControl.Object);
+			uiFactory
+				.Setup(f => f.CreateNotificationControl(It.IsAny<INotificationController>(), It.Is<INotificationInfo>(i => i == logInfo.Object), It.IsAny<Location>()))
+				.Returns(logControl.Object);
 
 			sut.Perform();
 

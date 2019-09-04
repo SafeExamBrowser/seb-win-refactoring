@@ -10,24 +10,25 @@ using System.Windows;
 using System.Windows.Controls;
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
-using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Controls
 {
 	public partial class TaskbarNotificationButton : UserControl, INotificationControl
 	{
-		public event NotificationControlClickedEventHandler Clicked;
+		private INotificationController controller;
 
-		public TaskbarNotificationButton(INotificationInfo info)
+		public TaskbarNotificationButton(INotificationController controller, INotificationInfo info)
 		{
+			this.controller = controller;
+
 			InitializeComponent();
 			InitializeNotificationIcon(info);
 		}
 
-		private void Icon_Click(object sender, RoutedEventArgs e)
+		private void IconButton_Click(object sender, RoutedEventArgs e)
 		{
-			Clicked?.Invoke();
+			controller.Activate();
 		}
 
 		private void InitializeNotificationIcon(INotificationInfo info)

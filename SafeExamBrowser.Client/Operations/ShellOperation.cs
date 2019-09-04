@@ -30,10 +30,10 @@ namespace SafeExamBrowser.Client.Operations
 		private IEnumerable<IActionCenterActivator> activators;
 		private ActionCenterSettings actionCenterSettings;
 		private IAudio audio;
-		private ILogger logger;
 		private INotificationInfo aboutInfo;
 		private INotificationController aboutController;
 		private IKeyboard keyboard;
+		private ILogger logger;
 		private INotificationInfo logInfo;
 		private INotificationController logController;
 		private IPowerSupply powerSupply;
@@ -53,10 +53,10 @@ namespace SafeExamBrowser.Client.Operations
 			IEnumerable<IActionCenterActivator> activators,
 			ActionCenterSettings actionCenterSettings,
 			IAudio audio,
-			ILogger logger,
 			INotificationInfo aboutInfo,
 			INotificationController aboutController,
 			IKeyboard keyboard,
+			ILogger logger,
 			INotificationInfo logInfo,
 			INotificationController logController,
 			IPowerSupply powerSupply,
@@ -181,10 +181,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (actionCenterSettings.ShowApplicationInfo)
 			{
-				var notification = uiFactory.CreateNotificationControl(aboutInfo, Location.ActionCenter);
-
-				// TODO aboutController.RegisterNotification(notification);
-				actionCenter.AddNotificationControl(notification);
+				actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(aboutController, aboutInfo, Location.ActionCenter));
 			}
 		}
 
@@ -192,10 +189,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (taskbarSettings.ShowApplicationInfo)
 			{
-				var notification = uiFactory.CreateNotificationControl(aboutInfo, Location.Taskbar);
-
-				// TODO aboutController.RegisterNotification(notification);
-				taskbar.AddNotificationControl(notification);
+				taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(aboutController, aboutInfo, Location.Taskbar));
 			}
 		}
 
@@ -229,10 +223,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (actionCenterSettings.ShowApplicationLog)
 			{
-				var notification = uiFactory.CreateNotificationControl(logInfo, Location.ActionCenter);
-
-				// TODO logController.RegisterNotification(notification);
-				actionCenter.AddNotificationControl(notification);
+				actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(logController, logInfo, Location.ActionCenter));
 			}
 		}
 
@@ -240,10 +231,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (taskbarSettings.ShowApplicationLog)
 			{
-				var notification = uiFactory.CreateNotificationControl(logInfo, Location.Taskbar);
-
-				// TODO logController.RegisterNotification(notification);
-				taskbar.AddNotificationControl(notification);
+				taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(logController, logInfo, Location.Taskbar));
 			}
 		}
 

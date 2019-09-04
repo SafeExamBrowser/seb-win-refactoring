@@ -6,8 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
-
 namespace SafeExamBrowser.UserInterface.Contracts.Shell
 {
 	/// <summary>
@@ -15,9 +13,5 @@ namespace SafeExamBrowser.UserInterface.Contracts.Shell
 	/// </summary>
 	public interface INotificationControl
 	{
-		/// <summary>
-		/// Event fired when the user clicked on the notification control.
-		/// </summary>
-		event NotificationControlClickedEventHandler Clicked;
 	}
 }

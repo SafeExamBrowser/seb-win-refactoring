@@ -9,14 +9,12 @@
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
-using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Client.Notifications
 {
 	internal class AboutNotificationController : INotificationController
 	{
-		private INotificationControl notification;
 		private AppConfig appConfig;
 		private IUserInterfaceFactory uiFactory;
 		private IWindow window;
@@ -27,31 +25,24 @@ namespace SafeExamBrowser.Client.Notifications
 			this.uiFactory = uiFactory;
 		}
 
-		public void RegisterNotification(INotificationControl notification)
+		public void Activate()
 		{
-			this.notification = notification;
-
-			notification.Clicked += Notification_Clicked;
-		}
-
-		public void Terminate()
-		{
-			window?.Close();
-		}
-
-		private void Notification_Clicked()
-		{
-			if (window == null)
+			if (window == default(IWindow))
 			{
 				window = uiFactory.CreateAboutWindow(appConfig);
 
-				window.Closing += () => window = null;
+				window.Closing += () => window = default(IWindow);
 				window.Show();
 			}
 			else
 			{
 				window.BringToForeground();
 			}
+		}
+
+		public void Terminate()
+		{
+			window?.Close();
 		}
 	}
 }

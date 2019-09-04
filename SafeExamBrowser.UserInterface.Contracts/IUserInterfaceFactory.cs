@@ -58,9 +58,9 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		IWindow CreateLogWindow(ILogger logger);
 
 		/// <summary>
-		/// Creates a notification control for the specified location, initialized with the given notification information.
+		/// Creates a notification control for the given notification, initialized for the specified location.
 		/// </summary>
-		INotificationControl CreateNotificationControl(INotificationInfo info, Location location);
+		INotificationControl CreateNotificationControl(INotificationController controller, INotificationInfo info, Location location);
 
 		/// <summary>
 		/// Creates a password dialog with the given message and title.

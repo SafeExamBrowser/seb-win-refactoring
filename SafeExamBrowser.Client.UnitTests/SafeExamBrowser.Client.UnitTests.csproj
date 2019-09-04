@@ -95,7 +95,6 @@
     <Compile Include="Communication\ClientHostTests.cs" />
     <Compile Include="Notifications\AboutNotificationControllerTests.cs" />
     <Compile Include="Notifications\LogNotificationControllerTests.cs" />
-    <Compile Include="Notifications\NotificationButtonMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ClientControllerTests.cs" />
   </ItemGroup>

@@ -9,14 +9,12 @@
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
-using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Client.Notifications
 {
 	internal class LogNotificationController : INotificationController
 	{
-		private INotificationControl notification;
 		private ILogger logger;
 		private IUserInterfaceFactory uiFactory;
 		private IWindow window;
@@ -27,21 +25,9 @@ namespace SafeExamBrowser.Client.Notifications
 			this.uiFactory = uiFactory;
 		}
 
-		public void RegisterNotification(INotificationControl notification)
+		public void Activate()
 		{
-			this.notification = notification;
-
-			notification.Clicked += Notification_Clicked;
-		}
-
-		public void Terminate()
-		{
-			window?.Close();
-		}
-
-		private void Notification_Clicked()
-		{
-			if (window == null)
+			if (window == default(IWindow))
 			{
 				window = uiFactory.CreateLogWindow(logger);
 
@@ -52,6 +38,11 @@ namespace SafeExamBrowser.Client.Notifications
 			{
 				window.BringToForeground();
 			}
+		}
+
+		public void Terminate()
+		{
+			window?.Close();
 		}
 	}
 }

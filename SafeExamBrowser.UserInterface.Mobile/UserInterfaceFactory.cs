@@ -109,15 +109,15 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			return logWindow;
 		}
 
-		public INotificationControl CreateNotificationControl(INotificationInfo info, Location location)
+		public INotificationControl CreateNotificationControl(INotificationController controller, INotificationInfo info, Location location)
 		{
 			if (location == Location.ActionCenter)
 			{
-				return new ActionCenterNotificationButton(info);
+				return new ActionCenterNotificationButton(controller, info);
 			}
 			else
 			{
-				return new TaskbarNotificationButton(info);
+				return new TaskbarNotificationButton(controller, info);
 			}
 		}
 
