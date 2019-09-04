@@ -11,5 +11,5 @@ namespace SafeExamBrowser.SystemComponents.Contracts.Audio.Events
 	/// <summary>
 	/// Indicates that the volume of the system audio component has changed.
 	/// </summary>
-	public delegate void AudioVolumeChangedEventHandler(double volume, bool muted);
+	public delegate void VolumeChangedEventHandler(double volume, bool muted);
 }

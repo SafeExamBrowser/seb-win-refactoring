@@ -15,6 +15,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
+using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
@@ -90,6 +91,6 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// <summary>
 		/// Creates a system control which allows to change the wireless network connection of the computer.
 		/// </summary>
-		ISystemWirelessNetworkControl CreateWirelessNetworkControl(Location location);
+		ISystemControl CreateWirelessNetworkControl(IWirelessAdapter wirelessAdapter, Location location);
 	}
 }

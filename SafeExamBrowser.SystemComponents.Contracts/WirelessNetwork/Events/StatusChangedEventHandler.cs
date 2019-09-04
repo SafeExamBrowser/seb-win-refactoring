@@ -6,15 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.SystemComponents.Contracts
+namespace SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork.Events
 {
 	/// <summary>
-	/// Defines all possible network statuses which can be determined by the application.
+	/// Indicates that the wireless network status has changed.
 	/// </summary>
-	public enum WirelessNetworkStatus
-	{
-		Undefined = 0,
-		Connected,
-		Disconnected
-	}
+	public delegate void StatusChangedEventHandler(WirelessNetworkStatus status);
 }

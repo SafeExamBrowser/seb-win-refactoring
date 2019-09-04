@@ -11,5 +11,5 @@ namespace SafeExamBrowser.SystemComponents.Contracts.Keyboard.Events
 	/// <summary>
 	/// Indicates that the active keyboard layout has changed.
 	/// </summary>
-	public delegate void KeyboardLayoutChangedEventHandler(IKeyboardLayout layout);
+	public delegate void LayoutChangedEventHandler(IKeyboardLayout layout);
 }

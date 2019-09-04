@@ -17,6 +17,7 @@ using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
+using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.WindowsApi.Contracts;
@@ -36,13 +37,13 @@ namespace SafeExamBrowser.Client.Operations
 		private INotificationInfo logInfo;
 		private INotificationController logController;
 		private IPowerSupply powerSupply;
-		// TODO private ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
 		private TaskbarSettings taskbarSettings;
 		private ITerminationActivator terminationActivator;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
+		private IWirelessAdapter wirelessAdapter;
 
 		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged;
@@ -59,13 +60,13 @@ namespace SafeExamBrowser.Client.Operations
 			INotificationInfo logInfo,
 			INotificationController logController,
 			IPowerSupply powerSupply,
-			// TODO ISystemComponent<ISystemWirelessNetworkControl> wirelessNetwork,
 			ISystemInfo systemInfo,
 			ITaskbar taskbar,
 			TaskbarSettings taskbarSettings,
 			ITerminationActivator terminationActivator,
 			IText text,
-			IUserInterfaceFactory uiFactory)
+			IUserInterfaceFactory uiFactory,
+			IWirelessAdapter wirelessAdapter)
 		{
 			this.aboutInfo = aboutInfo;
 			this.aboutController = aboutController;
@@ -84,7 +85,7 @@ namespace SafeExamBrowser.Client.Operations
 			this.text = text;
 			this.taskbar = taskbar;
 			this.uiFactory = uiFactory;
-			// TODO this.wirelessNetwork = wirelessNetwork;
+			this.wirelessAdapter = wirelessAdapter;
 		}
 
 		public OperationResult Perform()
@@ -173,8 +174,7 @@ namespace SafeExamBrowser.Client.Operations
 			audio.Initialize();
 			keyboard.Initialize();
 			powerSupply.Initialize();
-			// TODO 
-			//wirelessNetwork.Initialize();
+			wirelessAdapter.Initialize();
 		}
 
 		private void InitializeAboutNotificationForActionCenter()
@@ -283,10 +283,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (actionCenterSettings.ShowWirelessNetwork)
 			{
-				var control = uiFactory.CreateWirelessNetworkControl(Location.ActionCenter);
-
-				// TODO wirelessNetwork.Register(control);
-				actionCenter.AddSystemControl(control);
+				actionCenter.AddSystemControl(uiFactory.CreateWirelessNetworkControl(wirelessAdapter, Location.ActionCenter));
 			}
 		}
 
@@ -294,10 +291,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (taskbarSettings.ShowWirelessNetwork)
 			{
-				var control = uiFactory.CreateWirelessNetworkControl(Location.Taskbar);
-
-				// TODO wirelessNetwork.Register(control);
-				taskbar.AddSystemControl(control);
+				taskbar.AddSystemControl(uiFactory.CreateWirelessNetworkControl(wirelessAdapter, Location.Taskbar));
 			}
 		}
 
@@ -325,8 +319,7 @@ namespace SafeExamBrowser.Client.Operations
 			audio.Terminate();
 			keyboard.Terminate();
 			powerSupply.Terminate();
-			// TODO 
-			//wirelessNetwork.Terminate();
+			wirelessAdapter.Terminate();
 		}
 	}
 }

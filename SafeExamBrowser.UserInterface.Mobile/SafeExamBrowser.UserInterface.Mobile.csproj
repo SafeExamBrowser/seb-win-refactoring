@@ -353,38 +353,38 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Images\WiFi_Light_66.xaml">
+    <Resource Include="Images\WiFi_Light_66.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Images\WiFi_Light_33.xaml">
+    </Resource>
+    <Resource Include="Images\WiFi_Light_33.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Images\WiFi_Light_100.xaml">
+    </Resource>
+    <Resource Include="Images\WiFi_Light_100.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Images\WiFi_Light_0.xaml">
+    </Resource>
+    <Resource Include="Images\WiFi_Light_0.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Images\WiFi_66.xaml">
+    </Resource>
+    <Resource Include="Images\WiFi_66.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Images\WiFi_33.xaml">
+    </Resource>
+    <Resource Include="Images\WiFi_33.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Images\WiFi_100.xaml">
+    </Resource>
+    <Resource Include="Images\WiFi_100.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Images\WiFi_0.xaml">
+    </Resource>
+    <Resource Include="Images\WiFi_0.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
+    </Resource>
     <Page Include="Images\SkipBack.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

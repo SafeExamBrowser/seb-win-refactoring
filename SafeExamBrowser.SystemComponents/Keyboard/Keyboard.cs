@@ -23,7 +23,7 @@ namespace SafeExamBrowser.SystemComponents.Keyboard
 		private ILogger logger;
 		private CultureInfo originalLanguage;
 
-		public event KeyboardLayoutChangedEventHandler LayoutChanged;
+		public event LayoutChangedEventHandler LayoutChanged;
 
 		public Keyboard(ILogger logger)
 		{

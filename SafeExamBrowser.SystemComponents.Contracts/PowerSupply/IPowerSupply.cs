@@ -18,7 +18,7 @@ namespace SafeExamBrowser.SystemComponents.Contracts.PowerSupply
 		/// <summary>
 		/// Fired when the status of the power supply changed.
 		/// </summary>
-		event PowerSupplyStatusChangedEventHandler StatusChanged;
+		event StatusChangedEventHandler StatusChanged;
 
 		/// <summary>
 		/// Retrieves the current status of the power supply.

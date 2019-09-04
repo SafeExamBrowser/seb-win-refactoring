@@ -20,7 +20,7 @@ namespace SafeExamBrowser.SystemComponents.Contracts.Keyboard
 		/// <summary>
 		/// Fired when the active keyboard layout changed.
 		/// </summary>
-		event KeyboardLayoutChangedEventHandler LayoutChanged;
+		event LayoutChangedEventHandler LayoutChanged;
 
 		/// <summary>
 		/// Activates the keyboard layout with the given identifier.

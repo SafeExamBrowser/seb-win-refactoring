@@ -7,12 +7,12 @@
  */
 
 using System;
-using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SimpleWifi;
 
-namespace SafeExamBrowser.SystemComponents
+namespace SafeExamBrowser.SystemComponents.WirelessNetwork
 {
-	internal class WirelessNetworkDefinition : IWirelessNetwork
+	internal class WirelessNetwork : IWirelessNetwork
 	{
 		internal AccessPoint AccessPoint { get; set; }
 
@@ -21,7 +21,7 @@ namespace SafeExamBrowser.SystemComponents
 		public int SignalStrength { get; set; }
 		public WirelessNetworkStatus Status { get; set; }
 
-		public WirelessNetworkDefinition()
+		public WirelessNetwork()
 		{
 			Id = Guid.NewGuid();
 		}

@@ -22,7 +22,7 @@ namespace SafeExamBrowser.SystemComponents.PowerSupply
 		private ILogger logger;
 		private Timer timer;
 
-		public event PowerSupplyStatusChangedEventHandler StatusChanged;
+		public event StatusChangedEventHandler StatusChanged;
 
 		public PowerSupply(ILogger logger)
 		{

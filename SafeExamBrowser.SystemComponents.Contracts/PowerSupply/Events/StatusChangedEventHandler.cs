@@ -11,5 +11,5 @@ namespace SafeExamBrowser.SystemComponents.Contracts.PowerSupply.Events
 	/// <summary>
 	/// Indicates that the status of the power supply for the system has changed.
 	/// </summary>
-	public delegate void PowerSupplyStatusChangedEventHandler(IPowerSupplyStatus status);
+	public delegate void StatusChangedEventHandler(IPowerSupplyStatus status);
 }

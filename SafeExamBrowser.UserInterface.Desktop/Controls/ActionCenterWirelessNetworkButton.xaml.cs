@@ -6,10 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using SafeExamBrowser.SystemComponents.Contracts;
-using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
+using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
@@ -17,34 +17,22 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 	{
 		private IWirelessNetwork network;
 
-		public bool IsCurrent
-		{
-			set { IsCurrentTextBlock.Visibility = value ? Visibility.Visible : Visibility.Hidden; }
-		}
-
-		public string NetworkName
-		{
-			set { NetworkNameTextBlock.Text = value; }
-		}
-
-		public int SignalStrength
-		{
-			set { SignalStrengthTextBlock.Text = $"{value}%"; }
-		}
-
-		public event WirelessNetworkSelectedEventHandler NetworkSelected;
+		public event EventHandler NetworkSelected;
 
 		public ActionCenterWirelessNetworkButton(IWirelessNetwork network)
 		{
 			this.network = network;
 
 			InitializeComponent();
-			InitializeEvents();
+			InitializeNetworkButton();
 		}
 
-		private void InitializeEvents()
+		private void InitializeNetworkButton()
 		{
-			Button.Click += (o, args) => NetworkSelected?.Invoke(network.Id);
+			Button.Click += (o, args) => NetworkSelected?.Invoke(this, EventArgs.Empty);
+			IsCurrentTextBlock.Visibility = network.Status == WirelessNetworkStatus.Connected ? Visibility.Visible : Visibility.Hidden;
+			NetworkNameTextBlock.Text = network.Name;
+			SignalStrengthTextBlock.Text = $"{network.SignalStrength}%";
 		}
 	}
 }

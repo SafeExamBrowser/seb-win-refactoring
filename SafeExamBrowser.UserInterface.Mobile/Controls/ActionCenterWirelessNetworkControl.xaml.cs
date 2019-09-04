@@ -7,112 +7,35 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using FontAwesome.WPF;
-using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
-using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Controls
 {
-	public partial class ActionCenterWirelessNetworkControl : UserControl, ISystemWirelessNetworkControl
+	public partial class ActionCenterWirelessNetworkControl : UserControl, ISystemControl
 	{
-		public bool HasWirelessNetworkAdapter
+		private IWirelessAdapter wirelessAdapter;
+		private IText text;
+
+		public ActionCenterWirelessNetworkControl(IWirelessAdapter wirelessAdapter, IText text)
 		{
-			set
-			{
-				Dispatcher.Invoke(() =>
-				{
-					Button.IsEnabled = value;
-					NoAdapterIcon.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
-				});
-			}
-		}
+			this.wirelessAdapter = wirelessAdapter;
+			this.text = text;
 
-		public bool IsConnecting
-		{
-			set
-			{
-				Dispatcher.Invoke(() =>
-				{
-					LoadingIcon.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
-					SignalStrengthIcon.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
-					NetworkStatusIcon.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
-				});
-			}
-		}
-
-		public WirelessNetworkStatus NetworkStatus
-		{
-			set
-			{
-				Dispatcher.Invoke(() =>
-				{
-					var icon = value == WirelessNetworkStatus.Connected ? FontAwesomeIcon.Check : FontAwesomeIcon.Close;
-					var brush = value == WirelessNetworkStatus.Connected ? Brushes.Green : Brushes.Orange;
-
-					if (value == WirelessNetworkStatus.Disconnected)
-					{
-						SignalStrengthIcon.Child = GetIcon(0);
-					}
-
-					NetworkStatusIcon.Source = ImageAwesome.CreateImageSource(icon, brush);
-				});
-			}
-		}
-
-		public event WirelessNetworkSelectedEventHandler NetworkSelected;
-
-		public ActionCenterWirelessNetworkControl()
-		{
 			InitializeComponent();
 			InitializeWirelessNetworkControl();
 		}
 
 		public void Close()
 		{
-			Dispatcher.Invoke(() => Popup.IsOpen = false);
-		}
-
-		public void SetInformation(string text)
-		{
-			Dispatcher.Invoke(() =>
-			{
-				Button.ToolTip = text;
-				Text.Text = text;
-			});
-		}
-
-		public void Update(IEnumerable<IWirelessNetwork> networks)
-		{
-			Dispatcher.Invoke(() =>
-			{
-				NetworksStackPanel.Children.Clear();
-
-				foreach (var network in networks)
-				{
-					var button = new ActionCenterWirelessNetworkButton(network);
-					var isCurrent = network.Status == WirelessNetworkStatus.Connected;
-
-					button.IsCurrent = isCurrent;
-					button.NetworkName = network.Name;
-					button.SignalStrength = network.SignalStrength;
-					button.NetworkSelected += (id) => NetworkSelected?.Invoke(id);
-
-					if (isCurrent)
-					{
-						NetworkStatus = network.Status;
-						SignalStrengthIcon.Child = GetIcon(network.SignalStrength);
-					}
-
-					NetworksStackPanel.Children.Add(button);
-				}
-			});
+			Dispatcher.InvokeAsync(() => Popup.IsOpen = false);
 		}
 
 		private void InitializeWirelessNetworkControl()
@@ -125,12 +48,91 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
 			Popup.Opened += (o, args) => Grid.Background = Brushes.Gray;
 			Popup.Closed += (o, args) => Grid.Background = originalBrush;
+
+			if (wirelessAdapter.IsAvailable)
+			{
+				wirelessAdapter.NetworksChanged += WirelessAdapter_NetworksChanged;
+				wirelessAdapter.StatusChanged += WirelessAdapter_StatusChanged;
+				UpdateNetworks();
+			}
+			else
+			{
+				Button.IsEnabled = false;
+				NoAdapterIcon.Visibility = Visibility.Visible;
+				UpdateText(text.Get(TextKey.SystemControl_WirelessNotAvailable));
+			}
+		}
+
+		private void WirelessAdapter_NetworksChanged()
+		{
+			Dispatcher.InvokeAsync(UpdateNetworks);
+		}
+
+		private void WirelessAdapter_StatusChanged(WirelessNetworkStatus status)
+		{
+			Dispatcher.InvokeAsync(() => UpdateStatus(status));
+		}
+
+		private void UpdateNetworks()
+		{
+			var status = WirelessNetworkStatus.Disconnected;
+
+			NetworksStackPanel.Children.Clear();
+
+			foreach (var network in wirelessAdapter.GetNetworks())
+			{
+				var button = new ActionCenterWirelessNetworkButton(network);
+
+				button.NetworkSelected += (o, args) => wirelessAdapter.Connect(network.Id);
+
+				if (network.Status == WirelessNetworkStatus.Connected)
+				{
+					status = WirelessNetworkStatus.Connected;
+					SignalStrengthIcon.Child = GetIcon(network.SignalStrength);
+					UpdateText(text.Get(TextKey.SystemControl_WirelessConnected).Replace("%%NAME%%", network.Name));
+				}
+
+				NetworksStackPanel.Children.Add(button);
+			}
+
+			UpdateStatus(status);
+		}
+
+		private void UpdateStatus(WirelessNetworkStatus status)
+		{
+			LoadingIcon.Visibility = Visibility.Collapsed;
+			SignalStrengthIcon.Visibility = Visibility.Visible;
+			NetworkStatusIcon.Visibility = Visibility.Visible;
+
+			switch (status)
+			{
+				case WirelessNetworkStatus.Connected:
+					NetworkStatusIcon.Source = ImageAwesome.CreateImageSource(FontAwesomeIcon.Check, Brushes.Green);
+					break;
+				case WirelessNetworkStatus.Connecting:
+					LoadingIcon.Visibility = Visibility.Visible;
+					SignalStrengthIcon.Visibility = Visibility.Collapsed;
+					NetworkStatusIcon.Visibility = Visibility.Collapsed;
+					UpdateText(text.Get(TextKey.SystemControl_WirelessConnecting));
+					break;
+				default:
+					NetworkStatusIcon.Source = ImageAwesome.CreateImageSource(FontAwesomeIcon.Close, Brushes.Orange);
+					SignalStrengthIcon.Child = GetIcon(0);
+					UpdateText(text.Get(TextKey.SystemControl_WirelessDisconnected));
+					break;
+			}
+		}
+
+		private void UpdateText(string text)
+		{
+			Button.ToolTip = text;
+			Text.Text = text;
 		}
 
 		private UIElement GetIcon(int signalStrength)
 		{
 			var icon = signalStrength > 66 ? "100" : (signalStrength > 33 ? "66" : (signalStrength > 0 ? "33" : "0"));
-			var uri = new Uri($"pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/WiFi_Light_{icon}.xaml");
+			var uri = new Uri($"pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/WiFi_Light_{icon}.xaml");
 			var resource = new XamlIconResource(uri);
 
 			return IconResourceLoader.Load(resource);

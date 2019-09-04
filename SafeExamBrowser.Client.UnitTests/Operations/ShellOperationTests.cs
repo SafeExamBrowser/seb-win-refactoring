@@ -18,6 +18,7 @@ using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
+using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.WindowsApi.Contracts;
@@ -40,12 +41,11 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<INotificationInfo> logInfo;
 		private Mock<INotificationController> logController;
 		private Mock<IPowerSupply> powerSupply;
-		// TODO 
-		//private Mock<ISystemComponent<ISystemWirelessNetworkControl>> wirelessNetwork;
 		private Mock<ISystemInfo> systemInfo;
 		private Mock<ITaskbar> taskbar;
 		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
+		private Mock<IWirelessAdapter> wirelessAdapter;
 
 		private ShellOperation sut;
 
@@ -63,14 +63,13 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			logInfo = new Mock<INotificationInfo>();
 			logController = new Mock<INotificationController>();
 			powerSupply = new Mock<IPowerSupply>();
-			// TODO 
-			//wirelessNetwork = new Mock<ISystemComponent<ISystemWirelessNetworkControl>>();
 			systemInfo = new Mock<ISystemInfo>();
 			taskbar = new Mock<ITaskbar>();
 			taskbarSettings = new TaskbarSettings();
 			terminationActivator = new Mock<ITerminationActivator>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
+			wirelessAdapter = new Mock<IWirelessAdapter>();
 
 			uiFactory.Setup(u => u.CreateNotificationControl(It.IsAny<INotificationInfo>(), It.IsAny<Location>())).Returns(new Mock<INotificationControl>().Object);
 
@@ -86,14 +85,13 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 				logInfo.Object,
 				logController.Object,
 				powerSupply.Object,
-				// TODO 
-				//wirelessNetwork.Object,
 				systemInfo.Object,
 				taskbar.Object,
 				taskbarSettings,
 				terminationActivator.Object,
 				text.Object,
-				uiFactory.Object);
+				uiFactory.Object,
+				wirelessAdapter.Object);
 		}
 
 		[TestMethod]
@@ -201,14 +199,13 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			uiFactory.Setup(f => f.CreateAudioControl(It.IsAny<IAudio>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
 			uiFactory.Setup(f => f.CreateKeyboardLayoutControl(It.IsAny<IKeyboard>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
 			uiFactory.Setup(f => f.CreatePowerSupplyControl(It.IsAny<IPowerSupply>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
-			uiFactory.Setup(f => f.CreateWirelessNetworkControl(It.IsAny<Location>())).Returns(new Mock<ISystemWirelessNetworkControl>().Object);
+			uiFactory.Setup(f => f.CreateWirelessNetworkControl(It.IsAny<IWirelessAdapter>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
 
 			sut.Perform();
 
 			audio.Verify(a => a.Initialize(), Times.Once);
 			powerSupply.Verify(p => p.Initialize(), Times.Once);
-			// TODO 
-			//wirelessNetwork.Verify(w => w.Initialize(), Times.Once);
+			wirelessAdapter.Verify(w => w.Initialize(), Times.Once);
 			keyboard.Verify(k => k.Initialize(), Times.Once);
 			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemControl>()), Times.Exactly(4));
 			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemControl>()), Times.Exactly(4));
@@ -230,14 +227,13 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			uiFactory.Setup(f => f.CreateAudioControl(It.IsAny<IAudio>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
 			uiFactory.Setup(f => f.CreateKeyboardLayoutControl(It.IsAny<IKeyboard>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
 			uiFactory.Setup(f => f.CreatePowerSupplyControl(It.IsAny<IPowerSupply>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
-			uiFactory.Setup(f => f.CreateWirelessNetworkControl(It.IsAny<Location>())).Returns(new Mock<ISystemWirelessNetworkControl>().Object);
+			uiFactory.Setup(f => f.CreateWirelessNetworkControl(It.IsAny<IWirelessAdapter>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
 
 			sut.Perform();
 
 			audio.Verify(a => a.Initialize(), Times.Once);
 			powerSupply.Verify(p => p.Initialize(), Times.Once);
-			// TODO 
-			//wirelessNetwork.Verify(w => w.Initialize(), Times.Once);
+			wirelessAdapter.Verify(w => w.Initialize(), Times.Once);
 			keyboard.Verify(k => k.Initialize(), Times.Once);
 			actionCenter.Verify(a => a.AddSystemControl(It.IsAny<ISystemControl>()), Times.Never);
 			taskbar.Verify(t => t.AddSystemControl(It.IsAny<ISystemControl>()), Times.Never);
@@ -296,8 +292,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			logController.Verify(c => c.Terminate(), Times.Once);
 			powerSupply.Verify(p => p.Terminate(), Times.Once);
 			keyboard.Verify(k => k.Terminate(), Times.Once);
-			// TODO 
-			//wirelessNetwork.Verify(w => w.Terminate(), Times.Once);
+			wirelessAdapter.Verify(w => w.Terminate(), Times.Once);
 		}
 	}
 }

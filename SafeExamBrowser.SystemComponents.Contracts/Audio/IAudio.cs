@@ -43,7 +43,7 @@ namespace SafeExamBrowser.SystemComponents.Contracts.Audio
 		/// <summary>
 		/// Fired when the volume of the audio device has changed.
 		/// </summary>
-		event AudioVolumeChangedEventHandler VolumeChanged;
+		event VolumeChangedEventHandler VolumeChanged;
 
 		/// <summary>
 		/// Mutes the currently active audio device.

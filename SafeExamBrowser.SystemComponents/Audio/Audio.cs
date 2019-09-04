@@ -31,7 +31,7 @@ namespace SafeExamBrowser.SystemComponents.Audio
 		public bool OutputMuted => audioDevice?.AudioEndpointVolume.Mute == true;
 		public double OutputVolume => audioDevice?.AudioEndpointVolume.MasterVolumeLevelScalar ?? 0;
 
-		public event AudioVolumeChangedEventHandler VolumeChanged;
+		public event VolumeChangedEventHandler VolumeChanged;
 
 		public Audio(AudioSettings settings, ILogger logger)
 		{

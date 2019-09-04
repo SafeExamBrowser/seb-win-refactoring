@@ -34,10 +34,10 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			this.layout = layout;
 
 			InitializeComponent();
-			InitializeEvents();
+			InitializeLayoutButton();
 		}
 
-		private void InitializeEvents()
+		private void InitializeLayoutButton()
 		{
 			Button.Click += (o, args) => LayoutSelected?.Invoke(this, EventArgs.Empty);
 			CultureCodeTextBlock.Text = layout.CultureCode;

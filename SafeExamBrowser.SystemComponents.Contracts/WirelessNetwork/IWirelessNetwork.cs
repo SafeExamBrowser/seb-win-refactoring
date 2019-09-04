@@ -8,7 +8,7 @@
 
 using System;
 
-namespace SafeExamBrowser.SystemComponents.Contracts
+namespace SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork
 {
 	/// <summary>
 	/// Defines a wireless network which can be connected to by the application.
@@ -26,7 +26,7 @@ namespace SafeExamBrowser.SystemComponents.Contracts
 		string Name { get; }
 
 		/// <summary>
-		/// The signal strength of this network, as percentage.
+		/// The signal strength of this network, from <c>0</c> (worst) to <c>100</c> (best).
 		/// </summary>
 		int SignalStrength { get; }
 

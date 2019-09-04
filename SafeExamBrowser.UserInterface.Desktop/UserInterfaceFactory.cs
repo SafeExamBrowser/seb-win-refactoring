@@ -19,6 +19,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
+using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -172,15 +173,15 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			return splashScreen;
 		}
 
-		public ISystemWirelessNetworkControl CreateWirelessNetworkControl(Location location)
+		public ISystemControl CreateWirelessNetworkControl(IWirelessAdapter wirelessAdapter, Location location)
 		{
 			if (location == Location.ActionCenter)
 			{
-				return new ActionCenterWirelessNetworkControl();
+				return new ActionCenterWirelessNetworkControl(wirelessAdapter, text);
 			}
 			else
 			{
-				return new TaskbarWirelessNetworkControl();
+				return new TaskbarWirelessNetworkControl(wirelessAdapter, text);
 			}
 		}
 

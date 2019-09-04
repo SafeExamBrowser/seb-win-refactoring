@@ -75,7 +75,6 @@
     <Compile Include="Shell\IApplicationControl.cs" />
     <Compile Include="Shell\INotificationControl.cs" />
     <Compile Include="Shell\ISystemControl.cs" />
-    <Compile Include="Shell\ISystemWirelessNetworkControl.cs" />
     <Compile Include="Shell\ITaskbar.cs" />
     <Compile Include="Shell\Location.cs" />
     <Compile Include="Windows\Events\WindowClosingEventHandler.cs" />

@@ -315,6 +315,9 @@
     <Entry key="SystemControl_WirelessConnected">
         Connected to "%%NAME%%"
     </Entry>
+    <Entry key="SystemControl_WirelessConnecting">
+        Connecting...
+    </Entry>
     <Entry key="SystemControl_WirelessDisconnected">
         Disconnected
     </Entry>
