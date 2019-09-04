@@ -28,7 +28,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 
 			Console.ForegroundColor = ConsoleColor.DarkBlue;
 			Console.WriteLine($"Safe Exam Browser, Version {version}");
-			Console.WriteLine($"Build Version {build}");
+			Console.WriteLine($"Build {build}");
 			Console.WriteLine(copyright.Replace("©", "(c)"));
 			Console.WriteLine();
 			Console.ForegroundColor = ForegroundColor;
