@@ -18,12 +18,6 @@ namespace SafeExamBrowser.Browser.Contracts
 		/// </summary>
 		public bool AllowDownload { get; set; }
 
-		// TODO
-		///// <summary>
-		///// The browser window from which the download request originated.
-		///// </summary>
-		//public IBrowserWindow BrowserWindow { get; set; }
-
 		/// <summary>
 		/// Callback executed once a download has been finished.
 		/// </summary>

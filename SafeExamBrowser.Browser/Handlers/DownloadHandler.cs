@@ -81,7 +81,6 @@ namespace SafeExamBrowser.Browser.Handlers
 
 			logger.Debug($"Detected download request for configuration file '{downloadItem.Url}'.");
 			ConfigurationDownloadRequested?.Invoke(downloadItem.SuggestedFileName, args);
-			logger.Debug($"Download of configuration file '{downloadItem.Url}' was {(args.AllowDownload ? "granted" : "denied")}.");
 
 			if (args.AllowDownload)
 			{
@@ -90,10 +89,16 @@ namespace SafeExamBrowser.Browser.Handlers
 					callbacks[downloadItem.Id] = args.Callback;
 				}
 
+				logger.Debug($"Starting download of configuration file '{downloadItem.Url}'...");
+
 				using (callback)
 				{
 					callback.Continue(args.DownloadPath, false);
 				}
+			}
+			else
+			{
+				logger.Debug($"Download of configuration file '{downloadItem.Url}' was cancelled.");
 			}
 		}
 	}

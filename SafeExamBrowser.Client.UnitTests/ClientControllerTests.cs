@@ -287,55 +287,6 @@ namespace SafeExamBrowser.Client.UnitTests
 		}
 
 		[TestMethod]
-		public void Reconfiguration_MustAskUserToConfirm()
-		{
-			appConfig.DownloadDirectory = @"C:\Folder\Does\Not\Exist";
-			settings.ConfigurationMode = ConfigurationMode.ConfigureClient;
-			messageBox.Setup(m => m.Show(
-				It.IsAny<TextKey>(),
-				It.IsAny<TextKey>(),
-				It.IsAny<MessageBoxAction>(),
-				It.IsAny<MessageBoxIcon>(),
-				It.IsAny<IWindow>())).Returns(MessageBoxResult.Yes);
-
-			sut.TryStart();
-			browserController.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", new DownloadEventArgs());
-
-			messageBox.Verify(m => m.Show(
-				It.IsAny<TextKey>(),
-				It.IsAny<TextKey>(),
-				It.IsAny<MessageBoxAction>(),
-				It.IsAny<MessageBoxIcon>(),
-				It.IsAny<IWindow>()), Times.Once);
-		}
-
-		[TestMethod]
-		public void Reconfiguration_MustNotStartIfNotWantedByUser()
-		{
-			var args = new DownloadEventArgs();
-
-			settings.ConfigurationMode = ConfigurationMode.ConfigureClient;
-			messageBox.Setup(m => m.Show(
-				It.IsAny<TextKey>(),
-				It.IsAny<TextKey>(),
-				It.IsAny<MessageBoxAction>(),
-				It.IsAny<MessageBoxIcon>(),
-				It.IsAny<IWindow>())).Returns(MessageBoxResult.No);
-
-			sut.TryStart();
-			browserController.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", args);
-
-			messageBox.Verify(m => m.Show(
-				It.IsAny<TextKey>(),
-				It.IsAny<TextKey>(),
-				It.IsAny<MessageBoxAction>(),
-				It.IsAny<MessageBoxIcon>(),
-				It.IsAny<IWindow>()), Times.Once);
-
-			Assert.IsFalse(args.AllowDownload);
-		}
-
-		[TestMethod]
 		public void Reconfiguration_MustDenyIfInExamMode()
 		{
 			settings.ConfigurationMode = ConfigurationMode.Exam;

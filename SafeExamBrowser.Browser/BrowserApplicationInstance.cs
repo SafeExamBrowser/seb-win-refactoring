@@ -174,9 +174,25 @@ namespace SafeExamBrowser.Browser
 		{
 			if (settings.AllowConfigurationDownloads)
 			{
-				// TODO args.BrowserWindow = window;
 				logger.Debug($"Forwarding download request for configuration file '{fileName}'.");
 				ConfigurationDownloadRequested?.Invoke(fileName, args);
+
+				if (args.AllowDownload)
+				{
+					logger.Debug($"Download request for configuration file '{fileName}' was granted. Asking user to confirm the reconfiguration...");
+
+					var message = TextKey.MessageBox_ReconfigurationQuestion;
+					var title = TextKey.MessageBox_ReconfigurationQuestionTitle;
+					var result = messageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question, window);
+
+					args.AllowDownload = result == MessageBoxResult.Yes;
+					logger.Info($"The user chose to {(args.AllowDownload ? "start" : "abort")} the reconfiguration.");
+				}
+				else
+				{
+					logger.Debug($"Download request for configuration file '{fileName}' was denied.");
+					messageBox.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle, parent: window);
+				}
 			}
 			else
 			{
