@@ -45,7 +45,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			sut.Perform();
 
 			application.Verify(c => c.Initialize(), Times.Once);
-			// TODO controller.Verify(c => c.RegisterApplicationControl(It.IsAny<IApplicationControl>()), Times.Exactly(2));
 			actionCenter.Verify(a => a.AddApplicationControl(It.IsAny<IApplicationControl>()), Times.Once);
 			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>()), Times.Once);
 		}

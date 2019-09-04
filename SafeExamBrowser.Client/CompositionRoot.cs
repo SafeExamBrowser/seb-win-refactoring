@@ -264,7 +264,7 @@ namespace SafeExamBrowser.Client
 			var logInfo = new LogNotificationInfo(text);
 			var logController = new LogNotificationController(logger, uiFactory);
 			var powerSupply = new PowerSupply(new ModuleLogger(logger, nameof(PowerSupply)));
-			var wirelessAdapter = new WirelessAdapter(new ModuleLogger(logger, nameof(WirelessAdapter)), text);
+			var wirelessAdapter = new WirelessAdapter(new ModuleLogger(logger, nameof(WirelessAdapter)));
 			var activators = new IActionCenterActivator[]
 			{
 				new KeyboardActivator(new ModuleLogger(logger, nameof(KeyboardActivator))),

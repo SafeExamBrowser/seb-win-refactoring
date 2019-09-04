@@ -125,19 +125,19 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		private void Taskbar_Closing(object sender, CancelEventArgs e)
 		{
-			if (!allowClose)
+			if (allowClose)
+			{
+				foreach (var child in SystemControlStackPanel.Children)
+				{
+					if (child is ISystemControl systemControl)
+					{
+						systemControl.Close();
+					}
+				}
+			}
+			else
 			{
 				e.Cancel = true;
-
-				return;
-			}
-
-			foreach (var child in SystemControlStackPanel.Children)
-			{
-				if (child is ISystemControl systemControl)
-				{
-					systemControl.Close();
-				}
 			}
 		}
 

@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
-using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork.Events;
@@ -26,7 +25,6 @@ namespace SafeExamBrowser.SystemComponents.WirelessNetwork
 
 		private List<WirelessNetwork> networks;
 		private ILogger logger;
-		private IText text;
 		private Timer timer;
 		private Wifi wifi;
 
@@ -35,11 +33,10 @@ namespace SafeExamBrowser.SystemComponents.WirelessNetwork
 		public event NetworksChangedEventHandler NetworksChanged;
 		public event StatusChangedEventHandler StatusChanged;
 
-		public WirelessAdapter(ILogger logger, IText text)
+		public WirelessAdapter(ILogger logger)
 		{
 			this.logger = logger;
 			this.networks = new List<WirelessNetwork>();
-			this.text = text;
 		}
 
 		public void Connect(Guid id)
