@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IIconResource.cs" />
-    <Compile Include="InstanceIdentifier.cs" />
     <Compile Include="OperationModel\Events\ActionRequiredEventArgs.cs" />
     <Compile Include="OperationModel\Events\ActionRequiredEventHandler.cs" />
     <Compile Include="OperationModel\Events\ProgressChangedEventArgs.cs" />

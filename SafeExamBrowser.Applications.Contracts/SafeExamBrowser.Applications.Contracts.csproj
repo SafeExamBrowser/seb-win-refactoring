@@ -60,6 +60,7 @@
     <Compile Include="IApplication.cs" />
     <Compile Include="IApplicationInfo.cs" />
     <Compile Include="IApplicationInstance.cs" />
+    <Compile Include="InstanceIdentifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

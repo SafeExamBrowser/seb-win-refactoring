@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Core.Contracts
+namespace SafeExamBrowser.Applications.Contracts
 {
 	/// <summary>
 	/// Defines an identifier which uniquely identifies an instance in the context of a (third-party) application.
