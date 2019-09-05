@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Monitoring.Contracts
+namespace SafeExamBrowser.Monitoring.Contracts.Mouse
 {
 	/// <summary>
 	/// Intercepts all mouse input.
@@ -16,6 +16,6 @@ namespace SafeExamBrowser.Monitoring.Contracts
 		/// <summary>
 		/// Returns <c>true</c> if the given button should be blocked, otherwise <c>false</c>.
 		/// </summary>
-		bool Block(MouseButton button, KeyState state);
+		bool Block(MouseButton button, MouseButtonState state);
 	}
 }

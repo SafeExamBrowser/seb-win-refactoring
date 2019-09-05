@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Monitoring.Contracts
+namespace SafeExamBrowser.Monitoring.Contracts.Keyboard
 {
 	/// <summary>
 	/// Intercepts all keyboard input (except the Secure Attention Sequence: https://en.wikipedia.org/wiki/Secure_attention_key).

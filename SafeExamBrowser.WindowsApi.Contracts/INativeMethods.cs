@@ -8,7 +8,8 @@
 
 using System;
 using System.Collections.Generic;
-using SafeExamBrowser.Monitoring.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Keyboard;
+using SafeExamBrowser.Monitoring.Contracts.Mouse;
 using SafeExamBrowser.WindowsApi.Contracts.Events;
 
 namespace SafeExamBrowser.WindowsApi.Contracts

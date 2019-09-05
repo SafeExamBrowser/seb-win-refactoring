@@ -8,8 +8,8 @@
 
 using System;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Monitoring.Contracts;
-using SafeExamBrowser.Monitoring.Contracts.Events;
+using SafeExamBrowser.Monitoring.Contracts.Windows;
+using SafeExamBrowser.Monitoring.Contracts.Windows.Events;
 using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Monitoring.Windows

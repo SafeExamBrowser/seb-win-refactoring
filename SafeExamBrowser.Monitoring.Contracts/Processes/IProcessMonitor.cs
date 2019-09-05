@@ -7,9 +7,9 @@
  */
 
 using System;
-using SafeExamBrowser.Monitoring.Contracts.Events;
+using SafeExamBrowser.Monitoring.Contracts.Processes.Events;
 
-namespace SafeExamBrowser.Monitoring.Contracts
+namespace SafeExamBrowser.Monitoring.Contracts.Processes
 {
 	/// <summary>
 	/// Monitors the processes running on the computer and provides access to process-related functionality.

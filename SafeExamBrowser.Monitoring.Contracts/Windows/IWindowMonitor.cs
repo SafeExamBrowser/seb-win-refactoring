@@ -7,9 +7,9 @@
  */
 
 using System;
-using SafeExamBrowser.Monitoring.Contracts.Events;
+using SafeExamBrowser.Monitoring.Contracts.Windows.Events;
 
-namespace SafeExamBrowser.Monitoring.Contracts
+namespace SafeExamBrowser.Monitoring.Contracts.Windows
 {
 	/// <summary>
 	/// Monitors the windows associated with the current desktop and provides window-related functionality.

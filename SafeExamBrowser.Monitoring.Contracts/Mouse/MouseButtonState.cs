@@ -6,17 +6,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Monitoring.Contracts
+namespace SafeExamBrowser.Monitoring.Contracts.Mouse
 {
 	/// <summary>
-	/// The mouse buttons which can be detected by the <see cref="IMouseInterceptor"/>.
+	/// The mouse button states which can be detected by the <see cref="IMouseInterceptor"/>.
 	/// </summary>
-	public enum MouseButton
+	public enum MouseButtonState
 	{
 		Unknown = 0,
-		Auxiliary,
-		Left,
-		Middle,
-		Right
+		Pressed,
+		Released
 	}
 }

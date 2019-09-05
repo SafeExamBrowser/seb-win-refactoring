@@ -11,7 +11,7 @@ using Moq;
 using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Configuration.Contracts.Settings;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Monitoring.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Processes;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {

@@ -8,7 +8,7 @@
 
 using SafeExamBrowser.Configuration.Contracts.Settings;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Monitoring.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Mouse;
 
 namespace SafeExamBrowser.Monitoring.Mouse
 {
@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Monitoring.Mouse
 			this.settings = settings;
 		}
 
-		public bool Block(MouseButton button, KeyState state)
+		public bool Block(MouseButton button, MouseButtonState state)
 		{
 			var block = false;
 

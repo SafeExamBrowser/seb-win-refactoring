@@ -6,18 +6,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-
-namespace SafeExamBrowser.Monitoring.Contracts
+namespace SafeExamBrowser.Monitoring.Contracts.Mouse
 {
 	/// <summary>
-	/// The key modifiers which can be detected by the <see cref="IKeyboardInterceptor"/>.
+	/// The mouse buttons which can be detected by the <see cref="IMouseInterceptor"/>.
 	/// </summary>
-	[Flags]
-	public enum KeyModifier
+	public enum MouseButton
 	{
-		None = 0,
-		Alt = 0b1,
-		Ctrl = 0b10
+		Unknown = 0,
+		Auxiliary,
+		Left,
+		Middle,
+		Right
 	}
 }

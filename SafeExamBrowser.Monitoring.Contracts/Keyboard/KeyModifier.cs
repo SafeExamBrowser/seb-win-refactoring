@@ -6,10 +6,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Monitoring.Contracts.Events
+using System;
+
+namespace SafeExamBrowser.Monitoring.Contracts.Keyboard
 {
 	/// <summary>
-	/// Indicates that the Windows explorer process has started.
+	/// The key modifiers which can be detected by the <see cref="IKeyboardInterceptor"/>.
 	/// </summary>
-	public delegate void ExplorerStartedEventHandler();
+	[Flags]
+	public enum KeyModifier
+	{
+		None = 0,
+		Alt = 0b1,
+		Ctrl = 0b10
+	}
 }

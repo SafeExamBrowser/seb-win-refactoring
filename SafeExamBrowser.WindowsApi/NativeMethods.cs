@@ -14,10 +14,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using SafeExamBrowser.Monitoring.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Keyboard;
+using SafeExamBrowser.Monitoring.Contracts.Mouse;
+using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts.Events;
-using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Hooks;
 using SafeExamBrowser.WindowsApi.Types;
 

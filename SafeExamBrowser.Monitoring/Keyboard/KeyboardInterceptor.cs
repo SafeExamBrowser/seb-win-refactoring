@@ -11,7 +11,7 @@ using System.Linq;
 using System.Windows.Input;
 using SafeExamBrowser.Configuration.Contracts.Settings;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Monitoring.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Keyboard;
 
 namespace SafeExamBrowser.Monitoring.Keyboard
 {

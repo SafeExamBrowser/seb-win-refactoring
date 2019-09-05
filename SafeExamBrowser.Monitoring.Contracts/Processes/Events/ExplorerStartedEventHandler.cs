@@ -6,10 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Monitoring.Contracts.Events
+namespace SafeExamBrowser.Monitoring.Contracts.Processes.Events
 {
 	/// <summary>
-	/// Indicates that the configuration of a display has changed.
+	/// Indicates that the Windows explorer process has started.
 	/// </summary>
-	public delegate void DisplayChangedEventHandler();
+	public delegate void ExplorerStartedEventHandler();
 }

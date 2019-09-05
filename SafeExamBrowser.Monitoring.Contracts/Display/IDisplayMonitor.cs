@@ -6,9 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Monitoring.Contracts.Events;
+using SafeExamBrowser.Monitoring.Contracts.Display.Events;
 
-namespace SafeExamBrowser.Monitoring.Contracts
+namespace SafeExamBrowser.Monitoring.Contracts.Display
 {
 	/// <summary>
 	/// Monitors the displays of the computer for (setup) changes and provides access to display-related functionality.

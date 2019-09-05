@@ -53,17 +53,18 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\DisplayChangedEventHandler.cs" />
-    <Compile Include="Events\ExplorerStartedEventHandler.cs" />
-    <Compile Include="Events\WindowChangedEventHandler.cs" />
-    <Compile Include="IDisplayMonitor.cs" />
-    <Compile Include="IKeyboardInterceptor.cs" />
-    <Compile Include="IMouseInterceptor.cs" />
-    <Compile Include="IProcessMonitor.cs" />
-    <Compile Include="IWindowMonitor.cs" />
-    <Compile Include="KeyModifier.cs" />
-    <Compile Include="KeyState.cs" />
-    <Compile Include="MouseButton.cs" />
+    <Compile Include="Display\Events\DisplayChangedEventHandler.cs" />
+    <Compile Include="Processes\Events\ExplorerStartedEventHandler.cs" />
+    <Compile Include="Windows\Events\WindowChangedEventHandler.cs" />
+    <Compile Include="Display\IDisplayMonitor.cs" />
+    <Compile Include="Keyboard\IKeyboardInterceptor.cs" />
+    <Compile Include="Mouse\MouseButtonState.cs" />
+    <Compile Include="Mouse\IMouseInterceptor.cs" />
+    <Compile Include="Processes\IProcessMonitor.cs" />
+    <Compile Include="Windows\IWindowMonitor.cs" />
+    <Compile Include="Keyboard\KeyModifier.cs" />
+    <Compile Include="Keyboard\KeyState.cs" />
+    <Compile Include="Mouse\MouseButton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

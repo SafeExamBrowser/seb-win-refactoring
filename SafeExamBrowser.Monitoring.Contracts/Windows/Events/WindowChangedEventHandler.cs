@@ -6,15 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Monitoring.Contracts
+using System;
+
+namespace SafeExamBrowser.Monitoring.Contracts.Windows.Events
 {
 	/// <summary>
-	/// The key states which can be detected by the <see cref="IKeyboardInterceptor"/> or <see cref="IMouseInterceptor"/>.
+	/// Indicates that the input focus has changed to the window with the specified handle.
 	/// </summary>
-	public enum KeyState
-	{
-		Unknown = 0,
-		Pressed,
-		Released
-	}
+	public delegate void WindowChangedEventHandler(IntPtr window);
 }

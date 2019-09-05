@@ -8,7 +8,7 @@
 
 using System;
 using System.Runtime.InteropServices;
-using SafeExamBrowser.Monitoring.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Mouse;
 using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Delegates;
 using SafeExamBrowser.WindowsApi.Types;
@@ -90,7 +90,7 @@ namespace SafeExamBrowser.WindowsApi.Hooks
 			}
 		}
 
-		private KeyState GetState(int wParam)
+		private MouseButtonState GetState(int wParam)
 		{
 			switch (wParam)
 			{
@@ -98,14 +98,14 @@ namespace SafeExamBrowser.WindowsApi.Hooks
 				case Constant.WM_MBUTTONDOWN:
 				case Constant.WM_RBUTTONDOWN:
 				case Constant.WM_XBUTTONDOWN:
-					return KeyState.Pressed;
+					return MouseButtonState.Pressed;
 				case Constant.WM_LBUTTONUP:
 				case Constant.WM_MBUTTONUP:
 				case Constant.WM_RBUTTONUP:
 				case Constant.WM_XBUTTONUP:
-					return KeyState.Released;
+					return MouseButtonState.Released;
 				default:
-					return KeyState.Unknown;
+					return MouseButtonState.Unknown;
 			}
 		}
 	}

@@ -6,12 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-
-namespace SafeExamBrowser.Monitoring.Contracts.Events
+namespace SafeExamBrowser.Monitoring.Contracts.Display.Events
 {
 	/// <summary>
-	/// Indicates that the input focus has changed to the window with the specified handle.
+	/// Indicates that the configuration of a display has changed.
 	/// </summary>
-	public delegate void WindowChangedEventHandler(IntPtr window);
+	public delegate void DisplayChangedEventHandler();
 }
