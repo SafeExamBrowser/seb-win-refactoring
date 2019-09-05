@@ -21,12 +21,12 @@ namespace SafeExamBrowser.Configuration.Contracts.Settings
 		/// <summary>
 		/// Defines whether all content requests for a web page should be filtered according to the defined <see cref="FilterRules"/>.
 		/// </summary>
-		public bool EnableContentRequestFilter { get; set; }
+		public bool FilterContentRequests { get; set; }
 
 		/// <summary>
 		/// Defines whether the main request for a web page should be filtered according to the defined <see cref="FilterRules"/>.
 		/// </summary>
-		public bool EnableMainRequestFilter { get; set; }
+		public bool FilterMainRequests { get; set; }
 
 		/// <summary>
 		/// Defines all rules to be used to filter network requests.

@@ -16,17 +16,17 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 	{
 		private void MapEnableContentRequestFilter(Settings settings, object value)
 		{
-			if (value is bool enable)
+			if (value is bool filter)
 			{
-				settings.Network.EnableContentRequestFilter = enable;
+				settings.Network.FilterContentRequests = filter;
 			}
 		}
 
 		private void MapEnableMainRequestFilter(Settings settings, object value)
 		{
-			if (value is bool enable)
+			if (value is bool filter)
 			{
-				settings.Network.EnableMainRequestFilter = enable;
+				settings.Network.FilterMainRequests = filter;
 			}
 		}
 

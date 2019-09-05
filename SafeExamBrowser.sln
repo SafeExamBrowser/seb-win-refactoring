@@ -104,6 +104,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.UserInterfa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.WindowsApi.Contracts", "SafeExamBrowser.WindowsApi.Contracts\SafeExamBrowser.WindowsApi.Contracts.csproj", "{7016F080-9AA5-41B2-A225-385AD877C171}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Network", "SafeExamBrowser.Network\SafeExamBrowser.Network.csproj", "{2DA8F505-51BE-48C8-B32B-5E753E936DEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -466,6 +468,14 @@ Global
 		{7016F080-9AA5-41B2-A225-385AD877C171}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7016F080-9AA5-41B2-A225-385AD877C171}.Release|x86.ActiveCfg = Release|x86
 		{7016F080-9AA5-41B2-A225-385AD877C171}.Release|x86.Build.0 = Release|x86
+		{2DA8F505-51BE-48C8-B32B-5E753E936DEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DA8F505-51BE-48C8-B32B-5E753E936DEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DA8F505-51BE-48C8-B32B-5E753E936DEC}.Debug|x86.ActiveCfg = Debug|x86
+		{2DA8F505-51BE-48C8-B32B-5E753E936DEC}.Debug|x86.Build.0 = Debug|x86
+		{2DA8F505-51BE-48C8-B32B-5E753E936DEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DA8F505-51BE-48C8-B32B-5E753E936DEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DA8F505-51BE-48C8-B32B-5E753E936DEC}.Release|x86.ActiveCfg = Release|x86
+		{2DA8F505-51BE-48C8-B32B-5E753E936DEC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
