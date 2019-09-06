@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Configuration.Contracts.Settings.Browser;
 using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Configuration.Contracts.Settings
@@ -68,11 +69,6 @@ namespace SafeExamBrowser.Configuration.Contracts.Settings
 		public MouseSettings Mouse { get; set; }
 
 		/// <summary>
-		/// All network-related settings.
-		/// </summary>
-		public NetworkSettings Network { get; set; }
-
-		/// <summary>
 		/// The hash code of the quit password.
 		/// </summary>
 		public string QuitPasswordHash { get; set; }
@@ -99,7 +95,6 @@ namespace SafeExamBrowser.Configuration.Contracts.Settings
 			Browser = new BrowserSettings();
 			Keyboard = new KeyboardSettings();
 			Mouse = new MouseSettings();
-			Network = new NetworkSettings();
 			Service = new ServiceSettings();
 			Taskbar = new TaskbarSettings();
 		}

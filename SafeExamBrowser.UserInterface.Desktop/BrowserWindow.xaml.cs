@@ -14,7 +14,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Configuration.Contracts.Settings.Browser;
 using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;

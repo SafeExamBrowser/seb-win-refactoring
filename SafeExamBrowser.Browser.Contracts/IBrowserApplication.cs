@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Applications.Contracts;
+using SafeExamBrowser.Browser.Contracts.Events;
 
 namespace SafeExamBrowser.Browser.Contracts
 {

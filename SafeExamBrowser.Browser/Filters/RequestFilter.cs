@@ -6,10 +6,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Browser.Contracts
+using System;
+using SafeExamBrowser.Configuration.Contracts.Settings.Browser;
+
+namespace SafeExamBrowser.Browser.Filters
 {
-	/// <summary>
-	/// Event handler used to control (e.g. allow or prohibit) download requests.
-	/// </summary>
-	public delegate void DownloadRequestedEventHandler(string fileName, DownloadEventArgs args);
+	internal class RequestFilter
+	{
+		internal void Load(FilterRule rule)
+		{
+
+		}
+
+		internal FilterResult Process(Uri request)
+		{
+			return FilterResult.Allow;
+		}
+	}
 }

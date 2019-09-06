@@ -7,8 +7,9 @@
  */
 
 using System;
+using System.Collections.Generic;
 
-namespace SafeExamBrowser.Configuration.Contracts.Settings
+namespace SafeExamBrowser.Configuration.Contracts.Settings.Browser
 {
 	/// <summary>
 	/// Defines all configuration options for the browser engine of the application.
@@ -47,6 +48,21 @@ namespace SafeExamBrowser.Configuration.Contracts.Settings
 		public string CustomUserAgent { get; set; }
 
 		/// <summary>
+		/// Defines whether all content requests for a web page should be filtered according to the defined <see cref="FilterRules"/>.
+		/// </summary>
+		public bool FilterContentRequests { get; set; }
+
+		/// <summary>
+		/// Defines whether the main request for a web page should be filtered according to the defined <see cref="FilterRules"/>.
+		/// </summary>
+		public bool FilterMainRequests { get; set; }
+
+		/// <summary>
+		/// Defines all rules to be used to filter web requests.
+		/// </summary>
+		public IList<FilterRule> FilterRules { get; set; }
+
+		/// <summary>
 		/// The configuration to be used for the main browser window.
 		/// </summary>
 		public BrowserWindowSettings MainWindowSettings { get; set; }
@@ -64,6 +80,7 @@ namespace SafeExamBrowser.Configuration.Contracts.Settings
 		public BrowserSettings()
 		{
 			AdditionalWindowSettings = new BrowserWindowSettings();
+			FilterRules = new List<FilterRule>();
 			MainWindowSettings = new BrowserWindowSettings();
 		}
 	}

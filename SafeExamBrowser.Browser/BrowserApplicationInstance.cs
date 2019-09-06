@@ -10,12 +10,11 @@ using System;
 using System.Net.Http;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
-using SafeExamBrowser.Browser.Contracts;
+using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Settings;
-using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Settings.Browser;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -85,13 +84,25 @@ namespace SafeExamBrowser.Browser
 
 		internal void Initialize()
 		{
+			InitializeControl();
+			InitializeWindow();
+		}
+
+		internal void Terminate()
+		{
+			window?.Close();
+		}
+
+		private void InitializeControl()
+		{
 			var contextMenuHandler = new ContextMenuHandler();
 			var displayHandler = new DisplayHandler();
 			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} {Id}");
 			var downloadHandler = new DownloadHandler(appConfig, settings, downloadLogger);
 			var keyboardHandler = new KeyboardHandler();
 			var lifeSpanHandler = new LifeSpanHandler();
-			var requestHandler = new RequestHandler(appConfig);
+			var requestLogger = logger.CloneFor($"{nameof(RequestHandler)} {Id}");
+			var requestHandler = new RequestHandler(appConfig, settings, logger);
 
 			displayHandler.FaviconChanged += DisplayHandler_FaviconChanged;
 			displayHandler.ProgressChanged += DisplayHandler_ProgressChanged;
@@ -109,7 +120,10 @@ namespace SafeExamBrowser.Browser
 			control.Initialize();
 
 			logger.Debug("Initialized browser control.");
+		}
 
+		private void InitializeWindow()
+		{
 			window = uiFactory.CreateBrowserWindow(control, settings, isMainInstance);
 			window.Closing += () => Terminated?.Invoke(Id);
 			window.AddressChanged += Window_AddressChanged;
@@ -124,11 +138,6 @@ namespace SafeExamBrowser.Browser
 			window.Show();
 
 			logger.Debug("Initialized browser window.");
-		}
-
-		internal void Terminate()
-		{
-			window?.Close();
 		}
 
 		private void Control_AddressChanged(string address)

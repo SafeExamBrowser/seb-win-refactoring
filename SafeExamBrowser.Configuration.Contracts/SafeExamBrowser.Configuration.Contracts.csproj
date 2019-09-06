@@ -78,13 +78,15 @@
     <Compile Include="SessionConfiguration.cs" />
     <Compile Include="Settings\ActionCenterSettings.cs" />
     <Compile Include="Settings\AudioSettings.cs" />
-    <Compile Include="Settings\BrowserSettings.cs" />
-    <Compile Include="Settings\BrowserWindowSettings.cs" />
+    <Compile Include="Settings\Browser\BrowserSettings.cs" />
+    <Compile Include="Settings\Browser\BrowserWindowSettings.cs" />
+    <Compile Include="Settings\Browser\FilterResult.cs" />
+    <Compile Include="Settings\Browser\FilterRule.cs" />
+    <Compile Include="Settings\Browser\FilterType.cs" />
     <Compile Include="Settings\ConfigurationMode.cs" />
     <Compile Include="Settings\KeyboardSettings.cs" />
     <Compile Include="Settings\KioskMode.cs" />
     <Compile Include="Settings\MouseSettings.cs" />
-    <Compile Include="Settings\NetworkSettings.cs" />
     <Compile Include="Settings\ServicePolicy.cs" />
     <Compile Include="Settings\ServiceSettings.cs" />
     <Compile Include="Settings\Settings.cs" />
@@ -95,10 +97,6 @@
     <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
       <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
       <Name>SafeExamBrowser.Logging.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SafeExamBrowser.Network.Contracts\SafeExamBrowser.Network.Contracts.csproj">
-      <Project>{2947da3c-61f3-44be-81cf-d1d5c10aec95}</Project>
-      <Name>SafeExamBrowser.Network.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

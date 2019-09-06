@@ -71,6 +71,7 @@
     <Compile Include="Events\FaviconChangedEventHandler.cs" />
     <Compile Include="Events\PopupRequestedEventArgs.cs" />
     <Compile Include="Events\PopupRequestedEventHandler.cs" />
+    <Compile Include="Filters\RequestFilter.cs" />
     <Compile Include="Handlers\ContextMenuHandler.cs" />
     <Compile Include="BrowserControl.cs">
       <SubType>Component</SubType>

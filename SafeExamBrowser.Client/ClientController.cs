@@ -9,6 +9,7 @@
 using System;
 using System.IO;
 using SafeExamBrowser.Browser.Contracts;
+using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Events;

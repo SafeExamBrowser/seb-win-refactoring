@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Configuration.Contracts.Settings.Browser;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {
@@ -101,6 +102,55 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			if (value is bool allow)
 			{
 				settings.Browser.AdditionalWindowSettings.AllowReloading = allow;
+			}
+		}
+
+		private void MapEnableContentRequestFilter(Settings settings, object value)
+		{
+			if (value is bool filter)
+			{
+				settings.Browser.FilterContentRequests = filter;
+			}
+		}
+
+		private void MapEnableMainRequestFilter(Settings settings, object value)
+		{
+			if (value is bool filter)
+			{
+				settings.Browser.FilterMainRequests = filter;
+			}
+		}
+
+		private void MapUrlFilterRules(Settings settings, object value)
+		{
+			const int ALLOW = 1;
+
+			if (value is IEnumerable<IDictionary<string, object>> ruleDataList)
+			{
+				foreach (var ruleData in ruleDataList)
+				{
+					if (ruleData.TryGetValue(Keys.Browser.Filter.RuleIsActive, out var v) && v is bool active && active)
+					{
+						var rule = new FilterRule();
+
+						if (ruleData.TryGetValue(Keys.Browser.Filter.RuleExpression, out v) && v is string expression)
+						{
+							rule.Expression = expression;
+						}
+
+						if (ruleData.TryGetValue(Keys.Browser.Filter.RuleAction, out v) && v is int action)
+						{
+							rule.Result = action == ALLOW ? FilterResult.Allow : FilterResult.Block;
+						}
+
+						if (ruleData.TryGetValue(Keys.Browser.Filter.RuleExpressionIsRegex, out v) && v is bool regex)
+						{
+							rule.Type = regex ? FilterType.Regex : FilterType.Simplified;
+						}
+
+						settings.Browser.FilterRules.Add(rule);
+					}
+				}
 			}
 		}
 

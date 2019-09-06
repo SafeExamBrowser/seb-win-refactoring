@@ -14,14 +14,14 @@ using CefSharp.WinForms;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
 using SafeExamBrowser.Browser.Contracts;
+using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
-using BrowserSettings = SafeExamBrowser.Configuration.Contracts.Settings.BrowserSettings;
+using BrowserSettings = SafeExamBrowser.Configuration.Contracts.Settings.Browser.BrowserSettings;
 
 namespace SafeExamBrowser.Browser
 {

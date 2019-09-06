@@ -53,11 +53,11 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DownloadEventArgs.cs" />
-    <Compile Include="DownloadFinishedCallback.cs" />
-    <Compile Include="DownloadRequestedEventHandler.cs" />
+    <Compile Include="Events\DownloadEventArgs.cs" />
+    <Compile Include="Events\DownloadFinishedCallback.cs" />
+    <Compile Include="Events\DownloadRequestedEventHandler.cs" />
     <Compile Include="IBrowserApplication.cs" />
-    <Compile Include="ProgressChangedEventHandler.cs" />
+    <Compile Include="Events\ProgressChangedEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

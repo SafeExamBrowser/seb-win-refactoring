@@ -9,7 +9,7 @@
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Configuration.Contracts.Settings.Browser;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;

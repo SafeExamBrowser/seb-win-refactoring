@@ -6,10 +6,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Browser.Contracts
+namespace SafeExamBrowser.Browser.Contracts.Events
 {
 	/// <summary>
-	/// Event handler used to indicate the current progress value of the page load process (from <c>0.0</c> to <c>1.0</c>).
+	/// Defines the method signature for callbacks to be executed once a download has been finished. Indicates whether the download was
+	/// successful, and if so, where it was saved.
 	/// </summary>
-	public delegate void ProgressChangedEventHandler(double value);
+	public delegate void DownloadFinishedCallback(bool success, string filePath = null);
 }

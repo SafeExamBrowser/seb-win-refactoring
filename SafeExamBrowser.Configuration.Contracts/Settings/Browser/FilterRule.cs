@@ -8,10 +8,10 @@
 
 using System;
 
-namespace SafeExamBrowser.Network.Contracts.Filter
+namespace SafeExamBrowser.Configuration.Contracts.Settings.Browser
 {
 	/// <summary>
-	/// Defines a network filter rule.
+	/// Defines a request filter rule.
 	/// </summary>
 	[Serializable]
 	public class FilterRule

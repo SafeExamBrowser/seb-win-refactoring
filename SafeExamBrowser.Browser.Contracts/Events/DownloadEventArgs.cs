@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Browser.Contracts
+namespace SafeExamBrowser.Browser.Contracts.Events
 {
 	/// <summary>
 	/// The event arguments used for all download events.
