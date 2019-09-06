@@ -127,6 +127,10 @@
       <Project>{fa3c6692-dfed-4afa-bd58-9a3da2753c78}</Project>
       <Name>SafeExamBrowser.Service</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Settings\SafeExamBrowser.Settings.csproj">
+      <Project>{30b2d907-5861-4f39-abad-c4abf1b3470e}</Project>
+      <Name>SafeExamBrowser.Settings</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

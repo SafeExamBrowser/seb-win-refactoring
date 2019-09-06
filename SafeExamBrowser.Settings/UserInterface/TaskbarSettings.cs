@@ -8,7 +8,7 @@
 
 using System;
 
-namespace SafeExamBrowser.Configuration.Contracts.Settings.UserInterface
+namespace SafeExamBrowser.Settings.UserInterface
 {
 	/// <summary>
 	/// Defines all configuration options for the taskbar.

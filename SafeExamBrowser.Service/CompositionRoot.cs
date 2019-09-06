@@ -16,14 +16,15 @@ using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
-using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Service.Contracts;
 using SafeExamBrowser.Core.OperationModel;
 using SafeExamBrowser.Core.Operations;
 using SafeExamBrowser.Lockdown;
 using SafeExamBrowser.Logging;
+using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Service.Communication;
+using SafeExamBrowser.Service.Contracts;
 using SafeExamBrowser.Service.Operations;
+using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.Service
 {

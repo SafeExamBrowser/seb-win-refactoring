@@ -9,10 +9,11 @@
 using System;
 using System.IO;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Settings;
-using SafeExamBrowser.Configuration.Contracts.Settings.Service;
-using SafeExamBrowser.Configuration.Contracts.Settings.UserInterface;
+using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Service;
+using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {
@@ -98,9 +99,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			return configuration;
 		}
 
-		internal Settings LoadDefaultSettings()
+		internal ApplicationSettings LoadDefaultSettings()
 		{
-			var settings = new Settings();
+			var settings = new ApplicationSettings();
 
 			settings.ActionCenter.EnableActionCenter = true;
 			settings.ActionCenter.ShowApplicationInfo = true;

@@ -12,7 +12,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Lockdown.Contracts;
 using SafeExamBrowser.Logging.Contracts;
@@ -27,7 +27,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 		private Mock<IFeatureConfigurationFactory> factory;
 		private Mock<IFeatureConfigurationMonitor> monitor;
 		private Mock<ILogger> logger;
-		private Settings settings;
+		private ApplicationSettings settings;
 		private SessionContext sessionContext;
 		private LockdownOperation sut;
 
@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 			factory = new Mock<IFeatureConfigurationFactory>();
 			monitor = new Mock<IFeatureConfigurationMonitor>();
 			logger = new Mock<ILogger>();
-			settings = new Settings();
+			settings = new ApplicationSettings();
 			sessionContext = new SessionContext
 			{
 				Configuration = new ServiceConfiguration { Settings = settings, UserName = "TestName", UserSid = "S-1-234-TEST" }

@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.ResetUtility.Procedure
 {

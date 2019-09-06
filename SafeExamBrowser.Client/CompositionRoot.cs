@@ -23,7 +23,7 @@ using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Settings.UserInterface;
+using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.Configuration.Cryptography;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.OperationModel;
@@ -52,6 +52,7 @@ using SafeExamBrowser.WindowsApi;
 using SafeExamBrowser.WindowsApi.Contracts;
 using Desktop = SafeExamBrowser.UserInterface.Desktop;
 using Mobile = SafeExamBrowser.UserInterface.Mobile;
+using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.Client
 {

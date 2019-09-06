@@ -75,6 +75,10 @@
       <Project>{fe0e1224-b447-4b14-81e7-ed7d84822aa0}</Project>
       <Name>SafeExamBrowser.Core.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Settings\SafeExamBrowser.Settings.csproj">
+      <Project>{30b2d907-5861-4f39-abad-c4abf1b3470e}</Project>
+      <Name>SafeExamBrowser.Settings</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

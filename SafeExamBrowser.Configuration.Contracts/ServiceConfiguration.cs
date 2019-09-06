@@ -29,7 +29,7 @@ namespace SafeExamBrowser.Configuration.Contracts
 		/// <summary>
 		/// The application settings to be used by the service.
 		/// </summary>
-		public Settings.Settings Settings { get; set; }
+		public Settings.ApplicationSettings Settings { get; set; }
 
 		/// <summary>
 		/// The user name of the currently logged in user.

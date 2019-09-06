@@ -14,8 +14,8 @@ using SafeExamBrowser.Communication.Contracts.Events;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Settings;
-using SafeExamBrowser.Configuration.Contracts.Settings.Service;
+using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -36,11 +36,11 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		private Mock<IProcess> clientProcess;
 		private Mock<IClientProxy> clientProxy;
 		private SessionConfiguration currentSession;
-		private Settings currentSettings;
+		private ApplicationSettings currentSettings;
 		private Mock<ILogger> logger;
 		private Mock<IMessageBox> messageBox;
 		private SessionConfiguration nextSession;
-		private Settings nextSettings;
+		private ApplicationSettings nextSettings;
 		private Mock<Action> shutdown;
 		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
@@ -58,11 +58,11 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			clientProcess = new Mock<IProcess>();
 			clientProxy = new Mock<IClientProxy>();
 			currentSession = new SessionConfiguration();
-			currentSettings = new Settings();
+			currentSettings = new ApplicationSettings();
 			logger = new Mock<ILogger>();
 			messageBox = new Mock<IMessageBox>();
 			nextSession = new SessionConfiguration();
-			nextSettings = new Settings();
+			nextSettings = new ApplicationSettings();
 			runtimeHost = new Mock<IRuntimeHost>();
 			service = new Mock<IServiceProxy>();
 			sessionContext = new SessionContext();
@@ -134,7 +134,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			var args = new ClientConfigurationEventArgs();
 			var nextAppConfig = new AppConfig();
 			var nextSessionId = Guid.NewGuid();
-			var nextSettings = new Settings();
+			var nextSettings = new ApplicationSettings();
 
 			nextSession.AppConfig = nextAppConfig;
 			nextSession.SessionId = nextSessionId;

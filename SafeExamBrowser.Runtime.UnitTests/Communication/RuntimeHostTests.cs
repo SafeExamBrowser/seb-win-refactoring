@@ -15,7 +15,7 @@ using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Events;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Communication;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
@@ -171,7 +171,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		public void MustHandleConfigurationRequestCorrectly()
 		{
 			var args = default(ClientConfigurationEventArgs);
-			var configuration = new ClientConfiguration { Settings = new Settings { AdminPasswordHash = "12345" } };
+			var configuration = new ClientConfiguration { Settings = new ApplicationSettings { AdminPasswordHash = "12345" } };
 
 			sut.AllowConnection = true;
 			sut.ClientConfigurationNeeded += (a) => { args = a; args.ClientConfiguration = configuration; };

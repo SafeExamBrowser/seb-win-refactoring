@@ -15,7 +15,7 @@ using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts;
@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private Mock<IRuntimeHost> runtimeHost;
 		private SessionConfiguration session;
 		private SessionContext sessionContext;
-		private Settings settings;
+		private ApplicationSettings settings;
 		private ClientOperation sut;
 
 		[TestInitialize]
@@ -53,7 +53,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			runtimeHost = new Mock<IRuntimeHost>();
 			session = new SessionConfiguration();
 			sessionContext = new SessionContext();
-			settings = new Settings();
+			settings = new ApplicationSettings();
 			terminated = new Action(() =>
 			{
 				runtimeHost.Raise(h => h.ClientDisconnected += null);

@@ -7,15 +7,15 @@
  */
 
 using System.Collections.Generic;
-using SafeExamBrowser.Configuration.Contracts.Settings;
-using SafeExamBrowser.Configuration.Contracts.Settings.Browser;
-using SafeExamBrowser.Configuration.Contracts.Settings.UserInterface;
+using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Browser;
+using SafeExamBrowser.Settings.UserInterface;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal partial class DataMapper
 	{
-		private void MapAllowAddressBar(Settings settings, object value)
+		private void MapAllowAddressBar(ApplicationSettings settings, object value)
 		{
 			if (value is bool allow)
 			{
@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapAllowAddressBarAdditionalWindow(Settings settings, object value)
+		private void MapAllowAddressBarAdditionalWindow(ApplicationSettings settings, object value)
 		{
 			if (value is bool allow)
 			{
@@ -31,7 +31,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapAllowConfigurationDownloads(Settings settings, object value)
+		private void MapAllowConfigurationDownloads(ApplicationSettings settings, object value)
 		{
 			if (value is bool allow)
 			{
@@ -39,7 +39,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapAllowDeveloperConsole(Settings settings, object value)
+		private void MapAllowDeveloperConsole(ApplicationSettings settings, object value)
 		{
 			if (value is bool allow)
 			{
@@ -48,7 +48,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapAllowDownloads(Settings settings, object value)
+		private void MapAllowDownloads(ApplicationSettings settings, object value)
 		{
 			if (value is bool allow)
 			{
@@ -56,7 +56,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapAllowNavigation(Settings settings, object value)
+		private void MapAllowNavigation(ApplicationSettings settings, object value)
 		{
 			if (value is bool allow)
 			{
@@ -65,7 +65,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapAllowNavigationAdditionalWindow(Settings settings, object value)
+		private void MapAllowNavigationAdditionalWindow(ApplicationSettings settings, object value)
 		{
 			if (value is bool allow)
 			{
@@ -74,7 +74,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapAllowPageZoom(Settings settings, object value)
+		private void MapAllowPageZoom(ApplicationSettings settings, object value)
 		{
 			if (value is bool allow)
 			{
@@ -82,7 +82,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapAllowPopups(Settings settings, object value)
+		private void MapAllowPopups(ApplicationSettings settings, object value)
 		{
 			if (value is bool block)
 			{
@@ -90,7 +90,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapAllowReload(Settings settings, object value)
+		private void MapAllowReload(ApplicationSettings settings, object value)
 		{
 			if (value is bool allow)
 			{
@@ -98,7 +98,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapAllowReloadAdditionalWindow(Settings settings, object value)
+		private void MapAllowReloadAdditionalWindow(ApplicationSettings settings, object value)
 		{
 			if (value is bool allow)
 			{
@@ -106,7 +106,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableContentRequestFilter(Settings settings, object value)
+		private void MapEnableContentRequestFilter(ApplicationSettings settings, object value)
 		{
 			if (value is bool filter)
 			{
@@ -114,7 +114,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableMainRequestFilter(Settings settings, object value)
+		private void MapEnableMainRequestFilter(ApplicationSettings settings, object value)
 		{
 			if (value is bool filter)
 			{
@@ -122,7 +122,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapUrlFilterRules(Settings settings, object value)
+		private void MapUrlFilterRules(ApplicationSettings settings, object value)
 		{
 			const int ALLOW = 1;
 
@@ -155,7 +155,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapMainWindowMode(Settings settings, object value)
+		private void MapMainWindowMode(ApplicationSettings settings, object value)
 		{
 			const int FULLSCREEN = 1;
 
@@ -165,7 +165,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapShowReloadWarning(Settings settings, object value)
+		private void MapShowReloadWarning(ApplicationSettings settings, object value)
 		{
 			if (value is bool show)
 			{
@@ -173,7 +173,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapShowReloadWarningAdditionalWindow(Settings settings, object value)
+		private void MapShowReloadWarningAdditionalWindow(ApplicationSettings settings, object value)
 		{
 			if (value is bool show)
 			{
@@ -181,7 +181,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapUserAgentMode(IDictionary<string, object> rawData, Settings settings)
+		private void MapUserAgentMode(IDictionary<string, object> rawData, ApplicationSettings settings)
 		{
 			const int DEFAULT = 0;
 

@@ -13,6 +13,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.UserInterface.Desktop.ViewModels
 {

@@ -9,7 +9,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts;
@@ -21,12 +21,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	public class KioskModeOperationTests
 	{
 		private SessionConfiguration currentSession;
-		private Settings currentSettings;
+		private ApplicationSettings currentSettings;
 		private Mock<IDesktopFactory> desktopFactory;
 		private Mock<IExplorerShell> explorerShell;
 		private Mock<ILogger> logger;
 		private SessionConfiguration nextSession;
-		private Settings nextSettings;
+		private ApplicationSettings nextSettings;
 		private Mock<IProcessFactory> processFactory;
 		private SessionContext sessionContext;
 
@@ -36,12 +36,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void Initialize()
 		{
 			currentSession = new SessionConfiguration();
-			currentSettings = new Settings();
+			currentSettings = new ApplicationSettings();
 			desktopFactory = new Mock<IDesktopFactory>();
 			explorerShell = new Mock<IExplorerShell>();
 			logger = new Mock<ILogger>();
 			nextSession = new SessionConfiguration();
-			nextSettings = new Settings();
+			nextSettings = new ApplicationSettings();
 			processFactory = new Mock<IProcessFactory>();
 			sessionContext = new SessionContext();
 

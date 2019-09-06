@@ -7,7 +7,7 @@
  */
 
 using System;
-using SafeExamBrowser.Configuration.Contracts.Settings.Browser;
+using SafeExamBrowser.Settings.Browser;
 
 namespace SafeExamBrowser.Browser.Filters
 {

@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Configuration.Contracts.Settings
+namespace SafeExamBrowser.Settings
 {
 	/// <summary>
 	/// Defines all possible configuration modes for the application.

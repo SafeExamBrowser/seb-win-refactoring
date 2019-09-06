@@ -29,6 +29,6 @@ namespace SafeExamBrowser.Configuration.Contracts
 		/// <summary>
 		/// The application settings to be used by the client.
 		/// </summary>
-		public Settings.Settings Settings { get; set; }
+		public Settings.ApplicationSettings Settings { get; set; }
 	}
 }

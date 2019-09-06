@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.Logging.Contracts
 {

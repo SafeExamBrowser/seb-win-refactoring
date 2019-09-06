@@ -6,14 +6,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Configuration.Contracts.Settings;
-using SafeExamBrowser.Configuration.Contracts.Settings.UserInterface;
+using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.UserInterface;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal partial class DataMapper
 	{
-		private void MapApplicationLogButton(Settings settings, object value)
+		private void MapApplicationLogButton(ApplicationSettings settings, object value)
 		{
 			if (value is bool show)
 			{
@@ -21,7 +21,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapAudio(Settings settings, object value)
+		private void MapAudio(ApplicationSettings settings, object value)
 		{
 			if (value is bool show)
 			{
@@ -30,7 +30,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapClock(Settings settings, object value)
+		private void MapClock(ApplicationSettings settings, object value)
 		{
 			if (value is bool show)
 			{
@@ -39,7 +39,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapKeyboardLayout(Settings settings, object value)
+		private void MapKeyboardLayout(ApplicationSettings settings, object value)
 		{
 			if (value is bool show)
 			{
@@ -48,7 +48,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapWirelessNetwork(Settings settings, object value)
+		private void MapWirelessNetwork(ApplicationSettings settings, object value)
 		{
 			if (value is bool show)
 			{
@@ -57,7 +57,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapUserInterfaceMode(Settings settings, object value)
+		private void MapUserInterfaceMode(ApplicationSettings settings, object value)
 		{
 			if (value is bool mobile)
 			{

@@ -8,7 +8,7 @@
 
 using System.Collections.Generic;
 using SafeExamBrowser.Client.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Settings.UserInterface;
+using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;

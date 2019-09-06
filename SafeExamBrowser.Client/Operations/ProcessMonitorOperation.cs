@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -19,12 +19,12 @@ namespace SafeExamBrowser.Client.Operations
 	{
 		private ILogger logger;
 		private IProcessMonitor processMonitor;
-		private Settings settings;
+		private ApplicationSettings settings;
 
 		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged;
 
-		public ProcessMonitorOperation(ILogger logger, IProcessMonitor processMonitor, Settings settings)
+		public ProcessMonitorOperation(ILogger logger, IProcessMonitor processMonitor, ApplicationSettings settings)
 		{
 			this.logger = logger;
 			this.processMonitor = processMonitor;

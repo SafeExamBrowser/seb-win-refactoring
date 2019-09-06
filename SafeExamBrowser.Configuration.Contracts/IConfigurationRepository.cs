@@ -36,7 +36,7 @@ namespace SafeExamBrowser.Configuration.Contracts
 		/// <summary>
 		/// Loads the default settings.
 		/// </summary>
-		Settings.Settings LoadDefaultSettings();
+		Settings.ApplicationSettings LoadDefaultSettings();
 
 		/// <summary>
 		/// Registers the specified <see cref="IDataParser"/> to be used to parse configuration data.
@@ -61,6 +61,6 @@ namespace SafeExamBrowser.Configuration.Contracts
 		/// <summary>
 		/// Attempts to load settings from the specified resource.
 		/// </summary>
-		LoadStatus TryLoadSettings(Uri resource, out Settings.Settings settings, PasswordParameters password = null);
+		LoadStatus TryLoadSettings(Uri resource, out Settings.ApplicationSettings settings, PasswordParameters password = null);
 	}
 }

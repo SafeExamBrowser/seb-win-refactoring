@@ -9,7 +9,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Operations;
-using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Processes;
 
@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	{
 		private Mock<ILogger> logger;
 		private Mock<IProcessMonitor> processMonitor;
-		private Settings settings;
+		private ApplicationSettings settings;
 		private ProcessMonitorOperation sut;
 
 		[TestInitialize]
@@ -28,7 +28,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			logger = new Mock<ILogger>();
 			processMonitor = new Mock<IProcessMonitor>();
-			settings = new Settings();
+			settings = new ApplicationSettings();
 
 			sut = new ProcessMonitorOperation(logger.Object, processMonitor.Object,settings);
 		}

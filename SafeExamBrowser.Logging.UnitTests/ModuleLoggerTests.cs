@@ -10,6 +10,7 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.Logging.UnitTests
 {

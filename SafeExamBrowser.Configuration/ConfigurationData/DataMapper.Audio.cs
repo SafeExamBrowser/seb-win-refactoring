@@ -6,13 +6,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal partial class DataMapper
 	{
-		private void MapInitialVolumeLevel(Settings settings, object value)
+		private void MapInitialVolumeLevel(ApplicationSettings settings, object value)
 		{
 			if (value is int volume)
 			{
@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapMuteAudio(Settings settings, object value)
+		private void MapMuteAudio(ApplicationSettings settings, object value)
 		{
 			if (value is bool mute)
 			{
@@ -28,7 +28,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapSetInitialVolumeLevel(Settings settings, object value)
+		private void MapSetInitialVolumeLevel(ApplicationSettings settings, object value)
 		{
 			if (value is bool initialize)
 			{

@@ -9,7 +9,7 @@
 using System;
 using System.Linq;
 using NAudio.CoreAudioApi;
-using SafeExamBrowser.Configuration.Contracts.Settings.SystemComponents;
+using SafeExamBrowser.Settings.SystemComponents;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Audio.Events;

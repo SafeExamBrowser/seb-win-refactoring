@@ -8,7 +8,7 @@
 
 using System;
 
-namespace SafeExamBrowser.Configuration.Contracts.Settings.Monitoring
+namespace SafeExamBrowser.Settings.Monitoring
 {
 	/// <summary>
 	/// Defines all configuration options for monitoring keyboard input.

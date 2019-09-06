@@ -13,10 +13,11 @@ using Moq;
 using SafeExamBrowser.Communication.Contracts.Events;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Lockdown.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.Service.UnitTests
 {
@@ -81,7 +82,7 @@ namespace SafeExamBrowser.Service.UnitTests
 				{
 					AppConfig = new AppConfig { ServiceLogFilePath = "Test.log" },
 					SessionId = Guid.NewGuid(),
-					Settings = new Settings { LogLevel = LogLevel.Warning }
+					Settings = new ApplicationSettings { LogLevel = LogLevel.Warning }
 				}
 			};
 

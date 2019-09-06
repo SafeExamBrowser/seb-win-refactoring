@@ -195,6 +195,10 @@
       <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
       <Name>SafeExamBrowser.Logging.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Settings\SafeExamBrowser.Settings.csproj">
+      <Project>{30b2d907-5861-4f39-abad-c4abf1b3470e}</Project>
+      <Name>SafeExamBrowser.Settings</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.SystemComponents.Contracts\SafeExamBrowser.SystemComponents.Contracts.csproj">
       <Project>{903129c6-e236-493b-9ad6-c6a57f647a3a}</Project>
       <Name>SafeExamBrowser.SystemComponents.Contracts</Name>

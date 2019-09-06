@@ -124,6 +124,10 @@
       <Project>{5167820f-2be5-43cf-b1cc-e4874bf83808}</Project>
       <Name>SafeExamBrowser.Service.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Settings\SafeExamBrowser.Settings.csproj">
+      <Project>{30b2d907-5861-4f39-abad-c4abf1b3470e}</Project>
+      <Name>SafeExamBrowser.Settings</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="SafeExamBrowser.ico" />

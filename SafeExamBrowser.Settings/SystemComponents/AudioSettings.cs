@@ -8,7 +8,7 @@
 
 using System;
 
-namespace SafeExamBrowser.Configuration.Contracts.Settings.SystemComponents
+namespace SafeExamBrowser.Settings.SystemComponents
 {
 	/// <summary>
 	/// Defines all configuration options for the audio device of the computer.

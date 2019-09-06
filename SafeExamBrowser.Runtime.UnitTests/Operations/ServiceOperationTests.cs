@@ -13,8 +13,8 @@ using Moq;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Settings;
-using SafeExamBrowser.Configuration.Contracts.Settings.Service;
+using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations;
@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private EventWaitHandle serviceEvent;
 		private SessionConfiguration session;
 		private SessionContext sessionContext;
-		private Settings settings;
+		private ApplicationSettings settings;
 		private Mock<IUserInfo> userInfo;
 		private ServiceOperation sut;
 
@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			serviceEvent = new EventWaitHandle(false, EventResetMode.AutoReset, serviceEventName);
 			session = new SessionConfiguration();
 			sessionContext = new SessionContext();
-			settings = new Settings();
+			settings = new ApplicationSettings();
 			userInfo = new Mock<IUserInfo>();
 
 			appConfig.ServiceEventName = serviceEventName;

@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SafeExamBrowser.Configuration.Contracts.Settings.Browser
+namespace SafeExamBrowser.Settings.Browser
 {
 	/// <summary>
 	/// Defines all configuration options for the browser engine of the application.

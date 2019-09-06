@@ -13,7 +13,7 @@ using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Logging.Contracts;
 
@@ -46,7 +46,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 				{
 					AppConfig = new AppConfig(),
 					SessionId = Guid.NewGuid(),
-					Settings = new Settings()
+					Settings = new ApplicationSettings()
 				}
 			};
 

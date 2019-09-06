@@ -8,7 +8,7 @@
 
 using System;
 
-namespace SafeExamBrowser.Configuration.Contracts.Settings.Browser
+namespace SafeExamBrowser.Settings.Browser
 {
 	/// <summary>
 	/// Defines all configuration options for a window of the browser engine.

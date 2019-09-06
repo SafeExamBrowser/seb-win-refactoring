@@ -14,7 +14,7 @@ using CefSharp;
 using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using BrowserSettings = SafeExamBrowser.Configuration.Contracts.Settings.Browser.BrowserSettings;
+using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 
 namespace SafeExamBrowser.Browser.Handlers
 {

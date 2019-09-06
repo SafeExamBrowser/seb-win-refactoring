@@ -33,6 +33,6 @@ namespace SafeExamBrowser.Configuration.Contracts
 		/// <summary>
 		/// The settings used for this session.
 		/// </summary>
-		public Settings.Settings Settings { get; set; }
+		public Settings.ApplicationSettings Settings { get; set; }
 	}
 }

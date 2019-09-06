@@ -7,14 +7,14 @@
  */
 
 using System.Collections.Generic;
-using SafeExamBrowser.Configuration.Contracts.Settings;
-using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal partial class DataMapper
 	{
-		private void MapAdminPasswordHash(Settings settings, object value)
+		private void MapAdminPasswordHash(ApplicationSettings settings, object value)
 		{
 			if (value is string hash)
 			{
@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapApplicationLogAccess(IDictionary<string, object> rawData, Settings settings)
+		private void MapApplicationLogAccess(IDictionary<string, object> rawData, ApplicationSettings settings)
 		{
 			var hasValue = rawData.TryGetValue(Keys.General.AllowApplicationLog, out var value);
 
@@ -42,7 +42,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapLogLevel(Settings settings, object value)
+		private void MapLogLevel(ApplicationSettings settings, object value)
 		{
 			const int ERROR = 0, WARNING = 1, INFO = 2;
 
@@ -52,7 +52,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapQuitPasswordHash(Settings settings, object value)
+		private void MapQuitPasswordHash(ApplicationSettings settings, object value)
 		{
 			if (value is string hash)
 			{
@@ -60,7 +60,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapStartUrl(Settings settings, object value)
+		private void MapStartUrl(ApplicationSettings settings, object value)
 		{
 			if (value is string url)
 			{

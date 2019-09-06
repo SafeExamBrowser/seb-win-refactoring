@@ -76,27 +76,11 @@
     <Compile Include="SaveStatus.cs" />
     <Compile Include="ServiceConfiguration.cs" />
     <Compile Include="SessionConfiguration.cs" />
-    <Compile Include="Settings\UserInterface\ActionCenterSettings.cs" />
-    <Compile Include="Settings\SystemComponents\AudioSettings.cs" />
-    <Compile Include="Settings\Browser\BrowserSettings.cs" />
-    <Compile Include="Settings\Browser\BrowserWindowSettings.cs" />
-    <Compile Include="Settings\Browser\FilterResult.cs" />
-    <Compile Include="Settings\Browser\FilterRule.cs" />
-    <Compile Include="Settings\Browser\FilterType.cs" />
-    <Compile Include="Settings\ConfigurationMode.cs" />
-    <Compile Include="Settings\Monitoring\KeyboardSettings.cs" />
-    <Compile Include="Settings\KioskMode.cs" />
-    <Compile Include="Settings\Monitoring\MouseSettings.cs" />
-    <Compile Include="Settings\Service\ServicePolicy.cs" />
-    <Compile Include="Settings\Service\ServiceSettings.cs" />
-    <Compile Include="Settings\Settings.cs" />
-    <Compile Include="Settings\UserInterface\TaskbarSettings.cs" />
-    <Compile Include="Settings\UserInterface\UserInterfaceMode.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
-      <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
-      <Name>SafeExamBrowser.Logging.Contracts</Name>
+    <ProjectReference Include="..\SafeExamBrowser.Settings\SafeExamBrowser.Settings.csproj">
+      <Project>{30b2d907-5861-4f39-abad-c4abf1b3470e}</Project>
+      <Name>SafeExamBrowser.Settings</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

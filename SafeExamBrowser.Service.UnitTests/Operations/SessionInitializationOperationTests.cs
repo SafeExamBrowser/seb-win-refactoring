@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Lockdown.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Service.Operations;
+using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Service.UnitTests.Operations
 {
@@ -42,7 +42,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 			sessionContext.Configuration = new ServiceConfiguration
 			{
 				AppConfig = new AppConfig { ServiceEventName = $"{nameof(SafeExamBrowser)}-{nameof(SessionInitializationOperationTests)}" },
-				Settings = new Settings()
+				Settings = new ApplicationSettings()
 			};
 
 			sut = new SessionInitializationOperation(logger.Object, serviceEventFactory.Object, sessionContext);

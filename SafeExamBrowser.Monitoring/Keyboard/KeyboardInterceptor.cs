@@ -9,7 +9,7 @@
 using System;
 using System.Linq;
 using System.Windows.Input;
-using SafeExamBrowser.Configuration.Contracts.Settings.Monitoring;
+using SafeExamBrowser.Settings.Monitoring;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Keyboard;
 

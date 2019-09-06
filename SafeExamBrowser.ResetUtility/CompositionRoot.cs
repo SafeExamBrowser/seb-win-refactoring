@@ -9,11 +9,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using SafeExamBrowser.Lockdown.Contracts;
-using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Lockdown;
+using SafeExamBrowser.Lockdown.Contracts;
 using SafeExamBrowser.Logging;
+using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.ResetUtility.Procedure;
+using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.SystemComponents;
 
 namespace SafeExamBrowser.ResetUtility

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.Logging
 {

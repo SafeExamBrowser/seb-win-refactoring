@@ -34,6 +34,7 @@ using SafeExamBrowser.Runtime.Operations;
 using SafeExamBrowser.SystemComponents;
 using SafeExamBrowser.UserInterface.Desktop;
 using SafeExamBrowser.WindowsApi;
+using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.Runtime
 {

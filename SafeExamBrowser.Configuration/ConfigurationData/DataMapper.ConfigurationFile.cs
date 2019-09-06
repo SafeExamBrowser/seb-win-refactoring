@@ -6,13 +6,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal partial class DataMapper
 	{
-		private void MapConfigurationMode(Settings settings, object value)
+		private void MapConfigurationMode(ApplicationSettings settings, object value)
 		{
 			const int CONFIGURE_CLIENT = 1;
 

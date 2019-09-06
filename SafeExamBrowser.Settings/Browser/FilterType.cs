@@ -6,21 +6,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Configuration.Contracts.Settings.Browser
+namespace SafeExamBrowser.Settings.Browser
 {
 	/// <summary>
-	/// Defines all possible results of a request filter operation.
+	/// Defines all possible request filter types.
 	/// </summary>
-	public enum FilterResult
+	public enum FilterType
 	{
 		/// <summary>
-		/// Indicates that a request should be allowed if a filter matches.
+		/// The filter is based on a regular expression.
 		/// </summary>
-		Allow,
+		Regex,
 
 		/// <summary>
-		/// Indicates that a request should be blocked if a filter matches.
+		/// The filter is based on a simplified expression with wildcards.
 		/// </summary>
-		Block
+		Simplified
 	}
 }

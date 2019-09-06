@@ -15,7 +15,7 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Configuration.Contracts.DataFormats;
 using SafeExamBrowser.Configuration.Contracts.DataResources;
-using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Configuration
@@ -100,7 +100,7 @@ namespace SafeExamBrowser.Configuration
 			return dataValues.InitializeSessionConfiguration();
 		}
 
-		public Settings LoadDefaultSettings()
+		public ApplicationSettings LoadDefaultSettings()
 		{
 			return dataValues.LoadDefaultSettings();
 		}
@@ -125,7 +125,7 @@ namespace SafeExamBrowser.Configuration
 			resourceSavers.Add(saver);
 		}
 
-		public LoadStatus TryLoadSettings(Uri resource, out Settings settings, PasswordParameters password = null)
+		public LoadStatus TryLoadSettings(Uri resource, out ApplicationSettings settings, PasswordParameters password = null)
 		{
 			logger.Info($"Attempting to load '{resource}'...");
 

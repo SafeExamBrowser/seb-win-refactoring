@@ -17,7 +17,7 @@ using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
-using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -49,7 +49,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		private Mock<IOperationSequence> operationSequence;
 		private Mock<IRuntimeProxy> runtimeProxy;
 		private Guid sessionId;
-		private Settings settings;
+		private ApplicationSettings settings;
 		private Mock<Action> shutdown;
 		private Mock<ITaskbar> taskbar;
 		private Mock<ITerminationActivator> terminationActivator;
@@ -75,7 +75,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			operationSequence = new Mock<IOperationSequence>();
 			runtimeProxy = new Mock<IRuntimeProxy>();
 			sessionId = Guid.NewGuid();
-			settings = new Settings();
+			settings = new ApplicationSettings();
 			shutdown = new Mock<Action>();
 			taskbar = new Mock<ITaskbar>();
 			terminationActivator = new Mock<ITerminationActivator>();

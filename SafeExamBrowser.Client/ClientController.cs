@@ -17,7 +17,7 @@ using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
-using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -56,7 +56,7 @@ namespace SafeExamBrowser.Client
 		public IBrowserApplication Browser { private get; set; }
 		public IClientHost ClientHost { private get; set; }
 		public Guid SessionId { private get; set; }
-		public Settings Settings { private get; set; }
+		public ApplicationSettings Settings { private get; set; }
 
 		public AppConfig AppConfig
 		{

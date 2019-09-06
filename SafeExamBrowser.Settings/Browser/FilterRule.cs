@@ -8,7 +8,7 @@
 
 using System;
 
-namespace SafeExamBrowser.Configuration.Contracts.Settings.Browser
+namespace SafeExamBrowser.Settings.Browser
 {
 	/// <summary>
 	/// Defines a request filter rule.

@@ -7,20 +7,20 @@
  */
 
 using System;
-using SafeExamBrowser.Configuration.Contracts.Settings.Browser;
-using SafeExamBrowser.Configuration.Contracts.Settings.Monitoring;
-using SafeExamBrowser.Configuration.Contracts.Settings.Service;
-using SafeExamBrowser.Configuration.Contracts.Settings.SystemComponents;
-using SafeExamBrowser.Configuration.Contracts.Settings.UserInterface;
-using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Browser;
+using SafeExamBrowser.Settings.Logging;
+using SafeExamBrowser.Settings.Monitoring;
+using SafeExamBrowser.Settings.Service;
+using SafeExamBrowser.Settings.SystemComponents;
+using SafeExamBrowser.Settings.UserInterface;
 
-namespace SafeExamBrowser.Configuration.Contracts.Settings
+namespace SafeExamBrowser.Settings
 {
 	/// <summary>
-	/// Defines all configuration options for the application.
+	/// Defines all settings for the application.
 	/// </summary>
 	[Serializable]
-	public class Settings
+	public class ApplicationSettings
 	{
 		/// <summary>
 		/// All action center-related settings.
@@ -92,7 +92,7 @@ namespace SafeExamBrowser.Configuration.Contracts.Settings
 		/// </summary>
 		public UserInterfaceMode UserInterfaceMode { get; set; }
 
-		public Settings()
+		public ApplicationSettings()
 		{
 			ActionCenter = new ActionCenterSettings();
 			Audio = new AudioSettings();
