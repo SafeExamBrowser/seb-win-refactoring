@@ -8,6 +8,10 @@
 
 using System;
 using SafeExamBrowser.Configuration.Contracts.Settings.Browser;
+using SafeExamBrowser.Configuration.Contracts.Settings.Monitoring;
+using SafeExamBrowser.Configuration.Contracts.Settings.Service;
+using SafeExamBrowser.Configuration.Contracts.Settings.SystemComponents;
+using SafeExamBrowser.Configuration.Contracts.Settings.UserInterface;
 using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Configuration.Contracts.Settings

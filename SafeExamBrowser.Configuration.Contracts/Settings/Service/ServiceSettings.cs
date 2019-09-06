@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Configuration.Contracts.Settings
+namespace SafeExamBrowser.Configuration.Contracts.Settings.Service
 {
 	/// <summary>
 	/// Defines all configuration options for the service application component.

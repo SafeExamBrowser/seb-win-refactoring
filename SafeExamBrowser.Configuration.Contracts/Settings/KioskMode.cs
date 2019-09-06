@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.Configuration.Contracts.Settings
 {
 	/// <summary>
-	/// Defines all possible kiosk modes which the application supports.
+	/// Defines all kiosk modes which the application supports.
 	/// </summary>
 	public enum KioskMode
 	{

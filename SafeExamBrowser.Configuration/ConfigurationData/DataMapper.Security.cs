@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Configuration.Contracts.Settings.Service;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {

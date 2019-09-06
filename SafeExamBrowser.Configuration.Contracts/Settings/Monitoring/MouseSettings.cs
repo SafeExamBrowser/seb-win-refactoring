@@ -8,10 +8,10 @@
 
 using System;
 
-namespace SafeExamBrowser.Configuration.Contracts.Settings
+namespace SafeExamBrowser.Configuration.Contracts.Settings.Monitoring
 {
 	/// <summary>
-	/// Defines all configuration options for the <see cref="Monitoring.IMouseInterceptor"/>.
+	/// Defines all configuration options for monitoring mouse input.
 	/// </summary>
 	[Serializable]
 	public class MouseSettings

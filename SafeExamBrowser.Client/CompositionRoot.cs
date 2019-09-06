@@ -23,7 +23,7 @@ using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Configuration.Contracts.Settings.UserInterface;
 using SafeExamBrowser.Configuration.Cryptography;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.OperationModel;

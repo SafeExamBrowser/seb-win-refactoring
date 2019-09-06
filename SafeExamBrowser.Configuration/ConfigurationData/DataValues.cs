@@ -10,6 +10,8 @@ using System;
 using System.IO;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Configuration.Contracts.Settings.Service;
+using SafeExamBrowser.Configuration.Contracts.Settings.UserInterface;
 using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData

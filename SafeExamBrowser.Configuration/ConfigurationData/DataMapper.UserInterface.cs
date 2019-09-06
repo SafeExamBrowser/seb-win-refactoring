@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Configuration.Contracts.Settings;
+using SafeExamBrowser.Configuration.Contracts.Settings.UserInterface;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {

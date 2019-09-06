@@ -76,22 +76,22 @@
     <Compile Include="SaveStatus.cs" />
     <Compile Include="ServiceConfiguration.cs" />
     <Compile Include="SessionConfiguration.cs" />
-    <Compile Include="Settings\ActionCenterSettings.cs" />
-    <Compile Include="Settings\AudioSettings.cs" />
+    <Compile Include="Settings\UserInterface\ActionCenterSettings.cs" />
+    <Compile Include="Settings\SystemComponents\AudioSettings.cs" />
     <Compile Include="Settings\Browser\BrowserSettings.cs" />
     <Compile Include="Settings\Browser\BrowserWindowSettings.cs" />
     <Compile Include="Settings\Browser\FilterResult.cs" />
     <Compile Include="Settings\Browser\FilterRule.cs" />
     <Compile Include="Settings\Browser\FilterType.cs" />
     <Compile Include="Settings\ConfigurationMode.cs" />
-    <Compile Include="Settings\KeyboardSettings.cs" />
+    <Compile Include="Settings\Monitoring\KeyboardSettings.cs" />
     <Compile Include="Settings\KioskMode.cs" />
-    <Compile Include="Settings\MouseSettings.cs" />
-    <Compile Include="Settings\ServicePolicy.cs" />
-    <Compile Include="Settings\ServiceSettings.cs" />
+    <Compile Include="Settings\Monitoring\MouseSettings.cs" />
+    <Compile Include="Settings\Service\ServicePolicy.cs" />
+    <Compile Include="Settings\Service\ServiceSettings.cs" />
     <Compile Include="Settings\Settings.cs" />
-    <Compile Include="Settings\TaskbarSettings.cs" />
-    <Compile Include="Settings\UserInterfaceMode.cs" />
+    <Compile Include="Settings\UserInterface\TaskbarSettings.cs" />
+    <Compile Include="Settings\UserInterface\UserInterfaceMode.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">

@@ -8,10 +8,10 @@
 
 using System;
 
-namespace SafeExamBrowser.Configuration.Contracts.Settings
+namespace SafeExamBrowser.Configuration.Contracts.Settings.UserInterface
 {
 	/// <summary>
-	/// Defines all configuration options for the <see cref="UserInterface.Shell.IActionCenter"/>.
+	/// Defines all configuration options for the action center.
 	/// </summary>
 	[Serializable]
 	public class ActionCenterSettings
