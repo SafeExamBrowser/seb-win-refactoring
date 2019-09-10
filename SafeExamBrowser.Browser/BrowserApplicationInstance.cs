@@ -14,9 +14,9 @@ using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
@@ -102,7 +102,7 @@ namespace SafeExamBrowser.Browser
 			var keyboardHandler = new KeyboardHandler();
 			var lifeSpanHandler = new LifeSpanHandler();
 			var requestLogger = logger.CloneFor($"{nameof(RequestHandler)} {Id}");
-			var requestHandler = new RequestHandler(appConfig, settings, logger);
+			var requestHandler = new RequestHandler(appConfig, settings.Filter, logger, text);
 
 			displayHandler.FaviconChanged += DisplayHandler_FaviconChanged;
 			displayHandler.ProgressChanged += DisplayHandler_ProgressChanged;
@@ -117,6 +117,8 @@ namespace SafeExamBrowser.Browser
 			control.AddressChanged += Control_AddressChanged;
 			control.LoadingStateChanged += Control_LoadingStateChanged;
 			control.TitleChanged += Control_TitleChanged;
+
+			requestHandler.Initiailize();
 			control.Initialize();
 
 			logger.Debug("Initialized browser control.");

@@ -1,5 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Text>
+    <Entry key="Browser_BlockedContentMessage">
+        Content blocked
+    </Entry>
+    <Entry key="Browser_BlockedPageButton">
+        Back to previous page
+    </Entry>
+    <Entry key="Browser_BlockedPageMessage">
+        Access to this page is not allowed according to the application configuration.
+    </Entry>
+    <Entry key="Browser_BlockedPageTitle">
+        Page Blocked
+    </Entry>
     <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
         Developer Console
     </Entry>

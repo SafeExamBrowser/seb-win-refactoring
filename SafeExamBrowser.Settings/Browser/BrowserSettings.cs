@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 
 namespace SafeExamBrowser.Settings.Browser
 {
@@ -48,19 +47,9 @@ namespace SafeExamBrowser.Settings.Browser
 		public string CustomUserAgent { get; set; }
 
 		/// <summary>
-		/// Defines whether all content requests for a web page should be filtered according to the defined <see cref="FilterRules"/>.
+		/// The settings to be used for the browser request filter.
 		/// </summary>
-		public bool FilterContentRequests { get; set; }
-
-		/// <summary>
-		/// Defines whether the main request for a web page should be filtered according to the defined <see cref="FilterRules"/>.
-		/// </summary>
-		public bool FilterMainRequests { get; set; }
-
-		/// <summary>
-		/// Defines all rules to be used to filter web requests.
-		/// </summary>
-		public IList<FilterRule> FilterRules { get; set; }
+		public BrowserFilterSettings Filter { get; set; }
 
 		/// <summary>
 		/// The configuration to be used for the main browser window.
@@ -80,7 +69,7 @@ namespace SafeExamBrowser.Settings.Browser
 		public BrowserSettings()
 		{
 			AdditionalWindowSettings = new BrowserWindowSettings();
-			FilterRules = new List<FilterRule>();
+			Filter = new BrowserFilterSettings();
 			MainWindowSettings = new BrowserWindowSettings();
 		}
 	}

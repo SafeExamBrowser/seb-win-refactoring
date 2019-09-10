@@ -7,46 +7,30 @@
  */
 
 using CefSharp;
-using SafeExamBrowser.Browser.Filters;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
+using SafeExamBrowser.Settings.Browser;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
 	internal class RequestHandler : CefSharp.Handler.RequestHandler
 	{
-		private AppConfig appConfig;
-		private BrowserSettings settings;
-		private RequestFilter filter;
-		private ILogger logger;
-		private ResourceRequestHandler resourceRequestHandler;
+		private ResourceHandler resourceHandler;
 
-		internal RequestHandler(AppConfig appConfig, BrowserSettings settings, ILogger logger)
+		internal RequestHandler(AppConfig appConfig, BrowserFilterSettings settings, ILogger logger, IText text)
 		{
-			this.appConfig = appConfig;
-			this.settings = settings;
-			this.filter = new RequestFilter();
-			this.logger = logger;
-			this.resourceRequestHandler = new ResourceRequestHandler(appConfig, settings, logger);
+			this.resourceHandler = new ResourceHandler(appConfig, settings, logger, text);
 		}
 
 		internal void Initiailize()
 		{
-			if (settings.FilterMainRequests || settings.FilterContentRequests)
-			{
-				foreach (var rule in settings.FilterRules)
-				{
-					filter.Load(rule);
-				}
-
-				logger.Debug("Initialized request filter.");
-			}
+			resourceHandler.Initialize();
 		}
 
-		protected override IResourceRequestHandler GetResourceRequestHandler(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
+		protected override IResourceRequestHandler GetResourceRequestHandler(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, 	bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
 		{
-			return resourceRequestHandler;
+			return resourceHandler;
 		}
 	}
 }

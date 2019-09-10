@@ -53,10 +53,11 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Browser\BrowserFilterSettings.cs" />
     <Compile Include="Browser\BrowserSettings.cs" />
     <Compile Include="Browser\BrowserWindowSettings.cs" />
     <Compile Include="Browser\FilterResult.cs" />
-    <Compile Include="Browser\FilterRule.cs" />
+    <Compile Include="Browser\FilterRuleSettings.cs" />
     <Compile Include="Browser\FilterType.cs" />
     <Compile Include="ConfigurationMode.cs" />
     <Compile Include="KioskMode.cs" />

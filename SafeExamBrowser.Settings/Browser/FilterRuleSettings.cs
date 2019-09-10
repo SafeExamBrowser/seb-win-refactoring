@@ -11,10 +11,10 @@ using System;
 namespace SafeExamBrowser.Settings.Browser
 {
 	/// <summary>
-	/// Defines a request filter rule.
+	/// Defines the settings for a request filter rule.
 	/// </summary>
 	[Serializable]
-	public class FilterRule
+	public class FilterRuleSettings
 	{
 		/// <summary>
 		/// The expression according to which requests should be filtered.

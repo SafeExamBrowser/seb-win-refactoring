@@ -110,7 +110,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool filter)
 			{
-				settings.Browser.FilterContentRequests = filter;
+				settings.Browser.Filter.FilterContentRequests = filter;
 			}
 		}
 
@@ -118,7 +118,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool filter)
 			{
-				settings.Browser.FilterMainRequests = filter;
+				settings.Browser.Filter.FilterMainRequests = filter;
 			}
 		}
 
@@ -126,30 +126,33 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			const int ALLOW = 1;
 
-			if (value is IEnumerable<IDictionary<string, object>> ruleDataList)
+			if (value is IList<object> ruleDataList)
 			{
-				foreach (var ruleData in ruleDataList)
+				foreach (var item in ruleDataList)
 				{
-					if (ruleData.TryGetValue(Keys.Browser.Filter.RuleIsActive, out var v) && v is bool active && active)
+					if (item is IDictionary<string, object> ruleData)
 					{
-						var rule = new FilterRule();
-
-						if (ruleData.TryGetValue(Keys.Browser.Filter.RuleExpression, out v) && v is string expression)
+						if (ruleData.TryGetValue(Keys.Browser.Filter.RuleIsActive, out var v) && v is bool active && active)
 						{
-							rule.Expression = expression;
-						}
+							var rule = new FilterRuleSettings();
 
-						if (ruleData.TryGetValue(Keys.Browser.Filter.RuleAction, out v) && v is int action)
-						{
-							rule.Result = action == ALLOW ? FilterResult.Allow : FilterResult.Block;
-						}
+							if (ruleData.TryGetValue(Keys.Browser.Filter.RuleExpression, out v) && v is string expression)
+							{
+								rule.Expression = expression;
+							}
 
-						if (ruleData.TryGetValue(Keys.Browser.Filter.RuleExpressionIsRegex, out v) && v is bool regex)
-						{
-							rule.Type = regex ? FilterType.Regex : FilterType.Simplified;
-						}
+							if (ruleData.TryGetValue(Keys.Browser.Filter.RuleAction, out v) && v is int action)
+							{
+								rule.Result = action == ALLOW ? FilterResult.Allow : FilterResult.Block;
+							}
 
-						settings.Browser.FilterRules.Add(rule);
+							if (ruleData.TryGetValue(Keys.Browser.Filter.RuleExpressionIsRegex, out v) && v is bool regex)
+							{
+								rule.Type = regex ? FilterType.Regex : FilterType.Simplified;
+							}
+
+							settings.Browser.Filter.Rules.Add(rule);
+						}
 					}
 				}
 			}

@@ -59,6 +59,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,6 +73,9 @@
     <Compile Include="Events\PopupRequestedEventArgs.cs" />
     <Compile Include="Events\PopupRequestedEventHandler.cs" />
     <Compile Include="Filters\RequestFilter.cs" />
+    <Compile Include="Filters\Rules\Rule.cs" />
+    <Compile Include="Filters\Rules\RegexRule.cs" />
+    <Compile Include="Filters\Rules\SimpleRule.cs" />
     <Compile Include="Handlers\ContextMenuHandler.cs" />
     <Compile Include="BrowserControl.cs">
       <SubType>Component</SubType>
@@ -82,7 +86,7 @@
     <Compile Include="Handlers\KeyboardHandler.cs" />
     <Compile Include="Handlers\LifeSpanHandler.cs" />
     <Compile Include="Handlers\RequestHandler.cs" />
-    <Compile Include="Handlers\ResourceRequestHandler.cs" />
+    <Compile Include="Handlers\ResourceHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +127,10 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Filters\BlockedContent.html" />
+    <EmbeddedResource Include="Filters\BlockedPage.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
