@@ -43,7 +43,7 @@ namespace SafeExamBrowser.SystemComponents.PowerSupply
 
 			if (lastStatusLog < DateTime.Now.AddMinutes(-1))
 			{
-				logger.Debug($"Power grid is {(status.IsOnline ? "" : "not ")}connected, battery charge at {charge * 100}% ({status.BatteryTimeRemaining}).");
+				logger.Debug($"Power grid is {(status.IsOnline ? "" : "not ")}connected, battery charge at {charge * 100}%{(status.IsOnline ? "" : $" ({status.BatteryTimeRemaining})")}.");
 				lastStatusLog = DateTime.Now;
 			}
 
