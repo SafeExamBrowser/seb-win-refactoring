@@ -11,15 +11,15 @@ using System;
 namespace SafeExamBrowser.Settings.Browser
 {
 	/// <summary>
-	/// Defines all configuration options for the browser engine of the application.
+	/// Defines all settings for the browser engine of the application.
 	/// </summary>
 	[Serializable]
 	public class BrowserSettings
 	{
 		/// <summary>
-		/// The configuration to be used for additional browser windows.
+		/// The settings to be used for additional browser windows.
 		/// </summary>
-		public BrowserWindowSettings AdditionalWindowSettings { get; set; }
+		public BrowserWindowSettings AdditionalWindow { get; set; }
 
 		/// <summary>
 		/// Determines whether the user will be allowed to download configuration files.
@@ -52,9 +52,9 @@ namespace SafeExamBrowser.Settings.Browser
 		public BrowserFilterSettings Filter { get; set; }
 
 		/// <summary>
-		/// The configuration to be used for the main browser window.
+		/// The settings to be used for the main browser window.
 		/// </summary>
-		public BrowserWindowSettings MainWindowSettings { get; set; }
+		public BrowserWindowSettings MainWindow { get; set; }
 		
 		/// <summary>
 		/// The URL with which the main browser window will be loaded.
@@ -68,9 +68,9 @@ namespace SafeExamBrowser.Settings.Browser
 
 		public BrowserSettings()
 		{
-			AdditionalWindowSettings = new BrowserWindowSettings();
+			AdditionalWindow = new BrowserWindowSettings();
 			Filter = new BrowserFilterSettings();
-			MainWindowSettings = new BrowserWindowSettings();
+			MainWindow = new BrowserWindowSettings();
 		}
 	}
 }

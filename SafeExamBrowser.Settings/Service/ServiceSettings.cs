@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.Settings.Service
 {
 	/// <summary>
-	/// Defines all configuration options for the service application component.
+	/// Defines all settings for the service application component.
 	/// </summary>
 	public class ServiceSettings
 	{

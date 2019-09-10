@@ -42,7 +42,7 @@ namespace SafeExamBrowser.Browser
 
 		private BrowserWindowSettings WindowSettings
 		{
-			get { return isMainInstance ? settings.MainWindowSettings : settings.AdditionalWindowSettings; }
+			get { return isMainInstance ? settings.MainWindow : settings.AdditionalWindow; }
 		}
 
 		public InstanceIdentifier Id { get; private set; }

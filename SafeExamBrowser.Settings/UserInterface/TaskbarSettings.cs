@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Settings.UserInterface
 {
 	/// <summary>
-	/// Defines all configuration options for the taskbar.
+	/// Defines all settings for the taskbar.
 	/// </summary>
 	[Serializable]
 	public class TaskbarSettings

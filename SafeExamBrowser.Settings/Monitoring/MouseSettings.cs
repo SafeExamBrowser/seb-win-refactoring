@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Settings.Monitoring
 {
 	/// <summary>
-	/// Defines all configuration options for monitoring mouse input.
+	/// Defines all settings for monitoring mouse input.
 	/// </summary>
 	[Serializable]
 	public class MouseSettings

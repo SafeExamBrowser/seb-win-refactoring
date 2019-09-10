@@ -12,7 +12,7 @@ using System.Collections.Generic;
 namespace SafeExamBrowser.Settings.Browser
 {
 	/// <summary>
-	/// Defines all configuration options for the request filter of the browser.
+	/// Defines all settings for the request filter of the browser.
 	/// </summary>
 	[Serializable]
 	public class BrowserFilterSettings

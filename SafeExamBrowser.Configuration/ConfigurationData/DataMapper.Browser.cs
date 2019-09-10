@@ -19,7 +19,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool allow)
 			{
-				settings.Browser.MainWindowSettings.AllowAddressBar = allow;
+				settings.Browser.MainWindow.AllowAddressBar = allow;
 			}
 		}
 
@@ -27,7 +27,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool allow)
 			{
-				settings.Browser.AdditionalWindowSettings.AllowAddressBar = allow;
+				settings.Browser.AdditionalWindow.AllowAddressBar = allow;
 			}
 		}
 
@@ -43,8 +43,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool allow)
 			{
-				settings.Browser.MainWindowSettings.AllowDeveloperConsole = allow;
-				settings.Browser.AdditionalWindowSettings.AllowDeveloperConsole = allow;
+				settings.Browser.MainWindow.AllowDeveloperConsole = allow;
+				settings.Browser.AdditionalWindow.AllowDeveloperConsole = allow;
 			}
 		}
 
@@ -60,8 +60,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool allow)
 			{
-				settings.Browser.MainWindowSettings.AllowBackwardNavigation = allow;
-				settings.Browser.MainWindowSettings.AllowForwardNavigation = allow;
+				settings.Browser.MainWindow.AllowBackwardNavigation = allow;
+				settings.Browser.MainWindow.AllowForwardNavigation = allow;
 			}
 		}
 
@@ -69,8 +69,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool allow)
 			{
-				settings.Browser.AdditionalWindowSettings.AllowBackwardNavigation = allow;
-				settings.Browser.AdditionalWindowSettings.AllowForwardNavigation = allow;
+				settings.Browser.AdditionalWindow.AllowBackwardNavigation = allow;
+				settings.Browser.AdditionalWindow.AllowForwardNavigation = allow;
 			}
 		}
 
@@ -94,7 +94,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool allow)
 			{
-				settings.Browser.MainWindowSettings.AllowReloading = allow;
+				settings.Browser.MainWindow.AllowReloading = allow;
 			}
 		}
 
@@ -102,7 +102,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool allow)
 			{
-				settings.Browser.AdditionalWindowSettings.AllowReloading = allow;
+				settings.Browser.AdditionalWindow.AllowReloading = allow;
 			}
 		}
 
@@ -164,7 +164,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			if (value is int mode)
 			{
-				settings.Browser.MainWindowSettings.FullScreenMode = mode == FULLSCREEN;
+				settings.Browser.MainWindow.FullScreenMode = mode == FULLSCREEN;
 			}
 		}
 
@@ -172,7 +172,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool show)
 			{
-				settings.Browser.MainWindowSettings.ShowReloadWarning = show;
+				settings.Browser.MainWindow.ShowReloadWarning = show;
 			}
 		}
 
@@ -180,7 +180,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			if (value is bool show)
 			{
-				settings.Browser.AdditionalWindowSettings.ShowReloadWarning = show;
+				settings.Browser.AdditionalWindow.ShowReloadWarning = show;
 			}
 		}
 

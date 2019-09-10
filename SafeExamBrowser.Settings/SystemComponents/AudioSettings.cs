@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Settings.SystemComponents
 {
 	/// <summary>
-	/// Defines all configuration options for the audio device of the computer.
+	/// Defines all settings for the audio device of the computer.
 	/// </summary>
 	[Serializable]
 	public class AudioSettings

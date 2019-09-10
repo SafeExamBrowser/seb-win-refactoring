@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Settings.UserInterface
 {
 	/// <summary>
-	/// Defines all configuration options for the action center.
+	/// Defines all settings for the action center.
 	/// </summary>
 	[Serializable]
 	public class ActionCenterSettings

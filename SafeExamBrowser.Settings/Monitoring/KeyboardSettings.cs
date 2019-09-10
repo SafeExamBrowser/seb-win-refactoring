@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Settings.Monitoring
 {
 	/// <summary>
-	/// Defines all configuration options for monitoring keyboard input.
+	/// Defines all settings for monitoring keyboard input.
 	/// </summary>
 	[Serializable]
 	public class KeyboardSettings

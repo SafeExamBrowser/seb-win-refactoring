@@ -35,7 +35,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		private BrowserWindowSettings WindowSettings
 		{
-			get { return isMainWindow ? settings.MainWindowSettings : settings.AdditionalWindowSettings; }
+			get { return isMainWindow ? settings.MainWindow : settings.AdditionalWindow; }
 		}
 
 		public bool CanNavigateBackwards { set => Dispatcher.Invoke(() => BackwardButton.IsEnabled = value); }
