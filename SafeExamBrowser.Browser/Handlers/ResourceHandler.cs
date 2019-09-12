@@ -25,14 +25,14 @@ namespace SafeExamBrowser.Browser.Handlers
 		private BrowserFilterSettings settings;
 		private ILogger logger;
 		private RequestFilter filter;
-		private IResourceHandler contentBlockedHandler;
-		private IResourceHandler pageBlockedHandler;
+		private IResourceHandler contentHandler;
+		private IResourceHandler pageHandler;
 		private IText text;
 
-		internal ResourceHandler(AppConfig appConfig, BrowserFilterSettings settings, ILogger logger, IText text)
+		internal ResourceHandler(AppConfig appConfig, BrowserFilterSettings settings, RequestFilter filter, ILogger logger, IText text)
 		{
 			this.appConfig = appConfig;
-			this.filter = new RequestFilter();
+			this.filter = filter;
 			this.logger = logger;
 			this.settings = settings;
 			this.text = text;
@@ -40,22 +40,17 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		internal void Initialize()
 		{
-			if (settings.FilterMainRequests || settings.FilterContentRequests)
+			if (settings.FilterContentRequests)
 			{
-				InitializeFilter();
+				InitializeResourceHandlers();
 			}
 		}
 
 		protected override IResourceHandler GetResourceHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request)
 		{
-			if (BlockMainRequest(request))
+			if (Block(request))
 			{
-				return pageBlockedHandler;
-			}
-
-			if (BlockContentRequest(request))
-			{
-				return contentBlockedHandler;
+				return ResourceHandlerFor(request.ResourceType);
 			}
 
 			return base.GetResourceHandler(chromiumWebBrowser, browser, frame, request);
@@ -73,7 +68,7 @@ namespace SafeExamBrowser.Browser.Handlers
 				return CefReturnValue.Cancel;
 			}
 
-			ReplaceCustomScheme(request);
+			ReplaceSebScheme(request);
 
 			return base.OnBeforeResourceLoad(webBrowser, browser, frame, request, callback);
 		}
@@ -87,9 +82,9 @@ namespace SafeExamBrowser.Browser.Handlers
 			request.Headers = headers;
 		}
 
-		private bool BlockContentRequest(IRequest request)
+		private bool Block(IRequest request)
 		{
-			if (settings.FilterContentRequests && request.ResourceType != ResourceType.MainFrame)
+			if (settings.FilterContentRequests)
 			{
 				var result = filter.Process(request.Url);
 				var block = result == FilterResult.Block;
@@ -105,25 +100,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			return false;
 		}
 
-		private bool BlockMainRequest(IRequest request)
-		{
-			if (settings.FilterMainRequests && request.ResourceType == ResourceType.MainFrame)
-			{
-				var result = filter.Process(request.Url);
-				var block = result == FilterResult.Block;
-
-				if (block)
-				{
-					logger.Info($"Blocked main request for '{request.Url}'.");
-				}
-
-				return block;
-			}
-
-			return false;
-		}
-
-		private void InitializeFilter()
+		private void InitializeResourceHandlers()
 		{
 			var assembly = Assembly.GetAssembly(typeof(RequestFilter));
 			var contentMessage = text.Get(TextKey.Browser_BlockedContentMessage);
@@ -136,17 +113,12 @@ namespace SafeExamBrowser.Browser.Handlers
 			var pageHtml = new StreamReader(pageStream).ReadToEnd();
 
 			contentHtml = contentHtml.Replace("%%MESSAGE%%", contentMessage);
+			contentHandler = CefSharp.ResourceHandler.FromString(contentHtml);
+
 			pageHtml = pageHtml.Replace("%%MESSAGE%%", pageMessage).Replace("%%TITLE%%", pageTitle).Replace("%%BACK_BUTTON%%", pageButton);
+			pageHandler = CefSharp.ResourceHandler.FromString(pageHtml);
 
-			contentBlockedHandler = CefSharp.ResourceHandler.FromString(contentHtml);
-			pageBlockedHandler = CefSharp.ResourceHandler.FromString(pageHtml);
-
-			foreach (var rule in settings.Rules)
-			{
-				filter.Load(rule);
-			}
-
-			logger.Debug($"Initialized request filter with {settings.Rules.Count} rules.");
+			logger.Debug("Initialized resource handlers for blocked requests.");
 		}
 
 		private bool IsMailtoUrl(string url)
@@ -154,7 +126,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			return url.StartsWith(Uri.UriSchemeMailto);
 		}
 
-		private void ReplaceCustomScheme(IRequest request)
+		private void ReplaceSebScheme(IRequest request)
 		{
 			if (Uri.IsWellFormedUriString(request.Url, UriKind.RelativeOrAbsolute))
 			{
@@ -168,6 +140,18 @@ namespace SafeExamBrowser.Browser.Handlers
 				{
 					request.Url = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttps }.Uri.AbsoluteUri;
 				}
+			}
+		}
+
+		private IResourceHandler ResourceHandlerFor(ResourceType resourceType)
+		{
+			switch (resourceType)
+			{
+				case ResourceType.MainFrame:
+				case ResourceType.SubFrame:
+					return pageHandler;
+				default:
+					return contentHandler;
 			}
 		}
 	}

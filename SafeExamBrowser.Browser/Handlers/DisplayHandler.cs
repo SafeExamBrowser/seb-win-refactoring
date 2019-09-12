@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using CefSharp;
 using CefSharp.Structs;
-using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Events;
 
 namespace SafeExamBrowser.Browser.Handlers

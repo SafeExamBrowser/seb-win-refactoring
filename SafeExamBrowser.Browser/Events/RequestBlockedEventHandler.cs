@@ -6,10 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Browser.Contracts.Events
+namespace SafeExamBrowser.Browser.Events
 {
-	/// <summary>
-	/// Event handler used to indicate the current progress value of the page load process (from <c>0.0</c> to <c>1.0</c>).
-	/// </summary>
-	public delegate void ProgressChangedEventHandler(double value);
+	internal delegate void RequestBlockedEventHandler(string url);
 }

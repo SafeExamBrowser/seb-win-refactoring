@@ -8,6 +8,7 @@
 
 using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
 using SafeExamBrowser.Browser.Contracts.Events;
@@ -102,7 +103,7 @@ namespace SafeExamBrowser.Browser
 			var keyboardHandler = new KeyboardHandler();
 			var lifeSpanHandler = new LifeSpanHandler();
 			var requestLogger = logger.CloneFor($"{nameof(RequestHandler)} {Id}");
-			var requestHandler = new RequestHandler(appConfig, settings.Filter, logger, text);
+			var requestHandler = new RequestHandler(appConfig, settings.Filter, requestLogger, text);
 
 			displayHandler.FaviconChanged += DisplayHandler_FaviconChanged;
 			displayHandler.ProgressChanged += DisplayHandler_ProgressChanged;
@@ -112,6 +113,7 @@ namespace SafeExamBrowser.Browser
 			keyboardHandler.ZoomOutRequested += ZoomOutRequested;
 			keyboardHandler.ZoomResetRequested += ZoomResetRequested;
 			lifeSpanHandler.PopupRequested += LifeSpanHandler_PopupRequested;
+			requestHandler.RequestBlocked += RequestHandler_RequestBlocked;
 
 			control = new BrowserControl(contextMenuHandler, displayHandler, downloadHandler, keyboardHandler, lifeSpanHandler, requestHandler, url);
 			control.AddressChanged += Control_AddressChanged;
@@ -222,6 +224,17 @@ namespace SafeExamBrowser.Browser
 			{
 				logger.Debug($"Blocked attempt to open new window for '{args.Url}'.");
 			}
+		}
+
+		private void RequestHandler_RequestBlocked(string url)
+		{
+			Task.Run(() =>
+			{
+				var message = text.Get(TextKey.MessageBox_BrowserNavigationBlocked).Replace("%%URL%%", url);
+				var title = text.Get(TextKey.MessageBox_BrowserNavigationBlockedTitle);
+
+				messageBox.Show(message, title, parent: window);
+			});
 		}
 
 		private void ReloadRequested()

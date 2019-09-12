@@ -24,6 +24,8 @@ namespace SafeExamBrowser.I18n.Contracts
 		LogWindow_Title,
 		MessageBox_ApplicationError,
 		MessageBox_ApplicationErrorTitle,
+		MessageBox_BrowserNavigationBlocked,
+		MessageBox_BrowserNavigationBlockedTitle,
 		MessageBox_CancelButton,
 		MessageBox_ClientConfigurationError,
 		MessageBox_ClientConfigurationErrorTitle,

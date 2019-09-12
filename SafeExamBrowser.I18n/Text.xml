@@ -30,6 +30,12 @@
     <Entry key="MessageBox_ApplicationErrorTitle">
         Application Error
     </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlocked">
+        Access to "%%URL%%" is not allowed according to the application configuration.
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlockedTitle">
+        Page Blocked
+    </Entry>
     <Entry key="MessageBox_CancelButton">
         Cancel
     </Entry>
