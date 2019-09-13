@@ -7,8 +7,8 @@
  */
 
 using CefSharp;
+using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Browser.Events;
-using SafeExamBrowser.Browser.Filters;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
@@ -18,29 +18,19 @@ namespace SafeExamBrowser.Browser.Handlers
 {
 	internal class RequestHandler : CefSharp.Handler.RequestHandler
 	{
-		private RequestFilter filter;
+		private IRequestFilter filter;
 		private ILogger logger;
 		private ResourceHandler resourceHandler;
 		private BrowserFilterSettings settings;
 
 		internal event RequestBlockedEventHandler RequestBlocked;
 
-		internal RequestHandler(AppConfig appConfig, BrowserFilterSettings settings, ILogger logger, IText text)
+		internal RequestHandler(AppConfig appConfig, BrowserFilterSettings settings, IRequestFilter filter, ILogger logger, IText text)
 		{
-			this.filter = new RequestFilter();
+			this.filter = filter;
 			this.logger = logger;
 			this.resourceHandler = new ResourceHandler(appConfig, settings, filter, logger, text);
 			this.settings = settings;
-		}
-
-		internal void Initiailize()
-		{
-			if (settings.FilterMainRequests || settings.FilterContentRequests)
-			{
-				InitializeFilter();
-			}
-
-			resourceHandler.Initialize();
 		}
 
 		protected override IResourceRequestHandler GetResourceRequestHandler(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, 	bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
@@ -62,9 +52,9 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		private bool Block(IRequest request)
 		{
-			if (settings.FilterMainRequests)
+			if (settings.ProcessMainRequests)
 			{
-				var result = filter.Process(request.Url);
+				var result = filter.Process(new Request { Url = request.Url });
 				var block = result == FilterResult.Block;
 
 				if (block)
@@ -76,16 +66,6 @@ namespace SafeExamBrowser.Browser.Handlers
 			}
 
 			return false;
-		}
-
-		private void InitializeFilter()
-		{
-			foreach (var rule in settings.Rules)
-			{
-				filter.Load(rule);
-			}
-
-			logger.Debug($"Initialized request filter with {settings.Rules.Count} rules.");
 		}
 	}
 }

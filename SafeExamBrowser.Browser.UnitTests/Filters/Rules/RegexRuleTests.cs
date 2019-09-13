@@ -6,16 +6,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Browser.Filters.Rules
-{
-	internal abstract class Rule
-	{
-		internal Rule(string expression)
-		{
-			Initialize(expression);
-		}
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SafeExamBrowser.Browser.Filters.Rules;
 
-		internal abstract bool IsMatch(string url);
-		protected abstract void Initialize(string expression);
+namespace SafeExamBrowser.Browser.UnitTests.Filters.Rules
+{
+	[TestClass]
+	public class RegexRuleTests
+	{
+		private RegexRule sut;
+
+		[TestInitialize]
+		public void Initialize()
+		{
+			sut = new RegexRule();
+		}
 	}
 }

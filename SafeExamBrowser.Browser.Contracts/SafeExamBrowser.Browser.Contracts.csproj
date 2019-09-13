@@ -56,6 +56,10 @@
     <Compile Include="Events\DownloadEventArgs.cs" />
     <Compile Include="Events\DownloadFinishedCallback.cs" />
     <Compile Include="Events\DownloadRequestedEventHandler.cs" />
+    <Compile Include="Filters\IRequestFilter.cs" />
+    <Compile Include="Filters\IRule.cs" />
+    <Compile Include="Filters\IRuleFactory.cs" />
+    <Compile Include="Filters\Request.cs" />
     <Compile Include="IBrowserApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,6 +67,10 @@
     <ProjectReference Include="..\SafeExamBrowser.Applications.Contracts\SafeExamBrowser.Applications.Contracts.csproj">
       <Project>{ac77745d-3b41-43e2-8e84-d40e5a4ee77f}</Project>
       <Name>SafeExamBrowser.Applications.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Settings\SafeExamBrowser.Settings.csproj">
+      <Project>{30b2d907-5861-4f39-abad-c4abf1b3470e}</Project>
+      <Name>SafeExamBrowser.Settings</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

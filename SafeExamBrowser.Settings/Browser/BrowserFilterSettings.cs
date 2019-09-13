@@ -18,14 +18,14 @@ namespace SafeExamBrowser.Settings.Browser
 	public class BrowserFilterSettings
 	{
 		/// <summary>
-		/// Defines whether all content requests for a web page should be filtered according to the defined <see cref="Rules"/>.
+		/// Defines whether content requests for a web page should be filtered according to the defined <see cref="Rules"/>.
 		/// </summary>
-		public bool FilterContentRequests { get; set; }
+		public bool ProcessContentRequests { get; set; }
 
 		/// <summary>
 		/// Defines whether the main request for a web page should be filtered according to the defined <see cref="Rules"/>.
 		/// </summary>
-		public bool FilterMainRequests { get; set; }
+		public bool ProcessMainRequests { get; set; }
 
 		/// <summary>
 		/// Defines all rules to be used to filter web requests.

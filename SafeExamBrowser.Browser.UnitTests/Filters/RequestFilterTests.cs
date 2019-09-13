@@ -8,6 +8,8 @@
 
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Browser.Filters;
 using SafeExamBrowser.Settings.Browser;
 
@@ -27,13 +29,20 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters
 		[TestMethod]
 		public void MustProcessBlockRulesFirst()
 		{
-			var allow = new FilterRuleSettings { Expression = "*", Type = FilterType.Simplified, Result = FilterResult.Allow };
-			var block = new FilterRuleSettings { Expression = "*", Type = FilterType.Simplified, Result = FilterResult.Block };
+			var allow = new Mock<IRule>();
+			var block = new Mock<IRule>();
 
-			sut.Load(allow);
-			sut.Load(block);
+			allow.SetupGet(r => r.Result).Returns(FilterResult.Allow);
+			block.SetupGet(r => r.Result).Returns(FilterResult.Block);
+			block.Setup(r => r.IsMatch(It.IsAny<Request>())).Returns(true);
 
-			var result = sut.Process("safeexambrowser.org");
+			sut.Load(allow.Object);
+			sut.Load(block.Object);
+
+			var result = sut.Process(new Request());
+
+			allow.Verify(r => r.IsMatch(It.IsAny<Request>()), Times.Never);
+			block.Verify(r => r.IsMatch(It.IsAny<Request>()), Times.Once);
 
 			Assert.AreEqual(FilterResult.Block, result);
 		}
@@ -41,28 +50,41 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters
 		[TestMethod]
 		public void MustProcessAllowRulesSecond()
 		{
-			var allow = new FilterRuleSettings { Expression = "*", Type = FilterType.Simplified, Result = FilterResult.Allow };
-			var block = new FilterRuleSettings { Expression = "xyz", Type = FilterType.Simplified, Result = FilterResult.Block };
+			var allow = new Mock<IRule>();
+			var block = new Mock<IRule>();
 
-			sut.Load(allow);
-			sut.Load(block);
+			allow.SetupGet(r => r.Result).Returns(FilterResult.Allow);
+			allow.Setup(r => r.IsMatch(It.IsAny<Request>())).Returns(true);
+			block.SetupGet(r => r.Result).Returns(FilterResult.Block);
 
-			var result = sut.Process("safeexambrowser.org");
+			sut.Load(allow.Object);
+			sut.Load(block.Object);
+
+			var result = sut.Process(new Request());
+
+			allow.Verify(r => r.IsMatch(It.IsAny<Request>()), Times.Once);
+			block.Verify(r => r.IsMatch(It.IsAny<Request>()), Times.Once);
 
 			Assert.AreEqual(FilterResult.Allow, result);
 		}
 
 		[TestMethod]
-		public void MustReturnDefault()
+		public void MustReturnDefaultWithoutMatch()
 		{
-			var allow = new FilterRuleSettings { Expression = "xyz", Type = FilterType.Simplified, Result = FilterResult.Allow };
-			var block = new FilterRuleSettings { Expression = "xyz", Type = FilterType.Simplified, Result = FilterResult.Block };
+			var allow = new Mock<IRule>();
+			var block = new Mock<IRule>();
+
+			allow.SetupGet(r => r.Result).Returns(FilterResult.Allow);
+			block.SetupGet(r => r.Result).Returns(FilterResult.Block);
 
 			sut.Default = (FilterResult) (-1);
-			sut.Load(allow);
-			sut.Load(block);
+			sut.Load(allow.Object);
+			sut.Load(block.Object);
 
-			var result = sut.Process("safeexambrowser.org");
+			var result = sut.Process(new Request());
+
+			allow.Verify(r => r.IsMatch(It.IsAny<Request>()), Times.Once);
+			block.Verify(r => r.IsMatch(It.IsAny<Request>()), Times.Once);
 
 			Assert.AreEqual((FilterResult) (-1), result);
 		}
@@ -71,11 +93,11 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters
 		public void MustReturnDefaultWithoutRules()
 		{
 			sut.Default = FilterResult.Allow;
-			var result = sut.Process("safeexambrowser.org");
+			var result = sut.Process(new Request());
 			Assert.AreEqual(FilterResult.Allow, result);
 
 			sut.Default = FilterResult.Block;
-			result = sut.Process("safeexambrowser.org");
+			result = sut.Process(new Request());
 			Assert.AreEqual(FilterResult.Block, result);
 		}
 
@@ -83,14 +105,10 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters
 		[ExpectedException(typeof(NotImplementedException))]
 		public void MustNotAllowUnsupportedResult()
 		{
-			sut.Load(new FilterRuleSettings { Result = (FilterResult) (-1) });
-		}
+			var rule = new Mock<IRule>();
 
-		[TestMethod]
-		[ExpectedException(typeof(NotImplementedException))]
-		public void MustNotAllowUnsupportedFilterType()
-		{
-			sut.Load(new FilterRuleSettings { Type = (FilterType) (-1) });
+			rule.SetupGet(r => r.Result).Returns((FilterResult) (-1));
+			sut.Load(rule.Object);
 		}
 	}
 }

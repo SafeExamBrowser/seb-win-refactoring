@@ -13,6 +13,7 @@ using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
 using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Events;
+using SafeExamBrowser.Browser.Filters;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
@@ -102,8 +103,9 @@ namespace SafeExamBrowser.Browser
 			var downloadHandler = new DownloadHandler(appConfig, settings, downloadLogger);
 			var keyboardHandler = new KeyboardHandler();
 			var lifeSpanHandler = new LifeSpanHandler();
+			var requestFilter = new RequestFilter();
 			var requestLogger = logger.CloneFor($"{nameof(RequestHandler)} {Id}");
-			var requestHandler = new RequestHandler(appConfig, settings.Filter, requestLogger, text);
+			var requestHandler = new RequestHandler(appConfig, settings.Filter, requestFilter, requestLogger, text);
 
 			displayHandler.FaviconChanged += DisplayHandler_FaviconChanged;
 			displayHandler.ProgressChanged += DisplayHandler_ProgressChanged;
@@ -115,14 +117,27 @@ namespace SafeExamBrowser.Browser
 			lifeSpanHandler.PopupRequested += LifeSpanHandler_PopupRequested;
 			requestHandler.RequestBlocked += RequestHandler_RequestBlocked;
 
+			if (settings.Filter.ProcessContentRequests || settings.Filter.ProcessMainRequests)
+			{
+				var factory = new RuleFactory();
+
+				foreach (var settings in settings.Filter.Rules)
+				{
+					var rule = factory.CreateRule(settings.Type);
+
+					rule.Initialize(settings);
+					requestFilter.Load(rule);
+				}
+
+				logger.Debug($"Initialized request filter with {settings.Filter.Rules.Count} rule(s).");
+			}
+
 			control = new BrowserControl(contextMenuHandler, displayHandler, downloadHandler, keyboardHandler, lifeSpanHandler, requestHandler, url);
 			control.AddressChanged += Control_AddressChanged;
 			control.LoadingStateChanged += Control_LoadingStateChanged;
 			control.TitleChanged += Control_TitleChanged;
 
-			requestHandler.Initiailize();
 			control.Initialize();
-
 			logger.Debug("Initialized browser control.");
 		}
 

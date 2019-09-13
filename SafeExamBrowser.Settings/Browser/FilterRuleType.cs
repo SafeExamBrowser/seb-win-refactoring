@@ -9,17 +9,17 @@
 namespace SafeExamBrowser.Settings.Browser
 {
 	/// <summary>
-	/// Defines all possible request filter types.
+	/// Defines all possible filter rule types.
 	/// </summary>
-	public enum FilterType
+	public enum FilterRuleType
 	{
 		/// <summary>
-		/// The filter is based on a regular expression.
+		/// The filter rule is based on a regular expression.
 		/// </summary>
 		Regex,
 
 		/// <summary>
-		/// The filter is based on a simplified expression with wildcards.
+		/// The filter rule is based on a simplified expression with wildcards.
 		/// </summary>
 		Simplified
 	}

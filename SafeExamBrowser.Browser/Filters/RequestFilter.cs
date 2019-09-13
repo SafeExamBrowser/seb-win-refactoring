@@ -8,42 +8,28 @@
 
 using System;
 using System.Collections.Generic;
-using SafeExamBrowser.Browser.Filters.Rules;
+using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Settings.Browser;
 
 namespace SafeExamBrowser.Browser.Filters
 {
-	internal class RequestFilter
+	internal class RequestFilter : IRequestFilter
 	{
-		private IList<Rule> allowRules;
-		private IList<Rule> blockRules;
+		private IList<IRule> allowRules;
+		private IList<IRule> blockRules;
 
-		internal FilterResult Default { get; set; }
+		public FilterResult Default { get; set; }
 
 		internal RequestFilter()
 		{
-			allowRules = new List<Rule>();
-			blockRules = new List<Rule>();
+			allowRules = new List<IRule>();
+			blockRules = new List<IRule>();
 			Default = FilterResult.Block;
 		}
 
-		internal void Load(FilterRuleSettings settings)
+		public void Load(IRule rule)
 		{
-			var rule = default(Rule);
-
-			switch (settings.Type)
-			{
-				case FilterType.Regex:
-					rule = new RegexRule(settings.Expression);
-					break;
-				case FilterType.Simplified:
-					rule = new SimpleRule(settings.Expression);
-					break;
-				default:
-					throw new NotImplementedException($"Filter rule of type '{settings.Type}' is not yet implemented!");
-			}
-
-			switch (settings.Result)
+			switch (rule.Result)
 			{
 				case FilterResult.Allow:
 					allowRules.Add(rule);
@@ -52,15 +38,15 @@ namespace SafeExamBrowser.Browser.Filters
 					blockRules.Add(rule);
 					break;
 				default:
-					throw new NotImplementedException($"Filter result '{settings.Result}' is not yet implemented!");
+					throw new NotImplementedException($"Filter processing for result '{rule.Result}' is not yet implemented!");
 			}
 		}
 
-		internal FilterResult Process(string url)
+		public FilterResult Process(Request request)
 		{
 			foreach (var rule in blockRules)
 			{
-				if (rule.IsMatch(url))
+				if (rule.IsMatch(request))
 				{
 					return FilterResult.Block;
 				}
@@ -68,7 +54,7 @@ namespace SafeExamBrowser.Browser.Filters
 
 			foreach (var rule in allowRules)
 			{
-				if (rule.IsMatch(url))
+				if (rule.IsMatch(request))
 				{
 					return FilterResult.Allow;
 				}

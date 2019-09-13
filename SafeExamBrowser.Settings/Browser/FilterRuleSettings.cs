@@ -29,6 +29,6 @@ namespace SafeExamBrowser.Settings.Browser
 		/// <summary>
 		/// The filter type which defines how the <see cref="Expression"/> is processed.
 		/// </summary>
-		public FilterType Type { get; set; }
+		public FilterRuleType Type { get; set; }
 	}
 }

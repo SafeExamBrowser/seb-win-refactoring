@@ -108,17 +108,17 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		private void MapEnableContentRequestFilter(ApplicationSettings settings, object value)
 		{
-			if (value is bool filter)
+			if (value is bool process)
 			{
-				settings.Browser.Filter.FilterContentRequests = filter;
+				settings.Browser.Filter.ProcessContentRequests = process;
 			}
 		}
 
 		private void MapEnableMainRequestFilter(ApplicationSettings settings, object value)
 		{
-			if (value is bool filter)
+			if (value is bool process)
 			{
-				settings.Browser.Filter.FilterMainRequests = filter;
+				settings.Browser.Filter.ProcessMainRequests = process;
 			}
 		}
 
@@ -148,7 +148,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 							if (ruleData.TryGetValue(Keys.Browser.Filter.RuleExpressionIsRegex, out v) && v is bool regex)
 							{
-								rule.Type = regex ? FilterType.Regex : FilterType.Simplified;
+								rule.Type = regex ? FilterRuleType.Regex : FilterRuleType.Simplified;
 							}
 
 							settings.Browser.Filter.Rules.Add(rule);

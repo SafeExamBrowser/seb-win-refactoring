@@ -7,25 +7,26 @@
  */
 
 using System.Text.RegularExpressions;
+using SafeExamBrowser.Browser.Contracts.Filters;
+using SafeExamBrowser.Settings.Browser;
 
 namespace SafeExamBrowser.Browser.Filters.Rules
 {
-	internal class RegexRule : Rule
+	internal class RegexRule : IRule
 	{
 		private string expression;
 
-		public RegexRule(string expression) : base(expression)
+		public FilterResult Result { get; private set; }
+
+		public void Initialize(FilterRuleSettings settings)
 		{
+			expression = settings.Expression;
+			Result = settings.Result;
 		}
 
-		protected override void Initialize(string expression)
+		public bool IsMatch(Request request)
 		{
-			this.expression = expression;
-		}
-
-		internal override bool IsMatch(string url)
-		{
-			return Regex.IsMatch(url, expression, RegexOptions.IgnoreCase);
+			return Regex.IsMatch(request.Url, expression, RegexOptions.IgnoreCase);
 		}
 	}
 }
