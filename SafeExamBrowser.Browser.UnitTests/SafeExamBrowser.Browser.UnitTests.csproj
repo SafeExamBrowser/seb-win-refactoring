@@ -80,6 +80,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Filters\LegacyFilter.cs" />
     <Compile Include="Filters\RequestFilterTests.cs" />
     <Compile Include="Filters\RuleFactoryTests.cs" />
     <Compile Include="Filters\Rules\RegexRuleTests.cs" />

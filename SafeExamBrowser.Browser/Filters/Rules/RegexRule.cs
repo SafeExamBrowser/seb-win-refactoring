@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Text.RegularExpressions;
 using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Settings.Browser;
@@ -20,6 +21,8 @@ namespace SafeExamBrowser.Browser.Filters.Rules
 
 		public void Initialize(FilterRuleSettings settings)
 		{
+			ValidateExpression(settings.Expression);
+
 			expression = settings.Expression;
 			Result = settings.Result;
 		}
@@ -27,6 +30,23 @@ namespace SafeExamBrowser.Browser.Filters.Rules
 		public bool IsMatch(Request request)
 		{
 			return Regex.IsMatch(request.Url, expression, RegexOptions.IgnoreCase);
+		}
+
+		private void ValidateExpression(string expression)
+		{
+			if (expression == default(string))
+			{
+				throw new ArgumentNullException(nameof(expression));
+			}
+
+			try
+			{
+				Regex.Match("", expression);
+			}
+			catch (Exception e)
+			{
+				throw new ArgumentException($"Invalid regular expression!", nameof(expression), e);
+			}
 		}
 	}
 }
