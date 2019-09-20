@@ -89,7 +89,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters
 
 			filterComponent = path;
 			if (filterComponent != null &&
-				!Regex.IsMatch(URLToFilter.AbsolutePath.Trim(new char[] { '/' }), filterComponent.ToString(), RegexOptions.IgnoreCase))
+				!Regex.IsMatch(URLToFilter.AbsolutePath.TrimEnd(new char[] { '/' }), filterComponent.ToString(), RegexOptions.IgnoreCase))
 			{
 				return false;
 			}
@@ -404,8 +404,8 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters
 					this.password = regexMatch.Groups[3].Value;
 					this.host = regexMatch.Groups[4].Value;
 
-					// Treat a special case when a query is interpreted as part of the host address
-					if (this.host.Contains("?"))
+					// Treat a special case when a query or fragment is interpreted as part of the host address
+					if (this.host.Contains("?") || this.host.Contains("#"))
 					{
 						string splitURLRegexPattern2 = @"([^\?#]*)?(?:\?([^#]*))?(?:#(.*))?";
 						Regex splitURLRegex2 = new Regex(splitURLRegexPattern2);
@@ -434,7 +434,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters
 							this.port = UInt16.Parse(portNumber);
 						}
 
-						this.path = regexMatch.Groups[6].Value.Trim(new char[] { '/' });
+						this.path = regexMatch.Groups[6].Value.TrimEnd(new char[] { '/' });
 						this.query = regexMatch.Groups[7].Value;
 						this.fragment = regexMatch.Groups[8].Value;
 					}
