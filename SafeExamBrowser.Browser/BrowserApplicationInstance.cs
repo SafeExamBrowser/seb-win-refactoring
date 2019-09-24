@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
 using SafeExamBrowser.Browser.Contracts.Events;
+using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Browser.Filters;
 using SafeExamBrowser.Browser.Handlers;
@@ -117,6 +118,19 @@ namespace SafeExamBrowser.Browser
 			lifeSpanHandler.PopupRequested += LifeSpanHandler_PopupRequested;
 			requestHandler.RequestBlocked += RequestHandler_RequestBlocked;
 
+			InitializeRequestFilter(requestFilter);
+
+			control = new BrowserControl(contextMenuHandler, displayHandler, downloadHandler, keyboardHandler, lifeSpanHandler, requestHandler, url);
+			control.AddressChanged += Control_AddressChanged;
+			control.LoadingStateChanged += Control_LoadingStateChanged;
+			control.TitleChanged += Control_TitleChanged;
+
+			control.Initialize();
+			logger.Debug("Initialized browser control.");
+		}
+
+		private void InitializeRequestFilter(IRequestFilter requestFilter)
+		{
 			if (settings.Filter.ProcessContentRequests || settings.Filter.ProcessMainRequests)
 			{
 				var factory = new RuleFactory();
@@ -130,15 +144,17 @@ namespace SafeExamBrowser.Browser
 				}
 
 				logger.Debug($"Initialized request filter with {settings.Filter.Rules.Count} rule(s).");
+
+				if (requestFilter.Process(new Request { Url = settings.StartUrl }) != FilterResult.Allow)
+				{
+					var rule = factory.CreateRule(FilterRuleType.Simplified);
+
+					rule.Initialize(new FilterRuleSettings { Expression = settings.StartUrl, Result = FilterResult.Allow });
+					requestFilter.Load(rule);
+
+					logger.Debug($"Automatically created filter rule to allow start URL '{settings.StartUrl}'.");
+				}
 			}
-
-			control = new BrowserControl(contextMenuHandler, displayHandler, downloadHandler, keyboardHandler, lifeSpanHandler, requestHandler, url);
-			control.AddressChanged += Control_AddressChanged;
-			control.LoadingStateChanged += Control_LoadingStateChanged;
-			control.TitleChanged += Control_TitleChanged;
-
-			control.Initialize();
-			logger.Debug("Initialized browser control.");
 		}
 
 		private void InitializeWindow()
@@ -248,7 +264,16 @@ namespace SafeExamBrowser.Browser
 				var message = text.Get(TextKey.MessageBox_BrowserNavigationBlocked).Replace("%%URL%%", url);
 				var title = text.Get(TextKey.MessageBox_BrowserNavigationBlockedTitle);
 
+				control.TitleChanged -= Control_TitleChanged;
+
+				if (url == this.url)
+				{
+					window.UpdateTitle($"*** {title} ***");
+					NameChanged?.Invoke($"*** {title} ***");
+				}
+
 				messageBox.Show(message, title, parent: window);
+				control.TitleChanged += Control_TitleChanged;
 			});
 		}
 

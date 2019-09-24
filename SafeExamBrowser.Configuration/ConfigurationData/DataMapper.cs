@@ -29,10 +29,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			MapApplicationLogAccess(rawData, settings);
 			MapKioskMode(rawData, settings);
 			MapUserAgentMode(rawData, settings);
-
-			// TODO: Automatically create filter rule for start URL!
-			//			-> Only if filter active
-			//			-> Create mechanism for post-processing of settings?
 		}
 
 		private void MapAudioSettings(string key, object value, ApplicationSettings settings)
