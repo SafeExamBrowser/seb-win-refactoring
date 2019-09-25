@@ -111,12 +111,6 @@
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         Reconfiguration Error
     </Entry>
-    <Entry key="MessageBox_ReconfigurationQuestion">
-        Would you like to reconfigure the application?
-    </Entry>
-    <Entry key="MessageBox_ReconfigurationQuestionTitle">
-        Configuration Detected
-    </Entry>
     <Entry key="MessageBox_ReloadConfirmation">
         Would you like to reload the current page?
     </Entry>

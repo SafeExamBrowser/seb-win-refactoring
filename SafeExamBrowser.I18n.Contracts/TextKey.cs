@@ -51,8 +51,6 @@ namespace SafeExamBrowser.I18n.Contracts
 		MessageBox_ReconfigurationDeniedTitle,
 		MessageBox_ReconfigurationError,
 		MessageBox_ReconfigurationErrorTitle,
-		MessageBox_ReconfigurationQuestion,
-		MessageBox_ReconfigurationQuestionTitle,
 		MessageBox_ReloadConfirmation,
 		MessageBox_ReloadConfirmationTitle,
 		MessageBox_ServiceUnavailableError,
