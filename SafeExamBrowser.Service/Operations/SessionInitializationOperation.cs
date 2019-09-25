@@ -42,10 +42,16 @@ namespace SafeExamBrowser.Service.Operations
 		public override OperationResult Revert()
 		{
 			var success = true;
+			var wasRunning = Context.IsRunning;
 
-			logger.Info("Finalizing current session...");
+			logger.Info("Starting auto-restore mechanism...");
+			Context.AutoRestoreMechanism.Start();
 
-			if (Context.ServiceEvent != null && Context.IsRunning)
+			logger.Info("Clearing session data...");
+			Context.Configuration = null;
+			Context.IsRunning = false;
+
+			if (Context.ServiceEvent != null && wasRunning)
 			{
 				success = Context.ServiceEvent.Set();
 
@@ -58,13 +64,6 @@ namespace SafeExamBrowser.Service.Operations
 					logger.Error("Failed to inform runtime about session termination!");
 				}
 			}
-
-			logger.Info("Starting auto-restore mechanism...");
-			Context.AutoRestoreMechanism.Start();
-
-			logger.Info("Clearing session data...");
-			Context.Configuration = null;
-			Context.IsRunning = false;
 
 			return success ? OperationResult.Success : OperationResult.Failed;
 		}
