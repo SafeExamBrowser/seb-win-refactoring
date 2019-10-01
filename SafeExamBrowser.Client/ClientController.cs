@@ -15,7 +15,6 @@ using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Events;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
-using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
@@ -36,6 +35,7 @@ namespace SafeExamBrowser.Client
 	{
 		private IActionCenter actionCenter;
 		private IApplicationMonitor applicationMonitor;
+		private ClientContext context;
 		private IDisplayMonitor displayMonitor;
 		private IExplorerShell explorerShell;
 		private IHashAlgorithm hashAlgorithm;
@@ -49,29 +49,15 @@ namespace SafeExamBrowser.Client
 		private ITerminationActivator terminationActivator;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
-		private AppConfig appConfig;
 
-		public IBrowserApplication Browser { private get; set; }
-		public IClientHost ClientHost { private get; set; }
-		public Guid SessionId { private get; set; }
-		public AppSettings Settings { private get; set; }
-
-		public AppConfig AppConfig
-		{
-			set
-			{
-				appConfig = value;
-
-				if (splashScreen != null)
-				{
-					splashScreen.AppConfig = value;
-				}
-			}
-		}
+		private IBrowserApplication Browser => context.Browser;
+		private IClientHost ClientHost => context.ClientHost;
+		private AppSettings Settings => context.Settings;
 
 		public ClientController(
 			IActionCenter actionCenter,
 			IApplicationMonitor applicationMonitor,
+			ClientContext context,
 			IDisplayMonitor displayMonitor,
 			IExplorerShell explorerShell,
 			IHashAlgorithm hashAlgorithm,
@@ -87,6 +73,7 @@ namespace SafeExamBrowser.Client
 		{
 			this.actionCenter = actionCenter;
 			this.applicationMonitor = applicationMonitor;
+			this.context = context;
 			this.displayMonitor = displayMonitor;
 			this.explorerShell = explorerShell;
 			this.hashAlgorithm = hashAlgorithm;
@@ -147,7 +134,7 @@ namespace SafeExamBrowser.Client
 			logger.Log(string.Empty);
 			logger.Info("Initiating shutdown procedure...");
 
-			splashScreen = uiFactory.CreateSplashScreen(appConfig);
+			splashScreen = uiFactory.CreateSplashScreen(context.AppConfig);
 			actionCenter.Close();
 			taskbar.Close();
 
@@ -167,6 +154,14 @@ namespace SafeExamBrowser.Client
 			}
 
 			splashScreen.Close();
+		}
+
+		public void UpdateAppConfig()
+		{
+			if (splashScreen != null)
+			{
+				splashScreen.AppConfig = context.AppConfig;
+			}
 		}
 
 		private void RegisterEvents()
@@ -239,7 +234,7 @@ namespace SafeExamBrowser.Client
 			{
 				args.AllowDownload = true;
 				args.Callback = Browser_ConfigurationDownloadFinished;
-				args.DownloadPath = Path.Combine(appConfig.DownloadDirectory, fileName);
+				args.DownloadPath = Path.Combine(context.AppConfig.DownloadDirectory, fileName);
 				logger.Info($"Allowed download request for configuration file '{fileName}'.");
 			}
 			else
@@ -259,7 +254,7 @@ namespace SafeExamBrowser.Client
 				{
 					logger.Info($"Sent reconfiguration request for '{filePath}' to the runtime.");
 
-					splashScreen = uiFactory.CreateSplashScreen(appConfig);
+					splashScreen = uiFactory.CreateSplashScreen(context.AppConfig);
 					splashScreen.SetIndeterminate();
 					splashScreen.UpdateStatus(TextKey.OperationStatus_InitializeSession, true);
 					splashScreen.Show();

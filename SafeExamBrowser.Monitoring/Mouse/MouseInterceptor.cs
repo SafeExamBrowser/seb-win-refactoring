@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Monitoring.Mouse
 		private INativeMethods nativeMethods;
 		private MouseSettings settings;
 
-		public MouseInterceptor(ILogger logger, MouseSettings settings, INativeMethods nativeMethods)
+		public MouseInterceptor(ILogger logger, INativeMethods nativeMethods, MouseSettings settings)
 		{
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;

@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -16,50 +15,48 @@ using SafeExamBrowser.UserInterface.Contracts.Shell;
 
 namespace SafeExamBrowser.Client.Operations
 {
-	internal class BrowserOperation : IOperation
+	internal class BrowserOperation : ClientOperation
 	{
 		private IActionCenter actionCenter;
-		private IApplication browser;
 		private ILogger logger;
 		private ITaskbar taskbar;
 		private IUserInterfaceFactory uiFactory;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
-		public event StatusChangedEventHandler StatusChanged;
+		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public override event StatusChangedEventHandler StatusChanged;
 
 		public BrowserOperation(
 			IActionCenter actionCenter,
-			IApplication browser,
+			ClientContext context,
 			ILogger logger,
 			ITaskbar taskbar,
-			IUserInterfaceFactory uiFactory)
+			IUserInterfaceFactory uiFactory) : base(context)
 		{
 			this.actionCenter = actionCenter;
-			this.browser = browser;
 			this.logger = logger;
 			this.taskbar = taskbar;
 			this.uiFactory = uiFactory;
 		}
 
-		public OperationResult Perform()
+		public override OperationResult Perform()
 		{
 			logger.Info("Initializing browser...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeBrowser);
 
-			browser.Initialize();
+			Context.Browser.Initialize();
 
-			actionCenter.AddApplicationControl(uiFactory.CreateApplicationControl(browser, Location.ActionCenter));
-			taskbar.AddApplicationControl(uiFactory.CreateApplicationControl(browser, Location.Taskbar));
+			actionCenter.AddApplicationControl(uiFactory.CreateApplicationControl(Context.Browser, Location.ActionCenter));
+			taskbar.AddApplicationControl(uiFactory.CreateApplicationControl(Context.Browser, Location.Taskbar));
 
 			return OperationResult.Success;
 		}
 
-		public OperationResult Revert()
+		public override OperationResult Revert()
 		{
 			logger.Info("Terminating browser...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_TerminateBrowser);
 
-			browser.Terminate();
+			Context.Browser.Terminate();
 
 			return OperationResult.Success;
 		}

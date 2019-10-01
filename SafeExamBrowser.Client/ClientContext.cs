@@ -6,13 +6,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+using SafeExamBrowser.Browser.Contracts;
+using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Client
 {
 	/// <summary>
-	/// Holds all configuration and runtime data for the client.
+	/// Holds all configuration and session data for the client.
 	/// </summary>
 	internal class ClientContext
 	{
@@ -20,6 +23,21 @@ namespace SafeExamBrowser.Client
 		/// The global application configuration.
 		/// </summary>
 		internal AppConfig AppConfig { get; set; }
+
+		/// <summary>
+		/// The browser application.
+		/// </summary>
+		internal IBrowserApplication Browser { get; set; }
+
+		/// <summary>
+		/// The client communication host.
+		/// </summary>
+		internal IClientHost ClientHost { get; set; }
+
+		/// <summary>
+		/// The identifier of the current session.
+		/// </summary>
+		internal Guid SessionId { get; set; }
 
 		/// <summary>
 		/// The settings for the current session.

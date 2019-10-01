@@ -17,6 +17,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	[TestClass]
 	public class MouseInterceptorOperationTests
 	{
+		private ClientContext context;
 		private Mock<IMouseInterceptor> mouseInterceptorMock;
 		private Mock<ILogger> loggerMock;
 
@@ -25,10 +26,11 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestInitialize]
 		public void Initialize()
 		{
+			context = new ClientContext();
 			mouseInterceptorMock = new Mock<IMouseInterceptor>();
 			loggerMock = new Mock<ILogger>();
 
-			sut = new MouseInterceptorOperation(loggerMock.Object, mouseInterceptorMock.Object);
+			sut = new MouseInterceptorOperation(context, loggerMock.Object, mouseInterceptorMock.Object);
 		}
 
 		[TestMethod]

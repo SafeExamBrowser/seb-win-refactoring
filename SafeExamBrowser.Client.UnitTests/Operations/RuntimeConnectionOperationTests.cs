@@ -19,6 +19,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	[TestClass]
 	public class RuntimeConnectionOperationTests
 	{
+		private ClientContext context;
 		private Mock<ILogger> logger;
 		private Mock<IRuntimeProxy> runtime;
 		private Guid token;
@@ -27,11 +28,12 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestInitialize]
 		public void Initialize()
 		{
+			context = new ClientContext();
 			logger = new Mock<ILogger>();
 			runtime = new Mock<IRuntimeProxy>();
 			token = Guid.NewGuid();
 
-			sut = new RuntimeConnectionOperation(logger.Object, runtime.Object, token);
+			sut = new RuntimeConnectionOperation(context, logger.Object, runtime.Object, token);
 		}
 
 		[TestMethod]

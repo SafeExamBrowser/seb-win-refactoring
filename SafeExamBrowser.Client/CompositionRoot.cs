@@ -12,17 +12,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using SafeExamBrowser.Browser;
-using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Client.Communication;
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Client.Notifications;
 using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Communication.Contracts;
-using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
-using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Cryptography;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.OperationModel;
@@ -56,8 +53,9 @@ namespace SafeExamBrowser.Client
 {
 	internal class CompositionRoot
 	{
+		private const int FIVE_SECONDS = 5000;
+
 		private Guid authenticationToken;
-		private ClientConfiguration configuration;
 		private ClientContext context;
 		private string logFilePath;
 		private LogLevel logLevel;
@@ -66,8 +64,6 @@ namespace SafeExamBrowser.Client
 
 		private IActionCenter actionCenter;
 		private IApplicationMonitor applicationMonitor;
-		private IBrowserApplication browser;
-		private IClientHost clientHost;
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private INativeMethods nativeMethods;
@@ -85,7 +81,6 @@ namespace SafeExamBrowser.Client
 		{
 			ValidateCommandLineArguments();
 
-			configuration = new ClientConfiguration();
 			logger = new Logger();
 			nativeMethods = new NativeMethods();
 			systemInfo = new SystemInfo();
@@ -109,25 +104,25 @@ namespace SafeExamBrowser.Client
 			var operations = new Queue<IOperation>();
 
 			operations.Enqueue(new I18nOperation(logger, text, textResource));
-			operations.Enqueue(new RuntimeConnectionOperation(logger, runtimeProxy, authenticationToken));
-			operations.Enqueue(new ConfigurationOperation(configuration, context, logger, runtimeProxy));
+			operations.Enqueue(new RuntimeConnectionOperation(context, logger, runtimeProxy, authenticationToken));
+			operations.Enqueue(new ConfigurationOperation(context, logger, runtimeProxy));
 			operations.Enqueue(new DelegateOperation(UpdateAppConfig));
 			operations.Enqueue(new LazyInitializationOperation(BuildClientHostOperation));
-			operations.Enqueue(new LazyInitializationOperation(BuildClientHostDisconnectionOperation));
+			operations.Enqueue(new ClientHostDisconnectionOperation(context, logger, FIVE_SECONDS));
 			operations.Enqueue(new LazyInitializationOperation(BuildKeyboardInterceptorOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildMouseInterceptorOperation));
-			operations.Enqueue(new LazyInitializationOperation(BuildApplicationOperation));
-			operations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, taskbar));
+			operations.Enqueue(new ApplicationOperation(applicationMonitor, context, logger));
+			operations.Enqueue(new DisplayMonitorOperation(context, displayMonitor, logger, taskbar));
 			operations.Enqueue(new LazyInitializationOperation(BuildShellOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildBrowserOperation));
-			operations.Enqueue(new ClipboardOperation(logger, nativeMethods));
-			operations.Enqueue(new DelegateOperation(UpdateClientControllerDependencies));
+			operations.Enqueue(new ClipboardOperation(context, logger, nativeMethods));
 
 			var sequence = new OperationSequence(logger, operations);
 
 			ClientController = new ClientController(
 				actionCenter,
 				applicationMonitor,
+				context,
 				displayMonitor,
 				explorerShell,
 				hashAlgorithm,
@@ -198,57 +193,43 @@ namespace SafeExamBrowser.Client
 			textResource = new XmlTextResource(path);
 		}
 
-		private IOperation BuildApplicationOperation()
-		{
-			return new ApplicationOperation(applicationMonitor, context, logger);
-		}
-
 		private IOperation BuildBrowserOperation()
 		{
 			var moduleLogger = new ModuleLogger(logger, nameof(BrowserApplication));
-			var browser = new BrowserApplication(configuration.AppConfig, configuration.Settings.Browser, messageBox, moduleLogger, text, uiFactory);
+			var browser = new BrowserApplication(context.AppConfig, context.Settings.Browser, messageBox, moduleLogger, text, uiFactory);
 			var browserInfo = new BrowserApplicationInfo();
-			var operation = new BrowserOperation(actionCenter, browser, logger, taskbar, uiFactory);
+			var operation = new BrowserOperation(actionCenter, context, logger, taskbar, uiFactory);
 
-			this.browser = browser;
+			context.Browser = browser;
 
 			return operation;
 		}
 
 		private IOperation BuildClientHostOperation()
 		{
-			const int FIVE_SECONDS = 5000;
 			var processId = Process.GetCurrentProcess().Id;
 			var factory = new HostObjectFactory();
-			var host = new ClientHost(configuration.AppConfig.ClientAddress, factory, new ModuleLogger(logger, nameof(ClientHost)), processId, FIVE_SECONDS);
-			var operation = new CommunicationHostOperation(host, logger);
+			var clientHost = new ClientHost(context.AppConfig.ClientAddress, factory, new ModuleLogger(logger, nameof(ClientHost)), processId, FIVE_SECONDS);
+			var operation = new CommunicationHostOperation(clientHost, logger);
 
-			clientHost = host;
-			clientHost.AuthenticationToken = authenticationToken;
-
-			return operation;
-		}
-
-		private IOperation BuildClientHostDisconnectionOperation()
-		{
-			var timeout_ms = 5000;
-			var operation = new ClientHostDisconnectionOperation(clientHost, logger, timeout_ms);
+			context.ClientHost = clientHost;
+			context.ClientHost.AuthenticationToken = authenticationToken;
 
 			return operation;
 		}
 
 		private IOperation BuildKeyboardInterceptorOperation()
 		{
-			var keyboardInterceptor = new KeyboardInterceptor(configuration.Settings.Keyboard, new ModuleLogger(logger, nameof(KeyboardInterceptor)), nativeMethods);
-			var operation = new KeyboardInterceptorOperation(keyboardInterceptor, logger);
+			var keyboardInterceptor = new KeyboardInterceptor(new ModuleLogger(logger, nameof(KeyboardInterceptor)), nativeMethods, context.Settings.Keyboard);
+			var operation = new KeyboardInterceptorOperation(context, keyboardInterceptor, logger);
 
 			return operation;
 		}
 
 		private IOperation BuildMouseInterceptorOperation()
 		{
-			var mouseInterceptor = new MouseInterceptor(new ModuleLogger(logger, nameof(MouseInterceptor)), configuration.Settings.Mouse, nativeMethods);
-			var operation = new MouseInterceptorOperation(logger, mouseInterceptor);
+			var mouseInterceptor = new MouseInterceptor(new ModuleLogger(logger, nameof(MouseInterceptor)), nativeMethods, context.Settings.Mouse);
+			var operation = new MouseInterceptorOperation(context, logger, mouseInterceptor);
 
 			return operation;
 		}
@@ -256,8 +237,8 @@ namespace SafeExamBrowser.Client
 		private IOperation BuildShellOperation()
 		{
 			var aboutInfo = new AboutNotificationInfo(text);
-			var aboutController = new AboutNotificationController(configuration.AppConfig, uiFactory);
-			var audio = new Audio(configuration.Settings.Audio, new ModuleLogger(logger, nameof(Audio)));
+			var aboutController = new AboutNotificationController(context.AppConfig, uiFactory);
+			var audio = new Audio(context.Settings.Audio, new ModuleLogger(logger, nameof(Audio)));
 			var keyboard = new Keyboard(new ModuleLogger(logger, nameof(Keyboard)));
 			var logInfo = new LogNotificationInfo(text);
 			var logController = new LogNotificationController(logger, uiFactory);
@@ -271,10 +252,10 @@ namespace SafeExamBrowser.Client
 			var operation = new ShellOperation(
 				actionCenter,
 				activators,
-				configuration.Settings.ActionCenter,
 				audio,
 				aboutInfo,
 				aboutController,
+				context,
 				keyboard,
 				logger,
 				logInfo,
@@ -282,7 +263,6 @@ namespace SafeExamBrowser.Client
 				powerSupply,
 				systemInfo,
 				taskbar,
-				configuration.Settings.Taskbar,
 				terminationActivator,
 				text,
 				uiFactory,
@@ -337,15 +317,7 @@ namespace SafeExamBrowser.Client
 
 		private void UpdateAppConfig()
 		{
-			ClientController.AppConfig = configuration.AppConfig;
-		}
-
-		private void UpdateClientControllerDependencies()
-		{
-			ClientController.Browser = browser;
-			ClientController.ClientHost = clientHost;
-			ClientController.SessionId = configuration.SessionId;
-			ClientController.Settings = configuration.Settings;
+			ClientController.UpdateAppConfig();
 		}
 	}
 }

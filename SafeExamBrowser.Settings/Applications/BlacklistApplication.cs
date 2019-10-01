@@ -11,23 +11,23 @@ using System;
 namespace SafeExamBrowser.Settings.Applications
 {
 	/// <summary>
-	/// TODO
+	/// Defines an application which is blacklisted, i.e. not allowed to run during a session.
 	/// </summary>
 	[Serializable]
 	public class BlacklistApplication
 	{
 		/// <summary>
-		/// 
+		/// Specifies whether the application may be automatically terminated when starting a session.
 		/// </summary>
 		public bool AutoTerminate { get; set; }
 
 		/// <summary>
-		/// 
+		/// The name of the main executable of the application.
 		/// </summary>
 		public string ExecutableName { get; set; }
 
 		/// <summary>
-		/// 
+		/// The original file name of the main executable of the application, if available.
 		/// </summary>
 		public string ExecutableOriginalName { get; set; }
 	}

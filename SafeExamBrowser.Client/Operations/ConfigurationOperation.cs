@@ -7,7 +7,6 @@
  */
 
 using SafeExamBrowser.Communication.Contracts.Proxies;
-using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -17,17 +16,14 @@ namespace SafeExamBrowser.Client.Operations
 {
 	internal class ConfigurationOperation : ClientOperation
 	{
-		private ClientConfiguration configuration;
 		private ILogger logger;
 		private IRuntimeProxy runtime;
 
 		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
-		// TODO: Remove and delete ClientConfiguration!
-		public ConfigurationOperation(ClientConfiguration configuration, ClientContext context, ILogger logger, IRuntimeProxy runtime) : base(context)
+		public ConfigurationOperation(ClientContext context, ILogger logger, IRuntimeProxy runtime) : base(context)
 		{
-			this.configuration = configuration;
 			this.logger = logger;
 			this.runtime = runtime;
 		}
@@ -38,19 +34,16 @@ namespace SafeExamBrowser.Client.Operations
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeConfiguration);
 
 			var communication = runtime.GetConfiguration();
-			var config = communication.Value.Configuration;
+			var configuration = communication.Value.Configuration;
 
-			configuration.AppConfig = config.AppConfig;
-			configuration.SessionId = config.SessionId;
-			configuration.Settings = config.Settings;
-
-			Context.AppConfig = config.AppConfig;
-			Context.Settings = config.Settings;
+			Context.AppConfig = configuration.AppConfig;
+			Context.SessionId = configuration.SessionId;
+			Context.Settings = configuration.Settings;
 
 			logger.Info("Successfully retrieved the application configuration from the runtime.");
-			logger.Info($" -> Client-ID: {configuration.AppConfig.ClientId}");
-			logger.Info($" -> Runtime-ID: {configuration.AppConfig.RuntimeId}");
-			logger.Info($" -> Session-ID: {configuration.SessionId}");
+			logger.Info($" -> Client-ID: {Context.AppConfig.ClientId}");
+			logger.Info($" -> Runtime-ID: {Context.AppConfig.RuntimeId}");
+			logger.Info($" -> Session-ID: {Context.SessionId}");
 
 			return OperationResult.Success;
 		}

@@ -22,7 +22,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	[TestClass]
 	public class ConfigurationOperationTests
 	{
-		private ClientConfiguration configuration;
 		private ClientContext context;
 		private Mock<ILogger> logger;
 		private Mock<IRuntimeProxy> runtime;
@@ -31,12 +30,11 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestInitialize]
 		public void Initialize()
 		{
-			configuration = new ClientConfiguration();
 			context = new ClientContext();
 			logger = new Mock<ILogger>();
 			runtime = new Mock<IRuntimeProxy>();
 
-			sut = new ConfigurationOperation(configuration, context, logger.Object, runtime.Object);
+			sut = new ConfigurationOperation(context, logger.Object, runtime.Object);
 		}
 
 		[TestMethod]
@@ -56,9 +54,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			var result = sut.Perform();
 
-			Assert.AreSame(configuration.AppConfig, response.Configuration.AppConfig);
-			Assert.AreEqual(configuration.SessionId, response.Configuration.SessionId);
-			Assert.AreSame(configuration.Settings, response.Configuration.Settings);
+			Assert.AreSame(context.AppConfig, response.Configuration.AppConfig);
+			Assert.AreEqual(context.SessionId, response.Configuration.SessionId);
+			Assert.AreSame(context.Settings, response.Configuration.Settings);
 			Assert.AreEqual(OperationResult.Success, result);
 		}
 

@@ -17,6 +17,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	[TestClass]
 	public class ClipboardOperationTests
 	{
+		private ClientContext context;
 		private Mock<ILogger> loggerMock;
 		private Mock<INativeMethods> nativeMethodsMock;
 
@@ -25,10 +26,11 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestInitialize]
 		public void Initialize()
 		{
+			context = new ClientContext();
 			loggerMock = new Mock<ILogger>();
 			nativeMethodsMock = new Mock<INativeMethods>();
 
-			sut = new ClipboardOperation(loggerMock.Object, nativeMethodsMock.Object);
+			sut = new ClipboardOperation(context, loggerMock.Object, nativeMethodsMock.Object);
 		}
 
 		[TestMethod]

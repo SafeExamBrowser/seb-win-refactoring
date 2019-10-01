@@ -17,6 +17,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	[TestClass]
 	public class KeyboardInterceptorOperationTests
 	{
+		private ClientContext context;
 		private Mock<IKeyboardInterceptor> keyboardInterceptorMock;
 		private Mock<ILogger> loggerMock;
 
@@ -25,10 +26,11 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestInitialize]
 		public void Initialize()
 		{
+			context = new ClientContext();
 			keyboardInterceptorMock = new Mock<IKeyboardInterceptor>();
 			loggerMock = new Mock<ILogger>();
 
-			sut = new KeyboardInterceptorOperation(keyboardInterceptorMock.Object, loggerMock.Object);
+			sut = new KeyboardInterceptorOperation(context, keyboardInterceptorMock.Object, loggerMock.Object);
 		}
 
 		[TestMethod]

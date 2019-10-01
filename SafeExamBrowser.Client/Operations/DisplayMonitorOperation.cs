@@ -15,23 +15,23 @@ using SafeExamBrowser.UserInterface.Contracts.Shell;
 
 namespace SafeExamBrowser.Client.Operations
 {
-	internal class DisplayMonitorOperation : IOperation
+	internal class DisplayMonitorOperation : ClientOperation
 	{
 		private IDisplayMonitor displayMonitor;
 		private ILogger logger;
 		private ITaskbar taskbar;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
-		public event StatusChangedEventHandler StatusChanged;
+		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public override event StatusChangedEventHandler StatusChanged;
 
-		public DisplayMonitorOperation(IDisplayMonitor displayMonitor, ILogger logger, ITaskbar taskbar)
+		public DisplayMonitorOperation(ClientContext context, IDisplayMonitor displayMonitor, ILogger logger, ITaskbar taskbar) : base(context)
 		{
 			this.displayMonitor = displayMonitor;
 			this.logger = logger;
 			this.taskbar = taskbar;
 		}
 
-		public OperationResult Perform()
+		public override OperationResult Perform()
 		{
 			logger.Info("Initializing working area...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeWorkingArea);
@@ -43,7 +43,7 @@ namespace SafeExamBrowser.Client.Operations
 			return OperationResult.Success;
 		}
 
-		public OperationResult Revert()
+		public override OperationResult Revert()
 		{
 			logger.Info("Restoring working area...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_RestoreWorkingArea);

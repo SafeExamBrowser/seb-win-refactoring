@@ -18,6 +18,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	[TestClass]
 	public class DisplayMonitorOperationTests
 	{
+		private ClientContext context;
 		private Mock<IDisplayMonitor> displayMonitorMock;
 		private Mock<ILogger> loggerMock;
 		private Mock<ITaskbar> taskbarMock;
@@ -27,11 +28,12 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestInitialize]
 		public void Initialize()
 		{
-			loggerMock = new Mock<ILogger>();
+			context = new ClientContext();
 			displayMonitorMock = new Mock<IDisplayMonitor>();
+			loggerMock = new Mock<ILogger>();
 			taskbarMock = new Mock<ITaskbar>();
 
-			sut = new DisplayMonitorOperation(displayMonitorMock.Object, loggerMock.Object, taskbarMock.Object);
+			sut = new DisplayMonitorOperation(context, displayMonitorMock.Object, loggerMock.Object, taskbarMock.Object);
 		}
 
 		[TestMethod]

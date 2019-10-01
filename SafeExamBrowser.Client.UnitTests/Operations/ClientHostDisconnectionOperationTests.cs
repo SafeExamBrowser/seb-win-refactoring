@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -22,6 +21,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	public class ClientHostDisconnectionOperationTests
 	{
 		private Mock<IClientHost> clientHost;
+		private ClientContext context;
 		private Mock<ILogger> logger;
 
 		private ClientHostDisconnectionOperation sut;
@@ -30,9 +30,12 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void Initialize()
 		{
 			clientHost = new Mock<IClientHost>();
+			context = new ClientContext();
 			logger = new Mock<ILogger>();
 
-			sut = new ClientHostDisconnectionOperation(clientHost.Object, logger.Object, 0);
+			context.ClientHost = clientHost.Object;
+
+			sut = new ClientHostDisconnectionOperation(context, logger.Object, 0);
 		}
 
 		[TestMethod]
@@ -42,7 +45,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			var before = default(DateTime);
 			var timeout_ms = 200;
 
-			sut = new ClientHostDisconnectionOperation(clientHost.Object, logger.Object, timeout_ms);
+			sut = new ClientHostDisconnectionOperation(context, logger.Object, timeout_ms);
 
 			clientHost.SetupGet(h => h.IsConnected).Returns(true).Callback(() => Task.Delay(10).ContinueWith((_) =>
 			{
@@ -66,7 +69,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			var before = default(DateTime);
 			var timeout_ms = 200;
 
-			sut = new ClientHostDisconnectionOperation(clientHost.Object, logger.Object, timeout_ms);
+			sut = new ClientHostDisconnectionOperation(context, logger.Object, timeout_ms);
 
 			clientHost.SetupGet(h => h.IsConnected).Returns(true);
 

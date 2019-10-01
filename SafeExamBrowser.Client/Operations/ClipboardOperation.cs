@@ -14,28 +14,28 @@ using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Client.Operations
 {
-	internal class ClipboardOperation : IOperation
+	internal class ClipboardOperation : ClientOperation
 	{
 		private ILogger logger;
 		private INativeMethods nativeMethods;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
-		public event StatusChangedEventHandler StatusChanged;
+		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public override event StatusChangedEventHandler StatusChanged;
 
-		public ClipboardOperation(ILogger logger, INativeMethods nativeMethods)
+		public ClipboardOperation(ClientContext context, ILogger logger, INativeMethods nativeMethods) : base(context)
 		{
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;
 		}
 
-		public OperationResult Perform()
+		public override OperationResult Perform()
 		{
 			EmptyClipboard();
 
 			return OperationResult.Success;
 		}
 
-		public OperationResult Revert()
+		public override OperationResult Revert()
 		{
 			EmptyClipboard();
 

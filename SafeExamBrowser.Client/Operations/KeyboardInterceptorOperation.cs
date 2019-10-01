@@ -14,21 +14,21 @@ using SafeExamBrowser.Monitoring.Contracts.Keyboard;
 
 namespace SafeExamBrowser.Client.Operations
 {
-	internal class KeyboardInterceptorOperation : IOperation
+	internal class KeyboardInterceptorOperation : ClientOperation
 	{
 		private IKeyboardInterceptor keyboardInterceptor;
 		private ILogger logger;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
-		public event StatusChangedEventHandler StatusChanged;
+		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public override event StatusChangedEventHandler StatusChanged;
 
-		public KeyboardInterceptorOperation(IKeyboardInterceptor keyboardInterceptor, ILogger logger)
+		public KeyboardInterceptorOperation(ClientContext context, IKeyboardInterceptor keyboardInterceptor, ILogger logger) : base(context)
 		{
 			this.keyboardInterceptor = keyboardInterceptor;
 			this.logger = logger;
 		}
 
-		public OperationResult Perform()
+		public override OperationResult Perform()
 		{
 			logger.Info("Starting keyboard interception...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_StartKeyboardInterception);
@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Client.Operations
 			return OperationResult.Success;
 		}
 
-		public OperationResult Revert()
+		public override OperationResult Revert()
 		{
 			logger.Info("Stopping keyboard interception...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_StopKeyboardInterception);

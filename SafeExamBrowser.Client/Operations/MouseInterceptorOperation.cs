@@ -14,21 +14,21 @@ using SafeExamBrowser.Monitoring.Contracts.Mouse;
 
 namespace SafeExamBrowser.Client.Operations
 {
-	internal class MouseInterceptorOperation : IOperation
+	internal class MouseInterceptorOperation : ClientOperation
 	{
 		private ILogger logger;
 		private IMouseInterceptor mouseInterceptor;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
-		public event StatusChangedEventHandler StatusChanged;
+		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public override event StatusChangedEventHandler StatusChanged;
 
-		public MouseInterceptorOperation(ILogger logger, IMouseInterceptor mouseInterceptor)
+		public MouseInterceptorOperation(ClientContext context, ILogger logger, IMouseInterceptor mouseInterceptor) : base(context)
 		{
 			this.logger = logger;
 			this.mouseInterceptor = mouseInterceptor;
 		}
 
-		public OperationResult Perform()
+		public override OperationResult Perform()
 		{
 			logger.Info("Starting mouse interception...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_StartMouseInterception);
@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Client.Operations
 			return OperationResult.Success;
 		}
 
-		public OperationResult Revert()
+		public override OperationResult Revert()
 		{
 			logger.Info("Stopping mouse interception...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_StopMouseInterception);

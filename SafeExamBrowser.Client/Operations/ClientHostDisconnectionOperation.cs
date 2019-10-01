@@ -8,7 +8,6 @@
 
 using System.Threading;
 using SafeExamBrowser.Communication.Contracts.Events;
-using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -20,43 +19,41 @@ namespace SafeExamBrowser.Client.Operations
 	/// During application shutdown, it could happen that the client stops its communication host before the runtime had the chance to
 	/// disconnect from it. This operation prevents the described race condition by waiting on the runtime to disconnect from the client.
 	/// </summary>
-	internal class ClientHostDisconnectionOperation : IOperation
+	internal class ClientHostDisconnectionOperation : ClientOperation
 	{
-		private IClientHost clientHost;
 		private ILogger logger;
 		private int timeout_ms;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
-		public event StatusChangedEventHandler StatusChanged;
+		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public override event StatusChangedEventHandler StatusChanged;
 
-		public ClientHostDisconnectionOperation(IClientHost clientHost, ILogger logger, int timeout_ms)
+		public ClientHostDisconnectionOperation(ClientContext context, ILogger logger, int timeout_ms) : base(context)
 		{
-			this.clientHost = clientHost;
 			this.logger = logger;
 			this.timeout_ms = timeout_ms;
 		}
 
-		public OperationResult Perform()
+		public override OperationResult Perform()
 		{
 			return OperationResult.Success;
 		}
 
-		public OperationResult Revert()
+		public override OperationResult Revert()
 		{
 			StatusChanged?.Invoke(TextKey.OperationStatus_WaitRuntimeDisconnection);
 
-			if (clientHost.IsConnected)
+			if (Context.ClientHost.IsConnected)
 			{
 				var disconnected = false;
 				var disconnectedEvent = new AutoResetEvent(false);
 				var disconnectedEventHandler = new CommunicationEventHandler(() => disconnectedEvent.Set());
 
-				clientHost.RuntimeDisconnected += disconnectedEventHandler;
+				Context.ClientHost.RuntimeDisconnected += disconnectedEventHandler;
 
 				logger.Info("Waiting for runtime to disconnect from client communication host...");
 				disconnected = disconnectedEvent.WaitOne(timeout_ms);
 
-				clientHost.RuntimeDisconnected -= disconnectedEventHandler;
+				Context.ClientHost.RuntimeDisconnected -= disconnectedEventHandler;
 
 				if (disconnected)
 				{

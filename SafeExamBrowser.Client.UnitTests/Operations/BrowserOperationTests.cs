@@ -8,7 +8,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Applications.Contracts;
+using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -20,7 +20,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	public class BrowserOperationTests
 	{
 		private Mock<IActionCenter> actionCenter;
-		private Mock<IApplication> application;
+		private Mock<IBrowserApplication> browser;
+		private ClientContext context;
 		private Mock<ILogger> logger;
 		private Mock<ITaskbar> taskbar;
 		private Mock<IUserInterfaceFactory> uiFactory;
@@ -31,12 +32,15 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void Initialize()
 		{
 			actionCenter = new Mock<IActionCenter>();
-			application = new Mock<IApplication>();
+			browser = new Mock<IBrowserApplication>();
+			context = new ClientContext();
 			logger = new Mock<ILogger>();
 			taskbar = new Mock<ITaskbar>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
-			sut = new BrowserOperation(actionCenter.Object, application.Object, logger.Object, taskbar.Object, uiFactory.Object);
+			context.Browser = browser.Object;
+
+			sut = new BrowserOperation(actionCenter.Object, context, logger.Object, taskbar.Object, uiFactory.Object);
 		}
 
 		[TestMethod]
@@ -44,7 +48,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			sut.Perform();
 
-			application.Verify(c => c.Initialize(), Times.Once);
+			browser.Verify(c => c.Initialize(), Times.Once);
 			actionCenter.Verify(a => a.AddApplicationControl(It.IsAny<IApplicationControl>()), Times.Once);
 			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>()), Times.Once);
 		}
@@ -53,7 +57,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void MustRevertCorrectly()
 		{
 			sut.Revert();
-			application.Verify(c => c.Terminate(), Times.Once);
+			browser.Verify(c => c.Terminate(), Times.Once);
 		}
 	}
 }

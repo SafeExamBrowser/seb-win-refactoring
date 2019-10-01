@@ -8,7 +8,6 @@
 
 using System.Collections.Generic;
 using SafeExamBrowser.Client.Contracts;
-using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -24,11 +23,10 @@ using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Client.Operations
 {
-	internal class ShellOperation : IOperation
+	internal class ShellOperation : ClientOperation
 	{
 		private IActionCenter actionCenter;
 		private IEnumerable<IActionCenterActivator> activators;
-		private ActionCenterSettings actionCenterSettings;
 		private IAudio audio;
 		private INotificationInfo aboutInfo;
 		private INotificationController aboutController;
@@ -39,22 +37,21 @@ namespace SafeExamBrowser.Client.Operations
 		private IPowerSupply powerSupply;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
-		private TaskbarSettings taskbarSettings;
 		private ITerminationActivator terminationActivator;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		private IWirelessAdapter wirelessAdapter;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
-		public event StatusChangedEventHandler StatusChanged;
+		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public override event StatusChangedEventHandler StatusChanged;
 
 		public ShellOperation(
 			IActionCenter actionCenter,
 			IEnumerable<IActionCenterActivator> activators,
-			ActionCenterSettings actionCenterSettings,
 			IAudio audio,
 			INotificationInfo aboutInfo,
 			INotificationController aboutController,
+			ClientContext context,
 			IKeyboard keyboard,
 			ILogger logger,
 			INotificationInfo logInfo,
@@ -62,17 +59,15 @@ namespace SafeExamBrowser.Client.Operations
 			IPowerSupply powerSupply,
 			ISystemInfo systemInfo,
 			ITaskbar taskbar,
-			TaskbarSettings taskbarSettings,
 			ITerminationActivator terminationActivator,
 			IText text,
 			IUserInterfaceFactory uiFactory,
-			IWirelessAdapter wirelessAdapter)
+			IWirelessAdapter wirelessAdapter) : base(context)
 		{
 			this.aboutInfo = aboutInfo;
 			this.aboutController = aboutController;
 			this.actionCenter = actionCenter;
 			this.activators = activators;
-			this.actionCenterSettings = actionCenterSettings;
 			this.audio = audio;
 			this.keyboard = keyboard;
 			this.logger = logger;
@@ -80,7 +75,6 @@ namespace SafeExamBrowser.Client.Operations
 			this.logController = logController;
 			this.powerSupply = powerSupply;
 			this.systemInfo = systemInfo;
-			this.taskbarSettings = taskbarSettings;
 			this.terminationActivator = terminationActivator;
 			this.text = text;
 			this.taskbar = taskbar;
@@ -88,7 +82,7 @@ namespace SafeExamBrowser.Client.Operations
 			this.wirelessAdapter = wirelessAdapter;
 		}
 
-		public OperationResult Perform()
+		public override OperationResult Perform()
 		{
 			logger.Info("Initializing shell...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeShell);
@@ -101,7 +95,7 @@ namespace SafeExamBrowser.Client.Operations
 			return OperationResult.Success;
 		}
 
-		public OperationResult Revert()
+		public override OperationResult Revert()
 		{
 			logger.Info("Terminating shell...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_TerminateShell);
@@ -117,7 +111,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			terminationActivator.Start();
 
-			if (actionCenterSettings.EnableActionCenter)
+			if (Context.Settings.ActionCenter.EnableActionCenter)
 			{
 				foreach (var activator in activators)
 				{
@@ -129,7 +123,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeActionCenter()
 		{
-			if (actionCenterSettings.EnableActionCenter)
+			if (Context.Settings.ActionCenter.EnableActionCenter)
 			{
 				logger.Info("Initializing action center...");
 				actionCenter.InitializeText(text);
@@ -150,7 +144,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeTaskbar()
 		{
-			if (taskbarSettings.EnableTaskbar)
+			if (Context.Settings.Taskbar.EnableTaskbar)
 			{
 				logger.Info("Initializing taskbar...");
 				taskbar.InitializeText(text);
@@ -179,7 +173,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeAboutNotificationForActionCenter()
 		{
-			if (actionCenterSettings.ShowApplicationInfo)
+			if (Context.Settings.ActionCenter.ShowApplicationInfo)
 			{
 				actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(aboutController, aboutInfo, Location.ActionCenter));
 			}
@@ -187,7 +181,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeAboutNotificationForTaskbar()
 		{
-			if (taskbarSettings.ShowApplicationInfo)
+			if (Context.Settings.Taskbar.ShowApplicationInfo)
 			{
 				taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(aboutController, aboutInfo, Location.Taskbar));
 			}
@@ -195,7 +189,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeAudioForActionCenter()
 		{
-			if (actionCenterSettings.ShowAudio)
+			if (Context.Settings.ActionCenter.ShowAudio)
 			{
 				actionCenter.AddSystemControl(uiFactory.CreateAudioControl(audio, Location.ActionCenter));
 			}
@@ -203,7 +197,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeAudioForTaskbar()
 		{
-			if (taskbarSettings.ShowAudio)
+			if (Context.Settings.Taskbar.ShowAudio)
 			{
 				taskbar.AddSystemControl(uiFactory.CreateAudioControl(audio, Location.Taskbar));
 			}
@@ -211,17 +205,17 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeClockForActionCenter()
 		{
-			actionCenter.ShowClock = actionCenterSettings.ShowClock;
+			actionCenter.ShowClock = Context.Settings.ActionCenter.ShowClock;
 		}
 
 		private void InitializeClockForTaskbar()
 		{
-			taskbar.ShowClock = taskbarSettings.ShowClock;
+			taskbar.ShowClock = Context.Settings.Taskbar.ShowClock;
 		}
 
 		private void InitializeLogNotificationForActionCenter()
 		{
-			if (actionCenterSettings.ShowApplicationLog)
+			if (Context.Settings.ActionCenter.ShowApplicationLog)
 			{
 				actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(logController, logInfo, Location.ActionCenter));
 			}
@@ -229,7 +223,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeLogNotificationForTaskbar()
 		{
-			if (taskbarSettings.ShowApplicationLog)
+			if (Context.Settings.Taskbar.ShowApplicationLog)
 			{
 				taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(logController, logInfo, Location.Taskbar));
 			}
@@ -237,7 +231,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeKeyboardLayoutForActionCenter()
 		{
-			if (actionCenterSettings.ShowKeyboardLayout)
+			if (Context.Settings.ActionCenter.ShowKeyboardLayout)
 			{
 				actionCenter.AddSystemControl(uiFactory.CreateKeyboardLayoutControl(keyboard, Location.ActionCenter));
 			}
@@ -245,7 +239,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeKeyboardLayoutForTaskbar()
 		{
-			if (taskbarSettings.ShowKeyboardLayout)
+			if (Context.Settings.Taskbar.ShowKeyboardLayout)
 			{
 				taskbar.AddSystemControl(uiFactory.CreateKeyboardLayoutControl(keyboard, Location.Taskbar));
 			}
@@ -269,7 +263,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeWirelessNetworkForActionCenter()
 		{
-			if (actionCenterSettings.ShowWirelessNetwork)
+			if (Context.Settings.ActionCenter.ShowWirelessNetwork)
 			{
 				actionCenter.AddSystemControl(uiFactory.CreateWirelessNetworkControl(wirelessAdapter, Location.ActionCenter));
 			}
@@ -277,7 +271,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeWirelessNetworkForTaskbar()
 		{
-			if (taskbarSettings.ShowWirelessNetwork)
+			if (Context.Settings.Taskbar.ShowWirelessNetwork)
 			{
 				taskbar.AddSystemControl(uiFactory.CreateWirelessNetworkControl(wirelessAdapter, Location.Taskbar));
 			}
@@ -287,7 +281,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			terminationActivator.Stop();
 
-			if (actionCenterSettings.EnableActionCenter)
+			if (Context.Settings.ActionCenter.EnableActionCenter)
 			{
 				foreach (var activator in activators)
 				{

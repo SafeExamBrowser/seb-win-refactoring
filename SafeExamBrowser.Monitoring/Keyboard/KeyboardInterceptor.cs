@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 		private INativeMethods nativeMethods;
 		private KeyboardSettings settings;
 
-		public KeyboardInterceptor(KeyboardSettings settings, ILogger logger, INativeMethods nativeMethods)
+		public KeyboardInterceptor(ILogger logger, INativeMethods nativeMethods, KeyboardSettings settings)
 		{
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;

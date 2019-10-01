@@ -40,6 +40,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		private Mock<IApplicationMonitor> applicationMonitor;
 		private Mock<IBrowserApplication> browserController;
 		private Mock<IClientHost> clientHost;
+		private ClientContext context;
 		private Mock<IDisplayMonitor> displayMonitor;
 		private Mock<IExplorerShell> explorerShell;
 		private Mock<IHashAlgorithm> hashAlgorithm;
@@ -65,6 +66,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			applicationMonitor = new Mock<IApplicationMonitor>();
 			browserController = new Mock<IBrowserApplication>();
 			clientHost = new Mock<IClientHost>();
+			context = new ClientContext();
 			displayMonitor = new Mock<IDisplayMonitor>();
 			explorerShell = new Mock<IExplorerShell>();
 			hashAlgorithm = new Mock<IHashAlgorithm>();
@@ -87,6 +89,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			sut = new ClientController(
 				actionCenter.Object,
 				applicationMonitor.Object,
+				context,
 				displayMonitor.Object,
 				explorerShell.Object,
 				hashAlgorithm.Object,
@@ -100,11 +103,11 @@ namespace SafeExamBrowser.Client.UnitTests
 				text.Object,
 				uiFactory.Object);
 
-			sut.AppConfig = appConfig;
-			sut.Browser = browserController.Object;
-			sut.ClientHost = clientHost.Object;
-			sut.SessionId = sessionId;
-			sut.Settings = settings;
+			context.AppConfig = appConfig;
+			context.Browser = browserController.Object;
+			context.ClientHost = clientHost.Object;
+			context.SessionId = sessionId;
+			context.Settings = settings;
 		}
 
 		[TestMethod]
@@ -540,8 +543,8 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Shutdown_MustNotFailIfDependenciesAreNull()
 		{
-			sut.Browser = null;
-			sut.ClientHost = null;
+			context.Browser = null;
+			context.ClientHost = null;
 
 			sut.Terminate();
 		}
@@ -591,7 +594,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			uiFactory.Setup(u => u.CreateSplashScreen(It.IsAny<AppConfig>())).Returns(splashScreen.Object);
 
 			sut.TryStart();
-			sut.AppConfig = appConfig;
+			sut.UpdateAppConfig();
 
 			splashScreen.VerifySet(s => s.AppConfig = appConfig, Times.Once);
 		}

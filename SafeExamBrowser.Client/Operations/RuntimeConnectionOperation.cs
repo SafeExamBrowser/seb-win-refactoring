@@ -15,23 +15,23 @@ using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Client.Operations
 {
-	internal class RuntimeConnectionOperation : IOperation
+	internal class RuntimeConnectionOperation : ClientOperation
 	{
 		private ILogger logger;
 		private IRuntimeProxy runtime;
 		private Guid token;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
-		public event StatusChangedEventHandler StatusChanged;
+		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public override event StatusChangedEventHandler StatusChanged;
 
-		public RuntimeConnectionOperation(ILogger logger, IRuntimeProxy runtime, Guid token)
+		public RuntimeConnectionOperation(ClientContext context, ILogger logger, IRuntimeProxy runtime, Guid token) : base(context)
 		{
 			this.logger = logger;
 			this.runtime = runtime;
 			this.token = token;
 		}
 
-		public OperationResult Perform()
+		public override OperationResult Perform()
 		{
 			logger.Info("Initializing runtime connection...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeRuntimeConnection);
@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Client.Operations
 			return connected ? OperationResult.Success : OperationResult.Failed;
 		}
 
-		public OperationResult Revert()
+		public override OperationResult Revert()
 		{
 			logger.Info("Closing runtime connection...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_CloseRuntimeConnection);
