@@ -10,12 +10,21 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal static class Keys
 	{
+		internal const int WINDOWS = 1;
+
 		internal static class AdditionalResources
 		{
 		}
 
 		internal static class Applications
 		{
+			internal const string ApplicationActive = "active";
+			internal const string ApplicationAutoTerminate = "strongKill";
+			internal const string ApplicationExecutable = "executable";
+			internal const string ApplicationOriginalName = "originalName";
+			internal const string ApplicationOs = "os";
+			internal const string Blacklist = "prohibitedProcesses";
+			internal const string Whitelist = "permittedProcesses";
 		}
 
 		internal static class Audio

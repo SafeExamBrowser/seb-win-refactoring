@@ -8,8 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using SafeExamBrowser.Monitoring.Contracts.Keyboard;
-using SafeExamBrowser.Monitoring.Contracts.Mouse;
 using SafeExamBrowser.WindowsApi.Contracts.Events;
 
 namespace SafeExamBrowser.WindowsApi.Contracts
@@ -20,20 +18,20 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 	public interface INativeMethods
 	{
 		/// <summary>
-		/// Deregisters the system hook for the given keyboard interceptor.
+		/// Deregisters a previously registered keyboard hook.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">
-		/// If the hook for the given interceptor could not be successfully removed.
+		/// If the hook could not be successfully removed.
 		/// </exception>
-		void DeregisterKeyboardHook(IKeyboardInterceptor interceptor);
+		void DeregisterKeyboardHook(Guid hookId);
 
 		/// <summary>
-		/// Deregisters the system hook for the given mouse interceptor.
+		/// Deregisters a previously registered mouse hook.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">
-		/// If the hook for the given interceptor could not be successfully removed.
+		/// If the hook could not be successfully removed.
 		/// </exception>
-		void DeregisterMouseHook(IMouseInterceptor interceptor);
+		void DeregisterMouseHook(Guid hookId);
 
 		/// <summary>
 		/// Deregisters a previously registered system event hook.
@@ -65,14 +63,12 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		uint GetProcessIdFor(IntPtr window);
 
 		/// <summary>
-		/// Retrieves a window handle to the Windows taskbar. Returns <c>IntPtr.Zero</c>
-		/// if the taskbar could not be found (i.e. if it isn't running).
+		/// Retrieves a window handle to the Windows taskbar. Returns <c>IntPtr.Zero</c> if the taskbar could not be found (i.e. if it isn't running).
 		/// </summary>
 		IntPtr GetShellWindowHandle();
 
 		/// <summary>
-		/// Retrieves the process ID of the main Windows explorer instance controlling
-		/// desktop and taskbar or <c>0</c>, if the process isn't running.
+		/// Retrieves the process identifier of the main Windows explorer instance controlling desktop and taskbar or <c>0</c>, if the process isn't running.
 		/// </summary>
 		uint GetShellProcessId();
 
@@ -121,24 +117,24 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		void PreventSleepMode();
 
 		/// <summary>
-		/// Registers a system hook for the given keyboard interceptor.
+		/// Registers a keyboard hook for the given callback. Returns the identifier of the newly registered hook.
 		/// </summary>
-		void RegisterKeyboardHook(IKeyboardInterceptor interceptor);
+		Guid RegisterKeyboardHook(KeyboardHookCallback callback);
 
 		/// <summary>
-		/// Registers a system hook for the given mouse interceptor.
+		/// Registers a mouse hook for the given callback. Returns the identifier of the newly registered hook.
 		/// </summary>
-		void RegisterMouseHook(IMouseInterceptor interceptor);
+		Guid RegisterMouseHook(MouseHookCallback callback);
 
 		/// <summary>
-		/// Registers a system event which will invoke the specified callback when a window has received mouse capture.
-		/// Returns the ID of the newly registered Windows event hook.
+		/// Registers a system event which will invoke the specified callback when a window has received mouse capture. Returns the identifier of
+		/// the newly registered Windows event hook.
 		/// </summary>
 		Guid RegisterSystemCaptureStartEvent(SystemEventCallback callback);
 
 		/// <summary>
-		/// Registers a system event which will invoke the specified callback when the foreground window has changed.
-		/// Returns a handle to the newly registered Windows event hook.
+		/// Registers a system event which will invoke the specified callback when the foreground window has changed. Returns the identifier of the
+		/// newly registered Windows event hook.
 		/// </summary>
 		Guid RegisterSystemForegroundEvent(SystemEventCallback callback);
 
@@ -156,7 +152,7 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		void RestoreWindow(IntPtr window);
 
 		/// <summary>
-		/// Attempts to resume the thread referenced by the given thread ID. Returns <c>true</c> if the thread was successfully resumed,
+		/// Attempts to resume the thread referenced by the given thread identifier. Returns <c>true</c> if the thread was successfully resumed,
 		/// otherwise <c>false</c>.
 		/// </summary>
 		bool ResumeThread(int threadId);
@@ -183,7 +179,7 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		void SetWorkingArea(IBounds bounds);
 
 		/// <summary>
-		/// Attempts to suspend the thread referenced by the given thread ID. Returns <c>true</c> if the thread was successfully suspended,
+		/// Attempts to suspend the thread referenced by the given thread identifier. Returns <c>true</c> if the thread was successfully suspended,
 		/// otherwise <c>false</c>.
 		/// </summary>
 		bool SuspendThread(int threadId);

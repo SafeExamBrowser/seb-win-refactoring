@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private Mock<IRuntimeHost> runtimeHost;
 		private SessionConfiguration session;
 		private SessionContext sessionContext;
-		private ApplicationSettings settings;
+		private AppSettings settings;
 		private ClientOperation sut;
 
 		[TestInitialize]
@@ -53,7 +53,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			runtimeHost = new Mock<IRuntimeHost>();
 			session = new SessionConfiguration();
 			sessionContext = new SessionContext();
-			settings = new ApplicationSettings();
+			settings = new AppSettings();
 			terminated = new Action(() =>
 			{
 				runtimeHost.Raise(h => h.ClientDisconnected += null);

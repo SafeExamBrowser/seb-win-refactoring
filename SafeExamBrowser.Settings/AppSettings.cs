@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Settings.Applications;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.Settings.Monitoring;
@@ -20,7 +21,7 @@ namespace SafeExamBrowser.Settings
 	/// Defines all settings for the application.
 	/// </summary>
 	[Serializable]
-	public class ApplicationSettings
+	public class AppSettings
 	{
 		/// <summary>
 		/// All action center-related settings.
@@ -36,6 +37,11 @@ namespace SafeExamBrowser.Settings
 		/// Determines whether any log information will be accessible via the user interface.
 		/// </summary>
 		public bool AllowApplicationLogAccess { get; set; }
+
+		/// <summary>
+		/// All settings related to third-party applications.
+		/// </summary>
+		public ApplicationSettings Applications { get; set; }
 
 		/// <summary>
 		/// All audio-related settings.
@@ -92,9 +98,10 @@ namespace SafeExamBrowser.Settings
 		/// </summary>
 		public UserInterfaceMode UserInterfaceMode { get; set; }
 
-		public ApplicationSettings()
+		public AppSettings()
 		{
 			ActionCenter = new ActionCenterSettings();
+			Applications = new ApplicationSettings();
 			Audio = new AudioSettings();
 			Browser = new BrowserSettings();
 			Keyboard = new KeyboardSettings();

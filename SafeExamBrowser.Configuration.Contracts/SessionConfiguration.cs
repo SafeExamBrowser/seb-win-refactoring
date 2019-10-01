@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Configuration.Contracts
 {
@@ -16,7 +17,7 @@ namespace SafeExamBrowser.Configuration.Contracts
 	public class SessionConfiguration
 	{
 		/// <summary>
-		/// The active application configuration for this session.
+		/// The application configuration for this session.
 		/// </summary>
 		public AppConfig AppConfig { get; set; }
 
@@ -33,6 +34,6 @@ namespace SafeExamBrowser.Configuration.Contracts
 		/// <summary>
 		/// The settings used for this session.
 		/// </summary>
-		public Settings.ApplicationSettings Settings { get; set; }
+		public AppSettings Settings { get; set; }
 	}
 }

@@ -12,7 +12,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal partial class DataMapper
 	{
-		private void MapEnableAltEsc(ApplicationSettings settings, object value)
+		private void MapEnableAltEsc(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableAltF4(ApplicationSettings settings, object value)
+		private void MapEnableAltF4(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -28,7 +28,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableAltTab(ApplicationSettings settings, object value)
+		private void MapEnableAltTab(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -36,7 +36,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableCtrlEsc(ApplicationSettings settings, object value)
+		private void MapEnableCtrlEsc(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -44,7 +44,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableEsc(ApplicationSettings settings, object value)
+		private void MapEnableEsc(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -52,7 +52,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableF1(ApplicationSettings settings, object value)
+		private void MapEnableF1(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -60,7 +60,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableF2(ApplicationSettings settings, object value)
+		private void MapEnableF2(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -68,7 +68,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableF3(ApplicationSettings settings, object value)
+		private void MapEnableF3(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -76,7 +76,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableF4(ApplicationSettings settings, object value)
+		private void MapEnableF4(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -84,7 +84,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableF5(ApplicationSettings settings, object value)
+		private void MapEnableF5(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -92,7 +92,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableF6(ApplicationSettings settings, object value)
+		private void MapEnableF6(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -100,7 +100,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableF7(ApplicationSettings settings, object value)
+		private void MapEnableF7(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -108,7 +108,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableF8(ApplicationSettings settings, object value)
+		private void MapEnableF8(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -116,7 +116,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableF9(ApplicationSettings settings, object value)
+		private void MapEnableF9(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -124,7 +124,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableF10(ApplicationSettings settings, object value)
+		private void MapEnableF10(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -132,7 +132,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableF11(ApplicationSettings settings, object value)
+		private void MapEnableF11(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -140,7 +140,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableF12(ApplicationSettings settings, object value)
+		private void MapEnableF12(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -148,7 +148,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnablePrintScreen(ApplicationSettings settings, object value)
+		private void MapEnablePrintScreen(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -156,7 +156,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableSystemKey(ApplicationSettings settings, object value)
+		private void MapEnableSystemKey(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
@@ -164,7 +164,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableRightMouse(ApplicationSettings settings, object value)
+		private void MapEnableRightMouse(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{

@@ -6,17 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Monitoring.Contracts.Mouse
+namespace SafeExamBrowser.WindowsApi.Contracts.Events
 {
 	/// <summary>
-	/// The mouse buttons which can be detected by the <see cref="IMouseInterceptor"/>.
+	/// The callback for a keyboard hook. Return <c>true</c> to consume (i.e. block) the user input, otherwise <c>false</c>.
 	/// </summary>
-	public enum MouseButton
-	{
-		Unknown = 0,
-		Auxiliary,
-		Left,
-		Middle,
-		Right
-	}
+	public delegate bool KeyboardHookCallback(int keyCode, KeyModifier modifier, KeyState state);
 }

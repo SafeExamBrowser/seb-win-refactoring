@@ -12,7 +12,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal partial class DataMapper
 	{
-		private void MapConfigurationMode(ApplicationSettings settings, object value)
+		private void MapConfigurationMode(AppSettings settings, object value)
 		{
 			const int CONFIGURE_CLIENT = 1;
 

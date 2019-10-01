@@ -10,6 +10,7 @@ using System;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Client.Contracts
 {
@@ -41,7 +42,7 @@ namespace SafeExamBrowser.Client.Contracts
 		/// <summary>
 		/// The settings to be used during application execution.
 		/// </summary>
-		Settings.ApplicationSettings Settings { set; }
+		AppSettings Settings { set; }
 
 		/// <summary>
 		/// Reverts any changes, releases all used resources and terminates the client.

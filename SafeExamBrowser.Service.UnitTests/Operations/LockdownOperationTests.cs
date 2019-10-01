@@ -27,7 +27,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 		private Mock<IFeatureConfigurationFactory> factory;
 		private Mock<IFeatureConfigurationMonitor> monitor;
 		private Mock<ILogger> logger;
-		private ApplicationSettings settings;
+		private AppSettings settings;
 		private SessionContext sessionContext;
 		private LockdownOperation sut;
 
@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 			factory = new Mock<IFeatureConfigurationFactory>();
 			monitor = new Mock<IFeatureConfigurationMonitor>();
 			logger = new Mock<ILogger>();
-			settings = new ApplicationSettings();
+			settings = new AppSettings();
 			sessionContext = new SessionContext
 			{
 				Configuration = new ServiceConfiguration { Settings = settings, UserName = "TestName", UserSid = "S-1-234-TEST" }

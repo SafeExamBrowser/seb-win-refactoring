@@ -8,8 +8,8 @@
 
 using System;
 using System.Runtime.InteropServices;
-using SafeExamBrowser.Monitoring.Contracts.Mouse;
 using SafeExamBrowser.WindowsApi.Constants;
+using SafeExamBrowser.WindowsApi.Contracts.Events;
 using SafeExamBrowser.WindowsApi.Delegates;
 using SafeExamBrowser.WindowsApi.Types;
 
@@ -17,14 +17,16 @@ namespace SafeExamBrowser.WindowsApi.Hooks
 {
 	internal class MouseHook
 	{
+		private MouseHookCallback callback;
+		private IntPtr handle;
 		private HookDelegate hookDelegate;
 
-		internal IntPtr Handle { get; private set; }
-		internal IMouseInterceptor Interceptor { get; private set; }
+		internal Guid Id { get; private set; }
 
-		internal MouseHook(IMouseInterceptor interceptor)
+		internal MouseHook(MouseHookCallback callback)
 		{
-			Interceptor = interceptor;
+			this.callback = callback;
+			this.Id = Guid.NewGuid();
 		}
 
 		internal void Attach()
@@ -37,13 +39,12 @@ namespace SafeExamBrowser.WindowsApi.Hooks
 			// Ensures that the hook delegate does not get garbage collected prematurely, as it will be passed to unmanaged code.
 			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
 			hookDelegate = new HookDelegate(LowLevelMouseProc);
-
-			Handle = User32.SetWindowsHookEx(HookType.WH_MOUSE_LL, hookDelegate, moduleHandle, 0);
+			handle = User32.SetWindowsHookEx(HookType.WH_MOUSE_LL, hookDelegate, moduleHandle, 0);
 		}
 
 		internal bool Detach()
 		{
-			return User32.UnhookWindowsHookEx(Handle);
+			return User32.UnhookWindowsHookEx(handle);
 		}
 
 		private IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam)
@@ -54,13 +55,13 @@ namespace SafeExamBrowser.WindowsApi.Hooks
 				var button = GetButton(wParam.ToInt32());
 				var state = GetState(wParam.ToInt32());
 
-				if (Interceptor.Block(button, state))
+				if (callback(button, state))
 				{
 					return (IntPtr) 1;
 				}
 			}
 
-			return User32.CallNextHookEx(Handle, nCode, wParam, lParam);
+			return User32.CallNextHookEx(handle, nCode, wParam, lParam);
 		}
 
 		private bool Ignore(int wParam)

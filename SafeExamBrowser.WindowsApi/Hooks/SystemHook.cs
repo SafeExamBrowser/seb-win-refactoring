@@ -8,8 +8,8 @@
 
 using System;
 using System.Threading;
-using SafeExamBrowser.WindowsApi.Contracts.Events;
 using SafeExamBrowser.WindowsApi.Constants;
+using SafeExamBrowser.WindowsApi.Contracts.Events;
 using SafeExamBrowser.WindowsApi.Delegates;
 
 namespace SafeExamBrowser.WindowsApi.Hooks
@@ -21,8 +21,8 @@ namespace SafeExamBrowser.WindowsApi.Hooks
 		private bool detachSuccess;
 		private EventDelegate eventDelegate;
 		private uint eventId;
+		private IntPtr handle;
 
-		internal IntPtr Handle { get; private set; }
 		internal Guid Id { get; private set; }
 
 		public SystemHook(SystemEventCallback callback, uint eventId)
@@ -40,14 +40,13 @@ namespace SafeExamBrowser.WindowsApi.Hooks
 			// Ensures that the hook delegate does not get garbage collected prematurely, as it will be passed to unmanaged code.
 			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
 			eventDelegate = new EventDelegate(LowLevelSystemProc);
-
-			Handle = User32.SetWinEventHook(eventId, eventId, IntPtr.Zero, eventDelegate, 0, 0, Constant.WINEVENT_OUTOFCONTEXT);
+			handle = User32.SetWinEventHook(eventId, eventId, IntPtr.Zero, eventDelegate, 0, 0, Constant.WINEVENT_OUTOFCONTEXT);
 		}
 
 		internal void AwaitDetach()
 		{
 			detachEvent.WaitOne();
-			detachSuccess = User32.UnhookWinEvent(Handle);
+			detachSuccess = User32.UnhookWinEvent(handle);
 			detachResultAvailableEvent.Set();
 		}
 

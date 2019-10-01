@@ -14,8 +14,13 @@ namespace SafeExamBrowser.Monitoring.Contracts.Keyboard
 	public interface IKeyboardInterceptor
 	{
 		/// <summary>
-		/// Returns <c>true</c> if the given key should be blocked, otherwise <c>false</c>. The key code corresponds to a Win32 Virtual-Key.
+		/// Starts intercepting keyboard input.
 		/// </summary>
-		bool Block(int keyCode, KeyModifier modifier, KeyState state);
+		void Start();
+
+		/// <summary>
+		/// Stops intercepting keyboard input.
+		/// </summary>
+		void Stop();
 	}
 }

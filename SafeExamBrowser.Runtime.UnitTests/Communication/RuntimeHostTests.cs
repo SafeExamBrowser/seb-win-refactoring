@@ -171,7 +171,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		public void MustHandleConfigurationRequestCorrectly()
 		{
 			var args = default(ClientConfigurationEventArgs);
-			var configuration = new ClientConfiguration { Settings = new ApplicationSettings { AdminPasswordHash = "12345" } };
+			var configuration = new ClientConfiguration { Settings = new AppSettings { AdminPasswordHash = "12345" } };
 
 			sut.AllowConnection = true;
 			sut.ClientConfigurationNeeded += (a) => { args = a; args.ClientConfiguration = configuration; };

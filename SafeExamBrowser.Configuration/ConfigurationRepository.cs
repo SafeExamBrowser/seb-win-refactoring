@@ -100,7 +100,7 @@ namespace SafeExamBrowser.Configuration
 			return dataValues.InitializeSessionConfiguration();
 		}
 
-		public ApplicationSettings LoadDefaultSettings()
+		public AppSettings LoadDefaultSettings()
 		{
 			return dataValues.LoadDefaultSettings();
 		}
@@ -125,7 +125,7 @@ namespace SafeExamBrowser.Configuration
 			resourceSavers.Add(saver);
 		}
 
-		public LoadStatus TryLoadSettings(Uri resource, out ApplicationSettings settings, PasswordParameters password = null)
+		public LoadStatus TryLoadSettings(Uri resource, out AppSettings settings, PasswordParameters password = null)
 		{
 			logger.Info($"Attempting to load '{resource}'...");
 

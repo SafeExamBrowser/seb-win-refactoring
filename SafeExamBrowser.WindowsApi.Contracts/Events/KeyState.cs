@@ -6,12 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Monitoring.Contracts.Mouse
+namespace SafeExamBrowser.WindowsApi.Contracts.Events
 {
 	/// <summary>
-	/// The mouse button states which can be detected by the <see cref="IMouseInterceptor"/>.
+	/// The key states which can be detected by a keyboard hook.
 	/// </summary>
-	public enum MouseButtonState
+	public enum KeyState
 	{
 		Unknown = 0,
 		Pressed,

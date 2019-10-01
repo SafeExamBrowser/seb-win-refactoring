@@ -42,7 +42,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 			sessionContext.Configuration = new ServiceConfiguration
 			{
 				AppConfig = new AppConfig { ServiceEventName = $"{nameof(SafeExamBrowser)}-{nameof(SessionInitializationOperationTests)}" },
-				Settings = new ApplicationSettings()
+				Settings = new AppSettings()
 			};
 
 			sut = new SessionInitializationOperation(logger.Object, serviceEventFactory.Object, sessionContext);

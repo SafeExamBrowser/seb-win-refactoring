@@ -17,14 +17,13 @@ using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
-using SafeExamBrowser.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Monitoring.Contracts.Display;
-using SafeExamBrowser.Monitoring.Contracts.Processes;
-using SafeExamBrowser.Monitoring.Contracts.Windows;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -36,13 +35,13 @@ namespace SafeExamBrowser.Client
 	internal class ClientController : IClientController
 	{
 		private IActionCenter actionCenter;
+		private IApplicationMonitor applicationMonitor;
 		private IDisplayMonitor displayMonitor;
 		private IExplorerShell explorerShell;
 		private IHashAlgorithm hashAlgorithm;
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private IOperationSequence operations;
-		private IProcessMonitor processMonitor;
 		private IRuntimeProxy runtime;
 		private Action shutdown;
 		private ISplashScreen splashScreen;
@@ -50,13 +49,12 @@ namespace SafeExamBrowser.Client
 		private ITerminationActivator terminationActivator;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
-		private IWindowMonitor windowMonitor;
 		private AppConfig appConfig;
 
 		public IBrowserApplication Browser { private get; set; }
 		public IClientHost ClientHost { private get; set; }
 		public Guid SessionId { private get; set; }
-		public ApplicationSettings Settings { private get; set; }
+		public AppSettings Settings { private get; set; }
 
 		public AppConfig AppConfig
 		{
@@ -73,36 +71,34 @@ namespace SafeExamBrowser.Client
 
 		public ClientController(
 			IActionCenter actionCenter,
+			IApplicationMonitor applicationMonitor,
 			IDisplayMonitor displayMonitor,
 			IExplorerShell explorerShell,
 			IHashAlgorithm hashAlgorithm,
 			ILogger logger,
 			IMessageBox messageBox,
 			IOperationSequence operations,
-			IProcessMonitor processMonitor,
 			IRuntimeProxy runtime,
 			Action shutdown,
 			ITaskbar taskbar,
 			ITerminationActivator terminationActivator,
 			IText text,
-			IUserInterfaceFactory uiFactory,
-			IWindowMonitor windowMonitor)
+			IUserInterfaceFactory uiFactory)
 		{
 			this.actionCenter = actionCenter;
+			this.applicationMonitor = applicationMonitor;
 			this.displayMonitor = displayMonitor;
 			this.explorerShell = explorerShell;
 			this.hashAlgorithm = hashAlgorithm;
 			this.logger = logger;
 			this.messageBox = messageBox;
 			this.operations = operations;
-			this.processMonitor = processMonitor;
 			this.runtime = runtime;
 			this.shutdown = shutdown;
 			this.taskbar = taskbar;
 			this.terminationActivator = terminationActivator;
 			this.text = text;
 			this.uiFactory = uiFactory;
-			this.windowMonitor = windowMonitor;
 		}
 
 		public bool TryStart()
@@ -110,6 +106,7 @@ namespace SafeExamBrowser.Client
 			logger.Info("Initiating startup procedure...");
 
 			splashScreen = uiFactory.CreateSplashScreen();
+			operations.ActionRequired += Operations_ActionRequired;
 			operations.ProgressChanged += Operations_ProgressChanged;
 			operations.StatusChanged += Operations_StatusChanged;
 
@@ -175,28 +172,26 @@ namespace SafeExamBrowser.Client
 		private void RegisterEvents()
 		{
 			actionCenter.QuitButtonClicked += Shell_QuitButtonClicked;
+			applicationMonitor.ExplorerStarted += ApplicationMonitor_ExplorerStarted;
 			Browser.ConfigurationDownloadRequested += Browser_ConfigurationDownloadRequested;
 			ClientHost.MessageBoxRequested += ClientHost_MessageBoxRequested;
 			ClientHost.PasswordRequested += ClientHost_PasswordRequested;
 			ClientHost.ReconfigurationDenied += ClientHost_ReconfigurationDenied;
 			ClientHost.Shutdown += ClientHost_Shutdown;
 			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
-			processMonitor.ExplorerStarted += ProcessMonitor_ExplorerStarted;
 			runtime.ConnectionLost += Runtime_ConnectionLost;
 			taskbar.QuitButtonClicked += Shell_QuitButtonClicked;
 			terminationActivator.Activated += TerminationActivator_Activated;
-			windowMonitor.WindowChanged += WindowMonitor_WindowChanged;
 		}
 
 		private void DeregisterEvents()
 		{
 			actionCenter.QuitButtonClicked -= Shell_QuitButtonClicked;
+			applicationMonitor.ExplorerStarted -= ApplicationMonitor_ExplorerStarted;
 			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
-			processMonitor.ExplorerStarted -= ProcessMonitor_ExplorerStarted;
 			runtime.ConnectionLost -= Runtime_ConnectionLost;
 			taskbar.QuitButtonClicked -= Shell_QuitButtonClicked;
 			terminationActivator.Activated -= TerminationActivator_Activated;
-			windowMonitor.WindowChanged -= WindowMonitor_WindowChanged;
 
 			if (Browser != null)
 			{
@@ -224,6 +219,18 @@ namespace SafeExamBrowser.Client
 		{
 			logger.Info("Starting browser application...");
 			Browser.Start();
+		}
+
+		private void ApplicationMonitor_ExplorerStarted()
+		{
+			logger.Info("Trying to terminate Windows explorer...");
+			explorerShell.Terminate();
+			logger.Info("Reinitializing working area...");
+			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
+			logger.Info("Reinitializing shell...");
+			actionCenter.InitializeBounds();
+			taskbar.InitializeBounds();
+			logger.Info("Desktop successfully restored.");
 		}
 
 		private void Browser_ConfigurationDownloadRequested(string fileName, DownloadEventArgs args)
@@ -339,6 +346,11 @@ namespace SafeExamBrowser.Client
 			logger.Info("Desktop successfully restored.");
 		}
 
+		private void Operations_ActionRequired(ActionRequiredEventArgs args)
+		{
+			// TODO
+		}
+
 		private void Operations_ProgressChanged(ProgressChangedEventArgs args)
 		{
 			if (args.CurrentValue.HasValue)
@@ -372,18 +384,6 @@ namespace SafeExamBrowser.Client
 			splashScreen?.UpdateStatus(status, true);
 		}
 
-		private void ProcessMonitor_ExplorerStarted()
-		{
-			logger.Info("Trying to terminate Windows explorer...");
-			explorerShell.Terminate();
-			logger.Info("Reinitializing working area...");
-			displayMonitor.InitializePrimaryDisplay(taskbar.GetAbsoluteHeight());
-			logger.Info("Reinitializing shell...");
-			actionCenter.InitializeBounds();
-			taskbar.InitializeBounds();
-			logger.Info("Desktop successfully restored.");
-		}
-
 		private void Runtime_ConnectionLost()
 		{
 			logger.Error("Lost connection to the runtime!");
@@ -404,21 +404,6 @@ namespace SafeExamBrowser.Client
 			terminationActivator.Pause();
 			TryInitiateShutdown();
 			terminationActivator.Resume();
-		}
-
-		private void WindowMonitor_WindowChanged(IntPtr window)
-		{
-			var allowed = processMonitor.BelongsToAllowedProcess(window);
-
-			if (!allowed)
-			{
-				var success = windowMonitor.Hide(window);
-
-				if (!success)
-				{
-					windowMonitor.Close(window);
-				}
-			}
 		}
 
 		private bool TryInitiateShutdown()

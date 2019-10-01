@@ -13,10 +13,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal partial class DataMapper
 	{
-		internal void MapRawDataToSettings(IDictionary<string, object> rawData, ApplicationSettings settings)
+		internal void MapRawDataToSettings(IDictionary<string, object> rawData, AppSettings settings)
 		{
 			foreach (var item in rawData)
 			{
+				MapApplicationSettings(item.Key, item.Value, settings);
 				MapAudioSettings(item.Key, item.Value, settings);
 				MapBrowserSettings(item.Key, item.Value, settings);
 				MapConfigurationFileSettings(item.Key, item.Value, settings);
@@ -31,7 +32,20 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			MapUserAgentMode(rawData, settings);
 		}
 
-		private void MapAudioSettings(string key, object value, ApplicationSettings settings)
+		private void MapApplicationSettings(string key, object value, AppSettings settings)
+		{
+			switch (key)
+			{
+				case Keys.Applications.Blacklist:
+					MapApplicationBlacklist(settings, value);
+					break;
+				case Keys.Applications.Whitelist:
+					MapApplicationWhitelist(settings, value);
+					break;
+			}
+		}
+
+		private void MapAudioSettings(string key, object value, AppSettings settings)
 		{
 			switch (key)
 			{
@@ -47,7 +61,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapBrowserSettings(string key, object value, ApplicationSettings settings)
+		private void MapBrowserSettings(string key, object value, AppSettings settings)
 		{
 			switch (key)
 			{
@@ -105,7 +119,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapConfigurationFileSettings(string key, object value, ApplicationSettings settings)
+		private void MapConfigurationFileSettings(string key, object value, AppSettings settings)
 		{
 			switch (key)
 			{
@@ -115,7 +129,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapGeneralSettings(string key, object value, ApplicationSettings settings)
+		private void MapGeneralSettings(string key, object value, AppSettings settings)
 		{
 			switch (key)
 			{
@@ -134,7 +148,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapInputSettings(string key, object value, ApplicationSettings settings)
+		private void MapInputSettings(string key, object value, AppSettings settings)
 		{
 			switch (key)
 			{
@@ -201,7 +215,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapSecuritySettings(string key, object value, ApplicationSettings settings)
+		private void MapSecuritySettings(string key, object value, AppSettings settings)
 		{
 			switch (key)
 			{
@@ -211,7 +225,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapUserInterfaceSettings(string key, object value, ApplicationSettings settings)
+		private void MapUserInterfaceSettings(string key, object value, AppSettings settings)
 		{
 			switch (key)
 			{

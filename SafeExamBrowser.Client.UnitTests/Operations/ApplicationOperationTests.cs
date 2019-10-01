@@ -6,18 +6,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace SafeExamBrowser.Monitoring.Contracts.Keyboard
+namespace SafeExamBrowser.Client.UnitTests.Operations
 {
-	/// <summary>
-	/// The key modifiers which can be detected by the <see cref="IKeyboardInterceptor"/>.
-	/// </summary>
-	[Flags]
-	public enum KeyModifier
+	[TestClass]
+	public class ApplicationOperationTests
 	{
-		None = 0,
-		Alt = 0b1,
-		Ctrl = 0b10
+		[TestMethod]
+		public void TODO()
+		{
+			Assert.Fail();
+		}
 	}
 }

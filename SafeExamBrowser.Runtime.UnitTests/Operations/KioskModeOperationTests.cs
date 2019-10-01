@@ -21,12 +21,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	public class KioskModeOperationTests
 	{
 		private SessionConfiguration currentSession;
-		private ApplicationSettings currentSettings;
+		private AppSettings currentSettings;
 		private Mock<IDesktopFactory> desktopFactory;
 		private Mock<IExplorerShell> explorerShell;
 		private Mock<ILogger> logger;
 		private SessionConfiguration nextSession;
-		private ApplicationSettings nextSettings;
+		private AppSettings nextSettings;
 		private Mock<IProcessFactory> processFactory;
 		private SessionContext sessionContext;
 
@@ -36,12 +36,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void Initialize()
 		{
 			currentSession = new SessionConfiguration();
-			currentSettings = new ApplicationSettings();
+			currentSettings = new AppSettings();
 			desktopFactory = new Mock<IDesktopFactory>();
 			explorerShell = new Mock<IExplorerShell>();
 			logger = new Mock<ILogger>();
 			nextSession = new SessionConfiguration();
-			nextSettings = new ApplicationSettings();
+			nextSettings = new AppSettings();
 			processFactory = new Mock<IProcessFactory>();
 			sessionContext = new SessionContext();
 

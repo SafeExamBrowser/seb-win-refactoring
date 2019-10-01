@@ -11,7 +11,6 @@ using Moq;
 using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Mouse;
-using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
@@ -20,7 +19,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	{
 		private Mock<IMouseInterceptor> mouseInterceptorMock;
 		private Mock<ILogger> loggerMock;
-		private Mock<INativeMethods> nativeMethodsMock;
 
 		private MouseInterceptorOperation sut;
 
@@ -29,9 +27,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			mouseInterceptorMock = new Mock<IMouseInterceptor>();
 			loggerMock = new Mock<ILogger>();
-			nativeMethodsMock = new Mock<INativeMethods>();
 
-			sut = new MouseInterceptorOperation(loggerMock.Object, mouseInterceptorMock.Object, nativeMethodsMock.Object);
+			sut = new MouseInterceptorOperation(loggerMock.Object, mouseInterceptorMock.Object);
 		}
 
 		[TestMethod]
@@ -39,7 +36,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			sut.Perform();
 
-			nativeMethodsMock.Verify(n => n.RegisterMouseHook(It.IsAny<IMouseInterceptor>()), Times.Once);
+			mouseInterceptorMock.Verify(i => i.Start(), Times.Once);
+			mouseInterceptorMock.Verify(i => i.Stop(), Times.Never);
 		}
 
 		[TestMethod]
@@ -47,7 +45,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			sut.Revert();
 
-			nativeMethodsMock.Verify(n => n.DeregisterMouseHook(It.IsAny<IMouseInterceptor>()), Times.Once);
+			mouseInterceptorMock.Verify(i => i.Start(), Times.Never);
+			mouseInterceptorMock.Verify(i => i.Stop(), Times.Once);
 		}
 	}
 }

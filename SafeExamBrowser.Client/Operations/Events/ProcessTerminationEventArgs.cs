@@ -6,12 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
+using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 
-namespace SafeExamBrowser.Monitoring.Contracts.Windows.Events
+namespace SafeExamBrowser.Client.Operations.Events
 {
-	/// <summary>
-	/// Indicates that the input focus has changed to the window with the specified handle.
-	/// </summary>
-	public delegate void WindowChangedEventHandler(IntPtr window);
+	internal class ProcessTerminationEventArgs : ActionRequiredEventArgs
+	{
+		public bool TerminateProcesses { get; set; }
+	}
 }

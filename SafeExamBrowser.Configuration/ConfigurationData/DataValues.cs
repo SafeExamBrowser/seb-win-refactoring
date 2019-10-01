@@ -99,9 +99,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			return configuration;
 		}
 
-		internal ApplicationSettings LoadDefaultSettings()
+		internal AppSettings LoadDefaultSettings()
 		{
-			var settings = new ApplicationSettings();
+			var settings = new AppSettings();
 
 			settings.ActionCenter.EnableActionCenter = true;
 			settings.ActionCenter.ShowApplicationInfo = true;

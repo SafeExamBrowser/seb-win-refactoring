@@ -13,7 +13,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal partial class DataMapper
 	{
-		private void MapApplicationLogButton(ApplicationSettings settings, object value)
+		private void MapApplicationLogButton(AppSettings settings, object value)
 		{
 			if (value is bool show)
 			{
@@ -21,7 +21,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapAudio(ApplicationSettings settings, object value)
+		private void MapAudio(AppSettings settings, object value)
 		{
 			if (value is bool show)
 			{
@@ -30,7 +30,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapClock(ApplicationSettings settings, object value)
+		private void MapClock(AppSettings settings, object value)
 		{
 			if (value is bool show)
 			{
@@ -39,7 +39,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapKeyboardLayout(ApplicationSettings settings, object value)
+		private void MapKeyboardLayout(AppSettings settings, object value)
 		{
 			if (value is bool show)
 			{
@@ -48,7 +48,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapWirelessNetwork(ApplicationSettings settings, object value)
+		private void MapWirelessNetwork(AppSettings settings, object value)
 		{
 			if (value is bool show)
 			{
@@ -57,7 +57,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapUserInterfaceMode(ApplicationSettings settings, object value)
+		private void MapUserInterfaceMode(AppSettings settings, object value)
 		{
 			if (value is bool mobile)
 			{

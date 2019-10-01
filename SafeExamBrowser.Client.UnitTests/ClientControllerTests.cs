@@ -17,14 +17,13 @@ using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
-using SafeExamBrowser.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Monitoring.Contracts.Display;
-using SafeExamBrowser.Monitoring.Contracts.Processes;
-using SafeExamBrowser.Monitoring.Contracts.Windows;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -38,6 +37,7 @@ namespace SafeExamBrowser.Client.UnitTests
 	{
 		private AppConfig appConfig;
 		private Mock<IActionCenter> actionCenter;
+		private Mock<IApplicationMonitor> applicationMonitor;
 		private Mock<IBrowserApplication> browserController;
 		private Mock<IClientHost> clientHost;
 		private Mock<IDisplayMonitor> displayMonitor;
@@ -45,17 +45,15 @@ namespace SafeExamBrowser.Client.UnitTests
 		private Mock<IHashAlgorithm> hashAlgorithm;
 		private Mock<ILogger> logger;
 		private Mock<IMessageBox> messageBox;
-		private Mock<IProcessMonitor> processMonitor;
 		private Mock<IOperationSequence> operationSequence;
 		private Mock<IRuntimeProxy> runtimeProxy;
 		private Guid sessionId;
-		private ApplicationSettings settings;
+		private AppSettings settings;
 		private Mock<Action> shutdown;
 		private Mock<ITaskbar> taskbar;
 		private Mock<ITerminationActivator> terminationActivator;
 		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
-		private Mock<IWindowMonitor> windowMonitor;
 
 		private ClientController sut;
 
@@ -64,6 +62,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		{
 			appConfig = new AppConfig();
 			actionCenter = new Mock<IActionCenter>();
+			applicationMonitor = new Mock<IApplicationMonitor>();
 			browserController = new Mock<IBrowserApplication>();
 			clientHost = new Mock<IClientHost>();
 			displayMonitor = new Mock<IDisplayMonitor>();
@@ -71,17 +70,15 @@ namespace SafeExamBrowser.Client.UnitTests
 			hashAlgorithm = new Mock<IHashAlgorithm>();
 			logger = new Mock<ILogger>();
 			messageBox = new Mock<IMessageBox>();
-			processMonitor = new Mock<IProcessMonitor>();
 			operationSequence = new Mock<IOperationSequence>();
 			runtimeProxy = new Mock<IRuntimeProxy>();
 			sessionId = Guid.NewGuid();
-			settings = new ApplicationSettings();
+			settings = new AppSettings();
 			shutdown = new Mock<Action>();
 			taskbar = new Mock<ITaskbar>();
 			terminationActivator = new Mock<ITerminationActivator>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
-			windowMonitor = new Mock<IWindowMonitor>();
 
 			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
 			runtimeProxy.Setup(r => r.InformClientReady()).Returns(new CommunicationResult(true));
@@ -89,26 +86,49 @@ namespace SafeExamBrowser.Client.UnitTests
 
 			sut = new ClientController(
 				actionCenter.Object,
+				applicationMonitor.Object,
 				displayMonitor.Object,
 				explorerShell.Object,
 				hashAlgorithm.Object,
 				logger.Object,
 				messageBox.Object,
 				operationSequence.Object,
-				processMonitor.Object,
 				runtimeProxy.Object,
 				shutdown.Object,
 				taskbar.Object,
 				terminationActivator.Object,
 				text.Object,
-				uiFactory.Object,
-				windowMonitor.Object);
+				uiFactory.Object);
 
 			sut.AppConfig = appConfig;
 			sut.Browser = browserController.Object;
 			sut.ClientHost = clientHost.Object;
 			sut.SessionId = sessionId;
 			sut.Settings = settings;
+		}
+
+		[TestMethod]
+		public void ApplicationMonitor_MustHandleExplorerStartCorrectly()
+		{
+			var order = 0;
+			var shell = 0;
+			var workingArea = 0;
+			var bounds = 0;
+
+			explorerShell.Setup(e => e.Terminate()).Callback(() => shell = ++order);
+			displayMonitor.Setup(w => w.InitializePrimaryDisplay(taskbar.Object.GetAbsoluteHeight())).Callback(() => workingArea = ++order);
+			taskbar.Setup(t => t.InitializeBounds()).Callback(() => bounds = ++order);
+
+			sut.TryStart();
+			applicationMonitor.Raise(p => p.ExplorerStarted += null);
+
+			explorerShell.Verify(p => p.Terminate(), Times.Once);
+			displayMonitor.Verify(w => w.InitializePrimaryDisplay(taskbar.Object.GetAbsoluteHeight()), Times.Once);
+			taskbar.Verify(t => t.InitializeBounds(), Times.Once);
+
+			Assert.IsTrue(shell == 1);
+			Assert.IsTrue(workingArea == 2);
+			Assert.IsTrue(bounds == 3);
 		}
 
 		[TestMethod]
@@ -263,30 +283,6 @@ namespace SafeExamBrowser.Client.UnitTests
 			operationSequence.Raise(o => o.StatusChanged += null, key);
 
 			splashScreen.Verify(s => s.UpdateStatus(It.Is<TextKey>(k => k == key), It.IsAny<bool>()), Times.Once);
-		}
-
-		[TestMethod]
-		public void ProcessMonitor_MustHandleExplorerStartCorrectly()
-		{
-			var order = 0;
-			var shell = 0;
-			var workingArea = 0;
-			var bounds = 0;
-
-			explorerShell.Setup(e => e.Terminate()).Callback(() => shell = ++order);
-			displayMonitor.Setup(w => w.InitializePrimaryDisplay(taskbar.Object.GetAbsoluteHeight())).Callback(() => workingArea = ++order);
-			taskbar.Setup(t => t.InitializeBounds()).Callback(() => bounds = ++order);
-
-			sut.TryStart();
-			processMonitor.Raise(p => p.ExplorerStarted += null);
-
-			explorerShell.Verify(p => p.Terminate(), Times.Once);
-			displayMonitor.Verify(w => w.InitializePrimaryDisplay(taskbar.Object.GetAbsoluteHeight()), Times.Once);
-			taskbar.Verify(t => t.InitializeBounds(), Times.Once);
-
-			Assert.IsTrue(shell == 1);
-			Assert.IsTrue(workingArea == 2);
-			Assert.IsTrue(bounds == 3);
 		}
 
 		[TestMethod]
@@ -641,68 +637,6 @@ namespace SafeExamBrowser.Client.UnitTests
 			terminationActivator.Verify(t => t.Pause(), Times.Once);
 			terminationActivator.Verify(t => t.Resume(), Times.Once);
 			runtimeProxy.Verify(p => p.RequestShutdown(), Times.Once);
-		}
-
-		[TestMethod]
-		public void WindowMonitor_MustHandleAllowedWindowChangeCorrectly()
-		{
-			var window = new IntPtr(12345);
-
-			processMonitor.Setup(p => p.BelongsToAllowedProcess(window)).Returns(true);
-
-			sut.TryStart();
-			windowMonitor.Raise(w => w.WindowChanged += null, window);
-
-			processMonitor.Verify(p => p.BelongsToAllowedProcess(window), Times.Once);
-			windowMonitor.Verify(w => w.Hide(window), Times.Never);
-			windowMonitor.Verify(w => w.Close(window), Times.Never);
-		}
-
-		[TestMethod]
-		public void WindowMonitor_MustHandleUnallowedWindowHideCorrectly()
-		{
-			var order = 0;
-			var belongs = 0;
-			var hide = 0;
-			var window = new IntPtr(12345);
-
-			processMonitor.Setup(p => p.BelongsToAllowedProcess(window)).Returns(false).Callback(() => belongs = ++order);
-			windowMonitor.Setup(w => w.Hide(window)).Returns(true).Callback(() => hide = ++order);
-
-			sut.TryStart();
-			windowMonitor.Raise(w => w.WindowChanged += null, window);
-
-			processMonitor.Verify(p => p.BelongsToAllowedProcess(window), Times.Once);
-			windowMonitor.Verify(w => w.Hide(window), Times.Once);
-			windowMonitor.Verify(w => w.Close(window), Times.Never);
-
-			Assert.IsTrue(belongs == 1);
-			Assert.IsTrue(hide == 2);
-		}
-
-		[TestMethod]
-		public void WindowMonitor_MustHandleUnallowedWindowCloseCorrectly()
-		{
-			var order = 0;
-			var belongs = 0;
-			var hide = 0;
-			var close = 0;
-			var window = new IntPtr(12345);
-
-			processMonitor.Setup(p => p.BelongsToAllowedProcess(window)).Returns(false).Callback(() => belongs = ++order);
-			windowMonitor.Setup(w => w.Hide(window)).Returns(false).Callback(() => hide = ++order);
-			windowMonitor.Setup(w => w.Close(window)).Callback(() => close = ++order);
-
-			sut.TryStart();
-			windowMonitor.Raise(w => w.WindowChanged += null, window);
-
-			processMonitor.Verify(p => p.BelongsToAllowedProcess(window), Times.Once);
-			windowMonitor.Verify(w => w.Hide(window), Times.Once);
-			windowMonitor.Verify(w => w.Close(window), Times.Once);
-
-			Assert.IsTrue(belongs == 1);
-			Assert.IsTrue(hide == 2);
-			Assert.IsTrue(close == 3);
 		}
 	}
 }

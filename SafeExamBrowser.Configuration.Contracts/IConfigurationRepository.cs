@@ -10,6 +10,7 @@ using System;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Configuration.Contracts.DataFormats;
 using SafeExamBrowser.Configuration.Contracts.DataResources;
+using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Configuration.Contracts
 {
@@ -36,7 +37,7 @@ namespace SafeExamBrowser.Configuration.Contracts
 		/// <summary>
 		/// Loads the default settings.
 		/// </summary>
-		Settings.ApplicationSettings LoadDefaultSettings();
+		AppSettings LoadDefaultSettings();
 
 		/// <summary>
 		/// Registers the specified <see cref="IDataParser"/> to be used to parse configuration data.
@@ -61,6 +62,6 @@ namespace SafeExamBrowser.Configuration.Contracts
 		/// <summary>
 		/// Attempts to load settings from the specified resource.
 		/// </summary>
-		LoadStatus TryLoadSettings(Uri resource, out Settings.ApplicationSettings settings, PasswordParameters password = null);
+		LoadStatus TryLoadSettings(Uri resource, out AppSettings settings, PasswordParameters password = null);
 	}
 }

@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private EventWaitHandle serviceEvent;
 		private SessionConfiguration session;
 		private SessionContext sessionContext;
-		private ApplicationSettings settings;
+		private AppSettings settings;
 		private Mock<IUserInfo> userInfo;
 		private ServiceOperation sut;
 
@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			serviceEvent = new EventWaitHandle(false, EventResetMode.AutoReset, serviceEventName);
 			session = new SessionConfiguration();
 			sessionContext = new SessionContext();
-			settings = new ApplicationSettings();
+			settings = new AppSettings();
 			userInfo = new Mock<IUserInfo>();
 
 			appConfig.ServiceEventName = serviceEventName;

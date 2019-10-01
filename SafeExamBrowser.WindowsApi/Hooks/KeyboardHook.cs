@@ -8,8 +8,8 @@
 
 using System;
 using System.Runtime.InteropServices;
-using SafeExamBrowser.Monitoring.Contracts.Keyboard;
 using SafeExamBrowser.WindowsApi.Constants;
+using SafeExamBrowser.WindowsApi.Contracts.Events;
 using SafeExamBrowser.WindowsApi.Delegates;
 using SafeExamBrowser.WindowsApi.Types;
 
@@ -18,14 +18,16 @@ namespace SafeExamBrowser.WindowsApi.Hooks
 	internal class KeyboardHook
 	{
 		private bool altPressed, ctrlPressed;
+		private KeyboardHookCallback callback;
+		private IntPtr handle;
 		private HookDelegate hookDelegate;
 
-		internal IntPtr Handle { get; private set; }
-		internal IKeyboardInterceptor Interceptor { get; private set; }
+		internal Guid Id { get; private set; }
 
-		internal KeyboardHook(IKeyboardInterceptor interceptor)
+		internal KeyboardHook(KeyboardHookCallback callback)
 		{
-			Interceptor = interceptor;
+			this.callback = callback;
+			this.Id = Guid.NewGuid();
 		}
 
 		internal void Attach()
@@ -38,13 +40,12 @@ namespace SafeExamBrowser.WindowsApi.Hooks
 			// Ensures that the hook delegate does not get garbage collected prematurely, as it will be passed to unmanaged code.
 			// Not doing so will result in a <c>CallbackOnCollectedDelegate</c> error and subsequent application crash!
 			hookDelegate = new HookDelegate(LowLevelKeyboardProc);
-
-			Handle = User32.SetWindowsHookEx(HookType.WH_KEYBOARD_LL, hookDelegate, moduleHandle, 0);
+			handle = User32.SetWindowsHookEx(HookType.WH_KEYBOARD_LL, hookDelegate, moduleHandle, 0);
 		}
 
 		internal bool Detach()
 		{
-			return User32.UnhookWindowsHookEx(Handle);
+			return User32.UnhookWindowsHookEx(handle);
 		}
 
 		private IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam)
@@ -55,13 +56,13 @@ namespace SafeExamBrowser.WindowsApi.Hooks
 				var modifier = GetModifiers(keyData, wParam.ToInt32());
 				var state = GetState(wParam.ToInt32());
 
-				if (Interceptor.Block((int) keyData.KeyCode, modifier, state))
+				if (callback((int) keyData.KeyCode, modifier, state))
 				{
 					return (IntPtr) 1;
 				}
 			}
 
-			return User32.CallNextHookEx(Handle, nCode, wParam, lParam);
+			return User32.CallNextHookEx(handle, nCode, wParam, lParam);
 		}
 
 		private KeyState GetState(int wParam)

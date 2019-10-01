@@ -82,7 +82,7 @@ namespace SafeExamBrowser.Service.UnitTests
 				{
 					AppConfig = new AppConfig { ServiceLogFilePath = "Test.log" },
 					SessionId = Guid.NewGuid(),
-					Settings = new ApplicationSettings { LogLevel = LogLevel.Warning }
+					Settings = new AppSettings { LogLevel = LogLevel.Warning }
 				}
 			};
 

@@ -21,9 +21,9 @@ namespace SafeExamBrowser.Runtime.Operations
 		public abstract event ActionRequiredEventHandler ActionRequired;
 		public abstract event StatusChangedEventHandler StatusChanged;
 
-		public SessionOperation(SessionContext sessionContext)
+		public SessionOperation(SessionContext context)
 		{
-			Context = sessionContext;
+			Context = context;
 		}
 
 		public abstract OperationResult Perform();

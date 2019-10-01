@@ -53,6 +53,9 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Applications\ApplicationSettings.cs" />
+    <Compile Include="Applications\BlacklistApplication.cs" />
+    <Compile Include="Applications\WhitelistApplication.cs" />
     <Compile Include="Browser\BrowserFilterSettings.cs" />
     <Compile Include="Browser\BrowserSettings.cs" />
     <Compile Include="Browser\BrowserWindowSettings.cs" />
@@ -67,11 +70,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ServicePolicy.cs" />
     <Compile Include="Service\ServiceSettings.cs" />
-    <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="AppSettings.cs" />
     <Compile Include="SystemComponents\AudioSettings.cs" />
     <Compile Include="UserInterface\ActionCenterSettings.cs" />
     <Compile Include="UserInterface\TaskbarSettings.cs" />
     <Compile Include="UserInterface\UserInterfaceMode.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -14,8 +14,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using SafeExamBrowser.Monitoring.Contracts.Keyboard;
-using SafeExamBrowser.Monitoring.Contracts.Mouse;
 using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts.Events;
@@ -26,34 +24,34 @@ namespace SafeExamBrowser.WindowsApi
 {
 	public class NativeMethods : INativeMethods
 	{
-		private ConcurrentDictionary<IntPtr, KeyboardHook> KeyboardHooks = new ConcurrentDictionary<IntPtr, KeyboardHook>();
-		private ConcurrentDictionary<IntPtr, MouseHook> MouseHooks = new ConcurrentDictionary<IntPtr, MouseHook>();
-		private ConcurrentDictionary<IntPtr, SystemHook> SystemHooks = new ConcurrentDictionary<IntPtr, SystemHook>();
+		private ConcurrentBag<KeyboardHook> KeyboardHooks = new ConcurrentBag<KeyboardHook>();
+		private ConcurrentBag<MouseHook> MouseHooks = new ConcurrentBag<MouseHook>();
+		private ConcurrentBag<SystemHook> SystemHooks = new ConcurrentBag<SystemHook>();
 
 		/// <summary>
 		/// Upon finalization, unregister all active system events and hooks...
 		/// </summary>
 		~NativeMethods()
 		{
-			foreach (var hook in SystemHooks.Values)
+			foreach (var hook in SystemHooks)
 			{
 				hook.Detach();
 			}
 
-			foreach (var hook in KeyboardHooks.Values)
+			foreach (var hook in KeyboardHooks)
 			{
 				hook.Detach();
 			}
 
-			foreach (var hook in MouseHooks.Values)
+			foreach (var hook in MouseHooks)
 			{
 				hook.Detach();
 			}
 		}
 
-		public void DeregisterKeyboardHook(IKeyboardInterceptor interceptor)
+		public void DeregisterKeyboardHook(Guid hookId)
 		{
-			var hook = KeyboardHooks.Values.FirstOrDefault(h => h.Interceptor == interceptor);
+			var hook = KeyboardHooks.FirstOrDefault(h => h.Id == hookId);
 
 			if (hook != null)
 			{
@@ -64,13 +62,13 @@ namespace SafeExamBrowser.WindowsApi
 					throw new Win32Exception(Marshal.GetLastWin32Error());
 				}
 
-				KeyboardHooks.TryRemove(hook.Handle, out _);
+				KeyboardHooks.TryTake(out _);
 			}
 		}
 
-		public void DeregisterMouseHook(IMouseInterceptor interceptor)
+		public void DeregisterMouseHook(Guid hookId)
 		{
-			var hook = MouseHooks.Values.FirstOrDefault(h => h.Interceptor == interceptor);
+			var hook = MouseHooks.FirstOrDefault(h => h.Id == hookId);
 
 			if (hook != null)
 			{
@@ -81,13 +79,13 @@ namespace SafeExamBrowser.WindowsApi
 					throw new Win32Exception(Marshal.GetLastWin32Error());
 				}
 
-				MouseHooks.TryRemove(hook.Handle, out _);
+				MouseHooks.TryTake(out _);
 			}
 		}
 
 		public void DeregisterSystemEventHook(Guid hookId)
 		{
-			var hook = SystemHooks.Values.FirstOrDefault(h => h.Id == hookId);
+			var hook = SystemHooks.FirstOrDefault(h => h.Id == hookId);
 
 			if (hook != null)
 			{
@@ -98,7 +96,7 @@ namespace SafeExamBrowser.WindowsApi
 					throw new Win32Exception(Marshal.GetLastWin32Error());
 				}
 
-				SystemHooks.TryRemove(hook.Handle, out _);
+				SystemHooks.TryTake(out _);
 			}
 		}
 
@@ -236,16 +234,18 @@ namespace SafeExamBrowser.WindowsApi
 			Kernel32.SetThreadExecutionState(EXECUTION_STATE.CONTINUOUS | EXECUTION_STATE.DISPLAY_REQUIRED | EXECUTION_STATE.SYSTEM_REQUIRED);
 		}
 
-		public void RegisterKeyboardHook(IKeyboardInterceptor interceptor)
+		public Guid RegisterKeyboardHook(KeyboardHookCallback callback)
 		{
+			var hookId = default(Guid);
 			var hookReadyEvent = new AutoResetEvent(false);
 			var hookThread = new Thread(() =>
 			{
-				var hook = new KeyboardHook(interceptor);
+				var hook = new KeyboardHook(callback);
 				var sleepEvent = new AutoResetEvent(false);
 
 				hook.Attach();
-				KeyboardHooks[hook.Handle] = hook;
+				hookId = hook.Id;
+				KeyboardHooks.Add(hook);
 				hookReadyEvent.Set();
 
 				while (true)
@@ -259,18 +259,22 @@ namespace SafeExamBrowser.WindowsApi
 			hookThread.Start();
 
 			hookReadyEvent.WaitOne();
+
+			return hookId;
 		}
 
-		public void RegisterMouseHook(IMouseInterceptor interceptor)
+		public Guid RegisterMouseHook(MouseHookCallback callback)
 		{
+			var hookId = default(Guid);
 			var hookReadyEvent = new AutoResetEvent(false);
 			var hookThread = new Thread(() =>
 			{
-				var hook = new MouseHook(interceptor);
+				var hook = new MouseHook(callback);
 				var sleepEvent = new AutoResetEvent(false);
 
 				hook.Attach();
-				MouseHooks[hook.Handle] = hook;
+				hookId = hook.Id;
+				MouseHooks.Add(hook);
 				hookReadyEvent.Set();
 
 				while (true)
@@ -284,6 +288,8 @@ namespace SafeExamBrowser.WindowsApi
 			hookThread.Start();
 
 			hookReadyEvent.WaitOne();
+
+			return hookId;
 		}
 
 		public Guid RegisterSystemCaptureStartEvent(SystemEventCallback callback)
@@ -306,7 +312,7 @@ namespace SafeExamBrowser.WindowsApi
 
 				hook.Attach();
 				hookId = hook.Id;
-				SystemHooks[hook.Handle] = hook;
+				SystemHooks.Add(hook);
 				hookReadyEvent.Set();
 				hook.AwaitDetach();
 			});

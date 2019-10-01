@@ -53,19 +53,25 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Applications\RunningApplicationInfo.cs" />
     <Compile Include="Display\Events\DisplayChangedEventHandler.cs" />
-    <Compile Include="Processes\Events\ExplorerStartedEventHandler.cs" />
-    <Compile Include="Windows\Events\WindowChangedEventHandler.cs" />
+    <Compile Include="Applications\Events\ExplorerStartedEventHandler.cs" />
     <Compile Include="Display\IDisplayMonitor.cs" />
     <Compile Include="Keyboard\IKeyboardInterceptor.cs" />
-    <Compile Include="Mouse\MouseButtonState.cs" />
     <Compile Include="Mouse\IMouseInterceptor.cs" />
-    <Compile Include="Processes\IProcessMonitor.cs" />
-    <Compile Include="Windows\IWindowMonitor.cs" />
-    <Compile Include="Keyboard\KeyModifier.cs" />
-    <Compile Include="Keyboard\KeyState.cs" />
-    <Compile Include="Mouse\MouseButton.cs" />
+    <Compile Include="Applications\InitializationResult.cs" />
+    <Compile Include="Applications\IApplicationMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SafeExamBrowser.Settings\SafeExamBrowser.Settings.csproj">
+      <Project>{30b2d907-5861-4f39-abad-c4abf1b3470e}</Project>
+      <Name>SafeExamBrowser.Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.WindowsApi.Contracts\SafeExamBrowser.WindowsApi.Contracts.csproj">
+      <Project>{7016f080-9aa5-41b2-a225-385ad877c171}</Project>
+      <Name>SafeExamBrowser.WindowsApi.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

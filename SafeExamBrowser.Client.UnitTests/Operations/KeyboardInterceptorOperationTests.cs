@@ -11,7 +11,6 @@ using Moq;
 using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Keyboard;
-using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
@@ -20,7 +19,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	{
 		private Mock<IKeyboardInterceptor> keyboardInterceptorMock;
 		private Mock<ILogger> loggerMock;
-		private Mock<INativeMethods> nativeMethodsMock;
 
 		private KeyboardInterceptorOperation sut;
 
@@ -29,9 +27,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			keyboardInterceptorMock = new Mock<IKeyboardInterceptor>();
 			loggerMock = new Mock<ILogger>();
-			nativeMethodsMock = new Mock<INativeMethods>();
 
-			sut = new KeyboardInterceptorOperation(keyboardInterceptorMock.Object, loggerMock.Object, nativeMethodsMock.Object);
+			sut = new KeyboardInterceptorOperation(keyboardInterceptorMock.Object, loggerMock.Object);
 		}
 
 		[TestMethod]
@@ -39,7 +36,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			sut.Perform();
 
-			nativeMethodsMock.Verify(n => n.RegisterKeyboardHook(It.IsAny<IKeyboardInterceptor>()), Times.Once);
+			keyboardInterceptorMock.Verify(i => i.Start(), Times.Once);
+			keyboardInterceptorMock.Verify(i => i.Stop(), Times.Never);
 		}
 
 		[TestMethod]
@@ -47,7 +45,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			sut.Revert();
 
-			nativeMethodsMock.Verify(n => n.DeregisterKeyboardHook(It.IsAny<IKeyboardInterceptor>()), Times.Once);
+			keyboardInterceptorMock.Verify(i => i.Start(), Times.Never);
+			keyboardInterceptorMock.Verify(i => i.Stop(), Times.Once);
 		}
 	}
 }

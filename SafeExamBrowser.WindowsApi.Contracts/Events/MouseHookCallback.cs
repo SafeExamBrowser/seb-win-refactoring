@@ -6,10 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Monitoring.Contracts.Processes.Events
+namespace SafeExamBrowser.WindowsApi.Contracts.Events
 {
 	/// <summary>
-	/// Indicates that the Windows explorer process has started.
+	/// The callback for a mouse hook. Return <c>true</c> to consume (i.e. block) the user input, otherwise <c>false</c>.
 	/// </summary>
-	public delegate void ExplorerStartedEventHandler();
+	public delegate bool MouseHookCallback(MouseButton button, MouseButtonState state);
 }

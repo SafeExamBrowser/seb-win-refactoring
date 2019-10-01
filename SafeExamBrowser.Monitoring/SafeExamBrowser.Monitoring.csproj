@@ -60,9 +60,8 @@
     <Compile Include="Display\DisplayMonitor.cs" />
     <Compile Include="Keyboard\KeyboardInterceptor.cs" />
     <Compile Include="Mouse\MouseInterceptor.cs" />
-    <Compile Include="Processes\ProcessMonitor.cs" />
+    <Compile Include="Applications\ApplicationMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Windows\WindowMonitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">

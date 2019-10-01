@@ -71,9 +71,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="ClientContext.cs" />
     <Compile Include="ClientController.cs" />
     <Compile Include="Operations\ClientHostDisconnectionOperation.cs" />
+    <Compile Include="Operations\ClientOperation.cs" />
     <Compile Include="Operations\ConfigurationOperation.cs" />
+    <Compile Include="Operations\Events\ProcessTerminationEventArgs.cs" />
     <Compile Include="Operations\RuntimeConnectionOperation.cs" />
     <Compile Include="Communication\ClientHost.cs" />
     <Compile Include="CompositionRoot.cs" />
@@ -88,9 +91,8 @@
     <Compile Include="Operations\DisplayMonitorOperation.cs" />
     <Compile Include="Operations\KeyboardInterceptorOperation.cs" />
     <Compile Include="Operations\MouseInterceptorOperation.cs" />
-    <Compile Include="Operations\ProcessMonitorOperation.cs" />
+    <Compile Include="Operations\ApplicationOperation.cs" />
     <Compile Include="Operations\ShellOperation.cs" />
-    <Compile Include="Operations\WindowMonitorOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -220,6 +222,7 @@
   <ItemGroup>
     <Resource Include="SafeExamBrowser.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>robocopy "$(SolutionDir)SafeExamBrowser.Browser\bin\$(PlatformName)\$(ConfigurationName)" "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)" /e /np

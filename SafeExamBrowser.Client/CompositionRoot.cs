@@ -23,7 +23,6 @@ using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.Configuration.Cryptography;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.OperationModel;
@@ -32,13 +31,13 @@ using SafeExamBrowser.I18n;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Monitoring.Contracts.Processes;
-using SafeExamBrowser.Monitoring.Contracts.Windows;
+using SafeExamBrowser.Monitoring.Applications;
+using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Monitoring.Display;
 using SafeExamBrowser.Monitoring.Keyboard;
 using SafeExamBrowser.Monitoring.Mouse;
-using SafeExamBrowser.Monitoring.Processes;
-using SafeExamBrowser.Monitoring.Windows;
+using SafeExamBrowser.Settings.Logging;
+using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.SystemComponents;
 using SafeExamBrowser.SystemComponents.Audio;
 using SafeExamBrowser.SystemComponents.Contracts;
@@ -52,7 +51,6 @@ using SafeExamBrowser.WindowsApi;
 using SafeExamBrowser.WindowsApi.Contracts;
 using Desktop = SafeExamBrowser.UserInterface.Desktop;
 using Mobile = SafeExamBrowser.UserInterface.Mobile;
-using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.Client
 {
@@ -60,17 +58,18 @@ namespace SafeExamBrowser.Client
 	{
 		private Guid authenticationToken;
 		private ClientConfiguration configuration;
+		private ClientContext context;
 		private string logFilePath;
 		private LogLevel logLevel;
 		private string runtimeHostUri;
 		private UserInterfaceMode uiMode;
 
 		private IActionCenter actionCenter;
+		private IApplicationMonitor applicationMonitor;
 		private IBrowserApplication browser;
 		private IClientHost clientHost;
 		private ILogger logger;
 		private IMessageBox messageBox;
-		private IProcessMonitor processMonitor;
 		private INativeMethods nativeMethods;
 		private IRuntimeProxy runtimeProxy;
 		private ISystemInfo systemInfo;
@@ -79,7 +78,6 @@ namespace SafeExamBrowser.Client
 		private IText text;
 		private ITextResource textResource;
 		private IUserInterfaceFactory uiFactory;
-		private IWindowMonitor windowMonitor;
 
 		internal IClientController ClientController { get; private set; }
 
@@ -96,13 +94,13 @@ namespace SafeExamBrowser.Client
 			InitializeText();
 
 			actionCenter = BuildActionCenter();
+			applicationMonitor = new ApplicationMonitor(new ModuleLogger(logger, nameof(ApplicationMonitor)), nativeMethods);
+			context = new ClientContext();
 			messageBox = BuildMessageBox();
-			processMonitor = new ProcessMonitor(new ModuleLogger(logger, nameof(ProcessMonitor)), nativeMethods);
 			uiFactory = BuildUserInterfaceFactory();
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(RuntimeProxy)), Interlocutor.Client);
 			taskbar = BuildTaskbar();
 			terminationActivator = new TerminationActivator(new ModuleLogger(logger, nameof(TerminationActivator)));
-			windowMonitor = new WindowMonitor(new ModuleLogger(logger, nameof(WindowMonitor)), nativeMethods);
 
 			var displayMonitor = new DisplayMonitor(new ModuleLogger(logger, nameof(DisplayMonitor)), nativeMethods, systemInfo);
 			var explorerShell = new ExplorerShell(new ModuleLogger(logger, nameof(ExplorerShell)), nativeMethods);
@@ -112,14 +110,13 @@ namespace SafeExamBrowser.Client
 
 			operations.Enqueue(new I18nOperation(logger, text, textResource));
 			operations.Enqueue(new RuntimeConnectionOperation(logger, runtimeProxy, authenticationToken));
-			operations.Enqueue(new ConfigurationOperation(configuration, logger, runtimeProxy));
+			operations.Enqueue(new ConfigurationOperation(configuration, context, logger, runtimeProxy));
 			operations.Enqueue(new DelegateOperation(UpdateAppConfig));
 			operations.Enqueue(new LazyInitializationOperation(BuildClientHostOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildClientHostDisconnectionOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildKeyboardInterceptorOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildMouseInterceptorOperation));
-			operations.Enqueue(new LazyInitializationOperation(BuildWindowMonitorOperation));
-			operations.Enqueue(new LazyInitializationOperation(BuildProcessMonitorOperation));
+			operations.Enqueue(new LazyInitializationOperation(BuildApplicationOperation));
 			operations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, taskbar));
 			operations.Enqueue(new LazyInitializationOperation(BuildShellOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildBrowserOperation));
@@ -130,20 +127,19 @@ namespace SafeExamBrowser.Client
 
 			ClientController = new ClientController(
 				actionCenter,
+				applicationMonitor,
 				displayMonitor,
 				explorerShell,
 				hashAlgorithm,
 				logger,
 				messageBox,
 				sequence,
-				processMonitor,
 				runtimeProxy,
 				shutdown,
 				taskbar,
 				terminationActivator,
 				text,
-				uiFactory,
-				windowMonitor);
+				uiFactory);
 		}
 
 		internal void LogStartupInformation()
@@ -202,6 +198,11 @@ namespace SafeExamBrowser.Client
 			textResource = new XmlTextResource(path);
 		}
 
+		private IOperation BuildApplicationOperation()
+		{
+			return new ApplicationOperation(applicationMonitor, context, logger);
+		}
+
 		private IOperation BuildBrowserOperation()
 		{
 			var moduleLogger = new ModuleLogger(logger, nameof(BrowserApplication));
@@ -238,23 +239,18 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildKeyboardInterceptorOperation()
 		{
-			var keyboardInterceptor = new KeyboardInterceptor(configuration.Settings.Keyboard, new ModuleLogger(logger, nameof(KeyboardInterceptor)));
-			var operation = new KeyboardInterceptorOperation(keyboardInterceptor, logger, nativeMethods);
+			var keyboardInterceptor = new KeyboardInterceptor(configuration.Settings.Keyboard, new ModuleLogger(logger, nameof(KeyboardInterceptor)), nativeMethods);
+			var operation = new KeyboardInterceptorOperation(keyboardInterceptor, logger);
 
 			return operation;
 		}
 
 		private IOperation BuildMouseInterceptorOperation()
 		{
-			var mouseInterceptor = new MouseInterceptor(new ModuleLogger(logger, nameof(MouseInterceptor)), configuration.Settings.Mouse);
-			var operation = new MouseInterceptorOperation(logger, mouseInterceptor, nativeMethods);
+			var mouseInterceptor = new MouseInterceptor(new ModuleLogger(logger, nameof(MouseInterceptor)), configuration.Settings.Mouse, nativeMethods);
+			var operation = new MouseInterceptorOperation(logger, mouseInterceptor);
 
 			return operation;
-		}
-
-		private IOperation BuildProcessMonitorOperation()
-		{
-			return new ProcessMonitorOperation(logger, processMonitor, configuration.Settings);
 		}
 
 		private IOperation BuildShellOperation()
@@ -293,11 +289,6 @@ namespace SafeExamBrowser.Client
 				wirelessAdapter);
 
 			return operation;
-		}
-
-		private IOperation BuildWindowMonitorOperation()
-		{
-			return new WindowMonitorOperation(configuration.Settings.KioskMode, logger, windowMonitor);
 		}
 
 		private IActionCenter BuildActionCenter()

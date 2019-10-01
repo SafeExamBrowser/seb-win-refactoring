@@ -36,11 +36,11 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		private Mock<IProcess> clientProcess;
 		private Mock<IClientProxy> clientProxy;
 		private SessionConfiguration currentSession;
-		private ApplicationSettings currentSettings;
+		private AppSettings currentSettings;
 		private Mock<ILogger> logger;
 		private Mock<IMessageBox> messageBox;
 		private SessionConfiguration nextSession;
-		private ApplicationSettings nextSettings;
+		private AppSettings nextSettings;
 		private Mock<Action> shutdown;
 		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
@@ -58,11 +58,11 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			clientProcess = new Mock<IProcess>();
 			clientProxy = new Mock<IClientProxy>();
 			currentSession = new SessionConfiguration();
-			currentSettings = new ApplicationSettings();
+			currentSettings = new AppSettings();
 			logger = new Mock<ILogger>();
 			messageBox = new Mock<IMessageBox>();
 			nextSession = new SessionConfiguration();
-			nextSettings = new ApplicationSettings();
+			nextSettings = new AppSettings();
 			runtimeHost = new Mock<IRuntimeHost>();
 			service = new Mock<IServiceProxy>();
 			sessionContext = new SessionContext();
@@ -134,7 +134,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			var args = new ClientConfigurationEventArgs();
 			var nextAppConfig = new AppConfig();
 			var nextSessionId = Guid.NewGuid();
-			var nextSettings = new ApplicationSettings();
+			var nextSettings = new AppSettings();
 
 			nextSession.AppConfig = nextAppConfig;
 			nextSession.SessionId = nextSessionId;

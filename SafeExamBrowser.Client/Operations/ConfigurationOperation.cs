@@ -15,23 +15,24 @@ using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Client.Operations
 {
-	internal class ConfigurationOperation : IOperation
+	internal class ConfigurationOperation : ClientOperation
 	{
 		private ClientConfiguration configuration;
 		private ILogger logger;
 		private IRuntimeProxy runtime;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
-		public event StatusChangedEventHandler StatusChanged;
+		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+		public override event StatusChangedEventHandler StatusChanged;
 
-		public ConfigurationOperation(ClientConfiguration configuration, ILogger logger, IRuntimeProxy runtime)
+		// TODO: Remove and delete ClientConfiguration!
+		public ConfigurationOperation(ClientConfiguration configuration, ClientContext context, ILogger logger, IRuntimeProxy runtime) : base(context)
 		{
 			this.configuration = configuration;
 			this.logger = logger;
 			this.runtime = runtime;
 		}
 
-		public OperationResult Perform()
+		public override OperationResult Perform()
 		{
 			logger.Info("Initializing application configuration...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeConfiguration);
@@ -43,6 +44,9 @@ namespace SafeExamBrowser.Client.Operations
 			configuration.SessionId = config.SessionId;
 			configuration.Settings = config.Settings;
 
+			Context.AppConfig = config.AppConfig;
+			Context.Settings = config.Settings;
+
 			logger.Info("Successfully retrieved the application configuration from the runtime.");
 			logger.Info($" -> Client-ID: {configuration.AppConfig.ClientId}");
 			logger.Info($" -> Runtime-ID: {configuration.AppConfig.RuntimeId}");
@@ -51,7 +55,7 @@ namespace SafeExamBrowser.Client.Operations
 			return OperationResult.Success;
 		}
 
-		public OperationResult Revert()
+		public override OperationResult Revert()
 		{
 			return OperationResult.Success;
 		}

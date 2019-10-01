@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Configuration.Contracts
 {
@@ -29,7 +30,7 @@ namespace SafeExamBrowser.Configuration.Contracts
 		/// <summary>
 		/// The application settings to be used by the service.
 		/// </summary>
-		public Settings.ApplicationSettings Settings { get; set; }
+		public AppSettings Settings { get; set; }
 
 		/// <summary>
 		/// The user name of the currently logged in user.

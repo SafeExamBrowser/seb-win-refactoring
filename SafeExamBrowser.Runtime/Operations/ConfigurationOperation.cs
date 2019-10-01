@@ -107,7 +107,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var currentPassword = default(string);
 			var passwordParams = default(PasswordParameters);
-			var settings = default(ApplicationSettings);
+			var settings = default(AppSettings);
 			var status = default(LoadStatus?);
 
 			if (source == UriSource.CommandLine)
@@ -161,7 +161,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			}
 		}
 
-		private OperationResult DetermineLoadResult(Uri uri, UriSource source, ApplicationSettings settings, LoadStatus status, PasswordParameters passwordParams, string currentPassword = default(string))
+		private OperationResult DetermineLoadResult(Uri uri, UriSource source, AppSettings settings, LoadStatus status, PasswordParameters passwordParams, string currentPassword = default(string))
 		{
 			if (status == LoadStatus.LoadWithBrowser || status == LoadStatus.Success)
 			{
@@ -218,7 +218,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			return OperationResult.Failed;
 		}
 
-		private LoadStatus? TryLoadSettings(Uri uri, UriSource source, out PasswordParameters passwordParams, out ApplicationSettings settings, string currentPassword = default(string))
+		private LoadStatus? TryLoadSettings(Uri uri, UriSource source, out PasswordParameters passwordParams, out AppSettings settings, string currentPassword = default(string))
 		{
 			passwordParams = new PasswordParameters { Password = string.Empty, IsHash = true };
 

@@ -14,7 +14,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal partial class DataMapper
 	{
-		private void MapKioskMode(IDictionary<string, object> rawData, ApplicationSettings settings)
+		private void MapKioskMode(IDictionary<string, object> rawData, AppSettings settings)
 		{
 			var hasCreateNewDesktop = rawData.TryGetValue(Keys.Security.KioskModeCreateNewDesktop, out var createNewDesktop);
 			var hasDisableExplorerShell = rawData.TryGetValue(Keys.Security.KioskModeDisableExplorerShell, out var disableExplorerShell);
@@ -35,7 +35,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapServicePolicy(ApplicationSettings settings, object value)
+		private void MapServicePolicy(AppSettings settings, object value)
 		{
 			const int WARN = 1;
 			const int FORCE = 2;

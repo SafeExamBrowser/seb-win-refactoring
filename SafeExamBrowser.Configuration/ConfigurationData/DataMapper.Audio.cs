@@ -12,7 +12,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal partial class DataMapper
 	{
-		private void MapInitialVolumeLevel(ApplicationSettings settings, object value)
+		private void MapInitialVolumeLevel(AppSettings settings, object value)
 		{
 			if (value is int volume)
 			{
@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapMuteAudio(ApplicationSettings settings, object value)
+		private void MapMuteAudio(AppSettings settings, object value)
 		{
 			if (value is bool mute)
 			{
@@ -28,7 +28,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapSetInitialVolumeLevel(ApplicationSettings settings, object value)
+		private void MapSetInitialVolumeLevel(AppSettings settings, object value)
 		{
 			if (value is bool initialize)
 			{

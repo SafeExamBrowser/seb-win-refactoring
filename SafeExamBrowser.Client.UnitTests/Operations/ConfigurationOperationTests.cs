@@ -13,9 +13,9 @@ using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
@@ -23,6 +23,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	public class ConfigurationOperationTests
 	{
 		private ClientConfiguration configuration;
+		private ClientContext context;
 		private Mock<ILogger> logger;
 		private Mock<IRuntimeProxy> runtime;
 		private ConfigurationOperation sut;
@@ -31,10 +32,11 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void Initialize()
 		{
 			configuration = new ClientConfiguration();
+			context = new ClientContext();
 			logger = new Mock<ILogger>();
 			runtime = new Mock<IRuntimeProxy>();
 
-			sut = new ConfigurationOperation(configuration, logger.Object, runtime.Object);
+			sut = new ConfigurationOperation(configuration, context, logger.Object, runtime.Object);
 		}
 
 		[TestMethod]
@@ -46,7 +48,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 				{
 					AppConfig = new AppConfig(),
 					SessionId = Guid.NewGuid(),
-					Settings = new ApplicationSettings()
+					Settings = new AppSettings()
 				}
 			};
 

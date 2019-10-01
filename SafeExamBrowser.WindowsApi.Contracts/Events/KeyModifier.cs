@@ -6,15 +6,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Monitoring.Contracts.Keyboard
+using System;
+
+namespace SafeExamBrowser.WindowsApi.Contracts.Events
 {
 	/// <summary>
-	/// The key states which can be detected by the <see cref="IKeyboardInterceptor"/>.
+	/// The key modifiers which can be detected by a keyboard hook.
 	/// </summary>
-	public enum KeyState
+	[Flags]
+	public enum KeyModifier
 	{
-		Unknown = 0,
-		Pressed,
-		Released
+		None = 0,
+		Alt = 0b1,
+		Ctrl = 0b10
 	}
 }

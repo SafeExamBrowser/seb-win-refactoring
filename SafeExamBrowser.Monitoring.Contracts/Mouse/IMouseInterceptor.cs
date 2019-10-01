@@ -14,8 +14,13 @@ namespace SafeExamBrowser.Monitoring.Contracts.Mouse
 	public interface IMouseInterceptor
 	{
 		/// <summary>
-		/// Returns <c>true</c> if the given button should be blocked, otherwise <c>false</c>.
+		/// Starts intercepting mouse input.
 		/// </summary>
-		bool Block(MouseButton button, MouseButtonState state);
+		void Start();
+
+		/// <summary>
+		/// Stops intercepting mouse input.
+		/// </summary>
+		void Stop();
 	}
 }

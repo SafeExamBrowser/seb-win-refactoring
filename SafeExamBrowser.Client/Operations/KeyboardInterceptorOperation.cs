@@ -11,7 +11,6 @@ using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Keyboard;
-using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Client.Operations
 {
@@ -19,19 +18,14 @@ namespace SafeExamBrowser.Client.Operations
 	{
 		private IKeyboardInterceptor keyboardInterceptor;
 		private ILogger logger;
-		private INativeMethods nativeMethods;
 
 		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged;
 
-		public KeyboardInterceptorOperation(
-			IKeyboardInterceptor keyboardInterceptor,
-			ILogger logger,
-			INativeMethods nativeMethods)
+		public KeyboardInterceptorOperation(IKeyboardInterceptor keyboardInterceptor, ILogger logger)
 		{
 			this.keyboardInterceptor = keyboardInterceptor;
 			this.logger = logger;
-			this.nativeMethods = nativeMethods;
 		}
 
 		public OperationResult Perform()
@@ -39,7 +33,7 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Starting keyboard interception...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_StartKeyboardInterception);
 
-			nativeMethods.RegisterKeyboardHook(keyboardInterceptor);
+			keyboardInterceptor.Start();
 
 			return OperationResult.Success;
 		}
@@ -49,7 +43,7 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Stopping keyboard interception...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_StopKeyboardInterception);
 
-			nativeMethods.DeregisterKeyboardHook(keyboardInterceptor);
+			keyboardInterceptor.Stop();
 
 			return OperationResult.Success;
 		}

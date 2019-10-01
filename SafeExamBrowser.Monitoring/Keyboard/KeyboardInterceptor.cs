@@ -9,24 +9,42 @@
 using System;
 using System.Linq;
 using System.Windows.Input;
-using SafeExamBrowser.Settings.Monitoring;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Keyboard;
+using SafeExamBrowser.Settings.Monitoring;
+using SafeExamBrowser.WindowsApi.Contracts;
+using SafeExamBrowser.WindowsApi.Contracts.Events;
 
 namespace SafeExamBrowser.Monitoring.Keyboard
 {
 	public class KeyboardInterceptor : IKeyboardInterceptor
 	{
-		private KeyboardSettings settings;
+		private Guid? hookId;
 		private ILogger logger;
+		private INativeMethods nativeMethods;
+		private KeyboardSettings settings;
 
-		public KeyboardInterceptor(KeyboardSettings settings, ILogger logger)
+		public KeyboardInterceptor(KeyboardSettings settings, ILogger logger, INativeMethods nativeMethods)
 		{
 			this.logger = logger;
+			this.nativeMethods = nativeMethods;
 			this.settings = settings;
 		}
 
-		public bool Block(int keyCode, KeyModifier modifier, KeyState state)
+		public void Start()
+		{
+			hookId = nativeMethods.RegisterKeyboardHook(KeyboardHookCallback);
+		}
+
+		public void Stop()
+		{
+			if (hookId.HasValue)
+			{
+				nativeMethods.DeregisterKeyboardHook(hookId.Value);
+			}
+		}
+
+		private bool KeyboardHookCallback(int keyCode, KeyModifier modifier, KeyState state)
 		{
 			var block = false;
 			var key = KeyInterop.KeyFromVirtualKey(keyCode);

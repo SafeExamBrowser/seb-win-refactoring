@@ -11,7 +11,6 @@ using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Mouse;
-using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Client.Operations
 {
@@ -19,19 +18,14 @@ namespace SafeExamBrowser.Client.Operations
 	{
 		private ILogger logger;
 		private IMouseInterceptor mouseInterceptor;
-		private INativeMethods nativeMethods;
 
 		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged;
 
-		public MouseInterceptorOperation(
-			ILogger logger,
-			IMouseInterceptor mouseInterceptor,
-			INativeMethods nativeMethods)
+		public MouseInterceptorOperation(ILogger logger, IMouseInterceptor mouseInterceptor)
 		{
 			this.logger = logger;
 			this.mouseInterceptor = mouseInterceptor;
-			this.nativeMethods = nativeMethods;
 		}
 
 		public OperationResult Perform()
@@ -39,7 +33,7 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Starting mouse interception...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_StartMouseInterception);
 
-			nativeMethods.RegisterMouseHook(mouseInterceptor);
+			mouseInterceptor.Start();
 
 			return OperationResult.Success;
 		}
@@ -49,7 +43,7 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Stopping mouse interception...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_StopMouseInterception);
 
-			nativeMethods.DeregisterMouseHook(mouseInterceptor);
+			mouseInterceptor.Stop();
 
 			return OperationResult.Success;
 		}
