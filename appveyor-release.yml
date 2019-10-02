@@ -16,5 +16,5 @@ build_script:
  - msbuild /verbosity:minimal "SafeExamBrowser.sln"
 after_build:
  - appveyor PushArtifact "Setup\bin\%CONFIGURATION%\Setup.msi" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_Setup.msi" -DeploymentName "SEB %APPVEYOR_BUILD_VERSION% Setup"
- - appveyor PushArtifact "SetupBundle\bin\%CONFIGURATION%\SetupBundle.exe" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_SetupBundle.exe" -DeploymentName "SEB %APPVEYOR_BUILD_VERSION% SetupBundle"
+ - appveyor PushArtifact "SetupBundle\bin\%CONFIGURATION%\SetupBundle.exe" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_SetupBundle.exe" -DeploymentName "SEB %APPVEYOR_BUILD_VERSION% Setup Bundle"
 test: off
