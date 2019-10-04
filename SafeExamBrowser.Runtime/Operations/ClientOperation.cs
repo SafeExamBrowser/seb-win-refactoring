@@ -240,32 +240,30 @@ namespace SafeExamBrowser.Runtime.Operations
 			return success;
 		}
 
-		private bool TryKillClient(int attempt = 0)
+		private bool TryKillClient()
 		{
 			const int MAX_ATTEMPTS = 5;
 
-			if (attempt == MAX_ATTEMPTS)
+			for (var attempt = 1; attempt <= MAX_ATTEMPTS; attempt++)
 			{
-				logger.Error($"Failed to kill client process within {MAX_ATTEMPTS} attempts!");
+				logger.Info($"Attempt {attempt}/{MAX_ATTEMPTS} to kill client process with ID = {ClientProcess.Id}.");
 
-				return false;
+				if (ClientProcess.TryKill())
+				{
+					break;
+				}
 			}
-
-			logger.Info($"Killing client process with ID = {ClientProcess.Id}.");
-			ClientProcess.Kill();
 
 			if (ClientProcess.HasTerminated)
 			{
 				logger.Info("Client process has terminated.");
-
-				return true;
 			}
 			else
 			{
-				logger.Warn("Failed to kill client process. Trying again...");
-
-				return TryKillClient(++attempt);
+				logger.Error($"Failed to kill client process within {MAX_ATTEMPTS} attempts!");
 			}
+
+			return ClientProcess.HasTerminated;
 		}
 	}
 }

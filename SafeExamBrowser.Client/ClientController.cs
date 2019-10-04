@@ -8,9 +8,11 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Client.Contracts;
+using SafeExamBrowser.Client.Operations.Events;
 using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Events;
 using SafeExamBrowser.Communication.Contracts.Hosts;
@@ -343,7 +345,15 @@ namespace SafeExamBrowser.Client
 
 		private void Operations_ActionRequired(ActionRequiredEventArgs args)
 		{
-			// TODO
+			switch (args)
+			{
+				case ApplicationTerminationEventArgs a:
+					AskForAutomaticApplicationTermination(a);
+					break;
+				case ApplicationTerminationFailedEventArgs a:
+					InformAboutFailedApplicationTermination(a);
+					break;
+			}
 		}
 
 		private void Operations_ProgressChanged(ProgressChangedEventArgs args)
@@ -399,6 +409,27 @@ namespace SafeExamBrowser.Client
 			terminationActivator.Pause();
 			TryInitiateShutdown();
 			terminationActivator.Resume();
+		}
+
+		private void AskForAutomaticApplicationTermination(ApplicationTerminationEventArgs args)
+		{
+			var nl = Environment.NewLine;
+			var applicationList = string.Join(Environment.NewLine, args.RunningApplications.Select(a => a.Name));
+			var warning = text.Get(TextKey.MessageBox_ApplicationAutoTerminationDataLossWarning);
+			var message = $"{text.Get(TextKey.MessageBox_ApplicationAutoTerminationQuestion)}{nl}{nl}{warning}{nl}{nl}{applicationList}";
+			var title = text.Get(TextKey.MessageBox_ApplicationAutoTerminationQuestionTitle);
+			var result = messageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question, parent: splashScreen);
+
+			args.TerminateProcesses = result == MessageBoxResult.Yes;
+		}
+
+		private void InformAboutFailedApplicationTermination(ApplicationTerminationFailedEventArgs args)
+		{
+			var applicationList = string.Join(Environment.NewLine, args.Applications.Select(a => a.Name));
+			var message = $"{text.Get(TextKey.MessageBox_ApplicationTerminationFailure)}{Environment.NewLine}{Environment.NewLine}{applicationList}";
+			var title = text.Get(TextKey.MessageBox_ApplicationTerminationFailureTitle);
+
+			messageBox.Show(message, title, icon: MessageBoxIcon.Error, parent: splashScreen);
 		}
 
 		private bool TryInitiateShutdown()

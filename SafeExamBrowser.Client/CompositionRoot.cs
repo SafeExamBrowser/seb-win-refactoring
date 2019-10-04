@@ -29,7 +29,6 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Applications;
-using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Monitoring.Display;
 using SafeExamBrowser.Monitoring.Keyboard;
 using SafeExamBrowser.Monitoring.Mouse;
@@ -63,7 +62,6 @@ namespace SafeExamBrowser.Client
 		private UserInterfaceMode uiMode;
 
 		private IActionCenter actionCenter;
-		private IApplicationMonitor applicationMonitor;
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private INativeMethods nativeMethods;
@@ -89,16 +87,16 @@ namespace SafeExamBrowser.Client
 			InitializeText();
 
 			actionCenter = BuildActionCenter();
-			applicationMonitor = new ApplicationMonitor(new ModuleLogger(logger, nameof(ApplicationMonitor)), nativeMethods);
 			context = new ClientContext();
 			messageBox = BuildMessageBox();
 			uiFactory = BuildUserInterfaceFactory();
-			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), new ModuleLogger(logger, nameof(RuntimeProxy)), Interlocutor.Client);
+			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
 			taskbar = BuildTaskbar();
-			terminationActivator = new TerminationActivator(new ModuleLogger(logger, nameof(TerminationActivator)));
+			terminationActivator = new TerminationActivator(ModuleLogger(nameof(TerminationActivator)));
 
-			var displayMonitor = new DisplayMonitor(new ModuleLogger(logger, nameof(DisplayMonitor)), nativeMethods, systemInfo);
-			var explorerShell = new ExplorerShell(new ModuleLogger(logger, nameof(ExplorerShell)), nativeMethods);
+			var applicationMonitor = new ApplicationMonitor(ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, new ProcessFactory(ModuleLogger(nameof(ProcessFactory))));
+			var displayMonitor = new DisplayMonitor(ModuleLogger(nameof(DisplayMonitor)), nativeMethods, systemInfo);
+			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
 			var hashAlgorithm = new HashAlgorithm();
 
 			var operations = new Queue<IOperation>();
@@ -195,7 +193,7 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildBrowserOperation()
 		{
-			var moduleLogger = new ModuleLogger(logger, nameof(BrowserApplication));
+			var moduleLogger = ModuleLogger(nameof(BrowserApplication));
 			var browser = new BrowserApplication(context.AppConfig, context.Settings.Browser, messageBox, moduleLogger, text, uiFactory);
 			var browserInfo = new BrowserApplicationInfo();
 			var operation = new BrowserOperation(actionCenter, context, logger, taskbar, uiFactory);
@@ -209,7 +207,7 @@ namespace SafeExamBrowser.Client
 		{
 			var processId = Process.GetCurrentProcess().Id;
 			var factory = new HostObjectFactory();
-			var clientHost = new ClientHost(context.AppConfig.ClientAddress, factory, new ModuleLogger(logger, nameof(ClientHost)), processId, FIVE_SECONDS);
+			var clientHost = new ClientHost(context.AppConfig.ClientAddress, factory, ModuleLogger(nameof(ClientHost)), processId, FIVE_SECONDS);
 			var operation = new CommunicationHostOperation(clientHost, logger);
 
 			context.ClientHost = clientHost;
@@ -220,7 +218,7 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildKeyboardInterceptorOperation()
 		{
-			var keyboardInterceptor = new KeyboardInterceptor(new ModuleLogger(logger, nameof(KeyboardInterceptor)), nativeMethods, context.Settings.Keyboard);
+			var keyboardInterceptor = new KeyboardInterceptor(ModuleLogger(nameof(KeyboardInterceptor)), nativeMethods, context.Settings.Keyboard);
 			var operation = new KeyboardInterceptorOperation(context, keyboardInterceptor, logger);
 
 			return operation;
@@ -228,7 +226,7 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildMouseInterceptorOperation()
 		{
-			var mouseInterceptor = new MouseInterceptor(new ModuleLogger(logger, nameof(MouseInterceptor)), nativeMethods, context.Settings.Mouse);
+			var mouseInterceptor = new MouseInterceptor(ModuleLogger(nameof(MouseInterceptor)), nativeMethods, context.Settings.Mouse);
 			var operation = new MouseInterceptorOperation(context, logger, mouseInterceptor);
 
 			return operation;
@@ -238,16 +236,16 @@ namespace SafeExamBrowser.Client
 		{
 			var aboutInfo = new AboutNotificationInfo(text);
 			var aboutController = new AboutNotificationController(context.AppConfig, uiFactory);
-			var audio = new Audio(context.Settings.Audio, new ModuleLogger(logger, nameof(Audio)));
-			var keyboard = new Keyboard(new ModuleLogger(logger, nameof(Keyboard)));
+			var audio = new Audio(context.Settings.Audio, ModuleLogger(nameof(Audio)));
+			var keyboard = new Keyboard(ModuleLogger(nameof(Keyboard)));
 			var logInfo = new LogNotificationInfo(text);
 			var logController = new LogNotificationController(logger, uiFactory);
-			var powerSupply = new PowerSupply(new ModuleLogger(logger, nameof(PowerSupply)));
-			var wirelessAdapter = new WirelessAdapter(new ModuleLogger(logger, nameof(WirelessAdapter)));
+			var powerSupply = new PowerSupply(ModuleLogger(nameof(PowerSupply)));
+			var wirelessAdapter = new WirelessAdapter(ModuleLogger(nameof(WirelessAdapter)));
 			var activators = new IActionCenterActivator[]
 			{
-				new KeyboardActivator(new ModuleLogger(logger, nameof(KeyboardActivator))),
-				new TouchActivator(new ModuleLogger(logger, nameof(TouchActivator)))
+				new KeyboardActivator(ModuleLogger(nameof(KeyboardActivator))),
+				new TouchActivator(ModuleLogger(nameof(TouchActivator)))
 			};
 			var operation = new ShellOperation(
 				actionCenter,
@@ -298,9 +296,9 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					return new Mobile.Taskbar(new ModuleLogger(logger, nameof(Mobile.Taskbar)));
+					return new Mobile.Taskbar(ModuleLogger(nameof(Mobile.Taskbar)));
 				default:
-					return new Desktop.Taskbar(new ModuleLogger(logger, nameof(Desktop.Taskbar)));
+					return new Desktop.Taskbar(ModuleLogger(nameof(Desktop.Taskbar)));
 			}
 		}
 
@@ -318,6 +316,11 @@ namespace SafeExamBrowser.Client
 		private void UpdateAppConfig()
 		{
 			ClientController.UpdateAppConfig();
+		}
+
+		private IModuleLogger ModuleLogger(string moduleInfo)
+		{
+			return new ModuleLogger(logger, moduleInfo);
 		}
 	}
 }

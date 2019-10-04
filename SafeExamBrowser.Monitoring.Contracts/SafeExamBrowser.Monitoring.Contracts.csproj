@@ -53,7 +53,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Applications\RunningApplicationInfo.cs" />
+    <Compile Include="Applications\RunningApplication.cs" />
     <Compile Include="Display\Events\DisplayChangedEventHandler.cs" />
     <Compile Include="Applications\Events\ExplorerStartedEventHandler.cs" />
     <Compile Include="Display\IDisplayMonitor.cs" />

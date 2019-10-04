@@ -16,13 +16,19 @@ namespace SafeExamBrowser.Monitoring.Contracts.Applications
 	public class InitializationResult
 	{
 		/// <summary>
+		/// A list of currently running applications which could not be automatically terminated.
+		/// </summary>
+		public IList<RunningApplication> FailedAutoTerminations { get; }
+
+		/// <summary>
 		/// A list of currently running applications which need to be terminated.
 		/// </summary>
-		public IEnumerable<RunningApplicationInfo> RunningApplications { get; }
+		public IList<RunningApplication> RunningApplications { get; }
 
 		public InitializationResult()
 		{
-			RunningApplications = new List<RunningApplicationInfo>();
+			FailedAutoTerminations = new List<RunningApplication>();
+			RunningApplications = new List<RunningApplication>();
 		}
 	}
 }

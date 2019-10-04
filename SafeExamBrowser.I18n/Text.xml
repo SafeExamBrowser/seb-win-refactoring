@@ -24,11 +24,26 @@
     <Entry key="LogWindow_Title">
         Application Log
     </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestion">
+        The applications listed below need to be terminated before a new session can be started. Would you like to automatically terminate them now?
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestionTitle">
+        Running Applications Detected
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationDataLossWarning">
+        IMPORTANT: Any unsaved application data might be lost!
+    </Entry>
     <Entry key="MessageBox_ApplicationError">
         An unrecoverable error has occurred! Please consult the application log for more information. The application will now shut down...
     </Entry>
     <Entry key="MessageBox_ApplicationErrorTitle">
         Application Error
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailure">
+        The applications listed below could not be terminated! Please terminate them manually and try again...
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailureTitle">
+        Automatic Termination Failed
     </Entry>
     <Entry key="MessageBox_BrowserNavigationBlocked">
         Access to "%%URL%%" is not allowed according to the application configuration.
@@ -168,8 +183,14 @@
     <Entry key="OperationStatus_EmptyClipboard">
         Emptying clipboard
     </Entry>
+    <Entry key="OperationStatus_FinalizeApplications">
+        Finalizing applications
+    </Entry>
     <Entry key="OperationStatus_FinalizeServiceSession">
         Finalizing service session
+    </Entry>
+    <Entry key="OperationStatus_InitializeApplications">
+        Initializing applications
     </Entry>
     <Entry key="OperationStatus_InitializeBrowser">
         Initializing browser
@@ -179,9 +200,6 @@
     </Entry>
     <Entry key="OperationStatus_InitializeKioskMode">
         Initializing kiosk mode
-    </Entry>
-    <Entry key="OperationStatus_InitializeProcessMonitoring">
-        Initializing process monitoring
     </Entry>
     <Entry key="OperationStatus_InitializeRuntimeConnection">
         Initializing runtime connection
@@ -194,9 +212,6 @@
     </Entry>
     <Entry key="OperationStatus_InitializeShell">
         Initializing user interface
-    </Entry>
-    <Entry key="OperationStatus_InitializeWindowMonitoring">
-        Initializing window monitoring
     </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         Initializing working area
@@ -233,12 +248,6 @@
     </Entry>
     <Entry key="OperationStatus_StopMouseInterception">
         Stopping mouse interception
-    </Entry>
-    <Entry key="OperationStatus_StopProcessMonitoring">
-        Stopping process monitoring
-    </Entry>
-    <Entry key="OperationStatus_StopWindowMonitoring">
-        Stopping window monitoring
     </Entry>
     <Entry key="OperationStatus_TerminateBrowser">
         Terminating browser

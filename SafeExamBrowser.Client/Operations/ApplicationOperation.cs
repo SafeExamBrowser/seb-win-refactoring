@@ -36,7 +36,7 @@ namespace SafeExamBrowser.Client.Operations
 		public override OperationResult Perform()
 		{
 			logger.Info("Initializing applications...");
-			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeProcessMonitoring);
+			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeApplications);
 
 			var result = InitializeApplications();
 
@@ -51,9 +51,9 @@ namespace SafeExamBrowser.Client.Operations
 		public override OperationResult Revert()
 		{
 			logger.Info("Finalizing applications...");
-			StatusChanged?.Invoke(TextKey.OperationStatus_StopProcessMonitoring);
+			StatusChanged?.Invoke(TextKey.OperationStatus_FinalizeApplications);
 
-			TerminateApplications();
+			FinalizeApplications();
 			StopMonitor();
 
 			return OperationResult.Success;
@@ -64,25 +64,48 @@ namespace SafeExamBrowser.Client.Operations
 			var initialization = applicationMonitor.Initialize(Context.Settings.Applications);
 			var result = OperationResult.Success;
 
-			if (initialization.RunningApplications.Any())
+			if (initialization.FailedAutoTerminations.Any())
+			{
+				result = HandleAutoTerminationFailure(initialization.FailedAutoTerminations);
+			}
+			else if (initialization.RunningApplications.Any())
 			{
 				result = TryTerminate(initialization.RunningApplications);
 			}
 
 			if (result == OperationResult.Success)
 			{
-				foreach (var application in Context.Settings.Applications.Whitelist)
-				{
-					Create(application);
-				}
+				CreateApplications();
 			}
 
 			return result;
 		}
 
+		private void CreateApplications()
+		{
+			foreach (var application in Context.Settings.Applications.Whitelist)
+			{
+				Create(application);
+			}
+		}
+
 		private void Create(WhitelistApplication application)
 		{
 			// TODO: Use IApplicationFactory to create new application according to configuration, load into Context.Applications
+			// StatusChanged?.Invoke();
+		}
+
+		private void FinalizeApplications()
+		{
+
+		}
+
+		private OperationResult HandleAutoTerminationFailure(IList<RunningApplication> applications)
+		{
+			logger.Error($"{applications.Count} application(s) could not be automatically terminated: {string.Join(", ", applications.Select(a => a.Name))}");
+			ActionRequired?.Invoke(new ApplicationTerminationFailedEventArgs(applications));
+
+			return OperationResult.Failed;
 		}
 
 		private void StartMonitor()
@@ -101,33 +124,40 @@ namespace SafeExamBrowser.Client.Operations
 			}
 		}
 
-		private void TerminateApplications()
+		private OperationResult TryTerminate(IEnumerable<RunningApplication> runningApplications)
 		{
-
-		}
-
-		private OperationResult TryTerminate(IEnumerable<RunningApplicationInfo> runningApplications)
-		{
-			var args = new ProcessTerminationEventArgs();
+			var args = new ApplicationTerminationEventArgs(runningApplications);
+			var failed = new List<RunningApplication>();
 			var result = OperationResult.Success;
 
 			ActionRequired?.Invoke(args);
 
 			if (args.TerminateProcesses)
 			{
-				// TODO: Terminate all processes of all running applications
+				foreach (var application in runningApplications)
+				{
+					var success = applicationMonitor.TryTerminate(application);
 
-				//foreach (var application in runningApplications)
-				//{
-				//	foreach (var process in application.Processes)
-				//	{
-				//		process.Kill();
-				//	}
-				//}
+					if (success)
+					{
+						logger.Info($"Successfully terminated application '{application.Name}'.");
+					}
+					else
+					{
+						result = OperationResult.Failed;
+						failed.Add(application);
+						logger.Error($"Failed to automatically terminate application '{application.Name}'!");
+					}
+				}
 			}
 			else
 			{
 				result = OperationResult.Aborted;
+			}
+
+			if (failed.Any())
+			{
+				ActionRequired?.Invoke(new ApplicationTerminationFailedEventArgs(failed));
 			}
 
 			return result;

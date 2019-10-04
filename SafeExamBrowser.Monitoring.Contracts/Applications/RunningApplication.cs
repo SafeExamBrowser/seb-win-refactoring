@@ -14,16 +14,22 @@ namespace SafeExamBrowser.Monitoring.Contracts.Applications
 	/// <summary>
 	/// Provides information about a running application.
 	/// </summary>
-	public class RunningApplicationInfo
+	public class RunningApplication
 	{
 		/// <summary>
 		/// The name of the application.
 		/// </summary>
-		public string Name { get; set; }
+		public string Name { get; }
 
 		/// <summary>
 		/// A list of processes which belong to the application.
 		/// </summary>
-		public IEnumerable<IProcess> Processes { get; set; }
+		public IList<IProcess> Processes { get; }
+
+		public RunningApplication(string name)
+		{
+			Name = name;
+			Processes = new List<IProcess>();
+		}
 	}
 }

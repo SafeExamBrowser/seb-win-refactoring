@@ -186,7 +186,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			proxy.Verify(p => p.InitiateShutdown(), Times.Once);
 			proxy.Verify(p => p.Disconnect(), Times.Once);
-			process.Verify(p => p.Kill(), Times.Never);
+			process.Verify(p => p.TryKill(), Times.Never);
 
 			Assert.IsNull(sessionContext.ClientProcess);
 			Assert.IsNull(sessionContext.ClientProxy);
@@ -195,12 +195,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void Revert_MustKillClientIfStoppingFailed()
 		{
-			process.Setup(p => p.Kill()).Callback(() => process.SetupGet(p => p.HasTerminated).Returns(true));
+			process.Setup(p => p.TryKill()).Callback(() => process.SetupGet(p => p.HasTerminated).Returns(true));
 
 			PerformNormally();
 			sut.Revert();
 
-			process.Verify(p => p.Kill(), Times.AtLeastOnce);
+			process.Verify(p => p.TryKill(), Times.AtLeastOnce);
 
 			Assert.IsNull(sessionContext.ClientProcess);
 			Assert.IsNull(sessionContext.ClientProxy);
@@ -212,7 +212,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			PerformNormally();
 			sut.Revert();
 
-			process.Verify(p => p.Kill(), Times.Exactly(5));
+			process.Verify(p => p.TryKill(), Times.Exactly(5));
 
 			Assert.IsNotNull(sessionContext.ClientProcess);
 			Assert.IsNotNull(sessionContext.ClientProxy);
@@ -227,7 +227,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			proxy.Verify(p => p.InitiateShutdown(), Times.Never);
 			proxy.Verify(p => p.Disconnect(), Times.Never);
-			process.Verify(p => p.Kill(), Times.Never);
+			process.Verify(p => p.TryKill(), Times.Never);
 
 			Assert.IsNull(sessionContext.ClientProcess);
 			Assert.IsNull(sessionContext.ClientProxy);

@@ -11,10 +11,14 @@ using System;
 namespace SafeExamBrowser.Settings.Applications
 {
 	/// <summary>
-	/// TODO
+	/// Defines an application which is whitelisted, i.e. allowed to run during a session.
 	/// </summary>
 	[Serializable]
 	public class WhitelistApplication
 	{
+		/// <summary>
+		/// The name of the main executable of the application.
+		/// </summary>
+		public string ExecutableName { get; set; }
 	}
 }

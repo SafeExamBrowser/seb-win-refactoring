@@ -35,5 +35,10 @@ namespace SafeExamBrowser.Monitoring.Contracts.Applications
 		/// Stops the application monitoring.
 		/// </summary>
 		void Stop();
+
+		/// <summary>
+		/// Attempts to terminate all processes of the specified application. Returns <c>true</c> if successful, otherwise <c>false</c>.
+		/// </summary>
+		bool TryTerminate(RunningApplication application);
 	}
 }

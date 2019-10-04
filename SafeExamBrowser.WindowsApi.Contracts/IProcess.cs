@@ -26,13 +26,28 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		int Id { get; }
 
 		/// <summary>
+		/// The file name of the process executable.
+		/// </summary>
+		string Name { get; }
+
+		/// <summary>
+		/// The original file name of the process executable, if available.
+		/// </summary>
+		string OriginalName { get; }
+
+		/// <summary>
 		/// Event fired when the process has terminated.
 		/// </summary>
 		event ProcessTerminatedEventHandler Terminated;
 
 		/// <summary>
-		/// Immediately terminates the process.
+		/// Attempts to gracefully terminate the process by closing its main window. This will only work for interactive processes which have a main window.
 		/// </summary>
-		void Kill();
+		bool TryClose();
+
+		/// <summary>
+		/// Attempts to immediately kill the process.
+		/// </summary>
+		bool TryKill();
 	}
 }

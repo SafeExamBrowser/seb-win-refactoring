@@ -12,18 +12,18 @@ using System.Collections.Generic;
 namespace SafeExamBrowser.Settings.Applications
 {
 	/// <summary>
-	/// TODO
+	/// Defines all settings for third-party applications and application monitoring.
 	/// </summary>
 	[Serializable]
 	public class ApplicationSettings
 	{
 		/// <summary>
-		/// 
+		/// All applications which are not allowed to run during a session.
 		/// </summary>
 		public IList<BlacklistApplication> Blacklist { get; set; }
 
 		/// <summary>
-		/// 
+		/// All applications which are allowed to run during a session.
 		/// </summary>
 		public IList<WhitelistApplication> Whitelist { get; set; }
 
