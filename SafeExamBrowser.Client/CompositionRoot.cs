@@ -94,7 +94,7 @@ namespace SafeExamBrowser.Client
 			taskbar = BuildTaskbar();
 			terminationActivator = new TerminationActivator(ModuleLogger(nameof(TerminationActivator)));
 
-			var applicationMonitor = new ApplicationMonitor(ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, new ProcessFactory(ModuleLogger(nameof(ProcessFactory))));
+			var applicationMonitor = new ApplicationMonitor(FIVE_SECONDS, ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, new ProcessFactory(ModuleLogger(nameof(ProcessFactory))));
 			var displayMonitor = new DisplayMonitor(ModuleLogger(nameof(DisplayMonitor)), nativeMethods, systemInfo);
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
 			var hashAlgorithm = new HashAlgorithm();

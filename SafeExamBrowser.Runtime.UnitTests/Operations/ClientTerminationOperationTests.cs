@@ -81,7 +81,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			proxy.Verify(p => p.InitiateShutdown(), Times.Once);
 			proxy.Verify(p => p.Disconnect(), Times.Once);
-			process.Verify(p => p.TryKill(), Times.Never);
+			process.Verify(p => p.TryKill(default(int)), Times.Never);
 
 			Assert.IsNull(sessionContext.ClientProcess);
 			Assert.IsNull(sessionContext.ClientProxy);

@@ -62,18 +62,25 @@ namespace SafeExamBrowser.WindowsApi
 			this.originalNameInitialized = true;
 		}
 
-		public bool TryClose()
+		public bool TryClose(int timeout_ms = 0)
 		{
 			try
 			{
+				logger.Debug("Attempting to close process...");
 				process.Refresh();
 
-				if (!process.HasExited)
+				var success = process.CloseMainWindow();
+
+				if (success)
 				{
-					process.CloseMainWindow();
+					logger.Debug("Successfully sent close message to main window.");
+				}
+				else
+				{
+					logger.Warn("Failed to send close message to main window!");
 				}
 
-				return process.HasExited;
+				return success && WaitForTermination(timeout_ms);
 			}
 			catch (Exception e)
 			{
@@ -83,18 +90,16 @@ namespace SafeExamBrowser.WindowsApi
 			return false;
 		}
 
-		public bool TryKill()
+		public bool TryKill(int timeout_ms = 0)
 		{
 			try
 			{
+				logger.Debug("Attempting to kill process...");
+
 				process.Refresh();
+				process.Kill();
 
-				if (!process.HasExited)
-				{
-					process.Kill();
-				}
-
-				return process.HasExited;
+				return WaitForTermination(timeout_ms);
 			}
 			catch (Exception e)
 			{
@@ -102,6 +107,11 @@ namespace SafeExamBrowser.WindowsApi
 			}
 
 			return false;
+		}
+
+		public override string ToString()
+		{
+			return $"'{Name}' ({Id})";
 		}
 
 		private bool IsTerminated()
@@ -127,6 +137,7 @@ namespace SafeExamBrowser.WindowsApi
 				eventInitialized = true;
 				process.Exited += Process_Exited;
 				process.EnableRaisingEvents = true;
+				logger.Debug("Initialized termination event.");
 			}
 		}
 
@@ -165,9 +176,26 @@ namespace SafeExamBrowser.WindowsApi
 			return originalName;
 		}
 
+		private bool WaitForTermination(int timeout_ms)
+		{
+			var terminated = process.WaitForExit(timeout_ms);
+
+			if (terminated)
+			{
+				logger.Debug($"Process has terminated within {timeout_ms}ms.");
+			}
+			else
+			{
+				logger.Warn($"Process failed to terminate within {timeout_ms}ms!");
+			}
+
+			return terminated;
+		}
+
 		private void Process_Exited(object sender, EventArgs e)
 		{
 			TerminatedEvent?.Invoke(process.ExitCode);
+			logger.Debug("Process has terminated.");
 		}
 	}
 }

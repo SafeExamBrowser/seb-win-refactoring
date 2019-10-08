@@ -24,7 +24,7 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		/// <summary>
 		/// Retrieves all currently running processes.
 		/// </summary>
-		IEnumerable<IProcess> GetAllRunning();
+		IList<IProcess> GetAllRunning();
 
 		/// <summary>
 		/// Starts a new process with the given command-line arguments.

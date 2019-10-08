@@ -9,8 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Management;
-using System.Threading;
+using System.Timers;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Monitoring.Contracts.Applications.Events;
@@ -24,21 +23,24 @@ namespace SafeExamBrowser.Monitoring.Applications
 		private IntPtr activeWindow;
 		private IList<BlacklistApplication> blacklist;
 		private Guid? captureHookId;
-		private ManagementEventWatcher explorerWatcher;
 		private Guid? foregroundHookId;
 		private ILogger logger;
 		private INativeMethods nativeMethods;
+		private IList<IProcess> processes;
 		private IProcessFactory processFactory;
+		private Timer timer;
 		private IList<WhitelistApplication> whitelist;
 
 		public event ExplorerStartedEventHandler ExplorerStarted;
 
-		public ApplicationMonitor(ILogger logger, INativeMethods nativeMethods, IProcessFactory processFactory)
+		public ApplicationMonitor(int interval_ms, ILogger logger, INativeMethods nativeMethods, IProcessFactory processFactory)
 		{
 			this.blacklist = new List<BlacklistApplication>();
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;
+			this.processes = new List<IProcess>();
 			this.processFactory = processFactory;
+			this.timer = new Timer(interval_ms);
 			this.whitelist = new List<WhitelistApplication>();
 		}
 
@@ -59,17 +61,19 @@ namespace SafeExamBrowser.Monitoring.Applications
 			logger.Debug($"Initialized blacklist with {blacklist.Count} applications{(blacklist.Any() ? $": {string.Join(", ", blacklist.Select(a => a.ExecutableName))}" : ".")}");
 			logger.Debug($"Initialized whitelist with {whitelist.Count} applications{(whitelist.Any() ? $": {string.Join(", ", whitelist.Select(a => a.ExecutableName))}" : ".")}");
 
-			foreach (var process in processFactory.GetAllRunning())
+			processes = processFactory.GetAllRunning();
+
+			foreach (var process in processes)
 			{
 				foreach (var application in blacklist)
 				{
-					var isMatch = BelongsToApplication(process, application);
+					var isBlacklisted = BelongsToApplication(process, application);
 
-					if (isMatch && !application.AutoTerminate)
+					if (isBlacklisted && !application.AutoTerminate)
 					{
 						AddForTermination(application.ExecutableName, process, result);
 					}
-					else if (isMatch && application.AutoTerminate && !TryTerminate(process))
+					else if (isBlacklisted && application.AutoTerminate && !TryTerminate(process))
 					{
 						AddFailed(application.ExecutableName, process, result);
 					}
@@ -86,13 +90,10 @@ namespace SafeExamBrowser.Monitoring.Applications
 
 		public void Start()
 		{
-			// TODO: Start monitoring blacklist...
-
-			// TODO: Remove WMI event and use timer mechanism!
-			explorerWatcher = new ManagementEventWatcher(@"\\.\root\CIMV2", GetQueryFor("explorer.exe"));
-			explorerWatcher.EventArrived += new EventArrivedEventHandler(ExplorerWatcher_EventArrived);
-			explorerWatcher.Start();
-			logger.Info("Started monitoring process 'explorer.exe'.");
+			timer.AutoReset = false;
+			timer.Elapsed += Timer_Elapsed;
+			timer.Start();
+			logger.Info("Started monitoring applications.");
 
 			captureHookId = nativeMethods.RegisterSystemCaptureStartEvent(SystemEvent_WindowChanged);
 			logger.Info($"Registered system capture start event with ID = {captureHookId}.");
@@ -103,8 +104,9 @@ namespace SafeExamBrowser.Monitoring.Applications
 
 		public void Stop()
 		{
-			explorerWatcher?.Stop();
-			logger.Info("Stopped monitoring 'explorer.exe'.");
+			timer.Stop();
+			timer.Elapsed -= Timer_Elapsed;
+			logger.Info("Stopped monitoring applications.");
 
 			if (captureHookId.HasValue)
 			{
@@ -142,7 +144,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 			}
 
 			application.Processes.Add(process);
-			logger.Error($"Process '{process.Name}' belongs to application '{application.Name}' and could not be terminated automatically!");
+			logger.Error($"Process {process} belongs to application '{application.Name}' and could not be terminated automatically!");
 		}
 
 		private void AddForTermination(string name, IProcess process, InitializationResult result)
@@ -156,7 +158,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 			}
 
 			application.Processes.Add(process);
-			logger.Debug($"Process '{process.Name}' belongs to application '{application.Name}' and needs to be terminated.");
+			logger.Debug($"Process {process} belongs to application '{application.Name}' and needs to be terminated.");
 		}
 
 		private bool BelongsToApplication(IProcess process, BlacklistApplication application)
@@ -231,63 +233,73 @@ namespace SafeExamBrowser.Monitoring.Applications
 		private bool TryTerminate(IProcess process)
 		{
 			const int MAX_ATTEMPTS = 5;
-			const int TIMEOUT = 100;
+			const int TIMEOUT = 500;
 
-			try
+			for (var attempt = 0; attempt < MAX_ATTEMPTS; attempt++)
+			{
+				if (process.TryClose(TIMEOUT))
+				{
+					break;
+				}
+			}
+
+			if (!process.HasTerminated)
 			{
 				for (var attempt = 0; attempt < MAX_ATTEMPTS; attempt++)
 				{
-					if (process.TryClose())
+					if (process.TryKill(TIMEOUT))
 					{
 						break;
 					}
-					else
-					{
-						Thread.Sleep(TIMEOUT);
-					}
-				}
-
-				if (!process.HasTerminated)
-				{
-					for (var attempt = 0; attempt < MAX_ATTEMPTS; attempt++)
-					{
-						if (process.TryKill())
-						{
-							break;
-						}
-						else
-						{
-							Thread.Sleep(TIMEOUT);
-						}
-					}
-				}
-
-				if (process.HasTerminated)
-				{
-					logger.Info($"Successfully terminated process '{process.Name}'.");
-				}
-				else
-				{
-					logger.Warn($"Failed to terminate process '{process.Name}'!");
 				}
 			}
-			catch (Exception e)
+
+			if (process.HasTerminated)
 			{
-				logger.Error($"An error occurred while attempting to terminate process '{process.Name}'!", e);
+				logger.Info($"Successfully terminated process {process}.");
+			}
+			else
+			{
+				logger.Warn($"Failed to terminate process {process}!");
 			}
 
 			return process.HasTerminated;
 		}
 
-		private void ExplorerWatcher_EventArrived(object sender, EventArrivedEventArgs e)
+		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			var eventName = e.NewEvent.ClassPath.ClassName;
+			var running = processFactory.GetAllRunning();
+			var started = running.Where(r => processes.All(p => p.Id != r.Id)).ToList();
+			var terminated = processes.Where(p => running.All(r => r.Id != p.Id)).ToList();
 
-			if (eventName == "__InstanceCreationEvent")
+			foreach (var process in started)
 			{
-				logger.Warn("A new instance of Windows explorer has been started!");
-				ExplorerStarted?.Invoke();
+				logger.Debug($"Process {process} has been started.");
+				processes.Add(process);
+
+				foreach (var application in blacklist)
+				{
+					if (BelongsToApplication(process, application))
+					{
+						logger.Warn($"Process {process} belongs to blacklisted application '{application.ExecutableName}'! Attempting termination...");
+
+						var success = TryTerminate(process);
+
+						if (!success)
+						{
+							// TODO: Invoke event -> Show lock screen!
+						}
+					}
+				}
 			}
+
+			foreach (var process in terminated)
+			{
+				logger.Debug($"Process {process} has been terminated.");
+				processes.Remove(process);
+			}
+
+			timer.Start();
 		}
 
 		private void SystemEvent_WindowChanged(IntPtr window)
@@ -298,16 +310,6 @@ namespace SafeExamBrowser.Monitoring.Applications
 				activeWindow = window;
 				Check(window);
 			}
-		}
-
-		private string GetQueryFor(string processName)
-		{
-			return $@"
-				SELECT *
-				FROM __InstanceOperationEvent
-				WITHIN 2
-				WHERE TargetInstance ISA 'Win32_Process'
-				AND TargetInstance.Name = '{processName}'";
 		}
 	}
 }
