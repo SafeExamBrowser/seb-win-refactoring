@@ -15,11 +15,11 @@ using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.WindowsApi.Contracts;
 using SafeExamBrowser.Runtime.Operations;
+using SafeExamBrowser.Settings;
+using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
 {
@@ -86,20 +86,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			Assert.AreEqual(process.Object, sessionContext.ClientProcess);
 			Assert.AreEqual(proxy.Object, sessionContext.ClientProxy);
 			Assert.AreEqual(OperationResult.Success, result);
-		}
-
-		[TestMethod]
-		public void Perform_MustFailStartupIfClientNotStartedWithinTimeout()
-		{
-			var result = default(OperationResult);
-
-			processFactory.Setup(f => f.StartNew(It.IsAny<string>(), It.IsAny<string[]>())).Returns(process.Object);
-
-			result = sut.Perform();
-
-			Assert.IsNull(sessionContext.ClientProxy);
-			Assert.AreEqual(process.Object, sessionContext.ClientProcess);
-			Assert.AreEqual(OperationResult.Failed, result);
 		}
 
 		[TestMethod]

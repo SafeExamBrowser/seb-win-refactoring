@@ -119,7 +119,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			ClientProcess.Terminated += clientTerminatedEventHandler;
 
 			logger.Info("Waiting for client to complete initialization...");
-			clientReady = clientReadyEvent.WaitOne(timeout_ms);
+			clientReady = clientReadyEvent.WaitOne();
 
 			runtimeHost.AllowConnection = false;
 			runtimeHost.AuthenticationToken = default(Guid?);
@@ -133,7 +133,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (!clientReady)
 			{
-				logger.Error($"Failed to start client within {timeout_ms / 1000} seconds!");
+				logger.Error($"Failed to start client!");
 			}
 
 			if (clientTerminated)

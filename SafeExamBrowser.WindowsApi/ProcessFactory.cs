@@ -93,7 +93,7 @@ namespace SafeExamBrowser.WindowsApi
 
 			try
 			{
-				using (var searcher = new ManagementObjectSearcher($"SELECT Name, ProcessId, ExecutablePath FROM Win32_Process"))
+				using (var searcher = new ManagementObjectSearcher($"SELECT ProcessId, ExecutablePath FROM Win32_Process"))
 				using (var results = searcher.Get())
 				{
 					var processData = results.Cast<ManagementObject>().ToList();
@@ -103,7 +103,6 @@ namespace SafeExamBrowser.WindowsApi
 						using (process)
 						{
 							var processId = Convert.ToInt32(process["ProcessId"]);
-							var processName = Convert.ToString(process["Name"]);
 							var executablePath = Convert.ToString(process["ExecutablePath"]);
 
 							if (File.Exists(executablePath))

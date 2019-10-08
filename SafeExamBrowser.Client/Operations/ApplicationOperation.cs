@@ -130,10 +130,13 @@ namespace SafeExamBrowser.Client.Operations
 			var failed = new List<RunningApplication>();
 			var result = OperationResult.Success;
 
+			logger.Info($"The following applications need to be terminated: {string.Join(", ", runningApplications.Select(a => a.Name))}.");
 			ActionRequired?.Invoke(args);
 
 			if (args.TerminateProcesses)
 			{
+				logger.Info($"The user chose to automatically terminate all running applications.");
+
 				foreach (var application in runningApplications)
 				{
 					var success = applicationMonitor.TryTerminate(application);
@@ -152,6 +155,7 @@ namespace SafeExamBrowser.Client.Operations
 			}
 			else
 			{
+				logger.Info("The user chose not to automatically terminate all running applications. Aborting...");
 				result = OperationResult.Aborted;
 			}
 

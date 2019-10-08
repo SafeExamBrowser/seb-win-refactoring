@@ -56,8 +56,8 @@ namespace SafeExamBrowser.Monitoring.Applications
 				whitelist.Add(application);
 			}
 
-			logger.Debug($"Initialized blacklist with {blacklist.Count} applications: {string.Join(", ", blacklist.Select(a => a.ExecutableName))}");
-			logger.Debug($"Initialized whitelist with {whitelist.Count} applications: {string.Join(", ", whitelist.Select(a => a.ExecutableName))}");
+			logger.Debug($"Initialized blacklist with {blacklist.Count} applications{(blacklist.Any() ? $": {string.Join(", ", blacklist.Select(a => a.ExecutableName))}" : ".")}");
+			logger.Debug($"Initialized whitelist with {whitelist.Count} applications{(whitelist.Any() ? $": {string.Join(", ", whitelist.Select(a => a.ExecutableName))}" : ".")}");
 
 			foreach (var process in processFactory.GetAllRunning())
 			{
