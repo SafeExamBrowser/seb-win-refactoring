@@ -248,7 +248,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			{
 				logger.Info($"Attempt {attempt}/{MAX_ATTEMPTS} to kill client process with ID = {ClientProcess.Id}.");
 
-				if (ClientProcess.TryKill())
+				if (ClientProcess.TryKill(500))
 				{
 					break;
 				}

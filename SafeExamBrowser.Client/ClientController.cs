@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using SafeExamBrowser.Browser.Contracts;
@@ -170,6 +171,7 @@ namespace SafeExamBrowser.Client
 		{
 			actionCenter.QuitButtonClicked += Shell_QuitButtonClicked;
 			applicationMonitor.ExplorerStarted += ApplicationMonitor_ExplorerStarted;
+			applicationMonitor.TerminationFailed += ApplicationMonitor_TerminationFailed;
 			Browser.ConfigurationDownloadRequested += Browser_ConfigurationDownloadRequested;
 			ClientHost.MessageBoxRequested += ClientHost_MessageBoxRequested;
 			ClientHost.PasswordRequested += ClientHost_PasswordRequested;
@@ -185,6 +187,7 @@ namespace SafeExamBrowser.Client
 		{
 			actionCenter.QuitButtonClicked -= Shell_QuitButtonClicked;
 			applicationMonitor.ExplorerStarted -= ApplicationMonitor_ExplorerStarted;
+			applicationMonitor.TerminationFailed -= ApplicationMonitor_TerminationFailed;
 			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
 			runtime.ConnectionLost -= Runtime_ConnectionLost;
 			taskbar.QuitButtonClicked -= Shell_QuitButtonClicked;
@@ -228,6 +231,13 @@ namespace SafeExamBrowser.Client
 			actionCenter.InitializeBounds();
 			taskbar.InitializeBounds();
 			logger.Info("Desktop successfully restored.");
+		}
+
+		private void ApplicationMonitor_TerminationFailed(IEnumerable<RunningApplication> applications)
+		{
+			// foreach actionCenterActivator -> Pause
+			// TODO: Show lock screen!
+			// foreach actionCenterActivator -> Resume
 		}
 
 		private void Browser_ConfigurationDownloadRequested(string fileName, DownloadEventArgs args)

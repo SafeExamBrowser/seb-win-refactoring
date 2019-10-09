@@ -6,10 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Generic;
+
 namespace SafeExamBrowser.Monitoring.Contracts.Applications.Events
 {
 	/// <summary>
-	/// Indicates that the Windows Explorer has been started.
+	/// Indicates that the given blacklisted applications could not be terminated.
 	/// </summary>
-	public delegate void ExplorerStartedEventHandler();
+	public delegate void TerminationFailedEventHandler(IEnumerable<RunningApplication> applications);
 }

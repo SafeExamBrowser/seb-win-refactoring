@@ -22,6 +22,11 @@ namespace SafeExamBrowser.Monitoring.Contracts.Applications
 		event ExplorerStartedEventHandler ExplorerStarted;
 
 		/// <summary>
+		/// Event fired when the automatic termination of a blacklisted application failed.
+		/// </summary>
+		event TerminationFailedEventHandler TerminationFailed;
+
+		/// <summary>
 		/// Initializes the application monitor.
 		/// </summary>
 		InitializationResult Initialize(ApplicationSettings settings);

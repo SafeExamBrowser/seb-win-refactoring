@@ -52,6 +52,7 @@ namespace SafeExamBrowser.Client
 {
 	internal class CompositionRoot
 	{
+		private const int TWO_SECONDS = 2000;
 		private const int FIVE_SECONDS = 5000;
 
 		private Guid authenticationToken;
@@ -94,7 +95,7 @@ namespace SafeExamBrowser.Client
 			taskbar = BuildTaskbar();
 			terminationActivator = new TerminationActivator(ModuleLogger(nameof(TerminationActivator)));
 
-			var applicationMonitor = new ApplicationMonitor(FIVE_SECONDS, ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, new ProcessFactory(ModuleLogger(nameof(ProcessFactory))));
+			var applicationMonitor = new ApplicationMonitor(TWO_SECONDS, ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, new ProcessFactory(ModuleLogger(nameof(ProcessFactory))));
 			var displayMonitor = new DisplayMonitor(ModuleLogger(nameof(DisplayMonitor)), nativeMethods, systemInfo);
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
 			var hashAlgorithm = new HashAlgorithm();

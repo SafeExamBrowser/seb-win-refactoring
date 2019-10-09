@@ -14,6 +14,7 @@ using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Applications;
 
 namespace SafeExamBrowser.Client.Operations
@@ -109,18 +110,18 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void StartMonitor()
 		{
-			//TODO: if (Context.Settings.KioskMode != KioskMode.None)
-			//{
+			if (Context.Settings.KioskMode != KioskMode.None)
+			{
 				applicationMonitor.Start();
-			//}
+			}
 		}
 
 		private void StopMonitor()
 		{
-			//TODO: if (Context.Settings.KioskMode != KioskMode.None)
-			//{
+			if (Context.Settings.KioskMode != KioskMode.None)
+			{
 				applicationMonitor.Stop();
-			//}
+			}
 		}
 
 		private OperationResult TryTerminate(IEnumerable<RunningApplication> runningApplications)

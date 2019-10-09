@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
@@ -32,6 +33,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 		private IList<WhitelistApplication> whitelist;
 
 		public event ExplorerStartedEventHandler ExplorerStarted;
+		public event TerminationFailedEventHandler TerminationFailed;
 
 		public ApplicationMonitor(int interval_ms, ILogger logger, INativeMethods nativeMethods, IProcessFactory processFactory)
 		{
@@ -133,6 +135,74 @@ namespace SafeExamBrowser.Monitoring.Applications
 			return success;
 		}
 
+		private void SystemEvent_WindowChanged(IntPtr window)
+		{
+			if (window != IntPtr.Zero && activeWindow != window)
+			{
+				logger.Debug($"Window has changed from {activeWindow} to {window}.");
+				activeWindow = window;
+
+				Task.Run(() =>
+				{
+					if (!IsAllowed(window) && !TryHide(window))
+					{
+						Close(window);
+					}
+				});
+			}
+		}
+
+		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+		{
+			var failed = new List<RunningApplication>();
+			var running = processFactory.GetAllRunning();
+			var started = running.Where(r => processes.All(p => p.Id != r.Id)).ToList();
+			var terminated = processes.Where(p => running.All(r => r.Id != p.Id)).ToList();
+
+			foreach (var process in started)
+			{
+				logger.Debug($"Process {process} has been started.");
+				processes.Add(process);
+
+				if (process.Name == "explorer")
+				{
+					HandleExplorerStart(process);
+				}
+				else if (!IsAllowed(process) && !TryTerminate(process))
+				{
+					AddFailed(process, failed);
+				}
+			}
+
+			foreach (var process in terminated)
+			{
+				logger.Debug($"Process {process} has been terminated.");
+				processes.Remove(process);
+			}
+
+			if (failed.Any())
+			{
+				logger.Warn($"Failed to terminate these blacklisted applications: {string.Join(", ", failed.Select(a => a.Name))}.");
+				TerminationFailed?.Invoke(failed);
+			}
+
+			timer.Start();
+		}
+
+		private void AddFailed(IProcess process, List<RunningApplication> failed)
+		{
+			var name = blacklist.First(a => BelongsToApplication(process, a)).ExecutableName;
+			var application = failed.FirstOrDefault(a => a.Name == name);
+
+			if (application == default(RunningApplication))
+			{
+				application = new RunningApplication(name);
+				failed.Add(application);
+			}
+
+			application.Processes.Add(process);
+		}
+
 		private void AddFailed(string name, IProcess process, InitializationResult result)
 		{
 			var application = result.FailedAutoTerminations.FirstOrDefault(a => a.Name == name);
@@ -169,27 +239,29 @@ namespace SafeExamBrowser.Monitoring.Applications
 			return sameName || sameOriginalName;
 		}
 
-		private void Check(IntPtr window)
-		{
-			var allowed = IsAllowed(window);
-
-			if (!allowed)
-			{
-				var success = TryHide(window);
-
-				if (!success)
-				{
-					Close(window);
-				}
-			}
-		}
-
 		private void Close(IntPtr window)
 		{
 			var title = nativeMethods.GetWindowTitle(window);
 
 			nativeMethods.SendCloseMessageTo(window);
 			logger.Info($"Sent close message to window '{title}' with handle = {window}.");
+		}
+
+		private void HandleExplorerStart(IProcess process)
+		{
+			logger.Warn($"A new instance of Windows Explorer {process} has been started!");
+
+			if (!TryTerminate(process))
+			{
+				var application = new RunningApplication("Windows Explorer");
+
+				logger.Error("Failed to terminate new Windows Explorer instance!");
+				application.Processes.Add(process);
+
+				Task.Run(() => TerminationFailed?.Invoke(new[] { application }));
+			}
+
+			Task.Run(() => ExplorerStarted?.Invoke());
 		}
 
 		private bool IsAllowed(IntPtr window)
@@ -209,6 +281,21 @@ namespace SafeExamBrowser.Monitoring.Applications
 
 			//	return allowed;
 			//}
+
+			return true;
+		}
+
+		private bool IsAllowed(IProcess process)
+		{
+			foreach (var application in blacklist)
+			{
+				if (BelongsToApplication(process, application))
+				{
+					logger.Warn($"Process {process} belongs to blacklisted application '{application.ExecutableName}'!");
+
+					return false;
+				}
+			}
 
 			return true;
 		}
@@ -264,52 +351,6 @@ namespace SafeExamBrowser.Monitoring.Applications
 			}
 
 			return process.HasTerminated;
-		}
-
-		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-		{
-			var running = processFactory.GetAllRunning();
-			var started = running.Where(r => processes.All(p => p.Id != r.Id)).ToList();
-			var terminated = processes.Where(p => running.All(r => r.Id != p.Id)).ToList();
-
-			foreach (var process in started)
-			{
-				logger.Debug($"Process {process} has been started.");
-				processes.Add(process);
-
-				foreach (var application in blacklist)
-				{
-					if (BelongsToApplication(process, application))
-					{
-						logger.Warn($"Process {process} belongs to blacklisted application '{application.ExecutableName}'! Attempting termination...");
-
-						var success = TryTerminate(process);
-
-						if (!success)
-						{
-							// TODO: Invoke event -> Show lock screen!
-						}
-					}
-				}
-			}
-
-			foreach (var process in terminated)
-			{
-				logger.Debug($"Process {process} has been terminated.");
-				processes.Remove(process);
-			}
-
-			timer.Start();
-		}
-
-		private void SystemEvent_WindowChanged(IntPtr window)
-		{
-			if (window != IntPtr.Zero && activeWindow != window)
-			{
-				logger.Debug($"Window has changed from {activeWindow} to {window}.");
-				activeWindow = window;
-				Check(window);
-			}
 		}
 	}
 }
