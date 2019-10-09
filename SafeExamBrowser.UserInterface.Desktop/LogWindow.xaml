@@ -15,7 +15,7 @@
     </Window.Resources>
     <Grid>
         <ScrollViewer x:Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" Padding="5,5,5,0" VerticalScrollBarVisibility="Auto" Template="{StaticResource SmallBarScrollViewer}">
-            <TextBlock x:Name="LogContent" FontFamily="Consolas" />
+            <TextBlock x:Name="LogContent" FontFamily="Consolas" Foreground="White" />
         </ScrollViewer>
     </Grid>
 </Window>

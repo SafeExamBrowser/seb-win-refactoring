@@ -4,7 +4,7 @@
         <Rectangle x:Name="Rectangle" Fill="DarkGray" Height="Auto" Width="Auto" />
         <ControlTemplate.Triggers>
             <Trigger Property="IsDragging" Value="True">
-                <Setter TargetName="Rectangle" Property="Fill" Value="Black" />
+                <Setter TargetName="Rectangle" Property="Fill" Value="DimGray" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
