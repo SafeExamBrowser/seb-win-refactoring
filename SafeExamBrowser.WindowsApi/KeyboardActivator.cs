@@ -20,7 +20,7 @@ namespace SafeExamBrowser.WindowsApi
 {
 	public class KeyboardActivator : IActionCenterActivator
 	{
-		private bool A, LeftWindows;
+		private bool A, LeftWindows, paused;
 		private IntPtr handle;
 		private HookDelegate hookDelegate;
 		private ILogger logger;
@@ -32,6 +32,18 @@ namespace SafeExamBrowser.WindowsApi
 		public KeyboardActivator(ILogger logger)
 		{
 			this.logger = logger;
+		}
+
+		public void Pause()
+		{
+			paused = true;
+		}
+
+		public void Resume()
+		{
+			A = false;
+			LeftWindows = false;
+			paused = false;
 		}
 
 		public void Start()
@@ -72,7 +84,7 @@ namespace SafeExamBrowser.WindowsApi
 
 		private IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam)
 		{
-			if (nCode >= 0)
+			if (nCode >= 0 && !paused)
 			{
 				var changed = false;
 				var keyData = (KBDLLHOOKSTRUCT) Marshal.PtrToStructure(lParam, typeof(KBDLLHOOKSTRUCT));

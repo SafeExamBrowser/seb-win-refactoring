@@ -23,7 +23,7 @@ namespace SafeExamBrowser.WindowsApi
 	{
 		private HookDelegate hookDelegate;
 		private IntPtr handle;
-		private bool isDown;
+		private bool isDown, paused;
 		private ILogger logger;
 
 		public event ActivatorEventHandler Activated;
@@ -33,6 +33,17 @@ namespace SafeExamBrowser.WindowsApi
 		public TouchActivator(ILogger logger)
 		{
 			this.logger = logger;
+		}
+
+		public void Pause()
+		{
+			paused = true;
+		}
+
+		public void Resume()
+		{
+			isDown = false;
+			paused = false;
 		}
 
 		public void Start()
@@ -73,7 +84,7 @@ namespace SafeExamBrowser.WindowsApi
 
 		private IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam)
 		{
-			if (nCode >= 0 && !Ignore(wParam.ToInt32()))
+			if (nCode >= 0 && !paused && !Ignore(wParam.ToInt32()))
 			{
 				var message = wParam.ToInt32();
 				var mouseData = (MSLLHOOKSTRUCT) Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));

@@ -7,10 +7,12 @@
  */
 
 using System;
+using System.Collections.Generic;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.UserInterface.Contracts.Shell;
 
 namespace SafeExamBrowser.Client
 {
@@ -19,6 +21,11 @@ namespace SafeExamBrowser.Client
 	/// </summary>
 	internal class ClientContext
 	{
+		/// <summary>
+		/// All activators for the action center.
+		/// </summary>
+		internal IList<IActionCenterActivator> Activators { get; }
+
 		/// <summary>
 		/// The global application configuration.
 		/// </summary>
@@ -43,5 +50,10 @@ namespace SafeExamBrowser.Client
 		/// The settings for the current session.
 		/// </summary>
 		internal AppSettings Settings { get; set; }
+
+		internal ClientContext()
+		{
+			Activators = new List<IActionCenterActivator>();
+		}
 	}
 }

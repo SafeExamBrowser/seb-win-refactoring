@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Generic;
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
@@ -26,7 +25,6 @@ namespace SafeExamBrowser.Client.Operations
 	internal class ShellOperation : ClientOperation
 	{
 		private IActionCenter actionCenter;
-		private IEnumerable<IActionCenterActivator> activators;
 		private IAudio audio;
 		private INotificationInfo aboutInfo;
 		private INotificationController aboutController;
@@ -47,7 +45,6 @@ namespace SafeExamBrowser.Client.Operations
 
 		public ShellOperation(
 			IActionCenter actionCenter,
-			IEnumerable<IActionCenterActivator> activators,
 			IAudio audio,
 			INotificationInfo aboutInfo,
 			INotificationController aboutController,
@@ -67,7 +64,6 @@ namespace SafeExamBrowser.Client.Operations
 			this.aboutInfo = aboutInfo;
 			this.aboutController = aboutController;
 			this.actionCenter = actionCenter;
-			this.activators = activators;
 			this.audio = audio;
 			this.keyboard = keyboard;
 			this.logger = logger;
@@ -113,7 +109,7 @@ namespace SafeExamBrowser.Client.Operations
 
 			if (Context.Settings.ActionCenter.EnableActionCenter)
 			{
-				foreach (var activator in activators)
+				foreach (var activator in Context.Activators)
 				{
 					actionCenter.Register(activator);
 					activator.Start();
@@ -283,7 +279,7 @@ namespace SafeExamBrowser.Client.Operations
 
 			if (Context.Settings.ActionCenter.EnableActionCenter)
 			{
-				foreach (var activator in activators)
+				foreach (var activator in Context.Activators)
 				{
 					activator.Stop();
 				}

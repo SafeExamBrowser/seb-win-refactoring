@@ -30,6 +30,7 @@ using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Client
@@ -235,9 +236,60 @@ namespace SafeExamBrowser.Client
 
 		private void ApplicationMonitor_TerminationFailed(IEnumerable<RunningApplication> applications)
 		{
-			// foreach actionCenterActivator -> Pause
-			// TODO: Show lock screen!
-			// foreach actionCenterActivator -> Resume
+			var applicationList = string.Join(Environment.NewLine, applications.Select(a => $"- {a.Name}"));
+			var message = $"{text.Get(TextKey.LockScreen_Message)}{Environment.NewLine}{Environment.NewLine}{applicationList}";
+			var title = text.Get(TextKey.LockScreen_Title);
+			var hasQuitPassword = !string.IsNullOrEmpty(Settings.QuitPasswordHash);
+			var allowOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_AllowOption) };
+			var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_TerminateOption) };
+			var lockScreen = uiFactory.CreateLockScreen(message, title, new [] { allowOption, terminateOption });
+			var result = default(LockScreenResult);
+
+			logger.Warn("Showing lock screen due to failed termination of blacklisted application(s)!");
+			PauseActivators();
+			lockScreen.Show();
+
+			for (var unlocked = false; !unlocked;)
+			{
+				result = lockScreen.WaitForResult();
+
+				if (hasQuitPassword)
+				{
+					var passwordHash = hashAlgorithm.GenerateHashFor(result.Password);
+					var isCorrect = Settings.QuitPasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase);
+
+					if (isCorrect)
+					{
+						logger.Info("The user entered the correct unlock password.");
+						unlocked = true;
+					}
+					else
+					{
+						logger.Info("The user entered the wrong unlock password.");
+						messageBox.Show(TextKey.MessageBox_InvalidUnlockPassword, TextKey.MessageBox_InvalidUnlockPasswordTitle, icon: MessageBoxIcon.Warning, parent: lockScreen);
+					}
+				}
+				else
+				{
+					logger.Warn($"No unlock password is defined, allowing user to resume session!");
+					unlocked = true;
+				}
+			}
+
+			lockScreen.Close();
+			ResumeActivators();
+			logger.Info("Closed lock screen.");
+
+			if (result.OptionId == allowOption.Id)
+			{
+				logger.Info($"The blacklisted application(s) {string.Join(", ", applications.Select(a => $"'{a.Name}'"))} will be temporarily allowed.");
+			}
+			else if (result.OptionId == terminateOption.Id)
+			{
+				logger.Info("Initiating shutdown request...");
+
+				TryRequestShutdown();
+			}
 		}
 
 		private void Browser_ConfigurationDownloadRequested(string fileName, DownloadEventArgs args)
@@ -409,16 +461,16 @@ namespace SafeExamBrowser.Client
 
 		private void Shell_QuitButtonClicked(System.ComponentModel.CancelEventArgs args)
 		{
-			terminationActivator.Pause();
+			PauseActivators();
 			args.Cancel = !TryInitiateShutdown();
-			terminationActivator.Resume();
+			ResumeActivators();
 		}
 
 		private void TerminationActivator_Activated()
 		{
-			terminationActivator.Pause();
+			PauseActivators();
 			TryInitiateShutdown();
-			terminationActivator.Resume();
+			ResumeActivators();
 		}
 
 		private void AskForAutomaticApplicationTermination(ApplicationTerminationEventArgs args)
@@ -442,10 +494,33 @@ namespace SafeExamBrowser.Client
 			messageBox.Show(message, title, icon: MessageBoxIcon.Error, parent: splashScreen);
 		}
 
+		private void PauseActivators()
+		{
+			// TODO: Same for task view activator!
+			terminationActivator.Pause();
+
+			foreach (var activator in context.Activators)
+			{
+				activator.Pause();
+			}
+		}
+
+		private void ResumeActivators()
+		{
+			// TODO: Same for task view activator!
+			terminationActivator.Resume();
+
+			foreach (var activator in context.Activators)
+			{
+				activator.Resume();
+			}
+		}
+
 		private bool TryInitiateShutdown()
 		{
-			var hasQuitPassword = !String.IsNullOrEmpty(Settings.QuitPasswordHash);
+			var hasQuitPassword = !string.IsNullOrEmpty(Settings.QuitPasswordHash);
 			var requestShutdown = false;
+			var succes = false;
 
 			if (hasQuitPassword)
 			{
@@ -458,20 +533,10 @@ namespace SafeExamBrowser.Client
 
 			if (requestShutdown)
 			{
-				var communication = runtime.RequestShutdown();
-
-				if (communication.Success)
-				{
-					return true;
-				}
-				else
-				{
-					logger.Error("Failed to communicate shutdown request to the runtime!");
-					messageBox.Show(TextKey.MessageBox_QuitError, TextKey.MessageBox_QuitErrorTitle, icon: MessageBoxIcon.Error);
-				}
+				succes = TryRequestShutdown();
 			}
 
-			return false;
+			return succes;
 		}
 
 		private bool TryConfirmShutdown()
@@ -511,6 +576,19 @@ namespace SafeExamBrowser.Client
 			}
 
 			return false;
+		}
+
+		private bool TryRequestShutdown()
+		{
+			var communication = runtime.RequestShutdown();
+
+			if (!communication.Success)
+			{
+				logger.Error("Failed to communicate shutdown request to the runtime!");
+				messageBox.Show(TextKey.MessageBox_QuitError, TextKey.MessageBox_QuitErrorTitle, icon: MessageBoxIcon.Error);
+			}
+
+			return communication.Success;
 		}
 	}
 }

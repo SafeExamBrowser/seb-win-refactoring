@@ -11,13 +11,13 @@ using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 namespace SafeExamBrowser.UserInterface.Contracts.Windows
 {
 	/// <summary>
-	/// Defines the functionality of a password dialog.
+	/// Defines the functionality of a lock screen which covers all active displays and prevents the user from continuing their work.
 	/// </summary>
-	public interface IPasswordDialog : IWindow
+	public interface ILockScreen : IWindow
 	{
 		/// <summary>
-		/// Shows the dialog as topmost window. If a parent window is specified, the dialog is rendered modally for the given parent.
+		/// Waits for the user to provide the required input to unlock the application.
 		/// </summary>
-		PasswordDialogResult Show(IWindow parent = null);
+		LockScreenResult WaitForResult();
 	}
 }

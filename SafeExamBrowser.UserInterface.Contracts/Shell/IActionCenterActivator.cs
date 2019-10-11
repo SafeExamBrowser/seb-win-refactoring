@@ -31,6 +31,16 @@ namespace SafeExamBrowser.UserInterface.Contracts.Shell
 		event ActivatorEventHandler Toggled;
 
 		/// <summary>
+		/// Temporarily stops processing all user input.
+		/// </summary>
+		void Pause();
+
+		/// <summary>
+		/// Resumes processing user input.
+		/// </summary>
+		void Resume();
+
+		/// <summary>
 		/// Starts monitoring user input events.
 		/// </summary>
 		void Start();

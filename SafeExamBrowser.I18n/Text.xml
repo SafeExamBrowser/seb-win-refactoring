@@ -7,7 +7,7 @@
         Back to previous page
     </Entry>
     <Entry key="Browser_BlockedPageMessage">
-        Access to this page is not allowed according to the application configuration.
+        Access to this page is not allowed according to the current configuration.
     </Entry>
     <Entry key="Browser_BlockedPageTitle">
         Page Blocked
@@ -20,6 +20,21 @@
     </Entry>
     <Entry key="Build">
         Build
+    </Entry>
+    <Entry key="LockScreen_AllowOption">
+        Temporarily allow the blacklisted applications. This applies only to the currently running instances and session!
+    </Entry>
+    <Entry key="LockScreen_Message">
+        The blacklisted applications listed below were started and could not be automatically terminated! In order to unlock SEB, please select one of the available options and enter the correct unlock password.
+    </Entry>
+    <Entry key="LockScreen_TerminateOption">
+        Terminate Safe Exam Browser. WARNING: There will be no possibility to save data or perform any further actions, the shutdown will be initiated immediately!
+    </Entry>
+    <Entry key="LockScreen_Title">
+        SEB LOCKED
+    </Entry>
+    <Entry key="LockScreen_UnlockButton">
+        Unlock
     </Entry>
     <Entry key="LogWindow_Title">
         Application Log
@@ -34,7 +49,7 @@
         IMPORTANT: Any unsaved application data might be lost!
     </Entry>
     <Entry key="MessageBox_ApplicationError">
-        An unrecoverable error has occurred! Please consult the application log for more information. The application will now shut down...
+        An unrecoverable error has occurred! Please consult the log files for more information. SEB will now shut down...
     </Entry>
     <Entry key="MessageBox_ApplicationErrorTitle">
         Application Error
@@ -46,7 +61,7 @@
         Automatic Termination Failed
     </Entry>
     <Entry key="MessageBox_BrowserNavigationBlocked">
-        Access to "%%URL%%" is not allowed according to the application configuration.
+        Access to "%%URL%%" is not allowed according to the current configuration.
     </Entry>
     <Entry key="MessageBox_BrowserNavigationBlockedTitle">
         Page Blocked
@@ -55,19 +70,19 @@
         Cancel
     </Entry>
     <Entry key="MessageBox_ClientConfigurationError">
-        The local client configuration has failed! Please consult the application log for more information. The application will now shut down...
+        The local client configuration has failed! Please consult the log files for more information. SEB will now shut down...
     </Entry>
     <Entry key="MessageBox_ClientConfigurationErrorTitle">
         Client Configuration Error
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestion">
-        The client configuration has been saved and will be used when you start the application the next time. Do you want to quit for now?
+        The client configuration has been saved and will be used when you start SEB the next time. Do you want to quit for now?
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestionTitle">
         Configuration Successful
     </Entry>
     <Entry key="MessageBox_ConfigurationDownloadError">
-        Failed to download the new application configuration. Please try again or contact technical support.
+        Failed to download the new configuration. Please try again or contact technical support.
     </Entry>
     <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
         Download Error
@@ -79,16 +94,22 @@
         Configuration Error
     </Entry>
     <Entry key="MessageBox_InvalidPasswordError">
-        You failed to enter the correct password within 5 attempts. The application will now terminate...
+        You failed to enter the correct password within 5 attempts. SEB will now terminate...
     </Entry>
     <Entry key="MessageBox_InvalidPasswordErrorTitle">
         Invalid Password
     </Entry>
     <Entry key="MessageBox_InvalidQuitPassword">
-        The application can only be terminated by entering the correct quit password.
+        SEB can only be terminated by entering the correct quit password.
     </Entry>
     <Entry key="MessageBox_InvalidQuitPasswordTitle">
         Invalid Quit Password
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPassword">
+        SEB can only be unlocked by entering the correct password.
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPasswordTitle">
+        Invalid Unlock Password
     </Entry>
     <Entry key="MessageBox_NoButton">
         No
@@ -103,7 +124,7 @@
         OK
     </Entry>
     <Entry key="MessageBox_Quit">
-        Do you want to quit the application?
+        Do you want to quit SEB?
     </Entry>
     <Entry key="MessageBox_QuitTitle">
         Quit?
@@ -115,7 +136,7 @@
         Quit Error
     </Entry>
     <Entry key="MessageBox_ReconfigurationDenied">
-        You are not allowed to reconfigure the application.
+        You are not allowed to reconfigure SEB.
     </Entry>
     <Entry key="MessageBox_ReconfigurationDeniedTitle">
         Reconfiguration Denied
@@ -133,37 +154,37 @@
         Reload?
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
-        Failed to initialize the SEB service! The application will now terminate since the service is configured to be mandatory.
+        Failed to initialize the SEB service! SEB will now terminate since the service is configured to be mandatory.
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableErrorTitle">
         Service Unavailable
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableWarning">
-        Failed to initialize the SEB service. The application will continue initialization since the service is configured to be optional.
+        Failed to initialize the SEB service. SEB will continue initialization since the service is configured to be optional.
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableWarningTitle">
         Service Unavailable
     </Entry>
     <Entry key="MessageBox_SessionStartError">
-        The application failed to start a new session! Please consult the application log for more information...
+        SEB failed to start a new session! Please consult the log files for more information...
     </Entry>
     <Entry key="MessageBox_SessionStartErrorTitle">
         Session Start Error
     </Entry>
     <Entry key="MessageBox_ShutdownError">
-        An unexpected error occurred during the shutdown procedure! Please consult the application log for more information...
+        An unexpected error occurred during the shutdown procedure! Please consult the log files for more information...
     </Entry>
     <Entry key="MessageBox_ShutdownErrorTitle">
         Shutdown Error
     </Entry>
     <Entry key="MessageBox_StartupError">
-        An unexpected error occurred during the startup procedure! Please consult the application log for more information...
+        An unexpected error occurred during the startup procedure! Please consult the log files for more information...
     </Entry>
     <Entry key="MessageBox_StartupErrorTitle">
         Startup Error
     </Entry>
     <Entry key="MessageBox_UnexpectedConfigurationError">
-        An unexpected error occurred while trying to load configuration resource "%%URI%%"! Please consult the application log for more information...
+        An unexpected error occurred while trying to load configuration resource "%%URI%%"! Please consult the log files for more information...
     </Entry>
     <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
         Configuration Error
@@ -196,7 +217,7 @@
         Initializing browser
     </Entry>
     <Entry key="OperationStatus_InitializeConfiguration">
-        Initializing application configuration
+        Initializing configuration
     </Entry>
     <Entry key="OperationStatus_InitializeKioskMode">
         Initializing kiosk mode
@@ -283,19 +304,19 @@
         Settings Password Required
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequired">
-        Please enter the quit password in order to terminate the application:
+        Please enter the quit password in order to terminate SEB:
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
         Quit Password Required
     </Entry>
     <Entry key="PasswordDialog_SettingsPasswordRequired">
-        Please enter the settings password for the selected application configuration:
+        Please enter the settings password for the selected configuration:
     </Entry>
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Settings Password Required
     </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
-        The application is running.
+        SEB is running.
     </Entry>
     <Entry key="Shell_QuitButton">
         Terminate Session

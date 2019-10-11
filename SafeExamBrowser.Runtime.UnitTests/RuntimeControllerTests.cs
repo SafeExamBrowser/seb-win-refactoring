@@ -14,16 +14,17 @@ using SafeExamBrowser.Communication.Contracts.Events;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Settings;
-using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
+using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Runtime.UnitTests
@@ -219,14 +220,11 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		public void Operations_MustRequestPasswordViaDialogOnDefaultDesktop()
 		{
 			var args = new PasswordRequiredEventArgs();
-			var password = "test1234";
 			var passwordDialog = new Mock<IPasswordDialog>();
-			var result = new Mock<IPasswordDialogResult>();
+			var result = new PasswordDialogResult { Password = "test1234", Success = true };
 
 			currentSettings.KioskMode = KioskMode.DisableExplorerShell;
-			passwordDialog.Setup(p => p.Show(It.IsAny<IWindow>())).Returns(result.Object);
-			result.SetupGet(r => r.Password).Returns(password);
-			result.SetupGet(r => r.Success).Returns(true);
+			passwordDialog.Setup(p => p.Show(It.IsAny<IWindow>())).Returns(result);
 			uiFactory.Setup(u => u.CreatePasswordDialog(It.IsAny<string>(), It.IsAny<string>())).Returns(passwordDialog.Object);
 
 			sut.TryStart();
@@ -237,7 +235,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			uiFactory.Verify(u => u.CreatePasswordDialog(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 
 			Assert.AreEqual(true, args.Success);
-			Assert.AreEqual(password, args.Password);
+			Assert.AreEqual(result.Password, args.Password);
 		}
 
 		[TestMethod]

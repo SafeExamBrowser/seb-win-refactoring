@@ -54,6 +54,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
@@ -139,6 +140,9 @@
     </Compile>
     <Compile Include="Controls\TaskbarWirelessNetworkControl.xaml.cs">
       <DependentUpon>TaskbarWirelessNetworkControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LockScreen.xaml.cs">
+      <DependentUpon>LockScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="LogWindow.xaml.cs">
       <DependentUpon>LogWindow.xaml</DependentUpon>
@@ -306,6 +310,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="LockScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Templates\ScrollViewers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

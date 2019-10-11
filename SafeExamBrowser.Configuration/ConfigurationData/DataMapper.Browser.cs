@@ -106,19 +106,57 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapEnableContentRequestFilter(AppSettings settings, object value)
+		private void MapMainWindowMode(AppSettings settings, object value)
 		{
-			if (value is bool process)
+			const int FULLSCREEN = 1;
+
+			if (value is int mode)
 			{
-				settings.Browser.Filter.ProcessContentRequests = process;
+				settings.Browser.MainWindow.FullScreenMode = mode == FULLSCREEN;
 			}
 		}
 
-		private void MapEnableMainRequestFilter(AppSettings settings, object value)
+		private void MapRequestFilter(IDictionary<string, object> rawData, AppSettings settings)
 		{
-			if (value is bool process)
+			var processMainRequests = rawData.TryGetValue(Keys.Browser.Filter.EnableMainRequestFilter, out var value) && value as bool? == true;
+			var processContentRequests = rawData.TryGetValue(Keys.Browser.UserAgentModeMobile, out value) && value as bool? == true;
+
+			settings.Browser.Filter.ProcessMainRequests = processMainRequests;
+			settings.Browser.Filter.ProcessContentRequests = processMainRequests && processContentRequests;
+		}
+
+		private void MapShowReloadWarning(AppSettings settings, object value)
+		{
+			if (value is bool show)
 			{
-				settings.Browser.Filter.ProcessMainRequests = process;
+				settings.Browser.MainWindow.ShowReloadWarning = show;
+			}
+		}
+
+		private void MapShowReloadWarningAdditionalWindow(AppSettings settings, object value)
+		{
+			if (value is bool show)
+			{
+				settings.Browser.AdditionalWindow.ShowReloadWarning = show;
+			}
+		}
+
+		private void MapUserAgentMode(IDictionary<string, object> rawData, AppSettings settings)
+		{
+			const int DEFAULT = 0;
+
+			var useCustomForDesktop = rawData.TryGetValue(Keys.Browser.UserAgentModeDesktop, out var value) && value as int? != DEFAULT;
+			var useCustomForMobile = rawData.TryGetValue(Keys.Browser.UserAgentModeMobile, out value) && value as int? != DEFAULT;
+
+			if (settings.UserInterfaceMode == UserInterfaceMode.Desktop && useCustomForDesktop)
+			{
+				settings.Browser.UseCustomUserAgent = true;
+				settings.Browser.CustomUserAgent = rawData[Keys.Browser.CustomUserAgentDesktop] as string;
+			}
+			else if (settings.UserInterfaceMode == UserInterfaceMode.Mobile && useCustomForMobile)
+			{
+				settings.Browser.UseCustomUserAgent = true;
+				settings.Browser.CustomUserAgent = rawData[Keys.Browser.CustomUserAgentMobile] as string;
 			}
 		}
 
@@ -157,51 +195,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 						}
 					}
 				}
-			}
-		}
-
-		private void MapMainWindowMode(AppSettings settings, object value)
-		{
-			const int FULLSCREEN = 1;
-
-			if (value is int mode)
-			{
-				settings.Browser.MainWindow.FullScreenMode = mode == FULLSCREEN;
-			}
-		}
-
-		private void MapShowReloadWarning(AppSettings settings, object value)
-		{
-			if (value is bool show)
-			{
-				settings.Browser.MainWindow.ShowReloadWarning = show;
-			}
-		}
-
-		private void MapShowReloadWarningAdditionalWindow(AppSettings settings, object value)
-		{
-			if (value is bool show)
-			{
-				settings.Browser.AdditionalWindow.ShowReloadWarning = show;
-			}
-		}
-
-		private void MapUserAgentMode(IDictionary<string, object> rawData, AppSettings settings)
-		{
-			const int DEFAULT = 0;
-
-			var useCustomForDesktop = rawData.TryGetValue(Keys.Browser.UserAgentModeDesktop, out var value) && value as int? != DEFAULT;
-			var useCustomForMobile = rawData.TryGetValue(Keys.Browser.UserAgentModeMobile, out value) && value as int? != DEFAULT;
-
-			if (settings.UserInterfaceMode == UserInterfaceMode.Desktop && useCustomForDesktop)
-			{
-				settings.Browser.UseCustomUserAgent = true;
-				settings.Browser.CustomUserAgent = rawData[Keys.Browser.CustomUserAgentDesktop] as string;
-			}
-			else if (settings.UserInterfaceMode == UserInterfaceMode.Mobile && useCustomForMobile)
-			{
-				settings.Browser.UseCustomUserAgent = true;
-				settings.Browser.CustomUserAgent = rawData[Keys.Browser.CustomUserAgentMobile] as string;
 			}
 		}
 	}

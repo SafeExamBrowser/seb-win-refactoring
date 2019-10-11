@@ -29,7 +29,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	public class ShellOperationTests
 	{
 		private Mock<IActionCenter> actionCenter;
-		private List<IActionCenterActivator> activators;
 		private Mock<IAudio> audio;
 		private ClientContext context;
 		private Mock<ILogger> logger;
@@ -52,7 +51,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void Initialize()
 		{
 			actionCenter = new Mock<IActionCenter>();
-			activators = new List<IActionCenterActivator>();
 			audio = new Mock<IAudio>();
 			context = new ClientContext();
 			logger = new Mock<ILogger>();
@@ -77,7 +75,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			sut = new ShellOperation(
 				actionCenter.Object,
-				activators,
 				audio.Object,
 				aboutInfo.Object,
 				aboutController.Object,
@@ -109,7 +106,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			
 			foreach (var activator in activatorMocks)
 			{
-				activators.Add(activator.Object);
+				context.Activators.Add(activator.Object);
 			}
 
 			sut.Perform();
@@ -272,7 +269,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			foreach (var activator in activatorMocks)
 			{
-				activators.Add(activator.Object);
+				context.Activators.Add(activator.Object);
 			}
 
 			sut.Revert();

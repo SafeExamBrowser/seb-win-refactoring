@@ -12,31 +12,52 @@ using System.Windows.Media;
 
 namespace SafeExamBrowser.UserInterface.Shared.Utilities
 {
+	/// <summary>
+	/// WPF works with device-independent pixels. These methods are required to transform
+	/// such values to their absolute, device-specific pixel values and vice versa.
+	/// 
+	/// Source: https://stackoverflow.com/questions/3286175/how-do-i-convert-a-wpf-size-to-physical-pixels
+	/// </summary>
 	public static class VisualExtensions
 	{
-		/// <summary>
-		/// WPF works with device-independent pixels. This method is required to
-		/// transform such values to their absolute, device-specific pixel value.
-		/// Source: https://stackoverflow.com/questions/3286175/how-do-i-convert-a-wpf-size-to-physical-pixels
-		/// </summary>
 		public static Vector TransformToPhysical(this Visual visual, double x, double y)
 		{
-			Matrix transformToDevice;
+			var matrix = default(Matrix);
 			var source = PresentationSource.FromVisual(visual);
 
 			if (source != null)
 			{
-				transformToDevice = source.CompositionTarget.TransformToDevice;
+				matrix = source.CompositionTarget.TransformToDevice;
 			}
 			else
 			{
 				using (var newSource = new HwndSource(new HwndSourceParameters()))
 				{
-					transformToDevice = newSource.CompositionTarget.TransformToDevice;
+					matrix = newSource.CompositionTarget.TransformToDevice;
 				}
 			}
 
-			return transformToDevice.Transform(new Vector(x, y));
+			return matrix.Transform(new Vector(x, y));
+		}
+
+		public static Vector TransformFromPhysical(this Visual visual, double x, double y)
+		{
+			var matrix = default(Matrix);
+			var source = PresentationSource.FromVisual(visual);
+
+			if (source != null)
+			{
+				matrix = source.CompositionTarget.TransformFromDevice;
+			}
+			else
+			{
+				using (var newSource = new HwndSource(new HwndSourceParameters()))
+				{
+					matrix = newSource.CompositionTarget.TransformFromDevice;
+				}
+			}
+
+			return matrix.Transform(new Vector(x, y));
 		}
 	}
 }

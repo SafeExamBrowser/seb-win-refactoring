@@ -6,21 +6,28 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.UserInterface.Contracts.Windows
+using System;
+
+namespace SafeExamBrowser.UserInterface.Contracts.Windows.Data
 {
 	/// <summary>
-	/// Defines the user interaction result of an <see cref="IPasswordDialog"/>.
+	/// Defines an option for the user to select on the <see cref="ILockScreen"/>.
 	/// </summary>
-	public interface IPasswordDialogResult
+	public class LockScreenOption
 	{
 		/// <summary>
-		/// The password entered by the user, or <c>null</c> if the interaction was unsuccessful.
+		/// The unique identifier for this option.
 		/// </summary>
-		string Password { get; }
+		public Guid Id { get; set; }
 
 		/// <summary>
-		/// Indicates whether the user confirmed the dialog or not.
+		/// The text to be displayed to the user.
 		/// </summary>
-		bool Success { get; }
+		public string Text { get; set; }
+
+		public LockScreenOption()
+		{
+			Id = Guid.NewGuid();
+		}
 	}
 }

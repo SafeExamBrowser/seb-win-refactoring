@@ -142,6 +142,9 @@
     <Compile Include="Controls\TaskbarWirelessNetworkControl.xaml.cs">
       <DependentUpon>TaskbarWirelessNetworkControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LockScreen.xaml.cs">
+      <DependentUpon>LockScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LogWindow.xaml.cs">
       <DependentUpon>LogWindow.xaml</DependentUpon>
     </Compile>
@@ -422,6 +425,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Images\AboutNotification.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LockScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

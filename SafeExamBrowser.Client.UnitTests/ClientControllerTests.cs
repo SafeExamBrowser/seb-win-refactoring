@@ -28,6 +28,7 @@ using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Client.UnitTests
@@ -170,11 +171,9 @@ namespace SafeExamBrowser.Client.UnitTests
 				RequestId = Guid.NewGuid()
 			};
 			var dialog = new Mock<IPasswordDialog>();
-			var result = new Mock<IPasswordDialogResult>();
+			var result = new PasswordDialogResult { Password = "blubb", Success = true };
 
-			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(result.Object);
-			result.SetupGet(r => r.Password).Returns("blubb");
-			result.SetupGet(r => r.Success).Returns(true);
+			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(result);
 			uiFactory.Setup(f => f.CreatePasswordDialog(It.IsAny<string>(), It.IsAny<string>())).Returns(dialog.Object);
 
 			sut.TryStart();
@@ -182,8 +181,8 @@ namespace SafeExamBrowser.Client.UnitTests
 
 			runtimeProxy.Verify(p => p.SubmitPassword(
 				It.Is<Guid>(g => g == args.RequestId),
-				It.Is<bool>(b => b == result.Object.Success),
-				It.Is<string>(s => s == result.Object.Password)), Times.Once);
+				It.Is<bool>(b => b == result.Success),
+				It.Is<string>(s => s == result.Password)), Times.Once);
 		}
 
 		[TestMethod]
@@ -461,14 +460,11 @@ namespace SafeExamBrowser.Client.UnitTests
 		{
 			var args = new System.ComponentModel.CancelEventArgs();
 			var dialog = new Mock<IPasswordDialog>();
-			var dialogResult = new Mock<IPasswordDialogResult>();
-			var password = "blobb";
+			var dialogResult = new PasswordDialogResult { Password = "blobb", Success = true };
 
 			settings.QuitPasswordHash = "1234";
-			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(dialogResult.Object);
-			dialogResult.SetupGet(r => r.Password).Returns(password);
-			dialogResult.SetupGet(r => r.Success).Returns(true);
-			hashAlgorithm.Setup(h => h.GenerateHashFor(It.Is<string>(s => s == password))).Returns(settings.QuitPasswordHash);
+			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(dialogResult);
+			hashAlgorithm.Setup(h => h.GenerateHashFor(It.Is<string>(s => s == dialogResult.Password))).Returns(settings.QuitPasswordHash);
 			runtimeProxy.Setup(r => r.RequestShutdown()).Returns(new CommunicationResult(true));
 			uiFactory.Setup(u => u.CreatePasswordDialog(It.IsAny<TextKey>(), It.IsAny<TextKey>())).Returns(dialog.Object);
 
@@ -486,11 +482,10 @@ namespace SafeExamBrowser.Client.UnitTests
 		{
 			var args = new System.ComponentModel.CancelEventArgs();
 			var dialog = new Mock<IPasswordDialog>();
-			var dialogResult = new Mock<IPasswordDialogResult>();
+			var dialogResult = new PasswordDialogResult { Success = false };
 
 			settings.QuitPasswordHash = "1234";
-			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(dialogResult.Object);
-			dialogResult.SetupGet(r => r.Success).Returns(false);
+			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(dialogResult);
 			runtimeProxy.Setup(r => r.RequestShutdown()).Returns(new CommunicationResult(true));
 			uiFactory.Setup(u => u.CreatePasswordDialog(It.IsAny<TextKey>(), It.IsAny<TextKey>())).Returns(dialog.Object);
 
@@ -508,12 +503,10 @@ namespace SafeExamBrowser.Client.UnitTests
 		{
 			var args = new System.ComponentModel.CancelEventArgs();
 			var dialog = new Mock<IPasswordDialog>();
-			var dialogResult = new Mock<IPasswordDialogResult>();
+			var dialogResult = new PasswordDialogResult { Password = "blobb", Success = true };
 
 			settings.QuitPasswordHash = "1234";
-			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(dialogResult.Object);
-			dialogResult.SetupGet(r => r.Password).Returns("blobb");
-			dialogResult.SetupGet(r => r.Success).Returns(true);
+			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(dialogResult);
 			hashAlgorithm.Setup(h => h.GenerateHashFor(It.IsAny<string>())).Returns("9876");
 			uiFactory.Setup(u => u.CreatePasswordDialog(It.IsAny<TextKey>(), It.IsAny<TextKey>())).Returns(dialog.Object);
 

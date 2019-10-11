@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Generic;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
@@ -13,9 +14,9 @@ using FontAwesome.WPF;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
@@ -24,6 +25,7 @@ using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 using SafeExamBrowser.UserInterface.Desktop.Controls;
 
 namespace SafeExamBrowser.UserInterface.Desktop
@@ -83,6 +85,11 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			{
 				return new TaskbarKeyboardLayoutControl(keyboard, text);
 			}
+		}
+
+		public ILockScreen CreateLockScreen(string message, string title, IEnumerable<LockScreenOption> options)
+		{
+			return Application.Current.Dispatcher.Invoke(() => new LockScreen(message, title, text, options));
 		}
 
 		public IWindow CreateLogWindow(ILogger logger)

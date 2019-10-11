@@ -28,6 +28,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 
 			MapApplicationLogAccess(rawData, settings);
+			MapRequestFilter(rawData, settings);
 			MapKioskMode(rawData, settings);
 			MapUserAgentMode(rawData, settings);
 		}
@@ -94,12 +95,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 					break;
 				case Keys.Browser.AdditionalWindow.ShowReloadWarning:
 					MapShowReloadWarningAdditionalWindow(settings, value);
-					break;
-				case Keys.Browser.Filter.EnableContentRequestFilter:
-					MapEnableContentRequestFilter(settings, value);
-					break;
-				case Keys.Browser.Filter.EnableMainRequestFilter:
-					MapEnableMainRequestFilter(settings, value);
 					break;
 				case Keys.Browser.Filter.UrlFilterRules:
 					MapUrlFilterRules(settings, value);

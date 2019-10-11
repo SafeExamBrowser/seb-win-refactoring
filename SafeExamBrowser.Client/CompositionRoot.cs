@@ -243,14 +243,8 @@ namespace SafeExamBrowser.Client
 			var logController = new LogNotificationController(logger, uiFactory);
 			var powerSupply = new PowerSupply(ModuleLogger(nameof(PowerSupply)));
 			var wirelessAdapter = new WirelessAdapter(ModuleLogger(nameof(WirelessAdapter)));
-			var activators = new IActionCenterActivator[]
-			{
-				new KeyboardActivator(ModuleLogger(nameof(KeyboardActivator))),
-				new TouchActivator(ModuleLogger(nameof(TouchActivator)))
-			};
 			var operation = new ShellOperation(
 				actionCenter,
-				activators,
 				audio,
 				aboutInfo,
 				aboutController,
@@ -266,6 +260,9 @@ namespace SafeExamBrowser.Client
 				text,
 				uiFactory,
 				wirelessAdapter);
+
+			context.Activators.Add(new KeyboardActivator(ModuleLogger(nameof(KeyboardActivator))));
+			context.Activators.Add(new TouchActivator(ModuleLogger(nameof(TouchActivator))));
 
 			return operation;
 		}

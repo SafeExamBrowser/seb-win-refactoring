@@ -6,12 +6,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Generic;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
@@ -19,6 +20,7 @@ using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 
 namespace SafeExamBrowser.UserInterface.Contracts
 {
@@ -51,6 +53,11 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// Creates a system control which allows to change the keyboard layout of the computer.
 		/// </summary>
 		ISystemControl CreateKeyboardLayoutControl(IKeyboard keyboard, Location location);
+
+		/// <summary>
+		/// Creates a lock screen with the given message, title and options.
+		/// </summary>
+		ILockScreen CreateLockScreen(string message, string title, IEnumerable<LockScreenOption> options);
 
 		/// <summary>
 		/// Creates a new log window which runs on its own thread.

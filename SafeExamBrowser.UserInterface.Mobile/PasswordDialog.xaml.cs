@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Input;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Events;
 
 namespace SafeExamBrowser.UserInterface.Mobile
@@ -38,7 +39,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			Dispatcher.Invoke(Activate);
 		}
 
-		public IPasswordDialogResult Show(IWindow parent = null)
+		public PasswordDialogResult Show(IWindow parent = null)
 		{
 			return Dispatcher.Invoke(() =>
 			{
@@ -114,12 +115,6 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			{
 				Dispatcher.InvokeAsync(InitializeBounds);
 			}
-		}
-
-		private class PasswordDialogResult : IPasswordDialogResult
-		{
-			public string Password { get; set; }
-			public bool Success { get; set; }
 		}
 	}
 }
