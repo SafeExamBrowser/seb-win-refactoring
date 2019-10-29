@@ -250,17 +250,6 @@ namespace SafeExamBrowser.Monitoring.Applications
 		private void HandleExplorerStart(IProcess process)
 		{
 			logger.Warn($"A new instance of Windows Explorer {process} has been started!");
-
-			if (!TryTerminate(process))
-			{
-				var application = new RunningApplication("Windows Explorer");
-
-				logger.Error("Failed to terminate new Windows Explorer instance!");
-				application.Processes.Add(process);
-
-				Task.Run(() => TerminationFailed?.Invoke(new[] { application }));
-			}
-
 			Task.Run(() => ExplorerStarted?.Invoke());
 		}
 
