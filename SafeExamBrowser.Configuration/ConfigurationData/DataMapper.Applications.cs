@@ -22,26 +22,26 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				{
 					if (item is IDictionary<string, object> applicationData)
 					{
-						var isActive = applicationData.TryGetValue(Keys.Applications.ApplicationActive, out var v) && v is bool active && active;
-						var isWindowsProcess = applicationData.TryGetValue(Keys.Applications.ApplicationOs, out v) && v is int os && os == Keys.WINDOWS;
+						var isActive = applicationData.TryGetValue(Keys.Applications.Active, out var v) && v is bool active && active;
+						var isWindowsProcess = applicationData.TryGetValue(Keys.Applications.OperatingSystem, out v) && v is int os && os == Keys.WINDOWS;
 
 						if (isActive && isWindowsProcess)
 						{
 							var application = new BlacklistApplication();
 
-							if (applicationData.TryGetValue(Keys.Applications.ApplicationAutoTerminate, out v) && v is bool autoTerminate)
+							if (applicationData.TryGetValue(Keys.Applications.AutoTerminate, out v) && v is bool autoTerminate)
 							{
 								application.AutoTerminate = autoTerminate;
 							}
 
-							if (applicationData.TryGetValue(Keys.Applications.ApplicationExecutable, out v) && v is string executableName)
+							if (applicationData.TryGetValue(Keys.Applications.ExecutableName, out v) && v is string executableName)
 							{
 								application.ExecutableName = executableName;
 							}
 
-							if (applicationData.TryGetValue(Keys.Applications.ApplicationOriginalName, out v) && v is string originalName)
+							if (applicationData.TryGetValue(Keys.Applications.OriginalName, out v) && v is string originalName)
 							{
-								application.ExecutableOriginalName = originalName;
+								application.OriginalName = originalName;
 							}
 
 							settings.Applications.Blacklist.Add(application);
@@ -57,14 +57,87 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			{
 				foreach (var item in applications)
 				{
-					if (item is IDictionary<string, object> application)
+					if (item is IDictionary<string, object> applicationData)
 					{
-						var isActive = application.TryGetValue(Keys.Applications.ApplicationActive, out var v) && v is bool active && active;
-						var isWindowsProcess = application.TryGetValue(Keys.Applications.ApplicationOs, out v) && v is int os && os == Keys.WINDOWS;
+						var isActive = applicationData.TryGetValue(Keys.Applications.Active, out var v) && v is bool active && active;
+						var isWindowsProcess = applicationData.TryGetValue(Keys.Applications.OperatingSystem, out v) && v is int os && os == Keys.WINDOWS;
 
 						if (isActive && isWindowsProcess)
 						{
+							var application = new WhitelistApplication();
 
+							if (applicationData.TryGetValue(Keys.Applications.AllowCustomPath, out v) && v is bool allowCustomPath)
+							{
+								application.AllowCustomPath = allowCustomPath;
+							}
+
+							if (applicationData.TryGetValue(Keys.Applications.AllowRunning, out v) && v is bool allowRunning)
+							{
+								application.AllowRunning = allowRunning;
+							}
+
+							if (applicationData.TryGetValue(Keys.Applications.Arguments, out v) && v is IList<object> arguments)
+							{
+								foreach (var argumentItem in arguments)
+								{
+									if (argumentItem is IDictionary<string, object> argumentData)
+									{
+										var argActive = argumentData.TryGetValue(Keys.Applications.Active, out v) && v is bool a && a;
+
+										if (argActive && argumentData.TryGetValue(Keys.Applications.Argument, out v) && v is string argument)
+										{
+											application.Arguments.Add(argument);
+										}
+									}
+								}
+							}
+
+							if (applicationData.TryGetValue(Keys.Applications.AutoStart, out v) && v is bool autoStart)
+							{
+								application.AutoStart = autoStart;
+							}
+
+							if (applicationData.TryGetValue(Keys.Applications.AutoTerminate, out v) && v is bool autoTerminate)
+							{
+								application.AutoTerminate = autoTerminate;
+							}
+
+							if (applicationData.TryGetValue(Keys.Applications.DisplayName, out v) && v is string displayName)
+							{
+								application.DisplayName = displayName;
+							}
+
+							if (applicationData.TryGetValue(Keys.Applications.ExecutableName, out v) && v is string executableName)
+							{
+								application.ExecutableName = executableName;
+							}
+
+							if (applicationData.TryGetValue(Keys.Applications.ExecutablePath, out v) && v is string executablePath)
+							{
+								application.ExecutablePath = executablePath;
+							}
+
+							if (applicationData.TryGetValue(Keys.Applications.Identifier, out v) && v is string identifier)
+							{
+								application.Identifier = identifier;
+							}
+
+							if (applicationData.TryGetValue(Keys.Applications.OriginalName, out v) && v is string originalName)
+							{
+								application.OriginalName = originalName;
+							}
+
+							if (applicationData.TryGetValue(Keys.Applications.RendererName, out v) && v is string rendererName)
+							{
+								application.RendererName = rendererName;
+							}
+
+							if (applicationData.TryGetValue(Keys.Applications.ShowInShell, out v) && v is bool showInShell)
+							{
+								application.ShowInShell = showInShell;
+							}
+
+							settings.Applications.Whitelist.Add(application);
 						}
 					}
 				}

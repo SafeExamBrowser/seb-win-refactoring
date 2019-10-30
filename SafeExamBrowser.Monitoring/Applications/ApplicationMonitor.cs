@@ -234,7 +234,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 		private bool BelongsToApplication(IProcess process, BlacklistApplication application)
 		{
 			var sameName = process.Name.Equals(application.ExecutableName, StringComparison.OrdinalIgnoreCase);
-			var sameOriginalName = process.OriginalName?.Equals(application.ExecutableOriginalName, StringComparison.OrdinalIgnoreCase) == true;
+			var sameOriginalName = process.OriginalName?.Equals(application.OriginalName, StringComparison.OrdinalIgnoreCase) == true;
 
 			return sameName || sameOriginalName;
 		}

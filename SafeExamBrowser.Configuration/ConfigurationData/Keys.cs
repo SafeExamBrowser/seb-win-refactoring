@@ -18,12 +18,22 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class Applications
 		{
-			internal const string ApplicationActive = "active";
-			internal const string ApplicationAutoTerminate = "strongKill";
-			internal const string ApplicationExecutable = "executable";
-			internal const string ApplicationOriginalName = "originalName";
-			internal const string ApplicationOs = "os";
+			internal const string Active = "active";
+			internal const string AllowCustomPath = "allowUserToChooseApp";
+			internal const string AllowRunning = "runInBackground";
+			internal const string Argument = "argument";
+			internal const string Arguments = "arguments";
+			internal const string AutoStart = "autostart";
+			internal const string AutoTerminate = "strongKill";
 			internal const string Blacklist = "prohibitedProcesses";
+			internal const string DisplayName = "title";
+			internal const string ExecutableName = "executable";
+			internal const string ExecutablePath = "path";
+			internal const string Identifier = "identifier";
+			internal const string OperatingSystem = "os";
+			internal const string OriginalName = "originalName";
+			internal const string RendererName = "windowHandlingProcess";
+			internal const string ShowInShell = "iconInTaskbar";
 			internal const string Whitelist = "permittedProcesses";
 		}
 

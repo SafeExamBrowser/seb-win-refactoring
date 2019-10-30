@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace SafeExamBrowser.Settings.Applications
 {
@@ -17,8 +18,69 @@ namespace SafeExamBrowser.Settings.Applications
 	public class WhitelistApplication
 	{
 		/// <summary>
+		/// Determines whether the user may choose a custom path if the main executable cannot be found under <see cref="ExecutablePath"/>.
+		/// </summary>
+		public bool AllowCustomPath { get; set; }
+
+		/// <summary>
+		/// Determines whether the application may already be running when initializing a session. If <c>true</c>, <see cref="AutoTerminate"/> will be ignored.
+		/// </summary>
+		public bool AllowRunning { get; set; }
+
+		/// <summary>
+		/// The list of arguments to be used when starting the application.
+		/// </summary>
+		public IList<string> Arguments { get; }
+
+		/// <summary>
+		/// Determines whether the application will be automatically started when initializing a session.
+		/// </summary>
+		public bool AutoStart { get; set; }
+		
+		/// <summary>
+		/// Specifies whether the application may be automatically terminated when starting a session. Is ignored if <see cref="AllowRunning"/> is set.
+		/// </summary>
+		public bool AutoTerminate { get; set; }
+
+		/// <summary>
+		/// The display name to be used for the application (e.g. in the shell).
+		/// </summary>
+		public string DisplayName { get; set; }
+
+		/// <summary>
 		/// The name of the main executable of the application.
 		/// </summary>
 		public string ExecutableName { get; set; }
+		
+		/// <summary>
+		/// The path where the main executable of the application is located.
+		/// </summary>
+		public string ExecutablePath { get; set; }
+
+		/// <summary>
+		/// Used to identify an application by its main window title.
+		/// </summary>
+		/// TODO: Rename?
+		public string Identifier { get; set; }
+
+		/// <summary>
+		/// The original file name of the main executable of the application, if available.
+		/// </summary>
+		public string OriginalName { get; set; }
+
+		/// <summary>
+		/// The name of the executable responsible for rendering the user interface.
+		/// </summary>
+		public string RendererName { get; set; }
+
+		/// <summary>
+		/// Determines whether the user will be able to access the application via the shell.
+		/// </summary>
+		public bool ShowInShell { get; set; }
+
+		public WhitelistApplication()
+		{
+			Arguments = new List<string>();
+		}
 	}
 }

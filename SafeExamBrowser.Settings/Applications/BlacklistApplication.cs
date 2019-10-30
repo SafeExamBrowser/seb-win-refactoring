@@ -29,6 +29,6 @@ namespace SafeExamBrowser.Settings.Applications
 		/// <summary>
 		/// The original file name of the main executable of the application, if available.
 		/// </summary>
-		public string ExecutableOriginalName { get; set; }
+		public string OriginalName { get; set; }
 	}
 }
