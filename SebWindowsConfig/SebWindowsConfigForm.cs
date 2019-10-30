@@ -95,7 +95,7 @@ namespace SebWindowsConfig
 
 			// Set all the default values for the Plist structure "SEBSettings.settingsCurrent"
 			SEBSettings.RestoreDefaultAndCurrentSettings();
-			SEBSettings.PermitXulRunnerProcess();
+			SEBSettings.AddDefaultProhibitedProcesses();
 
 			// Initialise the global variables for the GUI widgets
 			InitialiseGlobalVariablesForGUIWidgets();
@@ -1385,7 +1385,7 @@ namespace SebWindowsConfig
 			settingsPassword = "";
 			settingsPasswordFieldsContainHash = false;
 			SEBSettings.RestoreDefaultAndCurrentSettings();
-			SEBSettings.PermitXulRunnerProcess();
+			SEBSettings.AddDefaultProhibitedProcesses();
 
 			// Check if currently edited settings are local client settings (in %appdata% or %commonappdata%) or the default settings (no client settings saved yet)
 			if (!currentPathSebConfigFile.Equals(SEBClientInfo.SebClientSettingsAppDataFile) && !currentPathSebConfigFile.Equals(SEBClientInfo.SebClientSettingsProgramDataFile) && !currentPathSebConfigFile.Equals(SEBUIStrings.settingsTitleDefaultSettings))
@@ -1435,7 +1435,7 @@ namespace SebWindowsConfig
 					settingsPassword = "";
 					settingsPasswordFieldsContainHash = false;
 					SEBSettings.RestoreDefaultAndCurrentSettings();
-					SEBSettings.PermitXulRunnerProcess();
+					SEBSettings.AddDefaultProhibitedProcesses();
 					currentPathSebConfigFile = SEBUIStrings.settingsTitleDefaultSettings;
                 // Update URL filter rules, also the seb-Browser white/blacklist keys, 
                 // which are necessary for compatibility to SEB 2.1.x

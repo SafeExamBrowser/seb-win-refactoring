@@ -97,7 +97,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void FinalizeApplications()
 		{
-
+			// TODO: Terminate all running applications!
 		}
 
 		private OperationResult HandleAutoTerminationFailure(IList<RunningApplication> applications)

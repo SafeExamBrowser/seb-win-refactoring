@@ -440,7 +440,6 @@ namespace SebWindowsConfig
 		public static ListObj permittedProcessList          = new ListObj();
 		public static DictObj permittedProcessData          = new DictObj();
 		public static DictObj permittedProcessDataDefault   = new DictObj();
-		public static DictObj permittedProcessDataXulRunner = new DictObj();
 
 		public static int     permittedArgumentIndex;
 		public static ListObj permittedArgumentList           = new ListObj();
@@ -510,7 +509,6 @@ namespace SebWindowsConfig
 			SEBSettings.permittedProcessList          = new ListObj();
 			SEBSettings.permittedProcessData          = new DictObj();
 			SEBSettings.permittedProcessDataDefault   = new DictObj();
-			SEBSettings.permittedProcessDataXulRunner = new DictObj();
 
 			SEBSettings.permittedArgumentList           = new ListObj();
 			SEBSettings.permittedArgumentData           = new DictObj();
@@ -719,24 +717,6 @@ namespace SebWindowsConfig
 			SEBSettings.permittedArgumentListXulRunner.Add(SEBSettings.permittedArgumentDataDefault);
 			//SEBSettings.permittedArgumentListXulRunner.Add(SEBSettings.permittedArgumentDataXulRunner1);
 			//SEBSettings.permittedArgumentListXulRunner.Add(SEBSettings.permittedArgumentDataXulRunner2);
-
-			// Create a Firefox process with the SEB argument list
-			SEBSettings.permittedProcessDataXulRunner.Clear();
-			SEBSettings.permittedProcessDataXulRunner.Add(SEBSettings.KeyActive     , true);
-			SEBSettings.permittedProcessDataXulRunner.Add(SEBSettings.KeyAutostart  , true);
-			SEBSettings.permittedProcessDataXulRunner.Add(SEBSettings.KeyIconInTaskbar  , true);
-			SEBSettings.permittedProcessDataXulRunner.Add(SEBSettings.KeyRunInBackground   , false);
-			SEBSettings.permittedProcessDataXulRunner.Add(SEBSettings.KeyAllowUser  , false);
-			SEBSettings.permittedProcessDataXulRunner.Add(SEBSettings.KeyStrongKill , false);
-			SEBSettings.permittedProcessDataXulRunner.Add(SEBSettings.KeyOS         , IntWin);
-			SEBSettings.permittedProcessDataXulRunner.Add(SEBSettings.KeyTitle      , "SEB");
-			SEBSettings.permittedProcessDataXulRunner.Add(SEBSettings.KeyDescription, "");
-			SEBSettings.permittedProcessDataXulRunner.Add(SEBSettings.KeyExecutable, SEBClientInfo.XUL_RUNNER);
-			SEBSettings.permittedProcessDataXulRunner.Add(SEBSettings.KeyOriginalName, SEBClientInfo.XUL_RUNNER);
-			SEBSettings.permittedProcessDataXulRunner.Add(SEBSettings.KeyPath       , "../xulrunner/");
-			SEBSettings.permittedProcessDataXulRunner.Add(SEBSettings.KeyIdentifier , "Firefox");
-			SEBSettings.permittedProcessDataXulRunner.Add(SEBSettings.KeyWindowHandlingProcess , "");
-			SEBSettings.permittedProcessDataXulRunner.Add(SEBSettings.KeyArguments  , new ListObj());
 
 			// Default settings for permitted process data
 			SEBSettings.permittedProcessDataDefault.Clear();
@@ -1470,48 +1450,6 @@ namespace SebWindowsConfig
 			return ret;
 		}
 
-		// **********************************************
-		// Add XulRunnerProcess to Permitted Process List
-		// **********************************************
-		public static void PermitXulRunnerProcess()
-		{
-			// Get the Permitted Process List
-			SEBSettings.permittedProcessList = (ListObj)SEBSettings.settingsCurrent[SEBSettings.KeyPermittedProcesses];
-
-			// Position of XulRunner process in Permitted Process List
-			int indexOfProcessXulRunnerExe = -1;
-
-			// Traverse Permitted Processes of currently opened file
-			for (int listIndex = 0; listIndex < SEBSettings.permittedProcessList.Count; listIndex++)
-			{
-				SEBSettings.permittedProcessData = (DictObj)SEBSettings.permittedProcessList[listIndex];
-
-				// Check if XulRunner process is in Permitted Process List
-				if (SEBSettings.permittedProcessData[SEBSettings.KeyExecutable].Equals(SEBClientInfo.XUL_RUNNER))
-				{
-					indexOfProcessXulRunnerExe = listIndex;
-					break;
-				}
-				else if (SEBSettings.permittedProcessData[SEBSettings.KeyExecutable].Equals("xulrunner.exe"))
-				{
-					//Backwards Compatibility: Use Firefox instead of Xulrunner as SEB Browser
-					((DictObj)SEBSettings.permittedProcessList[listIndex])[SEBSettings.KeyExecutable] = SEBClientInfo.XUL_RUNNER;
-					((DictObj)SEBSettings.permittedProcessList[listIndex])[SEBSettings.KeyOriginalName] = SEBClientInfo.XUL_RUNNER;
-					((DictObj)SEBSettings.permittedProcessList[listIndex])[SEBSettings.KeyIdentifier] = "Firefox";
-					indexOfProcessXulRunnerExe = listIndex;
-					break;
-				}
-			}
-
-			// If XulRunner process was not in Permitted Process List, insert it at the beginning
-			if (indexOfProcessXulRunnerExe == -1)
-			{
-				SEBSettings.permittedProcessList.Insert(0, SEBSettings.permittedProcessDataXulRunner);
-			}
-
-			AddDefaultProhibitedProcesses();
-		}
-
 		public static void AddDefaultProhibitedProcesses()
 		{
 			// Get the Prohibited Process list
@@ -1773,7 +1711,7 @@ namespace SebWindowsConfig
 			SEBSettings.FillSettingsArrays();
 
 			// Add the XulRunner process to the Permitted Process List, if necessary
-			SEBSettings.PermitXulRunnerProcess();
+			SEBSettings.AddDefaultProhibitedProcesses();
 		}
 
 
@@ -1818,7 +1756,7 @@ namespace SebWindowsConfig
 			// Add the XulRunner process to the Permitted Process List, if necessary
 		  //SEBSettings.LoggSettingsDictionary(ref SEBSettings.settingsDefault, "DebugSettingsDefaultInReadSebConfigurationFilePermitBefore.txt");
 		  //SEBSettings.LoggSettingsDictionary(ref SEBSettings.settingsCurrent, "DebugSettingsCurrentInReadSebConfigurationFilePermitBefore.txt");
-			SEBSettings.PermitXulRunnerProcess();
+			SEBSettings.AddDefaultProhibitedProcesses();
 		  //SEBSettings.LoggSettingsDictionary(ref SEBSettings.settingsDefault, "DebugSettingsDefaultInReadSebConfigurationFilePermitAfter.txt");
 		  //SEBSettings.LoggSettingsDictionary(ref SEBSettings.settingsCurrent, "DebugSettingsCurrentInReadSebConfigurationFilePermitAfter.txt");
 

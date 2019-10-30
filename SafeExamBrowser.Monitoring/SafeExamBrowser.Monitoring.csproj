@@ -55,6 +55,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Applications\Window.cs" />
     <Compile Include="Display\Bounds.cs" />
     <Compile Include="Display\DisplayMonitor.cs" />
     <Compile Include="Keyboard\KeyboardInterceptor.cs" />

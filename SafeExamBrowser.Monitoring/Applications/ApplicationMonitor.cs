@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
@@ -21,7 +22,6 @@ namespace SafeExamBrowser.Monitoring.Applications
 {
 	public class ApplicationMonitor : IApplicationMonitor
 	{
-		private IntPtr activeWindow;
 		private IList<BlacklistApplication> blacklist;
 		private Guid? captureHookId;
 		private Guid? foregroundHookId;
@@ -31,6 +31,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 		private IProcessFactory processFactory;
 		private Timer timer;
 		private IList<WhitelistApplication> whitelist;
+		private Window activeWindow;
 
 		public event ExplorerStartedEventHandler ExplorerStarted;
 		public event TerminationFailedEventHandler TerminationFailed;
@@ -50,42 +51,9 @@ namespace SafeExamBrowser.Monitoring.Applications
 		{
 			var result = new InitializationResult();
 
-			foreach (var application in settings.Blacklist)
-			{
-				blacklist.Add(application);
-			}
-
-			foreach (var application in settings.Whitelist)
-			{
-				whitelist.Add(application);
-			}
-
-			logger.Debug($"Initialized blacklist with {blacklist.Count} applications{(blacklist.Any() ? $": {string.Join(", ", blacklist.Select(a => a.ExecutableName))}" : ".")}");
-			logger.Debug($"Initialized whitelist with {whitelist.Count} applications{(whitelist.Any() ? $": {string.Join(", ", whitelist.Select(a => a.ExecutableName))}" : ".")}");
-
-			processes = processFactory.GetAllRunning();
-
-			foreach (var process in processes)
-			{
-				foreach (var application in blacklist)
-				{
-					var isBlacklisted = BelongsToApplication(process, application);
-
-					if (isBlacklisted && !application.AutoTerminate)
-					{
-						AddForTermination(application.ExecutableName, process, result);
-					}
-					else if (isBlacklisted && application.AutoTerminate && !TryTerminate(process))
-					{
-						AddFailed(application.ExecutableName, process, result);
-					}
-				}
-
-				foreach (var application in whitelist)
-				{
-					// TODO: Check if application is running, auto-terminate or add to result.
-				}
-			}
+			InitializeProcesses();
+			InitializeBlacklist(settings, result);
+			InitializeWhitelist(settings, result);
 
 			return result;
 		}
@@ -135,10 +103,13 @@ namespace SafeExamBrowser.Monitoring.Applications
 			return success;
 		}
 
-		private void SystemEvent_WindowChanged(IntPtr window)
+		private void SystemEvent_WindowChanged(IntPtr handle)
 		{
-			if (window != IntPtr.Zero && activeWindow != window)
+			if (handle != IntPtr.Zero && activeWindow?.Handle != handle)
 			{
+				var title = nativeMethods.GetWindowTitle(handle);
+				var window = new Window { Handle = handle, Title = title };
+
 				logger.Debug($"Window has changed from {activeWindow} to {window}.");
 				activeWindow = window;
 
@@ -239,12 +210,28 @@ namespace SafeExamBrowser.Monitoring.Applications
 			return sameName || sameOriginalName;
 		}
 
-		private void Close(IntPtr window)
+		private bool BelongsToApplication(IProcess process, WhitelistApplication application)
 		{
-			var title = nativeMethods.GetWindowTitle(window);
+			// TODO: Window title and renderer process handling!
+			// TODO: WRONG! With original name, both must match!
+			var sameName = process.Name.Equals(Path.GetFileNameWithoutExtension(application.ExecutableName), StringComparison.OrdinalIgnoreCase);
+			var sameOriginalName = process.OriginalName?.Equals(application.OriginalName, StringComparison.OrdinalIgnoreCase) == true;
 
-			nativeMethods.SendCloseMessageTo(window);
-			logger.Info($"Sent close message to window '{title}' with handle = {window}.");
+			return sameName || sameOriginalName;
+		}
+
+		private bool BelongsToSafeExamBrowser(IProcess process)
+		{
+			var isRuntime = process.Name == "SafeExamBrowser" && process.OriginalName == "SafeExamBrowser";
+			var isClient = process.Name == "SafeExamBrowser.Client" && process.OriginalName == "SafeExamBrowser.Client";
+
+			return isRuntime || isClient;
+		}
+
+		private void Close(Window window)
+		{
+			nativeMethods.SendCloseMessageTo(window.Handle);
+			logger.Info($"Sent close message to window {window}.");
 		}
 
 		private void HandleExplorerStart(IProcess process)
@@ -253,25 +240,74 @@ namespace SafeExamBrowser.Monitoring.Applications
 			Task.Run(() => ExplorerStarted?.Invoke());
 		}
 
-		private bool IsAllowed(IntPtr window)
+		private void InitializeProcesses()
 		{
-			var processId = nativeMethods.GetProcessIdFor(window);
-			// TODO: Allow only if in whitelist!
-			//var process = processFactory.GetById(Convert.ToInt32(processId));
+			processes = processFactory.GetAllRunning();
+			logger.Debug($"Initialized {processes.Count} currently running processes.");
+		}
 
-			//if (process != null)
-			//{
-			//	var allowed = process.Name == "SafeExamBrowser" || process.Name == "SafeExamBrowser.Client";
+		private void InitializeBlacklist(ApplicationSettings settings, InitializationResult result)
+		{
+			foreach (var application in settings.Blacklist)
+			{
+				blacklist.Add(application);
+			}
 
-			//	if (!allowed)
-			//	{
-			//		logger.Warn($"Window with handle = {window} belongs to not allowed process '{process.Name}'!");
-			//	}
+			logger.Debug($"Initialized blacklist with {blacklist.Count} applications{(blacklist.Any() ? $": {string.Join(", ", blacklist.Select(a => a.ExecutableName))}" : ".")}");
 
-			//	return allowed;
-			//}
+			foreach (var process in processes)
+			{
+				foreach (var application in blacklist)
+				{
+					var isBlacklisted = BelongsToApplication(process, application);
 
-			return true;
+					if (isBlacklisted)
+					{
+						if (!application.AutoTerminate)
+						{
+							AddForTermination(application.ExecutableName, process, result);
+						}
+						else if (application.AutoTerminate && !TryTerminate(process))
+						{
+							AddFailed(application.ExecutableName, process, result);
+						}
+
+						break;
+					}
+				}
+			}
+		}
+
+		private void InitializeWhitelist(ApplicationSettings settings, InitializationResult result)
+		{
+			foreach (var application in settings.Whitelist)
+			{
+				whitelist.Add(application);
+			}
+
+			logger.Debug($"Initialized whitelist with {whitelist.Count} applications{(whitelist.Any() ? $": {string.Join(", ", whitelist.Select(a => a.ExecutableName))}" : ".")}");
+
+			foreach (var process in processes)
+			{
+				foreach (var application in whitelist)
+				{
+					var isWhitelisted = BelongsToApplication(process, application);
+
+					if (isWhitelisted)
+					{
+						if (!application.AllowRunning && !application.AutoTerminate)
+						{
+							AddForTermination(application.ExecutableName, process, result);
+						}
+						else if (!application.AllowRunning && application.AutoTerminate && !TryTerminate(process))
+						{
+							AddFailed(application.ExecutableName, process, result);
+						}
+
+						break;
+					}
+				}
+			}
 		}
 
 		private bool IsAllowed(IProcess process)
@@ -289,18 +325,46 @@ namespace SafeExamBrowser.Monitoring.Applications
 			return true;
 		}
 
-		private bool TryHide(IntPtr window)
+		private bool IsAllowed(Window window)
 		{
-			var title = nativeMethods.GetWindowTitle(window);
-			var success = nativeMethods.HideWindow(window);
-
-			if (success)
+			var processId = Convert.ToInt32(nativeMethods.GetProcessIdFor(window.Handle));
+			
+			if (processFactory.TryGetById(processId, out var process))
 			{
-				logger.Info($"Hid window '{title}' with handle = {window}.");
+				if (BelongsToSafeExamBrowser(process))
+				{
+					return true;
+				}
+
+				foreach (var application in whitelist)
+				{
+					if (BelongsToApplication(process, application))
+					{
+						return true;
+					}
+				}
+
+				logger.Warn($"Window {window} belongs to not allowed process '{process.Name}'!");
 			}
 			else
 			{
-				logger.Warn($"Failed to hide window '{title}' with handle = {window}!");
+				logger.Error($"Could not find process for window {window} and process with ID = {processId}!");
+			}
+
+			return false;
+		}
+
+		private bool TryHide(Window window)
+		{
+			var success = nativeMethods.HideWindow(window.Handle);
+
+			if (success)
+			{
+				logger.Info($"Successfully hid window {window}.");
+			}
+			else
+			{
+				logger.Warn($"Failed to hide window {window}!");
 			}
 
 			return success;
