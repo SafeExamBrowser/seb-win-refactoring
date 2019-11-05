@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using SafeExamBrowser.Applications;
 using SafeExamBrowser.Browser;
 using SafeExamBrowser.Client.Communication;
 using SafeExamBrowser.Client.Contracts;
@@ -95,6 +96,7 @@ namespace SafeExamBrowser.Client
 			taskbar = BuildTaskbar();
 			terminationActivator = new TerminationActivator(ModuleLogger(nameof(TerminationActivator)));
 
+			var applicationFactory = new ApplicationFactory(ModuleLogger(nameof(ApplicationFactory)));
 			var applicationMonitor = new ApplicationMonitor(TWO_SECONDS, ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, new ProcessFactory(ModuleLogger(nameof(ProcessFactory))));
 			var displayMonitor = new DisplayMonitor(ModuleLogger(nameof(DisplayMonitor)), nativeMethods, systemInfo);
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
@@ -110,7 +112,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new ClientHostDisconnectionOperation(context, logger, FIVE_SECONDS));
 			operations.Enqueue(new LazyInitializationOperation(BuildKeyboardInterceptorOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildMouseInterceptorOperation));
-			operations.Enqueue(new ApplicationOperation(applicationMonitor, context, logger));
+			operations.Enqueue(new ApplicationOperation(context, applicationFactory, applicationMonitor, logger, text));
 			operations.Enqueue(new DisplayMonitorOperation(context, displayMonitor, logger, taskbar));
 			operations.Enqueue(new LazyInitializationOperation(BuildShellOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildBrowserOperation));

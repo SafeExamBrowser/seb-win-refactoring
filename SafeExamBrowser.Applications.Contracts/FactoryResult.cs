@@ -6,28 +6,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Core.Contracts;
-
 namespace SafeExamBrowser.Applications.Contracts
 {
 	/// <summary>
-	/// The information about an application which can be accessed via the shell.
+	/// Defines all possible results of an attempt to create an application.
 	/// </summary>
-	public interface IApplicationInfo
+	public enum FactoryResult
 	{
 		/// <summary>
-		/// The name of the application.
+		/// An error occurred while trying to create the application.
 		/// </summary>
-		string Name { get; }
+		Error,
 
 		/// <summary>
-		/// The tooltip for the application.
+		/// The application could not be found on the system.
 		/// </summary>
-		string Tooltip { get; }
+		NotFound,
 
 		/// <summary>
-		/// The resource providing the application icon.
+		/// The application has been created successfully.
 		/// </summary>
-		IIconResource IconResource { get; }
+		Success
 	}
 }

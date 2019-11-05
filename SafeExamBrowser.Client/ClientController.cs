@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Client.Contracts;
@@ -409,6 +410,12 @@ namespace SafeExamBrowser.Client
 		{
 			switch (args)
 			{
+				case ApplicationNotFoundEventArgs a:
+					AskForApplicationPath(a);
+					break;
+				case ApplicationInitializationFailedEventArgs a:
+					InformAboutFailedApplicationInitialization(a);
+					break;
 				case ApplicationTerminationEventArgs a:
 					AskForAutomaticApplicationTermination(a);
 					break;
@@ -483,6 +490,30 @@ namespace SafeExamBrowser.Client
 			var result = messageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question, parent: splashScreen);
 
 			args.TerminateProcesses = result == MessageBoxResult.Yes;
+		}
+
+		private void AskForApplicationPath(ApplicationNotFoundEventArgs args)
+		{
+			// TODO
+		}
+
+		private void InformAboutFailedApplicationInitialization(ApplicationInitializationFailedEventArgs args)
+		{
+			var messageKey = TextKey.MessageBox_ApplicationInitializationFailure;
+			var titleKey = TextKey.MessageBox_ApplicationInitializationFailureTitle;
+
+			switch (args.Result)
+			{
+				case FactoryResult.NotFound:
+					messageKey = TextKey.MessageBox_ApplicationNotFound;
+					titleKey = TextKey.MessageBox_ApplicationNotFoundTitle;
+					break;
+			}
+
+			var message = text.Get(messageKey).Replace("%%NAME%%", $"'{args.DisplayName}' ({args.ExecutableName})");
+			var title = text.Get(titleKey);
+
+			messageBox.Show(message, title, icon: MessageBoxIcon.Error, parent: splashScreen);
 		}
 
 		private void InformAboutFailedApplicationTermination(ApplicationTerminationFailedEventArgs args)

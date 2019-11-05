@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Client.Operations.Events;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
@@ -21,16 +22,25 @@ namespace SafeExamBrowser.Client.Operations
 {
 	internal class ApplicationOperation : ClientOperation
 	{
+		private IApplicationFactory factory;
 		private ILogger logger;
-		private IApplicationMonitor applicationMonitor;
+		private IApplicationMonitor monitor;
+		private IText text;
 
 		public override event ActionRequiredEventHandler ActionRequired;
 		public override event StatusChangedEventHandler StatusChanged;
 
-		public ApplicationOperation(IApplicationMonitor applicationMonitor, ClientContext context, ILogger logger) : base(context)
+		public ApplicationOperation(
+			ClientContext context,
+			IApplicationFactory factory,
+			IApplicationMonitor monitor,
+			ILogger logger,
+			IText text) : base(context)
 		{
-			this.applicationMonitor = applicationMonitor;
+			this.factory = factory;
+			this.monitor = monitor;
 			this.logger = logger;
+			this.text = text;
 		}
 
 		public override OperationResult Perform()
@@ -61,7 +71,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private OperationResult InitializeApplications()
 		{
-			var initialization = applicationMonitor.Initialize(Context.Settings.Applications);
+			var initialization = monitor.Initialize(Context.Settings.Applications);
 			var result = OperationResult.Success;
 
 			if (initialization.FailedAutoTerminations.Any())
@@ -75,24 +85,46 @@ namespace SafeExamBrowser.Client.Operations
 
 			if (result == OperationResult.Success)
 			{
-				CreateApplications();
+				foreach (var application in Context.Settings.Applications.Whitelist)
+				{
+					Initialize(application);
+				}
 			}
 
 			return result;
 		}
 
-		private void CreateApplications()
+		private void Initialize(WhitelistApplication settings)
 		{
-			foreach (var application in Context.Settings.Applications.Whitelist)
-			{
-				Create(application);
-			}
-		}
+			var result = factory.TryCreate(settings, out var application);
 
-		private void Create(WhitelistApplication application)
-		{
-			// TODO: Use IApplicationFactory to create new application according to configuration, load into Context.Applications
-			// StatusChanged?.Invoke();
+			while (result == FactoryResult.NotFound && settings.AllowCustomPath)
+			{
+				var args = new ApplicationNotFoundEventArgs(settings.DisplayName, settings.ExecutableName);
+
+				ActionRequired?.Invoke(args);
+
+				if (args.Success)
+				{
+					settings.ExecutablePath = args.CustomPath;
+					result = factory.TryCreate(settings, out application);
+				}
+				else
+				{
+					break;
+				}
+			}
+
+			if (result == FactoryResult.Success)
+			{
+				application.Initialize();
+				Context.Applications.Add(application);
+			}
+			else
+			{
+				logger.Error($"Failed to initialize application '{settings.DisplayName}' ({settings.ExecutableName}). Reason: {result}.");
+				ActionRequired?.Invoke(new ApplicationInitializationFailedEventArgs(settings.DisplayName, settings.ExecutableName, result));
+			}
 		}
 
 		private void FinalizeApplications()
@@ -112,7 +144,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (Context.Settings.KioskMode != KioskMode.None)
 			{
-				applicationMonitor.Start();
+				monitor.Start();
 			}
 		}
 
@@ -120,7 +152,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (Context.Settings.KioskMode != KioskMode.None)
 			{
-				applicationMonitor.Stop();
+				monitor.Stop();
 			}
 		}
 
@@ -139,7 +171,7 @@ namespace SafeExamBrowser.Client.Operations
 
 				foreach (var application in runningApplications)
 				{
-					var success = applicationMonitor.TryTerminate(application);
+					var success = monitor.TryTerminate(application);
 
 					if (success)
 					{

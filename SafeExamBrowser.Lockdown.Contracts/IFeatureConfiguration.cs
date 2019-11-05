@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Lockdown.Contracts
 {
 	/// <summary>
-	/// Allows to control a feature of the computer, the operating system or an installed third-party software.
+	/// Allows to control a feature of the computer, the operating system or an installed software.
 	/// </summary>
 	public interface IFeatureConfiguration
 	{

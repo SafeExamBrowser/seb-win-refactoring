@@ -12,7 +12,7 @@ using System.Collections.Generic;
 namespace SafeExamBrowser.Settings.Applications
 {
 	/// <summary>
-	/// Defines all settings for third-party applications and application monitoring.
+	/// Defines all settings for external applications and application monitoring.
 	/// </summary>
 	[Serializable]
 	public class ApplicationSettings

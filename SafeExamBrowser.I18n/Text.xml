@@ -54,6 +54,18 @@
     <Entry key="MessageBox_ApplicationErrorTitle">
         Application Error
     </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailure">
+        Application %%NAME%% could not be initialized and will thus not be available for the new session! Please consult the log files for more information.
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailureTitle">
+        Application Initialization Failed
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFound">
+        Application %%NAME%% could not be found on the system and will thus not be available for the new session! Please consult the log files for more information.
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFoundTitle">
+        Application Not Found
+    </Entry>
     <Entry key="MessageBox_ApplicationTerminationFailure">
         The applications listed below could not be terminated! Please terminate them manually and try again...
     </Entry>

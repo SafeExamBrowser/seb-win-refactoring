@@ -39,7 +39,7 @@ namespace SafeExamBrowser.Settings
 		public bool AllowApplicationLogAccess { get; set; }
 
 		/// <summary>
-		/// All settings related to third-party applications.
+		/// All settings related to external applications.
 		/// </summary>
 		public ApplicationSettings Applications { get; set; }
 

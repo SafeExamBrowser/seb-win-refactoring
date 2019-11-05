@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
@@ -25,6 +26,11 @@ namespace SafeExamBrowser.Client
 		/// All activators for the action center.
 		/// </summary>
 		internal IList<IActionCenterActivator> Activators { get; }
+
+		/// <summary>
+		/// All applications allowed for the current session.
+		/// </summary>
+		internal IList<IApplication> Applications { get; }
 
 		/// <summary>
 		/// The global application configuration.
@@ -54,6 +60,7 @@ namespace SafeExamBrowser.Client
 		internal ClientContext()
 		{
 			Activators = new List<IActionCenterActivator>();
+			Applications = new List<IApplication>();
 		}
 	}
 }

@@ -11,7 +11,7 @@ using SafeExamBrowser.Applications.Contracts.Events;
 namespace SafeExamBrowser.Applications.Contracts
 {
 	/// <summary>
-	/// Controls the lifetime and functionality of a (third-party) application.
+	/// Controls the lifetime and functionality of an application.
 	/// </summary>
 	public interface IApplication
 	{

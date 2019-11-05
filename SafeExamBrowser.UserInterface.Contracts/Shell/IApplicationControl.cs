@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.UserInterface.Contracts.Shell
 {
 	/// <summary>
-	/// The control for a (third-party) application which can be loaded into the shell.
+	/// The control for an application which can be loaded into the shell.
 	/// </summary>
 	public interface IApplicationControl
 	{

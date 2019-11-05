@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.Applications.Contracts
 {
 	/// <summary>
-	/// Defines an identifier which uniquely identifies an instance in the context of a (third-party) application.
+	/// Defines an identifier which uniquely identifies an instance in the context of an application.
 	/// </summary>
 	public abstract class InstanceIdentifier
 	{

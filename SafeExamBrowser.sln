@@ -106,6 +106,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Settings", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Browser.UnitTests", "SafeExamBrowser.Browser.UnitTests\SafeExamBrowser.Browser.UnitTests.csproj", "{F54C4C0E-4C72-4F88-A389-7F6DE3CCB745}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Applications", "SafeExamBrowser.Applications\SafeExamBrowser.Applications.csproj", "{A113E68F-1209-4689-981A-15C554B2DF4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -476,6 +478,14 @@ Global
 		{F54C4C0E-4C72-4F88-A389-7F6DE3CCB745}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F54C4C0E-4C72-4F88-A389-7F6DE3CCB745}.Release|x86.ActiveCfg = Release|x86
 		{F54C4C0E-4C72-4F88-A389-7F6DE3CCB745}.Release|x86.Build.0 = Release|x86
+		{A113E68F-1209-4689-981A-15C554B2DF4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A113E68F-1209-4689-981A-15C554B2DF4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A113E68F-1209-4689-981A-15C554B2DF4E}.Debug|x86.ActiveCfg = Debug|x86
+		{A113E68F-1209-4689-981A-15C554B2DF4E}.Debug|x86.Build.0 = Debug|x86
+		{A113E68F-1209-4689-981A-15C554B2DF4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A113E68F-1209-4689-981A-15C554B2DF4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A113E68F-1209-4689-981A-15C554B2DF4E}.Release|x86.ActiveCfg = Release|x86
+		{A113E68F-1209-4689-981A-15C554B2DF4E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

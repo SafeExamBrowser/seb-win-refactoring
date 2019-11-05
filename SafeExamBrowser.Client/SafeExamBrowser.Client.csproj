@@ -76,6 +76,8 @@
     <Compile Include="Operations\ClientHostDisconnectionOperation.cs" />
     <Compile Include="Operations\ClientOperation.cs" />
     <Compile Include="Operations\ConfigurationOperation.cs" />
+    <Compile Include="Operations\Events\ApplicationNotFoundEventArgs.cs" />
+    <Compile Include="Operations\Events\ApplicationInitializationFailedEventArgs.cs" />
     <Compile Include="Operations\Events\ApplicationTerminationEventArgs.cs" />
     <Compile Include="Operations\Events\ApplicationTerminationFailedEventArgs.cs" />
     <Compile Include="Operations\RuntimeConnectionOperation.cs" />
@@ -126,6 +128,10 @@
     <ProjectReference Include="..\SafeExamBrowser.Applications.Contracts\SafeExamBrowser.Applications.Contracts.csproj">
       <Project>{ac77745d-3b41-43e2-8e84-d40e5a4ee77f}</Project>
       <Name>SafeExamBrowser.Applications.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Applications\SafeExamBrowser.Applications.csproj">
+      <Project>{a113e68f-1209-4689-981a-15c554b2df4e}</Project>
+      <Name>SafeExamBrowser.Applications</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Browser.Contracts\SafeExamBrowser.Browser.Contracts.csproj">
       <Project>{5fb5273d-277c-41dd-8593-a25ce1aff2e9}</Project>

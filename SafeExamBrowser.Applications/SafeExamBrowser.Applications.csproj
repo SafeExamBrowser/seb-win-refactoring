@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AC77745D-3B41-43E2-8E84-D40E5A4EE77F}</ProjectGuid>
+    <ProjectGuid>{A113E68F-1209-4689-981A-15C554B2DF4E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SafeExamBrowser.Applications.Contracts</RootNamespace>
-    <AssemblyName>SafeExamBrowser.Applications.Contracts</AssemblyName>
+    <RootNamespace>SafeExamBrowser.Applications</RootNamespace>
+    <AssemblyName>SafeExamBrowser.Applications</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -53,22 +53,18 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\IconChangedEventHandler.cs" />
-    <Compile Include="Events\InstanceStartedEventHandler.cs" />
-    <Compile Include="Events\InstanceTerminatedEventHandler.cs" />
-    <Compile Include="Events\NameChangedEventHandler.cs" />
-    <Compile Include="FactoryResult.cs" />
-    <Compile Include="IApplication.cs" />
-    <Compile Include="IApplicationFactory.cs" />
-    <Compile Include="IApplicationInfo.cs" />
-    <Compile Include="IApplicationInstance.cs" />
-    <Compile Include="InstanceIdentifier.cs" />
+    <Compile Include="ApplicationFactory.cs" />
+    <Compile Include="ExternalApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SafeExamBrowser.Core.Contracts\SafeExamBrowser.Core.Contracts.csproj">
-      <Project>{fe0e1224-b447-4b14-81e7-ed7d84822aa0}</Project>
-      <Name>SafeExamBrowser.Core.Contracts</Name>
+    <ProjectReference Include="..\SafeExamBrowser.Applications.Contracts\SafeExamBrowser.Applications.Contracts.csproj">
+      <Project>{ac77745d-3b41-43e2-8e84-d40e5a4ee77f}</Project>
+      <Name>SafeExamBrowser.Applications.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
+      <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
+      <Name>SafeExamBrowser.Logging.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Settings\SafeExamBrowser.Settings.csproj">
       <Project>{30b2d907-5861-4f39-abad-c4abf1b3470e}</Project>

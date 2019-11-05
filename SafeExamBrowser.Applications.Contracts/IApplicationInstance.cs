@@ -7,12 +7,11 @@
  */
 
 using SafeExamBrowser.Applications.Contracts.Events;
-using SafeExamBrowser.Core.Contracts;
 
 namespace SafeExamBrowser.Applications.Contracts
 {
 	/// <summary>
-	/// Defines an instance of a (third-party) application which can be accessed via the shell.
+	/// Defines an instance of an application which can be accessed via the shell.
 	/// </summary>
 	public interface IApplicationInstance
 	{

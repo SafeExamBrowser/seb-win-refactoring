@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace SafeExamBrowser.WindowsApi.Contracts
 {
 	/// <summary>
-	/// The factory for processes, to be used whenever a new process needs to be created (for internal components and third-party applications).
+	/// The factory for processes, to be used whenever a new process needs to be created (for internal components and external applications).
 	/// </summary>
 	public interface IProcessFactory
 	{
