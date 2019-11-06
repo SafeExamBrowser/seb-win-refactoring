@@ -49,8 +49,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			sut.Perform();
 
 			browser.Verify(c => c.Initialize(), Times.Once);
-			actionCenter.Verify(a => a.AddApplicationControl(It.IsAny<IApplicationControl>()), Times.Once);
-			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>()), Times.Once);
+			actionCenter.Verify(a => a.AddApplicationControl(It.IsAny<IApplicationControl>(), true), Times.Once);
+			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>(), true), Times.Once);
 		}
 
 		[TestMethod]

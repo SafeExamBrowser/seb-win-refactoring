@@ -13,5 +13,5 @@ namespace SafeExamBrowser.Applications.Contracts.Events
 	/// <summary>
 	/// Event handler used to indicate that the icon of an <see cref="IApplicationInstance"/> has changed.
 	/// </summary>
-	public delegate void IconChangedEventHandler(IIconResource icon);
+	public delegate void IconChangedEventHandler(IconResource icon);
 }

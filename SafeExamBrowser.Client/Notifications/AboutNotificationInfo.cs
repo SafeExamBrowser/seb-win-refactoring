@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.I18n.Contracts;
@@ -14,14 +15,17 @@ namespace SafeExamBrowser.Client.Notifications
 {
 	internal class AboutNotificationInfo : INotificationInfo
 	{
-		private IText text;
-
-		public string Tooltip => text.Get(TextKey.Notification_AboutTooltip);
-		public IIconResource IconResource { get; } = new AboutNotificationIconResource();
+		public string Tooltip { get; }
+		public IconResource IconResource { get; }
 
 		public AboutNotificationInfo(IText text)
 		{
-			this.text = text;
+			IconResource =  new IconResource
+			{
+				Type = IconResourceType.Xaml,
+				Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/AboutNotification.xaml")
+			};
+			Tooltip = text.Get(TextKey.Notification_AboutTooltip);
 		}
 	}
 }

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Win32;
 using SafeExamBrowser.Applications.Contracts;
+using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Applications;
 
@@ -27,33 +28,46 @@ namespace SafeExamBrowser.Applications
 
 		public FactoryResult TryCreate(WhitelistApplication settings, out IApplication application)
 		{
+			var name = $"'{settings.DisplayName}' ({ settings.ExecutableName})";
+
 			application = default(IApplication);
 
 			try
 			{
-				var success = TryFindMainExecutable(settings, out var mainExecutable);
+				var success = TryFindApplication(settings, out var executablePath);
 
 				if (success)
 				{
-					application = new ExternalApplication();
-					logger.Debug($"Successfully initialized application '{settings.DisplayName}' ({settings.ExecutableName}).");
+					application = BuildApplication(executablePath, settings);
+					application.Initialize();
+
+					logger.Debug($"Successfully initialized application {name}.");
 
 					return FactoryResult.Success;
 				}
 
-				logger.Error($"Could not find application '{settings.DisplayName}' ({settings.ExecutableName})!");
+				logger.Error($"Could not find application {name}!");
 
 				return FactoryResult.NotFound;
 			}
 			catch (Exception e)
 			{
-				logger.Error($"Unexpected error while trying to create application '{settings.DisplayName}' ({settings.ExecutableName})!", e);
+				logger.Error($"Unexpected error while trying to initialize application {name}!", e);
 			}
 
 			return FactoryResult.Error;
 		}
 
-		private bool TryFindMainExecutable(WhitelistApplication settings, out string mainExecutable)
+		private IApplication BuildApplication(string executablePath, WhitelistApplication settings)
+		{
+			var icon = new IconResource { Type = IconResourceType.Embedded, Uri = new Uri(executablePath) };
+			var info = new ApplicationInfo { IconResource = icon, Name = settings.DisplayName, Tooltip = settings.Description ?? settings.DisplayName };
+			var application = new ExternalApplication(executablePath, info);
+
+			return application;
+		}
+
+		private bool TryFindApplication(WhitelistApplication settings, out string mainExecutable)
 		{
 			var paths = new List<string[]>();
 			var registryPath = QueryPathFromRegistry(settings);

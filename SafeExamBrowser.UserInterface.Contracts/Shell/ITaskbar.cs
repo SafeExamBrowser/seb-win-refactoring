@@ -29,7 +29,7 @@ namespace SafeExamBrowser.UserInterface.Contracts.Shell
 		/// <summary>
 		/// Adds the given application control to the taskbar.
 		/// </summary>
-		void AddApplicationControl(IApplicationControl control);
+		void AddApplicationControl(IApplicationControl control, bool atFirstPosition = false);
 
 		/// <summary>
 		/// Adds the given notification control to the taskbar.

@@ -84,10 +84,8 @@
     <Compile Include="Communication\ClientHost.cs" />
     <Compile Include="CompositionRoot.cs" />
     <Compile Include="Notifications\AboutNotificationController.cs" />
-    <Compile Include="Notifications\AboutNotificationIconResource.cs" />
     <Compile Include="Notifications\AboutNotificationInfo.cs" />
     <Compile Include="Notifications\LogNotificationController.cs" />
-    <Compile Include="Notifications\LogNotificationIconResource.cs" />
     <Compile Include="Notifications\LogNotificationInfo.cs" />
     <Compile Include="Operations\BrowserOperation.cs" />
     <Compile Include="Operations\ClipboardOperation.cs" />

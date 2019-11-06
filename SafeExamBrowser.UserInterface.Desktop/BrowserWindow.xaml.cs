@@ -104,7 +104,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			Dispatcher.Invoke(() => UrlTextBox.Text = url);
 		}
 
-		public void UpdateIcon(IIconResource icon)
+		public void UpdateIcon(IconResource icon)
 		{
 			Dispatcher.InvokeAsync(() => Icon = new BitmapImage(icon.Uri));
 		}
@@ -282,10 +282,10 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			var forwardUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/NavigateForward.xaml");
 			var menuUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Menu.xaml");
 			var reloadUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Reload.xaml");
-			var backward = new XamlIconResource(backUri);
-			var forward = new XamlIconResource(forwardUri);
-			var menu = new XamlIconResource(menuUri);
-			var reload = new XamlIconResource(reloadUri);
+			var backward = new IconResource { Type = IconResourceType.Xaml, Uri = backUri };
+			var forward = new IconResource { Type = IconResourceType.Xaml, Uri = forwardUri };
+			var menu = new IconResource { Type = IconResourceType.Xaml, Uri = menuUri };
+			var reload = new IconResource { Type = IconResourceType.Xaml, Uri = reloadUri };
 
 			BackwardButton.Content = IconResourceLoader.Load(backward);
 			ForwardButton.Content = IconResourceLoader.Load(forward);

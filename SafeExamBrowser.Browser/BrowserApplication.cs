@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Browser
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 
-		public IApplicationInfo Info { get; private set; }
+		public ApplicationInfo Info { get; private set; }
 
 		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 		public event InstanceStartedEventHandler InstanceStarted;
@@ -65,7 +65,7 @@ namespace SafeExamBrowser.Browser
 			var cefSettings = InitializeCefSettings();
 			var success = Cef.Initialize(cefSettings, true, default(IApp));
 
-			Info = new BrowserApplicationInfo();
+			Info = BuildApplicationInfo();
 
 			if (success)
 			{
@@ -93,6 +93,16 @@ namespace SafeExamBrowser.Browser
 
 			Cef.Shutdown();
 			logger.Info("Terminated browser.");
+		}
+
+		private ApplicationInfo BuildApplicationInfo()
+		{
+			return new ApplicationInfo
+			{
+				IconResource = new BrowserIconResource(),
+				Name = "Safe Exam Browser",
+				Tooltip = text.Get(TextKey.Browser_Tooltip)
+			};
 		}
 
 		private void CreateNewInstance(string url = null)

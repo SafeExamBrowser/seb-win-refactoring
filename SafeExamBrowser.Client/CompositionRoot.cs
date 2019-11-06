@@ -198,7 +198,6 @@ namespace SafeExamBrowser.Client
 		{
 			var moduleLogger = ModuleLogger(nameof(BrowserApplication));
 			var browser = new BrowserApplication(context.AppConfig, context.Settings.Browser, messageBox, moduleLogger, text, uiFactory);
-			var browserInfo = new BrowserApplicationInfo();
 			var operation = new BrowserOperation(actionCenter, context, logger, taskbar, uiFactory);
 
 			context.Browser = browser;

@@ -117,7 +117,6 @@ namespace SafeExamBrowser.Client.Operations
 
 			if (result == FactoryResult.Success)
 			{
-				application.Initialize();
 				Context.Applications.Add(application);
 			}
 			else
@@ -129,7 +128,10 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void FinalizeApplications()
 		{
-			// TODO: Terminate all running applications!
+			foreach (var application in Context.Applications)
+			{
+				application.Terminate();
+			}
 		}
 
 		private OperationResult HandleAutoTerminationFailure(IList<RunningApplication> applications)

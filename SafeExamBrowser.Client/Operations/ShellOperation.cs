@@ -124,6 +124,7 @@ namespace SafeExamBrowser.Client.Operations
 				logger.Info("Initializing action center...");
 				actionCenter.InitializeText(text);
 
+				InitializeApplicationsFor(Location.ActionCenter);
 				InitializeAboutNotificationForActionCenter();
 				InitializeAudioForActionCenter();
 				InitializeClockForActionCenter();
@@ -145,6 +146,7 @@ namespace SafeExamBrowser.Client.Operations
 				logger.Info("Initializing taskbar...");
 				taskbar.InitializeText(text);
 
+				InitializeApplicationsFor(Location.Taskbar);
 				InitializeAboutNotificationForTaskbar();
 				InitializeLogNotificationForTaskbar();
 				InitializePowerSupplyForTaskbar();
@@ -156,6 +158,24 @@ namespace SafeExamBrowser.Client.Operations
 			else
 			{
 				logger.Info("Taskbar is disabled, skipping initialization.");
+			}
+		}
+
+		private void InitializeApplicationsFor(Location location)
+		{
+			foreach (var application in Context.Applications)
+			{
+				var control = uiFactory.CreateApplicationControl(application, location);
+
+				switch (location)
+				{
+					case Location.ActionCenter:
+						actionCenter.AddApplicationControl(control);
+						break;
+					case Location.Taskbar:
+						taskbar.AddApplicationControl(control);
+						break;
+				}
 			}
 		}
 

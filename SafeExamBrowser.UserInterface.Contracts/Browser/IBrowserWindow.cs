@@ -75,7 +75,7 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		/// <summary>
 		/// Updates the icon of the browser window.
 		/// </summary>
-		void UpdateIcon(IIconResource icon);
+		void UpdateIcon(IconResource icon);
 
 		/// <summary>
 		/// Updates the loading state according to the given value.

@@ -102,6 +102,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 								application.AutoTerminate = autoTerminate;
 							}
 
+							if (applicationData.TryGetValue(Keys.Applications.Description, out v) && v is string description)
+							{
+								application.Description = description;
+							}
+
 							if (applicationData.TryGetValue(Keys.Applications.DisplayName, out v) && v is string displayName)
 							{
 								application.DisplayName = displayName;

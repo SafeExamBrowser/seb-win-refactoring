@@ -43,6 +43,11 @@ namespace SafeExamBrowser.Settings.Applications
 		public bool AutoTerminate { get; set; }
 
 		/// <summary>
+		/// Provides further information about the application.
+		/// </summary>
+		public string Description { get; set; }
+
+		/// <summary>
 		/// The display name to be used for the application (e.g. in the shell).
 		/// </summary>
 		public string DisplayName { get; set; }

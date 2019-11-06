@@ -8,21 +8,26 @@
 
 using SafeExamBrowser.Core.Contracts;
 
-namespace SafeExamBrowser.Client.Contracts
+namespace SafeExamBrowser.Applications.Contracts
 {
 	/// <summary>
-	/// The information about a notification.
+	/// The information about an application which can be accessed via the shell.
 	/// </summary>
-	public interface INotificationInfo
+	public class ApplicationInfo
 	{
 		/// <summary>
-		/// The tooltip for the notification.
+		/// The name of the application.
 		/// </summary>
-		string Tooltip { get; }
+		public string Name { get; set; }
 
 		/// <summary>
-		/// The resource providing the notification icon.
+		/// The tooltip for the application.
 		/// </summary>
-		IconResource IconResource { get; }
+		public string Tooltip { get; set; }
+
+		/// <summary>
+		/// The resource providing the application icon.
+		/// </summary>
+		public IconResource IconResource { get; set; }
 	}
 }

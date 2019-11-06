@@ -26,6 +26,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string AutoStart = "autostart";
 			internal const string AutoTerminate = "strongKill";
 			internal const string Blacklist = "prohibitedProcesses";
+			internal const string Description = "description";
 			internal const string DisplayName = "title";
 			internal const string ExecutableName = "executable";
 			internal const string ExecutablePath = "path";

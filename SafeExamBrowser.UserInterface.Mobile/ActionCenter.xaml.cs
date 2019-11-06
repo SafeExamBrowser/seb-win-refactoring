@@ -30,11 +30,18 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			InitializeActionCenter();
 		}
 
-		public void AddApplicationControl(IApplicationControl control)
+		public void AddApplicationControl(IApplicationControl control, bool atFirstPosition = false)
 		{
 			if (control is UIElement uiElement)
 			{
-				ApplicationPanel.Children.Add(uiElement);
+				if (atFirstPosition)
+				{
+					ApplicationPanel.Children.Insert(0, uiElement);
+				}
+				else
+				{
+					ApplicationPanel.Children.Add(uiElement);
+				}
 			}
 		}
 

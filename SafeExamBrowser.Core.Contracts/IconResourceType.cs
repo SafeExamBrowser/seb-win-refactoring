@@ -6,28 +6,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Core.Contracts;
-
-namespace SafeExamBrowser.Applications.Contracts
+namespace SafeExamBrowser.Core.Contracts
 {
 	/// <summary>
-	/// The information about an application which can be accessed via the shell.
+	/// Defines the data format of an icon resource.
 	/// </summary>
-	public interface IApplicationInfo
+	public enum IconResourceType
 	{
 		/// <summary>
-		/// The name of the application.
+		/// The icon resource is a bitmap image (i.e. raster graphics).
 		/// </summary>
-		string Name { get; }
+		Bitmap,
 
 		/// <summary>
-		/// The tooltip for the application.
+		/// The icon resource is a file with embedded icon data (e.g. an executable).
 		/// </summary>
-		string Tooltip { get; }
+		Embedded,
 
 		/// <summary>
-		/// The resource providing the application icon.
+		/// The icon resource consists of XAML markup (i.e. vector graphics).
 		/// </summary>
-		IIconResource IconResource { get; }
+		Xaml
 	}
 }

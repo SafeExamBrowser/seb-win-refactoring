@@ -11,14 +11,11 @@ using SafeExamBrowser.Core.Contracts;
 
 namespace SafeExamBrowser.Browser
 {
-	public class BrowserIconResource : IIconResource
+	public class BrowserIconResource : IconResource
 	{
-		public Uri Uri { get; private set; }
-		public bool IsBitmapResource => true;
-		public bool IsXamlResource => false;
-
 		public BrowserIconResource(string uri = null)
 		{
+			Type = IconResourceType.Bitmap;
 			Uri = new Uri(uri ?? "pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/SafeExamBrowser.ico");
 		}
 	}

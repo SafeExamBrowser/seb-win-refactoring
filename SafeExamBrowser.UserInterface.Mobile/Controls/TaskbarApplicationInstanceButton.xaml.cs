@@ -16,10 +16,10 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 {
 	public partial class TaskbarApplicationInstanceButton : UserControl
 	{
-		private IApplicationInfo info;
+		private ApplicationInfo info;
 		private IApplicationInstance instance;
 
-		public TaskbarApplicationInstanceButton(IApplicationInstance instance, IApplicationInfo info)
+		public TaskbarApplicationInstanceButton(IApplicationInstance instance, ApplicationInfo info)
 		{
 			this.info = info;
 			this.instance = instance;
@@ -43,7 +43,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 			instance.Activate();
 		}
 
-		private void Instance_IconChanged(IIconResource icon)
+		private void Instance_IconChanged(IconResource icon)
 		{
 			Dispatcher.InvokeAsync(() => Icon.Content = IconResourceLoader.Load(icon));
 		}

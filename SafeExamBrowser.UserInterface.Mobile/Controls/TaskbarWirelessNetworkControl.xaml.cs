@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using FontAwesome.WPF;
+using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -142,7 +143,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 		{
 			var icon = signalStrength > 66 ? "100" : (signalStrength > 33 ? "66" : (signalStrength > 0 ? "33" : "0"));
 			var uri = new Uri($"pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/WiFi_{icon}.xaml");
-			var resource = new XamlIconResource(uri);
+			var resource = new IconResource { Type = IconResourceType.Xaml, Uri = uri };
 
 			return IconResourceLoader.Load(resource);
 		}

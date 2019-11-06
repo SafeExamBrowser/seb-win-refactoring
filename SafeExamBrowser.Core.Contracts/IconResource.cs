@@ -13,21 +13,16 @@ namespace SafeExamBrowser.Core.Contracts
 	/// <summary>
 	/// Defines an icon resource, i.e. the path to and type of an icon.
 	/// </summary>
-	public interface IIconResource
+	public class IconResource
 	{
 		/// <summary>
-		/// The <see cref="System.Uri"/> pointing to the icon.
+		/// Defines the data type of the resource.
 		/// </summary>
-		Uri Uri { get; }
+		public IconResourceType Type { get; set; }
 
 		/// <summary>
-		/// Indicates whether the icon resource consists of a bitmap image (i.e. raster graphics).
+		/// The <see cref="System.Uri"/> pointing to the icon data.
 		/// </summary>
-		bool IsBitmapResource { get; }
-
-		/// <summary>
-		/// Indicates whether the icon resource consists of XAML markup (i.e. vector graphics).
-		/// </summary>
-		bool IsXamlResource { get; }
+		public Uri Uri { get; set; }
 	}
 }

@@ -16,12 +16,12 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 {
 	public partial class ActionCenterApplicationButton : UserControl
 	{
-		private IApplicationInfo info;
+		private ApplicationInfo info;
 		private IApplicationInstance instance;
 
 		internal event EventHandler Clicked;
 
-		public ActionCenterApplicationButton(IApplicationInfo info, IApplicationInstance instance = null)
+		public ActionCenterApplicationButton(ApplicationInfo info, IApplicationInstance instance = null)
 		{
 			this.info = info;
 			this.instance = instance;
@@ -44,7 +44,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 			}
 		}
 
-		private void Instance_IconChanged(IIconResource icon)
+		private void Instance_IconChanged(IconResource icon)
 		{
 			Dispatcher.InvokeAsync(() => Icon.Content = IconResourceLoader.Load(icon));
 		}

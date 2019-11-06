@@ -36,11 +36,18 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			InitializeTaskbar();
 		}
 
-		public void AddApplicationControl(IApplicationControl control)
+		public void AddApplicationControl(IApplicationControl control, bool atFirstPosition = false)
 		{
 			if (control is UIElement uiElement)
 			{
-				ApplicationStackPanel.Children.Add(uiElement);
+				if (atFirstPosition)
+				{
+					ApplicationStackPanel.Children.Insert(0, uiElement);
+				}
+				else
+				{
+					ApplicationStackPanel.Children.Add(uiElement);
+				}
 			}
 		}
 

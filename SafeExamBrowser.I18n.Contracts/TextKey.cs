@@ -18,6 +18,7 @@ namespace SafeExamBrowser.I18n.Contracts
 		Browser_BlockedPageButton,
 		Browser_BlockedPageMessage,
 		Browser_BlockedPageTitle,
+		Browser_Tooltip,
 		BrowserWindow_DeveloperConsoleMenuItem,
 		BrowserWindow_ZoomMenuItem,
 		Build,

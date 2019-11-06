@@ -7,40 +7,45 @@
  */
 
 using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using SafeExamBrowser.Core.Contracts;
+using Brushes = System.Windows.Media.Brushes;
+using Image = System.Windows.Controls.Image;
 
 namespace SafeExamBrowser.UserInterface.Shared.Utilities
 {
 	public static class IconResourceLoader
 	{
-		public static UIElement Load(IIconResource resource)
+		public static UIElement Load(IconResource resource)
 		{
 			try
 			{
-				if (resource.IsBitmapResource)
+				switch (resource.Type)
 				{
-					return LoadBitmapResource(resource);
-				}
-				else if (resource.IsXamlResource)
-				{
-					return LoadXamlResource(resource);
+					case IconResourceType.Bitmap:
+						return LoadBitmapResource(resource);
+					case IconResourceType.Embedded:
+						return LoadEmbeddedResource(resource);
+					case IconResourceType.Xaml:
+						return LoadXamlResource(resource);
+					default:
+						throw new NotSupportedException($"Application icon resource of type '{resource.Type}' is not supported!");
 				}
 			}
 			catch (Exception)
 			{
 				return NotFoundSymbol();
 			}
-
-			throw new NotSupportedException($"Application icon resource of type '{resource.GetType()}' is not supported!");
 		}
 
-		private static UIElement LoadBitmapResource(IIconResource resource)
+		private static UIElement LoadBitmapResource(IconResource resource)
 		{
 			return new Image
 			{
@@ -48,7 +53,28 @@ namespace SafeExamBrowser.UserInterface.Shared.Utilities
 			};
 		}
 
-		private static UIElement LoadXamlResource(IIconResource resource)
+		private static UIElement LoadEmbeddedResource(IconResource resource)
+		{
+			using (var stream = new MemoryStream())
+			{
+				var bitmap = new BitmapImage();
+
+				Icon.ExtractAssociatedIcon(resource.Uri.LocalPath).ToBitmap().Save(stream, ImageFormat.Png);
+
+				bitmap.BeginInit();
+				bitmap.StreamSource = stream;
+				bitmap.CacheOption = BitmapCacheOption.OnLoad;
+				bitmap.EndInit();
+				bitmap.Freeze();
+
+				return new Image
+				{
+					Source = bitmap
+				};
+			}
+		}
+
+		private static UIElement LoadXamlResource(IconResource resource)
 		{
 			using (var stream = Application.GetResourceStream(resource.Uri)?.Stream)
 			{

@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
 
@@ -14,9 +13,17 @@ namespace SafeExamBrowser.Applications
 {
 	internal class ExternalApplication : IApplication
 	{
-		public IApplicationInfo Info => throw new NotImplementedException();
+		private string executablePath;
+
+		public ApplicationInfo Info { get; }
 
 		public event InstanceStartedEventHandler InstanceStarted;
+
+		internal ExternalApplication(string executablePath, ApplicationInfo info)
+		{
+			this.executablePath = executablePath;
+			this.Info = info;
+		}
 
 		public void Initialize()
 		{

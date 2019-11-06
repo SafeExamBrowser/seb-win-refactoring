@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Applications.Contracts
 		/// <summary>
 		/// Provides information about the application.
 		/// </summary>
-		IApplicationInfo Info { get; }
+		ApplicationInfo Info { get; }
 
 		/// <summary>
 		/// Fired when a new <see cref="IApplicationInstance"/> has started.
