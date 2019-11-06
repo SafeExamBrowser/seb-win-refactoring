@@ -1,7 +1,12 @@
 version: '3.0.0.{build}'
 image: Windows
-platform: x86
 configuration: Release
+platform:
+  - x86
+  - x64
+matrix:
+  fast_finish: true
+max_jobs: 1
 assembly_info:
   patch: true
   file: AssemblyInfo.*
@@ -15,6 +20,6 @@ before_build:
 build_script:
  - msbuild /verbosity:minimal "SafeExamBrowser.sln"
 after_build:
- - appveyor PushArtifact "Setup\bin\%CONFIGURATION%\Setup.msi" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_Setup.msi" -DeploymentName "SEB %APPVEYOR_BUILD_VERSION% Setup"
- - appveyor PushArtifact "SetupBundle\bin\%CONFIGURATION%\SetupBundle.exe" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_SetupBundle.exe" -DeploymentName "SEB %APPVEYOR_BUILD_VERSION% Setup Bundle"
+ - appveyor PushArtifact "Setup\bin\%PLATFORM%\%CONFIGURATION%\Setup.msi" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_%PLATFORM%_Setup.msi" -DeploymentName "SEB %APPVEYOR_BUILD_VERSION% Setup (%PLATFORM%)"
+ - appveyor PushArtifact "SetupBundle\bin\%PLATFORM%\%CONFIGURATION%\SetupBundle.exe" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_%PLATFORM%_SetupBundle.exe" -DeploymentName "SEB %APPVEYOR_BUILD_VERSION% Setup Bundle (%PLATFORM%)"
 test: off

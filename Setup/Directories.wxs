@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <?if $(var.Platform) = x64 ?>
+    <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+    <?else ?>
+    <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+    <?endif ?>
     <Fragment>
         <Directory Id="TARGETDIR" Name="SourceDir">
-            <Directory Id="ProgramFilesFolder">
+            <Directory Id="$(var.PlatformProgramFilesFolder)">
                 <Directory Id="InstallFolder" Name="SafeExamBrowser">
                     <Directory Id="ApplicationDirectory" Name="Application" />
                     <Directory Id="ConfigurationDirectory" Name="Configuration" />

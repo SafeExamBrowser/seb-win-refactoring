@@ -74,7 +74,7 @@ namespace SafeExamBrowser.Applications
 
 			mainExecutable = default(string);
 
-			paths.Add(new[] { "%ProgramW6432%", settings.ExecutableName });
+			paths.Add(new[] { Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), settings.ExecutableName });
 			paths.Add(new[] { Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), settings.ExecutableName });
 			paths.Add(new[] { Environment.GetFolderPath(Environment.SpecialFolder.System), settings.ExecutableName });
 			paths.Add(new[] { Environment.GetFolderPath(Environment.SpecialFolder.SystemX86), settings.ExecutableName });
@@ -82,7 +82,7 @@ namespace SafeExamBrowser.Applications
 			if (settings.ExecutablePath != default(string))
 			{
 				paths.Add(new[] { settings.ExecutablePath, settings.ExecutableName });
-				paths.Add(new[] { "%ProgramW6432%", settings.ExecutablePath, settings.ExecutableName });
+				paths.Add(new[] { Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), settings.ExecutablePath, settings.ExecutableName });
 				paths.Add(new[] { Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), settings.ExecutablePath, settings.ExecutableName });
 				paths.Add(new[] { Environment.GetFolderPath(Environment.SpecialFolder.System), settings.ExecutablePath, settings.ExecutableName });
 				paths.Add(new[] { Environment.GetFolderPath(Environment.SpecialFolder.SystemX86), settings.ExecutablePath, settings.ExecutableName });

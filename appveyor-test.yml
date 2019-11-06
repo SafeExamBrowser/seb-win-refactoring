@@ -1,7 +1,11 @@
 version: '{build}'
 image: Visual Studio 2017
-platform: x86
+platform:
+  - x86
+  - x64
 configuration: Debug
+matrix:
+  fast_finish: true
 before_build:
  - nuget restore
 build_script:
