@@ -18,7 +18,7 @@
 /norestart   - suppress any attempts to restart. By default UI will prompt before restart.
 /log log.txt - logs to a specific file. By default a log file is created in %TEMP%.</String>
   <String Id="HelpCloseButton">&amp;Close</String>
-  <String Id="InstallDescription">This setup bundle will install [WixBundleName] version [WixBundleVersion] and all required frameworks on your computer.</String>
+  <String Id="InstallDescription">This setup bundle will install [WixBundleName] version [WixBundleVersion] and all required components on your computer.</String>
   <String Id="InstallEulaInstructions">Please read the following license agreement carefully:</String>
   <String Id="InstallAcceptCheckbox">I &amp;agree to the license terms and conditions</String>
   <String Id="InstallOptionsButton">&amp;Options</String>

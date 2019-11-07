@@ -1,9 +1,9 @@
 version: '{build}'
 image: Visual Studio 2017
-platform:
-  - x86
-  - x64
 configuration: Debug
+platform:
+  - x64
+  - x86
 matrix:
   fast_finish: true
 before_build:

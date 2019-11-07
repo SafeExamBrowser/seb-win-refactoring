@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <?if $(var.Platform) = x64 ?>
-    <?define Bitness = "(64-bit)" ?>
-    <?else ?>
-    <?define Bitness = "(32-bit)" ?>
-    <?endif ?>
-    <Product Name="Safe Exam Browser $(var.Bitness)" Manufacturer="ETH Zürich" Language="1033" Codepage="1252"
+    <Product Name="Safe Exam Browser ($(var.Platform))" Manufacturer="ETH Zürich" Language="1033" Codepage="1252"
              Id="*" Version="!(bind.fileVersion.MainExecutable)" UpgradeCode="97A8B13E-48FB-4BE1-A7C2-DD1863F95CCB">
         <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
         <MediaTemplate EmbedCab="yes" />

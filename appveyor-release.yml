@@ -2,8 +2,8 @@ version: '3.0.0.{build}'
 image: Windows
 configuration: Release
 platform:
-  - x86
   - x64
+  - x86
 matrix:
   fast_finish: true
 max_jobs: 1
@@ -12,14 +12,27 @@ assembly_info:
   file: AssemblyInfo.*
   assembly_version: '{version}'
   assembly_file_version: '{version}'
-  assembly_informational_version: '3.0.0 Base'
+  assembly_informational_version: '3.0.0 Base ($(platform))'
 install:
  - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
 before_build:
  - nuget restore
 build_script:
  - msbuild /verbosity:minimal "SafeExamBrowser.sln"
-after_build:
- - appveyor PushArtifact "Setup\bin\%PLATFORM%\%CONFIGURATION%\Setup.msi" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_%PLATFORM%_Setup.msi" -DeploymentName "SEB %APPVEYOR_BUILD_VERSION% Setup (%PLATFORM%)"
- - appveyor PushArtifact "SetupBundle\bin\%PLATFORM%\%CONFIGURATION%\SetupBundle.exe" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_%PLATFORM%_SetupBundle.exe" -DeploymentName "SEB %APPVEYOR_BUILD_VERSION% Setup Bundle (%PLATFORM%)"
 test: off
+
+for:
+-
+  matrix:
+    only:
+      - platform: x86
+  after_build:
+   - appveyor PushArtifact "Setup\bin\%PLATFORM%\%CONFIGURATION%\Setup.msi" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_%PLATFORM%_Setup.msi" -DeploymentName "SEB %APPVEYOR_BUILD_VERSION% Setup (%PLATFORM%)"
+   - appveyor PushArtifact "SetupBundle\bin\%PLATFORM%\%CONFIGURATION%\SetupBundle.exe" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_SetupBundle.exe" -DeploymentName "SEB %APPVEYOR_BUILD_VERSION% Setup Bundle"
+
+-
+  matrix:
+    only:
+      - platform: x64
+  after_build:
+   - appveyor PushArtifact "Setup\bin\%PLATFORM%\%CONFIGURATION%\Setup.msi" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_%PLATFORM%_Setup.msi" -DeploymentName "SEB %APPVEYOR_BUILD_VERSION% Setup (%PLATFORM%)"
