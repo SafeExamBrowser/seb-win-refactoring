@@ -32,6 +32,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			application.InstanceStarted += Application_InstanceStarted;
 			button.Clicked += (o, args) => application.Start();
 			ApplicationName.Text = application.Info.Name;
+			ApplicationName.Visibility = Visibility.Collapsed;
 			ApplicationButton.Content = button;
 		}
 
