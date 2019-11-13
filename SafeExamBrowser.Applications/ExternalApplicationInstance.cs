@@ -50,12 +50,7 @@ namespace SafeExamBrowser.Applications
 
 		public void Initialize()
 		{
-			process.Terminated += Process_Terminated;
-
-			timer = new Timer(ONE_SECOND);
-			timer.Elapsed += Timer_Elapsed;
-			timer.Start();
-
+			InitializeEvents();
 			logger.Info("Initialized application instance.");
 		}
 
@@ -64,35 +59,53 @@ namespace SafeExamBrowser.Applications
 			const int MAX_ATTEMPTS = 5;
 			const int TIMEOUT_MS = 500;
 
-			timer.Elapsed -= Timer_Elapsed;
-			timer?.Stop();
-
 			var terminated = process.HasTerminated;
 
-			for (var attempt = 0; attempt < MAX_ATTEMPTS && !terminated; attempt++)
+			if (!terminated)
 			{
-				terminated = process.TryClose(TIMEOUT_MS);
-			}
+				FinalizeEvents();
 
-			for (var attempt = 0; attempt < MAX_ATTEMPTS && !terminated; attempt++)
-			{
-				terminated = process.TryKill(TIMEOUT_MS);
-			}
+				for (var attempt = 0; attempt < MAX_ATTEMPTS && !terminated; attempt++)
+				{
+					terminated = process.TryClose(TIMEOUT_MS);
+				}
 
-			if (terminated)
-			{
-				logger.Info("Successfully terminated application instance.");
-			}
-			else
-			{
-				logger.Warn("Failed to terminate application instance!");
+				for (var attempt = 0; attempt < MAX_ATTEMPTS && !terminated; attempt++)
+				{
+					terminated = process.TryKill(TIMEOUT_MS);
+				}
+
+				if (terminated)
+				{
+					logger.Info("Successfully terminated application instance.");
+				}
+				else
+				{
+					logger.Warn("Failed to terminate application instance!");
+				}
 			}
 		}
 
 		private void Process_Terminated(int exitCode)
 		{
 			logger.Info($"Application instance has terminated with exit code {exitCode}.");
+			FinalizeEvents();
 			Terminated?.Invoke(Id);
+		}
+
+		private void InitializeEvents()
+		{
+			timer = new Timer(ONE_SECOND);
+			timer.Elapsed += Timer_Elapsed;
+			timer.Start();
+			process.Terminated += Process_Terminated;
+		}
+
+		private void FinalizeEvents()
+		{
+			timer.Elapsed -= Timer_Elapsed;
+			timer.Stop();
+			process.Terminated -= Process_Terminated;
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)

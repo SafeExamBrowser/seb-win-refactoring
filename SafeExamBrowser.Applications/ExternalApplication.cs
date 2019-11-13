@@ -58,11 +58,11 @@ namespace SafeExamBrowser.Applications
 			if (instances.Any())
 			{
 				logger.Info("Terminating application...");
-			}
 
-			foreach (var instance in instances)
-			{
-				instance.Terminate();
+				foreach (var instance in instances)
+				{
+					instance.Terminate();
+				}
 			}
 		}
 	}
