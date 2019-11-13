@@ -21,7 +21,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" x:Name="ApplicationName" Background="#99D3D3D3" FontWeight="Bold" Padding="5" TextAlignment="Center" />
-        <ContentControl Grid.Row="1" x:Name="ApplicationButton" />
+        <ContentControl Grid.Row="1" x:Name="ApplicationButton" FontWeight="Bold" />
         <StackPanel Grid.Row="2" x:Name="InstancePanel" Background="#99D3D3D3" Orientation="Vertical" />
     </Grid>
 </UserControl>

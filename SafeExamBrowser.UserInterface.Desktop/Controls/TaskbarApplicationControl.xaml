@@ -23,6 +23,6 @@
                 </ScrollViewer>
             </Border>
         </Popup>
-        <Button x:Name="Button" Background="{StaticResource BackgroundBrush}" Click="Button_Click" Padding="4" Template="{StaticResource TaskbarButton}" Width="50" />
+        <Button x:Name="Button" Background="{StaticResource BackgroundBrush}" Padding="4" Template="{StaticResource TaskbarButton}" Width="50" />
     </Grid>
 </UserControl>

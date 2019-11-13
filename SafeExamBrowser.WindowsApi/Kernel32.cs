@@ -19,7 +19,6 @@ namespace SafeExamBrowser.WindowsApi
 	internal class Kernel32
 	{
 		[DllImport("kernel32.dll", SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool CloseHandle(IntPtr hObject);
 
 		[DllImport("kernel32.dll", SetLastError = true)]

@@ -51,6 +51,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +92,7 @@
     <Compile Include="Types\RECT.cs" />
     <Compile Include="Types\STARTUPINFO.cs" />
     <Compile Include="Types\Window.cs" />
+    <Compile Include="Types\WINDOWPLACEMENT.cs" />
     <Compile Include="User32.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -8,22 +8,22 @@
 
 using SafeExamBrowser.Applications.Contracts;
 
-namespace SafeExamBrowser.Browser
+namespace SafeExamBrowser.Applications
 {
-	internal class BrowserInstanceIdentifier : InstanceIdentifier
+	internal class ApplicationInstanceIdentifier : InstanceIdentifier
 	{
-		internal int Value { get; private set; }
+		internal int ProcessId { get; private set; }
 
-		public BrowserInstanceIdentifier(int id)
+		public ApplicationInstanceIdentifier(int processId)
 		{
-			Value = id;
+			ProcessId = processId;
 		}
 
 		public override bool Equals(object other)
 		{
-			if (other is BrowserInstanceIdentifier id)
+			if (other is ApplicationInstanceIdentifier id)
 			{
-				return Value == id.Value;
+				return ProcessId == id.ProcessId;
 			}
 
 			return false;
@@ -31,12 +31,12 @@ namespace SafeExamBrowser.Browser
 
 		public override int GetHashCode()
 		{
-			return Value.GetHashCode();
+			return ProcessId.GetHashCode();
 		}
 
 		public override string ToString()
 		{
-			return $"#{Value}";
+			return $"({ProcessId})";
 		}
 	}
 }

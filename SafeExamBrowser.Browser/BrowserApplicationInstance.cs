@@ -53,9 +53,9 @@ namespace SafeExamBrowser.Browser
 
 		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 		public event IconChangedEventHandler IconChanged;
-		public event InstanceTerminatedEventHandler Terminated;
 		public event NameChangedEventHandler NameChanged;
 		public event PopupRequestedEventHandler PopupRequested;
+		public event InstanceTerminatedEventHandler Terminated;
 
 		public BrowserApplicationInstance(
 			AppConfig appConfig,
@@ -85,13 +85,13 @@ namespace SafeExamBrowser.Browser
 			window?.BringToForeground();
 		}
 
-		internal void Initialize()
+		public void Initialize()
 		{
 			InitializeControl();
 			InitializeWindow();
 		}
 
-		internal void Terminate()
+		public void Terminate()
 		{
 			window?.Close();
 		}

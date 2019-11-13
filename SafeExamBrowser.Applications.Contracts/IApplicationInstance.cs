@@ -31,18 +31,28 @@ namespace SafeExamBrowser.Applications.Contracts
 		event IconChangedEventHandler IconChanged;
 
 		/// <summary>
-		/// Event fired when the application instance has been terminated.
-		/// </summary>
-		event InstanceTerminatedEventHandler Terminated;
-
-		/// <summary>
 		/// Event fired when the name or (document) title of the application instance has changed.
 		/// </summary>
 		event NameChangedEventHandler NameChanged;
 
 		/// <summary>
+		/// Event fired when the application instance has been terminated.
+		/// </summary>
+		event InstanceTerminatedEventHandler Terminated;
+
+		/// <summary>
 		/// Makes this instance the currently active one and brings it to the foreground.
 		/// </summary>
 		void Activate();
+
+		/// <summary>
+		/// Initializes the application instance.
+		/// </summary>
+		void Initialize();
+
+		/// <summary>
+		/// Terminates the application instance.
+		/// </summary>
+		void Terminate();
 	}
 }

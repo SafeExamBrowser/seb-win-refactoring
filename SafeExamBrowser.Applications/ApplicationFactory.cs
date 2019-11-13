@@ -14,16 +14,19 @@ using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Applications;
+using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Applications
 {
 	public class ApplicationFactory : IApplicationFactory
 	{
-		private ILogger logger;
+		private IModuleLogger logger;
+		private IProcessFactory processFactory;
 
-		public ApplicationFactory(ILogger logger)
+		public ApplicationFactory(IModuleLogger logger, IProcessFactory processFactory)
 		{
 			this.logger = logger;
+			this.processFactory = processFactory;
 		}
 
 		public FactoryResult TryCreate(WhitelistApplication settings, out IApplication application)
@@ -62,7 +65,7 @@ namespace SafeExamBrowser.Applications
 		{
 			var icon = new IconResource { Type = IconResourceType.Embedded, Uri = new Uri(executablePath) };
 			var info = new ApplicationInfo { IconResource = icon, Name = settings.DisplayName, Tooltip = settings.Description ?? settings.DisplayName };
-			var application = new ExternalApplication(executablePath, info);
+			var application = new ExternalApplication(executablePath, info, logger.CloneFor(settings.DisplayName), processFactory);
 
 			return application;
 		}

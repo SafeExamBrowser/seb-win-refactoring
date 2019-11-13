@@ -24,7 +24,6 @@ namespace SafeExamBrowser.WindowsApi
 		internal static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
 		[DllImport("user32.dll", SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool CloseClipboard();
 
 		[DllImport("user32.dll", SetLastError = true)]
@@ -34,15 +33,15 @@ namespace SafeExamBrowser.WindowsApi
 		internal static extern IntPtr CreateDesktop(string lpszDesktop, IntPtr lpszDevice, IntPtr pDevmode, int dwFlags, uint dwDesiredAccess, IntPtr lpsa);
 
 		[DllImport("user32.dll", SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
+		internal static extern bool BringWindowToTop(IntPtr hWnd);
+
+		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern bool EmptyClipboard();
 
 		[DllImport("user32.dll", SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool EnumDesktops(IntPtr hwinsta, EnumDesktopDelegate lpEnumFunc, IntPtr lParam);
 
 		[DllImport("user32.dll", SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool EnumWindows(EnumWindowsDelegate enumProc, IntPtr lParam);
 
 		[DllImport("user32.dll", SetLastError = true)]
@@ -61,6 +60,9 @@ namespace SafeExamBrowser.WindowsApi
 		internal static extern bool GetUserObjectInformation(IntPtr hObj, int nIndex, IntPtr pvInfo, int nLength, ref int lpnLengthNeeded);
 
 		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
+
+		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern int GetWindowText(IntPtr hWnd, StringBuilder strText, int maxCount);
 
 		[DllImport("user32.dll", SetLastError = true)]
@@ -70,15 +72,12 @@ namespace SafeExamBrowser.WindowsApi
 		internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
 		[DllImport("user32.dll", SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool IsWindowVisible(IntPtr hWnd);
 
 		[DllImport("user32.dll", SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool OpenClipboard(IntPtr hWndNewOwner);
 
 		[DllImport("user32.dll", SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
 		[DllImport("user32.dll", SetLastError = true)]
@@ -91,25 +90,21 @@ namespace SafeExamBrowser.WindowsApi
 		internal static extern IntPtr SetWindowsHookEx(HookType hookType, HookDelegate lpfn, IntPtr hMod, uint dwThreadId);
 
 		[DllImport("user32.dll", SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
 		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern bool SwitchDesktop(IntPtr hDesktop);
 
 		[DllImport("user32.dll", SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool SystemParametersInfo(SPI uiAction, uint uiParam, ref RECT pvParam, SPIF fWinIni);
 
 		[DllImport("user32.dll", SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool SystemParametersInfo(SPI uiAction, int uiParam, string pvParam, SPIF fWinIni);
 
 		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern bool UnhookWinEvent(IntPtr hWinEventHook);
 
 		[DllImport("user32.dll", SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
 		internal static extern bool UnhookWindowsHookEx(IntPtr hhk);
 	}
 }
