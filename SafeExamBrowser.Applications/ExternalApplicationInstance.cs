@@ -100,9 +100,6 @@ namespace SafeExamBrowser.Applications
 			var success = process.TryGetWindowTitle(out var title);
 			var hasChanged = name?.Equals(title, StringComparison.Ordinal) != true;
 
-			// TODO: Use this and ensure log window doesn't hang on shutdown (if it is open)!
-			// logger.Warn($"Success: {success} HasChanged: {hasChanged}");
-
 			if (success && hasChanged)
 			{
 				name = title;

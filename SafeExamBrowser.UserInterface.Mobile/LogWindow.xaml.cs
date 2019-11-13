@@ -8,6 +8,7 @@
 
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
@@ -75,6 +76,8 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		private void LogWindow_Loaded(object sender, RoutedEventArgs e)
 		{
+			Cursor = Cursors.Wait;
+
 			var log = logger.GetLog();
 
 			foreach (var content in log)
@@ -84,6 +87,8 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 			logger.Subscribe(model);
 			logger.Debug("Opened log window.");
+
+			Cursor = Cursors.Arrow;
 		}
 
 		private void LogWindow_Closing(object sender, CancelEventArgs e)

@@ -23,6 +23,8 @@ namespace SafeExamBrowser.UserInterface.Mobile.ViewModels
 		private ScrollViewer scrollViewer;
 		private TextBlock textBlock;
 
+		public bool AutoScroll { get; set; } = true;
+		public string AutoScrollTitle => text.Get(TextKey.LogWindow_AutoScroll);
 		public string WindowTitle => text.Get(TextKey.LogWindow_Title);
 
 		public LogViewModel(IText text, ScrollViewer scrollViewer, TextBlock textBlock)
@@ -45,29 +47,25 @@ namespace SafeExamBrowser.UserInterface.Mobile.ViewModels
 				default:
 					throw new NotImplementedException($"The log window is not yet implemented for log content of type {content.GetType()}!");
 			}
-
-			scrollViewer.Dispatcher.Invoke(scrollViewer.ScrollToEnd);
 		}
 
 		private void AppendLogText(ILogText logText)
 		{
-			textBlock.Dispatcher.Invoke(() =>
+			textBlock.Dispatcher.InvokeAsync(() =>
 			{
 				var isHeader = logText.Text.StartsWith("/* ");
 				var isComment = logText.Text.StartsWith("# ");
 				var brush = isHeader || isComment ? Brushes.LimeGreen : textBlock.Foreground;
+				var fontWeight = isHeader ? FontWeights.Bold : FontWeights.Normal;
 
-				textBlock.Inlines.Add(new Run($"{logText.Text}{Environment.NewLine}")
-				{
-					FontWeight = isHeader ? FontWeights.Bold : FontWeights.Normal,
-					Foreground = brush
-				});
+				textBlock.Inlines.Add(new Run($"{logText.Text}{Environment.NewLine}") { FontWeight = fontWeight, Foreground = brush });
+				ScrollToEnd();
 			});
 		}
 
 		private void AppendLogMessage(ILogMessage message)
 		{
-			textBlock.Dispatcher.Invoke(() =>
+			textBlock.Dispatcher.InvokeAsync(() =>
 			{
 				var date = message.DateTime.ToString("HH:mm:ss.fff");
 				var severity = message.Severity.ToString().ToUpper();
@@ -80,6 +78,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.ViewModels
 
 				textBlock.Inlines.Add(infoRun);
 				textBlock.Inlines.Add(messageRun);
+				ScrollToEnd();
 			});
 		}
 
@@ -95,6 +94,14 @@ namespace SafeExamBrowser.UserInterface.Mobile.ViewModels
 					return Brushes.Orange;
 				default:
 					return Brushes.White;
+			}
+		}
+
+		private void ScrollToEnd()
+		{
+			if (AutoScroll)
+			{
+				scrollViewer.ScrollToEnd();
 			}
 		}
 	}
