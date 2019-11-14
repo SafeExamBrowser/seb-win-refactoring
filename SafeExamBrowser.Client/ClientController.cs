@@ -51,7 +51,6 @@ namespace SafeExamBrowser.Client
 		private Action shutdown;
 		private ISplashScreen splashScreen;
 		private ITaskbar taskbar;
-		private ITerminationActivator terminationActivator;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 
@@ -72,7 +71,6 @@ namespace SafeExamBrowser.Client
 			IRuntimeProxy runtime,
 			Action shutdown,
 			ITaskbar taskbar,
-			ITerminationActivator terminationActivator,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
@@ -88,7 +86,6 @@ namespace SafeExamBrowser.Client
 			this.runtime = runtime;
 			this.shutdown = shutdown;
 			this.taskbar = taskbar;
-			this.terminationActivator = terminationActivator;
 			this.text = text;
 			this.uiFactory = uiFactory;
 		}
@@ -140,9 +137,8 @@ namespace SafeExamBrowser.Client
 			logger.Info("Initiating shutdown procedure...");
 
 			splashScreen = uiFactory.CreateSplashScreen(context.AppConfig);
-			actionCenter.Close();
-			taskbar.Close();
 
+			CloseShell();
 			DeregisterEvents();
 
 			var success = operations.TryRevert() == OperationResult.Success;
@@ -182,7 +178,11 @@ namespace SafeExamBrowser.Client
 			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
 			runtime.ConnectionLost += Runtime_ConnectionLost;
 			taskbar.QuitButtonClicked += Shell_QuitButtonClicked;
-			terminationActivator.Activated += TerminationActivator_Activated;
+
+			foreach (var activator in context.Activators.OfType<ITerminationActivator>())
+			{
+				activator.Activated += TerminationActivator_Activated;
+			}
 		}
 
 		private void DeregisterEvents()
@@ -193,7 +193,6 @@ namespace SafeExamBrowser.Client
 			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
 			runtime.ConnectionLost -= Runtime_ConnectionLost;
 			taskbar.QuitButtonClicked -= Shell_QuitButtonClicked;
-			terminationActivator.Activated -= TerminationActivator_Activated;
 
 			if (Browser != null)
 			{
@@ -207,10 +206,33 @@ namespace SafeExamBrowser.Client
 				ClientHost.ReconfigurationDenied -= ClientHost_ReconfigurationDenied;
 				ClientHost.Shutdown -= ClientHost_Shutdown;
 			}
+
+			foreach (var activator in context.Activators.OfType<ITerminationActivator>())
+			{
+				activator.Activated -= TerminationActivator_Activated;
+			}
+		}
+
+		private void CloseShell()
+		{
+			if (Settings.ActionCenter.EnableActionCenter)
+			{
+				actionCenter.Close();
+			}
+
+			if (Settings.Taskbar.EnableTaskbar)
+			{
+				taskbar.Close();
+			}
 		}
 
 		private void ShowShell()
 		{
+			if (Settings.ActionCenter.EnableActionCenter)
+			{
+				actionCenter.Show();
+			}
+
 			if (Settings.Taskbar.EnableTaskbar)
 			{
 				taskbar.Show();
@@ -527,9 +549,6 @@ namespace SafeExamBrowser.Client
 
 		private void PauseActivators()
 		{
-			// TODO: Same for task view activator!
-			terminationActivator.Pause();
-
 			foreach (var activator in context.Activators)
 			{
 				activator.Pause();
@@ -538,9 +557,6 @@ namespace SafeExamBrowser.Client
 
 		private void ResumeActivators()
 		{
-			// TODO: Same for task view activator!
-			terminationActivator.Resume();
-
 			foreach (var activator in context.Activators)
 			{
 				activator.Resume();

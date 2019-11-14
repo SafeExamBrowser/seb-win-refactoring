@@ -23,9 +23,9 @@ namespace SafeExamBrowser.Client
 	internal class ClientContext
 	{
 		/// <summary>
-		/// All activators for the action center.
+		/// All activators for shell components.
 		/// </summary>
-		internal IList<IActionCenterActivator> Activators { get; }
+		internal IList<IActivator> Activators { get; }
 
 		/// <summary>
 		/// All applications allowed for the current session.
@@ -59,7 +59,7 @@ namespace SafeExamBrowser.Client
 
 		internal ClientContext()
 		{
-			Activators = new List<IActionCenterActivator>();
+			Activators = new List<IActivator>();
 			Applications = new List<IApplication>();
 		}
 	}

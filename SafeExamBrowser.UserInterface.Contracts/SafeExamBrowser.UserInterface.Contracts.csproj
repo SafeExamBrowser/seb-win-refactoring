@@ -71,10 +71,14 @@
     <Compile Include="Shell\Events\QuitButtonClickedEventHandler.cs" />
     <Compile Include="Shell\IActionCenter.cs" />
     <Compile Include="Shell\IActionCenterActivator.cs" />
+    <Compile Include="Shell\IActivator.cs" />
     <Compile Include="Shell\IApplicationControl.cs" />
     <Compile Include="Shell\INotificationControl.cs" />
     <Compile Include="Shell\ISystemControl.cs" />
     <Compile Include="Shell\ITaskbar.cs" />
+    <Compile Include="Shell\ITaskView.cs" />
+    <Compile Include="Shell\ITaskViewActivator.cs" />
+    <Compile Include="Shell\ITerminationActivator.cs" />
     <Compile Include="Shell\Location.cs" />
     <Compile Include="Windows\Data\LockScreenOption.cs" />
     <Compile Include="Windows\Data\LockScreenResult.cs" />

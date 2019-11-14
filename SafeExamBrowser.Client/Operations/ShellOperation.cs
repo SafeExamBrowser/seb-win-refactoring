@@ -18,7 +18,6 @@ using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
-using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Client.Operations
 {
@@ -35,7 +34,7 @@ namespace SafeExamBrowser.Client.Operations
 		private IPowerSupply powerSupply;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
-		private ITerminationActivator terminationActivator;
+		private ITaskView taskView;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		private IWirelessAdapter wirelessAdapter;
@@ -56,7 +55,7 @@ namespace SafeExamBrowser.Client.Operations
 			IPowerSupply powerSupply,
 			ISystemInfo systemInfo,
 			ITaskbar taskbar,
-			ITerminationActivator terminationActivator,
+			ITaskView taskView,
 			IText text,
 			IUserInterfaceFactory uiFactory,
 			IWirelessAdapter wirelessAdapter) : base(context)
@@ -71,9 +70,9 @@ namespace SafeExamBrowser.Client.Operations
 			this.logController = logController;
 			this.powerSupply = powerSupply;
 			this.systemInfo = systemInfo;
-			this.terminationActivator = terminationActivator;
 			this.text = text;
 			this.taskbar = taskbar;
+			this.taskView = taskView;
 			this.uiFactory = uiFactory;
 			this.wirelessAdapter = wirelessAdapter;
 		}
@@ -86,6 +85,7 @@ namespace SafeExamBrowser.Client.Operations
 			InitializeSystemComponents();
 			InitializeActionCenter();
 			InitializeTaskbar();
+			InitializeTaskView();
 			InitializeActivators();
 
 			return OperationResult.Success;
@@ -105,14 +105,23 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeActivators()
 		{
-			terminationActivator.Start();
-
-			if (Context.Settings.ActionCenter.EnableActionCenter)
+			foreach (var activator in Context.Activators)
 			{
-				foreach (var activator in Context.Activators)
+				if (Context.Settings.ActionCenter.EnableActionCenter && activator is IActionCenterActivator actionCenterActivator)
 				{
-					actionCenter.Register(activator);
-					activator.Start();
+					actionCenter.Register(actionCenterActivator);
+					actionCenterActivator.Start();
+				}
+
+				if (activator is ITaskViewActivator taskViewActivator)
+				{
+					taskView.Register(taskViewActivator);
+					taskViewActivator.Start();
+				}
+
+				if (activator is ITerminationActivator terminationActivator)
+				{
+					terminationActivator.Start();
 				}
 			}
 		}
@@ -158,6 +167,16 @@ namespace SafeExamBrowser.Client.Operations
 			else
 			{
 				logger.Info("Taskbar is disabled, skipping initialization.");
+			}
+		}
+
+		private void InitializeTaskView()
+		{
+			logger.Info("Initializing task view...");
+
+			foreach (var application in Context.Applications)
+			{
+				taskView.Add(application);
 			}
 		}
 
@@ -295,14 +314,9 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void TerminateActivators()
 		{
-			terminationActivator.Stop();
-
-			if (Context.Settings.ActionCenter.EnableActionCenter)
+			foreach (var activator in Context.Activators)
 			{
-				foreach (var activator in Context.Activators)
-				{
-					activator.Stop();
-				}
+				activator.Stop();
 			}
 		}
 

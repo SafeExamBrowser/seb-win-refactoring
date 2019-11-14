@@ -54,8 +54,9 @@ namespace SafeExamBrowser.WindowsApi.Hooks
 				var mouseData = (MSLLHOOKSTRUCT) Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));
 				var button = GetButton(wParam.ToInt32());
 				var state = GetState(wParam.ToInt32());
+				var info = GetInfo(mouseData);
 
-				if (callback(button, state))
+				if (callback(button, state, info))
 				{
 					return (IntPtr) 1;
 				}
@@ -89,6 +90,18 @@ namespace SafeExamBrowser.WindowsApi.Hooks
 				default:
 					return MouseButton.Unknown;
 			}
+		}
+
+		private MouseInformation GetInfo(MSLLHOOKSTRUCT mouseData)
+		{
+			var info = new MouseInformation();
+			var extraInfo = mouseData.DwExtraInfo.ToUInt32();
+
+			info.IsTouch = (extraInfo & Constant.MOUSEEVENTF_MASK) == Constant.MOUSEEVENTF_FROMTOUCH;
+			info.X = mouseData.Point.X;
+			info.Y = mouseData.Point.Y;
+
+			return info;
 		}
 
 		private MouseButtonState GetState(int wParam)

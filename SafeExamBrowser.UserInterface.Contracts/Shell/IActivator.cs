@@ -6,20 +6,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.WindowsApi.Contracts.Events;
-
-namespace SafeExamBrowser.WindowsApi.Contracts
+namespace SafeExamBrowser.UserInterface.Contracts.Shell
 {
 	/// <summary>
-	/// A module which observes user input and indicates when the user would like to terminate the application.
+	/// Defines an activator for a shell component.
 	/// </summary>
-	public interface ITerminationActivator
+	public interface IActivator
 	{
-		/// <summary>
-		/// Fired when a termination request has been detected.
-		/// </summary>
-		event TerminationActivatorEventHandler Activated;
-
 		/// <summary>
 		/// Temporarily stops processing all user input.
 		/// </summary>

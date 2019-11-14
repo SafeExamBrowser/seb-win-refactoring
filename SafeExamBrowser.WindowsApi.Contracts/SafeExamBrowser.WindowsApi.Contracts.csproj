@@ -60,6 +60,7 @@
     <Compile Include="Events\MouseButton.cs" />
     <Compile Include="Events\MouseButtonState.cs" />
     <Compile Include="Events\MouseHookCallback.cs" />
+    <Compile Include="Events\MouseInformation.cs" />
     <Compile Include="Events\ProcessTerminatedEventHandler.cs" />
     <Compile Include="Events\SystemEventCallback.cs" />
     <Compile Include="Events\TerminationActivatorEventHandler.cs" />
@@ -70,7 +71,6 @@
     <Compile Include="INativeMethods.cs" />
     <Compile Include="IProcess.cs" />
     <Compile Include="IProcessFactory.cs" />
-    <Compile Include="ITerminationActivator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

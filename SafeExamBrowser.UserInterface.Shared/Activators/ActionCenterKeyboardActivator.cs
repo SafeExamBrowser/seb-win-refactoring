@@ -1,0 +1,72 @@
+﻿/*
+ * Copyright (c) 2019 ETH Zürich, Educational Development and Technology (LET)
+ * 
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+using System.Windows.Input;
+using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Shell;
+using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
+using SafeExamBrowser.WindowsApi.Contracts;
+using SafeExamBrowser.WindowsApi.Contracts.Events;
+
+namespace SafeExamBrowser.UserInterface.Shared.Activators
+{
+	public class ActionCenterKeyboardActivator : KeyboardActivator, IActionCenterActivator
+	{
+		private bool A, LeftWindows;
+		private ILogger logger;
+
+		public event ActivatorEventHandler Activated { add { } remove { } }
+		public event ActivatorEventHandler Deactivated { add { } remove { } }
+		public event ActivatorEventHandler Toggled;
+
+		public ActionCenterKeyboardActivator(ILogger logger, INativeMethods nativeMethods) : base(nativeMethods)
+		{
+			this.logger = logger;
+		}
+
+		public void Pause()
+		{
+			Paused = true;
+		}
+
+		public void Resume()
+		{
+			A = false;
+			LeftWindows = false;
+			Paused = false;
+		}
+
+		protected override bool Process(Key key, KeyModifier modifier, KeyState state)
+		{
+			var changed = false;
+			var pressed = state == KeyState.Pressed;
+
+			switch (key)
+			{
+				case Key.A:
+					changed = A != pressed;
+					A = pressed;
+					break;
+				case Key.LWin:
+					changed = LeftWindows != pressed;
+					LeftWindows = pressed;
+					break;
+			}
+
+			if (A && LeftWindows && changed)
+			{
+				logger.Debug("Detected toggle sequence for action center.");
+				Toggled?.Invoke();
+
+				return true;
+			}
+
+			return false;
+		}
+	}
+}

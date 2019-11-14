@@ -44,6 +44,7 @@ using SafeExamBrowser.SystemComponents.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
+using SafeExamBrowser.UserInterface.Shared.Activators;
 using SafeExamBrowser.WindowsApi;
 using SafeExamBrowser.WindowsApi.Contracts;
 using Desktop = SafeExamBrowser.UserInterface.Desktop;
@@ -70,7 +71,6 @@ namespace SafeExamBrowser.Client
 		private IRuntimeProxy runtimeProxy;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
-		private ITerminationActivator terminationActivator;
 		private IText text;
 		private ITextResource textResource;
 		private IUserInterfaceFactory uiFactory;
@@ -94,7 +94,6 @@ namespace SafeExamBrowser.Client
 			uiFactory = BuildUserInterfaceFactory();
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
 			taskbar = BuildTaskbar();
-			terminationActivator = new TerminationActivator(ModuleLogger(nameof(TerminationActivator)));
 
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var applicationFactory = new ApplicationFactory(ModuleLogger(nameof(ApplicationFactory)), processFactory);
@@ -134,7 +133,6 @@ namespace SafeExamBrowser.Client
 				runtimeProxy,
 				shutdown,
 				taskbar,
-				terminationActivator,
 				text,
 				uiFactory);
 		}
@@ -244,6 +242,7 @@ namespace SafeExamBrowser.Client
 			var logInfo = new LogNotificationInfo(text);
 			var logController = new LogNotificationController(logger, uiFactory);
 			var powerSupply = new PowerSupply(ModuleLogger(nameof(PowerSupply)));
+			var taskView = BuildTaskView();
 			var wirelessAdapter = new WirelessAdapter(ModuleLogger(nameof(WirelessAdapter)));
 			var operation = new ShellOperation(
 				actionCenter,
@@ -258,13 +257,15 @@ namespace SafeExamBrowser.Client
 				powerSupply,
 				systemInfo,
 				taskbar,
-				terminationActivator,
+				taskView,
 				text,
 				uiFactory,
 				wirelessAdapter);
 
-			context.Activators.Add(new KeyboardActivator(ModuleLogger(nameof(KeyboardActivator))));
-			context.Activators.Add(new TouchActivator(ModuleLogger(nameof(TouchActivator))));
+			context.Activators.Add(new ActionCenterKeyboardActivator(ModuleLogger(nameof(ActionCenterKeyboardActivator)), nativeMethods));
+			context.Activators.Add(new ActionCenterTouchActivator(ModuleLogger(nameof(ActionCenterTouchActivator)), nativeMethods));
+			context.Activators.Add(new TaskViewKeyboardActivator(ModuleLogger(nameof(TaskViewKeyboardActivator)), nativeMethods));
+			context.Activators.Add(new TerminationActivator(ModuleLogger(nameof(TerminationActivator)), nativeMethods));
 
 			return operation;
 		}
@@ -299,6 +300,18 @@ namespace SafeExamBrowser.Client
 					return new Mobile.Taskbar(ModuleLogger(nameof(Mobile.Taskbar)));
 				default:
 					return new Desktop.Taskbar(ModuleLogger(nameof(Desktop.Taskbar)));
+			}
+		}
+
+		private ITaskView BuildTaskView()
+		{
+			switch (uiMode)
+			{
+				case UserInterfaceMode.Mobile:
+					// TODO
+					throw new NotImplementedException();
+				default:
+					return new Desktop.TaskView();
 			}
 		}
 

@@ -1,0 +1,12 @@
+﻿<Window x:Class="SafeExamBrowser.UserInterface.Desktop.TaskView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop"
+        mc:Ignorable="d" AllowsTransparency="True" Background="#74000000" BorderBrush="DodgerBlue" BorderThickness="1" Title="TaskView"
+        Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Grid>
+        
+    </Grid>
+</Window>

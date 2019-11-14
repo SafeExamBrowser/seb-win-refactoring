@@ -216,6 +216,10 @@
       <Project>{89bc24dd-ff31-496e-9816-a160b686a3d4}</Project>
       <Name>SafeExamBrowser.UserInterface.Mobile</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.UserInterface.Shared\SafeExamBrowser.UserInterface.Shared.csproj">
+      <Project>{38525928-87ba-4f8c-8010-4eb97bfaae13}</Project>
+      <Name>SafeExamBrowser.UserInterface.Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.WindowsApi.Contracts\SafeExamBrowser.WindowsApi.Contracts.csproj">
       <Project>{7016f080-9aa5-41b2-a225-385ad877c171}</Project>
       <Name>SafeExamBrowser.WindowsApi.Contracts</Name>

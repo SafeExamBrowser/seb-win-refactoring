@@ -100,11 +100,11 @@ namespace SafeExamBrowser.Client.UnitTests
 				runtimeProxy.Object,
 				shutdown.Object,
 				taskbar.Object,
-				terminationActivator.Object,
 				text.Object,
 				uiFactory.Object);
 
 			context.AppConfig = appConfig;
+			context.Activators.Add(terminationActivator.Object);
 			context.Browser = browserController.Object;
 			context.ClientHost = clientHost.Object;
 			context.SessionId = sessionId;
@@ -423,11 +423,27 @@ namespace SafeExamBrowser.Client.UnitTests
 		}
 
 		[TestMethod]
-		public void Shutdown_MustCloseActionCenterAndTaskbar()
+		public void Shutdown_MustCloseActionCenterAndTaskbarIfEnabled()
 		{
+			settings.ActionCenter.EnableActionCenter = true;
+			settings.Taskbar.EnableTaskbar = true;
+
 			sut.Terminate();
+
 			actionCenter.Verify(a => a.Close(), Times.Once);
 			taskbar.Verify(o => o.Close(), Times.Once);
+		}
+
+		[TestMethod]
+		public void Shutdown_MustNotCloseActionCenterAndTaskbarIfNotEnabled()
+		{
+			settings.ActionCenter.EnableActionCenter = false;
+			settings.Taskbar.EnableTaskbar = false;
+
+			sut.Terminate();
+
+			actionCenter.Verify(a => a.Close(), Times.Never);
+			taskbar.Verify(o => o.Close(), Times.Never);
 		}
 
 		[TestMethod]

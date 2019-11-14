@@ -114,6 +114,15 @@ namespace SafeExamBrowser.WindowsApi
 			}
 		}
 
+		public (int x, int y) GetCursorPosition()
+		{
+			var position = new POINT();
+
+			User32.GetCursorPos(ref position);
+
+			return (position.X, position.Y);
+		}
+
 		public IEnumerable<IntPtr> GetOpenWindows()
 		{
 			var windows = new List<IntPtr>();

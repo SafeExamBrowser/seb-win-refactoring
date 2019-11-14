@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.WindowsApi.Contracts
 {
 	/// <summary>
-	/// Defines rectangular bounds, e.g. used for display-related operations (see <see cref="Monitoring.IDisplayMonitor"/>).
+	/// Defines rectangular bounds, e.g. used for display-related operations.
 	/// </summary>
 	public interface IBounds
 	{

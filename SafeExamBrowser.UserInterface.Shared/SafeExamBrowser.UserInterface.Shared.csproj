@@ -63,6 +63,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activators\ActionCenterKeyboardActivator.cs" />
+    <Compile Include="Activators\ActionCenterTouchActivator.cs" />
+    <Compile Include="Activators\KeyboardActivator.cs" />
+    <Compile Include="Activators\TaskViewKeyboardActivator.cs" />
+    <Compile Include="Activators\TerminationActivator.cs" />
+    <Compile Include="Activators\TouchActivator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -74,6 +80,18 @@
     <ProjectReference Include="..\SafeExamBrowser.Core.Contracts\SafeExamBrowser.Core.Contracts.csproj">
       <Project>{fe0e1224-b447-4b14-81e7-ed7d84822aa0}</Project>
       <Name>SafeExamBrowser.Core.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
+      <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
+      <Name>SafeExamBrowser.Logging.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.UserInterface.Contracts\SafeExamBrowser.UserInterface.Contracts.csproj">
+      <Project>{c7889e97-6ff6-4a58-b7cb-521ed276b316}</Project>
+      <Name>SafeExamBrowser.UserInterface.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.WindowsApi.Contracts\SafeExamBrowser.WindowsApi.Contracts.csproj">
+      <Project>{7016f080-9aa5-41b2-a225-385ad877c171}</Project>
+      <Name>SafeExamBrowser.WindowsApi.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

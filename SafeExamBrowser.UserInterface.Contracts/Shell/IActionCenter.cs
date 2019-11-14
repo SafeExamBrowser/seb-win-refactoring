@@ -12,7 +12,7 @@ using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 namespace SafeExamBrowser.UserInterface.Contracts.Shell
 {
 	/// <summary>
-	/// The action center is a user interface element via which the user can access and control various aspects of the application.
+	/// The action center is a user interface element via which the user can access and control various aspects of SEB.
 	/// </summary>
 	public interface IActionCenter
 	{

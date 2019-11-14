@@ -7,27 +7,24 @@
  */
 
 using System;
-using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Monitoring.Contracts.Mouse;
-using SafeExamBrowser.Settings.Monitoring;
 using SafeExamBrowser.WindowsApi.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts.Events;
 
-namespace SafeExamBrowser.Monitoring.Mouse
+namespace SafeExamBrowser.UserInterface.Shared.Activators
 {
-	public class MouseInterceptor : IMouseInterceptor
+	public abstract class TouchActivator
 	{
-		private Guid? hookId;
-		private ILogger logger;
 		private INativeMethods nativeMethods;
-		private MouseSettings settings;
+		private Guid? hookId;
 
-		public MouseInterceptor(ILogger logger, INativeMethods nativeMethods, MouseSettings settings)
+		protected bool Paused { get; set; }
+
+		protected TouchActivator(INativeMethods nativeMethods)
 		{
-			this.logger = logger;
 			this.nativeMethods = nativeMethods;
-			this.settings = settings;
 		}
+
+		protected abstract bool Process(MouseButton button, MouseButtonState state, MouseInformation info);
 
 		public void Start()
 		{
@@ -44,18 +41,12 @@ namespace SafeExamBrowser.Monitoring.Mouse
 
 		private bool MouseHookCallback(MouseButton button, MouseButtonState state, MouseInformation info)
 		{
-			var block = false;
-
-			block |= button == MouseButton.Auxiliary;
-			block |= button == MouseButton.Middle && !settings.AllowMiddleButton;
-			block |= button == MouseButton.Right && !settings.AllowRightButton;
-
-			if (block)
+			if (!Paused && info.IsTouch)
 			{
-				logger.Info($"Blocked {button.ToString().ToLower()} mouse button when {state.ToString().ToLower()}.");
+				return Process(button, state, info);
 			}
 
-			return block;
+			return false;
 		}
 	}
 }

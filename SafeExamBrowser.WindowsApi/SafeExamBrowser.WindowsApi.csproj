@@ -66,14 +66,11 @@
     <Compile Include="Desktop.cs" />
     <Compile Include="DesktopFactory.cs" />
     <Compile Include="ExplorerShell.cs" />
-    <Compile Include="KeyboardActivator.cs" />
     <Compile Include="Hooks\MouseHook.cs" />
     <Compile Include="Hooks\SystemHook.cs" />
-    <Compile Include="TerminationActivator.cs" />
     <Compile Include="Process.cs" />
     <Compile Include="ProcessFactory.cs" />
     <Compile Include="Constants\AccessMask.cs" />
-    <Compile Include="TouchActivator.cs" />
     <Compile Include="Types\Bounds.cs" />
     <Compile Include="Types\EXECUTION_STATE.cs" />
     <Compile Include="Types\KBDLLHOOKSTRUCT.cs" />
@@ -99,10 +96,6 @@
     <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
       <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
       <Name>SafeExamBrowser.Logging.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SafeExamBrowser.UserInterface.Contracts\SafeExamBrowser.UserInterface.Contracts.csproj">
-      <Project>{c7889e97-6ff6-4a58-b7cb-521ed276b316}</Project>
-      <Name>SafeExamBrowser.UserInterface.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.WindowsApi.Contracts\SafeExamBrowser.WindowsApi.Contracts.csproj">
       <Project>{7016f080-9aa5-41b2-a225-385ad877c171}</Project>

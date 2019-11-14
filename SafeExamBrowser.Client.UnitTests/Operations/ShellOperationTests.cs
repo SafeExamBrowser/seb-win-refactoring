@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Contracts;
@@ -21,7 +20,6 @@ using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
-using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
@@ -32,7 +30,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<IAudio> audio;
 		private ClientContext context;
 		private Mock<ILogger> logger;
-		private Mock<ITerminationActivator> terminationActivator;
 		private Mock<INotificationInfo> aboutInfo;
 		private Mock<INotificationController> aboutController;
 		private Mock<IKeyboard> keyboard;
@@ -41,6 +38,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<IPowerSupply> powerSupply;
 		private Mock<ISystemInfo> systemInfo;
 		private Mock<ITaskbar> taskbar;
+		private Mock<ITaskView> taskView;
 		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
 		private Mock<IWirelessAdapter> wirelessAdapter;
@@ -62,7 +60,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			powerSupply = new Mock<IPowerSupply>();
 			systemInfo = new Mock<ISystemInfo>();
 			taskbar = new Mock<ITaskbar>();
-			terminationActivator = new Mock<ITerminationActivator>();
+			taskView = new Mock<ITaskView>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 			wirelessAdapter = new Mock<IWirelessAdapter>();
@@ -86,7 +84,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 				powerSupply.Object,
 				systemInfo.Object,
 				taskbar.Object,
-				terminationActivator.Object,
+				taskView.Object,
 				text.Object,
 				uiFactory.Object,
 				wirelessAdapter.Object);
@@ -95,28 +93,20 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustInitializeActivators()
 		{
-			var activatorMocks = new List<Mock<IActionCenterActivator>>
-			{
-				new Mock<IActionCenterActivator>(),
-				new Mock<IActionCenterActivator>(),
-				new Mock<IActionCenterActivator>()
-			};
+			var actionCenterActivator = new Mock<IActionCenterActivator>();
+			var taskViewActivator = new Mock<ITaskViewActivator>();
+			var terminationActivator = new Mock<ITerminationActivator>();
 
+			context.Activators.Add(actionCenterActivator.Object);
+			context.Activators.Add(taskViewActivator.Object);
+			context.Activators.Add(terminationActivator.Object);
 			context.Settings.ActionCenter.EnableActionCenter = true;
 			
-			foreach (var activator in activatorMocks)
-			{
-				context.Activators.Add(activator.Object);
-			}
-
 			sut.Perform();
 
-			terminationActivator.Verify(t => t.Start(), Times.Once);
-
-			foreach (var activator in activatorMocks)
-			{
-				activator.Verify(a => a.Start(), Times.Once);
-			}
+			actionCenterActivator.Verify(a => a.Start(), Times.Once);
+			taskViewActivator.Verify(a => a.Start(), Times.Once);
+			terminationActivator.Verify(a => a.Start(), Times.Once);
 		}
 
 		[TestMethod]
@@ -184,6 +174,12 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		}
 
 		[TestMethod]
+		public void Perform_MustInitializeTaskView()
+		{
+			Assert.Fail("TODO");
+		}
+
+		[TestMethod]
 		public void Perform_MustInitializeSystemComponents()
 		{
 			context.Settings.ActionCenter.EnableActionCenter = true;
@@ -242,9 +238,15 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustNotInitializeActionCenterIfNotEnabled()
 		{
+			var actionCenterActivator = new Mock<IActionCenterActivator>();
+
+			context.Activators.Add(actionCenterActivator.Object);
 			context.Settings.ActionCenter.EnableActionCenter = false;
+
 			sut.Perform();
+
 			actionCenter.VerifyNoOtherCalls();
+			actionCenterActivator.VerifyNoOtherCalls();
 		}
 
 		[TestMethod]
@@ -258,28 +260,20 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Revert_MustTerminateActivators()
 		{
-			var activatorMocks = new List<Mock<IActionCenterActivator>>
-			{
-				new Mock<IActionCenterActivator>(),
-				new Mock<IActionCenterActivator>(),
-				new Mock<IActionCenterActivator>()
-			};
+			var actionCenterActivator = new Mock<IActionCenterActivator>();
+			var taskViewActivator = new Mock<ITaskViewActivator>();
+			var terminationActivator = new Mock<ITerminationActivator>();
 
+			context.Activators.Add(actionCenterActivator.Object);
+			context.Activators.Add(taskViewActivator.Object);
+			context.Activators.Add(terminationActivator.Object);
 			context.Settings.ActionCenter.EnableActionCenter = true;
-
-			foreach (var activator in activatorMocks)
-			{
-				context.Activators.Add(activator.Object);
-			}
 
 			sut.Revert();
 
-			terminationActivator.Verify(t => t.Stop(), Times.Once);
-
-			foreach (var activator in activatorMocks)
-			{
-				activator.Verify(a => a.Stop(), Times.Once);
-			}
+			actionCenterActivator.Verify(a => a.Stop(), Times.Once);
+			taskViewActivator.Verify(a => a.Stop(), Times.Once);
+			terminationActivator.Verify(a => a.Stop(), Times.Once);
 		}
 
 		[TestMethod]

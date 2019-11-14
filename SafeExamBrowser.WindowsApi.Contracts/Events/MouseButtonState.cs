@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.WindowsApi.Contracts.Events
 {
 	/// <summary>
-	/// The mouse button states which can be detected a mouse hook.
+	/// The mouse button states which can be detected by a mouse hook.
 	/// </summary>
 	public enum MouseButtonState
 	{

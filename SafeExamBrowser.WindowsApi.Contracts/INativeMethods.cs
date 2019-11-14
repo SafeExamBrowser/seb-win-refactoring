@@ -50,6 +50,11 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		void EmptyClipboard();
 
 		/// <summary>
+		/// Retrieves the current position of the mouse cursor.
+		/// </summary>
+		(int x, int y) GetCursorPosition();
+
+		/// <summary>
 		/// Retrieves a collection of handles to all currently open (i.e. visible) windows.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">

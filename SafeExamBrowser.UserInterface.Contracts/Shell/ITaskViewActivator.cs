@@ -11,23 +11,18 @@ using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 namespace SafeExamBrowser.UserInterface.Contracts.Shell
 {
 	/// <summary>
-	/// A module which can be used to control the <see cref="IActionCenter"/>.
+	/// A module which can be used to control the <see cref="ITaskView"/>.
 	/// </summary>
-	public interface IActionCenterActivator : IActivator
+	public interface ITaskViewActivator : IActivator
 	{
 		/// <summary>
-		/// Fired when the action center should be made visible.
+		/// Fired when the next application instance should be selected.
 		/// </summary>
-		event ActivatorEventHandler Activated;
+		event ActivatorEventHandler Next;
 
 		/// <summary>
-		/// Fired when the action center should be made invisible.
+		/// Fired when the previous application instance should be selected.
 		/// </summary>
-		event ActivatorEventHandler Deactivated;
-
-		/// <summary>
-		/// Fired when the action center visibility should be toggled.
-		/// </summary>
-		event ActivatorEventHandler Toggled;
+		event ActivatorEventHandler Previous;
 	}
 }
