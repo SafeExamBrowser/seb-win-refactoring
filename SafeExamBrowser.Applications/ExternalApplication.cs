@@ -44,9 +44,11 @@ namespace SafeExamBrowser.Applications
 		{
 			logger.Info("Starting application...");
 
+			// TODO: Ensure that SEB does not crash if an application cannot be started!!
+
 			var process = processFactory.StartNew(executablePath);
 			var id = new ApplicationInstanceIdentifier(process.Id);
-			var instance = new ExternalApplicationInstance(id, logger.CloneFor($"{Info.Name} {id}"), process);
+			var instance = new ExternalApplicationInstance(Info.Icon, id, logger.CloneFor($"{Info.Name} {id}"), process);
 
 			instance.Initialize();
 			instances.Add(instance);

@@ -4,9 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop"
-        mc:Ignorable="d" AllowsTransparency="True" Background="#74000000" BorderBrush="DodgerBlue" BorderThickness="1" Title="TaskView"
-        Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        mc:Ignorable="d" AllowsTransparency="True" Background="#AA000000" BorderBrush="DodgerBlue" BorderThickness="1" Title="TaskView"
+        Topmost="True" Height="450" SizeToContent="WidthAndHeight" Width="800" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Grid>
-        
+        <StackPanel Name="Rows" Margin="10" Orientation="Vertical" />
     </Grid>
 </Window>

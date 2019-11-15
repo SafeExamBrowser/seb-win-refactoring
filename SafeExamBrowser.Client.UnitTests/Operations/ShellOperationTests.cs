@@ -98,14 +98,12 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			var terminationActivator = new Mock<ITerminationActivator>();
 
 			context.Activators.Add(actionCenterActivator.Object);
-			context.Activators.Add(taskViewActivator.Object);
 			context.Activators.Add(terminationActivator.Object);
 			context.Settings.ActionCenter.EnableActionCenter = true;
 			
 			sut.Perform();
 
 			actionCenterActivator.Verify(a => a.Start(), Times.Once);
-			taskViewActivator.Verify(a => a.Start(), Times.Once);
 			terminationActivator.Verify(a => a.Start(), Times.Once);
 		}
 
@@ -176,6 +174,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustInitializeTaskView()
 		{
+			// Only start activator if ALT+TAB enabled!
 			Assert.Fail("TODO");
 		}
 

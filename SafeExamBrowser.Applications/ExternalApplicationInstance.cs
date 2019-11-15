@@ -10,6 +10,7 @@ using System;
 using System.Timers;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
+using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts;
 
@@ -24,6 +25,7 @@ namespace SafeExamBrowser.Applications
 		private IProcess process;
 		private Timer timer;
 
+		public IconResource Icon { get; }
 		public InstanceIdentifier Id { get; }
 		public string Name { get; }
 
@@ -31,8 +33,9 @@ namespace SafeExamBrowser.Applications
 		public event NameChangedEventHandler NameChanged;
 		public event InstanceTerminatedEventHandler Terminated;
 
-		public ExternalApplicationInstance(InstanceIdentifier id, ILogger logger, IProcess process)
+		public ExternalApplicationInstance(IconResource icon, InstanceIdentifier id, ILogger logger, IProcess process)
 		{
+			this.Icon = icon;
 			this.Id = id;
 			this.logger = logger;
 			this.process = process;

@@ -37,7 +37,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 			application.InstanceStarted += Application_InstanceStarted;
 
 			Button.Click += Button_Click;
-			Button.Content = IconResourceLoader.Load(application.Info.IconResource);
+			Button.Content = IconResourceLoader.Load(application.Info.Icon);
 			Button.MouseEnter += (o, args) => InstancePopup.IsOpen = InstanceStackPanel.Children.Count > 1;
 			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => InstancePopup.IsOpen = InstancePopup.IsMouseOver));
 			Button.ToolTip = application.Info.Tooltip;

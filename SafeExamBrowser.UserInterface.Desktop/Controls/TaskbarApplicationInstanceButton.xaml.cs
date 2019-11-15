@@ -32,7 +32,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 		{
 			Button.Click += Button_Click;
 			Button.ToolTip = instance.Name;
-			Icon.Content = IconResourceLoader.Load(info.IconResource);
+			Icon.Content = IconResourceLoader.Load(info.Icon);
 			instance.IconChanged += Instance_IconChanged;
 			instance.NameChanged += Instance_NameChanged;
 			Text.Text = instance.Name;

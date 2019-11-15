@@ -113,7 +113,7 @@ namespace SafeExamBrowser.Client.Operations
 					actionCenterActivator.Start();
 				}
 
-				if (activator is ITaskViewActivator taskViewActivator)
+				if (Context.Settings.Keyboard.AllowAltTab && activator is ITaskViewActivator taskViewActivator)
 				{
 					taskView.Register(taskViewActivator);
 					taskViewActivator.Start();

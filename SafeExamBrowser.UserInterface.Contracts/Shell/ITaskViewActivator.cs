@@ -16,13 +16,18 @@ namespace SafeExamBrowser.UserInterface.Contracts.Shell
 	public interface ITaskViewActivator : IActivator
 	{
 		/// <summary>
-		/// Fired when the next application instance should be selected.
+		/// Fired when the task view should be hidden.
 		/// </summary>
-		event ActivatorEventHandler Next;
+		event ActivatorEventHandler Deactivated;
 
 		/// <summary>
-		/// Fired when the previous application instance should be selected.
+		/// Fired when the task view should be made visible and the next application instance should be selected.
 		/// </summary>
-		event ActivatorEventHandler Previous;
+		event ActivatorEventHandler NextActivated;
+
+		/// <summary>
+		/// Fired when the task view should be made visible and the previous application instance should be selected.
+		/// </summary>
+		event ActivatorEventHandler PreviousActivated;
 	}
 }

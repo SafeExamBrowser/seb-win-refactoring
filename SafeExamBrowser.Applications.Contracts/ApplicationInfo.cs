@@ -28,6 +28,6 @@ namespace SafeExamBrowser.Applications.Contracts
 		/// <summary>
 		/// The resource providing the application icon.
 		/// </summary>
-		public IconResource IconResource { get; set; }
+		public IconResource Icon { get; set; }
 	}
 }

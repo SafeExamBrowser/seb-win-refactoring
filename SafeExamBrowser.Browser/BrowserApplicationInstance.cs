@@ -17,6 +17,7 @@ using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Browser.Filters;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Browser;
@@ -48,6 +49,7 @@ namespace SafeExamBrowser.Browser
 			get { return isMainInstance ? settings.MainWindow : settings.AdditionalWindow; }
 		}
 
+		public IconResource Icon { get; private set; }
 		public InstanceIdentifier Id { get; private set; }
 		public string Name { get; private set; }
 
@@ -107,6 +109,8 @@ namespace SafeExamBrowser.Browser
 			var requestFilter = new RequestFilter();
 			var requestLogger = logger.CloneFor($"{nameof(RequestHandler)} {Id}");
 			var requestHandler = new RequestHandler(appConfig, settings.Filter, requestFilter, requestLogger, text);
+
+			Icon = new BrowserIconResource();
 
 			displayHandler.FaviconChanged += DisplayHandler_FaviconChanged;
 			displayHandler.ProgressChanged += DisplayHandler_ProgressChanged;
@@ -201,10 +205,10 @@ namespace SafeExamBrowser.Browser
 			{
 				if (task.IsCompleted && task.Result.IsSuccessStatusCode)
 				{
-					var icon = new BrowserIconResource(uri);
+					Icon = new BrowserIconResource(uri);
 
-					IconChanged?.Invoke(icon);
-					window.UpdateIcon(icon);
+					IconChanged?.Invoke(Icon);
+					window.UpdateIcon(Icon);
 				}
 			});
 		}

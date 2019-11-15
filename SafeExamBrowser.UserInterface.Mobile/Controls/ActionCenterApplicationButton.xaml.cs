@@ -32,7 +32,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 
 		private void InitializeApplicationInstanceButton()
 		{
-			Icon.Content = IconResourceLoader.Load(info.IconResource);
+			Icon.Content = IconResourceLoader.Load(info.Icon);
 			Text.Text = instance?.Name ?? info.Name;
 			Button.Click += (o, args) => Clicked?.Invoke(this, EventArgs.Empty);
 			Button.ToolTip = instance?.Name ?? info.Tooltip;

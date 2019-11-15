@@ -65,7 +65,7 @@ namespace SafeExamBrowser.Browser
 			var cefSettings = InitializeCefSettings();
 			var success = Cef.Initialize(cefSettings, true, default(IApp));
 
-			Info = BuildApplicationInfo();
+			InitializeApplicationInfo();
 
 			if (success)
 			{
@@ -95,11 +95,11 @@ namespace SafeExamBrowser.Browser
 			logger.Info("Terminated browser.");
 		}
 
-		private ApplicationInfo BuildApplicationInfo()
+		private void InitializeApplicationInfo()
 		{
-			return new ApplicationInfo
+			Info = new ApplicationInfo
 			{
-				IconResource = new BrowserIconResource(),
+				Icon = new BrowserIconResource(),
 				Name = "Safe Exam Browser",
 				Tooltip = text.Get(TextKey.Browser_Tooltip)
 			};

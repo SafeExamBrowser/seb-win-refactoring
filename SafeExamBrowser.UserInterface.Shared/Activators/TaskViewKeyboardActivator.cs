@@ -17,10 +17,12 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 {
 	public class TaskViewKeyboardActivator : KeyboardActivator, ITaskViewActivator
 	{
+		private bool Activated, BlockActivation, LeftShift, Tab;
 		private ILogger logger;
 
-		public event ActivatorEventHandler Next;
-		public event ActivatorEventHandler Previous;
+		public event ActivatorEventHandler Deactivated;
+		public event ActivatorEventHandler NextActivated;
+		public event ActivatorEventHandler PreviousActivated;
 
 		public TaskViewKeyboardActivator(ILogger logger, INativeMethods nativeMethods) : base(nativeMethods)
 		{
@@ -29,17 +31,82 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 
 		public void Pause()
 		{
-			Paused = true;
+			BlockActivation = true;
 		}
 
 		public void Resume()
 		{
-			Paused = false;
+			BlockActivation = false;
 		}
 
 		protected override bool Process(Key key, KeyModifier modifier, KeyState state)
 		{
+			if (IsDeactivation(modifier))
+			{
+				return false;
+			}
+
+			if (IsActivation(key, modifier, state))
+			{
+				return true;
+			}
+
 			return false;
+		}
+
+		private bool IsActivation(Key key, KeyModifier modifier, KeyState state)
+		{
+			var changed = false;
+			var pressed = state == KeyState.Pressed && modifier.HasFlag(KeyModifier.Alt);
+
+			switch (key)
+			{
+				case Key.Tab:
+					changed = Tab != pressed;
+					Tab = pressed;
+					break;
+				case Key.LeftShift:
+					changed = LeftShift != pressed;
+					LeftShift = pressed;
+					break;
+			}
+
+			var isActivation = Tab && changed;
+
+			if (isActivation && !BlockActivation)
+			{
+				Activated = true;
+
+				if (LeftShift)
+				{
+					logger.Debug("Detected sequence for previous instance.");
+					PreviousActivated?.Invoke();
+				}
+				else
+				{
+					logger.Debug("Detected sequence for next instance.");
+					NextActivated?.Invoke();
+				}
+			}
+
+			return isActivation;
+		}
+
+		private bool IsDeactivation(KeyModifier modifier)
+		{
+			var isDeactivation = Activated && !modifier.HasFlag(KeyModifier.Alt);
+
+			if (isDeactivation)
+			{
+				Activated = false;
+				LeftShift = false;
+				Tab = false;
+
+				logger.Debug("Detected deactivation sequence.");
+				Deactivated?.Invoke();
+			}
+
+			return isDeactivation;
 		}
 	}
 }

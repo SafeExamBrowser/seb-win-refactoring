@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Applications.Contracts.Events;
+using SafeExamBrowser.Core.Contracts;
 
 namespace SafeExamBrowser.Applications.Contracts
 {
@@ -15,6 +16,11 @@ namespace SafeExamBrowser.Applications.Contracts
 	/// </summary>
 	public interface IApplicationInstance
 	{
+		/// <summary>
+		/// The icon resource for this instance.
+		/// </summary>
+		IconResource Icon { get; }
+
 		/// <summary>
 		/// The unique identifier for the application instance.
 		/// </summary>
