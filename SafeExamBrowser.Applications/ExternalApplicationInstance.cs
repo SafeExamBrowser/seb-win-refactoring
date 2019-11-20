@@ -21,13 +21,12 @@ namespace SafeExamBrowser.Applications
 		private const int ONE_SECOND = 1000;
 
 		private ILogger logger;
-		private string name;
 		private IProcess process;
 		private Timer timer;
 
 		public IconResource Icon { get; }
 		public InstanceIdentifier Id { get; }
-		public string Name { get; }
+		public string Name { get; private set; }
 
 		public event IconChangedEventHandler IconChanged { add { } remove { } }
 		public event NameChangedEventHandler NameChanged;
@@ -114,12 +113,12 @@ namespace SafeExamBrowser.Applications
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			var success = process.TryGetWindowTitle(out var title);
-			var hasChanged = name?.Equals(title, StringComparison.Ordinal) != true;
+			var hasChanged = Name?.Equals(title, StringComparison.Ordinal) != true;
 
 			if (success && hasChanged)
 			{
-				name = title;
-				NameChanged?.Invoke(name);
+				Name = title;
+				NameChanged?.Invoke(Name);
 			}
 
 			timer.Start();

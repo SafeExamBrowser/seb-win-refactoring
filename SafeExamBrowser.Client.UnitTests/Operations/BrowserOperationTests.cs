@@ -24,6 +24,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private ClientContext context;
 		private Mock<ILogger> logger;
 		private Mock<ITaskbar> taskbar;
+		private Mock<ITaskView> taskView;
 		private Mock<IUserInterfaceFactory> uiFactory;
 
 		private BrowserOperation sut;
@@ -36,11 +37,12 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			context = new ClientContext();
 			logger = new Mock<ILogger>();
 			taskbar = new Mock<ITaskbar>();
+			taskView = new Mock<ITaskView>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
 			context.Browser = browser.Object;
 
-			sut = new BrowserOperation(actionCenter.Object, context, logger.Object, taskbar.Object, uiFactory.Object);
+			sut = new BrowserOperation(actionCenter.Object, context, logger.Object, taskbar.Object, taskView.Object, uiFactory.Object);
 		}
 
 		[TestMethod]
@@ -58,6 +60,12 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			sut.Revert();
 			browser.Verify(c => c.Terminate(), Times.Once);
+		}
+
+		[TestMethod]
+		public void TODO()
+		{
+			// TODO: Test initialization of task view!
 		}
 	}
 }

@@ -84,6 +84,9 @@ namespace SafeExamBrowser.WindowsApi
 		internal static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
 		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern bool SetForegroundWindow(IntPtr hWnd);
+
+		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, EventDelegate lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
 
 		[DllImport("user32.dll", SetLastError = true)]
@@ -91,6 +94,9 @@ namespace SafeExamBrowser.WindowsApi
 
 		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
 
 		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern bool SwitchDesktop(IntPtr hDesktop);

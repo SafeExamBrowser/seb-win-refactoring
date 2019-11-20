@@ -194,8 +194,9 @@ namespace SafeExamBrowser.Browser
 
 		private void Control_TitleChanged(string title)
 		{
-			window.UpdateTitle(title);
-			NameChanged?.Invoke(title);
+			Name = title;
+			window.UpdateTitle(Name);
+			NameChanged?.Invoke(Name);
 		}
 
 		private void DisplayHandler_FaviconChanged(string uri)

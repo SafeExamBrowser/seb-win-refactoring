@@ -4,10 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Controls"
-        mc:Ignorable="d" Title="ActionCenter" Height="1000" Width="400" Background="#EEF0F0F0" AllowsTransparency="True" WindowStyle="None" Topmost="True" ResizeMode="NoResize">
+        mc:Ignorable="d" Title="ActionCenter" Height="1000" Width="400" Background="{DynamicResource BackgroundTransparentBrush}"
+        AllowsTransparency="True" WindowStyle="None" Topmost="True" ResizeMode="NoResize">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Templates/Colors.xaml" />
                 <ResourceDictionary Source="./Templates/ScrollViewers.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

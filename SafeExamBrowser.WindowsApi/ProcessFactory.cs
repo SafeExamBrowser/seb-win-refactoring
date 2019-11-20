@@ -59,6 +59,7 @@ namespace SafeExamBrowser.WindowsApi
 
 			logger.Info($"Attempting to start process '{path}'...");
 
+			// TODO: Fails for certain processes, whereas Process.Start() does not -> use different API?! Use (declare?) CreateProcessW / CreateProcessA?
 			var success = Kernel32.CreateProcess(null, commandLine, IntPtr.Zero, IntPtr.Zero, true, Constant.NORMAL_PRIORITY_CLASS, IntPtr.Zero, null, ref startupInfo, ref processInfo);
 
 			if (!success)

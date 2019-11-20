@@ -342,7 +342,7 @@ namespace SafeExamBrowser.WindowsApi
 
 		public void RestoreWindow(IntPtr window)
 		{
-			User32.ShowWindow(window, (int)ShowWindowCommand.Restore);
+			User32.ShowWindow(window, (int) ShowWindowCommand.Restore);
 		}
 
 		public bool ResumeThread(int threadId)

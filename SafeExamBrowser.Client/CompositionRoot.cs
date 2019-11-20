@@ -71,6 +71,7 @@ namespace SafeExamBrowser.Client
 		private IRuntimeProxy runtimeProxy;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
+		private ITaskView taskView;
 		private IText text;
 		private ITextResource textResource;
 		private IUserInterfaceFactory uiFactory;
@@ -94,6 +95,7 @@ namespace SafeExamBrowser.Client
 			uiFactory = BuildUserInterfaceFactory();
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
 			taskbar = BuildTaskbar();
+			taskView = BuildTaskView();
 
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var applicationFactory = new ApplicationFactory(ModuleLogger(nameof(ApplicationFactory)), processFactory);
@@ -197,7 +199,7 @@ namespace SafeExamBrowser.Client
 		{
 			var moduleLogger = ModuleLogger(nameof(BrowserApplication));
 			var browser = new BrowserApplication(context.AppConfig, context.Settings.Browser, messageBox, moduleLogger, text, uiFactory);
-			var operation = new BrowserOperation(actionCenter, context, logger, taskbar, uiFactory);
+			var operation = new BrowserOperation(actionCenter, context, logger, taskbar, taskView, uiFactory);
 
 			context.Browser = browser;
 
@@ -242,7 +244,6 @@ namespace SafeExamBrowser.Client
 			var logInfo = new LogNotificationInfo(text);
 			var logController = new LogNotificationController(logger, uiFactory);
 			var powerSupply = new PowerSupply(ModuleLogger(nameof(PowerSupply)));
-			var taskView = BuildTaskView();
 			var wirelessAdapter = new WirelessAdapter(ModuleLogger(nameof(WirelessAdapter)));
 			var operation = new ShellOperation(
 				actionCenter,

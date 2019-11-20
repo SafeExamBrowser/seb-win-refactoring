@@ -69,15 +69,18 @@ namespace SafeExamBrowser.WindowsApi
 		{
 			try
 			{
-				var success = User32.BringWindowToTop(process.MainWindowHandle);
+				var success = true;
 				var placement = new WINDOWPLACEMENT();
+
+				success &= User32.BringWindowToTop(process.MainWindowHandle);
+				success &= User32.SetForegroundWindow(process.MainWindowHandle);
 
 				placement.length = Marshal.SizeOf(placement);
 				User32.GetWindowPlacement(process.MainWindowHandle, ref placement);
 
 				if (placement.showCmd == (int) ShowWindowCommand.ShowMinimized)
 				{
-					success &= User32.ShowWindow(process.MainWindowHandle, (int) ShowWindowCommand.Restore);
+					success &= User32.ShowWindowAsync(process.MainWindowHandle, (int) ShowWindowCommand.Restore);
 				}
 
 				return success;
