@@ -143,6 +143,9 @@
     <Compile Include="Controls\TaskbarWirelessNetworkControl.xaml.cs">
       <DependentUpon>TaskbarWirelessNetworkControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TaskViewInstanceControl.xaml.cs">
+      <DependentUpon>TaskViewInstanceControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LockScreen.xaml.cs">
       <DependentUpon>LockScreen.xaml</DependentUpon>
     </Compile>
@@ -167,6 +170,9 @@
     </Compile>
     <Compile Include="Taskbar.xaml.cs">
       <DependentUpon>Taskbar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TaskView.xaml.cs">
+      <DependentUpon>TaskView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserInterfaceFactory.cs" />
     <Compile Include="ViewModels\DateTimeViewModel.cs" />
@@ -353,6 +359,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="Controls\TaskViewInstanceControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Images\ZoomPageOut.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -454,6 +464,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Taskbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TaskView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

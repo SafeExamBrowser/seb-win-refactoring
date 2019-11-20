@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="SafeExamBrowser.UserInterface.Desktop.Controls.TaskViewInstanceControl"
+﻿<UserControl x:Class="SafeExamBrowser.UserInterface.Mobile.Controls.TaskViewInstanceControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Controls">
+             xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Mobile.Controls">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

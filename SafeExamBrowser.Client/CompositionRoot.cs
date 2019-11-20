@@ -309,8 +309,7 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					// TODO
-					throw new NotImplementedException();
+					return new Mobile.TaskView();
 				default:
 					return new Desktop.TaskView();
 			}

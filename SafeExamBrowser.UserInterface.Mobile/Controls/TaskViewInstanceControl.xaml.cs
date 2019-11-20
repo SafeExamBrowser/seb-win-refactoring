@@ -12,7 +12,7 @@ using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
-namespace SafeExamBrowser.UserInterface.Desktop.Controls
+namespace SafeExamBrowser.UserInterface.Mobile.Controls
 {
 	public partial class TaskViewInstanceControl : UserControl
 	{

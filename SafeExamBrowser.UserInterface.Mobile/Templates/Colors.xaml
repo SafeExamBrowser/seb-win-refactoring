@@ -1,5 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <SolidColorBrush x:Key="BackgroundBrush">#FFF0F0F0</SolidColorBrush>
     <SolidColorBrush x:Key="ActionCenterDarkBrush">#AA808080</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundBrush">#FFF0F0F0</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundTransparentBrush">#EEF0F0F0</SolidColorBrush>
+    <SolidColorBrush x:Key="BackgroundTransparentEmphasisBrush">#99D3D3D3</SolidColorBrush>
+    <SolidColorBrush x:Key="PrimaryTextBrush">Black</SolidColorBrush>
+    <SolidColorBrush x:Key="SecondaryTextBrush">DimGray</SolidColorBrush>
 </ResourceDictionary>

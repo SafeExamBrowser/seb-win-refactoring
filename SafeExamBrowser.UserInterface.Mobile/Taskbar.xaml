@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Mobile.Controls"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
-        mc:Ignorable="d" Title="Taskbar" Background="#FFF0F0F0" Height="60" FontSize="16" Width="750" WindowStyle="None" Topmost="True"
-        ResizeMode="NoResize" Icon="./Images/SafeExamBrowser.ico">
+        mc:Ignorable="d" Title="Taskbar" Background="{DynamicResource BackgroundBrush}" Height="60" FontSize="16" Width="750" WindowStyle="None"
+        Topmost="True" ResizeMode="NoResize" Icon="./Images/SafeExamBrowser.ico">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Templates/Colors.xaml" />
                 <ResourceDictionary Source="./Templates/ScrollViewers.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -27,7 +28,7 @@
         </ScrollViewer>
         <StackPanel Grid.Column="1" x:Name="NotificationStackPanel" Orientation="Horizontal" VerticalAlignment="Stretch" />
         <StackPanel Grid.Column="2" x:Name="SystemControlStackPanel" Orientation="Horizontal" VerticalAlignment="Stretch" />
-        <local:TaskbarClock Grid.Column="3" x:Name="Clock" Foreground="DimGray" Padding="10,0,10,0" />
+        <local:TaskbarClock Grid.Column="3" x:Name="Clock" Foreground="{StaticResource SecondaryTextBrush}" Padding="10,0,10,0" />
         <local:TaskbarQuitButton Grid.Column="4" x:Name="QuitButton" />
     </Grid>
 </Window>
