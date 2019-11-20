@@ -9,6 +9,7 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Communication.Contracts.Data;
@@ -622,6 +623,28 @@ namespace SafeExamBrowser.Client.UnitTests
 			sut.TryStart();
 
 			taskbar.Verify(t => t.Show(), Times.Never);
+		}
+
+		[TestMethod]
+		public void Startup_MustAutoStartApplications()
+		{
+			var application1 = new Mock<IApplication>();
+			var application2 = new Mock<IApplication>();
+			var application3 = new Mock<IApplication>();
+
+			application1.SetupGet(a => a.Info).Returns(new ApplicationInfo { AutoStart = true });
+			application2.SetupGet(a => a.Info).Returns(new ApplicationInfo { AutoStart = false });
+			application3.SetupGet(a => a.Info).Returns(new ApplicationInfo { AutoStart = true });
+			context.Applications.Add(application1.Object);
+			context.Applications.Add(application2.Object);
+			context.Applications.Add(application3.Object);
+			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
+
+			sut.TryStart();
+
+			application1.Verify(a => a.Start(), Times.Once);
+			application2.Verify(a => a.Start(), Times.Never);
+			application3.Verify(a => a.Start(), Times.Once);
 		}
 
 		[TestMethod]

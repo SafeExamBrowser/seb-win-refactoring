@@ -105,7 +105,7 @@ namespace SafeExamBrowser.Client
 			{
 				RegisterEvents();
 				ShowShell();
-				StartBrowser();
+				AutoStartApplications();
 
 				var communication = runtime.InformClientReady();
 
@@ -239,10 +239,19 @@ namespace SafeExamBrowser.Client
 			}
 		}
 
-		private void StartBrowser()
+		private void AutoStartApplications()
 		{
 			logger.Info("Starting browser application...");
 			Browser.Start();
+
+			foreach (var application in context.Applications)
+			{
+				if (application.Info.AutoStart)
+				{
+					logger.Info($"Auto-starting '{application.Info.Name}'...");
+					application.Start();
+				}
+			}
 		}
 
 		private void ApplicationMonitor_ExplorerStarted()

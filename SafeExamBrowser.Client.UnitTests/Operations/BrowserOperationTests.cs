@@ -11,6 +11,7 @@ using Moq;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 
@@ -23,6 +24,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<IBrowserApplication> browser;
 		private ClientContext context;
 		private Mock<ILogger> logger;
+		private AppSettings settings;
 		private Mock<ITaskbar> taskbar;
 		private Mock<ITaskView> taskView;
 		private Mock<IUserInterfaceFactory> uiFactory;
@@ -36,11 +38,13 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			browser = new Mock<IBrowserApplication>();
 			context = new ClientContext();
 			logger = new Mock<ILogger>();
+			settings = new AppSettings();
 			taskbar = new Mock<ITaskbar>();
 			taskView = new Mock<ITaskView>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
 			context.Browser = browser.Object;
+			context.Settings = settings;
 
 			sut = new BrowserOperation(actionCenter.Object, context, logger.Object, taskbar.Object, taskView.Object, uiFactory.Object);
 		}
@@ -48,6 +52,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void MustPeformCorrectly()
 		{
+			settings.ActionCenter.EnableActionCenter = true;
+			settings.Taskbar.EnableTaskbar = true;
+
 			sut.Perform();
 
 			browser.Verify(c => c.Initialize(), Times.Once);
@@ -66,6 +73,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void TODO()
 		{
 			// TODO: Test initialization of task view!
+			Assert.Fail("TODO");
 		}
 	}
 }

@@ -172,9 +172,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void Perform_MustInitializeTaskView()
+		public void TODO()
 		{
-			// Only start activator if ALT+TAB enabled!
+			// TODO: Only start activator if ALT+TAB enabled! -> Perform_MustInitializeTaskView
 			Assert.Fail("TODO");
 		}
 

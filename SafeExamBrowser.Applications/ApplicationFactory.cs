@@ -64,7 +64,7 @@ namespace SafeExamBrowser.Applications
 		private IApplication BuildApplication(string executablePath, WhitelistApplication settings)
 		{
 			var icon = new IconResource { Type = IconResourceType.Embedded, Uri = new Uri(executablePath) };
-			var info = new ApplicationInfo { Icon = icon, Name = settings.DisplayName, Tooltip = settings.Description ?? settings.DisplayName };
+			var info = new ApplicationInfo { AutoStart = settings.AutoStart, Icon = icon, Name = settings.DisplayName, Tooltip = settings.Description ?? settings.DisplayName };
 			var application = new ExternalApplication(executablePath, info, logger.CloneFor(settings.DisplayName), processFactory);
 
 			return application;

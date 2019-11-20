@@ -16,6 +16,11 @@ namespace SafeExamBrowser.Applications.Contracts
 	public class ApplicationInfo
 	{
 		/// <summary>
+		/// Indicates whether the application should be automatically started.
+		/// </summary>
+		public bool AutoStart { get; set; }
+
+		/// <summary>
 		/// The name of the application.
 		/// </summary>
 		public string Name { get; set; }
