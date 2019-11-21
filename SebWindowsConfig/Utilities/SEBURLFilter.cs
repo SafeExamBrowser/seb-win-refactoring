@@ -300,15 +300,14 @@ namespace SebWindowsConfig.Utilities
 				return false;
 			}
 
-			if (filterExpression.port != null && URLToFilter.Port != -1 &&
-				URLToFilter.Port != filterExpression.port)
+			if (filterExpression.port != null && URLToFilter.Port != filterExpression.port)
 			{
 				return false;
 			}
 
 			filterComponent = filterExpression.path;
 			if (filterComponent != null && 
-				!Regex.IsMatch(URLToFilter.AbsolutePath.Trim(new char[] { '/' }), filterComponent.ToString(), RegexOptions.IgnoreCase))
+				!Regex.IsMatch(URLToFilter.AbsolutePath.TrimEnd(new char[] { '/' }), filterComponent.ToString(), RegexOptions.IgnoreCase))
 			{
 				return false;
 			}
