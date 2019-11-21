@@ -69,7 +69,7 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 			block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Escape && !settings.AllowAltEsc;
 			block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.F4 && !settings.AllowAltF4;
 			block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Space;
-			block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Tab && !settings.AllowAltTab;
+			block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Tab;
 			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.Escape && !settings.AllowCtrlEsc;
 
 			if (block)

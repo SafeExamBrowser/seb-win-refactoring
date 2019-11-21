@@ -14,17 +14,28 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 {
 	public abstract class TouchActivator
 	{
-		private INativeMethods nativeMethods;
 		private Guid? hookId;
-
-		protected bool Paused { get; set; }
+		private INativeMethods nativeMethods;
+		protected bool paused;
 
 		protected TouchActivator(INativeMethods nativeMethods)
 		{
 			this.nativeMethods = nativeMethods;
 		}
 
+		protected abstract void OnBeforeResume();
 		protected abstract bool Process(MouseButton button, MouseButtonState state, MouseInformation info);
+
+		public void Pause()
+		{
+			paused = true;
+		}
+
+		public void Resume()
+		{
+			OnBeforeResume();
+			paused = false;
+		}
 
 		public void Start()
 		{
@@ -41,7 +52,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 
 		private bool MouseHookCallback(MouseButton button, MouseButtonState state, MouseInformation info)
 		{
-			if (!Paused && info.IsTouch)
+			if (!paused && info.IsTouch)
 			{
 				return Process(button, state, info);
 			}

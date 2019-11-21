@@ -31,15 +31,9 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 			this.nativeMethods = nativeMethods;
 		}
 
-		public void Pause()
-		{
-			Paused = true;
-		}
-
-		public void Resume()
+		protected override void OnBeforeResume()
 		{
 			isDown = false;
-			Paused = false;
 		}
 
 		protected override bool Process(MouseButton button, MouseButtonState state, MouseInformation info)

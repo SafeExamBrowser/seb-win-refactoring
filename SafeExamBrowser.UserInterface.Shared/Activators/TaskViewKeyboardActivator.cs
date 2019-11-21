@@ -17,7 +17,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 {
 	public class TaskViewKeyboardActivator : KeyboardActivator, ITaskViewActivator
 	{
-		private bool Activated, BlockActivation, LeftShift, Tab;
+		private bool Activated, LeftShift, Tab;
 		private ILogger logger;
 
 		public event ActivatorEventHandler Deactivated;
@@ -29,14 +29,22 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 			this.logger = logger;
 		}
 
-		public void Pause()
+		protected override void OnBeforePause()
 		{
-			BlockActivation = true;
+			if (Activated)
+			{
+				logger.Debug("Auto-deactivation.");
+				Deactivated?.Invoke();
+			}
+
+			Activated = false;
 		}
 
-		public void Resume()
+		protected override void OnBeforeResume()
 		{
-			BlockActivation = false;
+			Activated = false;
+			LeftShift = false;
+			Tab = false;
 		}
 
 		protected override bool Process(Key key, KeyModifier modifier, KeyState state)
@@ -73,7 +81,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 
 			var isActivation = Tab && changed;
 
-			if (isActivation && !BlockActivation)
+			if (isActivation)
 			{
 				Activated = true;
 

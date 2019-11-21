@@ -29,16 +29,10 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 			this.logger = logger;
 		}
 
-		public void Pause()
-		{
-			Paused = true;
-		}
-
-		public void Resume()
+		protected override void OnBeforeResume()
 		{
 			A = false;
 			LeftWindows = false;
-			Paused = false;
 		}
 
 		protected override bool Process(Key key, KeyModifier modifier, KeyState state)

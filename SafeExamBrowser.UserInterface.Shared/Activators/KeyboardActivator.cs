@@ -15,10 +15,9 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 {
 	public abstract class KeyboardActivator
 	{
-		private INativeMethods nativeMethods;
 		private Guid? hookId;
-
-		protected bool Paused { get; set; }
+		private INativeMethods nativeMethods;
+		private bool paused;
 
 		protected KeyboardActivator(INativeMethods nativeMethods)
 		{
@@ -26,6 +25,18 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 		}
 
 		protected abstract bool Process(Key key, KeyModifier modifier, KeyState state);
+
+		public void Pause()
+		{
+			OnBeforePause();
+			paused = true;
+		}
+
+		public void Resume()
+		{
+			OnBeforeResume();
+			paused = false;
+		}
 
 		public void Start()
 		{
@@ -40,9 +51,17 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 			}
 		}
 
+		protected virtual void OnBeforePause()
+		{
+		}
+
+		protected virtual void OnBeforeResume()
+		{
+		}
+
 		private bool KeyboardHookCallback(int keyCode, KeyModifier modifier, KeyState state)
 		{
-			if (!Paused)
+			if (!paused)
 			{
 				return Process(KeyInterop.KeyFromVirtualKey(keyCode), modifier, state);
 			}
