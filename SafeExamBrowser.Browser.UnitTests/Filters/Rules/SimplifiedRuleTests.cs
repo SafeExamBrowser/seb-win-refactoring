@@ -84,10 +84,11 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters.Rules
 			var positive = new[]
 			{
 				$"scheme://{expression}",
-				$"scheme://{expression}.org", // TODO: Is this correct?
+				// TODO: All these below should not be allowed!
+				$"scheme://{expression}.org",
 				$"scheme://www.{expression}.org",
 				$"scheme://subdomain.{expression}.com",
-				$"scheme://www.realhost.{expression}", // TODO: Is this correct?
+				$"scheme://www.realhost.{expression}",
 				$"scheme://subdomain-1.subdomain-2.{expression}.org",
 				$"scheme://user:password@www.{expression}.org/path/file.txt?param=123#fragment"
 			};
@@ -122,7 +123,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters.Rules
 				"scheme://hostname-12.org",
 				"scheme://hostname-abc-def-123-456.org",
 				"scheme://www.hostname-abc.org",
-				"scheme://www.realhost.hostname", //TODO: Is this correct?
+				"scheme://www.realhost.hostname",
 				"scheme://subdomain.hostname-xyz.com",
 				"scheme://hostname.realhost.org",
 				"scheme://subdomain.hostname.realhost.org",

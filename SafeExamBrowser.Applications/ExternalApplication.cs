@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SafeExamBrowser.Applications.Contracts;
@@ -42,17 +43,22 @@ namespace SafeExamBrowser.Applications
 
 		public void Start()
 		{
-			logger.Info("Starting application...");
+			try
+			{
+				logger.Info("Starting application...");
 
-			// TODO: Ensure that SEB does not crash if an application cannot be started!!
+				var process = processFactory.StartNew(executablePath);
+				var id = new ApplicationInstanceIdentifier(process.Id);
+				var instance = new ExternalApplicationInstance(Info.Icon, id, logger.CloneFor($"{Info.Name} {id}"), process);
 
-			var process = processFactory.StartNew(executablePath);
-			var id = new ApplicationInstanceIdentifier(process.Id);
-			var instance = new ExternalApplicationInstance(Info.Icon, id, logger.CloneFor($"{Info.Name} {id}"), process);
-
-			instance.Initialize();
-			instances.Add(instance);
-			InstanceStarted?.Invoke(instance);
+				instance.Initialize();
+				instances.Add(instance);
+				InstanceStarted?.Invoke(instance);
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to start application!", e);
+			}
 		}
 
 		public void Terminate()
