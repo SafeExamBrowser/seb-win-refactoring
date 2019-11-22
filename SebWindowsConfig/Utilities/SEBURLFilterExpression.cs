@@ -21,7 +21,7 @@ namespace SebWindowsConfig.Utilities
 			if (!string.IsNullOrEmpty(filterExpressionString))
 			{
 				/// Convert Uri to a SEBURLFilterExpression
-				string splitURLRegexPattern = @"(?:([^\:]*)\:\/\/)?(?:([^\:\@]*)(?:\:([^\@]*))?\@)?(?:([^\/‌​\:]*))?(?:\:([0-9\*]*))?([^\?#]*)?(?:\?([^#]*))?(?:#(.*))?";
+				string splitURLRegexPattern = @"(?:([^\:]*)\:\/\/)?(?:([^\:\@]*)(?:\:([^\@]*))?\@)?(?:([^\/\:]*))?(?:\:([0-9\*]*))?([^\?#]*)?(?:\?([^#]*))?(?:#(.*))?";
 				Regex splitURLRegex = new Regex(splitURLRegexPattern);
 				Match regexMatch = splitURLRegex.Match(filterExpressionString);
 			   if (regexMatch.Success == false)
@@ -34,8 +34,8 @@ namespace SebWindowsConfig.Utilities
 				this.password = regexMatch.Groups[3].Value;
 				this.host = regexMatch.Groups[4].Value;
 
-				// Treat a special case when a query is interpreted as part of the host address
-				if (this.host.Contains("?"))
+				// Treat a special case when a query or fragment is interpreted as part of the host address
+				if (this.host.Contains("?") || this.host.Contains("#"))
 				{
 					string splitURLRegexPattern2 = @"([^\?#]*)?(?:\?([^#]*))?(?:#(.*))?";
 					Regex splitURLRegex2 = new Regex(splitURLRegexPattern2);
@@ -64,7 +64,7 @@ namespace SebWindowsConfig.Utilities
 						this.port = UInt16.Parse(portNumber);
 					}
 
-					this.path = regexMatch.Groups[6].Value.Trim(new char[] { '/' });
+					this.path = regexMatch.Groups[6].Value.TrimEnd(new char[] { '/' });
 					this.query = regexMatch.Groups[7].Value;
 					this.fragment = regexMatch.Groups[8].Value;
 				}

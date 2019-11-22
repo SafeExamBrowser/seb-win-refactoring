@@ -77,7 +77,7 @@ namespace SebWindowsConfig.Utilities
 					if (filterString.Length > 1 && filterString.StartsWith("."))
 					{
 						// Get host string without the "." prefix
-						filterString = filterString.Substring(1, filterString.Length);
+						filterString = filterString.Substring(1);
 						// Get regex for host <*://example.com> (without possible subdomains)
 						return RegexForFilterString(filterString);
 					}
