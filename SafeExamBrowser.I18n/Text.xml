@@ -39,8 +39,11 @@
     <Entry key="LockScreen_UnlockButton">
         Unlock
     </Entry>
+    <Entry key="LogWindow_AlwaysOnTop">
+        Always on top
+    </Entry>
     <Entry key="LogWindow_AutoScroll">
-        Auto-Scroll
+        Auto-scroll content
     </Entry>
     <Entry key="LogWindow_Title">
         Application Log

@@ -27,6 +27,7 @@ namespace SafeExamBrowser.I18n.Contracts
 		LockScreen_TerminateOption,
 		LockScreen_Title,
 		LockScreen_UnlockButton,
+		LogWindow_AlwaysOnTop,
 		LogWindow_AutoScroll,
 		LogWindow_Title,
 		MessageBox_ApplicationAutoTerminationDataLossWarning,

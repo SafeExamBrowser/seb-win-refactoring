@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop"
         mc:Ignorable="d" Title="{Binding Path=WindowTitle}" Background="Black" Foreground="White" Height="750" Width="1000" MinHeight="350"
-        MinWidth="350" WindowStartupLocation="CenterScreen" Icon="./Images/LogNotification.ico">
+        MinWidth="350" Topmost="True" WindowStartupLocation="CenterScreen" Icon="./Images/LogNotification.ico">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,6 +20,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Background="White" Orientation="Horizontal">
             <CheckBox Cursor="Hand" IsChecked="{Binding AutoScroll}" Margin="5" VerticalContentAlignment="Center" Content="{Binding AutoScrollTitle}" />
+            <CheckBox Cursor="Hand" IsChecked="{Binding Path=Topmost, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Margin="5" VerticalContentAlignment="Center" Content="{Binding TopmostTitle}" />
         </StackPanel>
         <ScrollViewer x:Name="ScrollViewer" Grid.Row="1" HorizontalScrollBarVisibility="Auto" Padding="5,5,5,0" VerticalScrollBarVisibility="Auto"
                       Template="{StaticResource SmallBarScrollViewer}">

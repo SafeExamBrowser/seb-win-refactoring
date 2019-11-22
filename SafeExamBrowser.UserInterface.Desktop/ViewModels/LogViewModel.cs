@@ -25,6 +25,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.ViewModels
 
 		public bool AutoScroll { get; set; } = true;
 		public string AutoScrollTitle => text.Get(TextKey.LogWindow_AutoScroll);
+		public string TopmostTitle => text.Get(TextKey.LogWindow_AlwaysOnTop);
 		public string WindowTitle => text.Get(TextKey.LogWindow_Title);
 
 		public LogViewModel(IText text, ScrollViewer scrollViewer, TextBlock textBlock)
