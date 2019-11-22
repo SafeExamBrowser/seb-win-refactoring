@@ -50,31 +50,47 @@ namespace SafeExamBrowser.WindowsApi
 
 		public IProcess StartNew(string path, params string[] args)
 		{
-			var commandLine = $"{'"' + path + '"'} {String.Join(" ", args)}";
+			var raw = default(System.Diagnostics.Process);
+
+			logger.Info($"Attempting to start process '{path}'...");
+
+			if (StartupDesktop != default(IDesktop))
+			{
+				raw = StartOnDesktop(path, args);
+			}
+			else
+			{
+				raw = System.Diagnostics.Process.Start(path, string.Join(" ", args));
+			}
+
+			var process = new Process(raw, LoggerFor(raw));
+
+			logger.Info($"Successfully started process '{path}' with ID = {process.Id}.");
+
+			return process;
+		}
+
+		private System.Diagnostics.Process StartOnDesktop(string path, params string[] args)
+		{
+			var commandLine = $"{'"' + path + '"'} {string.Join(" ", args)}";
 			var processInfo = new PROCESS_INFORMATION();
 			var startupInfo = new STARTUPINFO();
 
 			startupInfo.cb = Marshal.SizeOf(startupInfo);
 			startupInfo.lpDesktop = StartupDesktop?.Name;
 
-			logger.Info($"Attempting to start process '{path}'...");
-
-			// TODO: Fails for certain processes, whereas Process.Start() does not -> use different API?! Use (declare?) CreateProcessW / CreateProcessA?
 			var success = Kernel32.CreateProcess(null, commandLine, IntPtr.Zero, IntPtr.Zero, true, Constant.NORMAL_PRIORITY_CLASS, IntPtr.Zero, null, ref startupInfo, ref processInfo);
 
-			if (!success)
+			if (success)
 			{
-				logger.Error($"Failed to start process '{Path.GetFileName(path)}'!");
-
-				throw new Win32Exception(Marshal.GetLastWin32Error());
+				return System.Diagnostics.Process.GetProcessById(processInfo.dwProcessId);
 			}
 
-			var raw = System.Diagnostics.Process.GetProcessById(processInfo.dwProcessId);
-			var process = new Process(raw, LoggerFor(raw));
+			var errorCode = Marshal.GetLastWin32Error();
 
-			logger.Info($"Successfully started process '{Path.GetFileName(path)}' with ID = {process.Id}.");
+			logger.Error($"Failed to start process '{path}' on desktop '{StartupDesktop}'! Error code: {errorCode}.");
 
-			return process;
+			throw new Win32Exception(errorCode);
 		}
 
 		public bool TryGetById(int id, out IProcess process)
