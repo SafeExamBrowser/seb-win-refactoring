@@ -30,7 +30,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string DisplayName = "title";
 			internal const string ExecutableName = "executable";
 			internal const string ExecutablePath = "path";
-			internal const string Identifier = "identifier";
 			internal const string OperatingSystem = "os";
 			internal const string OriginalName = "originalName";
 			internal const string RendererName = "windowHandlingProcess";

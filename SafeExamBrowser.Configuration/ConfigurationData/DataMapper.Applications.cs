@@ -122,11 +122,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 								application.ExecutablePath = executablePath;
 							}
 
-							if (applicationData.TryGetValue(Keys.Applications.Identifier, out v) && v is string identifier)
-							{
-								application.Identifier = identifier;
-							}
-
 							if (applicationData.TryGetValue(Keys.Applications.OriginalName, out v) && v is string originalName)
 							{
 								application.OriginalName = originalName;

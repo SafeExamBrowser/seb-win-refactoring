@@ -63,12 +63,6 @@ namespace SafeExamBrowser.Settings.Applications
 		public string ExecutablePath { get; set; }
 
 		/// <summary>
-		/// Used to identify an application by its main window title.
-		/// </summary>
-		/// TODO: Rename?
-		public string Identifier { get; set; }
-
-		/// <summary>
 		/// The original file name of the main executable of the application, if available.
 		/// </summary>
 		public string OriginalName { get; set; }

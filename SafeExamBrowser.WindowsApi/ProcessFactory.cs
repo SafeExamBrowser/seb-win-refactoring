@@ -36,13 +36,14 @@ namespace SafeExamBrowser.WindowsApi
 		{
 			var processes = new List<IProcess>();
 			var running = System.Diagnostics.Process.GetProcesses();
-			var originalNames = LoadOriginalNames();
+			var names = LoadProcessNames();
 
 			foreach (var process in running)
 			{
-				var originalName = originalNames.FirstOrDefault(n => n.processId == process.Id).originalName;
+				var name = names.FirstOrDefault(n => n.processId == process.Id).name;
+				var originalName = names.FirstOrDefault(n => n.processId == process.Id).originalName;
 
-				processes.Add(new Process(process, originalName, LoggerFor(process)));
+				processes.Add(new Process(process, name, originalName, LoggerFor(process)));
 			}
 
 			return processes;
@@ -107,13 +108,13 @@ namespace SafeExamBrowser.WindowsApi
 			return process != default(IProcess);
 		}
 
-		private IEnumerable<(int processId, string originalName)> LoadOriginalNames()
+		private IEnumerable<(int processId, string name, string originalName)> LoadProcessNames()
 		{
-			var names = new List<(int, string)>();
+			var names = new List<(int, string, string)>();
 
 			try
 			{
-				using (var searcher = new ManagementObjectSearcher($"SELECT ProcessId, ExecutablePath FROM Win32_Process"))
+				using (var searcher = new ManagementObjectSearcher($"SELECT ProcessId, Name, ExecutablePath FROM Win32_Process"))
 				using (var results = searcher.Get())
 				{
 					var processData = results.Cast<ManagementObject>().ToList();
@@ -122,19 +123,17 @@ namespace SafeExamBrowser.WindowsApi
 					{
 						using (process)
 						{
+							var name = Convert.ToString(process["Name"]);
 							var processId = Convert.ToInt32(process["ProcessId"]);
 							var executablePath = Convert.ToString(process["ExecutablePath"]);
 
 							if (File.Exists(executablePath))
 							{
-								var executableInfo = FileVersionInfo.GetVersionInfo(executablePath);
-								var originalName = Path.GetFileNameWithoutExtension(executableInfo.OriginalFilename);
-
-								names.Add((processId, originalName));
+								names.Add((processId, name, FileVersionInfo.GetVersionInfo(executablePath).OriginalFilename));
 							}
 							else
 							{
-								names.Add((processId, default(string)));
+								names.Add((processId, name, default(string)));
 							}
 						}
 					}
@@ -142,7 +141,7 @@ namespace SafeExamBrowser.WindowsApi
 			}
 			catch (Exception e)
 			{
-				logger.Error("Failed to retrieve original names for processes!", e);
+				logger.Error("Failed to load process names!", e);
 			}
 
 			return names;

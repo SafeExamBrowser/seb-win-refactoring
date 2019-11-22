@@ -22,9 +22,9 @@ namespace SafeExamBrowser.WindowsApi
 {
 	internal class Process : IProcess
 	{
-		private bool eventInitialized, originalNameInitialized;
+		private bool eventInitialized, namesInitialized;
 		private ILogger logger;
-		private string originalName;
+		private string name, originalName;
 		private System.Diagnostics.Process process;
 
 		private event ProcessTerminatedEventHandler TerminatedEvent;
@@ -39,11 +39,14 @@ namespace SafeExamBrowser.WindowsApi
 			get { return IsTerminated(); }
 		}
 
-		public string Name { get; }
+		public string Name
+		{
+			get { return namesInitialized ? name : InitializeNames().name; }
+		}
 
 		public string OriginalName
 		{
-			get { return originalNameInitialized ? originalName : InitializeOriginalName(); }
+			get { return namesInitialized ? originalName : InitializeNames().originalName; }
 		}
 
 		public event ProcessTerminatedEventHandler Terminated
@@ -54,15 +57,15 @@ namespace SafeExamBrowser.WindowsApi
 
 		internal Process(System.Diagnostics.Process process, ILogger logger)
 		{
-			this.Name = process.ProcessName;
 			this.process = process;
 			this.logger = logger;
 		}
 
-		internal Process(System.Diagnostics.Process process, string originalName, ILogger logger) : this(process, logger)
+		internal Process(System.Diagnostics.Process process, string name, string originalName, ILogger logger) : this(process, logger)
 		{
+			this.name = name;
 			this.originalName = originalName;
-			this.originalNameInitialized = true;
+			this.namesInitialized = true;
 		}
 
 		public bool TryActivate()
@@ -191,22 +194,23 @@ namespace SafeExamBrowser.WindowsApi
 			}
 		}
 
-		private string InitializeOriginalName()
+		private (string name, string originalName) InitializeNames()
 		{
+			name = process.ProcessName;
+
 			try
 			{
-				using (var searcher = new ManagementObjectSearcher($"SELECT ExecutablePath FROM Win32_Process WHERE ProcessId = {process.Id}"))
+				using (var searcher = new ManagementObjectSearcher($"SELECT Name, ExecutablePath FROM Win32_Process WHERE ProcessId = {process.Id}"))
 				using (var results = searcher.Get())
 				using (var processData = results.Cast<ManagementObject>().First())
 				{
 					var executablePath = Convert.ToString(processData["ExecutablePath"]);
 
+					name = Convert.ToString(processData["Name"]);
+
 					if (File.Exists(executablePath))
 					{
-						var executableInfo = FileVersionInfo.GetVersionInfo(executablePath);
-						var originalName = Path.GetFileNameWithoutExtension(executableInfo.OriginalFilename);
-
-						this.originalName = originalName;
+						originalName = FileVersionInfo.GetVersionInfo(executablePath).OriginalFilename;
 					}
 					else
 					{
@@ -216,14 +220,14 @@ namespace SafeExamBrowser.WindowsApi
 			}
 			catch (Exception e)
 			{
-				logger.Error("Failed to initialize original name!", e);
+				logger.Error("Failed to initialize names!", e);
 			}
 			finally
 			{
-				originalNameInitialized = true;
+				namesInitialized = true;
 			}
 
-			return originalName;
+			return (name, originalName);
 		}
 
 		private bool WaitForTermination(int timeout_ms)
