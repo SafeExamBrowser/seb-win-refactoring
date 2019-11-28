@@ -29,40 +29,42 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 		{
 			var button = new ActionCenterApplicationButton(application.Info);
 
-			application.InstanceStarted += Application_InstanceStarted;
+			application.WindowsChanged += Application_WindowsChanged;
 			button.Clicked += (o, args) => application.Start();
 			ApplicationName.Text = application.Info.Name;
 			ApplicationName.Visibility = Visibility.Collapsed;
 			ApplicationButton.Content = button;
 		}
 
-		private void Application_InstanceStarted(IApplicationInstance instance)
+		private void Application_WindowsChanged()
 		{
-			Dispatcher.InvokeAsync(() =>
-			{
-				var button = new ActionCenterApplicationButton(application.Info, instance);
-
-				button.Clicked += (o, args) => instance.Activate();
-				instance.Terminated += (_) => RemoveInstance(button);
-				InstancePanel.Children.Add(button);
-
-				ApplicationName.Visibility = Visibility.Visible;
-				ApplicationButton.Visibility = Visibility.Collapsed;
-			});
+			Dispatcher.InvokeAsync(Update);
 		}
 
-		private void RemoveInstance(ActionCenterApplicationButton button)
+		private void Update()
 		{
-			Dispatcher.InvokeAsync(() =>
-			{
-				InstancePanel.Children.Remove(button);
+			var windows = application.GetWindows();
 
-				if (InstancePanel.Children.Count == 0)
-				{
-					ApplicationName.Visibility = Visibility.Collapsed;
-					ApplicationButton.Visibility = Visibility.Visible;
-				}
-			});
+			WindowPanel.Children.Clear();
+
+			foreach (var window in windows)
+			{
+				var button = new ActionCenterApplicationButton(application.Info, window);
+
+				button.Clicked += (o, args) => window.Activate();
+				WindowPanel.Children.Add(button);
+			}
+
+			if (WindowPanel.Children.Count == 0)
+			{
+				ApplicationName.Visibility = Visibility.Collapsed;
+				ApplicationButton.Visibility = Visibility.Visible;
+			}
+			else
+			{
+				ApplicationName.Visibility = Visibility.Visible;
+				ApplicationButton.Visibility = Visibility.Collapsed;
+			}
 		}
 	}
 }

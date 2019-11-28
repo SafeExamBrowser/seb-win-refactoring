@@ -12,17 +12,15 @@ using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
-namespace SafeExamBrowser.UserInterface.Desktop.Controls
+namespace SafeExamBrowser.UserInterface.Mobile.Controls
 {
-	public partial class TaskViewInstanceControl : UserControl
+	public partial class TaskViewWindowControl : UserControl
 	{
-		private IApplicationInstance instance;
+		private IApplicationWindow window;
 
-		internal InstanceIdentifier Id => instance.Id;
-
-		public TaskViewInstanceControl(IApplicationInstance instance)
+		public TaskViewWindowControl(IApplicationWindow window)
 		{
-			this.instance = instance;
+			this.window = window;
 
 			InitializeComponent();
 			InitializeControl();
@@ -30,7 +28,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 		internal void Activate()
 		{
-			instance.Activate();
+			window.Activate();
 		}
 
 		internal void Deselect()
@@ -49,21 +47,21 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 		private void InitializeControl()
 		{
-			Icon.Content = IconResourceLoader.Load(instance.Icon);
-			Title.Text = instance.Name;
+			Icon.Content = IconResourceLoader.Load(window.Icon);
+			Title.Text = window.Title;
 
-			instance.IconChanged += Instance_IconChanged;
-			instance.NameChanged += Instance_NameChanged;
+			window.IconChanged += Instance_IconChanged;
+			window.TitleChanged += Instance_TitleChanged;
 		}
 
-		private void Instance_NameChanged(string name)
+		private void Instance_TitleChanged(string title)
 		{
-			Dispatcher.InvokeAsync(() => Title.Text = name);
+			Dispatcher.InvokeAsync(() => Title.Text = title);
 		}
 
 		private void Instance_IconChanged(IconResource icon)
 		{
-			Dispatcher.InvokeAsync(() => Icon.Content = IconResourceLoader.Load(instance.Icon));
+			Dispatcher.InvokeAsync(() => Icon.Content = IconResourceLoader.Load(window.Icon));
 		}
 	}
 }

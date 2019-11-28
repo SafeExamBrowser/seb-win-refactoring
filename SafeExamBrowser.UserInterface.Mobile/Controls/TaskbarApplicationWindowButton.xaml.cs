@@ -12,17 +12,15 @@ using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
-namespace SafeExamBrowser.UserInterface.Desktop.Controls
+namespace SafeExamBrowser.UserInterface.Mobile.Controls
 {
-	public partial class TaskbarApplicationInstanceButton : UserControl
+	public partial class TaskbarApplicationWindowButton : UserControl
 	{
-		private ApplicationInfo info;
-		private IApplicationInstance instance;
+		private IApplicationWindow window;
 
-		public TaskbarApplicationInstanceButton(IApplicationInstance instance, ApplicationInfo info)
+		public TaskbarApplicationWindowButton(IApplicationWindow window)
 		{
-			this.info = info;
-			this.instance = instance;
+			this.window = window;
 
 			InitializeComponent();
 			InitializeApplicationInstanceButton();
@@ -31,16 +29,16 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 		private void InitializeApplicationInstanceButton()
 		{
 			Button.Click += Button_Click;
-			Button.ToolTip = instance.Name;
-			Icon.Content = IconResourceLoader.Load(info.Icon);
-			instance.IconChanged += Instance_IconChanged;
-			instance.NameChanged += Instance_NameChanged;
-			Text.Text = instance.Name;
+			Button.ToolTip = window.Title;
+			Icon.Content = IconResourceLoader.Load(window.Icon);
+			window.IconChanged += Instance_IconChanged;
+			window.TitleChanged += Window_TitleChanged;
+			Text.Text = window.Title;
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			instance.Activate();
+			window.Activate();
 		}
 
 		private void Instance_IconChanged(IconResource icon)
@@ -48,12 +46,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			Dispatcher.InvokeAsync(() => Icon.Content = IconResourceLoader.Load(icon));
 		}
 
-		private void Instance_NameChanged(string name)
+		private void Window_TitleChanged(string title)
 		{
-			Dispatcher.Invoke(() =>
+			Dispatcher.InvokeAsync(() =>
 			{
-				Text.Text = name;
-				Button.ToolTip = name;
+				Text.Text = title;
+				Button.ToolTip = title;
 			});
 		}
 	}

@@ -16,10 +16,10 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Popup x:Name="InstancePopup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}">
+        <Popup x:Name="WindowPopup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}">
             <Border Background="LightGray" BorderBrush="Gray" BorderThickness="0.75,0.75,0.75,0">
-                <ScrollViewer x:Name="InstanceScrollViewer" MaxHeight="400" VerticalScrollBarVisibility="Auto" Template="{StaticResource SmallBarScrollViewer}">
-                    <StackPanel x:Name="InstanceStackPanel" />
+                <ScrollViewer MaxHeight="400" VerticalScrollBarVisibility="Auto" Template="{StaticResource SmallBarScrollViewer}">
+                    <StackPanel x:Name="WindowStackPanel" />
                 </ScrollViewer>
             </Border>
         </Popup>

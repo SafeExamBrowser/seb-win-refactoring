@@ -6,12 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Core.Contracts;
-
 namespace SafeExamBrowser.Applications.Contracts.Events
 {
 	/// <summary>
-	/// Event handler used to indicate that an <see cref="IApplicationInstance"/> has terminated.
+	/// Event handler used to indicate that the windows of an application have changed.
 	/// </summary>
-	public delegate void InstanceTerminatedEventHandler(InstanceIdentifier id);
+	public delegate void WindowsChangedEventHandler();
 }

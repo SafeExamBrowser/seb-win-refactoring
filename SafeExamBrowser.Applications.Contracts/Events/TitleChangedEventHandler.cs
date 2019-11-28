@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.Applications.Contracts.Events
 {
 	/// <summary>
-	/// Event handler used to indicate that a name has changed to a new value.
+	/// Event handler used to indicate that a title has changed to a new value.
 	/// </summary>
-	public delegate void NameChangedEventHandler(string name);
+	public delegate void TitleChangedEventHandler(string title);
 }

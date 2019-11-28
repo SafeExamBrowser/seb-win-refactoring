@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Generic;
 using SafeExamBrowser.Applications.Contracts.Events;
 
 namespace SafeExamBrowser.Applications.Contracts
@@ -21,9 +22,14 @@ namespace SafeExamBrowser.Applications.Contracts
 		ApplicationInfo Info { get; }
 
 		/// <summary>
-		/// Fired when a new <see cref="IApplicationInstance"/> has started.
+		/// Event fired when the windows of the application have changed.
 		/// </summary>
-		event InstanceStartedEventHandler InstanceStarted;
+		event WindowsChangedEventHandler WindowsChanged;
+
+		/// <summary>
+		/// Returns all windows of the application.
+		/// </summary>
+		IEnumerable<IApplicationWindow> GetWindows();
 
 		/// <summary>
 		/// Performs any initialization work, if necessary.

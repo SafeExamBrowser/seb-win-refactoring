@@ -41,7 +41,7 @@ namespace SafeExamBrowser.Browser
 		public ApplicationInfo Info { get; private set; }
 
 		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
-		public event InstanceStartedEventHandler InstanceStarted;
+		public event WindowsChangedEventHandler WindowsChanged;
 
 		public BrowserApplication(
 			AppConfig appConfig,
@@ -58,6 +58,11 @@ namespace SafeExamBrowser.Browser
 			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;
+		}
+
+		public IEnumerable<IApplicationWindow> GetWindows()
+		{
+			return new List<IApplicationWindow>(instances);
 		}
 
 		public void Initialize()
@@ -119,9 +124,9 @@ namespace SafeExamBrowser.Browser
 
 			instance.Initialize();
 			instances.Add(instance);
-			InstanceStarted?.Invoke(instance);
 
 			logger.Info($"Created browser instance {instance.Id}.");
+			WindowsChanged?.Invoke();
 		}
 
 		private CefSettings InitializeCefSettings()
@@ -156,6 +161,7 @@ namespace SafeExamBrowser.Browser
 		{
 			instances.Remove(instances.FirstOrDefault(i => i.Id == id));
 			logger.Info($"Browser instance {id} was terminated.");
+			WindowsChanged?.Invoke();
 		}
 
 		/// <summary>

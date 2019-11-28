@@ -17,14 +17,14 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 	public partial class ActionCenterApplicationButton : UserControl
 	{
 		private ApplicationInfo info;
-		private IApplicationInstance instance;
+		private IApplicationWindow window;
 
 		internal event EventHandler Clicked;
 
-		public ActionCenterApplicationButton(ApplicationInfo info, IApplicationInstance instance = null)
+		public ActionCenterApplicationButton(ApplicationInfo info, IApplicationWindow window = null)
 		{
 			this.info = info;
-			this.instance = instance;
+			this.window = window;
 
 			InitializeComponent();
 			InitializeApplicationInstanceButton();
@@ -33,28 +33,28 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 		private void InitializeApplicationInstanceButton()
 		{
 			Icon.Content = IconResourceLoader.Load(info.Icon);
-			Text.Text = instance?.Name ?? info.Name;
+			Text.Text = window?.Title ?? info.Name;
 			Button.Click += (o, args) => Clicked?.Invoke(this, EventArgs.Empty);
-			Button.ToolTip = instance?.Name ?? info.Tooltip;
+			Button.ToolTip = window?.Title ?? info.Tooltip;
 
-			if (instance != null)
+			if (window != null)
 			{
-				instance.IconChanged += Instance_IconChanged;
-				instance.NameChanged += Instance_NameChanged;
+				window.IconChanged += Window_IconChanged;
+				window.TitleChanged += Window_TitleChanged;
 			}
 		}
 
-		private void Instance_IconChanged(IconResource icon)
+		private void Window_IconChanged(IconResource icon)
 		{
 			Dispatcher.InvokeAsync(() => Icon.Content = IconResourceLoader.Load(icon));
 		}
 
-		private void Instance_NameChanged(string name)
+		private void Window_TitleChanged(string title)
 		{
 			Dispatcher.InvokeAsync(() =>
 			{
-				Text.Text = name;
-				Button.ToolTip = name;
+				Text.Text = title;
+				Button.ToolTip = title;
 			});
 		}
 	}

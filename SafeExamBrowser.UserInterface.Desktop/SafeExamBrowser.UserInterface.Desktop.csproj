@@ -112,8 +112,8 @@
     <Compile Include="Controls\TaskbarApplicationControl.xaml.cs">
       <DependentUpon>TaskbarApplicationControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TaskbarApplicationInstanceButton.xaml.cs">
-      <DependentUpon>TaskbarApplicationInstanceButton.xaml</DependentUpon>
+    <Compile Include="Controls\TaskbarApplicationWindowButton.xaml.cs">
+      <DependentUpon>TaskbarApplicationWindowButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TaskbarAudioControl.xaml.cs">
       <DependentUpon>TaskbarAudioControl.xaml</DependentUpon>
@@ -142,8 +142,8 @@
     <Compile Include="Controls\TaskbarWirelessNetworkControl.xaml.cs">
       <DependentUpon>TaskbarWirelessNetworkControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TaskViewInstanceControl.xaml.cs">
-      <DependentUpon>TaskViewInstanceControl.xaml</DependentUpon>
+    <Compile Include="Controls\TaskViewWindowControl.xaml.cs">
+      <DependentUpon>TaskViewWindowControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="LockScreen.xaml.cs">
       <DependentUpon>LockScreen.xaml</DependentUpon>
@@ -229,7 +229,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\TaskbarApplicationInstanceButton.xaml">
+    <Page Include="Controls\TaskbarApplicationWindowButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -317,7 +317,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-    <Page Include="Controls\TaskViewInstanceControl.xaml">
+    <Page Include="Controls\TaskViewWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

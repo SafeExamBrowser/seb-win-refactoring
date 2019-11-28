@@ -19,21 +19,22 @@ namespace SafeExamBrowser.UserInterface.Desktop
 {
 	public partial class TaskView : Window, ITaskView
 	{
-		private LinkedListNode<TaskViewInstanceControl> current;
-		private LinkedList<TaskViewInstanceControl> controls;
-		private List<IApplicationInstance> instances;
+		private IList<IApplication> applications;
+		private LinkedListNode<TaskViewWindowControl> current;
+		private LinkedList<TaskViewWindowControl> controls;
 
 		public TaskView()
 		{
-			controls = new LinkedList<TaskViewInstanceControl>();
-			instances = new List<IApplicationInstance>();
+			applications = new List<IApplication>();
+			controls = new LinkedList<TaskViewWindowControl>();
 
 			InitializeComponent();
 		}
 
 		public void Add(IApplication application)
 		{
-			application.InstanceStarted += Application_InstanceStarted;
+			application.WindowsChanged += Application_WindowsChanged;
+			applications.Add(application);
 		}
 
 		public void Register(ITaskViewActivator activator)
@@ -43,9 +44,9 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			activator.PreviousActivated += Activator_Previous;
 		}
 
-		private void Application_InstanceStarted(IApplicationInstance instance)
+		private void Application_WindowsChanged()
 		{
-			Dispatcher.InvokeAsync(() => Add(instance));
+			Dispatcher.InvokeAsync(Update);
 		}
 
 		private void Activator_Deactivated()
@@ -63,34 +64,11 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			Dispatcher.InvokeAsync(SelectPrevious);
 		}
 
-		private void Instance_Terminated(InstanceIdentifier id)
-		{
-			Dispatcher.InvokeAsync(() => Remove(id));
-		}
-
 		private void ActivateAndHide()
 		{
 			Activate();
 			current?.Value.Activate();
 			Hide();
-		}
-
-		private void Add(IApplicationInstance instance)
-		{
-			instance.Terminated += Instance_Terminated;
-			instances.Add(instance);
-			Update();
-		}
-
-		private void Remove(InstanceIdentifier id)
-		{
-			var instance = instances.FirstOrDefault(i => i.Id == id);
-
-			if (instance != default(IApplicationInstance))
-			{
-				instances.Remove(instance);
-				Update();
-			}
 		}
 
 		private void SelectNext()
@@ -119,7 +97,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		private void ShowConditional()
 		{
-			if (instances.Any() && Visibility != Visibility.Visible)
+			if (controls.Any() && Visibility != Visibility.Visible)
 			{
 				Show();
 				Activate();
@@ -128,22 +106,31 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		private void Update()
 		{
-			var max = Math.Ceiling(Math.Sqrt(instances.Count));
-			var stack = new Stack<IApplicationInstance>(instances);
+			var windows = new Stack<IApplicationWindow>();
+
+			foreach (var application in applications)
+			{
+				foreach (var window in application.GetWindows())
+				{
+					windows.Push(window);
+				}
+			}
+
+			var max = Math.Ceiling(Math.Sqrt(windows.Count));
 
 			controls.Clear();
 			Rows.Children.Clear();
 
-			for (var rowCount = 0; rowCount < max && stack.Any(); rowCount++)
+			for (var rowCount = 0; rowCount < max && windows.Any(); rowCount++)
 			{
 				var row = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center };
 
 				Rows.Children.Add(row);
 
-				for (var columnIndex = 0; columnIndex < max && stack.Any(); columnIndex++)
+				for (var columnIndex = 0; columnIndex < max && windows.Any(); columnIndex++)
 				{
-					var instance = stack.Pop();
-					var control = new TaskViewInstanceControl(instance);
+					var window = windows.Pop();
+					var control = new TaskViewWindowControl(window);
 
 					controls.AddLast(control);
 					row.Children.Add(control);
@@ -158,7 +145,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			Left = (SystemParameters.WorkArea.Width - Width) / 2 + SystemParameters.WorkArea.Left;
 			Top = (SystemParameters.WorkArea.Height - Height) / 2 + SystemParameters.WorkArea.Top;
 
-			if (!instances.Any())
+			if (!windows.Any())
 			{
 				Hide();
 			}

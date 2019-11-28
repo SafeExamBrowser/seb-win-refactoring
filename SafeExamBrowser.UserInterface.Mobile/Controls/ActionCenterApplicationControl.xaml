@@ -22,6 +22,6 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" x:Name="ApplicationName" Background="{StaticResource BackgroundTransparentEmphasisBrush}" FontWeight="Bold" Padding="5" TextAlignment="Center" />
         <ContentControl Grid.Row="1" x:Name="ApplicationButton" FontWeight="Bold" />
-        <StackPanel Grid.Row="2" x:Name="InstancePanel" Background="{StaticResource BackgroundTransparentEmphasisBrush}" Orientation="Vertical" />
+        <StackPanel Grid.Row="2" x:Name="WindowPanel" Background="{StaticResource BackgroundTransparentEmphasisBrush}" Orientation="Vertical" />
     </Grid>
 </UserControl>

@@ -41,23 +41,11 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		event ProcessTerminatedEventHandler Terminated;
 
 		/// <summary>
-		/// Attempts to activate the process (i.e. bring its main window to the foreground). This may only work for interactive processes which have
-		/// a main window. Returns <c>true</c> if the process was successfully activated, otherwise <c>false</c>.
-		/// </summary>
-		bool TryActivate();
-
-		/// <summary>
 		/// Attempts to gracefully terminate the process by closing its main window. This will only work for interactive processes which have a main
 		/// window. Optionally waits the specified amount of time for the process to terminate. Returns <c>true</c> if the process has terminated,
 		/// otherwise <c>false</c>.
 		/// </summary>
 		bool TryClose(int timeout_ms = 0);
-
-		/// <summary>
-		/// Attempts to retrieve the title of the main window of the process. This will only work if for interactive processes which have a main
-		/// window. Returns <c>true</c> if the title was successfully retrieved, otherwise <c>false</c>.
-		/// </summary>
-		bool TryGetWindowTitle(out string title);
 
 		/// <summary>
 		/// Attempts to immediately kill the process. Optionally waits the specified amount of time for the process to terminate. Returns <c>true</c>

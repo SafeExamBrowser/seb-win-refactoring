@@ -6,10 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Applications.Contracts.Events
+namespace SafeExamBrowser.Browser.Events
 {
-	/// <summary>
-	/// Event handler used to inform about the existence of a new <see cref="IApplicationInstance"/>.
-	/// </summary>
-	public delegate void InstanceStartedEventHandler(IApplicationInstance instance);
+	internal delegate void InstanceTerminatedEventHandler(BrowserInstanceIdentifier id);
 }

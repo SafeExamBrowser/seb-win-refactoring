@@ -20,20 +20,25 @@ namespace SafeExamBrowser.Applications
 	{
 		private string executablePath;
 		private IModuleLogger logger;
-		private IList<IApplicationInstance> instances;
+		private IList<ExternalApplicationInstance> instances;
 		private IProcessFactory processFactory;
 
-		public ApplicationInfo Info { get; }
+		public event WindowsChangedEventHandler WindowsChanged;
 
-		public event InstanceStartedEventHandler InstanceStarted;
+		public ApplicationInfo Info { get; }
 
 		internal ExternalApplication(string executablePath, ApplicationInfo info, IModuleLogger logger, IProcessFactory processFactory)
 		{
 			this.executablePath = executablePath;
 			this.Info = info;
 			this.logger = logger;
-			this.instances = new List<IApplicationInstance>();
+			this.instances = new List<ExternalApplicationInstance>();
 			this.processFactory = processFactory;
+		}
+
+		public IEnumerable<IApplicationWindow> GetWindows()
+		{
+			return Enumerable.Empty<IApplicationWindow>();
 		}
 
 		public void Initialize()
@@ -53,7 +58,6 @@ namespace SafeExamBrowser.Applications
 
 				instance.Initialize();
 				instances.Add(instance);
-				InstanceStarted?.Invoke(instance);
 			}
 			catch (Exception e)
 			{

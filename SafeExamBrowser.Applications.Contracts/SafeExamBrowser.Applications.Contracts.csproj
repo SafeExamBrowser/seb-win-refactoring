@@ -55,14 +55,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\IconChangedEventHandler.cs" />
-    <Compile Include="Events\InstanceStartedEventHandler.cs" />
-    <Compile Include="Events\InstanceTerminatedEventHandler.cs" />
-    <Compile Include="Events\NameChangedEventHandler.cs" />
+    <Compile Include="Events\TitleChangedEventHandler.cs" />
+    <Compile Include="Events\WindowsChangedEventHandler.cs" />
     <Compile Include="FactoryResult.cs" />
     <Compile Include="IApplication.cs" />
     <Compile Include="IApplicationFactory.cs" />
     <Compile Include="ApplicationInfo.cs" />
-    <Compile Include="IApplicationInstance.cs" />
+    <Compile Include="IApplicationWindow.cs" />
     <Compile Include="InstanceIdentifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

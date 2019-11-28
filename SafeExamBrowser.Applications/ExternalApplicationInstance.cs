@@ -6,57 +6,34 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using System.Timers;
 using SafeExamBrowser.Applications.Contracts;
-using SafeExamBrowser.Applications.Contracts.Events;
 using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Applications
 {
-	internal class ExternalApplicationInstance : IApplicationInstance
+	internal class ExternalApplicationInstance
 	{
-		private const int ONE_SECOND = 1000;
-
+		private IconResource icon;
+		private InstanceIdentifier id;
 		private ILogger logger;
 		private IProcess process;
-		private Timer timer;
 
-		public IconResource Icon { get; }
-		public InstanceIdentifier Id { get; }
-		public string Name { get; private set; }
-
-		public event IconChangedEventHandler IconChanged { add { } remove { } }
-		public event NameChangedEventHandler NameChanged;
-		public event InstanceTerminatedEventHandler Terminated;
-
-		public ExternalApplicationInstance(IconResource icon, InstanceIdentifier id, ILogger logger, IProcess process)
+		internal ExternalApplicationInstance(IconResource icon, InstanceIdentifier id, ILogger logger, IProcess process)
 		{
-			this.Icon = icon;
-			this.Id = id;
+			this.icon = icon;
+			this.id = id;
 			this.logger = logger;
 			this.process = process;
 		}
 
-		public void Activate()
+		internal void Initialize()
 		{
-			var success = process.TryActivate();
-
-			if (!success)
-			{
-				logger.Warn("Failed to activate instance!");
-			}
+			process.Terminated += Process_Terminated;
 		}
 
-		public void Initialize()
-		{
-			InitializeEvents();
-			logger.Info("Initialized application instance.");
-		}
-
-		public void Terminate()
+		internal void Terminate()
 		{
 			const int MAX_ATTEMPTS = 5;
 			const int TIMEOUT_MS = 500;
@@ -65,7 +42,7 @@ namespace SafeExamBrowser.Applications
 
 			if (!terminated)
 			{
-				FinalizeEvents();
+				process.Terminated -= Process_Terminated;
 
 				for (var attempt = 0; attempt < MAX_ATTEMPTS && !terminated; attempt++)
 				{
@@ -91,37 +68,7 @@ namespace SafeExamBrowser.Applications
 		private void Process_Terminated(int exitCode)
 		{
 			logger.Info($"Application instance has terminated with exit code {exitCode}.");
-			FinalizeEvents();
-			Terminated?.Invoke(Id);
-		}
-
-		private void InitializeEvents()
-		{
-			timer = new Timer(ONE_SECOND);
-			timer.Elapsed += Timer_Elapsed;
-			timer.Start();
-			process.Terminated += Process_Terminated;
-		}
-
-		private void FinalizeEvents()
-		{
-			timer.Elapsed -= Timer_Elapsed;
-			timer.Stop();
-			process.Terminated -= Process_Terminated;
-		}
-
-		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-		{
-			var success = process.TryGetWindowTitle(out var title);
-			var hasChanged = Name?.Equals(title, StringComparison.Ordinal) != true;
-
-			if (success && hasChanged)
-			{
-				Name = title;
-				NameChanged?.Invoke(Name);
-			}
-
-			timer.Start();
+			// TODO: Terminated?.Invoke(Id); -> Remove from application!
 		}
 	}
 }

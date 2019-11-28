@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,7 +21,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 	public partial class TaskbarApplicationControl : UserControl, IApplicationControl
 	{
 		private IApplication application;
-		private IApplicationInstance single;
+		private IApplicationWindow single;
 
 		public TaskbarApplicationControl(IApplication application)
 		{
@@ -34,71 +35,64 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 		{
 			var originalBrush = Button.Background;
 
-			application.InstanceStarted += Application_InstanceStarted;
+			application.WindowsChanged += Application_WindowsChanged;
 
 			Button.Click += Button_Click;
 			Button.Content = IconResourceLoader.Load(application.Info.Icon);
-			Button.MouseEnter += (o, args) => InstancePopup.IsOpen = InstanceStackPanel.Children.Count > 1;
-			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => InstancePopup.IsOpen = InstancePopup.IsMouseOver));
+			Button.MouseEnter += (o, args) => WindowPopup.IsOpen = WindowStackPanel.Children.Count > 0;
+			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => WindowPopup.IsOpen = WindowPopup.IsMouseOver));
 			Button.ToolTip = application.Info.Tooltip;
-			InstancePopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => InstancePopup.IsOpen = IsMouseOver));
+			WindowPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => WindowPopup.IsOpen = IsMouseOver));
 
-			InstancePopup.Opened += (o, args) =>
+			WindowPopup.Opened += (o, args) =>
 			{
 				Background = Brushes.LightGray;
 				Button.Background = Brushes.LightGray;
 			};
 
-			InstancePopup.Closed += (o, args) =>
+			WindowPopup.Closed += (o, args) =>
 			{
 				Background = originalBrush;
 				Button.Background = originalBrush;
 			};
 		}
 
-		private void Application_InstanceStarted(IApplicationInstance instance)
+		private void Application_WindowsChanged()
 		{
-			Dispatcher.Invoke(() =>
-			{
-				var button = new TaskbarApplicationInstanceButton(instance, application.Info);
-
-				instance.Terminated += (_) => RemoveInstance(button);
-				InstanceStackPanel.Children.Add(button);
-
-				if (single == default(IApplicationInstance))
-				{
-					single = instance;
-				}
-			});
+			Dispatcher.InvokeAsync(Update);
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			if (InstanceStackPanel.Children.Count == 0)
+			if (WindowStackPanel.Children.Count == 0)
 			{
 				application.Start();
 			}
-			else if (InstanceStackPanel.Children.Count == 1)
+			else if (WindowStackPanel.Children.Count == 1)
 			{
-				single.Activate();
-			}
-			else
-			{
-				InstancePopup.IsOpen = true;
+				single?.Activate();
 			}
 		}
 
-		private void RemoveInstance(TaskbarApplicationInstanceButton button)
+		private void Update()
 		{
-			Dispatcher.InvokeAsync(() =>
-			{
-				InstanceStackPanel.Children.Remove(button);
+			var windows = application.GetWindows();
 
-				if (InstanceStackPanel.Children.Count == 0)
-				{
-					single = default(IApplicationInstance);
-				}
-			});
+			WindowStackPanel.Children.Clear();
+
+			foreach (var window in windows)
+			{
+				WindowStackPanel.Children.Add(new TaskbarApplicationWindowButton(window));
+			}
+
+			if (WindowStackPanel.Children.Count == 1)
+			{
+				single = windows.First();
+			}
+			else
+			{
+				single = default(IApplicationWindow);
+			}
 		}
 	}
 }

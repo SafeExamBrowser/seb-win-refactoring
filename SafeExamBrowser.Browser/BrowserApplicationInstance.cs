@@ -27,7 +27,7 @@ using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 
 namespace SafeExamBrowser.Browser
 {
-	internal class BrowserApplicationInstance : IApplicationInstance
+	internal class BrowserApplicationInstance : IApplicationWindow
 	{
 		private const double ZOOM_FACTOR = 0.2;
 
@@ -49,20 +49,22 @@ namespace SafeExamBrowser.Browser
 			get { return isMainInstance ? settings.MainWindow : settings.AdditionalWindow; }
 		}
 
-		public IconResource Icon { get; private set; }
-		public InstanceIdentifier Id { get; private set; }
-		public string Name { get; private set; }
+		internal BrowserInstanceIdentifier Id { get; private set; }
 
-		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
+		public IconResource Icon { get; private set; }
+		public string Title { get; private set; }
+
+		internal event DownloadRequestedEventHandler ConfigurationDownloadRequested;
+		internal event PopupRequestedEventHandler PopupRequested;
+		internal event InstanceTerminatedEventHandler Terminated;
+
 		public event IconChangedEventHandler IconChanged;
-		public event NameChangedEventHandler NameChanged;
-		public event PopupRequestedEventHandler PopupRequested;
-		public event InstanceTerminatedEventHandler Terminated;
+		public event TitleChangedEventHandler TitleChanged;
 
 		public BrowserApplicationInstance(
 			AppConfig appConfig,
 			BrowserSettings settings,
-			InstanceIdentifier id,
+			BrowserInstanceIdentifier id,
 			bool isMainInstance,
 			IMessageBox messageBox,
 			IModuleLogger logger,
@@ -84,18 +86,18 @@ namespace SafeExamBrowser.Browser
 
 		public void Activate()
 		{
-			window?.BringToForeground();
+			window.BringToForeground();
 		}
 
-		public void Initialize()
+		internal void Initialize()
 		{
 			InitializeControl();
 			InitializeWindow();
 		}
 
-		public void Terminate()
+		internal void Terminate()
 		{
-			window?.Close();
+			window.Close();
 		}
 
 		private void InitializeControl()
@@ -194,9 +196,9 @@ namespace SafeExamBrowser.Browser
 
 		private void Control_TitleChanged(string title)
 		{
-			Name = title;
-			window.UpdateTitle(Name);
-			NameChanged?.Invoke(Name);
+			Title = title;
+			window.UpdateTitle(Title);
+			TitleChanged?.Invoke(Title);
 		}
 
 		private void DisplayHandler_FaviconChanged(string uri)
@@ -267,7 +269,7 @@ namespace SafeExamBrowser.Browser
 				if (url == this.url)
 				{
 					window.UpdateTitle($"*** {title} ***");
-					NameChanged?.Invoke($"*** {title} ***");
+					TitleChanged?.Invoke($"*** {title} ***");
 				}
 
 				messageBox.Show(message, title, parent: window);
