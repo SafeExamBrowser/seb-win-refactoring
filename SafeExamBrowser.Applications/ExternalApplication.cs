@@ -18,8 +18,11 @@ namespace SafeExamBrowser.Applications
 {
 	internal class ExternalApplication : IApplication
 	{
+		private int instanceIdCounter = default(int);
+
 		private string executablePath;
 		private IModuleLogger logger;
+		private INativeMethods nativeMethods;
 		private IList<ExternalApplicationInstance> instances;
 		private IProcessFactory processFactory;
 
@@ -27,18 +30,24 @@ namespace SafeExamBrowser.Applications
 
 		public ApplicationInfo Info { get; }
 
-		internal ExternalApplication(string executablePath, ApplicationInfo info, IModuleLogger logger, IProcessFactory processFactory)
+		internal ExternalApplication(
+			string executablePath,
+			ApplicationInfo info,
+			IModuleLogger logger,
+			INativeMethods nativeMethods,
+			IProcessFactory processFactory)
 		{
 			this.executablePath = executablePath;
 			this.Info = info;
 			this.logger = logger;
+			this.nativeMethods = nativeMethods;
 			this.instances = new List<ExternalApplicationInstance>();
 			this.processFactory = processFactory;
 		}
 
 		public IEnumerable<IApplicationWindow> GetWindows()
 		{
-			return Enumerable.Empty<IApplicationWindow>();
+			return instances.SelectMany(i => i.GetWindows());
 		}
 
 		public void Initialize()
@@ -53,16 +62,25 @@ namespace SafeExamBrowser.Applications
 				logger.Info("Starting application...");
 
 				var process = processFactory.StartNew(executablePath);
-				var id = new ApplicationInstanceIdentifier(process.Id);
-				var instance = new ExternalApplicationInstance(Info.Icon, id, logger.CloneFor($"{Info.Name} {id}"), process);
+				var id = ++instanceIdCounter;
+				var instanceLogger = logger.CloneFor($"{Info.Name} Instance #{id}");
+				var instance = new ExternalApplicationInstance(Info.Icon, id, instanceLogger, nativeMethods, process);
 
 				instance.Initialize();
+				instance.Terminated += Instance_Terminated;
+				instance.WindowsChanged += () => WindowsChanged?.Invoke();
 				instances.Add(instance);
 			}
 			catch (Exception e)
 			{
 				logger.Error("Failed to start application!", e);
 			}
+		}
+
+		private void Instance_Terminated(int id)
+		{
+			instances.Remove(instances.First(i => i.Id == id));
+			WindowsChanged?.Invoke();
 		}
 
 		public void Terminate()

@@ -21,11 +21,13 @@ namespace SafeExamBrowser.Applications
 	public class ApplicationFactory : IApplicationFactory
 	{
 		private IModuleLogger logger;
+		private INativeMethods nativeMethods;
 		private IProcessFactory processFactory;
 
-		public ApplicationFactory(IModuleLogger logger, IProcessFactory processFactory)
+		public ApplicationFactory(IModuleLogger logger, INativeMethods nativeMethods, IProcessFactory processFactory)
 		{
 			this.logger = logger;
+			this.nativeMethods = nativeMethods;
 			this.processFactory = processFactory;
 		}
 
@@ -65,7 +67,7 @@ namespace SafeExamBrowser.Applications
 		{
 			var icon = new IconResource { Type = IconResourceType.Embedded, Uri = new Uri(executablePath) };
 			var info = new ApplicationInfo { AutoStart = settings.AutoStart, Icon = icon, Name = settings.DisplayName, Tooltip = settings.Description ?? settings.DisplayName };
-			var application = new ExternalApplication(executablePath, info, logger.CloneFor(settings.DisplayName), processFactory);
+			var application = new ExternalApplication(executablePath, info, logger.CloneFor(settings.DisplayName), nativeMethods, processFactory);
 
 			return application;
 		}

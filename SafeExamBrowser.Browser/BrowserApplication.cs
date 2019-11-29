@@ -112,9 +112,9 @@ namespace SafeExamBrowser.Browser
 
 		private void CreateNewInstance(string url = null)
 		{
-			var id = new BrowserInstanceIdentifier(++instanceIdCounter);
+			var id = ++instanceIdCounter;
 			var isMainInstance = instances.Count == 0;
-			var instanceLogger = logger.CloneFor($"BrowserInstance {id}");
+			var instanceLogger = logger.CloneFor($"Browser Instance #{id}");
 			var startUrl = url ?? settings.StartUrl;
 			var instance = new BrowserApplicationInstance(appConfig, settings, id, isMainInstance, messageBox, instanceLogger, text, uiFactory, startUrl);
 
@@ -157,10 +157,9 @@ namespace SafeExamBrowser.Browser
 			CreateNewInstance(args.Url);
 		}
 
-		private void Instance_Terminated(InstanceIdentifier id)
+		private void Instance_Terminated(int id)
 		{
-			instances.Remove(instances.FirstOrDefault(i => i.Id == id));
-			logger.Info($"Browser instance {id} was terminated.");
+			instances.Remove(instances.First(i => i.Id == id));
 			WindowsChanged?.Invoke();
 		}
 

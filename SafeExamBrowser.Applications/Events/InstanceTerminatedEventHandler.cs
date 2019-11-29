@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Browser.Events
+namespace SafeExamBrowser.Applications.Events
 {
 	internal delegate void InstanceTerminatedEventHandler(int id);
 }

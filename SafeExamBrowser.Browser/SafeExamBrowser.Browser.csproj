@@ -63,7 +63,6 @@
   <ItemGroup>
     <Compile Include="BrowserApplication.cs" />
     <Compile Include="BrowserApplicationInstance.cs" />
-    <Compile Include="BrowserInstanceIdentifier.cs" />
     <Compile Include="Events\FaviconChangedEventHandler.cs" />
     <Compile Include="Events\InstanceTerminatedEventHandler.cs" />
     <Compile Include="Events\PopupRequestedEventArgs.cs" />

@@ -18,6 +18,11 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 	public interface INativeMethods
 	{
 		/// <summary>
+		/// Brings the window with the given handle to the foreground and activates it.
+		/// </summary>
+		void ActivateWindow(IntPtr handle);
+
+		/// <summary>
 		/// Deregisters a previously registered keyboard hook.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">
@@ -86,7 +91,7 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		string GetWallpaperPath();
 
 		/// <summary>
-		/// Retrieves the title of the specified window, or an empty string, if the given window does not have a title.
+		/// Retrieves the title of the window with the given handle, or an empty string if the given window does not have a title.
 		/// </summary>
 		string GetWindowTitle(IntPtr window);
 

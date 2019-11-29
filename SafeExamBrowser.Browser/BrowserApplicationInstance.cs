@@ -49,7 +49,7 @@ namespace SafeExamBrowser.Browser
 			get { return isMainInstance ? settings.MainWindow : settings.AdditionalWindow; }
 		}
 
-		internal BrowserInstanceIdentifier Id { get; private set; }
+		internal int Id { get; }
 
 		public IconResource Icon { get; private set; }
 		public string Title { get; private set; }
@@ -64,7 +64,7 @@ namespace SafeExamBrowser.Browser
 		public BrowserApplicationInstance(
 			AppConfig appConfig,
 			BrowserSettings settings,
-			BrowserInstanceIdentifier id,
+			int id,
 			bool isMainInstance,
 			IMessageBox messageBox,
 			IModuleLogger logger,
@@ -166,7 +166,7 @@ namespace SafeExamBrowser.Browser
 		private void InitializeWindow()
 		{
 			window = uiFactory.CreateBrowserWindow(control, settings, isMainInstance);
-			window.Closing += () => Terminated?.Invoke(Id);
+			window.Closing += Window_Closing;
 			window.AddressChanged += Window_AddressChanged;
 			window.BackwardNavigationRequested += Window_BackwardNavigationRequested;
 			window.DeveloperConsoleRequested += Window_DeveloperConsoleRequested;
@@ -324,6 +324,12 @@ namespace SafeExamBrowser.Browser
 		{
 			logger.Debug("Navigating backwards...");
 			control.NavigateBackwards();
+		}
+
+		private void Window_Closing()
+		{
+			logger.Info($"Instance has terminated.");
+			Terminated?.Invoke(Id);
 		}
 
 		private void Window_DeveloperConsoleRequested()

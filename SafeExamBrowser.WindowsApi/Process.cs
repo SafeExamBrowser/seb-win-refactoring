@@ -11,12 +11,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management;
-using System.Runtime.InteropServices;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts.Events;
-using SafeExamBrowser.WindowsApi.Types;
 
 namespace SafeExamBrowser.WindowsApi
 {
@@ -68,34 +65,6 @@ namespace SafeExamBrowser.WindowsApi
 			this.namesInitialized = true;
 		}
 
-		public bool TryActivate()
-		{
-			try
-			{
-				var success = true;
-				var placement = new WINDOWPLACEMENT();
-
-				success &= User32.BringWindowToTop(process.MainWindowHandle);
-				success &= User32.SetForegroundWindow(process.MainWindowHandle);
-
-				placement.length = Marshal.SizeOf(placement);
-				User32.GetWindowPlacement(process.MainWindowHandle, ref placement);
-
-				if (placement.showCmd == (int) ShowWindowCommand.ShowMinimized)
-				{
-					success &= User32.ShowWindowAsync(process.MainWindowHandle, (int) ShowWindowCommand.Restore);
-				}
-
-				return success;
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to activate process!", e);
-			}
-
-			return false;
-		}
-
 		public bool TryClose(int timeout_ms = 0)
 		{
 			try
@@ -119,25 +88,6 @@ namespace SafeExamBrowser.WindowsApi
 			catch (Exception e)
 			{
 				logger.Error("Failed to close main window!", e);
-			}
-
-			return false;
-		}
-
-		public bool TryGetWindowTitle(out string title)
-		{
-			title = default(string);
-
-			try
-			{
-				process.Refresh();
-				title = process.MainWindowTitle;
-
-				return true;
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to retrieve title of main window!", e);
 			}
 
 			return false;

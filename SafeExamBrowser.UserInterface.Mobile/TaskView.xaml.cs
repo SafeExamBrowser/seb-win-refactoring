@@ -145,7 +145,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			Left = (SystemParameters.WorkArea.Width - Width) / 2 + SystemParameters.WorkArea.Left;
 			Top = (SystemParameters.WorkArea.Height - Height) / 2 + SystemParameters.WorkArea.Top;
 
-			if (!windows.Any())
+			if (!controls.Any())
 			{
 				Hide();
 			}

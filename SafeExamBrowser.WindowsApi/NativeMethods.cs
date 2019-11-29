@@ -24,34 +24,50 @@ namespace SafeExamBrowser.WindowsApi
 {
 	public class NativeMethods : INativeMethods
 	{
-		private ConcurrentBag<KeyboardHook> KeyboardHooks = new ConcurrentBag<KeyboardHook>();
-		private ConcurrentBag<MouseHook> MouseHooks = new ConcurrentBag<MouseHook>();
-		private ConcurrentBag<SystemHook> SystemHooks = new ConcurrentBag<SystemHook>();
+		private ConcurrentDictionary<Guid, KeyboardHook> KeyboardHooks = new ConcurrentDictionary<Guid, KeyboardHook>();
+		private ConcurrentDictionary<Guid, MouseHook> MouseHooks = new ConcurrentDictionary<Guid, MouseHook>();
+		private ConcurrentDictionary<Guid, SystemHook> SystemHooks = new ConcurrentDictionary<Guid, SystemHook>();
 
 		/// <summary>
 		/// Upon finalization, unregister all active system events and hooks...
 		/// </summary>
 		~NativeMethods()
 		{
-			foreach (var hook in SystemHooks)
+			foreach (var hook in SystemHooks.Values)
 			{
 				hook.Detach();
 			}
 
-			foreach (var hook in KeyboardHooks)
+			foreach (var hook in KeyboardHooks.Values)
 			{
 				hook.Detach();
 			}
 
-			foreach (var hook in MouseHooks)
+			foreach (var hook in MouseHooks.Values)
 			{
 				hook.Detach();
+			}
+		}
+
+		public void ActivateWindow(IntPtr handle)
+		{
+			var placement = new WINDOWPLACEMENT();
+
+			User32.BringWindowToTop(handle);
+			User32.SetForegroundWindow(handle);
+
+			placement.length = Marshal.SizeOf(placement);
+			User32.GetWindowPlacement(handle, ref placement);
+
+			if (placement.showCmd == (int) ShowWindowCommand.ShowMinimized)
+			{
+				User32.ShowWindowAsync(handle, (int) ShowWindowCommand.Restore);
 			}
 		}
 
 		public void DeregisterKeyboardHook(Guid hookId)
 		{
-			var hook = KeyboardHooks.FirstOrDefault(h => h.Id == hookId);
+			var hook = KeyboardHooks.Values.FirstOrDefault(h => h.Id == hookId);
 
 			if (hook != null)
 			{
@@ -62,13 +78,13 @@ namespace SafeExamBrowser.WindowsApi
 					throw new Win32Exception(Marshal.GetLastWin32Error());
 				}
 
-				KeyboardHooks.TryTake(out _);
+				KeyboardHooks.TryRemove(hookId, out _);
 			}
 		}
 
 		public void DeregisterMouseHook(Guid hookId)
 		{
-			var hook = MouseHooks.FirstOrDefault(h => h.Id == hookId);
+			var hook = MouseHooks.Values.FirstOrDefault(h => h.Id == hookId);
 
 			if (hook != null)
 			{
@@ -79,13 +95,13 @@ namespace SafeExamBrowser.WindowsApi
 					throw new Win32Exception(Marshal.GetLastWin32Error());
 				}
 
-				MouseHooks.TryTake(out _);
+				MouseHooks.TryRemove(hookId, out _);
 			}
 		}
 
 		public void DeregisterSystemEventHook(Guid hookId)
 		{
-			var hook = SystemHooks.FirstOrDefault(h => h.Id == hookId);
+			var hook = SystemHooks.Values.FirstOrDefault(h => h.Id == hookId);
 
 			if (hook != null)
 			{
@@ -96,7 +112,7 @@ namespace SafeExamBrowser.WindowsApi
 					throw new Win32Exception(Marshal.GetLastWin32Error());
 				}
 
-				SystemHooks.TryTake(out _);
+				SystemHooks.TryRemove(hookId, out _);
 			}
 		}
 
@@ -254,7 +270,7 @@ namespace SafeExamBrowser.WindowsApi
 
 				hook.Attach();
 				hookId = hook.Id;
-				KeyboardHooks.Add(hook);
+				KeyboardHooks[hookId] = hook;
 				hookReadyEvent.Set();
 
 				while (true)
@@ -283,7 +299,7 @@ namespace SafeExamBrowser.WindowsApi
 
 				hook.Attach();
 				hookId = hook.Id;
-				MouseHooks.Add(hook);
+				MouseHooks[hookId] = hook;
 				hookReadyEvent.Set();
 
 				while (true)
@@ -321,7 +337,7 @@ namespace SafeExamBrowser.WindowsApi
 
 				hook.Attach();
 				hookId = hook.Id;
-				SystemHooks.Add(hook);
+				SystemHooks[hookId] = hook;
 				hookReadyEvent.Set();
 				hook.AwaitDetach();
 			});

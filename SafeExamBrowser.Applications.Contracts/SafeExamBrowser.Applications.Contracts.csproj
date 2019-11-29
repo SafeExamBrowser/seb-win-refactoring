@@ -62,7 +62,6 @@
     <Compile Include="IApplicationFactory.cs" />
     <Compile Include="ApplicationInfo.cs" />
     <Compile Include="IApplicationWindow.cs" />
-    <Compile Include="InstanceIdentifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

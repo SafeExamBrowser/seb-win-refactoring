@@ -55,9 +55,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationFactory.cs" />
-    <Compile Include="ApplicationInstanceIdentifier.cs" />
+    <Compile Include="Events\InstanceTerminatedEventHandler.cs" />
     <Compile Include="ExternalApplication.cs" />
     <Compile Include="ExternalApplicationInstance.cs" />
+    <Compile Include="ExternalApplicationWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
