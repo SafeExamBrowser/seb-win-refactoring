@@ -60,7 +60,6 @@
     <Compile Include="FactoryResult.cs" />
     <Compile Include="IApplication.cs" />
     <Compile Include="IApplicationFactory.cs" />
-    <Compile Include="ApplicationInfo.cs" />
     <Compile Include="IApplicationWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

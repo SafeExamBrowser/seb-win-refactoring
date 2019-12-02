@@ -63,6 +63,11 @@ namespace SafeExamBrowser.Settings.Applications
 		public string ExecutablePath { get; set; }
 
 		/// <summary>
+		/// Unique identifier to be used to identify the application during runtime.
+		/// </summary>
+		public Guid Id { get; }
+
+		/// <summary>
 		/// The original file name of the main executable of the application, if available.
 		/// </summary>
 		public string OriginalName { get; set; }
@@ -80,6 +85,7 @@ namespace SafeExamBrowser.Settings.Applications
 		public WhitelistApplication()
 		{
 			Arguments = new List<string>();
+			Id = Guid.NewGuid();
 		}
 	}
 }

@@ -241,14 +241,17 @@ namespace SafeExamBrowser.Client
 
 		private void AutoStartApplications()
 		{
-			logger.Info("Starting browser application...");
-			Browser.Start();
+			if (Browser.AutoStart)
+			{
+				logger.Info("Auto-starting browser...");
+				Browser.Start();
+			}
 
 			foreach (var application in context.Applications)
 			{
-				if (application.Info.AutoStart)
+				if (application.AutoStart)
 				{
-					logger.Info($"Auto-starting '{application.Info.Name}'...");
+					logger.Info($"Auto-starting '{application.Name}'...");
 					application.Start();
 				}
 			}

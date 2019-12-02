@@ -11,48 +11,68 @@ using System.Collections.Generic;
 using System.Linq;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
+using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Applications;
+using SafeExamBrowser.Settings.Applications;
 using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Applications
 {
 	internal class ExternalApplication : IApplication
 	{
-		private int instanceIdCounter = default(int);
+		private readonly object @lock = new object();
 
+		private IApplicationMonitor applicationMonitor;
 		private string executablePath;
 		private IModuleLogger logger;
 		private INativeMethods nativeMethods;
 		private IList<ExternalApplicationInstance> instances;
 		private IProcessFactory processFactory;
+		private WhitelistApplication settings;
+
+		public bool AutoStart { get; private set; }
+		public IconResource Icon { get; private set; }
+		public Guid Id { get; private set; }
+		public string Name { get; private set; }
+		public string Tooltip { get; private set; }
 
 		public event WindowsChangedEventHandler WindowsChanged;
 
-		public ApplicationInfo Info { get; }
-
 		internal ExternalApplication(
+			IApplicationMonitor applicationMonitor,
 			string executablePath,
-			ApplicationInfo info,
 			IModuleLogger logger,
 			INativeMethods nativeMethods,
-			IProcessFactory processFactory)
+			IProcessFactory processFactory,
+			WhitelistApplication settings)
 		{
+			this.applicationMonitor = applicationMonitor;
 			this.executablePath = executablePath;
-			this.Info = info;
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;
 			this.instances = new List<ExternalApplicationInstance>();
 			this.processFactory = processFactory;
+			this.settings = settings;
 		}
 
 		public IEnumerable<IApplicationWindow> GetWindows()
 		{
-			return instances.SelectMany(i => i.GetWindows());
+			lock (@lock)
+			{
+				return instances.SelectMany(i => i.GetWindows());
+			}
 		}
 
 		public void Initialize()
 		{
-			// Nothing to do here for now.
+			AutoStart = settings.AutoStart;
+			Icon = new IconResource { Type = IconResourceType.Embedded, Uri = new Uri(executablePath) };
+			Id = settings.Id;
+			Name = settings.DisplayName;
+			Tooltip = settings.Description ?? settings.DisplayName;
+
+			applicationMonitor.InstanceStarted += ApplicationMonitor_InstanceStarted;
 		}
 
 		public void Start()
@@ -60,16 +80,7 @@ namespace SafeExamBrowser.Applications
 			try
 			{
 				logger.Info("Starting application...");
-
-				var process = processFactory.StartNew(executablePath);
-				var id = ++instanceIdCounter;
-				var instanceLogger = logger.CloneFor($"{Info.Name} Instance #{id}");
-				var instance = new ExternalApplicationInstance(Info.Icon, id, instanceLogger, nativeMethods, process);
-
-				instance.Initialize();
-				instance.Terminated += Instance_Terminated;
-				instance.WindowsChanged += () => WindowsChanged?.Invoke();
-				instances.Add(instance);
+				InitializeInstance(processFactory.StartNew(executablePath));
 			}
 			catch (Exception e)
 			{
@@ -77,22 +88,55 @@ namespace SafeExamBrowser.Applications
 			}
 		}
 
+		public void Terminate()
+		{
+			applicationMonitor.InstanceStarted -= ApplicationMonitor_InstanceStarted;
+
+			lock (@lock)
+			{
+				if (instances.Any())
+				{
+					logger.Info("Terminating application...");
+
+					foreach (var instance in instances)
+					{
+						instance.Terminate();
+					}
+				}
+			}
+		}
+
+		private void ApplicationMonitor_InstanceStarted(Guid applicationId, IProcess process)
+		{
+			if (applicationId == Id)
+			{
+				logger.Info("New application instance was started.");
+				InitializeInstance(process);
+			}
+		}
+
 		private void Instance_Terminated(int id)
 		{
-			instances.Remove(instances.First(i => i.Id == id));
+			lock (@lock)
+			{
+				instances.Remove(instances.First(i => i.Id == id));
+			}
+
 			WindowsChanged?.Invoke();
 		}
 
-		public void Terminate()
+		private void InitializeInstance(IProcess process)
 		{
-			if (instances.Any())
-			{
-				logger.Info("Terminating application...");
+			var instanceLogger = logger.CloneFor($"{Name} ({process.Id})");
+			var instance = new ExternalApplicationInstance(Icon, instanceLogger, nativeMethods, process);
 
-				foreach (var instance in instances)
-				{
-					instance.Terminate();
-				}
+			instance.Terminated += Instance_Terminated;
+			instance.WindowsChanged += () => WindowsChanged?.Invoke();
+			instance.Initialize();
+
+			lock (@lock)
+			{
+				instances.Add(instance);
 			}
 		}
 	}

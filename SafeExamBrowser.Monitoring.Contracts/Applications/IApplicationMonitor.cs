@@ -22,6 +22,11 @@ namespace SafeExamBrowser.Monitoring.Contracts.Applications
 		event ExplorerStartedEventHandler ExplorerStarted;
 
 		/// <summary>
+		/// Event fired when a new instance of a whitelisted application has been started.
+		/// </summary>
+		event InstanceStartedEventHandler InstanceStarted;
+
+		/// <summary>
 		/// Event fired when the automatic termination of a blacklisted application failed.
 		/// </summary>
 		event TerminationFailedEventHandler TerminationFailed;

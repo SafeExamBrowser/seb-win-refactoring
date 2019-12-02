@@ -33,6 +33,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 		private Window activeWindow;
 
 		public event ExplorerStartedEventHandler ExplorerStarted;
+		public event InstanceStartedEventHandler InstanceStarted;
 		public event TerminationFailedEventHandler TerminationFailed;
 
 		public ApplicationMonitor(int interval_ms, ILogger logger, INativeMethods nativeMethods, IProcessFactory processFactory)
@@ -134,13 +135,17 @@ namespace SafeExamBrowser.Monitoring.Applications
 				logger.Debug($"Process {process} has been started.");
 				processes.Add(process);
 
-				if (process.Name == "explorer")
+				if (process.Name == "explorer.exe")
 				{
 					HandleExplorerStart(process);
 				}
 				else if (!IsAllowed(process) && !TryTerminate(process))
 				{
 					AddFailed(process, failed);
+				}
+				else if (IsWhitelisted(process, out var applicationId))
+				{
+					HandleInstanceStart(applicationId.Value, process);
 				}
 			}
 
@@ -238,6 +243,12 @@ namespace SafeExamBrowser.Monitoring.Applications
 			Task.Run(() => ExplorerStarted?.Invoke());
 		}
 
+		private void HandleInstanceStart(Guid applicationId, IProcess process)
+		{
+			logger.Debug($"Detected start of whitelisted application instance {process}.");
+			Task.Run(() => InstanceStarted?.Invoke(applicationId, process));
+		}
+
 		private void InitializeProcesses()
 		{
 			processes = processFactory.GetAllRunning();
@@ -329,24 +340,33 @@ namespace SafeExamBrowser.Monitoring.Applications
 			
 			if (processFactory.TryGetById(processId, out var process))
 			{
-				if (BelongsToSafeExamBrowser(process))
+				if (BelongsToSafeExamBrowser(process) || IsWhitelisted(process, out _))
 				{
 					return true;
 				}
 
-				foreach (var application in whitelist)
-				{
-					if (BelongsToApplication(process, application))
-					{
-						return true;
-					}
-				}
-
-				logger.Warn($"Window {window} belongs to not allowed process '{process.Name}'!");
+				logger.Warn($"Window {window} belongs to not whitelisted process '{process.Name}'!");
 			}
 			else
 			{
-				logger.Error($"Could not find process for window {window} and process with ID = {processId}!");
+				logger.Error($"Could not find process for window {window} and process ID = {processId}!");
+			}
+
+			return false;
+		}
+
+		private bool IsWhitelisted(IProcess process, out Guid? applicationId)
+		{
+			applicationId = default(Guid?);
+
+			foreach (var application in whitelist)
+			{
+				if (BelongsToApplication(process, application))
+				{
+					applicationId = application.Id;
+
+					return true;
+				}
 			}
 
 			return false;

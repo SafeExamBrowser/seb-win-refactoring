@@ -98,8 +98,8 @@ namespace SafeExamBrowser.Client
 			taskView = BuildTaskView();
 
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
-			var applicationFactory = new ApplicationFactory(ModuleLogger(nameof(ApplicationFactory)), nativeMethods, processFactory);
-			var applicationMonitor = new ApplicationMonitor(TWO_SECONDS, ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, new ProcessFactory(ModuleLogger(nameof(ProcessFactory))));
+			var applicationMonitor = new ApplicationMonitor(TWO_SECONDS, ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, processFactory);
+			var applicationFactory = new ApplicationFactory(applicationMonitor, ModuleLogger(nameof(ApplicationFactory)), nativeMethods, processFactory);
 			var displayMonitor = new DisplayMonitor(ModuleLogger(nameof(DisplayMonitor)), nativeMethods, systemInfo);
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
 			var hashAlgorithm = new HashAlgorithm();

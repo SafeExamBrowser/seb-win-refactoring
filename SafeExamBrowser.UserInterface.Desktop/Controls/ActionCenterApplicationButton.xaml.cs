@@ -16,14 +16,14 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 {
 	public partial class ActionCenterApplicationButton : UserControl
 	{
-		private ApplicationInfo info;
+		private IApplication application;
 		private IApplicationWindow window;
 
 		internal event EventHandler Clicked;
 
-		public ActionCenterApplicationButton(ApplicationInfo info, IApplicationWindow window = null)
+		public ActionCenterApplicationButton(IApplication application, IApplicationWindow window = null)
 		{
-			this.info = info;
+			this.application = application;
 			this.window = window;
 
 			InitializeComponent();
@@ -32,10 +32,10 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 		private void InitializeApplicationInstanceButton()
 		{
-			Icon.Content = IconResourceLoader.Load(info.Icon);
-			Text.Text = window?.Title ?? info.Name;
+			Icon.Content = IconResourceLoader.Load(application.Icon);
+			Text.Text = window?.Title ?? application.Name;
 			Button.Click += (o, args) => Clicked?.Invoke(this, EventArgs.Empty);
-			Button.ToolTip = window?.Title ?? info.Tooltip;
+			Button.ToolTip = window?.Title ?? application.Tooltip;
 
 			if (window != null)
 			{

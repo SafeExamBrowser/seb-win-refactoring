@@ -6,8 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Applications.Contracts.Events;
+using SafeExamBrowser.Core.Contracts;
 
 namespace SafeExamBrowser.Applications.Contracts
 {
@@ -17,9 +19,29 @@ namespace SafeExamBrowser.Applications.Contracts
 	public interface IApplication
 	{
 		/// <summary>
-		/// Provides information about the application.
+		/// Indicates whether the application should be automatically started.
 		/// </summary>
-		ApplicationInfo Info { get; }
+		bool AutoStart { get; }
+
+		/// <summary>
+		/// The resource providing the application icon.
+		/// </summary>
+		IconResource Icon { get; }
+
+		/// <summary>
+		/// The unique identifier of the application.
+		/// </summary>
+		Guid Id { get; }
+
+		/// <summary>
+		/// The name of the application.
+		/// </summary>
+		string Name { get; }
+
+		/// <summary>
+		/// The tooltip for the application.
+		/// </summary>
+		string Tooltip { get; }
 
 		/// <summary>
 		/// Event fired when the windows of the application have changed.

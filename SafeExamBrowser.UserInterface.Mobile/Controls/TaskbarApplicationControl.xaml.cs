@@ -38,10 +38,10 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 			application.WindowsChanged += Application_WindowsChanged;
 
 			Button.Click += Button_Click;
-			Button.Content = IconResourceLoader.Load(application.Info.Icon);
+			Button.Content = IconResourceLoader.Load(application.Icon);
 			Button.MouseEnter += (o, args) => WindowPopup.IsOpen = WindowStackPanel.Children.Count > 0;
 			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => WindowPopup.IsOpen = WindowPopup.IsMouseOver));
-			Button.ToolTip = application.Info.Tooltip;
+			Button.ToolTip = application.Tooltip;
 			WindowPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => WindowPopup.IsOpen = IsMouseOver));
 
 			WindowPopup.Opened += (o, args) =>

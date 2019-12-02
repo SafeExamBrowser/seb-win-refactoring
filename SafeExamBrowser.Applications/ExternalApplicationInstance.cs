@@ -30,15 +30,14 @@ namespace SafeExamBrowser.Applications
 		private Timer timer;
 		private IList<ExternalApplicationWindow> windows;
 
-		internal int Id { get; }
+		internal int Id { get; private set; }
 
 		internal event InstanceTerminatedEventHandler Terminated;
 		internal event WindowsChangedEventHandler WindowsChanged;
 
-		internal ExternalApplicationInstance(IconResource icon, int id, ILogger logger, INativeMethods nativeMethods, IProcess process)
+		internal ExternalApplicationInstance(IconResource icon, ILogger logger, INativeMethods nativeMethods, IProcess process)
 		{
 			this.icon = icon;
-			this.Id = id;
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;
 			this.process = process;
@@ -55,6 +54,7 @@ namespace SafeExamBrowser.Applications
 
 		internal void Initialize()
 		{
+			Id = process.Id;
 			InitializeEvents();
 			logger.Info("Initialized application instance.");
 		}
@@ -106,7 +106,7 @@ namespace SafeExamBrowser.Applications
 			lock (@lock)
 			{
 				var closedWindows = windows.Where(w => openWindows.All(ow => ow != w.Handle)).ToList();
-				var openedWindows = openWindows.Where(ow => windows.All(w => w.Handle != ow) && BelongsToInstance(ow));
+				var openedWindows = openWindows.Where(ow => windows.All(w => w.Handle != ow) && BelongsToInstance(ow)).ToList();
 
 				foreach (var window in closedWindows)
 				{
@@ -128,7 +128,6 @@ namespace SafeExamBrowser.Applications
 
 			if (changed)
 			{
-				logger.Error("WINDOWS CHANGED!");
 				WindowsChanged?.Invoke();
 			}
 

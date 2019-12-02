@@ -54,6 +54,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Applications\Events\InstanceStartedEventHandler.cs" />
     <Compile Include="Applications\Events\TerminationFailedEventHandler.cs" />
     <Compile Include="Applications\RunningApplication.cs" />
     <Compile Include="Display\Events\DisplayChangedEventHandler.cs" />

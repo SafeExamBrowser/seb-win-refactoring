@@ -11,8 +11,8 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Win32;
 using SafeExamBrowser.Applications.Contracts;
-using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Settings.Applications;
 using SafeExamBrowser.WindowsApi.Contracts;
 
@@ -20,12 +20,18 @@ namespace SafeExamBrowser.Applications
 {
 	public class ApplicationFactory : IApplicationFactory
 	{
+		private IApplicationMonitor applicationMonitor;
 		private IModuleLogger logger;
 		private INativeMethods nativeMethods;
 		private IProcessFactory processFactory;
 
-		public ApplicationFactory(IModuleLogger logger, INativeMethods nativeMethods, IProcessFactory processFactory)
+		public ApplicationFactory(
+			IApplicationMonitor applicationMonitor,
+			IModuleLogger logger,
+			INativeMethods nativeMethods,
+			IProcessFactory processFactory)
 		{
+			this.applicationMonitor = applicationMonitor;
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;
 			this.processFactory = processFactory;
@@ -65,9 +71,8 @@ namespace SafeExamBrowser.Applications
 
 		private IApplication BuildApplication(string executablePath, WhitelistApplication settings)
 		{
-			var icon = new IconResource { Type = IconResourceType.Embedded, Uri = new Uri(executablePath) };
-			var info = new ApplicationInfo { AutoStart = settings.AutoStart, Icon = icon, Name = settings.DisplayName, Tooltip = settings.Description ?? settings.DisplayName };
-			var application = new ExternalApplication(executablePath, info, logger.CloneFor(settings.DisplayName), nativeMethods, processFactory);
+			var applicationLogger = logger.CloneFor(settings.DisplayName);
+			var application = new ExternalApplication(applicationMonitor, executablePath, applicationLogger, nativeMethods, processFactory, settings);
 
 			return application;
 		}

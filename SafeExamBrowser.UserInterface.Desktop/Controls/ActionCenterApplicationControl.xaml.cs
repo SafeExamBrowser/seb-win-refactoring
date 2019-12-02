@@ -27,11 +27,11 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 		private void InitializeApplicationControl()
 		{
-			var button = new ActionCenterApplicationButton(application.Info);
+			var button = new ActionCenterApplicationButton(application);
 
 			application.WindowsChanged += Application_WindowsChanged;
 			button.Clicked += (o, args) => application.Start();
-			ApplicationName.Text = application.Info.Name;
+			ApplicationName.Text = application.Name;
 			ApplicationName.Visibility = Visibility.Collapsed;
 			ApplicationButton.Content = button;
 		}
@@ -49,7 +49,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 
 			foreach (var window in windows)
 			{
-				var button = new ActionCenterApplicationButton(application.Info, window);
+				var button = new ActionCenterApplicationButton(application, window);
 
 				button.Clicked += (o, args) => window.Activate();
 				WindowPanel.Children.Add(button);

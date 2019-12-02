@@ -40,7 +40,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		private AppConfig appConfig;
 		private Mock<IActionCenter> actionCenter;
 		private Mock<IApplicationMonitor> applicationMonitor;
-		private Mock<IBrowserApplication> browserController;
+		private Mock<IBrowserApplication> browser;
 		private Mock<IClientHost> clientHost;
 		private ClientContext context;
 		private Mock<IDisplayMonitor> displayMonitor;
@@ -66,7 +66,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			appConfig = new AppConfig();
 			actionCenter = new Mock<IActionCenter>();
 			applicationMonitor = new Mock<IApplicationMonitor>();
-			browserController = new Mock<IBrowserApplication>();
+			browser = new Mock<IBrowserApplication>();
 			clientHost = new Mock<IClientHost>();
 			context = new ClientContext();
 			displayMonitor = new Mock<IDisplayMonitor>();
@@ -106,7 +106,7 @@ namespace SafeExamBrowser.Client.UnitTests
 
 			context.AppConfig = appConfig;
 			context.Activators.Add(terminationActivator.Object);
-			context.Browser = browserController.Object;
+			context.Browser = browser.Object;
 			context.ClientHost = clientHost.Object;
 			context.SessionId = sessionId;
 			context.Settings = settings;
@@ -300,7 +300,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				It.IsAny<IWindow>())).Returns(MessageBoxResult.Ok);
 
 			sut.TryStart();
-			browserController.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", new DownloadEventArgs());
+			browser.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", new DownloadEventArgs());
 		}
 
 		[TestMethod]
@@ -321,7 +321,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			runtimeProxy.Setup(r => r.RequestReconfiguration(It.Is<string>(p => p == downloadPath))).Returns(new CommunicationResult(true));
 
 			sut.TryStart();
-			browserController.Raise(b => b.ConfigurationDownloadRequested += null, filename, args);
+			browser.Raise(b => b.ConfigurationDownloadRequested += null, filename, args);
 			args.Callback(true, downloadPath);
 
 			runtimeProxy.Verify(r => r.RequestReconfiguration(It.Is<string>(p => p == downloadPath)), Times.Once);
@@ -348,7 +348,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			runtimeProxy.Setup(r => r.RequestReconfiguration(It.Is<string>(p => p == downloadPath))).Returns(new CommunicationResult(true));
 
 			sut.TryStart();
-			browserController.Raise(b => b.ConfigurationDownloadRequested += null, filename, args);
+			browser.Raise(b => b.ConfigurationDownloadRequested += null, filename, args);
 			args.Callback(false, downloadPath);
 
 			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>()), Times.Never);
@@ -372,7 +372,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			runtimeProxy.Setup(r => r.RequestReconfiguration(It.Is<string>(p => p == downloadPath))).Returns(new CommunicationResult(false));
 
 			sut.TryStart();
-			browserController.Raise(b => b.ConfigurationDownloadRequested += null, filename, args);
+			browser.Raise(b => b.ConfigurationDownloadRequested += null, filename, args);
 			args.Callback(true, downloadPath);
 
 			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>()), Times.Once);
@@ -632,9 +632,9 @@ namespace SafeExamBrowser.Client.UnitTests
 			var application2 = new Mock<IApplication>();
 			var application3 = new Mock<IApplication>();
 
-			application1.SetupGet(a => a.Info).Returns(new ApplicationInfo { AutoStart = true });
-			application2.SetupGet(a => a.Info).Returns(new ApplicationInfo { AutoStart = false });
-			application3.SetupGet(a => a.Info).Returns(new ApplicationInfo { AutoStart = true });
+			application1.SetupGet(a => a.AutoStart).Returns(true);
+			application2.SetupGet(a => a.AutoStart).Returns(false);
+			application3.SetupGet(a => a.AutoStart).Returns(true);
 			context.Applications.Add(application1.Object);
 			context.Applications.Add(application2.Object);
 			context.Applications.Add(application3.Object);
@@ -645,6 +645,23 @@ namespace SafeExamBrowser.Client.UnitTests
 			application1.Verify(a => a.Start(), Times.Once);
 			application2.Verify(a => a.Start(), Times.Never);
 			application3.Verify(a => a.Start(), Times.Once);
+		}
+
+		[TestMethod]
+		public void Startup_MustAutoStartBrowser()
+		{
+			browser.SetupGet(b => b.AutoStart).Returns(true);
+			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
+
+			sut.TryStart();
+
+			browser.Verify(b => b.Start(), Times.Once);
+			browser.Reset();
+			browser.SetupGet(b => b.AutoStart).Returns(false);
+
+			sut.TryStart();
+
+			browser.Verify(b => b.Start(), Times.Never);
 		}
 
 		[TestMethod]

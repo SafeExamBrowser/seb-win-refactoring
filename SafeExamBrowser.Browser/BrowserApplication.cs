@@ -17,6 +17,7 @@ using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Logging;
@@ -38,7 +39,11 @@ namespace SafeExamBrowser.Browser
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 
-		public ApplicationInfo Info { get; private set; }
+		public bool AutoStart { get; private set; }
+		public IconResource Icon { get; private set; }
+		public Guid Id { get; private set; }
+		public string Name { get; private set; }
+		public string Tooltip { get; private set; }
 
 		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 		public event WindowsChangedEventHandler WindowsChanged;
@@ -102,12 +107,11 @@ namespace SafeExamBrowser.Browser
 
 		private void InitializeApplicationInfo()
 		{
-			Info = new ApplicationInfo
-			{
-				Icon = new BrowserIconResource(),
-				Name = "Safe Exam Browser",
-				Tooltip = text.Get(TextKey.Browser_Tooltip)
-			};
+			AutoStart = true;
+			Icon = new BrowserIconResource();
+			Id = Guid.NewGuid();
+			Name = text.Get(TextKey.Browser_Name);
+			Tooltip = text.Get(TextKey.Browser_Tooltip);
 		}
 
 		private void CreateNewInstance(string url = null)
