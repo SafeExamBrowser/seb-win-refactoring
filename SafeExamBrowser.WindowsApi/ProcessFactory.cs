@@ -36,14 +36,14 @@ namespace SafeExamBrowser.WindowsApi
 		{
 			var processes = new List<IProcess>();
 			var running = System.Diagnostics.Process.GetProcesses();
-			var names = LoadProcessNames();
+			var names = LoadAllProcessNames();
 
 			foreach (var process in running)
 			{
 				var name = names.FirstOrDefault(n => n.processId == process.Id).name;
 				var originalName = names.FirstOrDefault(n => n.processId == process.Id).originalName;
 
-				processes.Add(new Process(process, name, originalName, LoggerFor(process)));
+				processes.Add(new Process(process, name, originalName, LoggerFor(process, name)));
 			}
 
 			return processes;
@@ -64,7 +64,8 @@ namespace SafeExamBrowser.WindowsApi
 				raw = System.Diagnostics.Process.Start(path, string.Join(" ", args));
 			}
 
-			var process = new Process(raw, LoggerFor(raw));
+			var (name, originalName) = LoadProcessNamesFor(raw);
+			var process = new Process(raw, name, originalName, LoggerFor(raw, name));
 
 			logger.Info($"Successfully started process '{path}' with ID = {process.Id}.");
 
@@ -102,13 +103,15 @@ namespace SafeExamBrowser.WindowsApi
 
 			if (raw != default(System.Diagnostics.Process))
 			{
-				process = new Process(raw, LoggerFor(raw));
+				var (name, originalName) = LoadProcessNamesFor(raw);
+
+				process = new Process(raw, name, originalName, LoggerFor(raw, name));
 			}
 
 			return process != default(IProcess);
 		}
 
-		private IEnumerable<(int processId, string name, string originalName)> LoadProcessNames()
+		private IEnumerable<(int processId, string name, string originalName)> LoadAllProcessNames()
 		{
 			var names = new List<(int, string, string)>();
 
@@ -147,9 +150,38 @@ namespace SafeExamBrowser.WindowsApi
 			return names;
 		}
 
-		private ILogger LoggerFor(System.Diagnostics.Process process)
+		private (string name, string originalName) LoadProcessNamesFor(System.Diagnostics.Process process)
 		{
-			return logger.CloneFor($"{nameof(Process)} '{process.ProcessName}' ({process.Id})");
+			var name = process.ProcessName;
+			var originalName = default(string);
+
+			try
+			{
+				using (var searcher = new ManagementObjectSearcher($"SELECT Name, ExecutablePath FROM Win32_Process WHERE ProcessId = {process.Id}"))
+				using (var results = searcher.Get())
+				using (var processData = results.Cast<ManagementObject>().First())
+				{
+					var executablePath = Convert.ToString(processData["ExecutablePath"]);
+
+					name = Convert.ToString(processData["Name"]);
+
+					if (File.Exists(executablePath))
+					{
+						originalName = FileVersionInfo.GetVersionInfo(executablePath).OriginalFilename;
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to load process names for {process.ProcessName}!", e);
+			}
+
+			return (name, originalName);
+		}
+
+		private ILogger LoggerFor(System.Diagnostics.Process process, string name)
+		{
+			return logger.CloneFor($"{nameof(Process)} '{name}' ({process.Id})");
 		}
 	}
 }

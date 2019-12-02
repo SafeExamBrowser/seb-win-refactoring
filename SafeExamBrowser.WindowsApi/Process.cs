@@ -7,10 +7,6 @@
  */
 
 using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Management;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts.Events;
@@ -19,32 +15,24 @@ namespace SafeExamBrowser.WindowsApi
 {
 	internal class Process : IProcess
 	{
-		private bool eventInitialized, namesInitialized;
+		private bool eventInitialized;
 		private ILogger logger;
-		private string name, originalName;
 		private System.Diagnostics.Process process;
-
-		private event ProcessTerminatedEventHandler TerminatedEvent;
-
-		public int Id
-		{
-			get { return process.Id; }
-		}
 
 		public bool HasTerminated
 		{
 			get { return IsTerminated(); }
 		}
 
-		public string Name
+		public int Id
 		{
-			get { return namesInitialized ? name : InitializeNames().name; }
+			get { return process.Id; }
 		}
 
-		public string OriginalName
-		{
-			get { return namesInitialized ? originalName : InitializeNames().originalName; }
-		}
+		public string Name { get; }
+		public string OriginalName { get; }
+
+		private event ProcessTerminatedEventHandler TerminatedEvent;
 
 		public event ProcessTerminatedEventHandler Terminated
 		{
@@ -52,17 +40,12 @@ namespace SafeExamBrowser.WindowsApi
 			remove { TerminatedEvent -= value; }
 		}
 
-		internal Process(System.Diagnostics.Process process, ILogger logger)
+		internal Process(System.Diagnostics.Process process, string name, string originalName, ILogger logger)
 		{
-			this.process = process;
 			this.logger = logger;
-		}
-
-		internal Process(System.Diagnostics.Process process, string name, string originalName, ILogger logger) : this(process, logger)
-		{
-			this.name = name;
-			this.originalName = originalName;
-			this.namesInitialized = true;
+			this.process = process;
+			this.Name = name;
+			this.OriginalName = originalName;
 		}
 
 		public bool TryClose(int timeout_ms = 0)
@@ -142,42 +125,6 @@ namespace SafeExamBrowser.WindowsApi
 				process.EnableRaisingEvents = true;
 				logger.Debug("Initialized termination event.");
 			}
-		}
-
-		private (string name, string originalName) InitializeNames()
-		{
-			name = process.ProcessName;
-
-			try
-			{
-				using (var searcher = new ManagementObjectSearcher($"SELECT Name, ExecutablePath FROM Win32_Process WHERE ProcessId = {process.Id}"))
-				using (var results = searcher.Get())
-				using (var processData = results.Cast<ManagementObject>().First())
-				{
-					var executablePath = Convert.ToString(processData["ExecutablePath"]);
-
-					name = Convert.ToString(processData["Name"]);
-
-					if (File.Exists(executablePath))
-					{
-						originalName = FileVersionInfo.GetVersionInfo(executablePath).OriginalFilename;
-					}
-					else
-					{
-						logger.Warn("Could not find original name!");
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to initialize names!", e);
-			}
-			finally
-			{
-				namesInitialized = true;
-			}
-
-			return (name, originalName);
 		}
 
 		private bool WaitForTermination(int timeout_ms)
