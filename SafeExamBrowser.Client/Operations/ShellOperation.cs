@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Linq;
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
@@ -184,16 +185,21 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			foreach (var application in Context.Applications)
 			{
-				var control = uiFactory.CreateApplicationControl(application, location);
+				var settings = Context.Settings.Applications.Whitelist.First(a => a.Id == application.Id);
 
-				switch (location)
+				if (settings.ShowInShell)
 				{
-					case Location.ActionCenter:
-						actionCenter.AddApplicationControl(control);
-						break;
-					case Location.Taskbar:
-						taskbar.AddApplicationControl(control);
-						break;
+					var control = uiFactory.CreateApplicationControl(application, location);
+
+					switch (location)
+					{
+						case Location.ActionCenter:
+							actionCenter.AddApplicationControl(control);
+							break;
+						case Location.Taskbar:
+							taskbar.AddApplicationControl(control);
+							break;
+					}
 				}
 			}
 		}

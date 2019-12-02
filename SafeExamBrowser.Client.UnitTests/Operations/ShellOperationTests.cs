@@ -175,6 +175,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void TODO()
 		{
 			// TODO: Only start activator if ALT+TAB enabled! -> Perform_MustInitializeTaskView
+			// TODO: Test correct initialization of applications (including ShowInShell setting)!
 			Assert.Fail("TODO");
 		}
 
