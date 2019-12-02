@@ -108,10 +108,15 @@ namespace SafeExamBrowser.Applications
 
 		private void ApplicationMonitor_InstanceStarted(Guid applicationId, IProcess process)
 		{
-			if (applicationId == Id)
+			lock (@lock)
 			{
-				logger.Info("New application instance was started.");
-				InitializeInstance(process);
+				var isNewInstance = instances.All(i => i.Id != process.Id);
+
+				if (applicationId == Id && isNewInstance)
+				{
+					logger.Info("New application instance was started.");
+					InitializeInstance(process);
+				}
 			}
 		}
 
@@ -127,15 +132,15 @@ namespace SafeExamBrowser.Applications
 
 		private void InitializeInstance(IProcess process)
 		{
-			var instanceLogger = logger.CloneFor($"{Name} ({process.Id})");
-			var instance = new ExternalApplicationInstance(Icon, instanceLogger, nativeMethods, process);
-
-			instance.Terminated += Instance_Terminated;
-			instance.WindowsChanged += () => WindowsChanged?.Invoke();
-			instance.Initialize();
-
 			lock (@lock)
 			{
+				var instanceLogger = logger.CloneFor($"{Name} ({process.Id})");
+				var instance = new ExternalApplicationInstance(Icon, instanceLogger, nativeMethods, process);
+
+				instance.Terminated += Instance_Terminated;
+				instance.WindowsChanged += () => WindowsChanged?.Invoke();
+				instance.Initialize();
+
 				instances.Add(instance);
 			}
 		}
