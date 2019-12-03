@@ -12,8 +12,8 @@ using System.Linq;
 using System.Timers;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
+using SafeExamBrowser.Applications.Contracts.Resources.Icons;
 using SafeExamBrowser.Applications.Events;
-using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts;
 

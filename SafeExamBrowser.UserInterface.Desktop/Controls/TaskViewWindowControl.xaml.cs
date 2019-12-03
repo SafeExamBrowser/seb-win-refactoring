@@ -9,7 +9,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using SafeExamBrowser.Applications.Contracts;
-using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.Applications.Contracts.Resources.Icons;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls

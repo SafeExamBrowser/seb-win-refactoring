@@ -14,9 +14,9 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using SafeExamBrowser.Settings.Browser;
-using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.Applications.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
@@ -106,7 +106,13 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		public void UpdateIcon(IconResource icon)
 		{
-			Dispatcher.InvokeAsync(() => Icon = new BitmapImage(icon.Uri));
+			Dispatcher.InvokeAsync(() =>
+			{
+				if (icon is BitmapIconResource bitmap)
+				{
+					Icon = new BitmapImage(bitmap.Uri);
+				}
+			});
 		}
 
 		public void UpdateLoadingState(bool isLoading)
@@ -287,14 +293,10 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		private void LoadIcons()
 		{
-			var backUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/NavigateBack.xaml");
-			var forwardUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/NavigateForward.xaml");
-			var menuUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Menu.xaml");
-			var reloadUri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Reload.xaml");
-			var backward = new IconResource { Type = IconResourceType.Xaml, Uri = backUri };
-			var forward = new IconResource { Type = IconResourceType.Xaml, Uri = forwardUri };
-			var menu = new IconResource { Type = IconResourceType.Xaml, Uri = menuUri };
-			var reload = new IconResource { Type = IconResourceType.Xaml, Uri = reloadUri };
+			var backward = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/NavigateBack.xaml") };
+			var forward = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/NavigateForward.xaml") };
+			var menu = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Menu.xaml") };
+			var reload = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Reload.xaml") };
 
 			BackwardButton.Content = IconResourceLoader.Load(backward);
 			ForwardButton.Content = IconResourceLoader.Load(forward);

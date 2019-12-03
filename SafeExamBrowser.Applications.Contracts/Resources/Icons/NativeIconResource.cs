@@ -8,21 +8,16 @@
 
 using System;
 
-namespace SafeExamBrowser.Core.Contracts
+namespace SafeExamBrowser.Applications.Contracts.Resources.Icons
 {
 	/// <summary>
-	/// Defines an icon resource, i.e. the path to and type of an icon.
+	/// Defines an icon resource which is managed by the operating system.
 	/// </summary>
-	public class IconResource
+	public class NativeIconResource : IconResource
 	{
 		/// <summary>
-		/// Defines the data type of the resource.
+		/// The handle of the icon.
 		/// </summary>
-		public IconResourceType Type { get; set; }
-
-		/// <summary>
-		/// The <see cref="System.Uri"/> pointing to the icon data.
-		/// </summary>
-		public Uri Uri { get; set; }
+		public IntPtr Handle { get; set; }
 	}
 }

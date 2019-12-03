@@ -12,7 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
-using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.Applications.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -50,8 +50,8 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
 			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
 			MuteButton.Click += MuteButton_Click;
-			MutedIcon = new IconResource { Type = IconResourceType.Xaml, Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Audio_Muted.xaml") };
-			NoDeviceIcon = new IconResource { Type = IconResourceType.Xaml, Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Audio_NoDevice.xaml") };
+			MutedIcon = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Audio_Muted.xaml") };
+			NoDeviceIcon = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Audio_NoDevice.xaml") };
 			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
 			Volume.ValueChanged += Volume_ValueChanged;
 
@@ -154,7 +154,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 		{
 			var icon = volume > 0.66 ? "100" : (volume > 0.33 ? "66" : "33");
 			var uri = new Uri($"pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Audio_{icon}.xaml");
-			var resource = new IconResource { Type = IconResourceType.Xaml, Uri = uri };
+			var resource = new XamlIconResource { Uri = uri };
 
 			return IconResourceLoader.Load(resource);
 		}

@@ -9,7 +9,7 @@
 using System;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
-using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.Applications.Contracts.Resources.Icons;
 using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Applications
@@ -19,10 +19,10 @@ namespace SafeExamBrowser.Applications
 		private INativeMethods nativeMethods;
 
 		internal IntPtr Handle { get; }
-		public IconResource Icon { get; }
+		public IconResource Icon { get; private set; }
 		public string Title { get; private set; }
 
-		public event IconChangedEventHandler IconChanged { add { } remove { } }
+		public event IconChangedEventHandler IconChanged;
 		public event TitleChangedEventHandler TitleChanged;
 
 		internal ExternalApplicationWindow(IconResource icon, INativeMethods nativeMethods, IntPtr handle)
@@ -39,10 +39,18 @@ namespace SafeExamBrowser.Applications
 
 		internal void Update()
 		{
+			var icon = nativeMethods.GetWindowIcon(Handle);
+			var iconChanged = icon != IntPtr.Zero && (!(Icon is NativeIconResource) || Icon is NativeIconResource r && r.Handle != icon);
 			var title = nativeMethods.GetWindowTitle(Handle);
-			var hasChanged = Title?.Equals(title, StringComparison.Ordinal) != true;
+			var titleChanged = Title?.Equals(title, StringComparison.Ordinal) != true;
 
-			if (hasChanged)
+			if (iconChanged)
+			{
+				Icon = new NativeIconResource { Handle = icon };
+				IconChanged?.Invoke(Icon);
+			}
+
+			if (titleChanged)
 			{
 				Title = title;
 				TitleChanged?.Invoke(title);

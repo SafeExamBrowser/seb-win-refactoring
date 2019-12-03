@@ -7,8 +7,8 @@
  */
 
 using System;
+using SafeExamBrowser.Applications.Contracts.Resources.Icons;
 using SafeExamBrowser.Client.Contracts;
-using SafeExamBrowser.Core.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 
 namespace SafeExamBrowser.Client.Notifications
@@ -20,11 +20,7 @@ namespace SafeExamBrowser.Client.Notifications
 
 		public AboutNotificationInfo(IText text)
 		{
-			IconResource =  new IconResource
-			{
-				Type = IconResourceType.Xaml,
-				Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/AboutNotification.xaml")
-			};
+			IconResource =  new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/AboutNotification.xaml") };
 			Tooltip = text.Get(TextKey.Notification_AboutTooltip);
 		}
 	}

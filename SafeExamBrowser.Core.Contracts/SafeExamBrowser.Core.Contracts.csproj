@@ -54,8 +54,6 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IconResource.cs" />
-    <Compile Include="IconResourceType.cs" />
     <Compile Include="OperationModel\Events\ActionRequiredEventArgs.cs" />
     <Compile Include="OperationModel\Events\ActionRequiredEventHandler.cs" />
     <Compile Include="OperationModel\Events\ProgressChangedEventArgs.cs" />

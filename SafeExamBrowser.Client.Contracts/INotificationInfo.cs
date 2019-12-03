@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.Applications.Contracts.Resources.Icons;
 
 namespace SafeExamBrowser.Client.Contracts
 {

@@ -10,7 +10,7 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.Applications.Contracts.Resources.Icons;
 using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
@@ -34,7 +34,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 		private void LoadIcon()
 		{
 			var uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ShutDown.xaml");
-			var resource = new IconResource { Type = IconResourceType.Xaml, Uri = uri };
+			var resource = new XamlIconResource { Uri = uri };
 
 			Button.Content = IconResourceLoader.Load(resource);
 		}

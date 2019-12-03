@@ -9,7 +9,7 @@
 using System;
 using System.Windows.Controls;
 using SafeExamBrowser.Applications.Contracts;
-using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.Applications.Contracts.Resources.Icons;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Controls
@@ -32,7 +32,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 
 		private void InitializeApplicationInstanceButton()
 		{
-			Icon.Content = IconResourceLoader.Load(application.Icon);
+			Icon.Content = IconResourceLoader.Load(window?.Icon ?? application.Icon);
 			Text.Text = window?.Title ?? application.Name;
 			Button.Click += (o, args) => Clicked?.Invoke(this, EventArgs.Empty);
 			Button.ToolTip = window?.Title ?? application.Tooltip;

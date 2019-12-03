@@ -91,6 +91,11 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		string GetWallpaperPath();
 
 		/// <summary>
+		/// Attempts to retrieve the icon of the given window. Returns a handle to the icon, or <see cref="IntPtr.Zero"/> if the icon could not be retrieved.
+		/// </summary>
+		IntPtr GetWindowIcon(IntPtr window);
+
+		/// <summary>
 		/// Retrieves the title of the window with the given handle, or an empty string if the given window does not have a title.
 		/// </summary>
 		string GetWindowTitle(IntPtr window);

@@ -28,6 +28,22 @@ namespace SafeExamBrowser.WindowsApi.Constants
 		internal const uint EVENT_SYSTEM_FOREGROUND = 0x3;
 
 		/// <summary>
+		/// The large icon of a window. See https://docs.microsoft.com/en-us/windows/win32/winmsg/wm-geticon#parameters.
+		/// </summary>
+		internal const int ICON_BIG = 1;
+
+		/// <summary>
+		/// The small icon of a window. See https://docs.microsoft.com/en-us/windows/win32/winmsg/wm-geticon#parameters.
+		/// </summary>
+		internal const int ICON_SMALL = 0;
+
+		/// <summary>
+		/// The small icon of an application. If an application does not provide one, the system uses a system-generated icon for a window.
+		/// See https://docs.microsoft.com/en-us/windows/win32/winmsg/wm-geticon#parameters.
+		/// </summary>
+		internal const int ICON_SMALL2 = 2;
+
+		/// <summary>
 		/// Minimize all open windows.
 		/// </summary>
 		internal const int MIN_ALL = 419;
@@ -83,6 +99,14 @@ namespace SafeExamBrowser.WindowsApi.Constants
 		/// See https://msdn.microsoft.com/en-us/library/windows/desktop/ms647591(v=vs.85).aspx.
 		/// </summary>
 		internal const int WM_COMMAND = 0x111;
+
+		/// <summary>
+		/// Sent to a window to retrieve a handle to the large or small icon associated with a window. The system displays the large icon
+		/// in the ALT+TAB dialog, and the small icon in the window caption.
+		/// 
+		/// See https://docs.microsoft.com/en-us/windows/win32/winmsg/wm-geticon.
+		/// </summary>
+		internal const int WM_GETICON = 0x7F;
 
 		/// <summary>
 		/// Posted to the window with the keyboard focus when a nonsystem key is pressed. A nonsystem key is a key that is pressed when

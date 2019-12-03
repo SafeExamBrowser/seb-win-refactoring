@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Applications.Contracts.Events;
-using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.Applications.Contracts.Resources.Icons;
 
 namespace SafeExamBrowser.Applications.Contracts
 {

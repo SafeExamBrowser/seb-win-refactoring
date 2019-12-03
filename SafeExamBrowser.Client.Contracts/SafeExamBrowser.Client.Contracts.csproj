@@ -60,6 +60,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SafeExamBrowser.Applications.Contracts\SafeExamBrowser.Applications.Contracts.csproj">
+      <Project>{ac77745d-3b41-43e2-8e84-d40e5a4ee77f}</Project>
+      <Name>SafeExamBrowser.Applications.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Core.Contracts\SafeExamBrowser.Core.Contracts.csproj">
       <Project>{fe0e1224-b447-4b14-81e7-ed7d84822aa0}</Project>
       <Name>SafeExamBrowser.Core.Contracts</Name>

@@ -7,15 +7,14 @@
  */
 
 using System;
-using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.Applications.Contracts.Resources.Icons;
 
 namespace SafeExamBrowser.Browser
 {
-	public class BrowserIconResource : IconResource
+	public class BrowserIconResource : BitmapIconResource
 	{
 		public BrowserIconResource(string uri = null)
 		{
-			Type = IconResourceType.Bitmap;
 			Uri = new Uri(uri ?? "pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/SafeExamBrowser.ico");
 		}
 	}

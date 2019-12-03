@@ -199,6 +199,23 @@ namespace SafeExamBrowser.WindowsApi
 			return path;
 		}
 
+		public IntPtr GetWindowIcon(IntPtr window)
+		{
+			var icon = User32.SendMessage(window, Constant.WM_GETICON, new IntPtr(Constant.ICON_BIG), IntPtr.Zero);
+
+			if (icon == IntPtr.Zero)
+			{
+				icon = User32.SendMessage(window, Constant.WM_GETICON, new IntPtr(Constant.ICON_SMALL), IntPtr.Zero);
+			}
+
+			if (icon == IntPtr.Zero)
+			{
+				icon = User32.SendMessage(window, Constant.WM_GETICON, new IntPtr(Constant.ICON_SMALL2), IntPtr.Zero);
+			}
+
+			return icon;
+		}
+
 		public string GetWindowTitle(IntPtr window)
 		{
 			var length = User32.GetWindowTextLength(window);

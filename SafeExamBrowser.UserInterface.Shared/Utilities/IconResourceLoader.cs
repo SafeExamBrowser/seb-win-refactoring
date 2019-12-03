@@ -13,9 +13,10 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media.Imaging;
-using SafeExamBrowser.Core.Contracts;
+using SafeExamBrowser.Applications.Contracts.Resources.Icons;
 using Brushes = System.Windows.Media.Brushes;
 using Image = System.Windows.Controls.Image;
 
@@ -27,16 +28,18 @@ namespace SafeExamBrowser.UserInterface.Shared.Utilities
 		{
 			try
 			{
-				switch (resource.Type)
+				switch (resource)
 				{
-					case IconResourceType.Bitmap:
-						return LoadBitmapResource(resource);
-					case IconResourceType.Embedded:
-						return LoadEmbeddedResource(resource);
-					case IconResourceType.Xaml:
-						return LoadXamlResource(resource);
+					case BitmapIconResource bitmap:
+						return LoadBitmapResource(bitmap);
+					case EmbeddedIconResource embedded:
+						return LoadEmbeddedResource(embedded);
+					case NativeIconResource native:
+						return LoadNativeResource(native);
+					case XamlIconResource xaml:
+						return LoadXamlResource(xaml);
 					default:
-						throw new NotSupportedException($"Application icon resource of type '{resource.Type}' is not supported!");
+						throw new NotSupportedException($"Application icon resource of type '{resource.GetType()}' is not supported!");
 				}
 			}
 			catch (Exception)
@@ -45,7 +48,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Utilities
 			}
 		}
 
-		private static UIElement LoadBitmapResource(IconResource resource)
+		private static UIElement LoadBitmapResource(BitmapIconResource resource)
 		{
 			return new Image
 			{
@@ -53,13 +56,13 @@ namespace SafeExamBrowser.UserInterface.Shared.Utilities
 			};
 		}
 
-		private static UIElement LoadEmbeddedResource(IconResource resource)
+		private static UIElement LoadEmbeddedResource(EmbeddedIconResource resource)
 		{
 			using (var stream = new MemoryStream())
 			{
 				var bitmap = new BitmapImage();
 
-				Icon.ExtractAssociatedIcon(resource.Uri.LocalPath).ToBitmap().Save(stream, ImageFormat.Png);
+				Icon.ExtractAssociatedIcon(resource.FilePath).ToBitmap().Save(stream, ImageFormat.Png);
 
 				bitmap.BeginInit();
 				bitmap.StreamSource = stream;
@@ -74,7 +77,15 @@ namespace SafeExamBrowser.UserInterface.Shared.Utilities
 			}
 		}
 
-		private static UIElement LoadXamlResource(IconResource resource)
+		private static UIElement LoadNativeResource(NativeIconResource resource)
+		{
+			return new Image
+			{
+				Source = Imaging.CreateBitmapSourceFromHIcon(resource.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions())
+			};
+		}
+
+		private static UIElement LoadXamlResource(XamlIconResource resource)
 		{
 			using (var stream = Application.GetResourceStream(resource.Uri)?.Stream)
 			{
