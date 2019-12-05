@@ -309,7 +309,7 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					return new Mobile.TaskView();
+					return new Mobile.Taskview();
 				default:
 					return new Desktop.Taskview();
 			}
