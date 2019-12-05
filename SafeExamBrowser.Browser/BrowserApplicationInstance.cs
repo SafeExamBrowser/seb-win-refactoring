@@ -51,6 +51,7 @@ namespace SafeExamBrowser.Browser
 
 		internal int Id { get; }
 
+		public IntPtr Handle { get; private set; }
 		public IconResource Icon { get; private set; }
 		public string Title { get; private set; }
 
@@ -177,6 +178,8 @@ namespace SafeExamBrowser.Browser
 			window.ZoomResetRequested += ZoomResetRequested;
 			window.UpdateZoomLevel(CalculateZoomPercentage());
 			window.Show();
+
+			Handle = window.Handle;
 
 			logger.Debug("Initialized browser window.");
 		}

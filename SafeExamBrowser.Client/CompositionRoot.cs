@@ -71,7 +71,7 @@ namespace SafeExamBrowser.Client
 		private IRuntimeProxy runtimeProxy;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
-		private ITaskView taskView;
+		private ITaskView taskview;
 		private IText text;
 		private ITextResource textResource;
 		private IUserInterfaceFactory uiFactory;
@@ -95,7 +95,7 @@ namespace SafeExamBrowser.Client
 			uiFactory = BuildUserInterfaceFactory();
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
 			taskbar = BuildTaskbar();
-			taskView = BuildTaskView();
+			taskview = BuildTaskView();
 
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var applicationMonitor = new ApplicationMonitor(TWO_SECONDS, ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, processFactory);
@@ -199,7 +199,7 @@ namespace SafeExamBrowser.Client
 		{
 			var moduleLogger = ModuleLogger(nameof(BrowserApplication));
 			var browser = new BrowserApplication(context.AppConfig, context.Settings.Browser, messageBox, moduleLogger, text, uiFactory);
-			var operation = new BrowserOperation(actionCenter, context, logger, taskbar, taskView, uiFactory);
+			var operation = new BrowserOperation(actionCenter, context, logger, taskbar, taskview, uiFactory);
 
 			context.Browser = browser;
 
@@ -258,7 +258,7 @@ namespace SafeExamBrowser.Client
 				powerSupply,
 				systemInfo,
 				taskbar,
-				taskView,
+				taskview,
 				text,
 				uiFactory,
 				wirelessAdapter);
@@ -311,7 +311,7 @@ namespace SafeExamBrowser.Client
 				case UserInterfaceMode.Mobile:
 					return new Mobile.TaskView();
 				default:
-					return new Desktop.TaskView();
+					return new Desktop.Taskview();
 			}
 		}
 

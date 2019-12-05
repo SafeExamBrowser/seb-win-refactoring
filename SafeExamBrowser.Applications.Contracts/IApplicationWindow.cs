@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Applications.Contracts.Events;
 using SafeExamBrowser.Applications.Contracts.Resources.Icons;
 
@@ -16,6 +17,11 @@ namespace SafeExamBrowser.Applications.Contracts
 	/// </summary>
 	public interface IApplicationWindow
 	{
+		/// <summary>
+		/// The native handle of the window.
+		/// </summary>
+		IntPtr Handle { get; }
+
 		/// <summary>
 		/// The icon of the window.
 		/// </summary>

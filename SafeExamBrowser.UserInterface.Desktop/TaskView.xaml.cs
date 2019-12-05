@@ -11,24 +11,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Desktop.Controls;
 
 namespace SafeExamBrowser.UserInterface.Desktop
 {
-	public partial class TaskView : Window, ITaskView
+	public partial class Taskview : Window, ITaskView
 	{
 		private IList<IApplication> applications;
-		private LinkedListNode<TaskViewWindowControl> current;
-		private LinkedList<TaskViewWindowControl> controls;
+		private LinkedListNode<TaskviewWindowControl> current;
+		private LinkedList<TaskviewWindowControl> controls;
 
-		public TaskView()
+		internal IntPtr Handle { get; private set; }
+
+		public Taskview()
 		{
 			applications = new List<IApplication>();
-			controls = new LinkedList<TaskViewWindowControl>();
+			controls = new LinkedList<TaskviewWindowControl>();
 
 			InitializeComponent();
+			InitializeTaskview();
 		}
 
 		public void Add(IApplication application)
@@ -66,9 +70,21 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		private void ActivateAndHide()
 		{
-			Activate();
-			current?.Value.Activate();
-			Hide();
+			if (IsVisible)
+			{
+				Activate();
+				current?.Value.Activate();
+				Hide();
+			}
+		}
+
+		private void InitializeTaskview()
+		{
+			Loaded += (o, args) =>
+			{
+				Handle = new WindowInteropHelper(this).Handle;
+				Update();
+			};
 		}
 
 		private void SelectNext()
@@ -106,31 +122,37 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		private void Update()
 		{
-			var windows = new Stack<IApplicationWindow>();
+			ClearTaskview();
+			LoadControls();
+			UpdateLocation();
+		}
 
-			foreach (var application in applications)
+		private void ClearTaskview()
+		{
+			foreach (var control in controls)
 			{
-				foreach (var window in application.GetWindows())
-				{
-					windows.Push(window);
-				}
+				control.Destroy();
 			}
-
-			var max = Math.Ceiling(Math.Sqrt(windows.Count));
 
 			controls.Clear();
 			Rows.Children.Clear();
+		}
 
-			for (var rowCount = 0; rowCount < max && windows.Any(); rowCount++)
+		private void LoadControls()
+		{
+			var windows = GetAllWindows();
+			var maxColumns = Math.Ceiling(Math.Sqrt(windows.Count));
+
+			while (windows.Any())
 			{
 				var row = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center };
 
 				Rows.Children.Add(row);
 
-				for (var columnIndex = 0; columnIndex < max && windows.Any(); columnIndex++)
+				for (var column = 0; column < maxColumns && windows.Any(); column++)
 				{
 					var window = windows.Pop();
-					var control = new TaskViewWindowControl(window);
+					var control = new TaskviewWindowControl(window, this);
 
 					controls.AddLast(control);
 					row.Children.Add(control);
@@ -139,16 +161,36 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 			current = controls.First;
 			current?.Value.Select();
+		}
 
-			UpdateLayout();
+		private void UpdateLocation()
+		{
+			if (controls.Any())
+			{
+				UpdateLayout();
 
-			Left = (SystemParameters.WorkArea.Width - Width) / 2 + SystemParameters.WorkArea.Left;
-			Top = (SystemParameters.WorkArea.Height - Height) / 2 + SystemParameters.WorkArea.Top;
-
-			if (!controls.Any())
+				Left = (SystemParameters.WorkArea.Width - Width) / 2 + SystemParameters.WorkArea.Left;
+				Top = (SystemParameters.WorkArea.Height - Height) / 2 + SystemParameters.WorkArea.Top;
+			}
+			else
 			{
 				Hide();
 			}
+		}
+
+		private Stack<IApplicationWindow> GetAllWindows()
+		{
+			var stack = new Stack<IApplicationWindow>();
+
+			foreach (var application in applications)
+			{
+				foreach (var window in application.GetWindows())
+				{
+					stack.Push(window);
+				}
+			}
+
+			return stack;
 		}
 	}
 }

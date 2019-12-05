@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Applications
 	{
 		private INativeMethods nativeMethods;
 
-		internal IntPtr Handle { get; }
+		public IntPtr Handle { get; }
 		public IconResource Icon { get; private set; }
 		public string Title { get; private set; }
 

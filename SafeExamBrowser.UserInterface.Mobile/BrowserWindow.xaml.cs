@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using SafeExamBrowser.Applications.Contracts.Resources.Icons;
@@ -40,6 +41,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		public bool CanNavigateBackwards { set => Dispatcher.Invoke(() => BackwardButton.IsEnabled = value); }
 		public bool CanNavigateForwards { set => Dispatcher.Invoke(() => ForwardButton.IsEnabled = value); }
+		public IntPtr Handle { get; private set; }
 
 		public event AddressChangedEventHandler AddressChanged;
 		public event ActionRequestedEventHandler BackwardNavigationRequested;
@@ -157,6 +159,8 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		private void BrowserWindow_Loaded(object sender, RoutedEventArgs e)
 		{
+			Handle = new WindowInteropHelper(this).Handle;
+
 			if (isMainWindow)
 			{
 				WindowUtility.DisableCloseButtonFor(this);

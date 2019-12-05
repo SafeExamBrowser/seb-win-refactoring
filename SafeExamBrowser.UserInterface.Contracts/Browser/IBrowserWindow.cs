@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Applications.Contracts.Resources.Icons;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
@@ -26,6 +27,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		/// Enables the forward navigation button.
 		/// </summary>
 		bool CanNavigateForwards { set; }
+		
+		/// <summary>
+		/// The native handle of the window.
+		/// </summary>
+		IntPtr Handle { get; }
 
 		/// <summary>
 		/// Event fired when the user changed the URL.

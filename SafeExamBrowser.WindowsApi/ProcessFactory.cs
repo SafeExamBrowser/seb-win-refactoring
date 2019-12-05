@@ -72,29 +72,6 @@ namespace SafeExamBrowser.WindowsApi
 			return process;
 		}
 
-		private System.Diagnostics.Process StartOnDesktop(string path, params string[] args)
-		{
-			var commandLine = $"{'"' + path + '"'} {string.Join(" ", args)}";
-			var processInfo = new PROCESS_INFORMATION();
-			var startupInfo = new STARTUPINFO();
-
-			startupInfo.cb = Marshal.SizeOf(startupInfo);
-			startupInfo.lpDesktop = StartupDesktop?.Name;
-
-			var success = Kernel32.CreateProcess(null, commandLine, IntPtr.Zero, IntPtr.Zero, true, Constant.NORMAL_PRIORITY_CLASS, IntPtr.Zero, null, ref startupInfo, ref processInfo);
-
-			if (success)
-			{
-				return System.Diagnostics.Process.GetProcessById(processInfo.dwProcessId);
-			}
-
-			var errorCode = Marshal.GetLastWin32Error();
-
-			logger.Error($"Failed to start process '{path}' on desktop '{StartupDesktop}'! Error code: {errorCode}.");
-
-			throw new Win32Exception(errorCode);
-		}
-
 		public bool TryGetById(int id, out IProcess process)
 		{
 			var raw = System.Diagnostics.Process.GetProcesses().FirstOrDefault(p => p.Id == id);
@@ -182,6 +159,29 @@ namespace SafeExamBrowser.WindowsApi
 		private ILogger LoggerFor(System.Diagnostics.Process process, string name)
 		{
 			return logger.CloneFor($"{nameof(Process)} '{name}' ({process.Id})");
+		}
+
+		private System.Diagnostics.Process StartOnDesktop(string path, params string[] args)
+		{
+			var commandLine = $"{'"' + path + '"'} {string.Join(" ", args)}";
+			var processInfo = new PROCESS_INFORMATION();
+			var startupInfo = new STARTUPINFO();
+
+			startupInfo.cb = Marshal.SizeOf(startupInfo);
+			startupInfo.lpDesktop = StartupDesktop?.Name;
+
+			var success = Kernel32.CreateProcess(null, commandLine, IntPtr.Zero, IntPtr.Zero, true, Constant.NORMAL_PRIORITY_CLASS, IntPtr.Zero, null, ref startupInfo, ref processInfo);
+
+			if (success)
+			{
+				return System.Diagnostics.Process.GetProcessById(processInfo.dwProcessId);
+			}
+
+			var errorCode = Marshal.GetLastWin32Error();
+
+			logger.Error($"Failed to start process '{path}' on desktop '{StartupDesktop}'! Error code: {errorCode}.");
+
+			throw new Win32Exception(errorCode);
 		}
 	}
 }
