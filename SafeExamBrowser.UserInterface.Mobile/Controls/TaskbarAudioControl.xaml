@@ -16,8 +16,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Popup x:Name="Popup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}">
-            <Border Background="LightGray" BorderBrush="Gray" BorderThickness="0.75,0.75,0.75,0">
+        <Popup x:Name="Popup" IsOpen="False" Placement="Custom" PlacementTarget="{Binding ElementName=Button}">
+            <Border Background="LightGray" BorderBrush="Gray" BorderThickness="1,1,1,0">
                 <StackPanel Orientation="Vertical">
                     <TextBlock x:Name="AudioDeviceName" Margin="5" TextAlignment="Center" />
                     <StackPanel Orientation="Horizontal" Height="60" Margin="5,0">

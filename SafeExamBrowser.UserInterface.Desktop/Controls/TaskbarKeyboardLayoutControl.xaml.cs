@@ -9,7 +9,9 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
@@ -45,6 +47,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			keyboard.LayoutChanged += Keyboard_LayoutChanged;
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
 			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
+			Popup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(Popup_PlacementCallback);
 			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
 
 			Popup.Opened += (o, args) =>
@@ -63,6 +66,14 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 		private void Keyboard_LayoutChanged(IKeyboardLayout layout)
 		{
 			Dispatcher.InvokeAsync(() => SetCurrent(layout));
+		}
+
+		private CustomPopupPlacement[] Popup_PlacementCallback(Size popupSize, Size targetSize, Point offset)
+		{
+			return new[]
+			{
+				new CustomPopupPlacement(new Point(targetSize.Width / 2 - popupSize.Width / 2, -popupSize.Height), PopupPrimaryAxis.None)
+			};
 		}
 
 		private void InitializeLayouts()

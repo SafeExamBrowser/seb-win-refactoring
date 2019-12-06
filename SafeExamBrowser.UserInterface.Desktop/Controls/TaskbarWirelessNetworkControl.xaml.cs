@@ -10,6 +10,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using FontAwesome.WPF;
 using SafeExamBrowser.Applications.Contracts.Resources.Icons;
@@ -46,6 +47,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 			SignalStrengthIcon.Child = GetIcon(0);
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
 			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
+			Popup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(Popup_PlacementCallback);
 			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
 
 			Popup.Opened += (o, args) =>
@@ -72,6 +74,14 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls
 				NoAdapterIcon.Visibility = Visibility.Visible;
 				UpdateText(text.Get(TextKey.SystemControl_WirelessNotAvailable));
 			}
+		}
+
+		private CustomPopupPlacement[] Popup_PlacementCallback(Size popupSize, Size targetSize, Point offset)
+		{
+			return new[]
+			{
+				new CustomPopupPlacement(new Point(targetSize.Width / 2 - popupSize.Width / 2, -popupSize.Height), PopupPrimaryAxis.None)
+			};
 		}
 
 		private void WirelessAdapter_NetworksChanged()

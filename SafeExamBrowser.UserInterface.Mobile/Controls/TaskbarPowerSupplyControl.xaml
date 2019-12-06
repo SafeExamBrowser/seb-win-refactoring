@@ -14,8 +14,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Popup x:Name="Popup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}">
-            <Border Background="LightGray" BorderBrush="Gray" BorderThickness="0.75,0.75,0.75,0">
+        <Popup x:Name="Popup" IsOpen="False" Placement="Custom" PlacementTarget="{Binding ElementName=Button}">
+            <Border Background="LightGray" BorderBrush="Gray" BorderThickness="1,1,1,0">
                 <Grid MaxWidth="250" Margin="20,10,20,20">
                     <Grid.RowDefinitions>
                         <RowDefinition />

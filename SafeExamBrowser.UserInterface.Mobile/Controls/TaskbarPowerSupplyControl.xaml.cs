@@ -9,6 +9,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Threading;
 using SafeExamBrowser.I18n.Contracts;
@@ -49,12 +50,21 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 			initialBrush = BatteryCharge.Fill;
 			maxWidth = BatteryCharge.Width;
 			powerSupply.StatusChanged += PowerSupply_StatusChanged;
+			Popup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(Popup_PlacementCallback);
 			UpdateStatus(powerSupply.GetStatus());
 		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			ClosePopup();
+		}
+
+		private CustomPopupPlacement[] Popup_PlacementCallback(Size popupSize, Size targetSize, Point offset)
+		{
+			return new[]
+			{
+				new CustomPopupPlacement(new Point(targetSize.Width / 2 - popupSize.Width / 2, -popupSize.Height), PopupPrimaryAxis.None)
+			};
 		}
 
 		private void PowerSupply_StatusChanged(IPowerSupplyStatus status)

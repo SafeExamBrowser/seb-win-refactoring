@@ -52,6 +52,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 			MuteButton.Click += MuteButton_Click;
 			MutedIcon = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Audio_Muted.xaml") };
 			NoDeviceIcon = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Audio_NoDevice.xaml") };
+			Popup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(Popup_PlacementCallback);
 			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
 			Volume.ValueChanged += Volume_ValueChanged;
 
@@ -97,6 +98,14 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls
 			{
 				audio.Mute();
 			}
+		}
+
+		private CustomPopupPlacement[] Popup_PlacementCallback(Size popupSize, Size targetSize, Point offset)
+		{
+			return new[]
+			{
+				new CustomPopupPlacement(new Point(targetSize.Width / 2 - popupSize.Width / 2, -popupSize.Height), PopupPrimaryAxis.None)
+			};
 		}
 
 		private void Volume_DragStarted(object sender, DragStartedEventArgs e)
