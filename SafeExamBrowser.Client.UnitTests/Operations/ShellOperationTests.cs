@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<IPowerSupply> powerSupply;
 		private Mock<ISystemInfo> systemInfo;
 		private Mock<ITaskbar> taskbar;
-		private Mock<ITaskView> taskView;
+		private Mock<ITaskview> taskview;
 		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
 		private Mock<IWirelessAdapter> wirelessAdapter;
@@ -60,7 +60,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			powerSupply = new Mock<IPowerSupply>();
 			systemInfo = new Mock<ISystemInfo>();
 			taskbar = new Mock<ITaskbar>();
-			taskView = new Mock<ITaskView>();
+			taskview = new Mock<ITaskview>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 			wirelessAdapter = new Mock<IWirelessAdapter>();
@@ -84,7 +84,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 				powerSupply.Object,
 				systemInfo.Object,
 				taskbar.Object,
-				taskView.Object,
+				taskview.Object,
 				text.Object,
 				uiFactory.Object,
 				wirelessAdapter.Object);
@@ -94,7 +94,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void Perform_MustInitializeActivators()
 		{
 			var actionCenterActivator = new Mock<IActionCenterActivator>();
-			var taskViewActivator = new Mock<ITaskViewActivator>();
+			var taskViewActivator = new Mock<ITaskviewActivator>();
 			var terminationActivator = new Mock<ITerminationActivator>();
 
 			context.Activators.Add(actionCenterActivator.Object);
@@ -261,18 +261,18 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void Revert_MustTerminateActivators()
 		{
 			var actionCenterActivator = new Mock<IActionCenterActivator>();
-			var taskViewActivator = new Mock<ITaskViewActivator>();
+			var taskviewActivator = new Mock<ITaskviewActivator>();
 			var terminationActivator = new Mock<ITerminationActivator>();
 
 			context.Activators.Add(actionCenterActivator.Object);
-			context.Activators.Add(taskViewActivator.Object);
+			context.Activators.Add(taskviewActivator.Object);
 			context.Activators.Add(terminationActivator.Object);
 			context.Settings.ActionCenter.EnableActionCenter = true;
 
 			sut.Revert();
 
 			actionCenterActivator.Verify(a => a.Stop(), Times.Once);
-			taskViewActivator.Verify(a => a.Stop(), Times.Once);
+			taskviewActivator.Verify(a => a.Stop(), Times.Once);
 			terminationActivator.Verify(a => a.Stop(), Times.Once);
 		}
 

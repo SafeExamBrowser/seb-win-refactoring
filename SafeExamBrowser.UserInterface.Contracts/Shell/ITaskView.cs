@@ -13,7 +13,7 @@ namespace SafeExamBrowser.UserInterface.Contracts.Shell
 	/// <summary>
 	/// The task view provides an overview of all currently running application instances.
 	/// </summary>
-	public interface ITaskView
+	public interface ITaskview
 	{
 		/// <summary>
 		/// Adds the given application to the task view.
@@ -23,6 +23,6 @@ namespace SafeExamBrowser.UserInterface.Contracts.Shell
 		/// <summary>
 		/// Registers the specified activator for the task view.
 		/// </summary>
-		void Register(ITaskViewActivator activator);
+		void Register(ITaskviewActivator activator);
 	}
 }

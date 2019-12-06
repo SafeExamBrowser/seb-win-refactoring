@@ -145,6 +145,7 @@
     <Compile Include="Controls\TaskviewWindowControl.xaml.cs">
       <DependentUpon>TaskviewWindowControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FolderDialog.cs" />
     <Compile Include="LockScreen.xaml.cs">
       <DependentUpon>LockScreen.xaml</DependentUpon>
     </Compile>

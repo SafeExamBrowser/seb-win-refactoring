@@ -11,9 +11,9 @@ using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 namespace SafeExamBrowser.UserInterface.Contracts.Shell
 {
 	/// <summary>
-	/// A module which can be used to control the <see cref="ITaskView"/>.
+	/// A module which can be used to control the <see cref="ITaskview"/>.
 	/// </summary>
-	public interface ITaskViewActivator : IActivator
+	public interface ITaskviewActivator : IActivator
 	{
 		/// <summary>
 		/// Fired when the task view should be hidden.

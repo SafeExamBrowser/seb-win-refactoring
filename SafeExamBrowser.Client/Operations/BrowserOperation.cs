@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Client.Operations
 		private IActionCenter actionCenter;
 		private ILogger logger;
 		private ITaskbar taskbar;
-		private ITaskView taskview;
+		private ITaskview taskview;
 		private IUserInterfaceFactory uiFactory;
 
 		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
@@ -31,7 +31,7 @@ namespace SafeExamBrowser.Client.Operations
 			ClientContext context,
 			ILogger logger,
 			ITaskbar taskbar,
-			ITaskView taskview,
+			ITaskview taskview,
 			IUserInterfaceFactory uiFactory) : base(context)
 		{
 			this.actionCenter = actionCenter;

@@ -528,7 +528,15 @@ namespace SafeExamBrowser.Client
 
 		private void AskForApplicationPath(ApplicationNotFoundEventArgs args)
 		{
-			// TODO
+			var message = text.Get(TextKey.FolderDialog_ApplicationLocation).Replace("%%NAME%%", args.DisplayName).Replace("%%EXECUTABLE%%", args.ExecutableName);
+			var dialog = uiFactory.CreateFolderDialog(message);
+			var result = dialog.Show(splashScreen);
+
+			if (result.Success)
+			{
+				args.CustomPath = result.FolderPath;
+				args.Success = true;
+			}
 		}
 
 		private void InformAboutFailedApplicationInitialization(ApplicationInitializationFailedEventArgs args)

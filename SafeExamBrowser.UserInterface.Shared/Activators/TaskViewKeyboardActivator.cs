@@ -15,7 +15,7 @@ using SafeExamBrowser.WindowsApi.Contracts.Events;
 
 namespace SafeExamBrowser.UserInterface.Shared.Activators
 {
-	public class TaskViewKeyboardActivator : KeyboardActivator, ITaskViewActivator
+	public class TaskviewKeyboardActivator : KeyboardActivator, ITaskviewActivator
 	{
 		private bool Activated, LeftShift, Tab;
 		private ILogger logger;
@@ -24,7 +24,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 		public event ActivatorEventHandler NextActivated;
 		public event ActivatorEventHandler PreviousActivated;
 
-		public TaskViewKeyboardActivator(ILogger logger, INativeMethods nativeMethods) : base(nativeMethods)
+		public TaskviewKeyboardActivator(ILogger logger, INativeMethods nativeMethods) : base(nativeMethods)
 		{
 			this.logger = logger;
 		}

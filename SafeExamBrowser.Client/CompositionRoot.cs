@@ -71,7 +71,7 @@ namespace SafeExamBrowser.Client
 		private IRuntimeProxy runtimeProxy;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
-		private ITaskView taskview;
+		private ITaskview taskview;
 		private IText text;
 		private ITextResource textResource;
 		private IUserInterfaceFactory uiFactory;
@@ -95,7 +95,7 @@ namespace SafeExamBrowser.Client
 			uiFactory = BuildUserInterfaceFactory();
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
 			taskbar = BuildTaskbar();
-			taskview = BuildTaskView();
+			taskview = BuildTaskview();
 
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var applicationMonitor = new ApplicationMonitor(TWO_SECONDS, ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, processFactory);
@@ -265,7 +265,7 @@ namespace SafeExamBrowser.Client
 
 			context.Activators.Add(new ActionCenterKeyboardActivator(ModuleLogger(nameof(ActionCenterKeyboardActivator)), nativeMethods));
 			context.Activators.Add(new ActionCenterTouchActivator(ModuleLogger(nameof(ActionCenterTouchActivator)), nativeMethods));
-			context.Activators.Add(new TaskViewKeyboardActivator(ModuleLogger(nameof(TaskViewKeyboardActivator)), nativeMethods));
+			context.Activators.Add(new TaskviewKeyboardActivator(ModuleLogger(nameof(TaskviewKeyboardActivator)), nativeMethods));
 			context.Activators.Add(new TerminationActivator(ModuleLogger(nameof(TerminationActivator)), nativeMethods));
 
 			return operation;
@@ -304,7 +304,7 @@ namespace SafeExamBrowser.Client
 			}
 		}
 
-		private ITaskView BuildTaskView()
+		private ITaskview BuildTaskview()
 		{
 			switch (uiMode)
 			{

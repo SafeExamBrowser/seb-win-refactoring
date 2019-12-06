@@ -23,6 +23,7 @@ namespace SafeExamBrowser.I18n.Contracts
 		BrowserWindow_DeveloperConsoleMenuItem,
 		BrowserWindow_ZoomMenuItem,
 		Build,
+		FolderDialog_ApplicationLocation,
 		LockScreen_AllowOption,
 		LockScreen_Message,
 		LockScreen_TerminateOption,

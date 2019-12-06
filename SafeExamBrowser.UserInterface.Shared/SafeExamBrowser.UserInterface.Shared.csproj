@@ -66,7 +66,7 @@
     <Compile Include="Activators\ActionCenterKeyboardActivator.cs" />
     <Compile Include="Activators\ActionCenterTouchActivator.cs" />
     <Compile Include="Activators\KeyboardActivator.cs" />
-    <Compile Include="Activators\TaskViewKeyboardActivator.cs" />
+    <Compile Include="Activators\TaskviewKeyboardActivator.cs" />
     <Compile Include="Activators\TerminationActivator.cs" />
     <Compile Include="Activators\TouchActivator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

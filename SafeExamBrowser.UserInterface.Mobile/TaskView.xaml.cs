@@ -18,7 +18,7 @@ using SafeExamBrowser.UserInterface.Mobile.Controls;
 
 namespace SafeExamBrowser.UserInterface.Mobile
 {
-	public partial class Taskview : Window, ITaskView
+	public partial class Taskview : Window, ITaskview
 	{
 		private IList<IApplication> applications;
 		private LinkedListNode<TaskviewWindowControl> current;
@@ -41,7 +41,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			applications.Add(application);
 		}
 
-		public void Register(ITaskViewActivator activator)
+		public void Register(ITaskviewActivator activator)
 		{
 			activator.Deactivated += Activator_Deactivated;
 			activator.NextActivated += Activator_Next;

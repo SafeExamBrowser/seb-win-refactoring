@@ -35,7 +35,7 @@ namespace SafeExamBrowser.Client.Operations
 		private IPowerSupply powerSupply;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
-		private ITaskView taskview;
+		private ITaskview taskview;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		private IWirelessAdapter wirelessAdapter;
@@ -56,7 +56,7 @@ namespace SafeExamBrowser.Client.Operations
 			IPowerSupply powerSupply,
 			ISystemInfo systemInfo,
 			ITaskbar taskbar,
-			ITaskView taskview,
+			ITaskview taskview,
 			IText text,
 			IUserInterfaceFactory uiFactory,
 			IWirelessAdapter wirelessAdapter) : base(context)
@@ -114,7 +114,7 @@ namespace SafeExamBrowser.Client.Operations
 					actionCenterActivator.Start();
 				}
 
-				if (Context.Settings.Keyboard.AllowAltTab && activator is ITaskViewActivator taskViewActivator)
+				if (Context.Settings.Keyboard.AllowAltTab && activator is ITaskviewActivator taskViewActivator)
 				{
 					taskview.Register(taskViewActivator);
 					taskViewActivator.Start();

@@ -26,7 +26,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<ILogger> logger;
 		private AppSettings settings;
 		private Mock<ITaskbar> taskbar;
-		private Mock<ITaskView> taskView;
+		private Mock<ITaskview> taskview;
 		private Mock<IUserInterfaceFactory> uiFactory;
 
 		private BrowserOperation sut;
@@ -40,13 +40,13 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			logger = new Mock<ILogger>();
 			settings = new AppSettings();
 			taskbar = new Mock<ITaskbar>();
-			taskView = new Mock<ITaskView>();
+			taskview = new Mock<ITaskview>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
 			context.Browser = browser.Object;
 			context.Settings = settings;
 
-			sut = new BrowserOperation(actionCenter.Object, context, logger.Object, taskbar.Object, taskView.Object, uiFactory.Object);
+			sut = new BrowserOperation(actionCenter.Object, context, logger.Object, taskbar.Object, taskview.Object, uiFactory.Object);
 		}
 
 		[TestMethod]

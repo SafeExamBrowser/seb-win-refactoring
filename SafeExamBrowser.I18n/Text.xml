@@ -27,6 +27,9 @@
     <Entry key="Build">
         Build
     </Entry>
+    <Entry key="FolderDialog_ApplicationLocation">
+        Application "%%NAME%%" could not be found on the system! Please locate the folder containing the main executable "%%EXECUTABLE%%".
+    </Entry>
     <Entry key="LockScreen_AllowOption">
         Temporarily allow the blacklisted applications. This applies only to the currently running instances and session!
     </Entry>
