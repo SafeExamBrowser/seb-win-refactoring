@@ -127,11 +127,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 								application.OriginalName = originalName;
 							}
 
-							if (applicationData.TryGetValue(Keys.Applications.RendererName, out v) && v is string rendererName)
-							{
-								application.RendererName = rendererName;
-							}
-
 							if (applicationData.TryGetValue(Keys.Applications.ShowInShell, out v) && v is bool showInShell)
 							{
 								application.ShowInShell = showInShell;

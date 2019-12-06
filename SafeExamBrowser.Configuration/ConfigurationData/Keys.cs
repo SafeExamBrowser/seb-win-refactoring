@@ -32,7 +32,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string ExecutablePath = "path";
 			internal const string OperatingSystem = "os";
 			internal const string OriginalName = "originalName";
-			internal const string RendererName = "windowHandlingProcess";
 			internal const string ShowInShell = "iconInTaskbar";
 			internal const string Whitelist = "permittedProcesses";
 		}

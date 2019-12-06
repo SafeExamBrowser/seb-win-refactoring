@@ -94,7 +94,7 @@ namespace SafeExamBrowser.Applications
 
 			lock (@lock)
 			{
-				if (instances.Any())
+				if (instances.Any() && !settings.AllowRunning)
 				{
 					logger.Info("Terminating application...");
 

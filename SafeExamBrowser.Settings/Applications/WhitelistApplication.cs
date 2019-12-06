@@ -53,7 +53,7 @@ namespace SafeExamBrowser.Settings.Applications
 		public string DisplayName { get; set; }
 
 		/// <summary>
-		/// The name of the main executable of the application.
+		/// The file name of the main executable of the application.
 		/// </summary>
 		public string ExecutableName { get; set; }
 		
@@ -71,11 +71,6 @@ namespace SafeExamBrowser.Settings.Applications
 		/// The original file name of the main executable of the application, if available.
 		/// </summary>
 		public string OriginalName { get; set; }
-
-		/// <summary>
-		/// The name of the executable responsible for rendering the user interface.
-		/// </summary>
-		public string RendererName { get; set; }
 
 		/// <summary>
 		/// Determines whether the user will be able to access the application via the shell.
