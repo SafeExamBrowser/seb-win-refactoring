@@ -163,7 +163,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 			if (isMainWindow)
 			{
-				WindowUtility.DisableCloseButtonFor(this);
+				this.DisableCloseButton();
 			}
 		}
 

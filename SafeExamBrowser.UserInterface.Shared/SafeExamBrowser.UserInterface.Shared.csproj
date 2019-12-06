@@ -75,7 +75,7 @@
     <Compile Include="Utilities\IconResourceLoader.cs" />
     <Compile Include="Utilities\Thumbnail.cs" />
     <Compile Include="Utilities\VisualExtensions.cs" />
-    <Compile Include="Utilities\WindowUtility.cs" />
+    <Compile Include="Utilities\WindowExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Applications.Contracts\SafeExamBrowser.Applications.Contracts.csproj">

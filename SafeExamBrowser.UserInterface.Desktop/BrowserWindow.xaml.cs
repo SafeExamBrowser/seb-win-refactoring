@@ -163,7 +163,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 			if (isMainWindow)
 			{
-				WindowUtility.DisableCloseButtonFor(this);
+				this.DisableCloseButton();
 			}
 		}
 

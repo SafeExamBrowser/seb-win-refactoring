@@ -13,17 +13,17 @@ using System.Windows.Interop;
 
 namespace SafeExamBrowser.UserInterface.Shared.Utilities
 {
-	public static class WindowUtility
+	public static class WindowExtensions
 	{
 		private const uint MF_BYCOMMAND = 0x00000000;
 		private const uint MF_GRAYED = 0x00000001;
 		private const uint MF_ENABLED = 0x00000000;
 		private const uint SC_CLOSE = 0xF060;
 
-		public static void DisableCloseButtonFor(Window window)
+		public static void DisableCloseButton(this Window window)
 		{
-			var handle = new WindowInteropHelper(window);
-			var systemMenu = GetSystemMenu(handle.Handle, false);
+			var helper = new WindowInteropHelper(window);
+			var systemMenu = GetSystemMenu(helper.Handle, false);
 
 			if (systemMenu != IntPtr.Zero)
 			{
