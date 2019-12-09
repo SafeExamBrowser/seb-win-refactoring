@@ -8,6 +8,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Logging.Contracts;
@@ -50,30 +51,39 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void MustPeformCorrectly()
+		public void Perform_MustInitializeBrowserAndTaskview()
 		{
+			sut.Perform();
+
+			browser.Verify(c => c.Initialize(), Times.Once);
+			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == context.Browser)));
+		}
+
+		[TestMethod]
+		public void Perform_MustCorrectlyInitializeControls()
+		{
+			settings.ActionCenter.EnableActionCenter = false;
+			settings.Taskbar.EnableTaskbar = false;
+
+			sut.Perform();
+
+			actionCenter.Verify(a => a.AddApplicationControl(It.IsAny<IApplicationControl>(), true), Times.Never);
+			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>(), true), Times.Never);
+
 			settings.ActionCenter.EnableActionCenter = true;
 			settings.Taskbar.EnableTaskbar = true;
 
 			sut.Perform();
 
-			browser.Verify(c => c.Initialize(), Times.Once);
 			actionCenter.Verify(a => a.AddApplicationControl(It.IsAny<IApplicationControl>(), true), Times.Once);
 			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>(), true), Times.Once);
 		}
 
 		[TestMethod]
-		public void MustRevertCorrectly()
+		public void Revert_MustTerminateBrowser()
 		{
 			sut.Revert();
 			browser.Verify(c => c.Terminate(), Times.Once);
-		}
-
-		[TestMethod]
-		public void TODO()
-		{
-			// TODO: Test initialization of task view!
-			Assert.Fail("TODO");
 		}
 	}
 }
