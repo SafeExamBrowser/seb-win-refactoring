@@ -8,11 +8,13 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Applications;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
@@ -94,17 +96,98 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void Perform_MustInitializeActivators()
 		{
 			var actionCenterActivator = new Mock<IActionCenterActivator>();
-			var taskViewActivator = new Mock<ITaskviewActivator>();
+			var taskviewActivator = new Mock<ITaskviewActivator>();
 			var terminationActivator = new Mock<ITerminationActivator>();
 
 			context.Activators.Add(actionCenterActivator.Object);
+			context.Activators.Add(taskviewActivator.Object);
 			context.Activators.Add(terminationActivator.Object);
 			context.Settings.ActionCenter.EnableActionCenter = true;
+			context.Settings.Keyboard.AllowAltTab = true;
 			
 			sut.Perform();
 
+			actionCenter.Verify(a => a.Register(It.Is<IActionCenterActivator>(a2 => a2 == actionCenterActivator.Object)), Times.Once);
 			actionCenterActivator.Verify(a => a.Start(), Times.Once);
+			taskview.Verify(t => t.Register(It.Is<ITaskviewActivator>(a => a == taskviewActivator.Object)), Times.Once);
+			taskviewActivator.Verify(a => a.Start(), Times.Once);
 			terminationActivator.Verify(a => a.Start(), Times.Once);
+		}
+
+		[TestMethod]
+		public void Perform_MustInitializeApplications()
+		{
+			var application1 = new Mock<IApplication>();
+			var application1Settings = new WhitelistApplication { ShowInShell = true };
+			var application2 = new Mock<IApplication>();
+			var application2Settings = new WhitelistApplication { ShowInShell = false };
+			var application3 = new Mock<IApplication>();
+			var application3Settings = new WhitelistApplication { ShowInShell = true };
+
+			application1.SetupGet(a => a.Id).Returns(application1Settings.Id);
+			application2.SetupGet(a => a.Id).Returns(application2Settings.Id);
+			application3.SetupGet(a => a.Id).Returns(application3Settings.Id);
+
+			context.Applications.Add(application1.Object);
+			context.Applications.Add(application2.Object);
+			context.Applications.Add(application3.Object);
+			context.Settings.ActionCenter.EnableActionCenter = true;
+			context.Settings.Taskbar.EnableTaskbar = true;
+			context.Settings.Applications.Whitelist.Add(application1Settings);
+			context.Settings.Applications.Whitelist.Add(application2Settings);
+			context.Settings.Applications.Whitelist.Add(application3Settings);
+
+			sut.Perform();
+
+			actionCenter.Verify(a => a.AddApplicationControl(It.IsAny<IApplicationControl>(), false), Times.Exactly(2));
+			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>(), false), Times.Exactly(2));
+			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == application1.Object)), Times.Once);
+			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == application2.Object)), Times.Once);
+			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == application3.Object)), Times.Once);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application1.Object), Location.ActionCenter), Times.Once);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application1.Object), Location.Taskbar), Times.Once);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application2.Object), Location.ActionCenter), Times.Never);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application2.Object), Location.Taskbar), Times.Never);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application3.Object), Location.ActionCenter), Times.Once);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application3.Object), Location.Taskbar), Times.Once);
+		}
+
+		[TestMethod]
+		public void Perform_MustNotAddApplicationsToShellIfNotEnabled()
+		{
+			var application1 = new Mock<IApplication>();
+			var application1Settings = new WhitelistApplication { ShowInShell = true };
+			var application2 = new Mock<IApplication>();
+			var application2Settings = new WhitelistApplication { ShowInShell = true };
+			var application3 = new Mock<IApplication>();
+			var application3Settings = new WhitelistApplication { ShowInShell = true };
+
+			application1.SetupGet(a => a.Id).Returns(application1Settings.Id);
+			application2.SetupGet(a => a.Id).Returns(application2Settings.Id);
+			application3.SetupGet(a => a.Id).Returns(application3Settings.Id);
+
+			context.Applications.Add(application1.Object);
+			context.Applications.Add(application2.Object);
+			context.Applications.Add(application3.Object);
+			context.Settings.ActionCenter.EnableActionCenter = false;
+			context.Settings.Taskbar.EnableTaskbar = false;
+			context.Settings.Applications.Whitelist.Add(application1Settings);
+			context.Settings.Applications.Whitelist.Add(application2Settings);
+			context.Settings.Applications.Whitelist.Add(application3Settings);
+
+			sut.Perform();
+
+			actionCenter.Verify(a => a.AddApplicationControl(It.IsAny<IApplicationControl>(), false), Times.Never);
+			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>(), false), Times.Never);
+			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == application1.Object)), Times.Once);
+			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == application2.Object)), Times.Once);
+			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == application3.Object)), Times.Once);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application1.Object), Location.ActionCenter), Times.Never);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application1.Object), Location.Taskbar), Times.Never);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application2.Object), Location.ActionCenter), Times.Never);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application2.Object), Location.Taskbar), Times.Never);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application3.Object), Location.ActionCenter), Times.Never);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application3.Object), Location.Taskbar), Times.Never);
 		}
 
 		[TestMethod]
@@ -169,14 +252,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			actionCenter.Verify(a => a.AddNotificationControl(It.Is<INotificationControl>(i => i == logControl.Object)), Times.Never);
 			taskbar.Verify(t => t.AddNotificationControl(It.Is<INotificationControl>(i => i == logControl.Object)), Times.Never);
-		}
-
-		[TestMethod]
-		public void TODO()
-		{
-			// TODO: Only start activator if ALT+TAB enabled! -> Perform_MustInitializeTaskView
-			// TODO: Test correct initialization of applications (including ShowInShell setting)!
-			Assert.Fail("TODO");
 		}
 
 		[TestMethod]
@@ -250,6 +325,20 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		}
 
 		[TestMethod]
+		public void Perform_MustNotInitializeTaskviewActivatorIfNotEnabled()
+		{
+			var taskviewActivator = new Mock<ITaskviewActivator>();
+
+			context.Activators.Add(taskviewActivator.Object);
+			context.Settings.Keyboard.AllowAltTab = false;
+
+			sut.Perform();
+
+			taskview.Verify(t => t.Register(It.IsAny<ITaskviewActivator>()), Times.Never);
+			taskviewActivator.VerifyNoOtherCalls();
+		}
+
+		[TestMethod]
 		public void Perform_MustNotInitializeTaskbarIfNotEnabled()
 		{
 			context.Settings.Taskbar.EnableTaskbar = false;
@@ -267,7 +356,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			context.Activators.Add(actionCenterActivator.Object);
 			context.Activators.Add(taskviewActivator.Object);
 			context.Activators.Add(terminationActivator.Object);
-			context.Settings.ActionCenter.EnableActionCenter = true;
 
 			sut.Revert();
 
