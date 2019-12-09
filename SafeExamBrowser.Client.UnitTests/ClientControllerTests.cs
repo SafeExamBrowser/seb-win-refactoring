@@ -7,11 +7,14 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
+using SafeExamBrowser.Client.Operations.Events;
 using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Events;
 using SafeExamBrowser.Communication.Contracts.Hosts;
@@ -54,7 +57,6 @@ namespace SafeExamBrowser.Client.UnitTests
 		private AppSettings settings;
 		private Mock<Action> shutdown;
 		private Mock<ITaskbar> taskbar;
-		private Mock<ITerminationActivator> terminationActivator;
 		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
 
@@ -80,7 +82,6 @@ namespace SafeExamBrowser.Client.UnitTests
 			settings = new AppSettings();
 			shutdown = new Mock<Action>();
 			taskbar = new Mock<ITaskbar>();
-			terminationActivator = new Mock<ITerminationActivator>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
@@ -105,7 +106,6 @@ namespace SafeExamBrowser.Client.UnitTests
 				uiFactory.Object);
 
 			context.AppConfig = appConfig;
-			context.Activators.Add(terminationActivator.Object);
 			context.Browser = browser.Object;
 			context.ClientHost = clientHost.Object;
 			context.SessionId = sessionId;
@@ -125,15 +125,111 @@ namespace SafeExamBrowser.Client.UnitTests
 			taskbar.Setup(t => t.InitializeBounds()).Callback(() => bounds = ++order);
 
 			sut.TryStart();
-			applicationMonitor.Raise(p => p.ExplorerStarted += null);
+			applicationMonitor.Raise(a => a.ExplorerStarted += null);
 
-			explorerShell.Verify(p => p.Terminate(), Times.Once);
-			displayMonitor.Verify(w => w.InitializePrimaryDisplay(taskbar.Object.GetAbsoluteHeight()), Times.Once);
+			explorerShell.Verify(e => e.Terminate(), Times.Once);
+			displayMonitor.Verify(d => d.InitializePrimaryDisplay(taskbar.Object.GetAbsoluteHeight()), Times.Once);
 			taskbar.Verify(t => t.InitializeBounds(), Times.Once);
 
 			Assert.IsTrue(shell == 1);
 			Assert.IsTrue(workingArea == 2);
 			Assert.IsTrue(bounds == 3);
+		}
+
+		[TestMethod]
+		public void ApplicationMonitor_MustRequestShutdownIfChosenByUserAfterFailedTermination()
+		{
+			var lockScreen = new Mock<ILockScreen>();
+			var result = new LockScreenResult();
+
+			lockScreen.Setup(l => l.WaitForResult()).Returns(result);
+			runtimeProxy.Setup(p => p.RequestShutdown()).Returns(new CommunicationResult(true));
+			uiFactory
+				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>()))
+				.Returns(lockScreen.Object)
+				.Callback<string, string, IEnumerable<LockScreenOption>>((m, t, o) => result.OptionId = o.Last().Id);
+
+			sut.TryStart();
+			applicationMonitor.Raise(m => m.TerminationFailed += null, new List<RunningApplication>());
+
+			runtimeProxy.Verify(p => p.RequestShutdown(), Times.Once);
+		}
+
+		[TestMethod]
+		public void ApplicationMonitor_MustShowLockScreenIfTerminationFailed()
+		{
+			var activator1 = new Mock<IActivator>();
+			var activator2 = new Mock<IActivator>();
+			var activator3 = new Mock<IActivator>();
+			var lockScreen = new Mock<ILockScreen>();
+			var result = new LockScreenResult();
+			var order = 0;
+			var pause = 0;
+			var show = 0;
+			var wait = 0;
+			var close = 0;
+			var resume = 0;
+
+			activator1.Setup(a => a.Pause()).Callback(() => pause = ++order);
+			activator1.Setup(a => a.Resume()).Callback(() => resume = ++order);
+			context.Activators.Add(activator1.Object);
+			context.Activators.Add(activator2.Object);
+			context.Activators.Add(activator3.Object);
+			lockScreen.Setup(l => l.Show()).Callback(() => show = ++order);
+			lockScreen.Setup(l => l.WaitForResult()).Callback(() => wait = ++order).Returns(result);
+			lockScreen.Setup(l => l.Close()).Callback(() => close = ++order);
+			uiFactory
+				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>()))
+				.Returns(lockScreen.Object);
+
+			sut.TryStart();
+			applicationMonitor.Raise(m => m.TerminationFailed += null, new List<RunningApplication>());
+
+			activator1.Verify(a => a.Pause(), Times.Once);
+			activator1.Verify(a => a.Resume(), Times.Once);
+			activator2.Verify(a => a.Pause(), Times.Once);
+			activator2.Verify(a => a.Resume(), Times.Once);
+			activator3.Verify(a => a.Pause(), Times.Once);
+			activator3.Verify(a => a.Resume(), Times.Once);
+			lockScreen.Verify(l => l.Show(), Times.Once);
+			lockScreen.Verify(l => l.WaitForResult(), Times.Once);
+			lockScreen.Verify(l => l.Close(), Times.Once);
+
+			Assert.IsTrue(pause == 1);
+			Assert.IsTrue(show == 2);
+			Assert.IsTrue(wait == 3);
+			Assert.IsTrue(close == 4);
+			Assert.IsTrue(resume == 5);
+		}
+
+		[TestMethod]
+		public void ApplicationMonitor_MustValidateQuitPasswordIfTerminationFailed()
+		{
+			var hash = "12345";
+			var lockScreen = new Mock<ILockScreen>();
+			var result = new LockScreenResult { Password = "test" };
+			var attempt = 0;
+			var correct = new Random().Next(1, 50);
+			var lockScreenResult = new Func<LockScreenResult>(() => ++attempt == correct ? result : new LockScreenResult());
+
+			context.Settings.QuitPasswordHash = hash;
+			hashAlgorithm.Setup(a => a.GenerateHashFor(It.Is<string>(p => p == result.Password))).Returns(hash);
+			lockScreen.Setup(l => l.WaitForResult()).Returns(lockScreenResult);
+			uiFactory
+				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>()))
+				.Returns(lockScreen.Object);
+
+			sut.TryStart();
+			applicationMonitor.Raise(m => m.TerminationFailed += null, new List<RunningApplication>());
+
+			hashAlgorithm.Verify(a => a.GenerateHashFor(It.Is<string>(p => p == result.Password)), Times.Once);
+			hashAlgorithm.Verify(a => a.GenerateHashFor(It.Is<string>(p => p != result.Password)), Times.Exactly(attempt - 1));
+			messageBox.Verify(m => m.Show(
+				It.IsAny<TextKey>(),
+				It.IsAny<TextKey>(),
+				It.IsAny<MessageBoxAction>(),
+				It.IsAny<MessageBoxIcon>(),
+				It.Is<IWindow>(w => w == lockScreen.Object)), Times.Exactly(attempt - 1));
 		}
 
 		[TestMethod]
@@ -242,11 +338,117 @@ namespace SafeExamBrowser.Client.UnitTests
 			sut.TryStart();
 			displayMonitor.Raise(d => d.DisplayChanged += null);
 
-			displayMonitor.Verify(w => w.InitializePrimaryDisplay(this.taskbar.Object.GetAbsoluteHeight()), Times.Once);
+			displayMonitor.Verify(d => d.InitializePrimaryDisplay(this.taskbar.Object.GetAbsoluteHeight()), Times.Once);
 			this.taskbar.Verify(t => t.InitializeBounds(), Times.Once);
 
 			Assert.IsTrue(workingArea == 1);
 			Assert.IsTrue(taskbar == 2);
+		}
+
+		[TestMethod]
+		public void Operations_MustAskForAutomaticApplicationTermination()
+		{
+			var args = new ApplicationTerminationEventArgs(Enumerable.Empty<RunningApplication>());
+
+			messageBox.Setup(m => m.Show(
+				It.IsAny<string>(),
+				It.IsAny<string>(),
+				It.IsAny<MessageBoxAction>(),
+				It.IsAny<MessageBoxIcon>(),
+				It.IsAny<IWindow>())).Returns(MessageBoxResult.Yes);
+
+			sut.TryStart();
+			operationSequence.Raise(s => s.ActionRequired += null, args);
+
+			Assert.IsTrue(args.TerminateProcesses);
+		}
+
+		[TestMethod]
+		public void Operations_MustAbortAskingForAutomaticApplicationTermination()
+		{
+			var args = new ApplicationTerminationEventArgs(Enumerable.Empty<RunningApplication>());
+
+			messageBox.Setup(m => m.Show(
+				It.IsAny<string>(),
+				It.IsAny<string>(),
+				It.IsAny<MessageBoxAction>(),
+				It.IsAny<MessageBoxIcon>(),
+				It.IsAny<IWindow>())).Returns(MessageBoxResult.No);
+
+			sut.TryStart();
+			operationSequence.Raise(s => s.ActionRequired += null, args);
+
+			Assert.IsFalse(args.TerminateProcesses);
+		}
+
+		[TestMethod]
+		public void Operations_MustAskForApplicationPath()
+		{
+			var args = new ApplicationNotFoundEventArgs(default(string), default(string));
+			var dialog = new Mock<IFolderDialog>();
+			var result = new FolderDialogResult { FolderPath = @"C:\Some\random\path\", Success = true };
+
+			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(result);
+			text.SetReturnsDefault(string.Empty);
+			uiFactory.Setup(f => f.CreateFolderDialog(It.IsAny<string>())).Returns(dialog.Object);
+
+			sut.TryStart();
+			operationSequence.Raise(s => s.ActionRequired += null, args);
+
+			Assert.AreEqual(result.FolderPath, args.CustomPath);
+			Assert.IsTrue(args.Success);
+		}
+
+		[TestMethod]
+		public void Operations_MustAbortAskingForApplicationPath()
+		{
+			var args = new ApplicationNotFoundEventArgs(default(string), default(string));
+			var dialog = new Mock<IFolderDialog>();
+			var result = new FolderDialogResult { Success = false };
+
+			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(result);
+			text.SetReturnsDefault(string.Empty);
+			uiFactory.Setup(f => f.CreateFolderDialog(It.IsAny<string>())).Returns(dialog.Object);
+
+			sut.TryStart();
+			operationSequence.Raise(s => s.ActionRequired += null, args);
+
+			Assert.IsNull(args.CustomPath);
+			Assert.IsFalse(args.Success);
+		}
+
+		[TestMethod]
+		public void Operations_MustInformAboutFailedApplicationInitialization()
+		{
+			var args = new ApplicationInitializationFailedEventArgs(default(string), default(string), FactoryResult.NotFound);
+
+			text.SetReturnsDefault(string.Empty);
+			sut.TryStart();
+			operationSequence.Raise(s => s.ActionRequired += null, args);
+
+			messageBox.Verify(m => m.Show(
+				It.IsAny<string>(),
+				It.IsAny<string>(),
+				It.IsAny<MessageBoxAction>(),
+				It.IsAny<MessageBoxIcon>(),
+				It.IsAny<IWindow>()), Times.Once);
+		}
+
+		[TestMethod]
+		public void Operations_MustInformAboutFailedApplicationTermination()
+		{
+			var args = new ApplicationTerminationFailedEventArgs(Enumerable.Empty<RunningApplication>());
+
+			text.SetReturnsDefault(string.Empty);
+			sut.TryStart();
+			operationSequence.Raise(s => s.ActionRequired += null, args);
+
+			messageBox.Verify(m => m.Show(
+				It.IsAny<string>(),
+				It.IsAny<string>(),
+				It.IsAny<MessageBoxAction>(),
+				It.IsAny<MessageBoxIcon>(),
+				It.IsAny<IWindow>()), Times.Once);
 		}
 
 		[TestMethod]
@@ -562,8 +764,6 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Startup_MustPerformOperations()
 		{
-			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
-
 			var success = sut.TryStart();
 
 			operationSequence.Verify(o => o.TryPerform(), Times.Once);
@@ -610,10 +810,9 @@ namespace SafeExamBrowser.Client.UnitTests
 		}
 
 		[TestMethod]
-		public void Startup_MustCorrectlyHandleTaskbar()
+		public void Startup_MustCorrectlyShowTaskbar()
 		{
 			settings.Taskbar.EnableTaskbar = true;
-			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
 			sut.TryStart();
 
 			taskbar.Verify(t => t.Show(), Times.Once);
@@ -623,6 +822,35 @@ namespace SafeExamBrowser.Client.UnitTests
 			sut.TryStart();
 
 			taskbar.Verify(t => t.Show(), Times.Never);
+
+			taskbar.Reset();
+			settings.Taskbar.EnableTaskbar = false;
+			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
+			sut.TryStart();
+
+			taskbar.Verify(t => t.Show(), Times.Never);
+		}
+
+		[TestMethod]
+		public void Startup_MustCorrectlyShowActionCenter()
+		{
+			settings.ActionCenter.EnableActionCenter = true;
+			sut.TryStart();
+
+			actionCenter.Verify(t => t.Show(), Times.Once);
+
+			actionCenter.Reset();
+			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Aborted);
+			sut.TryStart();
+
+			actionCenter.Verify(t => t.Show(), Times.Never);
+
+			actionCenter.Reset();
+			settings.ActionCenter.EnableActionCenter = false;
+			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
+			sut.TryStart();
+
+			actionCenter.Verify(t => t.Show(), Times.Never);
 		}
 
 		[TestMethod]
@@ -638,7 +866,6 @@ namespace SafeExamBrowser.Client.UnitTests
 			context.Applications.Add(application1.Object);
 			context.Applications.Add(application2.Object);
 			context.Applications.Add(application3.Object);
-			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
 
 			sut.TryStart();
 
@@ -651,7 +878,6 @@ namespace SafeExamBrowser.Client.UnitTests
 		public void Startup_MustAutoStartBrowser()
 		{
 			browser.SetupGet(b => b.AutoStart).Returns(true);
-			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
 
 			sut.TryStart();
 
@@ -670,7 +896,9 @@ namespace SafeExamBrowser.Client.UnitTests
 			var order = 0;
 			var pause = 0;
 			var resume = 0;
+			var terminationActivator = new Mock<ITerminationActivator>();
 
+			context.Activators.Add(terminationActivator.Object);
 			messageBox.Setup(m => m.Show(
 				It.IsAny<TextKey>(),
 				It.IsAny<TextKey>(),

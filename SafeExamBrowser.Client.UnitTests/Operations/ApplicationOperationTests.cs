@@ -110,7 +110,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			var applicationSettings = new WhitelistApplication { AllowCustomPath = true };
 			var args = default(ActionRequiredEventArgs);
 			var attempt = 0;
-			var correct = new Random().Next(1, 50);
+			var correct = new Random().Next(2, 50);
 			var factoryResult = new Func<FactoryResult>(() => ++attempt == correct ? FactoryResult.Success : FactoryResult.NotFound);
 
 			context.Settings.Applications.Whitelist.Add(applicationSettings);
