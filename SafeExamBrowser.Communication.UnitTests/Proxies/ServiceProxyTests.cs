@@ -48,24 +48,6 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 		}
 
 		[TestMethod]
-		public void MustIgnoreConnectIfUnavailable()
-		{
-			sut.Ignore = true;
-			sut.Connect();
-
-			proxy.Verify(p => p.Connect(It.IsAny<Guid>()), Times.Never);
-		}
-
-		[TestMethod]
-		public void MustIgnoreDisconnectIfUnavailable()
-		{
-			sut.Ignore = true;
-			sut.Disconnect();
-
-			proxy.Verify(p => p.Disconnect(It.IsAny<DisconnectionMessage>()), Times.Never);
-		}
-
-		[TestMethod]
 		public void MustCorrectlySendSystemConfigurationUpdate()
 		{
 			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.UpdateSystemConfiguration))).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
@@ -85,15 +67,6 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 			var communication = sut.RunSystemConfigurationUpdate();
 
 			Assert.IsFalse(communication.Success);
-		}
-
-		[TestMethod]
-		public void MustIgnoreSystemConfigurationUpdateIfUnavailable()
-		{
-			sut.Ignore = true;
-			sut.RunSystemConfigurationUpdate();
-
-			proxy.Verify(p => p.Send(It.IsAny<Message>()), Times.Never);
 		}
 
 		[TestMethod]
@@ -121,17 +94,6 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 		}
 
 		[TestMethod]
-		public void MustIgnoreStartSessionIfUnavaiable()
-		{
-			sut.Ignore = true;
-
-			var communication = sut.StartSession(null);
-
-			Assert.IsTrue(communication.Success);
-			proxy.Verify(p => p.Send(It.IsAny<Message>()), Times.Never);
-		}
-
-		[TestMethod]
 		public void MustCorrectlyStopSession()
 		{
 			var sessionId = Guid.NewGuid();
@@ -153,17 +115,6 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 			var communication = sut.StopSession(Guid.Empty);
 
 			Assert.IsFalse(communication.Success);
-		}
-
-		[TestMethod]
-		public void MustIgnoreStopSessionIfUnavaiable()
-		{
-			sut.Ignore = true;
-
-			var communication = sut.StopSession(Guid.Empty);
-
-			Assert.IsTrue(communication.Success);
-			proxy.Verify(p => p.Send(It.IsAny<Message>()), Times.Never);
 		}
 	}
 }

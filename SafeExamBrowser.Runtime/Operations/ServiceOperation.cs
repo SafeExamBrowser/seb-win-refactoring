@@ -12,12 +12,12 @@ using System.Threading;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
+using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 
@@ -28,6 +28,8 @@ namespace SafeExamBrowser.Runtime.Operations
 		private ILogger logger;
 		private IRuntimeHost runtimeHost;
 		private IServiceProxy service;
+		private string serviceEventName;
+		private Guid? sessionId;
 		private int timeout_ms;
 		private IUserInfo userInfo;
 
@@ -54,9 +56,9 @@ namespace SafeExamBrowser.Runtime.Operations
 			logger.Info($"Initializing service...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeServiceSession);
 
-			var success = TryEstablishConnection();
+			var success = TryInitializeConnection();
 
-			if (service.IsConnected)
+			if (success && service.IsConnected)
 			{
 				success = TryStartSession();
 			}
@@ -69,15 +71,15 @@ namespace SafeExamBrowser.Runtime.Operations
 			logger.Info($"Initializing service...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeServiceSession);
 
-			var success = false;
+			var success = true;
 
-			if (service.IsConnected)
+			if (service.IsConnected && sessionId.HasValue)
 			{
 				success = TryStopSession();
 			}
-			else
+			else if (!service.IsConnected)
 			{
-				success = TryEstablishConnection();
+				success = TryInitializeConnection();
 			}
 
 			if (success && service.IsConnected)
@@ -97,7 +99,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (service.IsConnected)
 			{
-				if (Context.Current != null)
+				if (sessionId.HasValue)
 				{
 					success &= TryStopSession(true);
 				}
@@ -108,7 +110,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			return success ? OperationResult.Success : OperationResult.Failed;
 		}
 
-		private bool TryEstablishConnection()
+		private bool TryInitializeConnection()
 		{
 			var mandatory = Context.Next.Settings.Service.Policy == ServicePolicy.Mandatory;
 			var warn = Context.Next.Settings.Service.Policy == ServicePolicy.Warn;
@@ -117,8 +119,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (success)
 			{
-				service.Ignore = !connected;
-				logger.Info($"The service is {(mandatory ? "mandatory" : "optional")} and {(connected ? "connected." : "not connected. All service-related operations will be ignored!")}");
+				logger.Info($"The service is {(mandatory ? "mandatory" : "optional")} and {(connected ? "connected." : "not connected.")}");
 
 				if (!connected && warn)
 				{
@@ -182,6 +183,8 @@ namespace SafeExamBrowser.Runtime.Operations
 
 				if (started)
 				{
+					sessionId = Context.Next.SessionId;
+					serviceEventName = Context.Next.AppConfig.ServiceEventName;
 					logger.Info("Successfully started new service session.");
 				}
 				else
@@ -203,14 +206,16 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			logger.Info("Stopping current service session...");
 
-			var communication = service.StopSession(Context.Current.SessionId);
+			var communication = service.StopSession(sessionId.Value);
 
 			if (communication.Success)
 			{
-				success = TryWaitForServiceEvent(Context.Current.AppConfig.ServiceEventName);
+				success = TryWaitForServiceEvent(serviceEventName);
 
 				if (success)
 				{
+					sessionId = default(Guid?);
+					serviceEventName = default(string);
 					logger.Info("Successfully stopped service session.");
 				}
 				else

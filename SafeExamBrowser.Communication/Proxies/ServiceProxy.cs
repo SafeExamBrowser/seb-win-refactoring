@@ -20,39 +20,12 @@ namespace SafeExamBrowser.Communication.Proxies
 	/// </summary>
 	public class ServiceProxy : BaseProxy, IServiceProxy
 	{
-		public bool Ignore { private get; set; }
-
 		public ServiceProxy(string address, IProxyObjectFactory factory, ILogger logger, Interlocutor owner) : base(address, factory, logger, owner)
 		{
 		}
 
-		public override bool Connect(Guid? token = null, bool autoPing = true)
-		{
-			if (IgnoreOperation(nameof(Connect)))
-			{
-				return false;
-			}
-
-			return base.Connect(autoPing: autoPing);
-		}
-
-		public override bool Disconnect()
-		{
-			if (IgnoreOperation(nameof(Disconnect)))
-			{
-				return false;
-			}
-
-			return base.Disconnect();
-		}
-
 		public CommunicationResult RunSystemConfigurationUpdate()
 		{
-			if (IgnoreOperation(nameof(RunSystemConfigurationUpdate)))
-			{
-				return new CommunicationResult(true);
-			}
-
 			try
 			{
 				var response = Send(SimpleMessagePurport.UpdateSystemConfiguration);
@@ -79,11 +52,6 @@ namespace SafeExamBrowser.Communication.Proxies
 
 		public CommunicationResult StartSession(ServiceConfiguration configuration)
 		{
-			if (IgnoreOperation(nameof(StartSession)))
-			{
-				return new CommunicationResult(true);
-			}
-
 			try
 			{
 				var response = Send(new SessionStartMessage(configuration));
@@ -110,11 +78,6 @@ namespace SafeExamBrowser.Communication.Proxies
 
 		public CommunicationResult StopSession(Guid sessionId)
 		{
-			if (IgnoreOperation(nameof(StopSession)))
-			{
-				return new CommunicationResult(true);
-			}
-
 			try
 			{
 				var response = Send(new SessionStopMessage(sessionId));
@@ -137,16 +100,6 @@ namespace SafeExamBrowser.Communication.Proxies
 
 				return new CommunicationResult(false);
 			}
-		}
-
-		private bool IgnoreOperation(string operationName)
-		{
-			if (Ignore)
-			{
-				Logger.Debug($"Skipping '{operationName}' operation because the ignore flag is set.");
-			}
-
-			return Ignore;
 		}
 	}
 }
