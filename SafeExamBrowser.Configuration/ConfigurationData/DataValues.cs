@@ -10,10 +10,10 @@ using System;
 using System.IO;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Browser;
+using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.Settings.UserInterface;
-using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {
@@ -121,6 +121,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AdditionalWindow.AllowForwardNavigation = true;
 			settings.Browser.AdditionalWindow.AllowReloading = true;
 			settings.Browser.AdditionalWindow.FullScreenMode = false;
+			settings.Browser.AdditionalWindow.Position = BrowserWindowPosition.Right;
+			settings.Browser.AdditionalWindow.RelativeHeight = 100;
+			settings.Browser.AdditionalWindow.RelativeWidth = 50;
 			settings.Browser.AdditionalWindow.ShowReloadWarning = false;
 			settings.Browser.MainWindow.AllowAddressBar = false;
 			settings.Browser.MainWindow.AllowBackwardNavigation = false;
@@ -128,6 +131,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.MainWindow.AllowForwardNavigation = false;
 			settings.Browser.MainWindow.AllowReloading = true;
 			settings.Browser.MainWindow.FullScreenMode = false;
+			settings.Browser.MainWindow.RelativeHeight = 100;
+			settings.Browser.MainWindow.RelativeWidth = 100;
 			settings.Browser.MainWindow.ShowReloadWarning = true;
 
 			settings.Keyboard.AllowAltEsc = false;
