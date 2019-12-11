@@ -59,6 +59,7 @@
     <Compile Include="Applications\WhitelistApplication.cs" />
     <Compile Include="Browser\BrowserFilterSettings.cs" />
     <Compile Include="Browser\BrowserSettings.cs" />
+    <Compile Include="Browser\BrowserWindowPosition.cs" />
     <Compile Include="Browser\BrowserWindowSettings.cs" />
     <Compile Include="Browser\FilterResult.cs" />
     <Compile Include="Browser\FilterRuleSettings.cs" />

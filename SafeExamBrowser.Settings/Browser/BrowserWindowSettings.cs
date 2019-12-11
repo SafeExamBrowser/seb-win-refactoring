@@ -17,6 +17,16 @@ namespace SafeExamBrowser.Settings.Browser
 	public class BrowserWindowSettings
 	{
 		/// <summary>
+		/// Optionally defines the height of the browser window in physical pixels.
+		/// </summary>
+		public int? AbsoluteHeight { get; set; }
+		
+		/// <summary>
+		/// Optionally defines the width of the browser window in physical pixels.
+		/// </summary>
+		public int? AbsoluteWidth { get; set; }
+
+		/// <summary>
 		/// Determines whether the user will be allowed to change the URL in the address bar.
 		/// </summary>
 		public bool AllowAddressBar { get; set; }
@@ -45,6 +55,21 @@ namespace SafeExamBrowser.Settings.Browser
 		/// Determines whether the browser window will be rendered in fullscreen mode, i.e. without window frame.
 		/// </summary>
 		public bool FullScreenMode { get; set; }
+
+		/// <summary>
+		/// Determines the initial position of the browser window (if it is not maximized).
+		/// </summary>
+		public BrowserWindowPosition Position { get; set; }
+
+		/// <summary>
+		/// Optionally defines the height of the browser window as percentage of the working area height.
+		/// </summary>
+		public int? RelativeHeight { get; set; }
+
+		/// <summary>
+		/// Optionally defines the width of the browser window as percentage of the working area width.
+		/// </summary>
+		public int? RelativeWidth { get; set; }
 
 		/// <summary>
 		/// Determines whether the user will need to confirm every reload attempt.

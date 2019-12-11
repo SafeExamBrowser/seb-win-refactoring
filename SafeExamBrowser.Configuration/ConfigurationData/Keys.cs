@@ -52,9 +52,19 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string AllowPopups = "blockPopUpWindows";
 			internal const string CustomUserAgentDesktop = "browserUserAgentWinDesktopModeCustom";
 			internal const string CustomUserAgentMobile = "browserUserAgentWinTouchModeCustom";
-			internal const string MainWindowMode = "browserViewMode";
 			internal const string UserAgentModeDesktop = "browserUserAgentWinDesktopMode";
 			internal const string UserAgentModeMobile = "browserUserAgentWinTouchMode";
+
+			internal static class AdditionalWindow
+			{
+				internal const string AllowAddressBar = "newBrowserWindowAllowAddressBar";
+				internal const string AllowNavigation = "newBrowserWindowNavigation";
+				internal const string AllowReload = "newBrowserWindowAllowReload";
+				internal const string ShowReloadWarning = "newBrowserWindowShowReloadWarning";
+				internal const string WindowHeight = "newBrowserWindowByLinkHeight";
+				internal const string WindowWidth = "newBrowserWindowByLinkWidth";
+				internal const string WindowPosition = "newBrowserWindowByLinkPositioning";
+			}
 
 			internal static class Filter
 			{
@@ -73,14 +83,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				internal const string AllowNavigation = "allowBrowsingBackForward";
 				internal const string AllowReload = "browserWindowAllowReload";
 				internal const string ShowReloadWarning = "showReloadWarning";
-			}
-
-			internal static class AdditionalWindow
-			{
-				internal const string AllowAddressBar = "newBrowserWindowAllowAddressBar";
-				internal const string AllowNavigation = "newBrowserWindowNavigation";
-				internal const string AllowReload = "newBrowserWindowAllowReload";
-				internal const string ShowReloadWarning = "newBrowserWindowShowReloadWarning";
+				internal const string WindowHeight = "mainBrowserWindowHeight";
+				internal const string WindowMode = "browserViewMode";
+				internal const string WindowWidth = "mainBrowserWindowWidth";
+				internal const string WindowPosition = "mainBrowserWindowPositioning";
 			}
 		}
 

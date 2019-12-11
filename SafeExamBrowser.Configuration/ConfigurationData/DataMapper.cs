@@ -81,9 +81,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				case Keys.Browser.AllowPopups:
 					MapAllowPopups(settings, value);
 					break;
-				case Keys.Browser.MainWindowMode:
-					MapMainWindowMode(settings, value);
-					break;
 				case Keys.Browser.AdditionalWindow.AllowAddressBar:
 					MapAllowAddressBarAdditionalWindow(settings, value);
 					break;
@@ -95,6 +92,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 					break;
 				case Keys.Browser.AdditionalWindow.ShowReloadWarning:
 					MapShowReloadWarningAdditionalWindow(settings, value);
+					break;
+				case Keys.Browser.AdditionalWindow.WindowHeight:
+					MapWindowHeightAdditionalWindow(settings, value);
+					break;
+				case Keys.Browser.AdditionalWindow.WindowPosition:
+					MapWindowPositionAdditionalWindow(settings, value);
+					break;
+				case Keys.Browser.AdditionalWindow.WindowWidth:
+					MapWindowWidthAdditionalWindow(settings, value);
 					break;
 				case Keys.Browser.Filter.UrlFilterRules:
 					MapUrlFilterRules(settings, value);
@@ -110,6 +116,18 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 					break;
 				case Keys.Browser.MainWindow.ShowReloadWarning:
 					MapShowReloadWarning(settings, value);
+					break;
+				case Keys.Browser.MainWindow.WindowHeight:
+					MapWindowHeightMainWindow(settings, value);
+					break;
+				case Keys.Browser.MainWindow.WindowMode:
+					MapMainWindowMode(settings, value);
+					break;
+				case Keys.Browser.MainWindow.WindowPosition:
+					MapWindowPositionMainWindow(settings, value);
+					break;
+				case Keys.Browser.MainWindow.WindowWidth:
+					MapWindowWidthMainWindow(settings, value);
 					break;
 			}
 		}

@@ -197,5 +197,111 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				}
 			}
 		}
+
+		private void MapWindowHeightAdditionalWindow(AppSettings settings, object value)
+		{
+			if (value is string raw)
+			{
+				if (raw.EndsWith("%") && int.TryParse(raw.Replace("%", string.Empty), out var relativeHeight))
+				{
+					settings.Browser.AdditionalWindow.RelativeHeight = relativeHeight;
+				}
+				else if (int.TryParse(raw, out var absoluteHeight))
+				{
+					settings.Browser.AdditionalWindow.AbsoluteHeight = absoluteHeight;
+				}
+			}
+		}
+
+		private void MapWindowHeightMainWindow(AppSettings settings, object value)
+		{
+			if (value is string raw)
+			{
+				if (raw.EndsWith("%") && int.TryParse(raw.Replace("%", string.Empty), out var relativeHeight))
+				{
+					settings.Browser.MainWindow.RelativeHeight = relativeHeight;
+				}
+				else if (int.TryParse(raw, out var absoluteHeight))
+				{
+					settings.Browser.MainWindow.AbsoluteHeight = absoluteHeight;
+				}
+			}
+		}
+
+		private void MapWindowPositionAdditionalWindow(AppSettings settings, object value)
+		{
+			const int LEFT = 0;
+			const int CENTER = 1;
+			const int RIGHT = 2;
+
+			if (value is int position)
+			{
+				switch (position)
+				{
+					case LEFT:
+						settings.Browser.AdditionalWindow.Position = BrowserWindowPosition.Left;
+						break;
+					case CENTER:
+						settings.Browser.AdditionalWindow.Position = BrowserWindowPosition.Center;
+						break;
+					case RIGHT:
+						settings.Browser.AdditionalWindow.Position = BrowserWindowPosition.Right;
+						break;
+				}
+			}
+		}
+
+		private void MapWindowPositionMainWindow(AppSettings settings, object value)
+		{
+			const int LEFT = 0;
+			const int CENTER = 1;
+			const int RIGHT = 2;
+
+			if (value is int position)
+			{
+				switch (position)
+				{
+					case LEFT:
+						settings.Browser.MainWindow.Position = BrowserWindowPosition.Left;
+						break;
+					case CENTER:
+						settings.Browser.MainWindow.Position = BrowserWindowPosition.Center;
+						break;
+					case RIGHT:
+						settings.Browser.MainWindow.Position = BrowserWindowPosition.Right;
+						break;
+				}
+			}
+		}
+
+		private void MapWindowWidthAdditionalWindow(AppSettings settings, object value)
+		{
+			if (value is string raw)
+			{
+				if (raw.EndsWith("%") && int.TryParse(raw.Replace("%", string.Empty), out var relativeWidth))
+				{
+					settings.Browser.AdditionalWindow.RelativeWidth = relativeWidth;
+				}
+				else if (int.TryParse(raw, out var absoluteWidth))
+				{
+					settings.Browser.AdditionalWindow.AbsoluteWidth = absoluteWidth;
+				}
+			}
+		}
+
+		private void MapWindowWidthMainWindow(AppSettings settings, object value)
+		{
+			if (value is string raw)
+			{
+				if (raw.EndsWith("%") && int.TryParse(raw.Replace("%", string.Empty), out var relativeWidth))
+				{
+					settings.Browser.MainWindow.RelativeWidth = relativeWidth;
+				}
+				else if (int.TryParse(raw, out var absoluteWidth))
+				{
+					settings.Browser.MainWindow.AbsoluteWidth = absoluteWidth;
+				}
+			}
+		}
 	}
 }

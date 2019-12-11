@@ -270,28 +270,65 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		private void InitializeBounds()
 		{
-			if (isMainWindow)
+			if (isMainWindow && WindowSettings.FullScreenMode)
 			{
-				if (WindowSettings.FullScreenMode)
-				{
-					Top = 0;
-					Left = 0;
-					Height = SystemParameters.WorkArea.Height;
-					Width = SystemParameters.WorkArea.Width;
-					ResizeMode = ResizeMode.NoResize;
-					WindowStyle = WindowStyle.None;
-				}
-				else
-				{
-					WindowState = WindowState.Maximized;
-				}
+				Top = 0;
+				Left = 0;
+				Height = SystemParameters.WorkArea.Height;
+				Width = SystemParameters.WorkArea.Width;
+				ResizeMode = ResizeMode.NoResize;
+				WindowStyle = WindowStyle.None;
+			}
+			else if (WindowSettings.RelativeHeight == 100 && WindowSettings.RelativeWidth == 100)
+			{
+				WindowState = WindowState.Maximized;
 			}
 			else
 			{
-				Top = 0;
-				Left = SystemParameters.WorkArea.Width / 2;
-				Height = SystemParameters.WorkArea.Height;
-				Width = SystemParameters.WorkArea.Width / 2;
+				if (WindowSettings.RelativeHeight > 0)
+				{
+					Height = SystemParameters.WorkArea.Height * WindowSettings.RelativeHeight.Value / 100;
+					Top = (SystemParameters.WorkArea.Height / 2) - (Height / 2);
+				}
+				else if (WindowSettings.AbsoluteHeight > 0)
+				{
+					Height = this.TransformFromPhysical(0, WindowSettings.AbsoluteHeight.Value).Y;
+					Top = (SystemParameters.WorkArea.Height / 2) - (Height / 2);
+				}
+
+				if (WindowSettings.RelativeWidth > 0)
+				{
+					Width = SystemParameters.WorkArea.Width * WindowSettings.RelativeWidth.Value / 100;
+				}
+				else if (WindowSettings.AbsoluteWidth > 0)
+				{
+					Width = this.TransformFromPhysical(WindowSettings.AbsoluteWidth.Value, 0).X;
+				}
+
+				if (Height > SystemParameters.WorkArea.Height)
+				{
+					Top = 0;
+					Height = SystemParameters.WorkArea.Height;
+				}
+
+				if (Width > SystemParameters.WorkArea.Width)
+				{
+					Left = 0;
+					Width = SystemParameters.WorkArea.Width;
+				}
+
+				switch (WindowSettings.Position)
+				{
+					case BrowserWindowPosition.Left:
+						Left = 0;
+						break;
+					case BrowserWindowPosition.Center:
+						Left = (SystemParameters.WorkArea.Width / 2) - (Width / 2);
+						break;
+					case BrowserWindowPosition.Right:
+						Left = SystemParameters.WorkArea.Width - Width;
+						break;
+				}
 			}
 		}
 
