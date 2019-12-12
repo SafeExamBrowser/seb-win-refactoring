@@ -37,11 +37,6 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool AllowPageZoom { get; set; }
 
 		/// <summary>
-		/// Determines whether popup windows will be opened or not.
-		/// </summary>
-		public bool AllowPopups { get; set; }
-
-		/// <summary>
 		/// The custom user agent to optionally be used for all requests.
 		/// </summary>
 		public string CustomUserAgent { get; set; }
@@ -55,7 +50,12 @@ namespace SafeExamBrowser.Settings.Browser
 		/// The settings to be used for the main browser window.
 		/// </summary>
 		public BrowserWindowSettings MainWindow { get; set; }
-		
+
+		/// <summary>
+		/// Determines how attempts to open a popup are handled.
+		/// </summary>
+		public PopupPolicy PopupPolicy { get; set; }
+
 		/// <summary>
 		/// The URL with which the main browser window will be loaded.
 		/// </summary>

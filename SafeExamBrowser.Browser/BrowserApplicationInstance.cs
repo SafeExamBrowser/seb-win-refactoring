@@ -249,14 +249,19 @@ namespace SafeExamBrowser.Browser
 
 		private void LifeSpanHandler_PopupRequested(PopupRequestedEventArgs args)
 		{
-			if (settings.AllowPopups)
+			switch (settings.PopupPolicy)
 			{
-				logger.Debug($"Forwarding request to open new window for '{args.Url}'...");
-				PopupRequested?.Invoke(args);
-			}
-			else
-			{
-				logger.Debug($"Blocked attempt to open new window for '{args.Url}'.");
+				case PopupPolicy.Allow:
+					logger.Debug($"Forwarding request to open new window for '{args.Url}'...");
+					PopupRequested?.Invoke(args);
+					break;
+				case PopupPolicy.SameWindow:
+					logger.Info($"Discarding request to open new window and loading '{args.Url}' directly...");
+					control.NavigateTo(args.Url);
+					break;
+				default:
+					logger.Info($"Blocked attempt to open new window for '{args.Url}'.");
+					break;
 			}
 		}
 

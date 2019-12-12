@@ -78,8 +78,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				case Keys.Browser.AllowPageZoom:
 					MapAllowPageZoom(settings, value);
 					break;
-				case Keys.Browser.AllowPopups:
-					MapAllowPopups(settings, value);
+				case Keys.Browser.PopupPolicy:
+					MapPopupPolicy(settings, value);
 					break;
 				case Keys.Browser.AdditionalWindow.AllowAddressBar:
 					MapAllowAddressBarAdditionalWindow(settings, value);

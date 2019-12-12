@@ -114,7 +114,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AllowConfigurationDownloads = true;
 			settings.Browser.AllowDownloads = true;
 			settings.Browser.AllowPageZoom = true;
-			settings.Browser.AllowPopups = true;
+			settings.Browser.PopupPolicy = PopupPolicy.Allow;
 			settings.Browser.AdditionalWindow.AllowAddressBar = false;
 			settings.Browser.AdditionalWindow.AllowBackwardNavigation = true;
 			settings.Browser.AdditionalWindow.AllowDeveloperConsole = false;

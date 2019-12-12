@@ -82,14 +82,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapAllowPopups(AppSettings settings, object value)
-		{
-			if (value is bool block)
-			{
-				settings.Browser.AllowPopups = !block;
-			}
-		}
-
 		private void MapAllowReload(AppSettings settings, object value)
 		{
 			if (value is bool allow)
@@ -113,6 +105,29 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			if (value is int mode)
 			{
 				settings.Browser.MainWindow.FullScreenMode = mode == FULLSCREEN;
+			}
+		}
+
+		private void MapPopupPolicy(AppSettings settings, object value)
+		{
+			const int ALLOW = 2;
+			const int BLOCK = 0;
+			const int SAME_WINDOW = 1;
+
+			if (value is int policy)
+			{
+				switch (policy)
+				{
+					case ALLOW:
+						settings.Browser.PopupPolicy = PopupPolicy.Allow;
+						break;
+					case BLOCK:
+						settings.Browser.PopupPolicy = PopupPolicy.Block;
+						break;
+					case SAME_WINDOW:
+						settings.Browser.PopupPolicy = PopupPolicy.SameWindow;
+						break;
+				}
 			}
 		}
 
