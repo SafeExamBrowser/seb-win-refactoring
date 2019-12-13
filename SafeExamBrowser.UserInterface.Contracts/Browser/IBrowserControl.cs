@@ -17,6 +17,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 	public interface IBrowserControl
 	{
 		/// <summary>
+		/// The address which is currently loaded.
+		/// </summary>
+		string Address { get; }
+
+		/// <summary>
 		/// Indicates whether a backward navigation can be performed.
 		/// </summary>
 		bool CanNavigateBackwards { get; }

@@ -108,26 +108,26 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapPopupPolicy(AppSettings settings, object value)
+		private void MapPopupPolicy(IDictionary<string, object> rawData, AppSettings settings)
 		{
 			const int ALLOW = 2;
 			const int BLOCK = 0;
 			const int SAME_WINDOW = 1;
 
-			if (value is int policy)
+			var hasPolicy = rawData.TryGetValue(Keys.Browser.PopupPolicy, out var policy);
+			var blockForeignHost = rawData.TryGetValue(Keys.Browser.PopupBlockForeignHost, out var value) && value as bool? == true;
+
+			switch (policy)
 			{
-				switch (policy)
-				{
-					case ALLOW:
-						settings.Browser.PopupPolicy = PopupPolicy.Allow;
-						break;
-					case BLOCK:
-						settings.Browser.PopupPolicy = PopupPolicy.Block;
-						break;
-					case SAME_WINDOW:
-						settings.Browser.PopupPolicy = PopupPolicy.SameWindow;
-						break;
-				}
+				case ALLOW:
+					settings.Browser.PopupPolicy = blockForeignHost ? PopupPolicy.AllowSameHost : PopupPolicy.Allow;
+					break;
+				case BLOCK:
+					settings.Browser.PopupPolicy = PopupPolicy.Block;
+					break;
+				case SAME_WINDOW:
+					settings.Browser.PopupPolicy = blockForeignHost ? PopupPolicy.AllowSameHostAndWindow : PopupPolicy.AllowSameWindow;
+					break;
 			}
 		}
 

@@ -28,8 +28,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 
 			MapApplicationLogAccess(rawData, settings);
-			MapRequestFilter(rawData, settings);
 			MapKioskMode(rawData, settings);
+			MapPopupPolicy(rawData, settings);
+			MapRequestFilter(rawData, settings);
 			MapUserAgentMode(rawData, settings);
 		}
 
@@ -77,9 +78,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 					break;
 				case Keys.Browser.AllowPageZoom:
 					MapAllowPageZoom(settings, value);
-					break;
-				case Keys.Browser.PopupPolicy:
-					MapPopupPolicy(settings, value);
 					break;
 				case Keys.Browser.AdditionalWindow.AllowAddressBar:
 					MapAllowAddressBarAdditionalWindow(settings, value);

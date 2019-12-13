@@ -14,18 +14,28 @@ namespace SafeExamBrowser.Settings.Browser
 	public enum PopupPolicy
 	{
 		/// <summary>
-		/// Allows popups to be opened.
+		/// Allows all popups.
 		/// </summary>
 		Allow,
 
 		/// <summary>
-		/// Blocks all popups.
+		/// Allows only popups which target the same host as the window from which they originate.
 		/// </summary>
-		Block,
+		AllowSameHost,
 
 		/// <summary>
-		/// Opens popup requests in the same window from which they originate.
+		/// Allows only popups which target the same host as the window from which they originate and opens every request directly in the respective window.
 		/// </summary>
-		SameWindow
+		AllowSameHostAndWindow,
+
+		/// <summary>
+		/// Allows all popups but opens every request directly in the window from which it originates.
+		/// </summary>
+		AllowSameWindow,
+
+		/// <summary>
+		/// Blocks all popups.
+		/// </summary>
+		Block
 	}
 }

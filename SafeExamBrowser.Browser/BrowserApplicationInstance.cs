@@ -249,18 +249,28 @@ namespace SafeExamBrowser.Browser
 
 		private void LifeSpanHandler_PopupRequested(PopupRequestedEventArgs args)
 		{
+			var validCurrentUri = Uri.TryCreate(control.Address, UriKind.Absolute, out var currentUri);
+			var validNewUri = Uri.TryCreate(args.Url, UriKind.Absolute, out var newUri);
+			var sameHost = validCurrentUri && validNewUri && string.Equals(currentUri.Host, newUri.Host, StringComparison.OrdinalIgnoreCase);
+
 			switch (settings.PopupPolicy)
 			{
 				case PopupPolicy.Allow:
+				case PopupPolicy.AllowSameHost when sameHost:
 					logger.Debug($"Forwarding request to open new window for '{args.Url}'...");
 					PopupRequested?.Invoke(args);
 					break;
-				case PopupPolicy.SameWindow:
+				case PopupPolicy.AllowSameWindow:
+				case PopupPolicy.AllowSameHostAndWindow when sameHost:
 					logger.Info($"Discarding request to open new window and loading '{args.Url}' directly...");
 					control.NavigateTo(args.Url);
 					break;
+				case PopupPolicy.AllowSameHost when !sameHost:
+				case PopupPolicy.AllowSameHostAndWindow when !sameHost:
+					logger.Info($"Blocked request to open new window for '{args.Url}' as it targets a different host.");
+					break;
 				default:
-					logger.Info($"Blocked attempt to open new window for '{args.Url}'.");
+					logger.Info($"Blocked request to open new window for '{args.Url}'.");
 					break;
 			}
 		}
