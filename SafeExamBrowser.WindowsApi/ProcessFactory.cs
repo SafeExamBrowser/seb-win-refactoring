@@ -40,10 +40,12 @@ namespace SafeExamBrowser.WindowsApi
 
 			foreach (var process in running)
 			{
-				var name = names.FirstOrDefault(n => n.processId == process.Id).name;
-				var originalName = names.FirstOrDefault(n => n.processId == process.Id).originalName;
+				if (names.Any(n => n.processId == process.Id))
+				{
+					var (_, name, originalName) = names.First(n => n.processId == process.Id);
 
-				processes.Add(new Process(process, name, originalName, LoggerFor(process, name)));
+					processes.Add(new Process(process, name, originalName, LoggerFor(process, name)));
+				}
 			}
 
 			return processes;
@@ -74,15 +76,18 @@ namespace SafeExamBrowser.WindowsApi
 
 		public bool TryGetById(int id, out IProcess process)
 		{
-			var raw = System.Diagnostics.Process.GetProcesses().FirstOrDefault(p => p.Id == id);
-
 			process = default(IProcess);
 
-			if (raw != default(System.Diagnostics.Process))
+			try
 			{
+				var raw = System.Diagnostics.Process.GetProcessById(id);
 				var (name, originalName) = LoadProcessNamesFor(raw);
 
 				process = new Process(raw, name, originalName, LoggerFor(raw, name));
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to get process with ID = {id}!", e);
 			}
 
 			return process != default(IProcess);
