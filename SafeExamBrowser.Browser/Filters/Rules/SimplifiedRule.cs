@@ -93,20 +93,14 @@ namespace SafeExamBrowser.Browser.Filters.Rules
 
 		private void ParseHost(string expression)
 		{
-			var hasToplevelDomain = Regex.IsMatch(expression, @"\.+");
-			var hasSubdomain = Regex.IsMatch(expression, @"\.{2,}");
+			var isAlphanumeric = Regex.IsMatch(expression, @"^[a-zA-Z0-9]+$");
 			var matchExactSubdomain = expression.StartsWith(".");
 
 			expression = matchExactSubdomain ? expression.Substring(1) : expression;
 			expression = Regex.Escape(expression);
 			expression = ReplaceWildcard(expression);
 
-			if (!hasToplevelDomain)
-			{
-				expression = $@"{expression}(\.[a-z]+)?";
-			}
-
-			if (!hasSubdomain && !matchExactSubdomain)
+			if (!isAlphanumeric && !matchExactSubdomain)
 			{
 				expression = $@"(.+?\.)*{expression}";
 			}

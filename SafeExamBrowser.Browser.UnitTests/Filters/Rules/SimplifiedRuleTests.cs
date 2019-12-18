@@ -80,24 +80,26 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters.Rules
 		[TestMethod]
 		public void TestAlphanumericExpression()
 		{
-			var expression = "hostname-123";
+			var expression = "hostname123";
 			var positive = new[]
 			{
-				$"scheme://{expression}",
-				// TODO: All these below should not be allowed!
+				$"scheme://{expression}"
+			};
+			var negative = new[]
+			{
+				$"scheme://hostname",
+				$"scheme://hostname1",
+				$"scheme://hostname12",
+				$"scheme://hostname1234",
 				$"scheme://{expression}.org",
 				$"scheme://www.{expression}.org",
 				$"scheme://subdomain.{expression}.com",
 				$"scheme://www.realhost.{expression}",
 				$"scheme://subdomain-1.subdomain-2.{expression}.org",
-				$"scheme://user:password@www.{expression}.org/path/file.txt?param=123#fragment"
-			};
-			var negative = new[]
-			{
-				$"scheme://hostname",
+				$"scheme://user:password@www.{expression}.org/path/file.txt?param=123#fragment",
 				$"scheme://{expression}4",
 				$"scheme://hostname.org",
-				$"scheme://hostname-12.org",
+				$"scheme://hostname12.org",
 				$"scheme://{expression}4.org",
 				$"scheme://{expression}.realhost.org",
 				$"scheme://subdomain.{expression}.realhost.org",
@@ -892,7 +894,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters.Rules
 			Test(expression, positive, negative);
 		}
 
-		private void Test(string expression, string[] positive, string[] negative, bool testLegacy = true) // TODO: Remove flag once issues cleared!
+		private void Test(string expression, string[] positive, string[] negative, bool testLegacy = true)
 		{
 			var legacy = new LegacyFilter(expression);
 
