@@ -17,20 +17,21 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Browser;
+using SafeExamBrowser.Settings.Browser.Filter;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
 	internal class ResourceHandler : CefSharp.Handler.ResourceRequestHandler
 	{
 		private AppConfig appConfig;
-		private BrowserFilterSettings settings;
+		private FilterSettings settings;
 		private ILogger logger;
 		private IRequestFilter filter;
 		private IResourceHandler contentHandler;
 		private IResourceHandler pageHandler;
 		private IText text;
 
-		internal ResourceHandler(AppConfig appConfig, BrowserFilterSettings settings, IRequestFilter filter, ILogger logger, IText text)
+		internal ResourceHandler(AppConfig appConfig, FilterSettings settings, IRequestFilter filter, ILogger logger, IText text)
 		{
 			this.appConfig = appConfig;
 			this.filter = filter;

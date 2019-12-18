@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Settings.Browser
+namespace SafeExamBrowser.Settings.Browser.Filter
 {
 	/// <summary>
 	/// Defines all possible filter rule types.

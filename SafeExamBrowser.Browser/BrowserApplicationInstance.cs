@@ -21,6 +21,7 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Browser;
+using SafeExamBrowser.Settings.Browser.Filter;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
@@ -44,7 +45,7 @@ namespace SafeExamBrowser.Browser
 		private string url;
 		private double zoomLevel;
 
-		private BrowserWindowSettings WindowSettings
+		private WindowSettings WindowSettings
 		{
 			get { return isMainInstance ? settings.MainWindow : settings.AdditionalWindow; }
 		}

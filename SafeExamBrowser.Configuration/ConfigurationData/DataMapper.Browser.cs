@@ -9,6 +9,8 @@
 using System.Collections.Generic;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Browser;
+using SafeExamBrowser.Settings.Browser.Filter;
+using SafeExamBrowser.Settings.Browser.Proxy;
 using SafeExamBrowser.Settings.UserInterface;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
@@ -272,7 +274,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		private void MapFtpProxy(AppSettings settings, IDictionary<string, object> data)
 		{
-			var proxy = new ProxySettings { Protocol = ProxyProtocol.Ftp };
+			var proxy = new ProxyConfiguration { Protocol = ProxyProtocol.Ftp };
 
 			if (data.TryGetValue(Keys.Browser.Proxy.Ftp.Host, out var v) && v is string host)
 			{
@@ -304,7 +306,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		private void MapHttpProxy(AppSettings settings, IDictionary<string, object> data)
 		{
-			var proxy = new ProxySettings { Protocol = ProxyProtocol.Http };
+			var proxy = new ProxyConfiguration { Protocol = ProxyProtocol.Http };
 
 			if (data.TryGetValue(Keys.Browser.Proxy.Http.Host, out var v) && v is string host)
 			{
@@ -336,7 +338,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		private void MapHttpsProxy(AppSettings settings, IDictionary<string, object> data)
 		{
-			var proxy = new ProxySettings { Protocol = ProxyProtocol.Https };
+			var proxy = new ProxyConfiguration { Protocol = ProxyProtocol.Https };
 
 			if (data.TryGetValue(Keys.Browser.Proxy.Https.Host, out var v) && v is string host)
 			{
@@ -368,7 +370,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		private void MapSocksProxy(AppSettings settings, IDictionary<string, object> data)
 		{
-			var proxy = new ProxySettings { Protocol = ProxyProtocol.Socks };
+			var proxy = new ProxyConfiguration { Protocol = ProxyProtocol.Socks };
 
 			if (data.TryGetValue(Keys.Browser.Proxy.Socks.Host, out var v) && v is string host)
 			{
@@ -458,13 +460,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				switch (position)
 				{
 					case LEFT:
-						settings.Browser.AdditionalWindow.Position = BrowserWindowPosition.Left;
+						settings.Browser.AdditionalWindow.Position = WindowPosition.Left;
 						break;
 					case CENTER:
-						settings.Browser.AdditionalWindow.Position = BrowserWindowPosition.Center;
+						settings.Browser.AdditionalWindow.Position = WindowPosition.Center;
 						break;
 					case RIGHT:
-						settings.Browser.AdditionalWindow.Position = BrowserWindowPosition.Right;
+						settings.Browser.AdditionalWindow.Position = WindowPosition.Right;
 						break;
 				}
 			}
@@ -481,13 +483,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				switch (position)
 				{
 					case LEFT:
-						settings.Browser.MainWindow.Position = BrowserWindowPosition.Left;
+						settings.Browser.MainWindow.Position = WindowPosition.Left;
 						break;
 					case CENTER:
-						settings.Browser.MainWindow.Position = BrowserWindowPosition.Center;
+						settings.Browser.MainWindow.Position = WindowPosition.Center;
 						break;
 					case RIGHT:
-						settings.Browser.MainWindow.Position = BrowserWindowPosition.Right;
+						settings.Browser.MainWindow.Position = WindowPosition.Right;
 						break;
 				}
 			}

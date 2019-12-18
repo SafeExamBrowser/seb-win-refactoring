@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using SafeExamBrowser.Settings.Browser.Filter;
 
 namespace SafeExamBrowser.Settings.Browser
 {
@@ -15,7 +16,7 @@ namespace SafeExamBrowser.Settings.Browser
 	/// Defines all settings for the request filter of the browser.
 	/// </summary>
 	[Serializable]
-	public class BrowserFilterSettings
+	public class FilterSettings
 	{
 		/// <summary>
 		/// Defines whether content requests for a web page should be filtered according to the defined <see cref="Rules"/>.
@@ -32,7 +33,7 @@ namespace SafeExamBrowser.Settings.Browser
 		/// </summary>
 		public IList<FilterRuleSettings> Rules { get; set; }
 
-		public BrowserFilterSettings()
+		public FilterSettings()
 		{
 			Rules = new List<FilterRuleSettings>();
 		}

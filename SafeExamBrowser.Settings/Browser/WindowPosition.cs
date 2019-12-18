@@ -9,13 +9,12 @@
 namespace SafeExamBrowser.Settings.Browser
 {
 	/// <summary>
-	/// Defines all protocols currently supported for proxies.
+	/// Defines the initial position of a browser window.
 	/// </summary>
-	public enum ProxyProtocol
+	public enum WindowPosition
 	{
-		Ftp,
-		Http,
-		Https,
-		Socks
+		Left,
+		Center,
+		Right
 	}
 }

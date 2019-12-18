@@ -11,6 +11,7 @@ using System.IO;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Browser;
+using SafeExamBrowser.Settings.Browser.Proxy;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.Settings.UserInterface;
@@ -116,7 +117,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AdditionalWindow.AllowForwardNavigation = true;
 			settings.Browser.AdditionalWindow.AllowReloading = true;
 			settings.Browser.AdditionalWindow.FullScreenMode = false;
-			settings.Browser.AdditionalWindow.Position = BrowserWindowPosition.Right;
+			settings.Browser.AdditionalWindow.Position = WindowPosition.Right;
 			settings.Browser.AdditionalWindow.RelativeHeight = 100;
 			settings.Browser.AdditionalWindow.RelativeWidth = 50;
 			settings.Browser.AdditionalWindow.ShowReloadWarning = false;

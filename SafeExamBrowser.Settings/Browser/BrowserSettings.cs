@@ -19,7 +19,7 @@ namespace SafeExamBrowser.Settings.Browser
 		/// <summary>
 		/// The settings to be used for additional browser windows.
 		/// </summary>
-		public BrowserWindowSettings AdditionalWindow { get; set; }
+		public WindowSettings AdditionalWindow { get; set; }
 
 		/// <summary>
 		/// Determines whether the user will be allowed to download configuration files.
@@ -44,12 +44,12 @@ namespace SafeExamBrowser.Settings.Browser
 		/// <summary>
 		/// The settings to be used for the browser request filter.
 		/// </summary>
-		public BrowserFilterSettings Filter { get; set; }
+		public FilterSettings Filter { get; set; }
 
 		/// <summary>
 		/// The settings to be used for the main browser window.
 		/// </summary>
-		public BrowserWindowSettings MainWindow { get; set; }
+		public WindowSettings MainWindow { get; set; }
 
 		/// <summary>
 		/// Determines how attempts to open a popup are handled.
@@ -59,7 +59,7 @@ namespace SafeExamBrowser.Settings.Browser
 		/// <summary>
 		/// Determines the proxy settings to be used by the browser.
 		/// </summary>
-		public BrowserProxySettings Proxy { get; set; }
+		public ProxySettings Proxy { get; set; }
 
 		/// <summary>
 		/// The URL with which the main browser window will be loaded.
@@ -73,10 +73,10 @@ namespace SafeExamBrowser.Settings.Browser
 
 		public BrowserSettings()
 		{
-			AdditionalWindow = new BrowserWindowSettings();
-			Filter = new BrowserFilterSettings();
-			MainWindow = new BrowserWindowSettings();
-			Proxy = new BrowserProxySettings();
+			AdditionalWindow = new WindowSettings();
+			Filter = new FilterSettings();
+			MainWindow = new WindowSettings();
+			Proxy = new ProxySettings();
 		}
 	}
 }

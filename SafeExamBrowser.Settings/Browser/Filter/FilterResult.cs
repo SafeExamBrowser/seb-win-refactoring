@@ -6,21 +6,21 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Settings.Browser
+namespace SafeExamBrowser.Settings.Browser.Filter
 {
 	/// <summary>
-	/// Defines all currently supported proxy policies for the browser.
+	/// Defines all possible results of a request filter operation.
 	/// </summary>
-	public enum ProxyPolicy
+	public enum FilterResult
 	{
 		/// <summary>
-		/// Use custom proxy settings as defined in <see cref="BrowserProxySettings"/>.
+		/// Indicates that a request should be allowed if a filter matches.
 		/// </summary>
-		Custom,
+		Allow,
 
 		/// <summary>
-		/// Use the proxy settings of the operating system (i.e. ignore all custom settings defined in <see cref="BrowserProxySettings"/>).
+		/// Indicates that a request should be blocked if a filter matches.
 		/// </summary>
-		System
+		Block
 	}
 }

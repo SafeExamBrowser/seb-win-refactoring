@@ -6,15 +6,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Settings.Browser
+namespace SafeExamBrowser.Settings.Browser.Proxy
 {
 	/// <summary>
-	/// Defines the initial position of a browser window.
+	/// Defines all protocols currently supported for proxies.
 	/// </summary>
-	public enum BrowserWindowPosition
+	public enum ProxyProtocol
 	{
-		Left,
-		Center,
-		Right
+		Ftp,
+		Http,
+		Https,
+		Socks
 	}
 }

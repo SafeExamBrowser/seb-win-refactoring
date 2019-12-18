@@ -14,7 +14,7 @@ namespace SafeExamBrowser.Settings.Browser
 	/// Defines all settings for a window of the browser engine.
 	/// </summary>
 	[Serializable]
-	public class BrowserWindowSettings
+	public class WindowSettings
 	{
 		/// <summary>
 		/// Optionally defines the height of the browser window in physical pixels.
@@ -59,7 +59,7 @@ namespace SafeExamBrowser.Settings.Browser
 		/// <summary>
 		/// Determines the initial position of the browser window (if it is not maximized).
 		/// </summary>
-		public BrowserWindowPosition Position { get; set; }
+		public WindowPosition Position { get; set; }
 
 		/// <summary>
 		/// Optionally defines the height of the browser window as percentage of the working area height.

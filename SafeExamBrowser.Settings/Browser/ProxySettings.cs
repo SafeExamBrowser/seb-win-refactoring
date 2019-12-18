@@ -7,43 +7,51 @@
  */
 
 using System;
+using System.Collections.Generic;
+using SafeExamBrowser.Settings.Browser.Proxy;
 
 namespace SafeExamBrowser.Settings.Browser
 {
 	/// <summary>
-	/// Defines the settings for a proxy server.
+	/// Defines the proxy settings for the browser engine.
 	/// </summary>
 	[Serializable]
 	public class ProxySettings
 	{
 		/// <summary>
-		/// The host name or IP address of the proxy server.
+		/// Determines whether proxy auto-configuration should be used. Requires a valid URL defined in <see cref="AutoConfigureUrl"/>.
 		/// </summary>
-		public string Host { get; set; }
+		public bool AutoConfigure { get; set; }
 
 		/// <summary>
-		/// The password to be used for authentication.
+		/// A valid URL to a proxy auto-configuration file (.pac). Is only evaluated if <see cref="AutoConfigure"/> is enabled.
 		/// </summary>
-		public string Password { get; set; }
+		public string AutoConfigureUrl { get; set; }
 
 		/// <summary>
-		/// The port of the proxy server.
+		/// Forces proxy auto-detection by the browser engine.
 		/// </summary>
-		public int Port { get; set; }
+		public bool AutoDetect { get; set; }
 
 		/// <summary>
-		/// The protocol of the proxy server.
+		/// A list of hosts for which all proxy settings should be bypassed.
 		/// </summary>
-		public ProxyProtocol Protocol { get; set; }
+		public IList<string> BypassList { get; set; }
 
 		/// <summary>
-		/// Determines whether the proxy server requires authentication.
+		/// The proxy policy to be used.
 		/// </summary>
-		public bool RequiresAuthentication { get; set; }
+		public ProxyPolicy Policy { get; set; }
 
 		/// <summary>
-		/// The username to be used for authentication.
+		/// Defines all proxies to be used.
 		/// </summary>
-		public string Username { get; set; }
+		public IList<ProxyConfiguration> Proxies { get; set; }
+
+		public ProxySettings()
+		{
+			BypassList = new List<string>();
+			Proxies = new List<ProxyConfiguration>();
+		}
 	}
 }

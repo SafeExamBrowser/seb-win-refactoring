@@ -13,7 +13,7 @@ using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Settings.Browser;
+using SafeExamBrowser.Settings.Browser.Filter;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 
 namespace SafeExamBrowser.Browser.Handlers

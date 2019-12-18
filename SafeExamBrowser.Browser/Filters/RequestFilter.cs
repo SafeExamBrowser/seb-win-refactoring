@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Browser.Contracts.Filters;
-using SafeExamBrowser.Settings.Browser;
+using SafeExamBrowser.Settings.Browser.Filter;
 
 namespace SafeExamBrowser.Browser.Filters
 {

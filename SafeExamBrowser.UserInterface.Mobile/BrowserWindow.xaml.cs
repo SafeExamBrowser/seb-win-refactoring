@@ -34,7 +34,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 		private IText text;
 		private WindowClosingEventHandler closing;
 
-		private BrowserWindowSettings WindowSettings
+		private WindowSettings WindowSettings
 		{
 			get { return isMainWindow ? settings.MainWindow : settings.AdditionalWindow; }
 		}
@@ -319,13 +319,13 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 				switch (WindowSettings.Position)
 				{
-					case BrowserWindowPosition.Left:
+					case WindowPosition.Left:
 						Left = 0;
 						break;
-					case BrowserWindowPosition.Center:
+					case WindowPosition.Center:
 						Left = (SystemParameters.WorkArea.Width / 2) - (Width / 2);
 						break;
-					case BrowserWindowPosition.Right:
+					case WindowPosition.Right:
 						Left = SystemParameters.WorkArea.Width - Width;
 						break;
 				}

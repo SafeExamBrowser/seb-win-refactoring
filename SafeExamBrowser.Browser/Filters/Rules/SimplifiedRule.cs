@@ -9,7 +9,7 @@
 using System;
 using System.Text.RegularExpressions;
 using SafeExamBrowser.Browser.Contracts.Filters;
-using SafeExamBrowser.Settings.Browser;
+using SafeExamBrowser.Settings.Browser.Filter;
 
 namespace SafeExamBrowser.Browser.Filters.Rules
 {
