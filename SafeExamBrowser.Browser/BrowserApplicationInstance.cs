@@ -111,7 +111,7 @@ namespace SafeExamBrowser.Browser
 			var lifeSpanHandler = new LifeSpanHandler();
 			var requestFilter = new RequestFilter();
 			var requestLogger = logger.CloneFor($"{nameof(RequestHandler)} {Id}");
-			var requestHandler = new RequestHandler(appConfig, settings.Filter, requestFilter, requestLogger, text);
+			var requestHandler = new RequestHandler(appConfig, requestFilter, requestLogger, settings, text);
 
 			Icon = new BrowserIconResource();
 

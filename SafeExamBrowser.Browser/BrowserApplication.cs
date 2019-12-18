@@ -20,6 +20,7 @@ using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
@@ -145,6 +146,8 @@ namespace SafeExamBrowser.Browser
 				UserAgent = InitializeUserAgent()
 			};
 
+			InitializeProxySettings(cefSettings);
+
 			cefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
 
 			logger.Debug($"Cache path: {cefSettings.CachePath}");
@@ -153,6 +156,56 @@ namespace SafeExamBrowser.Browser
 			logger.Debug($"Log severity: {cefSettings.LogSeverity}");
 
 			return cefSettings;
+		}
+
+		private void InitializeProxySettings(CefSettings cefSettings)
+		{
+			if (settings.Proxy.Policy == ProxyPolicy.Custom)
+			{
+				if (settings.Proxy.AutoConfigure)
+				{
+					cefSettings.CefCommandLineArgs.Add("proxy-pac-url", settings.Proxy.AutoConfigureUrl);
+				}
+
+				if (settings.Proxy.AutoDetect)
+				{
+					cefSettings.CefCommandLineArgs.Add("proxy-auto-detect", "");
+				}
+
+				if (settings.Proxy.BypassList.Any())
+				{
+					cefSettings.CefCommandLineArgs.Add("proxy-bypass-list", string.Join(";", settings.Proxy.BypassList));
+				}
+
+				if (settings.Proxy.Proxies.Any())
+				{
+					var proxies = new List<string>();
+
+					foreach (var proxy in settings.Proxy.Proxies)
+					{
+						proxies.Add($"{ToScheme(proxy.Protocol)}={proxy.Host}:{proxy.Port}");
+					}
+
+					cefSettings.CefCommandLineArgs.Add("proxy-server", string.Join(";", proxies));
+				}
+			}
+		}
+
+		private string ToScheme(ProxyProtocol protocol)
+		{
+			switch (protocol)
+			{
+				case ProxyProtocol.Ftp:
+					return Uri.UriSchemeFtp;
+				case ProxyProtocol.Http:
+					return Uri.UriSchemeHttp;
+				case ProxyProtocol.Https:
+					return Uri.UriSchemeHttps;
+				case ProxyProtocol.Socks:
+					return "socks";
+			}
+
+			throw new NotImplementedException($"Mapping for proxy protocol '{protocol}' is not yet implemented!");
 		}
 
 		private void Instance_PopupRequested(PopupRequestedEventArgs args)

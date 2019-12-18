@@ -65,6 +65,10 @@
     <Compile Include="Browser\FilterRuleSettings.cs" />
     <Compile Include="Browser\FilterRuleType.cs" />
     <Compile Include="Browser\PopupPolicy.cs" />
+    <Compile Include="Browser\ProxyPolicy.cs" />
+    <Compile Include="Browser\BrowserProxySettings.cs" />
+    <Compile Include="Browser\ProxyProtocol.cs" />
+    <Compile Include="Browser\ProxySettings.cs" />
     <Compile Include="ConfigurationMode.cs" />
     <Compile Include="KioskMode.cs" />
     <Compile Include="Logging\LogLevel.cs" />

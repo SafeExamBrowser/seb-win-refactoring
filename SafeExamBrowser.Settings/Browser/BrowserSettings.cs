@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Settings.Browser
 {
 	/// <summary>
-	/// Defines all settings for the browser engine of the application.
+	/// Defines all settings for the browser engine.
 	/// </summary>
 	[Serializable]
 	public class BrowserSettings
@@ -57,6 +57,11 @@ namespace SafeExamBrowser.Settings.Browser
 		public PopupPolicy PopupPolicy { get; set; }
 
 		/// <summary>
+		/// Determines the proxy settings to be used by the browser.
+		/// </summary>
+		public BrowserProxySettings Proxy { get; set; }
+
+		/// <summary>
 		/// The URL with which the main browser window will be loaded.
 		/// </summary>
 		public string StartUrl { get; set; }
@@ -71,6 +76,7 @@ namespace SafeExamBrowser.Settings.Browser
 			AdditionalWindow = new BrowserWindowSettings();
 			Filter = new BrowserFilterSettings();
 			MainWindow = new BrowserWindowSettings();
+			Proxy = new BrowserProxySettings();
 		}
 	}
 }

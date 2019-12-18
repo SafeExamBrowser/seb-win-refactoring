@@ -71,11 +71,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			{
 				internal const string EnableContentRequestFilter = "URLFilterEnableContentFilter";
 				internal const string EnableMainRequestFilter = "URLFilterEnable";
+				internal const string FilterRules = "URLFilterRules";
 				internal const string RuleAction = "action";
 				internal const string RuleIsActive = "active";
 				internal const string RuleExpression = "expression";
 				internal const string RuleExpressionIsRegex = "regex";
-				internal const string UrlFilterRules = "URLFilterRules";
 			}
 
 			internal static class MainWindow
@@ -88,6 +88,56 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				internal const string WindowMode = "browserViewMode";
 				internal const string WindowWidth = "mainBrowserWindowWidth";
 				internal const string WindowPosition = "mainBrowserWindowPositioning";
+			}
+
+			internal static class Proxy
+			{
+				internal const string AutoConfigure = "AutoConfigurationEnabled";
+				internal const string AutoConfigureUrl = "AutoConfigurationURL";
+				internal const string AutoDetect = "AutoDiscoveryEnabled";
+				internal const string BypassList = "ExceptionsList";
+				internal const string Policy = "proxySettingsPolicy";
+				internal const string Settings = "proxies";
+
+				internal static class Ftp
+				{
+					internal const string Enable = "FTPEnable";
+					internal const string Host = "FTPProxy";
+					internal const string Password = "FTPPassword";
+					internal const string Port = "FTPPort";
+					internal const string RequiresAuthentication = "FTPRequiresPassword";
+					internal const string Username = "FTPUsername";
+				}
+
+				internal static class Http
+				{
+					internal const string Enable   = "HTTPEnable";
+					internal const string Host = "HTTPProxy";
+					internal const string Password = "HTTPPassword";
+					internal const string Port = "HTTPPort";
+					internal const string RequiresAuthentication = "HTTPRequiresPassword";
+					internal const string Username = "HTTPUsername";
+				}
+
+				internal static class Https
+				{
+					internal const string Enable = "HTTPSEnable";
+					internal const string Host = "HTTPSProxy";
+					internal const string Password = "HTTPSPassword";
+					internal const string Port = "HTTPSPort";
+					internal const string RequiresAuthentication = "HTTPSRequiresPassword";
+					internal const string Username = "HTTPSUsername";
+				}
+
+				internal static class Socks
+				{
+					internal const string Enable = "SOCKSEnable";
+					internal const string Host = "SOCKSProxy";
+					internal const string Password = "SOCKSPassword";
+					internal const string Port = "SOCKSPort";
+					internal const string RequiresAuthentication = "SOCKSRequiresPassword";
+					internal const string Username = "SOCKSUsername";
+				}
 			}
 		}
 

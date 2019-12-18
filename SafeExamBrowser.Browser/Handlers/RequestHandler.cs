@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using CefSharp;
 using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Browser.Events;
@@ -13,6 +14,7 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Browser;
+using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
@@ -21,24 +23,42 @@ namespace SafeExamBrowser.Browser.Handlers
 		private IRequestFilter filter;
 		private ILogger logger;
 		private ResourceHandler resourceHandler;
-		private BrowserFilterSettings settings;
+		private BrowserSettings settings;
 
 		internal event RequestBlockedEventHandler RequestBlocked;
 
-		internal RequestHandler(AppConfig appConfig, BrowserFilterSettings settings, IRequestFilter filter, ILogger logger, IText text)
+		internal RequestHandler(AppConfig appConfig, IRequestFilter filter, ILogger logger, BrowserSettings settings, IText text)
 		{
 			this.filter = filter;
 			this.logger = logger;
-			this.resourceHandler = new ResourceHandler(appConfig, settings, filter, logger, text);
 			this.settings = settings;
+			this.resourceHandler = new ResourceHandler(appConfig, settings.Filter, filter, logger, text);
 		}
 
-		protected override IResourceRequestHandler GetResourceRequestHandler(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, 	bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
+		protected override bool GetAuthCredentials(IWebBrowser webBrowser, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
+		{
+			if (isProxy)
+			{
+				foreach (var proxy in settings.Proxy.Proxies)
+				{
+					if (proxy.RequiresAuthentication && host?.Equals(proxy.Host, StringComparison.OrdinalIgnoreCase) == true && port == proxy.Port)
+					{
+						callback.Continue(proxy.Username, proxy.Password);
+
+						return true;
+					}
+				}
+			}
+
+			return base.GetAuthCredentials(webBrowser, browser, originUrl, isProxy, host, port, realm, scheme, callback);
+		}
+
+		protected override IResourceRequestHandler GetResourceRequestHandler(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
 		{
 			return resourceHandler;
 		}
 
-		protected override bool OnBeforeBrowse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)
+		protected override bool OnBeforeBrowse(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)
 		{
 			if (Block(request))
 			{
@@ -47,12 +67,12 @@ namespace SafeExamBrowser.Browser.Handlers
 				return true;
 			}
 
-			return base.OnBeforeBrowse(chromiumWebBrowser, browser, frame, request, userGesture, isRedirect);
+			return base.OnBeforeBrowse(webBrowser, browser, frame, request, userGesture, isRedirect);
 		}
 
 		private bool Block(IRequest request)
 		{
-			if (settings.ProcessMainRequests)
+			if (settings.Filter.ProcessMainRequests)
 			{
 				var result = filter.Process(new Request { Url = request.Url });
 				var block = result == FilterResult.Block;

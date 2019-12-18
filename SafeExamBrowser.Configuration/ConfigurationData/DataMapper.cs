@@ -100,8 +100,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				case Keys.Browser.AdditionalWindow.WindowWidth:
 					MapWindowWidthAdditionalWindow(settings, value);
 					break;
-				case Keys.Browser.Filter.UrlFilterRules:
-					MapUrlFilterRules(settings, value);
+				case Keys.Browser.Filter.FilterRules:
+					MapFilterRules(settings, value);
 					break;
 				case Keys.Browser.MainWindow.AllowAddressBar:
 					MapAllowAddressBar(settings, value);
@@ -126,6 +126,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 					break;
 				case Keys.Browser.MainWindow.WindowWidth:
 					MapWindowWidthMainWindow(settings, value);
+					break;
+				case Keys.Browser.Proxy.Policy:
+					MapProxyPolicy(settings, value);
+					break;
+				case Keys.Browser.Proxy.Settings:
+					MapProxySettings(settings, value);
 					break;
 			}
 		}

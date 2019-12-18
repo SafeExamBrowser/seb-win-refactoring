@@ -175,7 +175,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void MapUrlFilterRules(AppSettings settings, object value)
+		private void MapFilterRules(AppSettings settings, object value)
 		{
 			const int ALLOW = 1;
 
@@ -209,6 +209,210 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 							settings.Browser.Filter.Rules.Add(rule);
 						}
 					}
+				}
+			}
+		}
+
+		private void MapProxySettings(AppSettings settings, object value)
+		{
+			if (value is IDictionary<string, object> data)
+			{
+				if (data.TryGetValue(Keys.Browser.Proxy.AutoConfigure, out var v) && v is bool autoConfigure)
+				{
+					settings.Browser.Proxy.AutoConfigure = autoConfigure;
+				}
+
+				if (data.TryGetValue(Keys.Browser.Proxy.AutoConfigureUrl, out v) && v is string url)
+				{
+					settings.Browser.Proxy.AutoConfigureUrl = url;
+				}
+
+				if (data.TryGetValue(Keys.Browser.Proxy.AutoDetect, out v) && v is bool autoDetect)
+				{
+					settings.Browser.Proxy.AutoDetect = autoDetect;
+				}
+
+				if (data.TryGetValue(Keys.Browser.Proxy.BypassList, out v) && v is IList<object> list)
+				{
+					MapProxyBypassList(settings, list);
+				}
+
+				if (data.TryGetValue(Keys.Browser.Proxy.Ftp.Enable, out v) && v is bool ftpEnable && ftpEnable)
+				{
+					MapFtpProxy(settings, data);
+				}
+
+				if (data.TryGetValue(Keys.Browser.Proxy.Http.Enable, out v) && v is bool httpEnable && httpEnable)
+				{
+					MapHttpProxy(settings, data);
+				}
+
+				if (data.TryGetValue(Keys.Browser.Proxy.Https.Enable, out v) && v is bool httpsEnable && httpsEnable)
+				{
+					MapHttpsProxy(settings, data);
+				}
+
+				if (data.TryGetValue(Keys.Browser.Proxy.Socks.Enable, out v) && v is bool socksEnable && socksEnable)
+				{
+					MapSocksProxy(settings, data);
+				}
+			}
+		}
+
+		private void MapProxyBypassList(AppSettings settings, IList<object> bypassList)
+		{
+			foreach (var item in bypassList)
+			{
+				if (item is string host)
+				{
+					settings.Browser.Proxy.BypassList.Add(host);
+				}
+			}
+		}
+
+		private void MapFtpProxy(AppSettings settings, IDictionary<string, object> data)
+		{
+			var proxy = new ProxySettings { Protocol = ProxyProtocol.Ftp };
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Ftp.Host, out var v) && v is string host)
+			{
+				proxy.Host = host;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Ftp.Password, out v) && v is string password)
+			{
+				proxy.Password = password;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Ftp.Port, out v) && v is int port)
+			{
+				proxy.Port = port;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Ftp.RequiresAuthentication, out v) && v is bool requiresAuthentication)
+			{
+				proxy.RequiresAuthentication = requiresAuthentication;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Ftp.Username, out v) && v is string username)
+			{
+				proxy.Username = username;
+			}
+
+			settings.Browser.Proxy.Proxies.Add(proxy);
+		}
+
+		private void MapHttpProxy(AppSettings settings, IDictionary<string, object> data)
+		{
+			var proxy = new ProxySettings { Protocol = ProxyProtocol.Http };
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Http.Host, out var v) && v is string host)
+			{
+				proxy.Host = host;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Http.Password, out v) && v is string password)
+			{
+				proxy.Password = password;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Http.Port, out v) && v is int port)
+			{
+				proxy.Port = port;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Http.RequiresAuthentication, out v) && v is bool requiresAuthentication)
+			{
+				proxy.RequiresAuthentication = requiresAuthentication;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Http.Username, out v) && v is string username)
+			{
+				proxy.Username = username;
+			}
+
+			settings.Browser.Proxy.Proxies.Add(proxy);
+		}
+
+		private void MapHttpsProxy(AppSettings settings, IDictionary<string, object> data)
+		{
+			var proxy = new ProxySettings { Protocol = ProxyProtocol.Https };
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Https.Host, out var v) && v is string host)
+			{
+				proxy.Host = host;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Https.Password, out v) && v is string password)
+			{
+				proxy.Password = password;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Https.Port, out v) && v is int port)
+			{
+				proxy.Port = port;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Https.RequiresAuthentication, out v) && v is bool requiresAuthentication)
+			{
+				proxy.RequiresAuthentication = requiresAuthentication;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Https.Username, out v) && v is string username)
+			{
+				proxy.Username = username;
+			}
+
+			settings.Browser.Proxy.Proxies.Add(proxy);
+		}
+
+		private void MapSocksProxy(AppSettings settings, IDictionary<string, object> data)
+		{
+			var proxy = new ProxySettings { Protocol = ProxyProtocol.Socks };
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Socks.Host, out var v) && v is string host)
+			{
+				proxy.Host = host;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Socks.Password, out v) && v is string password)
+			{
+				proxy.Password = password;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Socks.Port, out v) && v is int port)
+			{
+				proxy.Port = port;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Socks.RequiresAuthentication, out v) && v is bool requiresAuthentication)
+			{
+				proxy.RequiresAuthentication = requiresAuthentication;
+			}
+
+			if (data.TryGetValue(Keys.Browser.Proxy.Socks.Username, out v) && v is string username)
+			{
+				proxy.Username = username;
+			}
+
+			settings.Browser.Proxy.Proxies.Add(proxy);
+		}
+
+		private void MapProxyPolicy(AppSettings settings, object value)
+		{
+			const int SYSTEM = 0;
+			const int CUSTOM = 1;
+
+			if (value is int policy)
+			{
+				switch (policy)
+				{
+					case CUSTOM:
+						settings.Browser.Proxy.Policy = ProxyPolicy.Custom;
+						break;
+					case SYSTEM:
+						settings.Browser.Proxy.Policy = ProxyPolicy.System;
+						break;
 				}
 			}
 		}

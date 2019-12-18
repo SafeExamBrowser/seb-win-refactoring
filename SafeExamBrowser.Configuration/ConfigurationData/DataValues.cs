@@ -110,11 +110,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.ActionCenter.ShowWirelessNetwork = false;
 			settings.ActionCenter.ShowClock = true;
 
-			settings.Browser.StartUrl = "https://www.safeexambrowser.org/start";
-			settings.Browser.AllowConfigurationDownloads = true;
-			settings.Browser.AllowDownloads = true;
-			settings.Browser.AllowPageZoom = true;
-			settings.Browser.PopupPolicy = PopupPolicy.Allow;
 			settings.Browser.AdditionalWindow.AllowAddressBar = false;
 			settings.Browser.AdditionalWindow.AllowBackwardNavigation = true;
 			settings.Browser.AdditionalWindow.AllowDeveloperConsole = false;
@@ -125,6 +120,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AdditionalWindow.RelativeHeight = 100;
 			settings.Browser.AdditionalWindow.RelativeWidth = 50;
 			settings.Browser.AdditionalWindow.ShowReloadWarning = false;
+			settings.Browser.AllowConfigurationDownloads = true;
+			settings.Browser.AllowDownloads = true;
+			settings.Browser.AllowPageZoom = true;
 			settings.Browser.MainWindow.AllowAddressBar = false;
 			settings.Browser.MainWindow.AllowBackwardNavigation = false;
 			settings.Browser.MainWindow.AllowDeveloperConsole = false;
@@ -134,6 +132,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.MainWindow.RelativeHeight = 100;
 			settings.Browser.MainWindow.RelativeWidth = 100;
 			settings.Browser.MainWindow.ShowReloadWarning = true;
+			settings.Browser.PopupPolicy = PopupPolicy.Allow;
+			settings.Browser.Proxy.Policy = ProxyPolicy.System;
+			settings.Browser.StartUrl = "https://www.safeexambrowser.org/start";
 
 			settings.Keyboard.AllowAltEsc = false;
 			settings.Keyboard.AllowAltF4 = false;
