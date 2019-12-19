@@ -6,7 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Browser.Events
+namespace SafeExamBrowser.Browser.Contracts.Events
 {
-	internal delegate void RequestBlockedEventHandler(string url);
+	/// <summary>
+	/// Event handler used to indicate that a termination request has been detected.
+	/// </summary>
+	public delegate void TerminationRequestedEventHandler();
 }

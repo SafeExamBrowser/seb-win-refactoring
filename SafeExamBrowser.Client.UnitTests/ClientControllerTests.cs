@@ -233,6 +233,17 @@ namespace SafeExamBrowser.Client.UnitTests
 		}
 
 		[TestMethod]
+		public void Browser_MustTerminateIfRequested()
+		{
+			runtimeProxy.Setup(p => p.RequestShutdown()).Returns(new CommunicationResult(true));
+
+			sut.TryStart();
+			browser.Raise(b => b.TerminationRequested += null);
+
+			runtimeProxy.Verify(p => p.RequestShutdown(), Times.Once);
+		}
+
+		[TestMethod]
 		public void Communication_MustCorrectlyHandleMessageBoxRequest()
 		{
 			var args = new MessageBoxRequestEventArgs

@@ -94,8 +94,8 @@ namespace SafeExamBrowser.Configuration.UnitTests.DataFormats
 
 			Assert.AreEqual(true, result.RawData[Keys.Browser.AllowConfigurationDownloads]);
 			Assert.AreEqual(0, result.RawData[Keys.ConfigurationFile.ConfigurationPurpose]);
-			Assert.AreEqual("https://safeexambrowser.org/start", result.RawData[Keys.General.StartUrl]);
-			Assert.AreEqual(true, result.RawData[Keys.Input.Keyboard.EnableF5]);
+			Assert.AreEqual("https://safeexambrowser.org/start", result.RawData[Keys.Browser.StartUrl]);
+			Assert.AreEqual(true, result.RawData[Keys.Keyboard.EnableF5]);
 			Assert.IsInstanceOfType(result.RawData[Keys.Network.Certificates.EmbeddedCertificates], typeof(List<object>));
 		}
 

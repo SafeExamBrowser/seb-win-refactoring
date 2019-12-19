@@ -20,7 +20,6 @@ using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Browser.Proxy;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -49,6 +48,7 @@ namespace SafeExamBrowser.Browser
 
 		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 		public event WindowsChangedEventHandler WindowsChanged;
+		public event TerminationRequestedEventHandler TerminationRequested;
 
 		public BrowserApplication(
 			AppConfig appConfig,
@@ -127,6 +127,7 @@ namespace SafeExamBrowser.Browser
 			instance.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
 			instance.PopupRequested += Instance_PopupRequested;
 			instance.Terminated += Instance_Terminated;
+			instance.TerminationRequested += () => TerminationRequested?.Invoke();
 
 			instance.Initialize();
 			instances.Add(instance);

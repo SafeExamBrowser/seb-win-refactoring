@@ -25,7 +25,8 @@ namespace SafeExamBrowser.Browser.Handlers
 		private ResourceHandler resourceHandler;
 		private BrowserSettings settings;
 
-		internal event RequestBlockedEventHandler RequestBlocked;
+		internal event UrlEventHandler QuitUrlVisited;
+		internal event UrlEventHandler RequestBlocked;
 
 		internal RequestHandler(AppConfig appConfig, IRequestFilter filter, ILogger logger, BrowserSettings settings, IText text)
 		{
@@ -60,6 +61,13 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		protected override bool OnBeforeBrowse(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)
 		{
+			if (IsQuitUrl(request))
+			{
+				QuitUrlVisited?.Invoke(request.Url);
+
+				return true;
+			}
+
 			if (Block(request))
 			{
 				RequestBlocked?.Invoke(request.Url);
@@ -68,6 +76,18 @@ namespace SafeExamBrowser.Browser.Handlers
 			}
 
 			return base.OnBeforeBrowse(webBrowser, browser, frame, request, userGesture, isRedirect);
+		}
+
+		private bool IsQuitUrl(IRequest request)
+		{
+			var isQuitUrl = settings.QuitUrl?.Equals(request.Url, StringComparison.OrdinalIgnoreCase) == true;
+
+			if (isQuitUrl)
+			{
+				logger.Debug($"Detected quit URL '{request.Url}'.");
+			}
+
+			return isQuitUrl;
 		}
 
 		private bool Block(IRequest request)

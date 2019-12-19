@@ -133,6 +133,22 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
+		private void MapQuitUrl(AppSettings settings, object value)
+		{
+			if (value is string url)
+			{
+				settings.Browser.QuitUrl = url;
+			}
+		}
+
+		private void MapQuitUrlConfirmation(AppSettings settings, object value)
+		{
+			if (value is bool confirm)
+			{
+				settings.Browser.ConfirmQuitUrl = confirm;
+			}
+		}
+
 		private void MapRequestFilter(IDictionary<string, object> rawData, AppSettings settings)
 		{
 			var processMainRequests = rawData.TryGetValue(Keys.Browser.Filter.EnableMainRequestFilter, out var value) && value as bool? == true;

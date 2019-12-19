@@ -45,6 +45,8 @@ namespace SafeExamBrowser.I18n.Contracts
 		MessageBox_ApplicationTerminationFailureTitle,
 		MessageBox_BrowserNavigationBlocked,
 		MessageBox_BrowserNavigationBlockedTitle,
+		MessageBox_BrowserQuitUrlConfirmation,
+		MessageBox_BrowserQuitUrlConfirmationTitle,
 		MessageBox_CancelButton,
 		MessageBox_ClientConfigurationError,
 		MessageBox_ClientConfigurationErrorTitle,

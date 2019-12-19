@@ -22,7 +22,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				MapBrowserSettings(item.Key, item.Value, settings);
 				MapConfigurationFileSettings(item.Key, item.Value, settings);
 				MapGeneralSettings(item.Key, item.Value, settings);
-				MapInputSettings(item.Key, item.Value, settings);
+				MapKeyboardSettings(item.Key, item.Value, settings);
+				MapMouseSettings(item.Key, item.Value, settings);
 				MapSecuritySettings(item.Key, item.Value, settings);
 				MapUserInterfaceSettings(item.Key, item.Value, settings);
 			}
@@ -133,6 +134,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				case Keys.Browser.Proxy.Settings:
 					MapProxySettings(settings, value);
 					break;
+				case Keys.Browser.QuitUrl:
+					MapQuitUrl(settings, value);
+					break;
+				case Keys.Browser.QuitUrlConfirmation:
+					MapQuitUrlConfirmation(settings, value);
+					break;
+				case Keys.Browser.StartUrl:
+					MapStartUrl(settings, value);
+					break;
 			}
 		}
 
@@ -140,6 +150,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			switch (key)
 			{
+				case Keys.ConfigurationFile.AdminPasswordHash:
+					MapAdminPasswordHash(settings, value);
+					break;
 				case Keys.ConfigurationFile.ConfigurationPurpose:
 					MapConfigurationMode(settings, value);
 					break;
@@ -150,83 +163,81 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			switch (key)
 			{
-				case Keys.General.AdminPasswordHash:
-					MapAdminPasswordHash(settings, value);
-					break;
 				case Keys.General.LogLevel:
 					MapLogLevel(settings, value);
-					break;
-				case Keys.General.QuitPasswordHash:
-					MapQuitPasswordHash(settings, value);
-					break;
-				case Keys.General.StartUrl:
-					MapStartUrl(settings, value);
 					break;
 			}
 		}
 
-		private void MapInputSettings(string key, object value, AppSettings settings)
+		private void MapKeyboardSettings(string key, object value, AppSettings settings)
 		{
 			switch (key)
 			{
-				case Keys.Input.Keyboard.EnableAltEsc:
+				case Keys.Keyboard.EnableAltEsc:
 					MapEnableAltEsc(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableAltF4:
+				case Keys.Keyboard.EnableAltF4:
 					MapEnableAltF4(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableAltTab:
+				case Keys.Keyboard.EnableAltTab:
 					MapEnableAltTab(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableCtrlEsc:
+				case Keys.Keyboard.EnableCtrlEsc:
 					MapEnableCtrlEsc(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableEsc:
+				case Keys.Keyboard.EnableEsc:
 					MapEnableEsc(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableF1:
+				case Keys.Keyboard.EnableF1:
 					MapEnableF1(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableF2:
+				case Keys.Keyboard.EnableF2:
 					MapEnableF2(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableF3:
+				case Keys.Keyboard.EnableF3:
 					MapEnableF3(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableF4:
+				case Keys.Keyboard.EnableF4:
 					MapEnableF4(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableF5:
+				case Keys.Keyboard.EnableF5:
 					MapEnableF5(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableF6:
+				case Keys.Keyboard.EnableF6:
 					MapEnableF6(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableF7:
+				case Keys.Keyboard.EnableF7:
 					MapEnableF7(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableF8:
+				case Keys.Keyboard.EnableF8:
 					MapEnableF8(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableF9:
+				case Keys.Keyboard.EnableF9:
 					MapEnableF9(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableF10:
+				case Keys.Keyboard.EnableF10:
 					MapEnableF10(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableF11:
+				case Keys.Keyboard.EnableF11:
 					MapEnableF11(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableF12:
+				case Keys.Keyboard.EnableF12:
 					MapEnableF12(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnablePrintScreen:
+				case Keys.Keyboard.EnablePrintScreen:
 					MapEnablePrintScreen(settings, value);
 					break;
-				case Keys.Input.Keyboard.EnableSystemKey:
+				case Keys.Keyboard.EnableSystemKey:
 					MapEnableSystemKey(settings, value);
 					break;
-				case Keys.Input.Mouse.EnableRightMouse:
+			}
+		}
+
+		private void MapMouseSettings(string key, object value, AppSettings settings)
+		{
+			switch (key)
+			{
+				case Keys.Mouse.EnableRightMouse:
 					MapEnableRightMouse(settings, value);
 					break;
 			}
@@ -236,6 +247,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			switch (key)
 			{
+				case Keys.Security.QuitPasswordHash:
+					MapQuitPasswordHash(settings, value);
+					break;
 				case Keys.Security.ServicePolicy:
 					MapServicePolicy(settings, value);
 					break;

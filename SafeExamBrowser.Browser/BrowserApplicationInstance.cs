@@ -40,9 +40,9 @@ namespace SafeExamBrowser.Browser
 		private IMessageBox messageBox;
 		private IModuleLogger logger;
 		private BrowserSettings settings;
+		private string startUrl;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
-		private string url;
 		private double zoomLevel;
 
 		private WindowSettings WindowSettings
@@ -59,6 +59,7 @@ namespace SafeExamBrowser.Browser
 		internal event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 		internal event PopupRequestedEventHandler PopupRequested;
 		internal event InstanceTerminatedEventHandler Terminated;
+		internal event TerminationRequestedEventHandler TerminationRequested;
 
 		public event IconChangedEventHandler IconChanged;
 		public event TitleChangedEventHandler TitleChanged;
@@ -72,7 +73,7 @@ namespace SafeExamBrowser.Browser
 			IModuleLogger logger,
 			IText text,
 			IUserInterfaceFactory uiFactory,
-			string url)
+			string startUrl)
 		{
 			this.appConfig = appConfig;
 			this.Id = id;
@@ -83,7 +84,7 @@ namespace SafeExamBrowser.Browser
 			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;
-			this.url = url;
+			this.startUrl = startUrl;
 		}
 
 		public void Activate()
@@ -106,12 +107,12 @@ namespace SafeExamBrowser.Browser
 		{
 			var contextMenuHandler = new ContextMenuHandler();
 			var displayHandler = new DisplayHandler();
-			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} {Id}");
+			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} #{Id}");
 			var downloadHandler = new DownloadHandler(appConfig, settings, downloadLogger);
 			var keyboardHandler = new KeyboardHandler();
 			var lifeSpanHandler = new LifeSpanHandler();
 			var requestFilter = new RequestFilter();
-			var requestLogger = logger.CloneFor($"{nameof(RequestHandler)} {Id}");
+			var requestLogger = logger.CloneFor($"{nameof(RequestHandler)} #{Id}");
 			var requestHandler = new RequestHandler(appConfig, requestFilter, requestLogger, settings, text);
 
 			Icon = new BrowserIconResource();
@@ -124,11 +125,12 @@ namespace SafeExamBrowser.Browser
 			keyboardHandler.ZoomOutRequested += ZoomOutRequested;
 			keyboardHandler.ZoomResetRequested += ZoomResetRequested;
 			lifeSpanHandler.PopupRequested += LifeSpanHandler_PopupRequested;
+			requestHandler.QuitUrlVisited += RequestHandler_QuitUrlVisited;
 			requestHandler.RequestBlocked += RequestHandler_RequestBlocked;
 
 			InitializeRequestFilter(requestFilter);
 
-			control = new BrowserControl(contextMenuHandler, displayHandler, downloadHandler, keyboardHandler, lifeSpanHandler, requestHandler, url);
+			control = new BrowserControl(contextMenuHandler, displayHandler, downloadHandler, keyboardHandler, lifeSpanHandler, requestHandler, startUrl);
 			control.AddressChanged += Control_AddressChanged;
 			control.LoadingStateChanged += Control_LoadingStateChanged;
 			control.TitleChanged += Control_TitleChanged;
@@ -276,6 +278,35 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
+		private void RequestHandler_QuitUrlVisited(string url)
+		{
+			Task.Run(() =>
+			{
+				if (settings.ConfirmQuitUrl)
+				{
+					var message = text.Get(TextKey.MessageBox_BrowserQuitUrlConfirmation);
+					var title = text.Get(TextKey.MessageBox_BrowserQuitUrlConfirmationTitle);
+					var result = messageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question, window);
+					var terminate = result == MessageBoxResult.Yes;
+
+					if (terminate)
+					{
+						logger.Info($"User confirmed termination via quit URL '{url}', forwarding request...");
+						TerminationRequested?.Invoke();
+					}
+					else
+					{
+						logger.Info($"User aborted termination via quit URL '{url}'.");
+					}
+				}
+				else
+				{
+					logger.Info($"Automatically requesting termination due to quit URL '{url}'...");
+					TerminationRequested?.Invoke();
+				}
+			});
+		}
+
 		private void RequestHandler_RequestBlocked(string url)
 		{
 			Task.Run(() =>
@@ -285,7 +316,7 @@ namespace SafeExamBrowser.Browser
 
 				control.TitleChanged -= Control_TitleChanged;
 
-				if (url == this.url)
+				if (url.Equals(startUrl, StringComparison.OrdinalIgnoreCase))
 				{
 					window.UpdateTitle($"*** {title} ***");
 					TitleChanged?.Invoke($"*** {title} ***");

@@ -20,5 +20,10 @@ namespace SafeExamBrowser.Browser.Contracts
 		/// Event fired when the browser application detects a download request for an application configuration file.
 		/// </summary>
 		event DownloadRequestedEventHandler ConfigurationDownloadRequested;
+
+		/// <summary>
+		/// Event fired when the browser application detects a request to terminate SEB.
+		/// </summary>
+		event TerminationRequestedEventHandler TerminationRequested;
 	}
 }

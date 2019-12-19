@@ -171,6 +171,7 @@ namespace SafeExamBrowser.Client
 			applicationMonitor.ExplorerStarted += ApplicationMonitor_ExplorerStarted;
 			applicationMonitor.TerminationFailed += ApplicationMonitor_TerminationFailed;
 			Browser.ConfigurationDownloadRequested += Browser_ConfigurationDownloadRequested;
+			Browser.TerminationRequested += Browser_TerminationRequested;
 			ClientHost.MessageBoxRequested += ClientHost_MessageBoxRequested;
 			ClientHost.PasswordRequested += ClientHost_PasswordRequested;
 			ClientHost.ReconfigurationDenied += ClientHost_ReconfigurationDenied;
@@ -321,8 +322,7 @@ namespace SafeExamBrowser.Client
 			}
 			else if (result.OptionId == terminateOption.Id)
 			{
-				logger.Info("Initiating shutdown request...");
-
+				logger.Info("Attempting to shutdown as requested by the user...");
 				TryRequestShutdown();
 			}
 		}
@@ -341,6 +341,12 @@ namespace SafeExamBrowser.Client
 				args.AllowDownload = false;
 				logger.Info($"Denied download request for configuration file '{fileName}' due to '{Settings.ConfigurationMode}' mode.");
 			}
+		}
+
+		private void Browser_TerminationRequested()
+		{
+			logger.Info("Attempting to shutdown as requested by the browser...");
+			TryRequestShutdown();
 		}
 
 		private void Browser_ConfigurationDownloadFinished(bool success, string filePath = null)

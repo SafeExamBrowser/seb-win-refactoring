@@ -68,7 +68,7 @@
     <Compile Include="Events\PopupRequestedEventArgs.cs" />
     <Compile Include="Events\PopupRequestedEventHandler.cs" />
     <Compile Include="Events\ProgressChangedEventHandler.cs" />
-    <Compile Include="Events\RequestBlockedEventHandler.cs" />
+    <Compile Include="Events\UrlEventHandler.cs" />
     <Compile Include="Filters\RequestFilter.cs" />
     <Compile Include="Filters\Rules\RegexRule.cs" />
     <Compile Include="Filters\RuleFactory.cs" />

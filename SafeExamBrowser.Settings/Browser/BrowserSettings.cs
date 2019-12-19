@@ -37,6 +37,11 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool AllowPageZoom { get; set; }
 
 		/// <summary>
+		/// Determines whether the user needs to confirm the termination of SEB by <see cref="QuitUrl"/>.
+		/// </summary>
+		public bool ConfirmQuitUrl { get; set; }
+
+		/// <summary>
 		/// The custom user agent to optionally be used for all requests.
 		/// </summary>
 		public string CustomUserAgent { get; set; }
@@ -60,6 +65,11 @@ namespace SafeExamBrowser.Settings.Browser
 		/// Determines the proxy settings to be used by the browser.
 		/// </summary>
 		public ProxySettings Proxy { get; set; }
+
+		/// <summary>
+		/// An URL which will initiate the termination of SEB if visited by the user.
+		/// </summary>
+		public string QuitUrl { get; set; }
 
 		/// <summary>
 		/// The URL with which the main browser window will be loaded.

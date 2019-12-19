@@ -12,10 +12,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 	{
 		internal const int WINDOWS = 1;
 
-		internal static class AdditionalResources
-		{
-		}
-
 		internal static class Applications
 		{
 			internal const string Active = "active";
@@ -53,6 +49,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string CustomUserAgentMobile = "browserUserAgentWinTouchModeCustom";
 			internal const string PopupPolicy = "newBrowserWindowByLinkPolicy";
 			internal const string PopupBlockForeignHost = "newBrowserWindowByLinkBlockForeign";
+			internal const string QuitUrl = "quitURL";
+			internal const string QuitUrlConfirmation = "quitURLConfirm";
+			internal const string StartUrl = "startURL";
 			internal const string UserAgentModeDesktop = "browserUserAgentWinDesktopMode";
 			internal const string UserAgentModeMobile = "browserUserAgentWinTouchMode";
 
@@ -143,52 +142,43 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class ConfigurationFile
 		{
+			internal const string AdminPasswordHash = "hashedAdminPassword";
 			internal const string ConfigurationPurpose = "sebConfigPurpose";
 			internal const string KeepClientConfigEncryption = "clientConfigKeepEncryption";
 		}
 
-		internal static class Exam
-		{
-		}
-
 		internal static class General
 		{
-			internal const string AdminPasswordHash = "hashedAdminPassword";
 			internal const string AllowApplicationLog = "allowApplicationLog";
 			internal const string LogLevel = "logLevel";
-			internal const string QuitPasswordHash = "hashedQuitPassword";
-			internal const string StartUrl = "startURL";
 		}
 
-		internal static class Input
+		internal static class Keyboard
 		{
-			internal static class Keyboard
-			{
-				internal const string EnableAltEsc = "enableAltEsc";
-				internal const string EnableAltTab = "enableAltTab";
-				internal const string EnableAltF4 = "enableAltF4";
-				internal const string EnableCtrlEsc = "enableCtrlEsc";
-				internal const string EnableEsc = "enableEsc";
-				internal const string EnableF1 = "enableF1";
-				internal const string EnableF2 = "enableF2";
-				internal const string EnableF3 = "enableF3";
-				internal const string EnableF4 = "enableF4";
-				internal const string EnableF5 = "enableF5";
-				internal const string EnableF6 = "enableF6";
-				internal const string EnableF7 = "enableF7";
-				internal const string EnableF8 = "enableF8";
-				internal const string EnableF9 = "enableF9";
-				internal const string EnableF10 = "enableF10";
-				internal const string EnableF11 = "enableF11";
-				internal const string EnableF12 = "enableF12";
-				internal const string EnablePrintScreen = "enablePrintScreen";
-				internal const string EnableSystemKey = "enableStartMenu";
-			}
+			internal const string EnableAltEsc = "enableAltEsc";
+			internal const string EnableAltTab = "enableAltTab";
+			internal const string EnableAltF4 = "enableAltF4";
+			internal const string EnableCtrlEsc = "enableCtrlEsc";
+			internal const string EnableEsc = "enableEsc";
+			internal const string EnableF1 = "enableF1";
+			internal const string EnableF2 = "enableF2";
+			internal const string EnableF3 = "enableF3";
+			internal const string EnableF4 = "enableF4";
+			internal const string EnableF5 = "enableF5";
+			internal const string EnableF6 = "enableF6";
+			internal const string EnableF7 = "enableF7";
+			internal const string EnableF8 = "enableF8";
+			internal const string EnableF9 = "enableF9";
+			internal const string EnableF10 = "enableF10";
+			internal const string EnableF11 = "enableF11";
+			internal const string EnableF12 = "enableF12";
+			internal const string EnablePrintScreen = "enablePrintScreen";
+			internal const string EnableSystemKey = "enableStartMenu";
+		}
 
-			internal static class Mouse
-			{
-				internal const string EnableRightMouse = "enableRightMouse";
-			}
+		internal static class Mouse
+		{
+			internal const string EnableRightMouse = "enableRightMouse";
 		}
 
 		internal static class Network
@@ -201,14 +191,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		internal static class Registry
-		{
-		}
-
 		internal static class Security
 		{
 			internal const string KioskModeCreateNewDesktop = "createNewDesktop";
 			internal const string KioskModeDisableExplorerShell = "killExplorerShell";
+			internal const string QuitPasswordHash = "hashedQuitPassword";
 			internal const string ServicePolicy = "sebServicePolicy";
 		}
 

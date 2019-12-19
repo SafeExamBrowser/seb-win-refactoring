@@ -93,6 +93,12 @@
     <Entry key="MessageBox_BrowserNavigationBlockedTitle">
         Page Blocked
     </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmation">
+        The browser application has detected a quit URL! Would you like to terminate SEB now?
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
+        Quit URL Detected
+    </Entry>
     <Entry key="MessageBox_CancelButton">
         Cancel
     </Entry>
