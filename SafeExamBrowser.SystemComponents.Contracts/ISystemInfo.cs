@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.SystemComponents.Contracts
 {
 	/// <summary>
-	/// Provides access to information about the operating system.
+	/// Provides access to information about the computer system.
 	/// </summary>
 	public interface ISystemInfo
 	{
@@ -17,6 +17,21 @@ namespace SafeExamBrowser.SystemComponents.Contracts
 		/// Reveals whether the computer system contains a battery.
 		/// </summary>
 		bool HasBattery { get; }
+
+		/// <summary>
+		/// The manufacturer name of the computer system.
+		/// </summary>
+		string Manufacturer { get; }
+
+		/// <summary>
+		/// The model name of the computer system.
+		/// </summary>
+		string Model { get; }
+
+		/// <summary>
+		/// The machine name of the computer system.
+		/// </summary>
+		string Name { get; }
 
 		/// <summary>
 		/// Reveals the version of the currently running operating system.

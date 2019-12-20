@@ -11,30 +11,30 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using SafeExamBrowser.Communication.Contracts;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration;
+using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Cryptography;
 using SafeExamBrowser.Configuration.DataCompression;
 using SafeExamBrowser.Configuration.DataFormats;
 using SafeExamBrowser.Configuration.DataResources;
-using SafeExamBrowser.Communication.Contracts;
-using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
-using SafeExamBrowser.I18n.Contracts;
-using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Runtime.Contracts;
-using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.Core.OperationModel;
 using SafeExamBrowser.Core.Operations;
 using SafeExamBrowser.I18n;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging;
+using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Communication;
+using SafeExamBrowser.Runtime.Contracts;
 using SafeExamBrowser.Runtime.Operations;
+using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.SystemComponents;
+using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Desktop;
 using SafeExamBrowser.WindowsApi;
-using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.Runtime
 {
@@ -83,6 +83,7 @@ namespace SafeExamBrowser.Runtime
 
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost, sessionContext));
 			sessionOperations.Enqueue(new ConfigurationOperation(args, configuration, new HashAlgorithm(), logger, sessionContext));
+			sessionOperations.Enqueue(new VirtualMachineOperation(sessionContext));
 			sessionOperations.Enqueue(new ServiceOperation(logger, runtimeHost, serviceProxy, sessionContext, THIRTY_SECONDS, userInfo));
 			sessionOperations.Enqueue(new ClientTerminationOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, THIRTY_SECONDS));
 			sessionOperations.Enqueue(new KioskModeOperation(desktopFactory, explorerShell, logger, processFactory, sessionContext));
@@ -115,6 +116,7 @@ namespace SafeExamBrowser.Runtime
 			logger.Log(string.Empty);
 			logger.Log($"# Application started at {appConfig.ApplicationStartTime.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 			logger.Log($"# Running on {systemInfo.OperatingSystemInfo}");
+			logger.Log($"# Computer '{systemInfo.Name}' is a {systemInfo.Model} manufactured by {systemInfo.Manufacturer}");
 			logger.Log($"# Runtime-ID: {appConfig.RuntimeId}");
 			logger.Log(string.Empty);
 		}

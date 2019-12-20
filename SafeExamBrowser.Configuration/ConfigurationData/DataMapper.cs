@@ -12,7 +12,7 @@ using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {
-	internal partial class DataMapper
+	internal class DataMapper
 	{
 		private BaseDataMapper[] mappers =
 		{

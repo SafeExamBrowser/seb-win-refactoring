@@ -90,6 +90,7 @@
     <Compile Include="Operations\ClientOperationTests.cs" />
     <Compile Include="Operations\SessionActivationOperationTests.cs" />
     <Compile Include="Operations\SessionInitializationOperationTests.cs" />
+    <Compile Include="Operations\VirtualMachineOperationTests.cs" />
     <Compile Include="RuntimeControllerTests.cs" />
     <Compile Include="Communication\RuntimeHostTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

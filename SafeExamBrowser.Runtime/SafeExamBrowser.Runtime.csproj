@@ -106,6 +106,7 @@
     <Compile Include="Operations\SessionInitializationOperation.cs" />
     <Compile Include="Communication\RuntimeHost.cs" />
     <Compile Include="CompositionRoot.cs" />
+    <Compile Include="Operations\VirtualMachineOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

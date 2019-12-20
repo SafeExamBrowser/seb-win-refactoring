@@ -6,25 +6,33 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+using System.Linq;
+using System.Management;
 using System.Windows.Forms;
 using SafeExamBrowser.SystemComponents.Contracts;
 using BatteryChargeStatus = System.Windows.Forms.BatteryChargeStatus;
+using OperatingSystem = SafeExamBrowser.SystemComponents.Contracts.OperatingSystem;
 
 namespace SafeExamBrowser.SystemComponents
 {
 	public class SystemInfo : ISystemInfo
 	{
 		public bool HasBattery { get; private set; }
+		public string Manufacturer { get; private set; }
+		public string Model { get; private set; }
+		public string Name { get; private set; }
 		public OperatingSystem OperatingSystem { get; private set; }
 
 		public string OperatingSystemInfo
 		{
-			get { return $"{OperatingSystemName()}, {System.Environment.OSVersion.VersionString} ({Architecture()})"; }
+			get { return $"{OperatingSystemName()}, {Environment.OSVersion.VersionString} ({Architecture()})"; }
 		}
 
 		public SystemInfo()
 		{
 			InitializeBattery();
+			InitializeMachineInfo();
 			InitializeOperatingSystem();
 		}
 
@@ -35,13 +43,25 @@ namespace SafeExamBrowser.SystemComponents
 			HasBattery = !status.HasFlag(BatteryChargeStatus.NoSystemBattery) && !status.HasFlag(BatteryChargeStatus.Unknown);
 		}
 
+		private void InitializeMachineInfo()
+		{
+			using (var searcher = new ManagementObjectSearcher("Select * from Win32_ComputerSystem"))
+			using (var results = searcher.Get())
+			using (var system = results.Cast<ManagementObject>().FirstOrDefault())
+			{
+				Manufacturer = Convert.ToString(system["Manufacturer"]);
+				Model = string.Join(" ", Convert.ToString(system["SystemFamily"]), Convert.ToString(system["Model"]));
+				Name = Convert.ToString(system["Name"]);
+			}
+		}
+
 		private void InitializeOperatingSystem()
 		{
 			// IMPORTANT:
 			// In order to be able to retrieve the correct operating system version via System.Environment.OSVersion, the executing
 			// assembly needs to define an application manifest where the supported Windows versions are specified!
-			var major = System.Environment.OSVersion.Version.Major;
-			var minor = System.Environment.OSVersion.Version.Minor;
+			var major = Environment.OSVersion.Version.Major;
+			var minor = Environment.OSVersion.Version.Minor;
 
 			// See https://en.wikipedia.org/wiki/List_of_Microsoft_Windows_versions for mapping source...
 			if (major == 6)
@@ -84,7 +104,7 @@ namespace SafeExamBrowser.SystemComponents
 
 		private string Architecture()
 		{
-			return System.Environment.Is64BitOperatingSystem ? "x64" : "x86";
+			return Environment.Is64BitOperatingSystem ? "x64" : "x86";
 		}
 	}
 }
