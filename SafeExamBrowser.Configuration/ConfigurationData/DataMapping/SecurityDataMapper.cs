@@ -10,10 +10,31 @@ using System.Collections.Generic;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Service;
 
-namespace SafeExamBrowser.Configuration.ConfigurationData
+namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 {
-	internal partial class DataMapper
+	internal class SecurityDataMapper : BaseDataMapper
 	{
+		internal override void Map(string key, object value, AppSettings settings)
+		{
+			switch (key)
+			{
+				case Keys.Security.AllowVirtualMachine:
+					MapVirtualMachinePolicy(settings, value);
+					break;
+				case Keys.Security.QuitPasswordHash:
+					MapQuitPasswordHash(settings, value);
+					break;
+				case Keys.Security.ServicePolicy:
+					MapServicePolicy(settings, value);
+					break;
+			}
+		}
+
+		internal override void MapGlobal(IDictionary<string, object> rawData, AppSettings settings)
+		{
+			MapKioskMode(rawData, settings);
+		}
+
 		private void MapKioskMode(IDictionary<string, object> rawData, AppSettings settings)
 		{
 			var hasCreateNewDesktop = rawData.TryGetValue(Keys.Security.KioskModeCreateNewDesktop, out var createNewDesktop);
@@ -35,6 +56,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
+		private void MapQuitPasswordHash(AppSettings settings, object value)
+		{
+			if (value is string hash)
+			{
+				settings.QuitPasswordHash = hash;
+			}
+		}
+
 		private void MapServicePolicy(AppSettings settings, object value)
 		{
 			const int WARN = 1;
@@ -43,6 +72,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			if (value is int policy)
 			{
 				settings.Service.Policy = policy == FORCE ? ServicePolicy.Mandatory : (policy == WARN ? ServicePolicy.Warn : ServicePolicy.Optional);
+			}
+		}
+
+		private void MapVirtualMachinePolicy(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				// TODO NEXT: settings.Security.VirtualMachinePolicy = ;
 			}
 		}
 	}

@@ -9,10 +9,35 @@
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.UserInterface;
 
-namespace SafeExamBrowser.Configuration.ConfigurationData
+namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 {
-	internal partial class DataMapper
+	internal class UserInterfaceDataMapper : BaseDataMapper
 	{
+		internal override void Map(string key, object value, AppSettings settings)
+		{
+			switch (key)
+			{
+				case Keys.UserInterface.ShowAudio:
+					MapAudio(settings, value);
+					break;
+				case Keys.UserInterface.ShowKeyboardLayout:
+					MapKeyboardLayout(settings, value);
+					break;
+				case Keys.UserInterface.ShowWirelessNetwork:
+					MapWirelessNetwork(settings, value);
+					break;
+				case Keys.UserInterface.ShowClock:
+					MapClock(settings, value);
+					break;
+				case Keys.UserInterface.UserInterfaceMode:
+					MapUserInterfaceMode(settings, value);
+					break;
+				case Keys.UserInterface.Taskbar.ShowApplicationLog:
+					MapApplicationLogButton(settings, value);
+					break;
+			}
+		}
+
 		private void MapApplicationLogButton(AppSettings settings, object value)
 		{
 			if (value is bool show)

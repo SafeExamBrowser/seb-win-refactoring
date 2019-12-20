@@ -13,10 +13,99 @@ using SafeExamBrowser.Settings.Browser.Filter;
 using SafeExamBrowser.Settings.Browser.Proxy;
 using SafeExamBrowser.Settings.UserInterface;
 
-namespace SafeExamBrowser.Configuration.ConfigurationData
+namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 {
-	internal partial class DataMapper
+	internal class BrowserDataMapper : BaseDataMapper
 	{
+		internal override void Map(string key, object value, AppSettings settings)
+		{
+			switch (key)
+			{
+				case Keys.Browser.AllowConfigurationDownloads:
+					MapAllowConfigurationDownloads(settings, value);
+					break;
+				case Keys.Browser.AllowDeveloperConsole:
+					MapAllowDeveloperConsole(settings, value);
+					break;
+				case Keys.Browser.AllowDownloads:
+					MapAllowDownloads(settings, value);
+					break;
+				case Keys.Browser.AllowPageZoom:
+					MapAllowPageZoom(settings, value);
+					break;
+				case Keys.Browser.AdditionalWindow.AllowAddressBar:
+					MapAllowAddressBarAdditionalWindow(settings, value);
+					break;
+				case Keys.Browser.AdditionalWindow.AllowNavigation:
+					MapAllowNavigationAdditionalWindow(settings, value);
+					break;
+				case Keys.Browser.AdditionalWindow.AllowReload:
+					MapAllowReloadAdditionalWindow(settings, value);
+					break;
+				case Keys.Browser.AdditionalWindow.ShowReloadWarning:
+					MapShowReloadWarningAdditionalWindow(settings, value);
+					break;
+				case Keys.Browser.AdditionalWindow.WindowHeight:
+					MapWindowHeightAdditionalWindow(settings, value);
+					break;
+				case Keys.Browser.AdditionalWindow.WindowPosition:
+					MapWindowPositionAdditionalWindow(settings, value);
+					break;
+				case Keys.Browser.AdditionalWindow.WindowWidth:
+					MapWindowWidthAdditionalWindow(settings, value);
+					break;
+				case Keys.Browser.Filter.FilterRules:
+					MapFilterRules(settings, value);
+					break;
+				case Keys.Browser.MainWindow.AllowAddressBar:
+					MapAllowAddressBar(settings, value);
+					break;
+				case Keys.Browser.MainWindow.AllowNavigation:
+					MapAllowNavigation(settings, value);
+					break;
+				case Keys.Browser.MainWindow.AllowReload:
+					MapAllowReload(settings, value);
+					break;
+				case Keys.Browser.MainWindow.ShowReloadWarning:
+					MapShowReloadWarning(settings, value);
+					break;
+				case Keys.Browser.MainWindow.WindowHeight:
+					MapWindowHeightMainWindow(settings, value);
+					break;
+				case Keys.Browser.MainWindow.WindowMode:
+					MapMainWindowMode(settings, value);
+					break;
+				case Keys.Browser.MainWindow.WindowPosition:
+					MapWindowPositionMainWindow(settings, value);
+					break;
+				case Keys.Browser.MainWindow.WindowWidth:
+					MapWindowWidthMainWindow(settings, value);
+					break;
+				case Keys.Browser.Proxy.Policy:
+					MapProxyPolicy(settings, value);
+					break;
+				case Keys.Browser.Proxy.Settings:
+					MapProxySettings(settings, value);
+					break;
+				case Keys.Browser.QuitUrl:
+					MapQuitUrl(settings, value);
+					break;
+				case Keys.Browser.QuitUrlConfirmation:
+					MapQuitUrlConfirmation(settings, value);
+					break;
+				case Keys.Browser.StartUrl:
+					MapStartUrl(settings, value);
+					break;
+			}
+		}
+
+		internal override void MapGlobal(IDictionary<string, object> rawData, AppSettings settings)
+		{
+			MapPopupPolicy(rawData, settings);
+			MapRequestFilter(rawData, settings);
+			MapUserAgentMode(rawData, settings);
+		}
+
 		private void MapAllowAddressBar(AppSettings settings, object value)
 		{
 			if (value is bool allow)
@@ -171,6 +260,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			if (value is bool show)
 			{
 				settings.Browser.AdditionalWindow.ShowReloadWarning = show;
+			}
+		}
+
+		private void MapStartUrl(AppSettings settings, object value)
+		{
+			if (value is string url)
+			{
+				settings.Browser.StartUrl = url;
 			}
 		}
 

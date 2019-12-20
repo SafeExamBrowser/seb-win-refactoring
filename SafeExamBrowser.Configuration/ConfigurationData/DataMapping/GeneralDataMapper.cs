@@ -10,16 +10,23 @@ using System.Collections.Generic;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Logging;
 
-namespace SafeExamBrowser.Configuration.ConfigurationData
+namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 {
-	internal partial class DataMapper
+	internal class GeneralDataMapper : BaseDataMapper
 	{
-		private void MapAdminPasswordHash(AppSettings settings, object value)
+		internal override void Map(string key, object value, AppSettings settings)
 		{
-			if (value is string hash)
+			switch (key)
 			{
-				settings.AdminPasswordHash = hash;
+				case Keys.General.LogLevel:
+					MapLogLevel(settings, value);
+					break;
 			}
+		}
+
+		internal override void MapGlobal(IDictionary<string, object> rawData, AppSettings settings)
+		{
+			MapApplicationLogAccess(rawData, settings);
 		}
 
 		private void MapApplicationLogAccess(IDictionary<string, object> rawData, AppSettings settings)
@@ -49,22 +56,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			if (value is int level)
 			{
 				settings.LogLevel = level == ERROR ? LogLevel.Error : (level == WARNING ? LogLevel.Warning : (level == INFO ? LogLevel.Info : LogLevel.Debug));
-			}
-		}
-
-		private void MapQuitPasswordHash(AppSettings settings, object value)
-		{
-			if (value is string hash)
-			{
-				settings.QuitPasswordHash = hash;
-			}
-		}
-
-		private void MapStartUrl(AppSettings settings, object value)
-		{
-			if (value is string url)
-			{
-				settings.Browser.StartUrl = url;
 			}
 		}
 	}

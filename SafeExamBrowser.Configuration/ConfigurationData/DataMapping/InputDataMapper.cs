@@ -8,10 +8,77 @@
 
 using SafeExamBrowser.Settings;
 
-namespace SafeExamBrowser.Configuration.ConfigurationData
+namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 {
-	internal partial class DataMapper
+	internal class InputDataMapper : BaseDataMapper
 	{
+		internal override void Map(string key, object value, AppSettings settings)
+		{
+			switch (key)
+			{
+				case Keys.Keyboard.EnableAltEsc:
+					MapEnableAltEsc(settings, value);
+					break;
+				case Keys.Keyboard.EnableAltF4:
+					MapEnableAltF4(settings, value);
+					break;
+				case Keys.Keyboard.EnableAltTab:
+					MapEnableAltTab(settings, value);
+					break;
+				case Keys.Keyboard.EnableCtrlEsc:
+					MapEnableCtrlEsc(settings, value);
+					break;
+				case Keys.Keyboard.EnableEsc:
+					MapEnableEsc(settings, value);
+					break;
+				case Keys.Keyboard.EnableF1:
+					MapEnableF1(settings, value);
+					break;
+				case Keys.Keyboard.EnableF2:
+					MapEnableF2(settings, value);
+					break;
+				case Keys.Keyboard.EnableF3:
+					MapEnableF3(settings, value);
+					break;
+				case Keys.Keyboard.EnableF4:
+					MapEnableF4(settings, value);
+					break;
+				case Keys.Keyboard.EnableF5:
+					MapEnableF5(settings, value);
+					break;
+				case Keys.Keyboard.EnableF6:
+					MapEnableF6(settings, value);
+					break;
+				case Keys.Keyboard.EnableF7:
+					MapEnableF7(settings, value);
+					break;
+				case Keys.Keyboard.EnableF8:
+					MapEnableF8(settings, value);
+					break;
+				case Keys.Keyboard.EnableF9:
+					MapEnableF9(settings, value);
+					break;
+				case Keys.Keyboard.EnableF10:
+					MapEnableF10(settings, value);
+					break;
+				case Keys.Keyboard.EnableF11:
+					MapEnableF11(settings, value);
+					break;
+				case Keys.Keyboard.EnableF12:
+					MapEnableF12(settings, value);
+					break;
+				case Keys.Keyboard.EnablePrintScreen:
+					MapEnablePrintScreen(settings, value);
+					break;
+				case Keys.Keyboard.EnableSystemKey:
+					MapEnableSystemKey(settings, value);
+					break;
+				case Keys.Mouse.EnableRightMouse:
+					MapEnableRightMouse(settings, value);
+					break;
+			}
+		}
+
 		private void MapEnableAltEsc(AppSettings settings, object value)
 		{
 			if (value is bool enabled)

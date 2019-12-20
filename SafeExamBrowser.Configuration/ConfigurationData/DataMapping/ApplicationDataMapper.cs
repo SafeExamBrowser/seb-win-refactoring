@@ -10,10 +10,23 @@ using System.Collections.Generic;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Applications;
 
-namespace SafeExamBrowser.Configuration.ConfigurationData
+namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 {
-	internal partial class DataMapper
+	internal class ApplicationDataMapper : BaseDataMapper
 	{
+		internal override void Map(string key, object value, AppSettings settings)
+		{
+			switch (key)
+			{
+				case Keys.Applications.Blacklist:
+					MapApplicationBlacklist(settings, value);
+					break;
+				case Keys.Applications.Whitelist:
+					MapApplicationWhitelist(settings, value);
+					break;
+			}
+		}
+
 		private void MapApplicationBlacklist(AppSettings settings, object value)
 		{
 			if (value is IList<object> applications)

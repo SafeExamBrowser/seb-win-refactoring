@@ -56,6 +56,15 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationData\DataMapping\ApplicationDataMapper.cs" />
+    <Compile Include="ConfigurationData\DataMapping\AudioDataMapper.cs" />
+    <Compile Include="ConfigurationData\DataMapping\BrowserDataMapper.cs" />
+    <Compile Include="ConfigurationData\DataMapping\ConfigurationFileDataMapper.cs" />
+    <Compile Include="ConfigurationData\DataMapping\GeneralDataMapper.cs" />
+    <Compile Include="ConfigurationData\DataMapping\BaseDataMapper.cs" />
+    <Compile Include="ConfigurationData\DataMapping\InputDataMapper.cs" />
+    <Compile Include="ConfigurationData\DataMapping\SecurityDataMapper.cs" />
+    <Compile Include="ConfigurationData\DataMapping\UserInterfaceDataMapper.cs" />
     <Compile Include="ConfigurationData\Keys.cs" />
     <Compile Include="ConfigurationData\DataValues.cs" />
     <Compile Include="Cryptography\CertificateStore.cs" />
@@ -67,30 +76,6 @@
     <Compile Include="DataFormats\BinarySerializer.cs" />
     <Compile Include="DataFormats\BinaryBlock.cs" />
     <Compile Include="ConfigurationData\DataMapper.cs" />
-    <Compile Include="ConfigurationData\DataMapper.Applications.cs">
-      <DependentUpon>DataMapper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConfigurationData\DataMapper.Audio.cs">
-      <DependentUpon>DataMapper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConfigurationData\DataMapper.Browser.cs">
-      <DependentUpon>DataMapper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConfigurationData\DataMapper.ConfigurationFile.cs">
-      <DependentUpon>DataMapper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConfigurationData\DataMapper.General.cs">
-      <DependentUpon>DataMapper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConfigurationData\DataMapper.Input.cs">
-      <DependentUpon>DataMapper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConfigurationData\DataMapper.UserInterface.cs">
-      <DependentUpon>DataMapper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ConfigurationData\DataMapper.Security.cs">
-      <DependentUpon>DataMapper.cs</DependentUpon>
-    </Compile>
     <Compile Include="Cryptography\HashAlgorithm.cs" />
     <Compile Include="DataFormats\XmlElement.cs" />
     <Compile Include="DataFormats\XmlParser.cs" />
@@ -116,5 +101,6 @@
       <Name>SafeExamBrowser.Settings</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
