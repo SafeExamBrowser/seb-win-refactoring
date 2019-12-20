@@ -45,14 +45,36 @@ namespace SafeExamBrowser.SystemComponents
 
 		private void InitializeMachineInfo()
 		{
+			var model = string.Empty;
+			var systemFamily = string.Empty;
+
 			using (var searcher = new ManagementObjectSearcher("Select * from Win32_ComputerSystem"))
 			using (var results = searcher.Get())
-			using (var system = results.Cast<ManagementObject>().FirstOrDefault())
+			using (var system = results.Cast<ManagementObject>().First())
 			{
-				Manufacturer = Convert.ToString(system["Manufacturer"]);
-				Model = string.Join(" ", Convert.ToString(system["SystemFamily"]), Convert.ToString(system["Model"]));
-				Name = Convert.ToString(system["Name"]);
+				foreach (var property in system.Properties)
+				{
+					if (property.Name.Equals("Manufacturer"))
+					{
+						Manufacturer = Convert.ToString(property.Value);
+					}
+					else if (property.Name.Equals("Model"))
+					{
+						model = Convert.ToString(property.Value);
+					}
+					else if (property.Name.Equals("Name"))
+					{
+						Name = Convert.ToString(property.Value);
+					}
+					else if (property.Name.Equals("SystemFamily"))
+					{
+						systemFamily = Convert.ToString(property.Value);
+					}
+				}
+
 			}
+
+			Model = string.Join(" ", systemFamily, model);
 		}
 
 		private void InitializeOperatingSystem()
