@@ -20,6 +20,7 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
@@ -223,7 +224,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			var passwordDialog = new Mock<IPasswordDialog>();
 			var result = new PasswordDialogResult { Password = "test1234", Success = true };
 
-			currentSettings.KioskMode = KioskMode.DisableExplorerShell;
+			currentSettings.Security.KioskMode = KioskMode.DisableExplorerShell;
 			passwordDialog.Setup(p => p.Show(It.IsAny<IWindow>())).Returns(result);
 			uiFactory.Setup(u => u.CreatePasswordDialog(It.IsAny<string>(), It.IsAny<string>())).Returns(passwordDialog.Object);
 
@@ -247,7 +248,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 				runtimeHost.Raise(r => r.PasswordReceived += null, new PasswordReplyEventArgs { RequestId = id, Success = true });
 			});
 
-			currentSettings.KioskMode = KioskMode.CreateNewDesktop;
+			currentSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
 			clientProxy.Setup(c => c.RequestPassword(It.IsAny<PasswordRequestPurpose>(), It.IsAny<Guid>())).Returns(new CommunicationResult(true)).Callback(passwordReceived);
 
 			sut.TryStart();
@@ -266,7 +267,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 				runtimeHost.Raise(r => r.PasswordReceived += null, new PasswordReplyEventArgs { RequestId = id, Success = false });
 			});
 
-			currentSettings.KioskMode = KioskMode.CreateNewDesktop;
+			currentSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
 			clientProxy.Setup(c => c.RequestPassword(It.IsAny<PasswordRequestPurpose>(), It.IsAny<Guid>())).Returns(new CommunicationResult(true)).Callback(passwordReceived);
 
 			sut.TryStart();
@@ -281,7 +282,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		{
 			var args = new PasswordRequiredEventArgs();
 
-			currentSettings.KioskMode = KioskMode.CreateNewDesktop;
+			currentSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
 			clientProxy.Setup(c => c.RequestPassword(It.IsAny<PasswordRequestPurpose>(), It.IsAny<Guid>())).Returns(new CommunicationResult(false));
 
 			sut.TryStart();
@@ -299,7 +300,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			};
 
 			StartSession();
-			currentSettings.KioskMode = KioskMode.DisableExplorerShell;
+			currentSettings.Security.KioskMode = KioskMode.DisableExplorerShell;
 
 			sessionSequence.Raise(s => s.ActionRequired += null, args);
 
@@ -324,7 +325,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			var reply = new MessageBoxReplyEventArgs();
 
 			StartSession();
-			currentSettings.KioskMode = KioskMode.CreateNewDesktop;
+			currentSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
 
 			clientProxy.Setup(c => c.ShowMessage(
 				It.IsAny<string>(),

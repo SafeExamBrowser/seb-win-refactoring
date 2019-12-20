@@ -11,12 +11,12 @@ using System.IO;
 using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
-using SafeExamBrowser.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
+using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
@@ -126,7 +126,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 				if ((!hasProgramDataFile && !hasAppDataFile) || status == LoadStatus.Success)
 				{
-					currentPassword = settings?.AdminPasswordHash;
+					currentPassword = settings?.Security.AdminPasswordHash;
 					status = TryLoadSettings(uri, source, out passwordParams, out settings, currentPassword);
 				}
 			}
@@ -147,7 +147,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private OperationResult LoadSettingsForReconfiguration(Uri uri)
 		{
-			var currentPassword = Context.Current.Settings.AdminPasswordHash;
+			var currentPassword = Context.Current.Settings.Security.AdminPasswordHash;
 			var source = UriSource.Reconfiguration;
 			var status = TryLoadSettings(uri, source, out var passwordParams, out var settings, currentPassword);
 
@@ -311,7 +311,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (mustAuthenticate)
 			{
-				var nextPassword = Context.Next.Settings.AdminPasswordHash;
+				var nextPassword = Context.Next.Settings.Security.AdminPasswordHash;
 				var hasSettingsPassword = passwordParams.Password != null;
 				var sameAdminPassword = currentPassword.Equals(nextPassword, StringComparison.OrdinalIgnoreCase);
 

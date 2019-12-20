@@ -13,11 +13,11 @@ using Moq;
 using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
-using SafeExamBrowser.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations;
 using SafeExamBrowser.Runtime.Operations.Events;
+using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
 {
@@ -272,11 +272,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void Perform_MustOnlyAllowToEnterAdminPasswordFiveTimes()
 		{
 			var count = 0;
-			var localSettings = new AppSettings { AdminPasswordHash = "1234" };
-			var settings = new AppSettings { AdminPasswordHash = "9876", ConfigurationMode = ConfigurationMode.ConfigureClient };
+			var localSettings = new AppSettings();
+			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
 			appConfig.AppDataFilePath = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), "Testdata", FILE_NAME);
+			localSettings.Security.AdminPasswordHash = "1234";
+			settings.Security.AdminPasswordHash = "9876";
 
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.LocalPath.Contains(FILE_NAME)), out localSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
@@ -329,12 +331,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void Perform_MustSucceedIfAdminPasswordTestdata()
 		{
 			var password = "test";
-			var currentSettings = new AppSettings { AdminPasswordHash = "1234", ConfigurationMode = ConfigurationMode.ConfigureClient };
-			var nextSettings = new AppSettings { AdminPasswordHash = "9876", ConfigurationMode = ConfigurationMode.ConfigureClient };
+			var currentSettings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
+			var nextSettings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
+			currentSettings.Security.AdminPasswordHash = "1234";
 			nextSession.Settings = nextSettings;
-			hashAlgorithm.Setup(h => h.GenerateHashFor(It.Is<string>(p => p == password))).Returns(currentSettings.AdminPasswordHash);
+			nextSettings.Security.AdminPasswordHash = "9876";
+			hashAlgorithm.Setup(h => h.GenerateHashFor(It.Is<string>(p => p == password))).Returns(currentSettings.Security.AdminPasswordHash);
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out currentSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.AbsoluteUri == url), out nextSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.ConfigureClientWith(It.IsAny<Uri>(), It.IsAny<PasswordParameters>())).Returns(SaveStatus.Success);
@@ -359,11 +363,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustNotAuthenticateIfSameAdminPassword()
 		{
-			var currentSettings = new AppSettings { AdminPasswordHash = "1234", ConfigurationMode = ConfigurationMode.ConfigureClient };
-			var nextSettings = new AppSettings { AdminPasswordHash = "1234", ConfigurationMode = ConfigurationMode.ConfigureClient };
+			var currentSettings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
+			var nextSettings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
+			currentSettings.Security.AdminPasswordHash = "1234";
 			nextSession.Settings = nextSettings;
+			nextSettings.Security.AdminPasswordHash = "1234";
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out currentSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.AbsoluteUri == url), out nextSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.ConfigureClientWith(It.IsAny<Uri>(), It.IsAny<PasswordParameters>())).Returns(SaveStatus.Success);
@@ -416,9 +422,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), "Testdata", FILE_NAME);
-			var settings = new AppSettings { AdminPasswordHash = "1234", ConfigurationMode = ConfigurationMode.Exam };
+			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.Exam };
 
 			appConfig.AppDataFilePath = location;
+			settings.Security.AdminPasswordHash = "1234";
 
 			repository
 				.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>()))
@@ -427,13 +434,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 				.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(new Uri(location))), out settings, It.IsAny<PasswordParameters>()))
 				.Returns(LoadStatus.Success);
 			repository
-				.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.Is<PasswordParameters>(p => p.IsHash == true && p.Password == settings.AdminPasswordHash)))
+				.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.Is<PasswordParameters>(p => p.IsHash == true && p.Password == settings.Security.AdminPasswordHash)))
 				.Returns(LoadStatus.Success);
 
 			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Perform();
 
-			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.Is<PasswordParameters>(p => p.Password == settings.AdminPasswordHash)), Times.AtLeastOnce);
+			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.Is<PasswordParameters>(p => p.Password == settings.Security.AdminPasswordHash)), Times.AtLeastOnce);
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}
@@ -442,14 +449,16 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void Perform_MustAbortAskingForAdminPasswordIfDecidedByUser()
 		{
 			var password = "test";
-			var currentSettings = new AppSettings { AdminPasswordHash = "1234", ConfigurationMode = ConfigurationMode.ConfigureClient };
-			var nextSettings = new AppSettings { AdminPasswordHash = "9876", ConfigurationMode = ConfigurationMode.ConfigureClient };
+			var currentSettings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
+			var nextSettings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
 			appConfig.AppDataFilePath = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), "Testdata", FILE_NAME);
+			currentSettings.Security.AdminPasswordHash = "1234";
 			nextSession.Settings = nextSettings;
+			nextSettings.Security.AdminPasswordHash = "9876";
 
-			hashAlgorithm.Setup(h => h.GenerateHashFor(It.Is<string>(p => p == password))).Returns(currentSettings.AdminPasswordHash);
+			hashAlgorithm.Setup(h => h.GenerateHashFor(It.Is<string>(p => p == password))).Returns(currentSettings.Security.AdminPasswordHash);
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out currentSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.AbsoluteUri == url), out nextSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 

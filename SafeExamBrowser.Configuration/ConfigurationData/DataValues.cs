@@ -13,6 +13,7 @@ using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Browser.Proxy;
 using SafeExamBrowser.Settings.Logging;
+using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.Settings.UserInterface;
 
@@ -157,12 +158,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Keyboard.AllowPrintScreen = false;
 			settings.Keyboard.AllowSystemKey = false;
 
-			settings.KioskMode = KioskMode.CreateNewDesktop;
-
 			settings.LogLevel = LogLevel.Debug;
 
 			settings.Mouse.AllowMiddleButton = false;
 			settings.Mouse.AllowRightButton = true;
+
+			settings.Security.AllowApplicationLogAccess = false;
+			settings.Security.KioskMode = KioskMode.CreateNewDesktop;
+			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Deny;
 
 			settings.Service.DisableChromeNotifications = true;
 			settings.Service.DisableEaseOfAccessOptions = true;
@@ -177,8 +180,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Service.DisableVmwareOverlay = true;
 			settings.Service.DisableWindowsUpdate = true;
 			settings.Service.Policy = ServicePolicy.Mandatory;
-
-			settings.AllowApplicationLogAccess = false;
 
 			settings.Taskbar.EnableTaskbar = true;
 			settings.Taskbar.ShowApplicationInfo = false;

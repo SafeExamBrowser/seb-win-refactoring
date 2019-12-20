@@ -275,7 +275,7 @@ namespace SafeExamBrowser.Client
 			var applicationList = string.Join(Environment.NewLine, applications.Select(a => $"- {a.Name}"));
 			var message = $"{text.Get(TextKey.LockScreen_Message)}{Environment.NewLine}{Environment.NewLine}{applicationList}";
 			var title = text.Get(TextKey.LockScreen_Title);
-			var hasQuitPassword = !string.IsNullOrEmpty(Settings.QuitPasswordHash);
+			var hasQuitPassword = !string.IsNullOrEmpty(Settings.Security.QuitPasswordHash);
 			var allowOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_AllowOption) };
 			var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_TerminateOption) };
 			var lockScreen = uiFactory.CreateLockScreen(message, title, new [] { allowOption, terminateOption });
@@ -292,7 +292,7 @@ namespace SafeExamBrowser.Client
 				if (hasQuitPassword)
 				{
 					var passwordHash = hashAlgorithm.GenerateHashFor(result.Password);
-					var isCorrect = Settings.QuitPasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase);
+					var isCorrect = Settings.Security.QuitPasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase);
 
 					if (isCorrect)
 					{
@@ -591,7 +591,7 @@ namespace SafeExamBrowser.Client
 
 		private bool TryInitiateShutdown()
 		{
-			var hasQuitPassword = !string.IsNullOrEmpty(Settings.QuitPasswordHash);
+			var hasQuitPassword = !string.IsNullOrEmpty(Settings.Security.QuitPasswordHash);
 			var requestShutdown = false;
 			var succes = false;
 
@@ -633,7 +633,7 @@ namespace SafeExamBrowser.Client
 			if (result.Success)
 			{
 				var passwordHash = hashAlgorithm.GenerateHashFor(result.Password);
-				var isCorrect = Settings.QuitPasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase);
+				var isCorrect = Settings.Security.QuitPasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase);
 
 				if (isCorrect)
 				{

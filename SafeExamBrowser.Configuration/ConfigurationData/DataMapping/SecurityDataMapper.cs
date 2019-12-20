@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.Settings.Service;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
@@ -18,6 +19,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			switch (key)
 			{
+				case Keys.ConfigurationFile.AdminPasswordHash:
+					MapAdminPasswordHash(settings, value);
+					break;
 				case Keys.Security.AllowVirtualMachine:
 					MapVirtualMachinePolicy(settings, value);
 					break;
@@ -32,7 +36,36 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		internal override void MapGlobal(IDictionary<string, object> rawData, AppSettings settings)
 		{
+			MapApplicationLogAccess(rawData, settings);
 			MapKioskMode(rawData, settings);
+		}
+
+		private void MapAdminPasswordHash(AppSettings settings, object value)
+		{
+			if (value is string hash)
+			{
+				settings.Security.AdminPasswordHash = hash;
+			}
+		}
+
+		private void MapApplicationLogAccess(IDictionary<string, object> rawData, AppSettings settings)
+		{
+			var hasValue = rawData.TryGetValue(Keys.General.AllowApplicationLog, out var value);
+
+			if (hasValue && value is bool allow)
+			{
+				settings.Security.AllowApplicationLogAccess = allow;
+			}
+
+			if (settings.Security.AllowApplicationLogAccess)
+			{
+				settings.ActionCenter.ShowApplicationLog = true;
+			}
+			else
+			{
+				settings.ActionCenter.ShowApplicationLog = false;
+				settings.Taskbar.ShowApplicationLog = false;
+			}
 		}
 
 		private void MapKioskMode(IDictionary<string, object> rawData, AppSettings settings)
@@ -42,17 +75,17 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 			if (hasDisableExplorerShell && disableExplorerShell as bool? == true)
 			{
-				settings.KioskMode = KioskMode.DisableExplorerShell;
+				settings.Security.KioskMode = KioskMode.DisableExplorerShell;
 			}
 
 			if (hasCreateNewDesktop && createNewDesktop as bool? == true)
 			{
-				settings.KioskMode = KioskMode.CreateNewDesktop;
+				settings.Security.KioskMode = KioskMode.CreateNewDesktop;
 			}
 
 			if (hasCreateNewDesktop && hasDisableExplorerShell && createNewDesktop as bool? == false && disableExplorerShell as bool? == false)
 			{
-				settings.KioskMode = KioskMode.None;
+				settings.Security.KioskMode = KioskMode.None;
 			}
 		}
 
@@ -60,7 +93,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is string hash)
 			{
-				settings.QuitPasswordHash = hash;
+				settings.Security.QuitPasswordHash = hash;
 			}
 		}
 
@@ -79,7 +112,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool allow)
 			{
-				// TODO NEXT: settings.Security.VirtualMachinePolicy = ;
+				settings.Security.VirtualMachinePolicy = allow ? VirtualMachinePolicy.Allow : VirtualMachinePolicy.Deny ;
 			}
 		}
 	}

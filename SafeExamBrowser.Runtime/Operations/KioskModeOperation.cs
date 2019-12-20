@@ -10,7 +10,7 @@ using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Runtime.Operations
@@ -43,12 +43,12 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public override OperationResult Perform()
 		{
-			logger.Info($"Initializing kiosk mode '{Context.Next.Settings.KioskMode}'...");
+			logger.Info($"Initializing kiosk mode '{Context.Next.Settings.Security.KioskMode}'...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeKioskMode);
 
-			activeMode = Context.Next.Settings.KioskMode;
+			activeMode = Context.Next.Settings.Security.KioskMode;
 
-			switch (Context.Next.Settings.KioskMode)
+			switch (Context.Next.Settings.Security.KioskMode)
 			{
 				case KioskMode.CreateNewDesktop:
 					CreateNewDesktop();
@@ -63,7 +63,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public override OperationResult Repeat()
 		{
-			var newMode = Context.Next.Settings.KioskMode;
+			var newMode = Context.Next.Settings.Security.KioskMode;
 			var result = OperationResult.Success;
 
 			if (activeMode == newMode)

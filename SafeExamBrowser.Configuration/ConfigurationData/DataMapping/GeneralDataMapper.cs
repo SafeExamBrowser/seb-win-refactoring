@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.Collections.Generic;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Logging;
 
@@ -21,31 +20,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.General.LogLevel:
 					MapLogLevel(settings, value);
 					break;
-			}
-		}
-
-		internal override void MapGlobal(IDictionary<string, object> rawData, AppSettings settings)
-		{
-			MapApplicationLogAccess(rawData, settings);
-		}
-
-		private void MapApplicationLogAccess(IDictionary<string, object> rawData, AppSettings settings)
-		{
-			var hasValue = rawData.TryGetValue(Keys.General.AllowApplicationLog, out var value);
-
-			if (hasValue && value is bool allow)
-			{
-				settings.AllowApplicationLogAccess = allow;
-			}
-
-			if (settings.AllowApplicationLogAccess)
-			{
-				settings.ActionCenter.ShowApplicationLog = true;
-			}
-			else
-			{
-				settings.ActionCenter.ShowApplicationLog = false;
-				settings.Taskbar.ShowApplicationLog = false;
 			}
 		}
 

@@ -20,6 +20,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Applications;
+using SafeExamBrowser.Settings.Security;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
@@ -263,7 +264,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustNotStartMonitorWithoutKioskMode()
 		{
-			context.Settings.KioskMode = KioskMode.None;
+			context.Settings.Security.KioskMode = KioskMode.None;
 			monitor.Setup(m => m.Initialize(It.IsAny<ApplicationSettings>())).Returns(new InitializationResult());
 
 			var result = sut.Perform();
@@ -275,7 +276,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustStartMonitorWithKioskMode()
 		{
-			context.Settings.KioskMode = KioskMode.CreateNewDesktop;
+			context.Settings.Security.KioskMode = KioskMode.CreateNewDesktop;
 			monitor.Setup(m => m.Initialize(It.IsAny<ApplicationSettings>())).Returns(new InitializationResult());
 
 			var result = sut.Perform();
@@ -283,7 +284,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			monitor.Verify(m => m.Start(), Times.Once);
 			Assert.AreEqual(OperationResult.Success, result);
 
-			context.Settings.KioskMode = KioskMode.DisableExplorerShell;
+			context.Settings.Security.KioskMode = KioskMode.DisableExplorerShell;
 			monitor.Reset();
 			monitor.Setup(m => m.Initialize(It.IsAny<ApplicationSettings>())).Returns(new InitializationResult());
 
@@ -331,7 +332,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Revert_MustNotStopMonitorWithoutKioskMode()
 		{
-			context.Settings.KioskMode = KioskMode.None;
+			context.Settings.Security.KioskMode = KioskMode.None;
 
 			var result = sut.Revert();
 
@@ -342,14 +343,14 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Revert_MustStopMonitorWithKioskMode()
 		{
-			context.Settings.KioskMode = KioskMode.CreateNewDesktop;
+			context.Settings.Security.KioskMode = KioskMode.CreateNewDesktop;
 
 			var result = sut.Revert();
 
 			monitor.Verify(m => m.Stop(), Times.Once);
 			Assert.AreEqual(OperationResult.Success, result);
 
-			context.Settings.KioskMode = KioskMode.DisableExplorerShell;
+			context.Settings.Security.KioskMode = KioskMode.DisableExplorerShell;
 			monitor.Reset();
 
 			result = sut.Revert();

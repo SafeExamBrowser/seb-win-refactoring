@@ -16,20 +16,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			switch (key)
 			{
-				case Keys.ConfigurationFile.AdminPasswordHash:
-					MapAdminPasswordHash(settings, value);
-					break;
 				case Keys.ConfigurationFile.ConfigurationPurpose:
 					MapConfigurationMode(settings, value);
 					break;
-			}
-		}
-
-		private void MapAdminPasswordHash(AppSettings settings, object value)
-		{
-			if (value is string hash)
-			{
-				settings.AdminPasswordHash = hash;
 			}
 		}
 

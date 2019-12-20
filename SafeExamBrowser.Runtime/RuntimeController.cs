@@ -13,14 +13,15 @@ using SafeExamBrowser.Communication.Contracts.Events;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Settings;
-using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
+using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Security;
+using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
@@ -193,11 +194,11 @@ namespace SafeExamBrowser.Runtime
 			RegisterSessionEvents();
 
 			runtimeWindow.ShowProgressBar = false;
-			runtimeWindow.ShowLog = Session.Settings.AllowApplicationLogAccess;
-			runtimeWindow.TopMost = Session.Settings.KioskMode != KioskMode.None;
+			runtimeWindow.ShowLog = Session.Settings.Security.AllowApplicationLogAccess;
+			runtimeWindow.TopMost = Session.Settings.Security.KioskMode != KioskMode.None;
 			runtimeWindow.UpdateStatus(TextKey.RuntimeWindow_ApplicationRunning);
 
-			if (Session.Settings.KioskMode == KioskMode.DisableExplorerShell)
+			if (Session.Settings.Security.KioskMode == KioskMode.DisableExplorerShell)
 			{
 				runtimeWindow.Hide();
 			}
@@ -226,9 +227,9 @@ namespace SafeExamBrowser.Runtime
 			{
 				runtimeWindow.ShowProgressBar = false;
 				runtimeWindow.UpdateStatus(TextKey.RuntimeWindow_ApplicationRunning);
-				runtimeWindow.TopMost = Session.Settings.KioskMode != KioskMode.None;
+				runtimeWindow.TopMost = Session.Settings.Security.KioskMode != KioskMode.None;
 
-				if (Session.Settings.KioskMode == KioskMode.DisableExplorerShell)
+				if (Session.Settings.Security.KioskMode == KioskMode.DisableExplorerShell)
 				{
 					runtimeWindow.Hide();
 				}
@@ -404,7 +405,7 @@ namespace SafeExamBrowser.Runtime
 		private void AskForPassword(PasswordRequiredEventArgs args)
 		{
 			var isStartup = !SessionIsRunning;
-			var isRunningOnDefaultDesktop = SessionIsRunning && Session.Settings.KioskMode == KioskMode.DisableExplorerShell;
+			var isRunningOnDefaultDesktop = SessionIsRunning && Session.Settings.Security.KioskMode == KioskMode.DisableExplorerShell;
 
 			if (isStartup || isRunningOnDefaultDesktop)
 			{
@@ -419,7 +420,7 @@ namespace SafeExamBrowser.Runtime
 		private void ShowMessageBox(MessageEventArgs args)
 		{
 			var isStartup = !SessionIsRunning;
-			var isRunningOnDefaultDesktop = SessionIsRunning && Session.Settings.KioskMode == KioskMode.DisableExplorerShell;
+			var isRunningOnDefaultDesktop = SessionIsRunning && Session.Settings.Security.KioskMode == KioskMode.DisableExplorerShell;
 			var message = text.Get(args.Message);
 			var title = text.Get(args.Title);
 

@@ -171,8 +171,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		public void MustHandleConfigurationRequestCorrectly()
 		{
 			var args = default(ClientConfigurationEventArgs);
-			var configuration = new ClientConfiguration { Settings = new AppSettings { AdminPasswordHash = "12345" } };
+			var configuration = new ClientConfiguration { Settings = new AppSettings() };
 
+			configuration.Settings.Security.AdminPasswordHash = "12345";
 			sut.AllowConnection = true;
 			sut.ClientConfigurationNeeded += (a) => { args = a; args.ClientConfiguration = configuration; };
 			sut.AuthenticationToken = Guid.Empty;
@@ -184,7 +185,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			Assert.IsNotNull(args);
 			Assert.IsNotNull(response);
 			Assert.IsInstanceOfType(response, typeof(ConfigurationResponse));
-			Assert.AreEqual(configuration.Settings.AdminPasswordHash, (response as ConfigurationResponse)?.Configuration.Settings.AdminPasswordHash);
+			Assert.AreEqual(configuration.Settings.Security.AdminPasswordHash, (response as ConfigurationResponse)?.Configuration.Settings.Security.AdminPasswordHash);
 		}
 
 		[TestMethod]

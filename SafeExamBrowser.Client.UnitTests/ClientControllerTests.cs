@@ -212,7 +212,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var correct = new Random().Next(1, 50);
 			var lockScreenResult = new Func<LockScreenResult>(() => ++attempt == correct ? result : new LockScreenResult());
 
-			context.Settings.QuitPasswordHash = hash;
+			context.Settings.Security.QuitPasswordHash = hash;
 			hashAlgorithm.Setup(a => a.GenerateHashFor(It.Is<string>(p => p == result.Password))).Returns(hash);
 			lockScreen.Setup(l => l.WaitForResult()).Returns(lockScreenResult);
 			uiFactory
@@ -692,9 +692,9 @@ namespace SafeExamBrowser.Client.UnitTests
 			var dialog = new Mock<IPasswordDialog>();
 			var dialogResult = new PasswordDialogResult { Password = "blobb", Success = true };
 
-			settings.QuitPasswordHash = "1234";
+			settings.Security.QuitPasswordHash = "1234";
 			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(dialogResult);
-			hashAlgorithm.Setup(h => h.GenerateHashFor(It.Is<string>(s => s == dialogResult.Password))).Returns(settings.QuitPasswordHash);
+			hashAlgorithm.Setup(h => h.GenerateHashFor(It.Is<string>(s => s == dialogResult.Password))).Returns(settings.Security.QuitPasswordHash);
 			runtimeProxy.Setup(r => r.RequestShutdown()).Returns(new CommunicationResult(true));
 			uiFactory.Setup(u => u.CreatePasswordDialog(It.IsAny<TextKey>(), It.IsAny<TextKey>())).Returns(dialog.Object);
 
@@ -714,7 +714,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var dialog = new Mock<IPasswordDialog>();
 			var dialogResult = new PasswordDialogResult { Success = false };
 
-			settings.QuitPasswordHash = "1234";
+			settings.Security.QuitPasswordHash = "1234";
 			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(dialogResult);
 			runtimeProxy.Setup(r => r.RequestShutdown()).Returns(new CommunicationResult(true));
 			uiFactory.Setup(u => u.CreatePasswordDialog(It.IsAny<TextKey>(), It.IsAny<TextKey>())).Returns(dialog.Object);
@@ -735,7 +735,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var dialog = new Mock<IPasswordDialog>();
 			var dialogResult = new PasswordDialogResult { Password = "blobb", Success = true };
 
-			settings.QuitPasswordHash = "1234";
+			settings.Security.QuitPasswordHash = "1234";
 			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(dialogResult);
 			hashAlgorithm.Setup(h => h.GenerateHashFor(It.IsAny<string>())).Returns("9876");
 			uiFactory.Setup(u => u.CreatePasswordDialog(It.IsAny<TextKey>(), It.IsAny<TextKey>())).Returns(dialog.Object);

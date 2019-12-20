@@ -6,10 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Settings
+namespace SafeExamBrowser.Settings.Security
 {
 	/// <summary>
-	/// Defines all kiosk modes which the application supports.
+	/// Defines all kiosk modes which SEB supports.
 	/// </summary>
 	public enum KioskMode
 	{
@@ -19,12 +19,12 @@ namespace SafeExamBrowser.Settings
 		None,
 
 		/// <summary>
-		/// Creates a new desktop and runs the client application on it, without modifying the default desktop.
+		/// Creates a new desktop and runs the client on it, without modifying the default desktop.
 		/// </summary>
 		CreateNewDesktop,
 
 		/// <summary>
-		/// Terminates the Windows explorer shell and runs the client application on the default desktop.
+		/// Terminates the Windows explorer shell and runs the client on the default desktop.
 		/// </summary>
 		DisableExplorerShell
 	}

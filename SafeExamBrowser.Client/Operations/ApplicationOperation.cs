@@ -15,8 +15,8 @@ using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
-using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Applications;
+using SafeExamBrowser.Settings.Security;
 
 namespace SafeExamBrowser.Client.Operations
 {
@@ -144,7 +144,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void StartMonitor()
 		{
-			if (Context.Settings.KioskMode != KioskMode.None)
+			if (Context.Settings.Security.KioskMode != KioskMode.None)
 			{
 				monitor.Start();
 			}
@@ -152,7 +152,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void StopMonitor()
 		{
-			if (Context.Settings.KioskMode != KioskMode.None)
+			if (Context.Settings.Security.KioskMode != KioskMode.None)
 			{
 				monitor.Stop();
 			}

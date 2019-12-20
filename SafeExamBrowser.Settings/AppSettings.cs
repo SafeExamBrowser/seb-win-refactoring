@@ -11,6 +11,7 @@ using SafeExamBrowser.Settings.Applications;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.Settings.Monitoring;
+using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.Settings.SystemComponents;
 using SafeExamBrowser.Settings.UserInterface;
@@ -27,16 +28,6 @@ namespace SafeExamBrowser.Settings
 		/// All action center-related settings.
 		/// </summary>
 		public ActionCenterSettings ActionCenter { get; set; }
-
-		/// <summary>
-		/// The hash code of the administrator password for the settings.
-		/// </summary>
-		public string AdminPasswordHash { get; set; }
-
-		/// <summary>
-		/// Determines whether any log information will be accessible via the user interface.
-		/// </summary>
-		public bool AllowApplicationLogAccess { get; set; }
 
 		/// <summary>
 		/// All settings related to external applications.
@@ -64,11 +55,6 @@ namespace SafeExamBrowser.Settings
 		public KeyboardSettings Keyboard { get; set; }
 
 		/// <summary>
-		/// The kiosk mode which determines how the computer is locked down.
-		/// </summary>
-		public KioskMode KioskMode { get; set; }
-
-		/// <summary>
 		/// The global log severity to be used.
 		/// </summary>
 		public LogLevel LogLevel { get; set; }
@@ -79,9 +65,9 @@ namespace SafeExamBrowser.Settings
 		public MouseSettings Mouse { get; set; }
 
 		/// <summary>
-		/// The hash code of the quit password.
+		/// All security-related settings.
 		/// </summary>
-		public string QuitPasswordHash { get; set; }
+		public SecuritySettings Security { get; set; }
 
 		/// <summary>
 		/// All service-related settings.
@@ -106,6 +92,7 @@ namespace SafeExamBrowser.Settings
 			Browser = new BrowserSettings();
 			Keyboard = new KeyboardSettings();
 			Mouse = new MouseSettings();
+			Security = new SecuritySettings();
 			Service = new ServiceSettings();
 			Taskbar = new TaskbarSettings();
 		}
