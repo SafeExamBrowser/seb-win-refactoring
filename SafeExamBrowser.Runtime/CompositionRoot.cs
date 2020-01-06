@@ -74,6 +74,7 @@ namespace SafeExamBrowser.Runtime
 			var sessionContext = new SessionContext();
 			var uiFactory = new UserInterfaceFactory(text);
 			var userInfo = new UserInfo(ModuleLogger(nameof(UserInfo)));
+			var vmDetector = new VirtualMachineDetector(ModuleLogger(nameof(VirtualMachineDetector)), systemInfo);
 
 			var bootstrapOperations = new Queue<IOperation>();
 			var sessionOperations = new Queue<IRepeatableOperation>();
@@ -83,7 +84,7 @@ namespace SafeExamBrowser.Runtime
 
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost, sessionContext));
 			sessionOperations.Enqueue(new ConfigurationOperation(args, configuration, new HashAlgorithm(), logger, sessionContext));
-			sessionOperations.Enqueue(new VirtualMachineOperation(sessionContext));
+			sessionOperations.Enqueue(new VirtualMachineOperation(vmDetector, logger, sessionContext));
 			sessionOperations.Enqueue(new ServiceOperation(logger, runtimeHost, serviceProxy, sessionContext, THIRTY_SECONDS, userInfo));
 			sessionOperations.Enqueue(new ClientTerminationOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, THIRTY_SECONDS));
 			sessionOperations.Enqueue(new KioskModeOperation(desktopFactory, explorerShell, logger, processFactory, sessionContext));

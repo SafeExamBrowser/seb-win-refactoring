@@ -222,6 +222,12 @@
     <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
         Configuration Error
     </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowed">
+        This computer appears to be a virtual machine. The currently active configuration does not allow SEB to be run in a virtual machine.
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
+        Virtual Machine Detected
+    </Entry>
     <Entry key="MessageBox_YesButton">
         Yes
     </Entry>
@@ -308,6 +314,9 @@
     </Entry>
     <Entry key="OperationStatus_TerminateShell">
         Terminating user interface
+    </Entry>
+    <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
+        Validating virtual machine policy
     </Entry>
     <Entry key="OperationStatus_WaitExplorerStartup">
         Waiting for Windows explorer to start up

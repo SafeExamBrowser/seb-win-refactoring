@@ -45,8 +45,8 @@ namespace SafeExamBrowser.SystemComponents
 
 		private void InitializeMachineInfo()
 		{
-			var model = string.Empty;
-			var systemFamily = string.Empty;
+			var model = default(string);
+			var systemFamily = default(string);
 
 			using (var searcher = new ManagementObjectSearcher("Select * from Win32_ComputerSystem"))
 			using (var results = searcher.Get())
