@@ -26,12 +26,12 @@
                 <LineBreak />
                 <Bold><Underline>CefSharp (.NET bindings for the Chromium Embedded Framework)</Underline></Bold>
                 <LineBreak />
-                Copyright © 2010-2019 The CefSharp Authors. All rights reserved.
+                Copyright © 2010-2020 The CefSharp Authors. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>CEF (Chromium Embedded Framework)</Underline></Bold>
                 <LineBreak />
-                Copyright © 2008-2019 The Chromium Embedded Framework Authors. All rights reserved.
+                Copyright © 2008-2020 The Chromium Embedded Framework Authors. All rights reserved.
             </TextBlock>
         </ScrollViewer>
     </Grid>
