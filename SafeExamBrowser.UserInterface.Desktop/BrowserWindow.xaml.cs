@@ -253,10 +253,16 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			ForwardButton.IsEnabled = WindowSettings.AllowForwardNavigation;
 			ForwardButton.Visibility = WindowSettings.AllowForwardNavigation ? Visibility.Visible : Visibility.Collapsed;
 
+			MenuButton.IsEnabled = settings.AllowPageZoom || WindowSettings.AllowDeveloperConsole;
+
 			ReloadButton.IsEnabled = WindowSettings.AllowReloading;
 			ReloadButton.Visibility = WindowSettings.AllowReloading ? Visibility.Visible : Visibility.Collapsed;
 
+			Toolbar.Visibility = WindowSettings.ShowToolbar ? Visibility.Visible : Visibility.Collapsed;
+
 			UrlTextBox.Visibility = WindowSettings.AllowAddressBar ? Visibility.Visible : Visibility.Hidden;
+
+			ZoomMenuItem.Visibility = settings.AllowPageZoom ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void InitializeBounds()

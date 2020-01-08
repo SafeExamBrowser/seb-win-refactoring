@@ -75,5 +75,10 @@ namespace SafeExamBrowser.Settings.Browser
 		/// Determines whether the user will need to confirm every reload attempt.
 		/// </summary>
 		public bool ShowReloadWarning { get; set; }
+
+		/// <summary>
+		/// Determines whether the window toolbar is visible.
+		/// </summary>
+		public bool ShowToolbar { get; set; }
 	}
 }

@@ -93,6 +93,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.QuitUrlConfirmation:
 					MapQuitUrlConfirmation(settings, value);
 					break;
+				case Keys.Browser.ShowToolbar:
+					MapShowToolbar(settings, value);
+					break;
 				case Keys.Browser.StartUrl:
 					MapStartUrl(settings, value);
 					break;
@@ -260,6 +263,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool show)
 			{
 				settings.Browser.AdditionalWindow.ShowReloadWarning = show;
+			}
+		}
+
+		private void MapShowToolbar(AppSettings settings, object value)
+		{
+			if (value is bool show)
+			{
+				settings.Browser.AdditionalWindow.ShowToolbar = show;
+				settings.Browser.MainWindow.ShowToolbar = show;
 			}
 		}
 

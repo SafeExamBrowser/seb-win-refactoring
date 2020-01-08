@@ -51,6 +51,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string PopupBlockForeignHost = "newBrowserWindowByLinkBlockForeign";
 			internal const string QuitUrl = "quitURL";
 			internal const string QuitUrlConfirmation = "quitURLConfirm";
+			internal const string ShowToolbar = "enableBrowserWindowToolbar";
 			internal const string StartUrl = "startURL";
 			internal const string UserAgentModeDesktop = "browserUserAgentWinDesktopMode";
 			internal const string UserAgentModeMobile = "browserUserAgentWinTouchMode";
