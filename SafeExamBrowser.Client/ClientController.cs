@@ -242,7 +242,7 @@ namespace SafeExamBrowser.Client
 
 		private void AutoStartApplications()
 		{
-			if (Browser.AutoStart)
+			if (Settings.Browser.EnableBrowser && Browser.AutoStart)
 			{
 				logger.Info("Auto-starting browser...");
 				Browser.Start();

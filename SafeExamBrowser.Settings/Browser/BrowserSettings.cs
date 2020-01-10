@@ -47,6 +47,11 @@ namespace SafeExamBrowser.Settings.Browser
 		public string CustomUserAgent { get; set; }
 
 		/// <summary>
+		/// Determines whether the user is allowed to use the integrated browser application.
+		/// </summary>
+		public bool EnableBrowser { get; set; }
+
+		/// <summary>
 		/// The settings to be used for the browser request filter.
 		/// </summary>
 		public FilterSettings Filter { get; set; }

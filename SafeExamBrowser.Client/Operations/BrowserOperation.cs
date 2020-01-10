@@ -46,19 +46,26 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Initializing browser...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeBrowser);
 
-			Context.Browser.Initialize();
-
-			if (Context.Settings.ActionCenter.EnableActionCenter)
+			if (Context.Settings.Browser.EnableBrowser)
 			{
-				actionCenter.AddApplicationControl(uiFactory.CreateApplicationControl(Context.Browser, Location.ActionCenter), true);
-			}
+				Context.Browser.Initialize();
 
-			if (Context.Settings.Taskbar.EnableTaskbar)
+				if (Context.Settings.ActionCenter.EnableActionCenter)
+				{
+					actionCenter.AddApplicationControl(uiFactory.CreateApplicationControl(Context.Browser, Location.ActionCenter), true);
+				}
+
+				if (Context.Settings.Taskbar.EnableTaskbar)
+				{
+					taskbar.AddApplicationControl(uiFactory.CreateApplicationControl(Context.Browser, Location.Taskbar), true);
+				}
+
+				taskview.Add(Context.Browser);
+			}
+			else
 			{
-				taskbar.AddApplicationControl(uiFactory.CreateApplicationControl(Context.Browser, Location.Taskbar), true);
+				logger.Info("Browser application is disabled for this session.");
 			}
-
-			taskview.Add(Context.Browser);
 
 			return OperationResult.Success;
 		}
@@ -68,7 +75,14 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Terminating browser...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_TerminateBrowser);
 
-			Context.Browser.Terminate();
+			if (Context.Settings.Browser.EnableBrowser)
+			{
+				Context.Browser.Terminate();
+			}
+			else
+			{
+				logger.Info("Browser application was disabled for this session.");
+			}
 
 			return OperationResult.Success;
 		}

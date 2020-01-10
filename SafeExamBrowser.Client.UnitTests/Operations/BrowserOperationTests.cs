@@ -53,16 +53,34 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustInitializeBrowserAndTaskview()
 		{
+			settings.Browser.EnableBrowser = true;
+
 			sut.Perform();
 
 			browser.Verify(c => c.Initialize(), Times.Once);
-			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == context.Browser)));
+			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == context.Browser)), Times.Once);
+		}
+
+		[TestMethod]
+		public void Perform_MustNotInitializeBrowserIfNotEnabled()
+		{
+			settings.ActionCenter.EnableActionCenter = true;
+			settings.Browser.EnableBrowser = false;
+			settings.Taskbar.EnableTaskbar = true;
+
+			sut.Perform();
+
+			actionCenter.Verify(a => a.AddApplicationControl(It.IsAny<IApplicationControl>(), true), Times.Never);
+			browser.Verify(c => c.Initialize(), Times.Never);
+			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>(), true), Times.Never);
+			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == context.Browser)), Times.Never);
 		}
 
 		[TestMethod]
 		public void Perform_MustCorrectlyInitializeControls()
 		{
 			settings.ActionCenter.EnableActionCenter = false;
+			settings.Browser.EnableBrowser = true;
 			settings.Taskbar.EnableTaskbar = false;
 
 			sut.Perform();
@@ -82,8 +100,17 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Revert_MustTerminateBrowser()
 		{
+			settings.Browser.EnableBrowser = true;
 			sut.Revert();
 			browser.Verify(c => c.Terminate(), Times.Once);
+		}
+
+		[TestMethod]
+		public void Revert_MustNotTerminateBrowserIfNotEnabled()
+		{
+			settings.Browser.EnableBrowser = false;
+			sut.Revert();
+			browser.Verify(c => c.Terminate(), Times.Never);
 		}
 	}
 }

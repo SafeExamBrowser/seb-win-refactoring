@@ -888,6 +888,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Startup_MustAutoStartBrowser()
 		{
+			settings.Browser.EnableBrowser = true;
 			browser.SetupGet(b => b.AutoStart).Returns(true);
 
 			sut.TryStart();
@@ -895,6 +896,17 @@ namespace SafeExamBrowser.Client.UnitTests
 			browser.Verify(b => b.Start(), Times.Once);
 			browser.Reset();
 			browser.SetupGet(b => b.AutoStart).Returns(false);
+
+			sut.TryStart();
+
+			browser.Verify(b => b.Start(), Times.Never);
+		}
+
+		[TestMethod]
+		public void Startup_MustNotAutoStartBrowserIfNotEnabled()
+		{
+			settings.Browser.EnableBrowser = false;
+			browser.SetupGet(b => b.AutoStart).Returns(true);
 
 			sut.TryStart();
 

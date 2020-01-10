@@ -54,6 +54,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.AdditionalWindow.WindowWidth:
 					MapWindowWidthAdditionalWindow(settings, value);
 					break;
+				case Keys.Browser.EnableBrowser:
+					MapEnableBrowser(settings, value);
+					break;
 				case Keys.Browser.Filter.FilterRules:
 					MapFilterRules(settings, value);
 					break;
@@ -192,6 +195,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool allow)
 			{
 				settings.Browser.AdditionalWindow.AllowReloading = allow;
+			}
+		}
+
+		private void MapEnableBrowser(AppSettings settings, object value)
+		{
+			if (value is bool enable)
+			{
+				settings.Browser.EnableBrowser = enable;
 			}
 		}
 

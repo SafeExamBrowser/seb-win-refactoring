@@ -47,6 +47,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string AllowPageZoom = "enableZoomPage";
 			internal const string CustomUserAgentDesktop = "browserUserAgentWinDesktopModeCustom";
 			internal const string CustomUserAgentMobile = "browserUserAgentWinTouchModeCustom";
+			internal const string EnableBrowser = "enableSebBrowser";
 			internal const string PopupPolicy = "newBrowserWindowByLinkPolicy";
 			internal const string PopupBlockForeignHost = "newBrowserWindowByLinkBlockForeign";
 			internal const string QuitUrl = "quitURL";
