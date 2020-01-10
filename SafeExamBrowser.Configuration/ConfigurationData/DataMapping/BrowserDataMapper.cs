@@ -96,6 +96,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.ShowToolbar:
 					MapShowToolbar(settings, value);
 					break;
+				case Keys.Browser.SendCustomHeaders:
+					MapSendCustomHeaders(settings, value);
+					break;
 				case Keys.Browser.StartUrl:
 					MapStartUrl(settings, value);
 					break;
@@ -272,6 +275,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			{
 				settings.Browser.AdditionalWindow.ShowToolbar = show;
 				settings.Browser.MainWindow.ShowToolbar = show;
+			}
+		}
+
+		private void MapSendCustomHeaders(AppSettings settings, object value)
+		{
+			if (value is bool send)
+			{
+				settings.Browser.SendCustomHeaders = send;
 			}
 		}
 

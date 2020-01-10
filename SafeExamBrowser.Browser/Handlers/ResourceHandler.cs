@@ -10,30 +10,34 @@ using System;
 using System.Collections.Specialized;
 using System.IO;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
 using CefSharp;
 using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Browser.Filters;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Browser.Filter;
+using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
 	internal class ResourceHandler : CefSharp.Handler.ResourceRequestHandler
 	{
 		private AppConfig appConfig;
-		private FilterSettings settings;
+		private SHA256Managed algorithm;
+		private BrowserSettings settings;
 		private ILogger logger;
 		private IRequestFilter filter;
 		private IResourceHandler contentHandler;
 		private IResourceHandler pageHandler;
 		private IText text;
 
-		internal ResourceHandler(AppConfig appConfig, FilterSettings settings, IRequestFilter filter, ILogger logger, IText text)
+		internal ResourceHandler(AppConfig appConfig, BrowserSettings settings, IRequestFilter filter, ILogger logger, IText text)
 		{
 			this.appConfig = appConfig;
+			this.algorithm = new SHA256Managed();
 			this.filter = filter;
 			this.logger = logger;
 			this.settings = settings;
@@ -52,14 +56,19 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		protected override CefReturnValue OnBeforeResourceLoad(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
 		{
+			if (IsMailtoUrl(request.Url))
+			{
+				return CefReturnValue.Cancel;
+			}
+
 			// TODO: CEF does not yet support intercepting requests from service workers, thus the user agent must be statically set at browser
 			//       startup for now. Once CEF has full support of service workers, the static user agent should be removed and the method below
 			//       reactivated. See https://bitbucket.org/chromiumembedded/cef/issues/2622 for the current status of development.
 			// AppendCustomUserAgent(request);
 
-			if (IsMailtoUrl(request.Url))
+			if (settings.SendCustomHeaders)
 			{
-				return CefReturnValue.Cancel;
+				AppendCustomHeaders(request);
 			}
 
 			ReplaceSebScheme(request);
@@ -76,9 +85,22 @@ namespace SafeExamBrowser.Browser.Handlers
 			request.Headers = headers;
 		}
 
+		private void AppendCustomHeaders(IRequest request)
+		{
+			var headers = new NameValueCollection(request.Headers);
+			var urlWithoutFragment = request.Url.Split('#')[0];
+			var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + settings.HashValue));
+			var configurationKey = BitConverter.ToString(hash).Replace("-", string.Empty);
+
+			// TODO: Implement Browser Exam Key calculation.
+			// headers["X-SafeExamBrowser-RequestHash"] = ...;
+			headers["X-SafeExamBrowser-ConfigKeyHash"] = configurationKey;
+			request.Headers = headers;
+		}
+
 		private bool Block(IRequest request)
 		{
-			if (settings.ProcessContentRequests)
+			if (settings.Filter.ProcessContentRequests)
 			{
 				var result = filter.Process(new Request { Url = request.Url });
 				var block = result == FilterResult.Block;

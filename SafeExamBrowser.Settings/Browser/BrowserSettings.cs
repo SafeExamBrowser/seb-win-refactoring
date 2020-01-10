@@ -52,6 +52,11 @@ namespace SafeExamBrowser.Settings.Browser
 		public FilterSettings Filter { get; set; }
 
 		/// <summary>
+		/// The hash value of the raw settings data, used for integrity checks with server applications (see also <see cref="SendCustomHeaders"/>).
+		/// </summary>
+		public string HashValue { get; set; }
+
+		/// <summary>
 		/// The settings to be used for the main browser window.
 		/// </summary>
 		public WindowSettings MainWindow { get; set; }
@@ -70,6 +75,11 @@ namespace SafeExamBrowser.Settings.Browser
 		/// An URL which will initiate the termination of SEB if visited by the user.
 		/// </summary>
 		public string QuitUrl { get; set; }
+
+		/// <summary>
+		/// Determines whether custom request headers (e.g. for integrity checks) are sent with every HTTP request.
+		/// </summary>
+		public bool SendCustomHeaders { get; set; }
 
 		/// <summary>
 		/// The URL with which the main browser window will be loaded.

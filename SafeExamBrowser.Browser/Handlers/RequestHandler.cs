@@ -33,7 +33,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			this.filter = filter;
 			this.logger = logger;
 			this.settings = settings;
-			this.resourceHandler = new ResourceHandler(appConfig, settings.Filter, filter, logger, text);
+			this.resourceHandler = new ResourceHandler(appConfig, settings, filter, logger, text);
 		}
 
 		protected override bool GetAuthCredentials(IWebBrowser webBrowser, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)

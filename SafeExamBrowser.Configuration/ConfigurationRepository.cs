@@ -15,8 +15,8 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Configuration.Contracts.DataFormats;
 using SafeExamBrowser.Configuration.Contracts.DataResources;
-using SafeExamBrowser.Settings;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Configuration
 {
@@ -26,6 +26,7 @@ namespace SafeExamBrowser.Configuration
 		private IList<IDataParser> dataParsers;
 		private IList<IDataSerializer> dataSerializers;
 		private DataMapper dataMapper;
+		private DataProcessor dataProcessor;
 		private DataValues dataValues;
 		private IHashAlgorithm hashAlgorithm;
 		private ILogger logger;
@@ -49,6 +50,7 @@ namespace SafeExamBrowser.Configuration
 			dataParsers = new List<IDataParser>();
 			dataSerializers = new List<IDataSerializer>();
 			dataMapper = new DataMapper();
+			dataProcessor = new DataProcessor();
 			dataValues = new DataValues(executablePath, programBuild, programCopyright, programTitle, programVersion);
 			resourceLoaders = new List<IResourceLoader>();
 			resourceSavers = new List<IResourceSaver>();
@@ -144,6 +146,7 @@ namespace SafeExamBrowser.Configuration
 						if (status == LoadStatus.Success)
 						{
 							dataMapper.MapRawDataToSettings(data, settings);
+							dataProcessor.Process(data, settings);
 						}
 					}
 
