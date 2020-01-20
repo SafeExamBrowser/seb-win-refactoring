@@ -14,6 +14,7 @@ using CefSharp;
 using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using Syroot.Windows.IO;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 
 namespace SafeExamBrowser.Browser.Handlers
@@ -25,9 +26,9 @@ namespace SafeExamBrowser.Browser.Handlers
 		private ConcurrentDictionary<int, DownloadFinishedCallback> callbacks;
 		private ILogger logger;
 
-		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
+		internal event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 
-		public DownloadHandler(AppConfig appConfig, BrowserSettings settings, ILogger logger)
+		internal DownloadHandler(AppConfig appConfig, BrowserSettings settings, ILogger logger)
 		{
 			this.appConfig = appConfig;
 			this.callbacks = new ConcurrentDictionary<int, DownloadFinishedCallback>();
@@ -41,7 +42,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			var extension = Path.GetExtension(uri.AbsolutePath);
 			var isConfigFile = String.Equals(extension, appConfig.ConfigurationFileExtension, StringComparison.OrdinalIgnoreCase);
 
-			logger.Debug($"Handling download request for '{uri}'.");
+			logger.Debug($"Detected download request for '{uri}'.");
 
 			if (isConfigFile)
 			{
@@ -49,12 +50,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			}
 			else if (settings.AllowDownloads)
 			{
-				logger.Debug($"Starting download of '{uri}'...");
-
-				using (callback)
-				{
-					callback.Continue(null, true);
-				}
+				Task.Run(() => HandleFileDownload(downloadItem, callback));
 			}
 			else
 			{
@@ -64,6 +60,8 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		public void OnDownloadUpdated(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
 		{
+			// TODO: Show download progress in respective window -> event for BrowserApplicationInstance!
+
 			if (downloadItem.IsComplete || downloadItem.IsCancelled)
 			{
 				if (callbacks.TryRemove(downloadItem.Id, out DownloadFinishedCallback finished) && finished != null)
@@ -72,6 +70,39 @@ namespace SafeExamBrowser.Browser.Handlers
 				}
 
 				logger.Debug($"Download of '{downloadItem.Url}' {(downloadItem.IsComplete ? "is complete" : "was cancelled")}.");
+
+				// TODO: Show success message or download icon like Firefox in respective window!
+			}
+		}
+
+		private void HandleFileDownload(DownloadItem downloadItem, IBeforeDownloadCallback callback)
+		{
+			var filePath = default(string);
+			var showDialog = settings.AllowCustomDownloadLocation;
+
+			logger.Debug($"Handling download of file '{downloadItem.SuggestedFileName}'.");
+
+			if (!string.IsNullOrEmpty(settings.DownloadDirectory))
+			{
+				filePath = Path.Combine(Environment.ExpandEnvironmentVariables(settings.DownloadDirectory), downloadItem.SuggestedFileName);
+			}
+			else
+			{
+				filePath = Path.Combine(KnownFolders.Downloads.ExpandedPath, downloadItem.SuggestedFileName);
+			}
+
+			if (showDialog)
+			{
+				logger.Debug($"Allowing user to select custom download location, with '{filePath}' as suggestion.");
+			}
+			else
+			{
+				logger.Debug($"Automatically downloading file as '{filePath}'.");
+			}
+
+			using (callback)
+			{
+				callback.Continue(filePath, showDialog);
 			}
 		}
 
@@ -79,7 +110,7 @@ namespace SafeExamBrowser.Browser.Handlers
 		{
 			var args = new DownloadEventArgs();
 
-			logger.Debug($"Detected download request for configuration file '{downloadItem.Url}'.");
+			logger.Debug($"Handling download of configuration file '{downloadItem.SuggestedFileName}'.");
 			ConfigurationDownloadRequested?.Invoke(downloadItem.SuggestedFileName, args);
 
 			if (args.AllowDownload)
@@ -89,7 +120,7 @@ namespace SafeExamBrowser.Browser.Handlers
 					callbacks[downloadItem.Id] = args.Callback;
 				}
 
-				logger.Debug($"Starting download of configuration file '{downloadItem.Url}'...");
+				logger.Debug($"Starting download of configuration file '{downloadItem.SuggestedFileName}'...");
 
 				using (callback)
 				{
@@ -98,7 +129,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			}
 			else
 			{
-				logger.Debug($"Download of configuration file '{downloadItem.Url}' was cancelled.");
+				logger.Debug($"Download of configuration file '{downloadItem.SuggestedFileName}' was cancelled.");
 			}
 		}
 	}

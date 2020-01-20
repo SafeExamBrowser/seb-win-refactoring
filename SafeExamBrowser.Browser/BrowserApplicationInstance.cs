@@ -106,6 +106,7 @@ namespace SafeExamBrowser.Browser
 		private void InitializeControl()
 		{
 			var contextMenuHandler = new ContextMenuHandler();
+			var dialogHandler = new DialogHandler();
 			var displayHandler = new DisplayHandler();
 			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} #{Id}");
 			var downloadHandler = new DownloadHandler(appConfig, settings, downloadLogger);
@@ -117,6 +118,7 @@ namespace SafeExamBrowser.Browser
 
 			Icon = new BrowserIconResource();
 
+			dialogHandler.DialogRequested += DialogHandler_DialogRequested;
 			displayHandler.FaviconChanged += DisplayHandler_FaviconChanged;
 			displayHandler.ProgressChanged += DisplayHandler_ProgressChanged;
 			downloadHandler.ConfigurationDownloadRequested += DownloadHandler_ConfigurationDownloadRequested;
@@ -130,7 +132,7 @@ namespace SafeExamBrowser.Browser
 
 			InitializeRequestFilter(requestFilter);
 
-			control = new BrowserControl(contextMenuHandler, displayHandler, downloadHandler, keyboardHandler, lifeSpanHandler, requestHandler, startUrl);
+			control = new BrowserControl(contextMenuHandler, dialogHandler, displayHandler, downloadHandler, keyboardHandler, lifeSpanHandler, requestHandler, startUrl);
 			control.AddressChanged += Control_AddressChanged;
 			control.LoadingStateChanged += Control_LoadingStateChanged;
 			control.TitleChanged += Control_TitleChanged;
@@ -205,6 +207,23 @@ namespace SafeExamBrowser.Browser
 			Title = title;
 			window.UpdateTitle(Title);
 			TitleChanged?.Invoke(Title);
+		}
+
+		private void DialogHandler_DialogRequested(DialogRequestedEventArgs args)
+		{
+			var dialog = uiFactory.CreateFileSystemDialog(args.Element, args.InitialPath, args.Operation, title: args.Title);
+			var result = dialog.Show(window);
+
+			if (result.Success)
+			{
+				args.FullPath = result.FullPath;
+				args.Success = result.Success;
+				logger.Debug($"User selected path '{result.FullPath}' when asked to {args.Operation}->{args.Element}.");
+			}
+			else
+			{
+				logger.Debug($"User aborted file system dialog to {args.Operation}->{args.Element}.");
+			}
 		}
 
 		private void DisplayHandler_FaviconChanged(string uri)

@@ -72,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Utilities\IconLoader.cs" />
     <Compile Include="Utilities\IconResourceLoader.cs" />
     <Compile Include="Utilities\Thumbnail.cs" />
     <Compile Include="Utilities\VisualExtensions.cs" />

@@ -27,6 +27,11 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool AllowConfigurationDownloads { get; set; }
 
 		/// <summary>
+		/// Determines whether the user will be allowed to select a custom location when downloading a file (excluding configuration files).
+		/// </summary>
+		public bool AllowCustomDownloadLocation { get; set; }
+
+		/// <summary>
 		/// Determines whether the user will be allowed to download files (excluding configuration files).
 		/// </summary>
 		public bool AllowDownloads { get; set; }
@@ -45,6 +50,11 @@ namespace SafeExamBrowser.Settings.Browser
 		/// The custom user agent to optionally be used for all requests.
 		/// </summary>
 		public string CustomUserAgent { get; set; }
+
+		/// <summary>
+		/// Defines a custom directory for file downloads. If not defined, all downloads will be saved in the current user's download directory.
+		/// </summary>
+		public string DownloadDirectory { get; set; }
 
 		/// <summary>
 		/// Determines whether the user is allowed to use the integrated browser application.

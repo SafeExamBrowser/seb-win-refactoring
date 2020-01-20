@@ -60,6 +60,10 @@
     <Compile Include="Browser\IBrowserControl.cs" />
     <Compile Include="Browser\IBrowserWindow.cs" />
     <Compile Include="Events\ActionRequestedEventHandler.cs" />
+    <Compile Include="FileSystemDialog\FileSystemDialogResult.cs" />
+    <Compile Include="FileSystemDialog\FileSystemElement.cs" />
+    <Compile Include="FileSystemDialog\FileSystemOperation.cs" />
+    <Compile Include="FileSystemDialog\IFileSystemDialog.cs" />
     <Compile Include="IProgressIndicator.cs" />
     <Compile Include="IUserInterfaceFactory.cs" />
     <Compile Include="MessageBox\IMessageBox.cs" />

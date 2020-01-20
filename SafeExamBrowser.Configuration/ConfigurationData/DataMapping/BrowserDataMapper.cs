@@ -24,6 +24,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.AllowConfigurationDownloads:
 					MapAllowConfigurationDownloads(settings, value);
 					break;
+				case Keys.Browser.AllowCustomDownloadLocation:
+					MapAllowCustomDownloadLocation(settings, value);
+					break;
 				case Keys.Browser.AllowDeveloperConsole:
 					MapAllowDeveloperConsole(settings, value);
 					break;
@@ -53,6 +56,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Browser.AdditionalWindow.WindowWidth:
 					MapWindowWidthAdditionalWindow(settings, value);
+					break;
+				case Keys.Browser.DownloadDirectory:
+					MapDownloadDirectory(settings, value);
 					break;
 				case Keys.Browser.EnableBrowser:
 					MapEnableBrowser(settings, value);
@@ -139,6 +145,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
+		private void MapAllowCustomDownloadLocation(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.AllowCustomDownloadLocation = allow;
+			}
+		}
+
 		private void MapAllowDeveloperConsole(AppSettings settings, object value)
 		{
 			if (value is bool allow)
@@ -195,6 +209,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool allow)
 			{
 				settings.Browser.AdditionalWindow.AllowReloading = allow;
+			}
+		}
+
+		private void MapDownloadDirectory(AppSettings settings, object value)
+		{
+			if (value is string directory)
+			{
+				settings.Browser.DownloadDirectory = directory;
 			}
 		}
 

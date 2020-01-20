@@ -27,6 +27,42 @@
     <Entry key="Build">
         Build
     </Entry>
+    <Entry key="FileSystemDialog_Cancel">
+        Cancel
+    </Entry>
+    <Entry key="FileSystemDialog_LoadError">
+        Failed to load data!
+    </Entry>
+    <Entry key="FileSystemDialog_Loading">
+        Loading...
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFileMessage">
+        Please select a file to open.
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFolderMessage">
+        Please select a folder.
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarning">
+        The selected file already exists! Would you really like to overwrite it?
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarningTitle">
+        Overwrite?
+    </Entry>
+    <Entry key="FileSystemDialog_SaveAs">
+        Save as:
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFileMessage">
+        Please select a location to save the file.
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFolderMessage">
+        Please select a location to save the folder.
+    </Entry>
+    <Entry key="FileSystemDialog_Select">
+        Select
+    </Entry>
+    <Entry key="FileSystemDialog_Title">
+        File System Access
+    </Entry>
     <Entry key="FolderDialog_ApplicationLocation">
         Application "%%NAME%%" could not be found on the system! Please locate the folder containing the main executable "%%EXECUTABLE%%".
     </Entry>

@@ -42,11 +42,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		internal static class Browser
 		{
 			internal const string AllowConfigurationDownloads = "downloadAndOpenSebConfig";
+			internal const string AllowCustomDownloadLocation = "allowCustomDownloadLocation";
 			internal const string AllowDeveloperConsole = "allowDeveloperConsole";
 			internal const string AllowDownloads = "allowDownUploads";
 			internal const string AllowPageZoom = "enableZoomPage";
 			internal const string CustomUserAgentDesktop = "browserUserAgentWinDesktopModeCustom";
 			internal const string CustomUserAgentMobile = "browserUserAgentWinTouchModeCustom";
+			internal const string DownloadDirectory = "downloadDirectoryWin";
 			internal const string EnableBrowser = "enableSebBrowser";
 			internal const string PopupPolicy = "newBrowserWindowByLinkPolicy";
 			internal const string PopupBlockForeignHost = "newBrowserWindowByLinkBlockForeign";

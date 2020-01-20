@@ -23,6 +23,7 @@ using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
+using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
@@ -72,7 +73,12 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow)
 		{
-			return new BrowserWindow(control, settings, isMainWindow, text);
+			return Application.Current.Dispatcher.Invoke(() => new BrowserWindow(control, settings, isMainWindow, text));
+		}
+
+		public IFileSystemDialog CreateFileSystemDialog(FileSystemElement element, string initialPath, FileSystemOperation operation, string message = default(string), string title = default(string))
+		{
+			return Application.Current.Dispatcher.Invoke(() => new FileSystemDialog(element, initialPath, operation, text, message, title));
 		}
 
 		public IFolderDialog CreateFolderDialog(string message)

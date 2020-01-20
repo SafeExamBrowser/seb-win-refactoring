@@ -54,6 +54,9 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Syroot.KnownFolders, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syroot.Windows.IO.KnownFolders.1.2.1\lib\net452\Syroot.KnownFolders.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
@@ -63,6 +66,8 @@
   <ItemGroup>
     <Compile Include="BrowserApplication.cs" />
     <Compile Include="BrowserApplicationInstance.cs" />
+    <Compile Include="Events\DialogRequestedEventArgs.cs" />
+    <Compile Include="Events\DialogRequestedEventHandler.cs" />
     <Compile Include="Events\FaviconChangedEventHandler.cs" />
     <Compile Include="Events\InstanceTerminatedEventHandler.cs" />
     <Compile Include="Events\PopupRequestedEventArgs.cs" />
@@ -78,6 +83,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="BrowserIconResource.cs" />
+    <Compile Include="Handlers\DialogHandler.cs" />
     <Compile Include="Handlers\DisplayHandler.cs" />
     <Compile Include="Handlers\DownloadHandler.cs" />
     <Compile Include="Handlers\KeyboardHandler.cs" />

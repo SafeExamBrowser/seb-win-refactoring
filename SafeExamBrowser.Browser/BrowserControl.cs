@@ -16,6 +16,7 @@ namespace SafeExamBrowser.Browser
 	internal class BrowserControl : ChromiumWebBrowser, IBrowserControl
 	{
 		private IContextMenuHandler contextMenuHandler;
+		private IDialogHandler dialogHandler;
 		private IDisplayHandler displayHandler;
 		private IDownloadHandler downloadHandler;
 		private IKeyboardHandler keyboardHandler;
@@ -49,6 +50,7 @@ namespace SafeExamBrowser.Browser
 
 		public BrowserControl(
 			IContextMenuHandler contextMenuHandler,
+			IDialogHandler dialogHandler,
 			IDisplayHandler displayHandler,
 			IDownloadHandler downloadHandler,
 			IKeyboardHandler keyboardHandler,
@@ -57,6 +59,7 @@ namespace SafeExamBrowser.Browser
 			string url) : base(url)
 		{
 			this.contextMenuHandler = contextMenuHandler;
+			this.dialogHandler = dialogHandler;
 			this.displayHandler = displayHandler;
 			this.downloadHandler = downloadHandler;
 			this.keyboardHandler = keyboardHandler;
@@ -70,6 +73,7 @@ namespace SafeExamBrowser.Browser
 			LoadingStateChanged += (o, args) => loadingStateChanged?.Invoke(args.IsLoading);
 			TitleChanged += (o, args) => titleChanged?.Invoke(args.Title);
 
+			DialogHandler = dialogHandler;
 			DisplayHandler = displayHandler;
 			DownloadHandler = downloadHandler;
 			KeyboardHandler = keyboardHandler;
