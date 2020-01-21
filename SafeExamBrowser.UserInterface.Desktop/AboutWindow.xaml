@@ -4,24 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop"
-        mc:Ignorable="d"
-        Title="Version &amp; License Information" Background="White" Height="325" Width="575" ResizeMode="NoResize" Icon="./Images/SafeExamBrowser.ico"
-        ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
+        mc:Ignorable="d" Title="Version &amp; License Information" Background="White" Height="350" Width="575" ResizeMode="NoResize"
+        Icon="./Images/SafeExamBrowser.ico" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Templates/ScrollViewers.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="1.2*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Image Grid.ColumnSpan="2" Source="pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/SplashScreen.png" Margin="0,5,0,0" />
-        <TextBlock x:Name="VersionInfo" Grid.Row="0" Grid.Column="1" FontSize="10" Foreground="DimGray" Margin="25,70,100,10" TextWrapping="Wrap" />
-        <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
+        <TextBlock x:Name="VersionInfo" Grid.Row="0" Grid.Column="1" FontSize="10" Foreground="DimGray" Margin="28,72,100,10" TextWrapping="Wrap" />
+        <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Template="{StaticResource SmallBarScrollViewer}" VerticalScrollBarVisibility="Auto">
             <TextBlock x:Name="MainText" Margin="10" FontSize="10" TextWrapping="Wrap">
-                This application is subject to the terms of the Mozilla Public License, version 2.0. If a copy of the MPL was not
-                distributed with this application, you can obtain one at http://mozilla.org/MPL/2.0/.
+                <LineBreak />
+                <LineBreak />
+                <Bold><Underline>.NET Framework</Underline></Bold>
+                <LineBreak />
+                Copyright © 2002-2020 Microsoft. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>CefSharp (.NET bindings for the Chromium Embedded Framework)</Underline></Bold>
@@ -32,6 +41,31 @@
                 <Bold><Underline>CEF (Chromium Embedded Framework)</Underline></Bold>
                 <LineBreak />
                 Copyright © 2008-2020 The Chromium Embedded Framework Authors. All rights reserved.
+                <LineBreak />
+                <LineBreak />
+                <Bold><Underline>Font-Awesome-WPF</Underline></Bold>
+                <LineBreak />
+                Copyright © 2014-2020 charri. All rights reserved.
+                <LineBreak />
+                <LineBreak />
+                <Bold><Underline>KnownFolders</Underline></Bold>
+                <LineBreak />
+                Copyright © 2017-2020 Syroot. All rights reserved.
+                <LineBreak />
+                <LineBreak />
+                <Bold><Underline>NAudio</Underline></Bold>
+                <LineBreak />
+                Copyright © 2008-2020 Mark Heath &amp; contributors. All rights reserved.
+                <LineBreak />
+                <LineBreak />
+                <Bold><Underline>SimpleWifi</Underline></Bold>
+                <LineBreak />
+                Copyright © 2013-2015 DigiExam. All rights reserved.
+                <LineBreak />
+                <LineBreak />
+                <Bold><Underline>Visual C++ Redistributable</Underline></Bold>
+                <LineBreak />
+                Copyright © 1993-2020 Microsoft. All rights reserved.
             </TextBlock>
         </ScrollViewer>
     </Grid>

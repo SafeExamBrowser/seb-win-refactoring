@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Text>
+    <Entry key="AboutWindow_LicenseInfo">
+        This application is subject to the terms of the Mozilla Public License, version 2.0. Safe Exam Browser uses the following frameworks and third-party libraries:
+    </Entry>
     <Entry key="Browser_BlockedContentMessage">
         Content blocked
     </Entry>

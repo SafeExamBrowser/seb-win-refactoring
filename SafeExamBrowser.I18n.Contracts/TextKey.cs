@@ -14,6 +14,7 @@ namespace SafeExamBrowser.I18n.Contracts
 	/// </summary>
 	public enum TextKey
 	{
+		AboutWindow_LicenseInfo,
 		Browser_BlockedContentMessage,
 		Browser_BlockedPageButton,
 		Browser_BlockedPageMessage,
