@@ -73,12 +73,12 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow)
 		{
-			return new BrowserWindow(control, settings, isMainWindow, text);
+			return Application.Current.Dispatcher.Invoke(() => new BrowserWindow(control, settings, isMainWindow, text));
 		}
 
 		public IFileSystemDialog CreateFileSystemDialog(FileSystemElement element, string initialPath, FileSystemOperation operation, string message = default(string), string title = default(string))
 		{
-			throw new System.NotImplementedException();
+			return Application.Current.Dispatcher.Invoke(() => new FileSystemDialog(element, initialPath, operation, text, message, title));
 		}
 
 		public IFolderDialog CreateFolderDialog(string message)

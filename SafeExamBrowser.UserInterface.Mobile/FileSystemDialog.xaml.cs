@@ -20,7 +20,7 @@ using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
-namespace SafeExamBrowser.UserInterface.Desktop
+namespace SafeExamBrowser.UserInterface.Mobile
 {
 	public partial class FileSystemDialog : Window, IFileSystemDialog
 	{
@@ -219,7 +219,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			var header = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(2) };
 			var image = new Image
 			{
-				Height = 16,
+				Height = 24,
 				Source = IconLoader.LoadIconFor(directory)
 			};
 			var item = new TreeViewItem();
@@ -242,7 +242,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			var header = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(2) };
 			var image = new Image
 			{
-				Height = 20,
+				Height = 24,
 				Source = IconLoader.LoadIconFor(file)
 			};
 			var item = new TreeViewItem();
