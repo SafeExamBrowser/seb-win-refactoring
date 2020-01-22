@@ -29,6 +29,7 @@ using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Monitoring.Contracts.Display;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
@@ -48,6 +49,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		private ClientContext context;
 		private Mock<IDisplayMonitor> displayMonitor;
 		private Mock<IExplorerShell> explorerShell;
+		private Mock<IFileSystemDialog> fileSystemDialog;
 		private Mock<IHashAlgorithm> hashAlgorithm;
 		private Mock<ILogger> logger;
 		private Mock<IMessageBox> messageBox;
@@ -73,6 +75,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			context = new ClientContext();
 			displayMonitor = new Mock<IDisplayMonitor>();
 			explorerShell = new Mock<IExplorerShell>();
+			fileSystemDialog = new Mock<IFileSystemDialog>();
 			hashAlgorithm = new Mock<IHashAlgorithm>();
 			logger = new Mock<ILogger>();
 			messageBox = new Mock<IMessageBox>();
@@ -95,6 +98,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				context,
 				displayMonitor.Object,
 				explorerShell.Object,
+				fileSystemDialog.Object,
 				hashAlgorithm.Object,
 				logger.Object,
 				messageBox.Object,
@@ -396,17 +400,21 @@ namespace SafeExamBrowser.Client.UnitTests
 		public void Operations_MustAskForApplicationPath()
 		{
 			var args = new ApplicationNotFoundEventArgs(default(string), default(string));
-			var dialog = new Mock<IFolderDialog>();
-			var result = new FolderDialogResult { FolderPath = @"C:\Some\random\path\", Success = true };
+			var result = new FileSystemDialogResult { FullPath = @"C:\Some\random\path\", Success = true };
 
-			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(result);
+			fileSystemDialog.Setup(d => d.Show(
+				It.IsAny<FileSystemElement>(),
+				It.IsAny<FileSystemOperation>(),
+				It.IsAny<string>(),
+				It.IsAny<string>(),
+				It.IsAny<string>(),
+				It.IsAny<IWindow>())).Returns(result);
 			text.SetReturnsDefault(string.Empty);
-			uiFactory.Setup(f => f.CreateFolderDialog(It.IsAny<string>())).Returns(dialog.Object);
 
 			sut.TryStart();
 			operationSequence.Raise(s => s.ActionRequired += null, args);
 
-			Assert.AreEqual(result.FolderPath, args.CustomPath);
+			Assert.AreEqual(result.FullPath, args.CustomPath);
 			Assert.IsTrue(args.Success);
 		}
 
@@ -414,12 +422,16 @@ namespace SafeExamBrowser.Client.UnitTests
 		public void Operations_MustAbortAskingForApplicationPath()
 		{
 			var args = new ApplicationNotFoundEventArgs(default(string), default(string));
-			var dialog = new Mock<IFolderDialog>();
-			var result = new FolderDialogResult { Success = false };
+			var result = new FileSystemDialogResult { Success = false };
 
-			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(result);
+			fileSystemDialog.Setup(d => d.Show(
+				It.IsAny<FileSystemElement>(),
+				It.IsAny<FileSystemOperation>(),
+				It.IsAny<string>(),
+				It.IsAny<string>(),
+				It.IsAny<string>(),
+				It.IsAny<IWindow>())).Returns(result);
 			text.SetReturnsDefault(string.Empty);
-			uiFactory.Setup(f => f.CreateFolderDialog(It.IsAny<string>())).Returns(dialog.Object);
 
 			sut.TryStart();
 			operationSequence.Raise(s => s.ActionRequired += null, args);

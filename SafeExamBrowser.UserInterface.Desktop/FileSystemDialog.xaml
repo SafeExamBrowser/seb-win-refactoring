@@ -21,10 +21,14 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <WrapPanel Grid.Row="0" Margin="20,10">
-            <fa:ImageAwesome Name="OperationIcon" Foreground="LightGray" Height="25" Icon="FileOutline"/>
-            <TextBlock Name="Message" Margin="10,0,0,0" VerticalAlignment="Center" />
-        </WrapPanel>
+        <Grid Grid.Row="0" Margin="20,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <fa:ImageAwesome Grid.Column="0" Name="OperationIcon" Foreground="LightGray" Height="25" Icon="FileOutline" />
+            <TextBlock Grid.Column="1" Name="Message" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" />
+        </Grid>
         <TreeView Grid.Row="1" Name="FileSystem" Margin="10,0" TreeViewItem.Expanded="FileSystem_Expanded" />
         <TextBlock Grid.Row="2" Name="SelectedElement" Margin="10,5,10,5" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
         <Grid Grid.Row="3" Name="NewElement" Margin="10,0,10,10">

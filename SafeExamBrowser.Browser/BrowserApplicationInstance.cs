@@ -217,7 +217,7 @@ namespace SafeExamBrowser.Browser
 
 		private void DialogHandler_DialogRequested(DialogRequestedEventArgs args)
 		{
-			var result = fileSystemDialog.Show(args.Element, args.InitialPath, args.Operation, title: args.Title, owner: window);
+			var result = fileSystemDialog.Show(args.Element, args.Operation, args.InitialPath, title: args.Title, owner: window);
 
 			if (result.Success)
 			{

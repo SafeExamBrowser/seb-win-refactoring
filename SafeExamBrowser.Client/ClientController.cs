@@ -28,6 +28,7 @@ using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Monitoring.Contracts.Display;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
@@ -43,6 +44,7 @@ namespace SafeExamBrowser.Client
 		private ClientContext context;
 		private IDisplayMonitor displayMonitor;
 		private IExplorerShell explorerShell;
+		private IFileSystemDialog fileSystemDialog;
 		private IHashAlgorithm hashAlgorithm;
 		private ILogger logger;
 		private IMessageBox messageBox;
@@ -64,6 +66,7 @@ namespace SafeExamBrowser.Client
 			ClientContext context,
 			IDisplayMonitor displayMonitor,
 			IExplorerShell explorerShell,
+			IFileSystemDialog fileSystemDialog,
 			IHashAlgorithm hashAlgorithm,
 			ILogger logger,
 			IMessageBox messageBox,
@@ -79,6 +82,7 @@ namespace SafeExamBrowser.Client
 			this.context = context;
 			this.displayMonitor = displayMonitor;
 			this.explorerShell = explorerShell;
+			this.fileSystemDialog = fileSystemDialog;
 			this.hashAlgorithm = hashAlgorithm;
 			this.logger = logger;
 			this.messageBox = messageBox;
@@ -535,12 +539,11 @@ namespace SafeExamBrowser.Client
 		private void AskForApplicationPath(ApplicationNotFoundEventArgs args)
 		{
 			var message = text.Get(TextKey.FolderDialog_ApplicationLocation).Replace("%%NAME%%", args.DisplayName).Replace("%%EXECUTABLE%%", args.ExecutableName);
-			var dialog = uiFactory.CreateFolderDialog(message);
-			var result = dialog.Show(splashScreen);
+			var result = fileSystemDialog.Show(FileSystemElement.Folder, FileSystemOperation.Open, message: message, owner: splashScreen);
 
 			if (result.Success)
 			{
-				args.CustomPath = result.FolderPath;
+				args.CustomPath = result.FullPath;
 				args.Success = true;
 			}
 		}

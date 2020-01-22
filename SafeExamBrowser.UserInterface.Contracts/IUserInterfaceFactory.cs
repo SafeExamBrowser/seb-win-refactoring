@@ -50,11 +50,6 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow);
 
 		/// <summary>
-		/// Creates a folder dialog with the given message.
-		/// </summary>
-		IFolderDialog CreateFolderDialog(string message);
-
-		/// <summary>
 		/// Creates a system control which allows to change the keyboard layout of the computer.
 		/// </summary>
 		ISystemControl CreateKeyboardLayoutControl(IKeyboard keyboard, Location location);

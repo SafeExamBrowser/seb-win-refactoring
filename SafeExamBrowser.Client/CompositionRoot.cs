@@ -103,6 +103,7 @@ namespace SafeExamBrowser.Client
 			var applicationFactory = new ApplicationFactory(applicationMonitor, ModuleLogger(nameof(ApplicationFactory)), nativeMethods, processFactory);
 			var displayMonitor = new DisplayMonitor(ModuleLogger(nameof(DisplayMonitor)), nativeMethods, systemInfo);
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
+			var fileSystemDialog = BuildFileSystemDialog();
 			var hashAlgorithm = new HashAlgorithm();
 
 			var operations = new Queue<IOperation>();
@@ -129,6 +130,7 @@ namespace SafeExamBrowser.Client
 				context,
 				displayMonitor,
 				explorerShell,
+				fileSystemDialog,
 				hashAlgorithm,
 				logger,
 				messageBox,

@@ -34,9 +34,9 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		public FileSystemDialog(
 			FileSystemElement element,
-			string initialPath,
 			FileSystemOperation operation,
 			IText text,
+			string initialPath = default(string),
 			string message = default(string),
 			string title = default(string),
 			IWindow parent = default(IWindow))

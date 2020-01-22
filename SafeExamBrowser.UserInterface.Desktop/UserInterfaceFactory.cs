@@ -75,11 +75,6 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			return Application.Current.Dispatcher.Invoke(() => new BrowserWindow(control, settings, isMainWindow, text));
 		}
 
-		public IFolderDialog CreateFolderDialog(string message)
-		{
-			return new FolderDialog(message);
-		}
-
 		public ISystemControl CreateKeyboardLayoutControl(IKeyboard keyboard, Location location)
 		{
 			if (location == Location.ActionCenter)

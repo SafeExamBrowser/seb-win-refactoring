@@ -34,9 +34,9 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		public FileSystemDialog(
 			FileSystemElement element,
-			string initialPath,
 			FileSystemOperation operation,
 			IText text,
+			string initialPath = default(string),
 			string message = default(string),
 			string title = default(string),
 			IWindow parent = default(IWindow))
@@ -242,7 +242,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			var header = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(2) };
 			var image = new Image
 			{
-				Height = 20,
+				Height = 16,
 				Source = IconLoader.LoadIconFor(file)
 			};
 			var item = new TreeViewItem();
