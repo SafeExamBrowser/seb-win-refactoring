@@ -13,16 +13,17 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using SafeExamBrowser.Applications.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
+using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Events;
+using SafeExamBrowser.UserInterface.Desktop.Controls.Browser;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop
@@ -117,6 +118,36 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			});
 		}
 
+		public void UpdateDownloadState(DownloadItemState state)
+		{
+			Dispatcher.InvokeAsync(() =>
+			{
+				var isNewItem = true;
+
+				foreach (var child in Downloads.Children)
+				{
+					if (child is DownloadItemControl control && control.Id == state.Id)
+					{
+						control.Update(state);
+						isNewItem = false;
+
+						break;
+					}
+				}
+
+				if (isNewItem)
+				{
+					var control = new DownloadItemControl(state.Id, text);
+
+					control.Update(state);
+					Downloads.Children.Add(control);
+				}
+
+				DownloadsButton.Visibility = Visibility.Visible;
+				DownloadsPopup.IsOpen = IsActive;
+			});
+		}
+
 		public void UpdateLoadingState(bool isLoading)
 		{
 			Dispatcher.Invoke(() => ProgressBar.Visibility = isLoading ? Visibility.Visible : Visibility.Hidden);
@@ -167,7 +198,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			}
 		}
 
-		private CustomPopupPlacement[] MenuPopup_PlacementCallback(Size popupSize, Size targetSize, Point offset)
+		private CustomPopupPlacement[] Popup_PlacementCallback(Size popupSize, Size targetSize, Point offset)
 		{
 			return new[]
 			{
@@ -216,21 +247,23 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		private void RegisterEvents()
 		{
-			var originalBrush = MenuButton.Background;
-
 			BackwardButton.Click += (o, args) => BackwardNavigationRequested?.Invoke();
 			Closing += BrowserWindow_Closing;
 			DeveloperConsoleButton.Click += (o, args) => DeveloperConsoleRequested?.Invoke();
+			DownloadsButton.Click += (o, args) => DownloadsPopup.IsOpen = !DownloadsPopup.IsOpen;
+			DownloadsButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => DownloadsPopup.IsOpen = DownloadsPopup.IsMouseOver));
+			DownloadsPopup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(Popup_PlacementCallback);
+			DownloadsPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => DownloadsPopup.IsOpen = DownloadsPopup.IsMouseOver));
 			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
 			Loaded += BrowserWindow_Loaded;
 			MenuButton.Click += (o, args) => MenuPopup.IsOpen = !MenuPopup.IsOpen;
 			MenuButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsMouseOver));
-			MenuPopup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(MenuPopup_PlacementCallback);
-			MenuPopup.Closed += (o, args) => MenuButton.Background = originalBrush;
-			MenuPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = IsMouseOver));
-			MenuPopup.Opened += (o, args) => MenuButton.Background = Brushes.LightGray;
+			MenuPopup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(Popup_PlacementCallback);
+			MenuPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsMouseOver));
 			KeyUp += BrowserWindow_KeyUp;
+			LocationChanged += (o, args) => { DownloadsPopup.IsOpen = false; MenuPopup.IsOpen = false; };
 			ReloadButton.Click += (o, args) => ReloadRequested?.Invoke();
+			SizeChanged += (o, args) => { DownloadsPopup.IsOpen = false; MenuPopup.IsOpen = false; };
 			SystemParameters.StaticPropertyChanged += SystemParameters_StaticPropertyChanged;
 			UrlTextBox.GotKeyboardFocus += (o, args) => UrlTextBox.SelectAll();
 			UrlTextBox.GotMouseCapture += UrlTextBox_GotMouseCapture;

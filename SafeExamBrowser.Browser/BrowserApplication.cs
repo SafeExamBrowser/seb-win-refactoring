@@ -23,6 +23,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Browser.Proxy;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 
@@ -34,6 +35,7 @@ namespace SafeExamBrowser.Browser
 
 		private AppConfig appConfig;
 		private List<BrowserApplicationInstance> instances;
+		private IFileSystemDialog fileSystemDialog;
 		private IMessageBox messageBox;
 		private IModuleLogger logger;
 		private BrowserSettings settings;
@@ -53,12 +55,14 @@ namespace SafeExamBrowser.Browser
 		public BrowserApplication(
 			AppConfig appConfig,
 			BrowserSettings settings,
+			IFileSystemDialog fileSystemDialog,
 			IMessageBox messageBox,
 			IModuleLogger logger,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
+			this.fileSystemDialog = fileSystemDialog;
 			this.instances = new List<BrowserApplicationInstance>();
 			this.logger = logger;
 			this.messageBox = messageBox;
@@ -122,7 +126,7 @@ namespace SafeExamBrowser.Browser
 			var isMainInstance = instances.Count == 0;
 			var instanceLogger = logger.CloneFor($"Browser Instance #{id}");
 			var startUrl = url ?? settings.StartUrl;
-			var instance = new BrowserApplicationInstance(appConfig, settings, id, isMainInstance, messageBox, instanceLogger, text, uiFactory, startUrl);
+			var instance = new BrowserApplicationInstance(appConfig, settings, id, isMainInstance, fileSystemDialog, messageBox, instanceLogger, text, uiFactory, startUrl);
 
 			instance.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
 			instance.PopupRequested += Instance_PopupRequested;

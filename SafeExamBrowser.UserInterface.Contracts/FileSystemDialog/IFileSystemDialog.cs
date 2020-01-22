@@ -13,8 +13,8 @@ namespace SafeExamBrowser.UserInterface.Contracts.FileSystemDialog
 	public interface IFileSystemDialog
 	{
 		/// <summary>
-		/// Shows the dialog to the user. If a parent window is specified, the dialog is rendered modally for the given parent.
+		/// Creates a dialog according to the given parameters and shows it to the user.
 		/// </summary>
-		FileSystemDialogResult Show(IWindow parent = null);
+		FileSystemDialogResult Show(FileSystemElement element, string initialPath, FileSystemOperation operation, string message = default(string), string title = default(string), IWindow owner = default(IWindow));
 	}
 }

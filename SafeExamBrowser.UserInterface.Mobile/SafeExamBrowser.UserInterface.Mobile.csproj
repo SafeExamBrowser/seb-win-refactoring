@@ -110,6 +110,9 @@
     <Compile Include="Controls\ActionCenterWirelessNetworkControl.xaml.cs">
       <DependentUpon>ActionCenterWirelessNetworkControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Browser\DownloadItemControl.xaml.cs">
+      <DependentUpon>DownloadItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TaskbarApplicationControl.xaml.cs">
       <DependentUpon>TaskbarApplicationControl.xaml</DependentUpon>
     </Compile>
@@ -149,6 +152,7 @@
     <Compile Include="FileSystemDialog.xaml.cs">
       <DependentUpon>FileSystemDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FileSystemDialogFactory.cs" />
     <Compile Include="FolderDialog.cs" />
     <Compile Include="LockScreen.xaml.cs">
       <DependentUpon>LockScreen.xaml</DependentUpon>
@@ -276,6 +280,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\ActionCenterWirelessNetworkControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Browser\DownloadItemControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

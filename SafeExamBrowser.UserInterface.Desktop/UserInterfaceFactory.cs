@@ -23,7 +23,6 @@ using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
-using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
@@ -76,11 +75,6 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			return Application.Current.Dispatcher.Invoke(() => new BrowserWindow(control, settings, isMainWindow, text));
 		}
 
-		public IFileSystemDialog CreateFileSystemDialog(FileSystemElement element, string initialPath, FileSystemOperation operation, string message = default(string), string title = default(string))
-		{
-			return Application.Current.Dispatcher.Invoke(() => new FileSystemDialog(element, initialPath, operation, text, message, title));
-		}
-
 		public IFolderDialog CreateFolderDialog(string message)
 		{
 			return new FolderDialog(message);
@@ -105,26 +99,26 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		public IWindow CreateLogWindow(ILogger logger)
 		{
-			LogWindow logWindow = null;
-			var logWindowReadyEvent = new AutoResetEvent(false);
-			var logWindowThread = new Thread(() =>
+			var window = default(LogWindow);
+			var windowReadyEvent = new AutoResetEvent(false);
+			var windowThread = new Thread(() =>
 			{
-				logWindow = new LogWindow(logger, text);
-				logWindow.Closed += (o, args) => logWindow.Dispatcher.InvokeShutdown();
-				logWindow.Show();
+				window = new LogWindow(logger, text);
+				window.Closed += (o, args) => window.Dispatcher.InvokeShutdown();
+				window.Show();
 
-				logWindowReadyEvent.Set();
+				windowReadyEvent.Set();
 
 				System.Windows.Threading.Dispatcher.Run();
 			});
 
-			logWindowThread.SetApartmentState(ApartmentState.STA);
-			logWindowThread.IsBackground = true;
-			logWindowThread.Start();
+			windowThread.SetApartmentState(ApartmentState.STA);
+			windowThread.IsBackground = true;
+			windowThread.Start();
 
-			logWindowReadyEvent.WaitOne();
+			windowReadyEvent.WaitOne();
 
-			return logWindow;
+			return window;
 		}
 
 		public INotificationControl CreateNotificationControl(INotificationController controller, INotificationInfo info, Location location)
@@ -168,27 +162,26 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		public ISplashScreen CreateSplashScreen(AppConfig appConfig = null)
 		{
-			SplashScreen splashScreen = null;
-			var splashReadyEvent = new AutoResetEvent(false);
-			var splashScreenThread = new Thread(() =>
+			var window = default(SplashScreen);
+			var windowReadyEvent = new AutoResetEvent(false);
+			var windowThread = new Thread(() =>
 			{
-				splashScreen = new SplashScreen(text, appConfig);
-				splashScreen.Closed += (o, args) => splashScreen.Dispatcher.InvokeShutdown();
-				splashScreen.Show();
+				window = new SplashScreen(text, appConfig);
+				window.Closed += (o, args) => window.Dispatcher.InvokeShutdown();
+				window.Show();
 
-				splashReadyEvent.Set();
+				windowReadyEvent.Set();
 
 				System.Windows.Threading.Dispatcher.Run();
 			});
 
-			splashScreenThread.SetApartmentState(ApartmentState.STA);
-			splashScreenThread.Name = nameof(SplashScreen);
-			splashScreenThread.IsBackground = true;
-			splashScreenThread.Start();
+			windowThread.SetApartmentState(ApartmentState.STA);
+			windowThread.IsBackground = true;
+			windowThread.Start();
 
-			splashReadyEvent.WaitOne();
+			windowReadyEvent.WaitOne();
 
-			return splashScreen;
+			return window;
 		}
 
 		public ISystemControl CreateWirelessNetworkControl(IWirelessAdapter wirelessAdapter, Location location)

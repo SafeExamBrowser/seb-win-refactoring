@@ -33,12 +33,21 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Button Grid.Column="0" x:Name="BackwardButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
                     <Button Grid.Column="1" x:Name="ForwardButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
                     <Button Grid.Column="2" x:Name="ReloadButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
                     <TextBox Grid.Column="3" x:Name="UrlTextBox" Height="25" HorizontalAlignment="Stretch" Margin="5,0" Padding="5,0" VerticalContentAlignment="Center" />
-                    <Button Grid.Column="4" x:Name="MenuButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
+                    <Button Grid.Column="4" x:Name="DownloadsButton" Height="30" HorizontalAlignment="Center" Margin="5" Padding="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" Visibility="Collapsed">
+                        <fa:ImageAwesome Icon="Download" />
+                    </Button>
+                    <Popup x:Name="DownloadsPopup" AllowsTransparency="True" PopupAnimation="Slide" Placement="Custom" PlacementTarget="{Binding ElementName=BrowserControlHost}">
+                        <Border Background="{StaticResource BackgroundBrush}" BorderBrush="LightGray" BorderThickness="1,0,1,1" MinWidth="250">
+                            <StackPanel x:Name="Downloads" Orientation="Vertical" />
+                        </Border>
+                    </Popup>
+                    <Button Grid.Column="5" x:Name="MenuButton" Height="30" HorizontalAlignment="Center" Margin="5" Template="{StaticResource BrowserButton}" VerticalAlignment="Center" />
                     <Popup x:Name="MenuPopup" IsOpen="False" AllowsTransparency="True" PopupAnimation="Slide" Placement="Custom" PlacementTarget="{Binding ElementName=BrowserControlHost}">
                         <Border Background="{StaticResource BackgroundBrush}" BorderBrush="LightGray" BorderThickness="1,0,1,1" Width="250">
                             <StackPanel Orientation="Vertical">

@@ -54,6 +54,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Browser\Data\DownloadItemState.cs" />
     <Compile Include="Browser\Events\AddressChangedEventHandler.cs" />
     <Compile Include="Browser\Events\LoadingStateChangedEventHandler.cs" />
     <Compile Include="Browser\Events\TitleChangedEventHandler.cs" />

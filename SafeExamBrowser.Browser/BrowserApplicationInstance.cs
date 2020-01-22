@@ -24,6 +24,8 @@ using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Browser.Filter;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
+using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
+using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 
 namespace SafeExamBrowser.Browser
@@ -37,6 +39,7 @@ namespace SafeExamBrowser.Browser
 		private IBrowserWindow window;
 		private HttpClient httpClient;
 		private bool isMainInstance;
+		private IFileSystemDialog fileSystemDialog;
 		private IMessageBox messageBox;
 		private IModuleLogger logger;
 		private BrowserSettings settings;
@@ -69,6 +72,7 @@ namespace SafeExamBrowser.Browser
 			BrowserSettings settings,
 			int id,
 			bool isMainInstance,
+			IFileSystemDialog fileSystemDialog,
 			IMessageBox messageBox,
 			IModuleLogger logger,
 			IText text,
@@ -79,6 +83,7 @@ namespace SafeExamBrowser.Browser
 			this.Id = id;
 			this.httpClient = new HttpClient();
 			this.isMainInstance = isMainInstance;
+			this.fileSystemDialog = fileSystemDialog;
 			this.messageBox = messageBox;
 			this.logger = logger;
 			this.settings = settings;
@@ -122,6 +127,7 @@ namespace SafeExamBrowser.Browser
 			displayHandler.FaviconChanged += DisplayHandler_FaviconChanged;
 			displayHandler.ProgressChanged += DisplayHandler_ProgressChanged;
 			downloadHandler.ConfigurationDownloadRequested += DownloadHandler_ConfigurationDownloadRequested;
+			downloadHandler.DownloadUpdated += DownloadHandler_DownloadUpdated;
 			keyboardHandler.ReloadRequested += ReloadRequested;
 			keyboardHandler.ZoomInRequested += ZoomInRequested;
 			keyboardHandler.ZoomOutRequested += ZoomOutRequested;
@@ -211,8 +217,7 @@ namespace SafeExamBrowser.Browser
 
 		private void DialogHandler_DialogRequested(DialogRequestedEventArgs args)
 		{
-			var dialog = uiFactory.CreateFileSystemDialog(args.Element, args.InitialPath, args.Operation, title: args.Title);
-			var result = dialog.Show(window);
+			var result = fileSystemDialog.Show(args.Element, args.InitialPath, args.Operation, title: args.Title, owner: window);
 
 			if (result.Success)
 			{
@@ -267,6 +272,11 @@ namespace SafeExamBrowser.Browser
 			{
 				logger.Debug($"Discarded download request for configuration file '{fileName}'.");
 			}
+		}
+
+		private void DownloadHandler_DownloadUpdated(DownloadItemState state)
+		{
+			window.UpdateDownloadState(state);
 		}
 
 		private void LifeSpanHandler_PopupRequested(PopupRequestedEventArgs args)

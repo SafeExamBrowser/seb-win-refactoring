@@ -8,6 +8,7 @@
 
 using System;
 using SafeExamBrowser.Applications.Contracts.Resources.Icons;
+using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 
@@ -82,6 +83,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		/// Updates the icon of the browser window.
 		/// </summary>
 		void UpdateIcon(IconResource icon);
+
+		/// <summary>
+		/// Updates the download state for the given item.
+		/// </summary>
+		void UpdateDownloadState(DownloadItemState state);
 
 		/// <summary>
 		/// Updates the loading state according to the given value.

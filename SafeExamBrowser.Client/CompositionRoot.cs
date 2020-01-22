@@ -42,6 +42,7 @@ using SafeExamBrowser.SystemComponents.Keyboard;
 using SafeExamBrowser.SystemComponents.PowerSupply;
 using SafeExamBrowser.SystemComponents.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Shared.Activators;
@@ -197,8 +198,9 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildBrowserOperation()
 		{
+			var fileSystemDialog = BuildFileSystemDialog();
 			var moduleLogger = ModuleLogger(nameof(BrowserApplication));
-			var browser = new BrowserApplication(context.AppConfig, context.Settings.Browser, messageBox, moduleLogger, text, uiFactory);
+			var browser = new BrowserApplication(context.AppConfig, context.Settings.Browser, fileSystemDialog, messageBox, moduleLogger, text, uiFactory);
 			var operation = new BrowserOperation(actionCenter, context, logger, taskbar, taskview, uiFactory);
 
 			context.Browser = browser;
@@ -279,6 +281,17 @@ namespace SafeExamBrowser.Client
 					return new Mobile.ActionCenter();
 				default:
 					return new Desktop.ActionCenter();
+			}
+		}
+
+		private IFileSystemDialog BuildFileSystemDialog()
+		{
+			switch (uiMode)
+			{
+				case UserInterfaceMode.Mobile:
+					return new Mobile.FileSystemDialogFactory(text);
+				default:
+					return new Desktop.FileSystemDialogFactory(text);
 			}
 		}
 

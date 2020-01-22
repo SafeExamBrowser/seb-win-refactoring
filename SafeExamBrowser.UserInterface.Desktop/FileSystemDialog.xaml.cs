@@ -22,12 +22,13 @@ using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop
 {
-	public partial class FileSystemDialog : Window, IFileSystemDialog
+	public partial class FileSystemDialog : Window
 	{
 		private FileSystemElement element;
 		private string initialPath;
 		private string message;
 		private FileSystemOperation operation;
+		private IWindow parent;
 		private IText text;
 		private string title;
 
@@ -37,12 +38,14 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			FileSystemOperation operation,
 			IText text,
 			string message = default(string),
-			string title = default(string))
+			string title = default(string),
+			IWindow parent = default(IWindow))
 		{
 			this.element = element;
 			this.initialPath = initialPath;
 			this.message = message;
 			this.operation = operation;
+			this.parent = parent;
 			this.text = text;
 			this.title = title;
 
@@ -50,26 +53,23 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			InitializeDialog();
 		}
 
-		public FileSystemDialogResult Show(IWindow parent = null)
+		internal new FileSystemDialogResult Show()
 		{
-			return Dispatcher.Invoke(() =>
+			var result = new FileSystemDialogResult();
+
+			if (parent is Window)
 			{
-				var result = new FileSystemDialogResult();
+				Owner = parent as Window;
+				WindowStartupLocation = WindowStartupLocation.CenterOwner;
+			}
 
-				if (parent is Window)
-				{
-					Owner = parent as Window;
-					WindowStartupLocation = WindowStartupLocation.CenterOwner;
-				}
+			if (ShowDialog() == true)
+			{
+				result.FullPath = BuildFullPath();
+				result.Success = true;
+			}
 
-				if (ShowDialog() == true)
-				{
-					result.FullPath = BuildFullPath();
-					result.Success = true;
-				}
-
-				return result;
-			});
+			return result;
 		}
 
 		private void CancelButton_Click(object sender, RoutedEventArgs e)

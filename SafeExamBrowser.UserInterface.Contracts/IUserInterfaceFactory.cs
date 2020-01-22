@@ -18,7 +18,6 @@ using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
-using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
@@ -49,11 +48,6 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// Creates a new browser window loaded with the given browser control and settings.
 		/// </summary>
 		IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow);
-
-		/// <summary>
-		/// Creates a file system dialog according to the given parameters.
-		/// </summary>
-		IFileSystemDialog CreateFileSystemDialog(FileSystemElement element, string initialPath, FileSystemOperation operation, string message = default(string), string title = default(string));
 
 		/// <summary>
 		/// Creates a folder dialog with the given message.

@@ -24,6 +24,15 @@
     <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
         Developer Console
     </Entry>
+    <Entry key="BrowserWindow_Downloading">
+        Downloading...
+    </Entry>
+    <Entry key="BrowserWindow_DownloadCancelled">
+        Cancelled.
+    </Entry>
+    <Entry key="BrowserWindow_DownloadComplete">
+        Downloaded.
+    </Entry>
     <Entry key="BrowserWindow_ZoomMenuItem">
         Page Zoom
     </Entry>

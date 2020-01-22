@@ -12,8 +12,10 @@ using System.IO;
 using System.Threading.Tasks;
 using CefSharp;
 using SafeExamBrowser.Browser.Contracts.Events;
+using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using Syroot.Windows.IO;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 
@@ -24,14 +26,17 @@ namespace SafeExamBrowser.Browser.Handlers
 		private AppConfig appConfig;
 		private BrowserSettings settings;
 		private ConcurrentDictionary<int, DownloadFinishedCallback> callbacks;
+		private ConcurrentDictionary<int, Guid> downloads;
 		private ILogger logger;
 
 		internal event DownloadRequestedEventHandler ConfigurationDownloadRequested;
+		internal event DownloadUpdatedEventHandler DownloadUpdated;
 
 		internal DownloadHandler(AppConfig appConfig, BrowserSettings settings, ILogger logger)
 		{
 			this.appConfig = appConfig;
 			this.callbacks = new ConcurrentDictionary<int, DownloadFinishedCallback>();
+			this.downloads = new ConcurrentDictionary<int, Guid>();
 			this.logger = logger;
 			this.settings = settings;
 		}
@@ -60,18 +65,35 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		public void OnDownloadUpdated(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
 		{
-			// TODO: Show download progress in respective window -> event for BrowserApplicationInstance!
+			var hasId = downloads.TryGetValue(downloadItem.Id, out var id);
+
+			if (hasId)
+			{
+				var state = new DownloadItemState(id)
+				{
+					Completion = downloadItem.PercentComplete / 100.0,
+					FullPath = downloadItem.FullPath,
+					IsCancelled = downloadItem.IsCancelled,
+					IsComplete = downloadItem.IsComplete,
+					Url = downloadItem.Url
+				};
+				
+				Task.Run(() => DownloadUpdated?.Invoke(state));
+			}
 
 			if (downloadItem.IsComplete || downloadItem.IsCancelled)
 			{
+				logger.Debug($"Download of '{downloadItem.Url}' {(downloadItem.IsComplete ? "is complete" : "was cancelled")}.");
+
 				if (callbacks.TryRemove(downloadItem.Id, out DownloadFinishedCallback finished) && finished != null)
 				{
 					Task.Run(() => finished.Invoke(downloadItem.IsComplete, downloadItem.FullPath));
 				}
 
-				logger.Debug($"Download of '{downloadItem.Url}' {(downloadItem.IsComplete ? "is complete" : "was cancelled")}.");
-
-				// TODO: Show success message or download icon like Firefox in respective window!
+				if (hasId)
+				{
+					downloads.TryRemove(downloadItem.Id, out _);
+				}
 			}
 		}
 
@@ -99,6 +121,8 @@ namespace SafeExamBrowser.Browser.Handlers
 			{
 				logger.Debug($"Automatically downloading file as '{filePath}'.");
 			}
+
+			downloads[downloadItem.Id] = Guid.NewGuid();
 
 			using (callback)
 			{
