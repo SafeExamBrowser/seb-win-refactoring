@@ -15,6 +15,6 @@ namespace SafeExamBrowser.UserInterface.Contracts.FileSystemDialog
 		/// <summary>
 		/// Creates a dialog according to the given parameters and shows it to the user.
 		/// </summary>
-		FileSystemDialogResult Show(FileSystemElement element, FileSystemOperation operation, string initialPath = default(string), string message = default(string), string title = default(string), IWindow owner = default(IWindow));
+		FileSystemDialogResult Show(FileSystemElement element, FileSystemOperation operation, string initialPath = default(string), string message = default(string), string title = default(string), IWindow parent = default(IWindow));
 	}
 }

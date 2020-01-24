@@ -223,7 +223,7 @@ namespace SafeExamBrowser.Browser
 
 			if (isAllowed)
 			{
-				var result = fileSystemDialog.Show(args.Element, args.Operation, args.InitialPath, title: args.Title, owner: window);
+				var result = fileSystemDialog.Show(args.Element, args.Operation, args.InitialPath, title: args.Title, parent: window);
 
 				if (result.Success)
 				{

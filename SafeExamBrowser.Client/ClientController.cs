@@ -539,7 +539,7 @@ namespace SafeExamBrowser.Client
 		private void AskForApplicationPath(ApplicationNotFoundEventArgs args)
 		{
 			var message = text.Get(TextKey.FolderDialog_ApplicationLocation).Replace("%%NAME%%", args.DisplayName).Replace("%%EXECUTABLE%%", args.ExecutableName);
-			var result = fileSystemDialog.Show(FileSystemElement.Folder, FileSystemOperation.Open, message: message, owner: splashScreen);
+			var result = fileSystemDialog.Show(FileSystemElement.Folder, FileSystemOperation.Open, message: message, parent: splashScreen);
 
 			if (result.Success)
 			{

@@ -22,11 +22,11 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			this.text = text;
 		}
 
-		public FileSystemDialogResult Show(FileSystemElement element, FileSystemOperation operation, string initialPath = default(string), string message = null, string title = null, IWindow owner = null)
+		public FileSystemDialogResult Show(FileSystemElement element, FileSystemOperation operation, string initialPath = default(string), string message = null, string title = null, IWindow parent = null)
 		{
-			if (owner is Window window)
+			if (parent is Window window)
 			{
-				return window.Dispatcher.Invoke(() => new FileSystemDialog(element, operation, text, initialPath, message, title, owner).Show());
+				return window.Dispatcher.Invoke(() => new FileSystemDialog(element, operation, text, initialPath, message, title, parent).Show());
 			}
 			else
 			{
