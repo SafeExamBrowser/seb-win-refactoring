@@ -217,17 +217,28 @@ namespace SafeExamBrowser.Browser
 
 		private void DialogHandler_DialogRequested(DialogRequestedEventArgs args)
 		{
-			var result = fileSystemDialog.Show(args.Element, args.Operation, args.InitialPath, title: args.Title, owner: window);
+			var isDownload = args.Operation == FileSystemOperation.Save;
+			var isUpload = args.Operation == FileSystemOperation.Open;
+			var isAllowed = (isDownload && settings.AllowDownloads) || (isUpload && settings.AllowUploads);
 
-			if (result.Success)
+			if (isAllowed)
 			{
-				args.FullPath = result.FullPath;
-				args.Success = result.Success;
-				logger.Debug($"User selected path '{result.FullPath}' when asked to {args.Operation}->{args.Element}.");
+				var result = fileSystemDialog.Show(args.Element, args.Operation, args.InitialPath, title: args.Title, owner: window);
+
+				if (result.Success)
+				{
+					args.FullPath = result.FullPath;
+					args.Success = result.Success;
+					logger.Debug($"User selected path '{result.FullPath}' when asked to {args.Operation}->{args.Element}.");
+				}
+				else
+				{
+					logger.Debug($"User aborted file system dialog to {args.Operation}->{args.Element}.");
+				}
 			}
 			else
 			{
-				logger.Debug($"User aborted file system dialog to {args.Operation}->{args.Element}.");
+				logger.Info($"Blocked file system dialog to {args.Operation}->{args.Element}, as {(isDownload ? "downloading" : "uploading")} is not allowed.");
 			}
 		}
 

@@ -30,8 +30,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.AllowDeveloperConsole:
 					MapAllowDeveloperConsole(settings, value);
 					break;
-				case Keys.Browser.AllowDownloads:
-					MapAllowDownloads(settings, value);
+				case Keys.Browser.AllowDownloadsAndUploads:
+					MapAllowDownloadsAndUploads(settings, value);
 					break;
 				case Keys.Browser.AllowPageZoom:
 					MapAllowPageZoom(settings, value);
@@ -162,11 +162,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
-		private void MapAllowDownloads(AppSettings settings, object value)
+		private void MapAllowDownloadsAndUploads(AppSettings settings, object value)
 		{
 			if (value is bool allow)
 			{
 				settings.Browser.AllowDownloads = allow;
+				settings.Browser.AllowUploads = allow;
 			}
 		}
 

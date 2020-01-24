@@ -42,6 +42,11 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool AllowPageZoom { get; set; }
 
 		/// <summary>
+		/// Determines whether the user will be allowed to upload files.
+		/// </summary>
+		public bool AllowUploads { get; set; }
+
+		/// <summary>
 		/// Determines whether the user needs to confirm the termination of SEB by <see cref="QuitUrl"/>.
 		/// </summary>
 		public bool ConfirmQuitUrl { get; set; }

@@ -44,7 +44,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string AllowConfigurationDownloads = "downloadAndOpenSebConfig";
 			internal const string AllowCustomDownloadLocation = "allowCustomDownloadLocation";
 			internal const string AllowDeveloperConsole = "allowDeveloperConsole";
-			internal const string AllowDownloads = "allowDownUploads";
+			internal const string AllowDownloadsAndUploads = "allowDownUploads";
 			internal const string AllowPageZoom = "enableZoomPage";
 			internal const string CustomUserAgentDesktop = "browserUserAgentWinDesktopModeCustom";
 			internal const string CustomUserAgentMobile = "browserUserAgentWinTouchModeCustom";
