@@ -535,7 +535,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var filename = "filepath.seb";
 			var args = new DownloadEventArgs();
 
-			appConfig.DownloadDirectory = @"C:\Folder\Does\Not\Exist";
+			appConfig.TemporaryDirectory = @"C:\Folder\Does\Not\Exist";
 			settings.ConfigurationMode = ConfigurationMode.ConfigureClient;
 			messageBox.Setup(m => m.Show(
 				It.IsAny<TextKey>(),
@@ -562,7 +562,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var filename = "filepath.seb";
 			var args = new DownloadEventArgs();
 
-			appConfig.DownloadDirectory = @"C:\Folder\Does\Not\Exist";
+			appConfig.TemporaryDirectory = @"C:\Folder\Does\Not\Exist";
 			settings.ConfigurationMode = ConfigurationMode.ConfigureClient;
 			messageBox.Setup(m => m.Show(
 				It.IsAny<TextKey>(),
@@ -586,7 +586,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var filename = "filepath.seb";
 			var args = new DownloadEventArgs();
 
-			appConfig.DownloadDirectory = @"C:\Folder\Does\Not\Exist";
+			appConfig.TemporaryDirectory = @"C:\Folder\Does\Not\Exist";
 			settings.ConfigurationMode = ConfigurationMode.ConfigureClient;
 			messageBox.Setup(m => m.Show(
 				It.IsAny<TextKey>(),

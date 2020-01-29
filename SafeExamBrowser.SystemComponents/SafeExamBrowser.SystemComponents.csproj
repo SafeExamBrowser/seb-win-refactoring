@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\Audio.cs" />
+    <Compile Include="FileSystem.cs" />
     <Compile Include="Keyboard\KeyboardLayout.cs" />
     <Compile Include="Keyboard\Keyboard.cs" />
     <Compile Include="PowerSupply\PowerSupply.cs" />

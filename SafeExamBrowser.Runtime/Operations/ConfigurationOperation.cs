@@ -17,6 +17,7 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.SystemComponents.Contracts;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
@@ -24,6 +25,7 @@ namespace SafeExamBrowser.Runtime.Operations
 	{
 		private string[] commandLineArgs;
 		private IConfigurationRepository configuration;
+		private IFileSystem fileSystem;
 		private IHashAlgorithm hashAlgorithm;
 		private ILogger logger;
 
@@ -36,12 +38,14 @@ namespace SafeExamBrowser.Runtime.Operations
 		public ConfigurationOperation(
 			string[] commandLineArgs,
 			IConfigurationRepository configuration,
+			IFileSystem fileSystem,
 			IHashAlgorithm hashAlgorithm,
 			ILogger logger,
 			SessionContext sessionContext) : base(sessionContext)
 		{
 			this.commandLineArgs = commandLineArgs;
 			this.configuration = configuration;
+			this.fileSystem = fileSystem;
 			this.hashAlgorithm = hashAlgorithm;
 			this.logger = logger;
 		}
@@ -150,19 +154,27 @@ namespace SafeExamBrowser.Runtime.Operations
 			var currentPassword = Context.Current.Settings.Security.AdminPasswordHash;
 			var source = UriSource.Reconfiguration;
 			var status = TryLoadSettings(uri, source, out var passwordParams, out var settings, currentPassword);
+			var result = OperationResult.Failed;
 
 			if (status.HasValue)
 			{
-				return DetermineLoadResult(uri, source, settings, status.Value, passwordParams, currentPassword);
+				result = DetermineLoadResult(uri, source, settings, status.Value, passwordParams, currentPassword);
 			}
 			else
 			{
-				return OperationResult.Aborted;
+				result = OperationResult.Aborted;
 			}
+
+			fileSystem.Delete(uri.LocalPath);
+			logger.Info($"Deleted temporary configuration file '{uri}'.");
+
+			return result;
 		}
 
 		private OperationResult DetermineLoadResult(Uri uri, UriSource source, AppSettings settings, LoadStatus status, PasswordParameters passwordParams, string currentPassword = default(string))
 		{
+			var result = OperationResult.Failed;
+
 			if (status == LoadStatus.LoadWithBrowser || status == LoadStatus.Success)
 			{
 				var isNewConfiguration = source == UriSource.CommandLine || source == UriSource.Reconfiguration;
@@ -171,20 +183,23 @@ namespace SafeExamBrowser.Runtime.Operations
 
 				if (status == LoadStatus.LoadWithBrowser)
 				{
-					return HandleBrowserResource(uri);
+					result = HandleBrowserResource(uri);
 				}
-
-				if (isNewConfiguration && settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
+				else if (isNewConfiguration && settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
 				{
-					return HandleClientConfiguration(uri, passwordParams, currentPassword);
+					result = HandleClientConfiguration(uri, passwordParams, currentPassword);
 				}
-
-				return OperationResult.Success;
+				else
+				{
+					result = OperationResult.Success;
+				}
+			}
+			else
+			{
+				ShowFailureMessage(status, uri);
 			}
 
-			ShowFailureMessage(status, uri);
-
-			return OperationResult.Failed;
+			return result;
 		}
 
 		private OperationResult HandleBrowserResource(Uri uri)
@@ -199,23 +214,18 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var isFirstSession = Context.Current == null;
 			var success = TryConfigureClient(uri, passwordParams, currentPassword);
+			var result = OperationResult.Failed;
 
-			if (success == true)
+			if (!success.HasValue || (success == true && isFirstSession && AbortAfterClientConfiguration()))
 			{
-				if (isFirstSession && AbortAfterClientConfiguration())
-				{
-					return OperationResult.Aborted;
-				}
-
-				return OperationResult.Success;
+				result = OperationResult.Aborted;
+			}
+			else if (success == true)
+			{
+				result = OperationResult.Success;
 			}
 
-			if (!success.HasValue)
-			{
-				return OperationResult.Aborted;
-			}
-
-			return OperationResult.Failed;
+			return result;
 		}
 
 		private LoadStatus? TryLoadSettings(Uri uri, UriSource source, out PasswordParameters passwordParams, out AppSettings settings, string currentPassword = default(string))

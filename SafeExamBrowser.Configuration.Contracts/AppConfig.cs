@@ -92,11 +92,6 @@ namespace SafeExamBrowser.Configuration.Contracts
 		public string ConfigurationFileExtension { get; set; }
 
 		/// <summary>
-		/// The default directory for file downloads.
-		/// </summary>
-		public string DownloadDirectory { get; set; }
-
-		/// <summary>
 		/// The build version of the application.
 		/// </summary>
 		public string ProgramBuildVersion { get; set; }
@@ -160,6 +155,11 @@ namespace SafeExamBrowser.Configuration.Contracts
 		/// The file path under which the log for the current session of the service component is to be stored.
 		/// </summary>
 		public string ServiceLogFilePath { get; set; }
+
+		/// <summary>
+		/// The directory to be used for temporary application data.
+		/// </summary>
+		public string TemporaryDirectory { get; set; }
 
 		/// <summary>
 		/// Creates a shallow clone.

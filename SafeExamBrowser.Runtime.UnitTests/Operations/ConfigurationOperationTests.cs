@@ -18,6 +18,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations;
 using SafeExamBrowser.Runtime.Operations.Events;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.SystemComponents.Contracts;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
 {
@@ -27,6 +28,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private const string FILE_NAME = "SebClientSettings.seb";
 
 		private AppConfig appConfig;
+		private Mock<IFileSystem> fileSystem;
 		private Mock<IHashAlgorithm> hashAlgorithm;
 		private Mock<ILogger> logger;
 		private Mock<IConfigurationRepository> repository;
@@ -38,6 +40,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void Initialize()
 		{
 			appConfig = new AppConfig();
+			fileSystem = new Mock<IFileSystem>();
 			hashAlgorithm = new Mock<IHashAlgorithm>();
 			logger = new Mock<ILogger>();
 			repository = new Mock<IConfigurationRepository>();
@@ -65,7 +68,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
-			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Perform();
 			var resource = new Uri(url);
 
@@ -83,7 +86,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
-			var sut = new ConfigurationOperation(null, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(null, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Perform();
 
 			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(location)), out settings, It.IsAny<PasswordParameters>()), Times.Once);
@@ -99,7 +102,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			appConfig.AppDataFilePath = location;
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
-			var sut = new ConfigurationOperation(null, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(null, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Perform();
 
 			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(location)), out settings, It.IsAny<PasswordParameters>()), Times.Once);
@@ -115,7 +118,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			nextSession.Settings = settings;
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.LoadWithBrowser);
 
-			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Perform();
 
 			Assert.AreEqual(url, settings.Browser.StartUrl);
@@ -129,7 +132,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			repository.Setup(r => r.LoadDefaultSettings()).Returns(defaultSettings);
 
-			var sut = new ConfigurationOperation(null, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(null, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Perform();
 
 			repository.Verify(r => r.LoadDefaultSettings(), Times.Once);
@@ -149,7 +152,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.ConfigureClientWith(It.IsAny<Uri>(), It.IsAny<PasswordParameters>())).Returns(SaveStatus.Success);
 
-			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
 			{
 				if (args is ConfigurationCompletedEventArgs c)
@@ -173,7 +176,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.ConfigureClientWith(It.IsAny<Uri>(), It.IsAny<PasswordParameters>())).Returns(SaveStatus.Success);
 
-			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
 			{
 				if (args is ConfigurationCompletedEventArgs c)
@@ -198,7 +201,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.ConfigureClientWith(It.IsAny<Uri>(), It.IsAny<PasswordParameters>())).Returns(SaveStatus.UnexpectedError);
 
-			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
 			{
 				if (args is ClientConfigurationErrorMessageArgs)
@@ -221,7 +224,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			settings.ConfigurationMode = ConfigurationMode.Exam;
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
-			var sut = new ConfigurationOperation(null, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(null, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
 			{
 				if (args is ConfigurationCompletedEventArgs c)
@@ -243,14 +246,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			repository.Setup(r => r.LoadDefaultSettings()).Returns(defaultSettings);
 
-			var sut = new ConfigurationOperation(null, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(null, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			result = sut.Perform();
 
 			repository.Verify(r => r.LoadDefaultSettings(), Times.Once);
 			Assert.AreEqual(OperationResult.Success, result);
 			Assert.AreSame(defaultSettings, nextSession.Settings);
 
-			sut = new ConfigurationOperation(new string[] { }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			sut = new ConfigurationOperation(new string[] { }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			result = sut.Perform();
 
 			repository.Verify(r => r.LoadDefaultSettings(), Times.Exactly(2));
@@ -262,7 +265,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void Perform_MustNotFailWithInvalidUri()
 		{
 			var uri = @"an/invalid\uri.'*%yolo/()你好";
-			var sut = new ConfigurationOperation(new[] { "blubb.exe", uri }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", uri }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Perform();
 
 			Assert.AreEqual(OperationResult.Success, result);
@@ -284,7 +287,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.LocalPath.Contains(FILE_NAME)), out localSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			nextSession.Settings = settings;
 
-			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
 			{
 				if (args is PasswordRequiredEventArgs p && p.Purpose == PasswordRequestPurpose.LocalAdministrator)
@@ -309,7 +312,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.PasswordNeeded);
 
-			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
 			{
 				if (args is PasswordRequiredEventArgs p && p.Purpose == PasswordRequestPurpose.Settings)
@@ -343,7 +346,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.AbsoluteUri == url), out nextSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.ConfigureClientWith(It.IsAny<Uri>(), It.IsAny<PasswordParameters>())).Returns(SaveStatus.Success);
 
-			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
 			{
 				if (args is PasswordRequiredEventArgs p && p.Purpose == PasswordRequestPurpose.LocalAdministrator)
@@ -374,7 +377,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.AbsoluteUri == url), out nextSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.ConfigureClientWith(It.IsAny<Uri>(), It.IsAny<PasswordParameters>())).Returns(SaveStatus.Success);
 
-			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
 			{
 				if (args is PasswordRequiredEventArgs)
@@ -400,7 +403,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.PasswordNeeded);
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.Is<PasswordParameters>(p => p.Password == password))).Returns(LoadStatus.Success);
 
-			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
 			{
 				if (args is PasswordRequiredEventArgs p)
@@ -437,7 +440,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 				.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.Is<PasswordParameters>(p => p.IsHash == true && p.Password == settings.Security.AdminPasswordHash)))
 				.Returns(LoadStatus.Success);
 
-			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Perform();
 
 			repository.Verify(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.Is<PasswordParameters>(p => p.Password == settings.Security.AdminPasswordHash)), Times.AtLeastOnce);
@@ -462,7 +465,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out currentSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.AbsoluteUri == url), out nextSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
-			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
 			{
 				if (args is PasswordRequiredEventArgs p && p.Purpose == PasswordRequestPurpose.LocalAdministrator)
@@ -486,7 +489,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.PasswordNeeded);
 
-			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
 			{
 				if (args is PasswordRequiredEventArgs p)
@@ -512,9 +515,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			sessionContext.ReconfigurationFilePath = resource.LocalPath;
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
-			var sut = new ConfigurationOperation(null, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(null, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Repeat();
 
+			fileSystem.Verify(f => f.Delete(It.Is<string>(s => s == resource.LocalPath)), Times.Once);
 			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>()), Times.AtLeastOnce);
 			repository.Verify(r => r.ConfigureClientWith(It.Is<Uri>(u => u.Equals(resource)), It.IsAny<PasswordParameters>()), Times.Never);
 
@@ -534,13 +538,43 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.ConfigureClientWith(It.Is<Uri>(u => u.Equals(resource)), It.IsAny<PasswordParameters>())).Returns(SaveStatus.Success);
 
-			var sut = new ConfigurationOperation(null, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(null, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Repeat();
 
+			fileSystem.Verify(f => f.Delete(It.Is<string>(s => s == resource.LocalPath)), Times.Once);
 			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>()), Times.AtLeastOnce);
 			repository.Verify(r => r.ConfigureClientWith(It.Is<Uri>(u => u.Equals(resource)), It.IsAny<PasswordParameters>()), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Repeat_MustDeleteTemporaryFileAfterClientConfiguration()
+		{
+			var currentSettings = new AppSettings();
+			var location = Path.GetDirectoryName(GetType().Assembly.Location);
+			var resource = new Uri(Path.Combine(location, nameof(Operations), "Testdata", FILE_NAME));
+			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
+			var delete = 0;
+			var configure = 0;
+			var order = 0;
+
+			currentSession.Settings = currentSettings;
+			sessionContext.ReconfigurationFilePath = resource.LocalPath;
+			fileSystem.Setup(f => f.Delete(It.IsAny<string>())).Callback(() => delete = ++order);
+			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+			repository.Setup(r => r.ConfigureClientWith(It.Is<Uri>(u => u.Equals(resource)), It.IsAny<PasswordParameters>())).Returns(SaveStatus.Success).Callback(() => configure = ++order);
+
+			var sut = new ConfigurationOperation(null, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var result = sut.Repeat();
+
+			fileSystem.Verify(f => f.Delete(It.Is<string>(s => s == resource.LocalPath)), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>()), Times.AtLeastOnce);
+			repository.Verify(r => r.ConfigureClientWith(It.Is<Uri>(u => u.Equals(resource)), It.IsAny<PasswordParameters>()), Times.Once);
+
+			Assert.AreEqual(OperationResult.Success, result);
+			Assert.AreEqual(1, configure);
+			Assert.AreEqual(2, delete);
 		}
 
 		[TestMethod]
@@ -552,15 +586,17 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			sessionContext.ReconfigurationFilePath = null;
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
-			var sut = new ConfigurationOperation(null, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(null, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Repeat();
 
+			fileSystem.Verify(f => f.Delete(It.Is<string>(s => s == resource.LocalPath)), Times.Never);
 			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>()), Times.Never);
 			Assert.AreEqual(OperationResult.Failed, result);
 
 			sessionContext.ReconfigurationFilePath = resource.LocalPath;
 			result = sut.Repeat();
 
+			fileSystem.Verify(f => f.Delete(It.Is<string>(s => s == resource.LocalPath)), Times.Never);
 			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>()), Times.Never);
 			Assert.AreEqual(OperationResult.Failed, result);
 		}
@@ -577,7 +613,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			sessionContext.ReconfigurationFilePath = resource.LocalPath;
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.PasswordNeeded);
 
-			var sut = new ConfigurationOperation(null, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(null, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			sut.ActionRequired += args =>
 			{
 				if (args is PasswordRequiredEventArgs p)
@@ -588,15 +624,17 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			var result = sut.Repeat();
 
+			fileSystem.Verify(f => f.Delete(It.Is<string>(s => s == resource.LocalPath)), Times.Once);
 			Assert.AreEqual(OperationResult.Aborted, result);
 		}
 
 		[TestMethod]
 		public void Revert_MustDoNothing()
 		{
-			var sut = new ConfigurationOperation(null, repository.Object, hashAlgorithm.Object, logger.Object, sessionContext);
+			var sut = new ConfigurationOperation(null, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Revert();
 
+			fileSystem.VerifyNoOtherCalls();
 			hashAlgorithm.VerifyNoOtherCalls();
 			repository.VerifyNoOtherCalls();
 

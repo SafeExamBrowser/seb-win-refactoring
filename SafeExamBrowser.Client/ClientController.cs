@@ -337,7 +337,7 @@ namespace SafeExamBrowser.Client
 			{
 				args.AllowDownload = true;
 				args.Callback = Browser_ConfigurationDownloadFinished;
-				args.DownloadPath = Path.Combine(context.AppConfig.DownloadDirectory, fileName);
+				args.DownloadPath = Path.Combine(context.AppConfig.TemporaryDirectory, fileName);
 				logger.Info($"Allowed download request for configuration file '{fileName}'.");
 			}
 			else

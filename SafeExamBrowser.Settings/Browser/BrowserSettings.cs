@@ -11,7 +11,7 @@ using System;
 namespace SafeExamBrowser.Settings.Browser
 {
 	/// <summary>
-	/// Defines all settings for the browser engine.
+	/// Defines all settings for the integrated browser application.
 	/// </summary>
 	[Serializable]
 	public class BrowserSettings

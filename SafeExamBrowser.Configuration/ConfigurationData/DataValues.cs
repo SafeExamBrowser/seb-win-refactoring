@@ -68,7 +68,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			appConfig.ClientExecutablePath = Path.Combine(Path.GetDirectoryName(executablePath), $"{nameof(SafeExamBrowser)}.Client.exe");
 			appConfig.ClientLogFilePath = Path.Combine(logFolder, $"{logFilePrefix}_Client.log");
 			appConfig.ConfigurationFileExtension = ".seb";
-			appConfig.DownloadDirectory = Path.Combine(appDataLocalFolder, "Downloads");
 			appConfig.ProgramBuildVersion = programBuild;
 			appConfig.ProgramCopyright = programCopyright;
 			appConfig.ProgramDataFilePath = Path.Combine(programDataFolder, DEFAULT_CONFIGURATION_NAME);
@@ -82,6 +81,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			appConfig.ServiceAddress = $"{AppConfig.BASE_ADDRESS}/service";
 			appConfig.ServiceEventName = $@"Global\{nameof(SafeExamBrowser)}-{Guid.NewGuid()}";
 			appConfig.ServiceLogFilePath = Path.Combine(logFolder, $"{logFilePrefix}_Service.log");
+			appConfig.TemporaryDirectory = Path.Combine(appDataLocalFolder, "Temp");
 
 			return appConfig;
 		}
@@ -123,8 +123,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AdditionalWindow.RelativeWidth = 50;
 			settings.Browser.AdditionalWindow.ShowReloadWarning = false;
 			settings.Browser.AllowConfigurationDownloads = true;
+			settings.Browser.AllowCustomDownloadLocation = false;
 			settings.Browser.AllowDownloads = true;
 			settings.Browser.AllowPageZoom = true;
+			settings.Browser.AllowUploads = true;
 			settings.Browser.MainWindow.AllowAddressBar = false;
 			settings.Browser.MainWindow.AllowBackwardNavigation = false;
 			settings.Browser.MainWindow.AllowDeveloperConsole = false;
