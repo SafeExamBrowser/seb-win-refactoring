@@ -953,7 +953,7 @@ namespace SebWindowsConfig
 		/// ----------------------------------------------------------------------------------------
 		private void PresentAlertForUnconfirmedPassword(string unconfirmedPassword)
 		{
-			MessageBox.Show(SEBUIStrings.unconfirmedPasswordTitle, SEBUIStrings.unconfirmedPasswordMessage.Replace("%s", unconfirmedPassword), MessageBoxButtons.OK, MessageBoxIcon.Error);
+			MessageBox.Show(SEBUIStrings.unconfirmedPasswordMessage.Replace("%s", unconfirmedPassword), SEBUIStrings.unconfirmedPasswordTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 
 		// **************
@@ -1146,7 +1146,7 @@ namespace SebWindowsConfig
 			string currentBrowserExamKey = SEBProtectionController.ComputeBrowserExamKey();
 			if (!lastBrowserExamKey.Equals(currentBrowserExamKey) || !lastSettingsPassword.Equals(textBoxSettingsPassword.Text) || lastCryptoIdentityIndex != comboBoxCryptoIdentity.SelectedIndex)
 			{
-				var messageBoxResult = MessageBox.Show(SEBUIStrings.unsavedChangesTitle, SEBUIStrings.unsavedChangesQuestion, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+				var messageBoxResult = MessageBox.Show(SEBUIStrings.unsavedChangesQuestion, SEBUIStrings.unsavedChangesTitle, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 				if (messageBoxResult == DialogResult.Yes)
 				{
 					result = 1;
@@ -1192,7 +1192,7 @@ namespace SebWindowsConfig
 			{
 				if (!LoadConfigurationFileIntoEditor(fileName))
 				{
-					MessageBox.Show(SEBUIStrings.openingSettingsFailed, SEBUIStrings.openingSettingsFailedMessage, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(SEBUIStrings.openingSettingsFailedMessage, SEBUIStrings.openingSettingsFailed, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				// Generate Browser Exam Key of this new settings
@@ -1227,7 +1227,7 @@ namespace SebWindowsConfig
 
 			if (!LoadConfigurationFileIntoEditor(filePath))
 			{
-				MessageBox.Show(SEBUIStrings.openingSettingsFailed, SEBUIStrings.openingSettingsFailedMessage, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(SEBUIStrings.openingSettingsFailedMessage, SEBUIStrings.openingSettingsFailed, MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 			// Generate Browser Exam Key of this new settings
@@ -1273,7 +1273,7 @@ namespace SebWindowsConfig
 			}
 			if (!SaveConfigurationFileFromEditor(fileName))
 			{
-				MessageBox.Show(SEBUIStrings.savingSettingsFailed, SEBUIStrings.savingSettingsFailedMessage, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(SEBUIStrings.savingSettingsFailedMessage, SEBUIStrings.savingSettingsFailed, MessageBoxButtons.OK, MessageBoxIcon.Error);
 				// Restore the old Browser Exam Key salt
 				SEBSettings.settingsCurrent[SEBSettings.KeyExamKeySalt] = currentExamKeySalt;
 				return false;
@@ -1285,7 +1285,7 @@ namespace SebWindowsConfig
 			{
 				// In this case tell the user what purpose the file was saved for
 				string messageFilePurpose = (int)SEBSettings.settingsCurrent[SEBSettings.KeySebConfigPurpose] == 0 ? SEBUIStrings.savingSettingsSucceededStartExam : SEBUIStrings.savingSettingsSucceededMessageConfigureClient;
-				MessageBox.Show(SEBUIStrings.savingSettingsSucceeded, messageFilePurpose, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show(messageFilePurpose, SEBUIStrings.savingSettingsSucceeded, MessageBoxButtons.OK, MessageBoxIcon.Information);
 				currentSebConfigFileWasDuplicated = false;
 				sebConfigPurposeChanged = false;
 			}
@@ -1338,7 +1338,7 @@ namespace SebWindowsConfig
 			if (fileDialogResult.Equals(DialogResult.OK)) {
 				if (!SaveConfigurationFileFromEditor(fileName))
 				{
-					MessageBox.Show(SEBUIStrings.savingSettingsFailed, SEBUIStrings.savingSettingsFailedMessage, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(SEBUIStrings.savingSettingsFailedMessage, SEBUIStrings.savingSettingsFailed, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					// Restore the old Browser Exam Key salt
 					SEBSettings.settingsCurrent[SEBSettings.KeyExamKeySalt] = currentExamKeySalt;
 					return;
@@ -1348,7 +1348,7 @@ namespace SebWindowsConfig
 				{
 					// Tell the user what purpose the file was saved for
 					string messageFilePurpose = (int)SEBSettings.settingsCurrent[SEBSettings.KeySebConfigPurpose] == 0 ? SEBUIStrings.savingSettingsSucceededStartExam : SEBUIStrings.savingSettingsSucceededMessageConfigureClient;
-					MessageBox.Show(SEBUIStrings.savingSettingsSucceeded, messageFilePurpose, MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show(messageFilePurpose, SEBUIStrings.savingSettingsSucceeded, MessageBoxButtons.OK, MessageBoxIcon.Information);
 					currentSebConfigFileWasDuplicated = false;
 					sebConfigPurposeChanged = false;
 				}
