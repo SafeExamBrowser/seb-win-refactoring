@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Specialized;
 using System.IO;
+using System.Net.Mime;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -76,6 +77,22 @@ namespace SafeExamBrowser.Browser.Handlers
 			return base.OnBeforeResourceLoad(webBrowser, browser, frame, request, callback);
 		}
 
+		protected override bool OnResourceResponse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response)
+		{
+			var abort = true;
+
+			if (RedirectToDisablePdfToolbar(request, response, out var url))
+			{
+				chromiumWebBrowser.Load(url);
+			}
+			else
+			{
+				abort = base.OnResourceResponse(chromiumWebBrowser, browser, frame, request, response);
+			}
+
+			return abort;
+		}
+
 		private void AppendCustomUserAgent(IRequest request)
 		{
 			var headers = new NameValueCollection(request.Headers);
@@ -100,25 +117,42 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		private bool Block(IRequest request)
 		{
+			var block = false;
+
 			if (settings.Filter.ProcessContentRequests)
 			{
 				var result = filter.Process(new Request { Url = request.Url });
-				var block = result == FilterResult.Block;
 
-				if (block)
+				if (result == FilterResult.Block)
 				{
+					block = true;
 					logger.Info($"Blocked content request for '{request.Url}'.");
 				}
-
-				return block;
 			}
 
-			return false;
+			return block;
 		}
 
 		private bool IsMailtoUrl(string url)
 		{
 			return url.StartsWith(Uri.UriSchemeMailto);
+		}
+
+		private bool RedirectToDisablePdfToolbar(IRequest request, IResponse response, out string url)
+		{
+			const string DISABLE_PDF_TOOLBAR = "#toolbar=0";
+			var isPdf = response.Headers["Content-Type"] == MediaTypeNames.Application.Pdf;
+			var hasFragment = request.Url.Contains(DISABLE_PDF_TOOLBAR);
+			var redirect = settings.AllowPdfReader && !settings.AllowPdfReaderToolbar && isPdf && !hasFragment;
+
+			url = request.Url + DISABLE_PDF_TOOLBAR;
+
+			if (redirect)
+			{
+				logger.Info($"Redirecting to '{url}' to disable PDF reader toolbar.");
+			}
+
+			return redirect;
 		}
 
 		private void ReplaceSebScheme(IRequest request)

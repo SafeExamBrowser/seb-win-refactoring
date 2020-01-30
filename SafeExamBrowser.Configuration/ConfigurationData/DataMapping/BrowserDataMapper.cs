@@ -36,6 +36,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.AllowPageZoom:
 					MapAllowPageZoom(settings, value);
 					break;
+				case Keys.Browser.AllowPdfReaderToolbar:
+					MapAllowPdfReaderToolbar(settings, value);
+					break;
 				case Keys.Browser.AdditionalWindow.AllowAddressBar:
 					MapAllowAddressBarAdditionalWindow(settings, value);
 					break;
@@ -59,6 +62,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Browser.DownloadDirectory:
 					MapDownloadDirectory(settings, value);
+					break;
+				case Keys.Browser.DownloadPdfFiles:
+					MapDownloadPdfFiles(settings, value);
 					break;
 				case Keys.Browser.EnableBrowser:
 					MapEnableBrowser(settings, value);
@@ -197,6 +203,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
+		private void MapAllowPdfReaderToolbar(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.AllowPdfReaderToolbar = allow;
+			}
+		}
+
 		private void MapAllowReload(AppSettings settings, object value)
 		{
 			if (value is bool allow)
@@ -218,6 +232,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string directory)
 			{
 				settings.Browser.DownloadDirectory = directory;
+			}
+		}
+
+		private void MapDownloadPdfFiles(AppSettings settings, object value)
+		{
+			if (value is bool download)
+			{
+				settings.Browser.AllowPdfReader = !download;
 			}
 		}
 

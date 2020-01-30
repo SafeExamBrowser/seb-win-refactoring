@@ -42,6 +42,16 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool AllowPageZoom { get; set; }
 
 		/// <summary>
+		/// Determines whether the internal PDF reader of the browser application is enabled. If not, documents will be downloaded by default.
+		/// </summary>
+		public bool AllowPdfReader { get; set; }
+
+		/// <summary>
+		/// Determines whether the toolbar of the internal PDF reader (which allows to e.g. download or print a document) will be enabled.
+		/// </summary>
+		public bool AllowPdfReaderToolbar { get; set; }
+
+		/// <summary>
 		/// Determines whether the user will be allowed to upload files.
 		/// </summary>
 		public bool AllowUploads { get; set; }

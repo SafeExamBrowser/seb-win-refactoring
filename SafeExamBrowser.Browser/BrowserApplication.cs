@@ -156,10 +156,16 @@ namespace SafeExamBrowser.Browser
 
 			cefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
 
+			if (!settings.AllowPdfReader)
+			{
+				cefSettings.CefCommandLineArgs.Add("disable-pdf-extension", "");
+			}
+
 			logger.Debug($"Cache path: {cefSettings.CachePath}");
 			logger.Debug($"Engine version: Chromium {Cef.ChromiumVersion}, CEF {Cef.CefVersion}, CefSharp {Cef.CefSharpVersion}");
 			logger.Debug($"Log file: {cefSettings.LogFile}");
 			logger.Debug($"Log severity: {cefSettings.LogSeverity}");
+			logger.Debug($"PDF reader: {(settings.AllowPdfReader ? "Enabled" : "Disabled")}");
 
 			return cefSettings;
 		}
