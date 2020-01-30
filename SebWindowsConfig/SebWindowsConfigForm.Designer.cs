@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -407,6 +407,7 @@ namespace SebWindowsConfig
 			this.openSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.saveSettingsAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.collectLogFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.revertSettingsToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.defaultSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -416,7 +417,6 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.collectLogFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -1280,6 +1280,7 @@ namespace SebWindowsConfig
 			this.groupBox10.TabIndex = 95;
 			this.groupBox10.TabStop = false;
 			this.groupBox10.Text = "Logging";
+			this.groupBox10.Visible = false;
 			// 
 			// checkBoxEnableLogging
 			// 
@@ -1684,8 +1685,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle7.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle7;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -3218,9 +3219,9 @@ namespace SebWindowsConfig
 			this.checkBoxDownloadPDFFiles.Location = new System.Drawing.Point(38, 378);
 			this.checkBoxDownloadPDFFiles.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxDownloadPDFFiles.Name = "checkBoxDownloadPDFFiles";
-			this.checkBoxDownloadPDFFiles.Size = new System.Drawing.Size(516, 24);
+			this.checkBoxDownloadPDFFiles.Size = new System.Drawing.Size(401, 24);
 			this.checkBoxDownloadPDFFiles.TabIndex = 3;
-			this.checkBoxDownloadPDFFiles.Text = "Download and open PDF files instead of displaying them inline (Mac)";
+			this.checkBoxDownloadPDFFiles.Text = "Download PDF files instead of displaying them inline";
 			this.toolTip1.SetToolTip(this.checkBoxDownloadPDFFiles, "PDF files will not be displayed by SEB but downloaded and openend (if \"Open files" +
         " after downloading\" is active!) by the application set in Finder (usually Previe" +
         "w or Adobe Acrobat).");
@@ -4046,8 +4047,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle8;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -4630,6 +4631,7 @@ namespace SebWindowsConfig
 			this.buttonApplyAndStartSEB.Text = "Apply and Start SEB";
 			this.toolTip1.SetToolTip(this.buttonApplyAndStartSEB, "Save current settings and start SEB using them");
 			this.buttonApplyAndStartSEB.UseVisualStyleBackColor = true;
+			this.buttonApplyAndStartSEB.Visible = false;
 			this.buttonApplyAndStartSEB.Click += new System.EventHandler(this.buttonApplyAndStartSEB_Click);
 			// 
 			// buttonRevertToLocalClientSettings
@@ -4944,6 +4946,7 @@ namespace SebWindowsConfig
         "word (click Quit button in SEB taskbar, press Ctrl-Q or click the main browser w" +
         "indow close button).");
 			this.checkBoxIgnoreExitKeys.UseVisualStyleBackColor = true;
+			this.checkBoxIgnoreExitKeys.Visible = false;
 			this.checkBoxIgnoreExitKeys.CheckedChanged += new System.EventHandler(this.checkBoxIgnoreExitKeys_CheckedChanged);
 			// 
 			// labelQuitPasswordCompare
@@ -4989,6 +4992,7 @@ namespace SebWindowsConfig
 			this.groupBoxExitSequence.Text = "Exit Sequence";
 			this.toolTip1.SetToolTip(this.groupBoxExitSequence, "Function keys which have to be pressed and held down together in the right order " +
         "to exit SEB.");
+			this.groupBoxExitSequence.Visible = false;
 			// 
 			// listBoxExitKey1
 			// 
@@ -5296,6 +5300,13 @@ namespace SebWindowsConfig
 			this.saveSettingsAsToolStripMenuItem.Text = "Save Settings As...";
 			this.saveSettingsAsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsAsToolStripMenuItem_Click);
 			// 
+			// collectLogFilesToolStripMenuItem
+			// 
+			this.collectLogFilesToolStripMenuItem.Name = "collectLogFilesToolStripMenuItem";
+			this.collectLogFilesToolStripMenuItem.Size = new System.Drawing.Size(286, 30);
+			this.collectLogFilesToolStripMenuItem.Text = "Collect Log Files...";
+			this.collectLogFilesToolStripMenuItem.Click += new System.EventHandler(this.collectLogFilesToolStripMenuItem_Click);
+			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
@@ -5366,14 +5377,8 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
 			this.applyAndStartSEBToolStripMenuItem.Size = new System.Drawing.Size(284, 30);
 			this.applyAndStartSEBToolStripMenuItem.Text = "Apply and Start SEB";
+			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
-			// 
-			// collectLogFilesToolStripMenuItem
-			// 
-			this.collectLogFilesToolStripMenuItem.Name = "collectLogFilesToolStripMenuItem";
-			this.collectLogFilesToolStripMenuItem.Size = new System.Drawing.Size(286, 30);
-			this.collectLogFilesToolStripMenuItem.Text = "Collect Log Files...";
-			this.collectLogFilesToolStripMenuItem.Click += new System.EventHandler(this.collectLogFilesToolStripMenuItem_Click);
 			// 
 			// SebWindowsConfigForm
 			// 
