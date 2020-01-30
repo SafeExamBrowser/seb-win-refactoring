@@ -14,6 +14,7 @@ using System.Xml;
 using System.Xml.Linq;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
+using SafeExamBrowser.Configuration.Contracts.DataCompression;
 using SafeExamBrowser.Configuration.Contracts.DataFormats;
 using SafeExamBrowser.Logging.Contracts;
 
@@ -23,10 +24,12 @@ namespace SafeExamBrowser.Configuration.DataFormats
 	{
 		private const string XML_PREFIX = "<?xm";
 
+		private IDataCompressor compressor;
 		private ILogger logger;
 
-		public XmlParser(ILogger logger)
+		public XmlParser(IDataCompressor compressor, ILogger logger)
 		{
+			this.compressor = compressor;
 			this.logger = logger;
 		}
 
@@ -34,20 +37,16 @@ namespace SafeExamBrowser.Configuration.DataFormats
 		{
 			try
 			{
-				var prefixData = new byte[XML_PREFIX.Length];
-				var longEnough = data.Length > prefixData.Length;
+				var longEnough = data.Length > XML_PREFIX.Length;
 
 				if (longEnough)
 				{
-					data.Seek(0, SeekOrigin.Begin);
-					data.Read(prefixData, 0, prefixData.Length);
+					var prefix = ReadPrefix(data);
+					var isValid = XML_PREFIX.Equals(prefix, StringComparison.OrdinalIgnoreCase);
 
-					var prefix = Encoding.UTF8.GetString(prefixData);
-					var isXml = prefix == XML_PREFIX;
+					logger.Debug($"'{data}' starting with '{prefix}' {(isValid ? "matches" : "does not match")} the {FormatType.Xml} format.");
 
-					logger.Debug($"'{data}' starting with '{prefix}' {(isXml ? "matches" : "does not match")} the {FormatType.Xml} format.");
-
-					return isXml;
+					return isValid;
 				}
 
 				logger.Debug($"'{data}' is not long enough ({data.Length} bytes) to match the {FormatType.Xml} format.");
@@ -62,29 +61,40 @@ namespace SafeExamBrowser.Configuration.DataFormats
 
 		public ParseResult TryParse(Stream data, PasswordParameters password = null)
 		{
-			var result = new ParseResult { Format = FormatType.Xml, Status = LoadStatus.InvalidData };
-			var settings = new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore };
+			var prefix = ReadPrefix(data);
+			var isValid = XML_PREFIX.Equals(prefix, StringComparison.OrdinalIgnoreCase);
+			var result = new ParseResult { Status = LoadStatus.InvalidData };
 
-			data.Seek(0, SeekOrigin.Begin);
-
-			using (var reader = XmlReader.Create(data, settings))
+			if (isValid)
 			{
-				var hasRoot = reader.ReadToFollowing(XmlElement.Root);
-				var hasDictionary = reader.ReadToDescendant(XmlElement.Dictionary);
+				data = compressor.IsCompressed(data) ? compressor.Decompress(data) : data;
+				data.Seek(0, SeekOrigin.Begin);
 
-				if (hasRoot && hasDictionary)
+				using (var reader = XmlReader.Create(data, new XmlReaderSettings { DtdProcessing = DtdProcessing.Ignore }))
 				{
-					logger.Debug($"Found root node, starting to parse data...");
+					var hasRoot = reader.ReadToFollowing(XmlElement.Root);
+					var hasDictionary = reader.ReadToDescendant(XmlElement.Dictionary);
 
-					result.Status = ParseDictionary(reader, out var rawData);
-					result.RawData = rawData;
+					if (hasRoot && hasDictionary)
+					{
+						logger.Debug($"Found root node, starting to parse data...");
 
-					logger.Debug($"Finished parsing -> Result: {result.Status}.");
+						result.Status = ParseDictionary(reader, out var rawData);
+						result.RawData = rawData;
+
+						logger.Debug($"Finished parsing -> Result: {result.Status}.");
+					}
+					else
+					{
+						logger.Error($"Could not find root {(!hasRoot ? $"node '{XmlElement.Root}'" : $"dictionary '{XmlElement.Dictionary}'")}!");
+					}
 				}
-				else
-				{
-					logger.Error($"Could not find root {(!hasRoot ? $"node '{XmlElement.Root}'" : $"dictionary '{XmlElement.Dictionary}'")}!");
-				}
+
+				result.Format = FormatType.Xml;
+			}
+			else
+			{
+				logger.Error($"'{data}' starting with '{prefix}' does not match the {FormatType.Xml} format!");
 			}
 
 			return result;
@@ -268,6 +278,23 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			}
 
 			return status;
+		}
+
+		private string ReadPrefix(Stream data)
+		{
+			var prefixData = new byte[XML_PREFIX.Length];
+
+			if (compressor.IsCompressed(data))
+			{
+				prefixData = compressor.Peek(data, XML_PREFIX.Length);
+			}
+			else
+			{
+				data.Seek(0, SeekOrigin.Begin);
+				data.Read(prefixData, 0, XML_PREFIX.Length);
+			}
+
+			return Encoding.UTF8.GetString(prefixData);
 		}
 	}
 }

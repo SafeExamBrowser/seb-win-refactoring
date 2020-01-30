@@ -79,6 +79,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 		{
 			var prefix = ReadPrefix(data);
 			var isValid = IsValid(prefix);
+			var result = new ParseResult { Status = LoadStatus.InvalidData };
 
 			if (isValid)
 			{
@@ -89,18 +90,25 @@ namespace SafeExamBrowser.Configuration.DataFormats
 				{
 					case BinaryBlock.Password:
 					case BinaryBlock.PasswordConfigureClient:
-						return ParsePasswordBlock(data, prefix, password);
+						result = ParsePasswordBlock(data, prefix, password);
+						break;
 					case BinaryBlock.PlainData:
-						return ParsePlainDataBlock(data);
+						result = ParsePlainDataBlock(data);
+						break;
 					case BinaryBlock.PublicKey:
 					case BinaryBlock.PublicKeySymmetric:
-						return ParsePublicKeyBlock(data, prefix, password);
+						result = ParsePublicKeyBlock(data, prefix, password);
+						break;
 				}
+
+				result.Format = FormatType.Binary;
+			}
+			else
+			{
+				logger.Error($"'{data}' starting with '{prefix}' does not match the {FormatType.Binary} format!");
 			}
 
-			logger.Error($"'{data}' starting with '{prefix}' does not match the {FormatType.Binary} format!");
-
-			return new ParseResult { Status = LoadStatus.InvalidData };
+			return result;
 		}
 
 		private ParseResult ParsePasswordBlock(Stream data, string prefix, PasswordParameters password = null)
@@ -133,10 +141,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			data = compressor.IsCompressed(data) ? compressor.Decompress(data) : data;
 			logger.Debug("Attempting to parse plain data block...");
 
-			var result = xmlParser.TryParse(data);
-			result.Format = FormatType.Binary;
-
-			return result;
+			return xmlParser.TryParse(data);
 		}
 
 		private ParseResult ParsePublicKeyBlock(Stream data, string prefix, PasswordParameters password = null)

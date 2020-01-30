@@ -15,9 +15,10 @@ using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Configuration.ConfigurationData;
-using SafeExamBrowser.Configuration.DataFormats;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.DataCompression;
 using SafeExamBrowser.Configuration.Contracts.DataFormats;
+using SafeExamBrowser.Configuration.DataFormats;
 using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Configuration.UnitTests.DataFormats
@@ -25,15 +26,17 @@ namespace SafeExamBrowser.Configuration.UnitTests.DataFormats
 	[TestClass]
 	public class XmlParserTests
 	{
+		private Mock<IDataCompressor> compressor;
 		private Mock<ILogger> logger;
 		private XmlParser sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
+			compressor = new Mock<IDataCompressor>();
 			logger = new Mock<ILogger>();
 
-			sut = new XmlParser(logger.Object);
+			sut = new XmlParser(compressor.Object, logger.Object);
 		}
 
 		[TestMethod]

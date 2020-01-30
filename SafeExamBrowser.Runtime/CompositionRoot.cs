@@ -141,7 +141,7 @@ namespace SafeExamBrowser.Runtime
 			var publicKeyEncryption = new PublicKeyEncryption(certificateStore, ModuleLogger(nameof(PublicKeyEncryption)));
 			var symmetricEncryption = new PublicKeySymmetricEncryption(certificateStore, ModuleLogger(nameof(PublicKeySymmetricEncryption)), passwordEncryption);
 			var repositoryLogger = ModuleLogger(nameof(ConfigurationRepository));
-			var xmlParser = new XmlParser(ModuleLogger(nameof(XmlParser)));
+			var xmlParser = new XmlParser(compressor, ModuleLogger(nameof(XmlParser)));
 			var xmlSerializer = new XmlSerializer(ModuleLogger(nameof(XmlSerializer)));
 
 			configuration = new ConfigurationRepository(
@@ -169,7 +169,7 @@ namespace SafeExamBrowser.Runtime
 				publicKeyEncryption,
 				symmetricEncryption,
 				xmlSerializer));
-			configuration.Register(new XmlParser(ModuleLogger(nameof(XmlParser))));
+			configuration.Register(new XmlParser(compressor, ModuleLogger(nameof(XmlParser))));
 			configuration.Register(new XmlSerializer(ModuleLogger(nameof(XmlSerializer))));
 			configuration.Register(new FileResourceLoader(ModuleLogger(nameof(FileResourceLoader))));
 			configuration.Register(new FileResourceSaver(ModuleLogger(nameof(FileResourceSaver))));
