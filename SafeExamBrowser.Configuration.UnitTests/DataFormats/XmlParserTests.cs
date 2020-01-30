@@ -120,6 +120,31 @@ namespace SafeExamBrowser.Configuration.UnitTests.DataFormats
 		}
 
 		[TestMethod]
+		public void MustDecompressDataIfCompressed()
+		{
+			var bytes = Encoding.UTF8.GetBytes("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+			var data = LoadTestData();
+			var stream = new MemoryStream(Encoding.UTF8.GetBytes("some incorrect data here"));
+
+			compressor.Setup(c => c.Peek(It.IsAny<Stream>(), It.IsAny<int>())).Returns<Stream, int>((d, c) => bytes.Take(c).ToArray());
+			compressor.Setup(c => c.IsCompressed(It.IsAny<Stream>())).Returns(true);
+
+			Assert.IsTrue(sut.CanParse(stream));
+
+			compressor.Verify(c => c.IsCompressed(It.IsAny<Stream>()), Times.Once);
+			compressor.Verify(c => c.Peek(It.IsAny<Stream>(), It.IsAny<int>()), Times.Once);
+
+			compressor.Setup(c => c.Decompress(It.IsAny<Stream>())).Returns(data);
+
+			var result = sut.TryParse(stream);
+
+			compressor.Verify(c => c.IsCompressed(It.IsAny<Stream>()), Times.AtLeast(2));
+			compressor.Verify(c => c.Decompress(It.IsAny<Stream>()), Times.Once);
+
+			Assert.AreEqual(LoadStatus.Success, result.Status);
+		}
+
+		[TestMethod]
 		public void MustParseEmptyXml()
 		{
 			var xml = "<?xml version=\"1.0\"?><plist><dict></dict></plist>";
@@ -185,6 +210,14 @@ namespace SafeExamBrowser.Configuration.UnitTests.DataFormats
 
 			Assert.AreEqual(LoadStatus.Success, result.Status);
 			Assert.IsNull(result.RawData["value"]);
+		}
+
+		[TestMethod]
+		public void MustNotFailWithWrongData()
+		{
+			var result = sut.TryParse(new MemoryStream(Encoding.UTF8.GetBytes("some random text")));
+
+			Assert.AreEqual(LoadStatus.InvalidData, result.Status);
 		}
 
 		private Stream LoadTestData()
