@@ -44,12 +44,17 @@ namespace SafeExamBrowser.Browser.Handlers
 		public void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
 			var uri = new Uri(downloadItem.Url);
-			var extension = Path.GetExtension(uri.AbsolutePath);
-			var isConfigFile = String.Equals(extension, appConfig.ConfigurationFileExtension, StringComparison.OrdinalIgnoreCase);
+			var uriExtension = Path.GetExtension(uri.AbsolutePath);
+			var fileExtension = Path.GetExtension(downloadItem.SuggestedFileName);
+			var isConfigurationFile = false;
+
+			isConfigurationFile |= string.Equals(appConfig.ConfigurationFileExtension, fileExtension, StringComparison.OrdinalIgnoreCase);
+			isConfigurationFile |= string.Equals(appConfig.ConfigurationFileExtension, uriExtension, StringComparison.OrdinalIgnoreCase);
+			isConfigurationFile |= string.Equals(appConfig.ConfigurationFileMimeType, downloadItem.MimeType, StringComparison.OrdinalIgnoreCase);
 
 			logger.Debug($"Detected download request for '{uri}'.");
 
-			if (isConfigFile)
+			if (isConfigurationFile)
 			{
 				Task.Run(() => RequestConfigurationFileDownload(downloadItem, callback));
 			}

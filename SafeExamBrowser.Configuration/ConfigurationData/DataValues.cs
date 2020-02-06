@@ -68,6 +68,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			appConfig.ClientExecutablePath = Path.Combine(Path.GetDirectoryName(executablePath), $"{nameof(SafeExamBrowser)}.Client.exe");
 			appConfig.ClientLogFilePath = Path.Combine(logFolder, $"{logFilePrefix}_Client.log");
 			appConfig.ConfigurationFileExtension = ".seb";
+			appConfig.ConfigurationFileMimeType = "application/seb";
 			appConfig.ProgramBuildVersion = programBuild;
 			appConfig.ProgramCopyright = programCopyright;
 			appConfig.ProgramDataFilePath = Path.Combine(programDataFolder, DEFAULT_CONFIGURATION_NAME);

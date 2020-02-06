@@ -92,6 +92,11 @@ namespace SafeExamBrowser.Configuration.Contracts
 		public string ConfigurationFileExtension { get; set; }
 
 		/// <summary>
+		/// The MIME type of configuration files for the application.
+		/// </summary>
+		public string ConfigurationFileMimeType { get; set; }
+
+		/// <summary>
 		/// The build version of the application.
 		/// </summary>
 		public string ProgramBuildVersion { get; set; }
