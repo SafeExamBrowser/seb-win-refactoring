@@ -12,7 +12,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
@@ -28,22 +27,23 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			using (var algorithm = new SHA256Managed())
 			using (var stream = new MemoryStream())
-			using (var writer = new StreamWriter(stream, Encoding.UTF8))
+			using (var writer = new StreamWriter(stream))
 			{
 				Serialize(rawData, writer);
+
 				writer.Flush();
 				stream.Seek(0, SeekOrigin.Begin);
 
-				var hash = algorithm.ComputeHash(stream);
-				var hashString = BitConverter.ToString(hash).Replace("-", string.Empty);
+				var hashBytes = algorithm.ComputeHash(stream);
+				var hashValue = BitConverter.ToString(hashBytes).ToLower().Replace("-", string.Empty);
 
-				settings.Browser.HashValue = hashString;
+				settings.Browser.HashValue = hashValue;
 			}
 		}
 
 		private void Serialize(IDictionary<string, object> dictionary, StreamWriter stream)
 		{
-			var orderedByKey = dictionary.OrderBy(d => d.Key, StringComparer.OrdinalIgnoreCase).ToList();
+			var orderedByKey = dictionary.OrderBy(d => d.Key, StringComparer.InvariantCulture).ToList();
 
 			stream.Write('{');
 

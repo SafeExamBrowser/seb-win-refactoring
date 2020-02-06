@@ -107,7 +107,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			var headers = new NameValueCollection(request.Headers);
 			var urlWithoutFragment = request.Url.Split('#')[0];
 			var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + settings.HashValue));
-			var configurationKey = BitConverter.ToString(hash).Replace("-", string.Empty);
+			var configurationKey = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
 
 			// TODO: Implement Browser Exam Key calculation.
 			// headers["X-SafeExamBrowser-RequestHash"] = ...;

@@ -87,6 +87,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigurationData\DataProcessorTests.cs" />
     <Compile Include="ConfigurationRepositoryTests.cs" />
     <Compile Include="Cryptography\HashAlgorithmTests.cs" />
     <Compile Include="Cryptography\PasswordEncryptionTests.cs" />
@@ -106,6 +107,9 @@
     </None>
     <EmbeddedResource Include="DataFormats\XmlTestSettings.xml" />
     <EmbeddedResource Include="UnitTestCert.pfx" />
+    <EmbeddedResource Include="ConfigurationData\TestDictionary1.bin" />
+    <EmbeddedResource Include="ConfigurationData\TestDictionary2.bin" />
+    <EmbeddedResource Include="ConfigurationData\TestDictionary3.bin" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
