@@ -26,6 +26,7 @@ namespace SafeExamBrowser.Client.Communication
 
 		public event CommunicationEventHandler<MessageBoxRequestEventArgs> MessageBoxRequested;
 		public event CommunicationEventHandler<PasswordRequestEventArgs> PasswordRequested;
+		public event CommunicationEventHandler ReconfigurationAborted;
 		public event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationDenied;
 		public event CommunicationEventHandler RuntimeDisconnected;
 		public event CommunicationEventHandler Shutdown;
@@ -88,6 +89,9 @@ namespace SafeExamBrowser.Client.Communication
 			{
 				case SimpleMessagePurport.Authenticate:
 					return new AuthenticationResponse { ProcessId = processId };
+				case SimpleMessagePurport.ReconfigurationAborted:
+					ReconfigurationAborted?.InvokeAsync();
+					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 				case SimpleMessagePurport.Shutdown:
 					Shutdown?.Invoke();
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);

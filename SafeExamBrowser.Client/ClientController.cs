@@ -178,6 +178,7 @@ namespace SafeExamBrowser.Client
 			Browser.TerminationRequested += Browser_TerminationRequested;
 			ClientHost.MessageBoxRequested += ClientHost_MessageBoxRequested;
 			ClientHost.PasswordRequested += ClientHost_PasswordRequested;
+			ClientHost.ReconfigurationAborted += ClientHost_ReconfigurationAborted;
 			ClientHost.ReconfigurationDenied += ClientHost_ReconfigurationDenied;
 			ClientHost.Shutdown += ClientHost_Shutdown;
 			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
@@ -208,6 +209,7 @@ namespace SafeExamBrowser.Client
 			{
 				ClientHost.MessageBoxRequested -= ClientHost_MessageBoxRequested;
 				ClientHost.PasswordRequested -= ClientHost_PasswordRequested;
+				ClientHost.ReconfigurationAborted -= ClientHost_ReconfigurationAborted;
 				ClientHost.ReconfigurationDenied -= ClientHost_ReconfigurationDenied;
 				ClientHost.Shutdown -= ClientHost_Shutdown;
 			}
@@ -421,11 +423,12 @@ namespace SafeExamBrowser.Client
 
 			runtime.SubmitPassword(args.RequestId, result.Success, result.Password);
 			logger.Info($"Password request with id '{args.RequestId}' was {(result.Success ? "successful" : "aborted by the user")}.");
+		}
 
-			if (!result.Success)
-			{
-				splashScreen?.Close();
-			}
+		private void ClientHost_ReconfigurationAborted()
+		{
+			logger.Info("The reconfiguration was aborted by the runtime.");
+			splashScreen?.Close();
 		}
 
 		private void ClientHost_ReconfigurationDenied(ReconfigurationEventArgs args)

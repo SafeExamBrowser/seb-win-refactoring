@@ -298,6 +298,19 @@ namespace SafeExamBrowser.Client.UnitTests
 		}
 
 		[TestMethod]
+		public void Communication_MustCorrectlyHandleAbortedReconfiguration()
+		{
+			var splashScreen = new Mock<ISplashScreen>();
+
+			uiFactory.Setup(f => f.CreateSplashScreen(It.IsAny<AppConfig>())).Returns(splashScreen.Object);
+
+			sut.TryStart();
+			clientHost.Raise(c => c.ReconfigurationAborted += null);
+
+			splashScreen.Verify(s => s.Close(), Times.AtLeastOnce);
+		}
+
+		[TestMethod]
 		public void Communication_MustInformUserAboutDeniedReconfiguration()
 		{
 			var args = new ReconfigurationEventArgs

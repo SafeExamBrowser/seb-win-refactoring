@@ -233,6 +233,8 @@ namespace SafeExamBrowser.Runtime
 				{
 					runtimeWindow.Hide();
 				}
+
+				sessionContext.ClientProxy.InformReconfigurationAborted();
 			}
 		}
 

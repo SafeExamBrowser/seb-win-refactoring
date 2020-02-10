@@ -172,6 +172,18 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		}
 
 		[TestMethod]
+		public void Communication_MustInformClientAboutAbortedReconfiguration()
+		{
+			StartSession();
+			sessionSequence.Reset();
+			sessionSequence.Setup(s => s.TryRepeat()).Returns(OperationResult.Aborted);
+
+			runtimeHost.Raise(r => r.ReconfigurationRequested += null, new ReconfigurationEventArgs());
+
+			clientProxy.Verify(c => c.InformReconfigurationAborted(), Times.Once);
+		}
+
+		[TestMethod]
 		public void Communication_MustInformClientAboutDeniedReconfiguration()
 		{
 			var args = new ReconfigurationEventArgs { ConfigurationPath = "C:\\Some\\File\\Path.seb" };

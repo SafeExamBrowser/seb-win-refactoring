@@ -23,6 +23,32 @@ namespace SafeExamBrowser.Communication.Proxies
 		{
 		}
 
+		public CommunicationResult InformReconfigurationAborted()
+		{
+			try
+			{
+				var response = Send(new SimpleMessage(SimpleMessagePurport.ReconfigurationAborted));
+				var success = IsAcknowledged(response);
+
+				if (success)
+				{
+					Logger.Debug("Client acknowledged reconfiguration abortion.");
+				}
+				else
+				{
+					Logger.Error($"Client did not acknowledge reconfiguration abortion! Received: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(success);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(InformReconfigurationAborted)}'", e);
+
+				return new CommunicationResult(false);
+			}
+		}
+
 		public CommunicationResult InformReconfigurationDenied(string filePath)
 		{
 			try

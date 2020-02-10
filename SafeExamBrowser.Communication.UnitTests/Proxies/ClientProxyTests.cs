@@ -94,6 +94,27 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 		}
 
 		[TestMethod]
+		public void MustCorrectlyInformAboutReconfigurationAbortion()
+		{
+			proxy.Setup(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.ReconfigurationAborted))).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
+
+			var communication = sut.InformReconfigurationAborted();
+
+			proxy.Verify(p => p.Send(It.Is<SimpleMessage>(m => m.Purport == SimpleMessagePurport.ReconfigurationAborted)), Times.Once);
+			Assert.IsTrue(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustFailIfReconfigurationAbortionNotAcknowledged()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<SimpleMessage>())).Returns<Response>(null);
+
+			var communication = sut.InformReconfigurationAborted();
+
+			Assert.IsFalse(communication.Success);
+		}
+
+		[TestMethod]
 		public void MustCorrectlyInformAboutReconfigurationDenial()
 		{
 			proxy.Setup(p => p.Send(It.IsAny<ReconfigurationDeniedMessage>())).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));

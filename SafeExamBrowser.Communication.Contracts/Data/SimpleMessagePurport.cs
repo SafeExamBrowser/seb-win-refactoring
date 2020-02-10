@@ -37,6 +37,11 @@ namespace SafeExamBrowser.Communication.Contracts.Data
 		Ping,
 
 		/// <summary>
+		/// Sent from the runtime to the client to inform the latter that a reconfiguration was aborted.
+		/// </summary>
+		ReconfigurationAborted,
+
+		/// <summary>
 		/// Sent from the client to the runtime to request shutting down the application.
 		/// </summary>
 		RequestShutdown,

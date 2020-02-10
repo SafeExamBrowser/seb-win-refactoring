@@ -271,7 +271,7 @@
         Configuration Error
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
-        This computer appears to be a virtual machine. The currently active configuration does not allow SEB to be run in a virtual machine.
+        This computer appears to be a virtual machine. The selected configuration does not allow SEB to be run in a virtual machine.
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
         Virtual Machine Detected

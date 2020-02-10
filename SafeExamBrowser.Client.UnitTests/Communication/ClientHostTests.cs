@@ -209,6 +209,31 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 		}
 
 		[TestMethod]
+		public void MustHandleReconfigurationAbortionCorrectly()
+		{
+			var reconfigurationAborted = false;
+			var resetEvent = new AutoResetEvent(false);
+
+			sut.ReconfigurationAborted += () =>
+			{
+				reconfigurationAborted = true;
+				resetEvent.Set();
+			};
+			sut.AuthenticationToken = Guid.Empty;
+
+			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
+			var message = new SimpleMessage(SimpleMessagePurport.ReconfigurationAborted) { CommunicationToken = token };
+			var response = sut.Send(message);
+
+			resetEvent.WaitOne();
+
+			Assert.IsTrue(reconfigurationAborted);
+			Assert.IsNotNull(response);
+			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
+			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
+		}
+
+		[TestMethod]
 		public void MustHandleReconfigurationDenialCorrectly()
 		{
 			var filePath = @"C:\Some\Random\Path\To\A\File.seb";
@@ -282,6 +307,7 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 
 			sut.Send(new MessageBoxRequestMessage(default(int), default(int), "", Guid.Empty, "") { CommunicationToken = token });
 			sut.Send(new PasswordRequestMessage(default(PasswordRequestPurpose), Guid.Empty) { CommunicationToken = token });
+			sut.Send(new SimpleMessage(SimpleMessagePurport.ReconfigurationAborted));
 			sut.Send(new ReconfigurationDeniedMessage("") { CommunicationToken = token });
 			sut.Send(new SimpleMessage(SimpleMessagePurport.Shutdown) { CommunicationToken = token });
 			sut.Disconnect(new DisconnectionMessage { CommunicationToken = token, Interlocutor = Interlocutor.Runtime });

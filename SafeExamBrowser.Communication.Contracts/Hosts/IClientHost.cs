@@ -37,6 +37,11 @@ namespace SafeExamBrowser.Communication.Contracts.Hosts
 		event CommunicationEventHandler<PasswordRequestEventArgs> PasswordRequested;
 
 		/// <summary>
+		/// Event fired when the runtime aborted a reconfiguration.
+		/// </summary>
+		event CommunicationEventHandler ReconfigurationAborted;
+
+		/// <summary>
 		/// Event fired when the runtime denied a reconfiguration request.
 		/// </summary>
 		event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationDenied;
