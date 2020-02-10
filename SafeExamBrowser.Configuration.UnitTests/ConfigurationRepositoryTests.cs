@@ -39,8 +39,6 @@ namespace SafeExamBrowser.Configuration.UnitTests
 		[TestInitialize]
 		public void Initialize()
 		{
-			var executablePath = Assembly.GetExecutingAssembly().Location;
-
 			binaryParser = new Mock<IDataParser>();
 			binarySerializer = new Mock<IDataSerializer>();
 			certificateStore = new Mock<ICertificateStore>();
@@ -56,7 +54,7 @@ namespace SafeExamBrowser.Configuration.UnitTests
 			fileSaver.Setup(f => f.CanSave(It.IsAny<Uri>())).Returns<Uri>(u => u.IsFile);
 			networkLoader.Setup(n => n.CanLoad(It.IsAny<Uri>())).Returns<Uri>(u => u.Scheme.Equals("http") || u.Scheme.Equals("seb"));
 
-			sut = new ConfigurationRepository(certificateStore.Object, hashAlgorithm.Object, logger.Object, executablePath, string.Empty, string.Empty, string.Empty, string.Empty);
+			sut = new ConfigurationRepository(certificateStore.Object, hashAlgorithm.Object, logger.Object);
 			sut.InitializeAppConfig();
 		}
 

@@ -7,7 +7,10 @@
  */
 
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Browser;
@@ -22,27 +25,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 	internal class DataValues
 	{
 		private const string DEFAULT_CONFIGURATION_NAME = "SebClientSettings.seb";
-
 		private AppConfig appConfig;
-		private string executablePath;
-		private string programBuild;
-		private string programCopyright;
-		private string programTitle;
-		private string programVersion;
-
-		internal DataValues(
-			string executablePath,
-			string programBuild,
-			string programCopyright,
-			string programTitle,
-			string programVersion)
-		{
-			this.executablePath = executablePath ?? string.Empty;
-			this.programBuild = programBuild ?? string.Empty;
-			this.programCopyright = programCopyright ?? string.Empty;
-			this.programTitle = programTitle ?? string.Empty;
-			this.programVersion = programVersion ?? string.Empty;
-		}
 
 		internal string GetAppDataFilePath()
 		{
@@ -51,6 +34,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal AppConfig InitializeAppConfig()
 		{
+			var executable = Assembly.GetExecutingAssembly();
+			var certificate = executable.Modules.First().GetSignerCertificate();
+			var programBuild = FileVersionInfo.GetVersionInfo(executable.Location).FileVersion;
+			var programCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
+			var programTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
+			var programVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
 			var appDataLocalFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), nameof(SafeExamBrowser));
 			var appDataRoamingFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(SafeExamBrowser));
 			var programDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), nameof(SafeExamBrowser));
@@ -65,8 +54,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			appConfig.BrowserLogFilePath = Path.Combine(logFolder, $"{logFilePrefix}_Browser.log");
 			appConfig.ClientId = Guid.NewGuid();
 			appConfig.ClientAddress = $"{AppConfig.BASE_ADDRESS}/client/{Guid.NewGuid()}";
-			appConfig.ClientExecutablePath = Path.Combine(Path.GetDirectoryName(executablePath), $"{nameof(SafeExamBrowser)}.Client.exe");
+			appConfig.ClientExecutablePath = Path.Combine(Path.GetDirectoryName(executable.Location), $"{nameof(SafeExamBrowser)}.Client.exe");
 			appConfig.ClientLogFilePath = Path.Combine(logFolder, $"{logFilePrefix}_Client.log");
+			appConfig.CodeSignatureHash = certificate?.GetCertHashString();
 			appConfig.ConfigurationFileExtension = ".seb";
 			appConfig.ConfigurationFileMimeType = "application/seb";
 			appConfig.ProgramBuildVersion = programBuild;

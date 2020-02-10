@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using SafeExamBrowser.Communication.Contracts;
@@ -129,12 +128,6 @@ namespace SafeExamBrowser.Runtime
 
 		private void InitializeConfiguration()
 		{
-			var executable = Assembly.GetExecutingAssembly();
-			var programBuild = FileVersionInfo.GetVersionInfo(executable.Location).FileVersion;
-			var programCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
-			var programTitle = executable.GetCustomAttribute<AssemblyTitleAttribute>().Title;
-			var programVersion = executable.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-
 			var certificateStore = new CertificateStore(ModuleLogger(nameof(CertificateStore)));
 			var compressor = new GZipCompressor(ModuleLogger(nameof(GZipCompressor)));
 			var passwordEncryption = new PasswordEncryption(ModuleLogger(nameof(PasswordEncryption)));
@@ -144,15 +137,7 @@ namespace SafeExamBrowser.Runtime
 			var xmlParser = new XmlParser(compressor, ModuleLogger(nameof(XmlParser)));
 			var xmlSerializer = new XmlSerializer(ModuleLogger(nameof(XmlSerializer)));
 
-			configuration = new ConfigurationRepository(
-				certificateStore,
-				new HashAlgorithm(),
-				repositoryLogger,
-				executable.Location,
-				programBuild,
-				programCopyright,
-				programTitle,
-				programVersion);
+			configuration = new ConfigurationRepository(certificateStore, new HashAlgorithm(), repositoryLogger);
 			appConfig = configuration.InitializeAppConfig();
 
 			configuration.Register(new BinaryParser(

@@ -106,12 +106,16 @@ namespace SafeExamBrowser.Browser.Handlers
 		{
 			var headers = new NameValueCollection(request.Headers);
 			var urlWithoutFragment = request.Url.Split('#')[0];
-			var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + settings.HashValue));
-			var configurationKey = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
+			var configurationBytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + settings.HashValue));
+			var configurationKey = BitConverter.ToString(configurationBytes).ToLower().Replace("-", string.Empty);
+			var browserExamBytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(appConfig.CodeSignatureHash + appConfig.ProgramBuildVersion + configurationKey));
+			var browserExamKey = BitConverter.ToString(browserExamBytes).ToLower().Replace("-", string.Empty);
+			var requestHashBytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + browserExamKey));
+			var requestHashKey = BitConverter.ToString(requestHashBytes).ToLower().Replace("-", string.Empty);
 
-			// TODO: Implement Browser Exam Key calculation.
-			// headers["X-SafeExamBrowser-RequestHash"] = ...;
 			headers["X-SafeExamBrowser-ConfigKeyHash"] = configurationKey;
+			headers["X-SafeExamBrowser-RequestHash"] = requestHashKey;
+
 			request.Headers = headers;
 		}
 

@@ -33,15 +33,7 @@ namespace SafeExamBrowser.Configuration
 		private IList<IResourceLoader> resourceLoaders;
 		private IList<IResourceSaver> resourceSavers;
 
-		public ConfigurationRepository(
-			ICertificateStore certificateStore,
-			IHashAlgorithm hashAlgorithm,
-			IModuleLogger logger,
-			string executablePath,
-			string programBuild,
-			string programCopyright,
-			string programTitle,
-			string programVersion)
+		public ConfigurationRepository(ICertificateStore certificateStore, IHashAlgorithm hashAlgorithm, IModuleLogger logger)
 		{
 			this.certificateStore = certificateStore;
 			this.hashAlgorithm = hashAlgorithm;
@@ -51,7 +43,7 @@ namespace SafeExamBrowser.Configuration
 			dataSerializers = new List<IDataSerializer>();
 			dataMapper = new DataMapper();
 			dataProcessor = new DataProcessor();
-			dataValues = new DataValues(executablePath, programBuild, programCopyright, programTitle, programVersion);
+			dataValues = new DataValues();
 			resourceLoaders = new List<IResourceLoader>();
 			resourceSavers = new List<IResourceSaver>();
 		}

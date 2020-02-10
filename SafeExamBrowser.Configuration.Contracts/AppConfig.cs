@@ -87,6 +87,11 @@ namespace SafeExamBrowser.Configuration.Contracts
 		public string ClientLogFilePath { get; set; }
 
 		/// <summary>
+		/// The hash value of the certificate used to sign the application binaries, or <c>null</c> if the binaries are unsigned.
+		/// </summary>
+		public string CodeSignatureHash { get; set; }
+
+		/// <summary>
 		/// The file extension of configuration files for the application (including the period).
 		/// </summary>
 		public string ConfigurationFileExtension { get; set; }
