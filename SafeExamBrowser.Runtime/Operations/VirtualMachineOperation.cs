@@ -60,7 +60,7 @@ namespace SafeExamBrowser.Runtime.Operations
 					Title = TextKey.MessageBox_VirtualMachineNotAllowedTitle
 				};
 
-				logger.Error("Detected virtual machine while SEB is not allowed to be run in a virtual machine! Aborting startup...");
+				logger.Error("Detected virtual machine while SEB is not allowed to be run in a virtual machine! Aborting...");
 				ActionRequired?.Invoke(args);
 
 				return OperationResult.Aborted;

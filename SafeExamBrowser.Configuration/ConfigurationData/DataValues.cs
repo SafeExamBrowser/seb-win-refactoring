@@ -120,6 +120,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AllowPdfReader = true;
 			settings.Browser.AllowPdfReaderToolbar = false;
 			settings.Browser.AllowUploads = true;
+			settings.Browser.EnableBrowser = true;
 			settings.Browser.MainWindow.AllowAddressBar = false;
 			settings.Browser.MainWindow.AllowBackwardNavigation = false;
 			settings.Browser.MainWindow.AllowDeveloperConsole = false;
@@ -132,6 +133,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.PopupPolicy = PopupPolicy.Allow;
 			settings.Browser.Proxy.Policy = ProxyPolicy.System;
 			settings.Browser.StartUrl = "https://www.safeexambrowser.org/start";
+
+			settings.ConfigurationMode = ConfigurationMode.Exam;
 
 			settings.Keyboard.AllowAltEsc = false;
 			settings.Keyboard.AllowAltF4 = false;
