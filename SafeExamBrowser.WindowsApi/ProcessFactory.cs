@@ -63,7 +63,7 @@ namespace SafeExamBrowser.WindowsApi
 			}
 			else
 			{
-				raw = System.Diagnostics.Process.Start(path, string.Join(" ", args));
+				raw = StartNormal(path, args);
 			}
 
 			var (name, originalName) = LoadProcessNamesFor(raw);
@@ -164,6 +164,16 @@ namespace SafeExamBrowser.WindowsApi
 		private ILogger LoggerFor(System.Diagnostics.Process process, string name)
 		{
 			return logger.CloneFor($"{nameof(Process)} '{name}' ({process.Id})");
+		}
+
+		private System.Diagnostics.Process StartNormal(string path, params string[] args)
+		{
+			return System.Diagnostics.Process.Start(new ProcessStartInfo
+			{
+				Arguments = string.Join(" ", args),
+				FileName = path,
+				UseShellExecute = false
+			});
 		}
 
 		private System.Diagnostics.Process StartOnDesktop(string path, params string[] args)
