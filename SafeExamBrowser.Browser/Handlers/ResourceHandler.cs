@@ -26,13 +26,14 @@ namespace SafeExamBrowser.Browser.Handlers
 {
 	internal class ResourceHandler : CefSharp.Handler.ResourceRequestHandler
 	{
-		private AppConfig appConfig;
 		private SHA256Managed algorithm;
-		private BrowserSettings settings;
-		private ILogger logger;
-		private IRequestFilter filter;
+		private AppConfig appConfig;
+		private string browserExamKey;
 		private IResourceHandler contentHandler;
+		private IRequestFilter filter;
+		private ILogger logger;
 		private IResourceHandler pageHandler;
+		private BrowserSettings settings;
 		private IText text;
 
 		internal ResourceHandler(AppConfig appConfig, BrowserSettings settings, IRequestFilter filter, ILogger logger, IText text)
@@ -62,16 +63,7 @@ namespace SafeExamBrowser.Browser.Handlers
 				return CefReturnValue.Cancel;
 			}
 
-			// TODO: CEF does not yet support intercepting requests from service workers, thus the user agent must be statically set at browser
-			//       startup for now. Once CEF has full support of service workers, the static user agent should be removed and the method below
-			//       reactivated. See https://bitbucket.org/chromiumembedded/cef/issues/2622 for the current status of development.
-			// AppendCustomUserAgent(request);
-
-			if (settings.SendCustomHeaders)
-			{
-				AppendCustomHeaders(request);
-			}
-
+			AppendCustomHeaders(request);
 			ReplaceSebScheme(request);
 
 			return base.OnBeforeResourceLoad(webBrowser, browser, frame, request, callback);
@@ -93,28 +85,32 @@ namespace SafeExamBrowser.Browser.Handlers
 			return abort;
 		}
 
-		private void AppendCustomUserAgent(IRequest request)
-		{
-			var headers = new NameValueCollection(request.Headers);
-			var userAgent = request.Headers["User-Agent"];
-
-			headers["User-Agent"] = $"{userAgent} SEB/{appConfig.ProgramInformationalVersion}";
-			request.Headers = headers;
-		}
-
 		private void AppendCustomHeaders(IRequest request)
 		{
 			var headers = new NameValueCollection(request.Headers);
 			var urlWithoutFragment = request.Url.Split('#')[0];
-			var configurationBytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + settings.HashValue));
-			var configurationKey = BitConverter.ToString(configurationBytes).ToLower().Replace("-", string.Empty);
-			var browserExamBytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(appConfig.CodeSignatureHash + appConfig.ProgramBuildVersion + configurationKey));
-			var browserExamKey = BitConverter.ToString(browserExamBytes).ToLower().Replace("-", string.Empty);
-			var requestHashBytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + browserExamKey));
-			var requestHashKey = BitConverter.ToString(requestHashBytes).ToLower().Replace("-", string.Empty);
+			var userAgent = request.Headers["User-Agent"];
 
-			headers["X-SafeExamBrowser-ConfigKeyHash"] = configurationKey;
-			headers["X-SafeExamBrowser-RequestHash"] = requestHashKey;
+			// TODO: CEF does not yet support intercepting requests from service workers, thus the user agent must be statically set at browser
+			//       startup for now. Once CEF has full support of service workers, the static user agent should be removed and the method below
+			//       reactivated. See https://bitbucket.org/chromiumembedded/cef/issues/2622 for the current status of development.
+			// headers["User-Agent"] = $"{userAgent} SEB/{appConfig.ProgramInformationalVersion}";
+
+			if (settings.SendConfigurationKey)
+			{
+				var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + settings.ConfigurationKey));
+				var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
+
+				headers["X-SafeExamBrowser-ConfigKeyHash"] = key;
+			}
+
+			if (settings.SendExamKey)
+			{
+				var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + (browserExamKey ?? ComputeBrowserExamKey())));
+				var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
+
+				headers["X-SafeExamBrowser-RequestHash"] = key;
+			}
 
 			request.Headers = headers;
 		}
@@ -135,6 +131,16 @@ namespace SafeExamBrowser.Browser.Handlers
 			}
 
 			return block;
+		}
+
+		private string ComputeBrowserExamKey()
+		{
+			var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(settings.ExamKeySalt + appConfig.CodeSignatureHash + appConfig.ProgramBuildVersion + settings.ConfigurationKey));
+			var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
+
+			browserExamKey = key;
+
+			return browserExamKey;
 		}
 
 		private bool IsMailtoUrl(string url)

@@ -27,7 +27,7 @@ namespace SafeExamBrowser.Configuration.UnitTests.ConfigurationData
 		}
 
 		[TestMethod]
-		public void MustCalculateCorrectHashValue()
+		public void MustCalculateCorrectConfigurationKey()
 		{
 			var formatter = new BinaryFormatter();
 			var path1 = $"{nameof(SafeExamBrowser)}.{nameof(Configuration)}.{nameof(UnitTests)}.{nameof(ConfigurationData)}.TestDictionary1.bin";
@@ -47,9 +47,9 @@ namespace SafeExamBrowser.Configuration.UnitTests.ConfigurationData
 			sut.Process(data2, settings2);
 			sut.Process(data3, settings3);
 
-			Assert.AreEqual("6063c3351ed1ac878c05072598d5079e30ca763c957d8e04bd45131c08f88d1a", settings1.Browser.HashValue);
-			Assert.AreEqual("4fc002d2ae4faf994a14bede54d95ac58a1a2cb9b59bc5b4277ff29559b46e3d", settings2.Browser.HashValue);
-			Assert.AreEqual("ab426e25b795c917f1fb40f7ef8e5757ef97d7c7ad6792e655c4421d47329d7a", settings3.Browser.HashValue);
+			Assert.AreEqual("6063c3351ed1ac878c05072598d5079e30ca763c957d8e04bd45131c08f88d1a", settings1.Browser.ConfigurationKey);
+			Assert.AreEqual("4fc002d2ae4faf994a14bede54d95ac58a1a2cb9b59bc5b4277ff29559b46e3d", settings2.Browser.ConfigurationKey);
+			Assert.AreEqual("ab426e25b795c917f1fb40f7ef8e5757ef97d7c7ad6792e655c4421d47329d7a", settings3.Browser.ConfigurationKey);
 		}
 	}
 }

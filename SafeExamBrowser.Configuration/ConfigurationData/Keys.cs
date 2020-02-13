@@ -52,6 +52,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string DownloadDirectory = "downloadDirectoryWin";
 			internal const string DownloadPdfFiles = "downloadPDFFiles";
 			internal const string EnableBrowser = "enableSebBrowser";
+			internal const string ExamKeySalt = "examKeySalt";
 			internal const string PopupPolicy = "newBrowserWindowByLinkPolicy";
 			internal const string PopupBlockForeignHost = "newBrowserWindowByLinkBlockForeign";
 			internal const string QuitUrl = "quitURL";

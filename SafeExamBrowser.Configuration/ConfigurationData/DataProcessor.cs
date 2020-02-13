@@ -34,10 +34,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				writer.Flush();
 				stream.Seek(0, SeekOrigin.Begin);
 
-				var hashBytes = algorithm.ComputeHash(stream);
-				var hashValue = BitConverter.ToString(hashBytes).ToLower().Replace("-", string.Empty);
+				var hash = algorithm.ComputeHash(stream);
+				var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
 
-				settings.Browser.HashValue = hashValue;
+				settings.Browser.ConfigurationKey = key;
 			}
 		}
 

@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Browser;
@@ -68,6 +69,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Browser.EnableBrowser:
 					MapEnableBrowser(settings, value);
+					break;
+				case Keys.Browser.ExamKeySalt:
+					MapExamKeySalt(settings, value);
 					break;
 				case Keys.Browser.Filter.FilterRules:
 					MapFilterRules(settings, value);
@@ -251,6 +255,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
+		private void MapExamKeySalt(AppSettings settings, object value)
+		{
+			if (value is byte[] salt)
+			{
+				settings.Browser.ExamKeySalt = BitConverter.ToString(salt).ToLower().Replace("-", string.Empty);
+			}
+		}
+
 		private void MapMainWindowMode(AppSettings settings, object value)
 		{
 			const int FULLSCREEN = 1;
@@ -338,7 +350,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool send)
 			{
-				settings.Browser.SendCustomHeaders = send;
+				settings.Browser.SendConfigurationKey = send;
+				settings.Browser.SendExamKey = send;
 			}
 		}
 

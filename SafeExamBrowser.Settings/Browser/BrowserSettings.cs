@@ -57,6 +57,11 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool AllowUploads { get; set; }
 
 		/// <summary>
+		/// The configuration key used for integrity checks with server applications (see also <see cref="SendConfigurationKey"/>).
+		/// </summary>
+		public string ConfigurationKey { get; set; }
+
+		/// <summary>
 		/// Determines whether the user needs to confirm the termination of SEB by <see cref="QuitUrl"/>.
 		/// </summary>
 		public bool ConfirmQuitUrl { get; set; }
@@ -77,14 +82,14 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool EnableBrowser { get; set; }
 
 		/// <summary>
+		/// The salt value for the calculation of the exam key which is used for integrity checks with server applications (see also <see cref="SendExamKey"/>).
+		/// </summary>
+		public string ExamKeySalt { get; set; }
+
+		/// <summary>
 		/// The settings to be used for the browser request filter.
 		/// </summary>
 		public FilterSettings Filter { get; set; }
-
-		/// <summary>
-		/// The hash value of the raw settings data, used for integrity checks with server applications (see also <see cref="SendCustomHeaders"/>).
-		/// </summary>
-		public string HashValue { get; set; }
 
 		/// <summary>
 		/// The settings to be used for the main browser window.
@@ -107,9 +112,14 @@ namespace SafeExamBrowser.Settings.Browser
 		public string QuitUrl { get; set; }
 
 		/// <summary>
-		/// Determines whether custom request headers (e.g. for integrity checks) are sent with every HTTP request.
+		/// Determines whether the configuration key header is sent with every HTTP request (see also <see cref="ConfigurationKey"/>).
 		/// </summary>
-		public bool SendCustomHeaders { get; set; }
+		public bool SendConfigurationKey { get; set; }
+
+		/// <summary>
+		/// Determines whether the exam key header is sent with every HTTP request (see also <see cref="ExamKeySalt"/>).
+		/// </summary>
+		public bool SendExamKey { get; set; }
 
 		/// <summary>
 		/// The URL with which the main browser window will be loaded.
