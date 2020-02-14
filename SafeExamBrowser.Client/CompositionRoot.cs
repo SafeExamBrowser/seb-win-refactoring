@@ -105,6 +105,7 @@ namespace SafeExamBrowser.Client
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
 			var fileSystemDialog = BuildFileSystemDialog();
 			var hashAlgorithm = new HashAlgorithm();
+			var splashScreen = uiFactory.CreateSplashScreen();
 
 			var operations = new Queue<IOperation>();
 
@@ -137,6 +138,7 @@ namespace SafeExamBrowser.Client
 				sequence,
 				runtimeProxy,
 				shutdown,
+				splashScreen,
 				taskbar,
 				text,
 				uiFactory);

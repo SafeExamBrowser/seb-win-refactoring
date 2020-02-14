@@ -73,6 +73,7 @@ namespace SafeExamBrowser.Client
 			IOperationSequence operations,
 			IRuntimeProxy runtime,
 			Action shutdown,
+			ISplashScreen splashScreen,
 			ITaskbar taskbar,
 			IText text,
 			IUserInterfaceFactory uiFactory)
@@ -89,6 +90,7 @@ namespace SafeExamBrowser.Client
 			this.operations = operations;
 			this.runtime = runtime;
 			this.shutdown = shutdown;
+			this.splashScreen = splashScreen;
 			this.taskbar = taskbar;
 			this.text = text;
 			this.uiFactory = uiFactory;
@@ -98,10 +100,12 @@ namespace SafeExamBrowser.Client
 		{
 			logger.Info("Initiating startup procedure...");
 
-			splashScreen = uiFactory.CreateSplashScreen();
 			operations.ActionRequired += Operations_ActionRequired;
 			operations.ProgressChanged += Operations_ProgressChanged;
 			operations.StatusChanged += Operations_StatusChanged;
+
+			splashScreen.Show();
+			splashScreen.BringToForeground();
 
 			var success = operations.TryPerform() == OperationResult.Success;
 
@@ -130,7 +134,7 @@ namespace SafeExamBrowser.Client
 				logger.Log(string.Empty);
 			}
 
-			splashScreen.Close();
+			splashScreen.Hide();
 
 			return success;
 		}
@@ -140,7 +144,8 @@ namespace SafeExamBrowser.Client
 			logger.Log(string.Empty);
 			logger.Info("Initiating shutdown procedure...");
 
-			splashScreen = uiFactory.CreateSplashScreen(context.AppConfig);
+			splashScreen.Show();
+			splashScreen.BringToForeground();
 
 			CloseShell();
 			DeregisterEvents();
@@ -163,10 +168,7 @@ namespace SafeExamBrowser.Client
 
 		public void UpdateAppConfig()
 		{
-			if (splashScreen != null)
-			{
-				splashScreen.AppConfig = context.AppConfig;
-			}
+			splashScreen.AppConfig = context.AppConfig;
 		}
 
 		private void RegisterEvents()
@@ -340,6 +342,12 @@ namespace SafeExamBrowser.Client
 				args.AllowDownload = true;
 				args.Callback = Browser_ConfigurationDownloadFinished;
 				args.DownloadPath = Path.Combine(context.AppConfig.TemporaryDirectory, fileName);
+
+				splashScreen.Show();
+				splashScreen.BringToForeground();
+				splashScreen.SetIndeterminate();
+				splashScreen.UpdateStatus(TextKey.OperationStatus_InitializeSession, true);
+
 				logger.Info($"Allowed download request for configuration file '{fileName}'.");
 			}
 			else
@@ -364,22 +372,19 @@ namespace SafeExamBrowser.Client
 				if (communication.Success)
 				{
 					logger.Info($"Sent reconfiguration request for '{filePath}' to the runtime.");
-
-					splashScreen = uiFactory.CreateSplashScreen(context.AppConfig);
-					splashScreen.SetIndeterminate();
-					splashScreen.UpdateStatus(TextKey.OperationStatus_InitializeSession, true);
-					splashScreen.Show();
 				}
 				else
 				{
 					logger.Error($"Failed to communicate reconfiguration request for '{filePath}'!");
-					messageBox.Show(TextKey.MessageBox_ReconfigurationError, TextKey.MessageBox_ReconfigurationErrorTitle, icon: MessageBoxIcon.Error);
+					messageBox.Show(TextKey.MessageBox_ReconfigurationError, TextKey.MessageBox_ReconfigurationErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
+					splashScreen.Hide();
 				}
 			}
 			else
 			{
 				logger.Error($"Failed to download configuration file '{filePath}'!");
-				messageBox.Show(TextKey.MessageBox_ConfigurationDownloadError, TextKey.MessageBox_ConfigurationDownloadErrorTitle, icon: MessageBoxIcon.Error);
+				messageBox.Show(TextKey.MessageBox_ConfigurationDownloadError, TextKey.MessageBox_ConfigurationDownloadErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
+				splashScreen.Hide();
 			}
 		}
 
@@ -428,14 +433,14 @@ namespace SafeExamBrowser.Client
 		private void ClientHost_ReconfigurationAborted()
 		{
 			logger.Info("The reconfiguration was aborted by the runtime.");
-			splashScreen?.Close();
+			splashScreen.Hide();
 		}
 
 		private void ClientHost_ReconfigurationDenied(ReconfigurationEventArgs args)
 		{
 			logger.Info($"The reconfiguration request for '{args.ConfigurationPath}' was denied by the runtime!");
 			messageBox.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle, parent: splashScreen);
-			splashScreen?.Close();
+			splashScreen.Hide();
 		}
 
 		private void ClientHost_Shutdown()
@@ -476,33 +481,33 @@ namespace SafeExamBrowser.Client
 		{
 			if (args.CurrentValue.HasValue)
 			{
-				splashScreen?.SetValue(args.CurrentValue.Value);
+				splashScreen.SetValue(args.CurrentValue.Value);
 			}
 
 			if (args.IsIndeterminate == true)
 			{
-				splashScreen?.SetIndeterminate();
+				splashScreen.SetIndeterminate();
 			}
 
 			if (args.MaxValue.HasValue)
 			{
-				splashScreen?.SetMaxValue(args.MaxValue.Value);
+				splashScreen.SetMaxValue(args.MaxValue.Value);
 			}
 
 			if (args.Progress == true)
 			{
-				splashScreen?.Progress();
+				splashScreen.Progress();
 			}
 
 			if (args.Regress == true)
 			{
-				splashScreen?.Regress();
+				splashScreen.Regress();
 			}
 		}
 
 		private void Operations_StatusChanged(TextKey status)
 		{
-			splashScreen?.UpdateStatus(status, true);
+			splashScreen.UpdateStatus(status, true);
 		}
 
 		private void Runtime_ConnectionLost()

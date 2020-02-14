@@ -58,6 +58,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		private Guid sessionId;
 		private AppSettings settings;
 		private Mock<Action> shutdown;
+		private Mock<ISplashScreen> splashScreen;
 		private Mock<ITaskbar> taskbar;
 		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
@@ -84,6 +85,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			sessionId = Guid.NewGuid();
 			settings = new AppSettings();
 			shutdown = new Mock<Action>();
+			splashScreen = new Mock<ISplashScreen>();
 			taskbar = new Mock<ITaskbar>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
@@ -105,6 +107,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				operationSequence.Object,
 				runtimeProxy.Object,
 				shutdown.Object,
+				splashScreen.Object,
 				taskbar.Object,
 				text.Object,
 				uiFactory.Object);
@@ -300,14 +303,10 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Communication_MustCorrectlyHandleAbortedReconfiguration()
 		{
-			var splashScreen = new Mock<ISplashScreen>();
-
-			uiFactory.Setup(f => f.CreateSplashScreen(It.IsAny<AppConfig>())).Returns(splashScreen.Object);
-
 			sut.TryStart();
 			clientHost.Raise(c => c.ReconfigurationAborted += null);
 
-			splashScreen.Verify(s => s.Close(), Times.AtLeastOnce);
+			splashScreen.Verify(s => s.Hide(), Times.AtLeastOnce);
 		}
 
 		[TestMethod]
@@ -498,9 +497,6 @@ namespace SafeExamBrowser.Client.UnitTests
 				Progress = true,
 				Regress = true
 			};
-			var splashScreen = new Mock<ISplashScreen>();
-
-			uiFactory.Setup(u => u.CreateSplashScreen(It.IsAny<AppConfig>())).Returns(splashScreen.Object);
 
 			sut.TryStart();
 			operationSequence.Raise(o => o.ProgressChanged += null, args);
@@ -516,9 +512,6 @@ namespace SafeExamBrowser.Client.UnitTests
 		public void Operations_MustUpdateStatus()
 		{
 			var key = TextKey.OperationStatus_EmptyClipboard;
-			var splashScreen = new Mock<ISplashScreen>();
-
-			uiFactory.Setup(u => u.CreateSplashScreen(It.IsAny<AppConfig>())).Returns(splashScreen.Object);
 
 			sut.TryStart();
 			operationSequence.Raise(o => o.StatusChanged += null, key);
@@ -835,10 +828,6 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Startup_MustUpdateAppConfigForSplashScreen()
 		{
-			var splashScreen = new Mock<ISplashScreen>();
-
-			uiFactory.Setup(u => u.CreateSplashScreen(It.IsAny<AppConfig>())).Returns(splashScreen.Object);
-
 			sut.TryStart();
 			sut.UpdateAppConfig();
 
