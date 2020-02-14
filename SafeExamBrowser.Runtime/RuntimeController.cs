@@ -43,7 +43,7 @@ namespace SafeExamBrowser.Runtime
 		private Action shutdown;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
-		
+
 		private SessionConfiguration Session
 		{
 			get { return sessionContext.Current; }
@@ -61,9 +61,11 @@ namespace SafeExamBrowser.Runtime
 			IOperationSequence bootstrapSequence,
 			IRepeatableOperationSequence sessionSequence,
 			IRuntimeHost runtimeHost,
+			IRuntimeWindow runtimeWindow,
 			IServiceProxy service,
 			SessionContext sessionContext,
 			Action shutdown,
+			ISplashScreen splashScreen,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
@@ -72,10 +74,12 @@ namespace SafeExamBrowser.Runtime
 			this.logger = logger;
 			this.messageBox = messageBox;
 			this.runtimeHost = runtimeHost;
+			this.runtimeWindow = runtimeWindow;
 			this.sessionSequence = sessionSequence;
 			this.service = service;
 			this.sessionContext = sessionContext;
 			this.shutdown = shutdown;
+			this.splashScreen = splashScreen;
 			this.text = text;
 			this.uiFactory = uiFactory;
 		}
@@ -84,9 +88,6 @@ namespace SafeExamBrowser.Runtime
 		{
 			logger.Info("Initiating startup procedure...");
 
-			runtimeWindow = uiFactory.CreateRuntimeWindow(appConfig);
-			splashScreen = uiFactory.CreateSplashScreen(appConfig);
-
 			bootstrapSequence.ProgressChanged += BootstrapSequence_ProgressChanged;
 			bootstrapSequence.StatusChanged += BootstrapSequence_StatusChanged;
 			sessionSequence.ActionRequired += SessionSequence_ActionRequired;
@@ -94,6 +95,7 @@ namespace SafeExamBrowser.Runtime
 			sessionSequence.StatusChanged += SessionSequence_StatusChanged;
 
 			splashScreen.Show();
+			splashScreen.BringToForeground();
 
 			var initialized = bootstrapSequence.TryPerform() == OperationResult.Success;
 
@@ -104,7 +106,7 @@ namespace SafeExamBrowser.Runtime
 				logger.Info("Application successfully initialized.");
 				logger.Log(string.Empty);
 				logger.Subscribe(runtimeWindow);
-				splashScreen.Close();
+				splashScreen.Hide();
 
 				StartSession();
 			}
@@ -129,10 +131,10 @@ namespace SafeExamBrowser.Runtime
 			}
 
 			logger.Unsubscribe(runtimeWindow);
-			runtimeWindow?.Close();
+			runtimeWindow.Close();
 
-			splashScreen = uiFactory.CreateSplashScreen(appConfig);
 			splashScreen.Show();
+			splashScreen.BringToForeground();
 
 			logger.Log(string.Empty);
 			logger.Info("Initiating shutdown procedure...");
@@ -301,7 +303,7 @@ namespace SafeExamBrowser.Runtime
 
 		private void BootstrapSequence_StatusChanged(TextKey status)
 		{
-			splashScreen?.UpdateStatus(status, true);
+			splashScreen.UpdateStatus(status, true);
 		}
 
 		private void ClientProcess_Terminated(int exitCode)

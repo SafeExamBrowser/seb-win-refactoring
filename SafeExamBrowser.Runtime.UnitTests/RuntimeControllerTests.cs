@@ -43,14 +43,17 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		private Mock<IMessageBox> messageBox;
 		private SessionConfiguration nextSession;
 		private AppSettings nextSettings;
-		private Mock<Action> shutdown;
-		private Mock<IText> text;
-		private Mock<IUserInterfaceFactory> uiFactory;
-		private RuntimeController sut;
 		private Mock<IRuntimeHost> runtimeHost;
+		private Mock<IRuntimeWindow> runtimeWindow;
 		private Mock<IServiceProxy> service;
 		private SessionContext sessionContext;
 		private Mock<IRepeatableOperationSequence> sessionSequence;
+		private Mock<Action> shutdown;
+		private Mock<ISplashScreen> splashScreen;
+		private Mock<IText> text;
+		private Mock<IUserInterfaceFactory> uiFactory;
+
+		private RuntimeController sut;
 
 		[TestInitialize]
 		public void Initialize()
@@ -66,10 +69,12 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			nextSession = new SessionConfiguration();
 			nextSettings = new AppSettings();
 			runtimeHost = new Mock<IRuntimeHost>();
+			runtimeWindow = new Mock<IRuntimeWindow>();
 			service = new Mock<IServiceProxy>();
 			sessionContext = new SessionContext();
 			sessionSequence = new Mock<IRepeatableOperationSequence>();
 			shutdown = new Mock<Action>();
+			splashScreen = new Mock<ISplashScreen>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
@@ -91,9 +96,11 @@ namespace SafeExamBrowser.Runtime.UnitTests
 				bootstrapSequence.Object,
 				sessionSequence.Object,
 				runtimeHost.Object,
+				runtimeWindow.Object,
 				service.Object,
 				sessionContext,
 				shutdown.Object,
+				splashScreen.Object,
 				text.Object,
 				uiFactory.Object);
 		}
@@ -373,9 +380,6 @@ namespace SafeExamBrowser.Runtime.UnitTests
 				Progress = true,
 				Regress = true
 			};
-			var runtimeWindow = new Mock<IRuntimeWindow>();
-
-			uiFactory.Setup(u => u.CreateRuntimeWindow(It.IsAny<AppConfig>())).Returns(runtimeWindow.Object);
 
 			sut.TryStart();
 			sessionSequence.Raise(o => o.ProgressChanged += null, args);
@@ -391,9 +395,6 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		public void Operations_MustUpdateStatus()
 		{
 			var key = TextKey.OperationStatus_EmptyClipboard;
-			var runtimeWindow = new Mock<IRuntimeWindow>();
-
-			uiFactory.Setup(u => u.CreateRuntimeWindow(It.IsAny<AppConfig>())).Returns(runtimeWindow.Object);
 
 			sut.TryStart();
 			sessionSequence.Raise(o => o.StatusChanged += null, key);

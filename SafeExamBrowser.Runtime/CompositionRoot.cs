@@ -64,14 +64,16 @@ namespace SafeExamBrowser.Runtime
 			InitializeText();
 
 			var messageBox = new MessageBox(text);
+			var uiFactory = new UserInterfaceFactory(text);
 			var desktopFactory = new DesktopFactory(ModuleLogger(nameof(DesktopFactory)));
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), ModuleLogger(nameof(ProxyFactory)));
 			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, new HostObjectFactory(), ModuleLogger(nameof(RuntimeHost)), FIVE_SECONDS);
+			var runtimeWindow = uiFactory.CreateRuntimeWindow(appConfig);
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)), Interlocutor.Runtime);
 			var sessionContext = new SessionContext();
-			var uiFactory = new UserInterfaceFactory(text);
+			var splashScreen = uiFactory.CreateSplashScreen(appConfig);
 			var userInfo = new UserInfo(ModuleLogger(nameof(UserInfo)));
 			var vmDetector = new VirtualMachineDetector(ModuleLogger(nameof(VirtualMachineDetector)), systemInfo);
 
@@ -100,9 +102,11 @@ namespace SafeExamBrowser.Runtime
 				bootstrapSequence,
 				sessionSequence,
 				runtimeHost,
+				runtimeWindow,
 				serviceProxy,
 				sessionContext,
 				shutdown,
+				splashScreen,
 				text,
 				uiFactory);
 		}
