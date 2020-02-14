@@ -15,6 +15,7 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Browser.Filter;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
+using Request = SafeExamBrowser.Browser.Contracts.Filters.Request;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
