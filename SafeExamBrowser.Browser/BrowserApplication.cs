@@ -184,23 +184,21 @@ namespace SafeExamBrowser.Browser
 		{
 			var warning = logger.LogLevel == LogLevel.Warning;
 			var error = logger.LogLevel == LogLevel.Error;
-			var cefSettings = new CefSettings
-			{
-				CachePath = appConfig.BrowserCachePath,
-				LogFile = appConfig.BrowserLogFilePath,
-				LogSeverity = error ? LogSeverity.Error : (warning ? LogSeverity.Warning : LogSeverity.Info),
-				PersistSessionCookies = !settings.DeleteCookiesOnShutdown,
-				UserAgent = InitializeUserAgent()
-			};
+			var cefSettings = new CefSettings();
 
-			InitializeProxySettings(cefSettings);
-
+			cefSettings.CachePath = appConfig.BrowserCachePath;
 			cefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
+			cefSettings.LogFile = appConfig.BrowserLogFilePath;
+			cefSettings.LogSeverity = error ? LogSeverity.Error : (warning ? LogSeverity.Warning : LogSeverity.Info);
+			cefSettings.PersistSessionCookies = !settings.DeleteCookiesOnShutdown;
+			cefSettings.UserAgent = InitializeUserAgent();
 
 			if (!settings.AllowPdfReader)
 			{
 				cefSettings.CefCommandLineArgs.Add("disable-pdf-extension", "");
 			}
+
+			InitializeProxySettings(cefSettings);
 
 			logger.Debug($"Cache Path: {cefSettings.CachePath}");
 			logger.Debug($"Engine Version: Chromium {Cef.ChromiumVersion}, CEF {Cef.CefVersion}, CefSharp {Cef.CefSharpVersion}");
@@ -245,10 +243,6 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		/// <summary>
-		/// TODO: Workaround to correctly set the user agent due to missing support for request interception for requests made by service workers.
-		///       Remove once CEF fully supports service workers and reactivate the functionality in <see cref="Handlers.RequestHandler"/>!
-		/// </summary>
 		private string InitializeUserAgent()
 		{
 			var osVersion = $"{Environment.OSVersion.Version.Major}.{Environment.OSVersion.Version.Minor}";

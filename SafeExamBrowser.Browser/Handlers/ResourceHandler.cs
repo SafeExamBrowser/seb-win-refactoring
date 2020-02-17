@@ -90,12 +90,6 @@ namespace SafeExamBrowser.Browser.Handlers
 		{
 			var headers = new NameValueCollection(request.Headers);
 			var urlWithoutFragment = request.Url.Split('#')[0];
-			var userAgent = request.Headers["User-Agent"];
-
-			// TODO: CEF does not yet support intercepting requests from service workers, thus the user agent must be statically set at browser
-			//       startup for now. Once CEF has full support of service workers, the static user agent should be removed and the method below
-			//       reactivated. See https://bitbucket.org/chromiumembedded/cef/issues/2622 for the current status of development.
-			// headers["User-Agent"] = $"{userAgent} SEB/{appConfig.ProgramInformationalVersion}";
 
 			if (settings.SendConfigurationKey)
 			{
