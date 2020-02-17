@@ -120,6 +120,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AllowPdfReader = true;
 			settings.Browser.AllowPdfReaderToolbar = false;
 			settings.Browser.AllowUploads = true;
+			settings.Browser.DeleteCookiesOnShutdown = true;
+			settings.Browser.DeleteCookiesOnStartup = true;
 			settings.Browser.EnableBrowser = true;
 			settings.Browser.MainWindow.AllowAddressBar = false;
 			settings.Browser.MainWindow.AllowBackwardNavigation = false;

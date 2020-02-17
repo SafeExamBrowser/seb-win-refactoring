@@ -78,6 +78,8 @@ namespace SafeExamBrowser.Browser
 
 		public void Initialize()
 		{
+			logger.Info("Starting initialization...");
+
 			var cefSettings = InitializeCefSettings();
 			var success = Cef.Initialize(cefSettings, true, default(IApp));
 
@@ -85,6 +87,11 @@ namespace SafeExamBrowser.Browser
 
 			if (success)
 			{
+				if (settings.DeleteCookiesOnStartup)
+				{
+					DeleteCookies();
+				}
+
 				logger.Info("Initialized browser.");
 			}
 			else
@@ -100,6 +107,8 @@ namespace SafeExamBrowser.Browser
 
 		public void Terminate()
 		{
+			logger.Info("Initiating termination...");
+
 			foreach (var instance in instances)
 			{
 				instance.Terminated -= Instance_Terminated;
@@ -107,17 +116,13 @@ namespace SafeExamBrowser.Browser
 				logger.Info($"Terminated browser instance {instance.Id}.");
 			}
 
+			if (settings.DeleteCookiesOnShutdown)
+			{
+				DeleteCookies();
+			}
+
 			Cef.Shutdown();
 			logger.Info("Terminated browser.");
-		}
-
-		private void InitializeApplicationInfo()
-		{
-			AutoStart = true;
-			Icon = new BrowserIconResource();
-			Id = Guid.NewGuid();
-			Name = text.Get(TextKey.Browser_Name);
-			Tooltip = text.Get(TextKey.Browser_Tooltip);
 		}
 
 		private void CreateNewInstance(string url = null)
@@ -140,6 +145,41 @@ namespace SafeExamBrowser.Browser
 			WindowsChanged?.Invoke();
 		}
 
+		private void DeleteCookies()
+		{
+			var callback = new TaskDeleteCookiesCallback();
+
+			callback.Task.ContinueWith(task =>
+			{
+				if (!task.IsCompleted || task.Result == TaskDeleteCookiesCallback.InvalidNoOfCookiesDeleted)
+				{
+					logger.Warn("Failed to delete cookies!");
+				}
+				else
+				{
+					logger.Debug($"Deleted {task.Result} cookies.");
+				}
+			});
+
+			if (Cef.GetGlobalCookieManager().DeleteCookies(callback: callback))
+			{
+				logger.Debug("Successfully initiated cookie deletion.");
+			}
+			else
+			{
+				logger.Warn("Failed to initiate cookie deletion!");
+			}
+		}
+
+		private void InitializeApplicationInfo()
+		{
+			AutoStart = true;
+			Icon = new BrowserIconResource();
+			Id = Guid.NewGuid();
+			Name = text.Get(TextKey.Browser_Name);
+			Tooltip = text.Get(TextKey.Browser_Tooltip);
+		}
+
 		private CefSettings InitializeCefSettings()
 		{
 			var warning = logger.LogLevel == LogLevel.Warning;
@@ -149,6 +189,7 @@ namespace SafeExamBrowser.Browser
 				CachePath = appConfig.BrowserCachePath,
 				LogFile = appConfig.BrowserLogFilePath,
 				LogSeverity = error ? LogSeverity.Error : (warning ? LogSeverity.Warning : LogSeverity.Info),
+				PersistSessionCookies = !settings.DeleteCookiesOnShutdown,
 				UserAgent = InitializeUserAgent()
 			};
 
@@ -161,11 +202,12 @@ namespace SafeExamBrowser.Browser
 				cefSettings.CefCommandLineArgs.Add("disable-pdf-extension", "");
 			}
 
-			logger.Debug($"Cache path: {cefSettings.CachePath}");
-			logger.Debug($"Engine version: Chromium {Cef.ChromiumVersion}, CEF {Cef.CefVersion}, CefSharp {Cef.CefSharpVersion}");
-			logger.Debug($"Log file: {cefSettings.LogFile}");
-			logger.Debug($"Log severity: {cefSettings.LogSeverity}");
-			logger.Debug($"PDF reader: {(settings.AllowPdfReader ? "Enabled" : "Disabled")}");
+			logger.Debug($"Cache Path: {cefSettings.CachePath}");
+			logger.Debug($"Engine Version: Chromium {Cef.ChromiumVersion}, CEF {Cef.CefVersion}, CefSharp {Cef.CefSharpVersion}");
+			logger.Debug($"Log File: {cefSettings.LogFile}");
+			logger.Debug($"Log Severity: {cefSettings.LogSeverity}.");
+			logger.Debug($"PDF Reader: {(settings.AllowPdfReader ? "Enabled" : "Disabled")}.");
+			logger.Debug($"Session Persistence: {(cefSettings.PersistSessionCookies ? "Enabled" : "Disabled")}.");
 
 			return cefSettings;
 		}
@@ -203,6 +245,25 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
+		/// <summary>
+		/// TODO: Workaround to correctly set the user agent due to missing support for request interception for requests made by service workers.
+		///       Remove once CEF fully supports service workers and reactivate the functionality in <see cref="Handlers.RequestHandler"/>!
+		/// </summary>
+		private string InitializeUserAgent()
+		{
+			var osVersion = $"{Environment.OSVersion.Version.Major}.{Environment.OSVersion.Version.Minor}";
+			var sebVersion = $"SEB/{appConfig.ProgramInformationalVersion}";
+
+			if (settings.UseCustomUserAgent)
+			{
+				return $"{settings.CustomUserAgent} {sebVersion}";
+			}
+			else
+			{
+				return $"Mozilla/5.0 (Windows NT {osVersion}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{Cef.ChromiumVersion} {sebVersion}";
+			}
+		}
+
 		private string ToScheme(ProxyProtocol protocol)
 		{
 			switch (protocol)
@@ -230,25 +291,6 @@ namespace SafeExamBrowser.Browser
 		{
 			instances.Remove(instances.First(i => i.Id == id));
 			WindowsChanged?.Invoke();
-		}
-
-		/// <summary>
-		/// TODO: Workaround to correctly set the user agent due to missing support for request interception for requests made by service workers.
-		///       Remove once CEF fully supports service workers and reactivate the functionality in <see cref="Handlers.RequestHandler"/>!
-		/// </summary>
-		private string InitializeUserAgent()
-		{
-			var osVersion = $"{Environment.OSVersion.Version.Major}.{Environment.OSVersion.Version.Minor}";
-			var sebVersion = $"SEB/{appConfig.ProgramInformationalVersion}";
-
-			if (settings.UseCustomUserAgent)
-			{
-				return $"{settings.CustomUserAgent} {sebVersion}";
-			}
-			else
-			{
-				return $"Mozilla/5.0 (Windows NT {osVersion}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{Cef.ChromiumVersion} {sebVersion}";
-			}
 		}
 	}
 }

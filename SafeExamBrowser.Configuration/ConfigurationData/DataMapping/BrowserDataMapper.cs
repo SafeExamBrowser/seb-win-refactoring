@@ -61,6 +61,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.AdditionalWindow.WindowWidth:
 					MapWindowWidthAdditionalWindow(settings, value);
 					break;
+				case Keys.Browser.DeleteCookiesOnShutdown:
+					MapDeleteCookiesOnShutdown(settings, value);
+					break;
+				case Keys.Browser.DeleteCookiesOnStartup:
+					MapDeleteCookiesOnStartup(settings, value);
+					break;
 				case Keys.Browser.DownloadDirectory:
 					MapDownloadDirectory(settings, value);
 					break;
@@ -228,6 +234,22 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool allow)
 			{
 				settings.Browser.AdditionalWindow.AllowReloading = allow;
+			}
+		}
+
+		private void MapDeleteCookiesOnShutdown(AppSettings settings, object value)
+		{
+			if (value is bool delete)
+			{
+				settings.Browser.DeleteCookiesOnShutdown = delete;
+			}
+		}
+
+		private void MapDeleteCookiesOnStartup(AppSettings settings, object value)
+		{
+			if (value is bool delete)
+			{
+				settings.Browser.DeleteCookiesOnStartup = delete;
 			}
 		}
 

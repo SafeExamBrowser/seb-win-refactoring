@@ -72,6 +72,16 @@ namespace SafeExamBrowser.Settings.Browser
 		public string CustomUserAgent { get; set; }
 
 		/// <summary>
+		/// Determines whether all cookies are deleted when terminating the browser application.
+		/// </summary>
+		public bool DeleteCookiesOnShutdown { get; set; }
+
+		/// <summary>
+		/// Determines whether all cookies are deleted when starting the browser application.
+		/// </summary>
+		public bool DeleteCookiesOnStartup { get; set; }
+
+		/// <summary>
 		/// Defines a custom directory for file downloads. If not defined, all downloads will be saved in the current user's download directory.
 		/// </summary>
 		public string DownloadDirectory { get; set; }
