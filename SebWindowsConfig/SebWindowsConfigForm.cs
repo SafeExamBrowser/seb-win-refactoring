@@ -365,9 +365,12 @@ namespace SebWindowsConfig
 			checkBoxHideBrowserWindowToolbar  .Checked     = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyHideBrowserWindowToolbar];
 			checkBoxShowMenuBar               .Checked     = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyShowMenuBar];
 			checkBoxShowTaskBar               .Checked     = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyShowTaskBar];
+			checkBoxShowSideMenu.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyShowSideMenu];
             checkBoxShowReloadButton.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyShowReloadButton];
             comboBoxTaskBarHeight.Text        =  (String)SEBSettings.settingsCurrent[SEBSettings.KeyTaskBarHeight].ToString();
 			checkBoxEnableTouchExit           .Checked     = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyEnableTouchExit];
+			checkBoxAllowMainWindowAddressBar.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyBrowserWindowAllowAddressBar];
+			checkBoxAllowAdditionalWindowAddressBar.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyNewBrowserWindowAllowAddressBar];
 
 			var defaultText = "(part of application)";
 			var defaultStyle = new DataGridViewCellStyle { BackColor = Color.LightGray };
@@ -525,6 +528,8 @@ namespace SebWindowsConfig
 
 			// Group "Exam"
 			checkBoxSendBrowserExamKey.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeySendBrowserExamKey];
+			checkBoxClearSessionOnEnd.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyExamSessionClearCookiesOnEnd];
+			checkBoxClearSessionOnStart.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyExamSessionClearCookiesOnStart];
 			textBoxBrowserExamKey.Enabled = checkBoxSendBrowserExamKey.Checked;
 			textBoxQuitURL.Text = (String)SEBSettings.settingsCurrent[SEBSettings.KeyQuitURL];
 			checkBoxQuitURLConfirm.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyQuitURLConfirm];
@@ -751,6 +756,9 @@ namespace SebWindowsConfig
 			radioNoKiosMode.Checked = !(Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyKillExplorerShell] && !(Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyCreateNewDesktop];
 			checkBoxEnableLogging.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyEnableLogging];
 			textBoxLogDirectoryWin.Text = (String)SEBSettings.settingsCurrent[SEBSettings.KeyLogDirectoryWin];
+			checkBoxAllowLogAccess.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowApplicationLog];
+			checkBoxShowLogButton.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyShowApplicationLogButton];
+
 			if (String.IsNullOrEmpty(textBoxLogDirectoryWin.Text))
 			{
 				checkBoxUseStandardDirectory.Checked = true;
@@ -1723,6 +1731,8 @@ namespace SebWindowsConfig
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyEnableBrowserWindowToolbar] = checkBoxEnableBrowserWindowToolbar.Checked;
 			checkBoxHideBrowserWindowToolbar.Enabled                               = checkBoxEnableBrowserWindowToolbar.Checked;
+			checkBoxAllowMainWindowAddressBar.Enabled = checkBoxEnableBrowserWindowToolbar.Checked;
+			checkBoxAllowAdditionalWindowAddressBar.Enabled = checkBoxEnableBrowserWindowToolbar.Checked;
 		}
 
 		private void checkBoxHideBrowserWindowToolbar_CheckedChanged(object sender, EventArgs e)
@@ -4462,6 +4472,42 @@ namespace SebWindowsConfig
 		private void collectLogFilesToolStripMenuItem_Click(object sender, EventArgs args)
 		{
 			new LogCollector(this).Run();
+		}
+
+		private void checkBoxAllowMainWindowAddressBar_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyBrowserWindowAllowAddressBar] = checkBoxAllowMainWindowAddressBar.Checked;
+		}
+
+		private void checkBoxAllowAdditionalWindowAddressBar_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyNewBrowserWindowAllowAddressBar] = checkBoxAllowAdditionalWindowAddressBar.Checked;
+		}
+
+		private void checkBoxClearSessionOnStart_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyExamSessionClearCookiesOnStart] = checkBoxClearSessionOnStart.Checked;
+		}
+
+		private void checkBoxClearSessionOnEnd_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyExamSessionClearCookiesOnEnd] = checkBoxClearSessionOnEnd.Checked;
+		}
+
+		private void checkBoxShowSideMenu_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyShowSideMenu] = checkBoxShowSideMenu.Checked;
+		}
+
+		private void checkBoxAllowLogAccess_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyAllowApplicationLog] = checkBoxAllowLogAccess.Checked;
+			checkBoxShowLogButton.Enabled = checkBoxAllowLogAccess.Checked;
+		}
+
+		private void checkBoxShowLogButton_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyShowApplicationLogButton] = checkBoxShowLogButton.Checked;
 		}
 	}
 }

@@ -17,36 +17,42 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			switch (key)
 			{
+				case Keys.UserInterface.ActionCenter.EnableActionCenter:
+					MapEnableActionCenter(settings, value);
+					break;
 				case Keys.UserInterface.ShowAudio:
-					MapAudio(settings, value);
-					break;
-				case Keys.UserInterface.ShowKeyboardLayout:
-					MapKeyboardLayout(settings, value);
-					break;
-				case Keys.UserInterface.ShowWirelessNetwork:
-					MapWirelessNetwork(settings, value);
+					MapShowAudio(settings, value);
 					break;
 				case Keys.UserInterface.ShowClock:
-					MapClock(settings, value);
+					MapShowClock(settings, value);
+					break;
+				case Keys.UserInterface.ShowKeyboardLayout:
+					MapShowKeyboardLayout(settings, value);
+					break;
+				case Keys.UserInterface.ShowWirelessNetwork:
+					MapShowWirelessNetwork(settings, value);
+					break;
+				case Keys.UserInterface.Taskbar.EnableTaskbar:
+					MapEnableTaskbar(settings, value);
+					break;
+				case Keys.UserInterface.Taskbar.ShowApplicationLog:
+					MapShowApplicationLog(settings, value);
 					break;
 				case Keys.UserInterface.UserInterfaceMode:
 					MapUserInterfaceMode(settings, value);
 					break;
-				case Keys.UserInterface.Taskbar.ShowApplicationLog:
-					MapApplicationLogButton(settings, value);
-					break;
 			}
 		}
 
-		private void MapApplicationLogButton(AppSettings settings, object value)
+		private void MapEnableActionCenter(AppSettings settings, object value)
 		{
-			if (value is bool show)
+			if (value is bool enable)
 			{
-				settings.Taskbar.ShowApplicationLog = show;
+				settings.ActionCenter.EnableActionCenter = enable;
 			}
 		}
 
-		private void MapAudio(AppSettings settings, object value)
+		private void MapShowAudio(AppSettings settings, object value)
 		{
 			if (value is bool show)
 			{
@@ -55,7 +61,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
-		private void MapClock(AppSettings settings, object value)
+		private void MapShowClock(AppSettings settings, object value)
 		{
 			if (value is bool show)
 			{
@@ -64,7 +70,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
-		private void MapKeyboardLayout(AppSettings settings, object value)
+		private void MapShowKeyboardLayout(AppSettings settings, object value)
 		{
 			if (value is bool show)
 			{
@@ -73,12 +79,28 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
-		private void MapWirelessNetwork(AppSettings settings, object value)
+		private void MapShowWirelessNetwork(AppSettings settings, object value)
 		{
 			if (value is bool show)
 			{
 				settings.ActionCenter.ShowWirelessNetwork = show;
 				settings.Taskbar.ShowWirelessNetwork = show;
+			}
+		}
+
+		private void MapEnableTaskbar(AppSettings settings, object value)
+		{
+			if (value is bool enable)
+			{
+				settings.Taskbar.EnableTaskbar = enable;
+			}
+		}
+
+		private void MapShowApplicationLog(AppSettings settings, object value)
+		{
+			if (value is bool show)
+			{
+				settings.Taskbar.ShowApplicationLog = show;
 			}
 		}
 

@@ -159,7 +159,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class General
 		{
-			internal const string AllowApplicationLog = "allowApplicationLog";
 			internal const string LogLevel = "logLevel";
 			internal const string OriginatorVersion = "originatorVersion";
 		}
@@ -204,6 +203,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class Security
 		{
+			internal const string AllowApplicationLog = "allowApplicationLog";
 			internal const string AllowVirtualMachine = "allowVirtualMachine";
 			internal const string KioskModeCreateNewDesktop = "createNewDesktop";
 			internal const string KioskModeDisableExplorerShell = "killExplorerShell";
@@ -219,8 +219,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string ShowWirelessNetwork = "allowWlan";
 			internal const string UserInterfaceMode = "touchOptimized";
 
+			internal static class ActionCenter
+			{
+				internal const string EnableActionCenter = "showSideMenu";
+			}
+
 			internal static class Taskbar
 			{
+				internal const string EnableTaskbar = "showTaskBar";
 				internal const string ShowApplicationLog = "showApplicationLogButton";
 			}
 		}

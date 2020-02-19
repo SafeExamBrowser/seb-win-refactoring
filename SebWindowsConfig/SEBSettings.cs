@@ -99,6 +99,8 @@ namespace SebWindowsConfig
 
 		// Group "User Interface"
 		public const String KeyBrowserViewMode              = "browserViewMode";
+		public const String KeyBrowserWindowAllowAddressBar = "browserWindowAllowAddressBar";
+		public const String KeyNewBrowserWindowAllowAddressBar = "newBrowserWindowAllowAddressBar";
 		public const String KeyMainBrowserWindowWidth       = "mainBrowserWindowWidth";
 		public const String KeyMainBrowserWindowHeight      = "mainBrowserWindowHeight";
 		public const String KeyMainBrowserWindowPositioning = "mainBrowserWindowPositioning";
@@ -106,6 +108,7 @@ namespace SebWindowsConfig
 		public const String KeyHideBrowserWindowToolbar     = "hideBrowserWindowToolbar";
 		public const String KeyShowMenuBar                  = "showMenuBar";
 		public const String KeyShowTaskBar                  = "showTaskBar";
+		public const String KeyShowSideMenu                 = "showSideMenu";
 		public const String KeyTaskBarHeight                = "taskBarHeight";
 		public const String KeyTouchOptimized               = "touchOptimized";
 		public const String KeyEnableZoomText               = "enableZoomText";
@@ -179,6 +182,8 @@ namespace SebWindowsConfig
 
 		// Group "Exam"
 		public const String KeyExamKeySalt        = "examKeySalt";
+		public const String KeyExamSessionClearCookiesOnEnd = "examSessionClearCookiesOnEnd";
+		public const String KeyExamSessionClearCookiesOnStart = "examSessionClearCookiesOnStart";
 		public const String KeyBrowserExamKey     = "browserExamKey";
 		public const String KeyBrowserURLSalt     = "browserURLSalt";
 		public const String KeySendBrowserExamKey = "sendBrowserExamKey";
@@ -346,6 +351,8 @@ namespace SebWindowsConfig
 		public const String KeyKillExplorerShell   = "killExplorerShell";
 		public const String KeyAllowUserSwitching = "allowUserSwitching";
 		public const String KeyEnableLogging       = "enableLogging";
+		public const String KeyAllowApplicationLog = "allowApplicationLog";
+		public const String KeyShowApplicationLogButton = "showApplicationLogButton";
 		public const String KeyLogDirectoryOSX     = "logDirectoryOSX";
 		public const String KeyLogDirectoryWin     = "logDirectoryWin";
 		public const String KeyAllowWLAN = "allowWlan";
@@ -591,6 +598,8 @@ namespace SebWindowsConfig
 
 			// Default settings for group "User Interface"
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyBrowserViewMode             , 0);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyBrowserWindowAllowAddressBar, false);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyNewBrowserWindowAllowAddressBar, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyMainBrowserWindowWidth      , "100%");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyMainBrowserWindowHeight     , "100%");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyMainBrowserWindowPositioning, 1);
@@ -598,6 +607,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyHideBrowserWindowToolbar    , false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyShowMenuBar                 , false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyShowTaskBar                 , true);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyShowSideMenu, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyTaskBarHeight               , 40);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyTouchOptimized              , false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableZoomText              , true);
@@ -678,6 +688,8 @@ namespace SebWindowsConfig
 
 			// Default settings for group "Exam"
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyExamKeySalt       , new Byte[] {});
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyExamSessionClearCookiesOnEnd, true);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyExamSessionClearCookiesOnStart, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyBrowserExamKey    , "");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyBrowserURLSalt    , true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeySendBrowserExamKey, false);
@@ -873,6 +885,8 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyCreateNewDesktop   , true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyKillExplorerShell  , false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableLogging, true);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowApplicationLog, false);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyShowApplicationLogButton, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyLogDirectoryOSX    , "~/Documents");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyLogDirectoryWin    , "");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowWLAN, false);

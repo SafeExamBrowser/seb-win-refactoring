@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		private void MapApplicationLogAccess(IDictionary<string, object> rawData, AppSettings settings)
 		{
-			var hasValue = rawData.TryGetValue(Keys.General.AllowApplicationLog, out var value);
+			var hasValue = rawData.TryGetValue(Keys.Security.AllowApplicationLog, out var value);
 
 			if (hasValue && value is bool allow)
 			{
