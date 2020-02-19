@@ -64,6 +64,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string StartUrl = "startURL";
 			internal const string UserAgentModeDesktop = "browserUserAgentWinDesktopMode";
 			internal const string UserAgentModeMobile = "browserUserAgentWinTouchMode";
+			internal const string UserAgentSuffix = "browserUserAgent";
 
 			internal static class AdditionalWindow
 			{

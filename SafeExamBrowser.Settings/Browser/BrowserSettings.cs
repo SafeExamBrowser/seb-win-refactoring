@@ -141,6 +141,11 @@ namespace SafeExamBrowser.Settings.Browser
 		/// </summary>
 		public bool UseCustomUserAgent { get; set; }
 
+		/// <summary>
+		/// A custom suffix to be appended to the user agent.
+		/// </summary>
+		public string UserAgentSuffix { get; set; }
+
 		public BrowserSettings()
 		{
 			AdditionalWindow = new WindowSettings();

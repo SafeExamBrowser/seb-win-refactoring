@@ -247,15 +247,23 @@ namespace SafeExamBrowser.Browser
 		{
 			var osVersion = $"{Environment.OSVersion.Version.Major}.{Environment.OSVersion.Version.Minor}";
 			var sebVersion = $"SEB/{appConfig.ProgramInformationalVersion}";
+			var userAgent = default(string);
 
 			if (settings.UseCustomUserAgent)
 			{
-				return $"{settings.CustomUserAgent} {sebVersion}";
+				userAgent = $"{settings.CustomUserAgent} {sebVersion}";
 			}
 			else
 			{
-				return $"Mozilla/5.0 (Windows NT {osVersion}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{Cef.ChromiumVersion} {sebVersion}";
+				userAgent = $"Mozilla/5.0 (Windows NT {osVersion}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{Cef.ChromiumVersion} {sebVersion}";
 			}
+
+			if (!string.IsNullOrWhiteSpace(settings.UserAgentSuffix))
+			{
+				userAgent = $"{userAgent} {settings.UserAgentSuffix}";
+			}
+
+			return userAgent;
 		}
 
 		private string ToScheme(ProxyProtocol protocol)
