@@ -749,8 +749,8 @@ namespace SebWindowsConfig
 			SEBSettings.prohibitedProcessDataDefault.Add(SEBSettings.KeyWindowHandlingProcess , "");
 			SEBSettings.prohibitedProcessDataDefault.Add(SEBSettings.KeyUser       , "");
 
-			SEBSettings.prohibitedProcessesDefault = new List<string> { "Chrome", "Chromium", "Vivaldi", "Opera", "browser", "slimjet", "UCBrowser", "CamRecorder" };
-			SEBSettings.prohibitedProcessesDefaultStrict = new List<string> { "Skype", "SkypeHost", "g2mcomm.exe", "GotoMeetingWinStore", "TeamViewer", "vncserver", "vncviewer", "vncserverui", "chromoting", "Mikogo-host", "AeroAdmin", "beamyourscreen-host", "RemotePCDesktop", "RPCService", "RPCSuite", "join.me" };
+			SEBSettings.prohibitedProcessesDefault = new List<string> { "Chrome.exe", "Chromium.exe", "Vivaldi.exe", "Opera.exe", "browser.exe", "slimjet.exe", "UCBrowser.exe", "CamRecorder.exe" };
+			SEBSettings.prohibitedProcessesDefaultStrict = new List<string> { "Skype.exe", "SkypeApp.exe", "SkypeHost.exe", "g2mcomm.exe", "GotoMeetingWinStore.exe", "TeamViewer.exe", "vncserver.exe", "vncviewer.exe", "vncserverui.exe", "chromoting.exe", "Mikogo-host.exe", "AeroAdmin.exe", "beamyourscreen-host.exe", "RemotePCDesktop.exe", "RPCService.exe", "RPCSuite.exe", "join.me.exe" };
 
 			// Default settings for group "Network - Filter"
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableURLFilter       , false);

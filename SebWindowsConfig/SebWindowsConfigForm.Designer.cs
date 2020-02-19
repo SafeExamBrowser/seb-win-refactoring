@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -276,17 +276,17 @@ namespace SebWindowsConfig
 			this.checkBoxShowReloadWarningNewWindow = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowReloadNewWindow = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowVideoCapture = new System.Windows.Forms.CheckBox();
-			this.checkBoxAllowAudioCapture = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowReload = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowNavigationNewWindow = new System.Windows.Forms.CheckBox();
-			this.checkBoxEnablePlugIns = new System.Windows.Forms.CheckBox();
+			this.checkBoxAllowAudioCapture = new System.Windows.Forms.CheckBox();
 			this.checkBoxShowReloadWarning = new System.Windows.Forms.CheckBox();
-			this.checkBoxEnableJava = new System.Windows.Forms.CheckBox();
 			this.checkBoxDisableLocalStorage = new System.Windows.Forms.CheckBox();
-			this.checkBoxEnableJavaScript = new System.Windows.Forms.CheckBox();
 			this.checkBoxRemoveProfile = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowBrowsingBackForward = new System.Windows.Forms.CheckBox();
+			this.checkBoxEnablePlugIns = new System.Windows.Forms.CheckBox();
 			this.checkBoxBlockPopUpWindows = new System.Windows.Forms.CheckBox();
+			this.checkBoxEnableJavaScript = new System.Windows.Forms.CheckBox();
+			this.checkBoxEnableJava = new System.Windows.Forms.CheckBox();
 			this.listBoxOpenLinksHTML = new System.Windows.Forms.ListBox();
 			this.labelUseSEBWithoutBrowser = new System.Windows.Forms.Label();
 			this.checkBoxUseSebWithoutBrowser = new System.Windows.Forms.CheckBox();
@@ -1685,8 +1685,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle7.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle3;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -2629,6 +2629,7 @@ namespace SebWindowsConfig
 			this.labelProhibitedProcessIdentifier.Size = new System.Drawing.Size(71, 20);
 			this.labelProhibitedProcessIdentifier.TabIndex = 11;
 			this.labelProhibitedProcessIdentifier.Text = "Identifier";
+			this.labelProhibitedProcessIdentifier.Visible = false;
 			// 
 			// labelProhibitedProcessUser
 			// 
@@ -2662,6 +2663,7 @@ namespace SebWindowsConfig
 			this.textBoxProhibitedProcessIdentifier.TabIndex = 4;
 			this.toolTip1.SetToolTip(this.textBoxProhibitedProcessIdentifier, "Title of the main window of a Java third party application. Mac OS X: Bundle iden" +
         "tifier of the process in reverse domain notation.");
+			this.textBoxProhibitedProcessIdentifier.Visible = false;
 			this.textBoxProhibitedProcessIdentifier.TextChanged += new System.EventHandler(this.textBoxProhibitedProcessIdentifier_TextChanged);
 			// 
 			// textBoxProhibitedProcessDescription
@@ -3625,21 +3627,6 @@ namespace SebWindowsConfig
 			this.checkBoxAllowVideoCapture.Visible = false;
 			this.checkBoxAllowVideoCapture.CheckedChanged += new System.EventHandler(this.checkBoxAllowVideoCapture_CheckedChanged);
 			// 
-			// checkBoxAllowAudioCapture
-			// 
-			this.checkBoxAllowAudioCapture.AutoSize = true;
-			this.checkBoxAllowAudioCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowAudioCapture.Location = new System.Drawing.Point(388, 192);
-			this.checkBoxAllowAudioCapture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.checkBoxAllowAudioCapture.Name = "checkBoxAllowAudioCapture";
-			this.checkBoxAllowAudioCapture.Size = new System.Drawing.Size(270, 24);
-			this.checkBoxAllowAudioCapture.TabIndex = 11;
-			this.checkBoxAllowAudioCapture.Text = "Allow audio capture (microphone)";
-			this.toolTip1.SetToolTip(this.checkBoxAllowAudioCapture, "Allow web applications to access microphone (using HMTL 5 APIs).");
-			this.checkBoxAllowAudioCapture.UseVisualStyleBackColor = true;
-			this.checkBoxAllowAudioCapture.Visible = false;
-			this.checkBoxAllowAudioCapture.CheckedChanged += new System.EventHandler(this.checkBoxAllowAudioCapture_CheckedChanged);
-			// 
 			// checkBoxAllowReload
 			// 
 			this.checkBoxAllowReload.AutoSize = true;
@@ -3667,21 +3654,20 @@ namespace SebWindowsConfig
 			this.checkBoxAllowNavigationNewWindow.UseVisualStyleBackColor = true;
 			this.checkBoxAllowNavigationNewWindow.CheckedChanged += new System.EventHandler(this.checkBoxAllowNavigationNewWindow_CheckedChanged);
 			// 
-			// checkBoxEnablePlugIns
+			// checkBoxAllowAudioCapture
 			// 
-			this.checkBoxEnablePlugIns.AutoSize = true;
-			this.checkBoxEnablePlugIns.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnablePlugIns.Location = new System.Drawing.Point(21, 130);
-			this.checkBoxEnablePlugIns.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.checkBoxEnablePlugIns.Name = "checkBoxEnablePlugIns";
-			this.checkBoxEnablePlugIns.Size = new System.Drawing.Size(264, 24);
-			this.checkBoxEnablePlugIns.TabIndex = 0;
-			this.checkBoxEnablePlugIns.Text = "Enable plug-ins (Win: only Flash)";
-			this.toolTip1.SetToolTip(this.checkBoxEnablePlugIns, "Enables web plugins (Mac) or just Flash (Win). For security reasons it\'s recommen" +
-        "ded to disable this option if you don\'t use any plugin/Flash content.");
-			this.checkBoxEnablePlugIns.UseVisualStyleBackColor = true;
-			this.checkBoxEnablePlugIns.Visible = false;
-			this.checkBoxEnablePlugIns.CheckedChanged += new System.EventHandler(this.checkBoxEnablePlugins_CheckedChanged);
+			this.checkBoxAllowAudioCapture.AutoSize = true;
+			this.checkBoxAllowAudioCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBoxAllowAudioCapture.Location = new System.Drawing.Point(388, 192);
+			this.checkBoxAllowAudioCapture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.checkBoxAllowAudioCapture.Name = "checkBoxAllowAudioCapture";
+			this.checkBoxAllowAudioCapture.Size = new System.Drawing.Size(270, 24);
+			this.checkBoxAllowAudioCapture.TabIndex = 11;
+			this.checkBoxAllowAudioCapture.Text = "Allow audio capture (microphone)";
+			this.toolTip1.SetToolTip(this.checkBoxAllowAudioCapture, "Allow web applications to access microphone (using HMTL 5 APIs).");
+			this.checkBoxAllowAudioCapture.UseVisualStyleBackColor = true;
+			this.checkBoxAllowAudioCapture.Visible = false;
+			this.checkBoxAllowAudioCapture.CheckedChanged += new System.EventHandler(this.checkBoxAllowAudioCapture_CheckedChanged);
 			// 
 			// checkBoxShowReloadWarning
 			// 
@@ -3695,22 +3681,6 @@ namespace SebWindowsConfig
 			this.toolTip1.SetToolTip(this.checkBoxShowReloadWarning, "User has to confirm reloading a web page with F5 or reload button");
 			this.checkBoxShowReloadWarning.UseVisualStyleBackColor = true;
 			this.checkBoxShowReloadWarning.CheckedChanged += new System.EventHandler(this.checkBoxShowReloadWarning_CheckedChanged);
-			// 
-			// checkBoxEnableJava
-			// 
-			this.checkBoxEnableJava.AutoSize = true;
-			this.checkBoxEnableJava.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableJava.Location = new System.Drawing.Point(21, 161);
-			this.checkBoxEnableJava.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.checkBoxEnableJava.Name = "checkBoxEnableJava";
-			this.checkBoxEnableJava.Size = new System.Drawing.Size(122, 24);
-			this.checkBoxEnableJava.TabIndex = 2;
-			this.checkBoxEnableJava.Text = "Enable Java";
-			this.toolTip1.SetToolTip(this.checkBoxEnableJava, "Enables Java applets. Note: Only applets with the highest Java security level wil" +
-        "l run in SEB.");
-			this.checkBoxEnableJava.UseVisualStyleBackColor = true;
-			this.checkBoxEnableJava.Visible = false;
-			this.checkBoxEnableJava.CheckedChanged += new System.EventHandler(this.checkBoxEnableJava_CheckedChanged);
 			// 
 			// checkBoxDisableLocalStorage
 			// 
@@ -3727,22 +3697,6 @@ namespace SebWindowsConfig
 			this.checkBoxDisableLocalStorage.UseVisualStyleBackColor = true;
 			this.checkBoxDisableLocalStorage.Visible = false;
 			this.checkBoxDisableLocalStorage.CheckedChanged += new System.EventHandler(this.checkBoxDisableLocalStorage_CheckedChanged);
-			// 
-			// checkBoxEnableJavaScript
-			// 
-			this.checkBoxEnableJavaScript.AutoSize = true;
-			this.checkBoxEnableJavaScript.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableJavaScript.Location = new System.Drawing.Point(388, 130);
-			this.checkBoxEnableJavaScript.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.checkBoxEnableJavaScript.Name = "checkBoxEnableJavaScript";
-			this.checkBoxEnableJavaScript.Size = new System.Drawing.Size(163, 24);
-			this.checkBoxEnableJavaScript.TabIndex = 1;
-			this.checkBoxEnableJavaScript.Text = "Enable JavaScript";
-			this.toolTip1.SetToolTip(this.checkBoxEnableJavaScript, "Enables JavaScript. Please note that most modern websites need JavaScript for ful" +
-        "l functionality.");
-			this.checkBoxEnableJavaScript.UseVisualStyleBackColor = true;
-			this.checkBoxEnableJavaScript.Visible = false;
-			this.checkBoxEnableJavaScript.CheckedChanged += new System.EventHandler(this.checkBoxEnableJavaScript_CheckedChanged);
 			// 
 			// checkBoxRemoveProfile
 			// 
@@ -3773,6 +3727,22 @@ namespace SebWindowsConfig
 			this.checkBoxAllowBrowsingBackForward.UseVisualStyleBackColor = true;
 			this.checkBoxAllowBrowsingBackForward.CheckedChanged += new System.EventHandler(this.checkBoxAllowBrowsingBackForward_CheckedChanged);
 			// 
+			// checkBoxEnablePlugIns
+			// 
+			this.checkBoxEnablePlugIns.AutoSize = true;
+			this.checkBoxEnablePlugIns.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBoxEnablePlugIns.Location = new System.Drawing.Point(21, 130);
+			this.checkBoxEnablePlugIns.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.checkBoxEnablePlugIns.Name = "checkBoxEnablePlugIns";
+			this.checkBoxEnablePlugIns.Size = new System.Drawing.Size(264, 24);
+			this.checkBoxEnablePlugIns.TabIndex = 0;
+			this.checkBoxEnablePlugIns.Text = "Enable plug-ins (Win: only Flash)";
+			this.toolTip1.SetToolTip(this.checkBoxEnablePlugIns, "Enables web plugins (Mac) or just Flash (Win). For security reasons it\'s recommen" +
+        "ded to disable this option if you don\'t use any plugin/Flash content.");
+			this.checkBoxEnablePlugIns.UseVisualStyleBackColor = true;
+			this.checkBoxEnablePlugIns.Visible = false;
+			this.checkBoxEnablePlugIns.CheckedChanged += new System.EventHandler(this.checkBoxEnablePlugins_CheckedChanged);
+			// 
 			// checkBoxBlockPopUpWindows
 			// 
 			this.checkBoxBlockPopUpWindows.AutoSize = true;
@@ -3788,6 +3758,38 @@ namespace SebWindowsConfig
 			this.checkBoxBlockPopUpWindows.UseVisualStyleBackColor = true;
 			this.checkBoxBlockPopUpWindows.Visible = false;
 			this.checkBoxBlockPopUpWindows.CheckedChanged += new System.EventHandler(this.checkBoxBlockPopUpWindows_CheckedChanged);
+			// 
+			// checkBoxEnableJavaScript
+			// 
+			this.checkBoxEnableJavaScript.AutoSize = true;
+			this.checkBoxEnableJavaScript.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBoxEnableJavaScript.Location = new System.Drawing.Point(388, 130);
+			this.checkBoxEnableJavaScript.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.checkBoxEnableJavaScript.Name = "checkBoxEnableJavaScript";
+			this.checkBoxEnableJavaScript.Size = new System.Drawing.Size(163, 24);
+			this.checkBoxEnableJavaScript.TabIndex = 1;
+			this.checkBoxEnableJavaScript.Text = "Enable JavaScript";
+			this.toolTip1.SetToolTip(this.checkBoxEnableJavaScript, "Enables JavaScript. Please note that most modern websites need JavaScript for ful" +
+        "l functionality.");
+			this.checkBoxEnableJavaScript.UseVisualStyleBackColor = true;
+			this.checkBoxEnableJavaScript.Visible = false;
+			this.checkBoxEnableJavaScript.CheckedChanged += new System.EventHandler(this.checkBoxEnableJavaScript_CheckedChanged);
+			// 
+			// checkBoxEnableJava
+			// 
+			this.checkBoxEnableJava.AutoSize = true;
+			this.checkBoxEnableJava.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBoxEnableJava.Location = new System.Drawing.Point(21, 161);
+			this.checkBoxEnableJava.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.checkBoxEnableJava.Name = "checkBoxEnableJava";
+			this.checkBoxEnableJava.Size = new System.Drawing.Size(122, 24);
+			this.checkBoxEnableJava.TabIndex = 2;
+			this.checkBoxEnableJava.Text = "Enable Java";
+			this.toolTip1.SetToolTip(this.checkBoxEnableJava, "Enables Java applets. Note: Only applets with the highest Java security level wil" +
+        "l run in SEB.");
+			this.checkBoxEnableJava.UseVisualStyleBackColor = true;
+			this.checkBoxEnableJava.Visible = false;
+			this.checkBoxEnableJava.CheckedChanged += new System.EventHandler(this.checkBoxEnableJava_CheckedChanged);
 			// 
 			// listBoxOpenLinksHTML
 			// 
@@ -4063,8 +4065,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle4;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
