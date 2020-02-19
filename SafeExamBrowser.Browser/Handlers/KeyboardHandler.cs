@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			var ctrl = modifiers.HasFlag(CefEventFlags.ControlDown);
 			var shift = modifiers.HasFlag(CefEventFlags.ShiftDown);
 
-			if (type == KeyType.KeyUp && ((keyCode == (int)Keys.Add && ctrl) || (keyCode == (int)Keys.D1 && ctrl && shift)))
+			if (type == KeyType.KeyUp && ((keyCode == (int) Keys.Add && ctrl) || (keyCode == (int) Keys.D1 && ctrl && shift)))
 			{
 				ZoomInRequested?.Invoke();
 			}

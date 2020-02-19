@@ -1581,9 +1581,9 @@ namespace SebWindowsConfig
 			this.checkBoxPinEmbeddedCertificates.Location = new System.Drawing.Point(51, 189);
 			this.checkBoxPinEmbeddedCertificates.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxPinEmbeddedCertificates.Name = "checkBoxPinEmbeddedCertificates";
-			this.checkBoxPinEmbeddedCertificates.Size = new System.Drawing.Size(218, 24);
+			this.checkBoxPinEmbeddedCertificates.Size = new System.Drawing.Size(262, 24);
 			this.checkBoxPinEmbeddedCertificates.TabIndex = 100;
-			this.checkBoxPinEmbeddedCertificates.Text = "Pin embedded certificates";
+			this.checkBoxPinEmbeddedCertificates.Text = "Pin embedded certificates (Mac)";
 			this.toolTip1.SetToolTip(this.checkBoxPinEmbeddedCertificates, "Bypasses the browser\'s built-in certificate store, you have to embed TLS or CA ce" +
         "rtificates into SEB settings which establish trust for the secure servers you wa" +
         "nt SEB to connect to.");
@@ -1595,9 +1595,9 @@ namespace SebWindowsConfig
 			this.label10.AutoSize = true;
 			this.label10.Location = new System.Drawing.Point(24, 114);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(372, 20);
+			this.label10.Size = new System.Drawing.Size(416, 20);
 			this.label10.TabIndex = 99;
-			this.label10.Text = "Choose CA certificate to embed into configuration...";
+			this.label10.Text = "Choose CA certificate to embed into configuration... (Mac)";
 			this.label10.Click += new System.EventHandler(this.label10_Click);
 			// 
 			// comboBoxChooseCACertificate
@@ -1626,9 +1626,9 @@ namespace SebWindowsConfig
 			this.labelChooseSSLClientCertificate.AutoSize = true;
 			this.labelChooseSSLClientCertificate.Location = new System.Drawing.Point(24, 38);
 			this.labelChooseSSLClientCertificate.Name = "labelChooseSSLClientCertificate";
-			this.labelChooseSSLClientCertificate.Size = new System.Drawing.Size(414, 20);
+			this.labelChooseSSLClientCertificate.Size = new System.Drawing.Size(458, 20);
 			this.labelChooseSSLClientCertificate.TabIndex = 96;
-			this.labelChooseSSLClientCertificate.Text = "Choose TLS/SSL certificate to embed into configuration...";
+			this.labelChooseSSLClientCertificate.Text = "Choose TLS/SSL certificate to embed into configuration... (Mac)";
 			// 
 			// comboBoxChooseIdentityToEmbed
 			// 
@@ -2219,6 +2219,7 @@ namespace SebWindowsConfig
 			this.label2.Size = new System.Drawing.Size(189, 20);
 			this.label2.TabIndex = 91;
 			this.label2.Text = "Window handling process";
+			this.label2.Visible = false;
 			// 
 			// textBoxPermittedProcessExecutables
 			// 
@@ -2228,6 +2229,7 @@ namespace SebWindowsConfig
 			this.textBoxPermittedProcessExecutables.Size = new System.Drawing.Size(774, 26);
 			this.textBoxPermittedProcessExecutables.TabIndex = 90;
 			this.toolTip1.SetToolTip(this.textBoxPermittedProcessExecutables, "Process executable which is actually handling the main window.");
+			this.textBoxPermittedProcessExecutables.Visible = false;
 			this.textBoxPermittedProcessExecutables.TextChanged += new System.EventHandler(this.textBoxPermittedProcessExecutables_TextChanged);
 			// 
 			// checkBoxPermittedProcessStrongKill
@@ -2296,6 +2298,7 @@ namespace SebWindowsConfig
 			this.labelPermittedProcessIdentifier.Size = new System.Drawing.Size(71, 20);
 			this.labelPermittedProcessIdentifier.TabIndex = 89;
 			this.labelPermittedProcessIdentifier.Text = "Identifier";
+			this.labelPermittedProcessIdentifier.Visible = false;
 			// 
 			// textBoxPermittedProcessIdentifier
 			// 
@@ -2307,6 +2310,7 @@ namespace SebWindowsConfig
 			this.toolTip1.SetToolTip(this.textBoxPermittedProcessIdentifier, "(Sub) string in the title of the main window of a tricky third party application " +
         "(Java, Acrobat etc.). Mac: Bundle identifier of the process in reverse domain no" +
         "tation.");
+			this.textBoxPermittedProcessIdentifier.Visible = false;
 			this.textBoxPermittedProcessIdentifier.TextChanged += new System.EventHandler(this.textBoxPermittedProcessIdentifier_TextChanged);
 			// 
 			// buttonPermittedProcessRemoveArgument
@@ -2882,7 +2886,7 @@ namespace SebWindowsConfig
 			this.groupBox9.Size = new System.Drawing.Size(832, 278);
 			this.groupBox9.TabIndex = 121;
 			this.groupBox9.TabStop = false;
-			this.groupBox9.Text = "Back to Start Button";
+			this.groupBox9.Text = "Back to Start Button (Mac)";
 			// 
 			// checkBoxUseStartURL
 			// 
@@ -3241,6 +3245,7 @@ namespace SebWindowsConfig
 			this.toolTip1.SetToolTip(this.checkBoxOpenDownloads, "Downloaded files will be opened with the according application, which has to be s" +
         "et correctly in the system for each used file type. ");
 			this.checkBoxOpenDownloads.UseVisualStyleBackColor = true;
+			this.checkBoxOpenDownloads.Visible = false;
 			this.checkBoxOpenDownloads.CheckedChanged += new System.EventHandler(this.checkBoxOpenDownloads_CheckedChanged);
 			// 
 			// checkBoxAllowDownUploads
@@ -3287,7 +3292,7 @@ namespace SebWindowsConfig
 			// label12
 			// 
 			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(810, 314);
+			this.label12.Location = new System.Drawing.Point(810, 531);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(265, 20);
 			this.label12.TabIndex = 126;
@@ -3299,7 +3304,7 @@ namespace SebWindowsConfig
 			this.textBoxUserAgent.AcceptsTab = true;
 			this.textBoxUserAgent.AllowDrop = true;
 			this.textBoxUserAgent.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBoxUserAgent.Location = new System.Drawing.Point(814, 340);
+			this.textBoxUserAgent.Location = new System.Drawing.Point(814, 563);
 			this.textBoxUserAgent.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.textBoxUserAgent.Name = "textBoxUserAgent";
 			this.textBoxUserAgent.Size = new System.Drawing.Size(748, 25);
@@ -3316,6 +3321,7 @@ namespace SebWindowsConfig
 			this.label11.Size = new System.Drawing.Size(313, 20);
 			this.label11.TabIndex = 124;
 			this.label11.Text = "Suffix to be added to every browser window";
+			this.label11.Visible = false;
 			// 
 			// textBoxBrowserSuffix
 			// 
@@ -3329,6 +3335,7 @@ namespace SebWindowsConfig
 			this.textBoxBrowserSuffix.Size = new System.Drawing.Size(319, 25);
 			this.textBoxBrowserSuffix.TabIndex = 123;
 			this.toolTip1.SetToolTip(this.textBoxBrowserSuffix, "This text is appended to the title string of any SEB browser window.");
+			this.textBoxBrowserSuffix.Visible = false;
 			this.textBoxBrowserSuffix.TextChanged += new System.EventHandler(this.textBoxBrowserSuffix_TextChanged);
 			// 
 			// groupBox14
@@ -3336,7 +3343,7 @@ namespace SebWindowsConfig
 			this.groupBox14.Controls.Add(this.textBoxUserAgentMacCustom);
 			this.groupBox14.Controls.Add(this.radioButtonUserAgentMacDefault);
 			this.groupBox14.Controls.Add(this.radioButtonUserAgentMacCustom);
-			this.groupBox14.Location = new System.Drawing.Point(814, 426);
+			this.groupBox14.Location = new System.Drawing.Point(35, 644);
 			this.groupBox14.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.groupBox14.Name = "groupBox14";
 			this.groupBox14.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -3480,7 +3487,7 @@ namespace SebWindowsConfig
 			this.groupBox12.Controls.Add(this.textBoxUserAgentDesktopModeCustom);
 			this.groupBox12.Controls.Add(this.radioButtonUserAgentDesktopDefault);
 			this.groupBox12.Controls.Add(this.radioButtonUserAgentDesktopCustom);
-			this.groupBox12.Location = new System.Drawing.Point(36, 609);
+			this.groupBox12.Location = new System.Drawing.Point(36, 449);
 			this.groupBox12.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.groupBox12.Name = "groupBox12";
 			this.groupBox12.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -3557,22 +3564,22 @@ namespace SebWindowsConfig
 			this.groupBox11.Controls.Add(this.checkBoxShowReloadWarningNewWindow);
 			this.groupBox11.Controls.Add(this.checkBoxAllowReloadNewWindow);
 			this.groupBox11.Controls.Add(this.checkBoxAllowVideoCapture);
-			this.groupBox11.Controls.Add(this.checkBoxAllowAudioCapture);
 			this.groupBox11.Controls.Add(this.checkBoxAllowReload);
 			this.groupBox11.Controls.Add(this.checkBoxAllowNavigationNewWindow);
-			this.groupBox11.Controls.Add(this.checkBoxEnablePlugIns);
+			this.groupBox11.Controls.Add(this.checkBoxAllowAudioCapture);
 			this.groupBox11.Controls.Add(this.checkBoxShowReloadWarning);
-			this.groupBox11.Controls.Add(this.checkBoxEnableJava);
 			this.groupBox11.Controls.Add(this.checkBoxDisableLocalStorage);
-			this.groupBox11.Controls.Add(this.checkBoxEnableJavaScript);
 			this.groupBox11.Controls.Add(this.checkBoxRemoveProfile);
 			this.groupBox11.Controls.Add(this.checkBoxAllowBrowsingBackForward);
+			this.groupBox11.Controls.Add(this.checkBoxEnablePlugIns);
 			this.groupBox11.Controls.Add(this.checkBoxBlockPopUpWindows);
+			this.groupBox11.Controls.Add(this.checkBoxEnableJavaScript);
+			this.groupBox11.Controls.Add(this.checkBoxEnableJava);
 			this.groupBox11.Location = new System.Drawing.Point(36, 311);
 			this.groupBox11.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.groupBox11.Name = "groupBox11";
 			this.groupBox11.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.groupBox11.Size = new System.Drawing.Size(750, 274);
+			this.groupBox11.Size = new System.Drawing.Size(750, 128);
 			this.groupBox11.TabIndex = 71;
 			this.groupBox11.TabStop = false;
 			this.groupBox11.Text = "Browser security";
@@ -3580,7 +3587,7 @@ namespace SebWindowsConfig
 			// checkBoxShowReloadWarningNewWindow
 			// 
 			this.checkBoxShowReloadWarningNewWindow.AutoSize = true;
-			this.checkBoxShowReloadWarningNewWindow.Location = new System.Drawing.Point(388, 191);
+			this.checkBoxShowReloadWarningNewWindow.Location = new System.Drawing.Point(388, 91);
 			this.checkBoxShowReloadWarningNewWindow.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxShowReloadWarningNewWindow.Name = "checkBoxShowReloadWarningNewWindow";
 			this.checkBoxShowReloadWarningNewWindow.Size = new System.Drawing.Size(334, 24);
@@ -3593,7 +3600,7 @@ namespace SebWindowsConfig
 			// checkBoxAllowReloadNewWindow
 			// 
 			this.checkBoxAllowReloadNewWindow.AutoSize = true;
-			this.checkBoxAllowReloadNewWindow.Location = new System.Drawing.Point(388, 162);
+			this.checkBoxAllowReloadNewWindow.Location = new System.Drawing.Point(388, 62);
 			this.checkBoxAllowReloadNewWindow.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxAllowReloadNewWindow.Name = "checkBoxAllowReloadNewWindow";
 			this.checkBoxAllowReloadNewWindow.Size = new System.Drawing.Size(272, 24);
@@ -3607,7 +3614,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowVideoCapture.AutoSize = true;
 			this.checkBoxAllowVideoCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowVideoCapture.Location = new System.Drawing.Point(21, 91);
+			this.checkBoxAllowVideoCapture.Location = new System.Drawing.Point(21, 192);
 			this.checkBoxAllowVideoCapture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxAllowVideoCapture.Name = "checkBoxAllowVideoCapture";
 			this.checkBoxAllowVideoCapture.Size = new System.Drawing.Size(244, 24);
@@ -3615,13 +3622,14 @@ namespace SebWindowsConfig
 			this.checkBoxAllowVideoCapture.Text = "Allow video capture (webcam)";
 			this.toolTip1.SetToolTip(this.checkBoxAllowVideoCapture, "Allow web applications to access camera (using HMTL 5 APIs).");
 			this.checkBoxAllowVideoCapture.UseVisualStyleBackColor = true;
+			this.checkBoxAllowVideoCapture.Visible = false;
 			this.checkBoxAllowVideoCapture.CheckedChanged += new System.EventHandler(this.checkBoxAllowVideoCapture_CheckedChanged);
 			// 
 			// checkBoxAllowAudioCapture
 			// 
 			this.checkBoxAllowAudioCapture.AutoSize = true;
 			this.checkBoxAllowAudioCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowAudioCapture.Location = new System.Drawing.Point(388, 91);
+			this.checkBoxAllowAudioCapture.Location = new System.Drawing.Point(388, 192);
 			this.checkBoxAllowAudioCapture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxAllowAudioCapture.Name = "checkBoxAllowAudioCapture";
 			this.checkBoxAllowAudioCapture.Size = new System.Drawing.Size(270, 24);
@@ -3629,12 +3637,13 @@ namespace SebWindowsConfig
 			this.checkBoxAllowAudioCapture.Text = "Allow audio capture (microphone)";
 			this.toolTip1.SetToolTip(this.checkBoxAllowAudioCapture, "Allow web applications to access microphone (using HMTL 5 APIs).");
 			this.checkBoxAllowAudioCapture.UseVisualStyleBackColor = true;
+			this.checkBoxAllowAudioCapture.Visible = false;
 			this.checkBoxAllowAudioCapture.CheckedChanged += new System.EventHandler(this.checkBoxAllowAudioCapture_CheckedChanged);
 			// 
 			// checkBoxAllowReload
 			// 
 			this.checkBoxAllowReload.AutoSize = true;
-			this.checkBoxAllowReload.Location = new System.Drawing.Point(21, 162);
+			this.checkBoxAllowReload.Location = new System.Drawing.Point(21, 62);
 			this.checkBoxAllowReload.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxAllowReload.Name = "checkBoxAllowReload";
 			this.checkBoxAllowReload.Size = new System.Drawing.Size(178, 24);
@@ -3648,7 +3657,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowNavigationNewWindow.AutoSize = true;
 			this.checkBoxAllowNavigationNewWindow.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowNavigationNewWindow.Location = new System.Drawing.Point(388, 129);
+			this.checkBoxAllowNavigationNewWindow.Location = new System.Drawing.Point(388, 29);
 			this.checkBoxAllowNavigationNewWindow.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxAllowNavigationNewWindow.Name = "checkBoxAllowNavigationNewWindow";
 			this.checkBoxAllowNavigationNewWindow.Size = new System.Drawing.Size(300, 24);
@@ -3662,7 +3671,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnablePlugIns.AutoSize = true;
 			this.checkBoxEnablePlugIns.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnablePlugIns.Location = new System.Drawing.Point(21, 29);
+			this.checkBoxEnablePlugIns.Location = new System.Drawing.Point(21, 130);
 			this.checkBoxEnablePlugIns.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxEnablePlugIns.Name = "checkBoxEnablePlugIns";
 			this.checkBoxEnablePlugIns.Size = new System.Drawing.Size(264, 24);
@@ -3671,12 +3680,13 @@ namespace SebWindowsConfig
 			this.toolTip1.SetToolTip(this.checkBoxEnablePlugIns, "Enables web plugins (Mac) or just Flash (Win). For security reasons it\'s recommen" +
         "ded to disable this option if you don\'t use any plugin/Flash content.");
 			this.checkBoxEnablePlugIns.UseVisualStyleBackColor = true;
+			this.checkBoxEnablePlugIns.Visible = false;
 			this.checkBoxEnablePlugIns.CheckedChanged += new System.EventHandler(this.checkBoxEnablePlugins_CheckedChanged);
 			// 
 			// checkBoxShowReloadWarning
 			// 
 			this.checkBoxShowReloadWarning.AutoSize = true;
-			this.checkBoxShowReloadWarning.Location = new System.Drawing.Point(21, 191);
+			this.checkBoxShowReloadWarning.Location = new System.Drawing.Point(21, 91);
 			this.checkBoxShowReloadWarning.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxShowReloadWarning.Name = "checkBoxShowReloadWarning";
 			this.checkBoxShowReloadWarning.Size = new System.Drawing.Size(240, 24);
@@ -3690,7 +3700,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnableJava.AutoSize = true;
 			this.checkBoxEnableJava.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableJava.Location = new System.Drawing.Point(21, 60);
+			this.checkBoxEnableJava.Location = new System.Drawing.Point(21, 161);
 			this.checkBoxEnableJava.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxEnableJava.Name = "checkBoxEnableJava";
 			this.checkBoxEnableJava.Size = new System.Drawing.Size(122, 24);
@@ -3699,6 +3709,7 @@ namespace SebWindowsConfig
 			this.toolTip1.SetToolTip(this.checkBoxEnableJava, "Enables Java applets. Note: Only applets with the highest Java security level wil" +
         "l run in SEB.");
 			this.checkBoxEnableJava.UseVisualStyleBackColor = true;
+			this.checkBoxEnableJava.Visible = false;
 			this.checkBoxEnableJava.CheckedChanged += new System.EventHandler(this.checkBoxEnableJava_CheckedChanged);
 			// 
 			// checkBoxDisableLocalStorage
@@ -3714,13 +3725,14 @@ namespace SebWindowsConfig
 			this.toolTip1.SetToolTip(this.checkBoxDisableLocalStorage, "If your web application uses local storage, you have to be sure data is saved enc" +
         "rypted and removed when no longer needed as SEB doesn\'t remove local storage");
 			this.checkBoxDisableLocalStorage.UseVisualStyleBackColor = true;
+			this.checkBoxDisableLocalStorage.Visible = false;
 			this.checkBoxDisableLocalStorage.CheckedChanged += new System.EventHandler(this.checkBoxDisableLocalStorage_CheckedChanged);
 			// 
 			// checkBoxEnableJavaScript
 			// 
 			this.checkBoxEnableJavaScript.AutoSize = true;
 			this.checkBoxEnableJavaScript.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableJavaScript.Location = new System.Drawing.Point(388, 29);
+			this.checkBoxEnableJavaScript.Location = new System.Drawing.Point(388, 130);
 			this.checkBoxEnableJavaScript.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxEnableJavaScript.Name = "checkBoxEnableJavaScript";
 			this.checkBoxEnableJavaScript.Size = new System.Drawing.Size(163, 24);
@@ -3729,6 +3741,7 @@ namespace SebWindowsConfig
 			this.toolTip1.SetToolTip(this.checkBoxEnableJavaScript, "Enables JavaScript. Please note that most modern websites need JavaScript for ful" +
         "l functionality.");
 			this.checkBoxEnableJavaScript.UseVisualStyleBackColor = true;
+			this.checkBoxEnableJavaScript.Visible = false;
 			this.checkBoxEnableJavaScript.CheckedChanged += new System.EventHandler(this.checkBoxEnableJavaScript_CheckedChanged);
 			// 
 			// checkBoxRemoveProfile
@@ -3743,13 +3756,14 @@ namespace SebWindowsConfig
 			this.toolTip1.SetToolTip(this.checkBoxRemoveProfile, "Remove XULRunner browser profile (containing caches and also local storage) when " +
         "quitting SEB");
 			this.checkBoxRemoveProfile.UseVisualStyleBackColor = true;
+			this.checkBoxRemoveProfile.Visible = false;
 			this.checkBoxRemoveProfile.CheckedChanged += new System.EventHandler(this.checkBoxRemoveProfile_CheckedChanged);
 			// 
 			// checkBoxAllowBrowsingBackForward
 			// 
 			this.checkBoxAllowBrowsingBackForward.AutoSize = true;
 			this.checkBoxAllowBrowsingBackForward.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowBrowsingBackForward.Location = new System.Drawing.Point(21, 131);
+			this.checkBoxAllowBrowsingBackForward.Location = new System.Drawing.Point(21, 31);
 			this.checkBoxAllowBrowsingBackForward.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxAllowBrowsingBackForward.Name = "checkBoxAllowBrowsingBackForward";
 			this.checkBoxAllowBrowsingBackForward.Size = new System.Drawing.Size(301, 24);
@@ -3763,7 +3777,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxBlockPopUpWindows.AutoSize = true;
 			this.checkBoxBlockPopUpWindows.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxBlockPopUpWindows.Location = new System.Drawing.Point(388, 60);
+			this.checkBoxBlockPopUpWindows.Location = new System.Drawing.Point(388, 161);
 			this.checkBoxBlockPopUpWindows.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxBlockPopUpWindows.Name = "checkBoxBlockPopUpWindows";
 			this.checkBoxBlockPopUpWindows.Size = new System.Drawing.Size(192, 24);
@@ -3772,6 +3786,7 @@ namespace SebWindowsConfig
 			this.toolTip1.SetToolTip(this.checkBoxBlockPopUpWindows, "Disables pop-up windows (often advertisement) opened by JavaScript without an use" +
         "r action such as a button click.");
 			this.checkBoxBlockPopUpWindows.UseVisualStyleBackColor = true;
+			this.checkBoxBlockPopUpWindows.Visible = false;
 			this.checkBoxBlockPopUpWindows.CheckedChanged += new System.EventHandler(this.checkBoxBlockPopUpWindows_CheckedChanged);
 			// 
 			// listBoxOpenLinksHTML
@@ -3814,9 +3829,9 @@ namespace SebWindowsConfig
 			this.labelOpenLinksHTML.AutoSize = true;
 			this.labelOpenLinksHTML.Location = new System.Drawing.Point(32, 22);
 			this.labelOpenLinksHTML.Name = "labelOpenLinksHTML";
-			this.labelOpenLinksHTML.Size = new System.Drawing.Size(489, 20);
+			this.labelOpenLinksHTML.Size = new System.Drawing.Size(413, 20);
 			this.labelOpenLinksHTML.TabIndex = 60;
-			this.labelOpenLinksHTML.Text = "Links requesting to be opened in a new browser window... (Mac only)";
+			this.labelOpenLinksHTML.Text = "Links requesting to be opened in a new browser window...";
 			this.labelOpenLinksHTML.Click += new System.EventHandler(this.labelOpenLinksHTML_Click);
 			// 
 			// checkBoxBlockLinksHTML
@@ -3825,9 +3840,9 @@ namespace SebWindowsConfig
 			this.checkBoxBlockLinksHTML.Location = new System.Drawing.Point(422, 62);
 			this.checkBoxBlockLinksHTML.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxBlockLinksHTML.Name = "checkBoxBlockLinksHTML";
-			this.checkBoxBlockLinksHTML.Size = new System.Drawing.Size(319, 24);
+			this.checkBoxBlockLinksHTML.Size = new System.Drawing.Size(363, 24);
 			this.checkBoxBlockLinksHTML.TabIndex = 1;
-			this.checkBoxBlockLinksHTML.Text = "block when directing to a different server";
+			this.checkBoxBlockLinksHTML.Text = "block when directing to a different server (Mac)";
 			this.toolTip1.SetToolTip(this.checkBoxBlockLinksHTML, "Hyperlinks which direct to a different host than the one of the current main page" +
         " will be ignored.");
 			this.checkBoxBlockLinksHTML.UseVisualStyleBackColor = true;
@@ -3950,6 +3965,7 @@ namespace SebWindowsConfig
 			this.spellCheckerGroupBox.TabIndex = 87;
 			this.spellCheckerGroupBox.TabStop = false;
 			this.spellCheckerGroupBox.Text = "Spell Checker";
+			this.spellCheckerGroupBox.Visible = false;
 			// 
 			// dictionariesDescriptionLabel
 			// 
@@ -4404,6 +4420,7 @@ namespace SebWindowsConfig
 			this.checkBoxEnableTouchExit.Text = "Enable touch exit";
 			this.toolTip1.SetToolTip(this.checkBoxEnableTouchExit, "SEB can be quit with a swipe down from the upper display edge.");
 			this.checkBoxEnableTouchExit.UseVisualStyleBackColor = true;
+			this.checkBoxEnableTouchExit.Visible = false;
 			this.checkBoxEnableTouchExit.CheckedChanged += new System.EventHandler(this.checkBoxEnableTouchExit_CheckedChanged);
 			// 
 			// radioButtonUseBrowserWindow
@@ -4919,6 +4936,7 @@ namespace SebWindowsConfig
 			this.comboBoxAdditionalResourceStartUrl.TabIndex = 58;
 			this.comboBoxAdditionalResourceStartUrl.Text = "Choose an embedded resource...";
 			this.comboBoxAdditionalResourceStartUrl.ValueMember = "Key";
+			this.comboBoxAdditionalResourceStartUrl.Visible = false;
 			this.comboBoxAdditionalResourceStartUrl.DropDown += new System.EventHandler(this.comboBoxAdditionalResourceStartUrl_DropDown);
 			this.comboBoxAdditionalResourceStartUrl.SelectedIndexChanged += new System.EventHandler(this.comboBoxAdditionalResourceStartUrl_SelectedIndexChanged);
 			// 
@@ -4931,6 +4949,7 @@ namespace SebWindowsConfig
 			this.label9.Size = new System.Drawing.Size(23, 20);
 			this.label9.TabIndex = 57;
 			this.label9.Text = "or";
+			this.label9.Visible = false;
 			// 
 			// checkBoxIgnoreExitKeys
 			// 
@@ -5305,6 +5324,7 @@ namespace SebWindowsConfig
 			this.collectLogFilesToolStripMenuItem.Name = "collectLogFilesToolStripMenuItem";
 			this.collectLogFilesToolStripMenuItem.Size = new System.Drawing.Size(286, 30);
 			this.collectLogFilesToolStripMenuItem.Text = "Collect Log Files...";
+			this.collectLogFilesToolStripMenuItem.Visible = false;
 			this.collectLogFilesToolStripMenuItem.Click += new System.EventHandler(this.collectLogFilesToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem

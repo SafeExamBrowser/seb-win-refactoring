@@ -199,7 +199,7 @@ namespace SebWindowsConfig.Utilities
 				if (sebDataDecrypted == null)
 				{
 					//wrong password entered in 5th try: stop reading .seb file
-					MessageBox.Show(SEBUIStrings.decryptingSettingsFailed, SEBUIStrings.decryptingSettingsFailedReason, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(SEBUIStrings.decryptingSettingsFailedReason, SEBUIStrings.decryptingSettingsFailed, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return null;
 				}
 				sebData = sebDataDecrypted;
@@ -241,7 +241,7 @@ namespace SebWindowsConfig.Utilities
 							// cancel reading .seb file
 							if (!suppressFileFormatError)
 							{
-								MessageBox.Show(SEBUIStrings.settingsNotUsable, SEBUIStrings.settingsNotUsableReason, MessageBoxButtons.OK, MessageBoxIcon.Error);
+								MessageBox.Show(SEBUIStrings.settingsNotUsableReason, SEBUIStrings.settingsNotUsable, MessageBoxButtons.OK, MessageBoxIcon.Error);
 							}
 							return null;
 						}
@@ -317,7 +317,7 @@ namespace SebWindowsConfig.Utilities
 					if (decryptedSebData == null)
 					{
 						//wrong password entered in 5th try: stop reading .seb file
-						MessageBox.Show(SEBUIStrings.reconfiguringLocalSettingsFailed, SEBUIStrings.reconfiguringLocalSettingsFailedWrongPassword, MessageBoxButtons.OK, MessageBoxIcon.Error);
+						MessageBox.Show(SEBUIStrings.reconfiguringLocalSettingsFailedWrongPassword, SEBUIStrings.reconfiguringLocalSettingsFailed, MessageBoxButtons.OK, MessageBoxIcon.Error);
 						return null;
 					}
 					else
@@ -349,7 +349,7 @@ namespace SebWindowsConfig.Utilities
 			{
 				// Error when deserializing the decrypted configuration data
 				// We abort reading the new settings here
-				MessageBox.Show(SEBUIStrings.loadingSettingsFailed, SEBUIStrings.loadingSettingsFailedReason, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(SEBUIStrings.loadingSettingsFailedReason, SEBUIStrings.loadingSettingsFailed, MessageBoxButtons.OK, MessageBoxIcon.Error);
 				Console.WriteLine(readPlistException.Message);
 				return null;
 			}
@@ -410,7 +410,7 @@ namespace SebWindowsConfig.Utilities
 						if (!passwordsMatch)
 						{
 							//wrong password entered in 5th try: stop reading .seb file
-							MessageBox.Show(SEBUIStrings.reconfiguringLocalSettingsFailed, SEBUIStrings.reconfiguringLocalSettingsFailedWrongCurrentAdminPwd, MessageBoxButtons.OK, MessageBoxIcon.Error);
+							MessageBox.Show(SEBUIStrings.reconfiguringLocalSettingsFailedWrongCurrentAdminPwd, SEBUIStrings.reconfiguringLocalSettingsFailed, MessageBoxButtons.OK, MessageBoxIcon.Error);
 							return null;
 						}
 					}
@@ -443,7 +443,7 @@ namespace SebWindowsConfig.Utilities
 			}
 			catch (Exception readPlistException)
 			{
-				MessageBox.Show(SEBUIStrings.loadingSettingsFailed, SEBUIStrings.loadingSettingsFailedReason, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(SEBUIStrings.loadingSettingsFailedReason, SEBUIStrings.loadingSettingsFailed, MessageBoxButtons.OK, MessageBoxIcon.Error);
 				Console.WriteLine(readPlistException.Message);
 				return null;
 			}
@@ -520,7 +520,7 @@ namespace SebWindowsConfig.Utilities
 			if (!passwordsMatch)
 			{
 				//wrong password entered in 5th try: stop reading .seb file
-				MessageBox.Show(SEBUIStrings.loadingSettingsFailed, SEBUIStrings.loadingSettingsFailedWrongAdminPwd, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(SEBUIStrings.loadingSettingsFailedWrongAdminPwd, SEBUIStrings.loadingSettingsFailed, MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
 			// Right password entered
@@ -544,7 +544,7 @@ namespace SebWindowsConfig.Utilities
 			X509Certificate2 certificateRef = SEBProtectionController.GetCertificateFromStore(publicKeyHash);
 			if (certificateRef == null)
 			{
-				MessageBox.Show(SEBUIStrings.errorDecryptingSettings, SEBUIStrings.certificateNotFoundInStore, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(SEBUIStrings.certificateNotFoundInStore, SEBUIStrings.errorDecryptingSettings, MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return null;
 			}
 			// If these settings are being decrypted for editing, we will return the decryption certificate reference
@@ -674,7 +674,7 @@ namespace SebWindowsConfig.Utilities
 				// Check if no password entered and no identity selected
 				if (String.IsNullOrEmpty(settingsPassword) && certificateRef == null)
 				{
-					if (MessageBox.Show(SEBUIStrings.noEncryptionChosen, SEBUIStrings.noEncryptionChosenSaveUnencrypted, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+					if (MessageBox.Show(SEBUIStrings.noEncryptionChosenSaveUnencrypted, SEBUIStrings.noEncryptionChosen, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 					{
 						// OK: save .seb config data unencrypted
 						return encryptedSebData;
