@@ -73,6 +73,8 @@ namespace SebWindowsConfig
 			this.checkBoxInsideSebEnableEaseOfAccess = new System.Windows.Forms.CheckBox();
 			this.checkBoxInsideSebEnableVmWareClientShade = new System.Windows.Forms.CheckBox();
 			this.tabPageSecurity = new System.Windows.Forms.TabPage();
+			this.checkBoxShowLogButton = new System.Windows.Forms.CheckBox();
+			this.checkBoxAllowLogAccess = new System.Windows.Forms.CheckBox();
 			this.checkBoxEnablePrivateClipboard = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowScreenSharing = new System.Windows.Forms.CheckBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -221,6 +223,10 @@ namespace SebWindowsConfig
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.checkBoxMonitorProcesses = new System.Windows.Forms.CheckBox();
 			this.tabPageExam = new System.Windows.Forms.TabPage();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.label15 = new System.Windows.Forms.Label();
+			this.checkBoxClearSessionOnEnd = new System.Windows.Forms.CheckBox();
+			this.checkBoxClearSessionOnStart = new System.Windows.Forms.CheckBox();
 			this.groupBox9 = new System.Windows.Forms.GroupBox();
 			this.checkBoxUseStartURL = new System.Windows.Forms.CheckBox();
 			this.textBoxRestartExamLink = new System.Windows.Forms.TextBox();
@@ -233,7 +239,10 @@ namespace SebWindowsConfig
 			this.textBoxQuitURL = new System.Windows.Forms.TextBox();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.groupBox7 = new System.Windows.Forms.GroupBox();
-			this.textBox2 = new System.Windows.Forms.TextBox();
+			this.label18 = new System.Windows.Forms.Label();
+			this.label17 = new System.Windows.Forms.Label();
+			this.label16 = new System.Windows.Forms.Label();
+			this.textBoxConfigurationKey = new System.Windows.Forms.TextBox();
 			this.checkBoxSendBrowserExamKey = new System.Windows.Forms.CheckBox();
 			this.textBoxBrowserExamKey = new System.Windows.Forms.TextBox();
 			this.labelBrowserExamKey = new System.Windows.Forms.Label();
@@ -317,10 +326,13 @@ namespace SebWindowsConfig
 			this.checkBoxSetVolumeLevel = new System.Windows.Forms.CheckBox();
 			this.checkBoxMuteAudio = new System.Windows.Forms.CheckBox();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
+			this.checkBoxAllowAdditionalWindowAddressBar = new System.Windows.Forms.CheckBox();
+			this.checkBoxAllowMainWindowAddressBar = new System.Windows.Forms.CheckBox();
 			this.checkBoxEnableBrowserWindowToolbar = new System.Windows.Forms.CheckBox();
 			this.checkBoxHideBrowserWindowToolbar = new System.Windows.Forms.CheckBox();
 			this.checkBoxShowMenuBar = new System.Windows.Forms.CheckBox();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.checkBoxShowSideMenu = new System.Windows.Forms.CheckBox();
 			this.checkBoxShowTaskBar = new System.Windows.Forms.CheckBox();
 			this.checkboxAllowWlan = new System.Windows.Forms.CheckBox();
 			this.comboBoxTaskBarHeight = new System.Windows.Forms.ComboBox();
@@ -417,15 +429,8 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.checkBoxClearSessionOnStart = new System.Windows.Forms.CheckBox();
-			this.checkBoxClearSessionOnEnd = new System.Windows.Forms.CheckBox();
-			this.label15 = new System.Windows.Forms.Label();
-			this.checkBoxAllowMainWindowAddressBar = new System.Windows.Forms.CheckBox();
-			this.checkBoxAllowAdditionalWindowAddressBar = new System.Windows.Forms.CheckBox();
-			this.checkBoxShowSideMenu = new System.Windows.Forms.CheckBox();
-			this.checkBoxAllowLogAccess = new System.Windows.Forms.CheckBox();
-			this.checkBoxShowLogButton = new System.Windows.Forms.CheckBox();
+			this.label19 = new System.Windows.Forms.Label();
+			this.label20 = new System.Windows.Forms.Label();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -452,6 +457,7 @@ namespace SebWindowsConfig
 			this.groupBoxProhibitedProcess.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewProhibitedProcesses)).BeginInit();
 			this.tabPageExam.SuspendLayout();
+			this.groupBox2.SuspendLayout();
 			this.groupBox9.SuspendLayout();
 			this.groupBox8.SuspendLayout();
 			this.groupBox7.SuspendLayout();
@@ -478,7 +484,6 @@ namespace SebWindowsConfig
 			this.groupBoxExitSequence.SuspendLayout();
 			this.tabControlSebWindowsConfig.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
-			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// openFileDialogSebConfigFile
@@ -1049,6 +1054,28 @@ namespace SebWindowsConfig
 			this.tabPageSecurity.TabIndex = 24;
 			this.tabPageSecurity.Text = "Security";
 			this.tabPageSecurity.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxShowLogButton
+			// 
+			this.checkBoxShowLogButton.AutoSize = true;
+			this.checkBoxShowLogButton.Location = new System.Drawing.Point(80, 287);
+			this.checkBoxShowLogButton.Name = "checkBoxShowLogButton";
+			this.checkBoxShowLogButton.Size = new System.Drawing.Size(264, 24);
+			this.checkBoxShowLogButton.TabIndex = 100;
+			this.checkBoxShowLogButton.Text = "Show log button in taskbar (Win)";
+			this.checkBoxShowLogButton.UseVisualStyleBackColor = true;
+			this.checkBoxShowLogButton.CheckedChanged += new System.EventHandler(this.checkBoxShowLogButton_CheckedChanged);
+			// 
+			// checkBoxAllowLogAccess
+			// 
+			this.checkBoxAllowLogAccess.AutoSize = true;
+			this.checkBoxAllowLogAccess.Location = new System.Drawing.Point(34, 257);
+			this.checkBoxAllowLogAccess.Name = "checkBoxAllowLogAccess";
+			this.checkBoxAllowLogAccess.Size = new System.Drawing.Size(290, 24);
+			this.checkBoxAllowLogAccess.TabIndex = 99;
+			this.checkBoxAllowLogAccess.Text = "Allow access to application log (Win)";
+			this.checkBoxAllowLogAccess.UseVisualStyleBackColor = true;
+			this.checkBoxAllowLogAccess.CheckedChanged += new System.EventHandler(this.checkBoxAllowLogAccess_CheckedChanged);
 			// 
 			// checkBoxEnablePrivateClipboard
 			// 
@@ -2886,6 +2913,49 @@ namespace SebWindowsConfig
 			this.tabPageExam.Text = " Exam";
 			this.tabPageExam.UseVisualStyleBackColor = true;
 			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.label15);
+			this.groupBox2.Controls.Add(this.checkBoxClearSessionOnEnd);
+			this.groupBox2.Controls.Add(this.checkBoxClearSessionOnStart);
+			this.groupBox2.Location = new System.Drawing.Point(907, 23);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(832, 182);
+			this.groupBox2.TabIndex = 122;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "Session Handling";
+			// 
+			// label15
+			// 
+			this.label15.Location = new System.Drawing.Point(18, 35);
+			this.label15.Name = "label15";
+			this.label15.Size = new System.Drawing.Size(792, 56);
+			this.label15.TabIndex = 2;
+			this.label15.Text = "Use the following parameters to control whether a browser session is persisted on" +
+    " disk, e.g. to keep users logged in after a reconfiguration.";
+			// 
+			// checkBoxClearSessionOnEnd
+			// 
+			this.checkBoxClearSessionOnEnd.AutoSize = true;
+			this.checkBoxClearSessionOnEnd.Location = new System.Drawing.Point(22, 135);
+			this.checkBoxClearSessionOnEnd.Name = "checkBoxClearSessionOnEnd";
+			this.checkBoxClearSessionOnEnd.Size = new System.Drawing.Size(486, 24);
+			this.checkBoxClearSessionOnEnd.TabIndex = 1;
+			this.checkBoxClearSessionOnEnd.Text = "Clear browser session when ending an exam or terminating SEB";
+			this.checkBoxClearSessionOnEnd.UseVisualStyleBackColor = true;
+			this.checkBoxClearSessionOnEnd.CheckedChanged += new System.EventHandler(this.checkBoxClearSessionOnEnd_CheckedChanged);
+			// 
+			// checkBoxClearSessionOnStart
+			// 
+			this.checkBoxClearSessionOnStart.AutoSize = true;
+			this.checkBoxClearSessionOnStart.Location = new System.Drawing.Point(22, 94);
+			this.checkBoxClearSessionOnStart.Name = "checkBoxClearSessionOnStart";
+			this.checkBoxClearSessionOnStart.Size = new System.Drawing.Size(465, 24);
+			this.checkBoxClearSessionOnStart.TabIndex = 0;
+			this.checkBoxClearSessionOnStart.Text = "Clear browser session when starting an exam or starting SEB";
+			this.checkBoxClearSessionOnStart.UseVisualStyleBackColor = true;
+			this.checkBoxClearSessionOnStart.CheckedChanged += new System.EventHandler(this.checkBoxClearSessionOnStart_CheckedChanged);
+			// 
 			// groupBox9
 			// 
 			this.groupBox9.Controls.Add(this.checkBoxUseStartURL);
@@ -2894,7 +2964,7 @@ namespace SebWindowsConfig
 			this.groupBox9.Controls.Add(this.textBoxRestartExamText);
 			this.groupBox9.Controls.Add(this.textBox4);
 			this.groupBox9.Controls.Add(this.textBox3);
-			this.groupBox9.Location = new System.Drawing.Point(36, 428);
+			this.groupBox9.Location = new System.Drawing.Point(907, 442);
 			this.groupBox9.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.groupBox9.Name = "groupBox9";
 			this.groupBox9.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -2990,7 +3060,7 @@ namespace SebWindowsConfig
 			this.groupBox8.Controls.Add(this.checkBoxQuitURLConfirm);
 			this.groupBox8.Controls.Add(this.textBoxQuitURL);
 			this.groupBox8.Controls.Add(this.textBox1);
-			this.groupBox8.Location = new System.Drawing.Point(36, 226);
+			this.groupBox8.Location = new System.Drawing.Point(907, 231);
 			this.groupBox8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.groupBox8.Name = "groupBox8";
 			this.groupBox8.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -3044,44 +3114,69 @@ namespace SebWindowsConfig
 			// 
 			// groupBox7
 			// 
-			this.groupBox7.Controls.Add(this.textBox2);
+			this.groupBox7.Controls.Add(this.label20);
+			this.groupBox7.Controls.Add(this.label19);
+			this.groupBox7.Controls.Add(this.label18);
+			this.groupBox7.Controls.Add(this.label17);
+			this.groupBox7.Controls.Add(this.label16);
+			this.groupBox7.Controls.Add(this.textBoxConfigurationKey);
 			this.groupBox7.Controls.Add(this.checkBoxSendBrowserExamKey);
 			this.groupBox7.Controls.Add(this.textBoxBrowserExamKey);
 			this.groupBox7.Location = new System.Drawing.Point(36, 25);
 			this.groupBox7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.groupBox7.Name = "groupBox7";
 			this.groupBox7.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.groupBox7.Size = new System.Drawing.Size(832, 180);
+			this.groupBox7.Size = new System.Drawing.Size(832, 583);
 			this.groupBox7.TabIndex = 119;
 			this.groupBox7.TabStop = false;
-			this.groupBox7.Text = "Browser Exam Key (valid only for the saved state of the current file)";
+			this.groupBox7.Text = "Browser Exam Key / Configuration Key";
 			// 
-			// textBox2
+			// label18
 			// 
-			this.textBox2.BackColor = System.Drawing.SystemColors.Window;
-			this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBox2.Location = new System.Drawing.Point(22, 114);
-			this.textBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.textBox2.Multiline = true;
-			this.textBox2.Name = "textBox2";
-			this.textBox2.ReadOnly = true;
-			this.textBox2.Size = new System.Drawing.Size(711, 46);
-			this.textBox2.TabIndex = 114;
-			this.textBox2.Text = "Copy this key (which depends on your SEB configuration) to the according field in" +
-    " your quiz settings in the exam system having support for SEB 2.0 or later built" +
-    " in.";
+			this.label18.Location = new System.Drawing.Point(18, 278);
+			this.label18.Name = "label18";
+			this.label18.Size = new System.Drawing.Size(791, 67);
+			this.label18.TabIndex = 117;
+			this.label18.Text = resources.GetString("label18.Text");
+			// 
+			// label17
+			// 
+			this.label17.AutoSize = true;
+			this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label17.Location = new System.Drawing.Point(18, 417);
+			this.label17.Name = "label17";
+			this.label17.Size = new System.Drawing.Size(151, 20);
+			this.label17.TabIndex = 116;
+			this.label17.Text = "Configuration Key";
+			// 
+			// label16
+			// 
+			this.label16.AutoSize = true;
+			this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label16.Location = new System.Drawing.Point(18, 250);
+			this.label16.Name = "label16";
+			this.label16.Size = new System.Drawing.Size(157, 20);
+			this.label16.TabIndex = 116;
+			this.label16.Text = "Browser Exam Key";
+			// 
+			// textBoxConfigurationKey
+			// 
+			this.textBoxConfigurationKey.Location = new System.Drawing.Point(22, 522);
+			this.textBoxConfigurationKey.Name = "textBoxConfigurationKey";
+			this.textBoxConfigurationKey.ReadOnly = true;
+			this.textBoxConfigurationKey.Size = new System.Drawing.Size(787, 26);
+			this.textBoxConfigurationKey.TabIndex = 115;
 			// 
 			// checkBoxSendBrowserExamKey
 			// 
 			this.checkBoxSendBrowserExamKey.AutoSize = true;
 			this.checkBoxSendBrowserExamKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxSendBrowserExamKey.Location = new System.Drawing.Point(22, 32);
+			this.checkBoxSendBrowserExamKey.Location = new System.Drawing.Point(22, 196);
 			this.checkBoxSendBrowserExamKey.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxSendBrowserExamKey.Name = "checkBoxSendBrowserExamKey";
-			this.checkBoxSendBrowserExamKey.Size = new System.Drawing.Size(363, 24);
+			this.checkBoxSendBrowserExamKey.Size = new System.Drawing.Size(360, 24);
 			this.checkBoxSendBrowserExamKey.TabIndex = 2;
-			this.checkBoxSendBrowserExamKey.Text = "Use Browser Exam Key (send in HTTP header)";
+			this.checkBoxSendBrowserExamKey.Text = "Use Browser Exam Key and Configuration Key";
 			this.toolTip1.SetToolTip(this.checkBoxSendBrowserExamKey, "Send Browser Exam Key in an HTTP header to authenticate the SEB client and its se" +
         "ttings to a compatible exam system.");
 			this.checkBoxSendBrowserExamKey.UseVisualStyleBackColor = true;
@@ -3089,9 +3184,10 @@ namespace SebWindowsConfig
 			// 
 			// textBoxBrowserExamKey
 			// 
-			this.textBoxBrowserExamKey.Location = new System.Drawing.Point(22, 72);
+			this.textBoxBrowserExamKey.Location = new System.Drawing.Point(22, 351);
 			this.textBoxBrowserExamKey.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.textBoxBrowserExamKey.Name = "textBoxBrowserExamKey";
+			this.textBoxBrowserExamKey.ReadOnly = true;
 			this.textBoxBrowserExamKey.Size = new System.Drawing.Size(787, 26);
 			this.textBoxBrowserExamKey.TabIndex = 0;
 			this.textBoxBrowserExamKey.TextChanged += new System.EventHandler(this.textBoxBrowserExamKey_TextChanged);
@@ -4182,6 +4278,28 @@ namespace SebWindowsConfig
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "Browser Window Toolbar";
 			// 
+			// checkBoxAllowAdditionalWindowAddressBar
+			// 
+			this.checkBoxAllowAdditionalWindowAddressBar.AutoSize = true;
+			this.checkBoxAllowAdditionalWindowAddressBar.Location = new System.Drawing.Point(44, 89);
+			this.checkBoxAllowAdditionalWindowAddressBar.Name = "checkBoxAllowAdditionalWindowAddressBar";
+			this.checkBoxAllowAdditionalWindowAddressBar.Size = new System.Drawing.Size(360, 24);
+			this.checkBoxAllowAdditionalWindowAddressBar.TabIndex = 6;
+			this.checkBoxAllowAdditionalWindowAddressBar.Text = "Allow address bar for additional windows (Win)";
+			this.checkBoxAllowAdditionalWindowAddressBar.UseVisualStyleBackColor = true;
+			this.checkBoxAllowAdditionalWindowAddressBar.CheckedChanged += new System.EventHandler(this.checkBoxAllowAdditionalWindowAddressBar_CheckedChanged);
+			// 
+			// checkBoxAllowMainWindowAddressBar
+			// 
+			this.checkBoxAllowMainWindowAddressBar.AutoSize = true;
+			this.checkBoxAllowMainWindowAddressBar.Location = new System.Drawing.Point(44, 59);
+			this.checkBoxAllowMainWindowAddressBar.Name = "checkBoxAllowMainWindowAddressBar";
+			this.checkBoxAllowMainWindowAddressBar.Size = new System.Drawing.Size(318, 24);
+			this.checkBoxAllowMainWindowAddressBar.TabIndex = 5;
+			this.checkBoxAllowMainWindowAddressBar.Text = "Allow address bar for main window (Win)";
+			this.checkBoxAllowMainWindowAddressBar.UseVisualStyleBackColor = true;
+			this.checkBoxAllowMainWindowAddressBar.CheckedChanged += new System.EventHandler(this.checkBoxAllowMainWindowAddressBar_CheckedChanged);
+			// 
 			// checkBoxEnableBrowserWindowToolbar
 			// 
 			this.checkBoxEnableBrowserWindowToolbar.AutoSize = true;
@@ -4242,6 +4360,17 @@ namespace SebWindowsConfig
 			this.groupBox5.TabIndex = 82;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Taskbar / Dock / Side Menu";
+			// 
+			// checkBoxShowSideMenu
+			// 
+			this.checkBoxShowSideMenu.AutoSize = true;
+			this.checkBoxShowSideMenu.Location = new System.Drawing.Point(15, 61);
+			this.checkBoxShowSideMenu.Name = "checkBoxShowSideMenu";
+			this.checkBoxShowSideMenu.Size = new System.Drawing.Size(152, 24);
+			this.checkBoxShowSideMenu.TabIndex = 82;
+			this.checkBoxShowSideMenu.Text = "Show side menu";
+			this.checkBoxShowSideMenu.UseVisualStyleBackColor = true;
+			this.checkBoxShowSideMenu.CheckedChanged += new System.EventHandler(this.checkBoxShowSideMenu_CheckedChanged);
 			// 
 			// checkBoxShowTaskBar
 			// 
@@ -5418,103 +5547,21 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// groupBox2
+			// label19
 			// 
-			this.groupBox2.Controls.Add(this.label15);
-			this.groupBox2.Controls.Add(this.checkBoxClearSessionOnEnd);
-			this.groupBox2.Controls.Add(this.checkBoxClearSessionOnStart);
-			this.groupBox2.Location = new System.Drawing.Point(907, 23);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(832, 182);
-			this.groupBox2.TabIndex = 122;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "Session Handling";
+			this.label19.Location = new System.Drawing.Point(18, 33);
+			this.label19.Name = "label19";
+			this.label19.Size = new System.Drawing.Size(791, 148);
+			this.label19.TabIndex = 118;
+			this.label19.Text = resources.GetString("label19.Text");
 			// 
-			// checkBoxClearSessionOnStart
+			// label20
 			// 
-			this.checkBoxClearSessionOnStart.AutoSize = true;
-			this.checkBoxClearSessionOnStart.Location = new System.Drawing.Point(22, 94);
-			this.checkBoxClearSessionOnStart.Name = "checkBoxClearSessionOnStart";
-			this.checkBoxClearSessionOnStart.Size = new System.Drawing.Size(465, 24);
-			this.checkBoxClearSessionOnStart.TabIndex = 0;
-			this.checkBoxClearSessionOnStart.Text = "Clear browser session when starting an exam or starting SEB";
-			this.checkBoxClearSessionOnStart.UseVisualStyleBackColor = true;
-			this.checkBoxClearSessionOnStart.CheckedChanged += new System.EventHandler(this.checkBoxClearSessionOnStart_CheckedChanged);
-			// 
-			// checkBoxClearSessionOnEnd
-			// 
-			this.checkBoxClearSessionOnEnd.AutoSize = true;
-			this.checkBoxClearSessionOnEnd.Location = new System.Drawing.Point(22, 135);
-			this.checkBoxClearSessionOnEnd.Name = "checkBoxClearSessionOnEnd";
-			this.checkBoxClearSessionOnEnd.Size = new System.Drawing.Size(486, 24);
-			this.checkBoxClearSessionOnEnd.TabIndex = 1;
-			this.checkBoxClearSessionOnEnd.Text = "Clear browser session when ending an exam or terminating SEB";
-			this.checkBoxClearSessionOnEnd.UseVisualStyleBackColor = true;
-			this.checkBoxClearSessionOnEnd.CheckedChanged += new System.EventHandler(this.checkBoxClearSessionOnEnd_CheckedChanged);
-			// 
-			// label15
-			// 
-			this.label15.Location = new System.Drawing.Point(18, 35);
-			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(792, 56);
-			this.label15.TabIndex = 2;
-			this.label15.Text = "Use the following parameters to control whether a browser session is persisted on" +
-    " disk, e.g. to keep users logged in after a reconfiguration.";
-			// 
-			// checkBoxAllowMainWindowAddressBar
-			// 
-			this.checkBoxAllowMainWindowAddressBar.AutoSize = true;
-			this.checkBoxAllowMainWindowAddressBar.Location = new System.Drawing.Point(44, 59);
-			this.checkBoxAllowMainWindowAddressBar.Name = "checkBoxAllowMainWindowAddressBar";
-			this.checkBoxAllowMainWindowAddressBar.Size = new System.Drawing.Size(318, 24);
-			this.checkBoxAllowMainWindowAddressBar.TabIndex = 5;
-			this.checkBoxAllowMainWindowAddressBar.Text = "Allow address bar for main window (Win)";
-			this.checkBoxAllowMainWindowAddressBar.UseVisualStyleBackColor = true;
-			this.checkBoxAllowMainWindowAddressBar.CheckedChanged += new System.EventHandler(this.checkBoxAllowMainWindowAddressBar_CheckedChanged);
-			// 
-			// checkBoxAllowAdditionalWindowAddressBar
-			// 
-			this.checkBoxAllowAdditionalWindowAddressBar.AutoSize = true;
-			this.checkBoxAllowAdditionalWindowAddressBar.Location = new System.Drawing.Point(44, 89);
-			this.checkBoxAllowAdditionalWindowAddressBar.Name = "checkBoxAllowAdditionalWindowAddressBar";
-			this.checkBoxAllowAdditionalWindowAddressBar.Size = new System.Drawing.Size(360, 24);
-			this.checkBoxAllowAdditionalWindowAddressBar.TabIndex = 6;
-			this.checkBoxAllowAdditionalWindowAddressBar.Text = "Allow address bar for additional windows (Win)";
-			this.checkBoxAllowAdditionalWindowAddressBar.UseVisualStyleBackColor = true;
-			this.checkBoxAllowAdditionalWindowAddressBar.CheckedChanged += new System.EventHandler(this.checkBoxAllowAdditionalWindowAddressBar_CheckedChanged);
-			// 
-			// checkBoxShowSideMenu
-			// 
-			this.checkBoxShowSideMenu.AutoSize = true;
-			this.checkBoxShowSideMenu.Location = new System.Drawing.Point(15, 61);
-			this.checkBoxShowSideMenu.Name = "checkBoxShowSideMenu";
-			this.checkBoxShowSideMenu.Size = new System.Drawing.Size(152, 24);
-			this.checkBoxShowSideMenu.TabIndex = 82;
-			this.checkBoxShowSideMenu.Text = "Show side menu";
-			this.checkBoxShowSideMenu.UseVisualStyleBackColor = true;
-			this.checkBoxShowSideMenu.CheckedChanged += new System.EventHandler(this.checkBoxShowSideMenu_CheckedChanged);
-			// 
-			// checkBoxAllowLogAccess
-			// 
-			this.checkBoxAllowLogAccess.AutoSize = true;
-			this.checkBoxAllowLogAccess.Location = new System.Drawing.Point(34, 257);
-			this.checkBoxAllowLogAccess.Name = "checkBoxAllowLogAccess";
-			this.checkBoxAllowLogAccess.Size = new System.Drawing.Size(290, 24);
-			this.checkBoxAllowLogAccess.TabIndex = 99;
-			this.checkBoxAllowLogAccess.Text = "Allow access to application log (Win)";
-			this.checkBoxAllowLogAccess.UseVisualStyleBackColor = true;
-			this.checkBoxAllowLogAccess.CheckedChanged += new System.EventHandler(this.checkBoxAllowLogAccess_CheckedChanged);
-			// 
-			// checkBoxShowLogButton
-			// 
-			this.checkBoxShowLogButton.AutoSize = true;
-			this.checkBoxShowLogButton.Location = new System.Drawing.Point(80, 287);
-			this.checkBoxShowLogButton.Name = "checkBoxShowLogButton";
-			this.checkBoxShowLogButton.Size = new System.Drawing.Size(264, 24);
-			this.checkBoxShowLogButton.TabIndex = 100;
-			this.checkBoxShowLogButton.Text = "Show log button in taskbar (Win)";
-			this.checkBoxShowLogButton.UseVisualStyleBackColor = true;
-			this.checkBoxShowLogButton.CheckedChanged += new System.EventHandler(this.checkBoxShowLogButton_CheckedChanged);
+			this.label20.Location = new System.Drawing.Point(18, 447);
+			this.label20.Name = "label20";
+			this.label20.Size = new System.Drawing.Size(791, 65);
+			this.label20.TabIndex = 119;
+			this.label20.Text = resources.GetString("label20.Text");
 			// 
 			// SebWindowsConfigForm
 			// 
@@ -5581,6 +5628,8 @@ namespace SebWindowsConfig
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewProhibitedProcesses)).EndInit();
 			this.tabPageExam.ResumeLayout(false);
 			this.tabPageExam.PerformLayout();
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
 			this.groupBox9.ResumeLayout(false);
 			this.groupBox9.PerformLayout();
 			this.groupBox8.ResumeLayout(false);
@@ -5628,8 +5677,6 @@ namespace SebWindowsConfig
 			this.tabControlSebWindowsConfig.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
-			this.groupBox2.ResumeLayout(false);
-			this.groupBox2.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -5858,7 +5905,6 @@ namespace SebWindowsConfig
         private System.Windows.Forms.CheckBox checkBoxPermittedProcessStrongKill;
         private System.Windows.Forms.TextBox textBoxIfYourNetworkAdministrator;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxPermittedProcessExecutables;
@@ -6032,6 +6078,12 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.CheckBox checkBoxShowSideMenu;
 		private System.Windows.Forms.CheckBox checkBoxAllowLogAccess;
 		private System.Windows.Forms.CheckBox checkBoxShowLogButton;
+		private System.Windows.Forms.Label label17;
+		private System.Windows.Forms.Label label16;
+		private System.Windows.Forms.TextBox textBoxConfigurationKey;
+		private System.Windows.Forms.Label label18;
+		private System.Windows.Forms.Label label19;
+		private System.Windows.Forms.Label label20;
 	}
 }
 

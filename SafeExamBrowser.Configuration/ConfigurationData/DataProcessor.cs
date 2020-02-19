@@ -20,10 +20,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 	{
 		internal void Process(IDictionary<string, object> rawData, AppSettings settings)
 		{
-			CalculateHashValue(rawData, settings);
+			CalculateConfigurationKey(rawData, settings);
 		}
 
-		private void CalculateHashValue(IDictionary<string, object> rawData, AppSettings settings)
+		private void CalculateConfigurationKey(IDictionary<string, object> rawData, AppSettings settings)
 		{
 			using (var algorithm = new SHA256Managed())
 			using (var stream = new MemoryStream())
