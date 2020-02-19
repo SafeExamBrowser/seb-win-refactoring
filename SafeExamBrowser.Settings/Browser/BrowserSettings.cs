@@ -94,7 +94,7 @@ namespace SafeExamBrowser.Settings.Browser
 		/// <summary>
 		/// The salt value for the calculation of the exam key which is used for integrity checks with server applications (see also <see cref="SendExamKey"/>).
 		/// </summary>
-		public string ExamKeySalt { get; set; }
+		public byte[] ExamKeySalt { get; set; }
 
 		/// <summary>
 		/// The settings to be used for the browser request filter.

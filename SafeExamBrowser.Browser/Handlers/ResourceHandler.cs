@@ -130,12 +130,15 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		private string ComputeBrowserExamKey()
 		{
-			var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(settings.ExamKeySalt + appConfig.CodeSignatureHash + appConfig.ProgramBuildVersion + settings.ConfigurationKey));
-			var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
+			using (var algorithm = new HMACSHA256(settings.ExamKeySalt))
+			{
+				var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(appConfig.CodeSignatureHash + appConfig.ProgramBuildVersion + settings.ConfigurationKey));
+				var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
 
-			browserExamKey = key;
+				browserExamKey = key;
 
-			return browserExamKey;
+				return browserExamKey;
+			}
 		}
 
 		private bool IsMailtoUrl(string url)

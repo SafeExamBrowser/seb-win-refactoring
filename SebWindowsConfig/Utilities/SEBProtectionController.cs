@@ -574,14 +574,14 @@ namespace SebWindowsConfig.Utilities
 		{
 			var executable = Assembly.GetExecutingAssembly();
 			var certificate = executable.Modules.First().GetSignerCertificate();
-			var salt = BitConverter.ToString((byte[])SEBSettings.settingsCurrent[SEBSettings.KeyExamKeySalt]).ToLower().Replace("-", string.Empty);
+			var salt = (byte[]) SEBSettings.settingsCurrent[SEBSettings.KeyExamKeySalt];
 			var signature = certificate?.GetCertHashString();
 			var version = FileVersionInfo.GetVersionInfo(executable.Location).FileVersion;
 			var configurationKey = ComputeConfigurationKey();
 
-			using (var algorithm = new SHA256Managed())
+			using (var algorithm = new HMACSHA256(salt))
 			{
-				var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(salt + signature + version + configurationKey));
+				var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(signature + version + configurationKey));
 				var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
 
 				return key;
