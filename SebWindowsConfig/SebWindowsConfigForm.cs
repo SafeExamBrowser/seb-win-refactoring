@@ -535,17 +535,18 @@ namespace SebWindowsConfig
 			textBoxRestartExamText.Text = (String)SEBSettings.settingsCurrent[SEBSettings.KeyRestartExamText];
 
 			// Group AdditionalResources
-			tabPageAdditionalResources.Controls.Clear();
-			tabPageAdditionalResources.Controls.Add(new AdditionalResources());
+			tabControlSebWindowsConfig.TabPages.Remove(tabPageAdditionalResources);
+			//tabPageAdditionalResources.Controls.Clear();
+			//tabPageAdditionalResources.Controls.Add(new AdditionalResources());
 
-			FillStartupResourcesinCombobox();
-			foreach (KeyValuePair<string, string> item in comboBoxAdditionalResourceStartUrl.Items)
-			{
-				if (item.Key == SEBSettings.settingsCurrent[SEBSettings.KeyStartResource].ToString())
-				{
-					comboBoxAdditionalResourceStartUrl.SelectedItem = item;
-				}
-			}
+			//FillStartupResourcesinCombobox();
+			//foreach (KeyValuePair<string, string> item in comboBoxAdditionalResourceStartUrl.Items)
+			//{
+			//	if (item.Key == SEBSettings.settingsCurrent[SEBSettings.KeyStartResource].ToString())
+			//	{
+			//		comboBoxAdditionalResourceStartUrl.SelectedItem = item;
+			//	}
+			//}
 
 			// Group "Applications"
 			checkBoxMonitorProcesses         .Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyMonitorProcesses];
