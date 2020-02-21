@@ -653,7 +653,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowAudioCapture, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowBrowsingBackForward, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyNewBrowserWindowNavigation, true);
-			SEBSettings.settingsDefault.Add(SEBSettings.KeyRemoveBrowserProfile, false);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyRemoveBrowserProfile, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyDisableLocalStorage     , false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableSebBrowser        , true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyBrowserWindowAllowReload, true);

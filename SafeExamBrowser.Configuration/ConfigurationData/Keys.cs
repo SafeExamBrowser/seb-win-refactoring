@@ -49,6 +49,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string AllowPdfReaderToolbar = "allowPDFReaderToolbar";
 			internal const string CustomUserAgentDesktop = "browserUserAgentWinDesktopModeCustom";
 			internal const string CustomUserAgentMobile = "browserUserAgentWinTouchModeCustom";
+			internal const string DeleteCacheOnShutdown = "removeBrowserProfile";
 			internal const string DeleteCookiesOnShutdown = "examSessionClearCookiesOnEnd";
 			internal const string DeleteCookiesOnStartup = "examSessionClearCookiesOnStart";
 			internal const string DownloadDirectory = "downloadDirectoryWin";

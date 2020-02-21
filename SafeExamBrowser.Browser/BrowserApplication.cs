@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using CefSharp;
 using CefSharp.WinForms;
@@ -123,6 +124,15 @@ namespace SafeExamBrowser.Browser
 
 			Cef.Shutdown();
 			logger.Info("Terminated browser.");
+
+			if (settings.DeleteCacheOnShutdown && settings.DeleteCookiesOnShutdown)
+			{
+				DeleteCache();
+			}
+			else
+			{
+				logger.Info("Retained browser cache.");
+			}
 		}
 
 		private void CreateNewInstance(string url = null)
@@ -143,6 +153,19 @@ namespace SafeExamBrowser.Browser
 
 			logger.Info($"Created browser instance {instance.Id}.");
 			WindowsChanged?.Invoke();
+		}
+
+		private void DeleteCache()
+		{
+			try
+			{
+				Directory.Delete(appConfig.BrowserCachePath, true);
+				logger.Info("Deleted browser cache.");
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to delete browser cache!", e);
+			}
 		}
 
 		private void DeleteCookies()

@@ -389,12 +389,12 @@ namespace SebWindowsConfig
 			this.tabPageGeneral = new System.Windows.Forms.TabPage();
 			this.comboBoxAdditionalResourceStartUrl = new System.Windows.Forms.ComboBox();
 			this.label9 = new System.Windows.Forms.Label();
-			this.checkBoxIgnoreExitKeys = new System.Windows.Forms.CheckBox();
 			this.labelQuitPasswordCompare = new System.Windows.Forms.Label();
 			this.labelAdminPasswordCompare = new System.Windows.Forms.Label();
 			this.groupBoxExitSequence = new System.Windows.Forms.GroupBox();
 			this.listBoxExitKey1 = new System.Windows.Forms.ListBox();
 			this.listBoxExitKey3 = new System.Windows.Forms.ListBox();
+			this.checkBoxIgnoreExitKeys = new System.Windows.Forms.CheckBox();
 			this.listBoxExitKey2 = new System.Windows.Forms.ListBox();
 			this.labelSebServerURL = new System.Windows.Forms.Label();
 			this.textBoxSebServerURL = new System.Windows.Forms.TextBox();
@@ -2920,7 +2920,7 @@ namespace SebWindowsConfig
 			this.groupBox2.Controls.Add(this.checkBoxClearSessionOnStart);
 			this.groupBox2.Location = new System.Drawing.Point(907, 23);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(832, 182);
+			this.groupBox2.Size = new System.Drawing.Size(915, 182);
 			this.groupBox2.TabIndex = 122;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Session Handling";
@@ -2939,9 +2939,10 @@ namespace SebWindowsConfig
 			this.checkBoxClearSessionOnEnd.AutoSize = true;
 			this.checkBoxClearSessionOnEnd.Location = new System.Drawing.Point(22, 135);
 			this.checkBoxClearSessionOnEnd.Name = "checkBoxClearSessionOnEnd";
-			this.checkBoxClearSessionOnEnd.Size = new System.Drawing.Size(486, 24);
+			this.checkBoxClearSessionOnEnd.Size = new System.Drawing.Size(848, 24);
 			this.checkBoxClearSessionOnEnd.TabIndex = 1;
-			this.checkBoxClearSessionOnEnd.Text = "Clear browser session when ending an exam or terminating SEB";
+			this.checkBoxClearSessionOnEnd.Text = "Clear browser session when ending an exam or terminating SEB (prevents deletion o" +
+    "f browser cache if deactivated!)";
 			this.checkBoxClearSessionOnEnd.UseVisualStyleBackColor = true;
 			this.checkBoxClearSessionOnEnd.CheckedChanged += new System.EventHandler(this.checkBoxClearSessionOnEnd_CheckedChanged);
 			// 
@@ -2968,7 +2969,7 @@ namespace SebWindowsConfig
 			this.groupBox9.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.groupBox9.Name = "groupBox9";
 			this.groupBox9.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.groupBox9.Size = new System.Drawing.Size(832, 278);
+			this.groupBox9.Size = new System.Drawing.Size(915, 278);
 			this.groupBox9.TabIndex = 121;
 			this.groupBox9.TabStop = false;
 			this.groupBox9.Text = "Back to Start Button (Mac)";
@@ -3064,7 +3065,7 @@ namespace SebWindowsConfig
 			this.groupBox8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.groupBox8.Name = "groupBox8";
 			this.groupBox8.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.groupBox8.Size = new System.Drawing.Size(832, 180);
+			this.groupBox8.Size = new System.Drawing.Size(915, 180);
 			this.groupBox8.TabIndex = 120;
 			this.groupBox8.TabStop = false;
 			this.groupBox8.Text = "Link to quit SEB after exam";
@@ -3419,7 +3420,7 @@ namespace SebWindowsConfig
 			// label12
 			// 
 			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(810, 531);
+			this.label12.Location = new System.Drawing.Point(831, 780);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(265, 20);
 			this.label12.TabIndex = 126;
@@ -3431,7 +3432,7 @@ namespace SebWindowsConfig
 			this.textBoxUserAgent.AcceptsTab = true;
 			this.textBoxUserAgent.AllowDrop = true;
 			this.textBoxUserAgent.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBoxUserAgent.Location = new System.Drawing.Point(814, 563);
+			this.textBoxUserAgent.Location = new System.Drawing.Point(835, 812);
 			this.textBoxUserAgent.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.textBoxUserAgent.Name = "textBoxUserAgent";
 			this.textBoxUserAgent.Size = new System.Drawing.Size(748, 25);
@@ -3443,7 +3444,7 @@ namespace SebWindowsConfig
 			// label11
 			// 
 			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(810, 811);
+			this.label11.Location = new System.Drawing.Point(831, 849);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(313, 20);
 			this.label11.TabIndex = 124;
@@ -3456,7 +3457,7 @@ namespace SebWindowsConfig
 			this.textBoxBrowserSuffix.AcceptsTab = true;
 			this.textBoxBrowserSuffix.AllowDrop = true;
 			this.textBoxBrowserSuffix.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBoxBrowserSuffix.Location = new System.Drawing.Point(814, 837);
+			this.textBoxBrowserSuffix.Location = new System.Drawing.Point(835, 875);
 			this.textBoxBrowserSuffix.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.textBoxBrowserSuffix.Name = "textBoxBrowserSuffix";
 			this.textBoxBrowserSuffix.Size = new System.Drawing.Size(319, 25);
@@ -3470,7 +3471,7 @@ namespace SebWindowsConfig
 			this.groupBox14.Controls.Add(this.textBoxUserAgentMacCustom);
 			this.groupBox14.Controls.Add(this.radioButtonUserAgentMacDefault);
 			this.groupBox14.Controls.Add(this.radioButtonUserAgentMacCustom);
-			this.groupBox14.Location = new System.Drawing.Point(35, 644);
+			this.groupBox14.Location = new System.Drawing.Point(835, 368);
 			this.groupBox14.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.groupBox14.Name = "groupBox14";
 			this.groupBox14.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -3526,7 +3527,7 @@ namespace SebWindowsConfig
 			this.groupBox13.Controls.Add(this.textBoxUserAgentTouchModeCustom);
 			this.groupBox13.Controls.Add(this.radioButtonUserAgentTouchDefault);
 			this.groupBox13.Controls.Add(this.radioButtonUserAgentTouchCustom);
-			this.groupBox13.Location = new System.Drawing.Point(814, 609);
+			this.groupBox13.Location = new System.Drawing.Point(835, 564);
 			this.groupBox13.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.groupBox13.Name = "groupBox13";
 			this.groupBox13.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -3614,7 +3615,7 @@ namespace SebWindowsConfig
 			this.groupBox12.Controls.Add(this.textBoxUserAgentDesktopModeCustom);
 			this.groupBox12.Controls.Add(this.radioButtonUserAgentDesktopDefault);
 			this.groupBox12.Controls.Add(this.radioButtonUserAgentDesktopCustom);
-			this.groupBox12.Location = new System.Drawing.Point(36, 449);
+			this.groupBox12.Location = new System.Drawing.Point(835, 149);
 			this.groupBox12.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.groupBox12.Name = "groupBox12";
 			this.groupBox12.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -3706,7 +3707,7 @@ namespace SebWindowsConfig
 			this.groupBox11.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.groupBox11.Name = "groupBox11";
 			this.groupBox11.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.groupBox11.Size = new System.Drawing.Size(750, 128);
+			this.groupBox11.Size = new System.Drawing.Size(750, 187);
 			this.groupBox11.TabIndex = 71;
 			this.groupBox11.TabStop = false;
 			this.groupBox11.Text = "Browser security";
@@ -3741,7 +3742,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowVideoCapture.AutoSize = true;
 			this.checkBoxAllowVideoCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowVideoCapture.Location = new System.Drawing.Point(21, 192);
+			this.checkBoxAllowVideoCapture.Location = new System.Drawing.Point(21, 253);
 			this.checkBoxAllowVideoCapture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxAllowVideoCapture.Name = "checkBoxAllowVideoCapture";
 			this.checkBoxAllowVideoCapture.Size = new System.Drawing.Size(244, 24);
@@ -3783,7 +3784,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowAudioCapture.AutoSize = true;
 			this.checkBoxAllowAudioCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowAudioCapture.Location = new System.Drawing.Point(388, 192);
+			this.checkBoxAllowAudioCapture.Location = new System.Drawing.Point(388, 253);
 			this.checkBoxAllowAudioCapture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxAllowAudioCapture.Name = "checkBoxAllowAudioCapture";
 			this.checkBoxAllowAudioCapture.Size = new System.Drawing.Size(270, 24);
@@ -3811,7 +3812,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxDisableLocalStorage.AutoSize = true;
 			this.checkBoxDisableLocalStorage.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxDisableLocalStorage.Location = new System.Drawing.Point(388, 231);
+			this.checkBoxDisableLocalStorage.Location = new System.Drawing.Point(388, 292);
 			this.checkBoxDisableLocalStorage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxDisableLocalStorage.Name = "checkBoxDisableLocalStorage";
 			this.checkBoxDisableLocalStorage.Size = new System.Drawing.Size(226, 24);
@@ -3825,17 +3826,15 @@ namespace SebWindowsConfig
 			// 
 			// checkBoxRemoveProfile
 			// 
-			this.checkBoxRemoveProfile.AutoSize = true;
-			this.checkBoxRemoveProfile.Location = new System.Drawing.Point(21, 231);
+			this.checkBoxRemoveProfile.Location = new System.Drawing.Point(21, 120);
 			this.checkBoxRemoveProfile.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.checkBoxRemoveProfile.Name = "checkBoxRemoveProfile";
-			this.checkBoxRemoveProfile.Size = new System.Drawing.Size(182, 24);
+			this.checkBoxRemoveProfile.Size = new System.Drawing.Size(721, 55);
 			this.checkBoxRemoveProfile.TabIndex = 6;
-			this.checkBoxRemoveProfile.Text = "Remove profile (Win)";
-			this.toolTip1.SetToolTip(this.checkBoxRemoveProfile, "Remove XULRunner browser profile (containing caches and also local storage) when " +
-        "quitting SEB");
+			this.checkBoxRemoveProfile.Text = "Delete cache when re-configuring or terminating SEB (Win). This setting is ignore" +
+    "d if \"Clear browser session when ending\" in section Exam > Session Handling is d" +
+    "eactivated!";
 			this.checkBoxRemoveProfile.UseVisualStyleBackColor = true;
-			this.checkBoxRemoveProfile.Visible = false;
 			this.checkBoxRemoveProfile.CheckedChanged += new System.EventHandler(this.checkBoxRemoveProfile_CheckedChanged);
 			// 
 			// checkBoxAllowBrowsingBackForward
@@ -3856,7 +3855,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnablePlugIns.AutoSize = true;
 			this.checkBoxEnablePlugIns.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnablePlugIns.Location = new System.Drawing.Point(21, 130);
+			this.checkBoxEnablePlugIns.Location = new System.Drawing.Point(21, 191);
 			this.checkBoxEnablePlugIns.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxEnablePlugIns.Name = "checkBoxEnablePlugIns";
 			this.checkBoxEnablePlugIns.Size = new System.Drawing.Size(264, 24);
@@ -3872,7 +3871,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxBlockPopUpWindows.AutoSize = true;
 			this.checkBoxBlockPopUpWindows.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxBlockPopUpWindows.Location = new System.Drawing.Point(388, 161);
+			this.checkBoxBlockPopUpWindows.Location = new System.Drawing.Point(388, 222);
 			this.checkBoxBlockPopUpWindows.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxBlockPopUpWindows.Name = "checkBoxBlockPopUpWindows";
 			this.checkBoxBlockPopUpWindows.Size = new System.Drawing.Size(192, 24);
@@ -3888,7 +3887,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnableJavaScript.AutoSize = true;
 			this.checkBoxEnableJavaScript.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableJavaScript.Location = new System.Drawing.Point(388, 130);
+			this.checkBoxEnableJavaScript.Location = new System.Drawing.Point(388, 191);
 			this.checkBoxEnableJavaScript.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxEnableJavaScript.Name = "checkBoxEnableJavaScript";
 			this.checkBoxEnableJavaScript.Size = new System.Drawing.Size(163, 24);
@@ -3904,7 +3903,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnableJava.AutoSize = true;
 			this.checkBoxEnableJava.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableJava.Location = new System.Drawing.Point(21, 161);
+			this.checkBoxEnableJava.Location = new System.Drawing.Point(21, 222);
 			this.checkBoxEnableJava.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxEnableJava.Name = "checkBoxEnableJava";
 			this.checkBoxEnableJava.Size = new System.Drawing.Size(122, 24);
@@ -3930,7 +3929,7 @@ namespace SebWindowsConfig
 			// labelUseSEBWithoutBrowser
 			// 
 			this.labelUseSEBWithoutBrowser.AutoSize = true;
-			this.labelUseSEBWithoutBrowser.Location = new System.Drawing.Point(69, 846);
+			this.labelUseSEBWithoutBrowser.Location = new System.Drawing.Point(82, 570);
 			this.labelUseSEBWithoutBrowser.Name = "labelUseSEBWithoutBrowser";
 			this.labelUseSEBWithoutBrowser.Size = new System.Drawing.Size(652, 20);
 			this.labelUseSEBWithoutBrowser.TabIndex = 10;
@@ -3940,7 +3939,7 @@ namespace SebWindowsConfig
 			// checkBoxUseSebWithoutBrowser
 			// 
 			this.checkBoxUseSebWithoutBrowser.AutoSize = true;
-			this.checkBoxUseSebWithoutBrowser.Location = new System.Drawing.Point(36, 817);
+			this.checkBoxUseSebWithoutBrowser.Location = new System.Drawing.Point(57, 539);
 			this.checkBoxUseSebWithoutBrowser.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxUseSebWithoutBrowser.Name = "checkBoxUseSebWithoutBrowser";
 			this.checkBoxUseSebWithoutBrowser.Size = new System.Drawing.Size(272, 24);
@@ -5061,7 +5060,6 @@ namespace SebWindowsConfig
 			// 
 			this.tabPageGeneral.Controls.Add(this.comboBoxAdditionalResourceStartUrl);
 			this.tabPageGeneral.Controls.Add(this.label9);
-			this.tabPageGeneral.Controls.Add(this.checkBoxIgnoreExitKeys);
 			this.tabPageGeneral.Controls.Add(this.labelQuitPasswordCompare);
 			this.tabPageGeneral.Controls.Add(this.labelAdminPasswordCompare);
 			this.tabPageGeneral.Controls.Add(this.groupBoxExitSequence);
@@ -5116,29 +5114,12 @@ namespace SebWindowsConfig
 			this.label9.Text = "or";
 			this.label9.Visible = false;
 			// 
-			// checkBoxIgnoreExitKeys
-			// 
-			this.checkBoxIgnoreExitKeys.AutoSize = true;
-			this.checkBoxIgnoreExitKeys.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxIgnoreExitKeys.Location = new System.Drawing.Point(28, 318);
-			this.checkBoxIgnoreExitKeys.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-			this.checkBoxIgnoreExitKeys.Name = "checkBoxIgnoreExitKeys";
-			this.checkBoxIgnoreExitKeys.Size = new System.Drawing.Size(145, 24);
-			this.checkBoxIgnoreExitKeys.TabIndex = 8;
-			this.checkBoxIgnoreExitKeys.Text = "Ignore exit keys";
-			this.toolTip1.SetToolTip(this.checkBoxIgnoreExitKeys, "SEB ignores the exit keys and can only be quit manually by entering the quit pass" +
-        "word (click Quit button in SEB taskbar, press Ctrl-Q or click the main browser w" +
-        "indow close button).");
-			this.checkBoxIgnoreExitKeys.UseVisualStyleBackColor = true;
-			this.checkBoxIgnoreExitKeys.Visible = false;
-			this.checkBoxIgnoreExitKeys.CheckedChanged += new System.EventHandler(this.checkBoxIgnoreExitKeys_CheckedChanged);
-			// 
 			// labelQuitPasswordCompare
 			// 
 			this.labelQuitPasswordCompare.AutoSize = true;
 			this.labelQuitPasswordCompare.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelQuitPasswordCompare.ForeColor = System.Drawing.Color.Red;
-			this.labelQuitPasswordCompare.Location = new System.Drawing.Point(264, 502);
+			this.labelQuitPasswordCompare.Location = new System.Drawing.Point(264, 426);
 			this.labelQuitPasswordCompare.Name = "labelQuitPasswordCompare";
 			this.labelQuitPasswordCompare.Size = new System.Drawing.Size(279, 20);
 			this.labelQuitPasswordCompare.TabIndex = 56;
@@ -5151,7 +5132,7 @@ namespace SebWindowsConfig
 			this.labelAdminPasswordCompare.AutoSize = true;
 			this.labelAdminPasswordCompare.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.labelAdminPasswordCompare.ForeColor = System.Drawing.Color.Red;
-			this.labelAdminPasswordCompare.Location = new System.Drawing.Point(264, 238);
+			this.labelAdminPasswordCompare.Location = new System.Drawing.Point(264, 237);
 			this.labelAdminPasswordCompare.Name = "labelAdminPasswordCompare";
 			this.labelAdminPasswordCompare.Size = new System.Drawing.Size(279, 20);
 			this.labelAdminPasswordCompare.TabIndex = 55;
@@ -5164,9 +5145,10 @@ namespace SebWindowsConfig
 			// 
 			this.groupBoxExitSequence.Controls.Add(this.listBoxExitKey1);
 			this.groupBoxExitSequence.Controls.Add(this.listBoxExitKey3);
+			this.groupBoxExitSequence.Controls.Add(this.checkBoxIgnoreExitKeys);
 			this.groupBoxExitSequence.Controls.Add(this.listBoxExitKey2);
 			this.groupBoxExitSequence.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.groupBoxExitSequence.Location = new System.Drawing.Point(580, 162);
+			this.groupBoxExitSequence.Location = new System.Drawing.Point(798, 160);
 			this.groupBoxExitSequence.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.groupBoxExitSequence.Name = "groupBoxExitSequence";
 			this.groupBoxExitSequence.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -5201,6 +5183,23 @@ namespace SebWindowsConfig
 			this.listBoxExitKey3.Size = new System.Drawing.Size(44, 244);
 			this.listBoxExitKey3.TabIndex = 2;
 			this.listBoxExitKey3.SelectedIndexChanged += new System.EventHandler(this.listBoxExitKey3_SelectedIndexChanged);
+			// 
+			// checkBoxIgnoreExitKeys
+			// 
+			this.checkBoxIgnoreExitKeys.AutoSize = true;
+			this.checkBoxIgnoreExitKeys.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBoxIgnoreExitKeys.Location = new System.Drawing.Point(12, 298);
+			this.checkBoxIgnoreExitKeys.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+			this.checkBoxIgnoreExitKeys.Name = "checkBoxIgnoreExitKeys";
+			this.checkBoxIgnoreExitKeys.Size = new System.Drawing.Size(145, 24);
+			this.checkBoxIgnoreExitKeys.TabIndex = 8;
+			this.checkBoxIgnoreExitKeys.Text = "Ignore exit keys";
+			this.toolTip1.SetToolTip(this.checkBoxIgnoreExitKeys, "SEB ignores the exit keys and can only be quit manually by entering the quit pass" +
+        "word (click Quit button in SEB taskbar, press Ctrl-Q or click the main browser w" +
+        "indow close button).");
+			this.checkBoxIgnoreExitKeys.UseVisualStyleBackColor = true;
+			this.checkBoxIgnoreExitKeys.Visible = false;
+			this.checkBoxIgnoreExitKeys.CheckedChanged += new System.EventHandler(this.checkBoxIgnoreExitKeys_CheckedChanged);
 			// 
 			// listBoxExitKey2
 			// 
@@ -5241,7 +5240,7 @@ namespace SebWindowsConfig
 			// textBoxConfirmAdminPassword
 			// 
 			this.textBoxConfirmAdminPassword.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBoxConfirmAdminPassword.Location = new System.Drawing.Point(268, 202);
+			this.textBoxConfirmAdminPassword.Location = new System.Drawing.Point(268, 201);
 			this.textBoxConfirmAdminPassword.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.textBoxConfirmAdminPassword.Name = "textBoxConfirmAdminPassword";
 			this.textBoxConfirmAdminPassword.PasswordChar = '●';
@@ -5254,7 +5253,7 @@ namespace SebWindowsConfig
 			// textBoxAdminPassword
 			// 
 			this.textBoxAdminPassword.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBoxAdminPassword.Location = new System.Drawing.Point(268, 162);
+			this.textBoxAdminPassword.Location = new System.Drawing.Point(268, 161);
 			this.textBoxAdminPassword.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.textBoxAdminPassword.Name = "textBoxAdminPassword";
 			this.textBoxAdminPassword.PasswordChar = '●';
@@ -5268,7 +5267,7 @@ namespace SebWindowsConfig
 			// textBoxConfirmQuitPassword
 			// 
 			this.textBoxConfirmQuitPassword.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBoxConfirmQuitPassword.Location = new System.Drawing.Point(268, 469);
+			this.textBoxConfirmQuitPassword.Location = new System.Drawing.Point(268, 393);
 			this.textBoxConfirmQuitPassword.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.textBoxConfirmQuitPassword.Name = "textBoxConfirmQuitPassword";
 			this.textBoxConfirmQuitPassword.PasswordChar = '●';
@@ -5281,7 +5280,7 @@ namespace SebWindowsConfig
 			// textBoxQuitPassword
 			// 
 			this.textBoxQuitPassword.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBoxQuitPassword.Location = new System.Drawing.Point(268, 434);
+			this.textBoxQuitPassword.Location = new System.Drawing.Point(268, 358);
 			this.textBoxQuitPassword.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.textBoxQuitPassword.Name = "textBoxQuitPassword";
 			this.textBoxQuitPassword.PasswordChar = '●';
@@ -5332,7 +5331,7 @@ namespace SebWindowsConfig
 			// 
 			this.labelConfirmAdminPassword.AutoSize = true;
 			this.labelConfirmAdminPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelConfirmAdminPassword.Location = new System.Drawing.Point(26, 205);
+			this.labelConfirmAdminPassword.Location = new System.Drawing.Point(26, 204);
 			this.labelConfirmAdminPassword.Name = "labelConfirmAdminPassword";
 			this.labelConfirmAdminPassword.Size = new System.Drawing.Size(232, 20);
 			this.labelConfirmAdminPassword.TabIndex = 40;
@@ -5342,7 +5341,7 @@ namespace SebWindowsConfig
 			// 
 			this.labelAdminPassword.AutoSize = true;
 			this.labelAdminPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelAdminPassword.Location = new System.Drawing.Point(81, 165);
+			this.labelAdminPassword.Location = new System.Drawing.Point(81, 164);
 			this.labelAdminPassword.Name = "labelAdminPassword";
 			this.labelAdminPassword.Size = new System.Drawing.Size(175, 20);
 			this.labelAdminPassword.TabIndex = 38;
@@ -5352,7 +5351,7 @@ namespace SebWindowsConfig
 			// 
 			this.labelConfirmQuitPassword.AutoSize = true;
 			this.labelConfirmQuitPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelConfirmQuitPassword.Location = new System.Drawing.Point(38, 475);
+			this.labelConfirmQuitPassword.Location = new System.Drawing.Point(38, 399);
 			this.labelConfirmQuitPassword.Name = "labelConfirmQuitPassword";
 			this.labelConfirmQuitPassword.Size = new System.Drawing.Size(216, 20);
 			this.labelConfirmQuitPassword.TabIndex = 10;
@@ -5376,7 +5375,7 @@ namespace SebWindowsConfig
 			// 
 			this.labelQuitPassword.AutoSize = true;
 			this.labelQuitPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelQuitPassword.Location = new System.Drawing.Point(88, 442);
+			this.labelQuitPassword.Location = new System.Drawing.Point(88, 366);
 			this.labelQuitPassword.Name = "labelQuitPassword";
 			this.labelQuitPassword.Size = new System.Drawing.Size(160, 20);
 			this.labelQuitPassword.TabIndex = 9;
@@ -5676,6 +5675,7 @@ namespace SebWindowsConfig
 			this.tabPageGeneral.ResumeLayout(false);
 			this.tabPageGeneral.PerformLayout();
 			this.groupBoxExitSequence.ResumeLayout(false);
+			this.groupBoxExitSequence.PerformLayout();
 			this.tabControlSebWindowsConfig.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();

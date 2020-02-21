@@ -484,7 +484,9 @@ namespace SebWindowsConfig
             checkBoxEnableZoomPage.CheckedChanged += checkBoxEnableZoomPage_CheckedChanged;
 
             checkBoxAllowSpellCheck.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowSpellCheck];
-            checkBoxAllowDictionaryLookup.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowDictionaryLookup]; checkBoxRemoveProfile.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyRemoveBrowserProfile];
+            checkBoxAllowDictionaryLookup.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowDictionaryLookup];
+			checkBoxRemoveProfile.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyRemoveBrowserProfile];
+			checkBoxRemoveProfile.Enabled = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyExamSessionClearCookiesOnEnd];
 			checkBoxDisableLocalStorage.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyDisableLocalStorage];
 			checkBoxUseSebWithoutBrowser    .Checked = !((Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyEnableSebBrowser]);
             // BEWARE: you must invert this value since "Use Without" is "Not Enable"!
@@ -4500,6 +4502,7 @@ namespace SebWindowsConfig
 		private void checkBoxClearSessionOnEnd_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyExamSessionClearCookiesOnEnd] = checkBoxClearSessionOnEnd.Checked;
+			checkBoxRemoveProfile.Enabled = checkBoxClearSessionOnEnd.Checked;
 		}
 
 		private void checkBoxShowSideMenu_CheckedChanged(object sender, EventArgs e)

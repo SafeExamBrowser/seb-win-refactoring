@@ -72,7 +72,14 @@ namespace SafeExamBrowser.Settings.Browser
 		public string CustomUserAgent { get; set; }
 
 		/// <summary>
-		/// Determines whether all cookies are deleted when terminating the browser application.
+		/// Determines whether the entire browser cache is deleted when terminating the application. IMPORTANT: If <see cref="DeleteCookiesOnShutdown"/>
+		/// is set to <c>false</c>, the cache will not be deleted in order to keep the cookies for the next session.
+		/// </summary>
+		public bool DeleteCacheOnShutdown { get; set; }
+
+		/// <summary>
+		/// Determines whether all cookies are deleted when terminating the browser application. IMPORTANT: The browser cache will not be deleted
+		/// if set to <c>false</c>, even if <see cref="DeleteCacheOnShutdown"/> is set to <c>true</c>!
 		/// </summary>
 		public bool DeleteCookiesOnShutdown { get; set; }
 
