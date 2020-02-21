@@ -11,6 +11,7 @@ using Moq;
 using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Display;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
@@ -19,9 +20,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	public class DisplayMonitorOperationTests
 	{
 		private ClientContext context;
-		private Mock<IDisplayMonitor> displayMonitorMock;
-		private Mock<ILogger> loggerMock;
-		private Mock<ITaskbar> taskbarMock;
+		private Mock<IDisplayMonitor> displayMonitor;
+		private Mock<ILogger> logger;
+		private Mock<ITaskbar> taskbar;
 
 		private DisplayMonitorOperation sut;
 
@@ -29,41 +30,74 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		public void Initialize()
 		{
 			context = new ClientContext();
-			displayMonitorMock = new Mock<IDisplayMonitor>();
-			loggerMock = new Mock<ILogger>();
-			taskbarMock = new Mock<ITaskbar>();
+			displayMonitor = new Mock<IDisplayMonitor>();
+			logger = new Mock<ILogger>();
+			taskbar = new Mock<ITaskbar>();
 
-			sut = new DisplayMonitorOperation(context, displayMonitorMock.Object, loggerMock.Object, taskbarMock.Object);
+			sut = new DisplayMonitorOperation(context, displayMonitor.Object, logger.Object, taskbar.Object);
 		}
 
 		[TestMethod]
-		public void MustPerformCorrectly()
+		public void Perform_MustExecuteInCorrectOrder()
 		{
 			var order = 0;
 
-			displayMonitorMock.Setup(d => d.PreventSleepMode()).Callback(() => Assert.AreEqual(++order, 1));
-			displayMonitorMock.Setup(d => d.InitializePrimaryDisplay(It.IsAny<int>())).Callback(() => Assert.AreEqual(++order, 2));
-			displayMonitorMock.Setup(d => d.StartMonitoringDisplayChanges()).Callback(() => Assert.AreEqual(++order, 3));
+			context.Settings = new AppSettings();
+			context.Settings.Taskbar.EnableTaskbar = true;
+
+			displayMonitor.Setup(d => d.PreventSleepMode()).Callback(() => Assert.AreEqual(++order, 1));
+			displayMonitor.Setup(d => d.InitializePrimaryDisplay(It.IsAny<int>())).Callback(() => Assert.AreEqual(++order, 2));
+			displayMonitor.Setup(d => d.StartMonitoringDisplayChanges()).Callback(() => Assert.AreEqual(++order, 3));
 
 			sut.Perform();
 
-			displayMonitorMock.Verify(d => d.PreventSleepMode(), Times.Once);
-			displayMonitorMock.Verify(d => d.InitializePrimaryDisplay(It.IsAny<int>()), Times.Once);
-			displayMonitorMock.Verify(d => d.StartMonitoringDisplayChanges(), Times.Once);
+			displayMonitor.Verify(d => d.PreventSleepMode(), Times.Once);
+			displayMonitor.Verify(d => d.InitializePrimaryDisplay(It.IsAny<int>()), Times.Once);
+			displayMonitor.Verify(d => d.StartMonitoringDisplayChanges(), Times.Once);
 		}
 
 		[TestMethod]
-		public void MustRevertCorrectly()
+		public void Perform_MustCorrectlyInitializeDisplayWithTaskbar()
+		{
+			int height = 25;
+
+			context.Settings = new AppSettings();
+			context.Settings.Taskbar.EnableTaskbar = true;
+			taskbar.Setup(t => t.GetAbsoluteHeight()).Returns(height);
+
+			sut.Perform();
+
+			displayMonitor.Verify(d => d.InitializePrimaryDisplay(It.Is<int>(h => h == height)), Times.Once);
+			displayMonitor.Verify(d => d.InitializePrimaryDisplay(It.Is<int>(h => h == 0)), Times.Never);
+		}
+
+		[TestMethod]
+		public void Perform_MustCorrectlyInitializeDisplayWithoutTaskbar()
+		{
+			int height = 25;
+
+			context.Settings = new AppSettings();
+			context.Settings.Taskbar.EnableTaskbar = false;
+			taskbar.Setup(t => t.GetAbsoluteHeight()).Returns(height);
+
+			sut.Perform();
+
+			displayMonitor.Verify(d => d.InitializePrimaryDisplay(It.Is<int>(h => h == height)), Times.Never);
+			displayMonitor.Verify(d => d.InitializePrimaryDisplay(It.Is<int>(h => h == 0)), Times.Once);
+		}
+
+		[TestMethod]
+		public void Revert_MustExecuteInCorrectOrder()
 		{
 			var order = 0;
 
-			displayMonitorMock.Setup(d => d.StopMonitoringDisplayChanges()).Callback(() => Assert.AreEqual(++order, 1));
-			displayMonitorMock.Setup(d => d.ResetPrimaryDisplay()).Callback(() => Assert.AreEqual(++order, 2));
+			displayMonitor.Setup(d => d.StopMonitoringDisplayChanges()).Callback(() => Assert.AreEqual(++order, 1));
+			displayMonitor.Setup(d => d.ResetPrimaryDisplay()).Callback(() => Assert.AreEqual(++order, 2));
 
 			sut.Revert();
 
-			displayMonitorMock.Verify(d => d.StopMonitoringDisplayChanges(), Times.Once);
-			displayMonitorMock.Verify(d => d.ResetPrimaryDisplay(), Times.Once);
+			displayMonitor.Verify(d => d.StopMonitoringDisplayChanges(), Times.Once);
+			displayMonitor.Verify(d => d.ResetPrimaryDisplay(), Times.Once);
 		}
 	}
 }

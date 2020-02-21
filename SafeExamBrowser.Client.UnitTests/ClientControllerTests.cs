@@ -120,27 +120,71 @@ namespace SafeExamBrowser.Client.UnitTests
 		}
 
 		[TestMethod]
-		public void ApplicationMonitor_MustHandleExplorerStartCorrectly()
+		public void ApplicationMonitor_MustCorrectlyHandleExplorerStartWithTaskbar()
 		{
+			var boundsActionCenter = 0;
+			var boundsTaskbar = 0;
+			var height = 30;
 			var order = 0;
 			var shell = 0;
 			var workingArea = 0;
-			var bounds = 0;
 
+			settings.Taskbar.EnableTaskbar = true;
+
+			actionCenter.Setup(a => a.InitializeBounds()).Callback(() => boundsActionCenter = ++order);
 			explorerShell.Setup(e => e.Terminate()).Callback(() => shell = ++order);
-			displayMonitor.Setup(w => w.InitializePrimaryDisplay(taskbar.Object.GetAbsoluteHeight())).Callback(() => workingArea = ++order);
-			taskbar.Setup(t => t.InitializeBounds()).Callback(() => bounds = ++order);
+			displayMonitor.Setup(w => w.InitializePrimaryDisplay(It.Is<int>(h => h == height))).Callback(() => workingArea = ++order);
+			taskbar.Setup(t => t.GetAbsoluteHeight()).Returns(height);
+			taskbar.Setup(t => t.InitializeBounds()).Callback(() => boundsTaskbar = ++order);
 
 			sut.TryStart();
 			applicationMonitor.Raise(a => a.ExplorerStarted += null);
 
+			actionCenter.Verify(a => a.InitializeBounds(), Times.Once);
 			explorerShell.Verify(e => e.Terminate(), Times.Once);
-			displayMonitor.Verify(d => d.InitializePrimaryDisplay(taskbar.Object.GetAbsoluteHeight()), Times.Once);
+			displayMonitor.Verify(d => d.InitializePrimaryDisplay(It.Is<int>(h => h == 0)), Times.Never);
+			displayMonitor.Verify(d => d.InitializePrimaryDisplay(It.Is<int>(h => h == height)), Times.Once);
 			taskbar.Verify(t => t.InitializeBounds(), Times.Once);
+			taskbar.Verify(t => t.GetAbsoluteHeight(), Times.Once);
 
 			Assert.IsTrue(shell == 1);
 			Assert.IsTrue(workingArea == 2);
-			Assert.IsTrue(bounds == 3);
+			Assert.IsTrue(boundsActionCenter == 3);
+			Assert.IsTrue(boundsTaskbar == 4);
+		}
+
+		[TestMethod]
+		public void ApplicationMonitor_MustCorrectlyHandleExplorerStartWithoutTaskbar()
+		{
+			var boundsActionCenter = 0;
+			var boundsTaskbar = 0;
+			var height = 30;
+			var order = 0;
+			var shell = 0;
+			var workingArea = 0;
+
+			settings.Taskbar.EnableTaskbar = false;
+
+			actionCenter.Setup(a => a.InitializeBounds()).Callback(() => boundsActionCenter = ++order);
+			explorerShell.Setup(e => e.Terminate()).Callback(() => shell = ++order);
+			displayMonitor.Setup(w => w.InitializePrimaryDisplay(It.Is<int>(h => h == 0))).Callback(() => workingArea = ++order);
+			taskbar.Setup(t => t.GetAbsoluteHeight()).Returns(height);
+			taskbar.Setup(t => t.InitializeBounds()).Callback(() => boundsTaskbar = ++order);
+
+			sut.TryStart();
+			applicationMonitor.Raise(a => a.ExplorerStarted += null);
+
+			actionCenter.Verify(a => a.InitializeBounds(), Times.Once);
+			explorerShell.Verify(e => e.Terminate(), Times.Once);
+			displayMonitor.Verify(d => d.InitializePrimaryDisplay(It.Is<int>(h => h == 0)), Times.Once);
+			displayMonitor.Verify(d => d.InitializePrimaryDisplay(It.Is<int>(h => h == height)), Times.Never);
+			taskbar.Verify(t => t.InitializeBounds(), Times.Once);
+			taskbar.Verify(t => t.GetAbsoluteHeight(), Times.Never);
+
+			Assert.IsTrue(shell == 1);
+			Assert.IsTrue(workingArea == 2);
+			Assert.IsTrue(boundsActionCenter == 3);
+			Assert.IsTrue(boundsTaskbar == 4);
 		}
 
 		[TestMethod]
@@ -353,23 +397,63 @@ namespace SafeExamBrowser.Client.UnitTests
 		}
 
 		[TestMethod]
-		public void DisplayMonitor_MustHandleDisplayChangeCorrectly()
+		public void DisplayMonitor_MustCorrectlyHandleDisplayChangeWithTaskbar()
 		{
+			var boundsActionCenter = 0;
+			var boundsTaskbar = 0;
+			var height = 25;
 			var order = 0;
 			var workingArea = 0;
-			var taskbar = 0;
 
-			displayMonitor.Setup(w => w.InitializePrimaryDisplay(this.taskbar.Object.GetAbsoluteHeight())).Callback(() => workingArea = ++order);
-			this.taskbar.Setup(t => t.InitializeBounds()).Callback(() => taskbar = ++order);
+			settings.Taskbar.EnableTaskbar = true;
+
+			actionCenter.Setup(t => t.InitializeBounds()).Callback(() => boundsActionCenter = ++order);
+			displayMonitor.Setup(w => w.InitializePrimaryDisplay(It.Is<int>(h => h == height))).Callback(() => workingArea = ++order);
+			taskbar.Setup(t => t.GetAbsoluteHeight()).Returns(height);
+			taskbar.Setup(t => t.InitializeBounds()).Callback(() => boundsTaskbar = ++order);
 
 			sut.TryStart();
 			displayMonitor.Raise(d => d.DisplayChanged += null);
 
-			displayMonitor.Verify(d => d.InitializePrimaryDisplay(this.taskbar.Object.GetAbsoluteHeight()), Times.Once);
-			this.taskbar.Verify(t => t.InitializeBounds(), Times.Once);
+			actionCenter.Verify(a => a.InitializeBounds(), Times.Once);
+			displayMonitor.Verify(d => d.InitializePrimaryDisplay(It.Is<int>(h => h == 0)), Times.Never);
+			displayMonitor.Verify(d => d.InitializePrimaryDisplay(It.Is<int>(h => h == height)), Times.Once);
+			taskbar.Verify(t => t.GetAbsoluteHeight(), Times.Once);
+			taskbar.Verify(t => t.InitializeBounds(), Times.Once);
 
 			Assert.IsTrue(workingArea == 1);
-			Assert.IsTrue(taskbar == 2);
+			Assert.IsTrue(boundsActionCenter == 2);
+			Assert.IsTrue(boundsTaskbar == 3);
+		}
+
+		[TestMethod]
+		public void DisplayMonitor_MustCorrectlyHandleDisplayChangeWithoutTaskbar()
+		{
+			var boundsActionCenter = 0;
+			var boundsTaskbar = 0;
+			var height = 25;
+			var order = 0;
+			var workingArea = 0;
+
+			settings.Taskbar.EnableTaskbar = false;
+
+			actionCenter.Setup(t => t.InitializeBounds()).Callback(() => boundsActionCenter = ++order);
+			displayMonitor.Setup(w => w.InitializePrimaryDisplay(It.Is<int>(h => h == 0))).Callback(() => workingArea = ++order);
+			taskbar.Setup(t => t.GetAbsoluteHeight()).Returns(height);
+			taskbar.Setup(t => t.InitializeBounds()).Callback(() => boundsTaskbar = ++order);
+
+			sut.TryStart();
+			displayMonitor.Raise(d => d.DisplayChanged += null);
+
+			actionCenter.Verify(a => a.InitializeBounds(), Times.Once);
+			displayMonitor.Verify(d => d.InitializePrimaryDisplay(It.Is<int>(h => h == 0)), Times.Once);
+			displayMonitor.Verify(d => d.InitializePrimaryDisplay(It.Is<int>(h => h == height)), Times.Never);
+			taskbar.Verify(t => t.GetAbsoluteHeight(), Times.Never);
+			taskbar.Verify(t => t.InitializeBounds(), Times.Once);
+
+			Assert.IsTrue(workingArea == 1);
+			Assert.IsTrue(boundsActionCenter == 2);
+			Assert.IsTrue(boundsTaskbar == 3);
 		}
 
 		[TestMethod]

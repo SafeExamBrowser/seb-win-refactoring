@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -239,6 +239,8 @@ namespace SebWindowsConfig
 			this.textBoxQuitURL = new System.Windows.Forms.TextBox();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.groupBox7 = new System.Windows.Forms.GroupBox();
+			this.label20 = new System.Windows.Forms.Label();
+			this.label19 = new System.Windows.Forms.Label();
 			this.label18 = new System.Windows.Forms.Label();
 			this.label17 = new System.Windows.Forms.Label();
 			this.label16 = new System.Windows.Forms.Label();
@@ -429,8 +431,6 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.label19 = new System.Windows.Forms.Label();
-			this.label20 = new System.Windows.Forms.Label();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -1724,8 +1724,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle11.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle11;
+			dataGridViewCellStyle5.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle5;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -3131,6 +3131,22 @@ namespace SebWindowsConfig
 			this.groupBox7.TabStop = false;
 			this.groupBox7.Text = "Browser Exam Key / Configuration Key";
 			// 
+			// label20
+			// 
+			this.label20.Location = new System.Drawing.Point(18, 447);
+			this.label20.Name = "label20";
+			this.label20.Size = new System.Drawing.Size(791, 65);
+			this.label20.TabIndex = 119;
+			this.label20.Text = resources.GetString("label20.Text");
+			// 
+			// label19
+			// 
+			this.label19.Location = new System.Drawing.Point(18, 33);
+			this.label19.Name = "label19";
+			this.label19.Size = new System.Drawing.Size(791, 148);
+			this.label19.TabIndex = 118;
+			this.label19.Text = resources.GetString("label19.Text");
+			// 
 			// label18
 			// 
 			this.label18.Location = new System.Drawing.Point(18, 278);
@@ -4174,8 +4190,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle12;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle6;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -4356,7 +4372,7 @@ namespace SebWindowsConfig
 			this.groupBox5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.groupBox5.Size = new System.Drawing.Size(750, 201);
+			this.groupBox5.Size = new System.Drawing.Size(750, 161);
 			this.groupBox5.TabIndex = 82;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Taskbar / Dock / Side Menu";
@@ -4403,12 +4419,13 @@ namespace SebWindowsConfig
 			// comboBoxTaskBarHeight
 			// 
 			this.comboBoxTaskBarHeight.FormattingEnabled = true;
-			this.comboBoxTaskBarHeight.Location = new System.Drawing.Point(574, 156);
+			this.comboBoxTaskBarHeight.Location = new System.Drawing.Point(204, 123);
 			this.comboBoxTaskBarHeight.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.comboBoxTaskBarHeight.Name = "comboBoxTaskBarHeight";
 			this.comboBoxTaskBarHeight.Size = new System.Drawing.Size(136, 28);
 			this.comboBoxTaskBarHeight.TabIndex = 6;
 			this.toolTip1.SetToolTip(this.comboBoxTaskBarHeight, "Height of SEB dock/taskbar in points/pixels");
+			this.comboBoxTaskBarHeight.Visible = false;
 			this.comboBoxTaskBarHeight.SelectedIndexChanged += new System.EventHandler(this.comboBoxTaskBarHeight_SelectedIndexChanged);
 			this.comboBoxTaskBarHeight.TextUpdate += new System.EventHandler(this.comboBoxTaskBarHeight_TextUpdate);
 			// 
@@ -4430,12 +4447,13 @@ namespace SebWindowsConfig
 			// 
 			this.labelTaskBarHeight.AutoSize = true;
 			this.labelTaskBarHeight.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.labelTaskBarHeight.Location = new System.Drawing.Point(384, 159);
+			this.labelTaskBarHeight.Location = new System.Drawing.Point(14, 126);
 			this.labelTaskBarHeight.Name = "labelTaskBarHeight";
 			this.labelTaskBarHeight.Size = new System.Drawing.Size(152, 20);
 			this.labelTaskBarHeight.TabIndex = 63;
 			this.labelTaskBarHeight.Text = "Taskbar/dock height";
 			this.labelTaskBarHeight.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.labelTaskBarHeight.Visible = false;
 			// 
 			// checkBoxShowTime
 			// 
@@ -4467,7 +4485,7 @@ namespace SebWindowsConfig
 			// 
 			this.groupBoxEnableZoom.Controls.Add(this.checkBoxEnableZoomPage);
 			this.groupBoxEnableZoom.Controls.Add(this.checkBoxEnableZoomText);
-			this.groupBoxEnableZoom.Location = new System.Drawing.Point(33, 704);
+			this.groupBoxEnableZoom.Location = new System.Drawing.Point(33, 661);
 			this.groupBoxEnableZoom.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.groupBoxEnableZoom.Name = "groupBoxEnableZoom";
 			this.groupBoxEnableZoom.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -4506,7 +4524,7 @@ namespace SebWindowsConfig
 			// 
 			this.groupBoxZoomMode.Controls.Add(this.radioButtonUseZoomPage);
 			this.groupBoxZoomMode.Controls.Add(this.radioButtonUseZoomText);
-			this.groupBoxZoomMode.Location = new System.Drawing.Point(422, 704);
+			this.groupBoxZoomMode.Location = new System.Drawing.Point(422, 661);
 			this.groupBoxZoomMode.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.groupBoxZoomMode.Name = "groupBoxZoomMode";
 			this.groupBoxZoomMode.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -5546,22 +5564,6 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Text = "Apply and Start SEB";
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
-			// 
-			// label19
-			// 
-			this.label19.Location = new System.Drawing.Point(18, 33);
-			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(791, 148);
-			this.label19.TabIndex = 118;
-			this.label19.Text = resources.GetString("label19.Text");
-			// 
-			// label20
-			// 
-			this.label20.Location = new System.Drawing.Point(18, 447);
-			this.label20.Name = "label20";
-			this.label20.Size = new System.Drawing.Size(791, 65);
-			this.label20.TabIndex = 119;
-			this.label20.Text = resources.GetString("label20.Text");
 			// 
 			// SebWindowsConfigForm
 			// 

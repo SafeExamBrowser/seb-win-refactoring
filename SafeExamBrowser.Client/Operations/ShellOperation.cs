@@ -86,7 +86,7 @@ namespace SafeExamBrowser.Client.Operations
 			InitializeSystemComponents();
 			InitializeActionCenter();
 			InitializeTaskbar();
-			InitializeTaskView();
+			InitializeTaskview();
 			InitializeActivators();
 
 			return OperationResult.Success;
@@ -171,7 +171,7 @@ namespace SafeExamBrowser.Client.Operations
 			}
 		}
 
-		private void InitializeTaskView()
+		private void InitializeTaskview()
 		{
 			logger.Info("Initializing task view...");
 
