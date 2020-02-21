@@ -130,7 +130,15 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		private string ComputeBrowserExamKey()
 		{
-			using (var algorithm = new HMACSHA256(settings.ExamKeySalt))
+			var salt = settings.ExamKeySalt;
+
+			if (salt == default(byte[]))
+			{
+				salt = new byte[0];
+				logger.Warn("The current configuration does not contain a salt value for the browser exam key!");
+			}
+
+			using (var algorithm = new HMACSHA256(salt))
 			{
 				var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(appConfig.CodeSignatureHash + appConfig.ProgramBuildVersion + settings.ConfigurationKey));
 				var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
