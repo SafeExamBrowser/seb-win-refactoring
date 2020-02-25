@@ -20,7 +20,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 	{
 		internal void Process(IDictionary<string, object> rawData, AppSettings settings)
 		{
+			AllowReconfiguration(settings);
 			CalculateConfigurationKey(rawData, settings);
+		}
+
+		private void AllowReconfiguration(AppSettings settings)
+		{
+			settings.Security.AllowReconfiguration = settings.ConfigurationMode == ConfigurationMode.ConfigureClient;
 		}
 
 		private void CalculateConfigurationKey(IDictionary<string, object> rawData, AppSettings settings)

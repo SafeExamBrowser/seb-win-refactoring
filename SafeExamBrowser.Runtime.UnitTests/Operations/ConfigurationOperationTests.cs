@@ -110,7 +110,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void Perform_MustTestdatalyHandleBrowserResource()
+		public void Perform_MustCorrectlyHandleBrowserResource()
 		{
 			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.Exam };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
@@ -121,6 +121,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var sut = new ConfigurationOperation(new[] { "blubb.exe", url }, repository.Object, fileSystem.Object, hashAlgorithm.Object, logger.Object, sessionContext);
 			var result = sut.Perform();
 
+			Assert.IsFalse(settings.Browser.DeleteCacheOnShutdown);
+			Assert.IsFalse(settings.Browser.DeleteCookiesOnShutdown);
+			Assert.IsTrue(settings.Security.AllowReconfiguration);
 			Assert.AreEqual(url, settings.Browser.StartUrl);
 			Assert.AreEqual(OperationResult.Success, result);
 		}
@@ -331,7 +334,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void Perform_MustSucceedIfAdminPasswordTestdata()
+		public void Perform_MustSucceedIfAdminPasswordCorrect()
 		{
 			var password = "test";
 			var currentSettings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
@@ -394,7 +397,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void Perform_MustSucceedIfSettingsPasswordTestdata()
+		public void Perform_MustSucceedIfSettingsPasswordCorrect()
 		{
 			var password = "test";
 			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.Exam };
@@ -504,7 +507,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void Repeat_MustPerformForExamWithTestdataUri()
+		public void Repeat_MustPerformForExamWithCorrectUri()
 		{
 			var currentSettings = new AppSettings();
 			var location = Path.GetDirectoryName(GetType().Assembly.Location);
@@ -526,7 +529,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void Repeat_MustPerformForClientConfigurationWithTestdataUri()
+		public void Repeat_MustPerformForClientConfigurationWithCorrectUri()
 		{
 			var currentSettings = new AppSettings();
 			var location = Path.GetDirectoryName(GetType().Assembly.Location);

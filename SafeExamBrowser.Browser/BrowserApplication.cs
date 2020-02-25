@@ -213,7 +213,7 @@ namespace SafeExamBrowser.Browser
 			cefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
 			cefSettings.LogFile = appConfig.BrowserLogFilePath;
 			cefSettings.LogSeverity = error ? LogSeverity.Error : (warning ? LogSeverity.Warning : LogSeverity.Info);
-			cefSettings.PersistSessionCookies = !settings.DeleteCookiesOnShutdown;
+			cefSettings.PersistSessionCookies = !settings.DeleteCookiesOnStartup || !settings.DeleteCookiesOnShutdown;
 			cefSettings.UserAgent = InitializeUserAgent();
 
 			if (!settings.AllowPdfReader)

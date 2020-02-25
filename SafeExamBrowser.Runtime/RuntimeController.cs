@@ -19,7 +19,6 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
-using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -344,9 +343,7 @@ namespace SafeExamBrowser.Runtime
 
 		private void RuntimeHost_ReconfigurationRequested(ReconfigurationEventArgs args)
 		{
-			var mode = Session.Settings.ConfigurationMode;
-
-			if (mode == ConfigurationMode.ConfigureClient)
+			if (Session.Settings.Security.AllowReconfiguration)
 			{
 				logger.Info($"Accepted request for reconfiguration with '{args.ConfigurationPath}'.");
 				sessionContext.ReconfigurationFilePath = args.ConfigurationPath;
@@ -355,7 +352,7 @@ namespace SafeExamBrowser.Runtime
 			}
 			else
 			{
-				logger.Info($"Denied request for reconfiguration with '{args.ConfigurationPath}' due to '{mode}' mode!");
+				logger.Info($"Denied request for reconfiguration with '{args.ConfigurationPath}'!");
 				sessionContext.ClientProxy.InformReconfigurationDenied(args.ConfigurationPath);
 			}
 		}

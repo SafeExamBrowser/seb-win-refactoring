@@ -337,7 +337,7 @@ namespace SafeExamBrowser.Client
 
 		private void Browser_ConfigurationDownloadRequested(string fileName, DownloadEventArgs args)
 		{
-			if (Settings.ConfigurationMode == ConfigurationMode.ConfigureClient)
+			if (Settings.Security.AllowReconfiguration)
 			{
 				args.AllowDownload = true;
 				args.Callback = Browser_ConfigurationDownloadFinished;
@@ -353,7 +353,7 @@ namespace SafeExamBrowser.Client
 			else
 			{
 				args.AllowDownload = false;
-				logger.Info($"Denied download request for configuration file '{fileName}' due to '{Settings.ConfigurationMode}' mode.");
+				logger.Info($"Denied download request for configuration file '{fileName}'.");
 			}
 		}
 

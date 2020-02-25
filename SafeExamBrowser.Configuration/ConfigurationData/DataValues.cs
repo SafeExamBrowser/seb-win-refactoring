@@ -165,6 +165,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Mouse.AllowRightButton = true;
 
 			settings.Security.AllowApplicationLogAccess = false;
+			settings.Security.AllowReconfiguration = false;
 			settings.Security.KioskMode = KioskMode.CreateNewDesktop;
 			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Deny;
 

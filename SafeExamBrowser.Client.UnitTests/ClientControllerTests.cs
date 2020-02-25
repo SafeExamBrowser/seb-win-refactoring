@@ -626,7 +626,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var args = new DownloadEventArgs();
 
 			appConfig.TemporaryDirectory = @"C:\Folder\Does\Not\Exist";
-			settings.ConfigurationMode = ConfigurationMode.ConfigureClient;
+			settings.Security.AllowReconfiguration = true;
 			messageBox.Setup(m => m.Show(
 				It.IsAny<TextKey>(),
 				It.IsAny<TextKey>(),
@@ -653,7 +653,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var args = new DownloadEventArgs();
 
 			appConfig.TemporaryDirectory = @"C:\Folder\Does\Not\Exist";
-			settings.ConfigurationMode = ConfigurationMode.ConfigureClient;
+			settings.Security.AllowReconfiguration = true;
 			messageBox.Setup(m => m.Show(
 				It.IsAny<TextKey>(),
 				It.IsAny<TextKey>(),
@@ -677,7 +677,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var args = new DownloadEventArgs();
 
 			appConfig.TemporaryDirectory = @"C:\Folder\Does\Not\Exist";
-			settings.ConfigurationMode = ConfigurationMode.ConfigureClient;
+			settings.Security.AllowReconfiguration = true;
 			messageBox.Setup(m => m.Show(
 				It.IsAny<TextKey>(),
 				It.IsAny<TextKey>(),

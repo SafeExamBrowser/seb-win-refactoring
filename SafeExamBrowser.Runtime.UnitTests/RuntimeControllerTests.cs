@@ -163,7 +163,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			var args = new ReconfigurationEventArgs { ConfigurationPath = "C:\\Some\\File\\Path.seb" };
 
 			StartSession();
-			currentSettings.ConfigurationMode = ConfigurationMode.ConfigureClient;
+			currentSettings.Security.AllowReconfiguration = true;
 			bootstrapSequence.Reset();
 			sessionSequence.Reset();
 			sessionSequence.Setup(s => s.TryRepeat()).Returns(OperationResult.Success);
@@ -182,6 +182,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		public void Communication_MustInformClientAboutAbortedReconfiguration()
 		{
 			StartSession();
+			currentSettings.Security.AllowReconfiguration = true;
 			sessionSequence.Reset();
 			sessionSequence.Setup(s => s.TryRepeat()).Returns(OperationResult.Aborted);
 
@@ -196,7 +197,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			var args = new ReconfigurationEventArgs { ConfigurationPath = "C:\\Some\\File\\Path.seb" };
 
 			StartSession();
-			currentSettings.ConfigurationMode = ConfigurationMode.Exam;
+			currentSettings.Security.AllowReconfiguration = false;
 			bootstrapSequence.Reset();
 			sessionSequence.Reset();
 

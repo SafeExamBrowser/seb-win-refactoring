@@ -27,6 +27,22 @@ namespace SafeExamBrowser.Configuration.UnitTests.ConfigurationData
 		}
 
 		[TestMethod]
+		public void MustAllowReconfigurationAccordingToMode()
+		{
+			var settings1 = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
+			var settings2 = new AppSettings { ConfigurationMode = ConfigurationMode.Exam };
+
+			settings1.Security.AllowReconfiguration = false;
+			settings2.Security.AllowReconfiguration = true;
+
+			sut.Process(new Dictionary<string, object>(), settings1);
+			sut.Process(new Dictionary<string, object>(), settings2);
+
+			Assert.IsTrue(settings1.Security.AllowReconfiguration);
+			Assert.IsFalse(settings2.Security.AllowReconfiguration);
+		}
+
+		[TestMethod]
 		public void MustCalculateCorrectConfigurationKey()
 		{
 			var formatter = new BinaryFormatter();

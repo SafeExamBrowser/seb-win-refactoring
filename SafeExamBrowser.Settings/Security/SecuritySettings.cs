@@ -27,6 +27,11 @@ namespace SafeExamBrowser.Settings.Security
 		public bool AllowApplicationLogAccess { get; set; }
 
 		/// <summary>
+		/// Determines whether the user may reconfigure the application.
+		/// </summary>
+		public bool AllowReconfiguration { get; set; }
+
+		/// <summary>
 		/// The kiosk mode which determines how the computer is locked down.
 		/// </summary>
 		public KioskMode KioskMode { get; set; }

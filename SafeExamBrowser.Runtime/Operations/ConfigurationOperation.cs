@@ -204,8 +204,12 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private OperationResult HandleBrowserResource(Uri uri)
 		{
+			Context.Next.Settings.Browser.DeleteCacheOnShutdown = false;
+			Context.Next.Settings.Browser.DeleteCookiesOnShutdown = false;
 			Context.Next.Settings.Browser.StartUrl = uri.AbsoluteUri;
-			logger.Info($"The configuration resource needs authentication or is a webpage, using '{uri}' as startup URL for the browser.");
+			Context.Next.Settings.Security.AllowReconfiguration = true;
+
+			logger.Info($"The configuration resource needs authentication or is a webpage, using '{uri}' as start URL for the browser.");
 
 			return OperationResult.Success;
 		}
