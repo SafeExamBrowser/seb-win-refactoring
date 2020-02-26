@@ -81,6 +81,7 @@ namespace SafeExamBrowser.Applications
 			{
 				logger.Info("Starting application...");
 				InitializeInstance(processFactory.StartNew(executablePath));
+				logger.Info("Successfully started application.");
 			}
 			catch (Exception e)
 			{
@@ -92,17 +93,27 @@ namespace SafeExamBrowser.Applications
 		{
 			applicationMonitor.InstanceStarted -= ApplicationMonitor_InstanceStarted;
 
-			lock (@lock)
+			try
 			{
-				if (instances.Any() && !settings.AllowRunning)
+				lock (@lock)
 				{
-					logger.Info("Terminating application...");
-
-					foreach (var instance in instances)
+					if (instances.Any() && !settings.AllowRunning)
 					{
-						instance.Terminate();
+						logger.Info($"Terminating application with {instances.Count} instance(s)...");
+
+						foreach (var instance in instances)
+						{
+							instance.Terminated -= Instance_Terminated;
+							instance.Terminate();
+						}
+
+						logger.Info("Successfully terminated application.");
 					}
 				}
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to terminate application!", e);
 			}
 		}
 

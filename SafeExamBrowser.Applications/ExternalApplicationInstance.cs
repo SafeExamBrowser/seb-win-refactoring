@@ -66,7 +66,11 @@ namespace SafeExamBrowser.Applications
 
 			var terminated = process.HasTerminated;
 
-			if (!terminated)
+			if (terminated)
+			{
+				logger.Info("Application instance is already terminated.");
+			}
+			else
 			{
 				FinalizeEvents();
 
