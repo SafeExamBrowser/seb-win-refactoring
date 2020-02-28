@@ -357,6 +357,8 @@ namespace SebWindowsConfig
 		public const String KeyLogDirectoryWin     = "logDirectoryWin";
 		public const String KeyAllowWLAN = "allowWlan";
 		public const String KeyLockOnMessageSocketClose = "lockOnMessageSocketClose";
+		public const String KeyAllowChromeNotifications = "enableChromeNotifications";
+		public const String KeyAllowWindowsUpdate = "enableWindowsUpdate";
 		// Group "macOS specific settings"
 		public const String KeyMinMacOSVersion = "minMacOSVersion";
 		public const String KeyEnableAppSwitcherCheck = "enableAppSwitcherCheck";
@@ -901,6 +903,8 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowDisplayMirroring, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowedDisplaysMaxNumber, 1);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowedDisplayBuiltin, true);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowChromeNotifications, false);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowWindowsUpdate, false);
 
 			// Default selected index and string in combo box for minMacOSVersion 
 			SEBSettings.intArrayDefault[SEBSettings.ValMinMacOSVersion] = 4;

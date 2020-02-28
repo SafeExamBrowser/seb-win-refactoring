@@ -763,6 +763,9 @@ namespace SebWindowsConfig
 			textBoxLogDirectoryWin.Text = (String)SEBSettings.settingsCurrent[SEBSettings.KeyLogDirectoryWin];
 			checkBoxAllowLogAccess.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowApplicationLog];
 			checkBoxShowLogButton.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyShowApplicationLogButton];
+			checkBoxShowLogButton.Enabled = checkBoxAllowLogAccess.Checked;
+			checkBoxAllowChromeNotifications.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowChromeNotifications];
+			checkBoxAllowWindowsUpdate.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowWindowsUpdate];
 
 			if (String.IsNullOrEmpty(textBoxLogDirectoryWin.Text))
 			{
@@ -4519,6 +4522,16 @@ namespace SebWindowsConfig
 		private void checkBoxShowLogButton_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyShowApplicationLogButton] = checkBoxShowLogButton.Checked;
+		}
+
+		private void checkBoxAllowChromeNotifications_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyAllowChromeNotifications] = checkBoxAllowChromeNotifications.Checked;
+		}
+
+		private void checkBoxAllowWindowsUpdate_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyAllowWindowsUpdate] = checkBoxAllowWindowsUpdate.Checked;
 		}
 	}
 }

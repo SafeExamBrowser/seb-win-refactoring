@@ -213,6 +213,22 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string ServicePolicy = "sebServicePolicy";
 		}
 
+		internal static class Service
+		{
+			internal const string EnableChromeNotifications = "enableChromeNotifications";
+			internal const string EnableEaseOfAccessOptions = "insideSebEnableEaseOfAccess";
+			internal const string EnableNetworkOptions = "insideSebEnableEnableNetworkConnectionSelector";
+			internal const string EnablePasswordChange = "insideSebEnableChangeAPassword";
+			internal const string EnablePowerOptions = "insideSebEnableShutDown";
+			internal const string EnableRemoteConnections = "allowScreenSharing";
+			internal const string EnableSignout = "insideSebEnableLogOff";
+			internal const string EnableTaskManager = "insideSebEnableStartTaskManager";
+			internal const string EnableUserLock = "insideSebEnableLockThisComputer";
+			internal const string EnableUserSwitch = "insideSebEnableSwitchUser";
+			internal const string EnableVmWareOverlay = "insideSebEnableVmWareClientShade";
+			internal const string EnableWindowsUpdate = "enableWindowsUpdate";
+		}
+
 		internal static class UserInterface
 		{
 			internal const string ShowAudio = "audioControlEnabled";
