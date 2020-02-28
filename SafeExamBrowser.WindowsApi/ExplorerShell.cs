@@ -23,14 +23,12 @@ namespace SafeExamBrowser.WindowsApi
 		private ILogger logger;
 		private INativeMethods nativeMethods;
 		private IList<Window> minimizedWindows = new List<Window>();
-		private IList<ProcessThread> suspendedThreads;
 
 		public ExplorerShell(ILogger logger, INativeMethods nativeMethods)
 		{
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;
 			this.minimizedWindows = new List<Window>();
-			this.suspendedThreads = new List<ProcessThread>();
 		}
 
 		public void HideAllWindows()
@@ -68,32 +66,6 @@ namespace SafeExamBrowser.WindowsApi
 			logger.Info("Minimized windows successfully restored.");
 		}
 
-		public void Resume()
-		{
-			const int MAX_ATTEMPTS = 3;
-
-			logger.Debug($"Attempting to resume all {suspendedThreads.Count} previously suspended explorer shell threads...");
-
-			for (var attempts = 0; suspendedThreads.Any(); attempts++)
-			{
-				var thread = suspendedThreads.First();
-				var success = nativeMethods.ResumeThread(thread.Id);
-
-				if (success || attempts == MAX_ATTEMPTS)
-				{
-					attempts = 0;
-					suspendedThreads.Remove(thread);
-
-					if (!success)
-					{
-						logger.Warn($"Failed to resume explorer shell thread with ID = {thread.Id} within {MAX_ATTEMPTS} attempts!");
-					}
-				}
-			}
-
-			logger.Info($"Successfully resumed explorer shell process.");
-		}
-
 		public void Start()
 		{
 			var process = new System.Diagnostics.Process();
@@ -103,6 +75,8 @@ namespace SafeExamBrowser.WindowsApi
 
 			process.StartInfo.CreateNoWindow = true;
 			process.StartInfo.FileName = explorerPath;
+			process.StartInfo.UseShellExecute = false;
+			process.StartInfo.WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
 			process.Start();
 
 			logger.Debug("Waiting for explorer shell to initialize...");
@@ -115,39 +89,6 @@ namespace SafeExamBrowser.WindowsApi
 			process.Refresh();
 			logger.Info($"Explorer shell successfully started with PID = {process.Id}.");
 			process.Close();
-		}
-
-		public void Suspend()
-		{
-			var processId = nativeMethods.GetShellProcessId();
-			var explorerProcesses = System.Diagnostics.Process.GetProcessesByName("explorer");
-			var process = explorerProcesses.FirstOrDefault(p => p.Id == processId);
-
-			if (process != null)
-			{
-				logger.Debug($"Found explorer shell processes with PID = {processId} and {process.Threads.Count} threads.");
-
-				foreach (ProcessThread thread in process.Threads)
-				{
-					var success = nativeMethods.SuspendThread(thread.Id);
-
-					if (success)
-					{
-						suspendedThreads.Add(thread);
-					}
-					else
-					{
-						logger.Warn($"Failed to suspend explorer shell thread with ID = {thread.Id}!");
-					}
-				}
-
-				logger.Info($"Successfully suspended explorer shell process with PID = {processId}.");
-				process.Close();
-			}
-			else
-			{
-				logger.Info("The explorer shell can't be suspended, as it seems to not be running.");
-			}
 		}
 
 		public void Terminate()
@@ -205,7 +146,9 @@ namespace SafeExamBrowser.WindowsApi
 			process.StartInfo.Arguments = $"/F /PID {processId}";
 			process.StartInfo.CreateNoWindow = true;
 			process.StartInfo.FileName = taskkillPath;
+			process.StartInfo.UseShellExecute = false;
 			process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			process.StartInfo.WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
 			process.Start();
 			process.WaitForExit();
 		}

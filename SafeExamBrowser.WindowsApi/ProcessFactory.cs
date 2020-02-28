@@ -168,12 +168,15 @@ namespace SafeExamBrowser.WindowsApi
 
 		private System.Diagnostics.Process StartNormal(string path, params string[] args)
 		{
-			return System.Diagnostics.Process.Start(new ProcessStartInfo
-			{
-				Arguments = string.Join(" ", args),
-				FileName = path,
-				UseShellExecute = false
-			});
+			var process = new System.Diagnostics.Process();
+
+			process.StartInfo.Arguments = string.Join(" ", args);
+			process.StartInfo.FileName = path;
+			process.StartInfo.UseShellExecute = false;
+			process.StartInfo.WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+			process.Start();
+
+			return process;
 		}
 
 		private System.Diagnostics.Process StartOnDesktop(string path, params string[] args)

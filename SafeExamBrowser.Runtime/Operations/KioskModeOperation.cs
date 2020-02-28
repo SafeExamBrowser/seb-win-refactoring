@@ -51,6 +51,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			switch (Context.Next.Settings.Security.KioskMode)
 			{
 				case KioskMode.CreateNewDesktop:
+					TerminateExplorerShell();
 					CreateNewDesktop();
 					break;
 				case KioskMode.DisableExplorerShell:
@@ -64,7 +65,6 @@ namespace SafeExamBrowser.Runtime.Operations
 		public override OperationResult Repeat()
 		{
 			var newMode = Context.Next.Settings.Security.KioskMode;
-			var result = OperationResult.Success;
 
 			if (activeMode == newMode)
 			{
@@ -72,15 +72,33 @@ namespace SafeExamBrowser.Runtime.Operations
 			}
 			else
 			{
-				result = Revert();
+				logger.Info($"Switching from kiosk mode '{activeMode}' to '{newMode}'...");
+				StatusChanged?.Invoke(TextKey.OperationStatus_InitializeKioskMode);
 
-				if (result == OperationResult.Success)
+				switch (activeMode)
 				{
-					result = Perform();
+					case KioskMode.CreateNewDesktop:
+						CloseNewDesktop();
+						break;
+					case KioskMode.None:
+						TerminateExplorerShell();
+						break;
+				}
+
+				activeMode = newMode;
+
+				switch (newMode)
+				{
+					case KioskMode.CreateNewDesktop:
+						CreateNewDesktop();
+						break;
+					case KioskMode.None:
+						RestartExplorerShell();
+						break;
 				}
 			}
 
-			return result;
+			return OperationResult.Success;
 		}
 
 		public override OperationResult Revert()
@@ -92,6 +110,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			{
 				case KioskMode.CreateNewDesktop:
 					CloseNewDesktop();
+					RestartExplorerShell();
 					break;
 				case KioskMode.DisableExplorerShell:
 					RestartExplorerShell();
@@ -112,8 +131,6 @@ namespace SafeExamBrowser.Runtime.Operations
 			newDesktop.Activate();
 			processFactory.StartupDesktop = newDesktop;
 			logger.Info("Successfully activated new desktop.");
-
-			explorerShell.Suspend();
 		}
 
 		private void CloseNewDesktop()
@@ -138,8 +155,6 @@ namespace SafeExamBrowser.Runtime.Operations
 			{
 				logger.Warn($"No new desktop found to close!");
 			}
-
-			explorerShell.Resume();
 		}
 
 		private void TerminateExplorerShell()

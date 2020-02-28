@@ -89,11 +89,12 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			var process = new Process();
 
-			process.StartInfo.FileName = "cmd.exe";
 			process.StartInfo.Arguments = string.Format("/c \"wmic useraccount where name='{0}' get sid\"", userName);
-			process.StartInfo.UseShellExecute = false;
-			process.StartInfo.RedirectStandardOutput = true;
 			process.StartInfo.CreateNoWindow = true;
+			process.StartInfo.FileName = "cmd.exe";
+			process.StartInfo.RedirectStandardOutput = true;
+			process.StartInfo.UseShellExecute = false;
+			process.StartInfo.WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
 			process.Start();
 			process.WaitForExit(5000);
 

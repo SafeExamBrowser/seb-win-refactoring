@@ -24,19 +24,9 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		void RestoreAllWindows();
 
 		/// <summary>
-		/// Resumes the explorer shell process, if it was previously suspended.
-		/// </summary>
-		void Resume();
-
-		/// <summary>
 		/// Starts the Windows explorer shell, if it isn't already running.
 		/// </summary>
 		void Start();
-
-		/// <summary>
-		/// Suspends the explorer shell process, if it is running.
-		/// </summary>
-		void Suspend();
 
 		/// <summary>
 		/// Gracefully terminates the Windows explorer shell, if it is running.
