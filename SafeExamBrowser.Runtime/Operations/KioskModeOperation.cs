@@ -51,7 +51,6 @@ namespace SafeExamBrowser.Runtime.Operations
 			switch (Context.Next.Settings.Security.KioskMode)
 			{
 				case KioskMode.CreateNewDesktop:
-					TerminateExplorerShell();
 					CreateNewDesktop();
 					break;
 				case KioskMode.DisableExplorerShell:
@@ -80,8 +79,8 @@ namespace SafeExamBrowser.Runtime.Operations
 					case KioskMode.CreateNewDesktop:
 						CloseNewDesktop();
 						break;
-					case KioskMode.None:
-						TerminateExplorerShell();
+					case KioskMode.DisableExplorerShell:
+						RestartExplorerShell();
 						break;
 				}
 
@@ -92,8 +91,8 @@ namespace SafeExamBrowser.Runtime.Operations
 					case KioskMode.CreateNewDesktop:
 						CreateNewDesktop();
 						break;
-					case KioskMode.None:
-						RestartExplorerShell();
+					case KioskMode.DisableExplorerShell:
+						TerminateExplorerShell();
 						break;
 				}
 			}
@@ -110,7 +109,6 @@ namespace SafeExamBrowser.Runtime.Operations
 			{
 				case KioskMode.CreateNewDesktop:
 					CloseNewDesktop();
-					RestartExplorerShell();
 					break;
 				case KioskMode.DisableExplorerShell:
 					RestartExplorerShell();

@@ -63,16 +63,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var getCurrrent = 0;
 			var createNew = 0;
 			var activate = 0;
-			var hide = 0;
 			var setStartup = 0;
-			var terminate = 0;
 
 			nextSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
 
 			desktopFactory.Setup(f => f.GetCurrent()).Callback(() => getCurrrent = ++order).Returns(originalDesktop.Object);
 			desktopFactory.Setup(f => f.CreateNew(It.IsAny<string>())).Callback(() => createNew = ++order).Returns(newDesktop.Object);
-			explorerShell.Setup(s => s.HideAllWindows()).Callback(() => hide = ++order);
-			explorerShell.Setup(s => s.Terminate()).Callback(() => terminate = ++order);
 			newDesktop.Setup(d => d.Activate()).Callback(() => activate = ++order);
 			processFactory.SetupSet(f => f.StartupDesktop = It.IsAny<IDesktop>()).Callback(() => setStartup = ++order);
 
@@ -80,21 +76,16 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			desktopFactory.Verify(f => f.GetCurrent(), Times.Once);
 			desktopFactory.Verify(f => f.CreateNew(It.IsAny<string>()), Times.Once);
-			explorerShell.Verify(s => s.Start(), Times.Never);
-			explorerShell.Verify(s => s.Terminate(), Times.Once);
-			explorerShell.Verify(s => s.HideAllWindows(), Times.Once);
-			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Never);
+			explorerShell.VerifyNoOtherCalls();
 			newDesktop.Verify(d => d.Activate(), Times.Once);
 			processFactory.VerifySet(f => f.StartupDesktop = newDesktop.Object, Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
 
-			Assert.AreEqual(1, hide);
-			Assert.AreEqual(2, terminate);
-			Assert.AreEqual(3, getCurrrent);
-			Assert.AreEqual(4, createNew);
-			Assert.AreEqual(5, activate);
-			Assert.AreEqual(6, setStartup);
+			Assert.AreEqual(1, getCurrrent);
+			Assert.AreEqual(2, createNew);
+			Assert.AreEqual(3, activate);
+			Assert.AreEqual(4, setStartup);
 		}
 
 		[TestMethod]
@@ -110,6 +101,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			explorerShell.Verify(s => s.HideAllWindows(), Times.Once);
 			explorerShell.Verify(s => s.Terminate(), Times.Once);
+			explorerShell.VerifyNoOtherCalls();
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}
@@ -122,7 +114,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var order = 0;
 			var activate = 0;
 			var close = 0;
-			var startup = 0;
+			var hide = 0;
+			var startupDesktop = 0;
+			var terminate = 0;
 
 			desktopFactory.Setup(f => f.GetCurrent()).Returns(originalDesktop.Object);
 			desktopFactory.Setup(f => f.CreateNew(It.IsAny<string>())).Returns(newDesktop.Object);
@@ -132,17 +126,21 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			desktopFactory.Reset();
 			explorerShell.Reset();
+			explorerShell.Setup(s => s.HideAllWindows()).Callback(() => hide = ++order);
+			explorerShell.Setup(s => s.Terminate()).Callback(() => terminate = ++order);
 			newDesktop.Reset();
 			newDesktop.Setup(d => d.Close()).Callback(() => close = ++order);
 			originalDesktop.Reset();
 			originalDesktop.Setup(d => d.Activate()).Callback(() => activate = ++order);
 			processFactory.Reset();
-			processFactory.SetupSet(f => f.StartupDesktop = It.Is<IDesktop>(d => d == originalDesktop.Object)).Callback(() => startup = ++order);
+			processFactory.SetupSet(f => f.StartupDesktop = It.Is<IDesktop>(d => d == originalDesktop.Object)).Callback(() => startupDesktop = ++order);
 			nextSettings.Security.KioskMode = KioskMode.DisableExplorerShell;
 
 			var result = sut.Repeat();
 
 			desktopFactory.VerifyNoOtherCalls();
+			explorerShell.Verify(s => s.HideAllWindows(), Times.Once);
+			explorerShell.Verify(s => s.Terminate(), Times.Once);
 			explorerShell.VerifyNoOtherCalls();
 			newDesktop.Verify(d => d.Close(), Times.Once);
 			originalDesktop.Verify(d => d.Activate(), Times.Once);
@@ -150,8 +148,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			Assert.AreEqual(OperationResult.Success, result);
 			Assert.AreEqual(1, activate);
-			Assert.AreEqual(2, startup);
+			Assert.AreEqual(2, startupDesktop);
 			Assert.AreEqual(3, close);
+			Assert.AreEqual(4, hide);
+			Assert.AreEqual(5, terminate);
 		}
 
 		[TestMethod]
@@ -162,8 +162,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var order = 0;
 			var activate = 0;
 			var close = 0;
-			var restore = 0;
-			var start = 0;
 			var startupDesktop = 0;
 
 			desktopFactory.Setup(f => f.GetCurrent()).Returns(originalDesktop.Object);
@@ -174,8 +172,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			desktopFactory.Reset();
 			explorerShell.Reset();
-			explorerShell.Setup(s => s.RestoreAllWindows()).Callback(() => restore = ++order);
-			explorerShell.Setup(s => s.Start()).Callback(() => start = ++order);
 			newDesktop.Reset();
 			newDesktop.Setup(d => d.Close()).Callback(() => close = ++order);
 			originalDesktop.Reset();
@@ -187,8 +183,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var result = sut.Repeat();
 
 			desktopFactory.VerifyNoOtherCalls();
-			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Once);
-			explorerShell.Verify(s => s.Start(), Times.Once);
+			explorerShell.VerifyNoOtherCalls();
 			newDesktop.Verify(d => d.Close(), Times.Once);
 			originalDesktop.Verify(d => d.Activate(), Times.Once);
 			processFactory.VerifySet(f => f.StartupDesktop = It.Is<IDesktop>(d => d == originalDesktop.Object), Times.Once);
@@ -197,8 +192,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			Assert.AreEqual(1, activate);
 			Assert.AreEqual(2, startupDesktop);
 			Assert.AreEqual(3, close);
-			Assert.AreEqual(4, start);
-			Assert.AreEqual(5, restore);
 		}
 
 		[TestMethod]
@@ -209,9 +202,87 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var order = 0;
 			var activate = 0;
 			var current = 0;
-			var startup = 0;
+			var restore = 0;
+			var start = 0;
+			var startupDesktop = 0;
 
 			nextSettings.Security.KioskMode = KioskMode.DisableExplorerShell;
+
+			sut.Perform();
+
+			desktopFactory.Reset();
+			desktopFactory.Setup(f => f.GetCurrent()).Returns(originalDesktop.Object).Callback(() => current = ++order);
+			desktopFactory.Setup(f => f.CreateNew(It.IsAny<string>())).Returns(newDesktop.Object);
+			explorerShell.Reset();
+			explorerShell.Setup(s => s.RestoreAllWindows()).Callback(() => restore = ++order);
+			explorerShell.Setup(s => s.Start()).Callback(() => start = ++order);
+			newDesktop.Reset();
+			newDesktop.Setup(d => d.Activate()).Callback(() => activate = ++order);
+			originalDesktop.Reset();
+			processFactory.Reset();
+			processFactory.SetupSet(f => f.StartupDesktop = It.Is<IDesktop>(d => d == newDesktop.Object)).Callback(() => startupDesktop = ++order);
+			nextSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
+
+			var result = sut.Repeat();
+
+			desktopFactory.Verify(f => f.GetCurrent(), Times.Once);
+			desktopFactory.Verify(f => f.CreateNew(It.IsAny<string>()), Times.Once);
+			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Once);
+			explorerShell.Verify(s => s.Start(), Times.Once);
+			explorerShell.VerifyNoOtherCalls();
+			newDesktop.Verify(d => d.Activate(), Times.Once);
+			originalDesktop.VerifyNoOtherCalls();
+			processFactory.VerifySet(f => f.StartupDesktop = It.Is<IDesktop>(d => d == newDesktop.Object), Times.Once);
+
+			Assert.AreEqual(OperationResult.Success, result);
+			Assert.AreEqual(1, start);
+			Assert.AreEqual(2, restore);
+			Assert.AreEqual(3, current);
+			Assert.AreEqual(4, activate);
+			Assert.AreEqual(5, startupDesktop);
+		}
+
+		[TestMethod]
+		public void Repeat_MustCorrectlySwitchFromDisableExplorerShellToNone()
+		{
+			var order = 0;
+			var restore = 0;
+			var start = 0;
+
+			nextSettings.Security.KioskMode = KioskMode.DisableExplorerShell;
+
+			sut.Perform();
+
+			explorerShell.Reset();
+			explorerShell.Setup(s => s.RestoreAllWindows()).Callback(() => restore = ++order);
+			explorerShell.Setup(s => s.Start()).Callback(() => start = ++order);
+			processFactory.Reset();
+			nextSettings.Security.KioskMode = KioskMode.None;
+
+			var result = sut.Repeat();
+
+			desktopFactory.VerifyNoOtherCalls();
+			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Once);
+			explorerShell.Verify(s => s.Start(), Times.Once);
+			explorerShell.VerifyNoOtherCalls();
+			processFactory.VerifySet(f => f.StartupDesktop = It.IsAny<IDesktop>(), Times.Never);
+
+			Assert.AreEqual(OperationResult.Success, result);
+			Assert.AreEqual(1, start);
+			Assert.AreEqual(2, restore);
+		}
+
+		[TestMethod]
+		public void Repeat_MustCorrectlySwitchFromNoneToCreateNewDesktop()
+		{
+			var newDesktop = new Mock<IDesktop>();
+			var originalDesktop = new Mock<IDesktop>();
+			var order = 0;
+			var activate = 0;
+			var current = 0;
+			var startup = 0;
+
+			nextSettings.Security.KioskMode = KioskMode.None;
 
 			sut.Perform();
 
@@ -239,82 +310,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			Assert.AreEqual(1, current);
 			Assert.AreEqual(2, activate);
 			Assert.AreEqual(3, startup);
-		}
-
-		[TestMethod]
-		public void Repeat_MustCorrectlySwitchFromDisableExplorerShellToNone()
-		{
-			var order = 0;
-			var restore = 0;
-			var start = 0;
-
-			nextSettings.Security.KioskMode = KioskMode.DisableExplorerShell;
-
-			sut.Perform();
-
-			explorerShell.Reset();
-			explorerShell.Setup(s => s.RestoreAllWindows()).Callback(() => restore = ++order);
-			explorerShell.Setup(s => s.Start()).Callback(() => start = ++order);
-			processFactory.Reset();
-			nextSettings.Security.KioskMode = KioskMode.None;
-
-			var result = sut.Repeat();
-
-			desktopFactory.VerifyNoOtherCalls();
-			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Once);
-			explorerShell.Verify(s => s.Start(), Times.Once);
-			processFactory.VerifySet(f => f.StartupDesktop = It.IsAny<IDesktop>(), Times.Never);
-
-			Assert.AreEqual(OperationResult.Success, result);
-			Assert.AreEqual(1, start);
-			Assert.AreEqual(2, restore);
-		}
-
-		[TestMethod]
-		public void Repeat_MustCorrectlySwitchFromNoneToCreateNewDesktop()
-		{
-			var newDesktop = new Mock<IDesktop>();
-			var originalDesktop = new Mock<IDesktop>();
-			var order = 0;
-			var activate = 0;
-			var current = 0;
-			var hide = 0;
-			var startup = 0;
-			var terminate = 0;
-
-			nextSettings.Security.KioskMode = KioskMode.None;
-
-			sut.Perform();
-
-			desktopFactory.Reset();
-			desktopFactory.Setup(f => f.GetCurrent()).Returns(originalDesktop.Object).Callback(() => current = ++order);
-			desktopFactory.Setup(f => f.CreateNew(It.IsAny<string>())).Returns(newDesktop.Object);
-			explorerShell.Reset();
-			explorerShell.Setup(s => s.HideAllWindows()).Callback(() => hide = ++order);
-			explorerShell.Setup(s => s.Terminate()).Callback(() => terminate = ++order);
-			newDesktop.Reset();
-			newDesktop.Setup(d => d.Activate()).Callback(() => activate = ++order);
-			originalDesktop.Reset();
-			processFactory.Reset();
-			processFactory.SetupSet(f => f.StartupDesktop = It.Is<IDesktop>(d => d == newDesktop.Object)).Callback(() => startup = ++order);
-			nextSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
-
-			var result = sut.Repeat();
-
-			desktopFactory.Verify(f => f.GetCurrent(), Times.Once);
-			desktopFactory.Verify(f => f.CreateNew(It.IsAny<string>()), Times.Once);
-			explorerShell.Verify(s => s.HideAllWindows(), Times.Once);
-			explorerShell.Verify(s => s.Terminate(), Times.Once);
-			newDesktop.Verify(d => d.Activate(), Times.Once);
-			originalDesktop.VerifyNoOtherCalls();
-			processFactory.VerifySet(f => f.StartupDesktop = It.Is<IDesktop>(d => d == newDesktop.Object), Times.Once);
-
-			Assert.AreEqual(OperationResult.Success, result);
-			Assert.AreEqual(1, hide);
-			Assert.AreEqual(2, terminate);
-			Assert.AreEqual(3, current);
-			Assert.AreEqual(4, activate);
-			Assert.AreEqual(5, startup);
 		}
 
 		[TestMethod]
@@ -371,13 +366,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			desktopFactory.Verify(f => f.GetCurrent(), Times.Once);
 			desktopFactory.Verify(f => f.CreateNew(It.IsAny<string>()), Times.Once);
+			explorerShell.VerifyNoOtherCalls();
 			newDesktop.Verify(d => d.Activate(), Times.Once);
 			newDesktop.Verify(d => d.Close(), Times.Never);
 			processFactory.VerifySet(f => f.StartupDesktop = newDesktop.Object, Times.Once);
-			explorerShell.Verify(s => s.Start(), Times.Never);
-			explorerShell.Verify(s => s.Terminate(), Times.Once);
-			explorerShell.Verify(s => s.HideAllWindows(), Times.Once);
-			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Never);
 		}
 
 		[TestMethod]
@@ -410,10 +402,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var originalDesktop = new Mock<IDesktop>();
 			var order = 0;
 			var activate = 0;
-			var restore = 0;
 			var setStartup = 0;
 			var close = 0;
-			var start = 0;
 
 			currentSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
 			nextSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
@@ -425,33 +415,26 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			Assert.AreEqual(OperationResult.Success, performResult);
 
 			desktopFactory.Reset();
+			explorerShell.Reset();
 			originalDesktop.Reset();
 			originalDesktop.Setup(d => d.Activate()).Callback(() => activate = ++order);
 			processFactory.SetupSet(f => f.StartupDesktop = It.Is<IDesktop>(d => d == originalDesktop.Object)).Callback(() => setStartup = ++order);
 			newDesktop.Reset();
 			newDesktop.Setup(d => d.Close()).Callback(() => close = ++order);
-			explorerShell.Reset();
-			explorerShell.Setup(s => s.Start()).Callback(() => start = ++order);
-			explorerShell.Setup(s => s.RestoreAllWindows()).Callback(() => restore = ++order);
 
 			var revertResult = sut.Revert();
 
 			desktopFactory.VerifyNoOtherCalls();
+			explorerShell.VerifyNoOtherCalls();
 			originalDesktop.Verify(d => d.Activate(), Times.Once);
 			processFactory.VerifySet(f => f.StartupDesktop = originalDesktop.Object, Times.Once);
 			newDesktop.Verify(d => d.Close(), Times.Once);
-			explorerShell.Verify(s => s.Start(), Times.Once);
-			explorerShell.Verify(s => s.Terminate(), Times.Never);
-			explorerShell.Verify(s => s.HideAllWindows(), Times.Never);
-			explorerShell.Verify(s => s.RestoreAllWindows(), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, performResult);
 			Assert.AreEqual(OperationResult.Success, revertResult);
 			Assert.AreEqual(1, activate);
 			Assert.AreEqual(2, setStartup);
 			Assert.AreEqual(3, close);
-			Assert.AreEqual(4, start);
-			Assert.AreEqual(5, restore);
 		}
 
 		[TestMethod]
