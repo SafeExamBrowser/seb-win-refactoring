@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Text.RegularExpressions;
 using CefSharp;
 using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Browser.Events;
@@ -23,6 +24,7 @@ namespace SafeExamBrowser.Browser.Handlers
 	{
 		private IRequestFilter filter;
 		private ILogger logger;
+		private string quitUrlPattern;
 		private ResourceHandler resourceHandler;
 		private BrowserSettings settings;
 
@@ -81,11 +83,21 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		private bool IsQuitUrl(IRequest request)
 		{
-			var isQuitUrl = settings.QuitUrl?.Equals(request.Url, StringComparison.OrdinalIgnoreCase) == true;
+			var isQuitUrl = false;
 
-			if (isQuitUrl)
+			if (!string.IsNullOrWhiteSpace(settings.QuitUrl))
 			{
-				logger.Debug($"Detected quit URL '{request.Url}'.");
+				if (quitUrlPattern == default(string))
+				{
+					quitUrlPattern = Regex.Escape(settings.QuitUrl.TrimEnd('/')) + @"\/?";
+				}
+
+				isQuitUrl = Regex.IsMatch(request.Url, quitUrlPattern, RegexOptions.IgnoreCase);
+
+				if (isQuitUrl)
+				{
+					logger.Debug($"Detected quit URL '{request.Url}'.");
+				}
 			}
 
 			return isQuitUrl;
