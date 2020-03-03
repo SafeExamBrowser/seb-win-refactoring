@@ -8,11 +8,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Applications;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {
@@ -22,6 +21,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			AllowReconfiguration(settings);
 			CalculateConfigurationKey(rawData, settings);
+			RemoveLegacyBrowser(settings);
 		}
 
 		private void AllowReconfiguration(AppSettings settings)
@@ -35,7 +35,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			using (var stream = new MemoryStream())
 			using (var writer = new StreamWriter(stream))
 			{
-				Serialize(rawData, writer);
+				Json.Serialize(rawData, writer);
 
 				writer.Flush();
 				stream.Seek(0, SeekOrigin.Begin);
@@ -47,91 +47,23 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void Serialize(IDictionary<string, object> dictionary, StreamWriter stream)
+		private void RemoveLegacyBrowser(AppSettings settings)
 		{
-			var orderedByKey = dictionary.OrderBy(d => d.Key, StringComparer.InvariantCulture).ToList();
+			var legacyBrowser = default(WhitelistApplication);
 
-			stream.Write('{');
-
-			foreach (var kvp in orderedByKey)
+			foreach (var application in settings.Applications.Whitelist)
 			{
-				var process = true;
+				var isEnginePath = application.ExecutablePath?.Contains("xulrunner") == true;
+				var isFirefox = application.ExecutableName?.Equals("firefox.exe", StringComparison.OrdinalIgnoreCase) == true;
+				var isXulRunner = application.ExecutableName?.Equals("xulrunner.exe", StringComparison.OrdinalIgnoreCase) == true;
 
-				process &= !kvp.Key.Equals(Keys.General.OriginatorVersion, StringComparison.OrdinalIgnoreCase);
-				process &= !(kvp.Value is IDictionary<string, object> d) || d.Any();
-
-				if (process)
+				if (isEnginePath && (isFirefox || isXulRunner))
 				{
-					stream.Write('"');
-					stream.Write(kvp.Key);
-					stream.Write('"');
-					stream.Write(':');
-					Serialize(kvp.Value, stream);
-
-					if (kvp.Key != orderedByKey.Last().Key)
-					{
-						stream.Write(',');
-					}
+					legacyBrowser = application;
 				}
 			}
 
-			stream.Write('}');
-		}
-
-		private void Serialize(IList<object> list, StreamWriter stream)
-		{
-			stream.Write('[');
-
-			foreach (var item in list)
-			{
-				Serialize(item, stream);
-
-				if (item != list.Last())
-				{
-					stream.Write(',');
-				}
-			}
-
-			stream.Write(']');
-		}
-
-		private void Serialize(object value, StreamWriter stream)
-		{
-			switch (value)
-			{
-				case IDictionary<string, object> dictionary:
-					Serialize(dictionary, stream);
-					break;
-				case IList<object> list:
-					Serialize(list, stream);
-					break;
-				case byte[] data:
-					stream.Write('"');
-					stream.Write(Convert.ToBase64String(data));
-					stream.Write('"');
-					break;
-				case DateTime date:
-					stream.Write(date.ToString("o"));
-					break;
-				case bool boolean:
-					stream.Write(boolean.ToString().ToLower());
-					break;
-				case int integer:
-					stream.Write(integer.ToString(NumberFormatInfo.InvariantInfo));
-					break;
-				case double number:
-					stream.Write(number.ToString(NumberFormatInfo.InvariantInfo));
-					break;
-				case string text:
-					stream.Write('"');
-					stream.Write(text);
-					stream.Write('"');
-					break;
-				case null:
-					stream.Write('"');
-					stream.Write('"');
-					break;
-			}
+			settings.Applications.Whitelist.Remove(legacyBrowser);
 		}
 	}
 }
