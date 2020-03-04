@@ -74,6 +74,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			ConfirmButton.Click += ConfirmButton_Click;
 
 			Closing += (o, args) => closing?.Invoke();
+			Loaded += (o, args) => Activate();
 			Password.KeyUp += Password_KeyUp;
 		}
 
