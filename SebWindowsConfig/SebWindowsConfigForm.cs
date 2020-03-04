@@ -367,12 +367,17 @@ namespace SebWindowsConfig
 			checkBoxHideBrowserWindowToolbar  .Checked     = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyHideBrowserWindowToolbar];
 			checkBoxShowMenuBar               .Checked     = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyShowMenuBar];
 			checkBoxShowTaskBar               .Checked     = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyShowTaskBar];
+			checkBoxHideBrowserWindowToolbar.Enabled = checkBoxEnableBrowserWindowToolbar.Checked;
+			checkBoxAllowMainWindowAddressBar.Enabled = checkBoxEnableBrowserWindowToolbar.Checked;
+			checkBoxAllowAdditionalWindowAddressBar.Enabled = checkBoxEnableBrowserWindowToolbar.Checked;
 			checkBoxShowSideMenu.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyShowSideMenu];
             checkBoxShowReloadButton.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyShowReloadButton];
             comboBoxTaskBarHeight.Text        =  (String)SEBSettings.settingsCurrent[SEBSettings.KeyTaskBarHeight].ToString();
 			checkBoxEnableTouchExit           .Checked     = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyEnableTouchExit];
 			checkBoxAllowMainWindowAddressBar.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyBrowserWindowAllowAddressBar];
 			checkBoxAllowAdditionalWindowAddressBar.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyNewBrowserWindowAllowAddressBar];
+			checkBoxAllowDeveloperConsole.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowDeveloperConsole];
+			checkBoxAllowDeveloperConsole.Enabled = checkBoxEnableBrowserWindowToolbar.Checked;
 
 			var defaultText = "(part of application)";
 			var defaultStyle = new DataGridViewCellStyle { BackColor = Color.LightGray };
@@ -1749,6 +1754,7 @@ namespace SebWindowsConfig
 			checkBoxHideBrowserWindowToolbar.Enabled                               = checkBoxEnableBrowserWindowToolbar.Checked;
 			checkBoxAllowMainWindowAddressBar.Enabled = checkBoxEnableBrowserWindowToolbar.Checked;
 			checkBoxAllowAdditionalWindowAddressBar.Enabled = checkBoxEnableBrowserWindowToolbar.Checked;
+			checkBoxAllowDeveloperConsole.Enabled = checkBoxEnableBrowserWindowToolbar.Checked;
 		}
 
 		private void checkBoxHideBrowserWindowToolbar_CheckedChanged(object sender, EventArgs e)
@@ -4532,6 +4538,11 @@ namespace SebWindowsConfig
 		private void checkBoxAllowWindowsUpdate_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyAllowWindowsUpdate] = checkBoxAllowWindowsUpdate.Checked;
+		}
+
+		private void checkBoxDeveloperConsole_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyAllowDeveloperConsole] = checkBoxAllowDeveloperConsole.Checked;
 		}
 	}
 }

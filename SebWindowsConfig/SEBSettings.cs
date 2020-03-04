@@ -120,6 +120,7 @@ namespace SebWindowsConfig
 		public const String KeyAllowDictionaryLookup        = "allowDictionaryLookup";
 		public const String KeyEnableTouchExit              = "enableTouchExit";
 		public const String KeyOskBehavior                  = "oskBehavior";
+		public const String KeyAllowDeveloperConsole        = "allowDeveloperConsole";
 
 		public const string KeyAllowSpellCheck              = "allowSpellCheck";
 		public const string KeyAllowSpellCheckDictionary    = "allowSpellCheckDictionary";
@@ -628,6 +629,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAudioMute             , false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAudioVolumeLevel             , 25);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAudioSetVolumeLevel             , false);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowDeveloperConsole, false);
 
 			//Touch Settings
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyBrowserScreenKeyboard       , false);
