@@ -73,7 +73,10 @@ namespace SafeExamBrowser.Browser.Handlers
 
 			if (Block(request))
 			{
-				RequestBlocked?.Invoke(request.Url);
+				if (request.ResourceType == ResourceType.MainFrame)
+				{
+					RequestBlocked?.Invoke(request.Url);
+				}
 
 				return true;
 			}
@@ -105,20 +108,31 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		private bool Block(IRequest request)
 		{
-			if (settings.Filter.ProcessMainRequests)
+			var block = false;
+
+			if (settings.Filter.ProcessMainRequests && request.ResourceType == ResourceType.MainFrame)
 			{
 				var result = filter.Process(new Request { Url = request.Url });
-				var block = result == FilterResult.Block;
 
-				if (block)
+				if (result == FilterResult.Block)
 				{
-					logger.Info($"Blocked main request for '{request.Url}'.");
+					block = true;
+					logger.Info($"Blocked main request for '{request.Url}' ({request.ResourceType}, {request.TransitionType}).");
 				}
-
-				return block;
 			}
 
-			return false;
+			if (settings.Filter.ProcessContentRequests && request.ResourceType != ResourceType.MainFrame)
+			{
+				var result = filter.Process(new Request { Url = request.Url });
+
+				if (result == FilterResult.Block)
+				{
+					block = true;
+					logger.Info($"Blocked content request for '{request.Url}' ({request.ResourceType}, {request.TransitionType}).");
+				}
+			}
+
+			return block;
 		}
 	}
 }

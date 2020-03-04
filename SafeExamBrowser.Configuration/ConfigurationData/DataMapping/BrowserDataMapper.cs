@@ -350,7 +350,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		private void MapRequestFilter(IDictionary<string, object> rawData, AppSettings settings)
 		{
 			var processMainRequests = rawData.TryGetValue(Keys.Browser.Filter.EnableMainRequestFilter, out var value) && value as bool? == true;
-			var processContentRequests = rawData.TryGetValue(Keys.Browser.UserAgentModeMobile, out value) && value as bool? == true;
+			var processContentRequests = rawData.TryGetValue(Keys.Browser.Filter.EnableContentRequestFilter, out value) && value as bool? == true;
 
 			settings.Browser.Filter.ProcessMainRequests = processMainRequests;
 			settings.Browser.Filter.ProcessContentRequests = processMainRequests && processContentRequests;

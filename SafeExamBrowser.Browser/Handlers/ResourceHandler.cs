@@ -72,18 +72,14 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		protected override bool OnResourceResponse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response)
 		{
-			var abort = true;
-
 			if (RedirectToDisablePdfToolbar(request, response, out var url))
 			{
 				chromiumWebBrowser.Load(url);
-			}
-			else
-			{
-				abort = base.OnResourceResponse(chromiumWebBrowser, browser, frame, request, response);
+
+				return true;
 			}
 
-			return abort;
+			return base.OnResourceResponse(chromiumWebBrowser, browser, frame, request, response);
 		}
 
 		private void AppendCustomHeaders(IRequest request)
@@ -121,7 +117,7 @@ namespace SafeExamBrowser.Browser.Handlers
 				if (result == FilterResult.Block)
 				{
 					block = true;
-					logger.Info($"Blocked content request for '{request.Url}'.");
+					logger.Info($"Blocked content request for '{request.Url}' ({request.ResourceType}, {request.TransitionType}).");
 				}
 			}
 
