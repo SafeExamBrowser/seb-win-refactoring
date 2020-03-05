@@ -218,7 +218,12 @@ namespace SafeExamBrowser.Browser
 
 			if (!settings.AllowPdfReader)
 			{
-				cefSettings.CefCommandLineArgs.Add("disable-pdf-extension", "");
+				cefSettings.CefCommandLineArgs.Add("disable-pdf-extension");
+			}
+
+			if (!settings.AllowSpellChecking)
+			{
+				cefSettings.CefCommandLineArgs.Add("disable-spell-checking");
 			}
 
 			InitializeProxySettings(cefSettings);

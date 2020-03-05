@@ -39,6 +39,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.AllowPdfReaderToolbar:
 					MapAllowPdfReaderToolbar(settings, value);
 					break;
+				case Keys.Browser.AllowSpellChecking:
+					MapAllowSpellChecking(settings, value);
+					break;
 				case Keys.Browser.AdditionalWindow.AllowAddressBar:
 					MapAllowAddressBarAdditionalWindow(settings, value);
 					break;
@@ -223,6 +226,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool allow)
 			{
 				settings.Browser.AllowPdfReaderToolbar = allow;
+			}
+		}
+
+		private void MapAllowSpellChecking(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.AllowSpellChecking = allow;
 			}
 		}
 

@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -330,6 +330,7 @@ namespace SebWindowsConfig
 			this.checkBoxSetVolumeLevel = new System.Windows.Forms.CheckBox();
 			this.checkBoxMuteAudio = new System.Windows.Forms.CheckBox();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
+			this.checkBoxAllowDeveloperConsole = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowAdditionalWindowAddressBar = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowMainWindowAddressBar = new System.Windows.Forms.CheckBox();
 			this.checkBoxEnableBrowserWindowToolbar = new System.Windows.Forms.CheckBox();
@@ -433,7 +434,6 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.checkBoxAllowDeveloperConsole = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -1753,8 +1753,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle5.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle3;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -4116,15 +4116,14 @@ namespace SebWindowsConfig
 			this.spellCheckerGroupBox.Controls.Add(this.checkBoxAllowSpellCheck);
 			this.spellCheckerGroupBox.Location = new System.Drawing.Point(790, 182);
 			this.spellCheckerGroupBox.Name = "spellCheckerGroupBox";
-			this.spellCheckerGroupBox.Size = new System.Drawing.Size(1036, 628);
+			this.spellCheckerGroupBox.Size = new System.Drawing.Size(1036, 72);
 			this.spellCheckerGroupBox.TabIndex = 87;
 			this.spellCheckerGroupBox.TabStop = false;
 			this.spellCheckerGroupBox.Text = "Spell Checker";
-			this.spellCheckerGroupBox.Visible = false;
 			// 
 			// dictionariesDescriptionLabel
 			// 
-			this.dictionariesDescriptionLabel.Location = new System.Drawing.Point(12, 515);
+			this.dictionariesDescriptionLabel.Location = new System.Drawing.Point(12, 548);
 			this.dictionariesDescriptionLabel.Name = "dictionariesDescriptionLabel";
 			this.dictionariesDescriptionLabel.Size = new System.Drawing.Size(1012, 45);
 			this.dictionariesDescriptionLabel.TabIndex = 3;
@@ -4134,7 +4133,7 @@ namespace SebWindowsConfig
 			// 
 			// spellCheckerDescriptionLabel
 			// 
-			this.spellCheckerDescriptionLabel.Location = new System.Drawing.Point(12, 65);
+			this.spellCheckerDescriptionLabel.Location = new System.Drawing.Point(12, 98);
 			this.spellCheckerDescriptionLabel.Name = "spellCheckerDescriptionLabel";
 			this.spellCheckerDescriptionLabel.Size = new System.Drawing.Size(1012, 42);
 			this.spellCheckerDescriptionLabel.TabIndex = 2;
@@ -4145,7 +4144,7 @@ namespace SebWindowsConfig
 			// checkBoxAllowDictionaryLookup
 			// 
 			this.checkBoxAllowDictionaryLookup.AutoSize = true;
-			this.checkBoxAllowDictionaryLookup.Location = new System.Drawing.Point(208, 31);
+			this.checkBoxAllowDictionaryLookup.Location = new System.Drawing.Point(421, 31);
 			this.checkBoxAllowDictionaryLookup.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxAllowDictionaryLookup.Name = "checkBoxAllowDictionaryLookup";
 			this.checkBoxAllowDictionaryLookup.Size = new System.Drawing.Size(238, 24);
@@ -4157,7 +4156,7 @@ namespace SebWindowsConfig
 			// 
 			// removeDictionaryButton
 			// 
-			this.removeDictionaryButton.Location = new System.Drawing.Point(176, 571);
+			this.removeDictionaryButton.Location = new System.Drawing.Point(176, 604);
 			this.removeDictionaryButton.Name = "removeDictionaryButton";
 			this.removeDictionaryButton.Size = new System.Drawing.Size(170, 35);
 			this.removeDictionaryButton.TabIndex = 1;
@@ -4167,7 +4166,7 @@ namespace SebWindowsConfig
 			// 
 			// addDictionaryButton
 			// 
-			this.addDictionaryButton.Location = new System.Drawing.Point(12, 571);
+			this.addDictionaryButton.Location = new System.Drawing.Point(12, 604);
 			this.addDictionaryButton.Name = "addDictionaryButton";
 			this.addDictionaryButton.Size = new System.Drawing.Size(158, 35);
 			this.addDictionaryButton.TabIndex = 1;
@@ -4188,7 +4187,7 @@ namespace SebWindowsConfig
             this.spellCheckerDictionaryEnabledColumn,
             this.spellCheckerDictionaryLocaleColumn,
             this.spellCheckerDictionaryFilesColumn});
-			this.spellCheckerDataGridView.Location = new System.Drawing.Point(16, 120);
+			this.spellCheckerDataGridView.Location = new System.Drawing.Point(16, 153);
 			this.spellCheckerDataGridView.Name = "spellCheckerDataGridView";
 			this.spellCheckerDataGridView.RowTemplate.Height = 28;
 			this.spellCheckerDataGridView.Size = new System.Drawing.Size(1002, 380);
@@ -4218,8 +4217,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle4;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -4233,9 +4232,9 @@ namespace SebWindowsConfig
 			this.checkBoxAllowSpellCheck.Location = new System.Drawing.Point(16, 31);
 			this.checkBoxAllowSpellCheck.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 			this.checkBoxAllowSpellCheck.Name = "checkBoxAllowSpellCheck";
-			this.checkBoxAllowSpellCheck.Size = new System.Drawing.Size(175, 24);
+			this.checkBoxAllowSpellCheck.Size = new System.Drawing.Size(370, 24);
 			this.checkBoxAllowSpellCheck.TabIndex = 67;
-			this.checkBoxAllowSpellCheck.Text = "Allow spell checking";
+			this.checkBoxAllowSpellCheck.Text = "Allow spell checking (Win supports English only)";
 			this.toolTip1.SetToolTip(this.checkBoxAllowSpellCheck, "Spell checking in the SEB browser underlines incorrectly spelled words and displa" +
         "ys word suggestions (right mouse button needs to be enabled in Hooked Keys tab)." +
         "");
@@ -4322,6 +4321,17 @@ namespace SebWindowsConfig
 			this.groupBox6.TabIndex = 83;
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "Browser Window Toolbar";
+			// 
+			// checkBoxAllowDeveloperConsole
+			// 
+			this.checkBoxAllowDeveloperConsole.AutoSize = true;
+			this.checkBoxAllowDeveloperConsole.Location = new System.Drawing.Point(44, 119);
+			this.checkBoxAllowDeveloperConsole.Name = "checkBoxAllowDeveloperConsole";
+			this.checkBoxAllowDeveloperConsole.Size = new System.Drawing.Size(343, 24);
+			this.checkBoxAllowDeveloperConsole.TabIndex = 7;
+			this.checkBoxAllowDeveloperConsole.Text = "Show developer tools in window menu (Win)";
+			this.checkBoxAllowDeveloperConsole.UseVisualStyleBackColor = true;
+			this.checkBoxAllowDeveloperConsole.CheckedChanged += new System.EventHandler(this.checkBoxDeveloperConsole_CheckedChanged);
 			// 
 			// checkBoxAllowAdditionalWindowAddressBar
 			// 
@@ -5593,17 +5603,6 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Text = "Apply and Start SEB";
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
-			// 
-			// checkBoxAllowDeveloperConsole
-			// 
-			this.checkBoxAllowDeveloperConsole.AutoSize = true;
-			this.checkBoxAllowDeveloperConsole.Location = new System.Drawing.Point(44, 119);
-			this.checkBoxAllowDeveloperConsole.Name = "checkBoxAllowDeveloperConsole";
-			this.checkBoxAllowDeveloperConsole.Size = new System.Drawing.Size(343, 24);
-			this.checkBoxAllowDeveloperConsole.TabIndex = 7;
-			this.checkBoxAllowDeveloperConsole.Text = "Show developer tools in window menu (Win)";
-			this.checkBoxAllowDeveloperConsole.UseVisualStyleBackColor = true;
-			this.checkBoxAllowDeveloperConsole.CheckedChanged += new System.EventHandler(this.checkBoxDeveloperConsole_CheckedChanged);
 			// 
 			// SebWindowsConfigForm
 			// 

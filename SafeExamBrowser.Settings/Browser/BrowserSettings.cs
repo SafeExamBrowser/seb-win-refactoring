@@ -52,6 +52,11 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool AllowPdfReaderToolbar { get; set; }
 
 		/// <summary>
+		/// Determines whether spell checking is enabled for input fields.
+		/// </summary>
+		public bool AllowSpellChecking { get; set; }
+
+		/// <summary>
 		/// Determines whether the user will be allowed to upload files.
 		/// </summary>
 		public bool AllowUploads { get; set; }

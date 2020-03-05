@@ -47,6 +47,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string AllowDownloadsAndUploads = "allowDownUploads";
 			internal const string AllowPageZoom = "enableZoomPage";
 			internal const string AllowPdfReaderToolbar = "allowPDFReaderToolbar";
+			internal const string AllowSpellChecking = "allowSpellCheck";
 			internal const string CustomUserAgentDesktop = "browserUserAgentWinDesktopModeCustom";
 			internal const string CustomUserAgentMobile = "browserUserAgentWinTouchModeCustom";
 			internal const string DeleteCacheOnShutdown = "removeBrowserProfile";
