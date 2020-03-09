@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop"
-        mc:Ignorable="d" Title="Version &amp; License Information" Background="White" Height="350" Width="575" ResizeMode="NoResize"
-        Icon="./Images/SafeExamBrowser.ico" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
+        mc:Ignorable="d" Background="White" Height="350" Width="575" ResizeMode="NoResize" Icon="./Images/SafeExamBrowser.ico" ShowInTaskbar="False"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

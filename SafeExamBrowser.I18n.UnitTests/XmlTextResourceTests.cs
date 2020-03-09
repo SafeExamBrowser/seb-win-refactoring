@@ -23,7 +23,8 @@ namespace SafeExamBrowser.I18n.UnitTests
 		{
 			var location = Assembly.GetAssembly(typeof(XmlTextResourceTests)).Location;
 			var path = $@"{Path.GetDirectoryName(location)}\Text_Valid.xml";
-			var sut = new XmlTextResource(path);
+			var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
+			var sut = new XmlTextResource(stream);
 
 			var text = sut.LoadText();
 
@@ -39,7 +40,8 @@ namespace SafeExamBrowser.I18n.UnitTests
 		{
 			var location = Assembly.GetAssembly(typeof(XmlTextResourceTests)).Location;
 			var path = $@"{Path.GetDirectoryName(location)}\Text_Invalid.txt";
-			var sut = new XmlTextResource(path);
+			var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
+			var sut = new XmlTextResource(stream);
 
 			sut.LoadText();
 		}
@@ -49,7 +51,8 @@ namespace SafeExamBrowser.I18n.UnitTests
 		{
 			var location = Assembly.GetAssembly(typeof(XmlTextResourceTests)).Location;
 			var path = $@"{Path.GetDirectoryName(location)}\Text_Incompatible.xml";
-			var sut = new XmlTextResource(path);
+			var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
+			var sut = new XmlTextResource(stream);
 
 			var text = sut.LoadText();
 
@@ -62,19 +65,13 @@ namespace SafeExamBrowser.I18n.UnitTests
 		{
 			var location = Assembly.GetAssembly(typeof(XmlTextResourceTests)).Location;
 			var path = $@"{Path.GetDirectoryName(location)}\Text_Valid.xml";
-			var sut = new XmlTextResource(path);
+			var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
+			var sut = new XmlTextResource(stream);
 
 			var text = sut.LoadText();
 
 			Assert.IsNotNull(text);
 			Assert.AreEqual(string.Empty, text[TextKey.Notification_LogTooltip]);
-		}
-
-		[TestMethod]
-		[ExpectedException(typeof(ArgumentException))]
-		public void MustNotAcceptInvalidPath()
-		{
-			new XmlTextResource("This is not a valid path");
 		}
 
 		[TestMethod]
@@ -89,7 +86,8 @@ namespace SafeExamBrowser.I18n.UnitTests
 		{
 			var location = Assembly.GetAssembly(typeof(XmlTextResourceTests)).Location;
 			var path = $@"{Path.GetDirectoryName(location)}\Text_Valid.xml";
-			var sut = new XmlTextResource(path);
+			var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
+			var sut = new XmlTextResource(stream);
 
 			var text = sut.LoadText();
 

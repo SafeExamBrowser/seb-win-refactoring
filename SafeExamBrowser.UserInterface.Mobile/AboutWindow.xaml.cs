@@ -45,8 +45,8 @@ namespace SafeExamBrowser.UserInterface.Mobile
 		private void InitializeAboutWindow()
 		{
 			Closing += (o, args) => closing?.Invoke();
-
 			MainText.Inlines.InsertBefore(MainText.Inlines.FirstInline, new Run(text.Get(TextKey.AboutWindow_LicenseInfo)));
+			Title = text.Get(TextKey.AboutWindow_Title);
 
 			VersionInfo.Inlines.Add(new Run($"{text.Get(TextKey.Version)} {appConfig.ProgramInformationalVersion}"));
 			VersionInfo.Inlines.Add(new LineBreak());

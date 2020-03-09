@@ -9,9 +9,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.Core.Operations;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Core.Operations;
 
 namespace SafeExamBrowser.Core.UnitTests.Operations
 {
@@ -20,7 +20,6 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 	{
 		private Mock<ILogger> logger;
 		private Mock<IText> text;
-		private Mock<ITextResource> textResource;
 
 		private I18nOperation sut;
 
@@ -29,9 +28,8 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 		{
 			logger = new Mock<ILogger>();
 			text = new Mock<IText>();
-			textResource = new Mock<ITextResource>();
 
-			sut = new I18nOperation(logger.Object, text.Object, textResource.Object);
+			sut = new I18nOperation(logger.Object, text.Object);
 		}
 
 		[TestMethod]
@@ -39,7 +37,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 		{
 			var result = sut.Perform();
 
-			text.Verify(t => t.Initialize(It.Is<ITextResource>(r => r == textResource.Object)), Times.Once);
+			text.Verify(t => t.Initialize(), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}
@@ -48,7 +46,6 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 		public void MustDoNothingOnRevert()
 		{
 			sut.Revert();
-
 			text.VerifyNoOtherCalls();
 		}
 	}

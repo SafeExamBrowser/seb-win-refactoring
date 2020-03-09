@@ -9,8 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Reflection;
 using SafeExamBrowser.Applications;
 using SafeExamBrowser.Browser;
 using SafeExamBrowser.Client.Communication;
@@ -74,7 +72,6 @@ namespace SafeExamBrowser.Client
 		private ITaskbar taskbar;
 		private ITaskview taskview;
 		private IText text;
-		private ITextResource textResource;
 		private IUserInterfaceFactory uiFactory;
 
 		internal IClientController ClientController { get; private set; }
@@ -83,18 +80,16 @@ namespace SafeExamBrowser.Client
 		{
 			ValidateCommandLineArguments();
 
-			logger = new Logger();
-			nativeMethods = new NativeMethods();
-			systemInfo = new SystemInfo();
-
 			InitializeLogging();
 			InitializeText();
 
 			actionCenter = BuildActionCenter();
 			context = new ClientContext();
 			messageBox = BuildMessageBox();
+			nativeMethods = new NativeMethods();
 			uiFactory = BuildUserInterfaceFactory();
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
+			systemInfo = new SystemInfo();
 			taskbar = BuildTaskbar();
 			taskview = BuildTaskview();
 
@@ -109,7 +104,7 @@ namespace SafeExamBrowser.Client
 
 			var operations = new Queue<IOperation>();
 
-			operations.Enqueue(new I18nOperation(logger, text, textResource));
+			operations.Enqueue(new I18nOperation(logger, text));
 			operations.Enqueue(new RuntimeConnectionOperation(context, logger, runtimeProxy, authenticationToken));
 			operations.Enqueue(new ConfigurationOperation(context, logger, runtimeProxy));
 			operations.Enqueue(new DelegateOperation(UpdateAppConfig));
@@ -187,17 +182,15 @@ namespace SafeExamBrowser.Client
 			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), logFilePath);
 
 			logFileWriter.Initialize();
+
+			logger = new Logger();
 			logger.LogLevel = logLevel;
 			logger.Subscribe(logFileWriter);
 		}
 
 		private void InitializeText()
 		{
-			var location = Assembly.GetAssembly(typeof(XmlTextResource)).Location;
-			var path = $@"{Path.GetDirectoryName(location)}\Text.xml";
-
-			text = new Text(logger);
-			textResource = new XmlTextResource(path);
+			text = new Text(ModuleLogger(nameof(Text)));
 		}
 
 		private IOperation BuildBrowserOperation()

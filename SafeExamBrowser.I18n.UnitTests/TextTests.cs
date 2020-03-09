@@ -6,13 +6,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.I18n;
 
 namespace SafeExamBrowser.I18n.UnitTests
 {
@@ -20,59 +18,29 @@ namespace SafeExamBrowser.I18n.UnitTests
 	public class TextTests
 	{
 		private Mock<ILogger> loggerMock;
+		private Text sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
 			loggerMock = new Mock<ILogger>();
+			sut = new Text(loggerMock.Object);
 		}
 
 		[TestMethod]
 		public void MustNeverReturnNull()
 		{
-			var sut = new Text(loggerMock.Object);
 			var text = sut.Get((TextKey)(-1));
 
 			Assert.IsNotNull(text);
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void MustNotAllowNullResource()
+		public void MustNotFailToInitializeWhenDataNotFound()
 		{
-			var sut = new Text(loggerMock.Object);
+			CultureInfo.CurrentUICulture = CultureInfo.InvariantCulture;
 
-			sut.Initialize(null);
-		}
-
-		[TestMethod]
-		public void MustNotFailWhenGettingNullFromResource()
-		{
-			var resource = new Mock<ITextResource>();
-			var sut = new Text(loggerMock.Object);
-
-			resource.Setup(r => r.LoadText()).Returns<IDictionary<TextKey, string>>(null);
-			sut.Initialize(resource.Object);
-
-			var text = sut.Get((TextKey)(-1));
-
-			Assert.IsNotNull(text);
-		}
-
-		[TestMethod]
-		public void MustNotFailWhenResourceThrowsException()
-		{
-			var resource = new Mock<ITextResource>();
-			var sut = new Text(loggerMock.Object);
-
-			resource.Setup(r => r.LoadText()).Throws<Exception>();
-			sut.Initialize(resource.Object);
-
-			var text = sut.Get((TextKey)(-1));
-
-			loggerMock.Verify(l => l.Error(It.IsAny<string>(), It.IsAny<Exception>()), Times.AtLeastOnce);
-
-			Assert.IsNotNull(text);
+			sut.Initialize();
 		}
 	}
 }

@@ -15,35 +15,24 @@ using SafeExamBrowser.I18n.Contracts;
 namespace SafeExamBrowser.I18n
 {
 	/// <summary>
-	/// Default implementation of <see cref="ITextResource"/> to load text data from XML files.
+	/// Default implementation of an <see cref="ITextResource"/> for text data in XML.
 	/// </summary>
 	public class XmlTextResource : ITextResource
 	{
-		private string path;
+		private Stream data;
 
 		/// <summary>
-		/// Initializes a new text resource for an XML file located at the specified path.
+		/// Initializes a new text resource for an XML data stream.
 		/// </summary>
-		/// <exception cref="ArgumentException">If the specifed file does not exist.</exception>
-		/// <exception cref="ArgumentNullException">If the given path is null.</exception>
-		public XmlTextResource(string path)
+		/// <exception cref="ArgumentNullException">If the given stream is null.</exception>
+		public XmlTextResource(Stream data)
 		{
-			if (path == null)
-			{
-				throw new ArgumentNullException(nameof(path));
-			}
-
-			if (!File.Exists(path))
-			{
-				throw new ArgumentException("The specified file does not exist!");
-			}
-
-			this.path = path;
+			this.data = data ?? throw new ArgumentNullException(nameof(data));
 		}
 
 		public IDictionary<TextKey, string> LoadText()
 		{
-			var xml = XDocument.Load(path);
+			var xml = XDocument.Load(data);
 			var text = new Dictionary<TextKey, string>();
 
 			foreach (var definition in xml.Root.Descendants())

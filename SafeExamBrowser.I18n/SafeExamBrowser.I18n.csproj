@@ -62,10 +62,9 @@
     <Compile Include="XmlTextResource.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Text.xml">
+    <EmbeddedResource Include="Data\en.xml">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.I18n.Contracts\SafeExamBrowser.I18n.Contracts.csproj">
@@ -76,6 +75,11 @@
       <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
       <Name>SafeExamBrowser.Logging.Contracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\de.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

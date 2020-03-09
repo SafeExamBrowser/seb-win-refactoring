@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System.Globalization;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -15,29 +14,27 @@ using SafeExamBrowser.Logging.Contracts;
 namespace SafeExamBrowser.Core.Operations
 {
 	/// <summary>
-	/// An operation to handle the initialization of an <see cref="IText"/> module with text data from the default directory.
+	/// An operation to handle the initialization of an <see cref="IText"/> module with text data.
 	/// </summary>
 	public class I18nOperation : IOperation
 	{
 		private ILogger logger;
 		private IText text;
-		private ITextResource textResource;
 
 		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged { add { } remove { } }
 
-		public I18nOperation(ILogger logger, IText text, ITextResource textResource)
+		public I18nOperation(ILogger logger, IText text)
 		{
 			this.logger = logger;
 			this.text = text;
-			this.textResource = textResource;
 		}
 
 		public OperationResult Perform()
 		{
-			logger.Info($"Loading default text data (the currently active culture is '{CultureInfo.CurrentCulture.Name}')...");
+			logger.Info($"Loading text data...");
 
-			text.Initialize(textResource);
+			text.Initialize();
 
 			return OperationResult.Success;
 		}

@@ -14,13 +14,12 @@ namespace SafeExamBrowser.I18n.Contracts
 	public interface IText
 	{
 		/// <summary>
-		/// Initializes the text module, e.g. loads text data from the specified text resource.
+		/// Initializes the text module, i.e. loads text data according to the currently active UI culture.
 		/// </summary>
-		void Initialize(ITextResource resource);
+		void Initialize();
 
 		/// <summary>
-		/// Gets the text associated with the specified key. If the key was not found, a default text indicating
-		/// that the given key is not configured will be returned.
+		/// Gets the text associated with the specified key. If the key was not found, an error message indicating the missing key will be returned.
 		/// </summary>
 		string Get(TextKey key);
 	}

@@ -1,0 +1,465 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Text>
+    <Entry key="AboutWindow_LicenseInfo">
+        This application is subject to the terms of the Mozilla Public License, version 2.0. Safe Exam Browser uses the following frameworks and third-party libraries:
+    </Entry>
+    <Entry key="AboutWindow_Title">
+        Version &amp; License Information
+    </Entry>
+    <Entry key="Browser_BlockedContentMessage">
+        Content blocked
+    </Entry>
+    <Entry key="Browser_BlockedPageButton">
+        Back to previous page
+    </Entry>
+    <Entry key="Browser_BlockedPageMessage">
+        Access to this page is not allowed according to the current configuration.
+    </Entry>
+    <Entry key="Browser_BlockedPageTitle">
+        Page Blocked
+    </Entry>
+    <Entry key="Browser_Name">
+        Browser
+    </Entry>
+    <Entry key="Browser_Tooltip">
+        Browser Application
+    </Entry>
+    <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
+        Developer Console
+    </Entry>
+    <Entry key="BrowserWindow_Downloading">
+        Downloading...
+    </Entry>
+    <Entry key="BrowserWindow_DownloadCancelled">
+        Cancelled.
+    </Entry>
+    <Entry key="BrowserWindow_DownloadComplete">
+        Downloaded.
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuItem">
+        Page Zoom
+    </Entry>
+    <Entry key="Build">
+        Build
+    </Entry>
+    <Entry key="FileSystemDialog_Cancel">
+        Cancel
+    </Entry>
+    <Entry key="FileSystemDialog_LoadError">
+        Failed to load data!
+    </Entry>
+    <Entry key="FileSystemDialog_Loading">
+        Loading...
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFileMessage">
+        Please select a file to open.
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFolderMessage">
+        Please select a folder.
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarning">
+        The selected file already exists! Would you really like to overwrite it?
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarningTitle">
+        Overwrite?
+    </Entry>
+    <Entry key="FileSystemDialog_SaveAs">
+        Save as:
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFileMessage">
+        Please select a location to save the file.
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFolderMessage">
+        Please select a location to save the folder.
+    </Entry>
+    <Entry key="FileSystemDialog_Select">
+        Select
+    </Entry>
+    <Entry key="FileSystemDialog_Title">
+        File System Access
+    </Entry>
+    <Entry key="FolderDialog_ApplicationLocation">
+        Application "%%NAME%%" could not be found on the system! Please locate the folder containing the main executable "%%EXECUTABLE%%".
+    </Entry>
+    <Entry key="LockScreen_AllowOption">
+        Temporarily allow the blacklisted applications. This applies only to the currently running instances and session!
+    </Entry>
+    <Entry key="LockScreen_Message">
+        The blacklisted applications listed below were started and could not be automatically terminated! In order to unlock SEB, please select one of the available options and enter the correct unlock password.
+    </Entry>
+    <Entry key="LockScreen_TerminateOption">
+        Terminate Safe Exam Browser. WARNING: There will be no possibility to save data or perform any further actions, the shutdown will be initiated immediately!
+    </Entry>
+    <Entry key="LockScreen_Title">
+        SEB LOCKED
+    </Entry>
+    <Entry key="LockScreen_UnlockButton">
+        Unlock
+    </Entry>
+    <Entry key="LogWindow_AlwaysOnTop">
+        Always on top
+    </Entry>
+    <Entry key="LogWindow_AutoScroll">
+        Auto-scroll content
+    </Entry>
+    <Entry key="LogWindow_Title">
+        Application Log
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestion">
+        The applications listed below need to be terminated before a new session can be started. Would you like to automatically terminate them now?
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestionTitle">
+        Running Applications Detected
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationDataLossWarning">
+        WARNING: Any unsaved application data might be lost!
+    </Entry>
+    <Entry key="MessageBox_ApplicationError">
+        An unrecoverable error has occurred! Please consult the log files for more information. SEB will now shut down...
+    </Entry>
+    <Entry key="MessageBox_ApplicationErrorTitle">
+        Application Error
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailure">
+        Application %%NAME%% could not be initialized and will thus not be available for the new session! Please consult the log files for more information.
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailureTitle">
+        Application Initialization Failed
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFound">
+        Application %%NAME%% could not be found on the system and will thus not be available for the new session! Please consult the log files for more information.
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFoundTitle">
+        Application Not Found
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailure">
+        The applications listed below could not be terminated! Please terminate them manually and try again...
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailureTitle">
+        Automatic Termination Failed
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlocked">
+        Access to "%%URL%%" is not allowed according to the current configuration.
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlockedTitle">
+        Page Blocked
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmation">
+        The browser application has detected a quit URL! Would you like to terminate SEB now?
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
+        Quit URL Detected
+    </Entry>
+    <Entry key="MessageBox_CancelButton">
+        Cancel
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationError">
+        The local client configuration has failed! Please consult the log files for more information. SEB will now shut down...
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationErrorTitle">
+        Configuration Error
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestion">
+        The client configuration has been saved and will be used when you start SEB the next time. Do you want to quit for now?
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestionTitle">
+        Configuration Successful
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadError">
+        Failed to download the new configuration. Please try again or contact technical support.
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
+        Download Error
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationData">
+        The configuration resource "%%URI%%" contains invalid data!
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationDataTitle">
+        Configuration Error
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordError">
+        You failed to enter the correct password within 5 attempts. SEB will now terminate...
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordErrorTitle">
+        Invalid Password
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPassword">
+        SEB can only be terminated by entering the correct quit password.
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPasswordTitle">
+        Invalid Quit Password
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPassword">
+        SEB can only be unlocked by entering the correct password.
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPasswordTitle">
+        Invalid Unlock Password
+    </Entry>
+    <Entry key="MessageBox_NoButton">
+        No
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResource">
+        The configuration resource "%%URI%%" is not supported!
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResourceTitle">
+        Configuration Error
+    </Entry>
+    <Entry key="MessageBox_OkButton">
+        OK
+    </Entry>
+    <Entry key="MessageBox_Quit">
+        Do you want to quit SEB?
+    </Entry>
+    <Entry key="MessageBox_QuitTitle">
+        Quit?
+    </Entry>
+    <Entry key="MessageBox_QuitError">
+        The client failed to communicate the shutdown request to the runtime!
+    </Entry>
+    <Entry key="MessageBox_QuitErrorTitle">
+        Quit Error
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDenied">
+        You are not allowed to reconfigure SEB.
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDeniedTitle">
+        Reconfiguration Denied
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationError">
+        The client failed to communicate the reconfiguration request to the runtime!
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationErrorTitle">
+        Reconfiguration Error
+    </Entry>
+    <Entry key="MessageBox_ReloadConfirmation">
+        Would you like to reload the current page?
+    </Entry>
+    <Entry key="MessageBox_ReloadConfirmationTitle">
+        Reload?
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableError">
+        Failed to initialize the SEB service! SEB will now terminate since the service is configured to be mandatory.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableErrorTitle">
+        Service Unavailable
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarning">
+        Failed to initialize the SEB service. SEB will continue initialization since the service is configured to be optional.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarningTitle">
+        Service Unavailable
+    </Entry>
+    <Entry key="MessageBox_SessionStartError">
+        SEB failed to start a new session! Please consult the log files for more information.
+    </Entry>
+    <Entry key="MessageBox_SessionStartErrorTitle">
+        Session Start Error
+    </Entry>
+    <Entry key="MessageBox_ShutdownError">
+        An unexpected error occurred during the shutdown procedure! Please consult the log files for more information.
+    </Entry>
+    <Entry key="MessageBox_ShutdownErrorTitle">
+        Shutdown Error
+    </Entry>
+    <Entry key="MessageBox_StartupError">
+        An unexpected error occurred during the startup procedure! Please consult the log files for more information.
+    </Entry>
+    <Entry key="MessageBox_StartupErrorTitle">
+        Startup Error
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationError">
+        An unexpected error occurred while trying to load configuration resource "%%URI%%"! Please consult the log files for more information.
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
+        Configuration Error
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowed">
+        This computer appears to be a virtual machine. The selected configuration does not allow SEB to be run in a virtual machine.
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
+        Virtual Machine Detected
+    </Entry>
+    <Entry key="MessageBox_YesButton">
+        Yes
+    </Entry>
+    <Entry key="Notification_AboutTooltip">
+        Information about SEB
+    </Entry>
+    <Entry key="Notification_LogTooltip">
+        Application Log
+    </Entry>
+    <Entry key="OperationStatus_CloseRuntimeConnection">
+        Closing runtime connection
+    </Entry>
+    <Entry key="OperationStatus_EmptyClipboard">
+        Emptying clipboard
+    </Entry>
+    <Entry key="OperationStatus_FinalizeApplications">
+        Finalizing applications
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServiceSession">
+        Finalizing service session
+    </Entry>
+    <Entry key="OperationStatus_InitializeApplications">
+        Initializing applications
+    </Entry>
+    <Entry key="OperationStatus_InitializeBrowser">
+        Initializing browser
+    </Entry>
+    <Entry key="OperationStatus_InitializeConfiguration">
+        Initializing configuration
+    </Entry>
+    <Entry key="OperationStatus_InitializeKioskMode">
+        Initializing kiosk mode
+    </Entry>
+    <Entry key="OperationStatus_InitializeRuntimeConnection">
+        Initializing runtime connection
+    </Entry>
+    <Entry key="OperationStatus_InitializeServiceSession">
+        Initializing service session
+    </Entry>
+    <Entry key="OperationStatus_InitializeSession">
+        Initializing new session
+    </Entry>
+    <Entry key="OperationStatus_InitializeShell">
+        Initializing user interface
+    </Entry>
+    <Entry key="OperationStatus_InitializeWorkingArea">
+        Initializing working area
+    </Entry>
+    <Entry key="OperationStatus_RestartCommunicationHost">
+        Restarting communication host
+    </Entry>
+    <Entry key="OperationStatus_RestoreWorkingArea">
+        Restoring working area
+    </Entry>
+    <Entry key="OperationStatus_RevertKioskMode">
+        Reverting kiosk mode
+    </Entry>
+    <Entry key="OperationStatus_StartClient">
+        Starting client
+    </Entry>
+    <Entry key="OperationStatus_StartCommunicationHost">
+        Starting communication host
+    </Entry>
+    <Entry key="OperationStatus_StartKeyboardInterception">
+        Starting keyboard interception
+    </Entry>
+    <Entry key="OperationStatus_StartMouseInterception">
+        Starting mouse interception
+    </Entry>
+    <Entry key="OperationStatus_StopClient">
+        Stopping client
+    </Entry>
+    <Entry key="OperationStatus_StopCommunicationHost">
+        Stopping communication host
+    </Entry>
+    <Entry key="OperationStatus_StopKeyboardInterception">
+        Stopping keyboard interception
+    </Entry>
+    <Entry key="OperationStatus_StopMouseInterception">
+        Stopping mouse interception
+    </Entry>
+    <Entry key="OperationStatus_TerminateBrowser">
+        Terminating browser
+    </Entry>
+    <Entry key="OperationStatus_TerminateShell">
+        Terminating user interface
+    </Entry>
+    <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
+        Validating virtual machine policy
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerStartup">
+        Waiting for Windows explorer to start up
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerTermination">
+        Waiting for Windows explorer to shut down
+    </Entry>
+    <Entry key="OperationStatus_WaitRuntimeDisconnection">
+        Waiting for the runtime to disconnect
+    </Entry>
+    <Entry key="PasswordDialog_Cancel">
+        Cancel
+    </Entry>
+    <Entry key="PasswordDialog_Confirm">
+        Confirm
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequired">
+        Please enter the administrator password for the local client configuration:
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
+        Administrator Password Required
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
+        Please enter the settings password for the local client configuration:
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
+        Settings Password Required
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequired">
+        Please enter the quit password in order to terminate SEB:
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
+        Quit Password Required
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequired">
+        Please enter the settings password for the selected configuration:
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
+        Settings Password Required
+    </Entry>
+    <Entry key="RuntimeWindow_ApplicationRunning">
+        SEB is running.
+    </Entry>
+    <Entry key="Shell_QuitButton">
+        Terminate Session
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfo">
+        %%NAME%%: %%VOLUME%%%
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfoMuted">
+        %%NAME%%: Muted
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceMuteTooltip">
+        Click to mute audio
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceNotFound">
+        No active audio device found
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceUnmuteTooltip">
+        Click to unmute audio
+    </Entry>
+    <Entry key="SystemControl_BatteryCharging">
+        Plugged in, charging... (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryCharged">
+        Fully charged (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeCriticalWarning">
+        The battery charge is critically low. Please connect your computer to a power supply!
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeLowInfo">
+        The battery charge is getting low. Consider connecting your computer to a power supply in time...
+    </Entry>
+    <Entry key="SystemControl_BatteryRemainingCharge">
+        %%HOURS%%h %%MINUTES%%min remaining (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_KeyboardLayoutTooltip">
+        The current keyboard layout is "%%LAYOUT%%"
+    </Entry>
+    <Entry key="SystemControl_WirelessConnected">
+        Connected to "%%NAME%%"
+    </Entry>
+    <Entry key="SystemControl_WirelessConnecting">
+        Connecting...
+    </Entry>
+    <Entry key="SystemControl_WirelessDisconnected">
+        Disconnected
+    </Entry>
+    <Entry key="SystemControl_WirelessNotAvailable">
+        No wireless network adapter available or turned on
+    </Entry>
+    <Entry key="Version">
+        Version
+    </Entry>
+</Text>

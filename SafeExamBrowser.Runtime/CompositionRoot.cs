@@ -8,8 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
 using SafeExamBrowser.Communication.Contracts;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
@@ -44,7 +42,6 @@ namespace SafeExamBrowser.Runtime
 		private ILogger logger;
 		private ISystemInfo systemInfo;
 		private IText text;
-		private ITextResource textResource;
 
 		internal IRuntimeController RuntimeController { get; private set; }
 
@@ -53,9 +50,6 @@ namespace SafeExamBrowser.Runtime
 			const int FIVE_SECONDS = 5000;
 			const int THIRTY_SECONDS = 30000;
 
-			var args = Environment.GetCommandLineArgs();
-			var nativeMethods = new NativeMethods();
-
 			logger = new Logger();
 			systemInfo = new SystemInfo();
 
@@ -63,7 +57,9 @@ namespace SafeExamBrowser.Runtime
 			InitializeLogging();
 			InitializeText();
 
+			var args = Environment.GetCommandLineArgs();
 			var messageBox = new MessageBox(text);
+			var nativeMethods = new NativeMethods();
 			var uiFactory = new UserInterfaceFactory(text);
 			var desktopFactory = new DesktopFactory(ModuleLogger(nameof(DesktopFactory)));
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
@@ -80,7 +76,7 @@ namespace SafeExamBrowser.Runtime
 			var bootstrapOperations = new Queue<IOperation>();
 			var sessionOperations = new Queue<IRepeatableOperation>();
 
-			bootstrapOperations.Enqueue(new I18nOperation(logger, text, textResource));
+			bootstrapOperations.Enqueue(new I18nOperation(logger, text));
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(runtimeHost, logger));
 
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost, sessionContext));
@@ -176,11 +172,7 @@ namespace SafeExamBrowser.Runtime
 
 		private void InitializeText()
 		{
-			var location = Assembly.GetAssembly(typeof(XmlTextResource)).Location;
-			var path = $@"{Path.GetDirectoryName(location)}\Text.xml";
-
-			text = new Text(logger);
-			textResource = new XmlTextResource(path);
+			text = new Text(ModuleLogger(nameof(Text)));
 		}
 
 		private IModuleLogger ModuleLogger(string moduleInfo)
