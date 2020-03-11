@@ -266,6 +266,44 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters.Rules
 		}
 
 		[TestMethod]
+		public void TestHostWithTrailingSlash()
+		{
+			var expression = "host.org/";
+			var positive = new[]
+			{
+				"scheme://host.org",
+				"scheme://host.org/",
+				"scheme://host.org/url",
+				"scheme://host.org/url/",
+				"scheme://host.org/url/path",
+				"scheme://host.org/url/path/",
+				"scheme://user:password@www.host.org/url/path?param=123#fragment",
+				"scheme://user:password@www.host.org/url/path/?param=123#fragment"
+			};
+
+			Test(expression, positive, Array.Empty<string>());
+		}
+
+		[TestMethod]
+		public void TestHostWithoutTrailingSlash()
+		{
+			var expression = "host.org";
+			var positive = new[]
+			{
+				"scheme://host.org",
+				"scheme://host.org/",
+				"scheme://host.org/url",
+				"scheme://host.org/url/",
+				"scheme://host.org/url/path",
+				"scheme://host.org/url/path/",
+				"scheme://user:password@www.host.org/url/path?param=123#fragment",
+				"scheme://user:password@www.host.org/url/path/?param=123#fragment"
+			};
+
+			Test(expression, positive, Array.Empty<string>());
+		}
+
+		[TestMethod]
 		public void TestPortNumber()
 		{
 			var expression = "host.org:2020";

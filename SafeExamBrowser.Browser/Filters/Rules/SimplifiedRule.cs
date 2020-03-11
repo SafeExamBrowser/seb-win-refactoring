@@ -118,7 +118,7 @@ namespace SafeExamBrowser.Browser.Filters.Rules
 
 		private void ParsePath(string expression)
 		{
-			if (!string.IsNullOrWhiteSpace(expression))
+			if (!string.IsNullOrWhiteSpace(expression) && !expression.Equals("/"))
 			{
 				expression = Regex.Escape(expression);
 				expression = ReplaceWildcard(expression);
