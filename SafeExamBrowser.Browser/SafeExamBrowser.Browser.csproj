@@ -91,6 +91,7 @@
     <Compile Include="Handlers\LifeSpanHandler.cs" />
     <Compile Include="Handlers\RequestHandler.cs" />
     <Compile Include="Handlers\ResourceHandler.cs" />
+    <Compile Include="Pages\HtmlLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -129,8 +130,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Filters\BlockedContent.html" />
-    <EmbeddedResource Include="Filters\BlockedPage.html" />
+    <EmbeddedResource Include="Pages\BlockedContent.html" />
+    <EmbeddedResource Include="Pages\BlockedPage.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\LoadError.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -17,6 +17,7 @@ using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Browser.Filters;
 using SafeExamBrowser.Browser.Handlers;
+using SafeExamBrowser.Browser.Pages;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
@@ -115,6 +116,7 @@ namespace SafeExamBrowser.Browser
 			var displayHandler = new DisplayHandler();
 			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} #{Id}");
 			var downloadHandler = new DownloadHandler(appConfig, settings, downloadLogger);
+			var htmlLoader = new HtmlLoader(text);
 			var keyboardHandler = new KeyboardHandler();
 			var lifeSpanHandler = new LifeSpanHandler();
 			var requestFilter = new RequestFilter();
@@ -138,7 +140,7 @@ namespace SafeExamBrowser.Browser
 
 			InitializeRequestFilter(requestFilter);
 
-			control = new BrowserControl(contextMenuHandler, dialogHandler, displayHandler, downloadHandler, keyboardHandler, lifeSpanHandler, requestHandler, startUrl);
+			control = new BrowserControl(contextMenuHandler, dialogHandler, displayHandler, downloadHandler, htmlLoader, keyboardHandler, lifeSpanHandler, requestHandler, startUrl);
 			control.AddressChanged += Control_AddressChanged;
 			control.LoadingStateChanged += Control_LoadingStateChanged;
 			control.TitleChanged += Control_TitleChanged;

@@ -8,6 +8,7 @@
 
 using CefSharp;
 using CefSharp.WinForms;
+using SafeExamBrowser.Browser.Pages;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
 
@@ -19,6 +20,8 @@ namespace SafeExamBrowser.Browser
 		private IDialogHandler dialogHandler;
 		private IDisplayHandler displayHandler;
 		private IDownloadHandler downloadHandler;
+		private string errorPage;
+		private HtmlLoader htmlLoader;
 		private IKeyboardHandler keyboardHandler;
 		private ILifeSpanHandler lifeSpanHandler;
 		private IRequestHandler requestHandler;
@@ -53,6 +56,7 @@ namespace SafeExamBrowser.Browser
 			IDialogHandler dialogHandler,
 			IDisplayHandler displayHandler,
 			IDownloadHandler downloadHandler,
+			HtmlLoader htmlLoader,
 			IKeyboardHandler keyboardHandler,
 			ILifeSpanHandler lifeSpanHandler,
 			IRequestHandler requestHandler,
@@ -62,6 +66,7 @@ namespace SafeExamBrowser.Browser
 			this.dialogHandler = dialogHandler;
 			this.displayHandler = displayHandler;
 			this.downloadHandler = downloadHandler;
+			this.htmlLoader = htmlLoader;
 			this.keyboardHandler = keyboardHandler;
 			this.lifeSpanHandler = lifeSpanHandler;
 			this.requestHandler = requestHandler;
@@ -70,6 +75,7 @@ namespace SafeExamBrowser.Browser
 		public void Initialize()
 		{
 			AddressChanged += (o, args) => addressChanged?.Invoke(args.Address);
+			LoadError += BrowserControl_LoadError;
 			LoadingStateChanged += (o, args) => loadingStateChanged?.Invoke(args.IsLoading);
 			TitleChanged += (o, args) => titleChanged?.Invoke(args.Title);
 
@@ -80,6 +86,8 @@ namespace SafeExamBrowser.Browser
 			LifeSpanHandler = lifeSpanHandler;
 			MenuHandler = contextMenuHandler;
 			RequestHandler = requestHandler;
+
+			errorPage = htmlLoader.LoadErrorPage();
 		}
 
 		public void NavigateBackwards()
@@ -110,6 +118,16 @@ namespace SafeExamBrowser.Browser
 		public void Zoom(double level)
 		{
 			GetBrowser().SetZoomLevel(level);
+		}
+
+		private void BrowserControl_LoadError(object sender, LoadErrorEventArgs e)
+		{
+			var html = string.Copy(errorPage);
+
+			html = html.Replace("%%STATUS%%", $"{e.ErrorText} ({e.ErrorCode})");
+			html = html.Replace("%%URL%%", e.FailedUrl);
+
+			e.Frame.LoadHtml(html, true);
 		}
 	}
 }

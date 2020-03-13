@@ -18,6 +18,12 @@
     <Entry key="Browser_BlockedPageTitle">
         Page Blocked
     </Entry>
+    <Entry key="Browser_LoadErrorPageMessage">
+        An error occurred while loading page "%%URL%%":
+    </Entry>
+    <Entry key="Browser_LoadErrorPageTitle">
+        Page Load Error
+    </Entry>
     <Entry key="Browser_Name">
         Browser
     </Entry>

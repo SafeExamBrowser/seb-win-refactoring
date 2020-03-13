@@ -8,14 +8,12 @@
 
 using System;
 using System.Collections.Specialized;
-using System.IO;
 using System.Net.Mime;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using CefSharp;
 using SafeExamBrowser.Browser.Contracts.Filters;
-using SafeExamBrowser.Browser.Filters;
+using SafeExamBrowser.Browser.Pages;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
@@ -32,6 +30,7 @@ namespace SafeExamBrowser.Browser.Handlers
 		private string browserExamKey;
 		private IResourceHandler contentHandler;
 		private IRequestFilter filter;
+		private HtmlLoader htmlLoader;
 		private ILogger logger;
 		private IResourceHandler pageHandler;
 		private BrowserSettings settings;
@@ -42,6 +41,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			this.appConfig = appConfig;
 			this.algorithm = new SHA256Managed();
 			this.filter = filter;
+			this.htmlLoader = new HtmlLoader(text);
 			this.logger = logger;
 			this.settings = settings;
 			this.text = text;
@@ -186,9 +186,14 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		private IResourceHandler ResourceHandlerFor(ResourceType resourceType)
 		{
-			if (contentHandler == default(IResourceHandler) || pageHandler == default(IResourceHandler))
+			if (contentHandler == default(IResourceHandler))
 			{
-				InitializeResourceHandlers();
+				contentHandler = CefSharp.ResourceHandler.FromString(htmlLoader.LoadBlockedContent());
+			}
+
+			if (pageHandler == default(IResourceHandler))
+			{
+				pageHandler = CefSharp.ResourceHandler.FromString(htmlLoader.LoadBlockedPage());
 			}
 
 			switch (resourceType)
@@ -199,27 +204,6 @@ namespace SafeExamBrowser.Browser.Handlers
 				default:
 					return contentHandler;
 			}
-		}
-
-		private void InitializeResourceHandlers()
-		{
-			var assembly = Assembly.GetAssembly(typeof(RequestFilter));
-			var contentMessage = text.Get(TextKey.Browser_BlockedContentMessage);
-			var contentStream = assembly.GetManifestResourceStream($"{typeof(RequestFilter).Namespace}.BlockedContent.html");
-			var pageButton = text.Get(TextKey.Browser_BlockedPageButton);
-			var pageMessage = text.Get(TextKey.Browser_BlockedPageMessage);
-			var pageTitle = text.Get(TextKey.Browser_BlockedPageTitle);
-			var pageStream = assembly.GetManifestResourceStream($"{typeof(RequestFilter).Namespace}.BlockedPage.html");
-			var contentHtml = new StreamReader(contentStream).ReadToEnd();
-			var pageHtml = new StreamReader(pageStream).ReadToEnd();
-
-			contentHtml = contentHtml.Replace("%%MESSAGE%%", contentMessage);
-			contentHandler = CefSharp.ResourceHandler.FromString(contentHtml);
-
-			pageHtml = pageHtml.Replace("%%MESSAGE%%", pageMessage).Replace("%%TITLE%%", pageTitle).Replace("%%BACK_BUTTON%%", pageButton);
-			pageHandler = CefSharp.ResourceHandler.FromString(pageHtml);
-
-			logger.Debug("Initialized resource handlers for blocked requests.");
 		}
 	}
 }

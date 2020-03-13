@@ -18,6 +18,12 @@
     <Entry key="Browser_BlockedPageTitle">
         Seite blockiert
     </Entry>
+    <Entry key="Browser_LoadErrorPageMessage">
+        Beim Laden der Seite "%%URL%%" ist folgender Fehler aufgetreten:
+    </Entry>
+    <Entry key="Browser_LoadErrorPageTitle">
+        Seiten-Ladefehler
+    </Entry>
     <Entry key="Browser_Name">
         Browser
     </Entry>
@@ -139,7 +145,7 @@
         Automatisches Beenden fehlgeschlagen
     </Entry>
     <Entry key="MessageBox_BrowserNavigationBlocked">
-        Zugriff auf "%%URL%%" is gemäss der aktiven Konfiguration nicht erlaubt.
+        Zugriff auf "%%URL%%" ist gemäss der aktiven Konfiguration nicht erlaubt.
     </Entry>
     <Entry key="MessageBox_BrowserNavigationBlockedTitle">
         Seite blockiert

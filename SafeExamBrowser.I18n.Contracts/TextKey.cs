@@ -20,6 +20,8 @@ namespace SafeExamBrowser.I18n.Contracts
 		Browser_BlockedPageButton,
 		Browser_BlockedPageMessage,
 		Browser_BlockedPageTitle,
+		Browser_LoadErrorPageMessage,
+		Browser_LoadErrorPageTitle,
 		Browser_Name,
 		Browser_Tooltip,
 		BrowserWindow_DeveloperConsoleMenuItem,
