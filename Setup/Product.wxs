@@ -10,8 +10,8 @@
         <Icon Id="ConfigurationToolIcon" SourceFile="Resources\ConfigurationTool.ico" />
         <Property Id="ARPPRODUCTICON" Value="ApplicationIcon" />
         <WixVariable Id="WixUILicenseRtf" Value="Resources\License.rtf" />
-        <!-- <WixVariable Id="WixUIDialogBmp" Value="Resources\Dialog.bmp" /> 493 × 312 -->
-        <!-- <WixVariable Id="WixUIBannerBmp" Value="Resources\Banner.bmp" /> 493 × 58 -->
+         <WixVariable Id="WixUIBannerBmp" Value="Resources\Banner.bmp" />
+         <WixVariable Id="WixUIDialogBmp" Value="Resources\Dialog.bmp" />
         <Feature Id="ProductFeature" Title="Safe Exam Browser" Level="1">
             <ComponentGroupRef Id="ApplicationComponents" />
             <ComponentGroupRef Id="ConfigurationComponents" />

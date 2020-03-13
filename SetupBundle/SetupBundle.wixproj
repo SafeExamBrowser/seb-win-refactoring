@@ -60,6 +60,7 @@
     <Folder Include="Resources" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Logo.png" />
     <Content Include="Resources\Theme.xml" />
   </ItemGroup>
   <ItemGroup>

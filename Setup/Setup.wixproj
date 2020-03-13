@@ -102,6 +102,8 @@
     <Content Include="Components\Configuration.xslt" />
     <Content Include="Components\Service.xslt" />
     <Content Include="Components\Reset.xslt" />
+    <Content Include="Resources\Banner.bmp" />
+    <Content Include="Resources\Dialog.bmp" />
     <Content Include="Resources\License.rtf" />
     <Content Include="Resources\Application.ico" />
     <Content Include="Resources\ConfigurationFile.ico" />
