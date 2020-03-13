@@ -168,8 +168,8 @@ namespace SafeExamBrowser.SystemComponents.WirelessNetwork
 
 					foreach (var accessPoint in wifi.GetAccessPoints())
 					{
-						// The user may only connect to an already configured wireless network!
-						if (accessPoint.HasProfile)
+						// The user may only connect to an already configured or connected wireless network!
+						if (accessPoint.HasProfile || accessPoint.IsConnected)
 						{
 							networks.Add(ToNetwork(accessPoint));
 						}
