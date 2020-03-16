@@ -8,6 +8,7 @@
         <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." AllowSameVersionUpgrades="yes" />
         <Icon Id="ApplicationIcon" SourceFile="Resources\Application.ico" />
         <Icon Id="ConfigurationToolIcon" SourceFile="Resources\ConfigurationTool.ico" />
+        <Icon Id="ResetUtilityIcon" SourceFile="Resources\ResetUtility.ico" />
         <Property Id="ARPPRODUCTICON" Value="ApplicationIcon" />
         <WixVariable Id="WixUILicenseRtf" Value="Resources\License.rtf" />
          <WixVariable Id="WixUIBannerBmp" Value="Resources\Banner.bmp" />

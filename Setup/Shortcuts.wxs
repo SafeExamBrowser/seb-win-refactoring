@@ -8,7 +8,7 @@
             <Shortcut Id="ConfigurationToolShortcut" Name="SEB Configuration Tool" Icon="ConfigurationToolIcon" IconIndex="0" Advertise="no"
                       Target="[ConfigurationDirectory]\$(var.SebWindowsConfig.TargetFileName)" WorkingDirectory="ConfigurationDirectory"
                       Description="Provides options to edit configuration files for the main application." />
-            <Shortcut Id="ResetUtilityShortcut" Name="SEB Reset Utility" Icon="ApplicationIcon" IconIndex="0" Advertise="no"
+            <Shortcut Id="ResetUtilityShortcut" Name="SEB Reset Utility" Icon="ResetUtilityIcon" IconIndex="0" Advertise="no"
                       Target="[ResetDirectory]\$(var.SafeExamBrowser.ResetUtility.TargetFileName)" WorkingDirectory="ResetDirectory"
                       Description="Provides options to reset any changes made by the main application." />
             <RemoveFolder Id="RemoveStartMenuDirectory" On="uninstall" />

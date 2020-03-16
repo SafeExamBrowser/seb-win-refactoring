@@ -103,11 +103,12 @@
     <Content Include="Components\Service.xslt" />
     <Content Include="Components\Reset.xslt" />
     <Content Include="Resources\Banner.bmp" />
+    <Content Include="Resources\ConfigurationTool.ico" />
     <Content Include="Resources\Dialog.bmp" />
     <Content Include="Resources\License.rtf" />
     <Content Include="Resources\Application.ico" />
     <Content Include="Resources\ConfigurationFile.ico" />
-    <Content Include="Resources\ConfigurationTool.ico" />
+    <Content Include="Resources\ResetUtility.ico" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
