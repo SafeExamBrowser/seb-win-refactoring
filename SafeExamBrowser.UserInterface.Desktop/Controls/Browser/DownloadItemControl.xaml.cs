@@ -15,13 +15,13 @@ using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls.Browser
 {
-	public partial class DownloadItemControl : UserControl
+	internal partial class DownloadItemControl : UserControl
 	{
 		private IText text;
 
-		public Guid Id { get; }
+		internal Guid Id { get; }
 
-		public DownloadItemControl(Guid id, IText text)
+		internal DownloadItemControl(Guid id, IText text)
 		{
 			this.Id = id;
 			this.text = text;
@@ -29,7 +29,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Browser
 			InitializeComponent();
 		}
 
-		public void Update(DownloadItemState state)
+		internal void Update(DownloadItemState state)
 		{
 			ItemName.Text = Uri.TryCreate(state.Url, UriKind.Absolute, out var uri) ? Path.GetFileName(uri.AbsolutePath) : state.Url;
 			Progress.Value = state.Completion * 100;

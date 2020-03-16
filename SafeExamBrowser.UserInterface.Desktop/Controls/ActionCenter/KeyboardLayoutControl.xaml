@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter.KeyboardLayoutControl" x:ClassModifier="internal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Controls"
+             mc:Ignorable="d" d:DesignHeight="100" d:DesignWidth="125">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Templates/Buttons.xaml" />
+                <ResourceDictionary Source="../../Templates/Colors.xaml" />
+                <ResourceDictionary Source="../../Templates/ScrollViewers.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="Grid" Background="{StaticResource ActionCenterDarkBrush}" Height="64" Margin="2">
+        <Popup x:Name="Popup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}">
+            <Border Background="Gray">
+                <ScrollViewer MaxHeight="250" VerticalScrollBarVisibility="Auto" Template="{StaticResource SmallBarScrollViewer}">
+                    <StackPanel x:Name="LayoutsStackPanel" />
+                </ScrollViewer>
+            </Border>
+        </Popup>
+        <Button x:Name="Button" Padding="2" Template="{StaticResource ActionCenterButton}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="3*" />
+                </Grid.RowDefinitions>
+                <fa:ImageAwesome Grid.Row="0" Foreground="Black" Icon="KeyboardOutline" Margin="2" VerticalAlignment="Center" />
+                <TextBlock Grid.Row="1" x:Name="Text" FontSize="11" Foreground="White" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" VerticalAlignment="Bottom" />
+            </Grid>
+        </Button>
+    </Grid>
+</UserControl>

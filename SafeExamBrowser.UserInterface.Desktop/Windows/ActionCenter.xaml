@@ -1,0 +1,30 @@
+﻿<Window x:Class="SafeExamBrowser.UserInterface.Desktop.Windows.ActionCenter"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter"
+        mc:Ignorable="d" Title="ActionCenter" Height="1000" Width="400" Background="{DynamicResource BackgroundTransparentBrush}"
+        AllowsTransparency="True" WindowStyle="None" Topmost="True" ResizeMode="NoResize">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Templates/Colors.xaml" />
+                <ResourceDictionary Source="../Templates/ScrollViewers.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Template="{StaticResource SmallBarScrollViewer}">
+            <StackPanel x:Name="ApplicationPanel" Orientation="Vertical" />
+        </ScrollViewer>
+        <UniformGrid x:Name="ControlPanel" Grid.Row="1" Columns="4" Margin="10">
+            <local:Clock x:Name="Clock" />
+            <local:QuitButton x:Name="QuitButton" />
+        </UniformGrid>
+    </Grid>
+</Window>

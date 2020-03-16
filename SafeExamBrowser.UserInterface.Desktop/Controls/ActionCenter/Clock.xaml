@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter.Clock" x:ClassModifier="internal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Controls"
+             mc:Ignorable="d" d:DesignHeight="100" d:DesignWidth="125">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Templates/Buttons.xaml" />
+                <ResourceDictionary Source="../../Templates/Colors.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Background="{StaticResource ActionCenterDarkBrush}" Height="64" Margin="2" ToolTip="{Binding Path=ToolTip}">
+        <Button x:Name="Button" IsEnabled="False" Padding="2" Template="{StaticResource ActionCenterButton}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="3*" />
+                </Grid.RowDefinitions>
+                <fa:ImageAwesome Grid.Row="0" Foreground="Black" Icon="ClockOutline" Margin="2" VerticalAlignment="Center" />
+                <Grid Grid.Row="1" Background="Transparent" Margin="5,0" VerticalAlignment="Bottom">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="TimeTextBlock" Grid.Row="0" Text="{Binding Path=Time}" FontSize="11" Foreground="White" HorizontalAlignment="Center" />
+                    <TextBlock x:Name="DateTextBlock" Grid.Row="1" Text="{Binding Path=Date}" FontSize="11" Foreground="White" HorizontalAlignment="Center" />
+                </Grid>
+            </Grid>
+        </Button>
+    </Grid>
+</UserControl>
