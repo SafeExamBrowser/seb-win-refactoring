@@ -12,7 +12,6 @@ using System.Diagnostics;
 using SafeExamBrowser.Applications;
 using SafeExamBrowser.Browser;
 using SafeExamBrowser.Client.Communication;
-using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Client.Notifications;
 using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Communication.Contracts;
@@ -74,7 +73,7 @@ namespace SafeExamBrowser.Client
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 
-		internal IClientController ClientController { get; private set; }
+		internal ClientController ClientController { get; private set; }
 
 		internal void BuildObjectGraph(Action shutdown)
 		{

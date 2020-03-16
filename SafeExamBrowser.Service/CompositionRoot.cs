@@ -22,7 +22,6 @@ using SafeExamBrowser.Lockdown;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Service.Communication;
-using SafeExamBrowser.Service.Contracts;
 using SafeExamBrowser.Service.Operations;
 using SafeExamBrowser.Settings.Logging;
 
@@ -32,7 +31,7 @@ namespace SafeExamBrowser.Service
 	{
 		private ILogger logger;
 
-		internal IServiceController ServiceController { get; private set; }
+		internal ServiceController ServiceController { get; private set; }
 
 		internal void BuildObjectGraph()
 		{

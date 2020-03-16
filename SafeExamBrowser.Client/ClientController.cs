@@ -13,7 +13,6 @@ using System.Linq;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
-using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Client.Operations.Events;
 using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Events;
@@ -37,7 +36,7 @@ using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Client
 {
-	internal class ClientController : IClientController
+	internal class ClientController
 	{
 		private IActionCenter actionCenter;
 		private IApplicationMonitor applicationMonitor;
@@ -60,7 +59,7 @@ namespace SafeExamBrowser.Client
 		private IClientHost ClientHost => context.ClientHost;
 		private AppSettings Settings => context.Settings;
 
-		public ClientController(
+		internal ClientController(
 			IActionCenter actionCenter,
 			IApplicationMonitor applicationMonitor,
 			ClientContext context,
@@ -96,7 +95,7 @@ namespace SafeExamBrowser.Client
 			this.uiFactory = uiFactory;
 		}
 
-		public bool TryStart()
+		internal bool TryStart()
 		{
 			logger.Info("Initiating startup procedure...");
 
@@ -139,7 +138,7 @@ namespace SafeExamBrowser.Client
 			return success;
 		}
 
-		public void Terminate()
+		internal void Terminate()
 		{
 			logger.Log(string.Empty);
 			logger.Info("Initiating shutdown procedure...");
@@ -166,7 +165,7 @@ namespace SafeExamBrowser.Client
 			splashScreen.Close();
 		}
 
-		public void UpdateAppConfig()
+		internal void UpdateAppConfig()
 		{
 			splashScreen.AppConfig = context.AppConfig;
 		}

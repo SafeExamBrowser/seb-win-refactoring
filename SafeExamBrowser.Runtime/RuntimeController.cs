@@ -17,7 +17,6 @@ using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Runtime.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
 using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.Settings.Service;
@@ -27,7 +26,7 @@ using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Runtime
 {
-	internal class RuntimeController : IRuntimeController
+	internal class RuntimeController
 	{
 		private AppConfig appConfig;
 		private ILogger logger;
@@ -53,7 +52,7 @@ namespace SafeExamBrowser.Runtime
 			get { return Session != null; }
 		}
 
-		public RuntimeController(
+		internal RuntimeController(
 			AppConfig appConfig,
 			ILogger logger,
 			IMessageBox messageBox,
@@ -83,7 +82,7 @@ namespace SafeExamBrowser.Runtime
 			this.uiFactory = uiFactory;
 		}
 
-		public bool TryStart()
+		internal bool TryStart()
 		{
 			logger.Info("Initiating startup procedure...");
 
@@ -120,7 +119,7 @@ namespace SafeExamBrowser.Runtime
 			return initialized && SessionIsRunning;
 		}
 
-		public void Terminate()
+		internal void Terminate()
 		{
 			DeregisterEvents();
 

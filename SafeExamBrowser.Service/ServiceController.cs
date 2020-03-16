@@ -13,11 +13,10 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Lockdown.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Service.Contracts;
 
 namespace SafeExamBrowser.Service
 {
-	internal class ServiceController : IServiceController
+	internal class ServiceController
 	{
 		private ILogger logger;
 		private Func<string, ILogObserver> logWriterFactory;
@@ -38,7 +37,7 @@ namespace SafeExamBrowser.Service
 			get { return sessionContext.IsRunning; }
 		}
 
-		public ServiceController(
+		internal ServiceController(
 			ILogger logger,
 			Func<string, ILogObserver> logWriterFactory,
 			IOperationSequence bootstrapSequence,
@@ -56,7 +55,7 @@ namespace SafeExamBrowser.Service
 			this.systemConfigurationUpdate = systemConfigurationUpdate;
 		}
 
-		public bool TryStart()
+		internal bool TryStart()
 		{
 			logger.Info("Initiating startup procedure...");
 
@@ -79,7 +78,7 @@ namespace SafeExamBrowser.Service
 			return success;
 		}
 
-		public void Terminate()
+		internal void Terminate()
 		{
 			DeregisterEvents();
 

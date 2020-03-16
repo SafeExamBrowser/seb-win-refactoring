@@ -25,7 +25,6 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Communication;
-using SafeExamBrowser.Runtime.Contracts;
 using SafeExamBrowser.Runtime.Operations;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.SystemComponents;
@@ -43,7 +42,7 @@ namespace SafeExamBrowser.Runtime
 		private ISystemInfo systemInfo;
 		private IText text;
 
-		internal IRuntimeController RuntimeController { get; private set; }
+		internal RuntimeController RuntimeController { get; private set; }
 
 		internal void BuildObjectGraph(Action shutdown)
 		{

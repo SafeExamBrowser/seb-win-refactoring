@@ -92,10 +92,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Logging.Con
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Monitoring.Contracts", "SafeExamBrowser.Monitoring.Contracts\SafeExamBrowser.Monitoring.Contracts.csproj", "{6D563A30-366D-4C35-815B-2C9E6872278B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Runtime.Contracts", "SafeExamBrowser.Runtime.Contracts\SafeExamBrowser.Runtime.Contracts.csproj", "{5D0136B4-6D21-4F99-AE42-3FB7F478AE0A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Service.Contracts", "SafeExamBrowser.Service.Contracts\SafeExamBrowser.Service.Contracts.csproj", "{5167820F-2BE5-43CF-B1CC-E4874BF83808}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.SystemComponents.Contracts", "SafeExamBrowser.SystemComponents.Contracts\SafeExamBrowser.SystemComponents.Contracts.csproj", "{903129C6-E236-493B-9AD6-C6A57F647A3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.UserInterface.Contracts", "SafeExamBrowser.UserInterface.Contracts\SafeExamBrowser.UserInterface.Contracts.csproj", "{C7889E97-6FF6-4A58-B7CB-521ED276B316}"
@@ -405,22 +401,6 @@ Global
 		{6D563A30-366D-4C35-815B-2C9E6872278B}.Release|x64.Build.0 = Release|x64
 		{6D563A30-366D-4C35-815B-2C9E6872278B}.Release|x86.ActiveCfg = Release|x86
 		{6D563A30-366D-4C35-815B-2C9E6872278B}.Release|x86.Build.0 = Release|x86
-		{5D0136B4-6D21-4F99-AE42-3FB7F478AE0A}.Debug|x64.ActiveCfg = Debug|x64
-		{5D0136B4-6D21-4F99-AE42-3FB7F478AE0A}.Debug|x64.Build.0 = Debug|x64
-		{5D0136B4-6D21-4F99-AE42-3FB7F478AE0A}.Debug|x86.ActiveCfg = Debug|x86
-		{5D0136B4-6D21-4F99-AE42-3FB7F478AE0A}.Debug|x86.Build.0 = Debug|x86
-		{5D0136B4-6D21-4F99-AE42-3FB7F478AE0A}.Release|x64.ActiveCfg = Release|x64
-		{5D0136B4-6D21-4F99-AE42-3FB7F478AE0A}.Release|x64.Build.0 = Release|x64
-		{5D0136B4-6D21-4F99-AE42-3FB7F478AE0A}.Release|x86.ActiveCfg = Release|x86
-		{5D0136B4-6D21-4F99-AE42-3FB7F478AE0A}.Release|x86.Build.0 = Release|x86
-		{5167820F-2BE5-43CF-B1CC-E4874BF83808}.Debug|x64.ActiveCfg = Debug|x64
-		{5167820F-2BE5-43CF-B1CC-E4874BF83808}.Debug|x64.Build.0 = Debug|x64
-		{5167820F-2BE5-43CF-B1CC-E4874BF83808}.Debug|x86.ActiveCfg = Debug|x86
-		{5167820F-2BE5-43CF-B1CC-E4874BF83808}.Debug|x86.Build.0 = Debug|x86
-		{5167820F-2BE5-43CF-B1CC-E4874BF83808}.Release|x64.ActiveCfg = Release|x64
-		{5167820F-2BE5-43CF-B1CC-E4874BF83808}.Release|x64.Build.0 = Release|x64
-		{5167820F-2BE5-43CF-B1CC-E4874BF83808}.Release|x86.ActiveCfg = Release|x86
-		{5167820F-2BE5-43CF-B1CC-E4874BF83808}.Release|x86.Build.0 = Release|x86
 		{903129C6-E236-493B-9AD6-C6A57F647A3A}.Debug|x64.ActiveCfg = Debug|x64
 		{903129C6-E236-493B-9AD6-C6A57F647A3A}.Debug|x64.Build.0 = Debug|x64
 		{903129C6-E236-493B-9AD6-C6A57F647A3A}.Debug|x86.ActiveCfg = Debug|x86

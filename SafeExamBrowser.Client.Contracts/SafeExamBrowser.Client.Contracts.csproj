@@ -54,7 +54,6 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IClientController.cs" />
     <Compile Include="INotificationController.cs" />
     <Compile Include="INotificationInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
