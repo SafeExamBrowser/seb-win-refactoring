@@ -66,6 +66,7 @@ namespace SafeExamBrowser.Browser.Pages
 				var html = reader.ReadToEnd();
 
 				html = html.Replace("%%MESSAGE%%", text.Get(TextKey.Browser_LoadErrorPageMessage));
+				html = html.Replace("%%RETRY_BUTTON%%", text.Get(TextKey.Browser_LoadErrorPageButton));
 				html = html.Replace("%%TITLE%%", text.Get(TextKey.Browser_LoadErrorPageTitle));
 
 				return html;
