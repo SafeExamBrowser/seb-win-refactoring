@@ -34,7 +34,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>SafeExamBrowser.ico</ApplicationIcon>
+    <ApplicationIcon>ResetUtility.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -119,7 +119,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SafeExamBrowser.ico" />
+    <Content Include="ResetUtility.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
