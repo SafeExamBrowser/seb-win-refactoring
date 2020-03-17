@@ -68,117 +68,117 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutWindow.xaml.cs">
+    <Compile Include="Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ActionCenter.xaml.cs">
+    <Compile Include="Windows\ActionCenter.xaml.cs">
       <DependentUpon>ActionCenter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BrowserWindow.xaml.cs">
+    <Compile Include="Windows\BrowserWindow.xaml.cs">
       <DependentUpon>BrowserWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ActionCenterApplicationButton.xaml.cs">
-      <DependentUpon>ActionCenterApplicationButton.xaml</DependentUpon>
+    <Compile Include="Controls\ActionCenter\ApplicationButton.xaml.cs">
+      <DependentUpon>ApplicationButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ActionCenterApplicationControl.xaml.cs">
-      <DependentUpon>ActionCenterApplicationControl.xaml</DependentUpon>
+    <Compile Include="Controls\ActionCenter\ApplicationControl.xaml.cs">
+      <DependentUpon>ApplicationControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ActionCenterAudioControl.xaml.cs">
-      <DependentUpon>ActionCenterAudioControl.xaml</DependentUpon>
+    <Compile Include="Controls\ActionCenter\AudioControl.xaml.cs">
+      <DependentUpon>AudioControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ActionCenterClock.xaml.cs">
-      <DependentUpon>ActionCenterClock.xaml</DependentUpon>
+    <Compile Include="Controls\ActionCenter\Clock.xaml.cs">
+      <DependentUpon>Clock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ActionCenterKeyboardLayoutButton.xaml.cs">
-      <DependentUpon>ActionCenterKeyboardLayoutButton.xaml</DependentUpon>
+    <Compile Include="Controls\ActionCenter\KeyboardLayoutButton.xaml.cs">
+      <DependentUpon>KeyboardLayoutButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ActionCenterKeyboardLayoutControl.xaml.cs">
-      <DependentUpon>ActionCenterKeyboardLayoutControl.xaml</DependentUpon>
+    <Compile Include="Controls\ActionCenter\KeyboardLayoutControl.xaml.cs">
+      <DependentUpon>KeyboardLayoutControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ActionCenterNotificationButton.xaml.cs">
-      <DependentUpon>ActionCenterNotificationButton.xaml</DependentUpon>
+    <Compile Include="Controls\ActionCenter\NotificationButton.xaml.cs">
+      <DependentUpon>NotificationButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ActionCenterPowerSupplyControl.xaml.cs">
-      <DependentUpon>ActionCenterPowerSupplyControl.xaml</DependentUpon>
+    <Compile Include="Controls\ActionCenter\PowerSupplyControl.xaml.cs">
+      <DependentUpon>PowerSupplyControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ActionCenterQuitButton.xaml.cs">
-      <DependentUpon>ActionCenterQuitButton.xaml</DependentUpon>
+    <Compile Include="Controls\ActionCenter\QuitButton.xaml.cs">
+      <DependentUpon>QuitButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ActionCenterWirelessNetworkButton.xaml.cs">
-      <DependentUpon>ActionCenterWirelessNetworkButton.xaml</DependentUpon>
+    <Compile Include="Controls\ActionCenter\WirelessNetworkButton.xaml.cs">
+      <DependentUpon>WirelessNetworkButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ActionCenterWirelessNetworkControl.xaml.cs">
-      <DependentUpon>ActionCenterWirelessNetworkControl.xaml</DependentUpon>
+    <Compile Include="Controls\ActionCenter\WirelessNetworkControl.xaml.cs">
+      <DependentUpon>WirelessNetworkControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Browser\DownloadItemControl.xaml.cs">
       <DependentUpon>DownloadItemControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TaskbarApplicationControl.xaml.cs">
-      <DependentUpon>TaskbarApplicationControl.xaml</DependentUpon>
+    <Compile Include="Controls\Taskbar\ApplicationControl.xaml.cs">
+      <DependentUpon>ApplicationControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TaskbarApplicationWindowButton.xaml.cs">
-      <DependentUpon>TaskbarApplicationWindowButton.xaml</DependentUpon>
+    <Compile Include="Controls\Taskbar\ApplicationWindowButton.xaml.cs">
+      <DependentUpon>ApplicationWindowButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TaskbarAudioControl.xaml.cs">
-      <DependentUpon>TaskbarAudioControl.xaml</DependentUpon>
+    <Compile Include="Controls\Taskbar\AudioControl.xaml.cs">
+      <DependentUpon>AudioControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TaskbarClock.xaml.cs">
-      <DependentUpon>TaskbarClock.xaml</DependentUpon>
+    <Compile Include="Controls\Taskbar\Clock.xaml.cs">
+      <DependentUpon>Clock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TaskbarKeyboardLayoutButton.xaml.cs">
-      <DependentUpon>TaskbarKeyboardLayoutButton.xaml</DependentUpon>
+    <Compile Include="Controls\Taskbar\KeyboardLayoutButton.xaml.cs">
+      <DependentUpon>KeyboardLayoutButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TaskbarKeyboardLayoutControl.xaml.cs">
-      <DependentUpon>TaskbarKeyboardLayoutControl.xaml</DependentUpon>
+    <Compile Include="Controls\Taskbar\KeyboardLayoutControl.xaml.cs">
+      <DependentUpon>KeyboardLayoutControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TaskbarNotificationButton.xaml.cs">
-      <DependentUpon>TaskbarNotificationButton.xaml</DependentUpon>
+    <Compile Include="Controls\Taskbar\NotificationButton.xaml.cs">
+      <DependentUpon>NotificationButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TaskbarPowerSupplyControl.xaml.cs">
-      <DependentUpon>TaskbarPowerSupplyControl.xaml</DependentUpon>
+    <Compile Include="Controls\Taskbar\PowerSupplyControl.xaml.cs">
+      <DependentUpon>PowerSupplyControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TaskbarQuitButton.xaml.cs">
-      <DependentUpon>TaskbarQuitButton.xaml</DependentUpon>
+    <Compile Include="Controls\Taskbar\QuitButton.xaml.cs">
+      <DependentUpon>QuitButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TaskbarWirelessNetworkButton.xaml.cs">
-      <DependentUpon>TaskbarWirelessNetworkButton.xaml</DependentUpon>
+    <Compile Include="Controls\Taskbar\WirelessNetworkButton.xaml.cs">
+      <DependentUpon>WirelessNetworkButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TaskbarWirelessNetworkControl.xaml.cs">
-      <DependentUpon>TaskbarWirelessNetworkControl.xaml</DependentUpon>
+    <Compile Include="Controls\Taskbar\WirelessNetworkControl.xaml.cs">
+      <DependentUpon>WirelessNetworkControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TaskviewWindowControl.xaml.cs">
-      <DependentUpon>TaskviewWindowControl.xaml</DependentUpon>
+    <Compile Include="Controls\Taskview\WindowControl.xaml.cs">
+      <DependentUpon>WindowControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FileSystemDialog.xaml.cs">
+    <Compile Include="Windows\FileSystemDialog.xaml.cs">
       <DependentUpon>FileSystemDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="FileSystemDialogFactory.cs" />
-    <Compile Include="LockScreen.xaml.cs">
+    <Compile Include="Windows\LockScreen.xaml.cs">
       <DependentUpon>LockScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LogWindow.xaml.cs">
+    <Compile Include="Windows\LogWindow.xaml.cs">
       <DependentUpon>LogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MessageBox.cs" />
-    <Compile Include="MessageBoxDialog.xaml.cs">
+    <Compile Include="Windows\MessageBoxDialog.xaml.cs">
       <DependentUpon>MessageBoxDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PasswordDialog.xaml.cs">
+    <Compile Include="Windows\PasswordDialog.xaml.cs">
       <DependentUpon>PasswordDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="RuntimeWindow.xaml.cs">
+    <Compile Include="Windows\RuntimeWindow.xaml.cs">
       <DependentUpon>RuntimeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SplashScreen.xaml.cs">
+    <Compile Include="Windows\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Taskbar.xaml.cs">
+    <Compile Include="Windows\Taskbar.xaml.cs">
       <DependentUpon>Taskbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Taskview.xaml.cs">
+    <Compile Include="Windows\Taskview.xaml.cs">
       <DependentUpon>Taskview.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserInterfaceFactory.cs" />
@@ -226,59 +226,59 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AboutWindow.xaml">
+    <Page Include="Windows\AboutWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ActionCenter.xaml">
+    <Page Include="Windows\ActionCenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BrowserWindow.xaml">
+    <Page Include="Windows\BrowserWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ActionCenterApplicationButton.xaml">
+    <Page Include="Controls\ActionCenter\ApplicationButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ActionCenterApplicationControl.xaml">
+    <Page Include="Controls\ActionCenter\ApplicationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ActionCenterAudioControl.xaml">
+    <Page Include="Controls\ActionCenter\AudioControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ActionCenterClock.xaml">
+    <Page Include="Controls\ActionCenter\Clock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ActionCenterKeyboardLayoutButton.xaml">
+    <Page Include="Controls\ActionCenter\KeyboardLayoutButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ActionCenterKeyboardLayoutControl.xaml">
+    <Page Include="Controls\ActionCenter\KeyboardLayoutControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ActionCenterNotificationButton.xaml">
+    <Page Include="Controls\ActionCenter\NotificationButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ActionCenterPowerSupplyControl.xaml">
+    <Page Include="Controls\ActionCenter\PowerSupplyControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ActionCenterQuitButton.xaml">
+    <Page Include="Controls\ActionCenter\QuitButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ActionCenterWirelessNetworkButton.xaml">
+    <Page Include="Controls\ActionCenter\WirelessNetworkButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ActionCenterWirelessNetworkControl.xaml">
+    <Page Include="Controls\ActionCenter\WirelessNetworkControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -286,47 +286,47 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\TaskbarApplicationControl.xaml">
+    <Page Include="Controls\Taskbar\ApplicationControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\TaskbarApplicationWindowButton.xaml">
+    <Page Include="Controls\Taskbar\ApplicationWindowButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\TaskbarAudioControl.xaml">
+    <Page Include="Controls\Taskbar\AudioControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\TaskbarClock.xaml">
+    <Page Include="Controls\Taskbar\Clock.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\TaskbarKeyboardLayoutButton.xaml">
+    <Page Include="Controls\Taskbar\KeyboardLayoutButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\TaskbarKeyboardLayoutControl.xaml">
+    <Page Include="Controls\Taskbar\KeyboardLayoutControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\TaskbarNotificationButton.xaml">
+    <Page Include="Controls\Taskbar\NotificationButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\TaskbarPowerSupplyControl.xaml">
+    <Page Include="Controls\Taskbar\PowerSupplyControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\TaskbarQuitButton.xaml">
+    <Page Include="Controls\Taskbar\QuitButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\TaskbarWirelessNetworkButton.xaml">
+    <Page Include="Controls\Taskbar\WirelessNetworkButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\TaskbarWirelessNetworkControl.xaml">
+    <Page Include="Controls\Taskbar\WirelessNetworkControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -366,11 +366,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-    <Page Include="Controls\TaskviewWindowControl.xaml">
+    <Page Include="Controls\Taskview\WindowControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="FileSystemDialog.xaml">
+    <Page Include="Windows\FileSystemDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -450,35 +450,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LockScreen.xaml">
+    <Page Include="Windows\LockScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LogWindow.xaml">
+    <Page Include="Windows\LogWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MessageBoxDialog.xaml">
+    <Page Include="Windows\MessageBoxDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PasswordDialog.xaml">
+    <Page Include="Windows\PasswordDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="RuntimeWindow.xaml">
+    <Page Include="Windows\RuntimeWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SplashScreen.xaml">
+    <Page Include="Windows\SplashScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Taskbar.xaml">
+    <Page Include="Windows\Taskbar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Taskview.xaml">
+    <Page Include="Windows\Taskview.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

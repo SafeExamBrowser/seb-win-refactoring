@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter.AudioControl" x:ClassModifier="internal"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Mobile.Controls"
+             mc:Ignorable="d" d:DesignHeight="100" d:DesignWidth="125">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Templates/Buttons.xaml" />
+                <ResourceDictionary Source="../../Templates/Colors.xaml" />
+                <ResourceDictionary Source="../../Templates/ScrollViewers.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid x:Name="Grid" Background="{StaticResource ActionCenterDarkBrush}" Height="82" Margin="2">
+        <Popup x:Name="Popup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}">
+            <Border Background="Gray">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock x:Name="AudioDeviceName" Foreground="White" Margin="5" TextAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Height="60" Margin="5,0">
+                        <Button x:Name="MuteButton" Background="Transparent" Foreground="White" Padding="5" Template="{StaticResource ActionCenterButton}" Width="60">
+                            <ContentControl x:Name="PopupIcon" />
+                        </Button>
+                        <Slider x:Name="Volume" Grid.Column="1" Orientation="Horizontal" TickFrequency="1" Maximum="100" IsSnapToTickEnabled="True"
+                                IsMoveToPointEnabled="True" VerticalAlignment="Center" Width="125" Thumb.DragStarted="Volume_DragStarted" Thumb.DragCompleted="Volume_DragCompleted">
+                            <Slider.LayoutTransform>
+                                <ScaleTransform ScaleX="2" ScaleY="2" CenterX="0" CenterY="0"/>
+                            </Slider.LayoutTransform>
+                        </Slider>
+                        <TextBlock Grid.Column="2" FontWeight="DemiBold" FontSize="20" Text="{Binding ElementName=Volume, Path=Value}"
+                                   TextAlignment="Center" VerticalAlignment="Center" Foreground="White" Width="60" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Popup>
+        <Button x:Name="Button" Padding="2" Template="{StaticResource ActionCenterButton}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="3*" />
+                </Grid.RowDefinitions>
+                <ContentControl x:Name="ButtonIcon" />
+                <TextBlock Grid.Row="1" x:Name="Text" FontSize="15" Foreground="White" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" VerticalAlignment="Bottom" />
+            </Grid>
+        </Button>
+    </Grid>
+</UserControl>

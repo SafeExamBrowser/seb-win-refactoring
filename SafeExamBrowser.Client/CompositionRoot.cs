@@ -274,7 +274,7 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					return new Mobile.ActionCenter();
+					return new Mobile.Windows.ActionCenter();
 				default:
 					return new Desktop.Windows.ActionCenter();
 			}
@@ -307,7 +307,7 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					return new Mobile.Taskbar(ModuleLogger(nameof(Mobile.Taskbar)));
+					return new Mobile.Windows.Taskbar(ModuleLogger(nameof(Mobile.Windows.Taskbar)));
 				default:
 					return new Desktop.Windows.Taskbar(ModuleLogger(nameof(Desktop.Windows.Taskbar)));
 			}
@@ -318,7 +318,7 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					return new Mobile.Taskview();
+					return new Mobile.Windows.Taskview();
 				default:
 					return new Desktop.Windows.Taskview();
 			}

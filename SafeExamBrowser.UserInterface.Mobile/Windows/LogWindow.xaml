@@ -1,0 +1,30 @@
+﻿<Window x:Class="SafeExamBrowser.UserInterface.Mobile.Windows.LogWindow" x:ClassModifier="internal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Mobile"
+        mc:Ignorable="d" Title="{Binding Path=WindowTitle}" Background="Black" Foreground="White" Height="750" Width="1000" MinHeight="350"
+        MinWidth="350" Topmost="True" WindowState="Maximized" WindowStartupLocation="CenterScreen" Icon="../Images/LogNotification.ico">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Templates/ScrollViewers.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Background="White" Orientation="Horizontal">
+            <CheckBox Cursor="Hand" IsChecked="{Binding AutoScroll}" Margin="5" VerticalContentAlignment="Center" Content="{Binding AutoScrollTitle}" />
+            <CheckBox Cursor="Hand" IsChecked="{Binding Path=Topmost, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Margin="5" VerticalContentAlignment="Center" Content="{Binding TopmostTitle}" />
+        </StackPanel>
+        <ScrollViewer x:Name="ScrollViewer" Grid.Row="1" HorizontalScrollBarVisibility="Auto" Padding="5,5,5,0" PanningMode="Both"
+                      VerticalScrollBarVisibility="Auto" Template="{StaticResource SmallBarScrollViewer}">
+            <TextBlock x:Name="LogContent" FontFamily="Consolas" Foreground="White" />
+        </ScrollViewer>
+    </Grid>
+</Window>

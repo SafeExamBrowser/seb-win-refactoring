@@ -26,7 +26,8 @@ using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
-using SafeExamBrowser.UserInterface.Mobile.Controls;
+using SafeExamBrowser.UserInterface.Mobile.Windows;
+using SplashScreen = SafeExamBrowser.UserInterface.Mobile.Windows.SplashScreen;
 
 namespace SafeExamBrowser.UserInterface.Mobile
 {
@@ -50,11 +51,11 @@ namespace SafeExamBrowser.UserInterface.Mobile
 		{
 			if (location == Location.ActionCenter)
 			{
-				return new ActionCenterApplicationControl(application);
+				return new Controls.ActionCenter.ApplicationControl(application);
 			}
 			else
 			{
-				return new TaskbarApplicationControl(application);
+				return new Controls.Taskbar.ApplicationControl(application);
 			}
 		}
 
@@ -62,11 +63,11 @@ namespace SafeExamBrowser.UserInterface.Mobile
 		{
 			if (location == Location.ActionCenter)
 			{
-				return new ActionCenterAudioControl(audio, text);
+				return new Controls.ActionCenter.AudioControl(audio, text);
 			}
 			else
 			{
-				return new TaskbarAudioControl(audio, text);
+				return new Controls.Taskbar.AudioControl(audio, text);
 			}
 		}
 
@@ -79,11 +80,11 @@ namespace SafeExamBrowser.UserInterface.Mobile
 		{
 			if (location == Location.ActionCenter)
 			{
-				return new ActionCenterKeyboardLayoutControl(keyboard, text);
+				return new Controls.ActionCenter.KeyboardLayoutControl(keyboard, text);
 			}
 			else
 			{
-				return new TaskbarKeyboardLayoutControl(keyboard, text);
+				return new Controls.Taskbar.KeyboardLayoutControl(keyboard, text);
 			}
 		}
 
@@ -120,11 +121,11 @@ namespace SafeExamBrowser.UserInterface.Mobile
 		{
 			if (location == Location.ActionCenter)
 			{
-				return new ActionCenterNotificationButton(controller, info);
+				return new Controls.ActionCenter.NotificationButton(controller, info);
 			}
 			else
 			{
-				return new TaskbarNotificationButton(controller, info);
+				return new Controls.Taskbar.NotificationButton(controller, info);
 			}
 		}
 
@@ -142,11 +143,11 @@ namespace SafeExamBrowser.UserInterface.Mobile
 		{
 			if (location == Location.ActionCenter)
 			{
-				return new ActionCenterPowerSupplyControl(powerSupply, text);
+				return new Controls.ActionCenter.PowerSupplyControl(powerSupply, text);
 			}
 			else
 			{
-				return new TaskbarPowerSupplyControl(powerSupply, text);
+				return new Controls.Taskbar.PowerSupplyControl(powerSupply, text);
 			}
 		}
 
@@ -183,11 +184,11 @@ namespace SafeExamBrowser.UserInterface.Mobile
 		{
 			if (location == Location.ActionCenter)
 			{
-				return new ActionCenterWirelessNetworkControl(wirelessAdapter, text);
+				return new Controls.ActionCenter.WirelessNetworkControl(wirelessAdapter, text);
 			}
 			else
 			{
-				return new TaskbarWirelessNetworkControl(wirelessAdapter, text);
+				return new Controls.Taskbar.WirelessNetworkControl(wirelessAdapter, text);
 			}
 		}
 

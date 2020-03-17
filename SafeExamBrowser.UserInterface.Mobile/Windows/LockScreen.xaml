@@ -1,0 +1,34 @@
+﻿<Window x:Class="SafeExamBrowser.UserInterface.Mobile.Windows.LockScreen" x:ClassModifier="internal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Mobile"
+        mc:Ignorable="d" d:DesignWidth="1500" FontSize="16" ResizeMode="NoResize" Topmost="True" WindowState="Maximized" WindowStyle="None">
+    <Grid Background="Red">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1" Orientation="Vertical">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,10">
+                    <Image Height="100" Margin="0,0,20,0" Source="../Images/SafeExamBrowser.ico" />
+                    <TextBlock Name="Heading" Foreground="White" FontSize="75" FontWeight="ExtraBold" TextAlignment="Center" Text="SEB LOCKED" />
+                </StackPanel>
+                <TextBlock Name="Message" Foreground="White" FontSize="24" FontWeight="DemiBold" Margin="0,10" Padding="5" TextWrapping="Wrap" />
+                <StackPanel Name="Options" Margin="0,10" Orientation="Vertical" />
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,10">
+                    <PasswordBox Name="Password" Margin="10,5" MinWidth="500" Padding="12" />
+                    <Button Name="Button" Cursor="Hand" Margin="10,5" MinWidth="125" Padding="12" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

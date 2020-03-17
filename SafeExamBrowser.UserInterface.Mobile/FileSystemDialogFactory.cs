@@ -10,6 +10,7 @@ using System.Windows;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Mobile.Windows;
 
 namespace SafeExamBrowser.UserInterface.Mobile
 {
