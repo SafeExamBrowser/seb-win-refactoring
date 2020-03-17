@@ -57,7 +57,7 @@ namespace SafeExamBrowser.Runtime
 			InitializeText();
 
 			var args = Environment.GetCommandLineArgs();
-			var messageBox = new MessageBox(text);
+			var messageBox = new MessageBoxFactory(text);
 			var nativeMethods = new NativeMethods();
 			var uiFactory = new UserInterfaceFactory(text);
 			var desktopFactory = new DesktopFactory(ModuleLogger(nameof(DesktopFactory)));

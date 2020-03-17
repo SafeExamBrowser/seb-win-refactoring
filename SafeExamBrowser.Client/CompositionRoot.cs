@@ -82,15 +82,15 @@ namespace SafeExamBrowser.Client
 			InitializeLogging();
 			InitializeText();
 
-			actionCenter = BuildActionCenter();
 			context = new ClientContext();
+			uiFactory = BuildUserInterfaceFactory();
+			actionCenter = uiFactory.CreateActionCenter();
 			messageBox = BuildMessageBox();
 			nativeMethods = new NativeMethods();
-			uiFactory = BuildUserInterfaceFactory();
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
 			systemInfo = new SystemInfo();
-			taskbar = BuildTaskbar();
-			taskview = BuildTaskview();
+			taskbar = uiFactory.CreateTaskbar(ModuleLogger("Taskbar"));
+			taskview = uiFactory.CreateTaskview();
 
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var applicationMonitor = new ApplicationMonitor(TWO_SECONDS, ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, processFactory);
@@ -269,17 +269,6 @@ namespace SafeExamBrowser.Client
 			return operation;
 		}
 
-		private IActionCenter BuildActionCenter()
-		{
-			switch (uiMode)
-			{
-				case UserInterfaceMode.Mobile:
-					return new Mobile.Windows.ActionCenter();
-				default:
-					return new Desktop.Windows.ActionCenter();
-			}
-		}
-
 		private IFileSystemDialog BuildFileSystemDialog()
 		{
 			switch (uiMode)
@@ -296,31 +285,9 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					return new Mobile.MessageBox(text);
+					return new Mobile.MessageBoxFactory(text);
 				default:
-					return new Desktop.MessageBox(text);
-			}
-		}
-
-		private ITaskbar BuildTaskbar()
-		{
-			switch (uiMode)
-			{
-				case UserInterfaceMode.Mobile:
-					return new Mobile.Windows.Taskbar(ModuleLogger(nameof(Mobile.Windows.Taskbar)));
-				default:
-					return new Desktop.Windows.Taskbar(ModuleLogger(nameof(Desktop.Windows.Taskbar)));
-			}
-		}
-
-		private ITaskview BuildTaskview()
-		{
-			switch (uiMode)
-			{
-				case UserInterfaceMode.Mobile:
-					return new Mobile.Windows.Taskview();
-				default:
-					return new Desktop.Windows.Taskview();
+					return new Desktop.MessageBoxFactory(text);
 			}
 		}
 

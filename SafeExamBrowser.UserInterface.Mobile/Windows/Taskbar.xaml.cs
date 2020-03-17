@@ -16,7 +16,7 @@ using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Windows
 {
-	public partial class Taskbar : Window, ITaskbar
+	internal partial class Taskbar : Window, ITaskbar
 	{
 		private bool allowClose;
 		private ILogger logger;
@@ -28,7 +28,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		public event QuitButtonClickedEventHandler QuitButtonClicked;
 
-		public Taskbar(ILogger logger)
+		internal Taskbar(ILogger logger)
 		{
 			this.logger = logger;
 

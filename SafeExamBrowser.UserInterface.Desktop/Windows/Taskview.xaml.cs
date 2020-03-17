@@ -18,7 +18,7 @@ using SafeExamBrowser.UserInterface.Desktop.Controls.Taskview;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Windows
 {
-	public partial class Taskview : Window, ITaskview
+	internal partial class Taskview : Window, ITaskview
 	{
 		private IList<IApplication> applications;
 		private LinkedListNode<WindowControl> current;
@@ -26,7 +26,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 		internal IntPtr Handle { get; private set; }
 
-		public Taskview()
+		internal Taskview()
 		{
 			applications = new List<IApplication>();
 			controls = new LinkedList<WindowControl>();

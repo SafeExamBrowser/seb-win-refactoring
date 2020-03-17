@@ -14,11 +14,11 @@ using MessageBoxResult = SafeExamBrowser.UserInterface.Contracts.MessageBox.Mess
 
 namespace SafeExamBrowser.UserInterface.Desktop
 {
-	public class MessageBox : IMessageBox
+	public class MessageBoxFactory : IMessageBox
 	{
 		private IText text;
 
-		public MessageBox(IText text)
+		public MessageBoxFactory(IText text)
 		{
 			this.text = text;
 		}

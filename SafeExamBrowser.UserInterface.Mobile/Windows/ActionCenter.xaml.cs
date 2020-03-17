@@ -15,7 +15,7 @@ using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Windows
 {
-	public partial class ActionCenter : Window, IActionCenter
+	internal partial class ActionCenter : Window, IActionCenter
 	{
 		public bool ShowClock
 		{
@@ -24,7 +24,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		public event QuitButtonClickedEventHandler QuitButtonClicked;
 
-		public ActionCenter()
+		internal ActionCenter()
 		{
 			InitializeComponent();
 			InitializeActionCenter();

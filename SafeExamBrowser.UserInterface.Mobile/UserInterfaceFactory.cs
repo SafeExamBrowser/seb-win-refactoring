@@ -47,6 +47,11 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			return new AboutWindow(appConfig, text);
 		}
 
+		public IActionCenter CreateActionCenter()
+		{
+			return new ActionCenter();
+		}
+
 		public IApplicationControl CreateApplicationControl(IApplication application, Location location)
 		{
 			if (location == Location.ActionCenter)
@@ -178,6 +183,16 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			windowReadyEvent.WaitOne();
 
 			return window;
+		}
+
+		public ITaskbar CreateTaskbar(ILogger logger)
+		{
+			return new Taskbar(logger);
+		}
+
+		public ITaskview CreateTaskview()
+		{
+			return new Taskview();
 		}
 
 		public ISystemControl CreateWirelessNetworkControl(IWirelessAdapter wirelessAdapter, Location location)

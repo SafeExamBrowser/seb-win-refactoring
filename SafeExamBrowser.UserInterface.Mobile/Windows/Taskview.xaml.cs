@@ -18,7 +18,7 @@ using SafeExamBrowser.UserInterface.Mobile.Controls.Taskview;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Windows
 {
-	public partial class Taskview : Window, ITaskview
+	internal partial class Taskview : Window, ITaskview
 	{
 		private IList<IApplication> applications;
 		private LinkedListNode<WindowControl> current;
@@ -26,7 +26,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		internal IntPtr Handle { get; private set; }
 
-		public Taskview()
+		internal Taskview()
 		{
 			applications = new List<IApplication>();
 			controls = new LinkedList<WindowControl>();

@@ -35,6 +35,11 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		IWindow CreateAboutWindow(AppConfig appConfig);
 
 		/// <summary>
+		/// Creates a new action center.
+		/// </summary>
+		IActionCenter CreateActionCenter();
+
+		/// <summary>
 		/// Creates an application control for the specified application and location.
 		/// </summary>
 		IApplicationControl CreateApplicationControl(IApplication application, Location location);
@@ -94,6 +99,16 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// Creates a new splash screen which runs on its own thread.
 		/// </summary>
 		ISplashScreen CreateSplashScreen(AppConfig appConfig = null);
+
+		/// <summary>
+		/// Creates a new taskbar.
+		/// </summary>
+		ITaskbar CreateTaskbar(ILogger logger);
+
+		/// <summary>
+		/// Creates a new taskview.
+		/// </summary>
+		ITaskview CreateTaskview();
 
 		/// <summary>
 		/// Creates a system control which allows to change the wireless network connection of the computer.
