@@ -112,6 +112,7 @@ namespace SafeExamBrowser.Browser
 		private void InitializeControl()
 		{
 			var contextMenuHandler = new ContextMenuHandler();
+			var controlLogger = logger.CloneFor($"{nameof(BrowserControl)} #{Id}");
 			var dialogHandler = new DialogHandler();
 			var displayHandler = new DisplayHandler();
 			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} #{Id}");
@@ -140,7 +141,17 @@ namespace SafeExamBrowser.Browser
 
 			InitializeRequestFilter(requestFilter);
 
-			control = new BrowserControl(contextMenuHandler, dialogHandler, displayHandler, downloadHandler, htmlLoader, keyboardHandler, lifeSpanHandler, requestHandler, startUrl);
+			control = new BrowserControl(
+				contextMenuHandler,
+				dialogHandler,
+				displayHandler,
+				downloadHandler,
+				htmlLoader,
+				keyboardHandler,
+				lifeSpanHandler,
+				controlLogger,
+				requestHandler,
+				startUrl);
 			control.AddressChanged += Control_AddressChanged;
 			control.LoadingStateChanged += Control_LoadingStateChanged;
 			control.TitleChanged += Control_TitleChanged;

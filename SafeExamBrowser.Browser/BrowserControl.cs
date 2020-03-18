@@ -9,6 +9,7 @@
 using CefSharp;
 using CefSharp.WinForms;
 using SafeExamBrowser.Browser.Pages;
+using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
 
@@ -24,6 +25,7 @@ namespace SafeExamBrowser.Browser
 		private HtmlLoader htmlLoader;
 		private IKeyboardHandler keyboardHandler;
 		private ILifeSpanHandler lifeSpanHandler;
+		private ILogger logger;
 		private IRequestHandler requestHandler;
 
 		private AddressChangedEventHandler addressChanged;
@@ -59,6 +61,7 @@ namespace SafeExamBrowser.Browser
 			HtmlLoader htmlLoader,
 			IKeyboardHandler keyboardHandler,
 			ILifeSpanHandler lifeSpanHandler,
+			ILogger logger,
 			IRequestHandler requestHandler,
 			string url) : base(url)
 		{
@@ -69,6 +72,7 @@ namespace SafeExamBrowser.Browser
 			this.htmlLoader = htmlLoader;
 			this.keyboardHandler = keyboardHandler;
 			this.lifeSpanHandler = lifeSpanHandler;
+			this.logger = logger;
 			this.requestHandler = requestHandler;
 		}
 
@@ -122,12 +126,25 @@ namespace SafeExamBrowser.Browser
 
 		private void BrowserControl_LoadError(object sender, LoadErrorEventArgs e)
 		{
-			var html = string.Copy(errorPage);
+			if (e.ErrorCode == CefErrorCode.None)
+			{
+				logger.Info($"Request for '{e.FailedUrl}' was successful.");
+			}
+			else if (e.ErrorCode == CefErrorCode.Aborted)
+			{
+				logger.Info($"Request for '{e.FailedUrl}' was aborted.");
+			}
+			else
+			{
+				var html = string.Copy(errorPage);
 
-			html = html.Replace("%%STATUS%%", $"{e.ErrorText} ({e.ErrorCode})");
-			html = html.Replace("%%URL%%", e.FailedUrl);
+				logger.Warn($"Request for '{e.FailedUrl}' failed: {e.ErrorText} ({e.ErrorCode}).");
 
-			e.Frame.LoadHtml(html, true);
+				html = html.Replace("%%STATUS%%", $"{e.ErrorText} ({e.ErrorCode})");
+				html = html.Replace("%%URL%%", e.FailedUrl);
+
+				e.Frame.LoadHtml(html, true);
+			}
 		}
 	}
 }
