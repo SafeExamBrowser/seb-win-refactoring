@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -1087,7 +1087,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxShowLogButton.AutoSize = true;
 			this.checkBoxShowLogButton.Location = new System.Drawing.Point(53, 232);
-			this.checkBoxShowLogButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBoxShowLogButton.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxShowLogButton.Name = "checkBoxShowLogButton";
 			this.checkBoxShowLogButton.Size = new System.Drawing.Size(180, 17);
 			this.checkBoxShowLogButton.TabIndex = 100;
@@ -1099,7 +1099,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowLogAccess.AutoSize = true;
 			this.checkBoxAllowLogAccess.Location = new System.Drawing.Point(23, 212);
-			this.checkBoxAllowLogAccess.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBoxAllowLogAccess.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxAllowLogAccess.Name = "checkBoxAllowLogAccess";
 			this.checkBoxAllowLogAccess.Size = new System.Drawing.Size(199, 17);
 			this.checkBoxAllowLogAccess.TabIndex = 99;
@@ -1560,7 +1560,7 @@ namespace SebWindowsConfig
 			this.tabPageUrlFilter.Controls.Add(this.checkBoxEnableURLContentFilter);
 			this.tabPageUrlFilter.Location = new System.Drawing.Point(4, 22);
 			this.tabPageUrlFilter.Name = "tabPageUrlFilter";
-			this.tabPageUrlFilter.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+			this.tabPageUrlFilter.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPageUrlFilter.Size = new System.Drawing.Size(698, 462);
 			this.tabPageUrlFilter.TabIndex = 3;
 			this.tabPageUrlFilter.Text = "Filter";
@@ -1753,8 +1753,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle3;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -2245,7 +2245,7 @@ namespace SebWindowsConfig
 			// textBoxPermittedProcessOriginalName
 			// 
 			this.textBoxPermittedProcessOriginalName.Location = new System.Drawing.Point(199, 109);
-			this.textBoxPermittedProcessOriginalName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBoxPermittedProcessOriginalName.Margin = new System.Windows.Forms.Padding(2);
 			this.textBoxPermittedProcessOriginalName.Name = "textBoxPermittedProcessOriginalName";
 			this.textBoxPermittedProcessOriginalName.Size = new System.Drawing.Size(565, 20);
 			this.textBoxPermittedProcessOriginalName.TabIndex = 95;
@@ -2658,7 +2658,7 @@ namespace SebWindowsConfig
 			// textBoxProhibitedProcessOriginalName
 			// 
 			this.textBoxProhibitedProcessOriginalName.Location = new System.Drawing.Point(178, 55);
-			this.textBoxProhibitedProcessOriginalName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBoxProhibitedProcessOriginalName.Margin = new System.Windows.Forms.Padding(2);
 			this.textBoxProhibitedProcessOriginalName.Name = "textBoxProhibitedProcessOriginalName";
 			this.textBoxProhibitedProcessOriginalName.Size = new System.Drawing.Size(338, 20);
 			this.textBoxProhibitedProcessOriginalName.TabIndex = 15;
@@ -2969,9 +2969,9 @@ namespace SebWindowsConfig
 			this.groupBox2.Controls.Add(this.checkBoxClearSessionOnEnd);
 			this.groupBox2.Controls.Add(this.checkBoxClearSessionOnStart);
 			this.groupBox2.Location = new System.Drawing.Point(605, 15);
-			this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
 			this.groupBox2.Size = new System.Drawing.Size(610, 118);
 			this.groupBox2.TabIndex = 122;
 			this.groupBox2.TabStop = false;
@@ -2991,7 +2991,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxClearSessionOnEnd.AutoSize = true;
 			this.checkBoxClearSessionOnEnd.Location = new System.Drawing.Point(15, 88);
-			this.checkBoxClearSessionOnEnd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBoxClearSessionOnEnd.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxClearSessionOnEnd.Name = "checkBoxClearSessionOnEnd";
 			this.checkBoxClearSessionOnEnd.Size = new System.Drawing.Size(570, 17);
 			this.checkBoxClearSessionOnEnd.TabIndex = 1;
@@ -3004,7 +3004,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxClearSessionOnStart.AutoSize = true;
 			this.checkBoxClearSessionOnStart.Location = new System.Drawing.Point(15, 61);
-			this.checkBoxClearSessionOnStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBoxClearSessionOnStart.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxClearSessionOnStart.Name = "checkBoxClearSessionOnStart";
 			this.checkBoxClearSessionOnStart.Size = new System.Drawing.Size(310, 17);
 			this.checkBoxClearSessionOnStart.TabIndex = 0;
@@ -3179,7 +3179,7 @@ namespace SebWindowsConfig
 			this.groupBox7.Size = new System.Drawing.Size(555, 379);
 			this.groupBox7.TabIndex = 119;
 			this.groupBox7.TabStop = false;
-			this.groupBox7.Text = "Browser Exam Key / Configuration Key";
+			this.groupBox7.Text = "Browser Exam Key / Config Key";
 			// 
 			// label20
 			// 
@@ -3215,9 +3215,9 @@ namespace SebWindowsConfig
 			this.label17.Location = new System.Drawing.Point(12, 271);
 			this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(107, 13);
+			this.label17.Size = new System.Drawing.Size(68, 13);
 			this.label17.TabIndex = 116;
-			this.label17.Text = "Configuration Key";
+			this.label17.Text = "Config Key";
 			// 
 			// label16
 			// 
@@ -3233,7 +3233,7 @@ namespace SebWindowsConfig
 			// textBoxConfigurationKey
 			// 
 			this.textBoxConfigurationKey.Location = new System.Drawing.Point(15, 339);
-			this.textBoxConfigurationKey.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.textBoxConfigurationKey.Margin = new System.Windows.Forms.Padding(2);
 			this.textBoxConfigurationKey.Name = "textBoxConfigurationKey";
 			this.textBoxConfigurationKey.ReadOnly = true;
 			this.textBoxConfigurationKey.Size = new System.Drawing.Size(526, 20);
@@ -3243,12 +3243,12 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxSendBrowserExamKey.AutoSize = true;
 			this.checkBoxSendBrowserExamKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxSendBrowserExamKey.Location = new System.Drawing.Point(15, 127);
+			this.checkBoxSendBrowserExamKey.Location = new System.Drawing.Point(15, 122);
 			this.checkBoxSendBrowserExamKey.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxSendBrowserExamKey.Name = "checkBoxSendBrowserExamKey";
-			this.checkBoxSendBrowserExamKey.Size = new System.Drawing.Size(243, 17);
+			this.checkBoxSendBrowserExamKey.Size = new System.Drawing.Size(211, 17);
 			this.checkBoxSendBrowserExamKey.TabIndex = 2;
-			this.checkBoxSendBrowserExamKey.Text = "Use Browser Exam Key and Configuration Key";
+			this.checkBoxSendBrowserExamKey.Text = "Use Browser Exam Key and Config Key";
 			this.toolTip1.SetToolTip(this.checkBoxSendBrowserExamKey, "Send Browser Exam Key in an HTTP header to authenticate the SEB client and its se" +
         "ttings to a compatible exam system.");
 			this.checkBoxSendBrowserExamKey.UseVisualStyleBackColor = true;
@@ -4138,9 +4138,9 @@ namespace SebWindowsConfig
 			this.spellCheckerGroupBox.Controls.Add(this.spellCheckerDataGridView);
 			this.spellCheckerGroupBox.Controls.Add(this.checkBoxAllowSpellCheck);
 			this.spellCheckerGroupBox.Location = new System.Drawing.Point(527, 118);
-			this.spellCheckerGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.spellCheckerGroupBox.Margin = new System.Windows.Forms.Padding(2);
 			this.spellCheckerGroupBox.Name = "spellCheckerGroupBox";
-			this.spellCheckerGroupBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.spellCheckerGroupBox.Padding = new System.Windows.Forms.Padding(2);
 			this.spellCheckerGroupBox.Size = new System.Drawing.Size(691, 47);
 			this.spellCheckerGroupBox.TabIndex = 87;
 			this.spellCheckerGroupBox.TabStop = false;
@@ -4184,7 +4184,7 @@ namespace SebWindowsConfig
 			// removeDictionaryButton
 			// 
 			this.removeDictionaryButton.Location = new System.Drawing.Point(117, 393);
-			this.removeDictionaryButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.removeDictionaryButton.Margin = new System.Windows.Forms.Padding(2);
 			this.removeDictionaryButton.Name = "removeDictionaryButton";
 			this.removeDictionaryButton.Size = new System.Drawing.Size(113, 23);
 			this.removeDictionaryButton.TabIndex = 1;
@@ -4195,7 +4195,7 @@ namespace SebWindowsConfig
 			// addDictionaryButton
 			// 
 			this.addDictionaryButton.Location = new System.Drawing.Point(8, 393);
-			this.addDictionaryButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.addDictionaryButton.Margin = new System.Windows.Forms.Padding(2);
 			this.addDictionaryButton.Name = "addDictionaryButton";
 			this.addDictionaryButton.Size = new System.Drawing.Size(105, 23);
 			this.addDictionaryButton.TabIndex = 1;
@@ -4217,7 +4217,7 @@ namespace SebWindowsConfig
             this.spellCheckerDictionaryLocaleColumn,
             this.spellCheckerDictionaryFilesColumn});
 			this.spellCheckerDataGridView.Location = new System.Drawing.Point(11, 99);
-			this.spellCheckerDataGridView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.spellCheckerDataGridView.Margin = new System.Windows.Forms.Padding(2);
 			this.spellCheckerDataGridView.Name = "spellCheckerDataGridView";
 			this.spellCheckerDataGridView.RowTemplate.Height = 28;
 			this.spellCheckerDataGridView.Size = new System.Drawing.Size(668, 247);
@@ -4247,8 +4247,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle4;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -4354,7 +4354,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowDeveloperConsole.AutoSize = true;
 			this.checkBoxAllowDeveloperConsole.Location = new System.Drawing.Point(29, 77);
-			this.checkBoxAllowDeveloperConsole.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBoxAllowDeveloperConsole.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxAllowDeveloperConsole.Name = "checkBoxAllowDeveloperConsole";
 			this.checkBoxAllowDeveloperConsole.Size = new System.Drawing.Size(235, 17);
 			this.checkBoxAllowDeveloperConsole.TabIndex = 7;
@@ -4366,7 +4366,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowAdditionalWindowAddressBar.AutoSize = true;
 			this.checkBoxAllowAdditionalWindowAddressBar.Location = new System.Drawing.Point(29, 58);
-			this.checkBoxAllowAdditionalWindowAddressBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBoxAllowAdditionalWindowAddressBar.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxAllowAdditionalWindowAddressBar.Name = "checkBoxAllowAdditionalWindowAddressBar";
 			this.checkBoxAllowAdditionalWindowAddressBar.Size = new System.Drawing.Size(244, 17);
 			this.checkBoxAllowAdditionalWindowAddressBar.TabIndex = 6;
@@ -4378,7 +4378,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowMainWindowAddressBar.AutoSize = true;
 			this.checkBoxAllowMainWindowAddressBar.Location = new System.Drawing.Point(29, 38);
-			this.checkBoxAllowMainWindowAddressBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBoxAllowMainWindowAddressBar.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxAllowMainWindowAddressBar.Name = "checkBoxAllowMainWindowAddressBar";
 			this.checkBoxAllowMainWindowAddressBar.Size = new System.Drawing.Size(216, 17);
 			this.checkBoxAllowMainWindowAddressBar.TabIndex = 5;
@@ -4449,7 +4449,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxShowSideMenu.AutoSize = true;
 			this.checkBoxShowSideMenu.Location = new System.Drawing.Point(10, 40);
-			this.checkBoxShowSideMenu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.checkBoxShowSideMenu.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxShowSideMenu.Name = "checkBoxShowSideMenu";
 			this.checkBoxShowSideMenu.Size = new System.Drawing.Size(104, 17);
 			this.checkBoxShowSideMenu.TabIndex = 82;
