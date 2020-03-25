@@ -599,7 +599,7 @@ namespace SebWindowsConfig.Utilities
 			using (var stream = new MemoryStream())
 			using (var writer = new StreamWriter(stream))
 			{
-				Serialize(SEBSettings.settingsCurrent, writer);
+				Serialize(SEBSettings.settingsCurrentOriginal, writer);
 
 				writer.Flush();
 				stream.Seek(0, SeekOrigin.Begin);

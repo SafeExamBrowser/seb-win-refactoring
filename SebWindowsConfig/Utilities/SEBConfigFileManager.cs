@@ -257,11 +257,15 @@ namespace SebWindowsConfig.Utilities
 
 			// Get preferences dictionary from decrypted data
 			DictObj sebPreferencesDict = GetPreferencesDictFromConfigData(sebData, forEditing);
+			DictObj sebPreferencesDictOriginal = GetPreferencesDictFromConfigData(sebData, false);
 			// If we didn't get a preferences dict back, we abort reading settings
 			if (sebPreferencesDict == null) return null;
 
 			// We need to set the right value for the key sebConfigPurpose to know later where to store the new settings
 			sebPreferencesDict[SEBSettings.KeySebConfigPurpose] = (int)SEBSettings.sebConfigPurposes.sebConfigPurposeStartingExam;
+			sebPreferencesDictOriginal[SEBSettings.KeySebConfigPurpose] = (int)SEBSettings.sebConfigPurposes.sebConfigPurposeStartingExam;
+
+			SEBSettings.settingsCurrentOriginal = sebPreferencesDictOriginal;
 
 			// Reading preferences was successful!
 			return sebPreferencesDict;
@@ -289,6 +293,7 @@ namespace SebWindowsConfig.Utilities
 			// We use always uppercase letters in the base16 hashed admin password used for encrypting
 			hashedAdminPassword = hashedAdminPassword.ToUpper();
 			DictObj sebPreferencesDict = null;
+			DictObj sebPreferencesDictOriginal = null;
 			byte[] decryptedSebData = SEBProtectionController.DecryptDataWithPassword(sebData, hashedAdminPassword);
 			if (decryptedSebData == null)
 			{
@@ -344,6 +349,7 @@ namespace SebWindowsConfig.Utilities
 			try
 			{
 				sebPreferencesDict = (DictObj)Plist.readPlist(decryptedSebData);
+				sebPreferencesDictOriginal = (DictObj)Plist.readPlist(decryptedSebData);
 			}
 			catch (Exception readPlistException)
 			{
@@ -419,6 +425,9 @@ namespace SebWindowsConfig.Utilities
 
 			// We need to set the right value for the key sebConfigPurpose to know later where to store the new settings
 			sebPreferencesDict[SEBSettings.KeySebConfigPurpose] = (int)SEBSettings.sebConfigPurposes.sebConfigPurposeConfiguringClient;
+			sebPreferencesDictOriginal[SEBSettings.KeySebConfigPurpose] = (int)SEBSettings.sebConfigPurposes.sebConfigPurposeConfiguringClient;
+
+			SEBSettings.settingsCurrentOriginal = sebPreferencesDictOriginal;
 
 			// Reading preferences was successful!
 			return sebPreferencesDict;
@@ -652,6 +661,8 @@ namespace SebWindowsConfig.Utilities
 		{
 			// Get current settings dictionary and clean it from empty arrays and dictionaries
 			//DictObj cleanedCurrentSettings = SEBSettings.CleanSettingsDictionary();
+
+			SEBSettings.settingsCurrentOriginal = SEBSettings.settingsCurrent;
 
 			// Serialize preferences dictionary to an XML string
 			string sebXML = Plist.writeXml(SEBSettings.settingsCurrent);
