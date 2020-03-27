@@ -154,8 +154,9 @@ namespace SafeExamBrowser.Browser.Handlers
 		{
 			const string DISABLE_PDF_TOOLBAR = "#toolbar=0";
 			var isPdf = response.Headers["Content-Type"] == MediaTypeNames.Application.Pdf;
+			var isMainFrame = request.ResourceType == ResourceType.MainFrame;
 			var hasFragment = request.Url.Contains(DISABLE_PDF_TOOLBAR);
-			var redirect = settings.AllowPdfReader && !settings.AllowPdfReaderToolbar && isPdf && !hasFragment;
+			var redirect = settings.AllowPdfReader && !settings.AllowPdfReaderToolbar && isPdf && isMainFrame && !hasFragment;
 
 			url = request.Url + DISABLE_PDF_TOOLBAR;
 

@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -434,6 +434,7 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.checkBoxAllowPdfReaderToolbar = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -1753,8 +1754,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle15.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle15;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -3476,7 +3477,7 @@ namespace SebWindowsConfig
 			// label12
 			// 
 			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(554, 507);
+			this.label12.Location = new System.Drawing.Point(577, 507);
 			this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(178, 13);
@@ -3489,7 +3490,7 @@ namespace SebWindowsConfig
 			this.textBoxUserAgent.AcceptsTab = true;
 			this.textBoxUserAgent.AllowDrop = true;
 			this.textBoxUserAgent.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBoxUserAgent.Location = new System.Drawing.Point(557, 528);
+			this.textBoxUserAgent.Location = new System.Drawing.Point(580, 528);
 			this.textBoxUserAgent.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.textBoxUserAgent.Name = "textBoxUserAgent";
 			this.textBoxUserAgent.Size = new System.Drawing.Size(500, 19);
@@ -3501,7 +3502,7 @@ namespace SebWindowsConfig
 			// label11
 			// 
 			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(554, 552);
+			this.label11.Location = new System.Drawing.Point(577, 552);
 			this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(213, 13);
@@ -3515,7 +3516,7 @@ namespace SebWindowsConfig
 			this.textBoxBrowserSuffix.AcceptsTab = true;
 			this.textBoxBrowserSuffix.AllowDrop = true;
 			this.textBoxBrowserSuffix.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBoxBrowserSuffix.Location = new System.Drawing.Point(557, 569);
+			this.textBoxBrowserSuffix.Location = new System.Drawing.Point(580, 569);
 			this.textBoxBrowserSuffix.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.textBoxBrowserSuffix.Name = "textBoxBrowserSuffix";
 			this.textBoxBrowserSuffix.Size = new System.Drawing.Size(214, 19);
@@ -3529,7 +3530,7 @@ namespace SebWindowsConfig
 			this.groupBox14.Controls.Add(this.textBoxUserAgentMacCustom);
 			this.groupBox14.Controls.Add(this.radioButtonUserAgentMacDefault);
 			this.groupBox14.Controls.Add(this.radioButtonUserAgentMacCustom);
-			this.groupBox14.Location = new System.Drawing.Point(557, 239);
+			this.groupBox14.Location = new System.Drawing.Point(580, 239);
 			this.groupBox14.Name = "groupBox14";
 			this.groupBox14.Size = new System.Drawing.Size(500, 103);
 			this.groupBox14.TabIndex = 74;
@@ -3583,7 +3584,7 @@ namespace SebWindowsConfig
 			this.groupBox13.Controls.Add(this.textBoxUserAgentTouchModeCustom);
 			this.groupBox13.Controls.Add(this.radioButtonUserAgentTouchDefault);
 			this.groupBox13.Controls.Add(this.radioButtonUserAgentTouchCustom);
-			this.groupBox13.Location = new System.Drawing.Point(557, 367);
+			this.groupBox13.Location = new System.Drawing.Point(580, 367);
 			this.groupBox13.Name = "groupBox13";
 			this.groupBox13.Size = new System.Drawing.Size(500, 123);
 			this.groupBox13.TabIndex = 73;
@@ -3669,7 +3670,7 @@ namespace SebWindowsConfig
 			this.groupBox12.Controls.Add(this.textBoxUserAgentDesktopModeCustom);
 			this.groupBox12.Controls.Add(this.radioButtonUserAgentDesktopDefault);
 			this.groupBox12.Controls.Add(this.radioButtonUserAgentDesktopCustom);
-			this.groupBox12.Location = new System.Drawing.Point(557, 97);
+			this.groupBox12.Location = new System.Drawing.Point(580, 97);
 			this.groupBox12.Name = "groupBox12";
 			this.groupBox12.Size = new System.Drawing.Size(500, 123);
 			this.groupBox12.TabIndex = 72;
@@ -3741,6 +3742,7 @@ namespace SebWindowsConfig
 			// 
 			// groupBox11
 			// 
+			this.groupBox11.Controls.Add(this.checkBoxAllowPdfReaderToolbar);
 			this.groupBox11.Controls.Add(this.checkBoxShowReloadWarningNewWindow);
 			this.groupBox11.Controls.Add(this.checkBoxAllowReloadNewWindow);
 			this.groupBox11.Controls.Add(this.checkBoxAllowVideoCapture);
@@ -3757,7 +3759,7 @@ namespace SebWindowsConfig
 			this.groupBox11.Controls.Add(this.checkBoxEnableJava);
 			this.groupBox11.Location = new System.Drawing.Point(24, 202);
 			this.groupBox11.Name = "groupBox11";
-			this.groupBox11.Size = new System.Drawing.Size(500, 122);
+			this.groupBox11.Size = new System.Drawing.Size(522, 158);
 			this.groupBox11.TabIndex = 71;
 			this.groupBox11.TabStop = false;
 			this.groupBox11.Text = "Browser security";
@@ -3792,7 +3794,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowVideoCapture.AutoSize = true;
 			this.checkBoxAllowVideoCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowVideoCapture.Location = new System.Drawing.Point(14, 164);
+			this.checkBoxAllowVideoCapture.Location = new System.Drawing.Point(14, 231);
 			this.checkBoxAllowVideoCapture.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxAllowVideoCapture.Name = "checkBoxAllowVideoCapture";
 			this.checkBoxAllowVideoCapture.Size = new System.Drawing.Size(168, 17);
@@ -3834,7 +3836,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowAudioCapture.AutoSize = true;
 			this.checkBoxAllowAudioCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowAudioCapture.Location = new System.Drawing.Point(259, 164);
+			this.checkBoxAllowAudioCapture.Location = new System.Drawing.Point(259, 231);
 			this.checkBoxAllowAudioCapture.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxAllowAudioCapture.Name = "checkBoxAllowAudioCapture";
 			this.checkBoxAllowAudioCapture.Size = new System.Drawing.Size(183, 17);
@@ -3862,7 +3864,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxDisableLocalStorage.AutoSize = true;
 			this.checkBoxDisableLocalStorage.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxDisableLocalStorage.Location = new System.Drawing.Point(259, 190);
+			this.checkBoxDisableLocalStorage.Location = new System.Drawing.Point(259, 257);
 			this.checkBoxDisableLocalStorage.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxDisableLocalStorage.Name = "checkBoxDisableLocalStorage";
 			this.checkBoxDisableLocalStorage.Size = new System.Drawing.Size(154, 17);
@@ -3876,7 +3878,7 @@ namespace SebWindowsConfig
 			// 
 			// checkBoxRemoveProfile
 			// 
-			this.checkBoxRemoveProfile.Location = new System.Drawing.Point(14, 78);
+			this.checkBoxRemoveProfile.Location = new System.Drawing.Point(14, 112);
 			this.checkBoxRemoveProfile.Name = "checkBoxRemoveProfile";
 			this.checkBoxRemoveProfile.Size = new System.Drawing.Size(481, 36);
 			this.checkBoxRemoveProfile.TabIndex = 6;
@@ -3904,7 +3906,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnablePlugIns.AutoSize = true;
 			this.checkBoxEnablePlugIns.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnablePlugIns.Location = new System.Drawing.Point(14, 124);
+			this.checkBoxEnablePlugIns.Location = new System.Drawing.Point(14, 191);
 			this.checkBoxEnablePlugIns.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxEnablePlugIns.Name = "checkBoxEnablePlugIns";
 			this.checkBoxEnablePlugIns.Size = new System.Drawing.Size(179, 17);
@@ -3920,7 +3922,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxBlockPopUpWindows.AutoSize = true;
 			this.checkBoxBlockPopUpWindows.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxBlockPopUpWindows.Location = new System.Drawing.Point(259, 144);
+			this.checkBoxBlockPopUpWindows.Location = new System.Drawing.Point(259, 211);
 			this.checkBoxBlockPopUpWindows.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxBlockPopUpWindows.Name = "checkBoxBlockPopUpWindows";
 			this.checkBoxBlockPopUpWindows.Size = new System.Drawing.Size(133, 17);
@@ -3936,7 +3938,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnableJavaScript.AutoSize = true;
 			this.checkBoxEnableJavaScript.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableJavaScript.Location = new System.Drawing.Point(259, 124);
+			this.checkBoxEnableJavaScript.Location = new System.Drawing.Point(259, 191);
 			this.checkBoxEnableJavaScript.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxEnableJavaScript.Name = "checkBoxEnableJavaScript";
 			this.checkBoxEnableJavaScript.Size = new System.Drawing.Size(112, 17);
@@ -3952,7 +3954,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnableJava.AutoSize = true;
 			this.checkBoxEnableJava.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableJava.Location = new System.Drawing.Point(14, 144);
+			this.checkBoxEnableJava.Location = new System.Drawing.Point(14, 211);
 			this.checkBoxEnableJava.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxEnableJava.Name = "checkBoxEnableJava";
 			this.checkBoxEnableJava.Size = new System.Drawing.Size(85, 17);
@@ -3977,7 +3979,7 @@ namespace SebWindowsConfig
 			// labelUseSEBWithoutBrowser
 			// 
 			this.labelUseSEBWithoutBrowser.AutoSize = true;
-			this.labelUseSEBWithoutBrowser.Location = new System.Drawing.Point(55, 370);
+			this.labelUseSEBWithoutBrowser.Location = new System.Drawing.Point(55, 396);
 			this.labelUseSEBWithoutBrowser.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.labelUseSEBWithoutBrowser.Name = "labelUseSEBWithoutBrowser";
 			this.labelUseSEBWithoutBrowser.Size = new System.Drawing.Size(436, 13);
@@ -3988,7 +3990,7 @@ namespace SebWindowsConfig
 			// checkBoxUseSebWithoutBrowser
 			// 
 			this.checkBoxUseSebWithoutBrowser.AutoSize = true;
-			this.checkBoxUseSebWithoutBrowser.Location = new System.Drawing.Point(38, 350);
+			this.checkBoxUseSebWithoutBrowser.Location = new System.Drawing.Point(38, 376);
 			this.checkBoxUseSebWithoutBrowser.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxUseSebWithoutBrowser.Name = "checkBoxUseSebWithoutBrowser";
 			this.checkBoxUseSebWithoutBrowser.Size = new System.Drawing.Size(185, 17);
@@ -4037,7 +4039,7 @@ namespace SebWindowsConfig
 			this.groupBoxNewBrowserWindow.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.groupBoxNewBrowserWindow.Name = "groupBoxNewBrowserWindow";
 			this.groupBoxNewBrowserWindow.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
-			this.groupBoxNewBrowserWindow.Size = new System.Drawing.Size(500, 90);
+			this.groupBoxNewBrowserWindow.Size = new System.Drawing.Size(523, 90);
 			this.groupBoxNewBrowserWindow.TabIndex = 58;
 			this.groupBoxNewBrowserWindow.TabStop = false;
 			this.groupBoxNewBrowserWindow.Text = "New browser window size and position";
@@ -4247,8 +4249,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle16;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -5645,6 +5647,18 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
+			// checkBoxAllowPdfReaderToolbar
+			// 
+			this.checkBoxAllowPdfReaderToolbar.AutoSize = true;
+			this.checkBoxAllowPdfReaderToolbar.Location = new System.Drawing.Point(14, 89);
+			this.checkBoxAllowPdfReaderToolbar.Name = "checkBoxAllowPdfReaderToolbar";
+			this.checkBoxAllowPdfReaderToolbar.Size = new System.Drawing.Size(485, 17);
+			this.checkBoxAllowPdfReaderToolbar.TabIndex = 14;
+			this.checkBoxAllowPdfReaderToolbar.Text = "Allow toolbar of internal PDF reader (Win). This enables access to the print and " +
+    "download dialogs.";
+			this.checkBoxAllowPdfReaderToolbar.UseVisualStyleBackColor = true;
+			this.checkBoxAllowPdfReaderToolbar.CheckedChanged += new System.EventHandler(this.checkBoxAllowPdfReaderToolbar_CheckedChanged);
+			// 
 			// SebWindowsConfigForm
 			// 
 			this.AllowDrop = true;
@@ -6170,6 +6184,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.CheckBox checkBoxAllowWindowsUpdate;
 		private System.Windows.Forms.CheckBox checkBoxAllowChromeNotifications;
 		private System.Windows.Forms.CheckBox checkBoxAllowDeveloperConsole;
+		private System.Windows.Forms.CheckBox checkBoxAllowPdfReaderToolbar;
 	}
 }
 

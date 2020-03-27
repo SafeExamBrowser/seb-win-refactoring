@@ -169,6 +169,7 @@ namespace SebWindowsConfig
 		public const String KeyBrowserUserAgentMac                  = "browserUserAgentMac";
 		public const String KeyBrowserUserAgentMacCustom            = "browserUserAgentMacCustom";
 		public const String KeyBrowserWindowTitleSuffix             = "browserWindowTitleSuffix";
+		public const String KeyAllowPDFReaderToolbar                = "allowPDFReaderToolbar";
 
 		// Group "DownUploads"
 		public const String KeyAllowDownUploads         = "allowDownUploads";
@@ -674,6 +675,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyBrowserUserAgentMac, 0);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyBrowserUserAgentMacCustom, "");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyBrowserWindowTitleSuffix, "");
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowPDFReaderToolbar, false);
 			// NewBrowserWindow Width and Height is stored additionally
 			SEBSettings.intArrayDefault[SEBSettings.ValNewBrowserWindowByLinkWidth ] = 4;
 			SEBSettings.intArrayDefault[SEBSettings.ValNewBrowserWindowByLinkHeight] = 2;

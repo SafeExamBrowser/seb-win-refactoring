@@ -487,8 +487,9 @@ namespace SebWindowsConfig
             enableZoomAdjustZoomMode();
             checkBoxEnableZoomText.CheckedChanged += checkBoxEnableZoomText_CheckedChanged;
             checkBoxEnableZoomPage.CheckedChanged += checkBoxEnableZoomPage_CheckedChanged;
+			checkBoxAllowPdfReaderToolbar.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowPDFReaderToolbar];
 
-            checkBoxAllowSpellCheck.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowSpellCheck];
+			checkBoxAllowSpellCheck.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowSpellCheck];
             checkBoxAllowDictionaryLookup.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowDictionaryLookup];
 			checkBoxRemoveProfile.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyRemoveBrowserProfile];
 			checkBoxRemoveProfile.Enabled = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyExamSessionClearCookiesOnEnd];
@@ -4543,6 +4544,11 @@ namespace SebWindowsConfig
 		private void checkBoxDeveloperConsole_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyAllowDeveloperConsole] = checkBoxAllowDeveloperConsole.Checked;
+		}
+
+		private void checkBoxAllowPdfReaderToolbar_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyAllowPDFReaderToolbar] = checkBoxAllowPdfReaderToolbar.Checked;
 		}
 	}
 }
