@@ -163,6 +163,17 @@ namespace SafeExamBrowser.Configuration.DataResources
 
 				logger.Debug($"Received response '{ToString(response)}'.");
 
+				if (!isAvailable)
+				{
+					logger.Debug($"HEAD request was not successful, trying GET request for '{uri}'...");
+
+					request = new HttpRequestMessage(HttpMethod.Get, uri);
+					response = Execute(request);
+					isAvailable = response.IsSuccessStatusCode || IsUnauthorized(response);
+
+					logger.Debug($"Received response '{ToString(response)}'.");
+				}
+
 				return isAvailable;
 			}
 			catch (Exception e)
@@ -180,7 +191,7 @@ namespace SafeExamBrowser.Configuration.DataResources
 
 		private string ToString(HttpResponseMessage response)
 		{
-			return $"{(int)response.StatusCode} - {response.ReasonPhrase}";
+			return $"{(int) response.StatusCode} - {response.ReasonPhrase}";
 		}
 	}
 }
