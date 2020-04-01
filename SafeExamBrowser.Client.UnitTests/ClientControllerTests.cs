@@ -946,12 +946,14 @@ namespace SafeExamBrowser.Client.UnitTests
 			settings.ActionCenter.EnableActionCenter = true;
 			sut.TryStart();
 
-			actionCenter.Verify(t => t.Show(), Times.Once);
+			actionCenter.Verify(t => t.Promote(), Times.Once);
+			actionCenter.Verify(t => t.Show(), Times.Never);
 
 			actionCenter.Reset();
 			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Aborted);
 			sut.TryStart();
 
+			actionCenter.Verify(t => t.Promote(), Times.Never);
 			actionCenter.Verify(t => t.Show(), Times.Never);
 
 			actionCenter.Reset();
@@ -959,6 +961,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
 			sut.TryStart();
 
+			actionCenter.Verify(t => t.Promote(), Times.Never);
 			actionCenter.Verify(t => t.Show(), Times.Never);
 		}
 

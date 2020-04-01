@@ -238,7 +238,7 @@ namespace SafeExamBrowser.Client
 		{
 			if (Settings.ActionCenter.EnableActionCenter)
 			{
-				actionCenter.Show();
+				actionCenter.Promote();
 			}
 
 			if (Settings.Taskbar.EnableTaskbar)

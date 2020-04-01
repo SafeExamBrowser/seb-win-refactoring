@@ -62,6 +62,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Shell
 		void InitializeText(IText text);
 
 		/// <summary>
+		/// Makes the action center visible and automatically hides it after a short delay.
+		/// </summary>
+		void Promote();
+
+		/// <summary>
 		/// Registers the specified activator to control the visibility of the action center.
 		/// </summary>
 		void Register(IActionCenterActivator activator);

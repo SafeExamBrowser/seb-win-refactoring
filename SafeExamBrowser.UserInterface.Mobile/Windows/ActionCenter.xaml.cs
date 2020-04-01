@@ -7,6 +7,8 @@
  */
 
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
 using SafeExamBrowser.I18n.Contracts;
@@ -85,6 +87,16 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		{
 			QuitButton.ToolTip = text.Get(TextKey.Shell_QuitButton);
 			QuitButton.Text.Text = text.Get(TextKey.Shell_QuitButton);
+		}
+
+		public void Promote()
+		{
+			Task.Run(() =>
+			{
+				Dispatcher.Invoke(ShowAnimated);
+				Thread.Sleep(2000);
+				Dispatcher.Invoke(HideAnimated);
+			});
 		}
 
 		public void Register(IActionCenterActivator activator)
