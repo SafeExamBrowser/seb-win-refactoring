@@ -113,6 +113,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AdditionalWindow.RelativeHeight = 100;
 			settings.Browser.AdditionalWindow.RelativeWidth = 50;
 			settings.Browser.AdditionalWindow.ShowReloadWarning = false;
+			settings.Browser.AdditionalWindow.ShowToolbar = false;
 			settings.Browser.AllowConfigurationDownloads = true;
 			settings.Browser.AllowCustomDownloadLocation = false;
 			settings.Browser.AllowDownloads = true;
@@ -133,6 +134,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.MainWindow.RelativeHeight = 100;
 			settings.Browser.MainWindow.RelativeWidth = 100;
 			settings.Browser.MainWindow.ShowReloadWarning = true;
+			settings.Browser.MainWindow.ShowToolbar = false;
 			settings.Browser.PopupPolicy = PopupPolicy.Allow;
 			settings.Browser.Proxy.Policy = ProxyPolicy.System;
 			settings.Browser.StartUrl = "https://www.safeexambrowser.org/start";
