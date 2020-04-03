@@ -82,6 +82,7 @@
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.3\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Filters\LegacyFilter.cs" />
@@ -90,6 +91,12 @@
     <Compile Include="Filters\Rules\RegexRuleTests.cs" />
     <Compile Include="Filters\Rules\SimplifiedRuleTests.cs" />
     <Compile Include="Handlers\ContextMenuHandlerTests.cs" />
+    <Compile Include="Handlers\DialogHandlerTests.cs" />
+    <Compile Include="Handlers\DisplayHandlerTests.cs" />
+    <Compile Include="Handlers\DownloadHandlerTests.cs" />
+    <Compile Include="Handlers\KeyboardHandlerTests.cs" />
+    <Compile Include="Handlers\LifeSpanHandlerTests.cs" />
+    <Compile Include="Handlers\RequestHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -109,9 +116,25 @@
       <Project>{04e653f1-98e6-4e34-9dd7-7f2bc1a8b767}</Project>
       <Name>SafeExamBrowser.Browser</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Configuration.Contracts\SafeExamBrowser.Configuration.Contracts.csproj">
+      <Project>{7d74555e-63e1-4c46-bd0a-8580552368c8}</Project>
+      <Name>SafeExamBrowser.Configuration.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.I18n.Contracts\SafeExamBrowser.I18n.Contracts.csproj">
+      <Project>{1858ddf3-bc2a-4bff-b663-4ce2ffeb8b7d}</Project>
+      <Name>SafeExamBrowser.I18n.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
+      <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
+      <Name>SafeExamBrowser.Logging.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Settings\SafeExamBrowser.Settings.csproj">
       <Project>{30b2d907-5861-4f39-abad-c4abf1b3470e}</Project>
       <Name>SafeExamBrowser.Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.UserInterface.Contracts\SafeExamBrowser.UserInterface.Contracts.csproj">
+      <Project>{c7889e97-6ff6-4a58-b7cb-521ed276b316}</Project>
+      <Name>SafeExamBrowser.UserInterface.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

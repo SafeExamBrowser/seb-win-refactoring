@@ -29,15 +29,15 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		{
 			var menu = new Mock<IMenuModel>();
 
-			sut.OnBeforeContextMenu(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), Mock.Of<IContextMenuParams>(), menu.Object);
+			sut.OnBeforeContextMenu(default(IWebBrowser), default(IBrowser), default(IFrame), default(IContextMenuParams), menu.Object);
 			menu.Verify(m => m.Clear(), Times.Once);
 		}
 
 		[TestMethod]
 		public void MustBlockContextMenu()
 		{
-			var command = sut.OnContextMenuCommand(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), Mock.Of<IContextMenuParams>(), default(CefMenuCommand), default(CefEventFlags));
-			var run = sut.RunContextMenu(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), Mock.Of<IContextMenuParams>(), Mock.Of<IMenuModel>(), Mock.Of<IRunContextMenuCallback>());
+			var command = sut.OnContextMenuCommand(default(IWebBrowser), default(IBrowser), default(IFrame), default(IContextMenuParams), default(CefMenuCommand), default(CefEventFlags));
+			var run = sut.RunContextMenu(default(IWebBrowser), default(IBrowser), default(IFrame), default(IContextMenuParams), default(IMenuModel), default(IRunContextMenuCallback));
 
 			Assert.IsFalse(command);
 			Assert.IsFalse(run);
