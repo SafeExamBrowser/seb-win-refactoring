@@ -47,14 +47,14 @@ namespace SafeExamBrowser.Browser.Handlers
 			this.text = text;
 		}
 
-		protected override IResourceHandler GetResourceHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request)
+		protected override IResourceHandler GetResourceHandler(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request)
 		{
 			if (Block(request))
 			{
 				return ResourceHandlerFor(request.ResourceType);
 			}
 
-			return base.GetResourceHandler(chromiumWebBrowser, browser, frame, request);
+			return base.GetResourceHandler(webBrowser, browser, frame, request);
 		}
 
 		protected override CefReturnValue OnBeforeResourceLoad(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
@@ -70,16 +70,16 @@ namespace SafeExamBrowser.Browser.Handlers
 			return base.OnBeforeResourceLoad(webBrowser, browser, frame, request, callback);
 		}
 
-		protected override bool OnResourceResponse(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response)
+		protected override bool OnResourceResponse(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response)
 		{
 			if (RedirectToDisablePdfToolbar(request, response, out var url))
 			{
-				chromiumWebBrowser.Load(url);
+				webBrowser.Load(url);
 
 				return true;
 			}
 
-			return base.OnResourceResponse(chromiumWebBrowser, browser, frame, request, response);
+			return base.OnResourceResponse(webBrowser, browser, frame, request, response);
 		}
 
 		private void AppendCustomHeaders(IRequest request)

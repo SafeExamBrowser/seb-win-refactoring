@@ -97,6 +97,7 @@
     <Compile Include="Handlers\KeyboardHandlerTests.cs" />
     <Compile Include="Handlers\LifeSpanHandlerTests.cs" />
     <Compile Include="Handlers\RequestHandlerTests.cs" />
+    <Compile Include="Handlers\ResourceHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
