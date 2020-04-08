@@ -10,8 +10,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using SafeExamBrowser.Configuration.ConfigurationData;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Applications;
 
 namespace SafeExamBrowser.Configuration.UnitTests.ConfigurationData
 {
@@ -66,6 +68,22 @@ namespace SafeExamBrowser.Configuration.UnitTests.ConfigurationData
 			Assert.AreEqual("6063c3351ed1ac878c05072598d5079e30ca763c957d8e04bd45131c08f88d1a", settings1.Browser.ConfigurationKey);
 			Assert.AreEqual("4fc002d2ae4faf994a14bede54d95ac58a1a2cb9b59bc5b4277ff29559b46e3d", settings2.Browser.ConfigurationKey);
 			Assert.AreEqual("ab426e25b795c917f1fb40f7ef8e5757ef97d7c7ad6792e655c4421d47329d7a", settings3.Browser.ConfigurationKey);
+		}
+
+		[TestMethod]
+		public void MustRemoveLegacyBrowserEngines()
+		{
+			var settings = new AppSettings();
+			var firefox = new WhitelistApplication { ExecutablePath = @"C:\Program Files (x86)\Mozilla Firefox", ExecutableName = "firefox.exe" };
+
+			settings.Applications.Whitelist.Add(new WhitelistApplication { ExecutablePath = @"C:\some\path\xulrunner\etc", ExecutableName = "firefox.exe" });
+			settings.Applications.Whitelist.Add(new WhitelistApplication { ExecutablePath = @"C:\some\path\xulrunner\etc", ExecutableName = "xulrunner.exe" });
+			settings.Applications.Whitelist.Add(firefox);
+
+			sut.Process(Mock.Of<IDictionary<string, object>>(), settings);
+
+			Assert.AreEqual(1, settings.Applications.Whitelist.Count);
+			Assert.AreSame(firefox, settings.Applications.Whitelist[0]);
 		}
 	}
 }

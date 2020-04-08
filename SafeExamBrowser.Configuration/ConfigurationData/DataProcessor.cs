@@ -21,7 +21,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			AllowReconfiguration(settings);
 			CalculateConfigurationKey(rawData, settings);
-			RemoveLegacyBrowser(settings);
+			RemoveLegacyBrowsers(settings);
 		}
 
 		private void AllowReconfiguration(AppSettings settings)
@@ -47,9 +47,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void RemoveLegacyBrowser(AppSettings settings)
+		private void RemoveLegacyBrowsers(AppSettings settings)
 		{
-			var legacyBrowser = default(WhitelistApplication);
+			var legacyBrowsers = new List<WhitelistApplication>();
 
 			foreach (var application in settings.Applications.Whitelist)
 			{
@@ -59,11 +59,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 				if (isEnginePath && (isFirefox || isXulRunner))
 				{
-					legacyBrowser = application;
+					legacyBrowsers.Add(application);
 				}
 			}
 
-			settings.Applications.Whitelist.Remove(legacyBrowser);
+			foreach (var legacyBrowser in legacyBrowsers)
+			{
+				settings.Applications.Whitelist.Remove(legacyBrowser);
+			}
 		}
 	}
 }
