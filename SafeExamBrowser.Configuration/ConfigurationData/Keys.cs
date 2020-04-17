@@ -218,7 +218,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			internal const string EnableChromeNotifications = "enableChromeNotifications";
 			internal const string EnableEaseOfAccessOptions = "insideSebEnableEaseOfAccess";
-			internal const string EnableNetworkOptions = "insideSebEnableEnableNetworkConnectionSelector";
+			internal const string EnableNetworkOptions = "insideSebEnableNetworkConnectionSelector";
 			internal const string EnablePasswordChange = "insideSebEnableChangeAPassword";
 			internal const string EnablePowerOptions = "insideSebEnableShutDown";
 			internal const string EnableRemoteConnections = "allowScreenSharing";
