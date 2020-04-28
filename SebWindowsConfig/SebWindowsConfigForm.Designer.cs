@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -286,6 +286,7 @@ namespace SebWindowsConfig
 			this.radioButtonUserAgentDesktopDefault = new System.Windows.Forms.RadioButton();
 			this.radioButtonUserAgentDesktopCustom = new System.Windows.Forms.RadioButton();
 			this.groupBox11 = new System.Windows.Forms.GroupBox();
+			this.checkBoxAllowPdfReaderToolbar = new System.Windows.Forms.CheckBox();
 			this.checkBoxShowReloadWarningNewWindow = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowReloadNewWindow = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowVideoCapture = new System.Windows.Forms.CheckBox();
@@ -434,7 +435,6 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.checkBoxAllowPdfReaderToolbar = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -1425,9 +1425,9 @@ namespace SebWindowsConfig
 			this.checkBoxEnableScreenCapture.Location = new System.Drawing.Point(343, 129);
 			this.checkBoxEnableScreenCapture.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxEnableScreenCapture.Name = "checkBoxEnableScreenCapture";
-			this.checkBoxEnableScreenCapture.Size = new System.Drawing.Size(199, 17);
+			this.checkBoxEnableScreenCapture.Size = new System.Drawing.Size(191, 17);
 			this.checkBoxEnableScreenCapture.TabIndex = 84;
-			this.checkBoxEnableScreenCapture.Text = "Enable screen capture / PrintScreen";
+			this.checkBoxEnableScreenCapture.Text = "Allow screen capture / PrintScreen";
 			this.toolTip1.SetToolTip(this.checkBoxEnableScreenCapture, "Controls Print Screen and OS X screen capture, corresponds with Enable Print Scre" +
         "en in Hooked Keys settings.");
 			this.checkBoxEnableScreenCapture.UseVisualStyleBackColor = true;
@@ -1754,8 +1754,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle15.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle15;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -3764,6 +3764,18 @@ namespace SebWindowsConfig
 			this.groupBox11.TabStop = false;
 			this.groupBox11.Text = "Browser security";
 			// 
+			// checkBoxAllowPdfReaderToolbar
+			// 
+			this.checkBoxAllowPdfReaderToolbar.AutoSize = true;
+			this.checkBoxAllowPdfReaderToolbar.Location = new System.Drawing.Point(14, 89);
+			this.checkBoxAllowPdfReaderToolbar.Name = "checkBoxAllowPdfReaderToolbar";
+			this.checkBoxAllowPdfReaderToolbar.Size = new System.Drawing.Size(485, 17);
+			this.checkBoxAllowPdfReaderToolbar.TabIndex = 14;
+			this.checkBoxAllowPdfReaderToolbar.Text = "Allow toolbar of internal PDF reader (Win). This enables access to the print and " +
+    "download dialogs.";
+			this.checkBoxAllowPdfReaderToolbar.UseVisualStyleBackColor = true;
+			this.checkBoxAllowPdfReaderToolbar.CheckedChanged += new System.EventHandler(this.checkBoxAllowPdfReaderToolbar_CheckedChanged);
+			// 
 			// checkBoxShowReloadWarningNewWindow
 			// 
 			this.checkBoxShowReloadWarningNewWindow.AutoSize = true;
@@ -4249,8 +4261,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle16;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -5646,18 +5658,6 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Text = "Apply and Start SEB";
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
-			// 
-			// checkBoxAllowPdfReaderToolbar
-			// 
-			this.checkBoxAllowPdfReaderToolbar.AutoSize = true;
-			this.checkBoxAllowPdfReaderToolbar.Location = new System.Drawing.Point(14, 89);
-			this.checkBoxAllowPdfReaderToolbar.Name = "checkBoxAllowPdfReaderToolbar";
-			this.checkBoxAllowPdfReaderToolbar.Size = new System.Drawing.Size(485, 17);
-			this.checkBoxAllowPdfReaderToolbar.TabIndex = 14;
-			this.checkBoxAllowPdfReaderToolbar.Text = "Allow toolbar of internal PDF reader (Win). This enables access to the print and " +
-    "download dialogs.";
-			this.checkBoxAllowPdfReaderToolbar.UseVisualStyleBackColor = true;
-			this.checkBoxAllowPdfReaderToolbar.CheckedChanged += new System.EventHandler(this.checkBoxAllowPdfReaderToolbar_CheckedChanged);
 			// 
 			// SebWindowsConfigForm
 			// 
