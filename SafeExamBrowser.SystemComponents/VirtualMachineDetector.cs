@@ -32,6 +32,7 @@ namespace SafeExamBrowser.SystemComponents
 			isVirtualMachine |= manufacturer.Contains("vmware");
 			isVirtualMachine |= manufacturer.Contains("parallels software");
 			isVirtualMachine |= model.Contains("virtualbox");
+			isVirtualMachine |= manufacturer.Contains("qemu");
 
 			logger.Debug($"Computer '{systemInfo.Name}' appears to {(isVirtualMachine ? "" : "not ")}be a virtual machine.");
 
