@@ -80,13 +80,25 @@ namespace SafeExamBrowser.Applications
 			try
 			{
 				logger.Info("Starting application...");
-				InitializeInstance(processFactory.StartNew(executablePath));
+				InitializeInstance(processFactory.StartNew(executablePath, BuildArguments()));
 				logger.Info("Successfully started application.");
 			}
 			catch (Exception e)
 			{
 				logger.Error("Failed to start application!", e);
 			}
+		}
+
+		private string[] BuildArguments()
+		{
+			var arguments = new List<string>();
+
+			foreach (var argument in settings.Arguments)
+			{
+				arguments.Add(Environment.ExpandEnvironmentVariables(argument));
+			}
+
+			return arguments.ToArray();
 		}
 
 		public void Terminate()
