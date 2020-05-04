@@ -27,6 +27,11 @@ namespace SafeExamBrowser.Settings.Security
 		public bool AllowApplicationLogAccess { get; set; }
 
 		/// <summary>
+		/// Determines whether the user may initiate the termination of SEB. This setting does not affect automated mechanisms like a quit URL.
+		/// </summary>
+		public bool AllowTermination { get; set; }
+
+		/// <summary>
 		/// Determines whether the user may reconfigure the application.
 		/// </summary>
 		public bool AllowReconfiguration { get; set; }

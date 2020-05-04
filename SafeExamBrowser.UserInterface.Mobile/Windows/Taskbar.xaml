@@ -21,7 +21,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Template="{StaticResource SmallBarScrollViewer}">
             <StackPanel x:Name="ApplicationStackPanel" Orientation="Horizontal" />

@@ -22,6 +22,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Shell
 		bool ShowClock { set; }
 
 		/// <summary>
+		/// Controls the visibility of the quit button.
+		/// </summary>
+		bool ShowQuitButton { set; }
+
+		/// <summary>
 		/// Event fired when the user clicked the quit button in the taskbar.
 		/// </summary>
 		event QuitButtonClickedEventHandler QuitButtonClicked;

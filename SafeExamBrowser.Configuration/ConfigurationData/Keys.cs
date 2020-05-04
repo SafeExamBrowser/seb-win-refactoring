@@ -207,6 +207,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		internal static class Security
 		{
 			internal const string AllowApplicationLog = "allowApplicationLog";
+			internal const string AllowTermination = "allowQuit";
 			internal const string AllowVirtualMachine = "allowVirtualMachine";
 			internal const string KioskModeCreateNewDesktop = "createNewDesktop";
 			internal const string KioskModeDisableExplorerShell = "killExplorerShell";

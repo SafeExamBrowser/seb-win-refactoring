@@ -22,6 +22,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.ConfigurationFile.AdminPasswordHash:
 					MapAdminPasswordHash(settings, value);
 					break;
+				case Keys.Security.AllowTermination:
+					MapAllowTermination(settings, value);
+					break;
 				case Keys.Security.AllowVirtualMachine:
 					MapVirtualMachinePolicy(settings, value);
 					break;
@@ -45,6 +48,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string hash)
 			{
 				settings.Security.AdminPasswordHash = hash;
+			}
+		}
+
+		private void MapAllowTermination(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Security.AllowTermination = allow;
 			}
 		}
 
@@ -112,7 +123,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool allow)
 			{
-				settings.Security.VirtualMachinePolicy = allow ? VirtualMachinePolicy.Allow : VirtualMachinePolicy.Deny ;
+				settings.Security.VirtualMachinePolicy = allow ? VirtualMachinePolicy.Allow : VirtualMachinePolicy.Deny;
 			}
 		}
 	}

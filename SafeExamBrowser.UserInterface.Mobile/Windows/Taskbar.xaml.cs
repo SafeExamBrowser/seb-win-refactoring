@@ -26,6 +26,11 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			set { Dispatcher.Invoke(() => Clock.Visibility = value ? Visibility.Visible : Visibility.Collapsed); }
 		}
 
+		public bool ShowQuitButton
+		{
+			set { Dispatcher.Invoke(() => QuitButton.Visibility = value ? Visibility.Visible : Visibility.Collapsed); }
+		}
+
 		public event QuitButtonClickedEventHandler QuitButtonClicked;
 
 		internal Taskbar(ILogger logger)

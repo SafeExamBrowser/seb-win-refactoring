@@ -104,6 +104,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			context.Activators.Add(terminationActivator.Object);
 			context.Settings.ActionCenter.EnableActionCenter = true;
 			context.Settings.Keyboard.AllowAltTab = true;
+			context.Settings.Security.AllowTermination = true;
 			
 			sut.Perform();
 
@@ -216,6 +217,32 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			actionCenter.VerifySet(a => a.ShowClock = false, Times.Once);
 			taskbar.VerifySet(t => t.ShowClock = false, Times.Once);
+		}
+
+		[TestMethod]
+		public void Perform_MustInitializeQuitButton()
+		{
+			context.Settings.ActionCenter.EnableActionCenter = true;
+			context.Settings.Taskbar.EnableTaskbar = true;
+			context.Settings.Security.AllowTermination = false;
+
+			sut.Perform();
+
+			actionCenter.VerifySet(a => a.ShowQuitButton = false, Times.Once);
+			taskbar.VerifySet(t => t.ShowQuitButton = false, Times.Once);
+			actionCenter.VerifySet(a => a.ShowQuitButton = true, Times.Never);
+			taskbar.VerifySet(t => t.ShowQuitButton = true, Times.Never);
+
+			actionCenter.Reset();
+			taskbar.Reset();
+			context.Settings.Security.AllowTermination = true;
+
+			sut.Perform();
+
+			actionCenter.VerifySet(a => a.ShowQuitButton = false, Times.Never);
+			taskbar.VerifySet(t => t.ShowQuitButton = false, Times.Never);
+			actionCenter.VerifySet(a => a.ShowQuitButton = true, Times.Once);
+			taskbar.VerifySet(t => t.ShowQuitButton = true, Times.Once);
 		}
 
 		[TestMethod]
@@ -344,6 +371,19 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			context.Settings.Taskbar.EnableTaskbar = false;
 			sut.Perform();
 			taskbar.VerifyNoOtherCalls();
+		}
+
+		[TestMethod]
+		public void Perform_MustNotInitializeTerminationActivatorIfNotEnabled()
+		{
+			var terminationActivator = new Mock<ITerminationActivator>();
+
+			context.Activators.Add(terminationActivator.Object);
+			context.Settings.Security.AllowTermination = false;
+
+			sut.Perform();
+
+			terminationActivator.Verify(a => a.Start(), Times.Never);
 		}
 
 		[TestMethod]

@@ -120,7 +120,7 @@ namespace SafeExamBrowser.Client.Operations
 					taskViewActivator.Start();
 				}
 
-				if (activator is ITerminationActivator terminationActivator)
+				if (Context.Settings.Security.AllowTermination && activator is ITerminationActivator terminationActivator)
 				{
 					terminationActivator.Start();
 				}
@@ -142,6 +142,7 @@ namespace SafeExamBrowser.Client.Operations
 				InitializeKeyboardLayoutForActionCenter();
 				InitializeWirelessNetworkForActionCenter();
 				InitializePowerSupplyForActionCenter();
+				InitializeQuitButtonForActionCenter();
 			}
 			else
 			{
@@ -164,6 +165,7 @@ namespace SafeExamBrowser.Client.Operations
 				InitializeAudioForTaskbar();
 				InitializeKeyboardLayoutForTaskbar();
 				InitializeClockForTaskbar();
+				InitializeQuitButtonForTaskbar();
 			}
 			else
 			{
@@ -300,6 +302,16 @@ namespace SafeExamBrowser.Client.Operations
 			{
 				taskbar.AddSystemControl(uiFactory.CreatePowerSupplyControl(powerSupply, Location.Taskbar));
 			}
+		}
+
+		private void InitializeQuitButtonForActionCenter()
+		{
+			actionCenter.ShowQuitButton = Context.Settings.Security.AllowTermination;
+		}
+
+		private void InitializeQuitButtonForTaskbar()
+		{
+			taskbar.ShowQuitButton = Context.Settings.Security.AllowTermination;
 		}
 
 		private void InitializeWirelessNetworkForActionCenter()
