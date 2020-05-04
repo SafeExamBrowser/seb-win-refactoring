@@ -684,11 +684,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			{
 				if (raw.EndsWith("%") && int.TryParse(raw.Replace("%", string.Empty), out var relativeHeight))
 				{
+					settings.Browser.AdditionalWindow.AbsoluteHeight = default(int?);
 					settings.Browser.AdditionalWindow.RelativeHeight = relativeHeight;
 				}
 				else if (int.TryParse(raw, out var absoluteHeight))
 				{
 					settings.Browser.AdditionalWindow.AbsoluteHeight = absoluteHeight;
+					settings.Browser.AdditionalWindow.RelativeHeight = default(int?);
 				}
 			}
 		}
@@ -699,11 +701,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			{
 				if (raw.EndsWith("%") && int.TryParse(raw.Replace("%", string.Empty), out var relativeHeight))
 				{
+					settings.Browser.MainWindow.AbsoluteHeight = default(int?);
 					settings.Browser.MainWindow.RelativeHeight = relativeHeight;
 				}
 				else if (int.TryParse(raw, out var absoluteHeight))
 				{
 					settings.Browser.MainWindow.AbsoluteHeight = absoluteHeight;
+					settings.Browser.MainWindow.RelativeHeight = default(int?);
 				}
 			}
 		}
@@ -760,11 +764,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			{
 				if (raw.EndsWith("%") && int.TryParse(raw.Replace("%", string.Empty), out var relativeWidth))
 				{
+					settings.Browser.AdditionalWindow.AbsoluteWidth = default(int?);
 					settings.Browser.AdditionalWindow.RelativeWidth = relativeWidth;
 				}
 				else if (int.TryParse(raw, out var absoluteWidth))
 				{
 					settings.Browser.AdditionalWindow.AbsoluteWidth = absoluteWidth;
+					settings.Browser.AdditionalWindow.RelativeWidth = default(int?);
 				}
 			}
 		}
@@ -775,11 +781,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			{
 				if (raw.EndsWith("%") && int.TryParse(raw.Replace("%", string.Empty), out var relativeWidth))
 				{
+					settings.Browser.MainWindow.AbsoluteWidth = default(int?);
 					settings.Browser.MainWindow.RelativeWidth = relativeWidth;
 				}
 				else if (int.TryParse(raw, out var absoluteWidth))
 				{
 					settings.Browser.MainWindow.AbsoluteWidth = absoluteWidth;
+					settings.Browser.MainWindow.RelativeWidth = default(int?);
 				}
 			}
 		}
