@@ -20,6 +20,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		internal void Process(IDictionary<string, object> rawData, AppSettings settings)
 		{
 			AllowReconfiguration(settings);
+			AllowBrowserToolbarForReloading(rawData, settings);
 			CalculateConfigurationKey(rawData, settings);
 			RemoveLegacyBrowsers(settings);
 		}
@@ -27,6 +28,21 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		private void AllowReconfiguration(AppSettings settings)
 		{
 			settings.Security.AllowReconfiguration = settings.ConfigurationMode == ConfigurationMode.ConfigureClient;
+		}
+
+		private void AllowBrowserToolbarForReloading(IDictionary<string, object> rawData, AppSettings settings)
+		{
+			var showReloadButton = rawData.TryGetValue(Keys.Browser.ShowReloadButton, out var v) && v is bool show && show;
+
+			if (settings.Browser.AdditionalWindow.AllowReloading && showReloadButton)
+			{
+				settings.Browser.AdditionalWindow.ShowToolbar = true;
+			}
+
+			if (settings.Browser.MainWindow.AllowReloading && showReloadButton)
+			{
+				settings.Browser.MainWindow.ShowToolbar = true;
+			}
 		}
 
 		private void CalculateConfigurationKey(IDictionary<string, object> rawData, AppSettings settings)
