@@ -15,7 +15,7 @@ namespace SafeExamBrowser.SystemComponents
 	{
 		private ILogger logger;
 		private ISystemInfo systemInfo;
-
+		private static readonly string[] pciVendorBlacklist = { "vbox", "80ee", "qemu", "1af4", "1b36" }; //Virtualbox: VBOX, 80EE   RedHat: QUEMU, 1AF4, 1B36
 		public VirtualMachineDetector(ILogger logger, ISystemInfo systemInfo)
 		{
 			this.logger = logger;
@@ -33,6 +33,17 @@ namespace SafeExamBrowser.SystemComponents
 			isVirtualMachine |= manufacturer.Contains("parallels software");
 			isVirtualMachine |= model.Contains("virtualbox");
 			isVirtualMachine |= manufacturer.Contains("qemu");
+			
+			var macAddr = (from nic in NetworkInterface.GetAllNetworkInterfaces() where nic.OperationalStatus == OperationalStatus.Up select nic.GetPhysicalAddress().ToString()).FirstOrDefault();
+			isVirtualMachine |= ((byte.Parse(macAddr[1].ToString(), NumberStyles.HexNumber) & 2) == 2 || macAddr.StartsWith("080027"));
+
+			using (var searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT DeviceID FROM Win32_PnPEntity"))
+
+				foreach (ManagementObject queryObj in searcher.Get())
+				{
+				isVirtualMachine |= pciVendorBlacklist.Any(System.Convert.ToString(queryObj.Properties.Cast<PropertyData>().First().Value).ToLower().Contains);
+					
+				}
 
 			logger.Debug($"Computer '{systemInfo.Name}' appears to {(isVirtualMachine ? "" : "not ")}be a virtual machine.");
 
