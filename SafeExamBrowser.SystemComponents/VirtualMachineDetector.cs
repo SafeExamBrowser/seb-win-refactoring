@@ -8,6 +8,10 @@
 
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
+using System.Globalization;
+using System.Linq;
+using System.Management;
+using System.Net.NetworkInformation;s;
 
 namespace SafeExamBrowser.SystemComponents
 {
