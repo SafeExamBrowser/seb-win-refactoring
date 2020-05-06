@@ -23,6 +23,7 @@ namespace SafeExamBrowser.SystemComponents
 		public string Model { get; private set; }
 		public string Name { get; private set; }
 		public OperatingSystem OperatingSystem { get; private set; }
+		public string MacAddress { get; private set; }
 
 		public string OperatingSystemInfo
 		{
@@ -34,6 +35,7 @@ namespace SafeExamBrowser.SystemComponents
 			InitializeBattery();
 			InitializeMachineInfo();
 			InitializeOperatingSystem();
+			InitializeMacAddress();
 		}
 
 		private void InitializeBattery()
@@ -127,6 +129,31 @@ namespace SafeExamBrowser.SystemComponents
 		private string Architecture()
 		{
 			return Environment.Is64BitOperatingSystem ? "x64" : "x86";
+		}
+		private void InitializeMacAddress()
+		{
+			using (var searcher = new ManagementObjectSearcher("Select MACAddress from Win32_NetworkAdapterConfiguration WHERE DNSDomain IS NOT NULL"))
+			using (var results = searcher.Get())
+			{
+				if (results.Count > 0)
+				{
+					using (var system = results.Cast<ManagementObject>().First())
+					{
+						foreach (var property in system.Properties)
+						{
+
+							if (property.Name.Equals("MACAddress"))
+							{
+								MacAddress = Convert.ToString(property.Value).Replace(":", "").ToUpper();
+							}
+						}
+					}
+				}
+				else
+				{
+					MacAddress = "000000000000";
+				}
+			}
 		}
 	}
 }

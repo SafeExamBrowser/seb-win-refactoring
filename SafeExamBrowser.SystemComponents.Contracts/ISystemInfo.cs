@@ -42,5 +42,10 @@ namespace SafeExamBrowser.SystemComponents.Contracts
 		/// Provides detailed version information about the currently running operating system.
 		/// </summary>
 		string OperatingSystemInfo { get; }
+
+		/// <summary>
+		/// The MAC Addres of the network addapter
+		/// </summary>
+		string MacAddress { get; }
 	}
 }
