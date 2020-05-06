@@ -47,5 +47,10 @@ namespace SafeExamBrowser.SystemComponents.Contracts
 		/// The MAC Addres of the network addapter
 		/// </summary>
 		string MacAddress { get; }
+
+		/// <summary>
+		/// Provides the DeviceID information of the user's Plug and Play devices 
+		/// </summary>
+		string[] DeviceId { get; }
 	}
 }

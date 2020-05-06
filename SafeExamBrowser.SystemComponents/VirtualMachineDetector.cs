@@ -9,7 +9,7 @@
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
 using System.Globalization;
-
+using System.Linq;
 
 namespace SafeExamBrowser.SystemComponents
 {
@@ -32,7 +32,8 @@ namespace SafeExamBrowser.SystemComponents
 			var manufacturer = systemInfo.Manufacturer.ToLower();
 			var model = systemInfo.Model.ToLower();
 			var macAddress = systemInfo.MacAddress;
-
+			var deviceId = systemInfo.DeviceId;
+			
 			isVirtualMachine |= manufacturer.Contains("microsoft corporation") && !model.Contains("surface");
 			isVirtualMachine |= manufacturer.Contains("vmware");
 			isVirtualMachine |= manufacturer.Contains("parallels software");
@@ -40,15 +41,12 @@ namespace SafeExamBrowser.SystemComponents
 			isVirtualMachine |= manufacturer.Contains("qemu");
 			
 			isVirtualMachine |= ((byte.Parse(macAddress[1].ToString(), NumberStyles.HexNumber) & 2) == 2 || macAddress.StartsWith("080027"));
-			/*
-			using (var searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT DeviceID FROM Win32_PnPEntity"))
+			
+			foreach (var device in deviceId)
+			{
+				isVirtualMachine |= PCI_VENDOR_BLACKLIST.Any(device.ToLower().Contains);
 
-				foreach (ManagementObject queryObj in searcher.Get())
-				{
-				isVirtualMachine |= pciVendorBlacklist.Any(System.Convert.ToString(queryObj.Properties.Cast<PropertyData>().First().Value).ToLower().Contains);
-					
-				}
-				*/
+			}
 			logger.Debug($"Computer '{systemInfo.Name}' appears to {(isVirtualMachine ? "" : "not ")}be a virtual machine.");
 
 			return isVirtualMachine;

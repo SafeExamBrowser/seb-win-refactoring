@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Management;
 using System.Windows.Forms;
@@ -24,6 +25,7 @@ namespace SafeExamBrowser.SystemComponents
 		public string Name { get; private set; }
 		public OperatingSystem OperatingSystem { get; private set; }
 		public string MacAddress { get; private set; }
+		public string[] DeviceId { get; private set; }
 
 		public string OperatingSystemInfo
 		{
@@ -36,6 +38,7 @@ namespace SafeExamBrowser.SystemComponents
 			InitializeMachineInfo();
 			InitializeOperatingSystem();
 			InitializeMacAddress();
+			InitializePnPDevices();
 		}
 
 		private void InitializeBattery()
@@ -153,6 +156,28 @@ namespace SafeExamBrowser.SystemComponents
 				{
 					MacAddress = "000000000000";
 				}
+			}
+		}
+		private void InitializePnPDevices()
+		{
+			List<string> deviceList = new List<string>();
+			using (var searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT DeviceID FROM Win32_PnPEntity"))
+			using (var results = searcher.Get())
+			{
+				foreach (ManagementObject queryObj in results)
+				{
+					using (queryObj)
+						foreach (var property in queryObj.Properties)
+						{
+							if (property.Name.Equals("DeviceID"))
+							{
+								Console.WriteLine(Convert.ToString(property.Value));
+								deviceList.Add(Convert.ToString(property.Value).ToLower());
+							}
+						}
+				}
+				DeviceId = deviceList.ToArray();
+
 			}
 		}
 	}
