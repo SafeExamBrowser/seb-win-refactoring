@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Management;
 using System.Windows.Forms;
@@ -23,6 +24,8 @@ namespace SafeExamBrowser.SystemComponents
 		public string Model { get; private set; }
 		public string Name { get; private set; }
 		public OperatingSystem OperatingSystem { get; private set; }
+		public string MacAddress { get; private set; }
+		public string[] PlugAndPlayDeviceIds { get; private set; }
 
 		public string OperatingSystemInfo
 		{
@@ -34,6 +37,8 @@ namespace SafeExamBrowser.SystemComponents
 			InitializeBattery();
 			InitializeMachineInfo();
 			InitializeOperatingSystem();
+			InitializeMacAddress();
+			InitializePnPDevices();
 		}
 
 		private void InitializeBattery()
@@ -127,6 +132,57 @@ namespace SafeExamBrowser.SystemComponents
 		private string Architecture()
 		{
 			return Environment.Is64BitOperatingSystem ? "x64" : "x86";
+		}
+
+		private void InitializeMacAddress()
+		{
+			using (var searcher = new ManagementObjectSearcher("Select MACAddress from Win32_NetworkAdapterConfiguration WHERE DNSDomain IS NOT NULL"))
+			using (var results = searcher.Get())
+			{
+				
+				if (results != null && results.Count > 0)
+				{
+					using (var networkAdapter = results.Cast<ManagementObject>().First())
+					{
+						foreach (var property in networkAdapter.Properties)
+						{
+
+							if (property.Name.Equals("MACAddress"))
+							{
+								MacAddress = Convert.ToString(property.Value).Replace(":", "").ToUpper();
+							}
+						}
+					}
+				}
+				else
+				{
+					MacAddress = "000000000000";
+				}
+			}
+		}
+
+		private void InitializePnPDevices()
+		{
+			var deviceList = new List<string>();
+			using (var searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT DeviceID FROM Win32_PnPEntity"))
+			using (var results = searcher.Get())
+			{
+				foreach (ManagementObject queryObj in results)
+				{
+					using (queryObj) 
+					{ 
+						foreach (var property in queryObj.Properties)
+						{
+							if (property.Name.Equals("DeviceID"))
+							{
+								deviceList.Add(Convert.ToString(property.Value).ToLower());
+							}
+						}
+					}
+				}
+				PlugAndPlayDeviceIds = deviceList.ToArray();
+
+			}
 		}
 	}
 }

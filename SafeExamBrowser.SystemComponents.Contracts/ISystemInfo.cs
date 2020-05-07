@@ -42,5 +42,15 @@ namespace SafeExamBrowser.SystemComponents.Contracts
 		/// Provides detailed version information about the currently running operating system.
 		/// </summary>
 		string OperatingSystemInfo { get; }
+
+		/// <summary>
+		/// The MAC address of the network adapter
+		/// </summary>
+		string MacAddress { get; }
+
+		/// <summary>
+		/// Provides the DeviceID information of the user's Plug and Play devices 
+		/// </summary>
+		string[] PlugAndPlayDeviceIds { get; }
 	}
 }

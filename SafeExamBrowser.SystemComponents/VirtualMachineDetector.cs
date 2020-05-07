@@ -8,14 +8,18 @@
 
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
+using System.Globalization;
+using System.Linq;
 
 namespace SafeExamBrowser.SystemComponents
 {
 	public class VirtualMachineDetector : IVirtualMachineDetector
 	{
+		private static readonly string[] PCI_VENDOR_BLACKLIST = { "vbox", "80ee", "qemu", "1af4", "1b36" }; //Virtualbox: VBOX, 80EE   RedHat: QUEMU, 1AF4, 1B36
+
 		private ILogger logger;
 		private ISystemInfo systemInfo;
-
+		
 		public VirtualMachineDetector(ILogger logger, ISystemInfo systemInfo)
 		{
 			this.logger = logger;
@@ -27,12 +31,25 @@ namespace SafeExamBrowser.SystemComponents
 			var isVirtualMachine = false;
 			var manufacturer = systemInfo.Manufacturer.ToLower();
 			var model = systemInfo.Model.ToLower();
+			var macAddress = systemInfo.MacAddress;
+			var plugAndPlayDeviceIds = systemInfo.PlugAndPlayDeviceIds;
 
 			isVirtualMachine |= manufacturer.Contains("microsoft corporation") && !model.Contains("surface");
 			isVirtualMachine |= manufacturer.Contains("vmware");
 			isVirtualMachine |= manufacturer.Contains("parallels software");
 			isVirtualMachine |= model.Contains("virtualbox");
 			isVirtualMachine |= manufacturer.Contains("qemu");
+
+			if (macAddress != null && macAddress.Count() > 2)
+			{
+				isVirtualMachine |= ((byte.Parse(macAddress[1].ToString(), NumberStyles.HexNumber) & 2) == 2 || macAddress.StartsWith("080027"));
+			}
+
+			foreach (var device in plugAndPlayDeviceIds)
+			{
+				isVirtualMachine |= PCI_VENDOR_BLACKLIST.Any(device.ToLower().Contains);
+
+			}
 
 			logger.Debug($"Computer '{systemInfo.Name}' appears to {(isVirtualMachine ? "" : "not ")}be a virtual machine.");
 
