@@ -44,13 +44,13 @@ namespace SafeExamBrowser.SystemComponents.Contracts
 		string OperatingSystemInfo { get; }
 
 		/// <summary>
-		/// The MAC Addres of the network addapter
+		/// The MAC address of the network adapter
 		/// </summary>
 		string MacAddress { get; }
 
 		/// <summary>
 		/// Provides the DeviceID information of the user's Plug and Play devices 
 		/// </summary>
-		string[] DeviceId { get; }
+		string[] PlugAndPlayDeviceIds { get; }
 	}
 }

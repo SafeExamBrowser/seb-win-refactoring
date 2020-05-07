@@ -25,7 +25,7 @@ namespace SafeExamBrowser.SystemComponents
 		public string Name { get; private set; }
 		public OperatingSystem OperatingSystem { get; private set; }
 		public string MacAddress { get; private set; }
-		public string[] DeviceId { get; private set; }
+		public string[] PlugAndPlayDeviceIds { get; private set; }
 
 		public string OperatingSystemInfo
 		{
@@ -133,16 +133,18 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			return Environment.Is64BitOperatingSystem ? "x64" : "x86";
 		}
+
 		private void InitializeMacAddress()
 		{
 			using (var searcher = new ManagementObjectSearcher("Select MACAddress from Win32_NetworkAdapterConfiguration WHERE DNSDomain IS NOT NULL"))
 			using (var results = searcher.Get())
 			{
-				if (results.Count > 0)
+				
+				if (results != null && results.Count > 0)
 				{
-					using (var system = results.Cast<ManagementObject>().First())
+					using (var networkAdapter = results.Cast<ManagementObject>().First())
 					{
-						foreach (var property in system.Properties)
+						foreach (var property in networkAdapter.Properties)
 						{
 
 							if (property.Name.Equals("MACAddress"))
@@ -158,25 +160,27 @@ namespace SafeExamBrowser.SystemComponents
 				}
 			}
 		}
+
 		private void InitializePnPDevices()
 		{
-			List<string> deviceList = new List<string>();
+			var deviceList = new List<string>();
 			using (var searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT DeviceID FROM Win32_PnPEntity"))
 			using (var results = searcher.Get())
 			{
 				foreach (ManagementObject queryObj in results)
 				{
-					using (queryObj)
+					using (queryObj) 
+					{ 
 						foreach (var property in queryObj.Properties)
 						{
 							if (property.Name.Equals("DeviceID"))
 							{
-								Console.WriteLine(Convert.ToString(property.Value));
 								deviceList.Add(Convert.ToString(property.Value).ToLower());
 							}
 						}
+					}
 				}
-				DeviceId = deviceList.ToArray();
+				PlugAndPlayDeviceIds = deviceList.ToArray();
 
 			}
 		}
