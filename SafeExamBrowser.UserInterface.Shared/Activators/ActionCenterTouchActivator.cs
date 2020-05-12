@@ -50,7 +50,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 				if (state == MouseButtonState.Pressed && inActivationArea)
 				{
 					isDown = true;
-					Task.Delay(200).ContinueWith(_ => CheckPosition());
+					Task.Delay(500).ContinueWith(_ => CheckPosition());
 				}
 			}
 
