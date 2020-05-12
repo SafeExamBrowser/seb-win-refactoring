@@ -7,6 +7,7 @@
  */
 
 using System.Threading.Tasks;
+using System.Windows;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
@@ -38,7 +39,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 
 		protected override bool Process(MouseButton button, MouseButtonState state, MouseInformation info)
 		{
-			var inActivationArea = 0 < info.X && info.X < 100;
+			var inActivationArea = 0 < info.X && info.X < SystemParameters.PrimaryScreenWidth * 0.1;
 
 			if (button == MouseButton.Left)
 			{
@@ -60,7 +61,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 		private void CheckPosition()
 		{
 			var (x, y) = nativeMethods.GetCursorPosition();
-			var hasMoved = x > 200;
+			var hasMoved = x > SystemParameters.PrimaryScreenWidth * 0.1;
 
 			if (isDown && hasMoved)
 			{
