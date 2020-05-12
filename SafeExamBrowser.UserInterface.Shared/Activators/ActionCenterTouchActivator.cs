@@ -18,6 +18,8 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 {
 	public class ActionCenterTouchActivator : TouchActivator, IActionCenterActivator
 	{
+		private const int ACTIVATION_INTERVAL = 100;
+
 		private bool isDown;
 		private ILogger logger;
 		private INativeMethods nativeMethods;
@@ -51,23 +53,38 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 				if (state == MouseButtonState.Pressed && inActivationArea)
 				{
 					isDown = true;
-					Task.Delay(500).ContinueWith(_ => CheckPosition());
+
+					Task.Delay(ACTIVATION_INTERVAL).ContinueWith(async _ =>
+					{
+						for (var t = 0; t < 4; t++)
+						{
+							if (WasActivated())
+							{
+								break;
+							}
+
+							await Task.Delay(ACTIVATION_INTERVAL);
+						}
+					});
 				}
 			}
 
 			return false;
 		}
 
-		private void CheckPosition()
+		private bool WasActivated()
 		{
 			var (x, y) = nativeMethods.GetCursorPosition();
 			var hasMoved = x > SystemParameters.PrimaryScreenWidth * 0.1;
+			var activate = isDown && hasMoved;
 
-			if (isDown && hasMoved)
+			if (activate)
 			{
 				logger.Debug("Detected activation gesture for action center.");
 				Activated?.Invoke();
 			}
+
+			return activate;
 		}
 	}
 }
