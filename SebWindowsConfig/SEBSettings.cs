@@ -385,7 +385,7 @@ namespace SebWindowsConfig
 		public const String KeyInsideSebEnableShutDown          = "insideSebEnableShutDown";
 		public const String KeyInsideSebEnableEaseOfAccess      = "insideSebEnableEaseOfAccess";
 		public const String KeyInsideSebEnableVmWareClientShade = "insideSebEnableVmWareClientShade";
-		public const String KeyInsideSebEnableNetworkConnectionSelector = "insideSebEnableEnableNetworkConnectionSelector";
+		public const String KeyInsideSebEnableNetworkConnectionSelector = "insideSebEnableNetworkConnectionSelector";
 
 		// Group "Hooked Keys"
 		public const String KeyHookKeys = "hookKeys";
