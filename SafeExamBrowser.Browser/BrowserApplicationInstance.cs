@@ -9,6 +9,7 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using CefSharp;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
 using SafeExamBrowser.Applications.Contracts.Resources.Icons;
@@ -17,7 +18,6 @@ using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Browser.Filters;
 using SafeExamBrowser.Browser.Handlers;
-using SafeExamBrowser.Browser.Pages;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
@@ -28,6 +28,9 @@ using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
+using Request = SafeExamBrowser.Browser.Contracts.Filters.Request;
+using TitleChangedEventHandler = SafeExamBrowser.Applications.Contracts.Events.TitleChangedEventHandler;
 
 namespace SafeExamBrowser.Browser
 {
@@ -112,12 +115,10 @@ namespace SafeExamBrowser.Browser
 		private void InitializeControl()
 		{
 			var contextMenuHandler = new ContextMenuHandler();
-			var controlLogger = logger.CloneFor($"{nameof(BrowserControl)} #{Id}");
 			var dialogHandler = new DialogHandler();
 			var displayHandler = new DisplayHandler();
 			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} #{Id}");
 			var downloadHandler = new DownloadHandler(appConfig, settings, downloadLogger);
-			var htmlLoader = new HtmlLoader(text);
 			var keyboardHandler = new KeyboardHandler();
 			var lifeSpanHandler = new LifeSpanHandler();
 			var requestFilter = new RequestFilter();
@@ -146,13 +147,12 @@ namespace SafeExamBrowser.Browser
 				dialogHandler,
 				displayHandler,
 				downloadHandler,
-				htmlLoader,
 				keyboardHandler,
 				lifeSpanHandler,
-				controlLogger,
 				requestHandler,
 				startUrl);
 			control.AddressChanged += Control_AddressChanged;
+			control.LoadFailed += Control_LoadFailed;
 			control.LoadingStateChanged += Control_LoadingStateChanged;
 			control.TitleChanged += Control_TitleChanged;
 
@@ -212,6 +212,30 @@ namespace SafeExamBrowser.Browser
 		{
 			logger.Debug($"Navigated to '{address}'.");
 			window.UpdateAddress(address);
+		}
+
+		/// <summary>
+		/// TODO: LoadError.html is not used, as navigating back from it doesn't work! Remove page if no better solution can be found.
+		/// </summary>
+		private void Control_LoadFailed(int errorCode, string errorText, string url)
+		{
+			if (errorCode == (int) CefErrorCode.None)
+			{
+				logger.Info($"Request for '{url}' was successful.");
+			}
+			else if (errorCode == (int) CefErrorCode.Aborted)
+			{
+				logger.Info($"Request for '{url}' was aborted.");
+			}
+			else
+			{
+				var title = text.Get(TextKey.Browser_LoadErrorPageTitle);
+				var message = text.Get(TextKey.Browser_LoadErrorPageMessage).Replace("%%URL%%", url) + $" {errorText} ({errorCode})";
+
+				logger.Warn($"Request for '{url}' failed: {errorText} ({errorCode}).");
+
+				Task.Run(() => messageBox.Show(message, title, icon: MessageBoxIcon.Error, parent: window)).ContinueWith(_ => control.NavigateBackwards());
+			}
 		}
 
 		private void Control_LoadingStateChanged(bool isLoading)

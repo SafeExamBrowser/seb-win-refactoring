@@ -8,8 +8,6 @@
 
 using CefSharp;
 using CefSharp.WinForms;
-using SafeExamBrowser.Browser.Pages;
-using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
 
@@ -21,14 +19,12 @@ namespace SafeExamBrowser.Browser
 		private IDialogHandler dialogHandler;
 		private IDisplayHandler displayHandler;
 		private IDownloadHandler downloadHandler;
-		private string errorPage;
-		private HtmlLoader htmlLoader;
 		private IKeyboardHandler keyboardHandler;
 		private ILifeSpanHandler lifeSpanHandler;
-		private ILogger logger;
 		private IRequestHandler requestHandler;
 
 		private AddressChangedEventHandler addressChanged;
+		private LoadFailedEventHandler loadFailed;
 		private LoadingStateChangedEventHandler loadingStateChanged;
 		private TitleChangedEventHandler titleChanged;
 
@@ -39,6 +35,12 @@ namespace SafeExamBrowser.Browser
 		{
 			add { addressChanged += value; }
 			remove { addressChanged -= value; }
+		}
+
+		event LoadFailedEventHandler IBrowserControl.LoadFailed
+		{
+			add { loadFailed += value; }
+			remove { loadFailed -= value; }
 		}
 
 		event LoadingStateChangedEventHandler IBrowserControl.LoadingStateChanged
@@ -58,10 +60,8 @@ namespace SafeExamBrowser.Browser
 			IDialogHandler dialogHandler,
 			IDisplayHandler displayHandler,
 			IDownloadHandler downloadHandler,
-			HtmlLoader htmlLoader,
 			IKeyboardHandler keyboardHandler,
 			ILifeSpanHandler lifeSpanHandler,
-			ILogger logger,
 			IRequestHandler requestHandler,
 			string url) : base(url)
 		{
@@ -69,10 +69,8 @@ namespace SafeExamBrowser.Browser
 			this.dialogHandler = dialogHandler;
 			this.displayHandler = displayHandler;
 			this.downloadHandler = downloadHandler;
-			this.htmlLoader = htmlLoader;
 			this.keyboardHandler = keyboardHandler;
 			this.lifeSpanHandler = lifeSpanHandler;
-			this.logger = logger;
 			this.requestHandler = requestHandler;
 		}
 
@@ -90,8 +88,6 @@ namespace SafeExamBrowser.Browser
 			LifeSpanHandler = lifeSpanHandler;
 			MenuHandler = contextMenuHandler;
 			RequestHandler = requestHandler;
-
-			errorPage = htmlLoader.LoadErrorPage();
 		}
 
 		public void NavigateBackwards()
@@ -126,25 +122,7 @@ namespace SafeExamBrowser.Browser
 
 		private void BrowserControl_LoadError(object sender, LoadErrorEventArgs e)
 		{
-			if (e.ErrorCode == CefErrorCode.None)
-			{
-				logger.Info($"Request for '{e.FailedUrl}' was successful.");
-			}
-			else if (e.ErrorCode == CefErrorCode.Aborted)
-			{
-				logger.Info($"Request for '{e.FailedUrl}' was aborted.");
-			}
-			else
-			{
-				var html = string.Copy(errorPage);
-
-				logger.Warn($"Request for '{e.FailedUrl}' failed: {e.ErrorText} ({e.ErrorCode}).");
-
-				html = html.Replace("%%STATUS%%", $"{e.ErrorText} ({e.ErrorCode})");
-				html = html.Replace("%%URL%%", e.FailedUrl);
-
-				e.Frame.LoadHtml(html, true);
-			}
+			loadFailed?.Invoke((int) e.ErrorCode, e.ErrorText, e.FailedUrl);
 		}
 	}
 }

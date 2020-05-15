@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Browser\Data\DownloadItemState.cs" />
     <Compile Include="Browser\Events\AddressChangedEventHandler.cs" />
+    <Compile Include="Browser\Events\LoadFailedEventHandler.cs" />
     <Compile Include="Browser\Events\LoadingStateChangedEventHandler.cs" />
     <Compile Include="Browser\Events\TitleChangedEventHandler.cs" />
     <Compile Include="Browser\IBrowserControl.cs" />

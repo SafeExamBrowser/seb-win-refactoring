@@ -37,6 +37,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		event AddressChangedEventHandler AddressChanged;
 
 		/// <summary>
+		/// Event fired when a load error occurs.
+		/// </summary>
+		event LoadFailedEventHandler LoadFailed;
+
+		/// <summary>
 		/// Event fired when the loading state of the browser control changes.
 		/// </summary>
 		event LoadingStateChangedEventHandler LoadingStateChanged;
