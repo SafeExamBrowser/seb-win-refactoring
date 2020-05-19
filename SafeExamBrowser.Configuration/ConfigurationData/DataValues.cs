@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal AppConfig InitializeAppConfig()
 		{
-			var executable = Assembly.GetExecutingAssembly();
+			var executable = Assembly.GetEntryAssembly();
 			var certificate = executable.Modules.First().GetSignerCertificate();
 			var programBuild = FileVersionInfo.GetVersionInfo(executable.Location).FileVersion;
 			var programCopyright = executable.GetCustomAttribute<AssemblyCopyrightAttribute>().Copyright;
