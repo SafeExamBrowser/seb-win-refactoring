@@ -54,6 +54,8 @@ namespace SafeExamBrowser.Configuration.UnitTests
 			fileSaver.Setup(f => f.CanSave(It.IsAny<Uri>())).Returns<Uri>(u => u.IsFile);
 			networkLoader.Setup(n => n.CanLoad(It.IsAny<Uri>())).Returns<Uri>(u => u.Scheme.Equals("http") || u.Scheme.Equals("seb"));
 
+			SetEntryAssembly();
+
 			sut = new ConfigurationRepository(certificateStore.Object, hashAlgorithm.Object, logger.Object);
 			sut.InitializeAppConfig();
 		}
@@ -326,6 +328,23 @@ namespace SafeExamBrowser.Configuration.UnitTests
 			sut.Register(networkLoader.Object);
 			sut.Register(xmlParser.Object);
 			sut.Register(xmlSerializer.Object);
+		}
+
+		/// <summary>
+		/// Hack required for unit tests to be able to retrieve the <see cref="Assembly.GetEntryAssembly"/> while executing.
+		/// </summary>
+		public void SetEntryAssembly()
+		{
+			var assembly = Assembly.GetCallingAssembly();
+			var manager = new AppDomainManager();
+			var entryAssemblyfield = manager.GetType().GetField("m_entryAssembly", BindingFlags.Instance | BindingFlags.NonPublic);
+
+			entryAssemblyfield.SetValue(manager, assembly);
+
+			var domain = AppDomain.CurrentDomain;
+			var domainManagerField = domain.GetType().GetField("_domainManager", BindingFlags.Instance | BindingFlags.NonPublic);
+
+			domainManagerField.SetValue(domain, manager);
 		}
 	}
 }
