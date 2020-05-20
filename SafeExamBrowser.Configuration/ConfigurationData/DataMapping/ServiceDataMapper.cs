@@ -46,11 +46,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Service.EnableUserSwitch:
 					MapEnableUserSwitch(settings, value);
 					break;
-				case Keys.Service.EnableVmWareOverlay:
-					MapEnableVmWareOverlay(settings, value);
+				case Keys.Service.EnableVmwareOverlay:
+					MapEnableVmwareOverlay(settings, value);
 					break;
 				case Keys.Service.EnableWindowsUpdate:
 					MapEnableWindowsUpdate(settings, value);
+					break;
+				case Keys.Service.SetVmwareConfiguration:
+					MapSetVmwareConfiguration(settings, value);
 					break;
 			}
 		}
@@ -135,7 +138,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
-		private void MapEnableVmWareOverlay(AppSettings settings, object value)
+		private void MapEnableVmwareOverlay(AppSettings settings, object value)
 		{
 			if (value is bool enable)
 			{
@@ -148,6 +151,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool enable)
 			{
 				settings.Service.DisableWindowsUpdate = !enable;
+			}
+		}
+
+		private void MapSetVmwareConfiguration(AppSettings settings, object value)
+		{
+			if (value is bool set)
+			{
+				settings.Service.SetVmwareConfiguration = set;
 			}
 		}
 	}

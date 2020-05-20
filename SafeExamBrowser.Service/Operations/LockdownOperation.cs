@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Lockdown.Contracts;
 using SafeExamBrowser.Logging.Contracts;
@@ -41,7 +42,7 @@ namespace SafeExamBrowser.Service.Operations
 			var success = true;
 			var sid = Context.Configuration.UserSid;
 			var userName = Context.Configuration.UserName;
-			var configurations = new []
+			var configurations = new List<(IFeatureConfiguration, bool)>
 			{
 				(factory.CreateChangePasswordConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisablePasswordChange),
 				(factory.CreateChromeNotificationConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableChromeNotifications),
@@ -54,9 +55,13 @@ namespace SafeExamBrowser.Service.Operations
 				(factory.CreateSwitchUserConfiguration(groupId), Context.Configuration.Settings.Service.DisableUserSwitch),
 				(factory.CreateTaskManagerConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableTaskManager),
 				(factory.CreateUserPowerOptionsConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisablePowerOptions),
-				(factory.CreateVmwareOverlayConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableVmwareOverlay),
 				(factory.CreateWindowsUpdateConfiguration(groupId), Context.Configuration.Settings.Service.DisableWindowsUpdate)
 			};
+
+			if (Context.Configuration.Settings.Service.SetVmwareConfiguration)
+			{
+				configurations.Add((factory.CreateVmwareOverlayConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableVmwareOverlay));
+			}
 
 			logger.Info($"Attempting to perform lockdown (feature configuration group: {groupId})...");
 

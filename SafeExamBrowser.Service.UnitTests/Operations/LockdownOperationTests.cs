@@ -12,11 +12,11 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Settings;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Lockdown.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Service.Operations;
+using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Service.UnitTests.Operations
 {
@@ -58,6 +58,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 			settings.Service.DisableChromeNotifications = true;
 			settings.Service.DisableEaseOfAccessOptions = true;
 			settings.Service.DisableSignout = true;
+			settings.Service.SetVmwareConfiguration = true;
 
 			var result = sut.Perform();
 
@@ -73,6 +74,28 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 		}
 
 		[TestMethod]
+		public void Perform_MustOnlySetVmwareConfigurationIfEnabled()
+		{
+			var configuration = new Mock<IFeatureConfiguration>();
+
+			configuration.SetReturnsDefault(true);
+			factory.SetReturnsDefault(configuration.Object);
+			settings.Service.SetVmwareConfiguration = true;
+
+			sut.Perform();
+
+			factory.Verify(f => f.CreateVmwareOverlayConfiguration(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+
+			factory.Reset();
+			factory.SetReturnsDefault(configuration.Object);
+			settings.Service.SetVmwareConfiguration = false;
+
+			sut.Perform();
+
+			factory.Verify(f => f.CreateVmwareOverlayConfiguration(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+		}
+
+		[TestMethod]
 		public void Perform_MustUseSameGroupForAllConfigurations()
 		{
 			var configuration = new Mock<IFeatureConfiguration>();
@@ -84,6 +107,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 				.Returns(configuration.Object)
 				.Callback<Guid, string, string>((id, name, sid) => groupId = id);
 			factory.SetReturnsDefault(configuration.Object);
+			settings.Service.SetVmwareConfiguration = true;
 
 			sut.Perform();
 

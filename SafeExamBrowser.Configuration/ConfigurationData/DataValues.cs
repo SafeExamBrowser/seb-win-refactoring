@@ -185,6 +185,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Service.DisableVmwareOverlay = true;
 			settings.Service.DisableWindowsUpdate = true;
 			settings.Service.Policy = ServicePolicy.Mandatory;
+			settings.Service.SetVmwareConfiguration = false;
 
 			settings.Taskbar.EnableTaskbar = true;
 			settings.Taskbar.ShowApplicationInfo = false;

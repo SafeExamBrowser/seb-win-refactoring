@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -435,6 +435,7 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.checkBoxSetVmwareConfiguration = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -888,6 +889,7 @@ namespace SebWindowsConfig
 			// 
 			// groupBoxInsideSeb
 			// 
+			this.groupBoxInsideSeb.Controls.Add(this.checkBoxSetVmwareConfiguration);
 			this.groupBoxInsideSeb.Controls.Add(this.checkBoxInsideSebEnableNetworkConnectionSelector);
 			this.groupBoxInsideSeb.Controls.Add(this.checkBoxInsideSebEnableSwitchUser);
 			this.groupBoxInsideSeb.Controls.Add(this.checkBoxInsideSebEnableLockThisComputer);
@@ -902,7 +904,7 @@ namespace SebWindowsConfig
 			this.groupBoxInsideSeb.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.groupBoxInsideSeb.Name = "groupBoxInsideSeb";
 			this.groupBoxInsideSeb.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
-			this.groupBoxInsideSeb.Size = new System.Drawing.Size(305, 229);
+			this.groupBoxInsideSeb.Size = new System.Drawing.Size(305, 245);
 			this.groupBoxInsideSeb.TabIndex = 25;
 			this.groupBoxInsideSeb.TabStop = false;
 			this.groupBoxInsideSeb.Text = "While running SEB";
@@ -911,7 +913,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxInsideSebEnableNetworkConnectionSelector.AutoSize = true;
 			this.checkBoxInsideSebEnableNetworkConnectionSelector.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxInsideSebEnableNetworkConnectionSelector.Location = new System.Drawing.Point(16, 195);
+			this.checkBoxInsideSebEnableNetworkConnectionSelector.Location = new System.Drawing.Point(16, 213);
 			this.checkBoxInsideSebEnableNetworkConnectionSelector.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxInsideSebEnableNetworkConnectionSelector.Name = "checkBoxInsideSebEnableNetworkConnectionSelector";
 			this.checkBoxInsideSebEnableNetworkConnectionSelector.Size = new System.Drawing.Size(196, 17);
@@ -1010,7 +1012,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxInsideSebEnableEaseOfAccess.AutoSize = true;
 			this.checkBoxInsideSebEnableEaseOfAccess.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxInsideSebEnableEaseOfAccess.Location = new System.Drawing.Point(16, 174);
+			this.checkBoxInsideSebEnableEaseOfAccess.Location = new System.Drawing.Point(16, 194);
 			this.checkBoxInsideSebEnableEaseOfAccess.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxInsideSebEnableEaseOfAccess.Name = "checkBoxInsideSebEnableEaseOfAccess";
 			this.checkBoxInsideSebEnableEaseOfAccess.Size = new System.Drawing.Size(136, 17);
@@ -1026,7 +1028,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxInsideSebEnableVmWareClientShade.AutoSize = true;
 			this.checkBoxInsideSebEnableVmWareClientShade.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxInsideSebEnableVmWareClientShade.Location = new System.Drawing.Point(16, 154);
+			this.checkBoxInsideSebEnableVmWareClientShade.Location = new System.Drawing.Point(35, 175);
 			this.checkBoxInsideSebEnableVmWareClientShade.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxInsideSebEnableVmWareClientShade.Name = "checkBoxInsideSebEnableVmWareClientShade";
 			this.checkBoxInsideSebEnableVmWareClientShade.Size = new System.Drawing.Size(164, 17);
@@ -1754,8 +1756,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle3;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -4261,8 +4263,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle4;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -5659,6 +5661,20 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
+			// checkBoxSetVmwareConfiguration
+			// 
+			this.checkBoxSetVmwareConfiguration.AutoSize = true;
+			this.checkBoxSetVmwareConfiguration.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBoxSetVmwareConfiguration.Location = new System.Drawing.Point(16, 154);
+			this.checkBoxSetVmwareConfiguration.Name = "checkBoxSetVmwareConfiguration";
+			this.checkBoxSetVmwareConfiguration.Size = new System.Drawing.Size(148, 17);
+			this.checkBoxSetVmwareConfiguration.TabIndex = 77;
+			this.checkBoxSetVmwareConfiguration.Text = "Set VMware configuration";
+			this.toolTip1.SetToolTip(this.checkBoxSetVmwareConfiguration, "Determines whether the configuration value for VMware Client Shade will be set by" +
+        " SEB.");
+			this.checkBoxSetVmwareConfiguration.UseVisualStyleBackColor = true;
+			this.checkBoxSetVmwareConfiguration.CheckedChanged += new System.EventHandler(this.checkBoxSetVmwareConfiguration_CheckedChanged);
+			// 
 			// SebWindowsConfigForm
 			// 
 			this.AllowDrop = true;
@@ -6185,6 +6201,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.CheckBox checkBoxAllowChromeNotifications;
 		private System.Windows.Forms.CheckBox checkBoxAllowDeveloperConsole;
 		private System.Windows.Forms.CheckBox checkBoxAllowPdfReaderToolbar;
+		private System.Windows.Forms.CheckBox checkBoxSetVmwareConfiguration;
 	}
 }
 

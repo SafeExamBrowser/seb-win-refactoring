@@ -228,8 +228,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string EnableTaskManager = "insideSebEnableStartTaskManager";
 			internal const string EnableUserLock = "insideSebEnableLockThisComputer";
 			internal const string EnableUserSwitch = "insideSebEnableSwitchUser";
-			internal const string EnableVmWareOverlay = "insideSebEnableVmWareClientShade";
+			internal const string EnableVmwareOverlay = "insideSebEnableVmWareClientShade";
 			internal const string EnableWindowsUpdate = "enableWindowsUpdate";
+			internal const string SetVmwareConfiguration = "setVmwareConfiguration";
 		}
 
 		internal static class UserInterface

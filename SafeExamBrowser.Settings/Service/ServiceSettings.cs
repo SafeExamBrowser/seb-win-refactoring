@@ -77,5 +77,10 @@ namespace SafeExamBrowser.Settings.Service
 		/// The active policy for the service component.
 		/// </summary>
 		public ServicePolicy Policy { get; set; }
+
+		/// <summary>
+		/// Determines whether the VMware configuration will be set by the service.
+		/// </summary>
+		public bool SetVmwareConfiguration { get; set; }
 	}
 }

@@ -386,6 +386,7 @@ namespace SebWindowsConfig
 		public const String KeyInsideSebEnableEaseOfAccess      = "insideSebEnableEaseOfAccess";
 		public const String KeyInsideSebEnableVmWareClientShade = "insideSebEnableVmWareClientShade";
 		public const String KeyInsideSebEnableNetworkConnectionSelector = "insideSebEnableNetworkConnectionSelector";
+		public const String KeySetVmwareConfiguration = "setVmwareConfiguration";
 
 		// Group "Hooked Keys"
 		public const String KeyHookKeys = "hookKeys";
@@ -929,6 +930,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyInsideSebEnableEaseOfAccess     , false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyInsideSebEnableVmWareClientShade, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyInsideSebEnableNetworkConnectionSelector, false);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeySetVmwareConfiguration, false);
 
 			// Default settings for group "Hooked Keys"
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyHookKeys, true);
