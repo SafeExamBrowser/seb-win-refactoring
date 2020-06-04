@@ -15,7 +15,7 @@ namespace SafeExamBrowser.SystemComponents
 {
 	public class VirtualMachineDetector : IVirtualMachineDetector
 	{
-		private static readonly string[] PCI_VENDOR_BLACKLIST = { "vbox", "80ee", "qemu", "1af4", "1b36" }; //Virtualbox: VBOX, 80EE   RedHat: QUEMU, 1AF4, 1B36
+		private static readonly string[] PCI_VENDOR_BLACKLIST = { "vbox", "vid_80ee", "qemu", "ven_1af4", "ven_1b36", "subsys_11001af4" }; //Virtualbox: VBOX, 80EE   RedHat: QUEMU, 1AF4, 1B36
 
 		private ILogger logger;
 		private ISystemInfo systemInfo;
