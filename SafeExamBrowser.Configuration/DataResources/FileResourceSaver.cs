@@ -41,7 +41,7 @@ namespace SafeExamBrowser.Configuration.DataResources
 
 		public SaveStatus TrySave(Uri destination, Stream data)
 		{
-			var directory = Path.GetDirectoryName(destination.AbsolutePath);
+			var directory = Path.GetDirectoryName(destination.LocalPath);
 
 			logger.Debug($"Attempting to save '{data}' with {data.Length / 1000.0} KB data as '{destination}'...");
 
@@ -51,7 +51,7 @@ namespace SafeExamBrowser.Configuration.DataResources
 				Directory.CreateDirectory(directory);
 			}
 
-			using (var fileStream = new FileStream(destination.AbsolutePath, FileMode.Create))
+			using (var fileStream = new FileStream(destination.LocalPath, FileMode.Create))
 			{
 				data.Seek(0, SeekOrigin.Begin);
 				data.CopyTo(fileStream);
