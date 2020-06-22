@@ -281,16 +281,19 @@ namespace SafeExamBrowser.Browser
 
 		private void DisplayHandler_FaviconChanged(string uri)
 		{
-			var request = new HttpRequestMessage(HttpMethod.Head, uri);
-			var response = httpClient.SendAsync(request).ContinueWith(task =>
+			Task.Run(() =>
 			{
-				if (task.IsCompleted && task.Result.IsSuccessStatusCode)
+				var request = new HttpRequestMessage(HttpMethod.Head, uri);
+				var response = httpClient.SendAsync(request).ContinueWith(task =>
 				{
-					Icon = new BrowserIconResource(uri);
+					if (task.IsCompleted && task.Result.IsSuccessStatusCode)
+					{
+						Icon = new BrowserIconResource(uri);
 
-					IconChanged?.Invoke(Icon);
-					window.UpdateIcon(Icon);
-				}
+						IconChanged?.Invoke(Icon);
+						window.UpdateIcon(Icon);
+					}
+				});
 			});
 		}
 
