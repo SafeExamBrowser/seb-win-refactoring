@@ -74,7 +74,12 @@ namespace SafeExamBrowser.Settings.Service
 		public bool DisableWindowsUpdate { get; set; }
 
 		/// <summary>
-		/// The active policy for the service component.
+		/// Determines whether the service will be completely ignored, i.e. no actions will be performed by the service component.
+		/// </summary>
+		public bool IgnoreService { get; set; }
+
+		/// <summary>
+		/// The active policy for the service component. Has no effect if <see cref="IgnoreService"/> is set to <c>true</c>.
 		/// </summary>
 		public ServicePolicy Policy { get; set; }
 

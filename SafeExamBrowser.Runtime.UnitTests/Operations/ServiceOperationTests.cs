@@ -76,6 +76,23 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
+		public void Perform_MustNotConnectToServiceWithIgnoreSet()
+		{
+			service.Setup(s => s.Connect(null, true)).Returns(true);
+			context.Next.Settings.Service.IgnoreService = true;
+			context.Next.Settings.Service.Policy = ServicePolicy.Mandatory;
+
+			sut.Perform();
+
+			service.Setup(s => s.Connect(null, true)).Returns(true);
+			context.Next.Settings.Service.Policy = ServicePolicy.Optional;
+
+			sut.Perform();
+
+			service.Verify(s => s.Connect(null, true), Times.Never);
+		}
+
+		[TestMethod]
 		public void Perform_MustStartSessionIfConnected()
 		{
 			context.Next.SessionId = Guid.NewGuid();
@@ -266,6 +283,52 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			service.Verify(s => s.Connect(It.IsAny<Guid?>(), It.IsAny<bool>()), Times.Once);
 			service.Verify(s => s.StopSession(It.IsAny<Guid>()), Times.Never);
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Repeat_MustNotEstablishConnectionWithIgnoreSet()
+		{
+			PerformNormally();
+
+			context.Next.Settings.Service.IgnoreService = true;
+			context.Next.Settings.Service.Policy = ServicePolicy.Mandatory;
+
+			service.Reset();
+			service.SetupGet(s => s.IsConnected).Returns(false);
+			service.Setup(s => s.Connect(null, true)).Returns(true).Callback(() => service.SetupGet(s => s.IsConnected).Returns(true));
+			service.Setup(s => s.StartSession(It.IsAny<ServiceConfiguration>())).Returns(new CommunicationResult(true)).Callback(() => serviceEvent.Set());
+
+			var result = sut.Repeat();
+
+			service.Verify(s => s.Connect(It.IsAny<Guid?>(), It.IsAny<bool>()), Times.Never);
+			service.Verify(s => s.StartSession(It.IsAny<ServiceConfiguration>()), Times.Never);
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Repeat_MustStopSessionAndCloseConnectionWithIgnoreSet()
+		{
+			var connected = true;
+
+			PerformNormally();
+
+			context.Next.Settings.Service.IgnoreService = true;
+			context.Next.Settings.Service.Policy = ServicePolicy.Mandatory;
+
+			service.Reset();
+			service.SetupGet(s => s.IsConnected).Returns(() => connected);
+			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true)).Callback(() => serviceEvent.Set());
+			service.Setup(s => s.Disconnect()).Returns(true).Callback(() => connected = false);
+
+			var result = sut.Repeat();
+
+			service.Verify(s => s.Connect(It.IsAny<Guid?>(), It.IsAny<bool>()), Times.Never);
+			service.Verify(s => s.StartSession(It.IsAny<ServiceConfiguration>()), Times.Never);
+			service.Verify(s => s.StopSession(It.IsAny<Guid>()), Times.Once);
+			service.Verify(s => s.Disconnect(), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}

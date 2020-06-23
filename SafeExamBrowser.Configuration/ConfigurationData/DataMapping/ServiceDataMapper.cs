@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Service;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 {
@@ -51,6 +52,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Service.EnableWindowsUpdate:
 					MapEnableWindowsUpdate(settings, value);
+					break;
+				case Keys.Service.IgnoreService:
+					MapIgnoreService(settings, value);
+					break;
+				case Keys.Service.Policy:
+					MapPolicy(settings, value);
 					break;
 				case Keys.Service.SetVmwareConfiguration:
 					MapSetVmwareConfiguration(settings, value);
@@ -151,6 +158,25 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool enable)
 			{
 				settings.Service.DisableWindowsUpdate = !enable;
+			}
+		}
+
+		private void MapIgnoreService(AppSettings settings, object value)
+		{
+			if (value is bool ignore)
+			{
+				settings.Service.IgnoreService = ignore;
+			}
+		}
+
+		private void MapPolicy(AppSettings settings, object value)
+		{
+			const int WARN = 1;
+			const int FORCE = 2;
+
+			if (value is int policy)
+			{
+				settings.Service.Policy = policy == FORCE ? ServicePolicy.Mandatory : (policy == WARN ? ServicePolicy.Warn : ServicePolicy.Optional);
 			}
 		}
 

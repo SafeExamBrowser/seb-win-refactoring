@@ -9,7 +9,6 @@
 using System.Collections.Generic;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Security;
-using SafeExamBrowser.Settings.Service;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 {
@@ -30,9 +29,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Security.QuitPasswordHash:
 					MapQuitPasswordHash(settings, value);
-					break;
-				case Keys.Security.ServicePolicy:
-					MapServicePolicy(settings, value);
 					break;
 			}
 		}
@@ -105,17 +101,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string hash)
 			{
 				settings.Security.QuitPasswordHash = hash;
-			}
-		}
-
-		private void MapServicePolicy(AppSettings settings, object value)
-		{
-			const int WARN = 1;
-			const int FORCE = 2;
-
-			if (value is int policy)
-			{
-				settings.Service.Policy = policy == FORCE ? ServicePolicy.Mandatory : (policy == WARN ? ServicePolicy.Warn : ServicePolicy.Optional);
 			}
 		}
 

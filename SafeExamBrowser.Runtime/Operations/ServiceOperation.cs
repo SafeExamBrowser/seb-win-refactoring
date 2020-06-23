@@ -56,7 +56,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			logger.Info($"Initializing service...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeServiceSession);
 
-			var success = TryInitializeConnection();
+			var success = IgnoreService() || TryInitializeConnection();
 
 			if (success && service.IsConnected)
 			{
@@ -73,13 +73,21 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			var success = true;
 
-			if (service.IsConnected && sessionId.HasValue)
+			if (service.IsConnected)
 			{
-				success = TryStopSession();
+				if (sessionId.HasValue)
+				{
+					success = TryStopSession();
+				}
+
+				if (success && IgnoreService())
+				{
+					success = TryTerminateConnection();
+				}
 			}
-			else if (!service.IsConnected)
+			else
 			{
-				success = TryInitializeConnection();
+				success = IgnoreService() || TryInitializeConnection();
 			}
 
 			if (success && service.IsConnected)
@@ -101,13 +109,25 @@ namespace SafeExamBrowser.Runtime.Operations
 			{
 				if (sessionId.HasValue)
 				{
-					success &= TryStopSession(true);
+					success = TryStopSession(true);
 				}
 
 				success &= TryTerminateConnection();
 			}
 
 			return success ? OperationResult.Success : OperationResult.Failed;
+		}
+
+		private bool IgnoreService()
+		{
+			if (Context.Next.Settings.Service.IgnoreService)
+			{
+				logger.Info("The service will be ignored for the next session.");
+
+				return true;
+			}
+
+			return false;
 		}
 
 		private bool TryInitializeConnection()

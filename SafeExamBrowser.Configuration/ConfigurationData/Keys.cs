@@ -213,7 +213,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string KioskModeCreateNewDesktop = "createNewDesktop";
 			internal const string KioskModeDisableExplorerShell = "killExplorerShell";
 			internal const string QuitPasswordHash = "hashedQuitPassword";
-			internal const string ServicePolicy = "sebServicePolicy";
 		}
 
 		internal static class Service
@@ -230,6 +229,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string EnableUserSwitch = "insideSebEnableSwitchUser";
 			internal const string EnableVmwareOverlay = "insideSebEnableVmWareClientShade";
 			internal const string EnableWindowsUpdate = "enableWindowsUpdate";
+			internal const string IgnoreService = "sebServiceIgnore";
+			internal const string Policy = "sebServicePolicy";
 			internal const string SetVmwareConfiguration = "setVmwareConfiguration";
 		}
 

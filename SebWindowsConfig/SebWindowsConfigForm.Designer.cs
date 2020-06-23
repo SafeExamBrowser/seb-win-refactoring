@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -63,6 +63,7 @@ namespace SebWindowsConfig
 			this.tabPageRegistry = new System.Windows.Forms.TabPage();
 			this.label1 = new System.Windows.Forms.Label();
 			this.groupBoxInsideSeb = new System.Windows.Forms.GroupBox();
+			this.checkBoxSetVmwareConfiguration = new System.Windows.Forms.CheckBox();
 			this.checkBoxInsideSebEnableNetworkConnectionSelector = new System.Windows.Forms.CheckBox();
 			this.checkBoxInsideSebEnableSwitchUser = new System.Windows.Forms.CheckBox();
 			this.checkBoxInsideSebEnableLockThisComputer = new System.Windows.Forms.CheckBox();
@@ -435,7 +436,9 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.checkBoxSetVmwareConfiguration = new System.Windows.Forms.CheckBox();
+			this.checkBoxSebServiceIgnore = new System.Windows.Forms.CheckBox();
+			this.labelSebServiceIgnore = new System.Windows.Forms.Label();
+			this.groupBoxSebService = new System.Windows.Forms.GroupBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -489,6 +492,7 @@ namespace SebWindowsConfig
 			this.groupBoxExitSequence.SuspendLayout();
 			this.tabControlSebWindowsConfig.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
+			this.groupBoxSebService.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// openFileDialogSebConfigFile
@@ -909,6 +913,20 @@ namespace SebWindowsConfig
 			this.groupBoxInsideSeb.TabStop = false;
 			this.groupBoxInsideSeb.Text = "While running SEB";
 			// 
+			// checkBoxSetVmwareConfiguration
+			// 
+			this.checkBoxSetVmwareConfiguration.AutoSize = true;
+			this.checkBoxSetVmwareConfiguration.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBoxSetVmwareConfiguration.Location = new System.Drawing.Point(16, 154);
+			this.checkBoxSetVmwareConfiguration.Name = "checkBoxSetVmwareConfiguration";
+			this.checkBoxSetVmwareConfiguration.Size = new System.Drawing.Size(148, 17);
+			this.checkBoxSetVmwareConfiguration.TabIndex = 77;
+			this.checkBoxSetVmwareConfiguration.Text = "Set VMware configuration";
+			this.toolTip1.SetToolTip(this.checkBoxSetVmwareConfiguration, "Determines whether the configuration value for VMware Client Shade will be set by" +
+        " SEB.");
+			this.checkBoxSetVmwareConfiguration.UseVisualStyleBackColor = true;
+			this.checkBoxSetVmwareConfiguration.CheckedChanged += new System.EventHandler(this.checkBoxSetVmwareConfiguration_CheckedChanged);
+			// 
 			// checkBoxInsideSebEnableNetworkConnectionSelector
 			// 
 			this.checkBoxInsideSebEnableNetworkConnectionSelector.AutoSize = true;
@@ -1041,18 +1059,14 @@ namespace SebWindowsConfig
 			// 
 			// tabPageSecurity
 			// 
-			this.tabPageSecurity.Controls.Add(this.checkBoxAllowWindowsUpdate);
-			this.tabPageSecurity.Controls.Add(this.checkBoxAllowChromeNotifications);
+			this.tabPageSecurity.Controls.Add(this.groupBoxSebService);
 			this.tabPageSecurity.Controls.Add(this.checkBoxShowLogButton);
 			this.tabPageSecurity.Controls.Add(this.checkBoxAllowLogAccess);
 			this.tabPageSecurity.Controls.Add(this.checkBoxEnablePrivateClipboard);
-			this.tabPageSecurity.Controls.Add(this.checkBoxAllowScreenSharing);
 			this.tabPageSecurity.Controls.Add(this.groupBox1);
 			this.tabPageSecurity.Controls.Add(this.groupBox10);
 			this.tabPageSecurity.Controls.Add(this.checkBoxEnableScreenCapture);
 			this.tabPageSecurity.Controls.Add(this.groupBox3);
-			this.tabPageSecurity.Controls.Add(this.labelSebServicePolicy);
-			this.tabPageSecurity.Controls.Add(this.listBoxSebServicePolicy);
 			this.tabPageSecurity.Controls.Add(this.checkBoxAllowVirtualMachine);
 			this.tabPageSecurity.ImageIndex = 8;
 			this.tabPageSecurity.Location = new System.Drawing.Point(4, 39);
@@ -1067,29 +1081,29 @@ namespace SebWindowsConfig
 			// checkBoxAllowWindowsUpdate
 			// 
 			this.checkBoxAllowWindowsUpdate.AutoSize = true;
-			this.checkBoxAllowWindowsUpdate.Location = new System.Drawing.Point(23, 190);
+			this.checkBoxAllowWindowsUpdate.Location = new System.Drawing.Point(14, 165);
 			this.checkBoxAllowWindowsUpdate.Name = "checkBoxAllowWindowsUpdate";
-			this.checkBoxAllowWindowsUpdate.Size = new System.Drawing.Size(293, 17);
+			this.checkBoxAllowWindowsUpdate.Size = new System.Drawing.Size(265, 17);
 			this.checkBoxAllowWindowsUpdate.TabIndex = 103;
-			this.checkBoxAllowWindowsUpdate.Text = "Allow Windows Update to run while SEB is running (Win)";
+			this.checkBoxAllowWindowsUpdate.Text = "Allow Windows Update to run while SEB is running";
 			this.checkBoxAllowWindowsUpdate.UseVisualStyleBackColor = true;
 			this.checkBoxAllowWindowsUpdate.CheckedChanged += new System.EventHandler(this.checkBoxAllowWindowsUpdate_CheckedChanged);
 			// 
 			// checkBoxAllowChromeNotifications
 			// 
 			this.checkBoxAllowChromeNotifications.AutoSize = true;
-			this.checkBoxAllowChromeNotifications.Location = new System.Drawing.Point(23, 169);
+			this.checkBoxAllowChromeNotifications.Location = new System.Drawing.Point(14, 184);
 			this.checkBoxAllowChromeNotifications.Name = "checkBoxAllowChromeNotifications";
-			this.checkBoxAllowChromeNotifications.Size = new System.Drawing.Size(245, 17);
+			this.checkBoxAllowChromeNotifications.Size = new System.Drawing.Size(217, 17);
 			this.checkBoxAllowChromeNotifications.TabIndex = 102;
-			this.checkBoxAllowChromeNotifications.Text = "Allow notifications from Chrome browsers (Win)";
+			this.checkBoxAllowChromeNotifications.Text = "Allow notifications from Chrome browsers";
 			this.checkBoxAllowChromeNotifications.UseVisualStyleBackColor = true;
 			this.checkBoxAllowChromeNotifications.CheckedChanged += new System.EventHandler(this.checkBoxAllowChromeNotifications_CheckedChanged);
 			// 
 			// checkBoxShowLogButton
 			// 
 			this.checkBoxShowLogButton.AutoSize = true;
-			this.checkBoxShowLogButton.Location = new System.Drawing.Point(53, 232);
+			this.checkBoxShowLogButton.Location = new System.Drawing.Point(358, 337);
 			this.checkBoxShowLogButton.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxShowLogButton.Name = "checkBoxShowLogButton";
 			this.checkBoxShowLogButton.Size = new System.Drawing.Size(180, 17);
@@ -1101,7 +1115,7 @@ namespace SebWindowsConfig
 			// checkBoxAllowLogAccess
 			// 
 			this.checkBoxAllowLogAccess.AutoSize = true;
-			this.checkBoxAllowLogAccess.Location = new System.Drawing.Point(23, 212);
+			this.checkBoxAllowLogAccess.Location = new System.Drawing.Point(328, 317);
 			this.checkBoxAllowLogAccess.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxAllowLogAccess.Name = "checkBoxAllowLogAccess";
 			this.checkBoxAllowLogAccess.Size = new System.Drawing.Size(199, 17);
@@ -1114,7 +1128,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnablePrivateClipboard.AutoSize = true;
 			this.checkBoxEnablePrivateClipboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnablePrivateClipboard.Location = new System.Drawing.Point(343, 148);
+			this.checkBoxEnablePrivateClipboard.Location = new System.Drawing.Point(328, 278);
 			this.checkBoxEnablePrivateClipboard.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxEnablePrivateClipboard.Name = "checkBoxEnablePrivateClipboard";
 			this.checkBoxEnablePrivateClipboard.Size = new System.Drawing.Size(156, 17);
@@ -1129,7 +1143,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowScreenSharing.AutoSize = true;
 			this.checkBoxAllowScreenSharing.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowScreenSharing.Location = new System.Drawing.Point(23, 148);
+			this.checkBoxAllowScreenSharing.Location = new System.Drawing.Point(305, 165);
 			this.checkBoxAllowScreenSharing.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxAllowScreenSharing.Name = "checkBoxAllowScreenSharing";
 			this.checkBoxAllowScreenSharing.Size = new System.Drawing.Size(198, 17);
@@ -1424,7 +1438,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnableScreenCapture.AutoSize = true;
 			this.checkBoxEnableScreenCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableScreenCapture.Location = new System.Drawing.Point(343, 129);
+			this.checkBoxEnableScreenCapture.Location = new System.Drawing.Point(328, 259);
 			this.checkBoxEnableScreenCapture.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxEnableScreenCapture.Name = "checkBoxEnableScreenCapture";
 			this.checkBoxEnableScreenCapture.Size = new System.Drawing.Size(191, 17);
@@ -1440,7 +1454,7 @@ namespace SebWindowsConfig
 			this.groupBox3.Controls.Add(this.radioNoKiosMode);
 			this.groupBox3.Controls.Add(this.radioCreateNewDesktop);
 			this.groupBox3.Controls.Add(this.radioKillExplorerShell);
-			this.groupBox3.Location = new System.Drawing.Point(343, 27);
+			this.groupBox3.Location = new System.Drawing.Point(23, 259);
 			this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
@@ -1498,20 +1512,20 @@ namespace SebWindowsConfig
 			// labelSebServicePolicy
 			// 
 			this.labelSebServicePolicy.AutoSize = true;
-			this.labelSebServicePolicy.Location = new System.Drawing.Point(21, 27);
+			this.labelSebServicePolicy.Location = new System.Drawing.Point(11, 97);
 			this.labelSebServicePolicy.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.labelSebServicePolicy.Name = "labelSebServicePolicy";
-			this.labelSebServicePolicy.Size = new System.Drawing.Size(97, 13);
+			this.labelSebServicePolicy.Size = new System.Drawing.Size(101, 13);
 			this.labelSebServicePolicy.TabIndex = 75;
-			this.labelSebServicePolicy.Text = "SEB Service policy";
+			this.labelSebServicePolicy.Text = "SEB Service Policy:";
 			// 
 			// listBoxSebServicePolicy
 			// 
 			this.listBoxSebServicePolicy.FormattingEnabled = true;
-			this.listBoxSebServicePolicy.Location = new System.Drawing.Point(23, 51);
+			this.listBoxSebServicePolicy.Location = new System.Drawing.Point(14, 113);
 			this.listBoxSebServicePolicy.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.listBoxSebServicePolicy.Name = "listBoxSebServicePolicy";
-			this.listBoxSebServicePolicy.Size = new System.Drawing.Size(282, 43);
+			this.listBoxSebServicePolicy.Size = new System.Drawing.Size(512, 43);
 			this.listBoxSebServicePolicy.TabIndex = 0;
 			this.toolTip1.SetToolTip(this.listBoxSebServicePolicy, "Policy that applies when an exam client doesn\'t have the SEB Service running.");
 			this.listBoxSebServicePolicy.SelectedIndexChanged += new System.EventHandler(this.listBoxSebServicePolicy_SelectedIndexChanged);
@@ -1520,7 +1534,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowVirtualMachine.AutoSize = true;
 			this.checkBoxAllowVirtualMachine.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowVirtualMachine.Location = new System.Drawing.Point(23, 129);
+			this.checkBoxAllowVirtualMachine.Location = new System.Drawing.Point(328, 297);
 			this.checkBoxAllowVirtualMachine.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxAllowVirtualMachine.Name = "checkBoxAllowVirtualMachine";
 			this.checkBoxAllowVirtualMachine.Size = new System.Drawing.Size(185, 17);
@@ -1756,8 +1770,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle17.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle17;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -4263,8 +4277,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle18;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -5661,19 +5675,42 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// checkBoxSetVmwareConfiguration
+			// checkBoxSebServiceIgnore
 			// 
-			this.checkBoxSetVmwareConfiguration.AutoSize = true;
-			this.checkBoxSetVmwareConfiguration.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxSetVmwareConfiguration.Location = new System.Drawing.Point(16, 154);
-			this.checkBoxSetVmwareConfiguration.Name = "checkBoxSetVmwareConfiguration";
-			this.checkBoxSetVmwareConfiguration.Size = new System.Drawing.Size(148, 17);
-			this.checkBoxSetVmwareConfiguration.TabIndex = 77;
-			this.checkBoxSetVmwareConfiguration.Text = "Set VMware configuration";
-			this.toolTip1.SetToolTip(this.checkBoxSetVmwareConfiguration, "Determines whether the configuration value for VMware Client Shade will be set by" +
-        " SEB.");
-			this.checkBoxSetVmwareConfiguration.UseVisualStyleBackColor = true;
-			this.checkBoxSetVmwareConfiguration.CheckedChanged += new System.EventHandler(this.checkBoxSetVmwareConfiguration_CheckedChanged);
+			this.checkBoxSebServiceIgnore.AutoSize = true;
+			this.checkBoxSebServiceIgnore.Location = new System.Drawing.Point(14, 21);
+			this.checkBoxSebServiceIgnore.Name = "checkBoxSebServiceIgnore";
+			this.checkBoxSebServiceIgnore.Size = new System.Drawing.Size(119, 17);
+			this.checkBoxSebServiceIgnore.TabIndex = 104;
+			this.checkBoxSebServiceIgnore.Text = "Ignore SEB Service";
+			this.checkBoxSebServiceIgnore.UseVisualStyleBackColor = true;
+			this.checkBoxSebServiceIgnore.CheckedChanged += new System.EventHandler(this.checkBoxSebServiceIgnore_CheckedChanged);
+			// 
+			// labelSebServiceIgnore
+			// 
+			this.labelSebServiceIgnore.BackColor = System.Drawing.SystemColors.Window;
+			this.labelSebServiceIgnore.ForeColor = System.Drawing.Color.Red;
+			this.labelSebServiceIgnore.Location = new System.Drawing.Point(12, 46);
+			this.labelSebServiceIgnore.Name = "labelSebServiceIgnore";
+			this.labelSebServiceIgnore.Size = new System.Drawing.Size(514, 42);
+			this.labelSebServiceIgnore.TabIndex = 105;
+			this.labelSebServiceIgnore.Text = resources.GetString("labelSebServiceIgnore.Text");
+			// 
+			// groupBoxSebService
+			// 
+			this.groupBoxSebService.Controls.Add(this.checkBoxSebServiceIgnore);
+			this.groupBoxSebService.Controls.Add(this.checkBoxAllowChromeNotifications);
+			this.groupBoxSebService.Controls.Add(this.checkBoxAllowWindowsUpdate);
+			this.groupBoxSebService.Controls.Add(this.labelSebServiceIgnore);
+			this.groupBoxSebService.Controls.Add(this.listBoxSebServicePolicy);
+			this.groupBoxSebService.Controls.Add(this.labelSebServicePolicy);
+			this.groupBoxSebService.Controls.Add(this.checkBoxAllowScreenSharing);
+			this.groupBoxSebService.Location = new System.Drawing.Point(23, 27);
+			this.groupBoxSebService.Name = "groupBoxSebService";
+			this.groupBoxSebService.Size = new System.Drawing.Size(540, 212);
+			this.groupBoxSebService.TabIndex = 106;
+			this.groupBoxSebService.TabStop = false;
+			this.groupBoxSebService.Text = "SEB Service (Win)";
 			// 
 			// SebWindowsConfigForm
 			// 
@@ -5790,6 +5827,8 @@ namespace SebWindowsConfig
 			this.tabControlSebWindowsConfig.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.groupBoxSebService.ResumeLayout(false);
+			this.groupBoxSebService.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -6202,6 +6241,9 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.CheckBox checkBoxAllowDeveloperConsole;
 		private System.Windows.Forms.CheckBox checkBoxAllowPdfReaderToolbar;
 		private System.Windows.Forms.CheckBox checkBoxSetVmwareConfiguration;
+		private System.Windows.Forms.CheckBox checkBoxSebServiceIgnore;
+		private System.Windows.Forms.Label labelSebServiceIgnore;
+		private System.Windows.Forms.GroupBox groupBoxSebService;
 	}
 }
 

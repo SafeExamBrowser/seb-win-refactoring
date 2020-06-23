@@ -345,6 +345,7 @@ namespace SebWindowsConfig
 
 		// Tab "Security"
 		public const String KeySebServicePolicy    = "sebServicePolicy";
+		public const String KeySebServiceIgnore = "sebServiceIgnore";
 		public const String KeyAllowVirtualMachine = "allowVirtualMachine";
 		public const String KeyAllowScreenSharing = "allowScreenSharing";
 		public const String KeyEnablePrivateClipboard = "enablePrivateClipboard";
@@ -887,6 +888,7 @@ namespace SebWindowsConfig
 
 			// Default settings for group "Security"
 			SEBSettings.settingsDefault.Add(SEBSettings.KeySebServicePolicy   , 1);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeySebServiceIgnore, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowVirtualMachine, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowScreenSharing, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnablePrivateClipboard, true);
