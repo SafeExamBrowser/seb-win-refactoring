@@ -74,6 +74,14 @@ namespace SafeExamBrowser.Browser
 			this.requestHandler = requestHandler;
 		}
 
+		public void Destroy()
+		{
+			if (!IsDisposed)
+			{
+				Dispose(true);
+			}
+		}
+
 		public void Initialize()
 		{
 			AddressChanged += (o, args) => addressChanged?.Invoke(args.Address);

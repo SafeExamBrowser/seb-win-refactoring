@@ -52,6 +52,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		event TitleChangedEventHandler TitleChanged;
 
 		/// <summary>
+		/// Finalizes the browser control (e.g. stops audio / video playback) and releases all used resources.
+		/// </summary>
+		void Destroy();
+
+		/// <summary>
 		/// Initializes the browser control.
 		/// </summary>
 		void Initialize();

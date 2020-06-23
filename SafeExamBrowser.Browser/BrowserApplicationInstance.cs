@@ -109,6 +109,7 @@ namespace SafeExamBrowser.Browser
 
 		internal void Terminate()
 		{
+			control.Destroy();
 			window.Close();
 		}
 
@@ -459,6 +460,7 @@ namespace SafeExamBrowser.Browser
 		private void Window_Closing()
 		{
 			logger.Info($"Instance has terminated.");
+			control.Destroy();
 			Terminated?.Invoke(Id);
 		}
 
