@@ -25,6 +25,7 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Monitoring.Contracts.Display;
+using SafeExamBrowser.Monitoring.Contracts.System;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
@@ -49,8 +50,10 @@ namespace SafeExamBrowser.Client
 		private IMessageBox messageBox;
 		private IOperationSequence operations;
 		private IRuntimeProxy runtime;
+		private bool sessionLocked;
 		private Action shutdown;
 		private ISplashScreen splashScreen;
+		private ISystemMonitor systemMonitor;
 		private ITaskbar taskbar;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
@@ -73,6 +76,7 @@ namespace SafeExamBrowser.Client
 			IRuntimeProxy runtime,
 			Action shutdown,
 			ISplashScreen splashScreen,
+			ISystemMonitor systemMonitor,
 			ITaskbar taskbar,
 			IText text,
 			IUserInterfaceFactory uiFactory)
@@ -90,6 +94,7 @@ namespace SafeExamBrowser.Client
 			this.runtime = runtime;
 			this.shutdown = shutdown;
 			this.splashScreen = splashScreen;
+			this.systemMonitor = systemMonitor;
 			this.taskbar = taskbar;
 			this.text = text;
 			this.uiFactory = uiFactory;
@@ -184,6 +189,7 @@ namespace SafeExamBrowser.Client
 			ClientHost.Shutdown += ClientHost_Shutdown;
 			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
 			runtime.ConnectionLost += Runtime_ConnectionLost;
+			systemMonitor.SessionSwitched += SystemMonitor_SessionSwitched;
 			taskbar.QuitButtonClicked += Shell_QuitButtonClicked;
 
 			foreach (var activator in context.Activators.OfType<ITerminationActivator>())
@@ -199,6 +205,7 @@ namespace SafeExamBrowser.Client
 			applicationMonitor.TerminationFailed -= ApplicationMonitor_TerminationFailed;
 			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
 			runtime.ConnectionLost -= Runtime_ConnectionLost;
+			systemMonitor.SessionSwitched -= SystemMonitor_SessionSwitched;
 			taskbar.QuitButtonClicked -= Shell_QuitButtonClicked;
 
 			if (Browser != null)
@@ -280,48 +287,14 @@ namespace SafeExamBrowser.Client
 		private void ApplicationMonitor_TerminationFailed(IEnumerable<RunningApplication> applications)
 		{
 			var applicationList = string.Join(Environment.NewLine, applications.Select(a => $"- {a.Name}"));
-			var message = $"{text.Get(TextKey.LockScreen_Message)}{Environment.NewLine}{Environment.NewLine}{applicationList}";
+			var message = $"{text.Get(TextKey.LockScreen_ApplicationsMessage)}{Environment.NewLine}{Environment.NewLine}{applicationList}";
 			var title = text.Get(TextKey.LockScreen_Title);
-			var hasQuitPassword = !string.IsNullOrEmpty(Settings.Security.QuitPasswordHash);
-			var allowOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_AllowOption) };
-			var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_TerminateOption) };
-			var lockScreen = uiFactory.CreateLockScreen(message, title, new [] { allowOption, terminateOption });
-			var result = default(LockScreenResult);
+			var allowOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_ApplicationsAllowOption) };
+			var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_ApplicationsTerminateOption) };
 
-			logger.Warn("Showing lock screen due to failed termination of blacklisted application(s)!");
-			PauseActivators();
-			lockScreen.Show();
+			logger.Warn("Detected termination failure of blacklisted application(s)!");
 
-			for (var unlocked = false; !unlocked;)
-			{
-				result = lockScreen.WaitForResult();
-
-				if (hasQuitPassword)
-				{
-					var passwordHash = hashAlgorithm.GenerateHashFor(result.Password);
-					var isCorrect = Settings.Security.QuitPasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase);
-
-					if (isCorrect)
-					{
-						logger.Info("The user entered the correct unlock password.");
-						unlocked = true;
-					}
-					else
-					{
-						logger.Info("The user entered the wrong unlock password.");
-						messageBox.Show(TextKey.MessageBox_InvalidUnlockPassword, TextKey.MessageBox_InvalidUnlockPasswordTitle, icon: MessageBoxIcon.Warning, parent: lockScreen);
-					}
-				}
-				else
-				{
-					logger.Warn($"No unlock password is defined, allowing user to resume session!");
-					unlocked = true;
-				}
-			}
-
-			lockScreen.Close();
-			ResumeActivators();
-			logger.Info("Closed lock screen.");
+			var result = ShowLockScreen(message, title, new[] { allowOption, terminateOption });
 
 			if (result.OptionId == allowOption.Id)
 			{
@@ -524,6 +497,35 @@ namespace SafeExamBrowser.Client
 			ResumeActivators();
 		}
 
+		private void SystemMonitor_SessionSwitched()
+		{
+			var message = text.Get(TextKey.LockScreen_UserSessionMessage);
+			var title = text.Get(TextKey.LockScreen_Title);
+			var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionContinueOption) };
+			var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionTerminateOption) };
+
+			logger.Warn("Detected user session switch!");
+
+			if (!sessionLocked)
+			{
+				sessionLocked = true;
+
+				var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
+
+				if (result.OptionId == terminateOption.Id)
+				{
+					logger.Info("Attempting to shutdown as requested by the user...");
+					TryRequestShutdown();
+				}
+
+				sessionLocked = false;
+			}
+			else
+			{
+				logger.Info("Lock screen is already active.");
+			}
+		}
+
 		private void TerminationActivator_Activated()
 		{
 			PauseActivators();
@@ -597,6 +599,50 @@ namespace SafeExamBrowser.Client
 			{
 				activator.Resume();
 			}
+		}
+
+		private LockScreenResult ShowLockScreen(string message, string title, IEnumerable<LockScreenOption> options)
+		{
+			var hasQuitPassword = !string.IsNullOrEmpty(Settings.Security.QuitPasswordHash);
+			var lockScreen = uiFactory.CreateLockScreen(message, title, options);
+			var result = default(LockScreenResult);
+
+			logger.Info("Showing lock screen...");
+			PauseActivators();
+			lockScreen.Show();
+
+			for (var unlocked = false; !unlocked;)
+			{
+				result = lockScreen.WaitForResult();
+
+				if (hasQuitPassword)
+				{
+					var passwordHash = hashAlgorithm.GenerateHashFor(result.Password);
+					var isCorrect = Settings.Security.QuitPasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase);
+
+					if (isCorrect)
+					{
+						logger.Info("The user entered the correct unlock password.");
+						unlocked = true;
+					}
+					else
+					{
+						logger.Info("The user entered the wrong unlock password.");
+						messageBox.Show(TextKey.MessageBox_InvalidUnlockPassword, TextKey.MessageBox_InvalidUnlockPasswordTitle, icon: MessageBoxIcon.Warning, parent: lockScreen);
+					}
+				}
+				else
+				{
+					logger.Warn($"No unlock password is defined, allowing user to resume session!");
+					unlocked = true;
+				}
+			}
+
+			lockScreen.Close();
+			ResumeActivators();
+			logger.Info("Closed lock screen.");
+
+			return result;
 		}
 
 		private bool TryInitiateShutdown()

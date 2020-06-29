@@ -30,6 +30,7 @@ using SafeExamBrowser.Monitoring.Applications;
 using SafeExamBrowser.Monitoring.Display;
 using SafeExamBrowser.Monitoring.Keyboard;
 using SafeExamBrowser.Monitoring.Mouse;
+using SafeExamBrowser.Monitoring.System;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.SystemComponents;
@@ -100,6 +101,7 @@ namespace SafeExamBrowser.Client
 			var fileSystemDialog = BuildFileSystemDialog();
 			var hashAlgorithm = new HashAlgorithm();
 			var splashScreen = uiFactory.CreateSplashScreen();
+			var systemMonitor = new SystemMonitor(ModuleLogger(nameof(SystemMonitor)));
 
 			var operations = new Queue<IOperation>();
 
@@ -113,6 +115,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new LazyInitializationOperation(BuildMouseInterceptorOperation));
 			operations.Enqueue(new ApplicationOperation(context, applicationFactory, applicationMonitor, logger, text));
 			operations.Enqueue(new DisplayMonitorOperation(context, displayMonitor, logger, taskbar));
+			operations.Enqueue(new SystemMonitorOperation(context, systemMonitor, logger));
 			operations.Enqueue(new LazyInitializationOperation(BuildShellOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildBrowserOperation));
 			operations.Enqueue(new ClipboardOperation(context, logger, nativeMethods));
@@ -133,6 +136,7 @@ namespace SafeExamBrowser.Client
 				runtimeProxy,
 				shutdown,
 				splashScreen,
+				systemMonitor,
 				taskbar,
 				text,
 				uiFactory);

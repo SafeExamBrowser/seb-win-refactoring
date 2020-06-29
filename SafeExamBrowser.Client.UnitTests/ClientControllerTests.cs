@@ -27,6 +27,7 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Monitoring.Contracts.Display;
+using SafeExamBrowser.Monitoring.Contracts.System;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
@@ -59,6 +60,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		private AppSettings settings;
 		private Mock<Action> shutdown;
 		private Mock<ISplashScreen> splashScreen;
+		private Mock<ISystemMonitor> systemMonitor;
 		private Mock<ITaskbar> taskbar;
 		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
@@ -86,6 +88,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			settings = new AppSettings();
 			shutdown = new Mock<Action>();
 			splashScreen = new Mock<ISplashScreen>();
+			systemMonitor = new Mock<ISystemMonitor>();
 			taskbar = new Mock<ITaskbar>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
@@ -108,6 +111,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				runtimeProxy.Object,
 				shutdown.Object,
 				splashScreen.Object,
+				systemMonitor.Object,
 				taskbar.Object,
 				text.Object,
 				uiFactory.Object);

@@ -90,13 +90,13 @@
     <Entry key="FolderDialog_ApplicationLocation">
         Applikation "%%NAME%%" konnte nicht gefunden werden auf dem System! Bitte geben Sie an, wo die ausführbare Datei "%%EXECUTABLE%%" liegt.
     </Entry>
-    <Entry key="LockScreen_AllowOption">
+    <Entry key="LockScreen_ApplicationsAllowOption">
         Verbotene Applikationen temporär erlauben. Dies gilt nur für die momentan laufenden Instanzen der aktuellen Sitzung!
     </Entry>
-    <Entry key="LockScreen_Message">
+    <Entry key="LockScreen_ApplicationsMessage">
         Die unten aufgelisteten, verbotenen Applikationen wurden gestartet und konnten nicht automatisch beendet werden! Bitte wählen Sie eine der verfügbaren Optionen aus und geben Sie das korrekte Passwort ein, um SEB zu entsperren.
     </Entry>
-    <Entry key="LockScreen_TerminateOption">
+    <Entry key="LockScreen_ApplicationsTerminateOption">
         Safe Exam Browser beenden. WARNUNG: Sie werden keine Möglichkeit haben, Daten zu speichern oder weitere Aktionen auszuführen, SEB wird sofort beendet!
     </Entry>
     <Entry key="LockScreen_Title">
@@ -104,6 +104,15 @@
     </Entry>
     <Entry key="LockScreen_UnlockButton">
         Entsperren
+    </Entry>
+    <Entry key="LockScreen_UserSessionContinueOption">
+        Safe Exam Browser entsperren.
+    </Entry>
+    <Entry key="LockScreen_UserSessionMessage">
+        Der aktive Benutzer hat sich geändert oder der Computer wurde gesperrt! Bitte wählen Sie eine der verfügbaren Optionen aus und geben Sie das korrekte Passwort ein, um SEB zu entsperren.
+    </Entry>
+    <Entry key="LockScreen_UserSessionTerminateOption">
+        Safe Exam Browser beenden. WARNUNG: Sie werden keine Möglichkeit haben, Daten zu speichern oder weitere Aktionen auszuführen, SEB wird sofort beendet!
     </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Immer zuoberst
@@ -309,6 +318,9 @@
     <Entry key="OperationStatus_FinalizeServiceSession">
         Beende Service-Sitzung
     </Entry>
+    <Entry key="OperationStatus_FinalizeSystemEvents">
+        Finalisiere System-Ereignisse
+    </Entry>
     <Entry key="OperationStatus_InitializeApplications">
         Initialisiere Applikationen
     </Entry>
@@ -332,6 +344,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeShell">
         Initialisiere Benutzeroberfläche
+    </Entry>
+    <Entry key="OperationStatus_InitializeSystemEvents">
+        Initialisiere System-Ereignisse
     </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         Initialisiere Arbeitsbereich

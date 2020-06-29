@@ -90,13 +90,13 @@
     <Entry key="FolderDialog_ApplicationLocation">
         Application "%%NAME%%" could not be found on the system! Please locate the folder containing the main executable "%%EXECUTABLE%%".
     </Entry>
-    <Entry key="LockScreen_AllowOption">
+    <Entry key="LockScreen_ApplicationsAllowOption">
         Temporarily allow the blacklisted applications. This applies only to the currently running instances and session!
     </Entry>
-    <Entry key="LockScreen_Message">
+    <Entry key="LockScreen_ApplicationsMessage">
         The blacklisted applications listed below were started and could not be automatically terminated! In order to unlock SEB, please select one of the available options and enter the correct unlock password.
     </Entry>
-    <Entry key="LockScreen_TerminateOption">
+    <Entry key="LockScreen_ApplicationsTerminateOption">
         Terminate Safe Exam Browser. WARNING: There will be no possibility to save data or perform any further actions, the shutdown will be initiated immediately!
     </Entry>
     <Entry key="LockScreen_Title">
@@ -104,6 +104,15 @@
     </Entry>
     <Entry key="LockScreen_UnlockButton">
         Unlock
+    </Entry>
+    <Entry key="LockScreen_UserSessionContinueOption">
+        Unlock Safe Exam Browser.
+    </Entry>
+    <Entry key="LockScreen_UserSessionMessage">
+        The active user has changed or the computer has been locked! In order to unlock SEB, please select one of the available options and enter the correct unlock password.
+    </Entry>
+    <Entry key="LockScreen_UserSessionTerminateOption">
+        Terminate Safe Exam Browser. WARNING: There will be no possibility to save data or perform any further actions, the shutdown will be initiated immediately!
     </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Always on top
@@ -309,6 +318,9 @@
     <Entry key="OperationStatus_FinalizeServiceSession">
         Finalizing service session
     </Entry>
+    <Entry key="OperationStatus_FinalizeSystemEvents">
+        Finalizing system events
+    </Entry>
     <Entry key="OperationStatus_InitializeApplications">
         Initializing applications
     </Entry>
@@ -332,6 +344,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeShell">
         Initializing user interface
+    </Entry>
+    <Entry key="OperationStatus_InitializeSystemEvents">
+        Initializing system events
     </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         Initializing working area

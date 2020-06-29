@@ -95,6 +95,7 @@
     <Compile Include="Operations\MouseInterceptorOperation.cs" />
     <Compile Include="Operations\ApplicationOperation.cs" />
     <Compile Include="Operations\ShellOperation.cs" />
+    <Compile Include="Operations\SystemMonitorOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
