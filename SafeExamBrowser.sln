@@ -104,6 +104,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Browser.Uni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Applications", "SafeExamBrowser.Applications\SafeExamBrowser.Applications.csproj", "{A113E68F-1209-4689-981A-15C554B2DF4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Server", "SafeExamBrowser.Server\SafeExamBrowser.Server.csproj", "{46EDBDE0-58B4-4725-9783-0C55C3D49C0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Server.Contracts", "SafeExamBrowser.Server.Contracts\SafeExamBrowser.Server.Contracts.csproj", "{DB701E6F-BDDC-4CEC-B662-335A9DC11809}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -447,6 +451,22 @@ Global
 		{A113E68F-1209-4689-981A-15C554B2DF4E}.Release|x64.Build.0 = Release|x64
 		{A113E68F-1209-4689-981A-15C554B2DF4E}.Release|x86.ActiveCfg = Release|x86
 		{A113E68F-1209-4689-981A-15C554B2DF4E}.Release|x86.Build.0 = Release|x86
+		{46EDBDE0-58B4-4725-9783-0C55C3D49C0C}.Debug|x64.ActiveCfg = Debug|x64
+		{46EDBDE0-58B4-4725-9783-0C55C3D49C0C}.Debug|x64.Build.0 = Debug|x64
+		{46EDBDE0-58B4-4725-9783-0C55C3D49C0C}.Debug|x86.ActiveCfg = Debug|x86
+		{46EDBDE0-58B4-4725-9783-0C55C3D49C0C}.Debug|x86.Build.0 = Debug|x86
+		{46EDBDE0-58B4-4725-9783-0C55C3D49C0C}.Release|x64.ActiveCfg = Release|x64
+		{46EDBDE0-58B4-4725-9783-0C55C3D49C0C}.Release|x64.Build.0 = Release|x64
+		{46EDBDE0-58B4-4725-9783-0C55C3D49C0C}.Release|x86.ActiveCfg = Release|x86
+		{46EDBDE0-58B4-4725-9783-0C55C3D49C0C}.Release|x86.Build.0 = Release|x86
+		{DB701E6F-BDDC-4CEC-B662-335A9DC11809}.Debug|x64.ActiveCfg = Debug|x64
+		{DB701E6F-BDDC-4CEC-B662-335A9DC11809}.Debug|x64.Build.0 = Debug|x64
+		{DB701E6F-BDDC-4CEC-B662-335A9DC11809}.Debug|x86.ActiveCfg = Debug|x86
+		{DB701E6F-BDDC-4CEC-B662-335A9DC11809}.Debug|x86.Build.0 = Debug|x86
+		{DB701E6F-BDDC-4CEC-B662-335A9DC11809}.Release|x64.ActiveCfg = Release|x64
+		{DB701E6F-BDDC-4CEC-B662-335A9DC11809}.Release|x64.Build.0 = Release|x64
+		{DB701E6F-BDDC-4CEC-B662-335A9DC11809}.Release|x86.ActiveCfg = Release|x86
+		{DB701E6F-BDDC-4CEC-B662-335A9DC11809}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
