@@ -64,6 +64,7 @@
     <Compile Include="ConfigurationData\DataMapping\BaseDataMapper.cs" />
     <Compile Include="ConfigurationData\DataMapping\InputDataMapper.cs" />
     <Compile Include="ConfigurationData\DataMapping\SecurityDataMapper.cs" />
+    <Compile Include="ConfigurationData\DataMapping\ServerDataMapper.cs" />
     <Compile Include="ConfigurationData\DataMapping\ServiceDataMapper.cs" />
     <Compile Include="ConfigurationData\DataMapping\UserInterfaceDataMapper.cs" />
     <Compile Include="ConfigurationData\DataProcessor.cs" />

@@ -19,6 +19,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.ConfigurationFile.ConfigurationPurpose:
 					MapConfigurationMode(settings, value);
 					break;
+				case Keys.ConfigurationFile.SessionMode:
+					MapSessionMode(settings, value);
+					break;
 			}
 		}
 
@@ -29,6 +32,16 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is int mode)
 			{
 				settings.ConfigurationMode = mode == CONFIGURE_CLIENT ? ConfigurationMode.ConfigureClient : ConfigurationMode.Exam;
+			}
+		}
+
+		private void MapSessionMode(AppSettings settings, object value)
+		{
+			const int SERVER = 1;
+
+			if (value is int mode)
+			{
+				settings.SessionMode = mode == SERVER ? SessionMode.Server : SessionMode.Normal;
 			}
 		}
 	}

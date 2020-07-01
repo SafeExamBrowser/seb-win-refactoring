@@ -70,6 +70,7 @@
     <Compile Include="Browser\Proxy\ProxyProtocol.cs" />
     <Compile Include="Browser\Proxy\ProxyConfiguration.cs" />
     <Compile Include="ConfigurationMode.cs" />
+    <Compile Include="SessionMode.cs" />
     <Compile Include="Security\KioskMode.cs" />
     <Compile Include="Logging\LogLevel.cs" />
     <Compile Include="Monitoring\KeyboardSettings.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\SecuritySettings.cs" />
     <Compile Include="Security\VirtualMachinePolicy.cs" />
+    <Compile Include="Server\ServerSettings.cs" />
     <Compile Include="Service\ServicePolicy.cs" />
     <Compile Include="Service\ServiceSettings.cs" />
     <Compile Include="AppSettings.cs" />

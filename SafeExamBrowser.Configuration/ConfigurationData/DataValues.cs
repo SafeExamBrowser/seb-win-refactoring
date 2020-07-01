@@ -172,6 +172,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Security.KioskMode = KioskMode.CreateNewDesktop;
 			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Deny;
 
+			settings.Server.RequestAttemptInterval = 2000;
+			settings.Server.RequestAttempts = 5;
+			settings.Server.RequestTimeout = 5000;
+			settings.Server.PerformFallback = false;
+
 			settings.Service.DisableChromeNotifications = true;
 			settings.Service.DisableEaseOfAccessOptions = true;
 			settings.Service.DisableNetworkOptions = true;
@@ -187,6 +192,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Service.IgnoreService = true;
 			settings.Service.Policy = ServicePolicy.Mandatory;
 			settings.Service.SetVmwareConfiguration = false;
+
+			settings.SessionMode = SessionMode.Normal;
 
 			settings.Taskbar.EnableTaskbar = true;
 			settings.Taskbar.ShowApplicationInfo = false;

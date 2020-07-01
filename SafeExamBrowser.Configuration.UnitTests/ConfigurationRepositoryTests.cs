@@ -331,7 +331,7 @@ namespace SafeExamBrowser.Configuration.UnitTests
 		}
 
 		/// <summary>
-		/// Hack required for unit tests to be able to retrieve the <see cref="Assembly.GetEntryAssembly"/> while executing.
+		/// Required for unit tests to be able to retrieve the <see cref="Assembly.GetEntryAssembly"/> while executing.
 		/// </summary>
 		public void SetEntryAssembly()
 		{

@@ -156,9 +156,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class ConfigurationFile
 		{
-			internal const string AdminPasswordHash = "hashedAdminPassword";
 			internal const string ConfigurationPurpose = "sebConfigPurpose";
 			internal const string KeepClientConfigEncryption = "clientConfigKeepEncryption";
+			internal const string SessionMode = "sebMode";
 		}
 
 		internal static class General
@@ -207,12 +207,28 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class Security
 		{
+			internal const string AdminPasswordHash = "hashedAdminPassword";
 			internal const string AllowApplicationLog = "allowApplicationLog";
 			internal const string AllowTermination = "allowQuit";
 			internal const string AllowVirtualMachine = "allowVirtualMachine";
 			internal const string KioskModeCreateNewDesktop = "createNewDesktop";
 			internal const string KioskModeDisableExplorerShell = "killExplorerShell";
 			internal const string QuitPasswordHash = "hashedQuitPassword";
+		}
+
+		internal static class Server
+		{
+			internal const string ApiUrl = "apiDiscovery";
+			internal const string ClientName = "clientName";
+			internal const string ClientSecret = "clientSecret";
+			internal const string Configuration = "sebServerConfiguration";
+			internal const string FallbackPasswordHash = "sebServerFallbackPasswordHash";
+			internal const string Institution = "institution";
+			internal const string PerformFallback = "sebServerFallback";
+			internal const string RequestAttempts = "sebServerFallbackAttempts";
+			internal const string RequestAttemptInterval = "sebServerFallbackAttemptInterval";
+			internal const string RequestTimeout = "sebServerFallbackTimeout";
+			internal const string ServerUrl = "sebServerURL";
 		}
 
 		internal static class Service

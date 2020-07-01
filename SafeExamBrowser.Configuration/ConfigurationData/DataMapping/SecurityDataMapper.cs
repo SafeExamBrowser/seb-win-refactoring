@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			switch (key)
 			{
-				case Keys.ConfigurationFile.AdminPasswordHash:
+				case Keys.Security.AdminPasswordHash:
 					MapAdminPasswordHash(settings, value);
 					break;
 				case Keys.Security.AllowTermination:
