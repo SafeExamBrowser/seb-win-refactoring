@@ -42,7 +42,7 @@ namespace SafeExamBrowser.SystemComponents
 
 			if (macAddress != null && macAddress.Count() > 2)
 			{
-				isVirtualMachine |= ((byte.Parse(macAddress[1].ToString(), NumberStyles.HexNumber) & 2) == 2 || macAddress.StartsWith("080027"));
+				isVirtualMachine |= (macAddress.StartsWith("525400") || macAddress.StartsWith("080027"));
 			}
 
 			foreach (var device in plugAndPlayDeviceIds)
