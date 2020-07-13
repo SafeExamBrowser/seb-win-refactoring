@@ -16,6 +16,8 @@ namespace SafeExamBrowser.SystemComponents
 	public class VirtualMachineDetector : IVirtualMachineDetector
 	{
 		private static readonly string[] PCI_VENDOR_BLACKLIST = { "vbox", "vid_80ee", "qemu", "ven_1af4", "ven_1b36", "subsys_11001af4" }; //Virtualbox: VBOX, 80EE   RedHat: QUEMU, 1AF4, 1B36
+		private static readonly string VIRTUALBOX_MAC_PREFIX = "080027";
+		private static readonly string QEMU_MAC_PREFIX = "525400";
 
 		private ILogger logger;
 		private ISystemInfo systemInfo;
@@ -42,7 +44,7 @@ namespace SafeExamBrowser.SystemComponents
 
 			if (macAddress != null && macAddress.Count() > 2)
 			{
-				isVirtualMachine |= (macAddress.StartsWith("525400") || macAddress.StartsWith("080027"));
+				isVirtualMachine |= (macAddress.StartsWith(QEMU_MAC_PREFIX) || macAddress.StartsWith(VIRTUALBOX_MAC_PREFIX));
 			}
 
 			foreach (var device in plugAndPlayDeviceIds)
