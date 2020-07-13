@@ -21,16 +21,11 @@ using SafeExamBrowser.SystemComponents.Contracts;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
-	internal class ConfigurationOperation : SessionOperation
+	internal class ConfigurationOperation : ConfigurationBaseOperation
 	{
-		private string[] commandLineArgs;
-		private IConfigurationRepository configuration;
 		private IFileSystem fileSystem;
 		private IHashAlgorithm hashAlgorithm;
 		private ILogger logger;
-
-		private string AppDataFilePath => Context.Next.AppConfig.AppDataFilePath;
-		private string ProgramDataFilePath => Context.Next.AppConfig.ProgramDataFilePath;
 
 		public override event ActionRequiredEventHandler ActionRequired;
 		public override event StatusChangedEventHandler StatusChanged;
@@ -41,10 +36,8 @@ namespace SafeExamBrowser.Runtime.Operations
 			IFileSystem fileSystem,
 			IHashAlgorithm hashAlgorithm,
 			ILogger logger,
-			SessionContext sessionContext) : base(sessionContext)
+			SessionContext sessionContext) : base(commandLineArgs, configuration, sessionContext)
 		{
-			this.commandLineArgs = commandLineArgs;
-			this.configuration = configuration;
 			this.fileSystem = fileSystem;
 			this.hashAlgorithm = hashAlgorithm;
 			this.logger = logger;
@@ -97,6 +90,11 @@ namespace SafeExamBrowser.Runtime.Operations
 		public override OperationResult Revert()
 		{
 			return OperationResult.Success;
+		}
+
+		protected override void InvokeActionRequired(ActionRequiredEventArgs args)
+		{
+			ActionRequired?.Invoke(args);
 		}
 
 		private OperationResult LoadDefaultSettings()
@@ -232,42 +230,6 @@ namespace SafeExamBrowser.Runtime.Operations
 			return result;
 		}
 
-		private LoadStatus? TryLoadSettings(Uri uri, UriSource source, out PasswordParameters passwordParams, out AppSettings settings, string currentPassword = default(string))
-		{
-			passwordParams = new PasswordParameters { Password = string.Empty, IsHash = true };
-
-			var status = configuration.TryLoadSettings(uri, out settings, passwordParams);
-
-			if (status == LoadStatus.PasswordNeeded && currentPassword != default(string))
-			{
-				passwordParams.Password = currentPassword;
-				passwordParams.IsHash = true;
-
-				status = configuration.TryLoadSettings(uri, out settings, passwordParams);
-			}
-
-			for (int attempts = 0; attempts < 5 && status == LoadStatus.PasswordNeeded; attempts++)
-			{
-				var isLocalConfig = source == UriSource.AppData || source == UriSource.ProgramData;
-				var purpose = isLocalConfig ? PasswordRequestPurpose.LocalSettings : PasswordRequestPurpose.Settings;
-				var success = TryGetPassword(purpose, out var password);
-
-				if (success)
-				{
-					passwordParams.Password = password;
-					passwordParams.IsHash = false;
-				}
-				else
-				{
-					return null;
-				}
-
-				status = configuration.TryLoadSettings(uri, out settings, passwordParams);
-			}
-
-			return status;
-		}
-
 		private bool? TryConfigureClient(Uri uri, PasswordParameters passwordParams, string currentPassword = default(string))
 		{
 			var mustAuthenticate = IsRequiredToAuthenticateForClientConfiguration(passwordParams, currentPassword);
@@ -395,16 +357,6 @@ namespace SafeExamBrowser.Runtime.Operations
 			}
 		}
 
-		private bool TryGetPassword(PasswordRequestPurpose purpose, out string password)
-		{
-			var args = new PasswordRequiredEventArgs { Purpose = purpose };
-
-			ActionRequired?.Invoke(args);
-			password = args.Password;
-
-			return args.Success;
-		}
-
 		private bool TryInitializeSettingsUri(out Uri uri, out UriSource source)
 		{
 			var isValidUri = false;
@@ -460,15 +412,6 @@ namespace SafeExamBrowser.Runtime.Operations
 					logger.Info("The configuration was successful.");
 					break;
 			}
-		}
-
-		private enum UriSource
-		{
-			Undefined,
-			AppData,
-			CommandLine,
-			ProgramData,
-			Reconfiguration
 		}
 	}
 }

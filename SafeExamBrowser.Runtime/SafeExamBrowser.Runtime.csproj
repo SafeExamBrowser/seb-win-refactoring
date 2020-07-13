@@ -90,16 +90,20 @@
     <Compile Include="App.cs" />
     <Compile Include="Operations\ClientOperation.cs" />
     <Compile Include="Operations\ClientTerminationOperation.cs" />
+    <Compile Include="Operations\ConfigurationBaseOperation.cs" />
     <Compile Include="Operations\ConfigurationOperation.cs" />
     <Compile Include="Operations\Events\ClientConfigurationErrorMessageArgs.cs" />
     <Compile Include="Operations\Events\ConfigurationCompletedEventArgs.cs" />
+    <Compile Include="Operations\Events\ExamSelectionEventArgs.cs" />
     <Compile Include="Operations\Events\InvalidDataMessageArgs.cs" />
     <Compile Include="Operations\Events\InvalidPasswordMessageArgs.cs" />
     <Compile Include="Operations\Events\MessageEventArgs.cs" />
     <Compile Include="Operations\Events\NotSupportedMessageArgs.cs" />
     <Compile Include="Operations\Events\PasswordRequiredEventArgs.cs" />
+    <Compile Include="Operations\Events\ServerFailureEventArgs.cs" />
     <Compile Include="Operations\Events\UnexpectedErrorMessageArgs.cs" />
     <Compile Include="Operations\KioskModeOperation.cs" />
+    <Compile Include="Operations\ServerOperation.cs" />
     <Compile Include="Operations\ServiceOperation.cs" />
     <Compile Include="Operations\SessionActivationOperation.cs" />
     <Compile Include="Operations\SessionOperation.cs" />
@@ -176,6 +180,14 @@
     <ProjectReference Include="..\SafeExamBrowser.Logging\SafeExamBrowser.Logging.csproj">
       <Project>{e107026c-2011-4552-a7d8-3a0d37881df6}</Project>
       <Name>SafeExamBrowser.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Server.Contracts\SafeExamBrowser.Server.Contracts.csproj">
+      <Project>{db701e6f-bddc-4cec-b662-335a9dc11809}</Project>
+      <Name>SafeExamBrowser.Server.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Server\SafeExamBrowser.Server.csproj">
+      <Project>{46edbde0-58b4-4725-9783-0c55c3d49c0c}</Project>
+      <Name>SafeExamBrowser.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Settings\SafeExamBrowser.Settings.csproj">
       <Project>{30b2d907-5861-4f39-abad-c4abf1b3470e}</Project>

@@ -26,6 +26,7 @@ using SafeExamBrowser.Logging;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Communication;
 using SafeExamBrowser.Runtime.Operations;
+using SafeExamBrowser.Server;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.SystemComponents;
 using SafeExamBrowser.SystemComponents.Contracts;
@@ -66,6 +67,7 @@ namespace SafeExamBrowser.Runtime
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), ModuleLogger(nameof(ProxyFactory)));
 			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, new HostObjectFactory(), ModuleLogger(nameof(RuntimeHost)), FIVE_SECONDS);
 			var runtimeWindow = uiFactory.CreateRuntimeWindow(appConfig);
+			var server = new ServerProxy();
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)), Interlocutor.Runtime);
 			var sessionContext = new SessionContext();
 			var splashScreen = uiFactory.CreateSplashScreen(appConfig);
@@ -80,7 +82,7 @@ namespace SafeExamBrowser.Runtime
 
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, logger, runtimeHost, sessionContext));
 			sessionOperations.Enqueue(new ConfigurationOperation(args, configuration, new FileSystem(), new HashAlgorithm(), logger, sessionContext));
-			// TODO: sessionOperations.Enqueue(new ServerOperation());
+			sessionOperations.Enqueue(new ServerOperation(args, configuration, logger, sessionContext, server));
 			sessionOperations.Enqueue(new VirtualMachineOperation(vmDetector, logger, sessionContext));
 			sessionOperations.Enqueue(new ServiceOperation(logger, runtimeHost, serviceProxy, sessionContext, THIRTY_SECONDS, userInfo));
 			sessionOperations.Enqueue(new ClientTerminationOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, THIRTY_SECONDS));
@@ -108,7 +110,7 @@ namespace SafeExamBrowser.Runtime
 		}
 
 		internal void LogStartupInformation()
-		{
+		{ 
 			logger.Log($"/* {appConfig.ProgramTitle}, Version {appConfig.ProgramInformationalVersion}, Build {appConfig.ProgramBuildVersion}");
 			logger.Log($"/* {appConfig.ProgramCopyright}");
 			logger.Log($"/* ");

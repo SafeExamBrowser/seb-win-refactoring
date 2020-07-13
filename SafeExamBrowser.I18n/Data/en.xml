@@ -315,6 +315,9 @@
     <Entry key="OperationStatus_FinalizeApplications">
         Finalizing applications
     </Entry>
+    <Entry key="OperationStatus_FinalizeServer">
+        Finalizing SEB-Server
+    </Entry>
     <Entry key="OperationStatus_FinalizeServiceSession">
         Finalizing service session
     </Entry>
@@ -335,6 +338,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeRuntimeConnection">
         Initializing runtime connection
+    </Entry>
+    <Entry key="OperationStatus_InitializeServer">
+        Initializing SEB-Server
     </Entry>
     <Entry key="OperationStatus_InitializeServiceSession">
         Initializing service session

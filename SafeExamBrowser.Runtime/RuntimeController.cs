@@ -384,13 +384,29 @@ namespace SafeExamBrowser.Runtime
 				case ConfigurationCompletedEventArgs a:
 					AskIfConfigurationSufficient(a);
 					break;
+				case ExamSelectionEventArgs a:
+					AskForExamSelection(a);
+					break;
 				case MessageEventArgs m:
 					ShowMessageBox(m);
 					break;
 				case PasswordRequiredEventArgs p:
 					AskForPassword(p);
 					break;
+				case ServerFailureEventArgs a:
+					AskForServerFailureAction(a);
+					break;
 			}
+		}
+
+		private void AskForExamSelection(ExamSelectionEventArgs a)
+		{
+			// TODO: Also implement mechanism to retrieve selection via client!!
+		}
+
+		private void AskForServerFailureAction(ServerFailureEventArgs a)
+		{
+			// TODO: Also implement mechanism to retrieve selection via client!!
 		}
 
 		private void AskIfConfigurationSufficient(ConfigurationCompletedEventArgs args)
