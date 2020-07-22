@@ -86,9 +86,11 @@
     <Compile Include="Shell\ITaskviewActivator.cs" />
     <Compile Include="Shell\ITerminationActivator.cs" />
     <Compile Include="Shell\Location.cs" />
+    <Compile Include="Windows\Data\ExamSelectionDialogResult.cs" />
     <Compile Include="Windows\Data\LockScreenOption.cs" />
     <Compile Include="Windows\Data\LockScreenResult.cs" />
     <Compile Include="Windows\Events\WindowClosingEventHandler.cs" />
+    <Compile Include="Windows\IExamSelectionDialog.cs" />
     <Compile Include="Windows\ILockScreen.cs" />
     <Compile Include="Windows\IPasswordDialog.cs" />
     <Compile Include="Windows\Data\PasswordDialogResult.cs" />
@@ -116,6 +118,10 @@
     <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
       <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
       <Name>SafeExamBrowser.Logging.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Server.Contracts\SafeExamBrowser.Server.Contracts.csproj">
+      <Project>{db701e6f-bddc-4cec-b662-335a9dc11809}</Project>
+      <Name>SafeExamBrowser.Server.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Settings\SafeExamBrowser.Settings.csproj">
       <Project>{30b2d907-5861-4f39-abad-c4abf1b3470e}</Project>

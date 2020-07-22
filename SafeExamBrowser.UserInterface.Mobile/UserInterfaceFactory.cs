@@ -16,6 +16,7 @@ using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
@@ -79,6 +80,12 @@ namespace SafeExamBrowser.UserInterface.Mobile
 		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow)
 		{
 			return Application.Current.Dispatcher.Invoke(() => new BrowserWindow(control, settings, isMainWindow, text));
+		}
+
+		public IExamSelectionDialog CreateExamSelectionDialog(string message, string title, IEnumerable<Exam> exams)
+		{
+			// TODO
+			throw new System.NotImplementedException();
 		}
 
 		public ISystemControl CreateKeyboardLayoutControl(IKeyboard keyboard, Location location)

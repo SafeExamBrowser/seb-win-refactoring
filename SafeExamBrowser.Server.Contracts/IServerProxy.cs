@@ -13,14 +13,15 @@ using SafeExamBrowser.Settings.Server;
 namespace SafeExamBrowser.Server.Contracts
 {
 	/// <summary>
-	/// 
+	/// Defines the communication options with a server.
 	/// </summary>
 	public interface IServerProxy
 	{
 		/// <summary>
-		/// 
+		/// TODO: Return API as well or re-load in proxy instance of client?
+		/// Attempts to initialize a connection to the server. If successful, returns a OAuth2 token as response value.
 		/// </summary>
-		ServerResponse Connect(ServerSettings settings);
+		ServerResponse<string> Connect();
 
 		/// <summary>
 		/// 
@@ -36,6 +37,11 @@ namespace SafeExamBrowser.Server.Contracts
 		/// 
 		/// </summary>
 		ServerResponse<Uri> GetConfigurationFor(Exam exam);
+
+		/// <summary>
+		/// Initializes the server settings to be used for communication.
+		/// </summary>
+		void Initialize(ServerSettings settings);
 
 		/// <summary>
 		/// 

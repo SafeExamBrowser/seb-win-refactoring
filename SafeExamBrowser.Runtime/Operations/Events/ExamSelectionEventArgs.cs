@@ -16,6 +16,7 @@ namespace SafeExamBrowser.Runtime.Operations.Events
 	{
 		internal IEnumerable<Exam> Exams { get; set; }
 		internal Exam SelectedExam { get; set; }
+		internal bool Success { get; set; }
 
 		internal ExamSelectionEventArgs(IEnumerable<Exam> exams)
 		{

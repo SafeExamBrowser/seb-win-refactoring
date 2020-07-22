@@ -23,6 +23,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			new GeneralDataMapper(),
 			new InputDataMapper(),
 			new SecurityDataMapper(),
+			new ServerDataMapper(),
 			new ServiceDataMapper(),
 			new UserInterfaceDataMapper()
 		};

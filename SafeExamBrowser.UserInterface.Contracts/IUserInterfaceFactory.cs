@@ -12,6 +12,7 @@ using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
@@ -53,6 +54,11 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// Creates a new browser window loaded with the given browser control and settings.
 		/// </summary>
 		IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow);
+
+		/// <summary>
+		/// Creates an exam selection dialog for the given exams.
+		/// </summary>
+		IExamSelectionDialog CreateExamSelectionDialog(string message, string title, IEnumerable<Exam> exams);
 
 		/// <summary>
 		/// Creates a system control which allows to change the keyboard layout of the computer.

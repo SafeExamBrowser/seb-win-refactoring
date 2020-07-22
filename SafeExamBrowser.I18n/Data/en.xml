@@ -51,6 +51,18 @@
     <Entry key="Build">
         Build
     </Entry>
+    <Entry key="ExamSelectionDialog_Cancel">
+        Cancel
+    </Entry>
+    <Entry key="ExamSelectionDialog_Message">
+        Please select one of the available SEB-Server exams:
+    </Entry>
+    <Entry key="ExamSelectionDialog_Select">
+        Select
+    </Entry>
+    <Entry key="ExamSelectionDialog_Title">
+        SEB-Server Exams
+    </Entry>
     <Entry key="FileSystemDialog_Cancel">
         Cancel
     </Entry>

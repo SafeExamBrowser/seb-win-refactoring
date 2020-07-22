@@ -148,6 +148,9 @@
     <Compile Include="Controls\Taskview\WindowControl.xaml.cs">
       <DependentUpon>WindowControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ExamSelectionDialog.xaml.cs">
+      <DependentUpon>ExamSelectionDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\FileSystemDialog.xaml.cs">
       <DependentUpon>FileSystemDialog.xaml</DependentUpon>
     </Compile>
@@ -332,6 +335,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\ExamSelectionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\FileSystemDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -473,6 +480,10 @@
     <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
       <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
       <Name>SafeExamBrowser.Logging.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Server.Contracts\SafeExamBrowser.Server.Contracts.csproj">
+      <Project>{DB701E6F-BDDC-4CEC-B662-335A9DC11809}</Project>
+      <Name>SafeExamBrowser.Server.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Settings\SafeExamBrowser.Settings.csproj">
       <Project>{30b2d907-5861-4f39-abad-c4abf1b3470e}</Project>

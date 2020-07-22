@@ -67,7 +67,7 @@ namespace SafeExamBrowser.Runtime
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), ModuleLogger(nameof(ProxyFactory)));
 			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, new HostObjectFactory(), ModuleLogger(nameof(RuntimeHost)), FIVE_SECONDS);
 			var runtimeWindow = uiFactory.CreateRuntimeWindow(appConfig);
-			var server = new ServerProxy();
+			var server = new ServerProxy(ModuleLogger(nameof(ServerProxy)));
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)), Interlocutor.Runtime);
 			var sessionContext = new SessionContext();
 			var splashScreen = uiFactory.CreateSplashScreen(appConfig);

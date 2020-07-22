@@ -399,12 +399,23 @@ namespace SafeExamBrowser.Runtime
 			}
 		}
 
-		private void AskForExamSelection(ExamSelectionEventArgs a)
+		private void AskForExamSelection(ExamSelectionEventArgs args)
 		{
-			// TODO: Also implement mechanism to retrieve selection via client!!
+			var isStartup = !SessionIsRunning;
+			var isRunningOnDefaultDesktop = SessionIsRunning && Session.Settings.Security.KioskMode == KioskMode.DisableExplorerShell;
+
+			if (isStartup || isRunningOnDefaultDesktop)
+			{
+				TryAskForExamSelectionViaDialog(args);
+			}
+			else
+			{
+				// TODO: Also implement mechanism to retrieve selection via client!!
+				// TryAskForExamSelectionViaClient(args);
+			}
 		}
 
-		private void AskForServerFailureAction(ServerFailureEventArgs a)
+		private void AskForServerFailureAction(ServerFailureEventArgs args)
 		{
 			// TODO: Also implement mechanism to retrieve selection via client!!
 		}
@@ -488,6 +499,17 @@ namespace SafeExamBrowser.Runtime
 			runtimeHost.MessageBoxReplyReceived -= responseEventHandler;
 
 			return result;
+		}
+
+		private void TryAskForExamSelectionViaDialog(ExamSelectionEventArgs args)
+		{
+			var message = TextKey.ExamSelectionDialog_Message;
+			var title = TextKey.ExamSelectionDialog_Title;
+			var dialog = uiFactory.CreateExamSelectionDialog(text.Get(message), text.Get(title), args.Exams);
+			var result = dialog.Show(runtimeWindow);
+
+			args.SelectedExam = result.SelectedExam;
+			args.Success = result.Success;
 		}
 
 		private void TryGetPasswordViaDialog(PasswordRequiredEventArgs args)

@@ -47,7 +47,9 @@ namespace SafeExamBrowser.Runtime.Operations
 				logger.Info("Initializing server...");
 				StatusChanged?.Invoke(TextKey.OperationStatus_InitializeServer);
 
-				var (abort, fallback, success) = TryPerformWithFallback(() => server.Connect(Context.Next.Settings.Server));
+				server.Initialize(Context.Next.Settings.Server);
+
+				var (abort, fallback, success) = TryPerformWithFallback(() => server.Connect(), out var token);
 
 				if (success)
 				{
@@ -55,23 +57,31 @@ namespace SafeExamBrowser.Runtime.Operations
 
 					if (success)
 					{
-						var exam = SelectExam(exams);
-
-						(abort, fallback, success) = TryPerformWithFallback(() => server.GetConfigurationFor(exam), out var uri);
+						success = TrySelectExam(exams, out var exam);
 
 						if (success)
 						{
-							var status = TryLoadSettings(uri, UriSource.Server, out _, out var settings);
+							(abort, fallback, success) = TryPerformWithFallback(() => server.GetConfigurationFor(exam), out var uri);
 
-							if (status == LoadStatus.Success)
+							if (success)
 							{
-								Context.Next.Settings = settings;
-								result = OperationResult.Success;
+								var status = TryLoadSettings(uri, UriSource.Server, out _, out var settings);
+
+								if (status == LoadStatus.Success)
+								{
+									Context.Next.Settings = settings;
+									result = OperationResult.Success;
+								}
+								else
+								{
+									result = OperationResult.Failed;
+								}
 							}
-							else
-							{
-								result = OperationResult.Failed;
-							}
+						}
+						else
+						{
+							logger.Info("The user aborted the exam selection.");
+							result = OperationResult.Aborted;
 						}
 					}
 				}
@@ -192,13 +202,14 @@ namespace SafeExamBrowser.Runtime.Operations
 			return args.Retry;
 		}
 
-		private Exam SelectExam(IEnumerable<Exam> exams)
+		private bool TrySelectExam(IEnumerable<Exam> exams, out Exam exam)
 		{
 			var args = new ExamSelectionEventArgs(exams);
 
 			ActionRequired?.Invoke(args);
+			exam = args.SelectedExam;
 
-			return args.SelectedExam;
+			return args.Success;
 		}
 	}
 }

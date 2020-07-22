@@ -6,26 +6,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Server.Contracts
+using SafeExamBrowser.Server.Contracts;
+
+namespace SafeExamBrowser.UserInterface.Contracts.Windows.Data
 {
 	/// <summary>
-	/// Defines a server exam.
+	/// Defines the user interaction result of an <see cref="IExamSelectionDialog"/>.
 	/// </summary>
-	public class Exam
+	public class ExamSelectionDialogResult
 	{
 		/// <summary>
-		/// The identifier of the exam.
+		/// The exam selected by the user.
 		/// </summary>
-		public string Id { get; set; }
+		public Exam SelectedExam { get; set; }
 
 		/// <summary>
-		/// The name of the exam.
+		/// Indicates whether the user confirmed the dialog or not.
 		/// </summary>
-		public string Name { get; set; }
-
-		/// <summary>
-		/// The URL of the exam.
-		/// </summary>
-		public string Url { get; set; }
+		public bool Success { get; set; }
 	}
 }
