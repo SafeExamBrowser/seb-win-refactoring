@@ -68,10 +68,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.ResetUtilit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SebWindowsConfig", "SebWindowsConfig\SebWindowsConfig.csproj", "{BEF73897-0D04-4F40-AD89-62E24D260CD0}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Setup", "Setup\Setup.wixproj", "{0E14D163-557E-469E-9112-96936AF43A7B}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SetupBundle", "SetupBundle\SetupBundle.wixproj", "{95B68CBF-C483-4824-BB39-663E840519A0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Browser.Contracts", "SafeExamBrowser.Browser.Contracts\SafeExamBrowser.Browser.Contracts.csproj", "{5FB5273D-277C-41DD-8593-A25CE1AFF2E9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Applications.Contracts", "SafeExamBrowser.Applications.Contracts\SafeExamBrowser.Applications.Contracts.csproj", "{AC77745D-3B41-43E2-8E84-D40E5A4EE77F}"
@@ -107,6 +103,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Server", "SafeExamBrowser.Server\SafeExamBrowser.Server.csproj", "{46EDBDE0-58B4-4725-9783-0C55C3D49C0C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Server.Contracts", "SafeExamBrowser.Server.Contracts\SafeExamBrowser.Server.Contracts.csproj", "{DB701E6F-BDDC-4CEC-B662-335A9DC11809}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Setup", "Setup\Setup.wixproj", "{0E14D163-557E-469E-9112-96936AF43A7B}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SetupBundle", "SetupBundle\SetupBundle.wixproj", "{95B68CBF-C483-4824-BB39-663E840519A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
