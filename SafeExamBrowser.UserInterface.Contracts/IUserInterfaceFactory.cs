@@ -58,7 +58,7 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// <summary>
 		/// Creates an exam selection dialog for the given exams.
 		/// </summary>
-		IExamSelectionDialog CreateExamSelectionDialog(string message, string title, IEnumerable<Exam> exams);
+		IExamSelectionDialog CreateExamSelectionDialog(IEnumerable<Exam> exams);
 
 		/// <summary>
 		/// Creates a system control which allows to change the keyboard layout of the computer.
@@ -98,8 +98,12 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// <summary>
 		/// Creates a new runtime window which runs on its own thread.
 		/// </summary>
-		/// <returns></returns>
 		IRuntimeWindow CreateRuntimeWindow(AppConfig appConfig);
+
+		/// <summary>
+		/// Creates a new server failure dialog with the given parameters.
+		/// </summary>
+		IServerFailureDialog CreateServerFailureDialog(string info, bool showFallback);
 
 		/// <summary>
 		/// Creates a new splash screen which runs on its own thread.

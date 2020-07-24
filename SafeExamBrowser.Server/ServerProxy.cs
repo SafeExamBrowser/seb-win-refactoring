@@ -223,6 +223,7 @@ namespace SafeExamBrowser.Server
 					exams.Add(new Exam
 					{
 						Id = exam["examId"].Value<string>(),
+						LmsName = exam["lmsType"].Value<string>(),
 						Name = exam["name"].Value<string>(),
 						Url = exam["url"].Value<string>()
 					});
@@ -314,7 +315,7 @@ namespace SafeExamBrowser.Server
 
 		private string ToString(HttpResponseMessage response)
 		{
-			return $"{(int) response.StatusCode} {response.StatusCode} {response.ReasonPhrase}";
+			return $"{(int?) response?.StatusCode} {response?.StatusCode} {response?.ReasonPhrase}";
 		}
 	}
 }

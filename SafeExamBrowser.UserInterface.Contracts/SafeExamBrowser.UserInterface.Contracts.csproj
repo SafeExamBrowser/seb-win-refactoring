@@ -89,12 +89,14 @@
     <Compile Include="Windows\Data\ExamSelectionDialogResult.cs" />
     <Compile Include="Windows\Data\LockScreenOption.cs" />
     <Compile Include="Windows\Data\LockScreenResult.cs" />
+    <Compile Include="Windows\Data\ServerFailureDialogResult.cs" />
     <Compile Include="Windows\Events\WindowClosingEventHandler.cs" />
     <Compile Include="Windows\IExamSelectionDialog.cs" />
     <Compile Include="Windows\ILockScreen.cs" />
     <Compile Include="Windows\IPasswordDialog.cs" />
     <Compile Include="Windows\Data\PasswordDialogResult.cs" />
     <Compile Include="Windows\IRuntimeWindow.cs" />
+    <Compile Include="Windows\IServerFailureDialog.cs" />
     <Compile Include="Windows\ISplashScreen.cs" />
     <Compile Include="Windows\IWindow.cs" />
   </ItemGroup>

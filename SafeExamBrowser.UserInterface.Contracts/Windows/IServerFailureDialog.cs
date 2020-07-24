@@ -11,13 +11,13 @@ using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 namespace SafeExamBrowser.UserInterface.Contracts.Windows
 {
 	/// <summary>
-	/// The dialog shown to let the user select which server exam to start.
+	/// The dialog shown in case a communication failure with a server occurs.
 	/// </summary>
-	public interface IExamSelectionDialog
+	public interface IServerFailureDialog
 	{
 		/// <summary>
 		/// Shows the dialog as topmost window. If a parent window is specified, the dialog is rendered modally for the given parent.
 		/// </summary>
-		ExamSelectionDialogResult Show(IWindow parent = null);
+		ServerFailureDialogResult Show(IWindow parent = null);
 	}
 }

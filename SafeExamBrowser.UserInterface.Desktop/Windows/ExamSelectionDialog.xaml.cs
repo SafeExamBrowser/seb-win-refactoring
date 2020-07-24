@@ -20,12 +20,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 	{
 		private readonly IText text;
 
-		public ExamSelectionDialog(string message, string title, IText text, IEnumerable<Exam> exams)
+		public ExamSelectionDialog(IEnumerable<Exam> exams, IText text)
 		{
 			this.text = text;
 
 			InitializeComponent();
-			InitializeExamSelectionDialog(message, title, exams);
+			InitializeExamSelectionDialog(exams);
 		}
 
 		public ExamSelectionDialogResult Show(IWindow parent = null)
@@ -50,10 +50,10 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			});
 		}
 
-		private void InitializeExamSelectionDialog(string message, string title, IEnumerable<Exam> exams)
+		private void InitializeExamSelectionDialog(IEnumerable<Exam> exams)
 		{
-			Message.Text = message;
-			Title = title;
+			Message.Text = text.Get(TextKey.ExamSelectionDialog_Message);
+			Title = text.Get(TextKey.ExamSelectionDialog_Title);
 			WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
 			CancelButton.Content = text.Get(TextKey.ExamSelectionDialog_Cancel);

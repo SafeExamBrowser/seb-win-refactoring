@@ -70,6 +70,7 @@ namespace SafeExamBrowser.Runtime.Operations
 								if (status == LoadStatus.Success)
 								{
 									Context.Next.Settings = settings;
+									Context.Next.Settings.Browser.StartUrl = exam.Url;
 									result = OperationResult.Success;
 								}
 								else
@@ -116,7 +117,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var result = OperationResult.Failed;
 
-			if (Context.Current.Settings.SessionMode == SessionMode.Server)
+			if (Context.Current?.Settings.SessionMode == SessionMode.Server)
 			{
 				logger.Info("Finalizing server...");
 				StatusChanged?.Invoke(TextKey.OperationStatus_FinalizeServer);
@@ -192,7 +193,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private bool Retry(string message, out bool abort, out bool fallback)
 		{
-			var args = new ServerFailureEventArgs(message);
+			var args = new ServerFailureEventArgs(message, Context.Next.Settings.Server.PerformFallback);
 
 			ActionRequired?.Invoke(args);
 

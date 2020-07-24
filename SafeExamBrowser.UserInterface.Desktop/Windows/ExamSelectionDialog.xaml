@@ -39,7 +39,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Margin="0,0,5,0" Text="{Binding Id}" />
                                         <TextBlock Margin="0,0,5,0" Text="-" />
-                                        <TextBlock FontStyle="Italic" Text="{Binding Url}" />
+                                        <TextBlock FontStyle="Italic" Text="{Binding LmsName}" />
                                     </StackPanel>
                                 </StackPanel>
                             </DataTemplate>

@@ -417,7 +417,18 @@ namespace SafeExamBrowser.Runtime
 
 		private void AskForServerFailureAction(ServerFailureEventArgs args)
 		{
-			// TODO: Also implement mechanism to retrieve selection via client!!
+			var isStartup = !SessionIsRunning;
+			var isRunningOnDefaultDesktop = SessionIsRunning && Session.Settings.Security.KioskMode == KioskMode.DisableExplorerShell;
+
+			if (isStartup || isRunningOnDefaultDesktop)
+			{
+				TryAskForServerFailureActionViaDialog(args);
+			}
+			else
+			{
+				// TODO: Also implement mechanism to retrieve selection via client!!
+				// TryAskForServerFailureActionViaClient(args);
+			}
 		}
 
 		private void AskIfConfigurationSufficient(ConfigurationCompletedEventArgs args)
@@ -503,13 +514,21 @@ namespace SafeExamBrowser.Runtime
 
 		private void TryAskForExamSelectionViaDialog(ExamSelectionEventArgs args)
 		{
-			var message = TextKey.ExamSelectionDialog_Message;
-			var title = TextKey.ExamSelectionDialog_Title;
-			var dialog = uiFactory.CreateExamSelectionDialog(text.Get(message), text.Get(title), args.Exams);
+			var dialog = uiFactory.CreateExamSelectionDialog(args.Exams);
 			var result = dialog.Show(runtimeWindow);
 
 			args.SelectedExam = result.SelectedExam;
 			args.Success = result.Success;
+		}
+
+		private void TryAskForServerFailureActionViaDialog(ServerFailureEventArgs args)
+		{
+			var dialog = uiFactory.CreateServerFailureDialog(args.Message, args.ShowFallback);
+			var result = dialog.Show(runtimeWindow);
+
+			args.Abort = result.Abort;
+			args.Fallback = result.Fallback;
+			args.Retry = result.Retry;
 		}
 
 		private void TryGetPasswordViaDialog(PasswordRequiredEventArgs args)

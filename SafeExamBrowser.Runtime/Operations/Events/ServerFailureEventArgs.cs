@@ -16,10 +16,12 @@ namespace SafeExamBrowser.Runtime.Operations.Events
 		public bool Fallback { get; set; }
 		public string Message { get; set; }
 		public bool Retry { get; set; }
+		public bool ShowFallback { get; }
 
-		public ServerFailureEventArgs(string message)
+		public ServerFailureEventArgs(string message, bool showFallback)
 		{
 			Message = message;
+			ShowFallback = showFallback;
 		}
 	}
 }

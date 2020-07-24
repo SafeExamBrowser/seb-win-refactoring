@@ -82,9 +82,9 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			return Application.Current.Dispatcher.Invoke(() => new BrowserWindow(control, settings, isMainWindow, text));
 		}
 
-		public IExamSelectionDialog CreateExamSelectionDialog(string message, string title, IEnumerable<Exam> exams)
+		public IExamSelectionDialog CreateExamSelectionDialog(IEnumerable<Exam> exams)
 		{
-			return Application.Current.Dispatcher.Invoke(() => new ExamSelectionDialog(message, title, text, exams));
+			return Application.Current.Dispatcher.Invoke(() => new ExamSelectionDialog(exams, text));
 		}
 
 		public ISystemControl CreateKeyboardLayoutControl(IKeyboard keyboard, Location location)
@@ -165,6 +165,11 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		public IRuntimeWindow CreateRuntimeWindow(AppConfig appConfig)
 		{
 			return Application.Current.Dispatcher.Invoke(() => new RuntimeWindow(appConfig, text));
+		}
+
+		public IServerFailureDialog CreateServerFailureDialog(string info, bool showFallback)
+		{
+			return Application.Current.Dispatcher.Invoke(() => new ServerFailureDialog(info, showFallback, text));
 		}
 
 		public ISplashScreen CreateSplashScreen(AppConfig appConfig = null)

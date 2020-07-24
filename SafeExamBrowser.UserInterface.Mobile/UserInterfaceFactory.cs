@@ -82,7 +82,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			return Application.Current.Dispatcher.Invoke(() => new BrowserWindow(control, settings, isMainWindow, text));
 		}
 
-		public IExamSelectionDialog CreateExamSelectionDialog(string message, string title, IEnumerable<Exam> exams)
+		public IExamSelectionDialog CreateExamSelectionDialog(IEnumerable<Exam> exams)
 		{
 			// TODO
 			throw new System.NotImplementedException();
@@ -166,6 +166,12 @@ namespace SafeExamBrowser.UserInterface.Mobile
 		public IRuntimeWindow CreateRuntimeWindow(AppConfig appConfig)
 		{
 			return Application.Current.Dispatcher.Invoke(() => new RuntimeWindow(appConfig, text));
+		}
+
+		public IServerFailureDialog CreateServerFailureDialog(string info, bool showFallback)
+		{
+			// TODO
+			throw new System.NotImplementedException();
 		}
 
 		public ISplashScreen CreateSplashScreen(AppConfig appConfig = null)

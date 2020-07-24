@@ -453,6 +453,21 @@
     <Entry key="RuntimeWindow_ApplicationRunning">
         SEB is running.
     </Entry>
+    <Entry key="ServerFailureDialog_Abort">
+        Abort
+    </Entry>
+    <Entry key="ServerFailureDialog_Fallback">
+        Fallback
+    </Entry>
+    <Entry key="ServerFailureDialog_Message">
+        An error occurred while trying to communicate with the SEB server.
+    </Entry>
+    <Entry key="ServerFailureDialog_Retry">
+        Retry
+    </Entry>
+    <Entry key="ServerFailureDialog_Title">
+        SEB-Server Error
+    </Entry>
     <Entry key="Shell_QuitButton">
         Terminate Session
     </Entry>

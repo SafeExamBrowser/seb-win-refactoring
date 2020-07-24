@@ -168,6 +168,9 @@
     <Compile Include="Windows\RuntimeWindow.xaml.cs">
       <DependentUpon>RuntimeWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ServerFailureDialog.xaml.cs">
+      <DependentUpon>ServerFailureDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
@@ -344,6 +347,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\LockScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ServerFailureDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

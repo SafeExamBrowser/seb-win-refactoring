@@ -19,6 +19,11 @@ namespace SafeExamBrowser.Server.Contracts
 		public string Id { get; set; }
 
 		/// <summary>
+		/// The name of the learning management system (LMS) on which the exam is running.
+		/// </summary>
+		public string LmsName { get; set; }
+
+		/// <summary>
 		/// The name of the exam.
 		/// </summary>
 		public string Name { get; set; }
