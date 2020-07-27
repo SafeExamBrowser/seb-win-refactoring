@@ -16,11 +16,13 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.SystemComponents.Contracts;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
 	internal class ServerOperation : ConfigurationBaseOperation
 	{
+		private readonly IFileSystem fileSystem;
 		private readonly ILogger logger;
 		private readonly IServerProxy server;
 
@@ -30,10 +32,12 @@ namespace SafeExamBrowser.Runtime.Operations
 		public ServerOperation(
 			string[] commandLineArgs,
 			IConfigurationRepository configuration,
+			IFileSystem fileSystem,
 			ILogger logger,
 			SessionContext context,
 			IServerProxy server) : base(commandLineArgs, configuration, context)
 		{
+			this.fileSystem = fileSystem;
 			this.logger = logger;
 			this.server = server;
 		}
@@ -66,6 +70,8 @@ namespace SafeExamBrowser.Runtime.Operations
 							if (success)
 							{
 								var status = TryLoadSettings(uri, UriSource.Server, out _, out var settings);
+
+								fileSystem.Delete(uri.LocalPath);
 
 								if (status == LoadStatus.Success)
 								{

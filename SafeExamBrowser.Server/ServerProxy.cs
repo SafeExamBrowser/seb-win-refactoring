@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Data;
@@ -28,13 +29,15 @@ namespace SafeExamBrowser.Server
 		private ApiVersion1 api;
 		private string connectionToken;
 		private HttpClient httpClient;
+		private readonly AppConfig appConfig;
 		private ILogger logger;
 		private string oauth2Token;
 		private ServerSettings settings;
 
-		public ServerProxy(ILogger logger)
+		public ServerProxy(AppConfig appConfig, ILogger logger)
 		{
 			this.api = new ApiVersion1();
+			this.appConfig = appConfig;
 			this.httpClient = new HttpClient();
 			this.logger = logger;
 		}
@@ -75,7 +78,7 @@ namespace SafeExamBrowser.Server
 
 		public ServerResponse Disconnect()
 		{
-			return new ServerResponse(false, "Some error message here");
+			return new ServerResponse(false, "TODO!");
 		}
 
 		public ServerResponse<IEnumerable<Exam>> GetAvailableExams()
@@ -83,37 +86,69 @@ namespace SafeExamBrowser.Server
 			var authorization = ("Authorization", $"Bearer {oauth2Token}");
 			var content = $"institutionId={settings.Institution}";
 			var contentType = "application/x-www-form-urlencoded";
+			var exams = default(IList<Exam>);
 
 			var success = TryExecute(HttpMethod.Post, api.HandshakeEndpoint, out var response, content, contentType, authorization);
 			var message = ToString(response);
-			var hasToken = TryParseConnectionToken(response);
-			var hasExams = TryParseExams(response.Content, out var exams);
 
-			if (success && hasExams && hasToken)
+			if (success)
 			{
-				logger.Info("Successfully retrieved connection token and available exams.");
-			}
-			else if (!hasExams)
-			{
-				logger.Error("Failed to retrieve available exams!");
-			}
-			else if (!hasToken)
-			{
-				logger.Error("Failed to retrieve connection token!");
+				var hasExams = TryParseExams(response.Content, out exams);
+				var hasToken = TryParseConnectionToken(response);
+
+				success = hasExams && hasToken;
+
+				if (success)
+				{
+					logger.Info("Successfully retrieved connection token and available exams.");
+				}
+				else if (!hasExams)
+				{
+					logger.Error("Failed to retrieve available exams!");
+				}
+				else if (!hasToken)
+				{
+					logger.Error("Failed to retrieve connection token!");
+				}
 			}
 			else
 			{
 				logger.Error("Failed to load connection token and available exams!");
 			}
 
-			return new ServerResponse<IEnumerable<Exam>>(hasExams && hasToken, exams, message);
+			return new ServerResponse<IEnumerable<Exam>>(success, exams, message);
 		}
 
 		public ServerResponse<Uri> GetConfigurationFor(Exam exam)
 		{
-			// 4. Send exam ID
+			var authorization = ("Authorization", $"Bearer {oauth2Token}");
+			var token = ("SEBConnectionToken", connectionToken);
+			var uri = default(Uri);
 
-			return new ServerResponse<Uri>(false, default(Uri), "Some error message here");
+			var success = TryExecute(HttpMethod.Get, $"{api.ConfigurationEndpoint}?examId={exam.Id}", out var response, default(string), default(string), authorization, token);
+			var message = ToString(response);
+
+			if (success)
+			{
+				logger.Info("Successfully retrieved exam configuration.");
+
+				success = TrySaveFile(response.Content, out uri);
+
+				if (success)
+				{
+					logger.Info($"Successfully saved exam configuration as '{uri}'.");
+				}
+				else
+				{
+					logger.Error("Failed to save exam configuration!");
+				}
+			}
+			else
+			{
+				logger.Error("Failed to retrieve exam configuration!");
+			}
+
+			return new ServerResponse<Uri>(success, uri, message);
 		}
 
 		public void Initialize(ServerSettings settings)
@@ -129,7 +164,7 @@ namespace SafeExamBrowser.Server
 
 		public ServerResponse SendSessionInfo(string sessionId)
 		{
-			return new ServerResponse(false, "Some error message here");
+			return new ServerResponse(false, "TODO!");
 		}
 
 		private bool TryParseApi(HttpContent content)
@@ -299,6 +334,36 @@ namespace SafeExamBrowser.Server
 			}
 
 			return response != default(HttpResponseMessage) && response.IsSuccessStatusCode;
+		}
+
+		private bool TrySaveFile(HttpContent content, out Uri uri)
+		{
+			uri = new Uri(Path.Combine(appConfig.TemporaryDirectory, $"ServerExam{appConfig.ConfigurationFileExtension}"));
+
+			try
+			{
+				var task = Task.Run(async () =>
+				{
+					return await content.ReadAsStreamAsync();
+				});
+
+				using (var data = task.GetAwaiter().GetResult())
+				using (var file = new FileStream(uri.LocalPath, FileMode.Create))
+				{
+					data.Seek(0, SeekOrigin.Begin);
+					data.CopyTo(file);
+					data.Flush();
+					file.Flush();
+				}
+
+				return true;
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to save file '{uri.LocalPath}'!", e);
+			}
+
+			return false;
 		}
 
 		private string Extract(HttpContent content)
