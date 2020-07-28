@@ -54,10 +54,11 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Exam.cs" />
+    <Compile Include="Data\ConnectionInfo.cs" />
+    <Compile Include="Data\Exam.cs" />
     <Compile Include="IServerProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServerResponse.cs" />
+    <Compile Include="Data\ServerResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Settings\SafeExamBrowser.Settings.csproj">

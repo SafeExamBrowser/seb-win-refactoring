@@ -16,7 +16,7 @@ using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Server.Contracts;
+using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;

@@ -19,6 +19,7 @@ using Newtonsoft.Json.Linq;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Contracts;
+using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Server.Data;
 using SafeExamBrowser.Settings.Server;
 
@@ -42,7 +43,7 @@ namespace SafeExamBrowser.Server
 			this.logger = logger;
 		}
 
-		public ServerResponse<string> Connect()
+		public ServerResponse Connect()
 		{
 			var success = TryExecute(HttpMethod.Get, settings.ApiUrl, out var response);
 			var message = ToString(response);
@@ -73,7 +74,7 @@ namespace SafeExamBrowser.Server
 				logger.Error("Failed to load server API!");
 			}
 
-			return new ServerResponse<string>(success, oauth2Token, message);
+			return new ServerResponse(success, message);
 		}
 
 		public ServerResponse Disconnect()
@@ -151,6 +152,16 @@ namespace SafeExamBrowser.Server
 			return new ServerResponse<Uri>(success, uri, message);
 		}
 
+		public ConnectionInfo GetConnectionInfo()
+		{
+			return new ConnectionInfo
+			{
+				Api = JsonConvert.SerializeObject(api),
+				ConnectionToken = connectionToken,
+				Oauth2Token = oauth2Token
+			};
+		}
+
 		public void Initialize(ServerSettings settings)
 		{
 			this.settings = settings;
@@ -160,6 +171,15 @@ namespace SafeExamBrowser.Server
 			{
 				httpClient.Timeout = TimeSpan.FromMilliseconds(settings.RequestTimeout);
 			}
+		}
+
+		public void Initialize(string api, string connectionToken, string oauth2Token, ServerSettings settings)
+		{
+			this.api = JsonConvert.DeserializeObject<ApiVersion1>(api);
+			this.connectionToken = connectionToken;
+			this.oauth2Token = oauth2Token;
+
+			Initialize(settings);
 		}
 
 		public ServerResponse SendSessionInfo(string sessionId)
@@ -324,7 +344,7 @@ namespace SafeExamBrowser.Server
 				}
 				catch (TaskCanceledException)
 				{
-					logger.Error($"Request {request.Method} '{request.RequestUri}' did not complete within {settings.RequestTimeout}ms!");
+					logger.Debug($"Request {request.Method} '{request.RequestUri}' did not complete within {settings.RequestTimeout}ms!");
 					break;
 				}
 				catch (Exception e)

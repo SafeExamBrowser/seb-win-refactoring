@@ -15,6 +15,7 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
 using SafeExamBrowser.Server.Contracts;
+using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.SystemComponents.Contracts;
 
@@ -53,7 +54,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 				server.Initialize(Context.Next.Settings.Server);
 
-				var (abort, fallback, success) = TryPerformWithFallback(() => server.Connect(), out var token);
+				var (abort, fallback, success) = TryPerformWithFallback(() => server.Connect());
 
 				if (success)
 				{
@@ -69,12 +70,16 @@ namespace SafeExamBrowser.Runtime.Operations
 
 							if (success)
 							{
+								var info = server.GetConnectionInfo();
 								var status = TryLoadSettings(uri, UriSource.Server, out _, out var settings);
 
 								fileSystem.Delete(uri.LocalPath);
 
 								if (status == LoadStatus.Success)
 								{
+									Context.Next.AppConfig.ServerApi = info.Api;
+									Context.Next.AppConfig.ServerConnectionToken = info.ConnectionToken;
+									Context.Next.AppConfig.ServerOauth2Token = info.Oauth2Token;
 									Context.Next.Settings = settings;
 									Context.Next.Settings.Browser.StartUrl = exam.Url;
 									result = OperationResult.Success;
@@ -121,7 +126,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public override OperationResult Revert()
 		{
-			var result = OperationResult.Failed;
+			var result = OperationResult.Success;
 
 			if (Context.Current?.Settings.SessionMode == SessionMode.Server)
 			{
@@ -138,10 +143,6 @@ namespace SafeExamBrowser.Runtime.Operations
 				{
 					result = OperationResult.Failed;
 				}
-			}
-			else
-			{
-				result = OperationResult.Success;
 			}
 
 			return result;

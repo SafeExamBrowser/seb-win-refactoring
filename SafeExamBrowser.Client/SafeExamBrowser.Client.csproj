@@ -94,6 +94,7 @@
     <Compile Include="Operations\KeyboardInterceptorOperation.cs" />
     <Compile Include="Operations\MouseInterceptorOperation.cs" />
     <Compile Include="Operations\ApplicationOperation.cs" />
+    <Compile Include="Operations\ServerOperation.cs" />
     <Compile Include="Operations\ShellOperation.cs" />
     <Compile Include="Operations\SystemMonitorOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -192,6 +193,14 @@
     <ProjectReference Include="..\SafeExamBrowser.Monitoring\SafeExamBrowser.Monitoring.csproj">
       <Project>{EF563531-4EB5-44B9-A5EC-D6D6F204469B}</Project>
       <Name>SafeExamBrowser.Monitoring</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Server.Contracts\SafeExamBrowser.Server.Contracts.csproj">
+      <Project>{db701e6f-bddc-4cec-b662-335a9dc11809}</Project>
+      <Name>SafeExamBrowser.Server.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Server\SafeExamBrowser.Server.csproj">
+      <Project>{46edbde0-58b4-4725-9783-0c55c3d49c0c}</Project>
+      <Name>SafeExamBrowser.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Settings\SafeExamBrowser.Settings.csproj">
       <Project>{30b2d907-5861-4f39-abad-c4abf1b3470e}</Project>

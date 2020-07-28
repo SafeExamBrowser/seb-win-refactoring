@@ -152,6 +152,21 @@ namespace SafeExamBrowser.Configuration.Contracts
 		public string SebUriSchemeSecure { get; set; }
 
 		/// <summary>
+		/// The server API as JSON string.
+		/// </summary>
+		public string ServerApi { get; set; }
+
+		/// <summary>
+		/// The connection token for a server.
+		/// </summary>
+		public string ServerConnectionToken { get; set; }
+
+		/// <summary>
+		/// The OAuth2 token for a server.
+		/// </summary>
+		public string ServerOauth2Token { get; set; }
+
+		/// <summary>
 		/// The communication address of the service component.
 		/// </summary>
 		public string ServiceAddress { get; set; }

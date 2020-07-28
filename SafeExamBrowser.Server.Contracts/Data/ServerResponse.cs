@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Server.Contracts
+namespace SafeExamBrowser.Server.Contracts.Data
 {
 	/// <summary>
 	/// Defines the result of a communication with a SEB server.

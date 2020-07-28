@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Contracts
@@ -18,25 +19,29 @@ namespace SafeExamBrowser.Server.Contracts
 	public interface IServerProxy
 	{
 		/// <summary>
-		/// TODO: Return API as well or re-load in proxy instance of client?
-		/// Attempts to initialize a connection to the server. If successful, returns a OAuth2 token as response value.
+		/// Attempts to initialize a connection to the server.
 		/// </summary>
-		ServerResponse<string> Connect();
+		ServerResponse Connect();
 
 		/// <summary>
-		/// 
+		/// TODO
 		/// </summary>
 		ServerResponse Disconnect();
 
 		/// <summary>
-		/// 
+		/// Retrieves a list of all currently available exams.
 		/// </summary>
 		ServerResponse<IEnumerable<Exam>> GetAvailableExams();
 
 		/// <summary>
-		/// 
+		/// Retrieves the URI of the configuration file for the given exam.
 		/// </summary>
 		ServerResponse<Uri> GetConfigurationFor(Exam exam);
+
+		/// <summary>
+		/// Retrieves the information required to establish a connection with this server.
+		/// </summary>
+		ConnectionInfo GetConnectionInfo();
 
 		/// <summary>
 		/// Initializes the server settings to be used for communication.
@@ -44,7 +49,12 @@ namespace SafeExamBrowser.Server.Contracts
 		void Initialize(ServerSettings settings);
 
 		/// <summary>
-		/// 
+		/// Initializes the configuration and server settings to be used for communication.
+		/// </summary>
+		void Initialize(string api, string connectionToken, string oauth2Token, ServerSettings settings);
+
+		/// <summary>
+		/// TODO
 		/// </summary>
 		ServerResponse SendSessionInfo(string sessionId);
 	}

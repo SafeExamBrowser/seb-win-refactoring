@@ -26,6 +26,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Monitoring.Contracts.Display;
 using SafeExamBrowser.Monitoring.Contracts.System;
+using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
@@ -60,6 +61,7 @@ namespace SafeExamBrowser.Client
 
 		private IBrowserApplication Browser => context.Browser;
 		private IClientHost ClientHost => context.ClientHost;
+		private IServerProxy Server => context.Server;
 		private AppSettings Settings => context.Settings;
 
 		internal ClientController(
@@ -196,6 +198,11 @@ namespace SafeExamBrowser.Client
 			{
 				activator.Activated += TerminationActivator_Activated;
 			}
+
+			if (Server != null)
+			{
+				// TODO
+			}
 		}
 
 		private void DeregisterEvents()
@@ -220,6 +227,11 @@ namespace SafeExamBrowser.Client
 				ClientHost.ReconfigurationAborted -= ClientHost_ReconfigurationAborted;
 				ClientHost.ReconfigurationDenied -= ClientHost_ReconfigurationDenied;
 				ClientHost.Shutdown -= ClientHost_Shutdown;
+			}
+
+			if (Server != null)
+			{
+				// TODO
 			}
 
 			foreach (var activator in context.Activators.OfType<ITerminationActivator>())
