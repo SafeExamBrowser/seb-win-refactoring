@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
@@ -183,6 +184,7 @@ namespace SafeExamBrowser.Client
 			applicationMonitor.ExplorerStarted += ApplicationMonitor_ExplorerStarted;
 			applicationMonitor.TerminationFailed += ApplicationMonitor_TerminationFailed;
 			Browser.ConfigurationDownloadRequested += Browser_ConfigurationDownloadRequested;
+			Browser.SessionIdentifierDetected += Browser_SessionIdentifierDetected;
 			Browser.TerminationRequested += Browser_TerminationRequested;
 			ClientHost.MessageBoxRequested += ClientHost_MessageBoxRequested;
 			ClientHost.PasswordRequested += ClientHost_PasswordRequested;
@@ -218,6 +220,8 @@ namespace SafeExamBrowser.Client
 			if (Browser != null)
 			{
 				Browser.ConfigurationDownloadRequested -= Browser_ConfigurationDownloadRequested;
+				Browser.SessionIdentifierDetected -= Browser_SessionIdentifierDetected;
+				Browser.TerminationRequested -= Browser_TerminationRequested;
 			}
 
 			if (ClientHost != null)
@@ -338,6 +342,24 @@ namespace SafeExamBrowser.Client
 			{
 				args.AllowDownload = false;
 				logger.Info($"Denied download request for configuration file '{fileName}'.");
+			}
+		}
+
+		private void Browser_SessionIdentifierDetected(string identifier)
+		{
+			if (Settings.SessionMode == SessionMode.Server)
+			{
+				var response = Server.SendSessionIdentifier(identifier);
+
+				while (!response.Success)
+				{
+					logger.Error($"Failed to communicate session identifier with server! {response.Message}");
+					// TODO: Check that is running in separat thread (not UI thread!!) or use different mechanism to wait!
+					Thread.Sleep(Settings.Server.RequestAttemptInterval);
+					response = Server.SendSessionIdentifier(identifier);
+				}
+
+				Server.StartConnectivity();
 			}
 		}
 

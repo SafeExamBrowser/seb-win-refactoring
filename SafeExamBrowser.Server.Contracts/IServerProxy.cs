@@ -51,11 +51,21 @@ namespace SafeExamBrowser.Server.Contracts
 		/// <summary>
 		/// Initializes the configuration and server settings to be used for communication.
 		/// </summary>
-		void Initialize(string api, string connectionToken, string oauth2Token, ServerSettings settings);
+		void Initialize(string api, string connectionToken, string examId, string oauth2Token, ServerSettings settings);
 
 		/// <summary>
 		/// TODO
 		/// </summary>
-		ServerResponse SendSessionInfo(string sessionId);
+		ServerResponse SendSessionIdentifier(string identifier);
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		void StartConnectivity();
+
+		/// <summary>
+		/// TODO
+		/// </summary>
+		void StopConnectivity();
 	}
 }

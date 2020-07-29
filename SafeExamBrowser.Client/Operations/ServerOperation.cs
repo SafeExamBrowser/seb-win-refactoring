@@ -48,7 +48,12 @@ namespace SafeExamBrowser.Client.Operations
 				logger.Info("Initializing server...");
 				StatusChanged?.Invoke(TextKey.OperationStatus_InitializeServer);
 
-				server.Initialize(Context.AppConfig.ServerApi, Context.AppConfig.ServerConnectionToken, Context.AppConfig.ServerOauth2Token, Context.Settings.Server);
+				server.Initialize(
+					Context.AppConfig.ServerApi,
+					Context.AppConfig.ServerConnectionToken,
+					Context.AppConfig.ServerExamId,
+					Context.AppConfig.ServerOauth2Token,
+					Context.Settings.Server);
 
 				// TODO: Add action center and taskbar notifications
 			}
@@ -66,6 +71,7 @@ namespace SafeExamBrowser.Client.Operations
 				StatusChanged?.Invoke(TextKey.OperationStatus_FinalizeServer);
 
 				// TODO: Stop sending pings and logs (or in controller?)
+				server.StopConnectivity();
 				// TODO: Stop action center and taskbar notifications
 			}
 

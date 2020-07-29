@@ -22,6 +22,11 @@ namespace SafeExamBrowser.Browser.Contracts
 		event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 
 		/// <summary>
+		/// Event fired when the browser application detects a session identifier of an LMS.
+		/// </summary>
+		event SessionIdentifierDetectedEventHandler SessionIdentifierDetected;
+
+		/// <summary>
 		/// Event fired when the browser application detects a request to terminate SEB.
 		/// </summary>
 		event TerminationRequestedEventHandler TerminationRequested;

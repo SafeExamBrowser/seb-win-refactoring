@@ -77,11 +77,18 @@ namespace SafeExamBrowser.Runtime.Operations
 
 								if (status == LoadStatus.Success)
 								{
+									var serverSettings = Context.Next.Settings.Server;
+
 									Context.Next.AppConfig.ServerApi = info.Api;
 									Context.Next.AppConfig.ServerConnectionToken = info.ConnectionToken;
+									Context.Next.AppConfig.ServerExamId = exam.Id;
 									Context.Next.AppConfig.ServerOauth2Token = info.Oauth2Token;
+
 									Context.Next.Settings = settings;
 									Context.Next.Settings.Browser.StartUrl = exam.Url;
+									Context.Next.Settings.Server = serverSettings;
+									Context.Next.Settings.SessionMode = SessionMode.Server;
+
 									result = OperationResult.Success;
 								}
 								else
@@ -105,6 +112,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 				if (fallback)
 				{
+					Context.Next.Settings.SessionMode = SessionMode.Normal;
 					result = OperationResult.Success;
 				}
 			}

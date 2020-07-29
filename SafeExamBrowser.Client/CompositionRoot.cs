@@ -244,6 +244,8 @@ namespace SafeExamBrowser.Client
 			var server = new ServerProxy(context.AppConfig, logger);
 			var operation = new ServerOperation(actionCenter, context, logger, server, taskbar);
 
+			context.Server = server;
+
 			return operation;
 		}
 

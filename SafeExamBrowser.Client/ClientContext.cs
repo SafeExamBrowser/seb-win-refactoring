@@ -49,7 +49,7 @@ namespace SafeExamBrowser.Client
 		internal IClientHost ClientHost { get; set; }
 
 		/// <summary>
-		/// The server proxy, if the current session mode is <see cref="SessionMode.Server"/>.
+		/// The server proxy (if the current session mode is <see cref="SessionMode.Server"/>).
 		/// </summary>
 		internal IServerProxy Server { get; set; }
 

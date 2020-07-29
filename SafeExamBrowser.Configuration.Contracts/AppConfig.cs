@@ -162,6 +162,11 @@ namespace SafeExamBrowser.Configuration.Contracts
 		public string ServerConnectionToken { get; set; }
 
 		/// <summary>
+		/// The identifier of the selected server exam.
+		/// </summary>
+		public string ServerExamId { get; set; }
+
+		/// <summary>
 		/// The OAuth2 token for a server.
 		/// </summary>
 		public string ServerOauth2Token { get; set; }

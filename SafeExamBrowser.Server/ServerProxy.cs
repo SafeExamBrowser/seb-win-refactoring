@@ -29,6 +29,7 @@ namespace SafeExamBrowser.Server
 	{
 		private ApiVersion1 api;
 		private string connectionToken;
+		private string examId;
 		private HttpClient httpClient;
 		private readonly AppConfig appConfig;
 		private ILogger logger;
@@ -173,18 +174,29 @@ namespace SafeExamBrowser.Server
 			}
 		}
 
-		public void Initialize(string api, string connectionToken, string oauth2Token, ServerSettings settings)
+		public void Initialize(string api, string connectionToken, string examId, string oauth2Token, ServerSettings settings)
 		{
 			this.api = JsonConvert.DeserializeObject<ApiVersion1>(api);
 			this.connectionToken = connectionToken;
+			this.examId = examId;
 			this.oauth2Token = oauth2Token;
 
 			Initialize(settings);
 		}
 
-		public ServerResponse SendSessionInfo(string sessionId)
+		public ServerResponse SendSessionIdentifier(string identifier)
 		{
 			return new ServerResponse(false, "TODO!");
+		}
+
+		public void StartConnectivity()
+		{
+			// TODO: Start sending logs and pings
+		}
+
+		public void StopConnectivity()
+		{
+			// TODO: Stop sending logs and pings
 		}
 
 		private bool TryParseApi(HttpContent content)
