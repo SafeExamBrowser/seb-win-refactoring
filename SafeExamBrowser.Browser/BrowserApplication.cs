@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
 using CefSharp;
 using CefSharp.WinForms;
@@ -353,8 +354,7 @@ namespace SafeExamBrowser.Browser
 				var task = manager.VisitAllCookiesAsync();
 				var cookies = task.GetAwaiter().GetResult();
 				var edxLogin = cookies.FirstOrDefault(c => c.Name == "edxloggedin");
-
-				// TODO: MoodleSession
+				var moodleSession = cookies.FirstOrDefault(c => c.Name == "MoodleSession");
 
 				if (edxLogin != default(Cookie))
 				{
@@ -363,8 +363,14 @@ namespace SafeExamBrowser.Browser
 					if (edxSession != default(Cookie) && !sessionCookies.Contains(edxSession.Domain))
 					{
 						sessionCookies.Add(edxSession.Domain);
-						SessionIdentifierDetected?.Invoke(edxSession.Value);
+						Task.Run(() => SessionIdentifierDetected?.Invoke(edxSession.Value));
 					}
+				}
+
+				if (moodleSession != default(Cookie) && !sessionCookies.Contains(moodleSession.Domain))
+				{
+					sessionCookies.Add(moodleSession.Domain);
+					Task.Run(() => SessionIdentifierDetected?.Invoke(moodleSession.Value));
 				}
 			}
 			catch (Exception e)

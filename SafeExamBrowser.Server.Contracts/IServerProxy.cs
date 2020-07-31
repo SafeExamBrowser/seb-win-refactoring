@@ -19,12 +19,12 @@ namespace SafeExamBrowser.Server.Contracts
 	public interface IServerProxy
 	{
 		/// <summary>
-		/// Attempts to initialize a connection to the server.
+		/// Attempts to initialize a connection with the server.
 		/// </summary>
 		ServerResponse Connect();
 
 		/// <summary>
-		/// TODO
+		/// Terminates a connection with the server.
 		/// </summary>
 		ServerResponse Disconnect();
 
@@ -39,7 +39,7 @@ namespace SafeExamBrowser.Server.Contracts
 		ServerResponse<Uri> GetConfigurationFor(Exam exam);
 
 		/// <summary>
-		/// Retrieves the information required to establish a connection with this server.
+		/// Retrieves the information required to establish a connection with the server.
 		/// </summary>
 		ConnectionInfo GetConnectionInfo();
 
@@ -54,7 +54,7 @@ namespace SafeExamBrowser.Server.Contracts
 		void Initialize(string api, string connectionToken, string examId, string oauth2Token, ServerSettings settings);
 
 		/// <summary>
-		/// TODO
+		/// Sends the given user session identifier of a LMS and thus establishes a connection with the server.
 		/// </summary>
 		ServerResponse SendSessionIdentifier(string identifier);
 

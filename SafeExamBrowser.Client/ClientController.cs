@@ -354,7 +354,6 @@ namespace SafeExamBrowser.Client
 				while (!response.Success)
 				{
 					logger.Error($"Failed to communicate session identifier with server! {response.Message}");
-					// TODO: Check that is running in separat thread (not UI thread!!) or use different mechanism to wait!
 					Thread.Sleep(Settings.Server.RequestAttemptInterval);
 					response = Server.SendSessionIdentifier(identifier);
 				}

@@ -241,7 +241,7 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildServerOperation()
 		{
-			var server = new ServerProxy(context.AppConfig, logger);
+			var server = new ServerProxy(context.AppConfig, ModuleLogger(nameof(ServerProxy)));
 			var operation = new ServerOperation(actionCenter, context, logger, server, taskbar);
 
 			context.Server = server;

@@ -80,7 +80,23 @@ namespace SafeExamBrowser.Server
 
 		public ServerResponse Disconnect()
 		{
-			return new ServerResponse(false, "TODO!");
+			var authorization = ("Authorization", $"Bearer {oauth2Token}");
+			var contentType = "application/x-www-form-urlencoded";
+			var token = ("SEBConnectionToken", connectionToken);
+
+			var success = TryExecute(HttpMethod.Delete, api.HandshakeEndpoint, out var response, default(string), contentType, authorization, token);
+			var message = ToString(response);
+
+			if (success)
+			{
+				logger.Info("Successfully terminated connection.");
+			}
+			else
+			{
+				logger.Error("Failed to terminate connection!");
+			}
+
+			return new ServerResponse(success, message);
 		}
 
 		public ServerResponse<IEnumerable<Exam>> GetAvailableExams()
@@ -186,7 +202,24 @@ namespace SafeExamBrowser.Server
 
 		public ServerResponse SendSessionIdentifier(string identifier)
 		{
-			return new ServerResponse(false, "TODO!");
+			var authorization = ("Authorization", $"Bearer {oauth2Token}");
+			var content = $"examId={examId}&seb_user_session_id={identifier}";
+			var contentType = "application/x-www-form-urlencoded";
+			var token = ("SEBConnectionToken", connectionToken);
+
+			var success = TryExecute(HttpMethod.Put, api.HandshakeEndpoint, out var response, content, contentType, authorization, token);
+			var message = ToString(response);
+
+			if (success)
+			{
+				logger.Info("Successfully sent session identifier.");
+			}
+			else
+			{
+				logger.Error("Failed to send session identifier!");
+			}
+
+			return new ServerResponse(success, message);
 		}
 
 		public void StartConnectivity()
@@ -352,7 +385,7 @@ namespace SafeExamBrowser.Server
 				try
 				{
 					response = httpClient.SendAsync(request).GetAwaiter().GetResult();
-					logger.Debug($"Request was successful: {request.Method} '{request.RequestUri}' -> {ToString(response)}");
+					logger.Debug($"Completed request: {request.Method} '{request.RequestUri}' -> {ToString(response)}");
 				}
 				catch (TaskCanceledException)
 				{

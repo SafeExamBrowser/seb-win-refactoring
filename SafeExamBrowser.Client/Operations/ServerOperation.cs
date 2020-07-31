@@ -70,9 +70,9 @@ namespace SafeExamBrowser.Client.Operations
 				logger.Info("Finalizing server...");
 				StatusChanged?.Invoke(TextKey.OperationStatus_FinalizeServer);
 
-				// TODO: Stop sending pings and logs (or in controller?)
-				server.StopConnectivity();
 				// TODO: Stop action center and taskbar notifications
+
+				server.StopConnectivity();
 			}
 
 			return result;
