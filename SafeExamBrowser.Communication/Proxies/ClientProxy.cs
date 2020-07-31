@@ -180,6 +180,32 @@ namespace SafeExamBrowser.Communication.Proxies
 			}
 		}
 
+		public CommunicationResult RequestServerFailureAction(string message, bool showFallback, Guid requestId)
+		{
+			try
+			{
+				var response = Send(new ServerFailureActionRequestMessage(message, showFallback, requestId));
+				var success = IsAcknowledged(response);
+
+				if (success)
+				{
+					Logger.Debug("Client acknowledged server failure action request.");
+				}
+				else
+				{
+					Logger.Error($"Client did not acknowledge server failure action request! Received: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(success);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(RequestServerFailureAction)}'", e);
+
+				return new CommunicationResult(false);
+			}
+		}
+
 		public CommunicationResult ShowMessage(string message, string title, int action, int icon, Guid requestId)
 		{
 			try

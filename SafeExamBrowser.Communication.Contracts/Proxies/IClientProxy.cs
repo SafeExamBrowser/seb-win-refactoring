@@ -48,6 +48,11 @@ namespace SafeExamBrowser.Communication.Contracts.Proxies
 		CommunicationResult RequestPassword(PasswordRequestPurpose purpose, Guid requestId);
 
 		/// <summary>
+		/// Requests the client to render a server failure action dialog and subsequently return the interaction result as separate message.
+		/// </summary>
+		CommunicationResult RequestServerFailureAction(string message, bool showFallback, Guid requestId);
+
+		/// <summary>
 		/// Requests the client to render a message box and subsequently return the interaction result as separate message.
 		/// </summary>
 		CommunicationResult ShowMessage(string message, string title, int action, int icon, Guid requestId);

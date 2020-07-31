@@ -29,6 +29,8 @@ namespace SafeExamBrowser.Communication.Contracts
 	[ServiceKnownType(typeof(PasswordRequestMessage))]
 	[ServiceKnownType(typeof(ReconfigurationMessage))]
 	[ServiceKnownType(typeof(ReconfigurationDeniedMessage))]
+	[ServiceKnownType(typeof(ServerFailureActionReplyMessage))]
+	[ServiceKnownType(typeof(ServerFailureActionRequestMessage))]
 	[ServiceKnownType(typeof(ServiceConfiguration))]
 	[ServiceKnownType(typeof(SessionStartMessage))]
 	[ServiceKnownType(typeof(SessionStopMessage))]

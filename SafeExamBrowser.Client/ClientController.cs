@@ -192,6 +192,7 @@ namespace SafeExamBrowser.Client
 			ClientHost.PasswordRequested += ClientHost_PasswordRequested;
 			ClientHost.ReconfigurationAborted += ClientHost_ReconfigurationAborted;
 			ClientHost.ReconfigurationDenied += ClientHost_ReconfigurationDenied;
+			ClientHost.ServerFailureActionRequested += ClientHost_ServerFailureActionRequested;
 			ClientHost.Shutdown += ClientHost_Shutdown;
 			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
 			runtime.ConnectionLost += Runtime_ConnectionLost;
@@ -233,6 +234,7 @@ namespace SafeExamBrowser.Client
 				ClientHost.PasswordRequested -= ClientHost_PasswordRequested;
 				ClientHost.ReconfigurationAborted -= ClientHost_ReconfigurationAborted;
 				ClientHost.ReconfigurationDenied -= ClientHost_ReconfigurationDenied;
+				ClientHost.ServerFailureActionRequested -= ClientHost_ServerFailureActionRequested;
 				ClientHost.Shutdown -= ClientHost_Shutdown;
 			}
 
@@ -461,6 +463,17 @@ namespace SafeExamBrowser.Client
 			logger.Info($"The reconfiguration request for '{args.ConfigurationPath}' was denied by the runtime!");
 			messageBox.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle, parent: splashScreen);
 			splashScreen.Hide();
+		}
+
+		private void ClientHost_ServerFailureActionRequested(ServerFailureActionRequestEventArgs args)
+		{
+			logger.Info($"Received server failure action request with id '{args.RequestId}'.");
+
+			var dialog = uiFactory.CreateServerFailureDialog(args.Message, args.ShowFallback);
+			var result = dialog.Show(splashScreen);
+
+			runtime.SubmitServerFailureActionResult(args.RequestId, result.Abort, result.Fallback, result.Retry);
+			logger.Info($"Server failure action request with id '{args.RequestId}' is complete.");
 		}
 
 		private void ClientHost_Shutdown()

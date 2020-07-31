@@ -71,6 +71,8 @@
     <Compile Include="Data\ReconfigurationDeniedMessage.cs" />
     <Compile Include="Data\ReconfigurationMessage.cs" />
     <Compile Include="Data\Response.cs" />
+    <Compile Include="Data\ServerFailureActionReplyMessage.cs" />
+    <Compile Include="Data\ServerFailureActionRequestMessage.cs" />
     <Compile Include="Data\SessionStartMessage.cs" />
     <Compile Include="Data\SessionStopMessage.cs" />
     <Compile Include="Data\SimpleMessage.cs" />
@@ -87,6 +89,8 @@
     <Compile Include="Events\PasswordReplyEventArgs.cs" />
     <Compile Include="Events\PasswordRequestEventArgs.cs" />
     <Compile Include="Events\ReconfigurationEventArgs.cs" />
+    <Compile Include="Events\ServerFailureActionReplyEventArgs.cs" />
+    <Compile Include="Events\ServerFailureActionRequestEventArgs.cs" />
     <Compile Include="Events\SessionStartEventArgs.cs" />
     <Compile Include="Events\SessionStopEventArgs.cs" />
     <Compile Include="Hosts\IClientHost.cs" />

@@ -52,5 +52,10 @@ namespace SafeExamBrowser.Communication.Contracts.Proxies
 		/// the password parameter will be <see cref="default(string)"/>!
 		/// </summary>
 		CommunicationResult SubmitPassword(Guid requestId, bool success, string password = default(string));
+
+		/// <summary>
+		/// Submits the result of a server failure action selection previously requested by the runtime.
+		/// </summary>
+		CommunicationResult SubmitServerFailureActionResult(Guid requestId, bool abort, bool fallback, bool retry);
 	}
 }

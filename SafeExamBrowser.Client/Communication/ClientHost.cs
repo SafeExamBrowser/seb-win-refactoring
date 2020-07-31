@@ -30,6 +30,7 @@ namespace SafeExamBrowser.Client.Communication
 		public event CommunicationEventHandler ReconfigurationAborted;
 		public event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationDenied;
 		public event CommunicationEventHandler RuntimeDisconnected;
+		public event CommunicationEventHandler<ServerFailureActionRequestEventArgs> ServerFailureActionRequested;
 		public event CommunicationEventHandler Shutdown;
 
 		public ClientHost(
@@ -81,6 +82,9 @@ namespace SafeExamBrowser.Client.Communication
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 				case ReconfigurationDeniedMessage m:
 					ReconfigurationDenied?.InvokeAsync(new ReconfigurationEventArgs { ConfigurationPath = m.FilePath });
+					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
+				case ServerFailureActionRequestMessage m:
+					ServerFailureActionRequested?.InvokeAsync(new ServerFailureActionRequestEventArgs { Message = m.Message, RequestId = m.RequestId, ShowFallback = m.ShowFallback });
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 			}
 

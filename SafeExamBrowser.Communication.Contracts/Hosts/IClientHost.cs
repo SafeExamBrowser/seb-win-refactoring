@@ -57,6 +57,11 @@ namespace SafeExamBrowser.Communication.Contracts.Hosts
 		event CommunicationEventHandler RuntimeDisconnected;
 
 		/// <summary>
+		/// Event fired when the runtime requests a server failure action selection from the user.
+		/// </summary>
+		event CommunicationEventHandler<ServerFailureActionRequestEventArgs> ServerFailureActionRequested;
+
+		/// <summary>
 		/// Event fired when the runtime commands the client to shutdown.
 		/// </summary>
 		event CommunicationEventHandler Shutdown;

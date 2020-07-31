@@ -204,5 +204,31 @@ namespace SafeExamBrowser.Communication.Proxies
 				return new CommunicationResult(false);
 			}
 		}
+
+		public CommunicationResult SubmitServerFailureActionResult(Guid requestId, bool abort, bool fallback, bool retry)
+		{
+			try
+			{
+				var response = Send(new ServerFailureActionReplyMessage(abort, fallback, retry, requestId));
+				var acknowledged = IsAcknowledged(response);
+
+				if (acknowledged)
+				{
+					Logger.Debug("Runtime acknowledged server failure action transmission.");
+				}
+				else
+				{
+					Logger.Error($"Runtime did not acknowledge server failure action transmission! Response: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(acknowledged);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(SubmitServerFailureActionResult)}'", e);
+
+				return new CommunicationResult(false);
+			}
+		}
 	}
 }

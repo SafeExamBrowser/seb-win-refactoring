@@ -567,7 +567,37 @@ namespace SafeExamBrowser.Runtime
 
 		private void TryAskForServerFailureActionViaClient(ServerFailureEventArgs args)
 		{
-			// TODO: Implement communication mechanism!
+			var requestId = Guid.NewGuid();
+			var response = default(ServerFailureActionReplyEventArgs);
+			var responseEvent = new AutoResetEvent(false);
+			var responseEventHandler = new CommunicationEventHandler<ServerFailureActionReplyEventArgs>((a) =>
+			{
+				if (a.RequestId == requestId)
+				{
+					response = a;
+					responseEvent.Set();
+				}
+			});
+
+			runtimeHost.ServerFailureActionReceived += responseEventHandler;
+
+			var communication = sessionContext.ClientProxy.RequestServerFailureAction(args.Message, args.ShowFallback, requestId);
+
+			if (communication.Success)
+			{
+				responseEvent.WaitOne();
+				args.Abort = response.Abort;
+				args.Fallback = response.Fallback;
+				args.Retry = response.Retry;
+			}
+			else
+			{
+				args.Abort = true;
+				args.Fallback = false;
+				args.Retry = false;
+			}
+
+			runtimeHost.ServerFailureActionReceived -= responseEventHandler;
 		}
 
 		private void TryGetPasswordViaDialog(PasswordRequiredEventArgs args)

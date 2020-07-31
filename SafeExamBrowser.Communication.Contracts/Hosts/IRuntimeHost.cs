@@ -62,6 +62,11 @@ namespace SafeExamBrowser.Communication.Contracts.Hosts
 		event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationRequested;
 
 		/// <summary>
+		/// Event fired when the client submitted a server failure action chosen by the user.
+		/// </summary>
+		event CommunicationEventHandler<ServerFailureActionReplyEventArgs> ServerFailureActionReceived;
+
+		/// <summary>
 		/// Event fired when the client requests to shut down the application.
 		/// </summary>
 		event CommunicationEventHandler ShutdownRequested;

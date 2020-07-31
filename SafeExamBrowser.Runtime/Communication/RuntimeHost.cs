@@ -28,6 +28,7 @@ namespace SafeExamBrowser.Runtime.Communication
 		public event CommunicationEventHandler<MessageBoxReplyEventArgs> MessageBoxReplyReceived;
 		public event CommunicationEventHandler<PasswordReplyEventArgs> PasswordReceived;
 		public event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationRequested;
+		public event CommunicationEventHandler<ServerFailureActionReplyEventArgs> ServerFailureActionReceived;
 		public event CommunicationEventHandler ShutdownRequested;
 
 		public RuntimeHost(string address, IHostObjectFactory factory, ILogger logger, int timeout_ms) : base(address, factory, logger, timeout_ms)
@@ -70,6 +71,9 @@ namespace SafeExamBrowser.Runtime.Communication
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 				case ReconfigurationMessage m:
 					ReconfigurationRequested?.InvokeAsync(new ReconfigurationEventArgs { ConfigurationPath = m.ConfigurationPath });
+					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
+				case ServerFailureActionReplyMessage m:
+					ServerFailureActionReceived?.InvokeAsync(new ServerFailureActionReplyEventArgs { Abort = m.Abort, Fallback = m.Fallback, RequestId = m.RequestId, Retry = m.Retry });
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 			}
 
