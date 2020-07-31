@@ -54,8 +54,6 @@ namespace SafeExamBrowser.Client.Operations
 					Context.AppConfig.ServerExamId,
 					Context.AppConfig.ServerOauth2Token,
 					Context.Settings.Server);
-
-				// TODO: Add action center and taskbar notifications
 			}
 
 			return result;
@@ -69,8 +67,6 @@ namespace SafeExamBrowser.Client.Operations
 			{
 				logger.Info("Finalizing server...");
 				StatusChanged?.Invoke(TextKey.OperationStatus_FinalizeServer);
-
-				// TODO: Stop action center and taskbar notifications
 
 				server.StopConnectivity();
 			}

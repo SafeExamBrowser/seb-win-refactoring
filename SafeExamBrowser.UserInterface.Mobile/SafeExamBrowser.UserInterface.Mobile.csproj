@@ -149,6 +149,9 @@
     <Compile Include="Controls\Taskview\WindowControl.xaml.cs">
       <DependentUpon>WindowControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ExamSelectionDialog.xaml.cs">
+      <DependentUpon>ExamSelectionDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\FileSystemDialog.xaml.cs">
       <DependentUpon>FileSystemDialog.xaml</DependentUpon>
     </Compile>
@@ -171,6 +174,9 @@
     </Compile>
     <Compile Include="Windows\RuntimeWindow.xaml.cs">
       <DependentUpon>RuntimeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ServerFailureDialog.xaml.cs">
+      <DependentUpon>ServerFailureDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
@@ -374,6 +380,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Windows\ExamSelectionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\FileSystemDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -473,6 +483,10 @@
     <Page Include="Windows\RuntimeWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\ServerFailureDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\SplashScreen.xaml">
       <Generator>MSBuild:Compile</Generator>

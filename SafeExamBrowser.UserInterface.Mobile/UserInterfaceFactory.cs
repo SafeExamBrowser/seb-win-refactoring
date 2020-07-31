@@ -84,8 +84,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		public IExamSelectionDialog CreateExamSelectionDialog(IEnumerable<Exam> exams)
 		{
-			// TODO
-			throw new System.NotImplementedException();
+			return Application.Current.Dispatcher.Invoke(() => new ExamSelectionDialog(exams, text));
 		}
 
 		public ISystemControl CreateKeyboardLayoutControl(IKeyboard keyboard, Location location)
@@ -170,8 +169,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		public IServerFailureDialog CreateServerFailureDialog(string info, bool showFallback)
 		{
-			// TODO
-			throw new System.NotImplementedException();
+			return Application.Current.Dispatcher.Invoke(() => new ServerFailureDialog(info, showFallback, text));
 		}
 
 		public ISplashScreen CreateSplashScreen(AppConfig appConfig = null)
