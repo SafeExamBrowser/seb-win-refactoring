@@ -24,6 +24,7 @@ namespace SafeExamBrowser.Runtime.Communication
 		public event CommunicationEventHandler ClientDisconnected;
 		public event CommunicationEventHandler ClientReady;
 		public event CommunicationEventHandler<ClientConfigurationEventArgs> ClientConfigurationNeeded;
+		public event CommunicationEventHandler<ExamSelectionReplyEventArgs> ExamSelectionReceived;
 		public event CommunicationEventHandler<MessageBoxReplyEventArgs> MessageBoxReplyReceived;
 		public event CommunicationEventHandler<PasswordReplyEventArgs> PasswordReceived;
 		public event CommunicationEventHandler<ReconfigurationEventArgs> ReconfigurationRequested;
@@ -58,6 +59,9 @@ namespace SafeExamBrowser.Runtime.Communication
 		{
 			switch (message)
 			{
+				case ExamSelectionReplyMessage m:
+					ExamSelectionReceived?.InvokeAsync(new ExamSelectionReplyEventArgs { RequestId = m.RequestId, SelectedExamId = m.SelectedExamId, Success = m.Success });
+					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 				case MessageBoxReplyMessage m:
 					MessageBoxReplyReceived?.InvokeAsync(new MessageBoxReplyEventArgs { RequestId = m.RequestId, Result = m.Result });
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);

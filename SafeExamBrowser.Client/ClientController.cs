@@ -28,6 +28,7 @@ using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Monitoring.Contracts.Display;
 using SafeExamBrowser.Monitoring.Contracts.System;
 using SafeExamBrowser.Server.Contracts;
+using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
@@ -186,6 +187,7 @@ namespace SafeExamBrowser.Client
 			Browser.ConfigurationDownloadRequested += Browser_ConfigurationDownloadRequested;
 			Browser.SessionIdentifierDetected += Browser_SessionIdentifierDetected;
 			Browser.TerminationRequested += Browser_TerminationRequested;
+			ClientHost.ExamSelectionRequested += ClientHost_ExamSelectionRequested;
 			ClientHost.MessageBoxRequested += ClientHost_MessageBoxRequested;
 			ClientHost.PasswordRequested += ClientHost_PasswordRequested;
 			ClientHost.ReconfigurationAborted += ClientHost_ReconfigurationAborted;
@@ -226,6 +228,7 @@ namespace SafeExamBrowser.Client
 
 			if (ClientHost != null)
 			{
+				ClientHost.ExamSelectionRequested -= ClientHost_ExamSelectionRequested;
 				ClientHost.MessageBoxRequested -= ClientHost_MessageBoxRequested;
 				ClientHost.PasswordRequested -= ClientHost_PasswordRequested;
 				ClientHost.ReconfigurationAborted -= ClientHost_ReconfigurationAborted;
@@ -391,6 +394,18 @@ namespace SafeExamBrowser.Client
 				messageBox.Show(TextKey.MessageBox_ConfigurationDownloadError, TextKey.MessageBox_ConfigurationDownloadErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
 				splashScreen.Hide();
 			}
+		}
+
+		private void ClientHost_ExamSelectionRequested(ExamSelectionRequestEventArgs args)
+		{
+			logger.Info($"Received exam selection request with id '{args.RequestId}'.");
+
+			var exams = args.Exams.Select(e => new Exam { Id = e.id, LmsName = e.lms, Name = e.name, Url = e.url });
+			var dialog = uiFactory.CreateExamSelectionDialog(exams);
+			var result = dialog.Show(splashScreen);
+
+			runtime.SubmitExamSelectionResult(args.RequestId, result.Success, result.SelectedExam?.Id);
+			logger.Info($"Exam selection request with id '{args.RequestId}' is complete.");
 		}
 
 		private void ClientHost_MessageBoxRequested(MessageBoxRequestEventArgs args)

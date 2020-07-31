@@ -24,6 +24,7 @@ namespace SafeExamBrowser.Client.Communication
 		public Guid AuthenticationToken { private get; set; }
 		public bool IsConnected { get; private set; }
 
+		public event CommunicationEventHandler<ExamSelectionRequestEventArgs> ExamSelectionRequested;
 		public event CommunicationEventHandler<MessageBoxRequestEventArgs> MessageBoxRequested;
 		public event CommunicationEventHandler<PasswordRequestEventArgs> PasswordRequested;
 		public event CommunicationEventHandler ReconfigurationAborted;
@@ -69,6 +70,9 @@ namespace SafeExamBrowser.Client.Communication
 		{
 			switch (message)
 			{
+				case ExamSelectionRequestMessage m:
+					ExamSelectionRequested?.InvokeAsync(new ExamSelectionRequestEventArgs { Exams = m.Exams, RequestId = m.RequestId });
+					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 				case MessageBoxRequestMessage m:
 					MessageBoxRequested?.InvokeAsync(new MessageBoxRequestEventArgs { Action = m.Action, Icon = m.Icon, Message = m.Message, RequestId = m.RequestId, Title = m.Title });
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);

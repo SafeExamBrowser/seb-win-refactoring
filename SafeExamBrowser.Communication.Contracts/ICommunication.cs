@@ -21,6 +21,8 @@ namespace SafeExamBrowser.Communication.Contracts
 	[ServiceKnownType(typeof(AuthenticationResponse))]
 	[ServiceKnownType(typeof(ClientConfiguration))]
 	[ServiceKnownType(typeof(ConfigurationResponse))]
+	[ServiceKnownType(typeof(ExamSelectionReplyMessage))]
+	[ServiceKnownType(typeof(ExamSelectionRequestMessage))]
 	[ServiceKnownType(typeof(MessageBoxReplyMessage))]
 	[ServiceKnownType(typeof(MessageBoxRequestMessage))]
 	[ServiceKnownType(typeof(PasswordReplyMessage))]

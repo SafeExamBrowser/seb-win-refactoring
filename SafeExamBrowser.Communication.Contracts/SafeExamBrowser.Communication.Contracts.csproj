@@ -60,6 +60,8 @@
     <Compile Include="Data\ConnectionResponse.cs" />
     <Compile Include="Data\DisconnectionMessage.cs" />
     <Compile Include="Data\DisconnectionResponse.cs" />
+    <Compile Include="Data\ExamSelectionReplyMessage.cs" />
+    <Compile Include="Data\ExamSelectionRequestMessage.cs" />
     <Compile Include="Data\Message.cs" />
     <Compile Include="Data\MessageBoxReplyMessage.cs" />
     <Compile Include="Data\MessageBoxRequestMessage.cs" />
@@ -78,6 +80,8 @@
     <Compile Include="Events\ClientConfigurationEventArgs.cs" />
     <Compile Include="Events\CommunicationEventArgs.cs" />
     <Compile Include="Events\CommunicationEventHandler.cs" />
+    <Compile Include="Events\ExamSelectionReplyEventArgs.cs" />
+    <Compile Include="Events\ExamSelectionRequestEventArgs.cs" />
     <Compile Include="Events\MessageBoxReplyEventArgs.cs" />
     <Compile Include="Events\MessageBoxRequestEventArgs.cs" />
     <Compile Include="Events\PasswordReplyEventArgs.cs" />

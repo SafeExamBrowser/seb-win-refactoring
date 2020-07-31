@@ -37,14 +37,20 @@ namespace SafeExamBrowser.Communication.Contracts.Proxies
 		CommunicationResult RequestReconfiguration(string filePath);
 
 		/// <summary>
+		/// Submits the result of a server exam selection previously requested by the runtime. If the procedure was aborted by the user,
+		/// the selected exam identifier will be <see cref="default(string)"/>!
+		/// </summary>
+		CommunicationResult SubmitExamSelectionResult(Guid requestId, bool success, string selectedExamId = default(string));
+
+		/// <summary>
 		/// Submits the result of a message box input previously requested by the runtime.
 		/// </summary>
 		CommunicationResult SubmitMessageBoxResult(Guid requestId, int result);
 
 		/// <summary>
 		/// Submits the result of a password input previously requested by the runtime. If the procedure was aborted by the user,
-		/// the password parameter will be <c>null</c>!
+		/// the password parameter will be <see cref="default(string)"/>!
 		/// </summary>
-		CommunicationResult SubmitPassword(Guid requestId, bool success, string password = null);
+		CommunicationResult SubmitPassword(Guid requestId, bool success, string password = default(string));
 	}
 }

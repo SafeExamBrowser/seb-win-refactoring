@@ -27,6 +27,11 @@ namespace SafeExamBrowser.Communication.Contracts.Hosts
 		bool IsConnected { get; }
 
 		/// <summary>
+		/// Event fired when the runtime requests a server exam selection from the user.
+		/// </summary>
+		event CommunicationEventHandler<ExamSelectionRequestEventArgs> ExamSelectionRequested;
+
+		/// <summary>
 		/// Event fired when the runtime requests a message box input from the user.
 		/// </summary>
 		event CommunicationEventHandler<MessageBoxRequestEventArgs> MessageBoxRequested;

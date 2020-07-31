@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Linq;
 using System.Threading;
 using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Events;
@@ -18,6 +19,7 @@ using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
+using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -410,8 +412,7 @@ namespace SafeExamBrowser.Runtime
 			}
 			else
 			{
-				// TODO: Also implement mechanism to retrieve selection via client!!
-				// TryAskForExamSelectionViaClient(args);
+				TryAskForExamSelectionViaClient(args);
 			}
 		}
 
@@ -426,8 +427,7 @@ namespace SafeExamBrowser.Runtime
 			}
 			else
 			{
-				// TODO: Also implement mechanism to retrieve selection via client!!
-				// TryAskForServerFailureActionViaClient(args);
+				TryAskForServerFailureActionViaClient(args);
 			}
 		}
 
@@ -521,6 +521,40 @@ namespace SafeExamBrowser.Runtime
 			args.Success = result.Success;
 		}
 
+		private void TryAskForExamSelectionViaClient(ExamSelectionEventArgs args)
+		{
+			var exams = args.Exams.Select(e => (e.Id, e.LmsName, e.Name, e.Url));
+			var requestId = Guid.NewGuid();
+			var response = default(ExamSelectionReplyEventArgs);
+			var responseEvent = new AutoResetEvent(false);
+			var responseEventHandler = new CommunicationEventHandler<ExamSelectionReplyEventArgs>((a) =>
+			{
+				if (a.RequestId == requestId)
+				{
+					response = a;
+					responseEvent.Set();
+				}
+			});
+
+			runtimeHost.ExamSelectionReceived += responseEventHandler;
+
+			var communication = sessionContext.ClientProxy.RequestExamSelection(exams, requestId);
+
+			if (communication.Success)
+			{
+				responseEvent.WaitOne();
+				args.SelectedExam = args.Exams.First(e => e.Id == response.SelectedExamId);
+				args.Success = response.Success;
+			}
+			else
+			{
+				args.SelectedExam = default(Exam);
+				args.Success = false;
+			}
+
+			runtimeHost.ExamSelectionReceived -= responseEventHandler;
+		}
+
 		private void TryAskForServerFailureActionViaDialog(ServerFailureEventArgs args)
 		{
 			var dialog = uiFactory.CreateServerFailureDialog(args.Message, args.ShowFallback);
@@ -529,6 +563,11 @@ namespace SafeExamBrowser.Runtime
 			args.Abort = result.Abort;
 			args.Fallback = result.Fallback;
 			args.Retry = result.Retry;
+		}
+
+		private void TryAskForServerFailureActionViaClient(ServerFailureEventArgs args)
+		{
+			// TODO: Implement communication mechanism!
 		}
 
 		private void TryGetPasswordViaDialog(PasswordRequiredEventArgs args)

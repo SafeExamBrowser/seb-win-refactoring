@@ -127,6 +127,32 @@ namespace SafeExamBrowser.Communication.Proxies
 			}
 		}
 
+		public CommunicationResult SubmitExamSelectionResult(Guid requestId, bool success, string selectedExamId = null)
+		{
+			try
+			{
+				var response = Send(new ExamSelectionReplyMessage(requestId, success, selectedExamId));
+				var acknowledged = IsAcknowledged(response);
+
+				if (acknowledged)
+				{
+					Logger.Debug("Runtime acknowledged server exam selection transmission.");
+				}
+				else
+				{
+					Logger.Error($"Runtime did not acknowledge server exam selection transmission! Response: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(acknowledged);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(SubmitExamSelectionResult)}'", e);
+
+				return new CommunicationResult(false);
+			}
+		}
+
 		public CommunicationResult SubmitMessageBoxResult(Guid requestId, int result)
 		{
 			try

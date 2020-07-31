@@ -285,23 +285,19 @@ namespace SafeExamBrowser.Server
 
 			try
 			{
-				for (var count = 0; count < 5; count--)
+				if (logContent.TryDequeue(out var c) && c is ILogMessage message)
 				{
-					if (logContent.TryDequeue(out var c) && c is ILogMessage message)
+					var json = new JObject
 					{
-						var json = new JObject
-						{
-							["type"] = ToLogType(message.Severity),
-							["timestamp"] = message.DateTime.Ticks,
-							["text"] = message.Message
-						};
+						["type"] = ToLogType(message.Severity),
+						["timestamp"] = message.DateTime.Ticks,
+						["text"] = message.Message
+					};
 
-						var content = json.ToString();
-						var contentType = "application/json;charset=UTF-8";
-						// TODO: Logging these requests spams the application log!
-						// TODO: Why can't we send multiple log messages in one request?
-						var success = TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
-					}
+					var content = json.ToString();
+					var contentType = "application/json;charset=UTF-8";
+					// TODO: Why can't we send multiple log messages in one request?
+					var success = TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
 				}
 			}
 			catch (Exception e)

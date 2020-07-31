@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using SafeExamBrowser.Communication.Contracts.Data;
 
 namespace SafeExamBrowser.Communication.Contracts.Proxies
@@ -35,6 +36,11 @@ namespace SafeExamBrowser.Communication.Contracts.Proxies
 		/// Instructs the client to submit its authentication data.
 		/// </summary>
 		CommunicationResult<AuthenticationResponse> RequestAuthentication();
+
+		/// <summary>
+		/// Requests the client to render a server exam selection dialog and subsequently return the interaction result as separate message.
+		/// </summary>
+		CommunicationResult RequestExamSelection(IEnumerable<(string id, string lms, string name, string url)> exams, Guid requestId);
 
 		/// <summary>
 		/// Requests the client to render a password dialog and subsequently return the interaction result as separate message.

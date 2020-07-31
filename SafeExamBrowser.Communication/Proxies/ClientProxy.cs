@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using SafeExamBrowser.Communication.Contracts;
 using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Proxies;
@@ -124,6 +125,32 @@ namespace SafeExamBrowser.Communication.Proxies
 				Logger.Error($"Failed to perform '{nameof(RequestAuthentication)}'", e);
 
 				return new CommunicationResult<AuthenticationResponse>(false, default(AuthenticationResponse));
+			}
+		}
+
+		public CommunicationResult RequestExamSelection(IEnumerable<(string id, string lms, string name, string url)> exams, Guid requestId)
+		{
+			try
+			{
+				var response = Send(new ExamSelectionRequestMessage(exams, requestId));
+				var success = IsAcknowledged(response);
+
+				if (success)
+				{
+					Logger.Debug("Client acknowledged server exam selection request.");
+				}
+				else
+				{
+					Logger.Error($"Client did not acknowledge server exam selection request! Received: {ToString(response)}.");
+				}
+
+				return new CommunicationResult(success);
+			}
+			catch (Exception e)
+			{
+				Logger.Error($"Failed to perform '{nameof(RequestExamSelection)}'", e);
+
+				return new CommunicationResult(false);
 			}
 		}
 
