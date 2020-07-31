@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SafeExamBrowser.Configuration.Contracts;
@@ -21,20 +23,24 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Server.Data;
+using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server
 {
-	public class ServerProxy : IServerProxy
+	public class ServerProxy : ILogObserver, IServerProxy
 	{
 		private ApiVersion1 api;
+		private AppConfig appConfig;
 		private string connectionToken;
 		private string examId;
 		private HttpClient httpClient;
-		private readonly AppConfig appConfig;
 		private ILogger logger;
+		private ConcurrentQueue<ILogContent> logContent;
 		private string oauth2Token;
+		private int pingNumber;
 		private ServerSettings settings;
+		private Timer timer;
 
 		public ServerProxy(AppConfig appConfig, ILogger logger)
 		{
@@ -42,6 +48,8 @@ namespace SafeExamBrowser.Server
 			this.appConfig = appConfig;
 			this.httpClient = new HttpClient();
 			this.logger = logger;
+			this.logContent = new ConcurrentQueue<ILogContent>();
+			this.timer = new Timer();
 		}
 
 		public ServerResponse Connect()
@@ -200,6 +208,11 @@ namespace SafeExamBrowser.Server
 			Initialize(settings);
 		}
 
+		public void Notify(ILogContent content)
+		{
+			logContent.Enqueue(content);
+		}
+
 		public ServerResponse SendSessionIdentifier(string identifier)
 		{
 			var authorization = ("Authorization", $"Bearer {oauth2Token}");
@@ -224,12 +237,79 @@ namespace SafeExamBrowser.Server
 
 		public void StartConnectivity()
 		{
-			// TODO: Start sending logs and pings
+			foreach (var item in logger.GetLog())
+			{
+				logContent.Enqueue(item);
+			}
+
+			logger.Subscribe(this);
+
+			timer.AutoReset = false;
+			timer.Elapsed += Timer_Elapsed;
+			timer.Interval = 1000;
+			timer.Start();
 		}
 
 		public void StopConnectivity()
 		{
-			// TODO: Stop sending logs and pings
+			logger.Unsubscribe(this);
+
+			timer.Stop();
+			timer.Elapsed -= Timer_Elapsed;
+		}
+
+		private void Timer_Elapsed(object sender, ElapsedEventArgs args)
+		{
+			var authorization = ("Authorization", $"Bearer {oauth2Token}");
+			var token = ("SEBConnectionToken", connectionToken);
+
+			try
+			{
+				var content = $"timestamp={DateTime.Now.Ticks}&ping-number={++pingNumber}";
+				var contentType = "application/x-www-form-urlencoded";
+				var success = TryExecute(HttpMethod.Post, api.PingEndpoint, out var response, content, contentType, authorization, token);
+
+				if (success)
+				{
+					// TODO: Fire event if instruction is sent via response!
+				}
+				else
+				{
+					logger.Error($"Failed to send ping: {ToString(response)}");
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to send ping!", e);
+			}
+
+			try
+			{
+				for (var count = 0; count < 5; count--)
+				{
+					if (logContent.TryDequeue(out var c) && c is ILogMessage message)
+					{
+						var json = new JObject
+						{
+							["type"] = ToLogType(message.Severity),
+							["timestamp"] = message.DateTime.Ticks,
+							["text"] = message.Message
+						};
+
+						var content = json.ToString();
+						var contentType = "application/json;charset=UTF-8";
+						// TODO: Logging these requests spams the application log!
+						// TODO: Why can't we send multiple log messages in one request?
+						var success = TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to send log!", e);
+			}
+
+			timer.Start();
 		}
 
 		private bool TryParseApi(HttpContent content)
@@ -441,6 +521,23 @@ namespace SafeExamBrowser.Server
 			var reader = new StreamReader(stream);
 
 			return reader.ReadToEnd();
+		}
+
+		private string ToLogType(LogLevel severity)
+		{
+			switch (severity)
+			{
+				case LogLevel.Debug:
+					return "DEBUG_LOG";
+				case LogLevel.Error:
+					return "ERROR_LOG";
+				case LogLevel.Info:
+					return "INFO_LOG";
+				case LogLevel.Warning:
+					return "WARN_LOG";
+			}
+
+			return "UNKNOWN";
 		}
 
 		private string ToString(HttpResponseMessage response)

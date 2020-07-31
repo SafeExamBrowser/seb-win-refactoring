@@ -59,12 +59,12 @@ namespace SafeExamBrowser.Server.Contracts
 		ServerResponse SendSessionIdentifier(string identifier);
 
 		/// <summary>
-		/// TODO
+		/// Starts sending ping and log data to the server.
 		/// </summary>
 		void StartConnectivity();
 
 		/// <summary>
-		/// TODO
+		/// Stops sending ping and log data to the server.
 		/// </summary>
 		void StopConnectivity();
 	}

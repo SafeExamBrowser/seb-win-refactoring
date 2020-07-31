@@ -315,6 +315,7 @@ namespace SafeExamBrowser.Browser
 		private void StopMonitoringCookies()
 		{
 			timer.Stop();
+			timer.Elapsed -= Timer_Elapsed;
 		}
 
 		private string ToScheme(ProxyProtocol protocol)
