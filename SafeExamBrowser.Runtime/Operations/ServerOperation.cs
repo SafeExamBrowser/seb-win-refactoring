@@ -77,6 +77,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 								if (status == LoadStatus.Success)
 								{
+									// TODO: Why aren't the server settings and SEB mode correctly set in the exam configuration?
 									var serverSettings = Context.Next.Settings.Server;
 
 									Context.Next.AppConfig.ServerApi = info.Api;

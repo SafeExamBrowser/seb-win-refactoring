@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Server.Contracts.Data;
+using SafeExamBrowser.Server.Contracts.Events;
 using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Contracts
@@ -18,6 +19,11 @@ namespace SafeExamBrowser.Server.Contracts
 	/// </summary>
 	public interface IServerProxy
 	{
+		/// <summary>
+		/// Event fired when the server detects an instruction to terminate SEB.
+		/// </summary>
+		event TerminationRequestedEventHandler TerminationRequested; 
+
 		/// <summary>
 		/// Attempts to initialize a connection with the server.
 		/// </summary>

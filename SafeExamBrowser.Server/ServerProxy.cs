@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using Newtonsoft.Json;
@@ -22,9 +23,11 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
+using SafeExamBrowser.Server.Contracts.Events;
 using SafeExamBrowser.Server.Data;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.Settings.Server;
+using Timer = System.Timers.Timer;
 
 namespace SafeExamBrowser.Server
 {
@@ -32,6 +35,7 @@ namespace SafeExamBrowser.Server
 	{
 		private ApiVersion1 api;
 		private AppConfig appConfig;
+		private CancellationTokenSource cancellationTokenSource;
 		private string connectionToken;
 		private string examId;
 		private HttpClient httpClient;
@@ -40,12 +44,16 @@ namespace SafeExamBrowser.Server
 		private string oauth2Token;
 		private int pingNumber;
 		private ServerSettings settings;
+		private Task task;
 		private Timer timer;
+
+		public event TerminationRequestedEventHandler TerminationRequested;
 
 		public ServerProxy(AppConfig appConfig, ILogger logger)
 		{
 			this.api = new ApiVersion1();
 			this.appConfig = appConfig;
+			this.cancellationTokenSource = new CancellationTokenSource();
 			this.httpClient = new HttpClient();
 			this.logger = logger;
 			this.logContent = new ConcurrentQueue<ILogContent>();
@@ -244,6 +252,9 @@ namespace SafeExamBrowser.Server
 
 			logger.Subscribe(this);
 
+			task = new Task(SendLog, cancellationTokenSource.Token);
+			task.Start();
+
 			timer.AutoReset = false;
 			timer.Elapsed += Timer_Elapsed;
 			timer.Interval = 1000;
@@ -253,25 +264,60 @@ namespace SafeExamBrowser.Server
 		public void StopConnectivity()
 		{
 			logger.Unsubscribe(this);
+			cancellationTokenSource.Cancel();
+			task.Wait();
 
 			timer.Stop();
 			timer.Elapsed -= Timer_Elapsed;
 		}
 
-		private void Timer_Elapsed(object sender, ElapsedEventArgs args)
+		private void SendLog()
 		{
 			var authorization = ("Authorization", $"Bearer {oauth2Token}");
+			var contentType = "application/json;charset=UTF-8";
 			var token = ("SEBConnectionToken", connectionToken);
 
+			logger.Info("Starting to send log items...");
+
+			while (!cancellationTokenSource.IsCancellationRequested)
+			{
+				try
+				{
+					if (logContent.TryDequeue(out var c) && c is ILogMessage message)
+					{
+						var json = new JObject
+						{
+							["type"] = ToLogType(message.Severity),
+							["timestamp"] = message.DateTime.Ticks,
+							["text"] = message.Message
+						};
+						var content = json.ToString();
+						// TODO: Why can't we send multiple log messages in one request?
+						var success = TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
+					}
+				}
+				catch (Exception e)
+				{
+					logger.Error("Failed to send log!", e);
+				}
+			}
+
+			logger.Info("Stopped sending log items.");
+		}
+
+		private void Timer_Elapsed(object sender, ElapsedEventArgs args)
+		{
 			try
 			{
+				var authorization = ("Authorization", $"Bearer {oauth2Token}");
 				var content = $"timestamp={DateTime.Now.Ticks}&ping-number={++pingNumber}";
 				var contentType = "application/x-www-form-urlencoded";
+				var token = ("SEBConnectionToken", connectionToken);
 				var success = TryExecute(HttpMethod.Post, api.PingEndpoint, out var response, content, contentType, authorization, token);
 
-				if (success)
+				if (success && TryParseInstruction(response.Content, out var instruction) && instruction == "SEB_QUIT")
 				{
-					// TODO: Fire event if instruction is sent via response!
+					Task.Run(() => TerminationRequested?.Invoke());
 				}
 				else
 				{
@@ -281,28 +327,6 @@ namespace SafeExamBrowser.Server
 			catch (Exception e)
 			{
 				logger.Error("Failed to send ping!", e);
-			}
-
-			try
-			{
-				if (logContent.TryDequeue(out var c) && c is ILogMessage message)
-				{
-					var json = new JObject
-					{
-						["type"] = ToLogType(message.Severity),
-						["timestamp"] = message.DateTime.Ticks,
-						["text"] = message.Message
-					};
-
-					var content = json.ToString();
-					var contentType = "application/json;charset=UTF-8";
-					// TODO: Why can't we send multiple log messages in one request?
-					var success = TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
-				}
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to send log!", e);
 			}
 
 			timer.Start();
@@ -413,6 +437,24 @@ namespace SafeExamBrowser.Server
 			return exams.Any();
 		}
 
+		private bool TryParseInstruction(HttpContent content, out string instruction)
+		{
+			instruction = default(string);
+
+			try
+			{
+				var json = JsonConvert.DeserializeObject(Extract(content)) as JObject;
+
+				instruction = json["instruction"].Value<string>();
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to parse instruction!", e);
+			}
+
+			return instruction != default(string);
+		}
+
 		private bool TryParseOauth2Token(HttpContent content)
 		{
 			try
@@ -461,7 +503,11 @@ namespace SafeExamBrowser.Server
 				try
 				{
 					response = httpClient.SendAsync(request).GetAwaiter().GetResult();
-					logger.Debug($"Completed request: {request.Method} '{request.RequestUri}' -> {ToString(response)}");
+
+					if (request.RequestUri.AbsolutePath != api.LogEndpoint && request.RequestUri.AbsolutePath != api.PingEndpoint)
+					{
+						logger.Debug($"Completed request: {request.Method} '{request.RequestUri}' -> {ToString(response)}");
+					}
 				}
 				catch (TaskCanceledException)
 				{

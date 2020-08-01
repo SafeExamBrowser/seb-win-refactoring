@@ -206,7 +206,7 @@ namespace SafeExamBrowser.Client
 
 			if (Server != null)
 			{
-				// TODO
+				Server.TerminationRequested += Server_TerminationRequested;
 			}
 		}
 
@@ -240,7 +240,7 @@ namespace SafeExamBrowser.Client
 
 			if (Server != null)
 			{
-				// TODO
+				Server.TerminationRequested -= Server_TerminationRequested;
 			}
 
 			foreach (var activator in context.Activators.OfType<ITerminationActivator>())
@@ -549,6 +549,12 @@ namespace SafeExamBrowser.Client
 			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
 
 			shutdown.Invoke();
+		}
+
+		private void Server_TerminationRequested()
+		{
+			logger.Info("Attempting to shutdown as requested by the server...");
+			TryRequestShutdown();
 		}
 
 		private void Shell_QuitButtonClicked(System.ComponentModel.CancelEventArgs args)
