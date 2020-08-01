@@ -315,9 +315,12 @@ namespace SafeExamBrowser.Server
 				var token = ("SEBConnectionToken", connectionToken);
 				var success = TryExecute(HttpMethod.Post, api.PingEndpoint, out var response, content, contentType, authorization, token);
 
-				if (success && TryParseInstruction(response.Content, out var instruction) && instruction == "SEB_QUIT")
+				if (success)
 				{
-					Task.Run(() => TerminationRequested?.Invoke());
+					if (TryParseInstruction(response.Content, out var instruction) && instruction == "SEB_QUIT")
+					{
+						Task.Run(() => TerminationRequested?.Invoke());
+					}
 				}
 				else
 				{
@@ -445,7 +448,10 @@ namespace SafeExamBrowser.Server
 			{
 				var json = JsonConvert.DeserializeObject(Extract(content)) as JObject;
 
-				instruction = json["instruction"].Value<string>();
+				if (json != default(JObject))
+				{
+					instruction = json["instruction"].Value<string>();
+				}
 			}
 			catch (Exception e)
 			{
