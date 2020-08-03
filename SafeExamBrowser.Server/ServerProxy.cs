@@ -97,10 +97,11 @@ namespace SafeExamBrowser.Server
 		public ServerResponse Disconnect()
 		{
 			var authorization = ("Authorization", $"Bearer {oauth2Token}");
+			var content = "delete=true";
 			var contentType = "application/x-www-form-urlencoded";
 			var token = ("SEBConnectionToken", connectionToken);
 
-			var success = TryExecute(HttpMethod.Delete, api.HandshakeEndpoint, out var response, default(string), contentType, authorization, token);
+			var success = TryExecute(HttpMethod.Delete, api.HandshakeEndpoint, out var response, content, contentType, authorization, token);
 			var message = ToString(response);
 
 			if (success)
