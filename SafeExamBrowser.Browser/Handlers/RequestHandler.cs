@@ -31,12 +31,18 @@ namespace SafeExamBrowser.Browser.Handlers
 		internal event UrlEventHandler QuitUrlVisited;
 		internal event UrlEventHandler RequestBlocked;
 
-		internal RequestHandler(AppConfig appConfig, IRequestFilter filter, ILogger logger, BrowserSettings settings, IText text)
+		internal RequestHandler(
+			AppConfig appConfig,
+			IRequestFilter filter,
+			ILogger logger,
+			BrowserSettings settings,
+			ResourceHandler resourceHandler,
+			IText text)
 		{
 			this.filter = filter;
 			this.logger = logger;
 			this.settings = settings;
-			this.resourceHandler = new ResourceHandler(appConfig, settings, filter, logger, text);
+			this.resourceHandler = resourceHandler;
 		}
 
 		protected override bool GetAuthCredentials(IWebBrowser webBrowser, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)

@@ -10,8 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Timers;
 using CefSharp;
 using CefSharp.WinForms;
 using SafeExamBrowser.Applications.Contracts;
@@ -41,10 +39,8 @@ namespace SafeExamBrowser.Browser
 		private IFileSystemDialog fileSystemDialog;
 		private IMessageBox messageBox;
 		private IModuleLogger logger;
-		private List<string> sessionCookies;
 		private BrowserSettings settings;
 		private IText text;
-		private Timer timer;
 		private IUserInterfaceFactory uiFactory;
 
 		public bool AutoStart { get; private set; }
@@ -72,10 +68,8 @@ namespace SafeExamBrowser.Browser
 			this.instances = new List<BrowserApplicationInstance>();
 			this.logger = logger;
 			this.messageBox = messageBox;
-			this.sessionCookies = new List<string>();
 			this.settings = settings;
 			this.text = text;
-			this.timer = new Timer();
 			this.uiFactory = uiFactory;
 		}
 
@@ -111,14 +105,11 @@ namespace SafeExamBrowser.Browser
 		public void Start()
 		{
 			CreateNewInstance();
-			StartMonitoringCookies();
 		}
 
 		public void Terminate()
 		{
 			logger.Info("Initiating termination...");
-
-			StopMonitoringCookies();
 
 			foreach (var instance in instances)
 			{
@@ -155,6 +146,7 @@ namespace SafeExamBrowser.Browser
 
 			instance.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
 			instance.PopupRequested += Instance_PopupRequested;
+			instance.SessionIdentifierDetected += (i) => SessionIdentifierDetected?.Invoke(i);
 			instance.Terminated += Instance_Terminated;
 			instance.TerminationRequested += () => TerminationRequested?.Invoke();
 
@@ -304,20 +296,6 @@ namespace SafeExamBrowser.Browser
 			return userAgent;
 		}
 
-		private void StartMonitoringCookies()
-		{
-			timer.AutoReset = false;
-			timer.Interval = 1000;
-			timer.Elapsed += Timer_Elapsed;
-			timer.Start();
-		}
-
-		private void StopMonitoringCookies()
-		{
-			timer.Stop();
-			timer.Elapsed -= Timer_Elapsed;
-		}
-
 		private string ToScheme(ProxyProtocol protocol)
 		{
 			switch (protocol)
@@ -345,41 +323,6 @@ namespace SafeExamBrowser.Browser
 		{
 			instances.Remove(instances.First(i => i.Id == id));
 			WindowsChanged?.Invoke();
-		}
-
-		private void Timer_Elapsed(object sender, ElapsedEventArgs args)
-		{
-			try
-			{
-				var manager = Cef.GetGlobalCookieManager();
-				var task = manager.VisitAllCookiesAsync();
-				var cookies = task.GetAwaiter().GetResult();
-				var edxLogin = cookies.FirstOrDefault(c => c.Name == "edxloggedin");
-				var moodleSession = cookies.FirstOrDefault(c => c.Name == "MoodleSession");
-
-				if (edxLogin != default(Cookie))
-				{
-					var edxSession = cookies.FirstOrDefault(c => c.Domain == edxLogin.Domain && c.Name == "sessionid");
-
-					if (edxSession != default(Cookie) && !sessionCookies.Contains(edxSession.Domain))
-					{
-						sessionCookies.Add(edxSession.Domain);
-						Task.Run(() => SessionIdentifierDetected?.Invoke(edxSession.Value));
-					}
-				}
-
-				if (moodleSession != default(Cookie) && !sessionCookies.Contains(moodleSession.Domain))
-				{
-					sessionCookies.Add(moodleSession.Domain);
-					Task.Run(() => SessionIdentifierDetected?.Invoke(moodleSession.Value));
-				}
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to read cookies!", e);
-			}
-
-			timer.Start();
 		}
 	}
 }

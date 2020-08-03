@@ -30,6 +30,7 @@ using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 using Request = SafeExamBrowser.Browser.Contracts.Filters.Request;
+using ResourceHandler = SafeExamBrowser.Browser.Handlers.ResourceHandler;
 using TitleChangedEventHandler = SafeExamBrowser.Applications.Contracts.Events.TitleChangedEventHandler;
 
 namespace SafeExamBrowser.Browser
@@ -65,6 +66,7 @@ namespace SafeExamBrowser.Browser
 
 		internal event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 		internal event PopupRequestedEventHandler PopupRequested;
+		internal event SessionIdentifierDetectedEventHandler SessionIdentifierDetected;
 		internal event InstanceTerminatedEventHandler Terminated;
 		internal event TerminationRequestedEventHandler TerminationRequested;
 
@@ -124,7 +126,8 @@ namespace SafeExamBrowser.Browser
 			var lifeSpanHandler = new LifeSpanHandler();
 			var requestFilter = new RequestFilter();
 			var requestLogger = logger.CloneFor($"{nameof(RequestHandler)} #{Id}");
-			var requestHandler = new RequestHandler(appConfig, requestFilter, requestLogger, settings, text);
+			var resourceHandler = new ResourceHandler(appConfig, settings, requestFilter, logger, text);
+			var requestHandler = new RequestHandler(appConfig, requestFilter, requestLogger, settings, resourceHandler, text);
 
 			Icon = new BrowserIconResource();
 
@@ -138,6 +141,7 @@ namespace SafeExamBrowser.Browser
 			keyboardHandler.ZoomOutRequested += ZoomOutRequested;
 			keyboardHandler.ZoomResetRequested += ZoomResetRequested;
 			lifeSpanHandler.PopupRequested += LifeSpanHandler_PopupRequested;
+			resourceHandler.SessionIdentifierDetected += (id) => SessionIdentifierDetected?.Invoke(id);
 			requestHandler.QuitUrlVisited += RequestHandler_QuitUrlVisited;
 			requestHandler.RequestBlocked += RequestHandler_RequestBlocked;
 

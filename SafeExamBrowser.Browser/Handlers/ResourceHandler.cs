@@ -8,10 +8,15 @@
 
 using System;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Net.Mime;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using CefSharp;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Browser.Pages;
 using SafeExamBrowser.Configuration.Contracts;
@@ -35,6 +40,8 @@ namespace SafeExamBrowser.Browser.Handlers
 		private IResourceHandler pageHandler;
 		private BrowserSettings settings;
 		private IText text;
+
+		internal event SessionIdentifierDetectedEventHandler SessionIdentifierDetected;
 
 		internal ResourceHandler(AppConfig appConfig, BrowserSettings settings, IRequestFilter filter, ILogger logger, IText text)
 		{
@@ -70,6 +77,13 @@ namespace SafeExamBrowser.Browser.Handlers
 			return base.OnBeforeResourceLoad(webBrowser, browser, frame, request, callback);
 		}
 
+		protected override void OnResourceRedirect(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response, ref string newUrl)
+		{
+			SearchSessionIdentifiers(response);
+
+			base.OnResourceRedirect(chromiumWebBrowser, browser, frame, request, response, ref newUrl);
+		}
+
 		protected override bool OnResourceResponse(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response)
 		{
 			if (RedirectToDisablePdfToolbar(request, response, out var url))
@@ -78,6 +92,8 @@ namespace SafeExamBrowser.Browser.Handlers
 
 				return true;
 			}
+
+			SearchSessionIdentifiers(response);
 
 			return base.OnResourceResponse(webBrowser, browser, frame, request, response);
 		}
@@ -204,6 +220,65 @@ namespace SafeExamBrowser.Browser.Handlers
 					return pageHandler;
 				default:
 					return contentHandler;
+			}
+		}
+
+		private void SearchSessionIdentifiers(IResponse response)
+		{
+			SearchEdxIdentifier(response);
+			SearchMoodleIdentifier(response);
+		}
+
+		private void SearchEdxIdentifier(IResponse response)
+		{
+			var cookies = response.Headers.GetValues("Set-Cookie");
+
+			if (cookies != default(string[]))
+			{
+				try
+				{
+					var userInfo = cookies.FirstOrDefault(c => c.Contains("edx-user-info"));
+
+					if (userInfo != default(string))
+					{
+						var start = userInfo.IndexOf("=") + 1;
+						var end = userInfo.IndexOf("; expires");
+						var cookie = userInfo.Substring(start, end - start);
+						var sanitized = cookie.Replace("\\\"", "\"").Replace("\\054", ",").Trim('"');
+						var json = JsonConvert.DeserializeObject(sanitized) as JObject;
+						var userName = json["username"].Value<string>();
+
+						Task.Run(() => SessionIdentifierDetected?.Invoke(userName));
+					}
+				}
+				catch (Exception e)
+				{
+					logger.Error("Failed to parse edX session identifier!", e);
+				}
+			}
+		}
+
+		private void SearchMoodleIdentifier(IResponse response)
+		{
+			var locations = response.Headers.GetValues("Location");
+
+			if (locations != default(string[]))
+			{
+				try
+				{
+					var location = locations.FirstOrDefault(l => l.Contains("moodle/login/index.php?testsession"));
+
+					if (location != default(string))
+					{
+						var userId = location.Substring(location.IndexOf("=") + 1);
+
+						Task.Run(() => SessionIdentifierDetected?.Invoke(userId));
+					}
+				}
+				catch (Exception e)
+				{
+					logger.Error("Failed to parse Moodle session identifier!", e);
+				}
 			}
 		}
 	}

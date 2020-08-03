@@ -256,20 +256,28 @@ namespace SafeExamBrowser.Server
 			task = new Task(SendLog, cancellationTokenSource.Token);
 			task.Start();
 
+			logger.Info("Started sending log items.");
+
 			timer.AutoReset = false;
 			timer.Elapsed += Timer_Elapsed;
 			timer.Interval = 1000;
 			timer.Start();
+
+			logger.Info("Starting sending pings.");
 		}
 
 		public void StopConnectivity()
 		{
 			logger.Unsubscribe(this);
 			cancellationTokenSource.Cancel();
-			task.Wait();
+			task?.Wait();
+
+			logger.Info("Stopped sending log items.");
 
 			timer.Stop();
 			timer.Elapsed -= Timer_Elapsed;
+
+			logger.Info("Stopped sending pings.");
 		}
 
 		private void SendLog()
@@ -277,8 +285,6 @@ namespace SafeExamBrowser.Server
 			var authorization = ("Authorization", $"Bearer {oauth2Token}");
 			var contentType = "application/json;charset=UTF-8";
 			var token = ("SEBConnectionToken", connectionToken);
-
-			logger.Info("Starting to send log items...");
 
 			while (!cancellationTokenSource.IsCancellationRequested)
 			{
@@ -293,7 +299,6 @@ namespace SafeExamBrowser.Server
 							["text"] = message.Message
 						};
 						var content = json.ToString();
-						// TODO: Why can't we send multiple log messages in one request?
 						var success = TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
 					}
 				}
@@ -302,8 +307,6 @@ namespace SafeExamBrowser.Server
 					logger.Error("Failed to send log!", e);
 				}
 			}
-
-			logger.Info("Stopped sending log items.");
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs args)
