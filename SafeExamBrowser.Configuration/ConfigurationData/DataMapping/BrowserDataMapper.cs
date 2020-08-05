@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.AllowConfigurationDownloads:
 					MapAllowConfigurationDownloads(settings, value);
 					break;
-				case Keys.Browser.AllowCustomDownloadLocation:
+				case Keys.Browser.AllowCustomDownUploadLocation:
 					MapAllowCustomDownloadLocation(settings, value);
 					break;
 				case Keys.Browser.AllowDeveloperConsole:
@@ -173,7 +173,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool allow)
 			{
-				settings.Browser.AllowCustomDownloadLocation = allow;
+				settings.Browser.AllowCustomDownAndUploadLocation = allow;
 			}
 		}
 
@@ -281,7 +281,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is string directory)
 			{
-				settings.Browser.DownloadDirectory = directory;
+				settings.Browser.DownAndUploadDirectory = directory;
 			}
 		}
 

@@ -508,7 +508,8 @@ namespace SafeExamBrowser.Client.UnitTests
 				It.IsAny<string>(),
 				It.IsAny<string>(),
 				It.IsAny<string>(),
-				It.IsAny<IWindow>())).Returns(result);
+				It.IsAny<IWindow>(),
+				It.IsAny<bool>())).Returns(result);
 			text.SetReturnsDefault(string.Empty);
 
 			sut.TryStart();
@@ -530,7 +531,8 @@ namespace SafeExamBrowser.Client.UnitTests
 				It.IsAny<string>(),
 				It.IsAny<string>(),
 				It.IsAny<string>(),
-				It.IsAny<IWindow>())).Returns(result);
+				It.IsAny<IWindow>(),
+				It.IsAny<bool>())).Returns(result);
 			text.SetReturnsDefault(string.Empty);
 
 			sut.TryStart();

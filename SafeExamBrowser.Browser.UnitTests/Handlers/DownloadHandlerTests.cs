@@ -172,15 +172,15 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			});
 			settings.AllowDownloads = true;
 			settings.AllowConfigurationDownloads = false;
-			settings.AllowCustomDownloadLocation = true;
-			settings.DownloadDirectory = @"%APPDATA%\Downloads";
+			settings.AllowCustomDownAndUploadLocation = true;
+			settings.DownAndUploadDirectory = @"%APPDATA%\Downloads";
 			sut.ConfigurationDownloadRequested += (f, a) => failed = true;
 			sut.DownloadUpdated += (state) => failed = true;
 
 			sut.OnBeforeDownload(default(IWebBrowser), default(IBrowser), item, callback.Object);
 			sync.WaitOne();
 
-			var downloadPath = Path.Combine(Environment.ExpandEnvironmentVariables(settings.DownloadDirectory), item.SuggestedFileName);
+			var downloadPath = Path.Combine(Environment.ExpandEnvironmentVariables(settings.DownAndUploadDirectory), item.SuggestedFileName);
 
 			callback.Verify(c => c.Continue(It.Is<string>(p => p.Equals(downloadPath)), true), Times.Once);
 

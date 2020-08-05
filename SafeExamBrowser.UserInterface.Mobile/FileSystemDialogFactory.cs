@@ -23,15 +23,22 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			this.text = text;
 		}
 
-		public FileSystemDialogResult Show(FileSystemElement element, FileSystemOperation operation, string initialPath = default(string), string message = null, string title = null, IWindow parent = null)
+		public FileSystemDialogResult Show(
+			FileSystemElement element,
+			FileSystemOperation operation,
+			string initialPath = default(string),
+			string message = null,
+			string title = null,
+			IWindow parent = null,
+			bool restrictNavigation = false)
 		{
 			if (parent is Window window)
 			{
-				return window.Dispatcher.Invoke(() => new FileSystemDialog(element, operation, text, initialPath, message, title, parent).Show());
+				return window.Dispatcher.Invoke(() => new FileSystemDialog(element, operation, text, initialPath, message, title, parent, restrictNavigation).Show());
 			}
 			else
 			{
-				return new FileSystemDialog(element, operation, text, initialPath, message, title).Show();
+				return new FileSystemDialog(element, operation, text, initialPath, message, title, restrictNavigation: restrictNavigation).Show();
 			}
 		}
 	}

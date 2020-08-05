@@ -28,6 +28,7 @@ using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using Syroot.Windows.IO;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 using Request = SafeExamBrowser.Browser.Contracts.Filters.Request;
 using ResourceHandler = SafeExamBrowser.Browser.Handlers.ResourceHandler;
@@ -262,10 +263,26 @@ namespace SafeExamBrowser.Browser
 			var isDownload = args.Operation == FileSystemOperation.Save;
 			var isUpload = args.Operation == FileSystemOperation.Open;
 			var isAllowed = (isDownload && settings.AllowDownloads) || (isUpload && settings.AllowUploads);
+			var initialPath = default(string);
+
+			if (isDownload)
+			{
+				initialPath = args.InitialPath;
+			}
+			else
+			{
+				initialPath = string.IsNullOrEmpty(settings.DownAndUploadDirectory) ? KnownFolders.Downloads.ExpandedPath : Environment.ExpandEnvironmentVariables(settings.DownAndUploadDirectory);
+			}
 
 			if (isAllowed)
 			{
-				var result = fileSystemDialog.Show(args.Element, args.Operation, args.InitialPath, title: args.Title, parent: window);
+				var result = fileSystemDialog.Show(
+					args.Element,
+					args.Operation,
+					initialPath,
+					title: args.Title,
+					parent: window,
+					restrictNavigation: !settings.AllowCustomDownAndUploadLocation);
 
 				if (result.Success)
 				{

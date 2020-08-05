@@ -528,6 +528,7 @@ namespace SebWindowsConfig
 
 			// Group "Down/Uploads"
 			checkBoxAllowDownUploads.Checked           = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowDownUploads];
+			checkBoxAllowCustomDownloadLocation.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowCustomDownUploadLocation];
 			checkBoxOpenDownloads   .Checked           = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyOpenDownloads];
 			checkBoxDownloadPDFFiles.Checked           = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyDownloadPDFFiles];
 			checkBoxAllowPDFPlugIn  .Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowPDFPlugIn];
@@ -4577,6 +4578,11 @@ namespace SebWindowsConfig
 			checkBoxAllowWindowsUpdate.Enabled = !checkBoxSebServiceIgnore.Checked;
 			checkBoxAllowScreenSharing.Enabled = !checkBoxSebServiceIgnore.Checked;
 			checkBoxAllowChromeNotifications.Enabled = !checkBoxSebServiceIgnore.Checked;
+		}
+
+		private void checkBoxAllowCustomDownloadLocation_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyAllowCustomDownUploadLocation] = checkBoxAllowCustomDownloadLocation.Checked;
 		}
 	}
 }

@@ -27,9 +27,9 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool AllowConfigurationDownloads { get; set; }
 
 		/// <summary>
-		/// Determines whether the user will be allowed to select a custom location when downloading a file (excluding configuration files).
+		/// Determines whether the user will be allowed to select a custom location when down- or uploading a file (excluding configuration files).
 		/// </summary>
-		public bool AllowCustomDownloadLocation { get; set; }
+		public bool AllowCustomDownAndUploadLocation { get; set; }
 
 		/// <summary>
 		/// Determines whether the user will be allowed to download files (excluding configuration files).
@@ -94,9 +94,9 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool DeleteCookiesOnStartup { get; set; }
 
 		/// <summary>
-		/// Defines a custom directory for file downloads. If not defined, all downloads will be saved in the current user's download directory.
+		/// Defines a custom directory for file down- and uploads. If not defined, all operations will be directed to the current user's download directory.
 		/// </summary>
-		public string DownloadDirectory { get; set; }
+		public string DownAndUploadDirectory { get; set; }
 
 		/// <summary>
 		/// Determines whether the user is allowed to use the integrated browser application.

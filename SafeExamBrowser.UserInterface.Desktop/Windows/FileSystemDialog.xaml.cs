@@ -29,6 +29,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		private string message;
 		private FileSystemOperation operation;
 		private IWindow parent;
+		private bool restrictNavigation;
 		private IText text;
 		private string title;
 
@@ -39,13 +40,15 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			string initialPath = default(string),
 			string message = default(string),
 			string title = default(string),
-			IWindow parent = default(IWindow))
+			IWindow parent = default(IWindow),
+			bool restrictNavigation = false)
 		{
 			this.element = element;
 			this.initialPath = initialPath;
 			this.message = message;
 			this.operation = operation;
 			this.parent = parent;
+			this.restrictNavigation = restrictNavigation;
 			this.text = text;
 			this.title = title;
 
@@ -286,6 +289,34 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		}
 
 		private void InitializeFileSystem()
+		{
+			if (restrictNavigation && !string.IsNullOrEmpty(initialPath))
+			{
+				InitializeRestricted();
+			}
+			else
+			{
+				InitializeUnrestricted();
+			}
+		}
+
+		private void InitializeRestricted()
+		{
+			var root = Directory.Exists(initialPath) ? initialPath : Path.GetDirectoryName(initialPath);
+
+			if (Directory.Exists(root))
+			{
+				var directory = CreateItem(new DirectoryInfo(root));
+
+				FileSystem.Items.Add(directory);
+
+				directory.IsExpanded = true;
+				directory.IsSelected = true;
+				directory.BringIntoView();
+			}
+		}
+
+		private void InitializeUnrestricted()
 		{
 			foreach (var drive in DriveInfo.GetDrives())
 			{

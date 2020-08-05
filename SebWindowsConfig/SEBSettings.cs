@@ -173,6 +173,7 @@ namespace SebWindowsConfig
 
 		// Group "DownUploads"
 		public const String KeyAllowDownUploads         = "allowDownUploads";
+		public const String KeyAllowCustomDownUploadLocation = "allowCustomDownUploadLocation";
 		public const String KeyDownloadDirectoryOSX     = "downloadDirectoryOSX";
 		public const String KeyDownloadDirectoryWin     = "downloadDirectoryWin";
 		public const String KeyOpenDownloads            = "openDownloads";
@@ -686,6 +687,7 @@ namespace SebWindowsConfig
 
 			// Default settings for group "DownUploads"
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowDownUploads        , true);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowCustomDownUploadLocation, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyDownloadDirectoryOSX    , "~/Downloads");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyDownloadDirectoryWin    , "");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyOpenDownloads           , false);

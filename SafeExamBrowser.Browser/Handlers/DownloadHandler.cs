@@ -105,13 +105,13 @@ namespace SafeExamBrowser.Browser.Handlers
 		private void HandleFileDownload(DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
 			var filePath = default(string);
-			var showDialog = settings.AllowCustomDownloadLocation;
+			var showDialog = settings.AllowCustomDownAndUploadLocation;
 
 			logger.Debug($"Handling download of file '{downloadItem.SuggestedFileName}'.");
 
-			if (!string.IsNullOrEmpty(settings.DownloadDirectory))
+			if (!string.IsNullOrEmpty(settings.DownAndUploadDirectory))
 			{
-				filePath = Path.Combine(Environment.ExpandEnvironmentVariables(settings.DownloadDirectory), downloadItem.SuggestedFileName);
+				filePath = Path.Combine(Environment.ExpandEnvironmentVariables(settings.DownAndUploadDirectory), downloadItem.SuggestedFileName);
 			}
 			else
 			{
