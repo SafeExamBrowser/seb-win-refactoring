@@ -220,9 +220,6 @@ namespace SafeExamBrowser.Browser
 			window.UpdateAddress(address);
 		}
 
-		/// <summary>
-		/// TODO: LoadError.html is not used, as navigating back from it doesn't work! Remove page if no better solution can be found.
-		/// </summary>
 		private void Control_LoadFailed(int errorCode, string errorText, string url)
 		{
 			if (errorCode == (int) CefErrorCode.None)
@@ -239,8 +236,8 @@ namespace SafeExamBrowser.Browser
 			}
 			else
 			{
-				var title = text.Get(TextKey.Browser_LoadErrorPageTitle);
-				var message = text.Get(TextKey.Browser_LoadErrorPageMessage).Replace("%%URL%%", url) + $" {errorText} ({errorCode})";
+				var title = text.Get(TextKey.Browser_LoadErrorTitle);
+				var message = text.Get(TextKey.Browser_LoadErrorMessage).Replace("%%URL%%", url) + $" {errorText} ({errorCode})";
 
 				logger.Warn($"Request for '{url}' failed: {errorText} ({errorCode}).");
 

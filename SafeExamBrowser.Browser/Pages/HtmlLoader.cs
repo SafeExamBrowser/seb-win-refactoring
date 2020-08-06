@@ -54,23 +54,5 @@ namespace SafeExamBrowser.Browser.Pages
 				return html;
 			}
 		}
-
-		internal string LoadErrorPage()
-		{
-			var assembly = Assembly.GetAssembly(typeof(HtmlLoader));
-			var path = $"{typeof(HtmlLoader).Namespace}.LoadError.html";
-
-			using (var stream = assembly.GetManifestResourceStream(path))
-			using (var reader = new StreamReader(stream))
-			{
-				var html = reader.ReadToEnd();
-
-				html = html.Replace("%%MESSAGE%%", text.Get(TextKey.Browser_LoadErrorPageMessage));
-				html = html.Replace("%%RETRY_BUTTON%%", text.Get(TextKey.Browser_LoadErrorPageButton));
-				html = html.Replace("%%TITLE%%", text.Get(TextKey.Browser_LoadErrorPageTitle));
-
-				return html;
-			}
-		}
 	}
 }

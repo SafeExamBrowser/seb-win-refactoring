@@ -135,9 +135,6 @@
     <EmbeddedResource Include="Pages\BlockedPage.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Pages\LoadError.html" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
