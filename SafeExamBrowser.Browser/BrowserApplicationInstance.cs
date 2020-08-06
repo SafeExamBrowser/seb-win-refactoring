@@ -233,6 +233,10 @@ namespace SafeExamBrowser.Browser
 			{
 				logger.Info($"Request for '{url}' was aborted.");
 			}
+			else if (errorCode == (int) CefErrorCode.UnknownUrlScheme)
+			{
+				logger.Info($"Request for '{url}' contains unknown URL scheme and will be handled by the OS.");
+			}
 			else
 			{
 				var title = text.Get(TextKey.Browser_LoadErrorPageTitle);

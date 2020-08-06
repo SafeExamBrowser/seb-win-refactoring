@@ -77,6 +77,11 @@ namespace SafeExamBrowser.Browser.Handlers
 			return base.OnBeforeResourceLoad(webBrowser, browser, frame, request, callback);
 		}
 
+		protected override bool OnProtocolExecution(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request)
+		{
+			return true;
+		}
+
 		protected override void OnResourceRedirect(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response, ref string newUrl)
 		{
 			SearchSessionIdentifiers(response);
