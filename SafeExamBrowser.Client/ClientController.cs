@@ -251,12 +251,12 @@ namespace SafeExamBrowser.Client
 
 		private void CloseShell()
 		{
-			if (Settings.ActionCenter.EnableActionCenter)
+			if (Settings?.ActionCenter.EnableActionCenter == true)
 			{
 				actionCenter.Close();
 			}
 
-			if (Settings.Taskbar.EnableTaskbar)
+			if (Settings?.Taskbar.EnableTaskbar == true)
 			{
 				taskbar.Close();
 			}

@@ -874,8 +874,11 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Shutdown_MustNotFailIfDependenciesAreNull()
 		{
+			context.AppConfig = null;
 			context.Browser = null;
 			context.ClientHost = null;
+			context.Server = null;
+			context.Settings = null;
 
 			sut.Terminate();
 		}
