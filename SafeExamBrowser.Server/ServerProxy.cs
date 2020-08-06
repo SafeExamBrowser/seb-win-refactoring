@@ -295,7 +295,7 @@ namespace SafeExamBrowser.Server
 						var json = new JObject
 						{
 							["type"] = ToLogType(message.Severity),
-							["timestamp"] = message.DateTime.Ticks,
+							["timestamp"] = ToUnixTimestamp(message.DateTime),
 							["text"] = message.Message
 						};
 						var content = json.ToString();
@@ -314,7 +314,7 @@ namespace SafeExamBrowser.Server
 			try
 			{
 				var authorization = ("Authorization", $"Bearer {oauth2Token}");
-				var content = $"timestamp={DateTime.Now.Ticks}&ping-number={++pingNumber}";
+				var content = $"timestamp={ToUnixTimestamp(DateTime.Now)}&ping-number={++pingNumber}";
 				var contentType = "application/x-www-form-urlencoded";
 				var token = ("SEBConnectionToken", connectionToken);
 				var success = TryExecute(HttpMethod.Post, api.PingEndpoint, out var response, content, contentType, authorization, token);
@@ -595,6 +595,11 @@ namespace SafeExamBrowser.Server
 		private string ToString(HttpResponseMessage response)
 		{
 			return $"{(int?) response?.StatusCode} {response?.StatusCode} {response?.ReasonPhrase}";
+		}
+
+		private long ToUnixTimestamp(DateTime date)
+		{
+			return new DateTimeOffset(date).ToUnixTimeMilliseconds();
 		}
 	}
 }
