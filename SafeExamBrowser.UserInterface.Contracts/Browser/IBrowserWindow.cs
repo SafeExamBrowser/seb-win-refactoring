@@ -50,6 +50,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		event ActionRequestedEventHandler DeveloperConsoleRequested;
 
 		/// <summary>
+		/// Event fired when the user would like to search the current page.
+		/// </summary>
+		event FindRequestedEventHandler FindRequested;
+
+		/// <summary>
 		/// Event fired when the user would like to navigate forwards.
 		/// </summary>
 		event ActionRequestedEventHandler ForwardNavigationRequested;
@@ -73,6 +78,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		/// Event fired when the user would like to reset the zoom factor.
 		/// </summary>
 		event ActionRequestedEventHandler ZoomResetRequested;
+
+		/// <summary>
+		/// Displays the find toolbar to search the content of a page.
+		/// </summary>
+		void ShowFindbar();
 
 		/// <summary>
 		/// Updates the address bar of the browser window to the given value.

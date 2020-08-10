@@ -98,6 +98,11 @@ namespace SafeExamBrowser.Browser
 			RequestHandler = requestHandler;
 		}
 
+		public void Find(string term, bool isInitial, bool caseSensitive, bool forward = true)
+		{
+			this.Find(0, term, forward, caseSensitive, !isInitial);
+		}
+
 		public void NavigateBackwards()
 		{
 			GetBrowser().GoBack();

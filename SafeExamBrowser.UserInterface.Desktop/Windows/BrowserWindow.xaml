@@ -19,6 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Border x:Name="Toolbar" Grid.Row="0" BorderBrush="LightGray" BorderThickness="0,0,0,1" Margin="5,0">
             <Grid>
@@ -71,6 +72,16 @@
                                         <fa:ImageAwesome Icon="SearchMinus" />
                                     </Button>
                                 </Grid>
+                                <Grid x:Name="FindMenuItem" Height="40">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" x:Name="FindMenuText" HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center" />
+                                    <Button Grid.Column="1" x:Name="FindMenuButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}">
+                                        <fa:ImageAwesome Icon="Search" />
+                                    </Button>
+                                </Grid>
                                 <Grid x:Name="DeveloperConsoleMenuItem" Height="40">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
@@ -89,5 +100,27 @@
             </Grid>
         </Border>
         <WindowsFormsHost Grid.Row="1" x:Name="BrowserControlHost" />
+        <Border x:Name="Findbar" Grid.Row="2" BorderBrush="LightGray" BorderThickness="0,1,0,0" Margin="5,0" Visibility="Collapsed">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Height="25" Margin="5,0">
+                    <TextBox x:Name="FindTextBox" Padding="5,0" VerticalContentAlignment="Center" Width="200" />
+                    <Button x:Name="FindPreviousButton" Cursor="Hand" Padding="5" VerticalContentAlignment="Center" Width="25">
+                        <fa:ImageAwesome Icon="AngleUp" />
+                    </Button>
+                    <Button x:Name="FindNextButton" Cursor="Hand" Padding="5" VerticalContentAlignment="Center" Width="25">
+                        <fa:ImageAwesome Icon="AngleDown" />
+                    </Button>
+                    <CheckBox Grid.Column="1" x:Name="FindCaseSensitiveCheckBox" Cursor="Hand" Margin="10,0" Padding="5,0" VerticalContentAlignment="Center" />
+                </StackPanel>
+                <Button Grid.Column="4" x:Name="FindbarCloseButton" Height="25" HorizontalAlignment="Center" Margin="5" Padding="7" Template="{StaticResource BrowserButton}" VerticalAlignment="Center">
+                    <fa:ImageAwesome Icon="Close" />
+                </Button>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

@@ -137,6 +137,7 @@ namespace SafeExamBrowser.Browser
 			displayHandler.ProgressChanged += DisplayHandler_ProgressChanged;
 			downloadHandler.ConfigurationDownloadRequested += DownloadHandler_ConfigurationDownloadRequested;
 			downloadHandler.DownloadUpdated += DownloadHandler_DownloadUpdated;
+			keyboardHandler.FindRequested += KeyboardHandler_FindRequested;
 			keyboardHandler.ReloadRequested += ReloadRequested;
 			keyboardHandler.ZoomInRequested += ZoomInRequested;
 			keyboardHandler.ZoomOutRequested += ZoomOutRequested;
@@ -201,6 +202,7 @@ namespace SafeExamBrowser.Browser
 			window.AddressChanged += Window_AddressChanged;
 			window.BackwardNavigationRequested += Window_BackwardNavigationRequested;
 			window.DeveloperConsoleRequested += Window_DeveloperConsoleRequested;
+			window.FindRequested += Window_FindRequested;
 			window.ForwardNavigationRequested += Window_ForwardNavigationRequested;
 			window.ReloadRequested += ReloadRequested;
 			window.ZoomInRequested += ZoomInRequested;
@@ -353,6 +355,11 @@ namespace SafeExamBrowser.Browser
 			window.UpdateDownloadState(state);
 		}
 
+		private void KeyboardHandler_FindRequested()
+		{
+			window.ShowFindbar();
+		}
+
 		private void LifeSpanHandler_PopupRequested(PopupRequestedEventArgs args)
 		{
 			var validCurrentUri = Uri.TryCreate(control.Address, UriKind.Absolute, out var currentUri);
@@ -490,6 +497,11 @@ namespace SafeExamBrowser.Browser
 		{
 			logger.Debug("Showing developer console...");
 			control.ShowDeveloperConsole();
+		}
+
+		private void Window_FindRequested(string term, bool isInitial, bool caseSensitive, bool forward = true)
+		{
+			control.Find(term, isInitial, caseSensitive, forward);
 		}
 
 		private void Window_ForwardNavigationRequested()

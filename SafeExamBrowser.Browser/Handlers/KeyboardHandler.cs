@@ -14,15 +14,21 @@ namespace SafeExamBrowser.Browser.Handlers
 {
 	internal class KeyboardHandler : IKeyboardHandler
 	{
-		public event ActionRequestedEventHandler ReloadRequested;
-		public event ActionRequestedEventHandler ZoomInRequested;
-		public event ActionRequestedEventHandler ZoomOutRequested;
-		public event ActionRequestedEventHandler ZoomResetRequested;
+		internal event ActionRequestedEventHandler FindRequested;
+		internal event ActionRequestedEventHandler ReloadRequested;
+		internal event ActionRequestedEventHandler ZoomInRequested;
+		internal event ActionRequestedEventHandler ZoomOutRequested;
+		internal event ActionRequestedEventHandler ZoomResetRequested;
 
 		public bool OnKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int keyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey)
 		{
 			var ctrl = modifiers.HasFlag(CefEventFlags.ControlDown);
 			var shift = modifiers.HasFlag(CefEventFlags.ShiftDown);
+
+			if (type == KeyType.KeyUp && ctrl && (keyCode == (int) Keys.F))
+			{
+				FindRequested?.Invoke();
+			}
 
 			if (type == KeyType.KeyUp && ((keyCode == (int) Keys.Add && ctrl) || (keyCode == (int) Keys.D1 && ctrl && shift)))
 			{

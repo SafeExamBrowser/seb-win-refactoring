@@ -42,6 +42,12 @@
     <Entry key="BrowserWindow_DownloadComplete">
         Heruntergeladen.
     </Entry>
+    <Entry key="BrowserWindow_FindCaseSensitive">
+        Gross-/Kleinschreibung beachten
+    </Entry>
+    <Entry key="BrowserWindow_FindMenuItem">
+        Seite durchsuchen...
+    </Entry>
     <Entry key="BrowserWindow_ZoomMenuItem">
         Seiten-Zoom
     </Entry>

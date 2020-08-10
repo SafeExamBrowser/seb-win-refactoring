@@ -47,6 +47,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		public event AddressChangedEventHandler AddressChanged;
 		public event ActionRequestedEventHandler BackwardNavigationRequested;
 		public event ActionRequestedEventHandler DeveloperConsoleRequested;
+		public event FindRequestedEventHandler FindRequested;
 		public event ActionRequestedEventHandler ForwardNavigationRequested;
 		public event ActionRequestedEventHandler ReloadRequested;
 		public event ActionRequestedEventHandler ZoomInRequested;
@@ -100,6 +101,15 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		public new void Show()
 		{
 			Dispatcher.Invoke(base.Show);
+		}
+
+		public void ShowFindbar()
+		{
+			Dispatcher.InvokeAsync(() =>
+			{
+				Findbar.Visibility = Visibility.Visible;
+				FindTextBox.Focus();
+			});
 		}
 
 		public void UpdateAddress(string url)
@@ -186,6 +196,11 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			{
 				ReloadRequested?.Invoke();
 			}
+
+			if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) && e.Key == Key.F)
+			{
+				ShowFindbar();
+			}
 		}
 
 		private void BrowserWindow_Loaded(object sender, RoutedEventArgs e)
@@ -196,6 +211,26 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			{
 				this.DisableCloseButton();
 			}
+		}
+
+		private void FindbarCloseButton_Click(object sender, RoutedEventArgs e)
+		{
+			Findbar.Visibility = Visibility.Collapsed;
+		}
+
+		private void FindNextButton_Click(object sender, RoutedEventArgs e)
+		{
+			FindRequested?.Invoke(FindTextBox.Text, false, FindCaseSensitiveCheckBox.IsChecked == true);
+		}
+
+		private void FindPreviousButton_Click(object sender, RoutedEventArgs e)
+		{
+			FindRequested?.Invoke(FindTextBox.Text, false, FindCaseSensitiveCheckBox.IsChecked == true, false);
+		}
+
+		private void FindTextBox_KeyUp(object sender, KeyEventArgs e)
+		{
+			FindRequested?.Invoke(FindTextBox.Text, true, FindCaseSensitiveCheckBox.IsChecked == true);
 		}
 
 		private CustomPopupPlacement[] Popup_PlacementCallback(Size popupSize, Size targetSize, Point offset)
@@ -254,6 +289,11 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			DownloadsButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => DownloadsPopup.IsOpen = DownloadsPopup.IsMouseOver));
 			DownloadsPopup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(Popup_PlacementCallback);
 			DownloadsPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => DownloadsPopup.IsOpen = DownloadsPopup.IsMouseOver));
+			FindbarCloseButton.Click += FindbarCloseButton_Click;
+			FindNextButton.Click += FindNextButton_Click;
+			FindPreviousButton.Click += FindPreviousButton_Click;
+			FindMenuButton.Click += (o, args) => ShowFindbar();
+			FindTextBox.KeyUp += FindTextBox_KeyUp;
 			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
 			Loaded += BrowserWindow_Loaded;
 			MenuButton.Click += (o, args) => MenuPopup.IsOpen = !MenuPopup.IsOpen;
@@ -388,6 +428,8 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		private void LoadText()
 		{
 			DeveloperConsoleText.Text = text.Get(TextKey.BrowserWindow_DeveloperConsoleMenuItem);
+			FindCaseSensitiveCheckBox.Content = text.Get(TextKey.BrowserWindow_FindCaseSensitive);
+			FindMenuText.Text = text.Get(TextKey.BrowserWindow_FindMenuItem);
 			ZoomText.Text = text.Get(TextKey.BrowserWindow_ZoomMenuItem);
 		}
 	}

@@ -57,6 +57,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		void Destroy();
 
 		/// <summary>
+		/// Attempts to find the given term on the current page according to the specified parameters.
+		/// </summary>
+		void Find(string term, bool isInitial, bool caseSensitive, bool forward = true);
+
+		/// <summary>
 		/// Initializes the browser control.
 		/// </summary>
 		void Initialize();

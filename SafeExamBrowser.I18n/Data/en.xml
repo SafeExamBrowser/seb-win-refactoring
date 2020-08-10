@@ -42,6 +42,12 @@
     <Entry key="BrowserWindow_DownloadComplete">
         Downloaded.
     </Entry>
+    <Entry key="BrowserWindow_FindCaseSensitive">
+        Case-sensitive search
+    </Entry>
+    <Entry key="BrowserWindow_FindMenuItem">
+        Search page...
+    </Entry>
     <Entry key="BrowserWindow_ZoomMenuItem">
         Page Zoom
     </Entry>

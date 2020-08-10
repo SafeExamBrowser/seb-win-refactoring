@@ -28,6 +28,8 @@ namespace SafeExamBrowser.I18n.Contracts
 		BrowserWindow_Downloading,
 		BrowserWindow_DownloadCancelled,
 		BrowserWindow_DownloadComplete,
+		BrowserWindow_FindCaseSensitive,
+		BrowserWindow_FindMenuItem,
 		BrowserWindow_ZoomMenuItem,
 		Build,
 		ExamSelectionDialog_Cancel,
