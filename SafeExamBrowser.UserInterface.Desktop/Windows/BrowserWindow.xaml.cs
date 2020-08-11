@@ -197,7 +197,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 				ReloadRequested?.Invoke();
 			}
 
-			if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) && e.Key == Key.F)
+			if (settings.AllowFind && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) && e.Key == Key.F)
 			{
 				ShowFindbar();
 			}
@@ -322,6 +322,8 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			BackwardButton.Visibility = WindowSettings.AllowBackwardNavigation ? Visibility.Visible : Visibility.Collapsed;
 
 			DeveloperConsoleMenuItem.Visibility = WindowSettings.AllowDeveloperConsole ? Visibility.Visible : Visibility.Collapsed;
+
+			FindMenuItem.Visibility = settings.AllowFind ? Visibility.Visible : Visibility.Collapsed;
 
 			ForwardButton.IsEnabled = WindowSettings.AllowForwardNavigation;
 			ForwardButton.Visibility = WindowSettings.AllowForwardNavigation ? Visibility.Visible : Visibility.Collapsed;

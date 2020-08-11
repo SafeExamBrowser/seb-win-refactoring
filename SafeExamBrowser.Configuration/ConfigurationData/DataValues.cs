@@ -117,6 +117,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AllowConfigurationDownloads = true;
 			settings.Browser.AllowCustomDownAndUploadLocation = false;
 			settings.Browser.AllowDownloads = true;
+			settings.Browser.AllowFind = true;
 			settings.Browser.AllowPageZoom = true;
 			settings.Browser.AllowPdfReader = true;
 			settings.Browser.AllowPdfReaderToolbar = false;

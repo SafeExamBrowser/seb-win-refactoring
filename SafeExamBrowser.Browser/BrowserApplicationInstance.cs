@@ -357,7 +357,10 @@ namespace SafeExamBrowser.Browser
 
 		private void KeyboardHandler_FindRequested()
 		{
-			window.ShowFindbar();
+			if (settings.AllowFind)
+			{
+				window.ShowFindbar();
+			}
 		}
 
 		private void LifeSpanHandler_PopupRequested(PopupRequestedEventArgs args)
@@ -501,7 +504,10 @@ namespace SafeExamBrowser.Browser
 
 		private void Window_FindRequested(string term, bool isInitial, bool caseSensitive, bool forward = true)
 		{
-			control.Find(term, isInitial, caseSensitive, forward);
+			if (settings.AllowFind)
+			{
+				control.Find(term, isInitial, caseSensitive, forward);
+			}
 		}
 
 		private void Window_ForwardNavigationRequested()

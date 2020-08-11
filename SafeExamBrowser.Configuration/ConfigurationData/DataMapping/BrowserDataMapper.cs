@@ -33,6 +33,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.AllowDownloadsAndUploads:
 					MapAllowDownloadsAndUploads(settings, value);
 					break;
+				case Keys.Browser.AllowFind:
+					MapAllowFind(settings, value);
+					break;
 				case Keys.Browser.AllowPageZoom:
 					MapAllowPageZoom(settings, value);
 					break;
@@ -192,6 +195,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			{
 				settings.Browser.AllowDownloads = allow;
 				settings.Browser.AllowUploads = allow;
+			}
+		}
+
+		private void MapAllowFind(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.AllowFind = allow;
 			}
 		}
 

@@ -37,6 +37,11 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool AllowDownloads { get; set; }
 
 		/// <summary>
+		/// Determines whether the user will be allowed to search page contents.
+		/// </summary>
+		public bool AllowFind { get; set; }
+
+		/// <summary>
 		/// Determines whether the user will be allowed to zoom webpages.
 		/// </summary>
 		public bool AllowPageZoom { get; set; }

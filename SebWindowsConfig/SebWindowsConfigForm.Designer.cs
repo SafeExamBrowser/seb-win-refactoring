@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -256,6 +256,7 @@ namespace SebWindowsConfig
 			this.labelBrowserExamKey = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.tabPageDownUploads = new System.Windows.Forms.TabPage();
+			this.checkBoxAllowCustomDownloadLocation = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowPDFPlugIn = new System.Windows.Forms.CheckBox();
 			this.textBoxDownloadDirectoryWin = new System.Windows.Forms.TextBox();
 			this.checkBoxDownloadOpenSEBFiles = new System.Windows.Forms.CheckBox();
@@ -439,7 +440,7 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.checkBoxAllowCustomDownloadLocation = new System.Windows.Forms.CheckBox();
+			this.checkBoxAllowFind = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -1808,8 +1809,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle5.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -3363,6 +3364,17 @@ namespace SebWindowsConfig
 			this.tabPageDownUploads.Text = "Down/Uploads";
 			this.tabPageDownUploads.UseVisualStyleBackColor = true;
 			// 
+			// checkBoxAllowCustomDownloadLocation
+			// 
+			this.checkBoxAllowCustomDownloadLocation.AutoSize = true;
+			this.checkBoxAllowCustomDownloadLocation.Location = new System.Drawing.Point(114, 122);
+			this.checkBoxAllowCustomDownloadLocation.Name = "checkBoxAllowCustomDownloadLocation";
+			this.checkBoxAllowCustomDownloadLocation.Size = new System.Drawing.Size(289, 17);
+			this.checkBoxAllowCustomDownloadLocation.TabIndex = 89;
+			this.checkBoxAllowCustomDownloadLocation.Text = "Allow user to select custom download / upload directory";
+			this.checkBoxAllowCustomDownloadLocation.UseVisualStyleBackColor = true;
+			this.checkBoxAllowCustomDownloadLocation.CheckedChanged += new System.EventHandler(this.checkBoxAllowCustomDownloadLocation_CheckedChanged);
+			// 
 			// checkBoxAllowPDFPlugIn
 			// 
 			this.checkBoxAllowPDFPlugIn.AutoSize = true;
@@ -3797,6 +3809,7 @@ namespace SebWindowsConfig
 			// 
 			// groupBox11
 			// 
+			this.groupBox11.Controls.Add(this.checkBoxAllowFind);
 			this.groupBox11.Controls.Add(this.checkBoxAllowPdfReaderToolbar);
 			this.groupBox11.Controls.Add(this.checkBoxShowReloadWarningNewWindow);
 			this.groupBox11.Controls.Add(this.checkBoxAllowReloadNewWindow);
@@ -3814,7 +3827,7 @@ namespace SebWindowsConfig
 			this.groupBox11.Controls.Add(this.checkBoxEnableJava);
 			this.groupBox11.Location = new System.Drawing.Point(24, 202);
 			this.groupBox11.Name = "groupBox11";
-			this.groupBox11.Size = new System.Drawing.Size(522, 158);
+			this.groupBox11.Size = new System.Drawing.Size(522, 187);
 			this.groupBox11.TabIndex = 71;
 			this.groupBox11.TabStop = false;
 			this.groupBox11.Text = "Browser security";
@@ -3822,7 +3835,7 @@ namespace SebWindowsConfig
 			// checkBoxAllowPdfReaderToolbar
 			// 
 			this.checkBoxAllowPdfReaderToolbar.AutoSize = true;
-			this.checkBoxAllowPdfReaderToolbar.Location = new System.Drawing.Point(14, 89);
+			this.checkBoxAllowPdfReaderToolbar.Location = new System.Drawing.Point(14, 114);
 			this.checkBoxAllowPdfReaderToolbar.Name = "checkBoxAllowPdfReaderToolbar";
 			this.checkBoxAllowPdfReaderToolbar.Size = new System.Drawing.Size(485, 17);
 			this.checkBoxAllowPdfReaderToolbar.TabIndex = 14;
@@ -3945,7 +3958,7 @@ namespace SebWindowsConfig
 			// 
 			// checkBoxRemoveProfile
 			// 
-			this.checkBoxRemoveProfile.Location = new System.Drawing.Point(14, 112);
+			this.checkBoxRemoveProfile.Location = new System.Drawing.Point(14, 137);
 			this.checkBoxRemoveProfile.Name = "checkBoxRemoveProfile";
 			this.checkBoxRemoveProfile.Size = new System.Drawing.Size(481, 36);
 			this.checkBoxRemoveProfile.TabIndex = 6;
@@ -4046,7 +4059,7 @@ namespace SebWindowsConfig
 			// labelUseSEBWithoutBrowser
 			// 
 			this.labelUseSEBWithoutBrowser.AutoSize = true;
-			this.labelUseSEBWithoutBrowser.Location = new System.Drawing.Point(55, 396);
+			this.labelUseSEBWithoutBrowser.Location = new System.Drawing.Point(55, 435);
 			this.labelUseSEBWithoutBrowser.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.labelUseSEBWithoutBrowser.Name = "labelUseSEBWithoutBrowser";
 			this.labelUseSEBWithoutBrowser.Size = new System.Drawing.Size(436, 13);
@@ -4057,7 +4070,7 @@ namespace SebWindowsConfig
 			// checkBoxUseSebWithoutBrowser
 			// 
 			this.checkBoxUseSebWithoutBrowser.AutoSize = true;
-			this.checkBoxUseSebWithoutBrowser.Location = new System.Drawing.Point(38, 376);
+			this.checkBoxUseSebWithoutBrowser.Location = new System.Drawing.Point(38, 415);
 			this.checkBoxUseSebWithoutBrowser.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxUseSebWithoutBrowser.Name = "checkBoxUseSebWithoutBrowser";
 			this.checkBoxUseSebWithoutBrowser.Size = new System.Drawing.Size(185, 17);
@@ -4316,8 +4329,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -5714,16 +5727,16 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// checkBoxAllowCustomDownloadLocation
+			// checkBoxAllowFind
 			// 
-			this.checkBoxAllowCustomDownloadLocation.AutoSize = true;
-			this.checkBoxAllowCustomDownloadLocation.Location = new System.Drawing.Point(114, 122);
-			this.checkBoxAllowCustomDownloadLocation.Name = "checkBoxAllowCustomDownloadLocation";
-			this.checkBoxAllowCustomDownloadLocation.Size = new System.Drawing.Size(289, 17);
-			this.checkBoxAllowCustomDownloadLocation.TabIndex = 89;
-			this.checkBoxAllowCustomDownloadLocation.Text = "Allow user to select custom download / upload directory";
-			this.checkBoxAllowCustomDownloadLocation.UseVisualStyleBackColor = true;
-			this.checkBoxAllowCustomDownloadLocation.CheckedChanged += new System.EventHandler(this.checkBoxAllowCustomDownloadLocation_CheckedChanged);
+			this.checkBoxAllowFind.AutoSize = true;
+			this.checkBoxAllowFind.Location = new System.Drawing.Point(14, 81);
+			this.checkBoxAllowFind.Name = "checkBoxAllowFind";
+			this.checkBoxAllowFind.Size = new System.Drawing.Size(106, 17);
+			this.checkBoxAllowFind.TabIndex = 15;
+			this.checkBoxAllowFind.Text = "Allow text search";
+			this.checkBoxAllowFind.UseVisualStyleBackColor = true;
+			this.checkBoxAllowFind.CheckedChanged += new System.EventHandler(this.checkBoxAllowFind_CheckedChanged);
 			// 
 			// SebWindowsConfigForm
 			// 
@@ -6258,6 +6271,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.Label labelSebServiceIgnore;
 		private System.Windows.Forms.GroupBox groupBoxSebService;
 		private System.Windows.Forms.CheckBox checkBoxAllowCustomDownloadLocation;
+		private System.Windows.Forms.CheckBox checkBoxAllowFind;
 	}
 }
 

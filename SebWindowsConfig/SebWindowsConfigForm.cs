@@ -488,6 +488,7 @@ namespace SebWindowsConfig
             checkBoxEnableZoomText.CheckedChanged += checkBoxEnableZoomText_CheckedChanged;
             checkBoxEnableZoomPage.CheckedChanged += checkBoxEnableZoomPage_CheckedChanged;
 			checkBoxAllowPdfReaderToolbar.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowPDFReaderToolbar];
+			checkBoxAllowFind.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowFind];
 
 			checkBoxAllowSpellCheck.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowSpellCheck];
             checkBoxAllowDictionaryLookup.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowDictionaryLookup];
@@ -4583,6 +4584,11 @@ namespace SebWindowsConfig
 		private void checkBoxAllowCustomDownloadLocation_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyAllowCustomDownUploadLocation] = checkBoxAllowCustomDownloadLocation.Checked;
+		}
+
+		private void checkBoxAllowFind_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyAllowFind] = checkBoxAllowFind.Checked;
 		}
 	}
 }
