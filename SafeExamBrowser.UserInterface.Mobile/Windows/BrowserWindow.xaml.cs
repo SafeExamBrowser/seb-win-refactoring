@@ -215,6 +215,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		private void FindbarCloseButton_Click(object sender, RoutedEventArgs e)
 		{
+			FindRequested?.Invoke("thisisahacktoclearthesearchresultsasitappearsthatthereisnosuchfunctionalityincef", true, false);
 			Findbar.Visibility = Visibility.Collapsed;
 		}
 
@@ -230,7 +231,14 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		private void FindTextBox_KeyUp(object sender, KeyEventArgs e)
 		{
-			FindRequested?.Invoke(FindTextBox.Text, true, FindCaseSensitiveCheckBox.IsChecked == true);
+			if (string.IsNullOrEmpty(FindTextBox.Text))
+			{
+				FindRequested?.Invoke("thisisahacktoclearthesearchresultsasitappearsthatthereisnosuchfunctionalityincef", true, false);
+			}
+			else
+			{
+				FindRequested?.Invoke(FindTextBox.Text, true, FindCaseSensitiveCheckBox.IsChecked == true);
+			}
 		}
 
 		private CustomPopupPlacement[] Popup_PlacementCallback(Size popupSize, Size targetSize, Point offset)
