@@ -13,6 +13,11 @@ namespace SafeExamBrowser.SystemComponents
 {
 	public class FileSystem : IFileSystem
 	{
+		public void CreateDirectory(string path)
+		{
+			Directory.CreateDirectory(path);
+		}
+
 		public void Delete(string path)
 		{
 			if (File.Exists(path))

@@ -14,6 +14,11 @@ namespace SafeExamBrowser.SystemComponents.Contracts
 	public interface IFileSystem
 	{
 		/// <summary>
+		/// Creates all directories and subdirectories defined by the given path.
+		/// </summary>
+		void CreateDirectory(string path);
+
+		/// <summary>
 		/// Deletes the item at the given path, if it exists. Directories will be completely deleted, including all subdirectories and files.
 		/// </summary>
 		void Delete(string path);
