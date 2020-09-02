@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using SafeExamBrowser.Logging.Contracts;
@@ -68,7 +69,7 @@ namespace SafeExamBrowser.Monitoring.Display
 		private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
 		{
 			logger.Info("Display change detected!");
-			DisplayChanged?.Invoke();
+			Task.Run(() => DisplayChanged?.Invoke());
 		}
 
 		private void InitializeWorkingArea(int taskbarHeight)
