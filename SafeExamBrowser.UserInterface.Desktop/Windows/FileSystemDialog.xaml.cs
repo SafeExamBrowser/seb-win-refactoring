@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2020 ETH Zürich, Educational Development and Technology (LET)
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -20,6 +20,10 @@ using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
+// uni-goettingen-patch: start
+using Microsoft.Win32;
+// uni-goettingen-patch: end
+
 namespace SafeExamBrowser.UserInterface.Desktop.Windows
 {
 	internal partial class FileSystemDialog : Window
@@ -29,7 +33,6 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		private string message;
 		private FileSystemOperation operation;
 		private IWindow parent;
-		private bool restrictNavigation;
 		private IText text;
 		private string title;
 
@@ -40,15 +43,13 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			string initialPath = default(string),
 			string message = default(string),
 			string title = default(string),
-			IWindow parent = default(IWindow),
-			bool restrictNavigation = false)
+			IWindow parent = default(IWindow))
 		{
 			this.element = element;
 			this.initialPath = initialPath;
 			this.message = message;
 			this.operation = operation;
 			this.parent = parent;
-			this.restrictNavigation = restrictNavigation;
 			this.text = text;
 			this.title = title;
 
@@ -288,37 +289,26 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			InitializeFileSystem();
 		}
 
+		// uni-goettingen-patch: begin
+		private DriveInfo[] GetDrives(bool showAll = false)
+		{
+			var drives = DriveInfo.GetDrives();
+			int noDrives = (int)Registry.GetValue("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer", "NoDrives", 0);
+
+			if (noDrives > 0 || showAll)
+			{
+				return drives.Where(drive => (noDrives & (int)(Math.Pow(2, (int)(drive.RootDirectory.ToString()[0]) - 65))) == 0).ToArray();
+			}
+
+			return drives;
+		}
+		// uni-goettingen-patch: end
+
 		private void InitializeFileSystem()
 		{
-			if (restrictNavigation && !string.IsNullOrEmpty(initialPath))
-			{
-				InitializeRestricted();
-			}
-			else
-			{
-				InitializeUnrestricted();
-			}
-		}
-
-		private void InitializeRestricted()
-		{
-			var root = Directory.Exists(initialPath) ? initialPath : Path.GetDirectoryName(initialPath);
-
-			if (Directory.Exists(root))
-			{
-				var directory = CreateItem(new DirectoryInfo(root));
-
-				FileSystem.Items.Add(directory);
-
-				directory.IsExpanded = true;
-				directory.IsSelected = true;
-				directory.BringIntoView();
-			}
-		}
-
-		private void InitializeUnrestricted()
-		{
-			foreach (var drive in DriveInfo.GetDrives())
+			// uni-goettingen-patch: begin
+			foreach (var drive in GetDrives())
+			// uni-goettingen-patch: end
 			{
 				FileSystem.Items.Add(CreateItem(drive.RootDirectory));
 			}
