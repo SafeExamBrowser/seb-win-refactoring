@@ -19,10 +19,8 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
-
-// uni-goettingen-patch: start
 using Microsoft.Win32;
-// uni-goettingen-patch: end
+
 
 namespace SafeExamBrowser.UserInterface.Desktop.Windows
 {
@@ -288,8 +286,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			InitializeText();
 			InitializeFileSystem();
 		}
-
-		// uni-goettingen-patch: begin
+		
 		private DriveInfo[] GetDrives(bool showAll = false)
 		{
 			var drives = DriveInfo.GetDrives();
@@ -302,13 +299,10 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 			return drives;
 		}
-		// uni-goettingen-patch: end
 
 		private void InitializeFileSystem()
 		{
-			// uni-goettingen-patch: begin
 			foreach (var drive in GetDrives())
-			// uni-goettingen-patch: end
 			{
 				FileSystem.Items.Add(CreateItem(drive.RootDirectory));
 			}
