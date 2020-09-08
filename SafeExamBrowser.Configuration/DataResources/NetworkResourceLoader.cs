@@ -146,7 +146,7 @@ namespace SafeExamBrowser.Configuration.DataResources
 		/// </remarks>
 		private bool HasHtmlContent(HttpResponseMessage response)
 		{
-			return response.Content.Headers.ContentType.MediaType == MediaTypeNames.Text.Html;
+			return response.Content.Headers.ContentType?.MediaType == MediaTypeNames.Text.Html;
 		}
 
 		private bool IsAvailable(Uri resource)
