@@ -551,6 +551,8 @@ namespace SebWindowsConfig
 			checkBoxRestartExamPasswordProtected.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyRestartExamPasswordProtected];
 			textBoxRestartExamLink.Text = (String)SEBSettings.settingsCurrent[SEBSettings.KeyRestartExamURL];
 			textBoxRestartExamText.Text = (String)SEBSettings.settingsCurrent[SEBSettings.KeyRestartExamText];
+			checkBoxAllowReconfiguration.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowReconfiguration];
+			textBoxReconfigurationUrl.Text = (String)SEBSettings.settingsCurrent[SEBSettings.KeyReconfigurationUrl];
 
 			// Group AdditionalResources
 			tabControlSebWindowsConfig.TabPages.Remove(tabPageAdditionalResources);
@@ -4589,6 +4591,16 @@ namespace SebWindowsConfig
 		private void checkBoxAllowFind_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyAllowFind] = checkBoxAllowFind.Checked;
+		}
+
+		private void checkBoxAllowReconfiguration_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyAllowReconfiguration] = checkBoxAllowReconfiguration.Checked;
+		}
+
+		private void textBoxReconfigurationUrl_TextChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyReconfigurationUrl] = textBoxReconfigurationUrl.Text;
 		}
 	}
 }

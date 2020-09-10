@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts;
@@ -330,7 +331,26 @@ namespace SafeExamBrowser.Client
 
 		private void Browser_ConfigurationDownloadRequested(string fileName, DownloadEventArgs args)
 		{
-			if (Settings.Security.AllowReconfiguration)
+			var allow = true;
+			var hasQuitPassword = !string.IsNullOrWhiteSpace(Settings.Security.QuitPasswordHash);
+			var hasUrl = !string.IsNullOrWhiteSpace(Settings.Security.ReconfigurationUrl);
+
+			if (hasQuitPassword)
+			{
+				if (hasUrl)
+				{
+					var expression = Regex.Escape(Settings.Security.ReconfigurationUrl).Replace(@"\*", ".*");
+					var regex = new Regex($"^{expression}$", RegexOptions.IgnoreCase);
+
+					allow = Settings.Security.AllowReconfiguration && regex.IsMatch(args.Url);
+				}
+				else
+				{
+					allow = Settings.Security.AllowReconfiguration;
+				}
+			}
+
+			if (allow)
 			{
 				args.AllowDownload = true;
 				args.Callback = Browser_ConfigurationDownloadFinished;

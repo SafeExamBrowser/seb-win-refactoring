@@ -29,19 +29,27 @@ namespace SafeExamBrowser.Configuration.UnitTests.ConfigurationData
 		}
 
 		[TestMethod]
-		public void MustAllowReconfigurationAccordingToMode()
+		public void MustAllowBrowserToolbarForReloading()
 		{
-			var settings1 = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
-			var settings2 = new AppSettings { ConfigurationMode = ConfigurationMode.Exam };
+			var raw = new Dictionary<string, object>();
+			var settings = new AppSettings();
 
-			settings1.Security.AllowReconfiguration = false;
-			settings2.Security.AllowReconfiguration = true;
+			raw.Add(Keys.Browser.ShowReloadButton, true);
+			settings.Browser.AdditionalWindow.AllowReloading = false;
+			settings.Browser.MainWindow.AllowReloading = false;
 
-			sut.Process(new Dictionary<string, object>(), settings1);
-			sut.Process(new Dictionary<string, object>(), settings2);
+			sut.Process(raw, settings);
 
-			Assert.IsTrue(settings1.Security.AllowReconfiguration);
-			Assert.IsFalse(settings2.Security.AllowReconfiguration);
+			Assert.IsFalse(settings.Browser.AdditionalWindow.ShowToolbar);
+			Assert.IsFalse(settings.Browser.MainWindow.ShowToolbar);
+
+			settings.Browser.AdditionalWindow.AllowReloading = true;
+			settings.Browser.MainWindow.AllowReloading = true;
+
+			sut.Process(raw, settings);
+
+			Assert.IsTrue(settings.Browser.AdditionalWindow.ShowToolbar);
+			Assert.IsTrue(settings.Browser.MainWindow.ShowToolbar);
 		}
 
 		[TestMethod]

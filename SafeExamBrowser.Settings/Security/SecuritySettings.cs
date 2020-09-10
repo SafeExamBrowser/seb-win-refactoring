@@ -47,6 +47,11 @@ namespace SafeExamBrowser.Settings.Security
 		public string QuitPasswordHash { get; set; }
 
 		/// <summary>
+		/// An URL to optionally restrict with which resource SEB may be reconfigured. Allows the usage of a wildcard character (<c>*</c>).
+		/// </summary>
+		public string ReconfigurationUrl { get; set; }
+
+		/// <summary>
 		/// Determines whether SEB is allowed to run in a virtual machine.
 		/// </summary>
 		public VirtualMachinePolicy VirtualMachinePolicy { get; set; }

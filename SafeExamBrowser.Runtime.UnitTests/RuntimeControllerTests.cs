@@ -163,7 +163,6 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			var args = new ReconfigurationEventArgs { ConfigurationPath = "C:\\Some\\File\\Path.seb" };
 
 			StartSession();
-			currentSettings.Security.AllowReconfiguration = true;
 			bootstrapSequence.Reset();
 			sessionSequence.Reset();
 			sessionSequence.Setup(s => s.TryRepeat()).Returns(OperationResult.Success);
@@ -182,32 +181,12 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		public void Communication_MustInformClientAboutAbortedReconfiguration()
 		{
 			StartSession();
-			currentSettings.Security.AllowReconfiguration = true;
 			sessionSequence.Reset();
 			sessionSequence.Setup(s => s.TryRepeat()).Returns(OperationResult.Aborted);
 
 			runtimeHost.Raise(r => r.ReconfigurationRequested += null, new ReconfigurationEventArgs());
 
 			clientProxy.Verify(c => c.InformReconfigurationAborted(), Times.Once);
-		}
-
-		[TestMethod]
-		public void Communication_MustInformClientAboutDeniedReconfiguration()
-		{
-			var args = new ReconfigurationEventArgs { ConfigurationPath = "C:\\Some\\File\\Path.seb" };
-
-			StartSession();
-			currentSettings.Security.AllowReconfiguration = false;
-			bootstrapSequence.Reset();
-			sessionSequence.Reset();
-
-			runtimeHost.Raise(r => r.ReconfigurationRequested += null, args);
-
-			bootstrapSequence.VerifyNoOtherCalls();
-			clientProxy.Verify(c => c.InformReconfigurationDenied(It.Is<string>(s => s == args.ConfigurationPath)), Times.Once);
-			sessionSequence.VerifyNoOtherCalls();
-
-			Assert.AreNotEqual(sessionContext.ReconfigurationFilePath, args.ConfigurationPath);
 		}
 
 		[TestMethod]

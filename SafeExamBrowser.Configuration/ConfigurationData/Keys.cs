@@ -210,11 +210,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			internal const string AdminPasswordHash = "hashedAdminPassword";
 			internal const string AllowApplicationLog = "allowApplicationLog";
+			internal const string AllowReconfiguration = "examSessionReconfigureAllow";
 			internal const string AllowTermination = "allowQuit";
 			internal const string AllowVirtualMachine = "allowVirtualMachine";
 			internal const string KioskModeCreateNewDesktop = "createNewDesktop";
 			internal const string KioskModeDisableExplorerShell = "killExplorerShell";
 			internal const string QuitPasswordHash = "hashedQuitPassword";
+			internal const string ReconfigurationUrl = "examSessionReconfigureConfigURL";
 		}
 
 		internal static class Server

@@ -137,7 +137,7 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		private void RequestConfigurationFileDownload(DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
-			var args = new DownloadEventArgs();
+			var args = new DownloadEventArgs { Url = downloadItem.Url };
 
 			logger.Debug($"Handling download of configuration file '{downloadItem.SuggestedFileName}'.");
 			ConfigurationDownloadRequested?.Invoke(downloadItem.SuggestedFileName, args);

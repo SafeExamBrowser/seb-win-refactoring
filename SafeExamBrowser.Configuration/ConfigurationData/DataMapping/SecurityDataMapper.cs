@@ -21,6 +21,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Security.AdminPasswordHash:
 					MapAdminPasswordHash(settings, value);
 					break;
+				case Keys.Security.AllowReconfiguration:
+					MapAllowReconfiguration(settings, value);
+					break;
 				case Keys.Security.AllowTermination:
 					MapAllowTermination(settings, value);
 					break;
@@ -29,6 +32,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Security.QuitPasswordHash:
 					MapQuitPasswordHash(settings, value);
+					break;
+				case Keys.Security.ReconfigurationUrl:
+					MapReconfigurationUrl(settings, value);
 					break;
 			}
 		}
@@ -44,6 +50,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string hash)
 			{
 				settings.Security.AdminPasswordHash = hash;
+			}
+		}
+
+		private void MapAllowReconfiguration(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Security.AllowReconfiguration = allow;
 			}
 		}
 
@@ -109,6 +123,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool allow)
 			{
 				settings.Security.VirtualMachinePolicy = allow ? VirtualMachinePolicy.Allow : VirtualMachinePolicy.Deny;
+			}
+		}
+
+		private void MapReconfigurationUrl(AppSettings settings, object value)
+		{
+			if (value is string url)
+			{
+				settings.Security.ReconfigurationUrl = url;
 			}
 		}
 	}

@@ -27,5 +27,10 @@ namespace SafeExamBrowser.Browser.Contracts.Events
 		/// The full path under which the specified file should be saved.
 		/// </summary>
 		public string DownloadPath { get; set; }
+
+		/// <summary>
+		/// The URL of the resource to be downloaded.
+		/// </summary>
+		public string Url { get; set; }
 	}
 }

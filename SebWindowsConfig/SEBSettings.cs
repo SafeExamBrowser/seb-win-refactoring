@@ -197,6 +197,8 @@ namespace SebWindowsConfig
 		public const String KeyRestartExamURL = "restartExamURL";
 		public const String KeyRestartExamUseStartURL = "restartExamUseStartURL";
 		public const String KeyRestartExamPasswordProtected = "restartExamPasswordProtected";
+		public const String KeyAllowReconfiguration = "examSessionReconfigureAllow";
+		public const String KeyReconfigurationUrl = "examSessionReconfigureConfigURL";
 
 		// Group Additional Resources
 		public const String KeyAdditionalResources = "additionalResources";
@@ -712,6 +714,8 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyRestartExamUseStartURL, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyRestartExamText, "");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyRestartExamPasswordProtected, true);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowReconfiguration, false);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyReconfigurationUrl, "");
 
 			// Default settings for group "Additional Resources"
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAdditionalResources, new ListObj());

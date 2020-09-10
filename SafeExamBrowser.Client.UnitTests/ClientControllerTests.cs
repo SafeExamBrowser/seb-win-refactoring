@@ -610,18 +610,87 @@ namespace SafeExamBrowser.Client.UnitTests
 		}
 
 		[TestMethod]
-		public void Reconfiguration_MustDenyIfInExamMode()
+		public void Reconfiguration_MustAllowIfNoQuitPasswordSet()
 		{
-			settings.ConfigurationMode = ConfigurationMode.Exam;
-			messageBox.Setup(m => m.Show(
-				It.IsAny<TextKey>(),
-				It.IsAny<TextKey>(),
-				It.IsAny<MessageBoxAction>(),
-				It.IsAny<MessageBoxIcon>(),
-				It.IsAny<IWindow>())).Returns(MessageBoxResult.Ok);
+			var args = new DownloadEventArgs();
+
+			appConfig.TemporaryDirectory = @"C:\Folder\Does\Not\Exist";
+			runtimeProxy.Setup(r => r.RequestReconfiguration(It.IsAny<string>())).Returns(new CommunicationResult(true));
 
 			sut.TryStart();
-			browser.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", new DownloadEventArgs());
+			browser.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", args);
+			args.Callback(true, string.Empty);
+
+			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>()), Times.Once);
+			Assert.IsTrue(args.AllowDownload);
+		}
+
+		[TestMethod]
+		public void Reconfiguration_MustAllowWithQuitPasswordAndNoUrl()
+		{
+			var args = new DownloadEventArgs();
+
+			appConfig.TemporaryDirectory = @"C:\Folder\Does\Not\Exist";
+			settings.Security.AllowReconfiguration = true;
+			settings.Security.QuitPasswordHash = "abc123";
+			runtimeProxy.Setup(r => r.RequestReconfiguration(It.IsAny<string>())).Returns(new CommunicationResult(true));
+
+			sut.TryStart();
+			browser.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", args);
+			args.Callback(true, string.Empty);
+
+			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>()), Times.Once);
+			Assert.IsTrue(args.AllowDownload);
+		}
+
+		[TestMethod]
+		public void Reconfiguration_MustAllowIfUrlMatches()
+		{
+			var args = new DownloadEventArgs { Url = "sebs://www.somehost.org/some/path/some_configuration.seb?query=123" };
+
+			appConfig.TemporaryDirectory = @"C:\Folder\Does\Not\Exist";
+			settings.Security.AllowReconfiguration = true;
+			settings.Security.QuitPasswordHash = "abc123";
+			settings.Security.ReconfigurationUrl = "sebs://www.somehost.org/some/path/*.seb?query=123";
+			runtimeProxy.Setup(r => r.RequestReconfiguration(It.IsAny<string>())).Returns(new CommunicationResult(true));
+
+			sut.TryStart();
+			browser.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", args);
+			args.Callback(true, string.Empty);
+
+			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>()), Times.Once);
+			Assert.IsTrue(args.AllowDownload);
+		}
+
+		[TestMethod]
+		public void Reconfiguration_MustDenyIfNotAllowed()
+		{
+			var args = new DownloadEventArgs();
+
+			settings.Security.AllowReconfiguration = false;
+			settings.Security.QuitPasswordHash = "abc123";
+
+			sut.TryStart();
+			browser.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", args);
+
+			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>()), Times.Never);
+			Assert.IsFalse(args.AllowDownload);
+		}
+
+		[TestMethod]
+		public void Reconfiguration_MustDenyIfUrlDoesNotMatch()
+		{
+			var args = new DownloadEventArgs { Url = "sebs://www.somehost.org/some/path/some_configuration.seb?query=123" };
+
+			settings.Security.AllowReconfiguration = false;
+			settings.Security.QuitPasswordHash = "abc123";
+			settings.Security.ReconfigurationUrl = "sebs://www.somehost.org/some/path/other_configuration.seb?query=123";
+
+			sut.TryStart();
+			browser.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", args);
+
+			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>()), Times.Never);
+			Assert.IsFalse(args.AllowDownload);
 		}
 
 		[TestMethod]
