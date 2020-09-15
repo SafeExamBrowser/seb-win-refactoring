@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -229,6 +229,11 @@ namespace SebWindowsConfig
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.checkBoxMonitorProcesses = new System.Windows.Forms.CheckBox();
 			this.tabPageExam = new System.Windows.Forms.TabPage();
+			this.groupBox15 = new System.Windows.Forms.GroupBox();
+			this.label22 = new System.Windows.Forms.Label();
+			this.textBoxReconfigurationUrl = new System.Windows.Forms.TextBox();
+			this.label21 = new System.Windows.Forms.Label();
+			this.checkBoxAllowReconfiguration = new System.Windows.Forms.CheckBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.label15 = new System.Windows.Forms.Label();
 			this.checkBoxClearSessionOnEnd = new System.Windows.Forms.CheckBox();
@@ -441,11 +446,6 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.groupBox15 = new System.Windows.Forms.GroupBox();
-			this.checkBoxAllowReconfiguration = new System.Windows.Forms.CheckBox();
-			this.label21 = new System.Windows.Forms.Label();
-			this.textBoxReconfigurationUrl = new System.Windows.Forms.TextBox();
-			this.label22 = new System.Windows.Forms.Label();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -473,6 +473,7 @@ namespace SebWindowsConfig
 			this.groupBoxProhibitedProcess.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewProhibitedProcesses)).BeginInit();
 			this.tabPageExam.SuspendLayout();
+			this.groupBox15.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox9.SuspendLayout();
 			this.groupBox8.SuspendLayout();
@@ -500,7 +501,6 @@ namespace SebWindowsConfig
 			this.groupBoxExitSequence.SuspendLayout();
 			this.tabControlSebWindowsConfig.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
-			this.groupBox15.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// openFileDialogSebConfigFile
@@ -1815,8 +1815,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle7.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -3025,6 +3025,59 @@ namespace SebWindowsConfig
 			this.tabPageExam.TabIndex = 18;
 			this.tabPageExam.Text = " Exam";
 			this.tabPageExam.UseVisualStyleBackColor = true;
+			// 
+			// groupBox15
+			// 
+			this.groupBox15.Controls.Add(this.label22);
+			this.groupBox15.Controls.Add(this.textBoxReconfigurationUrl);
+			this.groupBox15.Controls.Add(this.label21);
+			this.groupBox15.Controls.Add(this.checkBoxAllowReconfiguration);
+			this.groupBox15.Location = new System.Drawing.Point(26, 413);
+			this.groupBox15.Name = "groupBox15";
+			this.groupBox15.Size = new System.Drawing.Size(553, 144);
+			this.groupBox15.TabIndex = 123;
+			this.groupBox15.TabStop = false;
+			this.groupBox15.Text = "Reconfiguring Secure/Exam Session";
+			// 
+			// label22
+			// 
+			this.label22.Location = new System.Drawing.Point(10, 26);
+			this.label22.Name = "label22";
+			this.label22.Size = new System.Drawing.Size(527, 43);
+			this.label22.TabIndex = 4;
+			this.label22.Text = resources.GetString("label22.Text");
+			// 
+			// textBoxReconfigurationUrl
+			// 
+			this.textBoxReconfigurationUrl.Location = new System.Drawing.Point(114, 108);
+			this.textBoxReconfigurationUrl.Name = "textBoxReconfigurationUrl";
+			this.textBoxReconfigurationUrl.Size = new System.Drawing.Size(423, 20);
+			this.textBoxReconfigurationUrl.TabIndex = 2;
+			this.toolTip1.SetToolTip(this.textBoxReconfigurationUrl, "The URL of the seb(s) link which invokes reconfiguring a secure session has to be" +
+        " matched by this string");
+			this.textBoxReconfigurationUrl.TextChanged += new System.EventHandler(this.textBoxReconfigurationUrl_TextChanged);
+			// 
+			// label21
+			// 
+			this.label21.AutoSize = true;
+			this.label21.Location = new System.Drawing.Point(10, 111);
+			this.label21.Name = "label21";
+			this.label21.Size = new System.Drawing.Size(98, 13);
+			this.label21.TabIndex = 1;
+			this.label21.Text = "Reconfiguring URL";
+			// 
+			// checkBoxAllowReconfiguration
+			// 
+			this.checkBoxAllowReconfiguration.AutoSize = true;
+			this.checkBoxAllowReconfiguration.Location = new System.Drawing.Point(13, 78);
+			this.checkBoxAllowReconfiguration.Name = "checkBoxAllowReconfiguration";
+			this.checkBoxAllowReconfiguration.Size = new System.Drawing.Size(218, 17);
+			this.checkBoxAllowReconfiguration.TabIndex = 0;
+			this.checkBoxAllowReconfiguration.Text = "Allow reconfiguring secure/exam session";
+			this.toolTip1.SetToolTip(this.checkBoxAllowReconfiguration, "Allow reconfiguring while using a secure client config (with quit password) or du" +
+        "ring an exam session by loading an SEB config file");
+			this.checkBoxAllowReconfiguration.UseVisualStyleBackColor = true;
+			this.checkBoxAllowReconfiguration.CheckedChanged += new System.EventHandler(this.checkBoxAllowReconfiguration_CheckedChanged);
 			// 
 			// groupBox2
 			// 
@@ -4347,8 +4400,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -5745,55 +5798,6 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// groupBox15
-			// 
-			this.groupBox15.Controls.Add(this.label22);
-			this.groupBox15.Controls.Add(this.textBoxReconfigurationUrl);
-			this.groupBox15.Controls.Add(this.label21);
-			this.groupBox15.Controls.Add(this.checkBoxAllowReconfiguration);
-			this.groupBox15.Location = new System.Drawing.Point(26, 413);
-			this.groupBox15.Name = "groupBox15";
-			this.groupBox15.Size = new System.Drawing.Size(553, 144);
-			this.groupBox15.TabIndex = 123;
-			this.groupBox15.TabStop = false;
-			this.groupBox15.Text = "Reconfiguring Secure Session";
-			// 
-			// checkBoxAllowReconfiguration
-			// 
-			this.checkBoxAllowReconfiguration.AutoSize = true;
-			this.checkBoxAllowReconfiguration.Location = new System.Drawing.Point(13, 78);
-			this.checkBoxAllowReconfiguration.Name = "checkBoxAllowReconfiguration";
-			this.checkBoxAllowReconfiguration.Size = new System.Drawing.Size(120, 17);
-			this.checkBoxAllowReconfiguration.TabIndex = 0;
-			this.checkBoxAllowReconfiguration.Text = "Allow Reconfiguring";
-			this.checkBoxAllowReconfiguration.UseVisualStyleBackColor = true;
-			this.checkBoxAllowReconfiguration.CheckedChanged += new System.EventHandler(this.checkBoxAllowReconfiguration_CheckedChanged);
-			// 
-			// label21
-			// 
-			this.label21.AutoSize = true;
-			this.label21.Location = new System.Drawing.Point(10, 111);
-			this.label21.Name = "label21";
-			this.label21.Size = new System.Drawing.Size(98, 13);
-			this.label21.TabIndex = 1;
-			this.label21.Text = "Reconfiguring URL";
-			// 
-			// textBoxReconfigurationUrl
-			// 
-			this.textBoxReconfigurationUrl.Location = new System.Drawing.Point(114, 108);
-			this.textBoxReconfigurationUrl.Name = "textBoxReconfigurationUrl";
-			this.textBoxReconfigurationUrl.Size = new System.Drawing.Size(423, 20);
-			this.textBoxReconfigurationUrl.TabIndex = 2;
-			this.textBoxReconfigurationUrl.TextChanged += new System.EventHandler(this.textBoxReconfigurationUrl_TextChanged);
-			// 
-			// label22
-			// 
-			this.label22.Location = new System.Drawing.Point(10, 26);
-			this.label22.Name = "label22";
-			this.label22.Size = new System.Drawing.Size(527, 43);
-			this.label22.TabIndex = 4;
-			this.label22.Text = resources.GetString("label22.Text");
-			// 
 			// SebWindowsConfigForm
 			// 
 			this.AllowDrop = true;
@@ -5861,6 +5865,8 @@ namespace SebWindowsConfig
 			((System.ComponentModel.ISupportInitialize)(this.dataGridViewProhibitedProcesses)).EndInit();
 			this.tabPageExam.ResumeLayout(false);
 			this.tabPageExam.PerformLayout();
+			this.groupBox15.ResumeLayout(false);
+			this.groupBox15.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			this.groupBox9.ResumeLayout(false);
@@ -5911,8 +5917,6 @@ namespace SebWindowsConfig
 			this.tabControlSebWindowsConfig.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
-			this.groupBox15.ResumeLayout(false);
-			this.groupBox15.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

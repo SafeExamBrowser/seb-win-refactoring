@@ -331,7 +331,7 @@ namespace SafeExamBrowser.Client
 
 		private void Browser_ConfigurationDownloadRequested(string fileName, DownloadEventArgs args)
 		{
-			var allow = true;
+			var allow = false;
 			var hasQuitPassword = !string.IsNullOrWhiteSpace(Settings.Security.QuitPasswordHash);
 			var hasUrl = !string.IsNullOrWhiteSpace(Settings.Security.ReconfigurationUrl);
 
@@ -348,6 +348,10 @@ namespace SafeExamBrowser.Client
 				{
 					allow = Settings.Security.AllowReconfiguration;
 				}
+			}
+			else
+			{
+				allow = Settings.ConfigurationMode == ConfigurationMode.ConfigureClient || Settings.Security.AllowReconfiguration;
 			}
 
 			if (allow)
