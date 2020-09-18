@@ -289,12 +289,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			InitializeFileSystem();
 		}
 
-		private DriveInfo[] GetDrives(bool showAll = false)
+		private DriveInfo[] GetDrives()
 		{
 			var drives = DriveInfo.GetDrives();
 			int noDrives = (int)Registry.GetValue("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer", "NoDrives", 0);
 
-			if (noDrives > 0 && !showAll)
+			if (noDrives > 0)
 			{
 				return drives.Where(drive => (noDrives & (int)(Math.Pow(2, (int)(drive.RootDirectory.ToString()[0]) - 65))) == 0).ToArray();
 			}
