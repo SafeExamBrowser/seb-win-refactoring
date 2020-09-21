@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2020 ETH Zürich, Educational Development and Technology (LET)
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -15,6 +15,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using FontAwesome.WPF;
+using Microsoft.Win32;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
@@ -288,6 +289,20 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			InitializeFileSystem();
 		}
 
+		private DriveInfo[] GetDrives()
+		{
+			var drives = DriveInfo.GetDrives();
+			int noDrives = (int)Registry.GetValue("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer", "NoDrives", 0);
+
+			if (noDrives > 0)
+			{
+				return drives.Where(drive => (noDrives & (int)(Math.Pow(2, (int)(drive.RootDirectory.ToString()[0]) - 65))) == 0).ToArray();
+			}
+
+			return drives;
+		}
+
+
 		private void InitializeFileSystem()
 		{
 			if (restrictNavigation && !string.IsNullOrEmpty(initialPath))
@@ -318,7 +333,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 		private void InitializeUnrestricted()
 		{
-			foreach (var drive in DriveInfo.GetDrives())
+			foreach (var drive in GetDrives())
 			{
 				FileSystem.Items.Add(CreateItem(drive.RootDirectory));
 			}
