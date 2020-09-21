@@ -62,6 +62,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string PopupBlockForeignHost = "newBrowserWindowByLinkBlockForeign";
 			internal const string QuitUrl = "quitURL";
 			internal const string QuitUrlConfirmation = "quitURLConfirm";
+			internal const string ResetOnQuitUrl = "quitURLRestart";
 			internal const string ShowReloadButton = "showReloadButton";
 			internal const string ShowToolbar = "enableBrowserWindowToolbar";
 			internal const string SendCustomHeaders = "sendBrowserExamKey";

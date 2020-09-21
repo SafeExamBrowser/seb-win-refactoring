@@ -202,7 +202,7 @@ namespace SafeExamBrowser.Client
 		{
 			var fileSystemDialog = BuildFileSystemDialog();
 			var moduleLogger = ModuleLogger(nameof(BrowserApplication));
-			var browser = new BrowserApplication(context.AppConfig, context.Settings.Browser, fileSystemDialog, messageBox, moduleLogger, text, uiFactory);
+			var browser = new BrowserApplication(context.AppConfig, context.Settings.Browser, fileSystemDialog, nativeMethods, messageBox, moduleLogger, text, uiFactory);
 			var operation = new BrowserOperation(actionCenter, context, logger, taskbar, taskview, uiFactory);
 
 			context.Browser = browser;

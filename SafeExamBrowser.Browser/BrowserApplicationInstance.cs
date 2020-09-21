@@ -67,6 +67,7 @@ namespace SafeExamBrowser.Browser
 
 		internal event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 		internal event PopupRequestedEventHandler PopupRequested;
+		internal event ResetRequestedEventHandler ResetRequested;
 		internal event SessionIdentifierDetectedEventHandler SessionIdentifierDetected;
 		internal event InstanceTerminatedEventHandler Terminated;
 		internal event TerminationRequestedEventHandler TerminationRequested;
@@ -112,8 +113,8 @@ namespace SafeExamBrowser.Browser
 
 		internal void Terminate()
 		{
-			control.Destroy();
 			window.Close();
+			control.Destroy();
 		}
 
 		private void InitializeControl()
@@ -395,27 +396,35 @@ namespace SafeExamBrowser.Browser
 		{
 			Task.Run(() =>
 			{
-				if (settings.ConfirmQuitUrl)
+				if (settings.ResetOnQuitUrl)
 				{
-					var message = text.Get(TextKey.MessageBox_BrowserQuitUrlConfirmation);
-					var title = text.Get(TextKey.MessageBox_BrowserQuitUrlConfirmationTitle);
-					var result = messageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question, window);
-					var terminate = result == MessageBoxResult.Yes;
-
-					if (terminate)
-					{
-						logger.Info($"User confirmed termination via quit URL '{url}', forwarding request...");
-						TerminationRequested?.Invoke();
-					}
-					else
-					{
-						logger.Info($"User aborted termination via quit URL '{url}'.");
-					}
+					logger.Info("Forwarding request to reset browser...");
+					ResetRequested?.Invoke();
 				}
 				else
 				{
-					logger.Info($"Automatically requesting termination due to quit URL '{url}'...");
-					TerminationRequested?.Invoke();
+					if (settings.ConfirmQuitUrl)
+					{
+						var message = text.Get(TextKey.MessageBox_BrowserQuitUrlConfirmation);
+						var title = text.Get(TextKey.MessageBox_BrowserQuitUrlConfirmationTitle);
+						var result = messageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question, window);
+						var terminate = result == MessageBoxResult.Yes;
+
+						if (terminate)
+						{
+							logger.Info($"User confirmed termination via quit URL '{url}', forwarding request...");
+							TerminationRequested?.Invoke();
+						}
+						else
+						{
+							logger.Info($"User aborted termination via quit URL '{url}'.");
+						}
+					}
+					else
+					{
+						logger.Info($"Automatically requesting termination due to quit URL '{url}'...");
+						TerminationRequested?.Invoke();
+					}
 				}
 			});
 		}

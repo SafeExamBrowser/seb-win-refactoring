@@ -134,9 +134,14 @@ namespace SafeExamBrowser.Settings.Browser
 		public ProxySettings Proxy { get; set; }
 
 		/// <summary>
-		/// An URL which will initiate the termination of SEB if visited by the user.
+		/// An URL which will initiate the termination of SEB (or reset the browser if <see cref="ResetOnQuitUrl"/> is <c>true</c>) when visited by the user.
 		/// </summary>
 		public string QuitUrl { get; set; }
+
+		/// <summary>
+		/// Determines whether the browser should be reset when a <see cref="QuitUrl"/> is detected.
+		/// </summary>
+		public bool ResetOnQuitUrl { get; set; }
 
 		/// <summary>
 		/// Determines whether the configuration key header is sent with every HTTP request (see also <see cref="ConfigurationKey"/>).

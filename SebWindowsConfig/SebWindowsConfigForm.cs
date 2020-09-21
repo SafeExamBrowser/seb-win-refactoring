@@ -546,6 +546,7 @@ namespace SebWindowsConfig
 			textBoxConfigurationKey.Enabled = checkBoxSendBrowserExamKey.Checked;
 			textBoxQuitURL.Text = (String)SEBSettings.settingsCurrent[SEBSettings.KeyQuitURL];
 			checkBoxQuitURLConfirm.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyQuitURLConfirm];
+			checkBoxResetOnQuitUrl.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyResetOnQuitUrl];
 			checkBoxUseStartURL.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyRestartExamUseStartURL];
 			textBoxRestartExamLink.Enabled = !(Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyRestartExamUseStartURL];
 			checkBoxRestartExamPasswordProtected.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyRestartExamPasswordProtected];
@@ -4601,6 +4602,11 @@ namespace SebWindowsConfig
 		private void textBoxReconfigurationUrl_TextChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyReconfigurationUrl] = textBoxReconfigurationUrl.Text;
+		}
+
+		private void checkBoxResetOnQuitUrl_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyResetOnQuitUrl] = checkBoxResetOnQuitUrl.Checked;
 		}
 	}
 }

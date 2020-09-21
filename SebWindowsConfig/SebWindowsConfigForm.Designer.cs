@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -446,6 +446,7 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.checkBoxResetOnQuitUrl = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -1815,8 +1816,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle3;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -3136,7 +3137,7 @@ namespace SebWindowsConfig
 			this.groupBox9.Controls.Add(this.textBoxRestartExamText);
 			this.groupBox9.Controls.Add(this.textBox4);
 			this.groupBox9.Controls.Add(this.textBox3);
-			this.groupBox9.Location = new System.Drawing.Point(605, 287);
+			this.groupBox9.Location = new System.Drawing.Point(605, 318);
 			this.groupBox9.Name = "groupBox9";
 			this.groupBox9.Size = new System.Drawing.Size(610, 181);
 			this.groupBox9.TabIndex = 121;
@@ -3227,12 +3228,13 @@ namespace SebWindowsConfig
 			// 
 			// groupBox8
 			// 
+			this.groupBox8.Controls.Add(this.checkBoxResetOnQuitUrl);
 			this.groupBox8.Controls.Add(this.checkBoxQuitURLConfirm);
 			this.groupBox8.Controls.Add(this.textBoxQuitURL);
 			this.groupBox8.Controls.Add(this.textBox1);
 			this.groupBox8.Location = new System.Drawing.Point(605, 150);
 			this.groupBox8.Name = "groupBox8";
-			this.groupBox8.Size = new System.Drawing.Size(610, 117);
+			this.groupBox8.Size = new System.Drawing.Size(610, 144);
 			this.groupBox8.TabIndex = 120;
 			this.groupBox8.TabStop = false;
 			this.groupBox8.Text = "Link to quit SEB after exam";
@@ -3276,9 +3278,9 @@ namespace SebWindowsConfig
 			this.textBox1.ReadOnly = true;
 			this.textBox1.Size = new System.Drawing.Size(456, 30);
 			this.textBox1.TabIndex = 113;
-			this.textBox1.Text = "Place this quit link to the \"feedback\" page displayed after an exam was successfu" +
-    "lly finished. Clicking that link will quit SEB without having to enter the quit " +
-    "password.";
+			this.textBox1.Text = "Place this Quit Link to the \'feedback\' page displayed after an exam was successfu" +
+    "lly finished. Clicking that link will quit or restart SEB without having to ente" +
+    "r the quit password.";
 			// 
 			// groupBox7
 			// 
@@ -4400,8 +4402,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle4;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -5798,6 +5800,19 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
+			// checkBoxResetOnQuitUrl
+			// 
+			this.checkBoxResetOnQuitUrl.AutoSize = true;
+			this.checkBoxResetOnQuitUrl.Location = new System.Drawing.Point(15, 110);
+			this.checkBoxResetOnQuitUrl.Name = "checkBoxResetOnQuitUrl";
+			this.checkBoxResetOnQuitUrl.Size = new System.Drawing.Size(146, 17);
+			this.checkBoxResetOnQuitUrl.TabIndex = 115;
+			this.checkBoxResetOnQuitUrl.Text = "Restart instead of quitting";
+			this.toolTip1.SetToolTip(this.checkBoxResetOnQuitUrl, "Session in SEB is restarted after the quit URL has been detected, instead of quit" +
+        "ting SEB");
+			this.checkBoxResetOnQuitUrl.UseVisualStyleBackColor = true;
+			this.checkBoxResetOnQuitUrl.CheckedChanged += new System.EventHandler(this.checkBoxResetOnQuitUrl_CheckedChanged);
+			// 
 			// SebWindowsConfigForm
 			// 
 			this.AllowDrop = true;
@@ -6339,6 +6354,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.Label label21;
 		private System.Windows.Forms.CheckBox checkBoxAllowReconfiguration;
 		private System.Windows.Forms.Label label22;
+		private System.Windows.Forms.CheckBox checkBoxResetOnQuitUrl;
 	}
 }
 

@@ -26,6 +26,7 @@ using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.WindowsApi.Contracts;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 
 namespace SafeExamBrowser.Browser
@@ -37,6 +38,7 @@ namespace SafeExamBrowser.Browser
 		private AppConfig appConfig;
 		private List<BrowserApplicationInstance> instances;
 		private IFileSystemDialog fileSystemDialog;
+		private INativeMethods nativeMethods;
 		private IMessageBox messageBox;
 		private IModuleLogger logger;
 		private BrowserSettings settings;
@@ -58,6 +60,7 @@ namespace SafeExamBrowser.Browser
 			AppConfig appConfig,
 			BrowserSettings settings,
 			IFileSystemDialog fileSystemDialog,
+			INativeMethods nativeMethods,
 			IMessageBox messageBox,
 			IModuleLogger logger,
 			IText text,
@@ -65,6 +68,7 @@ namespace SafeExamBrowser.Browser
 		{
 			this.appConfig = appConfig;
 			this.fileSystemDialog = fileSystemDialog;
+			this.nativeMethods = nativeMethods;
 			this.instances = new List<BrowserApplicationInstance>();
 			this.logger = logger;
 			this.messageBox = messageBox;
@@ -146,6 +150,7 @@ namespace SafeExamBrowser.Browser
 
 			instance.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
 			instance.PopupRequested += Instance_PopupRequested;
+			instance.ResetRequested += Instance_ResetRequested;
 			instance.SessionIdentifierDetected += (i) => SessionIdentifierDetected?.Invoke(i);
 			instance.Terminated += Instance_Terminated;
 			instance.TerminationRequested += () => TerminationRequested?.Invoke();
@@ -317,6 +322,30 @@ namespace SafeExamBrowser.Browser
 		{
 			logger.Info($"Received request to create new instance for '{args.Url}'...");
 			CreateNewInstance(args.Url);
+		}
+
+		private void Instance_ResetRequested()
+		{
+			logger.Info("Attempting to reset browser...");
+
+			foreach (var instance in instances)
+			{
+				instance.Terminated -= Instance_Terminated;
+				instance.Terminate();
+				logger.Info($"Terminated browser instance {instance.Id}.");
+			}
+
+			instances.Clear();
+			WindowsChanged?.Invoke();
+
+			if (settings.DeleteCookiesOnStartup && settings.DeleteCookiesOnShutdown)
+			{
+				DeleteCookies();
+			}
+
+			nativeMethods.EmptyClipboard();
+			CreateNewInstance();
+			logger.Info("Successfully reset browser.");
 		}
 
 		private void Instance_Terminated(int id)

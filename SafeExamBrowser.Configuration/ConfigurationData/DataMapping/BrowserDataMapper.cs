@@ -126,6 +126,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.QuitUrlConfirmation:
 					MapQuitUrlConfirmation(settings, value);
 					break;
+				case Keys.Browser.ResetOnQuitUrl:
+					MapResetOnQuitUrl(settings, value);
+					break;
 				case Keys.Browser.ShowToolbar:
 					MapShowToolbar(settings, value);
 					break;
@@ -366,6 +369,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool confirm)
 			{
 				settings.Browser.ConfirmQuitUrl = confirm;
+			}
+		}
+
+		private void MapResetOnQuitUrl(AppSettings settings, object value)
+		{
+			if (value is bool reset)
+			{
+				settings.Browser.ResetOnQuitUrl = reset;
 			}
 		}
 
