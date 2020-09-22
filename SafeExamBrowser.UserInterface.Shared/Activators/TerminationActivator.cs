@@ -55,7 +55,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 					break;
 			}
 
-			if (Q && (LeftCtrl || RightCtrl) && changed)
+			if (Q && (LeftCtrl || RightCtrl) && changed && !modifier.HasFlag(KeyModifier.Alt))
 			{
 				logger.Debug("Detected termination sequence.");
 				Activated?.Invoke();
