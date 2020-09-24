@@ -159,9 +159,19 @@ namespace SafeExamBrowser.Settings.Browser
 		public string StartUrl { get; set; }
 
 		/// <summary>
+		/// A query for the <see cref="StartUrl"/> which SEB automatically extracts from the configuration URL.
+		/// </summary>
+		public string StartUrlQuery { get; set; }
+
+		/// <summary>
 		/// Determines whether a custom user agent will be used for all requests, see <see cref="CustomUserAgent"/>.
 		/// </summary>
 		public bool UseCustomUserAgent { get; set; }
+
+		/// <summary>
+		/// Determines whether the <see cref="StartUrlQuery"/> will be appended to the <see cref="StartUrl"/>.
+		/// </summary>
+		public bool UseQueryParameter { get; set; }
 
 		/// <summary>
 		/// A custom suffix to be appended to the user agent.

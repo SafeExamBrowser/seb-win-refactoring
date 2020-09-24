@@ -345,7 +345,9 @@ namespace SafeExamBrowser.Runtime
 		private void RuntimeHost_ReconfigurationRequested(ReconfigurationEventArgs args)
 		{
 			logger.Info($"Accepted request for reconfiguration with '{args.ConfigurationPath}'.");
+
 			sessionContext.ReconfigurationFilePath = args.ConfigurationPath;
+			sessionContext.ReconfigurationUrl = args.ResourceUrl;
 
 			StartSession();
 		}

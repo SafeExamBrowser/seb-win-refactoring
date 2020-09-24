@@ -17,5 +17,10 @@ namespace SafeExamBrowser.Communication.Contracts.Events
 		/// The full path to the configuration file to be used for reconfiguration.
 		/// </summary>
 		public string ConfigurationPath { get; set; }
+
+		/// <summary>
+		/// The original URL from where the configuration file was downloaded.
+		/// </summary>
+		public string ResourceUrl { get; set; }
 	}
 }

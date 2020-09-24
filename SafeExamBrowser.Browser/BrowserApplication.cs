@@ -145,7 +145,7 @@ namespace SafeExamBrowser.Browser
 			var id = ++instanceIdCounter;
 			var isMainInstance = instances.Count == 0;
 			var instanceLogger = logger.CloneFor($"Browser Instance #{id}");
-			var startUrl = url ?? settings.StartUrl;
+			var startUrl = url ?? GenerateStartUrl();
 			var instance = new BrowserApplicationInstance(appConfig, settings, id, isMainInstance, fileSystemDialog, messageBox, instanceLogger, text, uiFactory, startUrl);
 
 			instance.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
@@ -199,6 +199,18 @@ namespace SafeExamBrowser.Browser
 			{
 				logger.Warn("Failed to initiate cookie deletion!");
 			}
+		}
+
+		private string GenerateStartUrl()
+		{
+			var url = settings.StartUrl;
+
+			if (settings.UseQueryParameter)
+			{
+				url = $"{url}{settings.StartUrlQuery}";
+			}
+
+			return url;
 		}
 
 		private void InitializeApplicationInfo()

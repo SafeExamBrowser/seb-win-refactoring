@@ -141,6 +141,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.UserAgentSuffix:
 					MapUserAgentSuffix(settings, value);
 					break;
+				case Keys.Browser.UseStartUrlQuery:
+					MapUseStartUrlQuery(settings, value);
+					break;
 			}
 		}
 
@@ -455,6 +458,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string suffix)
 			{
 				settings.Browser.UserAgentSuffix = suffix;
+			}
+		}
+
+		private void MapUseStartUrlQuery(AppSettings settings, object value)
+		{
+			if (value is bool use)
+			{
+				settings.Browser.UseQueryParameter = use;
 			}
 		}
 

@@ -266,6 +266,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 		{
 			var args = default(ReconfigurationEventArgs);
 			var path = "C:\\Temp\\Some\\File.seb";
+			var url = @"https://www.host.abc/someresource.seb";
 			var sync = new AutoResetEvent(false);
 
 			sut.AllowConnection = true;
@@ -273,7 +274,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			sut.AuthenticationToken = Guid.Empty;
 
 			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
-			var message = new ReconfigurationMessage(path) { CommunicationToken = token };
+			var message = new ReconfigurationMessage(path, url) { CommunicationToken = token };
 			var response = sut.Send(message);
 
 			sync.WaitOne();
@@ -283,6 +284,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
 			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
 			Assert.AreEqual(path, args.ConfigurationPath);
+			Assert.AreEqual(url, args.ResourceUrl);
 		}
 
 		[TestMethod]
@@ -320,7 +322,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			sut.Send(new SimpleMessage(SimpleMessagePurport.RequestShutdown) { CommunicationToken = token });
 			sut.Send(new MessageBoxReplyMessage(Guid.Empty, (int) MessageBoxResult.Cancel) { CommunicationToken = token });
 			sut.Send(new PasswordReplyMessage(Guid.Empty, false, "") { CommunicationToken = token });
-			sut.Send(new ReconfigurationMessage("") { CommunicationToken = token });
+			sut.Send(new ReconfigurationMessage("", "") { CommunicationToken = token });
 			sut.Disconnect(new DisconnectionMessage { CommunicationToken = token });
 		}
 

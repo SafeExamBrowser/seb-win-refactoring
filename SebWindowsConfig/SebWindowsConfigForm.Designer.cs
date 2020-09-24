@@ -246,6 +246,7 @@ namespace SebWindowsConfig
 			this.textBox4 = new System.Windows.Forms.TextBox();
 			this.textBox3 = new System.Windows.Forms.TextBox();
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
+			this.checkBoxResetOnQuitUrl = new System.Windows.Forms.CheckBox();
 			this.checkBoxQuitURLConfirm = new System.Windows.Forms.CheckBox();
 			this.textBoxQuitURL = new System.Windows.Forms.TextBox();
 			this.textBox1 = new System.Windows.Forms.TextBox();
@@ -446,7 +447,9 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.checkBoxResetOnQuitUrl = new System.Windows.Forms.CheckBox();
+			this.groupBox17 = new System.Windows.Forms.GroupBox();
+			this.checkBoxUseStartUrlQuery = new System.Windows.Forms.CheckBox();
+			this.label23 = new System.Windows.Forms.Label();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -502,6 +505,7 @@ namespace SebWindowsConfig
 			this.groupBoxExitSequence.SuspendLayout();
 			this.tabControlSebWindowsConfig.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
+			this.groupBox17.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// openFileDialogSebConfigFile
@@ -3010,6 +3014,7 @@ namespace SebWindowsConfig
 			// 
 			// tabPageExam
 			// 
+			this.tabPageExam.Controls.Add(this.groupBox17);
 			this.tabPageExam.Controls.Add(this.groupBox15);
 			this.tabPageExam.Controls.Add(this.groupBox2);
 			this.tabPageExam.Controls.Add(this.groupBox9);
@@ -3089,7 +3094,7 @@ namespace SebWindowsConfig
 			this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
-			this.groupBox2.Size = new System.Drawing.Size(610, 118);
+			this.groupBox2.Size = new System.Drawing.Size(610, 108);
 			this.groupBox2.TabIndex = 122;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Session Handling";
@@ -3107,7 +3112,7 @@ namespace SebWindowsConfig
 			// checkBoxClearSessionOnEnd
 			// 
 			this.checkBoxClearSessionOnEnd.AutoSize = true;
-			this.checkBoxClearSessionOnEnd.Location = new System.Drawing.Point(15, 88);
+			this.checkBoxClearSessionOnEnd.Location = new System.Drawing.Point(15, 83);
 			this.checkBoxClearSessionOnEnd.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxClearSessionOnEnd.Name = "checkBoxClearSessionOnEnd";
 			this.checkBoxClearSessionOnEnd.Size = new System.Drawing.Size(570, 17);
@@ -3137,9 +3142,9 @@ namespace SebWindowsConfig
 			this.groupBox9.Controls.Add(this.textBoxRestartExamText);
 			this.groupBox9.Controls.Add(this.textBox4);
 			this.groupBox9.Controls.Add(this.textBox3);
-			this.groupBox9.Location = new System.Drawing.Point(605, 318);
+			this.groupBox9.Location = new System.Drawing.Point(605, 287);
 			this.groupBox9.Name = "groupBox9";
-			this.groupBox9.Size = new System.Drawing.Size(610, 181);
+			this.groupBox9.Size = new System.Drawing.Size(610, 168);
 			this.groupBox9.TabIndex = 121;
 			this.groupBox9.TabStop = false;
 			this.groupBox9.Text = "Back to Start Button (Mac)";
@@ -3173,7 +3178,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxRestartExamPasswordProtected.AutoSize = true;
 			this.checkBoxRestartExamPasswordProtected.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxRestartExamPasswordProtected.Location = new System.Drawing.Point(14, 152);
+			this.checkBoxRestartExamPasswordProtected.Location = new System.Drawing.Point(15, 139);
 			this.checkBoxRestartExamPasswordProtected.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxRestartExamPasswordProtected.Name = "checkBoxRestartExamPasswordProtected";
 			this.checkBoxRestartExamPasswordProtected.Size = new System.Drawing.Size(300, 17);
@@ -3187,7 +3192,7 @@ namespace SebWindowsConfig
 			// textBoxRestartExamText
 			// 
 			this.textBoxRestartExamText.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBoxRestartExamText.Location = new System.Drawing.Point(14, 101);
+			this.textBoxRestartExamText.Location = new System.Drawing.Point(14, 90);
 			this.textBoxRestartExamText.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.textBoxRestartExamText.Name = "textBoxRestartExamText";
 			this.textBoxRestartExamText.Size = new System.Drawing.Size(526, 19);
@@ -3201,7 +3206,7 @@ namespace SebWindowsConfig
 			this.textBox4.BackColor = System.Drawing.SystemColors.Window;
 			this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.textBox4.Location = new System.Drawing.Point(15, 126);
+			this.textBox4.Location = new System.Drawing.Point(15, 118);
 			this.textBox4.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.textBox4.Multiline = true;
 			this.textBox4.Name = "textBox4";
@@ -3232,12 +3237,25 @@ namespace SebWindowsConfig
 			this.groupBox8.Controls.Add(this.checkBoxQuitURLConfirm);
 			this.groupBox8.Controls.Add(this.textBoxQuitURL);
 			this.groupBox8.Controls.Add(this.textBox1);
-			this.groupBox8.Location = new System.Drawing.Point(605, 150);
+			this.groupBox8.Location = new System.Drawing.Point(605, 138);
 			this.groupBox8.Name = "groupBox8";
-			this.groupBox8.Size = new System.Drawing.Size(610, 144);
+			this.groupBox8.Size = new System.Drawing.Size(610, 136);
 			this.groupBox8.TabIndex = 120;
 			this.groupBox8.TabStop = false;
 			this.groupBox8.Text = "Link to quit SEB after exam";
+			// 
+			// checkBoxResetOnQuitUrl
+			// 
+			this.checkBoxResetOnQuitUrl.AutoSize = true;
+			this.checkBoxResetOnQuitUrl.Location = new System.Drawing.Point(15, 110);
+			this.checkBoxResetOnQuitUrl.Name = "checkBoxResetOnQuitUrl";
+			this.checkBoxResetOnQuitUrl.Size = new System.Drawing.Size(146, 17);
+			this.checkBoxResetOnQuitUrl.TabIndex = 115;
+			this.checkBoxResetOnQuitUrl.Text = "Restart instead of quitting";
+			this.toolTip1.SetToolTip(this.checkBoxResetOnQuitUrl, "Session in SEB is restarted after the quit URL has been detected, instead of quit" +
+        "ting SEB");
+			this.checkBoxResetOnQuitUrl.UseVisualStyleBackColor = true;
+			this.checkBoxResetOnQuitUrl.CheckedChanged += new System.EventHandler(this.checkBoxResetOnQuitUrl_CheckedChanged);
 			// 
 			// checkBoxQuitURLConfirm
 			// 
@@ -5800,18 +5818,37 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// checkBoxResetOnQuitUrl
+			// groupBox17
 			// 
-			this.checkBoxResetOnQuitUrl.AutoSize = true;
-			this.checkBoxResetOnQuitUrl.Location = new System.Drawing.Point(15, 110);
-			this.checkBoxResetOnQuitUrl.Name = "checkBoxResetOnQuitUrl";
-			this.checkBoxResetOnQuitUrl.Size = new System.Drawing.Size(146, 17);
-			this.checkBoxResetOnQuitUrl.TabIndex = 115;
-			this.checkBoxResetOnQuitUrl.Text = "Restart instead of quitting";
-			this.toolTip1.SetToolTip(this.checkBoxResetOnQuitUrl, "Session in SEB is restarted after the quit URL has been detected, instead of quit" +
-        "ting SEB");
-			this.checkBoxResetOnQuitUrl.UseVisualStyleBackColor = true;
-			this.checkBoxResetOnQuitUrl.CheckedChanged += new System.EventHandler(this.checkBoxResetOnQuitUrl_CheckedChanged);
+			this.groupBox17.Controls.Add(this.label23);
+			this.groupBox17.Controls.Add(this.checkBoxUseStartUrlQuery);
+			this.groupBox17.Location = new System.Drawing.Point(605, 471);
+			this.groupBox17.Name = "groupBox17";
+			this.groupBox17.Size = new System.Drawing.Size(610, 86);
+			this.groupBox17.TabIndex = 124;
+			this.groupBox17.TabStop = false;
+			this.groupBox17.Text = "Query String Parameter";
+			// 
+			// checkBoxUseStartUrlQuery
+			// 
+			this.checkBoxUseStartUrlQuery.AutoSize = true;
+			this.checkBoxUseStartUrlQuery.Location = new System.Drawing.Point(15, 59);
+			this.checkBoxUseStartUrlQuery.Name = "checkBoxUseStartUrlQuery";
+			this.checkBoxUseStartUrlQuery.Size = new System.Drawing.Size(133, 17);
+			this.checkBoxUseStartUrlQuery.TabIndex = 0;
+			this.checkBoxUseStartUrlQuery.Text = "Allow Query Parameter";
+			this.toolTip1.SetToolTip(this.checkBoxUseStartUrlQuery, "If a seb(s):// link contains an additional query string, SEB appends it to the ex" +
+        "am\'s Start URL");
+			this.checkBoxUseStartUrlQuery.UseVisualStyleBackColor = true;
+			this.checkBoxUseStartUrlQuery.CheckedChanged += new System.EventHandler(this.checkBoxUseStartUrlQuery_CheckedChanged);
+			// 
+			// label23
+			// 
+			this.label23.Location = new System.Drawing.Point(12, 24);
+			this.label23.Name = "label23";
+			this.label23.Size = new System.Drawing.Size(592, 27);
+			this.label23.TabIndex = 1;
+			this.label23.Text = resources.GetString("label23.Text");
 			// 
 			// SebWindowsConfigForm
 			// 
@@ -5932,6 +5969,8 @@ namespace SebWindowsConfig
 			this.tabControlSebWindowsConfig.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.groupBox17.ResumeLayout(false);
+			this.groupBox17.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -6355,6 +6394,9 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.CheckBox checkBoxAllowReconfiguration;
 		private System.Windows.Forms.Label label22;
 		private System.Windows.Forms.CheckBox checkBoxResetOnQuitUrl;
+		private System.Windows.Forms.GroupBox groupBox17;
+		private System.Windows.Forms.Label label23;
+		private System.Windows.Forms.CheckBox checkBoxUseStartUrlQuery;
 	}
 }
 

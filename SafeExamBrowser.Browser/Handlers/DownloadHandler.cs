@@ -92,7 +92,7 @@ namespace SafeExamBrowser.Browser.Handlers
 
 				if (callbacks.TryRemove(downloadItem.Id, out DownloadFinishedCallback finished) && finished != null)
 				{
-					Task.Run(() => finished.Invoke(downloadItem.IsComplete, downloadItem.FullPath));
+					Task.Run(() => finished.Invoke(downloadItem.IsComplete, downloadItem.Url, downloadItem.FullPath));
 				}
 
 				if (hasId)

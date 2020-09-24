@@ -21,9 +21,15 @@ namespace SafeExamBrowser.Communication.Contracts.Data
 		/// </summary>
 		public string ConfigurationPath { get; private set; }
 
-		public ReconfigurationMessage(string path)
+		/// <summary>
+		/// The original URL from where the configuration file was downloaded.
+		/// </summary>
+		public string ResourceUrl { get; set; }
+
+		public ReconfigurationMessage(string path, string url)
 		{
 			ConfigurationPath = path;
+			ResourceUrl = url;
 		}
 	}
 }

@@ -200,6 +200,7 @@ namespace SebWindowsConfig
 		public const String KeyAllowReconfiguration = "examSessionReconfigureAllow";
 		public const String KeyReconfigurationUrl = "examSessionReconfigureConfigURL";
 		public const String KeyResetOnQuitUrl = "quitURLRestart";
+		public const String KeyUseStartUrlQuery = "startURLAppendQueryParameter";
 
 		// Group Additional Resources
 		public const String KeyAdditionalResources = "additionalResources";
@@ -718,6 +719,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowReconfiguration, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyReconfigurationUrl, "");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyResetOnQuitUrl, false);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyUseStartUrlQuery, false);
 
 			// Default settings for group "Additional Resources"
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAdditionalResources, new ListObj());

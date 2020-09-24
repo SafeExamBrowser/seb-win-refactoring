@@ -257,7 +257,7 @@ namespace SafeExamBrowser.Communication.UnitTests.Hosts
 		{
 			var received = false;
 			var simpleReceived = false;
-			var message = new ReconfigurationMessage(null);
+			var message = new ReconfigurationMessage(null, null);
 			var configurationResponse = new ConfigurationResponse();
 
 			sut.OnReceiveStub = (m) => { received = true; return configurationResponse; };

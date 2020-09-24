@@ -70,7 +70,7 @@ namespace SafeExamBrowser.Runtime.Communication
 					PasswordReceived?.InvokeAsync(new PasswordReplyEventArgs { Password = m.Password, RequestId = m.RequestId, Success = m.Success });
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 				case ReconfigurationMessage m:
-					ReconfigurationRequested?.InvokeAsync(new ReconfigurationEventArgs { ConfigurationPath = m.ConfigurationPath });
+					ReconfigurationRequested?.InvokeAsync(new ReconfigurationEventArgs { ConfigurationPath = m.ConfigurationPath, ResourceUrl = m.ResourceUrl });
 					return new SimpleResponse(SimpleResponsePurport.Acknowledged);
 				case ServerFailureActionReplyMessage m:
 					ServerFailureActionReceived?.InvokeAsync(new ServerFailureActionReplyEventArgs { Abort = m.Abort, Fallback = m.Fallback, RequestId = m.RequestId, Retry = m.Retry });

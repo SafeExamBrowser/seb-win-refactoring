@@ -374,6 +374,31 @@ namespace SafeExamBrowser.Client
 			}
 		}
 
+		private void Browser_ConfigurationDownloadFinished(bool success, string url, string filePath = null)
+		{
+			if (success)
+			{
+				var communication = runtime.RequestReconfiguration(filePath, url);
+
+				if (communication.Success)
+				{
+					logger.Info($"Sent reconfiguration request for '{filePath}' to the runtime.");
+				}
+				else
+				{
+					logger.Error($"Failed to communicate reconfiguration request for '{filePath}'!");
+					messageBox.Show(TextKey.MessageBox_ReconfigurationError, TextKey.MessageBox_ReconfigurationErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
+					splashScreen.Hide();
+				}
+			}
+			else
+			{
+				logger.Error($"Failed to download configuration file '{filePath}'!");
+				messageBox.Show(TextKey.MessageBox_ConfigurationDownloadError, TextKey.MessageBox_ConfigurationDownloadErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
+				splashScreen.Hide();
+			}
+		}
+
 		private void Browser_SessionIdentifierDetected(string identifier)
 		{
 			if (Settings.SessionMode == SessionMode.Server)
@@ -395,31 +420,6 @@ namespace SafeExamBrowser.Client
 		{
 			logger.Info("Attempting to shutdown as requested by the browser...");
 			TryRequestShutdown();
-		}
-
-		private void Browser_ConfigurationDownloadFinished(bool success, string filePath = null)
-		{
-			if (success)
-			{
-				var communication = runtime.RequestReconfiguration(filePath);
-
-				if (communication.Success)
-				{
-					logger.Info($"Sent reconfiguration request for '{filePath}' to the runtime.");
-				}
-				else
-				{
-					logger.Error($"Failed to communicate reconfiguration request for '{filePath}'!");
-					messageBox.Show(TextKey.MessageBox_ReconfigurationError, TextKey.MessageBox_ReconfigurationErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
-					splashScreen.Hide();
-				}
-			}
-			else
-			{
-				logger.Error($"Failed to download configuration file '{filePath}'!");
-				messageBox.Show(TextKey.MessageBox_ConfigurationDownloadError, TextKey.MessageBox_ConfigurationDownloadErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
-				splashScreen.Hide();
-			}
 		}
 
 		private void ClientHost_ExamSelectionRequested(ExamSelectionRequestEventArgs args)

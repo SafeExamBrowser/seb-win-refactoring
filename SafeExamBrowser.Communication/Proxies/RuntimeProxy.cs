@@ -75,11 +75,11 @@ namespace SafeExamBrowser.Communication.Proxies
 			}
 		}
 
-		public CommunicationResult RequestReconfiguration(string filePath)
+		public CommunicationResult RequestReconfiguration(string filePath, string url)
 		{
 			try
 			{
-				var response = Send(new ReconfigurationMessage(filePath));
+				var response = Send(new ReconfigurationMessage(filePath, url));
 				var success = IsAcknowledged(response);
 
 				if (success)

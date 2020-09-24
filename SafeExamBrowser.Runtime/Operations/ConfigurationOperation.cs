@@ -191,6 +191,8 @@ namespace SafeExamBrowser.Runtime.Operations
 				{
 					result = OperationResult.Success;
 				}
+
+				HandleStartUrlQuery(uri, source);
 			}
 			else
 			{
@@ -228,6 +230,19 @@ namespace SafeExamBrowser.Runtime.Operations
 			}
 
 			return result;
+		}
+
+		private void HandleStartUrlQuery(Uri uri, UriSource source)
+		{
+			if (source == UriSource.Reconfiguration && Uri.TryCreate(Context.ReconfigurationUrl, UriKind.Absolute, out var reconfigurationUri))
+			{
+				uri = reconfigurationUri;
+			}
+
+			if (uri != default(Uri) && uri.Query.LastIndexOf('?') > 0)
+			{
+				Context.Next.Settings.Browser.StartUrlQuery = uri.Query.Substring(uri.Query.LastIndexOf('?'));
+			}
 		}
 
 		private bool? TryConfigureClient(Uri uri, PasswordParameters passwordParams, string currentPassword = default(string))

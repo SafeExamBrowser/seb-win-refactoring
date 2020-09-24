@@ -554,6 +554,7 @@ namespace SebWindowsConfig
 			textBoxRestartExamText.Text = (String)SEBSettings.settingsCurrent[SEBSettings.KeyRestartExamText];
 			checkBoxAllowReconfiguration.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowReconfiguration];
 			textBoxReconfigurationUrl.Text = (String)SEBSettings.settingsCurrent[SEBSettings.KeyReconfigurationUrl];
+			checkBoxUseStartUrlQuery.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyUseStartUrlQuery];
 
 			// Group AdditionalResources
 			tabControlSebWindowsConfig.TabPages.Remove(tabPageAdditionalResources);
@@ -4607,6 +4608,11 @@ namespace SebWindowsConfig
 		private void checkBoxResetOnQuitUrl_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyResetOnQuitUrl] = checkBoxResetOnQuitUrl.Checked;
+		}
+
+		private void checkBoxUseStartUrlQuery_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyUseStartUrlQuery] = checkBoxUseStartUrlQuery.Checked;
 		}
 	}
 }

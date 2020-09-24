@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Communication.Contracts.Proxies
 		/// <summary>
 		/// Requests the runtime to reconfigure the application with the specified configuration.
 		/// </summary>
-		CommunicationResult RequestReconfiguration(string filePath);
+		CommunicationResult RequestReconfiguration(string filePath, string url);
 
 		/// <summary>
 		/// Submits the result of a server exam selection previously requested by the runtime. If the procedure was aborted by the user,

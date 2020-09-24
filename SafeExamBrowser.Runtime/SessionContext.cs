@@ -41,5 +41,10 @@ namespace SafeExamBrowser.Runtime
 		/// The path of the configuration file to be used for reconfiguration.
 		/// </summary>
 		internal string ReconfigurationFilePath { get; set; }
+
+		/// <summary>
+		/// The original URL from where the configuration file was downloaded.
+		/// </summary>
+		internal string ReconfigurationUrl { get; set; }
 	}
 }

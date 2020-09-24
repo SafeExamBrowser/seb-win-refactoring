@@ -101,24 +101,26 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 		[TestMethod]
 		public void MustCorrectlyRequestReconfiguration()
 		{
-			var url = "file:///C:/Some/file/url.seb";
+			var path = "file:///C:/Some/file/url.seb";
+			var url = @"https://www.host.abc/someresource.seb";
 
-			proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationPath == url))).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
+			proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationPath == path))).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
 
-			var communication = sut.RequestReconfiguration(url);
+			var communication = sut.RequestReconfiguration(path, url);
 
 			Assert.IsTrue(communication.Success);
-			proxy.Verify(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationPath == url)), Times.Once);
+			proxy.Verify(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationPath == path && m.ResourceUrl == url)), Times.Once);
 		}
 
 		[TestMethod]
 		public void MustFailIfReconfigurationRequestNotAcknowledged()
 		{
-			var url = "file:///C:/Some/file/url.seb";
+			var path = "file:///C:/Some/file/url.seb";
+			var url = @"https://www.host.abc/someresource.seb";
 
-			proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationPath == url))).Returns<Response>(null);
+			proxy.Setup(p => p.Send(It.Is<ReconfigurationMessage>(m => m.ConfigurationPath == path))).Returns<Response>(null);
 
-			var communication = sut.RequestReconfiguration(url);
+			var communication = sut.RequestReconfiguration(path, url);
 
 			Assert.IsFalse(communication.Success);
 		}
@@ -201,7 +203,7 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 			var configuration = sut.GetConfiguration();
 			var message = sut.SubmitMessageBoxResult(default(Guid), default(int));
 			var password = sut.SubmitPassword(default(Guid), false);
-			var reconfiguration = sut.RequestReconfiguration(null);
+			var reconfiguration = sut.RequestReconfiguration(null, null);
 			var shutdown = sut.RequestShutdown();
 
 			Assert.IsFalse(client.Success);
