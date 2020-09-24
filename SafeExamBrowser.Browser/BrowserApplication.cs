@@ -207,7 +207,14 @@ namespace SafeExamBrowser.Browser
 
 			if (settings.UseQueryParameter)
 			{
-				url = $"{url}{settings.StartUrlQuery}";
+				if (url.Contains("?") && settings.StartUrlQuery?.Length > 1 && Uri.TryCreate(url, UriKind.Absolute, out var uri))
+				{
+					url = url.Replace(uri.Query, $"{uri.Query}&{settings.StartUrlQuery.Substring(1)}");
+				}
+				else
+				{
+					url = $"{url}{settings.StartUrlQuery}";
+				}
 			}
 
 			return url;
