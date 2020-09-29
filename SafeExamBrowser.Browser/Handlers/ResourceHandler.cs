@@ -22,6 +22,7 @@ using SafeExamBrowser.Browser.Pages;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Browser.Filter;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 using Request = SafeExamBrowser.Browser.Contracts.Filters.Request;
@@ -39,11 +40,18 @@ namespace SafeExamBrowser.Browser.Handlers
 		private ILogger logger;
 		private IResourceHandler pageHandler;
 		private BrowserSettings settings;
+		private WindowSettings windowSettings;
 		private IText text;
 
 		internal event SessionIdentifierDetectedEventHandler SessionIdentifierDetected;
 
-		internal ResourceHandler(AppConfig appConfig, BrowserSettings settings, IRequestFilter filter, ILogger logger, IText text)
+		internal ResourceHandler(
+			AppConfig appConfig,
+			IRequestFilter filter,
+			ILogger logger,
+			BrowserSettings settings,
+			WindowSettings windowSettings,
+			IText text)
 		{
 			this.appConfig = appConfig;
 			this.algorithm = new SHA256Managed();
@@ -51,6 +59,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			this.htmlLoader = new HtmlLoader(text);
 			this.logger = logger;
 			this.settings = settings;
+			this.windowSettings = windowSettings;
 			this.text = text;
 		}
 
@@ -138,7 +147,7 @@ namespace SafeExamBrowser.Browser.Handlers
 				if (result == FilterResult.Block)
 				{
 					block = true;
-					logger.Info($"Blocked content request for '{request.Url}' ({request.ResourceType}, {request.TransitionType}).");
+					logger.Info($"Blocked content request{(windowSettings.UrlPolicy.CanLog() ? $" for '{request.Url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
 				}
 			}
 
@@ -183,7 +192,7 @@ namespace SafeExamBrowser.Browser.Handlers
 
 			if (redirect)
 			{
-				logger.Info($"Redirecting to '{url}' to disable PDF reader toolbar.");
+				logger.Info($"Redirecting{(windowSettings.UrlPolicy.CanLog() ? $" to '{url}'" : "")} to disable PDF reader toolbar.");
 			}
 
 			return redirect;

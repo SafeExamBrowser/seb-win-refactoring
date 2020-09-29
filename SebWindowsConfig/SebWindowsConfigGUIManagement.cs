@@ -437,6 +437,16 @@ namespace SebWindowsConfig
 			comboBoxNewBrowserWindowHeight      .Items.AddRange(StringWindowHeight);
 			 listBoxNewBrowserWindowPositioning .Items.AddRange(StringWindowPositioning);
 
+			comboBoxUrlPolicyMainWindow.Items.Add("Never");
+			comboBoxUrlPolicyMainWindow.Items.Add("OnlyLoadError");
+			comboBoxUrlPolicyMainWindow.Items.Add("BeforeTitle");
+			comboBoxUrlPolicyMainWindow.Items.Add("Always");
+
+			comboBoxUrlPolicyNewWindow.Items.Add("Never");
+			comboBoxUrlPolicyNewWindow.Items.Add("OnlyLoadError");
+			comboBoxUrlPolicyNewWindow.Items.Add("BeforeTitle");
+			comboBoxUrlPolicyNewWindow.Items.Add("Always");
+
 			comboBoxTaskBarHeight.Items.AddRange(StringTaskBarHeight);
 
 			 listBoxOpenLinksHTML.Items.AddRange(StringPolicyLinkOpening);

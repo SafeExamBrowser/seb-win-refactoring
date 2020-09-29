@@ -16,6 +16,7 @@ using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Browser.Filter;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 using Request = SafeExamBrowser.Browser.Contracts.Filters.Request;
@@ -27,9 +28,10 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 	public class ResourceHandlerTests
 	{
 		private AppConfig appConfig;
-		private BrowserSettings settings;
 		private Mock<IRequestFilter> filter;
 		private Mock<ILogger> logger;
+		private BrowserSettings settings;
+		private WindowSettings windowSettings;
 		private Mock<IText> text;
 		private TestableResourceHandler sut;
 
@@ -37,12 +39,13 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		public void Initialize()
 		{
 			appConfig = new AppConfig();
-			settings = new BrowserSettings();
 			filter = new Mock<IRequestFilter>();
 			logger = new Mock<ILogger>();
+			settings = new BrowserSettings();
+			windowSettings = new WindowSettings();
 			text = new Mock<IText>();
 
-			sut = new TestableResourceHandler(appConfig, settings, filter.Object, logger.Object, text.Object);
+			sut = new TestableResourceHandler(appConfig, filter.Object, logger.Object, settings, windowSettings, text.Object);
 		}
 
 		[TestMethod]
@@ -156,7 +159,13 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 
 		private class TestableResourceHandler : ResourceHandler
 		{
-			internal TestableResourceHandler(AppConfig appConfig, BrowserSettings settings, IRequestFilter filter, ILogger logger, IText text) : base(appConfig, settings, filter, logger, text)
+			internal TestableResourceHandler(
+				AppConfig appConfig,
+				IRequestFilter filter,
+				ILogger logger,
+				BrowserSettings settings,
+				WindowSettings windowSettings,
+				IText text) : base(appConfig, filter, logger, settings, windowSettings, text)
 			{
 			}
 

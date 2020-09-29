@@ -15,6 +15,7 @@ using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using Syroot.Windows.IO;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
@@ -25,6 +26,7 @@ namespace SafeExamBrowser.Browser.Handlers
 	{
 		private AppConfig appConfig;
 		private BrowserSettings settings;
+		private WindowSettings windowSettings;
 		private ConcurrentDictionary<int, DownloadFinishedCallback> callbacks;
 		private ConcurrentDictionary<int, Guid> downloads;
 		private ILogger logger;
@@ -32,13 +34,14 @@ namespace SafeExamBrowser.Browser.Handlers
 		internal event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 		internal event DownloadUpdatedEventHandler DownloadUpdated;
 
-		internal DownloadHandler(AppConfig appConfig, BrowserSettings settings, ILogger logger)
+		internal DownloadHandler(AppConfig appConfig, ILogger logger, BrowserSettings settings, WindowSettings windowSettings)
 		{
 			this.appConfig = appConfig;
 			this.callbacks = new ConcurrentDictionary<int, DownloadFinishedCallback>();
 			this.downloads = new ConcurrentDictionary<int, Guid>();
 			this.logger = logger;
 			this.settings = settings;
+			this.windowSettings = windowSettings;
 		}
 
 		public void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
@@ -52,7 +55,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			isConfigurationFile |= string.Equals(appConfig.ConfigurationFileExtension, uriExtension, StringComparison.OrdinalIgnoreCase);
 			isConfigurationFile |= string.Equals(appConfig.ConfigurationFileMimeType, downloadItem.MimeType, StringComparison.OrdinalIgnoreCase);
 
-			logger.Debug($"Detected download request for '{uri}'.");
+			logger.Debug($"Detected download request{(windowSettings.UrlPolicy.CanLog() ? $" for '{uri}'" : "")}.");
 
 			if (isConfigurationFile)
 			{
@@ -64,7 +67,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			}
 			else
 			{
-				logger.Info($"Aborted download request for '{uri}', as downloading is not allowed.");
+				logger.Info($"Aborted download request{(windowSettings.UrlPolicy.CanLog() ? $" for '{uri}'" : "")}, as downloading is not allowed.");
 			}
 		}
 
@@ -88,7 +91,7 @@ namespace SafeExamBrowser.Browser.Handlers
 
 			if (downloadItem.IsComplete || downloadItem.IsCancelled)
 			{
-				logger.Debug($"Download of '{downloadItem.Url}' {(downloadItem.IsComplete ? "is complete" : "was cancelled")}.");
+				logger.Debug($"Download of '{downloadItem.FullPath}' {(downloadItem.IsComplete ? "is complete" : "was cancelled")}.");
 
 				if (callbacks.TryRemove(downloadItem.Id, out DownloadFinishedCallback finished) && finished != null)
 				{

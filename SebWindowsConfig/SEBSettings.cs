@@ -145,6 +145,8 @@ namespace SebWindowsConfig
 		public const String KeyNewBrowserWindowByLinkWidth          = "newBrowserWindowByLinkWidth";
 		public const String KeyNewBrowserWindowByLinkHeight         = "newBrowserWindowByLinkHeight";
 		public const String KeyNewBrowserWindowByLinkPositioning    = "newBrowserWindowByLinkPositioning";
+		public const String KeyNewBrowserWindowUrlPolicy            = "newBrowserWindowShowURL";
+		public const String KeyMainBrowserWindowUrlPolicy           = "browserWindowShowURL";
 		public const String KeyEnablePlugIns                        = "enablePlugIns";
 		public const String KeyEnableJava                           = "enableJava";
 		public const String KeyEnableJavaScript                     = "enableJavaScript";
@@ -658,7 +660,9 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyNewBrowserWindowByLinkWidth         , "1000");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyNewBrowserWindowByLinkHeight        , "100%");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyNewBrowserWindowByLinkPositioning   , 2);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyNewBrowserWindowUrlPolicy           , 0);
 
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyMainBrowserWindowUrlPolicy, 0);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnablePlugIns           , true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableJava              , false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableJavaScript        , true);

@@ -80,5 +80,10 @@ namespace SafeExamBrowser.Settings.Browser
 		/// Determines whether the window toolbar is visible.
 		/// </summary>
 		public bool ShowToolbar { get; set; }
+
+		/// <summary>
+		/// Determines how URLs are handled in the user interface and log.
+		/// </summary>
+		public UrlPolicy UrlPolicy { get; set; }
 	}
 }

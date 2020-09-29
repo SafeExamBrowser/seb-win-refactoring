@@ -57,6 +57,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.AdditionalWindow.ShowReloadWarning:
 					MapShowReloadWarningAdditionalWindow(settings, value);
 					break;
+				case Keys.Browser.AdditionalWindow.UrlPolicy:
+					MapUrlPolicy(settings.Browser.AdditionalWindow, value);
+					break;
 				case Keys.Browser.AdditionalWindow.WindowHeight:
 					MapWindowHeightAdditionalWindow(settings, value);
 					break;
@@ -101,6 +104,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Browser.MainWindow.ShowReloadWarning:
 					MapShowReloadWarning(settings, value);
+					break;
+				case Keys.Browser.MainWindow.UrlPolicy:
+					MapUrlPolicy(settings.Browser.MainWindow, value);
 					break;
 				case Keys.Browser.MainWindow.WindowHeight:
 					MapWindowHeightMainWindow(settings, value);
@@ -431,6 +437,33 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string url)
 			{
 				settings.Browser.StartUrl = url;
+			}
+		}
+
+		private void MapUrlPolicy(WindowSettings settings, object value)
+		{
+			const int ALWAYS = 3;
+			const int BEFORE_TITLE = 2;
+			const int LOAD_ERROR = 1;
+			const int NEVER = 0;
+
+			if (value is int policy)
+			{
+				switch (policy)
+				{
+					case ALWAYS:
+						settings.UrlPolicy = UrlPolicy.Always;
+						break;
+					case BEFORE_TITLE:
+						settings.UrlPolicy = UrlPolicy.BeforeTitle;
+						break;
+					case LOAD_ERROR:
+						settings.UrlPolicy = UrlPolicy.LoadError;
+						break;
+					case NEVER:
+						settings.UrlPolicy = UrlPolicy.Never;
+						break;
+				}
 			}
 		}
 

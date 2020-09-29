@@ -527,6 +527,9 @@ namespace SebWindowsConfig
 			checkBoxSetVolumeLevel.Checked = ((bool) SEBSettings.settingsCurrent[SEBSettings.KeyAudioSetVolumeLevel]);
 			trackBarVolumeLevel.Value = ((int) SEBSettings.settingsCurrent[SEBSettings.KeyAudioVolumeLevel]);
 
+			comboBoxUrlPolicyMainWindow.SelectedIndex = (int) SEBSettings.settingsCurrent[SEBSettings.KeyMainBrowserWindowUrlPolicy];
+			comboBoxUrlPolicyNewWindow.SelectedIndex = (int) SEBSettings.settingsCurrent[SEBSettings.KeyNewBrowserWindowUrlPolicy];
+
 			// Group "Down/Uploads"
 			checkBoxAllowDownUploads.Checked           = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowDownUploads];
 			checkBoxAllowCustomDownloadLocation.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowCustomDownUploadLocation];
@@ -4613,6 +4616,16 @@ namespace SebWindowsConfig
 		private void checkBoxUseStartUrlQuery_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyUseStartUrlQuery] = checkBoxUseStartUrlQuery.Checked;
+		}
+
+		private void comboBoxUrlPolicyMainWindow_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyMainBrowserWindowUrlPolicy] = comboBoxUrlPolicyMainWindow.SelectedIndex;
+		}
+
+		private void comboBoxUrlPolicyNewWindow_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyNewBrowserWindowUrlPolicy] = comboBoxUrlPolicyNewWindow.SelectedIndex;
 		}
 	}
 }

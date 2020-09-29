@@ -21,6 +21,7 @@ using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Browser.Proxy;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -339,7 +340,7 @@ namespace SafeExamBrowser.Browser
 
 		private void Instance_PopupRequested(PopupRequestedEventArgs args)
 		{
-			logger.Info($"Received request to create new instance for '{args.Url}'...");
+			logger.Info($"Received request to create new instance{(settings.AdditionalWindow.UrlPolicy.CanLog() ? $" for '{args.Url}'" : "")}...");
 			CreateNewInstance(args.Url);
 		}
 

@@ -14,6 +14,7 @@ using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Browser.Filter;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 using Request = SafeExamBrowser.Browser.Contracts.Filters.Request;
@@ -26,6 +27,7 @@ namespace SafeExamBrowser.Browser.Handlers
 		private ILogger logger;
 		private string quitUrlPattern;
 		private ResourceHandler resourceHandler;
+		private WindowSettings windowSettings;
 		private BrowserSettings settings;
 
 		internal event UrlEventHandler QuitUrlVisited;
@@ -35,14 +37,16 @@ namespace SafeExamBrowser.Browser.Handlers
 			AppConfig appConfig,
 			IRequestFilter filter,
 			ILogger logger,
-			BrowserSettings settings,
 			ResourceHandler resourceHandler,
+			BrowserSettings settings,
+			WindowSettings windowSettings,
 			IText text)
 		{
 			this.filter = filter;
 			this.logger = logger;
-			this.settings = settings;
 			this.resourceHandler = resourceHandler;
+			this.settings = settings;
+			this.windowSettings = windowSettings;
 		}
 
 		protected override bool GetAuthCredentials(IWebBrowser webBrowser, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
@@ -105,7 +109,7 @@ namespace SafeExamBrowser.Browser.Handlers
 
 				if (isQuitUrl)
 				{
-					logger.Debug($"Detected quit URL '{request.Url}'.");
+					logger.Debug($"Detected quit URL{(windowSettings.UrlPolicy.CanLog() ? $"'{request.Url}'" : "")}.");
 				}
 			}
 
@@ -123,7 +127,7 @@ namespace SafeExamBrowser.Browser.Handlers
 				if (result == FilterResult.Block)
 				{
 					block = true;
-					logger.Info($"Blocked main request for '{request.Url}' ({request.ResourceType}, {request.TransitionType}).");
+					logger.Info($"Blocked main request{(windowSettings.UrlPolicy.CanLog() ? $" for '{request.Url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
 				}
 			}
 
@@ -134,7 +138,7 @@ namespace SafeExamBrowser.Browser.Handlers
 				if (result == FilterResult.Block)
 				{
 					block = true;
-					logger.Info($"Blocked content request for '{request.Url}' ({request.ResourceType}, {request.TransitionType}).");
+					logger.Info($"Blocked content request{(windowSettings.UrlPolicy.CanLog() ? $" for '{request.Url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
 				}
 			}
 

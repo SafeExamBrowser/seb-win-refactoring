@@ -16,6 +16,7 @@ using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 
@@ -25,18 +26,20 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 	public class DownloadHandlerTests
 	{
 		private AppConfig appConfig;
-		private BrowserSettings settings;
 		private Mock<ILogger> logger;
+		private BrowserSettings settings;
+		private WindowSettings windowSettings;
 		private DownloadHandler sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
 			appConfig = new AppConfig();
-			settings = new BrowserSettings();
 			logger = new Mock<ILogger>();
+			settings = new BrowserSettings();
+			windowSettings = new WindowSettings();
 
-			sut = new DownloadHandler(appConfig, settings, logger.Object);
+			sut = new DownloadHandler(appConfig, logger.Object, settings, windowSettings);
 		}
 
 		[TestMethod]

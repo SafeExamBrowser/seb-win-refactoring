@@ -78,6 +78,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				internal const string AllowNavigation = "newBrowserWindowNavigation";
 				internal const string AllowReload = "newBrowserWindowAllowReload";
 				internal const string ShowReloadWarning = "newBrowserWindowShowReloadWarning";
+				internal const string UrlPolicy = "newBrowserWindowShowURL";
 				internal const string WindowHeight = "newBrowserWindowByLinkHeight";
 				internal const string WindowWidth = "newBrowserWindowByLinkWidth";
 				internal const string WindowPosition = "newBrowserWindowByLinkPositioning";
@@ -100,6 +101,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				internal const string AllowNavigation = "allowBrowsingBackForward";
 				internal const string AllowReload = "browserWindowAllowReload";
 				internal const string ShowReloadWarning = "showReloadWarning";
+				internal const string UrlPolicy = "browserWindowShowURL";
 				internal const string WindowHeight = "mainBrowserWindowHeight";
 				internal const string WindowMode = "browserViewMode";
 				internal const string WindowWidth = "mainBrowserWindowWidth";
