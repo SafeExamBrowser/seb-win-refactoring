@@ -6,16 +6,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Linq;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
-using System.Globalization;
-using System.Linq;
 
 namespace SafeExamBrowser.SystemComponents
 {
 	public class VirtualMachineDetector : IVirtualMachineDetector
 	{
-		private static readonly string[] PCI_VENDOR_BLACKLIST = { "vbox", "vid_80ee", "qemu", "ven_1af4", "ven_1b36", "subsys_11001af4" }; //Virtualbox: VBOX, 80EE   RedHat: QUEMU, 1AF4, 1B36
+		/// <summary>
+		/// Virtualbox: VBOX, 80EE
+		/// RedHat: QUEMU, 1AF4, 1B36
+		/// </summary>
+		private static readonly string[] PCI_VENDOR_BLACKLIST = { "vbox", "vid_80ee", "qemu", "ven_1af4", "ven_1b36", "subsys_11001af4" };
 		private static readonly string VIRTUALBOX_MAC_PREFIX = "080027";
 		private static readonly string QEMU_MAC_PREFIX = "525400";
 
@@ -44,13 +47,12 @@ namespace SafeExamBrowser.SystemComponents
 
 			if (macAddress != null && macAddress.Count() > 2)
 			{
-				isVirtualMachine |= (macAddress.StartsWith(QEMU_MAC_PREFIX) || macAddress.StartsWith(VIRTUALBOX_MAC_PREFIX));
+				isVirtualMachine |= macAddress.StartsWith(QEMU_MAC_PREFIX) || macAddress.StartsWith(VIRTUALBOX_MAC_PREFIX);
 			}
 
 			foreach (var device in plugAndPlayDeviceIds)
 			{
 				isVirtualMachine |= PCI_VENDOR_BLACKLIST.Any(device.ToLower().Contains);
-
 			}
 
 			logger.Debug($"Computer '{systemInfo.Name}' appears to {(isVirtualMachine ? "" : "not ")}be a virtual machine.");

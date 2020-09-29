@@ -136,17 +136,15 @@ namespace SafeExamBrowser.SystemComponents
 
 		private void InitializeMacAddress()
 		{
-			using (var searcher = new ManagementObjectSearcher("Select MACAddress from Win32_NetworkAdapterConfiguration WHERE DNSDomain IS NOT NULL"))
+			using (var searcher = new ManagementObjectSearcher("SELECT MACAddress FROM Win32_NetworkAdapterConfiguration WHERE DNSDomain IS NOT NULL"))
 			using (var results = searcher.Get())
 			{
-				
 				if (results != null && results.Count > 0)
 				{
 					using (var networkAdapter = results.Cast<ManagementObject>().First())
 					{
 						foreach (var property in networkAdapter.Properties)
 						{
-
 							if (property.Name.Equals("MACAddress"))
 							{
 								MacAddress = Convert.ToString(property.Value).Replace(":", "").ToUpper();
@@ -164,6 +162,7 @@ namespace SafeExamBrowser.SystemComponents
 		private void InitializePnPDevices()
 		{
 			var deviceList = new List<string>();
+
 			using (var searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT DeviceID FROM Win32_PnPEntity"))
 			using (var results = searcher.Get())
 			{
@@ -180,8 +179,8 @@ namespace SafeExamBrowser.SystemComponents
 						}
 					}
 				}
-				PlugAndPlayDeviceIds = deviceList.ToArray();
 
+				PlugAndPlayDeviceIds = deviceList.ToArray();
 			}
 		}
 	}
