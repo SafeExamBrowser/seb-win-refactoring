@@ -37,6 +37,7 @@ namespace SafeExamBrowser.Service
 		{
 			const int ONE_SECOND = 1000;
 			const int FIVE_SECONDS = 5000;
+			const int FIFTEEN_SECONDS = 15000;
 
 			var backupFilePath = BuildBackupFilePath();
 
@@ -46,7 +47,7 @@ namespace SafeExamBrowser.Service
 			var featureFactory = new FeatureConfigurationFactory(new ModuleLogger(logger, nameof(FeatureConfigurationFactory)));
 			var featureMonitor = new FeatureConfigurationMonitor(new ModuleLogger(logger, nameof(FeatureConfigurationMonitor)), ONE_SECOND);
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), new ModuleLogger(logger, nameof(ProxyFactory)));
-			var serviceHost = new ServiceHost(AppConfig.SERVICE_ADDRESS, new HostObjectFactory(), new ModuleLogger(logger, nameof(ServiceHost)), FIVE_SECONDS);
+			var serviceHost = new ServiceHost(AppConfig.SERVICE_ADDRESS, new HostObjectFactory(), new ModuleLogger(logger, nameof(ServiceHost)), FIFTEEN_SECONDS);
 			var sessionContext = new SessionContext();
 			var systemConfigurationUpdate = new SystemConfigurationUpdate(new ModuleLogger(logger, nameof(SystemConfigurationUpdate)));
 
