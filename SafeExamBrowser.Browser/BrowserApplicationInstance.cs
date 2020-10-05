@@ -19,6 +19,7 @@ using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Browser.Filters;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Browser;
@@ -46,6 +47,7 @@ namespace SafeExamBrowser.Browser
 		private HttpClient httpClient;
 		private bool isMainInstance;
 		private IFileSystemDialog fileSystemDialog;
+		private IHashAlgorithm hashAlgorithm;
 		private IMessageBox messageBox;
 		private IModuleLogger logger;
 		private BrowserSettings settings;
@@ -81,6 +83,7 @@ namespace SafeExamBrowser.Browser
 			int id,
 			bool isMainInstance,
 			IFileSystemDialog fileSystemDialog,
+			IHashAlgorithm hashAlgorithm,
 			IMessageBox messageBox,
 			IModuleLogger logger,
 			IText text,
@@ -92,6 +95,7 @@ namespace SafeExamBrowser.Browser
 			this.httpClient = new HttpClient();
 			this.isMainInstance = isMainInstance;
 			this.fileSystemDialog = fileSystemDialog;
+			this.hashAlgorithm = hashAlgorithm;
 			this.messageBox = messageBox;
 			this.logger = logger;
 			this.settings = settings;
@@ -139,6 +143,7 @@ namespace SafeExamBrowser.Browser
 			downloadHandler.ConfigurationDownloadRequested += DownloadHandler_ConfigurationDownloadRequested;
 			downloadHandler.DownloadUpdated += DownloadHandler_DownloadUpdated;
 			keyboardHandler.FindRequested += KeyboardHandler_FindRequested;
+			keyboardHandler.HomeNavigationRequested += HomeNavigationRequested;
 			keyboardHandler.ReloadRequested += ReloadRequested;
 			keyboardHandler.ZoomInRequested += ZoomInRequested;
 			keyboardHandler.ZoomOutRequested += ZoomOutRequested;
@@ -205,6 +210,7 @@ namespace SafeExamBrowser.Browser
 			window.DeveloperConsoleRequested += Window_DeveloperConsoleRequested;
 			window.FindRequested += Window_FindRequested;
 			window.ForwardNavigationRequested += Window_ForwardNavigationRequested;
+			window.HomeNavigationRequested += HomeNavigationRequested;
 			window.ReloadRequested += ReloadRequested;
 			window.ZoomInRequested += ZoomInRequested;
 			window.ZoomOutRequested += ZoomOutRequested;
@@ -364,6 +370,50 @@ namespace SafeExamBrowser.Browser
 		private void DownloadHandler_DownloadUpdated(DownloadItemState state)
 		{
 			window.UpdateDownloadState(state);
+		}
+
+		private void HomeNavigationRequested()
+		{
+			if (isMainInstance && (settings.UseStartUrlAsHomeUrl || !string.IsNullOrWhiteSpace(settings.HomeUrl)))
+			{
+				var navigate = false;
+				var url = settings.UseStartUrlAsHomeUrl ? settings.StartUrl : settings.HomeUrl;
+
+				if (settings.HomeNavigationRequiresPassword && !string.IsNullOrWhiteSpace(settings.HomePasswordHash))
+				{
+					var message = text.Get(TextKey.PasswordDialog_BrowserHomePasswordRequired);
+					var title = !string.IsNullOrWhiteSpace(settings.HomeNavigationMessage) ? settings.HomeNavigationMessage : text.Get(TextKey.PasswordDialog_BrowserHomePasswordRequiredTitle);
+					var dialog = uiFactory.CreatePasswordDialog(message, title);
+					var result = dialog.Show(window);
+
+					if (result.Success)
+					{
+						var passwordHash = hashAlgorithm.GenerateHashFor(result.Password);
+
+						if (settings.HomePasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase))
+						{
+							navigate = true;
+						}
+						else
+						{
+							messageBox.Show(TextKey.MessageBox_InvalidHomePassword, TextKey.MessageBox_InvalidHomePasswordTitle, icon: MessageBoxIcon.Warning, parent: window);
+						}
+					}
+				}
+				else
+				{
+					var message = text.Get(TextKey.MessageBox_BrowserHomeQuestion);
+					var title = !string.IsNullOrWhiteSpace(settings.HomeNavigationMessage) ? settings.HomeNavigationMessage : text.Get(TextKey.MessageBox_BrowserHomeQuestionTitle);
+					var result = messageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question, window);
+
+					navigate = result == MessageBoxResult.Yes;
+				}
+
+				if (navigate)
+				{
+					control.NavigateTo(url);
+				}
+			}
 		}
 
 		private void KeyboardHandler_FindRequested()

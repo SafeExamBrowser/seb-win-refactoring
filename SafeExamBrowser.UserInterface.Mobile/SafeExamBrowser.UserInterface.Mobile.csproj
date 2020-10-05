@@ -428,30 +428,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-    <Page Include="Images\SkipBack.xaml">
+    <Resource Include="Images\Home.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
+    </Resource>
     <Page Include="Images\ShutDown.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Images\Reload.xaml">
+    <Resource Include="Images\Reload.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Images\NavigateForward.xaml">
+    </Resource>
+    <Resource Include="Images\NavigateForward.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Images\NavigateBack.xaml">
+    </Resource>
+    <Resource Include="Images\NavigateBack.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Images\Menu.xaml">
+    </Resource>
+    <Resource Include="Images\Menu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
+    </Resource>
     <Page Include="Images\Keyboard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

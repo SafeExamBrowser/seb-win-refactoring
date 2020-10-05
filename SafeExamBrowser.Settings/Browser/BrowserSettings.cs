@@ -119,6 +119,26 @@ namespace SafeExamBrowser.Settings.Browser
 		public FilterSettings Filter { get; set; }
 
 		/// <summary>
+		/// An optional custom message shown before navigating home.
+		/// </summary>
+		public string HomeNavigationMessage { get; set; }
+
+		/// <summary>
+		/// Determines whether a password is required to navigate home.
+		/// </summary>
+		public bool HomeNavigationRequiresPassword { get; set; }
+
+		/// <summary>
+		/// The hash code of the password optionally required to navigate home.
+		/// </summary>
+		public string HomePasswordHash { get; set; }
+
+		/// <summary>
+		/// An optional custom URL to be used when navigating home.
+		/// </summary>
+		public string HomeUrl { get; set; }
+
+		/// <summary>
 		/// The settings to be used for the main browser window.
 		/// </summary>
 		public WindowSettings MainWindow { get; set; }
@@ -172,6 +192,11 @@ namespace SafeExamBrowser.Settings.Browser
 		/// Determines whether the <see cref="StartUrlQuery"/> will be appended to the <see cref="StartUrl"/>.
 		/// </summary>
 		public bool UseQueryParameter { get; set; }
+
+		/// <summary>
+		/// Determines whether the start URL will be used when navigating home.
+		/// </summary>
+		public bool UseStartUrlAsHomeUrl { get; set; }
 
 		/// <summary>
 		/// A custom suffix to be appended to the user agent.

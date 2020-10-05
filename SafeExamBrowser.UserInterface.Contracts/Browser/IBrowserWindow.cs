@@ -60,6 +60,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		event ActionRequestedEventHandler ForwardNavigationRequested;
 
 		/// <summary>
+		/// Event fired when the user would like to navigate home.
+		/// </summary>
+		event ActionRequestedEventHandler HomeNavigationRequested;
+
+		/// <summary>
 		/// Event fired when the user would like to reload the current page.
 		/// </summary>
 		event ActionRequestedEventHandler ReloadRequested;

@@ -171,6 +171,12 @@
     <Entry key="MessageBox_ApplicationTerminationFailureTitle">
         Chiusura automatica non riuscita
     </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestion">
+        Sei sicuro? (Questa funzione non ti disconnette se sei loggato su un sito web)
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestionTitle">
+        Torna all'inizio
+    </Entry>
     <Entry key="MessageBox_BrowserNavigationBlocked">
         L'accesso a "%%URL%%" non è consentito in base alla configurazione corrente.
     </Entry>
@@ -209,6 +215,12 @@
     </Entry>
     <Entry key="MessageBox_InvalidConfigurationDataTitle">
         Errore di configurazione
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePassword">
+        Non sei riuscito a inserire la password corretta.
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePasswordTitle">
+        Password non valida
     </Entry>
     <Entry key="MessageBox_InvalidPasswordError">
         Non sei riuscito a inserire la password corretta in 5 tentativi. SEB ora verrà chiuso ...
@@ -422,6 +434,12 @@
     </Entry>
     <Entry key="OperationStatus_WaitRuntimeDisconnection">
         In attesa della disconnessione del runtime
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequired">
+        Inserisci la password di chiusura / riavvio: (questa funzione non ti disconnette se sei connesso a un sito web)
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
+        Torna all'inizio
     </Entry>
     <Entry key="PasswordDialog_Cancel">
         Annulla

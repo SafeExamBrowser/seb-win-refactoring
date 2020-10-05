@@ -112,6 +112,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AdditionalWindow.Position = WindowPosition.Right;
 			settings.Browser.AdditionalWindow.RelativeHeight = 100;
 			settings.Browser.AdditionalWindow.RelativeWidth = 50;
+			settings.Browser.AdditionalWindow.ShowHomeButton = false;
 			settings.Browser.AdditionalWindow.ShowReloadWarning = false;
 			settings.Browser.AdditionalWindow.ShowToolbar = false;
 			settings.Browser.AdditionalWindow.UrlPolicy = UrlPolicy.Never;
@@ -135,6 +136,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.MainWindow.FullScreenMode = false;
 			settings.Browser.MainWindow.RelativeHeight = 100;
 			settings.Browser.MainWindow.RelativeWidth = 100;
+			settings.Browser.MainWindow.ShowHomeButton = false;
 			settings.Browser.MainWindow.ShowReloadWarning = true;
 			settings.Browser.MainWindow.ShowToolbar = false;
 			settings.Browser.MainWindow.UrlPolicy = UrlPolicy.Never;

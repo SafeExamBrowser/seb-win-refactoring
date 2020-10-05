@@ -15,6 +15,7 @@ namespace SafeExamBrowser.Browser.Handlers
 	internal class KeyboardHandler : IKeyboardHandler
 	{
 		internal event ActionRequestedEventHandler FindRequested;
+		internal event ActionRequestedEventHandler HomeNavigationRequested;
 		internal event ActionRequestedEventHandler ReloadRequested;
 		internal event ActionRequestedEventHandler ZoomInRequested;
 		internal event ActionRequestedEventHandler ZoomOutRequested;
@@ -25,24 +26,32 @@ namespace SafeExamBrowser.Browser.Handlers
 			var ctrl = modifiers.HasFlag(CefEventFlags.ControlDown);
 			var shift = modifiers.HasFlag(CefEventFlags.ShiftDown);
 
-			if (type == KeyType.KeyUp && ctrl && (keyCode == (int) Keys.F))
+			if (type == KeyType.KeyUp)
 			{
-				FindRequested?.Invoke();
-			}
+				if (ctrl && keyCode == (int) Keys.F)
+				{
+					FindRequested?.Invoke();
+				}
 
-			if (type == KeyType.KeyUp && ((keyCode == (int) Keys.Add && ctrl) || (keyCode == (int) Keys.D1 && ctrl && shift)))
-			{
-				ZoomInRequested?.Invoke();
-			}
+				if (keyCode == (int) Keys.Home)
+				{
+					HomeNavigationRequested?.Invoke();
+				}
 
-			if (type == KeyType.KeyUp && (keyCode == (int) Keys.Subtract || keyCode == (int) Keys.OemMinus) && ctrl)
-			{
-				ZoomOutRequested?.Invoke();
-			}
+				if ((ctrl && keyCode == (int) Keys.Add) || (ctrl && shift && keyCode == (int) Keys.D1))
+				{
+					ZoomInRequested?.Invoke();
+				}
 
-			if (type == KeyType.KeyUp && (keyCode == (int) Keys.D0 || keyCode == (int) Keys.NumPad0) && ctrl)
-			{
-				ZoomResetRequested?.Invoke();
+				if (ctrl && (keyCode == (int) Keys.Subtract || keyCode == (int) Keys.OemMinus))
+				{
+					ZoomOutRequested?.Invoke();
+				}
+
+				if (ctrl && (keyCode == (int) Keys.D0 || keyCode == (int) Keys.NumPad0))
+				{
+					ZoomResetRequested?.Invoke();
+				}
 			}
 
 			return false;

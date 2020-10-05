@@ -171,6 +171,12 @@
     <Entry key="MessageBox_ApplicationTerminationFailureTitle">
         Automatic Termination Failed
     </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestion">
+        Are you sure? (This function doesn't log you out if you are logged in on a website)
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestionTitle">
+        Back to Start
+    </Entry>
     <Entry key="MessageBox_BrowserNavigationBlocked">
         Access to "%%URL%%" is not allowed according to the current configuration.
     </Entry>
@@ -209,6 +215,12 @@
     </Entry>
     <Entry key="MessageBox_InvalidConfigurationDataTitle">
         Configuration Error
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePassword">
+        The password you entered is incorrect.
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePasswordTitle">
+        Invalid Password
     </Entry>
     <Entry key="MessageBox_InvalidPasswordError">
         You failed to enter the correct password within 5 attempts. SEB will now terminate...
@@ -422,6 +434,12 @@
     </Entry>
     <Entry key="OperationStatus_WaitRuntimeDisconnection">
         Waiting for the runtime to disconnect
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequired">
+        Enter quit/restart password: (This function doesn't log you out if you are logged in on a website)
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
+        Back to Start
     </Entry>
     <Entry key="PasswordDialog_Cancel">
         Cancel

@@ -21,6 +21,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			AllowBrowserToolbarForReloading(rawData, settings);
 			CalculateConfigurationKey(rawData, settings);
+			HandleBrowserHomeFunctionality(settings);
 			RemoveLegacyBrowsers(settings);
 		}
 
@@ -55,6 +56,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 				settings.Browser.ConfigurationKey = key;
 			}
+		}
+
+		private void HandleBrowserHomeFunctionality(AppSettings settings)
+		{
+			settings.Browser.MainWindow.ShowHomeButton = settings.Browser.UseStartUrlAsHomeUrl || !string.IsNullOrWhiteSpace(settings.Browser.HomeUrl);
+			settings.Browser.HomePasswordHash = settings.Security.QuitPasswordHash;
 		}
 
 		private void RemoveLegacyBrowsers(AppSettings settings)

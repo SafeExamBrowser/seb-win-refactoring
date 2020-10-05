@@ -93,6 +93,18 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.Filter.FilterRules:
 					MapFilterRules(settings, value);
 					break;
+				case Keys.Browser.HomeButtonMessage:
+					MapHomeButtonMessage(settings, value);
+					break;
+				case Keys.Browser.HomeButtonRequiresPassword:
+					MapHomeButtonRequiresPassword(settings, value);
+					break;
+				case Keys.Browser.HomeButtonUrl:
+					MapHomeButtonUrl(settings, value);
+					break;
+				case Keys.Browser.HomeButtonUseStartUrl:
+					MapHomeButtonUseStartUrl(settings, value);
+					break;
 				case Keys.Browser.MainWindow.AllowAddressBar:
 					MapAllowAddressBar(settings, value);
 					break;
@@ -329,6 +341,38 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is byte[] salt)
 			{
 				settings.Browser.ExamKeySalt = salt;
+			}
+		}
+
+		private void MapHomeButtonMessage(AppSettings settings, object value)
+		{
+			if (value is string message)
+			{
+				settings.Browser.HomeNavigationMessage = message;
+			}
+		}
+
+		private void MapHomeButtonRequiresPassword(AppSettings settings, object value)
+		{
+			if (value is bool requires)
+			{
+				settings.Browser.HomeNavigationRequiresPassword = requires;
+			}
+		}
+
+		private void MapHomeButtonUrl(AppSettings settings, object value)
+		{
+			if (value is string url)
+			{
+				settings.Browser.HomeUrl = url;
+			}
+		}
+
+		private void MapHomeButtonUseStartUrl(AppSettings settings, object value)
+		{
+			if (value is bool use)
+			{
+				settings.Browser.UseStartUrlAsHomeUrl = use;
 			}
 		}
 

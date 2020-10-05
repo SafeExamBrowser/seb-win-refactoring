@@ -19,6 +19,7 @@ using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Browser;
@@ -39,6 +40,7 @@ namespace SafeExamBrowser.Browser
 		private AppConfig appConfig;
 		private List<BrowserApplicationInstance> instances;
 		private IFileSystemDialog fileSystemDialog;
+		private IHashAlgorithm hashAlgorithm;
 		private INativeMethods nativeMethods;
 		private IMessageBox messageBox;
 		private IModuleLogger logger;
@@ -61,6 +63,7 @@ namespace SafeExamBrowser.Browser
 			AppConfig appConfig,
 			BrowserSettings settings,
 			IFileSystemDialog fileSystemDialog,
+			IHashAlgorithm hashAlgorithm,
 			INativeMethods nativeMethods,
 			IMessageBox messageBox,
 			IModuleLogger logger,
@@ -69,6 +72,7 @@ namespace SafeExamBrowser.Browser
 		{
 			this.appConfig = appConfig;
 			this.fileSystemDialog = fileSystemDialog;
+			this.hashAlgorithm = hashAlgorithm;
 			this.nativeMethods = nativeMethods;
 			this.instances = new List<BrowserApplicationInstance>();
 			this.logger = logger;
@@ -147,7 +151,7 @@ namespace SafeExamBrowser.Browser
 			var isMainInstance = instances.Count == 0;
 			var instanceLogger = logger.CloneFor($"Browser Instance #{id}");
 			var startUrl = url ?? GenerateStartUrl();
-			var instance = new BrowserApplicationInstance(appConfig, settings, id, isMainInstance, fileSystemDialog, messageBox, instanceLogger, text, uiFactory, startUrl);
+			var instance = new BrowserApplicationInstance(appConfig, settings, id, isMainInstance, fileSystemDialog, hashAlgorithm, messageBox, instanceLogger, text, uiFactory, startUrl);
 
 			instance.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
 			instance.PopupRequested += Instance_PopupRequested;

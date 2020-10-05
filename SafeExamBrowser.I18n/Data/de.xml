@@ -171,6 +171,12 @@
     <Entry key="MessageBox_ApplicationTerminationFailureTitle">
         Automatisches Beenden fehlgeschlagen
     </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestion">
+        Sind Sie sicher? (Diese Funktion loggt Sie nicht aus, falls Sie sich auf einer Website eingeloggt haben)
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestionTitle">
+        Zurück zum Start
+    </Entry>
     <Entry key="MessageBox_BrowserNavigationBlocked">
         Zugriff auf "%%URL%%" ist gemäss der aktiven Konfiguration nicht erlaubt.
     </Entry>
@@ -209,6 +215,12 @@
     </Entry>
     <Entry key="MessageBox_InvalidConfigurationDataTitle">
         Konfigurations-Fehler
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePassword">
+        Das eingegebene Passwort ist nicht korrekt.
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePasswordTitle">
+        Ungültiges Passwort
     </Entry>
     <Entry key="MessageBox_InvalidPasswordError">
         Sie haben 5 mal das falsche Passwort eingegeben. SEB wird sich nun beenden...
@@ -422,6 +434,12 @@
     </Entry>
     <Entry key="OperationStatus_WaitRuntimeDisconnection">
         Warte bis Runtime Verbindung trennt
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequired">
+        Beenden-/Neustart-Passwort eingeben: (Diese Funktion loggt Sie nicht aus, falls Sie sich auf einer Website eingeloggt haben)
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
+        Zurück zum Start
     </Entry>
     <Entry key="PasswordDialog_Cancel">
         Abbrechen

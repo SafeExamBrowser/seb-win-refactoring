@@ -49,6 +49,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		public event ActionRequestedEventHandler DeveloperConsoleRequested;
 		public event FindRequestedEventHandler FindRequested;
 		public event ActionRequestedEventHandler ForwardNavigationRequested;
+		public event ActionRequestedEventHandler HomeNavigationRequested;
 		public event ActionRequestedEventHandler ReloadRequested;
 		public event ActionRequestedEventHandler ZoomInRequested;
 		public event ActionRequestedEventHandler ZoomOutRequested;
@@ -197,6 +198,11 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 				ReloadRequested?.Invoke();
 			}
 
+			if (e.Key == Key.Home)
+			{
+				HomeNavigationRequested?.Invoke();
+			}
+
 			if (settings.AllowFind && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) && e.Key == Key.F)
 			{
 				ShowFindbar();
@@ -303,6 +309,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			FindMenuButton.Click += (o, args) => ShowFindbar();
 			FindTextBox.KeyUp += FindTextBox_KeyUp;
 			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
+			HomeButton.Click += (o, args) => HomeNavigationRequested?.Invoke();
 			Loaded += BrowserWindow_Loaded;
 			MenuButton.Click += (o, args) => MenuPopup.IsOpen = !MenuPopup.IsOpen;
 			MenuButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsMouseOver));
@@ -328,23 +335,17 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		{
 			BackwardButton.IsEnabled = WindowSettings.AllowBackwardNavigation;
 			BackwardButton.Visibility = WindowSettings.AllowBackwardNavigation ? Visibility.Visible : Visibility.Collapsed;
-
 			DeveloperConsoleMenuItem.Visibility = WindowSettings.AllowDeveloperConsole ? Visibility.Visible : Visibility.Collapsed;
-
 			FindMenuItem.Visibility = settings.AllowFind ? Visibility.Visible : Visibility.Collapsed;
-
 			ForwardButton.IsEnabled = WindowSettings.AllowForwardNavigation;
 			ForwardButton.Visibility = WindowSettings.AllowForwardNavigation ? Visibility.Visible : Visibility.Collapsed;
-
+			HomeButton.IsEnabled = WindowSettings.ShowHomeButton;
+			HomeButton.Visibility = WindowSettings.ShowHomeButton ? Visibility.Visible : Visibility.Collapsed;
 			MenuButton.IsEnabled = settings.AllowPageZoom || WindowSettings.AllowDeveloperConsole;
-
 			ReloadButton.IsEnabled = WindowSettings.AllowReloading;
 			ReloadButton.Visibility = WindowSettings.AllowReloading ? Visibility.Visible : Visibility.Collapsed;
-
 			Toolbar.Visibility = WindowSettings.ShowToolbar ? Visibility.Visible : Visibility.Collapsed;
-
 			UrlTextBox.Visibility = WindowSettings.AllowAddressBar ? Visibility.Visible : Visibility.Hidden;
-
 			ZoomMenuItem.Visibility = settings.AllowPageZoom ? Visibility.Visible : Visibility.Collapsed;
 
 			if (!WindowSettings.AllowAddressBar)
@@ -424,13 +425,15 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		private void LoadIcons()
 		{
-			var backward = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/NavigateBack.xaml") };
-			var forward = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/NavigateForward.xaml") };
-			var menu = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Menu.xaml") };
-			var reload = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Reload.xaml") };
+			var backward = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/NavigateBack.xaml") };
+			var forward = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/NavigateForward.xaml") };
+			var home = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Home.xaml") };
+			var menu = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Menu.xaml") };
+			var reload = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Reload.xaml") };
 
 			BackwardButton.Content = IconResourceLoader.Load(backward);
 			ForwardButton.Content = IconResourceLoader.Load(forward);
+			HomeButton.Content = IconResourceLoader.Load(home);
 			MenuButton.Content = IconResourceLoader.Load(menu);
 			ReloadButton.Content = IconResourceLoader.Load(reload);
 		}
