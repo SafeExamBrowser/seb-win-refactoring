@@ -786,8 +786,55 @@ namespace SebWindowsConfig
 			SEBSettings.prohibitedProcessDataDefault.Add(SEBSettings.KeyWindowHandlingProcess , "");
 			SEBSettings.prohibitedProcessDataDefault.Add(SEBSettings.KeyUser       , "");
 
-			SEBSettings.prohibitedProcessesDefault = new List<string> { "Chrome.exe", "Chromium.exe", "Vivaldi.exe", "Opera.exe", "browser.exe", "slimjet.exe", "UCBrowser.exe", "CamRecorder.exe" };
-			SEBSettings.prohibitedProcessesDefaultStrict = new List<string> { "Skype.exe", "SkypeApp.exe", "SkypeHost.exe", "g2mcomm.exe", "GotoMeetingWinStore.exe", "TeamViewer.exe", "vncserver.exe", "vncviewer.exe", "vncserverui.exe", "chromoting.exe", "Mikogo-host.exe", "AeroAdmin.exe", "beamyourscreen-host.exe", "RemotePCDesktop.exe", "RPCService.exe", "RPCSuite.exe", "join.me.exe" };
+			SEBSettings.prohibitedProcessesDefault = new List<string>
+			{
+				"Chrome.exe",
+				"Chromium.exe",
+				"Vivaldi.exe",
+				"Opera.exe",
+				"browser.exe",
+				"slimjet.exe",
+				"UCBrowser.exe",
+				"CamRecorder.exe"
+			};
+			SEBSettings.prohibitedProcessesDefaultStrict = new List<string>
+			{
+				"Skype.exe",
+				"SkypeApp.exe",
+				"SkypeHost.exe",
+				"g2mcomm.exe",
+				"GotoMeetingWinStore.exe",
+				"TeamViewer.exe",
+				"vncserver.exe",
+				"vncviewer.exe",
+				"vncserverui.exe",
+				"chromoting.exe",
+				"Mikogo-host.exe",
+				"AeroAdmin.exe",
+				"beamyourscreen-host.exe",
+				"RemotePCDesktop.exe",
+				"RPCService.exe",
+				"RPCSuite.exe",
+				"Discord.exe",
+				"Camtasia.exe",
+				"CamtasiaStudio.exe",
+				"Camtasia_Studio.exe",
+				"CamPlay.exe",
+				"CamRecorder.exe",
+				"CamtasiaUtl.exe",
+				"slack.exe",
+				"Element.exe",
+				"Zoom.exe",
+				"Telegram.exe",
+				"g2mcomm.exe",
+				"g2mlauncher.exe",
+				"g2mstart.exe",
+				"join.me.exe",
+				"join.me.sentinel.exe",
+				"Teams.exe",
+				"webexmta.exe",
+				"ptoneclk.exe"
+			};
 
 			// Default settings for group "Network - Filter"
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableURLFilter       , false);
