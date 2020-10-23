@@ -590,30 +590,38 @@ namespace SafeExamBrowser.Client
 
 		private void SystemMonitor_SessionSwitched()
 		{
+			var allow = !Settings.Service.IgnoreService && (!Settings.Service.DisableUserLock || !Settings.Service.DisableUserSwitch);
 			var message = text.Get(TextKey.LockScreen_UserSessionMessage);
 			var title = text.Get(TextKey.LockScreen_Title);
 			var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionContinueOption) };
 			var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionTerminateOption) };
 
-			logger.Warn("Detected user session switch!");
-
-			if (!sessionLocked)
+			if (allow)
 			{
-				sessionLocked = true;
-
-				var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
-
-				if (result.OptionId == terminateOption.Id)
-				{
-					logger.Info("Attempting to shutdown as requested by the user...");
-					TryRequestShutdown();
-				}
-
-				sessionLocked = false;
+				logger.Info("Detected user session switch, but user lock and/or user switch are allowed.");
 			}
 			else
 			{
-				logger.Info("Lock screen is already active.");
+				logger.Warn("Detected user session switch!");
+
+				if (!sessionLocked)
+				{
+					sessionLocked = true;
+
+					var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
+
+					if (result.OptionId == terminateOption.Id)
+					{
+						logger.Info("Attempting to shutdown as requested by the user...");
+						TryRequestShutdown();
+					}
+
+					sessionLocked = false;
+				}
+				else
+				{
+					logger.Info("Lock screen is already active.");
+				}
 			}
 		}
 
