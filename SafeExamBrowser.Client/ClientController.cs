@@ -341,8 +341,9 @@ namespace SafeExamBrowser.Client
 				{
 					var expression = Regex.Escape(Settings.Security.ReconfigurationUrl).Replace(@"\*", ".*");
 					var regex = new Regex($"^{expression}$", RegexOptions.IgnoreCase);
+					var sebUrl = args.Url.Replace(Uri.UriSchemeHttp, context.AppConfig.SebUriScheme).Replace(Uri.UriSchemeHttps, context.AppConfig.SebUriSchemeSecure);
 
-					allow = Settings.Security.AllowReconfiguration && regex.IsMatch(args.Url);
+					allow = Settings.Security.AllowReconfiguration && (regex.IsMatch(args.Url) || regex.IsMatch(sebUrl));
 				}
 				else
 				{
