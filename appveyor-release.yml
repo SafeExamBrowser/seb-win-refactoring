@@ -1,4 +1,4 @@
-version: '3.1.0.{build}'
+version: '3.2.0.{build}'
 image: Windows
 configuration: Release
 platform:
@@ -12,7 +12,7 @@ assembly_info:
   file: AssemblyInfo.*
   assembly_version: '{version}'
   assembly_file_version: '{version}'
-  assembly_informational_version: '3.1.0 ($(platform))'
+  assembly_informational_version: '3.2.0 BETA ($(platform))'
 install:
  - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
 build_script:
