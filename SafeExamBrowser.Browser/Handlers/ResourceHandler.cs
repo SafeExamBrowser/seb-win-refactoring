@@ -80,7 +80,7 @@ namespace SafeExamBrowser.Browser.Handlers
 				return CefReturnValue.Cancel;
 			}
 
-			AppendCustomHeaders(request);
+			AppendCustomHeaders(webBrowser, request);
 			ReplaceSebScheme(request);
 
 			return base.OnBeforeResourceLoad(webBrowser, browser, frame, request, callback);
@@ -112,28 +112,34 @@ namespace SafeExamBrowser.Browser.Handlers
 			return base.OnResourceResponse(webBrowser, browser, frame, request, response);
 		}
 
-		private void AppendCustomHeaders(IRequest request)
+		private void AppendCustomHeaders(IWebBrowser webBrowser, IRequest request)
 		{
 			var headers = new NameValueCollection(request.Headers);
 			var urlWithoutFragment = request.Url.Split('#')[0];
 
-			if (settings.SendConfigurationKey)
+			Uri.TryCreate(webBrowser.Address, UriKind.Absolute, out var pageUrl);
+			Uri.TryCreate(request.Url, UriKind.Absolute, out var requestUrl);
+
+			if (pageUrl?.Host?.Equals(requestUrl?.Host) == true)
 			{
-				var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + settings.ConfigurationKey));
-				var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
+				if (settings.SendConfigurationKey)
+				{
+					var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + settings.ConfigurationKey));
+					var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
 
-				headers["X-SafeExamBrowser-ConfigKeyHash"] = key;
+					headers["X-SafeExamBrowser-ConfigKeyHash"] = key;
+				}
+
+				if (settings.SendExamKey)
+				{
+					var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + (browserExamKey ?? ComputeBrowserExamKey())));
+					var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
+
+					headers["X-SafeExamBrowser-RequestHash"] = key;
+				}
+
+				request.Headers = headers;
 			}
-
-			if (settings.SendExamKey)
-			{
-				var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + (browserExamKey ?? ComputeBrowserExamKey())));
-				var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
-
-				headers["X-SafeExamBrowser-RequestHash"] = key;
-			}
-
-			request.Headers = headers;
 		}
 
 		private bool Block(IRequest request)
