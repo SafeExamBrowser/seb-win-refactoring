@@ -35,9 +35,9 @@ namespace SafeExamBrowser.Server.Contracts
 		ServerResponse Disconnect();
 
 		/// <summary>
-		/// Retrieves a list of all currently available exams.
+		/// Retrieves a list of all currently available exams, or a list containing the specified exam.
 		/// </summary>
-		ServerResponse<IEnumerable<Exam>> GetAvailableExams();
+		ServerResponse<IEnumerable<Exam>> GetAvailableExams(string examId = default(string));
 
 		/// <summary>
 		/// Retrieves the URI of the configuration file for the given exam.

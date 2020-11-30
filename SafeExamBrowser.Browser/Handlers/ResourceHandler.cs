@@ -114,14 +114,14 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		private void AppendCustomHeaders(IWebBrowser webBrowser, IRequest request)
 		{
-			var headers = new NameValueCollection(request.Headers);
-			var urlWithoutFragment = request.Url.Split('#')[0];
-
 			Uri.TryCreate(webBrowser.Address, UriKind.Absolute, out var pageUrl);
 			Uri.TryCreate(request.Url, UriKind.Absolute, out var requestUrl);
 
 			if (pageUrl?.Host?.Equals(requestUrl?.Host) == true)
 			{
+				var headers = new NameValueCollection(request.Headers);
+				var urlWithoutFragment = request.Url.Split('#')[0];
+
 				if (settings.SendConfigurationKey)
 				{
 					var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + settings.ConfigurationKey));

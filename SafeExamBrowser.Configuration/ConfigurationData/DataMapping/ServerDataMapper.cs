@@ -60,6 +60,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					settings.Server.ClientSecret = secret;
 				}
 
+				if (configuration.TryGetValue(Keys.Server.ExamId, out v) && v is string examId)
+				{
+					settings.Server.ExamId = examId;
+				}
+
 				if (configuration.TryGetValue(Keys.Server.Institution, out v) && v is string institution)
 				{
 					settings.Server.Institution = institution;

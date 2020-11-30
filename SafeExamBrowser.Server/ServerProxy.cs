@@ -116,10 +116,10 @@ namespace SafeExamBrowser.Server
 			return new ServerResponse(success, message);
 		}
 
-		public ServerResponse<IEnumerable<Exam>> GetAvailableExams()
+		public ServerResponse<IEnumerable<Exam>> GetAvailableExams(string examId = default(string))
 		{
 			var authorization = ("Authorization", $"Bearer {oauth2Token}");
-			var content = $"institutionId={settings.Institution}";
+			var content = $"institutionId={settings.Institution}{(examId == default(string) ? "" : $"&examId={examId}")}";
 			var contentType = "application/x-www-form-urlencoded";
 			var exams = default(IList<Exam>);
 

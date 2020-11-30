@@ -49,18 +49,20 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		}
 
 		[TestMethod]
-		public void MustAppendCustomHeaders()
+		public void MustAppendCustomHeadersForSameDomain()
 		{
+			var browser = new Mock<IWebBrowser>();
 			var headers = default(NameValueCollection);
 			var request = new Mock<IRequest>();
 
+			browser.SetupGet(b => b.Address).Returns("http://www.host.org");
 			request.SetupGet(r => r.Headers).Returns(new NameValueCollection());
 			request.SetupGet(r => r.Url).Returns("http://www.host.org");
 			request.SetupSet(r => r.Headers = It.IsAny<NameValueCollection>()).Callback<NameValueCollection>((h) => headers = h);
 			settings.SendConfigurationKey = true;
 			settings.SendExamKey = true;
 
-			var result = sut.OnBeforeResourceLoad(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, Mock.Of<IRequestCallback>());
+			var result = sut.OnBeforeResourceLoad(browser.Object, Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, Mock.Of<IRequestCallback>());
 
 			request.VerifyGet(r => r.Headers, Times.AtLeastOnce);
 			request.VerifySet(r => r.Headers = It.IsAny<NameValueCollection>(), Times.AtLeastOnce);
@@ -68,6 +70,30 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			Assert.AreEqual(CefReturnValue.Continue, result);
 			Assert.IsNotNull(headers["X-SafeExamBrowser-ConfigKeyHash"]);
 			Assert.IsNotNull(headers["X-SafeExamBrowser-RequestHash"]);
+		}
+
+		[TestMethod]
+		public void MustNotAppendCustomHeadersForCrossDomain()
+		{
+			var browser = new Mock<IWebBrowser>();
+			var headers = new NameValueCollection();
+			var request = new Mock<IRequest>();
+
+			browser.SetupGet(b => b.Address).Returns("http://www.otherhost.org");
+			request.SetupGet(r => r.Headers).Returns(new NameValueCollection());
+			request.SetupGet(r => r.Url).Returns("http://www.host.org");
+			request.SetupSet(r => r.Headers = It.IsAny<NameValueCollection>()).Callback<NameValueCollection>((h) => headers = h);
+			settings.SendConfigurationKey = true;
+			settings.SendExamKey = true;
+
+			var result = sut.OnBeforeResourceLoad(browser.Object, Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, Mock.Of<IRequestCallback>());
+
+			request.VerifyGet(r => r.Headers, Times.Never);
+			request.VerifySet(r => r.Headers = It.IsAny<NameValueCollection>(), Times.Never);
+
+			Assert.AreEqual(CefReturnValue.Continue, result);
+			Assert.IsNull(headers["X-SafeExamBrowser-ConfigKeyHash"]);
+			Assert.IsNull(headers["X-SafeExamBrowser-RequestHash"]);
 		}
 
 		[TestMethod]

@@ -233,6 +233,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string ClientName = "clientName";
 			internal const string ClientSecret = "clientSecret";
 			internal const string Configuration = "sebServerConfiguration";
+			internal const string ExamId = "exam";
 			internal const string FallbackPasswordHash = "sebServerFallbackPasswordHash";
 			internal const string Institution = "institution";
 			internal const string PerformFallback = "sebServerFallback";

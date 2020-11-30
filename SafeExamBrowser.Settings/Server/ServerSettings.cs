@@ -32,6 +32,11 @@ namespace SafeExamBrowser.Settings.Server
 		public string ClientSecret { get; set; }
 
 		/// <summary>
+		/// The identifier of the exam to be started. If present, the exam will be automatically started, i.e. the exam selection will be skipped.
+		/// </summary>
+		public string ExamId { get; set; }
+
+		/// <summary>
 		/// The hash code of the password required to perform a fallback.
 		/// </summary>
 		public string FallbackPasswordHash { get; set; }
