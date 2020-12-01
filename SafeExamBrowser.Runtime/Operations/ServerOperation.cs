@@ -133,14 +133,18 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public override OperationResult Repeat()
 		{
-			var result = Revert();
-
-			if (result == OperationResult.Success)
+			if (Context.Current.Settings.SessionMode == SessionMode.Server)
 			{
-				result = Perform();
+				Context.Next.AppConfig.ServerApi = Context.Current.AppConfig.ServerApi;
+				Context.Next.AppConfig.ServerConnectionToken = Context.Current.AppConfig.ServerConnectionToken;
+				Context.Next.AppConfig.ServerExamId = Context.Current.AppConfig.ServerExamId;
+				Context.Next.AppConfig.ServerOauth2Token = Context.Current.AppConfig.ServerOauth2Token;
+
+				Context.Next.Settings.Server = Context.Current.Settings.Server;
+				Context.Next.Settings.SessionMode = SessionMode.Server;
 			}
 
-			return result;
+			return OperationResult.Success;
 		}
 
 		public override OperationResult Revert()
