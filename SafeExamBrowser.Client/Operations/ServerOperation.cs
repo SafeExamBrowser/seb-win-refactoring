@@ -41,8 +41,6 @@ namespace SafeExamBrowser.Client.Operations
 
 		public override OperationResult Perform()
 		{
-			var result = OperationResult.Success;
-
 			if (Context.Settings.SessionMode == SessionMode.Server)
 			{
 				logger.Info("Initializing server...");
@@ -54,15 +52,18 @@ namespace SafeExamBrowser.Client.Operations
 					Context.AppConfig.ServerExamId,
 					Context.AppConfig.ServerOauth2Token,
 					Context.Settings.Server);
+
+				if (Context.AppConfig.ServerConnectivityAutoStart)
+				{
+					server.StartConnectivity();
+				}
 			}
 
-			return result;
+			return OperationResult.Success;
 		}
 
 		public override OperationResult Revert()
 		{
-			var result = OperationResult.Success;
-
 			if (Context.Settings?.SessionMode == SessionMode.Server)
 			{
 				logger.Info("Finalizing server...");
@@ -71,7 +72,7 @@ namespace SafeExamBrowser.Client.Operations
 				server.StopConnectivity();
 			}
 
-			return result;
+			return OperationResult.Success;
 		}
 	}
 }

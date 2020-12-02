@@ -286,7 +286,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			{
 				try
 				{
-					var location = locations.FirstOrDefault(l => l.Contains("moodle/login/index.php?testsession"));
+					var location = locations.FirstOrDefault(l => l.Contains("/login/index.php?testsession"));
 
 					if (location != default(string))
 					{

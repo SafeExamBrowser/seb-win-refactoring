@@ -321,9 +321,14 @@ namespace SafeExamBrowser.Server
 
 				if (success)
 				{
-					if (TryParseInstruction(response.Content, out var instruction) && instruction == "SEB_QUIT")
+					if (TryParseInstruction(response.Content, out var instruction))
 					{
-						Task.Run(() => TerminationRequested?.Invoke());
+						switch (instruction)
+						{
+							case "SEB_QUIT":
+								Task.Run(() => TerminationRequested?.Invoke());
+								break;
+						}
 					}
 				}
 				else
