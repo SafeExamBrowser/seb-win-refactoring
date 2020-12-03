@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Text>
+    <Entry key="AboutWindow_LicenseInfo">
+        此应用程序受Mozilla Public License, 版本 2.0 的条款约束。汉化人：272881521@qq.com。防作弊考试专用浏览器使用以下框架和第三方知识库：
+    </Entry>
+    <Entry key="AboutWindow_Title">
+        版本 &amp; 许可证信息
+    </Entry>
+    <Entry key="Browser_BlockedContentMessage">
+        内容已被阻止
+    </Entry>
+    <Entry key="Browser_BlockedPageButton">
+        返回上一页
+    </Entry>
+    <Entry key="Browser_BlockedPageMessage">
+        当前配置不允许访问此页面。
+    </Entry>
+    <Entry key="Browser_BlockedPageTitle">
+        页面已被阻止
+    </Entry>
+    <Entry key="Browser_LoadErrorPageMessage">
+        加载页面 "%%URL%%"时出错:
+    </Entry>
+    <Entry key="Browser_LoadErrorPageButton">
+        重试
+    </Entry>
+    <Entry key="Browser_LoadErrorPageTitle">
+        页面加载出错
+    </Entry>
+    <Entry key="Browser_Name">
+        浏览器
+    </Entry>
+    <Entry key="Browser_Tooltip">
+        浏览器应用程序
+    </Entry>
+    <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
+        开发者控制台
+    </Entry>
+    <Entry key="BrowserWindow_Downloading">
+        下载中...
+    </Entry>
+    <Entry key="BrowserWindow_DownloadCancelled">
+        取消
+    </Entry>
+    <Entry key="BrowserWindow_DownloadComplete">
+        下载完成
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuItem">
+        页面缩放
+    </Entry>
+    <Entry key="Build">
+        生成
+    </Entry>
+    <Entry key="FileSystemDialog_Cancel">
+        取消
+    </Entry>
+    <Entry key="FileSystemDialog_LoadError">
+        加载数据失败
+    </Entry>
+    <Entry key="FileSystemDialog_Loading">
+        加载中...
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFileMessage">
+        请选择要打开的文件
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFolderMessage">
+        请选择一个目录
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarning">
+        选定的文件已存在。您确定想要覆盖它吗？
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarningTitle">
+        覆盖吗？
+    </Entry>
+    <Entry key="FileSystemDialog_SaveAs">
+        另存为：
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFileMessage">
+        请选择要保存文件的位置。
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFolderMessage">
+        请选择要保存文件夹的位置。
+    </Entry>
+    <Entry key="FileSystemDialog_Select">
+        选择
+    </Entry>
+    <Entry key="FileSystemDialog_Title">
+        文件系统权限
+    </Entry>
+    <Entry key="FolderDialog_ApplicationLocation">
+        无法在系统中找到应用程序 "%%NAME%%" 。请查找包含主可执行文件的文件夹"%%EXECUTABLE%%"。
+    </Entry>
+    <Entry key="LockScreen_AllowOption">
+        暂时允许黑名单上的应用程序。这仅适用于当前正在运行的实例和会话。
+    </Entry>
+    <Entry key="LockScreen_Message">
+        下面列出的黑名单应用程序已经启动，无法自动终止。请选择一个可用的选项并输入正确的密码来解锁防作弊考试专用浏览器。
+    </Entry>
+    <Entry key="LockScreen_TerminateOption">
+        强制关闭防作弊考试专用浏览器。警告：将无法保存数据或执行任何进一步的操作，关闭操作将立即启动。
+    </Entry>
+    <Entry key="LockScreen_Title">
+        防作弊考试专用浏览器已锁定
+    </Entry>
+    <Entry key="LockScreen_UnlockButton">
+        解锁
+    </Entry>
+    <Entry key="LogWindow_AlwaysOnTop">
+        置顶
+    </Entry>
+    <Entry key="LogWindow_AutoScroll">
+        自动滚动内容
+    </Entry>
+    <Entry key="LogWindow_Title">
+        应用程序日志
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestion">
+        下面列出的应用程序需要在新会话开始前终止运行。您想要现在自动终止吗？
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestionTitle">
+        检测到正在运行的程序
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationDataLossWarning">
+        警告：未保存的应用程序数据可能丢失。
+    </Entry>
+    <Entry key="MessageBox_ApplicationError">
+        出现不可恢复的错误。请查阅日志文件以获取更多信息。防作弊考试专用浏览器现在将关闭...
+    </Entry>
+    <Entry key="MessageBox_ApplicationErrorTitle">
+        应用程序错误
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailure">
+        应用程序 %%NAME%% 无法初始化，因此将无法在新的会话中使用。请查阅日志文件以获取更多信息。
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailureTitle">
+        应用程序初始化失败
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFound">
+        无法在系统中找到应用程序 %%NAME%% ，因此将无法在新的会话中使用。请查阅日志文件以获取更多信息。
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFoundTitle">
+        未找到应用程序
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailure">
+        无法终止以下应用程序。请手动终止并重试
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailureTitle">
+        自动终止失败
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlocked">
+        根据当前配置，不允许访问 "%%URL%%" 。
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlockedTitle">
+        页面已被阻止访问
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmation">
+        浏览器应用程序检测到一个退出网址。您想要现在终止防作弊考试专用浏览器吗？
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
+        检测到退出网址
+    </Entry>
+    <Entry key="MessageBox_CancelButton">
+        取消
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationError">
+        本地客户端配置失败。请查阅日志文件以获取更多信息。防作弊考试专用浏览器现在将关闭...
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationErrorTitle">
+        配置错误
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestion">
+        客户端配置已保存，下次启动防作弊考试专用浏览器时将会使用。您想要现在退出吗？
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestionTitle">
+        配置成功
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadError">
+        下载新配置失败。请重试或联系技术支持人员。
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
+        下载错误
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationData">
+        配置"%%URI%%" 中包含无效数据。
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationDataTitle">
+        配置错误
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordError">
+        您已连续5次输错密码。防作弊考试专用浏览器现将终止。
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordErrorTitle">
+        密码错误
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPassword">
+        您需要输入正确的退出密码来终止防作弊考试专用浏览器。
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPasswordTitle">
+        退出密码错误
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPassword">
+        您需要输入正确的密码来解锁防作弊考试专用浏览器。
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPasswordTitle">
+        解锁密码错误
+    </Entry>
+    <Entry key="MessageBox_NoButton">
+        否
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResource">
+        不支持配置资源 "%%URI%%" 。
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResourceTitle">
+        配置错误
+    </Entry>
+    <Entry key="MessageBox_OkButton">
+        确定
+    </Entry>
+    <Entry key="MessageBox_Quit">
+        您想要退出防作弊考试专用浏览器吗？
+    </Entry>
+    <Entry key="MessageBox_QuitTitle">
+        退出？
+    </Entry>
+    <Entry key="MessageBox_QuitError">
+        客户端无法将退出请求传送到运行时。
+    </Entry>
+    <Entry key="MessageBox_QuitErrorTitle">
+        退出错误
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDenied">
+        您无权重置防作弊考试专用浏览器。
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDeniedTitle">
+        重置被拒绝
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationError">
+        客户端无法将重置请求传送到运行时。
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationErrorTitle">
+        重置错误
+    </Entry>
+    <Entry key="MessageBox_ReloadConfirmation">
+        您想要刷新当前页面吗？
+    </Entry>
+    <Entry key="MessageBox_ReloadConfirmationTitle">
+        刷新？
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableError">
+        防作弊考试专用浏览器服务初始化失败。防作弊考试专用浏览器现将终止，因为该服务被配置为强制项。
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableErrorTitle">
+        服务不可用
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarning">
+        防作弊考试专用浏览器服务初始化失败。防作弊考试专用浏览器将继续初始化，因为该服务被配置为可选项。
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarningTitle">
+        服务不可用
+    </Entry>
+    <Entry key="MessageBox_SessionStartError">
+        防作弊考试专用浏览器启动新会话失败。请查阅日志文件以获取更多信息。
+    </Entry>
+    <Entry key="MessageBox_SessionStartErrorTitle">
+        会话启动错误
+    </Entry>
+    <Entry key="MessageBox_ShutdownError">
+        关机过程中发生异常错误。请查阅日志文件以获取更多信息。
+    </Entry>
+    <Entry key="MessageBox_ShutdownErrorTitle">
+        关机错误
+    </Entry>
+    <Entry key="MessageBox_StartupError">
+        启动过程中发生异常错误。请查阅日志文件以获取更多信息。
+    </Entry>
+    <Entry key="MessageBox_StartupErrorTitle">
+        启动错误
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationError">
+        尝试加载配置资源"%%URI%%"时发生异常错误。请查阅日志文件以获取更多信息。
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
+        配置错误
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowed">
+        这台电脑是一个虚拟机。所选配置不允许防作弊考试专用浏览器在虚拟机中运行。
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
+        检测到虚拟机
+    </Entry>
+    <Entry key="MessageBox_YesButton">
+        是
+    </Entry>
+    <Entry key="Notification_AboutTooltip">
+        关于防作弊考试专用浏览器的信息
+    </Entry>
+    <Entry key="Notification_LogTooltip">
+        应用程序日志
+    </Entry>
+    <Entry key="OperationStatus_CloseRuntimeConnection">
+        关闭运行时连接
+    </Entry>
+    <Entry key="OperationStatus_EmptyClipboard">
+        清空剪贴板
+    </Entry>
+    <Entry key="OperationStatus_FinalizeApplications">
+        完成应用程序（运行已定型）
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServiceSession">
+        完成服务会话（运行已定型）
+    </Entry>
+    <Entry key="OperationStatus_InitializeApplications">
+        初始化应用程序
+    </Entry>
+    <Entry key="OperationStatus_InitializeBrowser">
+        初始化浏览器
+    </Entry>
+    <Entry key="OperationStatus_InitializeConfiguration">
+        初始化配置
+    </Entry>
+    <Entry key="OperationStatus_InitializeKioskMode">
+        初始化全屏模式
+    </Entry>
+    <Entry key="OperationStatus_InitializeRuntimeConnection">
+        初始化运行时连接
+    </Entry>
+    <Entry key="OperationStatus_InitializeServiceSession">
+        初始化服务会话
+    </Entry>
+    <Entry key="OperationStatus_InitializeSession">
+        初始化新会话
+    </Entry>
+    <Entry key="OperationStatus_InitializeShell">
+        初始化用户界面
+    </Entry>
+    <Entry key="OperationStatus_InitializeWorkingArea">
+        初始化工作区域
+    </Entry>
+    <Entry key="OperationStatus_RestartCommunicationHost">
+        重启通讯主机
+    </Entry>
+    <Entry key="OperationStatus_RestoreWorkingArea">
+        恢复工作区
+    </Entry>
+    <Entry key="OperationStatus_RevertKioskMode">
+        恢复全屏模式
+    </Entry>
+    <Entry key="OperationStatus_StartClient">
+        启动客户端
+    </Entry>
+    <Entry key="OperationStatus_StartCommunicationHost">
+        启动通讯主机
+    </Entry>
+    <Entry key="OperationStatus_StartKeyboardInterception">
+        启动对键盘按键操作的监听和拦截
+    </Entry>
+    <Entry key="OperationStatus_StartMouseInterception">
+        启动对鼠标点击操作的监听和拦截
+    </Entry>
+    <Entry key="OperationStatus_StopClient">
+        停止客户端
+    </Entry>
+    <Entry key="OperationStatus_StopCommunicationHost">
+        停止通讯主机
+    </Entry>
+    <Entry key="OperationStatus_StopKeyboardInterception">
+        停止对键盘按键操作的监听和拦截
+    </Entry>
+    <Entry key="OperationStatus_StopMouseInterception">
+        停止对鼠标点击操作的监听和拦截
+    </Entry>
+    <Entry key="OperationStatus_TerminateBrowser">
+        终止浏览器
+    </Entry>
+    <Entry key="OperationStatus_TerminateShell">
+        终止用户界面
+    </Entry>
+    <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
+        验证虚拟机策略
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerStartup">
+        等待Windows资源管理器启动
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerTermination">
+        等待Windows资源管理器关闭
+    </Entry>
+    <Entry key="OperationStatus_WaitRuntimeDisconnection">
+        等待运行时断开
+    </Entry>
+    <Entry key="PasswordDialog_Cancel">
+        取消
+    </Entry>
+    <Entry key="PasswordDialog_Confirm">
+        确认
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequired">
+        请输入本地客户端配置的管理员密码：
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
+        管理员密码不能为空
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
+        请输入本地客户端配置的设置密码：
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
+        设置密码不能为空
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequired">
+        请输入退出密码以终止防作弊考试专用浏览器：
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
+        退出密码不能为空
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequired">
+        请输入所选配置的设置密码：
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
+        设置密码不能为空
+    </Entry>
+    <Entry key="RuntimeWindow_ApplicationRunning">
+        防作弊考试专用浏览器正在运行。
+    </Entry>
+    <Entry key="Shell_QuitButton">
+        终止会话
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfo">
+        %%NAME%%: %%VOLUME%%%
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfoMuted">
+        %%NAME%%: 已静音
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceMuteTooltip">
+        点击静音
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceNotFound">
+        未找到可用的音频设备
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceUnmuteTooltip">
+        点击取消静音
+    </Entry>
+    <Entry key="SystemControl_BatteryCharging">
+        已插入，充电中... (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryCharged">
+        充电完成(%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeCriticalWarning">
+        电池电量过低， 请将您的计算机连接到电源。
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeLowInfo">
+        电池电量正在变低， 请尽快将您的计算机连接到电源...
+    </Entry>
+    <Entry key="SystemControl_BatteryRemainingCharge">
+        %%HOURS%%h %%MINTES%%分钟剩余 (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_KeyboardLayoutTooltip">
+        当前键盘布局是 "%%LAYOUT%%"
+    </Entry>
+    <Entry key="SystemControl_WirelessConnected">
+        已连接到 "%%NAME%%"
+    </Entry>
+    <Entry key="SystemControl_WirelessConnecting">
+        正在连接...
+    </Entry>
+    <Entry key="SystemControl_WirelessDisconnected">
+        连接已断开
+    </Entry>
+    <Entry key="SystemControl_WirelessNotAvailable">
+        没有无线网卡或未启用无线网卡
+    </Entry>
+    <Entry key="Version">
+        版本
+    </Entry>
+</Text>
