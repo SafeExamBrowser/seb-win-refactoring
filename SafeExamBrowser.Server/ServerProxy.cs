@@ -270,7 +270,7 @@ namespace SafeExamBrowser.Server
 			timer.Elapsed += Timer_Elapsed;
 			timer.Interval = 1000;
 			timer.Start();
-			logger.Info("Starting sending pings.");
+			logger.Info("Started sending pings.");
 
 			if (powerSupply != default(IPowerSupply) && wirelessAdapter != default(IWirelessAdapter))
 			{
