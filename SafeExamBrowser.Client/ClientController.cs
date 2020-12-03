@@ -429,7 +429,7 @@ namespace SafeExamBrowser.Client
 
 			var exams = args.Exams.Select(e => new Exam { Id = e.id, LmsName = e.lms, Name = e.name, Url = e.url });
 			var dialog = uiFactory.CreateExamSelectionDialog(exams);
-			var result = dialog.Show(splashScreen);
+			var result = dialog.Show();
 
 			runtime.SubmitExamSelectionResult(args.RequestId, result.Success, result.SelectedExam?.Id);
 			logger.Info($"Exam selection request with id '{args.RequestId}' is complete.");

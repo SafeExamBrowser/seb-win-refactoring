@@ -146,6 +146,10 @@ namespace SafeExamBrowser.Runtime.Operations
 				Context.Next.Settings.Server = Context.Current.Settings.Server;
 				Context.Next.Settings.SessionMode = SessionMode.Server;
 			}
+			else if (Context.Next.Settings.SessionMode == SessionMode.Server)
+			{
+				return Perform();
+			}
 
 			return OperationResult.Success;
 		}
