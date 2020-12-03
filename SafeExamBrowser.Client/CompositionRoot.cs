@@ -37,6 +37,8 @@ using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.SystemComponents;
 using SafeExamBrowser.SystemComponents.Audio;
 using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
+using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.SystemComponents.Keyboard;
 using SafeExamBrowser.SystemComponents.PowerSupply;
 using SafeExamBrowser.SystemComponents.WirelessNetwork;
@@ -68,12 +70,14 @@ namespace SafeExamBrowser.Client
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private INativeMethods nativeMethods;
+		private IPowerSupply powerSupply;
 		private IRuntimeProxy runtimeProxy;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
 		private ITaskview taskview;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
+		private IWirelessAdapter wirelessAdapter;
 
 		internal ClientController ClientController { get; private set; }
 
@@ -89,10 +93,12 @@ namespace SafeExamBrowser.Client
 			actionCenter = uiFactory.CreateActionCenter();
 			messageBox = BuildMessageBox();
 			nativeMethods = new NativeMethods();
+			powerSupply = new PowerSupply(ModuleLogger(nameof(PowerSupply)));
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
 			systemInfo = new SystemInfo();
 			taskbar = uiFactory.CreateTaskbar(ModuleLogger("Taskbar"));
 			taskview = uiFactory.CreateTaskview();
+			wirelessAdapter = new WirelessAdapter(ModuleLogger(nameof(WirelessAdapter)));
 
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var applicationMonitor = new ApplicationMonitor(TWO_SECONDS, ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, processFactory);
@@ -241,7 +247,7 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildServerOperation()
 		{
-			var server = new ServerProxy(context.AppConfig, ModuleLogger(nameof(ServerProxy)));
+			var server = new ServerProxy(context.AppConfig, ModuleLogger(nameof(ServerProxy)), powerSupply, wirelessAdapter);
 			var operation = new ServerOperation(actionCenter, context, logger, server, taskbar);
 
 			context.Server = server;
@@ -257,8 +263,6 @@ namespace SafeExamBrowser.Client
 			var keyboard = new Keyboard(ModuleLogger(nameof(Keyboard)));
 			var logInfo = new LogNotificationInfo(text);
 			var logController = new LogNotificationController(logger, uiFactory);
-			var powerSupply = new PowerSupply(ModuleLogger(nameof(PowerSupply)));
-			var wirelessAdapter = new WirelessAdapter(ModuleLogger(nameof(WirelessAdapter)));
 			var operation = new ShellOperation(
 				actionCenter,
 				audio,
