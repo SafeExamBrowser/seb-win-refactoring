@@ -246,6 +246,12 @@
     <Entry key="MessageBox_ReloadConfirmationTitle">
         刷新？
     </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowed">
+        系统似乎正在远程会话中运行。所选的配置不允许SEB在远程会话中运行。
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
+        检测到远程会话
+    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         防作弊考试专用浏览器服务初始化失败。防作弊考试专用浏览器现将终止，因为该服务被配置为强制项。
     </Entry>
@@ -374,6 +380,9 @@
     </Entry>
     <Entry key="OperationStatus_TerminateShell">
         终止用户界面
+    </Entry>
+    <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
+        验证远程会话策略
     </Entry>
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         验证虚拟机策略

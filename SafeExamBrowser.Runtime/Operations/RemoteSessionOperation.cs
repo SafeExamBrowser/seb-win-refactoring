@@ -1,6 +1,6 @@
 ﻿/*
  * Copyright (c) 2020 ETH Zürich, Educational Development and Technology (LET)
- *
+ * 
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -11,21 +11,20 @@ using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
-using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
-	internal class VirtualMachineOperation : SessionOperation
+	internal class RemoteSessionOperation : SessionOperation
 	{
-		private IVirtualMachineDetector detector;
-		private ILogger logger;
+		private readonly IRemoteSessionDetector detector;
+		private readonly ILogger logger;
 
 		public override event ActionRequiredEventHandler ActionRequired;
 		public override event StatusChangedEventHandler StatusChanged;
 
-		public VirtualMachineOperation(IVirtualMachineDetector detector, ILogger logger, SessionContext context) : base(context)
+		public RemoteSessionOperation(IRemoteSessionDetector detector, ILogger logger, SessionContext context) : base(context)
 		{
 			this.detector = detector;
 			this.logger = logger;
@@ -48,19 +47,19 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private OperationResult ValidatePolicy()
 		{
-			logger.Info($"Validating virtual machine policy...");
-			StatusChanged?.Invoke(TextKey.OperationStatus_ValidateVirtualMachinePolicy);
+			logger.Info($"Validating remote session policy...");
+			StatusChanged?.Invoke(TextKey.OperationStatus_ValidateRemoteSessionPolicy);
 
-			if (Context.Next.Settings.Security.VirtualMachinePolicy == VirtualMachinePolicy.Deny && detector.IsVirtualMachine())
+			if (Context.Next.Settings.Service.DisableRemoteConnections && detector.IsRemoteSession())
 			{
 				var args = new MessageEventArgs
 				{
 					Icon = MessageBoxIcon.Error,
-					Message = TextKey.MessageBox_VirtualMachineNotAllowed,
-					Title = TextKey.MessageBox_VirtualMachineNotAllowedTitle
+					Message = TextKey.MessageBox_RemoteSessionNotAllowed,
+					Title = TextKey.MessageBox_RemoteSessionNotAllowedTitle
 				};
 
-				logger.Error("Detected virtual machine while SEB is not allowed to be run in a virtual machine! Aborting...");
+				logger.Error("Detected remote session while SEB is not allowed to be run in a remote session! Aborting...");
 				ActionRequired?.Invoke(args);
 
 				return OperationResult.Aborted;

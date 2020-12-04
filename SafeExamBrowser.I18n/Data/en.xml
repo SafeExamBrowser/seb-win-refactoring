@@ -282,6 +282,12 @@
     <Entry key="MessageBox_ReloadConfirmationTitle">
         Reload?
     </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowed">
+        The system appears to be running in a remote session. The selected configuration does not allow SEB to be run in a remote session.
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
+        Remote Session Detected
+    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Failed to initialize the SEB service! SEB will now terminate since the service is configured to be mandatory.
     </Entry>
@@ -422,6 +428,9 @@
     </Entry>
     <Entry key="OperationStatus_TerminateShell">
         Terminating user interface
+    </Entry>
+    <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
+        Validating remote session policy
     </Entry>
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Validating virtual machine policy

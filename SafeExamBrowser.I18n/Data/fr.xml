@@ -282,6 +282,12 @@
     <Entry key="MessageBox_ReloadConfirmationTitle">
         Recharger ?
     </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowed">
+        Le système semble s'exécuter dans une session à distance. La configuration sélectionnée ne permet pas l'exécution de SEB dans une session à distance.
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
+        Session distante détectée
+    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Le service SEB n'a pas été initialisé ! Le service SEB va maintenant se terminer puisque le service obligatoire.
     </Entry>
@@ -422,6 +428,9 @@
     </Entry>
     <Entry key="OperationStatus_TerminateShell">
         Arrêt de l’interface utilisateur
+    </Entry>
+    <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
+        Validation de la directive sur la session à distance
     </Entry>
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Validation de la directive sur les machines virtuelles

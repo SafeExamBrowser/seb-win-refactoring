@@ -57,6 +57,7 @@
     <Compile Include="Audio\Events\VolumeChangedEventHandler.cs" />
     <Compile Include="Audio\IAudio.cs" />
     <Compile Include="IFileSystem.cs" />
+    <Compile Include="IRemoteSessionDetector.cs" />
     <Compile Include="IVirtualMachineDetector.cs" />
     <Compile Include="PowerSupply\Events\StatusChangedEventHandler.cs" />
     <Compile Include="PowerSupply\IPowerSupply.cs" />

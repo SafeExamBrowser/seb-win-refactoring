@@ -282,6 +282,12 @@
     <Entry key="MessageBox_ReloadConfirmationTitle">
         Neu laden?
     </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowed">
+        Das System scheint in einer Remote-Sitzung zu laufen. Die ausgewählte Konfiguration erlaubt es nicht, SEB in einer Remote-Sitzung auszuführen.
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
+        Remote-Sitzung erkannt
+    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Fehler beim Initialisieren des SEB-Service! SEB wird sich nun beenden da der Service als obligatorisch konfiguriert ist.
     </Entry>
@@ -422,6 +428,9 @@
     </Entry>
     <Entry key="OperationStatus_TerminateShell">
         Beende Benutzeroberfläche
+    </Entry>
+    <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
+        Validiere Richtlinie für Remote-Sitzungen
     </Entry>
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Validiere Richtlinie für virtuelle Maschinen
