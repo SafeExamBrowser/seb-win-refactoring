@@ -53,33 +53,41 @@ namespace SafeExamBrowser.SystemComponents
 			var model = default(string);
 			var systemFamily = default(string);
 
-			using (var searcher = new ManagementObjectSearcher("Select * from Win32_ComputerSystem"))
-			using (var results = searcher.Get())
-			using (var system = results.Cast<ManagementObject>().First())
+			try
 			{
-				foreach (var property in system.Properties)
+				using (var searcher = new ManagementObjectSearcher("Select * from Win32_ComputerSystem"))
+				using (var results = searcher.Get())
+				using (var system = results.Cast<ManagementObject>().First())
 				{
-					if (property.Name.Equals("Manufacturer"))
+					foreach (var property in system.Properties)
 					{
-						Manufacturer = Convert.ToString(property.Value);
-					}
-					else if (property.Name.Equals("Model"))
-					{
-						model = Convert.ToString(property.Value);
-					}
-					else if (property.Name.Equals("Name"))
-					{
-						Name = Convert.ToString(property.Value);
-					}
-					else if (property.Name.Equals("SystemFamily"))
-					{
-						systemFamily = Convert.ToString(property.Value);
+						if (property.Name.Equals("Manufacturer"))
+						{
+							Manufacturer = Convert.ToString(property.Value);
+						}
+						else if (property.Name.Equals("Model"))
+						{
+							model = Convert.ToString(property.Value);
+						}
+						else if (property.Name.Equals("Name"))
+						{
+							Name = Convert.ToString(property.Value);
+						}
+						else if (property.Name.Equals("SystemFamily"))
+						{
+							systemFamily = Convert.ToString(property.Value);
+						}
 					}
 				}
 
+				Model = string.Join(" ", systemFamily, model);
 			}
-
-			Model = string.Join(" ", systemFamily, model);
+			catch (Exception)
+			{
+				Manufacturer = "";
+				Model = "";
+				Name = "";
+			}
 		}
 
 		private void InitializeOperatingSystem()
