@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Operations;
+using SafeExamBrowser.Communication.Contracts.Events;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Logging.Contracts;
@@ -57,6 +58,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			after = DateTime.Now;
 
 			clientHost.VerifyGet(h => h.IsConnected);
+			clientHost.VerifyAdd(h => h.RuntimeDisconnected += It.IsAny<CommunicationEventHandler>());
+			clientHost.VerifyRemove(h => h.RuntimeDisconnected -= It.IsAny<CommunicationEventHandler>());
 			clientHost.VerifyNoOtherCalls();
 
 			Assert.IsTrue(after - before < new TimeSpan(0, 0, 0, 0, timeout_ms));
@@ -78,6 +81,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			after = DateTime.Now;
 
 			clientHost.VerifyGet(h => h.IsConnected);
+			clientHost.VerifyAdd(h => h.RuntimeDisconnected += It.IsAny<CommunicationEventHandler>());
+			clientHost.VerifyRemove(h => h.RuntimeDisconnected -= It.IsAny<CommunicationEventHandler>());
 			clientHost.VerifyNoOtherCalls();
 
 			Assert.IsTrue(after - before >= new TimeSpan(0, 0, 0, 0, timeout_ms));

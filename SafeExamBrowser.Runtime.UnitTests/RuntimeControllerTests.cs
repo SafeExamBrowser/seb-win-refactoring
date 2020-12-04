@@ -309,6 +309,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 				It.Is<MessageBoxAction>(a => a == MessageBoxAction.Confirm),
 				It.Is<MessageBoxIcon>(i => i == args.Icon),
 				It.IsAny<IWindow>()), Times.Once);
+			clientProxy.VerifyAdd(p => p.ConnectionLost += It.IsAny<CommunicationEventHandler>());
 			clientProxy.VerifyNoOtherCalls();
 		}
 
