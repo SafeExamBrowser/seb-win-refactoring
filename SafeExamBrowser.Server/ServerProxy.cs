@@ -39,6 +39,8 @@ namespace SafeExamBrowser.Server
 		private AppConfig appConfig;
 		private CancellationTokenSource cancellationTokenSource;
 		private string connectionToken;
+		private int currentPowerSupplyValue;
+		private int currentWlanValue;
 		private string examId;
 		private HttpClient httpClient;
 		private ILogger logger;
@@ -333,21 +335,27 @@ namespace SafeExamBrowser.Server
 		{
 			try
 			{
-				var authorization = ("Authorization", $"Bearer {oauth2Token}");
-				var chargeInfo = $"{status.BatteryChargeStatus} at {Convert.ToInt32(status.BatteryCharge * 100)}%";
-				var contentType = "application/json;charset=UTF-8";
-				var gridInfo = $"{(status.IsOnline ? "connected to" : "disconnected from")} the power grid";
-				var token = ("SEBConnectionToken", connectionToken);
-				var json = new JObject
-				{
-					["type"] = ToLogType(LogLevel.Info),
-					["timestamp"] = ToUnixTimestamp(DateTime.Now),
-					["text"] = $"<battery> {chargeInfo}, {status.BatteryTimeRemaining} remaining, {gridInfo}",
-					["numericValue"] = Convert.ToInt32(status.BatteryCharge * 100)
-				};
-				var content = json.ToString();
+				var value = Convert.ToInt32(status.BatteryCharge * 100);
 
-				TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
+				if (value != currentPowerSupplyValue)
+				{
+					var authorization = ("Authorization", $"Bearer {oauth2Token}");
+					var chargeInfo = $"{status.BatteryChargeStatus} at {value}%";
+					var contentType = "application/json;charset=UTF-8";
+					var gridInfo = $"{(status.IsOnline ? "connected to" : "disconnected from")} the power grid";
+					var token = ("SEBConnectionToken", connectionToken);
+					var json = new JObject
+					{
+						["type"] = ToLogType(LogLevel.Info),
+						["timestamp"] = ToUnixTimestamp(DateTime.Now),
+						["text"] = $"<battery> {chargeInfo}, {status.BatteryTimeRemaining} remaining, {gridInfo}",
+						["numericValue"] = value
+					};
+					var content = json.ToString();
+
+					TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
+					currentPowerSupplyValue = value;
+				}
 			}
 			catch (Exception e)
 			{
@@ -392,25 +400,33 @@ namespace SafeExamBrowser.Server
 
 		private void WirelessAdapter_NetworksChanged()
 		{
+			const int NOT_CONNECTED = -1;
+
 			try
 			{
-				var authorization = ("Authorization", $"Bearer {oauth2Token}");
-				var contentType = "application/json;charset=UTF-8";
 				var network = wirelessAdapter.GetNetworks().FirstOrDefault(n => n.Status == WirelessNetworkStatus.Connected);
-				var token = ("SEBConnectionToken", connectionToken);
-				var json = new JObject { ["type"] = ToLogType(LogLevel.Info), ["timestamp"] = ToUnixTimestamp(DateTime.Now) };
 
-				if (network != default(IWirelessNetwork))
+				if (network?.SignalStrength != currentWlanValue)
 				{
-					json["text"] = $"<wlan> {network.Name}: {network.Status}, {network.SignalStrength}%";
-					json["numericValue"] = network.SignalStrength;
-				}
-				else
-				{
-					json["text"] = "<wlan> not connected";
-				}
+					var authorization = ("Authorization", $"Bearer {oauth2Token}");
+					var contentType = "application/json;charset=UTF-8";
+					var token = ("SEBConnectionToken", connectionToken);
+					var json = new JObject { ["type"] = ToLogType(LogLevel.Info), ["timestamp"] = ToUnixTimestamp(DateTime.Now) };
 
-				TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, json.ToString(), contentType, authorization, token);
+					if (network != default(IWirelessNetwork))
+					{
+						json["text"] = $"<wlan> {network.Name}: {network.Status}, {network.SignalStrength}%";
+						json["numericValue"] = network.SignalStrength;
+					}
+					else
+					{
+						json["text"] = "<wlan> not connected";
+					}
+
+					TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, json.ToString(), contentType, authorization, token);
+
+					currentWlanValue = network?.SignalStrength ?? NOT_CONNECTED;
+				}
 			}
 			catch (Exception e)
 			{
