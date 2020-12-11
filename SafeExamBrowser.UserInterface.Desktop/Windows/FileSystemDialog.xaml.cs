@@ -292,9 +292,9 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		private DriveInfo[] GetDrives()
 		{
 			var drives = DriveInfo.GetDrives();
-			var noDrives = (int) Registry.GetValue("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer", "NoDrives", 0);
+			var noDrives = Registry.GetValue("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer", "NoDrives", 0) as int?;
 
-			if (noDrives > 0)
+			if (noDrives.HasValue && noDrives > 0)
 			{
 				return drives.Where(drive => (noDrives & (int) Math.Pow(2, drive.RootDirectory.ToString()[0] - 65)) == 0).ToArray();
 			}
