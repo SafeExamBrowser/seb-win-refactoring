@@ -85,7 +85,7 @@
     <EmbeddedResource Include="Data\it.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data\cn.xml" />
+    <EmbeddedResource Include="Data\zh.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\fr.xml" />
