@@ -44,7 +44,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Utilities
 		[DllImport("user32.dll")]
 		private static extern int DestroyIcon(IntPtr hIcon);
 
-		[DllImport("shell32.dll")]
+		[DllImport("shell32.dll", CharSet = CharSet.Unicode)]
 		private static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);
 
 		[StructLayout(LayoutKind.Sequential)]
