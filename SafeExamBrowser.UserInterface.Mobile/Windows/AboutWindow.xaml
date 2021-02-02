@@ -30,37 +30,37 @@
                 <LineBreak />
                 <Bold><Underline>.NET Framework</Underline></Bold>
                 <LineBreak />
-                Copyright © 2002-2020 Microsoft. All rights reserved.
+                Copyright © 2002-2021 Microsoft. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>CefSharp (.NET bindings for the Chromium Embedded Framework)</Underline></Bold>
                 <LineBreak />
-                Copyright © 2010-2020 The CefSharp Authors. All rights reserved.
+                Copyright © 2010-2021 The CefSharp Authors. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>CEF (Chromium Embedded Framework)</Underline></Bold>
                 <LineBreak />
-                Copyright © 2008-2020 The Chromium Embedded Framework Authors. All rights reserved.
+                Copyright © 2008-2021 The Chromium Embedded Framework Authors. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Font-Awesome-WPF</Underline></Bold>
                 <LineBreak />
-                Copyright © 2014-2020 charri. All rights reserved.
+                Copyright © 2014-2021 charri. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>KnownFolders</Underline></Bold>
                 <LineBreak />
-                Copyright © 2017-2020 Syroot. All rights reserved.
+                Copyright © 2017-2021 Syroot. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>NAudio</Underline></Bold>
                 <LineBreak />
-                Copyright © 2008-2020 Mark Heath &amp; contributors. All rights reserved.
+                Copyright © 2008-2021 Mark Heath &amp; contributors. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Newtonsoft.Json</Underline></Bold>
                 <LineBreak />
-                Copyright © 2007-2020 James Newton-King. All rights reserved.
+                Copyright © 2007-2021 James Newton-King. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>SimpleWifi</Underline></Bold>
@@ -70,7 +70,7 @@
                 <LineBreak />
                 <Bold><Underline>Visual C++ Redistributable</Underline></Bold>
                 <LineBreak />
-                Copyright © 1993-2020 Microsoft. All rights reserved.
+                Copyright © 1993-2021 Microsoft. All rights reserved.
             </TextBlock>
         </ScrollViewer>
     </Grid>
