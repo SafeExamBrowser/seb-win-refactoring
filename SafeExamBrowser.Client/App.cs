@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using SafeExamBrowser.Configuration.Contracts;
@@ -15,6 +16,9 @@ namespace SafeExamBrowser.Client
 {
 	public class App : Application
 	{
+		private const int ILMCM_CHECKLAYOUTANDTIPENABLED = 0x00001;
+		private const int ILMCM_LANGUAGEBAROFF = 0x00002;
+
 		private static readonly Mutex Mutex = new Mutex(true, AppConfig.CLIENT_MUTEX_NAME);
 		private CompositionRoot instances = new CompositionRoot();
 
@@ -58,6 +62,10 @@ namespace SafeExamBrowser.Client
 
 			ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
+			// We need to manually initialize a monitor in order to prevent Windows from automatically doing so and thus rendering an input lanuage
+			// switch in the bottom right corner of the desktop. This must be done before any UI element is initialized or rendered on the screen.
+			InitLocalMsCtfMonitor(ILMCM_CHECKLAYOUTANDTIPENABLED | ILMCM_LANGUAGEBAROFF);
+
 			instances.BuildObjectGraph(Shutdown);
 			instances.LogStartupInformation();
 
@@ -76,10 +84,18 @@ namespace SafeExamBrowser.Client
 				instances.ClientController.Terminate();
 				instances.LogShutdownInformation();
 
+				UninitLocalMsCtfMonitor();
+
 				base.Shutdown();
 			}
 
 			Dispatcher.InvokeAsync(shutdown);
 		}
+
+		[DllImport("MsCtfMonitor.dll", SetLastError = true)]
+		private static extern IntPtr InitLocalMsCtfMonitor(int dwFlags);
+
+		[DllImport("MsCtfMonitor.dll", SetLastError = true)]
+		private static extern IntPtr UninitLocalMsCtfMonitor();
 	}
 }
