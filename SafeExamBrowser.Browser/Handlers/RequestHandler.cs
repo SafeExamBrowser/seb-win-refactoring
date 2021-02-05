@@ -124,7 +124,8 @@ namespace SafeExamBrowser.Browser.Handlers
 			{
 				var result = filter.Process(new Request { Url = request.Url });
 
-				if (result == FilterResult.Block)
+				// We apparently can't filter chrome extension requests, as this prevents the rendering of PDFs.
+				if (result == FilterResult.Block && !request.Url.StartsWith("chrome-extension://"))
 				{
 					block = true;
 					logger.Info($"Blocked main request{(windowSettings.UrlPolicy.CanLog() ? $" for '{request.Url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
