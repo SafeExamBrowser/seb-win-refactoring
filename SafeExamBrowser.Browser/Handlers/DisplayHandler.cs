@@ -6,9 +6,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CefSharp;
+using CefSharp.Enums;
 using CefSharp.Structs;
 using SafeExamBrowser.Browser.Events;
 
@@ -29,6 +31,11 @@ namespace SafeExamBrowser.Browser.Handlers
 		}
 
 		public bool OnConsoleMessage(IWebBrowser chromiumWebBrowser, ConsoleMessageEventArgs consoleMessageArgs)
+		{
+			return false;
+		}
+
+		public bool OnCursorChange(IWebBrowser chromiumWebBrowser, IBrowser browser, IntPtr cursor, CursorType type, CursorInfo customCursorInfo)
 		{
 			return false;
 		}
