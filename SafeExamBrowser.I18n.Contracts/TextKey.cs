@@ -161,6 +161,7 @@ namespace SafeExamBrowser.I18n.Contracts
 		OperationStatus_TerminateShell,
 		OperationStatus_ValidateRemoteSessionPolicy,
 		OperationStatus_ValidateVirtualMachinePolicy,
+		OperationStatus_WaitDisclaimerConfirmation,
 		OperationStatus_WaitExplorerStartup,
 		OperationStatus_WaitExplorerTermination,
 		OperationStatus_WaitRuntimeDisconnection,

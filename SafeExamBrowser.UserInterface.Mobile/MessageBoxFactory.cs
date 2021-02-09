@@ -24,9 +24,9 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			this.text = text;
 		}
 
-		public MessageBoxResult Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null)
+		public MessageBoxResult Show(string message, string title, MessageBoxAction action = MessageBoxAction.Ok, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null)
 		{
-			var result = MessageBoxResult.None;
+			var result = default(MessageBoxResult);
 
 			if (parent is Window window)
 			{
@@ -40,7 +40,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			return result;
 		}
 
-		public MessageBoxResult Show(TextKey message, TextKey title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null)
+		public MessageBoxResult Show(TextKey message, TextKey title, MessageBoxAction action = MessageBoxAction.Ok, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null)
 		{
 			return Show(text.Get(message), text.Get(title), action, icon, parent);
 		}

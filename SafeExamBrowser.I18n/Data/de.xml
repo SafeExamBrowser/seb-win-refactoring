@@ -252,6 +252,12 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
+    <Entry key="MessageBox_ProctoringDisclaimer">
+        Die aktuelle Sitzung wird mithilfe eines Live-Video- und Audiostreams fernüberwacht, der an einen individuell konfigurierten Server gesendet wird. Fragen Sie Ihren Prüfer nach dessen Datenschutzbestimmungen. SEB selbst stellt keine Verbindung zu einem zentralen SEB-Überwachungsserver her. Ihr Prüfungsanbieter entscheidet, welcher Überwachungsdienst/-server verwendet werden soll.
+    </Entry>
+    <Entry key="MessageBox_ProctoringDisclaimerTitle">
+        Starte Fernüberwachung
+    </Entry>
     <Entry key="MessageBox_Quit">
         Möchten Sie SEB beenden?
     </Entry>
@@ -434,6 +440,9 @@
     </Entry>
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Validiere Richtlinie für virtuelle Maschinen
+    </Entry>
+    <Entry key="OperationStatus_WaitDisclaimerConfirmation">
+        Warte auf die Bestätigung des Hinweises zur Fernüberwachung
     </Entry>
     <Entry key="OperationStatus_WaitExplorerStartup">
         Warte bis Windows Explorer gestartet ist

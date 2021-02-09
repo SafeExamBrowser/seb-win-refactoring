@@ -53,13 +53,22 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		{
 			switch (action)
 			{
-				case MessageBoxAction.Confirm:
+				case MessageBoxAction.Ok:
+					CancelButton.Visibility = Visibility.Collapsed;
 					OkButton.Visibility = Visibility.Visible;
 					OkButton.Focus();
 					YesButton.Visibility = Visibility.Collapsed;
 					NoButton.Visibility = Visibility.Collapsed;
 					break;
+				case MessageBoxAction.OkCancel:
+					CancelButton.Visibility = Visibility.Visible;
+					CancelButton.Focus();
+					OkButton.Visibility = Visibility.Visible;
+					YesButton.Visibility = Visibility.Collapsed;
+					NoButton.Visibility = Visibility.Collapsed;
+					break;
 				case MessageBoxAction.YesNo:
+					CancelButton.Visibility = Visibility.Collapsed;
 					OkButton.Visibility = Visibility.Collapsed;
 					YesButton.Visibility = Visibility.Visible;
 					NoButton.Visibility = Visibility.Visible;
@@ -109,6 +118,9 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		{
 			InitializeBounds();
 
+			CancelButton.Content = text.Get(TextKey.MessageBox_CancelButton);
+			CancelButton.Click += CancelButton_Click;
+
 			NoButton.Content = text.Get(TextKey.MessageBox_NoButton);
 			NoButton.Click += NoButton_Click;
 
@@ -125,13 +137,21 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		{
 			switch (action)
 			{
-				case MessageBoxAction.Confirm:
+				case MessageBoxAction.Ok:
 					return DialogResult == true ? MessageBoxResult.Ok : MessageBoxResult.None;
+				case MessageBoxAction.OkCancel:
+					return DialogResult == true ? MessageBoxResult.Ok : MessageBoxResult.Cancel;
 				case MessageBoxAction.YesNo:
 					return DialogResult == true ? MessageBoxResult.Yes : MessageBoxResult.No;
 				default:
 					return MessageBoxResult.None;
 			}
+		}
+
+		private void CancelButton_Click(object sender, RoutedEventArgs e)
+		{
+			DialogResult = false;
+			Close();
 		}
 
 		private void NoButton_Click(object sender, RoutedEventArgs e)

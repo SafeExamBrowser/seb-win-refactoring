@@ -34,6 +34,7 @@
         <Grid Grid.Row="2" Background="{StaticResource BackgroundBrush}">
             <WrapPanel Orientation="Horizontal" Margin="50,25" HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Button x:Name="OkButton" Cursor="Hand" Padding="20,10" MinWidth="100" />
+                <Button x:Name="CancelButton" Cursor="Hand" Margin="20,0,0,0" Padding="20,10" MinWidth="100" />
                 <Button x:Name="YesButton" Cursor="Hand" Margin="0,0,20,0" Padding="20,10" MinWidth="100" />
                 <Button x:Name="NoButton" Cursor="Hand" Padding="20,10" MinWidth="100" />
             </WrapPanel>

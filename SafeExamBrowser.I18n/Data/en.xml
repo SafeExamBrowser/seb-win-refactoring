@@ -441,6 +441,9 @@
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Validating virtual machine policy
     </Entry>
+    <Entry key="OperationStatus_WaitDisclaimerConfirmation">
+        Waiting for confirmation of the disclaimer
+    </Entry>
     <Entry key="OperationStatus_WaitExplorerStartup">
         Waiting for Windows explorer to start up
     </Entry>

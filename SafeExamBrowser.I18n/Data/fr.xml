@@ -252,6 +252,12 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
+    <Entry key="MessageBox_ProctoringDisclaimer">
+        La session en cours sera surveillée à distance à l'aide d'un flux vidéo et audio en direct, qui est envoyé à un serveur configuré individuellement. Demandez à votre examinateur sa politique de confidentialité. SEB lui-même ne se connecte à aucun serveur de surveillance SEB centralisé, votre fournisseur d'examen décide du service / serveur de surveillance à utiliser.
+    </Entry>
+    <Entry key="MessageBox_ProctoringDisclaimerTitle">
+        Démarrage de la surveillance à distance
+    </Entry>
     <Entry key="MessageBox_Quit">
         Voulez-vous quitter SEB ?
     </Entry>
@@ -434,6 +440,9 @@
     </Entry>
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Validation de la directive sur les machines virtuelles
+    </Entry>
+    <Entry key="OperationStatus_WaitDisclaimerConfirmation">
+        En attente de confirmation de la clause de non-responsabilité
     </Entry>
     <Entry key="OperationStatus_WaitExplorerStartup">
         Attente du démarrage de l’explorateur Windows

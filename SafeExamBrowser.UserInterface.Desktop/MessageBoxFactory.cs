@@ -23,9 +23,9 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			this.text = text;
 		}
 
-		public MessageBoxResult Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null)
+		public MessageBoxResult Show(string message, string title, MessageBoxAction action = MessageBoxAction.Ok, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null)
 		{
-			var result = System.Windows.MessageBoxResult.None;
+			var result = default(System.Windows.MessageBoxResult);
 
 			if (parent is Window window)
 			{
@@ -39,7 +39,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			return ToResult(result);
 		}
 
-		public MessageBoxResult Show(TextKey message, TextKey title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null)
+		public MessageBoxResult Show(TextKey message, TextKey title, MessageBoxAction action = MessageBoxAction.Ok, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null)
 		{
 			return Show(text.Get(message), text.Get(title), action, icon, parent);
 		}
@@ -48,6 +48,8 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		{
 			switch (action)
 			{
+				case MessageBoxAction.OkCancel:
+					return MessageBoxButton.OKCancel;
 				case MessageBoxAction.YesNo:
 					return MessageBoxButton.YesNo;
 				default:

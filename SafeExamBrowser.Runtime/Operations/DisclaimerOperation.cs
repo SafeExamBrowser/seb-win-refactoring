@@ -46,11 +46,13 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var args = new MessageEventArgs
 			{
-				Icon = MessageBoxIcon.Question,
+				Action = MessageBoxAction.OkCancel,
+				Icon = MessageBoxIcon.Information,
 				Message = TextKey.MessageBox_ProctoringDisclaimer,
 				Title = TextKey.MessageBox_ProctoringDisclaimerTitle
 			};
 
+			StatusChanged?.Invoke(TextKey.OperationStatus_WaitDisclaimerConfirmation);
 			ActionRequired?.Invoke(args);
 
 			if (args.Result == MessageBoxResult.Ok)

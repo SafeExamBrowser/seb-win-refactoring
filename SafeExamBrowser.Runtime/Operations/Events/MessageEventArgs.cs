@@ -25,7 +25,7 @@ namespace SafeExamBrowser.Runtime.Operations.Events
 
 		public MessageEventArgs()
 		{
-			Action = MessageBoxAction.Confirm;
+			Action = MessageBoxAction.Ok;
 			MessagePlaceholders = new Dictionary<string, string>();
 			TitlePlaceholders = new Dictionary<string, string>();
 		}

@@ -306,7 +306,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			messageBox.Verify(m => m.Show(
 				It.IsAny<string>(),
 				It.IsAny<string>(),
-				It.Is<MessageBoxAction>(a => a == MessageBoxAction.Confirm),
+				It.Is<MessageBoxAction>(a => a == MessageBoxAction.Ok),
 				It.Is<MessageBoxIcon>(i => i == args.Icon),
 				It.IsAny<IWindow>()), Times.Once);
 			clientProxy.VerifyAdd(p => p.ConnectionLost += It.IsAny<CommunicationEventHandler>());
@@ -330,7 +330,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			clientProxy.Setup(c => c.ShowMessage(
 				It.IsAny<string>(),
 				It.IsAny<string>(),
-				It.Is<int>(a => a == (int) MessageBoxAction.Confirm),
+				It.Is<int>(a => a == (int) MessageBoxAction.Ok),
 				It.IsAny<int>(),
 				It.IsAny<Guid>()))
 				.Callback<string, string, int, int, Guid>((m, t, a, i, id) =>
@@ -345,7 +345,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			clientProxy.Verify(c => c.ShowMessage(
 				It.IsAny<string>(),
 				It.IsAny<string>(),
-				It.Is<int>(a => a == (int) MessageBoxAction.Confirm),
+				It.Is<int>(a => a == (int) MessageBoxAction.Ok),
 				It.Is<int>(i => i == (int) args.Icon),
 				It.IsAny<Guid>()), Times.Once);
 		}

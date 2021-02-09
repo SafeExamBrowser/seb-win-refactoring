@@ -252,6 +252,12 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
+    <Entry key="MessageBox_ProctoringDisclaimer">
+        La sessione corrente verrà controllata in remoto utilizzando un flusso video e audio dal vivo, che viene inviato a un server configurato individualmente. Chiedi al tuo esaminatore la sua politica sulla privacy. SEB stesso non si connette a nessun server di proctoring SEB centralizzato, il fornitore dell'esame decide quale servizio / server di proctoring utilizzare.
+    </Entry>
+    <Entry key="MessageBox_ProctoringDisclaimerTitle">
+        Avvio del proctoring remoto
+    </Entry>
     <Entry key="MessageBox_Quit">
         Vuoi uscire da SEB?
     </Entry>
@@ -434,6 +440,9 @@
     </Entry>
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Convalida dei criteri della macchina virtuale
+    </Entry>
+    <Entry key="OperationStatus_WaitDisclaimerConfirmation">
+        In attesa di conferma del disclaimer
     </Entry>
     <Entry key="OperationStatus_WaitExplorerStartup">
         In attesa dell'avvio di Esplora risorse di Windows
