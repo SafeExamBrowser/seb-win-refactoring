@@ -214,18 +214,16 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		internal static class RemoteProctoring
+		internal static class Proctoring
 		{
-			internal const string Enabled = "jitsiMeetEnable";
-
 			internal static class JitsiMeet
 			{
-
+				internal const string Enabled = "jitsiMeetEnable";
 			}
 
 			internal static class Zoom
 			{
-
+				internal const string Enabled = "zoomEnable";
 			}
 		}
 

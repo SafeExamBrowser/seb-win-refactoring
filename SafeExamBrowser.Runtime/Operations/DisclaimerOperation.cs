@@ -29,12 +29,26 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public override OperationResult Perform()
 		{
-			return ShowDisclaimer();
+			if (Context.Next.Settings.Proctoring.Enabled)
+			{
+				return ShowDisclaimer();
+			}
+
+			logger.Info("Remote proctoring is disabled, skipping disclaimer.");
+
+			return OperationResult.Success;
 		}
 
 		public override OperationResult Repeat()
 		{
-			return ShowDisclaimer();
+			if (Context.Next.Settings.Proctoring.Enabled)
+			{
+				return ShowDisclaimer();
+			}
+
+			logger.Info("Remote proctoring is disabled, skipping disclaimer.");
+
+			return OperationResult.Success;
 		}
 
 		public override OperationResult Revert()

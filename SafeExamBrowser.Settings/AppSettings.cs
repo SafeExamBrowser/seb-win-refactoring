@@ -11,6 +11,7 @@ using SafeExamBrowser.Settings.Applications;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.Settings.Monitoring;
+using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.Settings.Server;
 using SafeExamBrowser.Settings.Service;
@@ -66,6 +67,11 @@ namespace SafeExamBrowser.Settings
 		public MouseSettings Mouse { get; set; }
 
 		/// <summary>
+		/// All proctoring-related settings.
+		/// </summary>
+		public ProctoringSettings Proctoring { get; set; }
+
+		/// <summary>
 		/// All security-related settings.
 		/// </summary>
 		public SecuritySettings Security { get; set; }
@@ -103,6 +109,7 @@ namespace SafeExamBrowser.Settings
 			Browser = new BrowserSettings();
 			Keyboard = new KeyboardSettings();
 			Mouse = new MouseSettings();
+			Proctoring = new ProctoringSettings();
 			Security = new SecuritySettings();
 			Server = new ServerSettings();
 			Service = new ServiceSettings();
