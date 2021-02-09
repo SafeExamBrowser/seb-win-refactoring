@@ -25,15 +25,15 @@ namespace SafeExamBrowser.UserInterface.Desktop
 
 		public MessageBoxResult Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null)
 		{
-			var result = default(System.Windows.MessageBoxResult);
+			var result = System.Windows.MessageBoxResult.None;
 
 			if (parent is Window window)
 			{
-				result = window.Dispatcher.Invoke(() => System.Windows.MessageBox.Show(window, message, title, ToButton(action), ToImage(icon)));
+				result = window.Dispatcher.Invoke(() => MessageBox.Show(window, message, title, ToButton(action), ToImage(icon)));
 			}
 			else
 			{
-				result = System.Windows.MessageBox.Show(message, title, ToButton(action), ToImage(icon));
+				result = MessageBox.Show(message, title, ToButton(action), ToImage(icon));
 			}
 
 			return ToResult(result);

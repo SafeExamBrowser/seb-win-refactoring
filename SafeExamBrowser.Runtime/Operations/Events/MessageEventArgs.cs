@@ -15,14 +15,17 @@ namespace SafeExamBrowser.Runtime.Operations.Events
 {
 	internal class MessageEventArgs : ActionRequiredEventArgs
 	{
+		internal MessageBoxAction Action { get; set; }
 		internal MessageBoxIcon Icon { get; set; }
 		internal TextKey Message { get; set; }
+		internal MessageBoxResult Result { get; set; }
 		internal TextKey Title { get; set; }
 		internal Dictionary<string, string> MessagePlaceholders { get; private set; }
 		internal Dictionary<string, string> TitlePlaceholders { get; private set; }
 
 		public MessageEventArgs()
 		{
+			Action = MessageBoxAction.Confirm;
 			MessagePlaceholders = new Dictionary<string, string>();
 			TitlePlaceholders = new Dictionary<string, string>();
 		}

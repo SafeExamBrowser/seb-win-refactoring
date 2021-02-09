@@ -26,7 +26,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		public MessageBoxResult Show(string message, string title, MessageBoxAction action = MessageBoxAction.Confirm, MessageBoxIcon icon = MessageBoxIcon.Information, IWindow parent = null)
 		{
-			var result = default(MessageBoxResult);
+			var result = MessageBoxResult.None;
 
 			if (parent is Window window)
 			{

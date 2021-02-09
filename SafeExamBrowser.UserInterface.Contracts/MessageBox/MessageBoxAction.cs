@@ -14,6 +14,7 @@ namespace SafeExamBrowser.UserInterface.Contracts.MessageBox
 	public enum MessageBoxAction
 	{
 		Confirm,
+		ConfirmAbort,
 		YesNo
 	}
 }

@@ -98,6 +98,8 @@ namespace SafeExamBrowser.I18n.Contracts
 		MessageBox_NotSupportedConfigurationResource,
 		MessageBox_NotSupportedConfigurationResourceTitle,
 		MessageBox_OkButton,
+		MessageBox_ProctoringDisclaimer,
+		MessageBox_ProctoringDisclaimerTitle,
 		MessageBox_Quit,
 		MessageBox_QuitTitle,
 		MessageBox_QuitError,

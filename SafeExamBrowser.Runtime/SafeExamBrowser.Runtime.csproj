@@ -92,6 +92,7 @@
     <Compile Include="Operations\ClientTerminationOperation.cs" />
     <Compile Include="Operations\ConfigurationBaseOperation.cs" />
     <Compile Include="Operations\ConfigurationOperation.cs" />
+    <Compile Include="Operations\DisclaimerOperation.cs" />
     <Compile Include="Operations\Events\ClientConfigurationErrorMessageArgs.cs" />
     <Compile Include="Operations\Events\ConfigurationCompletedEventArgs.cs" />
     <Compile Include="Operations\Events\ExamSelectionEventArgs.cs" />

@@ -468,11 +468,11 @@ namespace SafeExamBrowser.Runtime
 
 			if (isStartup || isRunningOnDefaultDesktop)
 			{
-				messageBox.Show(message, title, MessageBoxAction.Confirm, args.Icon, runtimeWindow);
+				args.Result = messageBox.Show(message, title, MessageBoxAction.Confirm, args.Icon, runtimeWindow);
 			}
 			else
 			{
-				ShowMessageBoxViaClient(message, title, MessageBoxAction.Confirm, args.Icon);
+				args.Result = ShowMessageBoxViaClient(message, title, MessageBoxAction.Confirm, args.Icon);
 			}
 		}
 
