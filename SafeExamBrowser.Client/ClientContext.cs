@@ -12,6 +12,7 @@ using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -49,7 +50,12 @@ namespace SafeExamBrowser.Client
 		internal IClientHost ClientHost { get; set; }
 
 		/// <summary>
-		/// The server proxy (if the current session mode is <see cref="SessionMode.Server"/>).
+		/// The proctoring controller to be used if the current session runs with remote proctoring.
+		/// </summary>
+		internal IProctoringController ProctoringController { get; set; }
+
+		/// <summary>
+		/// The server proxy to be used if the current session mode is <see cref="SessionMode.Server"/>.
 		/// </summary>
 		internal IServerProxy Server { get; set; }
 

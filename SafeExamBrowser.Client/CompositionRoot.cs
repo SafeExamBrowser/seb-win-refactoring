@@ -31,6 +31,7 @@ using SafeExamBrowser.Monitoring.Display;
 using SafeExamBrowser.Monitoring.Keyboard;
 using SafeExamBrowser.Monitoring.Mouse;
 using SafeExamBrowser.Monitoring.System;
+using SafeExamBrowser.Proctoring;
 using SafeExamBrowser.Server;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.Settings.UserInterface;
@@ -126,6 +127,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new LazyInitializationOperation(BuildShellOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildBrowserOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildServerOperation));
+			operations.Enqueue(new LazyInitializationOperation(BuildProctoringOperation));
 			operations.Enqueue(new ClipboardOperation(context, logger, nativeMethods));
 
 			var sequence = new OperationSequence(logger, operations);
@@ -241,6 +243,16 @@ namespace SafeExamBrowser.Client
 		{
 			var mouseInterceptor = new MouseInterceptor(ModuleLogger(nameof(MouseInterceptor)), nativeMethods, context.Settings.Mouse);
 			var operation = new MouseInterceptorOperation(context, logger, mouseInterceptor);
+
+			return operation;
+		}
+
+		private IOperation BuildProctoringOperation()
+		{
+			var controller = new ProctoringController();
+			var operation = new ProctoringOperation(context, logger, controller);
+
+			context.ProctoringController = controller;
 
 			return operation;
 		}

@@ -81,6 +81,7 @@
     <Compile Include="Operations\Events\ApplicationInitializationFailedEventArgs.cs" />
     <Compile Include="Operations\Events\ApplicationTerminationEventArgs.cs" />
     <Compile Include="Operations\Events\ApplicationTerminationFailedEventArgs.cs" />
+    <Compile Include="Operations\ProctoringOperation.cs" />
     <Compile Include="Operations\RuntimeConnectionOperation.cs" />
     <Compile Include="Communication\ClientHost.cs" />
     <Compile Include="CompositionRoot.cs" />
@@ -193,6 +194,14 @@
     <ProjectReference Include="..\SafeExamBrowser.Monitoring\SafeExamBrowser.Monitoring.csproj">
       <Project>{EF563531-4EB5-44B9-A5EC-D6D6F204469B}</Project>
       <Name>SafeExamBrowser.Monitoring</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Proctoring.Contracts\SafeExamBrowser.Proctoring.Contracts.csproj">
+      <Project>{8e52bd1c-0540-4f16-b181-6665d43f7a7b}</Project>
+      <Name>SafeExamBrowser.Proctoring.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Proctoring\SafeExamBrowser.Proctoring.csproj">
+      <Project>{3f1f262e-a07c-4513-83c6-d7ef2f203ebf}</Project>
+      <Name>SafeExamBrowser.Proctoring</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Server.Contracts\SafeExamBrowser.Server.Contracts.csproj">
       <Project>{db701e6f-bddc-4cec-b662-335a9dc11809}</Project>
