@@ -220,7 +220,7 @@
         当前会话将使用实时视频和音频流进行远程管理，并将其发送到单独配置的服务器。 向考官询问他们的隐私政策。 SEB本身不连接到任何集中式SEB代理服务器，您的考试提供商决定要使用哪个代理服务/服务器。
     </Entry>
     <Entry key="MessageBox_ProctoringDisclaimerTitle">
-        启动远程代理
+        远程代理会话
     </Entry>
     <Entry key="MessageBox_Quit">
         您想要退出防作弊考试专用浏览器吗？

@@ -256,7 +256,7 @@
         The current session will be remote proctored using a live video and audio stream, which is sent to an individually configured server. Ask your examinator about their privacy policy. SEB itself doesn't connect to any centralized SEB proctoring server, your exam provider decides which proctoring service/server to use.
     </Entry>
     <Entry key="MessageBox_ProctoringDisclaimerTitle">
-        Starting Remote Proctoring
+        Session with Remote Proctoring
     </Entry>
     <Entry key="MessageBox_Quit">
         Do you want to quit SEB?

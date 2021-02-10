@@ -256,7 +256,7 @@
         Die aktuelle Sitzung wird mithilfe eines Live-Video- und Audiostreams fernüberwacht, der an einen individuell konfigurierten Server gesendet wird. Fragen Sie Ihren Prüfer nach dessen Datenschutzbestimmungen. SEB selbst stellt keine Verbindung zu einem zentralen SEB-Überwachungsserver her. Ihr Prüfungsanbieter entscheidet, welcher Überwachungsdienst/-server verwendet werden soll.
     </Entry>
     <Entry key="MessageBox_ProctoringDisclaimerTitle">
-        Starte Fernüberwachung
+        Sitzung mit Fernüberwachung
     </Entry>
     <Entry key="MessageBox_Quit">
         Möchten Sie SEB beenden?

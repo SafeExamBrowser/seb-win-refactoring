@@ -256,7 +256,7 @@
         La session en cours sera surveillée à distance à l'aide d'un flux vidéo et audio en direct, qui est envoyé à un serveur configuré individuellement. Demandez à votre examinateur sa politique de confidentialité. SEB lui-même ne se connecte à aucun serveur de surveillance SEB centralisé, votre fournisseur d'examen décide du service / serveur de surveillance à utiliser.
     </Entry>
     <Entry key="MessageBox_ProctoringDisclaimerTitle">
-        Démarrage de la surveillance à distance
+        Session avec surveillance à distance
     </Entry>
     <Entry key="MessageBox_Quit">
         Voulez-vous quitter SEB ?
