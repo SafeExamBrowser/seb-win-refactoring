@@ -86,11 +86,6 @@ namespace SafeExamBrowser.Browser.Handlers
 				if (request.ResourceType == ResourceType.MainFrame)
 				{
 					RequestBlocked?.Invoke(request.Url);
-
-					if (browser.HasDocument)
-					{
-						browser.Reload();
-					}
 				}
 
 				return true;
