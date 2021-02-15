@@ -94,6 +94,21 @@ namespace SafeExamBrowser.Browser.Handlers
 			return base.OnBeforeBrowse(webBrowser, browser, frame, request, userGesture, isRedirect);
 		}
 
+		protected override bool OnOpenUrlFromTab(IWebBrowser webBrowser, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
+		{
+			switch (targetDisposition)
+			{
+				case WindowOpenDisposition.NewBackgroundTab:
+				case WindowOpenDisposition.NewForegroundTab:
+				case WindowOpenDisposition.NewPopup:
+				case WindowOpenDisposition.NewWindow:
+				case WindowOpenDisposition.SaveToDisk:
+					return true;
+				default:
+					return base.OnOpenUrlFromTab(webBrowser, browser, frame, targetUrl, targetDisposition, userGesture);
+			}
+		}
+
 		private bool IsQuitUrl(IRequest request)
 		{
 			var isQuitUrl = false;
