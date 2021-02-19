@@ -24,6 +24,7 @@ using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
+using SafeExamBrowser.UserInterface.Contracts.Proctoring;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
@@ -160,6 +161,12 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			{
 				return new Controls.Taskbar.PowerSupplyControl(powerSupply, text);
 			}
+		}
+
+		public IProctoringWindow CreateProctoringWindow(IProctoringControl control)
+		{
+			// TODO
+			throw new System.NotImplementedException();
 		}
 
 		public IRuntimeWindow CreateRuntimeWindow(AppConfig appConfig)

@@ -6,23 +6,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Settings.Proctoring;
-
-namespace SafeExamBrowser.Proctoring.Contracts
+namespace SafeExamBrowser.UserInterface.Contracts.Proctoring
 {
 	/// <summary>
-	/// Defines the remote proctoring functionality.
+	/// 
 	/// </summary>
-	public interface IProctoringController
+	public interface IProctoringControl
 	{
-		/// <summary>
-		/// 
-		/// </summary>
-		void Initialize(ProctoringSettings settings);
 
-		/// <summary>
-		/// 
-		/// </summary>
-		void Terminate();
 	}
 }

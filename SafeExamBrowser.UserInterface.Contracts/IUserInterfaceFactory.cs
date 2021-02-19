@@ -19,6 +19,7 @@ using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
+using SafeExamBrowser.UserInterface.Contracts.Proctoring;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
@@ -94,6 +95,11 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// Creates a system control displaying the power supply status of the computer.
 		/// </summary>
 		ISystemControl CreatePowerSupplyControl(IPowerSupply powerSupply, Location location);
+
+		/// <summary>
+		/// Creates a new proctoring window loaded with the given proctoring control.
+		/// </summary>
+		IProctoringWindow CreateProctoringWindow(IProctoringControl control);
 
 		/// <summary>
 		/// Creates a new runtime window which runs on its own thread.

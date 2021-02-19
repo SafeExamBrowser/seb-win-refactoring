@@ -7,11 +7,34 @@
  */
 
 using SafeExamBrowser.Proctoring.Contracts;
+using SafeExamBrowser.Settings.Proctoring;
+using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Proctoring;
 
 namespace SafeExamBrowser.Proctoring
 {
 	public class ProctoringController : IProctoringController
 	{
+		private readonly IUserInterfaceFactory uiFactory;
 
+		private IProctoringWindow window;
+
+		public ProctoringController(IUserInterfaceFactory uiFactory)
+		{
+			this.uiFactory = uiFactory;
+		}
+
+		public void Initialize(ProctoringSettings settings)
+		{
+			var control = new ProctoringControl();
+
+			window = uiFactory.CreateProctoringWindow(control);
+			window.Show();
+		}
+
+		public void Terminate()
+		{
+			window?.Close();
+		}
 	}
 }

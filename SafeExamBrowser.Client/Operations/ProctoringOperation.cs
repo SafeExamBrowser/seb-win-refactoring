@@ -8,6 +8,7 @@
 
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.Contracts;
 
@@ -18,7 +19,7 @@ namespace SafeExamBrowser.Client.Operations
 		private readonly ILogger logger;
 		private readonly IProctoringController controller;
 
-		public override event ActionRequiredEventHandler ActionRequired;
+		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
 		public ProctoringOperation(ClientContext context, ILogger logger, IProctoringController controller) : base(context)
@@ -29,11 +30,30 @@ namespace SafeExamBrowser.Client.Operations
 
 		public override OperationResult Perform()
 		{
+			// TODO
+			Context.Settings.Proctoring.Enabled = true;
+
+			if (Context.Settings.Proctoring.Enabled)
+			{
+				logger.Info("Initializing proctoring...");
+				StatusChanged?.Invoke(TextKey.OperationStatus_InitializeProctoring);
+
+				controller.Initialize(Context.Settings.Proctoring);
+			}
+
 			return OperationResult.Success;
 		}
 
 		public override OperationResult Revert()
 		{
+			if (Context.Settings.Proctoring.Enabled)
+			{
+				logger.Info("Terminating proctoring...");
+				StatusChanged?.Invoke(TextKey.OperationStatus_TerminateProctoring);
+
+				controller.Terminate();
+			}
+
 			return OperationResult.Success;
 		}
 	}

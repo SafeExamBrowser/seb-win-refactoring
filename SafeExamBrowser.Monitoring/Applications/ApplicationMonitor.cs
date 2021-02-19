@@ -227,8 +227,9 @@ namespace SafeExamBrowser.Monitoring.Applications
 		{
 			var isRuntime = process.Name == "SafeExamBrowser.exe" && process.OriginalName == "SafeExamBrowser.exe";
 			var isClient = process.Name == "SafeExamBrowser.Client.exe" && process.OriginalName == "SafeExamBrowser.Client.exe";
+			var isWebView = process.Name == "msedgewebview2.exe" && process.OriginalName == "msedgewebview2.exe";
 
-			return isRuntime || isClient;
+			return isRuntime || isClient || isWebView;
 		}
 
 		private void Close(Window window)

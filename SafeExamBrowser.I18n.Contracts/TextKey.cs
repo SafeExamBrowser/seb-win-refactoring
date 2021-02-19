@@ -139,6 +139,8 @@ namespace SafeExamBrowser.I18n.Contracts
 		OperationStatus_InitializeBrowser,
 		OperationStatus_InitializeConfiguration,
 		OperationStatus_InitializeKioskMode,
+		// TODO
+		OperationStatus_InitializeProctoring,
 		OperationStatus_InitializeRuntimeConnection,
 		OperationStatus_InitializeServer,
 		OperationStatus_InitializeServiceSession,
@@ -158,6 +160,8 @@ namespace SafeExamBrowser.I18n.Contracts
 		OperationStatus_StopKeyboardInterception,
 		OperationStatus_StopMouseInterception,
 		OperationStatus_TerminateBrowser,
+		// TODO
+		OperationStatus_TerminateProctoring,
 		OperationStatus_TerminateShell,
 		OperationStatus_ValidateRemoteSessionPolicy,
 		OperationStatus_ValidateVirtualMachinePolicy,
