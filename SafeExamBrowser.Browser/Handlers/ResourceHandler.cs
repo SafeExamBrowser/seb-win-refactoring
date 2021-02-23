@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Mime;
 using System.Security.Cryptography;
 using System.Text;
@@ -93,7 +94,7 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		protected override void OnResourceRedirect(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response, ref string newUrl)
 		{
-			SearchSessionIdentifiers(response);
+			SearchSessionIdentifiers(request, response);
 
 			base.OnResourceRedirect(chromiumWebBrowser, browser, frame, request, response, ref newUrl);
 		}
@@ -107,7 +108,7 @@ namespace SafeExamBrowser.Browser.Handlers
 				return true;
 			}
 
-			SearchSessionIdentifiers(response);
+			SearchSessionIdentifiers(request, response);
 
 			return base.OnResourceResponse(webBrowser, browser, frame, request, response);
 		}
@@ -243,10 +244,10 @@ namespace SafeExamBrowser.Browser.Handlers
 			}
 		}
 
-		private void SearchSessionIdentifiers(IResponse response)
+		private void SearchSessionIdentifiers(IRequest request, IResponse response)
 		{
 			SearchEdxIdentifier(response);
-			SearchMoodleIdentifier(response);
+			SearchMoodleIdentifier(request, response);
 		}
 
 		private void SearchEdxIdentifier(IResponse response)
@@ -269,6 +270,7 @@ namespace SafeExamBrowser.Browser.Handlers
 						var userName = json["username"].Value<string>();
 
 						Task.Run(() => SessionIdentifierDetected?.Invoke(userName));
+						logger.Info("EdX session detected.");
 					}
 				}
 				catch (Exception e)
@@ -278,7 +280,17 @@ namespace SafeExamBrowser.Browser.Handlers
 			}
 		}
 
-		private void SearchMoodleIdentifier(IResponse response)
+		private void SearchMoodleIdentifier(IRequest request, IResponse response)
+		{
+			var success = TrySearchByLocation(response);
+
+			if (!success)
+			{
+				TrySearchBySession(request, response);
+			}
+		}
+
+		private bool TrySearchByLocation(IResponse response)
 		{
 			var locations = response.Headers.GetValues("Location");
 
@@ -293,6 +305,9 @@ namespace SafeExamBrowser.Browser.Handlers
 						var userId = location.Substring(location.IndexOf("=") + 1);
 
 						Task.Run(() => SessionIdentifierDetected?.Invoke(userId));
+						logger.Info("Moodle session detected.");
+
+						return true;
 					}
 				}
 				catch (Exception e)
@@ -300,6 +315,61 @@ namespace SafeExamBrowser.Browser.Handlers
 					logger.Error("Failed to parse Moodle session identifier!", e);
 				}
 			}
+
+			return false;
+		}
+
+		private bool TrySearchBySession(IRequest request, IResponse response)
+		{
+			var cookies = response.Headers.GetValues("Set-Cookie");
+
+			if (cookies != default(string[]))
+			{
+				var session = cookies.FirstOrDefault(c => c.Contains("MoodleSession"));
+
+				if (session != default(string))
+				{
+					try
+					{
+						var start = session.IndexOf("=") + 1;
+						var end = session.IndexOf(";");
+						var value = session.Substring(start, end - start);
+						var uri = new Uri(request.Url);
+						var message = new HttpRequestMessage(HttpMethod.Get, $"{uri.Scheme}{Uri.SchemeDelimiter}{uri.Host}/user/view.php");
+
+						var task = Task.Run(async () =>
+						{
+							using (var handler = new HttpClientHandler { UseCookies = false })
+							using (var client = new HttpClient(handler))
+							{
+								message.Headers.Add("Cookie", $"MoodleSession={value}");
+
+								return await client.SendAsync(message);
+							}
+						});
+
+						var result = task.GetAwaiter().GetResult();
+						var id = "id=";
+
+						if (result.RequestMessage.RequestUri.Query.Contains(id))
+						{
+							var index = result.RequestMessage.RequestUri.Query.IndexOf(id) + id.Length;
+							var userId = result.RequestMessage.RequestUri.Query.Substring(index);
+
+							Task.Run(() => SessionIdentifierDetected?.Invoke(userId));
+							logger.Info("Moodle session detected.");
+
+							return true;
+						}
+					}
+					catch (Exception e)
+					{
+						logger.Error("Failed to parse Moodle session identifier!", e);
+					}
+				}
+			}
+
+			return false;
 		}
 	}
 }
