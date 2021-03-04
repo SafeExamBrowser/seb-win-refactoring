@@ -30,6 +30,11 @@ namespace SafeExamBrowser.Proctoring
 
 			window = uiFactory.CreateProctoringWindow(control);
 			window.Show();
+
+			// TODO
+			//var content = load Zoom page, replace //INDEX_JS//;
+
+			//control.NavigateToString(content);
 		}
 
 		public void Terminate()
