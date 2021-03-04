@@ -1,5 +1,5 @@
-const API_KEY = "wX6KmZetQgeYqJix3W7Vtw";
-const API_SECRET = "IEgu4vcOgTz1yYeNypBHDTMzMshDbpbpoaGj";
+const API_KEY = "...";
+const API_SECRET = "...";
 
 console.log("Checking system requirements...");
 console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()));
@@ -10,7 +10,7 @@ ZoomMtg.preLoadWasm();
 ZoomMtg.prepareJssdk();
 
 const config = {
-    meetingNumber: 4290573697,
+    meetingNumber: 123456,
     leaveUrl: 'https://google.ch',
     userName: 'Firstname Lastname',
     userEmail: 'firstname.lastname@yoursite.com',
