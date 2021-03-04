@@ -319,7 +319,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			return false;
 		}
 
-		private bool TrySearchBySession(IRequest request, IResponse response)
+		private void TrySearchBySession(IRequest request, IResponse response)
 		{
 			var cookies = response.Headers.GetValues("Set-Cookie");
 
@@ -329,47 +329,50 @@ namespace SafeExamBrowser.Browser.Handlers
 
 				if (session != default(string))
 				{
-					try
-					{
-						var start = session.IndexOf("=") + 1;
-						var end = session.IndexOf(";");
-						var value = session.Substring(start, end - start);
-						var uri = new Uri(request.Url);
-						var message = new HttpRequestMessage(HttpMethod.Get, $"{uri.Scheme}{Uri.SchemeDelimiter}{uri.Host}/user/view.php");
+					var requestUrl = request.Url;
 
-						var task = Task.Run(async () =>
+					Task.Run(async () =>
+					{
+						try
 						{
+							var start = session.IndexOf("=") + 1;
+							var end = session.IndexOf(";");
+							var value = session.Substring(start, end - start);
+							var uri = new Uri(requestUrl);
+							var message = new HttpRequestMessage(HttpMethod.Get, $"{uri.Scheme}{Uri.SchemeDelimiter}{uri.Host}/theme/boost_ethz/sebuser.php");
+
 							using (var handler = new HttpClientHandler { UseCookies = false })
 							using (var client = new HttpClient(handler))
 							{
 								message.Headers.Add("Cookie", $"MoodleSession={value}");
 
-								return await client.SendAsync(message);
+								var result = await client.SendAsync(message);
+
+								if (result.IsSuccessStatusCode)
+								{
+									var userId = await result.Content.ReadAsStringAsync();
+
+									if (int.TryParse(userId, out var id) && id > 0)
+									{
+#pragma warning disable CS4014
+										Task.Run(() => SessionIdentifierDetected?.Invoke(userId));
+#pragma warning restore CS4014
+										logger.Info("Moodle session detected.");
+									}
+								}
+								else
+								{
+									logger.Error($"Failed to retrieve Moodle session identifier! Response: {result.StatusCode} {result.ReasonPhrase}");
+								}
 							}
-						});
-
-						var result = task.GetAwaiter().GetResult();
-						var id = "id=";
-
-						if (result.RequestMessage.RequestUri.Query.Contains(id))
-						{
-							var index = result.RequestMessage.RequestUri.Query.IndexOf(id) + id.Length;
-							var userId = result.RequestMessage.RequestUri.Query.Substring(index);
-
-							Task.Run(() => SessionIdentifierDetected?.Invoke(userId));
-							logger.Info("Moodle session detected.");
-
-							return true;
 						}
-					}
-					catch (Exception e)
-					{
-						logger.Error("Failed to parse Moodle session identifier!", e);
-					}
+						catch (Exception e)
+						{
+							logger.Error("Failed to parse Moodle session identifier!", e);
+						}
+					});
 				}
 			}
-
-			return false;
 		}
 	}
 }
