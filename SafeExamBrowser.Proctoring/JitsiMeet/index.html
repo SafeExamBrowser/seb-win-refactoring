@@ -1,0 +1,22 @@
+﻿<html>
+    <head>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <div id="placeholder" />
+        <script src='https://meet.jit.si/external_api.js'></script>
+        <script type="text/javascript">
+            var domain = "%%_DOMAIN_%%";
+            var options = {
+                height: "100%",
+                jwt: "%%_TOKEN_%%",
+                parentNode: document.querySelector('#placeholder'),
+                roomName: "%%_ROOM_NAME_%%",
+                width: "100%"
+            };
+            var api = new JitsiMeetExternalAPI(domain, options);
+
+            api.executeCommand("subject", "%%_SUBJECT_%%");
+        </script>
+    </body>
+</html>

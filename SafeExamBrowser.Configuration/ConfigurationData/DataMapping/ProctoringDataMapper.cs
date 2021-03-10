@@ -17,7 +17,50 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			switch (key)
 			{
-				// TODO
+				case Keys.Proctoring.JitsiMeet.RoomName:
+					MapJitsiMeetRoomName(settings, value);
+					break;
+				case Keys.Proctoring.JitsiMeet.ServerUrl:
+					MapJitsiMeetServerUrl(settings, value);
+					break;
+				case Keys.Proctoring.JitsiMeet.Subject:
+					MapJitsiMeetSubject(settings, value);
+					break;
+				case Keys.Proctoring.JitsiMeet.Token:
+					MapJitsiMeetToken(settings, value);
+					break;
+			}
+		}
+
+		private void MapJitsiMeetRoomName(AppSettings settings, object value)
+		{
+			if (value is string name)
+			{
+				settings.Proctoring.JitsiMeet.RoomName = name;
+			}
+		}
+
+		private void MapJitsiMeetServerUrl(AppSettings settings, object value)
+		{
+			if (value is string url)
+			{
+				settings.Proctoring.JitsiMeet.ServerUrl = url;
+			}
+		}
+
+		private void MapJitsiMeetSubject(AppSettings settings, object value)
+		{
+			if (value is string subject)
+			{
+				settings.Proctoring.JitsiMeet.Subject = subject;
+			}
+		}
+
+		private void MapJitsiMeetToken(AppSettings settings, object value)
+		{
+			if (value is string token)
+			{
+				settings.Proctoring.JitsiMeet.Token = token;
 			}
 		}
 

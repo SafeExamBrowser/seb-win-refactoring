@@ -11,30 +11,34 @@ using System;
 namespace SafeExamBrowser.Settings.Proctoring
 {
 	/// <summary>
-	/// Defines all settings related to remote proctoring.
+	/// All settings for the meeting provider Jitsi Meet.
 	/// </summary>
 	[Serializable]
-	public class ProctoringSettings
+	public class JitsiMeetSettings
 	{
 		/// <summary>
-		/// Determines whether the entire remote proctoring feature is enabled.
+		/// Determines whether proctoring with Jitsi Meet is enabled.
 		/// </summary>
 		public bool Enabled { get; set; }
 
 		/// <summary>
-		/// All settings for remote proctoring with Jitsi Meet.
+		/// The name of the meeting room.
 		/// </summary>
-		public JitsiMeetSettings JitsiMeet { get; set; }
+		public string RoomName { get; set; }
 
 		/// <summary>
-		/// All settings for remote proctoring with Zoom.
+		/// The URL of the Jitsi Meet server.
 		/// </summary>
-		public ZoomSettings Zoom { get; set; }
+		public string ServerUrl { get; set; }
 
-		public ProctoringSettings()
-		{
-			JitsiMeet = new JitsiMeetSettings();
-			Zoom = new ZoomSettings();
-		}
+		/// <summary>
+		/// The subject of the meeting.
+		/// </summary>
+		public string Subject { get; set; }
+
+		/// <summary>
+		/// The authentication token for the meeting.
+		/// </summary>
+		public string Token { get; set; }
 	}
 }

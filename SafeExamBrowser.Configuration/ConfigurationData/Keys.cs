@@ -219,6 +219,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal static class JitsiMeet
 			{
 				internal const string Enabled = "jitsiMeetEnable";
+				internal const string RoomName = "jitsiMeetRoom";
+				internal const string ServerUrl = "jitsiMeetServerURL";
+				internal const string Subject = "jitsiMeetSubject";
+				internal const string Token = "jitsiMeetToken";
 			}
 
 			internal static class Zoom

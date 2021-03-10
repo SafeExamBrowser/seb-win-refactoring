@@ -6,17 +6,46 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
+using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
+using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Proctoring;
 
 namespace SafeExamBrowser.Proctoring
 {
 	internal class ProctoringControl : WebView2, IProctoringControl
 	{
-		internal ProctoringControl()
+		private readonly ILogger logger;
+
+		internal ProctoringControl(ILogger logger)
 		{
-			Source = new Uri("https://www.microsoft.com");
+			this.logger = logger;
+			CoreWebView2InitializationCompleted += ProctoringControl_CoreWebView2InitializationCompleted;
+		}
+
+		private void CoreWebView2_PermissionRequested(object sender, CoreWebView2PermissionRequestedEventArgs e)
+		{
+			if (e.PermissionKind == CoreWebView2PermissionKind.Camera || e.PermissionKind == CoreWebView2PermissionKind.Microphone)
+			{
+				logger.Info($"Granted access to {e.PermissionKind}.");
+			}
+			else
+			{
+				logger.Info($"Denied access to {e.PermissionKind}.");
+			}
+		}
+
+		private void ProctoringControl_CoreWebView2InitializationCompleted(object sender, CoreWebView2InitializationCompletedEventArgs e)
+		{
+			if (e.IsSuccess)
+			{
+				CoreWebView2.PermissionRequested += CoreWebView2_PermissionRequested;
+				logger.Info("Successfully initialized.");
+			}
+			else
+			{
+				logger.Error("Failed to initialize!", e.InitializationException);
+			}
 		}
 	}
 }

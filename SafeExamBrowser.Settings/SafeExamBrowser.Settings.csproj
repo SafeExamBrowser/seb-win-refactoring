@@ -71,7 +71,9 @@
     <Compile Include="Browser\Proxy\ProxyProtocol.cs" />
     <Compile Include="Browser\Proxy\ProxyConfiguration.cs" />
     <Compile Include="ConfigurationMode.cs" />
+    <Compile Include="Proctoring\JitsiMeetSettings.cs" />
     <Compile Include="Proctoring\ProctoringSettings.cs" />
+    <Compile Include="Proctoring\ZoomSettings.cs" />
     <Compile Include="SessionMode.cs" />
     <Compile Include="Security\KioskMode.cs" />
     <Compile Include="Logging\LogLevel.cs" />
