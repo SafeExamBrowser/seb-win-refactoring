@@ -30,9 +30,6 @@ namespace SafeExamBrowser.Client.Operations
 
 		public override OperationResult Perform()
 		{
-			// TODO
-			Context.Settings.Proctoring.Enabled = true;
-
 			if (Context.Settings.Proctoring.Enabled)
 			{
 				logger.Info("Initializing proctoring...");

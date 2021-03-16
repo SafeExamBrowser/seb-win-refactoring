@@ -22,5 +22,10 @@ namespace SafeExamBrowser.SystemComponents.Contracts
 		/// Deletes the item at the given path, if it exists. Directories will be completely deleted, including all subdirectories and files.
 		/// </summary>
 		void Delete(string path);
+
+		/// <summary>
+		/// Saves the given content as a file under the specified path. If the file doesn't yet exist, it will be created, otherwise overwritten.
+		/// </summary>
+		void Save(string content, string path);
 	}
 }

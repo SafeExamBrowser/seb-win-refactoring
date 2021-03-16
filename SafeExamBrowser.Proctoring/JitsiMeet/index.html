@@ -2,12 +2,18 @@
     <head>
         <meta charset="utf-8" />
     </head>
-    <body>
+    <body style="margin: 0">
         <div id="placeholder" />
         <script src='https://meet.jit.si/external_api.js'></script>
         <script type="text/javascript">
             var domain = "%%_DOMAIN_%%";
             var options = {
+                configOverwrite: {
+                    startAudioOnly: false,
+                    startWithAudioMuted: true,
+                    startWithVideoMuted: false,
+                    disable1On1Mode: true
+                },
                 height: "100%",
                 jwt: "%%_TOKEN_%%",
                 parentNode: document.querySelector('#placeholder'),

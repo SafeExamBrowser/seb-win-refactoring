@@ -75,6 +75,8 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			}
 
 			Closing += ProctoringWindow_Closing;
+			Top = SystemParameters.WorkArea.Height - Height;
+			Left = SystemParameters.WorkArea.Width - Width;
 		}
 	}
 }

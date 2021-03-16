@@ -27,6 +27,7 @@ namespace SafeExamBrowser.Proctoring
 		{
 			if (e.PermissionKind == CoreWebView2PermissionKind.Camera || e.PermissionKind == CoreWebView2PermissionKind.Microphone)
 			{
+				e.State = CoreWebView2PermissionState.Allow;
 				logger.Info($"Granted access to {e.PermissionKind}.");
 			}
 			else

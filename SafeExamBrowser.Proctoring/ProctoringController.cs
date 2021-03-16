@@ -9,9 +9,11 @@
 using System;
 using System.IO;
 using System.Reflection;
+using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Settings.Proctoring;
+using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Proctoring;
 
@@ -19,13 +21,18 @@ namespace SafeExamBrowser.Proctoring
 {
 	public class ProctoringController : IProctoringController
 	{
+		private readonly AppConfig appConfig;
+		private readonly IFileSystem fileSystem;
 		private readonly IModuleLogger logger;
 		private readonly IUserInterfaceFactory uiFactory;
 
+		private string filePath;
 		private IProctoringWindow window;
 
-		public ProctoringController(IModuleLogger logger, IUserInterfaceFactory uiFactory)
+		public ProctoringController(AppConfig appConfig, IFileSystem fileSystem, IModuleLogger logger, IUserInterfaceFactory uiFactory)
 		{
+			this.appConfig = appConfig;
+			this.fileSystem = fileSystem;
 			this.logger = logger;
 			this.uiFactory = uiFactory;
 		}
@@ -34,11 +41,15 @@ namespace SafeExamBrowser.Proctoring
 		{
 			if (settings.JitsiMeet.Enabled || settings.Zoom.Enabled)
 			{
+				var content = LoadContent(settings);
 				var control = new ProctoringControl(logger.CloneFor(nameof(ProctoringControl)));
+
+				filePath = Path.Combine(appConfig.TemporaryDirectory, $"{Path.GetRandomFileName()}_index.html");
+				fileSystem.Save(content, filePath);
 
 				control.EnsureCoreWebView2Async().ContinueWith(_ =>
 				{
-					control.Dispatcher.Invoke(() => control.NavigateToString(LoadContent(settings)));
+					control.Dispatcher.Invoke(() => control.CoreWebView2.Navigate(filePath));
 				});
 
 				window = uiFactory.CreateProctoringWindow(control);
@@ -55,6 +66,7 @@ namespace SafeExamBrowser.Proctoring
 		public void Terminate()
 		{
 			window?.Close();
+			fileSystem.Delete(filePath);
 		}
 
 		private string LoadContent(ProctoringSettings settings)

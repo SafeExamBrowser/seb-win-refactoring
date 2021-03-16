@@ -249,7 +249,7 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildProctoringOperation()
 		{
-			var controller = new ProctoringController(ModuleLogger(nameof(ProctoringController)), uiFactory);
+			var controller = new ProctoringController(context.AppConfig, new FileSystem(), ModuleLogger(nameof(ProctoringController)), uiFactory);
 			var operation = new ProctoringOperation(context, logger, controller);
 
 			context.ProctoringController = controller;

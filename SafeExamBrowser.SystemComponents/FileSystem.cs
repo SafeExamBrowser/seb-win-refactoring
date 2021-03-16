@@ -30,5 +30,10 @@ namespace SafeExamBrowser.SystemComponents
 				Directory.Delete(path, true);
 			}
 		}
+
+		public void Save(string content, string path)
+		{
+			File.WriteAllText(path, content);
+		}
 	}
 }

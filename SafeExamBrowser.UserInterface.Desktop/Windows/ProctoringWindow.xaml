@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Windows"
-        mc:Ignorable="d"
-        Title="ProctoringWindow" Height="450" Width="800">
+        mc:Ignorable="d" Height="250" Width="350" Topmost="True" WindowStyle="None">
     <DockPanel Name="ControlContainer" />
 </Window>
