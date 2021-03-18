@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.IO.Packaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Notifications;
@@ -29,6 +30,9 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 			logger = new Mock<ILogger>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
+
+			// Ensure that the pack scheme is known before executing the unit tests, see https://stackoverflow.com/a/6005606
+			_ = PackUriHelper.UriSchemePack;
 		}
 
 		[TestMethod]
