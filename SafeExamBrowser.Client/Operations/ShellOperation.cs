@@ -7,7 +7,7 @@
  */
 
 using System.Linq;
-using SafeExamBrowser.Client.Contracts;
+using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -26,12 +26,10 @@ namespace SafeExamBrowser.Client.Operations
 	{
 		private IActionCenter actionCenter;
 		private IAudio audio;
-		private INotificationInfo aboutInfo;
-		private INotificationController aboutController;
+		private INotification aboutNotification;
 		private IKeyboard keyboard;
 		private ILogger logger;
-		private INotificationInfo logInfo;
-		private INotificationController logController;
+		private INotification logNotification;
 		private IPowerSupply powerSupply;
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
@@ -46,13 +44,11 @@ namespace SafeExamBrowser.Client.Operations
 		public ShellOperation(
 			IActionCenter actionCenter,
 			IAudio audio,
-			INotificationInfo aboutInfo,
-			INotificationController aboutController,
+			INotification aboutNotification,
 			ClientContext context,
 			IKeyboard keyboard,
 			ILogger logger,
-			INotificationInfo logInfo,
-			INotificationController logController,
+			INotification logNotification,
 			IPowerSupply powerSupply,
 			ISystemInfo systemInfo,
 			ITaskbar taskbar,
@@ -61,14 +57,12 @@ namespace SafeExamBrowser.Client.Operations
 			IUserInterfaceFactory uiFactory,
 			IWirelessAdapter wirelessAdapter) : base(context)
 		{
-			this.aboutInfo = aboutInfo;
-			this.aboutController = aboutController;
+			this.aboutNotification = aboutNotification;
 			this.actionCenter = actionCenter;
 			this.audio = audio;
 			this.keyboard = keyboard;
 			this.logger = logger;
-			this.logInfo = logInfo;
-			this.logController = logController;
+			this.logNotification = logNotification;
 			this.powerSupply = powerSupply;
 			this.systemInfo = systemInfo;
 			this.text = text;
@@ -218,7 +212,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (Context.Settings.ActionCenter.ShowApplicationInfo)
 			{
-				actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(aboutController, aboutInfo, Location.ActionCenter));
+				actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(aboutNotification, Location.ActionCenter));
 			}
 		}
 
@@ -226,7 +220,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (Context.Settings.Taskbar.ShowApplicationInfo)
 			{
-				taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(aboutController, aboutInfo, Location.Taskbar));
+				taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(aboutNotification, Location.Taskbar));
 			}
 		}
 
@@ -260,7 +254,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (Context.Settings.ActionCenter.ShowApplicationLog)
 			{
-				actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(logController, logInfo, Location.ActionCenter));
+				actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(logNotification, Location.ActionCenter));
 			}
 		}
 
@@ -268,7 +262,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			if (Context.Settings.Taskbar.ShowApplicationLog)
 			{
-				taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(logController, logInfo, Location.Taskbar));
+				taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(logNotification, Location.Taskbar));
 			}
 		}
 
@@ -340,8 +334,8 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void TerminateNotifications()
 		{
-			aboutController.Terminate();
-			logController.Terminate();
+			aboutNotification.Terminate();
+			logNotification.Terminate();
 		}
 
 		private void TerminateSystemComponents()

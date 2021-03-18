@@ -6,16 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Applications.Contracts.Resources.Icons
+namespace SafeExamBrowser.Core.Contracts.Resources.Icons
 {
 	/// <summary>
-	/// Defines an icon resource which is a file with embedded icon data (e.g. an executable).
+	/// Defines an icon resource.
 	/// </summary>
-	public class EmbeddedIconResource : IconResource
+	public abstract class IconResource
 	{
-		/// <summary>
-		/// The full path of the file.
-		/// </summary>
-		public string FilePath { get; set; }
 	}
 }

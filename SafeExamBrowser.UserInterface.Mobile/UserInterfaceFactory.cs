@@ -12,8 +12,8 @@ using System.Windows;
 using System.Windows.Media;
 using FontAwesome.WPF;
 using SafeExamBrowser.Applications.Contracts;
-using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
@@ -129,15 +129,15 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			return window;
 		}
 
-		public INotificationControl CreateNotificationControl(INotificationController controller, INotificationInfo info, Location location)
+		public INotificationControl CreateNotificationControl(INotification notification, Location location)
 		{
 			if (location == Location.ActionCenter)
 			{
-				return new Controls.ActionCenter.NotificationButton(controller, info);
+				return new Controls.ActionCenter.NotificationButton(notification);
 			}
 			else
 			{
-				return new Controls.Taskbar.NotificationButton(controller, info);
+				return new Controls.Taskbar.NotificationButton(notification);
 			}
 		}
 

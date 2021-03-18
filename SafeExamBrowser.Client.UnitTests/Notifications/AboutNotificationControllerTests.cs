@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Notifications;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 
@@ -19,12 +20,14 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 	public class AboutNotificationControllerTests
 	{
 		private Mock<AppConfig> appConfig;
+		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
 
 		[TestInitialize]
 		public void Initialize()
 		{
 			appConfig = new Mock<AppConfig>();
+			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 		}
 
@@ -32,7 +35,7 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 		public void MustCloseWindowWhenTerminating()
 		{
 			var window = new Mock<IWindow>();
-			var sut = new AboutNotificationController(appConfig.Object, uiFactory.Object);
+			var sut = new AboutNotification(appConfig.Object, text.Object, uiFactory.Object);
 
 			uiFactory.Setup(u => u.CreateAboutWindow(It.IsAny<AppConfig>())).Returns(window.Object);
 
@@ -46,7 +49,7 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 		public void MustOpenOnlyOneWindow()
 		{
 			var window = new Mock<IWindow>();
-			var sut = new AboutNotificationController(appConfig.Object, uiFactory.Object);
+			var sut = new AboutNotification(appConfig.Object, text.Object, uiFactory.Object);
 
 			uiFactory.Setup(u => u.CreateAboutWindow(It.IsAny<AppConfig>())).Returns(window.Object);
 
@@ -64,7 +67,7 @@ namespace SafeExamBrowser.Client.UnitTests.Notifications
 		[TestMethod]
 		public void MustNotFailToTerminateIfNotStarted()
 		{
-			var sut = new AboutNotificationController(appConfig.Object, uiFactory.Object);
+			var sut = new AboutNotification(appConfig.Object, text.Object, uiFactory.Object);
 
 			sut.Terminate();
 		}

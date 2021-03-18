@@ -8,8 +8,8 @@
 
 using System.Collections.Generic;
 using SafeExamBrowser.Applications.Contracts;
-using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
@@ -79,7 +79,7 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// <summary>
 		/// Creates a notification control for the given notification, initialized for the specified location.
 		/// </summary>
-		INotificationControl CreateNotificationControl(INotificationController controller, INotificationInfo info, Location location);
+		INotificationControl CreateNotificationControl(INotification notification, Location location);
 
 		/// <summary>
 		/// Creates a password dialog with the given message and title.

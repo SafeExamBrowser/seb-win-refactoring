@@ -6,23 +6,35 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Client.Contracts;
+using System;
+using SafeExamBrowser.Core.Contracts.Notifications;
+using SafeExamBrowser.Core.Contracts.Resources.Icons;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Client.Notifications
 {
-	internal class LogNotificationController : INotificationController
+	internal class LogNotification : INotification
 	{
-		private ILogger logger;
-		private IUserInterfaceFactory uiFactory;
+		private readonly ILogger logger;
+		private readonly IText text;
+		private readonly IUserInterfaceFactory uiFactory;
+
 		private IWindow window;
 
-		public LogNotificationController(ILogger logger, IUserInterfaceFactory uiFactory)
+		public string Tooltip { get; }
+		public IconResource IconResource { get; }
+
+		public LogNotification(ILogger logger, IText text, IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
+			this.text = text;
 			this.uiFactory = uiFactory;
+
+			IconResource = new BitmapIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/LogNotification.ico") };
+			Tooltip = text.Get(TextKey.Notification_LogTooltip);
 		}
 
 		public void Activate()

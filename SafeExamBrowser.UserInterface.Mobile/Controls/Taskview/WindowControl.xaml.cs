@@ -10,7 +10,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using SafeExamBrowser.Applications.Contracts;
-using SafeExamBrowser.Applications.Contracts.Resources.Icons;
+using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskview

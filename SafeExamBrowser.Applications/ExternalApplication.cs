@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
-using SafeExamBrowser.Applications.Contracts.Resources.Icons;
+using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Settings.Applications;

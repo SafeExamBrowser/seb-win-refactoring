@@ -85,10 +85,8 @@
     <Compile Include="Operations\RuntimeConnectionOperation.cs" />
     <Compile Include="Communication\ClientHost.cs" />
     <Compile Include="CompositionRoot.cs" />
-    <Compile Include="Notifications\AboutNotificationController.cs" />
-    <Compile Include="Notifications\AboutNotificationInfo.cs" />
-    <Compile Include="Notifications\LogNotificationController.cs" />
-    <Compile Include="Notifications\LogNotificationInfo.cs" />
+    <Compile Include="Notifications\AboutNotification.cs" />
+    <Compile Include="Notifications\LogNotification.cs" />
     <Compile Include="Operations\BrowserOperation.cs" />
     <Compile Include="Operations\ClipboardOperation.cs" />
     <Compile Include="Operations\DisplayMonitorOperation.cs" />
@@ -142,10 +140,6 @@
     <ProjectReference Include="..\SafeExamBrowser.Browser\SafeExamBrowser.Browser.csproj">
       <Project>{04E653F1-98E6-4E34-9DD7-7F2BC1A8B767}</Project>
       <Name>SafeExamBrowser.Browser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SafeExamBrowser.Client.Contracts\SafeExamBrowser.Client.Contracts.csproj">
-      <Project>{d39aea14-9d5e-404d-be39-a552e1bd2c7d}</Project>
-      <Name>SafeExamBrowser.Client.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Communication.Contracts\SafeExamBrowser.Communication.Contracts.csproj">
       <Project>{0cd2c5fe-711a-4c32-afe0-bb804fe8b220}</Project>

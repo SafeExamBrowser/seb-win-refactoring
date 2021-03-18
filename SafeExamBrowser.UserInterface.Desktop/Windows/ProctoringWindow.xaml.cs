@@ -71,7 +71,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		{
 			if (control is UIElement element)
 			{
-				ControlContainer.Children.Add(element);
+				Content = element;
 			}
 
 			Closing += ProctoringWindow_Closing;

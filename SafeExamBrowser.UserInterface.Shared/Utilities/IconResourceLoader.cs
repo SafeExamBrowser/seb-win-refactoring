@@ -16,7 +16,7 @@ using System.Windows.Documents;
 using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media.Imaging;
-using SafeExamBrowser.Applications.Contracts.Resources.Icons;
+using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using Brushes = System.Windows.Media.Brushes;
 using Image = System.Windows.Controls.Image;
 

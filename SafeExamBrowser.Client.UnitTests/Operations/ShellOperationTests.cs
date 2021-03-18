@@ -9,8 +9,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Applications.Contracts;
-using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Client.Operations;
+using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings;
@@ -32,11 +32,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<IAudio> audio;
 		private ClientContext context;
 		private Mock<ILogger> logger;
-		private Mock<INotificationInfo> aboutInfo;
-		private Mock<INotificationController> aboutController;
+		private Mock<INotification> aboutNotification;
 		private Mock<IKeyboard> keyboard;
-		private Mock<INotificationInfo> logInfo;
-		private Mock<INotificationController> logController;
+		private Mock<INotification> logNotification;
 		private Mock<IPowerSupply> powerSupply;
 		private Mock<ISystemInfo> systemInfo;
 		private Mock<ITaskbar> taskbar;
@@ -54,11 +52,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			audio = new Mock<IAudio>();
 			context = new ClientContext();
 			logger = new Mock<ILogger>();
-			aboutInfo = new Mock<INotificationInfo>();
-			aboutController = new Mock<INotificationController>();
+			aboutNotification = new Mock<INotification>();
 			keyboard = new Mock<IKeyboard>();
-			logInfo = new Mock<INotificationInfo>();
-			logController = new Mock<INotificationController>();
+			logNotification = new Mock<INotification>();
 			powerSupply = new Mock<IPowerSupply>();
 			systemInfo = new Mock<ISystemInfo>();
 			taskbar = new Mock<ITaskbar>();
@@ -70,19 +66,17 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			context.Settings = new AppSettings();
 
 			uiFactory
-				.Setup(u => u.CreateNotificationControl(It.IsAny<INotificationController>(), It.IsAny<INotificationInfo>(), It.IsAny<Location>()))
+				.Setup(u => u.CreateNotificationControl(It.IsAny<INotification>(), It.IsAny<Location>()))
 				.Returns(new Mock<INotificationControl>().Object);
 
 			sut = new ShellOperation(
 				actionCenter.Object,
 				audio.Object,
-				aboutInfo.Object,
-				aboutController.Object,
+				aboutNotification.Object,
 				context,
 				keyboard.Object,
 				logger.Object,
-				logInfo.Object,
-				logController.Object,
+				logNotification.Object,
 				powerSupply.Object,
 				systemInfo.Object,
 				taskbar.Object,
@@ -272,7 +266,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			context.Settings.Taskbar.ShowApplicationLog = false;
 
 			uiFactory
-				.Setup(f => f.CreateNotificationControl(It.IsAny<INotificationController>(), It.Is<INotificationInfo>(i => i == logInfo.Object), It.IsAny<Location>()))
+				.Setup(f => f.CreateNotificationControl(It.IsAny<INotification>(), It.IsAny<Location>()))
 				.Returns(logControl.Object);
 
 			sut.Perform();
@@ -409,9 +403,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			sut.Revert();
 
-			aboutController.Verify(c => c.Terminate(), Times.Once);
+			aboutNotification.Verify(c => c.Terminate(), Times.Once);
 			audio.Verify(a => a.Terminate(), Times.Once);
-			logController.Verify(c => c.Terminate(), Times.Once);
+			logNotification.Verify(c => c.Terminate(), Times.Once);
 			powerSupply.Verify(p => p.Terminate(), Times.Once);
 			keyboard.Verify(k => k.Terminate(), Times.Once);
 			wirelessAdapter.Verify(w => w.Terminate(), Times.Once);

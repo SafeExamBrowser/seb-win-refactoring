@@ -72,8 +72,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Browser.Con
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Applications.Contracts", "SafeExamBrowser.Applications.Contracts\SafeExamBrowser.Applications.Contracts.csproj", "{AC77745D-3B41-43E2-8E84-D40E5A4EE77F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Client.Contracts", "SafeExamBrowser.Client.Contracts\SafeExamBrowser.Client.Contracts.csproj", "{D39AEA14-9D5E-404D-BE39-A552E1BD2C7D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Communication.Contracts", "SafeExamBrowser.Communication.Contracts\SafeExamBrowser.Communication.Contracts.csproj", "{0CD2C5FE-711A-4C32-AFE0-BB804FE8B220}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Configuration.Contracts", "SafeExamBrowser.Configuration.Contracts\SafeExamBrowser.Configuration.Contracts.csproj", "{7D74555E-63E1-4C46-BD0A-8580552368C8}"
@@ -334,14 +332,6 @@ Global
 		{AC77745D-3B41-43E2-8E84-D40E5A4EE77F}.Release|x64.Build.0 = Release|x64
 		{AC77745D-3B41-43E2-8E84-D40E5A4EE77F}.Release|x86.ActiveCfg = Release|x86
 		{AC77745D-3B41-43E2-8E84-D40E5A4EE77F}.Release|x86.Build.0 = Release|x86
-		{D39AEA14-9D5E-404D-BE39-A552E1BD2C7D}.Debug|x64.ActiveCfg = Debug|x64
-		{D39AEA14-9D5E-404D-BE39-A552E1BD2C7D}.Debug|x64.Build.0 = Debug|x64
-		{D39AEA14-9D5E-404D-BE39-A552E1BD2C7D}.Debug|x86.ActiveCfg = Debug|x86
-		{D39AEA14-9D5E-404D-BE39-A552E1BD2C7D}.Debug|x86.Build.0 = Debug|x86
-		{D39AEA14-9D5E-404D-BE39-A552E1BD2C7D}.Release|x64.ActiveCfg = Release|x64
-		{D39AEA14-9D5E-404D-BE39-A552E1BD2C7D}.Release|x64.Build.0 = Release|x64
-		{D39AEA14-9D5E-404D-BE39-A552E1BD2C7D}.Release|x86.ActiveCfg = Release|x86
-		{D39AEA14-9D5E-404D-BE39-A552E1BD2C7D}.Release|x86.Build.0 = Release|x86
 		{0CD2C5FE-711A-4C32-AFE0-BB804FE8B220}.Debug|x64.ActiveCfg = Debug|x64
 		{0CD2C5FE-711A-4C32-AFE0-BB804FE8B220}.Debug|x64.Build.0 = Debug|x64
 		{0CD2C5FE-711A-4C32-AFE0-BB804FE8B220}.Debug|x86.ActiveCfg = Debug|x86

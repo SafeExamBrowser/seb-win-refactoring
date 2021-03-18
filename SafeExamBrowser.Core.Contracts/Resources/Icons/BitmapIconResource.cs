@@ -6,12 +6,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Applications.Contracts.Resources.Icons
+using System;
+
+namespace SafeExamBrowser.Core.Contracts.Resources.Icons
 {
 	/// <summary>
-	/// Defines an icon resource.
+	/// Defines an icon resource which is a bitmap image (i.e. raster graphics).
 	/// </summary>
-	public abstract class IconResource
+	public class BitmapIconResource : IconResource
 	{
+		/// <summary>
+		/// The <see cref="System.Uri"/> pointing to the image file.
+		/// </summary>
+		public Uri Uri { get; set; }
 	}
 }

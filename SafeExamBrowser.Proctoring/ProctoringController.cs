@@ -10,6 +10,8 @@ using System;
 using System.IO;
 using System.Reflection;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Core.Contracts.Notifications;
+using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Settings.Proctoring;
@@ -19,7 +21,7 @@ using SafeExamBrowser.UserInterface.Contracts.Proctoring;
 
 namespace SafeExamBrowser.Proctoring
 {
-	public class ProctoringController : IProctoringController
+	public class ProctoringController : IProctoringController, INotification
 	{
 		private readonly AppConfig appConfig;
 		private readonly IFileSystem fileSystem;
@@ -29,12 +31,20 @@ namespace SafeExamBrowser.Proctoring
 		private string filePath;
 		private IProctoringWindow window;
 
+		public string Tooltip => "TODO!!!";
+		public IconResource IconResource => new XamlIconResource();
+
 		public ProctoringController(AppConfig appConfig, IFileSystem fileSystem, IModuleLogger logger, IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
 			this.fileSystem = fileSystem;
 			this.logger = logger;
 			this.uiFactory = uiFactory;
+		}
+
+		public void Activate()
+		{
+			window?.Show();
 		}
 
 		public void Initialize(ProctoringSettings settings)

@@ -8,7 +8,7 @@
 
 using System;
 
-namespace SafeExamBrowser.Applications.Contracts.Resources.Icons
+namespace SafeExamBrowser.Core.Contracts.Resources.Icons
 {
 	/// <summary>
 	/// Defines an icon resource which consists of XAML markup (i.e. vector graphics).

@@ -6,14 +6,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Applications.Contracts.Resources.Icons;
+using SafeExamBrowser.Core.Contracts.Resources.Icons;
 
-namespace SafeExamBrowser.Client.Contracts
+namespace SafeExamBrowser.Core.Contracts.Notifications
 {
 	/// <summary>
-	/// The information about a notification.
+	/// Controls the lifetime and functionality of a notification which can be activated via the UI.
 	/// </summary>
-	public interface INotificationInfo
+	public interface INotification
 	{
 		/// <summary>
 		/// The tooltip for the notification.
@@ -24,5 +24,15 @@ namespace SafeExamBrowser.Client.Contracts
 		/// The resource providing the notification icon.
 		/// </summary>
 		IconResource IconResource { get; }
+
+		/// <summary>
+		/// Executes the notification functionality.
+		/// </summary>
+		void Activate();
+		
+		/// <summary>
+		/// Terminates the notification functionality and release all used resources.
+		/// </summary>
+		void Terminate();
 	}
 }

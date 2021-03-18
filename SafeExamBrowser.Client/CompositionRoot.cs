@@ -250,7 +250,7 @@ namespace SafeExamBrowser.Client
 		private IOperation BuildProctoringOperation()
 		{
 			var controller = new ProctoringController(context.AppConfig, new FileSystem(), ModuleLogger(nameof(ProctoringController)), uiFactory);
-			var operation = new ProctoringOperation(context, logger, controller);
+			var operation = new ProctoringOperation(actionCenter, context, controller, logger, controller, taskbar, uiFactory);
 
 			context.ProctoringController = controller;
 
@@ -269,22 +269,18 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildShellOperation()
 		{
-			var aboutInfo = new AboutNotificationInfo(text);
-			var aboutController = new AboutNotificationController(context.AppConfig, uiFactory);
+			var aboutNotification = new AboutNotification(context.AppConfig, text, uiFactory);
 			var audio = new Audio(context.Settings.Audio, ModuleLogger(nameof(Audio)));
 			var keyboard = new Keyboard(ModuleLogger(nameof(Keyboard)));
-			var logInfo = new LogNotificationInfo(text);
-			var logController = new LogNotificationController(logger, uiFactory);
+			var logNotification = new LogNotification(logger, text, uiFactory);
 			var operation = new ShellOperation(
 				actionCenter,
 				audio,
-				aboutInfo,
-				aboutController,
+				aboutNotification,
 				context,
 				keyboard,
 				logger,
-				logInfo,
-				logController,
+				logNotification,
 				powerSupply,
 				systemInfo,
 				taskbar,

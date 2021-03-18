@@ -6,26 +6,44 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.Contracts;
+using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Shell;
 
 namespace SafeExamBrowser.Client.Operations
 {
 	internal class ProctoringOperation : ClientOperation
 	{
-		private readonly ILogger logger;
+		private readonly IActionCenter actionCenter;
 		private readonly IProctoringController controller;
+		private readonly ILogger logger;
+		private readonly INotification notification;
+		private readonly ITaskbar taskbar;
+		private readonly IUserInterfaceFactory uiFactory;
 
 		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
-		public ProctoringOperation(ClientContext context, ILogger logger, IProctoringController controller) : base(context)
+		public ProctoringOperation(
+			IActionCenter actionCenter,
+			ClientContext context,
+			IProctoringController controller,
+			ILogger logger,
+			INotification notification,
+			ITaskbar taskbar,
+			IUserInterfaceFactory uiFactory) : base(context)
 		{
+			this.actionCenter = actionCenter;
 			this.controller = controller;
 			this.logger = logger;
+			this.notification = notification;
+			this.taskbar = taskbar;
+			this.uiFactory = uiFactory;
 		}
 
 		public override OperationResult Perform()
@@ -35,7 +53,13 @@ namespace SafeExamBrowser.Client.Operations
 				logger.Info("Initializing proctoring...");
 				StatusChanged?.Invoke(TextKey.OperationStatus_InitializeProctoring);
 
+				var actionCenterControl = uiFactory.CreateNotificationControl(notification, Location.ActionCenter);
+				var taskbarControl = uiFactory.CreateNotificationControl(notification, Location.Taskbar);
+
 				controller.Initialize(Context.Settings.Proctoring);
+
+				actionCenter.AddNotificationControl(actionCenterControl);
+				taskbar.AddNotificationControl(taskbarControl);
 			}
 
 			return OperationResult.Success;
@@ -49,6 +73,7 @@ namespace SafeExamBrowser.Client.Operations
 				StatusChanged?.Invoke(TextKey.OperationStatus_TerminateProctoring);
 
 				controller.Terminate();
+				notification.Terminate();
 			}
 
 			return OperationResult.Success;

@@ -8,7 +8,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
-using SafeExamBrowser.Client.Contracts;
+using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
@@ -16,25 +16,25 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 {
 	internal partial class NotificationButton : UserControl, INotificationControl
 	{
-		private INotificationController controller;
+		private INotification notification;
 
-		internal NotificationButton(INotificationController controller, INotificationInfo info)
+		internal NotificationButton(INotification notification)
 		{
-			this.controller = controller;
+			this.notification = notification;
 
 			InitializeComponent();
-			InitializeNotificationIcon(info);
+			InitializeNotification();
 		}
 
 		private void IconButton_Click(object sender, RoutedEventArgs e)
 		{
-			controller.Activate();
+			notification.Activate();
 		}
 
-		private void InitializeNotificationIcon(INotificationInfo info)
+		private void InitializeNotification()
 		{
-			IconButton.ToolTip = info.Tooltip;
-			IconButton.Content = IconResourceLoader.Load(info.IconResource);
+			IconButton.ToolTip = notification.Tooltip;
+			IconButton.Content = IconResourceLoader.Load(notification.IconResource);
 		}
 	}
 }
