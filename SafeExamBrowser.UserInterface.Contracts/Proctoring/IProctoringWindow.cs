@@ -11,10 +11,18 @@ using SafeExamBrowser.UserInterface.Contracts.Windows;
 namespace SafeExamBrowser.UserInterface.Contracts.Proctoring
 {
 	/// <summary>
-	/// 
+	/// Defines the functionality of a proctoring window.
 	/// </summary>
 	public interface IProctoringWindow : IWindow
 	{
+		/// <summary>
+		/// Sets the window title to the given value.
+		/// </summary>
+		void SetTitle(string title);
 
+		/// <summary>
+		/// Toggles the window visibility.
+		/// </summary>
+		void Toggle();
 	}
 }

@@ -9,12 +9,23 @@
             var domain = "%%_DOMAIN_%%";
             var options = {
                 configOverwrite: {
+                    disable1On1Mode: true,
                     startAudioOnly: false,
                     startWithAudioMuted: true,
-                    startWithVideoMuted: false,
-                    disable1On1Mode: true
+                    startWithVideoMuted: false
                 },
                 height: "100%",
+                interfaceConfigOverwrite: {
+                    JITSI_WATERMARK_LINK: '',
+                    SHOW_JITSI_WATERMARK: false,
+                    TOOLBAR_BUTTONS: [
+                         'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
+                         'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
+                         'livestreaming', 'etherpad', /*'sharedvideo',*/ 'settings', 'raisehand',
+                         'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
+                         'tileview', 'select-background', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'security'
+                     ]
+                },
                 jwt: "%%_TOKEN_%%",
                 parentNode: document.querySelector('#placeholder'),
                 roomName: "%%_ROOM_NAME_%%",

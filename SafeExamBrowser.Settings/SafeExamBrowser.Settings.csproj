@@ -73,6 +73,7 @@
     <Compile Include="ConfigurationMode.cs" />
     <Compile Include="Proctoring\JitsiMeetSettings.cs" />
     <Compile Include="Proctoring\ProctoringSettings.cs" />
+    <Compile Include="Proctoring\WindowVisibility.cs" />
     <Compile Include="Proctoring\ZoomSettings.cs" />
     <Compile Include="SessionMode.cs" />
     <Compile Include="Security\KioskMode.cs" />

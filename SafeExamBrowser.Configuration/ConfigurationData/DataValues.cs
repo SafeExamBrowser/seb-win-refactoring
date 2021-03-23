@@ -16,6 +16,7 @@ using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Browser.Proxy;
 using SafeExamBrowser.Settings.Logging;
+using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.Settings.UserInterface;
@@ -173,6 +174,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.Mouse.AllowMiddleButton = false;
 			settings.Mouse.AllowRightButton = true;
+
+			settings.Proctoring.Enabled = false;
+			settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
 
 			settings.Security.AllowApplicationLogAccess = false;
 			settings.Security.AllowTermination = true;

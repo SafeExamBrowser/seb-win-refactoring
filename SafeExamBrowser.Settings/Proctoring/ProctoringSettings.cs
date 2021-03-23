@@ -27,6 +27,11 @@ namespace SafeExamBrowser.Settings.Proctoring
 		public JitsiMeetSettings JitsiMeet { get; set; }
 
 		/// <summary>
+		/// Determines the visibility of the proctoring window.
+		/// </summary>
+		public WindowVisibility WindowVisibility { get; set; }
+
+		/// <summary>
 		/// All settings for remote proctoring with Zoom.
 		/// </summary>
 		public ZoomSettings Zoom { get; set; }

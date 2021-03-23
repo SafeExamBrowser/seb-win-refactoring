@@ -11,6 +11,7 @@ using System.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Proctoring;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Events;
+using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Windows
 {
@@ -47,6 +48,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		{
 			Dispatcher.Invoke(() =>
 			{
+				Closing -= ProctoringWindow_Closing;
 				closing?.Invoke();
 				base.Close();
 			});
@@ -57,26 +59,67 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			Dispatcher.Invoke(base.Hide);
 		}
 
+		public void SetTitle(string title)
+		{
+			Dispatcher.Invoke(() => Title = title);
+		}
+
 		public new void Show()
 		{
 			Dispatcher.Invoke(base.Show);
 		}
 
-		private void ProctoringWindow_Closing(object sender, CancelEventArgs e)
+		public void Toggle()
 		{
-			closing?.Invoke();
+			Dispatcher.Invoke(() =>
+			{
+				if (Visibility == Visibility.Visible)
+				{
+					base.Hide();
+				}
+				else
+				{
+					base.Show();
+				}
+			});
 		}
 
-		private void InitializeWindow(object control)
+		private void InitializeWindow(IProctoringControl control)
 		{
 			if (control is UIElement element)
 			{
 				Content = element;
+				control.FullScreenChanged += Control_FullScreenChanged;
 			}
 
 			Closing += ProctoringWindow_Closing;
-			Top = SystemParameters.WorkArea.Height - Height;
-			Left = SystemParameters.WorkArea.Width - Width;
+			Loaded += ProctoringWindow_Loaded;
+			Top = SystemParameters.WorkArea.Height - Height - 15;
+			Left = SystemParameters.WorkArea.Width - Width - 20;
+		}
+
+		private void Control_FullScreenChanged(bool fullScreen)
+		{
+			if (fullScreen)
+			{
+				WindowState = WindowState.Maximized;
+				WindowStyle = WindowStyle.None;
+			}
+			else
+			{
+				WindowState = WindowState.Normal;
+				WindowStyle = WindowStyle.ToolWindow;
+			}
+		}
+
+		private void ProctoringWindow_Closing(object sender, CancelEventArgs e)
+		{
+			e.Cancel = true;
+		}
+
+		private void ProctoringWindow_Loaded(object sender, RoutedEventArgs e)
+		{
+			this.HideCloseButton();
 		}
 	}
 }

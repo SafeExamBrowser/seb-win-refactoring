@@ -30,6 +30,7 @@ namespace SafeExamBrowser.Proctoring
 
 		private string filePath;
 		private IProctoringWindow window;
+		private ProctoringSettings settings;
 
 		public string Tooltip => "TODO!!!";
 		public IconResource IconResource => new XamlIconResource();
@@ -44,11 +45,20 @@ namespace SafeExamBrowser.Proctoring
 
 		public void Activate()
 		{
-			window?.Show();
+			if (settings.WindowVisibility == WindowVisibility.Visible)
+			{
+				window?.BringToForeground();
+			}
+			else if (settings.WindowVisibility == WindowVisibility.AllowToHide || settings.WindowVisibility == WindowVisibility.AllowToShow)
+			{
+				window.Toggle();
+			}
 		}
 
 		public void Initialize(ProctoringSettings settings)
 		{
+			this.settings = settings;
+
 			if (settings.JitsiMeet.Enabled || settings.Zoom.Enabled)
 			{
 				var content = LoadContent(settings);
@@ -63,7 +73,12 @@ namespace SafeExamBrowser.Proctoring
 				});
 
 				window = uiFactory.CreateProctoringWindow(control);
-				window.Show();
+
+				if (settings.WindowVisibility == WindowVisibility.AllowToHide || settings.WindowVisibility == WindowVisibility.Visible)
+				{
+					window.SetTitle(settings.JitsiMeet.Enabled ? settings.JitsiMeet.Subject : settings.Zoom.UserName);
+					window.Show();
+				}
 
 				logger.Info($"Initialized proctoring with {(settings.JitsiMeet.Enabled ? "Jitsi Meet" : "Zoom")}.");
 			}
@@ -73,9 +88,13 @@ namespace SafeExamBrowser.Proctoring
 			}
 		}
 
-		public void Terminate()
+		void INotification.Terminate()
 		{
 			window?.Close();
+		}
+
+		void IProctoringController.Terminate()
+		{
 			fileSystem.Delete(filePath);
 		}
 
