@@ -216,6 +216,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class Proctoring
 		{
+			internal const string ShowTaskbarNotification = "showProctoringViewButton";
 			internal const string WindowVisibility = "remoteProctoringViewShow";
 
 			internal static class JitsiMeet

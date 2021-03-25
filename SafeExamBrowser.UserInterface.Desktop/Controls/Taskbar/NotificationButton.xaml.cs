@@ -24,6 +24,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 
 			InitializeComponent();
 			InitializeNotification();
+			UpdateNotification();
 		}
 
 		private void IconButton_Click(object sender, RoutedEventArgs e)
@@ -32,6 +33,11 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 		}
 
 		private void InitializeNotification()
+		{
+			notification.NotificationChanged += () => Dispatcher.Invoke(UpdateNotification);
+		}
+
+		private void UpdateNotification()
 		{
 			IconButton.ToolTip = notification.Tooltip;
 			IconButton.Content = IconResourceLoader.Load(notification.IconResource);

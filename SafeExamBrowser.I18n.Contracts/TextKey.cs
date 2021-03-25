@@ -129,6 +129,8 @@ namespace SafeExamBrowser.I18n.Contracts
 		MessageBox_YesButton,
 		Notification_AboutTooltip,
 		Notification_LogTooltip,
+		// TODO
+		Notification_ProctoringTooltip,
 		OperationStatus_CloseRuntimeConnection,
 		OperationStatus_EmptyClipboard,
 		OperationStatus_FinalizeApplications,

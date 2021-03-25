@@ -176,6 +176,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Mouse.AllowRightButton = true;
 
 			settings.Proctoring.Enabled = false;
+			settings.Proctoring.ShowTaskbarNotification = true;
 			settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
 
 			settings.Security.AllowApplicationLogAccess = false;

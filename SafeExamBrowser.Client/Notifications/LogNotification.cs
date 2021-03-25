@@ -8,6 +8,7 @@
 
 using System;
 using SafeExamBrowser.Core.Contracts.Notifications;
+using SafeExamBrowser.Core.Contracts.Notifications.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
@@ -26,6 +27,8 @@ namespace SafeExamBrowser.Client.Notifications
 
 		public string Tooltip { get; }
 		public IconResource IconResource { get; }
+
+		public event NotificationChangedEventHandler NotificationChanged { add { } remove { } }
 
 		public LogNotification(ILogger logger, IText text, IUserInterfaceFactory uiFactory)
 		{

@@ -54,6 +54,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Notifications\Events\NotificationChangedEventHandler.cs" />
     <Compile Include="Notifications\INotification.cs" />
     <Compile Include="OperationModel\Events\ActionRequiredEventArgs.cs" />
     <Compile Include="OperationModel\Events\ActionRequiredEventHandler.cs" />

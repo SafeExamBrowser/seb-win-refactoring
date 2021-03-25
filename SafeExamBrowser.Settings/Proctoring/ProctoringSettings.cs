@@ -27,6 +27,11 @@ namespace SafeExamBrowser.Settings.Proctoring
 		public JitsiMeetSettings JitsiMeet { get; set; }
 
 		/// <summary>
+		/// Determines whether the proctoring notification will be shown in the taskbar.
+		/// </summary>
+		public bool ShowTaskbarNotification { get; set; }
+
+		/// <summary>
 		/// Determines the visibility of the proctoring window.
 		/// </summary>
 		public WindowVisibility WindowVisibility { get; set; }

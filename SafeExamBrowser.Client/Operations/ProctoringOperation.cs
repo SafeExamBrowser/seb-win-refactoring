@@ -53,13 +53,13 @@ namespace SafeExamBrowser.Client.Operations
 				logger.Info("Initializing proctoring...");
 				StatusChanged?.Invoke(TextKey.OperationStatus_InitializeProctoring);
 
-				var actionCenterControl = uiFactory.CreateNotificationControl(notification, Location.ActionCenter);
-				var taskbarControl = uiFactory.CreateNotificationControl(notification, Location.Taskbar);
-
 				controller.Initialize(Context.Settings.Proctoring);
+				actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(notification, Location.ActionCenter));
 
-				actionCenter.AddNotificationControl(actionCenterControl);
-				taskbar.AddNotificationControl(taskbarControl);
+				if (Context.Settings.Proctoring.ShowTaskbarNotification)
+				{
+					taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(notification, Location.Taskbar));
+				}
 			}
 
 			return OperationResult.Success;

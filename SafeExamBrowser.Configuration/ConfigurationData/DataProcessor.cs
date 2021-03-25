@@ -22,6 +22,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			AllowBrowserToolbarForReloading(rawData, settings);
 			CalculateConfigurationKey(rawData, settings);
 			HandleBrowserHomeFunctionality(settings);
+			InitializeProctoringSettings(settings);
 			RemoveLegacyBrowsers(settings);
 		}
 
@@ -62,6 +63,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			settings.Browser.MainWindow.ShowHomeButton = settings.Browser.UseStartUrlAsHomeUrl || !string.IsNullOrWhiteSpace(settings.Browser.HomeUrl);
 			settings.Browser.HomePasswordHash = settings.Security.QuitPasswordHash;
+		}
+
+		private void InitializeProctoringSettings(AppSettings settings)
+		{
+			settings.Proctoring.Enabled = settings.Proctoring.JitsiMeet.Enabled || settings.Proctoring.Zoom.Enabled;
 		}
 
 		private void RemoveLegacyBrowsers(AppSettings settings)

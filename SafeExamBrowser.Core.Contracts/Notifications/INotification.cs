@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Core.Contracts.Notifications.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 
 namespace SafeExamBrowser.Core.Contracts.Notifications
@@ -24,6 +25,11 @@ namespace SafeExamBrowser.Core.Contracts.Notifications
 		/// The resource providing the notification icon.
 		/// </summary>
 		IconResource IconResource { get; }
+
+		/// <summary>
+		/// Event fired when the notification has changed.
+		/// </summary>
+		event NotificationChangedEventHandler NotificationChanged;
 
 		/// <summary>
 		/// Executes the notification functionality.

@@ -11,7 +11,9 @@ using System.IO;
 using System.Reflection;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.Notifications;
+using SafeExamBrowser.Core.Contracts.Notifications.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Settings.Proctoring;
@@ -26,21 +28,28 @@ namespace SafeExamBrowser.Proctoring
 		private readonly AppConfig appConfig;
 		private readonly IFileSystem fileSystem;
 		private readonly IModuleLogger logger;
+		private readonly IText text;
 		private readonly IUserInterfaceFactory uiFactory;
 
 		private string filePath;
 		private IProctoringWindow window;
 		private ProctoringSettings settings;
 
-		public string Tooltip => "TODO!!!";
-		public IconResource IconResource => new XamlIconResource();
+		public string Tooltip { get; }
+		public IconResource IconResource { get; set; }
 
-		public ProctoringController(AppConfig appConfig, IFileSystem fileSystem, IModuleLogger logger, IUserInterfaceFactory uiFactory)
+		public event NotificationChangedEventHandler NotificationChanged;
+
+		public ProctoringController(AppConfig appConfig, IFileSystem fileSystem, IModuleLogger logger, IText text, IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
 			this.fileSystem = fileSystem;
 			this.logger = logger;
+			this.text = text;
 			this.uiFactory = uiFactory;
+
+			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Inactive.xaml") };
+			Tooltip = text.Get(TextKey.Notification_ProctoringTooltip);
 		}
 
 		public void Activate()
@@ -81,6 +90,9 @@ namespace SafeExamBrowser.Proctoring
 				}
 
 				logger.Info($"Initialized proctoring with {(settings.JitsiMeet.Enabled ? "Jitsi Meet" : "Zoom")}.");
+
+				IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Active.xaml") };
+				NotificationChanged?.Invoke();
 			}
 			else
 			{
