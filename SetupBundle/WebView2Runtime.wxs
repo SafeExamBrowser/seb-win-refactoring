@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+    <Fragment>
+        <util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}" Value="EBWebView"
+                             Variable="RuntimeInstalled" Win64="no" />
+        <PackageGroup Id="WebView2Runtime">
+            <ExePackage Name="WebView2 Bootstrapper" DisplayName="Microsoft Edge WebView2 Evergreen Bootstrapper" Cache="no" Compressed="no"
+                        PerMachine="yes" Permanent="yes" Vital="yes" DownloadUrl="https://go.microsoft.com/fwlink/p/?LinkId=2124703"
+                        InstallCommand="/silent /install" InstallCondition="NOT (REMOVE OR RuntimeInstalled)">
+                <RemotePayload ProductName="MicrosoftEdgeWebview2Setup" Description="Microsoft Edge WebView2 Update Setup"
+                               CertificatePublicKey="1392A8505C3B192F62311EA9005E49C1B5358F6B" Hash="82B42348804E8D82C773DC3391B691712BB1B388"
+                               Size="1815832" Version="1.3.135.41" />
+            </ExePackage>
+        </PackageGroup>
+    </Fragment>
+</Wix>

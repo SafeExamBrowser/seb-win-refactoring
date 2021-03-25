@@ -31,6 +31,7 @@
     <Compile Include="Bundle.wxs" />
     <Compile Include="DotNetFramework.wxs" />
     <Compile Include="VisualCppRuntime.wxs" />
+    <Compile Include="WebView2Runtime.wxs" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixNetFxExtension">
