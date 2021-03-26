@@ -6,8 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using System.Collections.Generic;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Proctoring;
 
@@ -19,6 +17,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			switch (key)
 			{
+				case Keys.Proctoring.JitsiMeet.Enabled:
+					MapJitsiMeetEnabled(settings, value);
+					break;
 				case Keys.Proctoring.JitsiMeet.RoomName:
 					MapJitsiMeetRoomName(settings, value);
 					break;
@@ -37,20 +38,18 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Proctoring.WindowVisibility:
 					MapWindowVisibility(settings, value);
 					break;
+				case Keys.Proctoring.Zoom.Enabled:
+					MapZoomEnabled(settings, value);
+					break;
 			}
 		}
 
-		internal override void MapGlobal(IDictionary<string, object> rawData, AppSettings settings)
+		private void MapJitsiMeetEnabled(AppSettings settings, object value)
 		{
-			MapProctoringEnabled(rawData, settings);
-		}
-
-		private void MapProctoringEnabled(IDictionary<string, object> rawData, AppSettings settings)
-		{
-			var jitsiEnabled = rawData.TryGetValue(Keys.Proctoring.JitsiMeet.Enabled, out var v) && v is bool b && b;
-			var zoomEnabled = rawData.TryGetValue(Keys.Proctoring.Zoom.Enabled, out v) && v is bool b2 && b2;
-
-			settings.Proctoring.Enabled = jitsiEnabled || zoomEnabled;
+			if (value is bool enabled)
+			{
+				settings.Proctoring.JitsiMeet.Enabled = enabled;
+			}
 		}
 
 		private void MapJitsiMeetRoomName(AppSettings settings, object value)
@@ -117,6 +116,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 						settings.Proctoring.WindowVisibility = WindowVisibility.Visible;
 						break;
 				}
+			}
+		}
+
+		private void MapZoomEnabled(AppSettings settings, object value)
+		{
+			if (value is bool enabled)
+			{
+				settings.Proctoring.Zoom.Enabled = enabled;
 			}
 		}
 	}

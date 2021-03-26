@@ -61,7 +61,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 		public void SetTitle(string title)
 		{
-			Dispatcher.Invoke(() => Title = title);
+			Dispatcher.Invoke(() => Title = title ?? "");
 		}
 
 		public new void Show()
