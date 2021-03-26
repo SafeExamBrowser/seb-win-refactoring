@@ -4,7 +4,7 @@
         <util:RegistrySearch Root="HKLM" Key="SOFTWARE\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}" Value="EBWebView"
                              Variable="RuntimeInstalled" Win64="no" />
         <PackageGroup Id="WebView2Runtime">
-            <ExePackage Name="WebView2 Bootstrapper" DisplayName="Microsoft Edge WebView2 Evergreen Bootstrapper" Cache="no" Compressed="no"
+            <ExePackage Name="WebView2 Bootstrapper" DisplayName="Microsoft Edge WebView2 Runtime" Cache="no" Compressed="no"
                         PerMachine="yes" Permanent="yes" Vital="yes" DownloadUrl="https://go.microsoft.com/fwlink/p/?LinkId=2124703"
                         InstallCommand="/silent /install" InstallCondition="NOT (REMOVE OR RuntimeInstalled)">
                 <RemotePayload ProductName="MicrosoftEdgeWebview2Setup" Description="Microsoft Edge WebView2 Update Setup"
