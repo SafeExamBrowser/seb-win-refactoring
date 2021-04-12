@@ -20,6 +20,16 @@ namespace SafeExamBrowser.Server.Contracts
 	public interface IServerProxy
 	{
 		/// <summary>
+		/// Event fired when the server receives new proctoring configuration values.
+		/// </summary>
+		event ProctoringConfigurationReceivedEventHandler ProctoringConfigurationReceived;
+
+		/// <summary>
+		/// Event fired when the server receives a proctoring instruction.
+		/// </summary>
+		event ProctoringInstructionReceivedEventHandler ProctoringInstructionReceived;
+
+		/// <summary>
 		/// Event fired when the server detects an instruction to terminate SEB.
 		/// </summary>
 		event TerminationRequestedEventHandler TerminationRequested; 

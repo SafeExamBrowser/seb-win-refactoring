@@ -56,6 +56,8 @@
   <ItemGroup>
     <Compile Include="Data\ConnectionInfo.cs" />
     <Compile Include="Data\Exam.cs" />
+    <Compile Include="Events\ProctoringConfigurationReceivedEventHandler.cs" />
+    <Compile Include="Events\ProctoringInstructionReceivedEventHandler.cs" />
     <Compile Include="Events\TerminationRequestedEventHandler.cs" />
     <Compile Include="IServerProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -176,8 +176,23 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Mouse.AllowRightButton = true;
 
 			settings.Proctoring.Enabled = false;
+			settings.Proctoring.JitsiMeet.AllowChat = false;
+			settings.Proctoring.JitsiMeet.AllowCloseCaptions = false;
+			settings.Proctoring.JitsiMeet.AllowRaiseHand = false;
+			settings.Proctoring.JitsiMeet.AllowRecording = false;
+			settings.Proctoring.JitsiMeet.AllowTileView = false;
+			settings.Proctoring.JitsiMeet.AudioMuted = true;
+			settings.Proctoring.JitsiMeet.AudioOnly = false;
+			settings.Proctoring.JitsiMeet.Enabled = false;
+			settings.Proctoring.JitsiMeet.ReceiveAudio = false;
+			settings.Proctoring.JitsiMeet.ReceiveVideo = false;
+			settings.Proctoring.JitsiMeet.SendAudio = true;
+			settings.Proctoring.JitsiMeet.SendVideo = true;
+			settings.Proctoring.JitsiMeet.ShowMeetingName = false;
+			settings.Proctoring.JitsiMeet.VideoMuted = false;
 			settings.Proctoring.ShowTaskbarNotification = true;
 			settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
+			settings.Proctoring.Zoom.Enabled = false;
 
 			settings.Security.AllowApplicationLogAccess = false;
 			settings.Security.AllowTermination = true;

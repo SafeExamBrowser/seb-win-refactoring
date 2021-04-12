@@ -221,11 +221,24 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			internal static class JitsiMeet
 			{
+				internal const string AllowChat = "jitsiMeetFeatureFlagChat";
+				internal const string AllowCloseCaptions = "jitsiMeetFeatureFlagCloseCaptions";
+				internal const string AllowRaiseHand = "jitsiMeetFeatureFlagRaiseHand";
+				internal const string AllowRecording = "jitsiMeetFeatureFlagRecording";
+				internal const string AllowTileView = "jitsiMeetFeatureFlagTileView";
+				internal const string AudioMuted = "jitsiMeetAudioMuted";
+				internal const string AudioOnly = "jitsiMeetAudioOnly";
 				internal const string Enabled = "jitsiMeetEnable";
+				internal const string ReceiveAudio = "jitsiMeetReceiveAudio";
+				internal const string ReceiveVideo = "jitsiMeetReceiveVideo";
 				internal const string RoomName = "jitsiMeetRoom";
+				internal const string SendAudio = "jitsiMeetSendAudio";
+				internal const string SendVideo = "jitsiMeetSendVideo";
 				internal const string ServerUrl = "jitsiMeetServerURL";
+				internal const string ShowMeetingName = "jitsiMeetFeatureFlagDisplayMeetingName";
 				internal const string Subject = "jitsiMeetSubject";
 				internal const string Token = "jitsiMeetToken";
+				internal const string VideoMuted = "jitsiMeetVideoMuted";
 			}
 
 			internal static class Zoom

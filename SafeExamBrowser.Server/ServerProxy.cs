@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -38,13 +37,16 @@ namespace SafeExamBrowser.Server
 		private ApiVersion1 api;
 		private AppConfig appConfig;
 		private CancellationTokenSource cancellationTokenSource;
+		private FileSystem fileSystem;
 		private string connectionToken;
 		private int currentPowerSupplyValue;
 		private int currentWlanValue;
 		private string examId;
 		private HttpClient httpClient;
+		private ConcurrentQueue<string> instructionConfirmations;
 		private ILogger logger;
 		private ConcurrentQueue<ILogContent> logContent;
+		private Parser parser;
 		private string oauth2Token;
 		private int pingNumber;
 		private IPowerSupply powerSupply;
@@ -53,6 +55,8 @@ namespace SafeExamBrowser.Server
 		private Timer timer;
 		private IWirelessAdapter wirelessAdapter;
 
+		public event ProctoringConfigurationReceivedEventHandler ProctoringConfigurationReceived;
+		public event ProctoringInstructionReceivedEventHandler ProctoringInstructionReceived;
 		public event TerminationRequestedEventHandler TerminationRequested;
 
 		public ServerProxy(
@@ -64,9 +68,12 @@ namespace SafeExamBrowser.Server
 			this.api = new ApiVersion1();
 			this.appConfig = appConfig;
 			this.cancellationTokenSource = new CancellationTokenSource();
+			this.fileSystem = new FileSystem(appConfig, logger);
 			this.httpClient = new HttpClient();
-			this.logContent = new ConcurrentQueue<ILogContent>();
+			this.instructionConfirmations = new ConcurrentQueue<string>();
 			this.logger = logger;
+			this.logContent = new ConcurrentQueue<ILogContent>();
+			this.parser = new Parser(logger);
 			this.powerSupply = powerSupply;
 			this.timer = new Timer();
 			this.wirelessAdapter = wirelessAdapter;
@@ -75,9 +82,9 @@ namespace SafeExamBrowser.Server
 		public ServerResponse Connect()
 		{
 			var success = TryExecute(HttpMethod.Get, settings.ApiUrl, out var response);
-			var message = ToString(response);
+			var message = response.ToLogString();
 
-			if (success && TryParseApi(response.Content))
+			if (success && parser.TryParseApi(response.Content, out api))
 			{
 				logger.Info("Successfully loaded server API.");
 
@@ -87,9 +94,9 @@ namespace SafeExamBrowser.Server
 				var contentType = "application/x-www-form-urlencoded";
 
 				success = TryExecute(HttpMethod.Post, api.AccessTokenEndpoint, out response, content, contentType, authorization);
-				message = ToString(response);
+				message = response.ToLogString();
 
-				if (success && TryParseOauth2Token(response.Content))
+				if (success && parser.TryParseOauth2Token(response.Content, out oauth2Token))
 				{
 					logger.Info("Successfully retrieved OAuth2 token.");
 				}
@@ -114,7 +121,7 @@ namespace SafeExamBrowser.Server
 			var token = ("SEBConnectionToken", connectionToken);
 
 			var success = TryExecute(HttpMethod.Delete, api.HandshakeEndpoint, out var response, content, contentType, authorization, token);
-			var message = ToString(response);
+			var message = response.ToLogString();
 
 			if (success)
 			{
@@ -136,12 +143,12 @@ namespace SafeExamBrowser.Server
 			var exams = default(IList<Exam>);
 
 			var success = TryExecute(HttpMethod.Post, api.HandshakeEndpoint, out var response, content, contentType, authorization);
-			var message = ToString(response);
+			var message = response.ToLogString();
 
 			if (success)
 			{
-				var hasExams = TryParseExams(response.Content, out exams);
-				var hasToken = TryParseConnectionToken(response);
+				var hasExams = parser.TryParseExams(response.Content, out exams);
+				var hasToken = parser.TryParseConnectionToken(response, out connectionToken);
 
 				success = hasExams && hasToken;
 
@@ -173,13 +180,13 @@ namespace SafeExamBrowser.Server
 			var uri = default(Uri);
 
 			var success = TryExecute(HttpMethod.Get, $"{api.ConfigurationEndpoint}?examId={exam.Id}", out var response, default(string), default(string), authorization, token);
-			var message = ToString(response);
+			var message = response.ToLogString();
 
 			if (success)
 			{
 				logger.Info("Successfully retrieved exam configuration.");
 
-				success = TrySaveFile(response.Content, out uri);
+				success = fileSystem.TrySaveFile(response.Content, out uri);
 
 				if (success)
 				{
@@ -242,7 +249,7 @@ namespace SafeExamBrowser.Server
 			var token = ("SEBConnectionToken", connectionToken);
 
 			var success = TryExecute(HttpMethod.Put, api.HandshakeEndpoint, out var response, content, contentType, authorization, token);
-			var message = ToString(response);
+			var message = response.ToLogString();
 
 			if (success)
 			{
@@ -315,8 +322,8 @@ namespace SafeExamBrowser.Server
 					{
 						var json = new JObject
 						{
-							["type"] = ToLogType(message.Severity),
-							["timestamp"] = ToUnixTimestamp(message.DateTime),
+							["type"] = message.Severity.ToLogType(),
+							["timestamp"] = message.DateTime.ToUnixTimestamp(),
 							["text"] = message.Message
 						};
 						var content = json.ToString();
@@ -346,8 +353,8 @@ namespace SafeExamBrowser.Server
 					var token = ("SEBConnectionToken", connectionToken);
 					var json = new JObject
 					{
-						["type"] = ToLogType(LogLevel.Info),
-						["timestamp"] = ToUnixTimestamp(DateTime.Now),
+						["type"] = LogLevel.Info.ToLogType(),
+						["timestamp"] = DateTime.Now.ToUnixTimestamp(),
 						["text"] = $"<battery> {chargeInfo}, {status.BatteryTimeRemaining} remaining, {gridInfo}",
 						["numericValue"] = value
 					};
@@ -368,26 +375,43 @@ namespace SafeExamBrowser.Server
 			try
 			{
 				var authorization = ("Authorization", $"Bearer {oauth2Token}");
-				var content = $"timestamp={ToUnixTimestamp(DateTime.Now)}&ping-number={++pingNumber}";
+				var content = $"timestamp={DateTime.Now.ToUnixTimestamp()}&ping-number={++pingNumber}";
 				var contentType = "application/x-www-form-urlencoded";
 				var token = ("SEBConnectionToken", connectionToken);
+
+				if (instructionConfirmations.TryDequeue(out var confirmation))
+				{
+					content = $"{content}&instruction-confirm={confirmation}";
+				}
+
 				var success = TryExecute(HttpMethod.Post, api.PingEndpoint, out var response, content, contentType, authorization, token);
 
 				if (success)
 				{
-					if (TryParseInstruction(response.Content, out var instruction))
+					if (parser.TryParseInstruction(response.Content, out var attributes, out var instruction, out var instructionConfirmation))
 					{
 						switch (instruction)
 						{
-							case "SEB_QUIT":
+							case Instructions.PROCTORING:
+								Task.Run(() => ProctoringInstructionReceived?.Invoke(attributes.RoomName, attributes.ServerUrl, attributes.Token));
+								break;
+							case Instructions.PROCTORING_RECONFIGURATION:
+								Task.Run(() => ProctoringConfigurationReceived?.Invoke(attributes.EnableChat, attributes.ReceiveAudio, attributes.ReceiveVideo));
+								break;
+							case Instructions.QUIT:
 								Task.Run(() => TerminationRequested?.Invoke());
 								break;
+						}
+
+						if (instructionConfirmation != default(string))
+						{
+							instructionConfirmations.Enqueue(instructionConfirmation);
 						}
 					}
 				}
 				else
 				{
-					logger.Error($"Failed to send ping: {ToString(response)}");
+					logger.Error($"Failed to send ping: {response.ToLogString()}");
 				}
 			}
 			catch (Exception e)
@@ -411,7 +435,7 @@ namespace SafeExamBrowser.Server
 					var authorization = ("Authorization", $"Bearer {oauth2Token}");
 					var contentType = "application/json;charset=UTF-8";
 					var token = ("SEBConnectionToken", connectionToken);
-					var json = new JObject { ["type"] = ToLogType(LogLevel.Info), ["timestamp"] = ToUnixTimestamp(DateTime.Now) };
+					var json = new JObject { ["type"] = LogLevel.Info.ToLogType(), ["timestamp"] = DateTime.Now.ToUnixTimestamp() };
 
 					if (network != default(IWirelessNetwork))
 					{
@@ -432,148 +456,6 @@ namespace SafeExamBrowser.Server
 			{
 				logger.Error("Failed to send wireless status!", e);
 			}
-		}
-
-		private bool TryParseApi(HttpContent content)
-		{
-			var success = false;
-
-			try
-			{
-				var json = JsonConvert.DeserializeObject(Extract(content)) as JObject;
-				var apis = json["api-versions"];
-
-				foreach (var api in apis.AsJEnumerable())
-				{
-					if (api["name"].Value<string>().Equals("v1"))
-					{
-						foreach (var endpoint in api["endpoints"].AsJEnumerable())
-						{
-							var name = endpoint["name"].Value<string>();
-							var location = endpoint["location"].Value<string>();
-
-							switch (name)
-							{
-								case "access-token-endpoint":
-									this.api.AccessTokenEndpoint = location;
-									break;
-								case "seb-configuration-endpoint":
-									this.api.ConfigurationEndpoint = location;
-									break;
-								case "seb-handshake-endpoint":
-									this.api.HandshakeEndpoint = location;
-									break;
-								case "seb-log-endpoint":
-									this.api.LogEndpoint = location;
-									break;
-								case "seb-ping-endpoint":
-									this.api.PingEndpoint = location;
-									break;
-							}
-						}
-
-						success = true;
-					}
-					 
-					if (!success)
-					{
-						logger.Error("The selected SEB server instance does not support the required API version!");
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to parse server API!", e);
-			}
-
-			return success;
-		}
-
-		private bool TryParseConnectionToken(HttpResponseMessage response)
-		{
-			try
-			{
-				var hasHeader = response.Headers.TryGetValues("SEBConnectionToken", out var values);
-
-				if (hasHeader)
-				{
-					connectionToken = values.First();
-				}
-				else
-				{
-					logger.Error("Failed to retrieve connection token!");
-				}
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to parse connection token!", e);
-			}
-
-			return connectionToken != default(string);
-		}
-
-		private bool TryParseExams(HttpContent content, out IList<Exam> exams)
-		{
-			exams = new List<Exam>();
-
-			try
-			{
-				var json = JsonConvert.DeserializeObject(Extract(content)) as JArray;
-
-				foreach (var exam in json.AsJEnumerable())
-				{
-					exams.Add(new Exam
-					{
-						Id = exam["examId"].Value<string>(),
-						LmsName = exam["lmsType"].Value<string>(),
-						Name = exam["name"].Value<string>(),
-						Url = exam["url"].Value<string>()
-					});
-				}
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to parse exams!", e);
-			}
-
-			return exams.Any();
-		}
-
-		private bool TryParseInstruction(HttpContent content, out string instruction)
-		{
-			instruction = default(string);
-
-			try
-			{
-				var json = JsonConvert.DeserializeObject(Extract(content)) as JObject;
-
-				if (json != default(JObject))
-				{
-					instruction = json["instruction"].Value<string>();
-				}
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to parse instruction!", e);
-			}
-
-			return instruction != default(string);
-		}
-
-		private bool TryParseOauth2Token(HttpContent content)
-		{
-			try
-			{
-				var json = JsonConvert.DeserializeObject(Extract(content)) as JObject;
-
-				oauth2Token = json["access_token"].Value<string>();
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to parse Oauth2 token!", e);
-			}
-
-			return oauth2Token != default(string);
 		}
 
 		private bool TryExecute(
@@ -611,7 +493,7 @@ namespace SafeExamBrowser.Server
 
 					if (request.RequestUri.AbsolutePath != api.LogEndpoint && request.RequestUri.AbsolutePath != api.PingEndpoint)
 					{
-						logger.Debug($"Completed request: {request.Method} '{request.RequestUri}' -> {ToString(response)}");
+						logger.Debug($"Completed request: {request.Method} '{request.RequestUri}' -> {response.ToLogString()}");
 					}
 				}
 				catch (TaskCanceledException)
@@ -626,75 +508,6 @@ namespace SafeExamBrowser.Server
 			}
 
 			return response != default(HttpResponseMessage) && response.IsSuccessStatusCode;
-		}
-
-		private bool TrySaveFile(HttpContent content, out Uri uri)
-		{
-			uri = new Uri(Path.Combine(appConfig.TemporaryDirectory, $"ServerExam{appConfig.ConfigurationFileExtension}"));
-
-			try
-			{
-				var task = Task.Run(async () =>
-				{
-					return await content.ReadAsStreamAsync();
-				});
-
-				using (var data = task.GetAwaiter().GetResult())
-				using (var file = new FileStream(uri.LocalPath, FileMode.Create))
-				{
-					data.Seek(0, SeekOrigin.Begin);
-					data.CopyTo(file);
-					data.Flush();
-					file.Flush();
-				}
-
-				return true;
-			}
-			catch (Exception e)
-			{
-				logger.Error($"Failed to save file '{uri.LocalPath}'!", e);
-			}
-
-			return false;
-		}
-
-		private string Extract(HttpContent content)
-		{
-			var task = Task.Run(async () =>
-			{
-				return await content.ReadAsStreamAsync();
-			});
-			var stream = task.GetAwaiter().GetResult();
-			var reader = new StreamReader(stream);
-
-			return reader.ReadToEnd();
-		}
-
-		private string ToLogType(LogLevel severity)
-		{
-			switch (severity)
-			{
-				case LogLevel.Debug:
-					return "DEBUG_LOG";
-				case LogLevel.Error:
-					return "ERROR_LOG";
-				case LogLevel.Info:
-					return "INFO_LOG";
-				case LogLevel.Warning:
-					return "WARN_LOG";
-			}
-
-			return "UNKNOWN";
-		}
-
-		private string ToString(HttpResponseMessage response)
-		{
-			return $"{(int?) response?.StatusCode} {response?.StatusCode} {response?.ReasonPhrase}";
-		}
-
-		private long ToUnixTimestamp(DateTime date)
-		{
-			return new DateTimeOffset(date).ToUnixTimeMilliseconds();
 		}
 	}
 }

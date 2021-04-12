@@ -59,6 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\ApiVersion1.cs" />
+    <Compile Include="Data\Attributes.cs" />
+    <Compile Include="Data\Instructions.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="FileSystem.cs" />
+    <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerProxy.cs" />
   </ItemGroup>

@@ -6,32 +6,33 @@
         <div id="placeholder" />
         <script src='https://meet.jit.si/external_api.js'></script>
         <script type="text/javascript">
-            var domain = "%%_DOMAIN_%%";
+            var configOverwrite = {
+                disableProfile: true,
+                startAudioOnly: '%_AUDIO_ONLY_%',
+                startWithAudioMuted: '%_AUDIO_MUTED_%',
+                startWithVideoMuted: '%_VIDEO_MUTED_%'
+            };
+            var interfaceOverwrite = {
+                JITSI_WATERMARK_LINK: '',
+                SHOW_JITSI_WATERMARK: false,
+                TOOLBAR_BUTTONS: [
+                    'microphone', 'camera', '%%_ALLOW_CLOSED_CAPTIONS_%%', /*'desktop',*/ 'embedmeeting', 'fullscreen',
+                    'fodeviceselection', 'hangup', 'profile', '%%_ALLOW_CHAT_%%', '%%_ALLOW_RECORDING_%%',
+                    'livestreaming', 'etherpad', /*'sharedvideo',*/ 'settings', '%%_ALLOW_RAISE_HAND_%%',
+                    'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
+                    '%%_ALLOW_TILE_VIEW_%%', 'select-background', 'download', 'help', /*'mute-everyone',*/ 'mute-video-everyone', 'security'
+                ]
+            };
             var options = {
-                configOverwrite: {
-                    disable1On1Mode: true,
-                    startAudioOnly: false,
-                    startWithAudioMuted: true,
-                    startWithVideoMuted: false
-                },
+                configOverwrite: configOverwrite,
                 height: "100%",
-                interfaceConfigOverwrite: {
-                    JITSI_WATERMARK_LINK: '',
-                    SHOW_JITSI_WATERMARK: false,
-                    TOOLBAR_BUTTONS: [
-                         'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
-                         'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
-                         'livestreaming', 'etherpad', /*'sharedvideo',*/ 'settings', 'raisehand',
-                         'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
-                         'tileview', 'select-background', 'download', 'help', 'mute-everyone', 'mute-video-everyone', 'security'
-                     ]
-                },
+                interfaceConfigOverwrite: interfaceOverwrite,
                 jwt: "%%_TOKEN_%%",
                 parentNode: document.querySelector('#placeholder'),
                 roomName: "%%_ROOM_NAME_%%",
                 width: "100%"
             };
-            var api = new JitsiMeetExternalAPI(domain, options);
+            var api = new JitsiMeetExternalAPI("%%_DOMAIN_%%", options);
 
             api.executeCommand("subject", "%%_SUBJECT_%%");
         </script>

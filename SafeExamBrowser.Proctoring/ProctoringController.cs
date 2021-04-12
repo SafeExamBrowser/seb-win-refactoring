@@ -9,6 +9,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Windows;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.Core.Contracts.Notifications.Events;
@@ -16,6 +17,7 @@ using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.Contracts;
+using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -28,23 +30,32 @@ namespace SafeExamBrowser.Proctoring
 		private readonly AppConfig appConfig;
 		private readonly IFileSystem fileSystem;
 		private readonly IModuleLogger logger;
+		private readonly IServerProxy server;
 		private readonly IText text;
 		private readonly IUserInterfaceFactory uiFactory;
 
 		private string filePath;
-		private IProctoringWindow window;
+		private ProctoringControl control;
 		private ProctoringSettings settings;
+		private IProctoringWindow window;
 
-		public string Tooltip { get; }
 		public IconResource IconResource { get; set; }
+		public string Tooltip { get; }
 
 		public event NotificationChangedEventHandler NotificationChanged;
 
-		public ProctoringController(AppConfig appConfig, IFileSystem fileSystem, IModuleLogger logger, IText text, IUserInterfaceFactory uiFactory)
+		public ProctoringController(
+			AppConfig appConfig,
+			IFileSystem fileSystem,
+			IModuleLogger logger,
+			IServerProxy server,
+			IText text,
+			IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
 			this.fileSystem = fileSystem;
 			this.logger = logger;
+			this.server = server;
 			this.text = text;
 			this.uiFactory = uiFactory;
 
@@ -60,54 +71,120 @@ namespace SafeExamBrowser.Proctoring
 			}
 			else if (settings.WindowVisibility == WindowVisibility.AllowToHide || settings.WindowVisibility == WindowVisibility.AllowToShow)
 			{
-				window.Toggle();
+				window?.Toggle();
 			}
 		}
 
 		public void Initialize(ProctoringSettings settings)
 		{
+			var start = false;
+
 			this.settings = settings;
 
-			if (settings.JitsiMeet.Enabled || settings.Zoom.Enabled)
+			server.ProctoringConfigurationReceived += Server_ProctoringConfigurationReceived;
+			server.ProctoringInstructionReceived += Server_ProctoringInstructionReceived;
+
+			if (settings.JitsiMeet.Enabled)
 			{
-				var content = LoadContent(settings);
-				var control = new ProctoringControl(logger.CloneFor(nameof(ProctoringControl)));
+				start = !string.IsNullOrWhiteSpace(settings.JitsiMeet.RoomName);
+				start &= !string.IsNullOrWhiteSpace(settings.JitsiMeet.ServerUrl);
+				start &= !string.IsNullOrWhiteSpace(settings.JitsiMeet.Token);
+			}
+			else if (settings.Zoom.Enabled)
+			{
+				start = !string.IsNullOrWhiteSpace(settings.Zoom.ApiKey);
+				start &= !string.IsNullOrWhiteSpace(settings.Zoom.ApiSecret);
+				start &= settings.Zoom.MeetingNumber != default(int);
+				start &= !string.IsNullOrWhiteSpace(settings.Zoom.UserName);
+			}
 
-				filePath = Path.Combine(appConfig.TemporaryDirectory, $"{Path.GetRandomFileName()}_index.html");
-				fileSystem.Save(content, filePath);
+			if (start)
+			{
+				StartProctoring();
+			}
+		}
 
-				control.EnsureCoreWebView2Async().ContinueWith(_ =>
+		public void Terminate()
+		{
+			StopProctoring();
+		}
+
+		private void Server_ProctoringInstructionReceived(string roomName, string serverUrl, string token)
+		{
+			logger.Info("Proctoring instruction received.");
+
+			settings.JitsiMeet.RoomName = roomName;
+			settings.JitsiMeet.ServerUrl = serverUrl.Replace(Uri.UriSchemeHttps, "").Replace(Uri.UriSchemeHttp, "").Replace(Uri.SchemeDelimiter, "");
+			settings.JitsiMeet.Token = token;
+
+			if (window != default(IProctoringWindow))
+			{
+				StopProctoring();
+			}
+
+			StartProctoring();
+		}
+
+		private void Server_ProctoringConfigurationReceived(bool enableChat, bool receiveAudio, bool receiveVideo)
+		{
+			logger.Info("Proctoring configuration received.");
+
+			// TODO: How to set these things dynamically?!?
+
+			control.ExecuteScriptAsync("api.executeCommand('toggleChat');");
+		}
+
+		private void StartProctoring()
+		{
+			Application.Current.Dispatcher.Invoke(() =>
+			{
+				try
 				{
-					control.Dispatcher.Invoke(() => control.CoreWebView2.Navigate(filePath));
-				});
+					var content = LoadContent(settings);
 
-				window = uiFactory.CreateProctoringWindow(control);
+					filePath = Path.Combine(appConfig.TemporaryDirectory, $"{Path.GetRandomFileName()}_index.html");
+					fileSystem.Save(content, filePath);
 
-				if (settings.WindowVisibility == WindowVisibility.AllowToHide || settings.WindowVisibility == WindowVisibility.Visible)
-				{
+					control = new ProctoringControl(logger.CloneFor(nameof(ProctoringControl)));
+					control.EnsureCoreWebView2Async().ContinueWith(_ =>
+					{
+						control.Dispatcher.Invoke(() =>
+						{
+							control.CoreWebView2.Navigate(filePath);
+						});
+					});
+
+					window = uiFactory.CreateProctoringWindow(control);
 					window.SetTitle(settings.JitsiMeet.Enabled ? settings.JitsiMeet.Subject : settings.Zoom.UserName);
 					window.Show();
+
+					if (settings.WindowVisibility == WindowVisibility.AllowToShow || settings.WindowVisibility == WindowVisibility.Hidden)
+					{
+						window.Hide();
+					}
+
+					IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Active.xaml") };
+					NotificationChanged?.Invoke();
+
+					logger.Info($"Started proctoring with {(settings.JitsiMeet.Enabled ? "Jitsi Meet" : "Zoom")}.");
 				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to start proctoring! Reason: {e.Message}", e);
+				}
+			});
+		}
 
-				logger.Info($"Initialized proctoring with {(settings.JitsiMeet.Enabled ? "Jitsi Meet" : "Zoom")}.");
-
-				IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Active.xaml") };
-				NotificationChanged?.Invoke();
-			}
-			else
+		private void StopProctoring()
+		{
+			if (window != default(IProctoringWindow))
 			{
-				logger.Warn("Failed to initialize remote proctoring because no provider is enabled in the active configuration.");
+				window.Close();
+				window = default(IProctoringWindow);
+				fileSystem.Delete(filePath);
+
+				logger.Info("Stopped proctoring.");
 			}
-		}
-
-		void INotification.Terminate()
-		{
-			window?.Close();
-		}
-
-		void IProctoringController.Terminate()
-		{
-			fileSystem.Delete(filePath);
 		}
 
 		private string LoadContent(ProctoringSettings settings)
@@ -123,10 +200,18 @@ namespace SafeExamBrowser.Proctoring
 
 				if (settings.JitsiMeet.Enabled)
 				{
+					html = html.Replace("%%_ALLOW_CHAT_%%", settings.JitsiMeet.AllowChat ? "chat" : "");
+					html = html.Replace("%%_ALLOW_CLOSED_CAPTIONS_%%", settings.JitsiMeet.AllowCloseCaptions ? "closedcaptions" : "");
+					html = html.Replace("%%_ALLOW_RAISE_HAND_%%", settings.JitsiMeet.AllowRaiseHand ? "raisehand" : "");
+					html = html.Replace("%%_ALLOW_RECORDING_%%", settings.JitsiMeet.AllowRecording ? "recording" : "");
+					html = html.Replace("%%_ALLOW_TILE_VIEW", settings.JitsiMeet.AllowTileView ? "tileview" : "");
+					html = html.Replace("'%_AUDIO_MUTED_%'", settings.JitsiMeet.AudioMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
+					html = html.Replace("'%_AUDIO_ONLY_%'", settings.JitsiMeet.AudioOnly ? "true" : "false");
+					html = html.Replace("%%_SUBJECT_%%", settings.JitsiMeet.ShowMeetingName ? settings.JitsiMeet.Subject : "   ");
 					html = html.Replace("%%_DOMAIN_%%", settings.JitsiMeet.ServerUrl);
 					html = html.Replace("%%_ROOM_NAME_%%", settings.JitsiMeet.RoomName);
-					html = html.Replace("%%_SUBJECT_%%", settings.JitsiMeet.Subject);
 					html = html.Replace("%%_TOKEN_%%", settings.JitsiMeet.Token);
+					html = html.Replace("'%_VIDEO_MUTED_%'", settings.JitsiMeet.VideoMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
 				}
 				else if (settings.Zoom.Enabled)
 				{

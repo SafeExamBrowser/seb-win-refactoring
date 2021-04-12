@@ -17,20 +17,59 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			switch (key)
 			{
+				case Keys.Proctoring.JitsiMeet.AllowChat:
+					MapJitsiMeetAllowChat(settings, value);
+					break;
+				case Keys.Proctoring.JitsiMeet.AllowCloseCaptions:
+					MapJitsiMeetAllowCloseCaptions(settings, value);
+					break;
+				case Keys.Proctoring.JitsiMeet.AllowRaiseHand:
+					MapJitsiMeetAllowRaiseHands(settings, value);
+					break;
+				case Keys.Proctoring.JitsiMeet.AllowRecording:
+					MapJitsiMeetAllowRecording(settings, value);
+					break;
+				case Keys.Proctoring.JitsiMeet.AllowTileView:
+					MapJitsiMeetAllowTileView(settings, value);
+					break;
+				case Keys.Proctoring.JitsiMeet.AudioMuted:
+					MapJitsiMeetAudioMuted(settings, value);
+					break;
+				case Keys.Proctoring.JitsiMeet.AudioOnly:
+					MapJitsiMeetAudioOnly(settings, value);
+					break;
 				case Keys.Proctoring.JitsiMeet.Enabled:
 					MapJitsiMeetEnabled(settings, value);
+					break;
+				case Keys.Proctoring.JitsiMeet.ReceiveAudio:
+					MapJitsiMeetReceiveAudio(settings, value);
+					break;
+				case Keys.Proctoring.JitsiMeet.ReceiveVideo:
+					MapJitsiMeetReceiveVideo(settings, value);
 					break;
 				case Keys.Proctoring.JitsiMeet.RoomName:
 					MapJitsiMeetRoomName(settings, value);
 					break;
+				case Keys.Proctoring.JitsiMeet.SendAudio:
+					MapJitsiMeetSendAudio(settings, value);
+					break;
+				case Keys.Proctoring.JitsiMeet.SendVideo:
+					MapJitsiMeetSendVideo(settings, value);
+					break;
 				case Keys.Proctoring.JitsiMeet.ServerUrl:
 					MapJitsiMeetServerUrl(settings, value);
+					break;
+				case Keys.Proctoring.JitsiMeet.ShowMeetingName:
+					MapJitsiMeetShowMeetingName(settings, value);
 					break;
 				case Keys.Proctoring.JitsiMeet.Subject:
 					MapJitsiMeetSubject(settings, value);
 					break;
 				case Keys.Proctoring.JitsiMeet.Token:
 					MapJitsiMeetToken(settings, value);
+					break;
+				case Keys.Proctoring.JitsiMeet.VideoMuted:
+					MapJitsiMeetVideoMuted(settings, value);
 					break;
 				case Keys.Proctoring.ShowTaskbarNotification:
 					MapShowTaskbarNotification(settings, value);
@@ -44,11 +83,83 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
+		private void MapJitsiMeetAllowChat(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Proctoring.JitsiMeet.AllowChat = allow;
+			}
+		}
+
+		private void MapJitsiMeetAllowCloseCaptions(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Proctoring.JitsiMeet.AllowCloseCaptions = allow;
+			}
+		}
+
+		private void MapJitsiMeetAllowRaiseHands(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Proctoring.JitsiMeet.AllowRaiseHand = allow;
+			}
+		}
+
+		private void MapJitsiMeetAllowRecording(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Proctoring.JitsiMeet.AllowRecording = allow;
+			}
+		}
+
+		private void MapJitsiMeetAllowTileView(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Proctoring.JitsiMeet.AllowTileView = allow;
+			}
+		}
+
+		private void MapJitsiMeetAudioMuted(AppSettings settings, object value)
+		{
+			if (value is bool audioMuted)
+			{
+				settings.Proctoring.JitsiMeet.AudioMuted = audioMuted;
+			}
+		}
+
+		private void MapJitsiMeetAudioOnly(AppSettings settings, object value)
+		{
+			if (value is bool audioOnly)
+			{
+				settings.Proctoring.JitsiMeet.AudioOnly = audioOnly;
+			}
+		}
+
 		private void MapJitsiMeetEnabled(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
 				settings.Proctoring.JitsiMeet.Enabled = enabled;
+			}
+		}
+
+		private void MapJitsiMeetReceiveAudio(AppSettings settings, object value)
+		{
+			if (value is bool receive)
+			{
+				settings.Proctoring.JitsiMeet.ReceiveAudio = receive;
+			}
+		}
+
+		private void MapJitsiMeetReceiveVideo(AppSettings settings, object value)
+		{
+			if (value is bool receive)
+			{
+				settings.Proctoring.JitsiMeet.ReceiveVideo = receive;
 			}
 		}
 
@@ -60,11 +171,35 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
+		private void MapJitsiMeetSendAudio(AppSettings settings, object value)
+		{
+			if (value is bool send)
+			{
+				settings.Proctoring.JitsiMeet.SendAudio = send;
+			}
+		}
+
+		private void MapJitsiMeetSendVideo(AppSettings settings, object value)
+		{
+			if (value is bool send)
+			{
+				settings.Proctoring.JitsiMeet.SendVideo = send;
+			}
+		}
+
 		private void MapJitsiMeetServerUrl(AppSettings settings, object value)
 		{
 			if (value is string url)
 			{
 				settings.Proctoring.JitsiMeet.ServerUrl = url;
+			}
+		}
+
+		private void MapJitsiMeetShowMeetingName(AppSettings settings, object value)
+		{
+			if (value is bool show)
+			{
+				settings.Proctoring.JitsiMeet.ShowMeetingName = show;
 			}
 		}
 
@@ -81,6 +216,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string token)
 			{
 				settings.Proctoring.JitsiMeet.Token = token;
+			}
+		}
+
+		private void MapJitsiMeetVideoMuted(AppSettings settings, object value)
+		{
+			if (value is bool muted)
+			{
+				settings.Proctoring.JitsiMeet.VideoMuted = muted;
 			}
 		}
 
