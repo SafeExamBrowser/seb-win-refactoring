@@ -345,6 +345,12 @@
     <Entry key="Notification_LogTooltip">
         Application Log
     </Entry>
+    <Entry key="Notification_ProctoringActiveTooltip">
+        Remote proctoring is active
+    </Entry>
+    <Entry key="Notification_ProctoringInactiveTooltip">
+        Remote proctoring is inactive
+    </Entry>
     <Entry key="OperationStatus_CloseRuntimeConnection">
         Closing runtime connection
     </Entry>
@@ -374,6 +380,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeKioskMode">
         Initializing kiosk mode
+    </Entry>
+    <Entry key="OperationStatus_InitializeProctoring">
+        Initializing remote proctoring
     </Entry>
     <Entry key="OperationStatus_InitializeRuntimeConnection">
         Initializing runtime connection
@@ -431,6 +440,9 @@
     </Entry>
     <Entry key="OperationStatus_TerminateBrowser">
         Terminating browser
+    </Entry>
+    <Entry key="OperationStatus_TerminateProctoring">
+        Terminating remote proctoring
     </Entry>
     <Entry key="OperationStatus_TerminateShell">
         Terminating user interface

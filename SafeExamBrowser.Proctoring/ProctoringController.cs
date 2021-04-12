@@ -40,7 +40,7 @@ namespace SafeExamBrowser.Proctoring
 		private IProctoringWindow window;
 
 		public IconResource IconResource { get; set; }
-		public string Tooltip { get; }
+		public string Tooltip { get; set; }
 
 		public event NotificationChangedEventHandler NotificationChanged;
 
@@ -60,7 +60,7 @@ namespace SafeExamBrowser.Proctoring
 			this.uiFactory = uiFactory;
 
 			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Inactive.xaml") };
-			Tooltip = text.Get(TextKey.Notification_ProctoringTooltip);
+			Tooltip = text.Get(TextKey.Notification_ProctoringInactiveTooltip);
 		}
 
 		public void Activate()
@@ -168,6 +168,7 @@ namespace SafeExamBrowser.Proctoring
 					}
 
 					IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Active.xaml") };
+					Tooltip = text.Get(TextKey.Notification_ProctoringActiveTooltip);
 					NotificationChanged?.Invoke();
 
 					logger.Info($"Started proctoring with {(settings.JitsiMeet.Enabled ? "Jitsi Meet" : "Zoom")}.");

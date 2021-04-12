@@ -345,6 +345,12 @@
     <Entry key="Notification_LogTooltip">
         Applikations-Protokoll
     </Entry>
+    <Entry key="Notification_ProctoringActiveTooltip">
+        Fernüberwachung ist aktiv
+    </Entry>
+    <Entry key="Notification_ProctoringInactiveTooltip">
+        Fernüberwachung ist nicht aktiv
+    </Entry>
     <Entry key="OperationStatus_CloseRuntimeConnection">
         Schliesse Verbindung zur Runtime
     </Entry>
@@ -374,6 +380,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeKioskMode">
         Initialisiere Kiosk-Modus
+    </Entry>
+    <Entry key="OperationStatus_InitializeProctoring">
+        Initialisiere Fernüberwachung
     </Entry>
     <Entry key="OperationStatus_InitializeRuntimeConnection">
         Initialisiere Verbindung zur Runtime
@@ -431,6 +440,9 @@
     </Entry>
     <Entry key="OperationStatus_TerminateBrowser">
         Beende Browser
+    </Entry>
+    <Entry key="OperationStatus_TerminateProctoring">
+        Beende Fernüberwachung
     </Entry>
     <Entry key="OperationStatus_TerminateShell">
         Beende Benutzeroberfläche

@@ -345,6 +345,12 @@
     <Entry key="Notification_LogTooltip">
         Journal d’application
     </Entry>
+    <Entry key="Notification_ProctoringActiveTooltip">
+        La surveillance à distance est active
+    </Entry>
+    <Entry key="Notification_ProctoringInactiveTooltip">
+        La surveillance à distance est inactive
+    </Entry>
     <Entry key="OperationStatus_CloseRuntimeConnection">
         Fermeture de la connexion
     </Entry>
@@ -374,6 +380,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeKioskMode">
         Initialisation du mode kiosque
+    </Entry>
+    <Entry key="OperationStatus_InitializeProctoring">
+        Initialisation de la surveillance à distance
     </Entry>
     <Entry key="OperationStatus_InitializeRuntimeConnection">
         Initialisation de la connexion d'exécution
@@ -431,6 +440,9 @@
     </Entry>
     <Entry key="OperationStatus_TerminateBrowser">
         Arrêt du navigateur
+    </Entry>
+    <Entry key="OperationStatus_TerminateProctoring">
+        Arrêt de la surveillance à distance
     </Entry>
     <Entry key="OperationStatus_TerminateShell">
         Arrêt de l’interface utilisateur

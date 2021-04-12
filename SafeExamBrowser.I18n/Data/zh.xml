@@ -309,6 +309,12 @@
     <Entry key="Notification_LogTooltip">
         应用程序日志
     </Entry>
+    <Entry key="Notification_ProctoringActiveTooltip">
+        远程监理处于活动状态
+    </Entry>
+    <Entry key="Notification_ProctoringInactiveTooltip">
+        远程监理处于不活动状态
+    </Entry>
     <Entry key="OperationStatus_CloseRuntimeConnection">
         关闭运行时连接
     </Entry>
@@ -332,6 +338,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeKioskMode">
         初始化全屏模式
+    </Entry>
+    <Entry key="OperationStatus_InitializeProctoring">
+        初始化远程监理
     </Entry>
     <Entry key="OperationStatus_InitializeRuntimeConnection">
         初始化运行时连接
@@ -383,6 +392,9 @@
     </Entry>
     <Entry key="OperationStatus_TerminateBrowser">
         终止浏览器
+    </Entry>
+    <Entry key="OperationStatus_TerminateProctoring">
+        终止远程监督
     </Entry>
     <Entry key="OperationStatus_TerminateShell">
         终止用户界面

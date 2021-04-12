@@ -129,8 +129,8 @@ namespace SafeExamBrowser.I18n.Contracts
 		MessageBox_YesButton,
 		Notification_AboutTooltip,
 		Notification_LogTooltip,
-		// TODO
-		Notification_ProctoringTooltip,
+		Notification_ProctoringActiveTooltip,
+		Notification_ProctoringInactiveTooltip,
 		OperationStatus_CloseRuntimeConnection,
 		OperationStatus_EmptyClipboard,
 		OperationStatus_FinalizeApplications,
@@ -141,7 +141,6 @@ namespace SafeExamBrowser.I18n.Contracts
 		OperationStatus_InitializeBrowser,
 		OperationStatus_InitializeConfiguration,
 		OperationStatus_InitializeKioskMode,
-		// TODO
 		OperationStatus_InitializeProctoring,
 		OperationStatus_InitializeRuntimeConnection,
 		OperationStatus_InitializeServer,
@@ -162,7 +161,6 @@ namespace SafeExamBrowser.I18n.Contracts
 		OperationStatus_StopKeyboardInterception,
 		OperationStatus_StopMouseInterception,
 		OperationStatus_TerminateBrowser,
-		// TODO
 		OperationStatus_TerminateProctoring,
 		OperationStatus_TerminateShell,
 		OperationStatus_ValidateRemoteSessionPolicy,
