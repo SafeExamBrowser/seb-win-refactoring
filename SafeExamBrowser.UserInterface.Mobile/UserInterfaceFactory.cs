@@ -165,8 +165,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 
 		public IProctoringWindow CreateProctoringWindow(IProctoringControl control)
 		{
-			// TODO
-			throw new System.NotImplementedException();
+			return Application.Current.Dispatcher.Invoke(() => new ProctoringWindow(control));
 		}
 
 		public IRuntimeWindow CreateRuntimeWindow(AppConfig appConfig)
