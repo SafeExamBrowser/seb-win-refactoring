@@ -396,7 +396,7 @@ namespace SafeExamBrowser.Server
 								Task.Run(() => ProctoringInstructionReceived?.Invoke(attributes.RoomName, attributes.ServerUrl, attributes.Token));
 								break;
 							case Instructions.PROCTORING_RECONFIGURATION:
-								Task.Run(() => ProctoringConfigurationReceived?.Invoke(attributes.EnableChat, attributes.ReceiveAudio, attributes.ReceiveVideo));
+								Task.Run(() => ProctoringConfigurationReceived?.Invoke(attributes.AllowChat, attributes.ReceiveAudio, attributes.ReceiveVideo));
 								break;
 							case Instructions.QUIT:
 								Task.Run(() => TerminationRequested?.Invoke());

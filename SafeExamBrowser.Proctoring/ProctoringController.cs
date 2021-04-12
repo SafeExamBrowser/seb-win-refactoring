@@ -117,21 +117,25 @@ namespace SafeExamBrowser.Proctoring
 			settings.JitsiMeet.ServerUrl = serverUrl.Replace(Uri.UriSchemeHttps, "").Replace(Uri.UriSchemeHttp, "").Replace(Uri.SchemeDelimiter, "");
 			settings.JitsiMeet.Token = token;
 
-			if (window != default(IProctoringWindow))
-			{
-				StopProctoring();
-			}
-
+			StopProctoring();
 			StartProctoring();
 		}
 
-		private void Server_ProctoringConfigurationReceived(bool enableChat, bool receiveAudio, bool receiveVideo)
+		private void Server_ProctoringConfigurationReceived(bool allowChat, bool receiveAudio, bool receiveVideo)
 		{
 			logger.Info("Proctoring configuration received.");
 
-			// TODO: How to set these things dynamically?!?
+			settings.JitsiMeet.AllowChat = allowChat;
+			settings.JitsiMeet.ReceiveAudio = receiveAudio;
+			settings.JitsiMeet.ReceiveVideo = receiveVideo;
 
-			control.ExecuteScriptAsync("api.executeCommand('toggleChat');");
+			if (allowChat || receiveVideo)
+			{
+				settings.WindowVisibility = WindowVisibility.AllowToHide;
+			}
+
+			StopProctoring();
+			StartProctoring();
 		}
 
 		private void StartProctoring()

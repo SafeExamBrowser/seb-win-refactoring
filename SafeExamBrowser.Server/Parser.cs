@@ -169,7 +169,7 @@ namespace SafeExamBrowser.Server
 								attributes.Token = attributesJson["jitsiMeetToken"].Value<string>();
 								break;
 							case Instructions.PROCTORING_RECONFIGURATION:
-								attributes.EnableChat = attributesJson["jitsiMeetFeatureFlagChat"].Value<bool>();
+								attributes.AllowChat = attributesJson["jitsiMeetFeatureFlagChat"].Value<bool>();
 								attributes.ReceiveAudio = attributesJson["jitsiMeetReceiveAudio"].Value<bool>();
 								attributes.ReceiveVideo = attributesJson["jitsiMeetReceiveVideo"].Value<bool>();
 								break;

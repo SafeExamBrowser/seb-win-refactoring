@@ -11,5 +11,5 @@ namespace SafeExamBrowser.Server.Contracts.Events
 	/// <summary>
 	/// Event handler used to indicate that proctoring configuration data has been received.
 	/// </summary>
-	public delegate void ProctoringConfigurationReceivedEventHandler(bool enableChat, bool receiveAudio, bool receiveVideo);
+	public delegate void ProctoringConfigurationReceivedEventHandler(bool allowChat, bool receiveAudio, bool receiveVideo);
 }

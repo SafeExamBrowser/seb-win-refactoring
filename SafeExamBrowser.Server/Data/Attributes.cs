@@ -10,7 +10,7 @@ namespace SafeExamBrowser.Server.Data
 {
 	internal class Attributes
 	{
-		public bool EnableChat { get; set; }
+		public bool AllowChat { get; set; }
 		public bool ReceiveAudio { get; set; }
 		public bool ReceiveVideo { get; set; }
 		public string RoomName { get; set; }
