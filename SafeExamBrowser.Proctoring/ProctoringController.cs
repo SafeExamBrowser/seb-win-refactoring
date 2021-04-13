@@ -114,7 +114,7 @@ namespace SafeExamBrowser.Proctoring
 			logger.Info("Proctoring instruction received.");
 
 			settings.JitsiMeet.RoomName = roomName;
-			settings.JitsiMeet.ServerUrl = serverUrl.Replace(Uri.UriSchemeHttps, "").Replace(Uri.UriSchemeHttp, "").Replace(Uri.SchemeDelimiter, "");
+			settings.JitsiMeet.ServerUrl = serverUrl.Replace($"{Uri.UriSchemeHttp}{Uri.SchemeDelimiter}", "").Replace($"{Uri.UriSchemeHttps}{Uri.SchemeDelimiter}", "");
 			settings.JitsiMeet.Token = token;
 
 			StopProctoring();
