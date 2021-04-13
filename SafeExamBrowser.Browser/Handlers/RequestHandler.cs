@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using CefSharp;
 using SafeExamBrowser.Browser.Contracts.Filters;
@@ -23,6 +24,7 @@ namespace SafeExamBrowser.Browser.Handlers
 {
 	internal class RequestHandler : CefSharp.Handler.RequestHandler
 	{
+		private AppConfig appConfig;
 		private IRequestFilter filter;
 		private ILogger logger;
 		private string quitUrlPattern;
@@ -42,6 +44,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			WindowSettings windowSettings,
 			IText text)
 		{
+			this.appConfig = appConfig;
 			this.filter = filter;
 			this.logger = logger;
 			this.resourceHandler = resourceHandler;
@@ -91,6 +94,13 @@ namespace SafeExamBrowser.Browser.Handlers
 				return true;
 			}
 
+			if (IsConfigurationFile(request, out var downloadUrl))
+			{
+				browser.GetHost().StartDownload(downloadUrl);
+
+				return true;
+			}
+
 			return base.OnBeforeBrowse(webBrowser, browser, frame, request, userGesture, isRedirect);
 		}
 
@@ -107,6 +117,31 @@ namespace SafeExamBrowser.Browser.Handlers
 				default:
 					return base.OnOpenUrlFromTab(webBrowser, browser, frame, targetUrl, targetDisposition, userGesture);
 			}
+		}
+
+		private bool IsConfigurationFile(IRequest request, out string downloadUrl)
+		{
+			var uri = new Uri(request.Url);
+			var uriExtension = Path.GetExtension(uri.AbsolutePath);
+			var isConfigurationFile = string.Equals(appConfig.ConfigurationFileExtension, uriExtension, StringComparison.OrdinalIgnoreCase);
+
+			downloadUrl = request.Url;
+
+			if (isConfigurationFile)
+			{
+				if (uri.Scheme == appConfig.SebUriScheme)
+				{
+					downloadUrl = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttp }.Uri.AbsoluteUri;
+				}
+				else if (uri.Scheme == appConfig.SebUriSchemeSecure)
+				{
+					downloadUrl = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttps }.Uri.AbsoluteUri;
+				}
+
+				logger.Debug($"Detected configuration file {(windowSettings.UrlPolicy.CanLog() ? $"'{uri}'" : "")}.");
+			}
+
+			return isConfigurationFile;
 		}
 
 		private bool IsQuitUrl(IRequest request)
