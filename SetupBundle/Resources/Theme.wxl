@@ -49,7 +49,7 @@
   <String Id="FailureInstallHeader">Setup Failed</String>
   <String Id="FailureUninstallHeader">Uninstall Failed</String>
   <String Id="FailureRepairHeader">Repair Failed</String>
-  <String Id="FailureHyperlinkLogText">One or more issues caused the setup to fail. In some cases, the .NET Framework fails to install due to insufficient disk space (at least 4.5 GB required) or network issues. Please fix the issues (e.g. install the &lt;a href="https://dotnet.microsoft.com/download"&gt;.NET Framework Runtime&lt;/a&gt; manually) and then retry setup. For more information see the &lt;a href="#"&gt;log file&lt;/a&gt;.</String>
+  <String Id="FailureHyperlinkLogText">One or more issues caused the setup to fail. In some cases, the .NET Framework or the VC++ Redistributable fail to install due to insufficient disk space (at least 4.5 GB required) or network issues. Please fix the issues (e.g. install the &lt;a href="https://dotnet.microsoft.com/download"&gt;.NET Framework Runtime&lt;/a&gt; or the &lt;a href="https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads"&gt;VC++ Redistributable&lt;/a&gt; manually) and then retry setup. For more information see the &lt;a href="#"&gt;log file&lt;/a&gt;.</String>
   <String Id="FailureRestartText">You must restart your computer to complete the rollback of the software.</String>
   <String Id="FailureRestartButton">&amp;Restart</String>
   <String Id="FailureCloseButton">&amp;Close</String>
