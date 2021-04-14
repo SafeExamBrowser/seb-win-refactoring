@@ -10,6 +10,7 @@
         <Icon Id="ConfigurationToolIcon" SourceFile="Resources\ConfigurationTool.ico" />
         <Icon Id="ResetUtilityIcon" SourceFile="Resources\ResetUtility.ico" />
         <Property Id="ARPPRODUCTICON" Value="ApplicationIcon" />
+        <Property Id="WIXUI_EXITDIALOGOPTIONALTEXT" Value="PLEASE NOTE: In order to run SEB, you first need to install all the required dependencies as specified under https://github.com/SafeExamBrowser/seb-win-refactoring#readme." />
         <WixVariable Id="WixUILicenseRtf" Value="Resources\License.rtf" />
         <WixVariable Id="WixUIBannerBmp" Value="Resources\Banner.bmp" />
         <WixVariable Id="WixUIDialogBmp" Value="Resources\Dialog.bmp" />
