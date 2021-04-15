@@ -257,6 +257,9 @@ namespace SafeExamBrowser.Browser
 				cefSettings.CefCommandLineArgs.Add("disable-spell-checking");
 			}
 
+			// WebRTC enable
+			cefSettings.CefCommandLineArgs.Add("enable-media-stream", "1");
+
 			InitializeProxySettings(cefSettings);
 
 			logger.Debug($"Cache Path: {cefSettings.CachePath}");
