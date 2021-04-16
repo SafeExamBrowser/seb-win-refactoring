@@ -107,7 +107,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		{
 			var eventFired = false;
 			var request = new Mock<IRequest>();
-			var url = "www.test.org";
+			var url = "https://www.test.org";
 
 			filter.Setup(f => f.Process(It.Is<Request>(r => r.Url.Equals(url)))).Returns(FilterResult.Block);
 			request.SetupGet(r => r.ResourceType).Returns(ResourceType.MainFrame);
@@ -140,7 +140,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		{
 			var eventFired = false;
 			var request = new Mock<IRequest>();
-			var url = "www.test.org";
+			var url = "https://www.test.org";
 
 			filter.Setup(f => f.Process(It.Is<Request>(r => r.Url.Equals(url)))).Returns(FilterResult.Block);
 			request.SetupGet(r => r.ResourceType).Returns(ResourceType.SubFrame);
