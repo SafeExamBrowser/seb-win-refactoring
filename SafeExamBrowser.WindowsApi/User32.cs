@@ -78,6 +78,9 @@ namespace SafeExamBrowser.WindowsApi
 		internal static extern bool OpenClipboard(IntPtr hWndNewOwner);
 
 		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern IntPtr OpenInputDesktop(uint dwFlags, bool fInherit, uint dwDesiredAccess);
+
+		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
 		[DllImport("user32.dll", SetLastError = true)]

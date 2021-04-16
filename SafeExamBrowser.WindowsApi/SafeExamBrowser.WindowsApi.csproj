@@ -65,6 +65,7 @@
     <Compile Include="Delegates\HookDelegate.cs" />
     <Compile Include="Desktop.cs" />
     <Compile Include="DesktopFactory.cs" />
+    <Compile Include="DesktopMonitor.cs" />
     <Compile Include="ExplorerShell.cs" />
     <Compile Include="Hooks\MouseHook.cs" />
     <Compile Include="Hooks\SystemHook.cs" />

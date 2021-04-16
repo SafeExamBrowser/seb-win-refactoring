@@ -67,6 +67,7 @@
     <Compile Include="IBounds.cs" />
     <Compile Include="IDesktop.cs" />
     <Compile Include="IDesktopFactory.cs" />
+    <Compile Include="IDesktopMonitor.cs" />
     <Compile Include="IExplorerShell.cs" />
     <Compile Include="INativeMethods.cs" />
     <Compile Include="IProcess.cs" />

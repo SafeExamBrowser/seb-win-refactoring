@@ -20,6 +20,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		private IDesktop newDesktop;
 		private IDesktop originalDesktop;
 		private IDesktopFactory desktopFactory;
+		private IDesktopMonitor desktopMonitor;
 		private IExplorerShell explorerShell;
 		private KioskMode? activeMode;
 		private ILogger logger;
@@ -30,12 +31,14 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public KioskModeOperation(
 			IDesktopFactory desktopFactory,
+			IDesktopMonitor desktopMonitor,
 			IExplorerShell explorerShell,
 			ILogger logger,
 			IProcessFactory processFactory,
 			SessionContext sessionContext) : base(sessionContext)
 		{
 			this.desktopFactory = desktopFactory;
+			this.desktopMonitor = desktopMonitor;
 			this.explorerShell = explorerShell;
 			this.logger = logger;
 			this.processFactory = processFactory;
@@ -129,10 +132,14 @@ namespace SafeExamBrowser.Runtime.Operations
 			newDesktop.Activate();
 			processFactory.StartupDesktop = newDesktop;
 			logger.Info("Successfully activated new desktop.");
+
+			desktopMonitor.Start(newDesktop);
 		}
 
 		private void CloseNewDesktop()
 		{
+			desktopMonitor.Stop();
+
 			if (originalDesktop != null)
 			{
 				originalDesktop.Activate();

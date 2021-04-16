@@ -24,6 +24,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private SessionConfiguration currentSession;
 		private AppSettings currentSettings;
 		private Mock<IDesktopFactory> desktopFactory;
+		private Mock<IDesktopMonitor> desktopMonitor;
 		private Mock<IExplorerShell> explorerShell;
 		private Mock<ILogger> logger;
 		private SessionConfiguration nextSession;
@@ -39,6 +40,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			currentSession = new SessionConfiguration();
 			currentSettings = new AppSettings();
 			desktopFactory = new Mock<IDesktopFactory>();
+			desktopMonitor = new Mock<IDesktopMonitor>();
 			explorerShell = new Mock<IExplorerShell>();
 			logger = new Mock<ILogger>();
 			nextSession = new SessionConfiguration();
@@ -51,7 +53,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			sessionContext.Current = currentSession;
 			sessionContext.Next = nextSession;
 
-			sut = new KioskModeOperation(desktopFactory.Object, explorerShell.Object, logger.Object, processFactory.Object, sessionContext);
+			sut = new KioskModeOperation(desktopFactory.Object, desktopMonitor.Object, explorerShell.Object, logger.Object, processFactory.Object, sessionContext);
 		}
 
 		[TestMethod]
@@ -64,6 +66,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var createNew = 0;
 			var activate = 0;
 			var setStartup = 0;
+			var startMonitor = 0;
 
 			nextSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
 
@@ -71,6 +74,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			desktopFactory.Setup(f => f.CreateNew(It.IsAny<string>())).Callback(() => createNew = ++order).Returns(newDesktop.Object);
 			newDesktop.Setup(d => d.Activate()).Callback(() => activate = ++order);
 			processFactory.SetupSet(f => f.StartupDesktop = It.IsAny<IDesktop>()).Callback(() => setStartup = ++order);
+			desktopMonitor.Setup(m => m.Start(It.IsAny<IDesktop>())).Callback(() => startMonitor = ++order);
 
 			var result = sut.Perform();
 
@@ -86,6 +90,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			Assert.AreEqual(2, createNew);
 			Assert.AreEqual(3, activate);
 			Assert.AreEqual(4, setStartup);
+			Assert.AreEqual(5, startMonitor);
 		}
 
 		[TestMethod]
@@ -366,6 +371,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			desktopFactory.Verify(f => f.GetCurrent(), Times.Once);
 			desktopFactory.Verify(f => f.CreateNew(It.IsAny<string>()), Times.Once);
+			desktopMonitor.Verify(m => m.Start(It.IsAny<IDesktop>()), Times.Once);
+			desktopMonitor.Verify(m => m.Stop(), Times.Never);
 			explorerShell.VerifyNoOtherCalls();
 			newDesktop.Verify(d => d.Activate(), Times.Once);
 			newDesktop.Verify(d => d.Close(), Times.Never);
@@ -403,6 +410,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var order = 0;
 			var activate = 0;
 			var setStartup = 0;
+			var stopMonitor = 0;
 			var close = 0;
 
 			currentSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
@@ -415,6 +423,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			Assert.AreEqual(OperationResult.Success, performResult);
 
 			desktopFactory.Reset();
+			desktopMonitor.Setup(m => m.Stop()).Callback(() => stopMonitor = ++order);
 			explorerShell.Reset();
 			originalDesktop.Reset();
 			originalDesktop.Setup(d => d.Activate()).Callback(() => activate = ++order);
@@ -432,9 +441,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			Assert.AreEqual(OperationResult.Success, performResult);
 			Assert.AreEqual(OperationResult.Success, revertResult);
-			Assert.AreEqual(1, activate);
-			Assert.AreEqual(2, setStartup);
-			Assert.AreEqual(3, close);
+			Assert.AreEqual(1, stopMonitor);
+			Assert.AreEqual(2, activate);
+			Assert.AreEqual(3, setStartup);
+			Assert.AreEqual(4, close);
 		}
 
 		[TestMethod]
