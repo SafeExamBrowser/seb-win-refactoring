@@ -14,12 +14,12 @@ using CefSharp;
 using CefSharp.WinForms;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
-using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
+using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Browser;
@@ -256,6 +256,8 @@ namespace SafeExamBrowser.Browser
 			{
 				cefSettings.CefCommandLineArgs.Add("disable-spell-checking");
 			}
+
+			cefSettings.CefCommandLineArgs.Add("enable-media-stream");
 
 			InitializeProxySettings(cefSettings);
 
