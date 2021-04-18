@@ -30,6 +30,9 @@ namespace SafeExamBrowser.Proctoring
 		{
 			if (e.IsSuccess)
 			{
+				CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
+				CoreWebView2.Settings.AreDevToolsEnabled = false;
+				CoreWebView2.Settings.IsStatusBarEnabled = false;
 				CoreWebView2.ContainsFullScreenElementChanged += CoreWebView2_ContainsFullScreenElementChanged;
 				CoreWebView2.PermissionRequested += CoreWebView2_PermissionRequested;
 				logger.Info("Successfully initialized.");
