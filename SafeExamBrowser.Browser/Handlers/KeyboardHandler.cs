@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Browser.Handlers
 					HomeNavigationRequested?.Invoke();
 				}
 
-				if ((ctrl && keyCode == (int) Keys.Add) || (ctrl && shift && keyCode == (int) Keys.D1))
+				if ((ctrl && keyCode == (int) Keys.Add) || (ctrl && keyCode == (int) Keys.Oemplus) || (ctrl && shift && keyCode == (int) Keys.D1))
 				{
 					ZoomInRequested?.Invoke();
 				}
