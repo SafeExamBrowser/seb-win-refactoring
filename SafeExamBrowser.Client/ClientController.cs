@@ -341,13 +341,13 @@ namespace SafeExamBrowser.Client
 				{
 					var expression = Regex.Escape(Settings.Security.ReconfigurationUrl).Replace(@"\*", ".*");
 					var regex = new Regex($"^{expression}$", RegexOptions.IgnoreCase);
-					var sebUrl = args.Url.Replace(Uri.UriSchemeHttp, context.AppConfig.SebUriScheme).Replace(Uri.UriSchemeHttps, context.AppConfig.SebUriSchemeSecure);
+					var sebUrl = args.Url.Replace(Uri.UriSchemeHttps, context.AppConfig.SebUriSchemeSecure).Replace(Uri.UriSchemeHttp, context.AppConfig.SebUriScheme);
 
 					allow = Settings.Security.AllowReconfiguration && (regex.IsMatch(args.Url) || regex.IsMatch(sebUrl));
 				}
 				else
 				{
-					allow = Settings.Security.AllowReconfiguration;
+					logger.Warn("The active configuration does not contain a valid reconfiguration URL!");
 				}
 			}
 			else
