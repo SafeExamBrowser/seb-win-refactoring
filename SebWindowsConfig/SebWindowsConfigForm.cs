@@ -878,10 +878,8 @@ namespace SebWindowsConfig
 				{
 					// and when the password texts aren't the same anymore, this means the user tries to edit the password
 					// (which is only the placeholder right now), we have to clear the placeholder from the textFields
-					passwordField.Text = "";
-					confirmPasswordField.Text = "";
-					password = "";
-					confirmPassword = "";
+					passwordField.Text = password;
+					confirmPasswordField.Text = confirmPassword;
 					passwordFieldsContainHash = false;
 				}
 			}
