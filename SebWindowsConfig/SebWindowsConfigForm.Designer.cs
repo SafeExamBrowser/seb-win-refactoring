@@ -159,6 +159,10 @@ namespace SebWindowsConfig
 			this.tabControlApplications = new System.Windows.Forms.TabControl();
 			this.tabPagePermittedProcesses = new System.Windows.Forms.TabPage();
 			this.dataGridViewPermittedProcesses = new System.Windows.Forms.DataGridView();
+			this.Active = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.OS = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.Executable = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.buttonChoosePermittedProcess = new System.Windows.Forms.Button();
 			this.buttonChoosePermittedApplication = new System.Windows.Forms.Button();
 			this.buttonRemovePermittedProcess = new System.Windows.Forms.Button();
@@ -219,6 +223,10 @@ namespace SebWindowsConfig
 			this.buttonRemoveProhibitedProcess = new System.Windows.Forms.Button();
 			this.buttonAddProhibitedProcess = new System.Windows.Forms.Button();
 			this.dataGridViewProhibitedProcesses = new System.Windows.Forms.DataGridView();
+			this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.checkBoxMonitorProcesses = new System.Windows.Forms.CheckBox();
 			this.tabPageExam = new System.Windows.Forms.TabPage();
 			this.groupBox17 = new System.Windows.Forms.GroupBox();
@@ -448,14 +456,6 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Active = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.OS = new System.Windows.Forms.DataGridViewComboBoxColumn();
-			this.Executable = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -2202,6 +2202,34 @@ namespace SebWindowsConfig
 			this.dataGridViewPermittedProcesses.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridViewPermittedProcesses_CurrentCellDirtyStateChanged);
 			this.dataGridViewPermittedProcesses.SelectionChanged += new System.EventHandler(this.dataGridViewPermittedProcesses_SelectionChanged);
 			// 
+			// Active
+			// 
+			this.Active.HeaderText = "Active";
+			this.Active.Name = "Active";
+			this.Active.Width = 80;
+			// 
+			// OS
+			// 
+			this.OS.HeaderText = "OS";
+			this.OS.Items.AddRange(new object[] {
+            "OS X",
+            "Win"});
+			this.OS.Name = "OS";
+			// 
+			// Executable
+			// 
+			this.Executable.HeaderText = "Executable";
+			this.Executable.Name = "Executable";
+			this.Executable.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.Executable.Width = 450;
+			// 
+			// Title
+			// 
+			this.Title.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.Title.HeaderText = "Title";
+			this.Title.Name = "Title";
+			this.Title.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			// 
 			// buttonChoosePermittedProcess
 			// 
 			this.buttonChoosePermittedProcess.Location = new System.Drawing.Point(1004, 179);
@@ -2950,6 +2978,35 @@ namespace SebWindowsConfig
 			this.dataGridViewProhibitedProcesses.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewProhibitedProcesses_CellValueChanged);
 			this.dataGridViewProhibitedProcesses.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridViewProhibitedProcesses_CurrentCellDirtyStateChanged);
 			this.dataGridViewProhibitedProcesses.SelectionChanged += new System.EventHandler(this.dataGridViewProhibitedProcesses_SelectionChanged);
+			// 
+			// dataGridViewCheckBoxColumn1
+			// 
+			this.dataGridViewCheckBoxColumn1.HeaderText = "Active";
+			this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+			this.dataGridViewCheckBoxColumn1.Width = 80;
+			// 
+			// dataGridViewComboBoxColumn1
+			// 
+			this.dataGridViewComboBoxColumn1.HeaderText = "OS";
+			this.dataGridViewComboBoxColumn1.Items.AddRange(new object[] {
+            "OS X",
+            "Win"});
+			this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
+			this.dataGridViewComboBoxColumn1.Width = 120;
+			// 
+			// dataGridViewTextBoxColumn1
+			// 
+			this.dataGridViewTextBoxColumn1.HeaderText = "Executable";
+			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+			this.dataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.dataGridViewTextBoxColumn1.Width = 450;
+			// 
+			// dataGridViewTextBoxColumn2
+			// 
+			this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+			this.dataGridViewTextBoxColumn2.HeaderText = "Description";
+			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+			this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// checkBoxMonitorProcesses
 			// 
@@ -4528,9 +4585,9 @@ namespace SebWindowsConfig
 			this.checkBoxEnableAudioControl.Location = new System.Drawing.Point(8, 25);
 			this.checkBoxEnableAudioControl.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxEnableAudioControl.Name = "checkBoxEnableAudioControl";
-			this.checkBoxEnableAudioControl.Size = new System.Drawing.Size(128, 17);
+			this.checkBoxEnableAudioControl.Size = new System.Drawing.Size(122, 17);
 			this.checkBoxEnableAudioControl.TabIndex = 86;
-			this.checkBoxEnableAudioControl.Text = "Enable audio controls";
+			this.checkBoxEnableAudioControl.Text = "Show audio controls";
 			this.toolTip1.SetToolTip(this.checkBoxEnableAudioControl, "Displays an audio control in the SEB taskbar");
 			this.checkBoxEnableAudioControl.UseVisualStyleBackColor = true;
 			this.checkBoxEnableAudioControl.CheckedChanged += new System.EventHandler(this.checkBoxEnableAudioControl_CheckedChanged);
@@ -5870,63 +5927,6 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Text = "Apply and Start SEB";
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
-			// 
-			// dataGridViewCheckBoxColumn1
-			// 
-			this.dataGridViewCheckBoxColumn1.HeaderText = "Active";
-			this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-			this.dataGridViewCheckBoxColumn1.Width = 80;
-			// 
-			// dataGridViewComboBoxColumn1
-			// 
-			this.dataGridViewComboBoxColumn1.HeaderText = "OS";
-			this.dataGridViewComboBoxColumn1.Items.AddRange(new object[] {
-            "OS X",
-            "Win"});
-			this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
-			this.dataGridViewComboBoxColumn1.Width = 120;
-			// 
-			// dataGridViewTextBoxColumn1
-			// 
-			this.dataGridViewTextBoxColumn1.HeaderText = "Executable";
-			this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-			this.dataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.dataGridViewTextBoxColumn1.Width = 450;
-			// 
-			// dataGridViewTextBoxColumn2
-			// 
-			this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.dataGridViewTextBoxColumn2.HeaderText = "Description";
-			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-			this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			// 
-			// Active
-			// 
-			this.Active.HeaderText = "Active";
-			this.Active.Name = "Active";
-			this.Active.Width = 80;
-			// 
-			// OS
-			// 
-			this.OS.HeaderText = "OS";
-			this.OS.Items.AddRange(new object[] {
-            "OS X",
-            "Win"});
-			this.OS.Name = "OS";
-			// 
-			// Executable
-			// 
-			this.Executable.HeaderText = "Executable";
-			this.Executable.Name = "Executable";
-			this.Executable.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-			this.Executable.Width = 450;
-			// 
-			// Title
-			// 
-			this.Title.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			this.Title.HeaderText = "Title";
-			this.Title.Name = "Title";
-			this.Title.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// SebWindowsConfigForm
 			// 
