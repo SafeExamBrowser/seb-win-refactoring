@@ -202,7 +202,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.Server.RequestAttemptInterval = 2000;
 			settings.Server.RequestAttempts = 5;
-			settings.Server.RequestTimeout = 5000;
+			settings.Server.RequestTimeout = 30000;
 			settings.Server.PerformFallback = false;
 
 			settings.Service.DisableChromeNotifications = true;
