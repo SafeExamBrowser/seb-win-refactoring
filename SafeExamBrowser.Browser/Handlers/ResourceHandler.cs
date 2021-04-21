@@ -246,8 +246,33 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		private void SearchSessionIdentifiers(IRequest request, IResponse response)
 		{
-			SearchEdxIdentifier(response);
-			SearchMoodleIdentifier(request, response);
+			var success = TrySearchGenericSessionIdentifier(response);
+
+			if (!success)
+			{
+				SearchEdxIdentifier(response);
+				SearchMoodleIdentifier(request, response);
+			}
+		}
+
+		private bool TrySearchGenericSessionIdentifier(IResponse response)
+		{
+			var ids = response.Headers.GetValues("X-LMS-USER-ID");
+
+			if (ids != default(string[]))
+			{
+				var userId = ids.FirstOrDefault();
+
+				if (userId != default(string))
+				{
+					Task.Run(() => SessionIdentifierDetected?.Invoke(userId));
+					logger.Info("Generic LMS session detected.");
+
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		private void SearchEdxIdentifier(IResponse response)
