@@ -626,7 +626,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		}
 
 		[TestMethod]
-		public void Reconfiguration_MustAllowWithQuitPasswordAndNoUrl()
+		public void Reconfiguration_MustNotAllowWithQuitPasswordAndNoUrl()
 		{
 			var args = new DownloadEventArgs();
 
@@ -637,10 +637,9 @@ namespace SafeExamBrowser.Client.UnitTests
 
 			sut.TryStart();
 			browser.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", args);
-			args.Callback(true, string.Empty);
 
-			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
-			Assert.IsTrue(args.AllowDownload);
+			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+			Assert.IsFalse(args.AllowDownload);
 		}
 
 		[TestMethod]
