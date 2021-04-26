@@ -8,6 +8,7 @@ SEB 3.x requires the prerequisites listed below in order to work correctly. Thes
 
 * .NET Framework 4.7.2 Runtime: https://dotnet.microsoft.com/download/dotnet-framework/net472
 * Visual C++ 2015-2019 Redistributable: https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads
+* Microsoft Edge WebView2 Runtime: https://go.microsoft.com/fwlink/p/?LinkId=2124703
 
 ### Project Status
 
