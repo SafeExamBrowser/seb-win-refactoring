@@ -7,9 +7,10 @@
             <ExePackage Name="WebView2 Bootstrapper" DisplayName="Microsoft Edge WebView2 Runtime" Cache="no" Compressed="no"
                         PerMachine="yes" Permanent="yes" Vital="yes" DownloadUrl="https://go.microsoft.com/fwlink/p/?LinkId=2124703"
                         InstallCommand="/silent /install" InstallCondition="NOT (REMOVE OR RuntimeInstalled)">
+                <!-- Must be generated with the following command: "heat payload MicrosoftEdgeWebview2Setup.exe -out MicrosoftEdgeWebview2Setup.wxs" -->
                 <RemotePayload ProductName="MicrosoftEdgeWebview2Setup" Description="Microsoft Edge WebView2 Update Setup"
-                               CertificatePublicKey="1392A8505C3B192F62311EA9005E49C1B5358F6B" Hash="82B42348804E8D82C773DC3391B691712BB1B388"
-                               Size="1815832" Version="1.3.135.41" />
+                               CertificatePublicKey="358CD8B7FB6F985952B53A93374BBB6E1F3DEE08" Hash="0158273F35FB5069AE6AD2950045D3656E86B444"
+                               CertificateThumbprint="C774204049D25D30AF9AC2F116B3C1FB88EE00A4" Size="1793816" Version="1.3.143.57" />
             </ExePackage>
         </PackageGroup>
     </Fragment>
