@@ -468,7 +468,7 @@ namespace SafeExamBrowser.Server
 		{
 			response = default(HttpResponseMessage);
 
-			for (var attempt = 0; attempt < settings.RequestAttempts && response == default(HttpResponseMessage); attempt++)
+			for (var attempt = 0; attempt < settings.RequestAttempts && (response == default(HttpResponseMessage) || !response.IsSuccessStatusCode); attempt++)
 			{
 				var request = new HttpRequestMessage(method, url);
 
