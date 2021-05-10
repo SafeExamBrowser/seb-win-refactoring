@@ -37,7 +37,7 @@ namespace SafeExamBrowser.SystemComponents.PowerSupply
 			var status = new PowerSupplyStatus();
 
 			status.BatteryCharge = charge;
-			status.BatteryChargeStatus = charge <= 0.4 ? (charge <= 0.2 ? BatteryChargeStatus.Critical : BatteryChargeStatus.Low) : BatteryChargeStatus.Okay;
+			status.BatteryChargeStatus = charge <= 0.2 ? (charge <= 0.1 ? BatteryChargeStatus.Critical : BatteryChargeStatus.Low) : BatteryChargeStatus.Okay;
 			status.BatteryTimeRemaining = new TimeSpan(hours, minutes, 0);
 			status.IsOnline = SystemInformation.PowerStatus.PowerLineStatus == PowerLineStatus.Online;
 
