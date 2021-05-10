@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using CefSharp;
 using CefSharp.WinForms;
 using SafeExamBrowser.Applications.Contracts;
@@ -119,6 +120,7 @@ namespace SafeExamBrowser.Browser
 		public void Terminate()
 		{
 			logger.Info("Initiating termination...");
+			AwaitReady();
 
 			foreach (var instance in instances)
 			{
@@ -143,6 +145,15 @@ namespace SafeExamBrowser.Browser
 			{
 				logger.Info("Retained browser cache.");
 			}
+		}
+
+		private void AwaitReady()
+		{
+			// We apparently need to let the browser finish any pending work before attempting to reset or terminate it, especially if the
+			// reset or termination is initiated automatically (e.g. by a quit URL). Otherwise, the engine will crash on some occasions, seemingly
+			// when it can't finish handling its events (like ChromiumWebBrowser.LoadError).
+
+			Thread.Sleep(500);
 		}
 
 		private void CreateNewInstance(string url = null)
@@ -353,6 +364,7 @@ namespace SafeExamBrowser.Browser
 		private void Instance_ResetRequested()
 		{
 			logger.Info("Attempting to reset browser...");
+			AwaitReady();
 
 			foreach (var instance in instances)
 			{
