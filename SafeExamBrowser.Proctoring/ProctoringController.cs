@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using Microsoft.Web.WebView2.Wpf;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.Core.Contracts.Notifications.Events;
@@ -150,6 +151,7 @@ namespace SafeExamBrowser.Proctoring
 					fileSystem.Save(content, filePath);
 
 					control = new ProctoringControl(logger.CloneFor(nameof(ProctoringControl)));
+					control.CreationProperties = new CoreWebView2CreationProperties { UserDataFolder = appConfig.TemporaryDirectory };
 					control.EnsureCoreWebView2Async().ContinueWith(_ =>
 					{
 						control.Dispatcher.Invoke(() =>
