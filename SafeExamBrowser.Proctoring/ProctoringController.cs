@@ -184,13 +184,18 @@ namespace SafeExamBrowser.Proctoring
 
 		private void StopProctoring()
 		{
-			if (window != default(IProctoringWindow))
+			if (control != default(ProctoringControl) && window != default(IProctoringWindow))
 			{
-				window.Close();
-				window = default(IProctoringWindow);
-				fileSystem.Delete(filePath);
+				control.Dispatcher.Invoke(() =>
+				{
+					control.ExecuteScriptAsync("api.executeCommand('hangup'); api.dispose();");
+					window.Close();
+					control = default(ProctoringControl);
+					window = default(IProctoringWindow);
+					fileSystem.Delete(filePath);
 
-				logger.Info("Stopped proctoring.");
+					logger.Info("Stopped proctoring.");
+				});
 			}
 		}
 
