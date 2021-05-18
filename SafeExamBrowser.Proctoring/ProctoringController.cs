@@ -39,6 +39,7 @@ namespace SafeExamBrowser.Proctoring
 		private ProctoringControl control;
 		private ProctoringSettings settings;
 		private IProctoringWindow window;
+		private WindowVisibility windowVisibility;
 
 		public IconResource IconResource { get; set; }
 		public string Tooltip { get; set; }
@@ -81,6 +82,7 @@ namespace SafeExamBrowser.Proctoring
 			var start = false;
 
 			this.settings = settings;
+			this.windowVisibility = settings.WindowVisibility;
 
 			server.ProctoringConfigurationReceived += Server_ProctoringConfigurationReceived;
 			server.ProctoringInstructionReceived += Server_ProctoringInstructionReceived;
@@ -133,6 +135,10 @@ namespace SafeExamBrowser.Proctoring
 			if (allowChat || receiveVideo)
 			{
 				settings.WindowVisibility = WindowVisibility.AllowToHide;
+			}
+			else
+			{
+				settings.WindowVisibility = windowVisibility;
 			}
 
 			StopProctoring();

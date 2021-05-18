@@ -239,6 +239,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\ProctoringNotification_Inactive.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\ProctoringNotification_Active.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
     <Page Include="Windows\AboutWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

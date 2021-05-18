@@ -17,7 +17,7 @@
                 SHOW_JITSI_WATERMARK: false,
                 TOOLBAR_BUTTONS: [
                     'microphone', 'camera', '%%_ALLOW_CLOSED_CAPTIONS_%%', /*'desktop',*/ 'embedmeeting', 'fullscreen',
-                    'fodeviceselection', 'hangup', 'profile', '%%_ALLOW_CHAT_%%', '%%_ALLOW_RECORDING_%%',
+                    'fodeviceselection', /*'hangup',*/ 'profile', '%%_ALLOW_CHAT_%%', '%%_ALLOW_RECORDING_%%',
                     'livestreaming', 'etherpad', /*'sharedvideo',*/ 'settings', '%%_ALLOW_RAISE_HAND_%%',
                     'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
                     '%%_ALLOW_TILE_VIEW_%%', 'select-background', 'download', 'help', /*'mute-everyone',*/ 'mute-video-everyone', 'security'
@@ -33,6 +33,17 @@
                 width: "100%"
             };
             var api = new JitsiMeetExternalAPI("%%_DOMAIN_%%", options);
+
+            api.addListener('audioMuteStatusChanged', args => {
+                if (args.muted) {
+                    api.executeCommand('toggleAudio');
+                }
+            });
+            api.addListener('videoMuteStatusChanged', args => {
+                if (args.muted) {
+                    api.executeCommand('toggleVideo');
+                }
+            });
 
             api.executeCommand("subject", "%%_SUBJECT_%%");
         </script>
