@@ -89,9 +89,10 @@ namespace SafeExamBrowser.Proctoring
 
 			if (settings.JitsiMeet.Enabled)
 			{
+				this.settings.JitsiMeet.ServerUrl = Sanitize(settings.JitsiMeet.ServerUrl);
+
 				start = !string.IsNullOrWhiteSpace(settings.JitsiMeet.RoomName);
 				start &= !string.IsNullOrWhiteSpace(settings.JitsiMeet.ServerUrl);
-				start &= !string.IsNullOrWhiteSpace(settings.JitsiMeet.Token);
 			}
 			else if (settings.Zoom.Enabled)
 			{
@@ -117,7 +118,7 @@ namespace SafeExamBrowser.Proctoring
 			logger.Info("Proctoring instruction received.");
 
 			settings.JitsiMeet.RoomName = roomName;
-			settings.JitsiMeet.ServerUrl = serverUrl.Replace($"{Uri.UriSchemeHttp}{Uri.SchemeDelimiter}", "").Replace($"{Uri.UriSchemeHttps}{Uri.SchemeDelimiter}", "");
+			settings.JitsiMeet.ServerUrl = Sanitize(serverUrl);
 			settings.JitsiMeet.Token = token;
 
 			StopProctoring();
@@ -241,6 +242,11 @@ namespace SafeExamBrowser.Proctoring
 
 				return html;
 			}
+		}
+
+		private string Sanitize(string serverUrl)
+		{
+			return serverUrl?.Replace($"{Uri.UriSchemeHttp}{Uri.SchemeDelimiter}", "").Replace($"{Uri.UriSchemeHttps}{Uri.SchemeDelimiter}", "");
 		}
 	}
 }
