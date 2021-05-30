@@ -7,12 +7,16 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Management;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Display;
 using SafeExamBrowser.Monitoring.Contracts.Display.Events;
+using SafeExamBrowser.Settings.Monitoring;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts;
 using OperatingSystem = SafeExamBrowser.SystemComponents.Contracts.OperatingSystem;
@@ -40,6 +44,41 @@ namespace SafeExamBrowser.Monitoring.Display
 		{
 			InitializeWorkingArea(taskbarHeight);
 			InitializeWallpaper();
+		}
+
+		public bool IsAllowedConfiguration(DisplaySettings settings)
+		{
+			var allowed = false;
+
+			if (TryLoadDisplays(out var displays))
+			{
+				var active = displays.Where(d => d.IsActive);
+				var count = active.Count();
+
+				allowed = count <= settings.AllowedDisplays;
+
+				if (allowed)
+				{
+					logger.Info($"Detected {count} active displays, {settings.AllowedDisplays} are allowed.");
+				}
+				else
+				{
+					logger.Warn($"Detected {count} active displays but only {settings.AllowedDisplays} are allowed!");
+				}
+
+				if (settings.InternalDisplayOnly && active.Any(d => !d.IsInternal))
+				{
+					allowed = false;
+					logger.Warn("Detected external display but only internal displays are allowed!");
+				}
+			}
+			else
+			{
+				allowed = settings.IgnoreError;
+				logger.Info("Ignoring display setup validation error and allowing active setup.");
+			}
+
+			return allowed;
 		}
 
 		public void PreventSleepMode()
@@ -101,7 +140,7 @@ namespace SafeExamBrowser.Monitoring.Display
 			{
 				var path = nativeMethods.GetWallpaperPath();
 
-				if (!String.IsNullOrEmpty(path))
+				if (!string.IsNullOrEmpty(path))
 				{
 					wallpaper = path;
 					logger.Info($"Saved wallpaper image: {wallpaper}.");
@@ -110,6 +149,70 @@ namespace SafeExamBrowser.Monitoring.Display
 				nativeMethods.RemoveWallpaper();
 				logger.Info("Removed current wallpaper.");
 			}
+		}
+
+		private bool TryLoadDisplays(out IList<Display> displays)
+		{
+			var success = true;
+
+			displays = new List<Display>();
+
+			try
+			{
+				using (var searcher = new ManagementObjectSearcher(@"Root\WMI", "SELECT * FROM WmiMonitorBasicDisplayParams"))
+				using (var results = searcher.Get())
+				{
+					var displayParameters = results.Cast<ManagementObject>();
+
+					foreach (var display in displayParameters)
+					{
+						displays.Add(new Display
+						{
+							Identifier = Convert.ToString(display["InstanceName"]),
+							IsActive = Convert.ToBoolean(display["Active"])
+						});
+					}
+				}
+
+				using (var searcher = new ManagementObjectSearcher(@"Root\WMI", "SELECT * FROM WmiMonitorConnectionParams"))
+				using (var results = searcher.Get())
+				{
+					var connectionParameters = results.Cast<ManagementObject>();
+
+					foreach (var connection in connectionParameters)
+					{
+						var identifier = Convert.ToString(connection["InstanceName"]);
+						var isActive = Convert.ToBoolean(connection["Active"]);
+						var technologyValue = Convert.ToInt64(connection["VideoOutputTechnology"]);
+						var technology = (VideoOutputTechnology) technologyValue;
+						var display = displays.FirstOrDefault(d => d.Identifier?.Equals(identifier, StringComparison.OrdinalIgnoreCase) == true);
+
+						if (!Enum.IsDefined(typeof(VideoOutputTechnology), technology))
+						{
+							logger.Warn($"Detected undefined video output technology '{technologyValue}' for display '{identifier}'!");
+						}
+
+						if (display != default(Display))
+						{
+							display.IsActive &= isActive;
+							display.IsInternal = technology == VideoOutputTechnology.Internal;
+							display.Technology = technology;
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				success = false;
+				logger.Error("Failed to query displays!", e);
+			}
+
+			foreach (var display in displays)
+			{
+				logger.Info($"Detected {(display.IsActive ? "active" : "inactive")}, {(display.IsInternal ? "internal" : "external")} display '{display.Identifier}' connected via '{display.Technology}'.");
+			}
+
+			return success;
 		}
 
 		private void ResetWorkingArea()
@@ -138,9 +241,11 @@ namespace SafeExamBrowser.Monitoring.Display
 
 		private string GetIdentifierForPrimaryDisplay()
 		{
-			var display = Screen.PrimaryScreen.DeviceName?.Replace(@"\\.\", string.Empty);
+			var name = Screen.PrimaryScreen.DeviceName?.Replace(@"\\.\", string.Empty);
+			var resolution = $"{Screen.PrimaryScreen.Bounds.Width}x{Screen.PrimaryScreen.Bounds.Height}";
+			var identifier = $"{name} ({resolution})";
 
-			return $"{display} ({Screen.PrimaryScreen.Bounds.Width}x{Screen.PrimaryScreen.Bounds.Height})";
+			return identifier;
 		}
 
 		private void LogWorkingArea(string message, IBounds area)

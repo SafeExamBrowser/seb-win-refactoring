@@ -114,6 +114,15 @@
     <Entry key="LockScreen_ApplicationsTerminateOption">
         Safe Exam Browser beenden. WARNUNG: Sie werden keine Möglichkeit haben, Daten zu speichern oder weitere Aktionen auszuführen, SEB wird sofort beendet!
     </Entry>
+    <Entry key="LockScreen_DisplayConfigurationContinueOption">
+        Bildschirm-Konfiguration temporär erlauben. Dies gilt nur für die momentan laufende Sitzung!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationTerminateOption">
+        Safe Exam Browser beenden. WARNUNG: Sie werden keine Möglichkeit haben, Daten zu speichern oder weitere Aktionen auszuführen, SEB wird sofort beendet!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationMessage">
+        Eine verbotene Bildschirm-Konfiguration wurde detektiert. Bitte wählen Sie eine der verfügbaren Optionen aus und geben Sie das korrekte Passwort ein, um SEB zu entsperren.
+    </Entry>
     <Entry key="LockScreen_Title">
         SEB GESPERRT
     </Entry>
@@ -209,6 +218,12 @@
     </Entry>
     <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
         Fehler beim Herunterladen
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationError">
+        Die aktive Bildschirm-Konfiguration ist nicht erlaubt! Bitte konsultieren Sie das Applikations-Protokoll für mehr Informationen. SEB wird sich nun beenden...
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationErrorTitle">
+        Verbotene Bildschirm-Konfiguration
     </Entry>
     <Entry key="MessageBox_InvalidConfigurationData">
         Die Konfigurations-Ressource "%%URI%%" enthält ungültige Daten!
@@ -446,6 +461,9 @@
     </Entry>
     <Entry key="OperationStatus_TerminateShell">
         Beende Benutzeroberfläche
+    </Entry>
+    <Entry key="OperationStatus_ValidateDisplayConfiguration">
+        Validiere Richtlinie für Bildschirm-Konfiguration
     </Entry>
     <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
         Validiere Richtlinie für Remote-Sitzungen

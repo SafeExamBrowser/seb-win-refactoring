@@ -55,7 +55,7 @@ namespace SafeExamBrowser.SystemComponents
 
 			try
 			{
-				using (var searcher = new ManagementObjectSearcher("Select * from Win32_ComputerSystem"))
+				using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_ComputerSystem"))
 				using (var results = searcher.Get())
 				using (var system = results.Cast<ManagementObject>().First())
 				{

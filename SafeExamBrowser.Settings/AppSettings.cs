@@ -52,6 +52,11 @@ namespace SafeExamBrowser.Settings
 		public ConfigurationMode ConfigurationMode { get; set; }
 
 		/// <summary>
+		/// All display-related settings.
+		/// </summary>
+		public DisplaySettings Display { get; set; }
+
+		/// <summary>
 		/// All keyboard-related settings.
 		/// </summary>
 		public KeyboardSettings Keyboard { get; set; }
@@ -107,6 +112,7 @@ namespace SafeExamBrowser.Settings
 			Applications = new ApplicationSettings();
 			Audio = new AudioSettings();
 			Browser = new BrowserSettings();
+			Display = new DisplaySettings();
 			Keyboard = new KeyboardSettings();
 			Mouse = new MouseSettings();
 			Proctoring = new ProctoringSettings();

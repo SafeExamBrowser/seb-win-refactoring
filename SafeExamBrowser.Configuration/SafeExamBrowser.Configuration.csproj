@@ -60,6 +60,7 @@
     <Compile Include="ConfigurationData\DataMapping\AudioDataMapper.cs" />
     <Compile Include="ConfigurationData\DataMapping\BrowserDataMapper.cs" />
     <Compile Include="ConfigurationData\DataMapping\ConfigurationFileDataMapper.cs" />
+    <Compile Include="ConfigurationData\DataMapping\DisplayDataMapper.cs" />
     <Compile Include="ConfigurationData\DataMapping\GeneralDataMapper.cs" />
     <Compile Include="ConfigurationData\DataMapping\BaseDataMapper.cs" />
     <Compile Include="ConfigurationData\DataMapping\InputDataMapper.cs" />

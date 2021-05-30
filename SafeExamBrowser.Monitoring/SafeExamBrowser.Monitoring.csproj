@@ -51,6 +51,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="WindowsBase" />
@@ -58,7 +59,9 @@
   <ItemGroup>
     <Compile Include="Applications\Window.cs" />
     <Compile Include="Display\Bounds.cs" />
+    <Compile Include="Display\Display.cs" />
     <Compile Include="Display\DisplayMonitor.cs" />
+    <Compile Include="Display\VideoOutputTechnology.cs" />
     <Compile Include="Keyboard\KeyboardInterceptor.cs" />
     <Compile Include="Mouse\MouseInterceptor.cs" />
     <Compile Include="Applications\ApplicationMonitor.cs" />

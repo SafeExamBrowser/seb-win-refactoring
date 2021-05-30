@@ -20,6 +20,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			new AudioDataMapper(),
 			new BrowserDataMapper(),
 			new ConfigurationFileDataMapper(),
+			new DisplayDataMapper(),
 			new GeneralDataMapper(),
 			new InputDataMapper(),
 			new ProctoringDataMapper(),

@@ -99,6 +99,15 @@
     <Entry key="LockScreen_TerminateOption">
         强制关闭防作弊考试专用浏览器。警告：将无法保存数据或执行任何进一步的操作，关闭操作将立即启动。
     </Entry>
+    <Entry key="LockScreen_DisplayConfigurationContinueOption">
+        暂时允许显示配置。 这仅适用于当前正在运行的会话！
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationTerminateOption">
+        终止安全考试浏览器。 警告：将无法保存数据或执行任何进一步操作，将立即启动关机！
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationMessage">
+        检测到禁止的显示配置。 要解锁 SEB，请选择可用选项之一并输入正确的解锁密码。
+    </Entry>
     <Entry key="LockScreen_Title">
         防作弊考试专用浏览器已锁定
     </Entry>
@@ -179,6 +188,12 @@
     </Entry>
     <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
         下载错误
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationError">
+        不允许使用活动的显示配置。 请查阅日志文件以获取更多信息。 SEB现在将关闭...
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationErrorTitle">
+        禁止的显示配置
     </Entry>
     <Entry key="MessageBox_InvalidConfigurationData">
         配置"%%URI%%" 中包含无效数据。
@@ -398,6 +413,9 @@
     </Entry>
     <Entry key="OperationStatus_TerminateShell">
         终止用户界面
+    </Entry>
+    <Entry key="OperationStatus_ValidateDisplayConfiguration">
+        验证显示配置策略
     </Entry>
     <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
         验证远程会话策略

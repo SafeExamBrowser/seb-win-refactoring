@@ -170,6 +170,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string SessionMode = "sebMode";
 		}
 
+		internal static class Display
+		{
+			internal const string AllowedDisplays = "allowedDisplaysMaxNumber";
+			internal const string IgnoreError = "allowedDisplaysIgnoreFailure";
+			internal const string InternalDisplayOnly = "allowedDisplayBuiltinEnforce";
+		}
+
 		internal static class General
 		{
 			internal const string LogLevel = "logLevel";

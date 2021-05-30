@@ -150,6 +150,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.ConfigurationMode = ConfigurationMode.Exam;
 
+			settings.Display.AllowedDisplays = 1;
+			settings.Display.IgnoreError = false;
+			settings.Display.InternalDisplayOnly = false;
+
 			settings.Keyboard.AllowAltEsc = false;
 			settings.Keyboard.AllowAltF4 = false;
 			settings.Keyboard.AllowAltTab = true;

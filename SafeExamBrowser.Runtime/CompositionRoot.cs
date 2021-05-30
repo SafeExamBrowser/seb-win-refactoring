@@ -24,6 +24,7 @@ using SafeExamBrowser.I18n;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Display;
 using SafeExamBrowser.Runtime.Communication;
 using SafeExamBrowser.Runtime.Operations;
 using SafeExamBrowser.Server;
@@ -63,6 +64,7 @@ namespace SafeExamBrowser.Runtime
 			var uiFactory = new UserInterfaceFactory(text);
 			var desktopFactory = new DesktopFactory(ModuleLogger(nameof(DesktopFactory)));
 			var desktopMonitor = new DesktopMonitor(ModuleLogger(nameof(DesktopMonitor)));
+			var displayMonitor = new DisplayMonitor(ModuleLogger(nameof(DisplayMonitor)), nativeMethods, systemInfo);
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
 			var fileSystem = new FileSystem();
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
@@ -89,6 +91,7 @@ namespace SafeExamBrowser.Runtime
 			sessionOperations.Enqueue(new ServerOperation(args, configuration, fileSystem, logger, sessionContext, server));
 			sessionOperations.Enqueue(new RemoteSessionOperation(remoteSessionDetector, logger, sessionContext));
 			sessionOperations.Enqueue(new VirtualMachineOperation(vmDetector, logger, sessionContext));
+			sessionOperations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, sessionContext));
 			sessionOperations.Enqueue(new ServiceOperation(logger, runtimeHost, serviceProxy, sessionContext, THIRTY_SECONDS, userInfo));
 			sessionOperations.Enqueue(new ClientTerminationOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, THIRTY_SECONDS));
 			sessionOperations.Enqueue(new ProctoringWorkaroundOperation(logger, sessionContext));

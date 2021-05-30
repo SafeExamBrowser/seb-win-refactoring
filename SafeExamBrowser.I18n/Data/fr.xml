@@ -58,7 +58,7 @@
         Annuler
     </Entry>
     <Entry key="ExamSelectionDialog_Message">
-        Veuillez sélectionner l'un des examens disponibles sur le serveur SEB :
+        Veuillez sélectionner l'un des examens disponibles sur le serveur SEB:
     </Entry>
     <Entry key="ExamSelectionDialog_Select">
         Selection
@@ -70,10 +70,10 @@
         Annuler
     </Entry>
     <Entry key="FileSystemDialog_LoadError">
-        Echec du chargement des données !
+        Echec du chargement des données!
     </Entry>
     <Entry key="FileSystemDialog_Loading">
-        Chargement …
+        Chargement...
     </Entry>
     <Entry key="FileSystemDialog_OpenFileMessage">
         Veuillez sélectionner un fichier à ouvrir.
@@ -82,13 +82,13 @@
         Veuillez sélectionner un dossier.
     </Entry>
     <Entry key="FileSystemDialog_OverwriteWarning">
-        Le fichier sélectionné existe déjà ! Voulez-vous vraiment le remplacer ?
+        Le fichier sélectionné existe déjà ! Voulez-vous vraiment le remplacer?
     </Entry>
     <Entry key="FileSystemDialog_OverwriteWarningTitle">
-        Remplacer ?
+        Remplacer?
     </Entry>
     <Entry key="FileSystemDialog_SaveAs">
-        Enregistrer sous :
+        Enregistrer sous:
     </Entry>
     <Entry key="FileSystemDialog_SaveFileMessage">
         Veuillez sélectionner un emplacement pour enregistrer le fichier.
@@ -103,16 +103,25 @@
         Accès au système de fichiers
     </Entry>
     <Entry key="FolderDialog_ApplicationLocation">
-        L'application "%%NAME%%" n'a pas pu être trouvée sur le système ! Veuillez localiser le dossier contenant l'exécutable principal "%%EXECUTABLE%%".
+        L'application "%%NAME%%" n'a pas pu être trouvée sur le système! Veuillez localiser le dossier contenant l'exécutable principal "%%EXECUTABLE%%".
     </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
-        Autoriser temporairement les applications figurant sur la liste noire. Cela ne s'applique qu'aux instances et à la session en cours !
+        Autoriser temporairement les applications figurant sur la liste noire. Cela ne s'applique qu'aux instances et à la session en cours!
     </Entry>
     <Entry key="LockScreen_ApplicationsMessage">
-        Les applications sur liste noire énumérées ci-dessous ont été lancées et n’ont pas pu être automatiquement supprimées ! Afin de débloquer SEB, veuillez sélectionner l'une des options disponibles et entrer le mot de passe de déblocage.
+        Les applications sur liste noire énumérées ci-dessous ont été lancées et n’ont pas pu être automatiquement supprimées! Afin de débloquer SEB, veuillez sélectionner l'une des options disponibles et entrer le mot de passe de déblocage.
     </Entry>
     <Entry key="LockScreen_ApplicationsTerminateOption">
-        Terminer Safe Exam Browser. AVERTISSEMENT : Il n'y aura pas de possibilité de sauvegarder les données ou d'effectuer d'autres actions, l'arrêt sera déclenché immédiatement !
+        Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura pas de possibilité de sauvegarder les données ou d'effectuer d'autres actions, l'arrêt sera déclenché immédiatement!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationContinueOption">
+        Autoriser temporairement la configuration de l'affichage. Ceci s'applique uniquement à la session en cours!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationTerminateOption">
+        Terminez le navigateur Safe Exam. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder des données ou d'effectuer d'autres actions, l'arrêt sera déclenché immédiatement!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationMessage">
+        Une configuration d'affichage interdite a été détectée. Pour déverrouiller SEB, veuillez sélectionner l'une des options disponibles et saisir le mot de passe de déverrouillage correct.
     </Entry>
     <Entry key="LockScreen_Title">
         SEB VEROUILLE
@@ -124,10 +133,10 @@
         Dévérouiller Safe Exam Browser.
     </Entry>
     <Entry key="LockScreen_UserSessionMessage">
-        L'utilisateur actif a changé ou l'ordinateur a été verrouillé ! Afin de déverrouiller SEB, veuillez sélectionner une des options disponibles et entrer le mot de passe de déverrouillage.
+        L'utilisateur actif a changé ou l'ordinateur a été verrouillé! Afin de déverrouiller SEB, veuillez sélectionner une des options disponibles et entrer le mot de passe de déverrouillage.
     </Entry>
     <Entry key="LockScreen_UserSessionTerminateOption">
-        Terminer Safe Exam Browser. AVERTISSEMENT : Il n'y aura pas de possibilité de sauvegarder les données ou d'effectuer d'autres actions, l'arrêt sera déclenché immédiatement !
+        Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura pas de possibilité de sauvegarder les données ou d'effectuer d'autres actions, l'arrêt sera déclenché immédiatement!
     </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Toujours au premier plan
@@ -139,40 +148,40 @@
         Journal de l’application
     </Entry>
     <Entry key="MessageBox_ApplicationAutoTerminationQuestion">
-        Les applications énumérées ci-dessous doivent être terminées avant qu'une nouvelle session puisse être lancée. Souhaitez-vous les clôturer automatiquement maintenant ?
+        Les applications énumérées ci-dessous doivent être terminées avant qu'une nouvelle session puisse être lancée. Souhaitez-vous les clôturer automatiquement maintenant?
     </Entry>
     <Entry key="MessageBox_ApplicationAutoTerminationQuestionTitle">
         Applications en cours d'exécution détectées
     </Entry>
     <Entry key="MessageBox_ApplicationAutoTerminationDataLossWarning">
-        AVERTISSEMENT : les données des applications non sauvegardées peuvent être perdues !
+        AVERTISSEMENT : les données des applications non sauvegardées peuvent être perdues!
     </Entry>
     <Entry key="MessageBox_ApplicationError">
-        Une erreur irrémédiable s'est produite ! Veuillez consulter les fichiers journaux pour plus d'informations. SEB va maintenant fermer...
+        Une erreur irrémédiable s'est produite! Veuillez consulter les fichiers journaux pour plus d'informations. SEB va maintenant fermer...
     </Entry>
     <Entry key="MessageBox_ApplicationErrorTitle">
         Erreur de l’application
     </Entry>
     <Entry key="MessageBox_ApplicationInitializationFailure">
-        L'application %%NAME%% n'a pas pu être initialisée et ne sera donc pas disponible pour la nouvelle session ! Veuillez consulter les fichiers journaux pour plus d'informations.
+        L'application %%NAME%% n'a pas pu être initialisée et ne sera donc pas disponible pour la nouvelle session! Veuillez consulter les fichiers journaux pour plus d'informations.
     </Entry>
     <Entry key="MessageBox_ApplicationInitializationFailureTitle">
         Échec de l'initialisation de l’application
     </Entry>
     <Entry key="MessageBox_ApplicationNotFound">
-        L’application %%NAME%% n'a pas pu être trouvée sur le système et ne sera donc pas disponible pour la nouvelle session ! Veuillez consulter les fichiers journaux pour plus d'informations.
+        L’application %%NAME%% n'a pas pu être trouvée sur le système et ne sera donc pas disponible pour la nouvelle session! Veuillez consulter les fichiers journaux pour plus d'informations.
     </Entry>
     <Entry key="MessageBox_ApplicationNotFoundTitle">
         Application non-trouvée
     </Entry>
     <Entry key="MessageBox_ApplicationTerminationFailure">
-        Les applications énumérées ci-dessous n'ont pas pu être terminées ! Veuillez les terminer manuellement et réessayer...
+        Les applications énumérées ci-dessous n'ont pas pu être terminées! Veuillez les terminer manuellement et réessayer...
     </Entry>
     <Entry key="MessageBox_ApplicationTerminationFailureTitle">
         Échec de la clôture automatique
     </Entry>
     <Entry key="MessageBox_BrowserHomeQuestion">
-        Etes-vous sûr ? (Cette fonction ne vous déconnecte pas si vous êtes connecté sur un site web)
+        Etes-vous sûr? (Cette fonction ne vous déconnecte pas si vous êtes connecté sur un site web)
     </Entry>
     <Entry key="MessageBox_BrowserHomeQuestionTitle">
         Retour au début
@@ -184,7 +193,7 @@
         Page bloquée
     </Entry>
     <Entry key="MessageBox_BrowserQuitUrlConfirmation">
-        L'application du navigateur a détecté une URL de fin ! Vous souhaitez mettre fin à SEB maintenant ?
+        L'application du navigateur a détecté une URL de fin! Vous souhaitez mettre fin à SEB maintenant?
     </Entry>
     <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
         URL de fin détectée
@@ -193,13 +202,13 @@
         Annuler
     </Entry>
     <Entry key="MessageBox_ClientConfigurationError">
-        La configuration du client local a échoué ! Veuillez consulter les fichiers journaux pour plus d'informations. SEB va maintenant se fermer....
+        La configuration du client local a échoué! Veuillez consulter les fichiers journaux pour plus d'informations. SEB va maintenant se fermer....
     </Entry>
     <Entry key="MessageBox_ClientConfigurationErrorTitle">
         Erreur de configuration
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestion">
-        La configuration du client a été enregistrée et sera utilisée lors du prochain démarrage de SEB. Vous voulez quitter maintenant ?
+        La configuration du client a été enregistrée et sera utilisée lors du prochain démarrage de SEB. Vous voulez quitter maintenant?
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestionTitle">
         Configuration réussie
@@ -210,8 +219,14 @@
     <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
         Erreur de téléchargement
     </Entry>
+    <Entry key="MessageBox_DisplayConfigurationError">
+        La configuration d'affichage active n'est pas autorisée. Veuillez consulter les fichiers journaux pour plus d'informations. SEB va maintenant s'arrêter...
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationErrorTitle">
+        Configuration d'affichage interdite
+    </Entry>
     <Entry key="MessageBox_InvalidConfigurationData">
-        La ressource de configuration "%%URI%%" contient des données non valides !
+        La ressource de configuration "%%URI%%" contient des données non valides!
     </Entry>
     <Entry key="MessageBox_InvalidConfigurationDataTitle">
         Erreur de configuration
@@ -244,7 +259,7 @@
         Non
     </Entry>
     <Entry key="MessageBox_NotSupportedConfigurationResource">
-        La ressource de configuration "%%URI%%" n'est pas supportée !
+        La ressource de configuration "%%URI%%" n'est pas supportée!
     </Entry>
     <Entry key="MessageBox_NotSupportedConfigurationResourceTitle">
         Erreur de configuration
@@ -259,13 +274,13 @@
         Session avec surveillance à distance
     </Entry>
     <Entry key="MessageBox_Quit">
-        Voulez-vous quitter SEB ?
+        Voulez-vous quitter SEB?
     </Entry>
     <Entry key="MessageBox_QuitTitle">
         Quitter ?
     </Entry>
     <Entry key="MessageBox_QuitError">
-        Le client n'a pas réussi à communiquer la demande d'arrêt au serveur d'exécution !
+        Le client n'a pas réussi à communiquer la demande d'arrêt au serveur d'exécution!
     </Entry>
     <Entry key="MessageBox_QuitErrorTitle">
         Erreur de sortie
@@ -277,13 +292,13 @@
         Reconfiguration refusée
     </Entry>
     <Entry key="MessageBox_ReconfigurationError">
-        Le client n'a pas réussi à communiquer la demande de reconfiguration au serveur !
+        Le client n'a pas réussi à communiquer la demande de reconfiguration au serveur!
     </Entry>
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         Erreur de reconfiguration
     </Entry>
     <Entry key="MessageBox_ReloadConfirmation">
-        Souhaitez-vous recharger la page actuelle ?
+        Souhaitez-vous recharger la page actuelle?
     </Entry>
     <Entry key="MessageBox_ReloadConfirmationTitle">
         Recharger ?
@@ -295,7 +310,7 @@
         Session distante détectée
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
-        Le service SEB n'a pas été initialisé ! Le service SEB va maintenant se terminer puisque le service obligatoire.
+        Le service SEB n'a pas été initialisé! Le service SEB va maintenant se terminer puisque le service obligatoire.
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableErrorTitle">
         Service indisponible
@@ -307,25 +322,25 @@
         Service indisponible
     </Entry>
     <Entry key="MessageBox_SessionStartError">
-        Le SEB n'a pas réussi à démarrer une nouvelle session ! Veuillez consulter les fichiers journaux pour plus d'informations.
+        Le SEB n'a pas réussi à démarrer une nouvelle session! Veuillez consulter les fichiers journaux pour plus d'informations.
     </Entry>
     <Entry key="MessageBox_SessionStartErrorTitle">
         Erreur de démarrage de session
     </Entry>
     <Entry key="MessageBox_ShutdownError">
-        Une erreur inattendue s'est produite lors de la procédure d'arrêt ! Veuillez consulter les fichiers journaux pour plus d'informations.
+        Une erreur inattendue s'est produite lors de la procédure d'arrêt! Veuillez consulter les fichiers journaux pour plus d'informations.
     </Entry>
     <Entry key="MessageBox_ShutdownErrorTitle">
         Erreur de fermeture
     </Entry>
     <Entry key="MessageBox_StartupError">
-        Une erreur inattendue s'est produite lors de la procédure de démarrage ! Veuillez consulter les fichiers journaux pour plus d'informations.
+        Une erreur inattendue s'est produite lors de la procédure de démarrage! Veuillez consulter les fichiers journaux pour plus d'informations.
     </Entry>
     <Entry key="MessageBox_StartupErrorTitle">
         Erreur de démarrage
     </Entry>
     <Entry key="MessageBox_UnexpectedConfigurationError">
-        Une erreur inattendue s'est produite en essayant de charger la ressource de configuration "%%URI%%" ! Veuillez consulter les fichiers journaux pour plus d'informations.
+        Une erreur inattendue s'est produite en essayant de charger la ressource de configuration "%%URI%%"! Veuillez consulter les fichiers journaux pour plus d'informations.
     </Entry>
     <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
         Erreur de configuration
@@ -447,6 +462,9 @@
     <Entry key="OperationStatus_TerminateShell">
         Arrêt de l’interface utilisateur
     </Entry>
+    <Entry key="OperationStatus_ValidateDisplayConfiguration">
+        Validation de la politique de configuration d'affichage
+    </Entry>
     <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
         Validation de la directive sur la session à distance
     </Entry>
@@ -466,7 +484,7 @@
         Attente de la déconnexion du runtime
     </Entry>
     <Entry key="PasswordDialog_BrowserHomePasswordRequired">
-        Saisissez le mot de passe pour quitter/redémarrer : (Cette fonction ne vous déconnecte pas si vous êtes connecté sur un site web)
+        Saisissez le mot de passe pour quitter/redémarrer: (Cette fonction ne vous déconnecte pas si vous êtes connecté sur un site web)
     </Entry>
     <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
         Retour au début
@@ -478,7 +496,7 @@
         Confirmer
     </Entry>
     <Entry key="PasswordDialog_LocalAdminPasswordRequired">
-        Veuillez saisir le mot de passe de l'administrateur pour la configuration du client local :
+        Veuillez saisir le mot de passe de l'administrateur pour la configuration du client local:
     </Entry>
     <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
         Mot de passe administrateur requis
@@ -490,7 +508,7 @@
         Mot de passe des paramètres requis
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequired">
-        Veuillez saisir le mot de passe pour quitter SEB :
+        Veuillez saisir le mot de passe pour quitter SEB:
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
         Mot de passe de sortie requis
@@ -544,7 +562,7 @@
         Entièrement chargé (%%CHARGE%%%)
     </Entry>
     <Entry key="SystemControl_BatteryChargeCriticalWarning">
-        La charge de la batterie est dangereusement faible. Veuillez brancher votre ordinateur à une source d'alimentation électrique !
+        La charge de la batterie est dangereusement faible. Veuillez brancher votre ordinateur à une source d'alimentation électrique!
     </Entry>
     <Entry key="SystemControl_BatteryChargeLowInfo">
         La charge de la batterie devient faible. Pensez à brancher votre ordinateur sur une alimentation électrique...

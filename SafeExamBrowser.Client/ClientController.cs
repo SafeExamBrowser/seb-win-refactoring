@@ -514,6 +514,21 @@ namespace SafeExamBrowser.Client
 			actionCenter.InitializeBounds();
 			taskbar.InitializeBounds();
 			logger.Info("Desktop successfully restored.");
+
+			if (!displayMonitor.IsAllowedConfiguration(Settings.Display))
+			{
+				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_DisplayConfigurationContinueOption) };
+				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_DisplayConfigurationTerminateOption) };
+				var message = text.Get(TextKey.LockScreen_DisplayConfigurationMessage);
+				var title = text.Get(TextKey.LockScreen_Title);
+				var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
+
+				if (result.OptionId == terminateOption.Id)
+				{
+					logger.Info("Attempting to shutdown as requested by the user...");
+					TryRequestShutdown();
+				}
+			}
 		}
 
 		private void Operations_ActionRequired(ActionRequiredEventArgs args)

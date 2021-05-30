@@ -95,6 +95,7 @@
     <Compile Include="Operations\ConfigurationBaseOperation.cs" />
     <Compile Include="Operations\ConfigurationOperation.cs" />
     <Compile Include="Operations\DisclaimerOperation.cs" />
+    <Compile Include="Operations\DisplayMonitorOperation.cs" />
     <Compile Include="Operations\Events\ClientConfigurationErrorMessageArgs.cs" />
     <Compile Include="Operations\Events\ConfigurationCompletedEventArgs.cs" />
     <Compile Include="Operations\Events\ExamSelectionEventArgs.cs" />
@@ -187,6 +188,14 @@
     <ProjectReference Include="..\SafeExamBrowser.Logging\SafeExamBrowser.Logging.csproj">
       <Project>{e107026c-2011-4552-a7d8-3a0d37881df6}</Project>
       <Name>SafeExamBrowser.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Monitoring.Contracts\SafeExamBrowser.Monitoring.Contracts.csproj">
+      <Project>{6d563a30-366d-4c35-815b-2c9e6872278b}</Project>
+      <Name>SafeExamBrowser.Monitoring.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Monitoring\SafeExamBrowser.Monitoring.csproj">
+      <Project>{ef563531-4eb5-44b9-a5ec-d6d6f204469b}</Project>
+      <Name>SafeExamBrowser.Monitoring</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Server.Contracts\SafeExamBrowser.Server.Contracts.csproj">
       <Project>{db701e6f-bddc-4cec-b662-335a9dc11809}</Project>

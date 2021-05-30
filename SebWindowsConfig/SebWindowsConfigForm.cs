@@ -812,7 +812,7 @@ namespace SebWindowsConfig
             checkBoxAllowDisplayMirroring.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowDisplayMirroring];
             comboBoxAllowedDisplaysMaxNumber.Text = (String)SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplaysMaxNumber].ToString();
             checkBoxAllowedDisplayBuiltin.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayBuiltin];
-
+			checkBoxEnforceBuiltinDisplay.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayBuiltinEnforce];
 
             // Group "Registry"
             checkBoxInsideSebEnableSwitchUser.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyInsideSebEnableSwitchUser];
@@ -4624,6 +4624,11 @@ namespace SebWindowsConfig
 		private void comboBoxUrlPolicyNewWindow_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyNewBrowserWindowUrlPolicy] = comboBoxUrlPolicyNewWindow.SelectedIndex;
+		}
+
+		private void checkBoxEnforceBuiltinDisplay_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayBuiltinEnforce] = checkBoxEnforceBuiltinDisplay.Checked;
 		}
 	}
 }

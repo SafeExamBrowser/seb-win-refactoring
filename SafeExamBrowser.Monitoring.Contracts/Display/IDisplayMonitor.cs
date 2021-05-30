@@ -7,11 +7,12 @@
  */
 
 using SafeExamBrowser.Monitoring.Contracts.Display.Events;
+using SafeExamBrowser.Settings.Monitoring;
 
 namespace SafeExamBrowser.Monitoring.Contracts.Display
 {
 	/// <summary>
-	/// Monitors the displays of the computer for (setup) changes and provides access to display-related functionality.
+	/// Monitors the displays of the computer for changes and provides access to display-related functionality.
 	/// </summary>
 	public interface IDisplayMonitor
 	{
@@ -24,6 +25,11 @@ namespace SafeExamBrowser.Monitoring.Contracts.Display
 		/// Sets the desktop working area to accommodate to the taskbar's height and removes the configured wallpaper (if possible).
 		/// </summary>
 		void InitializePrimaryDisplay(int taskbarHeight);
+
+		/// <summary>
+		/// Indicates whether the currently active display configuration is allowed according to the given settings.
+		/// </summary>
+		bool IsAllowedConfiguration(DisplaySettings settings);
 
 		/// <summary>
 		/// Prevents the computer from entering sleep mode and turning its display(s) off.
