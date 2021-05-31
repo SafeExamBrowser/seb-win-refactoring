@@ -1570,11 +1570,13 @@ namespace SebWindowsConfig
 				{
 					DictObj prohibitedProcessData = (DictObj)SEBSettings.prohibitedProcessList[listIndex];
 
-					// Check if this prohibited process already is in Prohibited Process list in current settings
-					if (Path.GetFileNameWithoutExtension((string)prohibitedProcessData[SEBSettings.KeyOriginalName]).Equals(prohibitedProcessFilenameWithoutExtension, StringComparison.InvariantCultureIgnoreCase) ||
-						Path.GetFileNameWithoutExtension((string)prohibitedProcessData[SEBSettings.KeyExecutable]).Equals(prohibitedProcessFilenameWithoutExtension, StringComparison.InvariantCultureIgnoreCase))
-						indexOfProcess = listIndex;
-
+					if ((int) prohibitedProcessData[SEBSettings.KeyOS] == IntWin)
+					{
+						// Check if this prohibited process already is in Prohibited Process list in current settings
+						if (Path.GetFileNameWithoutExtension((string)prohibitedProcessData[SEBSettings.KeyOriginalName]).Equals(prohibitedProcessFilenameWithoutExtension, StringComparison.InvariantCultureIgnoreCase) ||
+							Path.GetFileNameWithoutExtension((string)prohibitedProcessData[SEBSettings.KeyExecutable]).Equals(prohibitedProcessFilenameWithoutExtension, StringComparison.InvariantCultureIgnoreCase))
+							indexOfProcess = listIndex;
+					}
 				} // next listIndex
 
 				// If this default prohibited process was not in Prohibited Process list, insert it at the beginning
