@@ -6,7 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Applications;
 
@@ -35,12 +37,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				{
 					if (item is IDictionary<string, object> applicationData)
 					{
-						var isActive = applicationData.TryGetValue(Keys.Applications.Active, out var v) && v is bool active && active;
-						var isWindowsProcess = applicationData.TryGetValue(Keys.Applications.OperatingSystem, out v) && v is int os && os == Keys.WINDOWS;
+						var isWindowsProcess = applicationData.TryGetValue(Keys.Applications.OperatingSystem, out var v) && v is int os && os == Keys.WINDOWS;
 
-						if (isActive && isWindowsProcess)
+						if (isWindowsProcess)
 						{
 							var application = new BlacklistApplication();
+							var isActive = applicationData.TryGetValue(Keys.Applications.Active, out v) && v is bool active && active;
 
 							if (applicationData.TryGetValue(Keys.Applications.AutoTerminate, out v) && v is bool autoTerminate)
 							{
@@ -57,7 +59,21 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 								application.OriginalName = originalName;
 							}
 
-							settings.Applications.Blacklist.Add(application);
+							var defaultEntry = settings.Applications.Blacklist.FirstOrDefault(a =>
+							{
+								return a.ExecutableName?.Equals(application.ExecutableName, StringComparison.OrdinalIgnoreCase) == true
+									&& a.OriginalName?.Equals(application.OriginalName, StringComparison.OrdinalIgnoreCase) == true;
+							});
+
+							if (defaultEntry != default(BlacklistApplication))
+							{
+								settings.Applications.Blacklist.Remove(defaultEntry);
+							}
+
+							if (isActive)
+							{
+								settings.Applications.Blacklist.Add(application);
+							}
 						}
 					}
 				}
