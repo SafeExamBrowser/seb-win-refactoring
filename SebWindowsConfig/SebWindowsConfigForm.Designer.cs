@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -74,6 +74,8 @@ namespace SebWindowsConfig
 			this.checkBoxInsideSebEnableEaseOfAccess = new System.Windows.Forms.CheckBox();
 			this.checkBoxInsideSebEnableVmWareClientShade = new System.Windows.Forms.CheckBox();
 			this.tabPageSecurity = new System.Windows.Forms.TabPage();
+			this.checkBoxAllowedDisplayIgnoreError = new System.Windows.Forms.CheckBox();
+			this.checkBoxEnforceBuiltinDisplay = new System.Windows.Forms.CheckBox();
 			this.groupBoxSebService = new System.Windows.Forms.GroupBox();
 			this.checkBoxSebServiceIgnore = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowChromeNotifications = new System.Windows.Forms.CheckBox();
@@ -456,7 +458,6 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.checkBoxEnforceBuiltinDisplay = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -1081,6 +1082,7 @@ namespace SebWindowsConfig
 			// 
 			// tabPageSecurity
 			// 
+			this.tabPageSecurity.Controls.Add(this.checkBoxAllowedDisplayIgnoreError);
 			this.tabPageSecurity.Controls.Add(this.checkBoxEnforceBuiltinDisplay);
 			this.tabPageSecurity.Controls.Add(this.groupBoxSebService);
 			this.tabPageSecurity.Controls.Add(this.checkBoxShowLogButton);
@@ -1102,6 +1104,28 @@ namespace SebWindowsConfig
 			this.tabPageSecurity.TabIndex = 24;
 			this.tabPageSecurity.Text = "Security";
 			this.tabPageSecurity.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxAllowedDisplayIgnoreError
+			// 
+			this.checkBoxAllowedDisplayIgnoreError.AutoSize = true;
+			this.checkBoxAllowedDisplayIgnoreError.Location = new System.Drawing.Point(617, 296);
+			this.checkBoxAllowedDisplayIgnoreError.Name = "checkBoxAllowedDisplayIgnoreError";
+			this.checkBoxAllowedDisplayIgnoreError.Size = new System.Drawing.Size(261, 17);
+			this.checkBoxAllowedDisplayIgnoreError.TabIndex = 108;
+			this.checkBoxAllowedDisplayIgnoreError.Text = "Ignore errors when validating display configuration";
+			this.checkBoxAllowedDisplayIgnoreError.UseVisualStyleBackColor = true;
+			this.checkBoxAllowedDisplayIgnoreError.CheckedChanged += new System.EventHandler(this.checkBoxAllowedDisplayIgnoreError_CheckedChanged);
+			// 
+			// checkBoxEnforceBuiltinDisplay
+			// 
+			this.checkBoxEnforceBuiltinDisplay.AutoSize = true;
+			this.checkBoxEnforceBuiltinDisplay.Location = new System.Drawing.Point(617, 276);
+			this.checkBoxEnforceBuiltinDisplay.Name = "checkBoxEnforceBuiltinDisplay";
+			this.checkBoxEnforceBuiltinDisplay.Size = new System.Drawing.Size(193, 17);
+			this.checkBoxEnforceBuiltinDisplay.TabIndex = 107;
+			this.checkBoxEnforceBuiltinDisplay.Text = "Allow only internal displays (laptops)";
+			this.checkBoxEnforceBuiltinDisplay.UseVisualStyleBackColor = true;
+			this.checkBoxEnforceBuiltinDisplay.CheckedChanged += new System.EventHandler(this.checkBoxEnforceBuiltinDisplay_CheckedChanged);
 			// 
 			// groupBoxSebService
 			// 
@@ -1200,7 +1224,7 @@ namespace SebWindowsConfig
 			// checkBoxShowLogButton
 			// 
 			this.checkBoxShowLogButton.AutoSize = true;
-			this.checkBoxShowLogButton.Location = new System.Drawing.Point(617, 323);
+			this.checkBoxShowLogButton.Location = new System.Drawing.Point(617, 335);
 			this.checkBoxShowLogButton.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxShowLogButton.Name = "checkBoxShowLogButton";
 			this.checkBoxShowLogButton.Size = new System.Drawing.Size(180, 17);
@@ -1213,20 +1237,18 @@ namespace SebWindowsConfig
 			// 
 			this.comboBoxAllowedDisplaysMaxNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboBoxAllowedDisplaysMaxNumber.FormattingEnabled = true;
-			this.comboBoxAllowedDisplaysMaxNumber.Location = new System.Drawing.Point(833, 267);
+			this.comboBoxAllowedDisplaysMaxNumber.Location = new System.Drawing.Point(833, 257);
 			this.comboBoxAllowedDisplaysMaxNumber.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.comboBoxAllowedDisplaysMaxNumber.Name = "comboBoxAllowedDisplaysMaxNumber";
 			this.comboBoxAllowedDisplaysMaxNumber.Size = new System.Drawing.Size(57, 21);
 			this.comboBoxAllowedDisplaysMaxNumber.TabIndex = 100;
-			this.toolTip1.SetToolTip(this.comboBoxAllowedDisplaysMaxNumber, "If more displays are connected, these are blanked with an orange full screen wind" +
-        "ow");
 			this.comboBoxAllowedDisplaysMaxNumber.SelectedIndexChanged += new System.EventHandler(this.comboBoxAllowedDisplaysMaxNumber_SelectedIndexChanged);
 			this.comboBoxAllowedDisplaysMaxNumber.TextChanged += new System.EventHandler(this.comboBoxAllowedDisplaysMaxNumber_TextChanged);
 			// 
 			// checkBoxAllowLogAccess
 			// 
 			this.checkBoxAllowLogAccess.AutoSize = true;
-			this.checkBoxAllowLogAccess.Location = new System.Drawing.Point(598, 304);
+			this.checkBoxAllowLogAccess.Location = new System.Drawing.Point(598, 316);
 			this.checkBoxAllowLogAccess.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxAllowLogAccess.Name = "checkBoxAllowLogAccess";
 			this.checkBoxAllowLogAccess.Size = new System.Drawing.Size(199, 17);
@@ -1240,7 +1262,7 @@ namespace SebWindowsConfig
 			this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label13.AutoSize = true;
 			this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label13.Location = new System.Drawing.Point(595, 270);
+			this.label13.Location = new System.Drawing.Point(595, 260);
 			this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(234, 13);
@@ -1830,8 +1852,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -4532,8 +4554,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -5930,17 +5952,6 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// checkBoxEnforceBuiltinDisplay
-			// 
-			this.checkBoxEnforceBuiltinDisplay.AutoSize = true;
-			this.checkBoxEnforceBuiltinDisplay.Location = new System.Drawing.Point(617, 286);
-			this.checkBoxEnforceBuiltinDisplay.Name = "checkBoxEnforceBuiltinDisplay";
-			this.checkBoxEnforceBuiltinDisplay.Size = new System.Drawing.Size(193, 17);
-			this.checkBoxEnforceBuiltinDisplay.TabIndex = 107;
-			this.checkBoxEnforceBuiltinDisplay.Text = "Allow only internal displays (laptops)";
-			this.checkBoxEnforceBuiltinDisplay.UseVisualStyleBackColor = true;
-			this.checkBoxEnforceBuiltinDisplay.CheckedChanged += new System.EventHandler(this.checkBoxEnforceBuiltinDisplay_CheckedChanged);
-			// 
 			// SebWindowsConfigForm
 			// 
 			this.AllowDrop = true;
@@ -6499,6 +6510,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
 		private System.Windows.Forms.CheckBox checkBoxEnforceBuiltinDisplay;
+		private System.Windows.Forms.CheckBox checkBoxAllowedDisplayIgnoreError;
 	}
 }
 

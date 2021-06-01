@@ -188,7 +188,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.ConfigurationMode = ConfigurationMode.Exam;
 
 			settings.Display.AllowedDisplays = 1;
-			settings.Display.IgnoreError = true;
+			settings.Display.IgnoreError = false;
 			settings.Display.InternalDisplayOnly = false;
 
 			settings.Keyboard.AllowAltEsc = false;

@@ -382,6 +382,7 @@ namespace SebWindowsConfig
 		public const String KeyAllowedDisplaysMaxNumber = "allowedDisplaysMaxNumber";
 		public const String KeyAllowedDisplayBuiltin = "allowedDisplayBuiltin";
 		public const String KeyAllowedDisplayBuiltinEnforce = "allowedDisplayBuiltinEnforce";
+		public const String KeyAllowedDisplayIgnoreFailure = "allowedDisplaysIgnoreFailure";
 
 		// Group "Registry"
 
@@ -975,6 +976,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowedDisplaysMaxNumber, 1);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowedDisplayBuiltin, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowedDisplayBuiltinEnforce, false);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowedDisplayIgnoreFailure, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowChromeNotifications, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowWindowsUpdate, false);
 

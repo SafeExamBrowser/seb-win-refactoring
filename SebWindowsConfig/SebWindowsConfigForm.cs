@@ -813,6 +813,7 @@ namespace SebWindowsConfig
             comboBoxAllowedDisplaysMaxNumber.Text = (String)SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplaysMaxNumber].ToString();
             checkBoxAllowedDisplayBuiltin.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayBuiltin];
 			checkBoxEnforceBuiltinDisplay.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayBuiltinEnforce];
+			checkBoxAllowedDisplayIgnoreError.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayIgnoreFailure];
 
             // Group "Registry"
             checkBoxInsideSebEnableSwitchUser.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyInsideSebEnableSwitchUser];
@@ -4629,6 +4630,11 @@ namespace SebWindowsConfig
 		private void checkBoxEnforceBuiltinDisplay_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayBuiltinEnforce] = checkBoxEnforceBuiltinDisplay.Checked;
+		}
+
+		private void checkBoxAllowedDisplayIgnoreError_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayIgnoreFailure] = checkBoxAllowedDisplayIgnoreError.Checked;
 		}
 	}
 }
