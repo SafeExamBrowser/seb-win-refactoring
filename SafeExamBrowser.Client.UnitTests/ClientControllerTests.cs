@@ -29,6 +29,7 @@ using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Monitoring.Contracts.Display;
 using SafeExamBrowser.Monitoring.Contracts.System;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Monitoring;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
@@ -412,7 +413,8 @@ namespace SafeExamBrowser.Client.UnitTests
 			settings.Taskbar.EnableTaskbar = true;
 
 			actionCenter.Setup(t => t.InitializeBounds()).Callback(() => boundsActionCenter = ++order);
-			displayMonitor.Setup(w => w.InitializePrimaryDisplay(It.Is<int>(h => h == height))).Callback(() => workingArea = ++order);
+			displayMonitor.Setup(m => m.InitializePrimaryDisplay(It.Is<int>(h => h == height))).Callback(() => workingArea = ++order);
+			displayMonitor.Setup(m => m.IsAllowedConfiguration(It.IsAny<DisplaySettings>())).Returns(true);
 			taskbar.Setup(t => t.GetAbsoluteHeight()).Returns(height);
 			taskbar.Setup(t => t.InitializeBounds()).Callback(() => boundsTaskbar = ++order);
 
@@ -443,6 +445,7 @@ namespace SafeExamBrowser.Client.UnitTests
 
 			actionCenter.Setup(t => t.InitializeBounds()).Callback(() => boundsActionCenter = ++order);
 			displayMonitor.Setup(w => w.InitializePrimaryDisplay(It.Is<int>(h => h == 0))).Callback(() => workingArea = ++order);
+			displayMonitor.Setup(m => m.IsAllowedConfiguration(It.IsAny<DisplaySettings>())).Returns(true);
 			taskbar.Setup(t => t.GetAbsoluteHeight()).Returns(height);
 			taskbar.Setup(t => t.InitializeBounds()).Callback(() => boundsTaskbar = ++order);
 
