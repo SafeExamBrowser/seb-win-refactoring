@@ -1110,9 +1110,10 @@ namespace SebWindowsConfig
 			this.checkBoxAllowedDisplayIgnoreError.AutoSize = true;
 			this.checkBoxAllowedDisplayIgnoreError.Location = new System.Drawing.Point(617, 296);
 			this.checkBoxAllowedDisplayIgnoreError.Name = "checkBoxAllowedDisplayIgnoreError";
-			this.checkBoxAllowedDisplayIgnoreError.Size = new System.Drawing.Size(261, 17);
+			this.checkBoxAllowedDisplayIgnoreError.Size = new System.Drawing.Size(554, 17);
 			this.checkBoxAllowedDisplayIgnoreError.TabIndex = 108;
-			this.checkBoxAllowedDisplayIgnoreError.Text = "Ignore errors when validating display configuration";
+			this.checkBoxAllowedDisplayIgnoreError.Text = "Ignore errors when validating display configuration. Needs to be active when usin" +
+    "g SEB inside a virtual machine.";
 			this.checkBoxAllowedDisplayIgnoreError.UseVisualStyleBackColor = true;
 			this.checkBoxAllowedDisplayIgnoreError.CheckedChanged += new System.EventHandler(this.checkBoxAllowedDisplayIgnoreError_CheckedChanged);
 			// 
