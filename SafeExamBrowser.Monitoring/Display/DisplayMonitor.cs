@@ -75,7 +75,7 @@ namespace SafeExamBrowser.Monitoring.Display
 			else
 			{
 				allowed = settings.IgnoreError;
-				logger.Info("Ignoring display setup validation error and allowing active setup.");
+				logger.Warn($"Failed to validate display configuration, {(allowed ? "ignoring error" : "active configuration is not allowed")}.");
 			}
 
 			return allowed;
