@@ -109,7 +109,6 @@ namespace SafeExamBrowser.Browser.Handlers
 			switch (targetDisposition)
 			{
 				case WindowOpenDisposition.NewBackgroundTab:
-				case WindowOpenDisposition.NewForegroundTab:
 				case WindowOpenDisposition.NewPopup:
 				case WindowOpenDisposition.NewWindow:
 				case WindowOpenDisposition.SaveToDisk:
