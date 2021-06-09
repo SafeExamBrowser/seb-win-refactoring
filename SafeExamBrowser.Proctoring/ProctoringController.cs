@@ -98,7 +98,7 @@ namespace SafeExamBrowser.Proctoring
 			{
 				start = !string.IsNullOrWhiteSpace(settings.Zoom.ApiKey);
 				start &= !string.IsNullOrWhiteSpace(settings.Zoom.ApiSecret);
-				start &= settings.Zoom.MeetingNumber != default(int);
+				start &= !string.IsNullOrWhiteSpace(settings.Zoom.MeetingNumber);
 				start &= !string.IsNullOrWhiteSpace(settings.Zoom.UserName);
 			}
 
@@ -236,7 +236,7 @@ namespace SafeExamBrowser.Proctoring
 				{
 					html = html.Replace("%%_API_KEY_%%", settings.Zoom.ApiKey);
 					html = html.Replace("%%_API_SECRET_%%", settings.Zoom.ApiSecret);
-					html = html.Replace("123456789", Convert.ToString(settings.Zoom.MeetingNumber));
+					html = html.Replace("%%_MEETING_NUMBER_%%", settings.Zoom.MeetingNumber);
 					html = html.Replace("%%_USER_NAME_%%", settings.Zoom.UserName);
 				}
 

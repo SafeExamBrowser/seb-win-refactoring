@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Settings.Proctoring
 		/// <summary>
 		/// The number of the meeting.
 		/// </summary>
-		public int MeetingNumber { get; set; }
+		public string MeetingNumber { get; set; }
 
 		/// <summary>
 		/// The user name to be used for the meeting.

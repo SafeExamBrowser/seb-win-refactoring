@@ -1,36 +1,31 @@
 ﻿<html>
     <head>
         <meta charset="utf-8" />
-        <link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.8.1/css/bootstrap.css" />
-        <link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.8.1/css/react-select.css" />
+        <link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.9.1/css/bootstrap.css" />
+        <link type="text/css" rel="stylesheet" href="https://source.zoom.us/1.9.1/css/react-select.css" />
     </head>
     <body>
-        <script src="https://source.zoom.us/1.8.1/lib/vendor/react.min.js"></script>
-        <script src="https://source.zoom.us/1.8.1/lib/vendor/react-dom.min.js"></script>
-        <script src="https://source.zoom.us/1.8.1/lib/vendor/redux.min.js"></script>
-        <script src="https://source.zoom.us/1.8.1/lib/vendor/redux-thunk.min.js"></script>
-        <script src="https://source.zoom.us/1.8.1/lib/vendor/jquery.min.js"></script>
-        <script src="https://source.zoom.us/1.8.1/lib/vendor/lodash.min.js"></script>
-        <script src="https://source.zoom.us/zoom-meeting-1.8.1.min.js"></script>
+        <script src="https://source.zoom.us/1.9.1/lib/vendor/react.min.js"></script>
+        <script src="https://source.zoom.us/1.9.1/lib/vendor/react-dom.min.js"></script>
+        <script src="https://source.zoom.us/1.9.1/lib/vendor/redux.min.js"></script>
+        <script src="https://source.zoom.us/1.9.1/lib/vendor/redux-thunk.min.js"></script>
+        <script src="https://source.zoom.us/1.9.1/lib/vendor/jquery.min.js"></script>
+        <script src="https://source.zoom.us/1.9.1/lib/vendor/lodash.min.js"></script>
+        <script src="https://source.zoom.us/zoom-meeting-1.9.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9/crypto-js.min.js"></script>
         <script type="text/javascript">
             const API_KEY = "%%_API_KEY_%%";
             const API_SECRET = "%%_API_SECRET_%%";
 
-            console.log("Checking system requirements...");
-            console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()));
-
-            console.log("Initializing Zoom...");
-            ZoomMtg.setZoomJSLib('https://source.zoom.us/1.8.1/lib', '/av');
+            ZoomMtg.setZoomJSLib('https://source.zoom.us/1.9.1/lib', '/av');
             ZoomMtg.preLoadWasm();
             ZoomMtg.prepareJssdk();
 
             const config = {
-                meetingNumber: 123456789,
+                meetingNumber: "%%_MEETING_NUMBER_%%",
                 leaveUrl: 'https://google.ch',
                 userName: '%%_USER_NAME_%%',
-                /* passWord: 'password', // if required */
-                role: 0 // 1 for host; 0 for attendee
+                role: 0
             };
 
             const signature = ZoomMtg.generateSignature({
@@ -39,60 +34,49 @@
                 apiSecret: API_SECRET,
                 role: config.role,
                 error: function (res) {
-                    console.error("FAILED TO GENERATE SIGNATURE: " + res)
-                },
-                success: function (res) {
-                    console.log("Successfully generated signature.");
-                    console.log(res.result);
-                },
+                    alert(`Failed to generate signature: ${res}`)
+                }
             });
 
-            console.log("Initializing meeting...");
-
-            // See documentation: https://zoom.github.io/sample-app-web/ZoomMtg.html#init
             ZoomMtg.init({
-                debug: true, //optional
-                leaveUrl: config.leaveUrl, //required
-                // webEndpoint: 'PSO web domain', // PSO option
-                showMeetingHeader: true, //option
-                disableInvite: false, //optional
-                disableCallOut: false, //optional
-                disableRecord: false, //optional
-                disableJoinAudio: false, //optional
-                audioPanelAlwaysOpen: true, //optional
-                showPureSharingContent: false, //optional
-                isSupportAV: true, //optional,
-                isSupportChat: false, //optional,
-                isSupportQA: true, //optional,
-                isSupportCC: true, //optional,
-                screenShare: true, //optional,
-                rwcBackup: '', //optional,
-                videoDrag: true, //optional,
-                sharingMode: 'both', //optional,
-                videoHeader: true, //optional,
-                isLockBottom: true, // optional,
-                isSupportNonverbal: true, // optional,
-                isShowJoiningErrorDialog: true, // optional,
-                inviteUrlFormat: '', // optional
-                loginWindow: {  // optional,
+                leaveUrl: config.leaveUrl,
+                showMeetingHeader: true,
+                disableInvite: false,
+                disableCallOut: false,
+                disableRecord: false,
+                disableJoinAudio: false,
+                audioPanelAlwaysOpen: true,
+                showPureSharingContent: false,
+                isSupportAV: true,
+                isSupportChat: false,
+                isSupportQA: true,
+                isSupportCC: true,
+                screenShare: true,
+                videoDrag: true,
+                sharingMode: 'both',
+                videoHeader: true,
+                isLockBottom: true,
+                isSupportNonverbal: true,
+                isShowJoiningErrorDialog: true,
+                inviteUrlFormat: '',
+                loginWindow: {
                     width: 400,
                     height: 380
                 },
-                // meetingInfo: [ // optional
-                //   'topic',
-                //   'host',
-                //   'mn',
-                //   'pwd',
-                //   'telPwd',
-                //   'invite',
-                //   'participant',
-                //   'dc'
-                // ],
-                disableVoIP: false, // optional
-                disableReport: false, // optional
+                meetingInfo: [
+                    'topic',
+                    'host',
+                    'mn',
+                    'pwd',
+                    'telPwd',
+                    'invite',
+                    'participant',
+                    'dc'
+                ],
+                disableVoIP: false,
+                disableReport: false,
                 error: function (res) {
-                    console.warn("INIT ERROR")
-                    console.log(res)
+                    alert(`Failed to initialize meeting: ${res}`)
                 },
                 success: function () {
                     ZoomMtg.join({
@@ -100,10 +84,8 @@
                         apiKey: API_KEY,
                         meetingNumber: config.meetingNumber,
                         userName: config.userName,
-                        /* passWord: meetConfig.passWord, */
-                        error(res) {
-                            console.warn("JOIN ERROR")
-                            console.log(res)
+                        error: function (res) {
+                            alert(`Failed to join meeting: ${res}`)
                         }
                     })
                 }
