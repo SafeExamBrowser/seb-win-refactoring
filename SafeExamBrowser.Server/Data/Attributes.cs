@@ -6,15 +6,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Server.Contracts.Events;
+
 namespace SafeExamBrowser.Server.Data
 {
 	internal class Attributes
 	{
-		public bool AllowChat { get; set; }
-		public bool ReceiveAudio { get; set; }
-		public bool ReceiveVideo { get; set; }
-		public string RoomName { get; set; }
-		public string ServerUrl { get; set; }
-		public string Token { get; set; }
+		internal bool AllowChat { get; set; }
+		internal ProctoringInstructionEventArgs Instruction { get; set; }
+		internal bool ReceiveAudio { get; set; }
+		internal bool ReceiveVideo { get; set; }
+
+		internal Attributes()
+		{
+			Instruction = new ProctoringInstructionEventArgs();
+		}
 	}
 }

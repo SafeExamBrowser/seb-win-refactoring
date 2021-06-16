@@ -393,7 +393,7 @@ namespace SafeExamBrowser.Server
 						switch (instruction)
 						{
 							case Instructions.PROCTORING:
-								Task.Run(() => ProctoringInstructionReceived?.Invoke(attributes.RoomName, attributes.ServerUrl, attributes.Token));
+								Task.Run(() => ProctoringInstructionReceived?.Invoke(attributes.Instruction));
 								break;
 							case Instructions.PROCTORING_RECONFIGURATION:
 								Task.Run(() => ProctoringConfigurationReceived?.Invoke(attributes.AllowChat, attributes.ReceiveAudio, attributes.ReceiveVideo));

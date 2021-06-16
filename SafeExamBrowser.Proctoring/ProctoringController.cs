@@ -19,6 +19,7 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Server.Contracts;
+using SafeExamBrowser.Server.Contracts.Events;
 using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -97,7 +98,7 @@ namespace SafeExamBrowser.Proctoring
 			else if (settings.Zoom.Enabled)
 			{
 				start = !string.IsNullOrWhiteSpace(settings.Zoom.ApiKey);
-				start &= !string.IsNullOrWhiteSpace(settings.Zoom.ApiSecret);
+				start &= !string.IsNullOrWhiteSpace(settings.Zoom.ApiSecret) || !string.IsNullOrWhiteSpace(settings.Zoom.Signature);
 				start &= !string.IsNullOrWhiteSpace(settings.Zoom.MeetingNumber);
 				start &= !string.IsNullOrWhiteSpace(settings.Zoom.UserName);
 			}
@@ -113,13 +114,19 @@ namespace SafeExamBrowser.Proctoring
 			StopProctoring();
 		}
 
-		private void Server_ProctoringInstructionReceived(string roomName, string serverUrl, string token)
+		private void Server_ProctoringInstructionReceived(ProctoringInstructionEventArgs args)
 		{
 			logger.Info("Proctoring instruction received.");
 
-			settings.JitsiMeet.RoomName = roomName;
-			settings.JitsiMeet.ServerUrl = Sanitize(serverUrl);
-			settings.JitsiMeet.Token = token;
+			settings.JitsiMeet.RoomName = args.JitsiMeetRoomName;
+			settings.JitsiMeet.ServerUrl = args.JitsiMeetServerUrl;
+			settings.JitsiMeet.Token = args.JitsiMeetToken;
+
+			settings.Zoom.ApiKey = args.ZoomApiKey;
+			settings.Zoom.MeetingNumber = args.ZoomMeetingNumber;
+			settings.Zoom.Password = args.ZoomPassword;
+			settings.Zoom.Signature = args.ZoomSignature;
+			settings.Zoom.UserName = args.ZoomUserName;
 
 			StopProctoring();
 			StartProctoring();
@@ -142,6 +149,7 @@ namespace SafeExamBrowser.Proctoring
 				settings.WindowVisibility = windowVisibility;
 			}
 
+			// TODO: This is apparently not necessary for Zoom, there we can enable / disable the options via API call!
 			StopProctoring();
 			StartProctoring();
 		}
@@ -237,6 +245,8 @@ namespace SafeExamBrowser.Proctoring
 					html = html.Replace("%%_API_KEY_%%", settings.Zoom.ApiKey);
 					html = html.Replace("%%_API_SECRET_%%", settings.Zoom.ApiSecret);
 					html = html.Replace("%%_MEETING_NUMBER_%%", settings.Zoom.MeetingNumber);
+					html = html.Replace("%%_PASSWORD_%%", settings.Zoom.Password);
+					html = html.Replace("%%_SIGNATURE_%%", settings.Zoom.Signature);
 					html = html.Replace("%%_USER_NAME_%%", settings.Zoom.UserName);
 				}
 

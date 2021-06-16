@@ -161,19 +161,7 @@ namespace SafeExamBrowser.Server
 							instructionConfirmation = attributesJson["instruction-confirm"].Value<string>();
 						}
 
-						switch (instruction)
-						{
-							case Instructions.PROCTORING:
-								attributes.RoomName = attributesJson["jitsiMeetRoom"].Value<string>();
-								attributes.ServerUrl = attributesJson["jitsiMeetServerURL"].Value<string>();
-								attributes.Token = attributesJson["jitsiMeetToken"].Value<string>();
-								break;
-							case Instructions.PROCTORING_RECONFIGURATION:
-								attributes.AllowChat = attributesJson["jitsiMeetFeatureFlagChat"].Value<bool>();
-								attributes.ReceiveAudio = attributesJson["jitsiMeetReceiveAudio"].Value<bool>();
-								attributes.ReceiveVideo = attributesJson["jitsiMeetReceiveVideo"].Value<bool>();
-								break;
-						}
+						attributes = ParseProctoringAttributes(attributesJson, instruction);
 					}
 				}
 			}
@@ -183,6 +171,77 @@ namespace SafeExamBrowser.Server
 			}
 
 			return instruction != default(string);
+		}
+
+		private Attributes ParseProctoringAttributes(JObject attributesJson, string instruction)
+		{
+			var attributes = new Attributes();
+			
+			switch (instruction)
+			{
+				case Instructions.PROCTORING:
+					ParseProctoringInstruction(attributes, attributesJson);
+					break;
+				case Instructions.PROCTORING_RECONFIGURATION:
+					ParseReconfigurationInstruction(attributes, attributesJson);
+					break;
+			}
+
+			return attributes;
+		}
+
+		private void ParseProctoringInstruction(Attributes attributes, JObject attributesJson)
+		{
+			var provider = attributesJson["service-type"].Value<string>();
+
+			switch (provider)
+			{
+				case "JITSI_MEET":
+					attributes.Instruction.JitsiMeetRoomName = attributesJson["jitsiMeetRoom"].Value<string>();
+					attributes.Instruction.JitsiMeetServerUrl = attributesJson["jitsiMeetServerURL"].Value<string>();
+					attributes.Instruction.JitsiMeetToken = attributesJson["jitsiMeetToken"].Value<string>();
+					break;
+				case "ZOOM":
+					attributes.Instruction.ZoomApiKey = attributesJson["zoomAPIKey"].Value<string>();
+					attributes.Instruction.ZoomMeetingNumber = attributesJson["zoomRoom"].Value<string>();
+					attributes.Instruction.ZoomPassword = attributesJson["zoomMeetingKey"].Value<string>();
+					attributes.Instruction.ZoomSignature = attributesJson["zoomToken"].Value<string>();
+					attributes.Instruction.ZoomUserName = attributesJson["zoomUserName"].Value<string>();
+					break;
+			}
+		}
+
+		private void ParseReconfigurationInstruction(Attributes attributes, JObject attributesJson)
+		{
+			if (attributesJson.ContainsKey("jitsiMeetFeatureFlagChat"))
+			{
+				attributes.AllowChat = attributesJson["jitsiMeetFeatureFlagChat"].Value<bool>();
+			}
+
+			if (attributesJson.ContainsKey("zoomFeatureFlagChat"))
+			{
+				attributes.AllowChat = attributesJson["zoomFeatureFlagChat"].Value<bool>();
+			}
+
+			if (attributesJson.ContainsKey("jitsiMeetReceiveAudio"))
+			{
+				attributes.ReceiveAudio = attributesJson["jitsiMeetReceiveAudio"].Value<bool>();
+			}
+
+			if (attributesJson.ContainsKey("zoomReceiveAudio"))
+			{
+				attributes.ReceiveAudio = attributesJson["zoomReceiveAudio"].Value<bool>();
+			}
+
+			if (attributesJson.ContainsKey("jitsiMeetReceiveVideo"))
+			{
+				attributes.ReceiveVideo = attributesJson["jitsiMeetReceiveVideo"].Value<bool>();
+			}
+
+			if (attributesJson.ContainsKey("zoomReceiveVideo"))
+			{
+				attributes.ReceiveVideo = attributesJson["zoomReceiveVideo"].Value<bool>();
+			}
 		}
 
 		internal bool TryParseOauth2Token(HttpContent content, out string oauth2Token)

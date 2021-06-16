@@ -14,32 +14,41 @@
         <script src="https://source.zoom.us/zoom-meeting-1.9.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9/crypto-js.min.js"></script>
         <script type="text/javascript">
-            const API_KEY = "%%_API_KEY_%%";
-            const API_SECRET = "%%_API_SECRET_%%";
+            const API_KEY = '%%_API_KEY_%%';
+            const API_SECRET = '%%_API_SECRET_%%';
+            const ATTENDEE = 0;
+
+            var configuration = {
+                leaveUrl: 'doesnotexist',
+                meetingNumber: '%%_MEETING_NUMBER_%%',
+                passWord: '%%_PASSWORD_%%',
+                role: ATTENDEE,
+                userName: '%%_USER_NAME_%%'
+            };
+            var signature = '%%_SIGNATURE_%%';
+
+            if (!ZoomMtg.checkSystemRequirements()) {
+                alert('This system does not meet the necessary requirements for Zoom!');
+            }
 
             ZoomMtg.setZoomJSLib('https://source.zoom.us/1.9.1/lib', '/av');
             ZoomMtg.preLoadWasm();
             ZoomMtg.prepareJssdk();
 
-            const config = {
-                meetingNumber: "%%_MEETING_NUMBER_%%",
-                leaveUrl: "doesnotexist",
-                userName: '%%_USER_NAME_%%',
-                role: 0
-            };
-
-            const signature = ZoomMtg.generateSignature({
-                meetingNumber: config.meetingNumber,
-                apiKey: API_KEY,
-                apiSecret: API_SECRET,
-                role: config.role,
-                error: function (res) {
-                    alert(`Failed to generate signature: ${res}`)
-                }
-            });
+            if (!signature) {
+                signature = ZoomMtg.generateSignature({
+                    meetingNumber: configuration.meetingNumber,
+                    apiKey: API_KEY,
+                    apiSecret: API_SECRET,
+                    role: configuration.role,
+                    error: function (res) {
+                        alert(`Failed to generate signature: ${JSON.stringify(res)}`)
+                    }
+                });
+            }
 
             ZoomMtg.init({
-                leaveUrl: config.leaveUrl,
+                leaveUrl: configuration.leaveUrl,
                 showMeetingHeader: true,
                 disableInvite: false,
                 disableCallOut: false,
@@ -48,7 +57,7 @@
                 audioPanelAlwaysOpen: true,
                 showPureSharingContent: false,
                 isSupportAV: true,
-                isSupportChat: false,
+                isSupportChat: true,
                 isSupportQA: true,
                 isSupportCC: true,
                 screenShare: true,
@@ -59,10 +68,6 @@
                 isSupportNonverbal: true,
                 isShowJoiningErrorDialog: true,
                 inviteUrlFormat: '',
-                loginWindow: {
-                    width: 400,
-                    height: 380
-                },
                 meetingInfo: [
                     'topic',
                     'host',
@@ -76,16 +81,17 @@
                 disableVoIP: false,
                 disableReport: false,
                 error: function (res) {
-                    alert(`Failed to initialize meeting: ${res}`)
+                    alert(`Failed to initialize meeting: ${JSON.stringify(res)}`)
                 },
                 success: function () {
                     ZoomMtg.join({
-                        signature: signature,
                         apiKey: API_KEY,
-                        meetingNumber: config.meetingNumber,
-                        userName: config.userName,
+                        meetingNumber: configuration.meetingNumber,
+                        passWord: configuration.passWord,
+                        signature: signature,
+                        userName: configuration.userName,
                         error: function (res) {
-                            alert(`Failed to join meeting: ${res}`)
+                            alert(`Failed to join meeting: ${JSON.stringify(res)}`)
                         }
                     })
                 }

@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.Server.Contracts.Events
 {
 	/// <summary>
-	/// Event handler used to indicate that a proctoring instruction has been detected.
+	/// Event handler used to indicate that a proctoring instruction has been received.
 	/// </summary>
-	public delegate void ProctoringInstructionReceivedEventHandler(string roomName, string serverUrl, string token);
+	public delegate void ProctoringInstructionReceivedEventHandler(ProctoringInstructionEventArgs args);
 }

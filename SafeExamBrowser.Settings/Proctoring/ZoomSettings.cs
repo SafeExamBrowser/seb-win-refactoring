@@ -37,6 +37,16 @@ namespace SafeExamBrowser.Settings.Proctoring
 		public string MeetingNumber { get; set; }
 
 		/// <summary>
+		/// The password of the meeting.
+		/// </summary>
+		public string Password { get; set; }
+
+		/// <summary>
+		/// The signature to be used for authentication.
+		/// </summary>
+		public string Signature { get; set; }
+
+		/// <summary>
 		/// The user name to be used for the meeting.
 		/// </summary>
 		public string UserName { get; set; }

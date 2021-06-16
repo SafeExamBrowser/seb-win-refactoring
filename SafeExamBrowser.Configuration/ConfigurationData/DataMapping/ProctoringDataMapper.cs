@@ -77,8 +77,23 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Proctoring.WindowVisibility:
 					MapWindowVisibility(settings, value);
 					break;
+				case Keys.Proctoring.Zoom.ApiKey:
+					MapZoomApiKey(settings, value);
+					break;
+				case Keys.Proctoring.Zoom.ApiSecret:
+					MapZoomApiSecret(settings, value);
+					break;
 				case Keys.Proctoring.Zoom.Enabled:
 					MapZoomEnabled(settings, value);
+					break;
+				case Keys.Proctoring.Zoom.MeetingNumber:
+					MapZoomMeetingNumber(settings, value);
+					break;
+				case Keys.Proctoring.Zoom.Signature:
+					MapZoomSignature(settings, value);
+					break;
+				case Keys.Proctoring.Zoom.UserName:
+					MapZoomUserName(settings, value);
 					break;
 			}
 		}
@@ -262,11 +277,51 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
+		private void MapZoomApiKey(AppSettings settings, object value)
+		{
+			if (value is string key)
+			{
+				settings.Proctoring.Zoom.ApiKey = key;
+			}
+		}
+
+		private void MapZoomApiSecret(AppSettings settings, object value)
+		{
+			if (value is string secret)
+			{
+				settings.Proctoring.Zoom.ApiSecret = secret;
+			}
+		}
+
 		private void MapZoomEnabled(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{
 				settings.Proctoring.Zoom.Enabled = enabled;
+			}
+		}
+
+		private void MapZoomMeetingNumber(AppSettings settings, object value)
+		{
+			if (value is string number)
+			{
+				settings.Proctoring.Zoom.MeetingNumber = number;
+			}
+		}
+
+		private void MapZoomSignature(AppSettings settings, object value)
+		{
+			if (value is string signature)
+			{
+				settings.Proctoring.Zoom.Signature = signature;
+			}
+		}
+
+		private void MapZoomUserName(AppSettings settings, object value)
+		{
+			if (value is string name)
+			{
+				settings.Proctoring.Zoom.UserName = name;
 			}
 		}
 	}

@@ -16,12 +16,12 @@ namespace SafeExamBrowser.Proctoring.Contracts
 	public interface IProctoringController
 	{
 		/// <summary>
-		/// 
+		/// Initializes the given settings and starts the proctoring if the settings are valid.
 		/// </summary>
 		void Initialize(ProctoringSettings settings);
 
 		/// <summary>
-		/// 
+		/// Stops the proctoring functionality.
 		/// </summary>
 		void Terminate();
 	}

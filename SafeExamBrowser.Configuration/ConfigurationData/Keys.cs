@@ -250,7 +250,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			internal static class Zoom
 			{
+				internal const string ApiKey = "zoomApiKey";
+				internal const string ApiSecret = "zoomApiSecret";
 				internal const string Enabled = "zoomEnable";
+				internal const string MeetingNumber = "zoomRoom";
+				internal const string Signature = "zoomToken";
+				internal const string UserName = "zoomUserInfoDisplayName";
 			}
 		}
 
