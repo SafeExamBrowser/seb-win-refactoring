@@ -126,6 +126,7 @@ namespace SafeExamBrowser.Proctoring
 			settings.Zoom.MeetingNumber = args.ZoomMeetingNumber;
 			settings.Zoom.Password = args.ZoomPassword;
 			settings.Zoom.Signature = args.ZoomSignature;
+			settings.Zoom.Subject = args.ZoomSubject;
 			settings.Zoom.UserName = args.ZoomUserName;
 
 			StopProctoring();
@@ -140,6 +141,10 @@ namespace SafeExamBrowser.Proctoring
 			settings.JitsiMeet.ReceiveAudio = receiveAudio;
 			settings.JitsiMeet.ReceiveVideo = receiveVideo;
 
+			settings.Zoom.AllowChat = allowChat;
+			settings.Zoom.ReceiveAudio = receiveAudio;
+			settings.Zoom.ReceiveVideo = receiveVideo;
+
 			if (allowChat || receiveVideo)
 			{
 				settings.WindowVisibility = WindowVisibility.AllowToHide;
@@ -149,7 +154,6 @@ namespace SafeExamBrowser.Proctoring
 				settings.WindowVisibility = windowVisibility;
 			}
 
-			// TODO: This is apparently not necessary for Zoom, there we can enable / disable the options via API call!
 			StopProctoring();
 			StartProctoring();
 		}
@@ -176,7 +180,7 @@ namespace SafeExamBrowser.Proctoring
 					});
 
 					window = uiFactory.CreateProctoringWindow(control);
-					window.SetTitle(settings.JitsiMeet.Enabled ? settings.JitsiMeet.Subject : settings.Zoom.UserName);
+					window.SetTitle(settings.JitsiMeet.Enabled ? settings.JitsiMeet.Subject : settings.Zoom.Subject);
 					window.Show();
 
 					if (settings.WindowVisibility == WindowVisibility.AllowToShow || settings.WindowVisibility == WindowVisibility.Hidden)
@@ -203,7 +207,15 @@ namespace SafeExamBrowser.Proctoring
 			{
 				control.Dispatcher.Invoke(() =>
 				{
-					control.ExecuteScriptAsync("api.executeCommand('hangup'); api.dispose();");
+					if (settings.JitsiMeet.Enabled)
+					{
+						control.ExecuteScriptAsync("api.executeCommand('hangup'); api.dispose();");
+					}
+					else if (settings.Zoom.Enabled)
+					{
+						control.ExecuteScriptAsync("ZoomMtg.leaveMeeting({});");
+					}
+
 					window.Close();
 					control = default(ProctoringControl);
 					window = default(IProctoringWindow);
@@ -242,6 +254,7 @@ namespace SafeExamBrowser.Proctoring
 				}
 				else if (settings.Zoom.Enabled)
 				{
+					html = html.Replace("'%_ALLOW_CHAT_%'", settings.Zoom.AllowChat ? "true" : "false");
 					html = html.Replace("%%_API_KEY_%%", settings.Zoom.ApiKey);
 					html = html.Replace("%%_API_SECRET_%%", settings.Zoom.ApiSecret);
 					html = html.Replace("%%_MEETING_NUMBER_%%", settings.Zoom.MeetingNumber);

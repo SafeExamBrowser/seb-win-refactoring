@@ -17,6 +17,11 @@ namespace SafeExamBrowser.Settings.Proctoring
 	public class ZoomSettings
 	{
 		/// <summary>
+		/// Determines whether the user can use the chat.
+		/// </summary>
+		public bool AllowChat { get; set; }
+
+		/// <summary>
 		/// The API key to be used for authentication.
 		/// </summary>
 		public string ApiKey { get; set; }
@@ -42,9 +47,24 @@ namespace SafeExamBrowser.Settings.Proctoring
 		public string Password { get; set; }
 
 		/// <summary>
+		/// Determines whether the user may receive the video stream of other meeting participants.
+		/// </summary>
+		public bool ReceiveAudio { get; set; }
+
+		/// <summary>
+		/// Determines whether the user may receive the audio stream of other meeting participants.
+		/// </summary>
+		public bool ReceiveVideo { get; set; }
+
+		/// <summary>
 		/// The signature to be used for authentication.
 		/// </summary>
 		public string Signature { get; set; }
+
+		/// <summary>
+		/// The subject of the meeting.
+		/// </summary>
+		public string Subject { get; set; }
 
 		/// <summary>
 		/// The user name to be used for the meeting.

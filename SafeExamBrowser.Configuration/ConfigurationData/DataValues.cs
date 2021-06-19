@@ -233,7 +233,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Proctoring.JitsiMeet.VideoMuted = false;
 			settings.Proctoring.ShowTaskbarNotification = true;
 			settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
+			settings.Proctoring.Zoom.AllowChat = false;
 			settings.Proctoring.Zoom.Enabled = false;
+			settings.Proctoring.Zoom.ReceiveAudio = false;
+			settings.Proctoring.Zoom.ReceiveVideo = false;
 
 			settings.Security.AllowApplicationLogAccess = false;
 			settings.Security.AllowTermination = true;

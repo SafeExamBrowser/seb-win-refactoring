@@ -18,6 +18,7 @@
             const API_SECRET = '%%_API_SECRET_%%';
             const ATTENDEE = 0;
 
+            var audioJoin = 0;
             var configuration = {
                 leaveUrl: 'doesnotexist',
                 meetingNumber: '%%_MEETING_NUMBER_%%',
@@ -26,6 +27,39 @@
                 userName: '%%_USER_NAME_%%'
             };
             var signature = '%%_SIGNATURE_%%';
+            var videoJoin = 0;
+
+            function initializeUserInterface(_) {
+                var audioButton = document.getElementsByClassName('join-audio-by-voip__join-btn')[0];
+                var audioContainer = document.getElementsByClassName('join-audio-container')[0];
+                var leave = document.getElementsByClassName('footer__leave-btn-container')[0];
+                var videoButton = document.getElementsByClassName('send-video-container__btn')[0];
+                var videoContainer = document.getElementsByClassName('send-video-container')[0];
+
+                if (audioButton && audioJoin < 100) {
+                    audioButton.click();
+                    audioJoin++;
+                }
+
+                if (audioContainer) {
+                    audioContainer.style.visibility = "hidden";
+                }
+
+                if (leave) {
+                    leave.style.visibility = "hidden";
+                }
+
+                if (videoButton && videoJoin < 100) {
+                    videoButton.click();
+                    videoJoin++;
+                }
+
+                if (videoContainer) {
+                    videoContainer.style.visibility = "hidden";
+                }
+
+                requestAnimationFrame(initializeUserInterface);
+            };
 
             if (!ZoomMtg.checkSystemRequirements()) {
                 alert('This system does not meet the necessary requirements for Zoom!');
@@ -42,46 +76,47 @@
                     apiSecret: API_SECRET,
                     role: configuration.role,
                     error: function (res) {
-                        alert(`Failed to generate signature: ${JSON.stringify(res)}`)
+                        alert(`Failed to generate signature: ${JSON.stringify(res)}`);
                     }
                 });
             }
 
             ZoomMtg.init({
-                leaveUrl: configuration.leaveUrl,
-                showMeetingHeader: true,
-                disableInvite: false,
-                disableCallOut: false,
-                disableRecord: false,
+                audioPanelAlwaysOpen: false,
+                disableCallOut: true,
+                disableInvite: true,
                 disableJoinAudio: false,
-                audioPanelAlwaysOpen: true,
-                showPureSharingContent: false,
-                isSupportAV: true,
-                isSupportChat: true,
-                isSupportQA: true,
-                isSupportCC: true,
-                screenShare: true,
-                videoDrag: true,
-                sharingMode: 'both',
-                videoHeader: true,
+                disableRecord: true,
+                disableReport: true,
+                disableVoIP: false,
+                leaveUrl: configuration.leaveUrl,
                 isLockBottom: true,
-                isSupportNonverbal: true,
                 isShowJoiningErrorDialog: true,
-                inviteUrlFormat: '',
+                isSupportAV: true,
+                isSupportBreakout: false,
+                isSupportChat: '%_ALLOW_CHAT_%',
+                isSupportCC: false,
+                isSupportPolling: false,
+                isSupportQA: false,
+                isSupportNonverbal: false,
+                screenShare: false,
+                sharingMode: 'both',
+                showMeetingHeader: true,
+                showPureSharingContent: false,
+                videoDrag: true,
+                videoHeader: true,
                 meetingInfo: [
                     'topic',
                     'host',
-                    'mn',
-                    'pwd',
-                    'telPwd',
-                    'invite',
                     'participant',
-                    'dc'
+                    //'mn',
+                    //'pwd',
+                    //'telPwd',
+                    //'invite',
+                    //'dc'
                 ],
-                disableVoIP: false,
-                disableReport: false,
                 error: function (res) {
-                    alert(`Failed to initialize meeting: ${JSON.stringify(res)}`)
+                    alert(`Failed to initialize meeting: ${JSON.stringify(res)}`);
                 },
                 success: function () {
                     ZoomMtg.join({
@@ -91,11 +126,14 @@
                         signature: signature,
                         userName: configuration.userName,
                         error: function (res) {
-                            alert(`Failed to join meeting: ${JSON.stringify(res)}`)
+                            alert(`Failed to join meeting: ${JSON.stringify(res)}`);
+                        },
+                        success: function (res) {
+                            requestAnimationFrame(initializeUserInterface);
                         }
-                    })
+                    });
                 }
-            })
+            });
         </script>
     </body>
 </html>

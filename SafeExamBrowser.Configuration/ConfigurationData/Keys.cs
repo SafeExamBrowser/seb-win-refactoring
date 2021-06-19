@@ -255,6 +255,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				internal const string Enabled = "zoomEnable";
 				internal const string MeetingNumber = "zoomRoom";
 				internal const string Signature = "zoomToken";
+				internal const string Subject = "zoomSubject";
 				internal const string UserName = "zoomUserInfoDisplayName";
 			}
 		}

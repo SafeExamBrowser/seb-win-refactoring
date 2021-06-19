@@ -206,6 +206,7 @@ namespace SafeExamBrowser.Server
 					attributes.Instruction.ZoomMeetingNumber = attributesJson["zoomRoom"].Value<string>();
 					attributes.Instruction.ZoomPassword = attributesJson["zoomMeetingKey"].Value<string>();
 					attributes.Instruction.ZoomSignature = attributesJson["zoomToken"].Value<string>();
+					attributes.Instruction.ZoomSubject = attributesJson["zoomSubject"].Value<string>();
 					attributes.Instruction.ZoomUserName = attributesJson["zoomUserName"].Value<string>();
 					break;
 			}

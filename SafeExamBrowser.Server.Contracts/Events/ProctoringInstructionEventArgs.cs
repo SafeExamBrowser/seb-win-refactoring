@@ -20,6 +20,7 @@ namespace SafeExamBrowser.Server.Contracts.Events
 		public string ZoomMeetingNumber { get; set; }
 		public string ZoomPassword { get; set; }
 		public string ZoomSignature { get; set; }
+		public string ZoomSubject { get; set; }
 		public string ZoomUserName { get; set; }
 	}
 }

@@ -92,6 +92,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Proctoring.Zoom.Signature:
 					MapZoomSignature(settings, value);
 					break;
+				case Keys.Proctoring.Zoom.Subject:
+					MapZoomSubject(settings, value);
+					break;
 				case Keys.Proctoring.Zoom.UserName:
 					MapZoomUserName(settings, value);
 					break;
@@ -314,6 +317,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string signature)
 			{
 				settings.Proctoring.Zoom.Signature = signature;
+			}
+		}
+
+		private void MapZoomSubject(AppSettings settings, object value)
+		{
+			if (value is string subject)
+			{
+				settings.Proctoring.Zoom.Subject = subject;
 			}
 		}
 
