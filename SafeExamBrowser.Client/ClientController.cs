@@ -412,8 +412,6 @@ namespace SafeExamBrowser.Client
 					Thread.Sleep(Settings.Server.RequestAttemptInterval);
 					response = Server.SendSessionIdentifier(identifier);
 				}
-
-				Server.StartConnectivity();
 			}
 		}
 

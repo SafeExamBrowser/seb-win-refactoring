@@ -52,11 +52,7 @@ namespace SafeExamBrowser.Client.Operations
 					Context.AppConfig.ServerExamId,
 					Context.AppConfig.ServerOauth2Token,
 					Context.Settings.Server);
-
-				if (Context.AppConfig.ServerConnectivityAutoStart)
-				{
-					server.StartConnectivity();
-				}
+				server.StartConnectivity();
 			}
 
 			return OperationResult.Success;

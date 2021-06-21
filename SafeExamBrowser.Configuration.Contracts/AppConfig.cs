@@ -162,11 +162,6 @@ namespace SafeExamBrowser.Configuration.Contracts
 		public string ServerConnectionToken { get; set; }
 
 		/// <summary>
-		/// Determines whether the server connectivity should automatically be started in case of a reconfiguration.
-		/// </summary>
-		public bool ServerConnectivityAutoStart { get; set; }
-
-		/// <summary>
 		/// The identifier of the selected server exam.
 		/// </summary>
 		public string ServerExamId { get; set; }

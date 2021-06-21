@@ -139,7 +139,6 @@ namespace SafeExamBrowser.Runtime.Operations
 
 				Context.Next.AppConfig.ServerApi = Context.Current.AppConfig.ServerApi;
 				Context.Next.AppConfig.ServerConnectionToken = Context.Current.AppConfig.ServerConnectionToken;
-				Context.Next.AppConfig.ServerConnectivityAutoStart = true;
 				Context.Next.AppConfig.ServerExamId = Context.Current.AppConfig.ServerExamId;
 				Context.Next.AppConfig.ServerOauth2Token = Context.Current.AppConfig.ServerOauth2Token;
 
