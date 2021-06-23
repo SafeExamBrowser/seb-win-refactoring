@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using SafeExamBrowser.Communication.Contracts.Data;
@@ -115,7 +116,7 @@ namespace SafeExamBrowser.Runtime
 				logger.Info("Application startup aborted!");
 				logger.Log(string.Empty);
 
-				messageBox.Show(TextKey.MessageBox_StartupError, TextKey.MessageBox_StartupErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
+				messageBox.Show(AppendLogFilePaths(TextKey.MessageBox_StartupError), text.Get(TextKey.MessageBox_StartupErrorTitle), icon: MessageBoxIcon.Error, parent: splashScreen);
 			}
 
 			return initialized && SessionIsRunning;
@@ -151,7 +152,7 @@ namespace SafeExamBrowser.Runtime
 				logger.Info("Shutdown procedure failed!");
 				logger.Log(string.Empty);
 
-				messageBox.Show(TextKey.MessageBox_ShutdownError, TextKey.MessageBox_ShutdownErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
+				messageBox.Show(AppendLogFilePaths(TextKey.MessageBox_ShutdownError), text.Get(TextKey.MessageBox_ShutdownErrorTitle), icon: MessageBoxIcon.Error, parent: splashScreen);
 			}
 
 			splashScreen.Close();
@@ -212,14 +213,14 @@ namespace SafeExamBrowser.Runtime
 			{
 				StopSession();
 
-				messageBox.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
+				messageBox.Show(AppendLogFilePaths(TextKey.MessageBox_SessionStartError), text.Get(TextKey.MessageBox_SessionStartErrorTitle), icon: MessageBoxIcon.Error, parent: runtimeWindow);
 
 				logger.Info("Terminating application...");
 				shutdown.Invoke();
 			}
 			else
 			{
-				messageBox.Show(TextKey.MessageBox_SessionStartError, TextKey.MessageBox_SessionStartErrorTitle, icon: MessageBoxIcon.Error, parent: runtimeWindow);
+				messageBox.Show(AppendLogFilePaths(TextKey.MessageBox_SessionStartError), text.Get(TextKey.MessageBox_SessionStartErrorTitle), icon: MessageBoxIcon.Error, parent: runtimeWindow);
 			}
 		}
 
@@ -699,6 +700,33 @@ namespace SafeExamBrowser.Runtime
 			var dashesRight = new String('-', 48 - message.Length / 2);
 
 			return $"### {dashesLeft} {message} {dashesRight} ###";
+		}
+
+		private string AppendLogFilePaths(TextKey key)
+		{
+			var message = text.Get(key);
+
+			if (File.Exists(appConfig.BrowserLogFilePath))
+			{
+				message += $"{Environment.NewLine}{Environment.NewLine}{appConfig.BrowserLogFilePath}";
+			}
+
+			if (File.Exists(appConfig.ClientLogFilePath))
+			{
+				message += $"{Environment.NewLine}{Environment.NewLine}{appConfig.ClientLogFilePath}";
+			}
+
+			if (File.Exists(appConfig.RuntimeLogFilePath))
+			{
+				message += $"{Environment.NewLine}{Environment.NewLine}{appConfig.RuntimeLogFilePath}";
+			}
+
+			if (File.Exists(appConfig.ServiceLogFilePath))
+			{
+				message += $"{Environment.NewLine}{Environment.NewLine}{appConfig.ServiceLogFilePath}";
+			}
+
+			return message;
 		}
 	}
 }

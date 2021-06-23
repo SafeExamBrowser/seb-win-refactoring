@@ -491,7 +491,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 
 			sut.Terminate();
 
-			messageBox.Verify(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()), Times.AtLeastOnce);
+			messageBox.Verify(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()), Times.AtLeastOnce);
 		}
 
 		[TestMethod]
