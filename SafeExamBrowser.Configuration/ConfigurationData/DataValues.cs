@@ -218,7 +218,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.Proctoring.Enabled = false;
 			settings.Proctoring.JitsiMeet.AllowChat = false;
-			settings.Proctoring.JitsiMeet.AllowCloseCaptions = false;
+			settings.Proctoring.JitsiMeet.AllowClosedCaptions = false;
 			settings.Proctoring.JitsiMeet.AllowRaiseHand = false;
 			settings.Proctoring.JitsiMeet.AllowRecording = false;
 			settings.Proctoring.JitsiMeet.AllowTileView = false;
@@ -234,9 +234,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Proctoring.ShowTaskbarNotification = true;
 			settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
 			settings.Proctoring.Zoom.AllowChat = false;
+			settings.Proctoring.Zoom.AllowClosedCaptions = false;
+			settings.Proctoring.Zoom.AllowRaiseHand = false;
+			settings.Proctoring.Zoom.AudioMuted = true;
 			settings.Proctoring.Zoom.Enabled = false;
 			settings.Proctoring.Zoom.ReceiveAudio = false;
 			settings.Proctoring.Zoom.ReceiveVideo = false;
+			settings.Proctoring.Zoom.SendAudio = true;
+			settings.Proctoring.Zoom.SendVideo = true;
+			settings.Proctoring.Zoom.VideoMuted = false;
 
 			settings.Security.AllowApplicationLogAccess = false;
 			settings.Security.AllowTermination = true;

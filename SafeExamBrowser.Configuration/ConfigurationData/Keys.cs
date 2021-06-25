@@ -229,7 +229,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal static class JitsiMeet
 			{
 				internal const string AllowChat = "jitsiMeetFeatureFlagChat";
-				internal const string AllowCloseCaptions = "jitsiMeetFeatureFlagCloseCaptions";
+				internal const string AllowClosedCaptions = "jitsiMeetFeatureFlagCloseCaptions";
 				internal const string AllowRaiseHand = "jitsiMeetFeatureFlagRaiseHand";
 				internal const string AllowRecording = "jitsiMeetFeatureFlagRecording";
 				internal const string AllowTileView = "jitsiMeetFeatureFlagTileView";
@@ -250,13 +250,20 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			internal static class Zoom
 			{
+				internal const string AllowChat = "zoomFeatureFlagChat";
+				internal const string AllowClosedCaptions = "zoomFeatureFlagCloseCaptions";
+				internal const string AllowRaiseHand = "zoomFeatureFlagRaiseHand";
 				internal const string ApiKey = "zoomApiKey";
 				internal const string ApiSecret = "zoomApiSecret";
+				internal const string AudioMuted = "zoomAudioMuted";
 				internal const string Enabled = "zoomEnable";
 				internal const string MeetingNumber = "zoomRoom";
+				internal const string SendAudio = "zoomSendAudio";
+				internal const string SendVideo = "zoomSendVideo";
 				internal const string Signature = "zoomToken";
 				internal const string Subject = "zoomSubject";
 				internal const string UserName = "zoomUserInfoDisplayName";
+				internal const string VideoMuted = "zoomVideoMuted";
 			}
 		}
 

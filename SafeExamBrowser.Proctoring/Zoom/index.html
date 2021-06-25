@@ -34,33 +34,38 @@
                 var audioContainer = document.getElementsByClassName('join-audio-container')[0];
                 var leave = document.getElementsByClassName('footer__leave-btn-container')[0];
                 var more = document.getElementsByClassName('more-button')[0];
+                var raiseHandContainer = document.getElementsByClassName('participants-section-container__participants-footer')[0];
                 var videoButton = document.getElementsByClassName('send-video-container__btn')[0];
                 var videoContainer = document.getElementsByClassName('send-video-container')[0];
 
-                if (audioButton && audioJoin < 100) {
+                if (audioButton && !'%_AUDIO_MUTED_%' && audioJoin < 100) {
                     audioButton.click();
                     audioJoin++;
                 }
 
-                if (audioContainer) {
-                    audioContainer.style.visibility = "hidden";
+                if (audioContainer && !'%_AUDIO_MUTED_%') {
+                    audioContainer.style.visibility = 'hidden';
                 }
 
                 if (leave) {
-                    leave.style.visibility = "hidden";
+                    leave.style.visibility = 'hidden';
                 }
 
                 if (more) {
-                    more.style.visibility = "hidden";
+                    more.style.visibility = 'hidden';
                 }
 
-                if (videoButton && videoJoin < 100) {
+                if (raiseHandContainer && !'%_ALLOW_RAISE_HAND_%') {
+                    raiseHandContainer.style.visibility = 'hidden';
+                }
+
+                if (videoButton && !'%_VIDEO_MUTED_%' && videoJoin < 100) {
                     videoButton.click();
                     videoJoin++;
                 }
 
-                if (videoContainer) {
-                    videoContainer.style.visibility = "hidden";
+                if (videoContainer && !'%_VIDEO_MUTED_%') {
+                    videoContainer.style.visibility = 'hidden';
                 }
 
                 requestAnimationFrame(initializeUserInterface);
@@ -100,7 +105,7 @@
                 isSupportAV: true,
                 isSupportBreakout: false,
                 isSupportChat: '%_ALLOW_CHAT_%',
-                isSupportCC: false,
+                isSupportCC: '%_ALLOW_CLOSED_CAPTIONS_%',
                 isSupportPolling: false,
                 isSupportQA: false,
                 isSupportNonverbal: false,

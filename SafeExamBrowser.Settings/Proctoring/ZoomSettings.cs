@@ -22,6 +22,16 @@ namespace SafeExamBrowser.Settings.Proctoring
 		public bool AllowChat { get; set; }
 
 		/// <summary>
+		/// Determines whether the user can use closed captions.
+		/// </summary>
+		public bool AllowClosedCaptions { get; set; }
+
+		/// <summary>
+		/// Determines whether the user can use the raise hand feature.
+		/// </summary>
+		public bool AllowRaiseHand { get; set; }
+
+		/// <summary>
 		/// The API key to be used for authentication.
 		/// </summary>
 		public string ApiKey { get; set; }
@@ -30,6 +40,11 @@ namespace SafeExamBrowser.Settings.Proctoring
 		/// The API secret to be used for authentication.
 		/// </summary>
 		public string ApiSecret { get; set; }
+
+		/// <summary>
+		/// Determines whether the audio starts muted.
+		/// </summary>
+		public bool AudioMuted { get; set; }
 
 		/// <summary>
 		/// Determines whether proctoring with Zoom is enabled.
@@ -57,6 +72,16 @@ namespace SafeExamBrowser.Settings.Proctoring
 		public bool ReceiveVideo { get; set; }
 
 		/// <summary>
+		/// Determines whether the audio stream of the user will be sent to the server.
+		/// </summary>
+		public bool SendAudio { get; set; }
+
+		/// <summary>
+		/// Determines whether the video stream of the user will be sent to the server.
+		/// </summary>
+		public bool SendVideo { get; set; }
+
+		/// <summary>
 		/// The signature to be used for authentication.
 		/// </summary>
 		public string Signature { get; set; }
@@ -70,5 +95,10 @@ namespace SafeExamBrowser.Settings.Proctoring
 		/// The user name to be used for the meeting.
 		/// </summary>
 		public string UserName { get; set; }
+
+		/// <summary>
+		/// Determines whether the video starts muted.
+		/// </summary>
+		public bool VideoMuted { get; set; }
 	}
 }

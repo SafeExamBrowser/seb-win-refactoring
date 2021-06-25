@@ -240,7 +240,7 @@ namespace SafeExamBrowser.Proctoring
 				if (settings.JitsiMeet.Enabled)
 				{
 					html = html.Replace("%%_ALLOW_CHAT_%%", settings.JitsiMeet.AllowChat ? "chat" : "");
-					html = html.Replace("%%_ALLOW_CLOSED_CAPTIONS_%%", settings.JitsiMeet.AllowCloseCaptions ? "closedcaptions" : "");
+					html = html.Replace("%%_ALLOW_CLOSED_CAPTIONS_%%", settings.JitsiMeet.AllowClosedCaptions ? "closedcaptions" : "");
 					html = html.Replace("%%_ALLOW_RAISE_HAND_%%", settings.JitsiMeet.AllowRaiseHand ? "raisehand" : "");
 					html = html.Replace("%%_ALLOW_RECORDING_%%", settings.JitsiMeet.AllowRecording ? "recording" : "");
 					html = html.Replace("%%_ALLOW_TILE_VIEW", settings.JitsiMeet.AllowTileView ? "tileview" : "");
@@ -255,12 +255,16 @@ namespace SafeExamBrowser.Proctoring
 				else if (settings.Zoom.Enabled)
 				{
 					html = html.Replace("'%_ALLOW_CHAT_%'", settings.Zoom.AllowChat ? "true" : "false");
+					html = html.Replace("'%_ALLOW_CLOSED_CAPTIONS_%'", settings.Zoom.AllowClosedCaptions ? "true" : "false");
+					html = html.Replace("'%_ALLOW_RAISE_HAND_%'", settings.Zoom.AllowRaiseHand ? "true" : "false");
 					html = html.Replace("%%_API_KEY_%%", settings.Zoom.ApiKey);
 					html = html.Replace("%%_API_SECRET_%%", settings.Zoom.ApiSecret);
+					html = html.Replace("'%_AUDIO_MUTED_%'", settings.Zoom.AudioMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
 					html = html.Replace("%%_MEETING_NUMBER_%%", settings.Zoom.MeetingNumber);
 					html = html.Replace("%%_PASSWORD_%%", settings.Zoom.Password);
 					html = html.Replace("%%_SIGNATURE_%%", settings.Zoom.Signature);
 					html = html.Replace("%%_USER_NAME_%%", settings.Zoom.UserName);
+					html = html.Replace("'%_VIDEO_MUTED_%'", settings.Zoom.VideoMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
 				}
 
 				return html;

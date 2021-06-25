@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Settings.Proctoring
 		/// <summary>
 		/// Determines whether the user can use close captions.
 		/// </summary>
-		public bool AllowCloseCaptions { get; set; }
+		public bool AllowClosedCaptions { get; set; }
 
 		/// <summary>
 		/// Determines whether the user can use the raise hand feature.

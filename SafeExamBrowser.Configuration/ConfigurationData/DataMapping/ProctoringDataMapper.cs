@@ -20,8 +20,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Proctoring.JitsiMeet.AllowChat:
 					MapJitsiMeetAllowChat(settings, value);
 					break;
-				case Keys.Proctoring.JitsiMeet.AllowCloseCaptions:
-					MapJitsiMeetAllowCloseCaptions(settings, value);
+				case Keys.Proctoring.JitsiMeet.AllowClosedCaptions:
+					MapJitsiMeetAllowClosedCaptions(settings, value);
 					break;
 				case Keys.Proctoring.JitsiMeet.AllowRaiseHand:
 					MapJitsiMeetAllowRaiseHands(settings, value);
@@ -77,17 +77,35 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Proctoring.WindowVisibility:
 					MapWindowVisibility(settings, value);
 					break;
+				case Keys.Proctoring.Zoom.AllowChat:
+					MapZoomAllowChat(settings, value);
+					break;
+				case Keys.Proctoring.Zoom.AllowClosedCaptions:
+					MapZoomAllowClosedCaptions(settings, value);
+					break;
+				case Keys.Proctoring.Zoom.AllowRaiseHand:
+					MapZoomAllowRaiseHands(settings, value);
+					break;
 				case Keys.Proctoring.Zoom.ApiKey:
 					MapZoomApiKey(settings, value);
 					break;
 				case Keys.Proctoring.Zoom.ApiSecret:
 					MapZoomApiSecret(settings, value);
 					break;
+				case Keys.Proctoring.Zoom.AudioMuted:
+					MapZoomAudioMuted(settings, value);
+					break;
 				case Keys.Proctoring.Zoom.Enabled:
 					MapZoomEnabled(settings, value);
 					break;
 				case Keys.Proctoring.Zoom.MeetingNumber:
 					MapZoomMeetingNumber(settings, value);
+					break;
+				case Keys.Proctoring.Zoom.SendAudio:
+					MapZoomSendAudio(settings, value);
+					break;
+				case Keys.Proctoring.Zoom.SendVideo:
+					MapZoomSendVideo(settings, value);
 					break;
 				case Keys.Proctoring.Zoom.Signature:
 					MapZoomSignature(settings, value);
@@ -97,6 +115,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Proctoring.Zoom.UserName:
 					MapZoomUserName(settings, value);
+					break;
+				case Keys.Proctoring.Zoom.VideoMuted:
+					MapZoomVideoMuted(settings, value);
 					break;
 			}
 		}
@@ -109,11 +130,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
-		private void MapJitsiMeetAllowCloseCaptions(AppSettings settings, object value)
+		private void MapJitsiMeetAllowClosedCaptions(AppSettings settings, object value)
 		{
 			if (value is bool allow)
 			{
-				settings.Proctoring.JitsiMeet.AllowCloseCaptions = allow;
+				settings.Proctoring.JitsiMeet.AllowClosedCaptions = allow;
 			}
 		}
 
@@ -280,6 +301,30 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
+		private void MapZoomAllowChat(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Proctoring.Zoom.AllowChat = allow;
+			}
+		}
+
+		private void MapZoomAllowClosedCaptions(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Proctoring.Zoom.AllowClosedCaptions = allow;
+			}
+		}
+
+		private void MapZoomAllowRaiseHands(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Proctoring.Zoom.AllowRaiseHand = allow;
+			}
+		}
+
 		private void MapZoomApiKey(AppSettings settings, object value)
 		{
 			if (value is string key)
@@ -296,6 +341,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
+		private void MapZoomAudioMuted(AppSettings settings, object value)
+		{
+			if (value is bool muted)
+			{
+				settings.Proctoring.Zoom.AudioMuted = muted;
+			}
+		}
+
 		private void MapZoomEnabled(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
@@ -309,6 +362,22 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string number)
 			{
 				settings.Proctoring.Zoom.MeetingNumber = number;
+			}
+		}
+
+		private void MapZoomSendAudio(AppSettings settings, object value)
+		{
+			if (value is bool send)
+			{
+				settings.Proctoring.Zoom.SendAudio = send;
+			}
+		}
+
+		private void MapZoomSendVideo(AppSettings settings, object value)
+		{
+			if (value is bool send)
+			{
+				settings.Proctoring.Zoom.SendVideo = send;
 			}
 		}
 
@@ -333,6 +402,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string name)
 			{
 				settings.Proctoring.Zoom.UserName = name;
+			}
+		}
+
+		private void MapZoomVideoMuted(AppSettings settings, object value)
+		{
+			if (value is bool muted)
+			{
+				settings.Proctoring.Zoom.VideoMuted = muted;
 			}
 		}
 	}
