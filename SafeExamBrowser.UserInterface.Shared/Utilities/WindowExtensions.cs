@@ -20,7 +20,10 @@ namespace SafeExamBrowser.UserInterface.Shared.Utilities
 		private const uint MF_GRAYED = 0x00000001;
 		private const uint MF_ENABLED = 0x00000000;
 		private const uint SC_CLOSE = 0xF060;
+		private const uint SWP_SHOWWINDOW = 0x0040;
 		private const int WS_SYSMENU = 0x80000;
+
+		private static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
 
 		public static void DisableCloseButton(this Window window)
 		{
@@ -41,6 +44,17 @@ namespace SafeExamBrowser.UserInterface.Shared.Utilities
 			SetWindowLong(helper.Handle, GWL_STYLE, style);
 		}
 
+		public static void MoveToBackground(this Window window)
+		{
+			var helper = new WindowInteropHelper(window);
+			var x = (int) window.TransformFromPhysical(window.Left, 0).X;
+			var y = (int) window.TransformFromPhysical(0, window.Top).Y;
+			var width = (int) window.TransformFromPhysical(window.Width, 0).X;
+			var height = (int) window.TransformFromPhysical(0, window.Height).Y;
+
+			SetWindowPos(helper.Handle, HWND_BOTTOM, x, y, width, height, SWP_SHOWWINDOW);
+		}
+
 		[DllImport("user32.dll")]
 		private static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
 
@@ -52,5 +66,8 @@ namespace SafeExamBrowser.UserInterface.Shared.Utilities
 
 		[DllImport("user32.dll")]
 		private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+		[DllImport("user32.dll")]
+		private static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 	}
 }

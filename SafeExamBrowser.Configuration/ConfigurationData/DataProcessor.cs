@@ -74,6 +74,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			{
 				settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
 			}
+
+			if (settings.Proctoring.Zoom.Enabled && !settings.Proctoring.Zoom.ReceiveVideo)
+			{
+				settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
+			}
 		}
 
 		private void RemoveLegacyBrowsers(AppSettings settings)

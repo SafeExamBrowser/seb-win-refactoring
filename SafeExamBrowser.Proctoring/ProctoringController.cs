@@ -185,7 +185,14 @@ namespace SafeExamBrowser.Proctoring
 
 					if (settings.WindowVisibility == WindowVisibility.AllowToShow || settings.WindowVisibility == WindowVisibility.Hidden)
 					{
-						window.Hide();
+						if (settings.Zoom.Enabled)
+						{
+							window.HideWithDelay();
+						}
+						else
+						{
+							window.Hide();
+						}
 					}
 
 					IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Active.xaml") };

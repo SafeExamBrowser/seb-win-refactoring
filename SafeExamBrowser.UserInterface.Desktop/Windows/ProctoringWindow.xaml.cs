@@ -7,6 +7,7 @@
  */
 
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Proctoring;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
@@ -57,6 +58,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		public new void Hide()
 		{
 			Dispatcher.Invoke(base.Hide);
+		}
+
+		public void HideWithDelay()
+		{
+			Dispatcher.Invoke(() => this.MoveToBackground());
+			Task.Delay(10000).ContinueWith(_ => Hide());
 		}
 
 		public void SetTitle(string title)
