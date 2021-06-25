@@ -33,6 +33,7 @@
                 var audioButton = document.getElementsByClassName('join-audio-by-voip__join-btn')[0];
                 var audioContainer = document.getElementsByClassName('join-audio-container')[0];
                 var leave = document.getElementsByClassName('footer__leave-btn-container')[0];
+                var more = document.getElementsByClassName('more-button')[0];
                 var videoButton = document.getElementsByClassName('send-video-container__btn')[0];
                 var videoContainer = document.getElementsByClassName('send-video-container')[0];
 
@@ -47,6 +48,10 @@
 
                 if (leave) {
                     leave.style.visibility = "hidden";
+                }
+
+                if (more) {
+                    more.style.visibility = "hidden";
                 }
 
                 if (videoButton && videoJoin < 100) {
