@@ -220,10 +220,16 @@
         Errore di download
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationError">
-        La configurazione del display attiva non è consentita. Si prega di consultare i file di registro per ulteriori informazioni. SEB ora si spegnerà...
+        La configurazione del display attiva non è consentita. Sono consentiti %%_ALLOWED_COUNT_%% display %%_TYPE_%%, ma sono stati rilevati %%_INTERNAL_COUNT_%% display interno/i e %%_EXTERNAL_COUNT_%% esterno/i. Si prega di consultare i file di registro per ulteriori informazioni. SEB ora si spegnerà...
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationErrorTitle">
         Configurazione del display vietata
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternal">
+        interno/i
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
+        interno/i o esterno/i
     </Entry>
     <Entry key="MessageBox_InvalidConfigurationData">
         La risorsa di configurazione "%%URI%%" contiene dati non validi!

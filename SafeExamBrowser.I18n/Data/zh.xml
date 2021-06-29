@@ -190,10 +190,16 @@
         下载错误
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationError">
-        不允许使用活动的显示配置。 请查阅日志文件以获取更多信息。 SEB现在将关闭...
+        不允许使用活动的显示配置。 允许使用 %%_ALLOWED_COUNT_%% 个%%_TYPE_%%显示器，但检测到 %%_INTERNAL_COUNT_%% 个内部和 %%_EXTERNAL_COUNT_%% 个外部显示器。 请查阅日志文件以获取更多信息。 SEB现在将关闭...
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationErrorTitle">
         禁止的显示配置
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternal">
+        内部的
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
+        内部或外部
     </Entry>
     <Entry key="MessageBox_InvalidConfigurationData">
         配置"%%URI%%" 中包含无效数据。
@@ -359,6 +365,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeRuntimeConnection">
         初始化运行时连接
+    </Entry>
+    <Entry key="OperationStatus_InitializeServer">
+        初始化 SEB 服务器
     </Entry>
     <Entry key="OperationStatus_InitializeServiceSession">
         初始化服务会话

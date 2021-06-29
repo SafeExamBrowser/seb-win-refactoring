@@ -414,7 +414,7 @@ namespace SafeExamBrowser.Client.UnitTests
 
 			actionCenter.Setup(t => t.InitializeBounds()).Callback(() => boundsActionCenter = ++order);
 			displayMonitor.Setup(m => m.InitializePrimaryDisplay(It.Is<int>(h => h == height))).Callback(() => workingArea = ++order);
-			displayMonitor.Setup(m => m.IsAllowedConfiguration(It.IsAny<DisplaySettings>())).Returns(true);
+			displayMonitor.Setup(m => m.ValidateConfiguration(It.IsAny<DisplaySettings>())).Returns(new ValidationResult { IsAllowed = true });
 			taskbar.Setup(t => t.GetAbsoluteHeight()).Returns(height);
 			taskbar.Setup(t => t.InitializeBounds()).Callback(() => boundsTaskbar = ++order);
 
@@ -445,7 +445,7 @@ namespace SafeExamBrowser.Client.UnitTests
 
 			actionCenter.Setup(t => t.InitializeBounds()).Callback(() => boundsActionCenter = ++order);
 			displayMonitor.Setup(w => w.InitializePrimaryDisplay(It.Is<int>(h => h == 0))).Callback(() => workingArea = ++order);
-			displayMonitor.Setup(m => m.IsAllowedConfiguration(It.IsAny<DisplaySettings>())).Returns(true);
+			displayMonitor.Setup(m => m.ValidateConfiguration(It.IsAny<DisplaySettings>())).Returns(new ValidationResult { IsAllowed = true });
 			taskbar.Setup(t => t.GetAbsoluteHeight()).Returns(height);
 			taskbar.Setup(t => t.InitializeBounds()).Callback(() => boundsTaskbar = ++order);
 

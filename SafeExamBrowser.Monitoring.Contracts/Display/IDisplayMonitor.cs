@@ -27,11 +27,6 @@ namespace SafeExamBrowser.Monitoring.Contracts.Display
 		void InitializePrimaryDisplay(int taskbarHeight);
 
 		/// <summary>
-		/// Indicates whether the currently active display configuration is allowed according to the given settings.
-		/// </summary>
-		bool IsAllowedConfiguration(DisplaySettings settings);
-
-		/// <summary>
 		/// Prevents the computer from entering sleep mode and turning its display(s) off.
 		/// </summary>
 		void PreventSleepMode();
@@ -50,5 +45,10 @@ namespace SafeExamBrowser.Monitoring.Contracts.Display
 		/// Stops monitoring for display changes.
 		/// </summary>
 		void StopMonitoringDisplayChanges();
+
+		/// <summary>
+		/// Validates the currently active display configuration according to the given settings.
+		/// </summary>
+		ValidationResult ValidateConfiguration(DisplaySettings settings);
 	}
 }

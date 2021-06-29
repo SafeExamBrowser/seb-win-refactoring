@@ -220,10 +220,16 @@
         Download Error
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationError">
-        The active display configuration is not permitted. Please consult the log files for more information. SEB will now shut down...
+        The active display configuration is not permitted. %%_ALLOWED_COUNT_%% %%_TYPE_%% display(s) are allowed, but %%_INTERNAL_COUNT_%% internal and %%_EXTERNAL_COUNT_%% external display(s) were detected. Please consult the log files for more information. SEB will now shut down...
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationErrorTitle">
         Prohibited Display Configuration
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternal">
+        internal
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
+        internal or external
     </Entry>
     <Entry key="MessageBox_InvalidConfigurationData">
         The configuration resource "%%URI%%" contains invalid data!

@@ -220,10 +220,16 @@
         Erreur de téléchargement
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationError">
-        La configuration d'affichage active n'est pas autorisée. Veuillez consulter les fichiers journaux pour plus d'informations. SEB va maintenant s'arrêter...
+        La configuration d'affichage active n'est pas autorisée. %%_ALLOWED_COUNT_%% affichages %%_TYPE_%% sont autorisés, mais %%_INTERNAL_COUNT_%% affichages interne(s) et %%_EXTERNAL_COUNT_%% externe(s) ont été détecté(s). Veuillez consulter les fichiers journaux pour plus d'informations. SEB va maintenant s'arrêter...
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationErrorTitle">
         Configuration d'affichage interdite
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternal">
+        interne(s)
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
+        interne(s) ou externe(s)
     </Entry>
     <Entry key="MessageBox_InvalidConfigurationData">
         La ressource de configuration "%%URI%%" contient des données non valides!

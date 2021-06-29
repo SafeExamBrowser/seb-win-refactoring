@@ -220,10 +220,16 @@
         Fehler beim Herunterladen
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationError">
-        Die aktive Bildschirm-Konfiguration ist nicht erlaubt! Bitte konsultieren Sie das Applikations-Protokoll für mehr Informationen. SEB wird sich nun beenden...
+        Die aktive Bildschirm-Konfiguration ist nicht erlaubt! Erlaubt sind %%_ALLOWED_COUNT_%% %%_TYPE_%% Bildschirm(e), erkannt wurden %%_INTERNAL_COUNT_%% interne(r) und %%_EXTERNAL_COUNT_%% externe(r) Bildschirm(e). Bitte konsultieren Sie das Applikations-Protokoll für mehr Informationen. SEB wird sich nun beenden...
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationErrorTitle">
         Verbotene Bildschirm-Konfiguration
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternal">
+        interne(r)
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
+        interne(r) oder externe(r)
     </Entry>
     <Entry key="MessageBox_InvalidConfigurationData">
         Die Konfigurations-Ressource "%%URI%%" enthält ungültige Daten!

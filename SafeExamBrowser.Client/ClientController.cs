@@ -513,7 +513,7 @@ namespace SafeExamBrowser.Client
 			taskbar.InitializeBounds();
 			logger.Info("Desktop successfully restored.");
 
-			if (!displayMonitor.IsAllowedConfiguration(Settings.Display))
+			if (!displayMonitor.ValidateConfiguration(Settings.Display).IsAllowed)
 			{
 				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_DisplayConfigurationContinueOption) };
 				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_DisplayConfigurationTerminateOption) };

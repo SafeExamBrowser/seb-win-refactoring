@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -20,14 +21,16 @@ namespace SafeExamBrowser.Runtime.Operations
 	{
 		private readonly IDisplayMonitor displayMonitor;
 		private readonly ILogger logger;
+		private readonly IText text;
 
 		public override event ActionRequiredEventHandler ActionRequired;
 		public override event StatusChangedEventHandler StatusChanged;
 
-		public DisplayMonitorOperation(IDisplayMonitor displayMonitor, ILogger logger, SessionContext context) : base(context)
+		public DisplayMonitorOperation(IDisplayMonitor displayMonitor, ILogger logger, SessionContext context, IText text) : base(context)
 		{
 			this.displayMonitor = displayMonitor;
 			this.logger = logger;
+			this.text = text;
 		}
 
 		public override OperationResult Perform()
@@ -47,26 +50,34 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private OperationResult CheckDisplayConfiguration()
 		{
-			var args = new MessageEventArgs
-			{
-				Action = MessageBoxAction.Ok,
-				Icon = MessageBoxIcon.Error,
-				Message = TextKey.MessageBox_DisplayConfigurationError,
-				Title = TextKey.MessageBox_DisplayConfigurationErrorTitle
-			};
-			var result = OperationResult.Aborted;
-
 			logger.Info("Validating display configuration...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_ValidateDisplayConfiguration);
 
-			if (displayMonitor.IsAllowedConfiguration(Context.Next.Settings.Display))
+			var result = OperationResult.Failed;
+			var validation = displayMonitor.ValidateConfiguration(Context.Next.Settings.Display);
+
+			if (validation.IsAllowed)
 			{
 				logger.Info("Display configuration is allowed.");
 				result = OperationResult.Success;
 			}
 			else
 			{
+				var args = new MessageEventArgs
+				{
+					Action = MessageBoxAction.Ok,
+					Icon = MessageBoxIcon.Error,
+					Message = TextKey.MessageBox_DisplayConfigurationError,
+					Title = TextKey.MessageBox_DisplayConfigurationErrorTitle
+				};
+
 				logger.Error("Display configuration is not allowed!");
+
+				args.MessagePlaceholders.Add("%%_ALLOWED_COUNT_%%", Convert.ToString(Context.Next.Settings.Display.AllowedDisplays));
+				args.MessagePlaceholders.Add("%%_TYPE_%%", Context.Next.Settings.Display.InternalDisplayOnly ? text.Get(TextKey.MessageBox_DisplayConfigurationInternal) : text.Get(TextKey.MessageBox_DisplayConfigurationInternalOrExternal));
+				args.MessagePlaceholders.Add("%%_EXTERNAL_COUNT_%%", Convert.ToString(validation.ExternalDisplays));
+				args.MessagePlaceholders.Add("%%_INTERNAL_COUNT_%%", Convert.ToString(validation.InternalDisplays));
+
 				ActionRequired?.Invoke(args);
 			}
 

@@ -100,6 +100,8 @@ namespace SafeExamBrowser.I18n.Contracts
 		MessageBox_NoButton,
 		MessageBox_DisplayConfigurationError,
 		MessageBox_DisplayConfigurationErrorTitle,
+		MessageBox_DisplayConfigurationInternal,
+		MessageBox_DisplayConfigurationInternalOrExternal,
 		MessageBox_NotSupportedConfigurationResource,
 		MessageBox_NotSupportedConfigurationResourceTitle,
 		MessageBox_OkButton,

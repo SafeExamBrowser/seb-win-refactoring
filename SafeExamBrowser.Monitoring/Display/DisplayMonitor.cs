@@ -46,41 +46,6 @@ namespace SafeExamBrowser.Monitoring.Display
 			InitializeWallpaper();
 		}
 
-		public bool IsAllowedConfiguration(DisplaySettings settings)
-		{
-			var allowed = false;
-
-			if (TryLoadDisplays(out var displays))
-			{
-				var active = displays.Where(d => d.IsActive);
-				var count = active.Count();
-
-				allowed = count <= settings.AllowedDisplays;
-
-				if (allowed)
-				{
-					logger.Info($"Detected {count} active displays, {settings.AllowedDisplays} are allowed.");
-				}
-				else
-				{
-					logger.Warn($"Detected {count} active displays but only {settings.AllowedDisplays} are allowed!");
-				}
-
-				if (settings.InternalDisplayOnly && active.Any(d => !d.IsInternal))
-				{
-					allowed = false;
-					logger.Warn("Detected external display but only internal displays are allowed!");
-				}
-			}
-			else
-			{
-				allowed = settings.IgnoreError;
-				logger.Warn($"Failed to validate display configuration, {(allowed ? "ignoring error" : "active configuration is not allowed")}.");
-			}
-
-			return allowed;
-		}
-
 		public void PreventSleepMode()
 		{
 			nativeMethods.PreventSleepMode();
@@ -103,6 +68,43 @@ namespace SafeExamBrowser.Monitoring.Display
 		{
 			SystemEvents.DisplaySettingsChanged -= SystemEvents_DisplaySettingsChanged;
 			logger.Info("Stopped monitoring display changes.");
+		}
+
+		public ValidationResult ValidateConfiguration(DisplaySettings settings)
+		{
+			var result = new ValidationResult();
+
+			if (TryLoadDisplays(out var displays))
+			{
+				var active = displays.Where(d => d.IsActive);
+				var count = active.Count();
+
+				result.ExternalDisplays = active.Count(d => !d.IsInternal);
+				result.InternalDisplays = active.Count(d => d.IsInternal);
+				result.IsAllowed = count <= settings.AllowedDisplays;
+
+				if (result.IsAllowed)
+				{
+					logger.Info($"Detected {count} active displays, {settings.AllowedDisplays} are allowed.");
+				}
+				else
+				{
+					logger.Warn($"Detected {count} active displays but only {settings.AllowedDisplays} are allowed!");
+				}
+
+				if (settings.InternalDisplayOnly && active.Any(d => !d.IsInternal))
+				{
+					result.IsAllowed = false;
+					logger.Warn("Detected external display but only internal displays are allowed!");
+				}
+			}
+			else
+			{
+				result.IsAllowed = settings.IgnoreError;
+				logger.Warn($"Failed to validate display configuration, {(result.IsAllowed ? "ignoring error" : "active configuration is not allowed")}.");
+			}
+
+			return result;
 		}
 
 		private void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
