@@ -6,46 +6,59 @@
         <div id="placeholder" />
         <script src='https://meet.jit.si/external_api.js'></script>
         <script type="text/javascript">
-            var configOverwrite = {
-                disableProfile: true,
-                startAudioOnly: '%_AUDIO_ONLY_%',
-                startWithAudioMuted: '%_AUDIO_MUTED_%',
-                startWithVideoMuted: '%_VIDEO_MUTED_%'
-            };
-            var interfaceOverwrite = {
-                JITSI_WATERMARK_LINK: '',
-                SHOW_JITSI_WATERMARK: false,
-                TOOLBAR_BUTTONS: [
-                    'microphone', 'camera', '%%_ALLOW_CLOSED_CAPTIONS_%%', /*'desktop',*/ 'embedmeeting', 'fullscreen',
-                    'fodeviceselection', /*'hangup',*/ 'profile', '%%_ALLOW_CHAT_%%', '%%_ALLOW_RECORDING_%%',
-                    'livestreaming', 'etherpad', /*'sharedvideo',*/ 'settings', '%%_ALLOW_RAISE_HAND_%%',
-                    'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
-                    '%%_ALLOW_TILE_VIEW_%%', 'select-background', 'download', 'help', /*'mute-everyone',*/ 'mute-video-everyone', 'security'
-                ]
-            };
-            var options = {
-                configOverwrite: configOverwrite,
-                height: "100%",
-                interfaceConfigOverwrite: interfaceOverwrite,
-                jwt: "%%_TOKEN_%%",
-                parentNode: document.querySelector('#placeholder'),
-                roomName: "%%_ROOM_NAME_%%",
-                width: "100%"
-            };
-            var api = new JitsiMeetExternalAPI("%%_DOMAIN_%%", options);
+            var api;
 
-            api.addListener('audioMuteStatusChanged', args => {
-                if (args.muted) {
-                    api.executeCommand('toggleAudio');
-                }
-            });
-            api.addListener('videoMuteStatusChanged', args => {
-                if (args.muted) {
-                    api.executeCommand('toggleVideo');
-                }
-            });
+            function startMeeting(credentials) {
+                var configOverwrite = {
+                    disableProfile: true,
+                    startAudioOnly: '%_AUDIO_ONLY_%',
+                    startWithAudioMuted: '%_AUDIO_MUTED_%',
+                    startWithVideoMuted: '%_VIDEO_MUTED_%'
+                };
+                var interfaceOverwrite = {
+                    JITSI_WATERMARK_LINK: '',
+                    SHOW_JITSI_WATERMARK: false,
+                    TOOLBAR_BUTTONS: [
+                        'microphone', 'camera', '%%_ALLOW_CLOSED_CAPTIONS_%%', /*'desktop',*/ 'embedmeeting', 'fullscreen',
+                        'fodeviceselection', /*'hangup',*/ 'profile', '%%_ALLOW_CHAT_%%', '%%_ALLOW_RECORDING_%%',
+                        'livestreaming', 'etherpad', /*'sharedvideo',*/ 'settings', '%%_ALLOW_RAISE_HAND_%%',
+                        'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
+                        '%%_ALLOW_TILE_VIEW_%%', 'select-background', 'download', 'help', /*'mute-everyone',*/ 'mute-video-everyone', 'security'
+                    ]
+                };
+                var options = {
+                    configOverwrite: configOverwrite,
+                    height: '100%',
+                    interfaceConfigOverwrite: interfaceOverwrite,
+                    jwt: credentials.token,
+                    parentNode: document.querySelector('#placeholder'),
+                    roomName: credentials.roomName,
+                    width: '100%'
+                };
+                
+                api = new JitsiMeetExternalAPI(credentials.domain, options);
+                api.addListener('audioMuteStatusChanged', args => {
+                    if (args.muted) {
+                        api.executeCommand('toggleAudio');
+                    }
+                });
+                api.addListener('videoMuteStatusChanged', args => {
+                    if (args.muted) {
+                        api.executeCommand('toggleVideo');
+                    }
+                });
 
-            api.executeCommand("subject", "%%_SUBJECT_%%");
+                api.executeCommand('subject', credentials.subject);
+            }
+
+            function webMessageReceived(args) {
+                if ('credentials' in args.data) {
+                    startMeeting(args.data.credentials);
+                }
+            }
+
+            window.chrome.webview.addEventListener('message', webMessageReceived);
+            window.chrome.webview.postMessage('credentials');
         </script>
     </body>
 </html>

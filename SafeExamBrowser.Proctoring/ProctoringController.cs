@@ -169,7 +169,7 @@ namespace SafeExamBrowser.Proctoring
 					filePath = Path.Combine(appConfig.TemporaryDirectory, $"{Path.GetRandomFileName()}_index.html");
 					fileSystem.Save(content, filePath);
 
-					control = new ProctoringControl(logger.CloneFor(nameof(ProctoringControl)));
+					control = new ProctoringControl(logger.CloneFor(nameof(ProctoringControl)), settings);
 					control.CreationProperties = new CoreWebView2CreationProperties { UserDataFolder = appConfig.TemporaryDirectory };
 					control.EnsureCoreWebView2Async().ContinueWith(_ =>
 					{
@@ -253,10 +253,6 @@ namespace SafeExamBrowser.Proctoring
 					html = html.Replace("%%_ALLOW_TILE_VIEW", settings.JitsiMeet.AllowTileView ? "tileview" : "");
 					html = html.Replace("'%_AUDIO_MUTED_%'", settings.JitsiMeet.AudioMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
 					html = html.Replace("'%_AUDIO_ONLY_%'", settings.JitsiMeet.AudioOnly ? "true" : "false");
-					html = html.Replace("%%_SUBJECT_%%", settings.JitsiMeet.ShowMeetingName ? settings.JitsiMeet.Subject : "   ");
-					html = html.Replace("%%_DOMAIN_%%", settings.JitsiMeet.ServerUrl);
-					html = html.Replace("%%_ROOM_NAME_%%", settings.JitsiMeet.RoomName);
-					html = html.Replace("%%_TOKEN_%%", settings.JitsiMeet.Token);
 					html = html.Replace("'%_VIDEO_MUTED_%'", settings.JitsiMeet.VideoMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
 				}
 				else if (settings.Zoom.Enabled)
@@ -264,13 +260,7 @@ namespace SafeExamBrowser.Proctoring
 					html = html.Replace("'%_ALLOW_CHAT_%'", settings.Zoom.AllowChat ? "true" : "false");
 					html = html.Replace("'%_ALLOW_CLOSED_CAPTIONS_%'", settings.Zoom.AllowClosedCaptions ? "true" : "false");
 					html = html.Replace("'%_ALLOW_RAISE_HAND_%'", settings.Zoom.AllowRaiseHand ? "true" : "false");
-					html = html.Replace("%%_API_KEY_%%", settings.Zoom.ApiKey);
-					html = html.Replace("%%_API_SECRET_%%", settings.Zoom.ApiSecret);
 					html = html.Replace("'%_AUDIO_MUTED_%'", settings.Zoom.AudioMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
-					html = html.Replace("%%_MEETING_NUMBER_%%", settings.Zoom.MeetingNumber);
-					html = html.Replace("%%_PASSWORD_%%", settings.Zoom.Password);
-					html = html.Replace("%%_SIGNATURE_%%", settings.Zoom.Signature);
-					html = html.Replace("%%_USER_NAME_%%", settings.Zoom.UserName);
 					html = html.Replace("'%_VIDEO_MUTED_%'", settings.Zoom.VideoMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
 				}
 
