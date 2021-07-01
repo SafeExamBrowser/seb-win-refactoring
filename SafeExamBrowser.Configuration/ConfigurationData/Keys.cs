@@ -75,6 +75,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string UserAgentModeMobile = "browserUserAgentWinTouchMode";
 			internal const string UserAgentSuffix = "browserUserAgent";
 			internal const string UseStartUrlQuery = "startURLAppendQueryParameter";
+			internal const string UseTemporaryDownUploadDirectory = "useTemporaryDownUploadDirectory";
 
 			internal static class AdditionalWindow
 			{

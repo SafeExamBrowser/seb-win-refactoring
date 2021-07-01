@@ -184,6 +184,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.StartUrl = "https://www.safeexambrowser.org/start";
 			settings.Browser.UseCustomUserAgent = false;
 			settings.Browser.UseQueryParameter = false;
+			settings.Browser.UseTemporaryDownAndUploadDirectory = false;
 
 			settings.ConfigurationMode = ConfigurationMode.Exam;
 

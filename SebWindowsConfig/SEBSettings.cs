@@ -185,6 +185,7 @@ namespace SebWindowsConfig
 		public const String KeyAllowPDFPlugIn           = "allowPDFPlugIn";
 		public const String KeyDownloadAndOpenSebConfig = "downloadAndOpenSebConfig";
 		public const String KeyBackgroundOpenSEBConfig  = "backgroundOpenSEBConfig";
+		public const String KeyUseTemporaryDownUploadDirectory = "useTemporaryDownUploadDirectory";
 
 		// Group "Exam"
 		public const String KeyExamKeySalt        = "examKeySalt";
@@ -707,6 +708,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowPDFPlugIn          , false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyDownloadAndOpenSebConfig, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyBackgroundOpenSEBConfig , false);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyUseTemporaryDownUploadDirectory, false);
 
 			// Default settings for group "Exam"
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyExamKeySalt       , new Byte[] {});

@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -458,6 +458,7 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.checkBoxTemporaryDownloadDirectory = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -1853,8 +1854,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle7.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle7;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -3491,6 +3492,7 @@ namespace SebWindowsConfig
 			// 
 			// tabPageDownUploads
 			// 
+			this.tabPageDownUploads.Controls.Add(this.checkBoxTemporaryDownloadDirectory);
 			this.tabPageDownUploads.Controls.Add(this.checkBoxAllowCustomDownloadLocation);
 			this.tabPageDownUploads.Controls.Add(this.checkBoxAllowPDFPlugIn);
 			this.tabPageDownUploads.Controls.Add(this.textBoxDownloadDirectoryWin);
@@ -3528,7 +3530,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowPDFPlugIn.AutoSize = true;
 			this.checkBoxAllowPDFPlugIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowPDFPlugIn.Location = new System.Drawing.Point(25, 278);
+			this.checkBoxAllowPDFPlugIn.Location = new System.Drawing.Point(25, 303);
 			this.checkBoxAllowPDFPlugIn.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxAllowPDFPlugIn.Name = "checkBoxAllowPDFPlugIn";
 			this.checkBoxAllowPDFPlugIn.Size = new System.Drawing.Size(310, 17);
@@ -3552,7 +3554,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxDownloadOpenSEBFiles.AutoSize = true;
 			this.checkBoxDownloadOpenSEBFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxDownloadOpenSEBFiles.Location = new System.Drawing.Point(25, 321);
+			this.checkBoxDownloadOpenSEBFiles.Location = new System.Drawing.Point(25, 346);
 			this.checkBoxDownloadOpenSEBFiles.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxDownloadOpenSEBFiles.Name = "checkBoxDownloadOpenSEBFiles";
 			this.checkBoxDownloadOpenSEBFiles.Size = new System.Drawing.Size(203, 17);
@@ -3597,7 +3599,7 @@ namespace SebWindowsConfig
 			// listBoxChooseFileToUploadPolicy
 			// 
 			this.listBoxChooseFileToUploadPolicy.FormattingEnabled = true;
-			this.listBoxChooseFileToUploadPolicy.Location = new System.Drawing.Point(44, 200);
+			this.listBoxChooseFileToUploadPolicy.Location = new System.Drawing.Point(44, 225);
 			this.listBoxChooseFileToUploadPolicy.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.listBoxChooseFileToUploadPolicy.Name = "listBoxChooseFileToUploadPolicy";
 			this.listBoxChooseFileToUploadPolicy.Size = new System.Drawing.Size(348, 43);
@@ -3610,7 +3612,7 @@ namespace SebWindowsConfig
 			// labelChooseFileToUploadPolicy
 			// 
 			this.labelChooseFileToUploadPolicy.AutoSize = true;
-			this.labelChooseFileToUploadPolicy.Location = new System.Drawing.Point(41, 172);
+			this.labelChooseFileToUploadPolicy.Location = new System.Drawing.Point(41, 197);
 			this.labelChooseFileToUploadPolicy.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.labelChooseFileToUploadPolicy.Name = "labelChooseFileToUploadPolicy";
 			this.labelChooseFileToUploadPolicy.Size = new System.Drawing.Size(145, 13);
@@ -3621,7 +3623,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxDownloadPDFFiles.AutoSize = true;
 			this.checkBoxDownloadPDFFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxDownloadPDFFiles.Location = new System.Drawing.Point(25, 263);
+			this.checkBoxDownloadPDFFiles.Location = new System.Drawing.Point(25, 288);
 			this.checkBoxDownloadPDFFiles.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxDownloadPDFFiles.Name = "checkBoxDownloadPDFFiles";
 			this.checkBoxDownloadPDFFiles.Size = new System.Drawing.Size(270, 17);
@@ -3637,7 +3639,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxOpenDownloads.AutoSize = true;
 			this.checkBoxOpenDownloads.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxOpenDownloads.Location = new System.Drawing.Point(114, 143);
+			this.checkBoxOpenDownloads.Location = new System.Drawing.Point(114, 168);
 			this.checkBoxOpenDownloads.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxOpenDownloads.Name = "checkBoxOpenDownloads";
 			this.checkBoxOpenDownloads.Size = new System.Drawing.Size(160, 17);
@@ -4555,8 +4557,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle8;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -5953,6 +5955,17 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
+			// checkBoxTemporaryDownloadDirectory
+			// 
+			this.checkBoxTemporaryDownloadDirectory.AutoSize = true;
+			this.checkBoxTemporaryDownloadDirectory.Location = new System.Drawing.Point(114, 145);
+			this.checkBoxTemporaryDownloadDirectory.Name = "checkBoxTemporaryDownloadDirectory";
+			this.checkBoxTemporaryDownloadDirectory.Size = new System.Drawing.Size(229, 17);
+			this.checkBoxTemporaryDownloadDirectory.TabIndex = 90;
+			this.checkBoxTemporaryDownloadDirectory.Text = "Use temporary download / upload directory";
+			this.checkBoxTemporaryDownloadDirectory.UseVisualStyleBackColor = true;
+			this.checkBoxTemporaryDownloadDirectory.CheckedChanged += new System.EventHandler(this.checkBoxTemporaryDownloadDirectory_CheckedChanged);
+			// 
 			// SebWindowsConfigForm
 			// 
 			this.AllowDrop = true;
@@ -6512,6 +6525,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
 		private System.Windows.Forms.CheckBox checkBoxEnforceBuiltinDisplay;
 		private System.Windows.Forms.CheckBox checkBoxAllowedDisplayIgnoreError;
+		private System.Windows.Forms.CheckBox checkBoxTemporaryDownloadDirectory;
 	}
 }
 

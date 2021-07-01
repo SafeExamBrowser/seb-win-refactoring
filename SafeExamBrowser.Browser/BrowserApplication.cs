@@ -99,6 +99,11 @@ namespace SafeExamBrowser.Browser
 
 			if (success)
 			{
+				if (settings.UseTemporaryDownAndUploadDirectory)
+				{
+					CreateTemporaryDownAndUploadDirectory();
+				}
+
 				if (settings.DeleteCookiesOnStartup)
 				{
 					DeleteCookies();
@@ -127,6 +132,11 @@ namespace SafeExamBrowser.Browser
 				instance.Terminated -= Instance_Terminated;
 				instance.Terminate();
 				logger.Info($"Terminated browser instance {instance.Id}.");
+			}
+
+			if (settings.UseTemporaryDownAndUploadDirectory)
+			{
+				DeleteTemporaryDownAndUploadDirectory();
 			}
 
 			if (settings.DeleteCookiesOnShutdown)
@@ -176,6 +186,33 @@ namespace SafeExamBrowser.Browser
 
 			logger.Info($"Created browser instance {instance.Id}.");
 			WindowsChanged?.Invoke();
+		}
+
+		private void CreateTemporaryDownAndUploadDirectory()
+		{
+			try
+			{
+				settings.DownAndUploadDirectory = Path.Combine(appConfig.TemporaryDirectory, Path.GetRandomFileName());
+				Directory.CreateDirectory(settings.DownAndUploadDirectory);
+				logger.Info($"Created temporary down- and upload directory.");
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to create temporary down- and upload directory!", e);
+			}
+		}
+
+		private void DeleteTemporaryDownAndUploadDirectory()
+		{
+			try
+			{
+				Directory.Delete(settings.DownAndUploadDirectory, true);
+				logger.Info("Deleted temporary down- and upload directory.");
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to delete temporary down- and upload directory!", e);
+			}
 		}
 
 		private void DeleteCache()

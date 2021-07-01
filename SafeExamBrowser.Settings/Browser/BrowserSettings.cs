@@ -99,7 +99,7 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool DeleteCookiesOnStartup { get; set; }
 
 		/// <summary>
-		/// Defines a custom directory for file down- and uploads. If not defined, all operations will be directed to the current user's download directory.
+		/// Defines a custom directory for down- and uploads. If not defined, all operations will be directed to the current user's download directory.
 		/// </summary>
 		public string DownAndUploadDirectory { get; set; }
 
@@ -194,14 +194,19 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool UseQueryParameter { get; set; }
 
 		/// <summary>
+		/// A custom suffix to be appended to the user agent.
+		/// </summary>
+		public string UserAgentSuffix { get; set; }
+
+		/// <summary>
 		/// Determines whether the start URL will be used when navigating home.
 		/// </summary>
 		public bool UseStartUrlAsHomeUrl { get; set; }
 
 		/// <summary>
-		/// A custom suffix to be appended to the user agent.
+		/// Determines whether a temporary directory should be used for down- and uploads.
 		/// </summary>
-		public string UserAgentSuffix { get; set; }
+		public bool UseTemporaryDownAndUploadDirectory { get; set; }
 
 		public BrowserSettings()
 		{

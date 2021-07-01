@@ -162,6 +162,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.UseStartUrlQuery:
 					MapUseStartUrlQuery(settings, value);
 					break;
+				case Keys.Browser.UseTemporaryDownUploadDirectory:
+					MapUseTemporaryDownUploadDirectory(settings, value);
+					break;
 			}
 		}
 
@@ -543,6 +546,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool use)
 			{
 				settings.Browser.UseQueryParameter = use;
+			}
+		}
+
+		private void MapUseTemporaryDownUploadDirectory(AppSettings settings, object value)
+		{
+			if (value is bool use)
+			{
+				settings.Browser.UseTemporaryDownAndUploadDirectory = use;
 			}
 		}
 

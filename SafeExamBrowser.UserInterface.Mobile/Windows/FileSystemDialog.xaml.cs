@@ -183,7 +183,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 				{
 					foreach (var subDirectory in directory.GetDirectories())
 					{
-						if (!subDirectory.Attributes.HasFlag(FileAttributes.Hidden))
+						if (!subDirectory.Attributes.HasFlag(FileAttributes.Hidden) || initialPath?.Contains(subDirectory.FullName) == true)
 						{
 							item.Items.Add(CreateItem(subDirectory));
 						}
@@ -191,7 +191,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 					foreach (var file in directory.GetFiles())
 					{
-						if (!file.Attributes.HasFlag(FileAttributes.Hidden))
+						if (!file.Attributes.HasFlag(FileAttributes.Hidden) || initialPath?.Contains(file.FullName) == true)
 						{
 							item.Items.Add(CreateItem(file));
 						}

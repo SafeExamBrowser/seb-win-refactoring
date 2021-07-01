@@ -537,6 +537,9 @@ namespace SebWindowsConfig
 			checkBoxDownloadPDFFiles.Checked           = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyDownloadPDFFiles];
 			checkBoxAllowPDFPlugIn  .Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyAllowPDFPlugIn];
 			textBoxDownloadDirectoryWin.Text = (String)SEBSettings.settingsCurrent[SEBSettings.KeyDownloadDirectoryWin];
+			checkBoxTemporaryDownloadDirectory.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyUseTemporaryDownUploadDirectory];
+			textBoxDownloadDirectoryWin.Enabled = !checkBoxTemporaryDownloadDirectory.Checked;
+			buttonDownloadDirectoryWin.Enabled = !checkBoxTemporaryDownloadDirectory.Checked;
 			textBoxDownloadDirectoryOSX.Text = (String)SEBSettings.settingsCurrent[SEBSettings.KeyDownloadDirectoryOSX];
 			listBoxChooseFileToUploadPolicy.SelectedIndex = (int)SEBSettings.settingsCurrent[SEBSettings.KeyChooseFileToUploadPolicy];
 			checkBoxDownloadOpenSEBFiles.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyDownloadAndOpenSebConfig];
@@ -4635,6 +4638,13 @@ namespace SebWindowsConfig
 		private void checkBoxAllowedDisplayIgnoreError_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayIgnoreFailure] = checkBoxAllowedDisplayIgnoreError.Checked;
+		}
+
+		private void checkBoxTemporaryDownloadDirectory_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyUseTemporaryDownUploadDirectory] = checkBoxTemporaryDownloadDirectory.Checked;
+			buttonDownloadDirectoryWin.Enabled = !checkBoxTemporaryDownloadDirectory.Checked;
+			textBoxDownloadDirectoryWin.Enabled = !checkBoxTemporaryDownloadDirectory.Checked;
 		}
 	}
 }
