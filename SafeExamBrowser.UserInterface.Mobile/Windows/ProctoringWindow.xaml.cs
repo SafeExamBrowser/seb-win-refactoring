@@ -63,7 +63,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		public void HideWithDelay()
 		{
 			Dispatcher.Invoke(() => this.MoveToBackground());
-			Task.Delay(10000).ContinueWith(_ => Hide());
+			Task.Delay(15000).ContinueWith(_ => Hide());
 		}
 
 		public void SetTitle(string title)
