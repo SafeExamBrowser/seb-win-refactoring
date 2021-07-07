@@ -57,6 +57,10 @@
                 }
             }
 
+            window.addEventListener('unload', () => {
+                api.executeCommand('hangup');
+                api.dispose();
+            });
             window.chrome.webview.addEventListener('message', webMessageReceived);
             window.chrome.webview.postMessage('credentials');
         </script>

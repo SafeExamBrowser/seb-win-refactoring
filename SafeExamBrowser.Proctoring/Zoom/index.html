@@ -17,7 +17,7 @@
             var audioJoin = 0;
             var videoJoin = 0;
 
-            function initializeUserInterface(_) {
+            function controlUserInterface(_) {
                 var audioButton = document.getElementsByClassName('join-audio-by-voip__join-btn')[0];
                 var audioContainer = document.getElementsByClassName('join-audio-container')[0];
                 var leave = document.getElementsByClassName('footer__leave-btn-container')[0];
@@ -61,7 +61,7 @@
                     videoContainer.style.visibility = 'hidden';
                 }
 
-                requestAnimationFrame(initializeUserInterface);
+                requestAnimationFrame(controlUserInterface);
             }
 
             function startMeeting(credentials) {
@@ -136,7 +136,7 @@
                                 alert(`Failed to join meeting: ${JSON.stringify(res)}`);
                             },
                             success: function (res) {
-                                requestAnimationFrame(initializeUserInterface);
+                                requestAnimationFrame(controlUserInterface);
                             }
                         });
                     }
@@ -149,6 +149,7 @@
                 }
             }
 
+            window.addEventListener('unload', () => ZoomMtg.leaveMeeting({}));
             window.chrome.webview.addEventListener('message', webMessageReceived);
             window.chrome.webview.postMessage('credentials');
         </script>
