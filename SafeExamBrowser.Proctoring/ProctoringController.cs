@@ -9,6 +9,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using System.Windows;
 using Microsoft.Web.WebView2.Wpf;
 using SafeExamBrowser.Configuration.Contracts;
@@ -214,6 +215,17 @@ namespace SafeExamBrowser.Proctoring
 			{
 				control.Dispatcher.Invoke(() =>
 				{
+					if (settings.JitsiMeet.Enabled)
+					{
+						control.ExecuteScriptAsync("api.executeCommand('hangup'); api.dispose();");
+					}
+					else if (settings.Zoom.Enabled)
+					{
+						control.ExecuteScriptAsync("ZoomMtg.leaveMeeting({});");
+					}
+
+					Thread.Sleep(2000);
+
 					window.Close();
 					control = default(ProctoringControl);
 					window = default(IProctoringWindow);
