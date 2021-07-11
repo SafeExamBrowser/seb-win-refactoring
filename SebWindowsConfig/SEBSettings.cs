@@ -798,7 +798,8 @@ namespace SebWindowsConfig
 				"browser.exe",
 				"slimjet.exe",
 				"UCBrowser.exe",
-				"CamRecorder.exe"
+				"CamRecorder.exe",
+				"Firefox.exe"
 			};
 			SEBSettings.prohibitedProcessesDefaultStrict = new List<string>
 			{
@@ -836,7 +837,8 @@ namespace SebWindowsConfig
 				"join.me.sentinel.exe",
 				"Teams.exe",
 				"webexmta.exe",
-				"ptoneclk.exe"
+				"ptoneclk.exe",
+				"AA_v3.exe"
 			};
 
 			// Default settings for group "Network - Filter"
