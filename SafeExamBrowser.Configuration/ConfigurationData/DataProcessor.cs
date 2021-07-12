@@ -12,7 +12,6 @@ using System.IO;
 using System.Security.Cryptography;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Applications;
-using SafeExamBrowser.Settings.Proctoring;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {
@@ -69,16 +68,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		private void InitializeProctoringSettings(AppSettings settings)
 		{
 			settings.Proctoring.Enabled = settings.Proctoring.JitsiMeet.Enabled || settings.Proctoring.Zoom.Enabled;
-
-			if (settings.Proctoring.JitsiMeet.Enabled && !settings.Proctoring.JitsiMeet.ReceiveVideo)
-			{
-				settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
-			}
-
-			if (settings.Proctoring.Zoom.Enabled && !settings.Proctoring.Zoom.ReceiveVideo)
-			{
-				settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
-			}
 		}
 
 		private void RemoveLegacyBrowsers(AppSettings settings)
