@@ -306,6 +306,8 @@ namespace SafeExamBrowser.Browser
 			}
 
 			cefSettings.CefCommandLineArgs.Add("enable-media-stream");
+			cefSettings.CefCommandLineArgs.Add("enable-usermedia-screen-capturing");
+			cefSettings.CefCommandLineArgs.Add("use-fake-ui-for-media-stream");
 
 			InitializeProxySettings(cefSettings);
 
