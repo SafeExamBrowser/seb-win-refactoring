@@ -4,5 +4,5 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Windows"
-        mc:Ignorable="d" Height="350" Width="450" MinHeight="250" MinWidth="250" Topmost="True" WindowStyle="ToolWindow">
+        mc:Ignorable="d" Height="550" Width="650" MinHeight="250" MinWidth="250" Topmost="True" WindowStyle="ToolWindow">
 </Window>
