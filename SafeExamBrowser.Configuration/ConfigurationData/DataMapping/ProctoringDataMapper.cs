@@ -101,6 +101,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Proctoring.Zoom.MeetingNumber:
 					MapZoomMeetingNumber(settings, value);
 					break;
+				case Keys.Proctoring.Zoom.ReceiveAudio:
+					MapZoomReceiveAudio(settings, value);
+					break;
+				case Keys.Proctoring.Zoom.ReceiveVideo:
+					MapZoomReceiveVideo(settings, value);
+					break;
 				case Keys.Proctoring.Zoom.SendAudio:
 					MapZoomSendAudio(settings, value);
 					break;
@@ -362,6 +368,22 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string number)
 			{
 				settings.Proctoring.Zoom.MeetingNumber = number;
+			}
+		}
+
+		private void MapZoomReceiveAudio(AppSettings settings, object value)
+		{
+			if (value is bool receive)
+			{
+				settings.Proctoring.Zoom.ReceiveAudio = receive;
+			}
+		}
+
+		private void MapZoomReceiveVideo(AppSettings settings, object value)
+		{
+			if (value is bool receive)
+			{
+				settings.Proctoring.Zoom.ReceiveVideo = receive;
 			}
 		}
 

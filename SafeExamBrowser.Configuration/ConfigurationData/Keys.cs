@@ -259,6 +259,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				internal const string AudioMuted = "zoomAudioMuted";
 				internal const string Enabled = "zoomEnable";
 				internal const string MeetingNumber = "zoomRoom";
+				internal const string ReceiveAudio = "zoomReceiveAudio";
+				internal const string ReceiveVideo = "zoomReceiveVideo";
 				internal const string SendAudio = "zoomSendAudio";
 				internal const string SendVideo = "zoomSendVideo";
 				internal const string Signature = "zoomToken";
