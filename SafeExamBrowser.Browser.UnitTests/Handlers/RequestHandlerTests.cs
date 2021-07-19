@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using CefSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -47,6 +48,15 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			resourceHandler = new ResourceHandler(appConfig, filter.Object, logger.Object, settings, windowSettings, text.Object);
 
 			sut = new TestableRequestHandler(appConfig, filter.Object, logger.Object, resourceHandler, settings, windowSettings, text.Object);
+		}
+
+		[TestMethod]
+		public void MustBlockSpecialWindowDispositions()
+		{
+			Assert.IsTrue(sut.OnOpenUrlFromTab(default(IWebBrowser), default(IBrowser), default(IFrame), default(string), WindowOpenDisposition.NewBackgroundTab, default(bool)));
+			Assert.IsTrue(sut.OnOpenUrlFromTab(default(IWebBrowser), default(IBrowser), default(IFrame), default(string), WindowOpenDisposition.NewPopup, default(bool)));
+			Assert.IsTrue(sut.OnOpenUrlFromTab(default(IWebBrowser), default(IBrowser), default(IFrame), default(string), WindowOpenDisposition.NewWindow, default(bool)));
+			Assert.IsTrue(sut.OnOpenUrlFromTab(default(IWebBrowser), default(IBrowser), default(IFrame), default(string), WindowOpenDisposition.SaveToDisk, default(bool)));
 		}
 
 		[TestMethod]
@@ -169,6 +179,44 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		}
 
 		[TestMethod]
+		public void MustInitiateConfigurationFileDownload()
+		{
+			var browser = new Mock<IBrowser>();
+			var host = new Mock<IBrowserHost>();
+			var request = new Mock<IRequest>();
+
+			appConfig.ConfigurationFileExtension = ".xyz";
+			appConfig.SebUriScheme = "abc";
+			appConfig.SebUriSchemeSecure = "abcd";
+			browser.Setup(b => b.GetHost()).Returns(host.Object);
+			request.SetupGet(r => r.Url).Returns($"{appConfig.SebUriScheme}://host.com/path/file{appConfig.ConfigurationFileExtension}");
+
+			var handled = sut.OnBeforeBrowse(Mock.Of<IWebBrowser>(), browser.Object, Mock.Of<IFrame>(), request.Object, false, false);
+
+			host.Verify(h => h.StartDownload(It.Is<string>(u => u == $"{Uri.UriSchemeHttp}://host.com/path/file{appConfig.ConfigurationFileExtension}")));
+			Assert.IsTrue(handled);
+
+			handled = false;
+			host.Reset();
+			request.Reset();
+			request.SetupGet(r => r.Url).Returns($"{appConfig.SebUriSchemeSecure}://host.com/path/file{appConfig.ConfigurationFileExtension}");
+
+			handled = sut.OnBeforeBrowse(Mock.Of<IWebBrowser>(), browser.Object, Mock.Of<IFrame>(), request.Object, false, false);
+
+			host.Verify(h => h.StartDownload(It.Is<string>(u => u == $"{Uri.UriSchemeHttps}://host.com/path/file{appConfig.ConfigurationFileExtension}")));
+			Assert.IsTrue(handled);
+		}
+
+		[TestMethod]
+		public void MustReturnResourceHandler()
+		{
+			var disableDefaultHandling = default(bool);
+			var handler = sut.GetResourceRequestHandler(default(IWebBrowser), default(IBrowser), default(IFrame), default(IRequest), default(bool), default(bool), default(string), ref disableDefaultHandling);
+
+			Assert.AreSame(resourceHandler, handler);
+		}
+
+		[TestMethod]
 		public void MustUseProxyCredentials()
 		{
 			var callback = new Mock<IAuthCallback>();
@@ -216,9 +264,19 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 				return base.GetAuthCredentials(webBrowser, browser, originUrl, isProxy, host, port, realm, scheme, callback);
 			}
 
+			public new IResourceRequestHandler GetResourceRequestHandler(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
+			{
+				return base.GetResourceRequestHandler(webBrowser, browser, frame, request, isNavigation, isDownload, requestInitiator, ref disableDefaultHandling);
+			}
+
 			public new bool OnBeforeBrowse(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect)
 			{
 				return base.OnBeforeBrowse(webBrowser, browser, frame, request, userGesture, isRedirect);
+			}
+
+			public new bool OnOpenUrlFromTab(IWebBrowser webBrowser, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
+			{
+				return base.OnOpenUrlFromTab(webBrowser, browser, frame, targetUrl, targetDisposition, userGesture);
 			}
 		}
 	}

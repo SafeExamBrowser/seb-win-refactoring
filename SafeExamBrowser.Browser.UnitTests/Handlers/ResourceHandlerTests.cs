@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Net.Mime;
+using System.Threading;
 using CefSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -129,6 +130,12 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		}
 
 		[TestMethod]
+		public void MustLetOperatingSystemHandleUnknownProtocols()
+		{
+			Assert.IsTrue(sut.OnProtocolExecution(default(IWebBrowser), default(IBrowser), default(IFrame), default(IRequest)));
+		}
+
+		[TestMethod]
 		public void MustRedirectToDisablePdfToolbar()
 		{
 			var browser = new Mock<IWebBrowser>();
@@ -183,6 +190,96 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			Assert.AreEqual("https://www.host.org/", url);
 		}
 
+		[TestMethod]
+		public void MustSearchGenericLmsSessionIdentifier()
+		{
+			var @event = new AutoResetEvent(false);
+			var headers = new NameValueCollection();
+			var newUrl = default(string);
+			var request = new Mock<IRequest>();
+			var response = new Mock<IResponse>();
+			var sessionId = default(string);
+
+			headers.Add("X-LMS-USER-ID", "some-session-id-123");
+			request.SetupGet(r => r.Url).Returns("https://www.somelms.org");
+			response.SetupGet(r => r.Headers).Returns(headers);
+			sut.SessionIdentifierDetected += (id) =>
+			{
+				sessionId = id;
+				@event.Set();
+			};
+
+			sut.OnResourceRedirect(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), Mock.Of<IRequest>(), response.Object, ref newUrl);
+			@event.WaitOne();
+			Assert.AreEqual("some-session-id-123", sessionId);
+
+			sessionId = default(string);
+
+			sut.OnResourceResponse(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, response.Object);
+			@event.WaitOne();
+			Assert.AreEqual("some-session-id-123", sessionId);
+		}
+
+		[TestMethod]
+		public void MustSearchEdxSessionIdentifier()
+		{
+			var @event = new AutoResetEvent(false);
+			var headers = new NameValueCollection();
+			var newUrl = default(string);
+			var request = new Mock<IRequest>();
+			var response = new Mock<IResponse>();
+			var sessionId = default(string);
+
+			headers.Add("Set-Cookie", "edx-user-info=\"{\\\"username\\\": \\\"edx-123\\\"}\"; expires");
+			request.SetupGet(r => r.Url).Returns("https://www.somelms.org");
+			response.SetupGet(r => r.Headers).Returns(headers);
+			sut.SessionIdentifierDetected += (id) =>
+			{
+				sessionId = id;
+				@event.Set();
+			};
+
+			sut.OnResourceRedirect(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), Mock.Of<IRequest>(), response.Object, ref newUrl);
+			@event.WaitOne();
+			Assert.AreEqual("edx-123", sessionId);
+
+			sessionId = default(string);
+
+			sut.OnResourceResponse(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, response.Object);
+			@event.WaitOne();
+			Assert.AreEqual("edx-123", sessionId);
+		}
+
+		[TestMethod]
+		public void MustSearchMoodleSessionIdentifier()
+		{
+			var @event = new AutoResetEvent(false);
+			var headers = new NameValueCollection();
+			var newUrl = default(string);
+			var request = new Mock<IRequest>();
+			var response = new Mock<IResponse>();
+			var sessionId = default(string);
+
+			headers.Add("Location", "https://www.some-moodle-instance.org/moodle/login/index.php?testsession=123");
+			request.SetupGet(r => r.Url).Returns("https://www.some-moodle-instance.org");
+			response.SetupGet(r => r.Headers).Returns(headers);
+			sut.SessionIdentifierDetected += (id) =>
+			{
+				sessionId = id;
+				@event.Set();
+			};
+
+			sut.OnResourceRedirect(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), Mock.Of<IRequest>(), response.Object, ref newUrl);
+			@event.WaitOne();
+			Assert.AreEqual("123", sessionId);
+
+			sessionId = default(string);
+
+			sut.OnResourceResponse(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, response.Object);
+			@event.WaitOne();
+			Assert.AreEqual("123", sessionId);
+		}
+
 		private class TestableResourceHandler : ResourceHandler
 		{
 			internal TestableResourceHandler(
@@ -203,6 +300,16 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			public new CefReturnValue OnBeforeResourceLoad(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
 			{
 				return base.OnBeforeResourceLoad(webBrowser, browser, frame, request, callback);
+			}
+
+			public new bool OnProtocolExecution(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request)
+			{
+				return base.OnProtocolExecution(webBrowser, browser, frame, request);
+			}
+
+			public new void OnResourceRedirect(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response, ref string newUrl)
+			{
+				base.OnResourceRedirect(webBrowser, browser, frame, request, response, ref newUrl);
 			}
 
 			public new bool OnResourceResponse(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response)

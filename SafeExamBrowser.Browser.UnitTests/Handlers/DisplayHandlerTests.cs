@@ -6,8 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
 using CefSharp;
+using CefSharp.Enums;
 using CefSharp.Structs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SafeExamBrowser.Browser.Handlers;
@@ -32,6 +34,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 
 			Assert.IsFalse(sut.OnAutoResize(default(IWebBrowser), default(IBrowser), default(Size)));
 			Assert.IsFalse(sut.OnConsoleMessage(default(IWebBrowser), default(ConsoleMessageEventArgs)));
+			Assert.IsFalse(sut.OnCursorChange(default(IWebBrowser), default(IBrowser), default(IntPtr), default(CursorType), default(CursorInfo)));
 			Assert.IsFalse(sut.OnTooltipChanged(default(IWebBrowser), ref text));
 		}
 
