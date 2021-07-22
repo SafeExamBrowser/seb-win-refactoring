@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Linq;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -152,6 +153,32 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 		}
 
 		[TestMethod]
+		public void MustHandleExamSelectionRequestCorrectly()
+		{
+			var examSelectionRequested = false;
+			var requestId = Guid.NewGuid();
+			var resetEvent = new AutoResetEvent(false);
+
+			sut.ExamSelectionRequested += (args) =>
+			{
+				examSelectionRequested = true;
+				resetEvent.Set();
+			};
+			sut.AuthenticationToken = Guid.Empty;
+
+			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
+			var request = new ExamSelectionRequestMessage(Enumerable.Empty<(string id, string lms, string name, string url)>(), requestId) { CommunicationToken = token };
+			var response = sut.Send(request);
+
+			resetEvent.WaitOne();
+
+			Assert.IsTrue(examSelectionRequested);
+			Assert.IsNotNull(response);
+			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
+			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
+		}
+
+		[TestMethod]
 		public void MustHandleMessageBoxRequestCorrectly()
 		{
 			var action = (int) MessageBoxAction.YesNo;
@@ -254,6 +281,32 @@ namespace SafeExamBrowser.Client.UnitTests.Communication
 			resetEvent.WaitOne();
 
 			Assert.IsTrue(reconfigurationDenied);
+			Assert.IsNotNull(response);
+			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
+			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
+		}
+
+		[TestMethod]
+		public void MustHandleServerFailureCorrectly()
+		{
+			var serverFailureActionRequested = false;
+			var requestId = Guid.NewGuid();
+			var resetEvent = new AutoResetEvent(false);
+
+			sut.ServerFailureActionRequested += (args) =>
+			{
+				serverFailureActionRequested = true;
+				resetEvent.Set();
+			};
+			sut.AuthenticationToken = Guid.Empty;
+
+			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
+			var request = new ServerFailureActionRequestMessage("", true, requestId) { CommunicationToken = token };
+			var response = sut.Send(request);
+
+			resetEvent.WaitOne();
+
+			Assert.IsTrue(serverFailureActionRequested);
 			Assert.IsNotNull(response);
 			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
 			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
