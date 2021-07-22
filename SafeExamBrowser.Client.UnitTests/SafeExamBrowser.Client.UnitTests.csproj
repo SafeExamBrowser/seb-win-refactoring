@@ -99,7 +99,9 @@
     <Compile Include="Operations\DisplayMonitorOperationTests.cs" />
     <Compile Include="Operations\KeyboardInterceptorOperationTests.cs" />
     <Compile Include="Operations\MouseInterceptorOperationTests.cs" />
+    <Compile Include="Operations\ProctoringOperationTests.cs" />
     <Compile Include="Operations\RuntimeConnectionOperationTests.cs" />
+    <Compile Include="Operations\ServerOperationTests.cs" />
     <Compile Include="Operations\ShellOperationTests.cs" />
     <Compile Include="Communication\ClientHostTests.cs" />
     <Compile Include="Notifications\AboutNotificationControllerTests.cs" />
@@ -160,6 +162,10 @@
     <ProjectReference Include="..\SafeExamBrowser.Monitoring.Contracts\SafeExamBrowser.Monitoring.Contracts.csproj">
       <Project>{6d563a30-366d-4c35-815b-2c9e6872278b}</Project>
       <Name>SafeExamBrowser.Monitoring.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Proctoring.Contracts\SafeExamBrowser.Proctoring.Contracts.csproj">
+      <Project>{8e52bd1c-0540-4f16-b181-6665d43f7a7b}</Project>
+      <Name>SafeExamBrowser.Proctoring.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Server.Contracts\SafeExamBrowser.Server.Contracts.csproj">
       <Project>{db701e6f-bddc-4cec-b662-335a9dc11809}</Project>

@@ -28,6 +28,8 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Monitoring.Contracts.Display;
 using SafeExamBrowser.Monitoring.Contracts.System;
+using SafeExamBrowser.Server.Contracts;
+using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Monitoring;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -57,6 +59,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		private Mock<IMessageBox> messageBox;
 		private Mock<IOperationSequence> operationSequence;
 		private Mock<IRuntimeProxy> runtimeProxy;
+		private Mock<IServerProxy> server;
 		private Guid sessionId;
 		private AppSettings settings;
 		private Mock<Action> shutdown;
@@ -85,6 +88,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			messageBox = new Mock<IMessageBox>();
 			operationSequence = new Mock<IOperationSequence>();
 			runtimeProxy = new Mock<IRuntimeProxy>();
+			server = new Mock<IServerProxy>();
 			sessionId = Guid.NewGuid();
 			settings = new AppSettings();
 			shutdown = new Mock<Action>();
@@ -120,6 +124,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			context.AppConfig = appConfig;
 			context.Browser = browser.Object;
 			context.ClientHost = clientHost.Object;
+			context.Server = server.Object;
 			context.SessionId = sessionId;
 			context.Settings = settings;
 		}
@@ -190,6 +195,25 @@ namespace SafeExamBrowser.Client.UnitTests
 			Assert.IsTrue(workingArea == 2);
 			Assert.IsTrue(boundsActionCenter == 3);
 			Assert.IsTrue(boundsTaskbar == 4);
+		}
+
+		[TestMethod]
+		public void ApplicationMonitor_MustPermitApplicationIfChosenByUserAfterFailedTermination()
+		{
+			var lockScreen = new Mock<ILockScreen>();
+			var result = new LockScreenResult();
+
+			lockScreen.Setup(l => l.WaitForResult()).Returns(result);
+			runtimeProxy.Setup(p => p.RequestShutdown()).Returns(new CommunicationResult(true));
+			uiFactory
+				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>()))
+				.Returns(lockScreen.Object)
+				.Callback<string, string, IEnumerable<LockScreenOption>>((m, t, o) => result.OptionId = o.First().Id);
+
+			sut.TryStart();
+			applicationMonitor.Raise(m => m.TerminationFailed += null, new List<RunningApplication>());
+
+			runtimeProxy.Verify(p => p.RequestShutdown(), Times.Never);
 		}
 
 		[TestMethod]
@@ -289,6 +313,21 @@ namespace SafeExamBrowser.Client.UnitTests
 		}
 
 		[TestMethod]
+		public void Browser_MustHandleSessionIdentifierDetection()
+		{
+			var counter = 0;
+			var identifier = "abc123";
+
+			settings.SessionMode = SessionMode.Server;
+			server.Setup(s => s.SendSessionIdentifier(It.IsAny<string>())).Returns(() => new ServerResponse(++counter == 3));
+
+			sut.TryStart();
+			browser.Raise(b => b.SessionIdentifierDetected += null, identifier);
+
+			server.Verify(s => s.SendSessionIdentifier(It.Is<string>(id => id == identifier)), Times.Exactly(3));
+		}
+
+		[TestMethod]
 		public void Browser_MustTerminateIfRequested()
 		{
 			runtimeProxy.Setup(p => p.RequestShutdown()).Returns(new CommunicationResult(true));
@@ -297,6 +336,26 @@ namespace SafeExamBrowser.Client.UnitTests
 			browser.Raise(b => b.TerminationRequested += null);
 
 			runtimeProxy.Verify(p => p.RequestShutdown(), Times.Once);
+		}
+
+		[TestMethod]
+		public void Communication_MustCorrectlyHandleExamSelection()
+		{
+			var args = new ExamSelectionRequestEventArgs
+			{
+				Exams = new List<(string id, string lms, string name, string url)> { ("", "", "", "") },
+				RequestId = Guid.NewGuid()
+			};
+			var dialog = new Mock<IExamSelectionDialog>();
+
+			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(new ExamSelectionDialogResult { Success = true });
+			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(dialog.Object);
+
+			sut.TryStart();
+			clientHost.Raise(c => c.ExamSelectionRequested += null, args);
+
+			runtimeProxy.Verify(p => p.SubmitExamSelectionResult(It.Is<Guid>(g => g == args.RequestId), true, null), Times.Once);
+			uiFactory.Verify(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>()), Times.Once);
 		}
 
 		[TestMethod]
@@ -375,6 +434,22 @@ namespace SafeExamBrowser.Client.UnitTests
 				It.IsAny<MessageBoxAction>(),
 				It.IsAny<MessageBoxIcon>(),
 				It.IsAny<IWindow>()), Times.Once);
+		}
+
+		[TestMethod]
+		public void Communication_MustCorrectlyHandleServerCommunicationFailure()
+		{
+			var args = new ServerFailureActionRequestEventArgs { RequestId = Guid.NewGuid() };
+			var dialog = new Mock<IServerFailureDialog>();
+
+			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(new ServerFailureDialogResult());
+			uiFactory.Setup(f => f.CreateServerFailureDialog(It.IsAny<string>(), It.IsAny<bool>())).Returns(dialog.Object);
+
+			sut.TryStart();
+			clientHost.Raise(c => c.ServerFailureActionRequested += null, args);
+
+			runtimeProxy.Verify(r => r.SubmitServerFailureActionResult(It.Is<Guid>(g => g == args.RequestId), It.IsAny<bool>(), It.IsAny<bool>(), It.IsAny<bool>()), Times.Once);
+			uiFactory.Verify(f => f.CreateServerFailureDialog(It.IsAny<string>(), It.IsAny<bool>()), Times.Once);
 		}
 
 		[TestMethod]
@@ -461,6 +536,21 @@ namespace SafeExamBrowser.Client.UnitTests
 			Assert.IsTrue(workingArea == 1);
 			Assert.IsTrue(boundsActionCenter == 2);
 			Assert.IsTrue(boundsTaskbar == 3);
+		}
+
+		[TestMethod]
+		public void DisplayMonitor_MustShowLockScreenOnDisplayChange()
+		{
+			var lockScreen = new Mock<ILockScreen>();
+
+			displayMonitor.Setup(m => m.ValidateConfiguration(It.IsAny<DisplaySettings>())).Returns(new ValidationResult { IsAllowed = false });
+			lockScreen.Setup(l => l.WaitForResult()).Returns(new LockScreenResult());
+			uiFactory.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>())).Returns(lockScreen.Object);
+
+			sut.TryStart();
+			displayMonitor.Raise(d => d.DisplayChanged += null);
+
+			lockScreen.Verify(l => l.Show(), Times.Once);
 		}
 
 		[TestMethod]
@@ -786,6 +876,17 @@ namespace SafeExamBrowser.Client.UnitTests
 		}
 
 		[TestMethod]
+		public void Server_MustInitiateShutdownOnEvent()
+		{
+			runtimeProxy.Setup(r => r.RequestShutdown()).Returns(new CommunicationResult(true));
+
+			sut.TryStart();
+			server.Raise(s => s.TerminationRequested += null);
+
+			runtimeProxy.Verify(p => p.RequestShutdown(), Times.Once);
+		}
+
+		[TestMethod]
 		public void Shutdown_MustAskUserToConfirm()
 		{
 			var args = new System.ComponentModel.CancelEventArgs();
@@ -1101,6 +1202,59 @@ namespace SafeExamBrowser.Client.UnitTests
 			sut.TryStart();
 
 			browser.Verify(b => b.Start(), Times.Never);
+		}
+
+		[TestMethod]
+		public void SystemMonitor_MustShowLockScreenOnSessionSwitch()
+		{
+			var lockScreen = new Mock<ILockScreen>();
+
+			settings.Service.IgnoreService = true;
+			lockScreen.Setup(l => l.WaitForResult()).Returns(new LockScreenResult());
+			uiFactory.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>())).Returns(lockScreen.Object);
+
+			sut.TryStart();
+			systemMonitor.Raise(m => m.SessionSwitched += null);
+
+			lockScreen.Verify(l => l.Show(), Times.Once);
+		}
+
+		[TestMethod]
+		public void SystemMonitor_MustTerminateIfRequestedByUser()
+		{
+			var lockScreen = new Mock<ILockScreen>();
+			var result = new LockScreenResult();
+
+			settings.Service.IgnoreService = true;
+			lockScreen.Setup(l => l.WaitForResult()).Returns(result);
+			runtimeProxy.Setup(r => r.RequestShutdown()).Returns(new CommunicationResult(true));
+			uiFactory
+				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>()))
+				.Callback(new Action<string, string, IEnumerable<LockScreenOption>>((message, title, options) => result.OptionId = options.Last().Id))
+				.Returns(lockScreen.Object);
+
+			sut.TryStart();
+			systemMonitor.Raise(m => m.SessionSwitched += null);
+
+			lockScreen.Verify(l => l.Show(), Times.Once);
+			runtimeProxy.Verify(p => p.RequestShutdown(), Times.Once);
+		}
+
+		[TestMethod]
+		public void SystemMonitor_MustDoNothingIfSessionSwitchAllowed()
+		{
+			var lockScreen = new Mock<ILockScreen>();
+
+			settings.Service.IgnoreService = false;
+			settings.Service.DisableUserLock = false;
+			settings.Service.DisableUserSwitch = false;
+			lockScreen.Setup(l => l.WaitForResult()).Returns(new LockScreenResult());
+			uiFactory.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>())).Returns(lockScreen.Object);
+
+			sut.TryStart();
+			systemMonitor.Raise(m => m.SessionSwitched += null);
+
+			lockScreen.Verify(l => l.Show(), Times.Never);
 		}
 
 		[TestMethod]

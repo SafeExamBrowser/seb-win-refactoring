@@ -12,31 +12,21 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Settings;
-using SafeExamBrowser.UserInterface.Contracts.Shell;
 
 namespace SafeExamBrowser.Client.Operations
 {
 	internal class ServerOperation : ClientOperation
 	{
-		private readonly IActionCenter actionCenter;
 		private readonly ILogger logger;
 		private readonly IServerProxy server;
-		private readonly ITaskbar taskbar;
 
 		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
-		public ServerOperation(
-			IActionCenter actionCenter,
-			ClientContext context,
-			ILogger logger,
-			IServerProxy server,
-			ITaskbar taskbar) : base(context)
+		public ServerOperation(ClientContext context, ILogger logger, IServerProxy server) : base(context)
 		{
-			this.actionCenter = actionCenter;
 			this.logger = logger;
 			this.server = server;
-			this.taskbar = taskbar;
 		}
 
 		public override OperationResult Perform()
