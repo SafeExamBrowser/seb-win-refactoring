@@ -9,10 +9,10 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Communication.Contracts;
 using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Proxies;
+using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 
@@ -115,6 +115,20 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 			var communication = sut.StopSession(Guid.Empty);
 
 			Assert.IsFalse(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustExecuteOperationsFailsafe()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<Message>())).Throws<Exception>();
+
+			var configuration = sut.RunSystemConfigurationUpdate();
+			var start = sut.StartSession(default(ServiceConfiguration));
+			var stop = sut.StopSession(default(Guid));
+
+			Assert.IsFalse(configuration.Success);
+			Assert.IsFalse(start.Success);
+			Assert.IsFalse(stop.Success);
 		}
 	}
 }

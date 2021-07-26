@@ -136,6 +136,27 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 		}
 
 		[TestMethod]
+		public void MustCorrectlyRequestExamSelection()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<ExamSelectionRequestMessage>())).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
+
+			var communication = sut.RequestExamSelection(null, default(Guid));
+
+			proxy.Verify(p => p.Send(It.IsAny<ExamSelectionRequestMessage>()), Times.Once);
+			Assert.IsTrue(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustFailIfExamSelectionRequestNotAcknowledged()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<ExamSelectionRequestMessage>())).Returns<Response>(null);
+
+			var communication = sut.RequestExamSelection(null, default(Guid));
+
+			Assert.IsFalse(communication.Success);
+		}
+
+		[TestMethod]
 		public void MustCorrectlyRequestPassword()
 		{
 			proxy.Setup(p => p.Send(It.IsAny<PasswordRequestMessage>())).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
@@ -152,6 +173,27 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 			proxy.Setup(p => p.Send(It.IsAny<PasswordRequestMessage>())).Returns<Response>(null);
 
 			var communication = sut.RequestPassword(default(PasswordRequestPurpose), default(Guid));
+
+			Assert.IsFalse(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustCorrectlyRequestServerFailureAction()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<ServerFailureActionRequestMessage>())).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
+
+			var communication = sut.RequestServerFailureAction(default(string), default(bool), default(Guid));
+
+			proxy.Verify(p => p.Send(It.IsAny<ServerFailureActionRequestMessage>()), Times.Once);
+			Assert.IsTrue(communication.Success);
+		}
+
+		[TestMethod]
+		public void MustFailIfServerFailureActionRequestNotAcknowledged()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<ServerFailureActionRequestMessage>())).Returns<Response>(null);
+
+			var communication = sut.RequestServerFailureAction(default(string), default(bool), default(Guid));
 
 			Assert.IsFalse(communication.Success);
 		}
@@ -183,15 +225,21 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 			proxy.Setup(p => p.Send(It.IsAny<Message>())).Throws<Exception>();
 
 			var authenticate = sut.RequestAuthentication();
+			var examSelection = sut.RequestExamSelection(null, default(Guid));
 			var message = sut.ShowMessage(default(string), default(string), default(int), default(int), default(Guid));
 			var password = sut.RequestPassword(default(PasswordRequestPurpose), default(Guid));
-			var reconfiguration = sut.InformReconfigurationDenied(null);
+			var reconfigurationAborted = sut.InformReconfigurationAborted();
+			var reconfigurationDenied = sut.InformReconfigurationDenied(null);
+			var serverFailure = sut.RequestServerFailureAction(default(string), default(bool), default(Guid));
 			var shutdown = sut.InitiateShutdown();
 
 			Assert.IsFalse(authenticate.Success);
+			Assert.IsFalse(examSelection.Success);
 			Assert.IsFalse(message.Success);
 			Assert.IsFalse(password.Success);
-			Assert.IsFalse(reconfiguration.Success);
+			Assert.IsFalse(reconfigurationAborted.Success);
+			Assert.IsFalse(reconfigurationDenied.Success);
+			Assert.IsFalse(serverFailure.Success);
 			Assert.IsFalse(shutdown.Success);
 		}
 	}

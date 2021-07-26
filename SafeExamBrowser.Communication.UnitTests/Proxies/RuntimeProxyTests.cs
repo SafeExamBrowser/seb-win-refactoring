@@ -147,6 +147,30 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 		}
 
 		[TestMethod]
+		public void MustCorrectlySubmitExamSelection()
+		{
+			var examId = "abc123";
+			var requestId = Guid.NewGuid();
+
+			proxy.Setup(p => p.Send(It.IsAny<ExamSelectionReplyMessage>())).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
+
+			var communication = sut.SubmitExamSelectionResult(requestId, true, examId);
+
+			Assert.IsTrue(communication.Success);
+			proxy.Verify(p => p.Send(It.Is<ExamSelectionReplyMessage>(m => m.SelectedExamId == examId && m.RequestId == requestId && m.Success)), Times.Once); 
+		}
+
+		[TestMethod]
+		public void MustFailIfExamSelectionTransmissionNotAcknowledged()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<ExamSelectionReplyMessage>())).Returns<Response>(null);
+
+			var communication = sut.SubmitExamSelectionResult(default(Guid), false);
+
+			Assert.IsFalse(communication.Success);
+		}
+
+		[TestMethod]
 		public void MustCorrectlySubmitPassword()
 		{
 			var password = "blubb";
@@ -195,22 +219,49 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 		}
 
 		[TestMethod]
+		public void MustCorrectlySubmitServerFailureAction()
+		{
+			var requestId = Guid.NewGuid();
+
+			proxy.Setup(p => p.Send(It.IsAny<ServerFailureActionReplyMessage>())).Returns(new SimpleResponse(SimpleResponsePurport.Acknowledged));
+
+			var communication = sut.SubmitServerFailureActionResult(requestId, true, true, false);
+
+			Assert.IsTrue(communication.Success);
+			proxy.Verify(p => p.Send(It.Is<ServerFailureActionReplyMessage>(m => m.RequestId == requestId && m.Abort && m.Fallback && !m.Retry)), Times.Once);
+		}
+
+		[TestMethod]
+		public void MustFailIfServerFailureActionTransmissionNotAcknowledged()
+		{
+			proxy.Setup(p => p.Send(It.IsAny<ServerFailureActionReplyMessage>())).Returns<Response>(null);
+
+			var communication = sut.SubmitServerFailureActionResult(default(Guid), default(bool), default(bool), default(bool));
+
+			Assert.IsFalse(communication.Success);
+		}
+
+		[TestMethod]
 		public void MustExecuteOperationsFailsafe()
 		{
 			proxy.Setup(p => p.Send(It.IsAny<Message>())).Throws<Exception>();
 
 			var client = sut.InformClientReady();
 			var configuration = sut.GetConfiguration();
+			var examSelection = sut.SubmitExamSelectionResult(default(Guid), default(bool));
 			var message = sut.SubmitMessageBoxResult(default(Guid), default(int));
 			var password = sut.SubmitPassword(default(Guid), false);
 			var reconfiguration = sut.RequestReconfiguration(null, null);
+			var serverFailure = sut.SubmitServerFailureActionResult(default(Guid), default(bool), default(bool), default(bool));
 			var shutdown = sut.RequestShutdown();
 
 			Assert.IsFalse(client.Success);
 			Assert.IsFalse(configuration.Success);
+			Assert.IsFalse(examSelection.Success);
 			Assert.IsFalse(message.Success);
 			Assert.IsFalse(password.Success);
 			Assert.IsFalse(reconfiguration.Success);
+			Assert.IsFalse(serverFailure.Success);
 			Assert.IsFalse(shutdown.Success);
 		}
 	}
