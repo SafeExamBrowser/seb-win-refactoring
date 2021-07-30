@@ -108,23 +108,20 @@ namespace SafeExamBrowser.Runtime.Operations
 								}
 							}
 						}
-						else
-						{
-							logger.Info("The user aborted the exam selection.");
-							result = OperationResult.Aborted;
-						}
 					}
 				}
 
 				if (abort)
 				{
 					result = OperationResult.Aborted;
+					logger.Info("The user aborted the server operation.");
 				}
 
 				if (fallback)
 				{
 					Context.Next.Settings.SessionMode = SessionMode.Normal;
 					result = OperationResult.Success;
+					logger.Info("The user chose to fallback and start a normal session.");
 				}
 			}
 

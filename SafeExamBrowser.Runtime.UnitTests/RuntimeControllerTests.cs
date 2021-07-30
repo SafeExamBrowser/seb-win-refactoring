@@ -7,6 +7,8 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Communication.Contracts.Data;
@@ -19,6 +21,7 @@ using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
+using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.Settings.Service;
@@ -217,6 +220,57 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		}
 
 		[TestMethod]
+		public void Operations_MustRequestServerExamSelectionViaDialogOnDefaultDesktop()
+		{
+			var args = new ExamSelectionEventArgs(Enumerable.Empty<Exam>());
+			var examSelectionDialog = new Mock<IExamSelectionDialog>();
+			var result = new ExamSelectionDialogResult { SelectedExam = new Exam(), Success = true };
+
+			currentSettings.Security.KioskMode = KioskMode.DisableExplorerShell;
+			examSelectionDialog.Setup(p => p.Show(It.IsAny<IWindow>())).Returns(result);
+			uiFactory.Setup(u => u.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(examSelectionDialog.Object);
+
+			sut.TryStart();
+			sessionSequence.Raise(s => s.ActionRequired += null, args);
+
+			clientProxy.VerifyNoOtherCalls();
+			examSelectionDialog.Verify(p => p.Show(It.IsAny<IWindow>()), Times.Once);
+			uiFactory.Verify(u => u.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>()), Times.Once);
+
+			Assert.AreEqual(true, args.Success);
+			Assert.AreEqual(result.SelectedExam, args.SelectedExam);
+		}
+
+		[TestMethod]
+		public void Operations_MustRequestServerExamSelectionViaClientOnNewDesktop()
+		{
+			var args = new ExamSelectionEventArgs(new[] { new Exam { Id = "abc1234" } });
+			var examSelectionReceived = new Action<IEnumerable<(string, string, string, string)>, Guid>((e, id) =>
+			{
+				runtimeHost.Raise(r => r.ExamSelectionReceived += null, new ExamSelectionReplyEventArgs
+				{
+					RequestId = id,
+					SelectedExamId = "abc1234",
+					Success = true
+				});
+			});
+
+			currentSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
+			clientProxy
+				.Setup(c => c.RequestExamSelection(It.IsAny<IEnumerable<(string, string, string, string)>>(), It.IsAny<Guid>()))
+				.Returns(new CommunicationResult(true))
+				.Callback(examSelectionReceived);
+
+			sut.TryStart();
+			sessionSequence.Raise(s => s.ActionRequired += null, args);
+
+			clientProxy.Verify(c => c.RequestExamSelection(It.IsAny<IEnumerable<(string, string, string, string)>>(), It.IsAny<Guid>()), Times.Once);
+			uiFactory.Verify(u => u.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>()), Times.Never);
+
+			Assert.AreEqual("abc1234", args.SelectedExam.Id);
+		}
+
+		[TestMethod]
 		public void Operations_MustRequestPasswordViaDialogOnDefaultDesktop()
 		{
 			var args = new PasswordRequiredEventArgs();
@@ -244,7 +298,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			var args = new PasswordRequiredEventArgs();
 			var passwordReceived = new Action<PasswordRequestPurpose, Guid>((p, id) =>
 			{
-				runtimeHost.Raise(r => r.PasswordReceived += null, new PasswordReplyEventArgs { RequestId = id, Success = true });
+				runtimeHost.Raise(r => r.PasswordReceived += null, new PasswordReplyEventArgs { Password = "test", RequestId = id, Success = true });
 			});
 
 			currentSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
@@ -255,6 +309,61 @@ namespace SafeExamBrowser.Runtime.UnitTests
 
 			clientProxy.Verify(c => c.RequestPassword(It.IsAny<PasswordRequestPurpose>(), It.IsAny<Guid>()), Times.Once);
 			uiFactory.Verify(u => u.CreatePasswordDialog(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+
+			Assert.AreEqual("test", args.Password);
+		}
+
+		[TestMethod]
+		public void Operations_MustRequestServerFailureActionViaDialogOnDefaultDesktop()
+		{
+			var args = new ServerFailureEventArgs(default(string), default(bool));
+			var failureDialog = new Mock<IServerFailureDialog>();
+			var result = new ServerFailureDialogResult { Fallback = true, Success = true };
+
+			currentSettings.Security.KioskMode = KioskMode.DisableExplorerShell;
+			failureDialog.Setup(p => p.Show(It.IsAny<IWindow>())).Returns(result);
+			uiFactory.Setup(u => u.CreateServerFailureDialog(It.IsAny<string>(), It.IsAny<bool>())).Returns(failureDialog.Object);
+
+			sut.TryStart();
+			sessionSequence.Raise(s => s.ActionRequired += null, args);
+
+			clientProxy.VerifyNoOtherCalls();
+			failureDialog.Verify(p => p.Show(It.IsAny<IWindow>()), Times.Once);
+			uiFactory.Verify(u => u.CreateServerFailureDialog(It.IsAny<string>(), It.IsAny<bool>()), Times.Once);
+
+			Assert.AreEqual(result.Abort, args.Abort);
+			Assert.AreEqual(result.Fallback, args.Fallback);
+			Assert.AreEqual(result.Retry, args.Retry);
+		}
+
+		[TestMethod]
+		public void Operations_MustRequestServerFailureActionViaClientOnNewDesktop()
+		{
+			var args = new ServerFailureEventArgs(default(string), default(bool));
+			var failureActionReceived = new Action<string, bool, Guid>((m, f, id) =>
+			{
+				runtimeHost.Raise(r => r.ServerFailureActionReceived += null, new ServerFailureActionReplyEventArgs
+				{
+					RequestId = id,
+					Fallback = true
+				});
+			});
+
+			currentSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
+			clientProxy
+				.Setup(c => c.RequestServerFailureAction(It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<Guid>()))
+				.Returns(new CommunicationResult(true))
+				.Callback(failureActionReceived);
+
+			sut.TryStart();
+			sessionSequence.Raise(s => s.ActionRequired += null, args);
+
+			clientProxy.Verify(c => c.RequestServerFailureAction(It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<Guid>()), Times.Once);
+			uiFactory.Verify(u => u.CreateServerFailureDialog(It.IsAny<string>(), It.IsAny<bool>()), Times.Never);
+
+			Assert.IsFalse(args.Abort);
+			Assert.IsTrue(args.Fallback);
+			Assert.IsFalse(args.Retry);
 		}
 
 		[TestMethod]
@@ -381,6 +490,39 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			sessionSequence.Raise(o => o.StatusChanged += null, key);
 
 			runtimeWindow.Verify(s => s.UpdateStatus(It.Is<TextKey>(k => k == key), It.IsAny<bool>()), Times.Once);
+		}
+
+		[TestMethod]
+		public void Session_MustHideRuntimeWindowWhenUsingDisableExplorerShell()
+		{
+			currentSettings.Security.KioskMode = KioskMode.DisableExplorerShell;
+			StartSession();
+			runtimeWindow.Verify(w => w.Hide(), Times.AtLeastOnce);
+
+			runtimeWindow.Reset();
+			sessionSequence.Reset();
+
+			sessionSequence.Setup(b => b.TryRepeat()).Returns(OperationResult.Aborted);
+			runtimeHost.Raise(h => h.ReconfigurationRequested += null, new ReconfigurationEventArgs());
+			runtimeWindow.Verify(w => w.Hide(), Times.AtLeastOnce);
+		}
+
+		[TestMethod]
+		public void Session_MustShowMessageBoxOnFailure()
+		{
+			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success);
+			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Failed);
+			sessionContext.Current = null;
+			sut.TryStart();
+			messageBox.Verify(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()), Times.AtLeastOnce);
+
+			StartSession();
+			messageBox.Reset();
+			sessionSequence.Reset();
+
+			sessionSequence.Setup(b => b.TryRepeat()).Returns(OperationResult.Failed);
+			runtimeHost.Raise(h => h.ReconfigurationRequested += null, new ReconfigurationEventArgs());
+			messageBox.Verify(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()), Times.AtLeastOnce);
 		}
 
 		[TestMethod]
@@ -576,6 +718,47 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			sessionSequence.Verify(b => b.TryRevert(), Times.Never);
 
 			shutdown.Verify(s => s(), Times.Never);
+		}
+
+		[TestMethod]
+		public void Startup_MustUpdateProgressForBootstrapSequence()
+		{
+			var args = new ProgressChangedEventArgs
+			{
+				CurrentValue = 12,
+				IsIndeterminate = true,
+				MaxValue = 100,
+				Progress = true,
+				Regress = true
+			};
+
+			bootstrapSequence
+				.Setup(b => b.TryPerform())
+				.Returns(OperationResult.Success)
+				.Callback(() => { bootstrapSequence.Raise(s => s.ProgressChanged += null, args); });
+
+			var success = sut.TryStart();
+
+			splashScreen.Verify(s => s.SetValue(It.Is<int>(i => i == args.CurrentValue)), Times.Once);
+			splashScreen.Verify(s => s.SetIndeterminate(), Times.Once);
+			splashScreen.Verify(s => s.SetMaxValue(It.Is<int>(i => i == args.MaxValue)), Times.Once);
+			splashScreen.Verify(s => s.Progress(), Times.Once);
+			splashScreen.Verify(s => s.Regress(), Times.Once);
+		}
+
+		[TestMethod]
+		public void Startup_MustUpdateStatusForBootstrapSequence()
+		{
+			var key = TextKey.OperationStatus_InitializeBrowser;
+
+			bootstrapSequence
+				.Setup(b => b.TryPerform())
+				.Returns(OperationResult.Success)
+				.Callback(() => { bootstrapSequence.Raise(s => s.StatusChanged += null, key); });
+
+			var success = sut.TryStart();
+
+			splashScreen.Verify(s => s.UpdateStatus(It.Is<TextKey>(k => k == key), true), Times.Once);
 		}
 
 		private void StartSession()

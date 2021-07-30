@@ -15,9 +15,9 @@ using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Events;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Settings;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Communication;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Communication
@@ -186,6 +186,60 @@ namespace SafeExamBrowser.Runtime.UnitTests.Communication
 			Assert.IsNotNull(response);
 			Assert.IsInstanceOfType(response, typeof(ConfigurationResponse));
 			Assert.AreEqual(configuration.Settings.Security.AdminPasswordHash, (response as ConfigurationResponse)?.Configuration.Settings.Security.AdminPasswordHash);
+		}
+
+		[TestMethod]
+		public void MustHandleExamSelectionCorrectly()
+		{
+			var args = default(ExamSelectionReplyEventArgs);
+			var examId = "abc123";
+			var requestId = Guid.NewGuid();
+			var sync = new AutoResetEvent(false);
+
+			sut.AllowConnection = true;
+			sut.AuthenticationToken = Guid.Empty;
+			sut.ExamSelectionReceived += (a) => { args = a; sync.Set(); };
+
+			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
+			var message = new ExamSelectionReplyMessage(requestId, true, examId) { CommunicationToken = token };
+			var response = sut.Send(message);
+
+			sync.WaitOne();
+
+			Assert.IsNotNull(args);
+			Assert.IsNotNull(response);
+			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
+			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
+			Assert.IsTrue(args.Success);
+			Assert.AreEqual(examId, args.SelectedExamId);
+			Assert.AreEqual(requestId, args.RequestId);
+		}
+
+		[TestMethod]
+		public void MustHandleServerFailureActionCorrectly()
+		{
+			var args = default(ServerFailureActionReplyEventArgs);
+			var requestId = Guid.NewGuid();
+			var sync = new AutoResetEvent(false);
+
+			sut.AllowConnection = true;
+			sut.AuthenticationToken = Guid.Empty;
+			sut.ServerFailureActionReceived += (a) => { args = a; sync.Set(); };
+
+			var token = sut.Connect(Guid.Empty).CommunicationToken.Value;
+			var message = new ServerFailureActionReplyMessage(true, false, true, requestId) { CommunicationToken = token };
+			var response = sut.Send(message);
+
+			sync.WaitOne();
+
+			Assert.IsNotNull(args);
+			Assert.IsNotNull(response);
+			Assert.IsInstanceOfType(response, typeof(SimpleResponse));
+			Assert.AreEqual(SimpleResponsePurport.Acknowledged, (response as SimpleResponse)?.Purport);
+			Assert.IsFalse(args.Fallback);
+			Assert.IsTrue(args.Abort);
+			Assert.IsTrue(args.Retry);
+			Assert.AreEqual(requestId, args.RequestId);
 		}
 
 		[TestMethod]
