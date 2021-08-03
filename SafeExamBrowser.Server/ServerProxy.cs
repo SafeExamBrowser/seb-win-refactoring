@@ -13,7 +13,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using Newtonsoft.Json;
@@ -36,7 +35,6 @@ namespace SafeExamBrowser.Server
 	{
 		private ApiVersion1 api;
 		private AppConfig appConfig;
-		private CancellationTokenSource cancellationTokenSource;
 		private FileSystem fileSystem;
 		private string connectionToken;
 		private int currentPowerSupplyValue;
@@ -46,13 +44,13 @@ namespace SafeExamBrowser.Server
 		private ConcurrentQueue<string> instructionConfirmations;
 		private ILogger logger;
 		private ConcurrentQueue<ILogContent> logContent;
+		private Timer logTimer;
 		private Parser parser;
 		private string oauth2Token;
 		private int pingNumber;
+		private Timer pingTimer;
 		private IPowerSupply powerSupply;
 		private ServerSettings settings;
-		private Task task;
-		private Timer timer;
 		private IWirelessAdapter wirelessAdapter;
 
 		public event ProctoringConfigurationReceivedEventHandler ProctoringConfigurationReceived;
@@ -67,15 +65,15 @@ namespace SafeExamBrowser.Server
 		{
 			this.api = new ApiVersion1();
 			this.appConfig = appConfig;
-			this.cancellationTokenSource = new CancellationTokenSource();
 			this.fileSystem = new FileSystem(appConfig, logger);
 			this.httpClient = new HttpClient();
 			this.instructionConfirmations = new ConcurrentQueue<string>();
 			this.logger = logger;
 			this.logContent = new ConcurrentQueue<ILogContent>();
+			this.logTimer = new Timer();
 			this.parser = new Parser(logger);
+			this.pingTimer = new Timer();
 			this.powerSupply = powerSupply;
-			this.timer = new Timer();
 			this.wirelessAdapter = wirelessAdapter;
 		}
 
@@ -271,14 +269,16 @@ namespace SafeExamBrowser.Server
 			}
 
 			logger.Subscribe(this);
-			task = new Task(SendLog, cancellationTokenSource.Token);
-			task.Start();
+			logTimer.AutoReset = false;
+			logTimer.Elapsed += LogTimer_Elapsed;
+			logTimer.Interval = 500;
+			logTimer.Start();
 			logger.Info("Started sending log items.");
 
-			timer.AutoReset = false;
-			timer.Elapsed += Timer_Elapsed;
-			timer.Interval = 1000;
-			timer.Start();
+			pingTimer.AutoReset = false;
+			pingTimer.Elapsed += PingTimer_Elapsed;
+			pingTimer.Interval = 1000;
+			pingTimer.Start();
 			logger.Info("Started sending pings.");
 
 			if (powerSupply != default(IPowerSupply) && wirelessAdapter != default(IWirelessAdapter))
@@ -299,24 +299,24 @@ namespace SafeExamBrowser.Server
 			}
 
 			logger.Unsubscribe(this);
-			cancellationTokenSource.Cancel();
-			task?.Wait();
+			logTimer.Stop();
+			logTimer.Elapsed -= LogTimer_Elapsed;
 			logger.Info("Stopped sending log items.");
 
-			timer.Stop();
-			timer.Elapsed -= Timer_Elapsed;
+			pingTimer.Stop();
+			pingTimer.Elapsed -= PingTimer_Elapsed;
 			logger.Info("Stopped sending pings.");
 		}
 
-		private void SendLog()
+		private void LogTimer_Elapsed(object sender, ElapsedEventArgs args)
 		{
-			var authorization = ("Authorization", $"Bearer {oauth2Token}");
-			var contentType = "application/json;charset=UTF-8";
-			var token = ("SEBConnectionToken", connectionToken);
-
-			while (!cancellationTokenSource.IsCancellationRequested)
+			try
 			{
-				try
+				var authorization = ("Authorization", $"Bearer {oauth2Token}");
+				var contentType = "application/json;charset=UTF-8";
+				var token = ("SEBConnectionToken", connectionToken);
+
+				while (!logContent.IsEmpty)
 				{
 					if (logContent.TryDequeue(out var c) && c is ILogMessage message)
 					{
@@ -331,46 +331,16 @@ namespace SafeExamBrowser.Server
 						TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
 					}
 				}
-				catch (Exception e)
-				{
-					logger.Error("Failed to send log!", e);
-				}
-			}
-		}
-
-		private void PowerSupply_StatusChanged(IPowerSupplyStatus status)
-		{
-			try
-			{
-				var value = Convert.ToInt32(status.BatteryCharge * 100);
-
-				if (value != currentPowerSupplyValue)
-				{
-					var authorization = ("Authorization", $"Bearer {oauth2Token}");
-					var chargeInfo = $"{status.BatteryChargeStatus} at {value}%";
-					var contentType = "application/json;charset=UTF-8";
-					var gridInfo = $"{(status.IsOnline ? "connected to" : "disconnected from")} the power grid";
-					var token = ("SEBConnectionToken", connectionToken);
-					var json = new JObject
-					{
-						["type"] = LogLevel.Info.ToLogType(),
-						["timestamp"] = DateTime.Now.ToUnixTimestamp(),
-						["text"] = $"<battery> {chargeInfo}, {status.BatteryTimeRemaining} remaining, {gridInfo}",
-						["numericValue"] = value
-					};
-					var content = json.ToString();
-
-					TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
-					currentPowerSupplyValue = value;
-				}
 			}
 			catch (Exception e)
 			{
-				logger.Error("Failed to send power supply status!", e);
+				logger.Error("Failed to send log!", e);
 			}
+
+			logTimer.Start();
 		}
 
-		private void Timer_Elapsed(object sender, ElapsedEventArgs args)
+		private void PingTimer_Elapsed(object sender, ElapsedEventArgs args)
 		{
 			try
 			{
@@ -419,7 +389,39 @@ namespace SafeExamBrowser.Server
 				logger.Error("Failed to send ping!", e);
 			}
 
-			timer.Start();
+			pingTimer.Start();
+		}
+
+		private void PowerSupply_StatusChanged(IPowerSupplyStatus status)
+		{
+			try
+			{
+				var value = Convert.ToInt32(status.BatteryCharge * 100);
+
+				if (value != currentPowerSupplyValue)
+				{
+					var authorization = ("Authorization", $"Bearer {oauth2Token}");
+					var chargeInfo = $"{status.BatteryChargeStatus} at {value}%";
+					var contentType = "application/json;charset=UTF-8";
+					var gridInfo = $"{(status.IsOnline ? "connected to" : "disconnected from")} the power grid";
+					var token = ("SEBConnectionToken", connectionToken);
+					var json = new JObject
+					{
+						["type"] = LogLevel.Info.ToLogType(),
+						["timestamp"] = DateTime.Now.ToUnixTimestamp(),
+						["text"] = $"<battery> {chargeInfo}, {status.BatteryTimeRemaining} remaining, {gridInfo}",
+						["numericValue"] = value
+					};
+					var content = json.ToString();
+
+					TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
+					currentPowerSupplyValue = value;
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to send power supply status!", e);
+			}
 		}
 
 		private void WirelessAdapter_NetworksChanged()
