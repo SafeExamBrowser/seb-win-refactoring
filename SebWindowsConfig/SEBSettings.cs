@@ -410,6 +410,7 @@ namespace SebWindowsConfig
 		public const String KeyEnableAltTab      = "enableAltTab";
 		public const String KeyEnableAltF4       = "enableAltF4";
 		public const String KeyEnableStartMenu   = "enableStartMenu";
+		public const String KeyEnableMiddleMouse = "enableMiddleMouse";
 		public const String KeyEnableRightMouse  = "enableRightMouse";
 		public const String KeyEnableAltMouseWheel  = "enableAltMouseWheel";
 
@@ -1014,6 +1015,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableAltTab     , true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableAltF4      , false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableStartMenu  , false);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableMiddleMouse, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableRightMouse , true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnablePrintScreen, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableAltMouseWheel, false);

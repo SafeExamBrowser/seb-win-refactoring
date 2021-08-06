@@ -209,7 +209,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class Mouse
 		{
-			internal const string EnableRightMouse = "enableRightMouse";
+			internal const string EnableMiddleMouseButton = "enableMiddleMouse";
+			internal const string EnableRightMouseButton = "enableRightMouse";
 		}
 
 		internal static class Network

@@ -73,8 +73,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Keyboard.EnableSystemKey:
 					MapEnableSystemKey(settings, value);
 					break;
-				case Keys.Mouse.EnableRightMouse:
-					MapEnableRightMouse(settings, value);
+				case Keys.Mouse.EnableMiddleMouseButton:
+					MapEnableMiddleMouseButton(settings, value);
+					break;
+				case Keys.Mouse.EnableRightMouseButton:
+					MapEnableRightMouseButton(settings, value);
 					break;
 			}
 		}
@@ -231,7 +234,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
-		private void MapEnableRightMouse(AppSettings settings, object value)
+		private void MapEnableMiddleMouseButton(AppSettings settings, object value)
+		{
+			if (value is bool enabled)
+			{
+				settings.Mouse.AllowMiddleButton = enabled;
+			}
+		}
+
+		private void MapEnableRightMouseButton(AppSettings settings, object value)
 		{
 			if (value is bool enabled)
 			{

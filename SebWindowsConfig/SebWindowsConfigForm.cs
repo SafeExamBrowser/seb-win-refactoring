@@ -839,6 +839,7 @@ namespace SebWindowsConfig
 			checkBoxEnableAltEsc     .Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyEnableAltEsc];
 			checkBoxEnableAltTab     .Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyEnableAltTab];
 			checkBoxEnableAltF4      .Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyEnableAltF4];
+			checkBoxEnableMiddleMouse.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyEnableMiddleMouse];
 			checkBoxEnableRightMouse .Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyEnableRightMouse];
 			checkBoxEnablePrintScreen.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyEnablePrintScreen];
 			checkBoxEnableAltMouseWheel.Checked = (Boolean)SEBSettings.settingsCurrent[SEBSettings.KeyEnableAltMouseWheel];
@@ -4645,6 +4646,11 @@ namespace SebWindowsConfig
 			SEBSettings.settingsCurrent[SEBSettings.KeyUseTemporaryDownUploadDirectory] = checkBoxTemporaryDownloadDirectory.Checked;
 			buttonDownloadDirectoryWin.Enabled = !checkBoxTemporaryDownloadDirectory.Checked;
 			textBoxDownloadDirectoryWin.Enabled = !checkBoxTemporaryDownloadDirectory.Checked;
+		}
+
+		private void checkBoxEnableMiddleMouse_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyEnableMiddleMouse] = checkBoxEnableMiddleMouse.Checked;
 		}
 	}
 }

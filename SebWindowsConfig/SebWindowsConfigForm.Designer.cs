@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -267,6 +267,7 @@ namespace SebWindowsConfig
 			this.labelBrowserExamKey = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.tabPageDownUploads = new System.Windows.Forms.TabPage();
+			this.checkBoxTemporaryDownloadDirectory = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowCustomDownloadLocation = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowPDFPlugIn = new System.Windows.Forms.CheckBox();
 			this.textBoxDownloadDirectoryWin = new System.Windows.Forms.TextBox();
@@ -458,7 +459,7 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.checkBoxTemporaryDownloadDirectory = new System.Windows.Forms.CheckBox();
+			this.checkBoxEnableMiddleMouse = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -760,6 +761,7 @@ namespace SebWindowsConfig
 			// 
 			// groupBoxSpecialKeys
 			// 
+			this.groupBoxSpecialKeys.Controls.Add(this.checkBoxEnableMiddleMouse);
 			this.groupBoxSpecialKeys.Controls.Add(this.checkBoxEnableAltMouseWheel);
 			this.groupBoxSpecialKeys.Controls.Add(this.checkBoxEnablePrintScreen);
 			this.groupBoxSpecialKeys.Controls.Add(this.checkBoxEnableEsc);
@@ -773,7 +775,7 @@ namespace SebWindowsConfig
 			this.groupBoxSpecialKeys.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.groupBoxSpecialKeys.Name = "groupBoxSpecialKeys";
 			this.groupBoxSpecialKeys.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
-			this.groupBoxSpecialKeys.Size = new System.Drawing.Size(152, 212);
+			this.groupBoxSpecialKeys.Size = new System.Drawing.Size(152, 242);
 			this.groupBoxSpecialKeys.TabIndex = 39;
 			this.groupBoxSpecialKeys.TabStop = false;
 			this.groupBoxSpecialKeys.Text = "Special Keys";
@@ -783,7 +785,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnableAltMouseWheel.AutoSize = true;
 			this.checkBoxEnableAltMouseWheel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableAltMouseWheel.Location = new System.Drawing.Point(8, 189);
+			this.checkBoxEnableAltMouseWheel.Location = new System.Drawing.Point(8, 215);
 			this.checkBoxEnableAltMouseWheel.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxEnableAltMouseWheel.Name = "checkBoxEnableAltMouseWheel";
 			this.checkBoxEnableAltMouseWheel.Size = new System.Drawing.Size(137, 17);
@@ -799,7 +801,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnablePrintScreen.AutoSize = true;
 			this.checkBoxEnablePrintScreen.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnablePrintScreen.Location = new System.Drawing.Point(8, 168);
+			this.checkBoxEnablePrintScreen.Location = new System.Drawing.Point(8, 194);
 			this.checkBoxEnablePrintScreen.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxEnablePrintScreen.Name = "checkBoxEnablePrintScreen";
 			this.checkBoxEnablePrintScreen.Size = new System.Drawing.Size(117, 17);
@@ -879,7 +881,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnableRightMouse.AutoSize = true;
 			this.checkBoxEnableRightMouse.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableRightMouse.Location = new System.Drawing.Point(8, 144);
+			this.checkBoxEnableRightMouse.Location = new System.Drawing.Point(8, 170);
 			this.checkBoxEnableRightMouse.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxEnableRightMouse.Name = "checkBoxEnableRightMouse";
 			this.checkBoxEnableRightMouse.Size = new System.Drawing.Size(122, 17);
@@ -1854,8 +1856,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle7.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle5.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle5;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -3515,6 +3517,17 @@ namespace SebWindowsConfig
 			this.tabPageDownUploads.Text = "Down/Uploads";
 			this.tabPageDownUploads.UseVisualStyleBackColor = true;
 			// 
+			// checkBoxTemporaryDownloadDirectory
+			// 
+			this.checkBoxTemporaryDownloadDirectory.AutoSize = true;
+			this.checkBoxTemporaryDownloadDirectory.Location = new System.Drawing.Point(114, 145);
+			this.checkBoxTemporaryDownloadDirectory.Name = "checkBoxTemporaryDownloadDirectory";
+			this.checkBoxTemporaryDownloadDirectory.Size = new System.Drawing.Size(229, 17);
+			this.checkBoxTemporaryDownloadDirectory.TabIndex = 90;
+			this.checkBoxTemporaryDownloadDirectory.Text = "Use temporary download / upload directory";
+			this.checkBoxTemporaryDownloadDirectory.UseVisualStyleBackColor = true;
+			this.checkBoxTemporaryDownloadDirectory.CheckedChanged += new System.EventHandler(this.checkBoxTemporaryDownloadDirectory_CheckedChanged);
+			// 
 			// checkBoxAllowCustomDownloadLocation
 			// 
 			this.checkBoxAllowCustomDownloadLocation.AutoSize = true;
@@ -4557,8 +4570,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle6;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -5955,16 +5968,17 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// checkBoxTemporaryDownloadDirectory
+			// checkBoxEnableMiddleMouse
 			// 
-			this.checkBoxTemporaryDownloadDirectory.AutoSize = true;
-			this.checkBoxTemporaryDownloadDirectory.Location = new System.Drawing.Point(114, 145);
-			this.checkBoxTemporaryDownloadDirectory.Name = "checkBoxTemporaryDownloadDirectory";
-			this.checkBoxTemporaryDownloadDirectory.Size = new System.Drawing.Size(229, 17);
-			this.checkBoxTemporaryDownloadDirectory.TabIndex = 90;
-			this.checkBoxTemporaryDownloadDirectory.Text = "Use temporary download / upload directory";
-			this.checkBoxTemporaryDownloadDirectory.UseVisualStyleBackColor = true;
-			this.checkBoxTemporaryDownloadDirectory.CheckedChanged += new System.EventHandler(this.checkBoxTemporaryDownloadDirectory_CheckedChanged);
+			this.checkBoxEnableMiddleMouse.AutoSize = true;
+			this.checkBoxEnableMiddleMouse.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBoxEnableMiddleMouse.Location = new System.Drawing.Point(8, 146);
+			this.checkBoxEnableMiddleMouse.Name = "checkBoxEnableMiddleMouse";
+			this.checkBoxEnableMiddleMouse.Size = new System.Drawing.Size(128, 17);
+			this.checkBoxEnableMiddleMouse.TabIndex = 9;
+			this.checkBoxEnableMiddleMouse.Text = "Enable Middle Mouse";
+			this.checkBoxEnableMiddleMouse.UseVisualStyleBackColor = true;
+			this.checkBoxEnableMiddleMouse.CheckedChanged += new System.EventHandler(this.checkBoxEnableMiddleMouse_CheckedChanged);
 			// 
 			// SebWindowsConfigForm
 			// 
@@ -6526,6 +6540,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.CheckBox checkBoxEnforceBuiltinDisplay;
 		private System.Windows.Forms.CheckBox checkBoxAllowedDisplayIgnoreError;
 		private System.Windows.Forms.CheckBox checkBoxTemporaryDownloadDirectory;
+		private System.Windows.Forms.CheckBox checkBoxEnableMiddleMouse;
 	}
 }
 
