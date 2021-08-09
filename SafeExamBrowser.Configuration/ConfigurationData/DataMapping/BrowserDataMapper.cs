@@ -147,6 +147,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.ResetOnQuitUrl:
 					MapResetOnQuitUrl(settings, value);
 					break;
+				case Keys.Browser.ShowReloadButton:
+					MapShowReloadButton(settings, value);
+					break;
 				case Keys.Browser.ShowToolbar:
 					MapShowToolbar(settings, value);
 					break;
@@ -433,6 +436,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool reset)
 			{
 				settings.Browser.ResetOnQuitUrl = reset;
+			}
+		}
+
+		private void MapShowReloadButton(AppSettings settings, object value)
+		{
+			if (value is bool show)
+			{
+				settings.Browser.AdditionalWindow.ShowReloadButton = show;
+				settings.Browser.MainWindow.ShowReloadButton = show;
 			}
 		}
 

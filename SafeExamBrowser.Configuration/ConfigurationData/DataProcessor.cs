@@ -29,14 +29,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		private void AllowBrowserToolbarForReloading(IDictionary<string, object> rawData, AppSettings settings)
 		{
-			var showReloadButton = rawData.TryGetValue(Keys.Browser.ShowReloadButton, out var v) && v is bool show && show;
-
-			if (settings.Browser.AdditionalWindow.AllowReloading && showReloadButton)
+			if (settings.Browser.AdditionalWindow.AllowReloading && settings.Browser.AdditionalWindow.ShowReloadButton)
 			{
 				settings.Browser.AdditionalWindow.ShowToolbar = true;
 			}
 
-			if (settings.Browser.MainWindow.AllowReloading && showReloadButton)
+			if (settings.Browser.MainWindow.AllowReloading && settings.Browser.MainWindow.ShowReloadButton)
 			{
 				settings.Browser.MainWindow.ShowToolbar = true;
 			}

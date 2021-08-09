@@ -77,6 +77,11 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool ShowHomeButton { get; set; }
 
 		/// <summary>
+		/// Determines whether the reload button is visible.
+		/// </summary>
+		public bool ShowReloadButton { get; set; }
+
+		/// <summary>
 		/// Determines whether the user will need to confirm every reload attempt.
 		/// </summary>
 		public bool ShowReloadWarning { get; set; }
