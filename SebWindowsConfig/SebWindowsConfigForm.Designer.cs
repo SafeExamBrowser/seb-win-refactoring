@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -52,6 +52,7 @@ namespace SebWindowsConfig
 			this.checkBoxEnableF7 = new System.Windows.Forms.CheckBox();
 			this.checkBoxEnableF8 = new System.Windows.Forms.CheckBox();
 			this.groupBoxSpecialKeys = new System.Windows.Forms.GroupBox();
+			this.checkBoxEnableMiddleMouse = new System.Windows.Forms.CheckBox();
 			this.checkBoxEnableAltMouseWheel = new System.Windows.Forms.CheckBox();
 			this.checkBoxEnablePrintScreen = new System.Windows.Forms.CheckBox();
 			this.checkBoxEnableEsc = new System.Windows.Forms.CheckBox();
@@ -459,7 +460,6 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.checkBoxEnableMiddleMouse = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -780,6 +780,18 @@ namespace SebWindowsConfig
 			this.groupBoxSpecialKeys.TabStop = false;
 			this.groupBoxSpecialKeys.Text = "Special Keys";
 			this.toolTip1.SetToolTip(this.groupBoxSpecialKeys, "Settings to enable or block (hook) keys, key combinations and mouse buttons.");
+			// 
+			// checkBoxEnableMiddleMouse
+			// 
+			this.checkBoxEnableMiddleMouse.AutoSize = true;
+			this.checkBoxEnableMiddleMouse.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBoxEnableMiddleMouse.Location = new System.Drawing.Point(8, 146);
+			this.checkBoxEnableMiddleMouse.Name = "checkBoxEnableMiddleMouse";
+			this.checkBoxEnableMiddleMouse.Size = new System.Drawing.Size(128, 17);
+			this.checkBoxEnableMiddleMouse.TabIndex = 9;
+			this.checkBoxEnableMiddleMouse.Text = "Enable Middle Mouse";
+			this.checkBoxEnableMiddleMouse.UseVisualStyleBackColor = true;
+			this.checkBoxEnableMiddleMouse.CheckedChanged += new System.EventHandler(this.checkBoxEnableMiddleMouse_CheckedChanged);
 			// 
 			// checkBoxEnableAltMouseWheel
 			// 
@@ -1856,8 +1868,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle5.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -4570,8 +4582,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -4921,6 +4933,7 @@ namespace SebWindowsConfig
 			this.groupBoxZoomMode.TabIndex = 75;
 			this.groupBoxZoomMode.TabStop = false;
 			this.groupBoxZoomMode.Text = "Zoom mode Win (Ctrl-Mousewheel)";
+			this.groupBoxZoomMode.Visible = false;
 			// 
 			// radioButtonUseZoomPage
 			// 
@@ -5967,18 +5980,6 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Text = "Apply and Start SEB";
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
-			// 
-			// checkBoxEnableMiddleMouse
-			// 
-			this.checkBoxEnableMiddleMouse.AutoSize = true;
-			this.checkBoxEnableMiddleMouse.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableMiddleMouse.Location = new System.Drawing.Point(8, 146);
-			this.checkBoxEnableMiddleMouse.Name = "checkBoxEnableMiddleMouse";
-			this.checkBoxEnableMiddleMouse.Size = new System.Drawing.Size(128, 17);
-			this.checkBoxEnableMiddleMouse.TabIndex = 9;
-			this.checkBoxEnableMiddleMouse.Text = "Enable Middle Mouse";
-			this.checkBoxEnableMiddleMouse.UseVisualStyleBackColor = true;
-			this.checkBoxEnableMiddleMouse.CheckedChanged += new System.EventHandler(this.checkBoxEnableMiddleMouse_CheckedChanged);
 			// 
 			// SebWindowsConfigForm
 			// 
