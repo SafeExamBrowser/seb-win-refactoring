@@ -277,7 +277,7 @@ namespace SafeExamBrowser.Server
 
 			pingTimer.AutoReset = false;
 			pingTimer.Elapsed += PingTimer_Elapsed;
-			pingTimer.Interval = 2000;
+			pingTimer.Interval = 1000;
 			pingTimer.Start();
 			logger.Info("Started sending pings.");
 
