@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using CefSharp;
 using CefSharp.WinForms;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
@@ -85,6 +86,7 @@ namespace SafeExamBrowser.Browser
 		public void Initialize()
 		{
 			AddressChanged += (o, args) => addressChanged?.Invoke(args.Address);
+			IsBrowserInitializedChanged += BrowserControl_IsBrowserInitializedChanged;
 			LoadError += BrowserControl_LoadError;
 			LoadingStateChanged += (o, args) => loadingStateChanged?.Invoke(args.IsLoading);
 			TitleChanged += (o, args) => titleChanged?.Invoke(args.Title);
@@ -131,6 +133,14 @@ namespace SafeExamBrowser.Browser
 		public void Zoom(double level)
 		{
 			GetBrowser().SetZoomLevel(level);
+		}
+
+		private void BrowserControl_IsBrowserInitializedChanged(object sender, EventArgs e)
+		{
+			if (IsBrowserInitialized)
+			{
+				GetBrowser().GetHost().SetFocus(true);
+			}
 		}
 
 		private void BrowserControl_LoadError(object sender, LoadErrorEventArgs e)

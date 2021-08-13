@@ -217,6 +217,7 @@ namespace SafeExamBrowser.Browser
 			window.ZoomResetRequested += ZoomResetRequested;
 			window.UpdateZoomLevel(CalculateZoomPercentage());
 			window.Show();
+			window.BringToForeground();
 
 			Handle = window.Handle;
 
