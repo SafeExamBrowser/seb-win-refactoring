@@ -14,8 +14,8 @@ assembly_info:
   assembly_file_version: '{version}'
   assembly_informational_version: '3.3.1 BETA ($(platform))'
 install:
- - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
- - appveyor DownloadFile https://go.microsoft.com/fwlink/p/?LinkId=2124703
+ - appveyor DownloadFile "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
+ - appveyor DownloadFile "https://go.microsoft.com/fwlink/p/?LinkId=2124703"
 build_script:
  - msbuild /verbosity:minimal "SafeExamBrowser.sln"
 test: off
