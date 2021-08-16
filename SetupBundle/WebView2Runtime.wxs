@@ -5,7 +5,7 @@
                              Variable="RuntimeInstalled" Win64="no" />
         <PackageGroup Id="WebView2Runtime">
             <ExePackage Name="WebView2 Bootstrapper" DisplayName="Microsoft Edge WebView2 Runtime" Cache="no" Compressed="yes"
-                        PerMachine="yes" Permanent="yes" Vital="yes" SourceFile="..\MicrosoftEdgeWebview2Setup.exe"
+                        PerMachine="yes" Permanent="yes" Vital="yes" SourceFile="C:\Temp\MicrosoftEdgeWebview2Setup.exe"
                         InstallCommand="/silent /install" InstallCondition="NOT (REMOVE OR RuntimeInstalled)">
             </ExePackage>
         </PackageGroup>
