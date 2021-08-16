@@ -38,7 +38,7 @@ for:
    - nuget restore
    - md "Setup\bin\x64\%CONFIGURATION%"
    - move "%TEMP%\SEB_Setup.msi" "Setup\bin\x64\%CONFIGURATION%\Setup.msi"
-   - Start-FileDownload "https://go.microsoft.com/fwlink/p/?LinkId=2124703"
+   - ps: Start-FileDownload "https://go.microsoft.com/fwlink/p/?LinkId=2124703"
   after_build:
    - appveyor PushArtifact "Setup\bin\%PLATFORM%\%CONFIGURATION%\Setup.msi" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_%PLATFORM%_Setup.msi" -DeploymentName "%APPVEYOR_BUILD_VERSION% Setup (%PLATFORM%)"
    - appveyor PushArtifact "SetupBundle\bin\%PLATFORM%\%CONFIGURATION%\SetupBundle.exe" -FileName "SEB_%APPVEYOR_BUILD_VERSION%_SetupBundle.exe" -DeploymentName "%APPVEYOR_BUILD_VERSION% Setup Bundle"
