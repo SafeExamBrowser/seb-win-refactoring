@@ -52,7 +52,16 @@ namespace SafeExamBrowser.Browser.Handlers
 			this.windowSettings = windowSettings;
 		}
 
-		protected override bool GetAuthCredentials(IWebBrowser webBrowser, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
+		protected override bool GetAuthCredentials(
+			IWebBrowser webBrowser,
+			IBrowser browser,
+			string originUrl,
+			bool isProxy,
+			string host,
+			int port,
+			string realm,
+			string scheme,
+			IAuthCallback callback)
 		{
 			if (isProxy)
 			{
@@ -70,7 +79,15 @@ namespace SafeExamBrowser.Browser.Handlers
 			return base.GetAuthCredentials(webBrowser, browser, originUrl, isProxy, host, port, realm, scheme, callback);
 		}
 
-		protected override IResourceRequestHandler GetResourceRequestHandler(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
+		protected override IResourceRequestHandler GetResourceRequestHandler(
+			IWebBrowser webBrowser,
+			IBrowser browser,
+			IFrame frame,
+			IRequest request,
+			bool isNavigation,
+			bool isDownload,
+			string requestInitiator,
+			ref bool disableDefaultHandling)
 		{
 			return resourceHandler;
 		}
@@ -104,7 +121,13 @@ namespace SafeExamBrowser.Browser.Handlers
 			return base.OnBeforeBrowse(webBrowser, browser, frame, request, userGesture, isRedirect);
 		}
 
-		protected override bool OnOpenUrlFromTab(IWebBrowser webBrowser, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
+		protected override bool OnOpenUrlFromTab(
+			IWebBrowser webBrowser,
+			IBrowser browser,
+			IFrame frame,
+			string targetUrl,
+			WindowOpenDisposition targetDisposition,
+			bool userGesture)
 		{
 			switch (targetDisposition)
 			{
@@ -120,9 +143,8 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		private bool IsConfigurationFile(IRequest request, out string downloadUrl)
 		{
-			var uri = new Uri(request.Url);
-			var uriExtension = Path.GetExtension(uri.AbsolutePath);
-			var isConfigurationFile = string.Equals(appConfig.ConfigurationFileExtension, uriExtension, StringComparison.OrdinalIgnoreCase);
+			var isValidUri = Uri.TryCreate(request.Url, UriKind.RelativeOrAbsolute, out var uri);
+			var isConfigurationFile = isValidUri && string.Equals(appConfig.ConfigurationFileExtension, Path.GetExtension(uri.AbsolutePath), StringComparison.OrdinalIgnoreCase);
 
 			downloadUrl = request.Url;
 
