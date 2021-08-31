@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Security.Cryptography;
@@ -146,16 +147,22 @@ namespace SafeExamBrowser.Browser.Handlers
 		private bool Block(IRequest request)
 		{
 			var block = false;
+			var url = WebUtility.UrlDecode(request.Url);
+			var isValidUri = Uri.TryCreate(url, UriKind.Absolute, out _);
 
-			if (settings.Filter.ProcessContentRequests)
+			if (settings.Filter.ProcessContentRequests && isValidUri)
 			{
-				var result = filter.Process(new Request { Url = request.Url });
+				var result = filter.Process(new Request { Url = url });
 
 				if (result == FilterResult.Block)
 				{
 					block = true;
-					logger.Info($"Blocked content request{(windowSettings.UrlPolicy.CanLog() ? $" for '{request.Url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
+					logger.Info($"Blocked content request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
 				}
+			}
+			else if (!isValidUri)
+			{
+				logger.Warn($"Filter could not process request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} ({request.ResourceType}, {request.TransitionType})!");
 			}
 
 			return block;

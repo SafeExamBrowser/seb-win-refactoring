@@ -8,6 +8,7 @@
 
 using System;
 using System.IO;
+using System.Net;
 using System.Text.RegularExpressions;
 using CefSharp;
 using SafeExamBrowser.Browser.Contracts.Filters;
@@ -190,28 +191,35 @@ namespace SafeExamBrowser.Browser.Handlers
 		private bool Block(IRequest request)
 		{
 			var block = false;
+			var url = WebUtility.UrlDecode(request.Url);
+			var isValidUrl = Uri.TryCreate(url, UriKind.Absolute, out _);
 
-			if (settings.Filter.ProcessMainRequests && request.ResourceType == ResourceType.MainFrame)
+			if (settings.Filter.ProcessMainRequests && request.ResourceType == ResourceType.MainFrame && isValidUrl)
 			{
-				var result = filter.Process(new Request { Url = request.Url });
+				var result = filter.Process(new Request { Url = url });
 
 				// We apparently can't filter chrome extension requests, as this prevents the rendering of PDFs.
-				if (result == FilterResult.Block && !request.Url.StartsWith("chrome-extension://"))
+				if (result == FilterResult.Block && !url.StartsWith("chrome-extension://"))
 				{
 					block = true;
-					logger.Info($"Blocked main request{(windowSettings.UrlPolicy.CanLog() ? $" for '{request.Url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
+					logger.Info($"Blocked main request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
 				}
 			}
 
-			if (settings.Filter.ProcessContentRequests && request.ResourceType != ResourceType.MainFrame)
+			if (settings.Filter.ProcessContentRequests && request.ResourceType != ResourceType.MainFrame && isValidUrl)
 			{
-				var result = filter.Process(new Request { Url = request.Url });
+				var result = filter.Process(new Request { Url = url });
 
 				if (result == FilterResult.Block)
 				{
 					block = true;
-					logger.Info($"Blocked content request{(windowSettings.UrlPolicy.CanLog() ? $" for '{request.Url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
+					logger.Info($"Blocked content request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
 				}
+			}
+
+			if (!isValidUrl)
+			{
+				logger.Warn($"Filter could not process request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} ({request.ResourceType}, {request.TransitionType})!");
 			}
 
 			return block;
