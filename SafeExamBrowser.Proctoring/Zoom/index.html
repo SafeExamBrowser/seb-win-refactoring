@@ -15,16 +15,23 @@
         <script type="text/javascript">
             var audioJoin = 0;
             var videoJoin = 0;
+            var join = 0;
 
             function controlUserInterface(_) {
+                var appSignal = document.getElementById('app-signal');
                 var audioButton = document.getElementsByClassName('join-audio-by-voip__join-btn')[0];
                 var audioContainer = document.getElementsByClassName('join-audio-container')[0];
+                var joinButton = document.getElementsByClassName('joinWindowBtn')[0];
                 var leave = document.getElementsByClassName('footer__leave-btn-container')[0];
                 var more = document.getElementsByClassName('more-button')[0];
                 var participantControls = document.getElementsByClassName('participants-item__buttons')[0];
                 var raiseHandContainer = document.getElementsByClassName('participants-section-container__participants-footer')[0];
                 var videoButton = document.getElementsByClassName('send-video-container__btn')[0];
                 var videoContainer = document.getElementsByClassName('send-video-container')[0];
+
+                if (appSignal) {
+                    appSignal.style.visibility = 'hidden';
+                }
 
                 if (audioButton && !'%_AUDIO_MUTED_%' && audioJoin < 500) {
                     audioButton.click();
@@ -33,6 +40,11 @@
 
                 if (audioContainer && !'%_AUDIO_MUTED_%') {
                     audioContainer.style.visibility = 'hidden';
+                }
+
+                if (joinButton && join < 500) {
+                    joinButton.click();
+                    join++;
                 }
 
                 if (leave) {
@@ -71,7 +83,7 @@
                     alert('This system does not meet the necessary requirements for Zoom!');
                 }
 
-                ZoomMtg.setZoomJSLib('https://source.zoom.us/1.9.1/lib', '/av');
+                ZoomMtg.setZoomJSLib('https://source.zoom.us/1.9.8/lib', '/av');
                 ZoomMtg.preLoadWasm();
                 ZoomMtg.prepareJssdk();
 
@@ -125,6 +137,8 @@
                         alert(`Failed to initialize meeting: ${JSON.stringify(res)}`);
                     },
                     success: function () {
+                        requestAnimationFrame(controlUserInterface);
+
                         ZoomMtg.join({
                             apiKey: credentials.apiKey,
                             meetingNumber: credentials.meetingNumber,
@@ -133,9 +147,6 @@
                             userName: credentials.userName,
                             error: function (res) {
                                 alert(`Failed to join meeting: ${JSON.stringify(res)}`);
-                            },
-                            success: function (res) {
-                                requestAnimationFrame(controlUserInterface);
                             }
                         });
                     }
