@@ -19,6 +19,7 @@ using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.Contracts;
+using SafeExamBrowser.Proctoring.Contracts.Events;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Events;
 using SafeExamBrowser.Settings.Proctoring;
@@ -44,8 +45,11 @@ namespace SafeExamBrowser.Proctoring
 		private WindowVisibility windowVisibility;
 
 		public IconResource IconResource { get; set; }
+		public bool IsHandRaised { get; private set; }
 		public string Tooltip { get; set; }
 
+		public event ProctoringEventHandler HandLowered;
+		public event ProctoringEventHandler HandRaised;
 		public event NotificationChangedEventHandler NotificationChanged;
 
 		public ProctoringController(
@@ -86,6 +90,7 @@ namespace SafeExamBrowser.Proctoring
 			this.settings = settings;
 			this.windowVisibility = settings.WindowVisibility;
 
+			server.HandConfirmed += Server_HandConfirmed;
 			server.ProctoringConfigurationReceived += Server_ProctoringConfigurationReceived;
 			server.ProctoringInstructionReceived += Server_ProctoringInstructionReceived;
 
@@ -110,9 +115,49 @@ namespace SafeExamBrowser.Proctoring
 			}
 		}
 
+		public void LowerHand()
+		{
+			var response = server.LowerHand();
+
+			if (response.Success)
+			{
+				IsHandRaised = false;
+				HandLowered?.Invoke();
+				logger.Info("Hand lowered.");
+			}
+			else
+			{
+				logger.Error($"Failed to send lower hand notification to server! Message: {response.Message}.");
+			}
+		}
+
+		public void RaiseHand(string message = null)
+		{
+			var response = server.RaiseHand(message);
+
+			if (response.Success)
+			{
+				IsHandRaised = true;
+				HandRaised?.Invoke();
+				logger.Info("Hand raised.");
+			}
+			else
+			{
+				logger.Error($"Failed to send raise hand notification to server! Message: {response.Message}.");
+			}
+		}
+
 		public void Terminate()
 		{
 			StopProctoring();
+		}
+
+		private void Server_HandConfirmed()
+		{
+			logger.Info("Hand confirmation received.");
+
+			IsHandRaised = false;
+			HandLowered?.Invoke();
 		}
 
 		private void Server_ProctoringInstructionReceived(ProctoringInstructionEventArgs args)

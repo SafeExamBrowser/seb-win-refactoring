@@ -67,6 +67,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ActionCenter\RaiseHandControl.xaml.cs">
+      <DependentUpon>RaiseHandControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Taskbar\RaiseHandControl.xaml.cs">
+      <DependentUpon>RaiseHandControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
@@ -193,6 +199,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
+    <Page Include="Controls\ActionCenter\RaiseHandControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Taskbar\RaiseHandControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -502,6 +516,10 @@
     <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
       <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
       <Name>SafeExamBrowser.Logging.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Proctoring.Contracts\SafeExamBrowser.Proctoring.Contracts.csproj">
+      <Project>{8e52bd1c-0540-4f16-b181-6665d43f7a7b}</Project>
+      <Name>SafeExamBrowser.Proctoring.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Server.Contracts\SafeExamBrowser.Server.Contracts.csproj">
       <Project>{DB701E6F-BDDC-4CEC-B662-335A9DC11809}</Project>

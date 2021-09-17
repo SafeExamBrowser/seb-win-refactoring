@@ -333,8 +333,20 @@
     <Entry key="Notification_ProctoringActiveTooltip">
         远程监理处于活动状态
     </Entry>
+    <Entry key="Notification_ProctoringHandLowered">
+        手被放下
+    </Entry>
+    <Entry key="Notification_ProctoringHandRaised">
+        举手了
+    </Entry>
     <Entry key="Notification_ProctoringInactiveTooltip">
         远程监理处于不活动状态
+    </Entry>
+    <Entry key="Notification_ProctoringLowerHand">
+        把手放低
+    </Entry>
+    <Entry key="Notification_ProctoringRaiseHand">
+        举手
     </Entry>
     <Entry key="OperationStatus_CloseRuntimeConnection">
         关闭运行时连接

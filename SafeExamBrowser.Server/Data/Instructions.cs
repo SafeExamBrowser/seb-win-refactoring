@@ -10,6 +10,7 @@ namespace SafeExamBrowser.Server.Data
 {
 	internal sealed class Instructions
 	{
+		internal const string NOTIFICATION_CONFIRM = "NOTIFICATION_CONFIRM";
 		internal const string PROCTORING = "SEB_PROCTORING";
 		internal const string PROCTORING_RECONFIGURATION = "SEB_RECONFIGURE_SETTINGS";
 		internal const string QUIT = "SEB_QUIT";

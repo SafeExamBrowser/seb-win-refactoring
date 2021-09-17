@@ -16,8 +16,10 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings.Browser;
+using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
@@ -166,6 +168,18 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		public IProctoringWindow CreateProctoringWindow(IProctoringControl control)
 		{
 			return Application.Current.Dispatcher.Invoke(() => new ProctoringWindow(control));
+		}
+
+		public INotificationControl CreateRaiseHandControl(IProctoringController controller, Location location, ProctoringSettings settings)
+		{
+			if (location == Location.ActionCenter)
+			{
+				return new Controls.ActionCenter.RaiseHandControl(controller, settings, text);
+			}
+			else
+			{
+				return new Controls.Taskbar.RaiseHandControl(controller, settings, text);
+			}
 		}
 
 		public IRuntimeWindow CreateRuntimeWindow(AppConfig appConfig)

@@ -369,8 +369,20 @@
     <Entry key="Notification_ProctoringActiveTooltip">
         La surveillance à distance est active
     </Entry>
+    <Entry key="Notification_ProctoringHandLowered">
+        La main est baissée
+    </Entry>
+    <Entry key="Notification_ProctoringHandRaised">
+        La main est levée
+    </Entry>
     <Entry key="Notification_ProctoringInactiveTooltip">
         La surveillance à distance est inactive
+    </Entry>
+    <Entry key="Notification_ProctoringLowerHand">
+        Baisser la main
+    </Entry>
+    <Entry key="Notification_ProctoringRaiseHand">
+        Lever la main
     </Entry>
     <Entry key="OperationStatus_CloseRuntimeConnection">
         Fermeture de la connexion

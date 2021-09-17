@@ -36,7 +36,9 @@ namespace SafeExamBrowser.Configuration.UnitTests.ConfigurationData
 
 			raw.Add(Keys.Browser.ShowReloadButton, true);
 			settings.Browser.AdditionalWindow.AllowReloading = false;
+			settings.Browser.AdditionalWindow.ShowReloadButton = false;
 			settings.Browser.MainWindow.AllowReloading = false;
+			settings.Browser.MainWindow.ShowReloadButton = false;
 
 			sut.Process(raw, settings);
 
@@ -44,7 +46,9 @@ namespace SafeExamBrowser.Configuration.UnitTests.ConfigurationData
 			Assert.IsFalse(settings.Browser.MainWindow.ShowToolbar);
 
 			settings.Browser.AdditionalWindow.AllowReloading = true;
+			settings.Browser.AdditionalWindow.ShowReloadButton = true;
 			settings.Browser.MainWindow.AllowReloading = true;
+			settings.Browser.MainWindow.ShowReloadButton = true;
 
 			sut.Process(raw, settings);
 

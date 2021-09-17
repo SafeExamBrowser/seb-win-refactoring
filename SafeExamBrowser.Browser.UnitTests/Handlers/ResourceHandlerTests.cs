@@ -114,7 +114,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		public void MustFilterContentRequests()
 		{
 			var request = new Mock<IRequest>();
-			var url = "www.test.org";
+			var url = "http://www.test.org";
 
 			filter.Setup(f => f.Process(It.Is<Request>(r => r.Url.Equals(url)))).Returns(FilterResult.Block);
 			request.SetupGet(r => r.ResourceType).Returns(ResourceType.SubFrame);

@@ -20,17 +20,22 @@ namespace SafeExamBrowser.Server.Contracts
 	public interface IServerProxy
 	{
 		/// <summary>
-		/// Event fired when the server receives new proctoring configuration values.
+		/// Event fired when the proxy receives a confirmation for a raise hand notification.
+		/// </summary>
+		event ServerEventHandler HandConfirmed;
+
+		/// <summary>
+		/// Event fired when the proxy receives new proctoring configuration values.
 		/// </summary>
 		event ProctoringConfigurationReceivedEventHandler ProctoringConfigurationReceived;
 
 		/// <summary>
-		/// Event fired when the server receives a proctoring instruction.
+		/// Event fired when the proxy receives a proctoring instruction.
 		/// </summary>
 		event ProctoringInstructionReceivedEventHandler ProctoringInstructionReceived;
 
 		/// <summary>
-		/// Event fired when the server detects an instruction to terminate SEB.
+		/// Event fired when the proxy detects an instruction to terminate SEB.
 		/// </summary>
 		event TerminationRequestedEventHandler TerminationRequested; 
 
@@ -70,6 +75,11 @@ namespace SafeExamBrowser.Server.Contracts
 		void Initialize(string api, string connectionToken, string examId, string oauth2Token, ServerSettings settings);
 
 		/// <summary>
+		/// Sends a lower hand notification to the server.
+		/// </summary>
+		ServerResponse LowerHand();
+
+		/// <summary>
 		/// Sends the given user session identifier of a LMS and thus establishes a connection with the server.
 		/// </summary>
 		ServerResponse SendSessionIdentifier(string identifier);
@@ -83,5 +93,10 @@ namespace SafeExamBrowser.Server.Contracts
 		/// Stops sending ping and log data to the server.
 		/// </summary>
 		void StopConnectivity();
+
+		/// <summary>
+		/// Sends a raise hand notification to the server.
+		/// </summary>
+		ServerResponse RaiseHand(string message = default(string));
 	}
 }

@@ -369,8 +369,20 @@
     <Entry key="Notification_ProctoringActiveTooltip">
         Remote proctoring is active
     </Entry>
+    <Entry key="Notification_ProctoringHandLowered">
+        Hand is lowered
+    </Entry>
+    <Entry key="Notification_ProctoringHandRaised">
+        Hand is raised
+    </Entry>
     <Entry key="Notification_ProctoringInactiveTooltip">
         Remote proctoring is inactive
+    </Entry>
+    <Entry key="Notification_ProctoringLowerHand">
+        Lower hand
+    </Entry>
+    <Entry key="Notification_ProctoringRaiseHand">
+        Raise hand
     </Entry>
     <Entry key="OperationStatus_CloseRuntimeConnection">
         Closing runtime connection

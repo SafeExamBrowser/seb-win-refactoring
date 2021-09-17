@@ -59,6 +59,7 @@
     <Compile Include="Events\ProctoringConfigurationReceivedEventHandler.cs" />
     <Compile Include="Events\ProctoringInstructionEventArgs.cs" />
     <Compile Include="Events\ProctoringInstructionReceivedEventHandler.cs" />
+    <Compile Include="Events\ServerEventHandler.cs" />
     <Compile Include="Events\TerminationRequestedEventHandler.cs" />
     <Compile Include="IServerProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

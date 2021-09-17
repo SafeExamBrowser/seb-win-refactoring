@@ -12,6 +12,7 @@ using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.Contracts;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 
@@ -55,6 +56,12 @@ namespace SafeExamBrowser.Client.Operations
 
 				controller.Initialize(Context.Settings.Proctoring);
 				actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(notification, Location.ActionCenter));
+
+				if (Context.Settings.SessionMode == SessionMode.Server && Context.Settings.Proctoring.ShowRaiseHandNotification)
+				{
+					actionCenter.AddNotificationControl(uiFactory.CreateRaiseHandControl(controller, Location.ActionCenter, Context.Settings.Proctoring));
+					taskbar.AddNotificationControl(uiFactory.CreateRaiseHandControl(controller, Location.Taskbar, Context.Settings.Proctoring));
+				}
 
 				if (Context.Settings.Proctoring.ShowTaskbarNotification)
 				{

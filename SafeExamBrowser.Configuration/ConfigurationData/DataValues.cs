@@ -219,6 +219,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Mouse.AllowRightButton = true;
 
 			settings.Proctoring.Enabled = false;
+			settings.Proctoring.ForceRaiseHandMessage = false;
 			settings.Proctoring.JitsiMeet.AllowChat = false;
 			settings.Proctoring.JitsiMeet.AllowClosedCaptions = false;
 			settings.Proctoring.JitsiMeet.AllowRaiseHand = false;
@@ -233,6 +234,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Proctoring.JitsiMeet.SendVideo = true;
 			settings.Proctoring.JitsiMeet.ShowMeetingName = false;
 			settings.Proctoring.JitsiMeet.VideoMuted = false;
+			settings.Proctoring.ShowRaiseHandNotification = true;
 			settings.Proctoring.ShowTaskbarNotification = true;
 			settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
 			settings.Proctoring.Zoom.AllowChat = false;

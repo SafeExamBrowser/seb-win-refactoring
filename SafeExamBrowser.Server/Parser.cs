@@ -179,6 +179,9 @@ namespace SafeExamBrowser.Server
 			
 			switch (instruction)
 			{
+				case Instructions.NOTIFICATION_CONFIRM:
+					ParseNotificationConfirmation(attributes, attributesJson);
+					break;
 				case Instructions.PROCTORING:
 					ParseProctoringInstruction(attributes, attributesJson);
 					break;
@@ -188,6 +191,19 @@ namespace SafeExamBrowser.Server
 			}
 
 			return attributes;
+		}
+
+		private void ParseNotificationConfirmation(Attributes attributes, JObject attributesJson)
+		{
+			if (attributesJson.ContainsKey("id"))
+			{
+				attributes.Id = attributesJson["id"].Value<int>();
+			}
+
+			if (attributesJson.ContainsKey("type"))
+			{
+				attributes.Type = attributesJson["type"].Value<string>();
+			}
 		}
 
 		private void ParseProctoringInstruction(Attributes attributes, JObject attributesJson)

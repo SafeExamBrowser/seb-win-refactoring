@@ -40,6 +40,7 @@ namespace SafeExamBrowser.Server
 		private int currentPowerSupplyValue;
 		private int currentWlanValue;
 		private string examId;
+		private int handNotificationId;
 		private HttpClient httpClient;
 		private ConcurrentQueue<string> instructionConfirmations;
 		private ILogger logger;
@@ -53,6 +54,7 @@ namespace SafeExamBrowser.Server
 		private ServerSettings settings;
 		private IWirelessAdapter wirelessAdapter;
 
+		public event ServerEventHandler HandConfirmed;
 		public event ProctoringConfigurationReceivedEventHandler ProctoringConfigurationReceived;
 		public event ProctoringInstructionReceivedEventHandler ProctoringInstructionReceived;
 		public event TerminationRequestedEventHandler TerminationRequested;
@@ -234,9 +236,62 @@ namespace SafeExamBrowser.Server
 			Initialize(settings);
 		}
 
+		public ServerResponse LowerHand()
+		{
+			var authorization = ("Authorization", $"Bearer {oauth2Token}");
+			var contentType = "application/json;charset=UTF-8";
+			var token = ("SEBConnectionToken", connectionToken);
+			var json = new JObject
+			{
+				["type"] = "NOTIFICATION_CONFIRMED",
+				["timestamp"] = DateTime.Now.ToUnixTimestamp(),
+				["numericValue"] = handNotificationId,
+			};
+			var content = json.ToString();
+			var success = TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
+
+			if (success)
+			{
+				logger.Info("Successfully sent lower hand notification.");
+			}
+			else
+			{
+				logger.Error("Failed to send lower hand notification!");
+			}
+
+			return new ServerResponse(success, response.ToLogString());
+		}
+
 		public void Notify(ILogContent content)
 		{
 			logContent.Enqueue(content);
+		}
+
+		public ServerResponse RaiseHand(string message = null)
+		{
+			var authorization = ("Authorization", $"Bearer {oauth2Token}");
+			var contentType = "application/json;charset=UTF-8";
+			var token = ("SEBConnectionToken", connectionToken);
+			var json = new JObject
+			{
+				["type"] = "NOTIFICATION",
+				["timestamp"] = DateTime.Now.ToUnixTimestamp(),
+				["numericValue"] = ++handNotificationId,
+				["text"] = $"<raisehand> {message}"
+			};
+			var content = json.ToString();
+			var success = TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
+
+			if (success)
+			{
+				logger.Info("Successfully sent raise hand notification.");
+			}
+			else
+			{
+				logger.Error("Failed to send raise hand notification!");
+			}
+
+			return new ServerResponse(success, response.ToLogString());
 		}
 
 		public ServerResponse SendSessionIdentifier(string identifier)
@@ -362,6 +417,9 @@ namespace SafeExamBrowser.Server
 					{
 						switch (instruction)
 						{
+							case Instructions.NOTIFICATION_CONFIRM when attributes.Type == "raisehand" && attributes.Id == handNotificationId:
+								Task.Run(() => HandConfirmed?.Invoke());
+								break;
 							case Instructions.PROCTORING:
 								Task.Run(() => ProctoringInstructionReceived?.Invoke(attributes.Instruction));
 								break;
