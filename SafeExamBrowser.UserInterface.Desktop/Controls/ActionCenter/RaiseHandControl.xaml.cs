@@ -102,6 +102,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 		private void ShowLowered()
 		{
 			HandButtonText.Text = text.Get(TextKey.Notification_ProctoringRaiseHand);
+			Message.IsEnabled = true;
 			NotificationButton.ToolTip = text.Get(TextKey.Notification_ProctoringHandLowered);
 			TextBlock.Text = "L";
 		}
@@ -109,6 +110,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 		private void ShowRaised()
 		{
 			HandButtonText.Text = text.Get(TextKey.Notification_ProctoringLowerHand);
+			Message.IsEnabled = false;
 			NotificationButton.ToolTip = text.Get(TextKey.Notification_ProctoringHandRaised);
 			TextBlock.Text = "R";
 		}
