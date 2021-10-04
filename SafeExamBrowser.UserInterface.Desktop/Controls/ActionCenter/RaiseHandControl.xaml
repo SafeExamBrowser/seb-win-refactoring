@@ -29,9 +29,14 @@
             </Border>
         </Popup>
         <Button x:Name="NotificationButton" Padding="2" Template="{StaticResource ActionCenterButton}">
-            <Viewbox Stretch="Uniform">
-                <TextBlock x:Name="TextBlock" FontWeight="Bold" Margin="2" TextAlignment="Center" VerticalAlignment="Center" Text="L" />
-            </Viewbox>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="3*" />
+                </Grid.RowDefinitions>
+                <ContentControl x:Name="Icon" />
+                <TextBlock Grid.Row="1" x:Name="Text" FontSize="11" Foreground="White" TextAlignment="Center" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" VerticalAlignment="Bottom" />
+            </Grid>
         </Button>
     </Grid>
 </UserControl>

@@ -6,16 +6,19 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
+using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 {
@@ -24,6 +27,9 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 		private readonly IProctoringController controller;
 		private readonly ProctoringSettings settings;
 		private readonly IText text;
+
+		private IconResource LoweredIcon;
+		private IconResource RaisedIcon;
 
 		public RaiseHandControl(IProctoringController controller, ProctoringSettings settings, IText text)
 		{
@@ -44,6 +50,10 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 
 			HandButton.Click += RaiseHandButton_Click;
 			HandButtonText.Text = text.Get(TextKey.Notification_ProctoringRaiseHand);
+
+			LoweredIcon = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Hand_Lowered.xaml") };
+			RaisedIcon = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Hand_Raised.xaml") };
+			Icon.Content = IconResourceLoader.Load(LoweredIcon);
 
 			NotificationButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
 			NotificationButton.PreviewMouseLeftButtonUp += NotificationButton_PreviewMouseLeftButtonUp;
@@ -111,17 +121,17 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 		private void ShowLowered()
 		{
 			HandButtonText.Text = text.Get(TextKey.Notification_ProctoringRaiseHand);
+			Icon.Content = IconResourceLoader.Load(LoweredIcon);
 			Message.IsEnabled = true;
 			NotificationButton.ToolTip = text.Get(TextKey.Notification_ProctoringHandLowered);
-			TextBlock.Text = "L";
 		}
 
 		private void ShowRaised()
 		{
 			HandButtonText.Text = text.Get(TextKey.Notification_ProctoringLowerHand);
+			Icon.Content = IconResourceLoader.Load(RaisedIcon);
 			Message.IsEnabled = false;
 			NotificationButton.ToolTip = text.Get(TextKey.Notification_ProctoringHandRaised);
-			TextBlock.Text = "R";
 		}
 	}
 }

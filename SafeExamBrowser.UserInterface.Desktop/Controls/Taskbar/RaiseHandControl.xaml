@@ -30,9 +30,7 @@
             </Border>
         </Popup>
         <Button x:Name="NotificationButton" Background="Transparent" Template="{StaticResource TaskbarButton}" Padding="5" Width="40">
-            <Viewbox Stretch="Uniform">
-                <TextBlock x:Name="TextBlock" FontWeight="Bold" Margin="2" TextAlignment="Center" VerticalAlignment="Center" Text="L" />
-            </Viewbox>
+            <ContentControl Name="Icon" />
         </Button>
     </Grid>
 </UserControl>
