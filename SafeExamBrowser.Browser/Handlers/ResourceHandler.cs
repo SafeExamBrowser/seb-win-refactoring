@@ -41,6 +41,7 @@ namespace SafeExamBrowser.Browser.Handlers
 		private HtmlLoader htmlLoader;
 		private ILogger logger;
 		private IResourceHandler pageHandler;
+		private string sessionIdentifier;
 		private BrowserSettings settings;
 		private WindowSettings windowSettings;
 		private IText text;
@@ -270,9 +271,10 @@ namespace SafeExamBrowser.Browser.Handlers
 			{
 				var userId = ids.FirstOrDefault();
 
-				if (userId != default(string))
+				if (userId != default(string) && sessionIdentifier != userId)
 				{
-					Task.Run(() => SessionIdentifierDetected?.Invoke(userId));
+					sessionIdentifier = userId;
+					Task.Run(() => SessionIdentifierDetected?.Invoke(sessionIdentifier));
 					logger.Info("Generic LMS session detected.");
 
 					return true;
@@ -301,8 +303,12 @@ namespace SafeExamBrowser.Browser.Handlers
 						var json = JsonConvert.DeserializeObject(sanitized) as JObject;
 						var userName = json["username"].Value<string>();
 
-						Task.Run(() => SessionIdentifierDetected?.Invoke(userName));
-						logger.Info("EdX session detected.");
+						if (sessionIdentifier != userName)
+						{
+							sessionIdentifier = userName;
+							Task.Run(() => SessionIdentifierDetected?.Invoke(sessionIdentifier));
+							logger.Info("EdX session detected.");
+						}
 					}
 				}
 				catch (Exception e)
@@ -336,8 +342,12 @@ namespace SafeExamBrowser.Browser.Handlers
 					{
 						var userId = location.Substring(location.IndexOf("=") + 1);
 
-						Task.Run(() => SessionIdentifierDetected?.Invoke(userId));
-						logger.Info("Moodle session detected.");
+						if (sessionIdentifier != userId)
+						{
+							sessionIdentifier = userId;
+							Task.Run(() => SessionIdentifierDetected?.Invoke(sessionIdentifier));
+							logger.Info("Moodle session detected.");
+						}
 
 						return true;
 					}
@@ -384,12 +394,13 @@ namespace SafeExamBrowser.Browser.Handlers
 								{
 									var userId = await result.Content.ReadAsStringAsync();
 
-									if (int.TryParse(userId, out var id) && id > 0)
+									if (int.TryParse(userId, out var id) && id > 0 && sessionIdentifier != userId)
 									{
 #pragma warning disable CS4014
-										Task.Run(() => SessionIdentifierDetected?.Invoke(userId));
-#pragma warning restore CS4014
+										sessionIdentifier = userId;
+										Task.Run(() => SessionIdentifierDetected?.Invoke(sessionIdentifier));
 										logger.Info("Moodle session detected.");
+#pragma warning restore CS4014
 									}
 								}
 								else
