@@ -213,11 +213,13 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			@event.WaitOne();
 			Assert.AreEqual("some-session-id-123", sessionId);
 
+			headers.Clear();
+			headers.Add("X-LMS-USER-ID", "other-session-id-123");
 			sessionId = default(string);
 
 			sut.OnResourceResponse(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, response.Object);
 			@event.WaitOne();
-			Assert.AreEqual("some-session-id-123", sessionId);
+			Assert.AreEqual("other-session-id-123", sessionId);
 		}
 
 		[TestMethod]
@@ -243,11 +245,13 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			@event.WaitOne();
 			Assert.AreEqual("edx-123", sessionId);
 
+			headers.Clear();
+			headers.Add("Set-Cookie", "edx-user-info=\"{\\\"username\\\": \\\"edx-345\\\"}\"; expires");
 			sessionId = default(string);
 
 			sut.OnResourceResponse(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, response.Object);
 			@event.WaitOne();
-			Assert.AreEqual("edx-123", sessionId);
+			Assert.AreEqual("edx-345", sessionId);
 		}
 
 		[TestMethod]
@@ -273,11 +277,13 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			@event.WaitOne();
 			Assert.AreEqual("123", sessionId);
 
+			headers.Clear();
+			headers.Add("Location", "https://www.some-moodle-instance.org/moodle/login/index.php?testsession=456");
 			sessionId = default(string);
 
 			sut.OnResourceResponse(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, response.Object);
 			@event.WaitOne();
-			Assert.AreEqual("123", sessionId);
+			Assert.AreEqual("456", sessionId);
 		}
 
 		private class TestableResourceHandler : ResourceHandler
