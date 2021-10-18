@@ -12,16 +12,15 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using CefSharp;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SafeExamBrowser.Browser.Content;
 using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Contracts.Filters;
-using SafeExamBrowser.Browser.Pages;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Browser;
@@ -33,33 +32,34 @@ namespace SafeExamBrowser.Browser.Handlers
 {
 	internal class ResourceHandler : CefSharp.Handler.ResourceRequestHandler
 	{
-		private SHA256Managed algorithm;
-		private AppConfig appConfig;
-		private string browserExamKey;
+		private readonly AppConfig appConfig;
+		private readonly ContentLoader contentLoader;
+		private readonly IRequestFilter filter;
+		private readonly IKeyGenerator keyGenerator;
+		private readonly ILogger logger;
+		private readonly BrowserSettings settings;
+		private readonly IText text;
+		private readonly WindowSettings windowSettings;
+
 		private IResourceHandler contentHandler;
-		private IRequestFilter filter;
-		private HtmlLoader htmlLoader;
-		private ILogger logger;
 		private IResourceHandler pageHandler;
 		private string sessionIdentifier;
-		private BrowserSettings settings;
-		private WindowSettings windowSettings;
-		private IText text;
 
 		internal event SessionIdentifierDetectedEventHandler SessionIdentifierDetected;
 
 		internal ResourceHandler(
 			AppConfig appConfig,
 			IRequestFilter filter,
+			IKeyGenerator keyGenerator,
 			ILogger logger,
 			BrowserSettings settings,
 			WindowSettings windowSettings,
 			IText text)
 		{
 			this.appConfig = appConfig;
-			this.algorithm = new SHA256Managed();
 			this.filter = filter;
-			this.htmlLoader = new HtmlLoader(text);
+			this.contentLoader = new ContentLoader(text);
+			this.keyGenerator = keyGenerator;
 			this.logger = logger;
 			this.settings = settings;
 			this.windowSettings = windowSettings;
@@ -123,22 +123,15 @@ namespace SafeExamBrowser.Browser.Handlers
 			if (pageUrl?.Host?.Equals(requestUrl?.Host) == true)
 			{
 				var headers = new NameValueCollection(request.Headers);
-				var urlWithoutFragment = request.Url.Split('#')[0];
 
 				if (settings.SendConfigurationKey)
 				{
-					var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + settings.ConfigurationKey));
-					var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
-
-					headers["X-SafeExamBrowser-ConfigKeyHash"] = key;
+					headers["X-SafeExamBrowser-ConfigKeyHash"] = keyGenerator.CalculateConfigurationKeyHash(request.Url);
 				}
 
-				if (settings.SendExamKey)
+				if (settings.SendBrowserExamKey)
 				{
-					var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + (browserExamKey ?? ComputeBrowserExamKey())));
-					var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
-
-					headers["X-SafeExamBrowser-RequestHash"] = key;
+					headers["X-SafeExamBrowser-RequestHash"] = keyGenerator.CalculateBrowserExamKeyHash(request.Url);
 				}
 
 				request.Headers = headers;
@@ -167,27 +160,6 @@ namespace SafeExamBrowser.Browser.Handlers
 			}
 
 			return block;
-		}
-
-		private string ComputeBrowserExamKey()
-		{
-			var salt = settings.ExamKeySalt;
-
-			if (salt == default(byte[]))
-			{
-				salt = new byte[0];
-				logger.Warn("The current configuration does not contain a salt value for the browser exam key!");
-			}
-
-			using (var algorithm = new HMACSHA256(salt))
-			{
-				var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(appConfig.CodeSignatureHash + appConfig.ProgramBuildVersion + settings.ConfigurationKey));
-				var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
-
-				browserExamKey = key;
-
-				return browserExamKey;
-			}
 		}
 
 		private bool IsMailtoUrl(string url)
@@ -234,12 +206,12 @@ namespace SafeExamBrowser.Browser.Handlers
 		{
 			if (contentHandler == default(IResourceHandler))
 			{
-				contentHandler = CefSharp.ResourceHandler.FromString(htmlLoader.LoadBlockedContent());
+				contentHandler = CefSharp.ResourceHandler.FromString(contentLoader.LoadBlockedContent());
 			}
 
 			if (pageHandler == default(IResourceHandler))
 			{
-				pageHandler = CefSharp.ResourceHandler.FromString(htmlLoader.LoadBlockedPage());
+				pageHandler = CefSharp.ResourceHandler.FromString(contentLoader.LoadBlockedPage());
 			}
 
 			switch (resourceType)

@@ -41,19 +41,21 @@ namespace SafeExamBrowser.Browser
 	{
 		private const double ZOOM_FACTOR = 0.2;
 
-		private AppConfig appConfig;
+		private readonly AppConfig appConfig;
+		private readonly IFileSystemDialog fileSystemDialog;
+		private readonly IHashAlgorithm hashAlgorithm;
+		private readonly HttpClient httpClient;
+		private readonly IKeyGenerator keyGenerator;
+		private readonly IModuleLogger logger;
+		private readonly IMessageBox messageBox;
+		private readonly IText text;
+		private readonly IUserInterfaceFactory uiFactory;
+
 		private IBrowserControl control;
 		private IBrowserWindow window;
-		private HttpClient httpClient;
 		private bool isMainInstance;
-		private IFileSystemDialog fileSystemDialog;
-		private IHashAlgorithm hashAlgorithm;
-		private IMessageBox messageBox;
-		private IModuleLogger logger;
 		private BrowserSettings settings;
 		private string startUrl;
-		private IText text;
-		private IUserInterfaceFactory uiFactory;
 		private double zoomLevel;
 
 		private WindowSettings WindowSettings
@@ -84,6 +86,7 @@ namespace SafeExamBrowser.Browser
 			bool isMainInstance,
 			IFileSystemDialog fileSystemDialog,
 			IHashAlgorithm hashAlgorithm,
+			IKeyGenerator keyGenerator,
 			IMessageBox messageBox,
 			IModuleLogger logger,
 			IText text,
@@ -96,6 +99,7 @@ namespace SafeExamBrowser.Browser
 			this.isMainInstance = isMainInstance;
 			this.fileSystemDialog = fileSystemDialog;
 			this.hashAlgorithm = hashAlgorithm;
+			this.keyGenerator = keyGenerator;
 			this.messageBox = messageBox;
 			this.logger = logger;
 			this.settings = settings;
@@ -130,9 +134,11 @@ namespace SafeExamBrowser.Browser
 			var downloadHandler = new DownloadHandler(appConfig, downloadLogger, settings, WindowSettings);
 			var keyboardHandler = new KeyboardHandler();
 			var lifeSpanHandler = new LifeSpanHandler();
+			var renderProcessMessageLogger = logger.CloneFor($"{nameof(RenderProcessMessageHandler)} #{Id}");
+			var renderProcessMessageHandler = new RenderProcessMessageHandler(appConfig, renderProcessMessageLogger, keyGenerator, text);
 			var requestFilter = new RequestFilter();
 			var requestLogger = logger.CloneFor($"{nameof(RequestHandler)} #{Id}");
-			var resourceHandler = new ResourceHandler(appConfig, requestFilter, logger, settings, WindowSettings, text);
+			var resourceHandler = new ResourceHandler(appConfig, requestFilter, keyGenerator, logger, settings, WindowSettings, text);
 			var requestHandler = new RequestHandler(appConfig, requestFilter, requestLogger, resourceHandler, settings, WindowSettings, text);
 
 			Icon = new BrowserIconResource();
@@ -162,6 +168,7 @@ namespace SafeExamBrowser.Browser
 				downloadHandler,
 				keyboardHandler,
 				lifeSpanHandler,
+				renderProcessMessageHandler,
 				requestHandler,
 				startUrl);
 			control.AddressChanged += Control_AddressChanged;

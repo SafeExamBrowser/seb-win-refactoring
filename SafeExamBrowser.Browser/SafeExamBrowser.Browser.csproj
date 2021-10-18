@@ -104,9 +104,10 @@
     <Compile Include="Handlers\DownloadHandler.cs" />
     <Compile Include="Handlers\KeyboardHandler.cs" />
     <Compile Include="Handlers\LifeSpanHandler.cs" />
+    <Compile Include="Handlers\RenderProcessMessageHandler.cs" />
     <Compile Include="Handlers\RequestHandler.cs" />
     <Compile Include="Handlers\ResourceHandler.cs" />
-    <Compile Include="Pages\HtmlLoader.cs" />
+    <Compile Include="Content\ContentLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -148,14 +149,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Pages\BlockedContent.html" />
-    <EmbeddedResource Include="Pages\BlockedPage.html" />
+    <EmbeddedResource Include="Content\BlockedContent.html" />
+    <EmbeddedResource Include="Content\BlockedPage.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Api.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

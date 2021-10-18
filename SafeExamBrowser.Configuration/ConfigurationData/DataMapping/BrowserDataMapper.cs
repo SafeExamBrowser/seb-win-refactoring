@@ -346,7 +346,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is byte[] salt)
 			{
-				settings.Browser.ExamKeySalt = salt;
+				settings.Browser.BrowserExamKeySalt = salt;
 			}
 		}
 
@@ -487,7 +487,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool send)
 			{
 				settings.Browser.SendConfigurationKey = send;
-				settings.Browser.SendExamKey = send;
+				settings.Browser.SendBrowserExamKey = send;
 			}
 		}
 

@@ -59,6 +59,7 @@
     <Compile Include="Cryptography\EncryptionParameters.cs" />
     <Compile Include="Cryptography\ICertificateStore.cs" />
     <Compile Include="Cryptography\IHashAlgorithm.cs" />
+    <Compile Include="Cryptography\IKeyGenerator.cs" />
     <Compile Include="Cryptography\IPasswordEncryption.cs" />
     <Compile Include="Cryptography\IPublicKeyEncryption.cs" />
     <Compile Include="Cryptography\PasswordParameters.cs" />

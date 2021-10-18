@@ -67,6 +67,11 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool AllowUploads { get; set; }
 
 		/// <summary>
+		/// The salt value for the calculation of the browser exam key which is used for integrity checks with server applications (see also <see cref="SendBrowserExamKey"/>).
+		/// </summary>
+		public byte[] BrowserExamKeySalt { get; set; }
+
+		/// <summary>
 		/// The configuration key used for integrity checks with server applications (see also <see cref="SendConfigurationKey"/>).
 		/// </summary>
 		public string ConfigurationKey { get; set; }
@@ -107,11 +112,6 @@ namespace SafeExamBrowser.Settings.Browser
 		/// Determines whether the user is allowed to use the integrated browser application.
 		/// </summary>
 		public bool EnableBrowser { get; set; }
-
-		/// <summary>
-		/// The salt value for the calculation of the exam key which is used for integrity checks with server applications (see also <see cref="SendExamKey"/>).
-		/// </summary>
-		public byte[] ExamKeySalt { get; set; }
 
 		/// <summary>
 		/// The settings to be used for the browser request filter.
@@ -169,9 +169,9 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool SendConfigurationKey { get; set; }
 
 		/// <summary>
-		/// Determines whether the exam key header is sent with every HTTP request (see also <see cref="ExamKeySalt"/>).
+		/// Determines whether the browser exam key header is sent with every HTTP request (see also <see cref="BrowserExamKeySalt"/>).
 		/// </summary>
-		public bool SendExamKey { get; set; }
+		public bool SendBrowserExamKey { get; set; }
 
 		/// <summary>
 		/// The URL with which the main browser window will be loaded.

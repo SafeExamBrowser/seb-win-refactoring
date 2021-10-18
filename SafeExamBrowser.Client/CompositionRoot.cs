@@ -209,8 +209,19 @@ namespace SafeExamBrowser.Client
 		private IOperation BuildBrowserOperation()
 		{
 			var fileSystemDialog = BuildFileSystemDialog();
+			var keyGenerator = new KeyGenerator(context.AppConfig, ModuleLogger(nameof(KeyGenerator)), context.Settings);
 			var moduleLogger = ModuleLogger(nameof(BrowserApplication));
-			var browser = new BrowserApplication(context.AppConfig, context.Settings.Browser, fileSystemDialog, new HashAlgorithm(), nativeMethods, messageBox, moduleLogger, text, uiFactory);
+			var browser = new BrowserApplication(
+				context.AppConfig,
+				context.Settings.Browser,
+				fileSystemDialog,
+				new HashAlgorithm(),
+				keyGenerator,
+				nativeMethods,
+				messageBox,
+				moduleLogger,
+				text,
+				uiFactory);
 			var operation = new BrowserOperation(actionCenter, context, logger, taskbar, taskview, uiFactory);
 
 			context.Browser = browser;

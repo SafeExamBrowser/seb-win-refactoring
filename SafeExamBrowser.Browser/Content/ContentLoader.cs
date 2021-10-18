@@ -10,21 +10,45 @@ using System.IO;
 using System.Reflection;
 using SafeExamBrowser.I18n.Contracts;
 
-namespace SafeExamBrowser.Browser.Pages
+namespace SafeExamBrowser.Browser.Content
 {
-	internal class HtmlLoader
+	internal class ContentLoader
 	{
+		private string api;
 		private IText text;
 
-		internal HtmlLoader(IText text)
+		internal ContentLoader(IText text)
 		{
 			this.text = text;
 		}
 
+		internal string LoadApi(string browserExamKey, string configurationKey, string version)
+		{
+			if (api == default(string))
+			{
+				var assembly = Assembly.GetAssembly(typeof(ContentLoader));
+				var path = $"{typeof(ContentLoader).Namespace}.Api.js";
+
+				using (var stream = assembly.GetManifestResourceStream(path))
+				using (var reader = new StreamReader(stream))
+				{
+					api = reader.ReadToEnd();
+				}
+			}
+
+			var js = api;
+
+			js = js.Replace("%%_BEK_%%", browserExamKey);
+			js = js.Replace("%%_CK_%%", configurationKey);
+			js = js.Replace("%%_VERSION_%%", version);
+
+			return js;
+		}
+
 		internal string LoadBlockedContent()
 		{
-			var assembly = Assembly.GetAssembly(typeof(HtmlLoader));
-			var path = $"{typeof(HtmlLoader).Namespace}.BlockedContent.html";
+			var assembly = Assembly.GetAssembly(typeof(ContentLoader));
+			var path = $"{typeof(ContentLoader).Namespace}.BlockedContent.html";
 
 			using (var stream = assembly.GetManifestResourceStream(path))
 			using (var reader = new StreamReader(stream))
@@ -39,8 +63,8 @@ namespace SafeExamBrowser.Browser.Pages
 
 		internal string LoadBlockedPage()
 		{
-			var assembly = Assembly.GetAssembly(typeof(HtmlLoader));
-			var path = $"{typeof(HtmlLoader).Namespace}.BlockedPage.html";
+			var assembly = Assembly.GetAssembly(typeof(ContentLoader));
+			var path = $"{typeof(ContentLoader).Namespace}.BlockedPage.html";
 
 			using (var stream = assembly.GetManifestResourceStream(path))
 			using (var reader = new StreamReader(stream))

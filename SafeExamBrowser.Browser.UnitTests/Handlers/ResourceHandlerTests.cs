@@ -15,6 +15,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Browser;
@@ -30,6 +31,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 	{
 		private AppConfig appConfig;
 		private Mock<IRequestFilter> filter;
+		private Mock<IKeyGenerator> keyGenerator;
 		private Mock<ILogger> logger;
 		private BrowserSettings settings;
 		private WindowSettings windowSettings;
@@ -41,12 +43,13 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		{
 			appConfig = new AppConfig();
 			filter = new Mock<IRequestFilter>();
+			keyGenerator = new Mock<IKeyGenerator>();
 			logger = new Mock<ILogger>();
 			settings = new BrowserSettings();
 			windowSettings = new WindowSettings();
 			text = new Mock<IText>();
 
-			sut = new TestableResourceHandler(appConfig, filter.Object, logger.Object, settings, windowSettings, text.Object);
+			sut = new TestableResourceHandler(appConfig, filter.Object, keyGenerator.Object, logger.Object, settings, windowSettings, text.Object);
 		}
 
 		[TestMethod]
@@ -57,11 +60,13 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			var request = new Mock<IRequest>();
 
 			browser.SetupGet(b => b.Address).Returns("http://www.host.org");
+			keyGenerator.Setup(g => g.CalculateBrowserExamKeyHash(It.IsAny<string>())).Returns(new Random().Next().ToString());
+			keyGenerator.Setup(g => g.CalculateConfigurationKeyHash(It.IsAny<string>())).Returns(new Random().Next().ToString());
 			request.SetupGet(r => r.Headers).Returns(new NameValueCollection());
 			request.SetupGet(r => r.Url).Returns("http://www.host.org");
 			request.SetupSet(r => r.Headers = It.IsAny<NameValueCollection>()).Callback<NameValueCollection>((h) => headers = h);
 			settings.SendConfigurationKey = true;
-			settings.SendExamKey = true;
+			settings.SendBrowserExamKey = true;
 
 			var result = sut.OnBeforeResourceLoad(browser.Object, Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, Mock.Of<IRequestCallback>());
 
@@ -85,7 +90,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			request.SetupGet(r => r.Url).Returns("http://www.host.org");
 			request.SetupSet(r => r.Headers = It.IsAny<NameValueCollection>()).Callback<NameValueCollection>((h) => headers = h);
 			settings.SendConfigurationKey = true;
-			settings.SendExamKey = true;
+			settings.SendBrowserExamKey = true;
 
 			var result = sut.OnBeforeResourceLoad(browser.Object, Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, Mock.Of<IRequestCallback>());
 
@@ -291,10 +296,11 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			internal TestableResourceHandler(
 				AppConfig appConfig,
 				IRequestFilter filter,
+				IKeyGenerator keyGenerator,
 				ILogger logger,
 				BrowserSettings settings,
 				WindowSettings windowSettings,
-				IText text) : base(appConfig, filter, logger, settings, windowSettings, text)
+				IText text) : base(appConfig, filter, keyGenerator, logger, settings, windowSettings, text)
 			{
 			}
 

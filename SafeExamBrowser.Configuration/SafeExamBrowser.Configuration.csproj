@@ -74,6 +74,7 @@
     <Compile Include="ConfigurationData\Keys.cs" />
     <Compile Include="ConfigurationData\DataValues.cs" />
     <Compile Include="Cryptography\CertificateStore.cs" />
+    <Compile Include="Cryptography\KeyGenerator.cs" />
     <Compile Include="DataCompression\GZipCompressor.cs" />
     <Compile Include="Cryptography\PasswordEncryption.cs" />
     <Compile Include="Cryptography\PublicKeyEncryption.cs" />

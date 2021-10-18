@@ -16,13 +16,14 @@ namespace SafeExamBrowser.Browser
 {
 	internal class BrowserControl : ChromiumWebBrowser, IBrowserControl
 	{
-		private IContextMenuHandler contextMenuHandler;
-		private IDialogHandler dialogHandler;
-		private IDisplayHandler displayHandler;
-		private IDownloadHandler downloadHandler;
-		private IKeyboardHandler keyboardHandler;
-		private ILifeSpanHandler lifeSpanHandler;
-		private IRequestHandler requestHandler;
+		private readonly IContextMenuHandler contextMenuHandler;
+		private readonly IDialogHandler dialogHandler;
+		private readonly IDisplayHandler displayHandler;
+		private readonly IDownloadHandler downloadHandler;
+		private readonly IKeyboardHandler keyboardHandler;
+		private readonly ILifeSpanHandler lifeSpanHandler;
+		private readonly IRenderProcessMessageHandler renderProcessMessageHandler;
+		private readonly IRequestHandler requestHandler;
 
 		private AddressChangedEventHandler addressChanged;
 		private LoadFailedEventHandler loadFailed;
@@ -63,6 +64,7 @@ namespace SafeExamBrowser.Browser
 			IDownloadHandler downloadHandler,
 			IKeyboardHandler keyboardHandler,
 			ILifeSpanHandler lifeSpanHandler,
+			IRenderProcessMessageHandler renderProcessMessageHandler,
 			IRequestHandler requestHandler,
 			string url) : base(url)
 		{
@@ -72,6 +74,7 @@ namespace SafeExamBrowser.Browser
 			this.downloadHandler = downloadHandler;
 			this.keyboardHandler = keyboardHandler;
 			this.lifeSpanHandler = lifeSpanHandler;
+			this.renderProcessMessageHandler = renderProcessMessageHandler;
 			this.requestHandler = requestHandler;
 		}
 
@@ -97,6 +100,7 @@ namespace SafeExamBrowser.Browser
 			KeyboardHandler = keyboardHandler;
 			LifeSpanHandler = lifeSpanHandler;
 			MenuHandler = contextMenuHandler;
+			RenderProcessMessageHandler = renderProcessMessageHandler;
 			RequestHandler = requestHandler;
 		}
 

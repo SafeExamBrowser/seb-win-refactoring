@@ -38,16 +38,17 @@ namespace SafeExamBrowser.Browser
 	{
 		private int instanceIdCounter = default(int);
 
-		private AppConfig appConfig;
-		private List<BrowserApplicationInstance> instances;
-		private IFileSystemDialog fileSystemDialog;
-		private IHashAlgorithm hashAlgorithm;
-		private INativeMethods nativeMethods;
-		private IMessageBox messageBox;
-		private IModuleLogger logger;
-		private BrowserSettings settings;
-		private IText text;
-		private IUserInterfaceFactory uiFactory;
+		private readonly AppConfig appConfig;
+		private readonly IFileSystemDialog fileSystemDialog;
+		private readonly IHashAlgorithm hashAlgorithm;
+		private readonly List<BrowserApplicationInstance> instances;
+		private readonly IKeyGenerator keyGenerator;
+		private readonly IModuleLogger logger;
+		private readonly IMessageBox messageBox;
+		private readonly INativeMethods nativeMethods;
+		private readonly BrowserSettings settings;
+		private readonly IText text;
+		private readonly IUserInterfaceFactory uiFactory;
 
 		public bool AutoStart { get; private set; }
 		public IconResource Icon { get; private set; }
@@ -65,6 +66,7 @@ namespace SafeExamBrowser.Browser
 			BrowserSettings settings,
 			IFileSystemDialog fileSystemDialog,
 			IHashAlgorithm hashAlgorithm,
+			IKeyGenerator keyGenerator,
 			INativeMethods nativeMethods,
 			IMessageBox messageBox,
 			IModuleLogger logger,
@@ -74,10 +76,11 @@ namespace SafeExamBrowser.Browser
 			this.appConfig = appConfig;
 			this.fileSystemDialog = fileSystemDialog;
 			this.hashAlgorithm = hashAlgorithm;
-			this.nativeMethods = nativeMethods;
 			this.instances = new List<BrowserApplicationInstance>();
+			this.keyGenerator = keyGenerator;
 			this.logger = logger;
 			this.messageBox = messageBox;
+			this.nativeMethods = nativeMethods;
 			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;
@@ -172,7 +175,19 @@ namespace SafeExamBrowser.Browser
 			var isMainInstance = instances.Count == 0;
 			var instanceLogger = logger.CloneFor($"Browser Instance #{id}");
 			var startUrl = url ?? GenerateStartUrl();
-			var instance = new BrowserApplicationInstance(appConfig, settings, id, isMainInstance, fileSystemDialog, hashAlgorithm, messageBox, instanceLogger, text, uiFactory, startUrl);
+			var instance = new BrowserApplicationInstance(
+				appConfig,
+				settings,
+				id,
+				isMainInstance,
+				fileSystemDialog,
+				hashAlgorithm,
+				keyGenerator,
+				messageBox,
+				instanceLogger,
+				text,
+				uiFactory,
+				startUrl);
 
 			instance.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
 			instance.PopupRequested += Instance_PopupRequested;
