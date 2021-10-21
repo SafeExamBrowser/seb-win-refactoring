@@ -17,6 +17,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			switch (key)
 			{
+				case Keys.Proctoring.ForceRaiseHandMessage:
+					MapForceRaiseHandMessage(settings, value);
+					break;
 				case Keys.Proctoring.JitsiMeet.AllowChat:
 					MapJitsiMeetAllowChat(settings, value);
 					break;
@@ -70,6 +73,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Proctoring.JitsiMeet.VideoMuted:
 					MapJitsiMeetVideoMuted(settings, value);
+					break;
+				case Keys.Proctoring.ShowRaiseHand:
+					MapShowRaiseHand(settings, value);
 					break;
 				case Keys.Proctoring.ShowTaskbarNotification:
 					MapShowTaskbarNotification(settings, value);
@@ -125,6 +131,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Proctoring.Zoom.VideoMuted:
 					MapZoomVideoMuted(settings, value);
 					break;
+			}
+		}
+
+		private void MapForceRaiseHandMessage(AppSettings settings, object value)
+		{
+			if (value is bool force)
+			{
+				settings.Proctoring.ForceRaiseHandMessage = force;
 			}
 		}
 
@@ -269,6 +283,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool muted)
 			{
 				settings.Proctoring.JitsiMeet.VideoMuted = muted;
+			}
+		}
+
+		private void MapShowRaiseHand(AppSettings settings, object value)
+		{
+			if (value is bool show)
+			{
+				settings.Proctoring.ShowRaiseHandNotification = show;
 			}
 		}
 

@@ -123,6 +123,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 			Icon.Content = IconResourceLoader.Load(LoweredIcon);
 			Message.IsEnabled = true;
 			NotificationButton.ToolTip = text.Get(TextKey.Notification_ProctoringHandLowered);
+			Popup.IsOpen = false;
 		}
 
 		private void ShowRaised()

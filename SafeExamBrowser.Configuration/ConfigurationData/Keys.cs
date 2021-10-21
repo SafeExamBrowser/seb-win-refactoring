@@ -225,6 +225,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class Proctoring
 		{
+			internal const string ForceRaiseHandMessage = "raiseHandButtonAlwaysPromptMessage";
+			internal const string ShowRaiseHand = "raiseHandButtonShow";
 			internal const string ShowTaskbarNotification = "showProctoringViewButton";
 			internal const string WindowVisibility = "remoteProctoringViewShow";
 
