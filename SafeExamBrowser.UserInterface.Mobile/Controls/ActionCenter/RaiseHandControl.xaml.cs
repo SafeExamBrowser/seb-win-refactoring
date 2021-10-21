@@ -117,6 +117,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 			Icon.Content = IconResourceLoader.Load(LoweredIcon);
 			Message.IsEnabled = true;
 			NotificationButton.ToolTip = text.Get(TextKey.Notification_ProctoringHandLowered);
+			Popup.IsOpen = false;
 			Text.Text = text.Get(TextKey.Notification_ProctoringHandLowered);
 		}
 
