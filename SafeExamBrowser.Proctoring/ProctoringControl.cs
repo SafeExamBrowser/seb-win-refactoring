@@ -52,7 +52,7 @@ namespace SafeExamBrowser.Proctoring
 		private void CoreWebView2_ContainsFullScreenElementChanged(object sender, object e)
 		{
 			FullScreenChanged?.Invoke(CoreWebView2.ContainsFullScreenElement);
-			logger.Debug($"Full screen ${(CoreWebView2.ContainsFullScreenElement ? "activated" : "deactivated")}.");
+			logger.Debug($"Full screen {(CoreWebView2.ContainsFullScreenElement ? "activated" : "deactivated")}.");
 		}
 
 		private void CoreWebView2_PermissionRequested(object sender, CoreWebView2PermissionRequestedEventArgs e)
