@@ -38,6 +38,7 @@ namespace SafeExamBrowser.Server
 		private FileSystem fileSystem;
 		private string connectionToken;
 		private int currentPowerSupplyValue;
+		private bool connectedToPowergrid;
 		private int currentWlanValue;
 		private string examId;
 		private int handNotificationId;
@@ -455,31 +456,44 @@ namespace SafeExamBrowser.Server
 			try
 			{
 				var value = Convert.ToInt32(status.BatteryCharge * 100);
+				var connected = status.IsOnline;
 
 				if (value != currentPowerSupplyValue)
 				{
-					var authorization = ("Authorization", $"Bearer {oauth2Token}");
 					var chargeInfo = $"{status.BatteryChargeStatus} at {value}%";
-					var contentType = "application/json;charset=UTF-8";
 					var gridInfo = $"{(status.IsOnline ? "connected to" : "disconnected from")} the power grid";
-					var token = ("SEBConnectionToken", connectionToken);
-					var json = new JObject
-					{
-						["type"] = LogLevel.Info.ToLogType(),
-						["timestamp"] = DateTime.Now.ToUnixTimestamp(),
-						["text"] = $"<battery> {chargeInfo}, {status.BatteryTimeRemaining} remaining, {gridInfo}",
-						["numericValue"] = value
-					};
-					var content = json.ToString();
-
-					TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
+					var text = $"<battery> {chargeInfo}, {status.BatteryTimeRemaining} remaining, {gridInfo}";
+					SendPowerSupplyStatus(text, value);
 					currentPowerSupplyValue = value;
+				}
+				else if (connected != connectedToPowergrid) 
+				{
+					var text = $"<battery> Device has been {(connected ? "connected to" : "disconnected from")} power grid";
+					SendPowerSupplyStatus(text, value);
+					connectedToPowergrid = connected;
 				}
 			}
 			catch (Exception e)
 			{
 				logger.Error("Failed to send power supply status!", e);
 			}
+		}
+
+		private void SendPowerSupplyStatus(string text, int value)
+		{
+			var authorization = ("Authorization", $"Bearer {oauth2Token}");
+			var contentType = "application/json;charset=UTF-8";
+			var token = ("SEBConnectionToken", connectionToken);
+			var json = new JObject
+			{
+				["type"] = LogLevel.Info.ToLogType(),
+				["timestamp"] = DateTime.Now.ToUnixTimestamp(),
+				["text"] = text,
+				["numericValue"] = value
+			};
+			var content = json.ToString();
+
+			TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
 		}
 
 		private void WirelessAdapter_NetworksChanged()
