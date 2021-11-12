@@ -17,6 +17,7 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.SystemComponents.Contracts;
 
 namespace SafeExamBrowser.Runtime.Operations
@@ -204,10 +205,15 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private OperationResult HandleBrowserResource(Uri uri)
 		{
+			Context.Next.Settings.Applications.Blacklist.Clear();
+			Context.Next.Settings.Applications.Whitelist.Clear();
+			Context.Next.Settings.Display.AllowedDisplays = 10;
 			Context.Next.Settings.Browser.DeleteCacheOnShutdown = false;
 			Context.Next.Settings.Browser.DeleteCookiesOnShutdown = false;
 			Context.Next.Settings.Browser.StartUrl = uri.AbsoluteUri;
 			Context.Next.Settings.Security.AllowReconfiguration = true;
+			Context.Next.Settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Allow;
+			Context.Next.Settings.Service.IgnoreService = true;
 
 			logger.Info($"The configuration resource needs authentication or is a webpage, using '{uri}' as start URL for the browser.");
 
