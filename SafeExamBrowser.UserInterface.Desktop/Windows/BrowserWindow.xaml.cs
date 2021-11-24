@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -39,6 +40,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
 		private bool browserControlGetsFocusFromTaskbar = false;
+		private IInputElement tabKeyDownFocusElement = null;
 
 		private WindowSettings WindowSettings
 		{
@@ -205,9 +207,10 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 		private void BrowserWindow_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.Key == Key.Tab && Toolbar.IsKeyboardFocusWithin)
+			if (e.Key == Key.Tab)
 			{
-				if ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
+				var hasShift = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
+				if (Toolbar.IsKeyboardFocusWithin && hasShift)
 				{
 					var firstActiveElementInToolbar = Toolbar.PredictFocus(FocusNavigationDirection.Right);
 					if (firstActiveElementInToolbar is System.Windows.UIElement)
@@ -220,6 +223,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 						}
 					}
 				}
+
+				tabKeyDownFocusElement = FocusManager.GetFocusedElement(this);
+			}
+			else
+			{
+				tabKeyDownFocusElement = null;
 			}
 		}
 
@@ -242,9 +251,11 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 			if (e.Key == Key.Tab)
 			{
-				if (BrowserControlHost.IsFocused && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+				var hasCtrl = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+				var hasShift = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
+				if (BrowserControlHost.IsFocused && hasCtrl)
 				{
-					if (Findbar.Visibility == Visibility.Hidden || (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
+					if (Findbar.Visibility == Visibility.Hidden || hasShift)
 					{
 						Toolbar.Focus();
 					}
@@ -253,7 +264,49 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 						Findbar.Focus();
 					}
 				}
+				else if (MenuPopup.IsKeyboardFocusWithin)
+				{
+					var focusedElement = FocusManager.GetFocusedElement(this);
+					var focusedControl = focusedElement as System.Windows.Controls.Control;
+					var prevFocusedControl = tabKeyDownFocusElement as System.Windows.Controls.Control;
+					if (focusedControl != null && prevFocusedControl != null)
+					{
+						//var commonAncestor = focusedControl.FindCommonVisualAncestor(prevFocusedControl);
+						//var nextTab = GetNextTab(MenuPopup, this, true);
+						if (!hasShift && focusedControl.TabIndex < prevFocusedControl.TabIndex)
+						{
+							MenuPopup.IsOpen = false;
+							FocusBrowser();
+						}
+						else if (hasShift && focusedControl.TabIndex > prevFocusedControl.TabIndex)
+						{
+							MenuPopup.IsOpen = false;
+							MenuButton.Focus();
+						}
+					}
+				}
 			}
+		}
+
+		/// <summary>
+		/// Get next tab order element. Copied from https://stackoverflow.com/questions/5756448/in-wpf-how-can-i-get-the-next-control-in-the-tab-order
+		/// </summary>
+		/// <param name="e">The element to get next tab order</param>
+		/// <param name="container">The container element owning 'e'. Make sure this is a container of 'e'.</param>
+		/// <param name="goDownOnly">True if search only itself and inside of 'container'; otherwise false.
+		/// If true and next tab order element is outside of 'container', result in null.</param>
+		/// <returns>Next tab order element or null if not found</returns>
+		public DependencyObject GetNextTab(DependencyObject e, DependencyObject container, bool goDownOnly)
+		{
+			var navigation = typeof(FrameworkElement)
+				.GetProperty("KeyboardNavigation", BindingFlags.NonPublic | BindingFlags.Static)
+				.GetValue(null);
+
+			var method = navigation
+				.GetType()
+				.GetMethod("GetNextTab", BindingFlags.NonPublic | BindingFlags.Instance);
+
+			return method.Invoke(navigation, new object[] { e, container, goDownOnly }) as DependencyObject;
 		}
 
 		private void BrowserWindow_Loaded(object sender, RoutedEventArgs e)
@@ -359,7 +412,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			ForwardButton.Click += (o, args) => ForwardNavigationRequested?.Invoke();
 			HomeButton.Click += (o, args) => HomeNavigationRequested?.Invoke();
 			Loaded += BrowserWindow_Loaded;
-			MenuButton.Click += (o, args) => MenuPopup.IsOpen = !MenuPopup.IsOpen;
+			MenuButton.Click += MenuButton_Click;
 			MenuButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsMouseOver));
 			MenuPopup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(Popup_PlacementCallback);
 			MenuPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsMouseOver));
@@ -379,6 +432,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			ZoomOutButton.Click += (o, args) => ZoomOutRequested?.Invoke();
 			ZoomResetButton.Click += (o, args) => ZoomResetRequested?.Invoke();
 			BrowserControlHost.GotKeyboardFocus += BrowserControlHost_GotKeyboardFocus;
+		}
+
+		private void MenuButton_Click(object sender, RoutedEventArgs e)
+		{
+			MenuPopup.IsOpen = !MenuPopup.IsOpen;
+			ZoomInButton.Focus();
 		}
 
 		private void BrowserControlHost_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
