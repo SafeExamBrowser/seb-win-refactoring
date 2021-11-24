@@ -21,6 +21,7 @@ using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
+using SafeExamBrowser.UserInterface.Contracts.Events;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Events;
 using SafeExamBrowser.UserInterface.Mobile.Controls.Browser;
@@ -51,6 +52,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		public event ActionRequestedEventHandler DeveloperConsoleRequested;
 		public event FindRequestedEventHandler FindRequested;
 		public event ActionRequestedEventHandler ForwardNavigationRequested;
+		public event LoseFocusRequestedEventHandler LoseFocusRequested;
 		public event ActionRequestedEventHandler HomeNavigationRequested;
 		public event ActionRequestedEventHandler ReloadRequested;
 		public event ActionRequestedEventHandler ZoomInRequested;
@@ -453,6 +455,21 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			FindCaseSensitiveCheckBox.Content = text.Get(TextKey.BrowserWindow_FindCaseSensitive);
 			FindMenuText.Text = text.Get(TextKey.BrowserWindow_FindMenuItem);
 			ZoomText.Text = text.Get(TextKey.BrowserWindow_ZoomMenuItem);
+		}
+
+		public void FocusToolbar(bool forward)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void FocusBrowser()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Debug()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

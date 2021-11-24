@@ -63,6 +63,7 @@
     <Compile Include="Browser\IBrowserControl.cs" />
     <Compile Include="Browser\IBrowserWindow.cs" />
     <Compile Include="Events\ActionRequestedEventHandler.cs" />
+    <Compile Include="Events\LoseFocusRequestedEventHandler.cs" />
     <Compile Include="FileSystemDialog\FileSystemDialogResult.cs" />
     <Compile Include="FileSystemDialog\FileSystemElement.cs" />
     <Compile Include="FileSystemDialog\FileSystemOperation.cs" />

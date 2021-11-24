@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d" Title="Taskbar" Background="{DynamicResource BackgroundBrush}" Height="40" Width="750" WindowStyle="None" Topmost="True"
+        KeyDown="Window_KeyDown" KeyUp="Window_KeyUp"
         ResizeMode="NoResize" Icon="../Images/SafeExamBrowser.ico">
     <Window.Resources>
         <ResourceDictionary>

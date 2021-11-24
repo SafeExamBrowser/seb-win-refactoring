@@ -6,10 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.ComponentModel;
 using System.Windows;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Events;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
@@ -20,6 +22,8 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 	{
 		private bool allowClose;
 		private ILogger logger;
+		private bool isQuitButtonFocusedAtKeyDown;
+		private bool isFirstChildFocusedAtKeyDown;
 
 		public bool ShowClock
 		{
@@ -31,6 +35,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			set { Dispatcher.Invoke(() => QuitButton.Visibility = value ? Visibility.Visible : Visibility.Collapsed); }
 		}
 
+		public event LoseFocusRequestedEventHandler LoseFocusRequested;
 		public event QuitButtonClickedEventHandler QuitButtonClicked;
 
 		internal Taskbar(ILogger logger)
@@ -158,6 +163,83 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			Closing += Taskbar_Closing;
 			Loaded += (o, args) => InitializeBounds();
 			QuitButton.Clicked += QuitButton_Clicked;
+		}
+
+		private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			this.isQuitButtonFocusedAtKeyDown = this.QuitButton.IsKeyboardFocusWithin;
+			this.isFirstChildFocusedAtKeyDown = this.ApplicationStackPanel.Children[0].IsKeyboardFocusWithin;
+		}
+
+		private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			if (e.Key == System.Windows.Input.Key.Tab)
+			{
+				var shift = System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.LeftShift);
+				if (!shift && this.ApplicationStackPanel.Children[0].IsKeyboardFocusWithin && this.isQuitButtonFocusedAtKeyDown)
+				{
+					this.LoseFocusRequested?.Invoke(true);
+					e.Handled = true;
+				}
+				else if (shift && this.QuitButton.IsKeyboardFocusWithin && this.isFirstChildFocusedAtKeyDown)
+				{
+					this.LoseFocusRequested?.Invoke(false);
+					e.Handled = true;
+				}
+			}
+
+			this.isQuitButtonFocusedAtKeyDown = false;
+			this.isFirstChildFocusedAtKeyDown = false;
+		}
+
+		void ITaskbar.Focus(bool forward)
+		{
+			this.Dispatcher.BeginInvoke((Action)(() =>
+			{
+				base.Activate();
+				if (forward)
+				{
+					this.SetFocusWithin(this.ApplicationStackPanel.Children[0]);
+				}
+				else
+				{
+					this.QuitButton.Focus();
+				}
+			}));
+		}
+
+		private bool SetFocusWithin(UIElement uIElement)
+		{
+			if (uIElement.Focusable)
+			{
+				uIElement.Focus();
+				return true;
+			}
+
+			if (uIElement is System.Windows.Controls.Panel)
+			{
+				var panel = uIElement as System.Windows.Controls.Panel;
+				for (var i = 0; i < panel.Children.Count; i++)
+				{
+					if (this.SetFocusWithin(panel.Children[i]))
+					{
+						return true;
+					}
+				}
+
+				return false;
+			}
+			else if (uIElement is System.Windows.Controls.ContentControl)
+			{
+				var control = uIElement as System.Windows.Controls.ContentControl;
+				var content = control.Content as UIElement;
+				if (content != null)
+				{
+					return this.SetFocusWithin(content);
+				}
+			}
+
+			return false;
 		}
 	}
 }

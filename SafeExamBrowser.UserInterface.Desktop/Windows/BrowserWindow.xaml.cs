@@ -16,11 +16,13 @@ using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
+using SafeExamBrowser.UserInterface.Contracts.Events;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Events;
 using SafeExamBrowser.UserInterface.Desktop.Controls.Browser;
@@ -36,6 +38,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
+		private bool browserControlGetsFocusFromTaskbar = false;
 
 		private WindowSettings WindowSettings
 		{
@@ -56,6 +59,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		public event ActionRequestedEventHandler ZoomInRequested;
 		public event ActionRequestedEventHandler ZoomOutRequested;
 		public event ActionRequestedEventHandler ZoomResetRequested;
+		public event LoseFocusRequestedEventHandler LoseFocusRequested;
 
 		event WindowClosedEventHandler IWindow.Closed
 		{
@@ -199,6 +203,26 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			}
 		}
 
+		private void BrowserWindow_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Tab && Toolbar.IsKeyboardFocusWithin)
+			{
+				if ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
+				{
+					var firstActiveElementInToolbar = Toolbar.PredictFocus(FocusNavigationDirection.Right);
+					if (firstActiveElementInToolbar is System.Windows.UIElement)
+					{
+						var control = firstActiveElementInToolbar as System.Windows.UIElement;
+						if (control.IsKeyboardFocusWithin)
+						{
+							this.LoseFocusRequested?.Invoke(false);
+							e.Handled = true;
+						}
+					}
+				}
+			}
+		}
+
 		private void BrowserWindow_KeyUp(object sender, KeyEventArgs e)
 		{
 			if (e.Key == Key.F5)
@@ -214,6 +238,21 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			if (settings.AllowFind && (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) && e.Key == Key.F)
 			{
 				ShowFindbar();
+			}
+
+			if (e.Key == Key.Tab)
+			{
+				if (BrowserControlHost.IsFocused && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+				{
+					if (Findbar.Visibility == Visibility.Hidden || (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
+					{
+						Toolbar.Focus();
+					}
+					else if (Toolbar.Visibility == Visibility.Hidden)
+					{
+						Findbar.Focus();
+					}
+				}
 			}
 		}
 
@@ -324,6 +363,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			MenuButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsMouseOver));
 			MenuPopup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(Popup_PlacementCallback);
 			MenuPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsMouseOver));
+			KeyDown += BrowserWindow_KeyDown;
 			KeyUp += BrowserWindow_KeyUp;
 			LocationChanged += (o, args) => { DownloadsPopup.IsOpen = false; MenuPopup.IsOpen = false; };
 			ReloadButton.Click += (o, args) => ReloadRequested?.Invoke();
@@ -338,6 +378,41 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			ZoomInButton.Click += (o, args) => ZoomInRequested?.Invoke();
 			ZoomOutButton.Click += (o, args) => ZoomOutRequested?.Invoke();
 			ZoomResetButton.Click += (o, args) => ZoomResetRequested?.Invoke();
+			BrowserControlHost.GotKeyboardFocus += BrowserControlHost_GotKeyboardFocus;
+		}
+
+		private void BrowserControlHost_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		{
+			var forward = !this.browserControlGetsFocusFromTaskbar;
+
+			// focus the first / last element on the page
+			var javascript = @"
+if (typeof __SEB_focusElement === 'undefined') {
+  __SEB_focusElement = function (forward) {
+    var items = [].map
+      .call(document.body.querySelectorAll(['input', 'select', 'a[href]', 'textarea', 'button', '[tabindex]']), function(el, i) { return { el, i } })
+      .filter(function(e) { return e.el.tabIndex >= 0 && !e.el.disabled && e.el.offsetParent; })
+      .sort(function(a,b) { return a.el.tabIndex === b.el.tabIndex ? a.i - b.i : (a.el.tabIndex || 9E9) - (b.el.tabIndex || 9E9); })
+    var item = items[forward ? 1 : items.length - 1];
+    setTimeout(function () { item.focus(); }, 20);
+  }
+}";
+			var control = BrowserControlHost.Child as IBrowserControl;
+			control.ExecuteJavascript(javascript, result =>
+			{
+				if (!result.Success)
+				{
+					//logger.Error($"Javascript error {result.Message}!");
+				}
+			});
+
+			control.ExecuteJavascript("__SEB_focusElement(" + forward.ToString().ToLower() + ")", result =>
+			{
+				if (!result.Success)
+				{
+					//logger.Error($"Javascript error {result.Message}!");
+				}
+			});
 		}
 
 		private void ApplySettings()
@@ -443,6 +518,43 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			FindCaseSensitiveCheckBox.Content = text.Get(TextKey.BrowserWindow_FindCaseSensitive);
 			FindMenuText.Text = text.Get(TextKey.BrowserWindow_FindMenuItem);
 			ZoomText.Text = text.Get(TextKey.BrowserWindow_ZoomMenuItem);
+		}
+
+		public void FocusToolbar(bool forward)
+		{
+			this.Dispatcher.BeginInvoke((Action)(async () =>
+			{
+				this.Activate();
+				await Task.Delay(50);
+
+				// focus all elements in the toolbar, such that the last element that is enabled gets focus
+				var buttons = new System.Windows.Controls.Control[] { ForwardButton, BackwardButton, ReloadButton, UrlTextBox, MenuButton, };
+				for (var i = forward ? 0 : buttons.Length - 1; i >= 0 && i < buttons.Length; i += forward ? 1 : -1)
+				{
+					if (buttons[i].IsEnabled && buttons[i].Visibility == Visibility.Visible)
+					{
+						buttons[i].Focus();
+						break;
+					}
+				}
+			}));
+		}
+
+		public void FocusBrowser()
+		{
+			this.Dispatcher.BeginInvoke((Action)(async () =>
+			{
+				this.FocusToolbar(false);
+				await Task.Delay(100);
+
+				this.browserControlGetsFocusFromTaskbar = true;
+
+				var focusedElement = FocusManager.GetFocusedElement(this) as UIElement;
+				focusedElement.MoveFocus(new TraversalRequest(FocusNavigationDirection.Right));
+
+				await Task.Delay(150);
+				this.browserControlGetsFocusFromTaskbar = false;
+			}));
 		}
 	}
 }

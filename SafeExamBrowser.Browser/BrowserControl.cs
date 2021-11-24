@@ -143,5 +143,14 @@ namespace SafeExamBrowser.Browser
 		{
 			control.BrowserCore.SetZoomLevel(level);
 		}
+
+		/// <summary>
+		/// Executes the given Javascript code in the browser.
+		/// </summary>
+		public async void ExecuteJavascript(string javascript, System.Action<dynamic> callback)
+		{
+			var result = await this.control.EvaluateScriptAsync(javascript);
+			callback(result);
+		}
 	}
 }

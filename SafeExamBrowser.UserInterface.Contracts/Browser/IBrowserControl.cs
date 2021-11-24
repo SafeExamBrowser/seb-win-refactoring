@@ -62,6 +62,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		void Destroy();
 
 		/// <summary>
+		/// Executes the given Javascript code in the browser.
+		/// </summary>
+		void ExecuteJavascript(string javascript, System.Action<dynamic> callback);
+
+		/// <summary>
 		/// Attempts to find the given term on the current page according to the specified parameters.
 		/// </summary>
 		void Find(string term, bool isInitial, bool caseSensitive, bool forward = true);

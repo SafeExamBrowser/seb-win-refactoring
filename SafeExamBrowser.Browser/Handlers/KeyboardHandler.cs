@@ -20,6 +20,9 @@ namespace SafeExamBrowser.Browser.Handlers
 		internal event ActionRequestedEventHandler ZoomInRequested;
 		internal event ActionRequestedEventHandler ZoomOutRequested;
 		internal event ActionRequestedEventHandler ZoomResetRequested;
+		internal event System.EventHandler<bool> TabPressed;
+
+		private int? currentKeyDown = null;
 
 		public bool OnKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int keyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey)
 		{
@@ -52,8 +55,14 @@ namespace SafeExamBrowser.Browser.Handlers
 				{
 					ZoomResetRequested?.Invoke();
 				}
+
+				if (keyCode == (int)Keys.Tab && keyCode == currentKeyDown)
+				{
+					TabPressed?.Invoke(this, shift);
+				}
 			}
 
+			currentKeyDown = null;
 			return false;
 		}
 
@@ -64,6 +73,11 @@ namespace SafeExamBrowser.Browser.Handlers
 				ReloadRequested?.Invoke();
 
 				return true;
+			}
+
+			if (type == KeyType.RawKeyDown || type == KeyType.KeyDown)
+			{
+				currentKeyDown = keyCode;
 			}
 
 			return false;
