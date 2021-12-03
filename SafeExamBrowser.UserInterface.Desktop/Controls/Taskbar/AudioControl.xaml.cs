@@ -60,6 +60,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 			{
 				Background = Brushes.LightGray;
 				Button.Background = Brushes.LightGray;
+				Volume.Focus();
 			};
 
 			Popup.Closed += (o, args) =>
@@ -166,6 +167,24 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 			var resource = new XamlIconResource { Uri = uri };
 
 			return IconResourceLoader.Load(resource);
+		}
+
+		private void Popup_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			if (e.Key == System.Windows.Input.Key.Escape)
+			{
+				Popup.IsOpen = false;
+				Button.Focus();
+			}
+		}
+
+		private void Volume_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			if (e.Key == System.Windows.Input.Key.Enter)
+			{
+				Popup.IsOpen = false;
+				Button.Focus();
+			}
 		}
 	}
 }
