@@ -9,6 +9,10 @@
 using System;
 using CefSharp;
 using CefSharp.WinForms;
+using SafeExamBrowser.Browser.Content;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Cryptography;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
 
@@ -16,14 +20,17 @@ namespace SafeExamBrowser.Browser
 {
 	internal class BrowserControl : ChromiumWebBrowser, IBrowserControl
 	{
+		private readonly AppConfig appConfig;
+		private readonly ContentLoader contentLoader;
 		private readonly IContextMenuHandler contextMenuHandler;
 		private readonly IDialogHandler dialogHandler;
 		private readonly IDisplayHandler displayHandler;
 		private readonly IDownloadHandler downloadHandler;
+		private readonly IKeyGenerator generator;
 		private readonly IKeyboardHandler keyboardHandler;
 		private readonly ILifeSpanHandler lifeSpanHandler;
-		private readonly IRenderProcessMessageHandler renderProcessMessageHandler;
 		private readonly IRequestHandler requestHandler;
+		private readonly IText text;
 
 		private AddressChangedEventHandler addressChanged;
 		private LoadFailedEventHandler loadFailed;
@@ -58,24 +65,29 @@ namespace SafeExamBrowser.Browser
 		}
 
 		public BrowserControl(
+			AppConfig appConfig,
 			IContextMenuHandler contextMenuHandler,
 			IDialogHandler dialogHandler,
 			IDisplayHandler displayHandler,
 			IDownloadHandler downloadHandler,
+			IKeyGenerator generator,
 			IKeyboardHandler keyboardHandler,
 			ILifeSpanHandler lifeSpanHandler,
-			IRenderProcessMessageHandler renderProcessMessageHandler,
 			IRequestHandler requestHandler,
+			IText text,
 			string url) : base(url)
 		{
+			this.appConfig = appConfig;
+			this.contentLoader = new ContentLoader(text);
 			this.contextMenuHandler = contextMenuHandler;
 			this.dialogHandler = dialogHandler;
 			this.displayHandler = displayHandler;
 			this.downloadHandler = downloadHandler;
+			this.generator = generator;
 			this.keyboardHandler = keyboardHandler;
 			this.lifeSpanHandler = lifeSpanHandler;
-			this.renderProcessMessageHandler = renderProcessMessageHandler;
 			this.requestHandler = requestHandler;
+			this.text = text;
 		}
 
 		public void Destroy()
@@ -89,6 +101,7 @@ namespace SafeExamBrowser.Browser
 		public void Initialize()
 		{
 			AddressChanged += (o, args) => addressChanged?.Invoke(args.Address);
+			FrameLoadStart += BrowserControl_FrameLoadStart;
 			IsBrowserInitializedChanged += BrowserControl_IsBrowserInitializedChanged;
 			LoadError += BrowserControl_LoadError;
 			LoadingStateChanged += (o, args) => loadingStateChanged?.Invoke(args.IsLoading);
@@ -100,8 +113,16 @@ namespace SafeExamBrowser.Browser
 			KeyboardHandler = keyboardHandler;
 			LifeSpanHandler = lifeSpanHandler;
 			MenuHandler = contextMenuHandler;
-			RenderProcessMessageHandler = renderProcessMessageHandler;
 			RequestHandler = requestHandler;
+		}
+
+		private void BrowserControl_FrameLoadStart(object sender, FrameLoadStartEventArgs e)
+		{
+			var browserExamKey = generator.CalculateBrowserExamKeyHash(e.Url);
+			var configurationKey = generator.CalculateConfigurationKeyHash(e.Url);
+			var api = contentLoader.LoadApi(browserExamKey, configurationKey, appConfig.ProgramBuildVersion);
+
+			e.Frame.ExecuteJavaScriptAsync(api);
 		}
 
 		public void Find(string term, bool isInitial, bool caseSensitive, bool forward = true)
