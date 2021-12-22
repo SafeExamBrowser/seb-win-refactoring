@@ -104,7 +104,7 @@ namespace SafeExamBrowser.WindowsApi
 				nativeMethods.PostCloseMessageToShell();
 				logger.Debug("Waiting for explorer shell to terminate...");
 
-				while (nativeMethods.GetShellWindowHandle() != IntPtr.Zero)
+				for (var elapsed = 0; nativeMethods.GetShellWindowHandle() != IntPtr.Zero && elapsed < THREE_SECONDS; elapsed += 20)
 				{
 					Thread.Sleep(20);
 				}
@@ -141,7 +141,7 @@ namespace SafeExamBrowser.WindowsApi
 			var process = new System.Diagnostics.Process();
 			var taskkillPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "taskkill.exe");
 
-			logger.Warn("Failed to gracefully terminate, attempting forceful termination...");
+			logger.Warn("Failed to gracefully terminate explorer shell, attempting forceful termination...");
 
 			process.StartInfo.Arguments = $"/F /PID {processId}";
 			process.StartInfo.CreateNoWindow = true;
