@@ -12,7 +12,7 @@ namespace SafeExamBrowser.Monitoring.Display
 	{
 		public string Identifier { get; set; }
 		public bool IsActive { get; set; }
-		public bool IsInternal { get; set; }
-		public VideoOutputTechnology Technology { get; set; }
+		public bool IsInternal => Technology == VideoOutputTechnology.DisplayPortEmbedded || Technology == VideoOutputTechnology.Internal;
+		public VideoOutputTechnology Technology { get; set; } = VideoOutputTechnology.Uninitialized;
 	}
 }

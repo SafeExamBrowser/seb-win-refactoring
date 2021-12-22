@@ -197,7 +197,6 @@ namespace SafeExamBrowser.Monitoring.Display
 						if (display != default(Display))
 						{
 							display.IsActive &= isActive;
-							display.IsInternal = technology == VideoOutputTechnology.Internal;
 							display.Technology = technology;
 						}
 					}
