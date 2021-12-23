@@ -151,37 +151,43 @@ namespace SafeExamBrowser.Configuration.DataResources
 
 		private bool IsAvailable(Uri resource)
 		{
+			var isAvailable = false;
+			var uri = BuildUriFor(resource);
+
 			try
 			{
-				var uri = BuildUriFor(resource);
-
 				logger.Debug($"Sending HEAD request for '{uri}'...");
 
 				var request = new HttpRequestMessage(HttpMethod.Head, uri);
 				var response = Execute(request);
-				var isAvailable = response.IsSuccessStatusCode || IsUnauthorized(response);
-
+				
+				isAvailable = response.IsSuccessStatusCode || IsUnauthorized(response);
 				logger.Debug($"Received response '{ToString(response)}'.");
-
-				if (!isAvailable)
-				{
-					logger.Debug($"HEAD request was not successful, trying GET request for '{uri}'...");
-
-					request = new HttpRequestMessage(HttpMethod.Get, uri);
-					response = Execute(request);
-					isAvailable = response.IsSuccessStatusCode || IsUnauthorized(response);
-
-					logger.Debug($"Received response '{ToString(response)}'.");
-				}
-
-				return isAvailable;
 			}
 			catch (Exception e)
 			{
-				logger.Error($"Failed to check availability of '{resource}'!", e);
-
-				return false;
+				logger.Error($"Failed to check availability of '{resource}' via HEAD request!", e);
 			}
+
+			if (!isAvailable)
+			{
+				try
+				{
+					logger.Debug($"HEAD request was not successful, trying GET request for '{uri}'...");
+
+					var request = new HttpRequestMessage(HttpMethod.Get, uri);
+					var response = Execute(request);
+
+					isAvailable = response.IsSuccessStatusCode || IsUnauthorized(response);
+					logger.Debug($"Received response '{ToString(response)}'.");
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to check availability of '{resource}' via GET request!", e);
+				}
+			}
+
+			return isAvailable;
 		}
 
 		private bool IsUnauthorized(HttpResponseMessage response)
