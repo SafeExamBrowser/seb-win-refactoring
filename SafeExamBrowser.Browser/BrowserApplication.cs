@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -303,6 +304,7 @@ namespace SafeExamBrowser.Browser
 			var error = logger.LogLevel == LogLevel.Error;
 			var cefSettings = new CefSettings();
 
+			cefSettings.AcceptLanguageList = CultureInfo.CurrentUICulture.Name;
 			cefSettings.CachePath = appConfig.BrowserCachePath;
 			cefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
 			cefSettings.LogFile = appConfig.BrowserLogFilePath;
