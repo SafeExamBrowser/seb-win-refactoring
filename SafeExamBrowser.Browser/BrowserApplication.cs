@@ -328,6 +328,7 @@ namespace SafeExamBrowser.Browser
 
 			InitializeProxySettings(cefSettings);
 
+			logger.Debug($"Accept Language: {cefSettings.AcceptLanguageList}");
 			logger.Debug($"Cache Path: {cefSettings.CachePath}");
 			logger.Debug($"Engine Version: Chromium {Cef.ChromiumVersion}, CEF {Cef.CefVersion}, CefSharp {Cef.CefSharpVersion}");
 			logger.Debug($"Log File: {cefSettings.LogFile}");
