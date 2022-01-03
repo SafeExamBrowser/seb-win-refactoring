@@ -254,6 +254,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Security.KioskMode = KioskMode.CreateNewDesktop;
 			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Deny;
 
+			settings.Server.PingInterval = 1000;
 			settings.Server.RequestAttemptInterval = 2000;
 			settings.Server.RequestAttempts = 5;
 			settings.Server.RequestTimeout = 30000;

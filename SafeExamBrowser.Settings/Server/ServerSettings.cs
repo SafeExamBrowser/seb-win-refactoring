@@ -52,6 +52,11 @@ namespace SafeExamBrowser.Settings.Server
 		public bool PerformFallback { get; set; }
 
 		/// <summary>
+		/// The time interval in milliseconds to be used for ping requests.
+		/// </summary>
+		public int PingInterval { get; set; }
+
+		/// <summary>
 		/// The number of attempts (e.g. when receiving an invalid server response) before performing a fallback or failing.
 		/// </summary>
 		public int RequestAttempts { get; set; }

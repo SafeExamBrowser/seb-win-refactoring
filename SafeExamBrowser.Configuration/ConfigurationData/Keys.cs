@@ -296,6 +296,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string FallbackPasswordHash = "sebServerFallbackPasswordHash";
 			internal const string Institution = "institution";
 			internal const string PerformFallback = "sebServerFallback";
+			internal const string PingInterval = "pingInterval";
 			internal const string RequestAttempts = "sebServerFallbackAttempts";
 			internal const string RequestAttemptInterval = "sebServerFallbackAttemptInterval";
 			internal const string RequestTimeout = "sebServerFallbackTimeout";
