@@ -3333,9 +3333,10 @@ namespace SebWindowsConfig
 			this.checkBoxResetOnQuitUrl.AutoSize = true;
 			this.checkBoxResetOnQuitUrl.Location = new System.Drawing.Point(15, 110);
 			this.checkBoxResetOnQuitUrl.Name = "checkBoxResetOnQuitUrl";
-			this.checkBoxResetOnQuitUrl.Size = new System.Drawing.Size(146, 17);
+			this.checkBoxResetOnQuitUrl.Size = new System.Drawing.Size(593, 17);
 			this.checkBoxResetOnQuitUrl.TabIndex = 115;
-			this.checkBoxResetOnQuitUrl.Text = "Restart instead of quitting";
+			this.checkBoxResetOnQuitUrl.Text = "Restart session instead of quitting. To end an active user session, both options " +
+    "of \"Session Handling\" must be activated!";
 			this.toolTip1.SetToolTip(this.checkBoxResetOnQuitUrl, "Session in SEB is restarted after the quit URL has been detected, instead of quit" +
         "ting SEB");
 			this.checkBoxResetOnQuitUrl.UseVisualStyleBackColor = true;
