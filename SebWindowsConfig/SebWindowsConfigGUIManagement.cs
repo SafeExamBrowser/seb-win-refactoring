@@ -213,7 +213,7 @@ namespace SebWindowsConfig
 		static  String[]  KeyProxyProtocolAttribute = new  String[7];
 		static  String[]  KeyProxyProtocolEnable    = new  String[7];
 
-		static String[] StringMinMacOSVersion = new String[8];
+		static String[] StringMinMacOSVersion = new String[11];
 		static String[] StringAllowedDisplaysMaxNumber = new String[3];
 
 		// ***********************
@@ -379,6 +379,9 @@ namespace SebWindowsConfig
 			StringMinMacOSVersion[5] = "macOS 10.12 Sierra";
 			StringMinMacOSVersion[6] = "macOS 10.13 High Sierra";
 			StringMinMacOSVersion[7] = "macOS 10.14 Mojave";
+			StringMinMacOSVersion[8] = "macOS 10.15 Catalina";
+			StringMinMacOSVersion[9] = "macOS 11 Big Sur";
+			StringMinMacOSVersion[10] = "macOS 12 Monterey";
 
 			// Define the strings for the Min Mac OS Version
 			StringAllowedDisplaysMaxNumber[0] = "1";
