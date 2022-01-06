@@ -26,9 +26,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Server.PerformFallback:
 					MapPerformFallback(settings, value);
 					break;
-				case Keys.Server.PingInterval:
-					MapPingInterval(settings, value);
-					break;
 				case Keys.Server.RequestAttempts:
 					MapRequestAttempts(settings, value);
 					break;
@@ -72,6 +69,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				{
 					settings.Server.Institution = institution;
 				}
+
+				if (configuration.TryGetValue(Keys.Server.PingInterval, out v) && v is int interval)
+				{
+					settings.Server.PingInterval = interval;
+				}
 			}
 		}
 
@@ -88,14 +90,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool perform)
 			{
 				settings.Server.PerformFallback = perform;
-			}
-		}
-
-		private void MapPingInterval(AppSettings settings, object value)
-		{
-			if (value is int interval)
-			{
-				settings.Server.PingInterval = interval;
 			}
 		}
 
