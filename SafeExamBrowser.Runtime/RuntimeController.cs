@@ -228,6 +228,8 @@ namespace SafeExamBrowser.Runtime
 		{
 			if (SessionIsRunning)
 			{
+				RegisterSessionEvents();
+
 				runtimeWindow.ShowProgressBar = false;
 				runtimeWindow.UpdateStatus(TextKey.RuntimeWindow_ApplicationRunning);
 				runtimeWindow.TopMost = Session.Settings.Security.KioskMode != KioskMode.None;
@@ -267,7 +269,6 @@ namespace SafeExamBrowser.Runtime
 			runtimeHost.ClientConfigurationNeeded += RuntimeHost_ClientConfigurationNeeded;
 			runtimeHost.ReconfigurationRequested += RuntimeHost_ReconfigurationRequested;
 			runtimeHost.ShutdownRequested += RuntimeHost_ShutdownRequested;
-			service.ConnectionLost += ServiceProxy_ConnectionLost;
 		}
 
 		private void DeregisterEvents()
@@ -275,17 +276,19 @@ namespace SafeExamBrowser.Runtime
 			runtimeHost.ClientConfigurationNeeded -= RuntimeHost_ClientConfigurationNeeded;
 			runtimeHost.ReconfigurationRequested -= RuntimeHost_ReconfigurationRequested;
 			runtimeHost.ShutdownRequested -= RuntimeHost_ShutdownRequested;
-			service.ConnectionLost -= ServiceProxy_ConnectionLost;
 		}
 
 		private void RegisterSessionEvents()
 		{
+			service.ConnectionLost += ServiceProxy_ConnectionLost;
 			sessionContext.ClientProcess.Terminated += ClientProcess_Terminated;
 			sessionContext.ClientProxy.ConnectionLost += ClientProxy_ConnectionLost;
 		}
 
 		private void DeregisterSessionEvents()
 		{
+			service.ConnectionLost -= ServiceProxy_ConnectionLost;
+
 			if (sessionContext.ClientProcess != null)
 			{
 				sessionContext.ClientProcess.Terminated -= ClientProcess_Terminated;
