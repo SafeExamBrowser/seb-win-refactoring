@@ -76,6 +76,7 @@ namespace SafeExamBrowser.Client
 		private ISystemInfo systemInfo;
 		private ITaskbar taskbar;
 		private ITaskview taskview;
+		private IUserInfo userInfo;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
 		private IWirelessAdapter wirelessAdapter;
@@ -89,9 +90,10 @@ namespace SafeExamBrowser.Client
 			InitializeLogging();
 			InitializeText();
 
-			context = new ClientContext();
 			uiFactory = BuildUserInterfaceFactory();
+
 			actionCenter = uiFactory.CreateActionCenter();
+			context = new ClientContext();
 			messageBox = BuildMessageBox();
 			nativeMethods = new NativeMethods();
 			powerSupply = new PowerSupply(ModuleLogger(nameof(PowerSupply)));
@@ -99,6 +101,7 @@ namespace SafeExamBrowser.Client
 			systemInfo = new SystemInfo();
 			taskbar = uiFactory.CreateTaskbar(ModuleLogger("Taskbar"));
 			taskview = uiFactory.CreateTaskview();
+			userInfo = new UserInfo(ModuleLogger(nameof(UserInfo)));
 			wirelessAdapter = new WirelessAdapter(ModuleLogger(nameof(WirelessAdapter)));
 
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
@@ -268,7 +271,7 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildServerOperation()
 		{
-			var server = new ServerProxy(context.AppConfig, ModuleLogger(nameof(ServerProxy)), powerSupply, wirelessAdapter);
+			var server = new ServerProxy(context.AppConfig, ModuleLogger(nameof(ServerProxy)), systemInfo, userInfo, powerSupply, wirelessAdapter);
 			var operation = new ServerOperation(context, logger, server);
 
 			context.Server = server;

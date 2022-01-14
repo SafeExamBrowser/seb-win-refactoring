@@ -58,25 +58,26 @@ namespace SafeExamBrowser.Runtime
 			InitializeLogging();
 			InitializeText();
 
-			var args = Environment.GetCommandLineArgs();
-			var messageBox = new MessageBoxFactory(text);
 			var nativeMethods = new NativeMethods();
 			var uiFactory = new UserInterfaceFactory(text);
+			var userInfo = new UserInfo(ModuleLogger(nameof(UserInfo)));
+
+			var args = Environment.GetCommandLineArgs();
 			var desktopFactory = new DesktopFactory(ModuleLogger(nameof(DesktopFactory)));
 			var desktopMonitor = new DesktopMonitor(ModuleLogger(nameof(DesktopMonitor)));
 			var displayMonitor = new DisplayMonitor(ModuleLogger(nameof(DisplayMonitor)), nativeMethods, systemInfo);
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
 			var fileSystem = new FileSystem();
+			var messageBox = new MessageBoxFactory(text);
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), ModuleLogger(nameof(ProxyFactory)));
 			var remoteSessionDetector = new RemoteSessionDetector(ModuleLogger(nameof(RemoteSessionDetector)));
 			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, new HostObjectFactory(), ModuleLogger(nameof(RuntimeHost)), FIVE_SECONDS);
 			var runtimeWindow = uiFactory.CreateRuntimeWindow(appConfig);
-			var server = new ServerProxy(appConfig, ModuleLogger(nameof(ServerProxy)));
+			var server = new ServerProxy(appConfig, ModuleLogger(nameof(ServerProxy)), systemInfo, userInfo);
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)), Interlocutor.Runtime);
 			var sessionContext = new SessionContext();
 			var splashScreen = uiFactory.CreateSplashScreen(appConfig);
-			var userInfo = new UserInfo(ModuleLogger(nameof(UserInfo)));
 			var vmDetector = new VirtualMachineDetector(ModuleLogger(nameof(VirtualMachineDetector)), systemInfo);
 
 			var bootstrapOperations = new Queue<IOperation>();

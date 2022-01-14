@@ -25,6 +25,7 @@ using SafeExamBrowser.Server.Contracts.Events;
 using SafeExamBrowser.Server.Data;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.Settings.Server;
+using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using Timer = System.Timers.Timer;
@@ -33,27 +34,30 @@ namespace SafeExamBrowser.Server
 {
 	public class ServerProxy : ILogObserver, IServerProxy
 	{
+		private readonly AppConfig appConfig;
+		private readonly FileSystem fileSystem;
+		private readonly HttpClient httpClient;
+		private readonly ConcurrentQueue<string> instructionConfirmations;
+		private readonly ILogger logger;
+		private readonly ConcurrentQueue<ILogContent> logContent;
+		private readonly Timer logTimer;
+		private readonly Parser parser;
+		private readonly Timer pingTimer;
+		private readonly IPowerSupply powerSupply;
+		private readonly ISystemInfo systemInfo;
+		private readonly IUserInfo userInfo;
+		private readonly IWirelessAdapter wirelessAdapter;
+
 		private ApiVersion1 api;
-		private AppConfig appConfig;
-		private FileSystem fileSystem;
 		private string connectionToken;
 		private int currentPowerSupplyValue;
 		private bool connectedToPowergrid;
 		private int currentWlanValue;
 		private string examId;
 		private int handNotificationId;
-		private HttpClient httpClient;
-		private ConcurrentQueue<string> instructionConfirmations;
-		private ILogger logger;
-		private ConcurrentQueue<ILogContent> logContent;
-		private Timer logTimer;
-		private Parser parser;
 		private string oauth2Token;
 		private int pingNumber;
-		private Timer pingTimer;
-		private IPowerSupply powerSupply;
 		private ServerSettings settings;
-		private IWirelessAdapter wirelessAdapter;
 
 		public event ServerEventHandler HandConfirmed;
 		public event ProctoringConfigurationReceivedEventHandler ProctoringConfigurationReceived;
@@ -63,6 +67,8 @@ namespace SafeExamBrowser.Server
 		public ServerProxy(
 			AppConfig appConfig,
 			ILogger logger,
+			ISystemInfo systemInfo,
+			IUserInfo userInfo,
 			IPowerSupply powerSupply = default(IPowerSupply),
 			IWirelessAdapter wirelessAdapter = default(IWirelessAdapter))
 		{
@@ -77,6 +83,8 @@ namespace SafeExamBrowser.Server
 			this.parser = new Parser(logger);
 			this.pingTimer = new Timer();
 			this.powerSupply = powerSupply;
+			this.systemInfo = systemInfo;
+			this.userInfo = userInfo;
 			this.wirelessAdapter = wirelessAdapter;
 		}
 
@@ -298,7 +306,9 @@ namespace SafeExamBrowser.Server
 		public ServerResponse SendSessionIdentifier(string identifier)
 		{
 			var authorization = ("Authorization", $"Bearer {oauth2Token}");
-			var content = $"examId={examId}&seb_user_session_id={identifier}";
+			var clientInfo = $"client_id={userInfo.GetUserName()}&seb_machine_name={systemInfo.Name}";
+			var versionInfo = $"seb_os_name={systemInfo.OperatingSystemInfo}&seb_version={appConfig.ProgramInformationalVersion}";
+			var content = $"examId={examId}&{clientInfo}&{versionInfo}&seb_user_session_id={identifier}";
 			var contentType = "application/x-www-form-urlencoded";
 			var token = ("SEBConnectionToken", connectionToken);
 
