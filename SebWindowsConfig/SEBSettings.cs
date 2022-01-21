@@ -839,7 +839,9 @@ namespace SebWindowsConfig
 				"Teams.exe",
 				"webexmta.exe",
 				"ptoneclk.exe",
-				"AA_v3.exe"
+				"AA_v3.exe",
+				"CiscoCollabHost.exe",
+				"CiscoWebExStart.exe"
 			};
 
 			// Default settings for group "Network - Filter"
