@@ -36,7 +36,6 @@ namespace SafeExamBrowser.Server
 	{
 		private readonly AppConfig appConfig;
 		private readonly FileSystem fileSystem;
-		private readonly HttpClient httpClient;
 		private readonly ConcurrentQueue<string> instructionConfirmations;
 		private readonly ILogger logger;
 		private readonly ConcurrentQueue<ILogContent> logContent;
@@ -55,6 +54,7 @@ namespace SafeExamBrowser.Server
 		private int currentWlanValue;
 		private string examId;
 		private int handNotificationId;
+		private HttpClient httpClient;
 		private string oauth2Token;
 		private int pingNumber;
 		private ServerSettings settings;
@@ -69,13 +69,12 @@ namespace SafeExamBrowser.Server
 			ILogger logger,
 			ISystemInfo systemInfo,
 			IUserInfo userInfo,
-			IPowerSupply powerSupply = default(IPowerSupply),
-			IWirelessAdapter wirelessAdapter = default(IWirelessAdapter))
+			IPowerSupply powerSupply = default,
+			IWirelessAdapter wirelessAdapter = default)
 		{
 			this.api = new ApiVersion1();
 			this.appConfig = appConfig;
 			this.fileSystem = new FileSystem(appConfig, logger);
-			this.httpClient = new HttpClient();
 			this.instructionConfirmations = new ConcurrentQueue<string>();
 			this.logger = logger;
 			this.logContent = new ConcurrentQueue<ILogContent>();
@@ -144,10 +143,10 @@ namespace SafeExamBrowser.Server
 			return new ServerResponse(success, message);
 		}
 
-		public ServerResponse<IEnumerable<Exam>> GetAvailableExams(string examId = default(string))
+		public ServerResponse<IEnumerable<Exam>> GetAvailableExams(string examId = default)
 		{
 			var authorization = ("Authorization", $"Bearer {oauth2Token}");
-			var content = $"institutionId={settings.Institution}{(examId == default(string) ? "" : $"&examId={examId}")}";
+			var content = $"institutionId={settings.Institution}{(examId == default ? "" : $"&examId={examId}")}";
 			var contentType = "application/x-www-form-urlencoded";
 			var exams = default(IList<Exam>);
 
@@ -188,7 +187,7 @@ namespace SafeExamBrowser.Server
 			var token = ("SEBConnectionToken", connectionToken);
 			var uri = default(Uri);
 
-			var success = TryExecute(HttpMethod.Get, $"{api.ConfigurationEndpoint}?examId={exam.Id}", out var response, default(string), default(string), authorization, token);
+			var success = TryExecute(HttpMethod.Get, $"{api.ConfigurationEndpoint}?examId={exam.Id}", out var response, default, default, authorization, token);
 			var message = response.ToLogString();
 
 			if (success)
@@ -227,6 +226,8 @@ namespace SafeExamBrowser.Server
 		public void Initialize(ServerSettings settings)
 		{
 			this.settings = settings;
+			
+			httpClient = new HttpClient();
 			httpClient.BaseAddress = new Uri(settings.ServerUrl);
 
 			if (settings.RequestTimeout > 0)
@@ -442,7 +443,7 @@ namespace SafeExamBrowser.Server
 								break;
 						}
 
-						if (instructionConfirmation != default(string))
+						if (instructionConfirmation != default)
 						{
 							instructionConfirmations.Enqueue(instructionConfirmation);
 						}
@@ -503,7 +504,7 @@ namespace SafeExamBrowser.Server
 			};
 			var content = json.ToString();
 
-			TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
+			TryExecute(HttpMethod.Post, api.LogEndpoint, out _, content, contentType, authorization, token);
 		}
 
 		private void WirelessAdapter_NetworksChanged()
@@ -546,21 +547,21 @@ namespace SafeExamBrowser.Server
 			HttpMethod method,
 			string url,
 			out HttpResponseMessage response,
-			string content = default(string),
-			string contentType = default(string),
+			string content = default,
+			string contentType = default,
 			params (string name, string value)[] headers)
 		{
-			response = default(HttpResponseMessage);
+			response = default;
 
-			for (var attempt = 0; attempt < settings.RequestAttempts && (response == default(HttpResponseMessage) || !response.IsSuccessStatusCode); attempt++)
+			for (var attempt = 0; attempt < settings.RequestAttempts && (response == default || !response.IsSuccessStatusCode); attempt++)
 			{
 				var request = new HttpRequestMessage(method, url);
 
-				if (content != default(string))
+				if (content != default)
 				{
 					request.Content = new StringContent(content, Encoding.UTF8);
 
-					if (contentType != default(string))
+					if (contentType != default)
 					{
 						request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse(contentType);
 					}
@@ -591,7 +592,7 @@ namespace SafeExamBrowser.Server
 				}
 			}
 
-			return response != default(HttpResponseMessage) && response.IsSuccessStatusCode;
+			return response != default && response.IsSuccessStatusCode;
 		}
 	}
 }

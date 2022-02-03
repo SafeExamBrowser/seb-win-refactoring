@@ -63,17 +63,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 					if (success)
 					{
-						var exam = default(Exam);
-
-						if (!string.IsNullOrWhiteSpace(Context.Next.Settings.Server.ExamId))
-						{
-							exam = exams.First();
-							logger.Info("Automatically selected exam as defined in configuration.");
-						}
-						else
-						{
-							success = TrySelectExam(exams, out exam);
-						}
+						success = TrySelectExam(exams, out var exam);
 
 						if (success)
 						{
@@ -81,31 +71,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 							if (success)
 							{
-								var info = server.GetConnectionInfo();
-								var status = TryLoadSettings(uri, UriSource.Server, out _, out var settings);
-
-								fileSystem.Delete(uri.LocalPath);
-
-								if (status == LoadStatus.Success)
-								{
-									var serverSettings = Context.Next.Settings.Server;
-
-									Context.Next.AppConfig.ServerApi = info.Api;
-									Context.Next.AppConfig.ServerConnectionToken = info.ConnectionToken;
-									Context.Next.AppConfig.ServerExamId = exam.Id;
-									Context.Next.AppConfig.ServerOauth2Token = info.Oauth2Token;
-
-									Context.Next.Settings = settings;
-									Context.Next.Settings.Browser.StartUrl = exam.Url;
-									Context.Next.Settings.Server = serverSettings;
-									Context.Next.Settings.SessionMode = SessionMode.Server;
-
-									result = OperationResult.Success;
-								}
-								else
-								{
-									result = OperationResult.Failed;
-								}
+								result = TryLoadServerSettings(exam, uri);
 							}
 						}
 					}
@@ -132,15 +98,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			if (Context.Current.Settings.SessionMode == SessionMode.Server)
 			{
-				logger.Info("Initializing server configuration for next session...");
-
-				Context.Next.AppConfig.ServerApi = Context.Current.AppConfig.ServerApi;
-				Context.Next.AppConfig.ServerConnectionToken = Context.Current.AppConfig.ServerConnectionToken;
-				Context.Next.AppConfig.ServerExamId = Context.Current.AppConfig.ServerExamId;
-				Context.Next.AppConfig.ServerOauth2Token = Context.Current.AppConfig.ServerOauth2Token;
-
-				Context.Next.Settings.Server = Context.Current.Settings.Server;
-				Context.Next.Settings.SessionMode = SessionMode.Server;
+				InitializeNextSession();
 			}
 			else if (Context.Next.Settings.SessionMode == SessionMode.Server)
 			{
@@ -179,6 +137,47 @@ namespace SafeExamBrowser.Runtime.Operations
 			ActionRequired?.Invoke(args);
 		}
 
+		private void InitializeNextSession()
+		{
+			logger.Info("Initializing server configuration for next session...");
+
+			Context.Next.AppConfig.ServerApi = Context.Current.AppConfig.ServerApi;
+			Context.Next.AppConfig.ServerConnectionToken = Context.Current.AppConfig.ServerConnectionToken;
+			Context.Next.AppConfig.ServerExamId = Context.Current.AppConfig.ServerExamId;
+			Context.Next.AppConfig.ServerOauth2Token = Context.Current.AppConfig.ServerOauth2Token;
+
+			Context.Next.Settings.Server = Context.Current.Settings.Server;
+			Context.Next.Settings.SessionMode = SessionMode.Server;
+		}
+
+		private OperationResult TryLoadServerSettings(Exam exam, Uri uri)
+		{
+			var info = server.GetConnectionInfo();
+			var result = OperationResult.Failed;
+			var status = TryLoadSettings(uri, UriSource.Server, out _, out var settings);
+
+			fileSystem.Delete(uri.LocalPath);
+
+			if (status == LoadStatus.Success)
+			{
+				var serverSettings = Context.Next.Settings.Server;
+
+				Context.Next.AppConfig.ServerApi = info.Api;
+				Context.Next.AppConfig.ServerConnectionToken = info.ConnectionToken;
+				Context.Next.AppConfig.ServerExamId = exam.Id;
+				Context.Next.AppConfig.ServerOauth2Token = info.Oauth2Token;
+
+				Context.Next.Settings = settings;
+				Context.Next.Settings.Browser.StartUrl = exam.Url;
+				Context.Next.Settings.Server = serverSettings;
+				Context.Next.Settings.SessionMode = SessionMode.Server;
+
+				result = OperationResult.Success;
+			}
+
+			return result;
+		}
+
 		private (bool abort, bool fallback, bool success) TryPerformWithFallback(Func<ServerResponse> request)
 		{
 			var abort = false;
@@ -206,7 +205,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			var fallback = false;
 			var success = false;
 
-			value = default(T);
+			value = default;
 
 			while (!success)
 			{
@@ -238,12 +237,24 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private bool TrySelectExam(IEnumerable<Exam> exams, out Exam exam)
 		{
-			var args = new ExamSelectionEventArgs(exams);
+			var success = true;
 
-			ActionRequired?.Invoke(args);
-			exam = args.SelectedExam;
+			if (string.IsNullOrWhiteSpace(Context.Next.Settings.Server.ExamId))
+			{
+				var args = new ExamSelectionEventArgs(exams);
 
-			return args.Success;
+				ActionRequired?.Invoke(args);
+
+				exam = args.SelectedExam;
+				success = args.Success;
+			}
+			else
+			{
+				exam = exams.First();
+				logger.Info("Automatically selected exam as defined in configuration.");
+			}
+
+			return success;
 		}
 	}
 }
