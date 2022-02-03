@@ -9,7 +9,7 @@ matrix:
 before_build:
  - nuget restore
 build_script:
- - msbuild /verbosity:minimal "SafeExamBrowser.sln"
+ - msbuild /verbosity:minimal /property:langversion=latest "SafeExamBrowser.sln"
 test_script:
  - .\packages\OpenCover.4.7.1221\tools\OpenCover.Console.exe -register -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Browser.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.Browser.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -output:"coverage.xml"
  - .\packages\OpenCover.4.7.1221\tools\OpenCover.Console.exe -register -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Client.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.Client.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -mergeoutput -output:"coverage.xml"

@@ -16,7 +16,7 @@ assembly_info:
 install:
  - appveyor DownloadFile "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
 build_script:
- - msbuild /verbosity:minimal "SafeExamBrowser.sln"
+ - msbuild /verbosity:minimal /property:langversion=latest "SafeExamBrowser.sln"
 test: off
 
 for:
