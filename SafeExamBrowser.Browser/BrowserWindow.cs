@@ -37,7 +37,7 @@ using TitleChangedEventHandler = SafeExamBrowser.Applications.Contracts.Events.T
 
 namespace SafeExamBrowser.Browser
 {
-	internal class BrowserApplicationInstance : IApplicationWindow
+	internal class BrowserWindow : IApplicationWindow
 	{
 		private const double ZOOM_FACTOR = 0.2;
 
@@ -45,22 +45,22 @@ namespace SafeExamBrowser.Browser
 		private readonly IFileSystemDialog fileSystemDialog;
 		private readonly IHashAlgorithm hashAlgorithm;
 		private readonly HttpClient httpClient;
+		private readonly bool isMainWindow;
 		private readonly IKeyGenerator keyGenerator;
 		private readonly IModuleLogger logger;
 		private readonly IMessageBox messageBox;
+		private readonly BrowserSettings settings;
+		private readonly string startUrl;
 		private readonly IText text;
 		private readonly IUserInterfaceFactory uiFactory;
 
 		private IBrowserControl control;
 		private IBrowserWindow window;
-		private bool isMainInstance;
-		private BrowserSettings settings;
-		private string startUrl;
 		private double zoomLevel;
 
 		private WindowSettings WindowSettings
 		{
-			get { return isMainInstance ? settings.MainWindow : settings.AdditionalWindow; }
+			get { return isMainWindow ? settings.MainWindow : settings.AdditionalWindow; }
 		}
 
 		internal int Id { get; }
@@ -69,21 +69,21 @@ namespace SafeExamBrowser.Browser
 		public IconResource Icon { get; private set; }
 		public string Title { get; private set; }
 
+		internal event WindowClosedEventHandler Closed;
 		internal event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 		internal event PopupRequestedEventHandler PopupRequested;
 		internal event ResetRequestedEventHandler ResetRequested;
 		internal event SessionIdentifierDetectedEventHandler SessionIdentifierDetected;
-		internal event InstanceTerminatedEventHandler Terminated;
 		internal event TerminationRequestedEventHandler TerminationRequested;
 
 		public event IconChangedEventHandler IconChanged;
 		public event TitleChangedEventHandler TitleChanged;
 
-		public BrowserApplicationInstance(
+		public BrowserWindow(
 			AppConfig appConfig,
 			BrowserSettings settings,
 			int id,
-			bool isMainInstance,
+			bool isMainWindow,
 			IFileSystemDialog fileSystemDialog,
 			IHashAlgorithm hashAlgorithm,
 			IKeyGenerator keyGenerator,
@@ -96,7 +96,7 @@ namespace SafeExamBrowser.Browser
 			this.appConfig = appConfig;
 			this.Id = id;
 			this.httpClient = new HttpClient();
-			this.isMainInstance = isMainInstance;
+			this.isMainWindow = isMainWindow;
 			this.fileSystemDialog = fileSystemDialog;
 			this.hashAlgorithm = hashAlgorithm;
 			this.keyGenerator = keyGenerator;
@@ -113,16 +113,16 @@ namespace SafeExamBrowser.Browser
 			window.BringToForeground();
 		}
 
+		internal void Close()
+		{
+			window.Close();
+			control.Destroy();
+		}
+
 		internal void Initialize()
 		{
 			InitializeControl();
 			InitializeWindow();
-		}
-
-		internal void Terminate()
-		{
-			window.Close();
-			control.Destroy();
 		}
 
 		private void InitializeControl()
@@ -210,10 +210,10 @@ namespace SafeExamBrowser.Browser
 
 		private void InitializeWindow()
 		{
-			window = uiFactory.CreateBrowserWindow(control, settings, isMainInstance);
-			window.Closing += Window_Closing;
+			window = uiFactory.CreateBrowserWindow(control, settings, isMainWindow);
 			window.AddressChanged += Window_AddressChanged;
 			window.BackwardNavigationRequested += Window_BackwardNavigationRequested;
+			window.Closing += Window_Closing;
 			window.DeveloperConsoleRequested += Window_DeveloperConsoleRequested;
 			window.FindRequested += Window_FindRequested;
 			window.ForwardNavigationRequested += Window_ForwardNavigationRequested;
@@ -297,9 +297,13 @@ namespace SafeExamBrowser.Browser
 			{
 				initialPath = args.InitialPath;
 			}
+			else if (string.IsNullOrEmpty(settings.DownAndUploadDirectory))
+			{
+				initialPath = KnownFolders.Downloads.ExpandedPath;
+			}
 			else
 			{
-				initialPath = string.IsNullOrEmpty(settings.DownAndUploadDirectory) ? KnownFolders.Downloads.ExpandedPath : Environment.ExpandEnvironmentVariables(settings.DownAndUploadDirectory);
+				initialPath = Environment.ExpandEnvironmentVariables(settings.DownAndUploadDirectory);
 			}
 
 			if (isAllowed)
@@ -382,7 +386,7 @@ namespace SafeExamBrowser.Browser
 
 		private void HomeNavigationRequested()
 		{
-			if (isMainInstance && (settings.UseStartUrlAsHomeUrl || !string.IsNullOrWhiteSpace(settings.HomeUrl)))
+			if (isMainWindow && (settings.UseStartUrlAsHomeUrl || !string.IsNullOrWhiteSpace(settings.HomeUrl)))
 			{
 				var navigate = false;
 				var url = settings.UseStartUrlAsHomeUrl ? settings.StartUrl : settings.HomeUrl;
@@ -568,9 +572,9 @@ namespace SafeExamBrowser.Browser
 
 		private void Window_Closing()
 		{
-			logger.Info($"Instance has terminated.");
+			logger.Info($"Window is closing...");
 			control.Destroy();
-			Terminated?.Invoke(Id);
+			Closed?.Invoke(Id);
 		}
 
 		private void Window_DeveloperConsoleRequested()

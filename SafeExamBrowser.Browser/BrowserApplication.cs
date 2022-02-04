@@ -37,12 +37,11 @@ namespace SafeExamBrowser.Browser
 {
 	public class BrowserApplication : IBrowserApplication
 	{
-		private int instanceIdCounter = default(int);
+		private int windowIdCounter = default;
 
 		private readonly AppConfig appConfig;
 		private readonly IFileSystemDialog fileSystemDialog;
 		private readonly IHashAlgorithm hashAlgorithm;
-		private readonly List<BrowserApplicationInstance> instances;
 		private readonly IKeyGenerator keyGenerator;
 		private readonly IModuleLogger logger;
 		private readonly IMessageBox messageBox;
@@ -50,6 +49,7 @@ namespace SafeExamBrowser.Browser
 		private readonly BrowserSettings settings;
 		private readonly IText text;
 		private readonly IUserInterfaceFactory uiFactory;
+		private readonly List<BrowserWindow> windows;
 
 		public bool AutoStart { get; private set; }
 		public IconResource Icon { get; private set; }
@@ -77,7 +77,6 @@ namespace SafeExamBrowser.Browser
 			this.appConfig = appConfig;
 			this.fileSystemDialog = fileSystemDialog;
 			this.hashAlgorithm = hashAlgorithm;
-			this.instances = new List<BrowserApplicationInstance>();
 			this.keyGenerator = keyGenerator;
 			this.logger = logger;
 			this.messageBox = messageBox;
@@ -85,11 +84,12 @@ namespace SafeExamBrowser.Browser
 			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;
+			this.windows = new List<BrowserWindow>();
 		}
 
 		public IEnumerable<IApplicationWindow> GetWindows()
 		{
-			return new List<IApplicationWindow>(instances);
+			return new List<IApplicationWindow>(windows);
 		}
 
 		public void Initialize()
@@ -123,7 +123,7 @@ namespace SafeExamBrowser.Browser
 
 		public void Start()
 		{
-			CreateNewInstance();
+			CreateNewWindow();
 		}
 
 		public void Terminate()
@@ -131,11 +131,11 @@ namespace SafeExamBrowser.Browser
 			logger.Info("Initiating termination...");
 			AwaitReady();
 
-			foreach (var instance in instances)
+			foreach (var window in windows)
 			{
-				instance.Terminated -= Instance_Terminated;
-				instance.Terminate();
-				logger.Info($"Terminated browser instance {instance.Id}.");
+				window.Closed -= Window_Closed;
+				window.Close();
+				logger.Info($"Closed browser window #{window.Id}.");
 			}
 
 			if (settings.UseTemporaryDownAndUploadDirectory)
@@ -170,37 +170,37 @@ namespace SafeExamBrowser.Browser
 			Thread.Sleep(500);
 		}
 
-		private void CreateNewInstance(string url = null)
+		private void CreateNewWindow(string url = null)
 		{
-			var id = ++instanceIdCounter;
-			var isMainInstance = instances.Count == 0;
-			var instanceLogger = logger.CloneFor($"Browser Instance #{id}");
+			var id = ++windowIdCounter;
+			var isMainWindow = windows.Count == 0;
 			var startUrl = url ?? GenerateStartUrl();
-			var instance = new BrowserApplicationInstance(
+			var windowLogger = logger.CloneFor($"Browser Window #{id}");
+			var window = new BrowserWindow(
 				appConfig,
 				settings,
 				id,
-				isMainInstance,
+				isMainWindow,
 				fileSystemDialog,
 				hashAlgorithm,
 				keyGenerator,
 				messageBox,
-				instanceLogger,
+				windowLogger,
 				text,
 				uiFactory,
 				startUrl);
 
-			instance.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
-			instance.PopupRequested += Instance_PopupRequested;
-			instance.ResetRequested += Instance_ResetRequested;
-			instance.SessionIdentifierDetected += (i) => SessionIdentifierDetected?.Invoke(i);
-			instance.Terminated += Instance_Terminated;
-			instance.TerminationRequested += () => TerminationRequested?.Invoke();
+			window.Closed += Window_Closed;
+			window.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
+			window.PopupRequested += Window_PopupRequested;
+			window.ResetRequested += Window_ResetRequested;
+			window.SessionIdentifierDetected += (i) => SessionIdentifierDetected?.Invoke(i);
+			window.TerminationRequested += () => TerminationRequested?.Invoke();
 
-			instance.Initialize();
-			instances.Add(instance);
+			window.Initialize();
+			windows.Add(window);
 
-			logger.Info($"Created browser instance {instance.Id}.");
+			logger.Info($"Created browser window #{window.Id}.");
 			WindowsChanged?.Invoke();
 		}
 
@@ -412,25 +412,32 @@ namespace SafeExamBrowser.Browser
 			throw new NotImplementedException($"Mapping for proxy protocol '{protocol}' is not yet implemented!");
 		}
 
-		private void Instance_PopupRequested(PopupRequestedEventArgs args)
+		private void Window_Closed(int id)
 		{
-			logger.Info($"Received request to create new instance{(settings.AdditionalWindow.UrlPolicy.CanLog() ? $" for '{args.Url}'" : "")}...");
-			CreateNewInstance(args.Url);
+			windows.Remove(windows.First(i => i.Id == id));
+			WindowsChanged?.Invoke();
+			logger.Info($"Window #{id} has been closed.");
 		}
 
-		private void Instance_ResetRequested()
+		private void Window_PopupRequested(PopupRequestedEventArgs args)
+		{
+			logger.Info($"Received request to create new window{(settings.AdditionalWindow.UrlPolicy.CanLog() ? $" for '{args.Url}'" : "")}...");
+			CreateNewWindow(args.Url);
+		}
+
+		private void Window_ResetRequested()
 		{
 			logger.Info("Attempting to reset browser...");
 			AwaitReady();
 
-			foreach (var instance in instances)
+			foreach (var window in windows)
 			{
-				instance.Terminated -= Instance_Terminated;
-				instance.Terminate();
-				logger.Info($"Terminated browser instance {instance.Id}.");
+				window.Closed -= Window_Closed;
+				window.Close();
+				logger.Info($"Closed browser window #{window.Id}.");
 			}
 
-			instances.Clear();
+			windows.Clear();
 			WindowsChanged?.Invoke();
 
 			if (settings.DeleteCookiesOnStartup && settings.DeleteCookiesOnShutdown)
@@ -439,14 +446,8 @@ namespace SafeExamBrowser.Browser
 			}
 
 			nativeMethods.EmptyClipboard();
-			CreateNewInstance();
+			CreateNewWindow();
 			logger.Info("Successfully reset browser.");
-		}
-
-		private void Instance_Terminated(int id)
-		{
-			instances.Remove(instances.First(i => i.Id == id));
-			WindowsChanged?.Invoke();
 		}
 	}
 }

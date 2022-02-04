@@ -8,5 +8,5 @@
 
 namespace SafeExamBrowser.Browser.Events
 {
-	internal delegate void InstanceTerminatedEventHandler(int id);
+	internal delegate void WindowClosedEventHandler(int id);
 }

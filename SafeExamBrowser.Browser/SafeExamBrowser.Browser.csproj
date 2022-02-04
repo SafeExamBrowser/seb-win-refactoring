@@ -79,12 +79,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrowserApplication.cs" />
-    <Compile Include="BrowserApplicationInstance.cs" />
+    <Compile Include="BrowserWindow.cs" />
     <Compile Include="Events\DialogRequestedEventArgs.cs" />
     <Compile Include="Events\DialogRequestedEventHandler.cs" />
     <Compile Include="Events\DownloadUpdatedEventHandler.cs" />
     <Compile Include="Events\FaviconChangedEventHandler.cs" />
-    <Compile Include="Events\InstanceTerminatedEventHandler.cs" />
+    <Compile Include="Events\WindowClosedEventHandler.cs" />
     <Compile Include="Events\PopupRequestedEventArgs.cs" />
     <Compile Include="Events\PopupRequestedEventHandler.cs" />
     <Compile Include="Events\ProgressChangedEventHandler.cs" />
