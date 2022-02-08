@@ -577,6 +577,7 @@ if (typeof __SEB_focusElement === 'undefined') {
 			FindCaseSensitiveCheckBox.Content = text.Get(TextKey.BrowserWindow_FindCaseSensitive);
 			FindMenuText.Text = text.Get(TextKey.BrowserWindow_FindMenuItem);
 			ZoomText.Text = text.Get(TextKey.BrowserWindow_ZoomMenuItem);
+			ReloadButton.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, text.Get(TextKey.BrowserWindow_ReloadButton));
 		}
 
 		public void FocusToolbar(bool forward)

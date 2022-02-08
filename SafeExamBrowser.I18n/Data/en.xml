@@ -48,6 +48,9 @@
     <Entry key="BrowserWindow_FindMenuItem">
         Search page...
     </Entry>
+    <Entry key="BrowserWindow_ReloadButton">
+        Reload button
+    </Entry>
     <Entry key="BrowserWindow_ZoomMenuItem">
         Page Zoom
     </Entry>
