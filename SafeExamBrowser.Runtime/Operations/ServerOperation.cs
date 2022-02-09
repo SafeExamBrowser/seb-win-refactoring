@@ -146,7 +146,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			Context.Next.AppConfig.ServerExamId = Context.Current.AppConfig.ServerExamId;
 			Context.Next.AppConfig.ServerOauth2Token = Context.Current.AppConfig.ServerOauth2Token;
 
-			Context.Next.Settings.Server = Context.Current.Settings.Server;
+			Context.Next.Settings = Context.Current.Settings;
 			Context.Next.Settings.SessionMode = SessionMode.Server;
 		}
 
