@@ -49,7 +49,25 @@
         Search page...
     </Entry>
     <Entry key="BrowserWindow_ReloadButton">
-        Reload button
+        Reload
+    </Entry>
+    <Entry key="BrowserWindow_BackwardButton">
+        Backward
+    </Entry>
+    <Entry key="BrowserWindow_ForwardButton">
+        Forward
+    </Entry>
+    <Entry key="BrowserWindow_DownloadsButton">
+        Download
+    </Entry>
+    <Entry key="BrowserWindow_HomeButton">
+        Home
+    </Entry>
+    <Entry key="BrowserWindow_MenuButton">
+        Menu
+    </Entry>
+    <Entry key="BrowserWindow_UrlTextBox">
+        Enter URL
     </Entry>
     <Entry key="BrowserWindow_ZoomMenuItem">
         Page Zoom

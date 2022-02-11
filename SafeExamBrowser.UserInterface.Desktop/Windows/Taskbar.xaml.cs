@@ -125,7 +125,9 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		{
 			Dispatcher.Invoke(() =>
 			{
-				QuitButton.ToolTip = text.Get(TextKey.Shell_QuitButton);
+				var txt = text.Get(TextKey.Shell_QuitButton);
+				QuitButton.ToolTip = txt;
+				QuitButton.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, txt);
 			});
 		}
 
