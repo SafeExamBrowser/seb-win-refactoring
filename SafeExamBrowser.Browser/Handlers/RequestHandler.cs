@@ -14,7 +14,6 @@ using CefSharp;
 using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Browser.Filter;
@@ -25,13 +24,14 @@ namespace SafeExamBrowser.Browser.Handlers
 {
 	internal class RequestHandler : CefSharp.Handler.RequestHandler
 	{
-		private AppConfig appConfig;
-		private IRequestFilter filter;
-		private ILogger logger;
+		private readonly AppConfig appConfig;
+		private readonly IRequestFilter filter;
+		private readonly ILogger logger;
+		private readonly ResourceHandler resourceHandler;
+		private readonly WindowSettings windowSettings;
+		private readonly BrowserSettings settings;
+
 		private string quitUrlPattern;
-		private ResourceHandler resourceHandler;
-		private WindowSettings windowSettings;
-		private BrowserSettings settings;
 
 		internal event UrlEventHandler QuitUrlVisited;
 		internal event UrlEventHandler RequestBlocked;
@@ -42,8 +42,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			ILogger logger,
 			ResourceHandler resourceHandler,
 			BrowserSettings settings,
-			WindowSettings windowSettings,
-			IText text)
+			WindowSettings windowSettings)
 		{
 			this.appConfig = appConfig;
 			this.filter = filter;
@@ -53,16 +52,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			this.windowSettings = windowSettings;
 		}
 
-		protected override bool GetAuthCredentials(
-			IWebBrowser webBrowser,
-			IBrowser browser,
-			string originUrl,
-			bool isProxy,
-			string host,
-			int port,
-			string realm,
-			string scheme,
-			IAuthCallback callback)
+		protected override bool GetAuthCredentials(IWebBrowser webBrowser, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback)
 		{
 			if (isProxy)
 			{
@@ -80,15 +70,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			return base.GetAuthCredentials(webBrowser, browser, originUrl, isProxy, host, port, realm, scheme, callback);
 		}
 
-		protected override IResourceRequestHandler GetResourceRequestHandler(
-			IWebBrowser webBrowser,
-			IBrowser browser,
-			IFrame frame,
-			IRequest request,
-			bool isNavigation,
-			bool isDownload,
-			string requestInitiator,
-			ref bool disableDefaultHandling)
+		protected override IResourceRequestHandler GetResourceRequestHandler(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling)
 		{
 			return resourceHandler;
 		}
@@ -122,13 +104,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			return base.OnBeforeBrowse(webBrowser, browser, frame, request, userGesture, isRedirect);
 		}
 
-		protected override bool OnOpenUrlFromTab(
-			IWebBrowser webBrowser,
-			IBrowser browser,
-			IFrame frame,
-			string targetUrl,
-			WindowOpenDisposition targetDisposition,
-			bool userGesture)
+		protected override bool OnOpenUrlFromTab(IWebBrowser webBrowser, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture)
 		{
 			switch (targetDisposition)
 			{
@@ -172,7 +148,7 @@ namespace SafeExamBrowser.Browser.Handlers
 
 			if (!string.IsNullOrWhiteSpace(settings.QuitUrl))
 			{
-				if (quitUrlPattern == default(string))
+				if (quitUrlPattern == default)
 				{
 					quitUrlPattern = Regex.Escape(settings.QuitUrl.TrimEnd('/')) + @"\/?";
 				}

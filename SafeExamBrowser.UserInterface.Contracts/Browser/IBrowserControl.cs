@@ -32,6 +32,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		bool CanNavigateForwards { get; }
 
 		/// <summary>
+		/// The user interface control to be embedded in an <see cref="IBrowserWindow"/>.
+		/// </summary>
+		object EmbeddableControl { get; }
+
+		/// <summary>
 		/// Event fired when the address of the browser control changes.
 		/// </summary>
 		event AddressChangedEventHandler AddressChanged;

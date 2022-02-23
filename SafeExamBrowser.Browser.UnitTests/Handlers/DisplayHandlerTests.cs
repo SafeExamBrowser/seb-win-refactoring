@@ -6,11 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Collections.Generic;
-using CefSharp;
-using CefSharp.Enums;
-using CefSharp.Structs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SafeExamBrowser.Browser.Handlers;
 
@@ -32,10 +28,10 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		{
 			var text = default(string);
 
-			Assert.IsFalse(sut.OnAutoResize(default(IWebBrowser), default(IBrowser), default(Size)));
-			Assert.IsFalse(sut.OnConsoleMessage(default(IWebBrowser), default(ConsoleMessageEventArgs)));
-			Assert.IsFalse(sut.OnCursorChange(default(IWebBrowser), default(IBrowser), default(IntPtr), default(CursorType), default(CursorInfo)));
-			Assert.IsFalse(sut.OnTooltipChanged(default(IWebBrowser), ref text));
+			Assert.IsFalse(sut.OnAutoResize(default, default, default));
+			Assert.IsFalse(sut.OnConsoleMessage(default, default));
+			Assert.IsFalse(sut.OnCursorChange(default, default, default, default, default));
+			Assert.IsFalse(sut.OnTooltipChanged(default, ref text));
 		}
 
 		[TestMethod]
@@ -50,12 +46,12 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 				called = true;
 				url = u;
 			};
-			sut.OnFaviconUrlChange(default(IWebBrowser), default(IBrowser), new List<string>());
+			sut.OnFaviconUrlChange(default, default, new List<string>());
 
-			Assert.AreEqual(default(string), url);
+			Assert.AreEqual(default, url);
 			Assert.IsFalse(called);
 
-			sut.OnFaviconUrlChange(default(IWebBrowser), default(IBrowser), new List<string> { newUrl });
+			sut.OnFaviconUrlChange(default, default, new List<string> { newUrl });
 
 			Assert.AreEqual(newUrl, url);
 			Assert.IsTrue(called);
@@ -68,7 +64,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			var actual = default(double);
 
 			sut.ProgressChanged += (p) => actual = p;
-			sut.OnLoadingProgressChange(default(IWebBrowser), default(IBrowser), expected);
+			sut.OnLoadingProgressChange(default, default, expected);
 
 			Assert.AreEqual(expected, actual);
 		}

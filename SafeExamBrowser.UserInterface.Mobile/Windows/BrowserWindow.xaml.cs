@@ -30,9 +30,11 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 {
 	internal partial class BrowserWindow : Window, IBrowserWindow
 	{
-		private bool isMainWindow;
-		private BrowserSettings settings;
-		private IText text;
+		private readonly bool isMainWindow;
+		private readonly BrowserSettings settings;
+		private readonly IText text;
+
+		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
 
 		private WindowSettings WindowSettings
@@ -54,6 +56,12 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		public event ActionRequestedEventHandler ZoomInRequested;
 		public event ActionRequestedEventHandler ZoomOutRequested;
 		public event ActionRequestedEventHandler ZoomResetRequested;
+
+		event WindowClosedEventHandler IWindow.Closed
+		{
+			add { closed += value; }
+			remove { closed -= value; }
+		}
 
 		event WindowClosingEventHandler IWindow.Closing
 		{
@@ -282,7 +290,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		private void InitializeBrowserWindow(IBrowserControl browserControl)
 		{
-			if (browserControl is System.Windows.Forms.Control control)
+			if (browserControl.EmbeddableControl is System.Windows.Forms.Control control)
 			{
 				BrowserControlHost.Child = control;
 			}
@@ -297,6 +305,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		private void RegisterEvents()
 		{
 			BackwardButton.Click += (o, args) => BackwardNavigationRequested?.Invoke();
+			Closed += (o, args) => closed?.Invoke();
 			Closing += BrowserWindow_Closing;
 			DeveloperConsoleButton.Click += (o, args) => DeveloperConsoleRequested?.Invoke();
 			DownloadsButton.Click += (o, args) => DownloadsPopup.IsOpen = !DownloadsPopup.IsOpen;

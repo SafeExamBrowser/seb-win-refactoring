@@ -31,7 +31,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		[TestMethod]
 		public void MustCorrectlyCancelDialog()
 		{
-			RequestDialog(default(CefFileDialogMode), false);
+			RequestDialog(default, false);
 		}
 
 		[TestMethod]
@@ -80,7 +80,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 				threadId = Thread.CurrentThread.ManagedThreadId;
 			};
 
-			var status = sut.OnFileDialog(default(IWebBrowser), default(IBrowser), mode, default(CefFileDialogFlags), title, initialPath, default(List<string>), default(int), callback.Object);
+			var status = sut.OnFileDialog(default, default, mode, default, title, initialPath, default, default, callback.Object);
 
 			sync.WaitOne();
 

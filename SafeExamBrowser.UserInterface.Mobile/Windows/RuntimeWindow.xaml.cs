@@ -20,10 +20,13 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 {
 	internal partial class RuntimeWindow : Window, IRuntimeWindow
 	{
+		private readonly AppConfig appConfig;
+		private readonly IText text;
+
 		private bool allowClose;
-		private AppConfig appConfig;
-		private IText text;
 		private RuntimeWindowViewModel model;
+
+		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
 
 		public bool ShowLog
@@ -46,6 +49,12 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		public bool TopMost
 		{
 			set => Dispatcher.Invoke(() => Topmost = value);
+		}
+
+		event WindowClosedEventHandler IWindow.Closed
+		{
+			add { closed += value; }
+			remove { closed -= value; }
 		}
 
 		event WindowClosingEventHandler IWindow.Closing
@@ -74,6 +83,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			{
 				allowClose = true;
 				model.BusyIndication = false;
+				closing?.Invoke();
 
 				base.Close();
 			});
@@ -145,6 +155,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			ProgressBar.DataContext = model;
 			StatusTextBlock.DataContext = model;
 
+			Closed += (o, args) => closed?.Invoke();
 			Closing += (o, args) => args.Cancel = !allowClose;
 
 #if DEBUG

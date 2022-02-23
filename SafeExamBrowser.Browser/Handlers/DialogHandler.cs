@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CefSharp;
 using SafeExamBrowser.Browser.Events;
-using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
+using SafeExamBrowser.Browser.Wrapper;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
@@ -22,9 +22,9 @@ namespace SafeExamBrowser.Browser.Handlers
 		{
 			var args = new DialogRequestedEventArgs
 			{
-				Element = ToElement(mode),
+				Element = mode.ToElement(),
 				InitialPath = defaultFilePath,
-				Operation = ToOperation(mode),
+				Operation = mode.ToOperation(),
 				Title = title
 			};
 
@@ -46,28 +46,6 @@ namespace SafeExamBrowser.Browser.Handlers
 			});
 
 			return true;
-		}
-
-		private FileSystemElement ToElement(CefFileDialogMode mode)
-		{
-			switch (mode)
-			{
-				case CefFileDialogMode.OpenFolder:
-					return FileSystemElement.Folder;
-				default:
-					return FileSystemElement.File;
-			}
-		}
-
-		private FileSystemOperation ToOperation(CefFileDialogMode mode)
-		{
-			switch (mode)
-			{
-				case CefFileDialogMode.Save:
-					return FileSystemOperation.Save;
-				default:
-					return FileSystemOperation.Open;
-			}
 		}
 	}
 }

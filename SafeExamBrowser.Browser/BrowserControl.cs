@@ -8,8 +8,9 @@
 
 using System;
 using CefSharp;
-using CefSharp.WinForms;
 using SafeExamBrowser.Browser.Content;
+using SafeExamBrowser.Browser.Wrapper;
+using SafeExamBrowser.Browser.Wrapper.Events;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.I18n.Contracts;
@@ -18,105 +19,80 @@ using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
 
 namespace SafeExamBrowser.Browser
 {
-	internal class BrowserControl : ChromiumWebBrowser, IBrowserControl
+	internal class BrowserControl : IBrowserControl
 	{
 		private readonly AppConfig appConfig;
 		private readonly ContentLoader contentLoader;
-		private readonly IContextMenuHandler contextMenuHandler;
+		private readonly ICefSharpControl control;
 		private readonly IDialogHandler dialogHandler;
 		private readonly IDisplayHandler displayHandler;
 		private readonly IDownloadHandler downloadHandler;
-		private readonly IKeyGenerator generator;
 		private readonly IKeyboardHandler keyboardHandler;
-		private readonly ILifeSpanHandler lifeSpanHandler;
+		private readonly IKeyGenerator generator;
 		private readonly IRequestHandler requestHandler;
-		private readonly IText text;
 
-		private AddressChangedEventHandler addressChanged;
-		private LoadFailedEventHandler loadFailed;
-		private LoadingStateChangedEventHandler loadingStateChanged;
-		private TitleChangedEventHandler titleChanged;
+		public string Address => control.Address;
+		public bool CanNavigateBackwards => control.BrowserCore.CanGoBack;
+		public bool CanNavigateForwards => control.BrowserCore.CanGoForward;
+		public object EmbeddableControl => control;
 
-		public bool CanNavigateBackwards => GetBrowser().CanGoBack;
-		public bool CanNavigateForwards => GetBrowser().CanGoForward;
-
-		event AddressChangedEventHandler IBrowserControl.AddressChanged
-		{
-			add { addressChanged += value; }
-			remove { addressChanged -= value; }
-		}
-
-		event LoadFailedEventHandler IBrowserControl.LoadFailed
-		{
-			add { loadFailed += value; }
-			remove { loadFailed -= value; }
-		}
-
-		event LoadingStateChangedEventHandler IBrowserControl.LoadingStateChanged
-		{
-			add { loadingStateChanged += value; }
-			remove { loadingStateChanged -= value; }
-		}
-
-		event TitleChangedEventHandler IBrowserControl.TitleChanged
-		{
-			add { titleChanged += value; }
-			remove { titleChanged -= value; }
-		}
+		public event AddressChangedEventHandler AddressChanged;
+		public event LoadFailedEventHandler LoadFailed;
+		public event LoadingStateChangedEventHandler LoadingStateChanged;
+		public event TitleChangedEventHandler TitleChanged;
 
 		public BrowserControl(
 			AppConfig appConfig,
-			IContextMenuHandler contextMenuHandler,
+			ICefSharpControl control,
 			IDialogHandler dialogHandler,
 			IDisplayHandler displayHandler,
 			IDownloadHandler downloadHandler,
-			IKeyGenerator generator,
 			IKeyboardHandler keyboardHandler,
-			ILifeSpanHandler lifeSpanHandler,
+			IKeyGenerator generator,
 			IRequestHandler requestHandler,
-			IText text,
-			string url) : base(url)
+			IText text)
 		{
 			this.appConfig = appConfig;
 			this.contentLoader = new ContentLoader(text);
-			this.contextMenuHandler = contextMenuHandler;
+			this.control = control;
 			this.dialogHandler = dialogHandler;
 			this.displayHandler = displayHandler;
 			this.downloadHandler = downloadHandler;
-			this.generator = generator;
 			this.keyboardHandler = keyboardHandler;
-			this.lifeSpanHandler = lifeSpanHandler;
+			this.generator = generator;
 			this.requestHandler = requestHandler;
-			this.text = text;
 		}
 
 		public void Destroy()
 		{
-			if (!IsDisposed)
+			if (!control.IsDisposed)
 			{
-				Dispose(true);
+				control.Dispose(true);
 			}
 		}
 
 		public void Initialize()
 		{
-			AddressChanged += (o, args) => addressChanged?.Invoke(args.Address);
-			FrameLoadStart += BrowserControl_FrameLoadStart;
-			IsBrowserInitializedChanged += BrowserControl_IsBrowserInitializedChanged;
-			LoadError += BrowserControl_LoadError;
-			LoadingStateChanged += (o, args) => loadingStateChanged?.Invoke(args.IsLoading);
-			TitleChanged += (o, args) => titleChanged?.Invoke(args.Title);
-
-			DialogHandler = dialogHandler;
-			DisplayHandler = displayHandler;
-			DownloadHandler = downloadHandler;
-			KeyboardHandler = keyboardHandler;
-			LifeSpanHandler = lifeSpanHandler;
-			MenuHandler = contextMenuHandler;
-			RequestHandler = requestHandler;
+			control.AddressChanged += (o, e) => AddressChanged?.Invoke(e.Address);
+			control.AuthCredentialsRequired += (w, b, o, i, h, p, r, s, c, a) => a.Value = requestHandler.GetAuthCredentials(w, b, o, i, h, p, r, s, c);
+			control.BeforeBrowse += (w, b, f, r, u, i, a) => a.Value = requestHandler.OnBeforeBrowse(w, b, f, r, u, i);
+			control.BeforeDownload += (w, b, d, c) => downloadHandler.OnBeforeDownload(w, b, d, c);
+			control.DownloadUpdated += (w, b, d, c) => downloadHandler.OnDownloadUpdated(w, b, d, c);
+			control.FaviconUrlChanged += (w, b, u) => displayHandler.OnFaviconUrlChange(w, b, u);
+			control.FileDialogRequested += (w, b, m, f, t, d, a, s, c) => dialogHandler.OnFileDialog(w, b, m, f, t, d, a, s, c);
+			control.FrameLoadStart += Control_FrameLoadStart;
+			control.IsBrowserInitializedChanged += Control_IsBrowserInitializedChanged;
+			control.KeyEvent += (w, b, t, k, n, m, s) => keyboardHandler.OnKeyEvent(w, b, t, k, n, m, s);
+			control.LoadError += (o, e) => LoadFailed?.Invoke((int) e.ErrorCode, e.ErrorText, e.FailedUrl);
+			control.LoadingProgressChanged += (w, b, p) => displayHandler.OnLoadingProgressChange(w, b, p);
+			control.LoadingStateChanged += (o, e) => LoadingStateChanged?.Invoke(e.IsLoading);
+			control.OpenUrlFromTab += (w, b, f, u, t, g, a) => a.Value = requestHandler.OnOpenUrlFromTab(w, b, f, u, t, g);
+			control.PreKeyEvent += (IWebBrowser w, IBrowser b, KeyType t, int k, int n, CefEventFlags m, bool i, ref bool s, GenericEventArgs a) => a.Value = keyboardHandler.OnPreKeyEvent(w, b, t, k, n, m, i, ref s);
+			control.ResourceRequestHandlerRequired += (IWebBrowser w, IBrowser b, IFrame f, IRequest r, bool n, bool d, string i, ref bool h, ResourceRequestEventArgs a) => a.Handler = requestHandler.GetResourceRequestHandler(w, b, f, r, n, d, i, ref h);
+			control.TitleChanged += (o, e) => TitleChanged?.Invoke(e.Title);
 		}
 
-		private void BrowserControl_FrameLoadStart(object sender, FrameLoadStartEventArgs e)
+		private void Control_FrameLoadStart(object sender, FrameLoadStartEventArgs e)
 		{
 			var browserExamKey = generator.CalculateBrowserExamKeyHash(e.Url);
 			var configurationKey = generator.CalculateConfigurationKeyHash(e.Url);
@@ -125,52 +101,47 @@ namespace SafeExamBrowser.Browser
 			e.Frame.ExecuteJavaScriptAsync(api);
 		}
 
+		private void Control_IsBrowserInitializedChanged(object sender, EventArgs e)
+		{
+			if (control.IsBrowserInitialized)
+			{
+				control.BrowserCore.GetHost().SetFocus(true);
+			}
+		}
+
 		public void Find(string term, bool isInitial, bool caseSensitive, bool forward = true)
 		{
-			this.Find(0, term, forward, caseSensitive, !isInitial);
+			control.Find(0, term, forward, caseSensitive, !isInitial);
 		}
 
 		public void NavigateBackwards()
 		{
-			GetBrowser().GoBack();
+			control.BrowserCore.GoBack();
 		}
 
 		public void NavigateForwards()
 		{
-			GetBrowser().GoForward();
+			control.BrowserCore.GoForward();
 		}
 
 		public void NavigateTo(string address)
 		{
-			Load(address);
+			control.Load(address);
 		}
 
 		public void ShowDeveloperConsole()
 		{
-			GetBrowser().ShowDevTools();
+			control.BrowserCore.ShowDevTools();
 		}
 
 		public void Reload()
 		{
-			GetBrowser().Reload();
+			control.BrowserCore.Reload();
 		}
 
 		public void Zoom(double level)
 		{
-			GetBrowser().SetZoomLevel(level);
-		}
-
-		private void BrowserControl_IsBrowserInitializedChanged(object sender, EventArgs e)
-		{
-			if (IsBrowserInitialized)
-			{
-				GetBrowser().GetHost().SetFocus(true);
-			}
-		}
-
-		private void BrowserControl_LoadError(object sender, LoadErrorEventArgs e)
-		{
-			loadFailed?.Invoke((int) e.ErrorCode, e.ErrorText, e.FailedUrl);
+			control.BrowserCore.SetZoomLevel(level);
 		}
 	}
 }

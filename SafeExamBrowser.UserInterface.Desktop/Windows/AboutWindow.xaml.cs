@@ -18,9 +18,17 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 {
 	internal partial class AboutWindow : Window, IWindow
 	{
-		private AppConfig appConfig;
-		private IText text;
+		private readonly AppConfig appConfig;
+		private readonly IText text;
+
+		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
+
+		event WindowClosedEventHandler IWindow.Closed
+		{
+			add { closed += value; }
+			remove { closed -= value; }
+		}
 
 		event WindowClosingEventHandler IWindow.Closing
 		{
@@ -44,6 +52,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 		private void InitializeAboutWindow()
 		{
+			Closed += (o, args) => closed?.Invoke();
 			Closing += (o, args) => closing?.Invoke();
 			MainText.Inlines.InsertBefore(MainText.Inlines.FirstInline, new Run(text.Get(TextKey.AboutWindow_LicenseInfo)));
 			Title = text.Get(TextKey.AboutWindow_Title);

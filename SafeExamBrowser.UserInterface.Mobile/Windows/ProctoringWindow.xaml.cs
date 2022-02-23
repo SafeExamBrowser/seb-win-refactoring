@@ -18,7 +18,14 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 {
 	public partial class ProctoringWindow : Window, IProctoringWindow
 	{
+		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
+
+		event WindowClosedEventHandler IWindow.Closed
+		{
+			add { closed += value; }
+			remove { closed -= value; }
+		}
 
 		event WindowClosingEventHandler IWindow.Closing
 		{
@@ -99,6 +106,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 				control.FullScreenChanged += Control_FullScreenChanged;
 			}
 
+			Closed += (o, args) => closed?.Invoke();
 			Closing += ProctoringWindow_Closing;
 			Loaded += ProctoringWindow_Loaded;
 			Top = SystemParameters.WorkArea.Height - Height - 15;

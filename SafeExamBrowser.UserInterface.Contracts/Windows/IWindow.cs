@@ -16,6 +16,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Windows
 	public interface IWindow
 	{
 		/// <summary>
+		/// Event fired when the window has been closed;
+		/// </summary>
+		event WindowClosedEventHandler Closed;
+
+		/// <summary>
 		/// Event fired when the window is closing.
 		/// </summary>
 		event WindowClosingEventHandler Closing;

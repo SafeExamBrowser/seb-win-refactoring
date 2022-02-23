@@ -17,8 +17,16 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 {
 	internal partial class PasswordDialog : Window, IPasswordDialog
 	{
-		private IText text;
+		private readonly IText text;
+
+		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
+
+		event WindowClosedEventHandler IWindow.Closed
+		{
+			add { closed += value; }
+			remove { closed -= value; }
+		}
 
 		event WindowClosingEventHandler IWindow.Closing
 		{
@@ -83,6 +91,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			ConfirmButton.Content = text.Get(TextKey.PasswordDialog_Confirm);
 			ConfirmButton.Click += ConfirmButton_Click;
 
+			Closed += (o, args) => closed?.Invoke();
 			Closing += (o, args) => closing?.Invoke();
 			Loaded += (o, args) => Activate();
 			Password.KeyUp += Password_KeyUp;

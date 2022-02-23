@@ -24,12 +24,12 @@ namespace SafeExamBrowser.Browser.Handlers
 {
 	internal class DownloadHandler : IDownloadHandler
 	{
-		private AppConfig appConfig;
-		private BrowserSettings settings;
-		private WindowSettings windowSettings;
-		private ConcurrentDictionary<int, DownloadFinishedCallback> callbacks;
-		private ConcurrentDictionary<int, Guid> downloads;
-		private ILogger logger;
+		private readonly AppConfig appConfig;
+		private readonly ConcurrentDictionary<int, DownloadFinishedCallback> callbacks;
+		private readonly ConcurrentDictionary<int, Guid> downloads;
+		private readonly ILogger logger;
+		private readonly BrowserSettings settings;
+		private readonly WindowSettings windowSettings;
 
 		internal event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 		internal event DownloadUpdatedEventHandler DownloadUpdated;
@@ -85,7 +85,7 @@ namespace SafeExamBrowser.Browser.Handlers
 					IsComplete = downloadItem.IsComplete,
 					Url = downloadItem.Url
 				};
-				
+
 				Task.Run(() => DownloadUpdated?.Invoke(state));
 			}
 

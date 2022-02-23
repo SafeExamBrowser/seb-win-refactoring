@@ -25,9 +25,16 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 {
 	internal partial class LockScreen : Window, ILockScreen
 	{
-		private AutoResetEvent autoResetEvent;
+		private readonly AutoResetEvent autoResetEvent;
+		private readonly IText text;
+
 		private IList<Window> windows;
-		private IText text;
+
+		event WindowClosedEventHandler IWindow.Closed
+		{
+			add { throw new NotImplementedException(); }
+			remove { throw new NotImplementedException(); }
+		}
 
 		event WindowClosingEventHandler IWindow.Closing
 		{

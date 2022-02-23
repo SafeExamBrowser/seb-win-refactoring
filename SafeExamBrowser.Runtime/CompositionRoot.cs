@@ -120,13 +120,13 @@ namespace SafeExamBrowser.Runtime
 		}
 
 		internal void LogStartupInformation()
-		{ 
+		{
 			logger.Log($"/* {appConfig.ProgramTitle}, Version {appConfig.ProgramInformationalVersion}, Build {appConfig.ProgramBuildVersion}");
 			logger.Log($"/* {appConfig.ProgramCopyright}");
 			logger.Log($"/* ");
 			logger.Log($"/* Please visit https://www.github.com/SafeExamBrowser for more information.");
 			logger.Log(string.Empty);
-			logger.Log($"# Application started at {appConfig.ApplicationStartTime.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+			logger.Log($"# Application started at {appConfig.ApplicationStartTime:yyyy-MM-dd HH:mm:ss.fff}");
 			logger.Log($"# Running on {systemInfo.OperatingSystemInfo}");
 			logger.Log($"# Computer '{systemInfo.Name}' is a {systemInfo.Model} manufactured by {systemInfo.Manufacturer}");
 			logger.Log($"# Runtime-ID: {appConfig.RuntimeId}");
@@ -135,7 +135,7 @@ namespace SafeExamBrowser.Runtime
 
 		internal void LogShutdownInformation()
 		{
-			logger?.Log($"# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+			logger?.Log($"# Application terminated at {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}");
 		}
 
 		private void InitializeConfiguration()

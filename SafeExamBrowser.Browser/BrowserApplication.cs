@@ -24,7 +24,6 @@ using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Browser.Proxy;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -170,35 +169,44 @@ namespace SafeExamBrowser.Browser
 			Thread.Sleep(500);
 		}
 
-		private void CreateNewWindow(string url = null)
+		private void CreateNewWindow(PopupRequestedEventArgs args = default)
 		{
 			var id = ++windowIdCounter;
 			var isMainWindow = windows.Count == 0;
-			var startUrl = url ?? GenerateStartUrl();
+			var startUrl = GenerateStartUrl();
 			var windowLogger = logger.CloneFor($"Browser Window #{id}");
 			var window = new BrowserWindow(
 				appConfig,
-				settings,
-				id,
-				isMainWindow,
 				fileSystemDialog,
 				hashAlgorithm,
+				id,
+				isMainWindow,
 				keyGenerator,
-				messageBox,
 				windowLogger,
+				messageBox,
+				settings,
+				startUrl,
 				text,
-				uiFactory,
-				startUrl);
+				uiFactory);
 
 			window.Closed += Window_Closed;
-			window.ConfigurationDownloadRequested += (fileName, args) => ConfigurationDownloadRequested?.Invoke(fileName, args);
+			window.ConfigurationDownloadRequested += (f, a) => ConfigurationDownloadRequested?.Invoke(f, a);
 			window.PopupRequested += Window_PopupRequested;
 			window.ResetRequested += Window_ResetRequested;
 			window.SessionIdentifierDetected += (i) => SessionIdentifierDetected?.Invoke(i);
 			window.TerminationRequested += () => TerminationRequested?.Invoke();
 
-			window.Initialize();
+			window.InitializeControl();
 			windows.Add(window);
+
+			if (args != default(PopupRequestedEventArgs))
+			{
+				args.Window = window;
+			}
+			else
+			{
+				window.InitializeWindow();
+			}
 
 			logger.Info($"Created browser window #{window.Id}.");
 			WindowsChanged?.Invoke();
@@ -421,8 +429,8 @@ namespace SafeExamBrowser.Browser
 
 		private void Window_PopupRequested(PopupRequestedEventArgs args)
 		{
-			logger.Info($"Received request to create new window{(settings.AdditionalWindow.UrlPolicy.CanLog() ? $" for '{args.Url}'" : "")}...");
-			CreateNewWindow(args.Url);
+			logger.Info($"Received request to create new window...");
+			CreateNewWindow(args);
 		}
 
 		private void Window_ResetRequested()

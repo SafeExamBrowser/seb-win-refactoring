@@ -50,16 +50,16 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			text = new Mock<IText>();
 			resourceHandler = new ResourceHandler(appConfig, filter.Object, keyGenerator.Object, logger.Object, settings, windowSettings, text.Object);
 
-			sut = new TestableRequestHandler(appConfig, filter.Object, logger.Object, resourceHandler, settings, windowSettings, text.Object);
+			sut = new TestableRequestHandler(appConfig, filter.Object, logger.Object, resourceHandler, settings, windowSettings);
 		}
 
 		[TestMethod]
 		public void MustBlockSpecialWindowDispositions()
 		{
-			Assert.IsTrue(sut.OnOpenUrlFromTab(default(IWebBrowser), default(IBrowser), default(IFrame), default(string), WindowOpenDisposition.NewBackgroundTab, default(bool)));
-			Assert.IsTrue(sut.OnOpenUrlFromTab(default(IWebBrowser), default(IBrowser), default(IFrame), default(string), WindowOpenDisposition.NewPopup, default(bool)));
-			Assert.IsTrue(sut.OnOpenUrlFromTab(default(IWebBrowser), default(IBrowser), default(IFrame), default(string), WindowOpenDisposition.NewWindow, default(bool)));
-			Assert.IsTrue(sut.OnOpenUrlFromTab(default(IWebBrowser), default(IBrowser), default(IFrame), default(string), WindowOpenDisposition.SaveToDisk, default(bool)));
+			Assert.IsTrue(sut.OnOpenUrlFromTab(default, default, default, default, WindowOpenDisposition.NewBackgroundTab, default));
+			Assert.IsTrue(sut.OnOpenUrlFromTab(default, default, default, default, WindowOpenDisposition.NewPopup, default));
+			Assert.IsTrue(sut.OnOpenUrlFromTab(default, default, default, default, WindowOpenDisposition.NewWindow, default));
+			Assert.IsTrue(sut.OnOpenUrlFromTab(default, default, default, default, WindowOpenDisposition.SaveToDisk, default));
 		}
 
 		[TestMethod]
@@ -214,7 +214,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		public void MustReturnResourceHandler()
 		{
 			var disableDefaultHandling = default(bool);
-			var handler = sut.GetResourceRequestHandler(default(IWebBrowser), default(IBrowser), default(IFrame), default(IRequest), default(bool), default(bool), default(string), ref disableDefaultHandling);
+			var handler = sut.GetResourceRequestHandler(default, default, default, default, default, default, default, ref disableDefaultHandling);
 
 			Assert.AreSame(resourceHandler, handler);
 		}
@@ -229,7 +229,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			settings.Proxy.Proxies.Add(proxy1);
 			settings.Proxy.Proxies.Add(proxy2);
 
-			var result = sut.GetAuthCredentials(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), default(string), true, "WWW.tEst.Com", 10, default(string), default(string), callback.Object);
+			var result = sut.GetAuthCredentials(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), default, true, "WWW.tEst.Com", 10, default, default, callback.Object);
 
 			callback.Verify(c => c.Cancel(), Times.Never);
 			callback.Verify(c => c.Continue(It.Is<string>(u => u.Equals(proxy1.Username)), It.Is<string>(p => p.Equals(proxy1.Password))), Times.Once);
@@ -243,7 +243,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		{
 			var callback = new Mock<IAuthCallback>();
 
-			sut.GetAuthCredentials(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), default(string), false, default(string), default(int), default(string), default(string), callback.Object);
+			sut.GetAuthCredentials(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), default, false, default, default, default, default, callback.Object);
 
 			callback.Verify(c => c.Cancel(), Times.Never);
 			callback.Verify(c => c.Continue(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
@@ -251,14 +251,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 
 		private class TestableRequestHandler : RequestHandler
 		{
-			internal TestableRequestHandler(
-				AppConfig appConfig,
-				IRequestFilter filter,
-				ILogger logger,
-				ResourceHandler resourceHandler,
-				BrowserSettings settings,
-				WindowSettings windowSettings,
-				IText text) : base(appConfig, filter, logger, resourceHandler, settings, windowSettings, text)
+			internal TestableRequestHandler(AppConfig appConfig, IRequestFilter filter, ILogger logger, ResourceHandler resourceHandler, BrowserSettings settings, WindowSettings windowSettings) : base(appConfig, filter, logger, resourceHandler, settings, windowSettings)
 			{
 			}
 

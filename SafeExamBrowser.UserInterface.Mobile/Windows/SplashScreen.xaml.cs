@@ -19,10 +19,13 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 {
 	internal partial class SplashScreen : Window, ISplashScreen
 	{
+		private readonly ProgressIndicatorViewModel model;
+		private readonly IText text;
+
 		private bool allowClose;
-		private ProgressIndicatorViewModel model = new ProgressIndicatorViewModel();
 		private AppConfig appConfig;
-		private IText text;
+
+		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
 
 		public AppConfig AppConfig
@@ -37,6 +40,12 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			}
 		}
 
+		event WindowClosedEventHandler IWindow.Closed
+		{
+			add { closed += value; }
+			remove { closed -= value; }
+		}
+
 		event WindowClosingEventHandler IWindow.Closing
 		{
 			add { closing += value; }
@@ -46,6 +55,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		internal SplashScreen(IText text, AppConfig appConfig = null)
 		{
 			this.appConfig = appConfig;
+			this.model = new ProgressIndicatorViewModel();
 			this.text = text;
 
 			InitializeComponent();
@@ -63,6 +73,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			{
 				allowClose = true;
 				model.BusyIndication = false;
+				closing?.Invoke();
 
 				base.Close();
 			});
@@ -116,6 +127,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			StatusTextBlock.DataContext = model;
 			ProgressBar.DataContext = model;
 
+			Closed += (o, args) => closed?.Invoke();
 			Closing += (o, args) => args.Cancel = !allowClose;
 		}
 

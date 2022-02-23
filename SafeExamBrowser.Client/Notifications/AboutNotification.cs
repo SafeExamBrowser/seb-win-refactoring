@@ -20,7 +20,6 @@ namespace SafeExamBrowser.Client.Notifications
 	internal class AboutNotification : INotification
 	{
 		private readonly AppConfig appConfig;
-		private readonly IText text;
 		private readonly IUserInterfaceFactory uiFactory;
 
 		private IWindow window;
@@ -33,7 +32,6 @@ namespace SafeExamBrowser.Client.Notifications
 		public AboutNotification(AppConfig appConfig, IText text, IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
-			this.text = text;
 			this.uiFactory = uiFactory;
 
 			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/AboutNotification.xaml") };
@@ -42,11 +40,11 @@ namespace SafeExamBrowser.Client.Notifications
 
 		public void Activate()
 		{
-			if (window == default(IWindow))
+			if (window == default)
 			{
 				window = uiFactory.CreateAboutWindow(appConfig);
 
-				window.Closing += () => window = default(IWindow);
+				window.Closed += () => window = default;
 				window.Show();
 			}
 			else

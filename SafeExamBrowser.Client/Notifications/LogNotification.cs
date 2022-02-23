@@ -20,7 +20,6 @@ namespace SafeExamBrowser.Client.Notifications
 	internal class LogNotification : INotification
 	{
 		private readonly ILogger logger;
-		private readonly IText text;
 		private readonly IUserInterfaceFactory uiFactory;
 
 		private IWindow window;
@@ -33,7 +32,6 @@ namespace SafeExamBrowser.Client.Notifications
 		public LogNotification(ILogger logger, IText text, IUserInterfaceFactory uiFactory)
 		{
 			this.logger = logger;
-			this.text = text;
 			this.uiFactory = uiFactory;
 
 			IconResource = new BitmapIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/LogNotification.ico") };
@@ -42,11 +40,11 @@ namespace SafeExamBrowser.Client.Notifications
 
 		public void Activate()
 		{
-			if (window == default(IWindow))
+			if (window == default)
 			{
 				window = uiFactory.CreateLogWindow(logger);
 
-				window.Closing += () => window = null;
+				window.Closed += () => window = default;
 				window.Show();
 			}
 			else

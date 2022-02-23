@@ -19,9 +19,17 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 {
 	internal partial class LogWindow : Window, IWindow
 	{
-		private ILogger logger;
-		private LogViewModel model;
+		private readonly ILogger logger;
+		private readonly LogViewModel model;
+
+		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
+
+		event WindowClosedEventHandler IWindow.Closed
+		{
+			add { closed += value; }
+			remove { closed -= value; }
+		}
 
 		event WindowClosingEventHandler IWindow.Closing
 		{
@@ -70,6 +78,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		private void InitializeLogWindow()
 		{
 			DataContext = model;
+			Closed += (o, args) => closed?.Invoke();
 			Closing += LogWindow_Closing;
 			Loaded += LogWindow_Loaded;
 		}
