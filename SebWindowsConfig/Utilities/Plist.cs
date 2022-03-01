@@ -35,7 +35,7 @@ namespace SebWindowsConfig.Utilities
 {
 	public static class Plist
 	{
-		private static List<int> offsetTable = new List<int>();
+		private static readonly List<int> offsetTable = new List<int>();
 		private static List<byte> objectTable = new List<byte>();
 		private static int refCount;
 		private static int objRefSize;
@@ -129,9 +129,8 @@ namespace SebWindowsConfig.Utilities
 
 				using (XmlWriter xmlWriter = XmlWriter.Create(ms, xmlWriterSettings))
 				{
-					xmlWriter.WriteStartDocument(); 
-					//xmlWriter.WriteComment("DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" " + "\"http://www.apple.com/DTDs/PropertyList-1.0.dtd\"");
-					xmlWriter.WriteDocType("plist", "-//Apple Computer//DTD PLIST 1.0//EN", "http://www.apple.com/DTDs/PropertyList-1.0.dtd", null);
+					xmlWriter.WriteStartDocument();
+					xmlWriter.WriteDocType("plist", "-//Apple Computer//DTD PLIST 1.0//EN", "https://www.apple.com/DTDs/PropertyList-1.0.dtd", null);
 					xmlWriter.WriteStartElement("plist");
 					xmlWriter.WriteAttributeString("version", "1.0");
 					compose(value, xmlWriter);
@@ -180,11 +179,11 @@ namespace SebWindowsConfig.Utilities
 
 			writeBinaryString("bplist00", false);
 
-			offsetTableOffset = (long)objectTable.Count;
+			offsetTableOffset = (long) objectTable.Count;
 
 			offsetTable.Add(objectTable.Count - 8);
 
-			offsetByteSize = RegulateNullBytes(BitConverter.GetBytes(offsetTable[offsetTable.Count-1])).Length;
+			offsetByteSize = RegulateNullBytes(BitConverter.GetBytes(offsetTable[offsetTable.Count - 1])).Length;
 
 			List<byte> offsetBytes = new List<byte>();
 
@@ -208,7 +207,7 @@ namespace SebWindowsConfig.Utilities
 			Array.Reverse(a);
 			objectTable.AddRange(a);
 
-			objectTable.AddRange(BitConverter.GetBytes((long)0));
+			objectTable.AddRange(BitConverter.GetBytes((long) 0));
 			a = BitConverter.GetBytes(offsetTableOffset);
 			Array.Reverse(a);
 			objectTable.AddRange(a);
@@ -223,7 +222,7 @@ namespace SebWindowsConfig.Utilities
 		private static object readXml(XmlDocument xml)
 		{
 			XmlNode rootNode = xml.DocumentElement.ChildNodes[0];
-			return (Dictionary<string, object>)parse(rootNode);
+			return (Dictionary<string, object>) parse(rootNode);
 		}
 
 		private static object readBinary(byte[] data)
@@ -242,9 +241,9 @@ namespace SebWindowsConfig.Utilities
 
 			parseTrailer(trailer);
 
-			objectTable = bList.GetRange(0, (int)offsetTableOffset);
+			objectTable = bList.GetRange(0, (int) offsetTableOffset);
 
-			offsetTableBytes = bList.GetRange((int)offsetTableOffset, bList.Count - (int)offsetTableOffset - 32);
+			offsetTableBytes = bList.GetRange((int) offsetTableOffset, bList.Count - (int) offsetTableOffset - 32);
 
 			parseOffsetTable(offsetTableBytes);
 
@@ -319,11 +318,11 @@ namespace SebWindowsConfig.Utilities
 				case "string":
 					return node.InnerText;
 				case "integer":
-				  //  int result;
+					//  int result;
 					//int.TryParse(node.InnerText, System.Globalization.NumberFormatInfo.InvariantInfo, out result);
 					return Convert.ToInt32(node.InnerText, System.Globalization.NumberFormatInfo.InvariantInfo);
 				case "real":
-					return Convert.ToDouble(node.InnerText,System.Globalization.NumberFormatInfo.InvariantInfo);
+					return Convert.ToDouble(node.InnerText, System.Globalization.NumberFormatInfo.InvariantInfo);
 				case "false":
 					return false;
 				case "true":
@@ -348,7 +347,7 @@ namespace SebWindowsConfig.Utilities
 			}
 			else if (value is int || value is long)
 			{
-				writer.WriteElementString("integer", ((int)value).ToString(System.Globalization.NumberFormatInfo.InvariantInfo));
+				writer.WriteElementString("integer", ((int) value).ToString(System.Globalization.NumberFormatInfo.InvariantInfo));
 			}
 			else if (value is System.Collections.Generic.Dictionary<string, object> ||
 			  value.GetType().ToString().StartsWith("System.Collections.Generic.Dictionary`2[System.String"))
@@ -358,7 +357,7 @@ namespace SebWindowsConfig.Utilities
 				if (dic == null)
 				{
 					dic = new Dictionary<string, object>();
-					IDictionary idic = (IDictionary)value;
+					IDictionary idic = (IDictionary) value;
 					foreach (var key in idic.Keys)
 					{
 						dic.Add(key.ToString(), idic[key]);
@@ -368,19 +367,19 @@ namespace SebWindowsConfig.Utilities
 			}
 			else if (value is List<object>)
 			{
-				composeArray((List<object>)value, writer);
+				composeArray((List<object>) value, writer);
 			}
 			else if (value is byte[])
 			{
-				writer.WriteElementString("data", Convert.ToBase64String((Byte[])value));
+				writer.WriteElementString("data", Convert.ToBase64String((Byte[]) value));
 			}
 			else if (value is float || value is double)
 			{
-				writer.WriteElementString("real", ((double)value).ToString(System.Globalization.NumberFormatInfo.InvariantInfo));
+				writer.WriteElementString("real", ((double) value).ToString(System.Globalization.NumberFormatInfo.InvariantInfo));
 			}
 			else if (value is DateTime)
 			{
-				DateTime time = (DateTime)value;
+				DateTime time = (DateTime) value;
 				string theString = XmlConvert.ToString(time, XmlDateTimeSerializationMode.Utc);
 				writer.WriteElementString("date", theString);//, "yyyy-MM-ddTHH:mm:ssZ"));
 			}
@@ -412,7 +411,7 @@ namespace SebWindowsConfig.Utilities
 			switch (value.GetType().ToString())
 			{
 				case "System.Collections.Generic.Dictionary`2[System.String,System.Object]":
-					Dictionary<string, object> dict = (Dictionary<string, object>)value;
+					Dictionary<string, object> dict = (Dictionary<string, object>) value;
 					foreach (string key in dict.Keys)
 					{
 						count += countObject(dict[key]);
@@ -421,7 +420,7 @@ namespace SebWindowsConfig.Utilities
 					count++;
 					break;
 				case "System.Collections.Generic.List`1[System.Object]":
-					List<object> list = (List<object>)value;
+					List<object> list = (List<object>) value;
 					foreach (object obj in list)
 					{
 						count += countObject(obj);
@@ -529,35 +528,35 @@ namespace SebWindowsConfig.Utilities
 			switch (obj.GetType().ToString())
 			{
 				case "System.Collections.Generic.Dictionary`2[System.String,System.Object]":
-					value = writeBinaryDictionary((Dictionary<string, object>)obj);
+					value = writeBinaryDictionary((Dictionary<string, object>) obj);
 					return value;
 
 				case "System.Collections.Generic.List`1[System.Object]":
-					value = composeBinaryArray((List<object>)obj);
+					value = composeBinaryArray((List<object>) obj);
 					return value;
 
 				case "System.Byte[]":
-					value = writeBinaryByteArray((byte[])obj);
+					value = writeBinaryByteArray((byte[]) obj);
 					return value;
 
 				case "System.Double":
-					value = writeBinaryDouble((double)obj);
+					value = writeBinaryDouble((double) obj);
 					return value;
 
 				case "System.Int32":
-					value = writeBinaryInteger((int)obj, true);
+					value = writeBinaryInteger((int) obj, true);
 					return value;
 
 				case "System.String":
-					value = writeBinaryString((string)obj, true);
+					value = writeBinaryString((string) obj, true);
 					return value;
 
 				case "System.DateTime":
-					value = writeBinaryDate((DateTime)obj);
+					value = writeBinaryDate((DateTime) obj);
 					return value;
 
 				case "System.Boolean":
-					value = writeBinaryBool((bool)obj);
+					value = writeBinaryBool((bool) obj);
 					return value;
 
 				default:
@@ -567,7 +566,7 @@ namespace SebWindowsConfig.Utilities
 
 		public static byte[] writeBinaryDate(DateTime obj)
 		{
-			List<byte> buffer =new List<byte>(RegulateNullBytes(BitConverter.GetBytes(PlistDateConverter.ConvertToAppleTimeStamp(obj)), 8));
+			List<byte> buffer = new List<byte>(RegulateNullBytes(BitConverter.GetBytes(PlistDateConverter.ConvertToAppleTimeStamp(obj)), 8));
 			buffer.Reverse();
 			buffer.Insert(0, 0x33);
 			objectTable.InsertRange(0, buffer);
@@ -576,7 +575,7 @@ namespace SebWindowsConfig.Utilities
 
 		public static byte[] writeBinaryBool(bool obj)
 		{
-			List<byte> buffer = new List<byte>(new byte[1] { (bool)obj ? (byte)9 : (byte)8 });
+			List<byte> buffer = new List<byte>(new byte[1] { (bool) obj ? (byte) 9 : (byte) 8 });
 			objectTable.InsertRange(0, buffer);
 			return buffer.ToArray();
 		}
@@ -584,10 +583,10 @@ namespace SebWindowsConfig.Utilities
 		private static byte[] writeBinaryInteger(int value, bool write)
 		{
 			List<byte> buffer = new List<byte>(BitConverter.GetBytes((long) value));
-			buffer =new List<byte>(RegulateNullBytes(buffer.ToArray()));
+			buffer = new List<byte>(RegulateNullBytes(buffer.ToArray()));
 			while (buffer.Count != Math.Pow(2, Math.Log(buffer.Count) / Math.Log(2)))
 				buffer.Add(0);
-			int header = 0x10 | (int)(Math.Log(buffer.Count) / Math.Log(2));
+			int header = 0x10 | (int) (Math.Log(buffer.Count) / Math.Log(2));
 
 			buffer.Reverse();
 
@@ -601,10 +600,10 @@ namespace SebWindowsConfig.Utilities
 
 		private static byte[] writeBinaryDouble(double value)
 		{
-			List<byte> buffer =new List<byte>(RegulateNullBytes(BitConverter.GetBytes(value), 4));
+			List<byte> buffer = new List<byte>(RegulateNullBytes(BitConverter.GetBytes(value), 4));
 			while (buffer.Count != Math.Pow(2, Math.Log(buffer.Count) / Math.Log(2)))
 				buffer.Add(0);
-			int header = 0x20 | (int)(Math.Log(buffer.Count) / Math.Log(2));
+			int header = 0x20 | (int) (Math.Log(buffer.Count) / Math.Log(2));
 
 			buffer.Reverse();
 
@@ -724,7 +723,7 @@ namespace SebWindowsConfig.Utilities
 			int refCount = 0;
 
 			byte dictByte = objectTable[offsetTable[objRef]];
-			
+
 			int refStartPosition;
 			refCount = getCount(offsetTable[objRef], out refStartPosition);
 
@@ -743,7 +742,7 @@ namespace SebWindowsConfig.Utilities
 
 			for (int i = 0; i < refCount; i++)
 			{
-				buffer.Add((string)parseBinary(refs[i]), parseBinary(refs[i + refCount]));
+				buffer.Add((string) parseBinary(refs[i]), parseBinary(refs[i + refCount]));
 			}
 
 			return buffer;
@@ -793,7 +792,7 @@ namespace SebWindowsConfig.Utilities
 				newBytePosition = bytePosition + 1;
 			}
 			else
-				count = (int)parseBinaryInt(bytePosition + 1, out newBytePosition);
+				count = (int) parseBinaryInt(bytePosition + 1, out newBytePosition);
 			return count;
 		}
 
@@ -808,7 +807,7 @@ namespace SebWindowsConfig.Utilities
 						//0 return null
 						//9 return true
 						//8 return false
-						return (objectTable[offsetTable[objRef]] == 0) ? (object)null : ((objectTable[offsetTable[objRef]] == 9) ? true : false);
+						return (objectTable[offsetTable[objRef]] == 0) ? (object) null : ((objectTable[offsetTable[objRef]] == 9) ? true : false);
 					}
 				case 0x10:
 					{
@@ -854,7 +853,7 @@ namespace SebWindowsConfig.Utilities
 			DateTime result = PlistDateConverter.ConvertFromAppleTimeStamp(appleTime);
 			return result;
 		}
-		
+
 		private static object parseBinaryInt(int headerPosition)
 		{
 			int output;
@@ -864,7 +863,7 @@ namespace SebWindowsConfig.Utilities
 		private static object parseBinaryInt(int headerPosition, out int newHeaderPosition)
 		{
 			byte header = objectTable[headerPosition];
-			int byteCount = (int)Math.Pow(2, header & 0xf);
+			int byteCount = (int) Math.Pow(2, header & 0xf);
 			byte[] buffer = objectTable.GetRange(headerPosition + 1, byteCount).ToArray();
 			Array.Reverse(buffer);
 			//Add one to account for the header byte
@@ -875,7 +874,7 @@ namespace SebWindowsConfig.Utilities
 		private static object parseBinaryReal(int headerPosition)
 		{
 			byte header = objectTable[headerPosition];
-			int byteCount = (int)Math.Pow(2, header & 0xf);
+			int byteCount = (int) Math.Pow(2, header & 0xf);
 			byte[] buffer = objectTable.GetRange(headerPosition + 1, byteCount).ToArray();
 			Array.Reverse(buffer);
 
@@ -900,10 +899,10 @@ namespace SebWindowsConfig.Utilities
 			byte[] buffer = new byte[charCount];
 			byte one, two;
 
-			for (int i = 0; i < charCount; i+=2)
+			for (int i = 0; i < charCount; i += 2)
 			{
-				one = objectTable.GetRange(charStartPosition+i,1)[0];
-				two = objectTable.GetRange(charStartPosition + i+1, 1)[0];
+				one = objectTable.GetRange(charStartPosition + i, 1)[0];
+				two = objectTable.GetRange(charStartPosition + i + 1, 1)[0];
 
 				if (BitConverter.IsLittleEndian)
 				{
@@ -929,7 +928,7 @@ namespace SebWindowsConfig.Utilities
 
 		#endregion
 	}
-	
+
 	public enum plistType
 	{
 		Auto, Binary, Xml

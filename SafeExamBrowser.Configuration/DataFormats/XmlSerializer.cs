@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 {
 	public class XmlSerializer : IDataSerializer
 	{
-		private ILogger logger;
+		private readonly ILogger logger;
 
 		public XmlSerializer(ILogger logger)
 		{
@@ -45,7 +45,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 			using (var writer = XmlWriter.Create(stream, settings))
 			{
 				writer.WriteStartDocument();
-				writer.WriteDocType("plist", "-//Apple Computer//DTD PLIST 1.0//EN", "http://www.apple.com/DTDs/PropertyList-1.0.dtd", null);
+				writer.WriteDocType("plist", "-//Apple Computer//DTD PLIST 1.0//EN", "https://www.apple.com/DTDs/PropertyList-1.0.dtd", null);
 				writer.WriteStartElement(XmlElement.Root);
 				writer.WriteAttributeString("version", "1.0");
 

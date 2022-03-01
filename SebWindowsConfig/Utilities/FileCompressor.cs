@@ -62,7 +62,7 @@ namespace SebWindowsConfig.Utilities
 		public string CompressAndEncodeFile(string filename)
 		{
 			var zip = new ZipFile();
-			zip.AddFile(filename,"");
+			zip.AddFile(filename, "");
 			var stream = new MemoryStream();
 			zip.Save(stream);
 			return base64_encode(stream.ToArray());
@@ -89,7 +89,7 @@ namespace SebWindowsConfig.Utilities
 
 			var client = new System.Net.WebClient();
 			client.DownloadFile(
-				string.Format(@"http://www.google.com/s2/favicons?domain_url={0}", uri.Host),
+				string.Format(@"https://www.google.com/s2/favicons?domain_url={0}", uri.Host),
 				TempIconFilename);
 			return CompressAndEncodeFile(TempIconFilename);
 		}
