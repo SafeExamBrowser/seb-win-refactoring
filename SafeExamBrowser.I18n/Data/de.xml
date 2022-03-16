@@ -315,6 +315,12 @@
     <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
         Remote-Sitzung erkannt
     </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarning">
+        Es besteht bereits eine SEB Server Verbindung. Es kann keine andere SEB Server Verbindung aufgebaut werden.
+    </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
+        Rekonfiguration Nicht Erlaubt
+    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Fehler beim Initialisieren des SEB-Service! SEB wird sich nun beenden da der Service als obligatorisch konfiguriert ist.
     </Entry>

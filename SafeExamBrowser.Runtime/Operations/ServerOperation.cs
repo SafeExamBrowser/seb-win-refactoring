@@ -19,6 +19,7 @@ using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
@@ -98,7 +99,15 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			if (Context.Current.Settings.SessionMode == SessionMode.Server)
 			{
-				InitializeNextSession();
+				if (Context.Next.Settings.SessionMode == SessionMode.Server)
+				{
+					ShowReconfigurationError();
+					return OperationResult.Aborted;
+				}
+				else 
+				{
+					return Revert();
+				}
 			}
 			else if (Context.Next.Settings.SessionMode == SessionMode.Server)
 			{
@@ -107,7 +116,6 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			return OperationResult.Success;
 		}
-
 		public override OperationResult Revert()
 		{
 			var result = OperationResult.Success;
@@ -255,6 +263,20 @@ namespace SafeExamBrowser.Runtime.Operations
 			}
 
 			return success;
+		}
+
+		private void ShowReconfigurationError()
+		{
+			var args = new MessageEventArgs 
+			{ 
+				Action = MessageBoxAction.Ok,
+				Icon = MessageBoxIcon.Warning,
+				Message = TextKey.MessageBox_ServerReconfigurationWarning,
+				Title = TextKey.MessageBox_ServerReconfigurationWarningTitle
+			};
+			logger.Warn("Server reconfiguration requested but is not allowed.");
+
+			ActionRequired?.Invoke(args);
 		}
 	}
 }
