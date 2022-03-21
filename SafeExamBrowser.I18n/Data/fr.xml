@@ -315,6 +315,12 @@
     <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
         Session distante détectée
     </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarning">
+        Une session SEB Server est déjà en cours d'exécution. Il n'est pas permis de reconfigurer pour une autre session SEB Server.
+    </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
+        Reconfiguration non autorisée
+    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Le service SEB n'a pas été initialisé! Le service SEB va maintenant se terminer puisque le service obligatoire.
     </Entry>
