@@ -13,6 +13,7 @@ using Moq;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations;
 using SafeExamBrowser.Runtime.Operations.Events;
@@ -271,7 +272,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.Connect()).Returns(new ServerResponse(true));
 			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>()));
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
-			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, new [] { exam }));
+			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, new[] { exam }));
 			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")));
 			sut.ActionRequired += (args) => Assert.Fail();
 
@@ -540,8 +541,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void Repeat_MustKeepExistingServerSession()
+		public void Repeat_MustNotAllowToReconfigureServerSession()
 		{
+			var args = default(ActionRequiredEventArgs);
+
 			context.Current.AppConfig.ServerApi = "api";
 			context.Current.AppConfig.ServerConnectionToken = "token";
 			context.Current.AppConfig.ServerExamId = "id";
@@ -549,19 +552,22 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			context.Current.Settings.SessionMode = SessionMode.Server;
 			context.Next.Settings.SessionMode = SessionMode.Server;
 
+			sut.ActionRequired += (a) =>
+			{
+				args = a;
+			};
+
 			var result = sut.Repeat();
 
 			configuration.VerifyNoOtherCalls();
 			fileSystem.VerifyNoOtherCalls();
 			server.VerifyNoOtherCalls();
 
-			Assert.AreEqual(context.Current.AppConfig.ServerApi, context.Next.AppConfig.ServerApi);
-			Assert.AreEqual(context.Current.AppConfig.ServerConnectionToken, context.Next.AppConfig.ServerConnectionToken);
-			Assert.AreEqual(context.Current.AppConfig.ServerExamId, context.Next.AppConfig.ServerExamId);
-			Assert.AreEqual(context.Current.AppConfig.ServerOauth2Token, context.Next.AppConfig.ServerOauth2Token);
-			Assert.AreSame(context.Current.Settings.Server, context.Next.Settings.Server);
-			Assert.AreEqual(OperationResult.Success, result);
-			Assert.AreEqual(SessionMode.Server, context.Next.Settings.SessionMode);
+			Assert.IsNull(context.Next.AppConfig.ServerApi);
+			Assert.IsNull(context.Next.AppConfig.ServerConnectionToken);
+			Assert.IsNull(context.Next.AppConfig.ServerOauth2Token);
+			Assert.IsInstanceOfType(args, typeof(MessageEventArgs));
+			Assert.AreEqual(OperationResult.Aborted, result);
 		}
 
 		[TestMethod]

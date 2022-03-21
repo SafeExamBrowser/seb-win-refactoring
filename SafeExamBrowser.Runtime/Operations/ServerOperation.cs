@@ -102,9 +102,10 @@ namespace SafeExamBrowser.Runtime.Operations
 				if (Context.Next.Settings.SessionMode == SessionMode.Server)
 				{
 					ShowReconfigurationError();
+
 					return OperationResult.Aborted;
 				}
-				else 
+				else
 				{
 					return Revert();
 				}
@@ -116,6 +117,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			return OperationResult.Success;
 		}
+
 		public override OperationResult Revert()
 		{
 			var result = OperationResult.Success;
@@ -143,19 +145,6 @@ namespace SafeExamBrowser.Runtime.Operations
 		protected override void InvokeActionRequired(ActionRequiredEventArgs args)
 		{
 			ActionRequired?.Invoke(args);
-		}
-
-		private void InitializeNextSession()
-		{
-			logger.Info("Initializing server configuration for next session...");
-
-			Context.Next.AppConfig.ServerApi = Context.Current.AppConfig.ServerApi;
-			Context.Next.AppConfig.ServerConnectionToken = Context.Current.AppConfig.ServerConnectionToken;
-			Context.Next.AppConfig.ServerExamId = Context.Current.AppConfig.ServerExamId;
-			Context.Next.AppConfig.ServerOauth2Token = Context.Current.AppConfig.ServerOauth2Token;
-
-			Context.Next.Settings = Context.Current.Settings;
-			Context.Next.Settings.SessionMode = SessionMode.Server;
 		}
 
 		private OperationResult TryLoadServerSettings(Exam exam, Uri uri)
@@ -267,8 +256,8 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private void ShowReconfigurationError()
 		{
-			var args = new MessageEventArgs 
-			{ 
+			var args = new MessageEventArgs
+			{
 				Action = MessageBoxAction.Ok,
 				Icon = MessageBoxIcon.Warning,
 				Message = TextKey.MessageBox_ServerReconfigurationWarning,
