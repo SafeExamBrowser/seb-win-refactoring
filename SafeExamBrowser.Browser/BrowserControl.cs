@@ -111,7 +111,7 @@ namespace SafeExamBrowser.Browser
 
 		public void Find(string term, bool isInitial, bool caseSensitive, bool forward = true)
 		{
-			control.Find(0, term, forward, caseSensitive, !isInitial);
+			control.Find(term, forward, caseSensitive, !isInitial);
 		}
 
 		public void NavigateBackwards()
