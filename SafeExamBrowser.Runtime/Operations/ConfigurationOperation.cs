@@ -24,9 +24,9 @@ namespace SafeExamBrowser.Runtime.Operations
 {
 	internal class ConfigurationOperation : ConfigurationBaseOperation
 	{
-		private IFileSystem fileSystem;
-		private IHashAlgorithm hashAlgorithm;
-		private ILogger logger;
+		private readonly IFileSystem fileSystem;
+		private readonly IHashAlgorithm hashAlgorithm;
+		private readonly ILogger logger;
 
 		public override event ActionRequiredEventHandler ActionRequired;
 		public override event StatusChangedEventHandler StatusChanged;
@@ -208,6 +208,8 @@ namespace SafeExamBrowser.Runtime.Operations
 			Context.Next.Settings.Applications.Blacklist.Clear();
 			Context.Next.Settings.Applications.Whitelist.Clear();
 			Context.Next.Settings.Display.AllowedDisplays = 10;
+			Context.Next.Settings.Display.IgnoreError = true;
+			Context.Next.Settings.Display.InternalDisplayOnly = false;
 			Context.Next.Settings.Browser.DeleteCacheOnShutdown = false;
 			Context.Next.Settings.Browser.DeleteCookiesOnShutdown = false;
 			Context.Next.Settings.Browser.StartUrl = uri.AbsoluteUri;
