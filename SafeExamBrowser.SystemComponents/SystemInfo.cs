@@ -97,6 +97,7 @@ namespace SafeExamBrowser.SystemComponents
 			// assembly needs to define an application manifest where the supported Windows versions are specified!
 			var major = Environment.OSVersion.Version.Major;
 			var minor = Environment.OSVersion.Version.Minor;
+			var build = Environment.OSVersion.Version.Build;
 
 			// See https://en.wikipedia.org/wiki/List_of_Microsoft_Windows_versions for mapping source...
 			if (major == 6)
@@ -116,7 +117,14 @@ namespace SafeExamBrowser.SystemComponents
 			}
 			else if (major == 10)
 			{
-				OperatingSystem = OperatingSystem.Windows10;
+				if (build < 22000)
+				{
+					OperatingSystem = OperatingSystem.Windows10;
+				}
+				else
+				{
+					OperatingSystem = OperatingSystem.Windows11;
+				}
 			}
 		}
 
@@ -132,6 +140,8 @@ namespace SafeExamBrowser.SystemComponents
 					return "Windows 8.1";
 				case OperatingSystem.Windows10:
 					return "Windows 10";
+				case OperatingSystem.Windows11:
+					return "Windows 11";
 				default:
 					return "Unknown Windows Version";
 			}
@@ -176,8 +186,8 @@ namespace SafeExamBrowser.SystemComponents
 			{
 				foreach (ManagementObject queryObj in results)
 				{
-					using (queryObj) 
-					{ 
+					using (queryObj)
+					{
 						foreach (var property in queryObj.Properties)
 						{
 							if (property.Name.Equals("DeviceID"))

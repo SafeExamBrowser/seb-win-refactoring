@@ -17,6 +17,7 @@ namespace SafeExamBrowser.SystemComponents.Contracts
 		Windows7,
 		Windows8,
 		Windows8_1,
-		Windows10
+		Windows10,
+		Windows11
 	}
 }
