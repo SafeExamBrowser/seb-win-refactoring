@@ -36,14 +36,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		public bool ShowProgressBar
 		{
-			set
-			{
-				Dispatcher.Invoke(() =>
-				{
-					model.AnimatedBorderVisibility = value ? Visibility.Hidden : Visibility.Visible;
-					model.ProgressBarVisibility = value ? Visibility.Visible : Visibility.Hidden;
-				});
-			}
+			set => Dispatcher.Invoke(() => model.ProgressBarVisibility = value ? Visibility.Visible : Visibility.Hidden);
 		}
 
 		public bool TopMost
@@ -151,7 +144,6 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			InfoTextBlock.Inlines.Add(new Run(appConfig.ProgramCopyright) { FontSize = 10, Foreground = Brushes.Gray });
 
 			model = new RuntimeWindowViewModel(LogTextBlock);
-			AnimatedBorder.DataContext = model;
 			ProgressBar.DataContext = model;
 			StatusTextBlock.DataContext = model;
 

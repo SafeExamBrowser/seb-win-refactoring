@@ -18,21 +18,8 @@ namespace SafeExamBrowser.UserInterface.Desktop.ViewModels
 {
 	internal class RuntimeWindowViewModel : ProgressIndicatorViewModel
 	{
-		private Visibility animatedBorderVisibility, progressBarVisibility;
-		private TextBlock textBlock;
-
-		public Visibility AnimatedBorderVisibility
-		{
-			get
-			{
-				return animatedBorderVisibility;
-			}
-			set
-			{
-				animatedBorderVisibility = value;
-				OnPropertyChanged(nameof(AnimatedBorderVisibility));
-			}
-		}
+		private Visibility progressBarVisibility;
+		private readonly TextBlock textBlock;
 
 		public Visibility ProgressBarVisibility
 		{

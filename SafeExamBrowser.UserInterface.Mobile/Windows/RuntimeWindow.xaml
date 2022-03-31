@@ -15,24 +15,6 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <Border x:Name="AnimatedBorder" Panel.ZIndex="10" BorderBrush="DodgerBlue" BorderThickness="5" Visibility="{Binding AnimatedBorderVisibility}">
-            <Border.Effect>
-                <BlurEffect Radius="10" />
-            </Border.Effect>
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Style.Triggers>
-                        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation AutoReverse="True" Storyboard.TargetProperty="Opacity" From="0.2" To="1.0" Duration="0:0:2.5" RepeatBehavior="Forever" />
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
-        </Border>
         <Border BorderBrush="DodgerBlue" BorderThickness="1">
             <Grid Margin="20">
                 <Grid.RowDefinitions>
