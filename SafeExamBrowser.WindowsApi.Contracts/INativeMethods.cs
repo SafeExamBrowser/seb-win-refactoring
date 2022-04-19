@@ -109,6 +109,11 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		IBounds GetWorkingArea();
 
 		/// <summary>
+		/// Determines whether this computer is connected to the internet. Returns <c>true</c> if successful, otherwise <c>false</c>.
+		/// </summary>
+		bool HasInternetConnection();
+
+		/// <summary>
 		/// Hides the given window. Returns <c>true</c> if successful, otherwise <c>false</c>.
 		/// </summary>
 		bool HideWindow(IntPtr window);

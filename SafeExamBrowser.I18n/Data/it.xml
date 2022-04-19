@@ -597,17 +597,20 @@
     <Entry key="SystemControl_KeyboardLayoutTooltip">
         L'attuale layout della tastiera è "%%LAYOUT%%"
     </Entry>
-    <Entry key="SystemControl_WirelessConnected">
-        Collegato a "%%NAME%%"
-    </Entry>
-    <Entry key="SystemControl_WirelessConnecting">
-        Collegamento...
-    </Entry>
-    <Entry key="SystemControl_WirelessDisconnected">
+    <Entry key="SystemControl_NetworkDisconnected">
         Disconnesso
     </Entry>
-    <Entry key="SystemControl_WirelessNotAvailable">
+    <Entry key="SystemControl_NetworkNotAvailable">
         Nessun adattatore di rete wireless disponibile o attivato
+    </Entry>
+    <Entry key="SystemControl_NetworkWiredConnected">
+        Collegato
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnected">
+        Collegato a "%%NAME%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnecting">
+        Collegamento...
     </Entry>
     <Entry key="Version">
         Versione

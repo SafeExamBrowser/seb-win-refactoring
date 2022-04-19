@@ -597,17 +597,20 @@
     <Entry key="SystemControl_KeyboardLayoutTooltip">
         The current keyboard layout is "%%LAYOUT%%"
     </Entry>
-    <Entry key="SystemControl_WirelessConnected">
-        Connected to "%%NAME%%"
-    </Entry>
-    <Entry key="SystemControl_WirelessConnecting">
-        Connecting...
-    </Entry>
-    <Entry key="SystemControl_WirelessDisconnected">
+    <Entry key="SystemControl_NetworkDisconnected">
         Disconnected
     </Entry>
-    <Entry key="SystemControl_WirelessNotAvailable">
+    <Entry key="SystemControl_NetworkNotAvailable">
         No wireless network adapter available or turned on
+    </Entry>
+    <Entry key="SystemControl_NetworkWiredConnected">
+        Connected
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnected">
+        Connected to "%%NAME%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnecting">
+        Connecting...
     </Entry>
     <Entry key="Version">
         Version

@@ -59,6 +59,7 @@
     <Compile Include="IFileSystem.cs" />
     <Compile Include="IRemoteSessionDetector.cs" />
     <Compile Include="IVirtualMachineDetector.cs" />
+    <Compile Include="Network\ConnectionType.cs" />
     <Compile Include="PowerSupply\Events\StatusChangedEventHandler.cs" />
     <Compile Include="PowerSupply\IPowerSupply.cs" />
     <Compile Include="PowerSupply\BatteryChargeStatus.cs" />
@@ -68,14 +69,13 @@
     <Compile Include="ISystemComponent.cs" />
     <Compile Include="ISystemInfo.cs" />
     <Compile Include="IUserInfo.cs" />
-    <Compile Include="WirelessNetwork\Events\NetworksChangedEventHandler.cs" />
-    <Compile Include="WirelessNetwork\Events\StatusChangedEventHandler.cs" />
-    <Compile Include="WirelessNetwork\IWirelessAdapter.cs" />
-    <Compile Include="WirelessNetwork\IWirelessNetwork.cs" />
+    <Compile Include="Network\Events\ChangedEventHandler.cs" />
+    <Compile Include="Network\INetworkAdapter.cs" />
+    <Compile Include="Network\IWirelessNetwork.cs" />
     <Compile Include="OperatingSystem.cs" />
     <Compile Include="PowerSupply\IPowerSupplyStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WirelessNetwork\WirelessNetworkStatus.cs" />
+    <Compile Include="Network\ConnectionStatus.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,7 +8,7 @@
 
 using System;
 
-namespace SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork
+namespace SafeExamBrowser.SystemComponents.Contracts.Network
 {
 	/// <summary>
 	/// Defines a wireless network which can be connected to by the application.
@@ -33,6 +33,6 @@ namespace SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork
 		/// <summary>
 		/// The connection status of this network.
 		/// </summary>
-		WirelessNetworkStatus Status { get; }
+		ConnectionStatus Status { get; }
 	}
 }

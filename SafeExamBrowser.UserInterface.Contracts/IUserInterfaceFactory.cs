@@ -18,8 +18,8 @@ using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
+using SafeExamBrowser.SystemComponents.Contracts.Network;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
-using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Proctoring;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -79,6 +79,11 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		IWindow CreateLogWindow(ILogger logger);
 
 		/// <summary>
+		/// Creates a system control which allows to view and/or change the network connection of the computer.
+		/// </summary>
+		ISystemControl CreateNetworkControl(INetworkAdapter adapter, Location location);
+
+		/// <summary>
 		/// Creates a notification control for the given notification, initialized for the specified location.
 		/// </summary>
 		INotificationControl CreateNotificationControl(INotification notification, Location location);
@@ -132,10 +137,5 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// Creates a new taskview.
 		/// </summary>
 		ITaskview CreateTaskview();
-
-		/// <summary>
-		/// Creates a system control which allows to change the wireless network connection of the computer.
-		/// </summary>
-		ISystemControl CreateWirelessNetworkControl(IWirelessAdapter wirelessAdapter, Location location);
 	}
 }

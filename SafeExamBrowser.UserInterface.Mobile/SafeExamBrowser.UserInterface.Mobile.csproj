@@ -110,11 +110,11 @@
     <Compile Include="Controls\ActionCenter\QuitButton.xaml.cs">
       <DependentUpon>QuitButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ActionCenter\WirelessNetworkButton.xaml.cs">
-      <DependentUpon>WirelessNetworkButton.xaml</DependentUpon>
+    <Compile Include="Controls\ActionCenter\NetworkButton.xaml.cs">
+      <DependentUpon>NetworkButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ActionCenter\WirelessNetworkControl.xaml.cs">
-      <DependentUpon>WirelessNetworkControl.xaml</DependentUpon>
+    <Compile Include="Controls\ActionCenter\NetworkControl.xaml.cs">
+      <DependentUpon>NetworkControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Browser\DownloadItemControl.xaml.cs">
       <DependentUpon>DownloadItemControl.xaml</DependentUpon>
@@ -146,11 +146,11 @@
     <Compile Include="Controls\Taskbar\QuitButton.xaml.cs">
       <DependentUpon>QuitButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Taskbar\WirelessNetworkButton.xaml.cs">
-      <DependentUpon>WirelessNetworkButton.xaml</DependentUpon>
+    <Compile Include="Controls\Taskbar\NetworkButton.xaml.cs">
+      <DependentUpon>NetworkButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Taskbar\WirelessNetworkControl.xaml.cs">
-      <DependentUpon>WirelessNetworkControl.xaml</DependentUpon>
+    <Compile Include="Controls\Taskbar\NetworkControl.xaml.cs">
+      <DependentUpon>NetworkControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Taskview\WindowControl.xaml.cs">
       <DependentUpon>WindowControl.xaml</DependentUpon>
@@ -321,11 +321,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ActionCenter\WirelessNetworkButton.xaml">
+    <Page Include="Controls\ActionCenter\NetworkButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ActionCenter\WirelessNetworkControl.xaml">
+    <Page Include="Controls\ActionCenter\NetworkControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -369,11 +369,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Taskbar\WirelessNetworkButton.xaml">
+    <Page Include="Controls\Taskbar\NetworkButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Taskbar\WirelessNetworkControl.xaml">
+    <Page Include="Controls\Taskbar\NetworkControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

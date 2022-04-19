@@ -6,10 +6,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork.Events
+namespace SafeExamBrowser.SystemComponents.Contracts.Network.Events
 {
 	/// <summary>
-	/// Indicates that the wireless network status has changed.
+	/// Indicates that the network adapter has changed.
 	/// </summary>
-	public delegate void StatusChangedEventHandler(WirelessNetworkStatus status);
+	public delegate void ChangedEventHandler();
 }

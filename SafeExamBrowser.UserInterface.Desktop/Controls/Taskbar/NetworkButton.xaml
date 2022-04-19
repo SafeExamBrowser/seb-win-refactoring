@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar.WirelessNetworkButton" x:ClassModifier="internal"
+﻿<UserControl x:Class="SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar.NetworkButton" x:ClassModifier="internal"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Mobile.Controls"
+             xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Controls"
              mc:Ignorable="d" d:DesignHeight="40" d:DesignWidth="250">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -14,7 +14,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Button x:Name="Button" Background="Transparent" Height="60" Padding="10,0" Template="{StaticResource TaskbarButton}">
+        <Button x:Name="Button" Background="Transparent" Height="40" Padding="10,0" Template="{StaticResource TaskbarButton}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

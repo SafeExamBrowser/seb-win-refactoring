@@ -101,9 +101,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.ActionCenter.EnableActionCenter = true;
 			settings.ActionCenter.ShowApplicationInfo = true;
 			settings.ActionCenter.ShowApplicationLog = false;
-			settings.ActionCenter.ShowKeyboardLayout = true;
-			settings.ActionCenter.ShowWirelessNetwork = false;
 			settings.ActionCenter.ShowClock = true;
+			settings.ActionCenter.ShowKeyboardLayout = true;
+			settings.ActionCenter.ShowNetwork = false;
 
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "AA_v3.exe", OriginalName = "AA_v3.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "AeroAdmin.exe", OriginalName = "AeroAdmin.exe" });
@@ -283,12 +283,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Taskbar.EnableTaskbar = true;
 			settings.Taskbar.ShowApplicationInfo = false;
 			settings.Taskbar.ShowApplicationLog = false;
-			settings.Taskbar.ShowKeyboardLayout = true;
-			settings.Taskbar.ShowWirelessNetwork = false;
 			settings.Taskbar.ShowClock = true;
+			settings.Taskbar.ShowKeyboardLayout = true;
+			settings.Taskbar.ShowNetwork = false;
 
 			settings.UserInterfaceMode = UserInterfaceMode.Desktop;
-			
+
 			return settings;
 		}
 	}

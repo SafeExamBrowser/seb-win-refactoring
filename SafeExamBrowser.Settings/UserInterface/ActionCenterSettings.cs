@@ -30,7 +30,7 @@ namespace SafeExamBrowser.Settings.UserInterface
 		/// Determines whether the application log is accessible via the action center.
 		/// </summary>
 		public bool ShowApplicationLog { get; set; }
-		
+
 		/// <summary>
 		/// Determines whether the system control for audio is accessible via the action center.
 		/// </summary>
@@ -47,8 +47,8 @@ namespace SafeExamBrowser.Settings.UserInterface
 		public bool ShowKeyboardLayout { get; set; }
 
 		/// <summary>
-		/// Determines whether the system control for the wireless network is accessible via the action center.
+		/// Determines whether the system control for the network is accessible via the action center.
 		/// </summary>
-		public bool ShowWirelessNetwork { get; set; }
+		public bool ShowNetwork { get; set; }
 	}
 }

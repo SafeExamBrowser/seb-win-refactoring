@@ -47,8 +47,8 @@ namespace SafeExamBrowser.Settings.UserInterface
 		public bool ShowKeyboardLayout { get; set; }
 
 		/// <summary>
-		/// Determines whether the system control for the wireless network is accessible via the taskbar.
+		/// Determines whether the system control for the network is accessible via the taskbar.
 		/// </summary>
-		public bool ShowWirelessNetwork { get; set; }
+		public bool ShowNetwork { get; set; }
 	}
 }

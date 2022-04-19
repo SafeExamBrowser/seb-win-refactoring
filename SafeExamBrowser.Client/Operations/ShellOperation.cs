@@ -15,8 +15,8 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
+using SafeExamBrowser.SystemComponents.Contracts.Network;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
-using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 
@@ -24,19 +24,19 @@ namespace SafeExamBrowser.Client.Operations
 {
 	internal class ShellOperation : ClientOperation
 	{
-		private IActionCenter actionCenter;
-		private IAudio audio;
-		private INotification aboutNotification;
-		private IKeyboard keyboard;
-		private ILogger logger;
-		private INotification logNotification;
-		private IPowerSupply powerSupply;
-		private ISystemInfo systemInfo;
-		private ITaskbar taskbar;
-		private ITaskview taskview;
-		private IText text;
-		private IUserInterfaceFactory uiFactory;
-		private IWirelessAdapter wirelessAdapter;
+		private readonly IActionCenter actionCenter;
+		private readonly IAudio audio;
+		private readonly INotification aboutNotification;
+		private readonly IKeyboard keyboard;
+		private readonly ILogger logger;
+		private readonly INotification logNotification;
+		private readonly INetworkAdapter networkAdapter;
+		private readonly IPowerSupply powerSupply;
+		private readonly ISystemInfo systemInfo;
+		private readonly ITaskbar taskbar;
+		private readonly ITaskview taskview;
+		private readonly IText text;
+		private readonly IUserInterfaceFactory uiFactory;
 
 		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
@@ -49,13 +49,13 @@ namespace SafeExamBrowser.Client.Operations
 			IKeyboard keyboard,
 			ILogger logger,
 			INotification logNotification,
+			INetworkAdapter networkAdapter,
 			IPowerSupply powerSupply,
 			ISystemInfo systemInfo,
 			ITaskbar taskbar,
 			ITaskview taskview,
 			IText text,
-			IUserInterfaceFactory uiFactory,
-			IWirelessAdapter wirelessAdapter) : base(context)
+			IUserInterfaceFactory uiFactory) : base(context)
 		{
 			this.aboutNotification = aboutNotification;
 			this.actionCenter = actionCenter;
@@ -63,13 +63,13 @@ namespace SafeExamBrowser.Client.Operations
 			this.keyboard = keyboard;
 			this.logger = logger;
 			this.logNotification = logNotification;
+			this.networkAdapter = networkAdapter;
 			this.powerSupply = powerSupply;
 			this.systemInfo = systemInfo;
 			this.text = text;
 			this.taskbar = taskbar;
 			this.taskview = taskview;
 			this.uiFactory = uiFactory;
-			this.wirelessAdapter = wirelessAdapter;
 		}
 
 		public override OperationResult Perform()
@@ -134,7 +134,7 @@ namespace SafeExamBrowser.Client.Operations
 				InitializeClockForActionCenter();
 				InitializeLogNotificationForActionCenter();
 				InitializeKeyboardLayoutForActionCenter();
-				InitializeWirelessNetworkForActionCenter();
+				InitializeNetworkForActionCenter();
 				InitializePowerSupplyForActionCenter();
 				InitializeQuitButtonForActionCenter();
 			}
@@ -155,7 +155,7 @@ namespace SafeExamBrowser.Client.Operations
 				InitializeAboutNotificationForTaskbar();
 				InitializeLogNotificationForTaskbar();
 				InitializePowerSupplyForTaskbar();
-				InitializeWirelessNetworkForTaskbar();
+				InitializeNetworkForTaskbar();
 				InitializeAudioForTaskbar();
 				InitializeKeyboardLayoutForTaskbar();
 				InitializeClockForTaskbar();
@@ -204,8 +204,8 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			audio.Initialize();
 			keyboard.Initialize();
+			networkAdapter.Initialize();
 			powerSupply.Initialize();
-			wirelessAdapter.Initialize();
 		}
 
 		private void InitializeAboutNotificationForActionCenter()
@@ -308,19 +308,19 @@ namespace SafeExamBrowser.Client.Operations
 			taskbar.ShowQuitButton = Context.Settings.Security.AllowTermination;
 		}
 
-		private void InitializeWirelessNetworkForActionCenter()
+		private void InitializeNetworkForActionCenter()
 		{
-			if (Context.Settings.ActionCenter.ShowWirelessNetwork)
+			if (Context.Settings.ActionCenter.ShowNetwork)
 			{
-				actionCenter.AddSystemControl(uiFactory.CreateWirelessNetworkControl(wirelessAdapter, Location.ActionCenter));
+				actionCenter.AddSystemControl(uiFactory.CreateNetworkControl(networkAdapter, Location.ActionCenter));
 			}
 		}
 
-		private void InitializeWirelessNetworkForTaskbar()
+		private void InitializeNetworkForTaskbar()
 		{
-			if (Context.Settings.Taskbar.ShowWirelessNetwork)
+			if (Context.Settings.Taskbar.ShowNetwork)
 			{
-				taskbar.AddSystemControl(uiFactory.CreateWirelessNetworkControl(wirelessAdapter, Location.Taskbar));
+				taskbar.AddSystemControl(uiFactory.CreateNetworkControl(networkAdapter, Location.Taskbar));
 			}
 		}
 
@@ -342,8 +342,8 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			audio.Terminate();
 			keyboard.Terminate();
+			networkAdapter.Terminate();
 			powerSupply.Terminate();
-			wirelessAdapter.Terminate();
 		}
 	}
 }

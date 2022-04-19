@@ -597,17 +597,20 @@
     <Entry key="SystemControl_KeyboardLayoutTooltip">
         La disposition actuelle du clavier est "%%LAYOUT%%"
     </Entry>
-    <Entry key="SystemControl_WirelessConnected">
-        Connecté à "%%NAME%%"
-    </Entry>
-    <Entry key="SystemControl_WirelessConnecting">
-        Connection en cours...
-    </Entry>
-    <Entry key="SystemControl_WirelessDisconnected">
+    <Entry key="SystemControl_NetworkDisconnected">
         Déconnecté
     </Entry>
-    <Entry key="SystemControl_WirelessNotAvailable">
+    <Entry key="SystemControl_NetworkNotAvailable">
         Pas d'adaptateur réseau sans fil disponible ou allumé
+    </Entry>
+    <Entry key="SystemControl_NetworkWiredConnected">
+        Connecté
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnected">
+        Connecté à "%%NAME%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnecting">
+        Connection en cours...
     </Entry>
     <Entry key="Version">
         Version

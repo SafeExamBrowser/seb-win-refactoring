@@ -101,8 +101,8 @@
     <Compile Include="SystemInfo.cs" />
     <Compile Include="UserInfo.cs" />
     <Compile Include="VirtualMachineDetector.cs" />
-    <Compile Include="WirelessNetwork\WirelessAdapter.cs" />
-    <Compile Include="WirelessNetwork\WirelessNetwork.cs" />
+    <Compile Include="Network\NetworkAdapter.cs" />
+    <Compile Include="Network\WirelessNetwork.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
@@ -116,6 +116,10 @@
     <ProjectReference Include="..\SafeExamBrowser.SystemComponents.Contracts\SafeExamBrowser.SystemComponents.Contracts.csproj">
       <Project>{903129c6-e236-493b-9ad6-c6a57f647a3a}</Project>
       <Name>SafeExamBrowser.SystemComponents.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.WindowsApi.Contracts\SafeExamBrowser.WindowsApi.Contracts.csproj">
+      <Project>{7016f080-9aa5-41b2-a225-385ad877c171}</Project>
+      <Name>SafeExamBrowser.WindowsApi.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

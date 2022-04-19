@@ -30,7 +30,6 @@ namespace SafeExamBrowser.Configuration.UnitTests
 		private Mock<ICertificateStore> certificateStore;
 		private Mock<IResourceLoader> fileLoader;
 		private Mock<IResourceSaver> fileSaver;
-		private Mock<IHashAlgorithm> hashAlgorithm;
 		private Mock<IModuleLogger> logger;
 		private Mock<IResourceLoader> networkLoader;
 		private Mock<IDataParser> xmlParser;
@@ -44,7 +43,6 @@ namespace SafeExamBrowser.Configuration.UnitTests
 			certificateStore = new Mock<ICertificateStore>();
 			fileLoader = new Mock<IResourceLoader>();
 			fileSaver = new Mock<IResourceSaver>();
-			hashAlgorithm = new Mock<IHashAlgorithm>();
 			logger = new Mock<IModuleLogger>();
 			networkLoader = new Mock<IResourceLoader>();
 			xmlParser = new Mock<IDataParser>();
@@ -56,7 +54,7 @@ namespace SafeExamBrowser.Configuration.UnitTests
 
 			SetEntryAssembly();
 
-			sut = new ConfigurationRepository(certificateStore.Object, hashAlgorithm.Object, logger.Object);
+			sut = new ConfigurationRepository(certificateStore.Object, logger.Object);
 			sut.InitializeAppConfig();
 		}
 

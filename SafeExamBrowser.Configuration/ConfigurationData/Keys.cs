@@ -327,7 +327,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string ShowAudio = "audioControlEnabled";
 			internal const string ShowClock = "showTime";
 			internal const string ShowKeyboardLayout = "showInputLanguage";
-			internal const string ShowWirelessNetwork = "allowWlan";
+			internal const string ShowNetwork = "allowWlan";
 			internal const string UserInterfaceMode = "touchOptimized";
 
 			internal static class ActionCenter

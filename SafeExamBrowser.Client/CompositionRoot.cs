@@ -38,11 +38,11 @@ using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.SystemComponents;
 using SafeExamBrowser.SystemComponents.Audio;
 using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.Network;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
-using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.SystemComponents.Keyboard;
+using SafeExamBrowser.SystemComponents.Network;
 using SafeExamBrowser.SystemComponents.PowerSupply;
-using SafeExamBrowser.SystemComponents.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
@@ -71,6 +71,7 @@ namespace SafeExamBrowser.Client
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private INativeMethods nativeMethods;
+		private INetworkAdapter networkAdapter;
 		private IPowerSupply powerSupply;
 		private IRuntimeProxy runtimeProxy;
 		private ISystemInfo systemInfo;
@@ -79,7 +80,6 @@ namespace SafeExamBrowser.Client
 		private IUserInfo userInfo;
 		private IText text;
 		private IUserInterfaceFactory uiFactory;
-		private IWirelessAdapter wirelessAdapter;
 
 		internal ClientController ClientController { get; private set; }
 
@@ -96,13 +96,13 @@ namespace SafeExamBrowser.Client
 			context = new ClientContext();
 			messageBox = BuildMessageBox();
 			nativeMethods = new NativeMethods();
+			networkAdapter = new NetworkAdapter(ModuleLogger(nameof(NetworkAdapter)), nativeMethods);
 			powerSupply = new PowerSupply(ModuleLogger(nameof(PowerSupply)));
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
 			systemInfo = new SystemInfo();
 			taskbar = uiFactory.CreateTaskbar(ModuleLogger("Taskbar"));
 			taskview = uiFactory.CreateTaskview();
 			userInfo = new UserInfo(ModuleLogger(nameof(UserInfo)));
-			wirelessAdapter = new WirelessAdapter(ModuleLogger(nameof(WirelessAdapter)));
 
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var applicationMonitor = new ApplicationMonitor(TWO_SECONDS, ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, processFactory);
@@ -157,13 +157,13 @@ namespace SafeExamBrowser.Client
 
 		internal void LogStartupInformation()
 		{
-			logger.Log($"# New client instance started at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+			logger.Log($"# New client instance started at {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}");
 			logger.Log(string.Empty);
 		}
 
 		internal void LogShutdownInformation()
 		{
-			logger?.Log($"# Client instance terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
+			logger?.Log($"# Client instance terminated at {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}");
 		}
 
 		private void ValidateCommandLineArguments()
@@ -271,7 +271,7 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildServerOperation()
 		{
-			var server = new ServerProxy(context.AppConfig, ModuleLogger(nameof(ServerProxy)), systemInfo, userInfo, powerSupply, wirelessAdapter);
+			var server = new ServerProxy(context.AppConfig, ModuleLogger(nameof(ServerProxy)), systemInfo, userInfo, powerSupply, networkAdapter);
 			var operation = new ServerOperation(context, logger, server);
 
 			context.Server = server;
@@ -293,13 +293,13 @@ namespace SafeExamBrowser.Client
 				keyboard,
 				logger,
 				logNotification,
+				networkAdapter,
 				powerSupply,
 				systemInfo,
 				taskbar,
 				taskview,
 				text,
-				uiFactory,
-				wirelessAdapter);
+				uiFactory);
 
 			context.Activators.Add(new ActionCenterKeyboardActivator(ModuleLogger(nameof(ActionCenterKeyboardActivator)), nativeMethods));
 			context.Activators.Add(new ActionCenterTouchActivator(ModuleLogger(nameof(ActionCenterTouchActivator)), nativeMethods));

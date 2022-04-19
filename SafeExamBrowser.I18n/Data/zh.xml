@@ -531,17 +531,20 @@
     <Entry key="SystemControl_KeyboardLayoutTooltip">
         当前键盘布局是 "%%LAYOUT%%"
     </Entry>
-    <Entry key="SystemControl_WirelessConnected">
-        已连接到 "%%NAME%%"
-    </Entry>
-    <Entry key="SystemControl_WirelessConnecting">
-        正在连接...
-    </Entry>
-    <Entry key="SystemControl_WirelessDisconnected">
+    <Entry key="SystemControl_NetworkDisconnected">
         连接已断开
     </Entry>
-    <Entry key="SystemControl_WirelessNotAvailable">
+    <Entry key="SystemControl_NetworkNotAvailable">
         没有无线网卡或未启用无线网卡
+    </Entry>
+    <Entry key="SystemControl_NetworkWiredConnected">
+        连接的
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnected">
+        已连接到 "%%NAME%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnecting">
+        正在连接...
     </Entry>
     <Entry key="Version">
         版本

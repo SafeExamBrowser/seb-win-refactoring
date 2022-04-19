@@ -24,9 +24,9 @@ namespace SafeExamBrowser.WindowsApi
 {
 	public class NativeMethods : INativeMethods
 	{
-		private ConcurrentDictionary<Guid, KeyboardHook> KeyboardHooks = new ConcurrentDictionary<Guid, KeyboardHook>();
-		private ConcurrentDictionary<Guid, MouseHook> MouseHooks = new ConcurrentDictionary<Guid, MouseHook>();
-		private ConcurrentDictionary<Guid, SystemHook> SystemHooks = new ConcurrentDictionary<Guid, SystemHook>();
+		private readonly ConcurrentDictionary<Guid, KeyboardHook> KeyboardHooks = new ConcurrentDictionary<Guid, KeyboardHook>();
+		private readonly ConcurrentDictionary<Guid, MouseHook> MouseHooks = new ConcurrentDictionary<Guid, MouseHook>();
+		private readonly ConcurrentDictionary<Guid, SystemHook> SystemHooks = new ConcurrentDictionary<Guid, SystemHook>();
 
 		/// <summary>
 		/// Upon finalization, unregister all active system events and hooks...
@@ -243,6 +243,11 @@ namespace SafeExamBrowser.WindowsApi
 			}
 
 			return workingArea.ToBounds();
+		}
+
+		public bool HasInternetConnection()
+		{
+			return WinInet.InternetGetConnectedState(out _, 0);
 		}
 
 		public bool HideWindow(IntPtr window)

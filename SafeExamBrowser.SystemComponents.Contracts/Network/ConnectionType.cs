@@ -6,28 +6,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork
+namespace SafeExamBrowser.SystemComponents.Contracts.Network
 {
 	/// <summary>
-	/// Defines all possible wireless network statuses which can be determined by the application.
+	/// Defines all possible connection types which can be determined by the application.
 	/// </summary>
-	public enum WirelessNetworkStatus
+	public enum ConnectionType
 	{
+		/// <summary>
+		/// The connection type cannot be determined.
+		/// </summary>
 		Undefined = 0,
 
 		/// <summary>
-		/// A connection has been established.
+		/// A wired network connection.
 		/// </summary>
-		Connected,
+		Wired,
 
 		/// <summary>
-		/// A connection is being established.
+		/// A wireless network connection.
 		/// </summary>
-		Connecting,
-
-		/// <summary>
-		/// No connection is established.
-		/// </summary>
-		Disconnected
+		Wireless
 	}
 }

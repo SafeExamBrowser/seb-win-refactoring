@@ -213,10 +213,11 @@ namespace SafeExamBrowser.I18n.Contracts
 		SystemControl_BatteryChargeLowInfo,
 		SystemControl_BatteryRemainingCharge,
 		SystemControl_KeyboardLayoutTooltip,
-		SystemControl_WirelessConnected,
-		SystemControl_WirelessConnecting,
-		SystemControl_WirelessDisconnected,
-		SystemControl_WirelessNotAvailable,
+		SystemControl_NetworkDisconnected,
+		SystemControl_NetworkNotAvailable,
+		SystemControl_NetworkWiredConnected,
+		SystemControl_NetworkWirelessConnected,
+		SystemControl_NetworkWirelessConnecting,
 		Version
 	}
 }

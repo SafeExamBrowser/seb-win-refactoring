@@ -149,7 +149,7 @@ namespace SafeExamBrowser.Runtime
 			var xmlParser = new XmlParser(compressor, ModuleLogger(nameof(XmlParser)));
 			var xmlSerializer = new XmlSerializer(ModuleLogger(nameof(XmlSerializer)));
 
-			configuration = new ConfigurationRepository(certificateStore, new HashAlgorithm(), repositoryLogger);
+			configuration = new ConfigurationRepository(certificateStore, repositoryLogger);
 			appConfig = configuration.InitializeAppConfig();
 
 			configuration.Register(new BinaryParser(

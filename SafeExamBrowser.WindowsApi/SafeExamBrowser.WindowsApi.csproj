@@ -92,6 +92,7 @@
     <Compile Include="Types\Window.cs" />
     <Compile Include="Types\WINDOWPLACEMENT.cs" />
     <Compile Include="User32.cs" />
+    <Compile Include="WinInet.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">

@@ -9,17 +9,17 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
+using SafeExamBrowser.SystemComponents.Contracts.Network;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 {
-	internal partial class WirelessNetworkButton : UserControl
+	internal partial class NetworkButton : UserControl
 	{
-		private IWirelessNetwork network;
+		private readonly IWirelessNetwork network;
 
 		internal event EventHandler NetworkSelected;
 
-		internal WirelessNetworkButton(IWirelessNetwork network)
+		internal NetworkButton(IWirelessNetwork network)
 		{
 			this.network = network;
 
@@ -30,7 +30,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 		private void InitializeNetworkButton()
 		{
 			Button.Click += (o, args) => NetworkSelected?.Invoke(this, EventArgs.Empty);
-			IsCurrentTextBlock.Visibility = network.Status == WirelessNetworkStatus.Connected ? Visibility.Visible : Visibility.Hidden;
+			IsCurrentTextBlock.Visibility = network.Status == ConnectionStatus.Connected ? Visibility.Visible : Visibility.Hidden;
 			NetworkNameTextBlock.Text = network.Name;
 			SignalStrengthTextBlock.Text = $"{network.SignalStrength}%";
 		}

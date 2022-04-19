@@ -22,8 +22,8 @@ using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
+using SafeExamBrowser.SystemComponents.Contracts.Network;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
-using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Proctoring;
@@ -37,7 +37,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 {
 	public class UserInterfaceFactory : IUserInterfaceFactory
 	{
-		private IText text;
+		private readonly IText text;
 
 		public UserInterfaceFactory(IText text)
 		{
@@ -129,6 +129,18 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			windowReadyEvent.WaitOne();
 
 			return window;
+		}
+
+		public ISystemControl CreateNetworkControl(INetworkAdapter adapter, Location location)
+		{
+			if (location == Location.ActionCenter)
+			{
+				return new Controls.ActionCenter.NetworkControl(adapter, text);
+			}
+			else
+			{
+				return new Controls.Taskbar.NetworkControl(adapter, text);
+			}
 		}
 
 		public INotificationControl CreateNotificationControl(INotification notification, Location location)
@@ -224,18 +236,6 @@ namespace SafeExamBrowser.UserInterface.Mobile
 		public ITaskview CreateTaskview()
 		{
 			return new Taskview();
-		}
-
-		public ISystemControl CreateWirelessNetworkControl(IWirelessAdapter wirelessAdapter, Location location)
-		{
-			if (location == Location.ActionCenter)
-			{
-				return new Controls.ActionCenter.WirelessNetworkControl(wirelessAdapter, text);
-			}
-			else
-			{
-				return new Controls.Taskbar.WirelessNetworkControl(wirelessAdapter, text);
-			}
 		}
 
 		private void InitializeFontAwesome()

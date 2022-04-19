@@ -22,21 +22,19 @@ namespace SafeExamBrowser.Configuration
 {
 	public class ConfigurationRepository : IConfigurationRepository
 	{
-		private ICertificateStore certificateStore;
-		private IList<IDataParser> dataParsers;
-		private IList<IDataSerializer> dataSerializers;
-		private DataMapper dataMapper;
-		private DataProcessor dataProcessor;
-		private DataValues dataValues;
-		private IHashAlgorithm hashAlgorithm;
-		private ILogger logger;
-		private IList<IResourceLoader> resourceLoaders;
-		private IList<IResourceSaver> resourceSavers;
+		private readonly ICertificateStore certificateStore;
+		private readonly IList<IDataParser> dataParsers;
+		private readonly IList<IDataSerializer> dataSerializers;
+		private readonly DataMapper dataMapper;
+		private readonly DataProcessor dataProcessor;
+		private readonly DataValues dataValues;
+		private readonly ILogger logger;
+		private readonly IList<IResourceLoader> resourceLoaders;
+		private readonly IList<IResourceSaver> resourceSavers;
 
-		public ConfigurationRepository(ICertificateStore certificateStore, IHashAlgorithm hashAlgorithm, IModuleLogger logger)
+		public ConfigurationRepository(ICertificateStore certificateStore, IModuleLogger logger)
 		{
 			this.certificateStore = certificateStore;
-			this.hashAlgorithm = hashAlgorithm;
 			this.logger = logger;
 
 			dataParsers = new List<IDataParser>();
@@ -171,7 +169,7 @@ namespace SafeExamBrowser.Configuration
 			var status = LoadStatus.NotSupported;
 			var resourceLoader = resourceLoaders.FirstOrDefault(l => l.CanLoad(resource));
 
-			data = default(Stream);
+			data = default;
 
 			if (resourceLoader != null)
 			{
@@ -191,8 +189,8 @@ namespace SafeExamBrowser.Configuration
 			var parser = dataParsers.FirstOrDefault(p => p.CanParse(data));
 			var status = LoadStatus.NotSupported;
 
-			encryption = default(EncryptionParameters);
-			format = default(FormatType);
+			encryption = default;
+			format = default;
 			rawData = default(Dictionary<string, object>);
 
 			if (parser != null)
@@ -237,7 +235,7 @@ namespace SafeExamBrowser.Configuration
 			var serializer = dataSerializers.FirstOrDefault(s => s.CanSerialize(format));
 			var status = SaveStatus.NotSupported;
 
-			serialized = default(Stream);
+			serialized = default;
 
 			if (serializer != null)
 			{

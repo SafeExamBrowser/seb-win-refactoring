@@ -597,17 +597,20 @@
     <Entry key="SystemControl_KeyboardLayoutTooltip">
         Das aktuelle Tastatur-Layout ist "%%LAYOUT%%"
     </Entry>
-    <Entry key="SystemControl_WirelessConnected">
-        Verbunden mit "%%NAME%%"
-    </Entry>
-    <Entry key="SystemControl_WirelessConnecting">
-        Verbinde...
-    </Entry>
-    <Entry key="SystemControl_WirelessDisconnected">
+    <Entry key="SystemControl_NetworkDisconnected">
         Getrennt
     </Entry>
-    <Entry key="SystemControl_WirelessNotAvailable">
-        Kein WLAN-Netzwerkadapter verfügbar oder eingestellt
+    <Entry key="SystemControl_NetworkNotAvailable">
+        Kein Netzwerkadapter verfügbar oder eingestellt
+    </Entry>
+    <Entry key="SystemControl_NetworkWiredConnected">
+        Verbunden
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnected">
+        Verbunden mit "%%NAME%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnecting">
+        Verbinde...
     </Entry>
     <Entry key="Version">
         Version

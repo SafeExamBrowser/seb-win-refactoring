@@ -26,8 +26,8 @@ using SafeExamBrowser.Server.Data;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.Settings.Server;
 using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.Network;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
-using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
 using Timer = System.Timers.Timer;
 
 namespace SafeExamBrowser.Server
@@ -45,7 +45,7 @@ namespace SafeExamBrowser.Server
 		private readonly IPowerSupply powerSupply;
 		private readonly ISystemInfo systemInfo;
 		private readonly IUserInfo userInfo;
-		private readonly IWirelessAdapter wirelessAdapter;
+		private readonly INetworkAdapter networkAdapter;
 
 		private ApiVersion1 api;
 		private string connectionToken;
@@ -70,7 +70,7 @@ namespace SafeExamBrowser.Server
 			ISystemInfo systemInfo,
 			IUserInfo userInfo,
 			IPowerSupply powerSupply = default,
-			IWirelessAdapter wirelessAdapter = default)
+			INetworkAdapter networkAdapter = default)
 		{
 			this.api = new ApiVersion1();
 			this.appConfig = appConfig;
@@ -79,12 +79,12 @@ namespace SafeExamBrowser.Server
 			this.logger = logger;
 			this.logContent = new ConcurrentQueue<ILogContent>();
 			this.logTimer = new Timer();
+			this.networkAdapter = networkAdapter;
 			this.parser = new Parser(logger);
 			this.pingTimer = new Timer();
 			this.powerSupply = powerSupply;
 			this.systemInfo = systemInfo;
 			this.userInfo = userInfo;
-			this.wirelessAdapter = wirelessAdapter;
 		}
 
 		public ServerResponse Connect()
@@ -226,7 +226,7 @@ namespace SafeExamBrowser.Server
 		public void Initialize(ServerSettings settings)
 		{
 			this.settings = settings;
-			
+
 			httpClient = new HttpClient();
 			httpClient.BaseAddress = new Uri(settings.ServerUrl);
 
@@ -348,20 +348,20 @@ namespace SafeExamBrowser.Server
 			pingTimer.Start();
 			logger.Info("Started sending pings.");
 
-			if (powerSupply != default(IPowerSupply) && wirelessAdapter != default(IWirelessAdapter))
+			if (powerSupply != default && networkAdapter != default)
 			{
 				powerSupply.StatusChanged += PowerSupply_StatusChanged;
-				wirelessAdapter.NetworksChanged += WirelessAdapter_NetworksChanged;
+				networkAdapter.Changed += NetworkAdapter_Changed;
 				logger.Info("Started monitoring system components.");
 			}
 		}
 
 		public void StopConnectivity()
 		{
-			if (powerSupply != default(IPowerSupply) && wirelessAdapter != default(IWirelessAdapter))
+			if (powerSupply != default && networkAdapter != default)
 			{
 				powerSupply.StatusChanged -= PowerSupply_StatusChanged;
-				wirelessAdapter.NetworksChanged -= WirelessAdapter_NetworksChanged;
+				networkAdapter.Changed -= NetworkAdapter_Changed;
 				logger.Info("Stopped monitoring system components.");
 			}
 
@@ -477,7 +477,7 @@ namespace SafeExamBrowser.Server
 					SendPowerSupplyStatus(text, value);
 					currentPowerSupplyValue = value;
 				}
-				else if (connected != connectedToPowergrid) 
+				else if (connected != connectedToPowergrid)
 				{
 					var text = $"<battery> Device has been {(connected ? "connected to" : "disconnected from")} power grid";
 					SendPowerSupplyStatus(text, value);
@@ -507,13 +507,13 @@ namespace SafeExamBrowser.Server
 			TryExecute(HttpMethod.Post, api.LogEndpoint, out _, content, contentType, authorization, token);
 		}
 
-		private void WirelessAdapter_NetworksChanged()
+		private void NetworkAdapter_Changed()
 		{
 			const int NOT_CONNECTED = -1;
 
 			try
 			{
-				var network = wirelessAdapter.GetNetworks().FirstOrDefault(n => n.Status == WirelessNetworkStatus.Connected);
+				var network = networkAdapter.GetWirelessNetworks().FirstOrDefault(n => n.Status == ConnectionStatus.Connected);
 
 				if (network?.SignalStrength != currentWlanValue)
 				{

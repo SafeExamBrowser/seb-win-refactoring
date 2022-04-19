@@ -7,10 +7,10 @@
  */
 
 using System;
-using SafeExamBrowser.SystemComponents.Contracts.WirelessNetwork;
+using SafeExamBrowser.SystemComponents.Contracts.Network;
 using SimpleWifi;
 
-namespace SafeExamBrowser.SystemComponents.WirelessNetwork
+namespace SafeExamBrowser.SystemComponents.Network
 {
 	internal class WirelessNetwork : IWirelessNetwork
 	{
@@ -19,7 +19,7 @@ namespace SafeExamBrowser.SystemComponents.WirelessNetwork
 		public Guid Id { get; }
 		public string Name { get; set; }
 		public int SignalStrength { get; set; }
-		public WirelessNetworkStatus Status { get; set; }
+		public ConnectionStatus Status { get; set; }
 
 		public WirelessNetwork()
 		{

@@ -29,8 +29,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.UserInterface.ShowKeyboardLayout:
 					MapShowKeyboardLayout(settings, value);
 					break;
-				case Keys.UserInterface.ShowWirelessNetwork:
-					MapShowWirelessNetwork(settings, value);
+				case Keys.UserInterface.ShowNetwork:
+					MapShowNetwork(settings, value);
 					break;
 				case Keys.UserInterface.Taskbar.EnableTaskbar:
 					MapEnableTaskbar(settings, value);
@@ -79,12 +79,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
-		private void MapShowWirelessNetwork(AppSettings settings, object value)
+		private void MapShowNetwork(AppSettings settings, object value)
 		{
 			if (value is bool show)
 			{
-				settings.ActionCenter.ShowWirelessNetwork = show;
-				settings.Taskbar.ShowWirelessNetwork = show;
+				settings.ActionCenter.ShowNetwork = show;
+				settings.Taskbar.ShowNetwork = show;
 			}
 		}
 
