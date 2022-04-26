@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Mobile.Controls"
              mc:Ignorable="d" d:DesignHeight="40" d:DesignWidth="250">
     <UserControl.Resources>
@@ -23,7 +24,13 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="IsCurrentTextBlock" Grid.Column="0" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">•</TextBlock>
                 <TextBlock x:Name="CultureCodeTextBlock" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,0,5,0" VerticalAlignment="Center" />
-                <TextBlock x:Name="LayoutNameTextBlock" Grid.Column="2" Foreground="Gray" HorizontalAlignment="Left" Margin="5,0,10,0" VerticalAlignment="Center" />
+                <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                    <TextBlock x:Name="CultureNameTextBlock" HorizontalAlignment="Left" Margin="5,0,10,0" TextDecorations="Underline" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal">
+                        <fa:ImageAwesome Foreground="Gray" Height="10" Icon="KeyboardOutline" Margin="5,0" />
+                        <TextBlock x:Name="LayoutNameTextBlock" Foreground="Gray" HorizontalAlignment="Left" Margin="0,0,10,0" VerticalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
             </Grid>
         </Button>
     </Grid>

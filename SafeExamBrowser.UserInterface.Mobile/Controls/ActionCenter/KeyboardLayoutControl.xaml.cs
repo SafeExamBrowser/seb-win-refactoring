@@ -77,7 +77,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 
 		private void SetCurrent(IKeyboardLayout layout)
 		{
-			var tooltip = text.Get(TextKey.SystemControl_KeyboardLayoutTooltip).Replace("%%LAYOUT%%", layout.Name);
+			var tooltip = text.Get(TextKey.SystemControl_KeyboardLayoutTooltip).Replace("%%LAYOUT%%", layout.CultureName);
 
 			foreach (var child in LayoutsStackPanel.Children)
 			{
@@ -87,7 +87,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 				}
 			}
 
-			Text.Text = layout.Name;
+			Text.Text = layout.CultureName;
 			Button.ToolTip = tooltip;
 		}
 	}

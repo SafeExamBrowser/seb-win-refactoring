@@ -100,8 +100,8 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 
 		private void SetCurrent(IKeyboardLayout layout)
 		{
-			var name = layout.Name?.Length > 3 ? String.Join(string.Empty, layout.Name.Split(' ').Where(s => Char.IsLetter(s.First())).Select(s => s.First())) : layout.Name;
-			var tooltip = text.Get(TextKey.SystemControl_KeyboardLayoutTooltip).Replace("%%LAYOUT%%", layout.Name);
+			var name = layout.CultureName?.Length > 3 ? String.Join(string.Empty, layout.CultureName.Split(' ').Where(s => Char.IsLetter(s.First())).Select(s => s.First())) : layout.CultureName;
+			var tooltip = text.Get(TextKey.SystemControl_KeyboardLayoutTooltip).Replace("%%LAYOUT%%", layout.CultureName);
 
 			foreach (var child in LayoutsStackPanel.Children)
 			{

@@ -21,6 +21,11 @@ namespace SafeExamBrowser.SystemComponents.Contracts.Keyboard
 		string CultureCode { get; }
 
 		/// <summary>
+		/// The culture name of this keyboard layout.
+		/// </summary>
+		string CultureName { get; }
+
+		/// <summary>
 		/// The unique identifier of the keyboard layout.
 		/// </summary>
 		Guid Id { get; }
@@ -33,6 +38,6 @@ namespace SafeExamBrowser.SystemComponents.Contracts.Keyboard
 		/// <summary>
 		/// The name of this keyboard layout.
 		/// </summary>
-		string Name { get; }
+		string LayoutName { get; }
 	}
 }

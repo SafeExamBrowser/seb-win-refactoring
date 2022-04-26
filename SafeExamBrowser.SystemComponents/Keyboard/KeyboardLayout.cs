@@ -7,23 +7,29 @@
  */
 
 using System;
-using System.Globalization;
+using System.Windows.Forms;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 
 namespace SafeExamBrowser.SystemComponents.Keyboard
 {
 	internal class KeyboardLayout : IKeyboardLayout
 	{
-		internal CultureInfo CultureInfo { get; set; }
+		internal InputLanguage InputLanguage { get; set; }
 
 		public string CultureCode { get; set; }
+		public string CultureName { get; set; }
 		public Guid Id { get; }
 		public bool IsCurrent { get; set; }
-		public string Name { get; set; }
+		public string LayoutName { get; set; }
 
 		public KeyboardLayout()
 		{
 			Id = Guid.NewGuid();
+		}
+
+		public override string ToString()
+		{
+			return $"'{CultureName}' [{CultureCode}, {LayoutName}]";
 		}
 	}
 }

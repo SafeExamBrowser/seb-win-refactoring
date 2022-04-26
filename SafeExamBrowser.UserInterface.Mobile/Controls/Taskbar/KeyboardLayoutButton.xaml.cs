@@ -15,7 +15,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 {
 	internal partial class KeyboardLayoutButton : UserControl
 	{
-		private IKeyboardLayout layout;
+		private readonly IKeyboardLayout layout;
 
 		internal bool IsCurrent
 		{
@@ -41,7 +41,8 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 		{
 			Button.Click += (o, args) => LayoutSelected?.Invoke(this, EventArgs.Empty);
 			CultureCodeTextBlock.Text = layout.CultureCode;
-			LayoutNameTextBlock.Text = layout.Name;
+			CultureNameTextBlock.Text = layout.CultureName;
+			LayoutNameTextBlock.Text = layout.LayoutName;
 		}
 	}
 }
