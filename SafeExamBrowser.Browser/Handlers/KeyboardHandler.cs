@@ -8,6 +8,7 @@
 
 using System.Windows.Forms;
 using CefSharp;
+using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.UserInterface.Contracts;
 
 namespace SafeExamBrowser.Browser.Handlers
@@ -21,7 +22,7 @@ namespace SafeExamBrowser.Browser.Handlers
 		internal event ActionRequestedEventHandler ZoomOutRequested;
 		internal event ActionRequestedEventHandler ZoomResetRequested;
 		internal event ActionRequestedEventHandler FocusAddressBarRequested;
-		internal event System.EventHandler<bool> TabPressed;
+		internal event TabPressedEventHandler TabPressed;
 
 		private int? currentKeyDown = null;
 
@@ -64,7 +65,7 @@ namespace SafeExamBrowser.Browser.Handlers
 
 				if (keyCode == (int)Keys.Tab && keyCode == currentKeyDown)
 				{
-					TabPressed?.Invoke(this, shift);
+					TabPressed?.Invoke(shift);
 				}
 			}
 

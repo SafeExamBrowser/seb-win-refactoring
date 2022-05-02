@@ -702,7 +702,7 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		private void TabPressed(object sender, bool shiftPressed)
+		private void TabPressed(bool shiftPressed)
 		{
 			this.Control.ExecuteJavascript("document.activeElement.tagName", result =>
 			{
