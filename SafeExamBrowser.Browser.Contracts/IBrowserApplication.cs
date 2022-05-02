@@ -39,6 +39,7 @@ namespace SafeExamBrowser.Browser.Contracts
 
 		/// <summary>
 		/// Transfers the focus to the browser window.
+		/// <paramref name="forward">If true, the first focusable element in the browser window receives focus (passing forward of focus). Otherwise, the last element.</paramref>
 		/// </summary>
 		void Focus(bool forward);
 	}
