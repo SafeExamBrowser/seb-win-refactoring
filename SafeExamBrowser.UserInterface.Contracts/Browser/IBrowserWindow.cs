@@ -140,5 +140,7 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		/// Sets the focus to the browser.
 		/// </summary>
 		void FocusBrowser();
+
+		void FocusAddressBar();
 	}
 }

@@ -20,6 +20,7 @@ namespace SafeExamBrowser.Browser.Handlers
 		internal event ActionRequestedEventHandler ZoomInRequested;
 		internal event ActionRequestedEventHandler ZoomOutRequested;
 		internal event ActionRequestedEventHandler ZoomResetRequested;
+		internal event ActionRequestedEventHandler FocusAddressBarRequested;
 		internal event System.EventHandler<bool> TabPressed;
 
 		private int? currentKeyDown = null;
@@ -39,6 +40,11 @@ namespace SafeExamBrowser.Browser.Handlers
 				if (keyCode == (int) Keys.Home)
 				{
 					HomeNavigationRequested?.Invoke();
+				}
+
+				if (ctrl && keyCode == (int) Keys.L)
+				{
+					FocusAddressBarRequested?.Invoke();
 				}
 
 				if ((ctrl && keyCode == (int) Keys.Add) || (ctrl && keyCode == (int) Keys.Oemplus) || (ctrl && shift && keyCode == (int) Keys.D1))

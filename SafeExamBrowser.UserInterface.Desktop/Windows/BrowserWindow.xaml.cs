@@ -453,7 +453,9 @@ if (typeof __SEB_focusElement === 'undefined') {
       .filter(function(e) { return e.el.tabIndex >= 0 && !e.el.disabled && e.el.offsetParent; })
       .sort(function(a,b) { return a.el.tabIndex === b.el.tabIndex ? a.i - b.i : (a.el.tabIndex || 9E9) - (b.el.tabIndex || 9E9); })
     var item = items[forward ? 1 : items.length - 1];
-    setTimeout(function () { item.focus(); }, 20);
+    if (item && item.focus && typeof item.focus !== 'function')
+        throw ('item.focus is not a function, ' + typeof item.focus)
+    setTimeout(function () { item && item.focus && item.focus(); }, 20);
   }
 }";
 			var control = BrowserControlHost.Child as IBrowserControl;
@@ -620,6 +622,14 @@ if (typeof __SEB_focusElement === 'undefined') {
 
 				await Task.Delay(150);
 				this.browserControlGetsFocusFromTaskbar = false;
+			}));
+		}
+
+		public void FocusAddressBar()
+		{
+			this.Dispatcher.BeginInvoke((Action)(async () =>
+			{
+				this.UrlTextBox.Focus();
 			}));
 		}
 	}

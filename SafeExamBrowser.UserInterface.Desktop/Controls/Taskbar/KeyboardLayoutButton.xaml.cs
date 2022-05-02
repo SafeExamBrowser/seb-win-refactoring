@@ -43,7 +43,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 			CultureCodeTextBlock.Text = layout.CultureCode;
 			CultureNameTextBlock.Text = layout.CultureName;
 			LayoutNameTextBlock.Text = layout.LayoutName;
-			System.Windows.Automation.AutomationProperties.SetHelpText(Button, layout.Name);
+			System.Windows.Automation.AutomationProperties.SetHelpText(Button, layout.LayoutName);
 		}
 	}
 }
