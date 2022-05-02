@@ -48,6 +48,27 @@
     <Entry key="BrowserWindow_FindMenuItem">
         Rechercher dans la page...
     </Entry>
+    <Entry key="BrowserWindow_ReloadButton">
+        Recharger
+    </Entry>
+    <Entry key="BrowserWindow_BackwardButton">
+        En arrière
+    </Entry>
+    <Entry key="BrowserWindow_ForwardButton">
+        Avant
+    </Entry>
+    <Entry key="BrowserWindow_DownloadsButton">
+        Télécharger
+    </Entry>
+    <Entry key="BrowserWindow_HomeButton">
+        Accueil
+    </Entry>
+    <Entry key="BrowserWindow_MenuButton">
+        Menu
+    </Entry>
+    <Entry key="BrowserWindow_UrlTextBox">
+        Entrer l'URL
+    </Entry>
     <Entry key="BrowserWindow_ZoomMenuItem">
         Zoom de la page
     </Entry>
