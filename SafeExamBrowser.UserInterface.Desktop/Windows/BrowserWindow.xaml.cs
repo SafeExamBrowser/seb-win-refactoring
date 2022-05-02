@@ -463,7 +463,6 @@ if (typeof __SEB_focusElement === 'undefined') {
 			{
 				if (!result.Success)
 				{
-					//logger.Error($"Javascript error {result.Message}!");
 				}
 			});
 
@@ -471,7 +470,6 @@ if (typeof __SEB_focusElement === 'undefined') {
 			{
 				if (!result.Success)
 				{
-					//logger.Error($"Javascript error {result.Message}!");
 				}
 			});
 		}
