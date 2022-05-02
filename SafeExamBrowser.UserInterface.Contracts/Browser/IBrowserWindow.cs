@@ -7,10 +7,10 @@
  */
 
 using System;
+using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
-using SafeExamBrowser.UserInterface.Contracts.Events;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.UserInterface.Contracts.Browser

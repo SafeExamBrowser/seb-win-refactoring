@@ -6,8 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.I18n.Contracts;
-using SafeExamBrowser.UserInterface.Contracts.Events;
 using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 
 namespace SafeExamBrowser.UserInterface.Contracts.Shell

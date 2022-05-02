@@ -9,7 +9,6 @@
 using System;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
-using SafeExamBrowser.UserInterface.Contracts.Events;
 
 namespace SafeExamBrowser.Browser.Contracts
 {

@@ -27,7 +27,6 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Browser.Proxy;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.UserInterface.Contracts;
-using SafeExamBrowser.UserInterface.Contracts.Events;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.WindowsApi.Contracts;
