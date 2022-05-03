@@ -36,6 +36,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		private readonly bool isMainWindow;
 		private readonly BrowserSettings settings;
 		private readonly IText text;
+		private readonly ILogger logger;
 
 		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
@@ -75,11 +76,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			remove { closing -= value; }
 		}
 
-		internal BrowserWindow(IBrowserControl browserControl, BrowserSettings settings, bool isMainWindow, IText text)
+		internal BrowserWindow(IBrowserControl browserControl, BrowserSettings settings, bool isMainWindow, IText text, ILogger logger)
 		{
 			this.isMainWindow = isMainWindow;
 			this.settings = settings;
 			this.text = text;
+			this.logger = logger;
 
 			InitializeComponent();
 			InitializeBrowserWindow(browserControl);
@@ -463,6 +465,7 @@ if (typeof __SEB_focusElement === 'undefined') {
 			{
 				if (!result.Success)
 				{
+					logger.Error($"Javascript error {result.Message}!");
 				}
 			});
 
@@ -470,6 +473,7 @@ if (typeof __SEB_focusElement === 'undefined') {
 			{
 				if (!result.Success)
 				{
+					logger.Error($"Javascript error {result.Message}!");
 				}
 			});
 		}
