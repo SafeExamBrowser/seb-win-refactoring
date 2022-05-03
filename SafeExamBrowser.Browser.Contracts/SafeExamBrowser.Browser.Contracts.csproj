@@ -57,6 +57,8 @@
     <Compile Include="Events\DownloadEventArgs.cs" />
     <Compile Include="Events\DownloadFinishedCallback.cs" />
     <Compile Include="Events\DownloadRequestedEventHandler.cs" />
+    <Compile Include="Events\TabPressedEventHandler.cs" />
+    <Compile Include="Events\LoseFocusRequestedEventHandler.cs" />
     <Compile Include="Events\SessionIdentifierDetectedEventHandler.cs" />
     <Compile Include="Events\TerminationRequestedEventHandler.cs" />
     <Compile Include="Filters\IRequestFilter.cs" />

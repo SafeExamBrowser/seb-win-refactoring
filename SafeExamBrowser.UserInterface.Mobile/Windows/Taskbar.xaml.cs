@@ -8,6 +8,7 @@
 
 using System.ComponentModel;
 using System.Windows;
+using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -31,6 +32,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			set { Dispatcher.Invoke(() => QuitButton.Visibility = value ? Visibility.Visible : Visibility.Collapsed); }
 		}
 
+		public event LoseFocusRequestedEventHandler LoseFocusRequested;
 		public event QuitButtonClickedEventHandler QuitButtonClicked;
 
 		internal Taskbar(ILogger logger)
@@ -158,6 +160,19 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			Closing += Taskbar_Closing;
 			Loaded += (o, args) => InitializeBounds();
 			QuitButton.Clicked += QuitButton_Clicked;
+		}
+
+		void ITaskbar.Focus(bool fromTop)
+		{
+			base.Activate();
+			if (fromTop)
+			{
+				this.ApplicationStackPanel.Children[0].Focus();
+			}
+			else
+			{
+				this.QuitButton.Focus();
+			}
 		}
 	}
 }

@@ -80,6 +80,7 @@ namespace SafeExamBrowser.Browser
 		internal event PopupRequestedEventHandler PopupRequested;
 		internal event ResetRequestedEventHandler ResetRequested;
 		internal event SessionIdentifierDetectedEventHandler SessionIdentifierDetected;
+		internal event LoseFocusRequestedEventHandler LoseFocusRequested;
 		internal event TerminationRequestedEventHandler TerminationRequested;
 
 		public event IconChangedEventHandler IconChanged;
@@ -162,6 +163,8 @@ namespace SafeExamBrowser.Browser
 			keyboardHandler.ZoomInRequested += ZoomInRequested;
 			keyboardHandler.ZoomOutRequested += ZoomOutRequested;
 			keyboardHandler.ZoomResetRequested += ZoomResetRequested;
+			keyboardHandler.TabPressed += TabPressed;
+			keyboardHandler.FocusAddressBarRequested += FocusAddressBarRequested;
 			resourceHandler.SessionIdentifierDetected += (id) => SessionIdentifierDetected?.Invoke(id);
 			requestHandler.QuitUrlVisited += RequestHandler_QuitUrlVisited;
 			requestHandler.RequestBlocked += RequestHandler_RequestBlocked;
@@ -189,7 +192,7 @@ namespace SafeExamBrowser.Browser
 
 		internal void InitializeWindow()
 		{
-			window = uiFactory.CreateBrowserWindow(Control, settings, isMainWindow);
+			window = uiFactory.CreateBrowserWindow(Control, settings, isMainWindow, this.logger);
 			window.AddressChanged += Window_AddressChanged;
 			window.BackwardNavigationRequested += Window_BackwardNavigationRequested;
 			window.Closed += Window_Closed;
@@ -198,6 +201,7 @@ namespace SafeExamBrowser.Browser
 			window.FindRequested += Window_FindRequested;
 			window.ForwardNavigationRequested += Window_ForwardNavigationRequested;
 			window.HomeNavigationRequested += HomeNavigationRequested;
+			window.LoseFocusRequested += Window_LoseFocusRequested;
 			window.ReloadRequested += ReloadRequested;
 			window.ZoomInRequested += ZoomInRequested;
 			window.ZoomOutRequested += ZoomOutRequested;
@@ -454,6 +458,11 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
+		private void FocusAddressBarRequested()
+		{
+			window.FocusAddressBar();
+		}
+
 		private ChromiumHostControl LifeSpanHandler_CreatePopup()
 		{
 			var args = new PopupRequestedEventArgs();
@@ -655,6 +664,11 @@ namespace SafeExamBrowser.Browser
 			Control.NavigateForwards();
 		}
 
+		private void Window_LoseFocusRequested(bool forward)
+		{
+			LoseFocusRequested?.Invoke(forward);
+		}
+
 		private void ZoomInRequested()
 		{
 			if (settings.AllowPageZoom && CalculateZoomPercentage() < 300)
@@ -685,6 +699,43 @@ namespace SafeExamBrowser.Browser
 				Control.Zoom(0);
 				window.UpdateZoomLevel(CalculateZoomPercentage());
 				logger.Debug($"Reset page zoom to {CalculateZoomPercentage()}%.");
+			}
+		}
+
+		private void TabPressed(bool shiftPressed)
+		{
+			this.Control.ExecuteJavascript("document.activeElement.tagName", result =>
+			{
+				var tagName = result.Result as string;
+				if (tagName != null)
+				{
+					if (tagName.ToUpper() == "BODY")
+					{
+						// this means the user is now at the start of the focus / tabIndex chain in the website
+						if (shiftPressed)
+						{
+							window.FocusToolbar(!shiftPressed);
+						}
+						else
+						{
+							this.LoseFocusRequested?.Invoke(true);
+						}
+					}
+				}
+			});
+		}
+
+		internal void Focus(bool forward)
+		{
+			if (forward)
+			{
+				window.FocusToolbar(forward);
+			}
+			else
+			{
+				window.FocusBrowser();
+
+				this.Activate();
 			}
 		}
 

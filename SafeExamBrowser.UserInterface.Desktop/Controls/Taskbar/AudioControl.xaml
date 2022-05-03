@@ -16,7 +16,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Popup x:Name="Popup" IsOpen="False" Placement="Custom" PlacementTarget="{Binding ElementName=Button}">
+        <Popup x:Name="Popup" IsOpen="False" Placement="Custom" PlacementTarget="{Binding ElementName=Button}" KeyDown="Popup_KeyDown">
             <Border Background="LightGray" BorderBrush="Gray" BorderThickness="1,1,1,0">
                 <StackPanel Orientation="Vertical">
                     <TextBlock x:Name="AudioDeviceName" Margin="5" TextAlignment="Center" />
@@ -24,7 +24,7 @@
                         <Button x:Name="MuteButton" Background="Transparent" Padding="5" Template="{StaticResource TaskbarButton}" Width="40">
                             <ContentControl x:Name="PopupIcon" />
                         </Button>
-                        <Slider x:Name="Volume" Grid.Column="1" Orientation="Horizontal" TickFrequency="1" Maximum="100" IsSnapToTickEnabled="True"
+                        <Slider x:Name="Volume" Grid.Column="1" Orientation="Horizontal" TickFrequency="1" Maximum="100" IsSnapToTickEnabled="True" KeyDown="Volume_KeyDown"
                                 IsMoveToPointEnabled="True" VerticalAlignment="Center" Width="250" Thumb.DragStarted="Volume_DragStarted" Thumb.DragCompleted="Volume_DragCompleted" />
                         <TextBlock Grid.Column="2" FontWeight="DemiBold" FontSize="16" Text="{Binding ElementName=Volume, Path=Value}"
                                    TextAlignment="Center" VerticalAlignment="Center" Width="40" />
@@ -33,7 +33,7 @@
             </Border>
         </Popup>
         <Button x:Name="Button" Background="Transparent" Padding="5" Template="{StaticResource TaskbarButton}" ToolTipService.ShowOnDisabled="True" Width="40">
-            <ContentControl x:Name="ButtonIcon" />
+            <ContentControl x:Name="ButtonIcon" Focusable="False" />
         </Button>
     </Grid>
 </UserControl>

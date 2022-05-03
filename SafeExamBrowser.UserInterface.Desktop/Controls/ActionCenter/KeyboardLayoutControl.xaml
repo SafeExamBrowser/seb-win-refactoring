@@ -16,7 +16,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="Grid" Background="{StaticResource ActionCenterDarkBrush}" Height="64" Margin="2">
-        <Popup x:Name="Popup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}">
+        <Popup x:Name="Popup" IsOpen="False" Placement="Top" PlacementTarget="{Binding ElementName=Button}" KeyUp="Popup_KeyUp">
             <Border Background="Gray">
                 <ScrollViewer MaxHeight="250" VerticalScrollBarVisibility="Auto" Template="{StaticResource SmallBarScrollViewer}">
                     <StackPanel x:Name="LayoutsStackPanel" />

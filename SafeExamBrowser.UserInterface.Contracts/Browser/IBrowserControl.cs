@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
 
 namespace SafeExamBrowser.UserInterface.Contracts.Browser
@@ -60,6 +61,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		/// Finalizes the browser control (e.g. stops audio / video playback) and releases all used resources.
 		/// </summary>
 		void Destroy();
+
+		/// <summary>
+		/// Executes the given Javascript code in the browser.
+		/// </summary>
+		void ExecuteJavascript(string javascript, System.Action<JavascriptResult> callback);
 
 		/// <summary>
 		/// Attempts to find the given term on the current page according to the specified parameters.

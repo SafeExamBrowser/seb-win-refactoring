@@ -509,6 +509,14 @@
       <Project>{ac77745d-3b41-43e2-8e84-d40e5a4ee77f}</Project>
       <Name>SafeExamBrowser.Applications.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Browser.Contracts\SafeExamBrowser.Browser.Contracts.csproj">
+      <Project>{5fb5273d-277c-41dd-8593-a25ce1aff2e9}</Project>
+      <Name>SafeExamBrowser.Browser.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Browser\SafeExamBrowser.Browser.csproj">
+      <Project>{04e653f1-98e6-4e34-9dd7-7f2bc1a8b767}</Project>
+      <Name>SafeExamBrowser.Browser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Configuration.Contracts\SafeExamBrowser.Configuration.Contracts.csproj">
       <Project>{7d74555e-63e1-4c46-bd0a-8580552368c8}</Project>
       <Name>SafeExamBrowser.Configuration.Contracts</Name>

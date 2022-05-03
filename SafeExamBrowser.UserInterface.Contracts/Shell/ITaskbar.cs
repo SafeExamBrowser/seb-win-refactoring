@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell.Events;
 
@@ -30,6 +31,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Shell
 		/// Event fired when the user clicked the quit button in the taskbar.
 		/// </summary>
 		event QuitButtonClickedEventHandler QuitButtonClicked;
+
+		/// <summary>
+		/// Event fired when the Taskbar wants to lose focus.
+		/// </summary>
+		event LoseFocusRequestedEventHandler LoseFocusRequested;
 
 		/// <summary>
 		/// Adds the given application control to the taskbar.
@@ -70,5 +76,10 @@ namespace SafeExamBrowser.UserInterface.Contracts.Shell
 		/// Shows the taskbar.
 		/// </summary>
 		void Show();
+
+		/// <summary>
+		/// Puts the focus on the taskbar.
+		/// </summary>
+		void Focus(bool forward = true);
 	}
 }

@@ -80,9 +80,9 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			}
 		}
 
-		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow)
+		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow, ILogger logger)
 		{
-			return Application.Current.Dispatcher.Invoke(() => new BrowserWindow(control, settings, isMainWindow, text));
+			return Application.Current.Dispatcher.Invoke(() => new BrowserWindow(control, settings, isMainWindow, text, logger));
 		}
 
 		public IExamSelectionDialog CreateExamSelectionDialog(IEnumerable<Exam> exams)

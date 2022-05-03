@@ -45,6 +45,27 @@
     <Entry key="BrowserWindow_DownloadComplete">
         下载完成
     </Entry>
+    <Entry key="BrowserWindow_ReloadButton">
+        重新加载
+    </Entry>
+    <Entry key="BrowserWindow_BackwardButton">
+        向后
+    </Entry>
+    <Entry key="BrowserWindow_ForwardButton">
+        前进
+    </Entry>
+    <Entry key="BrowserWindow_DownloadsButton">
+        下载
+    </Entry>
+    <Entry key="BrowserWindow_HomeButton">
+        首页
+    </Entry>
+    <Entry key="BrowserWindow_MenuButton">
+        菜单
+    </Entry>
+    <Entry key="BrowserWindow_UrlTextBox">
+        输入网址
+    </Entry>
     <Entry key="BrowserWindow_ZoomMenuItem">
         页面缩放
     </Entry>

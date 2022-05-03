@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Controls"
+             x:Name="root"
              mc:Ignorable="d" d:DesignHeight="40" d:DesignWidth="40">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -15,6 +16,7 @@
     </UserControl.Resources>
     <Grid>
         <Button x:Name="Button" Click="Button_Click" Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Stretch"
-                Template="{StaticResource TaskbarButton}" VerticalAlignment="Stretch" />
+                Template="{StaticResource TaskbarButton}" VerticalAlignment="Stretch"
+                AutomationProperties.Name="{Binding Path=(AutomationProperties.Name), ElementName=root}"/>
     </Grid>
 </UserControl>

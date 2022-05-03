@@ -15,6 +15,7 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
+using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
 
 namespace SafeExamBrowser.Browser
@@ -142,6 +143,20 @@ namespace SafeExamBrowser.Browser
 		public void Zoom(double level)
 		{
 			control.BrowserCore.SetZoomLevel(level);
+		}
+
+		/// <summary>
+		/// Executes the given Javascript code in the browser.
+		/// </summary>
+		public async void ExecuteJavascript(string javascript, Action<JavascriptResult> callback)
+		{
+			var result = await this.control.EvaluateScriptAsync(javascript);
+			callback(new JavascriptResult()
+			{
+				Message = result.Message,
+				Result = result.Result,
+				Success = result.Success
+			});
 		}
 	}
 }

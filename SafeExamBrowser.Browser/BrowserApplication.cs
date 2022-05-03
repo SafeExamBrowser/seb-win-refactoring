@@ -58,6 +58,7 @@ namespace SafeExamBrowser.Browser
 
 		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 		public event SessionIdentifierDetectedEventHandler SessionIdentifierDetected;
+		public event LoseFocusRequestedEventHandler LoseFocusRequested;
 		public event TerminationRequestedEventHandler TerminationRequested;
 		public event WindowsChangedEventHandler WindowsChanged;
 
@@ -195,6 +196,7 @@ namespace SafeExamBrowser.Browser
 			window.ResetRequested += Window_ResetRequested;
 			window.SessionIdentifierDetected += (i) => SessionIdentifierDetected?.Invoke(i);
 			window.TerminationRequested += () => TerminationRequested?.Invoke();
+			window.LoseFocusRequested += (forward) => LoseFocusRequested?.Invoke(forward);
 
 			window.InitializeControl();
 			windows.Add(window);
@@ -456,6 +458,14 @@ namespace SafeExamBrowser.Browser
 			nativeMethods.EmptyClipboard();
 			CreateNewWindow();
 			logger.Info("Successfully reset browser.");
+		}
+
+		public void Focus(bool forward)
+		{
+			windows.ForEach(window =>
+			{
+				window.Focus(forward);
+			});
 		}
 	}
 }

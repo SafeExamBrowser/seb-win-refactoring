@@ -62,15 +62,15 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" x:Name="ZoomText" HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center" />
-                                    <Button Grid.Column="1" x:Name="ZoomInButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}">
+                                    <Button Grid.Column="1" x:Name="ZoomInButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}" TabIndex="30">
                                         <fa:ImageAwesome Icon="SearchPlus" />
                                     </Button>
-                                    <Button Grid.Column="2" x:Name="ZoomResetButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}">
+                                    <Button Grid.Column="2" x:Name="ZoomResetButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}" TabIndex="31">
                                         <Viewbox Stretch="Uniform">
                                             <TextBlock x:Name="ZoomLevel" />
                                         </Viewbox>
                                     </Button>
-                                    <Button Grid.Column="3" x:Name="ZoomOutButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}">
+                                    <Button Grid.Column="3" x:Name="ZoomOutButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}" TabIndex="32">
                                         <fa:ImageAwesome Icon="SearchMinus" />
                                     </Button>
                                 </Grid>
@@ -80,7 +80,7 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" x:Name="FindMenuText" HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center" />
-                                    <Button Grid.Column="1" x:Name="FindMenuButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}">
+                                    <Button Grid.Column="1" x:Name="FindMenuButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}" TabIndex="33">
                                         <fa:ImageAwesome Icon="Search" />
                                     </Button>
                                 </Grid>
@@ -90,7 +90,7 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" x:Name="DeveloperConsoleText" HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center" />
-                                    <Button Grid.Column="1" x:Name="DeveloperConsoleButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}">
+                                    <Button Grid.Column="1" x:Name="DeveloperConsoleButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}" TabIndex="34">
                                         <fa:ImageAwesome Icon="Wrench" />
                                     </Button>
                                 </Grid>

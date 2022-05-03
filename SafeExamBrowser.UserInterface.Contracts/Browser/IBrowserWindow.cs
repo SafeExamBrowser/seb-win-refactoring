@@ -7,6 +7,7 @@
  */
 
 using System;
+using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
@@ -63,6 +64,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		/// Event fired when the user would like to navigate home.
 		/// </summary>
 		event ActionRequestedEventHandler HomeNavigationRequested;
+
+		/// <summary>
+		/// Event fired when the browser window wants to lose focus to the taskbar.
+		/// </summary>
+		event LoseFocusRequestedEventHandler LoseFocusRequested;
 
 		/// <summary>
 		/// Event fired when the user would like to reload the current page.
@@ -123,5 +129,18 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		/// Updates the display value of the current page zoom. Value is expected to be in percentage.
 		/// </summary>
 		void UpdateZoomLevel(double value);
+
+		/// <summary>
+		/// Sets the focus to the toolbar.
+		/// </summary>
+		/// <param name="forward">If true, the first focusable control on the toolbar gets focused. If false, the last one.</param>
+		void FocusToolbar(bool forward);
+
+		/// <summary>
+		/// Sets the focus to the browser.
+		/// </summary>
+		void FocusBrowser();
+
+		void FocusAddressBar();
 	}
 }

@@ -48,6 +48,27 @@
     <Entry key="BrowserWindow_FindMenuItem">
         Seite durchsuchen...
     </Entry>
+    <Entry key="BrowserWindow_ReloadButton">
+        Neu laden
+    </Entry>
+    <Entry key="BrowserWindow_BackwardButton">
+        Rückwärts
+    </Entry>
+    <Entry key="BrowserWindow_ForwardButton">
+        Vorwärts
+    </Entry>
+    <Entry key="BrowserWindow_DownloadsButton">
+        Download
+    </Entry>
+    <Entry key="BrowserWindow_HomeButton">
+        Home
+    </Entry>
+    <Entry key="BrowserWindow_MenuButton">
+        Menü
+    </Entry>
+    <Entry key="BrowserWindow_UrlTextBox">
+        URL eingeben
+    </Entry>
     <Entry key="BrowserWindow_ZoomMenuItem">
         Seiten-Zoom
     </Entry>

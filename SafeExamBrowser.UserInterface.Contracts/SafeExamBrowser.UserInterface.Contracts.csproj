@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Browser\Data\DownloadItemState.cs" />
+    <Compile Include="Browser\Data\JavascriptResult.cs" />
     <Compile Include="Browser\Events\AddressChangedEventHandler.cs" />
     <Compile Include="Browser\Events\FindRequestedEventHandler.cs" />
     <Compile Include="Browser\Events\LoadFailedEventHandler.cs" />
@@ -109,6 +110,10 @@
     <ProjectReference Include="..\SafeExamBrowser.Applications.Contracts\SafeExamBrowser.Applications.Contracts.csproj">
       <Project>{ac77745d-3b41-43e2-8e84-d40e5a4ee77f}</Project>
       <Name>SafeExamBrowser.Applications.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Browser.Contracts\SafeExamBrowser.Browser.Contracts.csproj">
+      <Project>{5fb5273d-277c-41dd-8593-a25ce1aff2e9}</Project>
+      <Name>SafeExamBrowser.Browser.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Configuration.Contracts\SafeExamBrowser.Configuration.Contracts.csproj">
       <Project>{7d74555e-63e1-4c46-bd0a-8580552368c8}</Project>
