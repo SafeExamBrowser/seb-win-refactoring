@@ -15,6 +15,7 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
+using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
 
 namespace SafeExamBrowser.Browser
@@ -147,10 +148,15 @@ namespace SafeExamBrowser.Browser
 		/// <summary>
 		/// Executes the given Javascript code in the browser.
 		/// </summary>
-		public async void ExecuteJavascript(string javascript, System.Action<dynamic> callback)
+		public async void ExecuteJavascript(string javascript, Action<JavascriptResult> callback)
 		{
 			var result = await this.control.EvaluateScriptAsync(javascript);
-			callback(result);
+			callback(new JavascriptResult()
+			{
+				Message = result.Message,
+				Result = result.Result,
+				Success = result.Success
+			});
 		}
 	}
 }
