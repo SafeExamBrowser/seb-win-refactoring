@@ -37,6 +37,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		private readonly BrowserSettings settings;
 		private readonly IText text;
 		private readonly ILogger logger;
+		private readonly IBrowserControl browserControl;
 
 		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
@@ -82,6 +83,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			this.settings = settings;
 			this.text = text;
 			this.logger = logger;
+			this.browserControl = browserControl;
 
 			InitializeComponent();
 			InitializeBrowserWindow(browserControl);
@@ -460,8 +462,7 @@ if (typeof __SEB_focusElement === 'undefined') {
     setTimeout(function () { item && item.focus && item.focus(); }, 20);
   }
 }";
-			var control = BrowserControlHost.Child as IBrowserControl;
-			control.ExecuteJavascript(javascript, result =>
+			this.browserControl.ExecuteJavascript(javascript, result =>
 			{
 				if (!result.Success)
 				{
@@ -469,7 +470,7 @@ if (typeof __SEB_focusElement === 'undefined') {
 				}
 			});
 
-			control.ExecuteJavascript("__SEB_focusElement(" + forward.ToString().ToLower() + ")", result =>
+			this.browserControl.ExecuteJavascript("__SEB_focusElement(" + forward.ToString().ToLower() + ")", result =>
 			{
 				if (!result.Success)
 				{
