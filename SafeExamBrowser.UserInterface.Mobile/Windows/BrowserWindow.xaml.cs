@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
@@ -37,6 +38,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
+		private ILogger logger;
 
 		private WindowSettings WindowSettings
 		{
@@ -71,11 +73,12 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			remove { closing -= value; }
 		}
 
-		internal BrowserWindow(IBrowserControl browserControl, BrowserSettings settings, bool isMainWindow, IText text)
+		internal BrowserWindow(IBrowserControl browserControl, BrowserSettings settings, bool isMainWindow, IText text, ILogger logger)
 		{
 			this.isMainWindow = isMainWindow;
 			this.settings = settings;
 			this.text = text;
+			this.logger = logger;
 
 			InitializeComponent();
 			InitializeBrowserWindow(browserControl);

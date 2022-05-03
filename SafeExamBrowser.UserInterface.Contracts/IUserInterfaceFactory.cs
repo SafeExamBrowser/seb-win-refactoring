@@ -56,7 +56,7 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// <summary>
 		/// Creates a new browser window loaded with the given browser control and settings.
 		/// </summary>
-		IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow);
+		IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow, ILogger logger);
 
 		/// <summary>
 		/// Creates an exam selection dialog for the given exams.

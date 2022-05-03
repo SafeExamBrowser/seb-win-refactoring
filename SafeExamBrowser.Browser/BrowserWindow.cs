@@ -192,7 +192,7 @@ namespace SafeExamBrowser.Browser
 
 		internal void InitializeWindow()
 		{
-			window = uiFactory.CreateBrowserWindow(Control, settings, isMainWindow);
+			window = uiFactory.CreateBrowserWindow(Control, settings, isMainWindow, this.logger);
 			window.AddressChanged += Window_AddressChanged;
 			window.BackwardNavigationRequested += Window_BackwardNavigationRequested;
 			window.Closed += Window_Closed;
