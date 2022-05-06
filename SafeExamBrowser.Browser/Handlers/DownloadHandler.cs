@@ -44,6 +44,11 @@ namespace SafeExamBrowser.Browser.Handlers
 			this.windowSettings = windowSettings;
 		}
 
+		public bool CanDownload(IWebBrowser chromiumWebBrowser, IBrowser browser, string url, string requestMethod)
+		{
+			return true;
+		}
+
 		public void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
 			var uri = new Uri(downloadItem.Url);

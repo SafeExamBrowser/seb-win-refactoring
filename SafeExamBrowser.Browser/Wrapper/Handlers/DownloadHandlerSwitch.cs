@@ -9,11 +9,32 @@
 using CefSharp;
 using CefSharp.WinForms;
 using CefSharp.WinForms.Host;
+using SafeExamBrowser.Browser.Wrapper.Events;
 
 namespace SafeExamBrowser.Browser.Wrapper.Handlers
 {
 	internal class DownloadHandlerSwitch : IDownloadHandler
 	{
+		public bool CanDownload(IWebBrowser webBrowser, IBrowser browser, string url, string requestMethod)
+		{
+			var args = new GenericEventArgs { Value = false };
+
+			if (browser.IsPopup)
+			{
+				var control = ChromiumHostControl.FromBrowser(browser) as CefSharpPopupControl;
+
+				control?.OnCanDownload(webBrowser, browser, url, requestMethod, args);
+			}
+			else
+			{
+				var control = ChromiumWebBrowser.FromBrowser(browser) as CefSharpBrowserControl;
+
+				control?.OnCanDownload(webBrowser, browser, url, requestMethod, args);
+			}
+
+			return args.Value;
+		}
+
 		public void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
 			if (browser.IsPopup)

@@ -21,6 +21,7 @@ namespace SafeExamBrowser.Browser.Wrapper
 		event AuthCredentialsEventHandler AuthCredentialsRequired;
 		event BeforeBrowseEventHandler BeforeBrowse;
 		event BeforeDownloadEventHandler BeforeDownload;
+		event CanDownloadEventHandler CanDownload;
 		event DownloadUpdatedEventHandler DownloadUpdated;
 		event FaviconUrlChangedEventHandler FaviconUrlChanged;
 		event FileDialogRequestedEventHandler FileDialogRequested;
@@ -36,6 +37,7 @@ namespace SafeExamBrowser.Browser.Wrapper
 		void Load(string address);
 		void OnBeforeBrowse(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect, GenericEventArgs args);
 		void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback);
+		void OnCanDownload(IWebBrowser webBrowser, IBrowser browser, string url, string requestMethod, GenericEventArgs args);
 		void OnDownloadUpdated(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback);
 		void OnFaviconUrlChange(IWebBrowser webBrowser, IBrowser browser, IList<string> urls);
 		void OnFileDialog(IWebBrowser webBrowser, IBrowser browser, CefFileDialogMode mode, CefFileDialogFlags flags, string title, string defaultFilePath, List<string> acceptFilters, int selectedAcceptFilter, IFileDialogCallback callback);

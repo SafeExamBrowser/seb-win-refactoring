@@ -18,6 +18,7 @@ namespace SafeExamBrowser.Browser.Wrapper
 		public event AuthCredentialsEventHandler AuthCredentialsRequired;
 		public event BeforeBrowseEventHandler BeforeBrowse;
 		public event BeforeDownloadEventHandler BeforeDownload;
+		public event CanDownloadEventHandler CanDownload;
 		public event DownloadUpdatedEventHandler DownloadUpdated;
 		public event FaviconUrlChangedEventHandler FaviconUrlChanged;
 		public event FileDialogRequestedEventHandler FileDialogRequested;
@@ -58,6 +59,11 @@ namespace SafeExamBrowser.Browser.Wrapper
 		public void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
 			BeforeDownload?.Invoke(webBrowser, browser, downloadItem, callback);
+		}
+
+		public void OnCanDownload(IWebBrowser webBrowser, IBrowser browser, string url, string requestMethod, GenericEventArgs args)
+		{
+			CanDownload?.Invoke(webBrowser, browser, url, requestMethod, args);
 		}
 
 		public void OnDownloadUpdated(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
