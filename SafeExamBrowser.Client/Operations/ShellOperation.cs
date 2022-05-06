@@ -118,6 +118,12 @@ namespace SafeExamBrowser.Client.Operations
 				{
 					terminationActivator.Start();
 				}
+
+				if (Context.Settings.Taskbar.EnableTaskbar && activator is ITaskbarActivator taskbarActivator)
+				{
+					taskbar.Register(taskbarActivator);
+					taskbarActivator.Start();
+				}
 			}
 		}
 

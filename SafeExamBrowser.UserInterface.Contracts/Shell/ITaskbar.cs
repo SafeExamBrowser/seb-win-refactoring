@@ -58,6 +58,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Shell
 		void Close();
 
 		/// <summary>
+		/// Puts the focus on the taskbar.
+		/// </summary>
+		void Focus(bool forward = true);
+
+		/// <summary>
 		/// Returns the absolute height of the taskbar (i.e. in physical pixels).
 		/// </summary>
 		int GetAbsoluteHeight();
@@ -73,13 +78,13 @@ namespace SafeExamBrowser.UserInterface.Contracts.Shell
 		void InitializeText(IText text);
 
 		/// <summary>
+		/// Registers the specified activator for the taskbar.
+		/// </summary>
+		void Register(ITaskbarActivator activator);
+
+		/// <summary>
 		/// Shows the taskbar.
 		/// </summary>
 		void Show();
-
-		/// <summary>
-		/// Puts the focus on the taskbar.
-		/// </summary>
-		void Focus(bool forward = true);
 	}
 }

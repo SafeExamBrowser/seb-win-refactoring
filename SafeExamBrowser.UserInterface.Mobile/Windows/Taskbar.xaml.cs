@@ -19,8 +19,8 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 {
 	internal partial class Taskbar : Window, ITaskbar
 	{
+		private readonly ILogger logger;
 		private bool allowClose;
-		private ILogger logger;
 
 		public bool ShowClock
 		{
@@ -32,7 +32,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			set { Dispatcher.Invoke(() => QuitButton.Visibility = value ? Visibility.Visible : Visibility.Collapsed); }
 		}
 
-		public event LoseFocusRequestedEventHandler LoseFocusRequested;
+		public event LoseFocusRequestedEventHandler LoseFocusRequested { add { } remove { } }
 		public event QuitButtonClickedEventHandler QuitButtonClicked;
 
 		internal Taskbar(ILogger logger)
@@ -79,6 +79,20 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			Dispatcher.Invoke(base.Close);
 		}
 
+		public void Focus(bool fromTop)
+		{
+			Activate();
+
+			if (fromTop)
+			{
+				ApplicationStackPanel.Children[0].Focus();
+			}
+			else
+			{
+				QuitButton.Focus();
+			}
+		}
+
 		public int GetAbsoluteHeight()
 		{
 			return Dispatcher.Invoke(() =>
@@ -118,6 +132,13 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			});
 		}
 
+		private void InitializeTaskbar()
+		{
+			Closing += Taskbar_Closing;
+			Loaded += (o, args) => InitializeBounds();
+			QuitButton.Clicked += QuitButton_Clicked;
+		}
+
 		public void InitializeText(IText text)
 		{
 			Dispatcher.Invoke(() =>
@@ -126,9 +147,19 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			});
 		}
 
+		public void Register(ITaskbarActivator activator)
+		{
+			activator.Activated += Activator_Activated;
+		}
+
 		public new void Show()
 		{
 			Dispatcher.Invoke(base.Show);
+		}
+
+		private void Activator_Activated()
+		{
+			(this as ITaskbar).Focus(true);
 		}
 
 		private void QuitButton_Clicked(CancelEventArgs args)
@@ -152,26 +183,6 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			else
 			{
 				e.Cancel = true;
-			}
-		}
-
-		private void InitializeTaskbar()
-		{
-			Closing += Taskbar_Closing;
-			Loaded += (o, args) => InitializeBounds();
-			QuitButton.Clicked += QuitButton_Clicked;
-		}
-
-		void ITaskbar.Focus(bool fromTop)
-		{
-			base.Activate();
-			if (fromTop)
-			{
-				this.ApplicationStackPanel.Children[0].Focus();
-			}
-			else
-			{
-				this.QuitButton.Focus();
 			}
 		}
 	}

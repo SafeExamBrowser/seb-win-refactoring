@@ -33,12 +33,12 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 	internal partial class BrowserWindow : Window, IBrowserWindow
 	{
 		private readonly bool isMainWindow;
+		private readonly ILogger logger;
 		private readonly BrowserSettings settings;
 		private readonly IText text;
 
 		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
-		private ILogger logger;
 
 		private WindowSettings WindowSettings
 		{
@@ -54,7 +54,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		public event ActionRequestedEventHandler DeveloperConsoleRequested;
 		public event FindRequestedEventHandler FindRequested;
 		public event ActionRequestedEventHandler ForwardNavigationRequested;
-		public event LoseFocusRequestedEventHandler LoseFocusRequested;
+		public event LoseFocusRequestedEventHandler LoseFocusRequested { add { } remove { } }
 		public event ActionRequestedEventHandler HomeNavigationRequested;
 		public event ActionRequestedEventHandler ReloadRequested;
 		public event ActionRequestedEventHandler ZoomInRequested;
@@ -76,9 +76,9 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		internal BrowserWindow(IBrowserControl browserControl, BrowserSettings settings, bool isMainWindow, IText text, ILogger logger)
 		{
 			this.isMainWindow = isMainWindow;
+			this.logger = logger;
 			this.settings = settings;
 			this.text = text;
-			this.logger = logger;
 
 			InitializeComponent();
 			InitializeBrowserWindow(browserControl);

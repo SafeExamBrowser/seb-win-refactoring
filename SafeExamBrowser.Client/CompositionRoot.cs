@@ -303,6 +303,7 @@ namespace SafeExamBrowser.Client
 
 			context.Activators.Add(new ActionCenterKeyboardActivator(ModuleLogger(nameof(ActionCenterKeyboardActivator)), nativeMethods));
 			context.Activators.Add(new ActionCenterTouchActivator(ModuleLogger(nameof(ActionCenterTouchActivator)), nativeMethods));
+			context.Activators.Add(new TaskbarKeyboardActivator(ModuleLogger(nameof(TaskbarKeyboardActivator)), nativeMethods));
 			context.Activators.Add(new TaskviewKeyboardActivator(ModuleLogger(nameof(TaskviewKeyboardActivator)), nativeMethods));
 			context.Activators.Add(new TerminationActivator(ModuleLogger(nameof(TerminationActivator)), nativeMethods));
 

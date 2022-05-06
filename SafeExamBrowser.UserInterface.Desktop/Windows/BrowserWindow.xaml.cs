@@ -79,11 +79,11 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 		internal BrowserWindow(IBrowserControl browserControl, BrowserSettings settings, bool isMainWindow, IText text, ILogger logger)
 		{
+			this.browserControl = browserControl;
 			this.isMainWindow = isMainWindow;
+			this.logger = logger;
 			this.settings = settings;
 			this.text = text;
-			this.logger = logger;
-			this.browserControl = browserControl;
 
 			InitializeComponent();
 			InitializeBrowserWindow(browserControl);
@@ -214,12 +214,15 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			if (e.Key == Key.Tab)
 			{
 				var hasShift = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
+
 				if (Toolbar.IsKeyboardFocusWithin && hasShift)
 				{
 					var firstActiveElementInToolbar = Toolbar.PredictFocus(FocusNavigationDirection.Right);
-					if (firstActiveElementInToolbar is System.Windows.UIElement)
+
+					if (firstActiveElementInToolbar is UIElement)
 					{
-						var control = firstActiveElementInToolbar as System.Windows.UIElement;
+						var control = firstActiveElementInToolbar as UIElement;
+
 						if (control.IsKeyboardFocusWithin)
 						{
 							this.LoseFocusRequested?.Invoke(false);
@@ -257,6 +260,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			{
 				var hasCtrl = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
 				var hasShift = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
+
 				if (BrowserControlHost.IsFocused && hasCtrl)
 				{
 					if (Findbar.Visibility == Visibility.Hidden || hasShift)
@@ -273,6 +277,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 					var focusedElement = FocusManager.GetFocusedElement(this);
 					var focusedControl = focusedElement as System.Windows.Controls.Control;
 					var prevFocusedControl = tabKeyDownFocusElement as System.Windows.Controls.Control;
+
 					if (focusedControl != null && prevFocusedControl != null)
 					{
 						//var commonAncestor = focusedControl.FindCommonVisualAncestor(prevFocusedControl);
@@ -452,14 +457,14 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			var javascript = @"
 if (typeof __SEB_focusElement === 'undefined') {
   __SEB_focusElement = function (forward) {
-    var items = [].map
-      .call(document.body.querySelectorAll(['input', 'select', 'a[href]', 'textarea', 'button', '[tabindex]']), function(el, i) { return { el, i } })
-      .filter(function(e) { return e.el.tabIndex >= 0 && !e.el.disabled && e.el.offsetParent; })
-      .sort(function(a,b) { return a.el.tabIndex === b.el.tabIndex ? a.i - b.i : (a.el.tabIndex || 9E9) - (b.el.tabIndex || 9E9); })
-    var item = items[forward ? 1 : items.length - 1];
-    if (item && item.focus && typeof item.focus !== 'function')
-        throw ('item.focus is not a function, ' + typeof item.focus)
-    setTimeout(function () { item && item.focus && item.focus(); }, 20);
+	var items = [].map
+	  .call(document.body.querySelectorAll(['input', 'select', 'a[href]', 'textarea', 'button', '[tabindex]']), function(el, i) { return { el, i } })
+	  .filter(function(e) { return e.el.tabIndex >= 0 && !e.el.disabled && e.el.offsetParent; })
+	  .sort(function(a,b) { return a.el.tabIndex === b.el.tabIndex ? a.i - b.i : (a.el.tabIndex || 9E9) - (b.el.tabIndex || 9E9); })
+	var item = items[forward ? 1 : items.length - 1];
+	if (item && item.focus && typeof item.focus !== 'function')
+		throw ('item.focus is not a function, ' + typeof item.focus)
+	setTimeout(function () { item && item.focus && item.focus(); }, 20);
   }
 }";
 			this.browserControl.ExecuteJavascript(javascript, result =>
@@ -593,7 +598,7 @@ if (typeof __SEB_focusElement === 'undefined') {
 
 		public void FocusToolbar(bool forward)
 		{
-			this.Dispatcher.BeginInvoke((Action)(async () =>
+			this.Dispatcher.BeginInvoke((Action) (async () =>
 			{
 				this.Activate();
 				await Task.Delay(50);
@@ -613,7 +618,7 @@ if (typeof __SEB_focusElement === 'undefined') {
 
 		public void FocusBrowser()
 		{
-			this.Dispatcher.BeginInvoke((Action)(async () =>
+			this.Dispatcher.BeginInvoke((Action) (async () =>
 			{
 				this.FocusToolbar(false);
 				await Task.Delay(100);
@@ -630,7 +635,7 @@ if (typeof __SEB_focusElement === 'undefined') {
 
 		public void FocusAddressBar()
 		{
-			this.Dispatcher.BeginInvoke((Action)(async () =>
+			this.Dispatcher.BeginInvoke((Action) (() =>
 			{
 				this.UrlTextBox.Focus();
 			}));

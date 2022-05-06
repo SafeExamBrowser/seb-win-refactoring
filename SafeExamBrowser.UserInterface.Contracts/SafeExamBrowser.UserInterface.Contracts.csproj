@@ -87,6 +87,7 @@
     <Compile Include="Shell\INotificationControl.cs" />
     <Compile Include="Shell\ISystemControl.cs" />
     <Compile Include="Shell\ITaskbar.cs" />
+    <Compile Include="Shell\ITaskbarActivator.cs" />
     <Compile Include="Shell\ITaskview.cs" />
     <Compile Include="Shell\ITaskviewActivator.cs" />
     <Compile Include="Shell\ITerminationActivator.cs" />
