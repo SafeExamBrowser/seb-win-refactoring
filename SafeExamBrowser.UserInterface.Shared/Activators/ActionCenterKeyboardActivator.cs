@@ -17,8 +17,8 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 {
 	public class ActionCenterKeyboardActivator : KeyboardActivator, IActionCenterActivator
 	{
+		private readonly ILogger logger;
 		private bool A, LeftWindows;
-		private ILogger logger;
 
 		public event ActivatorEventHandler Activated { add { } remove { } }
 		public event ActivatorEventHandler Deactivated { add { } remove { } }
@@ -56,8 +56,6 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 			{
 				logger.Debug("Detected toggle sequence for action center.");
 				Toggled?.Invoke();
-
-				return true;
 			}
 
 			return false;

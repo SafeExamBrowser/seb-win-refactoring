@@ -18,7 +18,7 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 	public class TaskbarKeyboardActivator : KeyboardActivator, ITaskbarActivator
 	{
 		private readonly ILogger logger;
-		private bool leftWindows;
+		private bool LeftWindows;
 
 		public event ActivatorEventHandler Activated;
 
@@ -34,16 +34,14 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 
 			if (key == Key.LWin)
 			{
-				changed = leftWindows != pressed;
-				leftWindows = pressed;
+				changed = LeftWindows != pressed;
+				LeftWindows = pressed;
 			}
 
-			if (leftWindows && changed)
+			if (LeftWindows && changed)
 			{
 				logger.Debug("Detected activation sequence for taskbar.");
 				Activated?.Invoke();
-
-				return true;
 			}
 
 			return false;
