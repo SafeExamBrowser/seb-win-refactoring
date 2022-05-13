@@ -156,6 +156,7 @@ namespace SafeExamBrowser.Browser
 			displayHandler.FaviconChanged += DisplayHandler_FaviconChanged;
 			displayHandler.ProgressChanged += DisplayHandler_ProgressChanged;
 			downloadHandler.ConfigurationDownloadRequested += DownloadHandler_ConfigurationDownloadRequested;
+			downloadHandler.DownloadAborted += DownloadHandler_DownloadAborted;
 			downloadHandler.DownloadUpdated += DownloadHandler_DownloadUpdated;
 			keyboardHandler.FindRequested += KeyboardHandler_FindRequested;
 			keyboardHandler.HomeNavigationRequested += HomeNavigationRequested;
@@ -352,6 +353,7 @@ namespace SafeExamBrowser.Browser
 			else
 			{
 				logger.Info($"Blocked file system dialog to {args.Operation}->{args.Element}, as {(isDownload ? "downloading" : "uploading")} is not allowed.");
+				ShowDownUploadNotAllowedMessage(isDownload);
 			}
 		}
 
@@ -399,6 +401,11 @@ namespace SafeExamBrowser.Browser
 			{
 				logger.Debug($"Discarded download request for configuration file '{fileName}'.");
 			}
+		}
+
+		private void DownloadHandler_DownloadAborted()
+		{
+			ShowDownUploadNotAllowedMessage();
 		}
 
 		private void DownloadHandler_DownloadUpdated(DownloadItemState state)
@@ -610,6 +617,14 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
+		private void ShowDownUploadNotAllowedMessage(bool isDownload = true)
+		{
+			var message = isDownload ? TextKey.MessageBox_DownloadNotAllowed : TextKey.MessageBox_UploadNotAllowed;
+			var title = isDownload ? TextKey.MessageBox_DownloadNotAllowedTitle : TextKey.MessageBox_UploadNotAllowedTitle;
+
+			messageBox.Show(message, title, icon: MessageBoxIcon.Warning, parent: window);
+		}
+
 		private void Window_AddressChanged(string address)
 		{
 			var isValid = Uri.TryCreate(address, UriKind.Absolute, out _) || Uri.TryCreate($"https://{address}", UriKind.Absolute, out _);
@@ -704,7 +719,7 @@ namespace SafeExamBrowser.Browser
 
 		private void TabPressed(bool shiftPressed)
 		{
-			this.Control.ExecuteJavascript("document.activeElement.tagName", result =>
+			Control.ExecuteJavascript("document.activeElement.tagName", result =>
 			{
 				var tagName = result.Result as string;
 				if (tagName != null)
@@ -718,7 +733,7 @@ namespace SafeExamBrowser.Browser
 						}
 						else
 						{
-							this.LoseFocusRequested?.Invoke(true);
+							LoseFocusRequested?.Invoke(true);
 						}
 					}
 				}
@@ -734,8 +749,7 @@ namespace SafeExamBrowser.Browser
 			else
 			{
 				window.FocusBrowser();
-
-				this.Activate();
+				Activate();
 			}
 		}
 

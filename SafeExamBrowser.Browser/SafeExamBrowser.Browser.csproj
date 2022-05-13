@@ -82,6 +82,7 @@
     <Compile Include="BrowserWindow.cs" />
     <Compile Include="Events\DialogRequestedEventArgs.cs" />
     <Compile Include="Events\DialogRequestedEventHandler.cs" />
+    <Compile Include="Events\DownloadAbortedEventHandler.cs" />
     <Compile Include="Events\DownloadUpdatedEventHandler.cs" />
     <Compile Include="Events\FaviconChangedEventHandler.cs" />
     <Compile Include="Events\WindowClosedEventHandler.cs" />

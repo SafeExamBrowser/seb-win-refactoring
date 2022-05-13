@@ -252,6 +252,12 @@
     <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
         interne(r) oder externe(r)
     </Entry>
+    <Entry key="MessageBox_DownloadNotAllowed">
+        Das Herunterladen von Dateien ist in den aktuellen SEB-Einstellungen nicht erlaubt. Bitte melden Sie dies Ihrem Prüfungsanbieter.
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowedTitle">
+        Herunterladen nicht erlaubt!
+    </Entry>
     <Entry key="MessageBox_InvalidConfigurationData">
         Die Konfigurations-Ressource "%%URI%%" enthält ungültige Daten!
     </Entry>
@@ -377,6 +383,12 @@
     </Entry>
     <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
         Konfigurations-Fehler
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowed">
+        Das Hochladen von Dateien ist in den aktuellen SEB-Einstellungen nicht erlaubt. Bitte melden Sie dies Ihrem Prüfungsanbieter.
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowedTitle">
+        Hochladen nicht erlaubt!
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
         Dieser Computer scheint eine virtuelle Maschine zu sein. Die ausgewählte Konfiguration erlaubt es nicht, SEB in einer virtuellen Maschine auszuführen.

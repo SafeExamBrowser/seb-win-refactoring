@@ -252,6 +252,12 @@
     <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
         interno/i o esterno/i
     </Entry>
+    <Entry key="MessageBox_DownloadNotAllowed">
+        Il download di file non è consentito nelle impostazioni SEB correnti. Si prega di segnalarlo al fornitore dell'esame.
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowedTitle">
+        Download non consentito!
+    </Entry>
     <Entry key="MessageBox_InvalidConfigurationData">
         La risorsa di configurazione "%%URI%%" contiene dati non validi!
     </Entry>
@@ -377,6 +383,12 @@
     </Entry>
     <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
         Errore di configurazione
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowed">
+        Il upload di file non è consentito nelle impostazioni SEB correnti. Si prega di segnalarlo al fornitore dell'esame.
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowedTitle">
+        Upload non consentito!
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
         Questo computer sembra essere una macchina virtuale. La configurazione selezionata non consente l'esecuzione di SEB in una macchina virtuale.

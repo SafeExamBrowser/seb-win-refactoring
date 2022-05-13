@@ -222,6 +222,12 @@
     <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
         内部或外部
     </Entry>
+    <Entry key="MessageBox_DownloadNotAllowed">
+        当前 SEB 设置中不允许下载文件。 请将此情况报告给您的考试提供商。
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowedTitle">
+        不允许下载！
+    </Entry>
     <Entry key="MessageBox_InvalidConfigurationData">
         配置"%%URI%%" 中包含无效数据。
     </Entry>
@@ -341,6 +347,12 @@
     </Entry>
     <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
         配置错误
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowed">
+        当前 SEB 设置中不允许上传文件。 请将此情况报告给您的考试提供商。
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowedTitle">
+        不允许上传！
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
         这台电脑是一个虚拟机。所选配置不允许防作弊考试专用浏览器在虚拟机中运行。

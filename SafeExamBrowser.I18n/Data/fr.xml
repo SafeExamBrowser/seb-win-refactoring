@@ -252,6 +252,12 @@
     <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
         interne(s) ou externe(s)
     </Entry>
+    <Entry key="MessageBox_DownloadNotAllowed">
+        Le téléchargement de fichiers n'est pas autorisé dans les paramètres SEB actuels. Veuillez le signaler à votre fournisseur d'examen.
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowedTitle">
+        Téléchargement non autorisé!
+    </Entry>
     <Entry key="MessageBox_InvalidConfigurationData">
         La ressource de configuration "%%URI%%" contient des données non valides!
     </Entry>
@@ -377,6 +383,12 @@
     </Entry>
     <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
         Erreur de configuration
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowed">
+        Le téléchargement de fichiers n'est pas autorisé dans les paramètres SEB actuels. Veuillez le signaler à votre fournisseur d'examen.
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowedTitle">
+        Téléchargement non autorisé!
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
         Cet ordinateur semble être une machine virtuelle. La configuration sélectionnée ne permet pas à SEB de fonctionner dans une machine virtuelle.

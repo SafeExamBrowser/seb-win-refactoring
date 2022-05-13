@@ -32,6 +32,7 @@ namespace SafeExamBrowser.Browser.Handlers
 		private readonly WindowSettings windowSettings;
 
 		internal event DownloadRequestedEventHandler ConfigurationDownloadRequested;
+		internal event DownloadAbortedEventHandler DownloadAborted;
 		internal event DownloadUpdatedEventHandler DownloadUpdated;
 
 		internal DownloadHandler(AppConfig appConfig, ILogger logger, BrowserSettings settings, WindowSettings windowSettings)
@@ -73,6 +74,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			else
 			{
 				logger.Info($"Aborted download request{(windowSettings.UrlPolicy.CanLog() ? $" for '{uri}'" : "")}, as downloading is not allowed.");
+				Task.Run(() => DownloadAborted?.Invoke());
 			}
 		}
 
