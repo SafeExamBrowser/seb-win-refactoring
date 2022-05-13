@@ -29,7 +29,7 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		/// Enables the forward navigation button.
 		/// </summary>
 		bool CanNavigateForwards { set; }
-		
+
 		/// <summary>
 		/// The native handle of the window.
 		/// </summary>
@@ -91,6 +91,22 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		event ActionRequestedEventHandler ZoomResetRequested;
 
 		/// <summary>
+		/// Sets the focus on the address bar of the window.
+		/// </summary>
+		void FocusAddressBar();
+
+		/// <summary>
+		/// Sets the focus on the browser content of the window.
+		/// </summary>
+		void FocusBrowser();
+
+		/// <summary>
+		/// Sets the focus on the toolbar of the window. If the parameter is set to true, the first focusable control on the toolbar gets focused.
+		/// If it is set to false, the last one.
+		/// </summary>
+		void FocusToolbar(bool forward);
+
+		/// <summary>
 		/// Displays the find toolbar to search the content of a page.
 		/// </summary>
 		void ShowFindbar();
@@ -129,18 +145,5 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		/// Updates the display value of the current page zoom. Value is expected to be in percentage.
 		/// </summary>
 		void UpdateZoomLevel(double value);
-
-		/// <summary>
-		/// Sets the focus to the toolbar.
-		/// </summary>
-		/// <param name="forward">If true, the first focusable control on the toolbar gets focused. If false, the last one.</param>
-		void FocusToolbar(bool forward);
-
-		/// <summary>
-		/// Sets the focus to the browser.
-		/// </summary>
-		void FocusBrowser();
-
-		void FocusAddressBar();
 	}
 }

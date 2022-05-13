@@ -87,6 +87,14 @@ namespace SafeExamBrowser.Browser
 			this.windows = new List<BrowserWindow>();
 		}
 
+		public void Focus(bool forward)
+		{
+			windows.ForEach(window =>
+			{
+				window.Focus(forward);
+			});
+		}
+
 		public IEnumerable<IApplicationWindow> GetWindows()
 		{
 			return new List<IApplicationWindow>(windows);
@@ -458,14 +466,6 @@ namespace SafeExamBrowser.Browser
 			nativeMethods.EmptyClipboard();
 			CreateNewWindow();
 			logger.Info("Successfully reset browser.");
-		}
-
-		public void Focus(bool forward)
-		{
-			windows.ForEach(window =>
-			{
-				window.Focus(forward);
-			});
 		}
 	}
 }

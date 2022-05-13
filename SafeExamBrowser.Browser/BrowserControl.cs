@@ -72,6 +72,23 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
+		public async void ExecuteJavascript(string javascript, Action<JavascriptResult> callback)
+		{
+			var result = await control.EvaluateScriptAsync(javascript);
+
+			callback(new JavascriptResult()
+			{
+				Message = result.Message,
+				Result = result.Result,
+				Success = result.Success
+			});
+		}
+
+		public void Find(string term, bool isInitial, bool caseSensitive, bool forward = true)
+		{
+			control.Find(term, forward, caseSensitive, !isInitial);
+		}
+
 		public void Initialize()
 		{
 			control.AddressChanged += (o, e) => AddressChanged?.Invoke(e.Address);
@@ -85,35 +102,13 @@ namespace SafeExamBrowser.Browser
 			control.FrameLoadStart += Control_FrameLoadStart;
 			control.IsBrowserInitializedChanged += Control_IsBrowserInitializedChanged;
 			control.KeyEvent += (w, b, t, k, n, m, s) => keyboardHandler.OnKeyEvent(w, b, t, k, n, m, s);
-			control.LoadError += (o, e) => LoadFailed?.Invoke((int) e.ErrorCode, e.ErrorText, e.FailedUrl);
+			control.LoadError += (o, e) => LoadFailed?.Invoke((int) e.ErrorCode, e.ErrorText, e.Frame.IsMain, e.FailedUrl);
 			control.LoadingProgressChanged += (w, b, p) => displayHandler.OnLoadingProgressChange(w, b, p);
 			control.LoadingStateChanged += (o, e) => LoadingStateChanged?.Invoke(e.IsLoading);
 			control.OpenUrlFromTab += (w, b, f, u, t, g, a) => a.Value = requestHandler.OnOpenUrlFromTab(w, b, f, u, t, g);
 			control.PreKeyEvent += (IWebBrowser w, IBrowser b, KeyType t, int k, int n, CefEventFlags m, bool i, ref bool s, GenericEventArgs a) => a.Value = keyboardHandler.OnPreKeyEvent(w, b, t, k, n, m, i, ref s);
 			control.ResourceRequestHandlerRequired += (IWebBrowser w, IBrowser b, IFrame f, IRequest r, bool n, bool d, string i, ref bool h, ResourceRequestEventArgs a) => a.Handler = requestHandler.GetResourceRequestHandler(w, b, f, r, n, d, i, ref h);
 			control.TitleChanged += (o, e) => TitleChanged?.Invoke(e.Title);
-		}
-
-		private void Control_FrameLoadStart(object sender, FrameLoadStartEventArgs e)
-		{
-			var browserExamKey = generator.CalculateBrowserExamKeyHash(e.Url);
-			var configurationKey = generator.CalculateConfigurationKeyHash(e.Url);
-			var api = contentLoader.LoadApi(browserExamKey, configurationKey, appConfig.ProgramBuildVersion);
-
-			e.Frame.ExecuteJavaScriptAsync(api);
-		}
-
-		private void Control_IsBrowserInitializedChanged(object sender, EventArgs e)
-		{
-			if (control.IsBrowserInitialized)
-			{
-				control.BrowserCore.GetHost().SetFocus(true);
-			}
-		}
-
-		public void Find(string term, bool isInitial, bool caseSensitive, bool forward = true)
-		{
-			control.Find(term, forward, caseSensitive, !isInitial);
 		}
 
 		public void NavigateBackwards()
@@ -146,18 +141,21 @@ namespace SafeExamBrowser.Browser
 			control.BrowserCore.SetZoomLevel(level);
 		}
 
-		/// <summary>
-		/// Executes the given Javascript code in the browser.
-		/// </summary>
-		public async void ExecuteJavascript(string javascript, Action<JavascriptResult> callback)
+		private void Control_FrameLoadStart(object sender, FrameLoadStartEventArgs e)
 		{
-			var result = await this.control.EvaluateScriptAsync(javascript);
-			callback(new JavascriptResult()
+			var browserExamKey = generator.CalculateBrowserExamKeyHash(e.Url);
+			var configurationKey = generator.CalculateConfigurationKeyHash(e.Url);
+			var api = contentLoader.LoadApi(browserExamKey, configurationKey, appConfig.ProgramBuildVersion);
+
+			e.Frame.ExecuteJavaScriptAsync(api);
+		}
+
+		private void Control_IsBrowserInitializedChanged(object sender, EventArgs e)
+		{
+			if (control.IsBrowserInitialized)
 			{
-				Message = result.Message,
-				Result = result.Result,
-				Success = result.Success
-			});
+				control.BrowserCore.GetHost().SetFocus(true);
+			}
 		}
 	}
 }

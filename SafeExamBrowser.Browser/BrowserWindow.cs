@@ -127,6 +127,19 @@ namespace SafeExamBrowser.Browser
 			Control.Destroy();
 		}
 
+		internal void Focus(bool forward)
+		{
+			if (forward)
+			{
+				window.FocusToolbar(forward);
+			}
+			else
+			{
+				window.FocusBrowser();
+				Activate();
+			}
+		}
+
 		internal void InitializeControl()
 		{
 			var cefSharpControl = default(ICefSharpControl);
@@ -159,13 +172,13 @@ namespace SafeExamBrowser.Browser
 			downloadHandler.DownloadAborted += DownloadHandler_DownloadAborted;
 			downloadHandler.DownloadUpdated += DownloadHandler_DownloadUpdated;
 			keyboardHandler.FindRequested += KeyboardHandler_FindRequested;
+			keyboardHandler.FocusAddressBarRequested += KeyboardHandler_FocusAddressBarRequested;
 			keyboardHandler.HomeNavigationRequested += HomeNavigationRequested;
 			keyboardHandler.ReloadRequested += ReloadRequested;
+			keyboardHandler.TabPressed += KeyboardHandler_TabPressed;
 			keyboardHandler.ZoomInRequested += ZoomInRequested;
 			keyboardHandler.ZoomOutRequested += ZoomOutRequested;
 			keyboardHandler.ZoomResetRequested += ZoomResetRequested;
-			keyboardHandler.TabPressed += TabPressed;
-			keyboardHandler.FocusAddressBarRequested += FocusAddressBarRequested;
 			resourceHandler.SessionIdentifierDetected += (id) => SessionIdentifierDetected?.Invoke(id);
 			requestHandler.QuitUrlVisited += RequestHandler_QuitUrlVisited;
 			requestHandler.RequestBlocked += RequestHandler_RequestBlocked;
@@ -267,26 +280,38 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		private void Control_LoadFailed(int errorCode, string errorText, string url)
+		private void Control_LoadFailed(int errorCode, string errorText, bool isMainRequest, string url)
 		{
-			if (errorCode == (int) CefErrorCode.None)
+			switch (errorCode)
 			{
-				logger.Info($"Request{(WindowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} was successful.");
+				case (int) CefErrorCode.Aborted:
+					logger.Info($"Request{(WindowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} was aborted.");
+					break;
+				case (int) CefErrorCode.InternetDisconnected:
+					logger.Info($"Request{(WindowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} has failed due to loss of internet connection.");
+					break;
+				case (int) CefErrorCode.None:
+					logger.Info($"Request{(WindowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} was successful.");
+					break;
+				case (int) CefErrorCode.UnknownUrlScheme:
+					logger.Info($"Request{(WindowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} has an unknown URL scheme and will be handled by the OS.");
+					break;
+				default:
+					HandleUnknownLoadFailure(errorCode, errorText, isMainRequest, url);
+					break;
 			}
-			else if (errorCode == (int) CefErrorCode.Aborted)
-			{
-				logger.Info($"Request{(WindowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} was aborted.");
-			}
-			else if (errorCode == (int) CefErrorCode.UnknownUrlScheme)
-			{
-				logger.Info($"Request{(WindowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} contains unknown URL scheme and will be handled by the OS.");
-			}
-			else
+		}
+
+		private void HandleUnknownLoadFailure(int errorCode, string errorText, bool isMainRequest, string url)
+		{
+			var requestInfo = $"{errorText} ({errorCode}, {(isMainRequest ? "main" : "resource")} request)";
+
+			logger.Warn($"Request{(WindowSettings.UrlPolicy.CanLogError() ? $" for '{url}'" : "")} failed: {requestInfo}.");
+
+			if (isMainRequest)
 			{
 				var title = text.Get(TextKey.Browser_LoadErrorTitle);
-				var message = text.Get(TextKey.Browser_LoadErrorMessage).Replace("%%URL%%", WindowSettings.UrlPolicy.CanLogError() ? url : "") + $" {errorText} ({errorCode})";
-
-				logger.Warn($"Request{(WindowSettings.UrlPolicy.CanLogError() ? $" for '{url}'" : "")} failed: {errorText} ({errorCode}).");
+				var message = text.Get(TextKey.Browser_LoadErrorMessage).Replace("%%URL%%", WindowSettings.UrlPolicy.CanLogError() ? url : "") + $" {requestInfo}";
 
 				Task.Run(() => messageBox.Show(message, title, icon: MessageBoxIcon.Error, parent: window)).ContinueWith(_ => Control.NavigateBackwards());
 			}
@@ -465,9 +490,30 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		private void FocusAddressBarRequested()
+		private void KeyboardHandler_FocusAddressBarRequested()
 		{
 			window.FocusAddressBar();
+		}
+
+		private void KeyboardHandler_TabPressed(bool shiftPressed)
+		{
+			Control.ExecuteJavascript("document.activeElement.tagName", result =>
+			{
+				var tagName = result.Result as string;
+
+				if (tagName != null && tagName.ToUpper() == "BODY")
+				{
+					// This means the user is now at the start of the focus / tabIndex chain in the website.
+					if (shiftPressed)
+					{
+						window.FocusToolbar(!shiftPressed);
+					}
+					else
+					{
+						LoseFocusRequested?.Invoke(true);
+					}
+				}
+			});
 		}
 
 		private ChromiumHostControl LifeSpanHandler_CreatePopup()
@@ -714,42 +760,6 @@ namespace SafeExamBrowser.Browser
 				Control.Zoom(0);
 				window.UpdateZoomLevel(CalculateZoomPercentage());
 				logger.Debug($"Reset page zoom to {CalculateZoomPercentage()}%.");
-			}
-		}
-
-		private void TabPressed(bool shiftPressed)
-		{
-			Control.ExecuteJavascript("document.activeElement.tagName", result =>
-			{
-				var tagName = result.Result as string;
-				if (tagName != null)
-				{
-					if (tagName.ToUpper() == "BODY")
-					{
-						// this means the user is now at the start of the focus / tabIndex chain in the website
-						if (shiftPressed)
-						{
-							window.FocusToolbar(!shiftPressed);
-						}
-						else
-						{
-							LoseFocusRequested?.Invoke(true);
-						}
-					}
-				}
-			});
-		}
-
-		internal void Focus(bool forward)
-		{
-			if (forward)
-			{
-				window.FocusToolbar(forward);
-			}
-			else
-			{
-				window.FocusBrowser();
-				Activate();
 			}
 		}
 

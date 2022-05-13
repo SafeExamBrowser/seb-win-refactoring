@@ -11,5 +11,5 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser.Events
 	/// <summary>
 	/// Indicates a load error for a browser request.
 	/// </summary>
-	public delegate void LoadFailedEventHandler(int errorCode, string errorText, string url);
+	public delegate void LoadFailedEventHandler(int errorCode, string errorText, bool isMainRequest, string url);
 }

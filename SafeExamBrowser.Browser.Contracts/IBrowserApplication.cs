@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
 
@@ -38,8 +37,8 @@ namespace SafeExamBrowser.Browser.Contracts
 		event LoseFocusRequestedEventHandler LoseFocusRequested;
 
 		/// <summary>
-		/// Transfers the focus to the browser window.
-		/// <paramref name="forward">If true, the first focusable element in the browser window receives focus (passing forward of focus). Otherwise, the last element.</paramref>
+		/// Transfers the focus to the browser application. If the parameter is <c>true</c>, the first focusable element in the browser window
+		/// receives focus (passing forward of focus). Otherwise, the last element receives focus.
 		/// </summary>
 		void Focus(bool forward);
 	}
