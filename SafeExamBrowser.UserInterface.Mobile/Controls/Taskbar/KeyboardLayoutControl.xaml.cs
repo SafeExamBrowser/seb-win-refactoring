@@ -45,7 +45,14 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			InitializeLayouts();
 
 			keyboard.LayoutChanged += Keyboard_LayoutChanged;
-			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
+			Button.Click += (o, args) =>
+			{
+				Popup.IsOpen = !Popup.IsOpen;
+				Task.Delay(200).ContinueWith(_ => this.Dispatcher.BeginInvoke((System.Action) (() =>
+				{
+					((LayoutsStackPanel.Children[0] as ContentControl).Content as UIElement).Focus();
+				})));
+			};
 			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
 			Popup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(Popup_PlacementCallback);
 			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
@@ -113,6 +120,15 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 
 			LayoutCultureCode.Text = layout.CultureCode;
 			Button.ToolTip = tooltip;
+		}
+
+		private void Popup_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			if (e.Key == System.Windows.Input.Key.Enter || e.Key == System.Windows.Input.Key.Escape)
+			{
+				Popup.IsOpen = false;
+				Button.Focus();
+			}
 		}
 	}
 }
