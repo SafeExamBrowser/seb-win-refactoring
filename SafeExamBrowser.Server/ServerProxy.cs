@@ -146,7 +146,9 @@ namespace SafeExamBrowser.Server
 		public ServerResponse<IEnumerable<Exam>> GetAvailableExams(string examId = default)
 		{
 			var authorization = ("Authorization", $"Bearer {oauth2Token}");
-			var content = $"institutionId={settings.Institution}{(examId == default ? "" : $"&examId={examId}")}";
+			var clientInfo = $"client_id={userInfo.GetUserName()}&seb_machine_name={systemInfo.Name}";
+			var versionInfo = $"seb_os_name={systemInfo.OperatingSystemInfo}&seb_version={appConfig.ProgramInformationalVersion}";
+			var content = $"institutionId={settings.Institution}&{clientInfo}&{versionInfo}{(examId == default ? "" : $"&examId={examId}")}";
 			var contentType = "application/x-www-form-urlencoded";
 			var exams = default(IList<Exam>);
 
@@ -307,9 +309,7 @@ namespace SafeExamBrowser.Server
 		public ServerResponse SendSessionIdentifier(string identifier)
 		{
 			var authorization = ("Authorization", $"Bearer {oauth2Token}");
-			var clientInfo = $"client_id={userInfo.GetUserName()}&seb_machine_name={systemInfo.Name}";
-			var versionInfo = $"seb_os_name={systemInfo.OperatingSystemInfo}&seb_version={appConfig.ProgramInformationalVersion}";
-			var content = $"examId={examId}&{clientInfo}&{versionInfo}&seb_user_session_id={identifier}";
+			var content = $"examId={examId}&seb_user_session_id={identifier}";
 			var contentType = "application/x-www-form-urlencoded";
 			var token = ("SEBConnectionToken", connectionToken);
 
