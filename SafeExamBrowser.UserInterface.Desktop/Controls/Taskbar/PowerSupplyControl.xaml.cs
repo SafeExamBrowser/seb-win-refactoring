@@ -8,7 +8,6 @@
 
 using System;
 using System.Windows;
-using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
@@ -102,7 +101,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 			Button.ToolTip = tooltip;
 			PowerPlug.Visibility = status.IsOnline ? Visibility.Visible : Visibility.Collapsed;
 			Warning.Visibility = status.BatteryChargeStatus == BatteryChargeStatus.Critical ? Visibility.Visible : Visibility.Collapsed;
-			AutomationProperties.SetHelpText(this, Button.ToolTip as string);
+			Button.SetValue(System.Windows.Automation.AutomationProperties.HelpTextProperty, tooltip);
 		}
 
 		private void RenderCharge(double charge, BatteryChargeStatus status)

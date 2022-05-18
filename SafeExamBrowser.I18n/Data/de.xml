@@ -69,8 +69,17 @@
     <Entry key="BrowserWindow_UrlTextBox">
         URL eingeben
     </Entry>
+    <Entry key="BrowserWindow_ZoomLevelReset">
+        Seiten-Zoom bei %%ZOOM%% %. Klicken zum Zurücksetzen.
+    </Entry>
     <Entry key="BrowserWindow_ZoomMenuItem">
         Seiten-Zoom
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuPlus">
+        Zoom vergrössern
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuMinus">
+        Zoom verkleinern
     </Entry>
     <Entry key="Build">
         Build
