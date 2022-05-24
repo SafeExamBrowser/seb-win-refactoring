@@ -185,7 +185,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		}
 
 		public void UpdateProgress(double value)
-		{	
+		{
 			Dispatcher.Invoke(() => ProgressBar.Value = value * 100);
 		}
 
