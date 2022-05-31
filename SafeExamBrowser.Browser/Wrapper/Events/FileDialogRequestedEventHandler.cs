@@ -11,5 +11,5 @@ using CefSharp;
 
 namespace SafeExamBrowser.Browser.Wrapper.Events
 {
-	internal delegate void FileDialogRequestedEventHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, CefFileDialogMode mode, CefFileDialogFlags flags, string title, string defaultFilePath, List<string> acceptFilters, int selectedAcceptFilter, IFileDialogCallback callback);
+	internal delegate void FileDialogRequestedEventHandler(IWebBrowser chromiumWebBrowser, IBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, IFileDialogCallback callback);
 }

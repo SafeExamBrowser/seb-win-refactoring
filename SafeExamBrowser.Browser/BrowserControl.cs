@@ -98,7 +98,7 @@ namespace SafeExamBrowser.Browser
 			control.CanDownload += (w, b, u, r, a) => a.Value = downloadHandler.CanDownload(w, b, u, r);
 			control.DownloadUpdated += (w, b, d, c) => downloadHandler.OnDownloadUpdated(w, b, d, c);
 			control.FaviconUrlChanged += (w, b, u) => displayHandler.OnFaviconUrlChange(w, b, u);
-			control.FileDialogRequested += (w, b, m, f, t, d, a, s, c) => dialogHandler.OnFileDialog(w, b, m, f, t, d, a, s, c);
+			control.FileDialogRequested += (w, b, m, t, d, f, c) => dialogHandler.OnFileDialog(w, b, m, t, d, f, c);
 			control.FrameLoadStart += Control_FrameLoadStart;
 			control.IsBrowserInitializedChanged += Control_IsBrowserInitializedChanged;
 			control.KeyEvent += (w, b, t, k, n, m, s) => keyboardHandler.OnKeyEvent(w, b, t, k, n, m, s);

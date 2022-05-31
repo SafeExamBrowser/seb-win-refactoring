@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Browser.Handlers
 	{
 		internal event DialogRequestedEventHandler DialogRequested;
 
-		public bool OnFileDialog(IWebBrowser webBrowser, IBrowser browser, CefFileDialogMode mode, CefFileDialogFlags flags, string title, string defaultFilePath, List<string> acceptFilters, int selectedAcceptFilter, IFileDialogCallback callback)
+		public bool OnFileDialog(IWebBrowser webBrowser, IBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, IFileDialogCallback callback)
 		{
 			var args = new DialogRequestedEventArgs
 			{
@@ -36,7 +36,7 @@ namespace SafeExamBrowser.Browser.Handlers
 				{
 					if (args.Success)
 					{
-						callback.Continue(selectedAcceptFilter, new List<string> { args.FullPath });
+						callback.Continue(new List<string> { args.FullPath });
 					}
 					else
 					{

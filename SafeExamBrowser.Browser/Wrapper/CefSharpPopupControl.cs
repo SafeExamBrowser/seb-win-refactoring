@@ -76,9 +76,9 @@ namespace SafeExamBrowser.Browser.Wrapper
 			FaviconUrlChanged?.Invoke(webBrowser, browser, urls);
 		}
 
-		public void OnFileDialog(IWebBrowser webBrowser, IBrowser browser, CefFileDialogMode mode, CefFileDialogFlags flags, string title, string defaultFilePath, List<string> acceptFilters, int selectedAcceptFilter, IFileDialogCallback callback)
+		public void OnFileDialog(IWebBrowser webBrowser, IBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, IFileDialogCallback callback)
 		{
-			FileDialogRequested?.Invoke(webBrowser, browser, mode, flags, title, defaultFilePath, acceptFilters, selectedAcceptFilter, callback);
+			FileDialogRequested?.Invoke(webBrowser, browser, mode, title, defaultFilePath, acceptFilters, callback);
 		}
 
 		public void OnKeyEvent(IWebBrowser webBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey)

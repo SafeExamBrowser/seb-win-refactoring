@@ -71,7 +71,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			var threadId = default(int);
 
 			callback.Setup(c => c.Cancel()).Callback(() => sync.Set());
-			callback.Setup(c => c.Continue(It.IsAny<int>(), It.IsAny<List<string>>())).Callback(() => sync.Set());
+			callback.Setup(c => c.Continue(It.IsAny<List<string>>())).Callback(() => sync.Set());
 			sut.DialogRequested += (a) =>
 			{
 				args = a;
@@ -80,18 +80,18 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 				threadId = Thread.CurrentThread.ManagedThreadId;
 			};
 
-			var status = sut.OnFileDialog(default, default, mode, default, title, initialPath, default, default, callback.Object);
+			var status = sut.OnFileDialog(default, default, mode, title, initialPath, default, callback.Object);
 
 			sync.WaitOne();
 
 			if (confirm)
 			{
-				callback.Verify(c => c.Continue(It.IsAny<int>(), It.IsAny<List<string>>()), Times.Once);
+				callback.Verify(c => c.Continue(It.IsAny<List<string>>()), Times.Once);
 				callback.Verify(c => c.Cancel(), Times.Never);
 			}
 			else
 			{
-				callback.Verify(c => c.Continue(It.IsAny<int>(), It.IsAny<List<string>>()), Times.Never);
+				callback.Verify(c => c.Continue(It.IsAny<List<string>>()), Times.Never);
 				callback.Verify(c => c.Cancel(), Times.Once);
 			}
 
