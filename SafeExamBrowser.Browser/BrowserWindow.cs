@@ -44,6 +44,7 @@ namespace SafeExamBrowser.Browser
 {
 	internal class BrowserWindow : IApplicationWindow
 	{
+		private const string CLEAR_FIND_TERM = "thisisahacktoclearthesearchresultsasitappearsthatthereisnosuchfunctionalityincef";
 		private const double ZOOM_FACTOR = 0.2;
 
 		private readonly AppConfig appConfig;
@@ -60,6 +61,7 @@ namespace SafeExamBrowser.Browser
 		private readonly IText text;
 		private readonly IUserInterfaceFactory uiFactory;
 
+		private (string term, bool isInitial, bool caseSensitive, bool forward) findParameters;
 		private IBrowserWindow window;
 		private double zoomLevel;
 
@@ -278,6 +280,8 @@ namespace SafeExamBrowser.Browser
 				window.UpdateTitle(address);
 				TitleChanged?.Invoke(address);
 			}
+
+			AutoFind();
 		}
 
 		private void Control_LoadFailed(int errorCode, string errorText, bool isMainRequest, string url)
@@ -715,6 +719,11 @@ namespace SafeExamBrowser.Browser
 		{
 			if (settings.AllowFind)
 			{
+				findParameters.caseSensitive = caseSensitive;
+				findParameters.forward = forward;
+				findParameters.isInitial = isInitial;
+				findParameters.term = term;
+
 				Control.Find(term, isInitial, caseSensitive, forward);
 			}
 		}
@@ -760,6 +769,14 @@ namespace SafeExamBrowser.Browser
 				Control.Zoom(0);
 				window.UpdateZoomLevel(CalculateZoomPercentage());
 				logger.Debug($"Reset page zoom to {CalculateZoomPercentage()}%.");
+			}
+		}
+
+		private void AutoFind()
+		{
+			if (settings.AllowFind && !string.IsNullOrEmpty(findParameters.term) && !CLEAR_FIND_TERM.Equals(findParameters.term, StringComparison.OrdinalIgnoreCase))
+			{
+				Control.Find(findParameters.term, findParameters.isInitial, findParameters.caseSensitive, findParameters.forward);
 			}
 		}
 

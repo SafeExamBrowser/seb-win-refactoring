@@ -33,6 +33,8 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 {
 	internal partial class BrowserWindow : Window, IBrowserWindow
 	{
+		private const string CLEAR_FIND_TERM = "thisisahacktoclearthesearchresultsasitappearsthatthereisnosuchfunctionalityincef";
+
 		private readonly bool isMainWindow;
 		private readonly BrowserSettings settings;
 		private readonly IText text;
@@ -330,7 +332,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 		private void FindbarCloseButton_Click(object sender, RoutedEventArgs e)
 		{
-			FindRequested?.Invoke("thisisahacktoclearthesearchresultsasitappearsthatthereisnosuchfunctionalityincef", true, false);
+			FindRequested?.Invoke(CLEAR_FIND_TERM, true, false);
 			Findbar.Visibility = Visibility.Collapsed;
 		}
 
@@ -348,7 +350,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		{
 			if (string.IsNullOrEmpty(FindTextBox.Text))
 			{
-				FindRequested?.Invoke("thisisahacktoclearthesearchresultsasitappearsthatthereisnosuchfunctionalityincef", true, false);
+				FindRequested?.Invoke(CLEAR_FIND_TERM, true, false);
 			}
 			else
 			{
