@@ -477,9 +477,8 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			HomeButton.Click += (o, args) => HomeNavigationRequested?.Invoke();
 			Loaded += BrowserWindow_Loaded;
 			MenuButton.Click += MenuButton_Click;
-			MenuButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsMouseOver));
 			MenuPopup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(Popup_PlacementCallback);
-			MenuPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsMouseOver));
+			MenuPopup.LostFocus += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => MenuPopup.IsOpen = MenuPopup.IsKeyboardFocusWithin));
 			KeyDown += BrowserWindow_KeyDown;
 			KeyUp += BrowserWindow_KeyUp;
 			LocationChanged += (o, args) => { DownloadsPopup.IsOpen = false; MenuPopup.IsOpen = false; };
