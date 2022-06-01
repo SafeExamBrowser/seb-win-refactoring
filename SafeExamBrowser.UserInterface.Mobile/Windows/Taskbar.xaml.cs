@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.ComponentModel;
 using System.Windows;
 using SafeExamBrowser.Browser.Contracts.Events;
@@ -19,8 +20,10 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 {
 	internal partial class Taskbar : Window, ITaskbar
 	{
-		private readonly ILogger logger;
 		private bool allowClose;
+		private readonly ILogger logger;
+		private bool isQuitButtonFocusedAtKeyDown;
+		private bool isFirstChildFocusedAtKeyDown;
 
 		public bool ShowClock
 		{
@@ -32,7 +35,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			set { Dispatcher.Invoke(() => QuitButton.Visibility = value ? Visibility.Visible : Visibility.Collapsed); }
 		}
 
-		public event LoseFocusRequestedEventHandler LoseFocusRequested { add { } remove { } }
+		public event LoseFocusRequestedEventHandler LoseFocusRequested;
 		public event QuitButtonClickedEventHandler QuitButtonClicked;
 
 		internal Taskbar(ILogger logger)
@@ -81,16 +84,19 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		public void Focus(bool fromTop)
 		{
-			Activate();
+			Dispatcher.BeginInvoke((Action) (() =>
+			{
+				Activate();
 
-			if (fromTop)
-			{
-				ApplicationStackPanel.Children[0].Focus();
-			}
-			else
-			{
-				QuitButton.Focus();
-			}
+				if (fromTop)
+				{
+					ApplicationStackPanel.Children[0].Focus();
+				}
+				else
+				{
+					QuitButton.Focus();
+				}
+			}));
 		}
 
 		public int GetAbsoluteHeight()
@@ -143,7 +149,9 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		{
 			Dispatcher.Invoke(() =>
 			{
-				QuitButton.ToolTip = text.Get(TextKey.Shell_QuitButton);
+				var txt = text.Get(TextKey.Shell_QuitButton);
+				QuitButton.ToolTip = txt;
+				QuitButton.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, txt);
 			});
 		}
 
@@ -184,6 +192,83 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			{
 				e.Cancel = true;
 			}
+		}
+
+		private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			this.isQuitButtonFocusedAtKeyDown = this.QuitButton.IsKeyboardFocusWithin;
+			this.isFirstChildFocusedAtKeyDown = this.ApplicationStackPanel.Children[0].IsKeyboardFocusWithin;
+		}
+
+		private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+		{
+			if (e.Key == System.Windows.Input.Key.Tab)
+			{
+				var shift = System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.LeftShift);
+				if (!shift && this.ApplicationStackPanel.Children[0].IsKeyboardFocusWithin && this.isQuitButtonFocusedAtKeyDown)
+				{
+					this.LoseFocusRequested?.Invoke(true);
+					e.Handled = true;
+				}
+				else if (shift && this.QuitButton.IsKeyboardFocusWithin && this.isFirstChildFocusedAtKeyDown)
+				{
+					this.LoseFocusRequested?.Invoke(false);
+					e.Handled = true;
+				}
+			}
+
+			this.isQuitButtonFocusedAtKeyDown = false;
+			this.isFirstChildFocusedAtKeyDown = false;
+		}
+
+		void ITaskbar.Focus(bool forward)
+		{
+			this.Dispatcher.BeginInvoke((Action) (() =>
+			{
+				base.Activate();
+				if (forward)
+				{
+					this.SetFocusWithin(this.ApplicationStackPanel.Children[0]);
+				}
+				else
+				{
+					this.QuitButton.Focus();
+				}
+			}));
+		}
+
+		private bool SetFocusWithin(UIElement uIElement)
+		{
+			if (uIElement.Focusable)
+			{
+				uIElement.Focus();
+				return true;
+			}
+
+			if (uIElement is System.Windows.Controls.Panel)
+			{
+				var panel = uIElement as System.Windows.Controls.Panel;
+				for (var i = 0; i < panel.Children.Count; i++)
+				{
+					if (this.SetFocusWithin(panel.Children[i]))
+					{
+						return true;
+					}
+				}
+
+				return false;
+			}
+			else if (uIElement is System.Windows.Controls.ContentControl)
+			{
+				var control = uIElement as System.Windows.Controls.ContentControl;
+				var content = control.Content as UIElement;
+				if (content != null)
+				{
+					return this.SetFocusWithin(content);
+				}
+			}
+
+			return false;
 		}
 	}
 }

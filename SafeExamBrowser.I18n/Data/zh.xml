@@ -66,8 +66,17 @@
     <Entry key="BrowserWindow_UrlTextBox">
         输入网址
     </Entry>
+    <Entry key="BrowserWindow_ZoomLevelReset">
+        页面缩放为 %%ZOOM%% %。点击重置。
+    </Entry>
     <Entry key="BrowserWindow_ZoomMenuItem">
         页面缩放
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuPlus">
+        增加页面缩放
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuMinus">
+        减少页面缩放
     </Entry>
     <Entry key="Build">
         生成
