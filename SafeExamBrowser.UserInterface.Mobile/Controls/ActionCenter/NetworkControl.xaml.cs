@@ -121,6 +121,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 		{
 			Button.ToolTip = text;
 			Text.Text = text;
+			Button.SetValue(System.Windows.Automation.AutomationProperties.HelpTextProperty, text);
 		}
 
 		private UIElement GetWirelessIcon(int signalStrength)

@@ -88,6 +88,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 				{
 					WirelessIcon.Child = GetWirelessIcon(network.SignalStrength);
 					Button.ToolTip = text.Get(TextKey.SystemControl_NetworkWirelessConnected).Replace("%%NAME%%", network.Name);
+					Button.SetValue(System.Windows.Automation.AutomationProperties.HelpTextProperty, Button.ToolTip as string);
 				}
 
 				WirelessNetworksStackPanel.Children.Add(button);
