@@ -153,6 +153,9 @@
     <Entry key="LockScreen_DisplayConfigurationMessage">
         Eine verbotene Bildschirm-Konfiguration wurde detektiert. Bitte wählen Sie eine der verfügbaren Optionen aus und geben Sie das korrekte Passwort ein, um SEB zu entsperren.
     </Entry>
+    <Entry key="LockScreen_IntegrityMessage">
+        Sie verwenden eine inoffizielle SEB-Version! Bitte stellen Sie sicher, dass Sie einen offiziellen Safe Exam Browser verwenden. Geben Sie bitte das korrekte Passwort ein, um SEB zu entsperren.
+    </Entry>
     <Entry key="LockScreen_Title">
         SEB GESPERRT
     </Entry>
@@ -536,6 +539,9 @@
     </Entry>
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Validiere Richtlinie für virtuelle Maschinen
+    </Entry>
+    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+        Überprüfe Integrität
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
         Warte auf die Bestätigung des Hinweises zur Fernüberwachung

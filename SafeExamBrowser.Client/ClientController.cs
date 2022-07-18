@@ -21,6 +21,7 @@ using SafeExamBrowser.Communication.Contracts.Events;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
+using SafeExamBrowser.Configuration.Contracts.Integrity;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -43,29 +44,31 @@ namespace SafeExamBrowser.Client
 {
 	internal class ClientController
 	{
-		private IActionCenter actionCenter;
-		private IApplicationMonitor applicationMonitor;
-		private ClientContext context;
-		private IDisplayMonitor displayMonitor;
-		private IExplorerShell explorerShell;
-		private IFileSystemDialog fileSystemDialog;
-		private IHashAlgorithm hashAlgorithm;
-		private ILogger logger;
-		private IMessageBox messageBox;
-		private IOperationSequence operations;
-		private IRuntimeProxy runtime;
-		private bool sessionLocked;
-		private Action shutdown;
-		private ISplashScreen splashScreen;
-		private ISystemMonitor systemMonitor;
-		private ITaskbar taskbar;
-		private IText text;
-		private IUserInterfaceFactory uiFactory;
+		private readonly IActionCenter actionCenter;
+		private readonly IApplicationMonitor applicationMonitor;
+		private readonly ClientContext context;
+		private readonly IDisplayMonitor displayMonitor;
+		private readonly IExplorerShell explorerShell;
+		private readonly IFileSystemDialog fileSystemDialog;
+		private readonly IHashAlgorithm hashAlgorithm;
+		private readonly IIntegrityModule integrityModule;
+		private readonly ILogger logger;
+		private readonly IMessageBox messageBox;
+		private readonly IOperationSequence operations;
+		private readonly IRuntimeProxy runtime;
+		private readonly Action shutdown;
+		private readonly ISplashScreen splashScreen;
+		private readonly ISystemMonitor systemMonitor;
+		private readonly ITaskbar taskbar;
+		private readonly IText text;
+		private readonly IUserInterfaceFactory uiFactory;
 
 		private IBrowserApplication Browser => context.Browser;
 		private IClientHost ClientHost => context.ClientHost;
 		private IServerProxy Server => context.Server;
 		private AppSettings Settings => context.Settings;
+
+		private bool sessionLocked;
 
 		internal ClientController(
 			IActionCenter actionCenter,
@@ -75,6 +78,7 @@ namespace SafeExamBrowser.Client
 			IExplorerShell explorerShell,
 			IFileSystemDialog fileSystemDialog,
 			IHashAlgorithm hashAlgorithm,
+			IIntegrityModule integrityModule,
 			ILogger logger,
 			IMessageBox messageBox,
 			IOperationSequence operations,
@@ -93,6 +97,7 @@ namespace SafeExamBrowser.Client
 			this.explorerShell = explorerShell;
 			this.fileSystemDialog = fileSystemDialog;
 			this.hashAlgorithm = hashAlgorithm;
+			this.integrityModule = integrityModule;
 			this.logger = logger;
 			this.messageBox = messageBox;
 			this.operations = operations;
@@ -123,6 +128,7 @@ namespace SafeExamBrowser.Client
 				RegisterEvents();
 				ShowShell();
 				AutoStartApplications();
+				ScheduleIntegrityVerification();
 
 				var communication = runtime.InformClientReady();
 
@@ -215,12 +221,12 @@ namespace SafeExamBrowser.Client
 
 		private void Taskbar_LoseFocusRequested(bool forward)
 		{
-			this.Browser.Focus(forward);
+			Browser.Focus(forward);
 		}
 
 		private void Browser_LoseFocusRequested(bool forward)
 		{
-			this.taskbar.Focus(forward);
+			taskbar.Focus(forward);
 		}
 
 		private void DeregisterEvents()
@@ -305,6 +311,39 @@ namespace SafeExamBrowser.Client
 					application.Start();
 				}
 			}
+		}
+
+		private void ScheduleIntegrityVerification()
+		{
+			const int FIVE_MINUTES = 300000;
+			const int TEN_MINUTES = 600000;
+
+			var timer = new System.Timers.Timer();
+
+			timer.AutoReset = false;
+			timer.Elapsed += (o, args) =>
+			{
+				logger.Info($"Attempting to verify application integrity...");
+
+				if (integrityModule.TryVerifyCodeSignature(out var isValid))
+				{
+					if (isValid)
+					{
+						logger.Info("Application integrity successfully verified.");
+					}
+					else
+					{
+						logger.Warn("Application integrity is compromised!");
+						ShowLockScreen(text.Get(TextKey.LockScreen_IntegrityMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
+					}
+				}
+				else
+				{
+					logger.Warn("Failed to verify application integrity!");
+				}
+			};
+			timer.Interval = TEN_MINUTES + (new Random().NextDouble() * FIVE_MINUTES);
+			timer.Start();
 		}
 
 		private void ApplicationMonitor_ExplorerStarted()
@@ -798,7 +837,7 @@ namespace SafeExamBrowser.Client
 		{
 			var result = messageBox.Show(TextKey.MessageBox_Quit, TextKey.MessageBox_QuitTitle, MessageBoxAction.YesNo, MessageBoxIcon.Question);
 			var quit = result == MessageBoxResult.Yes;
-			
+
 			if (quit)
 			{
 				logger.Info("The user chose to terminate the application.");

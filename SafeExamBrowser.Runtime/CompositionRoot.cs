@@ -17,6 +17,7 @@ using SafeExamBrowser.Configuration.Cryptography;
 using SafeExamBrowser.Configuration.DataCompression;
 using SafeExamBrowser.Configuration.DataFormats;
 using SafeExamBrowser.Configuration.DataResources;
+using SafeExamBrowser.Configuration.Integrity;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.OperationModel;
 using SafeExamBrowser.Core.Operations;
@@ -63,6 +64,7 @@ namespace SafeExamBrowser.Runtime
 			var userInfo = new UserInfo(ModuleLogger(nameof(UserInfo)));
 
 			var args = Environment.GetCommandLineArgs();
+			var integrityModule = new IntegrityModule(ModuleLogger(nameof(IntegrityModule)));
 			var desktopFactory = new DesktopFactory(ModuleLogger(nameof(DesktopFactory)));
 			var desktopMonitor = new DesktopMonitor(ModuleLogger(nameof(DesktopMonitor)));
 			var displayMonitor = new DisplayMonitor(ModuleLogger(nameof(DisplayMonitor)), nativeMethods, systemInfo);
@@ -85,6 +87,7 @@ namespace SafeExamBrowser.Runtime
 
 			bootstrapOperations.Enqueue(new I18nOperation(logger, text));
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(runtimeHost, logger));
+			bootstrapOperations.Enqueue(new IntegrityOperation(integrityModule, logger));
 
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, fileSystem, logger, runtimeHost, sessionContext));
 			sessionOperations.Enqueue(new ConfigurationOperation(args, configuration, new FileSystem(), new HashAlgorithm(), logger, sessionContext));

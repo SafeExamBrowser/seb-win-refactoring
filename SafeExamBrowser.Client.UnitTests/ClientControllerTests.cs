@@ -21,6 +21,7 @@ using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
+using SafeExamBrowser.Configuration.Contracts.Integrity;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -55,6 +56,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		private Mock<IExplorerShell> explorerShell;
 		private Mock<IFileSystemDialog> fileSystemDialog;
 		private Mock<IHashAlgorithm> hashAlgorithm;
+		private Mock<IIntegrityModule> integrityModule;
 		private Mock<ILogger> logger;
 		private Mock<IMessageBox> messageBox;
 		private Mock<IOperationSequence> operationSequence;
@@ -84,6 +86,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			explorerShell = new Mock<IExplorerShell>();
 			fileSystemDialog = new Mock<IFileSystemDialog>();
 			hashAlgorithm = new Mock<IHashAlgorithm>();
+			integrityModule = new Mock<IIntegrityModule>();
 			logger = new Mock<ILogger>();
 			messageBox = new Mock<IMessageBox>();
 			operationSequence = new Mock<IOperationSequence>();
@@ -110,6 +113,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				explorerShell.Object,
 				fileSystemDialog.Object,
 				hashAlgorithm.Object,
+				integrityModule.Object,
 				logger.Object,
 				messageBox.Object,
 				operationSequence.Object,
@@ -371,7 +375,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			};
 
 			messageBox.Setup(m => m.Show(
-				It.Is<string>(s => s == args.Message), 
+				It.Is<string>(s => s == args.Message),
 				It.Is<string>(s => s == args.Title),
 				It.Is<MessageBoxAction>(a => a == (MessageBoxAction) args.Action),
 				It.Is<MessageBoxIcon>(i => i == (MessageBoxIcon) args.Icon),

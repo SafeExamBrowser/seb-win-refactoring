@@ -153,6 +153,9 @@
     <Entry key="LockScreen_DisplayConfigurationMessage">
         A prohibited display configuration has been detected. In order to unlock SEB, please select one of the available options and enter the correct unlock password.
     </Entry>
+    <Entry key="LockScreen_IntegrityMessage">
+        You are using an unofficial SEB version! Please make sure to use an official Safe Exam Browser. In order to unlock SEB, please enter the correct unlock password.
+    </Entry>
     <Entry key="LockScreen_Title">
         SEB LOCKED
     </Entry>
@@ -536,6 +539,9 @@
     </Entry>
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Validating virtual machine policy
+    </Entry>
+    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+        Verifying integrity
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
         Waiting for confirmation of the disclaimer

@@ -138,6 +138,9 @@
     <Entry key="LockScreen_DisplayConfigurationMessage">
         检测到禁止的显示配置。 要解锁 SEB，请选择可用选项之一并输入正确的解锁密码。
     </Entry>
+    <Entry key="LockScreen_IntegrityMessage">
+        您使用的是非官方 SEB 版本！ 请确保使用官方的安全考试浏览器。 要解锁 SEB，请输入正确的解锁密码。
+    </Entry>
     <Entry key="LockScreen_Title">
         防作弊考试专用浏览器已锁定
     </Entry>
@@ -491,6 +494,9 @@
     </Entry>
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         验证虚拟机策略
+    </Entry>
+    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+        验证完整性
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
         等待确认免责声明

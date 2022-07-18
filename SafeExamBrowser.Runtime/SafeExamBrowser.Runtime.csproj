@@ -106,6 +106,7 @@
     <Compile Include="Operations\Events\PasswordRequiredEventArgs.cs" />
     <Compile Include="Operations\Events\ServerFailureEventArgs.cs" />
     <Compile Include="Operations\Events\UnexpectedErrorMessageArgs.cs" />
+    <Compile Include="Operations\IntegrityOperation.cs" />
     <Compile Include="Operations\KioskModeOperation.cs" />
     <Compile Include="Operations\ProctoringWorkaroundOperation.cs" />
     <Compile Include="Operations\RemoteSessionOperation.cs" />

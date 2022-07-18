@@ -18,7 +18,9 @@ using SafeExamBrowser.Communication.Contracts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
+using SafeExamBrowser.Configuration.Contracts.Integrity;
 using SafeExamBrowser.Configuration.Cryptography;
+using SafeExamBrowser.Configuration.Integrity;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.OperationModel;
 using SafeExamBrowser.Core.Operations;
@@ -68,6 +70,7 @@ namespace SafeExamBrowser.Client
 		private UserInterfaceMode uiMode;
 
 		private IActionCenter actionCenter;
+		private IIntegrityModule integrityModule;
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private INativeMethods nativeMethods;
@@ -94,6 +97,7 @@ namespace SafeExamBrowser.Client
 
 			actionCenter = uiFactory.CreateActionCenter();
 			context = new ClientContext();
+			integrityModule = new IntegrityModule(ModuleLogger(nameof(IntegrityModule)));
 			messageBox = BuildMessageBox();
 			nativeMethods = new NativeMethods();
 			networkAdapter = new NetworkAdapter(ModuleLogger(nameof(NetworkAdapter)), nativeMethods);
@@ -143,6 +147,7 @@ namespace SafeExamBrowser.Client
 				explorerShell,
 				fileSystemDialog,
 				hashAlgorithm,
+				integrityModule,
 				logger,
 				messageBox,
 				sequence,
@@ -212,7 +217,7 @@ namespace SafeExamBrowser.Client
 		private IOperation BuildBrowserOperation()
 		{
 			var fileSystemDialog = BuildFileSystemDialog();
-			var keyGenerator = new KeyGenerator(context.AppConfig, ModuleLogger(nameof(KeyGenerator)), context.Settings);
+			var keyGenerator = new KeyGenerator(context.AppConfig, integrityModule, ModuleLogger(nameof(KeyGenerator)), context.Settings);
 			var moduleLogger = ModuleLogger(nameof(BrowserApplication));
 			var browser = new BrowserApplication(
 				context.AppConfig,

@@ -153,6 +153,9 @@
     <Entry key="LockScreen_DisplayConfigurationMessage">
         Une configuration d'affichage interdite a été détectée. Pour déverrouiller SEB, veuillez sélectionner l'une des options disponibles et saisir le mot de passe de déverrouillage correct.
     </Entry>
+    <Entry key="LockScreen_IntegrityMessage">
+        Vous utilisez une version non officielle de SEB! Assurez-vous d'utiliser un Safe Exam Browser officiel. Afin de déverrouiller SEB, veuillez entrer le mot de passe de déverrouillage correct.
+    </Entry>
     <Entry key="LockScreen_Title">
         SEB VEROUILLE
     </Entry>
@@ -536,6 +539,9 @@
     </Entry>
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Validation de la directive sur les machines virtuelles
+    </Entry>
+    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+        Vérification de l'intégrité
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
         En attente de confirmation de la clause de non-responsabilité

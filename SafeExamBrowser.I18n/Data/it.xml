@@ -153,6 +153,9 @@
     <Entry key="LockScreen_DisplayConfigurationMessage">
         È stata rilevata una configurazione di visualizzazione vietata. Per sbloccare SEB, seleziona una delle opzioni disponibili e inserisci la password di sblocco corretta.
     </Entry>
+    <Entry key="LockScreen_IntegrityMessage">
+        Stai usando una versione SEB non ufficiale! Assicurati di utilizzare un Safe Exam Browser ufficiale. Per sbloccare SEB, inserisci la password di sblocco corretta.
+    </Entry>
     <Entry key="LockScreen_Title">
         SEB BLOCCATO
     </Entry>
@@ -536,6 +539,9 @@
     </Entry>
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Convalida dei criteri della macchina virtuale
+    </Entry>
+    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+        Verifica dell'integrità
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
         In attesa di conferma del disclaimer
