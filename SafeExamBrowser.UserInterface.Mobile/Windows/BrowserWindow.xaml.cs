@@ -657,7 +657,7 @@ if (typeof __SEB_focusElement === 'undefined') {
 
 		public void FocusAddressBar()
 		{
-			this.Dispatcher.BeginInvoke((Action) (async () =>
+			this.Dispatcher.BeginInvoke((Action) (() =>
 			{
 				this.UrlTextBox.Focus();
 			}));
