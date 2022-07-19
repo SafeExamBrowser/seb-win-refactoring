@@ -253,8 +253,17 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>IF EXIST "C:\SEB\seb_$(PlatformName).dll" (
+    robocopy "C:\SEB" "$(TargetDir)\" "seb_$(PlatformName).dll" /np
+
+    IF %25ERRORLEVEL%25 GEQ 8 (
+        EXIT 1
+    )
+) ELSE (
+    ECHO WARNING: Integrity module not included!
+)
+
+EXIT 0</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

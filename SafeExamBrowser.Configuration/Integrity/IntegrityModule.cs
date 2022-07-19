@@ -39,7 +39,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 			catch (DllNotFoundException)
 			{
-				logger.Warn("Integrity module is not present!");
+				logger.Warn("Integrity module is not available!");
 			}
 			catch (Exception e)
 			{
@@ -62,7 +62,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 			catch (DllNotFoundException)
 			{
-				logger.Warn("Integrity module is not present!");
+				logger.Warn("Integrity module is not available!");
 			}
 			catch (Exception e)
 			{

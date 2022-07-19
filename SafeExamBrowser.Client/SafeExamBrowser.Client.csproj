@@ -248,11 +248,17 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>robocopy "$(SolutionDir)SafeExamBrowser.Browser\bin\$(PlatformName)\$(ConfigurationName)" "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)" /e /np
-if %25ERRORLEVEL%25 geq 8 exit 1
-robocopy "$(ProjectDir)bin\$(PlatformName)\$(ConfigurationName)" "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)" /e /np
-if %25ERRORLEVEL%25 geq 8 exit 1
-exit 0</PostBuildEvent>
+    <PostBuildEvent>robocopy "$(SolutionDir)SafeExamBrowser.Browser\bin\$(PlatformName)\$(ConfigurationName)" "$(TargetDir)\" /e /np
+
+IF %25ERRORLEVEL%25 LSS 8 (
+    robocopy "$(TargetDir)\" "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)" /e /np
+
+    IF %25ERRORLEVEL%25 LSS 8 (
+        EXIT 0
+    )
+)
+
+EXIT 1</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
