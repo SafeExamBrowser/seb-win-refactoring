@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Threading.Tasks;
 using CefSharp;
 using SafeExamBrowser.Browser.Content;
 using SafeExamBrowser.Browser.Wrapper;
@@ -143,11 +144,14 @@ namespace SafeExamBrowser.Browser
 
 		private void Control_FrameLoadStart(object sender, FrameLoadStartEventArgs e)
 		{
-			var browserExamKey = generator.CalculateBrowserExamKeyHash(e.Url);
-			var configurationKey = generator.CalculateConfigurationKeyHash(e.Url);
-			var api = contentLoader.LoadApi(browserExamKey, configurationKey, appConfig.ProgramBuildVersion);
+			Task.Run(() =>
+			{
+				var browserExamKey = generator.CalculateBrowserExamKeyHash(e.Url);
+				var configurationKey = generator.CalculateConfigurationKeyHash(e.Url);
+				var api = contentLoader.LoadApi(browserExamKey, configurationKey, appConfig.ProgramBuildVersion);
 
-			e.Frame.ExecuteJavaScriptAsync(api);
+				e.Frame.ExecuteJavaScriptAsync(api);
+			});
 		}
 
 		private void Control_IsBrowserInitializedChanged(object sender, EventArgs e)
