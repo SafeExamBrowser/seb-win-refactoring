@@ -74,7 +74,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.BStr)]
-		private static extern string CalculateBrowserExamKey([MarshalAs(UnmanagedType.LPStr)] string configurationKey, [MarshalAs(UnmanagedType.LPStr)] string salt);
+		private static extern string CalculateBrowserExamKey(string configurationKey, string salt);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		private static extern bool VerifyCodeSignature();
