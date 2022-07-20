@@ -56,7 +56,14 @@ namespace SafeExamBrowser.Configuration.Cryptography
 
 		private string ComputeBrowserExamKey()
 		{
+			var configurationKey = settings.Browser.ConfigurationKey;
 			var salt = settings.Browser.BrowserExamKeySalt;
+
+			if (configurationKey == default)
+			{
+				configurationKey = "";
+				logger.Warn("The current configuration does not contain a value for the configuration key!");
+			}
 
 			if (salt == default || salt.Length == 0)
 			{
@@ -64,7 +71,7 @@ namespace SafeExamBrowser.Configuration.Cryptography
 				logger.Warn("The current configuration does not contain a salt value for the browser exam key!");
 			}
 
-			if (integrityModule.TryCalculateBrowserExamKey(settings.Browser.ConfigurationKey, ToString(salt), out browserExamKey))
+			if (integrityModule.TryCalculateBrowserExamKey(configurationKey, ToString(salt), out browserExamKey))
 			{
 				logger.Debug("Successfully calculated BEK using integrity module.");
 			}
@@ -74,7 +81,7 @@ namespace SafeExamBrowser.Configuration.Cryptography
 
 				using (var algorithm = new HMACSHA256(salt))
 				{
-					var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(appConfig.CodeSignatureHash + appConfig.ProgramBuildVersion + settings.Browser.ConfigurationKey));
+					var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(appConfig.CodeSignatureHash + appConfig.ProgramBuildVersion + configurationKey));
 					var key = ToString(hash);
 
 					browserExamKey = key;
