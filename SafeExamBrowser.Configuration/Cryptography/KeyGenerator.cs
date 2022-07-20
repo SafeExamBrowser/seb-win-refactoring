@@ -19,6 +19,8 @@ namespace SafeExamBrowser.Configuration.Cryptography
 {
 	public class KeyGenerator : IKeyGenerator
 	{
+		private readonly object @lock = new object();
+
 		private readonly SHA256Managed algorithm;
 		private readonly AppConfig appConfig;
 		private readonly IIntegrityModule integrityModule;
@@ -59,32 +61,40 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			var configurationKey = settings.Browser.ConfigurationKey;
 			var salt = settings.Browser.BrowserExamKeySalt;
 
-			if (configurationKey == default)
+			lock (@lock)
 			{
-				configurationKey = "";
-				logger.Warn("The current configuration does not contain a value for the configuration key!");
-			}
-
-			if (salt == default || salt.Length == 0)
-			{
-				salt = new byte[0];
-				logger.Warn("The current configuration does not contain a salt value for the browser exam key!");
-			}
-
-			if (integrityModule.TryCalculateBrowserExamKey(configurationKey, ToString(salt), out browserExamKey))
-			{
-				logger.Debug("Successfully calculated BEK using integrity module.");
-			}
-			else
-			{
-				logger.Warn("Failed to calculate BEK using integrity module! Falling back to simplified calculation...");
-
-				using (var algorithm = new HMACSHA256(salt))
+				if (browserExamKey == default)
 				{
-					var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(appConfig.CodeSignatureHash + appConfig.ProgramBuildVersion + configurationKey));
-					var key = ToString(hash);
+					logger.Debug("Initializing browser exam key...");
 
-					browserExamKey = key;
+					if (configurationKey == default)
+					{
+						configurationKey = "";
+						logger.Warn("The current configuration does not contain a value for the configuration key!");
+					}
+
+					if (salt == default || salt.Length == 0)
+					{
+						salt = new byte[0];
+						logger.Warn("The current configuration does not contain a salt value for the browser exam key!");
+					}
+
+					if (integrityModule.TryCalculateBrowserExamKey(configurationKey, ToString(salt), out browserExamKey))
+					{
+						logger.Debug("Successfully calculated BEK using integrity module.");
+					}
+					else
+					{
+						logger.Warn("Failed to calculate BEK using integrity module! Falling back to simplified calculation...");
+
+						using (var algorithm = new HMACSHA256(salt))
+						{
+							var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(appConfig.CodeSignatureHash + appConfig.ProgramBuildVersion + configurationKey));
+							var key = ToString(hash);
+
+							browserExamKey = key;
+						}
+					}
 				}
 			}
 
