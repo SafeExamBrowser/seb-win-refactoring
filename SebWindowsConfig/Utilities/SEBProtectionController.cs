@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -51,6 +52,13 @@ namespace SebWindowsConfig.Utilities
 {
 	public class SEBProtectionController
 	{
+		const string DLL_NAME =
+#if X86
+		"seb_x86.dll";
+#else
+		"seb_x64.dll";
+#endif
+
 		// Prefix
 		private const int PREFIX_LENGTH = 4;
 		private const string PUBLIC_KEY_HASH_MODE = "pkhs";
@@ -64,7 +72,7 @@ namespace SebWindowsConfig.Utilities
 		// RNCryptor non-secret payload (header)
 		// First byte: Data format version. Currently 2.
 		// Second byte: Options, bit 0 - uses password (so currently 1).
-		private static byte[] RNCRYPTOR_HEADER = new byte[] { 0x02, 0x01 };
+		private static readonly byte[] RNCRYPTOR_HEADER = new byte[] { 0x02, 0x01 };
 
 		enum EncryptionT
 		{
@@ -572,21 +580,71 @@ namespace SebWindowsConfig.Utilities
 		/// ----------------------------------------------------------------------------------------
 		public static string ComputeBrowserExamKey()
 		{
+			var browserExamKey = default(string);
+			var configurationKey = ComputeConfigurationKey();
 			var executable = Assembly.GetExecutingAssembly();
 			var certificate = executable.Modules.First().GetSignerCertificate();
 			var salt = (byte[]) SEBSettings.settingsCurrent[SEBSettings.KeyExamKeySalt];
 			var signature = certificate?.GetCertHashString();
 			var version = FileVersionInfo.GetVersionInfo(executable.Location).FileVersion;
-			var configurationKey = ComputeConfigurationKey();
 
-			using (var algorithm = new HMACSHA256(salt))
+			Logger.AddInformation("Initializing browser exam key...");
+
+			if (configurationKey == default)
 			{
-				var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(signature + version + configurationKey));
-				var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
-
-				return key;
+				configurationKey = "";
+				Logger.AddWarning("The current configuration does not contain a value for the configuration key!");
 			}
+
+			if (salt == default || salt.Length == 0)
+			{
+				salt = new byte[0];
+				Logger.AddWarning("The current configuration does not contain a salt value for the browser exam key!");
+			}
+
+			if (TryCalculateBrowserExamKey(configurationKey, BitConverter.ToString(salt).ToLower().Replace("-", string.Empty), out browserExamKey))
+			{
+				Logger.AddInformation("Successfully calculated BEK using integrity module.");
+			}
+			else
+			{
+				Logger.AddWarning("Failed to calculate BEK using integrity module! Falling back to simplified calculation...");
+
+				using (var algorithm = new HMACSHA256(salt))
+				{
+					var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(signature + version + configurationKey));
+					var key = BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
+
+					browserExamKey = key;
+				}
+			}
+
+			return browserExamKey;
 		}
+
+		private static bool TryCalculateBrowserExamKey(string configurationKey, string salt, out string browserExamKey)
+		{
+			browserExamKey = default;
+
+			try
+			{
+				browserExamKey = CalculateBrowserExamKey(configurationKey, salt);
+			}
+			catch (DllNotFoundException)
+			{
+				Logger.AddWarning("Integrity module is not available!");
+			}
+			catch (Exception e)
+			{
+				Logger.AddError("Unexpected error while attempting to calculate browser exam key!", default, e);
+			}
+
+			return browserExamKey != default;
+		}
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.BStr)]
+		private static extern string CalculateBrowserExamKey(string configurationKey, string salt);
 
 		/// ----------------------------------------------------------------------------------------
 		/// <summary>
