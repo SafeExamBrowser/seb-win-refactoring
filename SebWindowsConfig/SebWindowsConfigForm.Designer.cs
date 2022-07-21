@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -460,6 +460,7 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.label26 = new System.Windows.Forms.Label();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -1868,8 +1869,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle7.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle7;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -3088,7 +3089,7 @@ namespace SebWindowsConfig
 			// 
 			this.groupBox17.Controls.Add(this.label23);
 			this.groupBox17.Controls.Add(this.checkBoxUseStartUrlQuery);
-			this.groupBox17.Location = new System.Drawing.Point(605, 471);
+			this.groupBox17.Location = new System.Drawing.Point(605, 483);
 			this.groupBox17.Name = "groupBox17";
 			this.groupBox17.Size = new System.Drawing.Size(610, 86);
 			this.groupBox17.TabIndex = 124;
@@ -3122,9 +3123,9 @@ namespace SebWindowsConfig
 			this.groupBox15.Controls.Add(this.textBoxReconfigurationUrl);
 			this.groupBox15.Controls.Add(this.label21);
 			this.groupBox15.Controls.Add(this.checkBoxAllowReconfiguration);
-			this.groupBox15.Location = new System.Drawing.Point(26, 413);
+			this.groupBox15.Location = new System.Drawing.Point(26, 434);
 			this.groupBox15.Name = "groupBox15";
-			this.groupBox15.Size = new System.Drawing.Size(553, 144);
+			this.groupBox15.Size = new System.Drawing.Size(553, 135);
 			this.groupBox15.TabIndex = 123;
 			this.groupBox15.TabStop = false;
 			this.groupBox15.Text = "Reconfiguring Secure/Exam Session";
@@ -3139,7 +3140,7 @@ namespace SebWindowsConfig
 			// 
 			// textBoxReconfigurationUrl
 			// 
-			this.textBoxReconfigurationUrl.Location = new System.Drawing.Point(114, 108);
+			this.textBoxReconfigurationUrl.Location = new System.Drawing.Point(114, 105);
 			this.textBoxReconfigurationUrl.Name = "textBoxReconfigurationUrl";
 			this.textBoxReconfigurationUrl.Size = new System.Drawing.Size(423, 20);
 			this.textBoxReconfigurationUrl.TabIndex = 2;
@@ -3150,7 +3151,7 @@ namespace SebWindowsConfig
 			// label21
 			// 
 			this.label21.AutoSize = true;
-			this.label21.Location = new System.Drawing.Point(10, 111);
+			this.label21.Location = new System.Drawing.Point(10, 108);
 			this.label21.Name = "label21";
 			this.label21.Size = new System.Drawing.Size(98, 13);
 			this.label21.TabIndex = 1;
@@ -3159,7 +3160,7 @@ namespace SebWindowsConfig
 			// checkBoxAllowReconfiguration
 			// 
 			this.checkBoxAllowReconfiguration.AutoSize = true;
-			this.checkBoxAllowReconfiguration.Location = new System.Drawing.Point(13, 78);
+			this.checkBoxAllowReconfiguration.Location = new System.Drawing.Point(13, 77);
 			this.checkBoxAllowReconfiguration.Name = "checkBoxAllowReconfiguration";
 			this.checkBoxAllowReconfiguration.Size = new System.Drawing.Size(218, 17);
 			this.checkBoxAllowReconfiguration.TabIndex = 0;
@@ -3226,7 +3227,7 @@ namespace SebWindowsConfig
 			this.groupBox9.Controls.Add(this.textBoxRestartExamText);
 			this.groupBox9.Controls.Add(this.textBox4);
 			this.groupBox9.Controls.Add(this.textBox3);
-			this.groupBox9.Location = new System.Drawing.Point(605, 287);
+			this.groupBox9.Location = new System.Drawing.Point(605, 297);
 			this.groupBox9.Name = "groupBox9";
 			this.groupBox9.Size = new System.Drawing.Size(610, 168);
 			this.groupBox9.TabIndex = 121;
@@ -3321,7 +3322,7 @@ namespace SebWindowsConfig
 			this.groupBox8.Controls.Add(this.checkBoxQuitURLConfirm);
 			this.groupBox8.Controls.Add(this.textBoxQuitURL);
 			this.groupBox8.Controls.Add(this.textBox1);
-			this.groupBox8.Location = new System.Drawing.Point(605, 138);
+			this.groupBox8.Location = new System.Drawing.Point(605, 143);
 			this.groupBox8.Name = "groupBox8";
 			this.groupBox8.Size = new System.Drawing.Size(610, 136);
 			this.groupBox8.TabIndex = 120;
@@ -3387,6 +3388,7 @@ namespace SebWindowsConfig
 			// 
 			// groupBox7
 			// 
+			this.groupBox7.Controls.Add(this.label26);
 			this.groupBox7.Controls.Add(this.label20);
 			this.groupBox7.Controls.Add(this.label19);
 			this.groupBox7.Controls.Add(this.label18);
@@ -3397,14 +3399,14 @@ namespace SebWindowsConfig
 			this.groupBox7.Controls.Add(this.textBoxBrowserExamKey);
 			this.groupBox7.Location = new System.Drawing.Point(24, 16);
 			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.Size = new System.Drawing.Size(555, 379);
+			this.groupBox7.Size = new System.Drawing.Size(555, 401);
 			this.groupBox7.TabIndex = 119;
 			this.groupBox7.TabStop = false;
-			this.groupBox7.Text = "Browser Exam Key / Config Key";
+			this.groupBox7.Text = "Browser Exam Key / Configuration Key";
 			// 
 			// label20
 			// 
-			this.label20.Location = new System.Drawing.Point(12, 291);
+			this.label20.Location = new System.Drawing.Point(12, 315);
 			this.label20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label20.Name = "label20";
 			this.label20.Size = new System.Drawing.Size(527, 42);
@@ -3416,13 +3418,13 @@ namespace SebWindowsConfig
 			this.label19.Location = new System.Drawing.Point(12, 21);
 			this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label19.Name = "label19";
-			this.label19.Size = new System.Drawing.Size(527, 96);
+			this.label19.Size = new System.Drawing.Size(527, 92);
 			this.label19.TabIndex = 118;
 			this.label19.Text = resources.GetString("label19.Text");
 			// 
 			// label18
 			// 
-			this.label18.Location = new System.Drawing.Point(12, 181);
+			this.label18.Location = new System.Drawing.Point(12, 182);
 			this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(527, 44);
@@ -3433,18 +3435,18 @@ namespace SebWindowsConfig
 			// 
 			this.label17.AutoSize = true;
 			this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label17.Location = new System.Drawing.Point(12, 271);
+			this.label17.Location = new System.Drawing.Point(12, 295);
 			this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label17.Name = "label17";
-			this.label17.Size = new System.Drawing.Size(68, 13);
+			this.label17.Size = new System.Drawing.Size(107, 13);
 			this.label17.TabIndex = 116;
-			this.label17.Text = "Config Key";
+			this.label17.Text = "Configuration Key";
 			// 
 			// label16
 			// 
 			this.label16.AutoSize = true;
 			this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label16.Location = new System.Drawing.Point(12, 162);
+			this.label16.Location = new System.Drawing.Point(12, 163);
 			this.label16.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(111, 13);
@@ -3453,7 +3455,7 @@ namespace SebWindowsConfig
 			// 
 			// textBoxConfigurationKey
 			// 
-			this.textBoxConfigurationKey.Location = new System.Drawing.Point(15, 339);
+			this.textBoxConfigurationKey.Location = new System.Drawing.Point(15, 363);
 			this.textBoxConfigurationKey.Margin = new System.Windows.Forms.Padding(2);
 			this.textBoxConfigurationKey.Name = "textBoxConfigurationKey";
 			this.textBoxConfigurationKey.ReadOnly = true;
@@ -3464,12 +3466,12 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxSendBrowserExamKey.AutoSize = true;
 			this.checkBoxSendBrowserExamKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxSendBrowserExamKey.Location = new System.Drawing.Point(15, 122);
+			this.checkBoxSendBrowserExamKey.Location = new System.Drawing.Point(15, 129);
 			this.checkBoxSendBrowserExamKey.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxSendBrowserExamKey.Name = "checkBoxSendBrowserExamKey";
-			this.checkBoxSendBrowserExamKey.Size = new System.Drawing.Size(211, 17);
+			this.checkBoxSendBrowserExamKey.Size = new System.Drawing.Size(243, 17);
 			this.checkBoxSendBrowserExamKey.TabIndex = 2;
-			this.checkBoxSendBrowserExamKey.Text = "Use Browser Exam Key and Config Key";
+			this.checkBoxSendBrowserExamKey.Text = "Use Browser Exam Key and Configuration Key";
 			this.toolTip1.SetToolTip(this.checkBoxSendBrowserExamKey, "Send Browser Exam Key in an HTTP header to authenticate the SEB client and its se" +
         "ttings to a compatible exam system.");
 			this.checkBoxSendBrowserExamKey.UseVisualStyleBackColor = true;
@@ -3477,7 +3479,7 @@ namespace SebWindowsConfig
 			// 
 			// textBoxBrowserExamKey
 			// 
-			this.textBoxBrowserExamKey.Location = new System.Drawing.Point(15, 228);
+			this.textBoxBrowserExamKey.Location = new System.Drawing.Point(15, 262);
 			this.textBoxBrowserExamKey.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.textBoxBrowserExamKey.Name = "textBoxBrowserExamKey";
 			this.textBoxBrowserExamKey.ReadOnly = true;
@@ -4583,8 +4585,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle8;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -5982,6 +5984,17 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
+			// label26
+			// 
+			this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label26.ForeColor = System.Drawing.Color.Red;
+			this.label26.Location = new System.Drawing.Point(12, 228);
+			this.label26.Name = "label26";
+			this.label26.Size = new System.Drawing.Size(527, 28);
+			this.label26.TabIndex = 120;
+			this.label26.Text = "The BEK is platform-specific, i.e. its value is different for the 32-bit (x86) an" +
+    "d 64-bit (x64) build of the same SEB version!";
+			// 
 			// SebWindowsConfigForm
 			// 
 			this.AllowDrop = true;
@@ -6543,6 +6556,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.CheckBox checkBoxAllowedDisplayIgnoreError;
 		private System.Windows.Forms.CheckBox checkBoxTemporaryDownloadDirectory;
 		private System.Windows.Forms.CheckBox checkBoxEnableMiddleMouse;
+		private System.Windows.Forms.Label label26;
 	}
 }
 
