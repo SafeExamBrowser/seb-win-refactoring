@@ -117,9 +117,12 @@
     <Compile Include="Wrapper\Events\BeforeBrowseEventHandler.cs" />
     <Compile Include="Wrapper\Events\BeforeDownloadEventHandler.cs" />
     <Compile Include="Wrapper\Events\CanDownloadEventHandler.cs" />
+    <Compile Include="Wrapper\Events\ContextCreatedEventHandler.cs" />
+    <Compile Include="Wrapper\Events\ContextReleasedEventHandler.cs" />
     <Compile Include="Wrapper\Events\DownloadUpdatedEventHandler.cs" />
     <Compile Include="Wrapper\Events\FaviconUrlChangedEventHandler.cs" />
     <Compile Include="Wrapper\Events\FileDialogRequestedEventHandler.cs" />
+    <Compile Include="Wrapper\Events\FocusedNodeChangedEventHandler.cs" />
     <Compile Include="Wrapper\Events\KeyEventHandler.cs" />
     <Compile Include="Wrapper\Events\LoadingProgressChangedEventHandler.cs" />
     <Compile Include="Wrapper\Events\GenericEventArgs.cs" />
@@ -127,11 +130,13 @@
     <Compile Include="Wrapper\Events\PreKeyEventHandler.cs" />
     <Compile Include="Wrapper\Events\ResourceRequestEventArgs.cs" />
     <Compile Include="Wrapper\Events\ResourceRequestEventHandler.cs" />
+    <Compile Include="Wrapper\Events\UncaughtExceptionEventHandler.cs" />
     <Compile Include="Wrapper\Extensions.cs" />
     <Compile Include="Wrapper\Handlers\DialogHandlerSwitch.cs" />
     <Compile Include="Wrapper\Handlers\DisplayHandlerSwitch.cs" />
     <Compile Include="Wrapper\Handlers\DownloadHandlerSwitch.cs" />
     <Compile Include="Wrapper\Handlers\KeyboardHandlerSwitch.cs" />
+    <Compile Include="Wrapper\Handlers\RenderProcessMessageHandlerSwitch.cs" />
     <Compile Include="Wrapper\Handlers\RequestHandlerSwitch.cs" />
     <Compile Include="Wrapper\ICefSharpControl.cs" />
   </ItemGroup>

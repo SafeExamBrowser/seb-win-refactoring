@@ -100,7 +100,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			{
 				logger.Debug($"Download of '{downloadItem.FullPath}' {(downloadItem.IsComplete ? "is complete" : "was cancelled")}.");
 
-				if (callbacks.TryRemove(downloadItem.Id, out DownloadFinishedCallback finished) && finished != null)
+				if (callbacks.TryRemove(downloadItem.Id, out var finished) && finished != null)
 				{
 					Task.Run(() => finished.Invoke(downloadItem.IsComplete, downloadItem.Url, downloadItem.FullPath));
 				}

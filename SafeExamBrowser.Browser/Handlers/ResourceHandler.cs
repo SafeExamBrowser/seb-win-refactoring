@@ -38,7 +38,6 @@ namespace SafeExamBrowser.Browser.Handlers
 		private readonly IKeyGenerator keyGenerator;
 		private readonly ILogger logger;
 		private readonly BrowserSettings settings;
-		private readonly IText text;
 		private readonly WindowSettings windowSettings;
 
 		private IResourceHandler contentHandler;
@@ -63,7 +62,6 @@ namespace SafeExamBrowser.Browser.Handlers
 			this.logger = logger;
 			this.settings = settings;
 			this.windowSettings = windowSettings;
-			this.text = text;
 		}
 
 		protected override IResourceHandler GetResourceHandler(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request)

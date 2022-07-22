@@ -19,14 +19,18 @@ namespace SafeExamBrowser.Browser.Wrapper
 		public event BeforeBrowseEventHandler BeforeBrowse;
 		public event BeforeDownloadEventHandler BeforeDownload;
 		public event CanDownloadEventHandler CanDownload;
+		public event ContextCreatedEventHandler ContextCreated;
+		public event ContextReleasedEventHandler ContextReleased;
 		public event DownloadUpdatedEventHandler DownloadUpdated;
 		public event FaviconUrlChangedEventHandler FaviconUrlChanged;
 		public event FileDialogRequestedEventHandler FileDialogRequested;
+		public event FocusedNodeChangedEventHandler FocusedNodeChanged;
 		public event KeyEventHandler KeyEvent;
 		public event LoadingProgressChangedEventHandler LoadingProgressChanged;
 		public event OpenUrlFromTabEventHandler OpenUrlFromTab;
 		public event PreKeyEventHandler PreKeyEvent;
 		public event ResourceRequestEventHandler ResourceRequestHandlerRequired;
+		public event UncaughtExceptionEventHandler UncaughtExceptionEvent;
 
 		void ICefSharpControl.Dispose(bool disposing)
 		{
@@ -66,6 +70,16 @@ namespace SafeExamBrowser.Browser.Wrapper
 			CanDownload?.Invoke(webBrowser, browser, url, requestMethod, args);
 		}
 
+		public void OnContextCreated(IWebBrowser webBrowser, IBrowser browser, IFrame frame)
+		{
+			ContextCreated?.Invoke(webBrowser, browser, frame);
+		}
+
+		public void OnContextReleased(IWebBrowser webBrowser, IBrowser browser, IFrame frame)
+		{
+			ContextReleased?.Invoke(webBrowser, browser, frame);
+		}
+
 		public void OnDownloadUpdated(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
 		{
 			DownloadUpdated?.Invoke(webBrowser, browser, downloadItem, callback);
@@ -79,6 +93,11 @@ namespace SafeExamBrowser.Browser.Wrapper
 		public void OnFileDialog(IWebBrowser webBrowser, IBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, IFileDialogCallback callback)
 		{
 			FileDialogRequested?.Invoke(webBrowser, browser, mode, title, defaultFilePath, acceptFilters, callback);
+		}
+
+		public void OnFocusedNodeChanged(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IDomNode node)
+		{
+			FocusedNodeChanged?.Invoke(webBrowser, browser, frame, node);
 		}
 
 		public void OnKeyEvent(IWebBrowser webBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey)
@@ -99,6 +118,11 @@ namespace SafeExamBrowser.Browser.Wrapper
 		public void OnPreKeyEvent(IWebBrowser webBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut, GenericEventArgs args)
 		{
 			PreKeyEvent?.Invoke(webBrowser, browser, type, windowsKeyCode, nativeKeyCode, modifiers, isSystemKey, ref isKeyboardShortcut, args);
+		}
+
+		public void OnUncaughtException(IWebBrowser webBrowser, IBrowser browser, IFrame frame, JavascriptException exception)
+		{
+			UncaughtExceptionEvent?.Invoke(webBrowser, browser, frame, exception);
 		}
 	}
 }

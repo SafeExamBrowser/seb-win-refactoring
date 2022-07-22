@@ -7,14 +7,9 @@
  */
 
 using System;
-using System.Threading.Tasks;
 using CefSharp;
-using SafeExamBrowser.Browser.Content;
 using SafeExamBrowser.Browser.Wrapper;
 using SafeExamBrowser.Browser.Wrapper.Events;
-using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Cryptography;
-using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
@@ -23,14 +18,12 @@ namespace SafeExamBrowser.Browser
 {
 	internal class BrowserControl : IBrowserControl
 	{
-		private readonly AppConfig appConfig;
-		private readonly ContentLoader contentLoader;
 		private readonly ICefSharpControl control;
 		private readonly IDialogHandler dialogHandler;
 		private readonly IDisplayHandler displayHandler;
 		private readonly IDownloadHandler downloadHandler;
 		private readonly IKeyboardHandler keyboardHandler;
-		private readonly IKeyGenerator generator;
+		private readonly IRenderProcessMessageHandler renderProcessMessageHandler;
 		private readonly IRequestHandler requestHandler;
 
 		public string Address => control.Address;
@@ -44,24 +37,20 @@ namespace SafeExamBrowser.Browser
 		public event TitleChangedEventHandler TitleChanged;
 
 		public BrowserControl(
-			AppConfig appConfig,
 			ICefSharpControl control,
 			IDialogHandler dialogHandler,
 			IDisplayHandler displayHandler,
 			IDownloadHandler downloadHandler,
 			IKeyboardHandler keyboardHandler,
-			IKeyGenerator generator,
-			IRequestHandler requestHandler,
-			IText text)
+			IRenderProcessMessageHandler renderProcessMessageHandler,
+			IRequestHandler requestHandler)
 		{
-			this.appConfig = appConfig;
-			this.contentLoader = new ContentLoader(text);
 			this.control = control;
 			this.dialogHandler = dialogHandler;
 			this.displayHandler = displayHandler;
 			this.downloadHandler = downloadHandler;
 			this.keyboardHandler = keyboardHandler;
-			this.generator = generator;
+			this.renderProcessMessageHandler = renderProcessMessageHandler;
 			this.requestHandler = requestHandler;
 		}
 
@@ -97,10 +86,12 @@ namespace SafeExamBrowser.Browser
 			control.BeforeBrowse += (w, b, f, r, u, i, a) => a.Value = requestHandler.OnBeforeBrowse(w, b, f, r, u, i);
 			control.BeforeDownload += (w, b, d, c) => downloadHandler.OnBeforeDownload(w, b, d, c);
 			control.CanDownload += (w, b, u, r, a) => a.Value = downloadHandler.CanDownload(w, b, u, r);
+			control.ContextCreated += (w, b, f) => renderProcessMessageHandler.OnContextCreated(w, b, f);
+			control.ContextReleased += (w, b, f) => renderProcessMessageHandler.OnContextReleased(w, b, f);
 			control.DownloadUpdated += (w, b, d, c) => downloadHandler.OnDownloadUpdated(w, b, d, c);
 			control.FaviconUrlChanged += (w, b, u) => displayHandler.OnFaviconUrlChange(w, b, u);
 			control.FileDialogRequested += (w, b, m, t, d, f, c) => dialogHandler.OnFileDialog(w, b, m, t, d, f, c);
-			control.FrameLoadStart += Control_FrameLoadStart;
+			control.FocusedNodeChanged += (w, b, f, n) => renderProcessMessageHandler.OnFocusedNodeChanged(w, b, f, n);
 			control.IsBrowserInitializedChanged += Control_IsBrowserInitializedChanged;
 			control.KeyEvent += (w, b, t, k, n, m, s) => keyboardHandler.OnKeyEvent(w, b, t, k, n, m, s);
 			control.LoadError += (o, e) => LoadFailed?.Invoke((int) e.ErrorCode, e.ErrorText, e.Frame.IsMain, e.FailedUrl);
@@ -110,6 +101,7 @@ namespace SafeExamBrowser.Browser
 			control.PreKeyEvent += (IWebBrowser w, IBrowser b, KeyType t, int k, int n, CefEventFlags m, bool i, ref bool s, GenericEventArgs a) => a.Value = keyboardHandler.OnPreKeyEvent(w, b, t, k, n, m, i, ref s);
 			control.ResourceRequestHandlerRequired += (IWebBrowser w, IBrowser b, IFrame f, IRequest r, bool n, bool d, string i, ref bool h, ResourceRequestEventArgs a) => a.Handler = requestHandler.GetResourceRequestHandler(w, b, f, r, n, d, i, ref h);
 			control.TitleChanged += (o, e) => TitleChanged?.Invoke(e.Title);
+			control.UncaughtExceptionEvent += (w, b, f, e) => renderProcessMessageHandler.OnUncaughtException(w, b, f, e);
 		}
 
 		public void NavigateBackwards()
@@ -140,18 +132,6 @@ namespace SafeExamBrowser.Browser
 		public void Zoom(double level)
 		{
 			control.BrowserCore.SetZoomLevel(level);
-		}
-
-		private void Control_FrameLoadStart(object sender, FrameLoadStartEventArgs e)
-		{
-			Task.Run(() =>
-			{
-				var browserExamKey = generator.CalculateBrowserExamKeyHash(e.Url);
-				var configurationKey = generator.CalculateConfigurationKeyHash(e.Url);
-				var api = contentLoader.LoadApi(browserExamKey, configurationKey, appConfig.ProgramBuildVersion);
-
-				e.Frame.ExecuteJavaScriptAsync(api);
-			});
 		}
 
 		private void Control_IsBrowserInitializedChanged(object sender, EventArgs e)

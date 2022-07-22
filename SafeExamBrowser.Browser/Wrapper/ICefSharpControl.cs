@@ -22,14 +22,18 @@ namespace SafeExamBrowser.Browser.Wrapper
 		event BeforeBrowseEventHandler BeforeBrowse;
 		event BeforeDownloadEventHandler BeforeDownload;
 		event CanDownloadEventHandler CanDownload;
+		event ContextCreatedEventHandler ContextCreated;
+		event ContextReleasedEventHandler ContextReleased;
 		event DownloadUpdatedEventHandler DownloadUpdated;
 		event FaviconUrlChangedEventHandler FaviconUrlChanged;
 		event FileDialogRequestedEventHandler FileDialogRequested;
+		event FocusedNodeChangedEventHandler FocusedNodeChanged;
 		event KeyEventHandler KeyEvent;
 		event LoadingProgressChangedEventHandler LoadingProgressChanged;
 		event OpenUrlFromTabEventHandler OpenUrlFromTab;
 		event PreKeyEventHandler PreKeyEvent;
 		event ResourceRequestEventHandler ResourceRequestHandlerRequired;
+		event UncaughtExceptionEventHandler UncaughtExceptionEvent;
 
 		void Dispose(bool disposing);
 		void GetAuthCredentials(IWebBrowser webBrowser, IBrowser browser, string originUrl, bool isProxy, string host, int port, string realm, string scheme, IAuthCallback callback, GenericEventArgs args);
@@ -38,12 +42,16 @@ namespace SafeExamBrowser.Browser.Wrapper
 		void OnBeforeBrowse(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect, GenericEventArgs args);
 		void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback);
 		void OnCanDownload(IWebBrowser webBrowser, IBrowser browser, string url, string requestMethod, GenericEventArgs args);
+		void OnContextCreated(IWebBrowser webBrowser, IBrowser browser, IFrame frame);
+		void OnContextReleased(IWebBrowser webBrowser, IBrowser browser, IFrame frame);
 		void OnDownloadUpdated(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback);
 		void OnFaviconUrlChange(IWebBrowser webBrowser, IBrowser browser, IList<string> urls);
 		void OnFileDialog(IWebBrowser webBrowser, IBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, IFileDialogCallback callback);
+		void OnFocusedNodeChanged(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IDomNode node);
 		void OnKeyEvent(IWebBrowser webBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey);
 		void OnLoadingProgressChange(IWebBrowser webBrowser, IBrowser browser, double progress);
 		void OnOpenUrlFromTab(IWebBrowser webBrowser, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture, GenericEventArgs args);
 		void OnPreKeyEvent(IWebBrowser webBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut, GenericEventArgs args);
+		void OnUncaughtException(IWebBrowser webBrowser, IBrowser browser, IFrame frame, JavascriptException exception);
 	}
 }
