@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Threading.Tasks;
 using CefSharp;
 using SafeExamBrowser.Browser.Wrapper;
 using SafeExamBrowser.Browser.Wrapper.Events;
@@ -64,15 +65,26 @@ namespace SafeExamBrowser.Browser
 
 		public void ExecuteJavascript(string javascript, Action<JavascriptResult> callback)
 		{
-			control.EvaluateScriptAsync(javascript).ContinueWith(t =>
+			if ((control as IWebBrowser)?.CanExecuteJavascriptInMainFrame == true)
 			{
-				callback(new JavascriptResult()
+				control.EvaluateScriptAsync(javascript).ContinueWith(t =>
 				{
-					Message = t.Result.Message,
-					Result = t.Result.Result,
-					Success = t.Result.Success
+					callback(new JavascriptResult
+					{
+						Message = t.Result.Message,
+						Result = t.Result.Result,
+						Success = t.Result.Success
+					});
 				});
-			});
+			}
+			else
+			{
+				Task.Run(() => callback(new JavascriptResult
+				{
+					Message = "JavaScript can't be executed in the main frame!",
+					Success = false
+				}));
+			}
 		}
 
 		public void Find(string term, bool isInitial, bool caseSensitive, bool forward = true)
