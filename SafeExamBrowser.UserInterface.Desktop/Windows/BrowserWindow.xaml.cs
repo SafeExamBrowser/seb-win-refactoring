@@ -11,7 +11,6 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -465,7 +464,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 		private void BrowserControlHost_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
 		{
-			var forward = !this.browserControlGetsFocusFromTaskbar;
+			var forward = !browserControlGetsFocusFromTaskbar;
 
 			// focus the first / last element on the page
 			var javascript = @"
@@ -481,7 +480,7 @@ if (typeof __SEB_focusElement === 'undefined') {
 	setTimeout(function () { item && item.focus && item.focus(); }, 20);
   }
 }";
-			this.browserControl.ExecuteJavascript(javascript, result =>
+			browserControl.ExecuteJavascript(javascript, result =>
 			{
 				if (!result.Success)
 				{
@@ -489,7 +488,7 @@ if (typeof __SEB_focusElement === 'undefined') {
 				}
 			});
 
-			this.browserControl.ExecuteJavascript("__SEB_focusElement(" + forward.ToString().ToLower() + ")", result =>
+			browserControl.ExecuteJavascript("__SEB_focusElement(" + forward.ToString().ToLower() + ")", result =>
 			{
 				if (!result.Success)
 				{

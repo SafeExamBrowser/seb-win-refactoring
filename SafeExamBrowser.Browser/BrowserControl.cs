@@ -62,15 +62,16 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		public async void ExecuteJavascript(string javascript, Action<JavascriptResult> callback)
+		public void ExecuteJavascript(string javascript, Action<JavascriptResult> callback)
 		{
-			var result = await control.EvaluateScriptAsync(javascript);
-
-			callback(new JavascriptResult()
+			control.EvaluateScriptAsync(javascript).ContinueWith(t =>
 			{
-				Message = result.Message,
-				Result = result.Result,
-				Success = result.Success
+				callback(new JavascriptResult()
+				{
+					Message = t.Result.Message,
+					Result = t.Result.Result,
+					Success = t.Result.Success
+				});
 			});
 		}
 
