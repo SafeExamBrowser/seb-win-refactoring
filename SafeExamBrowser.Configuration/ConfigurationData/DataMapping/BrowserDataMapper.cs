@@ -42,6 +42,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.AllowPdfReaderToolbar:
 					MapAllowPdfReaderToolbar(settings, value);
 					break;
+				case Keys.Browser.AllowPrint:
+					MapAllowPrint(settings, value);
+					break;
 				case Keys.Browser.AllowSpellChecking:
 					MapAllowSpellChecking(settings, value);
 					break;
@@ -267,6 +270,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool allow)
 			{
 				settings.Browser.AllowPdfReaderToolbar = allow;
+			}
+		}
+
+		private void MapAllowPrint(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.AllowPrint = allow;
 			}
 		}
 
@@ -817,13 +828,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			{
 				if (raw.EndsWith("%") && int.TryParse(raw.Replace("%", string.Empty), out var relativeHeight))
 				{
-					settings.Browser.AdditionalWindow.AbsoluteHeight = default(int?);
+					settings.Browser.AdditionalWindow.AbsoluteHeight = default;
 					settings.Browser.AdditionalWindow.RelativeHeight = relativeHeight;
 				}
 				else if (int.TryParse(raw, out var absoluteHeight))
 				{
 					settings.Browser.AdditionalWindow.AbsoluteHeight = absoluteHeight;
-					settings.Browser.AdditionalWindow.RelativeHeight = default(int?);
+					settings.Browser.AdditionalWindow.RelativeHeight = default;
 				}
 			}
 		}
@@ -834,13 +845,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			{
 				if (raw.EndsWith("%") && int.TryParse(raw.Replace("%", string.Empty), out var relativeHeight))
 				{
-					settings.Browser.MainWindow.AbsoluteHeight = default(int?);
+					settings.Browser.MainWindow.AbsoluteHeight = default;
 					settings.Browser.MainWindow.RelativeHeight = relativeHeight;
 				}
 				else if (int.TryParse(raw, out var absoluteHeight))
 				{
 					settings.Browser.MainWindow.AbsoluteHeight = absoluteHeight;
-					settings.Browser.MainWindow.RelativeHeight = default(int?);
+					settings.Browser.MainWindow.RelativeHeight = default;
 				}
 			}
 		}
@@ -897,13 +908,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			{
 				if (raw.EndsWith("%") && int.TryParse(raw.Replace("%", string.Empty), out var relativeWidth))
 				{
-					settings.Browser.AdditionalWindow.AbsoluteWidth = default(int?);
+					settings.Browser.AdditionalWindow.AbsoluteWidth = default;
 					settings.Browser.AdditionalWindow.RelativeWidth = relativeWidth;
 				}
 				else if (int.TryParse(raw, out var absoluteWidth))
 				{
 					settings.Browser.AdditionalWindow.AbsoluteWidth = absoluteWidth;
-					settings.Browser.AdditionalWindow.RelativeWidth = default(int?);
+					settings.Browser.AdditionalWindow.RelativeWidth = default;
 				}
 			}
 		}
@@ -914,13 +925,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			{
 				if (raw.EndsWith("%") && int.TryParse(raw.Replace("%", string.Empty), out var relativeWidth))
 				{
-					settings.Browser.MainWindow.AbsoluteWidth = default(int?);
+					settings.Browser.MainWindow.AbsoluteWidth = default;
 					settings.Browser.MainWindow.RelativeWidth = relativeWidth;
 				}
 				else if (int.TryParse(raw, out var absoluteWidth))
 				{
 					settings.Browser.MainWindow.AbsoluteWidth = absoluteWidth;
-					settings.Browser.MainWindow.RelativeWidth = default(int?);
+					settings.Browser.MainWindow.RelativeWidth = default;
 				}
 			}
 		}

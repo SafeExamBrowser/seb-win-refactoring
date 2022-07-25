@@ -150,7 +150,7 @@ namespace SafeExamBrowser.Browser
 			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} #{Id}");
 			var downloadHandler = new DownloadHandler(appConfig, downloadLogger, settings, WindowSettings);
 			var keyboardHandler = new KeyboardHandler();
-			var renderProcessMessageHandler = new RenderProcessMessageHandler(appConfig, keyGenerator, text);
+			var renderHandler = new RenderProcessMessageHandler(appConfig, keyGenerator, settings, text);
 			var requestFilter = new RequestFilter();
 			var requestLogger = logger.CloneFor($"{nameof(RequestHandler)} #{Id}");
 			var resourceHandler = new ResourceHandler(appConfig, requestFilter, keyGenerator, logger, settings, WindowSettings, text);
@@ -187,7 +187,7 @@ namespace SafeExamBrowser.Browser
 
 			InitializeRequestFilter(requestFilter);
 
-			Control = new BrowserControl(cefSharpControl, dialogHandler, displayHandler, downloadHandler, keyboardHandler, renderProcessMessageHandler, requestHandler);
+			Control = new BrowserControl(cefSharpControl, dialogHandler, displayHandler, downloadHandler, keyboardHandler, renderHandler, requestHandler);
 			Control.AddressChanged += Control_AddressChanged;
 			Control.LoadFailed += Control_LoadFailed;
 			Control.LoadingStateChanged += Control_LoadingStateChanged;

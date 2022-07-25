@@ -465,21 +465,21 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			var javascript = @"
 if (typeof __SEB_focusElement === 'undefined') {
   __SEB_focusElement = function (forward) {
-    var items = [].map
-      .call(document.body.querySelectorAll(['input', 'select', 'a[href]', 'textarea', 'button', '[tabindex]']), function(el, i) { return { el, i } })
-      .filter(function(e) { return e.el.tabIndex >= 0 && !e.el.disabled && e.el.offsetParent; })
-      .sort(function(a,b) { return a.el.tabIndex === b.el.tabIndex ? a.i - b.i : (a.el.tabIndex || 9E9) - (b.el.tabIndex || 9E9); })
-    var item = items[forward ? 1 : items.length - 1];
-    if (item && item.focus && typeof item.focus !== 'function')
-        throw ('item.focus is not a function, ' + typeof item.focus)
-    setTimeout(function () { item && item.focus && item.focus(); }, 20);
+	var items = [].map
+	  .call(document.body.querySelectorAll(['input', 'select', 'a[href]', 'textarea', 'button', '[tabindex]']), function(el, i) { return { el, i } })
+	  .filter(function(e) { return e.el.tabIndex >= 0 && !e.el.disabled && e.el.offsetParent; })
+	  .sort(function(a,b) { return a.el.tabIndex === b.el.tabIndex ? a.i - b.i : (a.el.tabIndex || 9E9) - (b.el.tabIndex || 9E9); })
+	var item = items[forward ? 1 : items.length - 1];
+	if (item && item.focus && typeof item.focus !== 'function')
+		throw ('item.focus is not a function, ' + typeof item.focus)
+	setTimeout(function () { item && item.focus && item.focus(); }, 20);
   }
 }";
 			browserControl.ExecuteJavascript(javascript, result =>
 			{
 				if (!result.Success)
 				{
-					logger.Error($"Javascript error {result.Message}!");
+					logger.Error($"Failed to initialize JavaScript: {result.Message}!");
 				}
 			});
 
@@ -487,7 +487,7 @@ if (typeof __SEB_focusElement === 'undefined') {
 			{
 				if (!result.Success)
 				{
-					logger.Error($"Javascript error {result.Message}!");
+					logger.Error($"Failed to execute JavaScript: {result.Message}!");
 				}
 			});
 		}

@@ -30,6 +30,9 @@
     <Entry key="Browser_Name">
         浏览器
     </Entry>
+    <Entry key="Browser_PrintNotAllowed">
+        根据当前配置不允许打印。
+    </Entry>
     <Entry key="Browser_Tooltip">
         浏览器应用程序
     </Entry>

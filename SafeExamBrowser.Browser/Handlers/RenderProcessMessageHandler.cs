@@ -11,6 +11,7 @@ using SafeExamBrowser.Browser.Content;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.I18n.Contracts;
+using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
@@ -19,12 +20,16 @@ namespace SafeExamBrowser.Browser.Handlers
 		private readonly AppConfig appConfig;
 		private readonly ContentLoader contentLoader;
 		private readonly IKeyGenerator keyGenerator;
+		private readonly BrowserSettings settings;
+		private readonly IText text;
 
-		internal RenderProcessMessageHandler(AppConfig appConfig, IKeyGenerator keyGenerator, IText text)
+		internal RenderProcessMessageHandler(AppConfig appConfig, IKeyGenerator keyGenerator, BrowserSettings settings, IText text)
 		{
 			this.appConfig = appConfig;
 			this.contentLoader = new ContentLoader(text);
 			this.keyGenerator = keyGenerator;
+			this.settings = settings;
+			this.text = text;
 		}
 
 		public void OnContextCreated(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
@@ -34,6 +39,11 @@ namespace SafeExamBrowser.Browser.Handlers
 			var api = contentLoader.LoadApi(browserExamKey, configurationKey, appConfig.ProgramBuildVersion);
 
 			frame.ExecuteJavaScriptAsync(api);
+
+			if (!settings.AllowPrint)
+			{
+				frame.ExecuteJavaScriptAsync($"window.print = function(){{ alert('{text.Get(TextKey.Browser_PrintNotAllowed)}') }}");
+			}
 		}
 
 		public void OnContextReleased(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)

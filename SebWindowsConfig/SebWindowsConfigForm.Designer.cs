@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -257,6 +257,7 @@ namespace SebWindowsConfig
 			this.textBoxQuitURL = new System.Windows.Forms.TextBox();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.groupBox7 = new System.Windows.Forms.GroupBox();
+			this.label26 = new System.Windows.Forms.Label();
 			this.label20 = new System.Windows.Forms.Label();
 			this.label19 = new System.Windows.Forms.Label();
 			this.label18 = new System.Windows.Forms.Label();
@@ -316,6 +317,7 @@ namespace SebWindowsConfig
 			this.radioButtonUserAgentDesktopDefault = new System.Windows.Forms.RadioButton();
 			this.radioButtonUserAgentDesktopCustom = new System.Windows.Forms.RadioButton();
 			this.groupBox11 = new System.Windows.Forms.GroupBox();
+			this.checkBoxAllowPrint = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowFind = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowPdfReaderToolbar = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowVideoCapture = new System.Windows.Forms.CheckBox();
@@ -460,7 +462,6 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.label26 = new System.Windows.Forms.Label();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -1869,8 +1870,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle7.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -3404,6 +3405,17 @@ namespace SebWindowsConfig
 			this.groupBox7.TabStop = false;
 			this.groupBox7.Text = "Browser Exam Key / Configuration Key";
 			// 
+			// label26
+			// 
+			this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label26.ForeColor = System.Drawing.Color.Red;
+			this.label26.Location = new System.Drawing.Point(12, 228);
+			this.label26.Name = "label26";
+			this.label26.Size = new System.Drawing.Size(527, 28);
+			this.label26.TabIndex = 120;
+			this.label26.Text = "The BEK is platform-specific, i.e. its value is different for the 32-bit (x86) an" +
+    "d 64-bit (x64) build of the same SEB version!";
+			// 
 			// label20
 			// 
 			this.label20.Location = new System.Drawing.Point(12, 315);
@@ -3729,7 +3741,7 @@ namespace SebWindowsConfig
 			this.groupBox19.Controls.Add(this.checkBoxAllowNavigationNewWindow);
 			this.groupBox19.Controls.Add(this.checkBoxAllowReloadNewWindow);
 			this.groupBox19.Controls.Add(this.checkBoxShowReloadWarningNewWindow);
-			this.groupBox19.Location = new System.Drawing.Point(281, 342);
+			this.groupBox19.Location = new System.Drawing.Point(281, 367);
 			this.groupBox19.Name = "groupBox19";
 			this.groupBox19.Size = new System.Drawing.Size(265, 108);
 			this.groupBox19.TabIndex = 128;
@@ -3804,7 +3816,7 @@ namespace SebWindowsConfig
 			this.groupBox18.Controls.Add(this.checkBoxAllowBrowsingBackForward);
 			this.groupBox18.Controls.Add(this.checkBoxShowReloadWarning);
 			this.groupBox18.Controls.Add(this.checkBoxAllowReload);
-			this.groupBox18.Location = new System.Drawing.Point(24, 342);
+			this.groupBox18.Location = new System.Drawing.Point(24, 367);
 			this.groupBox18.Name = "groupBox18";
 			this.groupBox18.Size = new System.Drawing.Size(239, 108);
 			this.groupBox18.TabIndex = 127;
@@ -4140,6 +4152,7 @@ namespace SebWindowsConfig
 			// 
 			// groupBox11
 			// 
+			this.groupBox11.Controls.Add(this.checkBoxAllowPrint);
 			this.groupBox11.Controls.Add(this.checkBoxAllowFind);
 			this.groupBox11.Controls.Add(this.checkBoxAllowPdfReaderToolbar);
 			this.groupBox11.Controls.Add(this.checkBoxAllowVideoCapture);
@@ -4152,10 +4165,22 @@ namespace SebWindowsConfig
 			this.groupBox11.Controls.Add(this.checkBoxEnableJava);
 			this.groupBox11.Location = new System.Drawing.Point(24, 202);
 			this.groupBox11.Name = "groupBox11";
-			this.groupBox11.Size = new System.Drawing.Size(522, 113);
+			this.groupBox11.Size = new System.Drawing.Size(522, 140);
 			this.groupBox11.TabIndex = 71;
 			this.groupBox11.TabStop = false;
 			this.groupBox11.Text = "Browser security";
+			// 
+			// checkBoxAllowPrint
+			// 
+			this.checkBoxAllowPrint.AutoSize = true;
+			this.checkBoxAllowPrint.Location = new System.Drawing.Point(14, 50);
+			this.checkBoxAllowPrint.Name = "checkBoxAllowPrint";
+			this.checkBoxAllowPrint.Size = new System.Drawing.Size(503, 17);
+			this.checkBoxAllowPrint.TabIndex = 16;
+			this.checkBoxAllowPrint.Text = "Allow printing of web content (Win). This does not control printing via internal " +
+    "PDF reader (see below)!";
+			this.checkBoxAllowPrint.UseVisualStyleBackColor = true;
+			this.checkBoxAllowPrint.CheckedChanged += new System.EventHandler(this.checkBoxAllowPrint_CheckedChanged);
 			// 
 			// checkBoxAllowFind
 			// 
@@ -4171,7 +4196,7 @@ namespace SebWindowsConfig
 			// checkBoxAllowPdfReaderToolbar
 			// 
 			this.checkBoxAllowPdfReaderToolbar.AutoSize = true;
-			this.checkBoxAllowPdfReaderToolbar.Location = new System.Drawing.Point(14, 49);
+			this.checkBoxAllowPdfReaderToolbar.Location = new System.Drawing.Point(14, 76);
 			this.checkBoxAllowPdfReaderToolbar.Name = "checkBoxAllowPdfReaderToolbar";
 			this.checkBoxAllowPdfReaderToolbar.Size = new System.Drawing.Size(485, 17);
 			this.checkBoxAllowPdfReaderToolbar.TabIndex = 14;
@@ -4228,7 +4253,7 @@ namespace SebWindowsConfig
 			// 
 			// checkBoxRemoveProfile
 			// 
-			this.checkBoxRemoveProfile.Location = new System.Drawing.Point(14, 66);
+			this.checkBoxRemoveProfile.Location = new System.Drawing.Point(14, 95);
 			this.checkBoxRemoveProfile.Name = "checkBoxRemoveProfile";
 			this.checkBoxRemoveProfile.Size = new System.Drawing.Size(481, 36);
 			this.checkBoxRemoveProfile.TabIndex = 6;
@@ -4315,7 +4340,7 @@ namespace SebWindowsConfig
 			// labelUseSEBWithoutBrowser
 			// 
 			this.labelUseSEBWithoutBrowser.AutoSize = true;
-			this.labelUseSEBWithoutBrowser.Location = new System.Drawing.Point(55, 497);
+			this.labelUseSEBWithoutBrowser.Location = new System.Drawing.Point(55, 522);
 			this.labelUseSEBWithoutBrowser.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.labelUseSEBWithoutBrowser.Name = "labelUseSEBWithoutBrowser";
 			this.labelUseSEBWithoutBrowser.Size = new System.Drawing.Size(436, 13);
@@ -4326,7 +4351,7 @@ namespace SebWindowsConfig
 			// checkBoxUseSebWithoutBrowser
 			// 
 			this.checkBoxUseSebWithoutBrowser.AutoSize = true;
-			this.checkBoxUseSebWithoutBrowser.Location = new System.Drawing.Point(38, 477);
+			this.checkBoxUseSebWithoutBrowser.Location = new System.Drawing.Point(38, 502);
 			this.checkBoxUseSebWithoutBrowser.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxUseSebWithoutBrowser.Name = "checkBoxUseSebWithoutBrowser";
 			this.checkBoxUseSebWithoutBrowser.Size = new System.Drawing.Size(185, 17);
@@ -4585,8 +4610,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -5984,17 +6009,6 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// label26
-			// 
-			this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label26.ForeColor = System.Drawing.Color.Red;
-			this.label26.Location = new System.Drawing.Point(12, 228);
-			this.label26.Name = "label26";
-			this.label26.Size = new System.Drawing.Size(527, 28);
-			this.label26.TabIndex = 120;
-			this.label26.Text = "The BEK is platform-specific, i.e. its value is different for the 32-bit (x86) an" +
-    "d 64-bit (x64) build of the same SEB version!";
-			// 
 			// SebWindowsConfigForm
 			// 
 			this.AllowDrop = true;
@@ -6557,6 +6571,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.CheckBox checkBoxTemporaryDownloadDirectory;
 		private System.Windows.Forms.CheckBox checkBoxEnableMiddleMouse;
 		private System.Windows.Forms.Label label26;
+		private System.Windows.Forms.CheckBox checkBoxAllowPrint;
 	}
 }
 

@@ -48,6 +48,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string AllowFind = "allowFind";
 			internal const string AllowPageZoom = "enableZoomPage";
 			internal const string AllowPdfReaderToolbar = "allowPDFReaderToolbar";
+			internal const string AllowPrint = "allowPrint";
 			internal const string AllowSpellChecking = "allowSpellCheck";
 			internal const string CustomUserAgentDesktop = "browserUserAgentWinDesktopModeCustom";
 			internal const string CustomUserAgentMobile = "browserUserAgentWinTouchModeCustom";
@@ -134,7 +135,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 				internal static class Http
 				{
-					internal const string Enable   = "HTTPEnable";
+					internal const string Enable = "HTTPEnable";
 					internal const string Host = "HTTPProxy";
 					internal const string Password = "HTTPPassword";
 					internal const string Port = "HTTPPort";

@@ -484,7 +484,7 @@ if (typeof __SEB_focusElement === 'undefined') {
 			{
 				if (!result.Success)
 				{
-					logger.Error($"Javascript error {result.Message}!");
+					logger.Error($"Failed to initialize JavaScript: {result.Message}");
 				}
 			});
 
@@ -492,7 +492,7 @@ if (typeof __SEB_focusElement === 'undefined') {
 			{
 				if (!result.Success)
 				{
-					logger.Error($"Javascript error {result.Message}!");
+					logger.Error($"Failed to execute JavaScript: {result.Message}");
 				}
 			});
 		}

@@ -27,6 +27,9 @@
     <Entry key="Browser_Name">
         Browser
     </Entry>
+    <Entry key="Browser_PrintNotAllowed">
+        Drucken ist nicht erlaubt gemäss der aktiven Konfiguration.
+    </Entry>
     <Entry key="Browser_Tooltip">
         Browser Applikation
     </Entry>

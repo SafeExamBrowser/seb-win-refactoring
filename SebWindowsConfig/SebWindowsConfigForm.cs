@@ -506,6 +506,7 @@ namespace SebWindowsConfig
 			checkBoxEnableZoomPage.CheckedChanged += checkBoxEnableZoomPage_CheckedChanged;
 			checkBoxAllowPdfReaderToolbar.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowPDFReaderToolbar];
 			checkBoxAllowFind.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowFind];
+			checkBoxAllowPrint.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowPrint];
 
 			checkBoxAllowSpellCheck.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowSpellCheck];
 			checkBoxAllowDictionaryLookup.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowDictionaryLookup];
@@ -4670,6 +4671,11 @@ namespace SebWindowsConfig
 		private void checkBoxEnableMiddleMouse_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyEnableMiddleMouse] = checkBoxEnableMiddleMouse.Checked;
+		}
+
+		private void checkBoxAllowPrint_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyAllowPrint] = checkBoxAllowPrint.Checked;
 		}
 	}
 }

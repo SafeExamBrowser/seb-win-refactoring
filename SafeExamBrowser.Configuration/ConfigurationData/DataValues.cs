@@ -164,6 +164,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AllowPageZoom = true;
 			settings.Browser.AllowPdfReader = true;
 			settings.Browser.AllowPdfReaderToolbar = false;
+			settings.Browser.AllowPrint = false;
 			settings.Browser.AllowUploads = true;
 			settings.Browser.DeleteCacheOnShutdown = true;
 			settings.Browser.DeleteCookiesOnShutdown = true;

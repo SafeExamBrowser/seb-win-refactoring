@@ -23,6 +23,7 @@ namespace SafeExamBrowser.I18n.Contracts
 		Browser_LoadErrorMessage,
 		Browser_LoadErrorTitle,
 		Browser_Name,
+		Browser_PrintNotAllowed,
 		Browser_Tooltip,
 		BrowserWindow_BackwardButton,
 		BrowserWindow_DeveloperConsoleMenuItem,

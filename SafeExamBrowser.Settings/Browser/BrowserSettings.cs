@@ -57,6 +57,11 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool AllowPdfReaderToolbar { get; set; }
 
 		/// <summary>
+		/// Determines whether the user will be allowed to print web content. To control printing in PDF documents, see <see cref="AllowPdfReaderToolbar"/>.
+		/// </summary>
+		public bool AllowPrint { get; set; }
+
+		/// <summary>
 		/// Determines whether spell checking is enabled for input fields.
 		/// </summary>
 		public bool AllowSpellChecking { get; set; }

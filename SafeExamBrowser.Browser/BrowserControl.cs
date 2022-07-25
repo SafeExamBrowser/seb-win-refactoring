@@ -81,7 +81,7 @@ namespace SafeExamBrowser.Browser
 			{
 				Task.Run(() => callback(new JavascriptResult
 				{
-					Message = "JavaScript can't be executed in the main frame!",
+					Message = "JavaScript can't be executed in main frame!",
 					Success = false
 				}));
 			}
