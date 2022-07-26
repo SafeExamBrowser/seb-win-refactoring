@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -462,6 +462,7 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.checkBoxEnableFindPrinter = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -933,6 +934,7 @@ namespace SebWindowsConfig
 			// 
 			// groupBoxInsideSeb
 			// 
+			this.groupBoxInsideSeb.Controls.Add(this.checkBoxEnableFindPrinter);
 			this.groupBoxInsideSeb.Controls.Add(this.checkBoxSetVmwareConfiguration);
 			this.groupBoxInsideSeb.Controls.Add(this.checkBoxInsideSebEnableNetworkConnectionSelector);
 			this.groupBoxInsideSeb.Controls.Add(this.checkBoxInsideSebEnableSwitchUser);
@@ -948,7 +950,7 @@ namespace SebWindowsConfig
 			this.groupBoxInsideSeb.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.groupBoxInsideSeb.Name = "groupBoxInsideSeb";
 			this.groupBoxInsideSeb.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
-			this.groupBoxInsideSeb.Size = new System.Drawing.Size(305, 245);
+			this.groupBoxInsideSeb.Size = new System.Drawing.Size(305, 264);
 			this.groupBoxInsideSeb.TabIndex = 25;
 			this.groupBoxInsideSeb.TabStop = false;
 			this.groupBoxInsideSeb.Text = "While running SEB";
@@ -971,7 +973,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxInsideSebEnableNetworkConnectionSelector.AutoSize = true;
 			this.checkBoxInsideSebEnableNetworkConnectionSelector.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxInsideSebEnableNetworkConnectionSelector.Location = new System.Drawing.Point(16, 213);
+			this.checkBoxInsideSebEnableNetworkConnectionSelector.Location = new System.Drawing.Point(16, 215);
 			this.checkBoxInsideSebEnableNetworkConnectionSelector.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxInsideSebEnableNetworkConnectionSelector.Name = "checkBoxInsideSebEnableNetworkConnectionSelector";
 			this.checkBoxInsideSebEnableNetworkConnectionSelector.Size = new System.Drawing.Size(196, 17);
@@ -1870,8 +1872,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle5.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle5;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -4610,8 +4612,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle6;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -6009,6 +6011,18 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
+			// checkBoxEnableFindPrinter
+			// 
+			this.checkBoxEnableFindPrinter.AutoSize = true;
+			this.checkBoxEnableFindPrinter.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBoxEnableFindPrinter.Location = new System.Drawing.Point(16, 236);
+			this.checkBoxEnableFindPrinter.Name = "checkBoxEnableFindPrinter";
+			this.checkBoxEnableFindPrinter.Size = new System.Drawing.Size(215, 17);
+			this.checkBoxEnableFindPrinter.TabIndex = 78;
+			this.checkBoxEnableFindPrinter.Text = "Enable Find Printer in system print dialog";
+			this.checkBoxEnableFindPrinter.UseVisualStyleBackColor = true;
+			this.checkBoxEnableFindPrinter.CheckedChanged += new System.EventHandler(this.checkBoxEnableFindPrinter_CheckedChanged);
+			// 
 			// SebWindowsConfigForm
 			// 
 			this.AllowDrop = true;
@@ -6572,6 +6586,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.CheckBox checkBoxEnableMiddleMouse;
 		private System.Windows.Forms.Label label26;
 		private System.Windows.Forms.CheckBox checkBoxAllowPrint;
+		private System.Windows.Forms.CheckBox checkBoxEnableFindPrinter;
 	}
 }
 

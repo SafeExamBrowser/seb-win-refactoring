@@ -37,6 +37,11 @@ namespace SafeExamBrowser.Lockdown.Contracts
 		IFeatureConfiguration CreateEaseOfAccessConfiguration(Guid groupId);
 
 		/// <summary>
+		/// Creates an <see cref="IFeatureConfiguration"/> to control the find printer option in the print dialog of Windows.
+		/// </summary>
+		IFeatureConfiguration CreateFindPrinterConfiguration(Guid groupId, string sid, string userName);
+
+		/// <summary>
 		/// Creates an <see cref="IFeatureConfiguration"/> to control the option to lock the computer via the security screen.
 		/// </summary>
 		IFeatureConfiguration CreateLockWorkstationConfiguration(Guid groupId, string sid, string userName);

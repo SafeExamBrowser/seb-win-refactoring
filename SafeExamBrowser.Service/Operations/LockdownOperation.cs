@@ -16,10 +16,11 @@ namespace SafeExamBrowser.Service.Operations
 {
 	internal class LockdownOperation : SessionOperation
 	{
-		private IFeatureConfigurationBackup backup;
-		private IFeatureConfigurationFactory factory;
-		private IFeatureConfigurationMonitor monitor;
-		private ILogger logger;
+		private readonly IFeatureConfigurationBackup backup;
+		private readonly IFeatureConfigurationFactory factory;
+		private readonly IFeatureConfigurationMonitor monitor;
+		private readonly ILogger logger;
+
 		private Guid groupId;
 
 		public LockdownOperation(
@@ -47,6 +48,7 @@ namespace SafeExamBrowser.Service.Operations
 				(factory.CreateChangePasswordConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisablePasswordChange),
 				(factory.CreateChromeNotificationConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableChromeNotifications),
 				(factory.CreateEaseOfAccessConfiguration(groupId), Context.Configuration.Settings.Service.DisableEaseOfAccessOptions),
+				(factory.CreateFindPrinterConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableFindPrinter),
 				(factory.CreateLockWorkstationConfiguration(groupId, sid, userName), Context.Configuration.Settings.Service.DisableUserLock),
 				(factory.CreateMachinePowerOptionsConfiguration(groupId), Context.Configuration.Settings.Service.DisablePowerOptions),
 				(factory.CreateNetworkOptionsConfiguration(groupId), Context.Configuration.Settings.Service.DisableNetworkOptions),

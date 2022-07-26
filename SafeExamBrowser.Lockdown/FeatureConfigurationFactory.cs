@@ -9,16 +9,16 @@
 using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Lockdown.Contracts;
-using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.MachineHive;
 using SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.UserHive;
 using SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfigurations;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Lockdown
 {
 	public class FeatureConfigurationFactory : IFeatureConfigurationFactory
 	{
-		private IModuleLogger logger;
+		private readonly IModuleLogger logger;
 
 		public FeatureConfigurationFactory(IModuleLogger logger)
 		{
@@ -32,6 +32,7 @@ namespace SafeExamBrowser.Lockdown
 				CreateChangePasswordConfiguration(groupId, sid, userName),
 				CreateChromeNotificationConfiguration(groupId, sid, userName),
 				CreateEaseOfAccessConfiguration(groupId),
+				CreateFindPrinterConfiguration(groupId, sid, userName),
 				CreateLockWorkstationConfiguration(groupId, sid, userName),
 				CreateMachinePowerOptionsConfiguration(groupId),
 				CreateNetworkOptionsConfiguration(groupId),
@@ -58,6 +59,11 @@ namespace SafeExamBrowser.Lockdown
 		public IFeatureConfiguration CreateEaseOfAccessConfiguration(Guid groupId)
 		{
 			return new EaseOfAccessConfiguration(groupId, logger.CloneFor(nameof(EaseOfAccessConfiguration)));
+		}
+
+		public IFeatureConfiguration CreateFindPrinterConfiguration(Guid groupId, string sid, string userName)
+		{
+			return new FindPrinterConfiguration(groupId, logger.CloneFor(nameof(FindPrinterConfiguration)), sid, userName);
 		}
 
 		public IFeatureConfiguration CreateLockWorkstationConfiguration(Guid groupId, string sid, string userName)

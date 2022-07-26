@@ -24,6 +24,11 @@ namespace SafeExamBrowser.Settings.Service
 		public bool DisableEaseOfAccessOptions { get; set; }
 
 		/// <summary>
+		/// Determines whether the user can access the find printer option in the print dialog of Windows.
+		/// </summary>
+		public bool DisableFindPrinter { get; set; }
+
+		/// <summary>
 		/// Determines whether the user can access the network options on the security screen.
 		/// </summary>
 		public bool DisableNetworkOptions { get; set; }

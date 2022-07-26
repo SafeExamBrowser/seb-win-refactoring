@@ -114,6 +114,7 @@ namespace SafeExamBrowser.Service.UnitTests.Operations
 			factory.Verify(f => f.CreateChangePasswordConfiguration(It.Is<Guid>(id => id == groupId), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 			factory.Verify(f => f.CreateChromeNotificationConfiguration(It.Is<Guid>(id => id == groupId), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 			factory.Verify(f => f.CreateEaseOfAccessConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
+			factory.Verify(f => f.CreateFindPrinterConfiguration(It.Is<Guid>(id => id == groupId), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 			factory.Verify(f => f.CreateLockWorkstationConfiguration(It.Is<Guid>(id => id == groupId), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 			factory.Verify(f => f.CreateMachinePowerOptionsConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);
 			factory.Verify(f => f.CreateNetworkOptionsConfiguration(It.Is<Guid>(id => id == groupId)), Times.Once);

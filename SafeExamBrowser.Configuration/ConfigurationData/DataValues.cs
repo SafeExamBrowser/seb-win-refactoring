@@ -265,6 +265,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.Service.DisableChromeNotifications = true;
 			settings.Service.DisableEaseOfAccessOptions = true;
+			settings.Service.DisableFindPrinter = true;
 			settings.Service.DisableNetworkOptions = true;
 			settings.Service.DisablePasswordChange = true;
 			settings.Service.DisablePowerOptions = true;

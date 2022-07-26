@@ -23,6 +23,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Service.EnableEaseOfAccessOptions:
 					MapEnableEaseOfAccessOptions(settings, value);
 					break;
+				case Keys.Service.EnableFindPrinter:
+					MapEnableFindPrinter(settings, value);
+					break;
 				case Keys.Service.EnableNetworkOptions:
 					MapEnableNetworkOptions(settings, value);
 					break;
@@ -78,6 +81,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool enable)
 			{
 				settings.Service.DisableEaseOfAccessOptions = !enable;
+			}
+		}
+
+		private void MapEnableFindPrinter(AppSettings settings, object value)
+		{
+			if (value is bool enable)
+			{
+				settings.Service.DisableFindPrinter = !enable;
 			}
 		}
 
