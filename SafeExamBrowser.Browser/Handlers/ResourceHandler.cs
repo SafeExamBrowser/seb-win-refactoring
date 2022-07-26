@@ -101,9 +101,9 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		protected override bool OnResourceResponse(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response)
 		{
-			if (RedirectToDisablePdfToolbar(request, response, out var url))
+			if (RedirectToDisablePdfReaderToolbar(request, response, out var url))
 			{
-				webBrowser.Load(url);
+				frame?.LoadUrl(url);
 
 				return true;
 			}
@@ -165,15 +165,16 @@ namespace SafeExamBrowser.Browser.Handlers
 			return url.StartsWith(Uri.UriSchemeMailto);
 		}
 
-		private bool RedirectToDisablePdfToolbar(IRequest request, IResponse response, out string url)
+		private bool RedirectToDisablePdfReaderToolbar(IRequest request, IResponse response, out string url)
 		{
-			const string DISABLE_PDF_TOOLBAR = "#toolbar=0";
+			const string DISABLE_PDF_READER_TOOLBAR = "#toolbar=0";
+
 			var isPdf = response.Headers["Content-Type"] == MediaTypeNames.Application.Pdf;
 			var isMainFrame = request.ResourceType == ResourceType.MainFrame;
-			var hasFragment = request.Url.Contains(DISABLE_PDF_TOOLBAR);
+			var hasFragment = request.Url.Contains(DISABLE_PDF_READER_TOOLBAR);
 			var redirect = settings.AllowPdfReader && !settings.AllowPdfReaderToolbar && isPdf && isMainFrame && !hasFragment;
 
-			url = request.Url + DISABLE_PDF_TOOLBAR;
+			url = request.Url + DISABLE_PDF_READER_TOOLBAR;
 
 			if (redirect)
 			{
@@ -241,7 +242,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			{
 				var userId = ids.FirstOrDefault();
 
-				if (userId != default(string) && sessionIdentifier != userId)
+				if (userId != default && sessionIdentifier != userId)
 				{
 					sessionIdentifier = userId;
 					Task.Run(() => SessionIdentifierDetected?.Invoke(sessionIdentifier));
@@ -264,7 +265,7 @@ namespace SafeExamBrowser.Browser.Handlers
 				{
 					var userInfo = cookies.FirstOrDefault(c => c.Contains("edx-user-info"));
 
-					if (userInfo != default(string))
+					if (userInfo != default)
 					{
 						var start = userInfo.IndexOf("=") + 1;
 						var end = userInfo.IndexOf("; expires");
@@ -308,7 +309,7 @@ namespace SafeExamBrowser.Browser.Handlers
 				{
 					var location = locations.FirstOrDefault(l => l.Contains("/login/index.php?testsession"));
 
-					if (location != default(string))
+					if (location != default)
 					{
 						var userId = location.Substring(location.IndexOf("=") + 1);
 
@@ -339,7 +340,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			{
 				var session = cookies.FirstOrDefault(c => c.Contains("MoodleSession"));
 
-				if (session != default(string))
+				if (session != default)
 				{
 					var requestUrl = request.Url;
 
