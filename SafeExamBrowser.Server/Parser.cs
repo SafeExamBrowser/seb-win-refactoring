@@ -29,6 +29,25 @@ namespace SafeExamBrowser.Server
 			this.logger = logger;
 		}
 
+		internal bool IsTokenExpired(HttpContent content)
+		{
+			var isExpired = false;
+
+			try
+			{
+				var json = JsonConvert.DeserializeObject(Extract(content)) as JObject;
+				var error = json["error"].Value<string>();
+
+				isExpired = error?.Equals("invalid_token", StringComparison.OrdinalIgnoreCase) == true;
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to parse token expiration content!", e);
+			}
+
+			return isExpired;
+		}
+
 		internal bool TryParseApi(HttpContent content, out ApiVersion1 api)
 		{
 			var success = false;
@@ -88,7 +107,7 @@ namespace SafeExamBrowser.Server
 
 		internal bool TryParseConnectionToken(HttpResponseMessage response, out string connectionToken)
 		{
-			connectionToken = default(string);
+			connectionToken = default;
 
 			try
 			{
@@ -108,7 +127,7 @@ namespace SafeExamBrowser.Server
 				logger.Error("Failed to parse connection token!", e);
 			}
 
-			return connectionToken != default(string);
+			return connectionToken != default;
 		}
 
 		internal bool TryParseExams(HttpContent content, out IList<Exam> exams)
@@ -141,8 +160,8 @@ namespace SafeExamBrowser.Server
 		internal bool TryParseInstruction(HttpContent content, out Attributes attributes, out string instruction, out string instructionConfirmation)
 		{
 			attributes = new Attributes();
-			instruction = default(string);
-			instructionConfirmation = default(string);
+			instruction = default;
+			instructionConfirmation = default;
 
 			try
 			{
@@ -170,13 +189,31 @@ namespace SafeExamBrowser.Server
 				logger.Error("Failed to parse instruction!", e);
 			}
 
-			return instruction != default(string);
+			return instruction != default;
+		}
+
+		internal bool TryParseOauth2Token(HttpContent content, out string oauth2Token)
+		{
+			oauth2Token = default;
+
+			try
+			{
+				var json = JsonConvert.DeserializeObject(Extract(content)) as JObject;
+
+				oauth2Token = json["access_token"].Value<string>();
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to parse Oauth2 token!", e);
+			}
+
+			return oauth2Token != default;
 		}
 
 		private Attributes ParseProctoringAttributes(JObject attributesJson, string instruction)
 		{
 			var attributes = new Attributes();
-			
+
 			switch (instruction)
 			{
 				case Instructions.NOTIFICATION_CONFIRM:
@@ -259,24 +296,6 @@ namespace SafeExamBrowser.Server
 			{
 				attributes.ReceiveVideo = attributesJson["zoomReceiveVideo"].Value<bool>();
 			}
-		}
-
-		internal bool TryParseOauth2Token(HttpContent content, out string oauth2Token)
-		{
-			oauth2Token = default(string);
-
-			try
-			{
-				var json = JsonConvert.DeserializeObject(Extract(content)) as JObject;
-
-				oauth2Token = json["access_token"].Value<string>();
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to parse Oauth2 token!", e);
-			}
-
-			return oauth2Token != default(string);
 		}
 
 		private string Extract(HttpContent content)

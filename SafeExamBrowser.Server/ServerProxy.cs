@@ -10,6 +10,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -95,23 +96,7 @@ namespace SafeExamBrowser.Server
 			if (success && parser.TryParseApi(response.Content, out api))
 			{
 				logger.Info("Successfully loaded server API.");
-
-				var secret = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{settings.ClientName}:{settings.ClientSecret}"));
-				var authorization = ("Authorization", $"Basic {secret}");
-				var content = "grant_type=client_credentials&scope=read write";
-				var contentType = "application/x-www-form-urlencoded";
-
-				success = TryExecute(HttpMethod.Post, api.AccessTokenEndpoint, out response, content, contentType, authorization);
-				message = response.ToLogString();
-
-				if (success && parser.TryParseOauth2Token(response.Content, out oauth2Token))
-				{
-					logger.Info("Successfully retrieved OAuth2 token.");
-				}
-				else
-				{
-					logger.Error("Failed to retrieve OAuth2 token!");
-				}
+				success = TryRetrieveOAuth2Token(out message);
 			}
 			else
 			{
@@ -543,6 +528,28 @@ namespace SafeExamBrowser.Server
 			}
 		}
 
+		private bool TryRetrieveOAuth2Token(out string message)
+		{
+			var secret = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{settings.ClientName}:{settings.ClientSecret}"));
+			var authorization = ("Authorization", $"Basic {secret}");
+			var content = "grant_type=client_credentials&scope=read write";
+			var contentType = "application/x-www-form-urlencoded";
+			var success = TryExecute(HttpMethod.Post, api.AccessTokenEndpoint, out var response, content, contentType, authorization);
+
+			message = response.ToLogString();
+
+			if (success && parser.TryParseOauth2Token(response.Content, out oauth2Token))
+			{
+				logger.Info("Successfully retrieved OAuth2 token.");
+			}
+			else
+			{
+				logger.Error("Failed to retrieve OAuth2 token!");
+			}
+
+			return success;
+		}
+
 		private bool TryExecute(
 			HttpMethod method,
 			string url,
@@ -555,22 +562,7 @@ namespace SafeExamBrowser.Server
 
 			for (var attempt = 0; attempt < settings.RequestAttempts && (response == default || !response.IsSuccessStatusCode); attempt++)
 			{
-				var request = new HttpRequestMessage(method, url);
-
-				if (content != default)
-				{
-					request.Content = new StringContent(content, Encoding.UTF8);
-
-					if (contentType != default)
-					{
-						request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse(contentType);
-					}
-				}
-
-				foreach (var (name, value) in headers)
-				{
-					request.Headers.Add(name, value);
-				}
+				var request = BuildRequest(method, url, content, contentType, headers);
 
 				try
 				{
@@ -579,6 +571,16 @@ namespace SafeExamBrowser.Server
 					if (request.RequestUri.AbsolutePath != api.LogEndpoint && request.RequestUri.AbsolutePath != api.PingEndpoint)
 					{
 						logger.Debug($"Completed request: {request.Method} '{request.RequestUri}' -> {response.ToLogString()}");
+					}
+
+					if (response.StatusCode == HttpStatusCode.Unauthorized && parser.IsTokenExpired(response.Content))
+					{
+						logger.Info("OAuth2 token has expired, attempting to retrieve new one...");
+
+						if (TryRetrieveOAuth2Token(out var message))
+						{
+							headers = UpdateOAuth2Token(headers);
+						}
 					}
 				}
 				catch (TaskCanceledException)
@@ -593,6 +595,54 @@ namespace SafeExamBrowser.Server
 			}
 
 			return response != default && response.IsSuccessStatusCode;
+		}
+
+		private HttpRequestMessage BuildRequest(
+			HttpMethod method,
+			string url,
+			string content = default,
+			string contentType = default,
+			params (string name, string value)[] headers)
+		{
+			var request = new HttpRequestMessage(method, url);
+
+			if (content != default)
+			{
+				request.Content = new StringContent(content, Encoding.UTF8);
+
+				if (contentType != default)
+				{
+					request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse(contentType);
+				}
+			}
+
+			request.Headers.Add("Accept", "application/json, */*");
+
+			foreach (var (name, value) in headers)
+			{
+				request.Headers.Add(name, value);
+			}
+
+			return request;
+		}
+
+		private (string name, string value)[] UpdateOAuth2Token((string name, string value)[] headers)
+		{
+			var result = new List<(string name, string value)>();
+
+			foreach (var header in headers)
+			{
+				if (header.name == "Authorization")
+				{
+					result.Add(("Authorization", $"Bearer {oauth2Token}"));
+				}
+				else
+				{
+					result.Add(header);
+				}
+			}
+
+			return result.ToArray();
 		}
 	}
 }
