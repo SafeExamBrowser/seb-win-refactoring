@@ -143,7 +143,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		[TestMethod]
 		public void MustRedirectToDisablePdfToolbar()
 		{
-			var browser = new Mock<IWebBrowser>();
+			var frame = new Mock<IFrame>();
 			var headers = new NameValueCollection { { "Content-Type", MediaTypeNames.Application.Pdf } };
 			var request = new Mock<IRequest>();
 			var response = new Mock<IResponse>();
@@ -155,17 +155,17 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			settings.AllowPdfReader = true;
 			settings.AllowPdfReaderToolbar = false;
 
-			var result = sut.OnResourceResponse(browser.Object, Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, response.Object);
+			var result = sut.OnResourceResponse(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), frame.Object, request.Object, response.Object);
 
-			browser.Verify(b => b.Load(It.Is<string>(s => s.Equals($"{url}#toolbar=0"))), Times.Once);
+			frame.Verify(b => b.LoadUrl(It.Is<string>(s => s.Equals($"{url}#toolbar=0"))), Times.Once);
 			Assert.IsTrue(result);
 
-			browser.Reset();
+			frame.Reset();
 			request.SetupGet(r => r.Url).Returns($"{url}#toolbar=0");
 
-			result = sut.OnResourceResponse(browser.Object, Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, response.Object);
+			result = sut.OnResourceResponse(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), frame.Object, request.Object, response.Object);
 
-			browser.Verify(b => b.Load(It.IsAny<string>()), Times.Never);
+			frame.Verify(b => b.LoadUrl(It.IsAny<string>()), Times.Never);
 			Assert.IsFalse(result);
 		}
 
