@@ -48,7 +48,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			this.text = text;
 
 			InitializeComponent();
-			InitializeLockWindow(message, title, options);
+			InitializeLockScreen(message, title, options);
 		}
 
 		public void BringToForeground()
@@ -88,15 +88,16 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			return result;
 		}
 
-		private void InitializeLockWindow(string message, string title, IEnumerable<LockScreenOption> options)
+		private void InitializeLockScreen(string message, string title, IEnumerable<LockScreenOption> options)
 		{
 			windows = new List<Window>();
 
 			Button.Content = text.Get(TextKey.LockScreen_UnlockButton);
 			Button.Click += Button_Click;
 			Heading.Text = title;
+			Loaded += (o, args) => Activate();
 			Message.Text = message;
-			Password.KeyUp += Password_KeyUp;
+			Password.KeyDown += Password_KeyDown;
 
 			foreach (var option in options)
 			{
@@ -164,7 +165,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			autoResetEvent.Set();
 		}
 
-		private void Password_KeyUp(object sender, KeyEventArgs e)
+		private void Password_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.Key == Key.Enter)
 			{

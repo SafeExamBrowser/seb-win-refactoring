@@ -85,16 +85,18 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			Message.Text = message;
 			Title = title;
 
+			Closed += (o, args) => closed?.Invoke();
+			Closing += (o, args) => closing?.Invoke();
+			Loaded += (o, args) => Activate();
+
 			CancelButton.Content = text.Get(TextKey.PasswordDialog_Cancel);
 			CancelButton.Click += CancelButton_Click;
 
 			ConfirmButton.Content = text.Get(TextKey.PasswordDialog_Confirm);
 			ConfirmButton.Click += ConfirmButton_Click;
 
-			Closed += (o, args) => closed?.Invoke();
-			Closing += (o, args) => closing?.Invoke();
-			Loaded += (o, args) => Activate();
-			Password.KeyUp += Password_KeyUp;
+			Password.KeyDown += Password_KeyDown;
+
 			SystemParameters.StaticPropertyChanged += SystemParameters_StaticPropertyChanged;
 		}
 
@@ -110,7 +112,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			Close();
 		}
 
-		private void Password_KeyUp(object sender, KeyEventArgs e)
+		private void Password_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.Key == Key.Enter)
 			{
