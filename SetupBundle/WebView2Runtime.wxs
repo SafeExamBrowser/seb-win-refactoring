@@ -7,8 +7,6 @@
             <ExePackage Name="WebView2 Bootstrapper" DisplayName="Microsoft Edge WebView2 Runtime" Cache="no" Compressed="yes"
                         PerMachine="yes" Permanent="yes" Vital="yes" SourceFile="C:\Temp\MicrosoftEdgeWebview2Setup.exe"
                         InstallCommand="/silent /install" InstallCondition="NOT (REMOVE OR RuntimeInstalled)">
-                <!-- Exit Code 0x8004090d: A newer version is already installed -->
-                <ExitCode Behavior="success" Value="2147748109" />
             </ExePackage>
         </PackageGroup>
     </Fragment>
