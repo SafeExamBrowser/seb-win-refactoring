@@ -15,16 +15,15 @@ namespace SafeExamBrowser.SystemComponents
 	public class VirtualMachineDetector : IVirtualMachineDetector
 	{
 		/// <summary>
-		/// Virtualbox: VBOX, 80EE
-		/// RedHat: QUEMU, 1AF4, 1B36
+		/// Virtualbox: VBOX, 80EE / RedHat: QUEMU, 1AF4, 1B36
 		/// </summary>
 		private static readonly string[] PCI_VENDOR_BLACKLIST = { "vbox", "vid_80ee", "qemu", "ven_1af4", "ven_1b36", "subsys_11001af4" };
-		private static readonly string VIRTUALBOX_MAC_PREFIX = "080027";
 		private static readonly string QEMU_MAC_PREFIX = "525400";
+		private static readonly string VIRTUALBOX_MAC_PREFIX = "080027";
 
-		private ILogger logger;
-		private ISystemInfo systemInfo;
-		
+		private readonly ILogger logger;
+		private readonly ISystemInfo systemInfo;
+
 		public VirtualMachineDetector(ILogger logger, ISystemInfo systemInfo)
 		{
 			this.logger = logger;
@@ -33,12 +32,15 @@ namespace SafeExamBrowser.SystemComponents
 
 		public bool IsVirtualMachine()
 		{
+			var biosInfo = systemInfo.BiosInfo.ToLower();
 			var isVirtualMachine = false;
+			var macAddress = systemInfo.MacAddress;
 			var manufacturer = systemInfo.Manufacturer.ToLower();
 			var model = systemInfo.Model.ToLower();
-			var macAddress = systemInfo.MacAddress;
 			var plugAndPlayDeviceIds = systemInfo.PlugAndPlayDeviceIds;
 
+			isVirtualMachine |= biosInfo.Contains("vmware");
+			isVirtualMachine |= biosInfo.Contains("virtualbox");
 			isVirtualMachine |= manufacturer.Contains("microsoft corporation") && !model.Contains("surface");
 			isVirtualMachine |= manufacturer.Contains("vmware");
 			isVirtualMachine |= manufacturer.Contains("parallels software");
@@ -55,7 +57,7 @@ namespace SafeExamBrowser.SystemComponents
 				isVirtualMachine |= PCI_VENDOR_BLACKLIST.Any(device.ToLower().Contains);
 			}
 
-			logger.Debug($"Computer '{systemInfo.Name}' appears to {(isVirtualMachine ? "" : "not ")}be a virtual machine.");
+			logger.Debug($"Computer '{systemInfo.Name}' appears {(isVirtualMachine ? "" : "not ")}to be a virtual machine.");
 
 			return isVirtualMachine;
 		}

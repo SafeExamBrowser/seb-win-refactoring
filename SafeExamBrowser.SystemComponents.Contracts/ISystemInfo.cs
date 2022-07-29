@@ -14,9 +14,19 @@ namespace SafeExamBrowser.SystemComponents.Contracts
 	public interface ISystemInfo
 	{
 		/// <summary>
+		/// The manufacturer and name of the BIOS.
+		/// </summary>
+		string BiosInfo { get; }
+
+		/// <summary>
 		/// Reveals whether the computer system contains a battery.
 		/// </summary>
 		bool HasBattery { get; }
+
+		/// <summary>
+		/// The MAC address of the network adapter.
+		/// </summary>
+		string MacAddress { get; }
 
 		/// <summary>
 		/// The manufacturer name of the computer system.
@@ -44,12 +54,7 @@ namespace SafeExamBrowser.SystemComponents.Contracts
 		string OperatingSystemInfo { get; }
 
 		/// <summary>
-		/// The MAC address of the network adapter
-		/// </summary>
-		string MacAddress { get; }
-
-		/// <summary>
-		/// Provides the DeviceID information of the user's Plug and Play devices 
+		/// Provides the device ID information of the user's Plug and Play devices.
 		/// </summary>
 		string[] PlugAndPlayDeviceIds { get; }
 	}

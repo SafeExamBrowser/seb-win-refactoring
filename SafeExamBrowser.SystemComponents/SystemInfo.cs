@@ -19,25 +19,23 @@ namespace SafeExamBrowser.SystemComponents
 {
 	public class SystemInfo : ISystemInfo
 	{
+		public string BiosInfo { get; private set; }
 		public bool HasBattery { get; private set; }
+		public string MacAddress { get; private set; }
 		public string Manufacturer { get; private set; }
 		public string Model { get; private set; }
 		public string Name { get; private set; }
 		public OperatingSystem OperatingSystem { get; private set; }
-		public string MacAddress { get; private set; }
+		public string OperatingSystemInfo => $"{OperatingSystemName()}, {Environment.OSVersion.VersionString} ({Architecture()})";
 		public string[] PlugAndPlayDeviceIds { get; private set; }
-
-		public string OperatingSystemInfo
-		{
-			get { return $"{OperatingSystemName()}, {Environment.OSVersion.VersionString} ({Architecture()})"; }
-		}
 
 		public SystemInfo()
 		{
 			InitializeBattery();
+			InitializeBiosInfo();
+			InitializeMacAddress();
 			InitializeMachineInfo();
 			InitializeOperatingSystem();
-			InitializeMacAddress();
 			InitializePnPDevices();
 		}
 
@@ -45,7 +43,40 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			var status = SystemInformation.PowerStatus.BatteryChargeStatus;
 
-			HasBattery = !status.HasFlag(BatteryChargeStatus.NoSystemBattery) && !status.HasFlag(BatteryChargeStatus.Unknown);
+			HasBattery = !status.HasFlag(BatteryChargeStatus.NoSystemBattery);
+			HasBattery &= !status.HasFlag(BatteryChargeStatus.Unknown);
+		}
+
+		private void InitializeBiosInfo()
+		{
+			var manufacturer = default(string);
+			var name = default(string);
+
+			try
+			{
+				using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_BIOS"))
+				using (var results = searcher.Get())
+				using (var bios = results.Cast<ManagementObject>().First())
+				{
+					foreach (var property in bios.Properties)
+					{
+						if (property.Name.Equals("Manufacturer"))
+						{
+							manufacturer = Convert.ToString(property.Value);
+						}
+						else if (property.Name.Equals("Name"))
+						{
+							name = Convert.ToString(property.Value);
+						}
+					}
+				}
+
+				BiosInfo = $"{manufacturer} {name}";
+			}
+			catch (Exception)
+			{
+				BiosInfo = "";
+			}
 		}
 
 		private void InitializeMachineInfo()
@@ -80,7 +111,7 @@ namespace SafeExamBrowser.SystemComponents
 					}
 				}
 
-				Model = string.Join(" ", systemFamily, model);
+				Model = $"{systemFamily} {model}";
 			}
 			catch (Exception)
 			{
@@ -93,8 +124,8 @@ namespace SafeExamBrowser.SystemComponents
 		private void InitializeOperatingSystem()
 		{
 			// IMPORTANT:
-			// In order to be able to retrieve the correct operating system version via System.Environment.OSVersion, the executing
-			// assembly needs to define an application manifest where the supported Windows versions are specified!
+			// In order to be able to retrieve the correct operating system version via System.Environment.OSVersion,
+			// the executing assembly needs to define an application manifest specifying all supported Windows versions!
 			var major = Environment.OSVersion.Version.Major;
 			var minor = Environment.OSVersion.Version.Minor;
 			var build = Environment.OSVersion.Version.Build;
@@ -154,26 +185,35 @@ namespace SafeExamBrowser.SystemComponents
 
 		private void InitializeMacAddress()
 		{
-			using (var searcher = new ManagementObjectSearcher("SELECT MACAddress FROM Win32_NetworkAdapterConfiguration WHERE DNSDomain IS NOT NULL"))
-			using (var results = searcher.Get())
+			const string UNDEFINED = "000000000000";
+
+			try
 			{
-				if (results != null && results.Count > 0)
+				using (var searcher = new ManagementObjectSearcher("SELECT MACAddress FROM Win32_NetworkAdapterConfiguration WHERE DNSDomain IS NOT NULL"))
+				using (var results = searcher.Get())
 				{
-					using (var networkAdapter = results.Cast<ManagementObject>().First())
+					if (results != null && results.Count > 0)
 					{
-						foreach (var property in networkAdapter.Properties)
+						using (var networkAdapter = results.Cast<ManagementObject>().First())
 						{
-							if (property.Name.Equals("MACAddress"))
+							foreach (var property in networkAdapter.Properties)
 							{
-								MacAddress = Convert.ToString(property.Value).Replace(":", "").ToUpper();
+								if (property.Name.Equals("MACAddress"))
+								{
+									MacAddress = Convert.ToString(property.Value).Replace(":", "").ToUpper();
+								}
 							}
 						}
 					}
+					else
+					{
+						MacAddress = UNDEFINED;
+					}
 				}
-				else
-				{
-					MacAddress = "000000000000";
-				}
+			}
+			catch (Exception)
+			{
+				MacAddress = UNDEFINED;
 			}
 		}
 
@@ -181,23 +221,28 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			var deviceList = new List<string>();
 
-			using (var searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT DeviceID FROM Win32_PnPEntity"))
-			using (var results = searcher.Get())
+			try
 			{
-				foreach (ManagementObject queryObj in results)
+				using (var searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT DeviceID FROM Win32_PnPEntity"))
+				using (var results = searcher.Get())
 				{
-					using (queryObj)
+					foreach (ManagementObject queryObj in results)
 					{
-						foreach (var property in queryObj.Properties)
+						using (queryObj)
 						{
-							if (property.Name.Equals("DeviceID"))
+							foreach (var property in queryObj.Properties)
 							{
-								deviceList.Add(Convert.ToString(property.Value).ToLower());
+								if (property.Name.Equals("DeviceID"))
+								{
+									deviceList.Add(Convert.ToString(property.Value).ToLower());
+								}
 							}
 						}
 					}
 				}
-
+			}
+			finally
+			{
 				PlugAndPlayDeviceIds = deviceList.ToArray();
 			}
 		}
