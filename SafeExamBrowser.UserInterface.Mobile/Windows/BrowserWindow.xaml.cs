@@ -114,6 +114,51 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			});
 		}
 
+		public void FocusToolbar(bool forward)
+		{
+			Dispatcher.BeginInvoke((Action) (async () =>
+			{
+				Activate();
+				await Task.Delay(50);
+
+				// focus all elements in the toolbar, such that the last element that is enabled gets focus
+				var buttons = new System.Windows.Controls.Control[] { ForwardButton, BackwardButton, ReloadButton, UrlTextBox, MenuButton, };
+				for (var i = forward ? 0 : buttons.Length - 1; i >= 0 && i < buttons.Length; i += forward ? 1 : -1)
+				{
+					if (buttons[i].IsEnabled && buttons[i].Visibility == Visibility.Visible)
+					{
+						buttons[i].Focus();
+						break;
+					}
+				}
+			}));
+		}
+
+		public void FocusBrowser()
+		{
+			Dispatcher.BeginInvoke((Action) (async () =>
+			{
+				FocusToolbar(false);
+				await Task.Delay(100);
+
+				browserControlGetsFocusFromTaskbar = true;
+
+				var focusedElement = FocusManager.GetFocusedElement(this) as UIElement;
+				focusedElement.MoveFocus(new TraversalRequest(FocusNavigationDirection.Right));
+
+				await Task.Delay(150);
+				browserControlGetsFocusFromTaskbar = false;
+			}));
+		}
+
+		public void FocusAddressBar()
+		{
+			Dispatcher.BeginInvoke((Action) (() =>
+			{
+				UrlTextBox.Focus();
+			}));
+		}
+
 		public new void Hide()
 		{
 			Dispatcher.Invoke(base.Hide);
@@ -199,7 +244,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			Dispatcher.Invoke(() =>
 			{
 				ZoomLevel.Text = $"{value}%";
-				var zoomButtonHelpText = this.text.Get(TextKey.BrowserWindow_ZoomLevelReset).Replace("%%ZOOM%%", value.ToString("0"));
+				var zoomButtonHelpText = text.Get(TextKey.BrowserWindow_ZoomLevelReset).Replace("%%ZOOM%%", value.ToString("0"));
 				ZoomResetButton.SetValue(System.Windows.Automation.AutomationProperties.HelpTextProperty, zoomButtonHelpText);
 			});
 		}
@@ -229,7 +274,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 						var control = firstActiveElementInToolbar as System.Windows.UIElement;
 						if (control.IsKeyboardFocusWithin)
 						{
-							this.LoseFocusRequested?.Invoke(false);
+							LoseFocusRequested?.Invoke(false);
 							e.Handled = true;
 						}
 					}
@@ -280,10 +325,9 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 					var focusedElement = FocusManager.GetFocusedElement(this);
 					var focusedControl = focusedElement as System.Windows.Controls.Control;
 					var prevFocusedControl = tabKeyDownFocusElement as System.Windows.Controls.Control;
+
 					if (focusedControl != null && prevFocusedControl != null)
 					{
-						//var commonAncestor = focusedControl.FindCommonVisualAncestor(prevFocusedControl);
-						//var nextTab = GetNextTab(MenuPopup, this, true);
 						if (!hasShift && focusedControl.TabIndex < prevFocusedControl.TabIndex)
 						{
 							MenuPopup.IsOpen = false;
@@ -315,13 +359,8 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		/// <returns>Next tab order element or null if not found</returns>
 		public DependencyObject GetNextTab(DependencyObject e, DependencyObject container, bool goDownOnly)
 		{
-			var navigation = typeof(FrameworkElement)
-				.GetProperty("KeyboardNavigation", BindingFlags.NonPublic | BindingFlags.Static)
-				.GetValue(null);
-
-			var method = navigation
-				.GetType()
-				.GetMethod("GetNextTab", BindingFlags.NonPublic | BindingFlags.Instance);
+			var navigation = typeof(FrameworkElement).GetProperty("KeyboardNavigation", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+			var method = navigation.GetType().GetMethod("GetNextTab", BindingFlags.NonPublic | BindingFlags.Instance);
 
 			return method.Invoke(navigation, new object[] { e, container, goDownOnly }) as DependencyObject;
 		}
@@ -357,6 +396,10 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			if (string.IsNullOrEmpty(FindTextBox.Text))
 			{
 				FindRequested?.Invoke(CLEAR_FIND_TERM, true, false);
+			}
+			else if (e.Key == Key.Enter)
+			{
+				FindRequested?.Invoke(FindTextBox.Text, false, FindCaseSensitiveCheckBox.IsChecked == true);
 			}
 			else
 			{
@@ -616,51 +659,6 @@ if (typeof __SEB_focusElement === 'undefined') {
 			HomeButton.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, text.Get(TextKey.BrowserWindow_HomeButton));
 			MenuButton.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, text.Get(TextKey.BrowserWindow_MenuButton));
 			UrlTextBox.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, text.Get(TextKey.BrowserWindow_UrlTextBox));
-		}
-
-		public void FocusToolbar(bool forward)
-		{
-			this.Dispatcher.BeginInvoke((Action) (async () =>
-			{
-				this.Activate();
-				await Task.Delay(50);
-
-				// focus all elements in the toolbar, such that the last element that is enabled gets focus
-				var buttons = new System.Windows.Controls.Control[] { ForwardButton, BackwardButton, ReloadButton, UrlTextBox, MenuButton, };
-				for (var i = forward ? 0 : buttons.Length - 1; i >= 0 && i < buttons.Length; i += forward ? 1 : -1)
-				{
-					if (buttons[i].IsEnabled && buttons[i].Visibility == Visibility.Visible)
-					{
-						buttons[i].Focus();
-						break;
-					}
-				}
-			}));
-		}
-
-		public void FocusBrowser()
-		{
-			this.Dispatcher.BeginInvoke((Action) (async () =>
-			{
-				this.FocusToolbar(false);
-				await Task.Delay(100);
-
-				this.browserControlGetsFocusFromTaskbar = true;
-
-				var focusedElement = FocusManager.GetFocusedElement(this) as UIElement;
-				focusedElement.MoveFocus(new TraversalRequest(FocusNavigationDirection.Right));
-
-				await Task.Delay(150);
-				this.browserControlGetsFocusFromTaskbar = false;
-			}));
-		}
-
-		public void FocusAddressBar()
-		{
-			this.Dispatcher.BeginInvoke((Action) (() =>
-			{
-				this.UrlTextBox.Focus();
-			}));
 		}
 	}
 }
