@@ -60,6 +60,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 				process.Raise(p => p.Terminated += null, 0);
 			});
 
+			appConfig.ClientLogFilePath = "";
 			session.AppConfig = appConfig;
 			session.Settings = settings;
 			sessionContext.Current = session;
