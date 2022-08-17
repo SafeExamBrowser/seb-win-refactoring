@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Text;
 using System.Threading;
 using SafeExamBrowser.Communication.Contracts;
 using SafeExamBrowser.Communication.Contracts.Events;
@@ -23,11 +24,11 @@ namespace SafeExamBrowser.Runtime.Operations
 {
 	internal class ClientOperation : SessionOperation
 	{
-		private int timeout_ms;
-		private ILogger logger;
-		private IProcessFactory processFactory;
-		private IProxyFactory proxyFactory;
-		private IRuntimeHost runtimeHost;
+		private readonly ILogger logger;
+		private readonly IProcessFactory processFactory;
+		private readonly IProxyFactory proxyFactory;
+		private readonly IRuntimeHost runtimeHost;
+		private readonly int timeout_ms;
 
 		private IProcess ClientProcess
 		{
@@ -99,7 +100,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var authenticationToken = Context.Next.ClientAuthenticationToken.ToString("D");
 			var executablePath = Context.Next.AppConfig.ClientExecutablePath;
-			var logFilePath = $"{'"' + Context.Next.AppConfig.ClientLogFilePath + '"'}";
+			var logFilePath = $"{'"' + Convert.ToBase64String(Encoding.UTF8.GetBytes(Context.Next.AppConfig.ClientLogFilePath)) + '"'}";
 			var logLevel = Context.Next.Settings.LogLevel.ToString();
 			var runtimeHostUri = Context.Next.AppConfig.RuntimeAddress;
 			var uiMode = Context.Next.Settings.UserInterfaceMode.ToString();

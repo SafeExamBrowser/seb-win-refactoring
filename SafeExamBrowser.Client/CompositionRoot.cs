@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using SafeExamBrowser.Applications;
 using SafeExamBrowser.Browser;
 using SafeExamBrowser.Client.Communication;
@@ -175,27 +176,32 @@ namespace SafeExamBrowser.Client
 		{
 			var args = Environment.GetCommandLineArgs();
 			var hasFive = args?.Length >= 5;
+			var valid = false;
 
 			if (hasFive)
 			{
-				var hasLogfilePath = Uri.TryCreate(args[1], UriKind.Absolute, out Uri filePath) && filePath.IsFile;
-				var hasLogLevel = Enum.TryParse(args[2], out LogLevel level);
-				var hasHostUri = Uri.TryCreate(args[3], UriKind.Absolute, out Uri hostUri) && hostUri.IsWellFormedOriginalString();
-				var hasAuthenticationToken = Guid.TryParse(args[4], out Guid token);
+				var logFilePath = Encoding.UTF8.GetString(Convert.FromBase64String(args[1]));
+				var hasLogFilePath = Uri.TryCreate(logFilePath, UriKind.Absolute, out var filePath) && filePath.IsFile;
+				var hasLogLevel = Enum.TryParse(args[2], out LogLevel logLevel);
+				var hasHostUri = Uri.TryCreate(args[3], UriKind.Absolute, out var runtimeHostUri) && runtimeHostUri.IsWellFormedOriginalString();
+				var hasAuthenticationToken = Guid.TryParse(args[4], out var authenticationToken);
 
-				if (hasLogfilePath && hasLogLevel && hasHostUri && hasAuthenticationToken)
+				if (hasLogFilePath && hasLogLevel && hasHostUri && hasAuthenticationToken)
 				{
-					logFilePath = args[1];
-					logLevel = level;
-					runtimeHostUri = args[3];
-					authenticationToken = token;
-					uiMode = args.Length == 6 && Enum.TryParse(args[5], out uiMode) ? uiMode : UserInterfaceMode.Desktop;
+					this.authenticationToken = authenticationToken;
+					this.logFilePath = logFilePath;
+					this.logLevel = logLevel;
+					this.runtimeHostUri = args[3];
+					this.uiMode = args.Length == 6 && Enum.TryParse(args[5], out uiMode) ? uiMode : UserInterfaceMode.Desktop;
 
-					return;
+					valid = true;
 				}
 			}
 
-			throw new ArgumentException("Invalid arguments! Required: SafeExamBrowser.Client.exe <logfile path> <log level> <host URI> <token>");
+			if (!valid)
+			{
+				throw new ArgumentException("Invalid arguments! Required: SafeExamBrowser.Client.exe <logfile path> <log level> <host URI> <token>");
+			}
 		}
 
 		private void InitializeLogging()
