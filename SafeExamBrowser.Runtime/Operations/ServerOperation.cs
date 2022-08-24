@@ -122,7 +122,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var result = OperationResult.Success;
 
-			if (Context.Current?.Settings.SessionMode == SessionMode.Server || Context.Next.Settings.SessionMode == SessionMode.Server)
+			if (Context.Current?.Settings.SessionMode == SessionMode.Server || Context.Next?.Settings.SessionMode == SessionMode.Server)
 			{
 				logger.Info("Finalizing server...");
 				StatusChanged?.Invoke(TextKey.OperationStatus_FinalizeServer);

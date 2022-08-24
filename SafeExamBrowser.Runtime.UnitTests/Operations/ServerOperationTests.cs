@@ -594,6 +594,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void Revert_MustDisconnectFromServerWhenSessionRunning()
 		{
 			context.Current.Settings.SessionMode = SessionMode.Server;
+			context.Next = default;
 			server.Setup(s => s.Disconnect()).Returns(new ServerResponse(true));
 
 			var result = sut.Revert();
