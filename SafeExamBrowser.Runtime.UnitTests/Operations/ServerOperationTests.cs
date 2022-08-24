@@ -591,9 +591,24 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		}
 
 		[TestMethod]
-		public void Revert_MustDisconnectFromServer()
+		public void Revert_MustDisconnectFromServerWhenSessionRunning()
 		{
 			context.Current.Settings.SessionMode = SessionMode.Server;
+			server.Setup(s => s.Disconnect()).Returns(new ServerResponse(true));
+
+			var result = sut.Revert();
+
+			fileSystem.VerifyNoOtherCalls();
+			server.Verify(s => s.Disconnect(), Times.Once);
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Revert_MustDisconnectFromServerWhenSessionStartFailed()
+		{
+			context.Current = default;
+			context.Next.Settings.SessionMode = SessionMode.Server;
 			server.Setup(s => s.Disconnect()).Returns(new ServerResponse(true));
 
 			var result = sut.Revert();
