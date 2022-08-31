@@ -68,6 +68,7 @@ namespace SafeExamBrowser.Client
 		private IServerProxy Server => context.Server;
 		private AppSettings Settings => context.Settings;
 
+		private ILockScreen lockScreen;
 		private bool sessionLocked;
 
 		internal ClientController(
@@ -215,8 +216,23 @@ namespace SafeExamBrowser.Client
 
 			if (Server != null)
 			{
+				Server.LockScreenConfirmed += Server_LockScreenConfirmed;
 				Server.TerminationRequested += Server_TerminationRequested;
+				Server.LockScreenRequested += Server_LockScreenRequested;
 			}
+		}
+
+		private void Server_LockScreenRequested(string message)
+		{
+			logger.Info("Received lock screen event from SEB Server.");
+			var title = text.Get(TextKey.LockScreen_Title);
+			ShowLockScreen(message, title, Enumerable.Empty<LockScreenOption>());
+		}
+
+		private void Server_LockScreenConfirmed()
+		{
+			logger.Info("Closing lock screen as requested by the server...");
+			lockScreen?.Cancel();
 		}
 
 		private void Taskbar_LoseFocusRequested(bool forward)
@@ -260,7 +276,9 @@ namespace SafeExamBrowser.Client
 
 			if (Server != null)
 			{
+				Server.LockScreenConfirmed -= Server_LockScreenConfirmed;
 				Server.TerminationRequested -= Server_TerminationRequested;
+				Server.LockScreenRequested -= Server_LockScreenRequested;
 			}
 
 			foreach (var activator in context.Activators.OfType<ITerminationActivator>())
@@ -769,18 +787,33 @@ namespace SafeExamBrowser.Client
 		private LockScreenResult ShowLockScreen(string message, string title, IEnumerable<LockScreenOption> options)
 		{
 			var hasQuitPassword = !string.IsNullOrEmpty(Settings.Security.QuitPasswordHash);
-			var lockScreen = uiFactory.CreateLockScreen(message, title, options);
+			lockScreen = uiFactory.CreateLockScreen(message, title, options);
 			var result = default(LockScreenResult);
 
 			logger.Info("Showing lock screen...");
 			PauseActivators();
 			lockScreen.Show();
 
+			if (Settings.SessionMode == SessionMode.Server)
+			{
+				var response = Server.LockScreen(message);
+
+				if (!response.Success)
+				{
+					logger.Error($"Failed to send lock screen notification to server! Message: {response.Message}.");
+				}
+			}
+
 			for (var unlocked = false; !unlocked;)
 			{
 				result = lockScreen.WaitForResult();
 
-				if (hasQuitPassword)
+				if (result.Canceled) 
+				{
+					logger.Info("The lock screen has been automaticaly canceled.");
+					unlocked = true;
+				} 
+				else if (hasQuitPassword)
 				{
 					var passwordHash = hashAlgorithm.GenerateHashFor(result.Password);
 					var isCorrect = Settings.Security.QuitPasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase);
@@ -806,6 +839,16 @@ namespace SafeExamBrowser.Client
 			lockScreen.Close();
 			ResumeActivators();
 			logger.Info("Closed lock screen.");
+
+			if (Settings.SessionMode == SessionMode.Server)
+			{
+				var response = Server.ConfirmLockScreen();
+
+				if (!response.Success)
+				{
+					logger.Error($"Failed to send lock screen confirm notification to server! Message: {response.Message}.");
+				}
+			}
 
 			return result;
 		}

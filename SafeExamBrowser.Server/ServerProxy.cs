@@ -54,16 +54,21 @@ namespace SafeExamBrowser.Server
 		private bool connectedToPowergrid;
 		private int currentWlanValue;
 		private string examId;
-		private int handNotificationId;
+		private int notificationId;
+		private int currentRaisHandId;
+		private int currentLockScreenId;
+
 		private HttpClient httpClient;
 		private string oauth2Token;
 		private int pingNumber;
 		private ServerSettings settings;
 
 		public event ServerEventHandler HandConfirmed;
+		public event ServerEventHandler LockScreenConfirmed;
 		public event ProctoringConfigurationReceivedEventHandler ProctoringConfigurationReceived;
 		public event ProctoringInstructionReceivedEventHandler ProctoringInstructionReceived;
 		public event TerminationRequestedEventHandler TerminationRequested;
+		public event LockScreenRequestedEventHandler LockScreenRequested;
 
 		public ServerProxy(
 			AppConfig appConfig,
@@ -242,7 +247,7 @@ namespace SafeExamBrowser.Server
 			{
 				["type"] = "NOTIFICATION_CONFIRMED",
 				["timestamp"] = DateTime.Now.ToUnixTimestamp(),
-				["numericValue"] = handNotificationId,
+				["numericValue"] = currentRaisHandId,
 			};
 			var content = json.ToString();
 			var success = TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
@@ -254,6 +259,32 @@ namespace SafeExamBrowser.Server
 			else
 			{
 				logger.Error("Failed to send lower hand notification!");
+			}
+
+			return new ServerResponse(success, response.ToLogString());
+		}
+
+		public ServerResponse ConfirmLockScreen()
+		{
+			var authorization = ("Authorization", $"Bearer {oauth2Token}");
+			var contentType = "application/json;charset=UTF-8";
+			var token = ("SEBConnectionToken", connectionToken);
+			var json = new JObject
+			{
+				["type"] = "NOTIFICATION_CONFIRMED",
+				["timestamp"] = DateTime.Now.ToUnixTimestamp(),
+				["numericValue"] = currentLockScreenId,
+			};
+			var content = json.ToString();
+			var success = TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
+
+			if (success)
+			{
+				logger.Info("Successfully sent lock screen confirm notification.");
+			}
+			else
+			{
+				logger.Error("Failed to send lock screen confirm notification!");
 			}
 
 			return new ServerResponse(success, response.ToLogString());
@@ -273,7 +304,7 @@ namespace SafeExamBrowser.Server
 			{
 				["type"] = "NOTIFICATION",
 				["timestamp"] = DateTime.Now.ToUnixTimestamp(),
-				["numericValue"] = ++handNotificationId,
+				["numericValue"] = currentRaisHandId = ++notificationId,
 				["text"] = $"<raisehand> {message}"
 			};
 			var content = json.ToString();
@@ -286,6 +317,33 @@ namespace SafeExamBrowser.Server
 			else
 			{
 				logger.Error("Failed to send raise hand notification!");
+			}
+
+			return new ServerResponse(success, response.ToLogString());
+		}
+
+		public ServerResponse LockScreen(string message = null)
+		{
+			var authorization = ("Authorization", $"Bearer {oauth2Token}");
+			var contentType = "application/json;charset=UTF-8";
+			var token = ("SEBConnectionToken", connectionToken);
+			var json = new JObject
+			{
+				["type"] = "NOTIFICATION",
+				["timestamp"] = DateTime.Now.ToUnixTimestamp(),
+				["numericValue"] = currentLockScreenId = ++notificationId,
+				["text"] = $"<lockscreen> {message}"
+			};
+			var content = json.ToString();
+			var success = TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, content, contentType, authorization, token);
+
+			if (success)
+			{
+				logger.Info("Successfully sent lock screen notification.");
+			}
+			else
+			{
+				logger.Error("Failed to send lock screen notification!");
 			}
 
 			return new ServerResponse(success, response.ToLogString());
@@ -414,8 +472,11 @@ namespace SafeExamBrowser.Server
 					{
 						switch (instruction)
 						{
-							case Instructions.NOTIFICATION_CONFIRM when attributes.Type == "raisehand" && attributes.Id == handNotificationId:
+							case Instructions.NOTIFICATION_CONFIRM when attributes.Type == "raisehand":
 								Task.Run(() => HandConfirmed?.Invoke());
+								break;
+							case Instructions.NOTIFICATION_CONFIRM when attributes.Type == "lockscreen":
+								Task.Run(() => LockScreenConfirmed?.Invoke());
 								break;
 							case Instructions.PROCTORING:
 								Task.Run(() => ProctoringInstructionReceived?.Invoke(attributes.Instruction));
@@ -425,6 +486,9 @@ namespace SafeExamBrowser.Server
 								break;
 							case Instructions.QUIT:
 								Task.Run(() => TerminationRequested?.Invoke());
+								break;
+							case Instructions.LOCK_SCREEN:
+								Task.Run(() => LockScreenRequested?.Invoke(attributes.Message));
 								break;
 						}
 

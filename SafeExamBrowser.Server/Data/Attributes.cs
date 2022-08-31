@@ -19,6 +19,8 @@ namespace SafeExamBrowser.Server.Data
 		internal bool ReceiveVideo { get; set; }
 		internal string Type { get; set; }
 
+		internal string Message { get; set; }
+
 		internal Attributes()
 		{
 			Instruction = new ProctoringInstructionEventArgs();

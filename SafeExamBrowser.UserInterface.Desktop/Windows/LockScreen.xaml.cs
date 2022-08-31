@@ -27,6 +27,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 	{
 		private readonly AutoResetEvent autoResetEvent;
 		private readonly IText text;
+		private bool canceled = false;
 
 		private IList<Window> windows;
 
@@ -85,6 +86,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 				}
 			});
 
+			result.Canceled = canceled;
 			return result;
 		}
 
@@ -171,6 +173,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			{
 				autoResetEvent.Set();
 			}
+		}
+
+		public void Cancel()
+		{
+			canceled = true;
+			autoResetEvent.Set();
 		}
 	}
 }

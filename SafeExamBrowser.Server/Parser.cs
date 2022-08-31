@@ -180,7 +180,7 @@ namespace SafeExamBrowser.Server
 							instructionConfirmation = attributesJson["instruction-confirm"].Value<string>();
 						}
 
-						attributes = ParseProctoringAttributes(attributesJson, instruction);
+						attributes = ParseAttributes(attributesJson, instruction);
 					}
 				}
 			}
@@ -210,7 +210,7 @@ namespace SafeExamBrowser.Server
 			return oauth2Token != default;
 		}
 
-		private Attributes ParseProctoringAttributes(JObject attributesJson, string instruction)
+		private Attributes ParseAttributes(JObject attributesJson, string instruction)
 		{
 			var attributes = new Attributes();
 
@@ -225,9 +225,20 @@ namespace SafeExamBrowser.Server
 				case Instructions.PROCTORING_RECONFIGURATION:
 					ParseReconfigurationInstruction(attributes, attributesJson);
 					break;
+				case Instructions.LOCK_SCREEN:
+					ParseLockScreenInstruction(attributes, attributesJson);
+					break;
 			}
 
 			return attributes;
+		}
+
+		private void ParseLockScreenInstruction(Attributes attributes, JObject attributesJson)
+		{
+			if (attributesJson.ContainsKey("message"))
+			{
+				attributes.Message = attributesJson["message"].Value<string>();
+			}
 		}
 
 		private void ParseNotificationConfirmation(Attributes attributes, JObject attributesJson)

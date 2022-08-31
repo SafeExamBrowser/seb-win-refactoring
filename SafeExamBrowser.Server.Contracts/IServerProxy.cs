@@ -25,6 +25,16 @@ namespace SafeExamBrowser.Server.Contracts
 		event ServerEventHandler HandConfirmed;
 
 		/// <summary>
+		/// Event fired when the proxy receives a confirmation for a lock screen notification.
+		/// </summary>
+		event ServerEventHandler LockScreenConfirmed;
+
+		/// <summary>
+		/// Event fired when proxy receives a lock screen instruction.
+		/// </summary>
+		event LockScreenRequestedEventHandler LockScreenRequested;
+
+		/// <summary>
 		/// Event fired when the proxy receives new proctoring configuration values.
 		/// </summary>
 		event ProctoringConfigurationReceivedEventHandler ProctoringConfigurationReceived;
@@ -80,6 +90,11 @@ namespace SafeExamBrowser.Server.Contracts
 		ServerResponse LowerHand();
 
 		/// <summary>
+		/// Sends a lock screen confirm notification to the server.
+		/// </summary>
+		ServerResponse ConfirmLockScreen();
+
+		/// <summary>
 		/// Sends the given user session identifier of a LMS and thus establishes a connection with the server.
 		/// </summary>
 		ServerResponse SendSessionIdentifier(string identifier);
@@ -98,5 +113,10 @@ namespace SafeExamBrowser.Server.Contracts
 		/// Sends a raise hand notification to the server.
 		/// </summary>
 		ServerResponse RaiseHand(string message = default(string));
+
+		/// <summary>
+		/// Sends a lock screen notification to the server.
+		/// </summary>
+		ServerResponse LockScreen(string message = default(string));
 	}
 }
