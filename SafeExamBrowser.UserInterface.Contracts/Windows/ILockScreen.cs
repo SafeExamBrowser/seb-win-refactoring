@@ -19,5 +19,9 @@ namespace SafeExamBrowser.UserInterface.Contracts.Windows
 		/// Waits for the user to provide the required input to unlock the application.
 		/// </summary>
 		LockScreenResult WaitForResult();
+		/// <summary>
+		/// This cancel a waiting thread for LockScreenResult and force the lock screen to close
+		/// </summary>
+		void Cancel();
 	}
 }
