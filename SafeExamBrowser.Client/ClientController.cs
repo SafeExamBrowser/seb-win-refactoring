@@ -654,9 +654,18 @@ namespace SafeExamBrowser.Client
 
 		private void Server_LockScreenRequested(string message)
 		{
-			logger.Info("Received lock screen event from SEB Server.");
-			var title = text.Get(TextKey.LockScreen_Title);
-			ShowLockScreen(message, title, Enumerable.Empty<LockScreenOption>());
+			logger.Info("Attempting to show lock screen as requested by the server...");
+
+			if (!sessionLocked)
+			{
+				sessionLocked = true;
+				ShowLockScreen(message, text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
+				sessionLocked = false;
+			}
+			else
+			{
+				logger.Info("Lock screen is already active.");
+			}
 		}
 
 		private void Server_TerminationRequested()
