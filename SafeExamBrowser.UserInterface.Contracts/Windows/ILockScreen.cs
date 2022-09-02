@@ -16,12 +16,13 @@ namespace SafeExamBrowser.UserInterface.Contracts.Windows
 	public interface ILockScreen : IWindow
 	{
 		/// <summary>
+		/// Cancels the <see cref="WaitForResult"/> operation and closes the lock screen.
+		/// </summary>
+		void Cancel();
+
+		/// <summary>
 		/// Waits for the user to provide the required input to unlock the application.
 		/// </summary>
 		LockScreenResult WaitForResult();
-		/// <summary>
-		/// This cancel a waiting thread for LockScreenResult and force the lock screen to close
-		/// </summary>
-		void Cancel();
 	}
 }

@@ -216,6 +216,9 @@ namespace SafeExamBrowser.Server
 
 			switch (instruction)
 			{
+				case Instructions.LOCK_SCREEN:
+					ParseLockScreenInstruction(attributes, attributesJson);
+					break;
 				case Instructions.NOTIFICATION_CONFIRM:
 					ParseNotificationConfirmation(attributes, attributesJson);
 					break;
@@ -224,9 +227,6 @@ namespace SafeExamBrowser.Server
 					break;
 				case Instructions.PROCTORING_RECONFIGURATION:
 					ParseReconfigurationInstruction(attributes, attributesJson);
-					break;
-				case Instructions.LOCK_SCREEN:
-					ParseLockScreenInstruction(attributes, attributesJson);
 					break;
 			}
 

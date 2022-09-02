@@ -15,9 +15,8 @@ namespace SafeExamBrowser.UserInterface.Contracts.Windows.Data
 	/// </summary>
 	public class LockScreenResult
 	{
-
 		/// <summary>
-		/// This is been set if the lock screen was canceled from another process (E.g.: from SEB Server instruction)
+		/// Indicates that the lock screen has been canceled (e.g. via a server instruction).
 		/// </summary>
 		public bool Canceled { get; set; }
 

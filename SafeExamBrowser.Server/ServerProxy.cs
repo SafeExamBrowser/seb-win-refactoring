@@ -50,15 +50,14 @@ namespace SafeExamBrowser.Server
 
 		private ApiVersion1 api;
 		private string connectionToken;
-		private int currentPowerSupplyValue;
 		private bool connectedToPowergrid;
+		private int currentLockScreenId;
+		private int currentPowerSupplyValue;
+		private int currentRaisHandId;
 		private int currentWlanValue;
 		private string examId;
-		private int notificationId;
-		private int currentRaisHandId;
-		private int currentLockScreenId;
-
 		private HttpClient httpClient;
+		private int notificationId;
 		private string oauth2Token;
 		private int pingNumber;
 		private ServerSettings settings;
@@ -472,11 +471,14 @@ namespace SafeExamBrowser.Server
 					{
 						switch (instruction)
 						{
-							case Instructions.NOTIFICATION_CONFIRM when attributes.Type == "raisehand":
-								Task.Run(() => HandConfirmed?.Invoke());
+							case Instructions.LOCK_SCREEN:
+								Task.Run(() => LockScreenRequested?.Invoke(attributes.Message));
 								break;
 							case Instructions.NOTIFICATION_CONFIRM when attributes.Type == "lockscreen":
 								Task.Run(() => LockScreenConfirmed?.Invoke());
+								break;
+							case Instructions.NOTIFICATION_CONFIRM when attributes.Type == "raisehand":
+								Task.Run(() => HandConfirmed?.Invoke());
 								break;
 							case Instructions.PROCTORING:
 								Task.Run(() => ProctoringInstructionReceived?.Invoke(attributes.Instruction));
@@ -486,9 +488,6 @@ namespace SafeExamBrowser.Server
 								break;
 							case Instructions.QUIT:
 								Task.Run(() => TerminationRequested?.Invoke());
-								break;
-							case Instructions.LOCK_SCREEN:
-								Task.Run(() => LockScreenRequested?.Invoke(attributes.Message));
 								break;
 						}
 

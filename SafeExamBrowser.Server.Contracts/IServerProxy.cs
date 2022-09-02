@@ -30,7 +30,7 @@ namespace SafeExamBrowser.Server.Contracts
 		event ServerEventHandler LockScreenConfirmed;
 
 		/// <summary>
-		/// Event fired when proxy receives a lock screen instruction.
+		/// Event fired when the proxy receives a lock screen instruction.
 		/// </summary>
 		event LockScreenRequestedEventHandler LockScreenRequested;
 
@@ -47,12 +47,17 @@ namespace SafeExamBrowser.Server.Contracts
 		/// <summary>
 		/// Event fired when the proxy detects an instruction to terminate SEB.
 		/// </summary>
-		event TerminationRequestedEventHandler TerminationRequested; 
+		event TerminationRequestedEventHandler TerminationRequested;
 
 		/// <summary>
 		/// Attempts to initialize a connection with the server.
 		/// </summary>
 		ServerResponse Connect();
+
+		/// <summary>
+		/// Sends a lock screen confirm notification to the server.
+		/// </summary>
+		ServerResponse ConfirmLockScreen();
 
 		/// <summary>
 		/// Terminates a connection with the server.
@@ -62,7 +67,7 @@ namespace SafeExamBrowser.Server.Contracts
 		/// <summary>
 		/// Retrieves a list of all currently available exams, or a list containing the specified exam.
 		/// </summary>
-		ServerResponse<IEnumerable<Exam>> GetAvailableExams(string examId = default(string));
+		ServerResponse<IEnumerable<Exam>> GetAvailableExams(string examId = default);
 
 		/// <summary>
 		/// Retrieves the URI of the configuration file for the given exam.
@@ -85,14 +90,14 @@ namespace SafeExamBrowser.Server.Contracts
 		void Initialize(string api, string connectionToken, string examId, string oauth2Token, ServerSettings settings);
 
 		/// <summary>
+		/// Sends a lock screen notification to the server.
+		/// </summary>
+		ServerResponse LockScreen(string message = default);
+
+		/// <summary>
 		/// Sends a lower hand notification to the server.
 		/// </summary>
 		ServerResponse LowerHand();
-
-		/// <summary>
-		/// Sends a lock screen confirm notification to the server.
-		/// </summary>
-		ServerResponse ConfirmLockScreen();
 
 		/// <summary>
 		/// Sends the given user session identifier of a LMS and thus establishes a connection with the server.
@@ -112,11 +117,6 @@ namespace SafeExamBrowser.Server.Contracts
 		/// <summary>
 		/// Sends a raise hand notification to the server.
 		/// </summary>
-		ServerResponse RaiseHand(string message = default(string));
-
-		/// <summary>
-		/// Sends a lock screen notification to the server.
-		/// </summary>
-		ServerResponse LockScreen(string message = default(string));
+		ServerResponse RaiseHand(string message = default);
 	}
 }

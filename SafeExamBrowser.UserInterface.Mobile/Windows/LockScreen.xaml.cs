@@ -27,8 +27,8 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 	{
 		private readonly AutoResetEvent autoResetEvent;
 		private readonly IText text;
-		private bool canceled = false;
 
+		private bool canceled;
 		private IList<Window> windows;
 
 		event WindowClosedEventHandler IWindow.Closed
@@ -55,6 +55,12 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		public void BringToForeground()
 		{
 			Dispatcher.Invoke(Activate);
+		}
+
+		public void Cancel()
+		{
+			canceled = true;
+			autoResetEvent.Set();
 		}
 
 		public new void Close()
@@ -87,6 +93,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			});
 
 			result.Canceled = canceled;
+
 			return result;
 		}
 
@@ -173,12 +180,6 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			{
 				autoResetEvent.Set();
 			}
-		}
-
-		public void Cancel()
-		{
-			canceled = true;
-			autoResetEvent.Set();
 		}
 	}
 }

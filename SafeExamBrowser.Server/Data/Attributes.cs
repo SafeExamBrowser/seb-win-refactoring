@@ -15,11 +15,10 @@ namespace SafeExamBrowser.Server.Data
 		internal bool AllowChat { get; set; }
 		internal int Id { get; set; }
 		internal ProctoringInstructionEventArgs Instruction { get; set; }
+		internal string Message { get; set; }
 		internal bool ReceiveAudio { get; set; }
 		internal bool ReceiveVideo { get; set; }
 		internal string Type { get; set; }
-
-		internal string Message { get; set; }
 
 		internal Attributes()
 		{
