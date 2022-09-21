@@ -18,14 +18,11 @@
     <Entry key="Browser_BlockedPageTitle">
         页面已被阻止
     </Entry>
-    <Entry key="Browser_LoadErrorPageMessage">
-        加载页面 "%%URL%%"时出错:
+    <Entry key="Browser_LoadErrorMessage">
+        加载页面时发生错误 "%%URL%%":
     </Entry>
-    <Entry key="Browser_LoadErrorPageButton">
-        重试
-    </Entry>
-    <Entry key="Browser_LoadErrorPageTitle">
-        页面加载出错
+    <Entry key="Browser_LoadErrorTitle">
+        页面加载错误
     </Entry>
     <Entry key="Browser_Name">
         浏览器
@@ -47,6 +44,12 @@
     </Entry>
     <Entry key="BrowserWindow_DownloadComplete">
         下载完成
+    </Entry>
+    <Entry key="BrowserWindow_FindCaseSensitive">
+        区分大小写的搜索
+    </Entry>
+    <Entry key="BrowserWindow_FindMenuItem">
+        搜索页...
     </Entry>
     <Entry key="BrowserWindow_ReloadButton">
         重新加载
@@ -83,6 +86,18 @@
     </Entry>
     <Entry key="Build">
         生成
+    </Entry>
+    <Entry key="ExamSelectionDialog_Cancel">
+        取消
+    </Entry>
+    <Entry key="ExamSelectionDialog_Message">
+        请选择可用的SEB服务器考试之一:
+    </Entry>
+    <Entry key="ExamSelectionDialog_Select">
+        选择
+    </Entry>
+    <Entry key="ExamSelectionDialog_Title">
+        SEB 服务器考试
     </Entry>
     <Entry key="FileSystemDialog_Cancel">
         取消
@@ -123,14 +138,14 @@
     <Entry key="FolderDialog_ApplicationLocation">
         无法在系统中找到应用程序 "%%NAME%%" 。请查找包含主可执行文件的文件夹"%%EXECUTABLE%%"。
     </Entry>
-    <Entry key="LockScreen_AllowOption">
-        暂时允许黑名单上的应用程序。这仅适用于当前正在运行的实例和会话。
+    <Entry key="LockScreen_ApplicationsAllowOption">
+        暂时允许黑名单的应用程序。 这仅适用于当前正在运行的实例和会话！
     </Entry>
-    <Entry key="LockScreen_Message">
-        下面列出的黑名单应用程序已经启动，无法自动终止。请选择一个可用的选项并输入正确的密码来解锁防作弊考试专用浏览器。
+    <Entry key="LockScreen_ApplicationsMessage">
+        下面列出的列入黑名单的应用程序已启动，无法自动终止！ 要解锁 SEB，请选择可用选项之一并输入正确的解锁密码。
     </Entry>
-    <Entry key="LockScreen_TerminateOption">
-        强制关闭防作弊考试专用浏览器。警告：将无法保存数据或执行任何进一步的操作，关闭操作将立即启动。
+    <Entry key="LockScreen_ApplicationsTerminateOption">
+        终止安全考试浏览器。 警告：可能没有保存数据或执行任何进一步操作，将立即开始关闭！
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         暂时允许显示配置。 这仅适用于当前正在运行的会话！
@@ -149,6 +164,15 @@
     </Entry>
     <Entry key="LockScreen_UnlockButton">
         解锁
+    </Entry>
+    <Entry key="LockScreen_UserSessionContinueOption">
+        解锁安全考试浏览器。
+    </Entry>
+    <Entry key="LockScreen_UserSessionMessage">
+        活动用户已更改或计算机已被锁定！ 要解锁 SEB，请选择可用选项之一并输入正确的解锁密码。
+    </Entry>
+    <Entry key="LockScreen_UserSessionTerminateOption">
+        终止安全考试浏览器。 警告：没有可能保存数据或执行任何进一步操作，将立即开始关闭！
     </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         置顶
@@ -191,6 +215,12 @@
     </Entry>
     <Entry key="MessageBox_ApplicationTerminationFailureTitle">
         自动终止失败
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestion">
+        你确定吗？ （如果您在网站上登录，此功能不会登录您）
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestionTitle">
+        返回开始
     </Entry>
     <Entry key="MessageBox_BrowserNavigationBlocked">
         根据当前配置，不允许访问 "%%URL%%" 。
@@ -248,6 +278,12 @@
     </Entry>
     <Entry key="MessageBox_InvalidConfigurationDataTitle">
         配置错误
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePassword">
+        您输入密码不正确。
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePasswordTitle">
+        无效密码
     </Entry>
     <Entry key="MessageBox_InvalidPasswordError">
         您已连续5次输错密码。防作弊考试专用浏览器现将终止。
@@ -411,8 +447,14 @@
     <Entry key="OperationStatus_FinalizeApplications">
         完成应用程序（运行已定型）
     </Entry>
+    <Entry key="OperationStatus_FinalizeServer">
+        最终确定SEB服务器
+    </Entry>
     <Entry key="OperationStatus_FinalizeServiceSession">
         完成服务会话（运行已定型）
+    </Entry>
+    <Entry key="OperationStatus_FinalizeSystemEvents">
+        最终确定系统事件
     </Entry>
     <Entry key="OperationStatus_InitializeApplications">
         初始化应用程序
@@ -443,6 +485,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeShell">
         初始化用户界面
+    </Entry>
+    <Entry key="OperationStatus_InitializeSystemEvents">
+        初始化系统事件
     </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         初始化工作区域
@@ -513,6 +558,12 @@
     <Entry key="OperationStatus_WaitRuntimeDisconnection">
         等待运行时断开
     </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequired">
+        输入退出/重新启动密码：（如果您在网站上登录，此功能不会将您登录出来）
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
+        返回开始
+    </Entry>
     <Entry key="PasswordDialog_Cancel">
         取消
     </Entry>
@@ -545,6 +596,21 @@
     </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
         防作弊考试专用浏览器正在运行。
+    </Entry>
+    <Entry key="ServerFailureDialog_Abort">
+        中止
+    </Entry>
+    <Entry key="ServerFailureDialog_Fallback">
+        倒退
+    </Entry>
+    <Entry key="ServerFailureDialog_Message">
+        尝试与 SEB 服务器通信时出错。
+    </Entry>
+    <Entry key="ServerFailureDialog_Retry">
+        重试
+    </Entry>
+    <Entry key="ServerFailureDialog_Title">
+        SEB服务器错误
     </Entry>
     <Entry key="Shell_QuitButton">
         终止会话
