@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
@@ -120,6 +121,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 
 			LayoutCultureCode.Text = layout.CultureCode;
 			Button.ToolTip = tooltip;
+			AutomationProperties.SetHelpText(Button, tooltip);
 		}
 
 		private void Popup_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
