@@ -7,6 +7,7 @@
  */
 
 using System.Threading.Tasks;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Media;
 using SafeExamBrowser.I18n.Contracts;
@@ -96,6 +97,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 
 			Text.Text = layout.CultureName;
 			Button.ToolTip = tooltip;
+			AutomationProperties.SetHelpText(Button, tooltip);
 		}
 
 		private void Popup_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
