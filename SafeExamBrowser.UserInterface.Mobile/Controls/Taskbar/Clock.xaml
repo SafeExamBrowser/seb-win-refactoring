@@ -11,7 +11,7 @@
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <TextBlock x:Name="TimeTextBlock" Grid.Row="0" Text="{Binding Path=Time}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Bottom" Focusable="True" AutomationProperties.HelpText="{Binding Path=Time}" />
-        <TextBlock x:Name="DateTextBlock" Grid.Row="1" Text="{Binding Path=Date}" HorizontalAlignment="Center" VerticalAlignment="Top" Focusable="True" AutomationProperties.HelpText="{Binding Path=Date}" />
+        <TextBlock x:Name="TimeTextBlock" Grid.Row="0" Text="{Binding Path=Time}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Bottom" Focusable="True" AutomationProperties.Name="{Binding Path=Time}" />
+        <TextBlock x:Name="DateTextBlock" Grid.Row="1" Text="{Binding Path=Date}" HorizontalAlignment="Center" VerticalAlignment="Top" Focusable="True" AutomationProperties.Name="{Binding Path=Date}" />
     </Grid>
 </UserControl>

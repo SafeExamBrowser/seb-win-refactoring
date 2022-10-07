@@ -97,7 +97,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 
 			Text.Text = layout.CultureName;
 			Button.ToolTip = tooltip;
-			AutomationProperties.SetHelpText(Button, tooltip);
+			AutomationProperties.SetName(Button, tooltip);
 		}
 
 		private void Popup_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
