@@ -90,7 +90,10 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 				if (fromTop)
 				{
-					ApplicationStackPanel.Children[0].Focus();
+					if (ApplicationStackPanel.Children.Count > 0)
+					{
+						ApplicationStackPanel.Children[0].Focus();
+					}
 				}
 				else
 				{

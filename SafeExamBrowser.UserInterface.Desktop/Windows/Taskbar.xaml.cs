@@ -91,7 +91,10 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 				if (forward)
 				{
-					SetFocusWithin(ApplicationStackPanel.Children[0]);
+					if (ApplicationStackPanel.Children.Count > 0)
+					{
+						SetFocusWithin(ApplicationStackPanel.Children[0]);
+					}
 				}
 				else
 				{
