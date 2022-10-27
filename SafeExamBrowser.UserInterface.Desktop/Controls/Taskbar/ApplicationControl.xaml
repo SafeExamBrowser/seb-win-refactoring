@@ -24,5 +24,8 @@
             </Border>
         </Popup>
         <Button x:Name="Button" Background="{StaticResource BackgroundBrush}" Padding="4" Template="{StaticResource TaskbarButton}" Width="50" />
+        <Grid>
+            <Rectangle x:Name="ActiveBar" Cursor="Hand" Height="2.5" Width="40" VerticalAlignment="Bottom" Fill="DodgerBlue" Visibility="Collapsed" />
+        </Grid>
     </Grid>
 </UserControl>

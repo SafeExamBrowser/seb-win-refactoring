@@ -21,7 +21,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 {
 	internal partial class ApplicationControl : UserControl, IApplicationControl
 	{
-		private IApplication application;
+		private readonly IApplication application;
 		private IApplicationWindow single;
 
 		internal ApplicationControl(IApplication application)
@@ -38,22 +38,25 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 
 			application.WindowsChanged += Application_WindowsChanged;
 
+			ActiveBar.MouseLeave += (o, args) => WindowPopup.IsOpen &= WindowPopup.IsMouseOver || Button.IsMouseOver;
 			Button.Click += Button_Click;
 			Button.Content = IconResourceLoader.Load(application.Icon);
 			Button.MouseEnter += (o, args) => WindowPopup.IsOpen = WindowStackPanel.Children.Count > 0;
-			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => WindowPopup.IsOpen = WindowPopup.IsMouseOver));
+			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => WindowPopup.IsOpen = WindowPopup.IsMouseOver || ActiveBar.IsMouseOver));
 			Button.ToolTip = application.Tooltip;
 			WindowPopup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(WindowPopup_PlacementCallback);
 			WindowPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => WindowPopup.IsOpen = IsMouseOver));
 
 			WindowPopup.Opened += (o, args) =>
 			{
+				ActiveBar.Width = double.NaN;
 				Background = Brushes.LightGray;
 				Button.Background = Brushes.LightGray;
 			};
 
 			WindowPopup.Closed += (o, args) =>
 			{
+				ActiveBar.Width = 40;
 				Background = originalBrush;
 				Button.Background = originalBrush;
 			};
@@ -88,6 +91,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 		{
 			var windows = application.GetWindows();
 
+			ActiveBar.Visibility = windows.Any() ? Visibility.Visible : Visibility.Collapsed;
 			WindowStackPanel.Children.Clear();
 
 			foreach (var window in windows)
