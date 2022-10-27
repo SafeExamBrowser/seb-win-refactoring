@@ -89,7 +89,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			{
 				Activate();
 
-				if (forward)
+				if (forward && ApplicationStackPanel.Children.Count > 0)
 				{
 					SetFocusWithin(ApplicationStackPanel.Children[0]);
 				}
