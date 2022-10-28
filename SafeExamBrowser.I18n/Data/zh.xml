@@ -546,6 +546,21 @@
     <Entry key="RuntimeWindow_ApplicationRunning">
         防作弊考试专用浏览器正在运行。
     </Entry>
+    <Entry key="ServerFailureDialog_Abort">
+        中止
+    </Entry>
+    <Entry key="ServerFailureDialog_Fallback">
+        倒退
+    </Entry>
+    <Entry key="ServerFailureDialog_Message">
+        尝试与 SEB 服务器通信时出错。
+    </Entry>
+    <Entry key="ServerFailureDialog_Retry">
+        重试
+    </Entry>
+    <Entry key="ServerFailureDialog_Title">
+        SEB 服务器错误
+    </Entry>
     <Entry key="Shell_QuitButton">
         终止会话
     </Entry>
