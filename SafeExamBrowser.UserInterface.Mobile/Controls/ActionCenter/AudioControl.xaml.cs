@@ -113,6 +113,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 			this.muted = muted;
 
 			Button.ToolTip = info;
+			System.Windows.Automation.AutomationProperties.SetName(Button, info);
 			Text.Text = info;
 			Volume.ValueChanged -= Volume_ValueChanged;
 			Volume.Value = Math.Round(volume * 100);
@@ -120,14 +121,18 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 
 			if (muted)
 			{
+				var tooltip = text.Get(TextKey.SystemControl_AudioDeviceUnmuteTooltip);
+				MuteButton.ToolTip = tooltip;
+				System.Windows.Automation.AutomationProperties.SetName(MuteButton, tooltip);
 				ButtonIcon.Content = IconResourceLoader.Load(MutedIcon);
-				MuteButton.ToolTip = text.Get(TextKey.SystemControl_AudioDeviceUnmuteTooltip);
 				PopupIcon.Content = IconResourceLoader.Load(MutedIcon);
 			}
 			else
 			{
+				var tooltip = text.Get(TextKey.SystemControl_AudioDeviceMuteTooltip);
+				MuteButton.ToolTip = tooltip;
+				System.Windows.Automation.AutomationProperties.SetName(MuteButton, tooltip);
 				ButtonIcon.Content = LoadIcon(volume);
-				MuteButton.ToolTip = text.Get(TextKey.SystemControl_AudioDeviceMuteTooltip);
 				PopupIcon.Content = LoadIcon(volume);
 			}
 		}
