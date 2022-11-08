@@ -43,6 +43,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			Button.MouseEnter += (o, args) => WindowPopup.IsOpen = WindowStackPanel.Children.Count > 0;
 			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => WindowPopup.IsOpen = WindowPopup.IsMouseOver));
 			Button.ToolTip = application.Tooltip;
+			System.Windows.Automation.AutomationProperties.SetName(Button, application.Tooltip);
 			WindowPopup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(WindowPopup_PlacementCallback);
 			WindowPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => WindowPopup.IsOpen = IsMouseOver));
 

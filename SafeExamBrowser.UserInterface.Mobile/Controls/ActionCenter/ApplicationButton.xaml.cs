@@ -35,7 +35,9 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 			Icon.Content = IconResourceLoader.Load(window?.Icon ?? application.Icon);
 			Text.Text = window?.Title ?? application.Name;
 			Button.Click += (o, args) => Clicked?.Invoke(this, EventArgs.Empty);
-			Button.ToolTip = window?.Title ?? application.Tooltip;
+			var tooltip = window?.Title ?? application.Tooltip;
+			Button.ToolTip = tooltip;
+			System.Windows.Automation.AutomationProperties.SetName(Button, tooltip);
 
 			if (window != null)
 			{
