@@ -52,16 +52,26 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		public void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
-			var uri = new Uri(downloadItem.Url);
-			var uriExtension = Path.GetExtension(uri.AbsolutePath);
 			var fileExtension = Path.GetExtension(downloadItem.SuggestedFileName);
 			var isConfigurationFile = false;
+			var url = downloadItem.Url;
+			var urlExtension = default(string);
+
+			if (downloadItem.Url.StartsWith("data:"))
+			{
+				url = downloadItem.Url.Length <= 100 ? downloadItem.Url : downloadItem.Url.Substring(0, 100) + "...";
+			}
+
+			if (Uri.TryCreate(downloadItem.Url, UriKind.RelativeOrAbsolute, out var uri))
+			{
+				urlExtension = Path.GetExtension(uri.AbsolutePath);
+			}
 
 			isConfigurationFile |= string.Equals(appConfig.ConfigurationFileExtension, fileExtension, StringComparison.OrdinalIgnoreCase);
-			isConfigurationFile |= string.Equals(appConfig.ConfigurationFileExtension, uriExtension, StringComparison.OrdinalIgnoreCase);
+			isConfigurationFile |= string.Equals(appConfig.ConfigurationFileExtension, urlExtension, StringComparison.OrdinalIgnoreCase);
 			isConfigurationFile |= string.Equals(appConfig.ConfigurationFileMimeType, downloadItem.MimeType, StringComparison.OrdinalIgnoreCase);
 
-			logger.Debug($"Detected download request{(windowSettings.UrlPolicy.CanLog() ? $" for '{uri}'" : "")}.");
+			logger.Debug($"Detected download request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")}.");
 
 			if (isConfigurationFile)
 			{
@@ -73,7 +83,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			}
 			else
 			{
-				logger.Info($"Aborted download request{(windowSettings.UrlPolicy.CanLog() ? $" for '{uri}'" : "")}, as downloading is not allowed.");
+				logger.Info($"Aborted download request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")}, as downloading is not allowed.");
 				Task.Run(() => DownloadAborted?.Invoke());
 			}
 		}
