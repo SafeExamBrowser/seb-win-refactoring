@@ -12,6 +12,7 @@ using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Integrity;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -47,6 +48,11 @@ namespace SafeExamBrowser.Client
 		/// The client communication host.
 		/// </summary>
 		internal IClientHost ClientHost { get; set; }
+
+		/// <summary>
+		/// The integrity module.
+		/// </summary>
+		internal IIntegrityModule IntegrityModule { get; set; }
 
 		/// <summary>
 		/// The server proxy to be used if the current session mode is <see cref="SessionMode.Server"/>.

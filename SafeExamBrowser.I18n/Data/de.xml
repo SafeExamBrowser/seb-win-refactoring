@@ -138,6 +138,9 @@
     <Entry key="FolderDialog_ApplicationLocation">
         Applikation "%%NAME%%" konnte nicht gefunden werden auf dem System! Bitte geben Sie an, wo die ausführbare Datei "%%EXECUTABLE%%" liegt.
     </Entry>
+    <Entry key="LockScreen_ApplicationIntegrityMessage">
+        Sie verwenden eine inoffizielle SEB-Version! Bitte stellen Sie sicher, dass Sie einen offiziellen Safe Exam Browser verwenden. Geben Sie bitte das korrekte Passwort ein, um SEB zu entsperren.
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Verbotene Applikationen temporär erlauben. Dies gilt nur für die momentan laufenden Instanzen der aktuellen Sitzung!
     </Entry>
@@ -156,8 +159,8 @@
     <Entry key="LockScreen_DisplayConfigurationMessage">
         Eine verbotene Bildschirm-Konfiguration wurde detektiert. Bitte wählen Sie eine der verfügbaren Optionen aus und geben Sie das korrekte Passwort ein, um SEB zu entsperren.
     </Entry>
-    <Entry key="LockScreen_IntegrityMessage">
-        Sie verwenden eine inoffizielle SEB-Version! Bitte stellen Sie sicher, dass Sie einen offiziellen Safe Exam Browser verwenden. Geben Sie bitte das korrekte Passwort ein, um SEB zu entsperren.
+    <Entry key="LockScreen_SessionIntegrityMessage">
+        Die letzte Sitzung mit der momentan aktiven Konfiguration oder Start-URL wurde nicht ordnungsgemäss beendet! Geben Sie bitte das korrekte Passwort ein, um SEB zu entsperren.
     </Entry>
     <Entry key="LockScreen_Title">
         SEB GESPERRT

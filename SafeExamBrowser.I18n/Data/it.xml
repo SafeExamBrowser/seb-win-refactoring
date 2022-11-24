@@ -138,6 +138,9 @@
     <Entry key="FolderDialog_ApplicationLocation">
         L'applicazione "%%NAME%%" non è stata trovata nel sistema! Individua la cartella contenente l'eseguibile principale "%%EXECUTABLE%%".
     </Entry>
+    <Entry key="LockScreen_ApplicationIntegrityMessage">
+        Stai usando una versione SEB non ufficiale! Assicurati di utilizzare un Safe Exam Browser ufficiale. Per sbloccare SEB, inserisci la password di sblocco corretta.
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Consenti temporaneamente le applicazioni nella lista nera. Ciò si applica solo alle istanze e alla sessione attualmente in esecuzione!
     </Entry>
@@ -156,8 +159,8 @@
     <Entry key="LockScreen_DisplayConfigurationMessage">
         È stata rilevata una configurazione di visualizzazione vietata. Per sbloccare SEB, seleziona una delle opzioni disponibili e inserisci la password di sblocco corretta.
     </Entry>
-    <Entry key="LockScreen_IntegrityMessage">
-        Stai usando una versione SEB non ufficiale! Assicurati di utilizzare un Safe Exam Browser ufficiale. Per sbloccare SEB, inserisci la password di sblocco corretta.
+    <Entry key="LockScreen_SessionIntegrityMessage">
+        L'ultima sessione con la configurazione o l'URL di avvio attualmente attiva non è stata terminata correttamente! Per sbloccare SEB, inserisci la password di sblocco corretta.
     </Entry>
     <Entry key="LockScreen_Title">
         SEB BLOCCATO

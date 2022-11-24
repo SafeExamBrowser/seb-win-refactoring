@@ -19,7 +19,6 @@ using SafeExamBrowser.Communication.Contracts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
-using SafeExamBrowser.Configuration.Contracts.Integrity;
 using SafeExamBrowser.Configuration.Cryptography;
 using SafeExamBrowser.Configuration.Integrity;
 using SafeExamBrowser.Core.Contracts.OperationModel;
@@ -71,7 +70,6 @@ namespace SafeExamBrowser.Client
 		private UserInterfaceMode uiMode;
 
 		private IActionCenter actionCenter;
-		private IIntegrityModule integrityModule;
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private INativeMethods nativeMethods;
@@ -98,7 +96,6 @@ namespace SafeExamBrowser.Client
 
 			actionCenter = uiFactory.CreateActionCenter();
 			context = new ClientContext();
-			integrityModule = new IntegrityModule(ModuleLogger(nameof(IntegrityModule)));
 			messageBox = BuildMessageBox();
 			nativeMethods = new NativeMethods();
 			networkAdapter = new NetworkAdapter(ModuleLogger(nameof(NetworkAdapter)), nativeMethods);
@@ -125,6 +122,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new RuntimeConnectionOperation(context, logger, runtimeProxy, authenticationToken));
 			operations.Enqueue(new ConfigurationOperation(context, logger, runtimeProxy));
 			operations.Enqueue(new DelegateOperation(UpdateAppConfig));
+			operations.Enqueue(new DelegateOperation(BuildIntegrityModule));
 			operations.Enqueue(new LazyInitializationOperation(BuildClientHostOperation));
 			operations.Enqueue(new ClientHostDisconnectionOperation(context, logger, FIVE_SECONDS));
 			operations.Enqueue(new LazyInitializationOperation(BuildKeyboardInterceptorOperation));
@@ -148,7 +146,6 @@ namespace SafeExamBrowser.Client
 				explorerShell,
 				fileSystemDialog,
 				hashAlgorithm,
-				integrityModule,
 				logger,
 				messageBox,
 				sequence,
@@ -223,7 +220,7 @@ namespace SafeExamBrowser.Client
 		private IOperation BuildBrowserOperation()
 		{
 			var fileSystemDialog = BuildFileSystemDialog();
-			var keyGenerator = new KeyGenerator(context.AppConfig, integrityModule, ModuleLogger(nameof(KeyGenerator)), context.Settings);
+			var keyGenerator = new KeyGenerator(context.AppConfig, context.IntegrityModule, ModuleLogger(nameof(KeyGenerator)), context.Settings);
 			var moduleLogger = ModuleLogger(nameof(BrowserApplication));
 			var browser = new BrowserApplication(
 				context.AppConfig,
@@ -254,6 +251,11 @@ namespace SafeExamBrowser.Client
 			context.ClientHost.AuthenticationToken = authenticationToken;
 
 			return operation;
+		}
+
+		private void BuildIntegrityModule()
+		{
+			context.IntegrityModule = new IntegrityModule(context.AppConfig, ModuleLogger(nameof(IntegrityModule)));
 		}
 
 		private IOperation BuildKeyboardInterceptorOperation()

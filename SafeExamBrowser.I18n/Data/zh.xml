@@ -123,13 +123,16 @@
     <Entry key="FolderDialog_ApplicationLocation">
         无法在系统中找到应用程序 "%%NAME%%" 。请查找包含主可执行文件的文件夹"%%EXECUTABLE%%"。
     </Entry>
-    <Entry key="LockScreen_AllowOption">
+    <Entry key="LockScreen_ApplicationIntegrityMessage">
+        您使用的是非官方 SEB 版本！ 请确保使用官方的安全考试浏览器。 要解锁 SEB，请输入正确的解锁密码。
+    </Entry>
+    <Entry key="LockScreen_ApplicationsAllowOption">
         暂时允许黑名单上的应用程序。这仅适用于当前正在运行的实例和会话。
     </Entry>
-    <Entry key="LockScreen_Message">
+    <Entry key="LockScreen_ApplicationsMessage">
         下面列出的黑名单应用程序已经启动，无法自动终止。请选择一个可用的选项并输入正确的密码来解锁防作弊考试专用浏览器。
     </Entry>
-    <Entry key="LockScreen_TerminateOption">
+    <Entry key="LockScreen_ApplicationsTerminateOption">
         强制关闭防作弊考试专用浏览器。警告：将无法保存数据或执行任何进一步的操作，关闭操作将立即启动。
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
@@ -141,8 +144,8 @@
     <Entry key="LockScreen_DisplayConfigurationMessage">
         检测到禁止的显示配置。 要解锁 SEB，请选择可用选项之一并输入正确的解锁密码。
     </Entry>
-    <Entry key="LockScreen_IntegrityMessage">
-        您使用的是非官方 SEB 版本！ 请确保使用官方的安全考试浏览器。 要解锁 SEB，请输入正确的解锁密码。
+    <Entry key="LockScreen_SessionIntegrityMessage">
+        当前激活的配置或启动URL的最后一个会话没有被正确终止! 请输入正确的密码以解锁SEB。
     </Entry>
     <Entry key="LockScreen_Title">
         防作弊考试专用浏览器已锁定

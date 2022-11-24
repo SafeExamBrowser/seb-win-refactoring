@@ -138,6 +138,9 @@
     <Entry key="FolderDialog_ApplicationLocation">
         Application "%%NAME%%" could not be found on the system! Please locate the folder containing the main executable "%%EXECUTABLE%%".
     </Entry>
+    <Entry key="LockScreen_ApplicationIntegrityMessage">
+        You are using an unofficial SEB version! Please make sure to use an official Safe Exam Browser. In order to unlock SEB, please enter the correct unlock password.
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Temporarily allow the blacklisted applications. This applies only to the currently running instances and session!
     </Entry>
@@ -156,8 +159,8 @@
     <Entry key="LockScreen_DisplayConfigurationMessage">
         A prohibited display configuration has been detected. In order to unlock SEB, please select one of the available options and enter the correct unlock password.
     </Entry>
-    <Entry key="LockScreen_IntegrityMessage">
-        You are using an unofficial SEB version! Please make sure to use an official Safe Exam Browser. In order to unlock SEB, please enter the correct unlock password.
+    <Entry key="LockScreen_SessionIntegrityMessage">
+        The last session with the currently active configuration or start URL was not terminated properly! Please enter the correct password to unlock SEB.
     </Entry>
     <Entry key="LockScreen_Title">
         SEB LOCKED

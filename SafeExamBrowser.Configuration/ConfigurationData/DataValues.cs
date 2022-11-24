@@ -45,6 +45,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			var appDataLocalFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), nameof(SafeExamBrowser));
 			var appDataRoamingFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), nameof(SafeExamBrowser));
 			var programDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), nameof(SafeExamBrowser));
+			var temporaryFolder = Path.Combine(appDataLocalFolder, "Temp");
 			var startTime = DateTime.Now;
 			var logFolder = Path.Combine(appDataLocalFolder, "Logs");
 			var logFilePrefix = startTime.ToString("yyyy-MM-dd\\_HH\\hmm\\mss\\s");
@@ -74,7 +75,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			appConfig.ServiceAddress = $"{AppConfig.BASE_ADDRESS}/service";
 			appConfig.ServiceEventName = $@"Global\{nameof(SafeExamBrowser)}-{Guid.NewGuid()}";
 			appConfig.ServiceLogFilePath = Path.Combine(logFolder, $"{logFilePrefix}_Service.log");
-			appConfig.TemporaryDirectory = Path.Combine(appDataLocalFolder, "Temp");
+			appConfig.SessionCacheFilePath = Path.Combine(temporaryFolder, "cache.bin");
+			appConfig.TemporaryDirectory = temporaryFolder;
 
 			return appConfig;
 		}

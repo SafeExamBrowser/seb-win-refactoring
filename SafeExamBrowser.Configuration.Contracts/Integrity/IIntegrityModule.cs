@@ -14,6 +14,16 @@ namespace SafeExamBrowser.Configuration.Contracts.Integrity
 	public interface IIntegrityModule
 	{
 		/// <summary>
+		/// Caches the specified session for later integrity verification.
+		/// </summary>
+		void CacheSession(string configurationKey, string startUrl);
+
+		/// <summary>
+		/// Removes the specified session from the integrity verification cache.
+		/// </summary>
+		void ClearSession(string configurationKey, string startUrl);
+
+		/// <summary>
 		/// Attempts to calculate the browser exam key.
 		/// </summary>
 		bool TryCalculateBrowserExamKey(string configurationKey, string salt, out string browserExamKey);
@@ -22,5 +32,10 @@ namespace SafeExamBrowser.Configuration.Contracts.Integrity
 		/// Attempts to verify the code signature.
 		/// </summary>
 		bool TryVerifyCodeSignature(out bool isValid);
+
+		/// <summary>
+		/// Attempts to verify the integrity for the specified session.
+		/// </summary>
+		bool TryVerifySessionIntegrity(string configurationKey, string startUrl, out bool isValid);
 	}
 }

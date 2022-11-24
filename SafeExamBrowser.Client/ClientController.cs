@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
@@ -51,7 +52,6 @@ namespace SafeExamBrowser.Client
 		private readonly IExplorerShell explorerShell;
 		private readonly IFileSystemDialog fileSystemDialog;
 		private readonly IHashAlgorithm hashAlgorithm;
-		private readonly IIntegrityModule integrityModule;
 		private readonly ILogger logger;
 		private readonly IMessageBox messageBox;
 		private readonly IOperationSequence operations;
@@ -65,6 +65,7 @@ namespace SafeExamBrowser.Client
 
 		private IBrowserApplication Browser => context.Browser;
 		private IClientHost ClientHost => context.ClientHost;
+		private IIntegrityModule IntegrityModule => context.IntegrityModule;
 		private IServerProxy Server => context.Server;
 		private AppSettings Settings => context.Settings;
 
@@ -79,7 +80,6 @@ namespace SafeExamBrowser.Client
 			IExplorerShell explorerShell,
 			IFileSystemDialog fileSystemDialog,
 			IHashAlgorithm hashAlgorithm,
-			IIntegrityModule integrityModule,
 			ILogger logger,
 			IMessageBox messageBox,
 			IOperationSequence operations,
@@ -98,7 +98,6 @@ namespace SafeExamBrowser.Client
 			this.explorerShell = explorerShell;
 			this.fileSystemDialog = fileSystemDialog;
 			this.hashAlgorithm = hashAlgorithm;
-			this.integrityModule = integrityModule;
 			this.logger = logger;
 			this.messageBox = messageBox;
 			this.operations = operations;
@@ -137,6 +136,8 @@ namespace SafeExamBrowser.Client
 				{
 					logger.Info("Application successfully initialized.");
 					logger.Log(string.Empty);
+
+					VerifySessionIntegrity();
 				}
 				else
 				{
@@ -165,6 +166,7 @@ namespace SafeExamBrowser.Client
 
 			CloseShell();
 			DeregisterEvents();
+			UpdateSessionIntegrity();
 
 			var success = operations.TryRevert() == OperationResult.Success;
 
@@ -330,7 +332,7 @@ namespace SafeExamBrowser.Client
 			{
 				logger.Info($"Attempting to verify application integrity...");
 
-				if (integrityModule.TryVerifyCodeSignature(out var isValid))
+				if (IntegrityModule.TryVerifyCodeSignature(out var isValid))
 				{
 					if (isValid)
 					{
@@ -339,7 +341,7 @@ namespace SafeExamBrowser.Client
 					else
 					{
 						logger.Warn("Application integrity is compromised!");
-						ShowLockScreen(text.Get(TextKey.LockScreen_IntegrityMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
+						ShowLockScreen(text.Get(TextKey.LockScreen_ApplicationIntegrityMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
 					}
 				}
 				else
@@ -349,6 +351,47 @@ namespace SafeExamBrowser.Client
 			};
 			timer.Interval = TEN_MINUTES + (new Random().NextDouble() * FIVE_MINUTES);
 			timer.Start();
+		}
+
+		private void VerifySessionIntegrity()
+		{
+			var hasQuitPassword = !string.IsNullOrEmpty(Settings.Security.QuitPasswordHash);
+
+			if (hasQuitPassword)
+			{
+				logger.Info($"Attempting to verify session integrity...");
+
+				if (IntegrityModule.TryVerifySessionIntegrity(Settings.Browser.ConfigurationKey, Settings.Browser.StartUrl, out var isValid))
+				{
+					if (isValid)
+					{
+						logger.Info("Session integrity successfully verified.");
+						IntegrityModule.CacheSession(Settings.Browser.ConfigurationKey, Settings.Browser.StartUrl);
+					}
+					else
+					{
+						logger.Warn("Session integrity is compromised!");
+						Task.Delay(1000).ContinueWith(_ =>
+						{
+							ShowLockScreen(text.Get(TextKey.LockScreen_SessionIntegrityMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
+						});
+					}
+				}
+				else
+				{
+					logger.Warn("Failed to verify session integrity!");
+				}
+			}
+		}
+
+		private void UpdateSessionIntegrity()
+		{
+			var hasQuitPassword = !string.IsNullOrEmpty(Settings?.Security.QuitPasswordHash);
+
+			if (hasQuitPassword)
+			{
+				IntegrityModule?.ClearSession(Settings.Browser.ConfigurationKey, Settings.Browser.StartUrl);
+			}
 		}
 
 		private void ApplicationMonitor_ExplorerStarted()

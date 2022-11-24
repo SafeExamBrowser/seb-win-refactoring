@@ -76,6 +76,8 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestInitialize]
 		public void Initialize()
 		{
+			var valid = true;
+
 			appConfig = new AppConfig();
 			actionCenter = new Mock<IActionCenter>();
 			applicationMonitor = new Mock<IApplicationMonitor>();
@@ -101,6 +103,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
+			integrityModule.Setup(m => m.TryVerifySessionIntegrity(It.IsAny<string>(), It.IsAny<string>(), out valid)).Returns(true);
 			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
 			runtimeProxy.Setup(r => r.InformClientReady()).Returns(new CommunicationResult(true));
 			uiFactory.Setup(u => u.CreateSplashScreen(It.IsAny<AppConfig>())).Returns(new Mock<ISplashScreen>().Object);
@@ -113,7 +116,6 @@ namespace SafeExamBrowser.Client.UnitTests
 				explorerShell.Object,
 				fileSystemDialog.Object,
 				hashAlgorithm.Object,
-				integrityModule.Object,
 				logger.Object,
 				messageBox.Object,
 				operationSequence.Object,
@@ -128,6 +130,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			context.AppConfig = appConfig;
 			context.Browser = browser.Object;
 			context.ClientHost = clientHost.Object;
+			context.IntegrityModule = integrityModule.Object;
 			context.Server = server.Object;
 			context.SessionId = sessionId;
 			context.Settings = settings;
@@ -1062,6 +1065,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			context.AppConfig = null;
 			context.Browser = null;
 			context.ClientHost = null;
+			context.IntegrityModule = null;
 			context.Server = null;
 			context.Settings = null;
 

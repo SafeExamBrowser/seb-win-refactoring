@@ -187,6 +187,11 @@ namespace SafeExamBrowser.Configuration.Contracts
 		public string ServiceLogFilePath { get; set; }
 
 		/// <summary>
+		/// The file path under which the session cache is to be stored.
+		/// </summary>
+		public string SessionCacheFilePath { get; set; }
+
+		/// <summary>
 		/// The directory to be used for temporary application data.
 		/// </summary>
 		public string TemporaryDirectory { get; set; }

@@ -138,6 +138,9 @@
     <Entry key="FolderDialog_ApplicationLocation">
         L'application "%%NAME%%" n'a pas pu être trouvée sur le système! Veuillez localiser le dossier contenant l'exécutable principal "%%EXECUTABLE%%".
     </Entry>
+    <Entry key="LockScreen_ApplicationIntegrityMessage">
+        Vous utilisez une version non officielle de SEB! Assurez-vous d'utiliser un Safe Exam Browser officiel. Afin de déverrouiller SEB, veuillez entrer le mot de passe de déverrouillage correct.
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Autoriser temporairement les applications figurant sur la liste noire. Cela ne s'applique qu'aux instances et à la session en cours!
     </Entry>
@@ -156,8 +159,8 @@
     <Entry key="LockScreen_DisplayConfigurationMessage">
         Une configuration d'affichage interdite a été détectée. Pour déverrouiller SEB, veuillez sélectionner l'une des options disponibles et saisir le mot de passe de déverrouillage correct.
     </Entry>
-    <Entry key="LockScreen_IntegrityMessage">
-        Vous utilisez une version non officielle de SEB! Assurez-vous d'utiliser un Safe Exam Browser officiel. Afin de déverrouiller SEB, veuillez entrer le mot de passe de déverrouillage correct.
+    <Entry key="LockScreen_SessionIntegrityMessage">
+        La dernière session avec la configuration ou l'URL de démarrage actuellement active n'a pas été terminée correctement! Afin de déverrouiller SEB, veuillez entrer le mot de passe de déverrouillage correct.
     </Entry>
     <Entry key="LockScreen_Title">
         SEB VEROUILLE

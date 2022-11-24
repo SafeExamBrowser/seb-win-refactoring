@@ -64,7 +64,7 @@ namespace SafeExamBrowser.Runtime
 			var userInfo = new UserInfo(ModuleLogger(nameof(UserInfo)));
 
 			var args = Environment.GetCommandLineArgs();
-			var integrityModule = new IntegrityModule(ModuleLogger(nameof(IntegrityModule)));
+			var integrityModule = new IntegrityModule(appConfig, ModuleLogger(nameof(IntegrityModule)));
 			var desktopFactory = new DesktopFactory(ModuleLogger(nameof(DesktopFactory)));
 			var desktopMonitor = new DesktopMonitor(ModuleLogger(nameof(DesktopMonitor)));
 			var displayMonitor = new DisplayMonitor(ModuleLogger(nameof(DisplayMonitor)), nativeMethods, systemInfo);
