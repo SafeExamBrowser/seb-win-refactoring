@@ -421,7 +421,6 @@ namespace SafeExamBrowser.Server
 		{
 			try
 			{
-				var authorization = ("Authorization", $"Bearer {oauth2Token}");
 				var contentType = "application/json;charset=UTF-8";
 				var token = ("SEBConnectionToken", connectionToken);
 
@@ -429,6 +428,8 @@ namespace SafeExamBrowser.Server
 				{
 					if (logContent.TryDequeue(out var c) && c is ILogMessage message)
 					{
+						// IMPORTANT: The token needs to be read for every request, as it may get updated by another thread!
+						var authorization = ("Authorization", $"Bearer {oauth2Token}");
 						var json = new JObject
 						{
 							["type"] = message.Severity.ToLogType(),
