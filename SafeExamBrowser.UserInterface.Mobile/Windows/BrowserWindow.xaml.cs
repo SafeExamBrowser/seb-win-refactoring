@@ -508,6 +508,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			var javascript = @"
 if (typeof __SEB_focusElement === 'undefined') {
   __SEB_focusElement = function (forward) {
+	if (!document.body) { return; }
 	var items = [].map
 	  .call(document.body.querySelectorAll(['input', 'select', 'a[href]', 'textarea', 'button', '[tabindex]']), function(el, i) { return { el, i } })
 	  .filter(function(e) { return e.el.tabIndex >= 0 && !e.el.disabled && e.el.offsetParent; })
