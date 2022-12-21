@@ -9,13 +9,13 @@
 namespace SafeExamBrowser.SystemComponents.Contracts.Registry
 {
 	/// <summary>
-	/// Defines registry keys and names used in conjunction with <see cref="IRegistry"/>. Use the pattern "LogicalGroup_Key" resp. "LogicalGroup_Name"
-	/// to allow for a better overview over all keys, names and their usage (where applicable).
+	/// Defines registry values used in conjunction with <see cref="IRegistry"/>. Use the pattern "LogicalGroup_Key" resp. "LogicalGroup_Name" to
+	/// allow for a better overview over all values and their usage (where applicable).
 	/// </summary>
-	public static class RegistryKey
+	public static class RegistryValue
 	{
 		/// <summary>
-		/// All registry keys and names located in the machine hive.
+		/// All registry values located in the machine hive.
 		/// </summary>
 		public static class MachineHive
 		{

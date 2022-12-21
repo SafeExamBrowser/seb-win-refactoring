@@ -78,7 +78,7 @@
     <Compile Include="PowerSupply\IPowerSupplyStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Network\ConnectionStatus.cs" />
-    <Compile Include="Registry\RegistryKey.cs" />
+    <Compile Include="Registry\RegistryValue.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

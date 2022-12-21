@@ -53,7 +53,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			logger.Info($"Attempting to verify ease of access configuration...");
 
-			if (registry.TryRead(RegistryKey.MachineHive.EaseOfAccess_Key, RegistryKey.MachineHive.EaseOfAccess_Name, out var value))
+			if (registry.TryRead(RegistryValue.MachineHive.EaseOfAccess_Key, RegistryValue.MachineHive.EaseOfAccess_Name, out var value))
 			{
 				if (value == default || (value is string s && string.IsNullOrWhiteSpace(s)))
 				{

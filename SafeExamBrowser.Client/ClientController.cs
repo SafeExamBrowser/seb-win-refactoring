@@ -359,7 +359,7 @@ namespace SafeExamBrowser.Client
 			timer.Interval = TEN_MINUTES + (new Random().NextDouble() * FIVE_MINUTES);
 			timer.Start();
 
-			registry.StartMonitoring(RegistryKey.MachineHive.EaseOfAccess_Key, RegistryKey.MachineHive.EaseOfAccess_Name);
+			registry.StartMonitoring(RegistryValue.MachineHive.EaseOfAccess_Key, RegistryValue.MachineHive.EaseOfAccess_Name);
 		}
 
 		private void VerifySessionIntegrity()
