@@ -106,13 +106,14 @@
     <Compile Include="Operations\Events\PasswordRequiredEventArgs.cs" />
     <Compile Include="Operations\Events\ServerFailureEventArgs.cs" />
     <Compile Include="Operations\Events\UnexpectedErrorMessageArgs.cs" />
-    <Compile Include="Operations\IntegrityOperation.cs" />
+    <Compile Include="Operations\ApplicationIntegrityOperation.cs" />
     <Compile Include="Operations\KioskModeOperation.cs" />
     <Compile Include="Operations\ProctoringWorkaroundOperation.cs" />
     <Compile Include="Operations\RemoteSessionOperation.cs" />
     <Compile Include="Operations\ServerOperation.cs" />
     <Compile Include="Operations\ServiceOperation.cs" />
     <Compile Include="Operations\SessionActivationOperation.cs" />
+    <Compile Include="Operations\SessionIntegrityOperation.cs" />
     <Compile Include="Operations\SessionOperation.cs" />
     <Compile Include="Operations\SessionInitializationOperation.cs" />
     <Compile Include="Communication\RuntimeHost.cs" />

@@ -45,6 +45,7 @@ using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.SystemComponents.Keyboard;
 using SafeExamBrowser.SystemComponents.Network;
 using SafeExamBrowser.SystemComponents.PowerSupply;
+using SafeExamBrowser.SystemComponents.Registry;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
@@ -113,6 +114,7 @@ namespace SafeExamBrowser.Client
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
 			var fileSystemDialog = BuildFileSystemDialog();
 			var hashAlgorithm = new HashAlgorithm();
+			var registry = new Registry(ModuleLogger(nameof(Registry)));
 			var splashScreen = uiFactory.CreateSplashScreen();
 			var systemMonitor = new SystemMonitor(ModuleLogger(nameof(SystemMonitor)));
 
@@ -149,6 +151,7 @@ namespace SafeExamBrowser.Client
 				logger,
 				messageBox,
 				sequence,
+				registry,
 				runtimeProxy,
 				shutdown,
 				splashScreen,

@@ -153,11 +153,20 @@
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         Bildschirm-Konfiguration temporär erlauben. Dies gilt nur für die momentan laufende Sitzung!
     </Entry>
+    <Entry key="LockScreen_DisplayConfigurationMessage">
+        Eine verbotene Bildschirm-Konfiguration wurde detektiert. Bitte wählen Sie eine der verfügbaren Optionen aus und geben Sie das korrekte Passwort ein, um SEB zu entsperren.
+    </Entry>
     <Entry key="LockScreen_DisplayConfigurationTerminateOption">
         Safe Exam Browser beenden. WARNUNG: Sie werden keine Möglichkeit haben, Daten zu speichern oder weitere Aktionen auszuführen, SEB wird sofort beendet!
     </Entry>
-    <Entry key="LockScreen_DisplayConfigurationMessage">
-        Eine verbotene Bildschirm-Konfiguration wurde detektiert. Bitte wählen Sie eine der verfügbaren Optionen aus und geben Sie das korrekte Passwort ein, um SEB zu entsperren.
+    <Entry key="LockScreen_EaseOfAccessContinueOption">
+        Barrierefreiheit-Konfiguration temporär erlauben. Dies gilt nur für die momentan laufende Sitzung!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessMessage">
+        Eine verbotene Barrierefreiheit-Konfiguration für den Windows Security Screen wurde detektiert. Bitte wählen Sie eine der verfügbaren Optionen aus und geben Sie das korrekte Passwort ein, um SEB zu entsperren.
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessTerminateOption">
+        Safe Exam Browser beenden. WARNUNG: Sie werden keine Möglichkeit haben, Daten zu speichern oder weitere Aktionen auszuführen, SEB wird sofort beendet!
     </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         Die letzte Sitzung mit der momentan aktiven Konfiguration oder Start-URL wurde nicht ordnungsgemäss beendet! Geben Sie bitte das korrekte Passwort ein, um SEB zu entsperren.
@@ -548,6 +557,9 @@
     </Entry>
     <Entry key="OperationStatus_VerifyApplicationIntegrity">
         Überprüfe Integrität
+    </Entry>
+    <Entry key="OperationStatus_VerifySessionIntegrity">
+        Überprüfe Integrität der Sitzung
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
         Warte auf die Bestätigung des Hinweises zur Fernüberwachung

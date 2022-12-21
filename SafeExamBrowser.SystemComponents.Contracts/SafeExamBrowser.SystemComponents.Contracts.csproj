@@ -57,6 +57,8 @@
     <Compile Include="Audio\Events\VolumeChangedEventHandler.cs" />
     <Compile Include="Audio\IAudio.cs" />
     <Compile Include="IFileSystem.cs" />
+    <Compile Include="Registry\Events\RegistryValueChangedEventHandler.cs" />
+    <Compile Include="Registry\IRegistry.cs" />
     <Compile Include="IRemoteSessionDetector.cs" />
     <Compile Include="IVirtualMachineDetector.cs" />
     <Compile Include="Network\ConnectionType.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="PowerSupply\IPowerSupplyStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Network\ConnectionStatus.cs" />
+    <Compile Include="Registry\RegistryKey.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

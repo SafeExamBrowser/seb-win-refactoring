@@ -14,7 +14,7 @@ using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
-	internal class IntegrityOperation : IOperation
+	internal class ApplicationIntegrityOperation : IOperation
 	{
 		private readonly IIntegrityModule module;
 		private readonly ILogger logger;
@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged;
 
-		public IntegrityOperation(IIntegrityModule module, ILogger logger)
+		public ApplicationIntegrityOperation(IIntegrityModule module, ILogger logger)
 		{
 			this.module = module;
 			this.logger = logger;

@@ -148,16 +148,25 @@
         Le applicazioni nella lista nera elencate di seguito sono state avviate e non è stato possibile terminare automaticamente! Per sbloccare SEB, seleziona una delle opzioni disponibili e inserisci la password di sblocco corretta.
     </Entry>
     <Entry key="LockScreen_ApplicationsTerminateOption">
-        Chiudi Safe Exam Browser. ATTENZIONE: non ci sarà la possibilità di salvare dati o eseguire ulteriori azioni, lo spegnimento verrà avviato immediatamente!
+        Terminare Safe Exam Browser. ATTENZIONE: Non sarà possibile salvare i dati o eseguire ulteriori azioni, la chiusura verrà avviata immediatamente!
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         Consenti temporaneamente la configurazione del display. Questo vale solo per la sessione attualmente in esecuzione!
     </Entry>
-    <Entry key="LockScreen_DisplayConfigurationTerminateOption">
-        Termina Browser esame sicuro. ATTENZIONE: non sarà possibile salvare i dati o eseguire ulteriori azioni, lo spegnimento verrà avviato immediatamente!
-    </Entry>
     <Entry key="LockScreen_DisplayConfigurationMessage">
         È stata rilevata una configurazione di visualizzazione vietata. Per sbloccare SEB, seleziona una delle opzioni disponibili e inserisci la password di sblocco corretta.
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationTerminateOption">
+        Terminare Safe Exam Browser. ATTENZIONE: Non sarà possibile salvare i dati o eseguire ulteriori azioni, la chiusura verrà avviata immediatamente!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessContinueOption">
+        Consente temporaneamente la configurazione della facilità di accesso. Questo vale solo per la sessione in corso!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessMessage">
+        È stata rilevata una configurazione di facilità di accesso non consentita per la schermata di sicurezza di Windows. Per sbloccare SEB, seleziona una delle opzioni disponibili e inserisci la password di sblocco corretta.
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessTerminateOption">
+        Terminare Safe Exam Browser. ATTENZIONE: Non sarà possibile salvare i dati o eseguire ulteriori azioni, la chiusura verrà avviata immediatamente!
     </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         L'ultima sessione con la configurazione o l'URL di avvio attualmente attiva non è stata terminata correttamente! Per sbloccare SEB, inserisci la password di sblocco corretta.
@@ -175,7 +184,7 @@
         L'utente attivo è cambiato o il computer è stato bloccato! Per sbloccare SEB, seleziona una delle opzioni disponibili e inserisci la password di sblocco corretta.
     </Entry>
     <Entry key="LockScreen_UserSessionTerminateOption">
-        Chiudi Safe Exam Browser. ATTENZIONE: non ci sarà la possibilità di salvare dati o eseguire ulteriori azioni, lo spegnimento verrà avviato immediatamente!
+        Terminare Safe Exam Browser. ATTENZIONE: Non sarà possibile salvare i dati o eseguire ulteriori azioni, la chiusura verrà avviata immediatamente!
     </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Sempre in cima
@@ -548,6 +557,9 @@
     </Entry>
     <Entry key="OperationStatus_VerifyApplicationIntegrity">
         Verifica dell'integrità
+    </Entry>
+    <Entry key="OperationStatus_VerifySessionIntegrity">
+        Verifica dell'integrità della sessione
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
         In attesa di conferma del disclaimer

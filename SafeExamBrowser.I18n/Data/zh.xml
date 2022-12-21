@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Text>
     <Entry key="AboutWindow_LicenseInfo">
-        此应用程序受Mozilla Public License, 版本 2.0 的条款约束。汉化人：272881521@qq.com。防作弊考试专用浏览器使用以下框架和第三方知识库：
+        此应用程序受Mozilla Public License, 版本 2.0 的条款约束。防作弊考试专用浏览器使用以下框架和第三方知识库：
     </Entry>
     <Entry key="AboutWindow_Title">
         版本 &amp; 许可证信息
@@ -138,11 +138,20 @@
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         暂时允许显示配置。 这仅适用于当前正在运行的会话！
     </Entry>
+    <Entry key="LockScreen_DisplayConfigurationMessage">
+        检测到禁止的显示配置。 要解锁 SEB，请选择可用选项之一并输入正确的解锁密码。
+    </Entry>
     <Entry key="LockScreen_DisplayConfigurationTerminateOption">
         终止安全考试浏览器。 警告：将无法保存数据或执行任何进一步操作，将立即启动关机！
     </Entry>
-    <Entry key="LockScreen_DisplayConfigurationMessage">
-        检测到禁止的显示配置。 要解锁 SEB，请选择可用选项之一并输入正确的解锁密码。
+    <Entry key="LockScreen_EaseOfAccessContinueOption">
+        暂时允许轻松访问的配置。这只适用于当前运行的会话!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessMessage">
+        检测到一个被禁止的Windows安全屏幕的访问方便配置。为了解锁SEB，请选择一个可用的选项并输入正确的解锁密码。
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessTerminateOption">
+        终止安全考试浏览器。警告：将没有可能保存数据或执行任何进一步的行动，关闭将立即启动!
     </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         当前激活的配置或启动URL的最后一个会话没有被正确终止! 请输入正确的密码以解锁SEB。
@@ -503,6 +512,9 @@
     </Entry>
     <Entry key="OperationStatus_VerifyApplicationIntegrity">
         验证完整性
+    </Entry>
+    <Entry key="OperationStatus_VerifySessionIntegrity">
+        验证会话的完整性
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
         等待确认免责声明

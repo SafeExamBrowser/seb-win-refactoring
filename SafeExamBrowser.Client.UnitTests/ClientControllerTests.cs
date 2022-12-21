@@ -33,6 +33,7 @@ using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Monitoring;
+using SafeExamBrowser.SystemComponents.Contracts.Registry;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
@@ -60,6 +61,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		private Mock<ILogger> logger;
 		private Mock<IMessageBox> messageBox;
 		private Mock<IOperationSequence> operationSequence;
+		private Mock<IRegistry> registry;
 		private Mock<IRuntimeProxy> runtimeProxy;
 		private Mock<IServerProxy> server;
 		private Guid sessionId;
@@ -92,6 +94,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			logger = new Mock<ILogger>();
 			messageBox = new Mock<IMessageBox>();
 			operationSequence = new Mock<IOperationSequence>();
+			registry = new Mock<IRegistry>();
 			runtimeProxy = new Mock<IRuntimeProxy>();
 			server = new Mock<IServerProxy>();
 			sessionId = Guid.NewGuid();
@@ -119,6 +122,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				logger.Object,
 				messageBox.Object,
 				operationSequence.Object,
+				registry.Object,
 				runtimeProxy.Object,
 				shutdown.Object,
 				splashScreen.Object,

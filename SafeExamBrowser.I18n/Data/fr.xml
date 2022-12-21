@@ -148,16 +148,25 @@
         Les applications sur liste noire énumérées ci-dessous ont été lancées et n’ont pas pu être automatiquement supprimées! Afin de débloquer SEB, veuillez sélectionner l'une des options disponibles et entrer le mot de passe de déblocage.
     </Entry>
     <Entry key="LockScreen_ApplicationsTerminateOption">
-        Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura pas de possibilité de sauvegarder les données ou d'effectuer d'autres actions, l'arrêt sera déclenché immédiatement!
+        Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         Autoriser temporairement la configuration de l'affichage. Ceci s'applique uniquement à la session en cours!
     </Entry>
-    <Entry key="LockScreen_DisplayConfigurationTerminateOption">
-        Terminez le navigateur Safe Exam. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder des données ou d'effectuer d'autres actions, l'arrêt sera déclenché immédiatement!
-    </Entry>
     <Entry key="LockScreen_DisplayConfigurationMessage">
         Une configuration d'affichage interdite a été détectée. Pour déverrouiller SEB, veuillez sélectionner l'une des options disponibles et saisir le mot de passe de déverrouillage correct.
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationTerminateOption">
+        Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessContinueOption">
+        Autoriser temporairement la configuration de la facilité d'accès. Ceci s'applique uniquement à la session en cours!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessMessage">
+        Une configuration de facilité d'accès interdite pour l'écran de sécurité de Windows a été détectée. Afin de déverrouiller le SEB, veuillez sélectionner l'une des options disponibles et saisir le mot de passe de déverrouillage correct.
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessTerminateOption">
+        Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
     </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         La dernière session avec la configuration ou l'URL de démarrage actuellement active n'a pas été terminée correctement! Afin de déverrouiller SEB, veuillez entrer le mot de passe de déverrouillage correct.
@@ -175,7 +184,7 @@
         L'utilisateur actif a changé ou l'ordinateur a été verrouillé! Afin de déverrouiller SEB, veuillez sélectionner une des options disponibles et entrer le mot de passe de déverrouillage.
     </Entry>
     <Entry key="LockScreen_UserSessionTerminateOption">
-        Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura pas de possibilité de sauvegarder les données ou d'effectuer d'autres actions, l'arrêt sera déclenché immédiatement!
+        Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
     </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Toujours au premier plan
@@ -548,6 +557,9 @@
     </Entry>
     <Entry key="OperationStatus_VerifyApplicationIntegrity">
         Vérification de l'intégrité
+    </Entry>
+    <Entry key="OperationStatus_VerifySessionIntegrity">
+        Vérification de l'intégrité de la session
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
         En attente de confirmation de la clause de non-responsabilité

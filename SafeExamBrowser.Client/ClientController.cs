@@ -33,6 +33,7 @@ using SafeExamBrowser.Monitoring.Contracts.System;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.SystemComponents.Contracts.Registry;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
@@ -55,6 +56,7 @@ namespace SafeExamBrowser.Client
 		private readonly ILogger logger;
 		private readonly IMessageBox messageBox;
 		private readonly IOperationSequence operations;
+		private readonly IRegistry registry;
 		private readonly IRuntimeProxy runtime;
 		private readonly Action shutdown;
 		private readonly ISplashScreen splashScreen;
@@ -83,6 +85,7 @@ namespace SafeExamBrowser.Client
 			ILogger logger,
 			IMessageBox messageBox,
 			IOperationSequence operations,
+			IRegistry registry,
 			IRuntimeProxy runtime,
 			Action shutdown,
 			ISplashScreen splashScreen,
@@ -101,6 +104,7 @@ namespace SafeExamBrowser.Client
 			this.logger = logger;
 			this.messageBox = messageBox;
 			this.operations = operations;
+			this.registry = registry;
 			this.runtime = runtime;
 			this.shutdown = shutdown;
 			this.splashScreen = splashScreen;
@@ -167,6 +171,7 @@ namespace SafeExamBrowser.Client
 			CloseShell();
 			DeregisterEvents();
 			UpdateSessionIntegrity();
+			TerminateIntegrityVerification();
 
 			var success = operations.TryRevert() == OperationResult.Success;
 
@@ -206,6 +211,7 @@ namespace SafeExamBrowser.Client
 			ClientHost.ServerFailureActionRequested += ClientHost_ServerFailureActionRequested;
 			ClientHost.Shutdown += ClientHost_Shutdown;
 			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
+			registry.ValueChanged += Registry_ValueChanged;
 			runtime.ConnectionLost += Runtime_ConnectionLost;
 			systemMonitor.SessionSwitched += SystemMonitor_SessionSwitched;
 			taskbar.LoseFocusRequested += Taskbar_LoseFocusRequested;
@@ -240,6 +246,7 @@ namespace SafeExamBrowser.Client
 			applicationMonitor.ExplorerStarted -= ApplicationMonitor_ExplorerStarted;
 			applicationMonitor.TerminationFailed -= ApplicationMonitor_TerminationFailed;
 			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
+			registry.ValueChanged -= Registry_ValueChanged;
 			runtime.ConnectionLost -= Runtime_ConnectionLost;
 			systemMonitor.SessionSwitched -= SystemMonitor_SessionSwitched;
 			taskbar.QuitButtonClicked -= Shell_QuitButtonClicked;
@@ -351,6 +358,8 @@ namespace SafeExamBrowser.Client
 			};
 			timer.Interval = TEN_MINUTES + (new Random().NextDouble() * FIVE_MINUTES);
 			timer.Start();
+
+			registry.StartMonitoring(RegistryKey.MachineHive.EaseOfAccess_Key, RegistryKey.MachineHive.EaseOfAccess_Name);
 		}
 
 		private void VerifySessionIntegrity()
@@ -392,6 +401,11 @@ namespace SafeExamBrowser.Client
 			{
 				IntegrityModule?.ClearSession(Settings.Browser.ConfigurationKey, Settings.Browser.StartUrl);
 			}
+		}
+
+		private void TerminateIntegrityVerification()
+		{
+			registry.StopMonitoring();
 		}
 
 		private void ApplicationMonitor_ExplorerStarted()
@@ -679,6 +693,40 @@ namespace SafeExamBrowser.Client
 		private void Operations_StatusChanged(TextKey status)
 		{
 			splashScreen.UpdateStatus(status, true);
+		}
+
+		private void Registry_ValueChanged(object oldValue, object newValue)
+		{
+			logger.Warn($"The ease of access registry value has changed from '{oldValue}' to '{newValue}'! Attempting to show lock screen...");
+
+			if (!sessionLocked)
+			{
+				var message = text.Get(TextKey.LockScreen_EaseOfAccessMessage);
+				var title = text.Get(TextKey.LockScreen_Title);
+				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_EaseOfAccessContinueOption) };
+				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_EaseOfAccessTerminateOption) };
+
+				sessionLocked = true;
+				registry.StopMonitoring();
+
+				var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
+
+				if (result.OptionId == continueOption.Id)
+				{
+					logger.Info("The session will be allowed to resume as requested by the user...");
+				}
+				else if (result.OptionId == terminateOption.Id)
+				{
+					logger.Info("Attempting to shutdown as requested by the user...");
+					TryRequestShutdown();
+				}
+
+				sessionLocked = false;
+			}
+			else
+			{
+				logger.Info("Lock screen is already active.");
+			}
 		}
 
 		private void Runtime_ConnectionLost()

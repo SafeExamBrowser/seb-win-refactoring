@@ -153,11 +153,20 @@
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         Temporarily allow the display configuration. This applies only to the currently running session!
     </Entry>
+    <Entry key="LockScreen_DisplayConfigurationMessage">
+        A prohibited display configuration has been detected. In order to unlock SEB, please select one of the available options and enter the correct unlock password.
+    </Entry>
     <Entry key="LockScreen_DisplayConfigurationTerminateOption">
         Terminate Safe Exam Browser. WARNING: There will be no possibility to save data or perform any further actions, the shutdown will be initiated immediately!
     </Entry>
-    <Entry key="LockScreen_DisplayConfigurationMessage">
-        A prohibited display configuration has been detected. In order to unlock SEB, please select one of the available options and enter the correct unlock password.
+    <Entry key="LockScreen_EaseOfAccessContinueOption">
+        Temporarily allow the ease of access configuration. This applies only to the currently running session!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessMessage">
+        A prohibited ease of access configuration for the Windows Security Screen has been detected. In order to unlock SEB, please select one of the available options and enter the correct unlock password.
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessTerminateOption">
+        Terminate Safe Exam Browser. WARNING: There will be no possibility to save data or perform any further actions, the shutdown will be initiated immediately!
     </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         The last session with the currently active configuration or start URL was not terminated properly! Please enter the correct password to unlock SEB.
@@ -548,6 +557,9 @@
     </Entry>
     <Entry key="OperationStatus_VerifyApplicationIntegrity">
         Verifying integrity
+    </Entry>
+    <Entry key="OperationStatus_VerifySessionIntegrity">
+        Verifying session integrity
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
         Waiting for confirmation of the disclaimer

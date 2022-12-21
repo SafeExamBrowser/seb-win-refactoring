@@ -32,6 +32,7 @@ using SafeExamBrowser.Server;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.SystemComponents;
 using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.SystemComponents.Registry;
 using SafeExamBrowser.UserInterface.Desktop;
 using SafeExamBrowser.WindowsApi;
 
@@ -73,6 +74,7 @@ namespace SafeExamBrowser.Runtime
 			var messageBox = new MessageBoxFactory(text);
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), ModuleLogger(nameof(ProxyFactory)));
+			var registry = new Registry(ModuleLogger(nameof(Registry)));
 			var remoteSessionDetector = new RemoteSessionDetector(ModuleLogger(nameof(RemoteSessionDetector)));
 			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, new HostObjectFactory(), ModuleLogger(nameof(RuntimeHost)), FIVE_SECONDS);
 			var runtimeWindow = uiFactory.CreateRuntimeWindow(appConfig);
@@ -87,13 +89,14 @@ namespace SafeExamBrowser.Runtime
 
 			bootstrapOperations.Enqueue(new I18nOperation(logger, text));
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(runtimeHost, logger));
-			bootstrapOperations.Enqueue(new IntegrityOperation(integrityModule, logger));
+			bootstrapOperations.Enqueue(new ApplicationIntegrityOperation(integrityModule, logger));
 
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, fileSystem, logger, runtimeHost, sessionContext));
 			sessionOperations.Enqueue(new ConfigurationOperation(args, configuration, new FileSystem(), new HashAlgorithm(), logger, sessionContext));
 			sessionOperations.Enqueue(new ServerOperation(args, configuration, fileSystem, logger, sessionContext, server));
 			sessionOperations.Enqueue(new DisclaimerOperation(logger, sessionContext));
 			sessionOperations.Enqueue(new RemoteSessionOperation(remoteSessionDetector, logger, sessionContext));
+			sessionOperations.Enqueue(new SessionIntegrityOperation(logger, registry, sessionContext));
 			sessionOperations.Enqueue(new VirtualMachineOperation(vmDetector, logger, sessionContext));
 			sessionOperations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, sessionContext, text));
 			sessionOperations.Enqueue(new ServiceOperation(logger, runtimeHost, serviceProxy, sessionContext, THIRTY_SECONDS, userInfo));
