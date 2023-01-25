@@ -31,7 +31,7 @@
         Printing is not allowed according to the current configuration.
     </Entry>
     <Entry key="Browser_Tooltip">
-        Browser Application
+        Open Webpages
     </Entry>
     <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
         Developer Console
@@ -69,6 +69,9 @@
     <Entry key="BrowserWindow_MenuButton">
         Menu
     </Entry>
+    <Entry key="BrowserWindow_CloseButton">
+        Close
+    </Entry>
     <Entry key="BrowserWindow_UrlTextBox">
         Enter URL
     </Entry>
@@ -83,6 +86,15 @@
     </Entry>
     <Entry key="BrowserWindow_ZoomMenuMinus">
         Decrease Page Zoom
+    </Entry>
+    <Entry key="BrowserWindow_SearchTextBox">
+        Enter text to search
+    </Entry>
+    <Entry key="BrowserWindow_SearchNext">
+        Next search result
+    </Entry>
+    <Entry key="BrowserWindow_SearchPrevious">
+        Previous search result
     </Entry>
     <Entry key="Build">
         Build
