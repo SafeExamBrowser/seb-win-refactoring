@@ -654,6 +654,10 @@ if (typeof __SEB_focusElement === 'undefined') {
 			HomeButton.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, text.Get(TextKey.BrowserWindow_HomeButton));
 			MenuButton.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, text.Get(TextKey.BrowserWindow_MenuButton));
 			UrlTextBox.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, text.Get(TextKey.BrowserWindow_UrlTextBox));
+			FindTextBox.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, text.Get(TextKey.BrowserWindow_SearchTextBox));
+			FindPreviousButton.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, text.Get(TextKey.BrowserWindow_SearchPrevious));
+			FindNextButton.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, text.Get(TextKey.BrowserWindow_SearchNext));
+			FindbarCloseButton.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, text.Get(TextKey.BrowserWindow_CloseButton));
 		}
 	}
 }
