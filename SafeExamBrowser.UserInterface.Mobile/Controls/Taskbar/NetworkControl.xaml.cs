@@ -87,8 +87,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 				if (network.Status == ConnectionStatus.Connected)
 				{
 					WirelessIcon.Child = GetWirelessIcon(network.SignalStrength);
-					Button.ToolTip = text.Get(TextKey.SystemControl_NetworkWirelessConnected).Replace("%%NAME%%", network.Name);
-					Button.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, Button.ToolTip as string);
+					UpdateText(text.Get(TextKey.SystemControl_NetworkWirelessConnected).Replace("%%NAME%%", network.Name));
 				}
 
 				WirelessNetworksStackPanel.Children.Add(button);
@@ -98,7 +97,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			{
 				case ConnectionType.Wired:
 					Button.IsEnabled = false;
-					Button.ToolTip = text.Get(TextKey.SystemControl_NetworkWiredConnected);
+					UpdateText(text.Get(TextKey.SystemControl_NetworkWiredConnected));
 					WiredIcon.Visibility = Visibility.Visible;
 					WirelessIcon.Visibility = Visibility.Collapsed;
 					break;
@@ -109,7 +108,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 					break;
 				default:
 					Button.IsEnabled = false;
-					Button.ToolTip = text.Get(TextKey.SystemControl_NetworkNotAvailable);
+					UpdateText(text.Get(TextKey.SystemControl_NetworkNotAvailable));
 					WiredIcon.Visibility = Visibility.Visible;
 					WirelessIcon.Visibility = Visibility.Collapsed;
 					break;
@@ -118,24 +117,31 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			switch (adapter.Status)
 			{
 				case ConnectionStatus.Connected:
+					UpdateText(text.Get(TextKey.SystemControl_NetworkWiredConnected));
 					NetworkStatusIcon.Rotation = 0;
 					NetworkStatusIcon.Source = ImageAwesome.CreateImageSource(FontAwesomeIcon.Globe, Brushes.Green);
 					NetworkStatusIcon.Spin = false;
 					break;
 				case ConnectionStatus.Connecting:
-					Button.ToolTip = text.Get(TextKey.SystemControl_NetworkWirelessConnecting);
+					UpdateText(text.Get(TextKey.SystemControl_NetworkWirelessConnecting));
 					NetworkStatusIcon.Rotation = 0;
 					NetworkStatusIcon.Source = ImageAwesome.CreateImageSource(FontAwesomeIcon.Cog, Brushes.DimGray);
 					NetworkStatusIcon.Spin = true;
 					NetworkStatusIcon.SpinDuration = 2;
 					break;
 				default:
-					Button.ToolTip = text.Get(TextKey.SystemControl_NetworkDisconnected);
+					UpdateText(text.Get(TextKey.SystemControl_NetworkDisconnected));
 					NetworkStatusIcon.Source = ImageAwesome.CreateImageSource(FontAwesomeIcon.Ban, Brushes.DarkOrange);
 					NetworkStatusIcon.Spin = false;
 					WirelessIcon.Child = GetWirelessIcon(0);
 					break;
 			}
+		}
+
+		private void UpdateText(string text)
+		{
+			Button.ToolTip = text;
+			Button.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, text);
 		}
 
 		private UIElement GetWirelessIcon(int signalStrength)
