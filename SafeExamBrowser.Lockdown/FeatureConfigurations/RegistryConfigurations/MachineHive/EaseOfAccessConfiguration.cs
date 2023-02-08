@@ -12,11 +12,16 @@ using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.MachineHive
 {
+	/// <summary>
+	/// Controls whether the ease of access option is available on the Security / Login Screen of the operating system. See also
+	/// https://learn.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-embedded-embeddedlogon-brandingneutral.
+	/// </summary>
 	[Serializable]
 	internal class EaseOfAccessConfiguration : MachineHiveConfiguration
 	{
-		protected override IEnumerable<RegistryConfigurationItem> Items => new []
+		protected override IEnumerable<RegistryConfigurationItem> Items => new[]
 		{
+			new RegistryConfigurationItem(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Embedded\EmbeddedLogon", "BrandingNeutral", 8, 0),
 			new RegistryConfigurationItem(@"HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Utilman.exe", "Debugger", "SebDummy.exe", "")
 		};
 

@@ -16,13 +16,13 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations.
 	/// Specifies whether Remote Desktop connections are enabled.
 	/// 
 	/// See https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-terminalservices-localsessionmanager-fdenytsconnections:
-	/// •	0 = Specifies that remote desktop connections are enabled.
-	/// •	1 = Specifies that remote desktop connections are denied. This is the default value.
+	///		0 = Specifies that remote desktop connections are enabled.
+	///		1 = Specifies that remote desktop connections are denied. This is the default value.
 	/// </summary>
 	[Serializable]
 	internal class RemoteConnectionConfiguration : MachineHiveConfiguration
 	{
-		protected override IEnumerable<RegistryConfigurationItem> Items => new []
+		protected override IEnumerable<RegistryConfigurationItem> Items => new[]
 		{
 			new RegistryConfigurationItem(@"HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server", "fDenyTSConnections", 1, 0)
 		};
