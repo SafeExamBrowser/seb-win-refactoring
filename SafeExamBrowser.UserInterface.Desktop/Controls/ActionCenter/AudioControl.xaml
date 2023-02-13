@@ -21,7 +21,7 @@
                     <TextBlock x:Name="AudioDeviceName" Foreground="White" Margin="5" TextAlignment="Center" />
                     <StackPanel Orientation="Horizontal" Height="40">
                         <Button x:Name="MuteButton" Background="Transparent" Foreground="White" Padding="5" Template="{StaticResource ActionCenterButton}" Width="40">
-                            <ContentControl x:Name="PopupIcon" />
+                            <ContentControl x:Name="PopupIcon" Focusable="False" />
                         </Button>
                         <Slider x:Name="Volume" Grid.Column="1" Orientation="Horizontal" TickFrequency="1" Maximum="100" IsSnapToTickEnabled="True"
                                 IsMoveToPointEnabled="True" VerticalAlignment="Center" Width="250" Thumb.DragStarted="Volume_DragStarted" Thumb.DragCompleted="Volume_DragCompleted" />
