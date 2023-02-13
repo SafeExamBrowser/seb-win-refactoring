@@ -62,7 +62,18 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 				Popup.IsOpen = Popup.IsMouseOver;
 			}));
 			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
-			Popup.Opened += (o, args) => Grid.Background = Brushes.Gray;
+			Popup.Opened += (o, args) =>
+			{
+				Grid.Background = Brushes.Gray;
+				Task.Delay(100).ContinueWith((task) => Dispatcher.Invoke(() =>
+				{
+					var btn = WirelessNetworksStackPanel.Children[0] as NetworkButton;
+					if (btn != null)
+					{
+						btn.SetFocus();
+					}
+				}));
+			};
 			Popup.Closed += (o, args) => Grid.Background = originalBrush;
 			WirelessIcon.Child = GetWirelessIcon(0);
 
