@@ -45,7 +45,22 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 
 			adapter.Changed += () => Dispatcher.InvokeAsync(Update);
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
-			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
+			var lastOpenedBySpacePress = DateTime.MinValue;
+			Button.PreviewKeyDown += (o, args) =>
+			{
+				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
+				{
+					lastOpenedBySpacePress = DateTime.Now;
+				}
+			};
+			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
+			{
+				if (Popup.IsOpen && (DateTime.Now - lastOpenedBySpacePress).TotalSeconds < 3)
+				{
+					return;
+				}
+				Popup.IsOpen = Popup.IsMouseOver;
+			}));
 			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
 			Popup.Opened += (o, args) => Grid.Background = Brushes.Gray;
 			Popup.Closed += (o, args) => Grid.Background = originalBrush;

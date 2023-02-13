@@ -55,7 +55,22 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 			RaisedIcon = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Hand_Raised.xaml") };
 			Icon.Content = IconResourceLoader.Load(LoweredIcon);
 
-			NotificationButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
+			var lastOpenedBySpacePress = DateTime.MinValue;
+			NotificationButton.PreviewKeyDown += (o, args) =>
+			{
+				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
+				{
+					lastOpenedBySpacePress = DateTime.Now;
+				}
+			};
+			NotificationButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
+			{
+				if (Popup.IsOpen && (DateTime.Now - lastOpenedBySpacePress).TotalSeconds < 3)
+				{
+					return;
+				}
+				Popup.IsOpen = Popup.IsMouseOver;
+			}));
 			NotificationButton.PreviewMouseLeftButtonUp += NotificationButton_PreviewMouseLeftButtonUp;
 			NotificationButton.PreviewMouseRightButtonUp += NotificationButton_PreviewMouseRightButtonUp;
 			NotificationButton.ToolTip = text.Get(TextKey.Notification_ProctoringHandLowered);

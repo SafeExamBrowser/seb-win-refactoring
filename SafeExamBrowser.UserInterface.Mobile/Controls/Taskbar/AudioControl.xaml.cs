@@ -48,7 +48,22 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 
 			audio.VolumeChanged += Audio_VolumeChanged;
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
-			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
+			var lastOpenedBySpacePress = DateTime.MinValue;
+			Button.PreviewKeyDown += (o, args) =>
+			{
+				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
+				{
+					lastOpenedBySpacePress = DateTime.Now;
+				}
+			};
+			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
+			{
+				if (Popup.IsOpen && (DateTime.Now - lastOpenedBySpacePress).TotalSeconds < 3)
+				{
+					return;
+				}
+				Popup.IsOpen = Popup.IsMouseOver;
+			}));
 			MuteButton.Click += MuteButton_Click;
 			MutedIcon = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Audio_Muted.xaml") };
 			NoDeviceIcon = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Audio_NoDevice.xaml") };
