@@ -34,5 +34,10 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 			NetworkNameTextBlock.Text = network.Name;
 			SignalStrengthTextBlock.Text = $"{network.SignalStrength}%";
 		}
+
+		public void SetFocus()
+		{
+			Button.Focus();
+		}
 	}
 }

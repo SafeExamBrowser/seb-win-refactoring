@@ -70,6 +70,14 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			{
 				Background = Brushes.LightGray;
 				Button.Background = Brushes.LightGray;
+				Task.Delay(100).ContinueWith((task) => Dispatcher.Invoke(() =>
+				{
+					var btn = WirelessNetworksStackPanel.Children[0] as NetworkButton;
+					if (btn != null)
+					{
+						btn.SetFocus();
+					}
+				}));
 			};
 
 			Popup.Closed += (o, args) =>
