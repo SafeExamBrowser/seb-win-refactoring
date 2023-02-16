@@ -70,16 +70,19 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 		public void InitializeBounds()
 		{
-			foreach (var window in windows)
+			Dispatcher.Invoke(() =>
 			{
-				window.Topmost = true;
-				window.WindowState = WindowState.Maximized;
-				window.Activate();
-			}
+				foreach (var window in windows)
+				{
+					window.Topmost = true;
+					window.WindowState = WindowState.Maximized;
+					window.Activate();
+				}
 
-			Topmost = true;
-			WindowState = WindowState.Maximized;
-			Activate();
+				Topmost = true;
+				WindowState = WindowState.Maximized;
+				Activate();
+			});
 		}
 
 		public new void Show()
