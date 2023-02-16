@@ -70,7 +70,23 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		public void InitializeBounds()
 		{
-			// TODO
+			Dispatcher.Invoke(() =>
+			{
+				foreach (var window in windows)
+				{
+					window.Topmost = false;
+					window.WindowState = WindowState.Normal;
+					window.Activate();
+					window.Topmost = true;
+					window.WindowState = WindowState.Maximized;
+				}
+
+				Topmost = false;
+				WindowState = WindowState.Normal;
+				Activate();
+				Topmost = true;
+				WindowState = WindowState.Maximized;
+			});
 		}
 
 		public new void Show()
