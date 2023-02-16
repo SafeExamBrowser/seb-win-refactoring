@@ -68,6 +68,11 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			Dispatcher.Invoke(CloseAll);
 		}
 
+		public void InitializeBounds()
+		{
+			// TODO
+		}
+
 		public new void Show()
 		{
 			Dispatcher.Invoke(ShowAll);

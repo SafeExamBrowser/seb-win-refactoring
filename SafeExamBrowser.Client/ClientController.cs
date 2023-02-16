@@ -625,9 +625,12 @@ namespace SafeExamBrowser.Client
 		{
 			logger.Info("Re-initializing working area...");
 			displayMonitor.InitializePrimaryDisplay(Settings.Taskbar.EnableTaskbar ? taskbar.GetAbsoluteHeight() : 0);
+
 			logger.Info("Re-initializing shell...");
 			actionCenter.InitializeBounds();
+			lockScreen?.InitializeBounds();
 			taskbar.InitializeBounds();
+
 			logger.Info("Desktop successfully restored.");
 
 			if (!displayMonitor.ValidateConfiguration(Settings.Display).IsAllowed)

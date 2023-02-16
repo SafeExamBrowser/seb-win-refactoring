@@ -21,6 +21,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Windows
 		void Cancel();
 
 		/// <summary>
+		/// Expands the lock screen across all active displays and resizes it accordingly.
+		/// </summary>
+		void InitializeBounds();
+
+		/// <summary>
 		/// Waits for the user to provide the required input to unlock the application.
 		/// </summary>
 		LockScreenResult WaitForResult();
