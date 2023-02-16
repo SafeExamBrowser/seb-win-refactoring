@@ -74,14 +74,18 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			{
 				foreach (var window in windows)
 				{
+					window.Topmost = false;
+					window.WindowState = WindowState.Normal;
+					window.Activate();
 					window.Topmost = true;
 					window.WindowState = WindowState.Maximized;
-					window.Activate();
 				}
 
+				Topmost = false;
+				WindowState = WindowState.Normal;
+				Activate();
 				Topmost = true;
 				WindowState = WindowState.Maximized;
-				Activate();
 			});
 		}
 
