@@ -17,7 +17,10 @@ namespace SafeExamBrowser.SystemComponents
 		/// <summary>
 		/// Virtualbox: VBOX, 80EE / RedHat: QUEMU, 1AF4, 1B36
 		/// </summary>
-		private static readonly string[] PCI_VENDOR_BLACKLIST = { "vbox", "vid_80ee", "qemu", "ven_1af4", "ven_1b36", "subsys_11001af4" };
+		private static readonly string[] PCI_VENDOR_BLACKLIST =
+		{
+			"vbox", "vid_80ee", "qemu", "ven_1af4", "ven_1b36", "subsys_11001af4", "PROD_VMWARE", "VEN_VMWARE", "VMWARE_IDE"
+		};
 		private static readonly string QEMU_MAC_PREFIX = "525400";
 		private static readonly string VIRTUALBOX_MAC_PREFIX = "080027";
 
@@ -54,7 +57,7 @@ namespace SafeExamBrowser.SystemComponents
 
 			foreach (var device in plugAndPlayDeviceIds)
 			{
-				isVirtualMachine |= PCI_VENDOR_BLACKLIST.Any(device.ToLower().Contains);
+				isVirtualMachine |= PCI_VENDOR_BLACKLIST.Any(v => device.ToLower().Contains(v.ToLower()));
 			}
 
 			logger.Debug($"Computer '{systemInfo.Name}' appears {(isVirtualMachine ? "" : "not ")}to be a virtual machine.");
