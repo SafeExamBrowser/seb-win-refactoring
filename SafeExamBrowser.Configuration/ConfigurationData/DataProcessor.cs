@@ -20,14 +20,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 	{
 		internal void Process(IDictionary<string, object> rawData, AppSettings settings)
 		{
-			AllowBrowserToolbarForReloading(rawData, settings);
+			AllowBrowserToolbarForReloading(settings);
 			CalculateConfigurationKey(rawData, settings);
 			HandleBrowserHomeFunctionality(settings);
 			InitializeProctoringSettings(settings);
 			RemoveLegacyBrowsers(settings);
 		}
 
-		private void AllowBrowserToolbarForReloading(IDictionary<string, object> rawData, AppSettings settings)
+		private void AllowBrowserToolbarForReloading(AppSettings settings)
 		{
 			if (settings.Browser.AdditionalWindow.AllowReloading && settings.Browser.AdditionalWindow.ShowReloadButton)
 			{

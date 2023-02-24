@@ -50,14 +50,14 @@ namespace SafeExamBrowser.Server.Contracts
 		event TerminationRequestedEventHandler TerminationRequested;
 
 		/// <summary>
-		/// Attempts to initialize a connection with the server.
-		/// </summary>
-		ServerResponse Connect();
-
-		/// <summary>
 		/// Sends a lock screen confirm notification to the server.
 		/// </summary>
 		ServerResponse ConfirmLockScreen();
+
+		/// <summary>
+		/// Attempts to initialize a connection with the server.
+		/// </summary>
+		ServerResponse Connect();
 
 		/// <summary>
 		/// Terminates a connection with the server.
@@ -100,6 +100,11 @@ namespace SafeExamBrowser.Server.Contracts
 		ServerResponse LowerHand();
 
 		/// <summary>
+		/// Sends a raise hand notification to the server.
+		/// </summary>
+		ServerResponse RaiseHand(string message = default);
+
+		/// <summary>
 		/// Sends the selected exam to the server.
 		/// </summary>
 		ServerResponse SendSelectedExam(Exam exam);
@@ -118,10 +123,5 @@ namespace SafeExamBrowser.Server.Contracts
 		/// Stops sending ping and log data to the server.
 		/// </summary>
 		void StopConnectivity();
-
-		/// <summary>
-		/// Sends a raise hand notification to the server.
-		/// </summary>
-		ServerResponse RaiseHand(string message = default);
 	}
 }

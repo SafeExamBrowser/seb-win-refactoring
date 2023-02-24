@@ -60,11 +60,31 @@
   <ItemGroup>
     <Compile Include="Data\ApiVersion1.cs" />
     <Compile Include="Data\Attributes.cs" />
+    <Compile Include="Data\AttributeType.cs" />
     <Compile Include="Data\Instructions.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FileSystem.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\ApiRequest.cs" />
+    <Compile Include="Requests\AppSignatureKeyRequest.cs" />
+    <Compile Include="Requests\AvailableExamsRequest.cs" />
+    <Compile Include="Requests\BaseRequest.cs" />
+    <Compile Include="Requests\ConfirmLockScreenRequest.cs" />
+    <Compile Include="Requests\ContentType.cs" />
+    <Compile Include="Requests\DisconnectionRequest.cs" />
+    <Compile Include="Requests\ExamConfigurationRequest.cs" />
+    <Compile Include="Requests\Header.cs" />
+    <Compile Include="Requests\LockScreenRequest.cs" />
+    <Compile Include="Requests\LogRequest.cs" />
+    <Compile Include="Requests\LowerHandRequest.cs" />
+    <Compile Include="Requests\NetworkAdapterRequest.cs" />
+    <Compile Include="Requests\OAuth2TokenRequest.cs" />
+    <Compile Include="Requests\PingRequest.cs" />
+    <Compile Include="Requests\PowerSupplyRequest.cs" />
+    <Compile Include="Requests\RaiseHandRequest.cs" />
+    <Compile Include="Requests\SelectExamRequest.cs" />
+    <Compile Include="Requests\SessionIdentifierRequest.cs" />
     <Compile Include="ServerProxy.cs" />
   </ItemGroup>
   <ItemGroup>

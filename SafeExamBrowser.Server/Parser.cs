@@ -151,9 +151,9 @@ namespace SafeExamBrowser.Server
 			return connectionToken != default;
 		}
 
-		internal bool TryParseExams(HttpContent content, out IList<Exam> exams)
+		internal bool TryParseExams(HttpContent content, out IEnumerable<Exam> exams)
 		{
-			exams = new List<Exam>();
+			var list = new List<Exam>();
 
 			try
 			{
@@ -161,7 +161,7 @@ namespace SafeExamBrowser.Server
 
 				foreach (var exam in json.AsJEnumerable())
 				{
-					exams.Add(new Exam
+					list.Add(new Exam
 					{
 						Id = exam["examId"].Value<string>(),
 						LmsName = exam["lmsType"].Value<string>(),
@@ -174,6 +174,8 @@ namespace SafeExamBrowser.Server
 			{
 				logger.Error("Failed to parse exams!", e);
 			}
+
+			exams = list;
 
 			return exams.Any();
 		}
@@ -271,7 +273,15 @@ namespace SafeExamBrowser.Server
 
 			if (attributesJson.ContainsKey("type"))
 			{
-				attributes.Type = attributesJson["type"].Value<string>();
+				switch (attributesJson["type"].Value<string>())
+				{
+					case "lockscreen":
+						attributes.Type = AttributeType.LockScreen;
+						break;
+					case "raisehand":
+						attributes.Type = AttributeType.Hand;
+						break;
+				}
 			}
 		}
 
