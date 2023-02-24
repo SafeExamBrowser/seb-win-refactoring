@@ -17,6 +17,7 @@ using Newtonsoft.Json.Linq;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Server.Data;
+using SafeExamBrowser.Server.Requests;
 
 namespace SafeExamBrowser.Server
 {
@@ -111,7 +112,7 @@ namespace SafeExamBrowser.Server
 
 			try
 			{
-				var hasHeader = response.Headers.TryGetValues("SEBExamSalt", out var values);
+				var hasHeader = response.Headers.TryGetValues(Header.APP_SIGNATURE_KEY_SALT, out var values);
 
 				if (hasHeader)
 				{
@@ -132,7 +133,7 @@ namespace SafeExamBrowser.Server
 
 			try
 			{
-				var hasHeader = response.Headers.TryGetValues("SEBConnectionToken", out var values);
+				var hasHeader = response.Headers.TryGetValues(Header.CONNECTION_TOKEN, out var values);
 
 				if (hasHeader)
 				{

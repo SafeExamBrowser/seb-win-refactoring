@@ -11,6 +11,7 @@ namespace SafeExamBrowser.Server.Requests
 	internal static class Header
 	{
 		internal const string ACCEPT = "Accept";
+		internal const string APP_SIGNATURE_KEY_SALT = "SEBExamSalt";
 		internal const string AUTHORIZATION = "Authorization";
 		internal const string CONNECTION_TOKEN = "SEBConnectionToken";
 	}
