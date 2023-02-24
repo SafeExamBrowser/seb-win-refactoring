@@ -51,6 +51,10 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (Context.Next.Settings.SessionMode == SessionMode.Server)
 			{
+				var exam = default(Exam);
+				var exams = default(IEnumerable<Exam>);
+				var uri = default(Uri);
+
 				logger.Info("Initializing server...");
 				StatusChanged?.Invoke(TextKey.OperationStatus_InitializeServer);
 
@@ -60,22 +64,27 @@ namespace SafeExamBrowser.Runtime.Operations
 
 				if (success)
 				{
-					(abort, fallback, success) = TryPerformWithFallback(() => server.GetAvailableExams(Context.Next.Settings.Server.ExamId), out var exams);
+					(abort, fallback, success) = TryPerformWithFallback(() => server.GetAvailableExams(Context.Next.Settings.Server.ExamId), out exams);
+				}
 
-					if (success)
-					{
-						success = TrySelectExam(exams, out var exam);
+				if (success)
+				{
+					success = TrySelectExam(exams, out exam);
+				}
 
-						if (success)
-						{
-							(abort, fallback, success) = TryPerformWithFallback(() => server.GetConfigurationFor(exam), out var uri);
+				if (success)
+				{
+					(abort, fallback, success) = TryPerformWithFallback(() => server.GetConfigurationFor(exam), out uri);
+				}
 
-							if (success)
-							{
-								result = TryLoadServerSettings(exam, uri);
-							}
-						}
-					}
+				if (success)
+				{
+					result = TryLoadServerSettings(exam, uri);
+				}
+
+				if (success && result == OperationResult.Success)
+				{
+					(abort, fallback, success) = TryPerformWithFallback(() => server.SendSelectedExam(exam));
 				}
 
 				if (abort)
@@ -97,25 +106,22 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public override OperationResult Repeat()
 		{
-			if (Context.Current.Settings.SessionMode == SessionMode.Server)
-			{
-				if (Context.Next.Settings.SessionMode == SessionMode.Server)
-				{
-					ShowReconfigurationError();
+			var result = OperationResult.Success;
 
-					return OperationResult.Aborted;
-				}
-				else
-				{
-					return Revert();
-				}
+			if (Context.Current.Settings.SessionMode == SessionMode.Server && Context.Next.Settings.SessionMode == SessionMode.Server)
+			{
+				result = AbortServerReconfiguration();
+			}
+			else if (Context.Current.Settings.SessionMode == SessionMode.Server)
+			{
+				result = Revert();
 			}
 			else if (Context.Next.Settings.SessionMode == SessionMode.Server)
 			{
-				return Perform();
+				result = Perform();
 			}
 
-			return OperationResult.Success;
+			return result;
 		}
 
 		public override OperationResult Revert()
@@ -254,7 +260,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			return success;
 		}
 
-		private void ShowReconfigurationError()
+		private OperationResult AbortServerReconfiguration()
 		{
 			var args = new MessageEventArgs
 			{
@@ -263,9 +269,11 @@ namespace SafeExamBrowser.Runtime.Operations
 				Message = TextKey.MessageBox_ServerReconfigurationWarning,
 				Title = TextKey.MessageBox_ServerReconfigurationWarningTitle
 			};
-			logger.Warn("Server reconfiguration requested but is not allowed.");
 
+			logger.Warn("Server reconfiguration is currently not supported, aborting...");
 			ActionRequired?.Invoke(args);
+
+			return OperationResult.Aborted;
 		}
 	}
 }

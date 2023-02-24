@@ -105,6 +105,27 @@ namespace SafeExamBrowser.Server
 			return success;
 		}
 
+		internal bool TryParseAppSignatureKeySalt(HttpResponseMessage response, out string salt)
+		{
+			salt = default;
+
+			try
+			{
+				var hasHeader = response.Headers.TryGetValues("SEBExamSalt", out var values);
+
+				if (hasHeader)
+				{
+					salt = values.First();
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to parse app signature key salt!", e);
+			}
+
+			return salt != default;
+		}
+
 		internal bool TryParseConnectionToken(HttpResponseMessage response, out string connectionToken)
 		{
 			connectionToken = default;

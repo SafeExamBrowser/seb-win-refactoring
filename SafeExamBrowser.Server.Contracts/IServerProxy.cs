@@ -100,6 +100,11 @@ namespace SafeExamBrowser.Server.Contracts
 		ServerResponse LowerHand();
 
 		/// <summary>
+		/// Sends the selected exam to the server.
+		/// </summary>
+		ServerResponse SendSelectedExam(Exam exam);
+
+		/// <summary>
 		/// Sends the given user session identifier of a LMS and thus establishes a connection with the server.
 		/// </summary>
 		ServerResponse SendSessionIdentifier(string identifier);

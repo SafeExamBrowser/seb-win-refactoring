@@ -348,6 +348,38 @@ namespace SafeExamBrowser.Server
 			return new ServerResponse(success, response.ToLogString());
 		}
 
+		public ServerResponse SendSelectedExam(Exam exam)
+		{
+			var authorization = ("Authorization", $"Bearer {oauth2Token}");
+			var content = $"examId={exam.Id}";
+			var contentType = "application/x-www-form-urlencoded";
+			var token = ("SEBConnectionToken", connectionToken);
+
+			var success = TryExecute(new HttpMethod("PATCH"), api.HandshakeEndpoint, out var response, content, contentType, authorization, token);
+			var message = response.ToLogString();
+
+			if (success)
+			{
+				logger.Info("Successfully sent selected exam.");
+			}
+			else
+			{
+				logger.Error("Failed to send selected exam!");
+			}
+
+			if (parser.TryParseAppSignatureKeySalt(response, out var salt))
+			{
+				logger.Info("App signature key salt detected, performing key exchange...");
+				success = TrySendAppSignatureKey(out message);
+			}
+			else
+			{
+				logger.Info("No app signature key salt detected, skipping key exchange.");
+			}
+
+			return new ServerResponse(success, message);
+		}
+
 		public ServerResponse SendSessionIdentifier(string identifier)
 		{
 			var authorization = ("Authorization", $"Bearer {oauth2Token}");
@@ -609,6 +641,31 @@ namespace SafeExamBrowser.Server
 			else
 			{
 				logger.Error("Failed to retrieve OAuth2 token!");
+			}
+
+			return success;
+		}
+
+		private bool TrySendAppSignatureKey(out string message)
+		{
+			// TODO:
+			// keyGenerator.CalculateAppSignatureKey(configurationKey, server.AppSignatureKeySalt)
+
+			var authorization = ("Authorization", $"Bearer {oauth2Token}");
+			var content = $"seb_signature_key={"WINDOWS-TEST-ASK-1234"}";
+			var contentType = "application/x-www-form-urlencoded";
+			var token = ("SEBConnectionToken", connectionToken);
+			var success = TryExecute(new HttpMethod("PATCH"), api.HandshakeEndpoint, out var response, content, contentType, authorization, token);
+
+			message = response.ToLogString();
+
+			if (success)
+			{
+				logger.Info("Successfully sent app signature key.");
+			}
+			else
+			{
+				logger.Error("Failed to send app signature key!");
 			}
 
 			return success;
