@@ -54,24 +54,31 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 					((LayoutsStackPanel.Children[0] as ContentControl).Content as UIElement).Focus();
 				})));
 			};
-			var lastOpenedBySpacePress = DateTime.MinValue;
+			var lastOpenedBySpacePress = false;
 			Button.PreviewKeyDown += (o, args) =>
 			{
 				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
 				{
-					lastOpenedBySpacePress = DateTime.Now;
+					lastOpenedBySpacePress = true;
 				}
 			};
 			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
 			{
-				if (Popup.IsOpen && (DateTime.Now - lastOpenedBySpacePress).TotalSeconds < 3)
+				if (Popup.IsOpen && lastOpenedBySpacePress)
 				{
 					return;
 				}
 				Popup.IsOpen = Popup.IsMouseOver;
 			}));
 			Popup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(Popup_PlacementCallback);
-			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
+			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
+			{
+				if (Popup.IsOpen && lastOpenedBySpacePress)
+				{
+					return;
+				}
+				Popup.IsOpen = IsMouseOver;
+			}));
 
 			Popup.Opened += (o, args) =>
 			{
@@ -83,6 +90,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 			{
 				Background = originalBrush;
 				Button.Background = originalBrush;
+				lastOpenedBySpacePress = false;
 			};
 		}
 

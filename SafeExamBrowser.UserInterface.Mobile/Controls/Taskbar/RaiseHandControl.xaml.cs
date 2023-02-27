@@ -55,17 +55,17 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			RaisedIcon = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Hand_Raised.xaml") };
 			Icon.Content = IconResourceLoader.Load(LoweredIcon);
 
-			var lastOpenedBySpacePress = DateTime.MinValue;
+			var lastOpenedBySpacePress = false;
 			NotificationButton.PreviewKeyDown += (o, args) =>
 			{
 				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
 				{
-					lastOpenedBySpacePress = DateTime.Now;
+					lastOpenedBySpacePress = true;
 				}
 			};
 			NotificationButton.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
 			{
-				if (Popup.IsOpen && (DateTime.Now - lastOpenedBySpacePress).TotalSeconds < 3)
+				if (Popup.IsOpen && lastOpenedBySpacePress)
 				{
 					return;
 				}
@@ -76,7 +76,14 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			NotificationButton.ToolTip = text.Get(TextKey.Notification_ProctoringHandLowered);
 
 			Popup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(Popup_PlacementCallback);
-			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
+			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
+			{
+				if (Popup.IsOpen && lastOpenedBySpacePress)
+				{
+					return;
+				}
+				Popup.IsOpen = IsMouseOver;
+			}));
 			Popup.Opened += (o, args) =>
 			{
 				Background = Brushes.LightGray;
@@ -87,6 +94,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			{
 				Background = originalBrush;
 				NotificationButton.Background = originalBrush;
+				lastOpenedBySpacePress = false;
 			};
 		}
 

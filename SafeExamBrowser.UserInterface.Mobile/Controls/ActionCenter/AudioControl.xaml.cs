@@ -49,17 +49,17 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 
 			audio.VolumeChanged += Audio_VolumeChanged;
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
-			var lastOpenedBySpacePress = DateTime.MinValue;
+			var lastOpenedBySpacePress = false;
 			Button.PreviewKeyDown += (o, args) =>
 			{
 				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
 				{
-					lastOpenedBySpacePress = DateTime.Now;
+					lastOpenedBySpacePress = true;
 				}
 			};
 			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
 			{
-				if (Popup.IsOpen && (DateTime.Now - lastOpenedBySpacePress).TotalSeconds < 3)
+				if (Popup.IsOpen && lastOpenedBySpacePress)
 				{
 					return;
 				}
@@ -68,9 +68,20 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 			MuteButton.Click += MuteButton_Click;
 			MutedIcon = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Audio_Muted.xaml") };
 			NoDeviceIcon = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/Audio_Light_NoDevice.xaml") };
-			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
+			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
+			{
+				if (Popup.IsOpen && lastOpenedBySpacePress)
+				{
+					return;
+				}
+				Popup.IsOpen = IsMouseOver;
+			}));
 			Popup.Opened += (o, args) => Grid.Background = Brushes.Gray;
-			Popup.Closed += (o, args) => Grid.Background = originalBrush;
+			Popup.Closed += (o, args) =>
+			{
+				Grid.Background = originalBrush;
+				lastOpenedBySpacePress = false;
+			};
 			Volume.ValueChanged += Volume_ValueChanged;
 
 			if (audio.HasOutputDevice)
