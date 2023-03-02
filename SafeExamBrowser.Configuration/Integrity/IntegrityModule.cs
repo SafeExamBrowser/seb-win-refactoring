@@ -74,6 +74,26 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 		}
 
+		public bool TryCalculateAppSignatureKey(string connectionToken, string salt, out string appSignatureKey)
+		{
+			appSignatureKey = default;
+
+			try
+			{
+				appSignatureKey = CalculateAppSignatureKey(connectionToken, salt);
+			}
+			catch (DllNotFoundException)
+			{
+				logger.Warn("Integrity module is not available!");
+			}
+			catch (Exception e)
+			{
+				logger.Error("Unexpected error while attempting to calculate app signature key!", e);
+			}
+
+			return appSignatureKey != default;
+		}
+
 		public bool TryCalculateBrowserExamKey(string configurationKey, string salt, out string browserExamKey)
 		{
 			browserExamKey = default;
@@ -213,6 +233,10 @@ namespace SafeExamBrowser.Configuration.Integrity
 
 			return success;
 		}
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.BStr)]
+		private static extern string CalculateAppSignatureKey(string connectionToken, string salt);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.BStr)]

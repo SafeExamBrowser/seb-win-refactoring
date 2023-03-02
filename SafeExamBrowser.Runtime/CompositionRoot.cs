@@ -71,6 +71,7 @@ namespace SafeExamBrowser.Runtime
 			var displayMonitor = new DisplayMonitor(ModuleLogger(nameof(DisplayMonitor)), nativeMethods, systemInfo);
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
 			var fileSystem = new FileSystem();
+			var keyGenerator = new KeyGenerator(appConfig, integrityModule, ModuleLogger(nameof(KeyGenerator)));
 			var messageBox = new MessageBoxFactory(text);
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), ModuleLogger(nameof(ProxyFactory)));
@@ -78,7 +79,7 @@ namespace SafeExamBrowser.Runtime
 			var remoteSessionDetector = new RemoteSessionDetector(ModuleLogger(nameof(RemoteSessionDetector)));
 			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, new HostObjectFactory(), ModuleLogger(nameof(RuntimeHost)), FIVE_SECONDS);
 			var runtimeWindow = uiFactory.CreateRuntimeWindow(appConfig);
-			var server = new ServerProxy(appConfig, ModuleLogger(nameof(ServerProxy)), systemInfo, userInfo);
+			var server = new ServerProxy(appConfig, keyGenerator, ModuleLogger(nameof(ServerProxy)), systemInfo, userInfo);
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)), Interlocutor.Runtime);
 			var sessionContext = new SessionContext();
 			var splashScreen = uiFactory.CreateSplashScreen(appConfig);

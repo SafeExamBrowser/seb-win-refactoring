@@ -13,7 +13,6 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Configuration.Contracts.Integrity;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Configuration.Cryptography
 {
@@ -25,42 +24,51 @@ namespace SafeExamBrowser.Configuration.Cryptography
 		private readonly AppConfig appConfig;
 		private readonly IIntegrityModule integrityModule;
 		private readonly ILogger logger;
-		private readonly AppSettings settings;
 
 		private string browserExamKey;
 
-		public KeyGenerator(AppConfig appConfig, IIntegrityModule integrityModule, ILogger logger, AppSettings settings)
+		public KeyGenerator(AppConfig appConfig, IIntegrityModule integrityModule, ILogger logger)
 		{
 			this.algorithm = new SHA256Managed();
 			this.appConfig = appConfig;
 			this.integrityModule = integrityModule;
 			this.logger = logger;
-			this.settings = settings;
 		}
 
-		public string CalculateBrowserExamKeyHash(string url)
+		public string CalculateAppSignatureKey(string connectionToken, string salt)
+		{
+			if (integrityModule.TryCalculateAppSignatureKey(connectionToken, salt, out var appSignatureKey))
+			{
+				logger.Debug("Successfully calculated app signature key using integrity module.");
+			}
+			else
+			{
+				logger.Error("Failed to calculate app signature key using integrity module!");
+			}
+
+			return appSignatureKey;
+		}
+
+		public string CalculateBrowserExamKeyHash(string configurationKey, byte[] salt, string url)
 		{
 			var urlWithoutFragment = url.Split('#')[0];
-			var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + (browserExamKey ?? ComputeBrowserExamKey())));
+			var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + (browserExamKey ?? ComputeBrowserExamKey(configurationKey, salt))));
 			var key = ToString(hash);
 
 			return key;
 		}
 
-		public string CalculateConfigurationKeyHash(string url)
+		public string CalculateConfigurationKeyHash(string configurationKey, string url)
 		{
 			var urlWithoutFragment = url.Split('#')[0];
-			var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + settings.Browser.ConfigurationKey));
+			var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + configurationKey));
 			var key = ToString(hash);
 
 			return key;
 		}
 
-		private string ComputeBrowserExamKey()
+		private string ComputeBrowserExamKey(string configurationKey, byte[] salt)
 		{
-			var configurationKey = settings.Browser.ConfigurationKey;
-			var salt = settings.Browser.BrowserExamKeySalt;
-
 			lock (@lock)
 			{
 				if (browserExamKey == default)
@@ -81,11 +89,11 @@ namespace SafeExamBrowser.Configuration.Cryptography
 
 					if (integrityModule.TryCalculateBrowserExamKey(configurationKey, ToString(salt), out browserExamKey))
 					{
-						logger.Debug("Successfully calculated BEK using integrity module.");
+						logger.Debug("Successfully calculated browser exam key using integrity module.");
 					}
 					else
 					{
-						logger.Warn("Failed to calculate BEK using integrity module! Falling back to simplified calculation...");
+						logger.Warn("Failed to calculate browser exam key using integrity module! Falling back to simplified calculation...");
 
 						using (var algorithm = new HMACSHA256(salt))
 						{

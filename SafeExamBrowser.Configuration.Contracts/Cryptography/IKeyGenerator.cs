@@ -14,13 +14,18 @@ namespace SafeExamBrowser.Configuration.Contracts.Cryptography
 	public interface IKeyGenerator
 	{
 		/// <summary>
+		/// Calculates the encrypted value of the app signature key.
+		/// </summary>
+		string CalculateAppSignatureKey(string connectionToken, string salt);
+
+		/// <summary>
 		/// Calculates the hash value of the browser exam key (BEK) for the given URL.
 		/// </summary>
-		string CalculateBrowserExamKeyHash(string url);
+		string CalculateBrowserExamKeyHash(string configurationKey, byte[] salt, string url);
 
 		/// <summary>
 		/// Calculates the hash value of the configuration key (CK) for the given URL.
 		/// </summary>
-		string CalculateConfigurationKeyHash(string url);
+		string CalculateConfigurationKeyHash(string configurationKey, string url);
 	}
 }

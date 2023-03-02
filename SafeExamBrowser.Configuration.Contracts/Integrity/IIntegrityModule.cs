@@ -24,6 +24,11 @@ namespace SafeExamBrowser.Configuration.Contracts.Integrity
 		void ClearSession(string configurationKey, string startUrl);
 
 		/// <summary>
+		/// Attempts to calculate the app signature key.
+		/// </summary>
+		bool TryCalculateAppSignatureKey(string connectionToken, string salt, out string appSignatureKey);
+
+		/// <summary>
 		/// Attempts to calculate the browser exam key.
 		/// </summary>
 		bool TryCalculateBrowserExamKey(string configurationKey, string salt, out string browserExamKey);

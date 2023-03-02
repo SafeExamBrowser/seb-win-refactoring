@@ -34,8 +34,8 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		public void OnContextCreated(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
 		{
-			var browserExamKey = keyGenerator.CalculateBrowserExamKeyHash(frame.Url);
-			var configurationKey = keyGenerator.CalculateConfigurationKeyHash(frame.Url);
+			var browserExamKey = keyGenerator.CalculateBrowserExamKeyHash(settings.ConfigurationKey, settings.BrowserExamKeySalt, frame.Url);
+			var configurationKey = keyGenerator.CalculateConfigurationKeyHash(settings.ConfigurationKey, frame.Url);
 			var api = contentLoader.LoadApi(browserExamKey, configurationKey, appConfig.ProgramBuildVersion);
 
 			frame.ExecuteJavaScriptAsync(api);

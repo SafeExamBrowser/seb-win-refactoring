@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using Newtonsoft.Json;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
@@ -34,6 +35,7 @@ namespace SafeExamBrowser.Server
 		private readonly AppConfig appConfig;
 		private readonly FileSystem fileSystem;
 		private readonly ConcurrentQueue<string> instructionConfirmations;
+		private readonly IKeyGenerator keyGenerator;
 		private readonly ILogger logger;
 		private readonly ConcurrentQueue<ILogContent> logContent;
 		private readonly Timer logTimer;
@@ -45,16 +47,16 @@ namespace SafeExamBrowser.Server
 		private readonly INetworkAdapter networkAdapter;
 
 		private ApiVersion1 api;
-		private bool connectedToPowergrid;
 		private int currentHandId;
 		private int currentLockScreenId;
-		private int currentPowerSupplyValue;
-		private int currentWlanValue;
 		private string examId;
 		private HttpClient httpClient;
 		private int notificationId;
 		private int pingNumber;
+		private bool powerSupplyConnected;
+		private int powerSupplyValue;
 		private ServerSettings settings;
+		private int wirelessNetworkValue;
 
 		public event ServerEventHandler HandConfirmed;
 		public event ServerEventHandler LockScreenConfirmed;
@@ -65,6 +67,7 @@ namespace SafeExamBrowser.Server
 
 		public ServerProxy(
 			AppConfig appConfig,
+			IKeyGenerator keyGenerator,
 			ILogger logger,
 			ISystemInfo systemInfo,
 			IUserInfo userInfo,
@@ -73,6 +76,7 @@ namespace SafeExamBrowser.Server
 		{
 			this.api = new ApiVersion1();
 			this.appConfig = appConfig;
+			this.keyGenerator = keyGenerator;
 			this.fileSystem = new FileSystem(appConfig, logger);
 			this.instructionConfirmations = new ConcurrentQueue<string>();
 			this.logger = logger;
@@ -291,7 +295,7 @@ namespace SafeExamBrowser.Server
 			if (success && salt != default)
 			{
 				logger.Info("App signature key salt detected, performing key exchange...");
-				success = TrySendAppSignatureKey(out message);
+				success = TrySendAppSignatureKey(salt, out message);
 			}
 			else
 			{
@@ -425,23 +429,22 @@ namespace SafeExamBrowser.Server
 			{
 				var connected = status.IsOnline;
 				var value = Convert.ToInt32(status.BatteryCharge * 100);
-				var text = default(string);
 
-				if (value != currentPowerSupplyValue)
+				if (powerSupplyConnected != connected || powerSupplyValue != value)
 				{
-					var chargeInfo = $"{status.BatteryChargeStatus} at {value}%";
-					var gridInfo = $"{(status.IsOnline ? "connected to" : "disconnected from")} the power grid";
+					var request = new PowerSupplyRequest(api, httpClient, logger, parser, settings);
+					var success = request.TryExecute(status, powerSupplyConnected, powerSupplyValue, out var message);
 
-					currentPowerSupplyValue = value;
-					text = $"<battery> {chargeInfo}, {status.BatteryTimeRemaining} remaining, {gridInfo}";
+					if (success)
+					{
+						powerSupplyConnected = connected;
+						powerSupplyValue = value;
+					}
+					else
+					{
+						logger.Warn($"Failed to send power supply status! {message}");
+					}
 				}
-				else if (connected != connectedToPowergrid)
-				{
-					connectedToPowergrid = connected;
-					text = $"<battery> Device has been {(connected ? "connected to" : "disconnected from")} power grid";
-				}
-
-				new PowerSupplyRequest(api, httpClient, logger, parser, settings).TryExecute(text, value);
 			}
 			catch (Exception e)
 			{
@@ -457,23 +460,19 @@ namespace SafeExamBrowser.Server
 			{
 				var network = networkAdapter.GetWirelessNetworks().FirstOrDefault(n => n.Status == ConnectionStatus.Connected);
 
-				if (network?.SignalStrength != currentWlanValue)
+				if (network?.SignalStrength != wirelessNetworkValue)
 				{
-					var text = default(string);
-					var value = default(int?);
+					var request = new NetworkAdapterRequest(api, httpClient, logger, parser, settings);
+					var success = request.TryExecute(network, out var message);
 
-					if (network != default(IWirelessNetwork))
+					if (success)
 					{
-						text = $"<wlan> {network.Name}: {network.Status}, {network.SignalStrength}%";
-						value = network.SignalStrength;
+						wirelessNetworkValue = network?.SignalStrength ?? NOT_CONNECTED;
 					}
 					else
 					{
-						text = "<wlan> not connected";
+						logger.Warn($"Failed to send wireless status! {message}");
 					}
-
-					new NetworkAdapterRequest(api, httpClient, logger, parser, settings).TryExecute(text, value);
-					currentWlanValue = network?.SignalStrength ?? NOT_CONNECTED;
 				}
 			}
 			catch (Exception e)
@@ -507,13 +506,11 @@ namespace SafeExamBrowser.Server
 			}
 		}
 
-		private bool TrySendAppSignatureKey(out string message)
+		private bool TrySendAppSignatureKey(string salt, out string message)
 		{
-			// TODO:
-			// keyGenerator.CalculateAppSignatureKey(configurationKey, server.AppSignatureKeySalt)
-
+			var appSignatureKey = keyGenerator.CalculateAppSignatureKey(BaseRequest.ConnectionToken, salt);
 			var request = new AppSignatureKeyRequest(api, httpClient, logger, parser, settings);
-			var success = request.TryExecute(out message);
+			var success = request.TryExecute(appSignatureKey, out message);
 
 			if (success)
 			{

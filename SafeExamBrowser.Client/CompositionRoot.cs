@@ -223,7 +223,7 @@ namespace SafeExamBrowser.Client
 		private IOperation BuildBrowserOperation()
 		{
 			var fileSystemDialog = BuildFileSystemDialog();
-			var keyGenerator = new KeyGenerator(context.AppConfig, context.IntegrityModule, ModuleLogger(nameof(KeyGenerator)), context.Settings);
+			var keyGenerator = new KeyGenerator(context.AppConfig, context.IntegrityModule, ModuleLogger(nameof(KeyGenerator)));
 			var moduleLogger = ModuleLogger(nameof(BrowserApplication));
 			var browser = new BrowserApplication(
 				context.AppConfig,
@@ -287,7 +287,8 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildServerOperation()
 		{
-			var server = new ServerProxy(context.AppConfig, ModuleLogger(nameof(ServerProxy)), systemInfo, userInfo, powerSupply, networkAdapter);
+			var keyGenerator = new KeyGenerator(context.AppConfig, context.IntegrityModule, ModuleLogger(nameof(KeyGenerator)));
+			var server = new ServerProxy(context.AppConfig, keyGenerator, ModuleLogger(nameof(ServerProxy)), systemInfo, userInfo, powerSupply, networkAdapter);
 			var operation = new ServerOperation(context, logger, server);
 
 			context.Server = server;

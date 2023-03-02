@@ -13,6 +13,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Data;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.Settings.Server;
+using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 
 namespace SafeExamBrowser.Server.Requests
 {
@@ -27,8 +28,24 @@ namespace SafeExamBrowser.Server.Requests
 		{
 		}
 
-		internal bool TryExecute(string text, int value)
+		internal bool TryExecute(IPowerSupplyStatus status, bool previouslyConnected, int previousValue, out string message)
 		{
+			var connected = status.IsOnline;
+			var text = default(string);
+			var value = Convert.ToInt32(status.BatteryCharge * 100);
+
+			if (value != previousValue)
+			{
+				var chargeInfo = $"{status.BatteryChargeStatus} at {value}%";
+				var gridInfo = $"{(connected ? "connected to" : "disconnected from")} the power grid";
+
+				text = $"<battery> {chargeInfo}, {status.BatteryTimeRemaining} remaining, {gridInfo}";
+			}
+			else if (connected != previouslyConnected)
+			{
+				text = $"<battery> Device has been {(connected ? "connected to" : "disconnected from")} power grid";
+			}
+
 			var json = new JObject
 			{
 				["numericValue"] = value,
@@ -37,7 +54,9 @@ namespace SafeExamBrowser.Server.Requests
 				["type"] = LogLevel.Info.ToLogType()
 			};
 
-			var success = TryExecute(HttpMethod.Post, api.LogEndpoint, out _, json.ToString(), ContentType.JSON, Authorization, Token);
+			var success = TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, json.ToString(), ContentType.JSON, Authorization, Token);
+
+			message = response.ToLogString();
 
 			return success;
 		}

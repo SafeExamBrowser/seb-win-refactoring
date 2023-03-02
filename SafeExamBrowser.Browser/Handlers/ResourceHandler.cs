@@ -124,12 +124,12 @@ namespace SafeExamBrowser.Browser.Handlers
 
 				if (settings.SendConfigurationKey)
 				{
-					headers["X-SafeExamBrowser-ConfigKeyHash"] = keyGenerator.CalculateConfigurationKeyHash(request.Url);
+					headers["X-SafeExamBrowser-ConfigKeyHash"] = keyGenerator.CalculateConfigurationKeyHash(settings.ConfigurationKey, request.Url);
 				}
 
 				if (settings.SendBrowserExamKey)
 				{
-					headers["X-SafeExamBrowser-RequestHash"] = keyGenerator.CalculateBrowserExamKeyHash(request.Url);
+					headers["X-SafeExamBrowser-RequestHash"] = keyGenerator.CalculateBrowserExamKeyHash(settings.ConfigurationKey, settings.BrowserExamKeySalt, request.Url);
 				}
 
 				request.Headers = headers;

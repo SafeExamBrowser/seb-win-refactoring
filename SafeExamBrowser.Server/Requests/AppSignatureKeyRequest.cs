@@ -24,9 +24,9 @@ namespace SafeExamBrowser.Server.Requests
 		{
 		}
 
-		internal bool TryExecute(out string message)
+		internal bool TryExecute(string appSignatureKey, out string message)
 		{
-			var content = $"seb_signature_key={"WINDOWS-TEST-ASK-1234"}";
+			var content = $"seb_signature_key={appSignatureKey}";
 			var success = TryExecute(new HttpMethod("PATCH"), api.HandshakeEndpoint, out var response, content, ContentType.URL_ENCODED, Authorization, Token);
 
 			message = response.ToLogString();

@@ -13,6 +13,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Data;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.Settings.Server;
+using SafeExamBrowser.SystemComponents.Contracts.Network;
 
 namespace SafeExamBrowser.Server.Requests
 {
@@ -27,21 +28,23 @@ namespace SafeExamBrowser.Server.Requests
 		{
 		}
 
-		internal bool TryExecute(string text, int? value = default)
+		internal bool TryExecute(IWirelessNetwork network, out string message)
 		{
 			var json = new JObject
 			{
-				["text"] = text,
+				["text"] = network != default ? $"<wlan> {network.Name}: {network.Status}, {network.SignalStrength}%" : "<wlan> not connected",
 				["timestamp"] = DateTime.Now.ToUnixTimestamp(),
 				["type"] = LogLevel.Info.ToLogType()
 			};
 
-			if (value != default)
+			if (network != default)
 			{
-				json["numericValue"] = value.Value;
+				json["numericValue"] = network.SignalStrength;
 			}
 
 			var success = TryExecute(HttpMethod.Post, api.LogEndpoint, out var response, json.ToString(), ContentType.JSON, Authorization, Token);
+
+			message = response.ToLogString();
 
 			return success;
 		}

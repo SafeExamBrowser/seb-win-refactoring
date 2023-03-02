@@ -60,8 +60,8 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			var request = new Mock<IRequest>();
 
 			browser.SetupGet(b => b.Address).Returns("http://www.host.org");
-			keyGenerator.Setup(g => g.CalculateBrowserExamKeyHash(It.IsAny<string>())).Returns(new Random().Next().ToString());
-			keyGenerator.Setup(g => g.CalculateConfigurationKeyHash(It.IsAny<string>())).Returns(new Random().Next().ToString());
+			keyGenerator.Setup(g => g.CalculateBrowserExamKeyHash(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<string>())).Returns(new Random().Next().ToString());
+			keyGenerator.Setup(g => g.CalculateConfigurationKeyHash(It.IsAny<string>(), It.IsAny<string>())).Returns(new Random().Next().ToString());
 			request.SetupGet(r => r.Headers).Returns(new NameValueCollection());
 			request.SetupGet(r => r.Url).Returns("http://www.host.org");
 			request.SetupSet(r => r.Headers = It.IsAny<NameValueCollection>()).Callback<NameValueCollection>((h) => headers = h);
