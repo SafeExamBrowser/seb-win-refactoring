@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using SafeExamBrowser.Configuration.Contracts;
@@ -21,8 +22,8 @@ namespace SafeExamBrowser.Configuration.DataResources
 {
 	public class NetworkResourceLoader : IResourceLoader
 	{
-		private AppConfig appConfig;
-		private ILogger logger;
+		private readonly AppConfig appConfig;
+		private readonly ILogger logger;
 
 		/// <remarks>
 		/// See https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types.
@@ -69,7 +70,7 @@ namespace SafeExamBrowser.Configuration.DataResources
 
 			logger.Debug($"Sending GET request for '{uri}'...");
 
-			var request = new HttpRequestMessage(HttpMethod.Get, uri);
+			var request = Build(HttpMethod.Get, uri);
 			var response = Execute(request);
 
 			logger.Debug($"Received response '{ToString(response)}'.");
@@ -84,6 +85,16 @@ namespace SafeExamBrowser.Configuration.DataResources
 			logger.Debug($"Created '{data}' for {data.Length / 1000.0} KB data of response body.");
 
 			return LoadStatus.Success;
+		}
+
+		private HttpRequestMessage Build(HttpMethod method, Uri uri)
+		{
+			var request = new HttpRequestMessage(method, uri);
+			var userAgent = new ProductInfoHeaderValue("SEB", appConfig.ProgramInformationalVersion);
+
+			request.Headers.UserAgent.Add(userAgent);
+
+			return request;
 		}
 
 		private Uri BuildUriFor(Uri resource)
@@ -158,9 +169,9 @@ namespace SafeExamBrowser.Configuration.DataResources
 			{
 				logger.Debug($"Sending HEAD request for '{uri}'...");
 
-				var request = new HttpRequestMessage(HttpMethod.Head, uri);
+				var request = Build(HttpMethod.Head, uri);
 				var response = Execute(request);
-				
+
 				isAvailable = response.IsSuccessStatusCode || IsUnauthorized(response);
 				logger.Debug($"Received response '{ToString(response)}'.");
 			}
@@ -175,7 +186,7 @@ namespace SafeExamBrowser.Configuration.DataResources
 				{
 					logger.Debug($"HEAD request was not successful, trying GET request for '{uri}'...");
 
-					var request = new HttpRequestMessage(HttpMethod.Get, uri);
+					var request = Build(HttpMethod.Get, uri);
 					var response = Execute(request);
 
 					isAvailable = response.IsSuccessStatusCode || IsUnauthorized(response);
