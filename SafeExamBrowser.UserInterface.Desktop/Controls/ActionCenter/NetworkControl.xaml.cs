@@ -74,10 +74,13 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 				Grid.Background = Brushes.Gray;
 				Task.Delay(100).ContinueWith((task) => Dispatcher.Invoke(() =>
 				{
-					var btn = WirelessNetworksStackPanel.Children[0] as NetworkButton;
-					if (btn != null)
+					if (WirelessNetworksStackPanel.Children.Count > 0)
 					{
-						btn.SetFocus();
+						var btn = WirelessNetworksStackPanel.Children[0] as NetworkButton;
+						if (btn != null)
+						{
+							btn.SetFocus();
+						}
 					}
 				}));
 			};
