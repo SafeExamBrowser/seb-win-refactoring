@@ -80,7 +80,7 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" x:Name="FindMenuText" HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center" />
-                                    <Button Grid.Column="1" x:Name="FindMenuButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}" TabIndex="33">
+                                    <Button Grid.Column="1" x:Name="FindMenuButton" Margin="5" Padding="5" Template="{StaticResource BrowserButton}" TabIndex="33" AutomationProperties.LabeledBy="{Binding ElementName=FindMenuText}">
                                         <fa:ImageAwesome Icon="Search" />
                                     </Button>
                                 </Grid>

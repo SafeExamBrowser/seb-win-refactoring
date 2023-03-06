@@ -41,6 +41,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 		{
 			IconButton.ToolTip = notification.Tooltip;
 			IconButton.Content = IconResourceLoader.Load(notification.IconResource);
+			System.Windows.Automation.AutomationProperties.SetName(this, notification.Tooltip);
 		}
 	}
 }

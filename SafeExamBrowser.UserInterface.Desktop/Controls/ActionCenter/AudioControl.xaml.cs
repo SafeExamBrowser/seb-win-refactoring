@@ -49,13 +49,39 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 
 			audio.VolumeChanged += Audio_VolumeChanged;
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
-			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
+			var lastOpenedBySpacePress = false;
+			Button.PreviewKeyDown += (o, args) =>
+			{
+				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
+				{
+					lastOpenedBySpacePress = true;
+				}
+			};
+			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
+			{
+				if (Popup.IsOpen && lastOpenedBySpacePress)
+				{
+					return;
+				}
+				Popup.IsOpen = Popup.IsMouseOver;
+			}));
 			MuteButton.Click += MuteButton_Click;
 			MutedIcon = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Audio_Muted.xaml") };
 			NoDeviceIcon = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Audio_Light_NoDevice.xaml") };
-			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
+			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
+			{
+				if (Popup.IsOpen && lastOpenedBySpacePress)
+				{
+					return;
+				}
+				Popup.IsOpen = IsMouseOver;
+			}));
 			Popup.Opened += (o, args) => Grid.Background = Brushes.Gray;
-			Popup.Closed += (o, args) => Grid.Background = originalBrush;
+			Popup.Closed += (o, args) =>
+			{
+				Grid.Background = originalBrush;
+				lastOpenedBySpacePress = false;
+			};
 			Volume.ValueChanged += Volume_ValueChanged;
 
 			if (audio.HasOutputDevice)
@@ -114,6 +140,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 			this.muted = muted;
 
 			Button.ToolTip = info;
+			System.Windows.Automation.AutomationProperties.SetName(Button, info);
 			Text.Text = info;
 			Volume.ValueChanged -= Volume_ValueChanged;
 			Volume.Value = Math.Round(volume * 100);
@@ -121,14 +148,18 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 
 			if (muted)
 			{
+				var tooltip = text.Get(TextKey.SystemControl_AudioDeviceUnmuteTooltip);
+				MuteButton.ToolTip = tooltip;
+				System.Windows.Automation.AutomationProperties.SetName(MuteButton, tooltip);
 				ButtonIcon.Content = IconResourceLoader.Load(MutedIcon);
-				MuteButton.ToolTip = text.Get(TextKey.SystemControl_AudioDeviceUnmuteTooltip);
 				PopupIcon.Content = IconResourceLoader.Load(MutedIcon);
 			}
 			else
 			{
+				var tooltip = text.Get(TextKey.SystemControl_AudioDeviceMuteTooltip);
+				MuteButton.ToolTip = tooltip;
+				System.Windows.Automation.AutomationProperties.SetName(MuteButton, tooltip);
 				ButtonIcon.Content = LoadIcon(volume);
-				MuteButton.ToolTip = text.Get(TextKey.SystemControl_AudioDeviceMuteTooltip);
 				PopupIcon.Content = LoadIcon(volume);
 			}
 		}

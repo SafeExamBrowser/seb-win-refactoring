@@ -31,7 +31,7 @@
         Drucken ist nicht erlaubt gemäss der aktiven Konfiguration.
     </Entry>
     <Entry key="Browser_Tooltip">
-        Browser Applikation
+        Geöffnete Websites
     </Entry>
     <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
         Entwickler-Konsole
@@ -69,6 +69,9 @@
     <Entry key="BrowserWindow_MenuButton">
         Menü
     </Entry>
+    <Entry key="BrowserWindow_CloseButton">
+        Schliessen
+    </Entry>
     <Entry key="BrowserWindow_UrlTextBox">
         URL eingeben
     </Entry>
@@ -83,6 +86,15 @@
     </Entry>
     <Entry key="BrowserWindow_ZoomMenuMinus">
         Zoom verkleinern
+    </Entry>
+    <Entry key="BrowserWindow_SearchTextBox">
+        Text eingeben zum Suchen
+    </Entry>
+    <Entry key="BrowserWindow_SearchNext">
+        Nächstes Suchresultat
+    </Entry>
+    <Entry key="BrowserWindow_SearchPrevious">
+        Vorheriges Suchresultat
     </Entry>
     <Entry key="Build">
         Build

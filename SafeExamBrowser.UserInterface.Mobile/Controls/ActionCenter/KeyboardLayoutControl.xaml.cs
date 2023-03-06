@@ -6,7 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Threading.Tasks;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Media;
 using SafeExamBrowser.I18n.Contracts;
@@ -49,10 +51,36 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 					LayoutsStackPanel.Children[0].Focus();
 				}));
 			};
-			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
-			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
+			var lastOpenedBySpacePress = false;
+			Button.PreviewKeyDown += (o, args) =>
+			{
+				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
+				{
+					lastOpenedBySpacePress = true;
+				}
+			};
+			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
+			{
+				if (Popup.IsOpen && lastOpenedBySpacePress)
+				{
+					return;
+				}
+				Popup.IsOpen = Popup.IsMouseOver;
+			}));
+			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
+			{
+				if (Popup.IsOpen && lastOpenedBySpacePress)
+				{
+					return;
+				}
+				Popup.IsOpen = IsMouseOver;
+			}));
 			Popup.Opened += (o, args) => Grid.Background = Brushes.Gray;
-			Popup.Closed += (o, args) => Grid.Background = originalBrush;
+			Popup.Closed += (o, args) =>
+			{
+				Grid.Background = originalBrush;
+				lastOpenedBySpacePress = false;
+			};
 		}
 
 		private void Keyboard_LayoutChanged(IKeyboardLayout layout)
@@ -96,6 +124,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 
 			Text.Text = layout.CultureName;
 			Button.ToolTip = tooltip;
+			AutomationProperties.SetName(Button, tooltip);
 		}
 
 		private void Popup_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
