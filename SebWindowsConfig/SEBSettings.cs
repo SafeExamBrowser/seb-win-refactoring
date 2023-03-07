@@ -844,7 +844,8 @@ namespace SebWindowsConfig
 				"ptoneclk.exe",
 				"AA_v3.exe",
 				"CiscoCollabHost.exe",
-				"CiscoWebExStart.exe"
+				"CiscoWebExStart.exe",
+				"remoting_host.exe"
 			};
 
 			// Default settings for group "Network - Filter"
