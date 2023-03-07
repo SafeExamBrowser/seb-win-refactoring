@@ -30,52 +30,52 @@
                 <LineBreak />
                 <Bold><Underline>.NET Framework</Underline></Bold>
                 <LineBreak />
-                Copyright © 2002-2022 Microsoft. All rights reserved.
+                Copyright © 2002-2023 Microsoft. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>CefSharp (.NET bindings for the Chromium Embedded Framework)</Underline></Bold>
                 <LineBreak />
-                Copyright © 2010-2022 The CefSharp Authors. All rights reserved.
+                Copyright © 2010-2023 The CefSharp Authors. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>CEF (Chromium Embedded Framework)</Underline></Bold>
                 <LineBreak />
-                Copyright © 2008-2022 The Chromium Embedded Framework Authors. All rights reserved.
+                Copyright © 2008-2023 The Chromium Embedded Framework Authors. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Edge WebView2 Runtime</Underline></Bold>
                 <LineBreak />
-                Copyright © 2019-2022 Microsoft. All rights reserved.
+                Copyright © 2019-2023 Microsoft. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Font-Awesome-WPF</Underline></Bold>
                 <LineBreak />
-                Copyright © 2014-2022 charri. All rights reserved.
+                Copyright © 2014-2023 charri. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>KnownFolders</Underline></Bold>
                 <LineBreak />
-                Copyright © 2017-2022 Syroot. All rights reserved.
+                Copyright © 2017-2023 Syroot. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>NAudio</Underline></Bold>
                 <LineBreak />
-                Copyright © 2008-2022 Mark Heath &amp; contributors. All rights reserved.
+                Copyright © 2008-2023 Mark Heath &amp; contributors. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Newtonsoft.Json</Underline></Bold>
                 <LineBreak />
-                Copyright © 2007-2022 James Newton-King. All rights reserved.
+                Copyright © 2007-2023 James Newton-King. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>SimpleWifi</Underline></Bold>
                 <LineBreak />
-                Copyright © 2013-2015 DigiExam. All rights reserved.
+                Copyright © 2013-2023 DigiExam. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Visual C++ Redistributable</Underline></Bold>
                 <LineBreak />
-                Copyright © 1993-2022 Microsoft. All rights reserved.
+                Copyright © 1993-2023 Microsoft. All rights reserved.
             </TextBlock>
         </ScrollViewer>
     </Grid>

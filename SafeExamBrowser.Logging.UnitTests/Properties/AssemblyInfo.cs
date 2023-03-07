@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Safe Exam Browser")]
 [assembly: AssemblyCompany("ETH Zürich")]
 [assembly: AssemblyProduct("SafeExamBrowser.Logging.UnitTests")]
-[assembly: AssemblyCopyright("Copyright © 2022 ETH Zürich, Educational Development and Technology (LET)")]
+[assembly: AssemblyCopyright("Copyright © 2023 ETH Zürich, Educational Development and Technology (LET)")]
 
 [assembly: ComVisible(false)]
 
