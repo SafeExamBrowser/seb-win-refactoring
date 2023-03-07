@@ -92,12 +92,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Proctoring.Zoom.AllowRaiseHand:
 					MapZoomAllowRaiseHands(settings, value);
 					break;
-				case Keys.Proctoring.Zoom.ApiKey:
-					MapZoomApiKey(settings, value);
-					break;
-				case Keys.Proctoring.Zoom.ApiSecret:
-					MapZoomApiSecret(settings, value);
-					break;
 				case Keys.Proctoring.Zoom.AudioMuted:
 					MapZoomAudioMuted(settings, value);
 					break;
@@ -350,22 +344,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool allow)
 			{
 				settings.Proctoring.Zoom.AllowRaiseHand = allow;
-			}
-		}
-
-		private void MapZoomApiKey(AppSettings settings, object value)
-		{
-			if (value is string key)
-			{
-				settings.Proctoring.Zoom.ApiKey = key;
-			}
-		}
-
-		private void MapZoomApiSecret(AppSettings settings, object value)
-		{
-			if (value is string secret)
-			{
-				settings.Proctoring.Zoom.ApiSecret = secret;
 			}
 		}
 

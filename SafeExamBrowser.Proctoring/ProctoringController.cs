@@ -103,8 +103,7 @@ namespace SafeExamBrowser.Proctoring
 			}
 			else if (settings.Zoom.Enabled)
 			{
-				start = !string.IsNullOrWhiteSpace(settings.Zoom.ApiKey);
-				start &= !string.IsNullOrWhiteSpace(settings.Zoom.ApiSecret) || !string.IsNullOrWhiteSpace(settings.Zoom.Signature);
+				start = !string.IsNullOrWhiteSpace(settings.Zoom.SdkKey) && !string.IsNullOrWhiteSpace(settings.Zoom.Signature);
 				start &= !string.IsNullOrWhiteSpace(settings.Zoom.MeetingNumber);
 				start &= !string.IsNullOrWhiteSpace(settings.Zoom.UserName);
 			}
@@ -168,9 +167,9 @@ namespace SafeExamBrowser.Proctoring
 			settings.JitsiMeet.ServerUrl = args.JitsiMeetServerUrl;
 			settings.JitsiMeet.Token = args.JitsiMeetToken;
 
-			settings.Zoom.ApiKey = args.ZoomApiKey;
 			settings.Zoom.MeetingNumber = args.ZoomMeetingNumber;
 			settings.Zoom.Password = args.ZoomPassword;
+			settings.Zoom.SdkKey = args.ZoomSdkKey;
 			settings.Zoom.Signature = args.ZoomSignature;
 			settings.Zoom.Subject = args.ZoomSubject;
 			settings.Zoom.UserName = args.ZoomUserName;
@@ -272,8 +271,8 @@ namespace SafeExamBrowser.Proctoring
 					Thread.Sleep(2000);
 
 					window.Close();
-					control = default(ProctoringControl);
-					window = default(IProctoringWindow);
+					control = default;
+					window = default;
 					fileSystem.Delete(filePath);
 
 					logger.Info("Stopped proctoring.");

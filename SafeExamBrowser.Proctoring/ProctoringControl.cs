@@ -96,10 +96,9 @@ namespace SafeExamBrowser.Proctoring
 			}
 			else if (settings.Zoom.Enabled)
 			{
-				credentials.Add(new JProperty("apiKey", settings.Zoom.ApiKey));
-				credentials.Add(new JProperty("apiSecret", settings.Zoom.ApiSecret));
 				credentials.Add(new JProperty("meetingNumber", settings.Zoom.MeetingNumber));
 				credentials.Add(new JProperty("password", settings.Zoom.Password));
+				credentials.Add(new JProperty("sdkKey", settings.Zoom.SdkKey));
 				credentials.Add(new JProperty("signature", settings.Zoom.Signature));
 				credentials.Add(new JProperty("userName", settings.Zoom.UserName));
 			}

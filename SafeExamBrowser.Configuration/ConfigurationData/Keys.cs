@@ -258,8 +258,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				internal const string AllowChat = "zoomFeatureFlagChat";
 				internal const string AllowClosedCaptions = "zoomFeatureFlagCloseCaptions";
 				internal const string AllowRaiseHand = "zoomFeatureFlagRaiseHand";
-				internal const string ApiKey = "zoomApiKey";
-				internal const string ApiSecret = "zoomApiSecret";
 				internal const string AudioMuted = "zoomAudioMuted";
 				internal const string Enabled = "zoomEnable";
 				internal const string MeetingNumber = "zoomRoom";

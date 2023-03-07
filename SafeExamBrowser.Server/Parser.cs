@@ -298,9 +298,9 @@ namespace SafeExamBrowser.Server
 					attributes.Instruction.JitsiMeetToken = attributesJson["jitsiMeetToken"].Value<string>();
 					break;
 				case "ZOOM":
-					attributes.Instruction.ZoomApiKey = attributesJson["zoomAPIKey"].Value<string>();
 					attributes.Instruction.ZoomMeetingNumber = attributesJson["zoomRoom"].Value<string>();
 					attributes.Instruction.ZoomPassword = attributesJson["zoomMeetingKey"].Value<string>();
+					attributes.Instruction.ZoomSdkKey = attributesJson["zoomAPIKey"].Value<string>();
 					attributes.Instruction.ZoomSignature = attributesJson["zoomToken"].Value<string>();
 					attributes.Instruction.ZoomSubject = attributesJson["zoomSubject"].Value<string>();
 					attributes.Instruction.ZoomUserName = attributesJson["zoomUserName"].Value<string>();

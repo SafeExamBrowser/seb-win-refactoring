@@ -32,16 +32,6 @@ namespace SafeExamBrowser.Settings.Proctoring
 		public bool AllowRaiseHand { get; set; }
 
 		/// <summary>
-		/// The API key to be used for authentication.
-		/// </summary>
-		public string ApiKey { get; set; }
-
-		/// <summary>
-		/// The API secret to be used for authentication.
-		/// </summary>
-		public string ApiSecret { get; set; }
-
-		/// <summary>
 		/// Determines whether the audio starts muted.
 		/// </summary>
 		public bool AudioMuted { get; set; }
@@ -70,6 +60,11 @@ namespace SafeExamBrowser.Settings.Proctoring
 		/// Determines whether the user may receive the audio stream of other meeting participants.
 		/// </summary>
 		public bool ReceiveVideo { get; set; }
+
+		/// <summary>
+		/// The SDK key to be used for authentication.
+		/// </summary>
+		public string SdkKey { get; set; }
 
 		/// <summary>
 		/// Determines whether the audio stream of the user will be sent to the server.

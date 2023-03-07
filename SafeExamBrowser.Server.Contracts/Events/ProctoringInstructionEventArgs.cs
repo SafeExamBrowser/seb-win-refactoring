@@ -16,9 +16,9 @@ namespace SafeExamBrowser.Server.Contracts.Events
 		public string JitsiMeetRoomName { get; set; }
 		public string JitsiMeetServerUrl { get; set; }
 		public string JitsiMeetToken { get; set; }
-		public string ZoomApiKey { get; set; }
 		public string ZoomMeetingNumber { get; set; }
 		public string ZoomPassword { get; set; }
+		public string ZoomSdkKey { get; set; }
 		public string ZoomSignature { get; set; }
 		public string ZoomSubject { get; set; }
 		public string ZoomUserName { get; set; }
