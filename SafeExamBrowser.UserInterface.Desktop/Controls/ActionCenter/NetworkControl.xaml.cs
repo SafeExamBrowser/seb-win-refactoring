@@ -45,10 +45,50 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 
 			adapter.Changed += () => Dispatcher.InvokeAsync(Update);
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
-			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
-			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
-			Popup.Opened += (o, args) => Grid.Background = Brushes.Gray;
-			Popup.Closed += (o, args) => Grid.Background = originalBrush;
+			var lastOpenedBySpacePress = false;
+			Button.PreviewKeyDown += (o, args) =>
+			{
+				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
+				{
+					lastOpenedBySpacePress = true;
+				}
+			};
+			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
+			{
+				if (Popup.IsOpen && lastOpenedBySpacePress)
+				{
+					return;
+				}
+				Popup.IsOpen = Popup.IsMouseOver;
+			}));
+			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
+			{
+				if (Popup.IsOpen && lastOpenedBySpacePress)
+				{
+					return;
+				}
+				Popup.IsOpen = IsMouseOver;
+			}));
+			Popup.Opened += (o, args) =>
+			{
+				Grid.Background = Brushes.Gray;
+				Task.Delay(100).ContinueWith((task) => Dispatcher.Invoke(() =>
+				{
+					if (WirelessNetworksStackPanel.Children.Count > 0)
+					{
+						var btn = WirelessNetworksStackPanel.Children[0] as NetworkButton;
+						if (btn != null)
+						{
+							btn.SetFocus();
+						}
+					}
+				}));
+			};
+			Popup.Closed += (o, args) =>
+			{
+				Grid.Background = originalBrush;
+				lastOpenedBySpacePress = false;
+			};
 			WirelessIcon.Child = GetWirelessIcon(0);
 
 			Update();
@@ -121,7 +161,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 		{
 			Button.ToolTip = text;
 			Text.Text = text;
-			Button.SetValue(System.Windows.Automation.AutomationProperties.HelpTextProperty, text);
+			Button.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, text);
 		}
 
 		private UIElement GetWirelessIcon(int signalStrength)

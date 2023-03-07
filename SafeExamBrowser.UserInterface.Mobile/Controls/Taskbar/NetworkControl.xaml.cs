@@ -46,21 +46,55 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 
 			adapter.Changed += () => Dispatcher.InvokeAsync(Update);
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
-			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = Popup.IsMouseOver));
+			var lastOpenedBySpacePress = false;
+			Button.PreviewKeyDown += (o, args) =>
+			{
+				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
+				{
+					lastOpenedBySpacePress = true;
+				}
+			};
+			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
+			{
+				if (Popup.IsOpen && lastOpenedBySpacePress)
+				{
+					return;
+				}
+				Popup.IsOpen = Popup.IsMouseOver;
+			}));
 			Popup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(Popup_PlacementCallback);
-			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => Popup.IsOpen = IsMouseOver));
+			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
+			{
+				if (Popup.IsOpen && lastOpenedBySpacePress)
+				{
+					return;
+				}
+				Popup.IsOpen = IsMouseOver;
+			}));
 			WirelessIcon.Child = GetWirelessIcon(0);
 
 			Popup.Opened += (o, args) =>
 			{
 				Background = Brushes.LightGray;
 				Button.Background = Brushes.LightGray;
+				Task.Delay(100).ContinueWith((task) => Dispatcher.Invoke(() =>
+				{
+					if (WirelessNetworksStackPanel.Children.Count > 0)
+					{
+						var btn = WirelessNetworksStackPanel.Children[0] as NetworkButton;
+						if (btn != null)
+						{
+							btn.SetFocus();
+						}
+					}
+				}));
 			};
 
 			Popup.Closed += (o, args) =>
 			{
 				Background = originalBrush;
 				Button.Background = originalBrush;
+				lastOpenedBySpacePress = false;
 			};
 
 			Update();
@@ -87,8 +121,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 				if (network.Status == ConnectionStatus.Connected)
 				{
 					WirelessIcon.Child = GetWirelessIcon(network.SignalStrength);
-					Button.ToolTip = text.Get(TextKey.SystemControl_NetworkWirelessConnected).Replace("%%NAME%%", network.Name);
-					Button.SetValue(System.Windows.Automation.AutomationProperties.HelpTextProperty, Button.ToolTip as string);
+					UpdateText(text.Get(TextKey.SystemControl_NetworkWirelessConnected).Replace("%%NAME%%", network.Name));
 				}
 
 				WirelessNetworksStackPanel.Children.Add(button);
@@ -98,7 +131,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			{
 				case ConnectionType.Wired:
 					Button.IsEnabled = false;
-					Button.ToolTip = text.Get(TextKey.SystemControl_NetworkWiredConnected);
+					UpdateText(text.Get(TextKey.SystemControl_NetworkWiredConnected));
 					WiredIcon.Visibility = Visibility.Visible;
 					WirelessIcon.Visibility = Visibility.Collapsed;
 					break;
@@ -109,7 +142,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 					break;
 				default:
 					Button.IsEnabled = false;
-					Button.ToolTip = text.Get(TextKey.SystemControl_NetworkNotAvailable);
+					UpdateText(text.Get(TextKey.SystemControl_NetworkNotAvailable));
 					WiredIcon.Visibility = Visibility.Visible;
 					WirelessIcon.Visibility = Visibility.Collapsed;
 					break;
@@ -118,24 +151,31 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			switch (adapter.Status)
 			{
 				case ConnectionStatus.Connected:
+					UpdateText(text.Get(TextKey.SystemControl_NetworkWiredConnected));
 					NetworkStatusIcon.Rotation = 0;
 					NetworkStatusIcon.Source = ImageAwesome.CreateImageSource(FontAwesomeIcon.Globe, Brushes.Green);
 					NetworkStatusIcon.Spin = false;
 					break;
 				case ConnectionStatus.Connecting:
-					Button.ToolTip = text.Get(TextKey.SystemControl_NetworkWirelessConnecting);
+					UpdateText(text.Get(TextKey.SystemControl_NetworkWirelessConnecting));
 					NetworkStatusIcon.Rotation = 0;
 					NetworkStatusIcon.Source = ImageAwesome.CreateImageSource(FontAwesomeIcon.Cog, Brushes.DimGray);
 					NetworkStatusIcon.Spin = true;
 					NetworkStatusIcon.SpinDuration = 2;
 					break;
 				default:
-					Button.ToolTip = text.Get(TextKey.SystemControl_NetworkDisconnected);
+					UpdateText(text.Get(TextKey.SystemControl_NetworkDisconnected));
 					NetworkStatusIcon.Source = ImageAwesome.CreateImageSource(FontAwesomeIcon.Ban, Brushes.DarkOrange);
 					NetworkStatusIcon.Spin = false;
 					WirelessIcon.Child = GetWirelessIcon(0);
 					break;
 			}
+		}
+
+		private void UpdateText(string text)
+		{
+			Button.ToolTip = text;
+			Button.SetValue(System.Windows.Automation.AutomationProperties.NameProperty, text);
 		}
 
 		private UIElement GetWirelessIcon(int signalStrength)

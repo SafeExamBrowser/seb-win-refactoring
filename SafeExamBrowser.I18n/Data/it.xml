@@ -34,7 +34,7 @@
         Applicazione browser
     </Entry>
     <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
-        Console di sviluppo
+        Siti web aperti
     </Entry>
     <Entry key="BrowserWindow_Downloading">
         Download in corso ...
@@ -69,6 +69,9 @@
     <Entry key="BrowserWindow_MenuButton">
         Menu
     </Entry>
+    <Entry key="BrowserWindow_CloseButton">
+        Chiudere
+    </Entry>
     <Entry key="BrowserWindow_UrlTextBox">
         Inserisci URL
     </Entry>
@@ -83,6 +86,15 @@
     </Entry>
     <Entry key="BrowserWindow_ZoomMenuMinus">
         Diminuire zoom
+    </Entry>
+    <Entry key="BrowserWindow_SearchTextBox">
+        Immettere il testo da cercare
+    </Entry>
+    <Entry key="BrowserWindow_SearchNext">
+        Risultato della ricerca successiva
+    </Entry>
+    <Entry key="BrowserWindow_SearchPrevious">
+        Risultato della ricerca precedente
     </Entry>
     <Entry key="Build">
         Build

@@ -34,7 +34,7 @@
         根据当前配置不允许打印。
     </Entry>
     <Entry key="Browser_Tooltip">
-        浏览器应用程序
+        开放网站
     </Entry>
     <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
         开发者控制台
@@ -66,6 +66,9 @@
     <Entry key="BrowserWindow_MenuButton">
         菜单
     </Entry>
+    <Entry key="BrowserWindow_CloseButton">
+        关闭
+    </Entry>
     <Entry key="BrowserWindow_UrlTextBox">
         输入网址
     </Entry>
@@ -80,6 +83,15 @@
     </Entry>
     <Entry key="BrowserWindow_ZoomMenuMinus">
         减少页面缩放
+    </Entry>
+    <Entry key="BrowserWindow_SearchTextBox">
+        输入文本进行搜索
+    </Entry>
+    <Entry key="BrowserWindow_SearchNext">
+        下一个搜索结果
+    </Entry>
+    <Entry key="BrowserWindow_SearchPrevious">
+        前一个搜索结果
     </Entry>
     <Entry key="Build">
         生成
