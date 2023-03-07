@@ -24,6 +24,7 @@ using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Browser.Proxy;
 using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -45,6 +46,7 @@ namespace SafeExamBrowser.Browser
 		private readonly IModuleLogger logger;
 		private readonly IMessageBox messageBox;
 		private readonly INativeMethods nativeMethods;
+		private readonly SessionMode sessionMode;
 		private readonly BrowserSettings settings;
 		private readonly IText text;
 		private readonly IUserInterfaceFactory uiFactory;
@@ -68,9 +70,10 @@ namespace SafeExamBrowser.Browser
 			IFileSystemDialog fileSystemDialog,
 			IHashAlgorithm hashAlgorithm,
 			IKeyGenerator keyGenerator,
-			INativeMethods nativeMethods,
 			IMessageBox messageBox,
 			IModuleLogger logger,
+			INativeMethods nativeMethods,
+			SessionMode sessionMode,
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
@@ -81,6 +84,7 @@ namespace SafeExamBrowser.Browser
 			this.logger = logger;
 			this.messageBox = messageBox;
 			this.nativeMethods = nativeMethods;
+			this.sessionMode = sessionMode;
 			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;
@@ -193,6 +197,7 @@ namespace SafeExamBrowser.Browser
 				keyGenerator,
 				windowLogger,
 				messageBox,
+				sessionMode,
 				settings,
 				startUrl,
 				text,

@@ -23,6 +23,7 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Browser.Filter;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
@@ -37,6 +38,7 @@ namespace SafeExamBrowser.Browser.Handlers
 		private readonly IRequestFilter filter;
 		private readonly IKeyGenerator keyGenerator;
 		private readonly ILogger logger;
+		private readonly SessionMode sessionMode;
 		private readonly BrowserSettings settings;
 		private readonly WindowSettings windowSettings;
 
@@ -51,6 +53,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			IRequestFilter filter,
 			IKeyGenerator keyGenerator,
 			ILogger logger,
+			SessionMode sessionMode,
 			BrowserSettings settings,
 			WindowSettings windowSettings,
 			IText text)
@@ -60,6 +63,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			this.contentLoader = new ContentLoader(text);
 			this.keyGenerator = keyGenerator;
 			this.logger = logger;
+			this.sessionMode = sessionMode;
 			this.settings = settings;
 			this.windowSettings = windowSettings;
 		}
@@ -94,7 +98,10 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		protected override void OnResourceRedirect(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IRequest request, IResponse response, ref string newUrl)
 		{
-			SearchSessionIdentifiers(request, response);
+			if (sessionMode == SessionMode.Server)
+			{
+				SearchSessionIdentifiers(request, response);
+			}
 
 			base.OnResourceRedirect(chromiumWebBrowser, browser, frame, request, response, ref newUrl);
 		}
@@ -108,7 +115,10 @@ namespace SafeExamBrowser.Browser.Handlers
 				return true;
 			}
 
-			SearchSessionIdentifiers(request, response);
+			if (sessionMode == SessionMode.Server)
+			{
+				SearchSessionIdentifiers(request, response);
+			}
 
 			return base.OnResourceResponse(webBrowser, browser, frame, request, response);
 		}

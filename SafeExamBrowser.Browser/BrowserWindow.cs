@@ -26,6 +26,7 @@ using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Browser.Filter;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -55,6 +56,7 @@ namespace SafeExamBrowser.Browser
 		private readonly IKeyGenerator keyGenerator;
 		private readonly IModuleLogger logger;
 		private readonly IMessageBox messageBox;
+		private readonly SessionMode sessionMode;
 		private readonly Dictionary<int, BrowserWindow> popups;
 		private readonly BrowserSettings settings;
 		private readonly string startUrl;
@@ -97,6 +99,7 @@ namespace SafeExamBrowser.Browser
 			IKeyGenerator keyGenerator,
 			IModuleLogger logger,
 			IMessageBox messageBox,
+			SessionMode sessionMode,
 			BrowserSettings settings,
 			string startUrl,
 			IText text,
@@ -112,6 +115,7 @@ namespace SafeExamBrowser.Browser
 			this.logger = logger;
 			this.messageBox = messageBox;
 			this.popups = new Dictionary<int, BrowserWindow>();
+			this.sessionMode = sessionMode;
 			this.settings = settings;
 			this.startUrl = startUrl;
 			this.text = text;
@@ -153,7 +157,7 @@ namespace SafeExamBrowser.Browser
 			var renderHandler = new RenderProcessMessageHandler(appConfig, keyGenerator, settings, text);
 			var requestFilter = new RequestFilter();
 			var requestLogger = logger.CloneFor($"{nameof(RequestHandler)} #{Id}");
-			var resourceHandler = new ResourceHandler(appConfig, requestFilter, keyGenerator, logger, settings, WindowSettings, text);
+			var resourceHandler = new ResourceHandler(appConfig, requestFilter, keyGenerator, logger, sessionMode, settings, WindowSettings, text);
 			var requestHandler = new RequestHandler(appConfig, requestFilter, requestLogger, resourceHandler, settings, WindowSettings);
 
 			Icon = new BrowserIconResource();

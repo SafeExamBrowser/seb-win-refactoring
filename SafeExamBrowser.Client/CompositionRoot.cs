@@ -231,9 +231,10 @@ namespace SafeExamBrowser.Client
 				fileSystemDialog,
 				new HashAlgorithm(),
 				keyGenerator,
-				nativeMethods,
 				messageBox,
 				moduleLogger,
+				nativeMethods,
+				context.Settings.SessionMode,
 				text,
 				uiFactory);
 			var operation = new BrowserOperation(actionCenter, context, logger, taskbar, taskview, uiFactory);

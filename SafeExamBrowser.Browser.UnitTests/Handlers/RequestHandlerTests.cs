@@ -48,7 +48,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			settings = new BrowserSettings();
 			windowSettings = new WindowSettings();
 			text = new Mock<IText>();
-			resourceHandler = new ResourceHandler(appConfig, filter.Object, keyGenerator.Object, logger.Object, settings, windowSettings, text.Object);
+			resourceHandler = new ResourceHandler(appConfig, filter.Object, keyGenerator.Object, logger.Object, default, settings, windowSettings, text.Object);
 
 			sut = new TestableRequestHandler(appConfig, filter.Object, logger.Object, resourceHandler, settings, windowSettings);
 		}

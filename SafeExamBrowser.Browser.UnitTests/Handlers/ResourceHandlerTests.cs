@@ -18,6 +18,7 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Browser.Filter;
 using BrowserSettings = SafeExamBrowser.Settings.Browser.BrowserSettings;
@@ -49,7 +50,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			windowSettings = new WindowSettings();
 			text = new Mock<IText>();
 
-			sut = new TestableResourceHandler(appConfig, filter.Object, keyGenerator.Object, logger.Object, settings, windowSettings, text.Object);
+			sut = new TestableResourceHandler(appConfig, filter.Object, keyGenerator.Object, logger.Object, SessionMode.Server, settings, windowSettings, text.Object);
 		}
 
 		[TestMethod]
@@ -298,9 +299,10 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 				IRequestFilter filter,
 				IKeyGenerator keyGenerator,
 				ILogger logger,
+				SessionMode sessionMode,
 				BrowserSettings settings,
 				WindowSettings windowSettings,
-				IText text) : base(appConfig, filter, keyGenerator, logger, settings, windowSettings, text)
+				IText text) : base(appConfig, filter, keyGenerator, logger, sessionMode, settings, windowSettings, text)
 			{
 			}
 
