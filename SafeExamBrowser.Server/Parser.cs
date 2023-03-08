@@ -127,6 +127,27 @@ namespace SafeExamBrowser.Server
 			return salt != default;
 		}
 
+		internal bool TryParseBrowserExamKey(HttpResponseMessage response, out string browserExamKey)
+		{
+			browserExamKey = default;
+
+			try
+			{
+				var hasHeader = response.Headers.TryGetValues(Header.BROWSER_EXAM_KEY, out var values);
+
+				if (hasHeader)
+				{
+					browserExamKey = values.First();
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to parse browser exam key!", e);
+			}
+
+			return browserExamKey != default;
+		}
+
 		internal bool TryParseConnectionToken(HttpResponseMessage response, out string connectionToken)
 		{
 			connectionToken = default;

@@ -13,6 +13,7 @@ namespace SafeExamBrowser.Server.Requests
 		internal const string ACCEPT = "Accept";
 		internal const string APP_SIGNATURE_KEY_SALT = "SEBExamSalt";
 		internal const string AUTHORIZATION = "Authorization";
+		internal const string BROWSER_EXAM_KEY = "SEBServerBEK";
 		internal const string CONNECTION_TOKEN = "SEBConnectionToken";
 	}
 }

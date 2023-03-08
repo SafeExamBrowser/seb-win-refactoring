@@ -67,6 +67,15 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			return key;
 		}
 
+		public void UseCustomBrowserExamKey(string browserExamKey)
+		{
+			if (browserExamKey != default)
+			{
+				this.browserExamKey = browserExamKey;
+				logger.Debug("Initialized custom browser exam key.");
+			}
+		}
+
 		private string ComputeBrowserExamKey(string configurationKey, byte[] salt)
 		{
 			lock (@lock)

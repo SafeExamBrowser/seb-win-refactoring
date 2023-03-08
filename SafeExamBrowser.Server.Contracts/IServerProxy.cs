@@ -105,9 +105,9 @@ namespace SafeExamBrowser.Server.Contracts
 		ServerResponse RaiseHand(string message = default);
 
 		/// <summary>
-		/// Sends the selected exam to the server.
+		/// Sends the selected exam to the server. Optionally returns a custom browser exam key to be used for the active session.
 		/// </summary>
-		ServerResponse SendSelectedExam(Exam exam);
+		ServerResponse<string> SendSelectedExam(Exam exam);
 
 		/// <summary>
 		/// Sends the given user session identifier of a LMS and thus establishes a connection with the server.

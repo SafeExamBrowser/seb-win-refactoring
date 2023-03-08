@@ -80,7 +80,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.Connect()).Returns(new ServerResponse(true)).Callback(() => connect = ++counter);
 			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>())).Callback(() => initialize = ++counter);
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection).Callback(() => getConnection = ++counter);
-			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse(true));
+			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, default));
 			server
 				.Setup(s => s.GetAvailableExams(It.IsAny<string>()))
 				.Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)))
@@ -276,7 +276,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
 			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, new[] { exam }));
 			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")));
-			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse(true));
+			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, default));
 			sut.ActionRequired += (args) => Assert.Fail();
 
 			var result = sut.Perform();
@@ -336,7 +336,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.Connect()).Returns(new ServerResponse(true)).Callback(() => connect = ++counter);
 			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>())).Callback(() => initialize = ++counter);
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection).Callback(() => getConnection = ++counter);
-			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse(true));
+			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, default));
 			server
 				.Setup(s => s.GetAvailableExams(It.IsAny<string>()))
 				.Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)))
@@ -532,7 +532,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
 			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, new[] { exam }));
 			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")));
-			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse(true));
+			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, default));
 			sut.ActionRequired += (args) => Assert.Fail();
 
 			var result = sut.Repeat();

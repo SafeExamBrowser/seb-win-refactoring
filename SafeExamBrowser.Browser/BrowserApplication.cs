@@ -115,14 +115,16 @@ namespace SafeExamBrowser.Browser
 
 			if (success)
 			{
-				if (settings.UseTemporaryDownAndUploadDirectory)
-				{
-					CreateTemporaryDownAndUploadDirectory();
-				}
+				InitializeIntegrityKeys();
 
 				if (settings.DeleteCookiesOnStartup)
 				{
 					DeleteCookies();
+				}
+
+				if (settings.UseTemporaryDownAndUploadDirectory)
+				{
+					CreateTemporaryDownAndUploadDirectory();
 				}
 
 				logger.Info("Initialized browser.");
@@ -360,6 +362,22 @@ namespace SafeExamBrowser.Browser
 			logger.Debug($"Session Persistence: {(cefSettings.PersistSessionCookies ? "Enabled" : "Disabled")}.");
 
 			return cefSettings;
+		}
+
+		private void InitializeIntegrityKeys()
+		{
+			logger.Debug($"Browser Exam Key (BEK) transmission is {(settings.SendBrowserExamKey ? "enabled" : "disabled")}.");
+			logger.Debug($"Configuration Key (CK) transmission is {(settings.SendConfigurationKey ? "enabled" : "disabled")}.");
+
+			if (settings.CustomBrowserExamKey != default)
+			{
+				keyGenerator.UseCustomBrowserExamKey(settings.CustomBrowserExamKey);
+				logger.Debug($"The browser application will be using a custom browser exam key.");
+			}
+			else
+			{
+				logger.Debug($"The browser application will be using the default browser exam key.");
+			}
 		}
 
 		private void InitializeProxySettings(CefSettings cefSettings)

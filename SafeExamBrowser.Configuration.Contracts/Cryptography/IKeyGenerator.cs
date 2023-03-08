@@ -27,5 +27,10 @@ namespace SafeExamBrowser.Configuration.Contracts.Cryptography
 		/// Calculates the hash value of the configuration key (CK) for the given URL.
 		/// </summary>
 		string CalculateConfigurationKeyHash(string configurationKey, string url);
+
+		/// <summary>
+		/// Specifies that a custom browser exam key (BEK) should be used.
+		/// </summary>
+		void UseCustomBrowserExamKey(string browserExamKey);
 	}
 }

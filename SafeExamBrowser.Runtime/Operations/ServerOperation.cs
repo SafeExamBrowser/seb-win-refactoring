@@ -51,6 +51,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (Context.Next.Settings.SessionMode == SessionMode.Server)
 			{
+				var browserExamKey = default(string);
 				var exam = default(Exam);
 				var exams = default(IEnumerable<Exam>);
 				var uri = default(Uri);
@@ -84,7 +85,12 @@ namespace SafeExamBrowser.Runtime.Operations
 
 				if (success && result == OperationResult.Success)
 				{
-					(abort, fallback, success) = TryPerformWithFallback(() => server.SendSelectedExam(exam));
+					(abort, fallback, success) = TryPerformWithFallback(() => server.SendSelectedExam(exam), out browserExamKey);
+				}
+
+				if (browserExamKey != default)
+				{
+					Context.Next.Settings.Browser.CustomBrowserExamKey = browserExamKey;
 				}
 
 				if (abort)

@@ -87,6 +87,11 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool ConfirmQuitUrl { get; set; }
 
 		/// <summary>
+		/// An optional, custom browser exam key used for integrity checks with server applications (see also <see cref="SendBrowserExamKey"/>).
+		/// </summary>
+		public string CustomBrowserExamKey { get; set; }
+
+		/// <summary>
 		/// The custom user agent to optionally be used for all requests.
 		/// </summary>
 		public string CustomUserAgent { get; set; }
@@ -174,7 +179,7 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool SendConfigurationKey { get; set; }
 
 		/// <summary>
-		/// Determines whether the browser exam key header is sent with every HTTP request (see also <see cref="BrowserExamKeySalt"/>).
+		/// Determines whether the browser exam key header is sent with every HTTP request (see also <see cref="BrowserExamKeySalt"/> and <see cref="CustomBrowserExamKey"/>).
 		/// </summary>
 		public bool SendBrowserExamKey { get; set; }
 

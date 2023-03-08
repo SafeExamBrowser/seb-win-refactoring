@@ -278,10 +278,10 @@ namespace SafeExamBrowser.Server
 			return new ServerResponse(success, message);
 		}
 
-		public ServerResponse SendSelectedExam(Exam exam)
+		public ServerResponse<string> SendSelectedExam(Exam exam)
 		{
 			var request = new SelectExamRequest(api, httpClient, logger, parser, settings);
-			var success = request.TryExecute(exam, out var message, out var salt);
+			var success = request.TryExecute(exam, out var message, out var appSignatureKeySalt, out var browserExamKey);
 
 			if (success)
 			{
@@ -292,17 +292,22 @@ namespace SafeExamBrowser.Server
 				logger.Error("Failed to send selected exam!");
 			}
 
-			if (success && salt != default)
+			if (success && appSignatureKeySalt != default)
 			{
 				logger.Info("App signature key salt detected, performing key exchange...");
-				success = TrySendAppSignatureKey(salt, out message);
+				success = TrySendAppSignatureKey(appSignatureKeySalt, out message);
 			}
 			else
 			{
 				logger.Info("No app signature key salt detected, skipping key exchange.");
 			}
 
-			return new ServerResponse(success, message);
+			if (browserExamKey != default)
+			{
+				logger.Info("Custom browser exam key detected.");
+			}
+
+			return new ServerResponse<string>(success, browserExamKey, message);
 		}
 
 		public ServerResponse SendSessionIdentifier(string identifier)
