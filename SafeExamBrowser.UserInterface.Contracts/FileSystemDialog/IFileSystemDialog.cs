@@ -18,10 +18,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.FileSystemDialog
 		FileSystemDialogResult Show(
 			FileSystemElement element,
 			FileSystemOperation operation,
-			string initialPath = default(string),
-			string message = default(string),
-			string title = default(string),
-			IWindow parent = default(IWindow),
-			bool restrictNavigation = false);
+			string initialPath = default,
+			string message = default,
+			string title = default,
+			IWindow parent = default,
+			bool restrictNavigation = false,
+			bool showElementPath = true);
 	}
 }

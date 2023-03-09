@@ -25,24 +25,26 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 {
 	internal partial class FileSystemDialog : Window
 	{
-		private FileSystemElement element;
-		private string initialPath;
-		private string message;
-		private FileSystemOperation operation;
-		private IText text;
-		private string title;
-		private IWindow parent;
-		private bool restrictNavigation;
+		private readonly FileSystemElement element;
+		private readonly string initialPath;
+		private readonly string message;
+		private readonly FileSystemOperation operation;
+		private readonly IWindow parent;
+		private readonly bool restrictNavigation;
+		private readonly bool showElementPath;
+		private readonly IText text;
+		private readonly string title;
 
 		internal FileSystemDialog(
 			FileSystemElement element,
 			FileSystemOperation operation,
 			IText text,
-			string initialPath = default(string),
-			string message = default(string),
-			string title = default(string),
-			IWindow parent = default(IWindow),
-			bool restrictNavigation = false)
+			string initialPath = default,
+			string message = default,
+			string title = default,
+			IWindow parent = default,
+			bool restrictNavigation = false,
+			bool showElementPath = true)
 		{
 			this.element = element;
 			this.initialPath = initialPath;
@@ -50,6 +52,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			this.operation = operation;
 			this.parent = parent;
 			this.restrictNavigation = restrictNavigation;
+			this.showElementPath = showElementPath;
 			this.text = text;
 			this.title = title;
 
@@ -284,6 +287,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			OperationIcon.Icon = operation == FileSystemOperation.Save ? FontAwesomeIcon.Download : FontAwesomeIcon.Search;
 			SelectButton.Click += SelectButton_Click;
 			SelectButton.Content = text.Get(TextKey.FileSystemDialog_Select);
+			SelectedElement.Visibility = showElementPath ? Visibility.Visible : Visibility.Hidden;
 
 			InitializeText();
 			InitializeFileSystem();
@@ -364,7 +368,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		{
 			var segment = segments.FirstOrDefault();
 
-			if (segment != default(string))
+			if (segment != default)
 			{
 				foreach (var item in items)
 				{

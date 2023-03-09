@@ -361,7 +361,8 @@ namespace SafeExamBrowser.Browser
 					initialPath,
 					title: args.Title,
 					parent: window,
-					restrictNavigation: !settings.AllowCustomDownAndUploadLocation);
+					restrictNavigation: !settings.AllowCustomDownAndUploadLocation,
+					showElementPath: settings.ShowFileSystemElementPath);
 
 				if (result.Success)
 				{

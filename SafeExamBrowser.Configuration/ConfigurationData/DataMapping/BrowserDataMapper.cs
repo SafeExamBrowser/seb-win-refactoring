@@ -150,14 +150,17 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.ResetOnQuitUrl:
 					MapResetOnQuitUrl(settings, value);
 					break;
+				case Keys.Browser.SendCustomHeaders:
+					MapSendCustomHeaders(settings, value);
+					break;
+				case Keys.Browser.ShowFileSystemElementPath:
+					MapShowFileSystemElementPath(settings, value);
+					break;
 				case Keys.Browser.ShowReloadButton:
 					MapShowReloadButton(settings, value);
 					break;
 				case Keys.Browser.ShowToolbar:
 					MapShowToolbar(settings, value);
-					break;
-				case Keys.Browser.SendCustomHeaders:
-					MapSendCustomHeaders(settings, value);
 					break;
 				case Keys.Browser.StartUrl:
 					MapStartUrl(settings, value);
@@ -476,6 +479,23 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
+		private void MapSendCustomHeaders(AppSettings settings, object value)
+		{
+			if (value is bool send)
+			{
+				settings.Browser.SendConfigurationKey = send;
+				settings.Browser.SendBrowserExamKey = send;
+			}
+		}
+
+		private void MapShowFileSystemElementPath(AppSettings settings, object value)
+		{
+			if (value is bool show)
+			{
+				settings.Browser.ShowFileSystemElementPath = show;
+			}
+		}
+
 		private void MapShowReloadWarningAdditionalWindow(AppSettings settings, object value)
 		{
 			if (value is bool show)
@@ -490,15 +510,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			{
 				settings.Browser.AdditionalWindow.ShowToolbar = show;
 				settings.Browser.MainWindow.ShowToolbar = show;
-			}
-		}
-
-		private void MapSendCustomHeaders(AppSettings settings, object value)
-		{
-			if (value is bool send)
-			{
-				settings.Browser.SendConfigurationKey = send;
-				settings.Browser.SendBrowserExamKey = send;
 			}
 		}
 

@@ -561,6 +561,7 @@ namespace SebWindowsConfig
 			textBoxDownloadDirectoryOSX.Text = (String) SEBSettings.settingsCurrent[SEBSettings.KeyDownloadDirectoryOSX];
 			listBoxChooseFileToUploadPolicy.SelectedIndex = (int) SEBSettings.settingsCurrent[SEBSettings.KeyChooseFileToUploadPolicy];
 			checkBoxDownloadOpenSEBFiles.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyDownloadAndOpenSebConfig];
+			checkBoxShowFileSystemElementPath.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyShowFileSystemElementPath];
 
 			// Group "Exam"
 			checkBoxSendBrowserExamKey.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeySendBrowserExamKey];
@@ -4682,6 +4683,11 @@ namespace SebWindowsConfig
 		private void checkBoxEnableFindPrinter_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyEnableFindPrinter] = checkBoxEnableFindPrinter.Checked;
+		}
+
+		private void checkBoxShowFileSystemElementPath_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyShowFileSystemElementPath] = checkBoxShowFileSystemElementPath.Checked;
 		}
 	}
 }

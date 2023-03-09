@@ -613,6 +613,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				It.IsAny<string>(),
 				It.IsAny<string>(),
 				It.IsAny<IWindow>(),
+				It.IsAny<bool>(),
 				It.IsAny<bool>())).Returns(result);
 			text.SetReturnsDefault(string.Empty);
 
@@ -636,6 +637,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				It.IsAny<string>(),
 				It.IsAny<string>(),
 				It.IsAny<IWindow>(),
+				It.IsAny<bool>(),
 				It.IsAny<bool>())).Returns(result);
 			text.SetReturnsDefault(string.Empty);
 

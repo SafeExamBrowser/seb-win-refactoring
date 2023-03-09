@@ -187,6 +187,7 @@ namespace SebWindowsConfig
 		public const String KeyDownloadAndOpenSebConfig = "downloadAndOpenSebConfig";
 		public const String KeyBackgroundOpenSEBConfig = "backgroundOpenSEBConfig";
 		public const String KeyUseTemporaryDownUploadDirectory = "useTemporaryDownUploadDirectory";
+		public const String KeyShowFileSystemElementPath = "browserShowFileSystemElementPath";
 
 		// Group "Exam"
 		public const String KeyExamKeySalt = "examKeySalt";
@@ -713,6 +714,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyDownloadAndOpenSebConfig, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyBackgroundOpenSEBConfig, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyUseTemporaryDownUploadDirectory, false);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyShowFileSystemElementPath, true);
 
 			// Default settings for group "Exam"
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyExamKeySalt, new Byte[] { });

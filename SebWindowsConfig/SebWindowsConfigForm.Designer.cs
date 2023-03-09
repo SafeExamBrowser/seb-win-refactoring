@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -64,6 +64,7 @@ namespace SebWindowsConfig
 			this.tabPageRegistry = new System.Windows.Forms.TabPage();
 			this.label1 = new System.Windows.Forms.Label();
 			this.groupBoxInsideSeb = new System.Windows.Forms.GroupBox();
+			this.checkBoxEnableFindPrinter = new System.Windows.Forms.CheckBox();
 			this.checkBoxSetVmwareConfiguration = new System.Windows.Forms.CheckBox();
 			this.checkBoxInsideSebEnableNetworkConnectionSelector = new System.Windows.Forms.CheckBox();
 			this.checkBoxInsideSebEnableSwitchUser = new System.Windows.Forms.CheckBox();
@@ -462,7 +463,7 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.checkBoxEnableFindPrinter = new System.Windows.Forms.CheckBox();
+			this.checkBoxShowFileSystemElementPath = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -954,6 +955,18 @@ namespace SebWindowsConfig
 			this.groupBoxInsideSeb.TabIndex = 25;
 			this.groupBoxInsideSeb.TabStop = false;
 			this.groupBoxInsideSeb.Text = "While running SEB";
+			// 
+			// checkBoxEnableFindPrinter
+			// 
+			this.checkBoxEnableFindPrinter.AutoSize = true;
+			this.checkBoxEnableFindPrinter.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBoxEnableFindPrinter.Location = new System.Drawing.Point(16, 236);
+			this.checkBoxEnableFindPrinter.Name = "checkBoxEnableFindPrinter";
+			this.checkBoxEnableFindPrinter.Size = new System.Drawing.Size(215, 17);
+			this.checkBoxEnableFindPrinter.TabIndex = 78;
+			this.checkBoxEnableFindPrinter.Text = "Enable Find Printer in system print dialog";
+			this.checkBoxEnableFindPrinter.UseVisualStyleBackColor = true;
+			this.checkBoxEnableFindPrinter.CheckedChanged += new System.EventHandler(this.checkBoxEnableFindPrinter_CheckedChanged);
 			// 
 			// checkBoxSetVmwareConfiguration
 			// 
@@ -1872,8 +1885,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle5.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -3523,6 +3536,7 @@ namespace SebWindowsConfig
 			// 
 			// tabPageDownUploads
 			// 
+			this.tabPageDownUploads.Controls.Add(this.checkBoxShowFileSystemElementPath);
 			this.tabPageDownUploads.Controls.Add(this.checkBoxTemporaryDownloadDirectory);
 			this.tabPageDownUploads.Controls.Add(this.checkBoxAllowCustomDownloadLocation);
 			this.tabPageDownUploads.Controls.Add(this.checkBoxAllowPDFPlugIn);
@@ -3572,7 +3586,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowPDFPlugIn.AutoSize = true;
 			this.checkBoxAllowPDFPlugIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowPDFPlugIn.Location = new System.Drawing.Point(25, 303);
+			this.checkBoxAllowPDFPlugIn.Location = new System.Drawing.Point(33, 324);
 			this.checkBoxAllowPDFPlugIn.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxAllowPDFPlugIn.Name = "checkBoxAllowPDFPlugIn";
 			this.checkBoxAllowPDFPlugIn.Size = new System.Drawing.Size(310, 17);
@@ -3596,7 +3610,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxDownloadOpenSEBFiles.AutoSize = true;
 			this.checkBoxDownloadOpenSEBFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxDownloadOpenSEBFiles.Location = new System.Drawing.Point(25, 346);
+			this.checkBoxDownloadOpenSEBFiles.Location = new System.Drawing.Point(33, 367);
 			this.checkBoxDownloadOpenSEBFiles.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxDownloadOpenSEBFiles.Name = "checkBoxDownloadOpenSEBFiles";
 			this.checkBoxDownloadOpenSEBFiles.Size = new System.Drawing.Size(203, 17);
@@ -3641,7 +3655,7 @@ namespace SebWindowsConfig
 			// listBoxChooseFileToUploadPolicy
 			// 
 			this.listBoxChooseFileToUploadPolicy.FormattingEnabled = true;
-			this.listBoxChooseFileToUploadPolicy.Location = new System.Drawing.Point(44, 225);
+			this.listBoxChooseFileToUploadPolicy.Location = new System.Drawing.Point(52, 246);
 			this.listBoxChooseFileToUploadPolicy.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.listBoxChooseFileToUploadPolicy.Name = "listBoxChooseFileToUploadPolicy";
 			this.listBoxChooseFileToUploadPolicy.Size = new System.Drawing.Size(348, 43);
@@ -3654,7 +3668,7 @@ namespace SebWindowsConfig
 			// labelChooseFileToUploadPolicy
 			// 
 			this.labelChooseFileToUploadPolicy.AutoSize = true;
-			this.labelChooseFileToUploadPolicy.Location = new System.Drawing.Point(41, 197);
+			this.labelChooseFileToUploadPolicy.Location = new System.Drawing.Point(49, 218);
 			this.labelChooseFileToUploadPolicy.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.labelChooseFileToUploadPolicy.Name = "labelChooseFileToUploadPolicy";
 			this.labelChooseFileToUploadPolicy.Size = new System.Drawing.Size(145, 13);
@@ -3665,7 +3679,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxDownloadPDFFiles.AutoSize = true;
 			this.checkBoxDownloadPDFFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxDownloadPDFFiles.Location = new System.Drawing.Point(25, 288);
+			this.checkBoxDownloadPDFFiles.Location = new System.Drawing.Point(33, 309);
 			this.checkBoxDownloadPDFFiles.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxDownloadPDFFiles.Name = "checkBoxDownloadPDFFiles";
 			this.checkBoxDownloadPDFFiles.Size = new System.Drawing.Size(270, 17);
@@ -3681,7 +3695,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxOpenDownloads.AutoSize = true;
 			this.checkBoxOpenDownloads.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxOpenDownloads.Location = new System.Drawing.Point(114, 168);
+			this.checkBoxOpenDownloads.Location = new System.Drawing.Point(114, 188);
 			this.checkBoxOpenDownloads.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxOpenDownloads.Name = "checkBoxOpenDownloads";
 			this.checkBoxOpenDownloads.Size = new System.Drawing.Size(160, 17);
@@ -4612,8 +4626,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -6011,17 +6025,16 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// checkBoxEnableFindPrinter
+			// checkBoxShowFileSystemElementPath
 			// 
-			this.checkBoxEnableFindPrinter.AutoSize = true;
-			this.checkBoxEnableFindPrinter.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableFindPrinter.Location = new System.Drawing.Point(16, 236);
-			this.checkBoxEnableFindPrinter.Name = "checkBoxEnableFindPrinter";
-			this.checkBoxEnableFindPrinter.Size = new System.Drawing.Size(215, 17);
-			this.checkBoxEnableFindPrinter.TabIndex = 78;
-			this.checkBoxEnableFindPrinter.Text = "Enable Find Printer in system print dialog";
-			this.checkBoxEnableFindPrinter.UseVisualStyleBackColor = true;
-			this.checkBoxEnableFindPrinter.CheckedChanged += new System.EventHandler(this.checkBoxEnableFindPrinter_CheckedChanged);
+			this.checkBoxShowFileSystemElementPath.AutoSize = true;
+			this.checkBoxShowFileSystemElementPath.Location = new System.Drawing.Point(114, 167);
+			this.checkBoxShowFileSystemElementPath.Name = "checkBoxShowFileSystemElementPath";
+			this.checkBoxShowFileSystemElementPath.Size = new System.Drawing.Size(213, 17);
+			this.checkBoxShowFileSystemElementPath.TabIndex = 91;
+			this.checkBoxShowFileSystemElementPath.Text = "Show path of file system elements (Win)";
+			this.checkBoxShowFileSystemElementPath.UseVisualStyleBackColor = true;
+			this.checkBoxShowFileSystemElementPath.CheckedChanged += new System.EventHandler(this.checkBoxShowFileSystemElementPath_CheckedChanged);
 			// 
 			// SebWindowsConfigForm
 			// 
@@ -6587,6 +6600,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.Label label26;
 		private System.Windows.Forms.CheckBox checkBoxAllowPrint;
 		private System.Windows.Forms.CheckBox checkBoxEnableFindPrinter;
+		private System.Windows.Forms.CheckBox checkBoxShowFileSystemElementPath;
 	}
 }
 

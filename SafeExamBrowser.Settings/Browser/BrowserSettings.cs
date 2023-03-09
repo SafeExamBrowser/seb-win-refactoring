@@ -184,6 +184,11 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool SendBrowserExamKey { get; set; }
 
 		/// <summary>
+		/// Determines whether the user will be able to see the path of a file system element in the file system dialog (e.g. when down- or uploading a file).
+		/// </summary>
+		public bool ShowFileSystemElementPath { get; set; }
+
+		/// <summary>
 		/// The URL with which the main browser window will be loaded.
 		/// </summary>
 		public string StartUrl { get; set; }

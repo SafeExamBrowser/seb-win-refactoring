@@ -16,7 +16,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 {
 	public class FileSystemDialogFactory : IFileSystemDialog
 	{
-		private IText text;
+		private readonly IText text;
 
 		public FileSystemDialogFactory(IText text)
 		{
@@ -26,19 +26,20 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		public FileSystemDialogResult Show(
 			FileSystemElement element,
 			FileSystemOperation operation,
-			string initialPath = default(string),
-			string message = null,
-			string title = null,
-			IWindow parent = null,
-			bool restrictNavigation = false)
+			string initialPath = default,
+			string message = default,
+			string title = default,
+			IWindow parent = default,
+			bool restrictNavigation = false,
+			bool showElementPath = true)
 		{
 			if (parent is Window window)
 			{
-				return window.Dispatcher.Invoke(() => new FileSystemDialog(element, operation, text, initialPath, message, title, parent, restrictNavigation).Show());
+				return window.Dispatcher.Invoke(() => new FileSystemDialog(element, operation, text, initialPath, message, title, parent, restrictNavigation, showElementPath).Show());
 			}
 			else
 			{
-				return new FileSystemDialog(element, operation, text, initialPath, message, title, restrictNavigation: restrictNavigation).Show();
+				return new FileSystemDialog(element, operation, text, initialPath, message, title, restrictNavigation: restrictNavigation, showElementPath: showElementPath).Show();
 			}
 		}
 	}

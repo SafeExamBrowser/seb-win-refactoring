@@ -188,6 +188,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.PopupPolicy = PopupPolicy.Allow;
 			settings.Browser.Proxy.Policy = ProxyPolicy.System;
 			settings.Browser.ResetOnQuitUrl = false;
+			settings.Browser.SendBrowserExamKey = false;
+			settings.Browser.SendConfigurationKey = false;
+			settings.Browser.ShowFileSystemElementPath = true;
 			settings.Browser.StartUrl = "https://www.safeexambrowser.org/start";
 			settings.Browser.UseCustomUserAgent = false;
 			settings.Browser.UseQueryParameter = false;
