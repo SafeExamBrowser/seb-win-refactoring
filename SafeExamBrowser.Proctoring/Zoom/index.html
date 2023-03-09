@@ -18,28 +18,41 @@
 			var join = 0;
 
 			function controlUserInterface(_) {
-				var appSignal = document.getElementById('app-signal');
-				var audioButton = document.getElementsByClassName('join-audio-by-voip__join-btn')[0];
-				var audioContainer = document.getElementsByClassName('join-audio-container')[0];
+				var audioButton = document.getElementsByClassName('join-audio-container__btn')[0];
+				var audioContainer = audioButton ? audioButton.parentElement : null;
+				var chat = document.querySelector("div[feature-type='chat']");
+				var fullScreenButton = document.getElementsByClassName('full-screen-icon')[0];
+				var info = document.getElementsByClassName('meeting-info-container')[0];
+				var joinAudioButton = document.getElementsByClassName('join-audio-by-voip__join-btn')[0];
 				var joinButton = document.getElementsByClassName('joinWindowBtn')[0];
 				var leave = document.getElementsByClassName('footer__leave-btn-container')[0];
-				var more = document.getElementsByClassName('more-button')[0];
-				var participantControls = document.getElementsByClassName('participants-item__buttons')[0];
-				var raiseHandContainer = document.getElementsByClassName('participants-section-container__participants-footer')[0];
+				var more = document.querySelector("div[feature-type='more']");
+				var participants = document.querySelector("div[feature-type='participants']");
+				var reaction = document.querySelector("div[feature-type='reaction']");
+				var settings = document.querySelector("div[feature-type='settings']");
+				var sharing = document.querySelector("div[feature-type='sharing']");
 				var videoButton = document.getElementsByClassName('send-video-container__btn')[0];
-				var videoContainer = document.getElementsByClassName('send-video-container')[0];
-
-				if (appSignal) {
-					appSignal.style.visibility = 'hidden';
-				}
-
-				if (audioButton && !'%_AUDIO_MUTED_%' && audioJoin < 500) {
-					audioButton.click();
-					audioJoin++;
-				}
+				var videoContainer = videoButton ? videoButton.parentElement : null;
 
 				if (audioContainer && !'%_AUDIO_MUTED_%') {
 					audioContainer.style.visibility = 'hidden';
+				}
+
+				if (chat && !'%_ALLOW_CHAT_%') {
+					chat.style.visibility = 'hidden';
+				}
+
+				if (fullScreenButton) {
+					fullScreenButton.style.visibility = 'hidden';
+				}
+
+				if (info) {
+					info.style.visibility = 'hidden';
+				}
+
+				if (joinAudioButton && !'%_AUDIO_MUTED_%' && audioJoin < 500) {
+					joinAudioButton.click();
+					audioJoin++;
 				}
 
 				if (joinButton && join < 500) {
@@ -55,12 +68,20 @@
 					more.style.visibility = 'hidden';
 				}
 
-				if (participantControls) {
-					participantControls.style.visibility = 'hidden';
+				if (participants) {
+					participants.style.visibility = 'hidden';
 				}
 
-				if (raiseHandContainer && !'%_ALLOW_RAISE_HAND_%') {
-					raiseHandContainer.style.visibility = 'hidden';
+				if (reaction) {
+					reaction.style.visibility = 'hidden';
+				}
+
+				if (settings) {
+					settings.style.visibility = 'hidden';
+				}
+
+				if (sharing) {
+					sharing.style.visibility = 'hidden';
 				}
 
 				if (videoButton && !'%_VIDEO_MUTED_%' && videoJoin < 500) {
