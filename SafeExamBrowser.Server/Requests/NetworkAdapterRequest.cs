@@ -32,7 +32,7 @@ namespace SafeExamBrowser.Server.Requests
 		{
 			var json = new JObject
 			{
-				["text"] = network != default ? $"<wlan> {network.Name}: {network.Status}, {network.SignalStrength}%" : "<wlan> not connected",
+				["text"] = $"<wlan> {(network != default ? $"{network.Name}: {network.Status}, {network.SignalStrength}%" : "not connected")}",
 				["timestamp"] = DateTime.Now.ToUnixTimestamp(),
 				["type"] = LogLevel.Info.ToLogType()
 			};

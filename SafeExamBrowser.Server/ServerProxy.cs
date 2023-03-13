@@ -432,17 +432,18 @@ namespace SafeExamBrowser.Server
 		{
 			try
 			{
-				var connected = status.IsOnline;
 				var value = Convert.ToInt32(status.BatteryCharge * 100);
+				var statusChanged = powerSupplyConnected != status.IsOnline;
+				var valueChanged = powerSupplyValue != value;
 
-				if (powerSupplyConnected != connected || powerSupplyValue != value)
+				if (statusChanged || valueChanged)
 				{
 					var request = new PowerSupplyRequest(api, httpClient, logger, parser, settings);
 					var success = request.TryExecute(status, powerSupplyConnected, powerSupplyValue, out var message);
 
 					if (success)
 					{
-						powerSupplyConnected = connected;
+						powerSupplyConnected = status.IsOnline;
 						powerSupplyValue = value;
 					}
 					else
@@ -464,8 +465,10 @@ namespace SafeExamBrowser.Server
 			try
 			{
 				var network = networkAdapter.GetWirelessNetworks().FirstOrDefault(n => n.Status == ConnectionStatus.Connected);
+				var statusChanged = network == default && wirelessNetworkValue != NOT_CONNECTED;
+				var valueChanged = network != default && Math.Abs(network.SignalStrength - wirelessNetworkValue) >= 5;
 
-				if (network?.SignalStrength != wirelessNetworkValue)
+				if (statusChanged || valueChanged)
 				{
 					var request = new NetworkAdapterRequest(api, httpClient, logger, parser, settings);
 					var success = request.TryExecute(network, out var message);
