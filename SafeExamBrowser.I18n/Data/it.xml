@@ -601,25 +601,25 @@
         Immettere la password dell'amministratore per la configurazione del client locale:
     </Entry>
     <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
-        Password di Amministratore richiesta
+        Password richiesta
     </Entry>
     <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
         Immettere la password delle impostazioni per la configurazione del client locale:
     </Entry>
     <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
-        Impostazione Password obbligatoria
+        Password richiesta
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequired">
-        Immettere la password di uscita per terminare SEB:Application Log
+        Immettere la password di uscita per terminare SEB:
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
         Password richiesta
     </Entry>
     <Entry key="PasswordDialog_SettingsPasswordRequired">
-        Immettere la password delle impostazioni per la configurazione selezionata:
+        Inserire la password dell'esame:
     </Entry>
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
-        Impostazione Password obbligatoria
+        Password richiesta
     </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
         SEB è in esecuzione.

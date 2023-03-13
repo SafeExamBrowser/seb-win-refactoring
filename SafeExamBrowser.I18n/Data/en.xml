@@ -601,25 +601,25 @@
         Please enter the administrator password for the local client configuration:
     </Entry>
     <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
-        Administrator Password Required
+        Password Required
     </Entry>
     <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
-        Please enter the settings password for the local client configuration:
+        Please enter the password for the local client configuration:
     </Entry>
     <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
-        Settings Password Required
+        Password Required
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequired">
         Please enter the quit password in order to terminate SEB:
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
-        Quit Password Required
+        Password Required
     </Entry>
     <Entry key="PasswordDialog_SettingsPasswordRequired">
-        Please enter the settings password for the selected configuration:
+        Please enter the exam password:
     </Entry>
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
-        Settings Password Required
+        Password Required
     </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
         SEB is running.

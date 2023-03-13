@@ -601,25 +601,25 @@
         Veuillez saisir le mot de passe de l'administrateur pour la configuration du client local:
     </Entry>
     <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
-        Mot de passe administrateur requis
+        Mot de passe requis
     </Entry>
     <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
         Veuillez entrer le mot de passe pour la configuration du client local:
     </Entry>
     <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
-        Mot de passe des paramètres requis
+        Mot de passe requis
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequired">
         Veuillez saisir le mot de passe pour quitter SEB:
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
-        Mot de passe de sortie requis
+        Mot de passe requis
     </Entry>
     <Entry key="PasswordDialog_SettingsPasswordRequired">
-        Veuillez saisir le mot de passe de la configuration sélectionnée:
+        Veuillez saisir le mot de passe de l'examen:
     </Entry>
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
-        Réglages Mot de passe requis
+        Mot de passe requis
     </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
         SEB fonctionne.

@@ -550,25 +550,25 @@
         请输入本地客户端配置的管理员密码：
     </Entry>
     <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
-        管理员密码不能为空
+        需要密码
     </Entry>
     <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
         请输入本地客户端配置的设置密码：
     </Entry>
     <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
-        设置密码不能为空
+        需要密码
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequired">
         请输入退出密码以终止防作弊考试专用浏览器：
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
-        退出密码不能为空
+        需要密码
     </Entry>
     <Entry key="PasswordDialog_SettingsPasswordRequired">
-        请输入所选配置的设置密码：
+        请输入考试密码：
     </Entry>
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
-        设置密码不能为空
+        需要密码
     </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
         防作弊考试专用浏览器正在运行。

@@ -601,7 +601,7 @@
         Bitte geben Sie das Administrator-Passwort für die lokale Konfiguration ein:
     </Entry>
     <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
-        Administrator-Passwort erforderlich
+        Passwort erforderlich
     </Entry>
     <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
         Bitte geben Sie das Passwort für die lokale Konfiguration ein:
@@ -613,10 +613,10 @@
         Bitte geben Sie das Quit-Passwort ein um SEB zu beenden:
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
-        Quit-Passwort erforderlich
+        Passwort erforderlich
     </Entry>
     <Entry key="PasswordDialog_SettingsPasswordRequired">
-        Bitte geben Sie das Passwort für die ausgewählte Konfiguration ein:
+        Bitte geben Sie das Prüfungspasswort ein:
     </Entry>
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Passwort erforderlich
