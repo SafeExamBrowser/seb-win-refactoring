@@ -90,7 +90,7 @@ namespace SafeExamBrowser.Configuration.DataResources
 		private HttpRequestMessage Build(HttpMethod method, Uri uri)
 		{
 			var request = new HttpRequestMessage(method, uri);
-			var userAgent = new ProductInfoHeaderValue("SEB", appConfig.ProgramInformationalVersion);
+			var userAgent = new ProductInfoHeaderValue("SEB", appConfig.ProgramBuildVersion);
 
 			request.Headers.UserAgent.Add(userAgent);
 
