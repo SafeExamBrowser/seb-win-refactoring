@@ -11,7 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using SafeExamBrowser.Configuration.Contracts;
@@ -90,9 +89,12 @@ namespace SafeExamBrowser.Configuration.DataResources
 		private HttpRequestMessage Build(HttpMethod method, Uri uri)
 		{
 			var request = new HttpRequestMessage(method, uri);
-			var userAgent = new ProductInfoHeaderValue("SEB", appConfig.ProgramBuildVersion);
+			var success = request.Headers.TryAddWithoutValidation("User-Agent", $"SEB/{appConfig.ProgramInformationalVersion}");
 
-			request.Headers.UserAgent.Add(userAgent);
+			if (!success)
+			{
+				logger.Warn("Failed to add user agent header to request!");
+			}
 
 			return request;
 		}
@@ -145,7 +147,7 @@ namespace SafeExamBrowser.Configuration.DataResources
 
 		private LoadStatus HandleBrowserResource(HttpResponseMessage response, out Stream data)
 		{
-			data = default(Stream);
+			data = default;
 
 			logger.Debug($"The {(IsUnauthorized(response) ? "resource needs authentication" : " response data is HTML")}.");
 
