@@ -7,6 +7,7 @@
  */
 
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -16,7 +17,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 {
 	internal partial class NotificationButton : UserControl, INotificationControl
 	{
-		private INotification notification;
+		private readonly INotification notification;
 
 		internal NotificationButton(INotification notification)
 		{
@@ -41,7 +42,8 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 		{
 			IconButton.ToolTip = notification.Tooltip;
 			IconButton.Content = IconResourceLoader.Load(notification.IconResource);
-			System.Windows.Automation.AutomationProperties.SetName(this, notification.Tooltip);
+
+			AutomationProperties.SetName(this, notification.Tooltip);
 		}
 	}
 }

@@ -22,8 +22,8 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 {
 	internal partial class KeyboardLayoutControl : UserControl, ISystemControl
 	{
-		private IKeyboard keyboard;
-		private IText text;
+		private readonly IKeyboard keyboard;
+		private readonly IText text;
 
 		internal KeyboardLayoutControl(IKeyboard keyboard, IText text)
 		{
@@ -57,7 +57,9 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			var lastOpenedBySpacePress = false;
 			Button.PreviewKeyDown += (o, args) =>
 			{
-				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
+				// For some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation,
+				// we record the space bar event and leave the popup open for at least 3 seconds.
+				if (args.Key == System.Windows.Input.Key.Space)
 				{
 					lastOpenedBySpacePress = true;
 				}
@@ -144,6 +146,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 
 			LayoutCultureCode.Text = layout.CultureCode;
 			Button.ToolTip = tooltip;
+
 			AutomationProperties.SetName(Button, tooltip);
 		}
 

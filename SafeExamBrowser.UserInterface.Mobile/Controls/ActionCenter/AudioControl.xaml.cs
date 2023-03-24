@@ -9,6 +9,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
@@ -52,7 +53,9 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 			var lastOpenedBySpacePress = false;
 			Button.PreviewKeyDown += (o, args) =>
 			{
-				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
+				// For some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation,
+				// we record the space bar event and leave the popup open for at least 3 seconds.
+				if (args.Key == System.Windows.Input.Key.Space)
 				{
 					lastOpenedBySpacePress = true;
 				}
@@ -139,27 +142,32 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 			this.muted = muted;
 
 			Button.ToolTip = info;
-			System.Windows.Automation.AutomationProperties.SetName(Button, info);
 			Text.Text = info;
 			Volume.ValueChanged -= Volume_ValueChanged;
 			Volume.Value = Math.Round(volume * 100);
 			Volume.ValueChanged += Volume_ValueChanged;
 
+			AutomationProperties.SetName(Button, info);
+
 			if (muted)
 			{
 				var tooltip = text.Get(TextKey.SystemControl_AudioDeviceUnmuteTooltip);
+
 				MuteButton.ToolTip = tooltip;
-				System.Windows.Automation.AutomationProperties.SetName(MuteButton, tooltip);
 				ButtonIcon.Content = IconResourceLoader.Load(MutedIcon);
 				PopupIcon.Content = IconResourceLoader.Load(MutedIcon);
+
+				AutomationProperties.SetName(MuteButton, tooltip);
 			}
 			else
 			{
 				var tooltip = text.Get(TextKey.SystemControl_AudioDeviceMuteTooltip);
+
 				MuteButton.ToolTip = tooltip;
-				System.Windows.Automation.AutomationProperties.SetName(MuteButton, tooltip);
 				ButtonIcon.Content = LoadIcon(volume);
 				PopupIcon.Content = LoadIcon(volume);
+
+				AutomationProperties.SetName(MuteButton, tooltip);
 			}
 		}
 

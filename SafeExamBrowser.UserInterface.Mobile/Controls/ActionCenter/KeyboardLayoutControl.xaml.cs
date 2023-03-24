@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Threading.Tasks;
 using System.Windows.Automation;
 using System.Windows.Controls;
@@ -19,8 +18,8 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 {
 	internal partial class KeyboardLayoutControl : UserControl, ISystemControl
 	{
-		private IKeyboard keyboard;
-		private IText text;
+		private readonly IKeyboard keyboard;
+		private readonly IText text;
 
 		internal KeyboardLayoutControl(IKeyboard keyboard, IText text)
 		{
@@ -54,7 +53,9 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 			var lastOpenedBySpacePress = false;
 			Button.PreviewKeyDown += (o, args) =>
 			{
-				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
+				// For some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation,
+				// we record the space bar event and leave the popup open for at least 3 seconds.
+				if (args.Key == System.Windows.Input.Key.Space)
 				{
 					lastOpenedBySpacePress = true;
 				}
@@ -124,6 +125,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 
 			Text.Text = layout.CultureName;
 			Button.ToolTip = tooltip;
+
 			AutomationProperties.SetName(Button, tooltip);
 		}
 

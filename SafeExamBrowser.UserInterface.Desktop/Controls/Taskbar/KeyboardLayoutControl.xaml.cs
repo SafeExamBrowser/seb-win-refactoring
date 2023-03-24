@@ -22,8 +22,8 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 {
 	internal partial class KeyboardLayoutControl : UserControl, ISystemControl
 	{
-		private IKeyboard keyboard;
-		private IText text;
+		private readonly IKeyboard keyboard;
+		private readonly IText text;
 
 		internal KeyboardLayoutControl(IKeyboard keyboard, IText text)
 		{
@@ -49,7 +49,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 			Button.Click += (o, args) =>
 			{
 				Popup.IsOpen = !Popup.IsOpen;
-				Task.Delay(200).ContinueWith(_ => this.Dispatcher.BeginInvoke((System.Action)(() =>
+				Task.Delay(200).ContinueWith(_ => this.Dispatcher.BeginInvoke((System.Action) (() =>
 				{
 					((LayoutsStackPanel.Children[0] as ContentControl).Content as UIElement).Focus();
 				})));
@@ -57,7 +57,9 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 			var lastOpenedBySpacePress = false;
 			Button.PreviewKeyDown += (o, args) =>
 			{
-				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
+				// For some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation,
+				// we record the space bar event and leave the popup open for at least 3 seconds.
+				if (args.Key == System.Windows.Input.Key.Space)
 				{
 					lastOpenedBySpacePress = true;
 				}
@@ -144,6 +146,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.Taskbar
 
 			LayoutCultureCode.Text = layout.CultureCode;
 			Button.ToolTip = tooltip;
+
 			AutomationProperties.SetName(Button, tooltip);
 		}
 

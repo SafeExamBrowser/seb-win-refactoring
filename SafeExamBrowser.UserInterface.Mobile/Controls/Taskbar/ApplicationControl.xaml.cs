@@ -9,6 +9,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
@@ -44,9 +45,13 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			Button.MouseEnter += (o, args) => WindowPopup.IsOpen = WindowStackPanel.Children.Count > 0;
 			Button.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => WindowPopup.IsOpen = WindowPopup.IsMouseOver || ActiveBar.IsMouseOver));
 			Button.ToolTip = application.Tooltip;
-			System.Windows.Automation.AutomationProperties.SetName(Button, application.Tooltip);
 			WindowPopup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(WindowPopup_PlacementCallback);
 			WindowPopup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() => WindowPopup.IsOpen = IsMouseOver));
+
+			if (application.Tooltip != default)
+			{
+				AutomationProperties.SetName(Button, application.Tooltip);
+			}
 
 			WindowPopup.Opened += (o, args) =>
 			{
@@ -106,7 +111,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			}
 			else
 			{
-				single = default(IApplicationWindow);
+				single = default;
 			}
 		}
 	}

@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
@@ -16,8 +17,8 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 {
 	internal partial class ApplicationButton : UserControl
 	{
-		private IApplication application;
-		private IApplicationWindow window;
+		private readonly IApplication application;
+		private readonly IApplicationWindow window;
 
 		internal event EventHandler Clicked;
 
@@ -32,14 +33,19 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 
 		private void InitializeApplicationInstanceButton()
 		{
+			var tooltip = window?.Title ?? application.Tooltip;
+
+			Button.Click += (o, args) => Clicked?.Invoke(this, EventArgs.Empty);
+			Button.ToolTip = tooltip;
 			Icon.Content = IconResourceLoader.Load(window?.Icon ?? application.Icon);
 			Text.Text = window?.Title ?? application.Name;
-			Button.Click += (o, args) => Clicked?.Invoke(this, EventArgs.Empty);
-			var tooltip = window?.Title ?? application.Tooltip;
-			Button.ToolTip = tooltip;
-			System.Windows.Automation.AutomationProperties.SetName(Button, tooltip);
 
-			if (window != null)
+			if (tooltip != default)
+			{
+				AutomationProperties.SetName(Button, string.Empty);
+			}
+
+			if (window != default)
 			{
 				window.IconChanged += Window_IconChanged;
 				window.TitleChanged += Window_TitleChanged;

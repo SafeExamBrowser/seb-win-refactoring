@@ -8,6 +8,7 @@
 
 using System;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Controls;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 
@@ -43,7 +44,8 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			CultureCodeTextBlock.Text = layout.CultureCode;
 			CultureNameTextBlock.Text = layout.CultureName;
 			LayoutNameTextBlock.Text = layout.LayoutName;
-			System.Windows.Automation.AutomationProperties.SetName(Button, layout.CultureName);
+
+			AutomationProperties.SetName(Button, layout.CultureName);
 		}
 	}
 }

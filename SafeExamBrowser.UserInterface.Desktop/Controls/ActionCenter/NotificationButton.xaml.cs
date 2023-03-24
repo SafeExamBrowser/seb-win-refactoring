@@ -16,7 +16,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 {
 	internal partial class NotificationButton : UserControl, INotificationControl
 	{
-		private INotification notification;
+		private readonly INotification notification;
 
 		internal NotificationButton(INotification notification)
 		{
