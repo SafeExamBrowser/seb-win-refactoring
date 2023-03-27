@@ -196,8 +196,8 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
 		{
-			this.isQuitButtonFocusedAtKeyDown = this.QuitButton.IsKeyboardFocusWithin;
-			this.isFirstChildFocusedAtKeyDown = this.ApplicationStackPanel.Children[0].IsKeyboardFocusWithin;
+			isQuitButtonFocusedAtKeyDown = QuitButton.IsKeyboardFocusWithin;
+			isFirstChildFocusedAtKeyDown = ApplicationStackPanel.Children.Count > 0 && ApplicationStackPanel.Children[0].IsKeyboardFocusWithin;
 		}
 
 		private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
@@ -205,36 +205,22 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			if (e.Key == System.Windows.Input.Key.Tab)
 			{
 				var shift = System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.LeftShift);
-				if (!shift && this.ApplicationStackPanel.Children[0].IsKeyboardFocusWithin && this.isQuitButtonFocusedAtKeyDown)
+				var hasFocus = ApplicationStackPanel.Children.Count > 0 && ApplicationStackPanel.Children[0].IsKeyboardFocusWithin;
+
+				if (!shift && hasFocus && isQuitButtonFocusedAtKeyDown)
 				{
-					this.LoseFocusRequested?.Invoke(true);
+					LoseFocusRequested?.Invoke(true);
 					e.Handled = true;
 				}
-				else if (shift && this.QuitButton.IsKeyboardFocusWithin && this.isFirstChildFocusedAtKeyDown)
+				else if (shift && QuitButton.IsKeyboardFocusWithin && isFirstChildFocusedAtKeyDown)
 				{
-					this.LoseFocusRequested?.Invoke(false);
+					LoseFocusRequested?.Invoke(false);
 					e.Handled = true;
 				}
 			}
 
-			this.isQuitButtonFocusedAtKeyDown = false;
-			this.isFirstChildFocusedAtKeyDown = false;
-		}
-
-		void ITaskbar.Focus(bool forward)
-		{
-			this.Dispatcher.BeginInvoke((Action) (() =>
-			{
-				base.Activate();
-				if (forward)
-				{
-					this.SetFocusWithin(this.ApplicationStackPanel.Children[0]);
-				}
-				else
-				{
-					this.QuitButton.Focus();
-				}
-			}));
+			isQuitButtonFocusedAtKeyDown = false;
+			isFirstChildFocusedAtKeyDown = false;
 		}
 
 		private bool SetFocusWithin(UIElement uIElement)
@@ -248,9 +234,10 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			if (uIElement is System.Windows.Controls.Panel)
 			{
 				var panel = uIElement as System.Windows.Controls.Panel;
+
 				for (var i = 0; i < panel.Children.Count; i++)
 				{
-					if (this.SetFocusWithin(panel.Children[i]))
+					if (SetFocusWithin(panel.Children[i]))
 					{
 						return true;
 					}
@@ -262,9 +249,10 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			{
 				var control = uIElement as System.Windows.Controls.ContentControl;
 				var content = control.Content as UIElement;
+
 				if (content != null)
 				{
-					return this.SetFocusWithin(content);
+					return SetFocusWithin(content);
 				}
 			}
 

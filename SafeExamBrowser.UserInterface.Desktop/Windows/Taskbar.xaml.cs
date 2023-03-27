@@ -198,7 +198,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
 		{
 			isQuitButtonFocusedAtKeyDown = QuitButton.IsKeyboardFocusWithin;
-			isFirstChildFocusedAtKeyDown = ApplicationStackPanel.Children[0].IsKeyboardFocusWithin;
+			isFirstChildFocusedAtKeyDown = ApplicationStackPanel.Children.Count > 0 && ApplicationStackPanel.Children[0].IsKeyboardFocusWithin;
 		}
 
 		private void Window_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
@@ -206,7 +206,9 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			if (e.Key == System.Windows.Input.Key.Tab)
 			{
 				var shift = System.Windows.Input.Keyboard.IsKeyDown(System.Windows.Input.Key.LeftShift);
-				if (!shift && ApplicationStackPanel.Children[0].IsKeyboardFocusWithin && isQuitButtonFocusedAtKeyDown)
+				var hasFocus = ApplicationStackPanel.Children.Count > 0 && ApplicationStackPanel.Children[0].IsKeyboardFocusWithin;
+
+				if (!shift && hasFocus && isQuitButtonFocusedAtKeyDown)
 				{
 					LoseFocusRequested?.Invoke(true);
 					e.Handled = true;
