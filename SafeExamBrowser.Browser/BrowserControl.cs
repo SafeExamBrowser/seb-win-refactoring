@@ -28,8 +28,8 @@ namespace SafeExamBrowser.Browser
 		private readonly IRequestHandler requestHandler;
 
 		public string Address => control.Address;
-		public bool CanNavigateBackwards => control.BrowserCore.CanGoBack;
-		public bool CanNavigateForwards => control.BrowserCore.CanGoForward;
+		public bool CanNavigateBackwards => control.IsBrowserInitialized && control.BrowserCore.CanGoBack;
+		public bool CanNavigateForwards => control.IsBrowserInitialized && control.BrowserCore.CanGoForward;
 		public object EmbeddableControl => control;
 
 		public event AddressChangedEventHandler AddressChanged;
