@@ -11,7 +11,6 @@ using System.Management;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
 using Microsoft.Win32;
-using System;
 
 namespace SafeExamBrowser.SystemComponents
 {
@@ -58,7 +57,7 @@ namespace SafeExamBrowser.SystemComponents
 			isVirtualMachine |= manufacturer.Contains("qemu");
 			isVirtualMachine |= manufacturer.Contains("vmware");
 			isVirtualMachine |= model.Contains("virtualbox");
-			isVirtualMachine |= model.Contains("Q35 +");
+			isVirtualMachine |= model.Contains("Q35 +");  // qemu
 
 			return isVirtualMachine;
 		}
@@ -88,7 +87,20 @@ namespace SafeExamBrowser.SystemComponents
 
 					isVirtualMachine |= IsVirtualSystemInfo(biosInfo, manufacturer, model);
 
-					// TODO: check computerIds
+					// hardware information of profile throughout installation etc. 
+					RegistryKey computerIds = Microsoft.Win32.Registry.LocalMachine.OpenSubKey($"SYSTEM\\HardwareConfig\\{configId}\\ComputerIds");
+
+					if (computerIds == null)
+					{
+						continue;
+					}
+
+					foreach (string computerId in computerIds.GetSubKeyNames())
+					{
+						// e.g. manufacturer&version&sku&...
+						string computer = (string)computerIds.GetValue(computerId);
+						isVirtualMachine |= IsVirtualSystemInfo(computer, computer, computer);
+					}
 				}
 			}
 
@@ -121,6 +133,8 @@ namespace SafeExamBrowser.SystemComponents
 				}
 			}
 
+			// TODO: find a way to check BCD registries (to hunt for QEMU HARDDISK) without admin privs
+
 			return isVirtualMachine;
 		}
 
@@ -148,12 +162,10 @@ namespace SafeExamBrowser.SystemComponents
 			var model = systemInfo.Model;
 			var devices = systemInfo.PlugAndPlayDeviceIds;
 
-			// redundant: registry check (hardware config)
+			// redundant: registry check (hardware config) does this aswell
 			isVirtualMachine |= IsVirtualSystemInfo(biosInfo, manufacturer, model);
 			isVirtualMachine |= IsVirtualWmi();
 			isVirtualMachine |= IsVirtualRegistry();
-
-			// TODO: system version
 
 			if (macAddress != null && macAddress.Count() > 2)
 			{
