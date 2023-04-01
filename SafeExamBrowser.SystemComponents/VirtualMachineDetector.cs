@@ -6,13 +6,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Linq;
 using System.Management;
-using System.Runtime.InteropServices;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
 using Microsoft.Win32;
+using System;
 
 namespace SafeExamBrowser.SystemComponents
 {
@@ -61,8 +60,6 @@ namespace SafeExamBrowser.SystemComponents
 			isVirtualMachine |= model.Contains("virtualbox");
 			isVirtualMachine |= model.Contains("Q35 +");
 
-			Console.WriteLine($"biosInfo: {biosInfo}, manufacturer: {manufacturer}, model: {model}, isVirtualMachine: {isVirtualMachine}");
-
 			return isVirtualMachine;
 		}
 
@@ -109,7 +106,7 @@ namespace SafeExamBrowser.SystemComponents
 						continue;
 					}
 
-					string currHostname = Environment.GetEnvironmentVariable("COMPUTERNAME").ToLower();
+					string currHostname = System.Environment.GetEnvironmentVariable("COMPUTERNAME").ToLower();
 					string cacheHostname = ((string) cacheKey.GetValue("DeviceName")).ToLower();
 
 					// windows timeline syncs with other hosts that a user has logged into, hence avoid false positives
