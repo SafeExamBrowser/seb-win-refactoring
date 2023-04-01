@@ -42,6 +42,7 @@ namespace SafeExamBrowser.SystemComponents
 		}
 		private bool IsVirtualSystemInfo(string biosInfo, string manufacturer, string model)
 		{
+
 			bool isVirtualMachine = false;
 
 			biosInfo = biosInfo.ToLower();
@@ -60,6 +61,8 @@ namespace SafeExamBrowser.SystemComponents
 			isVirtualMachine |= model.Contains("virtualbox");
 			isVirtualMachine |= model.Contains("Q35 +");
 
+			Console.WriteLine($"biosInfo: {biosInfo}, manufacturer: {manufacturer}, model: {model}, isVirtualMachine: {isVirtualMachine}");
+
 			return isVirtualMachine;
 		}
 
@@ -67,13 +70,58 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			bool isVirtualMachine = false;
 
+			// check historic hardware profiles
 			RegistryKey hardwareConfig = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SYSTEM\\HardwareConfig");
 
-			foreach (string childKeyName in hardwareConfig.GetSubKeyNames())
+			if (hardwareConfig != null)
 			{
-				RegistryKey childKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey($"SYSTEM\\HardwareConfig\\{childKeyName}");
-				childKey.GetValue("");
+				foreach (string configId in hardwareConfig.GetSubKeyNames())
+				{
+					RegistryKey configKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey($"SYSTEM\\HardwareConfig\\{configId}");
 
+					if (configKey == null)
+					{
+						continue;
+					}
+
+					// reconstruct the systemInfo.biosInfo string
+					string biosInfo = (string) configKey.GetValue("BIOSVendor") + " " + (string) configKey.GetValue("BIOSVersion");
+					string manufacturer = (string) configKey.GetValue("SystemManufacturer");
+					string model = (string) configKey.GetValue("SystemProductName");
+
+					isVirtualMachine |= IsVirtualSystemInfo(biosInfo, manufacturer, model);
+
+					// TODO: check computerIds
+				}
+			}
+
+			// check Windows timeline caches for current hardware config
+			RegistryKey deviceCache = Microsoft.Win32.Registry.CurrentUser.OpenSubKey($"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\TaskFlow\\DeviceCache");
+			
+			if (deviceCache != null)
+			{
+				foreach (string cacheId in deviceCache.GetSubKeyNames())
+				{
+					RegistryKey cacheKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey($"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\TaskFlow\\DeviceCache\\{cacheId}");
+
+					if (cacheKey == null)
+					{
+						continue;
+					}
+
+					string currHostname = Environment.GetEnvironmentVariable("COMPUTERNAME").ToLower();
+					string cacheHostname = ((string) cacheKey.GetValue("DeviceName")).ToLower();
+
+					// windows timeline syncs with other hosts that a user has logged into, hence avoid false positives
+					if (cacheHostname == currHostname)
+					{
+						string biosInfo = "";
+						string manufacturer = (string) cacheKey.GetValue("DeviceMake");
+						string model = (string) cacheKey.GetValue("DeviceModel");
+
+						isVirtualMachine |= IsVirtualSystemInfo(biosInfo, manufacturer, model);
+					}
+				}
 			}
 
 			return isVirtualMachine;
@@ -85,7 +133,7 @@ namespace SafeExamBrowser.SystemComponents
 
 			ManagementObjectSearcher searcherCpu = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
 
-			// edge case where no CPU is detected?
+			// TODO: how to handle no CPU?
 			foreach (ManagementObject obj in searcherCpu.Get())
 			{
 				isVirtualMachine |= ((string) obj["Name"]).ToLower().Contains(" kvm ");  // qemu
@@ -103,6 +151,7 @@ namespace SafeExamBrowser.SystemComponents
 			var model = systemInfo.Model;
 			var devices = systemInfo.PlugAndPlayDeviceIds;
 
+			// redundant: registry check (hardware config)
 			isVirtualMachine |= IsVirtualSystemInfo(biosInfo, manufacturer, model);
 			isVirtualMachine |= IsVirtualWmi();
 			isVirtualMachine |= IsVirtualRegistry();
@@ -120,7 +169,6 @@ namespace SafeExamBrowser.SystemComponents
 			{
 				isVirtualMachine |= DEVICE_BLACKLIST.Any(d => device.ToLower().Contains(d.ToLower()));
 			}
-
 
 			logger.Debug($"Computer '{systemInfo.Name}' appears {(isVirtualMachine ? "" : "not ")}to be a virtual machine.");
 
