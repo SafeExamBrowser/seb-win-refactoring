@@ -38,9 +38,9 @@ namespace SafeExamBrowser.SystemComponents
 			this.logger = logger;
 			this.systemInfo = systemInfo;
 		}
+
 		private bool IsVirtualSystemInfo(string biosInfo, string manufacturer, string model)
 		{
-
 			bool isVirtualMachine = false;
 
 			biosInfo = biosInfo.ToLower();
@@ -133,8 +133,6 @@ namespace SafeExamBrowser.SystemComponents
 				}
 			}
 
-			// TODO: find a way to check BCD registries (to hunt for QEMU HARDDISK) without admin privs
-
 			return isVirtualMachine;
 		}
 
@@ -144,7 +142,6 @@ namespace SafeExamBrowser.SystemComponents
 
 			ManagementObjectSearcher searcherCpu = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
 
-			// TODO: how to handle no CPU?
 			foreach (ManagementObject obj in searcherCpu.Get())
 			{
 				isVirtualMachine |= ((string) obj["Name"]).ToLower().Contains(" kvm ");  // qemu
@@ -162,7 +159,7 @@ namespace SafeExamBrowser.SystemComponents
 			var model = systemInfo.Model;
 			var devices = systemInfo.PlugAndPlayDeviceIds;
 
-			// redundant: registry check (hardware config) does this aswell
+			// redundancy: registry check does this aswell (systemInfo may be using different methods)
 			isVirtualMachine |= IsVirtualSystemInfo(biosInfo, manufacturer, model);
 			isVirtualMachine |= IsVirtualWmi();
 			isVirtualMachine |= IsVirtualRegistry();
