@@ -72,7 +72,7 @@ namespace SafeExamBrowser.SystemComponents
 
 		private bool IsVirtualSystemInfo(string biosInfo, string manufacturer, string model)
 		{
-			bool isVirtualMachine = false;
+			var isVirtualMachine = false;
 
 			biosInfo = biosInfo.ToLower();
 			manufacturer = manufacturer.ToLower();
@@ -95,16 +95,15 @@ namespace SafeExamBrowser.SystemComponents
 
 		private bool IsVirtualRegistry()
 		{
-			bool isVirtualMachine = false;
+			var isVirtualMachine = false;
 
 			// check historic hardware profiles
-			RegistryKey hardwareConfig = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SYSTEM\\HardwareConfig");
-
-			if (hardwareConfig != null)
+			var hardwareConfKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SYSTEM\\HardwareConfig");
+			if (hardwareConfKey != null)
 			{
-				foreach (string configId in hardwareConfig.GetSubKeyNames())
+				foreach (string configId in hardwareConfKey.GetSubKeyNames())
 				{
-					RegistryKey configKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey($"SYSTEM\\HardwareConfig\\{configId}");
+					var configKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey($"SYSTEM\\HardwareConfig\\{configId}");
 
 					if (configKey == null)
 					{
@@ -112,52 +111,51 @@ namespace SafeExamBrowser.SystemComponents
 					}
 
 					// reconstruct the systemInfo.biosInfo string
-					string biosInfo = (string) configKey.GetValue("BIOSVendor") + " " + (string) configKey.GetValue("BIOSVersion");
-					string manufacturer = (string) configKey.GetValue("SystemManufacturer");
-					string model = (string) configKey.GetValue("SystemProductName");
+					var biosInfo = (string) configKey.GetValue("BIOSVendor") + " " + (string) configKey.GetValue("BIOSVersion");
+					var manufacturer = (string) configKey.GetValue("SystemManufacturer");
+					var model = (string) configKey.GetValue("SystemProductName");
 
 					isVirtualMachine |= IsVirtualSystemInfo(biosInfo, manufacturer, model);
 
 					// hardware information of profile throughout installation etc. 
-					RegistryKey computerIds = Microsoft.Win32.Registry.LocalMachine.OpenSubKey($"SYSTEM\\HardwareConfig\\{configId}\\ComputerIds");
+					var computerIdsKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey($"SYSTEM\\HardwareConfig\\{configId}\\ComputerIds");
 
-					if (computerIds == null)
+					if (computerIdsKey == null)
 					{
 						continue;
 					}
 
-					foreach (string computerId in computerIds.GetSubKeyNames())
+					foreach (var computerId in computerIdsKey.GetSubKeyNames())
 					{
 						// e.g. manufacturer&version&sku&...
-						string computer = (string) computerIds.GetValue(computerId);
-						isVirtualMachine |= IsVirtualSystemInfo(computer, computer, computer);
+						var computerSummary = (string) computerIdsKey.GetValue(computerId);
+						isVirtualMachine |= IsVirtualSystemInfo(computerSummary, computerSummary, computerSummary);
 					}
 				}
 			}
 
 			// check Windows timeline caches for current hardware config
-			RegistryKey deviceCache = Microsoft.Win32.Registry.CurrentUser.OpenSubKey($"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\TaskFlow\\DeviceCache");
-
-			if (deviceCache != null)
+			var deviceCacheKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey($"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\TaskFlow\\DeviceCache");
+			if (deviceCacheKey != null)
 			{
-				foreach (string cacheId in deviceCache.GetSubKeyNames())
+				foreach (var cacheId in deviceCacheKey.GetSubKeyNames())
 				{
-					RegistryKey cacheKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey($"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\TaskFlow\\DeviceCache\\{cacheId}");
+					var cacheKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey($"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\TaskFlow\\DeviceCache\\{cacheId}");
 
 					if (cacheKey == null)
 					{
 						continue;
 					}
 
-					string currHostname = System.Environment.GetEnvironmentVariable("COMPUTERNAME").ToLower();
-					string cacheHostname = ((string) cacheKey.GetValue("DeviceName")).ToLower();
+					var currHostname = System.Environment.GetEnvironmentVariable("COMPUTERNAME").ToLower();
+					var cacheHostname = ((string) cacheKey.GetValue("DeviceName")).ToLower();
 
 					// windows timeline syncs with other hosts that a user has logged into: check hostname to only check this device
 					if (cacheHostname == currHostname)
 					{
-						string biosInfo = "";
-						string manufacturer = (string) cacheKey.GetValue("DeviceMake");
-						string model = (string) cacheKey.GetValue("DeviceModel");
+						var biosInfo = "";
+						var manufacturer = (string) cacheKey.GetValue("DeviceMake");
+						var model = (string) cacheKey.GetValue("DeviceModel");
 
 						isVirtualMachine |= IsVirtualSystemInfo(biosInfo, manufacturer, model);
 					}
@@ -169,13 +167,12 @@ namespace SafeExamBrowser.SystemComponents
 
 		private bool IsVirtualWmi()
 		{
-			bool isVirtualMachine = false;
+			var isVirtualMachine = false;
+			var cpuObjSearcher = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
 
-			ManagementObjectSearcher searcherCpu = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
-
-			foreach (ManagementObject obj in searcherCpu.Get())
+			foreach (var cpuObj in cpuObjSearcher.Get())
 			{
-				isVirtualMachine |= ((string) obj["Name"]).ToLower().Contains(" kvm ");  // qemu (KVM specifically)
+				isVirtualMachine |= ((string) cpuObj["Name"]).ToLower().Contains(" kvm ");  // qemu (KVM specifically)
 			}
 
 			return isVirtualMachine;
