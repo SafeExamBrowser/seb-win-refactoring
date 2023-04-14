@@ -152,7 +152,7 @@ namespace SafeExamBrowser.SystemComponents
 					var cacheHostname = ((string) cacheKey.GetValue("DeviceName")).ToLower();
 
 					// windows timeline syncs with other hosts that a user has logged into: check hostname to only check this device
-					if (cacheHostname == currHostname)
+					if (currHostname.ToLower() == cacheHostname)
 					{
 						var biosInfo = "";
 						var manufacturer = (string) cacheKey.GetValue("DeviceMake");
