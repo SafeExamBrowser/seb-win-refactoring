@@ -39,6 +39,37 @@ namespace SafeExamBrowser.SystemComponents
 			this.systemInfo = systemInfo;
 		}
 
+		public bool IsVirtualMachine()
+		{
+			var biosInfo = systemInfo.BiosInfo;
+			var isVirtualMachine = false;
+			var macAddress = systemInfo.MacAddress;
+			var manufacturer = systemInfo.Manufacturer;
+			var model = systemInfo.Model;
+			var devices = systemInfo.PlugAndPlayDeviceIds;
+
+			// redundancy: registry check does this aswell (systemInfo may be using different methods)
+			isVirtualMachine |= IsVirtualSystemInfo(biosInfo, manufacturer, model);
+			isVirtualMachine |= IsVirtualWmi();
+			isVirtualMachine |= IsVirtualRegistry();
+
+			if (macAddress != null && macAddress.Count() > 2)
+			{
+				isVirtualMachine |= macAddress.StartsWith(QEMU_MAC_PREFIX);
+				isVirtualMachine |= macAddress.StartsWith(VIRTUALBOX_MAC_PREFIX);
+				isVirtualMachine |= macAddress.StartsWith("000000000000");  // indicates tampering
+			}
+
+			foreach (var device in devices)
+			{
+				isVirtualMachine |= DEVICE_BLACKLIST.Any(d => device.ToLower().Contains(d.ToLower()));
+			}
+
+			logger.Debug($"Computer '{systemInfo.Name}' appears {(isVirtualMachine ? "" : "not ")}to be a virtual machine.");
+
+			return isVirtualMachine;
+		}
+
 		private bool IsVirtualSystemInfo(string biosInfo, string manufacturer, string model)
 		{
 			bool isVirtualMachine = false;
@@ -98,7 +129,7 @@ namespace SafeExamBrowser.SystemComponents
 					foreach (string computerId in computerIds.GetSubKeyNames())
 					{
 						// e.g. manufacturer&version&sku&...
-						string computer = (string)computerIds.GetValue(computerId);
+						string computer = (string) computerIds.GetValue(computerId);
 						isVirtualMachine |= IsVirtualSystemInfo(computer, computer, computer);
 					}
 				}
@@ -106,7 +137,7 @@ namespace SafeExamBrowser.SystemComponents
 
 			// check Windows timeline caches for current hardware config
 			RegistryKey deviceCache = Microsoft.Win32.Registry.CurrentUser.OpenSubKey($"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\TaskFlow\\DeviceCache");
-			
+
 			if (deviceCache != null)
 			{
 				foreach (string cacheId in deviceCache.GetSubKeyNames())
@@ -121,7 +152,7 @@ namespace SafeExamBrowser.SystemComponents
 					string currHostname = System.Environment.GetEnvironmentVariable("COMPUTERNAME").ToLower();
 					string cacheHostname = ((string) cacheKey.GetValue("DeviceName")).ToLower();
 
-					// windows timeline syncs with other hosts that a user has logged into, hence avoid false positives
+					// windows timeline syncs with other hosts that a user has logged into: check hostname to only check this device
 					if (cacheHostname == currHostname)
 					{
 						string biosInfo = "";
@@ -144,39 +175,8 @@ namespace SafeExamBrowser.SystemComponents
 
 			foreach (ManagementObject obj in searcherCpu.Get())
 			{
-				isVirtualMachine |= ((string) obj["Name"]).ToLower().Contains(" kvm ");  // qemu
+				isVirtualMachine |= ((string) obj["Name"]).ToLower().Contains(" kvm ");  // qemu (KVM specifically)
 			}
-
-			return isVirtualMachine;
-		}
-
-		public bool IsVirtualMachine()
-		{
-			var biosInfo = systemInfo.BiosInfo;
-			var isVirtualMachine = false;
-			var macAddress = systemInfo.MacAddress;
-			var manufacturer = systemInfo.Manufacturer;
-			var model = systemInfo.Model;
-			var devices = systemInfo.PlugAndPlayDeviceIds;
-
-			// redundancy: registry check does this aswell (systemInfo may be using different methods)
-			isVirtualMachine |= IsVirtualSystemInfo(biosInfo, manufacturer, model);
-			isVirtualMachine |= IsVirtualWmi();
-			isVirtualMachine |= IsVirtualRegistry();
-
-			if (macAddress != null && macAddress.Count() > 2)
-			{
-				isVirtualMachine |= macAddress.StartsWith(QEMU_MAC_PREFIX);
-				isVirtualMachine |= macAddress.StartsWith(VIRTUALBOX_MAC_PREFIX);
-				isVirtualMachine |= macAddress.StartsWith("000000000000");  // indicates tampering
-			}
-
-			foreach (var device in devices)
-			{
-				isVirtualMachine |= DEVICE_BLACKLIST.Any(d => device.ToLower().Contains(d.ToLower()));
-			}
-
-			logger.Debug($"Computer '{systemInfo.Name}' appears {(isVirtualMachine ? "" : "not ")}to be a virtual machine.");
 
 			return isVirtualMachine;
 		}
