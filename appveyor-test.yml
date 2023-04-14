@@ -8,6 +8,7 @@ matrix:
   fast_finish: true
 before_build:
  - nuget restore
+ - choco install codecov
 build_script:
  - msbuild /verbosity:minimal /property:langversion=latest "SafeExamBrowser.sln"
 test_script:
@@ -22,7 +23,4 @@ test_script:
  - .\packages\OpenCover.4.7.1221\tools\OpenCover.Console.exe -register -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Runtime.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.Runtime.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -mergeoutput -output:"coverage.xml"
  - .\packages\OpenCover.4.7.1221\tools\OpenCover.Console.exe -register -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Service.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.Service.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -mergeoutput -output:"coverage.xml"
 after_test:
- - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
- - pip install --upgrade --user pip
- - pip install codecov
  - codecov -f "coverage.xml" -X gcov
