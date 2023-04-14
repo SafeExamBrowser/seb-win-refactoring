@@ -1,5 +1,5 @@
 version: '{build}'
-image: Visual Studio 2017
+image: Visual Studio 2022
 configuration: Debug
 platform:
   - x64
@@ -23,6 +23,6 @@ test_script:
  - .\packages\OpenCover.4.7.1221\tools\OpenCover.Console.exe -register -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\SafeExamBrowser.Service.UnitTests\bin\%PLATFORM%\%CONFIGURATION%\SafeExamBrowser.Service.UnitTests.dll" -filter:"+[*]* -[*.UnitTests]* -[*Moq*]*" -mergebyhash -mergeoutput -output:"coverage.xml"
 after_test:
  - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
- - pip install --upgrade pip
+ - pip install --upgrade --user pip
  - pip install codecov
  - codecov -f "coverage.xml" -X gcov
