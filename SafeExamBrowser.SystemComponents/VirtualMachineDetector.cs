@@ -136,7 +136,9 @@ namespace SafeExamBrowser.SystemComponents
 
 			// check Windows timeline caches for current hardware config
 			var deviceCacheKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey($"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\TaskFlow\\DeviceCache");
-			if (deviceCacheKey != null)
+			var currHostname = System.Environment.GetEnvironmentVariable("COMPUTERNAME");
+
+			if (deviceCacheKey != null && currHostname != null)
 			{
 				foreach (var cacheId in deviceCacheKey.GetSubKeyNames())
 				{
@@ -147,7 +149,6 @@ namespace SafeExamBrowser.SystemComponents
 						continue;
 					}
 
-					var currHostname = System.Environment.GetEnvironmentVariable("COMPUTERNAME").ToLower();
 					var cacheHostname = ((string) cacheKey.GetValue("DeviceName")).ToLower();
 
 					// windows timeline syncs with other hosts that a user has logged into: check hostname to only check this device
