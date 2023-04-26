@@ -150,7 +150,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			{
 				if (quitUrlPattern == default)
 				{
-					quitUrlPattern = Regex.Escape(settings.QuitUrl.TrimEnd('/')) + @"\/?";
+					quitUrlPattern = $"^{Regex.Escape(settings.QuitUrl.TrimEnd('/'))}/?$";
 				}
 
 				isQuitUrl = Regex.IsMatch(request.Url, quitUrlPattern, RegexOptions.IgnoreCase);
