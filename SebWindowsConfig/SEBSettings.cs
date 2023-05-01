@@ -260,6 +260,7 @@ namespace SebWindowsConfig
 		public const String KeyArguments = "arguments";
 		public const String KeyArgument = "argument";
 		public const String KeyWindowHandlingProcess = "windowHandlingProcess";
+		public const String KeySignature = "signature";
 
 		// Group "Network"
 		public const String KeyEnableURLFilter = "enableURLFilter";
@@ -781,6 +782,7 @@ namespace SebWindowsConfig
 			SEBSettings.permittedProcessDataDefault.Add(SEBSettings.KeyIdentifier, "");
 			SEBSettings.permittedProcessDataDefault.Add(SEBSettings.KeyWindowHandlingProcess, "");
 			SEBSettings.permittedProcessDataDefault.Add(SEBSettings.KeyArguments, new ListObj());
+			SEBSettings.permittedProcessDataDefault.Add(SEBSettings.KeySignature, "");
 
 			// Default settings for prohibited process data
 			SEBSettings.prohibitedProcessDataDefault.Clear();

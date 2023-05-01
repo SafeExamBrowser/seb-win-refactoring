@@ -6,5 +6,6 @@
 		public string Executable { get; set; }
 		public string OriginalName { get; set; }
 		public string Path { get; set; }
+		public string Signature { get; set; }
 	}
 }

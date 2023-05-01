@@ -161,6 +161,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 								application.ShowInShell = showInShell;
 							}
 
+							if (applicationData.TryGetValue(Keys.Applications.Signature, out v) && v is string signature)
+							{
+								application.Signature = signature;
+							}
+
 							settings.Applications.Whitelist.Add(application);
 						}
 					}

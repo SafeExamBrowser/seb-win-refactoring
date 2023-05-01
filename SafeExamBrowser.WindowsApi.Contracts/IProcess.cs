@@ -36,9 +36,24 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		string OriginalName { get; }
 
 		/// <summary>
+		/// The full path of the process executable.
+		/// </summary>
+		string Path { get; }
+
+		/// <summary>
+		/// The thumbprint of the certificate used to sign the process executable, or <c>default(string)</c> if the executable isn't signed.
+		/// </summary>
+		string Signature { get; }
+
+		/// <summary>
 		/// Event fired when the process has terminated.
 		/// </summary>
 		event ProcessTerminatedEventHandler Terminated;
+
+		/// <summary>
+		/// Returns a string with the most important additional information about the process (not already contained in <c>ToString()</c>).
+		/// </summary>
+		string GetAdditionalInfo();
 
 		/// <summary>
 		/// Attempts to gracefully terminate the process by closing its main window. This will only work for interactive processes which have a main

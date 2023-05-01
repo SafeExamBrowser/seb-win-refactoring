@@ -21,15 +21,16 @@ namespace SafeExamBrowser.Monitoring.Applications
 {
 	public class ApplicationMonitor : IApplicationMonitor
 	{
-		private IList<BlacklistApplication> blacklist;
+		private readonly IList<BlacklistApplication> blacklist;
+		private readonly ILogger logger;
+		private readonly INativeMethods nativeMethods;
+		private readonly IProcessFactory processFactory;
+		private readonly Timer timer;
+		private readonly IList<WhitelistApplication> whitelist;
+
 		private Guid? captureHookId;
 		private Guid? foregroundHookId;
-		private ILogger logger;
-		private INativeMethods nativeMethods;
 		private IList<IProcess> processes;
-		private IProcessFactory processFactory;
-		private Timer timer;
-		private IList<WhitelistApplication> whitelist;
 		private Window activeWindow;
 
 		public event ExplorerStartedEventHandler ExplorerStarted;
@@ -132,7 +133,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 
 			foreach (var process in started)
 			{
-				logger.Debug($"Process {process} has been started.");
+				logger.Debug($"Process {process} has been started [{process.GetAdditionalInfo()}].");
 				processes.Add(process);
 
 				if (process.Name == "explorer.exe")
@@ -217,19 +218,36 @@ namespace SafeExamBrowser.Monitoring.Applications
 		private bool BelongsToApplication(IProcess process, WhitelistApplication application)
 		{
 			var ignoreOriginalName = string.IsNullOrWhiteSpace(application.OriginalName);
+			var ignoreSignature = string.IsNullOrWhiteSpace(application.Signature);
 			var sameName = process.Name.Equals(application.ExecutableName, StringComparison.OrdinalIgnoreCase);
 			var sameOriginalName = process.OriginalName?.Equals(application.OriginalName, StringComparison.OrdinalIgnoreCase) == true;
+			var sameSignature = process.Signature?.Equals(application.Signature?.ToLower(), StringComparison.OrdinalIgnoreCase) == true;
 
-			return sameName && (ignoreOriginalName || sameOriginalName);
+			return sameName && (ignoreOriginalName || sameOriginalName) && (ignoreSignature || sameSignature);
 		}
 
 		private bool BelongsToSafeExamBrowser(IProcess process)
 		{
-			var isRuntime = process.Name == "SafeExamBrowser.exe" && process.OriginalName == "SafeExamBrowser.exe";
-			var isClient = process.Name == "SafeExamBrowser.Client.exe" && process.OriginalName == "SafeExamBrowser.Client.exe";
-			var isWebView = process.Name == "msedgewebview2.exe" && process.OriginalName == "msedgewebview2.exe";
+			var isClient = true;
+			var isRuntime = true;
+			var isWebView = true;
 
-			return isRuntime || isClient || isWebView;
+			isClient &= process.Name == "SafeExamBrowser.Client.exe";
+			isClient &= process.OriginalName == "SafeExamBrowser.Client.exe";
+
+			isRuntime &= process.Name == "SafeExamBrowser.exe";
+			isRuntime &= process.OriginalName == "SafeExamBrowser.exe";
+
+			isWebView &= process.Name == "msedgewebview2.exe";
+			isWebView &= process.OriginalName == "msedgewebview2.exe";
+
+#if !DEBUG
+			isClient &= process.Signature == "2bc82fe8e56a39f96bc6c4b91d6703a0379b76a2";
+			isRuntime &= process.Signature == "2bc82fe8e56a39f96bc6c4b91d6703a0379b76a2";
+			isWebView &= process.Signature == "a4baabd12432ab9c7c297385260e95c3dae83bf2";
+#endif
+
+			return isClient || isRuntime || isWebView;
 		}
 
 		private void Close(Window window)
@@ -338,7 +356,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 		private bool IsAllowed(Window window)
 		{
 			var processId = Convert.ToInt32(nativeMethods.GetProcessIdFor(window.Handle));
-			
+
 			if (processFactory.TryGetById(processId, out var process))
 			{
 				if (BelongsToSafeExamBrowser(process) || IsWhitelisted(process, out _))
@@ -358,7 +376,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 
 		private bool IsWhitelisted(IProcess process, out Guid? applicationId)
 		{
-			applicationId = default(Guid?);
+			applicationId = default;
 
 			foreach (var application in whitelist)
 			{

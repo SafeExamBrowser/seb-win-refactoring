@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Contracts;
@@ -23,7 +24,7 @@ namespace SafeExamBrowser.WindowsApi
 {
 	public class ProcessFactory : IProcessFactory
 	{
-		private IModuleLogger logger;
+		private readonly IModuleLogger logger;
 
 		public IDesktop StartupDesktop { private get; set; }
 
@@ -42,9 +43,9 @@ namespace SafeExamBrowser.WindowsApi
 			{
 				if (names.Any(n => n.processId == process.Id))
 				{
-					var (_, name, originalName) = names.First(n => n.processId == process.Id);
+					var (_, name, originalName, path, signature) = names.First(n => n.processId == process.Id);
 
-					processes.Add(new Process(process, name, originalName, LoggerFor(process, name)));
+					processes.Add(new Process(process, name, originalName, LoggerFor(process, name), path, signature));
 				}
 			}
 
@@ -66,8 +67,8 @@ namespace SafeExamBrowser.WindowsApi
 				raw = StartNormal(path, args);
 			}
 
-			var (name, originalName) = LoadProcessNamesFor(raw);
-			var process = new Process(raw, name, originalName, LoggerFor(raw, name));
+			var (name, originalName, _, signature) = LoadProcessNamesFor(raw);
+			var process = new Process(raw, name, originalName, LoggerFor(raw, name), path, signature);
 
 			logger.Info($"Successfully started process '{path}' with ID = {process.Id}.");
 
@@ -76,14 +77,14 @@ namespace SafeExamBrowser.WindowsApi
 
 		public bool TryGetById(int id, out IProcess process)
 		{
-			process = default(IProcess);
+			process = default;
 
 			try
 			{
 				var raw = System.Diagnostics.Process.GetProcessById(id);
-				var (name, originalName) = LoadProcessNamesFor(raw);
+				var (name, originalName, path, signature) = LoadProcessNamesFor(raw);
 
-				process = new Process(raw, name, originalName, LoggerFor(raw, name));
+				process = new Process(raw, name, originalName, LoggerFor(raw, name), path, signature);
 			}
 			catch (Exception e)
 			{
@@ -93,9 +94,9 @@ namespace SafeExamBrowser.WindowsApi
 			return process != default(IProcess);
 		}
 
-		private IEnumerable<(int processId, string name, string originalName)> LoadAllProcessNames()
+		private IEnumerable<(int processId, string name, string originalName, string path, string signature)> LoadAllProcessNames()
 		{
-			var names = new List<(int, string, string)>();
+			var names = new List<(int, string, string, string, string)>();
 
 			try
 			{
@@ -109,18 +110,20 @@ namespace SafeExamBrowser.WindowsApi
 						using (process)
 						{
 							var name = Convert.ToString(process["Name"]);
+							var originalName = default(string);
+							var path = Convert.ToString(process["ExecutablePath"]);
 							var processId = Convert.ToInt32(process["ProcessId"]);
-							var executablePath = Convert.ToString(process["ExecutablePath"]);
+							var signature = default(string);
 
-							if (File.Exists(executablePath))
+							if (File.Exists(path))
 							{
-								names.Add((processId, name, FileVersionInfo.GetVersionInfo(executablePath).OriginalFilename));
+								TryLoadOriginalName(path, out originalName);
+								TryLoadSignature(path, out signature);
 							}
-							else
-							{
-								names.Add((processId, name, default(string)));
-							}
+
+							names.Add((processId, name, originalName, path, signature));
 						}
+
 					}
 				}
 			}
@@ -132,10 +135,12 @@ namespace SafeExamBrowser.WindowsApi
 			return names;
 		}
 
-		private (string name, string originalName) LoadProcessNamesFor(System.Diagnostics.Process process)
+		private (string name, string originalName, string path, string signature) LoadProcessNamesFor(System.Diagnostics.Process process)
 		{
 			var name = process.ProcessName;
 			var originalName = default(string);
+			var path = default(string);
+			var signature = default(string);
 
 			try
 			{
@@ -143,13 +148,13 @@ namespace SafeExamBrowser.WindowsApi
 				using (var results = searcher.Get())
 				using (var processData = results.Cast<ManagementObject>().First())
 				{
-					var executablePath = Convert.ToString(processData["ExecutablePath"]);
-
 					name = Convert.ToString(processData["Name"]);
+					path = Convert.ToString(processData["ExecutablePath"]);
 
-					if (File.Exists(executablePath))
+					if (File.Exists(path))
 					{
-						originalName = FileVersionInfo.GetVersionInfo(executablePath).OriginalFilename;
+						TryLoadOriginalName(path, out originalName);
+						TryLoadSignature(path, out signature);
 					}
 				}
 			}
@@ -158,7 +163,7 @@ namespace SafeExamBrowser.WindowsApi
 				logger.Error($"Failed to load process names for {process.ProcessName}!", e);
 			}
 
-			return (name, originalName);
+			return (name, originalName, path, signature);
 		}
 
 		private ILogger LoggerFor(System.Diagnostics.Process process, string name)
@@ -200,6 +205,39 @@ namespace SafeExamBrowser.WindowsApi
 			logger.Error($"Failed to start process '{path}' on desktop '{StartupDesktop}'! Error code: {errorCode}.");
 
 			throw new Win32Exception(errorCode);
+		}
+
+		private bool TryLoadOriginalName(string path, out string originalName)
+		{
+			originalName = default;
+
+			try
+			{
+				originalName = FileVersionInfo.GetVersionInfo(path).OriginalFilename;
+			}
+			catch
+			{
+			}
+
+			return originalName != default;
+		}
+
+		private bool TryLoadSignature(string path, out string signature)
+		{
+			signature = default;
+
+			try
+			{
+				using (var certificate = X509Certificate.CreateFromSignedFile(path))
+				{
+					signature = certificate.GetCertHashString();
+				}
+			}
+			catch
+			{
+			}
+
+			return signature != default;
 		}
 	}
 }

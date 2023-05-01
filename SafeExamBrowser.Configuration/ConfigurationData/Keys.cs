@@ -29,6 +29,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string OperatingSystem = "os";
 			internal const string OriginalName = "originalName";
 			internal const string ShowInShell = "iconInTaskbar";
+			internal const string Signature = "signature";
 			internal const string Whitelist = "permittedProcesses";
 		}
 

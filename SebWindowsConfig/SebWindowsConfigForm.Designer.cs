@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -179,7 +179,6 @@ namespace SebWindowsConfig
 			this.label2 = new System.Windows.Forms.Label();
 			this.textBoxPermittedProcessExecutables = new System.Windows.Forms.TextBox();
 			this.checkBoxPermittedProcessStrongKill = new System.Windows.Forms.CheckBox();
-			this.buttonPermittedProcessCodeSignature = new System.Windows.Forms.Button();
 			this.dataGridViewPermittedProcessArguments = new System.Windows.Forms.DataGridView();
 			this.ArgumentActive = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.ArgumentParameter = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -270,6 +269,7 @@ namespace SebWindowsConfig
 			this.labelBrowserExamKey = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.tabPageDownUploads = new System.Windows.Forms.TabPage();
+			this.checkBoxShowFileSystemElementPath = new System.Windows.Forms.CheckBox();
 			this.checkBoxTemporaryDownloadDirectory = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowCustomDownloadLocation = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowPDFPlugIn = new System.Windows.Forms.CheckBox();
@@ -463,7 +463,8 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.checkBoxShowFileSystemElementPath = new System.Windows.Forms.CheckBox();
+			this.label27 = new System.Windows.Forms.Label();
+			this.textBoxPermittedProcessSignature = new System.Windows.Forms.TextBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -1885,8 +1886,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle7.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle7;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -2337,6 +2338,8 @@ namespace SebWindowsConfig
 			// 
 			// groupBoxPermittedProcess
 			// 
+			this.groupBoxPermittedProcess.Controls.Add(this.textBoxPermittedProcessSignature);
+			this.groupBoxPermittedProcess.Controls.Add(this.label27);
 			this.groupBoxPermittedProcess.Controls.Add(this.textBoxPermittedProcessOriginalName);
 			this.groupBoxPermittedProcess.Controls.Add(this.PermittedProcessOriginalNameLabel);
 			this.groupBoxPermittedProcess.Controls.Add(this.checkBoxPermittedProcessIconInTaskbar);
@@ -2344,7 +2347,6 @@ namespace SebWindowsConfig
 			this.groupBoxPermittedProcess.Controls.Add(this.label2);
 			this.groupBoxPermittedProcess.Controls.Add(this.textBoxPermittedProcessExecutables);
 			this.groupBoxPermittedProcess.Controls.Add(this.checkBoxPermittedProcessStrongKill);
-			this.groupBoxPermittedProcess.Controls.Add(this.buttonPermittedProcessCodeSignature);
 			this.groupBoxPermittedProcess.Controls.Add(this.dataGridViewPermittedProcessArguments);
 			this.groupBoxPermittedProcess.Controls.Add(this.labelPermittedProcessIdentifier);
 			this.groupBoxPermittedProcess.Controls.Add(this.textBoxPermittedProcessIdentifier);
@@ -2424,7 +2426,7 @@ namespace SebWindowsConfig
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(107, 138);
+			this.label2.Location = new System.Drawing.Point(846, 266);
 			this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(129, 13);
@@ -2434,10 +2436,10 @@ namespace SebWindowsConfig
 			// 
 			// textBoxPermittedProcessExecutables
 			// 
-			this.textBoxPermittedProcessExecutables.Location = new System.Drawing.Point(246, 135);
+			this.textBoxPermittedProcessExecutables.Location = new System.Drawing.Point(985, 263);
 			this.textBoxPermittedProcessExecutables.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.textBoxPermittedProcessExecutables.Name = "textBoxPermittedProcessExecutables";
-			this.textBoxPermittedProcessExecutables.Size = new System.Drawing.Size(517, 20);
+			this.textBoxPermittedProcessExecutables.Size = new System.Drawing.Size(122, 20);
 			this.textBoxPermittedProcessExecutables.TabIndex = 90;
 			this.toolTip1.SetToolTip(this.textBoxPermittedProcessExecutables, "Process executable which is actually handling the main window.");
 			this.textBoxPermittedProcessExecutables.Visible = false;
@@ -2456,18 +2458,6 @@ namespace SebWindowsConfig
         " data.");
 			this.checkBoxPermittedProcessStrongKill.UseVisualStyleBackColor = true;
 			this.checkBoxPermittedProcessStrongKill.CheckedChanged += new System.EventHandler(this.checkBoxPermittedProcessStrongKill_CheckedChanged);
-			// 
-			// buttonPermittedProcessCodeSignature
-			// 
-			this.buttonPermittedProcessCodeSignature.Location = new System.Drawing.Point(781, 153);
-			this.buttonPermittedProcessCodeSignature.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
-			this.buttonPermittedProcessCodeSignature.Name = "buttonPermittedProcessCodeSignature";
-			this.buttonPermittedProcessCodeSignature.Size = new System.Drawing.Size(112, 25);
-			this.buttonPermittedProcessCodeSignature.TabIndex = 14;
-			this.buttonPermittedProcessCodeSignature.Text = "Code Signature...";
-			this.buttonPermittedProcessCodeSignature.UseVisualStyleBackColor = true;
-			this.buttonPermittedProcessCodeSignature.Visible = false;
-			this.buttonPermittedProcessCodeSignature.Click += new System.EventHandler(this.buttonPermittedProcessCodeSignature_Click);
 			// 
 			// dataGridViewPermittedProcessArguments
 			// 
@@ -3560,6 +3550,17 @@ namespace SebWindowsConfig
 			this.tabPageDownUploads.Text = "Down/Uploads";
 			this.tabPageDownUploads.UseVisualStyleBackColor = true;
 			// 
+			// checkBoxShowFileSystemElementPath
+			// 
+			this.checkBoxShowFileSystemElementPath.AutoSize = true;
+			this.checkBoxShowFileSystemElementPath.Location = new System.Drawing.Point(114, 167);
+			this.checkBoxShowFileSystemElementPath.Name = "checkBoxShowFileSystemElementPath";
+			this.checkBoxShowFileSystemElementPath.Size = new System.Drawing.Size(213, 17);
+			this.checkBoxShowFileSystemElementPath.TabIndex = 91;
+			this.checkBoxShowFileSystemElementPath.Text = "Show path of file system elements (Win)";
+			this.checkBoxShowFileSystemElementPath.UseVisualStyleBackColor = true;
+			this.checkBoxShowFileSystemElementPath.CheckedChanged += new System.EventHandler(this.checkBoxShowFileSystemElementPath_CheckedChanged);
+			// 
 			// checkBoxTemporaryDownloadDirectory
 			// 
 			this.checkBoxTemporaryDownloadDirectory.AutoSize = true;
@@ -4626,8 +4627,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle8;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -6025,16 +6026,23 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// checkBoxShowFileSystemElementPath
+			// label27
 			// 
-			this.checkBoxShowFileSystemElementPath.AutoSize = true;
-			this.checkBoxShowFileSystemElementPath.Location = new System.Drawing.Point(114, 167);
-			this.checkBoxShowFileSystemElementPath.Name = "checkBoxShowFileSystemElementPath";
-			this.checkBoxShowFileSystemElementPath.Size = new System.Drawing.Size(213, 17);
-			this.checkBoxShowFileSystemElementPath.TabIndex = 91;
-			this.checkBoxShowFileSystemElementPath.Text = "Show path of file system elements (Win)";
-			this.checkBoxShowFileSystemElementPath.UseVisualStyleBackColor = true;
-			this.checkBoxShowFileSystemElementPath.CheckedChanged += new System.EventHandler(this.checkBoxShowFileSystemElementPath_CheckedChanged);
+			this.label27.AutoSize = true;
+			this.label27.Location = new System.Drawing.Point(141, 138);
+			this.label27.Name = "label27";
+			this.label27.Size = new System.Drawing.Size(52, 13);
+			this.label27.TabIndex = 96;
+			this.label27.Text = "Signature";
+			// 
+			// textBoxPermittedProcessSignature
+			// 
+			this.textBoxPermittedProcessSignature.Location = new System.Drawing.Point(199, 135);
+			this.textBoxPermittedProcessSignature.Name = "textBoxPermittedProcessSignature";
+			this.textBoxPermittedProcessSignature.Size = new System.Drawing.Size(565, 20);
+			this.textBoxPermittedProcessSignature.TabIndex = 97;
+			this.toolTip1.SetToolTip(this.textBoxPermittedProcessSignature, "The hash / thumbprint of the certificate used to sign the executable.");
+			this.textBoxPermittedProcessSignature.TextChanged += new System.EventHandler(this.textBoxPermittedProcessSignature_TextChanged);
 			// 
 			// SebWindowsConfigForm
 			// 
@@ -6361,7 +6369,6 @@ namespace SebWindowsConfig
         private System.Windows.Forms.CheckBox checkBoxProhibitedProcessCurrentUser;
         private System.Windows.Forms.CheckBox checkBoxProhibitedProcessActive;
         private System.Windows.Forms.Button buttonProhibitedProcessCodeSignature;
-        private System.Windows.Forms.Button buttonPermittedProcessCodeSignature;
         private System.Windows.Forms.DataGridView dataGridViewEmbeddedCertificates;
         private System.Windows.Forms.Button buttonRemoveCertificate;
         private System.Windows.Forms.ComboBox comboBoxChooseIdentityToEmbed;
@@ -6601,6 +6608,8 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.CheckBox checkBoxAllowPrint;
 		private System.Windows.Forms.CheckBox checkBoxEnableFindPrinter;
 		private System.Windows.Forms.CheckBox checkBoxShowFileSystemElementPath;
+		private System.Windows.Forms.TextBox textBoxPermittedProcessSignature;
+		private System.Windows.Forms.Label label27;
 	}
 }
 

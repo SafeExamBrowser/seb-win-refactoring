@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Text;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts.Events;
@@ -15,9 +16,10 @@ namespace SafeExamBrowser.WindowsApi
 {
 	internal class Process : IProcess
 	{
+		private readonly ILogger logger;
+		private readonly System.Diagnostics.Process process;
+
 		private bool eventInitialized;
-		private ILogger logger;
-		private System.Diagnostics.Process process;
 
 		public bool HasTerminated
 		{
@@ -31,6 +33,8 @@ namespace SafeExamBrowser.WindowsApi
 
 		public string Name { get; }
 		public string OriginalName { get; }
+		public string Path { get; }
+		public string Signature { get; }
 
 		private event ProcessTerminatedEventHandler TerminatedEvent;
 
@@ -40,12 +44,25 @@ namespace SafeExamBrowser.WindowsApi
 			remove { TerminatedEvent -= value; }
 		}
 
-		internal Process(System.Diagnostics.Process process, string name, string originalName, ILogger logger)
+		internal Process(System.Diagnostics.Process process, string name, string originalName, ILogger logger, string path, string signature)
 		{
 			this.logger = logger;
 			this.process = process;
 			this.Name = name;
 			this.OriginalName = originalName;
+			this.Path = path;
+			this.Signature = signature?.ToLower();
+		}
+
+		public string GetAdditionalInfo()
+		{
+			var info = new StringBuilder();
+
+			info.Append($"Original Name: {(string.IsNullOrWhiteSpace(OriginalName) ? "n/a" : $"'{OriginalName}'")}, ");
+			info.Append($"Path: {(string.IsNullOrWhiteSpace(Path) ? "n/a" : $"'{Path}'")}, ");
+			info.Append($"Signature: {(string.IsNullOrWhiteSpace(Signature) ? "n/a" : Signature)}");
+
+			return info.ToString();
 		}
 
 		public bool TryClose(int timeout_ms = 0)
@@ -121,8 +138,10 @@ namespace SafeExamBrowser.WindowsApi
 			if (!eventInitialized)
 			{
 				eventInitialized = true;
+
 				process.Exited += Process_Exited;
 				process.EnableRaisingEvents = true;
+
 				logger.Debug("Initialized termination event.");
 			}
 		}

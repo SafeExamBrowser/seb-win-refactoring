@@ -2476,6 +2476,7 @@ namespace SebWindowsConfig
 			textBoxPermittedProcessExecutables.Text = (String) SEBSettings.permittedProcessData[SEBSettings.KeyWindowHandlingProcess];
 			textBoxPermittedProcessPath.Text = (String) SEBSettings.permittedProcessData[SEBSettings.KeyPath];
 			textBoxPermittedProcessIdentifier.Text = (String) SEBSettings.permittedProcessData[SEBSettings.KeyIdentifier];
+			textBoxPermittedProcessSignature.Text = (String) SEBSettings.permittedProcessData[SEBSettings.KeySignature];
 
 			// Reset the ignore widget event flags
 			ignoreWidgetEventPermittedProcessesActive = false;
@@ -2671,6 +2672,7 @@ namespace SebWindowsConfig
 			processData[SEBSettings.KeyPath] = "";
 			processData[SEBSettings.KeyIdentifier] = "";
 			processData[SEBSettings.KeyArguments] = new ListObj();
+			processData[SEBSettings.KeySignature] = "";
 
 			// Insert new process into process list at position index
 			SEBSettings.permittedProcessList.Insert(SEBSettings.permittedProcessIndex, processData);
@@ -2719,6 +2721,7 @@ namespace SebWindowsConfig
 				textBoxPermittedProcessOriginalName.Text = permittedApplicationInformation.OriginalName;
 				textBoxPermittedProcessTitle.Text = permittedApplicationInformation.Title;
 				textBoxPermittedProcessPath.Text = permittedApplicationInformation.Path;
+				textBoxPermittedProcessSignature.Text = permittedApplicationInformation.Signature;
 			}
 		}
 
@@ -2731,6 +2734,7 @@ namespace SebWindowsConfig
 				textBoxPermittedProcessOriginalName.Text = permittedApplicationInformation.OriginalName;
 				textBoxPermittedProcessTitle.Text = permittedApplicationInformation.Title;
 				textBoxPermittedProcessPath.Text = permittedApplicationInformation.Path;
+				textBoxPermittedProcessSignature.Text = permittedApplicationInformation.Signature;
 			}
 		}
 
@@ -2786,6 +2790,18 @@ namespace SebWindowsConfig
 
 				permittedApplicationInformation.Path = filePath;
 				permittedApplicationInformation.OriginalName = FileVersionInfo.GetVersionInfo(filename).OriginalFilename;
+
+				try
+				{
+					using (var certificate = X509Certificate.CreateFromSignedFile(filename))
+					{
+						permittedApplicationInformation.Signature = certificate.GetCertHashString()?.ToLower();
+					}
+				}
+				catch (Exception e)
+				{
+					MessageBox.Show(this, $"Failed to load the signature for the permitted process! {e}", "Signature Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 
 				return permittedApplicationInformation;
 			}
@@ -2941,8 +2957,13 @@ namespace SebWindowsConfig
 			SEBSettings.permittedProcessData[SEBSettings.KeyWindowHandlingProcess] = textBoxPermittedProcessExecutables.Text;
 		}
 
-		private void buttonPermittedProcessCodeSignature_Click(object sender, EventArgs e)
+		private void buttonPermittedProcessCodeSignature_Click(object sender, EventArgs args)
 		{
+			if (SEBSettings.permittedProcessIndex < 0) return;
+
+			SEBSettings.permittedProcessList = (ListObj) SEBSettings.settingsCurrent[SEBSettings.KeyPermittedProcesses];
+			SEBSettings.permittedProcessData = (DictObj) SEBSettings.permittedProcessList[SEBSettings.permittedProcessIndex];
+
 
 		}
 
@@ -4688,6 +4709,14 @@ namespace SebWindowsConfig
 		private void checkBoxShowFileSystemElementPath_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyShowFileSystemElementPath] = checkBoxShowFileSystemElementPath.Checked;
+		}
+
+		private void textBoxPermittedProcessSignature_TextChanged(object sender, EventArgs e)
+		{
+			if (SEBSettings.permittedProcessIndex < 0) return;
+			SEBSettings.permittedProcessList = (ListObj) SEBSettings.settingsCurrent[SEBSettings.KeyPermittedProcesses];
+			SEBSettings.permittedProcessData = (DictObj) SEBSettings.permittedProcessList[SEBSettings.permittedProcessIndex];
+			SEBSettings.permittedProcessData[SEBSettings.KeySignature] = textBoxPermittedProcessSignature.Text;
 		}
 	}
 }

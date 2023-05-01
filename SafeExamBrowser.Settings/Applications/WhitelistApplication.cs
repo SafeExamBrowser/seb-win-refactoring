@@ -36,7 +36,7 @@ namespace SafeExamBrowser.Settings.Applications
 		/// Determines whether the application will be automatically started when initializing a session.
 		/// </summary>
 		public bool AutoStart { get; set; }
-		
+
 		/// <summary>
 		/// Specifies whether the application may be automatically terminated when starting a session. Is ignored if <see cref="AllowRunning"/> is set.
 		/// </summary>
@@ -56,7 +56,7 @@ namespace SafeExamBrowser.Settings.Applications
 		/// The file name of the main executable of the application.
 		/// </summary>
 		public string ExecutableName { get; set; }
-		
+
 		/// <summary>
 		/// The path where the main executable of the application is located.
 		/// </summary>
@@ -76,6 +76,11 @@ namespace SafeExamBrowser.Settings.Applications
 		/// Determines whether the user will be able to access the application via the shell.
 		/// </summary>
 		public bool ShowInShell { get; set; }
+
+		/// <summary>
+		/// The signature of the main executable of the application, if available.
+		/// </summary>
+		public string Signature { get; set; }
 
 		public WhitelistApplication()
 		{
