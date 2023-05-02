@@ -14,7 +14,10 @@ namespace SafeExamBrowser.SystemComponents
 {
 	public class VirtualMachineDetector : IVirtualMachineDetector
 	{
-		private static readonly string[] DEVICE_BLACKLIST =
+		private const string QEMU_MAC_PREFIX = "525400";
+		private const string VIRTUALBOX_MAC_PREFIX = "080027";
+
+		private static readonly string[] DeviceBlacklist =
 		{
 			// Hyper-V
 			"PROD_VIRTUAL", "HYPER_V",
@@ -25,8 +28,12 @@ namespace SafeExamBrowser.SystemComponents
 			// VMware
 			"PROD_VMWARE", "VEN_VMWARE", "VMWARE_IDE"
 		};
-		private static readonly string QEMU_MAC_PREFIX = "525400";
-		private static readonly string VIRTUALBOX_MAC_PREFIX = "080027";
+
+		private static readonly string[] DeviceWhitelist =
+		{
+			// Microsoft Virtual Disk
+			"PROD_VIRTUAL_DISK"
+		};
 
 		private readonly ILogger logger;
 		private readonly ISystemInfo systemInfo;
@@ -62,7 +69,7 @@ namespace SafeExamBrowser.SystemComponents
 
 			foreach (var device in devices)
 			{
-				isVirtualMachine |= DEVICE_BLACKLIST.Any(d => device.ToLower().Contains(d.ToLower()));
+				isVirtualMachine |= DeviceBlacklist.Any(d => device.ToLower().Contains(d.ToLower())) && DeviceWhitelist.All(d => !device.ToLower().Contains(d.ToLower()));
 			}
 
 			logger.Debug($"Computer '{systemInfo.Name}' appears {(isVirtualMachine ? "" : "not ")}to be a virtual machine.");
