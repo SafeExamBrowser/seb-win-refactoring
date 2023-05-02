@@ -128,7 +128,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			Uri.TryCreate(webBrowser.Address, UriKind.Absolute, out var pageUrl);
 			Uri.TryCreate(request.Url, UriKind.Absolute, out var requestUrl);
 
-			if (pageUrl?.Host?.Equals(requestUrl?.Host) == true)
+			if (request.ResourceType == ResourceType.MainFrame || pageUrl?.Host?.Equals(requestUrl?.Host) == true)
 			{
 				var headers = new NameValueCollection(request.Headers);
 
