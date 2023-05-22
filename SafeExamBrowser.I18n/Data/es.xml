@@ -1,0 +1,696 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Text>
+    <Entry key="AboutWindow_LicenseInfo">
+        Esta aplicación está sujeta a los términos de la Licencia Pública de Mozilla, versión 2.0. Safe Exam Browser utiliza los siguientes frameworks y bibliotecas de terceros:
+    </Entry>
+    <Entry key="AboutWindow_Title">
+        Versión &amp; información sobre la licencia
+    </Entry>
+    <Entry key="Browser_BlockedContentMessage">
+        Contenido bloqueado
+    </Entry>
+    <Entry key="Browser_BlockedPageButton">
+        Volver a la página anterior
+    </Entry>
+    <Entry key="Browser_BlockedPageMessage">
+        El acceso a esta página no está permitido según la configuración actual.
+    </Entry>
+    <Entry key="Browser_BlockedPageTitle">
+        Página bloqueada
+    </Entry>
+    <Entry key="Browser_LoadErrorMessage">
+        Se ha producido un error al cargar la página "%%URL%%":
+    </Entry>
+    <Entry key="Browser_LoadErrorTitle">
+        Error de carga de la página
+    </Entry>
+    <Entry key="Browser_Name">
+        Navegador
+    </Entry>
+    <Entry key="Browser_PrintNotAllowed">
+        La impresión no está permitida según la configuración actual.
+    </Entry>
+    <Entry key="Browser_Tooltip">
+        Páginas web abiertas
+    </Entry>
+    <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
+        Consola para desarrolladores
+    </Entry>
+    <Entry key="BrowserWindow_Downloading">
+        Descargando...
+    </Entry>
+    <Entry key="BrowserWindow_DownloadCancelled">
+        Cancelado.
+    </Entry>
+    <Entry key="BrowserWindow_DownloadComplete">
+        Descargado.
+    </Entry>
+    <Entry key="BrowserWindow_FindCaseSensitive">
+        Búsqueda sensible a mayúsculas y minúsculas
+    </Entry>
+    <Entry key="BrowserWindow_FindMenuItem">
+        Buscar página...
+    </Entry>
+    <Entry key="BrowserWindow_ReloadButton">
+        Recargar
+    </Entry>
+    <Entry key="BrowserWindow_BackwardButton">
+        Atrás
+    </Entry>
+    <Entry key="BrowserWindow_ForwardButton">
+        Adelante
+    </Entry>
+    <Entry key="BrowserWindow_DownloadsButton">
+        Descargar
+    </Entry>
+    <Entry key="BrowserWindow_HomeButton">
+        Inicio
+    </Entry>
+    <Entry key="BrowserWindow_MenuButton">
+        Menú
+    </Entry>
+    <Entry key="BrowserWindow_CloseButton">
+        Cerrar
+    </Entry>
+    <Entry key="BrowserWindow_UrlTextBox">
+        Introducir URL
+    </Entry>
+    <Entry key="BrowserWindow_ZoomLevelReset">
+        Zoom de página en %%ZOOM%%%. Haga clic para restablecer.
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuItem">
+        Zoom de página
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuPlus">
+        Aumentar el zoom de la página
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuMinus">
+        Reducir el zoom de la página
+    </Entry>
+    <Entry key="BrowserWindow_SearchTextBox">
+        Introducir texto para buscar
+    </Entry>
+    <Entry key="BrowserWindow_SearchNext">
+        Siguiente resultado de búsqueda
+    </Entry>
+    <Entry key="BrowserWindow_SearchPrevious">
+        Anterior resultado de búsqueda
+    </Entry>
+    <Entry key="Build">
+        Build
+    </Entry>
+    <Entry key="ExamSelectionDialog_Cancel">
+        Cancel
+    </Entry>
+    <Entry key="ExamSelectionDialog_Message">
+        Seleccione uno de los exámenes SEB-Server disponibles:
+    </Entry>
+    <Entry key="ExamSelectionDialog_Select">
+        Seleccione
+    </Entry>
+    <Entry key="ExamSelectionDialog_Title">
+        Exámenes SEB-Server
+    </Entry>
+    <Entry key="FileSystemDialog_Cancel">
+        Cancelar
+    </Entry>
+    <Entry key="FileSystemDialog_LoadError">
+        No se han podido cargar los datos.
+    </Entry>
+    <Entry key="FileSystemDialog_Loading">
+        Cargando...
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFileMessage">
+        Seleccione un archivo para abrir.
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFolderMessage">
+        Seleccione una carpeta.
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarning">
+        El archivo seleccionado ya existe. ¿Desea sobrescribirlo?
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarningTitle">
+        ¿Sobreescribir?
+    </Entry>
+    <Entry key="FileSystemDialog_SaveAs">
+        Guardar como:
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFileMessage">
+        Seleccione una ubicación para guardar el archivo.
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFolderMessage">
+        Seleccione una ubicación para guardar la carpeta.
+    </Entry>
+    <Entry key="FileSystemDialog_Select">
+        Seleccionar
+    </Entry>
+    <Entry key="FileSystemDialog_Title">
+        Acceso al sistema de archivos
+    </Entry>
+    <Entry key="FolderDialog_ApplicationLocation">
+        No se ha encontrado la aplicación "%%NAME%%" en el sistema. Por favor, localice la carpeta que contiene el ejecutable principal "%%EXECUTABLE%%".
+    </Entry>
+    <Entry key="LockScreen_ApplicationIntegrityMessage">
+        Está utilizando una versión no oficial de SEB. Por favor, asegúrese de utilizar un Safe Exam Browser oficial. Para desbloquear SEB, introduzca la contraseña de desbloqueo correcta.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsAllowOption">
+        Permitir temporalmente las aplicaciones de la lista negra. Esto solo se aplica a las instancias y sesiones que se estén ejecutando en ese momento.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsMessage">
+        Las aplicaciones de la lista negra que se indican a continuación se iniciaron y no pudieron cerrarse automáticamente. Para desbloquear SEB, seleccione una de las opciones disponibles e introduzca la contraseña de desbloqueo correcta.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsTerminateOption">
+        Finalizar Safe Exam Browser. ADVERTENCIA: No habrá posibilidad de guardar datos o realizar ninguna otra acción, ¡el cierre se iniciará inmediatamente!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationContinueOption">
+        Permitir temporalmente la configuración de la pantalla. Esto sólo se aplica a la sesión que se está ejecutando en ese momento.
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationMessage">
+        Se ha detectado una configuración de pantalla prohibida. Para desbloquear SEB, seleccione una de las opciones disponibles e introduzca la contraseña de desbloqueo correcta.
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationTerminateOption">
+        Finalizar Safe Exam Browser. ADVERTENCIA: No habrá posibilidad de guardar datos o realizar ninguna otra acción, ¡el cierre se iniciará inmediatamente!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessContinueOption">
+        Permitir temporalmente la configuración de la facilidad de acceso. Esto sólo se aplica a la sesión que se está ejecutando en ese momento.
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessMessage">
+        Se ha detectado una configuración de facilidad de acceso prohibida para la Pantalla de Seguridad de Windows. Para desbloquear SEB, seleccione una de las opciones disponibles e introduzca la contraseña de desbloqueo correcta.
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessTerminateOption">
+        Finalizar Safe Exam Browser. ADVERTENCIA: No habrá posibilidad de guardar datos o realizar ninguna otra acción, ¡el cierre se iniciará inmediatamente!
+    </Entry>
+    <Entry key="LockScreen_SessionIntegrityMessage">
+        La última sesión con la configuración activa o la URL de inicio no se ha cerrado correctamente. Por favor, introduzca la contraseña correcta para desbloquear SEB.
+    </Entry>
+    <Entry key="LockScreen_Title">
+        SEB BLOQUEADO
+    </Entry>
+    <Entry key="LockScreen_UnlockButton">
+        Desbloquear
+    </Entry>
+    <Entry key="LockScreen_UserSessionContinueOption">
+        Desbloquear Safe Exam Browser.
+    </Entry>
+    <Entry key="LockScreen_UserSessionMessage">
+        ¡El usuario activo ha cambiado o el ordenador ha sido bloqueado! Para desbloquear SEB, seleccione una de las opciones disponibles e introduzca la contraseña de desbloqueo correcta.
+    </Entry>
+    <Entry key="LockScreen_UserSessionTerminateOption">
+        Finalizar Safe Exam Browser. ADVERTENCIA: No habrá posibilidad de guardar datos o realizar ninguna otra acción, ¡el cierre se iniciará inmediatamente!
+    </Entry>
+    <Entry key="LogWindow_AlwaysOnTop">
+        Siempre arriba
+    </Entry>
+    <Entry key="LogWindow_AutoScroll">
+        Desplazamiento automático del contenido
+    </Entry>
+    <Entry key="LogWindow_Title">
+        Registro de la aplicación
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestion">
+        Las aplicaciones enumeradas a continuación deben cerrarse antes de iniciar una nueva sesión. ¿Desea cerrarlas automáticamente?
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestionTitle">
+        Aplicaciones en ejecución detectadas
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationDataLossWarning">
+        ADVERTENCIA: ¡Los datos de las aplicaciónes que no se hayan guardados podrían perderse!
+    </Entry>
+    <Entry key="MessageBox_ApplicationError">
+        Se ha producido un error irrecuperable. Por favor, consulte los archivos de registro para más información. SEB se terminará ahora...
+    </Entry>
+    <Entry key="MessageBox_ApplicationErrorTitle">
+        Error de aplicación
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailure">
+        La aplicación %%NAME%% no se ha podido inicializar y, por lo tanto, no estará disponible para la nueva sesión. Consulte los archivos de registro para obtener más información.
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailureTitle">
+        Fallo en la inicialización de la aplicación
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFound">
+        La aplicación %%NAME%% no se ha encontrado en el sistema y, por lo tanto, no estará disponible para la nueva sesión. Consulte los archivos de registro para obtener más información.
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFoundTitle">
+        Aplicación no encontrada
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailure">
+        Las aplicaciones listadas a continuación no han podido ser cerradas. Por favor, termínelas manualmente e inténtelo de nuevo...
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailureTitle">
+        Terminación automática fallida
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestion">
+        ¿Está seguro? (Esta función no te desconecta si estás conectado en un sitio web)
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestionTitle">
+        Volver al inicio
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlocked">
+        El acceso a "%%URL%%" no está permitido según la configuración actual.
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlockedTitle">
+        Página bloqueada
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmation">
+        ¡La aplicación del navegador ha detectado una URL de salida! ¿Desea finalizar SEB ahora?
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
+        URL de salida detectada
+    </Entry>
+    <Entry key="MessageBox_CancelButton">
+        Cancelar
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationError">
+        La configuración local del cliente ha fallado. Por favor, consulte los archivos de registro para más información. SEB se terminará ahora...
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationErrorTitle">
+        Error de configuración
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestion">
+        La configuración local del cliente se ha guardado y se utilizará cuando inicie SEB la próxima vez. ¿Desea salir por ahora?
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestionTitle">
+        Configuración exitosa
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadError">
+        No se ha podido descargar la nueva configuración. Vuelva a intentarlo o póngase en contacto con el servicio de asistencia técnica.
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
+        Error de descargar
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationError">
+        No se permite la configuración de pantalla activa. Se permiten %%_ALLOWED_COUNT_%% pantallas %%_TYPE_%%, pero se han detectado %%_INTERNAL_COUNT_%% pantallas internas y %%_EXTERNAL_COUNT_%% pantallas externas. Consulte los archivos de registro para obtener más información. SEB se terminará ahora...
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationErrorTitle">
+        Configuración de pantalla prohibida
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternal">
+        internas
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
+        interna o externa
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowed">
+        La descarga de archivos no está permitida en la configuración actual de SEB. Por favor, informe a su proveedor de examen.
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowedTitle">
+        No se permiten las descargas
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationData">
+        El recurso de configuración "%%URI%%" contiene datos no válidos.
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationDataTitle">
+        Error de configuración
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePassword">
+        La contraseña introducida es incorrecta.
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePasswordTitle">
+        Contraseña incorrecta
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordError">
+        No ha introducido la contraseña correcta en 5 intentos. SEB terminará ahora...
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordErrorTitle">
+        Contraseña incorrecta
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPassword">
+        SEB sólo puede cerrarse introduciendo la contraseña de salida correcta.
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPasswordTitle">
+        Contraseña de salida incorrecta
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPassword">
+        SEB sólo puede desbloquearse introduciendo la contraseña correcta.
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPasswordTitle">
+        Contraseña de desbloqueo incorrecta
+    </Entry>
+    <Entry key="MessageBox_NoButton">
+        No
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResource">
+        El recurso de configuración "%%URI%%" no es compatible.
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResourceTitle">
+        Error de configuración
+    </Entry>
+    <Entry key="MessageBox_OkButton">
+        OK
+    </Entry>
+    <Entry key="MessageBox_ProctoringDisclaimer">
+        La sesión en curso será supervisada a distancia mediante un flujo de vídeo y audio en directo, que se envía a un servidor configurado individualmente. Pregunte a su examinador sobre su política de privacidad. SEB por sí mismo no se conecta a ningún servidor centralizado de supervisión SEB, su proveedor de exámenes decide qué servicio/servidor de supervisión utilizar.
+    </Entry>
+    <Entry key="MessageBox_ProctoringDisclaimerTitle">
+        Sesión con supervisión a distancia
+    </Entry>
+    <Entry key="MessageBox_Quit">
+        ¿Quiere terminar SEB?
+    </Entry>
+    <Entry key="MessageBox_QuitTitle">
+        ¿Terminar?
+    </Entry>
+    <Entry key="MessageBox_QuitError">
+        El client no ha podido comunicar la solicitud de apagado al runtime.
+    </Entry>
+    <Entry key="MessageBox_QuitErrorTitle">
+        Error de terminación
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDenied">
+        No está permitido reconfigurar SEB.
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDeniedTitle">
+        Reconfiguración denegada
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationError">
+        El client no ha podido comunicar la solicitud de reconfiguración al runtime.
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationErrorTitle">
+        Error de reconfiguración
+    </Entry>
+    <Entry key="MessageBox_ReloadConfirmation">
+        ¿Desea recargar la página actual?
+    </Entry>
+    <Entry key="MessageBox_ReloadConfirmationTitle">
+        ¿Recargar?
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowed">
+        El sistema parece estar ejecutándose en una sesión remota. La configuración seleccionada no permite que SEB se ejecute en una sesión remota.
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
+        Sesión remota detectada
+    </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarning">
+        Ya hay una sesión de SEB-Server en ejecución. No se permite reconfigurar para otra sesión de SEB-Server.
+    </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
+        Reconfiguración no permitida
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableError">
+        ¡Error al inicializar el servicio SEB! SEB terminará ahora ya que el servicio está configurado para ser obligatorio.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableErrorTitle">
+        Servicio no disponible
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarning">
+        Falló la inicialización del servicio SEB. SEB continuará la inicialización ya que el servicio está configurado para ser opcional.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarningTitle">
+        Servicio no disponible
+    </Entry>
+    <Entry key="MessageBox_SessionStartError">
+        SEB no ha podido iniciar una nueva sesión. Consulte los archivos de registro para obtener más información.
+    </Entry>
+    <Entry key="MessageBox_SessionStartErrorTitle">
+        Error al iniciar la sesión
+    </Entry>
+    <Entry key="MessageBox_ShutdownError">
+        Se ha producido un error inesperado durante el proceso de apagado. Consulte los archivos de registro para obtener más información.
+    </Entry>
+    <Entry key="MessageBox_ShutdownErrorTitle">
+        Error de terminación
+    </Entry>
+    <Entry key="MessageBox_StartupError">
+        Se ha producido un error inesperado durante el proceso de arranque. Consulte los archivos de registro para obtener más información.
+    </Entry>
+    <Entry key="MessageBox_StartupErrorTitle">
+        Error de arranque
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationError">
+        Se ha producido un error inesperado al intentar cargar el recurso de configuración "%%URI%%". Consulte los archivos de registro para obtener más información.
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
+        Error de configuración
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowed">
+        La carga de archivos no está permitida en la configuración actual de SEB. Por favor, informe a su proveedor de examen.
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowedTitle">
+        Uploading Not Allowed!
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowed">
+        Este ordenador parece ser una máquina virtual. La configuración seleccionada no permite ejecutar SEB en una máquina virtual.
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
+        Máquina virtual detectada
+    </Entry>
+    <Entry key="MessageBox_YesButton">
+        Sí
+    </Entry>
+    <Entry key="Notification_AboutTooltip">
+        Información sobre SEB
+    </Entry>
+    <Entry key="Notification_LogTooltip">
+        Registro de la aplicación
+    </Entry>
+    <Entry key="Notification_ProctoringActiveTooltip">
+        La supervisión a distancia está activa
+    </Entry>
+    <Entry key="Notification_ProctoringHandLowered">
+        La mano está abajo
+    </Entry>
+    <Entry key="Notification_ProctoringHandRaised">
+        La mano está levantada
+    </Entry>
+    <Entry key="Notification_ProctoringInactiveTooltip">
+        La supervisión a distancia está inactiva
+    </Entry>
+    <Entry key="Notification_ProctoringLowerHand">
+        Bajar la mano
+    </Entry>
+    <Entry key="Notification_ProctoringRaiseHand">
+        Levantar la mano
+    </Entry>
+    <Entry key="OperationStatus_CloseRuntimeConnection">
+        Cierre de la conexión con runtime
+    </Entry>
+    <Entry key="OperationStatus_EmptyClipboard">
+        Vaciado del portapapeles
+    </Entry>
+    <Entry key="OperationStatus_FinalizeApplications">
+        Finalización de las aplicaciones
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServer">
+        Finalización del SEB-Server
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServiceSession">
+        Finalización de la sesión de servicio
+    </Entry>
+    <Entry key="OperationStatus_FinalizeSystemEvents">
+        Finalización de los eventos del sistema
+    </Entry>
+    <Entry key="OperationStatus_InitializeApplications">
+        Inicialización de las aplicaciones
+    </Entry>
+    <Entry key="OperationStatus_InitializeBrowser">
+        Inicialización del navegador
+    </Entry>
+    <Entry key="OperationStatus_InitializeConfiguration">
+        Inicialización de la configuración
+    </Entry>
+    <Entry key="OperationStatus_InitializeKioskMode">
+        Inicialización del modo quiosco
+    </Entry>
+    <Entry key="OperationStatus_InitializeProctoring">
+        Inicialización de la supervisión a distancia
+    </Entry>
+    <Entry key="OperationStatus_InitializeRuntimeConnection">
+        Inicialización de la conexión con runtime
+    </Entry>
+    <Entry key="OperationStatus_InitializeServer">
+        Inicialización del SEB-Server
+    </Entry>
+    <Entry key="OperationStatus_InitializeServiceSession">
+        Inicialización de la sesión de servicio
+    </Entry>
+    <Entry key="OperationStatus_InitializeSession">
+        Inicialización de una nueva sesión
+    </Entry>
+    <Entry key="OperationStatus_InitializeShell">
+        Inicialización de la interfaz de usuario
+    </Entry>
+    <Entry key="OperationStatus_InitializeSystemEvents">
+        Inicialización de los eventos del sistema
+    </Entry>
+    <Entry key="OperationStatus_InitializeWorkingArea">
+        Inicialización del área de trabajo
+    </Entry>
+    <Entry key="OperationStatus_RestartCommunicationHost">
+        Reinicio del host de comunicación
+    </Entry>
+    <Entry key="OperationStatus_RestoreWorkingArea">
+        Restauración del área de trabajo
+    </Entry>
+    <Entry key="OperationStatus_RevertKioskMode">
+        Revertir el modo quiosco
+    </Entry>
+    <Entry key="OperationStatus_StartClient">
+        Iniciar client
+    </Entry>
+    <Entry key="OperationStatus_StartCommunicationHost">
+        Iniciar host de comunicación
+    </Entry>
+    <Entry key="OperationStatus_StartKeyboardInterception">
+        Inicialización de la interceptación del teclado
+    </Entry>
+    <Entry key="OperationStatus_StartMouseInterception">
+        Inicialización de la interceptación del ratón
+    </Entry>
+    <Entry key="OperationStatus_StopClient">
+        Terminación del client
+    </Entry>
+    <Entry key="OperationStatus_StopCommunicationHost">
+        Terminación del host de comunicación
+    </Entry>
+    <Entry key="OperationStatus_StopKeyboardInterception">
+        Terminación de la interceptación del teclado
+    </Entry>
+    <Entry key="OperationStatus_StopMouseInterception">
+        Terminación de la interceptación del ratón
+    </Entry>
+    <Entry key="OperationStatus_TerminateBrowser">
+        Terminación del navegador
+    </Entry>
+    <Entry key="OperationStatus_TerminateProctoring">
+        Terminación de la supervisión a distancia
+    </Entry>
+    <Entry key="OperationStatus_TerminateShell">
+        Terminación de la interfaz de usuario
+    </Entry>
+    <Entry key="OperationStatus_ValidateDisplayConfiguration">
+        Validación de la política de configuración de pantalla
+    </Entry>
+    <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
+        Validación de la política de sesión remota
+    </Entry>
+    <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
+        Validación de la política de máquinas virtuales
+    </Entry>
+    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+        Verificación de la integridad
+    </Entry>
+    <Entry key="OperationStatus_VerifySessionIntegrity">
+        Verificación de la integridad de la sesión
+    </Entry>
+    <Entry key="OperationStatus_WaitDisclaimerConfirmation">
+        A la espera de la confirmación del descargo de responsabilidad
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerStartup">
+        Esperando a que se inicie el explorador de Windows
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerTermination">
+        Esperando a que se apague el explorador de Windows
+    </Entry>
+    <Entry key="OperationStatus_WaitRuntimeDisconnection">
+        Esperando a que el runtime se desconecte
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequired">
+        Introduzca la contraseña para salir/reiniciar: (Esta función no le desconecta si está conectado a un sitio web)
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
+        Volver al inicio
+    </Entry>
+    <Entry key="PasswordDialog_Cancel">
+        Cancelar
+    </Entry>
+    <Entry key="PasswordDialog_Confirm">
+        Confirmar
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequired">
+        Introduzca la contraseña de administrador para la configuración local del cliente:
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
+        Contraseña requerida
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
+        Por favor, introduzca la contraseña para la configuración local del cliente:
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
+        Contraseña requerida
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequired">
+        Por favor, introduzca la contraseña para salir de SEB:
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
+        Contraseña requerida
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequired">
+        Introduzca la contraseña del examen:
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
+        Contraseña requerida
+    </Entry>
+    <Entry key="RuntimeWindow_ApplicationRunning">
+        SEB se está ejecutando.
+    </Entry>
+    <Entry key="ServerFailureDialog_Abort">
+        Abortar
+    </Entry>
+    <Entry key="ServerFailureDialog_Fallback">
+        Fallback
+    </Entry>
+    <Entry key="ServerFailureDialog_Message">
+        Se ha producido un error al intentar comunicarse con el servidor SEB.
+    </Entry>
+    <Entry key="ServerFailureDialog_Retry">
+        Reintentar
+    </Entry>
+    <Entry key="ServerFailureDialog_Title">
+        Error de SEB-Server
+    </Entry>
+    <Entry key="Shell_QuitButton">
+        Terminar la sesión
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfo">
+        %%NAME%%: %%VOLUME%%%
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfoMuted">
+        %%NAME%%: Silenciado
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceMuteTooltip">
+        Haz clic para silenciar el audio
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceNotFound">
+        No se ha encontrado ningún dispositivo de audio activo
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceUnmuteTooltip">
+        Haz clic para activar el audio
+    </Entry>
+    <Entry key="SystemControl_BatteryCharging">
+        Enchufado, cargando... (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryCharged">
+        Totalmente cargado (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeCriticalWarning">
+        La carga de la batería es críticamente baja. ¡Conecte el ordenador a una fuente de alimentación!
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeLowInfo">
+        La carga de la batería se está agotando. Considera la posibilidad de conectar el ordenador a una fuente de alimentación a tiempo...
+    </Entry>
+    <Entry key="SystemControl_BatteryRemainingCharge">
+        %%HOURS%%h %%MINUTES%%min restante (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_KeyboardLayoutTooltip">
+        La distribución actual del teclado es "%%LAYOUT%%".
+    </Entry>
+    <Entry key="SystemControl_NetworkDisconnected">
+        Desconectado
+    </Entry>
+    <Entry key="SystemControl_NetworkNotAvailable">
+        No hay adaptador de red inalámbrica disponible o encendido
+    </Entry>
+    <Entry key="SystemControl_NetworkWiredConnected">
+        Conectado
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnected">
+        Conectado a "%%NAME%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnecting">
+        Conectando...
+    </Entry>
+    <Entry key="Version">
+        Versión
+    </Entry>
+</Text>
