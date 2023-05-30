@@ -31,8 +31,10 @@ namespace SafeExamBrowser.SystemComponents
 
 		private static readonly string[] DeviceWhitelist =
 		{
-			// Microsoft Virtual Disk
-			"PROD_VIRTUAL_DISK"
+			// Microsoft Virtual Disk Device
+			"PROD_VIRTUAL_DISK",
+			// Microsoft Virtual DVD Device
+			"PROD_VIRTUAL_DVD"
 		};
 
 		private readonly ILogger logger;
