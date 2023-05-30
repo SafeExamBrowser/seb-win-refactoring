@@ -20,10 +20,10 @@ namespace SafeExamBrowser.Applications
 {
 	public class ApplicationFactory : IApplicationFactory
 	{
-		private IApplicationMonitor applicationMonitor;
-		private IModuleLogger logger;
-		private INativeMethods nativeMethods;
-		private IProcessFactory processFactory;
+		private readonly IApplicationMonitor applicationMonitor;
+		private readonly IModuleLogger logger;
+		private readonly INativeMethods nativeMethods;
+		private readonly IProcessFactory processFactory;
 
 		public ApplicationFactory(
 			IApplicationMonitor applicationMonitor,
@@ -39,9 +39,9 @@ namespace SafeExamBrowser.Applications
 
 		public FactoryResult TryCreate(WhitelistApplication settings, out IApplication application)
 		{
-			var name = $"'{settings.DisplayName}' ({ settings.ExecutableName})";
+			var name = $"'{settings.DisplayName}' ({settings.ExecutableName})";
 
-			application = default(IApplication);
+			application = default;
 
 			try
 			{
@@ -82,14 +82,14 @@ namespace SafeExamBrowser.Applications
 			var paths = new List<string[]>();
 			var registryPath = QueryPathFromRegistry(settings);
 
-			mainExecutable = default(string);
+			mainExecutable = default;
 
 			paths.Add(new[] { Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), settings.ExecutableName });
 			paths.Add(new[] { Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), settings.ExecutableName });
 			paths.Add(new[] { Environment.GetFolderPath(Environment.SpecialFolder.System), settings.ExecutableName });
 			paths.Add(new[] { Environment.GetFolderPath(Environment.SpecialFolder.SystemX86), settings.ExecutableName });
 
-			if (settings.ExecutablePath != default(string))
+			if (settings.ExecutablePath != default)
 			{
 				paths.Add(new[] { settings.ExecutablePath, settings.ExecutableName });
 				paths.Add(new[] { Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), settings.ExecutablePath, settings.ExecutableName });
@@ -98,11 +98,11 @@ namespace SafeExamBrowser.Applications
 				paths.Add(new[] { Environment.GetFolderPath(Environment.SpecialFolder.SystemX86), settings.ExecutablePath, settings.ExecutableName });
 			}
 
-			if (registryPath != default(string))
+			if (registryPath != default)
 			{
 				paths.Add(new[] { registryPath, settings.ExecutableName });
 
-				if (settings.ExecutablePath != default(string))
+				if (settings.ExecutablePath != default)
 				{
 					paths.Add(new[] { registryPath, settings.ExecutablePath, settings.ExecutableName });
 				}
@@ -146,7 +146,7 @@ namespace SafeExamBrowser.Applications
 				logger.Error($"Failed to query path in registry for '{settings.ExecutableName}'!", e);
 			}
 
-			return default(string);
+			return default;
 		}
 	}
 }

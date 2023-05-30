@@ -80,13 +80,41 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		}
 
 		[TestMethod]
-		public void MustNotAppendCustomHeadersForCrossDomain()
+		public void MustAppendCustomHeadersForCrossDomainResourceRequestAndMainFrame()
 		{
 			var browser = new Mock<IWebBrowser>();
 			var headers = new NameValueCollection();
 			var request = new Mock<IRequest>();
 
 			browser.SetupGet(b => b.Address).Returns("http://www.otherhost.org");
+			keyGenerator.Setup(g => g.CalculateBrowserExamKeyHash(It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<string>())).Returns(new Random().Next().ToString());
+			keyGenerator.Setup(g => g.CalculateConfigurationKeyHash(It.IsAny<string>(), It.IsAny<string>())).Returns(new Random().Next().ToString());
+			request.SetupGet(r => r.ResourceType).Returns(ResourceType.MainFrame);
+			request.SetupGet(r => r.Headers).Returns(new NameValueCollection());
+			request.SetupGet(r => r.Url).Returns("http://www.host.org");
+			request.SetupSet(r => r.Headers = It.IsAny<NameValueCollection>()).Callback<NameValueCollection>((h) => headers = h);
+			settings.SendConfigurationKey = true;
+			settings.SendBrowserExamKey = true;
+
+			var result = sut.OnBeforeResourceLoad(browser.Object, Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, Mock.Of<IRequestCallback>());
+
+			request.VerifyGet(r => r.Headers, Times.AtLeastOnce);
+			request.VerifySet(r => r.Headers = It.IsAny<NameValueCollection>(), Times.AtLeastOnce);
+
+			Assert.AreEqual(CefReturnValue.Continue, result);
+			Assert.IsNotNull(headers["X-SafeExamBrowser-ConfigKeyHash"]);
+			Assert.IsNotNull(headers["X-SafeExamBrowser-RequestHash"]);
+		}
+
+		[TestMethod]
+		public void MustNotAppendCustomHeadersForCrossDomainResourceRequestAndSubResource()
+		{
+			var browser = new Mock<IWebBrowser>();
+			var headers = new NameValueCollection();
+			var request = new Mock<IRequest>();
+
+			browser.SetupGet(b => b.Address).Returns("http://www.otherhost.org");
+			request.SetupGet(r => r.ResourceType).Returns(ResourceType.SubResource);
 			request.SetupGet(r => r.Headers).Returns(new NameValueCollection());
 			request.SetupGet(r => r.Url).Returns("http://www.host.org");
 			request.SetupSet(r => r.Headers = It.IsAny<NameValueCollection>()).Callback<NameValueCollection>((h) => headers = h);

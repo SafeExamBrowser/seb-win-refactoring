@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Runtime", "SafeExamBrowser.Runtime\SafeExamBrowser.Runtime.csproj", "{E3AED2F8-B5DF-45D1-AC19-48066923D6D8}"
 EndProject
@@ -109,6 +109,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Proctoring", "SafeExamBrowser.Proctoring\SafeExamBrowser.Proctoring.csproj", "{3F1F262E-A07C-4513-83C6-D7EF2F203EBF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Proctoring.Contracts", "SafeExamBrowser.Proctoring.Contracts\SafeExamBrowser.Proctoring.Contracts.csproj", "{8E52BD1C-0540-4F16-B181-6665D43F7A7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Applications.UnitTests", "SafeExamBrowser.Applications.UnitTests\SafeExamBrowser.Applications.UnitTests.csproj", "{FC6D80EC-8611-4287-87E2-17C028A10858}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -477,6 +479,12 @@ Global
 		{8E52BD1C-0540-4F16-B181-6665D43F7A7B}.Release|x64.Build.0 = Release|x64
 		{8E52BD1C-0540-4F16-B181-6665D43F7A7B}.Release|x86.ActiveCfg = Release|x86
 		{8E52BD1C-0540-4F16-B181-6665D43F7A7B}.Release|x86.Build.0 = Release|x86
+		{FC6D80EC-8611-4287-87E2-17C028A10858}.Debug|x64.ActiveCfg = Debug|x64
+		{FC6D80EC-8611-4287-87E2-17C028A10858}.Debug|x64.Build.0 = Debug|x64
+		{FC6D80EC-8611-4287-87E2-17C028A10858}.Debug|x86.ActiveCfg = Debug|x64
+		{FC6D80EC-8611-4287-87E2-17C028A10858}.Debug|x86.Build.0 = Debug|x64
+		{FC6D80EC-8611-4287-87E2-17C028A10858}.Release|x64.ActiveCfg = Release|x64
+		{FC6D80EC-8611-4287-87E2-17C028A10858}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
