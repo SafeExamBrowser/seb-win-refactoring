@@ -83,6 +83,7 @@
   <ItemGroup>
     <Compile Include="ApplicationFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ExternalApplicationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -112,6 +113,10 @@
     <ProjectReference Include="..\SafeExamBrowser.Settings\SafeExamBrowser.Settings.csproj">
       <Project>{30b2d907-5861-4f39-abad-c4abf1b3470e}</Project>
       <Name>SafeExamBrowser.Settings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.SystemComponents.Contracts\SafeExamBrowser.SystemComponents.Contracts.csproj">
+      <Project>{903129c6-e236-493b-9ad6-c6a57f647a3a}</Project>
+      <Name>SafeExamBrowser.SystemComponents.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.WindowsApi.Contracts\SafeExamBrowser.WindowsApi.Contracts.csproj">
       <Project>{7016f080-9aa5-41b2-a225-385ad877c171}</Project>

@@ -13,6 +13,7 @@ using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Settings.Applications;
+using SafeExamBrowser.SystemComponents.Contracts.Registry;
 using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Applications.UnitTests
@@ -24,6 +25,7 @@ namespace SafeExamBrowser.Applications.UnitTests
 		private Mock<IModuleLogger> logger;
 		private Mock<INativeMethods> nativeMethods;
 		private Mock<IProcessFactory> processFactory;
+		private Mock<IRegistry> registry;
 
 		private ApplicationFactory sut;
 
@@ -34,8 +36,9 @@ namespace SafeExamBrowser.Applications.UnitTests
 			logger = new Mock<IModuleLogger>();
 			nativeMethods = new Mock<INativeMethods>();
 			processFactory = new Mock<IProcessFactory>();
+			registry = new Mock<IRegistry>();
 
-			sut = new ApplicationFactory(applicationMonitor.Object, logger.Object, nativeMethods.Object, processFactory.Object);
+			sut = new ApplicationFactory(applicationMonitor.Object, logger.Object, nativeMethods.Object, processFactory.Object, registry.Object);
 		}
 
 		[TestMethod]
@@ -55,11 +58,31 @@ namespace SafeExamBrowser.Applications.UnitTests
 		}
 
 		[TestMethod]
+		public void MustCorrectlyReadPathFromRegistry()
+		{
+			var o = default(object);
+			var settings = new WhitelistApplication
+			{
+				DisplayName = "Windows Command Prompt",
+				ExecutableName = "cmd.exe",
+			};
+
+			var result = sut.TryCreate(settings, out var application);
+
+			registry.Verify(r => r.TryRead(It.Is<string>(s => s.Contains(RegistryValue.MachineHive.AppPaths_Key)), It.Is<string>(s => s == "Path"), out o), Times.Once);
+
+			Assert.AreEqual(FactoryResult.Success, result);
+			Assert.IsNotNull(application);
+			Assert.IsInstanceOfType<ExternalApplication>(application);
+		}
+
+		[TestMethod]
 		public void MustIndicateIfApplicationNotFound()
 		{
 			var settings = new WhitelistApplication
 			{
-				ExecutableName = "some_random_application_which_does_not_exist_on_a_normal_system.exe"
+				ExecutableName = "some_random_application_which_does_not_exist_on_a_normal_system.exe",
+				ExecutablePath = "Some/Path/Which/Does/Not/Exist"
 			};
 
 			var result = sut.TryCreate(settings, out var application);
@@ -71,13 +94,10 @@ namespace SafeExamBrowser.Applications.UnitTests
 		[TestMethod]
 		public void MustFailGracefullyAndIndicateThatErrorOccurred()
 		{
-			var settings = new WhitelistApplication
-			{
-				DisplayName = "Windows Command Prompt",
-				ExecutableName = "cmd.exe",
-			};
+			var o = default(object);
+			var settings = new WhitelistApplication();
 
-			logger.Setup(l => l.CloneFor(It.IsAny<string>())).Throws<Exception>();
+			registry.Setup(r => r.TryRead(It.IsAny<string>(), It.IsAny<string>(), out o)).Throws<Exception>();
 
 			var result = sut.TryCreate(settings, out var application);
 

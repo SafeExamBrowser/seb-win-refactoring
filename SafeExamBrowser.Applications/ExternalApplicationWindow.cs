@@ -16,7 +16,7 @@ namespace SafeExamBrowser.Applications
 {
 	internal class ExternalApplicationWindow : IApplicationWindow
 	{
-		private INativeMethods nativeMethods;
+		private readonly INativeMethods nativeMethods;
 
 		public IntPtr Handle { get; }
 		public IconResource Icon { get; private set; }

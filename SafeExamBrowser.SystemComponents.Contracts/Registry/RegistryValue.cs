@@ -19,6 +19,7 @@ namespace SafeExamBrowser.SystemComponents.Contracts.Registry
 		/// </summary>
 		public static class MachineHive
 		{
+			public const string AppPaths_Key = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths";
 			public const string EaseOfAccess_Key = @"HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\Utilman.exe";
 			public const string EaseOfAccess_Name = "Debugger";
 		}

@@ -9,11 +9,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.Win32;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Settings.Applications;
+using SafeExamBrowser.SystemComponents.Contracts.Registry;
 using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Applications
@@ -24,17 +24,20 @@ namespace SafeExamBrowser.Applications
 		private readonly IModuleLogger logger;
 		private readonly INativeMethods nativeMethods;
 		private readonly IProcessFactory processFactory;
+		private readonly IRegistry registry;
 
 		public ApplicationFactory(
 			IApplicationMonitor applicationMonitor,
 			IModuleLogger logger,
 			INativeMethods nativeMethods,
-			IProcessFactory processFactory)
+			IProcessFactory processFactory,
+			IRegistry registry)
 		{
 			this.applicationMonitor = applicationMonitor;
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;
 			this.processFactory = processFactory;
+			this.registry = registry;
 		}
 
 		public FactoryResult TryCreate(WhitelistApplication settings, out IApplication application)
@@ -71,8 +74,10 @@ namespace SafeExamBrowser.Applications
 
 		private IApplication BuildApplication(string executablePath, WhitelistApplication settings)
 		{
+			const int ONE_SECOND = 1000;
+
 			var applicationLogger = logger.CloneFor(settings.DisplayName);
-			var application = new ExternalApplication(applicationMonitor, executablePath, applicationLogger, nativeMethods, processFactory, settings);
+			var application = new ExternalApplication(applicationMonitor, executablePath, applicationLogger, nativeMethods, processFactory, settings, ONE_SECOND);
 
 			return application;
 		}
@@ -131,19 +136,9 @@ namespace SafeExamBrowser.Applications
 
 		private string QueryPathFromRegistry(WhitelistApplication settings)
 		{
-			try
+			if (registry.TryRead($@"{RegistryValue.MachineHive.AppPaths_Key}\{settings.ExecutableName}", "Path", out var value))
 			{
-				using (var key = Registry.LocalMachine.OpenSubKey($@"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{settings.ExecutableName}"))
-				{
-					if (key != null)
-					{
-						return key.GetValue("Path") as string;
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				logger.Error($"Failed to query path in registry for '{settings.ExecutableName}'!", e);
+				return value as string;
 			}
 
 			return default;

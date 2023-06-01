@@ -12,8 +12,8 @@ using System.Linq;
 using System.Timers;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
-using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.Applications.Events;
+using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts;
 
@@ -23,24 +23,32 @@ namespace SafeExamBrowser.Applications
 	{
 		private readonly object @lock = new object();
 
-		private IconResource icon;
-		private ILogger logger;
-		private INativeMethods nativeMethods;
-		private IProcess process;
+		private readonly IconResource icon;
+		private readonly ILogger logger;
+		private readonly INativeMethods nativeMethods;
+		private readonly IProcess process;
+		private readonly int windowMonitoringInterval;
+		private readonly IList<ExternalApplicationWindow> windows;
+
 		private Timer timer;
-		private IList<ExternalApplicationWindow> windows;
 
 		internal int Id { get; private set; }
 
 		internal event InstanceTerminatedEventHandler Terminated;
 		internal event WindowsChangedEventHandler WindowsChanged;
 
-		internal ExternalApplicationInstance(IconResource icon, ILogger logger, INativeMethods nativeMethods, IProcess process)
+		internal ExternalApplicationInstance(
+			IconResource icon,
+			ILogger logger,
+			INativeMethods nativeMethods,
+			IProcess process,
+			int windowMonitoringInterval_ms)
 		{
 			this.icon = icon;
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;
 			this.process = process;
+			this.windowMonitoringInterval = windowMonitoringInterval_ms;
 			this.windows = new List<ExternalApplicationWindow>();
 		}
 
@@ -145,11 +153,9 @@ namespace SafeExamBrowser.Applications
 
 		private void InitializeEvents()
 		{
-			const int ONE_SECOND = 1000;
-
 			process.Terminated += Process_Terminated;
 
-			timer = new Timer(ONE_SECOND);
+			timer = new Timer(windowMonitoringInterval);
 			timer.Elapsed += Timer_Elapsed;
 			timer.Start();
 		}

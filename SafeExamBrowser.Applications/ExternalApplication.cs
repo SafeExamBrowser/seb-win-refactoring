@@ -23,13 +23,14 @@ namespace SafeExamBrowser.Applications
 	{
 		private readonly object @lock = new object();
 
-		private IApplicationMonitor applicationMonitor;
-		private string executablePath;
-		private IModuleLogger logger;
-		private INativeMethods nativeMethods;
-		private IList<ExternalApplicationInstance> instances;
-		private IProcessFactory processFactory;
-		private WhitelistApplication settings;
+		private readonly IApplicationMonitor applicationMonitor;
+		private readonly string executablePath;
+		private readonly IList<ExternalApplicationInstance> instances;
+		private readonly IModuleLogger logger;
+		private readonly INativeMethods nativeMethods;
+		private readonly IProcessFactory processFactory;
+		private readonly WhitelistApplication settings;
+		private readonly int windowMonitoringInterval;
 
 		public bool AutoStart { get; private set; }
 		public IconResource Icon { get; private set; }
@@ -45,7 +46,8 @@ namespace SafeExamBrowser.Applications
 			IModuleLogger logger,
 			INativeMethods nativeMethods,
 			IProcessFactory processFactory,
-			WhitelistApplication settings)
+			WhitelistApplication settings,
+			int windowMonitoringInterval_ms)
 		{
 			this.applicationMonitor = applicationMonitor;
 			this.executablePath = executablePath;
@@ -54,6 +56,7 @@ namespace SafeExamBrowser.Applications
 			this.instances = new List<ExternalApplicationInstance>();
 			this.processFactory = processFactory;
 			this.settings = settings;
+			this.windowMonitoringInterval = windowMonitoringInterval_ms;
 		}
 
 		public IEnumerable<IApplicationWindow> GetWindows()
@@ -87,18 +90,6 @@ namespace SafeExamBrowser.Applications
 			{
 				logger.Error("Failed to start application!", e);
 			}
-		}
-
-		private string[] BuildArguments()
-		{
-			var arguments = new List<string>();
-
-			foreach (var argument in settings.Arguments)
-			{
-				arguments.Add(Environment.ExpandEnvironmentVariables(argument));
-			}
-
-			return arguments.ToArray();
 		}
 
 		public void Terminate()
@@ -153,12 +144,24 @@ namespace SafeExamBrowser.Applications
 			WindowsChanged?.Invoke();
 		}
 
+		private string[] BuildArguments()
+		{
+			var arguments = new List<string>();
+
+			foreach (var argument in settings.Arguments)
+			{
+				arguments.Add(Environment.ExpandEnvironmentVariables(argument));
+			}
+
+			return arguments.ToArray();
+		}
+
 		private void InitializeInstance(IProcess process)
 		{
 			lock (@lock)
 			{
 				var instanceLogger = logger.CloneFor($"{Name} ({process.Id})");
-				var instance = new ExternalApplicationInstance(Icon, instanceLogger, nativeMethods, process);
+				var instance = new ExternalApplicationInstance(Icon, instanceLogger, nativeMethods, process, windowMonitoringInterval);
 
 				instance.Terminated += Instance_Terminated;
 				instance.WindowsChanged += () => WindowsChanged?.Invoke();
