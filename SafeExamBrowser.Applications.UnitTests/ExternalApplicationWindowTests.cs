@@ -47,11 +47,15 @@ namespace SafeExamBrowser.Applications.UnitTests
 			var titleChanged = false;
 
 			nativeMethods.Setup(m => m.GetWindowIcon(It.IsAny<IntPtr>())).Returns(new IntPtr(456));
+			nativeMethods.Setup(m => m.GetWindowTitle((It.IsAny<IntPtr>()))).Returns("Some New Window Title");
 
 			sut.IconChanged += (_) => iconChanged = true;
 			sut.TitleChanged += (_) => titleChanged = true;
 
 			sut.Update();
+
+			nativeMethods.Verify(m => m.GetWindowIcon(handle), Times.Once);
+			nativeMethods.Verify(m => m.GetWindowTitle(handle), Times.Once);
 
 			Assert.IsTrue(iconChanged);
 			Assert.IsTrue(titleChanged);

@@ -82,6 +82,18 @@ namespace SafeExamBrowser.Applications.UnitTests
 			Assert.IsTrue(windows.Any(w => w.Handle == new IntPtr(234)));
 			Assert.IsTrue(windows.Any(w => w.Handle == new IntPtr(345)));
 			Assert.IsTrue(windows.Any(w => w.Handle == new IntPtr(567)));
+
+			nativeMethods.Setup(n => n.GetOpenWindows()).Returns(openWindows.Take(4));
+			process2.Raise(p => p.Terminated += null, default(int));
+
+			sync.WaitOne();
+
+			windows = sut.GetWindows();
+
+			Assert.AreEqual(2, windows.Count());
+			Assert.IsTrue(windows.Any(w => w.Handle == new IntPtr(234)));
+			Assert.IsTrue(windows.Any(w => w.Handle == new IntPtr(345)));
+			Assert.IsTrue(windows.All(w => w.Handle != new IntPtr(567)));
 		}
 
 		[TestMethod]
@@ -127,7 +139,7 @@ namespace SafeExamBrowser.Applications.UnitTests
 		[TestMethod]
 		public void Start_MustRemoveInstanceCorrectlyWhenTerminated()
 		{
-			var eventRaised = false;
+			var eventCount = 0;
 			var openWindows = new List<IntPtr> { new IntPtr(123), new IntPtr(234), new IntPtr(456), new IntPtr(345), new IntPtr(567), new IntPtr(789), };
 			var process = new Mock<IProcess>();
 			var sync = new AutoResetEvent(false);
@@ -141,7 +153,7 @@ namespace SafeExamBrowser.Applications.UnitTests
 
 			sut.WindowsChanged += () =>
 			{
-				eventRaised = true;
+				eventCount++;
 				sync.Set();
 			};
 
@@ -154,7 +166,7 @@ namespace SafeExamBrowser.Applications.UnitTests
 
 			process.Raise(p => p.Terminated += null, default(int));
 
-			Assert.IsTrue(eventRaised);
+			Assert.AreEqual(2, eventCount);
 			Assert.AreEqual(0, sut.GetWindows().Count());
 		}
 

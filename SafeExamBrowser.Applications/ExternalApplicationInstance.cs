@@ -162,8 +162,11 @@ namespace SafeExamBrowser.Applications
 
 		private void FinalizeEvents()
 		{
-			timer.Elapsed -= Timer_Elapsed;
-			timer.Stop();
+			if (timer != default)
+			{
+				timer.Elapsed -= Timer_Elapsed;
+				timer.Stop();
+			}
 
 			process.Terminated -= Process_Terminated;
 		}
