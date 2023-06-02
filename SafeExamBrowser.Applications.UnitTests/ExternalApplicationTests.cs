@@ -51,10 +51,10 @@ namespace SafeExamBrowser.Applications.UnitTests
 		[TestMethod]
 		public void GetWindows_MustCorrectlyReturnOpenWindows()
 		{
-			var sync = new AutoResetEvent(false);
+			var openWindows = new List<IntPtr> { new IntPtr(123), new IntPtr(234), new IntPtr(456), new IntPtr(345), new IntPtr(567), new IntPtr(789), };
 			var process1 = new Mock<IProcess>();
 			var process2 = new Mock<IProcess>();
-			var openWindows = new List<IntPtr> { new IntPtr(123), new IntPtr(234), new IntPtr(456), new IntPtr(345), new IntPtr(567), new IntPtr(789), };
+			var sync = new AutoResetEvent(false);
 
 			nativeMethods.Setup(n => n.GetOpenWindows()).Returns(openWindows);
 			nativeMethods.Setup(n => n.GetProcessIdFor(It.Is<IntPtr>(p => p == new IntPtr(234)))).Returns(1234);
@@ -88,6 +88,7 @@ namespace SafeExamBrowser.Applications.UnitTests
 		public void Initialize_MustInitializeCorrectly()
 		{
 			settings.AutoStart = new Random().Next(2) == 1;
+			settings.Description = "Some Description";
 
 			sut.Initialize();
 
@@ -121,6 +122,40 @@ namespace SafeExamBrowser.Applications.UnitTests
 
 			logger.Verify(l => l.Error(It.IsAny<string>(), It.IsAny<Exception>()), Times.AtLeastOnce);
 			processFactory.Verify(f => f.StartNew(It.IsAny<string>(), It.IsAny<string[]>()), Times.Once);
+		}
+
+		[TestMethod]
+		public void Start_MustRemoveInstanceCorrectlyWhenTerminated()
+		{
+			var eventRaised = false;
+			var openWindows = new List<IntPtr> { new IntPtr(123), new IntPtr(234), new IntPtr(456), new IntPtr(345), new IntPtr(567), new IntPtr(789), };
+			var process = new Mock<IProcess>();
+			var sync = new AutoResetEvent(false);
+
+			nativeMethods.Setup(n => n.GetOpenWindows()).Returns(openWindows);
+			nativeMethods.Setup(n => n.GetProcessIdFor(It.Is<IntPtr>(p => p == new IntPtr(234)))).Returns(1234);
+			process.Setup(p => p.TryClose(It.IsAny<int>())).Returns(false);
+			process.Setup(p => p.TryKill(It.IsAny<int>())).Returns(true);
+			process.SetupGet(p => p.Id).Returns(1234);
+			processFactory.Setup(f => f.StartNew(It.IsAny<string>(), It.IsAny<string[]>())).Returns(process.Object);
+
+			sut.WindowsChanged += () =>
+			{
+				eventRaised = true;
+				sync.Set();
+			};
+
+			sut.Initialize();
+			sut.Start();
+
+			sync.WaitOne();
+
+			Assert.AreEqual(1, sut.GetWindows().Count());
+
+			process.Raise(p => p.Terminated += null, default(int));
+
+			Assert.IsTrue(eventRaised);
+			Assert.AreEqual(0, sut.GetWindows().Count());
 		}
 
 		[TestMethod]

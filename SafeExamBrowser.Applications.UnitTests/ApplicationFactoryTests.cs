@@ -60,12 +60,15 @@ namespace SafeExamBrowser.Applications.UnitTests
 		[TestMethod]
 		public void MustCorrectlyReadPathFromRegistry()
 		{
-			var o = default(object);
+			object o = @"C:\Some\Registry\Path";
 			var settings = new WhitelistApplication
 			{
 				DisplayName = "Windows Command Prompt",
 				ExecutableName = "cmd.exe",
+				ExecutablePath = @"C:\Some\Path"
 			};
+
+			registry.Setup(r => r.TryRead(It.Is<string>(s => s.Contains(RegistryValue.MachineHive.AppPaths_Key)), It.Is<string>(s => s == "Path"), out o)).Returns(true);
 
 			var result = sut.TryCreate(settings, out var application);
 
@@ -89,6 +92,22 @@ namespace SafeExamBrowser.Applications.UnitTests
 
 			Assert.AreEqual(FactoryResult.NotFound, result);
 			Assert.IsNull(application);
+		}
+
+		[TestMethod]
+		public void MustFailGracefullyWhenPathIsInvalid()
+		{
+			var settings = new WhitelistApplication
+			{
+				ExecutableName = "asdfg(/ç)&=%\"fsdg..exe..",
+				ExecutablePath = "[]#°§¬#°¢@tu03450'w89tz!$£äöüèé:"
+			};
+
+			var result = sut.TryCreate(settings, out _);
+
+			logger.Verify(l => l.Error(It.IsAny<string>(), It.IsAny<Exception>()), Times.AtLeastOnce);
+
+			Assert.AreEqual(FactoryResult.NotFound, result);
 		}
 
 		[TestMethod]
