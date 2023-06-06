@@ -83,7 +83,7 @@ namespace SafeExamBrowser.Applications.UnitTests
 			Assert.IsTrue(windows.Any(w => w.Handle == new IntPtr(345)));
 			Assert.IsTrue(windows.Any(w => w.Handle == new IntPtr(567)));
 
-			nativeMethods.Setup(n => n.GetOpenWindows()).Returns(openWindows.Take(4));
+			nativeMethods.Setup(n => n.GetOpenWindows()).Returns(openWindows.Skip(2));
 			process2.Raise(p => p.Terminated += null, default(int));
 
 			sync.WaitOne();
