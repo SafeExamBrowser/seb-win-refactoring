@@ -2800,7 +2800,8 @@ namespace SebWindowsConfig
 				}
 				catch (Exception e)
 				{
-					MessageBox.Show(this, $"Failed to load the signature for the permitted process! {e}", "Signature Load Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					Logger.AddWarning($"Signature for application {filename} could not be loaded! {e.Message}", exception: e);
+					MessageBox.Show(this, "The chosen application has no signature and therefore its integrity cannot be verified when SEB is running.", "Signature Load Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
 
 				return permittedApplicationInformation;
