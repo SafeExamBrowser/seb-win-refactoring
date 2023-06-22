@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
-    <Bundle Name="Safe Exam Browser" Version="!(bind.packageVersion.SetupX86)" Manufacturer="!(bind.packageManufacturer.SetupX86)"
-            UpgradeCode="26C1045A-99CC-4479-987B-376390379441" IconSourceFile="$(var.Setup.ProjectDir)Resources\Application.ico">
+    <Bundle Name="Safe Exam Browser"
+            IconSourceFile="$(var.Setup.ProjectDir)Resources\Application.ico"
+            Manufacturer="!(bind.packageManufacturer.SetupX86)"
+            UpgradeCode="26C1045A-99CC-4479-987B-376390379441"
+            Version="!(bind.packageVersion.SetupX86)">
         <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLargeLicense">
-            <bal:WixStandardBootstrapperApplication LicenseFile="$(var.Setup.ProjectDir)Resources\License.rtf" ThemeFile="Resources\Theme.xml"
-                                                    LocalizationFile="Resources\Theme.wxl" LogoFile="Resources\Logo.png" SuppressOptionsUI="yes"
-                                                    SuppressRepair="yes" />
+            <bal:WixStandardBootstrapperApplication LicenseFile="$(var.Setup.ProjectDir)Resources\License.rtf"
+                                                    LocalizationFile="Resources\Theme.wxl"
+                                                    LogoFile="Resources\Logo.png"
+                                                    SuppressOptionsUI="yes"
+                                                    SuppressRepair="yes"
+                                                    ThemeFile="Resources\Theme.xml" />
         </BootstrapperApplicationRef>
         <Chain>
             <PackageGroupRef Id="DotNetFramework" />
             <PackageGroupRef Id="VisualCppRuntime" />
             <PackageGroupRef Id="WebView2Runtime" />
-            <MsiPackage Id="SetupX64" InstallCondition='VersionNT64' SourceFile="$(var.Setup.ProjectDir)bin\x64\Release\$(var.Setup.TargetFileName)"
-                        Compressed="yes" DisplayInternalUI="no" Vital="yes" />
-            <MsiPackage Id="SetupX86" InstallCondition='NOT VersionNT64' SourceFile="$(var.Setup.ProjectDir)bin\x86\Release\$(var.Setup.TargetFileName)"
-                        Compressed="yes" DisplayInternalUI="no" Vital="yes" />
+            <MsiPackage Id="SetupX64"
+                        Compressed="yes"
+                        DisplayInternalUI="no"
+                        InstallCondition="VersionNT64"
+                        SourceFile="$(var.Setup.ProjectDir)bin\x64\Release\$(var.Setup.TargetFileName)"
+                        Vital="yes" />
+            <MsiPackage Id="SetupX86"
+                        Compressed="yes"
+                        DisplayInternalUI="no"
+                        InstallCondition="NOT VersionNT64"
+                        SourceFile="$(var.Setup.ProjectDir)bin\x86\Release\$(var.Setup.TargetFileName)"
+                        Vital="yes" />
         </Chain>
     </Bundle>
 </Wix>
