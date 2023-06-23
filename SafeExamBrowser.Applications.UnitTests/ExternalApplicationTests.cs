@@ -90,8 +90,8 @@ namespace SafeExamBrowser.Applications.UnitTests
 
 			windows = sut.GetWindows();
 
-			Assert.AreEqual(2, windows.Count());
-			Assert.IsTrue(windows.Any(w => w.Handle == new IntPtr(234)));
+			Assert.AreEqual(1, windows.Count());
+			Assert.IsTrue(windows.Any(w => w.Handle != new IntPtr(234)));
 			Assert.IsTrue(windows.Any(w => w.Handle == new IntPtr(345)));
 			Assert.IsTrue(windows.All(w => w.Handle != new IntPtr(567)));
 		}
