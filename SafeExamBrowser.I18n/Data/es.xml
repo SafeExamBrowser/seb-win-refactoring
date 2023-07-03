@@ -429,6 +429,15 @@
     <Entry key="MessageBox_UploadNotAllowedTitle">
         Uploading Not Allowed!
     </Entry>
+    <Entry key="MessageBox_VersionRestrictionError">
+        La versión instalada de SEB %%_VERSION_%% no puede ser utilizada ya que la configuración seleccionada requiere utilizar una versión específica:%%_REQUIRED_VERSIONS_%%Por favor descargue e instale la versión requerida desde el sitio web oficial (safeexambrowser.org/download) o desde el repositorio de SEB para Windows en GitHub (github.com/safeexambrowser).
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionErrorTitle">
+        Versión SEB no válida
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionMinimum">
+        SEB %%_VERSION_%% o más reciente
+    </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
         Este ordenador parece ser una máquina virtual. La configuración seleccionada no permite ejecutar SEB en una máquina virtual.
     </Entry>
@@ -563,6 +572,9 @@
     </Entry>
     <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
         Validación de la política de sesión remota
+    </Entry>
+    <Entry key="OperationStatus_ValidateVersionRestrictions">
+        Validación de las restricciones de versión
     </Entry>
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Validación de la política de máquinas virtuales

@@ -107,6 +107,7 @@
     <Compile Include="Operations\Events\ServerFailureEventArgs.cs" />
     <Compile Include="Operations\Events\UnexpectedErrorMessageArgs.cs" />
     <Compile Include="Operations\ApplicationIntegrityOperation.cs" />
+    <Compile Include="Operations\Events\VersionRestrictionMessageArgs.cs" />
     <Compile Include="Operations\KioskModeOperation.cs" />
     <Compile Include="Operations\ProctoringWorkaroundOperation.cs" />
     <Compile Include="Operations\RemoteSessionOperation.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Operations\SessionInitializationOperation.cs" />
     <Compile Include="Communication\RuntimeHost.cs" />
     <Compile Include="CompositionRoot.cs" />
+    <Compile Include="Operations\VersionRestrictionOperation.cs" />
     <Compile Include="Operations\VirtualMachineOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

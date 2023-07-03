@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -76,6 +76,10 @@ namespace SebWindowsConfig
 			this.checkBoxInsideSebEnableEaseOfAccess = new System.Windows.Forms.CheckBox();
 			this.checkBoxInsideSebEnableVmWareClientShade = new System.Windows.Forms.CheckBox();
 			this.tabPageSecurity = new System.Windows.Forms.TabPage();
+			this.groupBox20 = new System.Windows.Forms.GroupBox();
+			this.label30 = new System.Windows.Forms.Label();
+			this.label29 = new System.Windows.Forms.Label();
+			this.label28 = new System.Windows.Forms.Label();
 			this.checkBoxAllowedDisplayIgnoreError = new System.Windows.Forms.CheckBox();
 			this.checkBoxEnforceBuiltinDisplay = new System.Windows.Forms.CheckBox();
 			this.groupBoxSebService = new System.Windows.Forms.GroupBox();
@@ -172,6 +176,8 @@ namespace SebWindowsConfig
 			this.buttonRemovePermittedProcess = new System.Windows.Forms.Button();
 			this.buttonAddPermittedProcess = new System.Windows.Forms.Button();
 			this.groupBoxPermittedProcess = new System.Windows.Forms.GroupBox();
+			this.textBoxPermittedProcessSignature = new System.Windows.Forms.TextBox();
+			this.label27 = new System.Windows.Forms.Label();
 			this.textBoxPermittedProcessOriginalName = new System.Windows.Forms.TextBox();
 			this.PermittedProcessOriginalNameLabel = new System.Windows.Forms.Label();
 			this.checkBoxPermittedProcessIconInTaskbar = new System.Windows.Forms.CheckBox();
@@ -463,14 +469,14 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.label27 = new System.Windows.Forms.Label();
-			this.textBoxPermittedProcessSignature = new System.Windows.Forms.TextBox();
+			this.versionRestrictionsTextBox = new System.Windows.Forms.TextBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
 			this.tabPageRegistry.SuspendLayout();
 			this.groupBoxInsideSeb.SuspendLayout();
 			this.tabPageSecurity.SuspendLayout();
+			this.groupBox20.SuspendLayout();
 			this.groupBoxSebService.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox10.SuspendLayout();
@@ -1115,6 +1121,7 @@ namespace SebWindowsConfig
 			// 
 			// tabPageSecurity
 			// 
+			this.tabPageSecurity.Controls.Add(this.groupBox20);
 			this.tabPageSecurity.Controls.Add(this.checkBoxAllowedDisplayIgnoreError);
 			this.tabPageSecurity.Controls.Add(this.checkBoxEnforceBuiltinDisplay);
 			this.tabPageSecurity.Controls.Add(this.groupBoxSebService);
@@ -1137,6 +1144,50 @@ namespace SebWindowsConfig
 			this.tabPageSecurity.TabIndex = 24;
 			this.tabPageSecurity.Text = "Security";
 			this.tabPageSecurity.UseVisualStyleBackColor = true;
+			// 
+			// groupBox20
+			// 
+			this.groupBox20.Controls.Add(this.versionRestrictionsTextBox);
+			this.groupBox20.Controls.Add(this.label30);
+			this.groupBox20.Controls.Add(this.label29);
+			this.groupBox20.Controls.Add(this.label28);
+			this.groupBox20.Location = new System.Drawing.Point(23, 371);
+			this.groupBox20.Name = "groupBox20";
+			this.groupBox20.Size = new System.Drawing.Size(540, 209);
+			this.groupBox20.TabIndex = 109;
+			this.groupBox20.TabStop = false;
+			this.groupBox20.Text = "Version Restrictions";
+			// 
+			// label30
+			// 
+			this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label30.Location = new System.Drawing.Point(11, 81);
+			this.label30.Name = "label30";
+			this.label30.Size = new System.Drawing.Size(515, 31);
+			this.label30.TabIndex = 2;
+			this.label30.Text = "Please enter one restriction per line, e.g. \"Win.3.4.min\" to allow all SEB for Wi" +
+    "ndows versions starting with 3.4 or newer, or \"Win.3.5.0.544\" to only allow SEB " +
+    "for Windows version 3.5.0.544.";
+			// 
+			// label29
+			// 
+			this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label29.Location = new System.Drawing.Point(15, 49);
+			this.label29.Name = "label29";
+			this.label29.Size = new System.Drawing.Size(511, 29);
+			this.label29.TabIndex = 1;
+			this.label29.Text = "OS.Major.Minor.[Patch].[Build].[AE].[min]";
+			this.label29.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label28
+			// 
+			this.label28.Location = new System.Drawing.Point(12, 23);
+			this.label28.Name = "label28";
+			this.label28.Size = new System.Drawing.Size(514, 29);
+			this.label28.TabIndex = 0;
+			this.label28.Text = "Allows to specify one or more specific SEB version(s) which are required in order" +
+    " to be able to use this configuration. A version restriction needs to have the f" +
+    "ollowing format in order to be valid:";
 			// 
 			// checkBoxAllowedDisplayIgnoreError
 			// 
@@ -1495,7 +1546,7 @@ namespace SebWindowsConfig
 			this.groupBox10.Controls.Add(this.textBoxLogDirectoryWin);
 			this.groupBox10.Controls.Add(this.label4);
 			this.groupBox10.Controls.Add(this.checkBoxUseStandardDirectory);
-			this.groupBox10.Location = new System.Drawing.Point(23, 381);
+			this.groupBox10.Location = new System.Drawing.Point(583, 398);
 			this.groupBox10.Name = "groupBox10";
 			this.groupBox10.Size = new System.Drawing.Size(555, 142);
 			this.groupBox10.TabIndex = 95;
@@ -1886,8 +1937,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle7.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle7;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -2377,6 +2428,24 @@ namespace SebWindowsConfig
 			this.groupBoxPermittedProcess.Text = "Selected Process";
 			this.toolTip1.SetToolTip(this.groupBoxPermittedProcess, "Terminate process in a not-nice way, which may cause data loss if the application" +
         " had unsaved data");
+			// 
+			// textBoxPermittedProcessSignature
+			// 
+			this.textBoxPermittedProcessSignature.Location = new System.Drawing.Point(199, 135);
+			this.textBoxPermittedProcessSignature.Name = "textBoxPermittedProcessSignature";
+			this.textBoxPermittedProcessSignature.Size = new System.Drawing.Size(565, 20);
+			this.textBoxPermittedProcessSignature.TabIndex = 97;
+			this.toolTip1.SetToolTip(this.textBoxPermittedProcessSignature, "The hash / thumbprint of the certificate used to sign the executable.");
+			this.textBoxPermittedProcessSignature.TextChanged += new System.EventHandler(this.textBoxPermittedProcessSignature_TextChanged);
+			// 
+			// label27
+			// 
+			this.label27.AutoSize = true;
+			this.label27.Location = new System.Drawing.Point(141, 138);
+			this.label27.Name = "label27";
+			this.label27.Size = new System.Drawing.Size(52, 13);
+			this.label27.TabIndex = 96;
+			this.label27.Text = "Signature";
 			// 
 			// textBoxPermittedProcessOriginalName
 			// 
@@ -4627,8 +4696,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle8;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -6026,23 +6095,14 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// label27
+			// versionRestrictionsTextBox
 			// 
-			this.label27.AutoSize = true;
-			this.label27.Location = new System.Drawing.Point(141, 138);
-			this.label27.Name = "label27";
-			this.label27.Size = new System.Drawing.Size(52, 13);
-			this.label27.TabIndex = 96;
-			this.label27.Text = "Signature";
-			// 
-			// textBoxPermittedProcessSignature
-			// 
-			this.textBoxPermittedProcessSignature.Location = new System.Drawing.Point(199, 135);
-			this.textBoxPermittedProcessSignature.Name = "textBoxPermittedProcessSignature";
-			this.textBoxPermittedProcessSignature.Size = new System.Drawing.Size(565, 20);
-			this.textBoxPermittedProcessSignature.TabIndex = 97;
-			this.toolTip1.SetToolTip(this.textBoxPermittedProcessSignature, "The hash / thumbprint of the certificate used to sign the executable.");
-			this.textBoxPermittedProcessSignature.TextChanged += new System.EventHandler(this.textBoxPermittedProcessSignature_TextChanged);
+			this.versionRestrictionsTextBox.Location = new System.Drawing.Point(14, 115);
+			this.versionRestrictionsTextBox.Multiline = true;
+			this.versionRestrictionsTextBox.Name = "versionRestrictionsTextBox";
+			this.versionRestrictionsTextBox.Size = new System.Drawing.Size(512, 81);
+			this.versionRestrictionsTextBox.TabIndex = 3;
+			this.versionRestrictionsTextBox.TextChanged += new System.EventHandler(this.versionRestrictionsTextBox_TextChanged);
 			// 
 			// SebWindowsConfigForm
 			// 
@@ -6078,6 +6138,8 @@ namespace SebWindowsConfig
 			this.groupBoxInsideSeb.PerformLayout();
 			this.tabPageSecurity.ResumeLayout(false);
 			this.tabPageSecurity.PerformLayout();
+			this.groupBox20.ResumeLayout(false);
+			this.groupBox20.PerformLayout();
 			this.groupBoxSebService.ResumeLayout(false);
 			this.groupBoxSebService.PerformLayout();
 			this.groupBox1.ResumeLayout(false);
@@ -6610,6 +6672,11 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.CheckBox checkBoxShowFileSystemElementPath;
 		private System.Windows.Forms.TextBox textBoxPermittedProcessSignature;
 		private System.Windows.Forms.Label label27;
+		private System.Windows.Forms.GroupBox groupBox20;
+		private System.Windows.Forms.Label label28;
+		private System.Windows.Forms.Label label30;
+		private System.Windows.Forms.Label label29;
+		private System.Windows.Forms.TextBox versionRestrictionsTextBox;
 	}
 }
 

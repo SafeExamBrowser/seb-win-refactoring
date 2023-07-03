@@ -393,6 +393,15 @@
     <Entry key="MessageBox_UploadNotAllowedTitle">
         不允许上传！
     </Entry>
+    <Entry key="MessageBox_VersionRestrictionError">
+        已安装的 SEB 版本 %%_VERSION_%% 不能使用，因为所选配置需要使用特定的版本：%%_REQUIRED_VERSIONS_%%请从官方网站（safeexambrowser.org/download）或 GitHub 上的 SEB for Windows 仓库（github.com/safeexambrowser）下载并安装所需的版本。
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionErrorTitle">
+        无效的 SEB 版本
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionMinimum">
+        SEB %%_VERSION_%% 或更新的版本
+    </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
         这台电脑是一个虚拟机。所选配置不允许防作弊考试专用浏览器在虚拟机中运行。
     </Entry>
@@ -518,6 +527,9 @@
     </Entry>
     <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
         验证远程会话策略
+    </Entry>
+    <Entry key="OperationStatus_ValidateVersionRestrictions">
+        验证版本限制
     </Entry>
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         验证虚拟机策略

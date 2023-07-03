@@ -838,6 +838,16 @@ namespace SebWindowsConfig
 			checkBoxEnforceBuiltinDisplay.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayBuiltinEnforce];
 			checkBoxAllowedDisplayIgnoreError.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayIgnoreFailure];
 
+			if (SEBSettings.settingsCurrent[SEBSettings.KeyVersionRestrictions] is ListObj restrictions)
+			{
+				versionRestrictionsTextBox.Clear();
+
+				foreach (var restriction in restrictions.Cast<string>())
+				{
+					versionRestrictionsTextBox.Text += $"{restriction}{Environment.NewLine}";
+				}
+			}
+
 			// Group "Registry"
 			checkBoxInsideSebEnableSwitchUser.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyInsideSebEnableSwitchUser];
 			checkBoxInsideSebEnableLockThisComputer.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyInsideSebEnableLockThisComputer];
@@ -4718,6 +4728,29 @@ namespace SebWindowsConfig
 			SEBSettings.permittedProcessList = (ListObj) SEBSettings.settingsCurrent[SEBSettings.KeyPermittedProcesses];
 			SEBSettings.permittedProcessData = (DictObj) SEBSettings.permittedProcessList[SEBSettings.permittedProcessIndex];
 			SEBSettings.permittedProcessData[SEBSettings.KeySignature] = textBoxPermittedProcessSignature.Text;
+		}
+
+		private void versionRestrictionsTextBox_TextChanged(object sender, EventArgs e)
+		{
+			var raw = versionRestrictionsTextBox.Text;
+			var invalid = new List<string>();
+			var valid = new List<string>();
+
+			foreach (var line in raw?.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))
+			{
+				if (Regex.IsMatch(line, @"^(Win|Mac|iOS)(\.\d{1,}){2,4}(\.AE)?(\.min)?$"))
+				{
+					valid.Add(line);
+				}
+				else
+				{
+					invalid.Add(line);
+				}
+			}
+
+			versionRestrictionsTextBox.BackColor = invalid.Any() ? Color.FromArgb(255, 156, 156) : Color.White;
+
+			SEBSettings.settingsCurrent[SEBSettings.KeyVersionRestrictions] = new ListObj(valid);
 		}
 	}
 }

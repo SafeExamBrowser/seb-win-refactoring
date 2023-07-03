@@ -77,6 +77,7 @@
     <Compile Include="Proctoring\ProctoringSettings.cs" />
     <Compile Include="Proctoring\WindowVisibility.cs" />
     <Compile Include="Proctoring\ZoomSettings.cs" />
+    <Compile Include="Security\VersionRestriction.cs" />
     <Compile Include="SessionMode.cs" />
     <Compile Include="Security\KioskMode.cs" />
     <Compile Include="Logging\LogLevel.cs" />

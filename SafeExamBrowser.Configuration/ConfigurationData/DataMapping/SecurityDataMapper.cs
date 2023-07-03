@@ -6,7 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Security;
 
@@ -35,6 +37,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Security.ReconfigurationUrl:
 					MapReconfigurationUrl(settings, value);
+					break;
+				case Keys.Security.VersionRestrictions:
+					MapVersionRestrictions(settings, value);
 					break;
 			}
 		}
@@ -131,6 +136,36 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string url)
 			{
 				settings.Security.ReconfigurationUrl = url;
+			}
+		}
+
+		private void MapVersionRestrictions(AppSettings settings, object value)
+		{
+			if (value is IList<object> restrictions)
+			{
+				foreach (var restriction in restrictions.Cast<string>())
+				{
+					var parts = restriction.Split('.');
+					var os = parts.Length > 0 ? parts[0] : default;
+
+					if (os?.Equals("win", StringComparison.OrdinalIgnoreCase) == true)
+					{
+						var major = parts.Length > 1 ? int.Parse(parts[1]) : default;
+						var minor = parts.Length > 2 ? int.Parse(parts[2]) : default;
+						var patch = parts.Length > 3 && int.TryParse(parts[3], out _) ? int.Parse(parts[3]) : default(int?);
+						var build = parts.Length > 4 && int.TryParse(parts[4], out _) ? int.Parse(parts[4]) : default(int?);
+
+						settings.Security.VersionRestrictions.Add(new VersionRestriction
+						{
+							Major = major,
+							Minor = minor,
+							Patch = patch,
+							Build = build,
+							IsMinimumRestriction = restriction.Contains("min"),
+							RequiresAllianceEdition = restriction.Contains("AE")
+						});
+					}
+				}
 			}
 		}
 	}

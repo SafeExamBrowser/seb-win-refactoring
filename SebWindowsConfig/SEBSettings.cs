@@ -374,6 +374,7 @@ namespace SebWindowsConfig
 		public const String KeyLockOnMessageSocketClose = "lockOnMessageSocketClose";
 		public const String KeyAllowChromeNotifications = "enableChromeNotifications";
 		public const String KeyAllowWindowsUpdate = "enableWindowsUpdate";
+		public const String KeyVersionRestrictions = "sebAllowedVersions";
 		// Group "macOS specific settings"
 		public const String KeyMinMacOSVersion = "minMacOSVersion";
 		public const String KeyEnableAppSwitcherCheck = "enableAppSwitcherCheck";

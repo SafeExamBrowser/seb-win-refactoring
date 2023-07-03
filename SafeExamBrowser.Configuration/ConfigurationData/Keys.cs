@@ -285,6 +285,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string KioskModeDisableExplorerShell = "killExplorerShell";
 			internal const string QuitPasswordHash = "hashedQuitPassword";
 			internal const string ReconfigurationUrl = "examSessionReconfigureConfigURL";
+			internal const string VersionRestrictions = "sebAllowedVersions";
 		}
 
 		internal static class Server

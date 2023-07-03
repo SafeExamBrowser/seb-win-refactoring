@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace SafeExamBrowser.Settings.Security
 {
@@ -52,8 +53,18 @@ namespace SafeExamBrowser.Settings.Security
 		public string ReconfigurationUrl { get; set; }
 
 		/// <summary>
+		/// All restrictions which apply to the SEB version to be used.
+		/// </summary>
+		public IList<VersionRestriction> VersionRestrictions { get; set; }
+
+		/// <summary>
 		/// Determines whether SEB is allowed to run in a virtual machine.
 		/// </summary>
 		public VirtualMachinePolicy VirtualMachinePolicy { get; set; }
+
+		public SecuritySettings()
+		{
+			VersionRestrictions = new List<VersionRestriction>();
+		}
 	}
 }

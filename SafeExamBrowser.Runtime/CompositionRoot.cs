@@ -95,6 +95,7 @@ namespace SafeExamBrowser.Runtime
 			sessionOperations.Enqueue(new SessionInitializationOperation(configuration, fileSystem, logger, runtimeHost, sessionContext));
 			sessionOperations.Enqueue(new ConfigurationOperation(args, configuration, new FileSystem(), new HashAlgorithm(), logger, sessionContext));
 			sessionOperations.Enqueue(new ServerOperation(args, configuration, fileSystem, logger, sessionContext, server));
+			sessionOperations.Enqueue(new VersionRestrictionOperation(logger, sessionContext, text));
 			sessionOperations.Enqueue(new DisclaimerOperation(logger, sessionContext));
 			sessionOperations.Enqueue(new RemoteSessionOperation(remoteSessionDetector, logger, sessionContext));
 			sessionOperations.Enqueue(new SessionIntegrityOperation(logger, registry, sessionContext));
