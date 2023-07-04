@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
@@ -51,7 +52,7 @@ namespace SafeExamBrowser.Applications.UnitTests
 		[TestMethod]
 		public void GetWindows_MustCorrectlyReturnOpenWindows()
 		{
-			var openWindows = new List<IntPtr> { new IntPtr(123), new IntPtr(234), new IntPtr(456), new IntPtr(345), new IntPtr(567), new IntPtr(789), };
+			var openWindows = new List<IntPtr> { new IntPtr(123), new IntPtr(234), new IntPtr(456), new IntPtr(345), new IntPtr(567), new IntPtr(789) };
 			var process1 = new Mock<IProcess>();
 			var process2 = new Mock<IProcess>();
 			var sync = new AutoResetEvent(false);
@@ -84,8 +85,9 @@ namespace SafeExamBrowser.Applications.UnitTests
 			Assert.IsTrue(windows.Any(w => w.Handle == new IntPtr(567)));
 
 			nativeMethods.Setup(n => n.GetOpenWindows()).Returns(openWindows.Skip(2));
-			process2.Raise(p => p.Terminated += null, default(int));
+			Task.Run(() => process2.Raise(p => p.Terminated += null, default(int)));
 
+			sync.WaitOne();
 			sync.WaitOne();
 
 			windows = sut.GetWindows();

@@ -48,5 +48,14 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 			sut.Revert();
 			text.VerifyNoOtherCalls();
 		}
+
+		[TestMethod]
+		public void MustNotFireEvents()
+		{
+			sut.ActionRequired += (_) => Assert.Fail();
+			sut.StatusChanged += (_) => Assert.Fail();
+
+			sut.Perform();
+		}
 	}
 }

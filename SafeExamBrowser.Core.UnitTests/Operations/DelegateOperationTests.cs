@@ -64,5 +64,16 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 			Assert.AreEqual(OperationResult.Success, repeat);
 			Assert.AreEqual(OperationResult.Success, revert);
 		}
+
+		[TestMethod]
+		public void MustNotFireEvents()
+		{
+			var sut = new DelegateOperation(default, default, default);
+
+			sut.ActionRequired += (_) => Assert.Fail();
+			sut.StatusChanged += (_) => Assert.Fail();
+
+			sut.Perform();
+		}
 	}
 }

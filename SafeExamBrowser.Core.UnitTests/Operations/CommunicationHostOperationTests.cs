@@ -10,8 +10,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Communication.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
-using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Core.Operations;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Core.UnitTests.Operations
 {
@@ -82,6 +82,20 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 
 			hostMock.Verify(h => h.Stop(), Times.Once);
 			hostMock.Verify(h => h.Start(), Times.Never);
+		}
+
+		[TestMethod]
+		public void MustFireStatusChangedEvent()
+		{
+			var fired = 0;
+
+			sut.StatusChanged += (_) => fired++;
+
+			sut.Perform();
+			sut.Repeat();
+			sut.Revert();
+
+			Assert.AreEqual(3, fired);
 		}
 	}
 }
