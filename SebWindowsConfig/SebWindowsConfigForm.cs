@@ -838,7 +838,7 @@ namespace SebWindowsConfig
 			checkBoxEnforceBuiltinDisplay.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayBuiltinEnforce];
 			checkBoxAllowedDisplayIgnoreError.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayIgnoreFailure];
 
-			if (SEBSettings.settingsCurrent[SEBSettings.KeyVersionRestrictions] is ListObj restrictions)
+			if (SEBSettings.settingsCurrent.TryGetValue(SEBSettings.KeyVersionRestrictions, out var value) && value is ListObj restrictions)
 			{
 				versionRestrictionsTextBox.Clear();
 
