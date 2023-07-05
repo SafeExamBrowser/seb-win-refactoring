@@ -11,8 +11,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
-using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Core.Operations;
+using SafeExamBrowser.I18n.Contracts;
 
 namespace SafeExamBrowser.Core.UnitTests.Operations
 {
@@ -146,6 +146,18 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 
 			operationMock.Verify(o => o.Perform(), Times.Once);
 			operationMock.Verify(o => o.Revert(), Times.Once);
+		}
+
+		[TestMethod]
+		public void MustNotFailOnEventRegistrationWithoutOperation()
+		{
+			var sut = new LazyInitializationOperation(() => default);
+
+			sut.ActionRequired += default;
+			sut.StatusChanged += default;
+
+			sut.ActionRequired -= default;
+			sut.StatusChanged -= default;
 		}
 	}
 }
