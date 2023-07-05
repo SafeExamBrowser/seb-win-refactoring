@@ -97,5 +97,15 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 
 			Assert.AreEqual(3, fired);
 		}
+
+		[TestMethod]
+		public void MustNotFireActionRequiredEvent()
+		{
+			sut.ActionRequired += (_) => Assert.Fail();
+
+			sut.Perform();
+			sut.Repeat();
+			sut.Revert();
+		}
 	}
 }
