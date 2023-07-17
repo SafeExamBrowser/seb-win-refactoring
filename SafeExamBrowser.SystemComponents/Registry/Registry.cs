@@ -91,34 +91,55 @@ namespace SafeExamBrowser.SystemComponents.Registry
 
 		public bool TryGetNames(string key, out IEnumerable<string> names)
 		{
-			names = null;
+			names = default;
 
 			RegistryKey keyObj;
 			if (!TryOpenKey(key, out keyObj))
 				return false;
 
+			bool success = true;
 			using (keyObj)
 			{
-				names = keyObj.GetValueNames();
+				try
+				{
+					names = keyObj.GetValueNames();
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to get registry value names '{key}'!", e);
+					success = false;
+					// persist keyObj dispose operation by finishing using() {}
+				}
+
 			}
 
-			return true;
+			return success;
 		}
 
 		public bool TryGetSubKeys(string key, out IEnumerable<string> subKeys)
 		{
-			subKeys = null;
+			subKeys = default;
 
 			RegistryKey keyObj;
 			if (!TryOpenKey(key, out keyObj))
 				return false;
 
+			bool success = true;
 			using (keyObj)
 			{
-				subKeys = keyObj.GetSubKeyNames();
+				try
+				{
+					subKeys = keyObj.GetSubKeyNames();
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to get registry value names '{key}'!", e);
+					success = false;
+					// persist keyObj dispose operation by finishing using() {}
+				}
 			}
 
-			return true;
+			return success;
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -150,8 +171,8 @@ namespace SafeExamBrowser.SystemComponents.Registry
 		// yoinked (and partially modified to follow SEB conventions) private Win32 function: https://stackoverflow.com/a/58547945
 		private bool GetBaseKeyFromKeyName(string keyName, out RegistryKey hiveKey, out string subKeyName)
 		{
-			hiveKey = null;
-			subKeyName = null;
+			hiveKey = default;
+			subKeyName = default;
 
 			string basekeyName;
 			int i = keyName.IndexOf('\\');
@@ -217,7 +238,7 @@ namespace SafeExamBrowser.SystemComponents.Registry
 		/// </summary>
 		private bool TryOpenKey(string key, out RegistryKey keyObj)
 		{
-			keyObj = null;
+			keyObj = default;
 
 			string subHiveKey;
 			try
@@ -228,7 +249,10 @@ namespace SafeExamBrowser.SystemComponents.Registry
 
 				keyObj = hiveObj.OpenSubKey(subHiveKey);
 				if (keyObj == null)
+				{
+					keyObj = default;
 					return false;
+				}
 			}
 			catch (Exception e)
 			{
