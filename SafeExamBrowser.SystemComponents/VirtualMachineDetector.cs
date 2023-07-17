@@ -111,14 +111,16 @@ namespace SafeExamBrowser.SystemComponents
 			 *	
 			 */
 			IEnumerable<string> hardwareConfigSubkeys;
-			if (!registry.TryGetSubKeys("HKLM\\SYSTEM\\HardwareConfig", out hardwareConfigSubkeys))
+			const string hwConfigParentKey = "HKEY_LOCAL_MACHINE\\SYSTEM\\HardwareConfig";
+			if (!registry.TryGetSubKeys(hwConfigParentKey, out hardwareConfigSubkeys))
 				return false;
 
 			foreach (string configId in hardwareConfigSubkeys)
 			{
 				logger.Info($"scanning configId: {configId}");
-				var configKey = $"HKEY_LOCAL_MACHINE\\SYSTEM\\HardwareConfig\\{configId}";
+				var hwConfigKey = $"{hwConfigParentKey}\\{configId}";
 
+				// collect system values for IsVirtualSystemInfo()
 				object biosVendor;
 				object biosVersion;
 				object systemManufacturer;
@@ -126,10 +128,10 @@ namespace SafeExamBrowser.SystemComponents
 
 				bool success = true;
 
-				success &= registry.TryRead(configKey, "BIOSVendor", out biosVendor);
-				success &= registry.TryRead(configKey, "BIOSVersion", out biosVersion);
-				success &= registry.TryRead(configKey, "SystemManufacturer", out systemManufacturer);
-				success &= registry.TryRead(configKey, "SystemProductName", out systemProductName);
+				success &= registry.TryRead(hwConfigKey, "BIOSVendor", out biosVendor);
+				success &= registry.TryRead(hwConfigKey, "BIOSVersion", out biosVersion);
+				success &= registry.TryRead(hwConfigKey, "SystemManufacturer", out systemManufacturer);
+				success &= registry.TryRead(hwConfigKey, "SystemProductName", out systemProductName);
 
 				if (!success)
 					continue;
@@ -139,18 +141,19 @@ namespace SafeExamBrowser.SystemComponents
 
 				isVirtualMachine |= IsVirtualSystemInfo(biosInfo, (string) systemManufacturer, (string) systemProductName);
 
-				// hardware information of profile throughout installation etc. 
-				IEnumerable<string> computerIds;
-				if (!registry.TryGetSubKeys($"HKLM\\SYSTEM\\HardwareConfig\\{configId}\\ComputerIds", out computerIds))
-					return false;
+				// check even more hardware information 
+				IEnumerable<string> computerIdNames;
+				var computerIdsKey = $"{hwConfigKey}\\ComputerIds";
+				if (!registry.TryGetNames(computerIdsKey, out computerIdNames))
+					continue;
 
-				foreach (var computerId in computerIds)
+				foreach (var computerIdName in computerIdNames)
 				{
-					logger.Info($"computerId: {computerId}");
-					// e.g. manufacturer&version&sku&...
-					object computerSummary; // = (string) computerIds.GetValue(computerId);
-
-					if (!registry.TryRead($"HKLM\\SYSTEM\\HardwareConfig\\{configId}\\ComputerIds", computerId, out computerSummary))
+					logger.Info($"computerId: {computerIdName}");
+					
+					// collect computer hardware summary (e.g. manufacturer&version&sku&...)
+					object computerSummary;
+					if (!registry.TryRead(computerIdsKey, computerIdName, out computerSummary))
 						continue;
 
 					isVirtualMachine |= IsVirtualSystemInfo((string) computerSummary, (string) systemManufacturer, (string) systemProductName);
