@@ -135,7 +135,6 @@ namespace SafeExamBrowser.SystemComponents
 
 			foreach (string configId in hardwareConfigSubkeys)
 			{
-				logger.Info($"scanning configId: {configId}");
 				var hwConfigKey = $"{hwConfigParentKey}\\{configId}";
 
 				// collect system values for IsVirtualSystemInfo()
@@ -166,8 +165,6 @@ namespace SafeExamBrowser.SystemComponents
 
 				foreach (var computerIdName in computerIdNames)
 				{
-					logger.Info($"computerId: {computerIdName}");
-
 					// collect computer hardware summary (e.g. manufacturer&version&sku&...)
 					object computerSummary;
 					if (!registry.TryRead(computerIdsKey, computerIdName, out computerSummary))
