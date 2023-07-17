@@ -83,7 +83,7 @@ namespace SafeExamBrowser.Runtime
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)), Interlocutor.Runtime);
 			var sessionContext = new SessionContext();
 			var splashScreen = uiFactory.CreateSplashScreen(appConfig);
-			var vmDetector = new VirtualMachineDetector(ModuleLogger(nameof(VirtualMachineDetector)), systemInfo);
+			var vmDetector = new VirtualMachineDetector(ModuleLogger(nameof(VirtualMachineDetector)), registry, systemInfo);
 
 			var bootstrapOperations = new Queue<IOperation>();
 			var sessionOperations = new Queue<IRepeatableOperation>();

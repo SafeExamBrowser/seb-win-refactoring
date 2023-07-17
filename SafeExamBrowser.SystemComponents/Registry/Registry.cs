@@ -8,7 +8,10 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Timers;
+using Microsoft.Win32;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Registry;
 using SafeExamBrowser.SystemComponents.Contracts.Registry.Events;
@@ -86,6 +89,38 @@ namespace SafeExamBrowser.SystemComponents.Registry
 			return success;
 		}
 
+		public bool TryGetNames(string key, out IEnumerable<string> names)
+		{
+			names = null;
+
+			RegistryKey keyObj;
+			if (!TryOpenKey(key, out keyObj))
+				return false;
+
+			using (keyObj)
+			{
+				names = keyObj.GetValueNames();
+			}
+
+			return true;
+		}
+
+		public bool TryGetSubKeys(string key, out IEnumerable<string> subKeys)
+		{
+			subKeys = null;
+
+			RegistryKey keyObj;
+			if (!TryOpenKey(key, out keyObj))
+				return false;
+
+			using (keyObj)
+			{
+				subKeys = keyObj.GetSubKeyNames();
+			}
+
+			return true;
+		}
+
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			foreach (var item in values)
@@ -103,6 +138,105 @@ namespace SafeExamBrowser.SystemComponents.Registry
 					logger.Error($"Failed to monitor value '{item.name}' from registry key '{item.key}'!");
 				}
 			}
+		}
+
+		/// <summary>
+		/// Parses a keyName and returns the basekey for it.
+		/// It will also store the subkey name in the out parameter.
+		/// If the keyName is not valid, we will return false.
+		/// Does not raise Exceptions.
+		/// Supports shortcuts.
+		/// </summary>
+		// yoinked (and partially modified to follow SEB conventions) private Win32 function: https://stackoverflow.com/a/58547945
+		private bool GetBaseKeyFromKeyName(string keyName, out RegistryKey hiveKey, out string subKeyName)
+		{
+			hiveKey = null;
+			subKeyName = null;
+
+			string basekeyName;
+			int i = keyName.IndexOf('\\');
+			if (i != -1)
+			{
+				basekeyName = keyName.Substring(0, i).ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+			}
+			else
+			{
+				basekeyName = keyName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+			}
+
+			// add shortcuts as well to be implicit
+			switch (basekeyName)
+			{
+				case "HKEY_CURRENT_USER":
+				case "HKCU":
+					hiveKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
+					break;
+				case "HKEY_LOCAL_MACHINE":
+				case "HKLM":
+					hiveKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+					break;
+				case "HKEY_CLASSES_ROOT":
+				case "HKCR":
+					hiveKey = RegistryKey.OpenBaseKey(RegistryHive.ClassesRoot, RegistryView.Registry64);
+					break;
+				case "HKEY_USERS":
+				case "HKU":
+					hiveKey = RegistryKey.OpenBaseKey(RegistryHive.Users, RegistryView.Registry64);
+					break;
+				case "HKEY_PERFORMANCE_DATA":
+				case "HKPD":
+					hiveKey = RegistryKey.OpenBaseKey(RegistryHive.PerformanceData, RegistryView.Registry64);
+					break;
+				case "HKEY_CURRENT_CONFIG":
+				case "HKCC":
+					hiveKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentConfig, RegistryView.Registry64);
+					break;
+				case "HKEY_DYN_DATA":
+				case "HKDD":
+					hiveKey = RegistryKey.OpenBaseKey(RegistryHive.DynData, RegistryView.Registry64);
+					break;
+				default:
+					// output is already set to null at the start
+					return false;
+			}
+
+			if (i == -1 || i == keyName.Length)
+			{
+				subKeyName = string.Empty;
+			}
+			else
+			{
+				subKeyName = keyName.Substring(i + 1, keyName.Length - i - 1);
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Tries to open a key and outputs a RegistryKey object. Does not raise Exceptions, but returns false/true.
+		/// </summary>
+		private bool TryOpenKey(string key, out RegistryKey keyObj)
+		{
+			keyObj = null;
+
+			string subHiveKey;
+			try
+			{
+				RegistryKey hiveObj;
+				if (!GetBaseKeyFromKeyName(key, out hiveObj, out subHiveKey))
+					return false;
+
+				keyObj = hiveObj.OpenSubKey(subHiveKey);
+				if (keyObj == null)
+					return false;
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to open registry key '{key}'!", e);
+				return false;
+			}
+
+			return true;
 		}
 	}
 }
