@@ -76,9 +76,6 @@ namespace SafeExamBrowser.SystemComponents
 			return isVirtualMachine;
 		}
 
-		/// <summary>
-		/// Scans parameters for disallowed strings (signatures)
-		/// </summary>
 		private bool IsVirtualSystemInfo(string biosInfo, string manufacturer, string model)
 		{
 			var isVirtualMachine = false;
@@ -107,17 +104,13 @@ namespace SafeExamBrowser.SystemComponents
 			var isVirtualMachine = false;
 
 			// the resulting IsVirtualRegistry() would be massive so split it
-			isVirtualMachine |= IsVirtualRegistryHardwareConfig();
-			isVirtualMachine |= IsVirtualRegistryDeviceCache();
+			isVirtualMachine |= HasHistoricVirtualMachineHardwareConfiguration();
+			isVirtualMachine |= HasLocalVirtualMachineDeviceCache();
 
 			return isVirtualMachine;
 		}
 
-
-		/// <summary>
-		/// Scans (historic) hardware configurations in the registry.
-		/// </summary>
-		private bool IsVirtualRegistryHardwareConfig()
+		private bool HasHistoricVirtualMachineHardwareConfiguration()
 		{
 			var isVirtualMachine = false;
 
@@ -134,10 +127,10 @@ namespace SafeExamBrowser.SystemComponents
 				return false;
 			}
 
-			foreach (string configId in hardwareConfigSubkeys)
+			foreach (var configId in hardwareConfigSubkeys)
 			{
 				var hwConfigKey = $"{hwConfigParentKey}\\{configId}";
-				bool didReadKeys = true;
+				var didReadKeys = true;
 
 				// collect system values for IsVirtualSystemInfo()
 				didReadKeys &= registry.TryRead(hwConfigKey, "BIOSVendor", out var biosVendor);
@@ -179,7 +172,7 @@ namespace SafeExamBrowser.SystemComponents
 		/// <summary>
 		/// Scans (synced) device cache for hardware info of the current device.
 		/// </summary>
-		private bool IsVirtualRegistryDeviceCache()
+		private bool HasLocalVirtualMachineDeviceCache()
 		{
 			var isVirtualMachine = false;
 

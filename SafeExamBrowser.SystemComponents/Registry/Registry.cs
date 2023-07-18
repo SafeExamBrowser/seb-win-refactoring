@@ -161,14 +161,6 @@ namespace SafeExamBrowser.SystemComponents.Registry
 			}
 		}
 
-		/// <summary>
-		/// Parses a keyName and returns the basekey for it.
-		/// It will also store the subkey name in the out parameter.
-		/// If the keyName is not valid, we will return false.
-		/// Does not raise Exceptions.
-		/// Supports shortcuts.
-		/// </summary>
-		// yoinked (and partially modified to follow SEB conventions) private Win32 function: https://stackoverflow.com/a/58547945
 		private bool TryGetBaseKeyFromKeyName(string keyName, out RegistryKey baseKey, out string subKeyName)
 		{
 			baseKey = default;
@@ -185,7 +177,6 @@ namespace SafeExamBrowser.SystemComponents.Registry
 				basekeyName = keyName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
 			}
 
-			// add shortcuts as well to be implicit
 			switch (basekeyName)
 			{
 				case "HKEY_CURRENT_USER":
