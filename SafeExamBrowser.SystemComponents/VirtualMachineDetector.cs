@@ -47,8 +47,9 @@ namespace SafeExamBrowser.SystemComponents
 
 		public bool IsVirtualMachine()
 		{
-			var biosInfo = systemInfo.BiosInfo;
 			var isVirtualMachine = false;
+
+			var biosInfo = systemInfo.BiosInfo;
 			var macAddress = systemInfo.MacAddress;
 			var manufacturer = systemInfo.Manufacturer;
 			var model = systemInfo.Model;
@@ -117,26 +118,30 @@ namespace SafeExamBrowser.SystemComponents
 			/** 
 			 * scanned registry format:
 			 * 
-			 * HKLM\SYSTEM\HardwareConfig\{configId=uuid}\ComputerIds
-			 *	- {computerId=uuid}: {computerSummary=hardwareInfo}
-			 *	
+			 * HKLM\SYSTEM\HardwareConfig\{configId=uuid}
+			 *	 - BIOSVendor
+			 *	 - SystemManufacturer
+			 *	 - ...
+			 *	 \ComputerIds
+			 *	   - {computerId=uuid}: {computerSummary=hardwareInfo}
+			 * 
 			 */
-			const string hwConfigParentKey = "HKEY_LOCAL_MACHINE\\SYSTEM\\HardwareConfig";
-			if (!registry.TryGetSubKeys(hwConfigParentKey, out var hardwareConfigSubkeys))
+			const string hardwareRootKey = "HKEY_LOCAL_MACHINE\\SYSTEM\\HardwareConfig";
+			if (!registry.TryGetSubKeys(hardwareRootKey, out var hardwareConfigSubkeys))
 			{
 				return false;
 			}
 
 			foreach (var configId in hardwareConfigSubkeys)
 			{
-				var hwConfigKey = $"{hwConfigParentKey}\\{configId}";
+				var hardwareConfigKey = $"{hardwareRootKey}\\{configId}";
 				var didReadKeys = true;
 
 				// collect system values for IsVirtualSystemInfo()
-				didReadKeys &= registry.TryRead(hwConfigKey, "BIOSVendor", out var biosVendor);
-				didReadKeys &= registry.TryRead(hwConfigKey, "BIOSVersion", out var biosVersion);
-				didReadKeys &= registry.TryRead(hwConfigKey, "SystemManufacturer", out var systemManufacturer);
-				didReadKeys &= registry.TryRead(hwConfigKey, "SystemProductName", out var systemProductName);
+				didReadKeys &= registry.TryRead(hardwareConfigKey, "BIOSVendor", out var biosVendor);
+				didReadKeys &= registry.TryRead(hardwareConfigKey, "BIOSVersion", out var biosVersion);
+				didReadKeys &= registry.TryRead(hardwareConfigKey, "SystemManufacturer", out var systemManufacturer);
+				didReadKeys &= registry.TryRead(hardwareConfigKey, "SystemProductName", out var systemProductName);
 				if (!didReadKeys)
 				{
 					continue;
@@ -148,7 +153,7 @@ namespace SafeExamBrowser.SystemComponents
 				isVirtualMachine |= IsVirtualSystemInfo(biosInfo, (string) systemManufacturer, (string) systemProductName);
 
 				// check even more hardware information 
-				var computerIdsKey = $"{hwConfigKey}\\ComputerIds";
+				var computerIdsKey = $"{hardwareConfigKey}\\ComputerIds";
 				if (!registry.TryGetNames(computerIdsKey, out var computerIdNames))
 				{
 					continue;
@@ -169,9 +174,6 @@ namespace SafeExamBrowser.SystemComponents
 			return isVirtualMachine;
 		}
 
-		/// <summary>
-		/// Scans (synced) device cache for hardware info of the current device.
-		/// </summary>
 		private bool HasLocalVirtualMachineDeviceCache()
 		{
 			var isVirtualMachine = false;
