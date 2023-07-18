@@ -96,7 +96,7 @@ namespace SafeExamBrowser.SystemComponents.Registry
 			if (!TryOpenKey(keyName, out var key))
 				return false;
 
-			bool success = true;
+			var success = true;
 			using (key)
 			{
 				try
@@ -107,7 +107,6 @@ namespace SafeExamBrowser.SystemComponents.Registry
 				{
 					logger.Error($"Failed to get registry value names '{keyName}'!", e);
 					success = false;
-					// persist keyObj dispose operation by finishing using() {}
 				}
 
 			}
@@ -122,7 +121,7 @@ namespace SafeExamBrowser.SystemComponents.Registry
 			if (!TryOpenKey(keyName, out var key))
 				return false;
 
-			bool success = true;
+			var success = true;
 			using (key)
 			{
 				try
@@ -133,7 +132,6 @@ namespace SafeExamBrowser.SystemComponents.Registry
 				{
 					logger.Error($"Failed to get registry value names '{keyName}'!", e);
 					success = false;
-					// persist keyObj dispose operation by finishing using() {}
 				}
 			}
 
@@ -167,16 +165,16 @@ namespace SafeExamBrowser.SystemComponents.Registry
 		/// Supports shortcuts.
 		/// </summary>
 		// yoinked (and partially modified to follow SEB conventions) private Win32 function: https://stackoverflow.com/a/58547945
-		private bool GetBaseKeyFromKeyName(string keyName, out RegistryKey hiveKey, out string subKeyName)
+		private bool TryGetBaseKeyFromKeyName(string keyName, out RegistryKey baseKey, out string subKeyName)
 		{
-			hiveKey = default;
+			baseKey = default;
 			subKeyName = default;
 
 			string basekeyName;
-			int i = keyName.IndexOf('\\');
-			if (i != -1)
+			var baseKeyLength = keyName.IndexOf('\\');
+			if (baseKeyLength != -1)
 			{
-				basekeyName = keyName.Substring(0, i).ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+				basekeyName = keyName.Substring(0, baseKeyLength).ToUpper(System.Globalization.CultureInfo.InvariantCulture);
 			}
 			else
 			{
@@ -188,62 +186,58 @@ namespace SafeExamBrowser.SystemComponents.Registry
 			{
 				case "HKEY_CURRENT_USER":
 				case "HKCU":
-					hiveKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
+					baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
 					break;
 				case "HKEY_LOCAL_MACHINE":
 				case "HKLM":
-					hiveKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+					baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
 					break;
 				case "HKEY_CLASSES_ROOT":
 				case "HKCR":
-					hiveKey = RegistryKey.OpenBaseKey(RegistryHive.ClassesRoot, RegistryView.Registry64);
+					baseKey = RegistryKey.OpenBaseKey(RegistryHive.ClassesRoot, RegistryView.Registry64);
 					break;
 				case "HKEY_USERS":
 				case "HKU":
-					hiveKey = RegistryKey.OpenBaseKey(RegistryHive.Users, RegistryView.Registry64);
+					baseKey = RegistryKey.OpenBaseKey(RegistryHive.Users, RegistryView.Registry64);
 					break;
 				case "HKEY_PERFORMANCE_DATA":
 				case "HKPD":
-					hiveKey = RegistryKey.OpenBaseKey(RegistryHive.PerformanceData, RegistryView.Registry64);
+					baseKey = RegistryKey.OpenBaseKey(RegistryHive.PerformanceData, RegistryView.Registry64);
 					break;
 				case "HKEY_CURRENT_CONFIG":
 				case "HKCC":
-					hiveKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentConfig, RegistryView.Registry64);
+					baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentConfig, RegistryView.Registry64);
 					break;
 				case "HKEY_DYN_DATA":
 				case "HKDD":
-					hiveKey = RegistryKey.OpenBaseKey(RegistryHive.DynData, RegistryView.Registry64);
+					baseKey = RegistryKey.OpenBaseKey(RegistryHive.DynData, RegistryView.Registry64);
 					break;
 				default:
-					// output is already set to null at the start
 					return false;
 			}
 
-			if (i == -1 || i == keyName.Length)
+			if (baseKeyLength == -1 || baseKeyLength == keyName.Length)
 			{
 				subKeyName = string.Empty;
 			}
 			else
 			{
-				subKeyName = keyName.Substring(i + 1, keyName.Length - i - 1);
+				subKeyName = keyName.Substring(baseKeyLength + 1, keyName.Length - baseKeyLength - 1);
 			}
 
 			return true;
 		}
 
-		/// <summary>
-		/// Tries to open a key and outputs a RegistryKey object. Does not raise Exceptions, but returns false/true.
-		/// </summary>
 		private bool TryOpenKey(string keyName, out RegistryKey key)
 		{
 			key = default;
 
 			try
 			{
-				if (!GetBaseKeyFromKeyName(keyName, out var hiveObj, out var subHiveKey))
+				if (!TryGetBaseKeyFromKeyName(keyName, out var baseKey, out var subKey))
 					return false;
 
-				key = hiveObj.OpenSubKey(subHiveKey);
+				key = baseKey.OpenSubKey(subKey);
 				if (key == null)
 				{
 					key = default;
