@@ -7,6 +7,7 @@
  */
 
 using SafeExamBrowser.SystemComponents.Contracts.Registry.Events;
+using System.Collections.Generic;
 
 namespace SafeExamBrowser.SystemComponents.Contracts.Registry
 {
@@ -34,5 +35,15 @@ namespace SafeExamBrowser.SystemComponents.Contracts.Registry
 		/// Attempts to read the value of the given name under the specified registry key.
 		/// </summary>
 		bool TryRead(string key, string name, out object value);
+
+		/// <summary>
+		/// Attempts to read the value names of the given registry key.
+		/// </summary>
+		bool TryGetNames(string key, out IEnumerable<string> names);
+
+		/// <summary>
+		/// Attempts to read the subkey names of the given registry key.
+		/// </summary>
+		bool TryGetSubKeys(string key, out IEnumerable<string> subKeys);
 	}
 }

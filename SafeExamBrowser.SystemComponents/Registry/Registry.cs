@@ -8,7 +8,10 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Timers;
+using Microsoft.Win32;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Registry;
 using SafeExamBrowser.SystemComponents.Contracts.Registry.Events;
@@ -86,6 +89,59 @@ namespace SafeExamBrowser.SystemComponents.Registry
 			return success;
 		}
 
+		public bool TryGetNames(string keyName, out IEnumerable<string> names)
+		{
+			names = default;
+
+			if (!TryOpenKey(keyName, out var key))
+			{
+				return false;
+			}
+
+			var success = true;
+			using (key)
+			{
+				try
+				{
+					names = key.GetValueNames();
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to get registry value names '{keyName}'!", e);
+					success = false;
+				}
+
+			}
+
+			return success;
+		}
+
+		public bool TryGetSubKeys(string keyName, out IEnumerable<string> subKeys)
+		{
+			subKeys = default;
+
+			if (!TryOpenKey(keyName, out var key))
+			{
+				return false;
+			}
+
+			var success = true;
+			using (key)
+			{
+				try
+				{
+					subKeys = key.GetSubKeyNames();
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to get registry value names '{keyName}'!", e);
+					success = false;
+				}
+			}
+
+			return success;
+		}
+
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			foreach (var item in values)
@@ -103,6 +159,90 @@ namespace SafeExamBrowser.SystemComponents.Registry
 					logger.Error($"Failed to monitor value '{item.name}' from registry key '{item.key}'!");
 				}
 			}
+		}
+
+		private bool TryGetBaseKeyFromKeyName(string keyName, out RegistryKey baseKey, out string subKeyName)
+		{
+			baseKey = default;
+			subKeyName = default;
+
+			string basekeyName;
+			var baseKeyLength = keyName.IndexOf('\\');
+			if (baseKeyLength != -1)
+			{
+				basekeyName = keyName.Substring(0, baseKeyLength).ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+			}
+			else
+			{
+				basekeyName = keyName.ToUpper(System.Globalization.CultureInfo.InvariantCulture);
+			}
+
+			switch (basekeyName)
+			{
+				case "HKEY_CURRENT_USER":
+				case "HKCU":
+					baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
+					break;
+				case "HKEY_LOCAL_MACHINE":
+				case "HKLM":
+					baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+					break;
+				case "HKEY_CLASSES_ROOT":
+				case "HKCR":
+					baseKey = RegistryKey.OpenBaseKey(RegistryHive.ClassesRoot, RegistryView.Registry64);
+					break;
+				case "HKEY_USERS":
+				case "HKU":
+					baseKey = RegistryKey.OpenBaseKey(RegistryHive.Users, RegistryView.Registry64);
+					break;
+				case "HKEY_PERFORMANCE_DATA":
+				case "HKPD":
+					baseKey = RegistryKey.OpenBaseKey(RegistryHive.PerformanceData, RegistryView.Registry64);
+					break;
+				case "HKEY_CURRENT_CONFIG":
+				case "HKCC":
+					baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentConfig, RegistryView.Registry64);
+					break;
+				case "HKEY_DYN_DATA":
+				case "HKDD":
+					baseKey = RegistryKey.OpenBaseKey(RegistryHive.DynData, RegistryView.Registry64);
+					break;
+				default:
+					return false;
+			}
+
+			if (baseKeyLength == -1 || baseKeyLength == keyName.Length)
+			{
+				subKeyName = string.Empty;
+			}
+			else
+			{
+				subKeyName = keyName.Substring(baseKeyLength + 1, keyName.Length - baseKeyLength - 1);
+			}
+
+			return true;
+		}
+
+		private bool TryOpenKey(string keyName, out RegistryKey key)
+		{
+			key = default;
+
+			try
+			{
+				logger.Info($"default(RegistryKey) == null: {key == null}");
+				if (TryGetBaseKeyFromKeyName(keyName, out var baseKey, out var subKey))
+				{
+					key = baseKey.OpenSubKey(subKey);
+				}
+
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to open registry key '{keyName}'!", e);
+				return false;
+			}
+
+			return key != default;
 		}
 	}
 }
