@@ -94,7 +94,9 @@ namespace SafeExamBrowser.SystemComponents.Registry
 			names = default;
 
 			if (!TryOpenKey(keyName, out var key))
+			{
 				return false;
+			}
 
 			var success = true;
 			using (key)
@@ -117,9 +119,11 @@ namespace SafeExamBrowser.SystemComponents.Registry
 		public bool TryGetSubKeys(string keyName, out IEnumerable<string> subKeys)
 		{
 			subKeys = default;
-			
+
 			if (!TryOpenKey(keyName, out var key))
+			{
 				return false;
+			}
 
 			var success = true;
 			using (key)
@@ -234,15 +238,12 @@ namespace SafeExamBrowser.SystemComponents.Registry
 
 			try
 			{
-				if (!TryGetBaseKeyFromKeyName(keyName, out var baseKey, out var subKey))
-					return false;
-
-				key = baseKey.OpenSubKey(subKey);
-				if (key == null)
+				logger.Info($"default(RegistryKey) == null: {key == null}");
+				if (TryGetBaseKeyFromKeyName(keyName, out var baseKey, out var subKey))
 				{
-					key = default;
-					return false;
+					key = baseKey.OpenSubKey(subKey);
 				}
+
 			}
 			catch (Exception e)
 			{
@@ -250,7 +251,7 @@ namespace SafeExamBrowser.SystemComponents.Registry
 				return false;
 			}
 
-			return true;
+			return key != default;
 		}
 	}
 }

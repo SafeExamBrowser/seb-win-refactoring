@@ -130,7 +130,9 @@ namespace SafeExamBrowser.SystemComponents
 			 */
 			const string hwConfigParentKey = "HKEY_LOCAL_MACHINE\\SYSTEM\\HardwareConfig";
 			if (!registry.TryGetSubKeys(hwConfigParentKey, out var hardwareConfigSubkeys))
+			{
 				return false;
+			}
 
 			foreach (string configId in hardwareConfigSubkeys)
 			{
@@ -143,7 +145,9 @@ namespace SafeExamBrowser.SystemComponents
 				didReadKeys &= registry.TryRead(hwConfigKey, "SystemManufacturer", out var systemManufacturer);
 				didReadKeys &= registry.TryRead(hwConfigKey, "SystemProductName", out var systemProductName);
 				if (!didReadKeys)
+				{
 					continue;
+				}
 
 				// reconstruct the systemInfo.biosInfo string
 				var biosInfo = $"{(string) biosVendor} {(string) biosVersion}";
@@ -153,13 +157,17 @@ namespace SafeExamBrowser.SystemComponents
 				// check even more hardware information 
 				var computerIdsKey = $"{hwConfigKey}\\ComputerIds";
 				if (!registry.TryGetNames(computerIdsKey, out var computerIdNames))
+				{
 					continue;
+				}
 
 				foreach (var computerIdName in computerIdNames)
 				{
 					// collect computer hardware summary (e.g. manufacturer&version&sku&...)
 					if (!registry.TryRead(computerIdsKey, computerIdName, out var computerSummary))
+					{
 						continue;
+					}
 
 					isVirtualMachine |= IsVirtualSystemInfo((string) computerSummary, (string) systemManufacturer, (string) systemProductName);
 				}
@@ -192,12 +200,16 @@ namespace SafeExamBrowser.SystemComponents
 
 					didReadKeys &= registry.TryRead(cacheIdKey, "DeviceName", out var cacheDeviceName);
 					if (!didReadKeys || deviceName.ToLower() != ((string) cacheDeviceName).ToLower())
+					{
 						continue;
+					}
 
 					didReadKeys &= registry.TryRead(cacheIdKey, "DeviceMake", out var cacheDeviceManufacturer);
 					didReadKeys &= registry.TryRead(cacheIdKey, "DeviceModel", out var cacheDeviceModel);
 					if (!didReadKeys)
+					{
 						continue;
+					}
 
 					isVirtualMachine |= IsVirtualSystemInfo("", (string) cacheDeviceManufacturer, (string) cacheDeviceModel);
 				}
