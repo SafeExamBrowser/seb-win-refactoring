@@ -119,7 +119,7 @@ namespace SafeExamBrowser.SystemComponents
 		/// </summary>
 		private bool IsVirtualRegistryHardwareConfig()
 		{
-			bool isVirtualMachine = false;
+			var isVirtualMachine = false;
 
 			/** 
 			 * scanned registry format:
@@ -135,19 +135,18 @@ namespace SafeExamBrowser.SystemComponents
 			foreach (string configId in hardwareConfigSubkeys)
 			{
 				var hwConfigKey = $"{hwConfigParentKey}\\{configId}";
+				bool didReadKeys = true;
 
 				// collect system values for IsVirtualSystemInfo()
-				bool success = true;
-				success &= registry.TryRead(hwConfigKey, "BIOSVendor", out var biosVendor);
-				success &= registry.TryRead(hwConfigKey, "BIOSVersion", out var biosVersion);
-				success &= registry.TryRead(hwConfigKey, "SystemManufacturer", out var systemManufacturer);
-				success &= registry.TryRead(hwConfigKey, "SystemProductName", out var systemProductName);
-
-				if (!success)
+				didReadKeys &= registry.TryRead(hwConfigKey, "BIOSVendor", out var biosVendor);
+				didReadKeys &= registry.TryRead(hwConfigKey, "BIOSVersion", out var biosVersion);
+				didReadKeys &= registry.TryRead(hwConfigKey, "SystemManufacturer", out var systemManufacturer);
+				didReadKeys &= registry.TryRead(hwConfigKey, "SystemProductName", out var systemProductName);
+				if (!didReadKeys)
 					continue;
 
 				// reconstruct the systemInfo.biosInfo string
-				string biosInfo = $"{(string) biosVendor} {(string) biosVersion}";
+				var biosInfo = $"{(string) biosVendor} {(string) biosVersion}";
 
 				isVirtualMachine |= IsVirtualSystemInfo(biosInfo, (string) systemManufacturer, (string) systemProductName);
 
@@ -174,31 +173,30 @@ namespace SafeExamBrowser.SystemComponents
 		/// </summary>
 		private bool IsVirtualRegistryDeviceCache()
 		{
-			bool isVirtualMachine = false;
+			var isVirtualMachine = false;
 
 			// device cache contains hardware about other devices logged into as well, so lock onto this device in case an innocent VM was logged into.
 			// in the future, try to improve this check somehow since DeviceCache only gives ComputerName
 			var deviceName = System.Environment.GetEnvironmentVariable("COMPUTERNAME");
 
 			// check Windows timeline caches for current hardware config
-			const string deviceCacheParentKey = "HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\TaskFlow\\DeviceCache";
-			bool has_dc_keys = registry.TryGetSubKeys(deviceCacheParentKey, out var deviceCacheKeys);
+			const string deviceCacheParentKey = "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\TaskFlow\\DeviceCache";
+			var hasDeviceCacheKeys = registry.TryGetSubKeys(deviceCacheParentKey, out var deviceCacheKeys);
 
-			if (deviceName != null && has_dc_keys)
+			if (deviceName != null && hasDeviceCacheKeys)
 			{
-				foreach (string cacheId in deviceCacheKeys)
+				foreach (var cacheId in deviceCacheKeys)
 				{
 					var cacheIdKey = $"{deviceCacheParentKey}\\{cacheId}";
+					var didReadKeys = true;
 
-					bool success = true;
-					success &= registry.TryRead(cacheIdKey, "DeviceName", out var cacheDeviceName);
-
-					if (!success || deviceName.ToLower() != ((string) cacheDeviceName).ToLower())
+					didReadKeys &= registry.TryRead(cacheIdKey, "DeviceName", out var cacheDeviceName);
+					if (!didReadKeys || deviceName.ToLower() != ((string) cacheDeviceName).ToLower())
 						continue;
 
-					success &= registry.TryRead(cacheIdKey, "DeviceMake", out var cacheDeviceManufacturer);
-					success &= registry.TryRead(cacheIdKey, "DeviceModel", out var cacheDeviceModel);
-					if (!success)
+					didReadKeys &= registry.TryRead(cacheIdKey, "DeviceMake", out var cacheDeviceManufacturer);
+					didReadKeys &= registry.TryRead(cacheIdKey, "DeviceModel", out var cacheDeviceModel);
+					if (!didReadKeys)
 						continue;
 
 					isVirtualMachine |= IsVirtualSystemInfo("", (string) cacheDeviceManufacturer, (string) cacheDeviceModel);

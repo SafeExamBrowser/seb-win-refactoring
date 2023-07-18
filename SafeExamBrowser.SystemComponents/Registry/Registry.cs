@@ -89,23 +89,23 @@ namespace SafeExamBrowser.SystemComponents.Registry
 			return success;
 		}
 
-		public bool TryGetNames(string key, out IEnumerable<string> names)
+		public bool TryGetNames(string keyName, out IEnumerable<string> names)
 		{
 			names = default;
 
-			if (!TryOpenKey(key, out var keyObj))
+			if (!TryOpenKey(keyName, out var key))
 				return false;
 
 			bool success = true;
-			using (keyObj)
+			using (key)
 			{
 				try
 				{
-					names = keyObj.GetValueNames();
+					names = key.GetValueNames();
 				}
 				catch (Exception e)
 				{
-					logger.Error($"Failed to get registry value names '{key}'!", e);
+					logger.Error($"Failed to get registry value names '{keyName}'!", e);
 					success = false;
 					// persist keyObj dispose operation by finishing using() {}
 				}
@@ -115,23 +115,23 @@ namespace SafeExamBrowser.SystemComponents.Registry
 			return success;
 		}
 
-		public bool TryGetSubKeys(string key, out IEnumerable<string> subKeys)
+		public bool TryGetSubKeys(string keyName, out IEnumerable<string> subKeys)
 		{
 			subKeys = default;
 			
-			if (!TryOpenKey(key, out var keyObj))
+			if (!TryOpenKey(keyName, out var key))
 				return false;
 
 			bool success = true;
-			using (keyObj)
+			using (key)
 			{
 				try
 				{
-					subKeys = keyObj.GetSubKeyNames();
+					subKeys = key.GetSubKeyNames();
 				}
 				catch (Exception e)
 				{
-					logger.Error($"Failed to get registry value names '{key}'!", e);
+					logger.Error($"Failed to get registry value names '{keyName}'!", e);
 					success = false;
 					// persist keyObj dispose operation by finishing using() {}
 				}
@@ -234,25 +234,25 @@ namespace SafeExamBrowser.SystemComponents.Registry
 		/// <summary>
 		/// Tries to open a key and outputs a RegistryKey object. Does not raise Exceptions, but returns false/true.
 		/// </summary>
-		private bool TryOpenKey(string key, out RegistryKey keyObj)
+		private bool TryOpenKey(string keyName, out RegistryKey key)
 		{
-			keyObj = default;
+			key = default;
 
 			try
 			{
-				if (!GetBaseKeyFromKeyName(key, out var hiveObj, out var subHiveKey))
+				if (!GetBaseKeyFromKeyName(keyName, out var hiveObj, out var subHiveKey))
 					return false;
 
-				keyObj = hiveObj.OpenSubKey(subHiveKey);
-				if (keyObj == null)
+				key = hiveObj.OpenSubKey(subHiveKey);
+				if (key == null)
 				{
-					keyObj = default;
+					key = default;
 					return false;
 				}
 			}
 			catch (Exception e)
 			{
-				logger.Error($"Failed to open registry key '{key}'!", e);
+				logger.Error($"Failed to open registry key '{keyName}'!", e);
 				return false;
 			}
 
