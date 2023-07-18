@@ -93,8 +93,7 @@ namespace SafeExamBrowser.SystemComponents.Registry
 		{
 			names = default;
 
-			RegistryKey keyObj;
-			if (!TryOpenKey(key, out keyObj))
+			if (!TryOpenKey(key, out var keyObj))
 				return false;
 
 			bool success = true;
@@ -119,9 +118,8 @@ namespace SafeExamBrowser.SystemComponents.Registry
 		public bool TryGetSubKeys(string key, out IEnumerable<string> subKeys)
 		{
 			subKeys = default;
-
-			RegistryKey keyObj;
-			if (!TryOpenKey(key, out keyObj))
+			
+			if (!TryOpenKey(key, out var keyObj))
 				return false;
 
 			bool success = true;
@@ -240,11 +238,9 @@ namespace SafeExamBrowser.SystemComponents.Registry
 		{
 			keyObj = default;
 
-			string subHiveKey;
 			try
 			{
-				RegistryKey hiveObj;
-				if (!GetBaseKeyFromKeyName(key, out hiveObj, out subHiveKey))
+				if (!GetBaseKeyFromKeyName(key, out var hiveObj, out var subHiveKey))
 					return false;
 
 				keyObj = hiveObj.OpenSubKey(subHiveKey);

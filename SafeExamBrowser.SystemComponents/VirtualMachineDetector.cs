@@ -128,9 +128,8 @@ namespace SafeExamBrowser.SystemComponents
 			 *	- {computerId=uuid}: {computerSummary=hardwareInfo}
 			 *	
 			 */
-			IEnumerable<string> hardwareConfigSubkeys;
 			const string hwConfigParentKey = "HKEY_LOCAL_MACHINE\\SYSTEM\\HardwareConfig";
-			if (!registry.TryGetSubKeys(hwConfigParentKey, out hardwareConfigSubkeys))
+			if (!registry.TryGetSubKeys(hwConfigParentKey, out var hardwareConfigSubkeys))
 				return false;
 
 			foreach (string configId in hardwareConfigSubkeys)
@@ -138,16 +137,11 @@ namespace SafeExamBrowser.SystemComponents
 				var hwConfigKey = $"{hwConfigParentKey}\\{configId}";
 
 				// collect system values for IsVirtualSystemInfo()
-				object biosVendor;
-				object biosVersion;
-				object systemManufacturer;
-				object systemProductName;
-
 				bool success = true;
-				success &= registry.TryRead(hwConfigKey, "BIOSVendor", out biosVendor);
-				success &= registry.TryRead(hwConfigKey, "BIOSVersion", out biosVersion);
-				success &= registry.TryRead(hwConfigKey, "SystemManufacturer", out systemManufacturer);
-				success &= registry.TryRead(hwConfigKey, "SystemProductName", out systemProductName);
+				success &= registry.TryRead(hwConfigKey, "BIOSVendor", out var biosVendor);
+				success &= registry.TryRead(hwConfigKey, "BIOSVersion", out var biosVersion);
+				success &= registry.TryRead(hwConfigKey, "SystemManufacturer", out var systemManufacturer);
+				success &= registry.TryRead(hwConfigKey, "SystemProductName", out var systemProductName);
 
 				if (!success)
 					continue;
@@ -158,16 +152,14 @@ namespace SafeExamBrowser.SystemComponents
 				isVirtualMachine |= IsVirtualSystemInfo(biosInfo, (string) systemManufacturer, (string) systemProductName);
 
 				// check even more hardware information 
-				IEnumerable<string> computerIdNames;
 				var computerIdsKey = $"{hwConfigKey}\\ComputerIds";
-				if (!registry.TryGetNames(computerIdsKey, out computerIdNames))
+				if (!registry.TryGetNames(computerIdsKey, out var computerIdNames))
 					continue;
 
 				foreach (var computerIdName in computerIdNames)
 				{
 					// collect computer hardware summary (e.g. manufacturer&version&sku&...)
-					object computerSummary;
-					if (!registry.TryRead(computerIdsKey, computerIdName, out computerSummary))
+					if (!registry.TryRead(computerIdsKey, computerIdName, out var computerSummary))
 						continue;
 
 					isVirtualMachine |= IsVirtualSystemInfo((string) computerSummary, (string) systemManufacturer, (string) systemProductName);
@@ -190,26 +182,22 @@ namespace SafeExamBrowser.SystemComponents
 
 			// check Windows timeline caches for current hardware config
 			const string deviceCacheParentKey = "HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\TaskFlow\\DeviceCache";
-			IEnumerable<string> deviceCacheKeys;
-			bool has_dc_keys = registry.TryGetSubKeys(deviceCacheParentKey, out deviceCacheKeys);
+			bool has_dc_keys = registry.TryGetSubKeys(deviceCacheParentKey, out var deviceCacheKeys);
 
 			if (deviceName != null && has_dc_keys)
 			{
 				foreach (string cacheId in deviceCacheKeys)
 				{
 					var cacheIdKey = $"{deviceCacheParentKey}\\{cacheId}";
-					object cacheDeviceName;
-					object cacheDeviceManufacturer;
-					object cacheDeviceModel;
 
 					bool success = true;
-					success &= registry.TryRead(cacheIdKey, "DeviceName", out cacheDeviceName);
+					success &= registry.TryRead(cacheIdKey, "DeviceName", out var cacheDeviceName);
 
 					if (!success || deviceName.ToLower() != ((string) cacheDeviceName).ToLower())
 						continue;
 
-					success &= registry.TryRead(cacheIdKey, "DeviceMake", out cacheDeviceManufacturer);
-					success &= registry.TryRead(cacheIdKey, "DeviceModel", out cacheDeviceModel);
+					success &= registry.TryRead(cacheIdKey, "DeviceMake", out var cacheDeviceManufacturer);
+					success &= registry.TryRead(cacheIdKey, "DeviceModel", out var cacheDeviceModel);
 					if (!success)
 						continue;
 
