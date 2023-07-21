@@ -10,44 +10,50 @@ using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.WindowsApi.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
 
 namespace SafeExamBrowser.Client.Operations
 {
 	internal class ClipboardOperation : ClientOperation
 	{
-		private ILogger logger;
-		private INativeMethods nativeMethods;
+		private readonly IClipboard clipboard;
+		private readonly ILogger logger;
 
 		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
-		public ClipboardOperation(ClientContext context, ILogger logger, INativeMethods nativeMethods) : base(context)
+		public ClipboardOperation(ClientContext context, IClipboard clipboard, ILogger logger) : base(context)
 		{
+			this.clipboard = clipboard;
 			this.logger = logger;
-			this.nativeMethods = nativeMethods;
 		}
 
 		public override OperationResult Perform()
 		{
-			EmptyClipboard();
+			InitializeClipboard();
 
 			return OperationResult.Success;
 		}
 
 		public override OperationResult Revert()
 		{
-			EmptyClipboard();
+			FinalizeClipboard();
 
 			return OperationResult.Success;
 		}
 
-		private void EmptyClipboard()
+		private void InitializeClipboard()
 		{
-			logger.Info("Emptying clipboard...");
-			StatusChanged?.Invoke(TextKey.OperationStatus_EmptyClipboard);
+			logger.Info("Initializing clipboard...");
+			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeClipboard);
+			clipboard.Initialize(Context.Settings.Security.ClipboardPolicy);
+		}
 
-			nativeMethods.EmptyClipboard();
+		private void FinalizeClipboard()
+		{
+			logger.Info("Finalizing clipboard...");
+			StatusChanged?.Invoke(TextKey.OperationStatus_FinalizeClipboard);
+			clipboard.Terminate();
 		}
 	}
 }

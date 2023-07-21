@@ -14,8 +14,10 @@ namespace SafeExamBrowser.Browser.Content
 {
 	internal class ContentLoader
 	{
+		private readonly IText text;
+
 		private string api;
-		private IText text;
+		private string clipboard;
 
 		internal ContentLoader(IText text)
 		{
@@ -24,7 +26,7 @@ namespace SafeExamBrowser.Browser.Content
 
 		internal string LoadApi(string browserExamKey, string configurationKey, string version)
 		{
-			if (api == default(string))
+			if (api == default)
 			{
 				var assembly = Assembly.GetAssembly(typeof(ContentLoader));
 				var path = $"{typeof(ContentLoader).Namespace}.Api.js";
@@ -77,6 +79,23 @@ namespace SafeExamBrowser.Browser.Content
 
 				return html;
 			}
+		}
+
+		internal string LoadClipboard()
+		{
+			if (clipboard == default)
+			{
+				var assembly = Assembly.GetAssembly(typeof(ContentLoader));
+				var path = $"{typeof(ContentLoader).Namespace}.Clipboard.js";
+
+				using (var stream = assembly.GetManifestResourceStream(path))
+				using (var reader = new StreamReader(stream))
+				{
+					clipboard = reader.ReadToEnd();
+				}
+			}
+
+			return clipboard;
 		}
 	}
 }

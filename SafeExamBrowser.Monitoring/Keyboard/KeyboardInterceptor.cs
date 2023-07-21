@@ -20,9 +20,9 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 	public class KeyboardInterceptor : IKeyboardInterceptor
 	{
 		private Guid? hookId;
-		private ILogger logger;
-		private INativeMethods nativeMethods;
-		private KeyboardSettings settings;
+		private readonly ILogger logger;
+		private readonly INativeMethods nativeMethods;
+		private readonly KeyboardSettings settings;
 
 		public KeyboardInterceptor(ILogger logger, INativeMethods nativeMethods, KeyboardSettings settings)
 		{
@@ -66,11 +66,16 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 			block |= key == Key.LWin && !settings.AllowSystemKey;
 			block |= key == Key.PrintScreen && !settings.AllowPrintScreen;
 			block |= key == Key.RWin && !settings.AllowSystemKey;
+
 			block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Escape && !settings.AllowAltEsc;
 			block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.F4 && !settings.AllowAltF4;
 			block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Space;
 			block |= modifier.HasFlag(KeyModifier.Alt) && key == Key.Tab;
+
+			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.C && !settings.AllowCtrlC;
 			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.Escape && !settings.AllowCtrlEsc;
+			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.V && !settings.AllowCtrlV;
+			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.X && !settings.AllowCtrlX;
 
 			if (block)
 			{

@@ -10,43 +10,44 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.WindowsApi.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
+using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Security;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
 	[TestClass]
 	public class ClipboardOperationTests
 	{
+		private Mock<IClipboard> clipboard;
 		private ClientContext context;
 		private Mock<ILogger> loggerMock;
-		private Mock<INativeMethods> nativeMethodsMock;
 
 		private ClipboardOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
+			clipboard = new Mock<IClipboard>();
 			context = new ClientContext();
+			context.Settings = new AppSettings();
 			loggerMock = new Mock<ILogger>();
-			nativeMethodsMock = new Mock<INativeMethods>();
 
-			sut = new ClipboardOperation(context, loggerMock.Object, nativeMethodsMock.Object);
+			sut = new ClipboardOperation(context, clipboard.Object, loggerMock.Object);
 		}
 
 		[TestMethod]
 		public void MustPerformCorrectly()
 		{
 			sut.Perform();
-
-			nativeMethodsMock.Verify(n => n.EmptyClipboard(), Times.Once);
+			clipboard.Verify(n => n.Initialize(It.IsAny<ClipboardPolicy>()), Times.Once);
 		}
 
 		[TestMethod]
 		public void MustRevertCorrectly()
 		{
 			sut.Revert();
-
-			nativeMethodsMock.Verify(n => n.EmptyClipboard(), Times.Once);
+			clipboard.Verify(n => n.Terminate(), Times.Once);
 		}
 	}
 }

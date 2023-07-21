@@ -204,6 +204,11 @@ namespace SafeExamBrowser.Settings.Browser
 		public bool UseCustomUserAgent { get; set; }
 
 		/// <summary>
+		/// Determines whether the browser application will use an isolated clipboard only working within the browser itself.
+		/// </summary>
+		public bool UseIsolatedClipboard { get; set; }
+
+		/// <summary>
 		/// Determines whether the <see cref="StartUrlQuery"/> will be appended to the <see cref="StartUrl"/>.
 		/// </summary>
 		public bool UseQueryParameter { get; set; }

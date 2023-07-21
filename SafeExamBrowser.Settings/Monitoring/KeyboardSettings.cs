@@ -32,9 +32,24 @@ namespace SafeExamBrowser.Settings.Monitoring
 		public bool AllowAltTab { get; set; }
 
 		/// <summary>
+		/// Determines whether the user may use the CTRL+C shortcut.
+		/// </summary>
+		public bool AllowCtrlC { get; set; }
+
+		/// <summary>
 		/// Determines whether the user may use the CTRL+ESC shortcut.
 		/// </summary>
 		public bool AllowCtrlEsc { get; set; }
+
+		/// <summary>
+		/// Determines whether the user may use the CTRL+V shortcut.
+		/// </summary>
+		public bool AllowCtrlV { get; set; }
+
+		/// <summary>
+		/// Determines whether the user may use the CTRL+X shortcut.
+		/// </summary>
+		public bool AllowCtrlX { get; set; }
 
 		/// <summary>
 		/// Determines whether the user may use the escape key.

@@ -474,11 +474,11 @@
     <Entry key="OperationStatus_CloseRuntimeConnection">
         Fermeture de la connexion
     </Entry>
-    <Entry key="OperationStatus_EmptyClipboard">
-        Vidage du presse-papiers
-    </Entry>
     <Entry key="OperationStatus_FinalizeApplications">
         Finalisation des applications
+    </Entry>
+    <Entry key="OperationStatus_FinalizeClipboard">
+        Finalisation du presse-papiers
     </Entry>
     <Entry key="OperationStatus_FinalizeServer">
         Finalisation du serveur SEB
@@ -494,6 +494,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeBrowser">
         Initialisation du navigateur
+    </Entry>
+    <Entry key="OperationStatus_InitializeClipboard">
+        Initialisation du presse-papiers
     </Entry>
     <Entry key="OperationStatus_InitializeConfiguration">
         Initialisation de la configuration

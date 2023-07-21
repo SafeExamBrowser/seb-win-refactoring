@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Applications\Window.cs" />
+    <Compile Include="Clipboard.cs" />
     <Compile Include="Display\Bounds.cs" />
     <Compile Include="Display\Display.cs" />
     <Compile Include="Display\DisplayMonitor.cs" />

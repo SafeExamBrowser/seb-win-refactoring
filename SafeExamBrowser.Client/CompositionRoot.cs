@@ -28,6 +28,7 @@ using SafeExamBrowser.I18n;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring;
 using SafeExamBrowser.Monitoring.Applications;
 using SafeExamBrowser.Monitoring.Display;
 using SafeExamBrowser.Monitoring.Keyboard;
@@ -110,6 +111,7 @@ namespace SafeExamBrowser.Client
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var applicationMonitor = new ApplicationMonitor(TWO_SECONDS, ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, processFactory);
 			var applicationFactory = new ApplicationFactory(applicationMonitor, ModuleLogger(nameof(ApplicationFactory)), nativeMethods, processFactory, new Registry(ModuleLogger(nameof(Registry))));
+			var clipboard = new Clipboard(ModuleLogger(nameof(Clipboard)), nativeMethods);
 			var displayMonitor = new DisplayMonitor(ModuleLogger(nameof(DisplayMonitor)), nativeMethods, systemInfo);
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
 			var fileSystemDialog = BuildFileSystemDialog();
@@ -136,7 +138,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new LazyInitializationOperation(BuildBrowserOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildServerOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildProctoringOperation));
-			operations.Enqueue(new ClipboardOperation(context, logger, nativeMethods));
+			operations.Enqueue(new ClipboardOperation(context, clipboard, logger));
 
 			var sequence = new OperationSequence(logger, operations);
 

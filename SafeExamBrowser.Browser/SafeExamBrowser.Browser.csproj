@@ -189,6 +189,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Content\Api.js" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\Clipboard.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

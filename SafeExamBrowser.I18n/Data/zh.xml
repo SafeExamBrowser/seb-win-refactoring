@@ -438,11 +438,11 @@
     <Entry key="OperationStatus_CloseRuntimeConnection">
         关闭运行时连接
     </Entry>
-    <Entry key="OperationStatus_EmptyClipboard">
-        清空剪贴板
-    </Entry>
     <Entry key="OperationStatus_FinalizeApplications">
         完成应用程序（运行已定型）
+    </Entry>
+    <Entry key="OperationStatus_FinalizeClipboard">
+        剪贴板定稿
     </Entry>
     <Entry key="OperationStatus_FinalizeServiceSession">
         完成服务会话（运行已定型）
@@ -452,6 +452,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeBrowser">
         初始化浏览器
+    </Entry>
+    <Entry key="OperationStatus_InitializeClipboard">
+        初始化剪贴板
     </Entry>
     <Entry key="OperationStatus_InitializeConfiguration">
         初始化配置

@@ -37,12 +37,18 @@ namespace SafeExamBrowser.Browser.Handlers
 			var browserExamKey = keyGenerator.CalculateBrowserExamKeyHash(settings.ConfigurationKey, settings.BrowserExamKeySalt, frame.Url);
 			var configurationKey = keyGenerator.CalculateConfigurationKeyHash(settings.ConfigurationKey, frame.Url);
 			var api = contentLoader.LoadApi(browserExamKey, configurationKey, appConfig.ProgramBuildVersion);
+			var clipboard = contentLoader.LoadClipboard();
 
 			frame.ExecuteJavaScriptAsync(api);
 
 			if (!settings.AllowPrint)
 			{
 				frame.ExecuteJavaScriptAsync($"window.print = function(){{ alert('{text.Get(TextKey.Browser_PrintNotAllowed)}') }}");
+			}
+
+			if (settings.UseIsolatedClipboard)
+			{
+				frame.ExecuteJavaScriptAsync(clipboard);
 			}
 		}
 

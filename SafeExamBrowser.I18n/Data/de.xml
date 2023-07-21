@@ -474,11 +474,11 @@
     <Entry key="OperationStatus_CloseRuntimeConnection">
         Schliesse Verbindung zur Runtime
     </Entry>
-    <Entry key="OperationStatus_EmptyClipboard">
-        Lösche Zwischenablage
-    </Entry>
     <Entry key="OperationStatus_FinalizeApplications">
         Beende Applikationen
+    </Entry>
+    <Entry key="OperationStatus_FinalizeClipboard">
+        Finalisiere Zwischenablage
     </Entry>
     <Entry key="OperationStatus_FinalizeServer">
         Finalisiere SEB-Server
@@ -494,6 +494,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeBrowser">
         Initialisiere Browser
+    </Entry>
+    <Entry key="OperationStatus_InitializeClipboard">
+        Initialisiere Zwischenablage
     </Entry>
     <Entry key="OperationStatus_InitializeConfiguration">
         Initialisiere Konfiguration

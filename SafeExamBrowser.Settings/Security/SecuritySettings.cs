@@ -38,6 +38,11 @@ namespace SafeExamBrowser.Settings.Security
 		public bool AllowReconfiguration { get; set; }
 
 		/// <summary>
+		/// Determines whether the user is allowed to use the system clipboard, a custom clipboard or no clipboard at all.
+		/// </summary>
+		public ClipboardPolicy ClipboardPolicy { get; set; }
+
+		/// <summary>
 		/// The kiosk mode which determines how the computer is locked down.
 		/// </summary>
 		public KioskMode KioskMode { get; set; }

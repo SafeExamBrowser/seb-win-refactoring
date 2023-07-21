@@ -13,6 +13,7 @@ using System.Security.Cryptography;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Applications;
 using SafeExamBrowser.Settings.Proctoring;
+using SafeExamBrowser.Settings.Security;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
 {
@@ -22,7 +23,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			AllowBrowserToolbarForReloading(settings);
 			CalculateConfigurationKey(rawData, settings);
-			HandleBrowserHomeFunctionality(settings);
+			InitializeBrowserHomeFunctionality(settings);
+			InitializeClipboardSettings(settings);
 			InitializeProctoringSettings(settings);
 			RemoveLegacyBrowsers(settings);
 		}
@@ -58,10 +60,18 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			}
 		}
 
-		private void HandleBrowserHomeFunctionality(AppSettings settings)
+		private void InitializeBrowserHomeFunctionality(AppSettings settings)
 		{
 			settings.Browser.MainWindow.ShowHomeButton = settings.Browser.UseStartUrlAsHomeUrl || !string.IsNullOrWhiteSpace(settings.Browser.HomeUrl);
 			settings.Browser.HomePasswordHash = settings.Security.QuitPasswordHash;
+		}
+
+		private void InitializeClipboardSettings(AppSettings settings)
+		{
+			settings.Browser.UseIsolatedClipboard = settings.Security.ClipboardPolicy == ClipboardPolicy.Isolated;
+			settings.Keyboard.AllowCtrlC = settings.Security.ClipboardPolicy != ClipboardPolicy.Block;
+			settings.Keyboard.AllowCtrlV = settings.Security.ClipboardPolicy != ClipboardPolicy.Block;
+			settings.Keyboard.AllowCtrlX = settings.Security.ClipboardPolicy != ClipboardPolicy.Block;
 		}
 
 		private void InitializeProctoringSettings(AppSettings settings)

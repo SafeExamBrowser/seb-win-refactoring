@@ -474,11 +474,11 @@
     <Entry key="OperationStatus_CloseRuntimeConnection">
         Cierre de la conexión con runtime
     </Entry>
-    <Entry key="OperationStatus_EmptyClipboard">
-        Vaciado del portapapeles
-    </Entry>
     <Entry key="OperationStatus_FinalizeApplications">
         Finalización de las aplicaciones
+    </Entry>
+    <Entry key="OperationStatus_FinalizeClipboard">
+        Finalización del portapapeles
     </Entry>
     <Entry key="OperationStatus_FinalizeServer">
         Finalización del SEB-Server
@@ -494,6 +494,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeBrowser">
         Inicialización del navegador
+    </Entry>
+    <Entry key="OperationStatus_InitializeClipboard">
+        Inicialización del portapapeles
     </Entry>
     <Entry key="OperationStatus_InitializeConfiguration">
         Inicialización de la configuración
