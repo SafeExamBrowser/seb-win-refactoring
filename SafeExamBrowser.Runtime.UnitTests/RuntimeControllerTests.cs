@@ -484,7 +484,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		[TestMethod]
 		public void Operations_MustUpdateStatus()
 		{
-			var key = TextKey.OperationStatus_EmptyClipboard;
+			var key = TextKey.OperationStatus_InitializeClipboard;
 
 			sut.TryStart();
 			sessionSequence.Raise(o => o.StatusChanged += null, key);
