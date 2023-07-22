@@ -57,7 +57,7 @@ namespace SafeExamBrowser.SystemComponents
 
 			// redundancy: registry check does this aswell (systemInfo may be using different methods)
 			isVirtualMachine |= IsVirtualSystemInfo(biosInfo, manufacturer, model);
-			isVirtualMachine |= IsVirtualWmi();
+			isVirtualMachine |= IsVirtualCpu();
 			isVirtualMachine |= IsVirtualRegistry();
 
 			if (macAddress != null && macAddress.Count() > 2)
@@ -213,15 +213,11 @@ namespace SafeExamBrowser.SystemComponents
 			return isVirtualMachine;
 		}
 
-		private bool IsVirtualWmi()
+		private bool IsVirtualCpu()
 		{
 			var isVirtualMachine = false;
-			var cpuObjSearcher = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
 
-			foreach (var cpuObj in cpuObjSearcher.Get())
-			{
-				isVirtualMachine |= ((string) cpuObj["Name"]).ToLower().Contains(" kvm ");  // qemu (KVM specifically)
-			}
+			isVirtualMachine |= systemInfo.Cpu.ToLower().Contains(" kvm ");  // qemu (KVM specifically)
 
 			return isVirtualMachine;
 		}

@@ -20,6 +20,7 @@ namespace SafeExamBrowser.SystemComponents
 	public class SystemInfo : ISystemInfo
 	{
 		public string BiosInfo { get; private set; }
+		public string Cpu { get; private set; }
 		public bool HasBattery { get; private set; }
 		public string MacAddress { get; private set; }
 		public string Manufacturer { get; private set; }
@@ -33,6 +34,7 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			InitializeBattery();
 			InitializeBiosInfo();
+			InitializeCpu();
 			InitializeMacAddress();
 			InitializeMachineInfo();
 			InitializeOperatingSystem();
@@ -76,6 +78,22 @@ namespace SafeExamBrowser.SystemComponents
 			catch (Exception)
 			{
 				BiosInfo = "";
+			}
+		}
+
+		private void InitializeCpu()
+		{
+			try
+			{
+				var cpuObjSearcher = new ManagementObjectSearcher("SELECT * FROM Win32_Processor");
+				foreach (var cpuObj in cpuObjSearcher.Get())
+				{
+					Cpu = ((string) cpuObj["Name"]);
+				}
+			}
+			catch (Exception)
+			{
+				Cpu = "";
 			}
 		}
 

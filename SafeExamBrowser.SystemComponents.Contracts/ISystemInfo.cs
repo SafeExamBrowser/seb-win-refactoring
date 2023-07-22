@@ -13,10 +13,16 @@ namespace SafeExamBrowser.SystemComponents.Contracts
 	/// </summary>
 	public interface ISystemInfo
 	{
+
 		/// <summary>
 		/// The manufacturer and name of the BIOS.
 		/// </summary>
 		string BiosInfo { get; }
+
+		/// <summary>
+		/// The name of the CPU.
+		/// </summary>
+		string Cpu { get; }
 
 		/// <summary>
 		/// Reveals whether the computer system contains a battery.

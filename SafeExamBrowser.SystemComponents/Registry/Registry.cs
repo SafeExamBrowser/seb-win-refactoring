@@ -229,7 +229,6 @@ namespace SafeExamBrowser.SystemComponents.Registry
 
 			try
 			{
-				logger.Info($"default(RegistryKey) == null: {key == null}");
 				if (TryGetBaseKeyFromKeyName(keyName, out var baseKey, out var subKey))
 				{
 					key = baseKey.OpenSubKey(subKey);
