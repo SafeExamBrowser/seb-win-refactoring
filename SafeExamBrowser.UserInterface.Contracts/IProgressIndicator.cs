@@ -31,7 +31,7 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		void SetIndeterminate();
 
 		/// <summary>
-		/// Sets the maximum progress value.
+		/// Sets the maximum progress value. Resets the style of the progress indicator to determinate in case it has been set to indeterminate.
 		/// </summary>
 		void SetMaxValue(int max);
 

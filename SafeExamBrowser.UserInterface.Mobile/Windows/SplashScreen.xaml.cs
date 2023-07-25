@@ -106,6 +106,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		public void SetMaxValue(int max)
 		{
+			model.IsIndeterminate = false;
 			model.MaxProgress = max;
 		}
 

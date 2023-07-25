@@ -17,7 +17,7 @@ namespace SafeExamBrowser.Runtime
 	public class App : Application
 	{
 		private static readonly Mutex Mutex = new Mutex(true, AppConfig.RUNTIME_MUTEX_NAME);
-		private CompositionRoot instances = new CompositionRoot();
+		private readonly CompositionRoot instances = new CompositionRoot();
 
 		[STAThread]
 		public static void Main()

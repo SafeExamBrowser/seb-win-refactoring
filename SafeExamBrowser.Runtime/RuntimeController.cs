@@ -31,19 +31,19 @@ namespace SafeExamBrowser.Runtime
 {
 	internal class RuntimeController
 	{
-		private AppConfig appConfig;
-		private ILogger logger;
-		private IMessageBox messageBox;
-		private IOperationSequence bootstrapSequence;
-		private IRepeatableOperationSequence sessionSequence;
-		private IRuntimeHost runtimeHost;
-		private IRuntimeWindow runtimeWindow;
-		private IServiceProxy service;
-		private SessionContext sessionContext;
-		private ISplashScreen splashScreen;
-		private Action shutdown;
-		private IText text;
-		private IUserInterfaceFactory uiFactory;
+		private readonly AppConfig appConfig;
+		private readonly ILogger logger;
+		private readonly IMessageBox messageBox;
+		private readonly IOperationSequence bootstrapSequence;
+		private readonly IRepeatableOperationSequence sessionSequence;
+		private readonly IRuntimeHost runtimeHost;
+		private readonly IRuntimeWindow runtimeWindow;
+		private readonly IServiceProxy service;
+		private readonly SessionContext sessionContext;
+		private readonly ISplashScreen splashScreen;
+		private readonly Action shutdown;
+		private readonly IText text;
+		private readonly IUserInterfaceFactory uiFactory;
 
 		private SessionConfiguration Session
 		{
@@ -94,6 +94,13 @@ namespace SafeExamBrowser.Runtime
 			sessionSequence.ActionRequired += SessionSequence_ActionRequired;
 			sessionSequence.ProgressChanged += SessionSequence_ProgressChanged;
 			sessionSequence.StatusChanged += SessionSequence_StatusChanged;
+
+			// We need to show the runtime window here already, this way implicitly setting it as the runtime application's main window.
+			// Otherwise, the splash screen is considered as the main window and thus the operating system and/or WPF does not correctly
+			// activate the runtime window once bootstrapping has finished, which in turn leads to undesired UI behavior.
+			runtimeWindow.Show();
+			runtimeWindow.BringToForeground();
+			runtimeWindow.SetIndeterminate();
 
 			splashScreen.Show();
 			splashScreen.BringToForeground();

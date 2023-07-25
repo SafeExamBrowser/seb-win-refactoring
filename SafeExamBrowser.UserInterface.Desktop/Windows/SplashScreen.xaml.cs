@@ -21,7 +21,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 	{
 		private readonly ProgressIndicatorViewModel model;
 		private readonly IText text;
-		
+
 		private AppConfig appConfig;
 		private bool allowClose;
 
@@ -106,6 +106,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 		public void SetMaxValue(int max)
 		{
+			model.IsIndeterminate = false;
 			model.MaxProgress = max;
 		}
 
