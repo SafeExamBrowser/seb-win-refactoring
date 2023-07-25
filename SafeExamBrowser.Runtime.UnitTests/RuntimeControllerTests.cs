@@ -475,7 +475,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 			sessionSequence.Raise(o => o.ProgressChanged += null, args);
 
 			runtimeWindow.Verify(s => s.SetValue(It.Is<int>(i => i == args.CurrentValue)), Times.Once);
-			runtimeWindow.Verify(s => s.SetIndeterminate(), Times.Once);
+			runtimeWindow.Verify(s => s.SetIndeterminate(), Times.Exactly(2));
 			runtimeWindow.Verify(s => s.SetMaxValue(It.Is<int>(i => i == args.MaxValue)), Times.Once);
 			runtimeWindow.Verify(s => s.Progress(), Times.Once);
 			runtimeWindow.Verify(s => s.Regress(), Times.Once);
