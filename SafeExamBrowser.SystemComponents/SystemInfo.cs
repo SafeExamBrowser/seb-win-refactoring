@@ -219,31 +219,22 @@ namespace SafeExamBrowser.SystemComponents
 
 			try
 			{
-				using (var searcher = new ManagementObjectSearcher("SELECT MACAddress FROM Win32_NetworkAdapterConfiguration WHERE DNSDomain IS NOT NULL"))
+				using (var searcher = new ManagementObjectSearcher("SELECT MACAddress FROM Win32_NetworkAdapterConfiguration WHERE DNSHostName IS NOT NULL"))
 				using (var results = searcher.Get())
+				using (var networkAdapter = results.Cast<ManagementObject>().First())
 				{
-					if (results != default && results.Count > 0)
+					foreach (var property in networkAdapter.Properties)
 					{
-						using (var networkAdapter = results.Cast<ManagementObject>().First())
+						if (property.Name.Equals("MACAddress"))
 						{
-							foreach (var property in networkAdapter.Properties)
-							{
-								if (property.Name.Equals("MACAddress"))
-								{
-									MacAddress = Convert.ToString(property.Value).Replace(":", "").ToUpper();
-								}
-							}
+							MacAddress = Convert.ToString(property.Value).Replace(":", "").ToUpper();
 						}
-					}
-					else
-					{
-						MacAddress = UNDEFINED;
 					}
 				}
 			}
-			catch (Exception)
+			finally
 			{
-				MacAddress = UNDEFINED;
+				MacAddress = MacAddress ?? UNDEFINED;
 			}
 		}
 
