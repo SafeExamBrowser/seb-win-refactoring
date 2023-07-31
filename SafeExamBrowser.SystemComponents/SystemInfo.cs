@@ -20,6 +20,7 @@ namespace SafeExamBrowser.SystemComponents
 	public class SystemInfo : ISystemInfo
 	{
 		public string BiosInfo { get; private set; }
+		public string CpuName { get; private set; }
 		public bool HasBattery { get; private set; }
 		public string MacAddress { get; private set; }
 		public string Manufacturer { get; private set; }
@@ -33,6 +34,7 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			InitializeBattery();
 			InitializeBiosInfo();
+			InitializeCpuName();
 			InitializeMacAddress();
 			InitializeMachineInfo();
 			InitializeOperatingSystem();
@@ -76,6 +78,34 @@ namespace SafeExamBrowser.SystemComponents
 			catch (Exception)
 			{
 				BiosInfo = "";
+			}
+		}
+
+		private void InitializeCpuName()
+		{
+			try
+			{
+				using (var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_Processor"))
+				using (var results = searcher.Get())
+				{
+					foreach (var cpu in results)
+					{
+						using (cpu)
+						{
+							foreach (var property in cpu.Properties)
+							{
+								if (property.Name.Equals("Name"))
+								{
+									CpuName = Convert.ToString(property.Value);
+								}
+							}
+						}
+					}
+				}
+			}
+			catch (Exception)
+			{
+				CpuName = "";
 			}
 		}
 
@@ -192,7 +222,7 @@ namespace SafeExamBrowser.SystemComponents
 				using (var searcher = new ManagementObjectSearcher("SELECT MACAddress FROM Win32_NetworkAdapterConfiguration WHERE DNSDomain IS NOT NULL"))
 				using (var results = searcher.Get())
 				{
-					if (results != null && results.Count > 0)
+					if (results != default && results.Count > 0)
 					{
 						using (var networkAdapter = results.Cast<ManagementObject>().First())
 						{
@@ -226,11 +256,11 @@ namespace SafeExamBrowser.SystemComponents
 				using (var searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT DeviceID FROM Win32_PnPEntity"))
 				using (var results = searcher.Get())
 				{
-					foreach (ManagementObject queryObj in results)
+					foreach (var device in results.Cast<ManagementObject>())
 					{
-						using (queryObj)
+						using (device)
 						{
-							foreach (var property in queryObj.Properties)
+							foreach (var property in device.Properties)
 							{
 								if (property.Name.Equals("DeviceID"))
 								{

@@ -19,6 +19,11 @@ namespace SafeExamBrowser.SystemComponents.Contracts
 		string BiosInfo { get; }
 
 		/// <summary>
+		/// The name of the CPU.
+		/// </summary>
+		string CpuName { get; }
+
+		/// <summary>
 		/// Reveals whether the computer system contains a battery.
 		/// </summary>
 		bool HasBattery { get; }
