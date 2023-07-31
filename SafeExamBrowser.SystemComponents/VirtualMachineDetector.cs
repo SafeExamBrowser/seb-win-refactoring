@@ -11,10 +11,6 @@ using System.Management;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Registry;
-using Microsoft.Win32;
-using System.Collections;
-using System.Collections.Generic;
-using System;
 
 namespace SafeExamBrowser.SystemComponents
 {
@@ -50,30 +46,28 @@ namespace SafeExamBrowser.SystemComponents
 		public VirtualMachineDetector(ILogger logger, IRegistry registry, ISystemInfo systemInfo)
 		{
 			this.logger = logger;
-			this.registry = registry; 
+			this.registry = registry;
 			this.systemInfo = systemInfo;
 		}
 
 		public bool IsVirtualMachine()
 		{
-			var isVirtualMachine = false;
-
 			var biosInfo = systemInfo.BiosInfo;
+			var devices = systemInfo.PlugAndPlayDeviceIds;
+			var isVirtualMachine = false;
 			var macAddress = systemInfo.MacAddress;
 			var manufacturer = systemInfo.Manufacturer;
 			var model = systemInfo.Model;
-			var devices = systemInfo.PlugAndPlayDeviceIds;
 
-			// redundancy: registry check does this aswell (systemInfo may be using different methods)
+			isVirtualMachine |= IsVirtualRegistry();
 			isVirtualMachine |= IsVirtualSystemInfo(biosInfo, manufacturer, model);
 			isVirtualMachine |= IsVirtualWmi();
-			isVirtualMachine |= IsVirtualRegistry();
 
 			if (macAddress != null && macAddress.Count() > 2)
 			{
 				isVirtualMachine |= macAddress.StartsWith(QEMU_MAC_PREFIX);
 				isVirtualMachine |= macAddress.StartsWith(VIRTUALBOX_MAC_PREFIX);
-				isVirtualMachine |= macAddress.StartsWith("000000000000");  // indicates tampering
+				isVirtualMachine |= macAddress.StartsWith("000000000000");
 			}
 
 			foreach (var device in devices)
@@ -98,13 +92,13 @@ namespace SafeExamBrowser.SystemComponents
 			isVirtualMachine |= biosInfo.Contains("virtualbox");
 			isVirtualMachine |= biosInfo.Contains("vmware");
 			isVirtualMachine |= biosInfo.Contains("ovmf");
-			isVirtualMachine |= biosInfo.Contains("edk ii unknown");  // qemu
+			isVirtualMachine |= biosInfo.Contains("edk ii unknown");
 			isVirtualMachine |= manufacturer.Contains("microsoft corporation") && !model.Contains("surface");
 			isVirtualMachine |= manufacturer.Contains("parallels software");
 			isVirtualMachine |= manufacturer.Contains("qemu");
 			isVirtualMachine |= manufacturer.Contains("vmware");
 			isVirtualMachine |= model.Contains("virtualbox");
-			isVirtualMachine |= model.Contains("Q35 +");  // qemu
+			isVirtualMachine |= model.Contains("Q35 +");
 
 			return isVirtualMachine;
 		}
@@ -113,7 +107,6 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			var isVirtualMachine = false;
 
-			// the resulting IsVirtualRegistry() would be massive so split it
 			isVirtualMachine |= HasHistoricVirtualMachineHardwareConfiguration();
 			isVirtualMachine |= HasLocalVirtualMachineDeviceCache();
 
@@ -122,8 +115,6 @@ namespace SafeExamBrowser.SystemComponents
 
 		private bool HasHistoricVirtualMachineHardwareConfiguration()
 		{
-			var isVirtualMachine = false;
-
 			/** 
 			 * scanned registry format:
 			 * 
@@ -135,33 +126,34 @@ namespace SafeExamBrowser.SystemComponents
 			 *	   - {computerId=uuid}: {computerSummary=hardwareInfo}
 			 * 
 			 */
-			const string hardwareRootKey = "HKEY_LOCAL_MACHINE\\SYSTEM\\HardwareConfig";
-			if (!registry.TryGetSubKeys(hardwareRootKey, out var hardwareConfigSubkeys))
+			const string HARDWARE_ROOT_KEY = "HKEY_LOCAL_MACHINE\\SYSTEM\\HardwareConfig";
+
+			var isVirtualMachine = false;
+
+			if (!registry.TryGetSubKeys(HARDWARE_ROOT_KEY, out var hardwareConfigSubkeys))
 			{
 				return false;
 			}
 
 			foreach (var configId in hardwareConfigSubkeys)
 			{
-				var hardwareConfigKey = $"{hardwareRootKey}\\{configId}";
+				var hardwareConfigKey = $"{HARDWARE_ROOT_KEY}\\{configId}";
 				var didReadKeys = true;
 
-				// collect system values for IsVirtualSystemInfo()
 				didReadKeys &= registry.TryRead(hardwareConfigKey, "BIOSVendor", out var biosVendor);
 				didReadKeys &= registry.TryRead(hardwareConfigKey, "BIOSVersion", out var biosVersion);
 				didReadKeys &= registry.TryRead(hardwareConfigKey, "SystemManufacturer", out var systemManufacturer);
 				didReadKeys &= registry.TryRead(hardwareConfigKey, "SystemProductName", out var systemProductName);
+
 				if (!didReadKeys)
 				{
 					continue;
 				}
 
-				// reconstruct the systemInfo.biosInfo string
 				var biosInfo = $"{(string) biosVendor} {(string) biosVersion}";
 
 				isVirtualMachine |= IsVirtualSystemInfo(biosInfo, (string) systemManufacturer, (string) systemProductName);
 
-				// check even more hardware information 
 				var computerIdsKey = $"{hardwareConfigKey}\\ComputerIds";
 				if (!registry.TryGetNames(computerIdsKey, out var computerIdNames))
 				{
@@ -170,7 +162,6 @@ namespace SafeExamBrowser.SystemComponents
 
 				foreach (var computerIdName in computerIdNames)
 				{
-					// collect computer hardware summary (e.g. manufacturer&version&sku&...)
 					if (!registry.TryRead(computerIdsKey, computerIdName, out var computerSummary))
 					{
 						continue;
@@ -185,24 +176,21 @@ namespace SafeExamBrowser.SystemComponents
 
 		private bool HasLocalVirtualMachineDeviceCache()
 		{
+			const string DEVICE_CACHE_PARENT_KEY = "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\TaskFlow\\DeviceCache";
+
 			var isVirtualMachine = false;
-
-			// device cache contains hardware about other devices logged into as well, so lock onto this device in case an innocent VM was logged into.
-			// in the future, try to improve this check somehow since DeviceCache only gives ComputerName
 			var deviceName = System.Environment.GetEnvironmentVariable("COMPUTERNAME");
-
-			// check Windows timeline caches for current hardware config
-			const string deviceCacheParentKey = "HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\TaskFlow\\DeviceCache";
-			var hasDeviceCacheKeys = registry.TryGetSubKeys(deviceCacheParentKey, out var deviceCacheKeys);
+			var hasDeviceCacheKeys = registry.TryGetSubKeys(DEVICE_CACHE_PARENT_KEY, out var deviceCacheKeys);
 
 			if (deviceName != null && hasDeviceCacheKeys)
 			{
 				foreach (var cacheId in deviceCacheKeys)
 				{
-					var cacheIdKey = $"{deviceCacheParentKey}\\{cacheId}";
+					var cacheIdKey = $"{DEVICE_CACHE_PARENT_KEY}\\{cacheId}";
 					var didReadKeys = true;
 
 					didReadKeys &= registry.TryRead(cacheIdKey, "DeviceName", out var cacheDeviceName);
+
 					if (!didReadKeys || deviceName.ToLower() != ((string) cacheDeviceName).ToLower())
 					{
 						continue;
@@ -210,6 +198,7 @@ namespace SafeExamBrowser.SystemComponents
 
 					didReadKeys &= registry.TryRead(cacheIdKey, "DeviceMake", out var cacheDeviceManufacturer);
 					didReadKeys &= registry.TryRead(cacheIdKey, "DeviceModel", out var cacheDeviceModel);
+
 					if (!didReadKeys)
 					{
 						continue;
@@ -229,7 +218,7 @@ namespace SafeExamBrowser.SystemComponents
 
 			foreach (var cpuObj in cpuObjSearcher.Get())
 			{
-				isVirtualMachine |= ((string) cpuObj["Name"]).ToLower().Contains(" kvm ");  // qemu (KVM specifically)
+				isVirtualMachine |= ((string) cpuObj["Name"]).ToLower().Contains(" kvm ");
 			}
 
 			return isVirtualMachine;
