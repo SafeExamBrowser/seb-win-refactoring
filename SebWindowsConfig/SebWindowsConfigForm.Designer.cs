@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -77,6 +77,7 @@ namespace SebWindowsConfig
 			this.checkBoxInsideSebEnableVmWareClientShade = new System.Windows.Forms.CheckBox();
 			this.tabPageSecurity = new System.Windows.Forms.TabPage();
 			this.groupBox20 = new System.Windows.Forms.GroupBox();
+			this.versionRestrictionsTextBox = new System.Windows.Forms.TextBox();
 			this.label30 = new System.Windows.Forms.Label();
 			this.label29 = new System.Windows.Forms.Label();
 			this.label28 = new System.Windows.Forms.Label();
@@ -469,7 +470,13 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.versionRestrictionsTextBox = new System.Windows.Forms.TextBox();
+			this.groupBox21 = new System.Windows.Forms.GroupBox();
+			this.radioButtonClipboardPolicyAllow = new System.Windows.Forms.RadioButton();
+			this.radioButtonClipboardPolicyBlock = new System.Windows.Forms.RadioButton();
+			this.radioButtonClipboardPolicyIsolated = new System.Windows.Forms.RadioButton();
+			this.label31 = new System.Windows.Forms.Label();
+			this.label32 = new System.Windows.Forms.Label();
+			this.label33 = new System.Windows.Forms.Label();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -529,6 +536,7 @@ namespace SebWindowsConfig
 			this.groupBoxExitSequence.SuspendLayout();
 			this.tabControlSebWindowsConfig.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
+			this.groupBox21.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// openFileDialogSebConfigFile
@@ -1121,6 +1129,7 @@ namespace SebWindowsConfig
 			// 
 			// tabPageSecurity
 			// 
+			this.tabPageSecurity.Controls.Add(this.groupBox21);
 			this.tabPageSecurity.Controls.Add(this.groupBox20);
 			this.tabPageSecurity.Controls.Add(this.checkBoxAllowedDisplayIgnoreError);
 			this.tabPageSecurity.Controls.Add(this.checkBoxEnforceBuiltinDisplay);
@@ -1131,7 +1140,6 @@ namespace SebWindowsConfig
 			this.tabPageSecurity.Controls.Add(this.label13);
 			this.tabPageSecurity.Controls.Add(this.checkBoxEnablePrivateClipboard);
 			this.tabPageSecurity.Controls.Add(this.groupBox1);
-			this.tabPageSecurity.Controls.Add(this.groupBox10);
 			this.tabPageSecurity.Controls.Add(this.checkBoxEnableScreenCapture);
 			this.tabPageSecurity.Controls.Add(this.groupBox3);
 			this.tabPageSecurity.Controls.Add(this.checkBoxAllowVirtualMachine);
@@ -1157,6 +1165,15 @@ namespace SebWindowsConfig
 			this.groupBox20.TabIndex = 109;
 			this.groupBox20.TabStop = false;
 			this.groupBox20.Text = "Version Restrictions";
+			// 
+			// versionRestrictionsTextBox
+			// 
+			this.versionRestrictionsTextBox.Location = new System.Drawing.Point(14, 115);
+			this.versionRestrictionsTextBox.Multiline = true;
+			this.versionRestrictionsTextBox.Name = "versionRestrictionsTextBox";
+			this.versionRestrictionsTextBox.Size = new System.Drawing.Size(512, 81);
+			this.versionRestrictionsTextBox.TabIndex = 3;
+			this.versionRestrictionsTextBox.TextChanged += new System.EventHandler(this.versionRestrictionsTextBox_TextChanged);
 			// 
 			// label30
 			// 
@@ -1382,6 +1399,7 @@ namespace SebWindowsConfig
 			this.groupBox1.Controls.Add(this.checkBoxAllowSiri);
 			this.groupBox1.Controls.Add(this.checkBoxForceAppFolderInstall);
 			this.groupBox1.Controls.Add(this.checkBoxEnableAppSwitcherCheck);
+			this.groupBox1.Controls.Add(this.groupBox10);
 			this.groupBox1.Location = new System.Drawing.Point(583, 27);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(635, 212);
@@ -1546,9 +1564,9 @@ namespace SebWindowsConfig
 			this.groupBox10.Controls.Add(this.textBoxLogDirectoryWin);
 			this.groupBox10.Controls.Add(this.label4);
 			this.groupBox10.Controls.Add(this.checkBoxUseStandardDirectory);
-			this.groupBox10.Location = new System.Drawing.Point(583, 398);
+			this.groupBox10.Location = new System.Drawing.Point(409, 56);
 			this.groupBox10.Name = "groupBox10";
-			this.groupBox10.Size = new System.Drawing.Size(555, 142);
+			this.groupBox10.Size = new System.Drawing.Size(132, 142);
 			this.groupBox10.TabIndex = 95;
 			this.groupBox10.TabStop = false;
 			this.groupBox10.Text = "Logging";
@@ -1937,8 +1955,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle19.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle19;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -4696,8 +4714,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle20;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -6095,14 +6113,86 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// versionRestrictionsTextBox
+			// groupBox21
 			// 
-			this.versionRestrictionsTextBox.Location = new System.Drawing.Point(14, 115);
-			this.versionRestrictionsTextBox.Multiline = true;
-			this.versionRestrictionsTextBox.Name = "versionRestrictionsTextBox";
-			this.versionRestrictionsTextBox.Size = new System.Drawing.Size(512, 81);
-			this.versionRestrictionsTextBox.TabIndex = 3;
-			this.versionRestrictionsTextBox.TextChanged += new System.EventHandler(this.versionRestrictionsTextBox_TextChanged);
+			this.groupBox21.Controls.Add(this.label33);
+			this.groupBox21.Controls.Add(this.label32);
+			this.groupBox21.Controls.Add(this.label31);
+			this.groupBox21.Controls.Add(this.radioButtonClipboardPolicyIsolated);
+			this.groupBox21.Controls.Add(this.radioButtonClipboardPolicyBlock);
+			this.groupBox21.Controls.Add(this.radioButtonClipboardPolicyAllow);
+			this.groupBox21.Location = new System.Drawing.Point(583, 371);
+			this.groupBox21.Name = "groupBox21";
+			this.groupBox21.Size = new System.Drawing.Size(635, 209);
+			this.groupBox21.TabIndex = 110;
+			this.groupBox21.TabStop = false;
+			this.groupBox21.Text = "Clipboard Policy";
+			// 
+			// radioButtonClipboardPolicyAllow
+			// 
+			this.radioButtonClipboardPolicyAllow.AutoSize = true;
+			this.radioButtonClipboardPolicyAllow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.radioButtonClipboardPolicyAllow.Location = new System.Drawing.Point(15, 29);
+			this.radioButtonClipboardPolicyAllow.Name = "radioButtonClipboardPolicyAllow";
+			this.radioButtonClipboardPolicyAllow.Size = new System.Drawing.Size(55, 17);
+			this.radioButtonClipboardPolicyAllow.TabIndex = 4;
+			this.radioButtonClipboardPolicyAllow.TabStop = true;
+			this.radioButtonClipboardPolicyAllow.Text = "Allow";
+			this.radioButtonClipboardPolicyAllow.UseVisualStyleBackColor = true;
+			this.radioButtonClipboardPolicyAllow.CheckedChanged += new System.EventHandler(this.radioButtonClipboardPolicyAllow_CheckedChanged);
+			// 
+			// radioButtonClipboardPolicyBlock
+			// 
+			this.radioButtonClipboardPolicyBlock.AutoSize = true;
+			this.radioButtonClipboardPolicyBlock.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.radioButtonClipboardPolicyBlock.Location = new System.Drawing.Point(15, 76);
+			this.radioButtonClipboardPolicyBlock.Name = "radioButtonClipboardPolicyBlock";
+			this.radioButtonClipboardPolicyBlock.Size = new System.Drawing.Size(57, 17);
+			this.radioButtonClipboardPolicyBlock.TabIndex = 5;
+			this.radioButtonClipboardPolicyBlock.TabStop = true;
+			this.radioButtonClipboardPolicyBlock.Text = "Block";
+			this.radioButtonClipboardPolicyBlock.UseVisualStyleBackColor = true;
+			this.radioButtonClipboardPolicyBlock.CheckedChanged += new System.EventHandler(this.radioButtonClipboardPolicyBlock_CheckedChanged);
+			// 
+			// radioButtonClipboardPolicyIsolated
+			// 
+			this.radioButtonClipboardPolicyIsolated.AutoSize = true;
+			this.radioButtonClipboardPolicyIsolated.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.radioButtonClipboardPolicyIsolated.Location = new System.Drawing.Point(15, 138);
+			this.radioButtonClipboardPolicyIsolated.Name = "radioButtonClipboardPolicyIsolated";
+			this.radioButtonClipboardPolicyIsolated.Size = new System.Drawing.Size(78, 17);
+			this.radioButtonClipboardPolicyIsolated.TabIndex = 6;
+			this.radioButtonClipboardPolicyIsolated.TabStop = true;
+			this.radioButtonClipboardPolicyIsolated.Text = "SEB Only";
+			this.radioButtonClipboardPolicyIsolated.UseVisualStyleBackColor = true;
+			this.radioButtonClipboardPolicyIsolated.CheckedChanged += new System.EventHandler(this.radioButtonClipboardPolicyIsolated_CheckedChanged);
+			// 
+			// label31
+			// 
+			this.label31.AutoSize = true;
+			this.label31.Location = new System.Drawing.Point(31, 49);
+			this.label31.Name = "label31";
+			this.label31.Size = new System.Drawing.Size(291, 13);
+			this.label31.TabIndex = 7;
+			this.label31.Text = "Allows the usage of the system clipboard without restrictions.";
+			// 
+			// label32
+			// 
+			this.label32.Location = new System.Drawing.Point(31, 96);
+			this.label32.Name = "label32";
+			this.label32.Size = new System.Drawing.Size(598, 27);
+			this.label32.TabIndex = 8;
+			this.label32.Text = "Completely blocks the usage of the system clipboard by continuously clearing its " +
+    "content and blocking the keyboard shortcuts for cut, copy and paste.";
+			// 
+			// label33
+			// 
+			this.label33.Location = new System.Drawing.Point(31, 158);
+			this.label33.Name = "label33";
+			this.label33.Size = new System.Drawing.Size(598, 28);
+			this.label33.TabIndex = 9;
+			this.label33.Text = "Continuously clears the content of the system clipboard and enables an isolated c" +
+    "lipboard only working within the browser application of SEB.";
 			// 
 			// SebWindowsConfigForm
 			// 
@@ -6231,6 +6321,8 @@ namespace SebWindowsConfig
 			this.tabControlSebWindowsConfig.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.groupBox21.ResumeLayout(false);
+			this.groupBox21.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -6677,6 +6769,13 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.Label label30;
 		private System.Windows.Forms.Label label29;
 		private System.Windows.Forms.TextBox versionRestrictionsTextBox;
+		private System.Windows.Forms.GroupBox groupBox21;
+		private System.Windows.Forms.RadioButton radioButtonClipboardPolicyIsolated;
+		private System.Windows.Forms.RadioButton radioButtonClipboardPolicyBlock;
+		private System.Windows.Forms.RadioButton radioButtonClipboardPolicyAllow;
+		private System.Windows.Forms.Label label31;
+		private System.Windows.Forms.Label label33;
+		private System.Windows.Forms.Label label32;
 	}
 }
 

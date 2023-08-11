@@ -375,6 +375,8 @@ namespace SebWindowsConfig
 		public const String KeyAllowChromeNotifications = "enableChromeNotifications";
 		public const String KeyAllowWindowsUpdate = "enableWindowsUpdate";
 		public const String KeyVersionRestrictions = "sebAllowedVersions";
+		public const String KeyClipboardPolicy = "clipboardPolicy";
+
 		// Group "macOS specific settings"
 		public const String KeyMinMacOSVersion = "minMacOSVersion";
 		public const String KeyEnableAppSwitcherCheck = "enableAppSwitcherCheck";
@@ -995,6 +997,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowedDisplayIgnoreFailure, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowChromeNotifications, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowWindowsUpdate, false);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyClipboardPolicy, 2);
 
 			// Default selected index and string in combo box for minMacOSVersion 
 			SEBSettings.intArrayDefault[SEBSettings.ValMinMacOSVersion] = 4;

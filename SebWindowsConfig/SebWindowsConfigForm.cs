@@ -837,6 +837,9 @@ namespace SebWindowsConfig
 			checkBoxAllowedDisplayBuiltin.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayBuiltin];
 			checkBoxEnforceBuiltinDisplay.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayBuiltinEnforce];
 			checkBoxAllowedDisplayIgnoreError.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowedDisplayIgnoreFailure];
+			radioButtonClipboardPolicyAllow.Checked = (int) SEBSettings.settingsCurrent[SEBSettings.KeyClipboardPolicy] == 0;
+			radioButtonClipboardPolicyBlock.Checked = (int) SEBSettings.settingsCurrent[SEBSettings.KeyClipboardPolicy] == 1;
+			radioButtonClipboardPolicyIsolated.Checked = (int) SEBSettings.settingsCurrent[SEBSettings.KeyClipboardPolicy] == 2;
 
 			if (SEBSettings.settingsCurrent.TryGetValue(SEBSettings.KeyVersionRestrictions, out var value) && value is ListObj restrictions)
 			{
@@ -4751,6 +4754,30 @@ namespace SebWindowsConfig
 			versionRestrictionsTextBox.BackColor = invalid.Any() ? Color.FromArgb(255, 156, 156) : Color.White;
 
 			SEBSettings.settingsCurrent[SEBSettings.KeyVersionRestrictions] = new ListObj(valid);
+		}
+
+		private void radioButtonClipboardPolicyAllow_CheckedChanged(object sender, EventArgs e)
+		{
+			if (radioButtonClipboardPolicyAllow.Checked)
+			{
+				SEBSettings.settingsCurrent[SEBSettings.KeyClipboardPolicy] = 0;
+			}
+		}
+
+		private void radioButtonClipboardPolicyBlock_CheckedChanged(object sender, EventArgs e)
+		{
+			if (radioButtonClipboardPolicyBlock.Checked)
+			{
+				SEBSettings.settingsCurrent[SEBSettings.KeyClipboardPolicy] = 1;
+			}
+		}
+
+		private void radioButtonClipboardPolicyIsolated_CheckedChanged(object sender, EventArgs e)
+		{
+			if (radioButtonClipboardPolicyIsolated.Checked)
+			{
+				SEBSettings.settingsCurrent[SEBSettings.KeyClipboardPolicy] = 2;
+			}
 		}
 	}
 }

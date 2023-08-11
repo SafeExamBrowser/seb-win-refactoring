@@ -32,6 +32,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Security.AllowVirtualMachine:
 					MapVirtualMachinePolicy(settings, value);
 					break;
+				case Keys.Security.ClipboardPolicy:
+					MapClipboardPolicy(settings, value);
+					break;
 				case Keys.Security.QuitPasswordHash:
 					MapQuitPasswordHash(settings, value);
 					break;
@@ -120,6 +123,17 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string hash)
 			{
 				settings.Security.QuitPasswordHash = hash;
+			}
+		}
+
+		private void MapClipboardPolicy(AppSettings settings, object value)
+		{
+			const int ALLOW = 0;
+			const int BLOCK = 1;
+
+			if (value is int policy)
+			{
+				settings.Security.ClipboardPolicy = policy == ALLOW ? ClipboardPolicy.Allow : (policy == BLOCK ? ClipboardPolicy.Block : ClipboardPolicy.Isolated);
 			}
 		}
 
