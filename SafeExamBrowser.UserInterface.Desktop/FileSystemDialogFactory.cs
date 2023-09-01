@@ -8,6 +8,7 @@
 
 using System.Windows;
 using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Desktop.Windows;
@@ -16,10 +17,12 @@ namespace SafeExamBrowser.UserInterface.Desktop
 {
 	public class FileSystemDialogFactory : IFileSystemDialog
 	{
+		private readonly ISystemInfo systemInfo;
 		private readonly IText text;
 
-		public FileSystemDialogFactory(IText text)
+		public FileSystemDialogFactory(ISystemInfo systemInfo, IText text)
 		{
+			this.systemInfo = systemInfo;
 			this.text = text;
 		}
 
@@ -35,11 +38,11 @@ namespace SafeExamBrowser.UserInterface.Desktop
 		{
 			if (parent is Window window)
 			{
-				return window.Dispatcher.Invoke(() => new FileSystemDialog(element, operation, text, initialPath, message, title, parent, restrictNavigation, showElementPath).Show());
+				return window.Dispatcher.Invoke(() => new FileSystemDialog(element, operation, systemInfo, text, initialPath, message, title, parent, restrictNavigation, showElementPath).Show());
 			}
 			else
 			{
-				return new FileSystemDialog(element, operation, text, initialPath, message, title, restrictNavigation: restrictNavigation, showElementPath: showElementPath).Show();
+				return new FileSystemDialog(element, operation, systemInfo, text, initialPath, message, title, restrictNavigation: restrictNavigation, showElementPath: showElementPath).Show();
 			}
 		}
 	}

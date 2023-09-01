@@ -162,6 +162,15 @@
     <Entry key="LockScreen_ApplicationsTerminateOption">
         Safe Exam Browser beenden. WARNUNG: Sie werden keine Möglichkeit haben, Daten zu speichern oder weitere Aktionen auszuführen, SEB wird sofort beendet!
     </Entry>
+    <Entry key="LockScreen_CursorContinueOption">
+        Die Cursor-Konfiguration vorübergehend zulassen. Dies gilt nur für die momentan laufende Sitzung!
+    </Entry>
+    <Entry key="LockScreen_CursorMessage">
+        Eine verbotene Cursor-Konfiguration wurde detektiert. Bitte wählen Sie eine der verfügbaren Optionen aus und geben Sie das korrekte Passwort ein, um SEB zu entsperren.
+    </Entry>
+    <Entry key="LockScreen_CursorTerminateOption">
+        Safe Exam Browser beenden. WARNUNG: Sie werden keine Möglichkeit haben, Daten zu speichern oder weitere Aktionen auszuführen, SEB wird sofort beendet!
+    </Entry>
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         Bildschirm-Konfiguration temporär erlauben. Dies gilt nur für die momentan laufende Sitzung!
     </Entry>

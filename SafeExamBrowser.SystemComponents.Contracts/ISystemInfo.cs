@@ -6,6 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Generic;
+using System.IO;
+
 namespace SafeExamBrowser.SystemComponents.Contracts
 {
 	/// <summary>
@@ -62,5 +65,10 @@ namespace SafeExamBrowser.SystemComponents.Contracts
 		/// Provides the device ID information of the user's Plug and Play devices.
 		/// </summary>
 		string[] PlugAndPlayDeviceIds { get; }
+
+		/// <summary>
+		/// Retrieves all logical drives of the computer system.
+		/// </summary>
+		IEnumerable<DriveInfo> GetDrives();
 	}
 }

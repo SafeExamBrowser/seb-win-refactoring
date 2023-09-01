@@ -94,8 +94,9 @@ namespace SafeExamBrowser.Client
 			InitializeLogging();
 			InitializeText();
 
-			uiFactory = BuildUserInterfaceFactory();
+			var registry = new Registry(ModuleLogger(nameof(Registry)));
 
+			uiFactory = BuildUserInterfaceFactory();
 			actionCenter = uiFactory.CreateActionCenter();
 			context = new ClientContext();
 			messageBox = BuildMessageBox();
@@ -103,7 +104,7 @@ namespace SafeExamBrowser.Client
 			networkAdapter = new NetworkAdapter(ModuleLogger(nameof(NetworkAdapter)), nativeMethods);
 			powerSupply = new PowerSupply(ModuleLogger(nameof(PowerSupply)));
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
-			systemInfo = new SystemInfo();
+			systemInfo = new SystemInfo(registry);
 			taskbar = uiFactory.CreateTaskbar(ModuleLogger("Taskbar"));
 			taskview = uiFactory.CreateTaskview();
 			userInfo = new UserInfo(ModuleLogger(nameof(UserInfo)));
@@ -116,7 +117,6 @@ namespace SafeExamBrowser.Client
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
 			var fileSystemDialog = BuildFileSystemDialog();
 			var hashAlgorithm = new HashAlgorithm();
-			var registry = new Registry(ModuleLogger(nameof(Registry)));
 			var splashScreen = uiFactory.CreateSplashScreen();
 			var systemMonitor = new SystemMonitor(ModuleLogger(nameof(SystemMonitor)));
 
@@ -335,9 +335,9 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					return new Mobile.FileSystemDialogFactory(text);
+					return new Mobile.FileSystemDialogFactory(systemInfo, text);
 				default:
-					return new Desktop.FileSystemDialogFactory(text);
+					return new Desktop.FileSystemDialogFactory(systemInfo, text);
 			}
 		}
 

@@ -162,6 +162,15 @@
     <Entry key="LockScreen_ApplicationsTerminateOption">
         Terminate Safe Exam Browser. WARNING: There will be no possibility to save data or perform any further actions, the shutdown will be initiated immediately!
     </Entry>
+    <Entry key="LockScreen_CursorContinueOption">
+        Temporarily allow the cursor configuration. This applies only to the currently running session!
+    </Entry>
+    <Entry key="LockScreen_CursorMessage">
+        A prohibited cursor configuration has been detected. In order to unlock SEB, please select one of the available options and enter the correct unlock password.
+    </Entry>
+    <Entry key="LockScreen_CursorTerminateOption">
+        Terminate Safe Exam Browser. WARNING: There will be no possibility to save data or perform any further actions, the shutdown will be initiated immediately!
+    </Entry>
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         Temporarily allow the display configuration. This applies only to the currently running session!
     </Entry>

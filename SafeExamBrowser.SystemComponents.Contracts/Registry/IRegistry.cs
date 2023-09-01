@@ -6,8 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.SystemComponents.Contracts.Registry.Events;
 using System.Collections.Generic;
+using SafeExamBrowser.SystemComponents.Contracts.Registry.Events;
 
 namespace SafeExamBrowser.SystemComponents.Contracts.Registry
 {
@@ -30,6 +30,11 @@ namespace SafeExamBrowser.SystemComponents.Contracts.Registry
 		/// Stops the monitoring of all previously registered registry values.
 		/// </summary>
 		void StopMonitoring();
+
+		/// <summary>
+		/// Stops the monitoring of the specified registry value.
+		/// </summary>
+		void StopMonitoring(string key, string name);
 
 		/// <summary>
 		/// Attempts to read the value of the given name under the specified registry key.

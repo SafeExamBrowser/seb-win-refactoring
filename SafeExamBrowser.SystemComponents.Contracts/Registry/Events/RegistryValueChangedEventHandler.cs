@@ -11,5 +11,5 @@ namespace SafeExamBrowser.SystemComponents.Contracts.Registry.Events
 	/// <summary>
 	/// Indicates that a registry value has changed.
 	/// </summary>
-	public delegate void RegistryValueChangedEventHandler(object oldValue, object newValue);
+	public delegate void RegistryValueChangedEventHandler(string key, string name, object oldValue, object newValue);
 }

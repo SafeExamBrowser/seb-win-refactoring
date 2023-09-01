@@ -136,16 +136,14 @@ namespace SafeExamBrowser.SystemComponents
 
 		private bool HasHistoricVirtualMachineHardwareConfiguration()
 		{
-			const string HARDWARE_ROOT_KEY = @"HKEY_LOCAL_MACHINE\SYSTEM\HardwareConfig";
-
 			var hasHistoricConfiguration = false;
 
-			if (registry.TryGetSubKeys(HARDWARE_ROOT_KEY, out var hardwareConfigSubkeys))
+			if (registry.TryGetSubKeys(RegistryValue.MachineHive.HardwareConfig_Key, out var hardwareConfigSubkeys))
 			{
 				foreach (var configId in hardwareConfigSubkeys)
 				{
-					var hardwareConfigKey = $"{HARDWARE_ROOT_KEY}\\{configId}";
-					var computerIdsKey = $"{hardwareConfigKey}\\ComputerIds";
+					var hardwareConfigKey = $@"{RegistryValue.MachineHive.HardwareConfig_Key}\{configId}";
+					var computerIdsKey = $@"{hardwareConfigKey}\ComputerIds";
 					var success = true;
 
 					success &= registry.TryRead(hardwareConfigKey, "BIOSVendor", out var biosVendor);
@@ -178,17 +176,15 @@ namespace SafeExamBrowser.SystemComponents
 
 		private bool HasLocalVirtualMachineDeviceCache()
 		{
-			const string DEVICE_CACHE_PARENT_KEY = @"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\TaskFlow\DeviceCache";
-
 			var deviceName = System.Environment.GetEnvironmentVariable("COMPUTERNAME");
 			var hasDeviceCache = false;
-			var hasDeviceCacheKeys = registry.TryGetSubKeys(DEVICE_CACHE_PARENT_KEY, out var deviceCacheKeys);
+			var hasDeviceCacheKeys = registry.TryGetSubKeys(RegistryValue.UserHive.DeviceCache_Key, out var deviceCacheKeys);
 
 			if (deviceName != default && hasDeviceCacheKeys)
 			{
 				foreach (var cacheId in deviceCacheKeys)
 				{
-					var cacheIdKey = $@"{DEVICE_CACHE_PARENT_KEY}\{cacheId}";
+					var cacheIdKey = $@"{RegistryValue.UserHive.DeviceCache_Key}\{cacheId}";
 					var didReadKeys = true;
 
 					didReadKeys &= registry.TryRead(cacheIdKey, "DeviceName", out var cacheDeviceName);

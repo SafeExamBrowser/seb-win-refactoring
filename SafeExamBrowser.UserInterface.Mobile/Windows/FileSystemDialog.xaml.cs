@@ -15,8 +15,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using FontAwesome.WPF;
-using Microsoft.Win32;
 using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
@@ -30,6 +30,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		private readonly string message;
 		private readonly FileSystemOperation operation;
 		private readonly IWindow parent;
+		private readonly ISystemInfo systemInfo;
 		private readonly bool restrictNavigation;
 		private readonly bool showElementPath;
 		private readonly IText text;
@@ -38,6 +39,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		internal FileSystemDialog(
 			FileSystemElement element,
 			FileSystemOperation operation,
+			ISystemInfo systemInfo,
 			IText text,
 			string initialPath = default,
 			string message = default,
@@ -50,6 +52,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			this.initialPath = initialPath;
 			this.message = message;
 			this.operation = operation;
+			this.systemInfo = systemInfo;
 			this.parent = parent;
 			this.restrictNavigation = restrictNavigation;
 			this.showElementPath = showElementPath;
@@ -293,20 +296,6 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			InitializeFileSystem();
 		}
 
-		private DriveInfo[] GetDrives()
-		{
-			var drives = DriveInfo.GetDrives();
-			var noDrives = Registry.GetValue("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer", "NoDrives", 0) as int?;
-
-			if (noDrives.HasValue && noDrives > 0)
-			{
-				return drives.Where(drive => (noDrives & (int) Math.Pow(2, drive.RootDirectory.ToString()[0] - 65)) == 0).ToArray();
-			}
-
-			return drives;
-		}
-
-
 		private void InitializeFileSystem()
 		{
 			if (restrictNavigation && !string.IsNullOrEmpty(initialPath))
@@ -337,7 +326,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		private void InitializeUnrestricted()
 		{
-			foreach (var drive in GetDrives())
+			foreach (var drive in systemInfo.GetDrives())
 			{
 				FileSystem.Items.Add(CreateItem(drive.RootDirectory));
 			}

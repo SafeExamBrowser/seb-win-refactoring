@@ -54,15 +54,17 @@ namespace SafeExamBrowser.Runtime
 			const int THIRTY_SECONDS = 30000;
 
 			logger = new Logger();
-			systemInfo = new SystemInfo();
 
 			InitializeConfiguration();
 			InitializeLogging();
 			InitializeText();
 
 			var nativeMethods = new NativeMethods();
+			var registry = new Registry(ModuleLogger(nameof(Registry)));
 			var uiFactory = new UserInterfaceFactory(text);
 			var userInfo = new UserInfo(ModuleLogger(nameof(UserInfo)));
+
+			systemInfo = new SystemInfo(registry);
 
 			var args = Environment.GetCommandLineArgs();
 			var integrityModule = new IntegrityModule(appConfig, ModuleLogger(nameof(IntegrityModule)));
@@ -75,7 +77,6 @@ namespace SafeExamBrowser.Runtime
 			var messageBox = new MessageBoxFactory(text);
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), ModuleLogger(nameof(ProxyFactory)));
-			var registry = new Registry(ModuleLogger(nameof(Registry)));
 			var remoteSessionDetector = new RemoteSessionDetector(ModuleLogger(nameof(RemoteSessionDetector)));
 			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, new HostObjectFactory(), ModuleLogger(nameof(RuntimeHost)), FIVE_SECONDS);
 			var runtimeWindow = uiFactory.CreateRuntimeWindow(appConfig);

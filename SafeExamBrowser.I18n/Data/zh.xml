@@ -147,6 +147,15 @@
     <Entry key="LockScreen_ApplicationsTerminateOption">
         强制关闭防作弊考试专用浏览器。警告：将无法保存数据或执行任何进一步的操作，关闭操作将立即启动。
     </Entry>
+    <Entry key="LockScreen_CursorContinueOption">
+        暂时允许光标配置。这仅适用于当前运行的会话！
+    </Entry>
+    <Entry key="LockScreen_CursorMessage">
+        已检测到禁止的光标配置。要解锁 SEB，请选择一个可用选项并输入正确的解锁密码。
+    </Entry>
+    <Entry key="LockScreen_CursorTerminateOption">
+        终止安全考试浏览器。警告：将无法保存数据或执行任何其他操作，系统将立即关闭！
+    </Entry>
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         暂时允许显示配置。 这仅适用于当前正在运行的会话！
     </Entry>

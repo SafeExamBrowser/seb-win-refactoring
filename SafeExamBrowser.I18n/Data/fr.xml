@@ -162,6 +162,15 @@
     <Entry key="LockScreen_ApplicationsTerminateOption">
         Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
     </Entry>
+    <Entry key="LockScreen_CursorContinueOption">
+        Autoriser temporairement la configuration du curseur. Ceci s'applique uniquement à la session en cours!
+    </Entry>
+    <Entry key="LockScreen_CursorMessage">
+        Une configuration interdite du curseur a été détectée. Pour déverrouiller SEB, veuillez sélectionner l'une des options disponibles et saisir le mot de passe de déverrouillage correct.
+    </Entry>
+    <Entry key="LockScreen_CursorTerminateOption">
+        Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
+    </Entry>
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         Autoriser temporairement la configuration de l'affichage. Ceci s'applique uniquement à la session en cours!
     </Entry>

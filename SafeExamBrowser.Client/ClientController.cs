@@ -335,33 +335,47 @@ namespace SafeExamBrowser.Client
 			var timer = new System.Timers.Timer();
 
 			timer.AutoReset = false;
-			timer.Elapsed += (o, args) =>
-			{
-				logger.Info($"Attempting to verify application integrity...");
-
-				if (IntegrityModule.TryVerifyCodeSignature(out var isValid))
-				{
-					if (isValid)
-					{
-						logger.Info("Application integrity successfully verified.");
-					}
-					else
-					{
-						logger.Warn("Application integrity is compromised!");
-						ShowLockScreen(text.Get(TextKey.LockScreen_ApplicationIntegrityMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
-					}
-				}
-				else
-				{
-					logger.Warn("Failed to verify application integrity!");
-				}
-			};
+			timer.Elapsed += (o, args) => VerifyApplicationIntegrity();
 			timer.Interval = TEN_MINUTES + (new Random().NextDouble() * FIVE_MINUTES);
 			timer.Start();
+
+			if (registry.TryGetNames(RegistryValue.UserHive.Cursors_Key, out var names))
+			{
+				foreach (var name in names)
+				{
+					registry.StartMonitoring(RegistryValue.UserHive.Cursors_Key, name);
+				}
+			}
+			else
+			{
+				logger.Warn("Failed to start monitoring cursor registry values!");
+			}
 
 			if (Settings.Service.IgnoreService)
 			{
 				registry.StartMonitoring(RegistryValue.MachineHive.EaseOfAccess_Key, RegistryValue.MachineHive.EaseOfAccess_Name);
+			}
+		}
+
+		private void VerifyApplicationIntegrity()
+		{
+			logger.Info($"Attempting to verify application integrity...");
+
+			if (IntegrityModule.TryVerifyCodeSignature(out var isValid))
+			{
+				if (isValid)
+				{
+					logger.Info("Application integrity successfully verified.");
+				}
+				else
+				{
+					logger.Warn("Application integrity is compromised!");
+					ShowLockScreen(text.Get(TextKey.LockScreen_ApplicationIntegrityMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
+				}
+			}
+			else
+			{
+				logger.Warn("Failed to verify application integrity!");
 			}
 		}
 
@@ -701,9 +715,55 @@ namespace SafeExamBrowser.Client
 			splashScreen.UpdateStatus(status, true);
 		}
 
-		private void Registry_ValueChanged(object oldValue, object newValue)
+		private void Registry_ValueChanged(string key, string name, object oldValue, object newValue)
 		{
-			logger.Warn($"The ease of access registry value has changed from '{oldValue}' to '{newValue}'! Attempting to show lock screen...");
+			if (key == RegistryValue.UserHive.Cursors_Key)
+			{
+				HandleCursorRegistryChange(key, name, oldValue, newValue);
+			}
+			else if (key == RegistryValue.MachineHive.EaseOfAccess_Key)
+			{
+				HandleEaseOfAccessRegistryChange(key, name, oldValue, newValue);
+			}
+		}
+
+		private void HandleCursorRegistryChange(string key, string name, object oldValue, object newValue)
+		{
+			logger.Warn($@"The cursor registry value '{key}\{name}' has changed from '{oldValue}' to '{newValue}'! Attempting to show lock screen...");
+
+			if (!sessionLocked)
+			{
+				var message = text.Get(TextKey.LockScreen_CursorMessage);
+				var title = text.Get(TextKey.LockScreen_Title);
+				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_CursorContinueOption) };
+				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_CursorTerminateOption) };
+
+				sessionLocked = true;
+				registry.StopMonitoring(key, name);
+
+				var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
+
+				if (result.OptionId == continueOption.Id)
+				{
+					logger.Info("The session will be allowed to resume as requested by the user...");
+				}
+				else if (result.OptionId == terminateOption.Id)
+				{
+					logger.Info("Attempting to shutdown as requested by the user...");
+					TryRequestShutdown();
+				}
+
+				sessionLocked = false;
+			}
+			else
+			{
+				logger.Info("Lock screen is already active.");
+			}
+		}
+
+		private void HandleEaseOfAccessRegistryChange(string key, string name, object oldValue, object newValue)
+		{
+			logger.Warn($@"The ease of access registry value '{key}\{name}' has changed from '{oldValue}' to '{newValue}'! Attempting to show lock screen...");
 
 			if (!sessionLocked)
 			{
@@ -713,7 +773,7 @@ namespace SafeExamBrowser.Client
 				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_EaseOfAccessTerminateOption) };
 
 				sessionLocked = true;
-				registry.StopMonitoring();
+				registry.StopMonitoring(key, name);
 
 				var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
 

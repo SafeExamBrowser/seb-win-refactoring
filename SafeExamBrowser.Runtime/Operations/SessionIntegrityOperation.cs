@@ -6,6 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
+using System.Linq;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -32,14 +34,28 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			StatusChanged?.Invoke(TextKey.OperationStatus_VerifySessionIntegrity);
 
-			return VerifyEaseOfAccessConfiguration();
+			var success = VerifyCursorConfiguration();
+
+			if (success)
+			{
+				success = VerifyEaseOfAccessConfiguration();
+			}
+
+			return success ? OperationResult.Success : OperationResult.Failed;
 		}
 
 		public override OperationResult Repeat()
 		{
 			StatusChanged?.Invoke(TextKey.OperationStatus_VerifySessionIntegrity);
 
-			return VerifyEaseOfAccessConfiguration();
+			var success = VerifyCursorConfiguration();
+
+			if (success)
+			{
+				success = VerifyEaseOfAccessConfiguration();
+			}
+
+			return success ? OperationResult.Success : OperationResult.Failed;
 		}
 
 		public override OperationResult Revert()
@@ -47,9 +63,44 @@ namespace SafeExamBrowser.Runtime.Operations
 			return OperationResult.Success;
 		}
 
-		private OperationResult VerifyEaseOfAccessConfiguration()
+		private bool VerifyCursorConfiguration()
 		{
-			var result = OperationResult.Failed;
+			var success = true;
+			var systemPath = $@"{Environment.ExpandEnvironmentVariables("%SystemRoot%")}\cursors\";
+
+			logger.Info($"Attempting to verify cursor configuration...");
+
+			if (registry.TryGetNames(RegistryValue.UserHive.Cursors_Key, out var cursors))
+			{
+				foreach (var cursor in cursors.Where(c => !string.IsNullOrWhiteSpace(c)))
+				{
+					success &= registry.TryRead(RegistryValue.UserHive.Cursors_Key, cursor, out var value);
+					success &= value == default || !(value is string) || (value is string path && (string.IsNullOrWhiteSpace(path) || path.StartsWith(systemPath)));
+
+					if (!success)
+					{
+						logger.Warn($"{(value != default ? $"Cursor configuration is compromised: '{value}'" : $"Failed to verify configuration of cursor '{cursor}'")}! Aborting session initialization...");
+
+						break;
+					}
+				}
+
+				if (success)
+				{
+					logger.Info("Cursor configuration successfully verified.");
+				}
+			}
+			else
+			{
+				logger.Error("Failed to verify cursor configuration!");
+			}
+
+			return success;
+		}
+
+		private bool VerifyEaseOfAccessConfiguration()
+		{
+			var success = false;
 
 			logger.Info($"Attempting to verify ease of access configuration...");
 
@@ -57,12 +108,12 @@ namespace SafeExamBrowser.Runtime.Operations
 			{
 				if (value == default || (value is string s && string.IsNullOrWhiteSpace(s)))
 				{
-					result = OperationResult.Success;
+					success = true;
 					logger.Info("Ease of access configuration successfully verified.");
 				}
 				else if (!Context.Next.Settings.Service.IgnoreService)
 				{
-					result = OperationResult.Success;
+					success = true;
 					logger.Info($"Ease of access configuration is compromised ('{value}'), but service will be active in the next session.");
 				}
 				else
@@ -75,7 +126,7 @@ namespace SafeExamBrowser.Runtime.Operations
 				logger.Error("Failed to verify ease of access configuration!");
 			}
 
-			return result;
+			return success;
 		}
 	}
 }

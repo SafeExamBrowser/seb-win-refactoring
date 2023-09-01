@@ -8,10 +8,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Management;
 using System.Windows.Forms;
 using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.SystemComponents.Contracts.Registry;
 using BatteryChargeStatus = System.Windows.Forms.BatteryChargeStatus;
 using OperatingSystem = SafeExamBrowser.SystemComponents.Contracts.OperatingSystem;
 
@@ -19,6 +21,8 @@ namespace SafeExamBrowser.SystemComponents
 {
 	public class SystemInfo : ISystemInfo
 	{
+		private readonly IRegistry registry;
+
 		public string BiosInfo { get; private set; }
 		public string CpuName { get; private set; }
 		public bool HasBattery { get; private set; }
@@ -30,8 +34,10 @@ namespace SafeExamBrowser.SystemComponents
 		public string OperatingSystemInfo => $"{OperatingSystemName()}, {Environment.OSVersion.VersionString} ({Architecture()})";
 		public string[] PlugAndPlayDeviceIds { get; private set; }
 
-		public SystemInfo()
+		public SystemInfo(IRegistry registry)
 		{
+			this.registry = registry;
+
 			InitializeBattery();
 			InitializeBiosInfo();
 			InitializeCpuName();
@@ -39,6 +45,20 @@ namespace SafeExamBrowser.SystemComponents
 			InitializeMachineInfo();
 			InitializeOperatingSystem();
 			InitializePnPDevices();
+		}
+
+		public IEnumerable<DriveInfo> GetDrives()
+		{
+			var drives = DriveInfo.GetDrives();
+
+			registry.TryRead(RegistryValue.UserHive.NoDrives_Key, RegistryValue.UserHive.NoDrives_Name, out var value);
+
+			if (value is int noDrives && noDrives > 0)
+			{
+				drives = drives.Where(drive => (noDrives & (int) Math.Pow(2, drive.RootDirectory.ToString()[0] - 65)) == 0).ToArray();
+			}
+
+			return drives;
 		}
 
 		private void InitializeBattery()
