@@ -852,7 +852,9 @@ namespace SebWindowsConfig
 				"AA_v3.exe",
 				"CiscoCollabHost.exe",
 				"CiscoWebExStart.exe",
-				"remoting_host.exe"
+				"remoting_host.exe",
+				"SRServer.exe",
+				"strwinclt.exe"
 			};
 
 			// Default settings for group "Network - Filter"
