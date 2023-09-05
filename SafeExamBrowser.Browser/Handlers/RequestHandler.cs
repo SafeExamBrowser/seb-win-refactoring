@@ -121,19 +121,35 @@ namespace SafeExamBrowser.Browser.Handlers
 		private bool IsConfigurationFile(IRequest request, out string downloadUrl)
 		{
 			var isValidUri = Uri.TryCreate(request.Url, UriKind.RelativeOrAbsolute, out var uri);
-			var isConfigurationFile = isValidUri && string.Equals(appConfig.ConfigurationFileExtension, Path.GetExtension(uri.AbsolutePath), StringComparison.OrdinalIgnoreCase);
+			var hasFileExtension = string.Equals(appConfig.ConfigurationFileExtension, Path.GetExtension(uri.AbsolutePath), StringComparison.OrdinalIgnoreCase);
+			var isDataUri = request.Url.Contains(appConfig.ConfigurationFileMimeType);
+			var isConfigurationFile = isValidUri && (hasFileExtension || isDataUri);
 
 			downloadUrl = request.Url;
 
 			if (isConfigurationFile)
 			{
-				if (uri.Scheme == appConfig.SebUriScheme)
+				if (isDataUri)
 				{
-					downloadUrl = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttp }.Uri.AbsoluteUri;
+					if (uri.Scheme == appConfig.SebUriScheme)
+					{
+						downloadUrl = request.Url.Replace($"{appConfig.SebUriScheme}{Uri.SchemeDelimiter}", "data:");
+					}
+					else if (uri.Scheme == appConfig.SebUriSchemeSecure)
+					{
+						downloadUrl = request.Url.Replace($"{appConfig.SebUriSchemeSecure}{Uri.SchemeDelimiter}", "data:");
+					}
 				}
-				else if (uri.Scheme == appConfig.SebUriSchemeSecure)
+				else
 				{
-					downloadUrl = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttps }.Uri.AbsoluteUri;
+					if (uri.Scheme == appConfig.SebUriScheme)
+					{
+						downloadUrl = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttp }.Uri.AbsoluteUri;
+					}
+					else if (uri.Scheme == appConfig.SebUriSchemeSecure)
+					{
+						downloadUrl = new UriBuilder(uri) { Scheme = Uri.UriSchemeHttps }.Uri.AbsoluteUri;
+					}
 				}
 
 				logger.Debug($"Detected configuration file {(windowSettings.UrlPolicy.CanLog() ? $"'{uri}'" : "")}.");

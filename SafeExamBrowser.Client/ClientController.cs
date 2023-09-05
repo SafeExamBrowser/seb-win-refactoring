@@ -624,10 +624,10 @@ namespace SafeExamBrowser.Client
 			logger.Info($"Received server failure action request with id '{args.RequestId}'.");
 
 			var dialog = uiFactory.CreateServerFailureDialog(args.Message, args.ShowFallback);
-			var result = dialog.Show(splashScreen);
+			var result = dialog.Show();
 
 			runtime.SubmitServerFailureActionResult(args.RequestId, result.Abort, result.Fallback, result.Retry);
-			logger.Info($"Server failure action request with id '{args.RequestId}' is complete.");
+			logger.Info($"Server failure action request with id '{args.RequestId}' is complete, the user chose to {(result.Abort ? "abort" : (result.Fallback ? "fallback" : "retry"))}.");
 		}
 
 		private void ClientHost_Shutdown()

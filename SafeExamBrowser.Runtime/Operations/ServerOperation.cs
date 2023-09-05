@@ -241,6 +241,11 @@ namespace SafeExamBrowser.Runtime.Operations
 			abort = args.Abort;
 			fallback = args.Fallback;
 
+			if (args.Retry)
+			{
+				logger.Debug("The user chose to retry the current server request.");
+			}
+
 			return args.Retry;
 		}
 

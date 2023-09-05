@@ -69,6 +69,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			var quitUrl = "http://www.byebye.com";
 			var request = new Mock<IRequest>();
 
+			appConfig.ConfigurationFileMimeType = "application/seb";
 			request.SetupGet(r => r.Url).Returns(quitUrl);
 			settings.QuitUrl = quitUrl;
 			sut.QuitUrlVisited += (url) => eventFired = true;
@@ -122,6 +123,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			var request = new Mock<IRequest>();
 			var url = "https://www.test.org";
 
+			appConfig.ConfigurationFileMimeType = "application/seb";
 			filter.Setup(f => f.Process(It.Is<Request>(r => r.Url.Equals(url)))).Returns(FilterResult.Block);
 			request.SetupGet(r => r.ResourceType).Returns(ResourceType.MainFrame);
 			request.SetupGet(r => r.Url).Returns(url);
@@ -155,6 +157,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			var request = new Mock<IRequest>();
 			var url = "https://www.test.org";
 
+			appConfig.ConfigurationFileMimeType = "application/seb";
 			filter.Setup(f => f.Process(It.Is<Request>(r => r.Url.Equals(url)))).Returns(FilterResult.Block);
 			request.SetupGet(r => r.ResourceType).Returns(ResourceType.SubFrame);
 			request.SetupGet(r => r.Url).Returns(url);
@@ -182,13 +185,34 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		}
 
 		[TestMethod]
-		public void MustInitiateConfigurationFileDownload()
+		public void MustInitiateDataUriConfigurationFileDownload()
 		{
 			var browser = new Mock<IBrowser>();
 			var host = new Mock<IBrowserHost>();
 			var request = new Mock<IRequest>();
 
 			appConfig.ConfigurationFileExtension = ".xyz";
+			appConfig.ConfigurationFileMimeType = "application/seb";
+			appConfig.SebUriScheme = "abc";
+			appConfig.SebUriSchemeSecure = "abcd";
+			browser.Setup(b => b.GetHost()).Returns(host.Object);
+			request.SetupGet(r => r.Url).Returns($"{appConfig.SebUriSchemeSecure}://{appConfig.ConfigurationFileMimeType};base64,H4sIAAAAAAAAE41WbXPaRhD...");
+
+			var handled = sut.OnBeforeBrowse(Mock.Of<IWebBrowser>(), browser.Object, Mock.Of<IFrame>(), request.Object, false, false);
+
+			host.Verify(h => h.StartDownload(It.Is<string>(u => u == $"data:{appConfig.ConfigurationFileMimeType};base64,H4sIAAAAAAAAE41WbXPaRhD...")));
+			Assert.IsTrue(handled);
+		}
+
+		[TestMethod]
+		public void MustInitiateHttpConfigurationFileDownload()
+		{
+			var browser = new Mock<IBrowser>();
+			var host = new Mock<IBrowserHost>();
+			var request = new Mock<IRequest>();
+
+			appConfig.ConfigurationFileExtension = ".xyz";
+			appConfig.ConfigurationFileMimeType = "application/seb";
 			appConfig.SebUriScheme = "abc";
 			appConfig.SebUriSchemeSecure = "abcd";
 			browser.Setup(b => b.GetHost()).Returns(host.Object);
@@ -198,13 +222,23 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 
 			host.Verify(h => h.StartDownload(It.Is<string>(u => u == $"{Uri.UriSchemeHttp}://host.com/path/file{appConfig.ConfigurationFileExtension}")));
 			Assert.IsTrue(handled);
+		}
 
-			handled = false;
-			host.Reset();
-			request.Reset();
+		[TestMethod]
+		public void MustInitiateHttpsConfigurationFileDownload()
+		{
+			var browser = new Mock<IBrowser>();
+			var host = new Mock<IBrowserHost>();
+			var request = new Mock<IRequest>();
+
+			appConfig.ConfigurationFileExtension = ".xyz";
+			appConfig.ConfigurationFileMimeType = "application/seb";
+			appConfig.SebUriScheme = "abc";
+			appConfig.SebUriSchemeSecure = "abcd";
+			browser.Setup(b => b.GetHost()).Returns(host.Object);
 			request.SetupGet(r => r.Url).Returns($"{appConfig.SebUriSchemeSecure}://host.com/path/file{appConfig.ConfigurationFileExtension}");
 
-			handled = sut.OnBeforeBrowse(Mock.Of<IWebBrowser>(), browser.Object, Mock.Of<IFrame>(), request.Object, false, false);
+			var handled = sut.OnBeforeBrowse(Mock.Of<IWebBrowser>(), browser.Object, Mock.Of<IFrame>(), request.Object, false, false);
 
 			host.Verify(h => h.StartDownload(It.Is<string>(u => u == $"{Uri.UriSchemeHttps}://host.com/path/file{appConfig.ConfigurationFileExtension}")));
 			Assert.IsTrue(handled);
