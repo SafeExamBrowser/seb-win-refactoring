@@ -12,10 +12,10 @@ namespace SafeExamBrowser.WindowsApi.Desktops
 {
 	internal class ObfuscatedDesktop : Desktop
 	{
-		private readonly IntPtr? obfuscatedHandle;
+		private readonly IntPtr obfuscatedHandle;
 		private readonly string obfuscatedName;
 
-		public ObfuscatedDesktop(IntPtr handle, string name, IntPtr? obfuscatedHandle, string obfuscatedName) : base(handle, name)
+		public ObfuscatedDesktop(IntPtr handle, string name, IntPtr obfuscatedHandle, string obfuscatedName) : base(handle, name)
 		{
 			this.obfuscatedHandle = obfuscatedHandle;
 			this.obfuscatedName = obfuscatedName;
