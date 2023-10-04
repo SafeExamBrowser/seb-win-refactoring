@@ -20,7 +20,7 @@ using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Contracts;
 using SafeExamBrowser.WindowsApi.Types;
 
-namespace SafeExamBrowser.WindowsApi
+namespace SafeExamBrowser.WindowsApi.Processes
 {
 	public class ProcessFactory : IProcessFactory
 	{

@@ -35,6 +35,8 @@ using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.SystemComponents.Registry;
 using SafeExamBrowser.UserInterface.Desktop;
 using SafeExamBrowser.WindowsApi;
+using SafeExamBrowser.WindowsApi.Desktops;
+using SafeExamBrowser.WindowsApi.Processes;
 
 namespace SafeExamBrowser.Runtime
 {

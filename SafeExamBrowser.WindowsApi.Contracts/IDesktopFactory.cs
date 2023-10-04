@@ -20,6 +20,12 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		IDesktop CreateNew(string name);
 
 		/// <summary>
+		/// Creates a new desktop with a random name.
+		/// </summary>
+		/// <exception cref="System.ComponentModel.Win32Exception">If the desktop could not be created.</exception>
+		IDesktop CreateRandom();
+
+		/// <summary>
 		/// Retrieves the currently active desktop.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">If the current desktop could not be retrieved.</exception>

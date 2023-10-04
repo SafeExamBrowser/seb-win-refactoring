@@ -11,9 +11,9 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using SafeExamBrowser.WindowsApi.Contracts;
 
-namespace SafeExamBrowser.WindowsApi
+namespace SafeExamBrowser.WindowsApi.Desktops
 {
-	public class Desktop : IDesktop
+	internal class Desktop : IDesktop
 	{
 		public IntPtr Handle { get; private set; }
 		public string Name { get; private set; }

@@ -10,18 +10,20 @@ using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.WindowsApi.Contracts;
 using SafeExamBrowser.WindowsApi.Constants;
+using SafeExamBrowser.WindowsApi.Contracts;
 
-namespace SafeExamBrowser.WindowsApi
+namespace SafeExamBrowser.WindowsApi.Desktops
 {
 	public class DesktopFactory : IDesktopFactory
 	{
-		private ILogger logger;
+		private readonly ILogger logger;
+		private readonly Random random;
 
 		public DesktopFactory(ILogger logger)
 		{
 			this.logger = logger;
+			this.random = new Random();
 		}
 
 		public IDesktop CreateNew(string name)
@@ -44,11 +46,34 @@ namespace SafeExamBrowser.WindowsApi
 			return desktop;
 		}
 
+		public IDesktop CreateRandom()
+		{
+			logger.Debug($"Attempting to create random desktop...");
+
+			var name = GenerateRandomDesktopName();
+			var handle = User32.CreateDesktop(name, IntPtr.Zero, IntPtr.Zero, 0, (uint) AccessMask.GENERIC_ALL, IntPtr.Zero);
+
+			if (handle == IntPtr.Zero)
+			{
+				logger.Error($"Failed to create random desktop '{name}'!");
+
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
+
+			var obfuscatedHandle = new IntPtr(random.Next(100, 10000));
+			var obfuscatedName = GenerateRandomDesktopName();
+			var desktop = new ObfuscatedDesktop(handle, name, obfuscatedHandle, obfuscatedName);
+
+			logger.Debug($"Successfully created random desktop {desktop}.");
+
+			return desktop;
+		}
+
 		public IDesktop GetCurrent()
 		{
 			var threadId = Kernel32.GetCurrentThreadId();
 			var handle = User32.GetThreadDesktop(threadId);
-			var name = String.Empty;
+			var name = string.Empty;
 			var nameLength = 0;
 
 			if (handle == IntPtr.Zero)
@@ -80,6 +105,19 @@ namespace SafeExamBrowser.WindowsApi
 			logger.Debug($"Successfully determined current desktop {desktop}.");
 
 			return desktop;
+		}
+
+		private string GenerateRandomDesktopName()
+		{
+			var length = random.Next(5, 20);
+			var name = new char[length];
+
+			for (var letter = 0; letter < length; letter++)
+			{
+				name[letter] = (char) (random.Next(2) == 0 && letter != 0 ? random.Next('a', 'z' + 1) : random.Next('A', 'Z' + 1));
+			}
+
+			return new string(name);
 		}
 	}
 }

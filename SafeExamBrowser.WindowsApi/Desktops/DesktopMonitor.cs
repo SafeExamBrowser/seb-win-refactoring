@@ -13,7 +13,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.WindowsApi.Constants;
 using SafeExamBrowser.WindowsApi.Contracts;
 
-namespace SafeExamBrowser.WindowsApi
+namespace SafeExamBrowser.WindowsApi.Desktops
 {
 	public class DesktopMonitor : IDesktopMonitor
 	{

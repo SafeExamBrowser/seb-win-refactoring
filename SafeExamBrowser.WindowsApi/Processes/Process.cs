@@ -12,7 +12,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts.Events;
 
-namespace SafeExamBrowser.WindowsApi
+namespace SafeExamBrowser.WindowsApi.Processes
 {
 	internal class Process : IProcess
 	{

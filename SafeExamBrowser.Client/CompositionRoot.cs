@@ -54,6 +54,7 @@ using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Shared.Activators;
 using SafeExamBrowser.WindowsApi;
 using SafeExamBrowser.WindowsApi.Contracts;
+using SafeExamBrowser.WindowsApi.Processes;
 using Desktop = SafeExamBrowser.UserInterface.Desktop;
 using Mobile = SafeExamBrowser.UserInterface.Mobile;
 

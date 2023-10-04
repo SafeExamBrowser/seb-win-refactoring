@@ -17,14 +17,15 @@ namespace SafeExamBrowser.Runtime.Operations
 {
 	internal class KioskModeOperation : SessionOperation
 	{
-		private IDesktop newDesktop;
-		private IDesktop originalDesktop;
-		private IDesktopFactory desktopFactory;
-		private IDesktopMonitor desktopMonitor;
-		private IExplorerShell explorerShell;
+		private readonly IDesktopFactory desktopFactory;
+		private readonly IDesktopMonitor desktopMonitor;
+		private readonly IExplorerShell explorerShell;
+		private readonly ILogger logger;
+		private readonly IProcessFactory processFactory;
+
 		private KioskMode? activeMode;
-		private ILogger logger;
-		private IProcessFactory processFactory;
+		private IDesktop customDesktop;
+		private IDesktop originalDesktop;
 
 		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
@@ -54,7 +55,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			switch (Context.Next.Settings.Security.KioskMode)
 			{
 				case KioskMode.CreateNewDesktop:
-					CreateNewDesktop();
+					CreateCustomDesktop();
 					break;
 				case KioskMode.DisableExplorerShell:
 					TerminateExplorerShell();
@@ -80,7 +81,7 @@ namespace SafeExamBrowser.Runtime.Operations
 				switch (activeMode)
 				{
 					case KioskMode.CreateNewDesktop:
-						CloseNewDesktop();
+						CloseCustomDesktop();
 						break;
 					case KioskMode.DisableExplorerShell:
 						RestartExplorerShell();
@@ -92,7 +93,7 @@ namespace SafeExamBrowser.Runtime.Operations
 				switch (newMode)
 				{
 					case KioskMode.CreateNewDesktop:
-						CreateNewDesktop();
+						CreateCustomDesktop();
 						break;
 					case KioskMode.DisableExplorerShell:
 						TerminateExplorerShell();
@@ -111,7 +112,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			switch (activeMode)
 			{
 				case KioskMode.CreateNewDesktop:
-					CloseNewDesktop();
+					CloseCustomDesktop();
 					break;
 				case KioskMode.DisableExplorerShell:
 					RestartExplorerShell();
@@ -121,26 +122,26 @@ namespace SafeExamBrowser.Runtime.Operations
 			return OperationResult.Success;
 		}
 
-		private void CreateNewDesktop()
+		private void CreateCustomDesktop()
 		{
 			originalDesktop = desktopFactory.GetCurrent();
 			logger.Info($"Current desktop is {originalDesktop}.");
 
-			newDesktop = desktopFactory.CreateNew(nameof(SafeExamBrowser));
-			logger.Info($"Created new desktop {newDesktop}.");
+			customDesktop = desktopFactory.CreateRandom();
+			logger.Info($"Created custom desktop {customDesktop}.");
 
-			newDesktop.Activate();
-			processFactory.StartupDesktop = newDesktop;
-			logger.Info("Successfully activated new desktop.");
+			customDesktop.Activate();
+			processFactory.StartupDesktop = customDesktop;
+			logger.Info("Successfully activated custom desktop.");
 
-			desktopMonitor.Start(newDesktop);
+			desktopMonitor.Start(customDesktop);
 		}
 
-		private void CloseNewDesktop()
+		private void CloseCustomDesktop()
 		{
 			desktopMonitor.Stop();
 
-			if (originalDesktop != null)
+			if (originalDesktop != default)
 			{
 				originalDesktop.Activate();
 				processFactory.StartupDesktop = originalDesktop;
@@ -151,14 +152,14 @@ namespace SafeExamBrowser.Runtime.Operations
 				logger.Warn($"No original desktop found to activate!");
 			}
 
-			if (newDesktop != null)
+			if (customDesktop != default)
 			{
-				newDesktop.Close();
-				logger.Info($"Closed new desktop {newDesktop}.");
+				customDesktop.Close();
+				logger.Info($"Closed custom desktop {customDesktop}.");
 			}
 			else
 			{
-				logger.Warn($"No new desktop found to close!");
+				logger.Warn($"No custom desktop found to close!");
 			}
 		}
 
