@@ -119,9 +119,9 @@ namespace SafeExamBrowser.Configuration
 
 		public LoadStatus TryLoadSettings(Uri resource, out AppSettings settings, PasswordParameters password = null)
 		{
-			logger.Info($"Attempting to load '{resource}'...");
-
 			settings = LoadDefaultSettings();
+
+			logger.Info($"Initialized default settings, now attempting to load '{resource}'...");
 
 			try
 			{
