@@ -129,6 +129,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "join.me.exe", OriginalName = "join.me.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "join.me.sentinel.exe", OriginalName = "join.me.sentinel.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Mikogo-host.exe", OriginalName = "Mikogo-host.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "PCMonitorSrv.exe", OriginalName = "PCMonitorSrv.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "pcmontask.exe", OriginalName = "pcmontask.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "ptoneclk.exe", OriginalName = "ptoneclk.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "RemotePCDesktop.exe", OriginalName = "RemotePCDesktop.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "remoting_host.exe", OriginalName = "remoting_host.exe" });

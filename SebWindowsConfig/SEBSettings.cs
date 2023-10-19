@@ -854,7 +854,9 @@ namespace SebWindowsConfig
 				"CiscoWebExStart.exe",
 				"remoting_host.exe",
 				"SRServer.exe",
-				"strwinclt.exe"
+				"strwinclt.exe",
+				"PCMonitorSrv.exe",
+				"pcmontask.exe"
 			};
 
 			// Default settings for group "Network - Filter"
