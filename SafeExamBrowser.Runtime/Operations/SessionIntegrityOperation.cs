@@ -18,6 +18,9 @@ namespace SafeExamBrowser.Runtime.Operations
 {
 	internal class SessionIntegrityOperation : SessionOperation
 	{
+		private static readonly string USER_PATH = $@"{Environment.ExpandEnvironmentVariables("%LocalAppData%")}\Microsoft\Windows\Cursors\";
+		private static readonly string SYSTEM_PATH = $@"{Environment.ExpandEnvironmentVariables("%SystemRoot%")}\Cursors\";
+
 		private readonly ILogger logger;
 		private readonly IRegistry registry;
 
@@ -66,7 +69,6 @@ namespace SafeExamBrowser.Runtime.Operations
 		private bool VerifyCursorConfiguration()
 		{
 			var success = true;
-			var systemPath = $@"{Environment.ExpandEnvironmentVariables("%SystemRoot%")}\Cursors\";
 
 			logger.Info($"Attempting to verify cursor configuration...");
 
@@ -75,7 +77,7 @@ namespace SafeExamBrowser.Runtime.Operations
 				foreach (var cursor in cursors.Where(c => !string.IsNullOrWhiteSpace(c)))
 				{
 					success &= registry.TryRead(RegistryValue.UserHive.Cursors_Key, cursor, out var value);
-					success &= value == default || !(value is string) || (value is string path && (string.IsNullOrWhiteSpace(path) || path.StartsWith(systemPath, StringComparison.OrdinalIgnoreCase)));
+					success &= value == default || !(value is string) || (value is string path && (string.IsNullOrWhiteSpace(path) || IsValidCursorPath(path)));
 
 					if (!success)
 					{
@@ -96,6 +98,11 @@ namespace SafeExamBrowser.Runtime.Operations
 			}
 
 			return success;
+		}
+
+		private bool IsValidCursorPath(string path)
+		{
+			return path.StartsWith(USER_PATH, StringComparison.OrdinalIgnoreCase) || path.StartsWith(SYSTEM_PATH, StringComparison.OrdinalIgnoreCase);
 		}
 
 		private bool VerifyEaseOfAccessConfiguration()
