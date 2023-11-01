@@ -81,11 +81,11 @@ namespace SafeExamBrowser.Browser
 
 		internal event WindowClosedEventHandler Closed;
 		internal event DownloadRequestedEventHandler ConfigurationDownloadRequested;
+		internal event LoseFocusRequestedEventHandler LoseFocusRequested;
 		internal event PopupRequestedEventHandler PopupRequested;
 		internal event ResetRequestedEventHandler ResetRequested;
-		internal event SessionIdentifierDetectedEventHandler SessionIdentifierDetected;
-		internal event LoseFocusRequestedEventHandler LoseFocusRequested;
 		internal event TerminationRequestedEventHandler TerminationRequested;
+		internal event UserIdentifierDetectedEventHandler UserIdentifierDetected;
 
 		public event IconChangedEventHandler IconChanged;
 		public event TitleChangedEventHandler TitleChanged;
@@ -185,9 +185,9 @@ namespace SafeExamBrowser.Browser
 			keyboardHandler.ZoomInRequested += ZoomInRequested;
 			keyboardHandler.ZoomOutRequested += ZoomOutRequested;
 			keyboardHandler.ZoomResetRequested += ZoomResetRequested;
-			resourceHandler.SessionIdentifierDetected += (id) => SessionIdentifierDetected?.Invoke(id);
 			requestHandler.QuitUrlVisited += RequestHandler_QuitUrlVisited;
 			requestHandler.RequestBlocked += RequestHandler_RequestBlocked;
+			resourceHandler.UserIdentifierDetected += (id) => UserIdentifierDetected?.Invoke(id);
 
 			InitializeRequestFilter(requestFilter);
 

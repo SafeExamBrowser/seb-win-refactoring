@@ -13,9 +13,9 @@ using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class SessionIdentifierRequest : BaseRequest
+	internal class UserIdentifierRequest : BaseRequest
 	{
-		internal SessionIdentifierRequest(
+		internal UserIdentifierRequest(
 			ApiVersion1 api,
 			HttpClient httpClient,
 			ILogger logger,

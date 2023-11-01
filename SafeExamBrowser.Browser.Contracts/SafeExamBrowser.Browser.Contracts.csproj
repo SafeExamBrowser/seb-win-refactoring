@@ -60,7 +60,7 @@
     <Compile Include="Events\DownloadRequestedEventHandler.cs" />
     <Compile Include="Events\TabPressedEventHandler.cs" />
     <Compile Include="Events\LoseFocusRequestedEventHandler.cs" />
-    <Compile Include="Events\SessionIdentifierDetectedEventHandler.cs" />
+    <Compile Include="Events\UserIdentifierDetectedEventHandler.cs" />
     <Compile Include="Events\TerminationRequestedEventHandler.cs" />
     <Compile Include="Filters\IRequestFilter.cs" />
     <Compile Include="Filters\IRule.cs" />

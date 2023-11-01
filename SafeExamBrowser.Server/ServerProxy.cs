@@ -310,18 +310,18 @@ namespace SafeExamBrowser.Server
 			return new ServerResponse<string>(success, browserExamKey, message);
 		}
 
-		public ServerResponse SendSessionIdentifier(string identifier)
+		public ServerResponse SendUserIdentifier(string identifier)
 		{
-			var request = new SessionIdentifierRequest(api, httpClient, logger, parser, settings);
+			var request = new UserIdentifierRequest(api, httpClient, logger, parser, settings);
 			var success = request.TryExecute(examId, identifier, out var message);
 
 			if (success)
 			{
-				logger.Info("Successfully sent session identifier.");
+				logger.Info("Successfully sent user identifier.");
 			}
 			else
 			{
-				logger.Error("Failed to send session identifier!");
+				logger.Error("Failed to send user identifier!");
 			}
 
 			return new ServerResponse(success, message);

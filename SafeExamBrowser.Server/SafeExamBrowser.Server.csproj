@@ -85,7 +85,7 @@
     <Compile Include="Requests\PowerSupplyRequest.cs" />
     <Compile Include="Requests\RaiseHandRequest.cs" />
     <Compile Include="Requests\SelectExamRequest.cs" />
-    <Compile Include="Requests\SessionIdentifierRequest.cs" />
+    <Compile Include="Requests\UserIdentifierRequest.cs" />
     <Compile Include="ServerProxy.cs" />
   </ItemGroup>
   <ItemGroup>

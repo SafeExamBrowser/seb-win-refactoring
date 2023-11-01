@@ -22,9 +22,9 @@ namespace SafeExamBrowser.Browser.Contracts
 		event DownloadRequestedEventHandler ConfigurationDownloadRequested;
 
 		/// <summary>
-		/// Event fired when the browser application detects a session identifier of an LMS.
+		/// Event fired when the user tries to focus the taskbar.
 		/// </summary>
-		event SessionIdentifierDetectedEventHandler SessionIdentifierDetected;
+		event LoseFocusRequestedEventHandler LoseFocusRequested;
 
 		/// <summary>
 		/// Event fired when the browser application detects a request to terminate SEB.
@@ -32,9 +32,9 @@ namespace SafeExamBrowser.Browser.Contracts
 		event TerminationRequestedEventHandler TerminationRequested;
 
 		/// <summary>
-		/// Event fired when the user tries to focus the taskbar.
+		/// Event fired when the browser application detects a user identifier of an LMS.
 		/// </summary>
-		event LoseFocusRequestedEventHandler LoseFocusRequested;
+		event UserIdentifierDetectedEventHandler UserIdentifierDetected;
 
 		/// <summary>
 		/// Transfers the focus to the browser application. If the parameter is <c>true</c>, the first focusable element in the browser window

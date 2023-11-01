@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.Browser.Contracts.Events
 {
 	/// <summary>
-	/// Event handler used to indicate that the browser has detected a session identifier of a LMS.
+	/// Event handler used to indicate that the browser has detected a user identifier of an LMS.
 	/// </summary>
-	public delegate void SessionIdentifierDetectedEventHandler(string identifier);
+	public delegate void UserIdentifierDetectedEventHandler(string identifier);
 }

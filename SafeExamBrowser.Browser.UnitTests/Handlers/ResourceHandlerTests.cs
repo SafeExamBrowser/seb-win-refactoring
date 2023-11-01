@@ -166,7 +166,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		[TestMethod]
 		public void MustLetOperatingSystemHandleUnknownProtocols()
 		{
-			Assert.IsTrue(sut.OnProtocolExecution(default(IWebBrowser), default(IBrowser), default(IFrame), default(IRequest)));
+			Assert.IsTrue(sut.OnProtocolExecution(default, default, default, default));
 		}
 
 		[TestMethod]
@@ -232,28 +232,28 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			var newUrl = default(string);
 			var request = new Mock<IRequest>();
 			var response = new Mock<IResponse>();
-			var sessionId = default(string);
+			var userId = default(string);
 
 			headers.Add("X-LMS-USER-ID", "some-session-id-123");
 			request.SetupGet(r => r.Url).Returns("https://www.somelms.org");
 			response.SetupGet(r => r.Headers).Returns(headers);
-			sut.SessionIdentifierDetected += (id) =>
+			sut.UserIdentifierDetected += (id) =>
 			{
-				sessionId = id;
+				userId = id;
 				@event.Set();
 			};
 
 			sut.OnResourceRedirect(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), Mock.Of<IRequest>(), response.Object, ref newUrl);
 			@event.WaitOne();
-			Assert.AreEqual("some-session-id-123", sessionId);
+			Assert.AreEqual("some-session-id-123", userId);
 
 			headers.Clear();
 			headers.Add("X-LMS-USER-ID", "other-session-id-123");
-			sessionId = default(string);
+			userId = default;
 
 			sut.OnResourceResponse(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, response.Object);
 			@event.WaitOne();
-			Assert.AreEqual("other-session-id-123", sessionId);
+			Assert.AreEqual("other-session-id-123", userId);
 		}
 
 		[TestMethod]
@@ -264,28 +264,28 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			var newUrl = default(string);
 			var request = new Mock<IRequest>();
 			var response = new Mock<IResponse>();
-			var sessionId = default(string);
+			var userId = default(string);
 
 			headers.Add("Set-Cookie", "edx-user-info=\"{\\\"username\\\": \\\"edx-123\\\"}\"; expires");
 			request.SetupGet(r => r.Url).Returns("https://www.somelms.org");
 			response.SetupGet(r => r.Headers).Returns(headers);
-			sut.SessionIdentifierDetected += (id) =>
+			sut.UserIdentifierDetected += (id) =>
 			{
-				sessionId = id;
+				userId = id;
 				@event.Set();
 			};
 
 			sut.OnResourceRedirect(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), Mock.Of<IRequest>(), response.Object, ref newUrl);
 			@event.WaitOne();
-			Assert.AreEqual("edx-123", sessionId);
+			Assert.AreEqual("edx-123", userId);
 
 			headers.Clear();
 			headers.Add("Set-Cookie", "edx-user-info=\"{\\\"username\\\": \\\"edx-345\\\"}\"; expires");
-			sessionId = default(string);
+			userId = default;
 
 			sut.OnResourceResponse(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, response.Object);
 			@event.WaitOne();
-			Assert.AreEqual("edx-345", sessionId);
+			Assert.AreEqual("edx-345", userId);
 		}
 
 		[TestMethod]
@@ -296,28 +296,28 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			var newUrl = default(string);
 			var request = new Mock<IRequest>();
 			var response = new Mock<IResponse>();
-			var sessionId = default(string);
+			var userId = default(string);
 
 			headers.Add("Location", "https://www.some-moodle-instance.org/moodle/login/index.php?testsession=123");
 			request.SetupGet(r => r.Url).Returns("https://www.some-moodle-instance.org");
 			response.SetupGet(r => r.Headers).Returns(headers);
-			sut.SessionIdentifierDetected += (id) =>
+			sut.UserIdentifierDetected += (id) =>
 			{
-				sessionId = id;
+				userId = id;
 				@event.Set();
 			};
 
 			sut.OnResourceRedirect(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), Mock.Of<IRequest>(), response.Object, ref newUrl);
 			@event.WaitOne();
-			Assert.AreEqual("123", sessionId);
+			Assert.AreEqual("123", userId);
 
 			headers.Clear();
 			headers.Add("Location", "https://www.some-moodle-instance.org/moodle/login/index.php?testsession=456");
-			sessionId = default(string);
+			userId = default;
 
 			sut.OnResourceResponse(Mock.Of<IWebBrowser>(), Mock.Of<IBrowser>(), Mock.Of<IFrame>(), request.Object, response.Object);
 			@event.WaitOne();
-			Assert.AreEqual("456", sessionId);
+			Assert.AreEqual("456", userId);
 		}
 
 		private class TestableResourceHandler : ResourceHandler

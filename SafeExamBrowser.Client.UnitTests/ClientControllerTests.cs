@@ -324,18 +324,18 @@ namespace SafeExamBrowser.Client.UnitTests
 		}
 
 		[TestMethod]
-		public void Browser_MustHandleSessionIdentifierDetection()
+		public void Browser_MustHandleUserIdentifierDetection()
 		{
 			var counter = 0;
 			var identifier = "abc123";
 
 			settings.SessionMode = SessionMode.Server;
-			server.Setup(s => s.SendSessionIdentifier(It.IsAny<string>())).Returns(() => new ServerResponse(++counter == 3));
+			server.Setup(s => s.SendUserIdentifier(It.IsAny<string>())).Returns(() => new ServerResponse(++counter == 3));
 
 			sut.TryStart();
-			browser.Raise(b => b.SessionIdentifierDetected += null, identifier);
+			browser.Raise(b => b.UserIdentifierDetected += null, identifier);
 
-			server.Verify(s => s.SendSessionIdentifier(It.Is<string>(id => id == identifier)), Times.Exactly(3));
+			server.Verify(s => s.SendUserIdentifier(It.Is<string>(id => id == identifier)), Times.Exactly(3));
 		}
 
 		[TestMethod]

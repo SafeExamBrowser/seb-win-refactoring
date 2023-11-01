@@ -110,9 +110,9 @@ namespace SafeExamBrowser.Server.Contracts
 		ServerResponse<string> SendSelectedExam(Exam exam);
 
 		/// <summary>
-		/// Sends the given user session identifier of a LMS and thus establishes a connection with the server.
+		/// Sends the given user identifier of an LMS and thus establishes a connection with the server.
 		/// </summary>
-		ServerResponse SendSessionIdentifier(string identifier);
+		ServerResponse SendUserIdentifier(string identifier);
 
 		/// <summary>
 		/// Starts sending ping and log data to the server.

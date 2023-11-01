@@ -59,9 +59,9 @@ namespace SafeExamBrowser.Browser
 		public string Tooltip { get; private set; }
 
 		public event DownloadRequestedEventHandler ConfigurationDownloadRequested;
-		public event SessionIdentifierDetectedEventHandler SessionIdentifierDetected;
 		public event LoseFocusRequestedEventHandler LoseFocusRequested;
 		public event TerminationRequestedEventHandler TerminationRequested;
+		public event UserIdentifierDetectedEventHandler UserIdentifierDetected;
 		public event WindowsChangedEventHandler WindowsChanged;
 
 		public BrowserApplication(
@@ -209,7 +209,7 @@ namespace SafeExamBrowser.Browser
 			window.ConfigurationDownloadRequested += (f, a) => ConfigurationDownloadRequested?.Invoke(f, a);
 			window.PopupRequested += Window_PopupRequested;
 			window.ResetRequested += Window_ResetRequested;
-			window.SessionIdentifierDetected += (i) => SessionIdentifierDetected?.Invoke(i);
+			window.UserIdentifierDetected += (i) => UserIdentifierDetected?.Invoke(i);
 			window.TerminationRequested += () => TerminationRequested?.Invoke();
 			window.LoseFocusRequested += (forward) => LoseFocusRequested?.Invoke(forward);
 

@@ -200,9 +200,9 @@ namespace SafeExamBrowser.Client
 			applicationMonitor.ExplorerStarted += ApplicationMonitor_ExplorerStarted;
 			applicationMonitor.TerminationFailed += ApplicationMonitor_TerminationFailed;
 			Browser.ConfigurationDownloadRequested += Browser_ConfigurationDownloadRequested;
-			Browser.SessionIdentifierDetected += Browser_SessionIdentifierDetected;
-			Browser.TerminationRequested += Browser_TerminationRequested;
 			Browser.LoseFocusRequested += Browser_LoseFocusRequested;
+			Browser.TerminationRequested += Browser_TerminationRequested;
+			Browser.UserIdentifierDetected += Browser_UserIdentifierDetected;
 			ClientHost.ExamSelectionRequested += ClientHost_ExamSelectionRequested;
 			ClientHost.MessageBoxRequested += ClientHost_MessageBoxRequested;
 			ClientHost.PasswordRequested += ClientHost_PasswordRequested;
@@ -254,9 +254,9 @@ namespace SafeExamBrowser.Client
 			if (Browser != null)
 			{
 				Browser.ConfigurationDownloadRequested -= Browser_ConfigurationDownloadRequested;
-				Browser.SessionIdentifierDetected -= Browser_SessionIdentifierDetected;
-				Browser.TerminationRequested -= Browser_TerminationRequested;
 				Browser.LoseFocusRequested -= Browser_LoseFocusRequested;
+				Browser.TerminationRequested -= Browser_TerminationRequested;
+				Browser.UserIdentifierDetected -= Browser_UserIdentifierDetected;
 			}
 
 			if (ClientHost != null)
@@ -531,17 +531,17 @@ namespace SafeExamBrowser.Client
 			}
 		}
 
-		private void Browser_SessionIdentifierDetected(string identifier)
+		private void Browser_UserIdentifierDetected(string identifier)
 		{
 			if (Settings.SessionMode == SessionMode.Server)
 			{
-				var response = Server.SendSessionIdentifier(identifier);
+				var response = Server.SendUserIdentifier(identifier);
 
 				while (!response.Success)
 				{
-					logger.Error($"Failed to communicate session identifier with server! {response.Message}");
+					logger.Error($"Failed to communicate user identifier with server! {response.Message}");
 					Thread.Sleep(Settings.Server.RequestAttemptInterval);
-					response = Server.SendSessionIdentifier(identifier);
+					response = Server.SendUserIdentifier(identifier);
 				}
 			}
 		}
