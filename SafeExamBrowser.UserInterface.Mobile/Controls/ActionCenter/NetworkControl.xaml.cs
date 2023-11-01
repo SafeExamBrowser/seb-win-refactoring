@@ -48,7 +48,9 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 			var lastOpenedBySpacePress = false;
 			Button.PreviewKeyDown += (o, args) =>
 			{
-				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
+				// For some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation,
+				// we record the space bar event and leave the popup open for at least 3 seconds.
+				if (args.Key == System.Windows.Input.Key.Space)
 				{
 					lastOpenedBySpacePress = true;
 				}
@@ -76,11 +78,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 				{
 					if (WirelessNetworksStackPanel.Children.Count > 0)
 					{
-						var btn = WirelessNetworksStackPanel.Children[0] as NetworkButton;
-						if (btn != null)
-						{
-							btn.SetFocus();
-						}
+						(WirelessNetworksStackPanel.Children[0] as NetworkButton)?.SetFocus();
 					}
 				}));
 			};
@@ -137,6 +135,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 			switch (adapter.Status)
 			{
 				case ConnectionStatus.Connected:
+					UpdateText(text.Get(TextKey.SystemControl_NetworkWiredConnected));
 					NetworkStatusIcon.Rotation = 0;
 					NetworkStatusIcon.Source = ImageAwesome.CreateImageSource(FontAwesomeIcon.Globe, Brushes.Green);
 					NetworkStatusIcon.Spin = false;

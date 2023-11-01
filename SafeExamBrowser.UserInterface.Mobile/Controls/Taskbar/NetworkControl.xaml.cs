@@ -42,14 +42,16 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 
 		private void InitializeWirelessNetworkControl()
 		{
+			var lastOpenedBySpacePress = false;
 			var originalBrush = Button.Background;
 
 			adapter.Changed += () => Dispatcher.InvokeAsync(Update);
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
-			var lastOpenedBySpacePress = false;
 			Button.PreviewKeyDown += (o, args) =>
 			{
-				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
+				// For some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation,
+				// we record the space bar event and leave the popup open for at least 3 seconds.
+				if (args.Key == System.Windows.Input.Key.Space)
 				{
 					lastOpenedBySpacePress = true;
 				}
@@ -62,6 +64,12 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 				}
 				Popup.IsOpen = Popup.IsMouseOver;
 			}));
+			Popup.Closed += (o, args) =>
+			{
+				Background = originalBrush;
+				Button.Background = originalBrush;
+				lastOpenedBySpacePress = false;
+			};
 			Popup.CustomPopupPlacementCallback = new CustomPopupPlacementCallback(Popup_PlacementCallback);
 			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
 			{
@@ -71,8 +79,6 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 				}
 				Popup.IsOpen = IsMouseOver;
 			}));
-			WirelessIcon.Child = GetWirelessIcon(0);
-
 			Popup.Opened += (o, args) =>
 			{
 				Background = Brushes.LightGray;
@@ -81,21 +87,11 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 				{
 					if (WirelessNetworksStackPanel.Children.Count > 0)
 					{
-						var btn = WirelessNetworksStackPanel.Children[0] as NetworkButton;
-						if (btn != null)
-						{
-							btn.SetFocus();
-						}
+						(WirelessNetworksStackPanel.Children[0] as NetworkButton)?.SetFocus();
 					}
 				}));
 			};
-
-			Popup.Closed += (o, args) =>
-			{
-				Background = originalBrush;
-				Button.Background = originalBrush;
-				lastOpenedBySpacePress = false;
-			};
+			WirelessIcon.Child = GetWirelessIcon(0);
 
 			Update();
 		}
