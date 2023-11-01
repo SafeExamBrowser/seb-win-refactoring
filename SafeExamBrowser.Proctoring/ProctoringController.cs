@@ -101,12 +101,6 @@ namespace SafeExamBrowser.Proctoring
 				start = !string.IsNullOrWhiteSpace(settings.JitsiMeet.RoomName);
 				start &= !string.IsNullOrWhiteSpace(settings.JitsiMeet.ServerUrl);
 			}
-			else if (settings.Zoom.Enabled)
-			{
-				start = !string.IsNullOrWhiteSpace(settings.Zoom.SdkKey) && !string.IsNullOrWhiteSpace(settings.Zoom.Signature);
-				start &= !string.IsNullOrWhiteSpace(settings.Zoom.MeetingNumber);
-				start &= !string.IsNullOrWhiteSpace(settings.Zoom.UserName);
-			}
 
 			if (start)
 			{
@@ -167,13 +161,6 @@ namespace SafeExamBrowser.Proctoring
 			settings.JitsiMeet.ServerUrl = args.JitsiMeetServerUrl;
 			settings.JitsiMeet.Token = args.JitsiMeetToken;
 
-			settings.Zoom.MeetingNumber = args.ZoomMeetingNumber;
-			settings.Zoom.Password = args.ZoomPassword;
-			settings.Zoom.SdkKey = args.ZoomSdkKey;
-			settings.Zoom.Signature = args.ZoomSignature;
-			settings.Zoom.Subject = args.ZoomSubject;
-			settings.Zoom.UserName = args.ZoomUserName;
-
 			StopProctoring();
 			StartProctoring();
 		}
@@ -185,10 +172,6 @@ namespace SafeExamBrowser.Proctoring
 			settings.JitsiMeet.AllowChat = allowChat;
 			settings.JitsiMeet.ReceiveAudio = receiveAudio;
 			settings.JitsiMeet.ReceiveVideo = receiveVideo;
-
-			settings.Zoom.AllowChat = allowChat;
-			settings.Zoom.ReceiveAudio = receiveAudio;
-			settings.Zoom.ReceiveVideo = receiveVideo;
 
 			if (allowChat || receiveVideo)
 			{
@@ -225,26 +208,19 @@ namespace SafeExamBrowser.Proctoring
 					});
 
 					window = uiFactory.CreateProctoringWindow(control);
-					window.SetTitle(settings.JitsiMeet.Enabled ? settings.JitsiMeet.Subject : settings.Zoom.Subject);
+					window.SetTitle(settings.JitsiMeet.Enabled ? settings.JitsiMeet.Subject : "");
 					window.Show();
 
 					if (settings.WindowVisibility == WindowVisibility.AllowToShow || settings.WindowVisibility == WindowVisibility.Hidden)
 					{
-						if (settings.Zoom.Enabled)
-						{
-							window.HideWithDelay();
-						}
-						else
-						{
-							window.Hide();
-						}
+						window.Hide();
 					}
 
 					IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Active.xaml") };
 					Tooltip = text.Get(TextKey.Notification_ProctoringActiveTooltip);
 					NotificationChanged?.Invoke();
 
-					logger.Info($"Started proctoring with {(settings.JitsiMeet.Enabled ? "Jitsi Meet" : "Zoom")}.");
+					logger.Info($"Started proctoring with {(settings.JitsiMeet.Enabled ? "Jitsi Meet" : "")}.");
 				}
 				catch (Exception e)
 				{
@@ -263,10 +239,6 @@ namespace SafeExamBrowser.Proctoring
 					{
 						control.ExecuteScriptAsync("api.executeCommand('hangup'); api.dispose();");
 					}
-					else if (settings.Zoom.Enabled)
-					{
-						control.ExecuteScriptAsync("ZoomMtg.leaveMeeting({});");
-					}
 
 					Thread.Sleep(2000);
 
@@ -282,36 +254,34 @@ namespace SafeExamBrowser.Proctoring
 
 		private string LoadContent(ProctoringSettings settings)
 		{
-			var provider = settings.JitsiMeet.Enabled ? "JitsiMeet" : "Zoom";
-			var assembly = Assembly.GetAssembly(typeof(ProctoringController));
-			var path = $"{typeof(ProctoringController).Namespace}.{provider}.index.html";
-
-			using (var stream = assembly.GetManifestResourceStream(path))
-			using (var reader = new StreamReader(stream))
+			if (settings.JitsiMeet.Enabled)
 			{
-				var html = reader.ReadToEnd();
+				var assembly = Assembly.GetAssembly(typeof(ProctoringController));
+				var path = $"{typeof(ProctoringController).Namespace}.JitsiMeet.index.html";
 
-				if (settings.JitsiMeet.Enabled)
+				using (var stream = assembly.GetManifestResourceStream(path))
+				using (var reader = new StreamReader(stream))
 				{
-					html = html.Replace("%%_ALLOW_CHAT_%%", settings.JitsiMeet.AllowChat ? "chat" : "");
-					html = html.Replace("%%_ALLOW_CLOSED_CAPTIONS_%%", settings.JitsiMeet.AllowClosedCaptions ? "closedcaptions" : "");
-					html = html.Replace("%%_ALLOW_RAISE_HAND_%%", settings.JitsiMeet.AllowRaiseHand ? "raisehand" : "");
-					html = html.Replace("%%_ALLOW_RECORDING_%%", settings.JitsiMeet.AllowRecording ? "recording" : "");
-					html = html.Replace("%%_ALLOW_TILE_VIEW", settings.JitsiMeet.AllowTileView ? "tileview" : "");
-					html = html.Replace("'%_AUDIO_MUTED_%'", settings.JitsiMeet.AudioMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
-					html = html.Replace("'%_AUDIO_ONLY_%'", settings.JitsiMeet.AudioOnly ? "true" : "false");
-					html = html.Replace("'%_VIDEO_MUTED_%'", settings.JitsiMeet.VideoMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
-				}
-				else if (settings.Zoom.Enabled)
-				{
-					html = html.Replace("'%_ALLOW_CHAT_%'", settings.Zoom.AllowChat ? "true" : "false");
-					html = html.Replace("'%_ALLOW_CLOSED_CAPTIONS_%'", settings.Zoom.AllowClosedCaptions ? "true" : "false");
-					html = html.Replace("'%_ALLOW_RAISE_HAND_%'", settings.Zoom.AllowRaiseHand ? "true" : "false");
-					html = html.Replace("'%_AUDIO_MUTED_%'", settings.Zoom.AudioMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
-					html = html.Replace("'%_VIDEO_MUTED_%'", settings.Zoom.VideoMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
-				}
+					var html = reader.ReadToEnd();
 
-				return html;
+					if (settings.JitsiMeet.Enabled)
+					{
+						html = html.Replace("%%_ALLOW_CHAT_%%", settings.JitsiMeet.AllowChat ? "chat" : "");
+						html = html.Replace("%%_ALLOW_CLOSED_CAPTIONS_%%", settings.JitsiMeet.AllowClosedCaptions ? "closedcaptions" : "");
+						html = html.Replace("%%_ALLOW_RAISE_HAND_%%", settings.JitsiMeet.AllowRaiseHand ? "raisehand" : "");
+						html = html.Replace("%%_ALLOW_RECORDING_%%", settings.JitsiMeet.AllowRecording ? "recording" : "");
+						html = html.Replace("%%_ALLOW_TILE_VIEW", settings.JitsiMeet.AllowTileView ? "tileview" : "");
+						html = html.Replace("'%_AUDIO_MUTED_%'", settings.JitsiMeet.AudioMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
+						html = html.Replace("'%_AUDIO_ONLY_%'", settings.JitsiMeet.AudioOnly ? "true" : "false");
+						html = html.Replace("'%_VIDEO_MUTED_%'", settings.JitsiMeet.VideoMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
+					}
+
+					return html;
+				}
+			}
+			else
+			{
+				return "";
 			}
 		}
 

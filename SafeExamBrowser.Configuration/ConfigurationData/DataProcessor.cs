@@ -76,14 +76,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		private void InitializeProctoringSettings(AppSettings settings)
 		{
-			settings.Proctoring.Enabled = settings.Proctoring.JitsiMeet.Enabled || settings.Proctoring.Zoom.Enabled;
+			settings.Proctoring.Enabled = settings.Proctoring.JitsiMeet.Enabled;
 
 			if (settings.Proctoring.JitsiMeet.Enabled && !settings.Proctoring.JitsiMeet.ReceiveVideo)
-			{
-				settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
-			}
-
-			if (settings.Proctoring.Zoom.Enabled && !settings.Proctoring.Zoom.ReceiveVideo)
 			{
 				settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
 			}

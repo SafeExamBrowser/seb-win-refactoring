@@ -94,14 +94,6 @@ namespace SafeExamBrowser.Proctoring
 				credentials.Add(new JProperty("subject", settings.JitsiMeet.ShowMeetingName ? settings.JitsiMeet.Subject : ""));
 				credentials.Add(new JProperty("token", settings.JitsiMeet.Token));
 			}
-			else if (settings.Zoom.Enabled)
-			{
-				credentials.Add(new JProperty("meetingNumber", settings.Zoom.MeetingNumber));
-				credentials.Add(new JProperty("password", settings.Zoom.Password));
-				credentials.Add(new JProperty("sdkKey", settings.Zoom.SdkKey));
-				credentials.Add(new JProperty("signature", settings.Zoom.Signature));
-				credentials.Add(new JProperty("userName", settings.Zoom.UserName));
-			}
 
 			message.Add("credentials", credentials);
 			logger.Debug("Sending credentials to proctoring client.");

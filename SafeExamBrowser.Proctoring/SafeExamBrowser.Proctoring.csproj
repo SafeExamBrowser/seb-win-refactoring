@@ -117,7 +117,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="JitsiMeet\index.html" />
-    <EmbeddedResource Include="Zoom\index.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
