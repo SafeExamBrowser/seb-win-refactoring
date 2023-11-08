@@ -456,6 +456,12 @@
     <Entry key="MessageBox_YesButton">
         Oui
     </Entry>
+    <Entry key="MessageBox_ZoomNotSupported">
+        La configuration sélectionnée nécessite une surveillance à distance avec Zoom, que cette version SEB ne prend pas en charge. Veuillez télécharger et installer la version SEB spécifiée par votre organisateur d'examen. En raison de problèmes de licence, la surveillance à distance avec Zoom n'est disponible que pour les membres de l'Alliance SEB. Veuillez consulter le site https://safeexambrowser.org/alliance pour plus d'informations.
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupportedTitle">
+        Surveillance à distance avec Zoom requis
+    </Entry>
     <Entry key="Notification_AboutTooltip">
         Informations à propos de SEB
     </Entry>
@@ -598,7 +604,10 @@
         Vérification de l'intégrité de la session
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
-        En attente de confirmation de la clause de non-responsabilité
+        Attente de la confirmation de la clause de non-responsabilité
+    </Entry>
+    <Entry key="OperationStatus_WaitErrorConfirmation">
+        Attente de la confirmation du message d'erreur
     </Entry>
     <Entry key="OperationStatus_WaitExplorerStartup">
         Attente du démarrage de l’explorateur Windows

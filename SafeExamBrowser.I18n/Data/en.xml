@@ -456,6 +456,12 @@
     <Entry key="MessageBox_YesButton">
         Yes
     </Entry>
+    <Entry key="MessageBox_ZoomNotSupported">
+        The selected configuration requires remote proctoring with Zoom, which this SEB version does not support. Please download and install the SEB version specified by your exam organizer. Due to licensing issues, remote proctoring with Zoom is only available for SEB Alliance members. Please refer to https://safeexambrowser.org/alliance for more information.
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupportedTitle">
+        Zoom Proctoring Required
+    </Entry>
     <Entry key="Notification_AboutTooltip">
         Information about SEB
     </Entry>
@@ -599,6 +605,9 @@
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
         Waiting for confirmation of the disclaimer
+    </Entry>
+    <Entry key="OperationStatus_WaitErrorConfirmation">
+        Waiting for confirmation of the error message
     </Entry>
     <Entry key="OperationStatus_WaitExplorerStartup">
         Waiting for Windows explorer to start up

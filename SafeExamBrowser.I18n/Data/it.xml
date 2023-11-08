@@ -456,6 +456,12 @@
     <Entry key="MessageBox_YesButton">
         Si
     </Entry>
+    <Entry key="MessageBox_ZoomNotSupported">
+        La configurazione selezionata richiede il proctoring remoto con Zoom, che questa versione di SEB non supporta. Scaricare e installare la versione SEB specificata dall'organizzatore dell'esame. A causa di problemi di licenza, il proctoring remoto con Zoom è disponibile solo per i membri di SEB Alliance. Per ulteriori informazioni, consultare il sito https://safeexambrowser.org/alliance.
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupportedTitle">
+        È richiesta il proctoring remoto con Zoom
+    </Entry>
     <Entry key="Notification_AboutTooltip">
         Informazioni su SEB
     </Entry>
@@ -599,6 +605,9 @@
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
         In attesa di conferma del disclaimer
+    </Entry>
+    <Entry key="OperationStatus_WaitErrorConfirmation">
+        In attesa di conferma del messaggio di errore
     </Entry>
     <Entry key="OperationStatus_WaitExplorerStartup">
         In attesa dell'avvio di Esplora risorse di Windows

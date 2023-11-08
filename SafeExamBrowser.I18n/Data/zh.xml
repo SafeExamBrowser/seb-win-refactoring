@@ -420,6 +420,12 @@
     <Entry key="MessageBox_YesButton">
         是
     </Entry>
+    <Entry key="MessageBox_ZoomNotSupported">
+        所选配置要求使用 Zoom 进行远程监考，而此 SEB 版本不支持远程监考。请下载并安装考试组织者指定的 SEB 版本。由于许可问题，只有 SEB 联盟成员才能使用 Zoom 进行远程监考。有关详细信息，请参阅 https://safeexambrowser.org/alliance。
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupportedTitle">
+        需要放大监考
+    </Entry>
     <Entry key="Notification_AboutTooltip">
         关于防作弊考试专用浏览器的信息
     </Entry>
@@ -554,6 +560,9 @@
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
         等待确认免责声明
+    </Entry>
+    <Entry key="OperationStatus_WaitErrorConfirmation">
+        等待确认错误信息
     </Entry>
     <Entry key="OperationStatus_WaitExplorerStartup">
         等待Windows资源管理器启动

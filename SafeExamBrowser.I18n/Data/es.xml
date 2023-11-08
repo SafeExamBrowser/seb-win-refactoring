@@ -436,7 +436,7 @@
         La carga de archivos no está permitida en la configuración actual de SEB. Por favor, informe a su proveedor de examen.
     </Entry>
     <Entry key="MessageBox_UploadNotAllowedTitle">
-        Uploading Not Allowed!
+        Carga no permitida
     </Entry>
     <Entry key="MessageBox_VersionRestrictionError">
         La versión instalada de SEB %%_VERSION_%% no puede ser utilizada ya que la configuración seleccionada requiere utilizar una versión específica:%%_REQUIRED_VERSIONS_%%Por favor descargue e instale la versión requerida desde el sitio web oficial (safeexambrowser.org/download) o desde el repositorio de SEB para Windows en GitHub (github.com/safeexambrowser).
@@ -455,6 +455,12 @@
     </Entry>
     <Entry key="MessageBox_YesButton">
         Sí
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupported">
+        La configuración seleccionada requiere supervisión remota con Zoom, que esta versión de SEB no admite. Por favor descargue e instale la versión SEB especificada por el organizador de su examen. Debido a problemas de licencia, la supervisión remota con Zoom sólo está disponible para los miembros de SEB Alliance. Consulte https://safeexambrowser.org/alliance para obtener más información.
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupportedTitle">
+        Supervisión remota con Zoom requerido
     </Entry>
     <Entry key="Notification_AboutTooltip">
         Información sobre SEB
@@ -598,7 +604,10 @@
         Verificación de la integridad de la sesión
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
-        A la espera de la confirmación del descargo de responsabilidad
+        Esperando confirmación del descargo de responsabilidad
+    </Entry>
+    <Entry key="OperationStatus_WaitErrorConfirmation">
+        Esperando confirmación del mensaje de error
     </Entry>
     <Entry key="OperationStatus_WaitExplorerStartup">
         Esperando a que se inicie el explorador de Windows

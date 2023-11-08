@@ -456,6 +456,12 @@
     <Entry key="MessageBox_YesButton">
         Ja
     </Entry>
+    <Entry key="MessageBox_ZoomNotSupported">
+        Die gewählte Konfiguration erfordert Fernüberwachung mit Zoom, die von dieser SEB-Version nicht unterstützt wird. Bitte laden Sie die von Ihrem Prüfungsorganisator angegebene SEB-Version herunter und installieren Sie diese. Aus lizenzrechtlichen Gründen ist die Fernüberwachung mit Zoom nur für Mitglieder der SEB-Allianz verfügbar. Weitere Informationen finden Sie unter https://safeexambrowser.org/alliance.
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupportedTitle">
+        Zoom Fernüberwachung erforderlich
+    </Entry>
     <Entry key="Notification_AboutTooltip">
         Informationen über SEB
     </Entry>
@@ -599,6 +605,9 @@
     </Entry>
     <Entry key="OperationStatus_WaitDisclaimerConfirmation">
         Warte auf die Bestätigung des Hinweises zur Fernüberwachung
+    </Entry>
+    <Entry key="OperationStatus_WaitErrorConfirmation">
+        Warte auf die Bestätigung der Fehlermeldung
     </Entry>
     <Entry key="OperationStatus_WaitExplorerStartup">
         Warte bis Windows Explorer gestartet ist

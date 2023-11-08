@@ -29,26 +29,42 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public override OperationResult Perform()
 		{
+			var result = OperationResult.Success;
+
 			if (Context.Next.Settings.Proctoring.Enabled)
 			{
-				return ShowDisclaimer();
+				result = ShowDisclaimer();
+			}
+			else if (Context.Next.Settings.Proctoring.Zoom.Enabled)
+			{
+				result = ShowZoomError();
+			}
+			else
+			{
+				logger.Info("Remote proctoring is disabled, skipping disclaimer.");
 			}
 
-			logger.Info("Remote proctoring is disabled, skipping disclaimer.");
-
-			return OperationResult.Success;
+			return result;
 		}
 
 		public override OperationResult Repeat()
 		{
+			var result = OperationResult.Success;
+
 			if (Context.Next.Settings.Proctoring.Enabled)
 			{
-				return ShowDisclaimer();
+				result = ShowDisclaimer();
+			}
+			else if (Context.Next.Settings.Proctoring.Zoom.Enabled)
+			{
+				result = ShowZoomError();
+			}
+			else
+			{
+				logger.Info("Remote proctoring is disabled, skipping disclaimer.");
 			}
 
-			logger.Info("Remote proctoring is disabled, skipping disclaimer.");
-
-			return OperationResult.Success;
+			return result;
 		}
 
 		public override OperationResult Revert()
@@ -81,6 +97,24 @@ namespace SafeExamBrowser.Runtime.Operations
 
 				return OperationResult.Aborted;
 			}
+		}
+
+		private OperationResult ShowZoomError()
+		{
+			var args = new MessageEventArgs
+			{
+				Action = MessageBoxAction.Ok,
+				Icon = MessageBoxIcon.Error,
+				Message = TextKey.MessageBox_ZoomNotSupported,
+				Title = TextKey.MessageBox_ZoomNotSupportedTitle
+			};
+
+			logger.Error("Zoom proctoring is enabled but not supported! Aborting session initialization...");
+
+			StatusChanged?.Invoke(TextKey.OperationStatus_WaitErrorConfirmation);
+			ActionRequired?.Invoke(args);
+
+			return OperationResult.Aborted;
 		}
 	}
 }
