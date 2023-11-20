@@ -1,0 +1,729 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Text>
+    <Entry key="AboutWindow_LicenseInfo">
+        Deze toepassing valt onder de voorwaarden van de Mozilla Public License, versie 2.0. Safe Exam Browser maakt gebruik van de volgende frameworks en bibliotheken van derden:
+    </Entry>
+    <Entry key="AboutWindow_Title">
+        Versie &amp; licentie informatie
+    </Entry>
+    <Entry key="Browser_BlockedContentMessage">
+        Inhoud geblokkeerd
+    </Entry>
+    <Entry key="Browser_BlockedPageButton">
+        Terug naar vorige pagina
+    </Entry>
+    <Entry key="Browser_BlockedPageMessage">
+        Toegang tot deze pagina is niet toegestaan volgens de huidige configuratie.
+    </Entry>
+    <Entry key="Browser_BlockedPageTitle">
+        Pagina geblokkeerd
+    </Entry>
+    <Entry key="Browser_LoadErrorMessage">
+        Er is een fout opgetreden tijdens het laden van de pagina "%%URL%%":
+    </Entry>
+    <Entry key="Browser_LoadErrorTitle">
+        Pagina laden fout
+    </Entry>
+    <Entry key="Browser_Name">
+        Browser
+    </Entry>
+    <Entry key="Browser_PrintNotAllowed">
+        Afdrukken is niet toegestaan volgens de huidige configuratie.
+    </Entry>
+    <Entry key="Browser_Tooltip">
+        Open webpagina's
+    </Entry>
+    <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
+        Ontwikkelaarconsole
+    </Entry>
+    <Entry key="BrowserWindow_Downloading">
+        Aan het downloaden...
+    </Entry>
+    <Entry key="BrowserWindow_DownloadCancelled">
+        Geannuleerd.
+    </Entry>
+    <Entry key="BrowserWindow_DownloadComplete">
+        Gedownloaded.
+    </Entry>
+    <Entry key="BrowserWindow_FindCaseSensitive">
+        Zoeken op hoofdletters en kleine letters
+    </Entry>
+    <Entry key="BrowserWindow_FindMenuItem">
+        Zoek pagina...
+    </Entry>
+    <Entry key="BrowserWindow_ReloadButton">
+        Herladen
+    </Entry>
+    <Entry key="BrowserWindow_BackwardButton">
+        Vorige
+    </Entry>
+    <Entry key="BrowserWindow_ForwardButton">
+        Volgende
+    </Entry>
+    <Entry key="BrowserWindow_DownloadsButton">
+        Download
+    </Entry>
+    <Entry key="BrowserWindow_HomeButton">
+        Home
+    </Entry>
+    <Entry key="BrowserWindow_MenuButton">
+        Menu
+    </Entry>
+    <Entry key="BrowserWindow_CloseButton">
+        Sluiten
+    </Entry>
+    <Entry key="BrowserWindow_UrlTextBox">
+        URL invoeren
+    </Entry>
+    <Entry key="BrowserWindow_ZoomLevelReset">
+        Paginazoom op %%ZOOM%%. Klik om te resetten.
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuItem">
+        Paginazoom
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuPlus">
+        Paginazoom vergroten
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuMinus">
+        Paginazoom verlagen
+    </Entry>
+    <Entry key="BrowserWindow_SearchTextBox">
+        Voer tekst in om te zoeken
+    </Entry>
+    <Entry key="BrowserWindow_SearchNext">
+        Volgend zoekresultaat
+    </Entry>
+    <Entry key="BrowserWindow_SearchPrevious">
+        Volgend zoekresultaat
+    </Entry>
+    <Entry key="Build">
+        Build
+    </Entry>
+    <Entry key="ExamSelectionDialog_Cancel">
+        Annuleren
+    </Entry>
+    <Entry key="ExamSelectionDialog_Message">
+        Selecteer een van de beschikbare SEB-Server-examens:
+    </Entry>
+    <Entry key="ExamSelectionDialog_Select">
+        Selecteren
+    </Entry>
+    <Entry key="ExamSelectionDialog_Title">
+        SEB-Server-examens
+    </Entry>
+    <Entry key="FileSystemDialog_Cancel">
+        Annuleren
+    </Entry>
+    <Entry key="FileSystemDialog_LoadError">
+        Het laden van de gegevens is mislukt!
+    </Entry>
+    <Entry key="FileSystemDialog_Loading">
+        Aan het laden...
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFileMessage">
+        Selecteer een bestand om te openen.
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFolderMessage">
+        Selecteer een map.
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarning">
+        Het geselecteerde bestand bestaat al! Wilt u het echt overschrijven?
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarningTitle">
+        Overschrijven?
+    </Entry>
+    <Entry key="FileSystemDialog_SaveAs">
+        Opslaan als:
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFileMessage">
+        Selecteer een locatie om het bestand op te slaan.
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFolderMessage">
+        Selecteer een locatie om de map op te slaan.
+    </Entry>
+    <Entry key="FileSystemDialog_Select">
+        Selecteren
+    </Entry>
+    <Entry key="FileSystemDialog_Title">
+        Bestandssysteem toegang
+    </Entry>
+    <Entry key="FolderDialog_ApplicationLocation">
+        Toepassing "%%NAME%%" kon niet worden gevonden op het systeem! Zoek de map met het hoofdprogramma "%%EXECUTABLE%%".
+    </Entry>
+    <Entry key="LockScreen_ApplicationIntegrityMessage">
+        U gebruikt een onofficiële SEB-versie! Zorg ervoor dat u een officiële Safe Exam Browser gebruikt. Om SEB te ontgrendelen, moet u het juiste ontgrendelwachtwoord invoeren.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsAllowOption">
+        Sta tijdelijk de applicaties toe die op de zwarte lijst staan. Dit geldt alleen voor de huidige instanties en sessie!
+    </Entry>
+    <Entry key="LockScreen_ApplicationsMessage">
+        De onderstaande applicaties op de zwarte lijst zijn gestart en konden niet automatisch worden afgesloten! Om SEB te ontgrendelen, selecteert u een van de beschikbare opties en voert u het juiste ontgrendelingswachtwoord in.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsTerminateOption">
+        Beëindig de Safe Exam Browser. WAARSCHUWING: er is geen mogelijkheid om gegevens op te slaan of verdere acties uit te voeren, de browser wordt onmiddellijk afgesloten!
+    </Entry>
+    <Entry key="LockScreen_CursorContinueOption">
+        Tijdelijk de cursorconfiguratie toestaan. Dit geldt alleen voor de huidige sessie!
+    </Entry>
+    <Entry key="LockScreen_CursorMessage">
+        Er is een verboden cursorconfiguratie gedetecteerd. Om SEB te ontgrendelen, selecteert u een van de beschikbare opties en voert u het juiste ontgrendelwachtwoord in.
+    </Entry>
+    <Entry key="LockScreen_CursorTerminateOption">
+        Beëindig de Safe Exam Browser. WAARSCHUWING: er is geen mogelijkheid om gegevens op te slaan of verdere acties uit te voeren, de browser wordt onmiddellijk afgesloten!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationContinueOption">
+        Tijdelijk de weergaveconfiguratie toestaan. Dit geldt alleen voor de huidige sessie!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationMessage">
+        Er is een verboden weergaveconfiguratie gedetecteerd. Om SEB te ontgrendelen, selecteert u een van de beschikbare opties en voert u het juiste ontgrendelingswachtwoord in.
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationTerminateOption">
+        Beëindig de Safe Exam Browser. WAARSCHUWING: er is geen mogelijkheid om gegevens op te slaan of verdere acties uit te voeren, de browser wordt onmiddellijk afgesloten!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessContinueOption">
+        Tijdelijk de eenvoudige toegangsconfiguratie toestaan. Dit geldt alleen voor de huidige sessie!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessMessage">
+        Er is een verboden toegangsvriendelijke configuratie voor het Windows Beveiligingsscherm gedetecteerd. Om SEB te ontgrendelen, selecteert u een van de beschikbare opties en voert u het juiste ontgrendelwachtwoord in.
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessTerminateOption">
+        Beëindig de Safe Exam Browser. WAARSCHUWING: er is geen mogelijkheid om gegevens op te slaan of verdere acties uit te voeren, de browser wordt onmiddellijk afgesloten!
+    </Entry>
+    <Entry key="LockScreen_SessionIntegrityMessage">
+        De laatste sessie met de huidige actieve configuratie of start URL is niet goed afgesloten! Voer het juiste wachtwoord in om SEB te ontgrendelen.
+    </Entry>
+    <Entry key="LockScreen_Title">
+        SEB VERGRENDELD
+    </Entry>
+    <Entry key="LockScreen_UnlockButton">
+        Ontgrendelen
+    </Entry>
+    <Entry key="LockScreen_UserSessionContinueOption">
+        Ontgrendel Safe Exam Browser.
+    </Entry>
+    <Entry key="LockScreen_UserSessionMessage">
+        De actieve gebruiker is gewijzigd of de computer is vergrendeld! Om SEB te ontgrendelen, selecteert u een van de beschikbare opties en voert u het juiste ontgrendelwachtwoord in.
+    </Entry>
+    <Entry key="LockScreen_UserSessionTerminateOption">
+        Beëindig de Safe Exam Browser. WAARSCHUWING: er is geen mogelijkheid om gegevens op te slaan of verdere acties uit te voeren, de browser wordt onmiddellijk afgesloten!
+    </Entry>
+    <Entry key="LogWindow_AlwaysOnTop">
+        Altijd bovenaan
+    </Entry>
+    <Entry key="LogWindow_AutoScroll">
+        Auto-scroll inhoud
+    </Entry>
+    <Entry key="LogWindow_Title">
+        Applicatielog
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestion">
+        De onderstaande applicaties moeten worden afgesloten voordat een nieuwe sessie kan worden gestart. Wilt u ze nu automatisch beëindigen?
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestionTitle">
+        Lopende toepassingen gedetecteerd
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationDataLossWarning">
+        WAARSCHUWING: alle niet-opgeslagen applicatiegegevens kunnen verloren gaan!
+    </Entry>
+    <Entry key="MessageBox_ApplicationError">
+        Er is een onherstelbare fout opgetreden! Raadpleeg de logbestanden voor meer informatie. SEB zal nu afsluiten...
+    </Entry>
+    <Entry key="MessageBox_ApplicationErrorTitle">
+        Applicatie fout
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailure">
+        Toepassing %%NAME%% kon niet worden geïnitialiseerd en zal dus niet beschikbaar zijn voor de nieuwe sessie! Raadpleeg de logbestanden voor meer informatie.
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailureTitle">
+        Initialisatie applicatie mislukt
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFound">
+        Toepassing %%NAME%% kon niet worden gevonden op het systeem en zal dus niet beschikbaar zijn voor de nieuwe sessie! Raadpleeg de logbestanden voor meer informatie.
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFoundTitle">
+        Applicatie niet gevonden
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailure">
+        De onderstaande applicaties konden niet worden afgesloten! Sluit ze handmatig af en probeer het opnieuw...
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailureTitle">
+        Automatische beëindiging mislukt
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestion">
+        Weet u het zeker? (Deze functie log u niet uit als u bent ingelogd op een website)
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestionTitle">
+        Terug naar start
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlocked">
+        Toegang tot "%%URL%%" is niet toegestaan volgens de huidige configuratie.
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlockedTitle">
+        Pagina geblokkeerd
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmation">
+        De browserapplicatie heeft een afgesloten URL gedetecteerd! Wilt u SEB nu beëindigen?
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
+        Verlaat URL gedecteerd
+    </Entry>
+    <Entry key="MessageBox_CancelButton">
+        Annuleren
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationError">
+        De lokale clientconfiguratie is mislukt! Raadpleeg de logbestanden voor meer informatie. SEB zal nu afsluiten...
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationErrorTitle">
+        Configuratie fout
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestion">
+        De clientconfiguratie is opgeslagen en zal worden gebruikt wanneer je SEB de volgende keer opstart. Wil je nu stoppen?
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestionTitle">
+        Configuratie succesvol
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadError">
+        De clientconfiguratie is opgeslagen en zal worden gebruikt wanneer je SEB de volgende keer opstart. Wil je nu stoppen?
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
+        Download fout
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationError">
+        De actieve displayconfiguratie is niet toegestaan. %%_ALLOWED_COUNT_%% %%_TYPE_%% display(s) zijn toegestaan, maar %%_INTERNAL_COUNT_%% interne en %%_EXTERNAL_COUNT_%% externe display(s) werden gedetecteerd. Raadpleeg de logbestanden voor meer informatie. SEB zal nu afsluiten...
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationErrorTitle">
+        Verboden schermconfiguratie
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternal">
+        intern
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
+        intern of extern
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowed">
+        Bestanden downloaden is niet toegestaan in de huidige SEB-instellingen. Meld dit aan uw examenprovider.
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowedTitle">
+        Downloaden is niet toegelaten!
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationData">
+        De configuratiebron "%%URI%%" bevat ongeldige gegevens!
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationDataTitle">
+        Configuratie fout
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePassword">
+        Het ingevoerde wachtwoord is onjuist.
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePasswordTitle">
+        Ongeldig wachtwoord
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordError">
+        Het is niet gelukt om binnen 5 pogingen het juiste wachtwoord in te voeren. SEB zal nu afsluiten...
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordErrorTitle">
+        Ongeldig wachtwoord
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPassword">
+        SEB kan alleen worden beëindigd door het juiste wachtwoord voor afsluiten in te voeren.
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPasswordTitle">
+        Ongeldig verlaat wachtwoord
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPassword">
+        SEB kan alleen worden ontgrendeld door het juiste wachtwoord in te voeren.
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPasswordTitle">
+        Ongeldig ontgrendelingswachtwoord
+    </Entry>
+    <Entry key="MessageBox_NoButton">
+        Nee
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResource">
+        De configuratiebron "%%URI%%" wordt niet ondersteund!
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResourceTitle">
+        Configuratie fout
+    </Entry>
+    <Entry key="MessageBox_OkButton">
+        OK
+    </Entry>
+    <Entry key="MessageBox_ProctoringDisclaimer">
+        De huidige sessie wordt op afstand gecontroleerd met behulp van een live video- en audiostream, die naar een individueel geconfigureerde server wordt gestuurd. Vraag uw examenaanbieder naar hun privacybeleid. SEB zelf maakt geen verbinding met een gecentraliseerde SEB surveillanceserver, uw examenaanbieder beslist welke surveillancedienst/server hij gebruikt.
+    </Entry>
+    <Entry key="MessageBox_ProctoringDisclaimerTitle">
+        Sessie met proctoraat op afstand
+    </Entry>
+    <Entry key="MessageBox_Quit">
+        Wil je SEB verlaten?
+    </Entry>
+    <Entry key="MessageBox_QuitTitle">
+        Verlaten?
+    </Entry>
+    <Entry key="MessageBox_QuitError">
+        De client is er niet in geslaagd het uitschakelverzoek door te geven aan de runtime!
+    </Entry>
+    <Entry key="MessageBox_QuitErrorTitle">
+        Verlaten fout
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDenied">
+        U mag SEB niet herconfigureren.
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDeniedTitle">
+        Herconfiguratie geweigerd
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationError">
+        De client is er niet in geslaagd het herconfiguratieverzoek door te geven aan de runtime!
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationErrorTitle">
+        Herconfiguratie fout
+    </Entry>
+    <Entry key="MessageBox_ReloadConfirmation">
+        Wilt u de huidige pagina opnieuw laden?
+    </Entry>
+    <Entry key="MessageBox_ReloadConfirmationTitle">
+        Herladen?
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowed">
+        Het systeem lijkt in een sessie op afstand te draaien. De geselecteerde configuratie staat niet toe dat SEB wordt uitgevoerd in een sessie op afstand.
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
+        Externe sessie gedetecteerd
+    </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarning">
+        Er is al een SEB Server-sessie actief. Het is niet toegestaan om opnieuw te configureren voor een andere SEB Server sessie.
+    </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
+        Herconfiguratie niet toegestaan
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableError">
+        Mislukt bij het initialiseren van de SEB service! SEB wordt nu beëindigd omdat de service is geconfigureerd als verplicht.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableErrorTitle">
+        Service niet beschikbaar
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarning">
+        Mislukt bij het initialiseren van de SEB service. SEB zal doorgaan met initialiseren omdat de service is geconfigureerd als optioneel.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarningTitle">
+        Service niet beschikbaar
+    </Entry>
+    <Entry key="MessageBox_SessionStartError">
+        SEB is er niet in geslaagd een nieuwe sessie te starten! Raadpleeg de logbestanden voor meer informatie.
+    </Entry>
+    <Entry key="MessageBox_SessionStartErrorTitle">
+        Sessie opstart fout
+    </Entry>
+    <Entry key="MessageBox_ShutdownError">
+        Er is een onverwachte fout opgetreden tijdens de afsluitprocedure! Raadpleeg de logbestanden voor meer informatie.
+    </Entry>
+    <Entry key="MessageBox_ShutdownErrorTitle">
+        Fout bij afsluiten
+    </Entry>
+    <Entry key="MessageBox_StartupError">
+        Er is een onverwachte fout opgetreden tijdens de opstartprocedure! Raadpleeg de logbestanden voor meer informatie.
+    </Entry>
+    <Entry key="MessageBox_StartupErrorTitle">
+        Opstart fout
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationError">
+        Er is een onverwachte fout opgetreden tijdens het laden van configuratiebron "%%URI%%"! Raadpleeg de logbestanden voor meer informatie.
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
+        Configuratie fout
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowed">
+        Het uploaden van bestanden is niet toegestaan in de huidige SEB-instellingen. Meld dit aan je examenprovider.
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowedTitle">
+        Uploading wordt niet toegestaan!
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionError">
+        De geïnstalleerde SEB-versie %%_VERSIE_%% kan niet worden gebruikt omdat de geselecteerde configuratie een specifieke versie vereist:%%_REQUIRED_VERSIONS_%% Download en installeer de vereiste versie van de officiële website (safeexambrowser.org/download) of van de repository van SEB voor Windows op GitHub (github.com/safeexambrowser).
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionErrorTitle">
+        Ongeldige SEB versie
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionMinimum">
+        SEB %%_VERSION_%% of nieuwer
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowed">
+        Deze computer lijkt een virtuele machine te zijn. De geselecteerde configuratie staat niet toe dat SEB wordt uitgevoerd in een virtuele machine.
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
+        Virtuele machine gedetecteerd
+    </Entry>
+    <Entry key="MessageBox_YesButton">
+        Ja
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupported">
+        De geselecteerde configuratie vereist remote proctoring met Zoom, wat deze SEB-versie niet ondersteunt. Download en installeer de SEB-versie die door uw examenorganisator is opgegeven. Vanwege licentieproblemen is remote proctoring met Zoom alleen beschikbaar voor SEB Alliance leden. Kijk op https://safeexambrowser.org/alliance voor meer informatie.
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupportedTitle">
+        Zoom Proctoring vereist
+    </Entry>
+    <Entry key="Notification_AboutTooltip">
+        Informatie over SEB
+    </Entry>
+    <Entry key="Notification_LogTooltip">
+        Applicatielog
+    </Entry>
+    <Entry key="Notification_ProctoringActiveTooltip">
+        Proctoreren op afstand is actief
+    </Entry>
+    <Entry key="Notification_ProctoringHandLowered">
+        Hand wordt neergelaten
+    </Entry>
+    <Entry key="Notification_ProctoringHandRaised">
+        Hand wordt omhooggestoken
+    </Entry>
+    <Entry key="Notification_ProctoringInactiveTooltip">
+        Proctoreren op afstand is inactief
+    </Entry>
+    <Entry key="Notification_ProctoringLowerHand">
+        Hand omlaag
+    </Entry>
+    <Entry key="Notification_ProctoringRaiseHand">
+        Hand omhoog
+    </Entry>
+    <Entry key="OperationStatus_CloseRuntimeConnection">
+        Runtime-verbinding sluiten
+    </Entry>
+    <Entry key="OperationStatus_FinalizeApplications">
+        Toepassingen afronden
+    </Entry>
+    <Entry key="OperationStatus_FinalizeClipboard">
+        Klembord afronden
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServer">
+        SEB-server afronden
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServiceSession">
+        Servicesessie afronden
+    </Entry>
+    <Entry key="OperationStatus_FinalizeSystemEvents">
+        Systeemgebeurtenissen afronden
+    </Entry>
+    <Entry key="OperationStatus_InitializeApplications">
+        Toepassingen initialiseren
+    </Entry>
+    <Entry key="OperationStatus_InitializeBrowser">
+        Browser initialiseren
+    </Entry>
+    <Entry key="OperationStatus_InitializeClipboard">
+        Klembord initialiseren
+    </Entry>
+    <Entry key="OperationStatus_InitializeConfiguration">
+        Configuratie initialiseren
+    </Entry>
+    <Entry key="OperationStatus_InitializeKioskMode">
+        Kiosk modus initialiseren
+    </Entry>
+    <Entry key="OperationStatus_InitializeProctoring">
+        Externe proctoring initialiseren
+    </Entry>
+    <Entry key="OperationStatus_InitializeRuntimeConnection">
+        Runtime-verbinding initialiseren
+    </Entry>
+    <Entry key="OperationStatus_InitializeServer">
+        SEB-server initialiseren
+    </Entry>
+    <Entry key="OperationStatus_InitializeServiceSession">
+        Servicesessie initialiseren
+    </Entry>
+    <Entry key="OperationStatus_InitializeSession">
+        Nieuwe sessie initialiseren
+    </Entry>
+    <Entry key="OperationStatus_InitializeShell">
+        Gebruikersinterface initialiseren
+    </Entry>
+    <Entry key="OperationStatus_InitializeSystemEvents">
+        Systeemgebeurtenissen initialiseren
+    </Entry>
+    <Entry key="OperationStatus_InitializeWorkingArea">
+        Werkgebied initialiseren
+    </Entry>
+    <Entry key="OperationStatus_RestartCommunicationHost">
+        Communicatiehost opnieuw opstarten
+    </Entry>
+    <Entry key="OperationStatus_RestoreWorkingArea">
+        Werkgebied herstellen
+    </Entry>
+    <Entry key="OperationStatus_RevertKioskMode">
+        Kioskmodus terugdraaien
+    </Entry>
+    <Entry key="OperationStatus_StartClient">
+        Client aan het starten
+    </Entry>
+    <Entry key="OperationStatus_StartCommunicationHost">
+        Communicatiehost aan het starten
+    </Entry>
+    <Entry key="OperationStatus_StartKeyboardInterception">
+        Onderschepping toetsenbord aan het starten
+    </Entry>
+    <Entry key="OperationStatus_StartMouseInterception">
+        Muis interceptie aan het starten
+    </Entry>
+    <Entry key="OperationStatus_StopClient">
+        Client aan het stoppen
+    </Entry>
+    <Entry key="OperationStatus_StopCommunicationHost">
+        Communicatie host aan het stoppen
+    </Entry>
+    <Entry key="OperationStatus_StopKeyboardInterception">
+        Onderschepping van toetsenborden aan het stoppen
+    </Entry>
+    <Entry key="OperationStatus_StopMouseInterception">
+        Het onderscheppen van muizen aan het stoppen
+    </Entry>
+    <Entry key="OperationStatus_TerminateBrowser">
+        Browser aan het afsluiten
+    </Entry>
+    <Entry key="OperationStatus_TerminateProctoring">
+        Proctoraat op afstand aan het afsluiten
+    </Entry>
+    <Entry key="OperationStatus_TerminateShell">
+        Gebruikersinterface afronden
+    </Entry>
+    <Entry key="OperationStatus_ValidateDisplayConfiguration">
+        Beleid voor weergaveconfiguratie valideren
+    </Entry>
+    <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
+        Beleid voor externe sessies valideren
+    </Entry>
+    <Entry key="OperationStatus_ValidateVersionRestrictions">
+        Versiebeperkingen aan het valideren
+    </Entry>
+    <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
+        Beleid voor virtuele machines aan het valideren
+    </Entry>
+    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+        Integriteit aan het verifiëren
+    </Entry>
+    <Entry key="OperationStatus_VerifySessionIntegrity">
+        Integriteit van sessie verifiëren
+    </Entry>
+    <Entry key="OperationStatus_WaitDisclaimerConfirmation">
+        Wachten op bevestiging van de disclaimer
+    </Entry>
+    <Entry key="OperationStatus_WaitErrorConfirmation">
+        Wachten op bevestiging van de foutmelding
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerStartup">
+        Wachten tot Windows Verkenner opstart
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerTermination">
+        Wachten tot Windows Verkenner wordt afgesloten
+    </Entry>
+    <Entry key="OperationStatus_WaitRuntimeDisconnection">
+        Wachten tot de runtime de verbinding verbreekt
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequired">
+        Wachtwoord voor afsluiten/herstarten invoeren: (Deze functie logt u niet uit als u bent aangemeld op een website)
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
+        Terug naar start
+    </Entry>
+    <Entry key="PasswordDialog_Cancel">
+        Annuleren
+    </Entry>
+    <Entry key="PasswordDialog_Confirm">
+        Bevestigen
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequired">
+        Voer het beheerderswachtwoord voor de lokale clientconfiguratie in:
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
+        Wachtwoord vereist
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
+        Voer het wachtwoord voor de lokale clientconfiguratie in:
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
+        Wachtwoord vereist
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequired">
+        Voer het wachtwoord voor afsluiten in om SEB te beëindigen:
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
+        Wachtwoord vereist
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequired">
+        Voer het examenwachtwoord in:
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
+        Wachtwoord vereist
+    </Entry>
+    <Entry key="RuntimeWindow_ApplicationRunning">
+        SEB wordt uitgevoerd.
+    </Entry>
+    <Entry key="ServerFailureDialog_Abort">
+        Afbreken
+    </Entry>
+    <Entry key="ServerFailureDialog_Fallback">
+        Fallback
+    </Entry>
+    <Entry key="ServerFailureDialog_Message">
+        Er is een fout opgetreden tijdens het communiceren met de SEB-server.
+    </Entry>
+    <Entry key="ServerFailureDialog_Retry">
+        Opnieuw proberen
+    </Entry>
+    <Entry key="ServerFailureDialog_Title">
+        SEB-Server fout
+    </Entry>
+    <Entry key="Shell_QuitButton">
+        Sessie beëindigen
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfo">
+        %%NAME%%: %%VOLUME%%%
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfoMuted">
+        %%NAME%%: Gedempt
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceMuteTooltip">
+        Klik om het geluid te dempen
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceNotFound">
+        Geen actief audioapparaat gevonden
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceUnmuteTooltip">
+        Klik om het geluid weer aan te zetten
+    </Entry>
+    <Entry key="SystemControl_BatteryCharging">
+        Aangesloten, aan het opladen... (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryCharged">
+        Volledig opgeladen (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeCriticalWarning">
+        De batterij is bijna leeg. Sluit uw computer aan op een stroomvoorziening!
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeLowInfo">
+        De batterij raakt leeg. Overweeg om de computer op tijd op een stroomvoorziening aan te sluiten...
+    </Entry>
+    <Entry key="SystemControl_BatteryRemainingCharge">
+        %%HOURS%%h %%MINUTES%%min resterend (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_KeyboardLayoutTooltip">
+        De huidige lay-out is "%%LAYOUT%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkDisconnected">
+        Verbinding verbroken
+    </Entry>
+    <Entry key="SystemControl_NetworkNotAvailable">
+        Geen draadloze netwerkadapter beschikbaar of ingeschakeld
+    </Entry>
+    <Entry key="SystemControl_NetworkWiredConnected">
+        Verbonden
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnected">
+        Verbonden aan "%%NAME%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnecting">
+        Aan het verbinden...
+    </Entry>
+    <Entry key="Version">
+        Versie
+    </Entry>
+</Text>
