@@ -93,5 +93,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Data\es.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\nl.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
