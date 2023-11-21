@@ -12,8 +12,8 @@ SEB 3.x requires the prerequisites listed below in order to work correctly. Thes
 
 ## Project Status
 
-**_DISCLAIMER_**\
-**The builds linked below are for testing purposes only.** They may be unstable and should thus _never_ be used in a production environment! Always use the latest, official release version of SEB.
+> [!WARNING]
+> **The builds linked below are for testing purposes only.** They may be unstable and should thus _never_ be used in a production environment! Always use the latest, official release version of SEB.
 
 | Aspect            | Status                                                                                                                | Details                                                         |
 | ----------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
