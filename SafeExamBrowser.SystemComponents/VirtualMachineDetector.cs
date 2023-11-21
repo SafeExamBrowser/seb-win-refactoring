@@ -26,7 +26,7 @@ namespace SafeExamBrowser.SystemComponents
 			// QEMU
 			"qemu", "ven_1af4", "ven_1b36", "subsys_11001af4",
 			// VirtualBox
-			"vbox", "vid_80ee",
+			"VEN_VBOX", "vid_80ee",
 			// VMware
 			"PROD_VMWARE", "VEN_VMWARE", "VMWARE_IDE"
 		};
