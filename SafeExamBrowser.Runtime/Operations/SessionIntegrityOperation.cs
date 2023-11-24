@@ -123,6 +123,11 @@ namespace SafeExamBrowser.Runtime.Operations
 					success = true;
 					logger.Info($"Ease of access configuration is compromised ('{value}'), but service will be active in the next session.");
 				}
+				else if (Context.Current?.Settings.Service.IgnoreService == false)
+				{
+					success = true;
+					logger.Info($"Ease of access configuration is set ('{value}'), but service was active in the current session.");
+				}
 				else
 				{
 					logger.Warn($"Ease of access configuration is compromised: '{value}'! Aborting session initialization...");
