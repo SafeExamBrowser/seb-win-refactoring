@@ -857,7 +857,9 @@ namespace SebWindowsConfig
 				"SRServer.exe",
 				"strwinclt.exe",
 				"PCMonitorSrv.exe",
-				"pcmontask.exe"
+				"pcmontask.exe",
+				"obs64.exe",
+				"obs32.exe"
 			};
 
 			// Default settings for group "Network - Filter"
