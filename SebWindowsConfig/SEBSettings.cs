@@ -847,6 +847,7 @@ namespace SebWindowsConfig
 				"join.me.exe",
 				"join.me.sentinel.exe",
 				"Teams.exe",
+				"MS-Teams.exe",
 				"webexmta.exe",
 				"ptoneclk.exe",
 				"AA_v3.exe",
@@ -856,7 +857,9 @@ namespace SebWindowsConfig
 				"SRServer.exe",
 				"strwinclt.exe",
 				"PCMonitorSrv.exe",
-				"pcmontask.exe"
+				"pcmontask.exe",
+				"obs64.exe",
+				"obs32.exe"
 			};
 
 			// Default settings for group "Network - Filter"
