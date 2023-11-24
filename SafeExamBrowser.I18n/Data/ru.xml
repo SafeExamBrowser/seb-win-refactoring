@@ -1,372 +1,729 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <Text>
-    <Entry key="AboutWindow_LicenseInfo">Это приложение подпадает под действие условий публичной лицензии Mozilla версии
-        2.0. Браузер Safe Exam использует следующие фреймворки и сторонние библиотеки:
+    <Entry key="AboutWindow_LicenseInfo">
+        Это приложение подпадает под действие условий публичной лицензии Mozilla версии 2.0. Браузер Safe Exam использует следующие фреймворки и сторонние библиотеки:
     </Entry>
-    <Entry key="AboutWindow_Title">Информация о версии и лицензии</Entry>
-    <Entry key="Browser_BlockedContentMessage">Контент заблокирован</Entry>
-    <Entry key="Browser_BlockedPageButton">Вернуться на предыдущую страницу</Entry>
-    <Entry key="Browser_BlockedPageMessage">Доступ к этой странице запрещен в соответствии с текущей конфигурацией.
+    <Entry key="AboutWindow_Title">
+        Информация о версии и лицензии
     </Entry>
-    <Entry key="Browser_BlockedPageTitle">Страница заблокирована</Entry>
-    <Entry key="Browser_LoadErrorMessage">Произошла ошибка при загрузке страницы "%%URL%%":</Entry>
-    <Entry key="Browser_LoadErrorTitle">Ошибка загрузки страницы</Entry>
-    <Entry key="Browser_Name">Браузер</Entry>
-    <Entry key="Browser_PrintNotAllowed">Печать запрещена в соответствии с текущей конфигурацией.</Entry>
-    <Entry key="Browser_Tooltip">Открывайте веб-страницы</Entry>
-    <Entry key="BrowserWindow_DeveloperConsoleMenuItem">Консоль разработчика</Entry>
-    <Entry key="BrowserWindow_Downloading">Загрузка...</Entry>
-    <Entry key="BrowserWindow_DownloadCancelled">Отменено.</Entry>
-    <Entry key="BrowserWindow_DownloadComplete">Загружено.</Entry>
-    <Entry key="BrowserWindow_FindCaseSensitive">Поиск с учетом регистра</Entry>
-    <Entry key="BrowserWindow_FindMenuItem">Страница поиска...</Entry>
-    <Entry key="BrowserWindow_ReloadButton">Перезагрузить</Entry>
-    <Entry key="BrowserWindow_BackwardButton">Назад</Entry>
-    <Entry key="BrowserWindow_ForwardButton">Вперед</Entry>
-    <Entry key="BrowserWindow_DownloadsButton">Скачать</Entry>
-    <Entry key="BrowserWindow_HomeButton">Домой</Entry>
-    <Entry key="BrowserWindow_MenuButton">Меню</Entry>
-    <Entry key="BrowserWindow_CloseButton">Закрыть</Entry>
-    <Entry key="BrowserWindow_UrlTextBox">Введите URL-адрес</Entry>
-    <Entry key="BrowserWindow_ZoomLevelReset">Масштаб страницы - %%ZOOM%% %. Нажмите для сброса.</Entry>
-    <Entry key="BrowserWindow_ZoomMenuItem">Масштабирование страницы</Entry>
-    <Entry key="BrowserWindow_ZoomMenuPlus">Увеличить масштаб страницы</Entry>
-    <Entry key="BrowserWindow_ZoomMenuMinus">Уменьшить масштаб страницы</Entry>
-    <Entry key="BrowserWindow_SearchTextBox">Введите текст для поиска</Entry>
-    <Entry key="BrowserWindow_SearchNext">Следующий результат поиска</Entry>
-    <Entry key="BrowserWindow_SearchPrevious">Предыдущий результат поиска</Entry>
-    <Entry key="Build">Строить</Entry>
-    <Entry key="ExamSelectionDialog_Cancel">Отмена</Entry>
-    <Entry key="ExamSelectionDialog_Message">Пожалуйста, выберите один из доступных экзаменов SEB-Server:</Entry>
-    <Entry key="ExamSelectionDialog_Select">Выбрать</Entry>
-    <Entry key="ExamSelectionDialog_Title">Экзамены SEB-сервера</Entry>
-    <Entry key="FileSystemDialog_Cancel">Отмена</Entry>
-    <Entry key="FileSystemDialog_LoadError">Не удалось загрузить данные!</Entry>
-    <Entry key="FileSystemDialog_Loading">Загрузка...</Entry>
-    <Entry key="FileSystemDialog_OpenFileMessage">Пожалуйста, выберите файл для открытия.</Entry>
-    <Entry key="FileSystemDialog_OpenFolderMessage">Пожалуйста, выберите папку.</Entry>
-    <Entry key="FileSystemDialog_OverwriteWarning">Выбранный файл уже существует! Вы действительно хотели бы его
-        перезаписать?
+    <Entry key="Browser_BlockedContentMessage">
+        Контент заблокирован
     </Entry>
-    <Entry key="FileSystemDialog_OverwriteWarningTitle">Перезаписать?</Entry>
-    <Entry key="FileSystemDialog_SaveAs">Сохранить как:</Entry>
-    <Entry key="FileSystemDialog_SaveFileMessage">Пожалуйста, выберите место для сохранения файла.</Entry>
-    <Entry key="FileSystemDialog_SaveFolderMessage">Пожалуйста, выберите место для сохранения папки.</Entry>
-    <Entry key="FileSystemDialog_Select">Выбрать</Entry>
-    <Entry key="FileSystemDialog_Title">Доступ к файловой системе</Entry>
-    <Entry key="FolderDialog_ApplicationLocation">Приложение "%%NAME%%" не удалось найти в системе! Пожалуйста, найдите
-        папку, содержащую основной исполняемый файл "%%EXECUTABLE%%".
+    <Entry key="Browser_BlockedPageButton">
+        Вернуться на предыдущую страницу
     </Entry>
-    <Entry key="LockScreen_ApplicationIntegrityMessage">Вы используете неофициальную версию SEB! Пожалуйста, убедитесь,
-        что используете официальный браузер Safe Exam. Чтобы разблокировать SEB, пожалуйста, введите правильный пароль
-        для разблокировки.
+    <Entry key="Browser_BlockedPageMessage">
+        Доступ к этой странице запрещен в соответствии с текущей конфигурацией.
     </Entry>
-    <Entry key="LockScreen_ApplicationsAllowOption">Временно разрешить приложения, занесенные в черный список. Это
-        относится только к запущенным в данный момент экземплярам и сеансу!
+    <Entry key="Browser_BlockedPageTitle">
+        Страница заблокирована
     </Entry>
-    <Entry key="LockScreen_ApplicationsMessage">Перечисленные ниже приложения, занесенные в черный список, были запущены
-        и не могли быть автоматически завершены! Чтобы разблокировать SEB, пожалуйста, выберите один из доступных
-        вариантов и введите правильный пароль разблокировки.
+    <Entry key="Browser_LoadErrorMessage">
+        Произошла ошибка при загрузке страницы "%%URL%%":
     </Entry>
-    <Entry key="LockScreen_ApplicationsTerminateOption">Завершите работу браузера Safe Exam. ВНИМАНИЕ: Сохранить данные
-        или выполнить какие-либо дальнейшие действия будет невозможно, завершение работы будет инициировано немедленно!
+    <Entry key="Browser_LoadErrorTitle">
+        Ошибка загрузки страницы
     </Entry>
-    <Entry key="LockScreen_CursorContinueOption">Временно разрешите настройку курсора. Это относится только к текущему
-        сеансу!
+    <Entry key="Browser_Name">
+        Браузер
     </Entry>
-    <Entry key="LockScreen_CursorMessage">Обнаружена запрещенная конфигурация курсора. Чтобы разблокировать SEB,
-        пожалуйста, выберите один из доступных вариантов и введите правильный пароль разблокировки.
+    <Entry key="Browser_PrintNotAllowed">
+        Печать запрещена в соответствии с текущей конфигурацией.
     </Entry>
-    <Entry key="LockScreen_CursorTerminateOption">Завершить работу Safe Exam Browser. ВНИМАНИЕ: Сохранить данные или
-        выполнить какие-либо дальнейшие действия будет невозможно, завершение работы будет инициировано немедленно!
+    <Entry key="Browser_Tooltip">
+        Открывайте веб-страницы
     </Entry>
-    <Entry key="LockScreen_DisplayConfigurationContinueOption">Временно разрешить настройку отображения. Это относится
-        только к текущему сеансу!
+    <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
+        Консоль разработчика
     </Entry>
-    <Entry key="LockScreen_DisplayConfigurationMessage">Обнаружена запрещенная конфигурация отображения. Чтобы
-        разблокировать SEB, пожалуйста, выберите один из доступных вариантов и введите правильный пароль разблокировки.
+    <Entry key="BrowserWindow_Downloading">
+        Загрузка...
     </Entry>
-    <Entry key="LockScreen_DisplayConfigurationTerminateOption">Завершить работу Safe Exam Browser. ВНИМАНИЕ: Сохранить
-        данные или выполнить какие-либо дальнейшие действия будет невозможно, завершение работы будет инициировано
-        немедленно!
+    <Entry key="BrowserWindow_DownloadCancelled">
+        Отменено.
     </Entry>
-    <Entry key="LockScreen_EaseOfAccessContinueOption">Временно разрешить настройку удобства доступа. Это относится
-        только к текущему сеансу!
+    <Entry key="BrowserWindow_DownloadComplete">
+        Загружено.
     </Entry>
-    <Entry key="LockScreen_EaseOfAccessMessage">Обнаружена запрещенная конфигурация упрощенного доступа к экрану
-        безопасности Windows. Чтобы разблокировать SEB, пожалуйста, выберите один из доступных вариантов и введите
-        правильный пароль разблокировки.
+    <Entry key="BrowserWindow_FindCaseSensitive">
+        Поиск с учетом регистра
     </Entry>
-    <Entry key="LockScreen_EaseOfAccessTerminateOption">Завершить работу Safe Exam Browser. ВНИМАНИЕ: Сохранить данные
-        или выполнить какие-либо дальнейшие действия будет невозможно, завершение работы будет инициировано немедленно!
+    <Entry key="BrowserWindow_FindMenuItem">
+        Страница поиска...
     </Entry>
-    <Entry key="LockScreen_SessionIntegrityMessage">Последний сеанс с текущей активной конфигурацией или URL-адресом
-        запуска не был завершен должным образом! Пожалуйста, введите правильный пароль, чтобы разблокировать SEB.
+    <Entry key="BrowserWindow_ReloadButton">
+        Перезагрузить
     </Entry>
-    <Entry key="LockScreen_Title">SEB ЗАБЛОКИРОВАН</Entry>
-    <Entry key="LockScreen_UnlockButton">Разблокировать</Entry>
-    <Entry key="LockScreen_UserSessionContinueOption">Разблокировать безопасный экзаменационный браузер.</Entry>
-    <Entry key="LockScreen_UserSessionMessage">Активный пользователь сменился или компьютер был заблокирован! Чтобы
-        разблокировать SEB, пожалуйста, выберите один из доступных вариантов и введите правильный пароль разблокировки.
+    <Entry key="BrowserWindow_BackwardButton">
+        Назад
     </Entry>
-    <Entry key="LockScreen_UserSessionTerminateOption">Завершить работу Safe Exam Browser. ВНИМАНИЕ: Сохранить данные
-        или выполнить какие-либо дальнейшие действия будет невозможно, завершение работы будет инициировано немедленно!
+    <Entry key="BrowserWindow_ForwardButton">
+        Вперед
     </Entry>
-    <Entry key="LogWindow_AlwaysOnTop">Всегда на высоте</Entry>
-    <Entry key="LogWindow_AutoScroll">Автоматическая прокрутка содержимого</Entry>
-    <Entry key="LogWindow_Title">Журнал приложений</Entry>
-    <Entry key="MessageBox_ApplicationAutoTerminationQuestion">Перечисленные ниже приложения необходимо закрыть перед
-        запуском нового сеанса. Хотели бы вы автоматически закрыть их сейчас?
+    <Entry key="BrowserWindow_DownloadsButton">
+        Скачать
     </Entry>
-    <Entry key="MessageBox_ApplicationAutoTerminationQuestionTitle">Обнаружены запущенные приложения</Entry>
-    <Entry key="MessageBox_ApplicationAutoTerminationDataLossWarning">ПРЕДУПРЕЖДЕНИЕ: Любые несохраненные данные
-        приложения могут быть потеряны!
+    <Entry key="BrowserWindow_HomeButton">
+        Домой
     </Entry>
-    <Entry key="MessageBox_ApplicationError">Произошла неустранимая ошибка! Пожалуйста, обратитесь к файлам логов для
-        получения дополнительной информации. Теперь SEB завершит работу...
+    <Entry key="BrowserWindow_MenuButton">
+        Меню
     </Entry>
-    <Entry key="MessageBox_ApplicationErrorTitle">Ошибка приложения</Entry>
-    <Entry key="MessageBox_ApplicationInitializationFailure">Приложение %%NAME%% не удалось инициализировать и,
-        следовательно, оно будет недоступно для нового сеанса! Пожалуйста, обратитесь к файлам логов для получения
-        дополнительной информации.
+    <Entry key="BrowserWindow_CloseButton">
+        Закрыть
     </Entry>
-    <Entry key="MessageBox_ApplicationInitializationFailureTitle">Не удалось выполнить инициализацию приложения</Entry>
-    <Entry key="MessageBox_ApplicationNotFound">Приложение %%NAME%% не найдено в системе и, следовательно, будет
-        недоступно для нового сеанса! Пожалуйста, обратитесь к файлам журнала для получения дополнительной информации.
+    <Entry key="BrowserWindow_UrlTextBox">
+        Введите URL-адрес
     </Entry>
-    <Entry key="MessageBox_ApplicationNotFoundTitle">Приложение не найдено</Entry>
-    <Entry key="MessageBox_ApplicationTerminationFailure">Не удалось завершить работу перечисленных ниже приложений!
-        Пожалуйста, завершите их вручную и повторите попытку...
+    <Entry key="BrowserWindow_ZoomLevelReset">
+        Масштаб страницы - %%ZOOM%%%. Нажмите для сброса.
     </Entry>
-    <Entry key="MessageBox_ApplicationTerminationFailureTitle">Не удалось выполнить автоматическое завершение</Entry>
-    <Entry key="MessageBox_BrowserHomeQuestion">Вы уверены? (Эта функция не выводит вас из системы, если вы вошли на
-        веб-сайт)
+    <Entry key="BrowserWindow_ZoomMenuItem">
+        Масштабирование страницы
     </Entry>
-    <Entry key="MessageBox_BrowserHomeQuestionTitle">Вернуться к началу</Entry>
-    <Entry key="MessageBox_BrowserNavigationBlocked">Доступ к "%%URL%%" запрещен в соответствии с текущей
-        конфигурацией.
+    <Entry key="BrowserWindow_ZoomMenuPlus">
+        Увеличить масштаб страницы
     </Entry>
-    <Entry key="MessageBox_BrowserNavigationBlockedTitle">Страница заблокирована</Entry>
-    <Entry key="MessageBox_BrowserQuitUrlConfirmation">Браузерное приложение обнаружило URL-адрес для завершения работы!
-        Хотите ли вы завершить SEB прямо сейчас?
+    <Entry key="BrowserWindow_ZoomMenuMinus">
+        Уменьшить масштаб страницы
     </Entry>
-    <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">Обнаружен URL-адрес выхода из системы</Entry>
-    <Entry key="MessageBox_CancelButton">Отмена</Entry>
-    <Entry key="MessageBox_ClientConfigurationError">Сбой настройки локального клиента! Пожалуйста, обратитесь к файлам
-        журнала для получения дополнительной информации. Теперь SEB завершит работу...
+    <Entry key="BrowserWindow_SearchTextBox">
+        Введите текст для поиска
     </Entry>
-    <Entry key="MessageBox_ClientConfigurationErrorTitle">Ошибка конфигурации</Entry>
-    <Entry key="MessageBox_ClientConfigurationQuestion">Конфигурация клиента сохранена и будет использована при
-        следующем запуске SEB. Вы хотите пока выйти из системы?
+    <Entry key="BrowserWindow_SearchNext">
+        Следующий результат поиска
     </Entry>
-    <Entry key="MessageBox_ClientConfigurationQuestionTitle">Настройка выполнена успешно</Entry>
-    <Entry key="MessageBox_ConfigurationDownloadError">Не удалось загрузить новую конфигурацию. Пожалуйста, попробуйте
-        еще раз или обратитесь в службу технической поддержки.
+    <Entry key="BrowserWindow_SearchPrevious">
+        Предыдущий результат поиска
     </Entry>
-    <Entry key="MessageBox_ConfigurationDownloadErrorTitle">Ошибка загрузки</Entry>
-    <Entry key="MessageBox_DisplayConfigurationError">Активная конфигурация дисплея не разрешена. %%_ALLOWED_COUNT_%%
-        %%_TYPE_%% дисплеев разрешены, но %%_INTERNAL_COUNT_%% внутренних и %%_EXTERNAL_COUNT_%% внешних
-        дисплеев были обнаружены. Пожалуйста, обратитесь к файлам логов для получения дополнительной информации.
-        Теперь SEB завершит работу...
+    <Entry key="Build">
+        Строить
     </Entry>
-    <Entry key="MessageBox_DisplayConfigurationErrorTitle">Запрещенная конфигурация дисплея</Entry>
-    <Entry key="MessageBox_DisplayConfigurationInternal">внутренний</Entry>
-    <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">внутренний или внешний</Entry>
-    <Entry key="MessageBox_DownloadNotAllowed">Загрузка файлов запрещена текущими настройками SEB. Пожалуйста, сообщите
-        об этом своему поставщику экзаменационных услуг.
+    <Entry key="ExamSelectionDialog_Cancel">
+        Отмена
     </Entry>
-    <Entry key="MessageBox_DownloadNotAllowedTitle">Загрузка запрещена!</Entry>
-    <Entry key="MessageBox_InvalidConfigurationData">Конфигурационный ресурс "%%URI%%" содержит недопустимые данные!
+    <Entry key="ExamSelectionDialog_Message">
+        Пожалуйста, выберите один из доступных экзаменов SEB-Server:
     </Entry>
-    <Entry key="MessageBox_InvalidConfigurationDataTitle">Ошибка конфигурации</Entry>
-    <Entry key="MessageBox_InvalidHomePassword">Вы ввели неверный пароль.</Entry>
-    <Entry key="MessageBox_InvalidHomePasswordTitle">Неверный пароль</Entry>
-    <Entry key="MessageBox_InvalidPasswordError">Вам не удалось ввести правильный пароль в течение 5 попыток. Теперь SEB
-        завершит работу...
+    <Entry key="ExamSelectionDialog_Select">
+        Выбрать
     </Entry>
-    <Entry key="MessageBox_InvalidPasswordErrorTitle">Неверный пароль</Entry>
-    <Entry key="MessageBox_InvalidQuitPassword">SEB может быть прекращен только путем ввода правильного пароля для
+    <Entry key="ExamSelectionDialog_Title">
+        Экзамены SEB-сервера
+    </Entry>
+    <Entry key="FileSystemDialog_Cancel">
+        Отмена
+    </Entry>
+    <Entry key="FileSystemDialog_LoadError">
+        Не удалось загрузить данные!
+    </Entry>
+    <Entry key="FileSystemDialog_Loading">
+        Загрузка...
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFileMessage">
+        Пожалуйста, выберите файл для открытия.
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFolderMessage">
+        Пожалуйста, выберите папку.
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarning">
+        Выбранный файл уже существует! Вы действительно хотели бы его перезаписать?
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarningTitle">
+        Перезаписать?
+    </Entry>
+    <Entry key="FileSystemDialog_SaveAs">
+        Сохранить как:
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFileMessage">
+        Пожалуйста, выберите место для сохранения файла.
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFolderMessage">
+        Пожалуйста, выберите место для сохранения папки.
+    </Entry>
+    <Entry key="FileSystemDialog_Select">
+        Выбрать
+    </Entry>
+    <Entry key="FileSystemDialog_Title">
+        Доступ к файловой системе
+    </Entry>
+    <Entry key="FolderDialog_ApplicationLocation">
+        Приложение "%%NAME%%" не удалось найти в системе! Пожалуйста, найдите папку, содержащую основной исполняемый файл "%%EXECUTABLE%%".
+    </Entry>
+    <Entry key="LockScreen_ApplicationIntegrityMessage">
+        Вы используете неофициальную версию SEB! Пожалуйста, убедитесь, что используете официальный браузер Safe Exam. Чтобы разблокировать SEB, пожалуйста, введите правильный пароль для разблокировки.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsAllowOption">
+        Временно разрешить приложения, занесенные в черный список. Это относится только к запущенным в данный момент экземплярам и сеансу!</Entry>
+    <Entry key="LockScreen_ApplicationsMessage">
+        Перечисленные ниже приложения, занесенные в черный список, были запущены и не могли быть автоматически завершены! Чтобы разблокировать SEB, пожалуйста, выберите один из доступных вариантов и введите правильный пароль разблокировки.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsTerminateOption">
+        Завершите работу браузера Safe Exam. ВНИМАНИЕ: Сохранить данные или выполнить какие-либо дальнейшие действия будет невозможно, завершение работы будет инициировано немедленно!</Entry>
+    <Entry key="LockScreen_CursorContinueOption">
+        Временно разрешите настройку курсора. Это относится только к текущему сеансу!
+    </Entry>
+    <Entry key="LockScreen_CursorMessage">
+        Обнаружена запрещенная конфигурация курсора. Чтобы разблокировать SEB, пожалуйста, выберите один из доступных вариантов и введите правильный пароль разблокировки.
+    </Entry>
+    <Entry key="LockScreen_CursorTerminateOption">
+        Завершить работу Safe Exam Browser. ВНИМАНИЕ: Сохранить данные или выполнить какие-либо дальнейшие действия будет невозможно, завершение работы будет инициировано немедленно!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationContinueOption">
+        Временно разрешить настройку отображения. Это относится только к текущему сеансу!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationMessage">
+        Обнаружена запрещенная конфигурация отображения. Чтобы разблокировать SEB, пожалуйста, выберите один из доступных вариантов и введите правильный пароль разблокировки.
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationTerminateOption">
+        Завершить работу Safe Exam Browser. ВНИМАНИЕ: Сохранить данные или выполнить какие-либо дальнейшие действия будет невозможно, завершение работы будет инициировано немедленно!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessContinueOption">
+        Временно разрешить настройку удобства доступа. Это относится только к текущему сеансу!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessMessage">
+        Обнаружена запрещенная конфигурация упрощенного доступа к экрану безопасности Windows. Чтобы разблокировать SEB, пожалуйста, выберите один из доступных вариантов и введите правильный пароль разблокировки.
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessTerminateOption">
+        Завершить работу Safe Exam Browser. ВНИМАНИЕ: Сохранить данные или выполнить какие-либо дальнейшие действия будет невозможно, завершение работы будет инициировано немедленно!
+    </Entry>
+    <Entry key="LockScreen_SessionIntegrityMessage">
+        Последний сеанс с текущей активной конфигурацией или URL-адресом запуска не был завершен должным образом! Пожалуйста, введите правильный пароль, чтобы разблокировать SEB.
+    </Entry>
+    <Entry key="LockScreen_Title">
+        SEB ЗАБЛОКИРОВАН
+    </Entry>
+    <Entry key="LockScreen_UnlockButton">
+        Разблокировать
+    </Entry>
+    <Entry key="LockScreen_UserSessionContinueOption">
+        Разблокировать безопасный экзаменационный браузер.
+    </Entry>
+    <Entry key="LockScreen_UserSessionMessage">
+        Активный пользователь сменился или компьютер был заблокирован! Чтобы разблокировать SEB, пожалуйста, выберите один из доступных вариантов и введите правильный пароль разблокировки.
+    </Entry>
+    <Entry key="LockScreen_UserSessionTerminateOption">
+        Завершить работу Safe Exam Browser. ВНИМАНИЕ: Сохранить данные или выполнить какие-либо дальнейшие действия будет невозможно, завершение работы будет инициировано немедленно!
+    </Entry>
+    <Entry key="LogWindow_AlwaysOnTop">
+        Всегда на высоте
+    </Entry>
+    <Entry key="LogWindow_AutoScroll">
+        Автоматическая прокрутка содержимого
+    </Entry>
+    <Entry key="LogWindow_Title">
+        Журнал приложений
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestion">
+        Перечисленные ниже приложения необходимо закрыть перед запуском нового сеанса. Хотели бы вы автоматически закрыть их сейчас?
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestionTitle">
+        Обнаружены запущенные приложения
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationDataLossWarning">
+        ПРЕДУПРЕЖДЕНИЕ: Любые несохраненные данные приложения могут быть потеряны!
+    </Entry>
+    <Entry key="MessageBox_ApplicationError">
+        Произошла неустранимая ошибка! Пожалуйста, обратитесь к файлам логов для получения дополнительной информации. Теперь SEB завершит работу...
+    </Entry>
+    <Entry key="MessageBox_ApplicationErrorTitle">
+        Ошибка приложения
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailure">
+        Приложение %%NAME%% не удалось инициализировать и, следовательно, оно будет недоступно для нового сеанса! Пожалуйста, обратитесь к файлам логов для получения дополнительной информации.
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailureTitle">
+        Не удалось выполнить инициализацию приложения
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFound">
+        Приложение %%NAME%% не найдено в системе и, следовательно, будет недоступно для нового сеанса! Пожалуйста, обратитесь к файлам журнала для получения дополнительной информации.
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFoundTitle">
+        Приложение не найдено
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailure">
+        Не удалось завершить работу перечисленных ниже приложений! Пожалуйста, завершите их вручную и повторите попытку...
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailureTitle">
+        Не удалось выполнить автоматическое завершение
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestion">
+        Вы уверены? (Эта функция не выводит вас из системы, если вы вошли на веб-сайт)
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestionTitle">
+        Вернуться к началу
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlocked">
+        Доступ к "%%URL%%" запрещен в соответствии с текущей конфигурацией.
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlockedTitle">
+        Страница заблокирована
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmation">
+        Браузерное приложение обнаружило URL-адрес для завершения работы! Хотите ли вы завершить SEB прямо сейчас?
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
+        Обнаружен URL-адрес выхода из системы
+    </Entry>
+    <Entry key="MessageBox_CancelButton">
+        Отмена
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationError">
+        Сбой настройки локального клиента! Пожалуйста, обратитесь к файлам журнала для получения дополнительной информации. Теперь SEB завершит работу...
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationErrorTitle">
+        Ошибка конфигурации
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestion">
+        Конфигурация клиента сохранена и будет использована при следующем запуске SEB. Вы хотите пока выйти из системы?
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestionTitle">
+        Настройка выполнена успешно
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadError">
+        Не удалось загрузить новую конфигурацию. Пожалуйста, попробуйте еще раз или обратитесь в службу технической поддержки.
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
+        Ошибка загрузки
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationError">
+        Активная конфигурация дисплея не разрешена. %%_ALLOWED_COUNT_%% %%_TYPE_%% дисплеев разрешены, но %%_INTERNAL_COUNT_%% внутренних и %%_EXTERNAL_COUNT_%% внешних дисплеев были обнаружены. Пожалуйста, обратитесь к файлам логов для получения дополнительной информации. Теперь SEB завершит работу...
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationErrorTitle">
+        Запрещенная конфигурация дисплея
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternal">
+        внутренний
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
+        внутренний или внешний
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowed">
+        Загрузка файлов запрещена текущими настройками SEB. Пожалуйста, сообщите об этом своему поставщику экзаменационных услуг.
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowedTitle">
+        Загрузка запрещена!
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationData">
+        Конфигурационный ресурс "%%URI%%" содержит недопустимые данные!
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationDataTitle">
+        Ошибка конфигурации
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePassword">
+        Вы ввели неверный пароль.
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePasswordTitle">
+        Неверный пароль
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordError">
+        Вам не удалось ввести правильный пароль в течение 5 попыток. Теперь SEB завершит работу...
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordErrorTitle">
+        Неверный пароль
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPassword">
+        SEB может быть прекращен только путем ввода правильного пароля для
         выхода.
     </Entry>
-    <Entry key="MessageBox_InvalidQuitPasswordTitle">Неверный пароль для выхода</Entry>
-    <Entry key="MessageBox_InvalidUnlockPassword">SEB можно разблокировать, только введя правильный пароль.</Entry>
-    <Entry key="MessageBox_InvalidUnlockPasswordTitle">Неверный пароль разблокировки</Entry>
-    <Entry key="MessageBox_NoButton">Нет</Entry>
-    <Entry key="MessageBox_NotSupportedConfigurationResource">Конфигурационный ресурс "%%URI%%" не поддерживается!
+    <Entry key="MessageBox_InvalidQuitPasswordTitle">
+        Неверный пароль для выхода
     </Entry>
-    <Entry key="MessageBox_NotSupportedConfigurationResourceTitle">Ошибка конфигурации</Entry>
-    <Entry key="MessageBox_OkButton">ОК</Entry>
-    <Entry key="MessageBox_ProctoringDisclaimer">Текущая сессия будет проходить удаленно с использованием видео- и
-        аудиопотока в реальном времени, который отправляется на индивидуально настроенный сервер. Спросите своего
-        экзаменатора об их политике конфиденциальности. Сам SEB не подключается ни к какому централизованному
-        прокторинговому серверу SEB, ваш поставщик экзаменационных услуг решает, какую прокторинговую службу / сервер
-        использовать.
+    <Entry key="MessageBox_InvalidUnlockPassword">
+        SEB можно разблокировать, только введя правильный пароль.
     </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimerTitle">Сеанс с удаленным прокторингом</Entry>
-    <Entry key="MessageBox_Quit">Вы хотите выйти из SEB?</Entry>
-    <Entry key="MessageBox_QuitTitle">Выйти?</Entry>
-    <Entry key="MessageBox_QuitError">Клиенту не удалось передать запрос на завершение работы в среду выполнения!
+    <Entry key="MessageBox_InvalidUnlockPasswordTitle">
+        Неверный пароль разблокировки
     </Entry>
-    <Entry key="MessageBox_QuitErrorTitle">Ошибка выхода из системы</Entry>
-    <Entry key="MessageBox_ReconfigurationDenied">Вам не разрешается перенастраивать SEB.</Entry>
-    <Entry key="MessageBox_ReconfigurationDeniedTitle">В реконфигурации отказано</Entry>
-    <Entry key="MessageBox_ReconfigurationError">Клиенту не удалось передать запрос на перенастройку среде выполнения!
+    <Entry key="MessageBox_NoButton">
+        Нет
     </Entry>
-    <Entry key="MessageBox_ReconfigurationErrorTitle">Ошибка реконфигурации</Entry>
-    <Entry key="MessageBox_ReloadConfirmation">Хотели бы вы перезагрузить текущую страницу?</Entry>
-    <Entry key="MessageBox_ReloadConfirmationTitle">Перезарядить?</Entry>
-    <Entry key="MessageBox_RemoteSessionNotAllowed">Система, по-видимому, запущена в удаленном сеансе. Выбранная
-        конфигурация не позволяет запускать SEB в удаленном сеансе.
+    <Entry key="MessageBox_NotSupportedConfigurationResource">
+        Конфигурационный ресурс "%%URI%%" не поддерживается!
     </Entry>
-    <Entry key="MessageBox_RemoteSessionNotAllowedTitle">Обнаружен удаленный сеанс</Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">Сеанс сервера SEB уже запущен. Перенастройка для другого сеанса
-        сервера SEB запрещена.
+    <Entry key="MessageBox_NotSupportedConfigurationResourceTitle">
+        Ошибка конфигурации
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">Перенастройка не разрешена</Entry>
-    <Entry key="MessageBox_ServiceUnavailableError">Не удалось инициализировать службу SEB! Теперь SEB завершит работу,
-        поскольку служба настроена как обязательная.
+    <Entry key="MessageBox_OkButton">
+        ОК
     </Entry>
-    <Entry key="MessageBox_ServiceUnavailableErrorTitle">Услуга недоступна</Entry>
-    <Entry key="MessageBox_ServiceUnavailableWarning">Не удалось инициализировать службу SEB. SEB продолжит
-        инициализацию, поскольку служба настроена как необязательная.
+    <Entry key="MessageBox_ProctoringDisclaimer">
+        Текущая сессия будет проходить удаленно с использованием видео- и аудиопотока в реальном времени, который отправляется на индивидуально настроенный сервер. Спросите своего экзаменатора об их политике конфиденциальности. Сам SEB не подключается ни к какому централизованномупрокторинговому серверу SEB, ваш поставщик экзаменационных услуг решает, какую прокторинговую службу / сервер использовать.
     </Entry>
-    <Entry key="MessageBox_ServiceUnavailableWarningTitle">Услуга недоступна</Entry>
-    <Entry key="MessageBox_SessionStartError">SEB не удалось запустить новый сеанс! Пожалуйста, обратитесь к файлам
-        журнала для получения дополнительной информации.
+    <Entry key="MessageBox_ProctoringDisclaimerTitle">
+        Сеанс с удаленным прокторингом
     </Entry>
-    <Entry key="MessageBox_SessionStartErrorTitle">Ошибка запуска сеанса</Entry>
-    <Entry key="MessageBox_ShutdownError">Во время процедуры завершения работы произошла непредвиденная ошибка!
-        Пожалуйста, обратитесь к файлам журнала для получения дополнительной информации.
+    <Entry key="MessageBox_Quit">
+        Вы хотите выйти из SEB?
     </Entry>
-    <Entry key="MessageBox_ShutdownErrorTitle">Ошибка выключения</Entry>
-    <Entry key="MessageBox_StartupError">Во время процедуры запуска произошла непредвиденная ошибка! Пожалуйста,
-        обратитесь к файлам журнала для получения дополнительной информации.
+    <Entry key="MessageBox_QuitTitle">
+        Выйти?
     </Entry>
-    <Entry key="MessageBox_StartupErrorTitle">Ошибка запуска</Entry>
-    <Entry key="MessageBox_UnexpectedConfigurationError">Произошла непредвиденная ошибка при попытке загрузить
-        конфигурационный ресурс "%%URI%%"! Пожалуйста, обратитесь к файлам журнала для получения дополнительной
+    <Entry key="MessageBox_QuitError">
+        Клиенту не удалось передать запрос на завершение работы в среду выполнения!
+    </Entry>
+    <Entry key="MessageBox_QuitErrorTitle">
+        Ошибка выхода из системы
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDenied">
+        Вам не разрешается перенастраивать SEB.
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDeniedTitle">
+        В реконфигурации отказано
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationError">
+        Клиенту не удалось передать запрос на перенастройку среде выполнения!
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationErrorTitle">
+        Ошибка реконфигурации
+    </Entry>
+    <Entry key="MessageBox_ReloadConfirmation">
+        Хотели бы вы перезагрузить текущую страницу?
+    </Entry>
+    <Entry key="MessageBox_ReloadConfirmationTitle">
+        Перезарядить?
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowed">
+        Система, по-видимому, запущена в удаленном сеансе. Выбранная конфигурация не позволяет запускать SEB в удаленном сеансе.
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
+        Обнаружен удаленный сеанс
+    </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarning">
+        Сеанс сервера SEB уже запущен. Перенастройка для другого сеанса сервера SEB запрещена.
+    </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
+        Перенастройка не разрешена
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableError">
+        Не удалось инициализировать службу SEB! Теперь SEB завершит работу, поскольку служба настроена как обязательная.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableErrorTitle">
+        Услуга недоступна
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarning">
+        Не удалось инициализировать службу SEB. SEB продолжит инициализацию, поскольку служба настроена как необязательная.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarningTitle">
+        Услуга недоступна
+    </Entry>
+    <Entry key="MessageBox_SessionStartError">
+        SEB не удалось запустить новый сеанс! Пожалуйста, обратитесь к файлам журнала для получения дополнительной информации.
+    </Entry>
+    <Entry key="MessageBox_SessionStartErrorTitle">
+        Ошибка запуска сеанса
+    </Entry>
+    <Entry key="MessageBox_ShutdownError">
+        Во время процедуры завершения работы произошла непредвиденная ошибка! Пожалуйста, обратитесь к файлам журнала для получения дополнительной информации.
+    </Entry>
+    <Entry key="MessageBox_ShutdownErrorTitle">
+        Ошибка выключения
+    </Entry>
+    <Entry key="MessageBox_StartupError">
+        Во время процедуры запуска произошла непредвиденная ошибка! Пожалуйста, обратитесь к файлам журнала для получения дополнительной информации.
+    </Entry>
+    <Entry key="MessageBox_StartupErrorTitle">
+        Ошибка запуска
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationError">
+        Произошла непредвиденная ошибка при попытке загрузить конфигурационный ресурс "%%URI%%"! Пожалуйста, обратитесь к файлам журнала для получения дополнительной
         информации.
     </Entry>
-    <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">Ошибка конфигурации</Entry>
-    <Entry key="MessageBox_UploadNotAllowed">Загрузка файлов запрещена текущими настройками SEB. Пожалуйста, сообщите об
-        этом своему поставщику экзаменационных услуг.
+    <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
+        Ошибка конфигурации
     </Entry>
-    <Entry key="MessageBox_UploadNotAllowedTitle">Загрузка запрещена!</Entry>
-    <Entry key="MessageBox_VersionRestrictionError">Установленная версия SEB %%_VERSION_%% не может быть использована,
-        поскольку выбранная конфигурация требует использования определенной версии:%%_REQUIRED_VERSIONS_%%Пожалуйста,
-        загрузите и установите требуемую версию с официального веб-сайта (safeexambrowser.org/download ) или из
-        репозитория SEB для Windows на GitHub (github.com/safeexambrowser).
+    <Entry key="MessageBox_UploadNotAllowed">
+        Загрузка файлов запрещена текущими настройками SEB. Пожалуйста, сообщите об этом своему поставщику экзаменационных услуг.
     </Entry>
-    <Entry key="MessageBox_VersionRestrictionErrorTitle">Неверная версия SEB</Entry>
-    <Entry key="MessageBox_VersionRestrictionMinimum">SEB %%_VERSION_%% или новее</Entry>
-    <Entry key="MessageBox_VirtualMachineNotAllowed">Этот компьютер, по-видимому, является виртуальной машиной.
-        Выбранная конфигурация не позволяет запускать SEB на виртуальной машине.
+    <Entry key="MessageBox_UploadNotAllowedTitle">
+        Загрузка запрещена!
     </Entry>
-    <Entry key="MessageBox_VirtualMachineNotAllowedTitle">Обнаружена виртуальная машина</Entry>
-    <Entry key="MessageBox_YesButton">Да</Entry>
-    <Entry key="MessageBox_ZoomNotSupported">Выбранная конфигурация требует удаленного контроля с помощью Zoom, который
-        данная версия SEB не поддерживает. Пожалуйста, загрузите и установите версию SEB, указанную организатором
-        экзамена. Из-за проблем с лицензированием удаленный контроль с помощью Zoom доступен только для членов Альянса
-        SEB. Пожалуйста, обратитесь к https://safeexambrowser.org/alliance для получения дополнительной информации.
+    <Entry key="MessageBox_VersionRestrictionError">
+        Установленная версия SEB %%_VERSION_%% не может быть использована, поскольку выбранная конфигурация требует использования определенной версии:%%_REQUIRED_VERSIONS_%%Пожалуйста, загрузите и установите требуемую версию с официального веб-сайта (safeexambrowser.org/download ) или из репозитория SEB для Windows на GitHub (github.com/safeexambrowser).
     </Entry>
-    <Entry key="MessageBox_ZoomNotSupportedTitle">Требуется прокторинг масштабирования</Entry>
-    <Entry key="Notification_AboutTooltip">Информация о SEB</Entry>
-    <Entry key="Notification_LogTooltip">Журнал приложений</Entry>
-    <Entry key="Notification_ProctoringActiveTooltip">Удаленный прокторинг активен</Entry>
-    <Entry key="Notification_ProctoringHandLowered">Рука опущена</Entry>
-    <Entry key="Notification_ProctoringHandRaised">Рука поднята</Entry>
-    <Entry key="Notification_ProctoringInactiveTooltip">Удаленный прокторинг неактивен</Entry>
-    <Entry key="Notification_ProctoringLowerHand">Опуститьруку</Entry>
-    <Entry key="Notification_ProctoringRaiseHand">Поднять руку</Entry>
-    <Entry key="OperationStatus_CloseRuntimeConnection">Закрытие соединения во время выполнения</Entry>
-    <Entry key="OperationStatus_FinalizeApplications">Завершающая обработка заявок</Entry>
-    <Entry key="OperationStatus_FinalizeClipboard">Завершение работы с буфером обмена</Entry>
-    <Entry key="OperationStatus_FinalizeServer">Завершение работы SEB-сервера</Entry>
-    <Entry key="OperationStatus_FinalizeServiceSession">Завершающий сеанс обслуживания</Entry>
-    <Entry key="OperationStatus_FinalizeSystemEvents">Завершение системных событий</Entry>
-    <Entry key="OperationStatus_InitializeApplications">Инициализация приложений</Entry>
-    <Entry key="OperationStatus_InitializeBrowser">Инициализация браузера</Entry>
-    <Entry key="OperationStatus_InitializeClipboard">Инициализация буфера обмена</Entry>
-    <Entry key="OperationStatus_InitializeConfiguration">Инициализирующая конфигурация</Entry>
-    <Entry key="OperationStatus_InitializeKioskMode">Инициализация режима киоска</Entry>
-    <Entry key="OperationStatus_InitializeProctoring">Инициализация удаленного прокторинга</Entry>
-    <Entry key="OperationStatus_InitializeRuntimeConnection">Инициализация подключения во время выполнения</Entry>
-    <Entry key="OperationStatus_InitializeServer">Инициализация SEB-сервера</Entry>
-    <Entry key="OperationStatus_InitializeServiceSession">Инициализация сеанса обслуживания</Entry>
-    <Entry key="OperationStatus_InitializeSession">Инициализация нового сеанса</Entry>
-    <Entry key="OperationStatus_InitializeShell">Инициализация пользовательского интерфейса</Entry>
-    <Entry key="OperationStatus_InitializeSystemEvents">Инициализация системных событий</Entry>
-    <Entry key="OperationStatus_InitializeWorkingArea">Инициализация рабочей области</Entry>
-    <Entry key="OperationStatus_RestartCommunicationHost">Перезапуск узла связи</Entry>
-    <Entry key="OperationStatus_RestoreWorkingArea">Восстановление рабочей зоны</Entry>
-    <Entry key="OperationStatus_RevertKioskMode">Возврат к режиму киоска</Entry>
-    <Entry key="OperationStatus_StartClient">Запуск клиента</Entry>
-    <Entry key="OperationStatus_StartCommunicationHost">Запуск узла связи</Entry>
-    <Entry key="OperationStatus_StartKeyboardInterception">Запуск перехвата с клавиатуры</Entry>
-    <Entry key="OperationStatus_StartMouseInterception">Запуск перехвата мыши</Entry>
-    <Entry key="OperationStatus_StopClient">Остановка клиента</Entry>
-    <Entry key="OperationStatus_StopCommunicationHost">Остановка узла связи</Entry>
-    <Entry key="OperationStatus_StopKeyboardInterception">Остановка перехвата с клавиатуры</Entry>
-    <Entry key="OperationStatus_StopMouseInterception">Остановка перехвата мыши</Entry>
-    <Entry key="OperationStatus_TerminateBrowser">Завершение работы браузера</Entry>
-    <Entry key="OperationStatus_TerminateProctoring">Прекращение удаленного прокторинга</Entry>
-    <Entry key="OperationStatus_TerminateShell">Завершение работы пользовательского интерфейса</Entry>
-    <Entry key="OperationStatus_ValidateDisplayConfiguration">Проверка политики настройки отображения</Entry>
-    <Entry key="OperationStatus_ValidateRemoteSessionPolicy">Проверка политики удаленного сеанса</Entry>
-    <Entry key="OperationStatus_ValidateVersionRestrictions">Проверка ограничений версии</Entry>
-    <Entry key="OperationStatus_ValidateVirtualMachinePolicy">Проверка политики виртуальной машины</Entry>
-    <Entry key="OperationStatus_VerifyApplicationIntegrity">Проверка целостности</Entry>
-    <Entry key="OperationStatus_VerifySessionIntegrity">Проверка целостности сеанса</Entry>
-    <Entry key="OperationStatus_WaitDisclaimerConfirmation">Ждем подтверждения заявления об отказе от ответственности
+    <Entry key="MessageBox_VersionRestrictionErrorTitle">
+        Неверная версия SEB
     </Entry>
-    <Entry key="OperationStatus_WaitErrorConfirmation">Ожидание подтверждения сообщения об ошибке</Entry>
-    <Entry key="OperationStatus_WaitExplorerStartup">Ожидание запуска проводника Windows</Entry>
-    <Entry key="OperationStatus_WaitExplorerTermination">Ожидание завершения работы проводника Windows</Entry>
-    <Entry key="OperationStatus_WaitRuntimeDisconnection">Ожидание отключения среды выполнения</Entry>
-    <Entry key="PasswordDialog_BrowserHomePasswordRequired">Введите пароль выхода/ перезапуска: (Эта функция не выводит
-        вас из системы, если вы вошли на веб-сайт)
+    <Entry key="MessageBox_VersionRestrictionMinimum">
+        SEB %%_VERSION_%% или новее
     </Entry>
-    <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">Вернуться к началу</Entry>
-    <Entry key="PasswordDialog_Cancel">Отменить</Entry>
-    <Entry key="PasswordDialog_Confirm">Подтвердить</Entry>
-    <Entry key="PasswordDialog_LocalAdminPasswordRequired">Пожалуйста, введите пароль администратора для настройки
-        локального клиента:
+    <Entry key="MessageBox_VirtualMachineNotAllowed">
+        Этот компьютер, по-видимому, является виртуальной машиной. Выбранная конфигурация не позволяет запускать SEB на виртуальной машине.
     </Entry>
-    <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">Требуется пароль</Entry>
-    <Entry key="PasswordDialog_LocalSettingsPasswordRequired">Пожалуйста, введите пароль для настройки локального
-        клиента:
+    <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
+        Обнаружена виртуальная машина
     </Entry>
-    <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">Требуется пароль</Entry>
-    <Entry key="PasswordDialog_QuitPasswordRequired">Пожалуйста, введите пароль выхода, чтобы завершить работу SEB:
+    <Entry key="MessageBox_YesButton">
+        Да
     </Entry>
-    <Entry key="PasswordDialog_QuitPasswordRequiredTitle">Требуется пароль</Entry>
-    <Entry key="PasswordDialog_SettingsPasswordRequired">Пожалуйста, введите пароль для экзамена:</Entry>
-    <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">Требуется пароль</Entry>
-    <Entry key="RuntimeWindow_ApplicationRunning">СЕБ убегает.</Entry>
-    <Entry key="ServerFailureDialog_Abort">Выкинуть</Entry>
-    <Entry key="ServerFailureDialog_Fallback">Отступление</Entry>
-    <Entry key="ServerFailureDialog_Message">Произошла ошибка при попытке установить связь с сервером SEB.</Entry>
-    <Entry key="ServerFailureDialog_Retry">Повторить попытку</Entry>
-    <Entry key="ServerFailureDialog_Title">Ошибка SEB-сервера</Entry>
-    <Entry key="Shell_QuitButton">Завершить сеанс</Entry>
-    <Entry key="SystemControl_AudioDeviceInfo">%%NAME%%: %%VOLUME%%%</Entry>
-    <Entry key="SystemControl_AudioDeviceInfoMuted">%%NAME%%: Отключено</Entry>
-    <Entry key="SystemControl_AudioDeviceMuteTooltip">Нажмите, чтобы отключить звук</Entry>
-    <Entry key="SystemControl_AudioDeviceNotFound">Активное аудиоустройство не найдено</Entry>
-    <Entry key="SystemControl_AudioDeviceUnmuteTooltip">Нажмите, чтобы включить звук</Entry>
-    <Entry key="SystemControl_BatteryCharging">Подключен, заряжается... (%%CHARGE%%%)</Entry>
-    <Entry key="SystemControl_BatteryCharged">Полностью заряжен (%%CHARGE%%%)</Entry>
-    <Entry key="SystemControl_BatteryChargeCriticalWarning">Заряд батареи критически низкий. Пожалуйста, подключите
-        компьютер к источнику питания!
+    <Entry key="MessageBox_ZoomNotSupported">
+        Выбранная конфигурация требует удаленного контроля с помощью Zoom, который данная версия SEB не поддерживает. Пожалуйста, загрузите и установите версию SEB, указанную организатором экзамена. Из-за проблем с лицензированием удаленный контроль с помощью Zoom доступен только для членов Альянса SEB. Пожалуйста, обратитесь к https://safeexambrowser.org/alliance для получения дополнительной информации.
     </Entry>
-    <Entry key="SystemControl_BatteryChargeLowInfo">Заряд батареи становится низким. Подумайте о своевременном
-        подключении компьютера к источнику питания...
+    <Entry key="MessageBox_ZoomNotSupportedTitle">
+        Требуется прокторинг масштабирования
     </Entry>
-    <Entry key="SystemControl_BatteryRemainingCharge">%%HOURS%%ч %%MINUTES%%мин осталось (%%CHARGE%%%)</Entry>
-    <Entry key="SystemControl_KeyboardLayoutTooltip">Текущая раскладка клавиатуры - "%%LAYOUT%%"</Entry>
-    <Entry key="SystemControl_NetworkDisconnected">Подключение разорвано</Entry>
-    <Entry key="SystemControl_NetworkNotAvailable">Адаптер беспроводной сети недоступен или выключен</Entry>
-    <Entry key="SystemControl_NetworkWiredConnected">Подключение</Entry>
-    <Entry key="SystemControl_NetworkWirelessConnected">Подключен к "%%NAME%%"</Entry>
-    <Entry key="SystemControl_NetworkWirelessConnecting">Подключение...</Entry>
-    <Entry key="Version">Версия</Entry>
+    <Entry key="Notification_AboutTooltip">
+        Информация о SEB
+    </Entry>
+    <Entry key="Notification_LogTooltip">
+        Журнал приложений
+    </Entry>
+    <Entry key="Notification_ProctoringActiveTooltip">
+        Удаленный прокторинг активен
+    </Entry>
+    <Entry key="Notification_ProctoringHandLowered">
+        Рука опущена
+    </Entry>
+    <Entry key="Notification_ProctoringHandRaised">
+        Рука поднята
+    </Entry>
+    <Entry key="Notification_ProctoringInactiveTooltip">
+        Удаленный прокторинг неактивен
+    </Entry>
+    <Entry key="Notification_ProctoringLowerHand">
+        Опуститьруку
+    </Entry>
+    <Entry key="Notification_ProctoringRaiseHand">
+        Поднять руку
+    </Entry>
+    <Entry key="OperationStatus_CloseRuntimeConnection">
+        Закрытие соединения во время выполнения
+    </Entry>
+    <Entry key="OperationStatus_FinalizeApplications">
+        Завершающая обработка заявок
+    </Entry>
+    <Entry key="OperationStatus_FinalizeClipboard">
+        Завершение работы с буфером обмена
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServer">
+        Завершение работы SEB-сервера
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServiceSession">
+        Завершающий сеанс обслуживания
+    </Entry>
+    <Entry key="OperationStatus_FinalizeSystemEvents">
+        Завершение системных событий
+    </Entry>
+    <Entry key="OperationStatus_InitializeApplications">
+        Инициализация приложений
+    </Entry>
+    <Entry key="OperationStatus_InitializeBrowser">
+        Инициализация браузера
+    </Entry>
+    <Entry key="OperationStatus_InitializeClipboard">
+        Инициализация буфера обмена
+    </Entry>
+    <Entry key="OperationStatus_InitializeConfiguration">
+        Инициализирующая конфигурация
+    </Entry>
+    <Entry key="OperationStatus_InitializeKioskMode">
+        Инициализация режима киоска
+    </Entry>
+    <Entry key="OperationStatus_InitializeProctoring">
+        Инициализация удаленного прокторинга
+    </Entry>
+    <Entry key="OperationStatus_InitializeRuntimeConnection">
+        Инициализация подключения во время выполнения
+    </Entry>
+    <Entry key="OperationStatus_InitializeServer">
+        Инициализация SEB-сервера
+    </Entry>
+    <Entry key="OperationStatus_InitializeServiceSession">
+        Инициализация сеанса обслуживания
+    </Entry>
+    <Entry key="OperationStatus_InitializeSession">
+        Инициализация нового сеанса
+    </Entry>
+    <Entry key="OperationStatus_InitializeShell">
+        Инициализация пользовательского интерфейса
+    </Entry>
+    <Entry key="OperationStatus_InitializeSystemEvents">
+        Инициализация системных событий
+    </Entry>
+    <Entry key="OperationStatus_InitializeWorkingArea">
+        Инициализация рабочей области
+    </Entry>
+    <Entry key="OperationStatus_RestartCommunicationHost">
+        Перезапуск узла связи
+    </Entry>
+    <Entry key="OperationStatus_RestoreWorkingArea">
+        Восстановление рабочей зоны
+    </Entry>
+    <Entry key="OperationStatus_RevertKioskMode">
+        Возврат к режиму киоска
+    </Entry>
+    <Entry key="OperationStatus_StartClient">
+        Запуск клиента
+    </Entry>
+    <Entry key="OperationStatus_StartCommunicationHost">
+        Запуск узла связи
+    </Entry>
+    <Entry key="OperationStatus_StartKeyboardInterception">
+        Запуск перехвата с клавиатуры
+    </Entry>
+    <Entry key="OperationStatus_StartMouseInterception">
+        Запуск перехвата мыши
+    </Entry>
+    <Entry key="OperationStatus_StopClient">
+        Остановка клиента
+    </Entry>
+    <Entry key="OperationStatus_StopCommunicationHost">
+        Остановка узла связи
+    </Entry>
+    <Entry key="OperationStatus_StopKeyboardInterception">
+        Остановка перехвата с клавиатуры
+    </Entry>
+    <Entry key="OperationStatus_StopMouseInterception">
+        Остановка перехвата мыши
+    </Entry>
+    <Entry key="OperationStatus_TerminateBrowser">
+        Завершение работы браузера
+    </Entry>
+    <Entry key="OperationStatus_TerminateProctoring">
+        Прекращение удаленного прокторинга
+    </Entry>
+    <Entry key="OperationStatus_TerminateShell">
+        Завершение работы пользовательского интерфейса
+    </Entry>
+    <Entry key="OperationStatus_ValidateDisplayConfiguration">
+        Проверка политики настройки отображения
+    </Entry>
+    <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
+        Проверка политики удаленного сеанса
+    </Entry>
+    <Entry key="OperationStatus_ValidateVersionRestrictions">
+        Проверка ограничений версии
+    </Entry>
+    <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
+        Проверка политики виртуальной машины
+    </Entry>
+    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+        Проверка целостности
+    </Entry>
+    <Entry key="OperationStatus_VerifySessionIntegrity">
+        Проверка целостности сеанса
+    </Entry>
+    <Entry key="OperationStatus_WaitDisclaimerConfirmation">
+        Ждем подтверждения заявления об отказе от ответственности
+    </Entry>
+    <Entry key="OperationStatus_WaitErrorConfirmation">
+        Ожидание подтверждения сообщения об ошибке
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerStartup">
+        Ожидание запуска проводника Windows
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerTermination">
+        Ожидание завершения работы проводника Windows
+    </Entry>
+    <Entry key="OperationStatus_WaitRuntimeDisconnection">
+        Ожидание отключения среды выполнения
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequired">
+        Введите пароль выхода/ перезапуска: (Эта функция не выводит вас из системы, если вы вошли на веб-сайт)
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
+        Вернуться к началу
+    </Entry>
+    <Entry key="PasswordDialog_Cancel">
+        Отменить
+    </Entry>
+    <Entry key="PasswordDialog_Confirm">
+        Подтвердить
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequired">
+        Пожалуйста, введите пароль администратора для настройки локального клиента:
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
+        Требуется пароль
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
+        Пожалуйста, введите пароль для настройки локального клиента:
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
+        Требуется пароль
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequired">
+        Пожалуйста, введите пароль выхода, чтобы завершить работу SEB:
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
+        Требуется пароль
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequired">
+        Пожалуйста, введите пароль для экзамена:
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
+        Требуется пароль
+    </Entry>
+    <Entry key="RuntimeWindow_ApplicationRunning">
+        СЕБ убегает.
+    </Entry>
+    <Entry key="ServerFailureDialog_Abort">
+        Выкинуть
+    </Entry>
+    <Entry key="ServerFailureDialog_Fallback">
+        Отступление
+    </Entry>
+    <Entry key="ServerFailureDialog_Message">
+        Произошла ошибка при попытке установить связь с сервером SEB.
+    </Entry>
+    <Entry key="ServerFailureDialog_Retry">
+        Повторить попытку
+    </Entry>
+    <Entry key="ServerFailureDialog_Title">
+        Ошибка SEB-сервера
+    </Entry>
+    <Entry key="Shell_QuitButton">
+        Завершить сеанс
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfo">
+        %%NAME%%: %%VOLUME%%%
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfoMuted">
+        %%NAME%%: Отключено
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceMuteTooltip">
+        Нажмите, чтобы отключить звук
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceNotFound">
+        Активное аудиоустройство не найдено
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceUnmuteTooltip">
+        Нажмите, чтобы включить звук
+    </Entry>
+    <Entry key="SystemControl_BatteryCharging">
+        Подключен, заряжается... (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryCharged">
+        Полностью заряжен (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeCriticalWarning">
+        Заряд батареи критически низкий. Пожалуйста, подключите компьютер к источнику питания!
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeLowInfo">
+        Заряд батареи становится низким. Подумайте о своевременном подключении компьютера к источнику питания...
+    </Entry>
+    <Entry key="SystemControl_BatteryRemainingCharge">
+        %%HOURS%%ч %%MINUTES%%мин осталось (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_KeyboardLayoutTooltip">
+        Текущая раскладка клавиатуры - "%%LAYOUT%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkDisconnected">
+        Подключение разорвано
+    </Entry>
+    <Entry key="SystemControl_NetworkNotAvailable">
+        Адаптер беспроводной сети недоступен или выключен
+    </Entry>
+    <Entry key="SystemControl_NetworkWiredConnected">
+        Подключение
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnected">
+        Подключен к "%%NAME%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnecting">
+        Подключение...
+    </Entry>
+    <Entry key="Version">
+        Версия
+    </Entry>
 </Text>
