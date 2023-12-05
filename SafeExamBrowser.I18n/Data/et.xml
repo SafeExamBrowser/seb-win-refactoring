@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Text>
+    <Entry key="AboutWindow_LicenseInfo">
+        Selle rakenduse puhul kohaldatakse Mozilla avaliku litsentsi versiooni 2.0 tingimusi. Safe Exam Browser kasutab järgmisi raamistikke ja kolmandate osapoolte teeke: 
+    </Entry>
+    <Entry key="AboutWindow_Title">
+        Versioon &amp; litsentsi teave
+    </Entry>
+    <Entry key="Browser_BlockedContentMessage">
+        Sisu on blokeeritud
+    </Entry>
+    <Entry key="Browser_BlockedPageButton">
+        Tagasi eelmisele lehele
+    </Entry>
+    <Entry key="Browser_BlockedPageMessage">
+        Vastavalt kehtivatele seadistustele ei ole juurdepääs sellele lehele lubatud.
+    </Entry>
+    <Entry key="Browser_BlockedPageTitle">
+        Lehekülg on blokeeritud
+    </Entry>
+    <Entry key="Browser_LoadErrorMessage">
+        Lehekülje "%%URL%%" laadimisel tekkis viga: 
+    </Entry>
+    <Entry key="Browser_LoadErrorTitle">
+        Viga lehe laadimisel
+    </Entry>
+    <Entry key="Browser_Name">
+        Brauser
+    </Entry>
+    <Entry key="Browser_PrintNotAllowed">
+        Vastavalt kehtivatele seadistustele ei ole printimine lubatud.
+    </Entry>
+    <Entry key="Browser_Tooltip">
+        Ava veebilehed
+    </Entry>
+    <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
+        Arendaja konsool
+    </Entry>
+    <Entry key="BrowserWindow_Downloading">
+        Laadin alla ...
+    </Entry>
+    <Entry key="BrowserWindow_DownloadCancelled">
+        Tühistatud.
+    </Entry>
+    <Entry key="BrowserWindow_DownloadComplete">
+        Alla laaditud.
+    </Entry>
+    <Entry key="BrowserWindow_FindCaseSensitive">
+        Tõstutundlik otsing
+    </Entry>
+    <Entry key="BrowserWindow_FindMenuItem">
+        Otsi lehelt ...
+    </Entry>
+    <Entry key="BrowserWindow_ReloadButton">
+        Laadi uuesti
+    </Entry>
+    <Entry key="BrowserWindow_BackwardButton">
+        Tagasi
+    </Entry>
+    <Entry key="BrowserWindow_ForwardButton">
+        Edasi
+    </Entry>
+    <Entry key="BrowserWindow_DownloadsButton">
+        Laadi alla
+    </Entry>
+    <Entry key="BrowserWindow_HomeButton">
+        Avaleht
+    </Entry>
+    <Entry key="BrowserWindow_MenuButton">
+        Menüü
+    </Entry>
+    <Entry key="BrowserWindow_CloseButton">
+        Sulge
+    </Entry>
+    <Entry key="BrowserWindow_UrlTextBox">
+        Sisesta URL
+    </Entry>
+    <Entry key="BrowserWindow_ZoomLevelReset">
+        Lehekülje suurendus %%ZOOM%%%. Klõpsa lähtestamiseks.
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuItem">
+        Lehekülje suurendamine
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuPlus">
+        Suurendamine
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuMinus">
+        Vähendamine
+    </Entry>
+    <Entry key="BrowserWindow_SearchTextBox">
+        Sisesta otsitav tekst
+    </Entry>
+    <Entry key="BrowserWindow_SearchNext">
+        Järgmine otsingutulemus
+    </Entry>
+    <Entry key="BrowserWindow_SearchPrevious">
+        Eelmine otsingutulemus
+    </Entry>
+    <Entry key="Build">
+        Koosta
+    </Entry>
+    <Entry key="ExamSelectionDialog_Cancel">
+        Tühista
+    </Entry>
+    <Entry key="ExamSelectionDialog_Message">
+        Palun valige üks olemasolevatest SEB-serveri eksamitest:
+    </Entry>
+    <Entry key="ExamSelectionDialog_Select">
+        Vali
+    </Entry>
+    <Entry key="ExamSelectionDialog_Title">
+        SEB-serveri eksamid
+    </Entry>
+    <Entry key="FileSystemDialog_Cancel">
+        Tühista
+    </Entry>
+    <Entry key="FileSystemDialog_LoadError">
+        Andmete laadimine ebaõnnestus!
+    </Entry>
+    <Entry key="FileSystemDialog_Loading">
+        Laadib ...
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFileMessage">
+        Palun vali avatav fail.
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFolderMessage">
+        Palun vali kaust.
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarning">
+        Valitud fail on juba olemas! Kas sa tõesti tahaksid selle üle kirjutada?
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarningTitle">
+        Kas kirjutan üle?
+    </Entry>
+    <Entry key="FileSystemDialog_SaveAs">
+        Salvesta nimega:
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFileMessage">
+        Palun vali asukoht faili salvestamiseks.
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFolderMessage">
+        Palun vali asukoht kausta salvestamiseks.
+    </Entry>
+    <Entry key="FileSystemDialog_Select">
+        Vali
+    </Entry>
+    <Entry key="FileSystemDialog_Title">
+        Juurdepääs failisüsteemile
+    </Entry>
+    <Entry key="FolderDialog_ApplicationLocation">
+        Rakendust "%%NAME%%" ei leitud süsteemist. Palun otsi üles kaust, mis sisaldab käivitatavat faili "%%EXECUTABLE%%".
+    </Entry>
+    <Entry key="LockScreen_ApplicationIntegrityMessage">
+        Kasutate SEB mitteametlikku versiooni! Kasutage kindlasti ametlikku Safe Exam Browser'it. SEB avamiseks sisestage õige avamisparool.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsAllowOption">
+        Lubage ajutiselt musta nimekirja kantud rakendused. See kehtib ainult hetkel töös olevate juhtude ja seansi kohta!
+    </Entry>
+    <Entry key="LockScreen_ApplicationsMessage">
+        Allpool loetletud musta nimekirja rakendusi alustati ja neid ei saanud automaatselt lõpetada! SEB avamiseks vali üks saadaolevatest valikutest ja sisesta õige parooli avamine.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsTerminateOption">
+        Sulge Safe Exam Browser. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
+    </Entry>
+    <Entry key="LockScreen_CursorContinueOption">
+        Luba ajutiselt kursori seadistus. See kehtib ainult käimasoleva seansi kohta!
+    </Entry>
+    <Entry key="LockScreen_CursorMessage">
+        Tuvastati keelatud kursoriseadistus. SEB'i avamiseks vali üks saadaolevatest valikutest ja sisesta õige avamisparool.
+    </Entry>
+    <Entry key="LockScreen_CursorTerminateOption">
+        Sulge Safe Exam Browser. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationContinueOption">
+        Luba ajutiselt ekraaniseadistus. See kehtib ainult käimasoleva seansi kohta!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationMessage">
+        Tuvastati keelatud ekraaniseadistust. SEB'i avamiseks vali üks saadaolevatest valikutest ja sisesta õige avamisparool.
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationTerminateOption">
+        Sulge Safe Exam Browser. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessContinueOption">
+        Lubada ajutiselt hõlbustusseadistuse kasutamine. See kehtib ainult käimasoleva seansi kohta!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessMessage">
+        Tuvastati Windowsi hõlbustusseadistuse kasutamine. Palun sisesta SEB'i avamiseks õige parool.
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessTerminateOption">
+        Sulge Safe Exam Browser. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
+    </Entry>
+    <Entry key="LockScreen_SessionIntegrityMessage">
+        Viimast seanssi hetkel aktiivse seadistuse või algus-URL-iga ei suletud korrektselt! Palun sisestage SEB'i avamiseks õige parool.
+    </Entry>
+    <Entry key="LockScreen_Title">
+        SEB ON LUKUSTATUD
+    </Entry>
+    <Entry key="LockScreen_UnlockButton">
+        Tee lukust lahti
+    </Entry>
+    <Entry key="LockScreen_UserSessionContinueOption">
+        Lukusta Safe Exam Browser lahti.
+    </Entry>
+    <Entry key="LockScreen_UserSessionMessage">
+        Aktiivne kasutaja on muutunud või arvuti on lukustatud! SEB avamiseks valige üks saadaolevatest valikutest ja sisestage õige avamisparool.
+    </Entry>
+    <Entry key="LockScreen_UserSessionTerminateOption">
+        Sulge Safe Exam Browser. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
+    </Entry>
+    <Entry key="LogWindow_AlwaysOnTop">
+        Alati peal
+    </Entry>
+    <Entry key="LogWindow_AutoScroll">
+        Sisu automaatne kerimine
+    </Entry>
+    <Entry key="LogWindow_Title">
+        Rakenduse logi
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestion">
+        Allpool loetletud rakendused tuleb enne uue seansi alustamist sulgeda. Kas soovite need kohe automaatselt sulgeda?
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestionTitle">
+        Tuvastati töötavad rakendused
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationDataLossWarning">
+        HOIATUS: Kõik salvestamata rakenduse andmed võivad kaduma minna!
+    </Entry>
+    <Entry key="MessageBox_ApplicationError">
+        Ilmnes parandamatu viga! Lisateabe saamiseks vaata logifaile. SEB sulgub nüüd... 
+    </Entry>
+    <Entry key="MessageBox_ApplicationErrorTitle">
+        Rakenduse viga
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailure">
+        Rakendust %%NAME%% ei saa käivitada ja seega pole see uue seansi jaoks saadaval! Lisateabe saamiseks tutvu logifailidega.
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailureTitle">
+        Rakenduse käivitamine ebaõnnestus
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFound">
+        Rakendust %%NAME%% ei leitud süsteemist ja seega ei ole see uue seansi jaoks saadaval! Lisateabe saamiseks tutvu logifailidega.
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFoundTitle">
+        Rakendust ei leitud
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailure">
+        Allpool loetletud rakendusi ei saanud sulgeda. Sulge need käsitsi ja proovi uuesti...
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailureTitle">
+        Automaatne sulgemine ebaõnnestus
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestion">
+        Oled kindel? (See funktsioon ei logi sind välja, kui oled veebisaidile sisse logitud)
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestionTitle">
+        Tagasi algusesse
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlocked">
+        Vastavalt praegusele seadistusele ei ole lubatud "%%URL%%" kasutada.
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlockedTitle">
+        Lehekülg on blokeeritud
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmation">
+        Brauserirakendus tuvastas sulgemise URL-i! Kas soovid SEB'i kohe sulgeda?
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
+        Tuvastati väljumise URL
+    </Entry>
+    <Entry key="MessageBox_CancelButton">
+        Tühista
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationError">
+        Kohaliku kliendi seadistamine ebaõnnestus! Lisateavet leiad logifailidest. SEB sulgub nüüd ...
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationErrorTitle">
+        Seadistusviga
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestion">
+        Kliendi seadistus on salvestatud ja seda kasutatakse järgmisel SEB käivitamisel. Kas soovid praegu lõpetada?
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestionTitle">
+        Seadistamine oli edukas
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadError">
+        Uue seadistuse allalaadimine ebaõnnestus. Palun proovige uuesti või võtke ühendust tehnilise toega.
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
+        Allalaadimise viga
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationError">
+        Praegune ekraaniseadistus ei ole lubatud. %%_ALLOWED_COUNT_%% %%_TYPE_%% ekraan(i) on lubatud, kuid tuvastati %%_INTERNAL_COUNT_%% sise- ja %%_EXTERNAL_COUNT_%% välisekraan(i). Lisateabe saamiseks vaadake logifaile. SEB sulgub nüüd ...
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationErrorTitle">
+        Keelatud ekraaniseadistus
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternal">
+        sisemine
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
+        sisemine või välimine
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowed">
+        Failide allalaadimine ei ole praeguse SEB seadistusega lubatud. Palun anna selles eksami korraldajale teada.
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowedTitle">
+        Allalaadimine ei ole lubatud!
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationData">
+        Seadistusressurss "%%URI%%%" sisaldab vigaseid andmeid!
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationDataTitle">
+        Seadistuse viga
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePassword">
+        Sisestasid vale parooli.
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePasswordTitle">
+        Vale parool
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordError">
+        Sul ei õnnestunud 5 katsega õiget parooli sisestada. SEB sulgub nüüd ...
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordErrorTitle">
+        Vale parool
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPassword">
+        SEB'i saab sulgeda ainult õige sulgemisparooli sisestamisega.
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPasswordTitle">
+        Sobimatu sulgemisparool
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPassword">
+        SEB'i saab avada ainult õige parooli sisestamisega.
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPasswordTitle">
+        Sobimatu avamisparool
+    </Entry>
+    <Entry key="MessageBox_NoButton">
+        Ei
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResource">
+        Seadistusressurssi "%%URI%%" ei toetata!
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResourceTitle">
+        Seadistuse viga
+    </Entry>
+    <Entry key="MessageBox_OkButton">
+        OK
+    </Entry>
+    <Entry key="MessageBox_ProctoringDisclaimer">
+        Praegust seanssi jälgitakse reaalajas video- ja helivoo abil, mis saadetakse eraldi seadistatud serverisse. Küsi eksamikorraldajalt nende privaatsuspoliitika kohta. SEB ise ei ole ühendatud ühegi jälgimisteenust pakkuva serveriga, eksami korraldaja otsustab, millist jälgimisteenust/serverit kasutada.
+    </Entry>
+    <Entry key="MessageBox_ProctoringDisclaimerTitle">
+        Kaugkontrolliga seanss
+    </Entry>
+    <Entry key="MessageBox_Quit">
+        Kas soovid SEB'ist väljuda?
+    </Entry>
+    <Entry key="MessageBox_QuitTitle">
+        Lõpetada?
+    </Entry>
+    <Entry key="MessageBox_QuitError">
+        Kliendil ei õnnestunud käituskeskkonnale sulgemistaotlust edastada!
+    </Entry>
+    <Entry key="MessageBox_QuitErrorTitle">
+        Väljumise viga
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDenied">
+        Sul ei ole lubatud SEB'i ümber seadistada.
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDeniedTitle">
+        Ümberseadistamine keelatud
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationError">
+        Kliendil ei õnnestunud käituskeskkonnale ümberseadistamistaotlust edastada!
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationErrorTitle">
+        Ümberseadistamise viga
+    </Entry>
+    <Entry key="MessageBox_ReloadConfirmation">
+        Kas soovid praeguse lehe uuesti laadida?
+    </Entry>
+    <Entry key="MessageBox_ReloadConfirmationTitle">
+        Kas laadida uuesti?
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowed">
+        Süsteem näib töötavat kaugseansil. Valitud seadistus ei luba SEB'i kaugseansis käivitada.
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
+        Tuvastati kaugseanss
+    </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarning">
+        SEB serveri seanss on juba käimas. Teise SEB serveri seansi jaoks ei ole ümberseadistamine lubatud.
+    </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
+        Ümberseadistamine ei ole lubatud
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableError">
+        SEB teenuse käivitamine nurjus! SEB lõpetab nüüd tegevuse, kuna teenus on seadistatud kohustuslikuks.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableErrorTitle">
+        Teenus ei ole kättesaadav
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarning">
+        SEB teenuse käivitamine ebaõnnestus. SEB jätkab käivitamist, kuna teenus on seadistatud valikuliseks.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarningTitle">
+        Teenus ei ole kättesaadav
+    </Entry>
+    <Entry key="MessageBox_SessionStartError">
+        SEB'il ei õnnestunud uut seanssi alustada! Lisateabe saamiseks vaata logifaile.
+    </Entry>
+    <Entry key="MessageBox_SessionStartErrorTitle">
+        Seansi alustamise viga
+    </Entry>
+    <Entry key="MessageBox_ShutdownError">
+        Sulgemistoimingu ajal ilmnes ootamatu tõrge! Lisateavet leiad logifailidest.
+    </Entry>
+    <Entry key="MessageBox_ShutdownErrorTitle">
+        Sulgemise viga
+    </Entry>
+    <Entry key="MessageBox_StartupError">
+        Käivitustoimingu ajal ilmnes ootamatu tõrge! Lisateavet leiad logifailidest.
+    </Entry>
+    <Entry key="MessageBox_StartupErrorTitle">
+        Käivitamise viga
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationError">
+        Seadistusressursi "%%URI%%%" laadimisel tekkis ootamatu tõrge! Lisateabe saamiseks tutvu logifailidega.
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
+        Seadistuse viga
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowed">
+        Failide üleslaadimine ei ole praeguse SEB seadistusega lubatud. Palun anna selles eksami korraldajale teada.
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowedTitle">
+        Üleslaadimine ei ole lubatud!
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionError">
+        Paigaldatud SEB versiooni %%_VERSION_%% ei saa kasutada, kuna valitud seadistusega on vaja kasutada konkreetset versiooni: %%_REQUIRED_VERSIONS_%%. Palun laadi alla ja installi vajalik versioon ametlikult veebisaidilt (safeexambrowser.org/download) või GitHubi SEB for Windows repositooriumist (github.com/safeexambrowser).
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionErrorTitle">
+        Sobimatu SEB versioon
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionMinimum">
+        SEB %%_VERSION_%% või uuem
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowed">
+        See arvuti tundub olevat virtuaalmasin. Valitud seadistus ei luba SEB'i virtuaalmasinas käivitada.
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
+        Tuvastati virtuaalne masin
+    </Entry>
+    <Entry key="MessageBox_YesButton">
+        Jah
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupported">
+        Valitud seadistus nõuab Zoomi kaugkontrolli, mida SEB versioon ei toeta. Palun laadi alla ja installi eksamikorraldaja poolt määratud SEB versioon. Vastavalt litsentsitingimustele on Zoom kaugkontroll kättesaadav ainult SEB Alliance'i liikmetele. Lisateavet leiate aadressilt https://safeexambrowser.org/alliance.
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupportedTitle">
+        Nõutav Zoomi kaugkontroll
+    </Entry>
+    <Entry key="Notification_AboutTooltip">
+        Teave SEB kohta
+    </Entry>
+    <Entry key="Notification_LogTooltip">
+        Rakenduse logi
+    </Entry>
+    <Entry key="Notification_ProctoringActiveTooltip">
+        Kaugkontroll on aktiivne
+    </Entry>
+    <Entry key="Notification_ProctoringHandLowered">
+        Käsi on langetatud
+    </Entry>
+    <Entry key="Notification_ProctoringHandRaised">
+        Käsi on tõstetud
+    </Entry>
+    <Entry key="Notification_ProctoringInactiveTooltip">
+        Kaugkontroll ei ole aktiivne
+    </Entry>
+    <Entry key="Notification_ProctoringLowerHand">
+        Kätt langetama
+    </Entry>
+    <Entry key="Notification_ProctoringRaiseHand">
+        Kätt tõstma
+    </Entry>
+    <Entry key="OperationStatus_CloseRuntimeConnection">
+        Käitusaja ühenduse sulgemine
+    </Entry>
+    <Entry key="OperationStatus_FinalizeApplications">
+        Rakenduste sulgemine
+    </Entry>
+    <Entry key="OperationStatus_FinalizeClipboard">
+        Lõikepuhvri sulgemine
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServer">
+        SEB-serveri sulgemine
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServiceSession">
+        Teenuseseansi lõpetamine
+    </Entry>
+    <Entry key="OperationStatus_FinalizeSystemEvents">
+        Süsteemisündmuste lõpetamine
+    </Entry>
+    <Entry key="OperationStatus_InitializeApplications">
+        Rakenduste käivitamine
+    </Entry>
+    <Entry key="OperationStatus_InitializeBrowser">
+        Brauseri käivitamine
+    </Entry>
+    <Entry key="OperationStatus_InitializeClipboard">
+        Lõikelaua lähtestamine
+    </Entry>
+    <Entry key="OperationStatus_InitializeConfiguration">
+        Seadistuste käivitamine
+    </Entry>
+    <Entry key="OperationStatus_InitializeKioskMode">
+        Kioskirežiimi käivitamine
+    </Entry>
+    <Entry key="OperationStatus_InitializeProctoring">
+        Kaugkontrolli käivitamine
+    </Entry>
+    <Entry key="OperationStatus_InitializeRuntimeConnection">
+        Käitusaja ühenduse käivitamine
+    </Entry>
+    <Entry key="OperationStatus_InitializeServer">
+        SEB-serveri käivitamine
+    </Entry>
+    <Entry key="OperationStatus_InitializeServiceSession">
+        Teenuse seansi käivitamine
+    </Entry>
+    <Entry key="OperationStatus_InitializeSession">
+        Uue seansi käivitamine
+    </Entry>
+    <Entry key="OperationStatus_InitializeShell">
+        Kasutajaliidese käivitamine
+    </Entry>
+    <Entry key="OperationStatus_InitializeSystemEvents">
+        Süsteemisündmuste käivitamine
+    </Entry>
+    <Entry key="OperationStatus_InitializeWorkingArea">
+        Tööala käivitamine
+    </Entry>
+    <Entry key="OperationStatus_RestartCommunicationHost">
+        Sideseadme taaskäivitamine
+    </Entry>
+    <Entry key="OperationStatus_RestoreWorkingArea">
+        Tööala taastamine
+    </Entry>
+    <Entry key="OperationStatus_RevertKioskMode">
+        Kioskirežiimi taastamine
+    </Entry>
+    <Entry key="OperationStatus_StartClient">
+        Kliendi käivitamine
+    </Entry>
+    <Entry key="OperationStatus_StartCommunicationHost">
+        Sideseadme käivitamine
+    </Entry>
+    <Entry key="OperationStatus_StartKeyboardInterception">
+        Klaviatuuri tegevuste takistamise käivitamine
+    </Entry>
+    <Entry key="OperationStatus_StartMouseInterception">
+        Hiire tegevuste takistamise käivitamine
+    </Entry>
+    <Entry key="OperationStatus_StopClient">
+        Kliendi peatamine
+    </Entry>
+    <Entry key="OperationStatus_StopCommunicationHost">
+        Sideseadme peatamine
+    </Entry>
+    <Entry key="OperationStatus_StopKeyboardInterception">
+        Klaviatuuri pealtkuulamise peatamine
+    </Entry>
+    <Entry key="OperationStatus_StopMouseInterception">
+        Hiire pealtkuulamise peatamine
+    </Entry>
+    <Entry key="OperationStatus_TerminateBrowser">
+        Brauseri sulgemine
+    </Entry>
+    <Entry key="OperationStatus_TerminateProctoring">
+        Kaugkontrolli lõpetamine
+    </Entry>
+    <Entry key="OperationStatus_TerminateShell">
+        Kasutajaliidese sulgemine
+    </Entry>
+    <Entry key="OperationStatus_ValidateDisplayConfiguration">
+        Ekraani seadistamise poliitika kinnitamine
+    </Entry>
+    <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
+        Kaugseansi poliitika kinnitamine
+    </Entry>
+    <Entry key="OperationStatus_ValidateVersionRestrictions">
+        Versioonipiirangute kinnitamine
+    </Entry>
+    <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
+        Virtuaalmasina poliitika kinnitamine
+    </Entry>
+    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+        Terviklikkuse kontrollimine
+    </Entry>
+    <Entry key="OperationStatus_VerifySessionIntegrity">
+        Seansi terviklikkuse kontrollimine
+    </Entry>
+    <Entry key="OperationStatus_WaitDisclaimerConfirmation">
+        Ootab lahtiütluse kinnitust
+    </Entry>
+    <Entry key="OperationStatus_WaitErrorConfirmation">
+        Veateate kinnituse ootamine
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerStartup">
+        Windows Exploreri käivitumise ootamine
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerTermination">
+        Windows Exploreri sulgumise ootamine
+    </Entry>
+    <Entry key="OperationStatus_WaitRuntimeDisconnection">
+        Ootab käitusaja ühenduse katkestamist
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequired">
+        Sisesta sulgemis-/taaskäivitusparool: (See funktsioon ei logi sind välja, kui oled veebilehele sisselogitud)
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
+        Tagasi algusesse
+    </Entry>
+    <Entry key="PasswordDialog_Cancel">
+        Tühista
+    </Entry>
+    <Entry key="PasswordDialog_Confirm">
+        Kinnita
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequired">
+        Palun sisesta administraatori parool kohaliku kliendi seadistamiseks: 
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
+        Parool nõutav
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
+        Palun sisesta parool kohaliku kliendi seadistamiseks:
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
+        Parool nõutav
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequired">
+        Palun sisestage SEB sulgemiseks sulgemisparool:
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
+        Parool nõutav
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequired">
+        Palun sisesta eksami parool:
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
+        Parool nõutav
+    </Entry>
+    <Entry key="RuntimeWindow_ApplicationRunning">
+        SEB töötab.
+    </Entry>
+    <Entry key="ServerFailureDialog_Abort">
+        Katkesta
+    </Entry>
+    <Entry key="ServerFailureDialog_Fallback">
+        Varukoopia
+    </Entry>
+    <Entry key="ServerFailureDialog_Message">
+        SEB serveriga suhtlemisel ilmnes tõrge.
+    </Entry>
+    <Entry key="ServerFailureDialog_Retry">
+        Proovi uuesti
+    </Entry>
+    <Entry key="ServerFailureDialog_Title">
+        SEB-serveri viga
+    </Entry>
+    <Entry key="Shell_QuitButton">
+        Seansi lõpetamine
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfo">
+        %%NAME%%: %%VOLUME%%%
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfoMuted">
+         %%NAME%%: vaigistatud
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceMuteTooltip">
+        Klõpsa heli vaigistamiseks
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceNotFound">
+        Ühtegi aktiivset heliseadet ei leitud
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceUnmuteTooltip">
+        Klõpsa heli vaigistuse tühistamiseks
+    </Entry>
+    <Entry key="SystemControl_BatteryCharging">
+        Ühendatud, laadimine... (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryCharged">
+        Täielikult laetud (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeCriticalWarning">
+        Aku laetuse tase on kriitiliselt madal. Ühenda arvuti toiteallikaga!
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeLowInfo">
+        Aku hakkab tühjaks saama. Kaalu arvuti õigeaegset ühendamist toiteallikaga ...
+    </Entry>
+    <Entry key="SystemControl_BatteryRemainingCharge">
+        %%HOURS%%h %%MINUTES%%min on jäänud (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_KeyboardLayoutTooltip">
+        Praegune klaviatuuri paigutus on "%%LAYOUT%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkDisconnected">
+        Ühendus katkestatud
+    </Entry>
+    <Entry key="SystemControl_NetworkNotAvailable">
+        Juhtmevaba võrguadapter ei ole saadaval või sisse lülitatud
+    </Entry>
+    <Entry key="SystemControl_NetworkWiredConnected">
+        Ühendatud
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnected">
+        Ühendatud "%%NAME%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnecting">
+        Ühendamine ...
+    </Entry>
+    <Entry key="Version">
+        Versioon
+    </Entry>
+</Text>
