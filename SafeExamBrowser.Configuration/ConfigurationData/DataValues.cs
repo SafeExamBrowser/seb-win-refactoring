@@ -128,6 +128,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "GotoMeetingWinStore.exe", OriginalName = "GotoMeetingWinStore.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "join.me.exe", OriginalName = "join.me.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "join.me.sentinel.exe", OriginalName = "join.me.sentinel.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Microsoft.Media.player.exe", OriginalName = "Microsoft.Media.player.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Mikogo-host.exe", OriginalName = "Mikogo-host.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "MS-teams.exe", OriginalName = "MS-Teams.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "obs32.exe", OriginalName = "obs32.exe" });
@@ -143,11 +144,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "SkypeApp.exe", OriginalName = "SkypeApp.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "SkypeHost.exe", OriginalName = "SkypeHost.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "slack.exe", OriginalName = "slack.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "spotify.exe", OriginalName = "spotify.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "SRServer.exe", OriginalName = "SRServer.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "strwinclt.exe", OriginalName = "strwinclt.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Teams.exe", OriginalName = "Teams.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "TeamViewer.exe", OriginalName = "TeamViewer.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Telegram.exe", OriginalName = "Telegram.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "VLC.exe", OriginalName = "VLC.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "vncserver.exe", OriginalName = "vncserver.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "vncviewer.exe", OriginalName = "vncviewer.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "vncserverui.exe", OriginalName = "vncserverui.exe" });
