@@ -113,7 +113,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (registry.TryRead(RegistryValue.MachineHive.EaseOfAccess_Key, RegistryValue.MachineHive.EaseOfAccess_Name, out var value))
 			{
-				if (value == default || (value is string s && string.IsNullOrWhiteSpace(s)))
+				if (value is string s && string.IsNullOrWhiteSpace(s))
 				{
 					success = true;
 					logger.Info("Ease of access configuration successfully verified.");
@@ -135,7 +135,8 @@ namespace SafeExamBrowser.Runtime.Operations
 			}
 			else
 			{
-				logger.Error("Failed to verify ease of access configuration!");
+				success = true;
+				logger.Info("Ease of access configuration successfully verified (value does not exist).");
 			}
 
 			return success;
