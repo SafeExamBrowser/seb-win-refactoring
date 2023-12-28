@@ -1,0 +1,729 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Text>
+    <Entry key="AboutWindow_LicenseInfo">
+        Aplikasi ini tunduk pada ketentuan Lisensi Publik Mozilla, versi 2.0. Safe Exam Browser menggunakan kerangka kerja dan pustaka pihak ketiga berikut ini:
+    </Entry>
+    <Entry key="AboutWindow_Title">
+        Versi &amp; Informasi Lisensi
+    </Entry>
+    <Entry key="Browser_BlockedContentMessage">
+        Konten diblokir
+    </Entry>
+    <Entry key="Browser_BlockedPageButton">
+        Kembali ke halaman sebelumnya
+    </Entry>
+    <Entry key="Browser_BlockedPageMessage">
+        Akses ke halaman ini tidak diizinkan menurut konfigurasi saat ini.
+    </Entry>
+    <Entry key="Browser_BlockedPageTitle">
+        Halaman Diblokir
+    </Entry>
+    <Entry key="Browser_LoadErrorMessage">
+        Terjadi kesalahan saat memuat halaman "%%URL%%":
+    </Entry>
+    <Entry key="Browser_LoadErrorTitle">
+        Kesalahan Pemuatan Halaman
+    </Entry>
+    <Entry key="Browser_Name">
+        Peramban
+    </Entry>
+    <Entry key="Browser_PrintNotAllowed">
+        Pencetakan tidak diperbolehkan menurut konfigurasi saat ini.
+    </Entry>
+    <Entry key="Browser_Tooltip">
+        Membuka Halaman Web
+    </Entry>
+    <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
+        Konsol Pengembang
+    </Entry>
+    <Entry key="BrowserWindow_Downloading">
+        Mengunduh...
+    </Entry>
+    <Entry key="BrowserWindow_DownloadCancelled">
+        Dibatalkan.
+    </Entry>
+    <Entry key="BrowserWindow_DownloadComplete">
+        Diunduh.
+    </Entry>
+    <Entry key="BrowserWindow_FindCaseSensitive">
+        Pencarian dengan kepekaan kapital
+    </Entry>
+    <Entry key="BrowserWindow_FindMenuItem">
+        Mencari halaman...
+    </Entry>
+    <Entry key="BrowserWindow_ReloadButton">
+        Muat ulang
+    </Entry>
+    <Entry key="BrowserWindow_BackwardButton">
+        Mundur
+    </Entry>
+    <Entry key="BrowserWindow_ForwardButton">
+        Maju
+    </Entry>
+    <Entry key="BrowserWindow_DownloadsButton">
+        Unduh
+    </Entry>
+    <Entry key="BrowserWindow_HomeButton">
+        Beranda
+    </Entry>
+    <Entry key="BrowserWindow_MenuButton">
+        Menu
+    </Entry>
+    <Entry key="BrowserWindow_CloseButton">
+        Tutup
+    </Entry>
+    <Entry key="BrowserWindow_UrlTextBox">
+        Masukkan URL
+    </Entry>
+    <Entry key="BrowserWindow_ZoomLevelReset">
+        Halaman Diperbesar pada %%ZOOM%% %. Klik untuk Mengatur Ulang.
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuItem">
+        Perbesar Halaman
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuPlus">
+        Naikkan Pembesaran Halaman
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuMinus">
+        Turunkan Pembesaran Halaman
+    </Entry>
+    <Entry key="BrowserWindow_SearchTextBox">
+        Masukkan teks yang akan dicari
+    </Entry>
+    <Entry key="BrowserWindow_SearchNext">
+        Hasil pencarian berikutnya
+    </Entry>
+    <Entry key="BrowserWindow_SearchPrevious">
+        Hasil pencarian sebelumnya
+    </Entry>
+    <Entry key="Build">
+        Bangun
+    </Entry>
+    <Entry key="ExamSelectionDialog_Cancel">
+        Batal
+    </Entry>
+    <Entry key="ExamSelectionDialog_Message">
+        Pilih salah satu SEB-Server ujian yang tersedia:
+    </Entry>
+    <Entry key="ExamSelectionDialog_Select">
+        Pilih
+    </Entry>
+    <Entry key="ExamSelectionDialog_Title">
+        SEB-Server Ujian
+    </Entry>
+    <Entry key="FileSystemDialog_Cancel">
+        Batal
+    </Entry>
+    <Entry key="FileSystemDialog_LoadError">
+        Gagal memuat data!
+    </Entry>
+    <Entry key="FileSystemDialog_Loading">
+        Memuat...
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFileMessage">
+        Pilih file yang akan dibuka.
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFolderMessage">
+        Pilih sebuah folder.
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarning">
+        File yang dipilih sudah ada! Apakah Anda benar-benar ingin menimpanya?
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarningTitle">
+        Timpa?
+    </Entry>
+    <Entry key="FileSystemDialog_SaveAs">
+        Simpan sebagai:
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFileMessage">
+        Pilih lokasi untuk menyimpan file.
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFolderMessage">
+        Pilih lokasi untuk menyimpan folder.
+    </Entry>
+    <Entry key="FileSystemDialog_Select">
+        Pilih
+    </Entry>
+    <Entry key="FileSystemDialog_Title">
+        Akses Sistem File
+    </Entry>
+    <Entry key="FolderDialog_ApplicationLocation">
+        Aplikasi "%%NAME%%" tidak dapat ditemukan di sistem! Silakan cari folder yang berisi eksekusi utama "%%EXECUTABLE%%".
+    </Entry>
+    <Entry key="LockScreen_ApplicationIntegrityMessage">
+        Anda menggunakan versi SEB yang tidak resmi! Pastikan Anda menggunakan Safe Exam Browser yang resmi. Untuk membuka kunci SEB, masukkan kata sandi pembuka kunci yang benar.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsAllowOption">
+        Izinkan aplikasi yang masuk daftar hitam untuk sementara waktu. Ini hanya berlaku untuk instance dan sesi yang sedang berjalan!
+    </Entry>
+    <Entry key="LockScreen_ApplicationsMessage">
+        Aplikasi yang masuk daftar hitam yang tercantum di bawah ini telah dimulai dan tidak dapat dihentikan secara otomatis! Untuk membuka kunci SEB, pilih salah satu opsi yang tersedia dan masukkan kata sandi pembuka kunci yang benar.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsTerminateOption">
+        Menghentikan Safe Exam Browser. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
+    </Entry>
+    <Entry key="LockScreen_CursorContinueOption">
+        Izinkan konfigurasi kursor untuk sementara waktu. Ini hanya berlaku untuk sesi yang sedang berjalan!
+    </Entry>
+    <Entry key="LockScreen_CursorMessage">
+        Konfigurasi kursor yang dilarang telah terdeteksi. Untuk membuka kunci SEB, pilih salah satu opsi yang tersedia dan masukkan kata sandi buka kunci yang benar.
+    </Entry>
+    <Entry key="LockScreen_CursorTerminateOption">
+        Menghentikan Safe Exam Browser. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationContinueOption">
+        Izinkan konfigurasi tampilan untuk sementara waktu. Ini hanya berlaku untuk sesi yang sedang berjalan!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationMessage">
+        Konfigurasi tampilan yang dilarang telah terdeteksi. Untuk membuka kunci SEB, pilih salah satu opsi yang tersedia dan masukkan kata sandi pembuka kunci yang benar.
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationTerminateOption">
+        Menghentikan Safe Exam Browser. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessContinueOption">
+        Izinkan konfigurasi kemudahan akses untuk sementara waktu. Ini hanya berlaku untuk sesi yang sedang berjalan!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessMessage">
+        Konfigurasi kemudahan akses yang dilarang untuk Layar Keamanan Windows telah terdeteksi. Untuk membuka kunci SEB, pilih salah satu opsi yang tersedia dan masukkan kata sandi pembuka kunci yang benar.
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessTerminateOption">
+        Menghentikan Safe Exam Browser. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
+    </Entry>
+    <Entry key="LockScreen_SessionIntegrityMessage">
+        Sesi terakhir dengan konfigurasi yang sedang aktif atau URL awal tidak diakhiri dengan benar! Silakan masukkan kata sandi yang benar untuk membuka kunci SEB.
+    </Entry>
+    <Entry key="LockScreen_Title">
+        SEB TERKUNCI
+    </Entry>
+    <Entry key="LockScreen_UnlockButton">
+        Buka Kunci
+    </Entry>
+    <Entry key="LockScreen_UserSessionContinueOption">
+        Buka Kunci Safe Exam Browser.
+    </Entry>
+    <Entry key="LockScreen_UserSessionMessage">
+        Pengguna aktif telah berganti atau komputer terkunci! Untuk membuka kunci SEB, pilih salah satu opsi yang tersedia dan masukkan kata sandi pembuka kunci yang benar.
+    </Entry>
+    <Entry key="LockScreen_UserSessionTerminateOption">
+        Menghentikan Safe Exam Browser. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
+    </Entry>
+    <Entry key="LogWindow_AlwaysOnTop">
+        Selalu di atas
+    </Entry>
+    <Entry key="LogWindow_AutoScroll">
+        Konten scroll otomatis
+    </Entry>
+    <Entry key="LogWindow_Title">
+        Log Aplikasi
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestion">
+        Aplikasi yang tercantum di bawah ini perlu dihentikan sebelum sesi baru dapat dimulai. Apakah Anda ingin menghentikannya secara otomatis sekarang?
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestionTitle">
+        Aplikasi yang Sedang Berjalan Terdeteksi
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationDataLossWarning">
+        PERINGATAN: Data aplikasi yang belum disimpan dapat hilang!
+    </Entry>
+    <Entry key="MessageBox_ApplicationError">
+        Terjadi kesalahan yang tidak dapat dipulihkan! Silakan lihat file log untuk informasi lebih lanjut. SEB sekarang akan ditutup...
+    </Entry>
+    <Entry key="MessageBox_ApplicationErrorTitle">
+        Kesalahan Aplikasi
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailure">
+        Aplikasi %%NAME%% tidak dapat diinisialisasi dan dengan demikian tidak akan tersedia untuk sesi baru! Silakan lihat file log untuk informasi lebih lanjut.
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailureTitle">
+        Inisialisasi Aplikasi Gagal
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFound">
+        Aplikasi %%NAME%% tidak dapat ditemukan di sistem dan karenanya tidak akan tersedia untuk sesi baru! Silakan lihat file log untuk informasi lebih lanjut.
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFoundTitle">
+        Aplikasi Tidak Ditemukan
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailure">
+        Aplikasi yang tercantum di bawah ini tidak dapat dihentikan! Silakan hentikan secara manual dan coba lagi...
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailureTitle">
+        Penghentian Otomatis Gagal
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestion">
+        Apakah Anda yakin? (Fungsi ini tidak membuat Anda keluar jika Anda masuk ke situs web)
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestionTitle">
+        Kembali ke Awal
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlocked">
+        Akses ke "%%URL%%" tidak diizinkan menurut konfigurasi saat ini.
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlockedTitle">
+        Halaman Diblokir
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmation">
+        Aplikasi peramban telah mendeteksi URL keluar! Apakah Anda ingin menghentikan SEB sekarang?
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
+        URL Keluar Terdeteksi
+    </Entry>
+    <Entry key="MessageBox_CancelButton">
+        Batal
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationError">
+        Konfigurasi klien lokal telah gagal! Silakan lihat file log untuk informasi lebih lanjut. SEB sekarang akan ditutup...
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationErrorTitle">
+        Kesalahan Konfigurasi
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestion">
+        Konfigurasi klien telah disimpan dan akan digunakan ketika Anda memulai SEB di lain waktu. Apakah Anda ingin keluar sekarang?
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestionTitle">
+        Konfigurasi Berhasil
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadError">
+        Gagal mengunduh konfigurasi baru. Silakan coba lagi atau hubungi dukungan teknis.
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
+        Kesalahan Pengunduhan
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationError">
+        Konfigurasi tampilan aktif tidak diizinkan. %%_ALLOWED_COUNT_%% %%_TYPE_%% tampilan diperbolehkan, namun %%_INTERNAL_COUNT_%% internal dan %%_EXTERNAL_COUNT_%% tampilan eksternal terdeteksi. Silakan lihat file log untuk informasi lebih lanjut. SEB sekarang akan ditutup...
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationErrorTitle">
+        Konfigurasi Tampilan yang Dilarang
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternal">
+        internal
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
+        internal atau eksternal
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowed">
+        Mengunduh file tidak diperbolehkan dalam pengaturan SEB saat ini. Harap laporkan hal ini kepada penyedia ujian Anda.
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowedTitle">
+        Mengunduh Tidak Diizinkan!
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationData">
+        Sumber konfigurasi "%%URI%%" berisi data yang tidak valid!
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationDataTitle">
+        Kesalahan Konfigurasi
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePassword">
+        Kata sandi yang Anda masukkan salah.
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePasswordTitle">
+        Kata Sandi Tidak Valid
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordError">
+        Anda gagal memasukkan kata sandi yang benar dalam 5 kali percobaan. SEB sekarang akan berhenti...
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordErrorTitle">
+        Kata Sandi Tidak Valid
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPassword">
+        SEB hanya dapat dihentikan dengan memasukkan kata sandi keluar yang benar.
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPasswordTitle">
+        Kata Sandi Keluar Tidak Valid
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPassword">
+        SEB hanya dapat dibuka dengan memasukkan kata sandi yang benar.
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPasswordTitle">
+        Kata Sandi Pembuka Kunci Tidak Valid
+    </Entry>
+    <Entry key="MessageBox_NoButton">
+        Tidak
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResource">
+        Sumber konfigurasi "%%URI%%" tidak didukung!
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResourceTitle">
+        Kesalahan Konfigurasi
+    </Entry>
+    <Entry key="MessageBox_OkButton">
+        OK
+    </Entry>
+    <Entry key="MessageBox_ProctoringDisclaimer">
+        Sesi saat ini akan dipantau dari jarak jauh menggunakan streaming video dan audio langsung, yang dikirim ke server yang dikonfigurasi secara individual. Tanyakan kepada penguji Anda tentang kebijakan privasi mereka. SEB sendiri tidak terhubung ke server pengawas ujian SEB terpusat, penyedia ujian Anda memutuskan layanan/server pengawas ujian mana yang akan digunakan.
+    </Entry>
+    <Entry key="MessageBox_ProctoringDisclaimerTitle">
+        Sesi dengan Pengawasan Jarak Jauh
+    </Entry>
+    <Entry key="MessageBox_Quit">
+        Apakah Anda ingin keluar dari SEB?
+    </Entry>
+    <Entry key="MessageBox_QuitTitle">
+        Keluar?
+    </Entry>
+    <Entry key="MessageBox_QuitError">
+        Klien gagal mengomunikasikan permintaan penghentian ke runtime!
+    </Entry>
+    <Entry key="MessageBox_QuitErrorTitle">
+        Kesalahan Keluar
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDenied">
+        Anda tidak diizinkan untuk mengkonfigurasi ulang SEB.
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDeniedTitle">
+        Konfigurasi Ulang Ditolak
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationError">
+        Klien gagal mengomunikasikan permintaan konfigurasi ulang ke runtime!
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationErrorTitle">
+        Kesalahan Konfigurasi Ulang
+    </Entry>
+    <Entry key="MessageBox_ReloadConfirmation">
+        Apakah Anda ingin memuat ulang halaman saat ini?
+    </Entry>
+    <Entry key="MessageBox_ReloadConfirmationTitle">
+        Muat Ulang?
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowed">
+        Sistem tampaknya sedang berjalan dalam sesi jarak jauh. Konfigurasi yang dipilih tidak mengizinkan SEB untuk dijalankan dalam sesi jarak jauh.
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
+        Sesi Jarak Jauh Terdeteksi
+    </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarning">
+        Terdapat sesi SEB Server yang sedang berjalan. Tidak diperbolehkan melakukan konfigurasi ulang untuk sesi SEB Server lain.
+    </Entry>
+    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
+        Konfigurasi Ulang Tidak Diizinkan
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableError">
+        Gagal menginisialisasi layanan SEB! SEB sekarang akan dihentikan karena layanan dikonfigurasi menjadi wajib.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableErrorTitle">
+        Layanan Tidak Tersedia
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarning">
+        Gagal menginisialisasi layanan SEB. SEB akan melanjutkan inisialisasi karena layanan dikonfigurasikan sebagai opsional.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarningTitle">
+        Layanan Tidak Tersedia
+    </Entry>
+    <Entry key="MessageBox_SessionStartError">
+        SEB gagal memulai sesi baru! Silakan lihat file log untuk informasi lebih lanjut.
+    </Entry>
+    <Entry key="MessageBox_SessionStartErrorTitle">
+        Kesalahan Mulai Sesi
+    </Entry>
+    <Entry key="MessageBox_ShutdownError">
+        Terjadi kesalahan yang tidak diharapkan selama prosedur penonaktifan! Silakan lihat file log untuk informasi lebih lanjut.
+    </Entry>
+    <Entry key="MessageBox_ShutdownErrorTitle">
+        Kesalahan Penonaktifan
+    </Entry>
+    <Entry key="MessageBox_StartupError">
+        Terjadi kesalahan yang tidak diharapkan selama prosedur pengaktifan! Silakan baca file log untuk informasi lebih lanjut.
+    </Entry>
+    <Entry key="MessageBox_StartupErrorTitle">
+        Kesalahan Pengaktifan
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationError">
+        Terjadi kesalahan yang tidak diharapkan saat mencoba memuat sumber konfigurasi "%%URI%%"! Silakan baca file log untuk informasi lebih lanjut.
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
+        Kesalahan Konfigurasi
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowed">
+        Mengunggah file tidak diperbolehkan dalam pengaturan SEB saat ini. Harap laporkan hal ini ke penyedia ujian Anda.
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowedTitle">
+        Mengunggah Tidak Diizinkan!
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionError">
+        Versi SEB yang diinstal %%_VERSION_%% tidak dapat digunakan karena konfigurasi yang dipilih mengharuskan untuk menggunakan versi tertentu:%%_REQUIRED_VERSIONS_%%Silakan unduh dan instal versi yang diperlukan dari situs web resmi (safeexambrowser.org/download) atau dari repositori SEB untuk Windows di GitHub (github.com/safeexambrowser).
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionErrorTitle">
+        Versi SEB Tidak Valid
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionMinimum">
+        SEB %%_VERSION_%% atau yang lebih baru
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowed">
+        Komputer ini tampaknya merupakan mesin virtual. Konfigurasi yang dipilih tidak mengizinkan SEB untuk dijalankan di mesin virtual.
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
+        Mesin Virtual Terdeteksi
+    </Entry>
+    <Entry key="MessageBox_YesButton">
+        Ya
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupported">
+        Konfigurasi yang dipilih memerlukan pengawasan jarak jauh dengan Zoom, yang tidak didukung oleh versi SEB ini. Silakan unduh dan instal versi SEB yang ditentukan oleh penyelenggara ujian Anda. Karena masalah lisensi, pengawasan jarak jauh dengan Zoom hanya tersedia untuk anggota SEB Alliance. Silakan merujuk ke https://safeexambrowser.org/alliance untuk informasi lebih lanjut.
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupportedTitle">
+        Pemeriksaan dengan Zoom Diperlukan
+    </Entry>
+    <Entry key="Notification_AboutTooltip">
+        Informasi tentang SEB
+    </Entry>
+    <Entry key="Notification_LogTooltip">
+        Log Aplikasi
+    </Entry>
+    <Entry key="Notification_ProctoringActiveTooltip">
+        Pengawasan jarak jauh aktif
+    </Entry>
+    <Entry key="Notification_ProctoringHandLowered">
+        Tangan diturunkan
+    </Entry>
+    <Entry key="Notification_ProctoringHandRaised">
+        Tangan diangkat
+    </Entry>
+    <Entry key="Notification_ProctoringInactiveTooltip">
+        Pengawasan jarak jauh tidak aktif
+    </Entry>
+    <Entry key="Notification_ProctoringLowerHand">
+        Turunkan tangan
+    </Entry>
+    <Entry key="Notification_ProctoringRaiseHand">
+        Angkat tangan
+    </Entry>
+    <Entry key="OperationStatus_CloseRuntimeConnection">
+        Menutup koneksi runtime
+    </Entry>
+    <Entry key="OperationStatus_FinalizeApplications">
+        Mengakhiri aplikasi
+    </Entry>
+    <Entry key="OperationStatus_FinalizeClipboard">
+        Mengakhiri papan klip
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServer">
+        Mengakhiri SEB-Server
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServiceSession">
+        Mengakhiri sesi layanan
+    </Entry>
+    <Entry key="OperationStatus_FinalizeSystemEvents">
+        Mengakhiri peristiwa sistem
+    </Entry>
+    <Entry key="OperationStatus_InitializeApplications">
+        Menginisialisasi aplikasi
+    </Entry>
+    <Entry key="OperationStatus_InitializeBrowser">
+        Menginisialisasi peramban
+    </Entry>
+    <Entry key="OperationStatus_InitializeClipboard">
+        Menginisialisasi papan klip
+    </Entry>
+    <Entry key="OperationStatus_InitializeConfiguration">
+        Menginisialisasi konfigurasi
+    </Entry>
+    <Entry key="OperationStatus_InitializeKioskMode">
+        Menginisialisasi mode kios
+    </Entry>
+    <Entry key="OperationStatus_InitializeProctoring">
+        Menginisialisasi pengawasan jarak jauh
+    </Entry>
+    <Entry key="OperationStatus_InitializeRuntimeConnection">
+        Menginisialisasi koneksi runtime
+    </Entry>
+    <Entry key="OperationStatus_InitializeServer">
+        Menginisialisasi SEB-Server
+    </Entry>
+    <Entry key="OperationStatus_InitializeServiceSession">
+        Menginisialisasi sesi layanan
+    </Entry>
+    <Entry key="OperationStatus_InitializeSession">
+        Menginisialisasi sesi baru
+    </Entry>
+    <Entry key="OperationStatus_InitializeShell">
+        Menginisialisasi antarmuka pengguna
+    </Entry>
+    <Entry key="OperationStatus_InitializeSystemEvents">
+        Menginisialisasi peristiwa sistem
+    </Entry>
+    <Entry key="OperationStatus_InitializeWorkingArea">
+        Menginisialisasi area kerja
+    </Entry>
+    <Entry key="OperationStatus_RestartCommunicationHost">
+        Memulai ulang host komunikasi
+    </Entry>
+    <Entry key="OperationStatus_RestoreWorkingArea">
+        Memulihkan area kerja
+    </Entry>
+    <Entry key="OperationStatus_RevertKioskMode">
+        Mengembalikan mode kios
+    </Entry>
+    <Entry key="OperationStatus_StartClient">
+        Memulai klien
+    </Entry>
+    <Entry key="OperationStatus_StartCommunicationHost">
+        Memulai host komunikasi
+    </Entry>
+    <Entry key="OperationStatus_StartKeyboardInterception">
+        Memulai intersepsi keyboard
+    </Entry>
+    <Entry key="OperationStatus_StartMouseInterception">
+        Memulai intersepsi mouse
+    </Entry>
+    <Entry key="OperationStatus_StopClient">
+        Menghentikan klien
+    </Entry>
+    <Entry key="OperationStatus_StopCommunicationHost">
+        Menghentikan host komunikasi
+    </Entry>
+    <Entry key="OperationStatus_StopKeyboardInterception">
+        Menghentikan intersepsi keyboard
+    </Entry>
+    <Entry key="OperationStatus_StopMouseInterception">
+        Menghentikan intersepsi mouse
+    </Entry>
+    <Entry key="OperationStatus_TerminateBrowser">
+        Menghentikan peramban
+    </Entry>
+    <Entry key="OperationStatus_TerminateProctoring">
+        Menghentikan pengawasan jarak jauh
+    </Entry>
+    <Entry key="OperationStatus_TerminateShell">
+        Menghentikan antarmuka pengguna
+    </Entry>
+    <Entry key="OperationStatus_ValidateDisplayConfiguration">
+        Memvalidasi kebijakan konfigurasi tampilan
+    </Entry>
+    <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
+        Memvalidasi kebijakan sesi jarak jauh
+    </Entry>
+    <Entry key="OperationStatus_ValidateVersionRestrictions">
+        Memvalidasi pembatasan versi
+    </Entry>
+    <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
+        Memvalidasi kebijakan mesin virtual
+    </Entry>
+    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+        Memverifikasi integritas
+    </Entry>
+    <Entry key="OperationStatus_VerifySessionIntegrity">
+        Memverifikasi integritas sesi
+    </Entry>
+    <Entry key="OperationStatus_WaitDisclaimerConfirmation">
+        Menunggu konfirmasi penafian
+    </Entry>
+    <Entry key="OperationStatus_WaitErrorConfirmation">
+        Menunggu konfirmasi pesan kesalahan
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerStartup">
+        Menunggu penjelajah Windows untuk memulai
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerTermination">
+        Menunggu penjelajah Windows untuk dimatikan
+    </Entry>
+    <Entry key="OperationStatus_WaitRuntimeDisconnection">
+        Menunggu runtime untuk memutuskan sambungan
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequired">
+        Masukkan kata sandi keluar/menghidupkan ulang: (Fungsi ini tidak membuat Anda keluar jika Anda masuk ke situs web)
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
+        Kembali ke Awal
+    </Entry>
+    <Entry key="PasswordDialog_Cancel">
+        Batal
+    </Entry>
+    <Entry key="PasswordDialog_Confirm">
+        Konfirmasi
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequired">
+        Masukkan kata sandi administrator untuk konfigurasi klien lokal:
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
+        Kata Sandi Diperlukan
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
+        Masukkan kata sandi untuk konfigurasi klien lokal:
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
+        Kata Sandi Diperlukan
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequired">
+        Masukkan kata sandi keluar untuk mengakhiri SEB:
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
+        Kata Sandi Diperlukan
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequired">
+        Masukkan kata sandi ujian:
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
+        Kata Sandi Diperlukan
+    </Entry>
+    <Entry key="RuntimeWindow_ApplicationRunning">
+        SEB sedang berjalan.
+    </Entry>
+    <Entry key="ServerFailureDialog_Abort">
+        Batalkan
+    </Entry>
+    <Entry key="ServerFailureDialog_Fallback">
+        Kembali
+    </Entry>
+    <Entry key="ServerFailureDialog_Message">
+        Terjadi kesalahan saat mencoba berkomunikasi dengan server SEB.
+    </Entry>
+    <Entry key="ServerFailureDialog_Retry">
+        Coba Lagi
+    </Entry>
+    <Entry key="ServerFailureDialog_Title">
+        Kesalahan Server SEB
+    </Entry>
+    <Entry key="Shell_QuitButton">
+        Hentikan Sesi
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfo">
+        %%NAME%%: %%VOLUME%%%
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfoMuted">
+        %%NAME%%: Dibisukan
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceMuteTooltip">
+        Klik untuk membisukan audio
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceNotFound">
+        Tidak ditemukan perangkat audio aktif
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceUnmuteTooltip">
+        Klik untuk mengaktifkan audio
+    </Entry>
+    <Entry key="SystemControl_BatteryCharging">
+       Dicolokkan, sedang mengisi daya... (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryCharged">
+        Terisi penuh (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeCriticalWarning">
+        Daya baterai sangat lemah. Sambungkan komputer Anda ke catu daya!
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeLowInfo">
+        Daya baterai hampir habis. Pertimbangkan untuk menyambungkan komputer ke catu daya dalam waktu...
+    </Entry>
+    <Entry key="SystemControl_BatteryRemainingCharge">
+        %%HOURS%%h %%MINUTES%%menit tersisa (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_KeyboardLayoutTooltip">
+        Tata letak keyboard saat ini adalah "%%LAYOUT%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkDisconnected">
+        Terputus
+    </Entry>
+    <Entry key="SystemControl_NetworkNotAvailable">
+        Tidak ada adaptor jaringan nirkabel yang tersedia atau dihidupkan
+    </Entry>
+    <Entry key="SystemControl_NetworkWiredConnected">
+        Tersambung
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnected">
+        Tersambung ke "%%NAME%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnecting">
+        Menyambungkan...
+    </Entry>
+    <Entry key="Version">
+        Versi
+    </Entry>
+</Text>
