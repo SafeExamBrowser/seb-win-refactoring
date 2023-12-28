@@ -77,7 +77,7 @@ namespace SafeExamBrowser.Runtime.Operations
 				foreach (var cursor in cursors.Where(c => !string.IsNullOrWhiteSpace(c)))
 				{
 					success &= registry.TryRead(RegistryValue.UserHive.Cursors_Key, cursor, out var value);
-					success &= value == default || !(value is string) || (value is string path && (string.IsNullOrWhiteSpace(path) || IsValidCursorPath(path)));
+					success &= !(value is string) || (value is string path && (string.IsNullOrWhiteSpace(path) || IsValidCursorPath(path)));
 
 					if (!success)
 					{
