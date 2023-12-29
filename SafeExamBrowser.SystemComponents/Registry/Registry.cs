@@ -86,7 +86,7 @@ namespace SafeExamBrowser.SystemComponents.Registry
 				logger.Error($"Failed to read value '{name}' from registry key '{key}'!", e);
 			}
 
-			return value != default && value != defaultValue;
+			return value != default && !ReferenceEquals(value, defaultValue);
 		}
 
 		public bool TryGetNames(string keyName, out IEnumerable<string> names)
