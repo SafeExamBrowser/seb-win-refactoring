@@ -9,6 +9,7 @@
 using System;
 using System.Timers;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.SystemComponents;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply.Events;
 using PowerLineStatus = System.Windows.Forms.PowerLineStatus;
@@ -18,15 +19,20 @@ namespace SafeExamBrowser.SystemComponents.PowerSupply
 {
 	public class PowerSupply : IPowerSupply
 	{
+		private readonly ILogger logger;
+		private readonly PowerSupplySettings settings;
+
 		private DateTime lastStatusLog;
-		private ILogger logger;
 		private Timer timer;
+		private double critical;
+		private double low;
 
 		public event StatusChangedEventHandler StatusChanged;
 
-		public PowerSupply(ILogger logger)
+		public PowerSupply(ILogger logger, PowerSupplySettings settings)
 		{
 			this.logger = logger;
+			this.settings = settings;
 		}
 
 		public IPowerSupplyStatus GetStatus()
@@ -37,7 +43,7 @@ namespace SafeExamBrowser.SystemComponents.PowerSupply
 			var status = new PowerSupplyStatus();
 
 			status.BatteryCharge = charge;
-			status.BatteryChargeStatus = charge <= 0.2 ? (charge <= 0.1 ? BatteryChargeStatus.Critical : BatteryChargeStatus.Low) : BatteryChargeStatus.Okay;
+			status.BatteryChargeStatus = charge <= low ? (charge <= critical ? BatteryChargeStatus.Critical : BatteryChargeStatus.Low) : BatteryChargeStatus.Okay;
 			status.BatteryTimeRemaining = new TimeSpan(hours, minutes, 0);
 			status.IsOnline = SystemInformation.PowerStatus.PowerLineStatus == PowerLineStatus.Online;
 
@@ -54,12 +60,15 @@ namespace SafeExamBrowser.SystemComponents.PowerSupply
 		{
 			const int TWO_SECONDS = 2000;
 
+			critical = SanitizeThreshold(settings.ChargeThresholdCritical);
+			low = SanitizeThreshold(settings.ChargeThresholdLow);
+
 			timer = new Timer(TWO_SECONDS);
 			timer.Elapsed += Timer_Elapsed;
 			timer.AutoReset = true;
 			timer.Start();
 
-			logger.Info("Started monitoring the power supply.");
+			logger.Info($"Started monitoring the power supply (battery charge thresholds: low = {low * 100}%, critical = {critical * 100}%).");
 		}
 
 		public void Terminate()
@@ -69,6 +78,11 @@ namespace SafeExamBrowser.SystemComponents.PowerSupply
 				timer.Stop();
 				logger.Info("Stopped monitoring the power supply.");
 			}
+		}
+
+		private double SanitizeThreshold(double value)
+		{
+			return value < 0 ? 0 : (value > 1 ? 1 : value);
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)

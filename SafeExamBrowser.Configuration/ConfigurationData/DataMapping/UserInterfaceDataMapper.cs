@@ -20,17 +20,23 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.UserInterface.ActionCenter.EnableActionCenter:
 					MapEnableActionCenter(settings, value);
 					break;
-				case Keys.UserInterface.ShowAudio:
+				case Keys.UserInterface.SystemControls.Audio.Show:
 					MapShowAudio(settings, value);
 					break;
-				case Keys.UserInterface.ShowClock:
+				case Keys.UserInterface.SystemControls.Clock.Show:
 					MapShowClock(settings, value);
 					break;
-				case Keys.UserInterface.ShowKeyboardLayout:
+				case Keys.UserInterface.SystemControls.KeyboardLayout.Show:
 					MapShowKeyboardLayout(settings, value);
 					break;
-				case Keys.UserInterface.ShowNetwork:
+				case Keys.UserInterface.SystemControls.Network.Show:
 					MapShowNetwork(settings, value);
+					break;
+				case Keys.UserInterface.SystemControls.PowerSupply.ChargeThresholdCritical:
+					MapChargeThresholdCritical(settings, value);
+					break;
+				case Keys.UserInterface.SystemControls.PowerSupply.ChargeThresholdLow:
+					MapChargeThresholdLow(settings, value);
 					break;
 				case Keys.UserInterface.Taskbar.EnableTaskbar:
 					MapEnableTaskbar(settings, value);
@@ -85,6 +91,22 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			{
 				settings.ActionCenter.ShowNetwork = show;
 				settings.Taskbar.ShowNetwork = show;
+			}
+		}
+
+		private void MapChargeThresholdCritical(AppSettings settings, object value)
+		{
+			if (value is double threshold)
+			{
+				settings.PowerSupply.ChargeThresholdCritical = threshold;
+			}
+		}
+
+		private void MapChargeThresholdLow(AppSettings settings, object value)
+		{
+			if (value is double threshold)
+			{
+				settings.PowerSupply.ChargeThresholdLow = threshold;
 			}
 		}
 

@@ -92,6 +92,7 @@
     <Compile Include="Service\ServiceSettings.cs" />
     <Compile Include="AppSettings.cs" />
     <Compile Include="SystemComponents\AudioSettings.cs" />
+    <Compile Include="SystemComponents\PowerSupplySettings.cs" />
     <Compile Include="System\SystemSettings.cs" />
     <Compile Include="UserInterface\ActionCenterSettings.cs" />
     <Compile Include="UserInterface\TaskbarSettings.cs" />

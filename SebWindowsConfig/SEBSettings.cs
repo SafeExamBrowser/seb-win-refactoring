@@ -134,6 +134,9 @@ namespace SebWindowsConfig
 		public const string KeyAudioVolumeLevel = "audioVolumeLevel";
 		public const string KeyAudioSetVolumeLevel = "audioSetVolumeLevel";
 
+		public const string KeyBatteryChargeThresholdCritical = "batteryChargeThresholdCritical";
+		public const string KeyBatteryChargeThresholdLow = "batteryChargeThresholdLow";
+
 		//Touch optimized settings
 		public const String KeyBrowserScreenKeyboard = "browserScreenKeyboard";
 
@@ -655,6 +658,8 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAudioVolumeLevel, 25);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAudioSetVolumeLevel, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowDeveloperConsole, false);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyBatteryChargeThresholdCritical, 0.1);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyBatteryChargeThresholdLow, 0.2);
 
 			//Touch Settings
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyBrowserScreenKeyboard, false);

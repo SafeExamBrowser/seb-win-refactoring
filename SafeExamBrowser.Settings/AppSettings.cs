@@ -73,6 +73,11 @@ namespace SafeExamBrowser.Settings
 		public MouseSettings Mouse { get; set; }
 
 		/// <summary>
+		/// All settings related to the power supply.
+		/// </summary>
+		public PowerSupplySettings PowerSupply { get; set; }
+
+		/// <summary>
 		/// All proctoring-related settings.
 		/// </summary>
 		public ProctoringSettings Proctoring { get; set; }
@@ -121,6 +126,7 @@ namespace SafeExamBrowser.Settings
 			Display = new DisplaySettings();
 			Keyboard = new KeyboardSettings();
 			Mouse = new MouseSettings();
+			PowerSupply = new PowerSupplySettings();
 			Proctoring = new ProctoringSettings();
 			Security = new SecuritySettings();
 			Server = new ServerSettings();

@@ -235,6 +235,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Mouse.AllowMiddleButton = false;
 			settings.Mouse.AllowRightButton = true;
 
+			settings.PowerSupply.ChargeThresholdCritical = 0.1;
+			settings.PowerSupply.ChargeThresholdLow = 0.2;
+
 			settings.Proctoring.Enabled = false;
 			settings.Proctoring.ForceRaiseHandMessage = false;
 			settings.Proctoring.JitsiMeet.AllowChat = false;

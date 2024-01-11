@@ -334,15 +334,40 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class UserInterface
 		{
-			internal const string ShowAudio = "audioControlEnabled";
-			internal const string ShowClock = "showTime";
-			internal const string ShowKeyboardLayout = "showInputLanguage";
-			internal const string ShowNetwork = "allowWlan";
 			internal const string UserInterfaceMode = "touchOptimized";
 
 			internal static class ActionCenter
 			{
 				internal const string EnableActionCenter = "showSideMenu";
+			}
+
+			internal static class SystemControls
+			{
+				internal static class Audio
+				{
+					internal const string Show = "audioControlEnabled";
+				}
+
+				internal static class Clock
+				{
+					internal const string Show = "showTime";
+				}
+
+				internal static class KeyboardLayout
+				{
+					internal const string Show = "showInputLanguage";
+				}
+
+				internal static class Network
+				{
+					internal const string Show = "allowWlan";
+				}
+
+				internal static class PowerSupply
+				{
+					internal const string ChargeThresholdCritical = "batteryChargeThresholdCritical";
+					internal const string ChargeThresholdLow = "batteryChargeThresholdLow";
+				}
 			}
 
 			internal static class Taskbar

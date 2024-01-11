@@ -103,7 +103,6 @@ namespace SafeExamBrowser.Client
 			messageBox = BuildMessageBox();
 			nativeMethods = new NativeMethods();
 			networkAdapter = new NetworkAdapter(ModuleLogger(nameof(NetworkAdapter)), nativeMethods);
-			powerSupply = new PowerSupply(ModuleLogger(nameof(PowerSupply)));
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
 			systemInfo = new SystemInfo(registry);
 			taskbar = uiFactory.CreateTaskbar(ModuleLogger("Taskbar"));
@@ -128,6 +127,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new ConfigurationOperation(context, logger, runtimeProxy));
 			operations.Enqueue(new DelegateOperation(UpdateAppConfig));
 			operations.Enqueue(new DelegateOperation(BuildIntegrityModule));
+			operations.Enqueue(new DelegateOperation(BuildPowerSupply));
 			operations.Enqueue(new LazyInitializationOperation(BuildClientHostOperation));
 			operations.Enqueue(new ClientHostDisconnectionOperation(context, logger, FIVE_SECONDS));
 			operations.Enqueue(new LazyInitializationOperation(BuildKeyboardInterceptorOperation));
@@ -263,6 +263,11 @@ namespace SafeExamBrowser.Client
 		private void BuildIntegrityModule()
 		{
 			context.IntegrityModule = new IntegrityModule(context.AppConfig, ModuleLogger(nameof(IntegrityModule)));
+		}
+
+		private void BuildPowerSupply()
+		{
+			powerSupply = new PowerSupply(ModuleLogger(nameof(PowerSupply)), context.Settings.PowerSupply);
 		}
 
 		private IOperation BuildKeyboardInterceptorOperation()
