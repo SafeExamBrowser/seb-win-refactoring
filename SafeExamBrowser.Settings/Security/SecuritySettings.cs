@@ -43,6 +43,12 @@ namespace SafeExamBrowser.Settings.Security
 		public ClipboardPolicy ClipboardPolicy { get; set; }
 
 		/// <summary>
+		/// Determines whether the lock screen is disabled in case of a user session change. This setting overrides the activation based on
+		/// <see cref="Service.ServiceSettings.IgnoreService"/> and <see cref="Service.ServiceSettings.DisableUserLock"/> or <see cref="Service.ServiceSettings.DisableUserSwitch"/>.
+		/// </summary>
+		public bool DisableSessionChangeLockScreen { get; set; }
+
+		/// <summary>
 		/// The kiosk mode which determines how the computer is locked down.
 		/// </summary>
 		public KioskMode KioskMode { get; set; }

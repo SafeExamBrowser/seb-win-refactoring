@@ -1228,7 +1228,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			uiFactory.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>())).Returns(lockScreen.Object);
 
 			sut.TryStart();
-			systemMonitor.Raise(m => m.SessionSwitched += null);
+			systemMonitor.Raise(m => m.SessionChanged += null);
 
 			lockScreen.Verify(l => l.Show(), Times.Once);
 		}
@@ -1248,7 +1248,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				.Returns(lockScreen.Object);
 
 			sut.TryStart();
-			systemMonitor.Raise(m => m.SessionSwitched += null);
+			systemMonitor.Raise(m => m.SessionChanged += null);
 
 			lockScreen.Verify(l => l.Show(), Times.Once);
 			runtimeProxy.Verify(p => p.RequestShutdown(), Times.Once);
@@ -1266,7 +1266,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			uiFactory.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>())).Returns(lockScreen.Object);
 
 			sut.TryStart();
-			systemMonitor.Raise(m => m.SessionSwitched += null);
+			systemMonitor.Raise(m => m.SessionChanged += null);
 
 			lockScreen.Verify(l => l.Show(), Times.Never);
 		}

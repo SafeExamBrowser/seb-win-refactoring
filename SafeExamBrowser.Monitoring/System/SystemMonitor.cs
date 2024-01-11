@@ -19,7 +19,7 @@ namespace SafeExamBrowser.Monitoring.System
 	{
 		private readonly ILogger logger;
 
-		public event SessionSwitchedEventHandler SessionSwitched;
+		public event SessionChangedEventHandler SessionChanged;
 
 		public SystemMonitor(ILogger logger)
 		{
@@ -33,7 +33,7 @@ namespace SafeExamBrowser.Monitoring.System
 			SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
 			SystemEvents.SessionEnded += SystemEvents_SessionEnded;
 			SystemEvents.SessionEnding += SystemEvents_SessionEnding;
-			SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
+			SystemEvents.SessionSwitch += SystemEvents_SessionChanged;
 			SystemEvents.TimeChanged += SystemEvents_TimeChanged;
 			SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
 			logger.Info("Started monitoring the operating system.");
@@ -46,7 +46,7 @@ namespace SafeExamBrowser.Monitoring.System
 			SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
 			SystemEvents.SessionEnded -= SystemEvents_SessionEnded;
 			SystemEvents.SessionEnding -= SystemEvents_SessionEnding;
-			SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;
+			SystemEvents.SessionSwitch -= SystemEvents_SessionChanged;
 			SystemEvents.TimeChanged -= SystemEvents_TimeChanged;
 			SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
 			logger.Info("Stopped monitoring the operating system.");
@@ -64,23 +64,23 @@ namespace SafeExamBrowser.Monitoring.System
 
 		private void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
 		{
-			logger.Info($"Power mode changed: {e.Mode}");
+			logger.Info($"Power mode changed: {e.Mode}.");
 		}
 
 		private void SystemEvents_SessionEnded(object sender, SessionEndedEventArgs e)
 		{
-			logger.Warn($"User session ended! Reason: {e.Reason}");
+			logger.Warn($"User session ended! Reason: {e.Reason}.");
 		}
 
 		private void SystemEvents_SessionEnding(object sender, SessionEndingEventArgs e)
 		{
-			logger.Warn($"User session is ending! Reason: {e.Reason}");
+			logger.Warn($"User session is ending! Reason: {e.Reason}.");
 		}
 
-		private void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)
+		private void SystemEvents_SessionChanged(object sender, SessionSwitchEventArgs e)
 		{
-			logger.Info($"User session switch detected! Reason: {e.Reason}");
-			Task.Run(() => SessionSwitched?.Invoke());
+			logger.Info($"User session change detected: {e.Reason}.");
+			Task.Run(() => SessionChanged?.Invoke());
 		}
 
 		private void SystemEvents_TimeChanged(object sender, EventArgs e)
@@ -90,7 +90,7 @@ namespace SafeExamBrowser.Monitoring.System
 
 		private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
 		{
-			logger.Info($"User preference changed. Category: {e.Category}");
+			logger.Info($"User preference changed. Category: {e.Category}.");
 		}
 	}
 }

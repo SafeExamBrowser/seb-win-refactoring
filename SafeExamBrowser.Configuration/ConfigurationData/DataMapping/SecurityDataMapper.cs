@@ -35,6 +35,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Security.ClipboardPolicy:
 					MapClipboardPolicy(settings, value);
 					break;
+				case Keys.Security.DisableSessionChangeLockScreen:
+					MapDisableSessionChangeLockScreen(settings, value);
+					break;
 				case Keys.Security.QuitPasswordHash:
 					MapQuitPasswordHash(settings, value);
 					break;
@@ -134,6 +137,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is int policy)
 			{
 				settings.Security.ClipboardPolicy = policy == ALLOW ? ClipboardPolicy.Allow : (policy == BLOCK ? ClipboardPolicy.Block : ClipboardPolicy.Isolated);
+			}
+		}
+
+		private void MapDisableSessionChangeLockScreen(AppSettings settings, object value)
+		{
+			if (value is bool disable)
+			{
+				settings.Security.DisableSessionChangeLockScreen = disable;
 			}
 		}
 

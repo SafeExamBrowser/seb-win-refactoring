@@ -213,7 +213,7 @@ namespace SafeExamBrowser.Client
 			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
 			registry.ValueChanged += Registry_ValueChanged;
 			runtime.ConnectionLost += Runtime_ConnectionLost;
-			systemMonitor.SessionSwitched += SystemMonitor_SessionSwitched;
+			systemMonitor.SessionChanged += SystemMonitor_SessionChanged;
 			taskbar.LoseFocusRequested += Taskbar_LoseFocusRequested;
 			taskbar.QuitButtonClicked += Shell_QuitButtonClicked;
 
@@ -248,7 +248,7 @@ namespace SafeExamBrowser.Client
 			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
 			registry.ValueChanged -= Registry_ValueChanged;
 			runtime.ConnectionLost -= Runtime_ConnectionLost;
-			systemMonitor.SessionSwitched -= SystemMonitor_SessionSwitched;
+			systemMonitor.SessionChanged -= SystemMonitor_SessionChanged;
 			taskbar.QuitButtonClicked -= Shell_QuitButtonClicked;
 
 			if (Browser != null)
@@ -838,21 +838,22 @@ namespace SafeExamBrowser.Client
 			ResumeActivators();
 		}
 
-		private void SystemMonitor_SessionSwitched()
+		private void SystemMonitor_SessionChanged()
 		{
 			var allow = !Settings.Service.IgnoreService && (!Settings.Service.DisableUserLock || !Settings.Service.DisableUserSwitch);
+			var disable = Settings.Security.DisableSessionChangeLockScreen;
 			var message = text.Get(TextKey.LockScreen_UserSessionMessage);
 			var title = text.Get(TextKey.LockScreen_Title);
 			var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionContinueOption) };
 			var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionTerminateOption) };
 
-			if (allow)
+			if (allow || disable)
 			{
-				logger.Info("Detected user session switch, but user lock and/or user switch are allowed.");
+				logger.Info($"Detected user session change, but {(allow ? "session locking and/or switching is allowed" : "lock screen is deactivated")}.");
 			}
 			else
 			{
-				logger.Warn("Detected user session switch!");
+				logger.Warn("Detected user session change!");
 
 				if (!sessionLocked)
 				{

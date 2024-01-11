@@ -272,6 +272,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Security.AllowTermination = true;
 			settings.Security.AllowReconfiguration = false;
 			settings.Security.ClipboardPolicy = ClipboardPolicy.Isolated;
+			settings.Security.DisableSessionChangeLockScreen = false;
 			settings.Security.KioskMode = KioskMode.CreateNewDesktop;
 			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Deny;
 

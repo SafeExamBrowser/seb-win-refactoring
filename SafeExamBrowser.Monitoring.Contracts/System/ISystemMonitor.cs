@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Monitoring.Contracts.System
 		/// <summary>
 		/// Event fired when the active user session has changed.
 		/// </summary>
-		event SessionSwitchedEventHandler SessionSwitched;
+		event SessionChangedEventHandler SessionChanged;
 
 		/// <summary>
 		/// Starts the monitoring.

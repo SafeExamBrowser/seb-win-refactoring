@@ -11,5 +11,5 @@ namespace SafeExamBrowser.Monitoring.Contracts.System.Events
 	/// <summary>
 	/// Indicates that the active user session of the operating system has changed.
 	/// </summary>
-	public delegate void SessionSwitchedEventHandler();
+	public delegate void SessionChangedEventHandler();
 }

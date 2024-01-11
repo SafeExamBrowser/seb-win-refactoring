@@ -68,7 +68,7 @@
     <Compile Include="Applications\InitializationResult.cs" />
     <Compile Include="Applications\IApplicationMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="System\Events\SessionSwitchedEventHandler.cs" />
+    <Compile Include="System\Events\SessionChangedEventHandler.cs" />
     <Compile Include="System\ISystemMonitor.cs" />
   </ItemGroup>
   <ItemGroup>
