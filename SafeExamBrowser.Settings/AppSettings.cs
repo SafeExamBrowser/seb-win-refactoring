@@ -15,6 +15,7 @@ using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.Settings.Server;
 using SafeExamBrowser.Settings.Service;
+using SafeExamBrowser.Settings.System;
 using SafeExamBrowser.Settings.SystemComponents;
 using SafeExamBrowser.Settings.UserInterface;
 
@@ -97,6 +98,11 @@ namespace SafeExamBrowser.Settings
 		public SessionMode SessionMode { get; set; }
 
 		/// <summary>
+		/// All system-related settings.
+		/// </summary>
+		public SystemSettings System { get; set; }
+
+		/// <summary>
 		/// All taskbar-related settings.
 		/// </summary>
 		public TaskbarSettings Taskbar { get; set; }
@@ -119,6 +125,7 @@ namespace SafeExamBrowser.Settings
 			Security = new SecuritySettings();
 			Server = new ServerSettings();
 			Service = new ServiceSettings();
+			System = new SystemSettings();
 			Taskbar = new TaskbarSettings();
 		}
 	}

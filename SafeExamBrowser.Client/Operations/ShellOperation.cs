@@ -19,6 +19,7 @@ using SafeExamBrowser.SystemComponents.Contracts.Network;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
+using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Client.Operations
 {
@@ -30,6 +31,7 @@ namespace SafeExamBrowser.Client.Operations
 		private readonly IKeyboard keyboard;
 		private readonly ILogger logger;
 		private readonly INotification logNotification;
+		private readonly INativeMethods nativeMethods;
 		private readonly INetworkAdapter networkAdapter;
 		private readonly IPowerSupply powerSupply;
 		private readonly ISystemInfo systemInfo;
@@ -49,6 +51,7 @@ namespace SafeExamBrowser.Client.Operations
 			IKeyboard keyboard,
 			ILogger logger,
 			INotification logNotification,
+			INativeMethods nativeMethods,
 			INetworkAdapter networkAdapter,
 			IPowerSupply powerSupply,
 			ISystemInfo systemInfo,
@@ -63,6 +66,7 @@ namespace SafeExamBrowser.Client.Operations
 			this.keyboard = keyboard;
 			this.logger = logger;
 			this.logNotification = logNotification;
+			this.nativeMethods = nativeMethods;
 			this.networkAdapter = networkAdapter;
 			this.powerSupply = powerSupply;
 			this.systemInfo = systemInfo;
@@ -82,6 +86,7 @@ namespace SafeExamBrowser.Client.Operations
 			InitializeTaskbar();
 			InitializeTaskview();
 			InitializeActivators();
+			InitializeAlwaysOnState();
 
 			return OperationResult.Success;
 		}
@@ -148,6 +153,17 @@ namespace SafeExamBrowser.Client.Operations
 			{
 				logger.Info("Action center is disabled, skipping initialization.");
 			}
+		}
+
+		private void InitializeAlwaysOnState()
+		{
+			var display = Context.Settings.Display.AlwaysOn;
+			var system = Context.Settings.System.AlwaysOn;
+
+			nativeMethods.SetAlwaysOnState(display, system);
+
+			logger.Info($"Display(s) will {(display ? "be always on" : "use the operating system configuration and may turn off")}.");
+			logger.Info($"System will {(system ? "be always on" : "use the operating system configuration and may enter sleep mode or standby")}.");
 		}
 
 		private void InitializeTaskbar()

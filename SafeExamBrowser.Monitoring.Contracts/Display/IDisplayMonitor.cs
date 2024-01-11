@@ -20,16 +20,11 @@ namespace SafeExamBrowser.Monitoring.Contracts.Display
 		/// Event fired when the primary display or its settings have changed.
 		/// </summary>
 		event DisplayChangedEventHandler DisplayChanged;
-		
+
 		/// <summary>
 		/// Sets the desktop working area to accommodate to the taskbar's height and removes the configured wallpaper (if possible).
 		/// </summary>
 		void InitializePrimaryDisplay(int taskbarHeight);
-
-		/// <summary>
-		/// Prevents the computer from entering sleep mode and turning its display(s) off.
-		/// </summary>
-		void PreventSleepMode();
 
 		/// <summary>
 		/// Resets the desktop working area and wallpaper to their previous (initial) state.

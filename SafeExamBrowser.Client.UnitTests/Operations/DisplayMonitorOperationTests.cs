@@ -45,13 +45,11 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			context.Settings = new AppSettings();
 			context.Settings.Taskbar.EnableTaskbar = true;
 
-			displayMonitor.Setup(d => d.PreventSleepMode()).Callback(() => Assert.AreEqual(++order, 1));
-			displayMonitor.Setup(d => d.InitializePrimaryDisplay(It.IsAny<int>())).Callback(() => Assert.AreEqual(++order, 2));
-			displayMonitor.Setup(d => d.StartMonitoringDisplayChanges()).Callback(() => Assert.AreEqual(++order, 3));
+			displayMonitor.Setup(d => d.InitializePrimaryDisplay(It.IsAny<int>())).Callback(() => Assert.AreEqual(++order, 1));
+			displayMonitor.Setup(d => d.StartMonitoringDisplayChanges()).Callback(() => Assert.AreEqual(++order, 2));
 
 			sut.Perform();
 
-			displayMonitor.Verify(d => d.PreventSleepMode(), Times.Once);
 			displayMonitor.Verify(d => d.InitializePrimaryDisplay(It.IsAny<int>()), Times.Once);
 			displayMonitor.Verify(d => d.StartMonitoringDisplayChanges(), Times.Once);
 		}
@@ -59,7 +57,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustCorrectlyInitializeDisplayWithTaskbar()
 		{
-			int height = 25;
+			var height = 25;
 
 			context.Settings = new AppSettings();
 			context.Settings.Taskbar.EnableTaskbar = true;
@@ -74,7 +72,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustCorrectlyInitializeDisplayWithoutTaskbar()
 		{
-			int height = 25;
+			var height = 25;
 
 			context.Settings = new AppSettings();
 			context.Settings.Taskbar.EnableTaskbar = false;

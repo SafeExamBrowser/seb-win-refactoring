@@ -17,9 +17,9 @@ namespace SafeExamBrowser.Client.Operations
 {
 	internal class DisplayMonitorOperation : ClientOperation
 	{
-		private IDisplayMonitor displayMonitor;
-		private ILogger logger;
-		private ITaskbar taskbar;
+		private readonly IDisplayMonitor displayMonitor;
+		private readonly ILogger logger;
+		private readonly ITaskbar taskbar;
 
 		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
@@ -36,7 +36,6 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info("Initializing working area...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeWorkingArea);
 
-			displayMonitor.PreventSleepMode();
 			displayMonitor.InitializePrimaryDisplay(Context.Settings.Taskbar.EnableTaskbar ? taskbar.GetAbsoluteHeight() : 0);
 			displayMonitor.StartMonitoringDisplayChanges();
 

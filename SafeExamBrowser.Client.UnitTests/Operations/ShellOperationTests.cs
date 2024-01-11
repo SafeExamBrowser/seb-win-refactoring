@@ -22,6 +22,7 @@ using SafeExamBrowser.SystemComponents.Contracts.Network;
 using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
+using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
@@ -35,6 +36,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<INotification> aboutNotification;
 		private Mock<IKeyboard> keyboard;
 		private Mock<INotification> logNotification;
+		private Mock<INativeMethods> nativeMethods;
 		private Mock<IPowerSupply> powerSupply;
 		private Mock<ISystemInfo> systemInfo;
 		private Mock<ITaskbar> taskbar;
@@ -55,6 +57,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			aboutNotification = new Mock<INotification>();
 			keyboard = new Mock<IKeyboard>();
 			logNotification = new Mock<INotification>();
+			nativeMethods = new Mock<INativeMethods>();
 			networkAdapter = new Mock<INetworkAdapter>();
 			powerSupply = new Mock<IPowerSupply>();
 			systemInfo = new Mock<ISystemInfo>();
@@ -77,6 +80,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 				keyboard.Object,
 				logger.Object,
 				logNotification.Object,
+				nativeMethods.Object,
 				networkAdapter.Object,
 				powerSupply.Object,
 				systemInfo.Object,
@@ -183,6 +187,25 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application2.Object), Location.Taskbar), Times.Never);
 			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application3.Object), Location.ActionCenter), Times.Never);
 			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application3.Object), Location.Taskbar), Times.Never);
+		}
+
+		[TestMethod]
+		public void Perform_MustInitializeAlwaysOnState()
+		{
+			context.Settings.Display.AlwaysOn = true;
+			context.Settings.System.AlwaysOn = false;
+
+			sut.Perform();
+
+			nativeMethods.Verify(n => n.SetAlwaysOnState(true, false), Times.Once);
+			nativeMethods.Reset();
+
+			context.Settings.Display.AlwaysOn = false;
+			context.Settings.System.AlwaysOn = true;
+
+			sut.Perform();
+
+			nativeMethods.Verify(n => n.SetAlwaysOnState(false, true), Times.Once);
 		}
 
 		[TestMethod]

@@ -165,7 +165,7 @@ namespace SafeExamBrowser.WindowsApi
 
 		public uint GetProcessIdFor(IntPtr window)
 		{
-			User32.GetWindowThreadProcessId(window, out uint processId);
+			User32.GetWindowThreadProcessId(window, out var processId);
 
 			return processId;
 		}
@@ -178,7 +178,7 @@ namespace SafeExamBrowser.WindowsApi
 		public uint GetShellProcessId()
 		{
 			var handle = GetShellWindowHandle();
-			var threadId = User32.GetWindowThreadProcessId(handle, out uint processId);
+			var threadId = User32.GetWindowThreadProcessId(handle, out var processId);
 
 			return processId;
 		}
@@ -274,11 +274,6 @@ namespace SafeExamBrowser.WindowsApi
 			{
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
-		}
-
-		public void PreventSleepMode()
-		{
-			Kernel32.SetThreadExecutionState(EXECUTION_STATE.CONTINUOUS | EXECUTION_STATE.DISPLAY_REQUIRED | EXECUTION_STATE.SYSTEM_REQUIRED);
 		}
 
 		public Guid RegisterKeyboardHook(KeyboardHookCallback callback)
@@ -409,6 +404,19 @@ namespace SafeExamBrowser.WindowsApi
 		public void SendCloseMessageTo(IntPtr window)
 		{
 			User32.SendMessage(window, Constant.WM_SYSCOMMAND, (IntPtr) SystemCommand.CLOSE, IntPtr.Zero);
+		}
+
+		public void SetAlwaysOnState(bool display = true, bool system = true)
+		{
+			if (display || system)
+			{
+				var state = EXECUTION_STATE.CONTINUOUS;
+
+				state |= display ? EXECUTION_STATE.DISPLAY_REQUIRED : 0x0;
+				state |= system ? EXECUTION_STATE.SYSTEM_REQUIRED : 0x0;
+
+				Kernel32.SetThreadExecutionState(state);
+			}
 		}
 
 		public void SetWallpaper(string filePath)

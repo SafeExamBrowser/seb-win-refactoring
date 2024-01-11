@@ -22,6 +22,12 @@ namespace SafeExamBrowser.Settings.Monitoring
 		public int AllowedDisplays { get; set; }
 
 		/// <summary>
+		/// Determines whether the display(s) will remain always on or not. This does not prevent the operating system from entering sleep mode or
+		/// standby, see <see cref="System.SystemSettings.AlwaysOn"/>.
+		/// </summary>
+		public bool AlwaysOn { get; set; }
+
+		/// <summary>
 		/// Determines whether any display configuration may be allowed when the configuration can't be verified due to an error.
 		/// </summary>
 		public bool IgnoreError { get; set; }

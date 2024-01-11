@@ -26,9 +26,9 @@ namespace SafeExamBrowser.Monitoring.Display
 	public class DisplayMonitor : IDisplayMonitor
 	{
 		private IBounds originalWorkingArea;
-		private ILogger logger;
-		private INativeMethods nativeMethods;
-		private ISystemInfo systemInfo;
+		private readonly ILogger logger;
+		private readonly INativeMethods nativeMethods;
+		private readonly ISystemInfo systemInfo;
 		private string wallpaper;
 
 		public event DisplayChangedEventHandler DisplayChanged;
@@ -44,12 +44,6 @@ namespace SafeExamBrowser.Monitoring.Display
 		{
 			InitializeWorkingArea(taskbarHeight);
 			InitializeWallpaper();
-		}
-
-		public void PreventSleepMode()
-		{
-			nativeMethods.PreventSleepMode();
-			logger.Info("Disabled sleep mode and display timeout.");
 		}
 
 		public void ResetPrimaryDisplay()

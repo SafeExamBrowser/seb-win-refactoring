@@ -132,11 +132,6 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		void PostCloseMessageToShell();
 
 		/// <summary>
-		/// Prevents Windows from entering sleep mode and keeps all displays powered on.
-		/// </summary>
-		void PreventSleepMode();
-
-		/// <summary>
 		/// Registers a keyboard hook for the given callback. Returns the identifier of the newly registered hook.
 		/// </summary>
 		Guid RegisterKeyboardHook(KeyboardHookCallback callback);
@@ -181,6 +176,12 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		/// Sends a close message to the given window.
 		/// </summary>
 		void SendCloseMessageTo(IntPtr window);
+
+		/// <summary>
+		/// Sets the always on state for the display and the operating system according to the given parameters, i.e. keeps all displays powered on
+		/// and/or prevents Windows from entering sleep mode or standby when set to <c>true</c> respectively.
+		/// </summary>
+		void SetAlwaysOnState(bool display = true, bool system = true);
 
 		/// <summary>
 		/// Sets the wallpaper to the image located at the specified file path.

@@ -206,6 +206,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.ConfigurationMode = ConfigurationMode.Exam;
 
 			settings.Display.AllowedDisplays = 1;
+			settings.Display.AlwaysOn = true;
 			settings.Display.IgnoreError = false;
 			settings.Display.InternalDisplayOnly = false;
 
@@ -295,6 +296,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Service.SetVmwareConfiguration = false;
 
 			settings.SessionMode = SessionMode.Normal;
+
+			settings.System.AlwaysOn = true;
 
 			settings.Taskbar.EnableTaskbar = true;
 			settings.Taskbar.ShowApplicationInfo = false;

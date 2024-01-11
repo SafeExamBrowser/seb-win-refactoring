@@ -314,6 +314,7 @@ namespace SafeExamBrowser.Client
 				keyboard,
 				logger,
 				logNotification,
+				nativeMethods,
 				networkAdapter,
 				powerSupply,
 				systemInfo,
