@@ -177,6 +177,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		internal static class Display
 		{
 			internal const string AllowedDisplays = "allowedDisplaysMaxNumber";
+			internal const string AlwaysOn = "displayAlwaysOn";
 			internal const string IgnoreError = "allowedDisplaysIgnoreFailure";
 			internal const string InternalDisplayOnly = "allowedDisplayBuiltinEnforce";
 		}
@@ -324,6 +325,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string IgnoreService = "sebServiceIgnore";
 			internal const string Policy = "sebServicePolicy";
 			internal const string SetVmwareConfiguration = "setVmwareConfiguration";
+		}
+
+		internal static class System
+		{
+			internal const string AlwaysOn = "systemAlwaysOn";
 		}
 
 		internal static class UserInterface

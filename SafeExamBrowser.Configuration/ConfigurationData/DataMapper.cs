@@ -14,7 +14,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 {
 	internal class DataMapper
 	{
-		private BaseDataMapper[] mappers =
+		private readonly BaseDataMapper[] mappers =
 		{
 			new ApplicationDataMapper(),
 			new AudioDataMapper(),
@@ -27,6 +27,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			new SecurityDataMapper(),
 			new ServerDataMapper(),
 			new ServiceDataMapper(),
+			new SystemDataMapper(),
 			new UserInterfaceDataMapper()
 		};
 

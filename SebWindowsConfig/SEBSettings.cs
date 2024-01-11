@@ -435,6 +435,9 @@ namespace SebWindowsConfig
 		public const String KeyEnableF11 = "enableF11";
 		public const String KeyEnableF12 = "enableF12";
 
+		public const String KeyDisplayAlwaysOn = "displayAlwaysOn";
+		public const String KeySystemAlwaysOn = "systemAlwaysOn";
+
 		public enum sebConfigPurposes
 		{
 			sebConfigPurposeStartingExam, sebConfigPurposeConfiguringClient
@@ -1055,6 +1058,9 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableF10, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableF11, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableF12, true);
+
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyDisplayAlwaysOn, true);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeySystemAlwaysOn, true);
 
 
 			// Clear all "current" lists and dictionaries

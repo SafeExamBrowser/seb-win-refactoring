@@ -19,6 +19,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Display.AllowedDisplays:
 					MapAllowedDisplays(settings, value);
 					break;
+				case Keys.Display.AlwaysOn:
+					MapAlwaysOn(settings, value);
+					break;
 				case Keys.Display.IgnoreError:
 					MapIgnoreError(settings, value);
 					break;
@@ -33,6 +36,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is int count)
 			{
 				settings.Display.AllowedDisplays = count;
+			}
+		}
+
+		private void MapAlwaysOn(AppSettings settings, object value)
+		{
+			if (value is bool alwaysOn)
+			{
+				settings.Display.AlwaysOn = alwaysOn;
 			}
 		}
 

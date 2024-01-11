@@ -68,6 +68,7 @@
     <Compile Include="ConfigurationData\DataMapping\SecurityDataMapper.cs" />
     <Compile Include="ConfigurationData\DataMapping\ServerDataMapper.cs" />
     <Compile Include="ConfigurationData\DataMapping\ServiceDataMapper.cs" />
+    <Compile Include="ConfigurationData\DataMapping\SystemDataMapper.cs" />
     <Compile Include="ConfigurationData\DataMapping\UserInterfaceDataMapper.cs" />
     <Compile Include="ConfigurationData\DataProcessor.cs" />
     <Compile Include="ConfigurationData\Json.cs" />
