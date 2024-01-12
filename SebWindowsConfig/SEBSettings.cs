@@ -868,7 +868,10 @@ namespace SebWindowsConfig
 				"PCMonitorSrv.exe",
 				"pcmontask.exe",
 				"obs64.exe",
-				"obs32.exe"
+				"obs32.exe",
+				"spotify.exe",
+				"Microsoft.Media.Player.exe",
+				"vlc.exe"
 			};
 
 			// Default settings for group "Network - Filter"
