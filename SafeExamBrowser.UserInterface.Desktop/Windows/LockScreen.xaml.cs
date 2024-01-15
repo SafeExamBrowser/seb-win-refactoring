@@ -138,7 +138,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 					FontSize = Message.FontSize,
 					Foreground = Message.Foreground,
 					IsChecked = options.First() == option,
-					Margin = new Thickness(2.5),
+					Margin = new Thickness(2.5, options.First() == option ? 2.5 : 7.5, 2.5, options.Last() == option ? 2.5 : 7.5),
 					Tag = option.Id,
 					VerticalContentAlignment = VerticalAlignment.Center
 				});
