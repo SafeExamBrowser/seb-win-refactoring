@@ -19,6 +19,8 @@ namespace SafeExamBrowser.SystemComponents.Registry
 {
 	public class Registry : IRegistry
 	{
+		private const int ONE_SECOND = 1000;
+
 		private readonly ILogger logger;
 		private readonly ConcurrentDictionary<(string key, string name), object> values;
 
@@ -34,8 +36,6 @@ namespace SafeExamBrowser.SystemComponents.Registry
 
 		public void StartMonitoring(string key, string name)
 		{
-			const int ONE_SECOND = 1000;
-
 			if (timer?.Enabled != true)
 			{
 				timer = new Timer(ONE_SECOND);
@@ -44,14 +44,17 @@ namespace SafeExamBrowser.SystemComponents.Registry
 				timer.Start();
 			}
 
-			if (TryRead(key, name, out var value))
+			var success = TryRead(key, name, out var value);
+
+			values.TryAdd((key, name), value);
+
+			if (success)
 			{
-				values.TryAdd((key, name), value);
 				logger.Debug($"Started monitoring value '{name}' from registry key '{key}'. Initial value: '{value}'.");
 			}
 			else
 			{
-				logger.Error($"Failed to start monitoring value '{name}' from registry key '{key}'!");
+				logger.Debug($"Started monitoring value '{name}' from registry key '{key}'. Value does currently not exist or initial read failed.");
 			}
 		}
 
@@ -74,7 +77,7 @@ namespace SafeExamBrowser.SystemComponents.Registry
 		public bool TryRead(string key, string name, out object value)
 		{
 			var defaultValue = new object();
-			
+
 			value = default;
 
 			try
@@ -86,7 +89,7 @@ namespace SafeExamBrowser.SystemComponents.Registry
 				logger.Error($"Failed to read value '{name}' from registry key '{key}'!", e);
 			}
 
-			return value != default && !ReferenceEquals(value, defaultValue);
+			return value != default && value != defaultValue;
 		}
 
 		public bool TryGetNames(string keyName, out IEnumerable<string> names)
@@ -141,21 +144,41 @@ namespace SafeExamBrowser.SystemComponents.Registry
 			return subKeys != default;
 		}
 
+		private bool Exists(string key, string name)
+		{
+			var defaultValue = new object();
+			var value = default(object);
+
+			try
+			{
+				value = Microsoft.Win32.Registry.GetValue(key, name, defaultValue);
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to read value '{name}' from registry key '{key}'!", e);
+			}
+
+			return value != default && value != defaultValue;
+		}
+
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			foreach (var item in values)
 			{
-				if (TryRead(item.Key.key, item.Key.name, out var value))
+				if (Exists(item.Key.key, item.Key.name))
 				{
-					if (!Equals(item.Value, value))
+					if (TryRead(item.Key.key, item.Key.name, out var value))
 					{
-						logger.Debug($"Value '{item.Key.name}' from registry key '{item.Key.key}' has changed from '{item.Value}' to '{value}'!");
-						ValueChanged?.Invoke(item.Key.key, item.Key.name, item.Value, value);
+						if (!Equals(item.Value, value))
+						{
+							logger.Debug($"Value '{item.Key.name}' from registry key '{item.Key.key}' has changed from '{item.Value}' to '{value}'!");
+							ValueChanged?.Invoke(item.Key.key, item.Key.name, item.Value, value);
+						}
 					}
-				}
-				else
-				{
-					logger.Error($"Failed to monitor value '{item.Key.name}' from registry key '{item.Key.key}'!");
+					else
+					{
+						logger.Error($"Failed to monitor value '{item.Key.name}' from registry key '{item.Key.key}'!");
+					}
 				}
 			}
 		}
