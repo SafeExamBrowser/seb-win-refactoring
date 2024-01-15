@@ -77,7 +77,7 @@ namespace SafeExamBrowser.Runtime.Operations
 				foreach (var cursor in cursors.Where(c => !string.IsNullOrWhiteSpace(c)))
 				{
 					success &= registry.TryRead(RegistryValue.UserHive.Cursors_Key, cursor, out var value);
-					success &= value == default || !(value is string) || (value is string path && (string.IsNullOrWhiteSpace(path) || IsValidCursorPath(path)));
+					success &= !(value is string) || (value is string path && (string.IsNullOrWhiteSpace(path) || IsValidCursorPath(path)));
 
 					if (!success)
 					{
@@ -113,7 +113,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (registry.TryRead(RegistryValue.MachineHive.EaseOfAccess_Key, RegistryValue.MachineHive.EaseOfAccess_Name, out var value))
 			{
-				if (value == default || (value is string s && string.IsNullOrWhiteSpace(s)))
+				if (value is string s && string.IsNullOrWhiteSpace(s))
 				{
 					success = true;
 					logger.Info("Ease of access configuration successfully verified.");
@@ -135,7 +135,8 @@ namespace SafeExamBrowser.Runtime.Operations
 			}
 			else
 			{
-				logger.Error("Failed to verify ease of access configuration!");
+				success = true;
+				logger.Info("Ease of access configuration successfully verified (value does not exist).");
 			}
 
 			return success;

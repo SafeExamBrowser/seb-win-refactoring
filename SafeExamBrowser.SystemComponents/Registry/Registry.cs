@@ -73,21 +73,20 @@ namespace SafeExamBrowser.SystemComponents.Registry
 
 		public bool TryRead(string key, string name, out object value)
 		{
-			var success = false;
-
+			var defaultValue = new object();
+			
 			value = default;
 
 			try
 			{
-				value = Microsoft.Win32.Registry.GetValue(key, name, default);
-				success = true;
+				value = Microsoft.Win32.Registry.GetValue(key, name, defaultValue);
 			}
 			catch (Exception e)
 			{
 				logger.Error($"Failed to read value '{name}' from registry key '{key}'!", e);
 			}
 
-			return success;
+			return value != default && !ReferenceEquals(value, defaultValue);
 		}
 
 		public bool TryGetNames(string keyName, out IEnumerable<string> names)
