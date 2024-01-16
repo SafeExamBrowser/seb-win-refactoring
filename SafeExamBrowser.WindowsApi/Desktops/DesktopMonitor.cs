@@ -50,7 +50,7 @@ namespace SafeExamBrowser.WindowsApi.Desktops
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			var handle = User32.OpenInputDesktop(0, false, (uint) AccessMask.DESKTOP_NONE);
-			var name = string.Empty;
+			var name = default(string);
 			var nameLength = 0;
 
 			if (handle != IntPtr.Zero)
@@ -68,8 +68,6 @@ namespace SafeExamBrowser.WindowsApi.Desktops
 					if (name?.Equals(desktop.Name, StringComparison.OrdinalIgnoreCase) != true)
 					{
 						logger.Warn($"Detected desktop switch to '{name}' [{handle}], trying to reactivate {desktop}...");
-
-						// TODO: SEBWIN-827
 						desktop.Activate();
 					}
 				}
