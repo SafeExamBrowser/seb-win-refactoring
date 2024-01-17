@@ -53,8 +53,6 @@ namespace SafeExamBrowser.SystemComponents.PowerSupply
 				lastStatusLog = DateTime.Now;
 			}
 
-			logger.Warn($"Raw Charge: {charge}, Low Threshold: {low}, Critical Threshold: {critical}, Status: {status.BatteryChargeStatus}");
-
 			return status;
 		}
 
@@ -62,12 +60,8 @@ namespace SafeExamBrowser.SystemComponents.PowerSupply
 		{
 			const int TWO_SECONDS = 2000;
 
-			logger.Warn($"Pre-Sanitized Low Threshold: {settings.ChargeThresholdLow}, Pre-Sanitized Critical Threshold: {settings.ChargeThresholdCritical}");
-
 			critical = SanitizeThreshold(settings.ChargeThresholdCritical);
 			low = SanitizeThreshold(settings.ChargeThresholdLow);
-
-			logger.Warn($"Sanitized Low Threshold: {low}, Sanitized Critical Threshold: {critical}");
 
 			timer = new Timer(TWO_SECONDS);
 			timer.Elapsed += Timer_Elapsed;

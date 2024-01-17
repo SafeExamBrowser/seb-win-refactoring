@@ -260,10 +260,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 					value = Convert.ToInt32(element.Value);
 					break;
 				case XmlElement.Real:
-					logger.Warn($"Power Supply Threshold: Raw XML = {element}.");
-					logger.Warn($"Power Supply Threshold: Raw XML value = {element.Value}.");
 					value = Convert.ToDouble(element.Value, CultureInfo.InvariantCulture);
-					logger.Warn($"Power Supply Threshold: Parsed double value = {value}.");
 					break;
 				case XmlElement.String:
 					value = element.IsEmpty ? null : element.Value;

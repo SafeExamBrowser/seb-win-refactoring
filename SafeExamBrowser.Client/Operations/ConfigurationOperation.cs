@@ -45,8 +45,6 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info($" -> Runtime-ID: {Context.AppConfig.RuntimeId}");
 			logger.Info($" -> Session-ID: {Context.SessionId}");
 
-			logger.Warn($"Power Supply Thresholds: Low = {configuration.Settings.PowerSupply.ChargeThresholdLow}, Critical = {configuration.Settings.PowerSupply.ChargeThresholdCritical}.");
-
 			return OperationResult.Success;
 		}
 
