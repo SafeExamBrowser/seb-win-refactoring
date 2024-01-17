@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -261,7 +262,7 @@ namespace SafeExamBrowser.Configuration.DataFormats
 				case XmlElement.Real:
 					logger.Warn($"Power Supply Threshold: Raw XML = {element}.");
 					logger.Warn($"Power Supply Threshold: Raw XML value = {element.Value}.");
-					value = Convert.ToDouble(element.Value);
+					value = Convert.ToDouble(element.Value, CultureInfo.InvariantCulture);
 					logger.Warn($"Power Supply Threshold: Parsed double value = {value}.");
 					break;
 				case XmlElement.String:
