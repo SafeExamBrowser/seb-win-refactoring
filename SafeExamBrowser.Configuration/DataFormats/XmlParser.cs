@@ -24,8 +24,8 @@ namespace SafeExamBrowser.Configuration.DataFormats
 	{
 		private const string XML_PREFIX = "<?xm";
 
-		private IDataCompressor compressor;
-		private ILogger logger;
+		private readonly IDataCompressor compressor;
+		private readonly ILogger logger;
 
 		public XmlParser(IDataCompressor compressor, ILogger logger)
 		{
@@ -259,7 +259,10 @@ namespace SafeExamBrowser.Configuration.DataFormats
 					value = Convert.ToInt32(element.Value);
 					break;
 				case XmlElement.Real:
+					logger.Warn($"Power Supply Threshold: Raw XML = {element}.");
+					logger.Warn($"Power Supply Threshold: Raw XML value = {element.Value}.");
 					value = Convert.ToDouble(element.Value);
+					logger.Warn($"Power Supply Threshold: Parsed double value = {value}.");
 					break;
 				case XmlElement.String:
 					value = element.IsEmpty ? null : element.Value;
