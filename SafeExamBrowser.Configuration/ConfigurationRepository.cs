@@ -119,13 +119,17 @@ namespace SafeExamBrowser.Configuration
 
 		public LoadStatus TryLoadSettings(Uri resource, out AppSettings settings, PasswordParameters password = null)
 		{
+			var status = default(LoadStatus);
+
 			settings = LoadDefaultSettings();
 
 			logger.Info($"Initialized default settings, now attempting to load '{resource}'...");
 
+			logger.Warn($"Power Supply Thresholds: Low = {settings.PowerSupply.ChargeThresholdLow}, Critical = {settings.PowerSupply.ChargeThresholdCritical}.");
+
 			try
 			{
-				var status = TryLoadData(resource, out var stream);
+				status = TryLoadData(resource, out var stream);
 
 				using (stream)
 				{
@@ -133,22 +137,28 @@ namespace SafeExamBrowser.Configuration
 					{
 						status = TryParseData(stream, out _, out _, out var data, password);
 
+						data.TryGetValue(Keys.UserInterface.SystemControls.PowerSupply.ChargeThresholdCritical, out var critical);
+						data.TryGetValue(Keys.UserInterface.SystemControls.PowerSupply.ChargeThresholdLow, out var low);
+
+						logger.Warn($"Power Supply Thresholds: Low (raw) = {low}, Critical (raw) = {critical}.");
+
 						if (status == LoadStatus.Success)
 						{
 							dataMapper.MapRawDataToSettings(data, settings);
 							dataProcessor.Process(data, settings);
 						}
 					}
-
-					return status;
 				}
 			}
 			catch (Exception e)
 			{
+				status = LoadStatus.UnexpectedError;
 				logger.Error($"Unexpected error while trying to load '{resource}'!", e);
-
-				return LoadStatus.UnexpectedError;
 			}
+
+			logger.Warn($"Power Supply Thresholds: Low = {settings.PowerSupply.ChargeThresholdLow}, Critical = {settings.PowerSupply.ChargeThresholdCritical}.");
+
+			return status;
 		}
 
 		private EncryptionParameters DetermineEncryptionForClientConfiguration(IDictionary<string, object> data, EncryptionParameters encryption)

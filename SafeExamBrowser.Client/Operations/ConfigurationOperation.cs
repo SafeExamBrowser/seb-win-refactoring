@@ -16,8 +16,8 @@ namespace SafeExamBrowser.Client.Operations
 {
 	internal class ConfigurationOperation : ClientOperation
 	{
-		private ILogger logger;
-		private IRuntimeProxy runtime;
+		private readonly ILogger logger;
+		private readonly IRuntimeProxy runtime;
 
 		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
@@ -44,6 +44,8 @@ namespace SafeExamBrowser.Client.Operations
 			logger.Info($" -> Client-ID: {Context.AppConfig.ClientId}");
 			logger.Info($" -> Runtime-ID: {Context.AppConfig.RuntimeId}");
 			logger.Info($" -> Session-ID: {Context.SessionId}");
+
+			logger.Warn($"Power Supply Thresholds: Low = {configuration.Settings.PowerSupply.ChargeThresholdLow}, Critical = {configuration.Settings.PowerSupply.ChargeThresholdCritical}.");
 
 			return OperationResult.Success;
 		}
