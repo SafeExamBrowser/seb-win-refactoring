@@ -27,7 +27,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private ClientContext context;
 		private Mock<IProctoringController> controller;
 		private Mock<ILogger> logger;
-		private Mock<INotification> notification;
+		private Mock<INotification> notification1;
+		private Mock<INotification> notification2;
 		private AppSettings settings;
 		private Mock<ITaskbar> taskbar;
 		private Mock<IUserInterfaceFactory> uiFactory;
@@ -41,13 +42,15 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			context = new ClientContext();
 			controller = new Mock<IProctoringController>();
 			logger = new Mock<ILogger>();
-			notification = new Mock<INotification>();
+			notification1 = new Mock<INotification>();
+			notification2 = new Mock<INotification>();
 			settings = new AppSettings();
 			taskbar = new Mock<ITaskbar>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
 			context.Settings = settings;
-			sut = new ProctoringOperation(actionCenter.Object, context, controller.Object, logger.Object, notification.Object, taskbar.Object, uiFactory.Object);
+			controller.SetupGet(c => c.Notifications).Returns(new[] { notification1.Object, notification2.Object });
+			sut = new ProctoringOperation(actionCenter.Object, context, controller.Object, logger.Object, taskbar.Object, uiFactory.Object);
 		}
 
 		[TestMethod]
@@ -58,12 +61,13 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			Assert.AreEqual(OperationResult.Success, sut.Perform());
 
-			actionCenter.Verify(a => a.AddNotificationControl(It.IsAny<INotificationControl>()), Times.Once);
+			actionCenter.Verify(a => a.AddNotificationControl(It.IsAny<INotificationControl>()), Times.Exactly(2));
 			controller.Verify(c => c.Initialize(It.Is<ProctoringSettings>(s => s == settings.Proctoring)));
-			notification.VerifyNoOtherCalls();
-			taskbar.Verify(t => t.AddNotificationControl(It.IsAny<INotificationControl>()), Times.Once);
-			uiFactory.Verify(u => u.CreateNotificationControl(It.Is<INotification>(n => n == notification.Object), Location.ActionCenter), Times.Once);
-			uiFactory.Verify(u => u.CreateNotificationControl(It.Is<INotification>(n => n == notification.Object), Location.Taskbar), Times.Once);
+			notification1.VerifyNoOtherCalls();
+			notification2.VerifyNoOtherCalls();
+			taskbar.Verify(t => t.AddNotificationControl(It.IsAny<INotificationControl>()), Times.Exactly(2));
+			uiFactory.Verify(u => u.CreateNotificationControl(It.IsAny<INotification>(), Location.ActionCenter), Times.Exactly(2));
+			uiFactory.Verify(u => u.CreateNotificationControl(It.IsAny<INotification>(), Location.Taskbar), Times.Exactly(2));
 		}
 
 		[TestMethod]
@@ -75,7 +79,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			actionCenter.VerifyNoOtherCalls();
 			controller.VerifyNoOtherCalls();
-			notification.VerifyNoOtherCalls();
+			notification1.VerifyNoOtherCalls();
+			notification2.VerifyNoOtherCalls();
 			taskbar.VerifyNoOtherCalls();
 			uiFactory.VerifyNoOtherCalls();
 		}
@@ -89,7 +94,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			actionCenter.VerifyNoOtherCalls();
 			controller.Verify(c => c.Terminate(), Times.Once);
-			notification.Verify(n => n.Terminate(), Times.Once);
+			notification1.Verify(n => n.Terminate(), Times.Once);
+			notification2.Verify(n => n.Terminate(), Times.Once);
 			taskbar.VerifyNoOtherCalls();
 			uiFactory.VerifyNoOtherCalls();
 		}
@@ -103,7 +109,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			actionCenter.VerifyNoOtherCalls();
 			controller.VerifyNoOtherCalls();
-			notification.VerifyNoOtherCalls();
+			notification1.VerifyNoOtherCalls();
+			notification2.VerifyNoOtherCalls();
 			taskbar.VerifyNoOtherCalls();
 			uiFactory.VerifyNoOtherCalls();
 		}

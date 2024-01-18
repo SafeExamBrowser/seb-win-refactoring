@@ -73,8 +73,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JitsiMeet\JitsiMeetImplementation.cs" />
     <Compile Include="ProctoringControl.cs" />
     <Compile Include="ProctoringController.cs" />
+    <Compile Include="ProctoringFactory.cs" />
+    <Compile Include="ProctoringImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

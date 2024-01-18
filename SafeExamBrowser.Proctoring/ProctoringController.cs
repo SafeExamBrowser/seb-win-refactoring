@@ -7,15 +7,9 @@
  */
 
 using System;
-using System.IO;
-using System.Reflection;
-using System.Threading;
-using System.Windows;
-using Microsoft.Web.WebView2.Wpf;
+using System.Collections.Generic;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.Notifications;
-using SafeExamBrowser.Core.Contracts.Notifications.Events;
-using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.Contracts;
@@ -25,32 +19,22 @@ using SafeExamBrowser.Server.Contracts.Events;
 using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
-using SafeExamBrowser.UserInterface.Contracts.Proctoring;
 
 namespace SafeExamBrowser.Proctoring
 {
-	public class ProctoringController : IProctoringController, INotification
+	public class ProctoringController : IProctoringController
 	{
-		private readonly AppConfig appConfig;
-		private readonly IFileSystem fileSystem;
+		private readonly ProctoringFactory factory;
 		private readonly IModuleLogger logger;
 		private readonly IServerProxy server;
-		private readonly IText text;
-		private readonly IUserInterfaceFactory uiFactory;
 
-		private string filePath;
-		private ProctoringControl control;
-		private ProctoringSettings settings;
-		private IProctoringWindow window;
-		private WindowVisibility windowVisibility;
+		private IEnumerable<ProctoringImplementation> implementations;
 
-		public IconResource IconResource { get; set; }
 		public bool IsHandRaised { get; private set; }
-		public string Tooltip { get; set; }
+		public IEnumerable<INotification> Notifications => new List<INotification>(implementations);
 
 		public event ProctoringEventHandler HandLowered;
 		public event ProctoringEventHandler HandRaised;
-		public event NotificationChangedEventHandler NotificationChanged;
 
 		public ProctoringController(
 			AppConfig appConfig,
@@ -60,51 +44,31 @@ namespace SafeExamBrowser.Proctoring
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
-			this.appConfig = appConfig;
-			this.fileSystem = fileSystem;
 			this.logger = logger;
 			this.server = server;
-			this.text = text;
-			this.uiFactory = uiFactory;
 
-			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Inactive.xaml") };
-			Tooltip = text.Get(TextKey.Notification_ProctoringInactiveTooltip);
-		}
-
-		public void Activate()
-		{
-			if (settings.WindowVisibility == WindowVisibility.Visible)
-			{
-				window?.BringToForeground();
-			}
-			else if (settings.WindowVisibility == WindowVisibility.AllowToHide || settings.WindowVisibility == WindowVisibility.AllowToShow)
-			{
-				window?.Toggle();
-			}
+			factory = new ProctoringFactory(appConfig, fileSystem, logger, text, uiFactory);
+			implementations = new List<ProctoringImplementation>();
 		}
 
 		public void Initialize(ProctoringSettings settings)
 		{
-			var start = false;
-
-			this.settings = settings;
-			this.windowVisibility = settings.WindowVisibility;
+			implementations = factory.CreateAllActive(settings);
 
 			server.HandConfirmed += Server_HandConfirmed;
 			server.ProctoringConfigurationReceived += Server_ProctoringConfigurationReceived;
 			server.ProctoringInstructionReceived += Server_ProctoringInstructionReceived;
 
-			if (settings.JitsiMeet.Enabled)
+			foreach (var implementation in implementations)
 			{
-				this.settings.JitsiMeet.ServerUrl = Sanitize(settings.JitsiMeet.ServerUrl);
-
-				start = !string.IsNullOrWhiteSpace(settings.JitsiMeet.RoomName);
-				start &= !string.IsNullOrWhiteSpace(settings.JitsiMeet.ServerUrl);
-			}
-
-			if (start)
-			{
-				StartProctoring();
+				try
+				{
+					implementation.Initialize();
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to initialize proctoring implementation '{implementation.Name}'!", e);
+				}
 			}
 		}
 
@@ -116,6 +80,7 @@ namespace SafeExamBrowser.Proctoring
 			{
 				IsHandRaised = false;
 				HandLowered?.Invoke();
+
 				logger.Info("Hand lowered.");
 			}
 			else
@@ -132,6 +97,7 @@ namespace SafeExamBrowser.Proctoring
 			{
 				IsHandRaised = true;
 				HandRaised?.Invoke();
+
 				logger.Info("Hand raised.");
 			}
 			else
@@ -142,7 +108,17 @@ namespace SafeExamBrowser.Proctoring
 
 		public void Terminate()
 		{
-			StopProctoring();
+			foreach (var implementation in implementations)
+			{
+				try
+				{
+					implementation.Terminate();
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to terminate proctoring implementation '{implementation.Name}'!", e);
+				}
+			}
 		}
 
 		private void Server_HandConfirmed()
@@ -153,141 +129,34 @@ namespace SafeExamBrowser.Proctoring
 			HandLowered?.Invoke();
 		}
 
-		private void Server_ProctoringInstructionReceived(ProctoringInstructionEventArgs args)
-		{
-			logger.Info("Proctoring instruction received.");
-
-			settings.JitsiMeet.RoomName = args.JitsiMeetRoomName;
-			settings.JitsiMeet.ServerUrl = args.JitsiMeetServerUrl;
-			settings.JitsiMeet.Token = args.JitsiMeetToken;
-
-			StopProctoring();
-			StartProctoring();
-		}
-
 		private void Server_ProctoringConfigurationReceived(bool allowChat, bool receiveAudio, bool receiveVideo)
 		{
-			logger.Info("Proctoring configuration received.");
-
-			settings.JitsiMeet.AllowChat = allowChat;
-			settings.JitsiMeet.ReceiveAudio = receiveAudio;
-			settings.JitsiMeet.ReceiveVideo = receiveVideo;
-
-			if (allowChat || receiveVideo)
-			{
-				settings.WindowVisibility = WindowVisibility.AllowToHide;
-			}
-			else
-			{
-				settings.WindowVisibility = windowVisibility;
-			}
-
-			StopProctoring();
-			StartProctoring();
-		}
-
-		private void StartProctoring()
-		{
-			Application.Current.Dispatcher.Invoke(() =>
+			foreach (var implementation in implementations)
 			{
 				try
 				{
-					var content = LoadContent(settings);
-
-					filePath = Path.Combine(appConfig.TemporaryDirectory, $"{Path.GetRandomFileName()}_index.html");
-					fileSystem.Save(content, filePath);
-
-					control = new ProctoringControl(logger.CloneFor(nameof(ProctoringControl)), settings);
-					control.CreationProperties = new CoreWebView2CreationProperties { UserDataFolder = appConfig.TemporaryDirectory };
-					control.EnsureCoreWebView2Async().ContinueWith(_ =>
-					{
-						control.Dispatcher.Invoke(() =>
-						{
-							control.CoreWebView2.Navigate(filePath);
-						});
-					});
-
-					window = uiFactory.CreateProctoringWindow(control);
-					window.SetTitle(settings.JitsiMeet.Enabled ? settings.JitsiMeet.Subject : "");
-					window.Show();
-
-					if (settings.WindowVisibility == WindowVisibility.AllowToShow || settings.WindowVisibility == WindowVisibility.Hidden)
-					{
-						window.Hide();
-					}
-
-					IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Active.xaml") };
-					Tooltip = text.Get(TextKey.Notification_ProctoringActiveTooltip);
-					NotificationChanged?.Invoke();
-
-					logger.Info($"Started proctoring with {(settings.JitsiMeet.Enabled ? "Jitsi Meet" : "")}.");
+					implementation.ProctoringConfigurationReceived(allowChat, receiveAudio, receiveVideo);
 				}
 				catch (Exception e)
 				{
-					logger.Error($"Failed to start proctoring! Reason: {e.Message}", e);
-				}
-			});
-		}
-
-		private void StopProctoring()
-		{
-			if (control != default(ProctoringControl) && window != default(IProctoringWindow))
-			{
-				control.Dispatcher.Invoke(() =>
-				{
-					if (settings.JitsiMeet.Enabled)
-					{
-						control.ExecuteScriptAsync("api.executeCommand('hangup'); api.dispose();");
-					}
-
-					Thread.Sleep(2000);
-
-					window.Close();
-					control = default;
-					window = default;
-					fileSystem.Delete(filePath);
-
-					logger.Info("Stopped proctoring.");
-				});
-			}
-		}
-
-		private string LoadContent(ProctoringSettings settings)
-		{
-			if (settings.JitsiMeet.Enabled)
-			{
-				var assembly = Assembly.GetAssembly(typeof(ProctoringController));
-				var path = $"{typeof(ProctoringController).Namespace}.JitsiMeet.index.html";
-
-				using (var stream = assembly.GetManifestResourceStream(path))
-				using (var reader = new StreamReader(stream))
-				{
-					var html = reader.ReadToEnd();
-
-					if (settings.JitsiMeet.Enabled)
-					{
-						html = html.Replace("%%_ALLOW_CHAT_%%", settings.JitsiMeet.AllowChat ? "chat" : "");
-						html = html.Replace("%%_ALLOW_CLOSED_CAPTIONS_%%", settings.JitsiMeet.AllowClosedCaptions ? "closedcaptions" : "");
-						html = html.Replace("%%_ALLOW_RAISE_HAND_%%", settings.JitsiMeet.AllowRaiseHand ? "raisehand" : "");
-						html = html.Replace("%%_ALLOW_RECORDING_%%", settings.JitsiMeet.AllowRecording ? "recording" : "");
-						html = html.Replace("%%_ALLOW_TILE_VIEW", settings.JitsiMeet.AllowTileView ? "tileview" : "");
-						html = html.Replace("'%_AUDIO_MUTED_%'", settings.JitsiMeet.AudioMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
-						html = html.Replace("'%_AUDIO_ONLY_%'", settings.JitsiMeet.AudioOnly ? "true" : "false");
-						html = html.Replace("'%_VIDEO_MUTED_%'", settings.JitsiMeet.VideoMuted && settings.WindowVisibility != WindowVisibility.Hidden ? "true" : "false");
-					}
-
-					return html;
+					logger.Error($"Failed to update proctoring configuration for '{implementation.Name}'!", e);
 				}
 			}
-			else
-			{
-				return "";
-			}
 		}
 
-		private string Sanitize(string serverUrl)
+		private void Server_ProctoringInstructionReceived(ProctoringInstructionEventArgs args)
 		{
-			return serverUrl?.Replace($"{Uri.UriSchemeHttp}{Uri.SchemeDelimiter}", "").Replace($"{Uri.UriSchemeHttps}{Uri.SchemeDelimiter}", "");
+			foreach (var implementation in implementations)
+			{
+				try
+				{
+					implementation.ProctoringInstructionReceived(args);
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to process proctoring instruction for '{implementation.Name}'!", e);
+				}
+			}
 		}
 	}
 }

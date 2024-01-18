@@ -6,6 +6,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Collections.Generic;
+using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.Proctoring.Contracts.Events;
 using SafeExamBrowser.Settings.Proctoring;
 
@@ -20,6 +22,11 @@ namespace SafeExamBrowser.Proctoring.Contracts
 		/// Indicates whether the hand is currently raised.
 		/// </summary>
 		bool IsHandRaised { get; }
+
+		/// <summary>
+		/// The notifications for all active proctoring providers.
+		/// </summary>
+		IEnumerable<INotification> Notifications { get; }
 
 		/// <summary>
 		/// Fired when the hand has been lowered.
@@ -44,7 +51,7 @@ namespace SafeExamBrowser.Proctoring.Contracts
 		/// <summary>
 		/// Raises the hand, optionally with the given message.
 		/// </summary>
-		void RaiseHand(string message = default(string));
+		void RaiseHand(string message = default);
 
 		/// <summary>
 		/// Stops the proctoring functionality.

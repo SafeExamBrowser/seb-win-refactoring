@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -23,7 +22,6 @@ namespace SafeExamBrowser.Client.Operations
 		private readonly IActionCenter actionCenter;
 		private readonly IProctoringController controller;
 		private readonly ILogger logger;
-		private readonly INotification notification;
 		private readonly ITaskbar taskbar;
 		private readonly IUserInterfaceFactory uiFactory;
 
@@ -35,14 +33,12 @@ namespace SafeExamBrowser.Client.Operations
 			ClientContext context,
 			IProctoringController controller,
 			ILogger logger,
-			INotification notification,
 			ITaskbar taskbar,
 			IUserInterfaceFactory uiFactory) : base(context)
 		{
 			this.actionCenter = actionCenter;
 			this.controller = controller;
 			this.logger = logger;
-			this.notification = notification;
 			this.taskbar = taskbar;
 			this.uiFactory = uiFactory;
 		}
@@ -55,7 +51,6 @@ namespace SafeExamBrowser.Client.Operations
 				StatusChanged?.Invoke(TextKey.OperationStatus_InitializeProctoring);
 
 				controller.Initialize(Context.Settings.Proctoring);
-				actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(notification, Location.ActionCenter));
 
 				if (Context.Settings.SessionMode == SessionMode.Server && Context.Settings.Proctoring.ShowRaiseHandNotification)
 				{
@@ -63,9 +58,14 @@ namespace SafeExamBrowser.Client.Operations
 					taskbar.AddNotificationControl(uiFactory.CreateRaiseHandControl(controller, Location.Taskbar, Context.Settings.Proctoring));
 				}
 
-				if (Context.Settings.Proctoring.ShowTaskbarNotification)
+				foreach (var notification in controller.Notifications)
 				{
-					taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(notification, Location.Taskbar));
+					actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(notification, Location.ActionCenter));
+
+					if (Context.Settings.Proctoring.ShowTaskbarNotification)
+					{
+						taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(notification, Location.Taskbar));
+					}
 				}
 			}
 
@@ -80,7 +80,11 @@ namespace SafeExamBrowser.Client.Operations
 				StatusChanged?.Invoke(TextKey.OperationStatus_TerminateProctoring);
 
 				controller.Terminate();
-				notification.Terminate();
+
+				foreach (var notification in controller.Notifications)
+				{
+					notification.Terminate();
+				}
 			}
 
 			return OperationResult.Success;
