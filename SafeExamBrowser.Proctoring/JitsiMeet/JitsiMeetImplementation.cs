@@ -77,11 +77,6 @@ namespace SafeExamBrowser.Proctoring.JitsiMeet
 			}
 		}
 
-		public override void Terminate()
-		{
-			logger.Info("Terminated proctoring.");
-		}
-
 		internal override void Initialize()
 		{
 			var start = true;
@@ -198,6 +193,11 @@ namespace SafeExamBrowser.Proctoring.JitsiMeet
 					logger.Info("Stopped proctoring.");
 				});
 			}
+		}
+
+		internal override void Terminate()
+		{
+			logger.Info("Terminated proctoring.");
 		}
 
 		private string LoadContent(ProctoringSettings settings)

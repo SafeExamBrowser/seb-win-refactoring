@@ -23,12 +23,13 @@ namespace SafeExamBrowser.Proctoring
 		public abstract event NotificationChangedEventHandler NotificationChanged;
 
 		public abstract void Activate();
-		public abstract void Terminate();
+		void INotification.Terminate() { }
 
 		internal abstract void Initialize();
 		internal abstract void ProctoringConfigurationReceived(bool allowChat, bool receiveAudio, bool receiveVideo);
 		internal abstract void ProctoringInstructionReceived(ProctoringInstructionEventArgs args);
 		internal abstract void StartProctoring();
 		internal abstract void StopProctoring();
+		internal abstract void Terminate();
 	}
 }
