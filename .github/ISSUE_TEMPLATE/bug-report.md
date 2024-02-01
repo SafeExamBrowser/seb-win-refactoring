@@ -1,15 +1,15 @@
 ---
 name: Bug Report
-about: Create a report to help us improve Safe Exam Browser.
+about: Create a bug report to help us improve Safe Exam Browser.
 title: ''
 labels: ''
 assignees: dbuechel
 
 ---
 
-**IMPORTANT**
-Please _always_ consult the documentation first before creating a bug report!
-https://safeexambrowser.org/windows/win_usermanual_en.html
+> [!IMPORTANT]
+> - Please _always_ consult the documentation first before creating a bug report: https://safeexambrowser.org/windows/win_usermanual_en.html.
+> - Please _always_ attach the log file(s) of the affected session(s)! They can be found under `%LocalAppData%\SafeExamBrowser\Logs`.
 
 **Describe the Bug**
 A clear and concise description of what the bug is.
