@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
+using SafeExamBrowser.Server.Contracts.Events.Proctoring;
 using SafeExamBrowser.Server.Data;
 using SafeExamBrowser.Server.Requests;
 
@@ -314,19 +315,55 @@ namespace SafeExamBrowser.Server
 			switch (provider)
 			{
 				case "JITSI_MEET":
-					attributes.Instruction.JitsiMeetRoomName = attributesJson["jitsiMeetRoom"].Value<string>();
-					attributes.Instruction.JitsiMeetServerUrl = attributesJson["jitsiMeetServerURL"].Value<string>();
-					attributes.Instruction.JitsiMeetToken = attributesJson["jitsiMeetToken"].Value<string>();
+					attributes.Instruction = ParseJitsiMeetInstruction(attributesJson);
+					break;
+				case "SCREEN_PROCTORING":
+					attributes.Instruction = ParseScreenProctoringInstruction(attributesJson);
 					break;
 				case "ZOOM":
-					attributes.Instruction.ZoomMeetingNumber = attributesJson["zoomRoom"].Value<string>();
-					attributes.Instruction.ZoomPassword = attributesJson["zoomMeetingKey"].Value<string>();
-					attributes.Instruction.ZoomSdkKey = attributesJson["zoomAPIKey"].Value<string>();
-					attributes.Instruction.ZoomSignature = attributesJson["zoomToken"].Value<string>();
-					attributes.Instruction.ZoomSubject = attributesJson["zoomSubject"].Value<string>();
-					attributes.Instruction.ZoomUserName = attributesJson["zoomUserName"].Value<string>();
+					attributes.Instruction = ParseZoomInstruction(attributesJson);
 					break;
 			}
+
+			if (attributes.Instruction != default)
+			{
+				attributes.Instruction.Method = attributesJson["method"].Value<string>() == "JOIN" ? InstructionMethod.Join : InstructionMethod.Leave;
+			}
+		}
+
+		private JitsiMeetInstruction ParseJitsiMeetInstruction(JObject attributesJson)
+		{
+			return new JitsiMeetInstruction
+			{
+				RoomName = attributesJson["jitsiMeetRoom"].Value<string>(),
+				ServerUrl = attributesJson["jitsiMeetServerURL"].Value<string>(),
+				Token = attributesJson["jitsiMeetToken"].Value<string>()
+			};
+		}
+
+		private ScreenProctoringInstruction ParseScreenProctoringInstruction(JObject attributesJson)
+		{
+			return new ScreenProctoringInstruction
+			{
+				ClientId = attributesJson["screenProctoringClientId"].Value<string>(),
+				ClientSecret = attributesJson["screenProctoringClientSecret"].Value<string>(),
+				GroupId = attributesJson["screenProctoringGroupId"].Value<string>(),
+				ServiceUrl = attributesJson["screenProctoringServiceURL"].Value<string>(),
+				SessionId = attributesJson["screenProctoringClientSessionId"].Value<string>()
+			};
+		}
+
+		private ZoomInstruction ParseZoomInstruction(JObject attributesJson)
+		{
+			return new ZoomInstruction
+			{
+				MeetingNumber = attributesJson["zoomRoom"].Value<string>(),
+				Password = attributesJson["zoomMeetingKey"].Value<string>(),
+				SdkKey = attributesJson["zoomAPIKey"].Value<string>(),
+				Signature = attributesJson["zoomToken"].Value<string>(),
+				Subject = attributesJson["zoomSubject"].Value<string>(),
+				UserName = attributesJson["zoomUserName"].Value<string>()
+			};
 		}
 
 		private void ParseReconfigurationInstruction(Attributes attributes, JObject attributesJson)

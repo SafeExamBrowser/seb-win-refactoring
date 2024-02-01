@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Proctoring;
 
@@ -73,6 +74,45 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Proctoring.JitsiMeet.VideoMuted:
 					MapJitsiMeetVideoMuted(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.CaptureApplicationName:
+					MapCaptureApplicationName(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.CaptureBrowserUrl:
+					MapCaptureBrowserUrl(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.CaptureWindowTitle:
+					MapCaptureWindowTitle(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.ClientId:
+					MapClientId(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.ClientSecret:
+					MapClientSecret(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.GroupId:
+					MapGroupId(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.ImageDownscaling:
+					MapImageDownscaling(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.ImageFormat:
+					MapImageFormat(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.ImageQuantization:
+					MapImageQuantization(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.MaxInterval:
+					MapMaxInterval(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.MinInterval:
+					MapMinInterval(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.Enabled:
+					MapScreenProctoringEnabled(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.ServiceUrl:
+					MapServiceUrl(settings, value);
 					break;
 				case Keys.Proctoring.ShowRaiseHand:
 					MapShowRaiseHand(settings, value);
@@ -277,6 +317,134 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool muted)
 			{
 				settings.Proctoring.JitsiMeet.VideoMuted = muted;
+			}
+		}
+
+		private void MapCaptureApplicationName(AppSettings settings, object value)
+		{
+			if (value is bool capture)
+			{
+				settings.Proctoring.ScreenProctoring.CaptureApplicationName = capture;
+			}
+		}
+
+		private void MapCaptureBrowserUrl(AppSettings settings, object value)
+		{
+			if (value is bool capture)
+			{
+				settings.Proctoring.ScreenProctoring.CaptureBrowserUrl = capture;
+			}
+		}
+
+		private void MapCaptureWindowTitle(AppSettings settings, object value)
+		{
+			if (value is bool capture)
+			{
+				settings.Proctoring.ScreenProctoring.CaptureWindowTitle = capture;
+			}
+		}
+
+		private void MapClientId(AppSettings settings, object value)
+		{
+			if (value is string clientId)
+			{
+				settings.Proctoring.ScreenProctoring.ClientId = clientId;
+			}
+		}
+
+		private void MapClientSecret(AppSettings settings, object value)
+		{
+			if (value is string secret)
+			{
+				settings.Proctoring.ScreenProctoring.ClientSecret = secret;
+			}
+		}
+
+		private void MapGroupId(AppSettings settings, object value)
+		{
+			if (value is string groupId)
+			{
+				settings.Proctoring.ScreenProctoring.GroupId = groupId;
+			}
+		}
+
+		private void MapImageDownscaling(AppSettings settings, object value)
+		{
+			if (value is double downscaling)
+			{
+				settings.Proctoring.ScreenProctoring.ImageDownscaling = downscaling;
+			}
+		}
+
+		private void MapImageFormat(AppSettings settings, object value)
+		{
+			if (value is string s && Enum.TryParse<ImageFormat>(s, true, out var format))
+			{
+				settings.Proctoring.ScreenProctoring.ImageFormat = format;
+			}
+		}
+
+		private void MapImageQuantization(AppSettings settings, object value)
+		{
+			if (value is int quantization)
+			{
+				switch (quantization)
+				{
+					case 0:
+						settings.Proctoring.ScreenProctoring.ImageQuantization = ImageQuantization.BlackAndWhite1bpp;
+						break;
+					case 1:
+						settings.Proctoring.ScreenProctoring.ImageQuantization = ImageQuantization.Grayscale2bpp;
+						break;
+					case 2:
+						settings.Proctoring.ScreenProctoring.ImageQuantization = ImageQuantization.Grayscale4bpp;
+						break;
+					case 3:
+						settings.Proctoring.ScreenProctoring.ImageQuantization = ImageQuantization.Grayscale8bpp;
+						break;
+					case 4:
+						settings.Proctoring.ScreenProctoring.ImageQuantization = ImageQuantization.Color8bpp;
+						break;
+					case 5:
+						settings.Proctoring.ScreenProctoring.ImageQuantization = ImageQuantization.Color16bpp;
+						break;
+					case 6:
+						settings.Proctoring.ScreenProctoring.ImageQuantization = ImageQuantization.Color24bpp;
+						break;
+				}
+
+			}
+		}
+
+		private void MapMaxInterval(AppSettings settings, object value)
+		{
+			if (value is int interval)
+			{
+				settings.Proctoring.ScreenProctoring.MaxInterval = interval;
+			}
+		}
+
+		private void MapMinInterval(AppSettings settings, object value)
+		{
+			if (value is int interval)
+			{
+				settings.Proctoring.ScreenProctoring.MinInterval = interval;
+			}
+		}
+
+		private void MapScreenProctoringEnabled(AppSettings settings, object value)
+		{
+			if (value is bool enabled)
+			{
+				settings.Proctoring.ScreenProctoring.Enabled = enabled;
+			}
+		}
+
+		private void MapServiceUrl(AppSettings settings, object value)
+		{
+			if (value is string url)
+			{
+				settings.Proctoring.ScreenProctoring.ServiceUrl = url;
 			}
 		}
 

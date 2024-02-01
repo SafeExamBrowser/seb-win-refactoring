@@ -17,7 +17,7 @@ using SafeExamBrowser.Core.Contracts.Notifications.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Server.Contracts.Events;
+using SafeExamBrowser.Server.Contracts.Events.Proctoring;
 using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -41,9 +41,6 @@ namespace SafeExamBrowser.Proctoring.JitsiMeet
 
 		internal override string Name => nameof(JitsiMeet);
 
-		public override string Tooltip { get; protected set; }
-		public override IconResource IconResource { get; protected set; }
-
 		public override event NotificationChangedEventHandler NotificationChanged;
 
 		internal JitsiMeetImplementation(
@@ -60,21 +57,6 @@ namespace SafeExamBrowser.Proctoring.JitsiMeet
 			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;
-
-			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Inactive.xaml") };
-			Tooltip = text.Get(TextKey.Notification_ProctoringInactiveTooltip);
-		}
-
-		public override void Activate()
-		{
-			if (settings.WindowVisibility == WindowVisibility.Visible)
-			{
-				window?.BringToForeground();
-			}
-			else if (settings.WindowVisibility == WindowVisibility.AllowToHide || settings.WindowVisibility == WindowVisibility.AllowToShow)
-			{
-				window?.Toggle();
-			}
 		}
 
 		internal override void Initialize()
@@ -87,11 +69,15 @@ namespace SafeExamBrowser.Proctoring.JitsiMeet
 			start &= !string.IsNullOrWhiteSpace(settings.JitsiMeet.RoomName);
 			start &= !string.IsNullOrWhiteSpace(settings.JitsiMeet.ServerUrl);
 
-			logger.Info("Initialized proctoring.");
-
 			if (start)
 			{
-				StartProctoring();
+				logger.Info($"Initialized proctoring: All settings are valid, starting automatically...");
+				Start();
+			}
+			else
+			{
+				ShowNotificationInactive();
+				logger.Info($"Initialized proctoring: Not all settings are valid or a server session is active, not starting automatically.");
 			}
 		}
 
@@ -112,27 +98,37 @@ namespace SafeExamBrowser.Proctoring.JitsiMeet
 				settings.WindowVisibility = initialVisibility;
 			}
 
-			StopProctoring();
-			StartProctoring();
+			Stop();
+			Start();
 
 			logger.Info($"Successfully updated configuration: {nameof(allowChat)}={allowChat}, {nameof(receiveAudio)}={receiveAudio}, {nameof(receiveVideo)}={receiveVideo}.");
 		}
 
-		internal override void ProctoringInstructionReceived(ProctoringInstructionEventArgs args)
+		internal override void ProctoringInstructionReceived(InstructionEventArgs args)
 		{
-			logger.Info("Proctoring instruction received.");
+			if (args is JitsiMeetInstruction instruction)
+			{
+				logger.Info($"Proctoring instruction received: {instruction.Method}");
 
-			settings.JitsiMeet.RoomName = args.JitsiMeetRoomName;
-			settings.JitsiMeet.ServerUrl = args.JitsiMeetServerUrl;
-			settings.JitsiMeet.Token = args.JitsiMeetToken;
+				if (instruction.Method == InstructionMethod.Join)
+				{
+					settings.JitsiMeet.RoomName = instruction.RoomName;
+					settings.JitsiMeet.ServerUrl = instruction.ServerUrl;
+					settings.JitsiMeet.Token = instruction.Token;
 
-			StopProctoring();
-			StartProctoring();
+					Stop();
+					Start();
+				}
+				else
+				{
+					Stop();
+				}
 
-			logger.Info("Successfully processed instruction.");
+				logger.Info("Successfully processed instruction.");
+			}
 		}
 
-		internal override void StartProctoring()
+		internal override void Start()
 		{
 			Application.Current.Dispatcher.Invoke(() =>
 			{
@@ -173,7 +169,7 @@ namespace SafeExamBrowser.Proctoring.JitsiMeet
 			});
 		}
 
-		internal override void StopProctoring()
+		internal override void Stop()
 		{
 			if (control != default && window != default)
 			{
@@ -197,7 +193,26 @@ namespace SafeExamBrowser.Proctoring.JitsiMeet
 
 		internal override void Terminate()
 		{
+			Stop();
+			TerminateNotification();
 			logger.Info("Terminated proctoring.");
+		}
+
+		protected override void ActivateNotification()
+		{
+			if (settings.WindowVisibility == WindowVisibility.Visible)
+			{
+				window?.BringToForeground();
+			}
+			else if (settings.WindowVisibility == WindowVisibility.AllowToHide || settings.WindowVisibility == WindowVisibility.AllowToShow)
+			{
+				window?.Toggle();
+			}
+		}
+
+		protected override void TerminateNotification()
+		{
+			// Nothing to do here for now.
 		}
 
 		private string LoadContent(ProctoringSettings settings)

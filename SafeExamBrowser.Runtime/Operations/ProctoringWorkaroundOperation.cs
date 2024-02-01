@@ -27,7 +27,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public override OperationResult Perform()
 		{
-			if (Context.Next.Settings.Proctoring.Enabled && Context.Next.Settings.Security.KioskMode == KioskMode.CreateNewDesktop)
+			if (Context.Next.Settings.Proctoring.JitsiMeet.Enabled && Context.Next.Settings.Security.KioskMode == KioskMode.CreateNewDesktop)
 			{
 				Context.Next.Settings.Security.KioskMode = KioskMode.DisableExplorerShell;
 				logger.Info("Switched kiosk mode to Disable Explorer Shell due to remote proctoring being enabled.");

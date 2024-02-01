@@ -6,10 +6,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Server.Contracts.Events
+namespace SafeExamBrowser.Server.Contracts.Events.Proctoring
 {
 	/// <summary>
-	/// Event handler used to indicate that proctoring configuration data has been received.
+	/// Defines all parameters for a proctoring instruction received by the <see cref="IServerProxy"/>.
 	/// </summary>
-	public delegate void ProctoringConfigurationReceivedEventHandler(bool allowChat, bool receiveAudio, bool receiveVideo);
+	public abstract class InstructionEventArgs
+	{
+		public InstructionMethod Method { get; set; }
+	}
 }

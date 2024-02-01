@@ -31,9 +31,14 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var result = OperationResult.Success;
 
-			if (Context.Next.Settings.Proctoring.Enabled)
+			if (Context.Next.Settings.Proctoring.JitsiMeet.Enabled)
 			{
-				result = ShowDisclaimer();
+				result = ShowVideoProctoringDisclaimer();
+			}
+			else if (Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
+			{
+				// TODO: Implement disclaimer!
+				// result = ShowScreenProctoringDisclaimer();
 			}
 			else if (Context.Next.Settings.Proctoring.Zoom.Enabled)
 			{
@@ -51,9 +56,14 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var result = OperationResult.Success;
 
-			if (Context.Next.Settings.Proctoring.Enabled)
+			if (Context.Next.Settings.Proctoring.JitsiMeet.Enabled)
 			{
-				result = ShowDisclaimer();
+				result = ShowVideoProctoringDisclaimer();
+			}
+			else if (Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
+			{
+				// TODO: Implement disclaimer!
+				// result = ShowScreenProctoringDisclaimer();
 			}
 			else if (Context.Next.Settings.Proctoring.Zoom.Enabled)
 			{
@@ -72,7 +82,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			return OperationResult.Success;
 		}
 
-		private OperationResult ShowDisclaimer()
+		private OperationResult ShowVideoProctoringDisclaimer()
 		{
 			var args = new MessageEventArgs
 			{

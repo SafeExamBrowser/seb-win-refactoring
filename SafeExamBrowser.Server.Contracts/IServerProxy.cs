@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Server.Contracts.Events;
+using SafeExamBrowser.Server.Contracts.Events.Proctoring;
 using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Contracts

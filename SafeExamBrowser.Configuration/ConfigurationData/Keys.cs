@@ -256,6 +256,23 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				internal const string VideoMuted = "jitsiMeetVideoMuted";
 			}
 
+			internal static class ScreenProctoring
+			{
+				internal const string CaptureApplicationName = "screenProctoringMetadataActiveAppEnabled";
+				internal const string CaptureBrowserUrl = "screenProctoringMetadataURLEnabled";
+				internal const string CaptureWindowTitle = "screenProctoringMetadataWindowTitleEnabled";
+				internal const string ClientId = "screenProctoringClientId";
+				internal const string ClientSecret = "screenProctoringClientSecret";
+				internal const string Enabled = "enableScreenProctoring";
+				internal const string GroupId = "screenProctoringGroupId";
+				internal const string ImageDownscaling = "screenProctoringImageDownscale";
+				internal const string ImageFormat = "screenProctoringImageFormat";
+				internal const string ImageQuantization = "screenProctoringImageQuantization";
+				internal const string MaxInterval = "screenProctoringScreenshotMaxInterval";
+				internal const string MinInterval = "screenProctoringScreenshotMinInterval";
+				internal const string ServiceUrl = "screenProctoringServiceURL";
+			}
+
 			internal static class Zoom
 			{
 				internal const string AllowChat = "zoomFeatureFlagChat";

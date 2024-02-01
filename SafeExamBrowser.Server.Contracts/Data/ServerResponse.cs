@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Server.Contracts.Data
 		/// </summary>
 		public bool Success { get; }
 
-		public ServerResponse(bool success, string message = default(string))
+		public ServerResponse(bool success, string message = default)
 		{
 			Message = message;
 			Success = success;
@@ -41,7 +41,7 @@ namespace SafeExamBrowser.Server.Contracts.Data
 		/// </summary>
 		public T Value { get; }
 
-		public ServerResponse(bool success, T value, string message = default(string)) : base(success, message)
+		public ServerResponse(bool success, T value, string message = default) : base(success, message)
 		{
 			Value = value;
 		}

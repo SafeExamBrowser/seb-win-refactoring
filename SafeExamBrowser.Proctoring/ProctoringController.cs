@@ -15,7 +15,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Proctoring.Contracts.Events;
 using SafeExamBrowser.Server.Contracts;
-using SafeExamBrowser.Server.Contracts.Events;
+using SafeExamBrowser.Server.Contracts.Events.Proctoring;
 using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -144,7 +144,7 @@ namespace SafeExamBrowser.Proctoring
 			}
 		}
 
-		private void Server_ProctoringInstructionReceived(ProctoringInstructionEventArgs args)
+		private void Server_ProctoringInstructionReceived(InstructionEventArgs args)
 		{
 			foreach (var implementation in implementations)
 			{

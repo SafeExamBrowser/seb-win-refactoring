@@ -11,6 +11,8 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.JitsiMeet;
+using SafeExamBrowser.Proctoring.ScreenProctoring;
+using SafeExamBrowser.Proctoring.ScreenProctoring.Service;
 using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -40,7 +42,17 @@ namespace SafeExamBrowser.Proctoring
 
 			if (settings.JitsiMeet.Enabled)
 			{
-				implementations.Add(new JitsiMeetImplementation(appConfig, fileSystem, logger.CloneFor(nameof(JitsiMeet)), settings, text, uiFactory));
+				var logger = this.logger.CloneFor(nameof(JitsiMeet));
+
+				implementations.Add(new JitsiMeetImplementation(appConfig, fileSystem, logger, settings, text, uiFactory));
+			}
+
+			if (settings.ScreenProctoring.Enabled)
+			{
+				var logger = this.logger.CloneFor(nameof(ScreenProctoring));
+				var service = new ServiceProxy(logger.CloneFor(nameof(ServiceProxy)));
+
+				implementations.Add(new ScreenProctoringImplementation(logger, service, settings, text));
 			}
 
 			return implementations;

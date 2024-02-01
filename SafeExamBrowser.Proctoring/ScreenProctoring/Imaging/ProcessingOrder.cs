@@ -6,10 +6,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Server.Contracts.Events
+namespace SafeExamBrowser.Proctoring.ScreenProctoring.Imaging
 {
-	/// <summary>
-	/// Event handler used to indicate that a proctoring instruction has been received.
-	/// </summary>
-	public delegate void ProctoringInstructionReceivedEventHandler(ProctoringInstructionEventArgs args);
+	internal enum ProcessingOrder
+	{
+		DownscalingQuantizing,
+		QuantizingDownscaling,
+	}
 }

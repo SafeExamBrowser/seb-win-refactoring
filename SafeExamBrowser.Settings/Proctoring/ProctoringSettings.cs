@@ -32,6 +32,11 @@ namespace SafeExamBrowser.Settings.Proctoring
 		public JitsiMeetSettings JitsiMeet { get; set; }
 
 		/// <summary>
+		/// All settings for the screen proctoring.
+		/// </summary>
+		public ScreenProctoringSettings ScreenProctoring { get; set; }
+
+		/// <summary>
 		/// Determines whether the raise hand notification will be shown in the shell.
 		/// </summary>
 		public bool ShowRaiseHandNotification { get; set; }
@@ -54,6 +59,7 @@ namespace SafeExamBrowser.Settings.Proctoring
 		public ProctoringSettings()
 		{
 			JitsiMeet = new JitsiMeetSettings();
+			ScreenProctoring = new ScreenProctoringSettings();
 			Zoom = new ZoomSettings();
 		}
 	}

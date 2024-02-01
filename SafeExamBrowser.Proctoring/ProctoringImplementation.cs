@@ -9,7 +9,7 @@
 using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.Core.Contracts.Notifications.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
-using SafeExamBrowser.Server.Contracts.Events;
+using SafeExamBrowser.Server.Contracts.Events.Proctoring;
 
 namespace SafeExamBrowser.Proctoring
 {
@@ -17,19 +17,29 @@ namespace SafeExamBrowser.Proctoring
 	{
 		internal abstract string Name { get; }
 
-		public abstract string Tooltip { get; protected set; }
-		public abstract IconResource IconResource { get; protected set; }
+		public string Tooltip { get; protected set; }
+		public IconResource IconResource { get; protected set; }
 
 		public abstract event NotificationChangedEventHandler NotificationChanged;
 
-		public abstract void Activate();
-		void INotification.Terminate() { }
+		void INotification.Activate()
+		{
+			ActivateNotification();
+		}
+
+		void INotification.Terminate()
+		{
+			TerminateNotification();
+		}
 
 		internal abstract void Initialize();
 		internal abstract void ProctoringConfigurationReceived(bool allowChat, bool receiveAudio, bool receiveVideo);
-		internal abstract void ProctoringInstructionReceived(ProctoringInstructionEventArgs args);
-		internal abstract void StartProctoring();
-		internal abstract void StopProctoring();
+		internal abstract void ProctoringInstructionReceived(InstructionEventArgs args);
+		internal abstract void Start();
+		internal abstract void Stop();
 		internal abstract void Terminate();
+
+		protected abstract void ActivateNotification();
+		protected abstract void TerminateNotification();
 	}
 }

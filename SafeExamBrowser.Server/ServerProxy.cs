@@ -20,6 +20,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Server.Contracts.Events;
+using SafeExamBrowser.Server.Contracts.Events.Proctoring;
 using SafeExamBrowser.Server.Data;
 using SafeExamBrowser.Server.Requests;
 using SafeExamBrowser.Settings.Server;
