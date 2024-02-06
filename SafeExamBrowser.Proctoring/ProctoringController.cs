@@ -19,6 +19,7 @@ using SafeExamBrowser.Server.Contracts.Events.Proctoring;
 using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Proctoring
 {
@@ -40,6 +41,7 @@ namespace SafeExamBrowser.Proctoring
 			AppConfig appConfig,
 			IFileSystem fileSystem,
 			IModuleLogger logger,
+			INativeMethods nativeMethods,
 			IServerProxy server,
 			IText text,
 			IUserInterfaceFactory uiFactory)
@@ -47,7 +49,7 @@ namespace SafeExamBrowser.Proctoring
 			this.logger = logger;
 			this.server = server;
 
-			factory = new ProctoringFactory(appConfig, fileSystem, logger, text, uiFactory);
+			factory = new ProctoringFactory(appConfig, fileSystem, logger, nativeMethods, text, uiFactory);
 			implementations = new List<ProctoringImplementation>();
 		}
 

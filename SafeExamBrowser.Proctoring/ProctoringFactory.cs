@@ -16,6 +16,7 @@ using SafeExamBrowser.Proctoring.ScreenProctoring.Service;
 using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Proctoring
 {
@@ -24,14 +25,22 @@ namespace SafeExamBrowser.Proctoring
 		private readonly AppConfig appConfig;
 		private readonly IFileSystem fileSystem;
 		private readonly IModuleLogger logger;
+		private readonly INativeMethods nativeMethods;
 		private readonly IText text;
 		private readonly IUserInterfaceFactory uiFactory;
 
-		public ProctoringFactory(AppConfig appConfig, IFileSystem fileSystem, IModuleLogger logger, IText text, IUserInterfaceFactory uiFactory)
+		public ProctoringFactory(
+			AppConfig appConfig,
+			IFileSystem fileSystem,
+			IModuleLogger logger,
+			INativeMethods nativeMethods,
+			IText text,
+			IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
 			this.fileSystem = fileSystem;
 			this.logger = logger;
+			this.nativeMethods = nativeMethods;
 			this.text = text;
 			this.uiFactory = uiFactory;
 		}
@@ -52,7 +61,7 @@ namespace SafeExamBrowser.Proctoring
 				var logger = this.logger.CloneFor(nameof(ScreenProctoring));
 				var service = new ServiceProxy(logger.CloneFor(nameof(ServiceProxy)));
 
-				implementations.Add(new ScreenProctoringImplementation(logger, service, settings, text));
+				implementations.Add(new ScreenProctoringImplementation(logger, nativeMethods, service, settings, text));
 			}
 
 			return implementations;

@@ -145,6 +145,10 @@
       <Project>{c7889e97-6ff6-4a58-b7cb-521ed276b316}</Project>
       <Name>SafeExamBrowser.UserInterface.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.WindowsApi.Contracts\SafeExamBrowser.WindowsApi.Contracts.csproj">
+      <Project>{7016F080-9AA5-41B2-A225-385AD877C171}</Project>
+      <Name>SafeExamBrowser.WindowsApi.Contracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="JitsiMeet\index.html" />

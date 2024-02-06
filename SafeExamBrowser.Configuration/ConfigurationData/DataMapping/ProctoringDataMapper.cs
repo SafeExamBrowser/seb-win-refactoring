@@ -90,6 +90,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Proctoring.ScreenProctoring.ClientSecret:
 					MapClientSecret(settings, value);
 					break;
+				case Keys.Proctoring.ScreenProctoring.Enabled:
+					MapScreenProctoringEnabled(settings, value);
+					break;
 				case Keys.Proctoring.ScreenProctoring.GroupId:
 					MapGroupId(settings, value);
 					break;
@@ -107,9 +110,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Proctoring.ScreenProctoring.MinInterval:
 					MapMinInterval(settings, value);
-					break;
-				case Keys.Proctoring.ScreenProctoring.Enabled:
-					MapScreenProctoringEnabled(settings, value);
 					break;
 				case Keys.Proctoring.ScreenProctoring.ServiceUrl:
 					MapServiceUrl(settings, value);

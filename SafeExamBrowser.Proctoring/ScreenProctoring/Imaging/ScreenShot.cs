@@ -46,12 +46,12 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Imaging
 
 		public string ToReducedString()
 		{
-			return $"{Width}x{Height}, {Data.Length / 1000:N0} kB, {Format.ToString().ToUpper()}";
+			return $"{Width}x{Height}, {Data.Length / 1000:N0}kB, {Format.ToString().ToUpper()}";
 		}
 
 		public override string ToString()
 		{
-			return $"resolution: {Width}x{Height}, size: {Data.Length / 1000:N0} kB, format: {Format.ToString().ToUpper()}";
+			return $"resolution: {Width}x{Height}, size: {Data.Length / 1000:N0}kB, format: {Format.ToString().ToUpper()}";
 		}
 
 		internal void Compress()

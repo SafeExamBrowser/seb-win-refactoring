@@ -7,7 +7,10 @@
  */
 
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Input;
 using SafeExamBrowser.Core.Contracts.Notifications.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
@@ -16,24 +19,42 @@ using SafeExamBrowser.Proctoring.ScreenProctoring.Imaging;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Service;
 using SafeExamBrowser.Server.Contracts.Events.Proctoring;
 using SafeExamBrowser.Settings.Proctoring;
+using SafeExamBrowser.WindowsApi.Contracts;
+using SafeExamBrowser.WindowsApi.Contracts.Events;
+using MouseButton = SafeExamBrowser.WindowsApi.Contracts.Events.MouseButton;
+using MouseButtonState = SafeExamBrowser.WindowsApi.Contracts.Events.MouseButtonState;
+using Timer = System.Timers.Timer;
 
 namespace SafeExamBrowser.Proctoring.ScreenProctoring
 {
 	internal class ScreenProctoringImplementation : ProctoringImplementation
 	{
+		private readonly object @lock = new object();
+
 		private readonly IModuleLogger logger;
+		private readonly INativeMethods nativeMethods;
 		private readonly ServiceProxy service;
 		private readonly ScreenProctoringSettings settings;
 		private readonly IText text;
 		private readonly Timer timer;
 
+		private DateTime last;
+		private Guid? keyboardHookId;
+		private Guid? mouseHookId;
+
 		internal override string Name => nameof(ScreenProctoring);
 
 		public override event NotificationChangedEventHandler NotificationChanged;
 
-		internal ScreenProctoringImplementation(IModuleLogger logger, ServiceProxy service, ProctoringSettings settings, IText text)
+		internal ScreenProctoringImplementation(
+			IModuleLogger logger,
+			INativeMethods nativeMethods,
+			ServiceProxy service,
+			ProctoringSettings settings,
+			IText text)
 		{
 			this.logger = logger;
+			this.nativeMethods = nativeMethods;
 			this.service = service;
 			this.settings = settings.ScreenProctoring;
 			this.text = text;
@@ -62,7 +83,6 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			else
 			{
 				ShowNotificationInactive();
-
 				logger.Info($"Initialized proctoring: Not all settings are valid or a server session is active, not starting automatically.");
 			}
 		}
@@ -96,9 +116,12 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				logger.Info("Successfully processed instruction.");
 			}
 		}
-
 		internal override void Start()
 		{
+			last = DateTime.Now;
+			keyboardHookId = nativeMethods.RegisterKeyboardHook(KeyboardHookCallback);
+			mouseHookId = nativeMethods.RegisterMouseHook(MouseHookCallback);
+
 			timer.Elapsed += Timer_Elapsed;
 			timer.Start();
 
@@ -109,6 +132,19 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		internal override void Stop()
 		{
+			if (keyboardHookId.HasValue)
+			{
+				nativeMethods.DeregisterKeyboardHook(keyboardHookId.Value);
+			}
+
+			if (mouseHookId.HasValue)
+			{
+				nativeMethods.DeregisterMouseHook(mouseHookId.Value);
+			}
+
+			keyboardHookId = default;
+			mouseHookId = default;
+
 			timer.Elapsed -= Timer_Elapsed;
 			timer.Stop();
 
@@ -120,11 +156,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		internal override void Terminate()
 		{
-			if (timer.Enabled)
-			{
-				Stop();
-			}
-
+			Stop();
 			TerminateNotification();
 
 			logger.Info("Terminated proctoring.");
@@ -160,9 +192,28 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			}
 		}
 
+		private bool KeyboardHookCallback(int keyCode, KeyModifier modifier, KeyState state)
+		{
+			var key = KeyInterop.KeyFromVirtualKey(keyCode);
+
+			TryExecute();
+
+			return false;
+		}
+
+		private bool MouseHookCallback(MouseButton button, MouseButtonState state, MouseInformation info)
+		{
+			var isTouch = info.IsTouch;
+
+			TryExecute();
+
+			return false;
+		}
+
 		private void ShowNotificationActive()
 		{
 			// TODO: Replace with actual icon!
+			// TODO: Extend INotification with IsEnabled or CanActivate, as the screen proctoring notification does not have any action or window!
 			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Active.xaml") };
 			Tooltip = text.Get(TextKey.Notification_ProctoringActiveTooltip);
 			NotificationChanged?.Invoke();
@@ -187,21 +238,41 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs args)
 		{
-			try
-			{
-				using (var screenShot = new ScreenShot(logger.CloneFor(nameof(ScreenShot)), settings))
-				{
-					screenShot.Take();
-					screenShot.Compress();
-					service.SendScreenShot(screenShot);
-				}
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to process screen shot!", e);
-			}
+			TryExecute();
+		}
 
-			timer.Start();
+		private void TryExecute()
+		{
+			if (MinimumIntervalElapsed() && Monitor.TryEnter(@lock))
+			{
+				last = DateTime.Now;
+				timer.Stop();
+
+				Task.Run(() =>
+				{
+					try
+					{
+						using (var screenShot = new ScreenShot(logger.CloneFor(nameof(ScreenShot)), settings))
+						{
+							screenShot.Take();
+							screenShot.Compress();
+							service.Send(screenShot);
+						}
+					}
+					catch (Exception e)
+					{
+						logger.Error("Failed to process screen shot!", e);
+					}
+				});
+
+				timer.Start();
+				Monitor.Exit(@lock);
+			}
+		}
+
+		private bool MinimumIntervalElapsed()
+		{
+			return DateTime.Now.Subtract(last) >= new TimeSpan(0, 0, 0, 0, settings.MinInterval);
 		}
 	}
 }
