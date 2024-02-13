@@ -116,11 +116,11 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustInitializeApplications()
 		{
-			var application1 = new Mock<IApplication>();
+			var application1 = new Mock<IApplication<IApplicationWindow>>();
 			var application1Settings = new WhitelistApplication { ShowInShell = true };
-			var application2 = new Mock<IApplication>();
+			var application2 = new Mock<IApplication<IApplicationWindow>>();
 			var application2Settings = new WhitelistApplication { ShowInShell = false };
-			var application3 = new Mock<IApplication>();
+			var application3 = new Mock<IApplication<IApplicationWindow>>();
 			var application3Settings = new WhitelistApplication { ShowInShell = true };
 
 			application1.SetupGet(a => a.Id).Returns(application1Settings.Id);
@@ -140,25 +140,25 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			actionCenter.Verify(a => a.AddApplicationControl(It.IsAny<IApplicationControl>(), false), Times.Exactly(2));
 			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>(), false), Times.Exactly(2));
-			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == application1.Object)), Times.Once);
-			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == application2.Object)), Times.Once);
-			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == application3.Object)), Times.Once);
-			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application1.Object), Location.ActionCenter), Times.Once);
-			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application1.Object), Location.Taskbar), Times.Once);
-			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application2.Object), Location.ActionCenter), Times.Never);
-			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application2.Object), Location.Taskbar), Times.Never);
-			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application3.Object), Location.ActionCenter), Times.Once);
-			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application3.Object), Location.Taskbar), Times.Once);
+			taskview.Verify(t => t.Add(It.Is<IApplication<IApplicationWindow>>(a => a == application1.Object)), Times.Once);
+			taskview.Verify(t => t.Add(It.Is<IApplication<IApplicationWindow>>(a => a == application2.Object)), Times.Once);
+			taskview.Verify(t => t.Add(It.Is<IApplication<IApplicationWindow>>(a => a == application3.Object)), Times.Once);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication<IApplicationWindow>>(a => a == application1.Object), Location.ActionCenter), Times.Once);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication<IApplicationWindow>>(a => a == application1.Object), Location.Taskbar), Times.Once);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication<IApplicationWindow>>(a => a == application2.Object), Location.ActionCenter), Times.Never);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication<IApplicationWindow>>(a => a == application2.Object), Location.Taskbar), Times.Never);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication<IApplicationWindow>>(a => a == application3.Object), Location.ActionCenter), Times.Once);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication<IApplicationWindow>>(a => a == application3.Object), Location.Taskbar), Times.Once);
 		}
 
 		[TestMethod]
 		public void Perform_MustNotAddApplicationsToShellIfNotEnabled()
 		{
-			var application1 = new Mock<IApplication>();
+			var application1 = new Mock<IApplication<IApplicationWindow>>();
 			var application1Settings = new WhitelistApplication { ShowInShell = true };
-			var application2 = new Mock<IApplication>();
+			var application2 = new Mock<IApplication<IApplicationWindow>>();
 			var application2Settings = new WhitelistApplication { ShowInShell = true };
-			var application3 = new Mock<IApplication>();
+			var application3 = new Mock<IApplication<IApplicationWindow>>();
 			var application3Settings = new WhitelistApplication { ShowInShell = true };
 
 			application1.SetupGet(a => a.Id).Returns(application1Settings.Id);
@@ -178,15 +178,15 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 
 			actionCenter.Verify(a => a.AddApplicationControl(It.IsAny<IApplicationControl>(), false), Times.Never);
 			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>(), false), Times.Never);
-			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == application1.Object)), Times.Once);
-			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == application2.Object)), Times.Once);
-			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == application3.Object)), Times.Once);
-			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application1.Object), Location.ActionCenter), Times.Never);
-			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application1.Object), Location.Taskbar), Times.Never);
-			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application2.Object), Location.ActionCenter), Times.Never);
-			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application2.Object), Location.Taskbar), Times.Never);
-			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application3.Object), Location.ActionCenter), Times.Never);
-			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication>(a => a == application3.Object), Location.Taskbar), Times.Never);
+			taskview.Verify(t => t.Add(It.Is<IApplication<IApplicationWindow>>(a => a == application1.Object)), Times.Once);
+			taskview.Verify(t => t.Add(It.Is<IApplication<IApplicationWindow>>(a => a == application2.Object)), Times.Once);
+			taskview.Verify(t => t.Add(It.Is<IApplication<IApplicationWindow>>(a => a == application3.Object)), Times.Once);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication<IApplicationWindow>>(a => a == application1.Object), Location.ActionCenter), Times.Never);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication<IApplicationWindow>>(a => a == application1.Object), Location.Taskbar), Times.Never);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication<IApplicationWindow>>(a => a == application2.Object), Location.ActionCenter), Times.Never);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication<IApplicationWindow>>(a => a == application2.Object), Location.Taskbar), Times.Never);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication<IApplicationWindow>>(a => a == application3.Object), Location.ActionCenter), Times.Never);
+			uiFactory.Verify(f => f.CreateApplicationControl(It.Is<IApplication<IApplicationWindow>>(a => a == application3.Object), Location.Taskbar), Times.Never);
 		}
 
 		[TestMethod]

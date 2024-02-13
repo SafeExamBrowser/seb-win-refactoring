@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using CefSharp;
 using CefSharp.WinForms.Handler;
 using CefSharp.WinForms.Host;
-using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
 using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Contracts.Filters;
@@ -43,7 +42,7 @@ using TitleChangedEventHandler = SafeExamBrowser.Applications.Contracts.Events.T
 
 namespace SafeExamBrowser.Browser
 {
-	internal class BrowserWindow : IApplicationWindow
+	internal class BrowserWindow : Contracts.IBrowserWindow
 	{
 		private const string CLEAR_FIND_TERM = "thisisahacktoclearthesearchresultsasitappearsthatthereisnosuchfunctionalityincef";
 		private const double ZOOM_FACTOR = 0.2;
@@ -52,7 +51,6 @@ namespace SafeExamBrowser.Browser
 		private readonly IFileSystemDialog fileSystemDialog;
 		private readonly IHashAlgorithm hashAlgorithm;
 		private readonly HttpClient httpClient;
-		private readonly bool isMainWindow;
 		private readonly IKeyGenerator keyGenerator;
 		private readonly IModuleLogger logger;
 		private readonly IMessageBox messageBox;
@@ -69,7 +67,7 @@ namespace SafeExamBrowser.Browser
 
 		private WindowSettings WindowSettings
 		{
-			get { return isMainWindow ? settings.MainWindow : settings.AdditionalWindow; }
+			get { return IsMainWindow ? settings.MainWindow : settings.AdditionalWindow; }
 		}
 
 		internal IBrowserControl Control { get; private set; }
@@ -77,7 +75,9 @@ namespace SafeExamBrowser.Browser
 
 		public IntPtr Handle { get; private set; }
 		public IconResource Icon { get; private set; }
+		public bool IsMainWindow { get; private set; }
 		public string Title { get; private set; }
+		public string Url { get; private set; }
 
 		internal event WindowClosedEventHandler Closed;
 		internal event DownloadRequestedEventHandler ConfigurationDownloadRequested;
@@ -110,7 +110,7 @@ namespace SafeExamBrowser.Browser
 			this.hashAlgorithm = hashAlgorithm;
 			this.httpClient = new HttpClient();
 			this.Id = id;
-			this.isMainWindow = isMainWindow;
+			this.IsMainWindow = isMainWindow;
 			this.keyGenerator = keyGenerator;
 			this.logger = logger;
 			this.messageBox = messageBox;
@@ -162,7 +162,7 @@ namespace SafeExamBrowser.Browser
 
 			Icon = new BrowserIconResource();
 
-			if (isMainWindow)
+			if (IsMainWindow)
 			{
 				cefSharpControl = new CefSharpBrowserControl(CreateLifeSpanHandlerForMainWindow(), startUrl);
 			}
@@ -203,7 +203,7 @@ namespace SafeExamBrowser.Browser
 
 		internal void InitializeWindow()
 		{
-			window = uiFactory.CreateBrowserWindow(Control, settings, isMainWindow, this.logger);
+			window = uiFactory.CreateBrowserWindow(Control, settings, IsMainWindow, this.logger);
 			window.AddressChanged += Window_AddressChanged;
 			window.BackwardNavigationRequested += Window_BackwardNavigationRequested;
 			window.Closed += Window_Closed;
@@ -267,6 +267,8 @@ namespace SafeExamBrowser.Browser
 		private void Control_AddressChanged(string address)
 		{
 			logger.Info($"Navigated{(WindowSettings.UrlPolicy.CanLog() ? $" to '{address}'" : "")}.");
+
+			Url = address;
 			window.UpdateAddress(address);
 
 			if (WindowSettings.UrlPolicy == UrlPolicy.Always || WindowSettings.UrlPolicy == UrlPolicy.BeforeTitle)
@@ -440,7 +442,7 @@ namespace SafeExamBrowser.Browser
 
 		private void HomeNavigationRequested()
 		{
-			if (isMainWindow && (settings.UseStartUrlAsHomeUrl || !string.IsNullOrWhiteSpace(settings.HomeUrl)))
+			if (IsMainWindow && (settings.UseStartUrlAsHomeUrl || !string.IsNullOrWhiteSpace(settings.HomeUrl)))
 			{
 				var navigate = false;
 				var url = settings.UseStartUrlAsHomeUrl ? settings.StartUrl : settings.HomeUrl;

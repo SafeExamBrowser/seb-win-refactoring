@@ -56,7 +56,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			return new ActionCenter();
 		}
 
-		public IApplicationControl CreateApplicationControl(IApplication application, Location location)
+		public IApplicationControl CreateApplicationControl(IApplication<IApplicationWindow> application, Location location)
 		{
 			if (location == Location.ActionCenter)
 			{

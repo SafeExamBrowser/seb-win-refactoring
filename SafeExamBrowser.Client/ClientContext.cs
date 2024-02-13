@@ -32,7 +32,7 @@ namespace SafeExamBrowser.Client
 		/// <summary>
 		/// All applications allowed for the current session.
 		/// </summary>
-		internal IList<IApplication> Applications { get; }
+		internal IList<IApplication<IApplicationWindow>> Applications { get; }
 
 		/// <summary>
 		/// The global application configuration.
@@ -72,7 +72,7 @@ namespace SafeExamBrowser.Client
 		internal ClientContext()
 		{
 			Activators = new List<IActivator>();
-			Applications = new List<IApplication>();
+			Applications = new List<IApplication<IApplicationWindow>>();
 		}
 	}
 }

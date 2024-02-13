@@ -14,7 +14,6 @@ using System.Linq;
 using System.Threading;
 using CefSharp;
 using CefSharp.WinForms;
-using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Applications.Contracts.Events;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
@@ -99,9 +98,9 @@ namespace SafeExamBrowser.Browser
 			});
 		}
 
-		public IEnumerable<IApplicationWindow> GetWindows()
+		public IEnumerable<IBrowserWindow> GetWindows()
 		{
-			return new List<IApplicationWindow>(windows);
+			return new List<IBrowserWindow>(windows);
 		}
 
 		public void Initialize()

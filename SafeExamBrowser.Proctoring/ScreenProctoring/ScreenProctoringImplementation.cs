@@ -11,10 +11,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Input;
+using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Core.Contracts.Notifications.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Applications;
+using SafeExamBrowser.Proctoring.ScreenProctoring.Data;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Imaging;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Service;
 using SafeExamBrowser.Server.Contracts.Events.Proctoring;
@@ -31,6 +34,8 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 	{
 		private readonly object @lock = new object();
 
+		private readonly IApplicationMonitor applicationMonitor;
+		private readonly IBrowserApplication browser;
 		private readonly IModuleLogger logger;
 		private readonly INativeMethods nativeMethods;
 		private readonly ServiceProxy service;
@@ -47,12 +52,16 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 		public override event NotificationChangedEventHandler NotificationChanged;
 
 		internal ScreenProctoringImplementation(
+			IApplicationMonitor applicationMonitor,
+			IBrowserApplication browser,
 			IModuleLogger logger,
 			INativeMethods nativeMethods,
 			ServiceProxy service,
 			ProctoringSettings settings,
 			IText text)
 		{
+			this.applicationMonitor = applicationMonitor;
+			this.browser = browser;
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;
 			this.service = service;
@@ -194,18 +203,28 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		private bool KeyboardHookCallback(int keyCode, KeyModifier modifier, KeyState state)
 		{
-			var key = KeyInterop.KeyFromVirtualKey(keyCode);
+			var trigger = new KeyboardTrigger
+			{
+				Key = KeyInterop.KeyFromVirtualKey(keyCode),
+				Modifier = modifier,
+				State = state
+			};
 
-			TryExecute();
+			TryExecute(keyboard: trigger);
 
 			return false;
 		}
 
 		private bool MouseHookCallback(MouseButton button, MouseButtonState state, MouseInformation info)
 		{
-			var isTouch = info.IsTouch;
+			var trigger = new MouseTrigger
+			{
+				Button = button,
+				Info = info,
+				State = state
+			};
 
-			TryExecute();
+			TryExecute(mouse: trigger);
 
 			return false;
 		}
@@ -238,10 +257,16 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs args)
 		{
-			TryExecute();
+			var trigger = new IntervalTrigger
+			{
+				ConfigurationValue = settings.MaxInterval,
+				TimeElapsed = Convert.ToInt32(DateTime.Now.Subtract(last).TotalMilliseconds)
+			};
+
+			TryExecute(interval: trigger);
 		}
 
-		private void TryExecute()
+		private void TryExecute(IntervalTrigger interval = default, KeyboardTrigger keyboard = default, MouseTrigger mouse = default)
 		{
 			if (MinimumIntervalElapsed() && Monitor.TryEnter(@lock))
 			{
@@ -252,16 +277,27 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				{
 					try
 					{
+						var metadata = new Metadata(applicationMonitor, browser, logger.CloneFor(nameof(Metadata)));
+
 						using (var screenShot = new ScreenShot(logger.CloneFor(nameof(ScreenShot)), settings))
 						{
+							metadata.Capture(interval, keyboard, mouse);
 							screenShot.Take();
 							screenShot.Compress();
-							service.Send(screenShot);
+
+							if (service.IsConnected)
+							{
+								service.Send(metadata, screenShot);
+							}
+							else
+							{
+								logger.Warn("Cannot send screen shot as service is disconnected!");
+							}
 						}
 					}
 					catch (Exception e)
 					{
-						logger.Error("Failed to process screen shot!", e);
+						logger.Error("Failed to execute capturing and/or transmission!", e);
 					}
 				});
 

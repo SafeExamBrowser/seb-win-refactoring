@@ -92,6 +92,18 @@ namespace SafeExamBrowser.Monitoring.Applications
 			}
 		}
 
+		public bool TryGetActiveApplication(out ActiveApplication application)
+		{
+			application = default;
+
+			if (activeWindow != default && TryGetProcessFor(activeWindow, out var process))
+			{
+				application = new ActiveApplication(process, new Window { Handle = activeWindow.Handle, Title = activeWindow.Title });
+			}
+
+			return application != default;
+		}
+
 		public bool TryTerminate(RunningApplication application)
 		{
 			var success = true;
@@ -355,23 +367,19 @@ namespace SafeExamBrowser.Monitoring.Applications
 
 		private bool IsAllowed(Window window)
 		{
-			var processId = Convert.ToInt32(nativeMethods.GetProcessIdFor(window.Handle));
+			var allowed = false;
 
-			if (processFactory.TryGetById(processId, out var process))
+			if (TryGetProcessFor(window, out var process))
 			{
-				if (BelongsToSafeExamBrowser(process) || IsWhitelisted(process, out _))
-				{
-					return true;
-				}
-
-				logger.Warn($"Window {window} belongs to not whitelisted process '{process.Name}'!");
-			}
-			else
-			{
-				logger.Error($"Could not find process for window {window} and process ID = {processId}!");
+				allowed = BelongsToSafeExamBrowser(process) || IsWhitelisted(process, out _);
 			}
 
-			return false;
+			if (!allowed)
+			{
+				logger.Warn($"Window {window} belongs to not whitelisted process '{process?.Name ?? "n/a"}'!");
+			}
+
+			return allowed;
 		}
 
 		private bool IsWhitelisted(IProcess process, out Guid? applicationId)
@@ -389,6 +397,18 @@ namespace SafeExamBrowser.Monitoring.Applications
 			}
 
 			return false;
+		}
+
+		private bool TryGetProcessFor(Window window, out IProcess process)
+		{
+			var processId = Convert.ToInt32(nativeMethods.GetProcessIdFor(window.Handle));
+
+			if (!processFactory.TryGetById(processId, out process))
+			{
+				logger.Error($"Could not find process for window {window} and process ID = {processId}!");
+			}
+
+			return process != default;
 		}
 
 		private bool TryHide(Window window)

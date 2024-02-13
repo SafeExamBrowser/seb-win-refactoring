@@ -20,22 +20,23 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 {
 	internal partial class Taskview : Window, ITaskview
 	{
-		private IList<IApplication> applications;
+		private readonly IList<IApplication<IApplicationWindow>> applications;
+		private readonly LinkedList<WindowControl> controls;
+
 		private LinkedListNode<WindowControl> current;
-		private LinkedList<WindowControl> controls;
 
 		internal IntPtr Handle { get; private set; }
 
 		internal Taskview()
 		{
-			applications = new List<IApplication>();
+			applications = new List<IApplication<IApplicationWindow>>();
 			controls = new LinkedList<WindowControl>();
 
 			InitializeComponent();
 			InitializeTaskview();
 		}
 
-		public void Add(IApplication application)
+		public void Add(IApplication<IApplicationWindow> application)
 		{
 			application.WindowsChanged += Application_WindowsChanged;
 			applications.Add(application);

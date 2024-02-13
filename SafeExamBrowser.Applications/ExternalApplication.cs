@@ -19,7 +19,7 @@ using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Applications
 {
-	internal class ExternalApplication : IApplication
+	internal class ExternalApplication : IApplication<IApplicationWindow>
 	{
 		private readonly object @lock = new object();
 

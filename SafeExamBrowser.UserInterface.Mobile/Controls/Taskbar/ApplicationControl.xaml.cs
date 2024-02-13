@@ -22,10 +22,10 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 {
 	internal partial class ApplicationControl : UserControl, IApplicationControl
 	{
-		private readonly IApplication application;
+		private readonly IApplication<IApplicationWindow> application;
 		private IApplicationWindow single;
 
-		internal ApplicationControl(IApplication application)
+		internal ApplicationControl(IApplication<IApplicationWindow> application)
 		{
 			this.application = application;
 

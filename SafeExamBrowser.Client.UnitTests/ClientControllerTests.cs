@@ -41,6 +41,7 @@ using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 using SafeExamBrowser.WindowsApi.Contracts;
+using IWindow = SafeExamBrowser.UserInterface.Contracts.Windows.IWindow;
 
 namespace SafeExamBrowser.Client.UnitTests
 {
@@ -603,7 +604,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Operations_MustAskForApplicationPath()
 		{
-			var args = new ApplicationNotFoundEventArgs(default(string), default(string));
+			var args = new ApplicationNotFoundEventArgs(default, default);
 			var result = new FileSystemDialogResult { FullPath = @"C:\Some\random\path\", Success = true };
 
 			fileSystemDialog.Setup(d => d.Show(
@@ -627,7 +628,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Operations_MustAbortAskingForApplicationPath()
 		{
-			var args = new ApplicationNotFoundEventArgs(default(string), default(string));
+			var args = new ApplicationNotFoundEventArgs(default, default);
 			var result = new FileSystemDialogResult { Success = false };
 
 			fileSystemDialog.Setup(d => d.Show(
@@ -651,7 +652,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Operations_MustInformAboutFailedApplicationInitialization()
 		{
-			var args = new ApplicationInitializationFailedEventArgs(default(string), default(string), FactoryResult.NotFound);
+			var args = new ApplicationInitializationFailedEventArgs(default, default, FactoryResult.NotFound);
 
 			text.SetReturnsDefault(string.Empty);
 			sut.TryStart();
@@ -1172,9 +1173,9 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Startup_MustAutoStartApplications()
 		{
-			var application1 = new Mock<IApplication>();
-			var application2 = new Mock<IApplication>();
-			var application3 = new Mock<IApplication>();
+			var application1 = new Mock<IApplication<IApplicationWindow>>();
+			var application2 = new Mock<IApplication<IApplicationWindow>>();
+			var application3 = new Mock<IApplication<IApplicationWindow>>();
 
 			application1.SetupGet(a => a.AutoStart).Returns(true);
 			application2.SetupGet(a => a.AutoStart).Returns(false);

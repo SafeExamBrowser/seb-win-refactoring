@@ -9,6 +9,7 @@
 using System;
 using System.Net.Http;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Proctoring.ScreenProctoring.Data;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Imaging;
 using SafeExamBrowser.Settings.Proctoring;
 
@@ -20,12 +21,13 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service.Requests
 		{
 		}
 
-		internal bool TryExecute(ScreenShot screenShot, string sessionId, out string message)
+		internal bool TryExecute(Metadata metadata, ScreenShot screenShot, string sessionId, out string message)
 		{
-			var imageFormat = ("imageFormat", ToString(screenShot.Format));
-			var timestamp = ("timestamp", DateTime.Now.ToUnixTimestamp().ToString());
+			var data = (Header.METADATA, metadata.ToJson());
+			var imageFormat = (Header.IMAGE_FORMAT, ToString(screenShot.Format));
+			var timestamp = (Header.TIMESTAMP, DateTime.Now.ToUnixTimestamp().ToString());
 			var url = api.ScreenShotEndpoint.Replace(Api.SESSION_ID, sessionId);
-			var success = TryExecute(HttpMethod.Post, url, out var response, screenShot.Data, ContentType.OCTET_STREAM, Authorization, imageFormat, timestamp);
+			var success = TryExecute(HttpMethod.Post, url, out var response, screenShot.Data, ContentType.OCTET_STREAM, Authorization, data, imageFormat, timestamp);
 
 			message = response.ToLogString();
 

@@ -40,7 +40,7 @@ namespace SafeExamBrowser.Applications
 			this.registry = registry;
 		}
 
-		public FactoryResult TryCreate(WhitelistApplication settings, out IApplication application)
+		public FactoryResult TryCreate(WhitelistApplication settings, out IApplication<IApplicationWindow> application)
 		{
 			var name = $"'{settings.DisplayName}' ({settings.ExecutableName})";
 
@@ -72,7 +72,7 @@ namespace SafeExamBrowser.Applications
 			return FactoryResult.Error;
 		}
 
-		private IApplication BuildApplication(string executablePath, WhitelistApplication settings)
+		private IApplication<IApplicationWindow> BuildApplication(string executablePath, WhitelistApplication settings)
 		{
 			const int ONE_SECOND = 1000;
 

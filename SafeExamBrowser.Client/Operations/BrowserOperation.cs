@@ -17,11 +17,11 @@ namespace SafeExamBrowser.Client.Operations
 {
 	internal class BrowserOperation : ClientOperation
 	{
-		private IActionCenter actionCenter;
-		private ILogger logger;
-		private ITaskbar taskbar;
-		private ITaskview taskview;
-		private IUserInterfaceFactory uiFactory;
+		private readonly IActionCenter actionCenter;
+		private readonly ILogger logger;
+		private readonly ITaskbar taskbar;
+		private readonly ITaskview taskview;
+		private readonly IUserInterfaceFactory uiFactory;
 
 		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;

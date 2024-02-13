@@ -13,6 +13,18 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service.Requests
 		internal const string ACCEPT = "Accept";
 		internal const string AUTHORIZATION = "Authorization";
 		internal const string GROUP_ID = "SEB_GROUP_UUID";
+		internal const string IMAGE_FORMAT = "imageFormat";
+		internal const string METADATA = "metaData";
 		internal const string SESSION_ID = "SEB_SESSION_UUID";
+		internal const string TIMESTAMP = "timestamp";
+
+		internal static class Metadata
+		{
+			internal const string ApplicationInfo = "screenProctoringMetadataApplication";
+			internal const string BrowserInfo = "screenProctoringMetadataBrowser";
+			internal const string BrowserUrls = "screenProctoringMetadataURL";
+			internal const string TriggerInfo = "screenProctoringMetadataUserAction";
+			internal const string WindowTitle = "screenProctoringMetadataWindowTitle";
+		}
 	}
 }

@@ -6,19 +6,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using SafeExamBrowser.Monitoring.Contracts.Applications;
+using SafeExamBrowser.WindowsApi.Contracts.Events;
 
-namespace SafeExamBrowser.Monitoring.Applications
+namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 {
-	internal class Window : IWindow
+	internal class MouseTrigger
 	{
-		public IntPtr Handle { get; set; }
-		public string Title { get; set; }
-
-		public override string ToString()
-		{
-			return $"'{Title}' ({Handle})";
-		}
+		public MouseButton Button { get; internal set; }
+		public MouseInformation Info { get; internal set; }
+		public MouseButtonState State { get; internal set; }
 	}
 }

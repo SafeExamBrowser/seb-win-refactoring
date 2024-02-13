@@ -67,6 +67,7 @@
     <Compile Include="Filters\IRuleFactory.cs" />
     <Compile Include="Filters\Request.cs" />
     <Compile Include="IBrowserApplication.cs" />
+    <Compile Include="IBrowserWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

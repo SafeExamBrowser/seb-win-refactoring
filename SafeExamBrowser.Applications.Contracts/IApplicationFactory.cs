@@ -18,6 +18,6 @@ namespace SafeExamBrowser.Applications.Contracts
 		/// <summary>
 		/// Attempts to create an application according to the given settings.
 		/// </summary>
-		FactoryResult TryCreate(WhitelistApplication settings, out IApplication application);
+		FactoryResult TryCreate(WhitelistApplication settings, out IApplication<IApplicationWindow> application);
 	}
 }

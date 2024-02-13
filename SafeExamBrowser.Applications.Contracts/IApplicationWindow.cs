@@ -13,7 +13,7 @@ using SafeExamBrowser.Core.Contracts.Resources.Icons;
 namespace SafeExamBrowser.Applications.Contracts
 {
 	/// <summary>
-	/// Defines a window of an <see cref="IApplication"/>.
+	/// Defines a window of an <see cref="IApplication{TWindow}"/>.
 	/// </summary>
 	public interface IApplicationWindow
 	{

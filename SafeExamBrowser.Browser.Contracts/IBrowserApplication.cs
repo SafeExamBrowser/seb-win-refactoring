@@ -14,7 +14,7 @@ namespace SafeExamBrowser.Browser.Contracts
 	/// <summary>
 	/// Controls the lifetime and functionality of the browser application.
 	/// </summary>
-	public interface IBrowserApplication : IApplication
+	public interface IBrowserApplication : IApplication<IBrowserWindow>
 	{
 		/// <summary>
 		/// Event fired when the browser application detects a download request for an application configuration file.

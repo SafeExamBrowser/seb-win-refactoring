@@ -15,9 +15,9 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 {
 	internal partial class ApplicationControl : UserControl, IApplicationControl
 	{
-		private IApplication application;
+		private readonly IApplication<IApplicationWindow> application;
 
-		internal ApplicationControl(IApplication application)
+		internal ApplicationControl(IApplication<IApplicationWindow> application)
 		{
 			this.application = application;
 

@@ -7,9 +7,11 @@
  */
 
 using System.Collections.Generic;
+using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Proctoring.JitsiMeet;
 using SafeExamBrowser.Proctoring.ScreenProctoring;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Service;
@@ -23,6 +25,8 @@ namespace SafeExamBrowser.Proctoring
 	internal class ProctoringFactory
 	{
 		private readonly AppConfig appConfig;
+		private readonly IApplicationMonitor applicationMonitor;
+		private readonly IBrowserApplication browser;
 		private readonly IFileSystem fileSystem;
 		private readonly IModuleLogger logger;
 		private readonly INativeMethods nativeMethods;
@@ -31,6 +35,8 @@ namespace SafeExamBrowser.Proctoring
 
 		public ProctoringFactory(
 			AppConfig appConfig,
+			IApplicationMonitor applicationMonitor,
+			IBrowserApplication browser,
 			IFileSystem fileSystem,
 			IModuleLogger logger,
 			INativeMethods nativeMethods,
@@ -38,6 +44,8 @@ namespace SafeExamBrowser.Proctoring
 			IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
+			this.applicationMonitor = applicationMonitor;
+			this.browser = browser;
 			this.fileSystem = fileSystem;
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;
@@ -61,7 +69,7 @@ namespace SafeExamBrowser.Proctoring
 				var logger = this.logger.CloneFor(nameof(ScreenProctoring));
 				var service = new ServiceProxy(logger.CloneFor(nameof(ServiceProxy)));
 
-				implementations.Add(new ScreenProctoringImplementation(logger, nativeMethods, service, settings, text));
+				implementations.Add(new ScreenProctoringImplementation(applicationMonitor, browser, logger, nativeMethods, service, settings, text));
 			}
 
 			return implementations;

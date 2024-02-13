@@ -58,7 +58,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			sut.Perform();
 
 			browser.Verify(c => c.Initialize(), Times.Once);
-			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == context.Browser)), Times.Once);
+			taskview.Verify(t => t.Add(It.Is<IApplication<IApplicationWindow>>(a => a == context.Browser)), Times.Once);
 		}
 
 		[TestMethod]
@@ -73,7 +73,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			actionCenter.Verify(a => a.AddApplicationControl(It.IsAny<IApplicationControl>(), true), Times.Never);
 			browser.Verify(c => c.Initialize(), Times.Never);
 			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>(), true), Times.Never);
-			taskview.Verify(t => t.Add(It.Is<IApplication>(a => a == context.Browser)), Times.Never);
+			taskview.Verify(t => t.Add(It.Is<IApplication<IApplicationWindow>>(a => a == context.Browser)), Times.Never);
 		}
 
 		[TestMethod]

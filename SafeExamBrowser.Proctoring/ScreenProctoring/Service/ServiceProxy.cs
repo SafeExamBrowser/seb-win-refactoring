@@ -9,6 +9,7 @@
 using System;
 using System.Net.Http;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Proctoring.ScreenProctoring.Data;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Imaging;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Service.Requests;
 
@@ -69,10 +70,10 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service
 			return new ServiceResponse(success, message);
 		}
 
-		internal ServiceResponse Send(ScreenShot screenShot)
+		internal ServiceResponse Send(Metadata metadata, ScreenShot screenShot)
 		{
 			var request = new ScreenShotRequest(api, httpClient, logger, parser);
-			var success = request.TryExecute(screenShot, SessionId, out var message);
+			var success = request.TryExecute(metadata, screenShot, SessionId, out var message);
 
 			if (success)
 			{

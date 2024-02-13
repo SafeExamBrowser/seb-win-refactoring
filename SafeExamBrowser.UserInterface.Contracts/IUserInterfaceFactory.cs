@@ -46,7 +46,7 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// <summary>
 		/// Creates an application control for the specified application and location.
 		/// </summary>
-		IApplicationControl CreateApplicationControl(IApplication application, Location location);
+		IApplicationControl CreateApplicationControl(IApplication<IApplicationWindow> application, Location location);
 
 		/// <summary>
 		/// Creates a system control which allows to change the audio settings of the computer.

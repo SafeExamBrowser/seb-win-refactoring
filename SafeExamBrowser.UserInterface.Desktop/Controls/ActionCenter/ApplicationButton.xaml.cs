@@ -17,12 +17,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 {
 	internal partial class ApplicationButton : UserControl
 	{
-		private readonly IApplication application;
+		private readonly IApplication<IApplicationWindow> application;
 		private readonly IApplicationWindow window;
 
 		internal event EventHandler Clicked;
 
-		internal ApplicationButton(IApplication application, IApplicationWindow window = null)
+		internal ApplicationButton(IApplication<IApplicationWindow> application, IApplicationWindow window = null)
 		{
 			this.application = application;
 			this.window = window;

@@ -55,7 +55,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			var initialization = new InitializationResult();
 			var args = default(ActionRequiredEventArgs);
 
-			initialization.RunningApplications.Add(new RunningApplication(default(string)));
+			initialization.RunningApplications.Add(new RunningApplication(default));
 			monitor.Setup(m => m.Initialize(It.IsAny<ApplicationSettings>())).Returns(initialization);
 			sut.ActionRequired += (a) =>
 			{
@@ -79,7 +79,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustAbortIfUserCancelsApplicationLocationSelection()
 		{
-			var application = new Mock<IApplication>().Object;
+			var application = new Mock<IApplication<IApplicationWindow>>().Object;
 			var applicationSettings = new WhitelistApplication { AllowCustomPath = true };
 			var args = default(ActionRequiredEventArgs);
 
@@ -107,7 +107,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustAllowUserToChooseApplicationLocation()
 		{
-			var application = new Mock<IApplication>().Object;
+			var application = new Mock<IApplication<IApplicationWindow>>().Object;
 			var applicationSettings = new WhitelistApplication { AllowCustomPath = true };
 			var args = default(ActionRequiredEventArgs);
 			var attempt = 0;
@@ -138,7 +138,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustDenyApplicationLocationSelection()
 		{
-			var application = new Mock<IApplication>().Object;
+			var application = new Mock<IApplication<IApplicationWindow>>().Object;
 			var applicationSettings = new WhitelistApplication { AllowCustomPath = false };
 			var args = default(ActionRequiredEventArgs);
 
@@ -169,7 +169,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			var initialization = new InitializationResult();
 			var args = default(ActionRequiredEventArgs);
 
-			initialization.FailedAutoTerminations.Add(new RunningApplication(default(string)));
+			initialization.FailedAutoTerminations.Add(new RunningApplication(default));
 			monitor.Setup(m => m.Initialize(It.IsAny<ApplicationSettings>())).Returns(initialization);
 			sut.ActionRequired += (a) => args = a;
 
@@ -185,7 +185,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustFailIfTerminationFails()
 		{
-			var application = new RunningApplication(default(string));
+			var application = new RunningApplication(default);
 			var initialization = new InitializationResult();
 			var args = new List<ActionRequiredEventArgs>();
 
@@ -215,7 +215,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustIndicateApplicationInitializationFailure()
 		{
-			var application = new Mock<IApplication>().Object;
+			var application = new Mock<IApplication<IApplicationWindow>>().Object;
 			var applicationSettings = new WhitelistApplication();
 			var args = default(ActionRequiredEventArgs);
 
@@ -235,9 +235,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustInitializeApplications()
 		{
-			var application1 = new Mock<IApplication>().Object;
-			var application2 = new Mock<IApplication>().Object;
-			var application3 = new Mock<IApplication>().Object;
+			var application1 = new Mock<IApplication<IApplicationWindow>>().Object;
+			var application2 = new Mock<IApplication<IApplicationWindow>>().Object;
+			var application3 = new Mock<IApplication<IApplicationWindow>>().Object;
 			var application1Settings = new WhitelistApplication();
 			var application2Settings = new WhitelistApplication();
 			var application3Settings = new WhitelistApplication();
@@ -297,9 +297,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustTerminateRunningApplications()
 		{
-			var application1 = new RunningApplication(default(string));
-			var application2 = new RunningApplication(default(string));
-			var application3 = new RunningApplication(default(string));
+			var application1 = new RunningApplication(default);
+			var application2 = new RunningApplication(default);
+			var application3 = new RunningApplication(default);
 			var initialization = new InitializationResult();
 			var args = default(ActionRequiredEventArgs);
 
@@ -362,9 +362,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Revert_MustTerminateApplications()
 		{
-			var application1 = new Mock<IApplication>();
-			var application2 = new Mock<IApplication>();
-			var application3 = new Mock<IApplication>();
+			var application1 = new Mock<IApplication<IApplicationWindow>>();
+			var application2 = new Mock<IApplication<IApplicationWindow>>();
+			var application3 = new Mock<IApplication<IApplicationWindow>>();
 
 			context.Applications.Add(application1.Object);
 			context.Applications.Add(application2.Object);

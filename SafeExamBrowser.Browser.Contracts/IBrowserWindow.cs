@@ -8,21 +8,21 @@
 
 using SafeExamBrowser.Applications.Contracts;
 
-namespace SafeExamBrowser.UserInterface.Contracts.Shell
+namespace SafeExamBrowser.Browser.Contracts
 {
 	/// <summary>
-	/// The task view provides an overview of all currently running application instances.
+	/// Defines a window of the <see cref="IBrowserApplication"/>.
 	/// </summary>
-	public interface ITaskview
+	public interface IBrowserWindow : IApplicationWindow
 	{
 		/// <summary>
-		/// Adds the given application to the task view.
+		/// Indicates whether the window is the main browser window.
 		/// </summary>
-		void Add(IApplication<IApplicationWindow> application);
+		bool IsMainWindow { get; }
 
 		/// <summary>
-		/// Registers the specified activator for the task view.
+		/// The currently loaded URL, or <c>default(string)</c> in case no navigation has happened yet.
 		/// </summary>
-		void Register(ITaskviewActivator activator);
+		string Url { get; }
 	}
 }

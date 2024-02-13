@@ -47,6 +47,12 @@ namespace SafeExamBrowser.Monitoring.Contracts.Applications
 		void Stop();
 
 		/// <summary>
+		/// Attempts to retrieve the currently active application (i.e. the application which currently has input focus). Returns <c>true</c> if
+		/// successful, otherwise <c>false</c>.
+		/// </summary>
+		bool TryGetActiveApplication(out ActiveApplication application);
+
+		/// <summary>
 		/// Attempts to terminate all processes of the specified application. Returns <c>true</c> if successful, otherwise <c>false</c>.
 		/// </summary>
 		bool TryTerminate(RunningApplication application);

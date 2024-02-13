@@ -73,6 +73,7 @@ namespace SafeExamBrowser.Client
 		private UserInterfaceMode uiMode;
 
 		private IActionCenter actionCenter;
+		private ApplicationMonitor applicationMonitor;
 		private ILogger logger;
 		private IMessageBox messageBox;
 		private INativeMethods nativeMethods;
@@ -95,6 +96,7 @@ namespace SafeExamBrowser.Client
 			InitializeLogging();
 			InitializeText();
 
+			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var registry = new Registry(ModuleLogger(nameof(Registry)));
 
 			uiFactory = BuildUserInterfaceFactory();
@@ -102,6 +104,7 @@ namespace SafeExamBrowser.Client
 			context = new ClientContext();
 			messageBox = BuildMessageBox();
 			nativeMethods = new NativeMethods();
+			applicationMonitor = new ApplicationMonitor(TWO_SECONDS, ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, processFactory);
 			networkAdapter = new NetworkAdapter(ModuleLogger(nameof(NetworkAdapter)), nativeMethods);
 			runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
 			systemInfo = new SystemInfo(registry);
@@ -109,8 +112,6 @@ namespace SafeExamBrowser.Client
 			taskview = uiFactory.CreateTaskview();
 			userInfo = new UserInfo(ModuleLogger(nameof(UserInfo)));
 
-			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
-			var applicationMonitor = new ApplicationMonitor(TWO_SECONDS, ModuleLogger(nameof(ApplicationMonitor)), nativeMethods, processFactory);
 			var applicationFactory = new ApplicationFactory(applicationMonitor, ModuleLogger(nameof(ApplicationFactory)), nativeMethods, processFactory, new Registry(ModuleLogger(nameof(Registry))));
 			var clipboard = new Clipboard(ModuleLogger(nameof(Clipboard)), nativeMethods);
 			var displayMonitor = new DisplayMonitor(ModuleLogger(nameof(DisplayMonitor)), nativeMethods, systemInfo);
@@ -288,7 +289,16 @@ namespace SafeExamBrowser.Client
 
 		private IOperation BuildProctoringOperation()
 		{
-			var controller = new ProctoringController(context.AppConfig, new FileSystem(), ModuleLogger(nameof(ProctoringController)), nativeMethods, context.Server, text, uiFactory);
+			var controller = new ProctoringController(
+				context.AppConfig,
+				applicationMonitor,
+				context.Browser,
+				new FileSystem(),
+				ModuleLogger(nameof(ProctoringController)),
+				nativeMethods,
+				context.Server,
+				text,
+				uiFactory);
 			var operation = new ProctoringOperation(actionCenter, context, controller, logger, taskbar, uiFactory);
 
 			return operation;

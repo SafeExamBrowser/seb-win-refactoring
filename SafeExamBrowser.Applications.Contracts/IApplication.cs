@@ -16,7 +16,7 @@ namespace SafeExamBrowser.Applications.Contracts
 	/// <summary>
 	/// Controls the lifetime and functionality of an application.
 	/// </summary>
-	public interface IApplication
+	public interface IApplication<out TWindow> where TWindow : IApplicationWindow
 	{
 		/// <summary>
 		/// Indicates whether the application should be automatically started.
@@ -51,7 +51,7 @@ namespace SafeExamBrowser.Applications.Contracts
 		/// <summary>
 		/// Returns all windows of the application.
 		/// </summary>
-		IEnumerable<IApplicationWindow> GetWindows();
+		IEnumerable<TWindow> GetWindows();
 
 		/// <summary>
 		/// Performs any initialization work, if necessary.

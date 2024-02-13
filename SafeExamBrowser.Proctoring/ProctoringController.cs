@@ -8,10 +8,12 @@
 
 using System;
 using System.Collections.Generic;
+using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Proctoring.Contracts.Events;
 using SafeExamBrowser.Server.Contracts;
@@ -39,6 +41,8 @@ namespace SafeExamBrowser.Proctoring
 
 		public ProctoringController(
 			AppConfig appConfig,
+			IApplicationMonitor applicationMonitor,
+			IBrowserApplication browser,
 			IFileSystem fileSystem,
 			IModuleLogger logger,
 			INativeMethods nativeMethods,
@@ -49,7 +53,7 @@ namespace SafeExamBrowser.Proctoring
 			this.logger = logger;
 			this.server = server;
 
-			factory = new ProctoringFactory(appConfig, fileSystem, logger, nativeMethods, text, uiFactory);
+			factory = new ProctoringFactory(appConfig, applicationMonitor, browser, fileSystem, logger, nativeMethods, text, uiFactory);
 			implementations = new List<ProctoringImplementation>();
 		}
 
