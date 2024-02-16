@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
@@ -28,14 +27,16 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 
 		internal string ApplicationInfo { get; private set; }
 		internal string BrowserInfo { get; private set; }
+		internal TimeSpan Elapsed { get; private set; }
 		internal string TriggerInfo { get; private set; }
 		internal string Urls { get; private set; }
 		internal string WindowTitle { get; private set; }
 
-		internal Metadata(IApplicationMonitor applicationMonitor, IBrowserApplication browser, ILogger logger)
+		internal Metadata(IApplicationMonitor applicationMonitor, IBrowserApplication browser, TimeSpan elapsed, ILogger logger)
 		{
 			this.applicationMonitor = applicationMonitor;
 			this.browser = browser;
+			this.Elapsed = elapsed;
 			this.logger = logger;
 		}
 
@@ -57,6 +58,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 				CaptureMouseTrigger(mouse);
 			}
 
+			// TODO: Can only log URLs when allowed by policy in browser configuration!
 			logger.Debug($"Captured metadata: {ApplicationInfo} / {BrowserInfo} / {TriggerInfo} / {Urls} / {WindowTitle}.");
 		}
 
@@ -79,7 +81,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 			if (applicationMonitor.TryGetActiveApplication(out var application))
 			{
 				ApplicationInfo = BuildApplicationInfo(application);
-				WindowTitle = BuildWindowTitle(application);
+				WindowTitle = string.IsNullOrEmpty(application.Window.Title) ? "-" : application.Window.Title;
 			}
 			else
 			{
@@ -88,46 +90,12 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 			}
 		}
 
-		private string BuildApplicationInfo(ActiveApplication application)
-		{
-			var info = new StringBuilder();
-
-			info.Append(application.Process.Name);
-
-			if (application.Process.OriginalName != default)
-			{
-				info.Append($" ({application.Process.OriginalName}{(application.Process.Signature == default ? ")" : "")}");
-			}
-
-			if (application.Process.Signature != default)
-			{
-				info.Append($"{(application.Process.OriginalName == default ? "(" : ", ")}{application.Process.Signature})");
-			}
-
-			return info.ToString();
-		}
-
-		private string BuildWindowTitle(ActiveApplication application)
-		{
-			return string.IsNullOrEmpty(application.Window.Title) ? "-" : application.Window.Title;
-		}
-
 		private void CaptureBrowserData()
 		{
 			var windows = browser.GetWindows();
 
-			BrowserInfo = BuildBrowserInfo(windows);
-			Urls = BuildUrls(windows);
-		}
-
-		private string BuildUrls(IEnumerable<IBrowserWindow> windows)
-		{
-			return string.Join(", ", windows.Select(w => w.Url));
-		}
-
-		private string BuildBrowserInfo(IEnumerable<IBrowserWindow> windows)
-		{
-			return string.Join(", ", windows.Select(w => $"{(w.IsMainWindow ? "Main" : "Additional")} Window: {w.Title} ({w.Url})"));
+			BrowserInfo = string.Join(", ", windows.Select(w => $"{(w.IsMainWindow ? "Main" : "Additional")} Window: {w.Title} ({w.Url})"));
+			Urls = string.Join(", ", windows.Select(w => w.Url));
 		}
 
 		private void CaptureIntervalTrigger(IntervalTrigger interval)
@@ -153,6 +121,25 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 			{
 				TriggerInfo = $"{mouse.Button} mouse button has been {mouse.State.ToString().ToLower()} at ({mouse.Info.X}/{mouse.Info.Y}).";
 			}
+		}
+
+		private string BuildApplicationInfo(ActiveApplication application)
+		{
+			var info = new StringBuilder();
+
+			info.Append(application.Process.Name);
+
+			if (application.Process.OriginalName != default)
+			{
+				info.Append($" ({application.Process.OriginalName}{(application.Process.Signature == default ? ")" : "")}");
+			}
+
+			if (application.Process.Signature != default)
+			{
+				info.Append($"{(application.Process.OriginalName == default ? "(" : ", ")}{application.Process.Signature})");
+			}
+
+			return info.ToString();
 		}
 	}
 }

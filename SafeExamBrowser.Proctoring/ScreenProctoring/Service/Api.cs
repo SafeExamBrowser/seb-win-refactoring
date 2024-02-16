@@ -13,12 +13,14 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service
 		internal const string SESSION_ID = "%%_SESSION_ID_%%";
 
 		internal string AccessTokenEndpoint { get; set; }
+		internal string HealthEndpoint { get; set; }
 		internal string ScreenShotEndpoint { get; set; }
 		internal string SessionEndpoint { get; set; }
 
 		internal Api()
 		{
 			AccessTokenEndpoint = "/oauth/token";
+			HealthEndpoint = "/health";
 			ScreenShotEndpoint = $"/seb-api/v1/session/{SESSION_ID}/screenshot";
 			SessionEndpoint = "/seb-api/v1/session";
 		}

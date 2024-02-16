@@ -94,23 +94,27 @@
     <Compile Include="ScreenProctoring\Data\IntervalTrigger.cs" />
     <Compile Include="ScreenProctoring\Data\KeyboardTrigger.cs" />
     <Compile Include="ScreenProctoring\Data\MouseTrigger.cs" />
+    <Compile Include="ScreenProctoring\Events\DataCollectedEventHandler.cs" />
     <Compile Include="ScreenProctoring\Imaging\Extensions.cs" />
     <Compile Include="ScreenProctoring\Data\Metadata.cs" />
     <Compile Include="ScreenProctoring\Imaging\ProcessingOrder.cs" />
     <Compile Include="ScreenProctoring\Imaging\ScreenShot.cs" />
     <Compile Include="ScreenProctoring\ScreenProctoringImplementation.cs" />
     <Compile Include="ScreenProctoring\Service\Api.cs" />
+    <Compile Include="ScreenProctoring\DataCollector.cs" />
     <Compile Include="ScreenProctoring\Service\Parser.cs" />
     <Compile Include="ScreenProctoring\Service\Requests\ContentType.cs" />
     <Compile Include="ScreenProctoring\Service\Requests\CreateSessionRequest.cs" />
     <Compile Include="ScreenProctoring\Service\Requests\Header.cs" />
     <Compile Include="ScreenProctoring\Service\Requests\Extensions.cs" />
+    <Compile Include="ScreenProctoring\Service\Requests\HealthRequest.cs" />
     <Compile Include="ScreenProctoring\Service\Requests\TerminateSessionRequest.cs" />
     <Compile Include="ScreenProctoring\Service\Requests\OAuth2TokenRequest.cs" />
     <Compile Include="ScreenProctoring\Service\Requests\Request.cs" />
     <Compile Include="ScreenProctoring\Service\Requests\ScreenShotRequest.cs" />
     <Compile Include="ScreenProctoring\Service\ServiceProxy.cs" />
     <Compile Include="ScreenProctoring\Service\ServiceResponse.cs" />
+    <Compile Include="ScreenProctoring\TransmissionSpooler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Applications.Contracts\SafeExamBrowser.Applications.Contracts.csproj">

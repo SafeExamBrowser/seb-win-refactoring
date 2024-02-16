@@ -39,7 +39,7 @@ namespace SafeExamBrowser.Proctoring
 		internal abstract void Stop();
 		internal abstract void Terminate();
 
-		protected abstract void ActivateNotification();
-		protected abstract void TerminateNotification();
+		protected virtual void ActivateNotification() { }
+		protected virtual void TerminateNotification() { }
 	}
 }

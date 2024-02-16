@@ -70,6 +70,23 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service
 			return new ServiceResponse(success, message);
 		}
 
+		internal ServiceResponse<int> GetHealth()
+		{
+			var request = new HealthRequest(api, httpClient, logger, parser);
+			var success = request.TryExecute(out var health, out var message);
+
+			if (success)
+			{
+				logger.Info($"Successfully queried health (value: {health}).");
+			}
+			else
+			{
+				logger.Error("Failed to query health!");
+			}
+
+			return new ServiceResponse<int>(success, health, message);
+		}
+
 		internal ServiceResponse Send(Metadata metadata, ScreenShot screenShot)
 		{
 			var request = new ScreenShotRequest(api, httpClient, logger, parser);

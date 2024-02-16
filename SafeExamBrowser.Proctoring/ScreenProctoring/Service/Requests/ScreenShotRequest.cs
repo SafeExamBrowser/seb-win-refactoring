@@ -23,11 +23,11 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service.Requests
 
 		internal bool TryExecute(Metadata metadata, ScreenShot screenShot, string sessionId, out string message)
 		{
-			var data = (Header.METADATA, metadata.ToJson());
 			var imageFormat = (Header.IMAGE_FORMAT, ToString(screenShot.Format));
+			var metdataJson = (Header.METADATA, metadata.ToJson());
 			var timestamp = (Header.TIMESTAMP, DateTime.Now.ToUnixTimestamp().ToString());
 			var url = api.ScreenShotEndpoint.Replace(Api.SESSION_ID, sessionId);
-			var success = TryExecute(HttpMethod.Post, url, out var response, screenShot.Data, ContentType.OCTET_STREAM, Authorization, data, imageFormat, timestamp);
+			var success = TryExecute(HttpMethod.Post, url, out var response, screenShot.Data, ContentType.OCTET_STREAM, Authorization, imageFormat, metdataJson, timestamp);
 
 			message = response.ToLogString();
 

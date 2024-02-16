@@ -13,6 +13,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service.Requests
 		internal const string ACCEPT = "Accept";
 		internal const string AUTHORIZATION = "Authorization";
 		internal const string GROUP_ID = "SEB_GROUP_UUID";
+		internal const string HEALTH = "sps_server_health";
 		internal const string IMAGE_FORMAT = "imageFormat";
 		internal const string METADATA = "metaData";
 		internal const string SESSION_ID = "SEB_SESSION_UUID";

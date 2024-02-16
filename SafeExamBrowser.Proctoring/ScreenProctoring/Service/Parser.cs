@@ -46,6 +46,20 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service
 			return isExpired;
 		}
 
+		internal bool TryParseHealth(HttpResponseMessage response, out int health)
+		{
+			var success = false;
+
+			health = default;
+
+			if (response.Headers.TryGetValues(Header.HEALTH, out var values))
+			{
+				success = int.TryParse(values.First(), out health);
+			}
+
+			return success;
+		}
+
 		internal bool TryParseOauth2Token(HttpContent content, out string oauth2Token)
 		{
 			oauth2Token = default;

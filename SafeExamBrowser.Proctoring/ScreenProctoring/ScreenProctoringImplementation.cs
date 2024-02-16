@@ -7,10 +7,6 @@
  */
 
 using System;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
-using System.Windows.Input;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Core.Contracts.Notifications.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
@@ -23,29 +19,17 @@ using SafeExamBrowser.Proctoring.ScreenProctoring.Service;
 using SafeExamBrowser.Server.Contracts.Events.Proctoring;
 using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.WindowsApi.Contracts;
-using SafeExamBrowser.WindowsApi.Contracts.Events;
-using MouseButton = SafeExamBrowser.WindowsApi.Contracts.Events.MouseButton;
-using MouseButtonState = SafeExamBrowser.WindowsApi.Contracts.Events.MouseButtonState;
-using Timer = System.Timers.Timer;
 
 namespace SafeExamBrowser.Proctoring.ScreenProctoring
 {
 	internal class ScreenProctoringImplementation : ProctoringImplementation
 	{
-		private readonly object @lock = new object();
-
-		private readonly IApplicationMonitor applicationMonitor;
-		private readonly IBrowserApplication browser;
+		private readonly DataCollector collector;
 		private readonly IModuleLogger logger;
-		private readonly INativeMethods nativeMethods;
 		private readonly ServiceProxy service;
 		private readonly ScreenProctoringSettings settings;
+		private readonly TransmissionSpooler spooler;
 		private readonly IText text;
-		private readonly Timer timer;
-
-		private DateTime last;
-		private Guid? keyboardHookId;
-		private Guid? mouseHookId;
 
 		internal override string Name => nameof(ScreenProctoring);
 
@@ -60,14 +44,12 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			ProctoringSettings settings,
 			IText text)
 		{
-			this.applicationMonitor = applicationMonitor;
-			this.browser = browser;
+			this.collector = new DataCollector(applicationMonitor, browser, logger.CloneFor(nameof(DataCollector)), nativeMethods, settings.ScreenProctoring);
 			this.logger = logger;
-			this.nativeMethods = nativeMethods;
 			this.service = service;
 			this.settings = settings.ScreenProctoring;
+			this.spooler = new TransmissionSpooler(logger.CloneFor(nameof(TransmissionSpooler)), service);
 			this.text = text;
-			this.timer = new Timer();
 		}
 
 		internal override void Initialize()
@@ -79,9 +61,6 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			start &= !string.IsNullOrWhiteSpace(settings.GroupId);
 			start &= !string.IsNullOrWhiteSpace(settings.ServiceUrl);
 
-			timer.AutoReset = false;
-			timer.Interval = settings.MaxInterval;
-
 			if (start)
 			{
 				logger.Info($"Initialized proctoring: All settings are valid, starting automatically...");
@@ -91,7 +70,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			}
 			else
 			{
-				ShowNotificationInactive();
+				UpdateNotification(false);
 				logger.Info($"Initialized proctoring: Not all settings are valid or a server session is active, not starting automatically.");
 			}
 		}
@@ -125,60 +104,43 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				logger.Info("Successfully processed instruction.");
 			}
 		}
+
 		internal override void Start()
 		{
-			last = DateTime.Now;
-			keyboardHookId = nativeMethods.RegisterKeyboardHook(KeyboardHookCallback);
-			mouseHookId = nativeMethods.RegisterMouseHook(MouseHookCallback);
+			collector.DataCollected += Collector_DataCollected;
+			collector.Start();
+			spooler.Start();
 
-			timer.Elapsed += Timer_Elapsed;
-			timer.Start();
-
-			ShowNotificationActive();
+			UpdateNotification(true);
 
 			logger.Info($"Started proctoring.");
 		}
 
 		internal override void Stop()
 		{
-			if (keyboardHookId.HasValue)
-			{
-				nativeMethods.DeregisterKeyboardHook(keyboardHookId.Value);
-			}
+			collector.Stop();
+			collector.DataCollected -= Collector_DataCollected;
+			spooler.Stop();
 
-			if (mouseHookId.HasValue)
-			{
-				nativeMethods.DeregisterMouseHook(mouseHookId.Value);
-			}
-
-			keyboardHookId = default;
-			mouseHookId = default;
-
-			timer.Elapsed -= Timer_Elapsed;
-			timer.Stop();
-
-			TerminateServiceSession();
-			ShowNotificationInactive();
+			TerminateSession();
+			UpdateNotification(false);
 
 			logger.Info("Stopped proctoring.");
 		}
 
 		internal override void Terminate()
 		{
+			// TODO: Cache transmission or user information!
+
 			Stop();
 			TerminateNotification();
 
 			logger.Info("Terminated proctoring.");
 		}
 
-		protected override void ActivateNotification()
+		private void Collector_DataCollected(Metadata metadata, ScreenShot screenShot)
 		{
-			// Nothing to do here for now...
-		}
-
-		protected override void TerminateNotification()
-		{
-			// Nothing to do here for now...
+			spooler.Add(metadata, screenShot);
 		}
 
 		private void Connect(string sessionId = default)
@@ -201,52 +163,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			}
 		}
 
-		private bool KeyboardHookCallback(int keyCode, KeyModifier modifier, KeyState state)
-		{
-			var trigger = new KeyboardTrigger
-			{
-				Key = KeyInterop.KeyFromVirtualKey(keyCode),
-				Modifier = modifier,
-				State = state
-			};
-
-			TryExecute(keyboard: trigger);
-
-			return false;
-		}
-
-		private bool MouseHookCallback(MouseButton button, MouseButtonState state, MouseInformation info)
-		{
-			var trigger = new MouseTrigger
-			{
-				Button = button,
-				Info = info,
-				State = state
-			};
-
-			TryExecute(mouse: trigger);
-
-			return false;
-		}
-
-		private void ShowNotificationActive()
-		{
-			// TODO: Replace with actual icon!
-			// TODO: Extend INotification with IsEnabled or CanActivate, as the screen proctoring notification does not have any action or window!
-			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Active.xaml") };
-			Tooltip = text.Get(TextKey.Notification_ProctoringActiveTooltip);
-			NotificationChanged?.Invoke();
-		}
-
-		private void ShowNotificationInactive()
-		{
-			// TODO: Replace with actual icon!
-			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Inactive.xaml") };
-			Tooltip = text.Get(TextKey.Notification_ProctoringInactiveTooltip);
-			NotificationChanged?.Invoke();
-		}
-
-		private void TerminateServiceSession()
+		private void TerminateSession()
 		{
 			if (service.IsConnected)
 			{
@@ -255,60 +172,24 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			}
 		}
 
-		private void Timer_Elapsed(object sender, ElapsedEventArgs args)
+		private void UpdateNotification(bool live)
 		{
-			var trigger = new IntervalTrigger
+			// TODO: Replace with actual icon!
+			// TODO: Extend INotification with IsEnabled or CanActivate!
+			// TODO: Service health, HD space and caching indicators!
+
+			if (live)
 			{
-				ConfigurationValue = settings.MaxInterval,
-				TimeElapsed = Convert.ToInt32(DateTime.Now.Subtract(last).TotalMilliseconds)
-			};
-
-			TryExecute(interval: trigger);
-		}
-
-		private void TryExecute(IntervalTrigger interval = default, KeyboardTrigger keyboard = default, MouseTrigger mouse = default)
-		{
-			if (MinimumIntervalElapsed() && Monitor.TryEnter(@lock))
-			{
-				last = DateTime.Now;
-				timer.Stop();
-
-				Task.Run(() =>
-				{
-					try
-					{
-						var metadata = new Metadata(applicationMonitor, browser, logger.CloneFor(nameof(Metadata)));
-
-						using (var screenShot = new ScreenShot(logger.CloneFor(nameof(ScreenShot)), settings))
-						{
-							metadata.Capture(interval, keyboard, mouse);
-							screenShot.Take();
-							screenShot.Compress();
-
-							if (service.IsConnected)
-							{
-								service.Send(metadata, screenShot);
-							}
-							else
-							{
-								logger.Warn("Cannot send screen shot as service is disconnected!");
-							}
-						}
-					}
-					catch (Exception e)
-					{
-						logger.Error("Failed to execute capturing and/or transmission!", e);
-					}
-				});
-
-				timer.Start();
-				Monitor.Exit(@lock);
+				IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Active.xaml") };
+				Tooltip = text.Get(TextKey.Notification_ProctoringActiveTooltip);
 			}
-		}
+			else
+			{
+				IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Inactive.xaml") };
+				Tooltip = text.Get(TextKey.Notification_ProctoringInactiveTooltip);
+			}
 
-		private bool MinimumIntervalElapsed()
-		{
-			return DateTime.Now.Subtract(last) >= new TimeSpan(0, 0, 0, 0, settings.MinInterval);
+			NotificationChanged?.Invoke();
 		}
 	}
 }
