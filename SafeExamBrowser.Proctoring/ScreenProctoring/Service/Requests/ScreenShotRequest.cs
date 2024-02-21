@@ -21,7 +21,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service.Requests
 		{
 		}
 
-		internal bool TryExecute(MetaData metaData, ScreenShot screenShot, string sessionId, out string message)
+		internal bool TryExecute(MetaData metaData, ScreenShot screenShot, string sessionId, out int health, out string message)
 		{
 			var imageFormat = (Header.IMAGE_FORMAT, ToString(screenShot.Format));
 			var metdataJson = (Header.METADATA, metaData.ToJson());
@@ -29,7 +29,13 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service.Requests
 			var url = api.ScreenShotEndpoint.Replace(Api.SESSION_ID, sessionId);
 			var success = TryExecute(HttpMethod.Post, url, out var response, screenShot.Data, ContentType.OCTET_STREAM, Authorization, imageFormat, metdataJson, timestamp);
 
+			health = default;
 			message = response.ToLogString();
+
+			if (success)
+			{
+				parser.TryParseHealth(response, out health);
+			}
 
 			return success;
 		}

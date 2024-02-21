@@ -71,13 +71,8 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			thread.IsBackground = true;
 			thread.Start();
 
-			// TODO: Only use timer when BAD, until then read health from transmission response!
 			timer.AutoReset = false;
-			timer.Elapsed += Timer_Elapsed;
-			timer.Interval = 10000;
-			// TODO: Revert!
-			// timer.Interval = FIFTEEN_SECONDS;
-			timer.Start();
+			timer.Interval = FIFTEEN_SECONDS;
 		}
 
 		internal void Stop()
@@ -88,8 +83,8 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			{
 				logger.Debug("Stopping...");
 
-				timer.Elapsed -= Timer_Elapsed;
 				timer.Stop();
+				timer.Elapsed -= Timer_Elapsed;
 
 				try
 				{
@@ -113,6 +108,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 					logger.Error("Failed to stop!", e);
 				}
 
+				recovering = false;
 				resume = default;
 				thread = default;
 				token = default;
@@ -157,6 +153,9 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				recovering = true;
 				resume = DateTime.Now.AddSeconds(random.Next(0, THREE_MINUTES));
 
+				timer.Elapsed += Timer_Elapsed;
+				timer.Start();
+
 				logger.Warn($"Activating local caching and suspending transmission due to bad service health (value: {health}, resume: {resume:HH:mm:ss}).");
 			}
 
@@ -188,6 +187,9 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			}
 			else
 			{
+				timer.Stop();
+				timer.Elapsed -= Timer_Elapsed;
+
 				logger.Info($"Deactivating local caching and resuming transmission due to improved service health (value: {health}).");
 			}
 		}
@@ -196,23 +198,6 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 		{
 			buffer.Enqueue((metaData, schedule, screenShot));
 			buffer = new Queue<(MetaData, DateTime, ScreenShot)>(buffer.OrderBy((b) => b.schedule));
-
-			// TODO: Remove!
-			PrintBuffer();
-		}
-
-		private void PrintBuffer()
-		{
-			logger.Log("-------------------------------------------------------------------------------------------------------");
-			logger.Info("");
-			logger.Log($"\t\t\t\tBuffer: {buffer.Count} items");
-
-			foreach (var (m, t, s) in buffer)
-			{
-				logger.Log($"\t\t\t\t{s.CaptureTime:HH:mm:ss} -> {t:HH:mm:ss} ({m.Elapsed} {s.Data.Length / 1000:N0}kB)");
-			}
-
-			logger.Log("-------------------------------------------------------------------------------------------------------");
 		}
 
 		private void BufferFromCache()
@@ -241,9 +226,6 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				{
 					buffer.Dequeue();
 					screenShot.Dispose();
-
-					// TODO: Remove!
-					PrintBuffer();
 				}
 			}
 		}
@@ -313,9 +295,6 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				{
 					buffer.Dequeue();
 					screenShot.Dispose();
-
-					// TODO: Remove!
-					PrintBuffer();
 				}
 			}
 
@@ -370,7 +349,13 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 			if (service.IsConnected)
 			{
-				success = service.Send(metaData, screenShot).Success;
+				var response = service.Send(metaData, screenShot);
+
+				if (response.Success)
+				{
+					health = UpdateHealth(response.Value);
+					success = true;
+				}
 			}
 			else
 			{
@@ -380,58 +365,36 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			return success;
 		}
 
-		private int factor = 2;
-		private int bads = 0;
-
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			// TODO: Revert!
-			//if (service.IsConnected)
-			//{
-			//	var response = service.GetHealth();
-
-			//	if (response.Success)
-			//	{
-			//		var previous = health;
-
-			//		health = response.Value > BAD ? BAD : (response.Value < GOOD ? GOOD : response.Value);
-
-			//		if (previous != health)
-			//		{
-			//			logger.Info($"Service health {(previous < health ? "deteriorated" : "improved")} from {previous} to {health}.");
-			//		}
-			//	}
-			//}
-			//else
-			//{
-			//	logger.Warn("Cannot query health as service is disconnected!");
-			//}
-
-			var previous = health;
-
-			if (bads < 2)
+			if (service.IsConnected)
 			{
-				bads += health == BAD ? 1 : 0;
-				factor = health == BAD ? -2 : (health == GOOD ? 2 : factor);
-				health += factor;
-				health = health < GOOD ? GOOD : (health > BAD ? BAD : health);
+				var response = service.GetHealth();
+
+				if (response.Success)
+				{
+					health = UpdateHealth(response.Value);
+				}
 			}
 			else
 			{
-				health = 0;
-			}
-
-			if (previous != health)
-			{
-				logger.Warn($"Service health {(previous < health ? "deteriorated" : "improved")} from {previous} to {health}.");
-
-				if (bads >= 2 && health == 0)
-				{
-					logger.Warn("Stopped health simulation.");
-				}
+				logger.Warn("Cannot query health as service is disconnected!");
 			}
 
 			timer.Start();
+		}
+
+		private int UpdateHealth(int value)
+		{
+			var previous = health;
+			var current = value > BAD ? BAD : (value < GOOD ? GOOD : value);
+
+			if (previous != current)
+			{
+				logger.Info($"Service health {(previous < current ? "deteriorated" : "improved")} from {previous} to {current}.");
+			}
+
+			return current;
 		}
 	}
 }
