@@ -87,10 +87,10 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service
 			return new ServiceResponse<int>(success, health, message);
 		}
 
-		internal ServiceResponse Send(Metadata metadata, ScreenShot screenShot)
+		internal ServiceResponse Send(MetaData metaData, ScreenShot screenShot)
 		{
 			var request = new ScreenShotRequest(api, httpClient, logger, parser);
-			var success = request.TryExecute(metadata, screenShot, SessionId, out var message);
+			var success = request.TryExecute(metaData, screenShot, SessionId, out var message);
 
 			if (success)
 			{

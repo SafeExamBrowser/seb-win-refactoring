@@ -52,9 +52,16 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service
 
 			health = default;
 
-			if (response.Headers.TryGetValues(Header.HEALTH, out var values))
+			try
 			{
-				success = int.TryParse(values.First(), out health);
+				if (response.Headers.TryGetValues(Header.HEALTH, out var values))
+				{
+					success = int.TryParse(values.First(), out health);
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to parse health!", e);
 			}
 
 			return success;

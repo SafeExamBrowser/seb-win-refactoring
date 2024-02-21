@@ -11,6 +11,5 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 	internal class IntervalTrigger
 	{
 		public int ConfigurationValue { get; internal set; }
-		public int TimeElapsed { get; internal set; }
 	}
 }

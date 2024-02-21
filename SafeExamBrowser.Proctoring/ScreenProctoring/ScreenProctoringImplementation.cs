@@ -8,6 +8,7 @@
 
 using System;
 using SafeExamBrowser.Browser.Contracts;
+using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.Notifications.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
@@ -36,6 +37,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 		public override event NotificationChangedEventHandler NotificationChanged;
 
 		internal ScreenProctoringImplementation(
+			AppConfig appConfig,
 			IApplicationMonitor applicationMonitor,
 			IBrowserApplication browser,
 			IModuleLogger logger,
@@ -48,7 +50,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			this.logger = logger;
 			this.service = service;
 			this.settings = settings.ScreenProctoring;
-			this.spooler = new TransmissionSpooler(logger.CloneFor(nameof(TransmissionSpooler)), service);
+			this.spooler = new TransmissionSpooler(appConfig, logger.CloneFor(nameof(TransmissionSpooler)), service);
 			this.text = text;
 		}
 
@@ -138,9 +140,9 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			logger.Info("Terminated proctoring.");
 		}
 
-		private void Collector_DataCollected(Metadata metadata, ScreenShot screenShot)
+		private void Collector_DataCollected(MetaData metaData, ScreenShot screenShot)
 		{
-			spooler.Add(metadata, screenShot);
+			spooler.Add(metaData, screenShot);
 		}
 
 		private void Connect(string sessionId = default)

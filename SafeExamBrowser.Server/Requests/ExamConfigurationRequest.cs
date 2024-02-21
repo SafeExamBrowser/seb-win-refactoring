@@ -30,7 +30,7 @@ namespace SafeExamBrowser.Server.Requests
 			var url = $"{api.ConfigurationEndpoint}?examId={exam.Id}";
 			var success = TryExecute(HttpMethod.Get, url, out var response, default, default, Authorization, Token);
 
-			content = response.Content;
+			content = response?.Content;
 			message = response.ToLogString();
 
 			return success;

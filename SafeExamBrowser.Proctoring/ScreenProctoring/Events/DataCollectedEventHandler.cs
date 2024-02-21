@@ -11,5 +11,5 @@ using SafeExamBrowser.Proctoring.ScreenProctoring.Imaging;
 
 namespace SafeExamBrowser.Proctoring.ScreenProctoring.Events
 {
-	internal delegate void DataCollectedEventHandler(Metadata metadata, ScreenShot screenShot);
+	internal delegate void DataCollectedEventHandler(MetaData metaData, ScreenShot screenShot);
 }

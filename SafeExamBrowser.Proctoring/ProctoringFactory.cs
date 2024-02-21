@@ -69,7 +69,7 @@ namespace SafeExamBrowser.Proctoring
 				var logger = this.logger.CloneFor(nameof(ScreenProctoring));
 				var service = new ServiceProxy(logger.CloneFor(nameof(ServiceProxy)));
 
-				implementations.Add(new ScreenProctoringImplementation(applicationMonitor, browser, logger, nativeMethods, service, settings, text));
+				implementations.Add(new ScreenProctoringImplementation(appConfig, applicationMonitor, browser, logger, nativeMethods, service, settings, text));
 			}
 
 			return implementations;

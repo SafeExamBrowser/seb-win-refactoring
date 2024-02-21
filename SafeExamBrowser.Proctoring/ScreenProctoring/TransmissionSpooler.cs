@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Timers;
+using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Data;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Imaging;
@@ -25,32 +26,34 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 		const int BAD = 10;
 		const int GOOD = 0;
 
+		private readonly Cache cache;
 		private readonly ILogger logger;
-		private readonly ConcurrentQueue<(Metadata metadata, ScreenShot screenShot)> queue;
+		private readonly ConcurrentQueue<(MetaData metaData, ScreenShot screenShot)> queue;
 		private readonly Random random;
 		private readonly ServiceProxy service;
 		private readonly Timer timer;
 
-		private Queue<(Metadata metadata, DateTime schedule, ScreenShot screenShot)> buffer;
+		private Queue<(MetaData metaData, DateTime schedule, ScreenShot screenShot)> buffer;
 		private int health;
 		private bool recovering;
 		private DateTime resume;
 		private Thread thread;
 		private CancellationTokenSource token;
 
-		internal TransmissionSpooler(ILogger logger, ServiceProxy service)
+		internal TransmissionSpooler(AppConfig appConfig, IModuleLogger logger, ServiceProxy service)
 		{
-			this.buffer = new Queue<(Metadata, DateTime, ScreenShot)>();
+			this.buffer = new Queue<(MetaData, DateTime, ScreenShot)>();
+			this.cache = new Cache(appConfig, logger.CloneFor(nameof(Cache)));
 			this.logger = logger;
-			this.queue = new ConcurrentQueue<(Metadata, ScreenShot)>();
+			this.queue = new ConcurrentQueue<(MetaData, ScreenShot)>();
 			this.random = new Random();
 			this.service = service;
 			this.timer = new Timer();
 		}
 
-		internal void Add(Metadata metadata, ScreenShot screenShot)
+		internal void Add(MetaData metaData, ScreenShot screenShot)
 		{
-			queue.Enqueue((metadata, screenShot));
+			queue.Enqueue((metaData, screenShot));
 		}
 
 		internal void Start()
@@ -68,9 +71,10 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			thread.IsBackground = true;
 			thread.Start();
 
+			// TODO: Only use timer when BAD, until then read health from transmission response!
 			timer.AutoReset = false;
 			timer.Elapsed += Timer_Elapsed;
-			timer.Interval = 2000;
+			timer.Interval = 10000;
 			// TODO: Revert!
 			// timer.Interval = FIFTEEN_SECONDS;
 			timer.Start();
@@ -93,17 +97,15 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				}
 				catch (Exception e)
 				{
-					logger.Error("Failed to initiate cancellation!", e);
+					logger.Error("Failed to initiate execution cancellation!", e);
 				}
 
 				try
 				{
-					var success = thread.Join(TEN_SECONDS);
-
-					if (!success)
+					if (!thread.Join(TEN_SECONDS))
 					{
 						thread.Abort();
-						logger.Warn($"Aborted since stopping gracefully within {TEN_SECONDS / 1000:N0} seconds failed!");
+						logger.Warn($"Aborted execution since stopping gracefully within {TEN_SECONDS / 1000} seconds failed!");
 					}
 				}
 				catch (Exception e)
@@ -125,7 +127,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			{
 				if (health == BAD)
 				{
-					ExecuteCacheOnly();
+					ExecuteCaching();
 				}
 				else if (recovering)
 				{
@@ -146,7 +148,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			logger.Debug("Stopped.");
 		}
 
-		private void ExecuteCacheOnly()
+		private void ExecuteCaching()
 		{
 			const int THREE_MINUTES = 180;
 
@@ -158,18 +160,15 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				logger.Warn($"Activating local caching and suspending transmission due to bad service health (value: {health}, resume: {resume:HH:mm:ss}).");
 			}
 
-			CacheBuffer();
+			CacheFromBuffer();
 			CacheFromQueue();
 		}
 
 		private void ExecuteDeferred()
 		{
-			Schedule(health);
-
-			if (TryPeekFromBuffer(out _, out var schedule, out _) && schedule <= DateTime.Now)
-			{
-				TryTransmitFromBuffer();
-			}
+			BufferFromCache();
+			BufferFromQueue();
+			TryTransmitFromBuffer();
 		}
 
 		private void ExecuteNormally()
@@ -181,19 +180,22 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		private void ExecuteRecovery()
 		{
-			CacheFromQueue();
 			recovering = DateTime.Now < resume;
 
-			if (!recovering)
+			if (recovering)
+			{
+				CacheFromQueue();
+			}
+			else
 			{
 				logger.Info($"Deactivating local caching and resuming transmission due to improved service health (value: {health}).");
 			}
 		}
 
-		private void Buffer(Metadata metadata, DateTime schedule, ScreenShot screenShot)
+		private void Buffer(MetaData metaData, DateTime schedule, ScreenShot screenShot)
 		{
-			buffer.Enqueue((metadata, schedule, screenShot));
-			buffer = new Queue<(Metadata, DateTime, ScreenShot)>(buffer.OrderBy((b) => b.schedule));
+			buffer.Enqueue((metaData, schedule, screenShot));
+			buffer = new Queue<(MetaData, DateTime, ScreenShot)>(buffer.OrderBy((b) => b.schedule));
 
 			// TODO: Remove!
 			PrintBuffer();
@@ -202,111 +204,117 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 		private void PrintBuffer()
 		{
 			logger.Log("-------------------------------------------------------------------------------------------------------");
-			logger.Info($"Buffer: {buffer.Count}");
+			logger.Info("");
+			logger.Log($"\t\t\t\tBuffer: {buffer.Count} items");
 
 			foreach (var (m, t, s) in buffer)
 			{
-				logger.Log($"\t\t{t} ({m.Elapsed} {s.Data.Length})");
+				logger.Log($"\t\t\t\t{s.CaptureTime:HH:mm:ss} -> {t:HH:mm:ss} ({m.Elapsed} {s.Data.Length / 1000:N0}kB)");
 			}
 
 			logger.Log("-------------------------------------------------------------------------------------------------------");
 		}
 
-		private void CacheBuffer()
+		private void BufferFromCache()
 		{
-			foreach (var (metadata, _, screenShot) in buffer)
+			if (cache.TryDequeue(out var metaData, out var screenShot))
 			{
-				using (screenShot)
-				{
-					Cache(metadata, screenShot);
-				}
-			}
-
-			// TODO: Revert!
-			// buffer.Clear();
-		}
-
-		private void CacheFromQueue()
-		{
-			if (TryDequeue(out var metadata, out var screenShot))
-			{
-				using (screenShot)
-				{
-					Cache(metadata, screenShot);
-				}
+				Buffer(metaData, CalculateSchedule(metaData), screenShot);
 			}
 		}
 
-		private void Cache(Metadata metadata, ScreenShot screenShot)
+		private void BufferFromQueue()
 		{
-			// TODO: Implement caching!
-			//var directory = Dispatcher.Invoke(() => OutputPath.Text);
-			//var extension = screenShot.Format.ToString().ToLower();
-			//var path = Path.Combine(directory, $"{DateTime.Now:HH\\hmm\\mss\\sfff\\m\\s}.{extension}");
-
-			//if (!Directory.Exists(directory))
-			//{
-			//	Directory.CreateDirectory(directory);
-			//	logger.Debug($"Created local output directory '{directory}'.");
-			//}
-
-			//File.WriteAllBytes(path, screenShot.Data);
-			//logger.Debug($"Screen shot saved as '{path}'.");
-		}
-
-		private void Schedule(int health)
-		{
-			if (TryDequeue(out var metadata, out var screenShot))
+			if (TryDequeue(out var metaData, out var screenShot))
 			{
-				var schedule = DateTime.Now.AddMilliseconds((health + 1) * metadata.Elapsed.TotalMilliseconds);
-
-				Buffer(metadata, schedule, screenShot);
+				Buffer(metaData, CalculateSchedule(metaData), screenShot);
 			}
 		}
 
-		private bool TryDequeue(out Metadata metadata, out ScreenShot screenShot)
+		private void CacheFromBuffer()
 		{
-			metadata = default;
-			screenShot = default;
-
-			if (queue.TryDequeue(out var item))
+			if (TryPeekFromBuffer(out var metaData, out _, out var screenShot))
 			{
-				metadata = item.metadata;
-				screenShot = item.screenShot;
-			}
-
-			return metadata != default && screenShot != default;
-		}
-
-		private bool TryPeekFromBuffer(out Metadata metadata, out DateTime schedule, out ScreenShot screenShot)
-		{
-			metadata = default;
-			schedule = default;
-			screenShot = default;
-
-			if (buffer.Any())
-			{
-				(metadata, schedule, screenShot) = buffer.Peek();
-			}
-
-			return metadata != default && screenShot != default;
-		}
-
-		private bool TryTransmitFromBuffer()
-		{
-			var success = false;
-
-			if (TryPeekFromBuffer(out var metadata, out _, out var screenShot))
-			{
-				// TODO: Exception after sending of screenshot, most likely due to concurrent disposal!!
-				success = TryTransmit(metadata, screenShot);
+				var success = cache.TryEnqueue(metaData, screenShot);
 
 				if (success)
 				{
 					buffer.Dequeue();
 					screenShot.Dispose();
 
-					// TODO: Revert!
+					// TODO: Remove!
+					PrintBuffer();
+				}
+			}
+		}
+
+		private void CacheFromQueue()
+		{
+			if (TryDequeue(out var metaData, out var screenShot))
+			{
+				var success = cache.TryEnqueue(metaData, screenShot);
+
+				if (success)
+				{
+					screenShot.Dispose();
+				}
+				else
+				{
+					Buffer(metaData, DateTime.Now, screenShot);
+				}
+			}
+		}
+
+		private DateTime CalculateSchedule(MetaData metaData)
+		{
+			var timeout = (health + 1) * metaData.Elapsed.TotalMilliseconds;
+			var schedule = DateTime.Now.AddMilliseconds(timeout);
+
+			return schedule;
+		}
+
+		private bool TryDequeue(out MetaData metaData, out ScreenShot screenShot)
+		{
+			metaData = default;
+			screenShot = default;
+
+			if (queue.TryDequeue(out var item))
+			{
+				metaData = item.metaData;
+				screenShot = item.screenShot;
+			}
+
+			return metaData != default && screenShot != default;
+		}
+
+		private bool TryPeekFromBuffer(out MetaData metaData, out DateTime schedule, out ScreenShot screenShot)
+		{
+			metaData = default;
+			schedule = default;
+			screenShot = default;
+
+			if (buffer.Any())
+			{
+				(metaData, schedule, screenShot) = buffer.Peek();
+			}
+
+			return metaData != default && screenShot != default;
+		}
+
+		private bool TryTransmitFromBuffer()
+		{
+			var success = false;
+
+			if (TryPeekFromBuffer(out var metaData, out var schedule, out var screenShot) && schedule <= DateTime.Now)
+			{
+				success = TryTransmit(metaData, screenShot);
+
+				if (success)
+				{
+					buffer.Dequeue();
+					screenShot.Dispose();
+
+					// TODO: Remove!
 					PrintBuffer();
 				}
 			}
@@ -316,17 +324,21 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		private bool TryTransmitFromCache()
 		{
-			var success = false;
+			var success = true;
 
-			// TODO: Implement transmission from cache!
-			//if (Cache.Any())
-			//{
-			//	
-			//}
-			//else
-			//{
-			//	success = true;
-			//}
+			if (cache.TryDequeue(out var metaData, out var screenShot))
+			{
+				success = TryTransmit(metaData, screenShot);
+
+				if (success)
+				{
+					screenShot.Dispose();
+				}
+				else
+				{
+					Buffer(metaData, DateTime.Now, screenShot);
+				}
+			}
 
 			return success;
 		}
@@ -335,9 +347,9 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 		{
 			var success = false;
 
-			if (TryDequeue(out var metadata, out var screenShot))
+			if (TryDequeue(out var metaData, out var screenShot))
 			{
-				success = TryTransmit(metadata, screenShot);
+				success = TryTransmit(metaData, screenShot);
 
 				if (success)
 				{
@@ -345,20 +357,20 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				}
 				else
 				{
-					Buffer(metadata, DateTime.Now, screenShot);
+					Buffer(metaData, DateTime.Now, screenShot);
 				}
 			}
 
 			return success;
 		}
 
-		private bool TryTransmit(Metadata metadata, ScreenShot screenShot)
+		private bool TryTransmit(MetaData metaData, ScreenShot screenShot)
 		{
 			var success = false;
 
 			if (service.IsConnected)
 			{
-				success = service.Send(metadata, screenShot).Success;
+				success = service.Send(metaData, screenShot).Success;
 			}
 			else
 			{
@@ -368,7 +380,8 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			return success;
 		}
 
-		private readonly Random temp = new Random();
+		private int factor = 2;
+		private int bads = 0;
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
@@ -396,12 +409,26 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 			var previous = health;
 
-			health += temp.Next(-3, 5);
-			health = health < GOOD ? GOOD : (health > BAD ? BAD : health);
+			if (bads < 2)
+			{
+				bads += health == BAD ? 1 : 0;
+				factor = health == BAD ? -2 : (health == GOOD ? 2 : factor);
+				health += factor;
+				health = health < GOOD ? GOOD : (health > BAD ? BAD : health);
+			}
+			else
+			{
+				health = 0;
+			}
 
 			if (previous != health)
 			{
-				logger.Info($"Service health {(previous < health ? "deteriorated" : "improved")} from {previous} to {health}.");
+				logger.Warn($"Service health {(previous < health ? "deteriorated" : "improved")} from {previous} to {health}.");
+
+				if (bads >= 2 && health == 0)
+				{
+					logger.Warn("Stopped health simulation.");
+				}
 			}
 
 			timer.Start();

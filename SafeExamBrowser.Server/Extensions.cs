@@ -14,6 +14,11 @@ namespace SafeExamBrowser.Server
 {
 	internal static class Extensions
 	{
+		internal static string ToLogString(this HttpResponseMessage response)
+		{
+			return $"{(int?) response?.StatusCode} {response?.StatusCode} {response?.ReasonPhrase}";
+		}
+
 		internal static string ToLogType(this LogLevel severity)
 		{
 			switch (severity)
@@ -29,11 +34,6 @@ namespace SafeExamBrowser.Server
 			}
 
 			return "UNKNOWN";
-		}
-
-		internal static string ToLogString(this HttpResponseMessage response)
-		{
-			return $"{(int?) response?.StatusCode} {response?.StatusCode} {response?.ReasonPhrase}";
 		}
 
 		internal static long ToUnixTimestamp(this DateTime date)

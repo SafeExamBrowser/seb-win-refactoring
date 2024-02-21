@@ -36,7 +36,7 @@ namespace SafeExamBrowser.Server.Requests
 
 			var success = TryExecute(HttpMethod.Post, api.PingEndpoint, out var response, requestContent, ContentType.URL_ENCODED, Authorization, Token);
 
-			content = response.Content;
+			content = response?.Content;
 			message = response.ToLogString();
 
 			return success;

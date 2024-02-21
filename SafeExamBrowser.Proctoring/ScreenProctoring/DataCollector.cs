@@ -115,7 +115,6 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			var trigger = new IntervalTrigger
 			{
 				ConfigurationValue = settings.MaxInterval,
-				TimeElapsed = Convert.ToInt32(DateTime.Now.Subtract(last).TotalMilliseconds)
 			};
 
 			TryCollect(interval: trigger);
@@ -148,14 +147,16 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				{
 					try
 					{
-						var metadata = new Metadata(applicationMonitor, browser, elapsed, logger.CloneFor(nameof(Metadata)));
-						var screenShot = new ScreenShot(logger.CloneFor(nameof(ScreenShot)), settings);
+						var metaData = new MetaDataAggregator(applicationMonitor, browser, elapsed, logger.CloneFor(nameof(MetaDataAggregator)));
+						var screenShot = new ScreenShotProcessor(logger.CloneFor(nameof(ScreenShotProcessor)), settings);
 
-						metadata.Capture(interval, keyboard, mouse);
+						metaData.Capture(interval, keyboard, mouse);
 						screenShot.Take();
 						screenShot.Compress();
 
-						DataCollected?.Invoke(metadata, screenShot);
+						DataCollected?.Invoke(metaData.Data, screenShot.Data);
+
+						screenShot.Dispose();
 					}
 					catch (Exception e)
 					{
