@@ -147,7 +147,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				{
 					try
 					{
-						var metaData = new MetaDataAggregator(applicationMonitor, browser, elapsed, logger.CloneFor(nameof(MetaDataAggregator)));
+						var metaData = new MetaDataAggregator(applicationMonitor, browser, elapsed, logger.CloneFor(nameof(MetaDataAggregator)), settings.MetaData);
 						var screenShot = new ScreenShotProcessor(logger.CloneFor(nameof(ScreenShotProcessor)), settings);
 
 						metaData.Capture(interval, keyboard, mouse);

@@ -17,21 +17,6 @@ namespace SafeExamBrowser.Settings.Proctoring
 	public class ScreenProctoringSettings
 	{
 		/// <summary>
-		/// Determines whether the name of the active application shall be captured and transmitted as part of the image meta data.
-		/// </summary>
-		public bool CaptureApplicationName { get; set; }
-
-		/// <summary>
-		/// Determines whether the URL of the currently opened web page shall be captured and transmitted as part of the image meta data.
-		/// </summary>
-		public bool CaptureBrowserUrl { get; set; }
-
-		/// <summary>
-		/// Determines whether the title of the currently active window shall be captured and transmitted as part of the image meta data.
-		/// </summary>
-		public bool CaptureWindowTitle { get; set; }
-
-		/// <summary>
 		/// The client identifier used for authentication with the screen proctoring service.
 		/// </summary>
 		public string ClientId { get; set; }
@@ -72,6 +57,11 @@ namespace SafeExamBrowser.Settings.Proctoring
 		public int MaxInterval { get; set; }
 
 		/// <summary>
+		/// All settings related to the metadata capturing of the screen proctoring.
+		/// </summary>
+		public MetaDataSettings MetaData { get; set; }
+
+		/// <summary>
 		/// The minimum time interval in milliseconds between screen shot transmissions.
 		/// </summary>
 		public int MinInterval { get; set; }
@@ -80,5 +70,10 @@ namespace SafeExamBrowser.Settings.Proctoring
 		/// The URL of the screen proctoring service.
 		/// </summary>
 		public string ServiceUrl { get; set; }
+
+		public ScreenProctoringSettings()
+		{
+			MetaData = new MetaDataSettings();
+		}
 	}
 }

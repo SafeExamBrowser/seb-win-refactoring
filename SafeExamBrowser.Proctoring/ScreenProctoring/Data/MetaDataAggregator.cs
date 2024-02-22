@@ -12,6 +12,7 @@ using System.Text;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
+using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.WindowsApi.Contracts.Events;
 
 namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
@@ -21,6 +22,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 		private readonly IApplicationMonitor applicationMonitor;
 		private readonly IBrowserApplication browser;
 		private readonly ILogger logger;
+		private readonly MetaDataSettings settings;
 
 		private string applicationInfo;
 		private string browserInfo;
@@ -41,16 +43,23 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 			WindowTitle = windowTitle
 		};
 
-		internal MetaDataAggregator(IApplicationMonitor applicationMonitor, IBrowserApplication browser, TimeSpan elapsed, ILogger logger)
+		internal MetaDataAggregator(
+			IApplicationMonitor applicationMonitor,
+			IBrowserApplication browser,
+			TimeSpan elapsed,
+			ILogger logger,
+			MetaDataSettings settings)
 		{
 			this.applicationMonitor = applicationMonitor;
 			this.browser = browser;
 			this.elapsed = elapsed;
 			this.logger = logger;
+			this.settings = settings;
 		}
 
 		internal void Capture(IntervalTrigger interval = default, KeyboardTrigger keyboard = default, MouseTrigger mouse = default)
 		{
+			Initialize();
 			CaptureApplicationData();
 			CaptureBrowserData();
 
@@ -74,24 +83,29 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 		{
 			if (applicationMonitor.TryGetActiveApplication(out var application))
 			{
-				applicationInfo = BuildApplicationInfo(application);
-				windowTitle = string.IsNullOrEmpty(application.Window.Title) ? "-" : application.Window.Title;
-			}
-			else
-			{
-				applicationInfo = "-";
-				windowTitle = "-";
+				if (settings.CaptureApplicationData)
+				{
+					applicationInfo = BuildApplicationInfo(application);
+				}
+
+				if (settings.CaptureWindowTitle)
+				{
+					windowTitle = string.IsNullOrEmpty(application.Window.Title) ? "-" : application.Window.Title;
+				}
 			}
 		}
 
 		private void CaptureBrowserData()
 		{
-			var windows = browser.GetWindows();
+			if (settings.CaptureBrowserData)
+			{
+				var windows = browser.GetWindows();
 
-			browserInfo = string.Join(", ", windows.Select(w => $"{(w.IsMainWindow ? "Main" : "Additional")} Window: {w.Title} ({w.Url})"));
-			browserInfoWithoutUrls = string.Join(", ", windows.Select(w => $"{(w.IsMainWindow ? "Main" : "Additional")} Window: {w.Title}"));
-			urls = string.Join(", ", windows.Select(w => w.Url));
-			urlCount = windows.Count();
+				browserInfo = string.Join(", ", windows.Select(w => $"{(w.IsMainWindow ? "Main" : "Additional")} Window: {w.Title} ({w.Url})"));
+				browserInfoWithoutUrls = string.Join(", ", windows.Select(w => $"{(w.IsMainWindow ? "Main" : "Additional")} Window: {w.Title}"));
+				urls = string.Join(", ", windows.Select(w => w.Url));
+				urlCount = windows.Count();
+			}
 		}
 
 		private void CaptureIntervalTrigger(IntervalTrigger interval)
@@ -136,6 +150,16 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 			}
 
 			return info.ToString();
+		}
+
+		private void Initialize()
+		{
+			applicationInfo = "-";
+			browserInfo = "-";
+			browserInfoWithoutUrls = "-";
+			triggerInfo = "-";
+			urls = "-";
+			windowTitle = "-";
 		}
 	}
 }

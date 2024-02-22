@@ -258,9 +258,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			internal static class ScreenProctoring
 			{
-				internal const string CaptureApplicationName = "screenProctoringMetadataActiveAppEnabled";
-				internal const string CaptureBrowserUrl = "screenProctoringMetadataURLEnabled";
-				internal const string CaptureWindowTitle = "screenProctoringMetadataWindowTitleEnabled";
 				internal const string ClientId = "screenProctoringClientId";
 				internal const string ClientSecret = "screenProctoringClientSecret";
 				internal const string Enabled = "enableScreenProctoring";
@@ -271,6 +268,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				internal const string MaxInterval = "screenProctoringScreenshotMaxInterval";
 				internal const string MinInterval = "screenProctoringScreenshotMinInterval";
 				internal const string ServiceUrl = "screenProctoringServiceURL";
+
+				internal static class MetaData
+				{
+					internal const string CaptureApplicationData = "screenProctoringMetadataActiveAppEnabled";
+					internal const string CaptureBrowserData = "screenProctoringMetadataURLEnabled";
+					internal const string CaptureWindowTitle = "screenProctoringMetadataWindowTitleEnabled";
+				}
 			}
 
 			internal static class Zoom

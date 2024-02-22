@@ -75,15 +75,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Proctoring.JitsiMeet.VideoMuted:
 					MapJitsiMeetVideoMuted(settings, value);
 					break;
-				case Keys.Proctoring.ScreenProctoring.CaptureApplicationName:
-					MapCaptureApplicationName(settings, value);
-					break;
-				case Keys.Proctoring.ScreenProctoring.CaptureBrowserUrl:
-					MapCaptureBrowserUrl(settings, value);
-					break;
-				case Keys.Proctoring.ScreenProctoring.CaptureWindowTitle:
-					MapCaptureWindowTitle(settings, value);
-					break;
 				case Keys.Proctoring.ScreenProctoring.ClientId:
 					MapClientId(settings, value);
 					break;
@@ -107,6 +98,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Proctoring.ScreenProctoring.MaxInterval:
 					MapMaxInterval(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.MetaData.CaptureApplicationData:
+					MapCaptureApplicationData(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.MetaData.CaptureBrowserData:
+					MapCaptureBrowserData(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.MetaData.CaptureWindowTitle:
+					MapCaptureWindowTitle(settings, value);
 					break;
 				case Keys.Proctoring.ScreenProctoring.MinInterval:
 					MapMinInterval(settings, value);
@@ -320,19 +320,19 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
-		private void MapCaptureApplicationName(AppSettings settings, object value)
+		private void MapCaptureApplicationData(AppSettings settings, object value)
 		{
 			if (value is bool capture)
 			{
-				settings.Proctoring.ScreenProctoring.CaptureApplicationName = capture;
+				settings.Proctoring.ScreenProctoring.MetaData.CaptureApplicationData = capture;
 			}
 		}
 
-		private void MapCaptureBrowserUrl(AppSettings settings, object value)
+		private void MapCaptureBrowserData(AppSettings settings, object value)
 		{
 			if (value is bool capture)
 			{
-				settings.Proctoring.ScreenProctoring.CaptureBrowserUrl = capture;
+				settings.Proctoring.ScreenProctoring.MetaData.CaptureBrowserData = capture;
 			}
 		}
 
@@ -340,7 +340,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool capture)
 			{
-				settings.Proctoring.ScreenProctoring.CaptureWindowTitle = capture;
+				settings.Proctoring.ScreenProctoring.MetaData.CaptureWindowTitle = capture;
 			}
 		}
 

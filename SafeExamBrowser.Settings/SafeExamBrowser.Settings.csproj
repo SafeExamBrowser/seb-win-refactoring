@@ -76,6 +76,7 @@
     <Compile Include="Proctoring\ImageFormat.cs" />
     <Compile Include="Proctoring\ImageQuantization.cs" />
     <Compile Include="Proctoring\JitsiMeetSettings.cs" />
+    <Compile Include="Proctoring\MetaDataSettings.cs" />
     <Compile Include="Proctoring\ProctoringSettings.cs" />
     <Compile Include="Proctoring\ScreenProctoringSettings.cs" />
     <Compile Include="Proctoring\WindowVisibility.cs" />
