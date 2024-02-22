@@ -24,9 +24,11 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 
 		private string applicationInfo;
 		private string browserInfo;
+		private string browserInfoWithoutUrls;
 		private TimeSpan elapsed;
 		private string triggerInfo;
 		private string urls;
+		private int urlCount;
 		private string windowTitle;
 
 		internal MetaData Data => new MetaData
@@ -65,8 +67,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 				CaptureMouseTrigger(mouse);
 			}
 
-			// TODO: Can only log URLs when allowed by policy in browser configuration!
-			logger.Debug($"Captured metadata: {applicationInfo} / {browserInfo} / {triggerInfo} / {urls} / {windowTitle}.");
+			logger.Debug($"Captured metadata: {applicationInfo} / {browserInfoWithoutUrls} / {triggerInfo} / {urlCount} URL(s) / {windowTitle}.");
 		}
 
 		private void CaptureApplicationData()
@@ -88,7 +89,9 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 			var windows = browser.GetWindows();
 
 			browserInfo = string.Join(", ", windows.Select(w => $"{(w.IsMainWindow ? "Main" : "Additional")} Window: {w.Title} ({w.Url})"));
+			browserInfoWithoutUrls = string.Join(", ", windows.Select(w => $"{(w.IsMainWindow ? "Main" : "Additional")} Window: {w.Title}"));
 			urls = string.Join(", ", windows.Select(w => w.Url));
+			urlCount = windows.Count();
 		}
 
 		private void CaptureIntervalTrigger(IntervalTrigger interval)
