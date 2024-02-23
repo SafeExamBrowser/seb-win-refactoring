@@ -176,18 +176,16 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		private void UpdateNotification(bool live)
 		{
-			// TODO: Replace with actual icon!
-			// TODO: Extend INotification with IsEnabled or CanActivate!
-			// TODO: Service health, HD space and caching indicators!
+			CanActivate = false;
 
 			if (live)
 			{
-				IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Active.xaml") };
+				IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ScreenProctoring_Active.xaml") };
 				Tooltip = text.Get(TextKey.Notification_ProctoringActiveTooltip);
 			}
 			else
 			{
-				IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Inactive.xaml") };
+				IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ScreenProctoring_Inactive.xaml") };
 				Tooltip = text.Get(TextKey.Notification_ProctoringInactiveTooltip);
 			}
 

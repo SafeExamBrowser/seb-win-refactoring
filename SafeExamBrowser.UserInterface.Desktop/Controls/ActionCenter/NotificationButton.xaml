@@ -14,7 +14,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Background="{StaticResource ActionCenterDarkBrush}" Height="64" Margin="2">
-        <Button x:Name="IconButton" Click="IconButton_Click" Padding="2" Template="{StaticResource ActionCenterButton}">
+        <Button x:Name="IconButton" Click="IconButton_Click" Padding="2" Template="{StaticResource ActionCenterButton}" ToolTipService.ShowOnDisabled="True">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*" />

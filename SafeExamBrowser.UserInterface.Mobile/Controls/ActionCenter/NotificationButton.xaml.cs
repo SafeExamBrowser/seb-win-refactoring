@@ -29,7 +29,10 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 
 		private void IconButton_Click(object sender, RoutedEventArgs e)
 		{
-			notification.Activate();
+			if (notification.CanActivate)
+			{
+				notification.Activate();
+			}
 		}
 
 		private void InitializeNotification()
@@ -40,6 +43,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 		private void UpdateNotification()
 		{
 			Icon.Content = IconResourceLoader.Load(notification.IconResource);
+			IconButton.IsEnabled = notification.CanActivate;
 			IconButton.ToolTip = notification.Tooltip;
 			Text.Text = notification.Tooltip;
 		}

@@ -191,11 +191,11 @@
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\ProgressIndicatorViewModel.cs" />
     <Compile Include="ViewModels\RuntimeWindowViewModel.cs" />
-    <Resource Include="Images\ProctoringNotification_Inactive.xaml">
+    <Resource Include="Images\Proctoring_Inactive.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Images\ProctoringNotification_Active.xaml">
+    <Resource Include="Images\Proctoring_Active.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
@@ -214,6 +214,14 @@
     <Resource Include="Images\Hand_Raised.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Images\ScreenProctoring_Inactive.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Images\ScreenProctoring_Active.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Resource>
     <Page Include="Windows\AboutWindow.xaml">
       <SubType>Designer</SubType>

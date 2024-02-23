@@ -245,15 +245,19 @@ namespace SafeExamBrowser.Proctoring.JitsiMeet
 
 		private void ShowNotificationActive()
 		{
-			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Active.xaml") };
+			CanActivate = true;
+			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Proctoring_Active.xaml") };
 			Tooltip = text.Get(TextKey.Notification_ProctoringActiveTooltip);
+
 			NotificationChanged?.Invoke();
 		}
 
 		private void ShowNotificationInactive()
 		{
-			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ProctoringNotification_Inactive.xaml") };
+			CanActivate = false;
+			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Proctoring_Inactive.xaml") };
 			Tooltip = text.Get(TextKey.Notification_ProctoringInactiveTooltip);
+
 			NotificationChanged?.Invoke();
 		}
 	}

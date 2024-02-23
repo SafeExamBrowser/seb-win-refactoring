@@ -17,6 +17,7 @@ namespace SafeExamBrowser.Proctoring
 	{
 		internal abstract string Name { get; }
 
+		public bool CanActivate { get; protected set; }
 		public string Tooltip { get; protected set; }
 		public IconResource IconResource { get; protected set; }
 

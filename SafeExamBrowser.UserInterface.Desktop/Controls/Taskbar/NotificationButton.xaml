@@ -14,6 +14,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Button x:Name="IconButton" Background="{StaticResource BackgroundBrush}" Click="IconButton_Click" Padding="7.5" Template="{StaticResource TaskbarButton}" Width="40" />
+        <Button x:Name="IconButton" Background="{StaticResource BackgroundBrush}" Click="IconButton_Click" Padding="7.5"
+                Template="{StaticResource TaskbarButton}" ToolTipService.ShowOnDisabled="True" Width="40" />
     </Grid>
 </UserControl>

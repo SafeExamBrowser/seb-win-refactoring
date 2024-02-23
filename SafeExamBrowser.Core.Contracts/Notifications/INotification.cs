@@ -17,14 +17,19 @@ namespace SafeExamBrowser.Core.Contracts.Notifications
 	public interface INotification
 	{
 		/// <summary>
-		/// The tooltip for the notification.
+		/// Determines whether the notification can be activated.
 		/// </summary>
-		string Tooltip { get; }
+		bool CanActivate { get; }
 
 		/// <summary>
 		/// The resource providing the notification icon.
 		/// </summary>
 		IconResource IconResource { get; }
+
+		/// <summary>
+		/// The tooltip for the notification.
+		/// </summary>
+		string Tooltip { get; }
 
 		/// <summary>
 		/// Event fired when the notification has changed.
@@ -35,7 +40,7 @@ namespace SafeExamBrowser.Core.Contracts.Notifications
 		/// Executes the notification functionality.
 		/// </summary>
 		void Activate();
-		
+
 		/// <summary>
 		/// Terminates the notification functionality and release all used resources.
 		/// </summary>

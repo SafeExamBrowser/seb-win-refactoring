@@ -24,6 +24,7 @@ namespace SafeExamBrowser.Client.Notifications
 
 		private IWindow window;
 
+		public bool CanActivate { get; }
 		public string Tooltip { get; }
 		public IconResource IconResource { get; }
 
@@ -34,6 +35,7 @@ namespace SafeExamBrowser.Client.Notifications
 			this.appConfig = appConfig;
 			this.uiFactory = uiFactory;
 
+			CanActivate = true;
 			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/AboutNotification.xaml") };
 			Tooltip = text.Get(TextKey.Notification_AboutTooltip);
 		}
