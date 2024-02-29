@@ -30,6 +30,8 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Monitoring.Contracts.Display;
 using SafeExamBrowser.Monitoring.Contracts.System;
+using SafeExamBrowser.Proctoring.Contracts;
+using SafeExamBrowser.Proctoring.Contracts.Events;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings;
@@ -68,6 +70,7 @@ namespace SafeExamBrowser.Client
 		private IBrowserApplication Browser => context.Browser;
 		private IClientHost ClientHost => context.ClientHost;
 		private IIntegrityModule IntegrityModule => context.IntegrityModule;
+		private IProctoringController Proctoring => context.Proctoring;
 		private IServerProxy Server => context.Server;
 		private AppSettings Settings => context.Settings;
 
@@ -230,16 +233,6 @@ namespace SafeExamBrowser.Client
 			}
 		}
 
-		private void Taskbar_LoseFocusRequested(bool forward)
-		{
-			Browser.Focus(forward);
-		}
-
-		private void Browser_LoseFocusRequested(bool forward)
-		{
-			taskbar.Focus(forward);
-		}
-
 		private void DeregisterEvents()
 		{
 			actionCenter.QuitButtonClicked -= Shell_QuitButtonClicked;
@@ -249,6 +242,7 @@ namespace SafeExamBrowser.Client
 			registry.ValueChanged -= Registry_ValueChanged;
 			runtime.ConnectionLost -= Runtime_ConnectionLost;
 			systemMonitor.SessionChanged -= SystemMonitor_SessionChanged;
+			taskbar.LoseFocusRequested -= Taskbar_LoseFocusRequested;
 			taskbar.QuitButtonClicked -= Shell_QuitButtonClicked;
 
 			if (Browser != null)
@@ -324,6 +318,29 @@ namespace SafeExamBrowser.Client
 					logger.Info($"Auto-starting '{application.Name}'...");
 					application.Start();
 				}
+			}
+		}
+
+		private void PrepareShutdown()
+		{
+			FinalizeProctoring();
+		}
+
+		private void FinalizeProctoring()
+		{
+			if (Proctoring != default && Proctoring.HasRemainingWork())
+			{
+				var dialog = uiFactory.CreateProctoringFinalizationDialog();
+				var handler = new RemainingWorkUpdatedEventHandler((args) => dialog.Update(args));
+
+				Task.Run(() =>
+				{
+					Proctoring.RemainingWorkUpdated += handler;
+					Proctoring.ExecuteRemainingWork();
+					Proctoring.RemainingWorkUpdated -= handler;
+				});
+
+				dialog.Show();
 			}
 		}
 
@@ -510,6 +527,8 @@ namespace SafeExamBrowser.Client
 		{
 			if (success)
 			{
+				PrepareShutdown();
+
 				var communication = runtime.RequestReconfiguration(filePath, url);
 
 				if (communication.Success)
@@ -529,6 +548,11 @@ namespace SafeExamBrowser.Client
 				messageBox.Show(TextKey.MessageBox_ConfigurationDownloadError, TextKey.MessageBox_ConfigurationDownloadErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
 				splashScreen.Hide();
 			}
+		}
+
+		private void Browser_LoseFocusRequested(bool forward)
+		{
+			taskbar.Focus(forward);
 		}
 
 		private void Browser_UserIdentifierDetected(string identifier)
@@ -876,6 +900,11 @@ namespace SafeExamBrowser.Client
 			}
 		}
 
+		private void Taskbar_LoseFocusRequested(bool forward)
+		{
+			Browser.Focus(forward);
+		}
+
 		private void TerminationActivator_Activated()
 		{
 			PauseActivators();
@@ -1023,19 +1052,19 @@ namespace SafeExamBrowser.Client
 		private bool TryInitiateShutdown()
 		{
 			var hasQuitPassword = !string.IsNullOrEmpty(Settings.Security.QuitPasswordHash);
-			var requestShutdown = false;
+			var initiateShutdown = false;
 			var succes = false;
 
 			if (hasQuitPassword)
 			{
-				requestShutdown = TryValidateQuitPassword();
+				initiateShutdown = TryValidateQuitPassword();
 			}
 			else
 			{
-				requestShutdown = TryConfirmShutdown();
+				initiateShutdown = TryConfirmShutdown();
 			}
 
-			if (requestShutdown)
+			if (initiateShutdown)
 			{
 				succes = TryRequestShutdown();
 			}
@@ -1084,6 +1113,8 @@ namespace SafeExamBrowser.Client
 
 		private bool TryRequestShutdown()
 		{
+			PrepareShutdown();
+
 			var communication = runtime.RequestShutdown();
 
 			if (!communication.Success)

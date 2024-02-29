@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using KGySoft.CoreLibraries;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.Notifications;
@@ -38,6 +39,11 @@ namespace SafeExamBrowser.Proctoring
 
 		public event ProctoringEventHandler HandLowered;
 		public event ProctoringEventHandler HandRaised;
+		public event RemainingWorkUpdatedEventHandler RemainingWorkUpdated
+		{
+			add { implementations.ForEach(i => i.RemainingWorkUpdated += value); }
+			remove { implementations.ForEach(i => i.RemainingWorkUpdated -= value); }
+		}
 
 		public ProctoringController(
 			AppConfig appConfig,
@@ -55,6 +61,43 @@ namespace SafeExamBrowser.Proctoring
 
 			factory = new ProctoringFactory(appConfig, applicationMonitor, browser, fileSystem, logger, nativeMethods, text, uiFactory);
 			implementations = new List<ProctoringImplementation>();
+		}
+
+		public void ExecuteRemainingWork()
+		{
+			foreach (var implementation in implementations)
+			{
+				try
+				{
+					implementation.ExecuteRemainingWork();
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to execute remaining work for '{implementation.Name}'!", e);
+				}
+			}
+		}
+
+		public bool HasRemainingWork()
+		{
+			var hasWork = false;
+
+			foreach (var implementation in implementations)
+			{
+				try
+				{
+					if (implementation.HasRemainingWork())
+					{
+						hasWork = true;
+					}
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to check whether has remaining work for '{implementation.Name}'!", e);
+				}
+			}
+
+			return hasWork;
 		}
 
 		public void Initialize(ProctoringSettings settings)

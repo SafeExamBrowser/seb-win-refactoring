@@ -103,6 +103,7 @@
     <Compile Include="Windows\ILockScreen.cs" />
     <Compile Include="Windows\IPasswordDialog.cs" />
     <Compile Include="Windows\Data\PasswordDialogResult.cs" />
+    <Compile Include="Proctoring\IProctoringFinalizationDialog.cs" />
     <Compile Include="Windows\IRuntimeWindow.cs" />
     <Compile Include="Windows\IServerFailureDialog.cs" />
     <Compile Include="Windows\ISplashScreen.cs" />

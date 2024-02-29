@@ -7,7 +7,7 @@
  */
 
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -27,20 +27,21 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		private readonly AppConfig appConfig;
 		private readonly ILogger logger;
-		private readonly Queue<(string fileName, int checksum, string hash)> queue;
+		private readonly ConcurrentQueue<(string fileName, int checksum, string hash)> queue;
 
-		private string Directory { get; set; }
+		internal int Count => queue.Count;
+		internal string Directory { get; private set; }
 
 		public Cache(AppConfig appConfig, ILogger logger)
 		{
 			this.appConfig = appConfig;
 			this.logger = logger;
-			this.queue = new Queue<(string, int, string)>();
+			this.queue = new ConcurrentQueue<(string, int, string)>();
 		}
 
 		internal bool Any()
 		{
-			return false;
+			return queue.Any();
 		}
 
 		internal bool TryEnqueue(MetaData metaData, ScreenShot screenShot)
@@ -57,7 +58,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 				success = true;
 
-				logger.Debug($"Cached data for '{fileName}'.");
+				logger.Debug($"Cached data for '{fileName}', now holding {Count} item(s).");
 			}
 			catch (Exception e)
 			{
@@ -74,23 +75,21 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			metaData = default;
 			screenShot = default;
 
-			if (queue.Any())
+			if (queue.Any() && queue.TryPeek(out var item))
 			{
-				var (fileName, checksum, hash) = queue.Peek();
-
 				try
 				{
-					LoadData(fileName, out metaData, out screenShot);
-					LoadImage(fileName, screenShot);
-					Dequeue(fileName, checksum, hash, metaData, screenShot);
+					LoadData(item.fileName, out metaData, out screenShot);
+					LoadImage(item.fileName, screenShot);
+					Dequeue(item.fileName, item.checksum, item.hash, metaData, screenShot);
 
 					success = true;
 
-					logger.Debug($"Uncached data for '{fileName}'.");
+					logger.Debug($"Removed data for '{item.fileName}', {Count} item(s) remaining.");
 				}
 				catch (Exception e)
 				{
-					logger.Error($"Failed to uncache data for '{fileName}'!", e);
+					logger.Error($"Failed to remove data for '{item.fileName}'!", e);
 				}
 			}
 
@@ -116,7 +115,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			File.Delete(dataPath);
 			File.Delete(imagePath);
 
-			queue.Dequeue();
+			while (!queue.TryDequeue(out _)) ;
 		}
 
 		private void Enqueue(string fileName, MetaData metaData, ScreenShot screenShot)

@@ -9,7 +9,6 @@
 using System;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Core.Contracts.Notifications.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
@@ -34,8 +33,6 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		internal override string Name => nameof(ScreenProctoring);
 
-		public override event NotificationChangedEventHandler NotificationChanged;
-
 		internal ScreenProctoringImplementation(
 			AppConfig appConfig,
 			IApplicationMonitor applicationMonitor,
@@ -52,6 +49,29 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			this.settings = settings.ScreenProctoring;
 			this.spooler = new TransmissionSpooler(appConfig, logger.CloneFor(nameof(TransmissionSpooler)), service);
 			this.text = text;
+		}
+
+		internal override void ExecuteRemainingWork()
+		{
+			logger.Info("Starting execution of remaining work...");
+			spooler.ExecuteRemainingWork(InvokeRemainingWorkUpdated);
+			logger.Info("Terminated execution of remaining work.");
+		}
+
+		internal override bool HasRemainingWork()
+		{
+			var hasWork = spooler.HasRemainingWork();
+
+			if (hasWork)
+			{
+				logger.Info("There is remaining work to be done.");
+			}
+			else
+			{
+				logger.Info("There is no remaining work to be done.");
+			}
+
+			return hasWork;
 		}
 
 		internal override void Initialize()
@@ -132,10 +152,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		internal override void Terminate()
 		{
-			// TODO: Cache transmission or user information!
-
 			Stop();
-			TerminateNotification();
 
 			logger.Info("Terminated proctoring.");
 		}
@@ -189,7 +206,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				Tooltip = text.Get(TextKey.Notification_ProctoringInactiveTooltip);
 			}
 
-			NotificationChanged?.Invoke();
+			InvokeNotificationChanged();
 		}
 	}
 }

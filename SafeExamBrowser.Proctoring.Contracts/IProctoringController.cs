@@ -39,6 +39,21 @@ namespace SafeExamBrowser.Proctoring.Contracts
 		event ProctoringEventHandler HandRaised;
 
 		/// <summary>
+		/// Event fired when the status of the remaining work has been updated.
+		/// </summary>
+		event RemainingWorkUpdatedEventHandler RemainingWorkUpdated;
+
+		/// <summary>
+		/// Executes any remaining work like e.g. the transmission of cached screen shots. Make sure to do so before calling <see cref="Terminate"/>.
+		/// </summary>
+		void ExecuteRemainingWork();
+
+		/// <summary>
+		/// Indicates whether there is any remaining work which needs to be done before the proctoring can be terminated.
+		/// </summary>
+		bool HasRemainingWork();
+
+		/// <summary>
 		/// Initializes the given settings and starts the proctoring if the settings are valid.
 		/// </summary>
 		void Initialize(ProctoringSettings settings);
@@ -54,7 +69,7 @@ namespace SafeExamBrowser.Proctoring.Contracts
 		void RaiseHand(string message = default);
 
 		/// <summary>
-		/// Stops the proctoring functionality.
+		/// Stops the proctoring functionality. Make sure to call <see cref="ExecuteRemainingWork"/> beforehand if necessary.
 		/// </summary>
 		void Terminate();
 	}

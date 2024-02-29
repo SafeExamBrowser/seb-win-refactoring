@@ -9,6 +9,7 @@
 using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.Core.Contracts.Notifications.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
+using SafeExamBrowser.Proctoring.Contracts.Events;
 using SafeExamBrowser.Server.Contracts.Events.Proctoring;
 
 namespace SafeExamBrowser.Proctoring
@@ -21,7 +22,8 @@ namespace SafeExamBrowser.Proctoring
 		public string Tooltip { get; protected set; }
 		public IconResource IconResource { get; protected set; }
 
-		public abstract event NotificationChangedEventHandler NotificationChanged;
+		internal event RemainingWorkUpdatedEventHandler RemainingWorkUpdated;
+		public event NotificationChangedEventHandler NotificationChanged;
 
 		void INotification.Activate()
 		{
@@ -40,7 +42,20 @@ namespace SafeExamBrowser.Proctoring
 		internal abstract void Stop();
 		internal abstract void Terminate();
 
+		internal virtual void ExecuteRemainingWork() { }
+		internal virtual bool HasRemainingWork() => false;
+
 		protected virtual void ActivateNotification() { }
 		protected virtual void TerminateNotification() { }
+
+		protected void InvokeNotificationChanged()
+		{
+			NotificationChanged?.Invoke();
+		}
+
+		protected void InvokeRemainingWorkUpdated(RemainingWorkUpdatedEventArgs args)
+		{
+			RemainingWorkUpdated?.Invoke(args);
+		}
 	}
 }

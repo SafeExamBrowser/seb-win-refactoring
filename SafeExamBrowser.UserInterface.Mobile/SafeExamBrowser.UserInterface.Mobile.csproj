@@ -179,6 +179,9 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Windows\ProctoringFinalizationDialog.xaml.cs">
+      <DependentUpon>ProctoringFinalizationDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ProctoringWindow.xaml.cs">
       <DependentUpon>ProctoringWindow.xaml</DependentUpon>
     </Compile>
@@ -521,6 +524,10 @@
     <Page Include="Windows\PasswordDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\ProctoringFinalizationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\ProctoringWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

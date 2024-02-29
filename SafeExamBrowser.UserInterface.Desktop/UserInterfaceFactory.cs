@@ -177,6 +177,11 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			}
 		}
 
+		public IProctoringFinalizationDialog CreateProctoringFinalizationDialog()
+		{
+			return Application.Current.Dispatcher.Invoke(() => new ProctoringFinalizationDialog(text));
+		}
+
 		public IProctoringWindow CreateProctoringWindow(IProctoringControl control)
 		{
 			return Application.Current.Dispatcher.Invoke(() => new ProctoringWindow(control));

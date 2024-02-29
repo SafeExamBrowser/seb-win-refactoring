@@ -171,6 +171,9 @@
     <Compile Include="Windows\PasswordDialog.xaml.cs">
       <DependentUpon>PasswordDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ProctoringFinalizationDialog.xaml.cs">
+      <DependentUpon>ProctoringFinalizationDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ProctoringWindow.xaml.cs">
       <DependentUpon>ProctoringWindow.xaml</DependentUpon>
     </Compile>
@@ -388,6 +391,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\LockScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ProctoringFinalizationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

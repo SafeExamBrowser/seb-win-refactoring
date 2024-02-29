@@ -13,7 +13,6 @@ using System.Threading;
 using System.Windows;
 using Microsoft.Web.WebView2.Wpf;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Core.Contracts.Notifications.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
@@ -40,8 +39,6 @@ namespace SafeExamBrowser.Proctoring.JitsiMeet
 		private IProctoringWindow window;
 
 		internal override string Name => nameof(JitsiMeet);
-
-		public override event NotificationChangedEventHandler NotificationChanged;
 
 		internal JitsiMeetImplementation(
 			AppConfig appConfig,
@@ -194,7 +191,6 @@ namespace SafeExamBrowser.Proctoring.JitsiMeet
 		internal override void Terminate()
 		{
 			Stop();
-			TerminateNotification();
 			logger.Info("Terminated proctoring.");
 		}
 
@@ -208,11 +204,6 @@ namespace SafeExamBrowser.Proctoring.JitsiMeet
 			{
 				window?.Toggle();
 			}
-		}
-
-		protected override void TerminateNotification()
-		{
-			// Nothing to do here for now.
 		}
 
 		private string LoadContent(ProctoringSettings settings)
@@ -249,7 +240,7 @@ namespace SafeExamBrowser.Proctoring.JitsiMeet
 			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Proctoring_Active.xaml") };
 			Tooltip = text.Get(TextKey.Notification_ProctoringActiveTooltip);
 
-			NotificationChanged?.Invoke();
+			InvokeNotificationChanged();
 		}
 
 		private void ShowNotificationInactive()
@@ -258,7 +249,7 @@ namespace SafeExamBrowser.Proctoring.JitsiMeet
 			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Proctoring_Inactive.xaml") };
 			Tooltip = text.Get(TextKey.Notification_ProctoringInactiveTooltip);
 
-			NotificationChanged?.Invoke();
+			InvokeNotificationChanged();
 		}
 	}
 }

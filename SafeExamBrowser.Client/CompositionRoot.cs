@@ -301,6 +301,8 @@ namespace SafeExamBrowser.Client
 				uiFactory);
 			var operation = new ProctoringOperation(actionCenter, context, controller, logger, taskbar, uiFactory);
 
+			context.Proctoring = controller;
+
 			return operation;
 		}
 

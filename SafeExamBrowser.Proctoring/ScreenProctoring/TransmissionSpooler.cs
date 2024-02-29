@@ -8,12 +8,11 @@
 
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Timers;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Proctoring.Contracts.Events;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Data;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Imaging;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Service;
@@ -23,9 +22,10 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 {
 	internal class TransmissionSpooler
 	{
-		const int BAD = 10;
-		const int GOOD = 0;
+		private const int BAD = 10;
+		private const int GOOD = 0;
 
+		private readonly Buffer buffer;
 		private readonly Cache cache;
 		private readonly ILogger logger;
 		private readonly ConcurrentQueue<(MetaData metaData, ScreenShot screenShot)> queue;
@@ -33,8 +33,8 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 		private readonly ServiceProxy service;
 		private readonly Timer timer;
 
-		private Queue<(MetaData metaData, DateTime schedule, ScreenShot screenShot)> buffer;
 		private int health;
+		private bool networkIssue;
 		private bool recovering;
 		private DateTime resume;
 		private Thread thread;
@@ -42,7 +42,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		internal TransmissionSpooler(AppConfig appConfig, IModuleLogger logger, ServiceProxy service)
 		{
-			this.buffer = new Queue<(MetaData, DateTime, ScreenShot)>();
+			this.buffer = new Buffer(logger.CloneFor(nameof(Buffer)));
 			this.cache = new Cache(appConfig, logger.CloneFor(nameof(Cache)));
 			this.logger = logger;
 			this.queue = new ConcurrentQueue<(MetaData, ScreenShot)>();
@@ -54,6 +54,55 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 		internal void Add(MetaData metaData, ScreenShot screenShot)
 		{
 			queue.Enqueue((metaData, screenShot));
+		}
+
+		internal void ExecuteRemainingWork(Action<RemainingWorkUpdatedEventArgs> updateStatus)
+		{
+			var previous = buffer.Count + cache.Count;
+			var progress = 0;
+			var total = previous;
+
+			while (HasRemainingWork() && service.IsConnected && (!networkIssue || recovering))
+			{
+				var remaining = buffer.Count + cache.Count;
+
+				if (total < remaining)
+				{
+					total = remaining;
+				}
+				else if (previous < remaining)
+				{
+					total += remaining - previous;
+				}
+
+				previous = remaining;
+				progress = total - remaining;
+
+				updateStatus(new RemainingWorkUpdatedEventArgs
+				{
+					IsWaiting = recovering,
+					Next = buffer.TryPeek(out _, out var schedule, out _) ? schedule : default(DateTime?),
+					Progress = progress,
+					Resume = resume,
+					Total = total
+				});
+
+				Thread.Sleep(100);
+			}
+
+			if (networkIssue)
+			{
+				updateStatus(new RemainingWorkUpdatedEventArgs { HasFailed = true, CachePath = cache.Directory });
+			}
+			else
+			{
+				updateStatus(new RemainingWorkUpdatedEventArgs { IsFinished = true });
+			}
+		}
+
+		internal bool HasRemainingWork()
+		{
+			return buffer.Any() || cache.Any();
 		}
 
 		internal void Start()
@@ -167,14 +216,14 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 		{
 			BufferFromCache();
 			BufferFromQueue();
-			TryTransmitFromBuffer();
+			TransmitFromBuffer();
 		}
 
 		private void ExecuteNormally()
 		{
-			TryTransmitFromBuffer();
-			TryTransmitFromCache();
-			TryTransmitFromQueue();
+			TransmitFromBuffer();
+			TransmitFromCache();
+			TransmitFromQueue();
 		}
 
 		private void ExecuteRecovery()
@@ -194,17 +243,11 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			}
 		}
 
-		private void Buffer(MetaData metaData, DateTime schedule, ScreenShot screenShot)
-		{
-			buffer.Enqueue((metaData, schedule, screenShot));
-			buffer = new Queue<(MetaData, DateTime, ScreenShot)>(buffer.OrderBy((b) => b.schedule));
-		}
-
 		private void BufferFromCache()
 		{
 			if (cache.TryDequeue(out var metaData, out var screenShot))
 			{
-				Buffer(metaData, CalculateSchedule(metaData), screenShot);
+				buffer.Enqueue(metaData, CalculateSchedule(metaData), screenShot);
 			}
 		}
 
@@ -212,21 +255,16 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 		{
 			if (TryDequeue(out var metaData, out var screenShot))
 			{
-				Buffer(metaData, CalculateSchedule(metaData), screenShot);
+				buffer.Enqueue(metaData, CalculateSchedule(metaData), screenShot);
 			}
 		}
 
 		private void CacheFromBuffer()
 		{
-			if (TryPeekFromBuffer(out var metaData, out _, out var screenShot))
+			if (buffer.TryPeek(out var metaData, out _, out var screenShot) && cache.TryEnqueue(metaData, screenShot))
 			{
-				var success = cache.TryEnqueue(metaData, screenShot);
-
-				if (success)
-				{
-					buffer.Dequeue();
-					screenShot.Dispose();
-				}
+				buffer.Dequeue();
+				screenShot.Dispose();
 			}
 		}
 
@@ -234,15 +272,13 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 		{
 			if (TryDequeue(out var metaData, out var screenShot))
 			{
-				var success = cache.TryEnqueue(metaData, screenShot);
-
-				if (success)
+				if (cache.TryEnqueue(metaData, screenShot))
 				{
 					screenShot.Dispose();
 				}
 				else
 				{
-					Buffer(metaData, DateTime.Now, screenShot);
+					buffer.Enqueue(metaData, DateTime.Now, screenShot);
 				}
 			}
 		}
@@ -253,6 +289,48 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			var schedule = DateTime.Now.AddMilliseconds(timeout);
 
 			return schedule;
+		}
+
+		private void TransmitFromBuffer()
+		{
+			var hasItem = buffer.TryPeek(out var metaData, out var schedule, out var screenShot);
+			var ready = schedule <= DateTime.Now;
+
+			if (hasItem && ready && TryTransmit(metaData, screenShot))
+			{
+				buffer.Dequeue();
+				screenShot.Dispose();
+			}
+		}
+
+		private void TransmitFromCache()
+		{
+			if (cache.TryDequeue(out var metaData, out var screenShot))
+			{
+				if (TryTransmit(metaData, screenShot))
+				{
+					screenShot.Dispose();
+				}
+				else
+				{
+					buffer.Enqueue(metaData, DateTime.Now, screenShot);
+				}
+			}
+		}
+
+		private void TransmitFromQueue()
+		{
+			if (TryDequeue(out var metaData, out var screenShot))
+			{
+				if (TryTransmit(metaData, screenShot))
+				{
+					screenShot.Dispose();
+				}
+				else
+				{
+					buffer.Enqueue(metaData, DateTime.Now, screenShot);
+				}
+			}
 		}
 
 		private bool TryDequeue(out MetaData metaData, out ScreenShot screenShot)
@@ -269,80 +347,6 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			return metaData != default && screenShot != default;
 		}
 
-		private bool TryPeekFromBuffer(out MetaData metaData, out DateTime schedule, out ScreenShot screenShot)
-		{
-			metaData = default;
-			schedule = default;
-			screenShot = default;
-
-			if (buffer.Any())
-			{
-				(metaData, schedule, screenShot) = buffer.Peek();
-			}
-
-			return metaData != default && screenShot != default;
-		}
-
-		private bool TryTransmitFromBuffer()
-		{
-			var success = false;
-
-			if (TryPeekFromBuffer(out var metaData, out var schedule, out var screenShot) && schedule <= DateTime.Now)
-			{
-				success = TryTransmit(metaData, screenShot);
-
-				if (success)
-				{
-					buffer.Dequeue();
-					screenShot.Dispose();
-				}
-			}
-
-			return success;
-		}
-
-		private bool TryTransmitFromCache()
-		{
-			var success = true;
-
-			if (cache.TryDequeue(out var metaData, out var screenShot))
-			{
-				success = TryTransmit(metaData, screenShot);
-
-				if (success)
-				{
-					screenShot.Dispose();
-				}
-				else
-				{
-					Buffer(metaData, DateTime.Now, screenShot);
-				}
-			}
-
-			return success;
-		}
-
-		private bool TryTransmitFromQueue()
-		{
-			var success = false;
-
-			if (TryDequeue(out var metaData, out var screenShot))
-			{
-				success = TryTransmit(metaData, screenShot);
-
-				if (success)
-				{
-					screenShot.Dispose();
-				}
-				else
-				{
-					Buffer(metaData, DateTime.Now, screenShot);
-				}
-			}
-
-			return success;
-		}
-
 		private bool TryTransmit(MetaData metaData, ScreenShot screenShot)
 		{
 			var success = false;
@@ -351,10 +355,12 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			{
 				var response = service.Send(metaData, screenShot);
 
+				networkIssue = !response.Success;
+				success = response.Success;
+
 				if (response.Success)
 				{
 					health = UpdateHealth(response.Value);
-					success = true;
 				}
 			}
 			else
@@ -370,6 +376,8 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			if (service.IsConnected)
 			{
 				var response = service.GetHealth();
+
+				networkIssue = !response.Success;
 
 				if (response.Success)
 				{

@@ -17,8 +17,8 @@ namespace SafeExamBrowser.UserInterface.Shared.Utilities
 	{
 		private const int GWL_STYLE = -16;
 		private const uint MF_BYCOMMAND = 0x00000000;
-		private const uint MF_GRAYED = 0x00000001;
 		private const uint MF_ENABLED = 0x00000000;
+		private const uint MF_GRAYED = 0x00000001;
 		private const uint SC_CLOSE = 0xF060;
 		private const uint SWP_SHOWWINDOW = 0x0040;
 		private const int WS_SYSMENU = 0x80000;
@@ -33,6 +33,17 @@ namespace SafeExamBrowser.UserInterface.Shared.Utilities
 			if (systemMenu != IntPtr.Zero)
 			{
 				EnableMenuItem(systemMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
+			}
+		}
+
+		public static void EnableCloseButton(this Window window)
+		{
+			var helper = new WindowInteropHelper(window);
+			var systemMenu = GetSystemMenu(helper.Handle, false);
+
+			if (systemMenu != IntPtr.Zero)
+			{
+				EnableMenuItem(systemMenu, SC_CLOSE, MF_BYCOMMAND | MF_ENABLED);
 			}
 		}
 

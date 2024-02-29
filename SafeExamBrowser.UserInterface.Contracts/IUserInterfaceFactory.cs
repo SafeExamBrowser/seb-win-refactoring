@@ -104,6 +104,11 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		ISystemControl CreatePowerSupplyControl(IPowerSupply powerSupply, Location location);
 
 		/// <summary>
+		/// Creates a new dialog to display the status of the proctoring finalization.
+		/// </summary>
+		IProctoringFinalizationDialog CreateProctoringFinalizationDialog();
+
+		/// <summary>
 		/// Creates a new proctoring window loaded with the given proctoring control.
 		/// </summary>
 		IProctoringWindow CreateProctoringWindow(IProctoringControl control);

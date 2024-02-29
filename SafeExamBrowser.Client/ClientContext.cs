@@ -13,6 +13,7 @@ using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Integrity;
+using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -53,6 +54,11 @@ namespace SafeExamBrowser.Client
 		/// The integrity module.
 		/// </summary>
 		internal IIntegrityModule IntegrityModule { get; set; }
+
+		/// <summary>
+		/// The proctoring controller to be used if the current session has proctoring enabled.
+		/// </summary>
+		internal IProctoringController Proctoring { get; set; }
 
 		/// <summary>
 		/// The server proxy to be used if the current session mode is <see cref="SessionMode.Server"/>.

@@ -654,6 +654,27 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Password Required
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Confirm">
+        Confirm
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_FailureMessage">
+        The remaining operations could not be completed as there is a problem with the network and/or screen proctoring service. The cached data can be found in the following directory:
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_InfoMessage">
+        Please wait while the screen procotoring is executing its remaining operations. This may take a while, depending on the network and screen proctoring service status.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Status">
+        Executing transmission operation %%_COUNT_%% of %%_TOTAL_%%.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusAndTime">
+        Waiting to execute transmission operation %%_COUNT_%% of %%_TOTAL_%% at %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        Waiting to resume %%_COUNT_%% transmission operations at %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Title">
+        Screen Proctoring Finalization
+    </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
         SEB is running.
     </Entry>

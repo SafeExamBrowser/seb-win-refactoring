@@ -1,0 +1,53 @@
+﻿<Window x:Class="SafeExamBrowser.UserInterface.Desktop.Windows.ProctoringFinalizationDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Windows"
+        mc:Ignorable="d" Height="250" Width="650" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Templates/Colors.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="20">
+            <Grid Name="ProgressPanel">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Name="Info" TextWrapping="WrapWithOverflow" VerticalAlignment="Bottom" />
+                <Grid Grid.Row="1">
+                    <ProgressBar Name="Progress" Height="25" Margin="0,20" />
+                    <TextBlock Name="Percentage" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
+                <TextBlock Grid.Row="2" Name="Status" FontStyle="Italic" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" />
+            </Grid>
+            <Grid Name="FailurePanel">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <fa:ImageAwesome Grid.Column="0" Foreground="LightGray" Icon="Warning" Margin="10,0,20,0" Width="50" />
+                <WrapPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock Name="Message" TextWrapping="WrapWithOverflow" />
+                    <TextBlock Name="CachePath" FontFamily="Courier New" Margin="0,20,0,0" TextWrapping="WrapWithOverflow" />
+                </WrapPanel>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" Name="ButtonPanel" Background="{StaticResource BackgroundBrush}">
+            <WrapPanel Orientation="Horizontal" Margin="20" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button Name="Button" Cursor="Hand" Padding="10,5" MinWidth="75" />
+            </WrapPanel>
+        </Grid>
+    </Grid>
+</Window>

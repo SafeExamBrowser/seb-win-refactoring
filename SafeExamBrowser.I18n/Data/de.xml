@@ -654,6 +654,27 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Passwort erforderlich
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Confirm">
+        Bestätigen
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_FailureMessage">
+        Die verbleibenden Operationen konnten nicht abgeschlossen werden, da ein Problem mit dem Netzwerk und/oder dem Bildschirmüberwachungs-Dienst vorliegt. Die zwischengespeicherten Daten befinden sich im folgenden Verzeichnis:
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_InfoMessage">
+        Bitte warten Sie, während die Bildschirmüberwachung ihre restlichen Operationen ausführt. Dies kann eine Weile dauern, je nach Status des Netzwerkes und Bildschirmüberwachungs-Dienstes.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Status">
+        Ausführen der Übertragungsoperation %%_COUNT_%% von %%_TOTAL_%%.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusAndTime">
+        Warten auf die Ausführung der Übertragungsoperation %%_COUNT_%% von %%_TOTAL_%% um %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        Warten auf die Wiederaufnahme von %%_COUNT_%% Übertragungsoperationen um %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Title">
+        Finalisierung der Bildschirmüberwachung
+    </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
         SEB wird ausgeführt.
     </Entry>
