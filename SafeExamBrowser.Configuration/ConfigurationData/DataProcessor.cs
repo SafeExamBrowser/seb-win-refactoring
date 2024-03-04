@@ -27,19 +27,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			InitializeClipboardSettings(settings);
 			InitializeProctoringSettings(settings);
 			RemoveLegacyBrowsers(settings);
-
-			settings.Applications.Blacklist.Clear();
-			settings.Applications.Whitelist.Clear();
-			settings.Browser.MainWindow.AllowAddressBar = true;
-			settings.Browser.MainWindow.AllowBackwardNavigation = true;
-			settings.Browser.MainWindow.AllowForwardNavigation = true;
-			settings.Browser.AllowPageZoom = true;
-			settings.Browser.AllowPdfReader = true;
-			settings.Browser.MainWindow.ShowToolbar = true;
-			settings.LogLevel = Settings.Logging.LogLevel.Debug;
-			settings.Security.AllowApplicationLogAccess = true;
-			settings.Security.AllowReconfiguration = true;
-			settings.Taskbar.ShowApplicationLog = true;
 		}
 
 		private void AllowBrowserToolbarForReloading(AppSettings settings)
