@@ -518,19 +518,19 @@ if (typeof __SEB_focusElement === 'undefined') {
 	setTimeout(function () { item && item.focus && item.focus(); }, 20);
   }
 }";
-			browserControl.ExecuteJavascript(javascript, result =>
+			browserControl.ExecuteJavaScript(javascript, result =>
 			{
 				if (!result.Success)
 				{
-					logger.Error($"Failed to initialize JavaScript: {result.Message}!");
+					logger.Warn($"Failed to initialize JavaScript: {result.Message}!");
 				}
 			});
 
-			browserControl.ExecuteJavascript("__SEB_focusElement(" + forward.ToString().ToLower() + ")", result =>
+			browserControl.ExecuteJavaScript("__SEB_focusElement(" + forward.ToString().ToLower() + ")", result =>
 			{
 				if (!result.Success)
 				{
-					logger.Error($"Failed to execute JavaScript: {result.Message}!");
+					logger.Warn($"Failed to execute JavaScript: {result.Message}!");
 				}
 			});
 		}

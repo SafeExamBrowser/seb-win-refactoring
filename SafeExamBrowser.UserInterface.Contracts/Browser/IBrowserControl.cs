@@ -64,9 +64,9 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		void Destroy();
 
 		/// <summary>
-		/// Executes the given JavaScript code in the browser.
+		/// Executes the given JavaScript code in the browser. An optional callback may be used to process a potential <see cref="JavaScriptResult"/>.
 		/// </summary>
-		void ExecuteJavascript(string code, Action<JavascriptResult> callback);
+		void ExecuteJavaScript(string code, Action<JavaScriptResult> callback = default);
 
 		/// <summary>
 		/// Attempts to find the given term on the current page according to the specified parameters.

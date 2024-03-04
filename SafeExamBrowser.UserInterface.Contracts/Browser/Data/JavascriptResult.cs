@@ -11,7 +11,7 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser.Data
 	/// <summary>
 	/// The data resulting from a JavaScript expression evaluation.
 	/// </summary>
-	public class JavascriptResult
+	public class JavaScriptResult
 	{
 		/// <summary>
 		/// Indicates if the JavaScript was evaluated successfully or not.

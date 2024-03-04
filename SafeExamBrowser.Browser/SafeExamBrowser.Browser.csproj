@@ -80,6 +80,8 @@
   <ItemGroup>
     <Compile Include="BrowserApplication.cs" />
     <Compile Include="BrowserWindow.cs" />
+    <Compile Include="Clipboard.cs" />
+    <Compile Include="Events\ClipboardChangedEventHandler.cs" />
     <Compile Include="Events\DialogRequestedEventArgs.cs" />
     <Compile Include="Events\DialogRequestedEventHandler.cs" />
     <Compile Include="Events\DownloadAbortedEventHandler.cs" />
@@ -192,6 +194,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Content\Clipboard.js" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

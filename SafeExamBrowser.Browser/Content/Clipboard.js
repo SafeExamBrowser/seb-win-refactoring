@@ -9,12 +9,31 @@
  */
 
 SafeExamBrowser.clipboard = {
-	clear: function () {
-		ranges = [];
-		text = "";
-	},
+	id: Math.round((Date.now() + Math.random()) * 1000),
 	ranges: [],
-	text: ""
+	text: "",
+
+	clear: function () {
+		this.ranges = [];
+		this.text = "";
+	},
+
+	getContentEncoded: function () {
+		var bytes = new TextEncoder().encode(this.text);
+		var base64 = btoa(String.fromCodePoint(...bytes));
+
+		return base64;
+	},
+
+	update: function (id, base64) {
+		if (this.id != id) {
+			var bytes = Uint8Array.from(atob(base64), (m) => m.codePointAt(0));
+			var content = new TextDecoder().decode(bytes);
+
+			this.ranges = [];
+			this.text = content;
+		}
+	}
 }
 
 function copySelectedData(e) {
@@ -134,6 +153,8 @@ function onCopy(e) {
 
 	try {
 		copySelectedData(e);
+
+		CefSharp.PostMessage({ Type: "Clipboard", Id: SafeExamBrowser.clipboard.id, Content: SafeExamBrowser.clipboard.getContentEncoded() });
 	} finally {
 		e.preventDefault();
 		e.returnValue = false;
@@ -148,6 +169,8 @@ function onCut(e) {
 	try {
 		copySelectedData(e);
 		cutSelectedData(e);
+
+		CefSharp.PostMessage({ Type: "Clipboard", Id: SafeExamBrowser.clipboard.id, Content: SafeExamBrowser.clipboard.getContentEncoded() });
 	} finally {
 		e.preventDefault();
 		e.returnValue = false;

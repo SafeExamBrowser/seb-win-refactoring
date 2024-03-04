@@ -7,10 +7,12 @@
  */
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CefSharp;
 using SafeExamBrowser.Browser.Wrapper;
 using SafeExamBrowser.Browser.Wrapper.Events;
+using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Browser;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Data;
 using SafeExamBrowser.UserInterface.Contracts.Browser.Events;
@@ -19,11 +21,13 @@ namespace SafeExamBrowser.Browser
 {
 	internal class BrowserControl : IBrowserControl
 	{
+		private readonly Clipboard clipboard;
 		private readonly ICefSharpControl control;
 		private readonly IDialogHandler dialogHandler;
 		private readonly IDisplayHandler displayHandler;
 		private readonly IDownloadHandler downloadHandler;
 		private readonly IKeyboardHandler keyboardHandler;
+		private readonly ILogger logger;
 		private readonly IRenderProcessMessageHandler renderProcessMessageHandler;
 		private readonly IRequestHandler requestHandler;
 
@@ -38,19 +42,23 @@ namespace SafeExamBrowser.Browser
 		public event TitleChangedEventHandler TitleChanged;
 
 		public BrowserControl(
+			Clipboard clipboard,
 			ICefSharpControl control,
 			IDialogHandler dialogHandler,
 			IDisplayHandler displayHandler,
 			IDownloadHandler downloadHandler,
 			IKeyboardHandler keyboardHandler,
+			ILogger logger,
 			IRenderProcessMessageHandler renderProcessMessageHandler,
 			IRequestHandler requestHandler)
 		{
 			this.control = control;
+			this.clipboard = clipboard;
 			this.dialogHandler = dialogHandler;
 			this.displayHandler = displayHandler;
 			this.downloadHandler = downloadHandler;
 			this.keyboardHandler = keyboardHandler;
+			this.logger = logger;
 			this.renderProcessMessageHandler = renderProcessMessageHandler;
 			this.requestHandler = requestHandler;
 		}
@@ -63,25 +71,37 @@ namespace SafeExamBrowser.Browser
 			}
 		}
 
-		public void ExecuteJavascript(string javascript, Action<JavascriptResult> callback)
+		public void ExecuteJavaScript(string code, Action<JavaScriptResult> callback = default)
 		{
-			if ((control as IWebBrowser)?.CanExecuteJavascriptInMainFrame == true)
+			try
 			{
-				control.EvaluateScriptAsync(javascript).ContinueWith(t =>
+				if (control.BrowserCore != default && control.BrowserCore.MainFrame != default)
 				{
-					callback(new JavascriptResult
+					control.BrowserCore.EvaluateScriptAsync(code).ContinueWith(t =>
 					{
-						Message = t.Result.Message,
-						Result = t.Result.Result,
-						Success = t.Result.Success
+						callback?.Invoke(new JavaScriptResult
+						{
+							Message = t.Result.Message,
+							Result = t.Result.Result,
+							Success = t.Result.Success
+						});
 					});
-				});
-			}
-			else
-			{
-				Task.Run(() => callback(new JavascriptResult
+				}
+				else
 				{
-					Message = "JavaScript can't be executed in main frame!",
+					Task.Run(() => callback?.Invoke(new JavaScriptResult
+					{
+						Message = "JavaScript can't be executed in main frame!",
+						Success = false
+					}));
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to execute JavaScript '{(code.Length > 50 ? code.Take(50) : code)}'!", e);
+				Task.Run(() => callback?.Invoke(new JavaScriptResult
+				{
+					Message = $"Failed to execute JavaScript '{(code.Length > 50 ? code.Take(50) : code)}'! Reason: {e.Message}",
 					Success = false
 				}));
 			}
@@ -94,6 +114,8 @@ namespace SafeExamBrowser.Browser
 
 		public void Initialize()
 		{
+			clipboard.Changed += Clipboard_Changed;
+
 			control.AddressChanged += (o, e) => AddressChanged?.Invoke(e.Address);
 			control.AuthCredentialsRequired += (w, b, o, i, h, p, r, s, c, a) => a.Value = requestHandler.GetAuthCredentials(w, b, o, i, h, p, r, s, c);
 			control.BeforeBrowse += (w, b, f, r, u, i, a) => a.Value = requestHandler.OnBeforeBrowse(w, b, f, r, u, i);
@@ -115,6 +137,11 @@ namespace SafeExamBrowser.Browser
 			control.ResourceRequestHandlerRequired += (IWebBrowser w, IBrowser b, IFrame f, IRequest r, bool n, bool d, string i, ref bool h, ResourceRequestEventArgs a) => a.Handler = requestHandler.GetResourceRequestHandler(w, b, f, r, n, d, i, ref h);
 			control.TitleChanged += (o, e) => TitleChanged?.Invoke(e.Title);
 			control.UncaughtExceptionEvent += (w, b, f, e) => renderProcessMessageHandler.OnUncaughtException(w, b, f, e);
+
+			if (control is IWebBrowser webBrowser)
+			{
+				webBrowser.JavascriptMessageReceived += WebBrowser_JavascriptMessageReceived;
+			}
 		}
 
 		public void NavigateBackwards()
@@ -147,12 +174,22 @@ namespace SafeExamBrowser.Browser
 			control.BrowserCore.SetZoomLevel(level);
 		}
 
+		private void Clipboard_Changed(long id)
+		{
+			ExecuteJavaScript($"SafeExamBrowser.clipboard.update({id}, '{clipboard.Content}');");
+		}
+
 		private void Control_IsBrowserInitializedChanged(object sender, EventArgs e)
 		{
 			if (control.IsBrowserInitialized)
 			{
 				control.BrowserCore.GetHost().SetFocus(true);
 			}
+		}
+
+		private void WebBrowser_JavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
+		{
+			clipboard.Process(e);
 		}
 	}
 }

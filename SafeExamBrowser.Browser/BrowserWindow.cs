@@ -48,6 +48,7 @@ namespace SafeExamBrowser.Browser
 		private const double ZOOM_FACTOR = 0.2;
 
 		private readonly AppConfig appConfig;
+		private readonly Clipboard clipboard;
 		private readonly IFileSystemDialog fileSystemDialog;
 		private readonly IHashAlgorithm hashAlgorithm;
 		private readonly HttpClient httpClient;
@@ -92,6 +93,7 @@ namespace SafeExamBrowser.Browser
 
 		public BrowserWindow(
 			AppConfig appConfig,
+			Clipboard clipboard,
 			IFileSystemDialog fileSystemDialog,
 			IHashAlgorithm hashAlgorithm,
 			int id,
@@ -106,6 +108,7 @@ namespace SafeExamBrowser.Browser
 			IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
+			this.clipboard = clipboard;
 			this.fileSystemDialog = fileSystemDialog;
 			this.hashAlgorithm = hashAlgorithm;
 			this.httpClient = new HttpClient();
@@ -149,6 +152,7 @@ namespace SafeExamBrowser.Browser
 		internal void InitializeControl()
 		{
 			var cefSharpControl = default(ICefSharpControl);
+			var controlLogger = logger.CloneFor($"{nameof(BrowserControl)} #{Id}");
 			var dialogHandler = new DialogHandler();
 			var displayHandler = new DisplayHandler();
 			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} #{Id}");
@@ -191,7 +195,7 @@ namespace SafeExamBrowser.Browser
 
 			InitializeRequestFilter(requestFilter);
 
-			Control = new BrowserControl(cefSharpControl, dialogHandler, displayHandler, downloadHandler, keyboardHandler, renderHandler, requestHandler);
+			Control = new BrowserControl(clipboard, cefSharpControl, dialogHandler, displayHandler, downloadHandler, keyboardHandler, controlLogger, renderHandler, requestHandler);
 			Control.AddressChanged += Control_AddressChanged;
 			Control.LoadFailed += Control_LoadFailed;
 			Control.LoadingStateChanged += Control_LoadingStateChanged;
@@ -499,7 +503,7 @@ namespace SafeExamBrowser.Browser
 
 		private void KeyboardHandler_TabPressed(bool shiftPressed)
 		{
-			Control.ExecuteJavascript("document.activeElement.tagName", result =>
+			Control.ExecuteJavaScript("document.activeElement.tagName", result =>
 			{
 				if (result.Result is string tagName && tagName?.ToUpper() == "BODY")
 				{
