@@ -8,7 +8,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -347,22 +346,6 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 				MenuPopup.IsOpen = false;
 				MenuButton.Focus();
 			}
-		}
-
-		/// <summary>
-		/// Get next tab order element. Copied from https://stackoverflow.com/questions/5756448/in-wpf-how-can-i-get-the-next-control-in-the-tab-order
-		/// </summary>
-		/// <param name="e">The element to get next tab order</param>
-		/// <param name="container">The container element owning 'e'. Make sure this is a container of 'e'.</param>
-		/// <param name="goDownOnly">True if search only itself and inside of 'container'; otherwise false.
-		/// If true and next tab order element is outside of 'container', result in null.</param>
-		/// <returns>Next tab order element or null if not found</returns>
-		public DependencyObject GetNextTab(DependencyObject e, DependencyObject container, bool goDownOnly)
-		{
-			var navigation = typeof(FrameworkElement).GetProperty("KeyboardNavigation", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
-			var method = navigation.GetType().GetMethod("GetNextTab", BindingFlags.NonPublic | BindingFlags.Instance);
-
-			return method.Invoke(navigation, new object[] { e, container, goDownOnly }) as DependencyObject;
 		}
 
 		private void BrowserWindow_Loaded(object sender, RoutedEventArgs e)
