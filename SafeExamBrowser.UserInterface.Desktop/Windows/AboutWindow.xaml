@@ -23,59 +23,59 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Image Grid.ColumnSpan="2" Source="pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/SplashScreen.png" Margin="0,5,0,0" />
-        <TextBlock x:Name="VersionInfo" Grid.Row="0" Grid.Column="1" FontSize="10" Foreground="DimGray" Margin="28,72,100,10" TextWrapping="Wrap" />
+        <TextBlock x:Name="VersionInfo" Grid.Row="0" Grid.Column="1" FontSize="10" Foreground="DimGray" Margin="28,72,120,10" TextWrapping="Wrap" />
         <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Template="{StaticResource SmallBarScrollViewer}" VerticalScrollBarVisibility="Auto">
             <TextBlock x:Name="MainText" Margin="10" FontSize="10" TextWrapping="Wrap">
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>.NET Framework</Underline></Bold>
                 <LineBreak />
-                Copyright © 2002-2023 Microsoft. All rights reserved.
+                Copyright © 2002-2024 Microsoft. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>CefSharp (.NET bindings for the Chromium Embedded Framework)</Underline></Bold>
                 <LineBreak />
-                Copyright © 2010-2023 The CefSharp Authors. All rights reserved.
+                Copyright © 2010-2024 The CefSharp Authors. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>CEF (Chromium Embedded Framework)</Underline></Bold>
                 <LineBreak />
-                Copyright © 2008-2023 The Chromium Embedded Framework Authors. All rights reserved.
+                Copyright © 2008-2024 The Chromium Embedded Framework Authors. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Edge WebView2 Runtime</Underline></Bold>
                 <LineBreak />
-                Copyright © 2019-2023 Microsoft. All rights reserved.
+                Copyright © 2019-2024 Microsoft. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Font-Awesome-WPF</Underline></Bold>
                 <LineBreak />
-                Copyright © 2014-2023 charri. All rights reserved.
+                Copyright © 2014-2024 charri. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>KnownFolders</Underline></Bold>
                 <LineBreak />
-                Copyright © 2017-2023 Syroot. All rights reserved.
+                Copyright © 2017-2024 Syroot. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>NAudio</Underline></Bold>
                 <LineBreak />
-                Copyright © 2008-2023 Mark Heath &amp; contributors. All rights reserved.
+                Copyright © 2008-2024 Mark Heath &amp; contributors. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Newtonsoft.Json</Underline></Bold>
                 <LineBreak />
-                Copyright © 2007-2023 James Newton-King. All rights reserved.
+                Copyright © 2007-2024 James Newton-King. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>SimpleWifi</Underline></Bold>
                 <LineBreak />
-                Copyright © 2013-2023 DigiExam. All rights reserved.
+                Copyright © 2013-2024 DigiExam. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Visual C++ Redistributable</Underline></Bold>
                 <LineBreak />
-                Copyright © 1993-2023 Microsoft. All rights reserved.
+                Copyright © 1993-2024 Microsoft. All rights reserved.
             </TextBlock>
         </ScrollViewer>
     </Grid>

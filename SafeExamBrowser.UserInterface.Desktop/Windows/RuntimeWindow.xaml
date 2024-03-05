@@ -28,7 +28,7 @@
                         <ColumnDefinition Width="400" />
                     </Grid.ColumnDefinitions>
                     <Image Grid.Column="0" Grid.ColumnSpan="2" Margin="-25,0,0,0" Source="pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/SplashScreen.png" />
-                    <TextBlock x:Name="InfoTextBlock" Grid.Column="1" FontSize="10" Foreground="DimGray" Margin="10,70,225,10" TextWrapping="Wrap" />
+                    <TextBlock x:Name="InfoTextBlock" Grid.Column="1" FontSize="10" Foreground="DimGray" Margin="10,70,250,10" TextWrapping="Wrap" />
                 </Grid>
                 <ProgressBar x:Name="ProgressBar" Grid.Row="1" Background="WhiteSmoke" BorderThickness="0" Foreground="DodgerBlue"
                              IsIndeterminate="{Binding IsIndeterminate}" Maximum="{Binding MaxProgress}" Value="{Binding CurrentProgress}"
