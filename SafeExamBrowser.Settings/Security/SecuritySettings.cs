@@ -64,6 +64,11 @@ namespace SafeExamBrowser.Settings.Security
 		public string ReconfigurationUrl { get; set; }
 
 		/// <summary>
+		/// Determines whether the cursor configuration will be verified during session initialization.
+		/// </summary>
+		public bool VerifyCursorConfiguration { get; set; }
+
+		/// <summary>
 		/// All restrictions which apply to the SEB version to be used.
 		/// </summary>
 		public IList<VersionRestriction> VersionRestrictions { get; set; }

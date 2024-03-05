@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -283,6 +283,8 @@ namespace SebWindowsConfig
 			this.labelBrowserExamKey = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.tabPageDownUploads = new System.Windows.Forms.TabPage();
+			this.checkBoxAllowUploads = new System.Windows.Forms.CheckBox();
+			this.checkBoxAllowDownloads = new System.Windows.Forms.CheckBox();
 			this.checkBoxShowFileSystemElementPath = new System.Windows.Forms.CheckBox();
 			this.checkBoxTemporaryDownloadDirectory = new System.Windows.Forms.CheckBox();
 			this.checkBoxAllowCustomDownloadLocation = new System.Windows.Forms.CheckBox();
@@ -477,8 +479,7 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.checkBoxAllowDownloads = new System.Windows.Forms.CheckBox();
-			this.checkBoxAllowUploads = new System.Windows.Forms.CheckBox();
+			this.checkBoxEnableCursorVerification = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -1131,6 +1132,7 @@ namespace SebWindowsConfig
 			// 
 			// tabPageSecurity
 			// 
+			this.tabPageSecurity.Controls.Add(this.checkBoxEnableCursorVerification);
 			this.tabPageSecurity.Controls.Add(this.groupBox21);
 			this.tabPageSecurity.Controls.Add(this.groupBox20);
 			this.tabPageSecurity.Controls.Add(this.checkBoxAllowedDisplayIgnoreError);
@@ -1422,7 +1424,7 @@ namespace SebWindowsConfig
 			// 
 			this.comboBoxAllowedDisplaysMaxNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboBoxAllowedDisplaysMaxNumber.FormattingEnabled = true;
-			this.comboBoxAllowedDisplaysMaxNumber.Location = new System.Drawing.Point(833, 257);
+			this.comboBoxAllowedDisplaysMaxNumber.Location = new System.Drawing.Point(833, 256);
 			this.comboBoxAllowedDisplaysMaxNumber.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.comboBoxAllowedDisplaysMaxNumber.Name = "comboBoxAllowedDisplaysMaxNumber";
 			this.comboBoxAllowedDisplaysMaxNumber.Size = new System.Drawing.Size(57, 21);
@@ -1447,7 +1449,7 @@ namespace SebWindowsConfig
 			this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label13.AutoSize = true;
 			this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label13.Location = new System.Drawing.Point(595, 260);
+			this.label13.Location = new System.Drawing.Point(595, 259);
 			this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(234, 13);
@@ -1459,7 +1461,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnablePrivateClipboard.AutoSize = true;
 			this.checkBoxEnablePrivateClipboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnablePrivateClipboard.Location = new System.Drawing.Point(328, 297);
+			this.checkBoxEnablePrivateClipboard.Location = new System.Drawing.Point(328, 280);
 			this.checkBoxEnablePrivateClipboard.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxEnablePrivateClipboard.Name = "checkBoxEnablePrivateClipboard";
 			this.checkBoxEnablePrivateClipboard.Size = new System.Drawing.Size(156, 17);
@@ -1727,7 +1729,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnableScreenCapture.AutoSize = true;
 			this.checkBoxEnableScreenCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableScreenCapture.Location = new System.Drawing.Point(328, 278);
+			this.checkBoxEnableScreenCapture.Location = new System.Drawing.Point(328, 261);
 			this.checkBoxEnableScreenCapture.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxEnableScreenCapture.Name = "checkBoxEnableScreenCapture";
 			this.checkBoxEnableScreenCapture.Size = new System.Drawing.Size(191, 17);
@@ -1802,7 +1804,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowVirtualMachine.AutoSize = true;
 			this.checkBoxAllowVirtualMachine.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowVirtualMachine.Location = new System.Drawing.Point(328, 316);
+			this.checkBoxAllowVirtualMachine.Location = new System.Drawing.Point(328, 299);
 			this.checkBoxAllowVirtualMachine.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxAllowVirtualMachine.Name = "checkBoxAllowVirtualMachine";
 			this.checkBoxAllowVirtualMachine.Size = new System.Drawing.Size(185, 17);
@@ -2038,8 +2040,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle11.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle11;
+			dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle3;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -3722,6 +3724,28 @@ namespace SebWindowsConfig
 			this.tabPageDownUploads.Text = "Down/Uploads";
 			this.tabPageDownUploads.UseVisualStyleBackColor = true;
 			// 
+			// checkBoxAllowUploads
+			// 
+			this.checkBoxAllowUploads.AutoSize = true;
+			this.checkBoxAllowUploads.Location = new System.Drawing.Point(25, 225);
+			this.checkBoxAllowUploads.Name = "checkBoxAllowUploads";
+			this.checkBoxAllowUploads.Size = new System.Drawing.Size(121, 17);
+			this.checkBoxAllowUploads.TabIndex = 93;
+			this.checkBoxAllowUploads.Text = "Allow uploading files";
+			this.checkBoxAllowUploads.UseVisualStyleBackColor = true;
+			this.checkBoxAllowUploads.CheckedChanged += new System.EventHandler(this.checkBoxAllowUploads_CheckedChanged);
+			// 
+			// checkBoxAllowDownloads
+			// 
+			this.checkBoxAllowDownloads.AutoSize = true;
+			this.checkBoxAllowDownloads.Location = new System.Drawing.Point(25, 47);
+			this.checkBoxAllowDownloads.Name = "checkBoxAllowDownloads";
+			this.checkBoxAllowDownloads.Size = new System.Drawing.Size(135, 17);
+			this.checkBoxAllowDownloads.TabIndex = 92;
+			this.checkBoxAllowDownloads.Text = "Allow downloading files";
+			this.checkBoxAllowDownloads.UseVisualStyleBackColor = true;
+			this.checkBoxAllowDownloads.CheckedChanged += new System.EventHandler(this.checkBoxAllowDownloads_CheckedChanged);
+			// 
 			// checkBoxShowFileSystemElementPath
 			// 
 			this.checkBoxShowFileSystemElementPath.AutoSize = true;
@@ -4800,8 +4824,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle12;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle4;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -6199,27 +6223,16 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// checkBoxAllowDownloads
+			// checkBoxEnableCursorVerification
 			// 
-			this.checkBoxAllowDownloads.AutoSize = true;
-			this.checkBoxAllowDownloads.Location = new System.Drawing.Point(25, 47);
-			this.checkBoxAllowDownloads.Name = "checkBoxAllowDownloads";
-			this.checkBoxAllowDownloads.Size = new System.Drawing.Size(135, 17);
-			this.checkBoxAllowDownloads.TabIndex = 92;
-			this.checkBoxAllowDownloads.Text = "Allow downloading files";
-			this.checkBoxAllowDownloads.UseVisualStyleBackColor = true;
-			this.checkBoxAllowDownloads.CheckedChanged += new System.EventHandler(this.checkBoxAllowDownloads_CheckedChanged);
-			// 
-			// checkBoxAllowUploads
-			// 
-			this.checkBoxAllowUploads.AutoSize = true;
-			this.checkBoxAllowUploads.Location = new System.Drawing.Point(25, 225);
-			this.checkBoxAllowUploads.Name = "checkBoxAllowUploads";
-			this.checkBoxAllowUploads.Size = new System.Drawing.Size(121, 17);
-			this.checkBoxAllowUploads.TabIndex = 93;
-			this.checkBoxAllowUploads.Text = "Allow uploading files";
-			this.checkBoxAllowUploads.UseVisualStyleBackColor = true;
-			this.checkBoxAllowUploads.CheckedChanged += new System.EventHandler(this.checkBoxAllowUploads_CheckedChanged);
+			this.checkBoxEnableCursorVerification.AutoSize = true;
+			this.checkBoxEnableCursorVerification.Location = new System.Drawing.Point(328, 320);
+			this.checkBoxEnableCursorVerification.Name = "checkBoxEnableCursorVerification";
+			this.checkBoxEnableCursorVerification.Size = new System.Drawing.Size(173, 17);
+			this.checkBoxEnableCursorVerification.TabIndex = 111;
+			this.checkBoxEnableCursorVerification.Text = "Enable cursor verification (Win)";
+			this.checkBoxEnableCursorVerification.UseVisualStyleBackColor = true;
+			this.checkBoxEnableCursorVerification.CheckedChanged += new System.EventHandler(this.checkBoxEnableCursorVerification_CheckedChanged);
 			// 
 			// SebWindowsConfigForm
 			// 
@@ -6805,6 +6818,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.Label label32;
 		private System.Windows.Forms.CheckBox checkBoxAllowUploads;
 		private System.Windows.Forms.CheckBox checkBoxAllowDownloads;
+		private System.Windows.Forms.CheckBox checkBoxEnableCursorVerification;
 	}
 }
 

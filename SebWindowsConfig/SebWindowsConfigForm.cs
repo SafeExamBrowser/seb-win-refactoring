@@ -814,6 +814,7 @@ namespace SebWindowsConfig
 			checkBoxShowLogButton.Enabled = checkBoxAllowLogAccess.Checked;
 			checkBoxAllowChromeNotifications.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowChromeNotifications];
 			checkBoxAllowWindowsUpdate.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowWindowsUpdate];
+			checkBoxEnableCursorVerification.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnableCursorVerification];
 
 			if (String.IsNullOrEmpty(textBoxLogDirectoryWin.Text))
 			{
@@ -4790,6 +4791,11 @@ namespace SebWindowsConfig
 		private void checkBoxAllowUploads_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyAllowUploads] = checkBoxAllowUploads.Checked;
+		}
+
+		private void checkBoxEnableCursorVerification_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyEnableCursorVerification] = checkBoxEnableCursorVerification.Checked;
 		}
 	}
 }

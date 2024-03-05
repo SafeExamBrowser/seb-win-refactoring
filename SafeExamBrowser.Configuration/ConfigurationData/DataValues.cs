@@ -286,6 +286,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Security.ClipboardPolicy = ClipboardPolicy.Isolated;
 			settings.Security.DisableSessionChangeLockScreen = false;
 			settings.Security.KioskMode = KioskMode.CreateNewDesktop;
+			settings.Security.VerifyCursorConfiguration = true;
 			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Deny;
 
 			settings.Server.PingInterval = 1000;

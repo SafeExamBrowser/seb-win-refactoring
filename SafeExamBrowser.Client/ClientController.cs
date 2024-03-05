@@ -356,16 +356,19 @@ namespace SafeExamBrowser.Client
 			timer.Interval = TEN_MINUTES + (new Random().NextDouble() * FIVE_MINUTES);
 			timer.Start();
 
-			if (registry.TryGetNames(RegistryValue.UserHive.Cursors_Key, out var names))
+			if (Settings.Security.VerifyCursorConfiguration)
 			{
-				foreach (var name in names)
+				if (registry.TryGetNames(RegistryValue.UserHive.Cursors_Key, out var names))
 				{
-					registry.StartMonitoring(RegistryValue.UserHive.Cursors_Key, name);
+					foreach (var name in names)
+					{
+						registry.StartMonitoring(RegistryValue.UserHive.Cursors_Key, name);
+					}
 				}
-			}
-			else
-			{
-				logger.Warn("Failed to start monitoring cursor registry values!");
+				else
+				{
+					logger.Warn("Failed to start monitoring cursor registry values!");
+				}
 			}
 
 			if (Settings.Service.IgnoreService)

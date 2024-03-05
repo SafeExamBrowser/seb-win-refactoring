@@ -35,28 +35,24 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		public override OperationResult Perform()
 		{
+			var success = true;
+
 			StatusChanged?.Invoke(TextKey.OperationStatus_VerifySessionIntegrity);
 
-			var success = VerifyCursorConfiguration();
-
-			if (success)
-			{
-				success = VerifyEaseOfAccessConfiguration();
-			}
+			success &= VerifyCursorConfiguration();
+			success &= VerifyEaseOfAccessConfiguration();
 
 			return success ? OperationResult.Success : OperationResult.Failed;
 		}
 
 		public override OperationResult Repeat()
 		{
+			var success = true;
+
 			StatusChanged?.Invoke(TextKey.OperationStatus_VerifySessionIntegrity);
 
-			var success = VerifyCursorConfiguration();
-
-			if (success)
-			{
-				success = VerifyEaseOfAccessConfiguration();
-			}
+			success &= VerifyCursorConfiguration();
+			success &= VerifyEaseOfAccessConfiguration();
 
 			return success ? OperationResult.Success : OperationResult.Failed;
 		}
@@ -70,20 +66,17 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var success = true;
 
-			logger.Info($"Attempting to verify cursor configuration...");
-
-			if (registry.TryGetNames(RegistryValue.UserHive.Cursors_Key, out var cursors))
+			if (Context.Next.Settings.Security.VerifyCursorConfiguration)
 			{
-				foreach (var cursor in cursors.Where(c => !string.IsNullOrWhiteSpace(c)))
+				logger.Info($"Attempting to verify cursor configuration...");
+
+				success = registry.TryGetNames(RegistryValue.UserHive.Cursors_Key, out var cursors);
+
+				if (success)
 				{
-					success &= registry.TryRead(RegistryValue.UserHive.Cursors_Key, cursor, out var value);
-					success &= !(value is string) || (value is string path && (string.IsNullOrWhiteSpace(path) || IsValidCursorPath(path)));
-
-					if (!success)
+					foreach (var cursor in cursors.Where(c => !string.IsNullOrWhiteSpace(c)))
 					{
-						logger.Warn($"{(value != default ? $"Cursor configuration is compromised: '{value}'" : $"Failed to verify configuration of cursor '{cursor}'")}! Aborting session initialization...");
-
-						break;
+						success &= VerifyCursor(cursor);
 					}
 				}
 
@@ -91,10 +84,36 @@ namespace SafeExamBrowser.Runtime.Operations
 				{
 					logger.Info("Cursor configuration successfully verified.");
 				}
+				else
+				{
+					logger.Warn("Failed to verify cursor configuration or configuration is compromised! Aborting session initialization...");
+				}
 			}
 			else
 			{
-				logger.Error("Failed to verify cursor configuration!");
+				logger.Debug("Verification of cursor configuration is disabled.");
+			}
+
+			return success;
+		}
+
+		private bool VerifyCursor(string cursor)
+		{
+			var success = true;
+
+			success &= registry.TryRead(RegistryValue.UserHive.Cursors_Key, cursor, out var value);
+			success &= !(value is string) || (value is string path && (string.IsNullOrWhiteSpace(path) || IsValidCursorPath(path)));
+
+			if (!success)
+			{
+				if (value != default)
+				{
+					logger.Warn($"Configuration of cursor '{cursor}' is compromised: '{value}'!");
+				}
+				else
+				{
+					logger.Warn($"Failed to verify configuration of cursor '{cursor}'!");
+				}
 			}
 
 			return success;

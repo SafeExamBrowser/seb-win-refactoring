@@ -44,6 +44,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Security.ReconfigurationUrl:
 					MapReconfigurationUrl(settings, value);
 					break;
+				case Keys.Security.VerifyCursorConfiguration:
+					MapVerifyCursorConfiguration(settings, value);
+					break;
 				case Keys.Security.VersionRestrictions:
 					MapVersionRestrictions(settings, value);
 					break;
@@ -161,6 +164,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string url)
 			{
 				settings.Security.ReconfigurationUrl = url;
+			}
+		}
+
+		private void MapVerifyCursorConfiguration(AppSettings settings, object value)
+		{
+			if (value is bool verify)
+			{
+				settings.Security.VerifyCursorConfiguration = verify;
 			}
 		}
 
