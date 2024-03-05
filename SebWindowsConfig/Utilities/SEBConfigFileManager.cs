@@ -11,7 +11,7 @@ using DictObj = System.Collections.Generic.Dictionary<string, object>;
 //  SafeExamBrowser
 //
 //  Copyright (c) 2010-2020 Daniel R. Schneider, 
-//  ETH Zurich, Educational Development and Technology (LET),
+//  ETH Zurich, IT Services,
 //  based on the original idea of Safe Exam Browser
 //  by Stefan Schneider, University of Giessen
 //  Project concept: Thomas Piendl, Daniel R. Schneider,
@@ -33,7 +33,7 @@ using DictObj = System.Collections.Generic.Dictionary<string, object>;
 //  The Initial Developer of the Original Code is Daniel R. Schneider.
 //  Portions created by Daniel R. Schneider
 //  are Copyright (c) 2010-2020 Daniel R. Schneider, 
-//  ETH Zurich, Educational Development and Technology (LET), 
+//  ETH Zurich, IT Services, 
 //  based on the original idea of Safe Exam Browser
 //  by Stefan Schneider, University of Giessen. All Rights Reserved.
 //

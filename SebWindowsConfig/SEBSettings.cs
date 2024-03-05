@@ -3,7 +3,7 @@
 //  SafeExamBrowser
 //
 //  Copyright (c) 2010-2020 Viktor Tomas, Dirk Bauer, Daniel R. Schneider, Pascal Wyss,
-//  ETH Zurich, Educational Development and Technology (LET),
+//  ETH Zurich, IT Services,
 //  based on the original idea of Safe Exam Browser
 //  by Stefan Schneider, University of Giessen
 //  Project concept: Thomas Piendl, Daniel R. Schneider,
@@ -26,7 +26,7 @@
 //  Dirk Bauer, Daniel R. Schneider, Pascal Wyss.
 //  Portions created by Viktor Tomas, Dirk Bauer, Daniel R. Schneider, Pascal Wyss
 //  are Copyright (c) 2010-2020 Viktor Tomas, Dirk Bauer, Daniel R. Schneider, 
-//  Pascal Wyss, ETH Zurich, Educational Development and Technology (LET), 
+//  Pascal Wyss, ETH Zurich, IT Services, 
 //  based on the original idea of Safe Exam Browser
 //  by Stefan Schneider, University of Giessen. All Rights Reserved.
 //

@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Safe Exam Browser")]
 [assembly: AssemblyCompany("ETH Zürich")]
 [assembly: AssemblyProduct("SafeExamBrowser.Browser")]
-[assembly: AssemblyCopyright("Copyright © 2023 ETH Zürich, Educational Development and Technology (LET)")]
+[assembly: AssemblyCopyright("Copyright © 2023 ETH Zürich, IT Services")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from
