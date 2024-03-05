@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -76,6 +76,13 @@ namespace SebWindowsConfig
 			this.checkBoxInsideSebEnableEaseOfAccess = new System.Windows.Forms.CheckBox();
 			this.checkBoxInsideSebEnableVmWareClientShade = new System.Windows.Forms.CheckBox();
 			this.tabPageSecurity = new System.Windows.Forms.TabPage();
+			this.groupBox21 = new System.Windows.Forms.GroupBox();
+			this.label33 = new System.Windows.Forms.Label();
+			this.label32 = new System.Windows.Forms.Label();
+			this.label31 = new System.Windows.Forms.Label();
+			this.radioButtonClipboardPolicyIsolated = new System.Windows.Forms.RadioButton();
+			this.radioButtonClipboardPolicyBlock = new System.Windows.Forms.RadioButton();
+			this.radioButtonClipboardPolicyAllow = new System.Windows.Forms.RadioButton();
 			this.groupBox20 = new System.Windows.Forms.GroupBox();
 			this.versionRestrictionsTextBox = new System.Windows.Forms.TextBox();
 			this.label30 = new System.Windows.Forms.Label();
@@ -470,19 +477,15 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.groupBox21 = new System.Windows.Forms.GroupBox();
-			this.radioButtonClipboardPolicyAllow = new System.Windows.Forms.RadioButton();
-			this.radioButtonClipboardPolicyBlock = new System.Windows.Forms.RadioButton();
-			this.radioButtonClipboardPolicyIsolated = new System.Windows.Forms.RadioButton();
-			this.label31 = new System.Windows.Forms.Label();
-			this.label32 = new System.Windows.Forms.Label();
-			this.label33 = new System.Windows.Forms.Label();
+			this.checkBoxAllowDownloads = new System.Windows.Forms.CheckBox();
+			this.checkBoxAllowUploads = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
 			this.tabPageRegistry.SuspendLayout();
 			this.groupBoxInsideSeb.SuspendLayout();
 			this.tabPageSecurity.SuspendLayout();
+			this.groupBox21.SuspendLayout();
 			this.groupBox20.SuspendLayout();
 			this.groupBoxSebService.SuspendLayout();
 			this.groupBox1.SuspendLayout();
@@ -536,7 +539,6 @@ namespace SebWindowsConfig
 			this.groupBoxExitSequence.SuspendLayout();
 			this.tabControlSebWindowsConfig.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
-			this.groupBox21.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// openFileDialogSebConfigFile
@@ -1152,6 +1154,87 @@ namespace SebWindowsConfig
 			this.tabPageSecurity.TabIndex = 24;
 			this.tabPageSecurity.Text = "Security";
 			this.tabPageSecurity.UseVisualStyleBackColor = true;
+			// 
+			// groupBox21
+			// 
+			this.groupBox21.Controls.Add(this.label33);
+			this.groupBox21.Controls.Add(this.label32);
+			this.groupBox21.Controls.Add(this.label31);
+			this.groupBox21.Controls.Add(this.radioButtonClipboardPolicyIsolated);
+			this.groupBox21.Controls.Add(this.radioButtonClipboardPolicyBlock);
+			this.groupBox21.Controls.Add(this.radioButtonClipboardPolicyAllow);
+			this.groupBox21.Location = new System.Drawing.Point(583, 371);
+			this.groupBox21.Name = "groupBox21";
+			this.groupBox21.Size = new System.Drawing.Size(635, 209);
+			this.groupBox21.TabIndex = 110;
+			this.groupBox21.TabStop = false;
+			this.groupBox21.Text = "Clipboard Policy";
+			// 
+			// label33
+			// 
+			this.label33.Location = new System.Drawing.Point(31, 158);
+			this.label33.Name = "label33";
+			this.label33.Size = new System.Drawing.Size(598, 28);
+			this.label33.TabIndex = 9;
+			this.label33.Text = "Continuously clears the content of the system clipboard and enables an isolated c" +
+    "lipboard only working within the browser application of SEB.";
+			// 
+			// label32
+			// 
+			this.label32.Location = new System.Drawing.Point(31, 96);
+			this.label32.Name = "label32";
+			this.label32.Size = new System.Drawing.Size(598, 27);
+			this.label32.TabIndex = 8;
+			this.label32.Text = "Completely blocks the usage of the system clipboard by continuously clearing its " +
+    "content and blocking the keyboard shortcuts for cut, copy and paste.";
+			// 
+			// label31
+			// 
+			this.label31.AutoSize = true;
+			this.label31.Location = new System.Drawing.Point(31, 49);
+			this.label31.Name = "label31";
+			this.label31.Size = new System.Drawing.Size(291, 13);
+			this.label31.TabIndex = 7;
+			this.label31.Text = "Allows the usage of the system clipboard without restrictions.";
+			// 
+			// radioButtonClipboardPolicyIsolated
+			// 
+			this.radioButtonClipboardPolicyIsolated.AutoSize = true;
+			this.radioButtonClipboardPolicyIsolated.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.radioButtonClipboardPolicyIsolated.Location = new System.Drawing.Point(15, 138);
+			this.radioButtonClipboardPolicyIsolated.Name = "radioButtonClipboardPolicyIsolated";
+			this.radioButtonClipboardPolicyIsolated.Size = new System.Drawing.Size(78, 17);
+			this.radioButtonClipboardPolicyIsolated.TabIndex = 6;
+			this.radioButtonClipboardPolicyIsolated.TabStop = true;
+			this.radioButtonClipboardPolicyIsolated.Text = "SEB Only";
+			this.radioButtonClipboardPolicyIsolated.UseVisualStyleBackColor = true;
+			this.radioButtonClipboardPolicyIsolated.CheckedChanged += new System.EventHandler(this.radioButtonClipboardPolicyIsolated_CheckedChanged);
+			// 
+			// radioButtonClipboardPolicyBlock
+			// 
+			this.radioButtonClipboardPolicyBlock.AutoSize = true;
+			this.radioButtonClipboardPolicyBlock.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.radioButtonClipboardPolicyBlock.Location = new System.Drawing.Point(15, 76);
+			this.radioButtonClipboardPolicyBlock.Name = "radioButtonClipboardPolicyBlock";
+			this.radioButtonClipboardPolicyBlock.Size = new System.Drawing.Size(57, 17);
+			this.radioButtonClipboardPolicyBlock.TabIndex = 5;
+			this.radioButtonClipboardPolicyBlock.TabStop = true;
+			this.radioButtonClipboardPolicyBlock.Text = "Block";
+			this.radioButtonClipboardPolicyBlock.UseVisualStyleBackColor = true;
+			this.radioButtonClipboardPolicyBlock.CheckedChanged += new System.EventHandler(this.radioButtonClipboardPolicyBlock_CheckedChanged);
+			// 
+			// radioButtonClipboardPolicyAllow
+			// 
+			this.radioButtonClipboardPolicyAllow.AutoSize = true;
+			this.radioButtonClipboardPolicyAllow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.radioButtonClipboardPolicyAllow.Location = new System.Drawing.Point(15, 29);
+			this.radioButtonClipboardPolicyAllow.Name = "radioButtonClipboardPolicyAllow";
+			this.radioButtonClipboardPolicyAllow.Size = new System.Drawing.Size(55, 17);
+			this.radioButtonClipboardPolicyAllow.TabIndex = 4;
+			this.radioButtonClipboardPolicyAllow.TabStop = true;
+			this.radioButtonClipboardPolicyAllow.Text = "Allow";
+			this.radioButtonClipboardPolicyAllow.UseVisualStyleBackColor = true;
+			this.radioButtonClipboardPolicyAllow.CheckedChanged += new System.EventHandler(this.radioButtonClipboardPolicyAllow_CheckedChanged);
 			// 
 			// groupBox20
 			// 
@@ -1955,8 +2038,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle19.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle19;
+			dataGridViewCellStyle11.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle11;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -3613,6 +3696,8 @@ namespace SebWindowsConfig
 			// 
 			// tabPageDownUploads
 			// 
+			this.tabPageDownUploads.Controls.Add(this.checkBoxAllowUploads);
+			this.tabPageDownUploads.Controls.Add(this.checkBoxAllowDownloads);
 			this.tabPageDownUploads.Controls.Add(this.checkBoxShowFileSystemElementPath);
 			this.tabPageDownUploads.Controls.Add(this.checkBoxTemporaryDownloadDirectory);
 			this.tabPageDownUploads.Controls.Add(this.checkBoxAllowCustomDownloadLocation);
@@ -3640,7 +3725,7 @@ namespace SebWindowsConfig
 			// checkBoxShowFileSystemElementPath
 			// 
 			this.checkBoxShowFileSystemElementPath.AutoSize = true;
-			this.checkBoxShowFileSystemElementPath.Location = new System.Drawing.Point(114, 167);
+			this.checkBoxShowFileSystemElementPath.Location = new System.Drawing.Point(45, 183);
 			this.checkBoxShowFileSystemElementPath.Name = "checkBoxShowFileSystemElementPath";
 			this.checkBoxShowFileSystemElementPath.Size = new System.Drawing.Size(213, 17);
 			this.checkBoxShowFileSystemElementPath.TabIndex = 91;
@@ -3651,7 +3736,7 @@ namespace SebWindowsConfig
 			// checkBoxTemporaryDownloadDirectory
 			// 
 			this.checkBoxTemporaryDownloadDirectory.AutoSize = true;
-			this.checkBoxTemporaryDownloadDirectory.Location = new System.Drawing.Point(114, 145);
+			this.checkBoxTemporaryDownloadDirectory.Location = new System.Drawing.Point(45, 161);
 			this.checkBoxTemporaryDownloadDirectory.Name = "checkBoxTemporaryDownloadDirectory";
 			this.checkBoxTemporaryDownloadDirectory.Size = new System.Drawing.Size(229, 17);
 			this.checkBoxTemporaryDownloadDirectory.TabIndex = 90;
@@ -3662,7 +3747,7 @@ namespace SebWindowsConfig
 			// checkBoxAllowCustomDownloadLocation
 			// 
 			this.checkBoxAllowCustomDownloadLocation.AutoSize = true;
-			this.checkBoxAllowCustomDownloadLocation.Location = new System.Drawing.Point(114, 122);
+			this.checkBoxAllowCustomDownloadLocation.Location = new System.Drawing.Point(45, 138);
 			this.checkBoxAllowCustomDownloadLocation.Name = "checkBoxAllowCustomDownloadLocation";
 			this.checkBoxAllowCustomDownloadLocation.Size = new System.Drawing.Size(289, 17);
 			this.checkBoxAllowCustomDownloadLocation.TabIndex = 89;
@@ -3674,7 +3759,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowPDFPlugIn.AutoSize = true;
 			this.checkBoxAllowPDFPlugIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowPDFPlugIn.Location = new System.Drawing.Point(33, 324);
+			this.checkBoxAllowPDFPlugIn.Location = new System.Drawing.Point(25, 359);
 			this.checkBoxAllowPDFPlugIn.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxAllowPDFPlugIn.Name = "checkBoxAllowPDFPlugIn";
 			this.checkBoxAllowPDFPlugIn.Size = new System.Drawing.Size(310, 17);
@@ -3688,7 +3773,7 @@ namespace SebWindowsConfig
 			// 
 			// textBoxDownloadDirectoryWin
 			// 
-			this.textBoxDownloadDirectoryWin.Location = new System.Drawing.Point(338, 55);
+			this.textBoxDownloadDirectoryWin.Location = new System.Drawing.Point(269, 71);
 			this.textBoxDownloadDirectoryWin.Name = "textBoxDownloadDirectoryWin";
 			this.textBoxDownloadDirectoryWin.Size = new System.Drawing.Size(379, 20);
 			this.textBoxDownloadDirectoryWin.TabIndex = 87;
@@ -3698,7 +3783,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxDownloadOpenSEBFiles.AutoSize = true;
 			this.checkBoxDownloadOpenSEBFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxDownloadOpenSEBFiles.Location = new System.Drawing.Point(33, 367);
+			this.checkBoxDownloadOpenSEBFiles.Location = new System.Drawing.Point(25, 398);
 			this.checkBoxDownloadOpenSEBFiles.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxDownloadOpenSEBFiles.Name = "checkBoxDownloadOpenSEBFiles";
 			this.checkBoxDownloadOpenSEBFiles.Size = new System.Drawing.Size(203, 17);
@@ -3712,7 +3797,7 @@ namespace SebWindowsConfig
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(186, 88);
+			this.label5.Location = new System.Drawing.Point(117, 104);
 			this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(137, 13);
@@ -3722,7 +3807,7 @@ namespace SebWindowsConfig
 			// 
 			// textBoxDownloadDirectoryOSX
 			// 
-			this.textBoxDownloadDirectoryOSX.Location = new System.Drawing.Point(338, 85);
+			this.textBoxDownloadDirectoryOSX.Location = new System.Drawing.Point(269, 101);
 			this.textBoxDownloadDirectoryOSX.Name = "textBoxDownloadDirectoryOSX";
 			this.textBoxDownloadDirectoryOSX.Size = new System.Drawing.Size(379, 20);
 			this.textBoxDownloadDirectoryOSX.TabIndex = 84;
@@ -3731,7 +3816,7 @@ namespace SebWindowsConfig
 			// buttonDownloadDirectoryWin
 			// 
 			this.buttonDownloadDirectoryWin.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.buttonDownloadDirectoryWin.Location = new System.Drawing.Point(114, 52);
+			this.buttonDownloadDirectoryWin.Location = new System.Drawing.Point(45, 68);
 			this.buttonDownloadDirectoryWin.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.buttonDownloadDirectoryWin.Name = "buttonDownloadDirectoryWin";
 			this.buttonDownloadDirectoryWin.Size = new System.Drawing.Size(209, 25);
@@ -3743,7 +3828,7 @@ namespace SebWindowsConfig
 			// listBoxChooseFileToUploadPolicy
 			// 
 			this.listBoxChooseFileToUploadPolicy.FormattingEnabled = true;
-			this.listBoxChooseFileToUploadPolicy.Location = new System.Drawing.Point(52, 246);
+			this.listBoxChooseFileToUploadPolicy.Location = new System.Drawing.Point(44, 266);
 			this.listBoxChooseFileToUploadPolicy.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.listBoxChooseFileToUploadPolicy.Name = "listBoxChooseFileToUploadPolicy";
 			this.listBoxChooseFileToUploadPolicy.Size = new System.Drawing.Size(348, 43);
@@ -3756,7 +3841,7 @@ namespace SebWindowsConfig
 			// labelChooseFileToUploadPolicy
 			// 
 			this.labelChooseFileToUploadPolicy.AutoSize = true;
-			this.labelChooseFileToUploadPolicy.Location = new System.Drawing.Point(49, 218);
+			this.labelChooseFileToUploadPolicy.Location = new System.Drawing.Point(41, 245);
 			this.labelChooseFileToUploadPolicy.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.labelChooseFileToUploadPolicy.Name = "labelChooseFileToUploadPolicy";
 			this.labelChooseFileToUploadPolicy.Size = new System.Drawing.Size(145, 13);
@@ -3767,7 +3852,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxDownloadPDFFiles.AutoSize = true;
 			this.checkBoxDownloadPDFFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxDownloadPDFFiles.Location = new System.Drawing.Point(33, 309);
+			this.checkBoxDownloadPDFFiles.Location = new System.Drawing.Point(25, 340);
 			this.checkBoxDownloadPDFFiles.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxDownloadPDFFiles.Name = "checkBoxDownloadPDFFiles";
 			this.checkBoxDownloadPDFFiles.Size = new System.Drawing.Size(270, 17);
@@ -3783,7 +3868,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxOpenDownloads.AutoSize = true;
 			this.checkBoxOpenDownloads.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxOpenDownloads.Location = new System.Drawing.Point(114, 188);
+			this.checkBoxOpenDownloads.Location = new System.Drawing.Point(45, 204);
 			this.checkBoxOpenDownloads.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxOpenDownloads.Name = "checkBoxOpenDownloads";
 			this.checkBoxOpenDownloads.Size = new System.Drawing.Size(160, 17);
@@ -3802,9 +3887,10 @@ namespace SebWindowsConfig
 			this.checkBoxAllowDownUploads.Location = new System.Drawing.Point(25, 26);
 			this.checkBoxAllowDownUploads.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxAllowDownUploads.Name = "checkBoxAllowDownUploads";
-			this.checkBoxAllowDownUploads.Size = new System.Drawing.Size(205, 17);
+			this.checkBoxAllowDownUploads.Size = new System.Drawing.Size(439, 17);
 			this.checkBoxAllowDownUploads.TabIndex = 71;
-			this.checkBoxAllowDownUploads.Text = "Allow downloading and uploading files";
+			this.checkBoxAllowDownUploads.Text = "Allow downloading and uploading files (deprecated, start using separate settings " +
+    "below!)";
 			this.toolTip1.SetToolTip(this.checkBoxAllowDownUploads, "Usually to be used with permitted third party applications for which you want to " +
         "provide files to be downloaded.");
 			this.checkBoxAllowDownUploads.UseVisualStyleBackColor = true;
@@ -4714,8 +4800,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle20;
+			dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle12;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -6113,86 +6199,27 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// groupBox21
+			// checkBoxAllowDownloads
 			// 
-			this.groupBox21.Controls.Add(this.label33);
-			this.groupBox21.Controls.Add(this.label32);
-			this.groupBox21.Controls.Add(this.label31);
-			this.groupBox21.Controls.Add(this.radioButtonClipboardPolicyIsolated);
-			this.groupBox21.Controls.Add(this.radioButtonClipboardPolicyBlock);
-			this.groupBox21.Controls.Add(this.radioButtonClipboardPolicyAllow);
-			this.groupBox21.Location = new System.Drawing.Point(583, 371);
-			this.groupBox21.Name = "groupBox21";
-			this.groupBox21.Size = new System.Drawing.Size(635, 209);
-			this.groupBox21.TabIndex = 110;
-			this.groupBox21.TabStop = false;
-			this.groupBox21.Text = "Clipboard Policy";
+			this.checkBoxAllowDownloads.AutoSize = true;
+			this.checkBoxAllowDownloads.Location = new System.Drawing.Point(25, 47);
+			this.checkBoxAllowDownloads.Name = "checkBoxAllowDownloads";
+			this.checkBoxAllowDownloads.Size = new System.Drawing.Size(135, 17);
+			this.checkBoxAllowDownloads.TabIndex = 92;
+			this.checkBoxAllowDownloads.Text = "Allow downloading files";
+			this.checkBoxAllowDownloads.UseVisualStyleBackColor = true;
+			this.checkBoxAllowDownloads.CheckedChanged += new System.EventHandler(this.checkBoxAllowDownloads_CheckedChanged);
 			// 
-			// radioButtonClipboardPolicyAllow
+			// checkBoxAllowUploads
 			// 
-			this.radioButtonClipboardPolicyAllow.AutoSize = true;
-			this.radioButtonClipboardPolicyAllow.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.radioButtonClipboardPolicyAllow.Location = new System.Drawing.Point(15, 29);
-			this.radioButtonClipboardPolicyAllow.Name = "radioButtonClipboardPolicyAllow";
-			this.radioButtonClipboardPolicyAllow.Size = new System.Drawing.Size(55, 17);
-			this.radioButtonClipboardPolicyAllow.TabIndex = 4;
-			this.radioButtonClipboardPolicyAllow.TabStop = true;
-			this.radioButtonClipboardPolicyAllow.Text = "Allow";
-			this.radioButtonClipboardPolicyAllow.UseVisualStyleBackColor = true;
-			this.radioButtonClipboardPolicyAllow.CheckedChanged += new System.EventHandler(this.radioButtonClipboardPolicyAllow_CheckedChanged);
-			// 
-			// radioButtonClipboardPolicyBlock
-			// 
-			this.radioButtonClipboardPolicyBlock.AutoSize = true;
-			this.radioButtonClipboardPolicyBlock.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.radioButtonClipboardPolicyBlock.Location = new System.Drawing.Point(15, 76);
-			this.radioButtonClipboardPolicyBlock.Name = "radioButtonClipboardPolicyBlock";
-			this.radioButtonClipboardPolicyBlock.Size = new System.Drawing.Size(57, 17);
-			this.radioButtonClipboardPolicyBlock.TabIndex = 5;
-			this.radioButtonClipboardPolicyBlock.TabStop = true;
-			this.radioButtonClipboardPolicyBlock.Text = "Block";
-			this.radioButtonClipboardPolicyBlock.UseVisualStyleBackColor = true;
-			this.radioButtonClipboardPolicyBlock.CheckedChanged += new System.EventHandler(this.radioButtonClipboardPolicyBlock_CheckedChanged);
-			// 
-			// radioButtonClipboardPolicyIsolated
-			// 
-			this.radioButtonClipboardPolicyIsolated.AutoSize = true;
-			this.radioButtonClipboardPolicyIsolated.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.radioButtonClipboardPolicyIsolated.Location = new System.Drawing.Point(15, 138);
-			this.radioButtonClipboardPolicyIsolated.Name = "radioButtonClipboardPolicyIsolated";
-			this.radioButtonClipboardPolicyIsolated.Size = new System.Drawing.Size(78, 17);
-			this.radioButtonClipboardPolicyIsolated.TabIndex = 6;
-			this.radioButtonClipboardPolicyIsolated.TabStop = true;
-			this.radioButtonClipboardPolicyIsolated.Text = "SEB Only";
-			this.radioButtonClipboardPolicyIsolated.UseVisualStyleBackColor = true;
-			this.radioButtonClipboardPolicyIsolated.CheckedChanged += new System.EventHandler(this.radioButtonClipboardPolicyIsolated_CheckedChanged);
-			// 
-			// label31
-			// 
-			this.label31.AutoSize = true;
-			this.label31.Location = new System.Drawing.Point(31, 49);
-			this.label31.Name = "label31";
-			this.label31.Size = new System.Drawing.Size(291, 13);
-			this.label31.TabIndex = 7;
-			this.label31.Text = "Allows the usage of the system clipboard without restrictions.";
-			// 
-			// label32
-			// 
-			this.label32.Location = new System.Drawing.Point(31, 96);
-			this.label32.Name = "label32";
-			this.label32.Size = new System.Drawing.Size(598, 27);
-			this.label32.TabIndex = 8;
-			this.label32.Text = "Completely blocks the usage of the system clipboard by continuously clearing its " +
-    "content and blocking the keyboard shortcuts for cut, copy and paste.";
-			// 
-			// label33
-			// 
-			this.label33.Location = new System.Drawing.Point(31, 158);
-			this.label33.Name = "label33";
-			this.label33.Size = new System.Drawing.Size(598, 28);
-			this.label33.TabIndex = 9;
-			this.label33.Text = "Continuously clears the content of the system clipboard and enables an isolated c" +
-    "lipboard only working within the browser application of SEB.";
+			this.checkBoxAllowUploads.AutoSize = true;
+			this.checkBoxAllowUploads.Location = new System.Drawing.Point(25, 225);
+			this.checkBoxAllowUploads.Name = "checkBoxAllowUploads";
+			this.checkBoxAllowUploads.Size = new System.Drawing.Size(121, 17);
+			this.checkBoxAllowUploads.TabIndex = 93;
+			this.checkBoxAllowUploads.Text = "Allow uploading files";
+			this.checkBoxAllowUploads.UseVisualStyleBackColor = true;
+			this.checkBoxAllowUploads.CheckedChanged += new System.EventHandler(this.checkBoxAllowUploads_CheckedChanged);
 			// 
 			// SebWindowsConfigForm
 			// 
@@ -6228,6 +6255,8 @@ namespace SebWindowsConfig
 			this.groupBoxInsideSeb.PerformLayout();
 			this.tabPageSecurity.ResumeLayout(false);
 			this.tabPageSecurity.PerformLayout();
+			this.groupBox21.ResumeLayout(false);
+			this.groupBox21.PerformLayout();
 			this.groupBox20.ResumeLayout(false);
 			this.groupBox20.PerformLayout();
 			this.groupBoxSebService.ResumeLayout(false);
@@ -6321,8 +6350,6 @@ namespace SebWindowsConfig
 			this.tabControlSebWindowsConfig.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
-			this.groupBox21.ResumeLayout(false);
-			this.groupBox21.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -6776,6 +6803,8 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.Label label31;
 		private System.Windows.Forms.Label label33;
 		private System.Windows.Forms.Label label32;
+		private System.Windows.Forms.CheckBox checkBoxAllowUploads;
+		private System.Windows.Forms.CheckBox checkBoxAllowDownloads;
 	}
 }
 

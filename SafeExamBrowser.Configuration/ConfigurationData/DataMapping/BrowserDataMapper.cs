@@ -30,8 +30,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Browser.AllowDeveloperConsole:
 					MapAllowDeveloperConsole(settings, value);
 					break;
-				case Keys.Browser.AllowDownloadsAndUploads:
-					MapAllowDownloadsAndUploads(settings, value);
+				case Keys.Browser.AllowDownloads:
+					MapAllowDownloads(settings, value);
 					break;
 				case Keys.Browser.AllowFind:
 					MapAllowFind(settings, value);
@@ -47,6 +47,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Browser.AllowSpellChecking:
 					MapAllowSpellChecking(settings, value);
+					break;
+				case Keys.Browser.AllowUploads:
+					MapAllowUploads(settings, value);
 					break;
 				case Keys.Browser.AdditionalWindow.AllowAddressBar:
 					MapAllowAddressBarAdditionalWindow(settings, value);
@@ -179,6 +182,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		internal override void MapGlobal(IDictionary<string, object> rawData, AppSettings settings)
 		{
+			MapLegacyDownUploadSetting(rawData, settings);
 			MapPopupPolicy(rawData, settings);
 			MapRequestFilter(rawData, settings);
 			MapUserAgentMode(rawData, settings);
@@ -225,12 +229,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
-		private void MapAllowDownloadsAndUploads(AppSettings settings, object value)
+		private void MapAllowDownloads(AppSettings settings, object value)
 		{
 			if (value is bool allow)
 			{
 				settings.Browser.AllowDownloads = allow;
-				settings.Browser.AllowUploads = allow;
 			}
 		}
 
@@ -284,14 +287,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
-		private void MapAllowSpellChecking(AppSettings settings, object value)
-		{
-			if (value is bool allow)
-			{
-				settings.Browser.AllowSpellChecking = allow;
-			}
-		}
-
 		private void MapAllowReload(AppSettings settings, object value)
 		{
 			if (value is bool allow)
@@ -305,6 +300,22 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool allow)
 			{
 				settings.Browser.AdditionalWindow.AllowReloading = allow;
+			}
+		}
+
+		private void MapAllowSpellChecking(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.AllowSpellChecking = allow;
+			}
+		}
+
+		private void MapAllowUploads(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Browser.AllowUploads = allow;
 			}
 		}
 
@@ -393,6 +404,15 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool use)
 			{
 				settings.Browser.UseStartUrlAsHomeUrl = use;
+			}
+		}
+
+		private void MapLegacyDownUploadSetting(IDictionary<string, object> rawData, AppSettings settings)
+		{
+			if (rawData.TryGetValue(Keys.Browser.AllowDownloadsAndUploads, out var value) && value is bool allow)
+			{
+				settings.Browser.AllowDownloads &= allow;
+				settings.Browser.AllowUploads &= allow;
 			}
 		}
 

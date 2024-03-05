@@ -172,13 +172,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.AdditionalWindow.UrlPolicy = UrlPolicy.Never;
 			settings.Browser.AllowConfigurationDownloads = true;
 			settings.Browser.AllowCustomDownAndUploadLocation = false;
-			settings.Browser.AllowDownloads = true;
+			settings.Browser.AllowDownloads = false;
 			settings.Browser.AllowFind = true;
 			settings.Browser.AllowPageZoom = true;
 			settings.Browser.AllowPdfReader = true;
 			settings.Browser.AllowPdfReaderToolbar = false;
 			settings.Browser.AllowPrint = false;
-			settings.Browser.AllowUploads = true;
+			settings.Browser.AllowUploads = false;
 			settings.Browser.DeleteCacheOnShutdown = true;
 			settings.Browser.DeleteCookiesOnShutdown = true;
 			settings.Browser.DeleteCookiesOnStartup = true;

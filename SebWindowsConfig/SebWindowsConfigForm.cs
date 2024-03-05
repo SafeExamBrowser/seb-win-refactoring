@@ -562,6 +562,8 @@ namespace SebWindowsConfig
 			listBoxChooseFileToUploadPolicy.SelectedIndex = (int) SEBSettings.settingsCurrent[SEBSettings.KeyChooseFileToUploadPolicy];
 			checkBoxDownloadOpenSEBFiles.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyDownloadAndOpenSebConfig];
 			checkBoxShowFileSystemElementPath.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyShowFileSystemElementPath];
+			checkBoxAllowDownloads.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowDownloads];
+			checkBoxAllowUploads.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowUploads];
 
 			// Group "Exam"
 			checkBoxSendBrowserExamKey.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeySendBrowserExamKey];
@@ -4778,6 +4780,16 @@ namespace SebWindowsConfig
 			{
 				SEBSettings.settingsCurrent[SEBSettings.KeyClipboardPolicy] = 2;
 			}
+		}
+
+		private void checkBoxAllowDownloads_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyAllowDownloads] = checkBoxAllowDownloads.Checked;
+		}
+
+		private void checkBoxAllowUploads_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyAllowUploads] = checkBoxAllowUploads.Checked;
 		}
 	}
 }

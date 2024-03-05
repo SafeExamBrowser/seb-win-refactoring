@@ -191,6 +191,8 @@ namespace SebWindowsConfig
 		public const String KeyBackgroundOpenSEBConfig = "backgroundOpenSEBConfig";
 		public const String KeyUseTemporaryDownUploadDirectory = "useTemporaryDownUploadDirectory";
 		public const String KeyShowFileSystemElementPath = "browserShowFileSystemElementPath";
+		public const String KeyAllowDownloads = "allowDownloads";
+		public const String KeyAllowUploads = "allowUploads";
 
 		// Group "Exam"
 		public const String KeyExamKeySalt = "examKeySalt";
@@ -716,7 +718,7 @@ namespace SebWindowsConfig
 			SEBSettings.strArrayDefault[SEBSettings.ValNewBrowserWindowByLinkHeight] = "100%";
 
 			// Default settings for group "DownUploads"
-			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowDownUploads, true);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowDownUploads, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowCustomDownUploadLocation, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyDownloadDirectoryOSX, "~/Downloads");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyDownloadDirectoryWin, "");
@@ -728,6 +730,8 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyBackgroundOpenSEBConfig, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyUseTemporaryDownUploadDirectory, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyShowFileSystemElementPath, true);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowDownloads, true);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowUploads, true);
 
 			// Default settings for group "Exam"
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyExamKeySalt, new Byte[] { });
