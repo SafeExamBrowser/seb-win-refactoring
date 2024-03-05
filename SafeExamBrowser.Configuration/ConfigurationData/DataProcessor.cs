@@ -76,7 +76,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		private void InitializeProctoringSettings(AppSettings settings)
 		{
-			settings.Proctoring.Enabled = settings.Proctoring.JitsiMeet.Enabled || settings.Proctoring.ScreenProctoring.Enabled;
+			settings.Proctoring.Enabled = settings.Proctoring.ScreenProctoring.Enabled;
+
+			// The video proctoring implementations are disabled for version 3.7.0 and will be completely removed for version 3.8.0.
+			settings.Proctoring.JitsiMeet.Enabled = false;
+			settings.Proctoring.Zoom.Enabled = false;
 
 			if (settings.Proctoring.JitsiMeet.Enabled && !settings.Proctoring.JitsiMeet.ReceiveVideo)
 			{
