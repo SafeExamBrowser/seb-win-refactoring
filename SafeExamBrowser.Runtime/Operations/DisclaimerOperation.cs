@@ -35,18 +35,15 @@ namespace SafeExamBrowser.Runtime.Operations
 			{
 				result = ShowVideoProctoringDisclaimer();
 			}
-			else if (Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
+
+			if (result == OperationResult.Success && Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
 			{
-				// TODO: Implement disclaimer!
-				// result = ShowScreenProctoringDisclaimer();
+				result = ShowScreenProctoringDisclaimer();
 			}
-			else if (Context.Next.Settings.Proctoring.Zoom.Enabled)
+
+			if (result == OperationResult.Success && Context.Next.Settings.Proctoring.Zoom.Enabled)
 			{
 				result = ShowZoomError();
-			}
-			else
-			{
-				logger.Info("Remote proctoring is disabled, skipping disclaimer.");
 			}
 
 			return result;
@@ -60,18 +57,15 @@ namespace SafeExamBrowser.Runtime.Operations
 			{
 				result = ShowVideoProctoringDisclaimer();
 			}
-			else if (Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
+
+			if (result == OperationResult.Success && Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
 			{
-				// TODO: Implement disclaimer!
-				// result = ShowScreenProctoringDisclaimer();
+				result = ShowScreenProctoringDisclaimer();
 			}
-			else if (Context.Next.Settings.Proctoring.Zoom.Enabled)
+
+			if (result == OperationResult.Success && Context.Next.Settings.Proctoring.Zoom.Enabled)
 			{
 				result = ShowZoomError();
-			}
-			else
-			{
-				logger.Info("Remote proctoring is disabled, skipping disclaimer.");
 			}
 
 			return result;
@@ -82,14 +76,14 @@ namespace SafeExamBrowser.Runtime.Operations
 			return OperationResult.Success;
 		}
 
-		private OperationResult ShowVideoProctoringDisclaimer()
+		private OperationResult ShowScreenProctoringDisclaimer()
 		{
 			var args = new MessageEventArgs
 			{
 				Action = MessageBoxAction.OkCancel,
 				Icon = MessageBoxIcon.Information,
-				Message = TextKey.MessageBox_ProctoringDisclaimer,
-				Title = TextKey.MessageBox_ProctoringDisclaimerTitle
+				Message = TextKey.MessageBox_ScreenProctoringDisclaimer,
+				Title = TextKey.MessageBox_ScreenProctoringDisclaimerTitle
 			};
 
 			StatusChanged?.Invoke(TextKey.OperationStatus_WaitDisclaimerConfirmation);
@@ -97,13 +91,40 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (args.Result == MessageBoxResult.Ok)
 			{
-				logger.Info("The user confirmed the remote proctoring disclaimer.");
+				logger.Info("The user confirmed the screen proctoring disclaimer.");
 
 				return OperationResult.Success;
 			}
 			else
 			{
-				logger.Warn("The user did not confirm the remote proctoring disclaimer! Aborting session initialization...");
+				logger.Warn("The user did not confirm the screen proctoring disclaimer! Aborting session initialization...");
+
+				return OperationResult.Aborted;
+			}
+		}
+
+		private OperationResult ShowVideoProctoringDisclaimer()
+		{
+			var args = new MessageEventArgs
+			{
+				Action = MessageBoxAction.OkCancel,
+				Icon = MessageBoxIcon.Information,
+				Message = TextKey.MessageBox_VideoProctoringDisclaimer,
+				Title = TextKey.MessageBox_VideoProctoringDisclaimerTitle
+			};
+
+			StatusChanged?.Invoke(TextKey.OperationStatus_WaitDisclaimerConfirmation);
+			ActionRequired?.Invoke(args);
+
+			if (args.Result == MessageBoxResult.Ok)
+			{
+				logger.Info("The user confirmed the video proctoring disclaimer.");
+
+				return OperationResult.Success;
+			}
+			else
+			{
+				logger.Warn("The user did not confirm the video proctoring disclaimer! Aborting session initialization...");
 
 				return OperationResult.Aborted;
 			}

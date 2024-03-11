@@ -348,12 +348,6 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimer">
-        De huidige sessie wordt op afstand gecontroleerd met behulp van een live video- en audiostream, die naar een individueel geconfigureerde server wordt gestuurd. Vraag uw examenaanbieder naar hun privacybeleid. SEB zelf maakt geen verbinding met een gecentraliseerde SEB surveillanceserver, uw examenaanbieder beslist welke surveillancedienst/server hij gebruikt.
-    </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimerTitle">
-        Sessie met proctoraat op afstand
-    </Entry>
     <Entry key="MessageBox_Quit">
         Wil je SEB verlaten?
     </Entry>
@@ -389,6 +383,12 @@
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
         Externe sessie gedetecteerd
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimer">
+        Schermafbeeldingen van het scherm van de huidige sessie worden gemaakt en naar een server gestuurd. Vraag je examinator naar hun privacybeleid. SEB maakt zelf geen verbinding met een centrale SEB monitoring server. Je examenaanbieder beslist welke monitoring service/server gebruikt moet worden.
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
+        Sessie met schermproctor
     </Entry>
     <Entry key="MessageBox_ServerReconfigurationWarning">
         Er is al een SEB Server-sessie actief. Het is niet toegestaan om opnieuw te configureren voor een andere SEB Server sessie.
@@ -446,6 +446,12 @@
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
         SEB %%_VERSION_%% of nieuwer
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimer">
+        De huidige sessie wordt op afstand gecontroleerd met behulp van een live video- en audiostream, die naar een individueel geconfigureerde server wordt gestuurd. Vraag uw examenaanbieder naar hun privacybeleid. SEB zelf maakt geen verbinding met een gecentraliseerde SEB surveillanceserver, uw examenaanbieder beslist welke surveillancedienst/server hij gebruikt.
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
+        Sessie met proctoraat op afstand
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
         Deze computer lijkt een virtuele machine te zijn. De geselecteerde configuratie staat niet toe dat SEB wordt uitgevoerd in een virtuele machine.

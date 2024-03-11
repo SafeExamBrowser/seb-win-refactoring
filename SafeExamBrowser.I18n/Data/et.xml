@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Text>
     <Entry key="AboutWindow_LicenseInfo">
-        Selle rakenduse puhul kohaldatakse Mozilla avaliku litsentsi versiooni 2.0 tingimusi. Safe Exam Browser kasutab järgmisi raamistikke ja kolmandate osapoolte teeke: 
+        Selle rakenduse puhul kohaldatakse Mozilla avaliku litsentsi versiooni 2.0 tingimusi. Safe Exam Browser kasutab järgmisi raamistikke ja kolmandate osapoolte teeke:
     </Entry>
     <Entry key="AboutWindow_Title">
         Versioon &amp; litsentsi teave
@@ -348,12 +348,6 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimer">
-        Praegust seanssi jälgitakse reaalajas video- ja helivoo abil, mis saadetakse eraldi seadistatud serverisse. Küsi eksamikorraldajalt nende privaatsuspoliitika kohta. SEB ise ei ole ühendatud ühegi jälgimisteenust pakkuva serveriga, eksami korraldaja otsustab, millist jälgimisteenust/serverit kasutada.
-    </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimerTitle">
-        Kaugkontrolliga seanss
-    </Entry>
     <Entry key="MessageBox_Quit">
         Kas soovid SEB'ist väljuda?
     </Entry>
@@ -389,6 +383,12 @@
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
         Tuvastati kaugseanss
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimer">
+        Praeguse seansi ekraanipildist luuakse ja saadetakse serverisse ekraanipilte. Küsige oma eksamineerijalt nende privaatsuspoliitikat. SEB ise ei loo ühendust keskse SEB jälgimisserveriga. Teie eksami korraldaja otsustab, millist jälgimisteenust/serverit kasutada.
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
+        Sessioon koos ekraaniprotektoriga
     </Entry>
     <Entry key="MessageBox_ServerReconfigurationWarning">
         SEB serveri seanss on juba käimas. Teise SEB serveri seansi jaoks ei ole ümberseadistamine lubatud.
@@ -446,6 +446,12 @@
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
         SEB %%_VERSION_%% või uuem
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimer">
+        Praegust seanssi jälgitakse reaalajas video- ja helivoo abil, mis saadetakse eraldi seadistatud serverisse. Küsi eksamikorraldajalt nende privaatsuspoliitika kohta. SEB ise ei ole ühendatud ühegi jälgimisteenust pakkuva serveriga, eksami korraldaja otsustab, millist jälgimisteenust/serverit kasutada.
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
+        Kaugkontrolliga seanss
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
         See arvuti tundub olevat virtuaalmasin. Valitud seadistus ei luba SEB'i virtuaalmasinas käivitada.

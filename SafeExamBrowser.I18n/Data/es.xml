@@ -348,12 +348,6 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimer">
-        La sesión en curso será supervisada a distancia mediante un flujo de vídeo y audio en directo, que se envía a un servidor configurado individualmente. Pregunte a su examinador sobre su política de privacidad. SEB por sí mismo no se conecta a ningún servidor centralizado de supervisión SEB, su proveedor de exámenes decide qué servicio/servidor de supervisión utilizar.
-    </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimerTitle">
-        Sesión con supervisión a distancia
-    </Entry>
     <Entry key="MessageBox_Quit">
         ¿Quiere terminar SEB?
     </Entry>
@@ -389,6 +383,12 @@
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
         Sesión remota detectada
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimer">
+        Se crean capturas de la pantalla de la sesión actual y se envían a un servidor. Pregunte a su examinador sobre su política de privacidad. SEB por sí mismo no establece una conexión con un servidor central de monitoreo SEB. Su proveedor de exámenes decide qué servicio/servidor de monitoreo debe ser utilizado.
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
+        Sesión con Screen Proctoring
     </Entry>
     <Entry key="MessageBox_ServerReconfigurationWarning">
         Ya hay una sesión de SEB-Server en ejecución. No se permite reconfigurar para otra sesión de SEB-Server.
@@ -446,6 +446,12 @@
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
         SEB %%_VERSION_%% o más reciente
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimer">
+        La sesión en curso será supervisada a distancia mediante un flujo de vídeo y audio en directo, que se envía a un servidor configurado individualmente. Pregunte a su examinador sobre su política de privacidad. SEB por sí mismo no se conecta a ningún servidor centralizado de supervisión SEB, su proveedor de exámenes decide qué servicio/servidor de supervisión utilizar.
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
+        Sesión con supervisión a distancia
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
         Este ordenador parece ser una máquina virtual. La configuración seleccionada no permite ejecutar SEB en una máquina virtual.

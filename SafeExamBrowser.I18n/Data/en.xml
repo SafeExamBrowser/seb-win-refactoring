@@ -348,12 +348,6 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimer">
-        The current session will be remote proctored using a live video and audio stream, which is sent to an individually configured server. Ask your examinator about their privacy policy. SEB itself doesn't connect to any centralized SEB proctoring server, your exam provider decides which proctoring service/server to use.
-    </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimerTitle">
-        Session with Remote Proctoring
-    </Entry>
     <Entry key="MessageBox_Quit">
         Do you want to quit SEB?
     </Entry>
@@ -389,6 +383,12 @@
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
         Remote Session Detected
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimer">
+        Screen shots of the screen of the current session are created and sent to a server. Ask your examiner about their privacy policy. SEB itself does not establish a connection to a central SEB monitoring server. Your exam provider decides which monitoring service/server should be used.
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
+        Session with Screen Proctoring
     </Entry>
     <Entry key="MessageBox_ServerReconfigurationWarning">
         There is already a SEB Server session running. It is not allowed to reconfigure for another SEB Server session.
@@ -446,6 +446,12 @@
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
         SEB %%_VERSION_%% or newer
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimer">
+        The current session will be remote proctored using a live video and audio stream, which is sent to an individually configured server. Ask your examinator about their privacy policy. SEB itself doesn't connect to any centralized SEB proctoring server, your exam provider decides which proctoring service/server to use.
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
+        Session with Remote Proctoring
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
         This computer appears to be a virtual machine. The selected configuration does not allow SEB to be run in a virtual machine.

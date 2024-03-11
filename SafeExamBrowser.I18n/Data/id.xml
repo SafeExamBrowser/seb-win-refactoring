@@ -348,12 +348,6 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimer">
-        Sesi saat ini akan dipantau dari jarak jauh menggunakan streaming video dan audio langsung, yang dikirim ke server yang dikonfigurasi secara individual. Tanyakan kepada penguji Anda tentang kebijakan privasi mereka. SEB sendiri tidak terhubung ke server pengawas ujian SEB terpusat, penyedia ujian Anda memutuskan layanan/server pengawas ujian mana yang akan digunakan.
-    </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimerTitle">
-        Sesi dengan Pengawasan Jarak Jauh
-    </Entry>
     <Entry key="MessageBox_Quit">
         Apakah Anda ingin keluar dari SEB?
     </Entry>
@@ -389,6 +383,12 @@
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
         Sesi Jarak Jauh Terdeteksi
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimer">
+        Tangkapan layar dari layar sesi saat ini dibuat dan dikirim ke server. Tanyakan kepada penguji Anda tentang kebijakan privasi mereka. SEB sendiri tidak membuat koneksi ke server pemantauan SEB pusat. Penyelenggara ujian Anda memutuskan layanan/server pemantauan mana yang harus digunakan.
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
+        Sesi dengan Screen Proctoring
     </Entry>
     <Entry key="MessageBox_ServerReconfigurationWarning">
         Terdapat sesi SEB Server yang sedang berjalan. Tidak diperbolehkan melakukan konfigurasi ulang untuk sesi SEB Server lain.
@@ -446,6 +446,12 @@
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
         SEB %%_VERSION_%% atau yang lebih baru
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimer">
+        Sesi saat ini akan dipantau dari jarak jauh menggunakan streaming video dan audio langsung, yang dikirim ke server yang dikonfigurasi secara individual. Tanyakan kepada penguji Anda tentang kebijakan privasi mereka. SEB sendiri tidak terhubung ke server pengawas ujian SEB terpusat, penyedia ujian Anda memutuskan layanan/server pengawas ujian mana yang akan digunakan.
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
+        Sesi dengan Pengawasan Jarak Jauh
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
         Komputer ini tampaknya merupakan mesin virtual. Konfigurasi yang dipilih tidak mengizinkan SEB untuk dijalankan di mesin virtual.

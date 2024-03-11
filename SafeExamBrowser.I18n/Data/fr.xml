@@ -348,12 +348,6 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimer">
-        La session en cours sera surveillée à distance à l'aide d'un flux vidéo et audio en direct, qui est envoyé à un serveur configuré individuellement. Demandez à votre examinateur sa politique de confidentialité. SEB lui-même ne se connecte à aucun serveur de surveillance SEB centralisé, votre fournisseur d'examen décide du service / serveur de surveillance à utiliser.
-    </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimerTitle">
-        Session avec surveillance à distance
-    </Entry>
     <Entry key="MessageBox_Quit">
         Voulez-vous quitter SEB?
     </Entry>
@@ -389,6 +383,12 @@
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
         Session distante détectée
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimer">
+        Des captures d'écran de la session en cours sont créées et envoyées à un serveur. Demandez à votre examinateur quelle est sa politique en matière de protection de la vie privée. SEB lui-même n'établit pas de connexion avec un serveur central de surveillance SEB. C'est votre fournisseur d'examens qui décide du service/serveur de surveillance à utiliser.
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
+        Session avec Screen Proctoring
     </Entry>
     <Entry key="MessageBox_ServerReconfigurationWarning">
         Une session SEB Server est déjà en cours d'exécution. Il n'est pas permis de reconfigurer pour une autre session SEB Server.
@@ -446,6 +446,12 @@
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
         SEB %%_VERSION_%% ou plus récent
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimer">
+        La session en cours sera surveillée à distance à l'aide d'un flux vidéo et audio en direct, qui est envoyé à un serveur configuré individuellement. Demandez à votre examinateur sa politique de confidentialité. SEB lui-même ne se connecte à aucun serveur de surveillance SEB centralisé, votre fournisseur d'examen décide du service / serveur de surveillance à utiliser.
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
+        Session avec surveillance à distance
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
         Cet ordinateur semble être une machine virtuelle. La configuration sélectionnée ne permet pas à SEB de fonctionner dans une machine virtuelle.

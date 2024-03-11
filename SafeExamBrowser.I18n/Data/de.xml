@@ -348,12 +348,6 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimer">
-        Die aktuelle Sitzung wird mithilfe eines Live-Video- und Audiostreams fernüberwacht, der an einen individuell konfigurierten Server gesendet wird. Fragen Sie Ihren Prüfer nach dessen Datenschutzbestimmungen. SEB selbst stellt keine Verbindung zu einem zentralen SEB-Überwachungsserver her. Ihr Prüfungsanbieter entscheidet, welcher Überwachungsdienst/-server verwendet werden soll.
-    </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimerTitle">
-        Sitzung mit Fernüberwachung
-    </Entry>
     <Entry key="MessageBox_Quit">
         Möchten Sie SEB beenden?
     </Entry>
@@ -389,6 +383,12 @@
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
         Remote-Sitzung erkannt
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimer">
+        Es werden Bildschirmfotos des Bildschirms der aktuellen Sitzung erstellt und an einen Server gesendet. Erkundigen Sie sich bei Ihrem Prüfer nach dessen Datenschutzbestimmungen. SEB selbst stellt keine Verbindung zu einem zentralen SEB-Überwachungsserver her. Ihr Prüfungsanbieter entscheidet, welcher Überwachungsdienst/-server verwendet werden soll.
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
+        Sitzung mit Bildschirmüberwachung
     </Entry>
     <Entry key="MessageBox_ServerReconfigurationWarning">
         Es läuft bereits eine SEB-Server-Sitzung. Es ist nicht erlaubt, sich für eine andere SEB-Server-Sitzung neu zu konfigurieren.
@@ -446,6 +446,12 @@
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
         SEB %%_VERSION_%% oder neuer
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimer">
+        Die aktuelle Sitzung wird mithilfe eines Live-Video- und Audiostreams fernüberwacht, der an einen individuell konfigurierten Server gesendet wird. Fragen Sie Ihren Prüfer nach dessen Datenschutzbestimmungen. SEB selbst stellt keine Verbindung zu einem zentralen SEB-Überwachungsserver her. Ihr Prüfungsanbieter entscheidet, welcher Überwachungsdienst/-server verwendet werden soll.
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
+        Sitzung mit Fernüberwachung
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
         Dieser Computer scheint eine virtuelle Maschine zu sein. Die ausgewählte Konfiguration erlaubt es nicht, SEB in einer virtuellen Maschine auszuführen.

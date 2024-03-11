@@ -312,12 +312,6 @@
     <Entry key="MessageBox_OkButton">
         确定
     </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimer">
-        当前会话将使用实时视频和音频流进行远程管理，并将其发送到单独配置的服务器。 向考官询问他们的隐私政策。 SEB本身不连接到任何集中式SEB代理服务器，您的考试提供商决定要使用哪个代理服务/服务器。
-    </Entry>
-    <Entry key="MessageBox_ProctoringDisclaimerTitle">
-        远程代理会话
-    </Entry>
     <Entry key="MessageBox_Quit">
         您想要退出防作弊考试专用浏览器吗？
     </Entry>
@@ -353,6 +347,12 @@
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
         检测到远程会话
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimer">
+        当前会话的屏幕截图会被创建并发送到服务器。请向您的考官询问他们的隐私政策。SEB 本身不会与 SEB 中央监控服务器建立连接。您的考试提供商会决定使用哪种监控服务/服务器。
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
+        屏幕监考
     </Entry>
     <Entry key="MessageBox_ServerReconfigurationWarning">
         已经有一个 SEB 服务器会话正在运行。 不允许为另一个 SEB 服务器会话重新配置。
@@ -410,6 +410,12 @@
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
         SEB %%_VERSION_%% 或更新的版本
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimer">
+        当前会话将使用实时视频和音频流进行远程管理，并将其发送到单独配置的服务器。 向考官询问他们的隐私政策。 SEB本身不连接到任何集中式SEB代理服务器，您的考试提供商决定要使用哪个代理服务/服务器。
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
+        远程代理会话
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
         这台电脑是一个虚拟机。所选配置不允许防作弊考试专用浏览器在虚拟机中运行。
