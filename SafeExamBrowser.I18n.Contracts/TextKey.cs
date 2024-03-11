@@ -234,7 +234,6 @@ namespace SafeExamBrowser.I18n.Contracts
 		PasswordDialog_QuitPasswordRequiredTitle,
 		PasswordDialog_SettingsPasswordRequired,
 		PasswordDialog_SettingsPasswordRequiredTitle,
-		// TODO: Translate text for ProctoringFinalizationDialog_... to remaining languages!
 		ProctoringFinalizationDialog_Confirm,
 		ProctoringFinalizationDialog_FailureMessage,
 		ProctoringFinalizationDialog_InfoMessage,

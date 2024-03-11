@@ -660,6 +660,27 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Требуется пароль
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Confirm">
+        Подтвердить
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_FailureMessage">
+        Оставшиеся операции не удалось завершить, так как возникли проблемы с сетью и/или службой прокторинга экрана. Кэшированные данные можно найти в следующей директории:
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_InfoMessage">
+        Пожалуйста, подождите, пока прокторинг экрана выполнит оставшиеся операции. Это может занять некоторое время, в зависимости от состояния сети и службы прокторинга экрана.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Status">
+        Выполняется операция передачи %%_COUNT_%% из %%_TOTAL_%%.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusAndTime">
+        Ожидание выполнения операции передачи %%_COUNT_%% из %%_TOTAL_%% в %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        Ожидание возобновления операций передачи %%_COUNT_%% в %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Title">
+        Финализация прокторинга экрана
+    </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
         СЕБ убегает.
     </Entry>

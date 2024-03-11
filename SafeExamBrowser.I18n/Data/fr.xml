@@ -660,6 +660,27 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Mot de passe requis
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Confirm">
+        Confirmer
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_FailureMessage">
+        Les opérations restantes n'ont pas pu être achevées en raison d'un problème avec le réseau et/ou le service d'examen à l'écran. Les données mises en cache se trouvent dans le répertoire suivant:
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_InfoMessage">
+        Veuillez patienter pendant que le procotoring d'écran exécute les opérations restantes. Cela peut prendre un certain temps, en fonction du réseau et de l'état du service de projection d'écran.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Status">
+        Exécution de l'opération de transmission %%_COUNT_%% de %%_TOTAL_%%.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusAndTime">
+        En attente d'exécution de l'opération de transmission %%_COUNT_%% de %%_TOTAL_%% à %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        En attente de reprise des opérations de transmission %%_COUNT_%% à %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Title">
+        Finalisation de l'inspection de l'écran
+    </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
         SEB fonctionne.
     </Entry>

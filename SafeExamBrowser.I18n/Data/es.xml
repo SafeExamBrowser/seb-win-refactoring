@@ -388,7 +388,7 @@
         Se crean capturas de la pantalla de la sesión actual y se envían a un servidor. Pregunte a su examinador sobre su política de privacidad. SEB por sí mismo no establece una conexión con un servidor central de monitoreo SEB. Su proveedor de exámenes decide qué servicio/servidor de monitoreo debe ser utilizado.
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
-        Sesión con Screen Proctoring
+        Sesión con proctoring de pantalla
     </Entry>
     <Entry key="MessageBox_ServerReconfigurationWarning">
         Ya hay una sesión de SEB-Server en ejecución. No se permite reconfigurar para otra sesión de SEB-Server.
@@ -659,6 +659,27 @@
     </Entry>
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Contraseña requerida
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Confirm">
+        Confirmar
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_FailureMessage">
+        El resto de operaciones no se han podido completar porque hay un problema con la red y/o el servicio de proctoring de pantalla. Los datos en caché se encuentran en el siguiente directorio:
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_InfoMessage">
+        Por favor, espere mientras el proctoring de pantalla ejecuta sus operaciones restantes. Esto puede tardar un poco, dependiendo de la red y del estado del servicio de proctoring de pantalla.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Status">
+        Ejecutando operación de transmisión %%_COUNT_%% de %%_TOTAL_%%.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusAndTime">
+        Esperando para ejecutar operación de transmisión %%_COUNT_%% de %%_TOTAL_%% en %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        Esperando para reanudar %%_COUNT_%% las operaciones de transmisión en %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Title">
+        Finalización del proctoring de pantalla
     </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
         SEB se está ejecutando.

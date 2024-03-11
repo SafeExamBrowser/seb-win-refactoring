@@ -660,6 +660,27 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Parool nõutav
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Confirm">
+        Kinnitage
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_FailureMessage">
+        Ülejäänud toiminguid ei õnnestunud lõpule viia, kuna võrgu ja/või ekraani proktoriteenusega on probleem. Vaikimisi salvestatud andmed asuvad järgmises kataloogis:
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_InfoMessage">
+        Palun oodake, kuni ekraaniprotoring täidab oma ülejäänud toiminguid. See võib võtta aega, sõltuvalt võrgu ja ekraani proctoring teenuse olekust.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Status">
+        Täidab ülekandeoperatsiooni %%_COUNT_%% of %%_TOTAL_%%.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusAndTime">
+        Ootab ülekandeoperatsiooni %%_COUNT_%% of %%_TOTAL_%% kell %%_TIME_%% täitmist...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        Ootab, et jätkata %%_COUNT_%% edastamistoiminguid kell %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Title">
+        Ekraani kontrollimise lõpuleviimine
+    </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
         SEB töötab.
     </Entry>

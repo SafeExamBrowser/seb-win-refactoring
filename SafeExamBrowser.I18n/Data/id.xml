@@ -660,6 +660,27 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Kata Sandi Diperlukan
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Confirm">
+        Konfirmasi
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_FailureMessage">
+        Operasi yang tersisa tidak dapat diselesaikan karena ada masalah dengan jaringan dan/atau layanan pemeriksaan layar. Data yang di-cache dapat ditemukan di direktori berikut:
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_InfoMessage">
+        Harap tunggu sementara proktor layar menjalankan operasi yang tersisa. Hal ini mungkin memerlukan waktu beberapa saat, tergantung pada jaringan dan status layanan pemeriksaan layar.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Status">
+        Menjalankan operasi transmisi %%_COUNT_%% dari %%_TOTAL_%%.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusAndTime">
+        Menunggu untuk mengeksekusi operasi transmisi %%_COUNT_%% dari %%_TOTAL_%% pada %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        Menunggu untuk melanjutkan operasi transmisi %%_COUNT_%% pada %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Title">
+        Finalisasi Pemeriksaan Layar
+    </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
         SEB sedang berjalan.
     </Entry>

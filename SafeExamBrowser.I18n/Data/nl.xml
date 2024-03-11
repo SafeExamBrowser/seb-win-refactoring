@@ -660,6 +660,27 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Wachtwoord vereist
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Confirm">
+        Bevestigen
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_FailureMessage">
+        De resterende bewerkingen konden niet worden voltooid omdat er een probleem is met het netwerk en/of de schermproctoringservice. De gegevens in de cache kunnen gevonden worden in de volgende directory:
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_InfoMessage">
+        Gelieve te wachten terwijl de schermprootoring zijn resterende operaties uitvoert. Dit kan even duren, afhankelijk van het netwerk en de status van de screen proctoring service.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Status">
+        Uitvoeren van overdrachtsoperatie %%_COUNT_%% van %%_TOTAL_%%.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusAndTime">
+        Wachten om overdrachtsoperatie %%_COUNT_%% van %%_TOTAL_%% uit te voeren op %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        Wachten om %%_COUNT_%% transmissiebewerkingen te hervatten op %%_TIME_%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Title">
+        Scherm Proctoring Afronding
+    </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
         SEB wordt uitgevoerd.
     </Entry>
