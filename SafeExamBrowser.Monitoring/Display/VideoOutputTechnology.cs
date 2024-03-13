@@ -30,6 +30,7 @@ namespace SafeExamBrowser.Monitoring.Display
 		UDIEmbedded = 13,
 		SDTVDongle = 14,
 		MiraCast = 15,
+		IndirectWired = 16,
 		Internal = 0x80000000,
 		SVideo4Pin = SVideo,
 		SVideo7Pin = SVideo,
