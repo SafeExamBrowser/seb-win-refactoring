@@ -158,7 +158,7 @@ namespace SafeExamBrowser.Browser
 			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} #{Id}");
 			var downloadHandler = new DownloadHandler(appConfig, downloadLogger, settings, WindowSettings);
 			var keyboardHandler = new KeyboardHandler();
-			var renderHandler = new RenderProcessMessageHandler(appConfig, keyGenerator, settings, text);
+			var renderHandler = new RenderProcessMessageHandler(appConfig, clipboard, keyGenerator, settings, text);
 			var requestFilter = new RequestFilter();
 			var requestLogger = logger.CloneFor($"{nameof(RequestHandler)} #{Id}");
 			var resourceHandler = new ResourceHandler(appConfig, requestFilter, keyGenerator, logger, sessionMode, settings, WindowSettings, text);

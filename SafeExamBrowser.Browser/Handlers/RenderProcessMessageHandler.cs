@@ -18,14 +18,16 @@ namespace SafeExamBrowser.Browser.Handlers
 	internal class RenderProcessMessageHandler : IRenderProcessMessageHandler
 	{
 		private readonly AppConfig appConfig;
+		private readonly Clipboard clipboard;
 		private readonly ContentLoader contentLoader;
 		private readonly IKeyGenerator keyGenerator;
 		private readonly BrowserSettings settings;
 		private readonly IText text;
 
-		internal RenderProcessMessageHandler(AppConfig appConfig, IKeyGenerator keyGenerator, BrowserSettings settings, IText text)
+		internal RenderProcessMessageHandler(AppConfig appConfig, Clipboard clipboard, IKeyGenerator keyGenerator, BrowserSettings settings, IText text)
 		{
 			this.appConfig = appConfig;
+			this.clipboard = clipboard;
 			this.contentLoader = new ContentLoader(text);
 			this.keyGenerator = keyGenerator;
 			this.settings = settings;
@@ -37,18 +39,23 @@ namespace SafeExamBrowser.Browser.Handlers
 			var browserExamKey = keyGenerator.CalculateBrowserExamKeyHash(settings.ConfigurationKey, settings.BrowserExamKeySalt, frame.Url);
 			var configurationKey = keyGenerator.CalculateConfigurationKeyHash(settings.ConfigurationKey, frame.Url);
 			var api = contentLoader.LoadApi(browserExamKey, configurationKey, appConfig.ProgramBuildVersion);
-			var clipboard = contentLoader.LoadClipboard();
+			var clipboardScript = contentLoader.LoadClipboard();
 
 			frame.ExecuteJavaScriptAsync(api);
 
 			if (!settings.AllowPrint)
 			{
-				frame.ExecuteJavaScriptAsync($"window.print = function(){{ alert('{text.Get(TextKey.Browser_PrintNotAllowed)}') }}");
+				frame.ExecuteJavaScriptAsync($"window.print = function() {{ alert('{text.Get(TextKey.Browser_PrintNotAllowed)}') }}");
 			}
 
 			if (settings.UseIsolatedClipboard)
 			{
-				frame.ExecuteJavaScriptAsync(clipboard);
+				frame.ExecuteJavaScriptAsync(clipboardScript);
+
+				if (clipboard.Content != default)
+				{
+					frame.ExecuteJavaScriptAsync($"SafeExamBrowser.clipboard.update('', '{clipboard.Content}');");
+				}
 			}
 		}
 
