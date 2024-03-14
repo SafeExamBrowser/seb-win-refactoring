@@ -36,10 +36,10 @@ namespace SafeExamBrowser.Runtime.Operations
 				result = ShowVideoProctoringDisclaimer();
 			}
 
-			if (result == OperationResult.Success && Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
-			{
-				result = ShowScreenProctoringDisclaimer();
-			}
+			//if (result == OperationResult.Success && Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
+			//{
+			//	result = ShowScreenProctoringDisclaimer();
+			//}
 
 			if (result == OperationResult.Success && Context.Next.Settings.Proctoring.Zoom.Enabled)
 			{
@@ -58,10 +58,10 @@ namespace SafeExamBrowser.Runtime.Operations
 				result = ShowVideoProctoringDisclaimer();
 			}
 
-			if (result == OperationResult.Success && Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
-			{
-				result = ShowScreenProctoringDisclaimer();
-			}
+			//if (result == OperationResult.Success && Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
+			//{
+			//	result = ShowScreenProctoringDisclaimer();
+			//}
 
 			if (result == OperationResult.Success && Context.Next.Settings.Proctoring.Zoom.Enabled)
 			{
