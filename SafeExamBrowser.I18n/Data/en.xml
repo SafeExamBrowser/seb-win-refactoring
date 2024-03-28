@@ -385,7 +385,7 @@
         Remote Session Detected
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimer">
-        Screen shots of the screen of the current session are created and sent to a server. Ask your examiner about their privacy policy. SEB itself does not establish a connection to a central SEB monitoring server. Your exam provider decides which monitoring service/server should be used.
+        Your screen will be recorded during this exam in accordance with the specifications and data privacy regulations of your exam provider. If you have any questions, please contact your exam provider.
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Session with Screen Proctoring

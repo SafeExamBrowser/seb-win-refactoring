@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Text>
     <Entry key="AboutWindow_LicenseInfo">
         此应用程序受Mozilla Public License, 版本 2.0 的条款约束。防作弊考试专用浏览器使用以下框架和第三方知识库：
@@ -18,14 +18,11 @@
     <Entry key="Browser_BlockedPageTitle">
         页面已被阻止
     </Entry>
-    <Entry key="Browser_LoadErrorPageMessage">
-        加载页面 "%%URL%%"时出错:
+    <Entry key="Browser_LoadErrorMessage">
+        加载页面 "%%URL%%" 时发生错误：
     </Entry>
-    <Entry key="Browser_LoadErrorPageButton">
-        重试
-    </Entry>
-    <Entry key="Browser_LoadErrorPageTitle">
-        页面加载出错
+    <Entry key="Browser_LoadErrorTitle">
+        页面加载错误
     </Entry>
     <Entry key="Browser_Name">
         浏览器
@@ -47,6 +44,12 @@
     </Entry>
     <Entry key="BrowserWindow_DownloadComplete">
         下载完成
+    </Entry>
+    <Entry key="BrowserWindow_FindCaseSensitive">
+        区分大小写搜索
+    </Entry>
+    <Entry key="BrowserWindow_FindMenuItem">
+        搜索页面...
     </Entry>
     <Entry key="BrowserWindow_ReloadButton">
         重新加载
@@ -95,6 +98,18 @@
     </Entry>
     <Entry key="Build">
         生成
+    </Entry>
+    <Entry key="ExamSelectionDialog_Cancel">
+        取消
+    </Entry>
+    <Entry key="ExamSelectionDialog_Message">
+        请从现有的 SEB-Server 考试中选择一项：
+    </Entry>
+    <Entry key="ExamSelectionDialog_Select">
+        选择
+    </Entry>
+    <Entry key="ExamSelectionDialog_Title">
+        SEB-Server 考试
     </Entry>
     <Entry key="FileSystemDialog_Cancel">
         取消
@@ -183,6 +198,15 @@
     <Entry key="LockScreen_UnlockButton">
         解锁
     </Entry>
+    <Entry key="LockScreen_UserSessionContinueOption">
+        解锁安全考试浏览器。
+    </Entry>
+    <Entry key="LockScreen_UserSessionMessage">
+        活动用户已更改或计算机已锁定！要解锁 SEB，请选择一个可用选项并输入正确的解锁密码。
+    </Entry>
+    <Entry key="LockScreen_UserSessionTerminateOption">
+        终止安全考试浏览器。警告：将无法保存数据或执行任何其他操作，系统将立即关闭！
+    </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         置顶
     </Entry>
@@ -224,6 +248,12 @@
     </Entry>
     <Entry key="MessageBox_ApplicationTerminationFailureTitle">
         自动终止失败
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestion">
+        你确定吗？(如果您已登录网站，该功能不会将您注销）。
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestionTitle">
+        返回起点
     </Entry>
     <Entry key="MessageBox_BrowserNavigationBlocked">
         根据当前配置，不允许访问 "%%URL%%" 。
@@ -281,6 +311,12 @@
     </Entry>
     <Entry key="MessageBox_InvalidConfigurationDataTitle">
         配置错误
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePassword">
+        您输入的密码不正确。
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePasswordTitle">
+        密码无效
     </Entry>
     <Entry key="MessageBox_InvalidPasswordError">
         您已连续5次输错密码。防作弊考试专用浏览器现将终止。
@@ -349,7 +385,7 @@
         检测到远程会话
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimer">
-        当前会话的屏幕截图会被创建并发送到服务器。请向您的考官询问他们的隐私政策。SEB 本身不会与 SEB 中央监控服务器建立连接。您的考试提供商会决定使用哪种监控服务/服务器。
+        在本次考试中，您的屏幕将按照考试提供商的规格和数据隐私规定被记录下来。如果您有任何疑问，请联系您的考试提供商。
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         屏幕监考
@@ -465,8 +501,14 @@
     <Entry key="OperationStatus_FinalizeClipboard">
         剪贴板定稿
     </Entry>
+    <Entry key="OperationStatus_FinalizeServer">
+        完成 SEB 服务器
+    </Entry>
     <Entry key="OperationStatus_FinalizeServiceSession">
         完成服务会话（运行已定型）
+    </Entry>
+    <Entry key="OperationStatus_FinalizeSystemEvents">
+        最终确定系统事件
     </Entry>
     <Entry key="OperationStatus_InitializeApplications">
         初始化应用程序
@@ -500,6 +542,9 @@
     </Entry>
     <Entry key="OperationStatus_InitializeShell">
         初始化用户界面
+    </Entry>
+    <Entry key="OperationStatus_InitializeSystemEvents">
+        初始化系统事件
     </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         初始化工作区域
@@ -578,6 +623,12 @@
     </Entry>
     <Entry key="OperationStatus_WaitRuntimeDisconnection">
         等待运行时断开
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequired">
+        输入退出/重启密码：（如果您已登录网站，此功能不会将您注销。）
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
+        返回起点
     </Entry>
     <Entry key="PasswordDialog_Cancel">
         取消

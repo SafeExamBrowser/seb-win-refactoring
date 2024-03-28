@@ -385,7 +385,7 @@
         Session distante détectée
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimer">
-        Des captures d'écran de la session en cours sont créées et envoyées à un serveur. Demandez à votre examinateur quelle est sa politique en matière de protection de la vie privée. SEB lui-même n'établit pas de connexion avec un serveur central de surveillance SEB. C'est votre fournisseur d'examens qui décide du service/serveur de surveillance à utiliser.
+        Votre écran sera enregistré pendant cet examen conformément aux spécifications et aux règles de confidentialité des données de votre fournisseur d'examen. Si vous avez des questions, veuillez contacter votre fournisseur d'examen.
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Session avec Screen Proctoring

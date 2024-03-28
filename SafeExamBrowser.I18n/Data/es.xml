@@ -385,7 +385,7 @@
         Sesión remota detectada
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimer">
-        Se crean capturas de la pantalla de la sesión actual y se envían a un servidor. Pregunte a su examinador sobre su política de privacidad. SEB por sí mismo no establece una conexión con un servidor central de monitoreo SEB. Su proveedor de exámenes decide qué servicio/servidor de monitoreo debe ser utilizado.
+        Su pantalla será grabada durante este examen de acuerdo con las especificaciones y normas de privacidad de datos de su proveedor de exámenes. Si tiene alguna duda, póngase en contacto con su proveedor de exámenes.
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sesión con proctoring de pantalla

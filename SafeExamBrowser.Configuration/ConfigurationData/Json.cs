@@ -35,6 +35,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 					stream.Write(kvp.Key);
 					stream.Write('"');
 					stream.Write(':');
+
 					Serialize(kvp.Value, stream);
 
 					if (kvp.Key != orderedByKey.Last().Key)

@@ -385,7 +385,7 @@
         Sessione remota rilevata
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimer">
-        Le schermate della sessione corrente vengono create e inviate a un server. Chiedete al vostro esaminatore la loro politica sulla privacy. SEB stesso non stabilisce una connessione a un server di monitoraggio SEB centrale. Il fornitore dell'esame decide quale servizio/server di monitoraggio utilizzare.
+        Lo schermo dell'utente verrà registrato durante l'esame in conformità alle specifiche e alle norme sulla privacy del fornitore dell'esame. In caso di domande, contattare il fornitore dell'esame.
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sessione con Screen Proctoring

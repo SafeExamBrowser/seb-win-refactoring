@@ -385,7 +385,7 @@
         Tuvastati kaugseanss
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimer">
-        Praeguse seansi ekraanipildist luuakse ja saadetakse serverisse ekraanipilte. Küsige oma eksamineerijalt nende privaatsuspoliitikat. SEB ise ei loo ühendust keskse SEB jälgimisserveriga. Teie eksami korraldaja otsustab, millist jälgimisteenust/serverit kasutada.
+        Teie ekraan salvestatakse eksami ajal vastavalt eksami korraldaja spetsifikatsioonidele ja andmekaitse eeskirjadele. Kui teil on küsimusi, võtke palun ühendust oma eksamiteenuse pakkujaga.
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sessioon koos ekraaniprotektoriga

@@ -385,7 +385,7 @@
         Externe sessie gedetecteerd
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimer">
-        Schermafbeeldingen van het scherm van de huidige sessie worden gemaakt en naar een server gestuurd. Vraag je examinator naar hun privacybeleid. SEB maakt zelf geen verbinding met een centrale SEB monitoring server. Je examenaanbieder beslist welke monitoring service/server gebruikt moet worden.
+        Je scherm wordt opgenomen tijdens dit examen in overeenstemming met de specificaties en privacyregels van je examenaanbieder. Als je vragen hebt, neem dan contact op met je examenaanbieder.
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sessie met schermproctor

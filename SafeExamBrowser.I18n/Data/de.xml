@@ -385,7 +385,7 @@
         Remote-Sitzung erkannt
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimer">
-        Es werden Bildschirmfotos des Bildschirms der aktuellen Sitzung erstellt und an einen Server gesendet. Erkundigen Sie sich bei Ihrem Prüfer nach dessen Datenschutzbestimmungen. SEB selbst stellt keine Verbindung zu einem zentralen SEB-Überwachungsserver her. Ihr Prüfungsanbieter entscheidet, welcher Überwachungsdienst/-server verwendet werden soll.
+        Ihr Bildschirm wird während dieser Prüfung gemäss den Vorgaben und Datenschutzrichtlinien Ihres Prüfungsanbieters aufgezeichnet. Für Fragen hierzu wenden Sie sich bitte an Ihren Prüfungsanbieter.
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sitzung mit Bildschirmüberwachung

@@ -385,7 +385,7 @@
         Sesi Jarak Jauh Terdeteksi
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimer">
-        Tangkapan layar dari layar sesi saat ini dibuat dan dikirim ke server. Tanyakan kepada penguji Anda tentang kebijakan privasi mereka. SEB sendiri tidak membuat koneksi ke server pemantauan SEB pusat. Penyelenggara ujian Anda memutuskan layanan/server pemantauan mana yang harus digunakan.
+        Layar Anda akan direkam selama ujian ini sesuai dengan spesifikasi dan peraturan privasi data dari penyedia ujian. Jika Anda memiliki pertanyaan, silakan hubungi penyedia ujian Anda.
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sesi dengan Screen Proctoring
