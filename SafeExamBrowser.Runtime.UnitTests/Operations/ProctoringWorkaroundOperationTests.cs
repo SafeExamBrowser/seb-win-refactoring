@@ -40,7 +40,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustSwitchToDisableExplorerShellIfProctoringActive()
 		{
-			settings.Proctoring.Enabled = true;
+			settings.Proctoring.JitsiMeet.Enabled = true;
 			settings.Security.KioskMode = KioskMode.CreateNewDesktop;
 
 			var result = sut.Perform();
@@ -52,7 +52,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustDoNothingIfProctoringNotActive()
 		{
-			settings.Proctoring.Enabled = false;
+			settings.Proctoring.JitsiMeet.Enabled = false;
 			settings.Security.KioskMode = KioskMode.None;
 
 			var result = sut.Perform();
@@ -64,7 +64,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void Repeat_MustSwitchToDisableExplorerShellIfProctoringActive()
 		{
-			settings.Proctoring.Enabled = true;
+			settings.Proctoring.JitsiMeet.Enabled = true;
 			settings.Security.KioskMode = KioskMode.CreateNewDesktop;
 
 			var result = sut.Repeat();
@@ -76,7 +76,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void Repeat_MustDoNothingIfProctoringNotActive()
 		{
-			settings.Proctoring.Enabled = false;
+			settings.Proctoring.JitsiMeet.Enabled = false;
 			settings.Security.KioskMode = KioskMode.None;
 
 			var result = sut.Repeat();
@@ -88,7 +88,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void Revert_MustDoNothing()
 		{
-			settings.Proctoring.Enabled = true;
+			settings.Proctoring.JitsiMeet.Enabled = true;
 			settings.Security.KioskMode = KioskMode.None;
 
 			var result = sut.Revert();
