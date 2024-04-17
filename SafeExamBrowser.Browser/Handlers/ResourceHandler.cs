@@ -396,6 +396,7 @@ namespace SafeExamBrowser.Browser.Handlers
 						var endpointUrl = default(string);
 						var start = session.IndexOf("=") + 1;
 						var end = session.IndexOf(";");
+						var name = session.Substring(0, start - 1);
 						var value = session.Substring(start, end - start);
 						var uri = new Uri(requestUrl);
 
@@ -413,7 +414,7 @@ namespace SafeExamBrowser.Browser.Handlers
 						using (var handler = new HttpClientHandler { UseCookies = false })
 						using (var client = new HttpClient(handler))
 						{
-							message.Headers.Add("Cookie", $"MoodleSession={value}");
+							message.Headers.Add("Cookie", $"{name}={value}");
 
 							var result = await client.SendAsync(message);
 
