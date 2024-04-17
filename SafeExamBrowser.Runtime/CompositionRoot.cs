@@ -106,7 +106,6 @@ namespace SafeExamBrowser.Runtime
 			sessionOperations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, sessionContext, text));
 			sessionOperations.Enqueue(new ServiceOperation(logger, runtimeHost, serviceProxy, sessionContext, THIRTY_SECONDS, userInfo));
 			sessionOperations.Enqueue(new ClientTerminationOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, THIRTY_SECONDS));
-			sessionOperations.Enqueue(new ProctoringWorkaroundOperation(logger, sessionContext));
 			sessionOperations.Enqueue(new KioskModeOperation(desktopFactory, desktopMonitor, explorerShell, logger, processFactory, sessionContext));
 			sessionOperations.Enqueue(new ClientOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, THIRTY_SECONDS));
 			sessionOperations.Enqueue(new SessionActivationOperation(logger, sessionContext));

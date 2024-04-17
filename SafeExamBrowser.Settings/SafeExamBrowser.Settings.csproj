@@ -75,12 +75,9 @@
     <Compile Include="Monitoring\DisplaySettings.cs" />
     <Compile Include="Proctoring\ImageFormat.cs" />
     <Compile Include="Proctoring\ImageQuantization.cs" />
-    <Compile Include="Proctoring\JitsiMeetSettings.cs" />
     <Compile Include="Proctoring\MetaDataSettings.cs" />
     <Compile Include="Proctoring\ProctoringSettings.cs" />
     <Compile Include="Proctoring\ScreenProctoringSettings.cs" />
-    <Compile Include="Proctoring\WindowVisibility.cs" />
-    <Compile Include="Proctoring\ZoomSettings.cs" />
     <Compile Include="Security\ClipboardPolicy.cs" />
     <Compile Include="Security\VersionRestriction.cs" />
     <Compile Include="SessionMode.cs" />

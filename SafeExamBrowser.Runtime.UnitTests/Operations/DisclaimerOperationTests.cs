@@ -44,7 +44,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var count = 0;
 
-			settings.Proctoring.JitsiMeet.Enabled = true;
 			settings.Proctoring.ScreenProctoring.Enabled = true;
 
 			sut.ActionRequired += (args) =>
@@ -58,7 +57,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			var result = sut.Perform();
 
-			Assert.AreEqual(2, count);
+			Assert.AreEqual(1, count);
 			Assert.AreEqual(OperationResult.Success, result);
 		}
 
@@ -67,8 +66,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var disclaimerShown = false;
 
-			settings.Proctoring.JitsiMeet.Enabled = true;
-			settings.Proctoring.ScreenProctoring.Enabled = false;
+			settings.Proctoring.ScreenProctoring.Enabled = true;
 
 			sut.ActionRequired += (args) =>
 			{
@@ -83,15 +81,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			Assert.IsTrue(disclaimerShown);
 			Assert.AreEqual(OperationResult.Aborted, result);
-
-			disclaimerShown = false;
-			settings.Proctoring.JitsiMeet.Enabled = false;
-			settings.Proctoring.ScreenProctoring.Enabled = true;
-
-			result = sut.Repeat();
-
-			Assert.IsTrue(disclaimerShown);
-			Assert.AreEqual(OperationResult.Aborted, result);
 		}
 
 		[TestMethod]
@@ -99,7 +88,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var disclaimerShown = false;
 
-			settings.Proctoring.Enabled = false;
 			sut.ActionRequired += (args) =>
 			{
 				if (args is MessageEventArgs m)
@@ -120,7 +108,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var count = 0;
 
-			settings.Proctoring.JitsiMeet.Enabled = true;
 			settings.Proctoring.ScreenProctoring.Enabled = true;
 
 			sut.ActionRequired += (args) =>
@@ -134,7 +121,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			var result = sut.Perform();
 
-			Assert.AreEqual(2, count);
+			Assert.AreEqual(1, count);
 			Assert.AreEqual(OperationResult.Success, result);
 		}
 
@@ -143,8 +130,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var disclaimerShown = false;
 
-			settings.Proctoring.JitsiMeet.Enabled = true;
-			settings.Proctoring.ScreenProctoring.Enabled = false;
+			settings.Proctoring.ScreenProctoring.Enabled = true;
 
 			sut.ActionRequired += (args) =>
 			{
@@ -159,15 +145,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			Assert.IsTrue(disclaimerShown);
 			Assert.AreEqual(OperationResult.Aborted, result);
-
-			disclaimerShown = false;
-			settings.Proctoring.JitsiMeet.Enabled = false;
-			settings.Proctoring.ScreenProctoring.Enabled = true;
-
-			result = sut.Repeat();
-
-			Assert.IsTrue(disclaimerShown);
-			Assert.AreEqual(OperationResult.Aborted, result);
 		}
 
 		[TestMethod]
@@ -175,7 +152,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var disclaimerShown = false;
 
-			settings.Proctoring.Enabled = false;
 			sut.ActionRequired += (args) =>
 			{
 				if (args is MessageEventArgs m)
@@ -196,7 +172,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var disclaimerShown = false;
 
-			settings.Proctoring.Enabled = true;
 			sut.ActionRequired += (args) =>
 			{
 				if (args is MessageEventArgs m)

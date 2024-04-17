@@ -145,7 +145,6 @@
     <Compile Include="Operations\DisclaimerOperationTests.cs" />
     <Compile Include="Operations\DisplayMonitorOperationTests.cs" />
     <Compile Include="Operations\KioskModeOperationTests.cs" />
-    <Compile Include="Operations\ProctoringWorkaroundOperationTests.cs" />
     <Compile Include="Operations\RemoteSessionOperationTests.cs" />
     <Compile Include="Operations\ServerOperationTests.cs" />
     <Compile Include="Operations\ServiceOperationTests.cs" />

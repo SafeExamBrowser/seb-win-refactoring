@@ -12,7 +12,6 @@ using System.IO;
 using System.Security.Cryptography;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Applications;
-using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.Settings.Security;
 
 namespace SafeExamBrowser.Configuration.ConfigurationData
@@ -77,15 +76,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		private void InitializeProctoringSettings(AppSettings settings)
 		{
 			settings.Proctoring.Enabled = settings.Proctoring.ScreenProctoring.Enabled;
-
-			// The video proctoring implementations are disabled for version 3.7.0 and will be completely removed for version 3.8.0.
-			settings.Proctoring.JitsiMeet.Enabled = false;
-			settings.Proctoring.Zoom.Enabled = false;
-
-			if (settings.Proctoring.JitsiMeet.Enabled && !settings.Proctoring.JitsiMeet.ReceiveVideo)
-			{
-				settings.Proctoring.WindowVisibility = WindowVisibility.Hidden;
-			}
 		}
 
 		private void RemoveLegacyBrowsers(AppSettings settings)

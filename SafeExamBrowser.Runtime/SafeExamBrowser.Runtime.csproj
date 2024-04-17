@@ -109,7 +109,6 @@
     <Compile Include="Operations\ApplicationIntegrityOperation.cs" />
     <Compile Include="Operations\Events\VersionRestrictionMessageArgs.cs" />
     <Compile Include="Operations\KioskModeOperation.cs" />
-    <Compile Include="Operations\ProctoringWorkaroundOperation.cs" />
     <Compile Include="Operations\RemoteSessionOperation.cs" />
     <Compile Include="Operations\ServerOperation.cs" />
     <Compile Include="Operations\ServiceOperation.cs" />

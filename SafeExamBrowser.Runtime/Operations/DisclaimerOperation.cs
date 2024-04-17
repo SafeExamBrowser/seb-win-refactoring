@@ -31,19 +31,9 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var result = OperationResult.Success;
 
-			if (Context.Next.Settings.Proctoring.JitsiMeet.Enabled)
-			{
-				result = ShowVideoProctoringDisclaimer();
-			}
-
-			if (result == OperationResult.Success && Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
+			if (Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
 			{
 				result = ShowScreenProctoringDisclaimer();
-			}
-
-			if (result == OperationResult.Success && Context.Next.Settings.Proctoring.Zoom.Enabled)
-			{
-				result = ShowZoomError();
 			}
 
 			return result;
@@ -53,19 +43,9 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var result = OperationResult.Success;
 
-			if (Context.Next.Settings.Proctoring.JitsiMeet.Enabled)
-			{
-				result = ShowVideoProctoringDisclaimer();
-			}
-
-			if (result == OperationResult.Success && Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
+			if (Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
 			{
 				result = ShowScreenProctoringDisclaimer();
-			}
-
-			if (result == OperationResult.Success && Context.Next.Settings.Proctoring.Zoom.Enabled)
-			{
-				result = ShowZoomError();
 			}
 
 			return result;
@@ -101,51 +81,6 @@ namespace SafeExamBrowser.Runtime.Operations
 
 				return OperationResult.Aborted;
 			}
-		}
-
-		private OperationResult ShowVideoProctoringDisclaimer()
-		{
-			var args = new MessageEventArgs
-			{
-				Action = MessageBoxAction.OkCancel,
-				Icon = MessageBoxIcon.Information,
-				Message = TextKey.MessageBox_VideoProctoringDisclaimer,
-				Title = TextKey.MessageBox_VideoProctoringDisclaimerTitle
-			};
-
-			StatusChanged?.Invoke(TextKey.OperationStatus_WaitDisclaimerConfirmation);
-			ActionRequired?.Invoke(args);
-
-			if (args.Result == MessageBoxResult.Ok)
-			{
-				logger.Info("The user confirmed the video proctoring disclaimer.");
-
-				return OperationResult.Success;
-			}
-			else
-			{
-				logger.Warn("The user did not confirm the video proctoring disclaimer! Aborting session initialization...");
-
-				return OperationResult.Aborted;
-			}
-		}
-
-		private OperationResult ShowZoomError()
-		{
-			var args = new MessageEventArgs
-			{
-				Action = MessageBoxAction.Ok,
-				Icon = MessageBoxIcon.Error,
-				Message = TextKey.MessageBox_ZoomNotSupported,
-				Title = TextKey.MessageBox_ZoomNotSupportedTitle
-			};
-
-			logger.Error("Zoom proctoring is enabled but not supported! Aborting session initialization...");
-
-			StatusChanged?.Invoke(TextKey.OperationStatus_WaitErrorConfirmation);
-			ActionRequired?.Invoke(args);
-
-			return OperationResult.Aborted;
 		}
 	}
 }

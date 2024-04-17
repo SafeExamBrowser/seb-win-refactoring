@@ -27,11 +27,6 @@ namespace SafeExamBrowser.Settings.Proctoring
 		public bool ForceRaiseHandMessage { get; set; }
 
 		/// <summary>
-		/// All settings for remote proctoring with Jitsi Meet.
-		/// </summary>
-		public JitsiMeetSettings JitsiMeet { get; set; }
-
-		/// <summary>
 		/// All settings for the screen proctoring.
 		/// </summary>
 		public ScreenProctoringSettings ScreenProctoring { get; set; }
@@ -46,21 +41,9 @@ namespace SafeExamBrowser.Settings.Proctoring
 		/// </summary>
 		public bool ShowTaskbarNotification { get; set; }
 
-		/// <summary>
-		/// Determines the visibility of the proctoring window.
-		/// </summary>
-		public WindowVisibility WindowVisibility { get; set; }
-
-		/// <summary>
-		/// All settings for remote proctoring with Zoom.
-		/// </summary>
-		public ZoomSettings Zoom { get; set; }
-
 		public ProctoringSettings()
 		{
-			JitsiMeet = new JitsiMeetSettings();
 			ScreenProctoring = new ScreenProctoringSettings();
-			Zoom = new ZoomSettings();
 		}
 	}
 }

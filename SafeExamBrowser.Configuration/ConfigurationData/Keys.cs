@@ -234,29 +234,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string ForceRaiseHandMessage = "raiseHandButtonAlwaysPromptMessage";
 			internal const string ShowRaiseHand = "raiseHandButtonShow";
 			internal const string ShowTaskbarNotification = "showProctoringViewButton";
-			internal const string WindowVisibility = "remoteProctoringViewShow";
-
-			internal static class JitsiMeet
-			{
-				internal const string AllowChat = "jitsiMeetFeatureFlagChat";
-				internal const string AllowClosedCaptions = "jitsiMeetFeatureFlagCloseCaptions";
-				internal const string AllowRaiseHand = "jitsiMeetFeatureFlagRaiseHand";
-				internal const string AllowRecording = "jitsiMeetFeatureFlagRecording";
-				internal const string AllowTileView = "jitsiMeetFeatureFlagTileView";
-				internal const string AudioMuted = "jitsiMeetAudioMuted";
-				internal const string AudioOnly = "jitsiMeetAudioOnly";
-				internal const string Enabled = "jitsiMeetEnable";
-				internal const string ReceiveAudio = "jitsiMeetReceiveAudio";
-				internal const string ReceiveVideo = "jitsiMeetReceiveVideo";
-				internal const string RoomName = "jitsiMeetRoom";
-				internal const string SendAudio = "jitsiMeetSendAudio";
-				internal const string SendVideo = "jitsiMeetSendVideo";
-				internal const string ServerUrl = "jitsiMeetServerURL";
-				internal const string ShowMeetingName = "jitsiMeetFeatureFlagDisplayMeetingName";
-				internal const string Subject = "jitsiMeetSubject";
-				internal const string Token = "jitsiMeetToken";
-				internal const string VideoMuted = "jitsiMeetVideoMuted";
-			}
 
 			internal static class ScreenProctoring
 			{
@@ -277,24 +254,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 					internal const string CaptureBrowserData = "screenProctoringMetadataURLEnabled";
 					internal const string CaptureWindowTitle = "screenProctoringMetadataWindowTitleEnabled";
 				}
-			}
-
-			internal static class Zoom
-			{
-				internal const string AllowChat = "zoomFeatureFlagChat";
-				internal const string AllowClosedCaptions = "zoomFeatureFlagCloseCaptions";
-				internal const string AllowRaiseHand = "zoomFeatureFlagRaiseHand";
-				internal const string AudioMuted = "zoomAudioMuted";
-				internal const string Enabled = "zoomEnable";
-				internal const string MeetingNumber = "zoomRoom";
-				internal const string ReceiveAudio = "zoomReceiveAudio";
-				internal const string ReceiveVideo = "zoomReceiveVideo";
-				internal const string SendAudio = "zoomSendAudio";
-				internal const string SendVideo = "zoomSendVideo";
-				internal const string Signature = "zoomToken";
-				internal const string Subject = "zoomSubject";
-				internal const string UserName = "zoomUserInfoDisplayName";
-				internal const string VideoMuted = "zoomVideoMuted";
 			}
 		}
 

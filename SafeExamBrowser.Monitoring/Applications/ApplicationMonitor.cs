@@ -242,7 +242,6 @@ namespace SafeExamBrowser.Monitoring.Applications
 		{
 			var isClient = true;
 			var isRuntime = true;
-			var isWebView = true;
 
 			isClient &= process.Name == "SafeExamBrowser.Client.exe";
 			isClient &= process.OriginalName == "SafeExamBrowser.Client.exe";
@@ -250,16 +249,12 @@ namespace SafeExamBrowser.Monitoring.Applications
 			isRuntime &= process.Name == "SafeExamBrowser.exe";
 			isRuntime &= process.OriginalName == "SafeExamBrowser.exe";
 
-			isWebView &= process.Name == "msedgewebview2.exe";
-			isWebView &= process.OriginalName == "msedgewebview2.exe";
-
 #if !DEBUG
 			isClient &= process.Signature == "2bc82fe8e56a39f96bc6c4b91d6703a0379b76a2";
 			isRuntime &= process.Signature == "2bc82fe8e56a39f96bc6c4b91d6703a0379b76a2";
-			isWebView &= process.Signature == "a4baabd12432ab9c7c297385260e95c3dae83bf2";
 #endif
 
-			return isClient || isRuntime || isWebView;
+			return isClient || isRuntime;
 		}
 
 		private void Close(Window window)
