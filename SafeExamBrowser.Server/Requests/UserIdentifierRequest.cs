@@ -27,7 +27,8 @@ namespace SafeExamBrowser.Server.Requests
 		internal bool TryExecute(string examId, string identifier, out string message)
 		{
 			var content = $"examId={examId}&seb_user_session_id={identifier}";
-			var success = TryExecute(HttpMethod.Put, api.HandshakeEndpoint, out var response, content, ContentType.URL_ENCODED, Authorization, Token);
+			var method = new HttpMethod("PATCH");
+			var success = TryExecute(method, api.HandshakeEndpoint, out var response, content, ContentType.URL_ENCODED, Authorization, Token);
 
 			message = response.ToLogString();
 
