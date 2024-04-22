@@ -105,7 +105,6 @@ namespace SafeExamBrowser.SystemComponents
 		{
 			var isVirtualRegistry = false;
 
-			isVirtualRegistry |= HasHistoricVirtualMachineHardwareConfiguration();
 			isVirtualRegistry |= HasLocalVirtualMachineDeviceCache();
 
 			return isVirtualRegistry;
@@ -132,46 +131,6 @@ namespace SafeExamBrowser.SystemComponents
 			isVirtualSystem |= model.Contains("Q35 +");
 
 			return isVirtualSystem;
-		}
-
-		private bool HasHistoricVirtualMachineHardwareConfiguration()
-		{
-			var hasHistoricConfiguration = false;
-
-			if (registry.TryGetSubKeys(RegistryValue.MachineHive.HardwareConfig_Key, out var hardwareConfigSubkeys))
-			{
-				foreach (var configId in hardwareConfigSubkeys)
-				{
-					var hardwareConfigKey = $@"{RegistryValue.MachineHive.HardwareConfig_Key}\{configId}";
-					var computerIdsKey = $@"{hardwareConfigKey}\ComputerIds";
-					var success = true;
-
-					success &= registry.TryRead(hardwareConfigKey, "BIOSVendor", out var biosVendor);
-					success &= registry.TryRead(hardwareConfigKey, "BIOSVersion", out var biosVersion);
-					success &= registry.TryRead(hardwareConfigKey, "SystemManufacturer", out var systemManufacturer);
-					success &= registry.TryRead(hardwareConfigKey, "SystemProductName", out var systemProductName);
-
-					if (success)
-					{
-						var biosInfo = $"{(string) biosVendor} {(string) biosVersion}";
-
-						hasHistoricConfiguration |= IsVirtualSystem(biosInfo, (string) systemManufacturer, (string) systemProductName);
-
-						if (registry.TryGetNames(computerIdsKey, out var computerIdNames))
-						{
-							foreach (var computerIdName in computerIdNames)
-							{
-								if (registry.TryRead(computerIdsKey, computerIdName, out var computerSummary))
-								{
-									hasHistoricConfiguration |= IsVirtualSystem((string) computerSummary, (string) systemManufacturer, (string) systemProductName);
-								}
-							}
-						}
-					}
-				}
-			}
-
-			return hasHistoricConfiguration;
 		}
 
 		private bool HasLocalVirtualMachineDeviceCache()
