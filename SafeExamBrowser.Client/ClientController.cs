@@ -35,6 +35,8 @@ using SafeExamBrowser.Proctoring.Contracts.Events;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.SystemComponents.Contracts.Network;
+using SafeExamBrowser.SystemComponents.Contracts.Network.Events;
 using SafeExamBrowser.SystemComponents.Contracts.Registry;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
@@ -57,6 +59,7 @@ namespace SafeExamBrowser.Client
 		private readonly IHashAlgorithm hashAlgorithm;
 		private readonly ILogger logger;
 		private readonly IMessageBox messageBox;
+		private readonly INetworkAdapter networkAdapter;
 		private readonly IOperationSequence operations;
 		private readonly IRegistry registry;
 		private readonly IRuntimeProxy runtime;
@@ -87,6 +90,7 @@ namespace SafeExamBrowser.Client
 			IHashAlgorithm hashAlgorithm,
 			ILogger logger,
 			IMessageBox messageBox,
+			INetworkAdapter networkAdapter,
 			IOperationSequence operations,
 			IRegistry registry,
 			IRuntimeProxy runtime,
@@ -106,6 +110,7 @@ namespace SafeExamBrowser.Client
 			this.hashAlgorithm = hashAlgorithm;
 			this.logger = logger;
 			this.messageBox = messageBox;
+			this.networkAdapter = networkAdapter;
 			this.operations = operations;
 			this.registry = registry;
 			this.runtime = runtime;
@@ -214,6 +219,7 @@ namespace SafeExamBrowser.Client
 			ClientHost.ServerFailureActionRequested += ClientHost_ServerFailureActionRequested;
 			ClientHost.Shutdown += ClientHost_Shutdown;
 			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
+			networkAdapter.CredentialsRequired += NetworkAdapter_CredentialsRequired;
 			registry.ValueChanged += Registry_ValueChanged;
 			runtime.ConnectionLost += Runtime_ConnectionLost;
 			systemMonitor.SessionChanged += SystemMonitor_SessionChanged;
@@ -688,6 +694,16 @@ namespace SafeExamBrowser.Client
 					TryRequestShutdown();
 				}
 			}
+		}
+
+		private void NetworkAdapter_CredentialsRequired(CredentialsRequiredEventArgs args)
+		{
+			var dialog = uiFactory.CreateNetworkDialog("TODO", "TODO");
+			var result = dialog.Show();
+
+			args.Password = result.Password;
+			args.Success = result.Success;
+			args.Username = result.Username;
 		}
 
 		private void Operations_ActionRequired(ActionRequiredEventArgs args)

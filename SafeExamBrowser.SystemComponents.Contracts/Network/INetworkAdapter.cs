@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.Collections.Generic;
 using SafeExamBrowser.SystemComponents.Contracts.Network.Events;
 
@@ -33,9 +32,14 @@ namespace SafeExamBrowser.SystemComponents.Contracts.Network
 		event ChangedEventHandler Changed;
 
 		/// <summary>
-		/// Attempts to connect to the wireless network with the given ID.
+		/// Fired when credentials are required to connect to a network.
 		/// </summary>
-		void ConnectToWirelessNetwork(Guid id);
+		event CredentialsRequiredEventHandler CredentialsRequired;
+
+		/// <summary>
+		/// Attempts to connect to the wireless network with the given name.
+		/// </summary>
+		void ConnectToWirelessNetwork(string name);
 
 		/// <summary>
 		/// Retrieves all currently available wireless networks.

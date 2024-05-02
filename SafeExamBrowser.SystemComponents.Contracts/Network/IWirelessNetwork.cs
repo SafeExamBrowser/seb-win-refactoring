@@ -6,8 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-
 namespace SafeExamBrowser.SystemComponents.Contracts.Network
 {
 	/// <summary>
@@ -15,11 +13,6 @@ namespace SafeExamBrowser.SystemComponents.Contracts.Network
 	/// </summary>
 	public interface IWirelessNetwork
 	{
-		/// <summary>
-		/// The unique identifier of the network.
-		/// </summary>
-		Guid Id { get; }
-
 		/// <summary>
 		/// The network name.
 		/// </summary>

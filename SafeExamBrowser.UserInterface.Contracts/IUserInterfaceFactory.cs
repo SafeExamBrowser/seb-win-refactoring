@@ -84,6 +84,11 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		ISystemControl CreateNetworkControl(INetworkAdapter adapter, Location location);
 
 		/// <summary>
+		/// Creates a network dialog with the given message and title.
+		/// </summary>
+		INetworkDialog CreateNetworkDialog(string message, string title);
+
+		/// <summary>
 		/// Creates a notification control for the given notification, initialized for the specified location.
 		/// </summary>
 		INotificationControl CreateNotificationControl(INotification notification, Location location);

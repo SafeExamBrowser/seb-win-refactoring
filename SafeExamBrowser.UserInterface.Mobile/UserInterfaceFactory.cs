@@ -143,6 +143,12 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			}
 		}
 
+		public INetworkDialog CreateNetworkDialog(string message, string title)
+		{
+			// TODO
+			throw new System.NotImplementedException();
+		}
+
 		public INotificationControl CreateNotificationControl(INotification notification, Location location)
 		{
 			if (location == Location.ActionCenter)

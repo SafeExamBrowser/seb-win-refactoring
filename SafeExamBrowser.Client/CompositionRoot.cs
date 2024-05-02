@@ -154,6 +154,7 @@ namespace SafeExamBrowser.Client
 				hashAlgorithm,
 				logger,
 				messageBox,
+				networkAdapter,
 				sequence,
 				registry,
 				runtimeProxy,

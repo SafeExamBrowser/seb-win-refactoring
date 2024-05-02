@@ -33,6 +33,7 @@ using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Monitoring;
+using SafeExamBrowser.SystemComponents.Contracts.Network;
 using SafeExamBrowser.SystemComponents.Contracts.Registry;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
@@ -61,6 +62,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		private Mock<IIntegrityModule> integrityModule;
 		private Mock<ILogger> logger;
 		private Mock<IMessageBox> messageBox;
+		private Mock<INetworkAdapter> networkAdapter;
 		private Mock<IOperationSequence> operationSequence;
 		private Mock<IRegistry> registry;
 		private Mock<IRuntimeProxy> runtimeProxy;
@@ -94,6 +96,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			integrityModule = new Mock<IIntegrityModule>();
 			logger = new Mock<ILogger>();
 			messageBox = new Mock<IMessageBox>();
+			networkAdapter = new Mock<INetworkAdapter>();
 			operationSequence = new Mock<IOperationSequence>();
 			registry = new Mock<IRegistry>();
 			runtimeProxy = new Mock<IRuntimeProxy>();
@@ -122,6 +125,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				hashAlgorithm.Object,
 				logger.Object,
 				messageBox.Object,
+				networkAdapter.Object,
 				operationSequence.Object,
 				registry.Object,
 				runtimeProxy.Object,

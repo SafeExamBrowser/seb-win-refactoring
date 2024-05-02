@@ -26,6 +26,26 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			InitializeClipboardSettings(settings);
 			InitializeProctoringSettings(settings);
 			RemoveLegacyBrowsers(settings);
+
+			settings.Applications.Blacklist.Clear();
+			settings.Applications.Whitelist.Add(new WhitelistApplication { ExecutableName = "mspaint.exe", ShowInShell = true });
+			settings.Browser.AdditionalWindow.AllowAddressBar = true;
+			settings.Browser.MainWindow.AllowAddressBar = true;
+			settings.Browser.MainWindow.AllowDeveloperConsole = true;
+			settings.Browser.MainWindow.AllowBackwardNavigation = true;
+			settings.Browser.MainWindow.AllowForwardNavigation = true;
+			settings.Browser.MainWindow.ShowHomeButton = true;
+			settings.Browser.MainWindow.UrlPolicy = Settings.Browser.UrlPolicy.BeforeTitle;
+			settings.Keyboard.AllowPrintScreen = true;
+			settings.LogLevel = Settings.Logging.LogLevel.Debug;
+			settings.Security.AllowApplicationLogAccess = true;
+			settings.Security.ClipboardPolicy = ClipboardPolicy.Allow;
+			settings.Security.KioskMode = KioskMode.CreateNewDesktop;
+			settings.Security.QuitPasswordHash = default;
+			settings.Service.IgnoreService = true;
+			settings.Service.Policy = Settings.Service.ServicePolicy.Optional;
+			settings.Security.VersionRestrictions.Clear();
+			settings.Taskbar.ShowApplicationLog = true;
 		}
 
 		private void AllowBrowserToolbarForReloading(AppSettings settings)

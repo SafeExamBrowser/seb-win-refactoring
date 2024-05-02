@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
-using System.Timers;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Network;
 using SafeExamBrowser.SystemComponents.Contracts.Network.Events;
@@ -18,12 +17,22 @@ using SafeExamBrowser.WindowsApi.Contracts;
 using SimpleWifi;
 using SimpleWifi.Win32;
 using SimpleWifi.Win32.Interop;
+using Timer = System.Timers.Timer;
 
 namespace SafeExamBrowser.SystemComponents.Network
 {
+	/// <summary>
+	/// Switch to the following WiFi library:
+	/// https://github.com/emoacht/ManagedNativeWifi
+	/// https://www.nuget.org/packages/ManagedNativeWifi
+	///
+	/// Potentially useful: 
+	/// https://learn.microsoft.com/en-us/dotnet/api/system.net.networkinformation.networkinterface?view=netframework-4.8
+	/// </summary>
 	public class NetworkAdapter : INetworkAdapter
 	{
 		private readonly object @lock = new object();
+
 		private readonly ILogger logger;
 		private readonly INativeMethods nativeMethods;
 		private readonly List<WirelessNetwork> wirelessNetworks;
@@ -35,6 +44,7 @@ namespace SafeExamBrowser.SystemComponents.Network
 		public ConnectionType Type { get; private set; }
 
 		public event ChangedEventHandler Changed;
+		public event CredentialsRequiredEventHandler CredentialsRequired;
 
 		public NetworkAdapter(ILogger logger, INativeMethods nativeMethods)
 		{
@@ -43,22 +53,27 @@ namespace SafeExamBrowser.SystemComponents.Network
 			this.wirelessNetworks = new List<WirelessNetwork>();
 		}
 
-		public void ConnectToWirelessNetwork(Guid id)
+		public void ConnectToWirelessNetwork(string name)
 		{
 			lock (@lock)
 			{
-				var network = wirelessNetworks.FirstOrDefault(n => n.Id == id);
+				var network = wirelessNetworks.FirstOrDefault(n => n.Name == name);
 
 				if (network != default)
 				{
 					try
 					{
-						var request = new AuthRequest(network.AccessPoint);
+						var accessPoint = network.AccessPoint;
+						var request = new AuthRequest(accessPoint);
 
-						logger.Info($"Attempting to connect to '{network.Name}'...");
+						if (accessPoint.HasProfile || accessPoint.IsConnected || TryGetCredentials(request))
+						{
+							logger.Info($"Attempting to connect to wireless network '{network.Name}' with{(request.Password == default ? "out" : "")} credentials...");
 
-						network.AccessPoint.ConnectAsync(request, false, (success) => AccessPoint_OnConnectCompleted(network.Name, success));
-						Status = ConnectionStatus.Connecting;
+							// TODO: Retry resp. alert of password error on failure and then ignore profile?!
+							accessPoint.ConnectAsync(request, false, (success) => ConnectionAttemptCompleted(network.Name, success));
+							Status = ConnectionStatus.Connecting;
+						}
 					}
 					catch (Exception e)
 					{
@@ -67,7 +82,7 @@ namespace SafeExamBrowser.SystemComponents.Network
 				}
 				else
 				{
-					logger.Warn($"Could not find network with id '{id}'!");
+					logger.Warn($"Could not find wireless network '{name}'!");
 				}
 			}
 
@@ -111,7 +126,7 @@ namespace SafeExamBrowser.SystemComponents.Network
 			}
 		}
 
-		private void AccessPoint_OnConnectCompleted(string name, bool success)
+		private void ConnectionAttemptCompleted(string name, bool success)
 		{
 			lock (@lock)
 			{
@@ -129,12 +144,28 @@ namespace SafeExamBrowser.SystemComponents.Network
 			}
 		}
 
+		private bool TryGetCredentials(AuthRequest request)
+		{
+			var args = new CredentialsRequiredEventArgs();
+
+			CredentialsRequired?.Invoke(args);
+
+			if (args.Success)
+			{
+				request.Password = args.Password;
+				request.Username = args.Username;
+			}
+
+			return args.Success;
+		}
+
 		private void Update()
 		{
 			try
 			{
 				lock (@lock)
 				{
+					var current = default(WirelessNetwork);
 					var hasInternet = nativeMethods.HasInternetConnection();
 					var hasWireless = !wifi.NoWifiAvailable && !IsTurnedOff();
 					var isConnecting = Status == ConnectionStatus.Connecting;
@@ -144,12 +175,13 @@ namespace SafeExamBrowser.SystemComponents.Network
 
 					if (hasWireless)
 					{
-						foreach (var accessPoint in wifi.GetAccessPoints())
+						foreach (var wirelessNetwork in wifi.GetAccessPoints().Select(a => ToWirelessNetwork(a)))
 						{
-							// The user may only connect to an already configured or connected wireless network!
-							if (accessPoint.HasProfile || accessPoint.IsConnected)
+							wirelessNetworks.Add(wirelessNetwork);
+
+							if (wirelessNetwork.Status == ConnectionStatus.Connected)
 							{
-								wirelessNetworks.Add(ToWirelessNetwork(accessPoint));
+								current = wirelessNetwork;
 							}
 						}
 					}
@@ -159,7 +191,7 @@ namespace SafeExamBrowser.SystemComponents.Network
 
 					if (previousStatus != ConnectionStatus.Connected && Status == ConnectionStatus.Connected)
 					{
-						logger.Info("Connection established.");
+						logger.Info($"Connection established ({Type}{(current != default ? $", {current.Name}" : "")}).");
 					}
 
 					if (previousStatus != ConnectionStatus.Disconnected && Status == ConnectionStatus.Disconnected)

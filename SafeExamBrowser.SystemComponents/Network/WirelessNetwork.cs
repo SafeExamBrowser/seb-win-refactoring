@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using SafeExamBrowser.SystemComponents.Contracts.Network;
 using SimpleWifi;
 
@@ -16,14 +15,8 @@ namespace SafeExamBrowser.SystemComponents.Network
 	{
 		internal AccessPoint AccessPoint { get; set; }
 
-		public Guid Id { get; }
 		public string Name { get; set; }
 		public int SignalStrength { get; set; }
 		public ConnectionStatus Status { get; set; }
-
-		public WirelessNetwork()
-		{
-			Id = Guid.NewGuid();
-		}
 	}
 }

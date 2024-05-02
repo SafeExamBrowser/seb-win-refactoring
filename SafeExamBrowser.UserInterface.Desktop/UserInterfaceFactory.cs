@@ -143,6 +143,11 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			}
 		}
 
+		public INetworkDialog CreateNetworkDialog(string message, string title)
+		{
+			return Application.Current.Dispatcher.Invoke(() => new NetworkDialog(message, title, text));
+		}
+
 		public INotificationControl CreateNotificationControl(INotification notification, Location location)
 		{
 			if (location == Location.ActionCenter)

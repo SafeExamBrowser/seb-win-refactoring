@@ -100,7 +100,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 			{
 				var button = new NetworkButton(network);
 
-				button.NetworkSelected += (o, args) => adapter.ConnectToWirelessNetwork(network.Id);
+				button.NetworkSelected += (o, args) => adapter.ConnectToWirelessNetwork(network.Name);
 
 				if (network.Status == ConnectionStatus.Connected)
 				{
