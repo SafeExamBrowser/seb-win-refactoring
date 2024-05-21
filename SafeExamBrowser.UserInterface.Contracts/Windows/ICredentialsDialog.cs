@@ -11,13 +11,13 @@ using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 namespace SafeExamBrowser.UserInterface.Contracts.Windows
 {
 	/// <summary>
-	/// Defines the functionality of a network dialog.
+	/// Defines the functionality of a dialog to retrieve user credentials.
 	/// </summary>
-	public interface INetworkDialog : IWindow
+	public interface ICredentialsDialog : IWindow
 	{
 		/// <summary>
 		/// Shows the dialog as topmost window. If a parent window is specified, the dialog is rendered modally for the given parent.
 		/// </summary>
-		NetworkDialogResult Show(IWindow parent = null);
+		CredentialsDialogResult Show(IWindow parent = null);
 	}
 }

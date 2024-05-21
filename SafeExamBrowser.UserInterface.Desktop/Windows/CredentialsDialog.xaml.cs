@@ -8,6 +8,7 @@
 
 using System.Windows;
 using System.Windows.Input;
+using FontAwesome.WPF;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
@@ -15,7 +16,7 @@ using SafeExamBrowser.UserInterface.Contracts.Windows.Events;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Windows
 {
-	public partial class NetworkDialog : Window, INetworkDialog
+	public partial class CredentialsDialog : Window, ICredentialsDialog
 	{
 		private readonly IText text;
 
@@ -34,12 +35,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			remove { closing -= value; }
 		}
 
-		internal NetworkDialog(string message, string title, IText text)
+		internal CredentialsDialog(CredentialsDialogPurpose purpose, string message, string title, IText text)
 		{
 			this.text = text;
 
 			InitializeComponent();
-			InitializeNetworkDialog(message, title);
+			InitializeCredentialsDialog(purpose, message, title);
 		}
 
 		public void BringToForeground()
@@ -47,11 +48,11 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			Dispatcher.Invoke(Activate);
 		}
 
-		public NetworkDialogResult Show(IWindow parent = null)
+		public CredentialsDialogResult Show(IWindow parent = null)
 		{
 			return Dispatcher.Invoke(() =>
 			{
-				var result = new NetworkDialogResult { Success = false };
+				var result = new CredentialsDialogResult { Success = false };
 
 				if (parent is Window)
 				{
@@ -70,14 +71,24 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			});
 		}
 
-		private void InitializeNetworkDialog(string message, string title)
+		private void InitializeCredentialsDialog(CredentialsDialogPurpose purpose, string message, string title)
 		{
+			if (purpose == CredentialsDialogPurpose.WirelessNetwork)
+			{
+				PurposeIcon.Icon = FontAwesomeIcon.Wifi;
+				PurposeIcon.Rotation = 0;
+				UsernameLabel.Content = text.Get(TextKey.CredentialsDialog_UsernameOptionalLabel);
+			}
+			else
+			{
+				PurposeIcon.Icon = FontAwesomeIcon.Key;
+				PurposeIcon.Rotation = 90;
+				UsernameLabel.Content = text.Get(TextKey.CredentialsDialog_UsernameLabel);
+			}
+
+			PasswordLabel.Content = text.Get(TextKey.CredentialsDialog_PasswordLabel);
 			Message.Text = message;
-			// TODO
-			PasswordLabel.Content = "Password";
 			Title = title;
-			// TODO
-			UsernameLabel.Content = "Username";
 			WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
 			Closed += (o, args) => closed?.Invoke();

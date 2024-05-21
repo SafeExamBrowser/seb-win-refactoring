@@ -9,7 +9,7 @@
 namespace SafeExamBrowser.SystemComponents.Contracts.Network.Events
 {
 	/// <summary>
-	/// 
+	/// Indicates that credentials are required to connect to a network.
 	/// </summary>
 	public delegate void CredentialsRequiredEventHandler(CredentialsRequiredEventArgs args);
 }

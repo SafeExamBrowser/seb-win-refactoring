@@ -99,6 +99,21 @@
     <Entry key="Build">
         Build
     </Entry>
+    <Entry key="CredentialsDialog_PasswordLabel">
+        Mot de passe:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameLabel">
+        Nom d'utilisateur:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameOptionalLabel">
+        Nom d'utilisateur (facultatif):
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkMessage">
+        Veuillez saisir les informations d'identification requises pour établir une connexion au réseau sans fil "%%_NAME_%%".
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkTitle">
+        Authentification réseau requise
+    </Entry>
     <Entry key="ExamSelectionDialog_Cancel">
         Annuler
     </Entry>

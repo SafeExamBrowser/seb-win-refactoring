@@ -58,12 +58,12 @@ namespace SafeExamBrowser.SystemComponents.PowerSupply
 
 		public void Initialize()
 		{
-			const int TWO_SECONDS = 2000;
+			const int FIVE_SECONDS = 5000;
 
 			critical = SanitizeThreshold(settings.ChargeThresholdCritical);
 			low = SanitizeThreshold(settings.ChargeThresholdLow);
 
-			timer = new Timer(TWO_SECONDS);
+			timer = new Timer(FIVE_SECONDS);
 			timer.Elapsed += Timer_Elapsed;
 			timer.AutoReset = true;
 			timer.Start();

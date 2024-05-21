@@ -7,13 +7,13 @@
  */
 
 using SafeExamBrowser.SystemComponents.Contracts.Network;
-using SimpleWifi;
+using Windows.Devices.WiFi;
 
 namespace SafeExamBrowser.SystemComponents.Network
 {
 	internal class WirelessNetwork : IWirelessNetwork
 	{
-		internal AccessPoint AccessPoint { get; set; }
+		internal WiFiAvailableNetwork Network { get; set; }
 
 		public string Name { get; set; }
 		public int SignalStrength { get; set; }

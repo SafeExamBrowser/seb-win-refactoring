@@ -63,6 +63,12 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 				}
 				Popup.IsOpen = Popup.IsMouseOver;
 			}));
+			Popup.Closed += (o, args) =>
+			{
+				adapter.StopWirelessNetworkScanning();
+				Grid.Background = originalBrush;
+				lastOpenedBySpacePress = false;
+			};
 			Popup.MouseLeave += (o, args) => Task.Delay(250).ContinueWith(_ => Dispatcher.Invoke(() =>
 			{
 				if (Popup.IsOpen && lastOpenedBySpacePress)
@@ -73,6 +79,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 			}));
 			Popup.Opened += (o, args) =>
 			{
+				adapter.StartWirelessNetworkScanning();
 				Grid.Background = Brushes.Gray;
 				Task.Delay(100).ContinueWith((task) => Dispatcher.Invoke(() =>
 				{
@@ -82,11 +89,6 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 					}
 				}));
 			};
-			Popup.Closed += (o, args) =>
-			{
-				Grid.Background = originalBrush;
-				lastOpenedBySpacePress = false;
-			};
 			WirelessIcon.Child = GetWirelessIcon(0);
 
 			Update();
@@ -94,23 +96,6 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 
 		private void Update()
 		{
-			WirelessNetworksStackPanel.Children.Clear();
-
-			foreach (var network in adapter.GetWirelessNetworks())
-			{
-				var button = new NetworkButton(network);
-
-				button.NetworkSelected += (o, args) => adapter.ConnectToWirelessNetwork(network.Name);
-
-				if (network.Status == ConnectionStatus.Connected)
-				{
-					WirelessIcon.Child = GetWirelessIcon(network.SignalStrength);
-					UpdateText(text.Get(TextKey.SystemControl_NetworkWirelessConnected).Replace("%%NAME%%", network.Name));
-				}
-
-				WirelessNetworksStackPanel.Children.Add(button);
-			}
-
 			switch (adapter.Type)
 			{
 				case ConnectionType.Wired:
@@ -153,6 +138,23 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 					NetworkStatusIcon.Spin = false;
 					WirelessIcon.Child = GetWirelessIcon(0);
 					break;
+			}
+
+			WirelessNetworksStackPanel.Children.Clear();
+
+			foreach (var network in adapter.GetWirelessNetworks())
+			{
+				var button = new NetworkButton(network);
+
+				button.NetworkSelected += (o, args) => adapter.ConnectToWirelessNetwork(network.Name);
+
+				if (network.Status == ConnectionStatus.Connected)
+				{
+					WirelessIcon.Child = GetWirelessIcon(network.SignalStrength);
+					UpdateText(text.Get(TextKey.SystemControl_NetworkWirelessConnected).Replace("%%NAME%%", network.Name));
+				}
+
+				WirelessNetworksStackPanel.Children.Add(button);
 			}
 		}
 

@@ -45,5 +45,15 @@ namespace SafeExamBrowser.SystemComponents.Contracts.Network
 		/// Retrieves all currently available wireless networks.
 		/// </summary>
 		IEnumerable<IWirelessNetwork> GetWirelessNetworks();
+
+		/// <summary>
+		/// Starts periodically scanning the available wireless networks.
+		/// </summary>
+		void StartWirelessNetworkScanning();
+
+		/// <summary>
+		/// Stops the periodical scanning of wireless networks.
+		/// </summary>
+		void StopWirelessNetworkScanning();
 	}
 }

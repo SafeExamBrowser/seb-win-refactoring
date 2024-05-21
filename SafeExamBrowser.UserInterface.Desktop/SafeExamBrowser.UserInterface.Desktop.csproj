@@ -168,8 +168,8 @@
       <DependentUpon>LogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MessageBoxFactory.cs" />
-    <Compile Include="Windows\NetworkDialog.xaml.cs">
-      <DependentUpon>NetworkDialog.xaml</DependentUpon>
+    <Compile Include="Windows\CredentialsDialog.xaml.cs">
+      <DependentUpon>CredentialsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\PasswordDialog.xaml.cs">
       <DependentUpon>PasswordDialog.xaml</DependentUpon>
@@ -397,7 +397,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\NetworkDialog.xaml">
+    <Page Include="Windows\CredentialsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

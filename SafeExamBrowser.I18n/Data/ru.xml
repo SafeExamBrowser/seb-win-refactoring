@@ -99,6 +99,21 @@
     <Entry key="Build">
         Строить
     </Entry>
+    <Entry key="CredentialsDialog_PasswordLabel">
+        Пароль:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameLabel">
+        Имя пользователя:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameOptionalLabel">
+        Имя пользователя (необязательно):
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkMessage">
+        Введите необходимые учетные данные для установления соединения с беспроводной сетью "%%_NAME_%%".
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkTitle">
+        Требуется сетевая аутентификация
+    </Entry>
     <Entry key="ExamSelectionDialog_Cancel">
         Отмена
     </Entry>

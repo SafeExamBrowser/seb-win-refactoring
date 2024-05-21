@@ -173,6 +173,9 @@
     <Compile Include="Windows\MessageBoxDialog.xaml.cs">
       <DependentUpon>MessageBoxDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\CredentialsDialog.xaml.cs">
+      <DependentUpon>CredentialsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PasswordDialog.xaml.cs">
       <DependentUpon>PasswordDialog.xaml</DependentUpon>
     </Compile>
@@ -520,6 +523,10 @@
     <Page Include="Windows\MessageBoxDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\CredentialsDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\PasswordDialog.xaml">
       <Generator>MSBuild:Compile</Generator>

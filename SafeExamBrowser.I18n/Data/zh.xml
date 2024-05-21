@@ -99,6 +99,21 @@
     <Entry key="Build">
         生成
     </Entry>
+    <Entry key="CredentialsDialog_PasswordLabel">
+        密码：
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameLabel">
+        用户名：
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameOptionalLabel">
+        用户名（可选）：
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkMessage">
+        请输入与无线网络 "%%_NAME_%%" 建立连接所需的凭证。
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkTitle">
+        需要网络验证
+    </Entry>
     <Entry key="ExamSelectionDialog_Cancel">
         取消
     </Entry>

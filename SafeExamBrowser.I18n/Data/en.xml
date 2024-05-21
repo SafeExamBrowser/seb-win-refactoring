@@ -99,6 +99,21 @@
     <Entry key="Build">
         Build
     </Entry>
+    <Entry key="CredentialsDialog_PasswordLabel">
+        Password:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameLabel">
+        Username:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameOptionalLabel">
+        Username (optional):
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkMessage">
+        Please enter the required credentials to establish a connection to the wireless network "%%_NAME_%%".
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkTitle">
+        Network Authentication Required
+    </Entry>
     <Entry key="ExamSelectionDialog_Cancel">
         Cancel
     </Entry>

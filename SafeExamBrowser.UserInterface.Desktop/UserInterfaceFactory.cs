@@ -85,6 +85,11 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			return Application.Current.Dispatcher.Invoke(() => new BrowserWindow(control, settings, isMainWindow, text, logger));
 		}
 
+		public ICredentialsDialog CreateCredentialsDialog(CredentialsDialogPurpose purpose, string message, string title)
+		{
+			return Application.Current.Dispatcher.Invoke(() => new CredentialsDialog(purpose, message, title, text));
+		}
+
 		public IExamSelectionDialog CreateExamSelectionDialog(IEnumerable<Exam> exams)
 		{
 			return Application.Current.Dispatcher.Invoke(() => new ExamSelectionDialog(exams, text));
@@ -141,11 +146,6 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			{
 				return new Controls.Taskbar.NetworkControl(adapter, text);
 			}
-		}
-
-		public INetworkDialog CreateNetworkDialog(string message, string title)
-		{
-			return Application.Current.Dispatcher.Invoke(() => new NetworkDialog(message, title, text));
 		}
 
 		public INotificationControl CreateNotificationControl(INotification notification, Location location)

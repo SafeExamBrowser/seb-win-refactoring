@@ -14,21 +14,15 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Network;
 using SafeExamBrowser.SystemComponents.Contracts.Network.Events;
 using SafeExamBrowser.WindowsApi.Contracts;
-using SimpleWifi;
-using SimpleWifi.Win32;
-using SimpleWifi.Win32.Interop;
+using Windows.Devices.Enumeration;
+using Windows.Devices.WiFi;
+using Windows.Foundation;
+using Windows.Networking.Connectivity;
+using Windows.Security.Credentials;
 using Timer = System.Timers.Timer;
 
 namespace SafeExamBrowser.SystemComponents.Network
 {
-	/// <summary>
-	/// Switch to the following WiFi library:
-	/// https://github.com/emoacht/ManagedNativeWifi
-	/// https://www.nuget.org/packages/ManagedNativeWifi
-	///
-	/// Potentially useful: 
-	/// https://learn.microsoft.com/en-us/dotnet/api/system.net.networkinformation.networkinterface?view=netframework-4.8
-	/// </summary>
 	public class NetworkAdapter : INetworkAdapter
 	{
 		private readonly object @lock = new object();
@@ -38,7 +32,9 @@ namespace SafeExamBrowser.SystemComponents.Network
 		private readonly List<WirelessNetwork> wirelessNetworks;
 
 		private Timer timer;
-		private Wifi wifi;
+		private WiFiAdapter adapter;
+
+		private bool HasWirelessAdapter => adapter != default;
 
 		public ConnectionStatus Status { get; private set; }
 		public ConnectionType Type { get; private set; }
@@ -55,35 +51,35 @@ namespace SafeExamBrowser.SystemComponents.Network
 
 		public void ConnectToWirelessNetwork(string name)
 		{
+			var network = default(WiFiAvailableNetwork);
+
 			lock (@lock)
 			{
-				var network = wirelessNetworks.FirstOrDefault(n => n.Name == name);
+				network = wirelessNetworks.FirstOrDefault(n => n.Name == name)?.Network;
+			}
 
-				if (network != default)
+			if (network != default)
+			{
+				var isOpen = network.SecuritySettings.NetworkAuthenticationType == NetworkAuthenticationType.Open80211 && network.SecuritySettings.NetworkEncryptionType == NetworkEncryptionType.None;
+
+				if (isOpen)
 				{
-					try
-					{
-						var accessPoint = network.AccessPoint;
-						var request = new AuthRequest(accessPoint);
+					logger.Info($"Attempting to connect to open wireless network '{name}'...");
 
-						if (accessPoint.HasProfile || accessPoint.IsConnected || TryGetCredentials(request))
-						{
-							logger.Info($"Attempting to connect to wireless network '{network.Name}' with{(request.Password == default ? "out" : "")} credentials...");
-
-							// TODO: Retry resp. alert of password error on failure and then ignore profile?!
-							accessPoint.ConnectAsync(request, false, (success) => ConnectionAttemptCompleted(network.Name, success));
-							Status = ConnectionStatus.Connecting;
-						}
-					}
-					catch (Exception e)
-					{
-						logger.Error($"Failed to connect to wireless network '{network.Name}!'", e);
-					}
+					adapter.ConnectAsync(network, WiFiReconnectionKind.Automatic).Completed = (o, s) => Adapter_ConnectCompleted(name, o, s);
+					Status = ConnectionStatus.Connecting;
 				}
-				else
+				else if (TryGetCredentials(name, out var credentials))
 				{
-					logger.Warn($"Could not find wireless network '{name}'!");
+					logger.Info($"Attempting to connect to wireless network '{name}' with credentials...");
+
+					adapter.ConnectAsync(network, WiFiReconnectionKind.Automatic, credentials).Completed = (o, s) => Adapter_ConnectCompleted(name, o, s);
+					Status = ConnectionStatus.Connecting;
 				}
+			}
+			else
+			{
+				logger.Warn($"Could not find wireless network '{name}'!");
 			}
 
 			Changed?.Invoke();
@@ -101,103 +97,233 @@ namespace SafeExamBrowser.SystemComponents.Network
 		{
 			const int FIVE_SECONDS = 5000;
 
-			NetworkChange.NetworkAddressChanged += (o, args) => Update();
-			NetworkChange.NetworkAvailabilityChanged += (o, args) => Update();
-
-			wifi = new Wifi();
-			wifi.ConnectionStatusChanged += (o, args) => Update();
-
 			timer = new Timer(FIVE_SECONDS);
 			timer.Elapsed += (o, args) => Update();
 			timer.AutoReset = true;
-			timer.Start();
+
+			InitializeAdapter();
+
+			NetworkChange.NetworkAddressChanged += NetworkChange_NetworkAddressChanged;
+			NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
+			NetworkInformation.NetworkStatusChanged += NetworkInformation_NetworkStatusChanged;
 
 			Update();
 
 			logger.Info("Started monitoring the network adapter.");
 		}
 
-		public void Terminate()
+		public void StartWirelessNetworkScanning()
 		{
-			if (timer != null)
+			timer?.Start();
+
+			if (HasWirelessAdapter)
 			{
-				timer.Stop();
-				logger.Info("Stopped monitoring the network adapter.");
+				_ = adapter.ScanAsync();
 			}
 		}
 
-		private void ConnectionAttemptCompleted(string name, bool success)
+		public void StopWirelessNetworkScanning()
 		{
-			lock (@lock)
+			timer?.Stop();
+		}
+
+		public void Terminate()
+		{
+			NetworkChange.NetworkAddressChanged -= NetworkChange_NetworkAddressChanged;
+			NetworkChange.NetworkAvailabilityChanged -= NetworkChange_NetworkAvailabilityChanged;
+			NetworkInformation.NetworkStatusChanged -= NetworkInformation_NetworkStatusChanged;
+
+			if (HasWirelessAdapter)
 			{
-				// This handler seems to be called before the connection has been fully established, thus we don't yet set the status to connected...
-				Status = success ? ConnectionStatus.Connecting : ConnectionStatus.Disconnected;
+				adapter.AvailableNetworksChanged -= Adapter_AvailableNetworksChanged;
 			}
 
-			if (success)
+			if (timer != default)
 			{
+				timer.Stop();
+			}
+
+			logger.Info("Stopped monitoring the network adapter.");
+		}
+
+		private void InitializeAdapter()
+		{
+			try
+			{
+				// Requesting access is required as of fall 2024 and must be granted manually by the user, otherwise all wireless functionality will
+				// be denied by the system (see also https://learn.microsoft.com/en-us/windows/win32/nativewifi/wi-fi-access-location-changes).
+				var task = WiFiAdapter.RequestAccessAsync().AsTask();
+				var status = task.GetAwaiter().GetResult();
+
+				if (status == WiFiAccessStatus.Allowed)
+				{
+					var findAll = DeviceInformation.FindAllAsync(WiFiAdapter.GetDeviceSelector()).AsTask();
+					var devices = findAll.GetAwaiter().GetResult();
+
+					if (devices.Any())
+					{
+						var id = devices.First().Id;
+						var getById = WiFiAdapter.FromIdAsync(id).AsTask();
+
+						logger.Debug($"Found {devices.Count()} wireless network adapter(s).");
+
+						adapter = getById.GetAwaiter().GetResult();
+						adapter.AvailableNetworksChanged += Adapter_AvailableNetworksChanged;
+
+						logger.Debug($"Successfully initialized wireless network adapter '{id}'.");
+					}
+					else
+					{
+						logger.Info("Could not find a wireless network adapter.");
+					}
+				}
+				else
+				{
+					logger.Error($"Access to the wireless network adapter has been denied ({status})!");
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to initialize wireless network adapter!", e);
+			}
+		}
+
+		private void Adapter_AvailableNetworksChanged(WiFiAdapter sender, object args)
+		{
+			Update(false);
+		}
+
+		private void Adapter_ConnectCompleted(string name, IAsyncOperation<WiFiConnectionResult> operation, AsyncStatus status)
+		{
+			var connectionStatus = default(WiFiConnectionStatus?);
+
+			if (status == AsyncStatus.Completed)
+			{
+				connectionStatus = operation.GetResults()?.ConnectionStatus;
+			}
+			else
+			{
+				logger.Error($"Failed to complete connection operation! Status: {status}.");
+			}
+
+			if (connectionStatus == WiFiConnectionStatus.Success)
+			{
+				Status = ConnectionStatus.Connected;
 				logger.Info($"Successfully connected to wireless network '{name}'.");
 			}
 			else
 			{
-				logger.Error($"Failed to connect to wireless network '{name}!'");
+				Status = ConnectionStatus.Disconnected;
+				logger.Error($"Failed to connect to wireless network '{name}'! Reason: {connectionStatus}.");
 			}
+
+			Update();
 		}
 
-		private bool TryGetCredentials(AuthRequest request)
+		private void NetworkChange_NetworkAddressChanged(object sender, EventArgs e)
 		{
-			var args = new CredentialsRequiredEventArgs();
+			logger.Debug("Network address changed.");
+			Update();
+		}
+
+		private void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
+		{
+			logger.Debug($"Network availability changed ({(e.IsAvailable ? "available" : "unavailable")}.");
+			Update();
+		}
+
+		private void NetworkInformation_NetworkStatusChanged(object sender)
+		{
+			logger.Debug("Network status changed.");
+			Update();
+		}
+
+		private bool TryGetCredentials(string network, out PasswordCredential credentials)
+		{
+			var args = new CredentialsRequiredEventArgs { NetworkName = network };
+
+			credentials = new PasswordCredential();
 
 			CredentialsRequired?.Invoke(args);
 
 			if (args.Success)
 			{
-				request.Password = args.Password;
-				request.Username = args.Username;
+				if (!string.IsNullOrEmpty(args.Password))
+				{
+					credentials.Password = args.Password;
+				}
+
+				if (!string.IsNullOrEmpty(args.Username))
+				{
+					credentials.UserName = args.Username;
+				}
 			}
 
 			return args.Success;
 		}
 
-		private void Update()
+		private bool TryGetCurrentWirelessNetwork(out string name)
+		{
+			name = default;
+
+			if (HasWirelessAdapter)
+			{
+				try
+				{
+					var getProfile = adapter.NetworkAdapter.GetConnectedProfileAsync().AsTask();
+					var profile = getProfile.GetAwaiter().GetResult();
+
+					if (profile?.IsWlanConnectionProfile == true)
+					{
+						name = profile.WlanConnectionProfileDetails.GetConnectedSsid();
+					}
+				}
+				catch
+				{
+				}
+			}
+
+			return name != default;
+		}
+
+		private void Update(bool rescan = true)
 		{
 			try
 			{
 				lock (@lock)
 				{
-					var current = default(WirelessNetwork);
 					var hasInternet = nativeMethods.HasInternetConnection();
-					var hasWireless = !wifi.NoWifiAvailable && !IsTurnedOff();
 					var isConnecting = Status == ConnectionStatus.Connecting;
 					var previousStatus = Status;
 
 					wirelessNetworks.Clear();
 
-					if (hasWireless)
+					if (HasWirelessAdapter)
 					{
-						foreach (var wirelessNetwork in wifi.GetAccessPoints().Select(a => ToWirelessNetwork(a)))
-						{
-							wirelessNetworks.Add(wirelessNetwork);
+						TryGetCurrentWirelessNetwork(out var currentNetwork);
 
-							if (wirelessNetwork.Status == ConnectionStatus.Connected)
+						foreach (var network in adapter.NetworkReport.AvailableNetworks.FilterAndOrder())
+						{
+							var wirelessNetwork = network.ToWirelessNetwork();
+
+							if (network.Ssid == currentNetwork)
 							{
-								current = wirelessNetwork;
+								wirelessNetwork.Status = ConnectionStatus.Connected;
 							}
+
+							wirelessNetworks.Add(wirelessNetwork);
+						}
+
+						if (rescan)
+						{
+							_ = adapter.ScanAsync();
 						}
 					}
 
-					Type = hasWireless ? ConnectionType.Wireless : (hasInternet ? ConnectionType.Wired : ConnectionType.Undefined);
-					Status = hasInternet ? ConnectionStatus.Connected : (hasWireless && isConnecting ? ConnectionStatus.Connecting : ConnectionStatus.Disconnected);
+					Type = HasWirelessAdapter ? ConnectionType.Wireless : (hasInternet ? ConnectionType.Wired : ConnectionType.Undefined);
+					Status = hasInternet ? ConnectionStatus.Connected : (HasWirelessAdapter && isConnecting ? ConnectionStatus.Connecting : ConnectionStatus.Disconnected);
 
-					if (previousStatus != ConnectionStatus.Connected && Status == ConnectionStatus.Connected)
-					{
-						logger.Info($"Connection established ({Type}{(current != default ? $", {current.Name}" : "")}).");
-					}
-
-					if (previousStatus != ConnectionStatus.Disconnected && Status == ConnectionStatus.Disconnected)
-					{
-						logger.Info("Connection lost.");
-					}
+					LogNetworkChanges(previousStatus, wirelessNetworks.FirstOrDefault(n => n.Status == ConnectionStatus.Connected));
 				}
 			}
 			catch (Exception e)
@@ -208,40 +334,17 @@ namespace SafeExamBrowser.SystemComponents.Network
 			Changed?.Invoke();
 		}
 
-		private bool IsTurnedOff()
+		private void LogNetworkChanges(ConnectionStatus previousStatus, WirelessNetwork currentNetwork)
 		{
-			try
+			if (previousStatus != ConnectionStatus.Connected && Status == ConnectionStatus.Connected)
 			{
-				var client = new WlanClient();
-
-				foreach (var @interface in client.Interfaces)
-				{
-					foreach (var state in @interface.RadioState.PhyRadioState)
-					{
-						if (state.dot11SoftwareRadioState == Dot11RadioState.On && state.dot11HardwareRadioState == Dot11RadioState.On)
-						{
-							return false;
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to determine the radio state of the wireless adapter(s)! Assuming it is (all are) turned off...", e);
+				logger.Info($"Connection established ({Type}{(currentNetwork != default ? $", {currentNetwork.Name}" : "")}).");
 			}
 
-			return true;
-		}
-
-		private WirelessNetwork ToWirelessNetwork(AccessPoint accessPoint)
-		{
-			return new WirelessNetwork
+			if (previousStatus != ConnectionStatus.Disconnected && Status == ConnectionStatus.Disconnected)
 			{
-				AccessPoint = accessPoint,
-				Name = accessPoint.Name,
-				SignalStrength = Convert.ToInt32(accessPoint.SignalStrength),
-				Status = accessPoint.IsConnected ? ConnectionStatus.Connected : ConnectionStatus.Disconnected
-			};
+				logger.Info("Connection lost.");
+			}
 		}
 	}
 }

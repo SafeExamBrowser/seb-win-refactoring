@@ -99,6 +99,21 @@
     <Entry key="Build">
         Build
     </Entry>
+    <Entry key="CredentialsDialog_PasswordLabel">
+        Passwort:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameLabel">
+        Benutzername:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameOptionalLabel">
+        Benutzername (optional):
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkMessage">
+        Bitte geben Sie die erforderlichen Anmeldeinformationen ein, um eine Verbindung mit dem drahtlosen Netzwerk "%%_NAME_%%" herzustellen.
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkTitle">
+        Netzwerk-Authentifizierung erforderlich
+    </Entry>
     <Entry key="ExamSelectionDialog_Cancel">
         Abbrechen
     </Entry>

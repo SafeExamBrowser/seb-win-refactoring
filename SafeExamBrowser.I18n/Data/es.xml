@@ -99,6 +99,21 @@
     <Entry key="Build">
         Build
     </Entry>
+    <Entry key="CredentialsDialog_PasswordLabel">
+        Contraseña:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameLabel">
+        Nombre de usuario:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameOptionalLabel">
+        Nombre de usuario (opcional):
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkMessage">
+        Por favor, introduzca las credenciales necesarias para establecer una conexión con la red inalámbrica "%%_NAME_%%".
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkTitle">
+        Autenticación de red necesaria
+    </Entry>
     <Entry key="ExamSelectionDialog_Cancel">
         Cancel
     </Entry>

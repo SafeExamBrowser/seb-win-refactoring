@@ -698,7 +698,9 @@ namespace SafeExamBrowser.Client
 
 		private void NetworkAdapter_CredentialsRequired(CredentialsRequiredEventArgs args)
 		{
-			var dialog = uiFactory.CreateNetworkDialog("TODO", "TODO");
+			var message = text.Get(TextKey.CredentialsDialog_WirelessNetworkMessage).Replace("%%_NAME_%%", args.NetworkName);
+			var title = text.Get(TextKey.CredentialsDialog_WirelessNetworkTitle);
+			var dialog = uiFactory.CreateCredentialsDialog(CredentialsDialogPurpose.WirelessNetwork, message, title);
 			var result = dialog.Show();
 
 			args.Password = result.Password;

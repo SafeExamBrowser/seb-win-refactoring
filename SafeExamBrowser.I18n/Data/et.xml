@@ -99,6 +99,21 @@
     <Entry key="Build">
         Koosta
     </Entry>
+    <Entry key="CredentialsDialog_PasswordLabel">
+        Parool:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameLabel">
+        Kasutajanimi:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameOptionalLabel">
+        Kasutajanimi (vabatahtlik):
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkMessage">
+        Palun sisestage vajalikud volitused, et luua ühendus traadita võrguga "%%_NAME_%%".
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkTitle">
+        Võrguautentimine nõutav
+    </Entry>
     <Entry key="ExamSelectionDialog_Cancel">
         Tühista
     </Entry>

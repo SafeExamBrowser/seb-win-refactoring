@@ -99,6 +99,21 @@
     <Entry key="Build">
         Bangun
     </Entry>
+    <Entry key="CredentialsDialog_PasswordLabel">
+        Kata sandi:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameLabel">
+        Nama pengguna:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameOptionalLabel">
+        Nama pengguna (opsional):
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkMessage">
+        Masukkan kredensial yang diperlukan untuk membuat sambungan ke jaringan nirkabel "%%_NAMA_%%".
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkTitle">
+        Diperlukan Otentikasi Jaringan
+    </Entry>
     <Entry key="ExamSelectionDialog_Cancel">
         Batal
     </Entry>

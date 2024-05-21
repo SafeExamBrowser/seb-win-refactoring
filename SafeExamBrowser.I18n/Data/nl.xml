@@ -99,6 +99,21 @@
     <Entry key="Build">
         Build
     </Entry>
+    <Entry key="CredentialsDialog_PasswordLabel">
+        Wachtwoord:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameLabel">
+        Gebruikersnaam:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameOptionalLabel">
+        Gebruikersnaam (optioneel):
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkMessage">
+        Voer de vereiste gegevens in om verbinding te maken met het draadloze netwerk “%%_NAME_%%”.
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkTitle">
+        Netwerkverificatie vereist
+    </Entry>
     <Entry key="ExamSelectionDialog_Cancel">
         Annuleren
     </Entry>

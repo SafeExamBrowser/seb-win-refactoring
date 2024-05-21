@@ -59,6 +59,11 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow, ILogger logger);
 
 		/// <summary>
+		/// Creates a credentials dialog for the given purpose and with the specified message and title.
+		/// </summary>
+		ICredentialsDialog CreateCredentialsDialog(CredentialsDialogPurpose purpose, string message, string title);
+
+		/// <summary>
 		/// Creates an exam selection dialog for the given exams.
 		/// </summary>
 		IExamSelectionDialog CreateExamSelectionDialog(IEnumerable<Exam> exams);
@@ -82,11 +87,6 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// Creates a system control which allows to view and/or change the network connection of the computer.
 		/// </summary>
 		ISystemControl CreateNetworkControl(INetworkAdapter adapter, Location location);
-
-		/// <summary>
-		/// Creates a network dialog with the given message and title.
-		/// </summary>
-		INetworkDialog CreateNetworkDialog(string message, string title);
 
 		/// <summary>
 		/// Creates a notification control for the given notification, initialized for the specified location.

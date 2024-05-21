@@ -66,6 +66,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			}));
 			Popup.Closed += (o, args) =>
 			{
+				adapter.StopWirelessNetworkScanning();
 				Background = originalBrush;
 				Button.Background = originalBrush;
 				lastOpenedBySpacePress = false;
@@ -81,6 +82,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			}));
 			Popup.Opened += (o, args) =>
 			{
+				adapter.StartWirelessNetworkScanning();
 				Background = Brushes.LightGray;
 				Button.Background = Brushes.LightGray;
 				Task.Delay(100).ContinueWith((task) => Dispatcher.Invoke(() =>
@@ -106,23 +108,6 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 
 		private void Update()
 		{
-			WirelessNetworksStackPanel.Children.Clear();
-
-			foreach (var network in adapter.GetWirelessNetworks())
-			{
-				var button = new NetworkButton(network);
-
-				button.NetworkSelected += (o, args) => adapter.ConnectToWirelessNetwork(network.Name);
-
-				if (network.Status == ConnectionStatus.Connected)
-				{
-					WirelessIcon.Child = GetWirelessIcon(network.SignalStrength);
-					UpdateText(text.Get(TextKey.SystemControl_NetworkWirelessConnected).Replace("%%NAME%%", network.Name));
-				}
-
-				WirelessNetworksStackPanel.Children.Add(button);
-			}
-
 			switch (adapter.Type)
 			{
 				case ConnectionType.Wired:
@@ -165,6 +150,23 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 					NetworkStatusIcon.Spin = false;
 					WirelessIcon.Child = GetWirelessIcon(0);
 					break;
+			}
+
+			WirelessNetworksStackPanel.Children.Clear();
+
+			foreach (var network in adapter.GetWirelessNetworks())
+			{
+				var button = new NetworkButton(network);
+
+				button.NetworkSelected += (o, args) => adapter.ConnectToWirelessNetwork(network.Name);
+
+				if (network.Status == ConnectionStatus.Connected)
+				{
+					WirelessIcon.Child = GetWirelessIcon(network.SignalStrength);
+					UpdateText(text.Get(TextKey.SystemControl_NetworkWirelessConnected).Replace("%%NAME%%", network.Name));
+				}
+
+				WirelessNetworksStackPanel.Children.Add(button);
 			}
 		}
 

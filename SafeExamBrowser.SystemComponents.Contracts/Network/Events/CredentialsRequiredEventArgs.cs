@@ -9,22 +9,27 @@
 namespace SafeExamBrowser.SystemComponents.Contracts.Network.Events
 {
 	/// <summary>
-	/// 
+	/// The event arguments for the <see cref="CredentialsRequiredEventHandler"/>.
 	/// </summary>
 	public class CredentialsRequiredEventArgs
 	{
 		/// <summary>
-		/// 
+		/// The name of the network which requires credentials.
+		/// </summary>
+		public string NetworkName { get; set; }
+
+		/// <summary>
+		/// The password as specified by the user.
 		/// </summary>
 		public string Password { get; set; }
 
 		/// <summary>
-		/// 
+		/// Indicates whether the credentials could be successfully retrieved or not.
 		/// </summary>
 		public bool Success { get; set; }
 
 		/// <summary>
-		/// 
+		/// The username as specified by the user.
 		/// </summary>
 		public string Username { get; set; }
 	}

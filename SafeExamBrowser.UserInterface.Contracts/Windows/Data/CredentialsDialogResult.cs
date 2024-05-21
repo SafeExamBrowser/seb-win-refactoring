@@ -9,9 +9,9 @@
 namespace SafeExamBrowser.UserInterface.Contracts.Windows.Data
 {
 	/// <summary>
-	/// Defines the user interaction result of an <see cref="INetworkDialog"/>.
+	/// Defines the user interaction result of an <see cref="ICredentialsDialog"/>.
 	/// </summary>
-	public class NetworkDialogResult
+	public class CredentialsDialogResult
 	{
 		/// <summary>
 		/// The password entered by the user, or <c>default(string)</c> if the interaction was unsuccessful.
