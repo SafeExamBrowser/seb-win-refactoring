@@ -334,7 +334,7 @@ namespace SafeExamBrowser.SystemComponents.Network
 			Changed?.Invoke();
 		}
 
-		private void LogNetworkChanges(ConnectionStatus previousStatus, WirelessNetwork currentNetwork)
+		private void LogNetworkChanges(ConnectionStatus previousStatus, WirelessNetwork currentNetwork = default)
 		{
 			if (previousStatus != ConnectionStatus.Connected && Status == ConnectionStatus.Connected)
 			{

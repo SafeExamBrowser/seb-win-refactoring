@@ -138,6 +138,11 @@ namespace SafeExamBrowser.Browser.Handlers
 				filePath = Path.Combine(KnownFolders.Downloads.ExpandedPath, downloadItem.SuggestedFileName);
 			}
 
+			if (File.Exists(filePath))
+			{
+				filePath = AppendIndexSuffixTo(filePath);
+			}
+
 			if (showDialog)
 			{
 				logger.Debug($"Allowing user to select custom download location, with '{filePath}' as suggestion.");
@@ -153,6 +158,26 @@ namespace SafeExamBrowser.Browser.Handlers
 			{
 				callback.Continue(filePath, showDialog);
 			}
+		}
+
+		private string AppendIndexSuffixTo(string filePath)
+		{
+			var directory = Path.GetDirectoryName(filePath);
+			var extension = Path.GetExtension(filePath);
+			var name = Path.GetFileNameWithoutExtension(filePath);
+			var path = default(string);
+
+			for (var suffix = 1; suffix < int.MaxValue; suffix++)
+			{
+				path = Path.Combine(directory, $"{name}({suffix}){extension}");
+
+				if (!File.Exists(path))
+				{
+					break;
+				}
+			}
+
+			return path;
 		}
 
 		private void RequestConfigurationFileDownload(DownloadItem downloadItem, IBeforeDownloadCallback callback)
