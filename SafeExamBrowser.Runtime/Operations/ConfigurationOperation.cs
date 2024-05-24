@@ -164,13 +164,18 @@ namespace SafeExamBrowser.Runtime.Operations
 				result = OperationResult.Aborted;
 			}
 
+			if (result == OperationResult.Success && Context.Current.IsBrowserResource)
+			{
+				HandleReconfigurationByBrowserResource();
+			}
+
 			fileSystem.Delete(uri.LocalPath);
 			logger.Info($"Deleted temporary configuration file '{uri}'.");
 
 			return result;
 		}
 
-		private OperationResult DetermineLoadResult(Uri uri, UriSource source, AppSettings settings, LoadStatus status, PasswordParameters passwordParams, string currentPassword = default(string))
+		private OperationResult DetermineLoadResult(Uri uri, UriSource source, AppSettings settings, LoadStatus status, PasswordParameters passwordParams, string currentPassword = default)
 		{
 			var result = OperationResult.Failed;
 
@@ -205,6 +210,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		private OperationResult HandleBrowserResource(Uri uri)
 		{
+			Context.Next.IsBrowserResource = true;
 			Context.Next.Settings.Applications.Blacklist.Clear();
 			Context.Next.Settings.Applications.Whitelist.Clear();
 			Context.Next.Settings.Display.AllowedDisplays = 10;
@@ -222,7 +228,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			return OperationResult.Success;
 		}
 
-		private OperationResult HandleClientConfiguration(Uri uri, PasswordParameters passwordParams, string currentPassword = default(string))
+		private OperationResult HandleClientConfiguration(Uri uri, PasswordParameters passwordParams, string currentPassword = default)
 		{
 			var isFirstSession = Context.Current == null;
 			var success = TryConfigureClient(uri, passwordParams, currentPassword);
@@ -240,6 +246,12 @@ namespace SafeExamBrowser.Runtime.Operations
 			return result;
 		}
 
+		private void HandleReconfigurationByBrowserResource()
+		{
+			Context.Next.Settings.Browser.DeleteCookiesOnStartup = false;
+			logger.Info("Some browser settings were overridden in order to retain a potential LMS / web application session.");
+		}
+
 		private void HandleStartUrlQuery(Uri uri, UriSource source)
 		{
 			if (source == UriSource.Reconfiguration && Uri.TryCreate(Context.ReconfigurationUrl, UriKind.Absolute, out var reconfigurationUri))
@@ -247,13 +259,13 @@ namespace SafeExamBrowser.Runtime.Operations
 				uri = reconfigurationUri;
 			}
 
-			if (uri != default(Uri) && uri.Query.LastIndexOf('?') > 0)
+			if (uri != default && uri.Query.LastIndexOf('?') > 0)
 			{
 				Context.Next.Settings.Browser.StartUrlQuery = uri.Query.Substring(uri.Query.LastIndexOf('?'));
 			}
 		}
 
-		private bool? TryConfigureClient(Uri uri, PasswordParameters passwordParams, string currentPassword = default(string))
+		private bool? TryConfigureClient(Uri uri, PasswordParameters passwordParams, string currentPassword = default)
 		{
 			var mustAuthenticate = IsRequiredToAuthenticateForClientConfiguration(passwordParams, currentPassword);
 
@@ -304,9 +316,9 @@ namespace SafeExamBrowser.Runtime.Operations
 			return success;
 		}
 
-		private bool IsRequiredToAuthenticateForClientConfiguration(PasswordParameters passwordParams, string currentPassword = default(string))
+		private bool IsRequiredToAuthenticateForClientConfiguration(PasswordParameters passwordParams, string currentPassword = default)
 		{
-			var mustAuthenticate = currentPassword != default(string);
+			var mustAuthenticate = currentPassword != default;
 
 			if (mustAuthenticate)
 			{
@@ -334,7 +346,7 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var authenticated = false;
 
-			for (int attempts = 0; attempts < 5 && !authenticated; attempts++)
+			for (var attempts = 0; attempts < 5 && !authenticated; attempts++)
 			{
 				var success = TryGetPassword(PasswordRequestPurpose.LocalAdministrator, out var password);
 
@@ -384,8 +396,8 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var isValidUri = false;
 
-			uri = null;
-			source = default(UriSource);
+			uri = default;
+			source = default;
 
 			if (commandLineArgs?.Length > 1)
 			{

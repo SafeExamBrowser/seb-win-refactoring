@@ -27,6 +27,11 @@ namespace SafeExamBrowser.Configuration.Contracts
 		public Guid ClientAuthenticationToken { get; set; }
 
 		/// <summary>
+		/// Indicates whether a configuration resource needs to be loaded in the browser because it requires authentication or is a webpage.
+		/// </summary>
+		public bool IsBrowserResource { get; set; }
+
+		/// <summary>
 		/// The unique session identifier.
 		/// </summary>
 		public Guid SessionId { get; set; }
