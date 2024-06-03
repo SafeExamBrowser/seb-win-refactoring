@@ -106,7 +106,7 @@
         用户名：
     </Entry>
     <Entry key="CredentialsDialog_UsernameOptionalLabel">
-        用户名（可选）：
+        用户名（如需要）：
     </Entry>
     <Entry key="CredentialsDialog_WirelessNetworkMessage">
         请输入与无线网络 "%%_NAME_%%" 建立连接所需的凭证。

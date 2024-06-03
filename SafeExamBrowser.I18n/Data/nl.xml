@@ -106,7 +106,7 @@
         Gebruikersnaam:
     </Entry>
     <Entry key="CredentialsDialog_UsernameOptionalLabel">
-        Gebruikersnaam (optioneel):
+        Gebruikersnaam (indien vereist):
     </Entry>
     <Entry key="CredentialsDialog_WirelessNetworkMessage">
         Voer de vereiste gegevens in om verbinding te maken met het draadloze netwerk “%%_NAME_%%”.

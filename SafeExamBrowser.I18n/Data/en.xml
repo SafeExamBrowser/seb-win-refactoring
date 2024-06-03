@@ -106,7 +106,7 @@
         Username:
     </Entry>
     <Entry key="CredentialsDialog_UsernameOptionalLabel">
-        Username (optional):
+        Username (if required):
     </Entry>
     <Entry key="CredentialsDialog_WirelessNetworkMessage">
         Please enter the required credentials to establish a connection to the wireless network "%%_NAME_%%".

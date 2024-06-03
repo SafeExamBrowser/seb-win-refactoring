@@ -106,7 +106,7 @@
         Benutzername:
     </Entry>
     <Entry key="CredentialsDialog_UsernameOptionalLabel">
-        Benutzername (optional):
+        Benutzername (falls erforderlich):
     </Entry>
     <Entry key="CredentialsDialog_WirelessNetworkMessage">
         Bitte geben Sie die erforderlichen Anmeldeinformationen ein, um eine Verbindung mit dem drahtlosen Netzwerk "%%_NAME_%%" herzustellen.

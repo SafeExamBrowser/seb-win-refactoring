@@ -106,7 +106,7 @@
         Имя пользователя:
     </Entry>
     <Entry key="CredentialsDialog_UsernameOptionalLabel">
-        Имя пользователя (необязательно):
+        Имя пользователя (если требуется):
     </Entry>
     <Entry key="CredentialsDialog_WirelessNetworkMessage">
         Введите необходимые учетные данные для установления соединения с беспроводной сетью "%%_NAME_%%".

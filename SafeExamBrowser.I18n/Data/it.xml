@@ -106,7 +106,7 @@
         Nome utente:
     </Entry>
     <Entry key="CredentialsDialog_UsernameOptionalLabel">
-        Nome utente (facoltativo):
+        Nome utente (se richiesto):
     </Entry>
     <Entry key="CredentialsDialog_WirelessNetworkMessage">
         Inserire le credenziali richieste per stabilire una connessione alla rete wireless "%%_NAME_%%".

@@ -106,7 +106,7 @@
         Kasutajanimi:
     </Entry>
     <Entry key="CredentialsDialog_UsernameOptionalLabel">
-        Kasutajanimi (vabatahtlik):
+        Kasutajanimi (kui see on nõutav):
     </Entry>
     <Entry key="CredentialsDialog_WirelessNetworkMessage">
         Palun sisestage vajalikud volitused, et luua ühendus traadita võrguga "%%_NAME_%%".

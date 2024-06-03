@@ -106,7 +106,7 @@
         Nombre de usuario:
     </Entry>
     <Entry key="CredentialsDialog_UsernameOptionalLabel">
-        Nombre de usuario (opcional):
+        Nombre de usuario (si se requiere):
     </Entry>
     <Entry key="CredentialsDialog_WirelessNetworkMessage">
         Por favor, introduzca las credenciales necesarias para establecer una conexión con la red inalámbrica "%%_NAME_%%".

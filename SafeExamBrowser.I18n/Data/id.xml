@@ -106,7 +106,7 @@
         Nama pengguna:
     </Entry>
     <Entry key="CredentialsDialog_UsernameOptionalLabel">
-        Nama pengguna (opsional):
+        Nama pengguna (jika diperlukan):
     </Entry>
     <Entry key="CredentialsDialog_WirelessNetworkMessage">
         Masukkan kredensial yang diperlukan untuk membuat sambungan ke jaringan nirkabel "%%_NAMA_%%".

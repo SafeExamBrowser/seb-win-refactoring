@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SafeExamBrowser.SystemComponents.Contracts.Network;
 using Windows.Devices.WiFi;
+using Windows.Networking.Connectivity;
 
 namespace SafeExamBrowser.SystemComponents.Network
 {
@@ -19,6 +20,16 @@ namespace SafeExamBrowser.SystemComponents.Network
 		internal static IOrderedEnumerable<WiFiAvailableNetwork> FilterAndOrder(this IReadOnlyList<WiFiAvailableNetwork> networks)
 		{
 			return networks.Where(n => !string.IsNullOrEmpty(n.Ssid)).GroupBy(n => n.Ssid).Select(g => g.First()).OrderBy(n => n.Ssid);
+		}
+
+		internal static bool IsOpen(this WiFiAvailableNetwork network)
+		{
+			return network.SecuritySettings.NetworkAuthenticationType == NetworkAuthenticationType.Open80211 && network.SecuritySettings.NetworkEncryptionType == NetworkEncryptionType.None;
+		}
+
+		internal static string ToLogString(this WiFiAvailableNetwork network)
+		{
+			return $"'{network.Ssid}' ({network.SecuritySettings.NetworkAuthenticationType}, {network.SecuritySettings.NetworkEncryptionType})";
 		}
 
 		internal static WirelessNetwork ToWirelessNetwork(this WiFiAvailableNetwork network)
