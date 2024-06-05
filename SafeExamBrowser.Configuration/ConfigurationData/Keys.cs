@@ -271,6 +271,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string QuitPasswordHash = "hashedQuitPassword";
 			internal const string ReconfigurationUrl = "examSessionReconfigureConfigURL";
 			internal const string VerifyCursorConfiguration = "enableCursorVerification";
+			internal const string VerifySessionIntegrity = "enableSessionVerification";
 			internal const string VersionRestrictions = "sebAllowedVersions";
 		}
 

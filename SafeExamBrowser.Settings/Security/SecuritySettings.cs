@@ -69,6 +69,11 @@ namespace SafeExamBrowser.Settings.Security
 		public bool VerifyCursorConfiguration { get; set; }
 
 		/// <summary>
+		/// Determines whether the session integrity will be verified after session initialization.
+		/// </summary>
+		public bool VerifySessionIntegrity { get; set; }
+
+		/// <summary>
 		/// All restrictions which apply to the SEB version to be used.
 		/// </summary>
 		public IList<VersionRestriction> VersionRestrictions { get; set; }

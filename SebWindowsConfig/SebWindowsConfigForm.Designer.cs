@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -76,6 +76,8 @@ namespace SebWindowsConfig
 			this.checkBoxInsideSebEnableEaseOfAccess = new System.Windows.Forms.CheckBox();
 			this.checkBoxInsideSebEnableVmWareClientShade = new System.Windows.Forms.CheckBox();
 			this.tabPageSecurity = new System.Windows.Forms.TabPage();
+			this.checkBoxEnableSessionVerification = new System.Windows.Forms.CheckBox();
+			this.checkBoxEnableCursorVerification = new System.Windows.Forms.CheckBox();
 			this.groupBox21 = new System.Windows.Forms.GroupBox();
 			this.label33 = new System.Windows.Forms.Label();
 			this.label32 = new System.Windows.Forms.Label();
@@ -479,7 +481,6 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.checkBoxEnableCursorVerification = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -1132,6 +1133,7 @@ namespace SebWindowsConfig
 			// 
 			// tabPageSecurity
 			// 
+			this.tabPageSecurity.Controls.Add(this.checkBoxEnableSessionVerification);
 			this.tabPageSecurity.Controls.Add(this.checkBoxEnableCursorVerification);
 			this.tabPageSecurity.Controls.Add(this.groupBox21);
 			this.tabPageSecurity.Controls.Add(this.groupBox20);
@@ -1156,6 +1158,28 @@ namespace SebWindowsConfig
 			this.tabPageSecurity.TabIndex = 24;
 			this.tabPageSecurity.Text = "Security";
 			this.tabPageSecurity.UseVisualStyleBackColor = true;
+			// 
+			// checkBoxEnableSessionVerification
+			// 
+			this.checkBoxEnableSessionVerification.AutoSize = true;
+			this.checkBoxEnableSessionVerification.Location = new System.Drawing.Point(328, 335);
+			this.checkBoxEnableSessionVerification.Name = "checkBoxEnableSessionVerification";
+			this.checkBoxEnableSessionVerification.Size = new System.Drawing.Size(179, 17);
+			this.checkBoxEnableSessionVerification.TabIndex = 112;
+			this.checkBoxEnableSessionVerification.Text = "Enable session verification (Win)";
+			this.checkBoxEnableSessionVerification.UseVisualStyleBackColor = true;
+			this.checkBoxEnableSessionVerification.CheckedChanged += new System.EventHandler(this.checkBoxEnableSessionVerification_CheckedChanged);
+			// 
+			// checkBoxEnableCursorVerification
+			// 
+			this.checkBoxEnableCursorVerification.AutoSize = true;
+			this.checkBoxEnableCursorVerification.Location = new System.Drawing.Point(328, 316);
+			this.checkBoxEnableCursorVerification.Name = "checkBoxEnableCursorVerification";
+			this.checkBoxEnableCursorVerification.Size = new System.Drawing.Size(173, 17);
+			this.checkBoxEnableCursorVerification.TabIndex = 111;
+			this.checkBoxEnableCursorVerification.Text = "Enable cursor verification (Win)";
+			this.checkBoxEnableCursorVerification.UseVisualStyleBackColor = true;
+			this.checkBoxEnableCursorVerification.CheckedChanged += new System.EventHandler(this.checkBoxEnableCursorVerification_CheckedChanged);
 			// 
 			// groupBox21
 			// 
@@ -1306,7 +1330,7 @@ namespace SebWindowsConfig
 			// checkBoxEnforceBuiltinDisplay
 			// 
 			this.checkBoxEnforceBuiltinDisplay.AutoSize = true;
-			this.checkBoxEnforceBuiltinDisplay.Location = new System.Drawing.Point(617, 276);
+			this.checkBoxEnforceBuiltinDisplay.Location = new System.Drawing.Point(617, 278);
 			this.checkBoxEnforceBuiltinDisplay.Name = "checkBoxEnforceBuiltinDisplay";
 			this.checkBoxEnforceBuiltinDisplay.Size = new System.Drawing.Size(193, 17);
 			this.checkBoxEnforceBuiltinDisplay.TabIndex = 107;
@@ -1424,7 +1448,7 @@ namespace SebWindowsConfig
 			// 
 			this.comboBoxAllowedDisplaysMaxNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboBoxAllowedDisplaysMaxNumber.FormattingEnabled = true;
-			this.comboBoxAllowedDisplaysMaxNumber.Location = new System.Drawing.Point(833, 256);
+			this.comboBoxAllowedDisplaysMaxNumber.Location = new System.Drawing.Point(831, 258);
 			this.comboBoxAllowedDisplaysMaxNumber.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.comboBoxAllowedDisplaysMaxNumber.Name = "comboBoxAllowedDisplaysMaxNumber";
 			this.comboBoxAllowedDisplaysMaxNumber.Size = new System.Drawing.Size(57, 21);
@@ -1449,7 +1473,7 @@ namespace SebWindowsConfig
 			this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label13.AutoSize = true;
 			this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label13.Location = new System.Drawing.Point(595, 259);
+			this.label13.Location = new System.Drawing.Point(593, 262);
 			this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(234, 13);
@@ -2040,8 +2064,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -4824,8 +4848,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -6223,17 +6247,6 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// checkBoxEnableCursorVerification
-			// 
-			this.checkBoxEnableCursorVerification.AutoSize = true;
-			this.checkBoxEnableCursorVerification.Location = new System.Drawing.Point(328, 320);
-			this.checkBoxEnableCursorVerification.Name = "checkBoxEnableCursorVerification";
-			this.checkBoxEnableCursorVerification.Size = new System.Drawing.Size(173, 17);
-			this.checkBoxEnableCursorVerification.TabIndex = 111;
-			this.checkBoxEnableCursorVerification.Text = "Enable cursor verification (Win)";
-			this.checkBoxEnableCursorVerification.UseVisualStyleBackColor = true;
-			this.checkBoxEnableCursorVerification.CheckedChanged += new System.EventHandler(this.checkBoxEnableCursorVerification_CheckedChanged);
-			// 
 			// SebWindowsConfigForm
 			// 
 			this.AllowDrop = true;
@@ -6819,6 +6832,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.CheckBox checkBoxAllowUploads;
 		private System.Windows.Forms.CheckBox checkBoxAllowDownloads;
 		private System.Windows.Forms.CheckBox checkBoxEnableCursorVerification;
+		private System.Windows.Forms.CheckBox checkBoxEnableSessionVerification;
 	}
 }
 

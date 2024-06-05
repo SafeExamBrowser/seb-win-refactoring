@@ -815,6 +815,7 @@ namespace SebWindowsConfig
 			checkBoxAllowChromeNotifications.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowChromeNotifications];
 			checkBoxAllowWindowsUpdate.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowWindowsUpdate];
 			checkBoxEnableCursorVerification.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnableCursorVerification];
+			checkBoxEnableSessionVerification.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnableSessionVerification];
 
 			if (String.IsNullOrEmpty(textBoxLogDirectoryWin.Text))
 			{
@@ -4796,6 +4797,11 @@ namespace SebWindowsConfig
 		private void checkBoxEnableCursorVerification_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyEnableCursorVerification] = checkBoxEnableCursorVerification.Checked;
+		}
+
+		private void checkBoxEnableSessionVerification_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyEnableSessionVerification] = checkBoxEnableSessionVerification.Checked;
 		}
 	}
 }

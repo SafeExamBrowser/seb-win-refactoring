@@ -383,6 +383,7 @@ namespace SebWindowsConfig
 		public const String KeyClipboardPolicy = "clipboardPolicy";
 		public const String KeyDisableSessionChangeLockScreen = "disableSessionChangeLockScreen";
 		public const String KeyEnableCursorVerification = "enableCursorVerification";
+		public const String KeyEnableSessionVerification = "enableSessionVerification";
 
 		// Group "macOS specific settings"
 		public const String KeyMinMacOSVersion = "minMacOSVersion";
@@ -1024,6 +1025,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyClipboardPolicy, 2);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyDisableSessionChangeLockScreen, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableCursorVerification, true);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableSessionVerification, true);
 
 			// Default selected index and string in combo box for minMacOSVersion 
 			SEBSettings.intArrayDefault[SEBSettings.ValMinMacOSVersion] = 4;

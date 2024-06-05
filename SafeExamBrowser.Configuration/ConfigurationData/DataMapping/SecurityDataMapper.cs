@@ -47,6 +47,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Security.VerifyCursorConfiguration:
 					MapVerifyCursorConfiguration(settings, value);
 					break;
+				case Keys.Security.VerifySessionIntegrity:
+					MapVerifySessionIntegrity(settings, value);
+					break;
 				case Keys.Security.VersionRestrictions:
 					MapVersionRestrictions(settings, value);
 					break;
@@ -172,6 +175,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool verify)
 			{
 				settings.Security.VerifyCursorConfiguration = verify;
+			}
+		}
+
+		private void MapVerifySessionIntegrity(AppSettings settings, object value)
+		{
+			if (value is bool verify)
+			{
+				settings.Security.VerifySessionIntegrity = verify;
 			}
 		}
 

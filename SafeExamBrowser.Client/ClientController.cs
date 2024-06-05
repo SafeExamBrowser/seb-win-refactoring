@@ -409,7 +409,7 @@ namespace SafeExamBrowser.Client
 		{
 			var hasQuitPassword = !string.IsNullOrEmpty(Settings.Security.QuitPasswordHash);
 
-			if (hasQuitPassword)
+			if (hasQuitPassword && Settings.Security.VerifySessionIntegrity)
 			{
 				logger.Info($"Attempting to verify session integrity...");
 
