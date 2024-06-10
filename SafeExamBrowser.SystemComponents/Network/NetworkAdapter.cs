@@ -255,7 +255,7 @@ namespace SafeExamBrowser.SystemComponents.Network
 
 		private void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
 		{
-			logger.Debug($"Network availability changed ({(e.IsAvailable ? "available" : "unavailable")}.");
+			logger.Debug($"Network availability changed ({(e.IsAvailable ? "available" : "unavailable")}).");
 			Update();
 		}
 
@@ -317,41 +317,45 @@ namespace SafeExamBrowser.SystemComponents.Network
 		{
 			try
 			{
-				lock (@lock)
+				var currentNetwork = default(WirelessNetwork);
+				var hasConnection = nativeMethods.HasInternetConnection();
+				var isConnecting = Status == ConnectionStatus.Connecting;
+				var networks = new List<WirelessNetwork>();
+				var previousStatus = Status;
+
+				if (HasWirelessAdapter)
 				{
-					var hasConnection = nativeMethods.HasInternetConnection();
-					var isConnecting = Status == ConnectionStatus.Connecting;
-					var previousStatus = Status;
+					hasConnection &= TryGetCurrentWirelessNetwork(out var current);
 
-					wirelessNetworks.Clear();
-
-					if (HasWirelessAdapter)
+					foreach (var network in adapter.NetworkReport.AvailableNetworks.FilterAndOrder())
 					{
-						hasConnection &= TryGetCurrentWirelessNetwork(out var currentNetwork);
+						var wirelessNetwork = network.ToWirelessNetwork();
 
-						foreach (var network in adapter.NetworkReport.AvailableNetworks.FilterAndOrder())
+						if (network.Ssid == current)
 						{
-							var wirelessNetwork = network.ToWirelessNetwork();
-
-							if (network.Ssid == currentNetwork)
-							{
-								wirelessNetwork.Status = ConnectionStatus.Connected;
-							}
-
-							wirelessNetworks.Add(wirelessNetwork);
+							currentNetwork = wirelessNetwork;
+							wirelessNetwork.Status = ConnectionStatus.Connected;
 						}
 
-						if (rescan)
-						{
-							_ = adapter.ScanAsync();
-						}
+						networks.Add(wirelessNetwork);
 					}
 
-					Type = HasWirelessAdapter ? ConnectionType.Wireless : (hasConnection ? ConnectionType.Wired : ConnectionType.Undefined);
-					Status = hasConnection ? ConnectionStatus.Connected : (isConnecting ? ConnectionStatus.Connecting : ConnectionStatus.Disconnected);
-
-					LogNetworkChanges(previousStatus, wirelessNetworks.FirstOrDefault(n => n.Status == ConnectionStatus.Connected));
+					if (rescan)
+					{
+						_ = adapter.ScanAsync();
+					}
 				}
+
+				lock (@lock)
+				{
+					wirelessNetworks.Clear();
+					wirelessNetworks.AddRange(networks);
+				}
+
+				Type = HasWirelessAdapter ? ConnectionType.Wireless : (hasConnection ? ConnectionType.Wired : ConnectionType.Undefined);
+				Status = hasConnection ? ConnectionStatus.Connected : (isConnecting ? ConnectionStatus.Connecting : ConnectionStatus.Disconnected);
+
+				LogNetworkChanges(previousStatus, currentNetwork);
 			}
 			catch (Exception e)
 			{
