@@ -7,7 +7,7 @@ release version.
 ## Reporting a Vulnerability
 
 > [!IMPORTANT]
-> - Please _always_ verify that no later release version exists which possibly fixes the vulnerability.
+> - Please _always_ verify that no later release version exists which fixes the vulnerability.
 > - Please _always_ consult the documentation first before creating a vulnerability report: https://safeexambrowser.org/windows/win_usermanual_en.html.
 > - Please _always_ attach the log file(s) of the affected session(s)! They can be found under `%LocalAppData%\SafeExamBrowser\Logs`.
 
