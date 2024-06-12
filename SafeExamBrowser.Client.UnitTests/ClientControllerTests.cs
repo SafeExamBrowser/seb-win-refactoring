@@ -33,6 +33,7 @@ using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Monitoring;
+using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.SystemComponents.Contracts.Network;
 using SafeExamBrowser.SystemComponents.Contracts.Registry;
 using SafeExamBrowser.UserInterface.Contracts;
@@ -222,9 +223,9 @@ namespace SafeExamBrowser.Client.UnitTests
 			lockScreen.Setup(l => l.WaitForResult()).Returns(result);
 			runtimeProxy.Setup(p => p.RequestShutdown()).Returns(new CommunicationResult(true));
 			uiFactory
-				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>()))
+				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>(), It.IsAny<LockScreenSettings>()))
 				.Returns(lockScreen.Object)
-				.Callback<string, string, IEnumerable<LockScreenOption>>((m, t, o) => result.OptionId = o.First().Id);
+				.Callback<string, string, IEnumerable<LockScreenOption>, LockScreenSettings>((m, t, o, s) => result.OptionId = o.First().Id);
 
 			sut.TryStart();
 			applicationMonitor.Raise(m => m.TerminationFailed += null, new List<RunningApplication>());
@@ -241,9 +242,9 @@ namespace SafeExamBrowser.Client.UnitTests
 			lockScreen.Setup(l => l.WaitForResult()).Returns(result);
 			runtimeProxy.Setup(p => p.RequestShutdown()).Returns(new CommunicationResult(true));
 			uiFactory
-				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>()))
+				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>(), It.IsAny<LockScreenSettings>()))
 				.Returns(lockScreen.Object)
-				.Callback<string, string, IEnumerable<LockScreenOption>>((m, t, o) => result.OptionId = o.Last().Id);
+				.Callback<string, string, IEnumerable<LockScreenOption>, LockScreenSettings>((m, t, o, s) => result.OptionId = o.Last().Id);
 
 			sut.TryStart();
 			applicationMonitor.Raise(m => m.TerminationFailed += null, new List<RunningApplication>());
@@ -275,7 +276,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			lockScreen.Setup(l => l.WaitForResult()).Callback(() => wait = ++order).Returns(result);
 			lockScreen.Setup(l => l.Close()).Callback(() => close = ++order);
 			uiFactory
-				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>()))
+				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>(), It.IsAny<LockScreenSettings>()))
 				.Returns(lockScreen.Object);
 
 			sut.TryStart();
@@ -312,7 +313,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			hashAlgorithm.Setup(a => a.GenerateHashFor(It.Is<string>(p => p == result.Password))).Returns(hash);
 			lockScreen.Setup(l => l.WaitForResult()).Returns(lockScreenResult);
 			uiFactory
-				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>()))
+				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>(), It.IsAny<LockScreenSettings>()))
 				.Returns(lockScreen.Object);
 
 			sut.TryStart();
@@ -561,7 +562,9 @@ namespace SafeExamBrowser.Client.UnitTests
 
 			displayMonitor.Setup(m => m.ValidateConfiguration(It.IsAny<DisplaySettings>())).Returns(new ValidationResult { IsAllowed = false });
 			lockScreen.Setup(l => l.WaitForResult()).Returns(new LockScreenResult());
-			uiFactory.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>())).Returns(lockScreen.Object);
+			uiFactory
+				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>(), It.IsAny<LockScreenSettings>()))
+				.Returns(lockScreen.Object);
 
 			sut.TryStart();
 			displayMonitor.Raise(d => d.DisplayChanged += null);
@@ -1230,7 +1233,9 @@ namespace SafeExamBrowser.Client.UnitTests
 
 			settings.Service.IgnoreService = true;
 			lockScreen.Setup(l => l.WaitForResult()).Returns(new LockScreenResult());
-			uiFactory.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>())).Returns(lockScreen.Object);
+			uiFactory
+				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>(), It.IsAny<LockScreenSettings>()))
+				.Returns(lockScreen.Object);
 
 			sut.TryStart();
 			systemMonitor.Raise(m => m.SessionChanged += null);
@@ -1248,8 +1253,8 @@ namespace SafeExamBrowser.Client.UnitTests
 			lockScreen.Setup(l => l.WaitForResult()).Returns(result);
 			runtimeProxy.Setup(r => r.RequestShutdown()).Returns(new CommunicationResult(true));
 			uiFactory
-				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>()))
-				.Callback(new Action<string, string, IEnumerable<LockScreenOption>>((message, title, options) => result.OptionId = options.Last().Id))
+				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>(), It.IsAny<LockScreenSettings>()))
+				.Callback(new Action<string, string, IEnumerable<LockScreenOption>, LockScreenSettings>((message, title, options, settings) => result.OptionId = options.Last().Id))
 				.Returns(lockScreen.Object);
 
 			sut.TryStart();
@@ -1268,7 +1273,9 @@ namespace SafeExamBrowser.Client.UnitTests
 			settings.Service.DisableUserLock = false;
 			settings.Service.DisableUserSwitch = false;
 			lockScreen.Setup(l => l.WaitForResult()).Returns(new LockScreenResult());
-			uiFactory.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>())).Returns(lockScreen.Object);
+			uiFactory
+				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>(), It.IsAny<LockScreenSettings>()))
+				.Returns(lockScreen.Object);
 
 			sut.TryStart();
 			systemMonitor.Raise(m => m.SessionChanged += null);

@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop"
-        mc:Ignorable="d" d:DesignWidth="1500" ResizeMode="NoResize" Topmost="True" WindowState="Maximized" WindowStyle="None">
-    <Grid Background="Red" FocusManager.FocusedElement="{Binding ElementName=Password}">
+        mc:Ignorable="d" d:DesignWidth="1500" Background="Red" ResizeMode="NoResize" Topmost="True" WindowState="Maximized" WindowStyle="None">
+    <Grid FocusManager.FocusedElement="{Binding ElementName=Password}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />

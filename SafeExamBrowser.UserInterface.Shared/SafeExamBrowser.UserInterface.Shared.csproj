@@ -76,6 +76,7 @@
     </Compile>
     <Compile Include="Utilities\IconLoader.cs" />
     <Compile Include="Utilities\IconResourceLoader.cs" />
+    <Compile Include="Utilities\Parser.cs" />
     <Compile Include="Utilities\Thumbnail.cs" />
     <Compile Include="Utilities\VisualExtensions.cs" />
     <Compile Include="Utilities\WindowExtensions.cs" />

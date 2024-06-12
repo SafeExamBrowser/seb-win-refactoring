@@ -326,6 +326,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				internal const string EnableActionCenter = "showSideMenu";
 			}
 
+			internal static class LockScreen
+			{
+				internal const string BackgroundColor = "lockScreenBackgroundColor";
+			}
+
 			internal static class SystemControls
 			{
 				internal static class Audio

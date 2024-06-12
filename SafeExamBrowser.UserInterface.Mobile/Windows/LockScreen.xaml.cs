@@ -15,6 +15,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Events;
@@ -26,6 +27,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 	internal partial class LockScreen : Window, ILockScreen
 	{
 		private readonly AutoResetEvent autoResetEvent;
+		private readonly LockScreenSettings settings;
 		private readonly IText text;
 
 		private bool canceled;
@@ -43,9 +45,10 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			remove { throw new NotImplementedException(); }
 		}
 
-		internal LockScreen(string message, string title, IText text, IEnumerable<LockScreenOption> options)
+		internal LockScreen(string message, string title, LockScreenSettings settings, IText text, IEnumerable<LockScreenOption> options)
 		{
 			this.autoResetEvent = new AutoResetEvent(false);
+			this.settings = settings;
 			this.text = text;
 
 			InitializeComponent();
@@ -128,6 +131,11 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			Loaded += (o, args) => Activate();
 			Message.Text = message;
 			Password.KeyDown += Password_KeyDown;
+
+			if (Parser.TryParseBrush(settings.BackgroundColor, out var brush))
+			{
+				Background = brush;
+			}
 
 			foreach (var option in options)
 			{

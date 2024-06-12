@@ -20,6 +20,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.UserInterface.ActionCenter.EnableActionCenter:
 					MapEnableActionCenter(settings, value);
 					break;
+				case Keys.UserInterface.LockScreen.BackgroundColor:
+					MapLockScreenBackgroundColor(settings, value);
+					break;
 				case Keys.UserInterface.SystemControls.Audio.Show:
 					MapShowAudio(settings, value);
 					break;
@@ -55,6 +58,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool enable)
 			{
 				settings.ActionCenter.EnableActionCenter = enable;
+			}
+		}
+
+		private void MapLockScreenBackgroundColor(AppSettings settings, object value)
+		{
+			if (value is string color)
+			{
+				settings.UserInterface.LockScreen.BackgroundColor = color;
 			}
 		}
 

@@ -28,7 +28,7 @@ namespace SafeExamBrowser.Settings
 	public class AppSettings
 	{
 		/// <summary>
-		/// All action center-related settings.
+		/// All settings related to the action center.
 		/// </summary>
 		public ActionCenterSettings ActionCenter { get; set; }
 
@@ -113,6 +113,11 @@ namespace SafeExamBrowser.Settings
 		public TaskbarSettings Taskbar { get; set; }
 
 		/// <summary>
+		/// All settings related to the user interface.
+		/// </summary>
+		public UserInterfaceSettings UserInterface { get; set; }
+
+		/// <summary>
 		/// The mode which determines the look &amp; feel of the user interface.
 		/// </summary>
 		public UserInterfaceMode UserInterfaceMode { get; set; }
@@ -133,6 +138,7 @@ namespace SafeExamBrowser.Settings
 			Service = new ServiceSettings();
 			System = new SystemSettings();
 			Taskbar = new TaskbarSettings();
+			UserInterface = new UserInterfaceSettings();
 		}
 	}
 }

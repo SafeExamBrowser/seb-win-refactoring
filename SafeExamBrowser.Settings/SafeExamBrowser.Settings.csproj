@@ -96,8 +96,10 @@
     <Compile Include="SystemComponents\PowerSupplySettings.cs" />
     <Compile Include="System\SystemSettings.cs" />
     <Compile Include="UserInterface\ActionCenterSettings.cs" />
+    <Compile Include="UserInterface\LockScreenSettings.cs" />
     <Compile Include="UserInterface\TaskbarSettings.cs" />
     <Compile Include="UserInterface\UserInterfaceMode.cs" />
+    <Compile Include="UserInterface\UserInterfaceSettings.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

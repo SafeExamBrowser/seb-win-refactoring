@@ -1008,7 +1008,7 @@ namespace SafeExamBrowser.Client
 
 			logger.Info("Showing lock screen...");
 			PauseActivators();
-			lockScreen = uiFactory.CreateLockScreen(message, title, options);
+			lockScreen = uiFactory.CreateLockScreen(message, title, options, Settings.UserInterface.LockScreen);
 			lockScreen.Show();
 
 			if (Settings.SessionMode == SessionMode.Server)

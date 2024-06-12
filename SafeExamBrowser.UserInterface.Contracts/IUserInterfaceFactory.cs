@@ -16,6 +16,7 @@ using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Proctoring;
+using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.SystemComponents.Contracts.Network;
@@ -76,7 +77,7 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// <summary>
 		/// Creates a lock screen with the given message, title and options.
 		/// </summary>
-		ILockScreen CreateLockScreen(string message, string title, IEnumerable<LockScreenOption> options);
+		ILockScreen CreateLockScreen(string message, string title, IEnumerable<LockScreenOption> options, LockScreenSettings settings);
 
 		/// <summary>
 		/// Creates a new log window which runs on its own thread.

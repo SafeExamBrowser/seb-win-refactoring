@@ -299,6 +299,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Taskbar.ShowKeyboardLayout = true;
 			settings.Taskbar.ShowNetwork = false;
 
+			settings.UserInterface.LockScreen.BackgroundColor = "#ff0000";
 			settings.UserInterfaceMode = UserInterfaceMode.Desktop;
 
 			return settings;

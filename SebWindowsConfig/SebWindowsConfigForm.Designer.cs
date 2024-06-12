@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -481,6 +481,10 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.groupBox22 = new System.Windows.Forms.GroupBox();
+			this.lockscreenColorButton = new System.Windows.Forms.Button();
+			this.lockscreenColorTextbox = new System.Windows.Forms.TextBox();
+			this.label34 = new System.Windows.Forms.Label();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -541,6 +545,7 @@ namespace SebWindowsConfig
 			this.groupBoxExitSequence.SuspendLayout();
 			this.tabControlSebWindowsConfig.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
+			this.groupBox22.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// openFileDialogSebConfigFile
@@ -1162,7 +1167,7 @@ namespace SebWindowsConfig
 			// checkBoxEnableSessionVerification
 			// 
 			this.checkBoxEnableSessionVerification.AutoSize = true;
-			this.checkBoxEnableSessionVerification.Location = new System.Drawing.Point(328, 335);
+			this.checkBoxEnableSessionVerification.Location = new System.Drawing.Point(230, 336);
 			this.checkBoxEnableSessionVerification.Name = "checkBoxEnableSessionVerification";
 			this.checkBoxEnableSessionVerification.Size = new System.Drawing.Size(179, 17);
 			this.checkBoxEnableSessionVerification.TabIndex = 112;
@@ -1173,7 +1178,7 @@ namespace SebWindowsConfig
 			// checkBoxEnableCursorVerification
 			// 
 			this.checkBoxEnableCursorVerification.AutoSize = true;
-			this.checkBoxEnableCursorVerification.Location = new System.Drawing.Point(328, 316);
+			this.checkBoxEnableCursorVerification.Location = new System.Drawing.Point(230, 317);
 			this.checkBoxEnableCursorVerification.Name = "checkBoxEnableCursorVerification";
 			this.checkBoxEnableCursorVerification.Size = new System.Drawing.Size(173, 17);
 			this.checkBoxEnableCursorVerification.TabIndex = 111;
@@ -1318,19 +1323,19 @@ namespace SebWindowsConfig
 			// checkBoxAllowedDisplayIgnoreError
 			// 
 			this.checkBoxAllowedDisplayIgnoreError.AutoSize = true;
-			this.checkBoxAllowedDisplayIgnoreError.Location = new System.Drawing.Point(617, 296);
+			this.checkBoxAllowedDisplayIgnoreError.Location = new System.Drawing.Point(466, 297);
 			this.checkBoxAllowedDisplayIgnoreError.Name = "checkBoxAllowedDisplayIgnoreError";
-			this.checkBoxAllowedDisplayIgnoreError.Size = new System.Drawing.Size(554, 17);
+			this.checkBoxAllowedDisplayIgnoreError.Size = new System.Drawing.Size(431, 17);
 			this.checkBoxAllowedDisplayIgnoreError.TabIndex = 108;
-			this.checkBoxAllowedDisplayIgnoreError.Text = "Ignore errors when validating display configuration. Needs to be active when usin" +
-    "g SEB inside a virtual machine.";
+			this.checkBoxAllowedDisplayIgnoreError.Text = "Ignore errors when validating display configuration (required for use in virtual " +
+    "machine).";
 			this.checkBoxAllowedDisplayIgnoreError.UseVisualStyleBackColor = true;
 			this.checkBoxAllowedDisplayIgnoreError.CheckedChanged += new System.EventHandler(this.checkBoxAllowedDisplayIgnoreError_CheckedChanged);
 			// 
 			// checkBoxEnforceBuiltinDisplay
 			// 
 			this.checkBoxEnforceBuiltinDisplay.AutoSize = true;
-			this.checkBoxEnforceBuiltinDisplay.Location = new System.Drawing.Point(617, 278);
+			this.checkBoxEnforceBuiltinDisplay.Location = new System.Drawing.Point(466, 279);
 			this.checkBoxEnforceBuiltinDisplay.Name = "checkBoxEnforceBuiltinDisplay";
 			this.checkBoxEnforceBuiltinDisplay.Size = new System.Drawing.Size(193, 17);
 			this.checkBoxEnforceBuiltinDisplay.TabIndex = 107;
@@ -1435,7 +1440,7 @@ namespace SebWindowsConfig
 			// checkBoxShowLogButton
 			// 
 			this.checkBoxShowLogButton.AutoSize = true;
-			this.checkBoxShowLogButton.Location = new System.Drawing.Point(617, 335);
+			this.checkBoxShowLogButton.Location = new System.Drawing.Point(466, 336);
 			this.checkBoxShowLogButton.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxShowLogButton.Name = "checkBoxShowLogButton";
 			this.checkBoxShowLogButton.Size = new System.Drawing.Size(180, 17);
@@ -1448,7 +1453,7 @@ namespace SebWindowsConfig
 			// 
 			this.comboBoxAllowedDisplaysMaxNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboBoxAllowedDisplaysMaxNumber.FormattingEnabled = true;
-			this.comboBoxAllowedDisplaysMaxNumber.Location = new System.Drawing.Point(831, 258);
+			this.comboBoxAllowedDisplaysMaxNumber.Location = new System.Drawing.Point(679, 259);
 			this.comboBoxAllowedDisplaysMaxNumber.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.comboBoxAllowedDisplaysMaxNumber.Name = "comboBoxAllowedDisplaysMaxNumber";
 			this.comboBoxAllowedDisplaysMaxNumber.Size = new System.Drawing.Size(57, 21);
@@ -1459,7 +1464,7 @@ namespace SebWindowsConfig
 			// checkBoxAllowLogAccess
 			// 
 			this.checkBoxAllowLogAccess.AutoSize = true;
-			this.checkBoxAllowLogAccess.Location = new System.Drawing.Point(598, 316);
+			this.checkBoxAllowLogAccess.Location = new System.Drawing.Point(447, 317);
 			this.checkBoxAllowLogAccess.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxAllowLogAccess.Name = "checkBoxAllowLogAccess";
 			this.checkBoxAllowLogAccess.Size = new System.Drawing.Size(199, 17);
@@ -1473,7 +1478,7 @@ namespace SebWindowsConfig
 			this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label13.AutoSize = true;
 			this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label13.Location = new System.Drawing.Point(593, 262);
+			this.label13.Location = new System.Drawing.Point(441, 263);
 			this.label13.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(234, 13);
@@ -1485,7 +1490,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnablePrivateClipboard.AutoSize = true;
 			this.checkBoxEnablePrivateClipboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnablePrivateClipboard.Location = new System.Drawing.Point(328, 280);
+			this.checkBoxEnablePrivateClipboard.Location = new System.Drawing.Point(230, 281);
 			this.checkBoxEnablePrivateClipboard.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxEnablePrivateClipboard.Name = "checkBoxEnablePrivateClipboard";
 			this.checkBoxEnablePrivateClipboard.Size = new System.Drawing.Size(156, 17);
@@ -1753,7 +1758,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxEnableScreenCapture.AutoSize = true;
 			this.checkBoxEnableScreenCapture.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableScreenCapture.Location = new System.Drawing.Point(328, 261);
+			this.checkBoxEnableScreenCapture.Location = new System.Drawing.Point(230, 262);
 			this.checkBoxEnableScreenCapture.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxEnableScreenCapture.Name = "checkBoxEnableScreenCapture";
 			this.checkBoxEnableScreenCapture.Size = new System.Drawing.Size(191, 17);
@@ -1773,7 +1778,7 @@ namespace SebWindowsConfig
 			this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
-			this.groupBox3.Size = new System.Drawing.Size(235, 92);
+			this.groupBox3.Size = new System.Drawing.Size(173, 92);
 			this.groupBox3.TabIndex = 81;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Kiosk Mode";
@@ -1828,7 +1833,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxAllowVirtualMachine.AutoSize = true;
 			this.checkBoxAllowVirtualMachine.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxAllowVirtualMachine.Location = new System.Drawing.Point(328, 299);
+			this.checkBoxAllowVirtualMachine.Location = new System.Drawing.Point(230, 300);
 			this.checkBoxAllowVirtualMachine.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxAllowVirtualMachine.Name = "checkBoxAllowVirtualMachine";
 			this.checkBoxAllowVirtualMachine.Size = new System.Drawing.Size(185, 17);
@@ -2064,8 +2069,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle11.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle11;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -4711,6 +4716,7 @@ namespace SebWindowsConfig
 			// 
 			// tabPageAppearance
 			// 
+			this.tabPageAppearance.Controls.Add(this.groupBox22);
 			this.tabPageAppearance.Controls.Add(this.spellCheckerGroupBox);
 			this.tabPageAppearance.Controls.Add(this.groupBox16);
 			this.tabPageAppearance.Controls.Add(this.groupBox6);
@@ -4848,8 +4854,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle12;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -6247,6 +6253,49 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
+			// groupBox22
+			// 
+			this.groupBox22.Controls.Add(this.lockscreenColorButton);
+			this.groupBox22.Controls.Add(this.lockscreenColorTextbox);
+			this.groupBox22.Controls.Add(this.label34);
+			this.groupBox22.Location = new System.Drawing.Point(529, 176);
+			this.groupBox22.Name = "groupBox22";
+			this.groupBox22.Size = new System.Drawing.Size(689, 59);
+			this.groupBox22.TabIndex = 88;
+			this.groupBox22.TabStop = false;
+			this.groupBox22.Text = "Lock Screen";
+			// 
+			// lockscreenColorButton
+			// 
+			this.lockscreenColorButton.Location = new System.Drawing.Point(226, 22);
+			this.lockscreenColorButton.Name = "lockscreenColorButton";
+			this.lockscreenColorButton.Size = new System.Drawing.Size(75, 23);
+			this.lockscreenColorButton.TabIndex = 118;
+			this.lockscreenColorButton.Text = "Choose";
+			this.lockscreenColorButton.UseVisualStyleBackColor = true;
+			this.lockscreenColorButton.Click += new System.EventHandler(this.lockscreenColorButton_Click);
+			// 
+			// lockscreenColorTextbox
+			// 
+			this.lockscreenColorTextbox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lockscreenColorTextbox.ForeColor = System.Drawing.Color.White;
+			this.lockscreenColorTextbox.Location = new System.Drawing.Point(102, 23);
+			this.lockscreenColorTextbox.MaxLength = 7;
+			this.lockscreenColorTextbox.Name = "lockscreenColorTextbox";
+			this.lockscreenColorTextbox.Size = new System.Drawing.Size(111, 20);
+			this.lockscreenColorTextbox.TabIndex = 117;
+			this.lockscreenColorTextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.lockscreenColorTextbox.TextChanged += new System.EventHandler(this.lockscreenColorTextbox_TextChanged);
+			// 
+			// label34
+			// 
+			this.label34.AutoSize = true;
+			this.label34.Location = new System.Drawing.Point(6, 26);
+			this.label34.Name = "label34";
+			this.label34.Size = new System.Drawing.Size(92, 13);
+			this.label34.TabIndex = 116;
+			this.label34.Text = "Background Color";
+			// 
 			// SebWindowsConfigForm
 			// 
 			this.AllowDrop = true;
@@ -6376,6 +6425,8 @@ namespace SebWindowsConfig
 			this.tabControlSebWindowsConfig.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.groupBox22.ResumeLayout(false);
+			this.groupBox22.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -6833,6 +6884,10 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.CheckBox checkBoxAllowDownloads;
 		private System.Windows.Forms.CheckBox checkBoxEnableCursorVerification;
 		private System.Windows.Forms.CheckBox checkBoxEnableSessionVerification;
+		private System.Windows.Forms.GroupBox groupBox22;
+		private System.Windows.Forms.Button lockscreenColorButton;
+		private System.Windows.Forms.TextBox lockscreenColorTextbox;
+		private System.Windows.Forms.Label label34;
 	}
 }
 

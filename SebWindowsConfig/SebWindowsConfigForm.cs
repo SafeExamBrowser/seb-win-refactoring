@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -816,6 +817,7 @@ namespace SebWindowsConfig
 			checkBoxAllowWindowsUpdate.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowWindowsUpdate];
 			checkBoxEnableCursorVerification.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnableCursorVerification];
 			checkBoxEnableSessionVerification.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnableSessionVerification];
+			lockscreenColorTextbox.Text = (String) SEBSettings.settingsCurrent[SEBSettings.KeyLockScreenBackgroundColor];
 
 			if (String.IsNullOrEmpty(textBoxLogDirectoryWin.Text))
 			{
@@ -4802,6 +4804,36 @@ namespace SebWindowsConfig
 		private void checkBoxEnableSessionVerification_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyEnableSessionVerification] = checkBoxEnableSessionVerification.Checked;
+		}
+
+		private void lockscreenColorButton_Click(object sender, EventArgs e)
+		{
+			var dialog = new ColorDialog();
+
+			dialog.AllowFullOpen = true;
+			dialog.FullOpen = true;
+			dialog.Color = lockscreenColorTextbox.BackColor;
+
+			if (dialog.ShowDialog() == DialogResult.OK)
+			{
+				lockscreenColorTextbox.BackColor = dialog.Color;
+				lockscreenColorTextbox.Text = $"#{dialog.Color.R:x2}{dialog.Color.G:x2}{dialog.Color.B:x2}";
+			}
+		}
+
+		private void lockscreenColorTextbox_TextChanged(object sender, EventArgs e)
+		{
+			var raw = lockscreenColorTextbox.Text;
+
+			if (!string.IsNullOrWhiteSpace(raw) && Regex.IsMatch(raw, "^#[0-9a-f]{6}$", RegexOptions.IgnoreCase))
+			{
+				var r = byte.Parse(raw.Substring(1, 2), NumberStyles.HexNumber);
+				var g = byte.Parse(raw.Substring(3, 2), NumberStyles.HexNumber);
+				var b = byte.Parse(raw.Substring(5, 2), NumberStyles.HexNumber);
+
+				lockscreenColorTextbox.BackColor = Color.FromArgb(r, g, b);
+				SEBSettings.settingsCurrent[SEBSettings.KeyLockScreenBackgroundColor] = raw;
+			}
 		}
 	}
 }

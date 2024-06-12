@@ -384,6 +384,7 @@ namespace SebWindowsConfig
 		public const String KeyDisableSessionChangeLockScreen = "disableSessionChangeLockScreen";
 		public const String KeyEnableCursorVerification = "enableCursorVerification";
 		public const String KeyEnableSessionVerification = "enableSessionVerification";
+		public const String KeyLockScreenBackgroundColor = "lockScreenBackgroundColor";
 
 		// Group "macOS specific settings"
 		public const String KeyMinMacOSVersion = "minMacOSVersion";
@@ -1026,6 +1027,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyDisableSessionChangeLockScreen, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableCursorVerification, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableSessionVerification, true);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyLockScreenBackgroundColor, "#ff0000");
 
 			// Default selected index and string in combo box for minMacOSVersion 
 			SEBSettings.intArrayDefault[SEBSettings.ValMinMacOSVersion] = 4;

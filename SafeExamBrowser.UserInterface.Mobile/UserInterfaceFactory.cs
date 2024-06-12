@@ -20,6 +20,7 @@ using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings.Browser;
 using SafeExamBrowser.Settings.Proctoring;
+using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.SystemComponents.Contracts.Network;
@@ -107,9 +108,9 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			}
 		}
 
-		public ILockScreen CreateLockScreen(string message, string title, IEnumerable<LockScreenOption> options)
+		public ILockScreen CreateLockScreen(string message, string title, IEnumerable<LockScreenOption> options, LockScreenSettings settings)
 		{
-			return Application.Current.Dispatcher.Invoke(() => new LockScreen(message, title, text, options));
+			return Application.Current.Dispatcher.Invoke(() => new LockScreen(message, title, settings, text, options));
 		}
 
 		public IWindow CreateLogWindow(ILogger logger)
