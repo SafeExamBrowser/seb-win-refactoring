@@ -100,13 +100,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		{
 			var settings = new AppSettings();
 
-			settings.ActionCenter.EnableActionCenter = true;
-			settings.ActionCenter.ShowApplicationInfo = true;
-			settings.ActionCenter.ShowApplicationLog = false;
-			settings.ActionCenter.ShowClock = true;
-			settings.ActionCenter.ShowKeyboardLayout = true;
-			settings.ActionCenter.ShowNetwork = false;
-
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "AA_v3.exe", OriginalName = "AA_v3.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "AeroAdmin.exe", OriginalName = "AeroAdmin.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "beamyourscreen-host.exe", OriginalName = "beamyourscreen-host.exe" });
@@ -292,15 +285,20 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.System.AlwaysOn = true;
 
-			settings.Taskbar.EnableTaskbar = true;
-			settings.Taskbar.ShowApplicationInfo = false;
-			settings.Taskbar.ShowApplicationLog = false;
-			settings.Taskbar.ShowClock = true;
-			settings.Taskbar.ShowKeyboardLayout = true;
-			settings.Taskbar.ShowNetwork = false;
-
+			settings.UserInterface.ActionCenter.EnableActionCenter = true;
+			settings.UserInterface.ActionCenter.ShowApplicationInfo = true;
+			settings.UserInterface.ActionCenter.ShowApplicationLog = false;
+			settings.UserInterface.ActionCenter.ShowClock = true;
+			settings.UserInterface.ActionCenter.ShowKeyboardLayout = true;
+			settings.UserInterface.ActionCenter.ShowNetwork = false;
 			settings.UserInterface.LockScreen.BackgroundColor = "#ff0000";
-			settings.UserInterfaceMode = UserInterfaceMode.Desktop;
+			settings.UserInterface.Mode = UserInterfaceMode.Desktop;
+			settings.UserInterface.Taskbar.EnableTaskbar = true;
+			settings.UserInterface.Taskbar.ShowApplicationInfo = false;
+			settings.UserInterface.Taskbar.ShowApplicationLog = false;
+			settings.UserInterface.Taskbar.ShowClock = true;
+			settings.UserInterface.Taskbar.ShowKeyboardLayout = true;
+			settings.UserInterface.Taskbar.ShowNetwork = false;
 
 			return settings;
 		}

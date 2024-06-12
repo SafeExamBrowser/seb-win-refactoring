@@ -50,12 +50,12 @@ namespace SafeExamBrowser.Client.Operations
 			{
 				Context.Browser.Initialize();
 
-				if (Context.Settings.ActionCenter.EnableActionCenter)
+				if (Context.Settings.UserInterface.ActionCenter.EnableActionCenter)
 				{
 					actionCenter.AddApplicationControl(uiFactory.CreateApplicationControl(Context.Browser, Location.ActionCenter), true);
 				}
 
-				if (Context.Settings.Taskbar.EnableTaskbar)
+				if (Context.Settings.UserInterface.Taskbar.EnableTaskbar)
 				{
 					taskbar.AddApplicationControl(uiFactory.CreateApplicationControl(Context.Browser, Location.Taskbar), true);
 				}

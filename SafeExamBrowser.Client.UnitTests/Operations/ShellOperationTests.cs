@@ -100,9 +100,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			context.Activators.Add(actionCenterActivator.Object);
 			context.Activators.Add(taskviewActivator.Object);
 			context.Activators.Add(terminationActivator.Object);
-			context.Settings.ActionCenter.EnableActionCenter = true;
 			context.Settings.Keyboard.AllowAltTab = true;
 			context.Settings.Security.AllowTermination = true;
+			context.Settings.UserInterface.ActionCenter.EnableActionCenter = true;
 
 			sut.Perform();
 
@@ -130,11 +130,11 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			context.Applications.Add(application1.Object);
 			context.Applications.Add(application2.Object);
 			context.Applications.Add(application3.Object);
-			context.Settings.ActionCenter.EnableActionCenter = true;
-			context.Settings.Taskbar.EnableTaskbar = true;
 			context.Settings.Applications.Whitelist.Add(application1Settings);
 			context.Settings.Applications.Whitelist.Add(application2Settings);
 			context.Settings.Applications.Whitelist.Add(application3Settings);
+			context.Settings.UserInterface.ActionCenter.EnableActionCenter = true;
+			context.Settings.UserInterface.Taskbar.EnableTaskbar = true;
 
 			sut.Perform();
 
@@ -168,11 +168,11 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			context.Applications.Add(application1.Object);
 			context.Applications.Add(application2.Object);
 			context.Applications.Add(application3.Object);
-			context.Settings.ActionCenter.EnableActionCenter = false;
-			context.Settings.Taskbar.EnableTaskbar = false;
 			context.Settings.Applications.Whitelist.Add(application1Settings);
 			context.Settings.Applications.Whitelist.Add(application2Settings);
 			context.Settings.Applications.Whitelist.Add(application3Settings);
+			context.Settings.UserInterface.ActionCenter.EnableActionCenter = false;
+			context.Settings.UserInterface.Taskbar.EnableTaskbar = false;
 
 			sut.Perform();
 
@@ -211,10 +211,10 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustInitializeClock()
 		{
-			context.Settings.ActionCenter.EnableActionCenter = true;
-			context.Settings.ActionCenter.ShowClock = true;
-			context.Settings.Taskbar.EnableTaskbar = true;
-			context.Settings.Taskbar.ShowClock = true;
+			context.Settings.UserInterface.ActionCenter.EnableActionCenter = true;
+			context.Settings.UserInterface.ActionCenter.ShowClock = true;
+			context.Settings.UserInterface.Taskbar.EnableTaskbar = true;
+			context.Settings.UserInterface.Taskbar.ShowClock = true;
 
 			sut.Perform();
 
@@ -225,10 +225,10 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustNotInitializeClock()
 		{
-			context.Settings.ActionCenter.EnableActionCenter = true;
-			context.Settings.ActionCenter.ShowClock = false;
-			context.Settings.Taskbar.EnableTaskbar = true;
-			context.Settings.Taskbar.ShowClock = false;
+			context.Settings.UserInterface.ActionCenter.EnableActionCenter = true;
+			context.Settings.UserInterface.ActionCenter.ShowClock = false;
+			context.Settings.UserInterface.Taskbar.EnableTaskbar = true;
+			context.Settings.UserInterface.Taskbar.ShowClock = false;
 
 			sut.Perform();
 
@@ -239,9 +239,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustInitializeQuitButton()
 		{
-			context.Settings.ActionCenter.EnableActionCenter = true;
-			context.Settings.Taskbar.EnableTaskbar = true;
 			context.Settings.Security.AllowTermination = false;
+			context.Settings.UserInterface.ActionCenter.EnableActionCenter = true;
+			context.Settings.UserInterface.Taskbar.EnableTaskbar = true;
 
 			sut.Perform();
 
@@ -265,12 +265,12 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustInitializeNotifications()
 		{
-			context.Settings.ActionCenter.EnableActionCenter = true;
-			context.Settings.ActionCenter.ShowApplicationInfo = true;
-			context.Settings.ActionCenter.ShowApplicationLog = true;
-			context.Settings.Taskbar.EnableTaskbar = true;
-			context.Settings.Taskbar.ShowApplicationInfo = true;
-			context.Settings.Taskbar.ShowApplicationLog = true;
+			context.Settings.UserInterface.ActionCenter.EnableActionCenter = true;
+			context.Settings.UserInterface.ActionCenter.ShowApplicationInfo = true;
+			context.Settings.UserInterface.ActionCenter.ShowApplicationLog = true;
+			context.Settings.UserInterface.Taskbar.EnableTaskbar = true;
+			context.Settings.UserInterface.Taskbar.ShowApplicationInfo = true;
+			context.Settings.UserInterface.Taskbar.ShowApplicationLog = true;
 
 			sut.Perform();
 
@@ -283,10 +283,10 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			var logControl = new Mock<INotificationControl>();
 
-			context.Settings.ActionCenter.EnableActionCenter = true;
-			context.Settings.ActionCenter.ShowApplicationLog = false;
-			context.Settings.Taskbar.EnableTaskbar = true;
-			context.Settings.Taskbar.ShowApplicationLog = false;
+			context.Settings.UserInterface.ActionCenter.EnableActionCenter = true;
+			context.Settings.UserInterface.ActionCenter.ShowApplicationLog = false;
+			context.Settings.UserInterface.Taskbar.EnableTaskbar = true;
+			context.Settings.UserInterface.Taskbar.ShowApplicationLog = false;
 
 			uiFactory
 				.Setup(f => f.CreateNotificationControl(It.IsAny<INotification>(), It.IsAny<Location>()))
@@ -301,14 +301,14 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustInitializeSystemComponents()
 		{
-			context.Settings.ActionCenter.EnableActionCenter = true;
-			context.Settings.ActionCenter.ShowAudio = true;
-			context.Settings.ActionCenter.ShowKeyboardLayout = true;
-			context.Settings.ActionCenter.ShowNetwork = true;
-			context.Settings.Taskbar.EnableTaskbar = true;
-			context.Settings.Taskbar.ShowAudio = true;
-			context.Settings.Taskbar.ShowKeyboardLayout = true;
-			context.Settings.Taskbar.ShowNetwork = true;
+			context.Settings.UserInterface.ActionCenter.EnableActionCenter = true;
+			context.Settings.UserInterface.ActionCenter.ShowAudio = true;
+			context.Settings.UserInterface.ActionCenter.ShowKeyboardLayout = true;
+			context.Settings.UserInterface.ActionCenter.ShowNetwork = true;
+			context.Settings.UserInterface.Taskbar.EnableTaskbar = true;
+			context.Settings.UserInterface.Taskbar.ShowAudio = true;
+			context.Settings.UserInterface.Taskbar.ShowKeyboardLayout = true;
+			context.Settings.UserInterface.Taskbar.ShowNetwork = true;
 
 			systemInfo.SetupGet(s => s.HasBattery).Returns(true);
 			uiFactory.Setup(f => f.CreateAudioControl(It.IsAny<IAudio>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
@@ -329,14 +329,14 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustNotInitializeSystemComponents()
 		{
-			context.Settings.ActionCenter.EnableActionCenter = true;
-			context.Settings.ActionCenter.ShowAudio = false;
-			context.Settings.ActionCenter.ShowKeyboardLayout = false;
-			context.Settings.ActionCenter.ShowNetwork = false;
-			context.Settings.Taskbar.EnableTaskbar = true;
-			context.Settings.Taskbar.ShowAudio = false;
-			context.Settings.Taskbar.ShowKeyboardLayout = false;
-			context.Settings.Taskbar.ShowNetwork = false;
+			context.Settings.UserInterface.ActionCenter.EnableActionCenter = true;
+			context.Settings.UserInterface.ActionCenter.ShowAudio = false;
+			context.Settings.UserInterface.ActionCenter.ShowKeyboardLayout = false;
+			context.Settings.UserInterface.ActionCenter.ShowNetwork = false;
+			context.Settings.UserInterface.Taskbar.EnableTaskbar = true;
+			context.Settings.UserInterface.Taskbar.ShowAudio = false;
+			context.Settings.UserInterface.Taskbar.ShowKeyboardLayout = false;
+			context.Settings.UserInterface.Taskbar.ShowNetwork = false;
 
 			systemInfo.SetupGet(s => s.HasBattery).Returns(false);
 			uiFactory.Setup(f => f.CreateAudioControl(It.IsAny<IAudio>(), It.IsAny<Location>())).Returns(new Mock<ISystemControl>().Object);
@@ -360,7 +360,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			var actionCenterActivator = new Mock<IActionCenterActivator>();
 
 			context.Activators.Add(actionCenterActivator.Object);
-			context.Settings.ActionCenter.EnableActionCenter = false;
+			context.Settings.UserInterface.ActionCenter.EnableActionCenter = false;
 
 			sut.Perform();
 
@@ -385,7 +385,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustNotInitializeTaskbarIfNotEnabled()
 		{
-			context.Settings.Taskbar.EnableTaskbar = false;
+			context.Settings.UserInterface.Taskbar.EnableTaskbar = false;
 			sut.Perform();
 			taskbar.VerifyNoOtherCalls();
 		}

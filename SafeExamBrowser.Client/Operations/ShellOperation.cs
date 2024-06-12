@@ -107,7 +107,7 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			foreach (var activator in Context.Activators)
 			{
-				if (Context.Settings.ActionCenter.EnableActionCenter && activator is IActionCenterActivator actionCenterActivator)
+				if (Context.Settings.UserInterface.ActionCenter.EnableActionCenter && activator is IActionCenterActivator actionCenterActivator)
 				{
 					actionCenter.Register(actionCenterActivator);
 					actionCenterActivator.Start();
@@ -124,7 +124,7 @@ namespace SafeExamBrowser.Client.Operations
 					terminationActivator.Start();
 				}
 
-				if (Context.Settings.Taskbar.EnableTaskbar && activator is ITaskbarActivator taskbarActivator)
+				if (Context.Settings.UserInterface.Taskbar.EnableTaskbar && activator is ITaskbarActivator taskbarActivator)
 				{
 					taskbar.Register(taskbarActivator);
 					taskbarActivator.Start();
@@ -134,7 +134,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeActionCenter()
 		{
-			if (Context.Settings.ActionCenter.EnableActionCenter)
+			if (Context.Settings.UserInterface.ActionCenter.EnableActionCenter)
 			{
 				logger.Info("Initializing action center...");
 				actionCenter.InitializeText(text);
@@ -168,7 +168,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeTaskbar()
 		{
-			if (Context.Settings.Taskbar.EnableTaskbar)
+			if (Context.Settings.UserInterface.Taskbar.EnableTaskbar)
 			{
 				logger.Info("Initializing taskbar...");
 				taskbar.InitializeText(text);
@@ -232,7 +232,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeAboutNotificationForActionCenter()
 		{
-			if (Context.Settings.ActionCenter.ShowApplicationInfo)
+			if (Context.Settings.UserInterface.ActionCenter.ShowApplicationInfo)
 			{
 				actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(aboutNotification, Location.ActionCenter));
 			}
@@ -240,7 +240,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeAboutNotificationForTaskbar()
 		{
-			if (Context.Settings.Taskbar.ShowApplicationInfo)
+			if (Context.Settings.UserInterface.Taskbar.ShowApplicationInfo)
 			{
 				taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(aboutNotification, Location.Taskbar));
 			}
@@ -248,7 +248,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeAudioForActionCenter()
 		{
-			if (Context.Settings.ActionCenter.ShowAudio)
+			if (Context.Settings.UserInterface.ActionCenter.ShowAudio)
 			{
 				actionCenter.AddSystemControl(uiFactory.CreateAudioControl(audio, Location.ActionCenter));
 			}
@@ -256,7 +256,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeAudioForTaskbar()
 		{
-			if (Context.Settings.Taskbar.ShowAudio)
+			if (Context.Settings.UserInterface.Taskbar.ShowAudio)
 			{
 				taskbar.AddSystemControl(uiFactory.CreateAudioControl(audio, Location.Taskbar));
 			}
@@ -264,17 +264,17 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeClockForActionCenter()
 		{
-			actionCenter.ShowClock = Context.Settings.ActionCenter.ShowClock;
+			actionCenter.ShowClock = Context.Settings.UserInterface.ActionCenter.ShowClock;
 		}
 
 		private void InitializeClockForTaskbar()
 		{
-			taskbar.ShowClock = Context.Settings.Taskbar.ShowClock;
+			taskbar.ShowClock = Context.Settings.UserInterface.Taskbar.ShowClock;
 		}
 
 		private void InitializeLogNotificationForActionCenter()
 		{
-			if (Context.Settings.ActionCenter.ShowApplicationLog)
+			if (Context.Settings.UserInterface.ActionCenter.ShowApplicationLog)
 			{
 				actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(logNotification, Location.ActionCenter));
 			}
@@ -282,7 +282,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeLogNotificationForTaskbar()
 		{
-			if (Context.Settings.Taskbar.ShowApplicationLog)
+			if (Context.Settings.UserInterface.Taskbar.ShowApplicationLog)
 			{
 				taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(logNotification, Location.Taskbar));
 			}
@@ -290,7 +290,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeKeyboardLayoutForActionCenter()
 		{
-			if (Context.Settings.ActionCenter.ShowKeyboardLayout)
+			if (Context.Settings.UserInterface.ActionCenter.ShowKeyboardLayout)
 			{
 				actionCenter.AddSystemControl(uiFactory.CreateKeyboardLayoutControl(keyboard, Location.ActionCenter));
 			}
@@ -298,7 +298,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeKeyboardLayoutForTaskbar()
 		{
-			if (Context.Settings.Taskbar.ShowKeyboardLayout)
+			if (Context.Settings.UserInterface.Taskbar.ShowKeyboardLayout)
 			{
 				taskbar.AddSystemControl(uiFactory.CreateKeyboardLayoutControl(keyboard, Location.Taskbar));
 			}
@@ -332,7 +332,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeNetworkForActionCenter()
 		{
-			if (Context.Settings.ActionCenter.ShowNetwork)
+			if (Context.Settings.UserInterface.ActionCenter.ShowNetwork)
 			{
 				actionCenter.AddSystemControl(uiFactory.CreateNetworkControl(networkAdapter, Location.ActionCenter));
 			}
@@ -340,7 +340,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeNetworkForTaskbar()
 		{
-			if (Context.Settings.Taskbar.ShowNetwork)
+			if (Context.Settings.UserInterface.Taskbar.ShowNetwork)
 			{
 				taskbar.AddSystemControl(uiFactory.CreateNetworkControl(networkAdapter, Location.Taskbar));
 			}

@@ -575,12 +575,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			var useCustomForDesktop = rawData.TryGetValue(Keys.Browser.UserAgentModeDesktop, out var value) && value as int? != DEFAULT;
 			var useCustomForMobile = rawData.TryGetValue(Keys.Browser.UserAgentModeMobile, out value) && value as int? != DEFAULT;
 
-			if (settings.UserInterfaceMode == UserInterfaceMode.Desktop && useCustomForDesktop)
+			if (settings.UserInterface.Mode == UserInterfaceMode.Desktop && useCustomForDesktop)
 			{
 				settings.Browser.UseCustomUserAgent = true;
 				settings.Browser.CustomUserAgent = rawData[Keys.Browser.CustomUserAgentDesktop] as string;
 			}
-			else if (settings.UserInterfaceMode == UserInterfaceMode.Mobile && useCustomForMobile)
+			else if (settings.UserInterface.Mode == UserInterfaceMode.Mobile && useCustomForMobile)
 			{
 				settings.Browser.UseCustomUserAgent = true;
 				settings.Browser.CustomUserAgent = rawData[Keys.Browser.CustomUserAgentMobile] as string;

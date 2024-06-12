@@ -285,12 +285,12 @@ namespace SafeExamBrowser.Client
 
 		private void CloseShell()
 		{
-			if (Settings?.ActionCenter.EnableActionCenter == true)
+			if (Settings?.UserInterface.ActionCenter.EnableActionCenter == true)
 			{
 				actionCenter.Close();
 			}
 
-			if (Settings?.Taskbar.EnableTaskbar == true)
+			if (Settings?.UserInterface.Taskbar.EnableTaskbar == true)
 			{
 				taskbar.Close();
 			}
@@ -298,12 +298,12 @@ namespace SafeExamBrowser.Client
 
 		private void ShowShell()
 		{
-			if (Settings.ActionCenter.EnableActionCenter)
+			if (Settings.UserInterface.ActionCenter.EnableActionCenter)
 			{
 				actionCenter.Promote();
 			}
 
-			if (Settings.Taskbar.EnableTaskbar)
+			if (Settings.UserInterface.Taskbar.EnableTaskbar)
 			{
 				taskbar.Show();
 			}
@@ -456,7 +456,7 @@ namespace SafeExamBrowser.Client
 			logger.Info("Trying to terminate Windows explorer...");
 			explorerShell.Terminate();
 			logger.Info("Re-initializing working area...");
-			displayMonitor.InitializePrimaryDisplay(Settings.Taskbar.EnableTaskbar ? taskbar.GetAbsoluteHeight() : 0);
+			displayMonitor.InitializePrimaryDisplay(Settings.UserInterface.Taskbar.EnableTaskbar ? taskbar.GetAbsoluteHeight() : 0);
 			logger.Info("Re-initializing shell...");
 			actionCenter.InitializeBounds();
 			taskbar.InitializeBounds();
@@ -671,7 +671,7 @@ namespace SafeExamBrowser.Client
 		private void DisplayMonitor_DisplaySettingsChanged()
 		{
 			logger.Info("Re-initializing working area...");
-			displayMonitor.InitializePrimaryDisplay(Settings.Taskbar.EnableTaskbar ? taskbar.GetAbsoluteHeight() : 0);
+			displayMonitor.InitializePrimaryDisplay(Settings.UserInterface.Taskbar.EnableTaskbar ? taskbar.GetAbsoluteHeight() : 0);
 
 			logger.Info("Re-initializing shell...");
 			actionCenter.InitializeBounds();

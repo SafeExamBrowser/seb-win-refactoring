@@ -156,7 +156,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var shell = 0;
 			var workingArea = 0;
 
-			settings.Taskbar.EnableTaskbar = true;
+			settings.UserInterface.Taskbar.EnableTaskbar = true;
 
 			actionCenter.Setup(a => a.InitializeBounds()).Callback(() => boundsActionCenter = ++order);
 			explorerShell.Setup(e => e.Terminate()).Callback(() => shell = ++order);
@@ -190,7 +190,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var shell = 0;
 			var workingArea = 0;
 
-			settings.Taskbar.EnableTaskbar = false;
+			settings.UserInterface.Taskbar.EnableTaskbar = false;
 
 			actionCenter.Setup(a => a.InitializeBounds()).Callback(() => boundsActionCenter = ++order);
 			explorerShell.Setup(e => e.Terminate()).Callback(() => shell = ++order);
@@ -502,7 +502,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var order = 0;
 			var workingArea = 0;
 
-			settings.Taskbar.EnableTaskbar = true;
+			settings.UserInterface.Taskbar.EnableTaskbar = true;
 
 			actionCenter.Setup(t => t.InitializeBounds()).Callback(() => boundsActionCenter = ++order);
 			displayMonitor.Setup(m => m.InitializePrimaryDisplay(It.Is<int>(h => h == height))).Callback(() => workingArea = ++order);
@@ -533,7 +533,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var order = 0;
 			var workingArea = 0;
 
-			settings.Taskbar.EnableTaskbar = false;
+			settings.UserInterface.Taskbar.EnableTaskbar = false;
 
 			actionCenter.Setup(t => t.InitializeBounds()).Callback(() => boundsActionCenter = ++order);
 			displayMonitor.Setup(w => w.InitializePrimaryDisplay(It.Is<int>(h => h == 0))).Callback(() => workingArea = ++order);
@@ -949,8 +949,8 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Shutdown_MustCloseActionCenterAndTaskbarIfEnabled()
 		{
-			settings.ActionCenter.EnableActionCenter = true;
-			settings.Taskbar.EnableTaskbar = true;
+			settings.UserInterface.ActionCenter.EnableActionCenter = true;
+			settings.UserInterface.Taskbar.EnableTaskbar = true;
 
 			sut.Terminate();
 
@@ -961,8 +961,8 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Shutdown_MustNotCloseActionCenterAndTaskbarIfNotEnabled()
 		{
-			settings.ActionCenter.EnableActionCenter = false;
-			settings.Taskbar.EnableTaskbar = false;
+			settings.UserInterface.ActionCenter.EnableActionCenter = false;
+			settings.UserInterface.Taskbar.EnableTaskbar = false;
 
 			sut.Terminate();
 
@@ -1133,7 +1133,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Startup_MustCorrectlyShowTaskbar()
 		{
-			settings.Taskbar.EnableTaskbar = true;
+			settings.UserInterface.Taskbar.EnableTaskbar = true;
 			sut.TryStart();
 
 			taskbar.Verify(t => t.Show(), Times.Once);
@@ -1145,7 +1145,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			taskbar.Verify(t => t.Show(), Times.Never);
 
 			taskbar.Reset();
-			settings.Taskbar.EnableTaskbar = false;
+			settings.UserInterface.Taskbar.EnableTaskbar = false;
 			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
 			sut.TryStart();
 
@@ -1155,7 +1155,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		[TestMethod]
 		public void Startup_MustCorrectlyShowActionCenter()
 		{
-			settings.ActionCenter.EnableActionCenter = true;
+			settings.UserInterface.ActionCenter.EnableActionCenter = true;
 			sut.TryStart();
 
 			actionCenter.Verify(t => t.Promote(), Times.Once);
@@ -1169,7 +1169,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			actionCenter.Verify(t => t.Show(), Times.Never);
 
 			actionCenter.Reset();
-			settings.ActionCenter.EnableActionCenter = false;
+			settings.UserInterface.ActionCenter.EnableActionCenter = false;
 			operationSequence.Setup(o => o.TryPerform()).Returns(OperationResult.Success);
 			sut.TryStart();
 

@@ -64,9 +64,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustNotInitializeBrowserIfNotEnabled()
 		{
-			settings.ActionCenter.EnableActionCenter = true;
 			settings.Browser.EnableBrowser = false;
-			settings.Taskbar.EnableTaskbar = true;
+			settings.UserInterface.ActionCenter.EnableActionCenter = true;
+			settings.UserInterface.Taskbar.EnableTaskbar = true;
 
 			sut.Perform();
 
@@ -79,17 +79,17 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustCorrectlyInitializeControls()
 		{
-			settings.ActionCenter.EnableActionCenter = false;
 			settings.Browser.EnableBrowser = true;
-			settings.Taskbar.EnableTaskbar = false;
+			settings.UserInterface.ActionCenter.EnableActionCenter = false;
+			settings.UserInterface.Taskbar.EnableTaskbar = false;
 
 			sut.Perform();
 
 			actionCenter.Verify(a => a.AddApplicationControl(It.IsAny<IApplicationControl>(), true), Times.Never);
 			taskbar.Verify(t => t.AddApplicationControl(It.IsAny<IApplicationControl>(), true), Times.Never);
 
-			settings.ActionCenter.EnableActionCenter = true;
-			settings.Taskbar.EnableTaskbar = true;
+			settings.UserInterface.ActionCenter.EnableActionCenter = true;
+			settings.UserInterface.Taskbar.EnableTaskbar = true;
 
 			sut.Perform();
 

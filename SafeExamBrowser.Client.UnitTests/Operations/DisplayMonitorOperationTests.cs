@@ -43,7 +43,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			var order = 0;
 
 			context.Settings = new AppSettings();
-			context.Settings.Taskbar.EnableTaskbar = true;
+			context.Settings.UserInterface.Taskbar.EnableTaskbar = true;
 
 			displayMonitor.Setup(d => d.InitializePrimaryDisplay(It.IsAny<int>())).Callback(() => Assert.AreEqual(++order, 1));
 			displayMonitor.Setup(d => d.StartMonitoringDisplayChanges()).Callback(() => Assert.AreEqual(++order, 2));
@@ -60,7 +60,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			var height = 25;
 
 			context.Settings = new AppSettings();
-			context.Settings.Taskbar.EnableTaskbar = true;
+			context.Settings.UserInterface.Taskbar.EnableTaskbar = true;
 			taskbar.Setup(t => t.GetAbsoluteHeight()).Returns(height);
 
 			sut.Perform();
@@ -75,7 +75,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			var height = 25;
 
 			context.Settings = new AppSettings();
-			context.Settings.Taskbar.EnableTaskbar = false;
+			context.Settings.UserInterface.Taskbar.EnableTaskbar = false;
 			taskbar.Setup(t => t.GetAbsoluteHeight()).Returns(height);
 
 			sut.Perform();

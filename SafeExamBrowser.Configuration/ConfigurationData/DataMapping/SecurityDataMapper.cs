@@ -97,12 +97,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 			if (settings.Security.AllowApplicationLogAccess)
 			{
-				settings.ActionCenter.ShowApplicationLog = true;
+				settings.UserInterface.ActionCenter.ShowApplicationLog = true;
 			}
 			else
 			{
-				settings.ActionCenter.ShowApplicationLog = false;
-				settings.Taskbar.ShowApplicationLog = false;
+				settings.UserInterface.ActionCenter.ShowApplicationLog = false;
+				settings.UserInterface.Taskbar.ShowApplicationLog = false;
 			}
 		}
 

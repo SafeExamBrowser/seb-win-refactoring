@@ -57,7 +57,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool enable)
 			{
-				settings.ActionCenter.EnableActionCenter = enable;
+				settings.UserInterface.ActionCenter.EnableActionCenter = enable;
 			}
 		}
 
@@ -73,8 +73,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool show)
 			{
-				settings.ActionCenter.ShowAudio = show;
-				settings.Taskbar.ShowAudio = show;
+				settings.UserInterface.ActionCenter.ShowAudio = show;
+				settings.UserInterface.Taskbar.ShowAudio = show;
 			}
 		}
 
@@ -82,8 +82,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool show)
 			{
-				settings.ActionCenter.ShowClock = show;
-				settings.Taskbar.ShowClock = show;
+				settings.UserInterface.ActionCenter.ShowClock = show;
+				settings.UserInterface.Taskbar.ShowClock = show;
 			}
 		}
 
@@ -91,8 +91,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool show)
 			{
-				settings.ActionCenter.ShowKeyboardLayout = show;
-				settings.Taskbar.ShowKeyboardLayout = show;
+				settings.UserInterface.ActionCenter.ShowKeyboardLayout = show;
+				settings.UserInterface.Taskbar.ShowKeyboardLayout = show;
 			}
 		}
 
@@ -100,8 +100,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool show)
 			{
-				settings.ActionCenter.ShowNetwork = show;
-				settings.Taskbar.ShowNetwork = show;
+				settings.UserInterface.ActionCenter.ShowNetwork = show;
+				settings.UserInterface.Taskbar.ShowNetwork = show;
 			}
 		}
 
@@ -125,7 +125,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool enable)
 			{
-				settings.Taskbar.EnableTaskbar = enable;
+				settings.UserInterface.Taskbar.EnableTaskbar = enable;
 			}
 		}
 
@@ -133,7 +133,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool show)
 			{
-				settings.Taskbar.ShowApplicationLog = show;
+				settings.UserInterface.Taskbar.ShowApplicationLog = show;
 			}
 		}
 
@@ -141,7 +141,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool mobile)
 			{
-				settings.UserInterfaceMode = mobile ? UserInterfaceMode.Mobile : UserInterfaceMode.Desktop;
+				settings.UserInterface.Mode = mobile ? UserInterfaceMode.Mobile : UserInterfaceMode.Desktop;
 			}
 		}
 	}

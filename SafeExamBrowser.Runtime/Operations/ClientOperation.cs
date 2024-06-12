@@ -103,7 +103,7 @@ namespace SafeExamBrowser.Runtime.Operations
 			var logFilePath = $"{'"' + Convert.ToBase64String(Encoding.UTF8.GetBytes(Context.Next.AppConfig.ClientLogFilePath)) + '"'}";
 			var logLevel = Context.Next.Settings.LogLevel.ToString();
 			var runtimeHostUri = Context.Next.AppConfig.RuntimeAddress;
-			var uiMode = Context.Next.Settings.UserInterfaceMode.ToString();
+			var uiMode = Context.Next.Settings.UserInterface.Mode.ToString();
 
 			var clientReady = false;
 			var clientReadyEvent = new AutoResetEvent(false);

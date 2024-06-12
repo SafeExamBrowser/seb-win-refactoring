@@ -17,13 +17,30 @@ namespace SafeExamBrowser.Settings.UserInterface
 	public class UserInterfaceSettings
 	{
 		/// <summary>
+		/// All settings related to the action center.
+		/// </summary>
+		public ActionCenterSettings ActionCenter { get; set; }
+
+		/// <summary>
 		/// All settings related to the lock screen.
 		/// </summary>
 		public LockScreenSettings LockScreen { get; set; }
 
+		/// <summary>
+		/// The mode which determines the look &amp; feel of the user interface.
+		/// </summary>
+		public UserInterfaceMode Mode { get; set; }
+
+		/// <summary>
+		/// All taskbar-related settings.
+		/// </summary>
+		public TaskbarSettings Taskbar { get; set; }
+
 		public UserInterfaceSettings()
 		{
+			ActionCenter = new ActionCenterSettings();
 			LockScreen = new LockScreenSettings();
+			Taskbar = new TaskbarSettings();
 		}
 	}
 }
