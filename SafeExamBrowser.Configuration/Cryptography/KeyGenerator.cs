@@ -9,6 +9,7 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Configuration.Contracts.Integrity;
@@ -20,7 +21,7 @@ namespace SafeExamBrowser.Configuration.Cryptography
 	{
 		private readonly object @lock = new object();
 
-		private readonly SHA256Managed algorithm;
+		private readonly ThreadLocal<SHA256Managed> algorithm;
 		private readonly AppConfig appConfig;
 		private readonly IIntegrityModule integrityModule;
 		private readonly ILogger logger;
@@ -29,7 +30,7 @@ namespace SafeExamBrowser.Configuration.Cryptography
 
 		public KeyGenerator(AppConfig appConfig, IIntegrityModule integrityModule, ILogger logger)
 		{
-			this.algorithm = new SHA256Managed();
+			this.algorithm = new ThreadLocal<SHA256Managed>(() => new SHA256Managed());
 			this.appConfig = appConfig;
 			this.integrityModule = integrityModule;
 			this.logger = logger;
@@ -52,7 +53,7 @@ namespace SafeExamBrowser.Configuration.Cryptography
 		public string CalculateBrowserExamKeyHash(string configurationKey, byte[] salt, string url)
 		{
 			var urlWithoutFragment = url.Split('#')[0];
-			var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + (browserExamKey ?? ComputeBrowserExamKey(configurationKey, salt))));
+			var hash = algorithm.Value.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + (browserExamKey ?? ComputeBrowserExamKey(configurationKey, salt))));
 			var key = ToString(hash);
 
 			return key;
@@ -61,7 +62,7 @@ namespace SafeExamBrowser.Configuration.Cryptography
 		public string CalculateConfigurationKeyHash(string configurationKey, string url)
 		{
 			var urlWithoutFragment = url.Split('#')[0];
-			var hash = algorithm.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + configurationKey));
+			var hash = algorithm.Value.ComputeHash(Encoding.UTF8.GetBytes(urlWithoutFragment + configurationKey));
 			var key = ToString(hash);
 
 			return key;
