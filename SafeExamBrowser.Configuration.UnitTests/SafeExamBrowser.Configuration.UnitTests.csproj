@@ -148,6 +148,7 @@
     <Compile Include="Cryptography\PasswordEncryptionTests.cs" />
     <Compile Include="Cryptography\PublicKeyEncryptionTests.cs" />
     <Compile Include="Cryptography\PublicKeySymmetricEncryptionTests.cs" />
+    <Compile Include="Cryptography\KeyGeneratorTests.cs" />
     <Compile Include="DataCompression\GZipCompressorTests.cs" />
     <Compile Include="DataFormats\BinaryParserTests.cs" />
     <Compile Include="DataFormats\BinarySerializerTests.cs" />
