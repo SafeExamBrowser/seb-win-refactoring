@@ -115,7 +115,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Discord.exe", OriginalName = "Discord.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Element.exe", OriginalName = "Element.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "g2mcomm.exe", OriginalName = "g2mcomm.exe" });
-			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "g2mcomm.exe", OriginalName = "g2mcomm.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "g2mlauncher.exe", OriginalName = "g2mlauncher.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "g2mstart.exe", OriginalName = "g2mstart.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "GotoMeetingWinStore.exe", OriginalName = "GotoMeetingWinStore.exe" });

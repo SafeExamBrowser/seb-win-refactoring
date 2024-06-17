@@ -833,7 +833,6 @@ namespace SebWindowsConfig
 				"Skype.exe",
 				"SkypeApp.exe",
 				"SkypeHost.exe",
-				"g2mcomm.exe",
 				"GotoMeetingWinStore.exe",
 				"TeamViewer.exe",
 				"vncserver.exe",
