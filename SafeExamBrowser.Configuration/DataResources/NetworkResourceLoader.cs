@@ -149,7 +149,7 @@ namespace SafeExamBrowser.Configuration.DataResources
 		{
 			data = default;
 
-			logger.Debug($"The {(IsUnauthorized(response) ? "resource needs authentication" : " response data is HTML")}.");
+			logger.Debug($"The {(IsUnauthorized(response) ? "resource needs authentication" : "response data is HTML")}.");
 
 			return LoadStatus.LoadWithBrowser;
 		}
