@@ -169,6 +169,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (status == LoadStatus.Success)
 			{
+				var browserSettings = Context.Next.Settings.Browser;
 				var serverSettings = Context.Next.Settings.Server;
 
 				Context.Next.AppConfig.ServerApi = info.Api;
@@ -178,6 +179,7 @@ namespace SafeExamBrowser.Runtime.Operations
 
 				Context.Next.Settings = settings;
 				Context.Next.Settings.Browser.StartUrl = exam.Url;
+				Context.Next.Settings.Browser.StartUrlQuery = browserSettings.StartUrlQuery;
 				Context.Next.Settings.Server = serverSettings;
 				Context.Next.Settings.SessionMode = SessionMode.Server;
 
