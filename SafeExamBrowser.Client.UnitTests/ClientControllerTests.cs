@@ -14,6 +14,7 @@ using Moq;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
+using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Client.Operations.Events;
 using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Events;
@@ -56,6 +57,7 @@ namespace SafeExamBrowser.Client.UnitTests
 		private Mock<IBrowserApplication> browser;
 		private Mock<IClientHost> clientHost;
 		private ClientContext context;
+		private Mock<ICoordinator> coordinator;
 		private Mock<IDisplayMonitor> displayMonitor;
 		private Mock<IExplorerShell> explorerShell;
 		private Mock<IFileSystemDialog> fileSystemDialog;
@@ -90,6 +92,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			browser = new Mock<IBrowserApplication>();
 			clientHost = new Mock<IClientHost>();
 			context = new ClientContext();
+			coordinator = new Mock<ICoordinator>();
 			displayMonitor = new Mock<IDisplayMonitor>();
 			explorerShell = new Mock<IExplorerShell>();
 			fileSystemDialog = new Mock<IFileSystemDialog>();
@@ -120,6 +123,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				actionCenter.Object,
 				applicationMonitor.Object,
 				context,
+				coordinator.Object,
 				displayMonitor.Object,
 				explorerShell.Object,
 				fileSystemDialog.Object,
@@ -729,13 +733,17 @@ namespace SafeExamBrowser.Client.UnitTests
 			var args = new DownloadEventArgs();
 
 			appConfig.TemporaryDirectory = @"C:\Folder\Does\Not\Exist";
+			coordinator.Setup(c => c.RequestReconfigurationLock()).Returns(true);
 			runtimeProxy.Setup(r => r.RequestReconfiguration(It.IsAny<string>(), It.IsAny<string>())).Returns(new CommunicationResult(true));
 
 			sut.TryStart();
 			browser.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", args);
 			args.Callback(true, string.Empty);
 
+			coordinator.Verify(c => c.RequestReconfigurationLock(), Times.Once);
+			coordinator.Verify(c => c.ReleaseReconfigurationLock(), Times.Never);
 			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+
 			Assert.IsTrue(args.AllowDownload);
 		}
 
@@ -752,7 +760,30 @@ namespace SafeExamBrowser.Client.UnitTests
 			sut.TryStart();
 			browser.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", args);
 
+			coordinator.Verify(c => c.RequestReconfigurationLock(), Times.Never);
+			coordinator.Verify(c => c.ReleaseReconfigurationLock(), Times.Never);
 			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+
+			Assert.IsFalse(args.AllowDownload);
+		}
+
+		[TestMethod]
+		public void Reconfiguration_MustNotAllowConcurrentExecution()
+		{
+			var args = new DownloadEventArgs();
+
+			appConfig.TemporaryDirectory = @"C:\Folder\Does\Not\Exist";
+			coordinator.Setup(c => c.RequestReconfigurationLock()).Returns(false);
+			runtimeProxy.Setup(r => r.RequestReconfiguration(It.IsAny<string>(), It.IsAny<string>())).Returns(new CommunicationResult(true));
+
+			sut.TryStart();
+			browser.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", args);
+			args.Callback?.Invoke(true, string.Empty);
+
+			coordinator.Verify(c => c.RequestReconfigurationLock(), Times.Once);
+			coordinator.Verify(c => c.ReleaseReconfigurationLock(), Times.Never);
+			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+
 			Assert.IsFalse(args.AllowDownload);
 		}
 
@@ -762,6 +793,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var args = new DownloadEventArgs { Url = "sebs://www.somehost.org/some/path/some_configuration.seb?query=123" };
 
 			appConfig.TemporaryDirectory = @"C:\Folder\Does\Not\Exist";
+			coordinator.Setup(c => c.RequestReconfigurationLock()).Returns(true);
 			settings.Security.AllowReconfiguration = true;
 			settings.Security.QuitPasswordHash = "abc123";
 			settings.Security.ReconfigurationUrl = "sebs://www.somehost.org/some/path/*.seb?query=123";
@@ -771,7 +803,10 @@ namespace SafeExamBrowser.Client.UnitTests
 			browser.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", args);
 			args.Callback(true, string.Empty);
 
+			coordinator.Verify(c => c.RequestReconfigurationLock(), Times.Once);
+			coordinator.Verify(c => c.ReleaseReconfigurationLock(), Times.Never);
 			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+
 			Assert.IsTrue(args.AllowDownload);
 		}
 
@@ -786,7 +821,10 @@ namespace SafeExamBrowser.Client.UnitTests
 			sut.TryStart();
 			browser.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", args);
 
+			coordinator.Verify(c => c.RequestReconfigurationLock(), Times.Never);
+			coordinator.Verify(c => c.ReleaseReconfigurationLock(), Times.Never);
 			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+
 			Assert.IsFalse(args.AllowDownload);
 		}
 
@@ -802,7 +840,10 @@ namespace SafeExamBrowser.Client.UnitTests
 			sut.TryStart();
 			browser.Raise(b => b.ConfigurationDownloadRequested += null, "filepath.seb", args);
 
+			coordinator.Verify(c => c.RequestReconfigurationLock(), Times.Never);
+			coordinator.Verify(c => c.ReleaseReconfigurationLock(), Times.Never);
 			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+
 			Assert.IsFalse(args.AllowDownload);
 		}
 
@@ -815,7 +856,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var args = new DownloadEventArgs();
 
 			appConfig.TemporaryDirectory = @"C:\Folder\Does\Not\Exist";
-			settings.Security.AllowReconfiguration = true;
+			coordinator.Setup(c => c.RequestReconfigurationLock()).Returns(true);
 			messageBox.Setup(m => m.Show(
 				It.IsAny<TextKey>(),
 				It.IsAny<TextKey>(),
@@ -825,11 +866,14 @@ namespace SafeExamBrowser.Client.UnitTests
 			runtimeProxy.Setup(r => r.RequestReconfiguration(
 				It.Is<string>(p => p == downloadPath),
 				It.Is<string>(u => u == downloadUrl))).Returns(new CommunicationResult(true));
+			settings.Security.AllowReconfiguration = true;
 
 			sut.TryStart();
 			browser.Raise(b => b.ConfigurationDownloadRequested += null, filename, args);
 			args.Callback(true, downloadUrl, downloadPath);
 
+			coordinator.Verify(c => c.RequestReconfigurationLock(), Times.Once);
+			coordinator.Verify(c => c.ReleaseReconfigurationLock(), Times.Never);
 			runtimeProxy.Verify(r => r.RequestReconfiguration(It.Is<string>(p => p == downloadPath), It.Is<string>(u => u == downloadUrl)), Times.Once);
 
 			Assert.AreEqual(downloadPath, args.DownloadPath);
@@ -845,7 +889,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var args = new DownloadEventArgs();
 
 			appConfig.TemporaryDirectory = @"C:\Folder\Does\Not\Exist";
-			settings.Security.AllowReconfiguration = true;
+			coordinator.Setup(c => c.RequestReconfigurationLock()).Returns(true);
 			messageBox.Setup(m => m.Show(
 				It.IsAny<TextKey>(),
 				It.IsAny<TextKey>(),
@@ -855,11 +899,14 @@ namespace SafeExamBrowser.Client.UnitTests
 			runtimeProxy.Setup(r => r.RequestReconfiguration(
 				It.Is<string>(p => p == downloadPath),
 				It.Is<string>(u => u == downloadUrl))).Returns(new CommunicationResult(true));
+			settings.Security.AllowReconfiguration = true;
 
 			sut.TryStart();
 			browser.Raise(b => b.ConfigurationDownloadRequested += null, filename, args);
 			args.Callback(false, downloadPath);
 
+			coordinator.Verify(c => c.RequestReconfigurationLock(), Times.Once);
+			coordinator.Verify(c => c.ReleaseReconfigurationLock(), Times.Once);
 			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>(), It.IsAny<string>()), Times.Never);
 		}
 
@@ -872,7 +919,7 @@ namespace SafeExamBrowser.Client.UnitTests
 			var args = new DownloadEventArgs();
 
 			appConfig.TemporaryDirectory = @"C:\Folder\Does\Not\Exist";
-			settings.Security.AllowReconfiguration = true;
+			coordinator.Setup(c => c.RequestReconfigurationLock()).Returns(true);
 			messageBox.Setup(m => m.Show(
 				It.IsAny<TextKey>(),
 				It.IsAny<TextKey>(),
@@ -882,18 +929,21 @@ namespace SafeExamBrowser.Client.UnitTests
 			runtimeProxy.Setup(r => r.RequestReconfiguration(
 				It.Is<string>(p => p == downloadPath),
 				It.Is<string>(u => u == downloadUrl))).Returns(new CommunicationResult(false));
+			settings.Security.AllowReconfiguration = true;
 
 			sut.TryStart();
 			browser.Raise(b => b.ConfigurationDownloadRequested += null, filename, args);
 			args.Callback(true, downloadUrl, downloadPath);
 
-			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+			coordinator.Verify(c => c.RequestReconfigurationLock(), Times.Once);
+			coordinator.Verify(c => c.ReleaseReconfigurationLock(), Times.Once);
 			messageBox.Verify(m => m.Show(
 				It.IsAny<TextKey>(),
 				It.IsAny<TextKey>(),
 				It.IsAny<MessageBoxAction>(),
 				It.Is<MessageBoxIcon>(i => i == MessageBoxIcon.Error),
 				It.IsAny<IWindow>()), Times.Once);
+			runtimeProxy.Verify(r => r.RequestReconfiguration(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 		}
 
 		[TestMethod]
@@ -1231,8 +1281,9 @@ namespace SafeExamBrowser.Client.UnitTests
 		{
 			var lockScreen = new Mock<ILockScreen>();
 
-			settings.Service.IgnoreService = true;
+			coordinator.Setup(c => c.RequestSessionLock()).Returns(true);
 			lockScreen.Setup(l => l.WaitForResult()).Returns(new LockScreenResult());
+			settings.Service.IgnoreService = true;
 			uiFactory
 				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>(), It.IsAny<LockScreenSettings>()))
 				.Returns(lockScreen.Object);
@@ -1240,6 +1291,8 @@ namespace SafeExamBrowser.Client.UnitTests
 			sut.TryStart();
 			systemMonitor.Raise(m => m.SessionChanged += null);
 
+			coordinator.Verify(c => c.RequestSessionLock(), Times.Once);
+			coordinator.Verify(c => c.ReleaseSessionLock(), Times.Once);
 			lockScreen.Verify(l => l.Show(), Times.Once);
 		}
 
@@ -1249,9 +1302,10 @@ namespace SafeExamBrowser.Client.UnitTests
 			var lockScreen = new Mock<ILockScreen>();
 			var result = new LockScreenResult();
 
-			settings.Service.IgnoreService = true;
+			coordinator.Setup(c => c.RequestSessionLock()).Returns(true);
 			lockScreen.Setup(l => l.WaitForResult()).Returns(result);
 			runtimeProxy.Setup(r => r.RequestShutdown()).Returns(new CommunicationResult(true));
+			settings.Service.IgnoreService = true;
 			uiFactory
 				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>(), It.IsAny<LockScreenSettings>()))
 				.Callback(new Action<string, string, IEnumerable<LockScreenOption>, LockScreenSettings>((message, title, options, settings) => result.OptionId = options.Last().Id))
@@ -1260,6 +1314,8 @@ namespace SafeExamBrowser.Client.UnitTests
 			sut.TryStart();
 			systemMonitor.Raise(m => m.SessionChanged += null);
 
+			coordinator.Verify(c => c.RequestSessionLock(), Times.Once);
+			coordinator.Verify(c => c.ReleaseSessionLock(), Times.Once);
 			lockScreen.Verify(l => l.Show(), Times.Once);
 			runtimeProxy.Verify(p => p.RequestShutdown(), Times.Once);
 		}

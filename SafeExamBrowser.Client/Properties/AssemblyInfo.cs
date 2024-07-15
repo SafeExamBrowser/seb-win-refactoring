@@ -16,6 +16,9 @@ using System.Windows;
 // to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
+
+// Required for mocking internal contracts with Moq
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 [assembly: InternalsVisibleTo("SafeExamBrowser.Client.UnitTests")]
 
 //In order to begin building localizable applications, set

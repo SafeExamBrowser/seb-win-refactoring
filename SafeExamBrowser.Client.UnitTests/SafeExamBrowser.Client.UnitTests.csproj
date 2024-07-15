@@ -166,6 +166,7 @@
     <Compile Include="Operations\SystemMonitorOperationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ClientControllerTests.cs" />
+    <Compile Include="CoordinatorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

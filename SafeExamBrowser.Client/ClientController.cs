@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
+using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Client.Operations.Events;
 using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Events;
@@ -53,6 +54,7 @@ namespace SafeExamBrowser.Client
 		private readonly IActionCenter actionCenter;
 		private readonly IApplicationMonitor applicationMonitor;
 		private readonly ClientContext context;
+		private readonly ICoordinator coordinator;
 		private readonly IDisplayMonitor displayMonitor;
 		private readonly IExplorerShell explorerShell;
 		private readonly IFileSystemDialog fileSystemDialog;
@@ -78,12 +80,12 @@ namespace SafeExamBrowser.Client
 		private AppSettings Settings => context.Settings;
 
 		private ILockScreen lockScreen;
-		private bool sessionLocked;
 
 		internal ClientController(
 			IActionCenter actionCenter,
 			IApplicationMonitor applicationMonitor,
 			ClientContext context,
+			ICoordinator coordinator,
 			IDisplayMonitor displayMonitor,
 			IExplorerShell explorerShell,
 			IFileSystemDialog fileSystemDialog,
@@ -104,6 +106,7 @@ namespace SafeExamBrowser.Client
 			this.actionCenter = actionCenter;
 			this.applicationMonitor = applicationMonitor;
 			this.context = context;
+			this.coordinator = coordinator;
 			this.displayMonitor = displayMonitor;
 			this.explorerShell = explorerShell;
 			this.fileSystemDialog = fileSystemDialog;
@@ -488,6 +491,36 @@ namespace SafeExamBrowser.Client
 
 		private void Browser_ConfigurationDownloadRequested(string fileName, DownloadEventArgs args)
 		{
+			args.AllowDownload = false;
+
+			if (IsAllowedToReconfigure(args.Url))
+			{
+				if (coordinator.RequestReconfigurationLock())
+				{
+					args.AllowDownload = true;
+					args.Callback = Browser_ConfigurationDownloadFinished;
+					args.DownloadPath = Path.Combine(context.AppConfig.TemporaryDirectory, fileName);
+
+					splashScreen.Show();
+					splashScreen.BringToForeground();
+					splashScreen.SetIndeterminate();
+					splashScreen.UpdateStatus(TextKey.OperationStatus_InitializeSession, true);
+
+					logger.Info($"Allowed download request for configuration file '{fileName}'.");
+				}
+				else
+				{
+					logger.Warn($"A reconfiguration is already in progress, denied download request for configuration file '{fileName}'!");
+				}
+			}
+			else
+			{
+				logger.Info($"Reconfiguration is not allowed, denied download request for configuration file '{fileName}'.");
+			}
+		}
+
+		private bool IsAllowedToReconfigure(string url)
+		{
 			var allow = false;
 			var hasQuitPassword = !string.IsNullOrWhiteSpace(Settings.Security.QuitPasswordHash);
 			var hasUrl = !string.IsNullOrWhiteSpace(Settings.Security.ReconfigurationUrl);
@@ -498,9 +531,9 @@ namespace SafeExamBrowser.Client
 				{
 					var expression = Regex.Escape(Settings.Security.ReconfigurationUrl).Replace(@"\*", ".*");
 					var regex = new Regex($"^{expression}$", RegexOptions.IgnoreCase);
-					var sebUrl = args.Url.Replace(Uri.UriSchemeHttps, context.AppConfig.SebUriSchemeSecure).Replace(Uri.UriSchemeHttp, context.AppConfig.SebUriScheme);
+					var sebUrl = url.Replace(Uri.UriSchemeHttps, context.AppConfig.SebUriSchemeSecure).Replace(Uri.UriSchemeHttp, context.AppConfig.SebUriScheme);
 
-					allow = Settings.Security.AllowReconfiguration && (regex.IsMatch(args.Url) || regex.IsMatch(sebUrl));
+					allow = Settings.Security.AllowReconfiguration && (regex.IsMatch(url) || regex.IsMatch(sebUrl));
 				}
 				else
 				{
@@ -512,24 +545,7 @@ namespace SafeExamBrowser.Client
 				allow = Settings.ConfigurationMode == ConfigurationMode.ConfigureClient || Settings.Security.AllowReconfiguration;
 			}
 
-			if (allow)
-			{
-				args.AllowDownload = true;
-				args.Callback = Browser_ConfigurationDownloadFinished;
-				args.DownloadPath = Path.Combine(context.AppConfig.TemporaryDirectory, fileName);
-
-				splashScreen.Show();
-				splashScreen.BringToForeground();
-				splashScreen.SetIndeterminate();
-				splashScreen.UpdateStatus(TextKey.OperationStatus_InitializeSession, true);
-
-				logger.Info($"Allowed download request for configuration file '{fileName}'.");
-			}
-			else
-			{
-				args.AllowDownload = false;
-				logger.Info($"Denied download request for configuration file '{fileName}'.");
-			}
+			return allow;
 		}
 
 		private void Browser_ConfigurationDownloadFinished(bool success, string url, string filePath = null)
@@ -547,15 +563,19 @@ namespace SafeExamBrowser.Client
 				else
 				{
 					logger.Error($"Failed to communicate reconfiguration request for '{filePath}'!");
+
 					messageBox.Show(TextKey.MessageBox_ReconfigurationError, TextKey.MessageBox_ReconfigurationErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
 					splashScreen.Hide();
+					coordinator.ReleaseReconfigurationLock();
 				}
 			}
 			else
 			{
 				logger.Error($"Failed to download configuration file '{filePath}'!");
+
 				messageBox.Show(TextKey.MessageBox_ConfigurationDownloadError, TextKey.MessageBox_ConfigurationDownloadErrorTitle, icon: MessageBoxIcon.Error, parent: splashScreen);
 				splashScreen.Hide();
+				coordinator.ReleaseReconfigurationLock();
 			}
 		}
 
@@ -643,6 +663,7 @@ namespace SafeExamBrowser.Client
 		{
 			logger.Info("The reconfiguration was aborted by the runtime.");
 			splashScreen.Hide();
+			coordinator.ReleaseReconfigurationLock();
 		}
 
 		private void ClientHost_ReconfigurationDenied(ReconfigurationEventArgs args)
@@ -650,6 +671,7 @@ namespace SafeExamBrowser.Client
 			logger.Info($"The reconfiguration request for '{args.ConfigurationPath}' was denied by the runtime!");
 			messageBox.Show(TextKey.MessageBox_ReconfigurationDenied, TextKey.MessageBox_ReconfigurationDeniedTitle, parent: splashScreen);
 			splashScreen.Hide();
+			coordinator.ReleaseReconfigurationLock();
 		}
 
 		private void ClientHost_ServerFailureActionRequested(ServerFailureActionRequestEventArgs args)
@@ -776,14 +798,13 @@ namespace SafeExamBrowser.Client
 		{
 			logger.Warn($@"The cursor registry value '{key}\{name}' has changed from '{oldValue}' to '{newValue}'! Attempting to show lock screen...");
 
-			if (!sessionLocked)
+			if (coordinator.RequestSessionLock())
 			{
 				var message = text.Get(TextKey.LockScreen_CursorMessage);
 				var title = text.Get(TextKey.LockScreen_Title);
 				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_CursorContinueOption) };
 				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_CursorTerminateOption) };
 
-				sessionLocked = true;
 				registry.StopMonitoring(key, name);
 
 				var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
@@ -798,7 +819,7 @@ namespace SafeExamBrowser.Client
 					TryRequestShutdown();
 				}
 
-				sessionLocked = false;
+				coordinator.ReleaseSessionLock();
 			}
 			else
 			{
@@ -810,14 +831,13 @@ namespace SafeExamBrowser.Client
 		{
 			logger.Warn($@"The ease of access registry value '{key}\{name}' has changed from '{oldValue}' to '{newValue}'! Attempting to show lock screen...");
 
-			if (!sessionLocked)
+			if (coordinator.RequestSessionLock())
 			{
 				var message = text.Get(TextKey.LockScreen_EaseOfAccessMessage);
 				var title = text.Get(TextKey.LockScreen_Title);
 				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_EaseOfAccessContinueOption) };
 				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_EaseOfAccessTerminateOption) };
 
-				sessionLocked = true;
 				registry.StopMonitoring(key, name);
 
 				var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
@@ -832,7 +852,7 @@ namespace SafeExamBrowser.Client
 					TryRequestShutdown();
 				}
 
-				sessionLocked = false;
+				coordinator.ReleaseSessionLock();
 			}
 			else
 			{
@@ -843,8 +863,8 @@ namespace SafeExamBrowser.Client
 		private void Runtime_ConnectionLost()
 		{
 			logger.Error("Lost connection to the runtime!");
-			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
 
+			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
 			shutdown.Invoke();
 		}
 
@@ -858,11 +878,10 @@ namespace SafeExamBrowser.Client
 		{
 			logger.Info("Attempting to show lock screen as requested by the server...");
 
-			if (!sessionLocked)
+			if (coordinator.RequestSessionLock())
 			{
-				sessionLocked = true;
 				ShowLockScreen(message, text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
-				sessionLocked = false;
+				coordinator.ReleaseSessionLock();
 			}
 			else
 			{
@@ -900,10 +919,8 @@ namespace SafeExamBrowser.Client
 			{
 				logger.Warn("Detected user session change!");
 
-				if (!sessionLocked)
+				if (coordinator.RequestSessionLock())
 				{
-					sessionLocked = true;
-
 					var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
 
 					if (result.OptionId == terminateOption.Id)
@@ -912,7 +929,7 @@ namespace SafeExamBrowser.Client
 						TryRequestShutdown();
 					}
 
-					sessionLocked = false;
+					coordinator.ReleaseSessionLock();
 				}
 				else
 				{
