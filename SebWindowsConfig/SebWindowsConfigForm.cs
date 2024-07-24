@@ -818,6 +818,7 @@ namespace SebWindowsConfig
 			checkBoxEnableCursorVerification.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnableCursorVerification];
 			checkBoxEnableSessionVerification.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnableSessionVerification];
 			lockscreenColorTextbox.Text = (String) SEBSettings.settingsCurrent[SEBSettings.KeyLockScreenBackgroundColor];
+			checkBoxAllowStickyKeys.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowStickyKeys];
 
 			if (String.IsNullOrEmpty(textBoxLogDirectoryWin.Text))
 			{
@@ -4834,6 +4835,11 @@ namespace SebWindowsConfig
 				lockscreenColorTextbox.BackColor = Color.FromArgb(r, g, b);
 				SEBSettings.settingsCurrent[SEBSettings.KeyLockScreenBackgroundColor] = raw;
 			}
+		}
+
+		private void checkBoxAllowStickyKeys_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyAllowStickyKeys] = checkBoxAllowStickyKeys.Checked;
 		}
 	}
 }

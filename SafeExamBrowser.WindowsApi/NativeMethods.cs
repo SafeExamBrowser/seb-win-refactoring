@@ -69,7 +69,7 @@ namespace SafeExamBrowser.WindowsApi
 		{
 			var hook = KeyboardHooks.Values.FirstOrDefault(h => h.Id == hookId);
 
-			if (hook != null)
+			if (hook != default)
 			{
 				var success = hook.Detach();
 
@@ -86,7 +86,7 @@ namespace SafeExamBrowser.WindowsApi
 		{
 			var hook = MouseHooks.Values.FirstOrDefault(h => h.Id == hookId);
 
-			if (hook != null)
+			if (hook != default)
 			{
 				var success = hook.Detach();
 
@@ -103,7 +103,7 @@ namespace SafeExamBrowser.WindowsApi
 		{
 			var hook = SystemHooks.Values.FirstOrDefault(h => h.Id == hookId);
 
-			if (hook != null)
+			if (hook != default)
 			{
 				var success = hook.Detach();
 
@@ -114,6 +114,22 @@ namespace SafeExamBrowser.WindowsApi
 
 				SystemHooks.TryRemove(hookId, out _);
 			}
+		}
+
+		public bool DisableStickyKeys()
+		{
+			var success = TryGetStickyKeys(out var state);
+
+			if (success)
+			{
+				(state as StickyKeysState).Flags &= ~StickyKeysFlags.AVAILABLE;
+				(state as StickyKeysState).Flags &= ~StickyKeysFlags.HOTKEYACTIVE;
+				(state as StickyKeysState).Flags &= ~StickyKeysFlags.ON;
+
+				success = TrySetStickyKeys(state);
+			}
+
+			return success;
 		}
 
 		public void EmptyClipboard()
@@ -128,6 +144,22 @@ namespace SafeExamBrowser.WindowsApi
 			{
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
+		}
+
+		public bool EnableStickyKeys()
+		{
+			var success = TryGetStickyKeys(out var state);
+
+			if (success)
+			{
+				(state as StickyKeysState).Flags |= StickyKeysFlags.AVAILABLE;
+				(state as StickyKeysState).Flags |= StickyKeysFlags.HOTKEYACTIVE;
+				(state as StickyKeysState).Flags |= StickyKeysFlags.ON;
+
+				success = TrySetStickyKeys(state);
+			}
+
+			return success;
 		}
 
 		public (int x, int y) GetCursorPosition()
@@ -172,7 +204,7 @@ namespace SafeExamBrowser.WindowsApi
 
 		public IntPtr GetShellWindowHandle()
 		{
-			return User32.FindWindow("Shell_TrayWnd", null);
+			return User32.FindWindow("Shell_TrayWnd", default);
 		}
 
 		public uint GetShellProcessId()
@@ -187,7 +219,7 @@ namespace SafeExamBrowser.WindowsApi
 		{
 			const int MAX_PATH = 260;
 			var buffer = new String('\0', MAX_PATH);
-			var success = User32.SystemParametersInfo(SPI.GETDESKWALLPAPER, buffer.Length, buffer, 0);
+			var success = User32.SystemParametersInfo(SPI.GETDESKWALLPAPER, buffer.Length, buffer, SPIF.NONE);
 
 			if (!success)
 			{
@@ -461,6 +493,49 @@ namespace SafeExamBrowser.WindowsApi
 			{
 				Kernel32.CloseHandle(handle);
 			}
+		}
+
+		public bool TryGetStickyKeys(out IStickyKeysState state)
+		{
+			var stickyKeys = new STICKYKEYS();
+
+			state = default;
+			stickyKeys.cbSize = Marshal.SizeOf(typeof(STICKYKEYS));
+
+			var success = User32.SystemParametersInfo(SPI.GETSTICKYKEYS, stickyKeys.cbSize, ref stickyKeys, SPIF.NONE);
+
+			if (success)
+			{
+				state = new StickyKeysState
+				{
+					Flags = stickyKeys.dwFlags,
+					IsAvailable = stickyKeys.dwFlags.HasFlag(StickyKeysFlags.AVAILABLE),
+					IsEnabled = stickyKeys.dwFlags.HasFlag(StickyKeysFlags.ON),
+					IsHotkeyActive = stickyKeys.dwFlags.HasFlag(StickyKeysFlags.HOTKEYACTIVE)
+				};
+			}
+
+			return success;
+		}
+
+		public bool TrySetStickyKeys(IStickyKeysState state)
+		{
+			var success = false;
+			var stickyKeys = new STICKYKEYS();
+
+			if (state is StickyKeysState stateWithFlags)
+			{
+				stickyKeys.cbSize = Marshal.SizeOf(typeof(STICKYKEYS));
+				stickyKeys.dwFlags = stateWithFlags.Flags;
+
+				success = User32.SystemParametersInfo(SPI.SETSTICKYKEYS, stickyKeys.cbSize, ref stickyKeys, SPIF.NONE);
+			}
+			else
+			{
+				success = state.IsEnabled ? EnableStickyKeys() : DisableStickyKeys();
+			}
+
+			return success;
 		}
 	}
 }

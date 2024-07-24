@@ -9,6 +9,7 @@
 namespace SafeExamBrowser.WindowsApi.Constants
 {
 	/// <remarks>
+	/// See https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-systemparametersinfow.
 	/// See http://www.pinvoke.net/default.aspx/Enums/SPI.html?diff=y.
 	/// </remarks>
 	internal enum SPI : uint
@@ -19,6 +20,12 @@ namespace SafeExamBrowser.WindowsApi.Constants
 		/// The returned string will not exceed MAX_PATH characters. If there is no desktop wallpaper, the returned string is empty.
 		/// </summary>
 		GETDESKWALLPAPER = 0x73,
+
+		/// <summary>
+		/// Retrieves information about the StickyKeys accessibility feature. The pvParam parameter must point to a STICKYKEYS structure
+		/// that receives the information. Set the cbSize member of this structure and the uiParam parameter to sizeof(STICKYKEYS). 
+		/// </summary>
+		GETSTICKYKEYS = 0x3A,
 
 		/// <summary>
 		/// Retrieves the size of the work area on the primary display monitor. The work area is the portion of the screen
@@ -34,6 +41,12 @@ namespace SafeExamBrowser.WindowsApi.Constants
 		/// wallpaper. Setting pvParam to SETWALLPAPER_DEFAULT or null reverts to the default wallpaper.
 		/// </summary>
 		SETDESKWALLPAPER = 0x14,
+
+		/// <summary>
+		/// Sets the parameters of the StickyKeys accessibility feature. The pvParam parameter must point to a STICKYKEYS structure
+		/// that contains the new parameters. Set the cbSize member of this structure and the uiParam parameter to sizeof(STICKYKEYS). 
+		/// </summary>
+		SETSTICKYKEYS = 0x3B,
 
 		/// <summary>
 		/// Sets the size of the work area. The work area is the portion of the screen not obscured by the system taskbar

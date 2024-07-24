@@ -207,6 +207,15 @@
     <Entry key="LockScreen_SessionIntegrityMessage">
         La dernière session avec la configuration ou l'URL de démarrage actuellement active n'a pas été terminée correctement! Afin de déverrouiller SEB, veuillez entrer le mot de passe de déverrouillage correct.
     </Entry>
+    <Entry key="LockScreen_StickyKeysContinueOption">
+        Autoriser temporairement l'état des clés autocollantes. Cela ne s'applique qu'à la session en cours!
+    </Entry>
+    <Entry key="LockScreen_StickyKeysMessage">
+        Un état d'interdiction des clés autocollantes a été détecté. Pour déverrouiller SEB, veuillez sélectionner l'une des options disponibles et saisir le mot de passe de déverrouillage correct.
+    </Entry>
+    <Entry key="LockScreen_StickyKeysTerminateOption">
+        Terminate Safe Exam Browser. WARNING: There will be no possibility to save data or perform any further actions, the shutdown will be initiated immediately!
+    </Entry>
     <Entry key="LockScreen_Title">
         SEB VEROUILLE
     </Entry>

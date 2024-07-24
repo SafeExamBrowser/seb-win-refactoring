@@ -31,6 +31,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Monitoring.Contracts.Display;
 using SafeExamBrowser.Monitoring.Contracts.System;
+using SafeExamBrowser.Monitoring.Contracts.System.Events;
 using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Proctoring.Contracts.Events;
 using SafeExamBrowser.Server.Contracts;
@@ -38,7 +39,6 @@ using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.SystemComponents.Contracts.Network;
 using SafeExamBrowser.SystemComponents.Contracts.Network.Events;
-using SafeExamBrowser.SystemComponents.Contracts.Registry;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
@@ -63,11 +63,11 @@ namespace SafeExamBrowser.Client
 		private readonly IMessageBox messageBox;
 		private readonly INetworkAdapter networkAdapter;
 		private readonly IOperationSequence operations;
-		private readonly IRegistry registry;
 		private readonly IRuntimeProxy runtime;
 		private readonly Action shutdown;
 		private readonly ISplashScreen splashScreen;
 		private readonly ISystemMonitor systemMonitor;
+		private readonly ISystemSentinel sentinel;
 		private readonly ITaskbar taskbar;
 		private readonly IText text;
 		private readonly IUserInterfaceFactory uiFactory;
@@ -94,11 +94,11 @@ namespace SafeExamBrowser.Client
 			IMessageBox messageBox,
 			INetworkAdapter networkAdapter,
 			IOperationSequence operations,
-			IRegistry registry,
 			IRuntimeProxy runtime,
 			Action shutdown,
 			ISplashScreen splashScreen,
 			ISystemMonitor systemMonitor,
+			ISystemSentinel sentinel,
 			ITaskbar taskbar,
 			IText text,
 			IUserInterfaceFactory uiFactory)
@@ -115,11 +115,11 @@ namespace SafeExamBrowser.Client
 			this.messageBox = messageBox;
 			this.networkAdapter = networkAdapter;
 			this.operations = operations;
-			this.registry = registry;
 			this.runtime = runtime;
 			this.shutdown = shutdown;
 			this.splashScreen = splashScreen;
 			this.systemMonitor = systemMonitor;
+			this.sentinel = sentinel;
 			this.taskbar = taskbar;
 			this.text = text;
 			this.uiFactory = uiFactory;
@@ -223,8 +223,10 @@ namespace SafeExamBrowser.Client
 			ClientHost.Shutdown += ClientHost_Shutdown;
 			displayMonitor.DisplayChanged += DisplayMonitor_DisplaySettingsChanged;
 			networkAdapter.CredentialsRequired += NetworkAdapter_CredentialsRequired;
-			registry.ValueChanged += Registry_ValueChanged;
 			runtime.ConnectionLost += Runtime_ConnectionLost;
+			sentinel.CursorChanged += Sentinel_CursorChanged;
+			sentinel.EaseOfAccessChanged += Sentinel_EaseOfAccessChanged;
+			sentinel.StickyKeysChanged += Sentinel_StickyKeysChanged;
 			systemMonitor.SessionChanged += SystemMonitor_SessionChanged;
 			taskbar.LoseFocusRequested += Taskbar_LoseFocusRequested;
 			taskbar.QuitButtonClicked += Shell_QuitButtonClicked;
@@ -248,8 +250,10 @@ namespace SafeExamBrowser.Client
 			applicationMonitor.ExplorerStarted -= ApplicationMonitor_ExplorerStarted;
 			applicationMonitor.TerminationFailed -= ApplicationMonitor_TerminationFailed;
 			displayMonitor.DisplayChanged -= DisplayMonitor_DisplaySettingsChanged;
-			registry.ValueChanged -= Registry_ValueChanged;
 			runtime.ConnectionLost -= Runtime_ConnectionLost;
+			sentinel.CursorChanged -= Sentinel_CursorChanged;
+			sentinel.EaseOfAccessChanged -= Sentinel_EaseOfAccessChanged;
+			sentinel.StickyKeysChanged -= Sentinel_StickyKeysChanged;
 			systemMonitor.SessionChanged -= SystemMonitor_SessionChanged;
 			taskbar.LoseFocusRequested -= Taskbar_LoseFocusRequested;
 			taskbar.QuitButtonClicked -= Shell_QuitButtonClicked;
@@ -365,24 +369,19 @@ namespace SafeExamBrowser.Client
 			timer.Interval = TEN_MINUTES + (new Random().NextDouble() * FIVE_MINUTES);
 			timer.Start();
 
+			if (!Settings.Security.AllowStickyKeys)
+			{
+				sentinel.StartMonitoringStickyKeys();
+			}
+
 			if (Settings.Security.VerifyCursorConfiguration)
 			{
-				if (registry.TryGetNames(RegistryValue.UserHive.Cursors_Key, out var names))
-				{
-					foreach (var name in names)
-					{
-						registry.StartMonitoring(RegistryValue.UserHive.Cursors_Key, name);
-					}
-				}
-				else
-				{
-					logger.Warn("Failed to start monitoring cursor registry values!");
-				}
+				sentinel.StartMonitoringCursors();
 			}
 
 			if (Settings.Service.IgnoreService)
 			{
-				registry.StartMonitoring(RegistryValue.MachineHive.EaseOfAccess_Key, RegistryValue.MachineHive.EaseOfAccess_Name);
+				sentinel.StartMonitoringEaseOfAccess();
 			}
 		}
 
@@ -451,7 +450,7 @@ namespace SafeExamBrowser.Client
 
 		private void TerminateIntegrityVerification()
 		{
-			registry.StopMonitoring();
+			sentinel.StopMonitoring();
 		}
 
 		private void ApplicationMonitor_ExplorerStarted()
@@ -782,22 +781,16 @@ namespace SafeExamBrowser.Client
 			splashScreen.UpdateStatus(status, true);
 		}
 
-		private void Registry_ValueChanged(string key, string name, object oldValue, object newValue)
+		private void Runtime_ConnectionLost()
 		{
-			if (key == RegistryValue.UserHive.Cursors_Key)
-			{
-				HandleCursorRegistryChange(key, name, oldValue, newValue);
-			}
-			else if (key == RegistryValue.MachineHive.EaseOfAccess_Key)
-			{
-				HandleEaseOfAccessRegistryChange(key, name, oldValue, newValue);
-			}
+			logger.Error("Lost connection to the runtime!");
+
+			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
+			shutdown.Invoke();
 		}
 
-		private void HandleCursorRegistryChange(string key, string name, object oldValue, object newValue)
+		private void Sentinel_CursorChanged(SentinelEventArgs args)
 		{
-			logger.Warn($@"The cursor registry value '{key}\{name}' has changed from '{oldValue}' to '{newValue}'! Attempting to show lock screen...");
-
 			if (coordinator.RequestSessionLock())
 			{
 				var message = text.Get(TextKey.LockScreen_CursorMessage);
@@ -805,7 +798,8 @@ namespace SafeExamBrowser.Client
 				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_CursorContinueOption) };
 				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_CursorTerminateOption) };
 
-				registry.StopMonitoring(key, name);
+				args.Allow = true;
+				logger.Info("Cursor changed! Attempting to show lock screen...");
 
 				var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
 
@@ -823,14 +817,12 @@ namespace SafeExamBrowser.Client
 			}
 			else
 			{
-				logger.Info("Lock screen is already active.");
+				logger.Info("Cursor changed but lock screen is already active.");
 			}
 		}
 
-		private void HandleEaseOfAccessRegistryChange(string key, string name, object oldValue, object newValue)
+		private void Sentinel_EaseOfAccessChanged(SentinelEventArgs args)
 		{
-			logger.Warn($@"The ease of access registry value '{key}\{name}' has changed from '{oldValue}' to '{newValue}'! Attempting to show lock screen...");
-
 			if (coordinator.RequestSessionLock())
 			{
 				var message = text.Get(TextKey.LockScreen_EaseOfAccessMessage);
@@ -838,7 +830,8 @@ namespace SafeExamBrowser.Client
 				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_EaseOfAccessContinueOption) };
 				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_EaseOfAccessTerminateOption) };
 
-				registry.StopMonitoring(key, name);
+				args.Allow = true;
+				logger.Info("Ease of access changed! Attempting to show lock screen...");
 
 				var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
 
@@ -856,16 +849,40 @@ namespace SafeExamBrowser.Client
 			}
 			else
 			{
-				logger.Info("Lock screen is already active.");
+				logger.Info("Ease of access changed but lock screen is already active.");
 			}
 		}
 
-		private void Runtime_ConnectionLost()
+		private void Sentinel_StickyKeysChanged(SentinelEventArgs args)
 		{
-			logger.Error("Lost connection to the runtime!");
+			if (coordinator.RequestSessionLock())
+			{
+				var message = text.Get(TextKey.LockScreen_StickyKeysMessage);
+				var title = text.Get(TextKey.LockScreen_Title);
+				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_StickyKeysContinueOption) };
+				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_StickyKeysTerminateOption) };
 
-			messageBox.Show(TextKey.MessageBox_ApplicationError, TextKey.MessageBox_ApplicationErrorTitle, icon: MessageBoxIcon.Error);
-			shutdown.Invoke();
+				args.Allow = true;
+				logger.Info("Sticky keys changed! Attempting to show lock screen...");
+
+				var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
+
+				if (result.OptionId == continueOption.Id)
+				{
+					logger.Info("The session will be allowed to resume as requested by the user...");
+				}
+				else if (result.OptionId == terminateOption.Id)
+				{
+					logger.Info("Attempting to shutdown as requested by the user...");
+					TryRequestShutdown();
+				}
+
+				coordinator.ReleaseSessionLock();
+			}
+			else
+			{
+				logger.Info("Sticky keys changed but lock screen is already active.");
+			}
 		}
 
 		private void Server_LockScreenConfirmed()

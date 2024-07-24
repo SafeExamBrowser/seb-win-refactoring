@@ -73,6 +73,7 @@
     <Compile Include="INativeMethods.cs" />
     <Compile Include="IProcess.cs" />
     <Compile Include="IProcessFactory.cs" />
+    <Compile Include="IStickyKeysState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

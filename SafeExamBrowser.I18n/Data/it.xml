@@ -207,6 +207,15 @@
     <Entry key="LockScreen_SessionIntegrityMessage">
         L'ultima sessione con la configurazione o l'URL di avvio attualmente attiva non è stata terminata correttamente! Per sbloccare SEB, inserisci la password di sblocco corretta.
     </Entry>
+    <Entry key="LockScreen_StickyKeysContinueOption">
+        Consente temporaneamente lo stato dei tasti adesivi. Questo vale solo per la sessione in corso!
+    </Entry>
+    <Entry key="LockScreen_StickyKeysMessage">
+        È stato rilevato uno stato non consentito dei tasti adesivi. Per sbloccare SEB, selezionare una delle opzioni disponibili e inserire la password di sblocco corretta.
+    </Entry>
+    <Entry key="LockScreen_StickyKeysTerminateOption">
+        Terminare Safe Exam Browser. ATTENZIONE: Non sarà possibile salvare i dati o eseguire ulteriori azioni, la chiusura verrà avviata immediatamente!
+    </Entry>
     <Entry key="LockScreen_Title">
         SEB BLOCCATO
     </Entry>

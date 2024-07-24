@@ -26,6 +26,7 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Display;
+using SafeExamBrowser.Monitoring.System;
 using SafeExamBrowser.Runtime.Communication;
 using SafeExamBrowser.Runtime.Operations;
 using SafeExamBrowser.Server;
@@ -82,6 +83,7 @@ namespace SafeExamBrowser.Runtime
 			var remoteSessionDetector = new RemoteSessionDetector(ModuleLogger(nameof(RemoteSessionDetector)));
 			var runtimeHost = new RuntimeHost(appConfig.RuntimeAddress, new HostObjectFactory(), ModuleLogger(nameof(RuntimeHost)), FIVE_SECONDS);
 			var runtimeWindow = uiFactory.CreateRuntimeWindow(appConfig);
+			var sentinel = new SystemSentinel(ModuleLogger(nameof(SystemSentinel)), nativeMethods, registry);
 			var server = new ServerProxy(appConfig, keyGenerator, ModuleLogger(nameof(ServerProxy)), systemInfo, userInfo);
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)), Interlocutor.Runtime);
 			var sessionContext = new SessionContext();
@@ -101,7 +103,7 @@ namespace SafeExamBrowser.Runtime
 			sessionOperations.Enqueue(new VersionRestrictionOperation(logger, sessionContext, text));
 			sessionOperations.Enqueue(new DisclaimerOperation(logger, sessionContext));
 			sessionOperations.Enqueue(new RemoteSessionOperation(remoteSessionDetector, logger, sessionContext));
-			sessionOperations.Enqueue(new SessionIntegrityOperation(logger, registry, sessionContext));
+			sessionOperations.Enqueue(new SessionIntegrityOperation(logger, sentinel, sessionContext));
 			sessionOperations.Enqueue(new VirtualMachineOperation(vmDetector, logger, sessionContext));
 			sessionOperations.Enqueue(new DisplayMonitorOperation(displayMonitor, logger, sessionContext, text));
 			sessionOperations.Enqueue(new ServiceOperation(logger, runtimeHost, serviceProxy, sessionContext, THIRTY_SECONDS, userInfo));

@@ -207,6 +207,15 @@
     <Entry key="LockScreen_SessionIntegrityMessage">
         Sesi terakhir dengan konfigurasi yang sedang aktif atau URL awal tidak diakhiri dengan benar! Silakan masukkan kata sandi yang benar untuk membuka kunci SEB.
     </Entry>
+    <Entry key="LockScreen_StickyKeysContinueOption">
+        Mengizinkan status tombol tempel untuk sementara waktu. Ini hanya berlaku untuk sesi yang sedang berjalan!
+    </Entry>
+    <Entry key="LockScreen_StickyKeysMessage">
+        Kondisi kunci tempel yang dilarang telah terdeteksi. Untuk membuka kunci SEB, pilih salah satu opsi yang tersedia dan masukkan kata sandi buka kunci yang benar.
+    </Entry>
+    <Entry key="LockScreen_StickyKeysTerminateOption">
+        Menghentikan Safe Exam Browser. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
+    </Entry>
     <Entry key="LockScreen_Title">
         SEB TERKUNCI
     </Entry>

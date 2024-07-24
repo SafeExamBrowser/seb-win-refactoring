@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -360,6 +360,10 @@ namespace SebWindowsConfig
 			this.labelNewWindowPosition = new System.Windows.Forms.Label();
 			this.listBoxNewBrowserWindowPositioning = new System.Windows.Forms.ListBox();
 			this.tabPageAppearance = new System.Windows.Forms.TabPage();
+			this.groupBox22 = new System.Windows.Forms.GroupBox();
+			this.lockscreenColorButton = new System.Windows.Forms.Button();
+			this.lockscreenColorTextbox = new System.Windows.Forms.TextBox();
+			this.label34 = new System.Windows.Forms.Label();
 			this.spellCheckerGroupBox = new System.Windows.Forms.GroupBox();
 			this.dictionariesDescriptionLabel = new System.Windows.Forms.Label();
 			this.spellCheckerDescriptionLabel = new System.Windows.Forms.Label();
@@ -481,10 +485,7 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.groupBox22 = new System.Windows.Forms.GroupBox();
-			this.lockscreenColorButton = new System.Windows.Forms.Button();
-			this.lockscreenColorTextbox = new System.Windows.Forms.TextBox();
-			this.label34 = new System.Windows.Forms.Label();
+			this.checkBoxAllowStickyKeys = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -530,6 +531,7 @@ namespace SebWindowsConfig
 			this.groupBox11.SuspendLayout();
 			this.groupBoxNewBrowserWindow.SuspendLayout();
 			this.tabPageAppearance.SuspendLayout();
+			this.groupBox22.SuspendLayout();
 			this.spellCheckerGroupBox.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.spellCheckerDataGridView)).BeginInit();
 			this.groupBox16.SuspendLayout();
@@ -545,7 +547,6 @@ namespace SebWindowsConfig
 			this.groupBoxExitSequence.SuspendLayout();
 			this.tabControlSebWindowsConfig.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
-			this.groupBox22.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// openFileDialogSebConfigFile
@@ -1138,6 +1139,7 @@ namespace SebWindowsConfig
 			// 
 			// tabPageSecurity
 			// 
+			this.tabPageSecurity.Controls.Add(this.checkBoxAllowStickyKeys);
 			this.tabPageSecurity.Controls.Add(this.checkBoxEnableSessionVerification);
 			this.tabPageSecurity.Controls.Add(this.checkBoxEnableCursorVerification);
 			this.tabPageSecurity.Controls.Add(this.groupBox21);
@@ -1167,7 +1169,7 @@ namespace SebWindowsConfig
 			// checkBoxEnableSessionVerification
 			// 
 			this.checkBoxEnableSessionVerification.AutoSize = true;
-			this.checkBoxEnableSessionVerification.Location = new System.Drawing.Point(230, 336);
+			this.checkBoxEnableSessionVerification.Location = new System.Drawing.Point(919, 278);
 			this.checkBoxEnableSessionVerification.Name = "checkBoxEnableSessionVerification";
 			this.checkBoxEnableSessionVerification.Size = new System.Drawing.Size(179, 17);
 			this.checkBoxEnableSessionVerification.TabIndex = 112;
@@ -1178,7 +1180,7 @@ namespace SebWindowsConfig
 			// checkBoxEnableCursorVerification
 			// 
 			this.checkBoxEnableCursorVerification.AutoSize = true;
-			this.checkBoxEnableCursorVerification.Location = new System.Drawing.Point(230, 317);
+			this.checkBoxEnableCursorVerification.Location = new System.Drawing.Point(919, 259);
 			this.checkBoxEnableCursorVerification.Name = "checkBoxEnableCursorVerification";
 			this.checkBoxEnableCursorVerification.Size = new System.Drawing.Size(173, 17);
 			this.checkBoxEnableCursorVerification.TabIndex = 111;
@@ -2069,8 +2071,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle11.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle11;
+			dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle3;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -4735,6 +4737,49 @@ namespace SebWindowsConfig
 			this.tabPageAppearance.Text = "User Interface";
 			this.tabPageAppearance.UseVisualStyleBackColor = true;
 			// 
+			// groupBox22
+			// 
+			this.groupBox22.Controls.Add(this.lockscreenColorButton);
+			this.groupBox22.Controls.Add(this.lockscreenColorTextbox);
+			this.groupBox22.Controls.Add(this.label34);
+			this.groupBox22.Location = new System.Drawing.Point(529, 176);
+			this.groupBox22.Name = "groupBox22";
+			this.groupBox22.Size = new System.Drawing.Size(689, 59);
+			this.groupBox22.TabIndex = 88;
+			this.groupBox22.TabStop = false;
+			this.groupBox22.Text = "Lock Screen";
+			// 
+			// lockscreenColorButton
+			// 
+			this.lockscreenColorButton.Location = new System.Drawing.Point(226, 22);
+			this.lockscreenColorButton.Name = "lockscreenColorButton";
+			this.lockscreenColorButton.Size = new System.Drawing.Size(75, 23);
+			this.lockscreenColorButton.TabIndex = 118;
+			this.lockscreenColorButton.Text = "Choose";
+			this.lockscreenColorButton.UseVisualStyleBackColor = true;
+			this.lockscreenColorButton.Click += new System.EventHandler(this.lockscreenColorButton_Click);
+			// 
+			// lockscreenColorTextbox
+			// 
+			this.lockscreenColorTextbox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lockscreenColorTextbox.ForeColor = System.Drawing.Color.White;
+			this.lockscreenColorTextbox.Location = new System.Drawing.Point(102, 23);
+			this.lockscreenColorTextbox.MaxLength = 7;
+			this.lockscreenColorTextbox.Name = "lockscreenColorTextbox";
+			this.lockscreenColorTextbox.Size = new System.Drawing.Size(111, 20);
+			this.lockscreenColorTextbox.TabIndex = 117;
+			this.lockscreenColorTextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.lockscreenColorTextbox.TextChanged += new System.EventHandler(this.lockscreenColorTextbox_TextChanged);
+			// 
+			// label34
+			// 
+			this.label34.AutoSize = true;
+			this.label34.Location = new System.Drawing.Point(6, 26);
+			this.label34.Name = "label34";
+			this.label34.Size = new System.Drawing.Size(92, 13);
+			this.label34.TabIndex = 116;
+			this.label34.Text = "Background Color";
+			// 
 			// spellCheckerGroupBox
 			// 
 			this.spellCheckerGroupBox.Controls.Add(this.dictionariesDescriptionLabel);
@@ -4854,8 +4899,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle12;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle4;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -6253,48 +6298,18 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
-			// groupBox22
+			// checkBoxAllowStickyKeys
 			// 
-			this.groupBox22.Controls.Add(this.lockscreenColorButton);
-			this.groupBox22.Controls.Add(this.lockscreenColorTextbox);
-			this.groupBox22.Controls.Add(this.label34);
-			this.groupBox22.Location = new System.Drawing.Point(529, 176);
-			this.groupBox22.Name = "groupBox22";
-			this.groupBox22.Size = new System.Drawing.Size(689, 59);
-			this.groupBox22.TabIndex = 88;
-			this.groupBox22.TabStop = false;
-			this.groupBox22.Text = "Lock Screen";
-			// 
-			// lockscreenColorButton
-			// 
-			this.lockscreenColorButton.Location = new System.Drawing.Point(226, 22);
-			this.lockscreenColorButton.Name = "lockscreenColorButton";
-			this.lockscreenColorButton.Size = new System.Drawing.Size(75, 23);
-			this.lockscreenColorButton.TabIndex = 118;
-			this.lockscreenColorButton.Text = "Choose";
-			this.lockscreenColorButton.UseVisualStyleBackColor = true;
-			this.lockscreenColorButton.Click += new System.EventHandler(this.lockscreenColorButton_Click);
-			// 
-			// lockscreenColorTextbox
-			// 
-			this.lockscreenColorTextbox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lockscreenColorTextbox.ForeColor = System.Drawing.Color.White;
-			this.lockscreenColorTextbox.Location = new System.Drawing.Point(102, 23);
-			this.lockscreenColorTextbox.MaxLength = 7;
-			this.lockscreenColorTextbox.Name = "lockscreenColorTextbox";
-			this.lockscreenColorTextbox.Size = new System.Drawing.Size(111, 20);
-			this.lockscreenColorTextbox.TabIndex = 117;
-			this.lockscreenColorTextbox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-			this.lockscreenColorTextbox.TextChanged += new System.EventHandler(this.lockscreenColorTextbox_TextChanged);
-			// 
-			// label34
-			// 
-			this.label34.AutoSize = true;
-			this.label34.Location = new System.Drawing.Point(6, 26);
-			this.label34.Name = "label34";
-			this.label34.Size = new System.Drawing.Size(92, 13);
-			this.label34.TabIndex = 116;
-			this.label34.Text = "Background Color";
+			this.checkBoxAllowStickyKeys.AutoSize = true;
+			this.checkBoxAllowStickyKeys.Location = new System.Drawing.Point(230, 321);
+			this.checkBoxAllowStickyKeys.Name = "checkBoxAllowStickyKeys";
+			this.checkBoxAllowStickyKeys.Size = new System.Drawing.Size(166, 17);
+			this.checkBoxAllowStickyKeys.TabIndex = 113;
+			this.checkBoxAllowStickyKeys.Text = "Allow to use sticky keys (Win)";
+			this.toolTip1.SetToolTip(this.checkBoxAllowStickyKeys, "Indicates whether the sticky keys accessibility feature of the operating system m" +
+        "ay be used while SEB is running.");
+			this.checkBoxAllowStickyKeys.UseVisualStyleBackColor = true;
+			this.checkBoxAllowStickyKeys.CheckedChanged += new System.EventHandler(this.checkBoxAllowStickyKeys_CheckedChanged);
 			// 
 			// SebWindowsConfigForm
 			// 
@@ -6398,6 +6413,8 @@ namespace SebWindowsConfig
 			this.groupBoxNewBrowserWindow.ResumeLayout(false);
 			this.groupBoxNewBrowserWindow.PerformLayout();
 			this.tabPageAppearance.ResumeLayout(false);
+			this.groupBox22.ResumeLayout(false);
+			this.groupBox22.PerformLayout();
 			this.spellCheckerGroupBox.ResumeLayout(false);
 			this.spellCheckerGroupBox.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.spellCheckerDataGridView)).EndInit();
@@ -6425,8 +6442,6 @@ namespace SebWindowsConfig
 			this.tabControlSebWindowsConfig.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
-			this.groupBox22.ResumeLayout(false);
-			this.groupBox22.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -6888,6 +6903,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.Button lockscreenColorButton;
 		private System.Windows.Forms.TextBox lockscreenColorTextbox;
 		private System.Windows.Forms.Label label34;
+		private System.Windows.Forms.CheckBox checkBoxAllowStickyKeys;
 	}
 }
 

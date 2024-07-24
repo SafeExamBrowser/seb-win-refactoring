@@ -38,6 +38,11 @@ namespace SafeExamBrowser.Settings.Security
 		public bool AllowReconfiguration { get; set; }
 
 		/// <summary>
+		/// Determines whether the user may use the sticky keys feature of the operating system.
+		/// </summary>
+		public bool AllowStickyKeys { get; set; }
+
+		/// <summary>
 		/// Determines whether the user is allowed to use the system clipboard, a custom clipboard or no clipboard at all.
 		/// </summary>
 		public ClipboardPolicy ClipboardPolicy { get; set; }

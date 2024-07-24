@@ -207,6 +207,15 @@
     <Entry key="LockScreen_SessionIntegrityMessage">
         Viimast seanssi hetkel aktiivse seadistuse või algus-URL-iga ei suletud korrektselt! Palun sisestage SEB'i avamiseks õige parool.
     </Entry>
+    <Entry key="LockScreen_StickyKeysContinueOption">
+        Lubab ajutiselt kleepuvate võtmete oleku. See kehtib ainult hetkel käimasoleva seansi kohta!
+    </Entry>
+    <Entry key="LockScreen_StickyKeysMessage">
+        Avastati kleepuvate võtmete keelatud olek. SEB avamiseks valige üks olemasolevatest võimalustest ja sisestage õige avamisparool.
+    </Entry>
+    <Entry key="LockScreen_StickyKeysTerminateOption">
+        Sulge Safe Exam Browser. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
+    </Entry>
     <Entry key="LockScreen_Title">
         SEB ON LUKUSTATUD
     </Entry>

@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Constants\Constant.cs" />
     <Compile Include="Constants\HookType.cs" />
+    <Compile Include="Constants\StickyKeysFlags.cs" />
     <Compile Include="Constants\ThreadAccess.cs" />
     <Compile Include="Constants\VirtualKeyCode.cs" />
     <Compile Include="Delegates\EnumDesktopDelegate.cs" />
@@ -90,6 +91,8 @@
     <Compile Include="Types\PROCESS_INFORMATION.cs" />
     <Compile Include="Types\RECT.cs" />
     <Compile Include="Types\STARTUPINFO.cs" />
+    <Compile Include="Types\STICKYKEYS.cs" />
+    <Compile Include="Types\StickyKeysState.cs" />
     <Compile Include="Types\Window.cs" />
     <Compile Include="Types\WINDOWPLACEMENT.cs" />
     <Compile Include="User32.cs" />

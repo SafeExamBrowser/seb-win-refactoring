@@ -119,6 +119,7 @@ namespace SafeExamBrowser.Client
 			var explorerShell = new ExplorerShell(ModuleLogger(nameof(ExplorerShell)), nativeMethods);
 			var fileSystemDialog = BuildFileSystemDialog();
 			var hashAlgorithm = new HashAlgorithm();
+			var sentinel = new SystemSentinel(ModuleLogger(nameof(SystemSentinel)), nativeMethods, registry);
 			var splashScreen = uiFactory.CreateSplashScreen();
 			var systemMonitor = new SystemMonitor(ModuleLogger(nameof(SystemMonitor)));
 
@@ -158,11 +159,11 @@ namespace SafeExamBrowser.Client
 				messageBox,
 				networkAdapter,
 				sequence,
-				registry,
 				runtimeProxy,
 				shutdown,
 				splashScreen,
 				systemMonitor,
+				sentinel,
 				taskbar,
 				text,
 				uiFactory);

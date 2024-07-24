@@ -47,12 +47,22 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		void DeregisterSystemEventHook(Guid hookId);
 
 		/// <summary>
+		/// Attempts to disable the sticky keys feature of the operating system. Returns <c>true</c> if successful, otherwise <c>false</c>.
+		/// </summary>
+		bool DisableStickyKeys();
+
+		/// <summary>
 		/// Empties the clipboard.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">
 		/// If the emptying of the clipboard failed.
 		/// </exception>
 		void EmptyClipboard();
+
+		/// <summary>
+		/// Attempts to enable the sticky keys feature of the operating system. Returns <c>true</c> if successful, otherwise <c>false</c>.
+		/// </summary>
+		bool EnableStickyKeys();
 
 		/// <summary>
 		/// Retrieves the current position of the mouse cursor.
@@ -204,5 +214,15 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		/// otherwise <c>false</c>.
 		/// </summary>
 		bool SuspendThread(int threadId);
+
+		/// <summary>
+		/// Attempts to retrieve the state of the sticky keys feature of the operating system. Returns <c>true</c> if successful, otherwise <c>false</c>.
+		/// </summary>
+		bool TryGetStickyKeys(out IStickyKeysState state);
+
+		/// <summary>
+		/// Attempts to set the state of the sticky keys feature of the operating system. Returns <c>true</c> if successful, otherwise <c>false</c>.
+		/// </summary>
+		bool TrySetStickyKeys(IStickyKeysState state);
 	}
 }

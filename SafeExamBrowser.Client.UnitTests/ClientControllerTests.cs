@@ -36,7 +36,6 @@ using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Monitoring;
 using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.SystemComponents.Contracts.Network;
-using SafeExamBrowser.SystemComponents.Contracts.Registry;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
@@ -67,8 +66,8 @@ namespace SafeExamBrowser.Client.UnitTests
 		private Mock<IMessageBox> messageBox;
 		private Mock<INetworkAdapter> networkAdapter;
 		private Mock<IOperationSequence> operationSequence;
-		private Mock<IRegistry> registry;
 		private Mock<IRuntimeProxy> runtimeProxy;
+		private Mock<ISystemSentinel> sentinel;
 		private Mock<IServerProxy> server;
 		private Guid sessionId;
 		private AppSettings settings;
@@ -102,8 +101,8 @@ namespace SafeExamBrowser.Client.UnitTests
 			messageBox = new Mock<IMessageBox>();
 			networkAdapter = new Mock<INetworkAdapter>();
 			operationSequence = new Mock<IOperationSequence>();
-			registry = new Mock<IRegistry>();
 			runtimeProxy = new Mock<IRuntimeProxy>();
+			sentinel = new Mock<ISystemSentinel>();
 			server = new Mock<IServerProxy>();
 			sessionId = Guid.NewGuid();
 			settings = new AppSettings();
@@ -132,11 +131,11 @@ namespace SafeExamBrowser.Client.UnitTests
 				messageBox.Object,
 				networkAdapter.Object,
 				operationSequence.Object,
-				registry.Object,
 				runtimeProxy.Object,
 				shutdown.Object,
 				splashScreen.Object,
 				systemMonitor.Object,
+				sentinel.Object,
 				taskbar.Object,
 				text.Object,
 				uiFactory.Object);

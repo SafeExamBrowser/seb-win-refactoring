@@ -207,6 +207,15 @@
     <Entry key="LockScreen_SessionIntegrityMessage">
         De laatste sessie met de huidige actieve configuratie of start URL is niet goed afgesloten! Voer het juiste wachtwoord in om SEB te ontgrendelen.
     </Entry>
+    <Entry key="LockScreen_StickyKeysContinueOption">
+        Tijdelijk de toestand van de sticky keys toestaan. Dit geldt alleen voor de huidige sessie!
+    </Entry>
+    <Entry key="LockScreen_StickyKeysMessage">
+        Er is een verboden toestand van de sticky keys gedetecteerd. Om SEB te ontgrendelen, selecteert u een van de beschikbare opties en voert u het juiste ontgrendelwachtwoord in.
+    </Entry>
+    <Entry key="LockScreen_StickyKeysTerminateOption">
+        Beëindig de Safe Exam Browser. WAARSCHUWING: er is geen mogelijkheid om gegevens op te slaan of verdere acties uit te voeren, de browser wordt onmiddellijk afgesloten!
+    </Entry>
     <Entry key="LockScreen_Title">
         SEB VERGRENDELD
     </Entry>

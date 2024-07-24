@@ -132,6 +132,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "remoting_host.exe", OriginalName = "remoting_host.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "RPCService.exe", OriginalName = "RPCService.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "RPCSuite.exe", OriginalName = "RPCSuite.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "sethc.exe", OriginalName = "sethc.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Skype.exe", OriginalName = "Skype.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "SkypeApp.exe", OriginalName = "SkypeApp.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "SkypeHost.exe", OriginalName = "SkypeHost.exe" });
@@ -250,6 +251,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Security.AllowApplicationLogAccess = false;
 			settings.Security.AllowTermination = true;
 			settings.Security.AllowReconfiguration = false;
+			settings.Security.AllowStickyKeys = false;
 			settings.Security.ClipboardPolicy = ClipboardPolicy.Isolated;
 			settings.Security.DisableSessionChangeLockScreen = false;
 			settings.Security.KioskMode = KioskMode.CreateNewDesktop;

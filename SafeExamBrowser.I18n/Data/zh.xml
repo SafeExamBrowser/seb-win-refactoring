@@ -193,7 +193,7 @@
         检测到禁止的显示配置。 要解锁 SEB，请选择可用选项之一并输入正确的解锁密码。
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationTerminateOption">
-        终止安全考试浏览器。 警告：将无法保存数据或执行任何进一步操作，将立即启动关机！
+        终止安全考试浏览器。警告：将无法保存数据或执行任何进一步操作，将立即启动关机！
     </Entry>
     <Entry key="LockScreen_EaseOfAccessContinueOption">
         暂时允许轻松访问的配置。这只适用于当前运行的会话!
@@ -206,6 +206,15 @@
     </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         当前激活的配置或启动URL的最后一个会话没有被正确终止! 请输入正确的密码以解锁SEB。
+    </Entry>
+    <Entry key="LockScreen_StickyKeysContinueOption">
+        暂时允许粘性按键的状态。这仅适用于当前运行的会话！
+    </Entry>
+    <Entry key="LockScreen_StickyKeysMessage">
+        已检测到粘滞键处于禁用状态。要解锁 SEB，请选择一个可用选项并输入正确的解锁密码。
+    </Entry>
+    <Entry key="LockScreen_StickyKeysTerminateOption">
+        终止安全考试浏览器。警告：将没有可能保存数据或执行任何进一步的行动，关闭将立即启动!
     </Entry>
     <Entry key="LockScreen_Title">
         防作弊考试专用浏览器已锁定

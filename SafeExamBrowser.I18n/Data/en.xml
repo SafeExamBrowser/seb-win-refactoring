@@ -207,6 +207,15 @@
     <Entry key="LockScreen_SessionIntegrityMessage">
         The last session with the currently active configuration or start URL was not terminated properly! Please enter the correct password to unlock SEB.
     </Entry>
+    <Entry key="LockScreen_StickyKeysContinueOption">
+        Temporarily allow the state of the sticky keys. This applies only to the currently running session!
+    </Entry>
+    <Entry key="LockScreen_StickyKeysMessage">
+        A prohibited state of the sticky keys has been detected. In order to unlock SEB, please select one of the available options and enter the correct unlock password.
+    </Entry>
+    <Entry key="LockScreen_StickyKeysTerminateOption">
+        Terminate Safe Exam Browser. WARNING: There will be no possibility to save data or perform any further actions, the shutdown will be initiated immediately!
+    </Entry>
     <Entry key="LockScreen_Title">
         SEB LOCKED
     </Entry>

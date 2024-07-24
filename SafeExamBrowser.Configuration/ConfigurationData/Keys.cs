@@ -262,6 +262,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string AdminPasswordHash = "hashedAdminPassword";
 			internal const string AllowApplicationLog = "allowApplicationLog";
 			internal const string AllowReconfiguration = "examSessionReconfigureAllow";
+			internal const string AllowStickyKeys = "allowStickyKeys";
 			internal const string AllowTermination = "allowQuit";
 			internal const string AllowVirtualMachine = "allowVirtualMachine";
 			internal const string ClipboardPolicy = "clipboardPolicy";

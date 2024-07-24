@@ -385,6 +385,7 @@ namespace SebWindowsConfig
 		public const String KeyEnableCursorVerification = "enableCursorVerification";
 		public const String KeyEnableSessionVerification = "enableSessionVerification";
 		public const String KeyLockScreenBackgroundColor = "lockScreenBackgroundColor";
+		public const String KeyAllowStickyKeys = "allowStickyKeys";
 
 		// Group "macOS specific settings"
 		public const String KeyMinMacOSVersion = "minMacOSVersion";
@@ -877,7 +878,8 @@ namespace SebWindowsConfig
 				"obs32.exe",
 				"spotify.exe",
 				"Microsoft.Media.Player.exe",
-				"vlc.exe"
+				"vlc.exe",
+				"sethc.exe"
 			};
 
 			// Default settings for group "Network - Filter"
@@ -1027,6 +1029,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableCursorVerification, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableSessionVerification, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyLockScreenBackgroundColor, "#ff0000");
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowStickyKeys, false);
 
 			// Default selected index and string in combo box for minMacOSVersion 
 			SEBSettings.intArrayDefault[SEBSettings.ValMinMacOSVersion] = 4;

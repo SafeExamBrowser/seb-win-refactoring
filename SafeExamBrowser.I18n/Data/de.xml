@@ -207,6 +207,15 @@
     <Entry key="LockScreen_SessionIntegrityMessage">
         Die letzte Sitzung mit der momentan aktiven Konfiguration oder Start-URL wurde nicht ordnungsgemäss beendet! Geben Sie bitte das korrekte Passwort ein, um SEB zu entsperren.
     </Entry>
+    <Entry key="LockScreen_StickyKeysContinueOption">
+        Zustand der Sticky-Keys temporär erlauben. Dies gilt nur für die momentan laufende Sitzung!
+    </Entry>
+    <Entry key="LockScreen_StickyKeysMessage">
+        Ein verbotener Zustand der Sticky-Keys wurde detektiert. Bitte wählen Sie eine der verfügbaren Optionen aus und geben Sie das korrekte Passwort ein, um SEB zu entsperren.
+    </Entry>
+    <Entry key="LockScreen_StickyKeysTerminateOption">
+        Safe Exam Browser beenden. WARNUNG: Sie werden keine Möglichkeit haben, Daten zu speichern oder weitere Aktionen auszuführen, SEB wird sofort beendet!
+    </Entry>
     <Entry key="LockScreen_Title">
         SEB GESPERRT
     </Entry>

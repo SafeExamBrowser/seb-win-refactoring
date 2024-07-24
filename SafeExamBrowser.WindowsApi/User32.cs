@@ -108,6 +108,9 @@ namespace SafeExamBrowser.WindowsApi
 		internal static extern bool SystemParametersInfo(SPI uiAction, uint uiParam, ref RECT pvParam, SPIF fWinIni);
 
 		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern bool SystemParametersInfo(SPI uiAction, int uiParam, ref STICKYKEYS pvParam, SPIF fWinIni);
+
+		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern bool SystemParametersInfo(SPI uiAction, int uiParam, string pvParam, SPIF fWinIni);
 
 		[DllImport("user32.dll", SetLastError = true)]

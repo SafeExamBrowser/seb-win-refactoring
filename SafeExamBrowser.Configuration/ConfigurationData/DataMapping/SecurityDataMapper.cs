@@ -26,6 +26,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Security.AllowReconfiguration:
 					MapAllowReconfiguration(settings, value);
 					break;
+				case Keys.Security.AllowStickyKeys:
+					MapAllowStickyKeys(settings, value);
+					break;
 				case Keys.Security.AllowTermination:
 					MapAllowTermination(settings, value);
 					break;
@@ -75,6 +78,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool allow)
 			{
 				settings.Security.AllowReconfiguration = allow;
+			}
+		}
+
+		private void MapAllowStickyKeys(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Security.AllowStickyKeys = allow;
 			}
 		}
 
