@@ -73,7 +73,6 @@
     <Compile Include="System\Events\SentinelEventArgs.cs" />
     <Compile Include="System\Events\SentinelEventHandler.cs" />
     <Compile Include="System\Events\SessionChangedEventHandler.cs" />
-    <Compile Include="System\ISystemMonitor.cs" />
     <Compile Include="System\ISystemSentinel.cs" />
   </ItemGroup>
   <ItemGroup>

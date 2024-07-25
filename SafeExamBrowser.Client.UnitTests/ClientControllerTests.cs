@@ -73,7 +73,6 @@ namespace SafeExamBrowser.Client.UnitTests
 		private AppSettings settings;
 		private Mock<Action> shutdown;
 		private Mock<ISplashScreen> splashScreen;
-		private Mock<ISystemMonitor> systemMonitor;
 		private Mock<ITaskbar> taskbar;
 		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
@@ -108,7 +107,6 @@ namespace SafeExamBrowser.Client.UnitTests
 			settings = new AppSettings();
 			shutdown = new Mock<Action>();
 			splashScreen = new Mock<ISplashScreen>();
-			systemMonitor = new Mock<ISystemMonitor>();
 			taskbar = new Mock<ITaskbar>();
 			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
@@ -134,7 +132,6 @@ namespace SafeExamBrowser.Client.UnitTests
 				runtimeProxy.Object,
 				shutdown.Object,
 				splashScreen.Object,
-				systemMonitor.Object,
 				sentinel.Object,
 				taskbar.Object,
 				text.Object,
@@ -1288,7 +1285,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				.Returns(lockScreen.Object);
 
 			sut.TryStart();
-			systemMonitor.Raise(m => m.SessionChanged += null);
+			sentinel.Raise(s => s.SessionChanged += null);
 
 			coordinator.Verify(c => c.RequestSessionLock(), Times.Once);
 			coordinator.Verify(c => c.ReleaseSessionLock(), Times.Once);
@@ -1311,7 +1308,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				.Returns(lockScreen.Object);
 
 			sut.TryStart();
-			systemMonitor.Raise(m => m.SessionChanged += null);
+			sentinel.Raise(s => s.SessionChanged += null);
 
 			coordinator.Verify(c => c.RequestSessionLock(), Times.Once);
 			coordinator.Verify(c => c.ReleaseSessionLock(), Times.Once);
@@ -1333,7 +1330,7 @@ namespace SafeExamBrowser.Client.UnitTests
 				.Returns(lockScreen.Object);
 
 			sut.TryStart();
-			systemMonitor.Raise(m => m.SessionChanged += null);
+			sentinel.Raise(s => s.SessionChanged += null);
 
 			lockScreen.Verify(l => l.Show(), Times.Never);
 		}

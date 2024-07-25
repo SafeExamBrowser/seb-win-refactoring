@@ -26,6 +26,11 @@ namespace SafeExamBrowser.Monitoring.Contracts.System
 		event SentinelEventHandler EaseOfAccessChanged;
 
 		/// <summary>
+		/// Event fired when the active user session has changed.
+		/// </summary>
+		event SessionChangedEventHandler SessionChanged;
+
+		/// <summary>
 		/// Event fired when the sticky keys state has changed.
 		/// </summary>
 		event SentinelEventHandler StickyKeysChanged;
@@ -59,6 +64,11 @@ namespace SafeExamBrowser.Monitoring.Contracts.System
 		/// Starts monitoring the sticky keys state.
 		/// </summary>
 		void StartMonitoringStickyKeys();
+
+		/// <summary>
+		/// Starts monitoring the system events.
+		/// </summary>
+		void StartMonitoringSystemEvents();
 
 		/// <summary>
 		/// Stops all monitoring operations.

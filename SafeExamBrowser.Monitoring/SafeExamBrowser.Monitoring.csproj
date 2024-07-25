@@ -70,7 +70,7 @@
     <Compile Include="System\Components\Cursors.cs" />
     <Compile Include="System\Components\EaseOfAccess.cs" />
     <Compile Include="System\Components\StickyKeys.cs" />
-    <Compile Include="System\SystemMonitor.cs" />
+    <Compile Include="System\Components\SystemEvents.cs" />
     <Compile Include="System\SystemSentinel.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -20,16 +20,19 @@ namespace SafeExamBrowser.Monitoring.System
 		private readonly Cursors cursors;
 		private readonly EaseOfAccess easeOfAccess;
 		private readonly StickyKeys stickyKeys;
+		private readonly SystemEvents systemEvents;
 
 		public event SentinelEventHandler CursorChanged;
 		public event SentinelEventHandler EaseOfAccessChanged;
 		public event SentinelEventHandler StickyKeysChanged;
+		public event SessionChangedEventHandler SessionChanged;
 
 		public SystemSentinel(ILogger logger, INativeMethods nativeMethods, IRegistry registry)
 		{
-			this.cursors = new Cursors(logger, registry);
-			this.easeOfAccess = new EaseOfAccess(logger, registry);
-			this.stickyKeys = new StickyKeys(logger, nativeMethods);
+			cursors = new Cursors(logger, registry);
+			easeOfAccess = new EaseOfAccess(logger, registry);
+			stickyKeys = new StickyKeys(logger, nativeMethods);
+			systemEvents = new SystemEvents(logger);
 		}
 
 		public bool DisableStickyKeys()
@@ -65,11 +68,18 @@ namespace SafeExamBrowser.Monitoring.System
 			stickyKeys.StartMonitoring();
 		}
 
+		public void StartMonitoringSystemEvents()
+		{
+			systemEvents.SessionChanged += () => SessionChanged?.Invoke();
+			systemEvents.StartMonitoring();
+		}
+
 		public void StopMonitoring()
 		{
 			cursors.StopMonitoring();
 			easeOfAccess.StopMonitoring();
 			stickyKeys.StopMonitoring();
+			systemEvents.StopMonitoring();
 		}
 
 		public bool VerifyCursors()

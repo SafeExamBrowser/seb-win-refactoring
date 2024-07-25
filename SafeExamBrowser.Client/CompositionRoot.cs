@@ -121,7 +121,6 @@ namespace SafeExamBrowser.Client
 			var hashAlgorithm = new HashAlgorithm();
 			var sentinel = new SystemSentinel(ModuleLogger(nameof(SystemSentinel)), nativeMethods, registry);
 			var splashScreen = uiFactory.CreateSplashScreen();
-			var systemMonitor = new SystemMonitor(ModuleLogger(nameof(SystemMonitor)));
 
 			var operations = new Queue<IOperation>();
 
@@ -137,7 +136,6 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new LazyInitializationOperation(BuildMouseInterceptorOperation));
 			operations.Enqueue(new ApplicationOperation(context, applicationFactory, applicationMonitor, logger, text));
 			operations.Enqueue(new DisplayMonitorOperation(context, displayMonitor, logger, taskbar));
-			operations.Enqueue(new SystemMonitorOperation(context, systemMonitor, logger));
 			operations.Enqueue(new LazyInitializationOperation(BuildShellOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildBrowserOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildServerOperation));
@@ -162,7 +160,6 @@ namespace SafeExamBrowser.Client
 				runtimeProxy,
 				shutdown,
 				splashScreen,
-				systemMonitor,
 				sentinel,
 				taskbar,
 				text,

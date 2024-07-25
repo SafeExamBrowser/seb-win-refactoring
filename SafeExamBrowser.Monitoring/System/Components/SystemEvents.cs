@@ -10,46 +10,47 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Monitoring.Contracts.System;
 using SafeExamBrowser.Monitoring.Contracts.System.Events;
 
-namespace SafeExamBrowser.Monitoring.System
+namespace SafeExamBrowser.Monitoring.System.Components
 {
-	public class SystemMonitor : ISystemMonitor
+	internal class SystemEvents
 	{
 		private readonly ILogger logger;
 
-		public event SessionChangedEventHandler SessionChanged;
+		internal event SessionChangedEventHandler SessionChanged;
 
-		public SystemMonitor(ILogger logger)
+		internal SystemEvents(ILogger logger)
 		{
 			this.logger = logger;
 		}
 
-		public void Start()
+		internal void StartMonitoring()
 		{
-			SystemEvents.EventsThreadShutdown += SystemEvents_EventsThreadShutdown;
-			SystemEvents.InstalledFontsChanged += SystemEvents_InstalledFontsChanged;
-			SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
-			SystemEvents.SessionEnded += SystemEvents_SessionEnded;
-			SystemEvents.SessionEnding += SystemEvents_SessionEnding;
-			SystemEvents.SessionSwitch += SystemEvents_SessionChanged;
-			SystemEvents.TimeChanged += SystemEvents_TimeChanged;
-			SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
-			logger.Info("Started monitoring the operating system.");
+			Microsoft.Win32.SystemEvents.EventsThreadShutdown += SystemEvents_EventsThreadShutdown;
+			Microsoft.Win32.SystemEvents.InstalledFontsChanged += SystemEvents_InstalledFontsChanged;
+			Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+			Microsoft.Win32.SystemEvents.SessionEnded += SystemEvents_SessionEnded;
+			Microsoft.Win32.SystemEvents.SessionEnding += SystemEvents_SessionEnding;
+			Microsoft.Win32.SystemEvents.SessionSwitch += SystemEvents_SessionChanged;
+			Microsoft.Win32.SystemEvents.TimeChanged += SystemEvents_TimeChanged;
+			Microsoft.Win32.SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+
+			logger.Info("Started monitoring system events.");
 		}
 
-		public void Stop()
+		internal void StopMonitoring()
 		{
-			SystemEvents.EventsThreadShutdown -= SystemEvents_EventsThreadShutdown;
-			SystemEvents.InstalledFontsChanged -= SystemEvents_InstalledFontsChanged;
-			SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
-			SystemEvents.SessionEnded -= SystemEvents_SessionEnded;
-			SystemEvents.SessionEnding -= SystemEvents_SessionEnding;
-			SystemEvents.SessionSwitch -= SystemEvents_SessionChanged;
-			SystemEvents.TimeChanged -= SystemEvents_TimeChanged;
-			SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
-			logger.Info("Stopped monitoring the operating system.");
+			Microsoft.Win32.SystemEvents.EventsThreadShutdown -= SystemEvents_EventsThreadShutdown;
+			Microsoft.Win32.SystemEvents.InstalledFontsChanged -= SystemEvents_InstalledFontsChanged;
+			Microsoft.Win32.SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
+			Microsoft.Win32.SystemEvents.SessionEnded -= SystemEvents_SessionEnded;
+			Microsoft.Win32.SystemEvents.SessionEnding -= SystemEvents_SessionEnding;
+			Microsoft.Win32.SystemEvents.SessionSwitch -= SystemEvents_SessionChanged;
+			Microsoft.Win32.SystemEvents.TimeChanged -= SystemEvents_TimeChanged;
+			Microsoft.Win32.SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
+
+			logger.Info("Stopped monitoring system events.");
 		}
 
 		private void SystemEvents_EventsThreadShutdown(object sender, EventArgs e)

@@ -66,7 +66,6 @@ namespace SafeExamBrowser.Client
 		private readonly IRuntimeProxy runtime;
 		private readonly Action shutdown;
 		private readonly ISplashScreen splashScreen;
-		private readonly ISystemMonitor systemMonitor;
 		private readonly ISystemSentinel sentinel;
 		private readonly ITaskbar taskbar;
 		private readonly IText text;
@@ -97,7 +96,6 @@ namespace SafeExamBrowser.Client
 			IRuntimeProxy runtime,
 			Action shutdown,
 			ISplashScreen splashScreen,
-			ISystemMonitor systemMonitor,
 			ISystemSentinel sentinel,
 			ITaskbar taskbar,
 			IText text,
@@ -118,7 +116,6 @@ namespace SafeExamBrowser.Client
 			this.runtime = runtime;
 			this.shutdown = shutdown;
 			this.splashScreen = splashScreen;
-			this.systemMonitor = systemMonitor;
 			this.sentinel = sentinel;
 			this.taskbar = taskbar;
 			this.text = text;
@@ -144,6 +141,7 @@ namespace SafeExamBrowser.Client
 				ShowShell();
 				AutoStartApplications();
 				ScheduleIntegrityVerification();
+				StartMonitoring();
 
 				var communication = runtime.InformClientReady();
 
@@ -226,8 +224,8 @@ namespace SafeExamBrowser.Client
 			runtime.ConnectionLost += Runtime_ConnectionLost;
 			sentinel.CursorChanged += Sentinel_CursorChanged;
 			sentinel.EaseOfAccessChanged += Sentinel_EaseOfAccessChanged;
+			sentinel.SessionChanged += Sentinel_SessionChanged;
 			sentinel.StickyKeysChanged += Sentinel_StickyKeysChanged;
-			systemMonitor.SessionChanged += SystemMonitor_SessionChanged;
 			taskbar.LoseFocusRequested += Taskbar_LoseFocusRequested;
 			taskbar.QuitButtonClicked += Shell_QuitButtonClicked;
 
@@ -253,8 +251,8 @@ namespace SafeExamBrowser.Client
 			runtime.ConnectionLost -= Runtime_ConnectionLost;
 			sentinel.CursorChanged -= Sentinel_CursorChanged;
 			sentinel.EaseOfAccessChanged -= Sentinel_EaseOfAccessChanged;
+			sentinel.SessionChanged -= Sentinel_SessionChanged;
 			sentinel.StickyKeysChanged -= Sentinel_StickyKeysChanged;
-			systemMonitor.SessionChanged -= SystemMonitor_SessionChanged;
 			taskbar.LoseFocusRequested -= Taskbar_LoseFocusRequested;
 			taskbar.QuitButtonClicked -= Shell_QuitButtonClicked;
 
@@ -368,6 +366,11 @@ namespace SafeExamBrowser.Client
 			timer.Elapsed += (o, args) => VerifyApplicationIntegrity();
 			timer.Interval = TEN_MINUTES + (new Random().NextDouble() * FIVE_MINUTES);
 			timer.Start();
+		}
+
+		private void StartMonitoring()
+		{
+			sentinel.StartMonitoringSystemEvents();
 
 			if (!Settings.Security.AllowStickyKeys)
 			{
@@ -853,6 +856,47 @@ namespace SafeExamBrowser.Client
 			}
 		}
 
+		private void Sentinel_SessionChanged()
+		{
+			var allow = !Settings.Service.IgnoreService && (!Settings.Service.DisableUserLock || !Settings.Service.DisableUserSwitch);
+			var disable = Settings.Security.DisableSessionChangeLockScreen;
+
+			if (allow || disable)
+			{
+				logger.Info($"Detected user session change, but {(allow ? "session locking and/or switching is allowed" : "lock screen is deactivated")}.");
+			}
+			else
+			{
+				var message = text.Get(TextKey.LockScreen_UserSessionMessage);
+				var title = text.Get(TextKey.LockScreen_Title);
+				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionContinueOption) };
+				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionTerminateOption) };
+
+				logger.Warn("User session changed! Attempting to show lock screen...");
+
+				if (coordinator.RequestSessionLock())
+				{
+					var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
+
+					if (result.OptionId == continueOption.Id)
+					{
+						logger.Info("The session will be allowed to resume as requested by the user...");
+					}
+					else if (result.OptionId == terminateOption.Id)
+					{
+						logger.Info("Attempting to shutdown as requested by the user...");
+						TryRequestShutdown();
+					}
+
+					coordinator.ReleaseSessionLock();
+				}
+				else
+				{
+					logger.Warn("User session changed but lock screen is already active.");
+				}
+			}
+		}
+
 		private void Sentinel_StickyKeysChanged(SentinelEventArgs args)
 		{
 			if (coordinator.RequestSessionLock())
@@ -917,42 +961,6 @@ namespace SafeExamBrowser.Client
 			PauseActivators();
 			args.Cancel = !TryInitiateShutdown();
 			ResumeActivators();
-		}
-
-		private void SystemMonitor_SessionChanged()
-		{
-			var allow = !Settings.Service.IgnoreService && (!Settings.Service.DisableUserLock || !Settings.Service.DisableUserSwitch);
-			var disable = Settings.Security.DisableSessionChangeLockScreen;
-			var message = text.Get(TextKey.LockScreen_UserSessionMessage);
-			var title = text.Get(TextKey.LockScreen_Title);
-			var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionContinueOption) };
-			var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionTerminateOption) };
-
-			if (allow || disable)
-			{
-				logger.Info($"Detected user session change, but {(allow ? "session locking and/or switching is allowed" : "lock screen is deactivated")}.");
-			}
-			else
-			{
-				logger.Warn("Detected user session change!");
-
-				if (coordinator.RequestSessionLock())
-				{
-					var result = ShowLockScreen(message, title, new[] { continueOption, terminateOption });
-
-					if (result.OptionId == terminateOption.Id)
-					{
-						logger.Info("Attempting to shutdown as requested by the user...");
-						TryRequestShutdown();
-					}
-
-					coordinator.ReleaseSessionLock();
-				}
-				else
-				{
-					logger.Info("Lock screen is already active.");
-				}
-			}
 		}
 
 		private void Taskbar_LoseFocusRequested(bool forward)
