@@ -11,10 +11,10 @@ using Moq;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
 using SafeExamBrowser.Runtime.Operations;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Security;
-using SafeExamBrowser.SystemComponents.Contracts;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
 {

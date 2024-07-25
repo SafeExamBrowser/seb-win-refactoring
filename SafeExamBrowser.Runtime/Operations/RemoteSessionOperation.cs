@@ -10,8 +10,8 @@ using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
-using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 
 namespace SafeExamBrowser.Runtime.Operations

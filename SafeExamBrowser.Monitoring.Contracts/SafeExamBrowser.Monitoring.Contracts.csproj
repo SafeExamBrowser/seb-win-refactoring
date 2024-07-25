@@ -65,6 +65,8 @@
     <Compile Include="Display\IDisplayMonitor.cs" />
     <Compile Include="Display\ValidationResult.cs" />
     <Compile Include="IClipboard.cs" />
+    <Compile Include="IRemoteSessionDetector.cs" />
+    <Compile Include="IVirtualMachineDetector.cs" />
     <Compile Include="Keyboard\IKeyboardInterceptor.cs" />
     <Compile Include="Mouse\IMouseInterceptor.cs" />
     <Compile Include="Applications\InitializationResult.cs" />

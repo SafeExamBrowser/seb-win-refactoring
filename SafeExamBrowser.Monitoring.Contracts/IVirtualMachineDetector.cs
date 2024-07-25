@@ -6,16 +6,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.SystemComponents.Contracts
+namespace SafeExamBrowser.Monitoring.Contracts
 {
 	/// <summary>
-	/// Provides functionality related to remote session detection.
+	/// Provides functionality related to virtual machine detection.
 	/// </summary>
-	public interface IRemoteSessionDetector
+	public interface IVirtualMachineDetector
 	{
 		/// <summary>
-		/// Indicates whether the system is currently running in a remote session.
+		/// Indicates whether the computer is in fact a virtual machine.
 		/// </summary>
-		bool IsRemoteSession();
+		bool IsVirtualMachine();
 	}
 }

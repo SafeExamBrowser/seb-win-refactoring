@@ -8,9 +8,9 @@
 
 using System.Windows.Forms;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.SystemComponents.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
 
-namespace SafeExamBrowser.SystemComponents
+namespace SafeExamBrowser.Monitoring
 {
 	public class RemoteSessionDetector : IRemoteSessionDetector
 	{

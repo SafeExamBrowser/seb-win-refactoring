@@ -65,10 +65,8 @@
     <Compile Include="PowerSupply\PowerSupplyStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registry\Registry.cs" />
-    <Compile Include="RemoteSessionDetector.cs" />
     <Compile Include="SystemInfo.cs" />
     <Compile Include="UserInfo.cs" />
-    <Compile Include="VirtualMachineDetector.cs" />
     <Compile Include="Network\NetworkAdapter.cs" />
     <Compile Include="Network\WirelessNetwork.cs" />
   </ItemGroup>

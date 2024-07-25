@@ -6,12 +6,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Linq;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Registry;
 
-namespace SafeExamBrowser.SystemComponents
+namespace SafeExamBrowser.Monitoring
 {
 	public class VirtualMachineDetector : IVirtualMachineDetector
 	{
@@ -135,7 +137,7 @@ namespace SafeExamBrowser.SystemComponents
 
 		private bool HasLocalVirtualMachineDeviceCache()
 		{
-			var deviceName = System.Environment.GetEnvironmentVariable("COMPUTERNAME");
+			var deviceName = Environment.GetEnvironmentVariable("COMPUTERNAME");
 			var hasDeviceCache = false;
 			var hasDeviceCacheKeys = registry.TryGetSubKeys(RegistryValue.UserHive.DeviceCache_Key, out var deviceCacheKeys);
 

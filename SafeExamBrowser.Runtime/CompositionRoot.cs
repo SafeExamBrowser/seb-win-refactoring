@@ -25,6 +25,7 @@ using SafeExamBrowser.I18n;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring;
 using SafeExamBrowser.Monitoring.Display;
 using SafeExamBrowser.Monitoring.System;
 using SafeExamBrowser.Runtime.Communication;

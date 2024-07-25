@@ -62,8 +62,6 @@
     <Compile Include="Network\Events\CredentialsRequiredEventHandler.cs" />
     <Compile Include="Registry\Events\RegistryValueChangedEventHandler.cs" />
     <Compile Include="Registry\IRegistry.cs" />
-    <Compile Include="IRemoteSessionDetector.cs" />
-    <Compile Include="IVirtualMachineDetector.cs" />
     <Compile Include="Network\ConnectionType.cs" />
     <Compile Include="PowerSupply\Events\StatusChangedEventHandler.cs" />
     <Compile Include="PowerSupply\IPowerSupply.cs" />

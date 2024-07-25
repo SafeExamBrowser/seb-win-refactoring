@@ -10,17 +10,17 @@ using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
 using SafeExamBrowser.Runtime.Operations.Events;
 using SafeExamBrowser.Settings.Security;
-using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
 	internal class VirtualMachineOperation : SessionOperation
 	{
-		private IVirtualMachineDetector detector;
-		private ILogger logger;
+		private readonly IVirtualMachineDetector detector;
+		private readonly ILogger logger;
 
 		public override event ActionRequiredEventHandler ActionRequired;
 		public override event StatusChangedEventHandler StatusChanged;

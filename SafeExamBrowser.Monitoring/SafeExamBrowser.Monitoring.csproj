@@ -67,11 +67,13 @@
     <Compile Include="Mouse\MouseInterceptor.cs" />
     <Compile Include="Applications\ApplicationMonitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemoteSessionDetector.cs" />
     <Compile Include="System\Components\Cursors.cs" />
     <Compile Include="System\Components\EaseOfAccess.cs" />
     <Compile Include="System\Components\StickyKeys.cs" />
     <Compile Include="System\Components\SystemEvents.cs" />
     <Compile Include="System\SystemSentinel.cs" />
+    <Compile Include="VirtualMachineDetector.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
