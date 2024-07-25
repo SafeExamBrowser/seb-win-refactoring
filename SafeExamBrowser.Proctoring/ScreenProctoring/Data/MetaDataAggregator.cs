@@ -26,7 +26,6 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 
 		private string applicationInfo;
 		private string browserInfo;
-		private string browserInfoWithoutUrls;
 		private TimeSpan elapsed;
 		private string triggerInfo;
 		private string urls;
@@ -76,7 +75,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 				CaptureMouseTrigger(mouse);
 			}
 
-			logger.Debug($"Captured metadata: {applicationInfo} / {browserInfoWithoutUrls} / {triggerInfo} / {urlCount} URL(s) / {windowTitle}.");
+			logger.Debug($"Captured metadata: {applicationInfo} / {browserInfo} / {urlCount} URL(s) / {triggerInfo} / {windowTitle}.");
 		}
 
 		private void CaptureApplicationData()
@@ -101,8 +100,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 			{
 				var windows = browser.GetWindows();
 
-				browserInfo = string.Join(", ", windows.Select(w => $"{(w.IsMainWindow ? "Main" : "Additional")} Window: {w.Title} ({w.Url})"));
-				browserInfoWithoutUrls = string.Join(", ", windows.Select(w => $"{(w.IsMainWindow ? "Main" : "Additional")} Window: {w.Title}"));
+				browserInfo = string.Join(", ", windows.Select(w => $"{(w.IsMainWindow ? "Main" : "Additional")} Window: {w.Title}"));
 				urls = string.Join(", ", windows.Select(w => w.Url));
 				urlCount = windows.Count();
 			}
@@ -165,7 +163,6 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 		{
 			applicationInfo = "-";
 			browserInfo = "-";
-			browserInfoWithoutUrls = "-";
 			triggerInfo = "-";
 			urls = "-";
 			windowTitle = "-";
