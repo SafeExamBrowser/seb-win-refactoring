@@ -115,10 +115,19 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Data
 
 		private void CaptureKeyboardTrigger(KeyboardTrigger keyboard)
 		{
-			var flags = Enum.GetValues(typeof(KeyModifier)).OfType<KeyModifier>().Where(m => m != KeyModifier.None && keyboard.Modifier.HasFlag(m));
+			var flags = Enum.GetValues(typeof(KeyModifier))
+				.OfType<KeyModifier>()
+				.Where(m => m != KeyModifier.None && keyboard.Modifier.HasFlag(m) && !keyboard.Key.ToString().Contains(m.ToString()));
 			var modifiers = flags.Any() ? string.Join(" + ", flags) + " + " : string.Empty;
 
-			triggerInfo = $"'{modifiers}{keyboard.Key}' has been {keyboard.State.ToString().ToLower()}.";
+			if (flags.Any())
+			{
+				triggerInfo = $"'{modifiers}{keyboard.Key}' has been {keyboard.State.ToString().ToLower()}.";
+			}
+			else
+			{
+				triggerInfo = $"A key has been {keyboard.State.ToString().ToLower()}.";
+			}
 		}
 
 		private void CaptureMouseTrigger(MouseTrigger mouse)
