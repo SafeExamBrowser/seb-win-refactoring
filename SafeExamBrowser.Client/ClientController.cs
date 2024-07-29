@@ -180,7 +180,6 @@ namespace SafeExamBrowser.Client
 			CloseShell();
 			DeregisterEvents();
 			UpdateSessionIntegrity();
-			TerminateIntegrityVerification();
 
 			var success = operations.TryRevert() == OperationResult.Success;
 
@@ -335,6 +334,7 @@ namespace SafeExamBrowser.Client
 		private void PrepareShutdown()
 		{
 			FinalizeProctoring();
+			StopMonitoring();
 		}
 
 		private void FinalizeProctoring()
@@ -386,6 +386,11 @@ namespace SafeExamBrowser.Client
 			{
 				sentinel.StartMonitoringEaseOfAccess();
 			}
+		}
+
+		private void StopMonitoring()
+		{
+			sentinel.StopMonitoring();
 		}
 
 		private void VerifyApplicationIntegrity()
@@ -449,11 +454,6 @@ namespace SafeExamBrowser.Client
 			{
 				IntegrityModule?.ClearSession(Settings.Browser.ConfigurationKey, Settings.Browser.StartUrl);
 			}
-		}
-
-		private void TerminateIntegrityVerification()
-		{
-			sentinel.StopMonitoring();
 		}
 
 		private void ApplicationMonitor_ExplorerStarted()
