@@ -33,12 +33,12 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service
 			this.parser = new Parser(logger);
 		}
 
-		internal ServiceResponse Connect(string serviceUrl)
+		internal ServiceResponse Connect(string clientId, string clientSecret, string serviceUrl)
 		{
 			httpClient = new HttpClient { BaseAddress = new Uri(serviceUrl) };
 
 			var request = new OAuth2TokenRequest(api, httpClient, logger, parser);
-			var success = request.TryExecute(out var message);
+			var success = request.TryExecute(clientId, clientSecret, out var message);
 
 			if (success)
 			{

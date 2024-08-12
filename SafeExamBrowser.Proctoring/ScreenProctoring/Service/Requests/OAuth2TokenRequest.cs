@@ -17,8 +17,11 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service.Requests
 		{
 		}
 
-		internal bool TryExecute(out string message)
+		internal bool TryExecute(string clientId, string clientSecret, out string message)
 		{
+			ClientId = clientId;
+			ClientSecret = clientSecret;
+
 			return TryRetrieveOAuth2Token(out message);
 		}
 	}

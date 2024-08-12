@@ -166,7 +166,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 		{
 			logger.Info("Connecting to service...");
 
-			var connect = service.Connect(settings.ServiceUrl);
+			var connect = service.Connect(settings.ClientId, settings.ClientSecret, settings.ServiceUrl);
 
 			if (connect.Success)
 			{

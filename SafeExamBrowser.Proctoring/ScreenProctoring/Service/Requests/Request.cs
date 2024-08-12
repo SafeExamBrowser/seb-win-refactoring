@@ -21,7 +21,6 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service.Requests
 	{
 		private const int ATTEMPTS = 5;
 
-		private static string connectionToken;
 		private static string oauth2Token;
 
 		private readonly HttpClient httpClient;
@@ -30,19 +29,10 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service.Requests
 		protected readonly ILogger logger;
 		protected readonly Parser parser;
 
+		protected static string ClientId { get; set; }
+		protected static string ClientSecret { get; set; }
+
 		protected (string, string) Authorization => (Header.AUTHORIZATION, $"Bearer {oauth2Token}");
-
-		internal static string ConnectionToken
-		{
-			get { return connectionToken; }
-			set { connectionToken = value; }
-		}
-
-		internal static string Oauth2Token
-		{
-			get { return oauth2Token; }
-			set { oauth2Token = value; }
-		}
 
 		protected Request(Api api, HttpClient httpClient, ILogger logger, Parser parser)
 		{
@@ -98,7 +88,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service.Requests
 
 		protected bool TryRetrieveOAuth2Token(out string message)
 		{
-			var secret = Convert.ToBase64String(Encoding.UTF8.GetBytes("test:test"));
+			var secret = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{ClientId}:{ClientSecret}"));
 			var authorization = (Header.AUTHORIZATION, $"Basic {secret}");
 			var content = "grant_type=client_credentials&scope=read write";
 			var success = TryExecute(HttpMethod.Post, api.AccessTokenEndpoint, out var response, content, ContentType.URL_ENCODED, authorization);
