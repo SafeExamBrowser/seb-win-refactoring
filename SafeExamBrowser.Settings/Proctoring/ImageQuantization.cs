@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Settings.Proctoring
 		Color8bpp,
 
 		/// <summary>
-		/// Reduces an image to a colored image with 16 bits per pixel (65'536 colors).
+		/// Reduces an image to a colored image with 16 bits per pixel (5 bits per color and the remaining bit unused, thus 32'768 colors).
 		/// </summary>
 		Color16bpp,
 
