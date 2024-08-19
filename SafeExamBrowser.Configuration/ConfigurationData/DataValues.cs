@@ -196,6 +196,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Browser.ShowFileSystemElementPath = true;
 			settings.Browser.StartUrl = "https://www.safeexambrowser.org/start";
 			settings.Browser.UseCustomUserAgent = false;
+			settings.Browser.UseIsolatedClipboard = true;
 			settings.Browser.UseQueryParameter = false;
 			settings.Browser.UseTemporaryDownAndUploadDirectory = false;
 
@@ -209,7 +210,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Keyboard.AllowAltEsc = false;
 			settings.Keyboard.AllowAltF4 = false;
 			settings.Keyboard.AllowAltTab = true;
+			settings.Keyboard.AllowCtrlC = true;
 			settings.Keyboard.AllowCtrlEsc = false;
+			settings.Keyboard.AllowCtrlV = true;
+			settings.Keyboard.AllowCtrlX = true;
 			settings.Keyboard.AllowEsc = true;
 			settings.Keyboard.AllowF1 = true;
 			settings.Keyboard.AllowF2 = true;

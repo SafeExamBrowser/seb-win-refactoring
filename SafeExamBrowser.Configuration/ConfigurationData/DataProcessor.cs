@@ -20,8 +20,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 	{
 		internal void Process(IDictionary<string, object> rawData, AppSettings settings)
 		{
-			AllowBrowserToolbarForReloading(settings);
+			ProcessDefault(settings);
 			CalculateConfigurationKey(rawData, settings);
+		}
+
+		internal void ProcessDefault(AppSettings settings)
+		{
+			AllowBrowserToolbarForReloading(settings);
 			InitializeBrowserHomeFunctionality(settings);
 			InitializeClipboardSettings(settings);
 			InitializeProctoringSettings(settings);

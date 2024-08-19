@@ -31,7 +31,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			new UserInterfaceDataMapper()
 		};
 
-		internal void MapRawDataToSettings(IDictionary<string, object> rawData, AppSettings settings)
+		internal void Map(IDictionary<string, object> rawData, AppSettings settings)
 		{
 			foreach (var item in rawData)
 			{

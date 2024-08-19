@@ -122,6 +122,8 @@ namespace SafeExamBrowser.Configuration
 			var status = default(LoadStatus);
 
 			settings = LoadDefaultSettings();
+			dataProcessor.ProcessDefault(settings);
+
 			logger.Info($"Initialized default settings, now attempting to load '{resource}'...");
 
 			try
@@ -136,7 +138,7 @@ namespace SafeExamBrowser.Configuration
 
 						if (status == LoadStatus.Success)
 						{
-							dataMapper.MapRawDataToSettings(data, settings);
+							dataMapper.Map(data, settings);
 							dataProcessor.Process(data, settings);
 						}
 					}

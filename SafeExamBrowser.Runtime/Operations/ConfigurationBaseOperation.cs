@@ -32,13 +32,13 @@ namespace SafeExamBrowser.Runtime.Operations
 
 		protected abstract void InvokeActionRequired(ActionRequiredEventArgs args);
 
-		protected LoadStatus? TryLoadSettings(Uri uri, UriSource source, out PasswordParameters passwordParams, out AppSettings settings, string currentPassword = default(string))
+		protected LoadStatus? TryLoadSettings(Uri uri, UriSource source, out PasswordParameters passwordParams, out AppSettings settings, string currentPassword = default)
 		{
 			passwordParams = new PasswordParameters { Password = string.Empty, IsHash = true };
 
 			var status = configuration.TryLoadSettings(uri, out settings, passwordParams);
 
-			if (status == LoadStatus.PasswordNeeded && currentPassword != default(string))
+			if (status == LoadStatus.PasswordNeeded && currentPassword != default)
 			{
 				passwordParams.Password = currentPassword;
 				passwordParams.IsHash = true;
@@ -46,7 +46,7 @@ namespace SafeExamBrowser.Runtime.Operations
 				status = configuration.TryLoadSettings(uri, out settings, passwordParams);
 			}
 
-			for (int attempts = 0; attempts < 5 && status == LoadStatus.PasswordNeeded; attempts++)
+			for (var attempts = 0; attempts < 5 && status == LoadStatus.PasswordNeeded; attempts++)
 			{
 				var isLocalConfig = source == UriSource.AppData || source == UriSource.ProgramData;
 				var purpose = isLocalConfig ? PasswordRequestPurpose.LocalSettings : PasswordRequestPurpose.Settings;
