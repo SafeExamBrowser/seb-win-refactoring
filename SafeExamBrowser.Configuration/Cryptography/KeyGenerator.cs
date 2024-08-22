@@ -112,6 +112,8 @@ namespace SafeExamBrowser.Configuration.Cryptography
 
 							browserExamKey = key;
 						}
+
+						logger.Debug("Successfully calculated browser exam key using simplified calculation.");
 					}
 				}
 			}

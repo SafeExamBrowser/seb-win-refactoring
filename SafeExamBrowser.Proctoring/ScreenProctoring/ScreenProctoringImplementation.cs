@@ -191,11 +191,11 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			}
 		}
 
-		private void UpdateNotification(bool live)
+		private void UpdateNotification(bool active)
 		{
 			CanActivate = false;
 
-			if (live)
+			if (active)
 			{
 				IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/ScreenProctoring_Active.xaml") };
 				Tooltip = text.Get(TextKey.Notification_ProctoringActiveTooltip);
