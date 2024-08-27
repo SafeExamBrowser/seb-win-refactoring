@@ -140,6 +140,32 @@ git -C $(SolutionDir) checkout -- Setup/Components/Service.wxs</PostBuildEvent>
   </Target>
   <PropertyGroup>
     <PreBuildEvent>setlocal enabledelayedexpansion
+set executable="$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)\SafeExamBrowser.exe"
+set parameters=/protect "C:\SEB\SafeExamBrowser.tmd" /inputfile %25executable%25 /outputfile %25executable%25
+
+if not defined APPVEYOR (
+    set parameters=/shareconsole %25parameters%25
+)
+
+if exist "C:\SEB\Themida" (
+    if $(PlatformName) == x86 (
+        C:\SEB\Themida\Themida.exe %25parameters%25
+    ) else (
+        C:\SEB\Themida\Themida64.exe %25parameters%25
+    )
+
+    if defined APPVEYOR (
+        if %25ERRORLEVEL%25 equ 0 (
+            echo Themida successfully executed.
+        ) else (
+            echo ERROR: Themida failed with error code %25ERRORLEVEL%25!
+        )
+    )
+
+    DEL %25executable%25.bak
+) else (
+    echo WARNING: Themida not executed!
+)
 
 set binaries=
 FOR /F %25%25G IN (%27dir "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
