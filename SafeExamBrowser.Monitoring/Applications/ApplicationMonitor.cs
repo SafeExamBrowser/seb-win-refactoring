@@ -98,7 +98,13 @@ namespace SafeExamBrowser.Monitoring.Applications
 
 			if (activeWindow != default && TryGetProcessFor(activeWindow, out var process))
 			{
-				application = new ActiveApplication(process, new Window { Handle = activeWindow.Handle, Title = activeWindow.Title });
+				var window = new Window
+				{
+					Handle = activeWindow.Handle,
+					Title = nativeMethods.GetWindowTitle(activeWindow.Handle)
+				};
+
+				application = new ActiveApplication(process, window);
 			}
 
 			return application != default;

@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Net;
 using System.Net.Http;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Data;
@@ -24,7 +25,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service.Requests
 		internal bool TryExecute(MetaData metaData, ScreenShot screenShot, string sessionId, out int health, out string message)
 		{
 			var imageFormat = (Header.IMAGE_FORMAT, ToString(screenShot.Format));
-			var metdataJson = (Header.METADATA, metaData.ToJson());
+			var metdataJson = (Header.METADATA, WebUtility.UrlEncode(metaData.ToJson()));
 			var timestamp = (Header.TIMESTAMP, screenShot.CaptureTime.ToUnixTimestamp().ToString());
 			var url = api.ScreenShotEndpoint.Replace(Api.SESSION_ID, sessionId);
 			var success = TryExecute(HttpMethod.Post, url, out var response, screenShot.Data, ContentType.OCTET_STREAM, Authorization, imageFormat, metdataJson, timestamp);
