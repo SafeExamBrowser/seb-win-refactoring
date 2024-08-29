@@ -533,7 +533,6 @@ if (typeof __SEB_focusElement === 'undefined') {
 			ForwardButton.Visibility = WindowSettings.AllowForwardNavigation ? Visibility.Visible : Visibility.Collapsed;
 			HomeButton.IsEnabled = WindowSettings.ShowHomeButton;
 			HomeButton.Visibility = WindowSettings.ShowHomeButton ? Visibility.Visible : Visibility.Collapsed;
-			MenuButton.IsEnabled = settings.AllowPageZoom || WindowSettings.AllowDeveloperConsole;
 			ReloadButton.IsEnabled = WindowSettings.AllowReloading;
 			ReloadButton.Visibility = WindowSettings.ShowReloadButton ? Visibility.Visible : Visibility.Collapsed;
 			Toolbar.Visibility = WindowSettings.ShowToolbar ? Visibility.Visible : Visibility.Collapsed;

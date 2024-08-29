@@ -40,8 +40,14 @@ namespace SafeExamBrowser.Browser.Handlers
 			var configurationKey = keyGenerator.CalculateConfigurationKeyHash(settings.ConfigurationKey, frame.Url);
 			var api = contentLoader.LoadApi(browserExamKey, configurationKey, appConfig.ProgramBuildVersion);
 			var clipboardScript = contentLoader.LoadClipboard();
+			var pageZoomScript = contentLoader.LoadPageZoom();
 
 			frame.ExecuteJavaScriptAsync(api);
+
+			if (!settings.AllowPageZoom)
+			{
+				frame.ExecuteJavaScriptAsync(pageZoomScript);
+			}
 
 			if (!settings.AllowPrint)
 			{

@@ -194,7 +194,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Content\Clipboard.js" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Content\PageZoom.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

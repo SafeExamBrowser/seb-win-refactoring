@@ -18,6 +18,7 @@ namespace SafeExamBrowser.Browser.Content
 
 		private string api;
 		private string clipboard;
+		private string pageZoom;
 
 		internal ContentLoader(IText text)
 		{
@@ -96,6 +97,23 @@ namespace SafeExamBrowser.Browser.Content
 			}
 
 			return clipboard;
+		}
+
+		internal string LoadPageZoom()
+		{
+			if (pageZoom == default)
+			{
+				var assembly = Assembly.GetAssembly(typeof(ContentLoader));
+				var path = $"{typeof(ContentLoader).Namespace}.PageZoom.js";
+
+				using (var stream = assembly.GetManifestResourceStream(path))
+				using (var reader = new StreamReader(stream))
+				{
+					pageZoom = reader.ReadToEnd();
+				}
+			}
+
+			return pageZoom;
 		}
 	}
 }
