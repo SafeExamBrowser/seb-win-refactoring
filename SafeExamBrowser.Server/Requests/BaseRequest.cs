@@ -26,6 +26,8 @@ namespace SafeExamBrowser.Server.Requests
 
 		private readonly HttpClient httpClient;
 
+		private bool hadException;
+
 		protected readonly ApiVersion1 api;
 		protected readonly ILogger logger;
 		protected readonly Parser parser;
@@ -73,7 +75,7 @@ namespace SafeExamBrowser.Server.Requests
 				{
 					response = httpClient.SendAsync(request).GetAwaiter().GetResult();
 
-					if (request.RequestUri.AbsolutePath != api.LogEndpoint && request.RequestUri.AbsolutePath != api.PingEndpoint)
+					if (PerformLoggingFor(request))
 					{
 						logger.Debug($"Completed request: {request.Method} '{request.RequestUri}' -> {response.ToLogString()}");
 					}
@@ -90,12 +92,19 @@ namespace SafeExamBrowser.Server.Requests
 				}
 				catch (TaskCanceledException)
 				{
-					logger.Debug($"Request {request.Method} '{request.RequestUri}' did not complete within {settings.RequestTimeout}ms!");
+					if (PerformLoggingFor(request))
+					{
+						logger.Warn($"Request {request.Method} '{request.RequestUri}' did not complete within {settings.RequestTimeout}ms!");
+					}
+
 					break;
 				}
 				catch (Exception e)
 				{
-					logger.Debug($"Request {request.Method} '{request.RequestUri}' failed due to {e}");
+					if (PerformLoggingFor(request) && IsFirstException())
+					{
+						logger.Warn($"Request {request.Method} '{request.RequestUri}' has failed: {e.ToSummary()}!");
+					}
 				}
 			}
 
@@ -166,6 +175,20 @@ namespace SafeExamBrowser.Server.Requests
 			}
 
 			return request;
+		}
+
+		private bool IsFirstException()
+		{
+			var isFirst = !hadException;
+
+			hadException = true;
+
+			return isFirst;
+		}
+
+		private bool PerformLoggingFor(HttpRequestMessage request)
+		{
+			return request.RequestUri.AbsolutePath != api.LogEndpoint && request.RequestUri.AbsolutePath != api.PingEndpoint;
 		}
 
 		private (string name, string value)[] UpdateOAuth2Token((string name, string value)[] headers)

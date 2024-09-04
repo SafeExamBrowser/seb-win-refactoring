@@ -8,6 +8,7 @@
 
 using System;
 using System.Net.Http;
+using System.Text;
 using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.Server
@@ -16,7 +17,7 @@ namespace SafeExamBrowser.Server
 	{
 		internal static string ToLogString(this HttpResponseMessage response)
 		{
-			return $"{(int?) response?.StatusCode} {response?.StatusCode} {response?.ReasonPhrase}";
+			return response == default ? "No Response" : $"{(int) response.StatusCode} {response.StatusCode} {response.ReasonPhrase}";
 		}
 
 		internal static string ToLogType(this LogLevel severity)
@@ -34,6 +35,19 @@ namespace SafeExamBrowser.Server
 			}
 
 			return "UNKNOWN";
+		}
+
+		internal static string ToSummary(this Exception exception)
+		{
+			var trimChars = new[] { '.', '!' };
+			var summary = new StringBuilder(exception.Message?.TrimEnd(trimChars));
+
+			for (var inner = exception.InnerException; inner != default; inner = inner.InnerException)
+			{
+				summary.Append($" -> {inner.Message?.TrimEnd(trimChars)}");
+			}
+
+			return summary.ToString();
 		}
 
 		internal static long ToUnixTimestamp(this DateTime date)

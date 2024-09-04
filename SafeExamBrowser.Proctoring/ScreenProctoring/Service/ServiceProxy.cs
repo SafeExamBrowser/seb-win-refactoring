@@ -35,7 +35,11 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service
 
 		internal ServiceResponse Connect(string clientId, string clientSecret, string serviceUrl)
 		{
-			httpClient = new HttpClient { BaseAddress = new Uri(serviceUrl) };
+			httpClient = new HttpClient
+			{
+				BaseAddress = new Uri(serviceUrl),
+				Timeout = TimeSpan.FromSeconds(10)
+			};
 
 			var request = new OAuth2TokenRequest(api, httpClient, logger, parser);
 			var success = request.TryExecute(clientId, clientSecret, out var message);
@@ -81,7 +85,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service
 			}
 			else
 			{
-				logger.Error("Failed to query health!");
+				logger.Warn("Failed to query health!");
 			}
 
 			return new ServiceResponse<int>(success, health, message);

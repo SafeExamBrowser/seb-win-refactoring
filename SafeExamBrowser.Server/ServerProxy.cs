@@ -418,7 +418,7 @@ namespace SafeExamBrowser.Server
 				}
 				else
 				{
-					logger.Error($"Failed to send ping: {message}");
+					logger.Warn($"Failed to send ping: {message}!");
 				}
 			}
 			catch (Exception e)
@@ -449,7 +449,7 @@ namespace SafeExamBrowser.Server
 					}
 					else
 					{
-						logger.Warn($"Failed to send power supply status! {message}");
+						logger.Warn($"Failed to send power supply status: {message}!");
 					}
 				}
 			}
@@ -480,7 +480,7 @@ namespace SafeExamBrowser.Server
 					}
 					else
 					{
-						logger.Warn($"Failed to send wireless status! {message}");
+						logger.Warn($"Failed to send wireless status: {message}!");
 					}
 				}
 			}

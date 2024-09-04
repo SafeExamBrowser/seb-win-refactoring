@@ -62,7 +62,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			var progress = 0;
 			var total = previous;
 
-			while (HasRemainingWork() && service.IsConnected && (!networkIssue || recovering))
+			while (HasRemainingWork() && service.IsConnected && (!networkIssue || recovering || DateTime.Now < resume))
 			{
 				var remaining = buffer.Count + cache.Count;
 
@@ -80,7 +80,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 				updateStatus(new RemainingWorkUpdatedEventArgs
 				{
-					IsWaiting = recovering,
+					IsWaiting = recovering || networkIssue,
 					Next = buffer.TryPeek(out _, out var schedule, out _) ? schedule : default(DateTime?),
 					Progress = progress,
 					Resume = resume,
@@ -121,6 +121,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			thread.Start();
 
 			timer.AutoReset = false;
+			timer.Elapsed += Timer_Elapsed;
 			timer.Interval = FIFTEEN_SECONDS;
 		}
 
@@ -195,19 +196,6 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		private void ExecuteCaching()
 		{
-			const int THREE_MINUTES = 180;
-
-			if (!recovering)
-			{
-				recovering = true;
-				resume = DateTime.Now.AddSeconds(random.Next(0, THREE_MINUTES));
-
-				timer.Elapsed += Timer_Elapsed;
-				timer.Start();
-
-				logger.Warn($"Activating local caching and suspending transmission due to bad service health (value: {health}, resume: {resume:HH:mm:ss}).");
-			}
-
 			CacheFromBuffer();
 			CacheFromQueue();
 		}
@@ -237,9 +225,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			else
 			{
 				timer.Stop();
-				timer.Elapsed -= Timer_Elapsed;
-
-				logger.Info($"Deactivating local caching and resuming transmission due to improved service health (value: {health}).");
+				logger.Info($"Recovery terminated, deactivating local caching and resuming transmission.");
 			}
 		}
 
@@ -278,7 +264,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				}
 				else
 				{
-					buffer.Enqueue(metaData, DateTime.Now, screenShot);
+					buffer.Enqueue(metaData, CalculateSchedule(metaData), screenShot);
 				}
 			}
 		}
@@ -296,10 +282,18 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			var hasItem = buffer.TryPeek(out var metaData, out var schedule, out var screenShot);
 			var ready = schedule <= DateTime.Now;
 
-			if (hasItem && ready && TryTransmit(metaData, screenShot))
+			if (hasItem && ready)
 			{
 				buffer.Dequeue();
-				screenShot.Dispose();
+
+				if (TryTransmit(metaData, screenShot))
+				{
+					screenShot.Dispose();
+				}
+				else
+				{
+					buffer.Enqueue(metaData, CalculateSchedule(metaData), screenShot);
+				}
 			}
 		}
 
@@ -313,7 +307,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				}
 				else
 				{
-					buffer.Enqueue(metaData, DateTime.Now, screenShot);
+					buffer.Enqueue(metaData, CalculateSchedule(metaData), screenShot);
 				}
 			}
 		}
@@ -328,7 +322,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				}
 				else
 				{
-					buffer.Enqueue(metaData, DateTime.Now, screenShot);
+					buffer.Enqueue(metaData, CalculateSchedule(metaData), screenShot);
 				}
 			}
 		}
@@ -354,14 +348,11 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			if (service.IsConnected)
 			{
 				var response = service.Send(metaData, screenShot);
+				var value = response.Success ? response.Value : BAD;
 
+				health = UpdateHealth(value);
 				networkIssue = !response.Success;
 				success = response.Success;
-
-				if (response.Success)
-				{
-					health = UpdateHealth(response.Value);
-				}
 			}
 			else
 			{
@@ -376,30 +367,52 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			if (service.IsConnected)
 			{
 				var response = service.GetHealth();
+				var value = response.Success ? response.Value : BAD;
 
+				health = UpdateHealth(value);
 				networkIssue = !response.Success;
-
-				if (response.Success)
-				{
-					health = UpdateHealth(response.Value);
-				}
 			}
 			else
 			{
 				logger.Warn("Cannot query health as service is disconnected!");
 			}
 
-			timer.Start();
+			if (!timer.Enabled)
+			{
+				timer.Start();
+			}
 		}
 
 		private int UpdateHealth(int value)
 		{
+			const int THREE_MINUTES = 180;
+
 			var previous = health;
 			var current = value > BAD ? BAD : (value < GOOD ? GOOD : value);
 
 			if (previous != current)
 			{
 				logger.Info($"Service health {(previous < current ? "deteriorated" : "improved")} from {previous} to {current}.");
+
+				if (current == BAD)
+				{
+					recovering = false;
+					resume = DateTime.Now.AddSeconds(random.Next(0, THREE_MINUTES));
+
+					if (!timer.Enabled)
+					{
+						timer.Start();
+					}
+
+					logger.Warn($"Activating local caching and suspending transmission due to bad service health (resume: {resume:HH:mm:ss}).");
+				}
+				else if (previous == BAD)
+				{
+					recovering = true;
+					resume = DateTime.Now < resume ? resume : DateTime.Now.AddSeconds(random.Next(0, THREE_MINUTES));
+
+					logger.Info($"Starting recovery while maintaining local caching (resume: {resume:HH:mm:ss}).");
+				}
 			}
 
 			return current;

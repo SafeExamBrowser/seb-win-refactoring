@@ -25,6 +25,8 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service.Requests
 
 		private readonly HttpClient httpClient;
 
+		private bool hadException;
+
 		protected readonly Api api;
 		protected readonly ILogger logger;
 		protected readonly Parser parser;
@@ -74,12 +76,16 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service.Requests
 				}
 				catch (TaskCanceledException)
 				{
-					logger.Error($"Request {request.Method} '{request.RequestUri}' did not complete within {httpClient.Timeout}ms!");
+					logger.Warn($"Request {request.Method} '{request.RequestUri}' did not complete within {httpClient.Timeout}!");
+
 					break;
 				}
 				catch (Exception e)
 				{
-					logger.Error($"Request {request.Method} '{request.RequestUri}' has failed!", e);
+					if (IsFirstException())
+					{
+						logger.Warn($"Request {request.Method} '{request.RequestUri}' has failed: {e.ToSummary()}!");
+					}
 				}
 			}
 
@@ -142,6 +148,15 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service.Requests
 			}
 
 			return request;
+		}
+
+		private bool IsFirstException()
+		{
+			var isFirst = !hadException;
+
+			hadException = true;
+
+			return isFirst;
 		}
 
 		private (string name, string value)[] UpdateOAuth2Token((string name, string value)[] headers)

@@ -77,7 +77,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		private void ShowFailure(RemainingWorkUpdatedEventArgs status)
 		{
 			ButtonPanel.Visibility = Visibility.Visible;
-			CachePath.Text = status.CachePath;
+			CachePath.Text = status.CachePath ?? "-";
 			Cursor = Cursors.Arrow;
 			FailurePanel.Visibility = Visibility.Visible;
 			Message.Text = text.Get(TextKey.ProctoringFinalizationDialog_FailureMessage);
