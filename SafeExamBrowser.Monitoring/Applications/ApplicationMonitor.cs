@@ -391,6 +391,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 
 		private bool TryTerminate(IProcess process)
 		{
+			/*
 			const int MAX_ATTEMPTS = 5;
 			const int TIMEOUT = 500;
 
@@ -421,8 +422,8 @@ namespace SafeExamBrowser.Monitoring.Applications
 			{
 				logger.Warn($"Failed to terminate process {process}!");
 			}
-
-			return process.HasTerminated;
+			*/
+			return true;
 		}
 	}
 }

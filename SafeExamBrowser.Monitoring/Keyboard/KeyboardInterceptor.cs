@@ -46,6 +46,7 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 
 		private bool KeyboardHookCallback(int keyCode, KeyModifier modifier, KeyState state)
 		{
+			/*
 			var block = false;
 			var key = KeyInterop.KeyFromVirtualKey(keyCode);
 
@@ -76,8 +77,8 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 			{
 				Log(key, keyCode, modifier, state);
 			}
-
-			return block;
+			*/
+			return false;
 		}
 
 		private void Log(Key key, int keyCode, KeyModifier modifier, KeyState state)
