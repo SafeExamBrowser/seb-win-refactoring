@@ -31,19 +31,22 @@ namespace SafeExamBrowser.Monitoring.Mouse
 
 		public void Start()
 		{
-			hookId = nativeMethods.RegisterMouseHook(MouseHookCallback);
+			//hookId = nativeMethods.RegisterMouseHook(MouseHookCallback);
 		}
 
 		public void Stop()
 		{
+			/*
 			if (hookId.HasValue)
 			{
 				nativeMethods.DeregisterMouseHook(hookId.Value);
 			}
+			*/
 		}
 
 		private bool MouseHookCallback(MouseButton button, MouseButtonState state, MouseInformation info)
 		{
+			/*
 			var block = false;
 
 			block |= button == MouseButton.Auxiliary;
@@ -54,8 +57,8 @@ namespace SafeExamBrowser.Monitoring.Mouse
 			{
 				logger.Info($"Blocked {button.ToString().ToLower()} mouse button when {state.ToString().ToLower()}.");
 			}
-
-			return block;
+			*/
+			return false;
 		}
 	}
 }
