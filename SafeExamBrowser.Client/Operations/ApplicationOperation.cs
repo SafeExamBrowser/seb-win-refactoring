@@ -163,7 +163,7 @@ namespace SafeExamBrowser.Client.Operations
 			var args = new ApplicationTerminationEventArgs(runningApplications);
 			var failed = new List<RunningApplication>();
 			var result = OperationResult.Success;
-
+			/*
 			logger.Info($"The following applications need to be terminated: {string.Join(", ", runningApplications.Select(a => a.Name))}.");
 			ActionRequired?.Invoke(args);
 
@@ -197,7 +197,7 @@ namespace SafeExamBrowser.Client.Operations
 			{
 				ActionRequired?.Invoke(new ApplicationTerminationFailedEventArgs(failed));
 			}
-
+			*/
 			return result;
 		}
 	}

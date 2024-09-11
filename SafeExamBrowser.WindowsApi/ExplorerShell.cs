@@ -33,6 +33,7 @@ namespace SafeExamBrowser.WindowsApi
 
 		public void HideAllWindows()
 		{
+			/*
 			logger.Info("Searching for windows to be minimized...");
 
 			foreach (var handle in nativeMethods.GetOpenWindows())
@@ -50,6 +51,7 @@ namespace SafeExamBrowser.WindowsApi
 			logger.Info("Minimizing all open windows...");
 			nativeMethods.MinimizeAllOpenWindows();
 			logger.Info("Open windows successfully minimized.");
+			*/
 		}
 
 		public void RestoreAllWindows()
@@ -69,22 +71,24 @@ namespace SafeExamBrowser.WindowsApi
 		public void Start()
 		{
 			var process = new System.Diagnostics.Process();
-			var explorerPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe");
+			//var explorerPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe");
 
 			logger.Debug("Starting explorer shell process...");
 
 			process.StartInfo.CreateNoWindow = true;
-			process.StartInfo.FileName = explorerPath;
+			//process.StartInfo.FileName = explorerPath;
 			process.StartInfo.UseShellExecute = false;
 			process.StartInfo.WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
 			process.Start();
 
 			logger.Debug("Waiting for explorer shell to initialize...");
 
+			/*
 			while (nativeMethods.GetShellWindowHandle() == IntPtr.Zero)
 			{
 				Thread.Sleep(20);
 			}
+			*/
 
 			process.Refresh();
 			logger.Info($"Explorer shell successfully started with PID = {process.Id}.");
@@ -95,9 +99,9 @@ namespace SafeExamBrowser.WindowsApi
 		{
 			const int THREE_SECONDS = 3000;
 			var processId = nativeMethods.GetShellProcessId();
-			var explorerProcesses = System.Diagnostics.Process.GetProcessesByName("explorer");
-			var process = explorerProcesses.FirstOrDefault(p => p.Id == processId);
-
+			//var explorerProcesses = System.Diagnostics.Process.GetProcessesByName("explorer");
+			//var process = explorerProcesses.FirstOrDefault(p => p.Id == processId);
+			/*
 			if (process != null)
 			{
 				logger.Debug($"Found explorer shell processes with PID = {processId}. Sending close message...");
@@ -134,18 +138,19 @@ namespace SafeExamBrowser.WindowsApi
 			{
 				logger.Info("The explorer shell seems to already be terminated.");
 			}
+			*/
 		}
 
 		private void KillExplorerShell(int processId)
 		{
 			var process = new System.Diagnostics.Process();
-			var taskkillPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "taskkill.exe");
+			//var taskkillPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "taskkill.exe");
 
 			logger.Warn("Failed to gracefully terminate explorer shell, attempting forceful termination...");
 
 			process.StartInfo.Arguments = $"/F /PID {processId}";
 			process.StartInfo.CreateNoWindow = true;
-			process.StartInfo.FileName = taskkillPath;
+			//process.StartInfo.FileName = taskkillPath;
 			process.StartInfo.UseShellExecute = false;
 			process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 			process.StartInfo.WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Windows);

@@ -51,6 +51,7 @@ namespace SafeExamBrowser.WindowsApi
 
 		public void ActivateWindow(IntPtr handle)
 		{
+			/*
 			var placement = new WINDOWPLACEMENT();
 
 			User32.BringWindowToTop(handle);
@@ -63,6 +64,7 @@ namespace SafeExamBrowser.WindowsApi
 			{
 				User32.ShowWindowAsync(handle, (int) ShowWindowCommand.Restore);
 			}
+			*/
 		}
 
 		public void DeregisterKeyboardHook(Guid hookId)
@@ -118,6 +120,7 @@ namespace SafeExamBrowser.WindowsApi
 
 		public void EmptyClipboard()
 		{
+			/*
 			var success = true;
 
 			success &= User32.OpenClipboard(IntPtr.Zero);
@@ -128,15 +131,16 @@ namespace SafeExamBrowser.WindowsApi
 			{
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
+			*/
 		}
 
 		public (int x, int y) GetCursorPosition()
 		{
-			var position = new POINT();
+			//var position = new POINT();
 
-			User32.GetCursorPos(ref position);
+			//User32.GetCursorPos(ref position);
 
-			return (position.X, position.Y);
+			return (0, 0);
 		}
 
 		public IEnumerable<IntPtr> GetOpenWindows()
@@ -185,6 +189,7 @@ namespace SafeExamBrowser.WindowsApi
 
 		public string GetWallpaperPath()
 		{
+			/*
 			const int MAX_PATH = 260;
 			var buffer = new String('\0', MAX_PATH);
 			var success = User32.SystemParametersInfo(SPI.GETDESKWALLPAPER, buffer.Length, buffer, 0);
@@ -197,6 +202,8 @@ namespace SafeExamBrowser.WindowsApi
 			var path = buffer.Substring(0, buffer.IndexOf('\0'));
 
 			return path;
+			*/
+			throw new Win32Exception(Marshal.GetLastWin32Error());
 		}
 
 		public IntPtr GetWindowIcon(IntPtr window)
@@ -257,9 +264,8 @@ namespace SafeExamBrowser.WindowsApi
 
 		public void MinimizeAllOpenWindows()
 		{
-			var handle = GetShellWindowHandle();
-
-			User32.SendMessage(handle, Constant.WM_COMMAND, (IntPtr) Constant.MIN_ALL, IntPtr.Zero);
+			//var handle = GetShellWindowHandle();
+			//User32.SendMessage(handle, Constant.WM_COMMAND, (IntPtr) Constant.MIN_ALL, IntPtr.Zero);
 		}
 
 		public void PostCloseMessageToShell()
@@ -267,6 +273,7 @@ namespace SafeExamBrowser.WindowsApi
 			// NOTE: The close message 0x5B4 posted to the shell is undocumented and not officially supported:
 			// https://stackoverflow.com/questions/5689904/gracefully-exit-explorer-programmatically/5705965#5705965
 
+			/*
 			var handle = GetShellWindowHandle();
 			var success = User32.PostMessage(handle, 0x5B4, IntPtr.Zero, IntPtr.Zero);
 
@@ -274,6 +281,7 @@ namespace SafeExamBrowser.WindowsApi
 			{
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
+			*/
 		}
 
 		public void PreventSleepMode()

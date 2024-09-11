@@ -100,26 +100,27 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeActivators()
 		{
+			
 			foreach (var activator in Context.Activators)
 			{
-				if (Context.Settings.ActionCenter.EnableActionCenter && activator is IActionCenterActivator actionCenterActivator)
+				if (activator is IActionCenterActivator actionCenterActivator)
 				{
 					actionCenter.Register(actionCenterActivator);
 					actionCenterActivator.Start();
 				}
 
-				if (Context.Settings.Keyboard.AllowAltTab && activator is ITaskviewActivator taskViewActivator)
+				if (activator is ITaskviewActivator taskViewActivator)
 				{
 					taskview.Register(taskViewActivator);
 					taskViewActivator.Start();
 				}
 
-				if (Context.Settings.Security.AllowTermination && activator is ITerminationActivator terminationActivator)
+				if (activator is ITerminationActivator terminationActivator)
 				{
 					terminationActivator.Start();
 				}
 
-				if (Context.Settings.Taskbar.EnableTaskbar && activator is ITaskbarActivator taskbarActivator)
+				if (activator is ITaskbarActivator taskbarActivator)
 				{
 					taskbar.Register(taskbarActivator);
 					taskbarActivator.Start();
@@ -152,6 +153,7 @@ namespace SafeExamBrowser.Client.Operations
 
 		private void InitializeTaskbar()
 		{
+			/*
 			if (Context.Settings.Taskbar.EnableTaskbar)
 			{
 				logger.Info("Initializing taskbar...");
@@ -170,7 +172,9 @@ namespace SafeExamBrowser.Client.Operations
 			else
 			{
 				logger.Info("Taskbar is disabled, skipping initialization.");
-			}
+			}*/
+
+			logger.Info("Taskbar is disabled, skipping init.");
 		}
 
 		private void InitializeTaskview()

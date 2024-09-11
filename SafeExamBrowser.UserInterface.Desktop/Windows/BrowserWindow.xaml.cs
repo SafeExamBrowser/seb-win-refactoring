@@ -553,7 +553,7 @@ if (typeof __SEB_focusElement === 'undefined') {
 			MenuButton.IsEnabled = settings.AllowPageZoom || WindowSettings.AllowDeveloperConsole;
 			ReloadButton.IsEnabled = WindowSettings.AllowReloading;
 			ReloadButton.Visibility = WindowSettings.ShowReloadButton ? Visibility.Visible : Visibility.Collapsed;
-			Toolbar.Visibility = WindowSettings.ShowToolbar ? Visibility.Visible : Visibility.Collapsed;
+			Toolbar.Visibility = Visibility.Collapsed; // WindowSettings.ShowToolbar ? Visibility.Visible : Visibility.Collapsed;
 			UrlTextBox.Visibility = WindowSettings.AllowAddressBar ? Visibility.Visible : Visibility.Hidden;
 			ZoomMenuItem.Visibility = settings.AllowPageZoom ? Visibility.Visible : Visibility.Collapsed;
 		}

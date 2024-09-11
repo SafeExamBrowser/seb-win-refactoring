@@ -414,7 +414,7 @@ namespace SafeExamBrowser.Client
 		private void ApplicationMonitor_ExplorerStarted()
 		{
 			logger.Info("Trying to terminate Windows explorer...");
-			explorerShell.Terminate();
+			//explorerShell.Terminate();
 			logger.Info("Re-initializing working area...");
 			displayMonitor.InitializePrimaryDisplay(Settings.Taskbar.EnableTaskbar ? taskbar.GetAbsoluteHeight() : 0);
 			logger.Info("Re-initializing shell...");
