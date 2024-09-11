@@ -46,6 +46,7 @@ namespace SafeExamBrowser.SystemComponents.Keyboard
 
 		public void Initialize()
 		{
+			/*
 			originalLanguage = InputLanguage.CurrentInputLanguage;
 			logger.Info($"Saved current keyboard layout {ToString(originalLanguage)}.");
 
@@ -65,6 +66,7 @@ namespace SafeExamBrowser.SystemComponents.Keyboard
 			}
 
 			InputLanguageManager.Current.InputLanguageChanged += InputLanguageManager_InputLanguageChanged;
+			*/
 		}
 
 		public IEnumerable<IKeyboardLayout> GetLayouts()
@@ -85,11 +87,13 @@ namespace SafeExamBrowser.SystemComponents.Keyboard
 
 		private void InputLanguageManager_InputLanguageChanged(object sender, InputLanguageEventArgs e)
 		{
+			/*
 			var layout = layouts.First(l => l.InputLanguage.Culture.Equals(e.NewLanguage));
 
 			logger.Info($"Detected keyboard layout change from {ToString(e.PreviousLanguage)} to {ToString(e.NewLanguage)}.");
 			layout.IsCurrent = true;
 			LayoutChanged?.Invoke(layout);
+			*/
 		}
 
 		private string ToString(InputLanguage language)

@@ -305,7 +305,7 @@ namespace SafeExamBrowser.Client
 
 			if (Settings.Taskbar.EnableTaskbar)
 			{
-				taskbar.Show();
+				//taskbar.Show();
 			}
 		}
 

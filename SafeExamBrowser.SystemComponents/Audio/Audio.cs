@@ -105,10 +105,10 @@ namespace SafeExamBrowser.SystemComponents.Audio
 		private void InitializeAudioDevice()
 		{
 			logger.Info($"Found '{audioDevice}' to be the active audio device.");
-			audioDevice.AudioEndpointVolume.OnVolumeNotification += AudioEndpointVolume_OnVolumeNotification;
-			audioDeviceFullName = audioDevice.FriendlyName;
-			audioDeviceShortName = audioDevice.FriendlyName.Length > 25 ? audioDevice.FriendlyName.Split(' ').First() : audioDevice.FriendlyName;
-			logger.Info("Started monitoring the audio device.");
+			//audioDevice.AudioEndpointVolume.OnVolumeNotification += AudioEndpointVolume_OnVolumeNotification;
+			//audioDeviceFullName = audioDevice.FriendlyName;
+			//audioDeviceShortName = audioDevice.FriendlyName.Length > 25 ? audioDevice.FriendlyName.Split(' ').First() : audioDevice.FriendlyName;
+			logger.Info("Monitoring the audio device is disabled.");
 		}
 
 		private void FinalizeAudioDevice()
