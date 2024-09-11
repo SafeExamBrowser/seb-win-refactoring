@@ -416,10 +416,10 @@ namespace SafeExamBrowser.Client
 			logger.Info("Trying to terminate Windows explorer...");
 			//explorerShell.Terminate();
 			logger.Info("Re-initializing working area...");
-			displayMonitor.InitializePrimaryDisplay(Settings.Taskbar.EnableTaskbar ? taskbar.GetAbsoluteHeight() : 0);
+			//displayMonitor.InitializePrimaryDisplay(Settings.Taskbar.EnableTaskbar ? taskbar.GetAbsoluteHeight() : 0);
 			logger.Info("Re-initializing shell...");
 			actionCenter.InitializeBounds();
-			taskbar.InitializeBounds();
+			//taskbar.InitializeBounds();
 			logger.Info("Desktop successfully restored.");
 		}
 
@@ -624,12 +624,12 @@ namespace SafeExamBrowser.Client
 		private void DisplayMonitor_DisplaySettingsChanged()
 		{
 			logger.Info("Re-initializing working area...");
-			displayMonitor.InitializePrimaryDisplay(Settings.Taskbar.EnableTaskbar ? taskbar.GetAbsoluteHeight() : 0);
+			//displayMonitor.InitializePrimaryDisplay(Settings.Taskbar.EnableTaskbar ? taskbar.GetAbsoluteHeight() : 0);
 
 			logger.Info("Re-initializing shell...");
 			actionCenter.InitializeBounds();
 			lockScreen?.InitializeBounds();
-			taskbar.InitializeBounds();
+			//taskbar.InitializeBounds();
 
 			logger.Info("Desktop successfully restored.");
 

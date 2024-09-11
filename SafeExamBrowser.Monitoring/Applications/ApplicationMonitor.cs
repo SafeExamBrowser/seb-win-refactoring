@@ -375,8 +375,8 @@ namespace SafeExamBrowser.Monitoring.Applications
 
 		private bool TryHide(Window window)
 		{
-			var success = nativeMethods.HideWindow(window.Handle);
-
+			//var success = nativeMethods.HideWindow(window.Handle);
+			/*
 			if (success)
 			{
 				logger.Info($"Successfully hid window {window}.");
@@ -385,8 +385,8 @@ namespace SafeExamBrowser.Monitoring.Applications
 			{
 				logger.Warn($"Failed to hide window {window}!");
 			}
-
-			return success;
+			*/
+			return true;
 		}
 
 		private bool TryTerminate(IProcess process)

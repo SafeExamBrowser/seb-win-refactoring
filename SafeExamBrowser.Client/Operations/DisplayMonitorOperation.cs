@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Client.Operations
 			StatusChanged?.Invoke(TextKey.OperationStatus_InitializeWorkingArea);
 
 			displayMonitor.PreventSleepMode();
-			displayMonitor.InitializePrimaryDisplay(Context.Settings.Taskbar.EnableTaskbar ? taskbar.GetAbsoluteHeight() : 0);
+			//displayMonitor.InitializePrimaryDisplay(Context.Settings.Taskbar.EnableTaskbar ? taskbar.GetAbsoluteHeight() : 0);
 			displayMonitor.StartMonitoringDisplayChanges();
 
 			return OperationResult.Success;
