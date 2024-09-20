@@ -688,7 +688,7 @@
         Konfirmasi
     </Entry>
     <Entry key="ProctoringFinalizationDialog_FailureMessage">
-        Operasi yang tersisa tidak dapat diselesaikan karena ada masalah dengan jaringan dan/atau layanan pemeriksaan layar. Data yang di-cache dapat ditemukan di direktori berikut:
+        Operasi yang tersisa tidak dapat diselesaikan karena ada masalah dengan jaringan dan/atau layanan pemeriksaan layar.
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Harap tunggu sementara proktor layar menjalankan operasi yang tersisa. Hal ini mungkin memerlukan waktu beberapa saat, tergantung pada jaringan dan status layanan pemeriksaan layar.

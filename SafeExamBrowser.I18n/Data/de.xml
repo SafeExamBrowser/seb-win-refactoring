@@ -688,7 +688,7 @@
         Bestätigen
     </Entry>
     <Entry key="ProctoringFinalizationDialog_FailureMessage">
-        Die verbleibenden Operationen konnten nicht abgeschlossen werden, da ein Problem mit dem Netzwerk und/oder dem Bildschirmüberwachungs-Dienst vorliegt. Die zwischengespeicherten Daten befinden sich im folgenden Verzeichnis:
+        Die verbleibenden Operationen konnten nicht abgeschlossen werden, da ein Problem mit dem Netzwerk und/oder dem Bildschirmüberwachungs-Dienst vorliegt.
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Bitte warten Sie, während die Bildschirmüberwachung ihre restlichen Operationen ausführt. Dies kann eine Weile dauern, je nach Status des Netzwerkes und Bildschirmüberwachungs-Dienstes.

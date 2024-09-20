@@ -77,7 +77,11 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		private void ShowFailure(RemainingWorkUpdatedEventArgs status)
 		{
 			ButtonPanel.Visibility = Visibility.Visible;
+
+			// TODO: Revert once cache handling has been specified and changed!
 			CachePath.Text = status.CachePath ?? "-";
+			CachePath.Visibility = Visibility.Collapsed;
+
 			Cursor = Cursors.Arrow;
 			FailurePanel.Visibility = Visibility.Visible;
 			Message.Text = text.Get(TextKey.ProctoringFinalizationDialog_FailureMessage);

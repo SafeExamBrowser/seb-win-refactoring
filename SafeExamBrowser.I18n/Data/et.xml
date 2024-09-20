@@ -688,7 +688,7 @@
         Kinnitage
     </Entry>
     <Entry key="ProctoringFinalizationDialog_FailureMessage">
-        Ülejäänud toiminguid ei õnnestunud lõpule viia, kuna võrgu ja/või ekraani proktoriteenusega on probleem. Vaikimisi salvestatud andmed asuvad järgmises kataloogis:
+        Ülejäänud toiminguid ei õnnestunud lõpule viia, kuna võrgu ja/või ekraani proktoriteenusega on probleem.
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Palun oodake, kuni ekraaniprotoring täidab oma ülejäänud toiminguid. See võib võtta aega, sõltuvalt võrgu ja ekraani proctoring teenuse olekust.

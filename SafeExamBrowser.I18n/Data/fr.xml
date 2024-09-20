@@ -688,7 +688,7 @@
         Confirmer
     </Entry>
     <Entry key="ProctoringFinalizationDialog_FailureMessage">
-        Les opérations restantes n'ont pas pu être achevées en raison d'un problème avec le réseau et/ou le service d'examen à l'écran. Les données mises en cache se trouvent dans le répertoire suivant:
+        Les opérations restantes n'ont pas pu être achevées en raison d'un problème avec le réseau et/ou le service d'examen à l'écran.
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Veuillez patienter pendant que le procotoring d'écran exécute les opérations restantes. Cela peut prendre un certain temps, en fonction du réseau et de l'état du service de projection d'écran.

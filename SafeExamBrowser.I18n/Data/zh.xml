@@ -688,7 +688,7 @@
         确认
     </Entry>
     <Entry key="ProctoringFinalizationDialog_FailureMessage">
-        由于网络和/或屏幕监考服务出现问题，其余操作无法完成。缓存数据可在以下目录中找到：
+        由于网络和/或屏幕监考服务出现问题，其余操作无法完成。
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         屏幕监考正在执行剩余操作，请稍候。这可能需要一段时间，具体取决于网络和屏幕监考服务状态。

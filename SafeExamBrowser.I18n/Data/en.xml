@@ -688,7 +688,7 @@
         Confirm
     </Entry>
     <Entry key="ProctoringFinalizationDialog_FailureMessage">
-        The remaining operations could not be completed as there is a problem with the network and/or screen proctoring service. The cached data can be found in the following directory:
+        The remaining operations could not be completed as there is a problem with the network and/or screen proctoring service.
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Please wait while the screen procotoring is executing its remaining operations. This may take a while, depending on the network and screen proctoring service status.

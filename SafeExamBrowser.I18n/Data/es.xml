@@ -688,7 +688,7 @@
         Confirmar
     </Entry>
     <Entry key="ProctoringFinalizationDialog_FailureMessage">
-        El resto de operaciones no se han podido completar porque hay un problema con la red y/o el servicio de proctoring de pantalla. Los datos en caché se encuentran en el siguiente directorio:
+        El resto de operaciones no se han podido completar porque hay un problema con la red y/o el servicio de proctoring de pantalla.
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Por favor, espere mientras el proctoring de pantalla ejecuta sus operaciones restantes. Esto puede tardar un poco, dependiendo de la red y del estado del servicio de proctoring de pantalla.
