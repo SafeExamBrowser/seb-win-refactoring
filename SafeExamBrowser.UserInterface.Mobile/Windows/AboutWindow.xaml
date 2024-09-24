@@ -58,6 +58,11 @@
                 Copyright © 2017-2024 Syroot. All rights reserved.
                 <LineBreak />
                 <LineBreak />
+                <Bold><Underline>Microsoft.Windows.SDK.Contracts</Underline></Bold>
+                <LineBreak />
+                Copyright © 2019-2024 Microsoft. All rights reserved.
+                <LineBreak />
+                <LineBreak />
                 <Bold><Underline>NAudio</Underline></Bold>
                 <LineBreak />
                 Copyright © 2008-2024 Mark Heath &amp; contributors. All rights reserved.
@@ -66,11 +71,6 @@
                 <Bold><Underline>Newtonsoft.Json</Underline></Bold>
                 <LineBreak />
                 Copyright © 2007-2024 James Newton-King. All rights reserved.
-                <LineBreak />
-                <LineBreak />
-                <Bold><Underline>SimpleWifi</Underline></Bold>
-                <LineBreak />
-                Copyright © 2013-2024 DigiExam. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Visual C++ Redistributable</Underline></Bold>
