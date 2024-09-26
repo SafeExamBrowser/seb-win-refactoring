@@ -4,7 +4,10 @@ Refactored version of Safe Exam Browser for Windows with Chromium as integrated 
 
 ## Requirements
 
-SEB 3.x requires the prerequisites listed below in order to work correctly. These are automatically installed with the setup bundle and need only be manually installed when using the MSI packages.
+> [!NOTE]  
+> Starting with version 3.8.0, Safe Exam Browser for Windows requires a minimum operating system version of **Windows 10 version 1803**.
+
+Safe Exam Browser for Windows requires the prerequisites listed below in order to work correctly. These are automatically installed with the setup bundle and need only be manually installed when using the MSI packages.
 
 * .NET Framework 4.8 Runtime: https://dotnet.microsoft.com/download/dotnet-framework/net48
 * Visual C++ 2015-2019 Redistributable: https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads
