@@ -53,14 +53,14 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="KGySoft.CoreLibraries, Version=8.1.0.0, Culture=neutral, PublicKeyToken=b45eba277439ddfe, processorArchitecture=MSIL">
-      <HintPath>..\packages\KGySoft.CoreLibraries.8.1.0\lib\net472\KGySoft.CoreLibraries.dll</HintPath>
+    <Reference Include="KGySoft.CoreLibraries, Version=8.3.0.0, Culture=neutral, PublicKeyToken=b45eba277439ddfe, processorArchitecture=MSIL">
+      <HintPath>..\packages\KGySoft.CoreLibraries.8.3.0\lib\net472\KGySoft.CoreLibraries.dll</HintPath>
     </Reference>
     <Reference Include="KGySoft.Drawing, Version=8.1.0.0, Culture=neutral, PublicKeyToken=b45eba277439ddfe, processorArchitecture=MSIL">
       <HintPath>..\packages\KGySoft.Drawing.8.1.0\lib\net46\KGySoft.Drawing.dll</HintPath>
     </Reference>
-    <Reference Include="KGySoft.Drawing.Core, Version=8.1.0.0, Culture=neutral, PublicKeyToken=b45eba277439ddfe, processorArchitecture=MSIL">
-      <HintPath>..\packages\KGySoft.Drawing.Core.8.1.0\lib\net46\KGySoft.Drawing.Core.dll</HintPath>
+    <Reference Include="KGySoft.Drawing.Core, Version=8.2.0.0, Culture=neutral, PublicKeyToken=b45eba277439ddfe, processorArchitecture=MSIL">
+      <HintPath>..\packages\KGySoft.Drawing.Core.8.2.0\lib\net46\KGySoft.Drawing.Core.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -166,6 +166,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

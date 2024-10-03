@@ -18,7 +18,16 @@ namespace SafeExamBrowser.Browser.Handlers
 	{
 		internal event DialogRequestedEventHandler DialogRequested;
 
-		public bool OnFileDialog(IWebBrowser webBrowser, IBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, IFileDialogCallback callback)
+		public bool OnFileDialog(
+			IWebBrowser webBrowser,
+			IBrowser browser,
+			CefFileDialogMode mode,
+			string title,
+			string defaultFilePath,
+			IReadOnlyCollection<string> acceptFilters,
+			IReadOnlyCollection<string> acceptExtensions,
+			IReadOnlyCollection<string> acceptDescriptions,
+			IFileDialogCallback callback)
 		{
 			var args = new DialogRequestedEventArgs
 			{

@@ -80,7 +80,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 				threadId = Thread.CurrentThread.ManagedThreadId;
 			};
 
-			var status = sut.OnFileDialog(default, default, mode, title, initialPath, default, callback.Object);
+			var status = sut.OnFileDialog(default, default, mode, title, initialPath, default, default, default, callback.Object);
 
 			sync.WaitOne();
 

@@ -66,9 +66,9 @@ namespace SafeExamBrowser.Browser.Wrapper
 			BeforeBrowse?.Invoke(webBrowser, browser, frame, request, userGesture, isRedirect, args);
 		}
 
-		public void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
+		public bool OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
-			BeforeDownload?.Invoke(webBrowser, browser, downloadItem, callback);
+			return BeforeDownload?.Invoke(webBrowser, browser, downloadItem, callback) ?? false;
 		}
 
 		public void OnCanDownload(IWebBrowser webBrowser, IBrowser browser, string url, string requestMethod, GenericEventArgs args)
@@ -96,9 +96,9 @@ namespace SafeExamBrowser.Browser.Wrapper
 			FaviconUrlChanged?.Invoke(webBrowser, browser, urls);
 		}
 
-		public void OnFileDialog(IWebBrowser webBrowser, IBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, IFileDialogCallback callback)
+		public void OnFileDialog(IWebBrowser webBrowser, IBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, IReadOnlyCollection<string> acceptFilters, IReadOnlyCollection<string> acceptExtensions, IReadOnlyCollection<string> acceptDescriptions, IFileDialogCallback callback)
 		{
-			FileDialogRequested?.Invoke(webBrowser, browser, mode, title, defaultFilePath, acceptFilters, callback);
+			FileDialogRequested?.Invoke(webBrowser, browser, mode, title, defaultFilePath, acceptFilters, acceptExtensions, acceptDescriptions, callback);
 		}
 
 		public void OnFocusedNodeChanged(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IDomNode node)

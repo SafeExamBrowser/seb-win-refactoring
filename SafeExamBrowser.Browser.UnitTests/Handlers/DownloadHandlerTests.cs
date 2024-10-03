@@ -108,7 +108,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			};
 			sut.DownloadUpdated += (state) => failed = true;
 
-			sut.OnBeforeDownload(default(IWebBrowser), default(IBrowser), item, callback.Object);
+			sut.OnBeforeDownload(default, default, item, callback.Object);
 			sync.WaitOne();
 
 			callback.VerifyNoOtherCalls();
@@ -145,7 +145,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			sut.ConfigurationDownloadRequested += (f, a) => failed = true;
 			sut.DownloadUpdated += (state) => failed = true;
 
-			sut.OnBeforeDownload(default(IWebBrowser), default(IBrowser), item, callback.Object);
+			sut.OnBeforeDownload(default, default, item, callback.Object);
 			sync.WaitOne();
 
 			callback.Verify(c => c.Continue(It.Is<string>(p => p.Equals(downloadPath)), false), Times.Once);
@@ -180,7 +180,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			sut.ConfigurationDownloadRequested += (f, a) => failed = true;
 			sut.DownloadUpdated += (state) => failed = true;
 
-			sut.OnBeforeDownload(default(IWebBrowser), default(IBrowser), item, callback.Object);
+			sut.OnBeforeDownload(default, default, item, callback.Object);
 			sync.WaitOne();
 
 			var downloadPath = Path.Combine(Environment.ExpandEnvironmentVariables(settings.DownAndUploadDirectory), item.SuggestedFileName);
@@ -202,12 +202,13 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 				Url = "https://somehost.org/somefile.abc"
 			};
 
+			appConfig.ConfigurationFileMimeType = "application/seb";
 			settings.AllowDownloads = false;
 			settings.AllowConfigurationDownloads = false;
 			sut.ConfigurationDownloadRequested += (file, args) => fail = true;
 			sut.DownloadUpdated += (state) => fail = true;
 
-			sut.OnBeforeDownload(default(IWebBrowser), default(IBrowser), item, callback.Object);
+			sut.OnBeforeDownload(default, default, item, callback.Object);
 
 			callback.VerifyNoOtherCalls();
 			Assert.IsFalse(fail);
@@ -233,7 +234,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			settings.AllowConfigurationDownloads = false;
 			sut.ConfigurationDownloadRequested += (f, a) => failed = true;
 
-			sut.OnBeforeDownload(default(IWebBrowser), default(IBrowser), item, callback.Object);
+			sut.OnBeforeDownload(default, default, item, callback.Object);
 			sync.WaitOne();
 
 			Assert.IsFalse(failed);
@@ -246,7 +247,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			};
 
 			item.PercentComplete = 10;
-			sut.OnDownloadUpdated(default(IWebBrowser), default(IBrowser), item, default(IDownloadItemCallback));
+			sut.OnDownloadUpdated(default, default, item, default);
 			sync.WaitOne();
 
 			Assert.IsFalse(state.IsCancelled);
@@ -255,7 +256,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			Assert.AreNotEqual(Thread.CurrentThread.ManagedThreadId, threadId);
 
 			item.PercentComplete = 20;
-			sut.OnDownloadUpdated(default(IWebBrowser), default(IBrowser), item, default(IDownloadItemCallback));
+			sut.OnDownloadUpdated(default, default, item, default);
 			sync.WaitOne();
 
 			Assert.IsFalse(state.IsCancelled);
@@ -265,7 +266,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 
 			item.PercentComplete = 50;
 			item.IsCancelled = true;
-			sut.OnDownloadUpdated(default(IWebBrowser), default(IBrowser), item, default(IDownloadItemCallback));
+			sut.OnDownloadUpdated(default, default, item, default);
 			sync.WaitOne();
 
 			Assert.IsFalse(failed);
@@ -297,7 +298,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			};
 			sut.DownloadUpdated += (state) => failed = true;
 
-			sut.OnBeforeDownload(default(IWebBrowser), default(IBrowser), item, callback.Object);
+			sut.OnBeforeDownload(default, default, item, callback.Object);
 			sync.WaitOne();
 
 			callback.Verify(c => c.Continue(It.Is<string>(p => p.Equals(args.DownloadPath)), false), Times.Once);

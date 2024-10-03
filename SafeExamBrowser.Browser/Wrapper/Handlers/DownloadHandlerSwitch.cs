@@ -35,19 +35,19 @@ namespace SafeExamBrowser.Browser.Wrapper.Handlers
 			return args.Value;
 		}
 
-		public void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
+		public bool OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
 			if (browser.IsPopup)
 			{
 				var control = ChromiumHostControl.FromBrowser(browser) as CefSharpPopupControl;
 
-				control?.OnBeforeDownload(webBrowser, browser, downloadItem, callback);
+				return control?.OnBeforeDownload(webBrowser, browser, downloadItem, callback) ?? false;
 			}
 			else
 			{
 				var control = ChromiumWebBrowser.FromBrowser(browser) as CefSharpBrowserControl;
 
-				control?.OnBeforeDownload(webBrowser, browser, downloadItem, callback);
+				return control?.OnBeforeDownload(webBrowser, browser, downloadItem, callback) ?? false;
 			}
 		}
 

@@ -15,19 +15,19 @@ namespace SafeExamBrowser.Browser.Wrapper.Handlers
 {
 	internal class DialogHandlerSwitch : IDialogHandler
 	{
-		public bool OnFileDialog(IWebBrowser webBrowser, IBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, List<string> acceptFilters, IFileDialogCallback callback)
+		public bool OnFileDialog(IWebBrowser webBrowser, IBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, IReadOnlyCollection<string> acceptFilters, IReadOnlyCollection<string> acceptExtensions, IReadOnlyCollection<string> acceptDescriptions, IFileDialogCallback callback)
 		{
 			if (browser.IsPopup)
 			{
 				var control = ChromiumHostControl.FromBrowser(browser) as CefSharpPopupControl;
 
-				control?.OnFileDialog(webBrowser, browser, mode, title, defaultFilePath, acceptFilters, callback);
+				control?.OnFileDialog(webBrowser, browser, mode, title, defaultFilePath, acceptFilters, acceptExtensions, acceptDescriptions, callback);
 			}
 			else
 			{
 				var control = ChromiumWebBrowser.FromBrowser(browser) as CefSharpBrowserControl;
 
-				control?.OnFileDialog(webBrowser, browser, mode, title, defaultFilePath, acceptFilters, callback);
+				control?.OnFileDialog(webBrowser, browser, mode, title, defaultFilePath, acceptFilters, acceptExtensions, acceptDescriptions, callback);
 			}
 
 			return true;

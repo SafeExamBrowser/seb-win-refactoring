@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Browser.Handlers
 			return true;
 		}
 
-		public void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
+		public bool OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
 			var fileExtension = Path.GetExtension(downloadItem.SuggestedFileName);
 			var isConfigurationFile = false;
@@ -86,6 +86,8 @@ namespace SafeExamBrowser.Browser.Handlers
 				logger.Info($"Aborted download request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")}, as downloading is not allowed.");
 				Task.Run(() => DownloadAborted?.Invoke());
 			}
+
+			return true;
 		}
 
 		public void OnDownloadUpdated(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
