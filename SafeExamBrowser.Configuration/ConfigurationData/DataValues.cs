@@ -109,6 +109,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Camtasia_Studio.exe", OriginalName = "Camtasia_Studio.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "CamRecorder.exe", OriginalName = "CamRecorder.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "CamtasiaUtl.exe", OriginalName = "CamtasiaUtl.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "chrome.exe", OriginalName = "chrome.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "msedge.exe", OriginalName = "msedge.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "notepad.exe", OriginalName = "notepad.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "chromoting.exe", OriginalName = "chromoting.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "CiscoCollabHost.exe", OriginalName = "CiscoCollabHost.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "CiscoWebExStart.exe", OriginalName = "CiscoWebExStart.exe" });
