@@ -102,6 +102,8 @@ namespace SafeExamBrowser.Browser.Handlers
 					FullPath = downloadItem.FullPath,
 					IsCancelled = downloadItem.IsCancelled,
 					IsComplete = downloadItem.IsComplete,
+					IsIndeterminate = downloadItem.PercentComplete < 0,
+					Size = downloadItem.ReceivedBytes,
 					Url = downloadItem.Url
 				};
 

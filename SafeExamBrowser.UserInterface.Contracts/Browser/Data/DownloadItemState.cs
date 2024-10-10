@@ -16,7 +16,7 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser.Data
 	public class DownloadItemState
 	{
 		/// <summary>
-		/// The current completion of the item, as percentage value from <c>0.0</c> to <c>1.0</c>.
+		/// The current completion of the item (if available, see <see cref="IsIndeterminate"/>), as percentage value from <c>0.0</c> to <c>1.0</c>.
 		/// </summary>
 		public double Completion { get; set; }
 
@@ -39,6 +39,16 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser.Data
 		/// Indicates that the download was completed.
 		/// </summary>
 		public bool IsComplete { get; set; }
+
+		/// <summary>
+		/// Indicates whether the <see cref="Completion"/> is known or not.
+		/// </summary>
+		public bool IsIndeterminate { get; set; }
+
+		/// <summary>
+		/// The current size of the download item in bytes.
+		/// </summary>
+		public long Size { get; set; }
 
 		/// <summary>
 		/// The download URL of the item.
