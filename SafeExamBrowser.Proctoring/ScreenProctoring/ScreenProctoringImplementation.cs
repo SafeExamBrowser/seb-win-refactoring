@@ -115,6 +115,8 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 					settings.GroupId = instruction.GroupId;
 					settings.ServiceUrl = instruction.ServiceUrl;
 
+					logger.Warn($"JOIN INSTRUCTION - Client ID: {instruction.ClientId}, Client Secret: {instruction.ClientSecret}, Group ID: {instruction.GroupId}, Service URL: {instruction.ServiceUrl}");
+
 					Connect(instruction.SessionId);
 					Start();
 				}
