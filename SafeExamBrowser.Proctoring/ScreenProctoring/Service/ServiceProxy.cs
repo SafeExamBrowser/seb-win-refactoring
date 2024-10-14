@@ -41,8 +41,6 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service
 				Timeout = TimeSpan.FromSeconds(10)
 			};
 
-			logger.Warn($"Service URL: {serviceUrl}, HttpClient.BaseAddress: {httpClient.BaseAddress}");
-
 			var request = new OAuth2TokenRequest(api, httpClient, logger, parser);
 			var success = request.TryExecute(clientId, clientSecret, out var message);
 
