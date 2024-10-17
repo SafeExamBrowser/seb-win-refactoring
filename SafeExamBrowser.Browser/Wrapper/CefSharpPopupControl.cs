@@ -63,9 +63,9 @@ namespace SafeExamBrowser.Browser.Wrapper
 			BeforeBrowse?.Invoke(webBrowser, browser, frame, request, userGesture, isRedirect, args);
 		}
 
-		public bool OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
+		public void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback, GenericEventArgs args)
 		{
-			return BeforeDownload?.Invoke(webBrowser, browser, downloadItem, callback) ?? false;
+			BeforeDownload?.Invoke(webBrowser, browser, downloadItem, callback, args);
 		}
 
 		public void OnCanDownload(IWebBrowser webBrowser, IBrowser browser, string url, string requestMethod, GenericEventArgs args)

@@ -37,18 +37,22 @@ namespace SafeExamBrowser.Browser.Wrapper.Handlers
 
 		public bool OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback)
 		{
+			var args = new GenericEventArgs();
+
 			if (browser.IsPopup)
 			{
 				var control = ChromiumHostControl.FromBrowser(browser) as CefSharpPopupControl;
 
-				return control?.OnBeforeDownload(webBrowser, browser, downloadItem, callback) ?? false;
+				control?.OnBeforeDownload(webBrowser, browser, downloadItem, callback, args);
 			}
 			else
 			{
 				var control = ChromiumWebBrowser.FromBrowser(browser) as CefSharpBrowserControl;
 
-				return control?.OnBeforeDownload(webBrowser, browser, downloadItem, callback) ?? false;
+				control?.OnBeforeDownload(webBrowser, browser, downloadItem, callback, args);
 			}
+
+			return args.Value;
 		}
 
 		public void OnDownloadUpdated(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
