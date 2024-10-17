@@ -67,6 +67,7 @@ namespace SafeExamBrowser.Browser
 		{
 			if (!control.IsDisposed)
 			{
+				control.CloseDevTools();
 				control.Dispose(true);
 			}
 		}
