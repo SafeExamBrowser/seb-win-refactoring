@@ -27,11 +27,14 @@ namespace SafeExamBrowser.Browser.Wrapper
 		public event FaviconUrlChangedEventHandler FaviconUrlChanged;
 		public event FileDialogRequestedEventHandler FileDialogRequested;
 		public event FocusedNodeChangedEventHandler FocusedNodeChanged;
+		public event GotFocusEventHandler GotFocusCefSharp;
 		public event KeyEventHandler KeyEvent;
 		public event LoadingProgressChangedEventHandler LoadingProgressChanged;
 		public event OpenUrlFromTabEventHandler OpenUrlFromTab;
 		public event PreKeyEventHandler PreKeyEvent;
 		public event ResourceRequestEventHandler ResourceRequestHandlerRequired;
+		public event SetFocusEventHandler SetFocus;
+		public event TakeFocusEventHandler TakeFocus;
 		public event UncaughtExceptionEventHandler UncaughtExceptionEvent;
 
 		public CefSharpBrowserControl(ILifeSpanHandler lifeSpanHandler, string url) : base(url)
@@ -39,6 +42,7 @@ namespace SafeExamBrowser.Browser.Wrapper
 			DialogHandler = new DialogHandlerSwitch();
 			DisplayHandler = new DisplayHandlerSwitch();
 			DownloadHandler = new DownloadHandlerSwitch();
+			FocusHandler = new FocusHandlerSwitch();
 			KeyboardHandler = new KeyboardHandlerSwitch();
 			LifeSpanHandler = lifeSpanHandler;
 			MenuHandler = new ContextMenuHandler();
@@ -106,6 +110,11 @@ namespace SafeExamBrowser.Browser.Wrapper
 			FocusedNodeChanged?.Invoke(webBrowser, browser, frame, node);
 		}
 
+		public void OnGotFocus(IWebBrowser webBrowser, IBrowser browser)
+		{
+			GotFocusCefSharp?.Invoke(webBrowser, browser);
+		}
+
 		public void OnKeyEvent(IWebBrowser webBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey)
 		{
 			KeyEvent?.Invoke(webBrowser, browser, type, windowsKeyCode, nativeKeyCode, modifiers, isSystemKey);
@@ -124,6 +133,16 @@ namespace SafeExamBrowser.Browser.Wrapper
 		public void OnPreKeyEvent(IWebBrowser webBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut, GenericEventArgs args)
 		{
 			PreKeyEvent?.Invoke(webBrowser, browser, type, windowsKeyCode, nativeKeyCode, modifiers, isSystemKey, ref isKeyboardShortcut, args);
+		}
+
+		public void OnSetFocus(IWebBrowser webBrowser, IBrowser browser, CefFocusSource source, GenericEventArgs args)
+		{
+			SetFocus?.Invoke(webBrowser, browser, source, args);
+		}
+
+		public void OnTakeFocus(IWebBrowser webBrowser, IBrowser browser, bool next)
+		{
+			TakeFocus?.Invoke(webBrowser, browser, next);
 		}
 
 		public void OnUncaughtException(IWebBrowser webBrowser, IBrowser browser, IFrame frame, JavascriptException exception)

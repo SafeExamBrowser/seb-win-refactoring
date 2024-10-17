@@ -26,6 +26,7 @@ namespace SafeExamBrowser.Browser
 		private readonly IDialogHandler dialogHandler;
 		private readonly IDisplayHandler displayHandler;
 		private readonly IDownloadHandler downloadHandler;
+		private readonly IFocusHandler focusHandler;
 		private readonly IKeyboardHandler keyboardHandler;
 		private readonly ILogger logger;
 		private readonly IRenderProcessMessageHandler renderProcessMessageHandler;
@@ -47,6 +48,7 @@ namespace SafeExamBrowser.Browser
 			IDialogHandler dialogHandler,
 			IDisplayHandler displayHandler,
 			IDownloadHandler downloadHandler,
+			IFocusHandler focusHandler,
 			IKeyboardHandler keyboardHandler,
 			ILogger logger,
 			IRenderProcessMessageHandler renderProcessMessageHandler,
@@ -57,6 +59,7 @@ namespace SafeExamBrowser.Browser
 			this.dialogHandler = dialogHandler;
 			this.displayHandler = displayHandler;
 			this.downloadHandler = downloadHandler;
+			this.focusHandler = focusHandler;
 			this.keyboardHandler = keyboardHandler;
 			this.logger = logger;
 			this.renderProcessMessageHandler = renderProcessMessageHandler;
@@ -128,6 +131,7 @@ namespace SafeExamBrowser.Browser
 			control.FaviconUrlChanged += (w, b, u) => displayHandler.OnFaviconUrlChange(w, b, u);
 			control.FileDialogRequested += (w, b, m, t, p, f, e, d, c) => dialogHandler.OnFileDialog(w, b, m, t, p, f, e, d, c);
 			control.FocusedNodeChanged += (w, b, f, n) => renderProcessMessageHandler.OnFocusedNodeChanged(w, b, f, n);
+			control.GotFocusCefSharp += (w, b) => focusHandler.OnGotFocus(w, b);
 			control.IsBrowserInitializedChanged += Control_IsBrowserInitializedChanged;
 			control.KeyEvent += (w, b, t, k, n, m, s) => keyboardHandler.OnKeyEvent(w, b, t, k, n, m, s);
 			control.LoadError += (o, e) => LoadFailed?.Invoke((int) e.ErrorCode, e.ErrorText, e.Frame.IsMain, e.FailedUrl);
@@ -136,6 +140,8 @@ namespace SafeExamBrowser.Browser
 			control.OpenUrlFromTab += (w, b, f, u, t, g, a) => a.Value = requestHandler.OnOpenUrlFromTab(w, b, f, u, t, g);
 			control.PreKeyEvent += (IWebBrowser w, IBrowser b, KeyType t, int k, int n, CefEventFlags m, bool i, ref bool s, GenericEventArgs a) => a.Value = keyboardHandler.OnPreKeyEvent(w, b, t, k, n, m, i, ref s);
 			control.ResourceRequestHandlerRequired += (IWebBrowser w, IBrowser b, IFrame f, IRequest r, bool n, bool d, string i, ref bool h, ResourceRequestEventArgs a) => a.Handler = requestHandler.GetResourceRequestHandler(w, b, f, r, n, d, i, ref h);
+			control.SetFocus += (w, b, s, a) => a.Value = focusHandler.OnSetFocus(w, b, s);
+			control.TakeFocus += (w, b, n) => focusHandler.OnTakeFocus(w, b, n);
 			control.TitleChanged += (o, e) => TitleChanged?.Invoke(e.Title);
 			control.UncaughtExceptionEvent += (w, b, f, e) => renderProcessMessageHandler.OnUncaughtException(w, b, f, e);
 

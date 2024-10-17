@@ -28,11 +28,14 @@ namespace SafeExamBrowser.Browser.Wrapper
 		event FaviconUrlChangedEventHandler FaviconUrlChanged;
 		event FileDialogRequestedEventHandler FileDialogRequested;
 		event FocusedNodeChangedEventHandler FocusedNodeChanged;
+		event GotFocusEventHandler GotFocusCefSharp;
 		event KeyEventHandler KeyEvent;
 		event LoadingProgressChangedEventHandler LoadingProgressChanged;
 		event OpenUrlFromTabEventHandler OpenUrlFromTab;
 		event PreKeyEventHandler PreKeyEvent;
 		event ResourceRequestEventHandler ResourceRequestHandlerRequired;
+		event SetFocusEventHandler SetFocus;
+		event TakeFocusEventHandler TakeFocus;
 		event UncaughtExceptionEventHandler UncaughtExceptionEvent;
 
 		void Dispose(bool disposing);
@@ -48,10 +51,13 @@ namespace SafeExamBrowser.Browser.Wrapper
 		void OnFaviconUrlChange(IWebBrowser webBrowser, IBrowser browser, IList<string> urls);
 		void OnFileDialog(IWebBrowser webBrowser, IBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, IReadOnlyCollection<string> acceptFilters, IReadOnlyCollection<string> acceptExtensions, IReadOnlyCollection<string> acceptDescriptions, IFileDialogCallback callback);
 		void OnFocusedNodeChanged(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IDomNode node);
+		void OnGotFocus(IWebBrowser webBrowser, IBrowser browser);
 		void OnKeyEvent(IWebBrowser webBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey);
 		void OnLoadingProgressChange(IWebBrowser webBrowser, IBrowser browser, double progress);
 		void OnOpenUrlFromTab(IWebBrowser webBrowser, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture, GenericEventArgs args);
 		void OnPreKeyEvent(IWebBrowser webBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut, GenericEventArgs args);
+		void OnSetFocus(IWebBrowser webBrowser, IBrowser browser, CefFocusSource source, GenericEventArgs args);
+		void OnTakeFocus(IWebBrowser webBrowser, IBrowser browser, bool next);
 		void OnUncaughtException(IWebBrowser webBrowser, IBrowser browser, IFrame frame, JavascriptException exception);
 	}
 }
