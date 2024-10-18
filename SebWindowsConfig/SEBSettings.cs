@@ -847,6 +847,8 @@ namespace SebWindowsConfig
 				"RPCService.exe",
 				"RPCSuite.exe",
 				"Discord.exe",
+				"DiscordPTB.exe",
+				"DiscordCanary.exe",
 				"Camtasia.exe",
 				"CamtasiaStudio.exe",
 				"Camtasia_Studio.exe",
@@ -879,7 +881,8 @@ namespace SebWindowsConfig
 				"spotify.exe",
 				"Microsoft.Media.Player.exe",
 				"vlc.exe",
-				"sethc.exe"
+				"sethc.exe",
+				"Guilded.exe",
 			};
 
 			// Default settings for group "Network - Filter"
