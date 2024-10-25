@@ -113,6 +113,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "CiscoCollabHost.exe", OriginalName = "CiscoCollabHost.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "CiscoWebExStart.exe", OriginalName = "CiscoWebExStart.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Discord.exe", OriginalName = "Discord.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "DiscordPTB.exe", OriginalName = "DiscordPTB.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "DiscordCanary.exe", OriginalName = "DiscordCanary.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Element.exe", OriginalName = "Element.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "g2mcomm.exe", OriginalName = "g2mcomm.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "g2mlauncher.exe", OriginalName = "g2mlauncher.exe" });
@@ -149,6 +151,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "vncserverui.exe", OriginalName = "vncserverui.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "webexmta.exe", OriginalName = "webexmta.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Zoom.exe", OriginalName = "Zoom.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Guilded.exe", OriginalName = "Guilded.exe" });
 
 			settings.Browser.AdditionalWindow.AllowAddressBar = false;
 			settings.Browser.AdditionalWindow.AllowBackwardNavigation = true;
