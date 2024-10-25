@@ -22,7 +22,7 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		public bool OnSetFocus(IWebBrowser webBrowser, IBrowser browser, CefFocusSource source)
 		{
-			return true;
+			return false;
 		}
 
 		public void OnTakeFocus(IWebBrowser webBrowser, IBrowser browser, bool next)
