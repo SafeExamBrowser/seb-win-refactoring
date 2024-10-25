@@ -7,17 +7,13 @@
  */
 
 using CefSharp;
-using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Browser.Handlers
 {
 	internal class FocusHandler : IFocusHandler
 	{
-		private readonly ILogger logger;
-
-		internal FocusHandler(ILogger logger)
+		internal FocusHandler()
 		{
-			this.logger = logger;
 		}
 
 		public void OnGotFocus(IWebBrowser webBrowser, IBrowser browser)
