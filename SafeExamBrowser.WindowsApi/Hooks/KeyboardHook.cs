@@ -96,6 +96,11 @@ namespace SafeExamBrowser.WindowsApi.Hooks
 				modifier |= KeyModifier.Ctrl;
 			}
 
+			if(keyData.Flags.HasFlag(KBDLLHOOKSTRUCTFlags.LLKHF_INJECTED) || keyData.Flags.HasFlag(KBDLLHOOKSTRUCTFlags.LLKHF_LOWER_IL_INJECTED))
+			{
+				modifier |= KeyModifier.Injected;
+			}
+
 			return modifier;
 		}
 
