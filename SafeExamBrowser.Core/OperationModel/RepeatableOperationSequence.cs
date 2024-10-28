@@ -19,7 +19,7 @@ namespace SafeExamBrowser.Core.OperationModel
 	/// </summary>
 	public class RepeatableOperationSequence<T> : OperationSequence<T>, IRepeatableOperationSequence where T : IRepeatableOperation
 	{
-		public RepeatableOperationSequence(ILogger logger, Queue<T> operations) : base(logger, new Queue<T>(operations))
+		public RepeatableOperationSequence(ILogger logger, Queue<T> operations) : base(logger, operations)
 		{
 		}
 
