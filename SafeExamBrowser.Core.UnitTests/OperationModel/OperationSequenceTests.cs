@@ -12,9 +12,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
+using SafeExamBrowser.Core.OperationModel;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Core.OperationModel;
 
 namespace SafeExamBrowser.Core.UnitTests.OperationModel
 {
@@ -45,7 +45,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
-			var sut = new OperationSequence(loggerMock.Object, operations);
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, operations);
 
 			operations.Clear();
 
@@ -76,7 +76,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
-			var sut = new OperationSequence(loggerMock.Object, operations);
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, operations);
 
 			sut.ActionRequired += actionRequiredHandler;
 			sut.StatusChanged += statusChangedHandler;
@@ -114,7 +114,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
-			var sut = new OperationSequence(loggerMock.Object, operations);
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, operations);
 			var result = sut.TryPerform();
 
 			operationA.Verify(o => o.Perform(), Times.Once);
@@ -143,7 +143,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
-			var sut = new OperationSequence(loggerMock.Object, operations);
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, operations);
 			var result = sut.TryPerform();
 
 			operationA.Verify(o => o.Perform(), Times.Once);
@@ -173,7 +173,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
-			var sut = new OperationSequence(loggerMock.Object, operations);
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, operations);
 			var result = sut.TryPerform();
 
 			Assert.AreEqual(OperationResult.Success, result);
@@ -200,7 +200,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationC.Object);
 			operations.Enqueue(operationD.Object);
 
-			var sut = new OperationSequence(loggerMock.Object, operations);
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, operations);
 			var result = sut.TryPerform();
 
 			operationA.Verify(o => o.Perform(), Times.Once);
@@ -238,7 +238,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationC.Object);
 			operations.Enqueue(operationD.Object);
 
-			var sut = new OperationSequence(loggerMock.Object, operations);
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, operations);
 			var result = sut.TryPerform();
 
 			Assert.AreEqual(OperationResult.Failed, result);
@@ -268,7 +268,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
-			var sut = new OperationSequence(loggerMock.Object, operations);
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, operations);
 			var success = sut.TryPerform();
 
 			operationA.Verify(o => o.Perform(), Times.Once);
@@ -282,7 +282,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 		[TestMethod]
 		public void MustSucceedWithEmptyQueue()
 		{
-			var sut = new OperationSequence(loggerMock.Object, new Queue<IOperation>());
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, new Queue<IOperation>());
 			var result = sut.TryPerform();
 
 			Assert.AreEqual(OperationResult.Success, result);
@@ -292,7 +292,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 		[TestMethod]
 		public void MustNotFailInCaseOfUnexpectedError()
 		{
-			var sut = new OperationSequence(loggerMock.Object, new Queue<IOperation>());
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, new Queue<IOperation>());
 
 			sut.ProgressChanged += (args) => throw new Exception();
 
@@ -324,7 +324,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
-			var sut = new OperationSequence(loggerMock.Object, operations);
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, operations);
 
 			sut.TryPerform();
 
@@ -358,7 +358,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
-			var sut = new OperationSequence(loggerMock.Object, operations);
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, operations);
 
 			sut.TryPerform();
 
@@ -390,7 +390,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
-			var sut = new OperationSequence(loggerMock.Object, operations);
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, operations);
 
 			sut.TryPerform();
 
@@ -420,7 +420,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
-			var sut = new OperationSequence(loggerMock.Object, operations);
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, operations);
 
 			sut.TryPerform();
 
@@ -436,7 +436,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 		[TestMethod]
 		public void MustSucceedWithEmptyQueueWhenReverting()
 		{
-			var sut = new OperationSequence(loggerMock.Object, new Queue<IOperation>());
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, new Queue<IOperation>());
 
 			sut.TryPerform();
 
@@ -448,7 +448,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 		[TestMethod]
 		public void MustSucceedRevertingWithoutCallingPerform()
 		{
-			var sut = new OperationSequence(loggerMock.Object, new Queue<IOperation>());
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, new Queue<IOperation>());
 			var result = sut.TryRevert();
 
 			Assert.AreEqual(OperationResult.Success, result);
@@ -457,7 +457,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 		[TestMethod]
 		public void MustNotFailInCaseOfUnexpectedErrorWhenReverting()
 		{
-			var sut = new OperationSequence(loggerMock.Object, new Queue<IOperation>());
+			var sut = new OperationSequence<IOperation>(loggerMock.Object, new Queue<IOperation>());
 
 			sut.ProgressChanged += (args) => throw new Exception();
 

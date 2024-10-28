@@ -92,7 +92,7 @@ namespace SafeExamBrowser.Runtime
 			var vmDetector = new VirtualMachineDetector(ModuleLogger(nameof(VirtualMachineDetector)), registry, systemInfo);
 
 			var bootstrapOperations = new Queue<IOperation>();
-			var sessionOperations = new Queue<IRepeatableOperation>();
+			var sessionOperations = new Queue<SessionOperation>();
 
 			bootstrapOperations.Enqueue(new I18nOperation(logger, text));
 			bootstrapOperations.Enqueue(new CommunicationHostOperation(runtimeHost, logger));
@@ -113,8 +113,8 @@ namespace SafeExamBrowser.Runtime
 			sessionOperations.Enqueue(new ClientOperation(logger, processFactory, proxyFactory, runtimeHost, sessionContext, THIRTY_SECONDS));
 			sessionOperations.Enqueue(new SessionActivationOperation(logger, sessionContext));
 
-			var bootstrapSequence = new OperationSequence(logger, bootstrapOperations);
-			var sessionSequence = new RepeatableOperationSequence(logger, sessionOperations);
+			var bootstrapSequence = new OperationSequence<IOperation>(logger, bootstrapOperations);
+			var sessionSequence = new RepeatableOperationSequence<SessionOperation>(logger, sessionOperations);
 
 			RuntimeController = new RuntimeController(
 				appConfig,

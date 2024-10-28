@@ -11,8 +11,8 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Core.Contracts.OperationModel;
-using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Core.OperationModel;
+using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Core.UnitTests.OperationModel
 {
@@ -42,7 +42,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
-			var sut = new RepeatableOperationSequence(logger.Object, operations);
+			var sut = new RepeatableOperationSequence<IRepeatableOperation>(logger.Object, operations);
 			var result = sut.TryRepeat();
 
 			operationA.Verify(o => o.Repeat(), Times.Once);
@@ -71,7 +71,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
-			var sut = new RepeatableOperationSequence(logger.Object, operations);
+			var sut = new RepeatableOperationSequence<IRepeatableOperation>(logger.Object, operations);
 			var result = sut.TryRepeat();
 
 			operationA.Verify(o => o.Perform(), Times.Never);
@@ -104,7 +104,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationB.Object);
 			operations.Enqueue(operationC.Object);
 
-			var sut = new RepeatableOperationSequence(logger.Object, operations);
+			var sut = new RepeatableOperationSequence<IRepeatableOperation>(logger.Object, operations);
 			var result = sut.TryRepeat();
 
 			Assert.AreEqual(OperationResult.Success, result);
@@ -131,7 +131,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			operations.Enqueue(operationC.Object);
 			operations.Enqueue(operationD.Object);
 
-			var sut = new RepeatableOperationSequence(logger.Object, operations);
+			var sut = new RepeatableOperationSequence<IRepeatableOperation>(logger.Object, operations);
 			var result = sut.TryRepeat();
 
 			operationA.Verify(o => o.Repeat(), Times.Once);
@@ -149,7 +149,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 		[TestMethod]
 		public void MustSucceedRepeatingWithEmptyQueue()
 		{
-			var sut = new RepeatableOperationSequence(logger.Object, new Queue<IRepeatableOperation>());
+			var sut = new RepeatableOperationSequence<IRepeatableOperation>(logger.Object, new Queue<IRepeatableOperation>());
 			var result = sut.TryRepeat();
 
 			Assert.AreEqual(OperationResult.Success, result);
@@ -158,7 +158,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 		[TestMethod]
 		public void MustSucceedRepeatingWithoutCallingPerform()
 		{
-			var sut = new RepeatableOperationSequence(logger.Object, new Queue<IRepeatableOperation>());
+			var sut = new RepeatableOperationSequence<IRepeatableOperation>(logger.Object, new Queue<IRepeatableOperation>());
 			var result = sut.TryRepeat();
 
 			Assert.AreEqual(OperationResult.Success, result);
@@ -167,7 +167,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 		[TestMethod]
 		public void MustNotFailInCaseOfUnexpectedErrorWhenRepeating()
 		{
-			var sut = new RepeatableOperationSequence(logger.Object, new Queue<IRepeatableOperation>());
+			var sut = new RepeatableOperationSequence<IRepeatableOperation>(logger.Object, new Queue<IRepeatableOperation>());
 
 			sut.ProgressChanged += (args) => throw new Exception();
 

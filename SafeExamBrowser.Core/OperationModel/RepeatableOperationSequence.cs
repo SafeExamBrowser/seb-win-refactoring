@@ -17,13 +17,10 @@ namespace SafeExamBrowser.Core.OperationModel
 	/// <summary>
 	/// Default implementation of the <see cref="IRepeatableOperationSequence"/>.
 	/// </summary>
-	public class RepeatableOperationSequence : OperationSequence, IRepeatableOperationSequence
+	public class RepeatableOperationSequence<T> : OperationSequence<T>, IRepeatableOperationSequence where T : IRepeatableOperation
 	{
-		private new Queue<IRepeatableOperation> operations;
-
-		public RepeatableOperationSequence(ILogger logger, Queue<IRepeatableOperation> operations) : base(logger, new Queue<IOperation>(operations))
+		public RepeatableOperationSequence(ILogger logger, Queue<T> operations) : base(logger, new Queue<T>(operations))
 		{
-			this.operations = new Queue<IRepeatableOperation>(operations);
 		}
 
 		public OperationResult TryRepeat()

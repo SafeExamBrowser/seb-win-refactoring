@@ -142,7 +142,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new LazyInitializationOperation(BuildProctoringOperation));
 			operations.Enqueue(new ClipboardOperation(context, clipboard, logger));
 
-			var sequence = new OperationSequence(logger, operations);
+			var sequence = new OperationSequence<IOperation>(logger, operations);
 
 			ClientController = new ClientController(
 				actionCenter,
