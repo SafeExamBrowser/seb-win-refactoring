@@ -64,6 +64,7 @@
     <Compile Include="Operations\DelegateOperation.cs" />
     <Compile Include="OperationModel\OperationSequence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResponsibilityModel\ResponsibilityCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Communication.Contracts\SafeExamBrowser.Communication.Contracts.csproj">

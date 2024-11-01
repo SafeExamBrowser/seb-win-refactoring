@@ -10,13 +10,20 @@ using System;
 using System.Collections.Generic;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Browser.Contracts;
+using SafeExamBrowser.Client.Responsibilities;
 using SafeExamBrowser.Communication.Contracts.Hosts;
+using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Configuration.Contracts.Integrity;
+using SafeExamBrowser.Core.Contracts.ResponsibilityModel;
 using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Client
 {
@@ -51,14 +58,39 @@ namespace SafeExamBrowser.Client
 		internal IClientHost ClientHost { get; set; }
 
 		/// <summary>
+		/// The hash algorithm.
+		/// </summary>
+		internal IHashAlgorithm HashAlgorithm { get; set; }
+
+		/// <summary>
 		/// The integrity module.
 		/// </summary>
 		internal IIntegrityModule IntegrityModule { get; set; }
 
 		/// <summary>
+		/// The currently active lock screen, or <c>default</c> if no lock screen is active.
+		/// </summary>
+		internal ILockScreen LockScreen { get; set; }
+
+		/// <summary>
+		/// The message box.
+		/// </summary>
+		internal IMessageBox MessageBox { get; set; }
+
+		/// <summary>
 		/// The proctoring controller to be used if the current session has proctoring enabled.
 		/// </summary>
 		internal IProctoringController Proctoring { get; set; }
+
+		/// <summary>
+		/// The client responsibilities.
+		/// </summary>
+		internal IResponsibilityCollection<ClientTask> Responsibilities { get; set; }
+
+		/// <summary>
+		/// The runtime communication proxy.
+		/// </summary>
+		internal IRuntimeProxy Runtime { get; set; }
 
 		/// <summary>
 		/// The server proxy to be used if the current session mode is <see cref="SessionMode.Server"/>.
@@ -74,6 +106,11 @@ namespace SafeExamBrowser.Client
 		/// The settings for the current session.
 		/// </summary>
 		internal AppSettings Settings { get; set; }
+
+		/// <summary>
+		/// The user interface factory.
+		/// </summary>
+		internal IUserInterfaceFactory UserInterfaceFactory { get; set; }
 
 		internal ClientContext()
 		{

@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Core.OperationModel
 			remove { operations.ForEach(o => o.StatusChanged -= value); }
 		}
 
-		public OperationSequence(ILogger logger, Queue<T> operations)
+		public OperationSequence(ILogger logger, IEnumerable<T> operations)
 		{
 			this.logger = logger;
 			this.operations = new Queue<T>(operations);

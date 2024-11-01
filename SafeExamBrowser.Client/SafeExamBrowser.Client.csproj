@@ -110,6 +110,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Responsibilities\ApplicationsResponsibility.cs" />
+    <Compile Include="Responsibilities\BrowserResponsibility.cs" />
+    <Compile Include="Responsibilities\CommunicationResponsibility.cs" />
+    <Compile Include="Responsibilities\ClientResponsibility.cs" />
+    <Compile Include="Responsibilities\IntegrityResponsibility.cs" />
+    <Compile Include="Responsibilities\MonitoringResponsibility.cs" />
+    <Compile Include="Responsibilities\NetworkResponsibility.cs" />
+    <Compile Include="Responsibilities\ProctoringResponsibility.cs" />
+    <Compile Include="Responsibilities\ClientTask.cs" />
+    <Compile Include="Responsibilities\ServerResponsibility.cs" />
+    <Compile Include="Responsibilities\ShellResponsibility.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
