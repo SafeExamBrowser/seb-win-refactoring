@@ -69,7 +69,7 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 		private void DeregisterEvents()
 		{
-			if (ClientHost != null)
+			if (ClientHost != default)
 			{
 				ClientHost.ExamSelectionRequested -= ClientHost_ExamSelectionRequested;
 				ClientHost.MessageBoxRequested -= ClientHost_MessageBoxRequested;

@@ -76,7 +76,7 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 		private void DeregisterEvents()
 		{
-			if (Browser != null)
+			if (Browser != default)
 			{
 				Browser.ConfigurationDownloadRequested -= Browser_ConfigurationDownloadRequested;
 				Browser.LoseFocusRequested -= Browser_LoseFocusRequested;

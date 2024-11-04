@@ -137,7 +137,7 @@ namespace SafeExamBrowser.Client
 			context.Runtime = runtimeProxy;
 			context.UserInterfaceFactory = uiFactory;
 
-			ClientController = new ClientController(fileSystemDialog, logger, messageBox, operations, responsibilities, runtimeProxy, splashScreen, text);
+			ClientController = new ClientController(context, fileSystemDialog, logger, messageBox, operations, responsibilities, runtimeProxy, splashScreen, text);
 		}
 
 		internal void LogStartupInformation()
@@ -411,7 +411,7 @@ namespace SafeExamBrowser.Client
 
 		private void UpdateAppConfig()
 		{
-			splashScreen.AppConfig = context.AppConfig;
+			ClientController.UpdateAppConfig();
 		}
 
 		private IModuleLogger ModuleLogger(string moduleInfo)

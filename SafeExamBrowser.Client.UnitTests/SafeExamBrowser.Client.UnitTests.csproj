@@ -167,6 +167,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ClientControllerTests.cs" />
     <Compile Include="CoordinatorTests.cs" />
+    <Compile Include="Responsibilities\ApplicationResponsibilityTests.cs" />
+    <Compile Include="Responsibilities\BrowserResponsibilityTests.cs" />
+    <Compile Include="Responsibilities\CommunicationResponsibilityTests.cs" />
+    <Compile Include="Responsibilities\IntegrityResponsibilityTests.cs" />
+    <Compile Include="Responsibilities\MonitoringResponsibilityTests.cs" />
+    <Compile Include="Responsibilities\NetworkResponsibilityTests.cs" />
+    <Compile Include="Responsibilities\ProctoringResponsibilityTests.cs" />
+    <Compile Include="Responsibilities\ServerResponsibilityTests.cs" />
+    <Compile Include="Responsibilities\ShellResponsibilityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -244,6 +253,7 @@
       <Name>SafeExamBrowser.WindowsApi.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -25,6 +25,7 @@ namespace SafeExamBrowser.Client
 {
 	internal class ClientController
 	{
+		private readonly ClientContext context;
 		private readonly IFileSystemDialog fileSystemDialog;
 		private readonly ILogger logger;
 		private readonly IMessageBox messageBox;
@@ -35,6 +36,7 @@ namespace SafeExamBrowser.Client
 		private readonly IText text;
 
 		internal ClientController(
+			ClientContext context,
 			IFileSystemDialog fileSystemDialog,
 			ILogger logger,
 			IMessageBox messageBox,
@@ -44,6 +46,7 @@ namespace SafeExamBrowser.Client
 			ISplashScreen splashScreen,
 			IText text)
 		{
+			this.context = context;
 			this.fileSystemDialog = fileSystemDialog;
 			this.logger = logger;
 			this.messageBox = messageBox;
@@ -127,6 +130,11 @@ namespace SafeExamBrowser.Client
 			}
 
 			splashScreen.Close();
+		}
+
+		internal void UpdateAppConfig()
+		{
+			splashScreen.AppConfig = context.AppConfig;
 		}
 
 		private void Operations_ActionRequired(ActionRequiredEventArgs args)

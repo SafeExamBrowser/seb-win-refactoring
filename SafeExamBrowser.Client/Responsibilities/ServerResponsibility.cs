@@ -43,9 +43,12 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 		private void DeregisterEvents()
 		{
-			Server.LockScreenConfirmed -= Server_LockScreenConfirmed;
-			Server.LockScreenRequested -= Server_LockScreenRequested;
-			Server.TerminationRequested -= Server_TerminationRequested;
+			if (Server != default)
+			{
+				Server.LockScreenConfirmed -= Server_LockScreenConfirmed;
+				Server.LockScreenRequested -= Server_LockScreenRequested;
+				Server.TerminationRequested -= Server_TerminationRequested;
+			}
 		}
 
 		private void RegisterEvents()

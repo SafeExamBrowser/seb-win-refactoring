@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Client.Responsibilities
 			}
 		}
 
-		internal void AutoStart()
+		private void AutoStart()
 		{
 			foreach (var application in Context.Applications)
 			{
