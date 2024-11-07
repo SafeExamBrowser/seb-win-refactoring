@@ -372,6 +372,18 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        Doriți să părăsiți pagina curentă?
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        Plecați?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        Dorești să reîncarci pagina curentă?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        Reîncarcă?
+    </Entry>
     <Entry key="MessageBox_Quit">
         Dorești să părăsești SEB?
     </Entry>
@@ -395,12 +407,6 @@
     </Entry>
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         Eroare la reconfigurare
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmation">
-        Dorești să reîncarci pagina curentă?
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmationTitle">
-        Reîncarcă?
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
         Sistemul pare să ruleze într-o sesiune la distanță. Configurația selectată nu permite rularea SEB într-o sesiune la distanță.

@@ -375,6 +375,18 @@
     <Entry key="MessageBox_Quit">
         您想要退出防作弊考试专用浏览器吗？
     </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        您想离开当前页面吗？
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        离开？
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        您想要刷新当前页面吗？
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        刷新？
+    </Entry>
     <Entry key="MessageBox_QuitTitle">
         退出？
     </Entry>
@@ -395,12 +407,6 @@
     </Entry>
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         重置错误
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmation">
-        您想要刷新当前页面吗？
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmationTitle">
-        刷新？
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
         系统似乎正在远程会话中运行。所选的配置不允许SEB在远程会话中运行。

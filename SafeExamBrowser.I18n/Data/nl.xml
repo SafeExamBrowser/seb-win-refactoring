@@ -372,6 +372,18 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        Wil je de huidige pagina verlaten?
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        Verlaten?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        Wil je de huidige pagina opnieuw laden?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        Herladen?
+    </Entry>
     <Entry key="MessageBox_Quit">
         Wil je SEB sluiten?
     </Entry>
@@ -395,12 +407,6 @@
     </Entry>
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         Herconfiguratie fout
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmation">
-        Wilt u de huidige pagina opnieuw laden?
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmationTitle">
-        Herladen?
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
         Het systeem lijkt in een sessie op afstand te draaien. De geselecteerde configuratie staat niet toe dat SEB wordt uitgevoerd in een sessie op afstand.

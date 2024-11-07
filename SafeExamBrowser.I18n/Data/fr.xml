@@ -372,11 +372,23 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        Souhaitez-vous quitter la page actuelle?
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        Quitter?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        Souhaitez-vous recharger la page actuelle?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        Recharger?
+    </Entry>
     <Entry key="MessageBox_Quit">
         Voulez-vous quitter SEB?
     </Entry>
     <Entry key="MessageBox_QuitTitle">
-        Quitter ?
+        Quitter?
     </Entry>
     <Entry key="MessageBox_QuitError">
         Le client n'a pas réussi à communiquer la demande d'arrêt au serveur d'exécution!
@@ -395,12 +407,6 @@
     </Entry>
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         Erreur de reconfiguration
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmation">
-        Souhaitez-vous recharger la page actuelle?
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmationTitle">
-        Recharger ?
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
         Le système semble s'exécuter dans une session à distance. La configuration sélectionnée ne permet pas l'exécution de SEB dans une session à distance.

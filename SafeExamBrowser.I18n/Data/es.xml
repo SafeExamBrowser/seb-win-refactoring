@@ -372,6 +372,18 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        ¿Desea abandonar la página actual?
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        ¿Abandonar?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        ¿Desea recargar la página actual?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        ¿Recargar?
+    </Entry>
     <Entry key="MessageBox_Quit">
         ¿Quiere terminar SEB?
     </Entry>
@@ -395,12 +407,6 @@
     </Entry>
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         Error de reconfiguración
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmation">
-        ¿Desea recargar la página actual?
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmationTitle">
-        ¿Recargar?
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
         El sistema parece estar ejecutándose en una sesión remota. La configuración seleccionada no permite que SEB se ejecute en una sesión remota.

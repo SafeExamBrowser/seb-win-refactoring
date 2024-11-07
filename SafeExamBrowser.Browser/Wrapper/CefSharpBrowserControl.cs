@@ -20,18 +20,22 @@ namespace SafeExamBrowser.Browser.Wrapper
 		public event AuthCredentialsEventHandler AuthCredentialsRequired;
 		public event BeforeBrowseEventHandler BeforeBrowse;
 		public event BeforeDownloadEventHandler BeforeDownload;
+		public event BeforeUnloadDialogEventHandler BeforeUnloadDialog;
 		public event CanDownloadEventHandler CanDownload;
 		public event ContextCreatedEventHandler ContextCreated;
 		public event ContextReleasedEventHandler ContextReleased;
+		public event DialogClosedEventHandler DialogClosed;
 		public event DownloadUpdatedEventHandler DownloadUpdated;
 		public event FaviconUrlChangedEventHandler FaviconUrlChanged;
 		public event FileDialogRequestedEventHandler FileDialogRequested;
 		public event FocusedNodeChangedEventHandler FocusedNodeChanged;
 		public event GotFocusEventHandler GotFocusCefSharp;
+		public event JavaScriptDialogEventHandler JavaScriptDialog;
 		public event KeyEventHandler KeyEvent;
 		public event LoadingProgressChangedEventHandler LoadingProgressChanged;
 		public event OpenUrlFromTabEventHandler OpenUrlFromTab;
 		public event PreKeyEventHandler PreKeyEvent;
+		public event ResetDialogStateEventHandler ResetDialogState;
 		public event ResourceRequestEventHandler ResourceRequestHandlerRequired;
 		public event SetFocusEventHandler SetFocus;
 		public event TakeFocusEventHandler TakeFocus;
@@ -43,6 +47,7 @@ namespace SafeExamBrowser.Browser.Wrapper
 			DisplayHandler = new DisplayHandlerSwitch();
 			DownloadHandler = new DownloadHandlerSwitch();
 			FocusHandler = new FocusHandlerSwitch();
+			JsDialogHandler = new JavaScriptDialogHandlerSwitch();
 			KeyboardHandler = new KeyboardHandlerSwitch();
 			LifeSpanHandler = lifeSpanHandler;
 			MenuHandler = new ContextMenuHandler();
@@ -75,6 +80,11 @@ namespace SafeExamBrowser.Browser.Wrapper
 			BeforeDownload?.Invoke(webBrowser, browser, downloadItem, callback, args);
 		}
 
+		public void OnBeforeUnloadDialog(IWebBrowser webBrowser, IBrowser browser, string message, bool isReload, IJsDialogCallback callback, GenericEventArgs args)
+		{
+			BeforeUnloadDialog?.Invoke(webBrowser, browser, message, isReload, callback, args);
+		}
+
 		public void OnCanDownload(IWebBrowser webBrowser, IBrowser browser, string url, string requestMethod, GenericEventArgs args)
 		{
 			CanDownload?.Invoke(webBrowser, browser, url, requestMethod, args);
@@ -88,6 +98,11 @@ namespace SafeExamBrowser.Browser.Wrapper
 		public void OnContextReleased(IWebBrowser webBrowser, IBrowser browser, IFrame frame)
 		{
 			ContextReleased?.Invoke(webBrowser, browser, frame);
+		}
+
+		public void OnDialogClosed(IWebBrowser webBrowser, IBrowser browser)
+		{
+			DialogClosed?.Invoke(webBrowser, browser);
 		}
 
 		public void OnDownloadUpdated(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
@@ -115,6 +130,11 @@ namespace SafeExamBrowser.Browser.Wrapper
 			GotFocusCefSharp?.Invoke(webBrowser, browser);
 		}
 
+		public void OnJavaScriptDialog(IWebBrowser webBrowser, IBrowser browser, string originUrl, CefJsDialogType type, string message, string promptText, IJsDialogCallback callback, ref bool suppress, GenericEventArgs args)
+		{
+			JavaScriptDialog?.Invoke(webBrowser, browser, originUrl, type, message, promptText, callback, ref suppress, args);
+		}
+
 		public void OnKeyEvent(IWebBrowser webBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey)
 		{
 			KeyEvent?.Invoke(webBrowser, browser, type, windowsKeyCode, nativeKeyCode, modifiers, isSystemKey);
@@ -133,6 +153,11 @@ namespace SafeExamBrowser.Browser.Wrapper
 		public void OnPreKeyEvent(IWebBrowser webBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut, GenericEventArgs args)
 		{
 			PreKeyEvent?.Invoke(webBrowser, browser, type, windowsKeyCode, nativeKeyCode, modifiers, isSystemKey, ref isKeyboardShortcut, args);
+		}
+
+		public void OnResetDialogState(IWebBrowser webBrowser, IBrowser browser)
+		{
+			ResetDialogState?.Invoke(webBrowser, browser);
 		}
 
 		public void OnSetFocus(IWebBrowser webBrowser, IBrowser browser, CefFocusSource source, GenericEventArgs args)

@@ -372,6 +372,18 @@
     <Entry key="MessageBox_OkButton">
         ОК
     </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        Вы хотите покинуть текущую страницу?
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        Уехать?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        Хотели бы вы перезагрузить текущую страницу?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        Перезарядить?
+    </Entry>
     <Entry key="MessageBox_Quit">
         Вы хотите выйти из SEB?
     </Entry>
@@ -395,12 +407,6 @@
     </Entry>
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         Ошибка реконфигурации
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmation">
-        Хотели бы вы перезагрузить текущую страницу?
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmationTitle">
-        Перезарядить?
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
         Система, по-видимому, запущена в удаленном сеансе. Выбранная конфигурация не позволяет запускать SEB в удаленном сеансе.

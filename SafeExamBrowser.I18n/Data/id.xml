@@ -372,6 +372,18 @@
     <Entry key="MessageBox_OkButton">
         OK
     </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        Apakah Anda ingin meninggalkan halaman saat ini?
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        Pergi?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        Apakah Anda ingin memuat ulang halaman saat ini?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        Muat Ulang?
+    </Entry>
     <Entry key="MessageBox_Quit">
         Apakah Anda ingin keluar dari SEB?
     </Entry>
@@ -395,12 +407,6 @@
     </Entry>
     <Entry key="MessageBox_ReconfigurationErrorTitle">
         Kesalahan Konfigurasi Ulang
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmation">
-        Apakah Anda ingin memuat ulang halaman saat ini?
-    </Entry>
-    <Entry key="MessageBox_ReloadConfirmationTitle">
-        Muat Ulang?
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
         Sistem tampaknya sedang berjalan dalam sesi jarak jauh. Konfigurasi yang dipilih tidak mengizinkan SEB untuk dijalankan dalam sesi jarak jauh.
