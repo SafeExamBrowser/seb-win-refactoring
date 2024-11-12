@@ -14,10 +14,10 @@ using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class PingRequest : BaseRequest
+	internal class PingRequest : Request
 	{
 		internal PingRequest(
-			ApiVersion1 api,
+			Api api,
 			HttpClient httpClient,
 			ILogger logger,
 			Parser parser,

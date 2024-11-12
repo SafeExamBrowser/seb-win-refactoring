@@ -13,10 +13,10 @@ using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class OAuth2TokenRequest : BaseRequest
+	internal class OAuth2TokenRequest : Request
 	{
 		internal OAuth2TokenRequest(
-			ApiVersion1 api,
+			Api api,
 			HttpClient httpClient,
 			ILogger logger,
 			Parser parser,

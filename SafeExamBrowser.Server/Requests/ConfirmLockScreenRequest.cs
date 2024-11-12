@@ -15,10 +15,10 @@ using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class ConfirmLockScreenRequest : BaseRequest
+	internal class ConfirmLockScreenRequest : Request
 	{
 		internal ConfirmLockScreenRequest(
-			ApiVersion1 api,
+			Api api,
 			HttpClient httpClient,
 			ILogger logger,
 			Parser parser,

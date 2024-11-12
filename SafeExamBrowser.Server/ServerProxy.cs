@@ -43,11 +43,12 @@ namespace SafeExamBrowser.Server
 		private readonly Parser parser;
 		private readonly Timer pingTimer;
 		private readonly IPowerSupply powerSupply;
+		private readonly Sanitizer sanitizer;
 		private readonly ISystemInfo systemInfo;
 		private readonly IUserInfo userInfo;
 		private readonly INetworkAdapter networkAdapter;
 
-		private ApiVersion1 api;
+		private Api api;
 		private int currentHandId;
 		private int currentLockScreenId;
 		private string examId;
@@ -75,7 +76,7 @@ namespace SafeExamBrowser.Server
 			IPowerSupply powerSupply = default,
 			INetworkAdapter networkAdapter = default)
 		{
-			this.api = new ApiVersion1();
+			this.api = new Api();
 			this.appConfig = appConfig;
 			this.keyGenerator = keyGenerator;
 			this.fileSystem = new FileSystem(appConfig, logger);
@@ -87,6 +88,7 @@ namespace SafeExamBrowser.Server
 			this.parser = new Parser(logger);
 			this.pingTimer = new Timer();
 			this.powerSupply = powerSupply;
+			this.sanitizer = new Sanitizer();
 			this.systemInfo = systemInfo;
 			this.userInfo = userInfo;
 		}
@@ -110,7 +112,7 @@ namespace SafeExamBrowser.Server
 
 		public ServerResponse Connect()
 		{
-			var request = new ApiRequest(api, httpClient, logger, parser, settings);
+			var request = new ApiRequest(api, httpClient, logger, parser, sanitizer, settings);
 			var success = request.TryExecute(out api, out var message);
 
 			if (success)
@@ -194,8 +196,8 @@ namespace SafeExamBrowser.Server
 			return new ConnectionInfo
 			{
 				Api = JsonConvert.SerializeObject(api),
-				ConnectionToken = BaseRequest.ConnectionToken,
-				Oauth2Token = BaseRequest.Oauth2Token
+				ConnectionToken = Request.ConnectionToken,
+				Oauth2Token = Request.Oauth2Token
 			};
 		}
 
@@ -204,7 +206,7 @@ namespace SafeExamBrowser.Server
 			this.settings = settings;
 
 			httpClient = new HttpClient();
-			httpClient.BaseAddress = new Uri(settings.ServerUrl);
+			httpClient.BaseAddress = sanitizer.Sanitize(settings.ServerUrl);
 
 			if (settings.RequestTimeout > 0)
 			{
@@ -214,11 +216,11 @@ namespace SafeExamBrowser.Server
 
 		public void Initialize(string api, string connectionToken, string examId, string oauth2Token, ServerSettings settings)
 		{
-			this.api = JsonConvert.DeserializeObject<ApiVersion1>(api);
+			this.api = JsonConvert.DeserializeObject<Api>(api);
 			this.examId = examId;
 
-			BaseRequest.ConnectionToken = connectionToken;
-			BaseRequest.Oauth2Token = oauth2Token;
+			Request.ConnectionToken = connectionToken;
+			Request.Oauth2Token = oauth2Token;
 
 			Initialize(settings);
 		}
@@ -517,7 +519,7 @@ namespace SafeExamBrowser.Server
 
 		private bool TrySendAppSignatureKey(string salt, out string message)
 		{
-			var appSignatureKey = keyGenerator.CalculateAppSignatureKey(BaseRequest.ConnectionToken, salt);
+			var appSignatureKey = keyGenerator.CalculateAppSignatureKey(Request.ConnectionToken, salt);
 			var request = new AppSignatureKeyRequest(api, httpClient, logger, parser, settings);
 			var success = request.TryExecute(appSignatureKey, out message);
 

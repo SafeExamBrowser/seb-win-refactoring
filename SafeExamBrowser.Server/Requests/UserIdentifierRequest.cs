@@ -13,10 +13,10 @@ using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class UserIdentifierRequest : BaseRequest
+	internal class UserIdentifierRequest : Request
 	{
 		internal UserIdentifierRequest(
-			ApiVersion1 api,
+			Api api,
 			HttpClient httpClient,
 			ILogger logger,
 			Parser parser,

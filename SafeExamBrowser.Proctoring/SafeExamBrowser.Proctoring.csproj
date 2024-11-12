@@ -107,6 +107,7 @@
     <Compile Include="ScreenProctoring\Service\Requests\OAuth2TokenRequest.cs" />
     <Compile Include="ScreenProctoring\Service\Requests\Request.cs" />
     <Compile Include="ScreenProctoring\Service\Requests\ScreenShotRequest.cs" />
+    <Compile Include="ScreenProctoring\Service\Sanitizer.cs" />
     <Compile Include="ScreenProctoring\Service\ServiceProxy.cs" />
     <Compile Include="ScreenProctoring\Service\ServiceResponse.cs" />
     <Compile Include="ScreenProctoring\TransmissionSpooler.cs" />

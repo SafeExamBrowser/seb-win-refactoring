@@ -13,10 +13,10 @@ using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class AppSignatureKeyRequest : BaseRequest
+	internal class AppSignatureKeyRequest : Request
 	{
 		internal AppSignatureKeyRequest(
-			ApiVersion1 api,
+			Api api,
 			HttpClient httpClient,
 			ILogger logger,
 			Parser parser,

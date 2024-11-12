@@ -19,7 +19,7 @@ using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal abstract class BaseRequest
+	internal abstract class Request
 	{
 		private static string connectionToken;
 		private static string oauth2Token;
@@ -28,7 +28,7 @@ namespace SafeExamBrowser.Server.Requests
 
 		private bool hadException;
 
-		protected readonly ApiVersion1 api;
+		protected readonly Api api;
 		protected readonly ILogger logger;
 		protected readonly Parser parser;
 		protected readonly ServerSettings settings;
@@ -48,7 +48,7 @@ namespace SafeExamBrowser.Server.Requests
 			set { oauth2Token = value; }
 		}
 
-		protected BaseRequest(ApiVersion1 api, HttpClient httpClient, ILogger logger, Parser parser, ServerSettings settings)
+		protected Request(Api api, HttpClient httpClient, ILogger logger, Parser parser, ServerSettings settings)
 		{
 			this.api = api;
 			this.httpClient = httpClient;
@@ -188,7 +188,10 @@ namespace SafeExamBrowser.Server.Requests
 
 		private bool PerformLoggingFor(HttpRequestMessage request)
 		{
-			return request.RequestUri.AbsolutePath != api.LogEndpoint && request.RequestUri.AbsolutePath != api.PingEndpoint;
+			var path = request.RequestUri.AbsolutePath.TrimStart('/');
+			var perform = path != api.LogEndpoint && path != api.PingEndpoint;
+
+			return perform;
 		}
 
 		private (string name, string value)[] UpdateOAuth2Token((string name, string value)[] headers)

@@ -11,7 +11,7 @@ using System.Net.Http;
 using System.Text;
 using SafeExamBrowser.Settings.Logging;
 
-namespace SafeExamBrowser.Server
+namespace SafeExamBrowser.Server.Requests
 {
 	internal static class Extensions
 	{

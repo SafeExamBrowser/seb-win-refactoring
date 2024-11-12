@@ -14,9 +14,9 @@ using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class SelectExamRequest : BaseRequest
+	internal class SelectExamRequest : Request
 	{
-		internal SelectExamRequest(ApiVersion1 api, HttpClient httpClient, ILogger logger, Parser parser, ServerSettings settings) : base(api, httpClient, logger, parser, settings)
+		internal SelectExamRequest(Api api, HttpClient httpClient, ILogger logger, Parser parser, ServerSettings settings) : base(api, httpClient, logger, parser, settings)
 		{
 		}
 

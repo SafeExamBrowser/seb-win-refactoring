@@ -17,14 +17,14 @@ using SafeExamBrowser.SystemComponents.Contracts;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class AvailableExamsRequest : BaseRequest
+	internal class AvailableExamsRequest : Request
 	{
 		private readonly AppConfig appConfig;
 		private readonly ISystemInfo systemInfo;
 		private readonly IUserInfo userInfo;
 
 		internal AvailableExamsRequest(
-			ApiVersion1 api,
+			Api api,
 			AppConfig appConfig,
 			HttpClient httpClient,
 			ILogger logger,

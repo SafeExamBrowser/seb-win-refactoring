@@ -19,10 +19,10 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Service
 
 		internal Api()
 		{
-			AccessTokenEndpoint = "/oauth/token";
-			HealthEndpoint = "/health";
-			ScreenShotEndpoint = $"/seb-api/v1/session/{SESSION_ID}/screenshot";
-			SessionEndpoint = "/seb-api/v1/session";
+			AccessTokenEndpoint = "oauth/token";
+			HealthEndpoint = "health";
+			ScreenShotEndpoint = $"seb-api/v1/session/{SESSION_ID}/screenshot";
+			SessionEndpoint = "seb-api/v1/session";
 		}
 	}
 }

@@ -17,10 +17,10 @@ using SafeExamBrowser.SystemComponents.Contracts.Network;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class NetworkAdapterRequest : BaseRequest
+	internal class NetworkAdapterRequest : Request
 	{
 		internal NetworkAdapterRequest(
-			ApiVersion1 api,
+			Api api,
 			HttpClient httpClient,
 			ILogger logger,
 			Parser parser,

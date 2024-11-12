@@ -15,10 +15,10 @@ using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class LowerHandRequest : BaseRequest
+	internal class LowerHandRequest : Request
 	{
 		internal LowerHandRequest(
-			ApiVersion1 api,
+			Api api,
 			HttpClient httpClient,
 			ILogger logger,
 			Parser parser,

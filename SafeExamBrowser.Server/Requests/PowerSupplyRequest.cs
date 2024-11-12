@@ -17,10 +17,10 @@ using SafeExamBrowser.SystemComponents.Contracts.PowerSupply;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class PowerSupplyRequest : BaseRequest
+	internal class PowerSupplyRequest : Request
 	{
 		internal PowerSupplyRequest(
-			ApiVersion1 api,
+			Api api,
 			HttpClient httpClient,
 			ILogger logger,
 			Parser parser,

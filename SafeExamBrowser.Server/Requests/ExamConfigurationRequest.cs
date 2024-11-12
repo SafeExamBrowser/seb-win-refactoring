@@ -14,10 +14,10 @@ using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class ExamConfigurationRequest : BaseRequest
+	internal class ExamConfigurationRequest : Request
 	{
 		internal ExamConfigurationRequest(
-			ApiVersion1 api,
+			Api api,
 			HttpClient httpClient,
 			ILogger logger,
 			Parser parser,

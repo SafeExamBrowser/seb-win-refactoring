@@ -50,11 +50,11 @@ namespace SafeExamBrowser.Server
 			return isExpired;
 		}
 
-		internal bool TryParseApi(HttpContent content, out ApiVersion1 api)
+		internal bool TryParseApi(HttpContent content, out Api api)
 		{
 			var success = false;
 
-			api = new ApiVersion1();
+			api = new Api();
 
 			try
 			{
