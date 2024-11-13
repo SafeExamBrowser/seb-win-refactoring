@@ -157,6 +157,7 @@ namespace SafeExamBrowser.Browser
 			var displayHandler = new DisplayHandler();
 			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} #{Id}");
 			var downloadHandler = new DownloadHandler(appConfig, downloadLogger, settings, WindowSettings);
+			var dragHandler = new DragHandler();
 			var focusHandler = new FocusHandler();
 			var javaScriptDialogHandler = new JavaScriptDialogHandler();
 			var keyboardHandler = new KeyboardHandler();
@@ -198,7 +199,19 @@ namespace SafeExamBrowser.Browser
 
 			InitializeRequestFilter(requestFilter);
 
-			Control = new BrowserControl(clipboard, cefSharpControl, dialogHandler, displayHandler, downloadHandler, focusHandler, javaScriptDialogHandler, keyboardHandler, controlLogger, renderHandler, requestHandler);
+			Control = new BrowserControl(
+				clipboard,
+				cefSharpControl,
+				dialogHandler,
+				displayHandler,
+				downloadHandler,
+				dragHandler,
+				focusHandler,
+				javaScriptDialogHandler,
+				keyboardHandler,
+				controlLogger,
+				renderHandler,
+				requestHandler);
 			Control.AddressChanged += Control_AddressChanged;
 			Control.LoadFailed += Control_LoadFailed;
 			Control.LoadingStateChanged += Control_LoadingStateChanged;

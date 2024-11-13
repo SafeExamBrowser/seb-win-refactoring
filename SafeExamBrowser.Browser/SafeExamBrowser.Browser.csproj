@@ -106,6 +106,7 @@
     <Compile Include="Handlers\DialogHandler.cs" />
     <Compile Include="Handlers\DisplayHandler.cs" />
     <Compile Include="Handlers\DownloadHandler.cs" />
+    <Compile Include="Handlers\DragHandler.cs" />
     <Compile Include="Handlers\FocusHandler.cs" />
     <Compile Include="Handlers\KeyboardHandler.cs" />
     <Compile Include="Handlers\RenderProcessMessageHandler.cs" />
@@ -128,6 +129,8 @@
     <Compile Include="Wrapper\Events\ContextReleasedEventHandler.cs" />
     <Compile Include="Wrapper\Events\DialogClosedEventHandler.cs" />
     <Compile Include="Wrapper\Events\DownloadUpdatedEventHandler.cs" />
+    <Compile Include="Wrapper\Events\DragEnterEventHandler.cs" />
+    <Compile Include="Wrapper\Events\DraggableRegionsChangedEventHandler.cs" />
     <Compile Include="Wrapper\Events\FaviconUrlChangedEventHandler.cs" />
     <Compile Include="Wrapper\Events\FileDialogRequestedEventHandler.cs" />
     <Compile Include="Wrapper\Events\FocusedNodeChangedEventHandler.cs" />
@@ -148,6 +151,7 @@
     <Compile Include="Wrapper\Handlers\DialogHandlerSwitch.cs" />
     <Compile Include="Wrapper\Handlers\DisplayHandlerSwitch.cs" />
     <Compile Include="Wrapper\Handlers\DownloadHandlerSwitch.cs" />
+    <Compile Include="Wrapper\Handlers\DragHandlerSwitch.cs" />
     <Compile Include="Wrapper\Handlers\FocusHandlerSwitch.cs" />
     <Compile Include="Handlers\JavaScriptDialogHandler.cs" />
     <Compile Include="Wrapper\Handlers\JavaScriptDialogHandlerSwitch.cs" />

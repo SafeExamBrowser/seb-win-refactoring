@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using CefSharp;
+using CefSharp.Enums;
 using CefSharp.WinForms;
 using SafeExamBrowser.Browser.Wrapper.Events;
 using KeyEventHandler = SafeExamBrowser.Browser.Wrapper.Events.KeyEventHandler;
@@ -27,6 +28,8 @@ namespace SafeExamBrowser.Browser.Wrapper
 		event ContextReleasedEventHandler ContextReleased;
 		event DialogClosedEventHandler DialogClosed;
 		event DownloadUpdatedEventHandler DownloadUpdated;
+		event DragEnterEventHandler DragEnterCefSharp;
+		event DraggableRegionsChangedEventHandler DraggableRegionsChanged;
 		event FaviconUrlChangedEventHandler FaviconUrlChanged;
 		event FileDialogRequestedEventHandler FileDialogRequested;
 		event FocusedNodeChangedEventHandler FocusedNodeChanged;
@@ -54,6 +57,8 @@ namespace SafeExamBrowser.Browser.Wrapper
 		void OnContextReleased(IWebBrowser webBrowser, IBrowser browser, IFrame frame);
 		void OnDialogClosed(IWebBrowser webBrowser, IBrowser browser);
 		void OnDownloadUpdated(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback);
+		void OnDragEnter(IWebBrowser webBrowser, IBrowser browser, IDragData dragData, DragOperationsMask mask, GenericEventArgs args);
+		void OnDraggableRegionsChanged(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IList<DraggableRegion> regions);
 		void OnFaviconUrlChange(IWebBrowser webBrowser, IBrowser browser, IList<string> urls);
 		void OnFileDialog(IWebBrowser webBrowser, IBrowser browser, CefFileDialogMode mode, string title, string defaultFilePath, IReadOnlyCollection<string> acceptFilters, IReadOnlyCollection<string> acceptExtensions, IReadOnlyCollection<string> acceptDescriptions, IFileDialogCallback callback);
 		void OnFocusedNodeChanged(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IDomNode node);

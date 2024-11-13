@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using CefSharp;
+using CefSharp.Enums;
 using CefSharp.WinForms;
 using SafeExamBrowser.Browser.Handlers;
 using SafeExamBrowser.Browser.Wrapper.Events;
@@ -26,6 +27,8 @@ namespace SafeExamBrowser.Browser.Wrapper
 		public event ContextReleasedEventHandler ContextReleased;
 		public event DialogClosedEventHandler DialogClosed;
 		public event DownloadUpdatedEventHandler DownloadUpdated;
+		public event DragEnterEventHandler DragEnterCefSharp;
+		public event DraggableRegionsChangedEventHandler DraggableRegionsChanged;
 		public event FaviconUrlChangedEventHandler FaviconUrlChanged;
 		public event FileDialogRequestedEventHandler FileDialogRequested;
 		public event FocusedNodeChangedEventHandler FocusedNodeChanged;
@@ -46,6 +49,7 @@ namespace SafeExamBrowser.Browser.Wrapper
 			DialogHandler = new DialogHandlerSwitch();
 			DisplayHandler = new DisplayHandlerSwitch();
 			DownloadHandler = new DownloadHandlerSwitch();
+			DragHandler = new DragHandlerSwitch();
 			FocusHandler = new FocusHandlerSwitch();
 			JsDialogHandler = new JavaScriptDialogHandlerSwitch();
 			KeyboardHandler = new KeyboardHandlerSwitch();
@@ -108,6 +112,16 @@ namespace SafeExamBrowser.Browser.Wrapper
 		public void OnDownloadUpdated(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback)
 		{
 			DownloadUpdated?.Invoke(webBrowser, browser, downloadItem, callback);
+		}
+
+		public void OnDragEnter(IWebBrowser webBrowser, IBrowser browser, IDragData dragData, DragOperationsMask mask, GenericEventArgs args)
+		{
+			DragEnterCefSharp?.Invoke(webBrowser, browser, dragData, mask, args);
+		}
+
+		public void OnDraggableRegionsChanged(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IList<DraggableRegion> regions)
+		{
+			DraggableRegionsChanged?.Invoke(webBrowser, browser, frame, regions);
 		}
 
 		public void OnFaviconUrlChange(IWebBrowser webBrowser, IBrowser browser, IList<string> urls)

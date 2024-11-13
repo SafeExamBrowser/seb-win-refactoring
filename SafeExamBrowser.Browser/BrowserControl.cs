@@ -26,6 +26,7 @@ namespace SafeExamBrowser.Browser
 		private readonly IDialogHandler dialogHandler;
 		private readonly IDisplayHandler displayHandler;
 		private readonly IDownloadHandler downloadHandler;
+		private readonly IDragHandler dragHandler;
 		private readonly IFocusHandler focusHandler;
 		private readonly IJsDialogHandler javaScriptDialogHandler;
 		private readonly IKeyboardHandler keyboardHandler;
@@ -49,6 +50,7 @@ namespace SafeExamBrowser.Browser
 			IDialogHandler dialogHandler,
 			IDisplayHandler displayHandler,
 			IDownloadHandler downloadHandler,
+			IDragHandler dragHandler,
 			IFocusHandler focusHandler,
 			IJsDialogHandler javaScriptDialogHandler,
 			IKeyboardHandler keyboardHandler,
@@ -61,6 +63,7 @@ namespace SafeExamBrowser.Browser
 			this.dialogHandler = dialogHandler;
 			this.displayHandler = displayHandler;
 			this.downloadHandler = downloadHandler;
+			this.dragHandler = dragHandler;
 			this.focusHandler = focusHandler;
 			this.javaScriptDialogHandler = javaScriptDialogHandler;
 			this.keyboardHandler = keyboardHandler;
@@ -133,6 +136,8 @@ namespace SafeExamBrowser.Browser
 			control.ContextReleased += (w, b, f) => renderProcessMessageHandler.OnContextReleased(w, b, f);
 			control.DialogClosed += (w, b) => javaScriptDialogHandler.OnDialogClosed(w, b);
 			control.DownloadUpdated += (w, b, d, c) => downloadHandler.OnDownloadUpdated(w, b, d, c);
+			control.DragEnterCefSharp += (w, b, d, m, a) => a.Value = dragHandler.OnDragEnter(w, b, d, m);
+			control.DraggableRegionsChanged += (w, b, f, r) => dragHandler.OnDraggableRegionsChanged(w, b, f, r);
 			control.FaviconUrlChanged += (w, b, u) => displayHandler.OnFaviconUrlChange(w, b, u);
 			control.FileDialogRequested += (w, b, m, t, p, f, e, d, c) => dialogHandler.OnFileDialog(w, b, m, t, p, f, e, d, c);
 			control.FocusedNodeChanged += (w, b, f, n) => renderProcessMessageHandler.OnFocusedNodeChanged(w, b, f, n);
