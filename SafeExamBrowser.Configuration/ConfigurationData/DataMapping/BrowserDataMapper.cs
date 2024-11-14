@@ -182,7 +182,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 
 		internal override void MapGlobal(IDictionary<string, object> rawData, AppSettings settings)
 		{
-			MapLegacyDownUploadSetting(rawData, settings);
 			MapPopupPolicy(rawData, settings);
 			MapRequestFilter(rawData, settings);
 			MapUserAgentMode(rawData, settings);
@@ -404,15 +403,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool use)
 			{
 				settings.Browser.UseStartUrlAsHomeUrl = use;
-			}
-		}
-
-		private void MapLegacyDownUploadSetting(IDictionary<string, object> rawData, AppSettings settings)
-		{
-			if (rawData.TryGetValue(Keys.Browser.AllowDownloadsAndUploads, out var value) && value is bool allow)
-			{
-				settings.Browser.AllowDownloads &= allow;
-				settings.Browser.AllowUploads &= allow;
 			}
 		}
 

@@ -120,6 +120,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "g2mlauncher.exe", OriginalName = "g2mlauncher.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "g2mstart.exe", OriginalName = "g2mstart.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "GotoMeetingWinStore.exe", OriginalName = "GotoMeetingWinStore.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Guilded.exe", OriginalName = "Guilded.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "join.me.exe", OriginalName = "join.me.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "join.me.sentinel.exe", OriginalName = "join.me.sentinel.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Microsoft.Media.player.exe", OriginalName = "Microsoft.Media.player.exe" });
@@ -151,7 +152,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "vncserverui.exe", OriginalName = "vncserverui.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "webexmta.exe", OriginalName = "webexmta.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Zoom.exe", OriginalName = "Zoom.exe" });
-			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Guilded.exe", OriginalName = "Guilded.exe" });
 
 			settings.Browser.AdditionalWindow.AllowAddressBar = false;
 			settings.Browser.AdditionalWindow.AllowBackwardNavigation = true;

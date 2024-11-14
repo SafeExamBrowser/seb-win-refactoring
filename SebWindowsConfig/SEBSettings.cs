@@ -179,7 +179,6 @@ namespace SebWindowsConfig
 		public const String KeyAllowPrint = "allowPrint";
 
 		// Group "DownUploads"
-		public const String KeyAllowDownUploads = "allowDownUploads";
 		public const String KeyAllowCustomDownUploadLocation = "allowCustomDownUploadLocation";
 		public const String KeyDownloadDirectoryOSX = "downloadDirectoryOSX";
 		public const String KeyDownloadDirectoryWin = "downloadDirectoryWin";
@@ -722,7 +721,6 @@ namespace SebWindowsConfig
 			SEBSettings.strArrayDefault[SEBSettings.ValNewBrowserWindowByLinkHeight] = "100%";
 
 			// Default settings for group "DownUploads"
-			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowDownUploads, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowCustomDownUploadLocation, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyDownloadDirectoryOSX, "~/Downloads");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyDownloadDirectoryWin, "");

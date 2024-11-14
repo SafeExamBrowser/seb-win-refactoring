@@ -550,7 +550,6 @@ namespace SebWindowsConfig
 			comboBoxUrlPolicyNewWindow.SelectedIndex = (int) SEBSettings.settingsCurrent[SEBSettings.KeyNewBrowserWindowUrlPolicy];
 
 			// Group "Down/Uploads"
-			checkBoxAllowDownUploads.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowDownUploads];
 			checkBoxAllowCustomDownloadLocation.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowCustomDownUploadLocation];
 			checkBoxOpenDownloads.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyOpenDownloads];
 			checkBoxDownloadPDFFiles.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyDownloadPDFFiles];
@@ -2333,10 +2332,6 @@ namespace SebWindowsConfig
 		// ********************
 		// Group "Down/Uploads"
 		// ********************
-		private void checkBoxAllowDownUploads_CheckedChanged(object sender, EventArgs e)
-		{
-			SEBSettings.settingsCurrent[SEBSettings.KeyAllowDownUploads] = checkBoxAllowDownUploads.Checked;
-		}
 
 		private void buttonDownloadDirectoryWin_Click(object sender, EventArgs e)
 		{
