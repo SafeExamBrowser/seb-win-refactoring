@@ -70,7 +70,7 @@ namespace SafeExamBrowser.Monitoring.System
 
 		public void StartMonitoringSystemEvents()
 		{
-			systemEvents.SessionChanged += () => SessionChanged?.Invoke();
+			systemEvents.SessionChanged += (reason) => SessionChanged?.Invoke(reason);
 			systemEvents.StartMonitoring();
 		}
 

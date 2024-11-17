@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Win32;
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
@@ -251,14 +252,20 @@ namespace SafeExamBrowser.Client.Responsibilities
 			}
 		}
 
-		private void Sentinel_SessionChanged()
+		private void Sentinel_SessionChanged(SessionSwitchReason reason)
 		{
+			
 			var allow = !Settings.Service.IgnoreService && (!Settings.Service.DisableUserLock || !Settings.Service.DisableUserSwitch);
 			var disable = Settings.Security.DisableSessionChangeLockScreen;
-
+			var isSessionLockEvent = reason == SessionSwitchReason.SessionLock;
+			var isSessionUnlockEvent = reason == SessionSwitchReason.SessionUnlock;
 			if (allow || disable)
 			{
 				Logger.Info($"Detected user session change, but {(allow ? "session locking and/or switching is allowed" : "lock screen is deactivated")}.");
+			}
+			else if (isSessionLockEvent || isSessionUnlockEvent)
+			{
+				Logger.Info($"Detected user session {(isSessionLockEvent ? "lock" : "unlock")}, ignoring!");
 			}
 			else
 			{
