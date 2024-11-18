@@ -6,19 +6,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
-using System.Linq;
-using SafeExamBrowser.Applications.Contracts;
-using SafeExamBrowser.Client.Operations.Events;
 using SafeExamBrowser.Client.Responsibilities;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Core.Contracts.OperationModel;
-using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.Core.Contracts.ResponsibilityModel;
-using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
-using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Client
@@ -26,82 +18,60 @@ namespace SafeExamBrowser.Client
 	internal class ClientController
 	{
 		private readonly ClientContext context;
-		private readonly IFileSystemDialog fileSystemDialog;
 		private readonly ILogger logger;
-		private readonly IMessageBox messageBox;
 		private readonly IOperationSequence operations;
 		private readonly IResponsibilityCollection<ClientTask> responsibilities;
 		private readonly IRuntimeProxy runtime;
 		private readonly ISplashScreen splashScreen;
-		private readonly IText text;
 
 		internal ClientController(
 			ClientContext context,
-			IFileSystemDialog fileSystemDialog,
 			ILogger logger,
-			IMessageBox messageBox,
 			IOperationSequence operations,
 			IResponsibilityCollection<ClientTask> responsibilities,
 			IRuntimeProxy runtime,
-			ISplashScreen splashScreen,
-			IText text)
+			ISplashScreen splashScreen)
 		{
 			this.context = context;
-			this.fileSystemDialog = fileSystemDialog;
 			this.logger = logger;
-			this.messageBox = messageBox;
 			this.operations = operations;
 			this.responsibilities = responsibilities;
 			this.runtime = runtime;
 			this.splashScreen = splashScreen;
-			this.text = text;
 		}
 
 		internal bool TryStart()
 		{
 			logger.Info("Initiating startup procedure...");
 
-			operations.ActionRequired += Operations_ActionRequired;
-			operations.ProgressChanged += Operations_ProgressChanged;
-			operations.StatusChanged += Operations_StatusChanged;
-
 			splashScreen.Show();
 			splashScreen.BringToForeground();
 
-			var success = operations.TryPerform() == OperationResult.Success;
+			var initialized = false;
+			var result = operations.TryPerform();
 
-			if (success)
+			if (result == OperationResult.Success)
 			{
-				responsibilities.Delegate(ClientTask.RegisterEvents);
-				responsibilities.Delegate(ClientTask.ShowShell);
-				responsibilities.Delegate(ClientTask.AutoStartApplications);
-				responsibilities.Delegate(ClientTask.ScheduleIntegrityVerification);
-				responsibilities.Delegate(ClientTask.StartMonitoring);
-
-				var communication = runtime.InformClientReady();
-
-				if (communication.Success)
-				{
-					logger.Info("Application successfully initialized.");
-					logger.Log(string.Empty);
-
-					responsibilities.Delegate(ClientTask.VerifySessionIntegrity);
-				}
-				else
-				{
-					success = false;
-					logger.Error("Failed to inform runtime that client is ready!");
-				}
+				DelegateStartupResponsibilities();
+				initialized = TryInformRuntime();
 			}
 			else
 			{
-				logger.Info("Application startup aborted!");
+				logger.Info($"Application startup {(result == OperationResult.Aborted ? "aborted" : "failed")}!");
 				logger.Log(string.Empty);
+			}
+
+			if (initialized)
+			{
+				logger.Info("Application successfully initialized.");
+				logger.Log(string.Empty);
+
+				DelegateClientReadyResponsibilities();
 			}
 
 			splashScreen.Hide();
 
-			return success;
+			return initialized;
 		}
 
 		internal void Terminate()
@@ -112,9 +82,7 @@ namespace SafeExamBrowser.Client
 			splashScreen.Show();
 			splashScreen.BringToForeground();
 
-			responsibilities.Delegate(ClientTask.CloseShell);
-			responsibilities.Delegate(ClientTask.DeregisterEvents);
-			responsibilities.Delegate(ClientTask.UpdateSessionIntegrity);
+			DelegateShutdownResponsibilities();
 
 			var success = operations.TryRevert() == OperationResult.Success;
 
@@ -125,7 +93,7 @@ namespace SafeExamBrowser.Client
 			}
 			else
 			{
-				logger.Info("Shutdown procedure failed!");
+				logger.Info("Application shutdown failed!");
 				logger.Log(string.Empty);
 			}
 
@@ -137,106 +105,37 @@ namespace SafeExamBrowser.Client
 			splashScreen.AppConfig = context.AppConfig;
 		}
 
-		private void Operations_ActionRequired(ActionRequiredEventArgs args)
+		private void DelegateStartupResponsibilities()
 		{
-			switch (args)
-			{
-				case ApplicationNotFoundEventArgs a:
-					AskForApplicationPath(a);
-					break;
-				case ApplicationInitializationFailedEventArgs a:
-					InformAboutFailedApplicationInitialization(a);
-					break;
-				case ApplicationTerminationEventArgs a:
-					AskForAutomaticApplicationTermination(a);
-					break;
-				case ApplicationTerminationFailedEventArgs a:
-					InformAboutFailedApplicationTermination(a);
-					break;
-			}
+			responsibilities.Delegate(ClientTask.RegisterEvents);
+			responsibilities.Delegate(ClientTask.ShowShell);
+			responsibilities.Delegate(ClientTask.AutoStartApplications);
+			responsibilities.Delegate(ClientTask.ScheduleIntegrityVerification);
+			responsibilities.Delegate(ClientTask.StartMonitoring);
 		}
 
-		private void Operations_ProgressChanged(ProgressChangedEventArgs args)
+		private void DelegateClientReadyResponsibilities()
 		{
-			if (args.CurrentValue.HasValue)
-			{
-				splashScreen.SetValue(args.CurrentValue.Value);
-			}
-
-			if (args.IsIndeterminate == true)
-			{
-				splashScreen.SetIndeterminate();
-			}
-
-			if (args.MaxValue.HasValue)
-			{
-				splashScreen.SetMaxValue(args.MaxValue.Value);
-			}
-
-			if (args.Progress == true)
-			{
-				splashScreen.Progress();
-			}
-
-			if (args.Regress == true)
-			{
-				splashScreen.Regress();
-			}
+			responsibilities.Delegate(ClientTask.VerifySessionIntegrity);
 		}
 
-		private void Operations_StatusChanged(TextKey status)
+		private void DelegateShutdownResponsibilities()
 		{
-			splashScreen.UpdateStatus(status, true);
+			responsibilities.Delegate(ClientTask.CloseShell);
+			responsibilities.Delegate(ClientTask.DeregisterEvents);
+			responsibilities.Delegate(ClientTask.UpdateSessionIntegrity);
 		}
 
-		private void AskForAutomaticApplicationTermination(ApplicationTerminationEventArgs args)
+		private bool TryInformRuntime()
 		{
-			var nl = Environment.NewLine;
-			var applicationList = string.Join(Environment.NewLine, args.RunningApplications.Select(a => a.Name));
-			var warning = text.Get(TextKey.MessageBox_ApplicationAutoTerminationDataLossWarning);
-			var message = $"{text.Get(TextKey.MessageBox_ApplicationAutoTerminationQuestion)}{nl}{nl}{warning}{nl}{nl}{applicationList}";
-			var title = text.Get(TextKey.MessageBox_ApplicationAutoTerminationQuestionTitle);
-			var result = messageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question, parent: splashScreen);
+			var communication = runtime.InformClientReady();
 
-			args.TerminateProcesses = result == MessageBoxResult.Yes;
-		}
-
-		private void AskForApplicationPath(ApplicationNotFoundEventArgs args)
-		{
-			var message = text.Get(TextKey.FolderDialog_ApplicationLocation).Replace("%%NAME%%", args.DisplayName).Replace("%%EXECUTABLE%%", args.ExecutableName);
-			var result = fileSystemDialog.Show(FileSystemElement.Folder, FileSystemOperation.Open, message: message, parent: splashScreen);
-
-			if (result.Success)
+			if (!communication.Success)
 			{
-				args.CustomPath = result.FullPath;
-				args.Success = true;
-			}
-		}
-
-		private void InformAboutFailedApplicationInitialization(ApplicationInitializationFailedEventArgs args)
-		{
-			var messageKey = TextKey.MessageBox_ApplicationInitializationFailure;
-			var titleKey = TextKey.MessageBox_ApplicationInitializationFailureTitle;
-
-			if (args.Result == FactoryResult.NotFound)
-			{
-				messageKey = TextKey.MessageBox_ApplicationNotFound;
-				titleKey = TextKey.MessageBox_ApplicationNotFoundTitle;
+				logger.Error("Failed to inform runtime that client is ready!");
 			}
 
-			var message = text.Get(messageKey).Replace("%%NAME%%", $"'{args.DisplayName}' ({args.ExecutableName})");
-			var title = text.Get(titleKey);
-
-			messageBox.Show(message, title, icon: MessageBoxIcon.Error, parent: splashScreen);
-		}
-
-		private void InformAboutFailedApplicationTermination(ApplicationTerminationFailedEventArgs args)
-		{
-			var applicationList = string.Join(Environment.NewLine, args.Applications.Select(a => a.Name));
-			var message = $"{text.Get(TextKey.MessageBox_ApplicationTerminationFailure)}{Environment.NewLine}{Environment.NewLine}{applicationList}";
-			var title = text.Get(TextKey.MessageBox_ApplicationTerminationFailureTitle);
-
-			messageBox.Show(message, title, icon: MessageBoxIcon.Error, parent: splashScreen);
+			return communication.Success;
 		}
 	}
 }

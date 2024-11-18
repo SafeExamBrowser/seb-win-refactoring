@@ -16,10 +16,9 @@ namespace SafeExamBrowser.Client.Operations
 {
 	internal class MouseInterceptorOperation : ClientOperation
 	{
-		private ILogger logger;
-		private IMouseInterceptor mouseInterceptor;
+		private readonly ILogger logger;
+		private readonly IMouseInterceptor mouseInterceptor;
 
-		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
 		public MouseInterceptorOperation(ClientContext context, ILogger logger, IMouseInterceptor mouseInterceptor) : base(context)

@@ -16,10 +16,9 @@ namespace SafeExamBrowser.Client.Operations
 {
 	internal class KeyboardInterceptorOperation : ClientOperation
 	{
-		private IKeyboardInterceptor keyboardInterceptor;
-		private ILogger logger;
+		private readonly IKeyboardInterceptor keyboardInterceptor;
+		private readonly ILogger logger;
 
-		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
 		public KeyboardInterceptorOperation(ClientContext context, IKeyboardInterceptor keyboardInterceptor, ILogger logger) : base(context)

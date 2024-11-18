@@ -17,11 +17,10 @@ namespace SafeExamBrowser.Client.Operations
 {
 	internal class RuntimeConnectionOperation : ClientOperation
 	{
-		private ILogger logger;
-		private IRuntimeProxy runtime;
+		private readonly ILogger logger;
+		private readonly IRuntimeProxy runtime;
 		private Guid token;
 
-		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
 		public RuntimeConnectionOperation(ClientContext context, ILogger logger, IRuntimeProxy runtime, Guid token) : base(context)

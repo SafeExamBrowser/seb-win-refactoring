@@ -18,7 +18,11 @@ namespace SafeExamBrowser.Client.Operations
 	{
 		protected ClientContext Context { get; private set; }
 
-		public abstract event ActionRequiredEventHandler ActionRequired;
+		/// <summary>
+		/// TODO: In case this event is neither used by the runtime, either remove it completely or then move it to a separate interface!
+		/// </summary>
+		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
+
 		public abstract event StatusChangedEventHandler StatusChanged;
 
 		public ClientOperation(ClientContext context)

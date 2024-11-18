@@ -7,20 +7,21 @@
  */
 
 using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Client.Operations;
-using SafeExamBrowser.Client.Operations.Events;
 using SafeExamBrowser.Core.Contracts.OperationModel;
-using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Applications;
 using SafeExamBrowser.Settings.Security;
+using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
+using IWindow = SafeExamBrowser.UserInterface.Contracts.Windows.IWindow;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
@@ -29,7 +30,10 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	{
 		private ClientContext context;
 		private Mock<IApplicationFactory> factory;
+		private Mock<IFileSystemDialog> fileSystemDialog;
+		private Mock<IMessageBox> messageBox;
 		private Mock<IApplicationMonitor> monitor;
+		private Mock<ISplashScreen> splashScreen;
 		private Mock<ILogger> logger;
 		private Mock<IText> text;
 
@@ -40,32 +44,29 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			context = new ClientContext();
 			factory = new Mock<IApplicationFactory>();
-			monitor = new Mock<IApplicationMonitor>();
+			fileSystemDialog = new Mock<IFileSystemDialog>();
 			logger = new Mock<ILogger>();
+			messageBox = new Mock<IMessageBox>();
+			monitor = new Mock<IApplicationMonitor>();
+			splashScreen = new Mock<ISplashScreen>();
 			text = new Mock<IText>();
 
 			context.Settings = new AppSettings();
+			text.Setup(t => t.Get(It.IsAny<TextKey>())).Returns(string.Empty);
 
-			sut = new ApplicationOperation(context, factory.Object, monitor.Object, logger.Object, text.Object);
+			sut = new ApplicationOperation(context, factory.Object, fileSystemDialog.Object, logger.Object, messageBox.Object, monitor.Object, splashScreen.Object, text.Object);
 		}
 
 		[TestMethod]
 		public void Perform_MustAbortIfUserDeniesAutoTermination()
 		{
 			var initialization = new InitializationResult();
-			var args = default(ActionRequiredEventArgs);
 
 			initialization.RunningApplications.Add(new RunningApplication(default));
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Returns(MessageBoxResult.No);
 			monitor.Setup(m => m.Initialize(It.IsAny<ApplicationSettings>())).Returns(initialization);
-			sut.ActionRequired += (a) =>
-			{
-				args = a;
-
-				if (a is ApplicationTerminationEventArgs t)
-				{
-					t.TerminateProcesses = false;
-				}
-			};
 
 			var result = sut.Perform();
 
@@ -73,7 +74,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			monitor.VerifyNoOtherCalls();
 
 			Assert.AreEqual(OperationResult.Aborted, result);
-			Assert.IsInstanceOfType(args, typeof(ApplicationTerminationEventArgs));
 		}
 
 		[TestMethod]
@@ -81,27 +81,27 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			var application = new Mock<IApplication<IApplicationWindow>>().Object;
 			var applicationSettings = new WhitelistApplication { AllowCustomPath = true };
-			var args = default(ActionRequiredEventArgs);
 
 			context.Settings.Applications.Whitelist.Add(applicationSettings);
 			factory.Setup(f => f.TryCreate(It.IsAny<WhitelistApplication>(), out application)).Returns(FactoryResult.NotFound);
+			fileSystemDialog
+				.Setup(d => d.Show(
+					It.IsAny<FileSystemElement>(),
+					It.IsAny<FileSystemOperation>(),
+					It.IsAny<string>(),
+					It.IsAny<string>(),
+					It.IsAny<string>(),
+					It.IsAny<IWindow>(),
+					It.IsAny<bool>(),
+					It.IsAny<bool>()))
+				.Returns(new FileSystemDialogResult { Success = false });
 			monitor.Setup(m => m.Initialize(It.IsAny<ApplicationSettings>())).Returns(new InitializationResult());
-			sut.ActionRequired += (a) =>
-			{
-				args = a;
-
-				if (a is ApplicationNotFoundEventArgs n)
-				{
-					n.Success = false;
-				}
-			};
 
 			var result = sut.Perform();
 
 			factory.Verify(f => f.TryCreate(It.Is<WhitelistApplication>(a => a == applicationSettings), out application), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.IsInstanceOfType(args, typeof(ApplicationInitializationFailedEventArgs));
 		}
 
 		[TestMethod]
@@ -109,7 +109,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			var application = new Mock<IApplication<IApplicationWindow>>().Object;
 			var applicationSettings = new WhitelistApplication { AllowCustomPath = true };
-			var args = default(ActionRequiredEventArgs);
 			var attempt = 0;
 			var correct = new Random().Next(2, 50);
 			var factoryResult = new Func<FactoryResult>(() => ++attempt == correct ? FactoryResult.Success : FactoryResult.NotFound);
@@ -117,22 +116,23 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			context.Settings.Applications.Whitelist.Add(applicationSettings);
 			factory.Setup(f => f.TryCreate(It.IsAny<WhitelistApplication>(), out application)).Returns(factoryResult);
 			monitor.Setup(m => m.Initialize(It.IsAny<ApplicationSettings>())).Returns(new InitializationResult());
-			sut.ActionRequired += (a) =>
-			{
-				args = a;
-
-				if (a is ApplicationNotFoundEventArgs n)
-				{
-					n.Success = true;
-				}
-			};
+			fileSystemDialog
+				.Setup(d => d.Show(
+					It.IsAny<FileSystemElement>(),
+					It.IsAny<FileSystemOperation>(),
+					It.IsAny<string>(),
+					It.IsAny<string>(),
+					It.IsAny<string>(),
+					It.IsAny<IWindow>(),
+					It.IsAny<bool>(),
+					It.IsAny<bool>()))
+				.Returns(new FileSystemDialogResult { Success = true });
 
 			var result = sut.Perform();
 
 			factory.Verify(f => f.TryCreate(It.Is<WhitelistApplication>(a => a == applicationSettings), out application), Times.Exactly(correct));
 
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.IsInstanceOfType(args, typeof(ApplicationNotFoundEventArgs));
 		}
 
 		[TestMethod]
@@ -140,38 +140,26 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			var application = new Mock<IApplication<IApplicationWindow>>().Object;
 			var applicationSettings = new WhitelistApplication { AllowCustomPath = false };
-			var args = default(ActionRequiredEventArgs);
 
 			context.Settings.Applications.Whitelist.Add(applicationSettings);
 			factory.Setup(f => f.TryCreate(It.IsAny<WhitelistApplication>(), out application)).Returns(FactoryResult.NotFound);
 			monitor.Setup(m => m.Initialize(It.IsAny<ApplicationSettings>())).Returns(new InitializationResult());
-			sut.ActionRequired += (a) =>
-			{
-				args = a;
-
-				if (a is ApplicationNotFoundEventArgs)
-				{
-					Assert.Fail();
-				}
-			};
 
 			var result = sut.Perform();
 
 			factory.Verify(f => f.TryCreate(It.Is<WhitelistApplication>(a => a == applicationSettings), out application), Times.Once);
+			fileSystemDialog.VerifyNoOtherCalls();
 
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.IsInstanceOfType(args, typeof(ApplicationInitializationFailedEventArgs));
 		}
 
 		[TestMethod]
 		public void Perform_MustFailIfAutoTerminationFails()
 		{
 			var initialization = new InitializationResult();
-			var args = default(ActionRequiredEventArgs);
 
 			initialization.FailedAutoTerminations.Add(new RunningApplication(default));
 			monitor.Setup(m => m.Initialize(It.IsAny<ApplicationSettings>())).Returns(initialization);
-			sut.ActionRequired += (a) => args = a;
 
 			var result = sut.Perform();
 
@@ -179,7 +167,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			monitor.VerifyNoOtherCalls();
 
 			Assert.AreEqual(OperationResult.Failed, result);
-			Assert.IsInstanceOfType(args, typeof(ApplicationTerminationFailedEventArgs));
 		}
 
 		[TestMethod]
@@ -187,20 +174,14 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			var application = new RunningApplication(default);
 			var initialization = new InitializationResult();
-			var args = new List<ActionRequiredEventArgs>();
 
 			initialization.RunningApplications.Add(application);
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Returns(MessageBoxResult.Yes);
+			monitor.Setup(m => m.Initialize(It.IsAny<ApplicationSettings>())).Returns(initialization);
 			monitor.Setup(m => m.Initialize(It.IsAny<ApplicationSettings>())).Returns(initialization);
 			monitor.Setup(m => m.TryTerminate(It.IsAny<RunningApplication>())).Returns(false);
-			sut.ActionRequired += (a) =>
-			{
-				args.Add(a);
-
-				if (a is ApplicationTerminationEventArgs t)
-				{
-					t.TerminateProcesses = true;
-				}
-			};
 
 			var result = sut.Perform();
 
@@ -208,8 +189,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			monitor.Verify(m => m.TryTerminate(It.Is<RunningApplication>(a => a == application)), Times.Once);
 
 			Assert.AreEqual(OperationResult.Failed, result);
-			Assert.IsInstanceOfType(args[0], typeof(ApplicationTerminationEventArgs));
-			Assert.IsInstanceOfType(args[1], typeof(ApplicationTerminationFailedEventArgs));
 		}
 
 		[TestMethod]
@@ -217,19 +196,20 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			var application = new Mock<IApplication<IApplicationWindow>>().Object;
 			var applicationSettings = new WhitelistApplication();
-			var args = default(ActionRequiredEventArgs);
 
 			context.Settings.Applications.Whitelist.Add(applicationSettings);
 			factory.Setup(f => f.TryCreate(It.IsAny<WhitelistApplication>(), out application)).Returns(FactoryResult.Error);
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Returns(MessageBoxResult.No);
 			monitor.Setup(m => m.Initialize(It.IsAny<ApplicationSettings>())).Returns(new InitializationResult());
-			sut.ActionRequired += (a) => args = a;
 
 			var result = sut.Perform();
 
 			factory.Verify(f => f.TryCreate(It.Is<WhitelistApplication>(a => a == applicationSettings), out application), Times.Once);
+			messageBox.Verify(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.Is<MessageBoxIcon>(i => i == MessageBoxIcon.Error), It.IsAny<IWindow>()), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.IsInstanceOfType(args, typeof(ApplicationInitializationFailedEventArgs));
 		}
 
 		[TestMethod]
@@ -301,22 +281,17 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			var application2 = new RunningApplication(default);
 			var application3 = new RunningApplication(default);
 			var initialization = new InitializationResult();
-			var args = default(ActionRequiredEventArgs);
 
 			initialization.RunningApplications.Add(application1);
 			initialization.RunningApplications.Add(application2);
 			initialization.RunningApplications.Add(application3);
+
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Returns(MessageBoxResult.Yes);
+
 			monitor.Setup(m => m.Initialize(It.IsAny<ApplicationSettings>())).Returns(initialization);
 			monitor.Setup(m => m.TryTerminate(It.IsAny<RunningApplication>())).Returns(true);
-			sut.ActionRequired += (a) =>
-			{
-				args = a;
-
-				if (a is ApplicationTerminationEventArgs t)
-				{
-					t.TerminateProcesses = true;
-				}
-			};
 
 			var result = sut.Perform();
 
@@ -326,7 +301,6 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			monitor.Verify(m => m.TryTerminate(It.Is<RunningApplication>(a => a == application3)), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.IsInstanceOfType(args, typeof(ApplicationTerminationEventArgs));
 		}
 
 		[TestMethod]

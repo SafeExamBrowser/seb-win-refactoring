@@ -19,7 +19,6 @@ namespace SafeExamBrowser.Client.Operations
 		private readonly IClipboard clipboard;
 		private readonly ILogger logger;
 
-		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
 		public ClipboardOperation(ClientContext context, IClipboard clipboard, ILogger logger) : base(context)

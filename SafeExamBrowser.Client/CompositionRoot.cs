@@ -128,7 +128,7 @@ namespace SafeExamBrowser.Client
 			var runtimeProxy = new RuntimeProxy(runtimeHostUri, new ProxyObjectFactory(), ModuleLogger(nameof(RuntimeProxy)), Interlocutor.Client);
 			var sentinel = new SystemSentinel(ModuleLogger(nameof(SystemSentinel)), nativeMethods, new Registry(ModuleLogger(nameof(Registry))));
 
-			var operations = BuildOperations(applicationFactory, clipboard, displayMonitor, runtimeProxy);
+			var operations = BuildOperations(applicationFactory, clipboard, displayMonitor, fileSystemDialog, runtimeProxy);
 			var responsibilities = BuildResponsibilities(coordinator, displayMonitor, explorerShell, runtimeProxy, sentinel, shutdown);
 
 			context.HashAlgorithm = new HashAlgorithm();
@@ -137,7 +137,7 @@ namespace SafeExamBrowser.Client
 			context.Runtime = runtimeProxy;
 			context.UserInterfaceFactory = uiFactory;
 
-			ClientController = new ClientController(context, fileSystemDialog, logger, messageBox, operations, responsibilities, runtimeProxy, splashScreen, text);
+			ClientController = new ClientController(context, logger, operations, responsibilities, runtimeProxy, splashScreen);
 		}
 
 		internal void LogStartupInformation()
@@ -155,6 +155,7 @@ namespace SafeExamBrowser.Client
 			IApplicationFactory applicationFactory,
 			IClipboard clipboard,
 			IDisplayMonitor displayMonitor,
+			IFileSystemDialog fileSystemDialog,
 			IRuntimeProxy runtimeProxy)
 		{
 			var operations = new Queue<IOperation>();
@@ -169,7 +170,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new ClientHostDisconnectionOperation(context, logger, FIVE_SECONDS));
 			operations.Enqueue(new LazyInitializationOperation(BuildKeyboardInterceptorOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildMouseInterceptorOperation));
-			operations.Enqueue(new ApplicationOperation(context, applicationFactory, applicationMonitor, logger, text));
+			operations.Enqueue(new ApplicationOperation(context, applicationFactory, fileSystemDialog, logger, messageBox, applicationMonitor, splashScreen, text));
 			operations.Enqueue(new DisplayMonitorOperation(context, displayMonitor, logger, taskbar));
 			operations.Enqueue(new LazyInitializationOperation(BuildShellOperation));
 			operations.Enqueue(new LazyInitializationOperation(BuildBrowserOperation));

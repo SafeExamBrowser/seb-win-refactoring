@@ -23,7 +23,6 @@ namespace SafeExamBrowser.Client.Operations
 		private readonly ITaskview taskview;
 		private readonly IUserInterfaceFactory uiFactory;
 
-		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
 		public BrowserOperation(

@@ -19,7 +19,6 @@ namespace SafeExamBrowser.Client.Operations
 		private readonly ILogger logger;
 		private readonly IRuntimeProxy runtime;
 
-		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
 		public ConfigurationOperation(ClientContext context, ILogger logger, IRuntimeProxy runtime) : base(context)

@@ -25,7 +25,6 @@ namespace SafeExamBrowser.Client.Operations
 		private readonly ITaskbar taskbar;
 		private readonly IUserInterfaceFactory uiFactory;
 
-		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
 		public ProctoringOperation(

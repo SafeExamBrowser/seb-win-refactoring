@@ -21,7 +21,6 @@ namespace SafeExamBrowser.Client.Operations
 		private readonly ILogger logger;
 		private readonly ITaskbar taskbar;
 
-		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
 		public DisplayMonitorOperation(ClientContext context, IDisplayMonitor displayMonitor, ILogger logger, ITaskbar taskbar) : base(context)

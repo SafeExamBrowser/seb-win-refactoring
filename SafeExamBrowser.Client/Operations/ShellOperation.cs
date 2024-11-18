@@ -40,7 +40,6 @@ namespace SafeExamBrowser.Client.Operations
 		private readonly IText text;
 		private readonly IUserInterfaceFactory uiFactory;
 
-		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
 		public ShellOperation(

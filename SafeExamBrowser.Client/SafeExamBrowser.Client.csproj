@@ -78,11 +78,8 @@
     <Compile Include="Coordinator.cs" />
     <Compile Include="Operations\ClientHostDisconnectionOperation.cs" />
     <Compile Include="Operations\ClientOperation.cs" />
+    <Compile Include="Operations\ClientOperationSequence.cs" />
     <Compile Include="Operations\ConfigurationOperation.cs" />
-    <Compile Include="Operations\Events\ApplicationNotFoundEventArgs.cs" />
-    <Compile Include="Operations\Events\ApplicationInitializationFailedEventArgs.cs" />
-    <Compile Include="Operations\Events\ApplicationTerminationEventArgs.cs" />
-    <Compile Include="Operations\Events\ApplicationTerminationFailedEventArgs.cs" />
     <Compile Include="Operations\ProctoringOperation.cs" />
     <Compile Include="Operations\RuntimeConnectionOperation.cs" />
     <Compile Include="Communication\ClientHost.cs" />

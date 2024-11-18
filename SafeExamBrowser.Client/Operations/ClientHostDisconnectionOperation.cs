@@ -21,10 +21,9 @@ namespace SafeExamBrowser.Client.Operations
 	/// </summary>
 	internal class ClientHostDisconnectionOperation : ClientOperation
 	{
-		private ILogger logger;
-		private int timeout_ms;
+		private readonly ILogger logger;
+		private readonly int timeout_ms;
 
-		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
 		public ClientHostDisconnectionOperation(ClientContext context, ILogger logger, int timeout_ms) : base(context)

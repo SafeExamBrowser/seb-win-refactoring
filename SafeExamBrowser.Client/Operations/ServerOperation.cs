@@ -20,7 +20,6 @@ namespace SafeExamBrowser.Client.Operations
 		private readonly ILogger logger;
 		private readonly IServerProxy server;
 
-		public override event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public override event StatusChangedEventHandler StatusChanged;
 
 		public ServerOperation(ClientContext context, ILogger logger, IServerProxy server) : base(context)
