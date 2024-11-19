@@ -263,13 +263,13 @@ namespace SafeExamBrowser.Client.Responsibilities
 			{
 				Logger.Info($"Detected user session change, but {(allow ? "session locking and/or switching is allowed" : "lock screen is deactivated")}.");
 			}
-			else if (isSessionLockEvent || isSessionUnlockEvent)
+			else if (Settings.Service.IgnoreService && (isSessionLockEvent || isSessionUnlockEvent))
 			{
 				Logger.Info($"Detected user session {(isSessionLockEvent ? "lock" : "unlock")}, ignoring!");
 			}
 			else
 			{
-				var message = text.Get(TextKey.LockScreen_UserSessionMessage);
+				var message = text.Get(Settings.Service.IgnoreService ? TextKey.LockScreen_UserSwitchMessage : TextKey.LockScreen_UserSessionMessage);
 				var title = text.Get(TextKey.LockScreen_Title);
 				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionContinueOption) };
 				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionTerminateOption) };
