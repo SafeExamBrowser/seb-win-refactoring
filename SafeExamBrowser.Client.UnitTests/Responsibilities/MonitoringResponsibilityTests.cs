@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Win32;
 using Moq;
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Client.Responsibilities;
@@ -363,7 +364,7 @@ namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>(), It.IsAny<LockScreenSettings>()))
 				.Returns(lockScreen.Object);
 
-			sentinel.Raise(s => s.SessionChanged += null);
+			sentinel.Raise(s => s.SessionChanged += null, SessionSwitchReason.ConsoleDisconnect);
 
 			coordinator.Verify(c => c.RequestSessionLock(), Times.Once);
 			coordinator.Verify(c => c.ReleaseSessionLock(), Times.Once);
@@ -385,7 +386,7 @@ namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 				.Callback(new Action<string, string, IEnumerable<LockScreenOption>, LockScreenSettings>((message, title, options, settings) => result.OptionId = options.Last().Id))
 				.Returns(lockScreen.Object);
 
-			sentinel.Raise(s => s.SessionChanged += null);
+			sentinel.Raise(s => s.SessionChanged += null, SessionSwitchReason.ConsoleConnect);
 
 			coordinator.Verify(c => c.RequestSessionLock(), Times.Once);
 			coordinator.Verify(c => c.ReleaseSessionLock(), Times.Once);
@@ -406,7 +407,7 @@ namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>(), It.IsAny<LockScreenSettings>()))
 				.Returns(lockScreen.Object);
 
-			sentinel.Raise(s => s.SessionChanged += null);
+			sentinel.Raise(s => s.SessionChanged += null, SessionSwitchReason.ConsoleConnect);
 
 			lockScreen.Verify(l => l.Show(), Times.Never);
 		}
