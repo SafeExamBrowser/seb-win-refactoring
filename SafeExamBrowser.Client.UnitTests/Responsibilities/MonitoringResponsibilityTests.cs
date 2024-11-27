@@ -411,5 +411,38 @@ namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 
 			lockScreen.Verify(l => l.Show(), Times.Never);
 		}
+
+		[TestMethod]
+		public void SystemMonitor_MustDoNothingIfSessionLockUnlockWithoutService()
+		{
+			var lockScreen = new Mock<ILockScreen>();
+
+			settings.Service.IgnoreService = true;
+			lockScreen.Setup(l => l.WaitForResult()).Returns(new LockScreenResult());
+			uiFactory
+				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>(), It.IsAny<LockScreenSettings>()))
+				.Returns(lockScreen.Object);
+
+			sentinel.Raise(s => s.SessionChanged += null, SessionSwitchReason.SessionLock);
+
+			lockScreen.Verify(l => l.Show(), Times.Never);
+		}
+
+		[TestMethod]
+		public void SystemMonitor_MustShowLockscreenIfNotSessionLockUnlockWithoutService()
+		{
+			var lockScreen = new Mock<ILockScreen>();
+
+			settings.Service.IgnoreService = true;
+			coordinator.Setup(c => c.RequestSessionLock()).Returns(true);
+			lockScreen.Setup(l => l.WaitForResult()).Returns(new LockScreenResult());
+			uiFactory
+				.Setup(f => f.CreateLockScreen(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<IEnumerable<LockScreenOption>>(), It.IsAny<LockScreenSettings>()))
+				.Returns(lockScreen.Object);
+
+			sentinel.Raise(s => s.SessionChanged += null, SessionSwitchReason.ConsoleConnect);
+
+			lockScreen.Verify(l => l.Show(), Times.Once);
+		}
 	}
 }
