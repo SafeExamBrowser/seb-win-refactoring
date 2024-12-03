@@ -31,10 +31,10 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var result = OperationResult.Success;
 
-			if (Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
-			{
-				result = ShowScreenProctoringDisclaimer();
-			}
+			//if (Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
+			//{
+			//	result = ShowScreenProctoringDisclaimer();
+			//}
 
 			return result;
 		}
@@ -43,10 +43,10 @@ namespace SafeExamBrowser.Runtime.Operations
 		{
 			var result = OperationResult.Success;
 
-			if (Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
-			{
-				result = ShowScreenProctoringDisclaimer();
-			}
+			//if (Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
+			//{
+			//	result = ShowScreenProctoringDisclaimer();
+			//}
 
 			return result;
 		}
