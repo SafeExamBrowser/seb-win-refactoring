@@ -347,6 +347,7 @@ namespace SafeExamBrowser.Server
 			{
 				ClientId = attributesJson["screenProctoringClientId"].Value<string>(),
 				ClientSecret = attributesJson["screenProctoringClientSecret"].Value<string>(),
+				EncryptionSecret = attributesJson["screenProctoringEncryptSecret"].Value<string>(),
 				GroupId = attributesJson["screenProctoringGroupId"].Value<string>(),
 				ServiceUrl = attributesJson["screenProctoringServiceURL"].Value<string>(),
 				SessionId = attributesJson["screenProctoringClientSessionId"].Value<string>()

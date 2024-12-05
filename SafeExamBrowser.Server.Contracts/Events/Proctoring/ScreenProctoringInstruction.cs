@@ -15,6 +15,7 @@ namespace SafeExamBrowser.Server.Contracts.Events.Proctoring
 	{
 		public string ClientId { get; set; }
 		public string ClientSecret { get; set; }
+		public string EncryptionSecret { get; set; }
 		public string GroupId { get; set; }
 		public string ServiceUrl { get; set; }
 		public string SessionId { get; set; }

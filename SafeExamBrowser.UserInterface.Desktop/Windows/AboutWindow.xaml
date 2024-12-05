@@ -33,6 +33,11 @@
                 Copyright © 2002-2024 Microsoft. All rights reserved.
                 <LineBreak />
                 <LineBreak />
+                <Bold><Underline>Bouncy Castle</Underline></Bold>
+                <LineBreak />
+                Copyright © 2000-2024 Legion of the Bouncy Castle Inc. All rights reserved.
+                <LineBreak />
+                <LineBreak />
                 <Bold><Underline>CefSharp (.NET bindings for the Chromium Embedded Framework)</Underline></Bold>
                 <LineBreak />
                 Copyright © 2010-2024 The CefSharp Authors. All rights reserved.

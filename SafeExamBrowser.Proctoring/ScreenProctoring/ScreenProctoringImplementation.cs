@@ -47,7 +47,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			this.logger = logger;
 			this.service = service;
 			this.settings = settings.ScreenProctoring;
-			this.spooler = new TransmissionSpooler(appConfig, logger.CloneFor(nameof(TransmissionSpooler)), service);
+			this.spooler = new TransmissionSpooler(appConfig, logger.CloneFor(nameof(TransmissionSpooler)), service, settings.ScreenProctoring);
 			this.text = text;
 		}
 
@@ -112,6 +112,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				{
 					settings.ClientId = instruction.ClientId;
 					settings.ClientSecret = instruction.ClientSecret;
+					settings.EncryptionSecret = instruction.EncryptionSecret;
 					settings.GroupId = instruction.GroupId;
 					settings.ServiceUrl = instruction.ServiceUrl;
 

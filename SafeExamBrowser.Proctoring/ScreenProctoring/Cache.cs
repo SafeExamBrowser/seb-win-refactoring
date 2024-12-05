@@ -23,18 +23,23 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 {
 	internal class Cache
 	{
-		private const string DATA_FILE_EXTENSION = "xml";
+		private const string DATA_FILE_EXTENSION = "spsdat";
+		private const string IMAGE_FILE_EXTENSION = "spsimg";
 
 		private readonly AppConfig appConfig;
+		private readonly Lazy<string> directory;
+		private readonly Encryptor encryptor;
 		private readonly ILogger logger;
 		private readonly ConcurrentQueue<(string fileName, int checksum, string hash)> queue;
 
 		internal int Count => queue.Count;
-		internal string Directory { get; private set; }
+		internal string Directory => directory.Value;
 
-		public Cache(AppConfig appConfig, ILogger logger)
+		public Cache(AppConfig appConfig, ILogger logger, ScreenProctoringSettings settings)
 		{
 			this.appConfig = appConfig;
+			this.directory = new Lazy<string>(InitializeDirectory);
+			this.encryptor = new Encryptor(settings);
 			this.logger = logger;
 			this.queue = new ConcurrentQueue<(string, int, string)>();
 		}
@@ -51,9 +56,10 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 			try
 			{
-				InitializeDirectory();
-				SaveData(fileName, metaData, screenShot);
-				SaveImage(fileName, screenShot);
+				var (dataPath, imagePath) = BuildPathsFor(fileName);
+
+				SaveData(dataPath, metaData, screenShot);
+				SaveImage(imagePath, screenShot);
 				Enqueue(fileName, metaData, screenShot);
 
 				success = true;
@@ -79,9 +85,11 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			{
 				try
 				{
-					LoadData(item.fileName, out metaData, out screenShot);
-					LoadImage(item.fileName, screenShot);
-					Dequeue(item.fileName, item.checksum, item.hash, metaData, screenShot);
+					var (dataPath, imagePath) = BuildPathsFor(item.fileName);
+
+					LoadData(dataPath, out metaData, out screenShot);
+					LoadImage(imagePath, screenShot);
+					Dequeue(item.checksum, dataPath, item.fileName, item.hash, imagePath, metaData, screenShot);
 
 					success = true;
 
@@ -96,12 +104,16 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			return success;
 		}
 
-		private void Dequeue(string fileName, int checksum, string hash, MetaData metaData, ScreenShot screenShot)
+		private (string dataPath, string imagePath) BuildPathsFor(string fileName)
 		{
 			var dataPath = Path.Combine(Directory, $"{fileName}.{DATA_FILE_EXTENSION}");
-			var extension = screenShot.Format.ToString().ToLower();
-			var imagePath = Path.Combine(Directory, $"{fileName}.{extension}");
+			var imagePath = Path.Combine(Directory, $"{fileName}.{IMAGE_FILE_EXTENSION}");
 
+			return (dataPath, imagePath);
+		}
+
+		private void Dequeue(int checksum, string dataPath, string fileName, string hash, string imagePath, MetaData metaData, ScreenShot screenShot)
+		{
 			if (checksum != GenerateChecksum(screenShot))
 			{
 				logger.Warn($"The checksum for '{fileName}' does not match, the image data may be manipulated!");
@@ -157,24 +169,25 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			return hash;
 		}
 
-		private void InitializeDirectory()
+		private string InitializeDirectory()
 		{
-			if (Directory == default)
+			var path = Path.Combine(appConfig.TemporaryDirectory, nameof(ScreenProctoring));
+
+			if (!System.IO.Directory.Exists(path))
 			{
-				Directory = Path.Combine(appConfig.TemporaryDirectory, nameof(ScreenProctoring));
+				System.IO.Directory.CreateDirectory(path);
+				logger.Debug($"Created caching directory '{path}'.");
 			}
 
-			if (!System.IO.Directory.Exists(Directory))
-			{
-				System.IO.Directory.CreateDirectory(Directory);
-				logger.Debug($"Created caching directory '{Directory}'.");
-			}
+			return path;
 		}
 
-		private void LoadData(string fileName, out MetaData metaData, out ScreenShot screenShot)
+		private void LoadData(string filePath, out MetaData metaData, out ScreenShot screenShot)
 		{
-			var dataPath = Path.Combine(Directory, $"{fileName}.{DATA_FILE_EXTENSION}");
-			var document = XDocument.Load(dataPath);
+			var encrypted = File.ReadAllBytes(filePath);
+			var data = encryptor.Decrypt(encrypted);
+			var text = Encoding.UTF8.GetString(data);
+			var document = XDocument.Parse(text);
 			var xml = document.Descendants(nameof(MetaData)).First();
 
 			metaData = new MetaData();
@@ -195,20 +208,19 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			screenShot.Width = int.Parse(xml.Descendants(nameof(ScreenShot.Width)).First().Value);
 		}
 
-		private void LoadImage(string fileName, ScreenShot screenShot)
+		private void LoadImage(string filePath, ScreenShot screenShot)
 		{
-			var extension = screenShot.Format.ToString().ToLower();
-			var imagePath = Path.Combine(Directory, $"{fileName}.{extension}");
+			var encrypted = File.ReadAllBytes(filePath);
+			var image = encryptor.Decrypt(encrypted);
 
-			screenShot.Data = File.ReadAllBytes(imagePath);
+			screenShot.Data = image;
 		}
 
-		private void SaveData(string fileName, MetaData metaData, ScreenShot screenShot)
+		private void SaveData(string filePath, MetaData metaData, ScreenShot screenShot)
 		{
-			var data = new XDocument(new XDeclaration("1.0", "utf-8", "yes"));
-			var dataPath = Path.Combine(Directory, $"{fileName}.{DATA_FILE_EXTENSION}");
+			var xml = new XDocument(new XDeclaration("1.0", "utf-8", "yes"));
 
-			data.Add(
+			xml.Add(
 				new XElement("Data",
 					new XElement(nameof(MetaData),
 						new XElement(nameof(MetaData.ApplicationInfo), metaData.ApplicationInfo),
@@ -227,15 +239,23 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				)
 			);
 
-			data.Save(dataPath);
+			using (var stream = new MemoryStream())
+			using (var writer = new StreamWriter(stream, new UTF8Encoding(false)))
+			{
+				xml.Save(writer);
+
+				var data = stream.ToArray();
+				var encrypted = encryptor.Encrypt(data);
+
+				File.WriteAllBytes(filePath, encrypted);
+			}
 		}
 
-		private void SaveImage(string fileName, ScreenShot screenShot)
+		private void SaveImage(string filePath, ScreenShot screenShot)
 		{
-			var extension = screenShot.Format.ToString().ToLower();
-			var imagePath = Path.Combine(Directory, $"{fileName}.{extension}");
+			var encrypted = encryptor.Encrypt(screenShot.Data);
 
-			File.WriteAllBytes(imagePath, screenShot.Data);
+			File.WriteAllBytes(filePath, encrypted);
 		}
 	}
 }

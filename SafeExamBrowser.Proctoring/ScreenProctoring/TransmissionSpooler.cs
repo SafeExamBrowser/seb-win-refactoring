@@ -16,6 +16,7 @@ using SafeExamBrowser.Proctoring.Contracts.Events;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Data;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Imaging;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Service;
+using SafeExamBrowser.Settings.Proctoring;
 using Timer = System.Timers.Timer;
 
 namespace SafeExamBrowser.Proctoring.ScreenProctoring
@@ -40,10 +41,10 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 		private Thread thread;
 		private CancellationTokenSource token;
 
-		internal TransmissionSpooler(AppConfig appConfig, IModuleLogger logger, ServiceProxy service)
+		internal TransmissionSpooler(AppConfig appConfig, IModuleLogger logger, ServiceProxy service, ScreenProctoringSettings settings)
 		{
 			this.buffer = new Buffer(logger.CloneFor(nameof(Buffer)));
-			this.cache = new Cache(appConfig, logger.CloneFor(nameof(Cache)));
+			this.cache = new Cache(appConfig, logger.CloneFor(nameof(Cache)), settings);
 			this.logger = logger;
 			this.queue = new ConcurrentQueue<(MetaData, ScreenShot)>();
 			this.random = new Random();

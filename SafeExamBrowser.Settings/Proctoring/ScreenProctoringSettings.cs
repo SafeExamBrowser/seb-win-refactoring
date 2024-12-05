@@ -32,6 +32,11 @@ namespace SafeExamBrowser.Settings.Proctoring
 		public bool Enabled { get; set; }
 
 		/// <summary>
+		/// The encryption secret to be used for the locally cached data.
+		/// </summary>
+		public string EncryptionSecret { get; set; }
+
+		/// <summary>
 		/// The identifier of the group to which the user belongs.
 		/// </summary>
 		public string GroupId { get; set; }
