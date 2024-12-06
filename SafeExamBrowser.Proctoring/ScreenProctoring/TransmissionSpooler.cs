@@ -387,12 +387,36 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			}
 		}
 
+		private int factor = 2;
+		private int bads = 2;
+
 		private int UpdateHealth(int value)
 		{
 			const int THREE_MINUTES = 180;
 
 			var previous = health;
-			var current = value > BAD ? BAD : (value < GOOD ? GOOD : value);
+			// TODO: Revert!
+			// var current = value > BAD ? BAD : (value < GOOD ? GOOD : value);
+			var current = health;
+
+			// TODO: Remove!
+			if (bads > 0)
+			{
+				bads -= current == BAD ? 1 : 0;
+				factor = current == BAD ? -2 : (current == GOOD ? 2 : factor);
+				current += factor;
+				current = current < GOOD ? GOOD : (current > BAD ? BAD : current);
+			}
+			else
+			{
+				if (bads == 0)
+				{
+					logger.Warn($"Stopped health simulation (resume: {resume:HH:mm:ss}).");
+				}
+
+				bads = -1;
+				current = value > BAD ? BAD : (value < GOOD ? GOOD : value);
+			}
 
 			if (previous != current)
 			{
