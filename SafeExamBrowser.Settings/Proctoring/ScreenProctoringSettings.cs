@@ -17,6 +17,11 @@ namespace SafeExamBrowser.Settings.Proctoring
 	public class ScreenProctoringSettings
 	{
 		/// <summary>
+		/// The maximum size of the locally cached data per session in megabytes.
+		/// </summary>
+		public int CacheSize { get; set; }
+
+		/// <summary>
 		/// The client identifier used for authentication with the screen proctoring service.
 		/// </summary>
 		public string ClientId { get; set; }
@@ -59,17 +64,17 @@ namespace SafeExamBrowser.Settings.Proctoring
 		/// <summary>
 		/// The maximum time interval in milliseconds between screen shot transmissions.
 		/// </summary>
-		public int MaxInterval { get; set; }
+		public int IntervalMaximum { get; set; }
+
+		/// <summary>
+		/// The minimum time interval in milliseconds between screen shot transmissions.
+		/// </summary>
+		public int IntervalMinimum { get; set; }
 
 		/// <summary>
 		/// All settings related to the metadata capturing of the screen proctoring.
 		/// </summary>
 		public MetaDataSettings MetaData { get; set; }
-
-		/// <summary>
-		/// The minimum time interval in milliseconds between screen shot transmissions.
-		/// </summary>
-		public int MinInterval { get; set; }
 
 		/// <summary>
 		/// The URL of the screen proctoring service.

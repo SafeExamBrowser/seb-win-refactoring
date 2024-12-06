@@ -66,8 +66,8 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			mouseHookId = nativeMethods.RegisterMouseHook(MouseHookCallback);
 
 			timer.AutoReset = false;
-			timer.Elapsed += MaxIntervalElapsed;
-			timer.Interval = settings.MaxInterval;
+			timer.Elapsed += IntervalMaximumElapsed;
+			timer.Interval = settings.IntervalMaximum;
 			timer.Start();
 
 			logger.Debug("Started.");
@@ -90,7 +90,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			keyboardHookId = default;
 			mouseHookId = default;
 
-			timer.Elapsed -= MaxIntervalElapsed;
+			timer.Elapsed -= IntervalMaximumElapsed;
 			timer.Stop();
 
 			logger.Debug("Stopped.");
@@ -110,11 +110,11 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			return false;
 		}
 
-		private void MaxIntervalElapsed(object sender, ElapsedEventArgs args)
+		private void IntervalMaximumElapsed(object sender, ElapsedEventArgs args)
 		{
 			var trigger = new IntervalTrigger
 			{
-				ConfigurationValue = settings.MaxInterval,
+				ConfigurationValue = settings.IntervalMaximum,
 			};
 
 			TryCollect(interval: trigger);
@@ -136,7 +136,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		private void TryCollect(IntervalTrigger interval = default, KeyboardTrigger keyboard = default, MouseTrigger mouse = default)
 		{
-			if (MinIntervalElapsed() && Monitor.TryEnter(@lock))
+			if (HasIntervalMinimumElapsed() && Monitor.TryEnter(@lock))
 			{
 				var elapsed = DateTime.Now.Subtract(last);
 
@@ -169,9 +169,9 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			}
 		}
 
-		private bool MinIntervalElapsed()
+		private bool HasIntervalMinimumElapsed()
 		{
-			return DateTime.Now.Subtract(last) >= new TimeSpan(0, 0, 0, 0, settings.MinInterval);
+			return DateTime.Now.Subtract(last) >= new TimeSpan(0, 0, 0, 0, settings.IntervalMinimum);
 		}
 	}
 }

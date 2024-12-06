@@ -21,6 +21,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Proctoring.ForceRaiseHandMessage:
 					MapForceRaiseHandMessage(settings, value);
 					break;
+				case Keys.Proctoring.ScreenProctoring.CacheSize:
+					MapCacheSize(settings, value);
+					break;
 				case Keys.Proctoring.ScreenProctoring.ClientId:
 					MapClientId(settings, value);
 					break;
@@ -42,8 +45,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Proctoring.ScreenProctoring.ImageQuantization:
 					MapImageQuantization(settings, value);
 					break;
-				case Keys.Proctoring.ScreenProctoring.MaxInterval:
-					MapMaxInterval(settings, value);
+				case Keys.Proctoring.ScreenProctoring.IntervalMaximum:
+					MapIntervalMaximum(settings, value);
+					break;
+				case Keys.Proctoring.ScreenProctoring.IntervalMinimum:
+					MapIntervalMinimum(settings, value);
 					break;
 				case Keys.Proctoring.ScreenProctoring.MetaData.CaptureApplicationData:
 					MapCaptureApplicationData(settings, value);
@@ -53,9 +59,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 					break;
 				case Keys.Proctoring.ScreenProctoring.MetaData.CaptureWindowTitle:
 					MapCaptureWindowTitle(settings, value);
-					break;
-				case Keys.Proctoring.ScreenProctoring.MinInterval:
-					MapMinInterval(settings, value);
 					break;
 				case Keys.Proctoring.ScreenProctoring.ServiceUrl:
 					MapServiceUrl(settings, value);
@@ -74,6 +77,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool force)
 			{
 				settings.Proctoring.ForceRaiseHandMessage = force;
+			}
+		}
+
+		private void MapCacheSize(AppSettings settings, object value)
+		{
+			if (value is int size)
+			{
+				settings.Proctoring.ScreenProctoring.CacheSize = size;
 			}
 		}
 
@@ -173,19 +184,19 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			}
 		}
 
-		private void MapMaxInterval(AppSettings settings, object value)
+		private void MapIntervalMaximum(AppSettings settings, object value)
 		{
 			if (value is int interval)
 			{
-				settings.Proctoring.ScreenProctoring.MaxInterval = interval;
+				settings.Proctoring.ScreenProctoring.IntervalMaximum = interval;
 			}
 		}
 
-		private void MapMinInterval(AppSettings settings, object value)
+		private void MapIntervalMinimum(AppSettings settings, object value)
 		{
 			if (value is int interval)
 			{
-				settings.Proctoring.ScreenProctoring.MinInterval = interval;
+				settings.Proctoring.ScreenProctoring.IntervalMinimum = interval;
 			}
 		}
 

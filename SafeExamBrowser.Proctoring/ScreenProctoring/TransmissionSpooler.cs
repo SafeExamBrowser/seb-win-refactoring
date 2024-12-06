@@ -164,6 +164,9 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				thread = default;
 				token = default;
 			}
+
+			buffer.Clear();
+			cache.Clear();
 		}
 
 		private void Execute()

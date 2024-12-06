@@ -236,6 +236,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			internal static class ScreenProctoring
 			{
+				internal const string CacheSize = "screenProctoringCacheSize";
 				internal const string ClientId = "screenProctoringClientId";
 				internal const string ClientSecret = "screenProctoringClientSecret";
 				internal const string Enabled = "enableScreenProctoring";
@@ -243,8 +244,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				internal const string ImageDownscaling = "screenProctoringImageDownscale";
 				internal const string ImageFormat = "screenProctoringImageFormat";
 				internal const string ImageQuantization = "screenProctoringImageQuantization";
-				internal const string MaxInterval = "screenProctoringScreenshotMaxInterval";
-				internal const string MinInterval = "screenProctoringScreenshotMinInterval";
+				internal const string IntervalMaximum = "screenProctoringScreenshotMaxInterval";
+				internal const string IntervalMinimum = "screenProctoringScreenshotMinInterval";
 				internal const string ServiceUrl = "screenProctoringServiceURL";
 
 				internal static class MetaData

@@ -243,15 +243,16 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.Proctoring.Enabled = false;
 			settings.Proctoring.ForceRaiseHandMessage = false;
+			settings.Proctoring.ScreenProctoring.CacheSize = 500;
 			settings.Proctoring.ScreenProctoring.Enabled = false;
 			settings.Proctoring.ScreenProctoring.ImageDownscaling = 1.0;
 			settings.Proctoring.ScreenProctoring.ImageFormat = ImageFormat.Png;
 			settings.Proctoring.ScreenProctoring.ImageQuantization = ImageQuantization.Grayscale4bpp;
-			settings.Proctoring.ScreenProctoring.MaxInterval = 5000;
+			settings.Proctoring.ScreenProctoring.IntervalMaximum = 5000;
+			settings.Proctoring.ScreenProctoring.IntervalMinimum = 1000;
 			settings.Proctoring.ScreenProctoring.MetaData.CaptureApplicationData = true;
 			settings.Proctoring.ScreenProctoring.MetaData.CaptureBrowserData = true;
 			settings.Proctoring.ScreenProctoring.MetaData.CaptureWindowTitle = true;
-			settings.Proctoring.ScreenProctoring.MinInterval = 1000;
 			settings.Proctoring.ShowRaiseHandNotification = true;
 			settings.Proctoring.ShowTaskbarNotification = true;
 

@@ -47,6 +47,15 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			}
 		}
 
+		internal void Clear()
+		{
+			lock (@lock)
+			{
+				list.Clear();
+				logger.Debug("Cleared all data.");
+			}
+		}
+
 		internal void Dequeue()
 		{
 			lock (@lock)

@@ -30,10 +30,12 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 		private readonly Lazy<string> directory;
 		private readonly Encryptor encryptor;
 		private readonly ILogger logger;
+		private readonly ScreenProctoringSettings settings;
 		private readonly ConcurrentQueue<(string fileName, int checksum, string hash)> queue;
 
 		internal int Count => queue.Count;
 		internal string Directory => directory.Value;
+		internal long Size { get; private set; }
 
 		public Cache(AppConfig appConfig, ILogger logger, ScreenProctoringSettings settings)
 		{
@@ -41,12 +43,31 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			this.directory = new Lazy<string>(InitializeDirectory);
 			this.encryptor = new Encryptor(settings);
 			this.logger = logger;
+			this.settings = settings;
 			this.queue = new ConcurrentQueue<(string, int, string)>();
 		}
 
 		internal bool Any()
 		{
 			return queue.Any();
+		}
+
+		internal void Clear()
+		{
+			while (queue.Any())
+			{
+				if (queue.TryDequeue(out var item))
+				{
+					var (dataPath, imagePath) = BuildPathsFor(item.fileName);
+
+					File.Delete(dataPath);
+					File.Delete(imagePath);
+				}
+			}
+
+			Size = 0;
+
+			logger.Debug("Cleared all data.");
 		}
 
 		internal bool TryEnqueue(MetaData metaData, ScreenShot screenShot)
@@ -58,13 +79,20 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			{
 				var (dataPath, imagePath) = BuildPathsFor(fileName);
 
-				SaveData(dataPath, metaData, screenShot);
-				SaveImage(imagePath, screenShot);
-				Enqueue(fileName, metaData, screenShot);
+				if (Size <= settings.CacheSize * 1000000)
+				{
+					SaveData(dataPath, metaData, screenShot);
+					SaveImage(imagePath, screenShot);
+					Enqueue(fileName, metaData, screenShot);
+
+					logger.Debug($"Cached data for '{fileName}', now holding {Count} item(s) counting {Size / 1000000.0:N1} MB.");
+				}
+				else
+				{
+					logger.Debug($"The maximum cache size of {settings.CacheSize:N1} MB has been reached, dropping data for '{fileName}'!");
+				}
 
 				success = true;
-
-				logger.Debug($"Cached data for '{fileName}', now holding {Count} item(s).");
 			}
 			catch (Exception e)
 			{
@@ -93,7 +121,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 					success = true;
 
-					logger.Debug($"Removed data for '{item.fileName}', {Count} item(s) remaining.");
+					logger.Debug($"Removed data for '{item.fileName}', {Count} item(s) counting {Size / 1000000.0:N1} MB remaining.");
 				}
 				catch (Exception e)
 				{
@@ -206,6 +234,8 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			screenShot.Format = (ImageFormat) Enum.Parse(typeof(ImageFormat), xml.Descendants(nameof(ScreenShot.Format)).First().Value);
 			screenShot.Height = int.Parse(xml.Descendants(nameof(ScreenShot.Height)).First().Value);
 			screenShot.Width = int.Parse(xml.Descendants(nameof(ScreenShot.Width)).First().Value);
+
+			Size -= encrypted.Length;
 		}
 
 		private void LoadImage(string filePath, ScreenShot screenShot)
@@ -214,6 +244,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			var image = encryptor.Decrypt(encrypted);
 
 			screenShot.Data = image;
+			Size -= encrypted.Length;
 		}
 
 		private void SaveData(string filePath, MetaData metaData, ScreenShot screenShot)
@@ -248,6 +279,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				var encrypted = encryptor.Encrypt(data);
 
 				File.WriteAllBytes(filePath, encrypted);
+				Size += encrypted.Length;
 			}
 		}
 
@@ -256,6 +288,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			var encrypted = encryptor.Encrypt(screenShot.Data);
 
 			File.WriteAllBytes(filePath, encrypted);
+			Size += encrypted.Length;
 		}
 	}
 }
