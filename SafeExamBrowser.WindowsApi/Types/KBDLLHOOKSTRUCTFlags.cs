@@ -19,6 +19,11 @@ namespace SafeExamBrowser.WindowsApi.Types
 		LLKHF_EXTENDED = 0x01,
 
 		/// <summary>
+		/// Test the event-injected (from a process running at lower integrity leve) flag. 
+		/// </summary>
+		LLKHF_LOWER_IL_INJECTED = 0x02,
+
+		/// <summary>
 		/// Test the event-injected (from any process) flag.
 		/// </summary>
 		LLKHF_INJECTED = 0x10,
