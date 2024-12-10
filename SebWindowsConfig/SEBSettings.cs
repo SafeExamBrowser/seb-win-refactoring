@@ -733,7 +733,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyUseTemporaryDownUploadDirectory, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyShowFileSystemElementPath, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowDownloads, true);
-			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowUploads, true);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowUploads, false);
 
 			// Default settings for group "Exam"
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyExamKeySalt, new Byte[] { });
