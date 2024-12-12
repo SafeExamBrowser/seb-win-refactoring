@@ -23,7 +23,8 @@ namespace SafeExamBrowser.Server.Requests
 		internal bool TryExecute(Exam exam, out string message, out string appSignatureKeySalt, out string browserExamKey)
 		{
 			var content = $"examId={exam.Id}";
-			var success = TryExecute(HttpMethod.Put, api.HandshakeEndpoint, out var response, content, ContentType.URL_ENCODED, Authorization, Token);
+			var method = new HttpMethod("PATCH");
+			var success = TryExecute(method, api.HandshakeEndpoint, out var response, content, ContentType.URL_ENCODED, Authorization, Token);
 
 			appSignatureKeySalt = default;
 			browserExamKey = default;

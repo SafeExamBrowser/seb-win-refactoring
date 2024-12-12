@@ -68,7 +68,7 @@
     <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\ApiRequest.cs" />
-    <Compile Include="Requests\AppSignatureKeyRequest.cs" />
+    <Compile Include="Requests\FinishHandshakeRequest.cs" />
     <Compile Include="Requests\AvailableExamsRequest.cs" />
     <Compile Include="Requests\Request.cs" />
     <Compile Include="Requests\ConfirmLockScreenRequest.cs" />

@@ -13,9 +13,9 @@ using SafeExamBrowser.Settings.Server;
 
 namespace SafeExamBrowser.Server.Requests
 {
-	internal class AppSignatureKeyRequest : Request
+	internal class FinishHandshakeRequest : Request
 	{
-		internal AppSignatureKeyRequest(
+		internal FinishHandshakeRequest(
 			Api api,
 			HttpClient httpClient,
 			ILogger logger,
@@ -24,10 +24,10 @@ namespace SafeExamBrowser.Server.Requests
 		{
 		}
 
-		internal bool TryExecute(string appSignatureKey, out string message)
+		internal bool TryExecute(out string message, string appSignatureKey = default)
 		{
-			var content = $"seb_signature_key={appSignatureKey}";
-			var success = TryExecute(new HttpMethod("PATCH"), api.HandshakeEndpoint, out var response, content, ContentType.URL_ENCODED, Authorization, Token);
+			var content = appSignatureKey != default ? $"seb_signature_key={appSignatureKey}" : default;
+			var success = TryExecute(HttpMethod.Put, api.HandshakeEndpoint, out var response, content, ContentType.URL_ENCODED, Authorization, Token);
 
 			message = response.ToLogString();
 

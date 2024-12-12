@@ -286,28 +286,20 @@ namespace SafeExamBrowser.Server
 			var request = new SelectExamRequest(api, httpClient, logger, parser, settings);
 			var success = request.TryExecute(exam, out var message, out var appSignatureKeySalt, out var browserExamKey);
 
+			if (browserExamKey != default)
+			{
+				logger.Info("Custom browser exam key detected.");
+			}
+
 			if (success)
 			{
 				logger.Info("Successfully sent selected exam.");
+
+				success = TryFinishHandshake(out message, appSignatureKeySalt);
 			}
 			else
 			{
 				logger.Error("Failed to send selected exam!");
-			}
-
-			if (success && appSignatureKeySalt != default)
-			{
-				logger.Info("App signature key salt detected, performing key exchange...");
-				success = TrySendAppSignatureKey(appSignatureKeySalt, out message);
-			}
-			else
-			{
-				logger.Info("No app signature key salt detected, skipping key exchange.");
-			}
-
-			if (browserExamKey != default)
-			{
-				logger.Info("Custom browser exam key detected.");
 			}
 
 			return new ServerResponse<string>(success, browserExamKey, message);
@@ -517,19 +509,30 @@ namespace SafeExamBrowser.Server
 			}
 		}
 
-		private bool TrySendAppSignatureKey(string salt, out string message)
+		private bool TryFinishHandshake(out string message, string appSignatureKeySalt = default)
 		{
-			var appSignatureKey = keyGenerator.CalculateAppSignatureKey(Request.ConnectionToken, salt);
-			var request = new AppSignatureKeyRequest(api, httpClient, logger, parser, settings);
-			var success = request.TryExecute(appSignatureKey, out message);
+			var appSignatureKey = default(string);
 
-			if (success)
+			if (appSignatureKeySalt != default)
 			{
-				logger.Info("Successfully sent app signature key.");
+				logger.Info("App signature key salt available, performing key exchange...");
+				appSignatureKey = keyGenerator.CalculateAppSignatureKey(Request.ConnectionToken, appSignatureKeySalt);
 			}
 			else
 			{
-				logger.Error("Failed to send app signature key!");
+				logger.Info("App signature key salt not available, not performing key exchange.");
+			}
+
+			var request = new FinishHandshakeRequest(api, httpClient, logger, parser, settings);
+			var success = request.TryExecute(out message, appSignatureKey);
+
+			if (success)
+			{
+				logger.Info("Successfully finished handshake.");
+			}
+			else
+			{
+				logger.Error("Failed to finish handshake!");
 			}
 
 			return success;
