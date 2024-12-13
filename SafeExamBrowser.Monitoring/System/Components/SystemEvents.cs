@@ -81,7 +81,7 @@ namespace SafeExamBrowser.Monitoring.System.Components
 		private void SystemEvents_SessionChanged(object sender, SessionSwitchEventArgs e)
 		{
 			logger.Info($"User session change detected: {e.Reason}.");
-			Task.Run(() => SessionChanged?.Invoke());
+			Task.Run(() => SessionChanged?.Invoke(e.Reason));
 		}
 
 		private void SystemEvents_TimeChanged(object sender, EventArgs e)
