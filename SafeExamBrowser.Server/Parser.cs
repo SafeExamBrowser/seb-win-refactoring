@@ -343,15 +343,21 @@ namespace SafeExamBrowser.Server
 
 		private ScreenProctoringInstruction ParseScreenProctoringInstruction(JObject attributesJson)
 		{
-			return new ScreenProctoringInstruction
+			var instruction = new ScreenProctoringInstruction
 			{
 				ClientId = attributesJson["screenProctoringClientId"].Value<string>(),
 				ClientSecret = attributesJson["screenProctoringClientSecret"].Value<string>(),
-				EncryptionSecret = attributesJson["screenProctoringEncryptSecret"].Value<string>(),
 				GroupId = attributesJson["screenProctoringGroupId"].Value<string>(),
 				ServiceUrl = attributesJson["screenProctoringServiceURL"].Value<string>(),
 				SessionId = attributesJson["screenProctoringClientSessionId"].Value<string>()
 			};
+
+			if (attributesJson.ContainsKey("screenProctoringEncryptSecret"))
+			{
+				instruction.EncryptionSecret = attributesJson["screenProctoringEncryptSecret"].Value<string>();
+			}
+
+			return instruction;
 		}
 
 		private ZoomInstruction ParseZoomInstruction(JObject attributesJson)
