@@ -690,6 +690,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Password Required
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Abort
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Confirm
     </Entry>
@@ -706,6 +709,9 @@
         Waiting to execute transmission operation %%_COUNT_%% of %%_TOTAL_%% at %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        Waiting to resume %%_COUNT_%% transmission operations...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
         Waiting to resume %%_COUNT_%% transmission operations at %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">

@@ -690,6 +690,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Contraseña requerida
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Abortar
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Confirmar
     </Entry>
@@ -706,7 +709,10 @@
         Esperando para ejecutar operación de transmisión %%_COUNT_%% de %%_TOTAL_%% en %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
-        Esperando para reanudar %%_COUNT_%% las operaciones de transmisión en %%_TIME_%%...
+        Esperando para reanudar %%_COUNT_%% operaciones de transmisión...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
+        Esperando para reanudar %%_COUNT_%% operaciones de transmisión en %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">
         Finalización del proctoring de pantalla

@@ -57,10 +57,11 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			queue.Enqueue((metaData, screenShot));
 		}
 
-		internal void ExecuteRemainingWork(Action<RemainingWorkUpdatedEventArgs> updateStatus)
+		internal void ExecuteRemainingWork(Action<RemainingWorkUpdatedEventArgs> handler)
 		{
 			var previous = buffer.Count + cache.Count;
 			var progress = 0;
+			var start = DateTime.Now;
 			var total = previous;
 
 			while (HasRemainingWork() && service.IsConnected && (!networkIssue || recovering || DateTime.Now < resume))
@@ -79,26 +80,19 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				previous = remaining;
 				progress = total - remaining;
 
-				updateStatus(new RemainingWorkUpdatedEventArgs
+				var args = UpdateStatus(handler, progress, start, total);
+
+				if (args.CancellationRequested)
 				{
-					IsWaiting = recovering || networkIssue,
-					Next = buffer.TryPeek(out _, out var schedule, out _) ? schedule : default(DateTime?),
-					Progress = progress,
-					Resume = resume,
-					Total = total
-				});
+					logger.Warn($"The execution of the remaining work has been cancelled and {remaining} item(s) will not be transmitted!");
+
+					break;
+				}
 
 				Thread.Sleep(100);
 			}
 
-			if (networkIssue)
-			{
-				updateStatus(new RemainingWorkUpdatedEventArgs { HasFailed = true, CachePath = cache.Directory });
-			}
-			else
-			{
-				updateStatus(new RemainingWorkUpdatedEventArgs { IsFinished = true });
-			}
+			UpdateStatus(handler, networkIssue);
 		}
 
 		internal bool HasRemainingWork()
@@ -420,6 +414,35 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			}
 
 			return current;
+		}
+
+		private RemainingWorkUpdatedEventArgs UpdateStatus(Action<RemainingWorkUpdatedEventArgs> handler, int progress, DateTime start, int total)
+		{
+			var args = new RemainingWorkUpdatedEventArgs
+			{
+				AllowCancellation = start.Add(new TimeSpan(0, 1, 15)) < DateTime.Now,
+				IsWaiting = health == BAD || networkIssue || recovering || DateTime.Now < resume,
+				Next = buffer.TryPeek(out _, out var schedule, out _) ? schedule : default(DateTime?),
+				Progress = progress,
+				Resume = DateTime.Now < resume ? resume : default(DateTime?),
+				Total = total
+			};
+
+			handler.Invoke(args);
+
+			return args;
+		}
+
+		private void UpdateStatus(Action<RemainingWorkUpdatedEventArgs> handler, bool networkIssue)
+		{
+			if (networkIssue)
+			{
+				handler.Invoke(new RemainingWorkUpdatedEventArgs { HasFailed = true, CachePath = cache.Directory });
+			}
+			else
+			{
+				handler.Invoke(new RemainingWorkUpdatedEventArgs { IsFinished = true });
+			}
 		}
 	}
 }

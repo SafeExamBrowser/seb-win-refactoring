@@ -690,6 +690,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Kata Sandi Diperlukan
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Batalkan
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Konfirmasi
     </Entry>
@@ -706,7 +709,10 @@
         Menunggu untuk mengeksekusi operasi transmisi %%_COUNT_%% dari %%_TOTAL_%% pada %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
-        Menunggu untuk melanjutkan operasi transmisi %%_COUNT_%% pada %%_TIME_%%...
+        Menunggu untuk melanjutkan %%_COUNT_%% operasi transmisi...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
+        Menunggu untuk melanjutkan %%_COUNT_%% operasi transmisi pada %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">
         Finalisasi Pemeriksaan Layar

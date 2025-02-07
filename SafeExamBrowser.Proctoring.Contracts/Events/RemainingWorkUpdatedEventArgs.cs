@@ -16,9 +16,19 @@ namespace SafeExamBrowser.Proctoring.Contracts.Events
 	public class RemainingWorkUpdatedEventArgs
 	{
 		/// <summary>
+		/// Determines whether the execution of the remaining work may be cancelled.
+		/// </summary>
+		public bool AllowCancellation { get; set; }
+
+		/// <summary>
 		/// The path of the local cache, if <see cref="HasFailed"/> is <c>true</c>.
 		/// </summary>
 		public string CachePath { get; set; }
+
+		/// <summary>
+		/// Indicates that the cancellation of the remaining work has been requested.
+		/// </summary>
+		public bool CancellationRequested { get; set; }
 
 		/// <summary>
 		/// Indicates that the execution of the remaining work has failed.
@@ -46,9 +56,9 @@ namespace SafeExamBrowser.Proctoring.Contracts.Events
 		public int Progress { get; set; }
 
 		/// <summary>
-		/// The point in time when the execution will resume, if <see cref="IsWaiting"/> is <c>true</c>.
+		/// The point in time when the execution will resume, if available.
 		/// </summary>
-		public DateTime Resume { get; set; }
+		public DateTime? Resume { get; set; }
 
 		/// <summary>
 		/// The total number of work items to be executed.

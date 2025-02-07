@@ -690,6 +690,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Wachtwoord vereist
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Afbreken
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Bevestigen
     </Entry>
@@ -706,6 +709,9 @@
         Wachten om overdrachtsoperatie %%_COUNT_%% van %%_TOTAL_%% uit te voeren op %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        Wachten om %%_COUNT_%% transmissiebewerkingen te hervatten...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
         Wachten om %%_COUNT_%% transmissiebewerkingen te hervatten op %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">

@@ -690,6 +690,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Password richiesta
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Interrompere
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Conferma
     </Entry>
@@ -706,7 +709,10 @@
         In attesa di eseguire l'operazione di trasmissione %%_COUNT_%% di %%_TOTAL_%% a %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
-        In attesa di riprendere le operazioni di trasmissione di %%_COUNT_% a %%_TIME_%%...
+        In attesa di riprendere le %%_COUNT_%% operazioni di trasmissione...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
+        In attesa di riprendere le %%_COUNT_%% operazioni di trasmissione a %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">
         Finalizzazione della correzione dello schermo

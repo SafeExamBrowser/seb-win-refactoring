@@ -691,6 +691,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Требуется пароль
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Выкинуть
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Подтвердить
     </Entry>
@@ -707,7 +710,10 @@
         Ожидание выполнения операции передачи %%_COUNT_%% из %%_TOTAL_%% в %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
-        Ожидание возобновления операций передачи %%_COUNT_%% в %%_TIME_%%...
+        Ожидание возобновления %%_COUNT_%% операций передачи...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
+        Ожидание возобновления %%_COUNT_%% операций передачи в %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">
         Финализация прокторинга экрана

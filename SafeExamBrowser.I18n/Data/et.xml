@@ -690,6 +690,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Parool nõutav
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Katkesta
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Kinnitage
     </Entry>
@@ -706,6 +709,9 @@
         Ootab ülekandeoperatsiooni %%_COUNT_%% of %%_TOTAL_%% kell %%_TIME_%% täitmist...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        Ootab, et jätkata %%_COUNT_%% edastamist...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
         Ootab, et jätkata %%_COUNT_%% edastamistoiminguid kell %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">

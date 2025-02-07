@@ -19,6 +19,9 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 	{
 		private readonly IText text;
 
+		private bool cancellationRequested;
+		private bool initialized;
+
 		public ProctoringFinalizationDialog(IText text)
 		{
 			this.text = text;
@@ -65,8 +68,6 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		private void InitializeDialog()
 		{
-			Button.Click += (o, args) => Close();
-			Button.Content = text.Get(TextKey.ProctoringFinalizationDialog_Confirm);
 			Title = text.Get(TextKey.ProctoringFinalizationDialog_Title);
 
 			InitializeBounds();
@@ -76,6 +77,8 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		private void ShowFailure(RemainingWorkUpdatedEventArgs status)
 		{
+			Button.Click += (o, args) => Close();
+			Button.Content = text.Get(TextKey.ProctoringFinalizationDialog_Confirm);
 			ButtonPanel.Visibility = Visibility.Visible;
 
 			// TODO: Revert once cache handling has been specified and changed!
@@ -90,41 +93,68 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 		private void ShowProgress(RemainingWorkUpdatedEventArgs status)
 		{
-			ButtonPanel.Visibility = Visibility.Collapsed;
+			ButtonPanel.Visibility = status.AllowCancellation ? Visibility.Visible : Visibility.Collapsed;
 			Cursor = Cursors.Wait;
 			FailurePanel.Visibility = Visibility.Collapsed;
 			Info.Text = text.Get(TextKey.ProctoringFinalizationDialog_InfoMessage);
 			ProgressPanel.Visibility = Visibility.Visible;
 
+			if (status.AllowCancellation && !initialized)
+			{
+				Button.Click += (o, args) => cancellationRequested = true;
+				Button.Content = text.Get(TextKey.ProctoringFinalizationDialog_Abort);
+				initialized = true;
+			}
+
 			if (status.IsWaiting)
 			{
-				var count = $"{status.Total - status.Progress}";
-				var time = $"{status.Resume.ToLongTimeString()}";
-
-				Percentage.Text = "";
-				Progress.IsIndeterminate = true;
-				Status.Text = text.Get(TextKey.ProctoringFinalizationDialog_StatusWaiting).Replace("%%_COUNT_%%", count).Replace("%%_TIME_%%", time);
+				UpdateWaitingProgress(status);
 			}
 			else
 			{
-				var count = $"{status.Progress}";
-				var total = $"{status.Total}";
+				UpdateProgress(status);
+			}
 
-				Percentage.Text = $"{status.Progress / (double) (status.Total > 0 ? status.Total : 1) * 100:N0}%";
-				Progress.IsIndeterminate = false;
-				Progress.Maximum = status.Total;
-				Progress.Value = status.Progress;
+			status.CancellationRequested = cancellationRequested;
+		}
 
-				if (status.Next.HasValue)
-				{
-					Status.Text = text.Get(TextKey.ProctoringFinalizationDialog_StatusAndTime).Replace("%%_TIME_%%", $"{status.Next.Value.ToLongTimeString()}");
-				}
-				else
-				{
-					Status.Text = text.Get(TextKey.ProctoringFinalizationDialog_Status);
-				}
+		private void UpdateProgress(RemainingWorkUpdatedEventArgs status)
+		{
+			var count = $"{status.Progress}";
+			var total = $"{status.Total}";
 
-				Status.Text = Status.Text.Replace("%%_COUNT_%%", count).Replace("%%_TOTAL_%%", total);
+			Percentage.Text = $"{status.Progress / (double) (status.Total > 0 ? status.Total : 1) * 100:N0}%";
+			Progress.IsIndeterminate = false;
+			Progress.Maximum = status.Total;
+			Progress.Value = status.Progress;
+
+			if (status.Next.HasValue)
+			{
+				Status.Text = text.Get(TextKey.ProctoringFinalizationDialog_StatusAndTime).Replace("%%_TIME_%%", $"{status.Next.Value.ToLongTimeString()}");
+			}
+			else
+			{
+				Status.Text = text.Get(TextKey.ProctoringFinalizationDialog_Status);
+			}
+
+			Status.Text = Status.Text.Replace("%%_COUNT_%%", count).Replace("%%_TOTAL_%%", total);
+		}
+
+		private void UpdateWaitingProgress(RemainingWorkUpdatedEventArgs status)
+		{
+			var count = $"{status.Total - status.Progress}";
+			var time = status.Resume?.ToLongTimeString();
+
+			Percentage.Text = "";
+			Progress.IsIndeterminate = true;
+
+			if (status.Resume.HasValue)
+			{
+				Status.Text = text.Get(TextKey.ProctoringFinalizationDialog_StatusWaitingAndTime).Replace("%%_COUNT_%%", count).Replace("%%_TIME_%%", time);
+			}
+			else
+			{
+				Status.Text = text.Get(TextKey.ProctoringFinalizationDialog_StatusWaiting).Replace("%%_COUNT_%%", count);
 			}
 		}
 

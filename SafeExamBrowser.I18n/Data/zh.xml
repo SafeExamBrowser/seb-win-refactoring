@@ -690,6 +690,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         需要密码
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        中止
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         确认
     </Entry>
@@ -706,6 +709,9 @@
         等待在 %%_TIME_%% 执行 %%_TOTAL_%% 的 %%_COUNT_%% 传输操作...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        等待恢复 %%_COUNT_%% 传输操作...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
         等待在 %%_TIME_%% 恢复 %%_COUNT_%% 传输操作...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">

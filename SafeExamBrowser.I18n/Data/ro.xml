@@ -690,6 +690,9 @@
     <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
         Parolă necesară
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Oprește
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Confirmă
     </Entry>
@@ -706,6 +709,9 @@
         Așteaptă executarea operațiunii de transfer %%_COUNT_%% din %%_TOTAL_%% la %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        Așteaptă reluarea celor %%_COUNT_%% operațiuni de transfer...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
         Așteaptă reluarea celor %%_COUNT_%% operațiuni de transfer la %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">
