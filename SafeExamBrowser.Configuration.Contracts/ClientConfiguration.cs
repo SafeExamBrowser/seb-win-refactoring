@@ -11,9 +11,6 @@ using SafeExamBrowser.Settings;
 
 namespace SafeExamBrowser.Configuration.Contracts
 {
-	/// <summary>
-	/// The configuration for a session of the client application component.
-	/// </summary>
 	[Serializable]
 	public class ClientConfiguration
 	{
