@@ -64,7 +64,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			var start = DateTime.Now;
 			var total = previous;
 
-			while (HasRemainingWork() && service.IsConnected && (!networkIssue || recovering || DateTime.Now < resume))
+			while (HasRemainingWork() && service.IsConnected)
 			{
 				var remaining = buffer.Count + cache.Count;
 
@@ -92,7 +92,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				Thread.Sleep(100);
 			}
 
-			UpdateStatus(handler, networkIssue);
+			UpdateStatus(handler);
 		}
 
 		internal bool HasRemainingWork()
@@ -433,9 +433,9 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			return args;
 		}
 
-		private void UpdateStatus(Action<RemainingWorkUpdatedEventArgs> handler, bool networkIssue)
+		private void UpdateStatus(Action<RemainingWorkUpdatedEventArgs> handler)
 		{
-			if (networkIssue)
+			if (HasRemainingWork())
 			{
 				handler.Invoke(new RemainingWorkUpdatedEventArgs { HasFailed = true, CachePath = cache.Directory });
 			}
