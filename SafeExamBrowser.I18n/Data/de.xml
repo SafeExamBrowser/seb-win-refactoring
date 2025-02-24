@@ -228,6 +228,9 @@
     <Entry key="LockScreen_UserSessionMessage">
         Der aktive Benutzer hat sich geändert oder der Computer wurde gesperrt! Bitte wählen Sie eine der verfügbaren Optionen aus und geben Sie das korrekte Passwort ein, um SEB zu entsperren.
     </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        Der aktive Benutzer hat sich geändert! Bitte wählen Sie eine der verfügbaren Optionen aus und geben Sie das korrekte Passwort ein, um SEB zu entsperren.
+    </Entry>
     <Entry key="LockScreen_UserSessionTerminateOption">
         Safe Exam Browser beenden. WARNUNG: Sie werden keine Möglichkeit haben, Daten zu speichern oder weitere Aktionen auszuführen, SEB wird sofort beendet!
     </Entry>
