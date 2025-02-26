@@ -116,17 +116,9 @@ namespace SafeExamBrowser.Browser
 
 			if (success)
 			{
+				InitializeCookies();
+				InitializeDownAndUploadDirectory();
 				InitializeIntegrityKeys();
-
-				if (settings.DeleteCookiesOnStartup)
-				{
-					DeleteCookies();
-				}
-
-				if (settings.UseTemporaryDownAndUploadDirectory)
-				{
-					CreateTemporaryDownAndUploadDirectory();
-				}
 
 				logger.Info("Initialized browser.");
 			}
@@ -144,36 +136,23 @@ namespace SafeExamBrowser.Browser
 		public void Terminate()
 		{
 			logger.Info("Initiating termination...");
+
 			AwaitReady();
 
 			foreach (var window in windows)
 			{
 				window.Closed -= Window_Closed;
 				window.Close();
+
 				logger.Info($"Closed browser window #{window.Id}.");
 			}
 
-			if (settings.UseTemporaryDownAndUploadDirectory)
-			{
-				DeleteTemporaryDownAndUploadDirectory();
-			}
-
-			if (settings.DeleteCookiesOnShutdown)
-			{
-				DeleteCookies();
-			}
-
+			FinalizeCookies();
+			FinalizeDownAndUploadDirectory();
 			Cef.Shutdown();
-			logger.Info("Terminated browser.");
+			FinalizeCache();
 
-			if (settings.DeleteCacheOnShutdown && settings.DeleteCookiesOnShutdown)
-			{
-				DeleteCache();
-			}
-			else
-			{
-				logger.Info("Retained browser cache.");
-			}
+			logger.Info("Terminated browser.");
 		}
 
 		private void AwaitReady()
@@ -231,46 +210,6 @@ namespace SafeExamBrowser.Browser
 			WindowsChanged?.Invoke();
 		}
 
-		private void CreateTemporaryDownAndUploadDirectory()
-		{
-			try
-			{
-				settings.DownAndUploadDirectory = Path.Combine(appConfig.TemporaryDirectory, Path.GetRandomFileName());
-				Directory.CreateDirectory(settings.DownAndUploadDirectory);
-				logger.Info($"Created temporary down- and upload directory.");
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to create temporary down- and upload directory!", e);
-			}
-		}
-
-		private void DeleteTemporaryDownAndUploadDirectory()
-		{
-			try
-			{
-				Directory.Delete(settings.DownAndUploadDirectory, true);
-				logger.Info("Deleted temporary down- and upload directory.");
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to delete temporary down- and upload directory!", e);
-			}
-		}
-
-		private void DeleteCache()
-		{
-			try
-			{
-				Directory.Delete(appConfig.BrowserCachePath, true);
-				logger.Info("Deleted browser cache.");
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to delete browser cache!", e);
-			}
-		}
-
 		private void DeleteCookies()
 		{
 			var callback = new TaskDeleteCookiesCallback();
@@ -294,6 +233,50 @@ namespace SafeExamBrowser.Browser
 			else
 			{
 				logger.Warn("Failed to initiate cookie deletion!");
+			}
+		}
+
+		private void FinalizeCache()
+		{
+			if (settings.DeleteCacheOnShutdown && settings.DeleteCookiesOnShutdown)
+			{
+				try
+				{
+					Directory.Delete(appConfig.BrowserCachePath, true);
+					logger.Info("Deleted browser cache.");
+				}
+				catch (Exception e)
+				{
+					logger.Error("Failed to delete browser cache!", e);
+				}
+			}
+			else
+			{
+				logger.Info("Retained browser cache.");
+			}
+		}
+
+		private void FinalizeCookies()
+		{
+			if (settings.DeleteCookiesOnShutdown)
+			{
+				DeleteCookies();
+			}
+		}
+
+		private void FinalizeDownAndUploadDirectory()
+		{
+			if (settings.UseTemporaryDownAndUploadDirectory)
+			{
+				try
+				{
+					Directory.Delete(settings.DownAndUploadDirectory, true);
+					logger.Info("Deleted temporary down- and upload directory.");
+				}
+				catch (Exception e)
+				{
+					logger.Error("Failed to delete temporary down- and upload directory!", e);
+				}
 			}
 		}
 
@@ -369,6 +352,53 @@ namespace SafeExamBrowser.Browser
 			logger.Debug($"Session Persistence: {(cefSettings.PersistSessionCookies ? "Enabled" : "Disabled")}.");
 
 			return cefSettings;
+		}
+
+		private void InitializeCookies()
+		{
+			if (settings.DeleteCookiesOnStartup)
+			{
+				DeleteCookies();
+			}
+		}
+
+		private void InitializeDownAndUploadDirectory()
+		{
+			if (settings.UseTemporaryDownAndUploadDirectory)
+			{
+				InitializeTemporaryDownAndUploadDirectory();
+			}
+			else if (!string.IsNullOrEmpty(settings.DownAndUploadDirectory))
+			{
+				InitializeCustomDownAndUploadDirectory();
+			}
+		}
+
+		private void InitializeCustomDownAndUploadDirectory()
+		{
+			if (!Directory.Exists(Environment.ExpandEnvironmentVariables(settings.DownAndUploadDirectory)))
+			{
+				logger.Warn("The configured down- and upload directory does not exist! Falling back to the default directory...");
+				settings.DownAndUploadDirectory = default;
+			}
+			else
+			{
+				logger.Debug("Using custom down- and upload directory as defined in the active configuration.");
+			}
+		}
+
+		private void InitializeTemporaryDownAndUploadDirectory()
+		{
+			try
+			{
+				settings.DownAndUploadDirectory = Path.Combine(appConfig.TemporaryDirectory, Path.GetRandomFileName());
+				Directory.CreateDirectory(settings.DownAndUploadDirectory);
+				logger.Info($"Created temporary down- and upload directory.");
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to create temporary down- and upload directory!", e);
+			}
 		}
 
 		private void InitializeIntegrityKeys()
