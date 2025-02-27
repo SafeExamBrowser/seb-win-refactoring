@@ -30,57 +30,57 @@
                 <LineBreak />
                 <Bold><Underline>.NET Framework</Underline></Bold>
                 <LineBreak />
-                Copyright © 2002-2024 Microsoft. All rights reserved.
+                Copyright © 2002-2025 Microsoft. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Bouncy Castle</Underline></Bold>
                 <LineBreak />
-                Copyright © 2000-2024 Legion of the Bouncy Castle Inc. All rights reserved.
+                Copyright © 2000-2025 Legion of the Bouncy Castle Inc. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>CefSharp (.NET bindings for the Chromium Embedded Framework)</Underline></Bold>
                 <LineBreak />
-                Copyright © 2010-2024 The CefSharp Authors. All rights reserved.
+                Copyright © 2010-2025 The CefSharp Authors. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>CEF (Chromium Embedded Framework)</Underline></Bold>
                 <LineBreak />
-                Copyright © 2008-2024 The Chromium Embedded Framework Authors. All rights reserved.
+                Copyright © 2008-2025 The Chromium Embedded Framework Authors. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Font-Awesome-WPF</Underline></Bold>
                 <LineBreak />
-                Copyright © 2014-2024 charri. All rights reserved.
+                Copyright © 2014-2025 charri. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>KGy SOFT Core &amp; Drawing Libraries</Underline></Bold>
                 <LineBreak />
-                Copyright © 2005-2024 KGy SOFT. All rights reserved.
+                Copyright © 2005-2025 KGy SOFT. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>KnownFolders</Underline></Bold>
                 <LineBreak />
-                Copyright © 2017-2024 Syroot. All rights reserved.
+                Copyright © 2017-2025 Syroot. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Microsoft.Windows.SDK.Contracts</Underline></Bold>
                 <LineBreak />
-                Copyright © 2019-2024 Microsoft. All rights reserved.
+                Copyright © 2019-2025 Microsoft. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>NAudio</Underline></Bold>
                 <LineBreak />
-                Copyright © 2008-2024 Mark Heath &amp; contributors. All rights reserved.
+                Copyright © 2008-2025 Mark Heath &amp; contributors. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Newtonsoft.Json</Underline></Bold>
                 <LineBreak />
-                Copyright © 2007-2024 James Newton-King. All rights reserved.
+                Copyright © 2007-2025 James Newton-King. All rights reserved.
                 <LineBreak />
                 <LineBreak />
                 <Bold><Underline>Visual C++ Redistributable</Underline></Bold>
                 <LineBreak />
-                Copyright © 1993-2024 Microsoft. All rights reserved.
+                Copyright © 1993-2025 Microsoft. All rights reserved.
             </TextBlock>
         </ScrollViewer>
     </Grid>
