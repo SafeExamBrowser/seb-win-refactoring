@@ -25,7 +25,6 @@ using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration.Cryptography;
 using SafeExamBrowser.Configuration.Integrity;
 using SafeExamBrowser.Core.Contracts.OperationModel;
-using SafeExamBrowser.Core.OperationModel;
 using SafeExamBrowser.Core.Operations;
 using SafeExamBrowser.Core.ResponsibilityModel;
 using SafeExamBrowser.I18n;
@@ -151,7 +150,7 @@ namespace SafeExamBrowser.Client
 			logger?.Log($"# Client instance terminated at {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}");
 		}
 
-		private OperationSequence<IOperation> BuildOperations(
+		private ClientOperationSequence BuildOperations(
 			IApplicationFactory applicationFactory,
 			IClipboard clipboard,
 			IDisplayMonitor displayMonitor,
@@ -178,7 +177,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new LazyInitializationOperation(BuildProctoringOperation));
 			operations.Enqueue(new ClipboardOperation(context, clipboard, logger));
 
-			return new OperationSequence<IOperation>(logger, operations);
+			return new ClientOperationSequence(logger, operations, splashScreen);
 		}
 
 		private ResponsibilityCollection<ClientTask> BuildResponsibilities(
