@@ -118,7 +118,7 @@
         Annuleren
     </Entry>
     <Entry key="ExamSelectionDialog_Message">
-        Selecteer een van de beschikbare SEB-Server-examens:
+        Selecteer een van de beschikbare SEB-server-examens:
     </Entry>
     <Entry key="ExamSelectionDialog_Select">
         Selecteren
@@ -313,7 +313,7 @@
         Download fout
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationError">
-        De actieve displayconfiguratie is niet toegestaan. %%_ALLOWED_COUNT_%% %%_TYPE_%% display(s) zijn toegestaan, maar %%_INTERNAL_COUNT_%% interne en %%_EXTERNAL_COUNT_%% externe display(s) werden gedetecteerd. Raadpleeg de logbestanden voor meer informatie. SEB zal nu afsluiten...
+        De actieve displayconfiguratie is niet toegestaan. %%_ALLOWED_COUNT_%% %%_TYPE_%% display(s) zijn toegestaan, maar %%_INTERNAL_COUNT_%% interne en %%_EXTERNAL_COUNT_%% externe display(s) werden gedetecteerd. Raadpleeg de logbestanden voor meer informatie. SEB zal nu sluiten...
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationErrorTitle">
         Verboden schermconfiguratie
@@ -655,7 +655,7 @@
         Wachten tot de runtime de verbinding verbreekt
     </Entry>
     <Entry key="PasswordDialog_BrowserHomePasswordRequired">
-        Wachtwoord voor afsluiten/herstarten invoeren: (Deze functie logt u niet uit als u bent aangemeld op een website)
+        Wachtwoord voor afsluiten/herstarten invoeren (Deze functie logt u niet uit als u bent aangemeld op een website):
     </Entry>
     <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
         Terug naar start
@@ -679,7 +679,7 @@
         Wachtwoord vereist
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequired">
-        Voer het wachtwoord in om SEB te af te sluiten:
+        Voer het wachtwoord in om SEB af te sluiten:
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
         Wachtwoord vereist
@@ -715,7 +715,7 @@
         Wachten om %%_COUNT_%% transmissiebewerkingen te hervatten op %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">
-        Scherm Proctoring Afronding
+        Scherm proctoring afronding
     </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
         SEB wordt uitgevoerd.
@@ -733,7 +733,7 @@
         Opnieuw proberen
     </Entry>
     <Entry key="ServerFailureDialog_Title">
-        SEB-Server fout
+        SEB-server fout
     </Entry>
     <Entry key="Shell_QuitButton">
         Sessie beëindigen
@@ -766,7 +766,7 @@
         De batterij is bijna leeg. Sluit de computer op tijd aan op de oplader.
     </Entry>
     <Entry key="SystemControl_BatteryRemainingCharge">
-        %%HOURS%%h %%MINUTES%%min resterend (%%CHARGE%%%)
+        %%HOURS%%u %%MINUTES%%min resterend (%%CHARGE%%%)
     </Entry>
     <Entry key="SystemControl_KeyboardLayoutTooltip">
         De huidige indeling van het toetsenbord is "%%LAYOUT%%"
