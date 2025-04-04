@@ -1,0 +1,5 @@
+<Project>
+	<PropertyGroup Label="Show only relative paths in stacktraces" Condition="$(Configuration) == 'Release'">
+		<PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=.\</PathMap>
+	</PropertyGroup>
+</Project>
