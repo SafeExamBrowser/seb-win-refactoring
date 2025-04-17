@@ -69,6 +69,7 @@
     <Compile Include="FileSystemDialog\FileSystemElement.cs" />
     <Compile Include="FileSystemDialog\FileSystemOperation.cs" />
     <Compile Include="FileSystemDialog\IFileSystemDialog.cs" />
+    <Compile Include="IWindowGuard.cs" />
     <Compile Include="Proctoring\Events\FullScreenChangedEventHandler.cs" />
     <Compile Include="Proctoring\IProctoringControl.cs" />
     <Compile Include="Proctoring\IProctoringWindow.cs" />

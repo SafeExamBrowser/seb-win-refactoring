@@ -58,6 +58,7 @@ using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Shared;
 using SafeExamBrowser.UserInterface.Shared.Activators;
 using SafeExamBrowser.WindowsApi;
 using SafeExamBrowser.WindowsApi.Contracts;
@@ -92,6 +93,7 @@ namespace SafeExamBrowser.Client
 		private ITaskview taskview;
 		private IUserInfo userInfo;
 		private IText text;
+		private WindowGuard windowGuard;
 		private IUserInterfaceFactory uiFactory;
 
 		internal ClientController ClientController { get; private set; }
@@ -105,6 +107,7 @@ namespace SafeExamBrowser.Client
 
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 
+			windowGuard = new WindowGuard(ModuleLogger(nameof(WindowGuard)));
 			uiFactory = BuildUserInterfaceFactory();
 			actionCenter = uiFactory.CreateActionCenter();
 			context = new ClientContext();
@@ -162,6 +165,7 @@ namespace SafeExamBrowser.Client
 			operations.Enqueue(new I18nOperation(logger, text));
 			operations.Enqueue(new RuntimeConnectionOperation(context, logger, runtimeProxy, authenticationToken));
 			operations.Enqueue(new ConfigurationOperation(context, logger, runtimeProxy));
+			operations.Enqueue(new WindowGuardOperation(context, logger, windowGuard));
 			operations.Enqueue(new DelegateOperation(UpdateAppConfig));
 			operations.Enqueue(new DelegateOperation(BuildIntegrityModule));
 			operations.Enqueue(new DelegateOperation(BuildPowerSupply));
@@ -381,9 +385,9 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					return new Mobile.FileSystemDialogFactory(systemInfo, text);
+					return new Mobile.FileSystemDialogFactory(systemInfo, text, windowGuard);
 				default:
-					return new Desktop.FileSystemDialogFactory(systemInfo, text);
+					return new Desktop.FileSystemDialogFactory(systemInfo, text, windowGuard);
 			}
 		}
 
@@ -403,9 +407,9 @@ namespace SafeExamBrowser.Client
 			switch (uiMode)
 			{
 				case UserInterfaceMode.Mobile:
-					return new Mobile.UserInterfaceFactory(text);
+					return new Mobile.UserInterfaceFactory(text, windowGuard);
 				default:
-					return new Desktop.UserInterfaceFactory(text);
+					return new Desktop.UserInterfaceFactory(text, windowGuard);
 			}
 		}
 

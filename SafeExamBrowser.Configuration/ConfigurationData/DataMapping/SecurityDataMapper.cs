@@ -35,6 +35,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Security.AllowVirtualMachine:
 					MapVirtualMachinePolicy(settings, value);
 					break;
+				case Keys.Security.AllowWindowCapture:
+					MapAllowWindowCapture(settings, value);
+					break;
 				case Keys.Security.ClipboardPolicy:
 					MapClipboardPolicy(settings, value);
 					break;
@@ -94,6 +97,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool allow)
 			{
 				settings.Security.AllowTermination = allow;
+			}
+		}
+
+		private void MapAllowWindowCapture(AppSettings settings, object value)
+		{
+			if (value is bool allow)
+			{
+				settings.Security.AllowWindowCapture = allow;
 			}
 		}
 

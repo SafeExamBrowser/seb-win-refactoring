@@ -829,7 +829,7 @@ namespace SebWindowsConfig
 			}
 			textBoxLogDirectoryOSX.Text = (String) SEBSettings.settingsCurrent[SEBSettings.KeyLogDirectoryOSX];
 			checkboxAllowWlan.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowWLAN];
-			checkBoxEnableScreenCapture.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnablePrintScreen];
+			checkBoxEnableScreenCapture.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowScreenSharing];
 
 			comboBoxMinMacOSVersion.SelectedIndex = (int) SEBSettings.settingsCurrent[SEBSettings.KeyMinMacOSVersion];
 			checkBoxEnableAppSwitcherCheck.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnableAppSwitcherCheck];
@@ -3927,6 +3927,7 @@ namespace SebWindowsConfig
 		private void checkBoxAllowScreenSharing_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyAllowScreenSharing] = checkBoxAllowScreenSharing.Checked;
+			checkBoxEnableScreenCapture.Checked = checkBoxAllowScreenSharing.Checked;
 		}
 
 		private void checkBoxEnablePrivateClipboard_CheckedChanged(object sender, EventArgs e)
@@ -4202,8 +4203,6 @@ namespace SebWindowsConfig
 		private void checkBoxEnablePrintScreen_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyEnablePrintScreen] = checkBoxEnablePrintScreen.Checked;
-			checkBoxEnableScreenCapture.Checked = checkBoxEnablePrintScreen.Checked;
-
 		}
 
 		private void checkBoxEnableAltMouseWheel_CheckedChanged(object sender, EventArgs e)
@@ -4480,8 +4479,8 @@ namespace SebWindowsConfig
 
 		private void checkBoxEnableScreenCapture_CheckedChanged(object sender, EventArgs e)
 		{
-			SEBSettings.settingsCurrent[SEBSettings.KeyEnablePrintScreen] = checkBoxEnableScreenCapture.Checked;
-			checkBoxEnablePrintScreen.Checked = checkBoxEnableScreenCapture.Checked;
+			SEBSettings.settingsCurrent[SEBSettings.KeyAllowScreenSharing] = checkBoxEnableScreenCapture.Checked;
+			checkBoxAllowScreenSharing.Checked = checkBoxEnableScreenCapture.Checked;
 		}
 
 		private void checkBoxEnableTouchExit_CheckedChanged(object sender, EventArgs e)

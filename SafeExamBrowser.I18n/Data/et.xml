@@ -576,6 +576,9 @@
     <Entry key="OperationStatus_InitializeSystemEvents">
         Süsteemisündmuste käivitamine
     </Entry>
+    <Entry key="OperationStatus_InitializeWindowGuard">
+        Aknavalvuri initsialiseerimine
+    </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         Tööala käivitamine
     </Entry>

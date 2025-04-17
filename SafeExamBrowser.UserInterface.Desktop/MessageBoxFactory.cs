@@ -16,7 +16,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 {
 	public class MessageBoxFactory : IMessageBox
 	{
-		private IText text;
+		private readonly IText text;
 
 		public MessageBoxFactory(IText text)
 		{

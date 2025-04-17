@@ -28,11 +28,6 @@ namespace SafeExamBrowser.Settings.Security
 		public bool AllowApplicationLogAccess { get; set; }
 
 		/// <summary>
-		/// Determines whether the user may initiate the termination of SEB. This setting does not affect automated mechanisms like a quit URL.
-		/// </summary>
-		public bool AllowTermination { get; set; }
-
-		/// <summary>
 		/// Determines whether the user may reconfigure the application.
 		/// </summary>
 		public bool AllowReconfiguration { get; set; }
@@ -41,6 +36,16 @@ namespace SafeExamBrowser.Settings.Security
 		/// Determines whether the user may use the sticky keys feature of the operating system.
 		/// </summary>
 		public bool AllowStickyKeys { get; set; }
+
+		/// <summary>
+		/// Determines whether the user may initiate the termination of SEB. This setting does not affect automated mechanisms like a quit URL.
+		/// </summary>
+		public bool AllowTermination { get; set; }
+
+		/// <summary>
+		/// Determines whether the user interface may be captured by screen recording or remote control software.
+		/// </summary>
+		public bool AllowWindowCapture { get; set; }
 
 		/// <summary>
 		/// Determines whether the user is allowed to use the system clipboard, a custom clipboard or no clipboard at all.

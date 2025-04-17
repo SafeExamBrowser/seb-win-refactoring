@@ -67,12 +67,14 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ControlFactory.cs" />
     <Compile Include="Controls\ActionCenter\RaiseHandControl.xaml.cs">
       <DependentUpon>RaiseHandControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Taskbar\RaiseHandControl.xaml.cs">
       <DependentUpon>RaiseHandControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowFactory.cs" />
     <Compile Include="Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>

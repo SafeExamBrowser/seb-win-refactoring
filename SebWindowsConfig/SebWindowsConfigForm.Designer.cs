@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -847,8 +847,8 @@ namespace SebWindowsConfig
 			this.checkBoxEnablePrintScreen.Size = new System.Drawing.Size(117, 17);
 			this.checkBoxEnablePrintScreen.TabIndex = 7;
 			this.checkBoxEnablePrintScreen.Text = "Enable PrintScreen";
-			this.toolTip1.SetToolTip(this.checkBoxEnablePrintScreen, "Controls Print Screen and OS X screen capture, corresponds with Enable screen cap" +
-        "ture in Security settings.");
+			this.toolTip1.SetToolTip(this.checkBoxEnablePrintScreen, "Controls Print Screen and OS X screen capture (make sure to also allow screen cap" +
+        "turing in the security settings).");
 			this.checkBoxEnablePrintScreen.UseVisualStyleBackColor = true;
 			this.checkBoxEnablePrintScreen.CheckedChanged += new System.EventHandler(this.checkBoxEnablePrintScreen_CheckedChanged);
 			// 
@@ -1775,11 +1775,11 @@ namespace SebWindowsConfig
 			this.checkBoxEnableScreenCapture.Location = new System.Drawing.Point(230, 262);
 			this.checkBoxEnableScreenCapture.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxEnableScreenCapture.Name = "checkBoxEnableScreenCapture";
-			this.checkBoxEnableScreenCapture.Size = new System.Drawing.Size(191, 17);
+			this.checkBoxEnableScreenCapture.Size = new System.Drawing.Size(201, 17);
 			this.checkBoxEnableScreenCapture.TabIndex = 84;
-			this.checkBoxEnableScreenCapture.Text = "Allow screen capture / PrintScreen";
-			this.toolTip1.SetToolTip(this.checkBoxEnableScreenCapture, "Controls Print Screen and OS X screen capture, corresponds with Enable Print Scre" +
-        "en in Hooked Keys settings.");
+			this.checkBoxEnableScreenCapture.Text = "Allow screen capturing and recording";
+			this.toolTip1.SetToolTip(this.checkBoxEnableScreenCapture, "Controls the possibility to capture and record the user interface of Safe Exam Br" +
+        "owser (Windows).\r\nControls Print Screen and OS X screen capture (Mac).");
 			this.checkBoxEnableScreenCapture.UseVisualStyleBackColor = true;
 			this.checkBoxEnableScreenCapture.CheckedChanged += new System.EventHandler(this.checkBoxEnableScreenCapture_CheckedChanged);
 			// 
@@ -2083,8 +2083,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle9.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle9;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -4894,8 +4894,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle10;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -6310,6 +6310,7 @@ namespace SebWindowsConfig
 			this.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.MaximizeBox = false;
 			this.Name = "SebWindowsConfigForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "SEB Windows Configuration Editor";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SebWindowsConfigForm_FormClosing);
 			this.Load += new System.EventHandler(this.SebWindowsConfigForm_Load);

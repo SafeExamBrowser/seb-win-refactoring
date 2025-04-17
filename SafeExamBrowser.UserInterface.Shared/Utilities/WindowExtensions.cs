@@ -16,11 +16,12 @@ namespace SafeExamBrowser.UserInterface.Shared.Utilities
 	public static class WindowExtensions
 	{
 		private const int GWL_STYLE = -16;
-		private const uint MF_BYCOMMAND = 0x00000000;
-		private const uint MF_ENABLED = 0x00000000;
-		private const uint MF_GRAYED = 0x00000001;
+		private const uint MF_BYCOMMAND = 0x0;
+		private const uint MF_ENABLED = 0x0;
+		private const uint MF_GRAYED = 0x1;
 		private const uint SC_CLOSE = 0xF060;
-		private const uint SWP_SHOWWINDOW = 0x0040;
+		private const uint SWP_SHOWWINDOW = 0x40;
+		private const uint WDA_EXCLUDEFROMCAPTURE = 0x11;
 		private const int WS_SYSMENU = 0x80000;
 
 		private static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
@@ -44,6 +45,25 @@ namespace SafeExamBrowser.UserInterface.Shared.Utilities
 			if (systemMenu != IntPtr.Zero)
 			{
 				EnableMenuItem(systemMenu, SC_CLOSE, MF_BYCOMMAND | MF_ENABLED);
+			}
+		}
+
+		public static bool ExcludeFromCapture(this Window window)
+		{
+			var helper = new WindowInteropHelper(window);
+
+			return SetWindowDisplayAffinity(helper.Handle, WDA_EXCLUDEFROMCAPTURE);
+		}
+
+		public static void ExecuteWithAccess(this Window window, Action action)
+		{
+			if (window.CheckAccess())
+			{
+				action();
+			}
+			else
+			{
+				window.Dispatcher.Invoke(action);
 			}
 		}
 
@@ -74,6 +94,9 @@ namespace SafeExamBrowser.UserInterface.Shared.Utilities
 
 		[DllImport("user32.dll")]
 		private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+		[DllImport("user32.dll")]
+		public static extern bool SetWindowDisplayAffinity(IntPtr hwnd, uint dwAffinity);
 
 		[DllImport("user32.dll")]
 		private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);

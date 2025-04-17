@@ -576,6 +576,9 @@
     <Entry key="OperationStatus_InitializeSystemEvents">
         Menginisialisasi peristiwa sistem
     </Entry>
+    <Entry key="OperationStatus_InitializeWindowGuard">
+        Menginisialisasi pelindung jendela
+    </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         Menginisialisasi area kerja
     </Entry>

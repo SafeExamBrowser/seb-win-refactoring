@@ -206,6 +206,7 @@ namespace SafeExamBrowser.I18n.Contracts
 		OperationStatus_InitializeSession,
 		OperationStatus_InitializeShell,
 		OperationStatus_InitializeSystemEvents,
+		OperationStatus_InitializeWindowGuard,
 		OperationStatus_InitializeWorkingArea,
 		OperationStatus_RestartCommunicationHost,
 		OperationStatus_RestoreWorkingArea,

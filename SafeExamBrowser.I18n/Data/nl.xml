@@ -576,6 +576,9 @@
     <Entry key="OperationStatus_InitializeSystemEvents">
         Systeemgebeurtenissen initialiseren
     </Entry>
+    <Entry key="OperationStatus_InitializeWindowGuard">
+        Vensterbeveiliging initialiseren
+    </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         Werkgebied initialiseren
     </Entry>

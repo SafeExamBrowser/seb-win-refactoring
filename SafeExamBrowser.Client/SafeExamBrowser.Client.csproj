@@ -94,6 +94,7 @@
     <Compile Include="Operations\ApplicationOperation.cs" />
     <Compile Include="Operations\ServerOperation.cs" />
     <Compile Include="Operations\ShellOperation.cs" />
+    <Compile Include="Operations\WindowGuardOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

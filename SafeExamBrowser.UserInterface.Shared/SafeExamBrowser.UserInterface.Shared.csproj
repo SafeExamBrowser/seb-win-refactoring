@@ -71,6 +71,7 @@
     <Compile Include="Activators\TaskviewKeyboardActivator.cs" />
     <Compile Include="Activators\TerminationActivator.cs" />
     <Compile Include="Activators\TouchActivator.cs" />
+    <Compile Include="Guardable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -80,6 +81,7 @@
     <Compile Include="Utilities\Thumbnail.cs" />
     <Compile Include="Utilities\VisualExtensions.cs" />
     <Compile Include="Utilities\WindowExtensions.cs" />
+    <Compile Include="WindowGuard.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Core.Contracts\SafeExamBrowser.Core.Contracts.csproj">

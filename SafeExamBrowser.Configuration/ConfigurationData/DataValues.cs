@@ -257,9 +257,10 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Proctoring.ShowTaskbarNotification = true;
 
 			settings.Security.AllowApplicationLogAccess = false;
-			settings.Security.AllowTermination = true;
 			settings.Security.AllowReconfiguration = false;
 			settings.Security.AllowStickyKeys = false;
+			settings.Security.AllowTermination = true;
+			settings.Security.AllowWindowCapture = false;
 			settings.Security.ClipboardPolicy = ClipboardPolicy.Isolated;
 			settings.Security.DisableSessionChangeLockScreen = false;
 			settings.Security.KioskMode = KioskMode.CreateNewDesktop;

@@ -7,8 +7,6 @@
  */
 
 using System.Collections.Generic;
-using System.Threading;
-using System.Windows;
 using System.Windows.Media;
 using FontAwesome.WPF;
 using SafeExamBrowser.Applications.Contracts;
@@ -31,222 +29,140 @@ using SafeExamBrowser.UserInterface.Contracts.Proctoring;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
-using SafeExamBrowser.UserInterface.Mobile.Windows;
-using SplashScreen = SafeExamBrowser.UserInterface.Mobile.Windows.SplashScreen;
 
 namespace SafeExamBrowser.UserInterface.Mobile
 {
 	public class UserInterfaceFactory : IUserInterfaceFactory
 	{
+		private readonly ControlFactory controlFactory;
 		private readonly IText text;
+		private readonly WindowFactory windowFactory;
 
-		public UserInterfaceFactory(IText text)
+		/// <remarks>
+		/// The <see cref="IWindowGuard"/> is optional, as it is only used by the client application component.
+		/// </remarks>
+		public UserInterfaceFactory(IText text, IWindowGuard windowGuard = default)
 		{
+			this.controlFactory = new ControlFactory(text);
 			this.text = text;
+			this.windowFactory = new WindowFactory(text, windowGuard);
 
 			InitializeFontAwesome();
 		}
 
 		public IWindow CreateAboutWindow(AppConfig appConfig)
 		{
-			return new AboutWindow(appConfig, text);
+			return windowFactory.CreateAboutWindow(appConfig);
 		}
 
 		public IActionCenter CreateActionCenter()
 		{
-			return new ActionCenter();
+			return windowFactory.CreateActionCenter();
 		}
 
 		public IApplicationControl CreateApplicationControl(IApplication<IApplicationWindow> application, Location location)
 		{
-			if (location == Location.ActionCenter)
-			{
-				return new Controls.ActionCenter.ApplicationControl(application);
-			}
-			else
-			{
-				return new Controls.Taskbar.ApplicationControl(application);
-			}
+			return controlFactory.CreateApplicationControl(application, location);
 		}
 
 		public ISystemControl CreateAudioControl(IAudio audio, Location location)
 		{
-			if (location == Location.ActionCenter)
-			{
-				return new Controls.ActionCenter.AudioControl(audio, text);
-			}
-			else
-			{
-				return new Controls.Taskbar.AudioControl(audio, text);
-			}
+			return controlFactory.CreateAudioControl(audio, location);
 		}
 
 		public IBrowserWindow CreateBrowserWindow(IBrowserControl control, BrowserSettings settings, bool isMainWindow, ILogger logger)
 		{
-			return Application.Current.Dispatcher.Invoke(() => new BrowserWindow(control, settings, isMainWindow, text, logger));
+			return windowFactory.CreateBrowserWindow(control, settings, isMainWindow, logger);
 		}
 
 		public ICredentialsDialog CreateCredentialsDialog(CredentialsDialogPurpose purpose, string message, string title)
 		{
-			return Application.Current.Dispatcher.Invoke(() => new CredentialsDialog(purpose, message, title, text));
+			return windowFactory.CreateCredentialsDialog(purpose, message, title);
 		}
 
 		public IExamSelectionDialog CreateExamSelectionDialog(IEnumerable<Exam> exams)
 		{
-			return Application.Current.Dispatcher.Invoke(() => new ExamSelectionDialog(exams, text));
+			return windowFactory.CreateExamSelectionDialog(exams);
 		}
 
 		public ISystemControl CreateKeyboardLayoutControl(IKeyboard keyboard, Location location)
 		{
-			if (location == Location.ActionCenter)
-			{
-				return new Controls.ActionCenter.KeyboardLayoutControl(keyboard, text);
-			}
-			else
-			{
-				return new Controls.Taskbar.KeyboardLayoutControl(keyboard, text);
-			}
+			return controlFactory.CreateKeyboardLayoutControl(keyboard, location);
 		}
 
 		public ILockScreen CreateLockScreen(string message, string title, IEnumerable<LockScreenOption> options, LockScreenSettings settings)
 		{
-			return Application.Current.Dispatcher.Invoke(() => new LockScreen(message, title, settings, text, options));
+			return windowFactory.CreateLockScreen(message, title, options, settings);
 		}
 
 		public IWindow CreateLogWindow(ILogger logger)
 		{
-			var window = default(LogWindow);
-			var windowReadyEvent = new AutoResetEvent(false);
-			var windowThread = new Thread(() =>
-			{
-				window = new LogWindow(logger, text);
-				window.Closed += (o, args) => window.Dispatcher.InvokeShutdown();
-				window.Show();
-
-				windowReadyEvent.Set();
-
-				System.Windows.Threading.Dispatcher.Run();
-			});
-
-			windowThread.SetApartmentState(ApartmentState.STA);
-			windowThread.IsBackground = true;
-			windowThread.Start();
-
-			windowReadyEvent.WaitOne();
-
-			return window;
+			return windowFactory.CreateLogWindow(logger);
 		}
 
 		public ISystemControl CreateNetworkControl(INetworkAdapter adapter, Location location)
 		{
-			if (location == Location.ActionCenter)
-			{
-				return new Controls.ActionCenter.NetworkControl(adapter, text);
-			}
-			else
-			{
-				return new Controls.Taskbar.NetworkControl(adapter, text);
-			}
+			return controlFactory.CreateNetworkControl(adapter, location);
 		}
 
 		public INotificationControl CreateNotificationControl(INotification notification, Location location)
 		{
-			if (location == Location.ActionCenter)
-			{
-				return new Controls.ActionCenter.NotificationButton(notification);
-			}
-			else
-			{
-				return new Controls.Taskbar.NotificationButton(notification);
-			}
+			return controlFactory.CreateNotificationControl(notification, location);
 		}
 
 		public IPasswordDialog CreatePasswordDialog(string message, string title)
 		{
-			return Application.Current.Dispatcher.Invoke(() => new PasswordDialog(message, title, text));
+			return windowFactory.CreatePasswordDialog(message, title);
 		}
 
 		public IPasswordDialog CreatePasswordDialog(TextKey message, TextKey title)
 		{
-			return Application.Current.Dispatcher.Invoke(() => new PasswordDialog(text.Get(message), text.Get(title), text));
+			return windowFactory.CreatePasswordDialog(text.Get(message), text.Get(title));
 		}
 
 		public ISystemControl CreatePowerSupplyControl(IPowerSupply powerSupply, Location location)
 		{
-			if (location == Location.ActionCenter)
-			{
-				return new Controls.ActionCenter.PowerSupplyControl(powerSupply, text);
-			}
-			else
-			{
-				return new Controls.Taskbar.PowerSupplyControl(powerSupply, text);
-			}
+			return controlFactory.CreatePowerSupplyControl(powerSupply, location);
 		}
 
 		public IProctoringFinalizationDialog CreateProctoringFinalizationDialog()
 		{
-			return Application.Current.Dispatcher.Invoke(() => new ProctoringFinalizationDialog(text));
+			return windowFactory.CreateProctoringFinalizationDialog();
 		}
 
 		public IProctoringWindow CreateProctoringWindow(IProctoringControl control)
 		{
-			return Application.Current.Dispatcher.Invoke(() => new ProctoringWindow(control));
+			return windowFactory.CreateProctoringWindow(control);
 		}
 
 		public INotificationControl CreateRaiseHandControl(IProctoringController controller, Location location, ProctoringSettings settings)
 		{
-			if (location == Location.ActionCenter)
-			{
-				return new Controls.ActionCenter.RaiseHandControl(controller, settings, text);
-			}
-			else
-			{
-				return new Controls.Taskbar.RaiseHandControl(controller, settings, text);
-			}
+			return controlFactory.CreateRaiseHandControl(controller, location, settings);
 		}
 
 		public IRuntimeWindow CreateRuntimeWindow(AppConfig appConfig)
 		{
-			return Application.Current.Dispatcher.Invoke(() => new RuntimeWindow(appConfig, text));
+			return windowFactory.CreateRuntimeWindow(appConfig);
 		}
 
 		public IServerFailureDialog CreateServerFailureDialog(string info, bool showFallback)
 		{
-			return Application.Current.Dispatcher.Invoke(() => new ServerFailureDialog(info, showFallback, text));
+			return windowFactory.CreateServerFailureDialog(info, showFallback);
 		}
 
 		public ISplashScreen CreateSplashScreen(AppConfig appConfig = null)
 		{
-			var window = default(SplashScreen);
-			var windowReadyEvent = new AutoResetEvent(false);
-			var windowThread = new Thread(() =>
-			{
-				window = new SplashScreen(text, appConfig);
-				window.Closed += (o, args) => window.Dispatcher.InvokeShutdown();
-				window.Show();
-
-				windowReadyEvent.Set();
-
-				System.Windows.Threading.Dispatcher.Run();
-			});
-
-			windowThread.SetApartmentState(ApartmentState.STA);
-			windowThread.IsBackground = true;
-			windowThread.Start();
-
-			windowReadyEvent.WaitOne();
-
-			return window;
+			return windowFactory.CreateSplashScreen(appConfig);
 		}
 
 		public ITaskbar CreateTaskbar(ILogger logger)
 		{
-			return new Taskbar(logger);
+			return windowFactory.CreateTaskbar(logger);
 		}
 
 		public ITaskview CreateTaskview()
 		{
-			return new Taskview();
+			return windowFactory.CreateTaskview();
 		}
 
 		private void InitializeFontAwesome()

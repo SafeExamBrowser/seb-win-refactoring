@@ -576,6 +576,9 @@
     <Entry key="OperationStatus_InitializeSystemEvents">
         Inițializează evenimentele sistemului
     </Entry>
+    <Entry key="OperationStatus_InitializeWindowGuard">
+        Inițializarea ferestrei de protecție
+    </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         Inițializează zona de lucru
     </Entry>

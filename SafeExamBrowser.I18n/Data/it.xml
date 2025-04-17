@@ -576,6 +576,9 @@
     <Entry key="OperationStatus_InitializeSystemEvents">
         Inizializzazione degli eventi di sistema
     </Entry>
+    <Entry key="OperationStatus_InitializeWindowGuard">
+        Inizializzazione della protezione finestra
+    </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         Inizializzazione dell'area di lavoro
     </Entry>

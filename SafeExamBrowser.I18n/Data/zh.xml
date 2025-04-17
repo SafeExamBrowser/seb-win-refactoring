@@ -576,6 +576,9 @@
     <Entry key="OperationStatus_InitializeSystemEvents">
         初始化系统事件
     </Entry>
+    <Entry key="OperationStatus_InitializeWindowGuard">
+        初始化窗口防护装置
+    </Entry>
     <Entry key="OperationStatus_InitializeWorkingArea">
         初始化工作区域
     </Entry>
