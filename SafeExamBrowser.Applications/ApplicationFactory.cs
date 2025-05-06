@@ -8,7 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Applications;
@@ -43,41 +45,61 @@ namespace SafeExamBrowser.Applications
 		public FactoryResult TryCreate(WhitelistApplication settings, out IApplication<IApplicationWindow> application)
 		{
 			var name = $"'{settings.DisplayName}' ({settings.ExecutableName})";
+			var result = FactoryResult.Error;
 
 			application = default;
 
 			try
 			{
-				var success = TryFindApplication(settings, out var executablePath);
+				var found = TryFindApplication(settings, out var executablePath);
+				var valid = found && VerifyApplication(executablePath, name, settings);
 
-				if (success)
+				if (found && valid)
 				{
-					application = BuildApplication(executablePath, settings);
-					application.Initialize();
-
-					logger.Debug($"Successfully initialized application {name}.");
-
-					return FactoryResult.Success;
+					application = InitializeApplication(executablePath, settings);
 				}
 
-				logger.Error($"Could not find application {name}!");
-
-				return FactoryResult.NotFound;
+				result = DetermineResult(name, found, valid);
 			}
 			catch (Exception e)
 			{
 				logger.Error($"Unexpected error while trying to initialize application {name}!", e);
 			}
 
-			return FactoryResult.Error;
+			return result;
 		}
 
-		private IApplication<IApplicationWindow> BuildApplication(string executablePath, WhitelistApplication settings)
+		private FactoryResult DetermineResult(string name, bool found, bool valid)
+		{
+			var result = default(FactoryResult);
+
+			if (!found)
+			{
+				result = FactoryResult.NotFound;
+				logger.Error($"Could not find application {name}!");
+			}
+			else if (!valid)
+			{
+				result = FactoryResult.Invalid;
+				logger.Error($"The application {name} is not valid or has been manipulated!");
+			}
+			else
+			{
+				result = FactoryResult.Success;
+				logger.Debug($"Successfully initialized application {name}.");
+			}
+
+			return result;
+		}
+
+		private IApplication<IApplicationWindow> InitializeApplication(string executablePath, WhitelistApplication settings)
 		{
 			const int ONE_SECOND = 1000;
 
 			var applicationLogger = logger.CloneFor(settings.DisplayName);
 			var application = new ExternalApplication(applicationMonitor, executablePath, applicationLogger, nativeMethods, processFactory, settings, ONE_SECOND);
+
+			application.Initialize();
 
 			return application;
 		}
@@ -142,6 +164,100 @@ namespace SafeExamBrowser.Applications
 			}
 
 			return default;
+		}
+
+		private bool VerifyApplication(string executablePath, string name, WhitelistApplication settings)
+		{
+			var valid = true;
+
+			valid &= VerifyName(executablePath, name, settings);
+			valid &= VerifyOriginalName(executablePath, name, settings);
+			valid &= VerifySignature(executablePath, name, settings);
+
+			return valid;
+		}
+
+		private bool VerifyName(string executablePath, string name, WhitelistApplication settings)
+		{
+			var valid = Path.GetFileName(executablePath).Equals(settings.ExecutableName, StringComparison.OrdinalIgnoreCase);
+
+			if (!valid)
+			{
+				logger.Warn($"The executable name of application {name} at '{executablePath}' does not match the configured value!");
+			}
+
+			return valid;
+		}
+
+		private bool VerifyOriginalName(string executablePath, string name, WhitelistApplication settings)
+		{
+			var ignoreOriginalName = string.IsNullOrWhiteSpace(settings.OriginalName);
+			var valid = ignoreOriginalName;
+
+			if (!ignoreOriginalName && TryLoadOriginalName(executablePath, out var originalName))
+			{
+				valid = originalName.Equals(settings.OriginalName, StringComparison.OrdinalIgnoreCase);
+			}
+
+			if (!valid)
+			{
+				logger.Warn($"The original name of application {name} at '{executablePath}' does not match the configured value!");
+			}
+
+			return valid;
+		}
+
+		private bool VerifySignature(string executablePath, string name, WhitelistApplication settings)
+		{
+			var ignoreSignature = string.IsNullOrWhiteSpace(settings.Signature);
+			var valid = ignoreSignature;
+
+			if (!ignoreSignature && TryLoadSignature(executablePath, out var signature))
+			{
+				valid = signature.Equals(settings.Signature, StringComparison.OrdinalIgnoreCase);
+			}
+
+			if (!valid)
+			{
+				logger.Warn($"The signature of application {name} at '{executablePath}' does not match the configured value!");
+			}
+
+			return valid;
+		}
+
+		private bool TryLoadOriginalName(string path, out string originalName)
+		{
+			originalName = default;
+
+			try
+			{
+				originalName = FileVersionInfo.GetVersionInfo(path).OriginalFilename;
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to load original name for '{path}'!", e);
+			}
+
+			return originalName != default;
+		}
+
+		private bool TryLoadSignature(string path, out string signature)
+		{
+			signature = default;
+
+			try
+			{
+				using (var certificate = X509Certificate.CreateFromSignedFile(path))
+				{
+					signature = certificate.GetCertHashString();
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to load signature for '{path}'!", e);
+			}
+
+			return signature != default;
 		}
 	}
 }

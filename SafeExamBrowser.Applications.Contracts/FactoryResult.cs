@@ -19,6 +19,11 @@ namespace SafeExamBrowser.Applications.Contracts
 		Error,
 
 		/// <summary>
+		/// The application has been found but is invalid (e.g. because it is not the correct version or has been manipulated).
+		/// </summary>
+		Invalid,
+
+		/// <summary>
 		/// The application could not be found on the system.
 		/// </summary>
 		NotFound,

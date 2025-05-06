@@ -239,7 +239,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 			var ignoreSignature = string.IsNullOrWhiteSpace(application.Signature);
 			var sameName = process.Name.Equals(application.ExecutableName, StringComparison.OrdinalIgnoreCase);
 			var sameOriginalName = process.OriginalName?.Equals(application.OriginalName, StringComparison.OrdinalIgnoreCase) == true;
-			var sameSignature = process.Signature?.Equals(application.Signature?.ToLower(), StringComparison.OrdinalIgnoreCase) == true;
+			var sameSignature = process.Signature?.Equals(application.Signature, StringComparison.OrdinalIgnoreCase) == true;
 
 			return sameName && (ignoreOriginalName || sameOriginalName) && (ignoreSignature || sameSignature);
 		}
