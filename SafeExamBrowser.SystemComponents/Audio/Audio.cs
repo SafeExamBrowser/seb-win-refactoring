@@ -9,8 +9,8 @@
 using System;
 using System.Linq;
 using NAudio.CoreAudioApi;
-using SafeExamBrowser.Settings.SystemComponents;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Settings.SystemComponents;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Audio.Events;
 
@@ -18,12 +18,14 @@ namespace SafeExamBrowser.SystemComponents.Audio
 {
 	public class Audio : IAudio
 	{
-		private AudioSettings settings;
+		private readonly ILogger logger;
+		private readonly AudioSettings settings;
+
 		private MMDevice audioDevice;
 		private string audioDeviceFullName;
 		private string audioDeviceShortName;
+		private bool originallyMuted;
 		private float originalVolume;
-		private ILogger logger;
 
 		public string DeviceFullName => audioDeviceFullName ?? string.Empty;
 		public string DeviceShortName => audioDeviceShortName ?? string.Empty;
@@ -130,6 +132,7 @@ namespace SafeExamBrowser.SystemComponents.Audio
 
 			if (settings.MuteAudio)
 			{
+				originallyMuted = audioDevice.AudioEndpointVolume.Mute;
 				audioDevice.AudioEndpointVolume.Mute = true;
 				logger.Info("Muted audio device.");
 			}
@@ -145,8 +148,8 @@ namespace SafeExamBrowser.SystemComponents.Audio
 
 			if (settings.MuteAudio)
 			{
-				audioDevice.AudioEndpointVolume.Mute = false;
-				logger.Info("Unmuted audio device.");
+				audioDevice.AudioEndpointVolume.Mute = originallyMuted;
+				logger.Info($"Reverted audio device to {(originallyMuted ? "muted" : "unmuted")}.");
 			}
 		}
 
