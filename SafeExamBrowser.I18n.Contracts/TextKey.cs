@@ -154,8 +154,6 @@ namespace SafeExamBrowser.I18n.Contracts
 		MessageBox_RemoteSessionNotAllowedTitle,
 		MessageBox_ScreenProctoringDisclaimer,
 		MessageBox_ScreenProctoringDisclaimerTitle,
-		MessageBox_ServerReconfigurationWarning,
-		MessageBox_ServerReconfigurationWarningTitle,
 		MessageBox_ServiceUnavailableError,
 		MessageBox_ServiceUnavailableErrorTitle,
 		MessageBox_ServiceUnavailableWarning,

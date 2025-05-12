@@ -420,12 +420,6 @@
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sessie met schermproctor
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">
-        Er is al een SEB Server-sessie actief. Het is niet toegestaan om opnieuw te configureren voor een andere SEB Server sessie.
-    </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
-        Herconfiguratie niet toegestaan
-    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Mislukt bij het initialiseren van de SEB service! SEB wordt nu beëindigd omdat de service is geconfigureerd als verplicht.
     </Entry>

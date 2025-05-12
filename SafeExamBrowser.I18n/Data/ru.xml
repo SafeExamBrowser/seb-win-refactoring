@@ -420,12 +420,6 @@
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Сессия с прокторингом экрана
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">
-        Сеанс сервера SEB уже запущен. Перенастройка для другого сеанса сервера SEB запрещена.
-    </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
-        Перенастройка не разрешена
-    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Не удалось инициализировать службу SEB! Теперь SEB завершит работу, поскольку служба настроена как обязательная.
     </Entry>

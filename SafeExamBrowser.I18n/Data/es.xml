@@ -420,12 +420,6 @@
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sesión con proctoring de pantalla
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">
-        Ya hay una sesión de SEB-Server en ejecución. No se permite reconfigurar para otra sesión de SEB-Server.
-    </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
-        Reconfiguración no permitida
-    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         ¡Error al inicializar el servicio SEB! SEB terminará ahora ya que el servicio está configurado para ser obligatorio.
     </Entry>

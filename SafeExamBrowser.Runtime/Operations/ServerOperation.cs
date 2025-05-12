@@ -19,7 +19,6 @@ using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.SystemComponents.Contracts;
-using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 
 namespace SafeExamBrowser.Runtime.Operations
 {
@@ -105,6 +104,15 @@ namespace SafeExamBrowser.Runtime.Operations
 					result = OperationResult.Success;
 					logger.Info("The user chose to fallback and start a normal session.");
 				}
+
+				if (result == OperationResult.Success)
+				{
+					logger.Info("Successfully initialized server.");
+				}
+				else if (result == OperationResult.Failed)
+				{
+					logger.Error("Failed to initialize server!");
+				}
 			}
 
 			return result;
@@ -116,7 +124,16 @@ namespace SafeExamBrowser.Runtime.Operations
 
 			if (Context.Current.Settings.SessionMode == SessionMode.Server && Context.Next.Settings.SessionMode == SessionMode.Server)
 			{
-				result = AbortServerReconfiguration();
+				result = Revert();
+
+				if (result == OperationResult.Success)
+				{
+					result = Perform();
+				}
+				else
+				{
+					logger.Error($"Cannot start new server session due to failed finalization of current server session! Terminating...");
+				}
 			}
 			else if (Context.Current.Settings.SessionMode == SessionMode.Server)
 			{
@@ -144,10 +161,12 @@ namespace SafeExamBrowser.Runtime.Operations
 				if (disconnect.Success)
 				{
 					result = OperationResult.Success;
+					logger.Info("Successfully finalized server.");
 				}
 				else
 				{
 					result = OperationResult.Failed;
+					logger.Error("Failed to finalize server!");
 				}
 			}
 
@@ -271,22 +290,6 @@ namespace SafeExamBrowser.Runtime.Operations
 			}
 
 			return success;
-		}
-
-		private OperationResult AbortServerReconfiguration()
-		{
-			var args = new MessageEventArgs
-			{
-				Action = MessageBoxAction.Ok,
-				Icon = MessageBoxIcon.Warning,
-				Message = TextKey.MessageBox_ServerReconfigurationWarning,
-				Title = TextKey.MessageBox_ServerReconfigurationWarningTitle
-			};
-
-			logger.Warn("Server reconfiguration is currently not supported, aborting...");
-			ActionRequired?.Invoke(args);
-
-			return OperationResult.Aborted;
 		}
 	}
 }

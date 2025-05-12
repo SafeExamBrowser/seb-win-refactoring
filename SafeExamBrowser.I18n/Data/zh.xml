@@ -420,12 +420,6 @@
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         屏幕监考
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">
-        已经有一个 SEB 服务器会话正在运行。 不允许为另一个 SEB 服务器会话重新配置。
-    </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
-        不允许重新配置
-    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         防作弊考试专用浏览器服务初始化失败。防作弊考试专用浏览器现将终止，因为该服务被配置为强制项。
     </Entry>

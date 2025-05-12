@@ -420,12 +420,6 @@
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sitzung mit Bildschirmüberwachung
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">
-        Es läuft bereits eine SEB-Server-Sitzung. Es ist nicht erlaubt, sich für eine andere SEB-Server-Sitzung neu zu konfigurieren.
-    </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
-        Rekonfiguration nicht erlaubt
-    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Fehler beim Initialisieren des SEB-Service! SEB wird sich nun beenden da der Service als obligatorisch konfiguriert ist.
     </Entry>

@@ -13,7 +13,6 @@ using Moq;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Core.Contracts.OperationModel;
-using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations;
 using SafeExamBrowser.Runtime.Operations.Events;
@@ -83,7 +82,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, default));
 			server
 				.Setup(s => s.GetAvailableExams(It.IsAny<string>()))
-				.Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)))
+				.Returns(new ServerResponse<IEnumerable<Exam>>(true, default))
 				.Callback(() => getExams = ++counter);
 			server
 				.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>()))
@@ -141,7 +140,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.Connect()).Returns(new ServerResponse(true));
 			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>()));
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
-			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)));
+			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default));
 			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")));
 			sut.ActionRequired += (args) =>
 			{
@@ -185,8 +184,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.Connect()).Returns(new ServerResponse(true));
 			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>()));
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
-			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)));
-			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default(Uri)));
+			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default));
+			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default));
 			sut.ActionRequired += (args) =>
 			{
 				if (args is ExamSelectionEventArgs e)
@@ -228,8 +227,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.Connect()).Returns(new ServerResponse(true));
 			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>()));
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
-			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)));
-			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default(Uri)));
+			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default));
+			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default));
 			sut.ActionRequired += (args) =>
 			{
 				if (args is ExamSelectionEventArgs e)
@@ -339,7 +338,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, default));
 			server
 				.Setup(s => s.GetAvailableExams(It.IsAny<string>()))
-				.Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)))
+				.Returns(new ServerResponse<IEnumerable<Exam>>(true, default))
 				.Callback(() => getExams = ++counter);
 			server
 				.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>()))
@@ -397,7 +396,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.Connect()).Returns(new ServerResponse(true));
 			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>()));
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
-			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)));
+			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default));
 			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")));
 			sut.ActionRequired += (args) =>
 			{
@@ -441,8 +440,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.Connect()).Returns(new ServerResponse(true));
 			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>()));
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
-			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)));
-			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default(Uri)));
+			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default));
+			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default));
 			sut.ActionRequired += (args) =>
 			{
 				if (args is ExamSelectionEventArgs e)
@@ -484,8 +483,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.Connect()).Returns(new ServerResponse(true));
 			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>()));
 			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
-			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default(IEnumerable<Exam>)));
-			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default(Uri)));
+			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, default));
+			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default));
 			sut.ActionRequired += (args) =>
 			{
 				if (args is ExamSelectionEventArgs e)
@@ -513,6 +512,86 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			Assert.IsTrue(messageShown);
 			Assert.AreEqual(SessionMode.Normal, context.Next.Settings.SessionMode);
 			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Repeat_MustCorrectlyReconfigureServerSession()
+		{
+			var connect = 0;
+			var connection = new ConnectionInfo { Api = "some API", ConnectionToken = "some token", Oauth2Token = "some OAuth2 token" };
+			var counter = 0;
+			var delete = 0;
+			var disconnect = 0;
+			var exam = new Exam { Id = "some id", LmsName = "some LMS", Name = "some name", Url = "some URL" };
+			var examSelection = 0;
+			var examSettings = new AppSettings();
+			var getConfiguration = 0;
+			var getConnection = 0;
+			var getExams = 0;
+			var initialize = 0;
+			var initialSettings = context.Next.Settings;
+			var serverSettings = context.Next.Settings.Server;
+
+			configuration
+				.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>()))
+				.Returns(LoadStatus.Success);
+			context.Current.Settings.SessionMode = SessionMode.Server;
+			context.Next.Settings.SessionMode = SessionMode.Server;
+			fileSystem.Setup(f => f.Delete(It.IsAny<string>())).Callback(() => delete = ++counter);
+			server.Setup(s => s.Connect()).Returns(new ServerResponse(true)).Callback(() => connect = ++counter);
+			server.Setup(s => s.Disconnect()).Returns(new ServerResponse(true)).Callback(() => disconnect = ++counter);
+			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>())).Callback(() => initialize = ++counter);
+			server.Setup(s => s.GetConnectionInfo()).Returns(connection).Callback(() => getConnection = ++counter);
+			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, default));
+			server
+				.Setup(s => s.GetAvailableExams(It.IsAny<string>()))
+				.Returns(new ServerResponse<IEnumerable<Exam>>(true, default))
+				.Callback(() => getExams = ++counter);
+			server
+				.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>()))
+				.Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")))
+				.Callback(() => getConfiguration = ++counter);
+			sut.ActionRequired += (args) =>
+			{
+				if (args is ExamSelectionEventArgs e)
+				{
+					e.Success = true;
+					e.SelectedExam = exam;
+					examSelection = ++counter;
+				}
+			};
+
+			var result = sut.Repeat();
+
+			Assert.AreEqual(OperationResult.Success, result);
+
+			fileSystem.Verify(f => f.Delete(It.IsAny<string>()), Times.Once);
+			server.Verify(s => s.Connect(), Times.Once);
+			server.Verify(s => s.Disconnect(), Times.Once);
+			server.Verify(s => s.Initialize(It.IsAny<ServerSettings>()), Times.Once);
+			server.Verify(s => s.GetAvailableExams(It.IsAny<string>()), Times.Once);
+			server.Verify(s => s.GetConfigurationFor(It.Is<Exam>(e => e == exam)), Times.Once);
+			server.Verify(s => s.GetConnectionInfo(), Times.Once);
+			server.Verify(s => s.SendSelectedExam(It.Is<Exam>(e => e == exam)), Times.Once);
+
+			Assert.AreEqual(1, disconnect);
+			Assert.AreEqual(2, initialize);
+			Assert.AreEqual(3, connect);
+			Assert.AreEqual(4, getExams);
+			Assert.AreEqual(5, examSelection);
+			Assert.AreEqual(6, getConfiguration);
+			Assert.AreEqual(7, getConnection);
+			Assert.AreEqual(8, delete);
+			Assert.AreEqual(connection.Api, context.Next.AppConfig.ServerApi);
+			Assert.AreEqual(connection.ConnectionToken, context.Next.AppConfig.ServerConnectionToken);
+			Assert.AreEqual(connection.Oauth2Token, context.Next.AppConfig.ServerOauth2Token);
+			Assert.AreEqual(exam.Id, context.Next.AppConfig.ServerExamId);
+			Assert.AreEqual(exam.Url, context.Next.Settings.Browser.StartUrl);
+			Assert.AreSame(examSettings, context.Next.Settings);
+			Assert.AreSame(serverSettings, context.Next.Settings.Server);
+			Assert.AreNotSame(initialSettings, context.Next.Settings);
+			Assert.AreEqual(OperationResult.Success, result);
+			Assert.AreEqual(SessionMode.Server, context.Next.Settings.SessionMode);
 		}
 
 		[TestMethod]
@@ -546,36 +625,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Verify(s => s.SendSelectedExam(It.Is<Exam>(e => e == exam)), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
-		}
-
-		[TestMethod]
-		public void Repeat_MustNotAllowToReconfigureServerSession()
-		{
-			var args = default(ActionRequiredEventArgs);
-
-			context.Current.AppConfig.ServerApi = "api";
-			context.Current.AppConfig.ServerConnectionToken = "token";
-			context.Current.AppConfig.ServerExamId = "id";
-			context.Current.AppConfig.ServerOauth2Token = "oauth2";
-			context.Current.Settings.SessionMode = SessionMode.Server;
-			context.Next.Settings.SessionMode = SessionMode.Server;
-
-			sut.ActionRequired += (a) =>
-			{
-				args = a;
-			};
-
-			var result = sut.Repeat();
-
-			configuration.VerifyNoOtherCalls();
-			fileSystem.VerifyNoOtherCalls();
-			server.VerifyNoOtherCalls();
-
-			Assert.IsNull(context.Next.AppConfig.ServerApi);
-			Assert.IsNull(context.Next.AppConfig.ServerConnectionToken);
-			Assert.IsNull(context.Next.AppConfig.ServerOauth2Token);
-			Assert.IsInstanceOfType(args, typeof(MessageEventArgs));
-			Assert.AreEqual(OperationResult.Aborted, result);
 		}
 
 		[TestMethod]

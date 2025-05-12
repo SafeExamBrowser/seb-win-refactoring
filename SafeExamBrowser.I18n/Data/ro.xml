@@ -420,12 +420,6 @@
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sesiune cu supraveghere ecran
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">
-        O sesiune SEB Server este deja activă. Nu este permisă reconfigurarea pentru o altă sesiune SEB Server.
-    </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
-        Reconfigurare nepermisă
-    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Eșec la inițializarea serviciului SEB! SEB va fi închis acum deoarece serviciul este configurat ca fiind obligatoriu.
     </Entry>

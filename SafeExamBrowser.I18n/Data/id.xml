@@ -420,12 +420,6 @@
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sesi dengan Screen Proctoring
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">
-        Terdapat sesi SEB Server yang sedang berjalan. Tidak diperbolehkan melakukan konfigurasi ulang untuk sesi SEB Server lain.
-    </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
-        Konfigurasi Ulang Tidak Diizinkan
-    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         Gagal menginisialisasi layanan SEB! SEB sekarang akan dihentikan karena layanan dikonfigurasi menjadi wajib.
     </Entry>

@@ -420,12 +420,6 @@
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sessioon koos ekraaniprotektoriga
     </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarning">
-        SEB serveri seanss on juba käimas. Teise SEB serveri seansi jaoks ei ole ümberseadistamine lubatud.
-    </Entry>
-    <Entry key="MessageBox_ServerReconfigurationWarningTitle">
-        Ümberseadistamine ei ole lubatud
-    </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
         SEB teenuse käivitamine nurjus! SEB lõpetab nüüd tegevuse, kuna teenus on seadistatud kohustuslikuks.
     </Entry>
