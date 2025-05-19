@@ -19,6 +19,7 @@ using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Browser.Events;
 using SafeExamBrowser.Browser.Filters;
 using SafeExamBrowser.Browser.Handlers;
+using SafeExamBrowser.Browser.Integrations;
 using SafeExamBrowser.Browser.Wrapper;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
@@ -52,6 +53,7 @@ namespace SafeExamBrowser.Browser
 		private readonly IFileSystemDialog fileSystemDialog;
 		private readonly IHashAlgorithm hashAlgorithm;
 		private readonly HttpClient httpClient;
+		private readonly IEnumerable<Integration> integrations;
 		private readonly IKeyGenerator keyGenerator;
 		private readonly IModuleLogger logger;
 		private readonly IMessageBox messageBox;
@@ -97,6 +99,7 @@ namespace SafeExamBrowser.Browser
 			IFileSystemDialog fileSystemDialog,
 			IHashAlgorithm hashAlgorithm,
 			int id,
+			IEnumerable<Integration> integrations,
 			bool isMainWindow,
 			IKeyGenerator keyGenerator,
 			IModuleLogger logger,
@@ -113,6 +116,7 @@ namespace SafeExamBrowser.Browser
 			this.hashAlgorithm = hashAlgorithm;
 			this.httpClient = new HttpClient();
 			this.Id = id;
+			this.integrations = integrations;
 			this.IsMainWindow = isMainWindow;
 			this.keyGenerator = keyGenerator;
 			this.logger = logger;
@@ -164,7 +168,7 @@ namespace SafeExamBrowser.Browser
 			var renderHandler = new RenderProcessMessageHandler(appConfig, clipboard, keyGenerator, settings, text);
 			var requestFilter = new RequestFilter();
 			var requestLogger = logger.CloneFor($"{nameof(RequestHandler)} #{Id}");
-			var resourceHandler = new ResourceHandler(appConfig, requestFilter, keyGenerator, logger, sessionMode, settings, WindowSettings, text);
+			var resourceHandler = new ResourceHandler(appConfig, requestFilter, integrations, keyGenerator, logger, sessionMode, settings, WindowSettings, text);
 			var requestHandler = new RequestHandler(appConfig, requestFilter, requestLogger, resourceHandler, settings, WindowSettings);
 
 			Icon = new BrowserIconResource();
@@ -218,12 +222,13 @@ namespace SafeExamBrowser.Browser
 			Control.TitleChanged += Control_TitleChanged;
 
 			Control.Initialize();
+
 			logger.Debug("Initialized browser control.");
 		}
 
 		internal void InitializeWindow()
 		{
-			window = uiFactory.CreateBrowserWindow(Control, settings, IsMainWindow, this.logger);
+			window = uiFactory.CreateBrowserWindow(Control, settings, IsMainWindow, logger);
 			window.AddressChanged += Window_AddressChanged;
 			window.BackwardNavigationRequested += Window_BackwardNavigationRequested;
 			window.Closed += Window_Closed;
@@ -242,6 +247,7 @@ namespace SafeExamBrowser.Browser
 			window.BringToForeground();
 
 			Handle = window.Handle;
+			InitiateCookieTraversal();
 
 			logger.Debug("Initialized browser window.");
 		}
@@ -254,6 +260,22 @@ namespace SafeExamBrowser.Browser
 					.OnPopupCreated((c, u) => LifeSpanHandler_PopupCreated(c))
 					.OnPopupDestroyed((c, b) => LifeSpanHandler_PopupDestroyed(c))
 					.Build();
+		}
+
+		private void InitiateCookieTraversal()
+		{
+			var cookieVisitor = new CookieVisitor(integrations);
+
+			cookieVisitor.UserIdentifierDetected += (id) => UserIdentifierDetected?.Invoke(id);
+
+			if (Cef.GetGlobalCookieManager().VisitAllCookies(cookieVisitor))
+			{
+				logger.Debug("Successfully initiated cookie traversal.");
+			}
+			else
+			{
+				logger.Warn("Failed to initiate cookie traversal!");
+			}
 		}
 
 		private void InitializeRequestFilter(IRequestFilter requestFilter)

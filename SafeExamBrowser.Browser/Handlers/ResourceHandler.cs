@@ -7,18 +7,16 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using CefSharp;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SafeExamBrowser.Browser.Content;
 using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Contracts.Filters;
+using SafeExamBrowser.Browser.Integrations;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.I18n.Contracts;
@@ -36,6 +34,7 @@ namespace SafeExamBrowser.Browser.Handlers
 		private readonly AppConfig appConfig;
 		private readonly ContentLoader contentLoader;
 		private readonly IRequestFilter filter;
+		private readonly IEnumerable<Integration> integrations;
 		private readonly IKeyGenerator keyGenerator;
 		private readonly ILogger logger;
 		private readonly SessionMode sessionMode;
@@ -44,13 +43,13 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		private IResourceHandler contentHandler;
 		private IResourceHandler pageHandler;
-		private string userIdentifier;
 
 		internal event UserIdentifierDetectedEventHandler UserIdentifierDetected;
 
 		internal ResourceHandler(
 			AppConfig appConfig,
 			IRequestFilter filter,
+			IEnumerable<Integration> integrations,
 			IKeyGenerator keyGenerator,
 			ILogger logger,
 			SessionMode sessionMode,
@@ -60,6 +59,7 @@ namespace SafeExamBrowser.Browser.Handlers
 		{
 			this.appConfig = appConfig;
 			this.filter = filter;
+			this.integrations = integrations;
 			this.contentLoader = new ContentLoader(text);
 			this.keyGenerator = keyGenerator;
 			this.logger = logger;
@@ -235,217 +235,17 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		private void SearchUserIdentifier(IRequest request, IResponse response)
 		{
-			var success = TrySearchGenericUserIdentifier(response);
-
-			if (!success)
+			foreach (var integration in integrations)
 			{
-				success = TrySearchEdxUserIdentifier(response);
-			}
+				var success = integration.TrySearchUserIdentifier(request, response, out var userIdentifier);
 
-			if (!success)
-			{
-				TrySearchMoodleUserIdentifier(request, response);
-			}
-		}
-
-		private bool TrySearchGenericUserIdentifier(IResponse response)
-		{
-			var ids = response.Headers.GetValues("X-LMS-USER-ID");
-			var success = false;
-
-			if (ids != default(string[]))
-			{
-				var userId = ids.FirstOrDefault();
-
-				if (userId != default && userIdentifier != userId)
+				if (success)
 				{
-					userIdentifier = userId;
 					Task.Run(() => UserIdentifierDetected?.Invoke(userIdentifier));
-					logger.Info("Generic LMS user identifier detected.");
-					success = true;
+
+					break;
 				}
 			}
-
-			return success;
-		}
-
-		private bool TrySearchEdxUserIdentifier(IResponse response)
-		{
-			var cookies = response.Headers.GetValues("Set-Cookie");
-			var success = false;
-
-			if (cookies != default(string[]))
-			{
-				try
-				{
-					var userInfo = cookies.FirstOrDefault(c => c.Contains("edx-user-info"));
-
-					if (userInfo != default)
-					{
-						var start = userInfo.IndexOf("=") + 1;
-						var end = userInfo.IndexOf("; expires");
-						var cookie = userInfo.Substring(start, end - start);
-						var sanitized = cookie.Replace("\\\"", "\"").Replace("\\054", ",").Trim('"');
-						var json = JsonConvert.DeserializeObject(sanitized) as JObject;
-						var userName = json["username"].Value<string>();
-
-						if (userIdentifier != userName)
-						{
-							userIdentifier = userName;
-							Task.Run(() => UserIdentifierDetected?.Invoke(userIdentifier));
-							logger.Info("EdX user identifier detected.");
-							success = true;
-						}
-					}
-				}
-				catch (Exception e)
-				{
-					logger.Error("Failed to parse edX user identifier!", e);
-				}
-			}
-
-			return success;
-		}
-
-		private bool TrySearchMoodleUserIdentifier(IRequest request, IResponse response)
-		{
-			var success = TrySearchMoodleUserIdentifierByLocation(response);
-
-			if (!success)
-			{
-				success = TrySearchMoodleUserIdentifierByRequest(MoodleRequestType.Plugin, request, response);
-			}
-
-			if (!success)
-			{
-				success = TrySearchMoodleUserIdentifierByRequest(MoodleRequestType.Theme, request, response);
-			}
-
-			return success;
-		}
-
-		private bool TrySearchMoodleUserIdentifierByLocation(IResponse response)
-		{
-			var locations = response.Headers.GetValues("Location");
-
-			if (locations != default(string[]))
-			{
-				try
-				{
-					var location = locations.FirstOrDefault(l => l.Contains("/login/index.php?testsession"));
-
-					if (location != default)
-					{
-						var userId = location.Substring(location.IndexOf("=") + 1);
-
-						if (userIdentifier != userId)
-						{
-							userIdentifier = userId;
-							Task.Run(() => UserIdentifierDetected?.Invoke(userIdentifier));
-							logger.Info("Moodle user identifier detected by location.");
-						}
-
-						return true;
-					}
-				}
-				catch (Exception e)
-				{
-					logger.Error("Failed to parse Moodle user identifier by location!", e);
-				}
-			}
-
-			return false;
-		}
-
-		private bool TrySearchMoodleUserIdentifierByRequest(MoodleRequestType type, IRequest request, IResponse response)
-		{
-			var cookies = response.Headers.GetValues("Set-Cookie");
-			var success = false;
-
-			if (cookies != default(string[]))
-			{
-				var session = cookies.FirstOrDefault(c => c.Contains("MoodleSession"));
-
-				if (session != default)
-				{
-					var userId = ExecuteMoodleUserIdentifierRequest(request.Url, session, type);
-
-					if (int.TryParse(userId, out var id) && id > 0 && userIdentifier != userId)
-					{
-						userIdentifier = userId;
-						Task.Run(() => UserIdentifierDetected?.Invoke(userIdentifier));
-						logger.Info($"Moodle user identifier detected by request ({type}).");
-						success = true;
-					}
-				}
-			}
-
-			return success;
-		}
-
-		private string ExecuteMoodleUserIdentifierRequest(string requestUrl, string session, MoodleRequestType type)
-		{
-			var userId = default(string);
-
-			try
-			{
-				Task.Run(async () =>
-				{
-					try
-					{
-						var endpointUrl = default(string);
-						var start = session.IndexOf("=") + 1;
-						var end = session.IndexOf(";");
-						var name = session.Substring(0, start - 1);
-						var value = session.Substring(start, end - start);
-						var uri = new Uri(requestUrl);
-
-						if (type == MoodleRequestType.Plugin)
-						{
-							endpointUrl = $"{uri.Scheme}{Uri.SchemeDelimiter}{uri.Host}/mod/quiz/accessrule/sebserver/classes/external/user.php";
-						}
-						else
-						{
-							endpointUrl = $"{uri.Scheme}{Uri.SchemeDelimiter}{uri.Host}/theme/boost_ethz/sebuser.php";
-						}
-
-						var message = new HttpRequestMessage(HttpMethod.Get, endpointUrl);
-
-						using (var handler = new HttpClientHandler { UseCookies = false })
-						using (var client = new HttpClient(handler))
-						{
-							message.Headers.Add("Cookie", $"{name}={value}");
-
-							var result = await client.SendAsync(message);
-
-							if (result.IsSuccessStatusCode)
-							{
-								userId = await result.Content.ReadAsStringAsync();
-							}
-							else if (result.StatusCode != HttpStatusCode.NotFound)
-							{
-								logger.Error($"Failed to retrieve Moodle user identifier by request ({type})! Response: {(int) result.StatusCode} {result.ReasonPhrase}");
-							}
-						}
-					}
-					catch (Exception e)
-					{
-						logger.Error($"Failed to parse Moodle user identifier by request ({type})!", e);
-					}
-				}).GetAwaiter().GetResult();
-			}
-			catch (Exception e)
-			{
-				logger.Error($"Failed to execute Moodle user identifier request ({type})!", e);
-			}
-
-			return userId;
-		}
-
-		private enum MoodleRequestType
-		{
-			Plugin,
-			Theme
 		}
 	}
 }

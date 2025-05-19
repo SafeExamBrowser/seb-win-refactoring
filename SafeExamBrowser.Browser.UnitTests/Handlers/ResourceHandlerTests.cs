@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net.Mime;
 using System.Threading;
@@ -14,6 +15,7 @@ using CefSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Browser.Contracts.Filters;
+using SafeExamBrowser.Browser.Integrations;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.I18n.Contracts;
@@ -42,6 +44,13 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		[TestInitialize]
 		public void Initialize()
 		{
+			var integrations = new Integration[]
+			{
+				new GenericIntegration(new Mock<ILogger>().Object),
+				new EdxIntegration(new Mock<ILogger>().Object),
+				new MoodleIntegration(new Mock<ILogger>().Object)
+			};
+
 			appConfig = new AppConfig();
 			filter = new Mock<IRequestFilter>();
 			keyGenerator = new Mock<IKeyGenerator>();
@@ -50,7 +59,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			windowSettings = new WindowSettings();
 			text = new Mock<IText>();
 
-			sut = new TestableResourceHandler(appConfig, filter.Object, keyGenerator.Object, logger.Object, SessionMode.Server, settings, windowSettings, text.Object);
+			sut = new TestableResourceHandler(appConfig, filter.Object, integrations, keyGenerator.Object, logger.Object, SessionMode.Server, settings, windowSettings, text.Object);
 		}
 
 		[TestMethod]
@@ -325,12 +334,13 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			internal TestableResourceHandler(
 				AppConfig appConfig,
 				IRequestFilter filter,
+				IEnumerable<Integration> integrations,
 				IKeyGenerator keyGenerator,
 				ILogger logger,
 				SessionMode sessionMode,
 				BrowserSettings settings,
 				WindowSettings windowSettings,
-				IText text) : base(appConfig, filter, keyGenerator, logger, sessionMode, settings, windowSettings, text)
+				IText text) : base(appConfig, filter, integrations, keyGenerator, logger, sessionMode, settings, windowSettings, text)
 			{
 			}
 

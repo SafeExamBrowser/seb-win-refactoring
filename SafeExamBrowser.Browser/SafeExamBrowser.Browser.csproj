@@ -103,6 +103,7 @@
     <Compile Include="Handlers\ContextMenuHandler.cs" />
     <Compile Include="BrowserControl.cs" />
     <Compile Include="BrowserIconResource.cs" />
+    <Compile Include="Handlers\CookieVisitor.cs" />
     <Compile Include="Handlers\DialogHandler.cs" />
     <Compile Include="Handlers\DisplayHandler.cs" />
     <Compile Include="Handlers\DownloadHandler.cs" />
@@ -113,6 +114,10 @@
     <Compile Include="Handlers\RequestHandler.cs" />
     <Compile Include="Handlers\ResourceHandler.cs" />
     <Compile Include="Content\ContentLoader.cs" />
+    <Compile Include="Integrations\EdxIntegration.cs" />
+    <Compile Include="Integrations\GenericIntegration.cs" />
+    <Compile Include="Integrations\Integration.cs" />
+    <Compile Include="Integrations\MoodleIntegration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrapper\CefSharpBrowserControl.cs">
       <SubType>Component</SubType>

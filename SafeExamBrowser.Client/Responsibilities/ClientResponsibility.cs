@@ -56,71 +56,29 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 		protected LockScreenResult ShowLockScreen(string message, string title, IEnumerable<LockScreenOption> options)
 		{
-			var hasQuitPassword = !string.IsNullOrEmpty(Settings.Security.QuitPasswordHash);
-			var result = default(LockScreenResult);
-
-			Context.LockScreen = Context.UserInterfaceFactory.CreateLockScreen(message, title, options, Settings.UserInterface.LockScreen);
 			Logger.Info("Showing lock screen...");
 
 			PauseActivators();
+			Context.LockScreen = Context.UserInterfaceFactory.CreateLockScreen(message, title, options, Settings.UserInterface.LockScreen);
 			Context.LockScreen.Show();
 
 			if (Settings.SessionMode == SessionMode.Server)
 			{
-				var response = Context.Server.LockScreen(message);
-
-				if (!response.Success)
-				{
-					Logger.Error($"Failed to send lock screen notification to server! Message: {response.Message}.");
-				}
+				SendLockScreenNotification(message);
 			}
 
-			for (var unlocked = false; !unlocked;)
-			{
-				result = Context.LockScreen.WaitForResult();
-
-				if (result.Canceled)
-				{
-					Logger.Info("The lock screen has been automaticaly canceled.");
-					unlocked = true;
-				}
-				else if (hasQuitPassword)
-				{
-					var passwordHash = Context.HashAlgorithm.GenerateHashFor(result.Password);
-					var isCorrect = Settings.Security.QuitPasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase);
-
-					if (isCorrect)
-					{
-						Logger.Info("The user entered the correct unlock password.");
-						unlocked = true;
-					}
-					else
-					{
-						Logger.Info("The user entered the wrong unlock password.");
-						Context.MessageBox.Show(TextKey.MessageBox_InvalidUnlockPassword, TextKey.MessageBox_InvalidUnlockPasswordTitle, icon: MessageBoxIcon.Warning, parent: Context.LockScreen);
-					}
-				}
-				else
-				{
-					Logger.Warn($"No unlock password is defined, allowing user to resume session!");
-					unlocked = true;
-				}
-			}
+			var result = WaitForLockScreenResolution();
 
 			Context.LockScreen.Close();
+			Context.LockScreen = default;
 			ResumeActivators();
-
-			Logger.Info("Closed lock screen.");
 
 			if (Settings.SessionMode == SessionMode.Server)
 			{
-				var response = Context.Server.ConfirmLockScreen();
-
-				if (!response.Success)
-				{
-					Logger.Error($"Failed to send lock screen confirm notification to server! Message: {response.Message}.");
-				}
+				SendLockScreenConfirmation();
 			}
+
+			Logger.Info("Closed lock screen.");
 
 			return result;
 		}
@@ -138,6 +96,66 @@ namespace SafeExamBrowser.Client.Responsibilities
 			}
 
 			return communication.Success;
+		}
+
+		private void SendLockScreenConfirmation()
+		{
+			var response = Context.Server.ConfirmLockScreen();
+
+			if (!response.Success)
+			{
+				Logger.Error($"Failed to send lock screen confirmation to server! Message: {response.Message}.");
+			}
+		}
+
+		private void SendLockScreenNotification(string message)
+		{
+			var response = Context.Server.LockScreen(message);
+
+			if (!response.Success)
+			{
+				Logger.Error($"Failed to send lock screen notification to server! Message: {response.Message}.");
+			}
+		}
+
+		private LockScreenResult WaitForLockScreenResolution()
+		{
+			var hasQuitPassword = !string.IsNullOrEmpty(Settings.Security.QuitPasswordHash);
+			var result = default(LockScreenResult);
+
+			for (var unlocked = false; !unlocked;)
+			{
+				result = Context.LockScreen.WaitForResult();
+
+				if (result.Canceled)
+				{
+					Logger.Info("The lock screen has been canceled automatically.");
+					unlocked = true;
+				}
+				else if (hasQuitPassword)
+				{
+					var passwordHash = Context.HashAlgorithm.GenerateHashFor(result.Password);
+					var isCorrect = Settings.Security.QuitPasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase);
+
+					if (isCorrect)
+					{
+						Logger.Info("The user entered the correct unlock password.");
+						unlocked = true;
+					}
+					else
+					{
+						Logger.Info("The user entered a wrong unlock password.");
+						Context.MessageBox.Show(TextKey.MessageBox_InvalidUnlockPassword, TextKey.MessageBox_InvalidUnlockPasswordTitle, icon: MessageBoxIcon.Warning, parent: Context.LockScreen);
+					}
+				}
+				else
+				{
+					Logger.Warn($"No unlock password is defined, allowing user to resume session!");
+					unlocked = true;
+				}
+			}
+
+			return result;
 		}
 	}
 }

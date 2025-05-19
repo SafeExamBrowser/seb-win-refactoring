@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Browser.Contracts.Filters;
 using SafeExamBrowser.Browser.Handlers;
+using SafeExamBrowser.Browser.Integrations;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.I18n.Contracts;
@@ -41,6 +42,13 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 		[TestInitialize]
 		public void Initialize()
 		{
+			var integrations = new Integration[]
+			{
+				new GenericIntegration(new Mock<ILogger>().Object),
+				new EdxIntegration(new Mock<ILogger>().Object),
+				new MoodleIntegration(new Mock<ILogger>().Object)
+			};
+
 			appConfig = new AppConfig();
 			filter = new Mock<IRequestFilter>();
 			keyGenerator = new Mock<IKeyGenerator>();
@@ -48,7 +56,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 			settings = new BrowserSettings();
 			windowSettings = new WindowSettings();
 			text = new Mock<IText>();
-			resourceHandler = new ResourceHandler(appConfig, filter.Object, keyGenerator.Object, logger.Object, default, settings, windowSettings, text.Object);
+			resourceHandler = new ResourceHandler(appConfig, filter.Object, integrations, keyGenerator.Object, logger.Object, default, settings, windowSettings, text.Object);
 
 			sut = new TestableRequestHandler(appConfig, filter.Object, logger.Object, resourceHandler, settings, windowSettings);
 		}
@@ -285,7 +293,13 @@ namespace SafeExamBrowser.Browser.UnitTests.Handlers
 
 		private class TestableRequestHandler : RequestHandler
 		{
-			internal TestableRequestHandler(AppConfig appConfig, IRequestFilter filter, ILogger logger, ResourceHandler resourceHandler, BrowserSettings settings, WindowSettings windowSettings) : base(appConfig, filter, logger, resourceHandler, settings, windowSettings)
+			internal TestableRequestHandler(
+				AppConfig appConfig,
+				IRequestFilter filter,
+				ILogger logger,
+				ResourceHandler resourceHandler,
+				BrowserSettings settings,
+				WindowSettings windowSettings) : base(appConfig, filter, logger, resourceHandler, settings, windowSettings)
 			{
 			}
 

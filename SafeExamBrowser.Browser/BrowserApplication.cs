@@ -18,6 +18,7 @@ using SafeExamBrowser.Applications.Contracts.Events;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
 using SafeExamBrowser.Browser.Events;
+using SafeExamBrowser.Browser.Integrations;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
@@ -167,6 +168,12 @@ namespace SafeExamBrowser.Browser
 		private void CreateNewWindow(PopupRequestedEventArgs args = default)
 		{
 			var id = ++windowIdCounter;
+			var integrations = new Integration[]
+			{
+				new GenericIntegration(logger.CloneFor($"{nameof(GenericIntegration)} #{id}")),
+				new EdxIntegration(logger.CloneFor($"{nameof(EdxIntegration)} #{id}")),
+				new MoodleIntegration(logger.CloneFor($"{nameof(MoodleIntegration)} #{id}"))
+			};
 			var isMainWindow = windows.Count == 0;
 			var startUrl = GenerateStartUrl();
 			var windowLogger = logger.CloneFor($"Browser Window #{id}");
@@ -176,6 +183,7 @@ namespace SafeExamBrowser.Browser
 				fileSystemDialog,
 				hashAlgorithm,
 				id,
+				integrations,
 				isMainWindow,
 				keyGenerator,
 				windowLogger,
@@ -197,7 +205,7 @@ namespace SafeExamBrowser.Browser
 			window.InitializeControl();
 			windows.Add(window);
 
-			if (args != default(PopupRequestedEventArgs))
+			if (args != default)
 			{
 				args.Window = window;
 			}
@@ -506,6 +514,7 @@ namespace SafeExamBrowser.Browser
 		private void Window_ResetRequested()
 		{
 			logger.Info("Attempting to reset browser...");
+
 			AwaitReady();
 
 			foreach (var window in windows)
