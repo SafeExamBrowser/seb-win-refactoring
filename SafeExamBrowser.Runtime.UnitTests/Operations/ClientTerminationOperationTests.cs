@@ -14,9 +14,13 @@ using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Runtime.Communication;
+using SafeExamBrowser.Runtime.Operations.Session;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.WindowsApi.Contracts;
-using SafeExamBrowser.Runtime.Operations;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
 {
@@ -26,30 +30,38 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private Action clientReady;
 		private Action terminated;
 		private AppConfig appConfig;
+		private ClientBridge clientBridge;
 		private Mock<IClientProxy> proxy;
 		private Mock<ILogger> logger;
+		private Mock<IMessageBox> messageBox;
 		private Mock<IProcess> process;
 		private Mock<IProcessFactory> processFactory;
 		private Mock<IProxyFactory> proxyFactory;
 		private Mock<IRuntimeHost> runtimeHost;
+		private Mock<IRuntimeWindow> runtimeWindow;
 		private SessionConfiguration session;
-		private SessionContext sessionContext;
-
+		private RuntimeContext runtimeContext;
+		private Mock<IText> text;
 		private ClientTerminationOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
+			runtimeContext = new RuntimeContext();
+			runtimeHost = new Mock<IRuntimeHost>();
+
 			appConfig = new AppConfig();
 			clientReady = new Action(() => runtimeHost.Raise(h => h.ClientReady += null));
+			clientBridge = new ClientBridge(runtimeHost.Object, runtimeContext);
 			logger = new Mock<ILogger>();
+			messageBox = new Mock<IMessageBox>();
 			process = new Mock<IProcess>();
 			processFactory = new Mock<IProcessFactory>();
 			proxy = new Mock<IClientProxy>();
 			proxyFactory = new Mock<IProxyFactory>();
-			runtimeHost = new Mock<IRuntimeHost>();
+			runtimeWindow = new Mock<IRuntimeWindow>();
 			session = new SessionConfiguration();
-			sessionContext = new SessionContext();
+			text = new Mock<IText>();
 			terminated = new Action(() =>
 			{
 				runtimeHost.Raise(h => h.ClientDisconnected += null);
@@ -57,13 +69,15 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			});
 
 			session.AppConfig = appConfig;
-			sessionContext.ClientProcess = process.Object;
-			sessionContext.ClientProxy = proxy.Object;
-			sessionContext.Current = session;
-			sessionContext.Next = session;
+			runtimeContext.ClientProcess = process.Object;
+			runtimeContext.ClientProxy = proxy.Object;
+			runtimeContext.Current = session;
+			runtimeContext.Next = session;
 			proxyFactory.Setup(f => f.CreateClientProxy(It.IsAny<string>(), It.IsAny<Interlocutor>())).Returns(proxy.Object);
 
-			sut = new ClientTerminationOperation(logger.Object, processFactory.Object, proxyFactory.Object, runtimeHost.Object, sessionContext, 0);
+			var dependencies = new Dependencies(clientBridge, logger.Object, messageBox.Object, runtimeWindow.Object, runtimeContext, text.Object);
+
+			sut = new ClientTerminationOperation(dependencies, processFactory.Object, proxyFactory.Object, runtimeHost.Object, 0);
 		}
 
 		[TestMethod]
@@ -81,10 +95,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			proxy.Verify(p => p.InitiateShutdown(), Times.Once);
 			proxy.Verify(p => p.Disconnect(), Times.Once);
-			process.Verify(p => p.TryKill(default(int)), Times.Never);
+			process.Verify(p => p.TryKill(default), Times.Never);
 
-			Assert.IsNull(sessionContext.ClientProcess);
-			Assert.IsNull(sessionContext.ClientProxy);
+			Assert.IsNull(runtimeContext.ClientProcess);
+			Assert.IsNull(runtimeContext.ClientProxy);
 			Assert.AreEqual(OperationResult.Success, result);
 		}
 
@@ -92,7 +106,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void MustDoNothingOnRepeatIfNoClientRunning()
 		{
 			process.SetupGet(p => p.HasTerminated).Returns(true);
-			sessionContext.ClientProcess = process.Object;
+			runtimeContext.ClientProcess = process.Object;
 
 			var result = sut.Repeat();
 

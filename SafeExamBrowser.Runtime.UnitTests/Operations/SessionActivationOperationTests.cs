@@ -11,7 +11,7 @@ using Moq;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Runtime.Operations;
+using SafeExamBrowser.Runtime.Operations.Session;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Logging;
 
@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private Mock<ILogger> logger;
 		private SessionConfiguration nextSession;
 		private AppSettings nextSettings;
-		private SessionContext sessionContext;
+		private RuntimeContext runtimeContext;
 
 		private SessionActivationOperation sut;
 
@@ -35,25 +35,27 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			logger = new Mock<ILogger>();
 			nextSession = new SessionConfiguration();
 			nextSettings = new AppSettings();
-			sessionContext = new SessionContext();
+			runtimeContext = new RuntimeContext();
 
 			nextSession.Settings = nextSettings;
-			sessionContext.Current = currentSession;
-			sessionContext.Next = nextSession;
+			runtimeContext.Current = currentSession;
+			runtimeContext.Next = nextSession;
 
-			sut = new SessionActivationOperation(logger.Object, sessionContext);
+			var dependencies = new Dependencies(default, logger.Object, default, default, runtimeContext, default);
+
+			sut = new SessionActivationOperation(dependencies);
 		}
 
 		[TestMethod]
 		public void Perform_MustCorrectlyActivateFirstSession()
 		{
-			sessionContext.Current = null;
+			runtimeContext.Current = null;
 
 			var result = sut.Perform();
 
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.AreSame(sessionContext.Current, nextSession);
-			Assert.IsNull(sessionContext.Next);
+			Assert.AreSame(runtimeContext.Current, nextSession);
+			Assert.IsNull(runtimeContext.Next);
 		}
 
 		[TestMethod]
@@ -72,8 +74,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var result = sut.Repeat();
 
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.AreSame(sessionContext.Current, nextSession);
-			Assert.IsNull(sessionContext.Next);
+			Assert.AreSame(runtimeContext.Current, nextSession);
+			Assert.IsNull(runtimeContext.Next);
 		}
 
 		[TestMethod]

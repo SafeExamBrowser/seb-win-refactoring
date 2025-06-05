@@ -8,24 +8,31 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts.Display;
-using SafeExamBrowser.Runtime.Operations;
-using SafeExamBrowser.Runtime.Operations.Events;
+using SafeExamBrowser.Runtime.Communication;
+using SafeExamBrowser.Runtime.Operations.Session;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Monitoring;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
 {
 	[TestClass]
 	public class DisplayMonitorOperationTests
 	{
-		private SessionContext context;
+		private ClientBridge clientBridge;
+		private RuntimeContext context;
 		private Mock<IDisplayMonitor> displayMonitor;
 		private Mock<ILogger> logger;
+		private Mock<IMessageBox> messageBox;
+		private Mock<IRuntimeHost> runtimeHost;
+		private Mock<IRuntimeWindow> runtimeWindow;
 		private AppSettings settings;
 		private Mock<IText> text;
 
@@ -34,15 +41,22 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestInitialize]
 		public void Initialize()
 		{
-			context = new SessionContext();
+			context = new RuntimeContext();
 			displayMonitor = new Mock<IDisplayMonitor>();
 			logger = new Mock<ILogger>();
+			messageBox = new Mock<IMessageBox>();
+			runtimeHost = new Mock<IRuntimeHost>();
+			runtimeWindow = new Mock<IRuntimeWindow>();
 			settings = new AppSettings();
 			text = new Mock<IText>();
 
+			clientBridge = new ClientBridge(runtimeHost.Object, context);
 			context.Next = new SessionConfiguration();
 			context.Next.Settings = settings;
-			sut = new DisplayMonitorOperation(displayMonitor.Object, logger.Object, context, text.Object);
+
+			var dependencies = new Dependencies(clientBridge, logger.Object, messageBox.Object, runtimeWindow.Object, context, text.Object);
+
+			sut = new DisplayMonitorOperation(dependencies, displayMonitor.Object);
 		}
 
 		[TestMethod]
@@ -62,13 +76,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var messageShown = false;
 
 			displayMonitor.Setup(m => m.ValidateConfiguration(It.IsAny<DisplaySettings>())).Returns(new ValidationResult { IsAllowed = false });
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs)
-				{
-					messageShown = true;
-				}
-			};
+			messageBox
+				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => messageShown = true);
 
 			var result = sut.Perform();
 
@@ -95,13 +105,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var messageShown = false;
 
 			displayMonitor.Setup(m => m.ValidateConfiguration(It.IsAny<DisplaySettings>())).Returns(new ValidationResult { IsAllowed = false });
-			sut.ActionRequired += (args) =>
-			{
-				if (args is MessageEventArgs)
-				{
-					messageShown = true;
-				}
-			};
+			messageBox
+				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => messageShown = true);
 
 			var result = sut.Repeat();
 

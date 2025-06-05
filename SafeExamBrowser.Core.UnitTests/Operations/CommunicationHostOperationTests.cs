@@ -46,8 +46,8 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 			hostMock.Verify(h => h.Stop(), Times.Once);
 			hostMock.Verify(h => h.Start(), Times.Once);
 
-			Assert.AreEqual(stop, 1);
-			Assert.AreEqual(start, 2);
+			Assert.AreEqual(1, stop);
+			Assert.AreEqual(2, start);
 			Assert.AreEqual(OperationResult.Success, result);
 		}
 
@@ -96,16 +96,6 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 			sut.Revert();
 
 			Assert.AreEqual(3, fired);
-		}
-
-		[TestMethod]
-		public void MustNotFireActionRequiredEvent()
-		{
-			sut.ActionRequired += (_) => Assert.Fail();
-
-			sut.Perform();
-			sut.Repeat();
-			sut.Revert();
 		}
 	}
 }

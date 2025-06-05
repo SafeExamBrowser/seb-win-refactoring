@@ -14,10 +14,9 @@ namespace SafeExamBrowser.Service.Operations
 {
 	internal class ServiceEventCleanupOperation : IOperation
 	{
-		private ILogger logger;
-		private SessionContext sessionContext;
+		private readonly ILogger logger;
+		private readonly SessionContext sessionContext;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged { add { } remove { } }
 
 		public ServiceEventCleanupOperation(ILogger logger, SessionContext sessionContext)

@@ -16,11 +16,6 @@ namespace SafeExamBrowser.Core.Contracts.OperationModel
 	public interface IOperation
 	{
 		/// <summary>
-		/// Event fired when the operation requires user interaction.
-		/// </summary>
-		event ActionRequiredEventHandler ActionRequired;
-
-		/// <summary>
 		/// Event fired when the status of the operation has changed.
 		/// </summary>
 		event StatusChangedEventHandler StatusChanged;

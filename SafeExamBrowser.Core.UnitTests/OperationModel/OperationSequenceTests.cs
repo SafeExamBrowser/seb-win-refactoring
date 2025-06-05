@@ -59,8 +59,6 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 		[TestMethod]
 		public void MustCorrectlyPropagateEventSubscription()
 		{
-			var actionRequiredCalled = false;
-			var actionRequiredHandler = new ActionRequiredEventHandler(args => actionRequiredCalled = true);
 			var statusChangedCalled = false;
 			var statusChangedHandler = new StatusChangedEventHandler(t => statusChangedCalled = true);
 			var operationA = new Mock<IOperation>();
@@ -69,7 +67,6 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			var operations = new Queue<IOperation>();
 
 			operationA.Setup(o => o.Perform()).Returns(OperationResult.Success);
-			operationB.Setup(o => o.Perform()).Returns(OperationResult.Success).Raises(o => o.ActionRequired += null, new Mock<ActionRequiredEventArgs>().Object);
 			operationC.Setup(o => o.Perform()).Returns(OperationResult.Success).Raises(o => o.StatusChanged += null, default(TextKey));
 
 			operations.Enqueue(operationA.Object);
@@ -78,22 +75,17 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 
 			var sut = new OperationSequence<IOperation>(loggerMock.Object, operations);
 
-			sut.ActionRequired += actionRequiredHandler;
 			sut.StatusChanged += statusChangedHandler;
 
 			sut.TryPerform();
 
-			Assert.IsTrue(actionRequiredCalled);
 			Assert.IsTrue(statusChangedCalled);
 
-			actionRequiredCalled = false;
 			statusChangedCalled = false;
-			sut.ActionRequired -= actionRequiredHandler;
 			sut.StatusChanged -= statusChangedHandler;
 
 			sut.TryPerform();
 
-			Assert.IsFalse(actionRequiredCalled);
 			Assert.IsFalse(statusChangedCalled);
 		}
 
@@ -177,9 +169,9 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			var result = sut.TryPerform();
 
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.IsTrue(a == 1);
-			Assert.IsTrue(b == 2);
-			Assert.IsTrue(c == 3);
+			Assert.AreEqual(1, a);
+			Assert.AreEqual(2, b);
+			Assert.AreEqual(3, c);
 		}
 
 		[TestMethod]
@@ -242,10 +234,10 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			var result = sut.TryPerform();
 
 			Assert.AreEqual(OperationResult.Failed, result);
-			Assert.IsTrue(d == 0);
-			Assert.IsTrue(c == 1);
-			Assert.IsTrue(b == 2);
-			Assert.IsTrue(a == 3);
+			Assert.AreEqual(0, d);
+			Assert.AreEqual(1, c);
+			Assert.AreEqual(2, b);
+			Assert.AreEqual(3, a);
 		}
 
 		[TestMethod]
@@ -365,9 +357,9 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			var result = sut.TryRevert();
 
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.IsTrue(c == 1);
-			Assert.IsTrue(b == 2);
-			Assert.IsTrue(a == 3);
+			Assert.AreEqual(1, c);
+			Assert.AreEqual(2, b);
+			Assert.AreEqual(3, a);
 		}
 
 		[TestMethod]

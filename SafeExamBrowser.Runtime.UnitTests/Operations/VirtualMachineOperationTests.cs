@@ -12,7 +12,7 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts;
-using SafeExamBrowser.Runtime.Operations;
+using SafeExamBrowser.Runtime.Operations.Session;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Security;
 
@@ -23,7 +23,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	{
 		private Mock<IVirtualMachineDetector> detector;
 		private Mock<ILogger> logger;
-		private SessionContext context;
+		private RuntimeContext context;
 		private VirtualMachineOperation sut;
 
 		[TestInitialize]
@@ -31,12 +31,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			detector = new Mock<IVirtualMachineDetector>();
 			logger = new Mock<ILogger>();
-			context = new SessionContext();
+			context = new RuntimeContext();
 
 			context.Next = new SessionConfiguration();
 			context.Next.Settings = new AppSettings();
 
-			sut = new VirtualMachineOperation(detector.Object, logger.Object, context);
+			var dependencies = new Dependencies(default, logger.Object, default, default, context, default);
+
+			sut = new VirtualMachineOperation(dependencies, detector.Object);
 		}
 
 		[TestMethod]

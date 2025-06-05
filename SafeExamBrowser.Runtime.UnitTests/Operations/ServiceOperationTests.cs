@@ -14,25 +14,32 @@ using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Runtime.Operations;
-using SafeExamBrowser.Runtime.Operations.Events;
+using SafeExamBrowser.Runtime.Communication;
+using SafeExamBrowser.Runtime.Operations.Session;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Service;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
 {
 	[TestClass]
 	public class ServiceOperationTests
 	{
-		private SessionContext context;
+		private RuntimeContext context;
 		private Mock<ILogger> logger;
+		private Mock<IMessageBox> messageBox;
 		private Mock<IRuntimeHost> runtimeHost;
+		private Mock<IRuntimeWindow> runtimeWindow;
 		private Mock<IServiceProxy> service;
 		private EventWaitHandle serviceEvent;
+		private Mock<IText> text;
 		private Mock<IUserInfo> userInfo;
+		private ClientBridge clientBridge;
+		private Dependencies dependencies;
 		private ServiceOperation sut;
 
 		[TestInitialize]
@@ -40,13 +47,17 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var serviceEventName = $"{nameof(SafeExamBrowser)}-{nameof(ServiceOperationTests)}";
 
+			context = new RuntimeContext();
 			logger = new Mock<ILogger>();
+			messageBox = new Mock<IMessageBox>();
 			runtimeHost = new Mock<IRuntimeHost>();
+			runtimeWindow = new Mock<IRuntimeWindow>();
 			service = new Mock<IServiceProxy>();
 			serviceEvent = new EventWaitHandle(false, EventResetMode.AutoReset, serviceEventName);
-			context = new SessionContext();
+			text = new Mock<IText>();
 			userInfo = new Mock<IUserInfo>();
 
+			clientBridge = new ClientBridge(runtimeHost.Object, context);
 			context.Current = new SessionConfiguration();
 			context.Current.AppConfig = new AppConfig();
 			context.Current.AppConfig.ServiceEventName = serviceEventName;
@@ -55,8 +66,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			context.Next.AppConfig = new AppConfig();
 			context.Next.AppConfig.ServiceEventName = serviceEventName;
 			context.Next.Settings = new AppSettings();
+			dependencies = new Dependencies(clientBridge, logger.Object, messageBox.Object, runtimeWindow.Object, context, text.Object);
 
-			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, context, 0, userInfo.Object);
+			sut = new ServiceOperation(dependencies, runtimeHost.Object, service.Object, 0, userInfo.Object);
 		}
 
 		[TestMethod]
@@ -137,7 +149,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			service.Setup(s => s.Connect(null, true)).Returns(true);
 			service.Setup(s => s.StartSession(It.IsAny<ServiceConfiguration>())).Returns(new CommunicationResult(true));
 
-			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, context, TIMEOUT, userInfo.Object);
+			sut = new ServiceOperation(dependencies, runtimeHost.Object, service.Object, TIMEOUT, userInfo.Object);
 
 			before = DateTime.Now;
 			var result = sut.Perform();
@@ -183,9 +195,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var errorShown = false;
 
 			context.Next.Settings.Service.Policy = ServicePolicy.Mandatory;
+			messageBox
+				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => errorShown = true);
 			service.SetupGet(s => s.IsConnected).Returns(false);
 			service.Setup(s => s.Connect(null, true)).Returns(false);
-			sut.ActionRequired += (args) => errorShown = args is MessageEventArgs m && m.Icon == MessageBoxIcon.Error;
 
 			var result = sut.Perform();
 
@@ -213,9 +227,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var warningShown = false;
 
 			context.Next.Settings.Service.Policy = ServicePolicy.Warn;
+			messageBox
+				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => warningShown = true);
 			service.SetupGet(s => s.IsConnected).Returns(false);
 			service.Setup(s => s.Connect(null, true)).Returns(false);
-			sut.ActionRequired += (args) => warningShown = args is MessageEventArgs m && m.Icon == MessageBoxIcon.Warning;
 
 			var result = sut.Perform();
 
@@ -264,9 +280,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			service.Verify(s => s.RunSystemConfigurationUpdate(), Times.Never);
 
 			Assert.AreEqual(OperationResult.Success, result);
-			Assert.IsTrue(start1 == 1);
-			Assert.IsTrue(stop1 == 2);
-			Assert.IsTrue(start2 == 3);
+			Assert.AreEqual(1, start1);
+			Assert.AreEqual(2, stop1);
+			Assert.AreEqual(3, start2);
 		}
 
 		[TestMethod]
@@ -358,7 +374,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var before = default(DateTime);
 
 			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true));
-			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, context, TIMEOUT, userInfo.Object);
+			sut = new ServiceOperation(dependencies, runtimeHost.Object, service.Object, TIMEOUT, userInfo.Object);
 
 			PerformNormally();
 
@@ -458,7 +474,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var before = default(DateTime);
 
 			service.Setup(s => s.StopSession(It.IsAny<Guid>())).Returns(new CommunicationResult(true));
-			sut = new ServiceOperation(logger.Object, runtimeHost.Object, service.Object, context, TIMEOUT, userInfo.Object);
+			sut = new ServiceOperation(dependencies, runtimeHost.Object, service.Object, TIMEOUT, userInfo.Object);
 
 			PerformNormally();
 
@@ -537,8 +553,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			PerformNormally();
 
-			context.Current.SessionId = default(Guid);
-			context.Next.SessionId = default(Guid);
+			context.Current.SessionId = default;
+			context.Next.SessionId = default;
 			service.Setup(s => s.StopSession(It.Is<Guid>(id => id == sessionId))).Returns(new CommunicationResult(true)).Callback(() => serviceEvent.Set());
 			service.Setup(s => s.RunSystemConfigurationUpdate()).Returns(new CommunicationResult(true));
 			service.Setup(s => s.Disconnect()).Returns(true);
@@ -546,7 +562,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var result = sut.Revert();
 
 			service.Verify(s => s.StopSession(It.Is<Guid>(id => id == sessionId)), Times.Once);
-			service.Verify(s => s.StopSession(It.Is<Guid>(id => id == default(Guid))), Times.Never);
+			service.Verify(s => s.StopSession(It.Is<Guid>(id => id == default)), Times.Never);
 			service.Verify(s => s.Disconnect(), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);

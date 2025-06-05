@@ -138,6 +138,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Communication\ClientBridgeTests.cs" />
     <Compile Include="Operations\ClientTerminationOperationTests.cs" />
     <Compile Include="Operations\ConfigurationOperationTests.cs" />
     <Compile Include="Operations\DisclaimerOperationTests.cs" />
@@ -150,6 +151,10 @@
     <Compile Include="Operations\SessionActivationOperationTests.cs" />
     <Compile Include="Operations\SessionInitializationOperationTests.cs" />
     <Compile Include="Operations\VirtualMachineOperationTests.cs" />
+    <Compile Include="Responsibilities\ClientResponsibilityTests.cs" />
+    <Compile Include="Responsibilities\CommunicationResponsibilityTests.cs" />
+    <Compile Include="Responsibilities\ServiceResponsibilityTests.cs" />
+    <Compile Include="Responsibilities\SessionResponsibilityTests.cs" />
     <Compile Include="RuntimeControllerTests.cs" />
     <Compile Include="Communication\RuntimeHostTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

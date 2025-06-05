@@ -13,7 +13,7 @@ namespace SafeExamBrowser.Service.Operations
 {
 	internal class SessionActivationOperation : SessionOperation
 	{
-		private ILogger logger;
+		private readonly ILogger logger;
 
 		public SessionActivationOperation(ILogger logger, SessionContext sessionContext) : base(sessionContext)
 		{

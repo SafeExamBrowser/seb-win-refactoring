@@ -70,9 +70,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 		{
 			var sut = new DelegateOperation(default, default, default);
 
-			sut.ActionRequired += (_) => Assert.Fail();
 			sut.StatusChanged += (_) => Assert.Fail();
-
 			sut.Perform();
 		}
 	}

@@ -18,11 +18,10 @@ namespace SafeExamBrowser.Core.Operations
 	/// </summary>
 	public class DelegateOperation : IRepeatableOperation
 	{
-		private Action perform;
-		private Action repeat;
-		private Action revert;
+		private readonly Action perform;
+		private readonly Action repeat;
+		private readonly Action revert;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged { add { } remove { } }
 
 		public DelegateOperation(Action perform, Action repeat = null, Action revert = null)

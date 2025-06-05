@@ -24,12 +24,6 @@ namespace SafeExamBrowser.Core.OperationModel
 		protected Queue<T> operations = new Queue<T>();
 		protected Stack<T> stack = new Stack<T>();
 
-		public event ActionRequiredEventHandler ActionRequired
-		{
-			add { operations.ForEach(o => o.ActionRequired += value); }
-			remove { operations.ForEach(o => o.ActionRequired -= value); }
-		}
-
 		public event ProgressChangedEventHandler ProgressChanged;
 
 		public event StatusChangedEventHandler StatusChanged

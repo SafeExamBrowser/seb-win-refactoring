@@ -18,10 +18,9 @@ namespace SafeExamBrowser.Core.Operations
 	/// </summary>
 	public class I18nOperation : IOperation
 	{
-		private ILogger logger;
-		private IText text;
+		private readonly ILogger logger;
+		private readonly IText text;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged { add { } remove { } }
 
 		public I18nOperation(ILogger logger, IText text)

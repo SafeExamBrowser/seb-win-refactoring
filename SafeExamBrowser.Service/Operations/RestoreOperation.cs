@@ -16,10 +16,9 @@ namespace SafeExamBrowser.Service.Operations
 	internal class RestoreOperation : IOperation
 	{
 		private readonly IFeatureConfigurationBackup backup;
-		private ILogger logger;
+		private readonly ILogger logger;
 		private readonly SessionContext sessionContext;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged { add { } remove { } }
 
 		public RestoreOperation(IFeatureConfigurationBackup backup, ILogger logger, SessionContext sessionContext)

@@ -20,10 +20,9 @@ namespace SafeExamBrowser.Core.Operations
 	/// </summary>
 	public class CommunicationHostOperation : IRepeatableOperation
 	{
-		private ICommunicationHost host;
-		private ILogger logger;
+		private readonly ICommunicationHost host;
+		private readonly ILogger logger;
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged;
 
 		public CommunicationHostOperation(ICommunicationHost host, ILogger logger)

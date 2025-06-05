@@ -264,11 +264,11 @@ namespace SafeExamBrowser.Browser
 
 		private void InitiateCookieTraversal()
 		{
-			var cookieVisitor = new CookieVisitor(integrations);
+			var visitor = new CookieVisitor(integrations);
 
-			cookieVisitor.UserIdentifierDetected += (id) => UserIdentifierDetected?.Invoke(id);
+			visitor.UserIdentifierDetected += (id) => UserIdentifierDetected?.Invoke(id);
 
-			if (Cef.GetGlobalCookieManager().VisitAllCookies(cookieVisitor))
+			if (Cef.GetGlobalCookieManager().VisitAllCookies(visitor))
 			{
 				logger.Debug("Successfully initiated cookie traversal.");
 			}

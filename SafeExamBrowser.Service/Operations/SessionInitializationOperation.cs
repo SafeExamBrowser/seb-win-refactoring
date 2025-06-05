@@ -15,8 +15,8 @@ namespace SafeExamBrowser.Service.Operations
 {
 	internal class SessionInitializationOperation : SessionOperation
 	{
-		private ILogger logger;
-		private Func<string, EventWaitHandle> serviceEventFactory;
+		private readonly ILogger logger;
+		private readonly Func<string, EventWaitHandle> serviceEventFactory;
 
 		public SessionInitializationOperation(ILogger logger, Func<string, EventWaitHandle> serviceEventFactory, SessionContext sessionContext) : base(sessionContext)
 		{

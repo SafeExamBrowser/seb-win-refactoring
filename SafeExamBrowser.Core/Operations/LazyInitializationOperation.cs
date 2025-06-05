@@ -19,33 +19,10 @@ namespace SafeExamBrowser.Core.Operations
 	/// </summary>
 	public class LazyInitializationOperation : IOperation
 	{
-		private Func<IOperation> initialize;
+		private readonly Func<IOperation> initialize;
 		private IOperation operation;
 
-		private event ActionRequiredEventHandler ActionRequiredImpl;
 		private event StatusChangedEventHandler StatusChangedImpl;
-
-		public event ActionRequiredEventHandler ActionRequired
-		{
-			add
-			{
-				ActionRequiredImpl += value;
-
-				if (operation != null)
-				{
-					operation.ActionRequired += value;
-				}
-			}
-			remove
-			{
-				ActionRequiredImpl -= value;
-
-				if (operation != null)
-				{
-					operation.ActionRequired -= value;
-				}
-			}
-		}
 
 		public event StatusChangedEventHandler StatusChanged
 		{
@@ -77,7 +54,6 @@ namespace SafeExamBrowser.Core.Operations
 		public OperationResult Perform()
 		{
 			operation = initialize.Invoke();
-			operation.ActionRequired += ActionRequiredImpl;
 			operation.StatusChanged += StatusChangedImpl;
 
 			return operation.Perform();

@@ -52,7 +52,6 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 		[TestMethod]
 		public void MustNotFireEvents()
 		{
-			sut.ActionRequired += (_) => Assert.Fail();
 			sut.StatusChanged += (_) => Assert.Fail();
 
 			sut.Perform();

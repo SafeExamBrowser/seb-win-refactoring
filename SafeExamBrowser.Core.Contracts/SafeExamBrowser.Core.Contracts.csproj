@@ -57,8 +57,6 @@
   <ItemGroup>
     <Compile Include="Notifications\Events\NotificationChangedEventHandler.cs" />
     <Compile Include="Notifications\INotification.cs" />
-    <Compile Include="OperationModel\Events\ActionRequiredEventArgs.cs" />
-    <Compile Include="OperationModel\Events\ActionRequiredEventHandler.cs" />
     <Compile Include="OperationModel\Events\ProgressChangedEventArgs.cs" />
     <Compile Include="OperationModel\Events\ProgressChangedEventHandler.cs" />
     <Compile Include="OperationModel\Events\StatusChangedEventHandler.cs" />

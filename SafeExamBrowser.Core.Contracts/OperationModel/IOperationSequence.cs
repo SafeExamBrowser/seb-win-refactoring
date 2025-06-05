@@ -23,11 +23,6 @@ namespace SafeExamBrowser.Core.Contracts.OperationModel
 	public interface IOperationSequence
 	{
 		/// <summary>
-		/// Event fired when an operation requires user interaction.
-		/// </summary>
-		event ActionRequiredEventHandler ActionRequired;
-
-		/// <summary>
 		/// Event fired when the progress of the sequence has changed.
 		/// </summary>
 		event ProgressChangedEventHandler ProgressChanged;

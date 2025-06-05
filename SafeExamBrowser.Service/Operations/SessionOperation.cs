@@ -18,7 +18,6 @@ namespace SafeExamBrowser.Service.Operations
 	{
 		protected SessionContext Context { get; private set; }
 
-		public event ActionRequiredEventHandler ActionRequired { add { } remove { } }
 		public event StatusChangedEventHandler StatusChanged { add { } remove { } }
 
 		public SessionOperation(SessionContext sessionContext)
