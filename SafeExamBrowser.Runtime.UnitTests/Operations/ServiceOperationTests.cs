@@ -30,16 +30,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	public class ServiceOperationTests
 	{
 		private RuntimeContext context;
-		private Mock<ILogger> logger;
+		private Dependencies dependencies;
 		private Mock<IMessageBox> messageBox;
 		private Mock<IRuntimeHost> runtimeHost;
-		private Mock<IRuntimeWindow> runtimeWindow;
 		private Mock<IServiceProxy> service;
 		private EventWaitHandle serviceEvent;
-		private Mock<IText> text;
 		private Mock<IUserInfo> userInfo;
-		private ClientBridge clientBridge;
-		private Dependencies dependencies;
+
 		private ServiceOperation sut;
 
 		[TestInitialize]
@@ -48,16 +45,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var serviceEventName = $"{nameof(SafeExamBrowser)}-{nameof(ServiceOperationTests)}";
 
 			context = new RuntimeContext();
-			logger = new Mock<ILogger>();
 			messageBox = new Mock<IMessageBox>();
 			runtimeHost = new Mock<IRuntimeHost>();
-			runtimeWindow = new Mock<IRuntimeWindow>();
 			service = new Mock<IServiceProxy>();
 			serviceEvent = new EventWaitHandle(false, EventResetMode.AutoReset, serviceEventName);
-			text = new Mock<IText>();
 			userInfo = new Mock<IUserInfo>();
 
-			clientBridge = new ClientBridge(runtimeHost.Object, context);
 			context.Current = new SessionConfiguration();
 			context.Current.AppConfig = new AppConfig();
 			context.Current.AppConfig.ServiceEventName = serviceEventName;
@@ -66,7 +59,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			context.Next.AppConfig = new AppConfig();
 			context.Next.AppConfig.ServiceEventName = serviceEventName;
 			context.Next.Settings = new AppSettings();
-			dependencies = new Dependencies(clientBridge, logger.Object, messageBox.Object, runtimeWindow.Object, context, text.Object);
+
+			dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), context),
+				Mock.Of<ILogger>(),
+				messageBox.Object,
+				Mock.Of<IRuntimeWindow>(),
+				context,
+				Mock.Of<IText>());
 
 			sut = new ServiceOperation(dependencies, runtimeHost.Object, service.Object, 0, userInfo.Object);
 		}
@@ -196,7 +196,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			context.Next.Settings.Service.Policy = ServicePolicy.Mandatory;
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => errorShown = true);
 			service.SetupGet(s => s.IsConnected).Returns(false);
 			service.Setup(s => s.Connect(null, true)).Returns(false);
@@ -228,7 +228,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			context.Next.Settings.Service.Policy = ServicePolicy.Warn;
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => warningShown = true);
 			service.SetupGet(s => s.IsConnected).Returns(false);
 			service.Setup(s => s.Connect(null, true)).Returns(false);

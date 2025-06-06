@@ -10,7 +10,9 @@ using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Communication.Contracts.Data;
 using SafeExamBrowser.Communication.Contracts.Hosts;
+using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Core.Contracts.OperationModel;
@@ -19,6 +21,7 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Communication;
 using SafeExamBrowser.Runtime.Operations.Session;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.Settings.Security;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
@@ -33,20 +36,17 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private const string FILE_NAME = "SebClientSettings.seb";
 
 		private AppConfig appConfig;
+		private RuntimeContext context;
+		private Dependencies dependencies;
+		private SessionConfiguration currentSession;
+		private SessionConfiguration nextSession;
+
 		private Mock<IFileSystem> fileSystem;
 		private Mock<IHashAlgorithm> hashAlgorithm;
 		private Mock<ILogger> logger;
 		private Mock<IConfigurationRepository> repository;
-		private SessionConfiguration currentSession;
 		private Mock<IMessageBox> messageBox;
-		private SessionConfiguration nextSession;
-		private RuntimeContext runtimeContext;
-		private Mock<IRuntimeHost> runtimeHost;
-		private Mock<IRuntimeWindow> runtimeWindow;
-		private Mock<IText> text;
 		private Mock<IUserInterfaceFactory> uiFactory;
-		private ClientBridge clientBridge;
-		private Dependencies dependencies;
 
 		[TestInitialize]
 		public void Initialize()
@@ -59,20 +59,24 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			currentSession = new SessionConfiguration();
 			messageBox = new Mock<IMessageBox>();
 			nextSession = new SessionConfiguration();
-			runtimeContext = new RuntimeContext();
-			runtimeHost = new Mock<IRuntimeHost>();
-			runtimeWindow = new Mock<IRuntimeWindow>();
-			text = new Mock<IText>();
+			context = new RuntimeContext();
 			uiFactory = new Mock<IUserInterfaceFactory>();
+
+			dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), context),
+				logger.Object,
+				messageBox.Object,
+				Mock.Of<IRuntimeWindow>(),
+				context,
+				Mock.Of<IText>());
 
 			appConfig.AppDataFilePath = $@"C:\Not\Really\AppData\File.xml";
 			appConfig.ProgramDataFilePath = $@"C:\Not\Really\ProgramData\File.xml";
-			clientBridge = new ClientBridge(runtimeHost.Object, runtimeContext);
 			currentSession.AppConfig = appConfig;
-			dependencies = new Dependencies(clientBridge, logger.Object, messageBox.Object, runtimeWindow.Object, runtimeContext, text.Object);
+			currentSession.Settings = new AppSettings();
 			nextSession.AppConfig = appConfig;
-			runtimeContext.Current = currentSession;
-			runtimeContext.Next = nextSession;
+			context.Current = currentSession;
+			context.Next = nextSession;
 		}
 
 		[TestMethod]
@@ -169,13 +173,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var settings = new AppSettings();
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			runtimeContext.Current = null;
+			context.Current = null;
 			settings.ConfigurationMode = ConfigurationMode.ConfigureClient;
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.ConfigureClientWith(It.IsAny<Uri>(), It.IsAny<PasswordParameters>())).Returns(SaveStatus.Success);
 
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Returns(MessageBoxResult.Yes);
 
 			var sut = new ConfigurationOperation(new[] { "abc.exe", url }, dependencies, fileSystem.Object, hashAlgorithm.Object, repository.Object, uiFactory.Object);
@@ -195,7 +199,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			repository.Setup(r => r.ConfigureClientWith(It.IsAny<Uri>(), It.IsAny<PasswordParameters>())).Returns(SaveStatus.Success);
 
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Returns(MessageBoxResult.No);
 
 			var sut = new ConfigurationOperation(new[] { "abc.exe", url }, dependencies, fileSystem.Object, hashAlgorithm.Object, repository.Object, uiFactory.Object);
@@ -216,7 +220,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			repository.Setup(r => r.ConfigureClientWith(It.IsAny<Uri>(), It.IsAny<PasswordParameters>())).Returns(SaveStatus.UnexpectedError);
 
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => informed = true);
 
 			var sut = new ConfigurationOperation(new[] { "abc.exe", url }, dependencies, fileSystem.Object, hashAlgorithm.Object, repository.Object, uiFactory.Object);
@@ -235,7 +239,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(Assert.Fail);
 
 			var sut = new ConfigurationOperation(null, dependencies, fileSystem.Object, hashAlgorithm.Object, repository.Object, uiFactory.Object);
@@ -434,6 +438,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
 			appConfig.AppDataFilePath = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), "Testdata", FILE_NAME);
+			currentSession.Settings = currentSettings;
 			currentSettings.Security.AdminPasswordHash = "1234";
 			nextSession.Settings = nextSettings;
 			nextSettings.Security.AdminPasswordHash = "9876";
@@ -478,7 +483,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.Exam };
 
 			currentSession.Settings = currentSettings;
-			runtimeContext.ReconfigurationFilePath = resource.LocalPath;
+			context.ReconfigurationFilePath = resource.LocalPath;
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
 			var sut = new ConfigurationOperation(null, dependencies, fileSystem.Object, hashAlgorithm.Object, repository.Object, uiFactory.Object);
@@ -500,7 +505,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
 
 			currentSession.Settings = currentSettings;
-			runtimeContext.ReconfigurationFilePath = resource.LocalPath;
+			context.ReconfigurationFilePath = resource.LocalPath;
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.ConfigureClientWith(It.Is<Uri>(u => u.Equals(resource)), It.IsAny<PasswordParameters>())).Returns(SaveStatus.Success);
 
@@ -526,7 +531,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var order = 0;
 
 			currentSession.Settings = currentSettings;
-			runtimeContext.ReconfigurationFilePath = resource.LocalPath;
+			context.ReconfigurationFilePath = resource.LocalPath;
 			fileSystem.Setup(f => f.Delete(It.IsAny<string>())).Callback(() => delete = ++order);
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.ConfigureClientWith(It.Is<Uri>(u => u.Equals(resource)), It.IsAny<PasswordParameters>())).Returns(SaveStatus.Success).Callback(() => configure = ++order);
@@ -549,7 +554,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var resource = new Uri("file:///C:/does/not/exist.txt");
 			var settings = default(AppSettings);
 
-			runtimeContext.ReconfigurationFilePath = null;
+			context.ReconfigurationFilePath = null;
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
 			var sut = new ConfigurationOperation(null, dependencies, fileSystem.Object, hashAlgorithm.Object, repository.Object, uiFactory.Object);
@@ -559,7 +564,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>()), Times.Never);
 			Assert.AreEqual(OperationResult.Failed, result);
 
-			runtimeContext.ReconfigurationFilePath = resource.LocalPath;
+			context.ReconfigurationFilePath = resource.LocalPath;
 			result = sut.Repeat();
 
 			fileSystem.Verify(f => f.Delete(It.Is<string>(s => s == resource.LocalPath)), Times.Never);
@@ -577,9 +582,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
 
 			currentSession.Settings = currentSettings;
-			runtimeContext.ReconfigurationFilePath = resource.LocalPath;
+			context.ReconfigurationFilePath = resource.LocalPath;
 
-			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(new PasswordDialogResult { Success = true });
+			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Returns(new PasswordDialogResult { Success = false });
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.PasswordNeeded);
 			uiFactory.Setup(f => f.CreatePasswordDialog(It.IsAny<string>(), It.IsAny<string>())).Returns(dialog.Object);
 
@@ -587,6 +592,29 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var result = sut.Repeat();
 
 			fileSystem.Verify(f => f.Delete(It.Is<string>(s => s == resource.LocalPath)), Times.Once);
+			Assert.AreEqual(OperationResult.Aborted, result);
+		}
+
+		[TestMethod]
+		public void Repeat_MustNotWaitForPasswordViaClientIfCommunicationHasFailed()
+		{
+			var clientProxy = new Mock<IClientProxy>();
+			var currentSettings = new AppSettings();
+			var location = Path.GetDirectoryName(GetType().Assembly.Location);
+			var resource = new Uri(Path.Combine(location, nameof(Operations), "Testdata", FILE_NAME));
+			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
+
+			context.ClientProxy = clientProxy.Object;
+			context.ReconfigurationFilePath = resource.LocalPath;
+			currentSession.Settings = currentSettings;
+			currentSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
+			clientProxy.Setup(c => c.RequestPassword(It.IsAny<PasswordRequestPurpose>(), It.IsAny<Guid>())).Returns(new CommunicationResult(false));
+			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.PasswordNeeded);
+
+			var sut = new ConfigurationOperation(null, dependencies, fileSystem.Object, hashAlgorithm.Object, repository.Object, uiFactory.Object);
+			var result = sut.Repeat();
+
+			clientProxy.Verify(c => c.RequestPassword(It.IsAny<PasswordRequestPurpose>(), It.IsAny<Guid>()), Times.Once);
 			Assert.AreEqual(OperationResult.Aborted, result);
 		}
 

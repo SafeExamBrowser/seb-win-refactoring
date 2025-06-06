@@ -26,49 +26,45 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	[TestClass]
 	public class KioskModeOperationTests
 	{
-		private ClientBridge clientBridge;
 		private SessionConfiguration currentSession;
 		private AppSettings currentSettings;
 		private Dependencies dependencies;
+		private SessionConfiguration nextSession;
+		private AppSettings nextSettings;
+		private RuntimeContext context;
+
 		private Mock<IDesktopFactory> desktopFactory;
 		private Mock<IDesktopMonitor> desktopMonitor;
 		private Mock<IExplorerShell> explorerShell;
-		private Mock<ILogger> logger;
-		private Mock<IMessageBox> messageBox;
-		private SessionConfiguration nextSession;
-		private AppSettings nextSettings;
 		private Mock<IProcessFactory> processFactory;
-		private RuntimeContext runtimeContext;
-		private Mock<IRuntimeHost> runtimeHost;
-		private Mock<IRuntimeWindow> runtimeWindow;
-		private Mock<IText> text;
 
 		private KioskModeOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
+			context = new RuntimeContext();
 			currentSession = new SessionConfiguration();
 			currentSettings = new AppSettings();
 			desktopFactory = new Mock<IDesktopFactory>();
 			desktopMonitor = new Mock<IDesktopMonitor>();
 			explorerShell = new Mock<IExplorerShell>();
-			logger = new Mock<ILogger>();
-			messageBox = new Mock<IMessageBox>();
 			nextSession = new SessionConfiguration();
 			nextSettings = new AppSettings();
 			processFactory = new Mock<IProcessFactory>();
-			runtimeContext = new RuntimeContext();
-			runtimeHost = new Mock<IRuntimeHost>();
-			runtimeWindow = new Mock<IRuntimeWindow>();
-			text = new Mock<IText>();
 
 			currentSession.Settings = currentSettings;
-			clientBridge = new ClientBridge(runtimeHost.Object, runtimeContext);
-			dependencies = new Dependencies(clientBridge, logger.Object, messageBox.Object, runtimeWindow.Object, runtimeContext, text.Object);
 			nextSession.Settings = nextSettings;
-			runtimeContext.Current = currentSession;
-			runtimeContext.Next = nextSession;
+			context.Current = currentSession;
+			context.Next = nextSession;
+
+			dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), context),
+				Mock.Of<ILogger>(),
+				Mock.Of<IMessageBox>(),
+				Mock.Of<IRuntimeWindow>(),
+				context,
+				Mock.Of<IText>());
 
 			sut = new KioskModeOperation(dependencies, desktopFactory.Object, desktopMonitor.Object, explorerShell.Object, processFactory.Object);
 		}

@@ -27,7 +27,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	{
 		private RuntimeContext context;
 		private Mock<IRemoteSessionDetector> detector;
-		private Mock<ILogger> logger;
 		private Mock<IMessageBox> messageBox;
 		private AppSettings settings;
 
@@ -38,29 +37,21 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			context = new RuntimeContext();
 			detector = new Mock<IRemoteSessionDetector>();
-			logger = new Mock<ILogger>();
 			messageBox = new Mock<IMessageBox>();
 			settings = new AppSettings();
 
 			context.Next = new SessionConfiguration();
 			context.Next.Settings = settings;
 
-			var dependencies = InitializeDependencies();
+			var dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), context),
+				Mock.Of<ILogger>(),
+				messageBox.Object,
+				Mock.Of<IRuntimeWindow>(),
+				context,
+				Mock.Of<IText>());
 
 			sut = new RemoteSessionOperation(dependencies, detector.Object);
-		}
-
-		private Dependencies InitializeDependencies()
-		{
-			var logger = new Mock<ILogger>();
-			var runtimeHost = new Mock<IRuntimeHost>();
-			var runtimeWindow = new Mock<IRuntimeWindow>();
-			var text = new Mock<IText>();
-
-			var clientBridge = new ClientBridge(runtimeHost.Object, context);
-			var dependencies = new Dependencies(clientBridge, logger.Object, messageBox.Object, runtimeWindow.Object, context, text.Object);
-
-			return dependencies;
 		}
 
 		[TestMethod]
@@ -72,7 +63,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			settings.Service.DisableRemoteConnections = true;
 
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => messageShown = true);
 
 			var result = sut.Perform();
@@ -92,7 +83,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			settings.Service.DisableRemoteConnections = false;
 
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => messageShown = true);
 
 			var result = sut.Perform();
@@ -112,7 +103,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			settings.Service.DisableRemoteConnections = true;
 
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => messageShown = true);
 
 			var result = sut.Perform();
@@ -132,7 +123,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			settings.Service.DisableRemoteConnections = true;
 
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => messageShown = true);
 
 			var result = sut.Repeat();
@@ -152,7 +143,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			settings.Service.DisableRemoteConnections = false;
 
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => messageShown = true);
 
 			var result = sut.Repeat();
@@ -172,7 +163,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			settings.Service.DisableRemoteConnections = true;
 
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => messageShown = true);
 
 			var result = sut.Repeat();
@@ -192,7 +183,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			settings.Service.DisableRemoteConnections = false;
 
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => messageShown = true);
 
 			var result = sut.Revert();

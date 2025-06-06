@@ -8,12 +8,17 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Communication.Contracts.Hosts;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Runtime.Communication;
 using SafeExamBrowser.Runtime.Operations.Session;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Logging;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Operations
 {
@@ -25,7 +30,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private SessionConfiguration nextSession;
 		private AppSettings nextSettings;
 		private RuntimeContext runtimeContext;
-
 		private SessionActivationOperation sut;
 
 		[TestInitialize]
@@ -41,7 +45,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			runtimeContext.Current = currentSession;
 			runtimeContext.Next = nextSession;
 
-			var dependencies = new Dependencies(default, logger.Object, default, default, runtimeContext, default);
+			var dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), runtimeContext),
+				logger.Object,
+				Mock.Of<IMessageBox>(),
+				Mock.Of<IRuntimeWindow>(),
+				runtimeContext,
+				Mock.Of<IText>());
 
 			sut = new SessionActivationOperation(dependencies);
 		}

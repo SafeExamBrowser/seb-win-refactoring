@@ -14,6 +14,9 @@ using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Runtime
 {
+	/// <summary>
+	/// Holds all configuration and session data for the runtime.
+	/// </summary>
 	internal class RuntimeContext
 	{
 		/// <summary>

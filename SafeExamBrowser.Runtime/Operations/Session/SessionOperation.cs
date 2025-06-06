@@ -7,6 +7,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
@@ -62,12 +63,12 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 			var result = default(MessageBoxResult);
 			var title = Text.Get(titleKey);
 
-			foreach (var placeholder in messagePlaceholders)
+			foreach (var placeholder in messagePlaceholders ?? Enumerable.Empty<KeyValuePair<string, string>>())
 			{
 				message = message.Replace(placeholder.Key, placeholder.Value);
 			}
 
-			foreach (var placeholder in titlePlaceholders)
+			foreach (var placeholder in titlePlaceholders ?? Enumerable.Empty<KeyValuePair<string, string>>())
 			{
 				title = title.Replace(placeholder.Key, placeholder.Value);
 			}

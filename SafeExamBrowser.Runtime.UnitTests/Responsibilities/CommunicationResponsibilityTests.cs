@@ -95,14 +95,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 		}
 
 		[TestMethod]
-		public void Communication_MustInformClientAboutAbortedReconfiguration()
-		{
-			sut.Assume(RuntimeTask.RegisterEvents);
-			runtimeHost.Raise(r => r.ReconfigurationRequested += null, new ReconfigurationEventArgs());
-			clientProxy.Verify(c => c.InformReconfigurationAborted(), Times.Once);
-		}
-
-		[TestMethod]
 		public void Communication_MustShutdownUponRequest()
 		{
 			sut.Assume(RuntimeTask.RegisterEvents);

@@ -33,17 +33,12 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	[TestClass]
 	public class ServerOperationTests
 	{
-		private ClientBridge clientBridge;
 		private RuntimeContext context;
 		private Mock<IFileSystem> fileSystem;
-		private Mock<ILogger> logger;
-		private Mock<IMessageBox> messageBox;
+		private Mock<IConfigurationRepository> repository;
 		private Mock<IServerProxy> server;
 		private Mock<IUserInterfaceFactory> uiFactory;
-		private Mock<IConfigurationRepository> repository;
-		private Mock<IRuntimeHost> runtimeHost;
-		private Mock<IRuntimeWindow> runtimeWindow;
-		private Mock<IText> text;
+
 		private ServerOperation sut;
 
 		[TestInitialize]
@@ -51,13 +46,8 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			context = new RuntimeContext();
 			fileSystem = new Mock<IFileSystem>();
-			logger = new Mock<ILogger>();
-			messageBox = new Mock<IMessageBox>();
 			repository = new Mock<IConfigurationRepository>();
-			runtimeHost = new Mock<IRuntimeHost>();
-			runtimeWindow = new Mock<IRuntimeWindow>();
 			server = new Mock<IServerProxy>();
-			text = new Mock<IText>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
 			context.Current = new SessionConfiguration();
@@ -66,9 +56,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			context.Next = new SessionConfiguration();
 			context.Next.AppConfig = new AppConfig();
 			context.Next.Settings = new AppSettings();
-			clientBridge = new ClientBridge(runtimeHost.Object, context);
 
-			var dependencies = new Dependencies(clientBridge, logger.Object, messageBox.Object, runtimeWindow.Object, context, text.Object);
+			var dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), context),
+				Mock.Of<ILogger>(),
+				Mock.Of<IMessageBox>(),
+				Mock.Of<IRuntimeWindow>(),
+				context,
+				Mock.Of<IText>());
 
 			sut = new ServerOperation(dependencies, fileSystem.Object, repository.Object, server.Object, uiFactory.Object);
 		}
@@ -240,7 +235,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default));
 			serverDialog
 				.Setup(d => d.Show(It.IsAny<IWindow>()))
-				.Returns(new ServerFailureDialogResult { Abort = true })
+				.Returns(new ServerFailureDialogResult { Fallback = true })
 				.Callback(() => messageShown = true);
 			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(examDialog.Object);
 			uiFactory.Setup(f => f.CreateServerFailureDialog(It.IsAny<string>(), It.IsAny<bool>())).Returns(serverDialog.Object);
@@ -485,7 +480,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(false, default));
 			serverDialog
 				.Setup(d => d.Show(It.IsAny<IWindow>()))
-				.Returns(new ServerFailureDialogResult { Abort = true })
+				.Returns(new ServerFailureDialogResult { Fallback = true })
 				.Callback(() => messageShown = true);
 			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(examDialog.Object);
 			uiFactory.Setup(f => f.CreateServerFailureDialog(It.IsAny<string>(), It.IsAny<bool>())).Returns(serverDialog.Object);

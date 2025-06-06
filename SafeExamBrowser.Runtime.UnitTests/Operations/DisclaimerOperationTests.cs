@@ -24,9 +24,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	[TestClass]
 	public class DisclaimerOperationTests
 	{
+		private RuntimeContext context;
 		private Mock<IMessageBox> messageBox;
 		private AppSettings settings;
-		private RuntimeContext context;
 
 		private DisclaimerOperation sut;
 
@@ -40,22 +40,15 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			context.Next = new SessionConfiguration();
 			context.Next.Settings = settings;
 
-			var dependencies = InitializeDependencies();
+			var dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), context),
+				Mock.Of<ILogger>(),
+				messageBox.Object,
+				Mock.Of<IRuntimeWindow>(),
+				context,
+				Mock.Of<IText>());
 
 			sut = new DisclaimerOperation(dependencies);
-		}
-
-		private Dependencies InitializeDependencies()
-		{
-			var logger = new Mock<ILogger>();
-			var runtimeHost = new Mock<IRuntimeHost>();
-			var runtimeWindow = new Mock<IRuntimeWindow>();
-			var text = new Mock<IText>();
-
-			var clientBridge = new ClientBridge(runtimeHost.Object, context);
-			var dependencies = new Dependencies(clientBridge, logger.Object, messageBox.Object, runtimeWindow.Object, context, text.Object);
-
-			return dependencies;
 		}
 
 		[TestMethod]
@@ -65,7 +58,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			settings.Proctoring.ScreenProctoring.Enabled = true;
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => count++)
 				.Returns(MessageBoxResult.Ok);
 
@@ -82,7 +75,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			settings.Proctoring.ScreenProctoring.Enabled = true;
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => disclaimerShown = true)
 				.Returns(MessageBoxResult.Cancel);
 
@@ -98,7 +91,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var disclaimerShown = false;
 
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => disclaimerShown = true)
 				.Returns(MessageBoxResult.Cancel);
 
@@ -115,7 +108,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			settings.Proctoring.ScreenProctoring.Enabled = true;
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => count++)
 				.Returns(MessageBoxResult.Ok);
 
@@ -132,7 +125,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			settings.Proctoring.ScreenProctoring.Enabled = true;
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => disclaimerShown = true)
 				.Returns(MessageBoxResult.Cancel);
 
@@ -148,7 +141,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var disclaimerShown = false;
 
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => disclaimerShown = true)
 				.Returns(MessageBoxResult.Cancel);
 
@@ -164,7 +157,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var disclaimerShown = false;
 
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => disclaimerShown = true)
 				.Returns(MessageBoxResult.Cancel);
 

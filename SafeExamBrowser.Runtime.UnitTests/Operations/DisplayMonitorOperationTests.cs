@@ -26,13 +26,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	[TestClass]
 	public class DisplayMonitorOperationTests
 	{
-		private ClientBridge clientBridge;
 		private RuntimeContext context;
 		private Mock<IDisplayMonitor> displayMonitor;
-		private Mock<ILogger> logger;
 		private Mock<IMessageBox> messageBox;
-		private Mock<IRuntimeHost> runtimeHost;
-		private Mock<IRuntimeWindow> runtimeWindow;
 		private AppSettings settings;
 		private Mock<IText> text;
 
@@ -43,18 +39,20 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			context = new RuntimeContext();
 			displayMonitor = new Mock<IDisplayMonitor>();
-			logger = new Mock<ILogger>();
 			messageBox = new Mock<IMessageBox>();
-			runtimeHost = new Mock<IRuntimeHost>();
-			runtimeWindow = new Mock<IRuntimeWindow>();
 			settings = new AppSettings();
 			text = new Mock<IText>();
 
-			clientBridge = new ClientBridge(runtimeHost.Object, context);
 			context.Next = new SessionConfiguration();
 			context.Next.Settings = settings;
 
-			var dependencies = new Dependencies(clientBridge, logger.Object, messageBox.Object, runtimeWindow.Object, context, text.Object);
+			var dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), context),
+				Mock.Of<ILogger>(),
+				messageBox.Object,
+				Mock.Of<IRuntimeWindow>(),
+				context,
+				text.Object);
 
 			sut = new DisplayMonitorOperation(dependencies, displayMonitor.Object);
 		}
@@ -77,8 +75,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			displayMonitor.Setup(m => m.ValidateConfiguration(It.IsAny<DisplaySettings>())).Returns(new ValidationResult { IsAllowed = false });
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => messageShown = true);
+			text.Setup(t => t.Get(It.IsAny<TextKey>())).Returns(string.Empty);
 
 			var result = sut.Perform();
 
@@ -106,8 +105,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			displayMonitor.Setup(m => m.ValidateConfiguration(It.IsAny<DisplaySettings>())).Returns(new ValidationResult { IsAllowed = false });
 			messageBox
-				.Setup(m => m.Show(It.IsAny<TextKey>(), It.IsAny<TextKey>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => messageShown = true);
+			text.Setup(t => t.Get(It.IsAny<TextKey>())).Returns(string.Empty);
 
 			var result = sut.Repeat();
 

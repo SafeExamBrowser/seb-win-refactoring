@@ -27,21 +27,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 	[TestClass]
 	public class ClientTerminationOperationTests
 	{
-		private Action clientReady;
-		private Action terminated;
 		private AppConfig appConfig;
-		private ClientBridge clientBridge;
 		private Mock<IClientProxy> proxy;
-		private Mock<ILogger> logger;
-		private Mock<IMessageBox> messageBox;
 		private Mock<IProcess> process;
 		private Mock<IProcessFactory> processFactory;
 		private Mock<IProxyFactory> proxyFactory;
 		private Mock<IRuntimeHost> runtimeHost;
-		private Mock<IRuntimeWindow> runtimeWindow;
 		private SessionConfiguration session;
 		private RuntimeContext runtimeContext;
-		private Mock<IText> text;
 		private ClientTerminationOperation sut;
 
 		[TestInitialize]
@@ -51,22 +44,11 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			runtimeHost = new Mock<IRuntimeHost>();
 
 			appConfig = new AppConfig();
-			clientReady = new Action(() => runtimeHost.Raise(h => h.ClientReady += null));
-			clientBridge = new ClientBridge(runtimeHost.Object, runtimeContext);
-			logger = new Mock<ILogger>();
-			messageBox = new Mock<IMessageBox>();
 			process = new Mock<IProcess>();
 			processFactory = new Mock<IProcessFactory>();
 			proxy = new Mock<IClientProxy>();
 			proxyFactory = new Mock<IProxyFactory>();
-			runtimeWindow = new Mock<IRuntimeWindow>();
 			session = new SessionConfiguration();
-			text = new Mock<IText>();
-			terminated = new Action(() =>
-			{
-				runtimeHost.Raise(h => h.ClientDisconnected += null);
-				process.Raise(p => p.Terminated += null, 0);
-			});
 
 			session.AppConfig = appConfig;
 			runtimeContext.ClientProcess = process.Object;
@@ -75,7 +57,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			runtimeContext.Next = session;
 			proxyFactory.Setup(f => f.CreateClientProxy(It.IsAny<string>(), It.IsAny<Interlocutor>())).Returns(proxy.Object);
 
-			var dependencies = new Dependencies(clientBridge, logger.Object, messageBox.Object, runtimeWindow.Object, runtimeContext, text.Object);
+			var dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), runtimeContext),
+				Mock.Of<ILogger>(),
+				Mock.Of<IMessageBox>(),
+				Mock.Of<IRuntimeWindow>(),
+				runtimeContext,
+				Mock.Of<IText>());
 
 			sut = new ClientTerminationOperation(dependencies, processFactory.Object, proxyFactory.Object, runtimeHost.Object, 0);
 		}

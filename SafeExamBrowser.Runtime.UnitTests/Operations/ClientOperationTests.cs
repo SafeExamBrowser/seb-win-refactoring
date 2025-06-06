@@ -33,20 +33,16 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		private Action clientReady;
 		private Action terminated;
 		private AppConfig appConfig;
-		private ClientBridge clientBridge;
 		private Dependencies dependencies;
 		private Mock<IClientProxy> proxy;
 		private Mock<ILogger> logger;
-		private Mock<IMessageBox> messageBox;
 		private Mock<IProcess> process;
 		private Mock<IProcessFactory> processFactory;
 		private Mock<IProxyFactory> proxyFactory;
 		private RuntimeContext runtimeContext;
 		private Mock<IRuntimeHost> runtimeHost;
-		private Mock<IRuntimeWindow> runtimeWindow;
 		private SessionConfiguration session;
 		private AppSettings settings;
-		private Mock<IText> text;
 		private ClientOperation sut;
 
 		[TestInitialize]
@@ -57,17 +53,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 
 			appConfig = new AppConfig();
 			clientReady = new Action(() => runtimeHost.Raise(h => h.ClientReady += null));
-			clientBridge = new ClientBridge(runtimeHost.Object, runtimeContext);
 			logger = new Mock<ILogger>();
-			messageBox = new Mock<IMessageBox>();
 			process = new Mock<IProcess>();
 			processFactory = new Mock<IProcessFactory>();
 			proxy = new Mock<IClientProxy>();
 			proxyFactory = new Mock<IProxyFactory>();
-			runtimeWindow = new Mock<IRuntimeWindow>();
 			session = new SessionConfiguration();
 			settings = new AppSettings();
-			text = new Mock<IText>();
 			terminated = new Action(() =>
 			{
 				runtimeHost.Raise(h => h.ClientDisconnected += null);
@@ -75,11 +67,18 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			});
 
 			appConfig.ClientLogFilePath = "";
-			dependencies = new Dependencies(clientBridge, logger.Object, messageBox.Object, runtimeWindow.Object, runtimeContext, text.Object);
 			session.AppConfig = appConfig;
 			session.Settings = settings;
 			runtimeContext.Current = session;
 			runtimeContext.Next = session;
+
+			dependencies = new Dependencies(
+				new ClientBridge(Mock.Of<IRuntimeHost>(), runtimeContext),
+				logger.Object,
+				Mock.Of<IMessageBox>(),
+				Mock.Of<IRuntimeWindow>(),
+				runtimeContext,
+				Mock.Of<IText>());
 			proxyFactory.Setup(f => f.CreateClientProxy(It.IsAny<string>(), It.IsAny<Interlocutor>())).Returns(proxy.Object);
 
 			sut = new ClientOperation(dependencies, processFactory.Object, proxyFactory.Object, runtimeHost.Object, 0);

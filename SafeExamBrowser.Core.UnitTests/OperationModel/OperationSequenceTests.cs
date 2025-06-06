@@ -67,6 +67,7 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			var operations = new Queue<IOperation>();
 
 			operationA.Setup(o => o.Perform()).Returns(OperationResult.Success);
+			operationB.Setup(o => o.Perform()).Returns(OperationResult.Success);
 			operationC.Setup(o => o.Perform()).Returns(OperationResult.Success).Raises(o => o.StatusChanged += null, default(TextKey));
 
 			operations.Enqueue(operationA.Object);
@@ -76,14 +77,12 @@ namespace SafeExamBrowser.Core.UnitTests.OperationModel
 			var sut = new OperationSequence<IOperation>(loggerMock.Object, operations);
 
 			sut.StatusChanged += statusChangedHandler;
-
 			sut.TryPerform();
 
 			Assert.IsTrue(statusChangedCalled);
 
 			statusChangedCalled = false;
 			sut.StatusChanged -= statusChangedHandler;
-
 			sut.TryPerform();
 
 			Assert.IsFalse(statusChangedCalled);

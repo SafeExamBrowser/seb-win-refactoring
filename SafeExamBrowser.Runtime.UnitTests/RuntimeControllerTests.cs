@@ -58,7 +58,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		}
 
 		[TestMethod]
-		public void Shutdown_MustStopSessionThenBootstrapSequence()
+		public void Shutdown_MustStopSessionThenRevertBootstrapSequence()
 		{
 			var order = 0;
 			var bootstrap = 0;
@@ -101,7 +101,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 		}
 
 		[TestMethod]
-		public void Startup_MustPerformBootstrapThenSessionSequence()
+		public void Startup_MustPerformBootstrapSequenceThenStartSession()
 		{
 			var order = 0;
 			var bootstrap = 0;
@@ -109,7 +109,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 
 			context.Current = default;
 			bootstrapSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Success).Callback(() => bootstrap = ++order);
-			responsibilities.Setup(r => r.Delegate(RuntimeTask.StartSession)).Callback(() => session = ++order);
+			responsibilities.Setup(r => r.Delegate(RuntimeTask.StartSession)).Callback(() => { session = ++order; context.Current = currentSession; });
 
 			var success = sut.TryStart();
 
@@ -138,7 +138,7 @@ namespace SafeExamBrowser.Runtime.UnitTests
 
 			bootstrapSequence.Verify(b => b.TryPerform(), Times.Once);
 			bootstrapSequence.Verify(b => b.TryRevert(), Times.Never);
-			responsibilities.Verify(r => r.Delegate(RuntimeTask.RegisterEvents), Times.Once);
+			responsibilities.Verify(r => r.Delegate(RuntimeTask.RegisterEvents), Times.Never);
 			responsibilities.Verify(r => r.Delegate(RuntimeTask.StartSession), Times.Never);
 
 			Assert.IsFalse(success);
