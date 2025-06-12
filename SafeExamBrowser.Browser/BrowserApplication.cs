@@ -120,6 +120,7 @@ namespace SafeExamBrowser.Browser
 				InitializeCookies();
 				InitializeDownAndUploadDirectory();
 				InitializeIntegrityKeys();
+				InitializePreferences();
 
 				logger.Info("Initialized browser.");
 			}
@@ -423,6 +424,18 @@ namespace SafeExamBrowser.Browser
 			{
 				logger.Debug($"The browser application will be using the default browser exam key.");
 			}
+		}
+
+		private void InitializePreferences()
+		{
+			Cef.UIThreadTaskFactory.StartNew(() =>
+			{
+				using (var requestContext = Cef.GetGlobalRequestContext())
+				{
+					requestContext.SetPreference("autofill.credit_card_enabled", false, out _);
+					requestContext.SetPreference("autofill.profile_enabled", false, out _);
+				}
+			});
 		}
 
 		private void InitializeProxySettings(CefSettings cefSettings)
