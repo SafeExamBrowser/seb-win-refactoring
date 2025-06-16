@@ -208,15 +208,16 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 			Context.Next.IsBrowserResource = true;
 			Context.Next.Settings.Applications.Blacklist.Clear();
 			Context.Next.Settings.Applications.Whitelist.Clear();
-			Context.Next.Settings.Display.AllowedDisplays = 10;
-			Context.Next.Settings.Display.IgnoreError = true;
-			Context.Next.Settings.Display.InternalDisplayOnly = false;
 			Context.Next.Settings.Browser.DeleteCacheOnShutdown = false;
 			Context.Next.Settings.Browser.DeleteCookiesOnShutdown = false;
 			Context.Next.Settings.Browser.StartUrl = uri.AbsoluteUri;
+			Context.Next.Settings.Display.AllowedDisplays = 10;
+			Context.Next.Settings.Display.IgnoreError = true;
+			Context.Next.Settings.Display.InternalDisplayOnly = false;
 			Context.Next.Settings.Security.AllowReconfiguration = true;
 			Context.Next.Settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Allow;
 			Context.Next.Settings.Service.IgnoreService = true;
+			Context.Next.Settings.UserInterface.ActionCenter.EnableActionCenter = false;
 
 			Logger.Info($"The configuration resource needs authentication or is a webpage, using '{uri}' as start URL for the browser.");
 
