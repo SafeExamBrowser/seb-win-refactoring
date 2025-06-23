@@ -80,6 +80,7 @@
     <Compile Include="Operations\ClientOperation.cs" />
     <Compile Include="Operations\ClientOperationSequence.cs" />
     <Compile Include="Operations\ConfigurationOperation.cs" />
+    <Compile Include="Operations\PermissionOperation.cs" />
     <Compile Include="Operations\ProctoringOperation.cs" />
     <Compile Include="Operations\RuntimeConnectionOperation.cs" />
     <Compile Include="Communication\ClientHost.cs" />

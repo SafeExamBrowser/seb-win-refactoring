@@ -197,6 +197,7 @@ namespace SafeExamBrowser.I18n.Contracts
 		OperationStatus_InitializeClipboard,
 		OperationStatus_InitializeConfiguration,
 		OperationStatus_InitializeKioskMode,
+		OperationStatus_InitializePermissions,
 		OperationStatus_InitializeProctoring,
 		OperationStatus_InitializeRuntimeConnection,
 		OperationStatus_InitializeServer,

@@ -47,6 +47,11 @@ namespace SafeExamBrowser.SystemComponents.Contracts.Network
 		IEnumerable<IWirelessNetwork> GetWirelessNetworks();
 
 		/// <summary>
+		/// Requests access to the wireless networking functionality. Returns <c>true</c> if granted by the system and/or user, otherwise <c>false</c>.
+		/// </summary>
+		bool RequestAccess();
+
+		/// <summary>
 		/// Starts periodically scanning the available wireless networks.
 		/// </summary>
 		void StartWirelessNetworkScanning();

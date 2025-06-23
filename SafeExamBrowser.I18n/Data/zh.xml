@@ -549,6 +549,9 @@
     <Entry key="OperationStatus_InitializeKioskMode">
         初始化全屏模式
     </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        初始化权限
+    </Entry>
     <Entry key="OperationStatus_InitializeProctoring">
         初始化远程监理
     </Entry>

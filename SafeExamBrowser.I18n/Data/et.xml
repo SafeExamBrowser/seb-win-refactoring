@@ -549,6 +549,9 @@
     <Entry key="OperationStatus_InitializeKioskMode">
         Kioskirežiimi käivitamine
     </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        Õiguste initsialiseerimine
+    </Entry>
     <Entry key="OperationStatus_InitializeProctoring">
         Kaugkontrolli käivitamine
     </Entry>

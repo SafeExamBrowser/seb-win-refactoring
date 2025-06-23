@@ -549,6 +549,9 @@
     <Entry key="OperationStatus_InitializeKioskMode">
         Inițializează modul kiosk
     </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        Inițializează permisiunilor
+    </Entry>
     <Entry key="OperationStatus_InitializeProctoring">
         Inițializează supravegherea la distanță
     </Entry>

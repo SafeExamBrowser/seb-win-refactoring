@@ -550,6 +550,9 @@
     <Entry key="OperationStatus_InitializeKioskMode">
         Инициализация режима киоска
     </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        Инициализация разрешений
+    </Entry>
     <Entry key="OperationStatus_InitializeProctoring">
         Инициализация удаленного прокторинга
     </Entry>

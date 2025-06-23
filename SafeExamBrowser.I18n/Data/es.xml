@@ -549,6 +549,9 @@
     <Entry key="OperationStatus_InitializeKioskMode">
         Inicialización del modo quiosco
     </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        Inicialización de permisos
+    </Entry>
     <Entry key="OperationStatus_InitializeProctoring">
         Inicialización de la supervisión a distancia
     </Entry>

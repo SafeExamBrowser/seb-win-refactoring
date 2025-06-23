@@ -549,6 +549,9 @@
     <Entry key="OperationStatus_InitializeKioskMode">
         Menginisialisasi mode kios
     </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        Menginisialisasi izin
+    </Entry>
     <Entry key="OperationStatus_InitializeProctoring">
         Menginisialisasi pengawasan jarak jauh
     </Entry>

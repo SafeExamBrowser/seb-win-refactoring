@@ -109,6 +109,30 @@ namespace SafeExamBrowser.SystemComponents.Network
 			logger.Info("Started monitoring the network adapter.");
 		}
 
+		/// <remarks>
+		/// Requesting access is required as of fall 2024 and must be granted manually by the user, otherwise all wireless functionality will
+		/// be denied by the system (see also https://learn.microsoft.com/en-us/windows/win32/nativewifi/wi-fi-access-location-changes).
+		/// </remarks>
+		public bool RequestAccess()
+		{
+			var granted = false;
+
+			try
+			{
+				var task = WiFiAdapter.RequestAccessAsync().AsTask();
+				var status = task.GetAwaiter().GetResult();
+
+				granted = status == WiFiAccessStatus.Allowed;
+				logger.Debug($"Requested access to wireless networking functionality: {status}.");
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to request access to wireless networking functionality!", e);
+			}
+
+			return granted;
+		}
+
 		public void StartWirelessNetworkScanning()
 		{
 			timer?.Start();
@@ -209,8 +233,6 @@ namespace SafeExamBrowser.SystemComponents.Network
 		{
 			try
 			{
-				// Requesting access is required as of fall 2024 and must be granted manually by the user, otherwise all wireless functionality will
-				// be denied by the system (see also https://learn.microsoft.com/en-us/windows/win32/nativewifi/wi-fi-access-location-changes).
 				var task = WiFiAdapter.RequestAccessAsync().AsTask();
 				var status = task.GetAwaiter().GetResult();
 

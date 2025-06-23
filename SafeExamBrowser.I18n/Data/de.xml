@@ -549,6 +549,9 @@
     <Entry key="OperationStatus_InitializeKioskMode">
         Initialisiere Kiosk-Modus
     </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        Initialisiere Berechtigungen
+    </Entry>
     <Entry key="OperationStatus_InitializeProctoring">
         Initialisiere Fernüberwachung
     </Entry>

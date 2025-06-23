@@ -549,6 +549,9 @@
     <Entry key="OperationStatus_InitializeKioskMode">
         Kiosk modus initialiseren
     </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        Machtigingen initialiseren
+    </Entry>
     <Entry key="OperationStatus_InitializeProctoring">
         Externe proctoring initialiseren
     </Entry>
