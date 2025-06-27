@@ -89,31 +89,20 @@ namespace SafeExamBrowser.Browser
 				{
 					control.BrowserCore.EvaluateScriptAsync(code).ContinueWith(t =>
 					{
-						callback?.Invoke(new JavaScriptResult
-						{
-							Message = t.Result.Message,
-							Result = t.Result.Result,
-							Success = t.Result.Success
-						});
+						callback?.Invoke(new JavaScriptResult { Message = t.Result.Message, Result = t.Result.Result, Success = t.Result.Success });
 					});
 				}
 				else
 				{
-					Task.Run(() => callback?.Invoke(new JavaScriptResult
-					{
-						Message = "JavaScript can't be executed in main frame!",
-						Success = false
-					}));
+					Task.Run(() => callback?.Invoke(new JavaScriptResult { Message = "Could not execute JavaScript in main frame!", Success = false }));
 				}
 			}
 			catch (Exception e)
 			{
-				logger.Error($"Failed to execute JavaScript '{(code.Length > 50 ? code.Take(50) : code)}'!", e);
-				Task.Run(() => callback?.Invoke(new JavaScriptResult
-				{
-					Message = $"Failed to execute JavaScript '{(code.Length > 50 ? code.Take(50) : code)}'! Reason: {e.Message}",
-					Success = false
-				}));
+				var message = "Failed to execute JavaScript in main frame!";
+
+				logger.Error(message, e);
+				Task.Run(() => callback?.Invoke(new JavaScriptResult { Message = $"{message} Reason: {e.Message}", Success = false }));
 			}
 		}
 
@@ -193,9 +182,21 @@ namespace SafeExamBrowser.Browser
 			control.BrowserCore.SetZoomLevel(level);
 		}
 
-		private void Clipboard_Changed(long id)
+		private void Clipboard_Changed(string id)
 		{
-			ExecuteJavaScript($"SafeExamBrowser.clipboard.update({id}, '{clipboard.Content}');");
+			try
+			{
+				var script = $"SafeExamBrowser.clipboard.update('{id}', '{clipboard.Content}');";
+
+				foreach (var frame in control.BrowserCore?.GetAllFrames() ?? Enumerable.Empty<IFrame>())
+				{
+					frame.EvaluateScriptAsync(script);
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to update JavaScript clipboard!", e);
+			}
 		}
 
 		private void Control_IsBrowserInitializedChanged(object sender, EventArgs e)
@@ -208,7 +209,7 @@ namespace SafeExamBrowser.Browser
 
 		private void WebBrowser_JavascriptMessageReceived(object sender, JavascriptMessageReceivedEventArgs e)
 		{
-			clipboard.Process(e);
+			clipboard.Update(e);
 		}
 	}
 }

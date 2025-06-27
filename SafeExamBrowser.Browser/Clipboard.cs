@@ -30,7 +30,7 @@ namespace SafeExamBrowser.Browser
 			this.settings = settings;
 		}
 
-		internal void Process(JavascriptMessageReceivedEventArgs message)
+		internal void Update(JavascriptMessageReceivedEventArgs message)
 		{
 			if (settings.UseIsolatedClipboard)
 			{
@@ -65,7 +65,7 @@ namespace SafeExamBrowser.Browser
 		private class Data
 		{
 			public string Content { get; set; }
-			public long Id { get; set; }
+			public string Id { get; set; }
 			public string Type { get; set; }
 		}
 	}

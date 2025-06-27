@@ -8,5 +8,5 @@
 
 namespace SafeExamBrowser.Browser.Events
 {
-	internal delegate void ClipboardChangedEventHandler(long id);
+	internal delegate void ClipboardChangedEventHandler(string id);
 }
