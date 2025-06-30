@@ -228,6 +228,9 @@
     <Entry key="LockScreen_UserSessionMessage">
         The active user has changed or the computer has been locked! In order to unlock SEB, please select one of the available options and enter the correct unlock password.
     </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        The active user has changed. In order to unlock SEB, please select one of the available options and enter the correct unlock password.
+    </Entry>
     <Entry key="LockScreen_UserSessionTerminateOption">
         Terminate Safe Exam Browser. WARNING: There will be no possibility to save data or perform any further actions, the shutdown will be initiated immediately!
     </Entry>

@@ -90,6 +90,7 @@ namespace SafeExamBrowser.I18n.Contracts
 		LockScreen_UnlockButton,
 		LockScreen_UserSessionContinueOption,
 		LockScreen_UserSessionMessage,
+		LockScreen_UserSwitchMessage,
 		LockScreen_UserSessionTerminateOption,
 		LogWindow_AlwaysOnTop,
 		LogWindow_AutoScroll,
