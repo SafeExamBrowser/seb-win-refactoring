@@ -231,6 +231,9 @@
     <Entry key="LockScreen_UserSessionTerminateOption">
         Închide Safe Exam Browser. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
     </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        Utilizatorul activ s-a schimbat! Pentru a debloca SEB, vă rugăm să selectați una dintre opțiunile disponibile și să introduceți parola de deblocare corectă.
+    </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Întotdeauna în prim-plan
     </Entry>

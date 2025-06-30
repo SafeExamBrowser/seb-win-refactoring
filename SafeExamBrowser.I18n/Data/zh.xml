@@ -231,6 +231,9 @@
     <Entry key="LockScreen_UserSessionTerminateOption">
         终止安全考试浏览器。警告：将无法保存数据或执行任何其他操作，系统将立即关闭！
     </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        活动用户已更改！要解锁 SEB，请选择一个可用选项并输入正确的解锁密码。
+    </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         置顶
     </Entry>

@@ -231,6 +231,9 @@
     <Entry key="LockScreen_UserSessionTerminateOption">
         Beëindig de Safe Exam Browser. WAARSCHUWING: er is geen mogelijkheid om gegevens op te slaan of verdere acties uit te voeren, de browser wordt onmiddellijk afgesloten!
     </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        De actieve gebruiker is gewijzigd! Om SEB te ontgrendelen, selecteert u een van de beschikbare opties en voert u het juiste ontgrendelwachtwoord in.
+    </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Altijd bovenaan
     </Entry>

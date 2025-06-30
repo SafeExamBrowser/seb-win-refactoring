@@ -231,6 +231,9 @@
     <Entry key="LockScreen_UserSessionTerminateOption">
         Finalizar Safe Exam Browser. ADVERTENCIA: No habrá posibilidad de guardar datos o realizar ninguna otra acción, ¡el cierre se iniciará inmediatamente!
     </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        ¡El usuario activo ha cambiado! Para desbloquear SEB, seleccione una de las opciones disponibles e introduzca la contraseña de desbloqueo correcta.
+    </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Siempre arriba
     </Entry>

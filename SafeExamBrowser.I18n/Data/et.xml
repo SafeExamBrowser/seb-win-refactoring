@@ -231,6 +231,9 @@
     <Entry key="LockScreen_UserSessionTerminateOption">
         Sulge Safe Exam Browser. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
     </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        Aktiivne kasutaja on muutunud! SEB avamiseks valige üks olemasolevatest võimalustest ja sisestage õige avamisparool.
+    </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Alati peal
     </Entry>

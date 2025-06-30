@@ -254,18 +254,18 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 		private void Sentinel_SessionChanged(SessionSwitchReason reason)
 		{
-			
-			var allow = !Settings.Service.IgnoreService && (!Settings.Service.DisableUserLock || !Settings.Service.DisableUserSwitch);
-			var disable = Settings.Security.DisableSessionChangeLockScreen;
-			var isSessionLockEvent = reason == SessionSwitchReason.SessionLock;
-			var isSessionUnlockEvent = reason == SessionSwitchReason.SessionUnlock;
-			if (allow || disable)
+
+			var allowed = !Settings.Service.IgnoreService && (!Settings.Service.DisableUserLock || !Settings.Service.DisableUserSwitch);
+			var disabled = Settings.Security.DisableSessionChangeLockScreen;
+			var ignore = Settings.Service.IgnoreService && (reason == SessionSwitchReason.SessionLock || reason == SessionSwitchReason.SessionUnlock);
+
+			if (allowed || disabled)
 			{
-				Logger.Info($"Detected user session change, but {(allow ? "session locking and/or switching is allowed" : "lock screen is deactivated")}.");
+				Logger.Info($"Detected user session change ({reason}), but {(allowed ? "session locking and/or switching is allowed" : "lock screen is disabled")}.");
 			}
-			else if (Settings.Service.IgnoreService && (isSessionLockEvent || isSessionUnlockEvent))
+			else if (ignore)
 			{
-				Logger.Info($"Detected user session {(isSessionLockEvent ? "lock" : "unlock")}, ignoring!");
+				Logger.Info($"Ignoring user session change ({reason}).");
 			}
 			else
 			{
@@ -274,7 +274,7 @@ namespace SafeExamBrowser.Client.Responsibilities
 				var continueOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionContinueOption) };
 				var terminateOption = new LockScreenOption { Text = text.Get(TextKey.LockScreen_UserSessionTerminateOption) };
 
-				Logger.Warn("User session changed! Attempting to show lock screen...");
+				Logger.Warn($"User session changed ({reason})! Attempting to show lock screen...");
 
 				if (coordinator.RequestSessionLock())
 				{

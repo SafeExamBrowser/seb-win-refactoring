@@ -231,6 +231,9 @@
     <Entry key="LockScreen_UserSessionTerminateOption">
         Menghentikan Safe Exam Browser. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
     </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        Pengguna aktif telah berubah! Untuk membuka kunci SEB, pilih salah satu opsi yang tersedia dan masukkan kata sandi buka kunci yang benar.
+    </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Selalu di atas
     </Entry>
