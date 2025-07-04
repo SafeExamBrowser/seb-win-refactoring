@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-using System;
 using System.ComponentModel;
 using System.Linq;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
@@ -134,14 +133,14 @@ namespace SafeExamBrowser.Client.Responsibilities
 		{
 			var hasQuitPassword = !string.IsNullOrEmpty(Settings.Security.QuitPasswordHash);
 			var initiateShutdown = hasQuitPassword ? TryValidateQuitPassword() : TryConfirmShutdown();
-			var succes = false;
+			var success = false;
 
 			if (initiateShutdown)
 			{
-				succes = TryRequestShutdown();
+				success = TryRequestShutdown();
 			}
 
-			return succes;
+			return success;
 		}
 
 		private bool TryConfirmShutdown()
@@ -161,26 +160,20 @@ namespace SafeExamBrowser.Client.Responsibilities
 		{
 			var dialog = uiFactory.CreatePasswordDialog(TextKey.PasswordDialog_QuitPasswordRequired, TextKey.PasswordDialog_QuitPasswordRequiredTitle);
 			var result = dialog.Show();
+			var success = false;
 
-			if (result.Success)
+			if (result.Success && IsValidQuitPassword(result.Password))
 			{
-				var passwordHash = hashAlgorithm.GenerateHashFor(result.Password);
-				var isCorrect = Settings.Security.QuitPasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase);
-
-				if (isCorrect)
-				{
-					Logger.Info("The user entered the correct quit password, the application will now terminate.");
-				}
-				else
-				{
-					Logger.Info("The user entered the wrong quit password.");
-					messageBox.Show(TextKey.MessageBox_InvalidQuitPassword, TextKey.MessageBox_InvalidQuitPasswordTitle, icon: MessageBoxIcon.Warning);
-				}
-
-				return isCorrect;
+				success = true;
+				Logger.Info("The user entered the correct quit password, the application will now terminate.");
+			}
+			else if (result.Success)
+			{
+				Logger.Info("The user entered the wrong quit password.");
+				messageBox.Show(TextKey.MessageBox_InvalidQuitPassword, TextKey.MessageBox_InvalidQuitPasswordTitle, icon: MessageBoxIcon.Warning);
 			}
 
-			return false;
+			return success;
 		}
 	}
 }

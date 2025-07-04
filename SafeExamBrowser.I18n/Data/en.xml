@@ -694,7 +694,7 @@
         Password Required
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Abort">
-        Abort
+        Quit
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Confirm
@@ -704,6 +704,9 @@
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Please wait while the screen procotoring is executing its remaining operations. This may take a while, depending on the network and screen proctoring service status.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Please enter the quit password to cancel the execution of the remaining operations:
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         Executing transmission operation %%_COUNT_%% of %%_TOTAL_%%.

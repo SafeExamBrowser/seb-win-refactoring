@@ -249,6 +249,7 @@ namespace SafeExamBrowser.I18n.Contracts
 		ProctoringFinalizationDialog_Confirm,
 		ProctoringFinalizationDialog_FailureMessage,
 		ProctoringFinalizationDialog_InfoMessage,
+		ProctoringFinalizationDialog_PasswordMessage,
 		ProctoringFinalizationDialog_Status,
 		ProctoringFinalizationDialog_StatusAndTime,
 		ProctoringFinalizationDialog_StatusWaiting,

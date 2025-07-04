@@ -706,6 +706,9 @@
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Пожалуйста, подождите, пока прокторинг экрана выполнит оставшиеся операции. Это может занять некоторое время, в зависимости от состояния сети и службы прокторинга экрана.
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Введите пароль выхода, чтобы отменить выполнение оставшихся операций:
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         Выполняется операция передачи %%_COUNT_%% из %%_TOTAL_%%.
     </Entry>

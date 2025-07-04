@@ -705,6 +705,9 @@
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         屏幕监考正在执行剩余操作，请稍候。这可能需要一段时间，具体取决于网络和屏幕监考服务状态。
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        请输入退出密码以取消执行其余操作：
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         执行 %%_TOTAL_%% 的传输操作 %%_COUNT_%%。
     </Entry>

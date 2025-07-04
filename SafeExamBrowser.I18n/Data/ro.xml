@@ -705,6 +705,9 @@
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Vă rugăm să așteptați în timp ce supravegherea ecranului finalizează operațiunile rămase. Acest lucru poate dura ceva timp, în funcție de rețea și de starea serviciului de supraveghere ecran.
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Vă rugăm să introduceți parola de renunțare pentru a anula executarea operațiunilor rămase:
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         Executarea operațiunii de transfer %%_COUNT_%% din %%_TOTAL_%%.
     </Entry>

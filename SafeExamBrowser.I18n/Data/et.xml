@@ -705,6 +705,9 @@
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Palun oodake, kuni ekraaniprotoring täidab oma ülejäänud toiminguid. See võib võtta aega, sõltuvalt võrgu ja ekraani proctoring teenuse olekust.
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Palun sisestage lõpetamise parool, et katkestada ülejäänud toimingute sooritamine:
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         Täidab ülekandeoperatsiooni %%_COUNT_%% of %%_TOTAL_%%.
     </Entry>

@@ -40,6 +40,15 @@ namespace SafeExamBrowser.Client.Responsibilities
 			}
 		}
 
+		protected bool IsValidQuitPassword(string password)
+		{
+			var actual = Context.HashAlgorithm.GenerateHashFor(password);
+			var expected = Settings.Security.QuitPasswordHash;
+			var valid = expected.Equals(actual, StringComparison.OrdinalIgnoreCase);
+
+			return valid;
+		}
+
 		protected void PrepareShutdown()
 		{
 			Context.Responsibilities.Delegate(ClientTask.PrepareShutdown_Wave1);

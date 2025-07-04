@@ -11,6 +11,9 @@ using System.Windows.Input;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Proctoring.Contracts.Events;
 using SafeExamBrowser.UserInterface.Contracts.Proctoring;
+using SafeExamBrowser.UserInterface.Contracts.Proctoring.Events;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
+using SafeExamBrowser.UserInterface.Contracts.Windows.Events;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
 namespace SafeExamBrowser.UserInterface.Desktop.Windows
@@ -19,8 +22,25 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 	{
 		private readonly IText text;
 
-		private bool cancellationRequested;
+		private WindowClosedEventHandler closed;
+		private WindowClosingEventHandler closing;
 		private bool initialized;
+
+		public string QuitPassword => Password.Password;
+
+		public event CancellationRequestedEventHandler CancellationRequested;
+
+		event WindowClosedEventHandler IWindow.Closed
+		{
+			add { closed += value; }
+			remove { closed -= value; }
+		}
+
+		event WindowClosingEventHandler IWindow.Closing
+		{
+			add { closing += value; }
+			remove { closing -= value; }
+		}
 
 		public ProctoringFinalizationDialog(IText text)
 		{
@@ -28,6 +48,11 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 			InitializeComponent();
 			InitializeDialog();
+		}
+
+		public void BringToForeground()
+		{
+			Dispatcher.Invoke(Activate);
 		}
 
 		public new void Show()
@@ -54,17 +79,35 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			});
 		}
 
+		private void InitializeCancellation()
+		{
+			Button.Click += Button_Click;
+			Button.Content = text.Get(TextKey.ProctoringFinalizationDialog_Abort);
+
+			PasswordPanel.Visibility = Visibility.Visible;
+			PasswordLabel.Text = text.Get(TextKey.ProctoringFinalizationDialog_PasswordMessage);
+			Password.KeyDown += Password_KeyDown;
+			Password.Focus();
+
+			Height += PasswordPanel.ActualHeight + PasswordPanel.Margin.Top + PasswordPanel.Margin.Bottom;
+			initialized = true;
+		}
+
 		private void InitializeDialog()
 		{
+			Closed += (o, args) => closed?.Invoke();
+			Closing += (o, args) => closing?.Invoke();
 			Loaded += (o, args) => this.DisableCloseButton();
 			Title = text.Get(TextKey.ProctoringFinalizationDialog_Title);
 		}
 
 		private void ShowFailure(RemainingWorkUpdatedEventArgs status)
 		{
+			ButtonPanel.Visibility = Visibility.Visible;
+			Button.Click -= Button_Click;
 			Button.Click += (o, args) => Close();
 			Button.Content = text.Get(TextKey.ProctoringFinalizationDialog_Confirm);
-			ButtonPanel.Visibility = Visibility.Visible;
+			Button.Focus();
 
 			// TODO: Revert once cache handling has been specified and changed!
 			CachePath.Text = status.CachePath ?? "-";
@@ -72,7 +115,9 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 			Cursor = Cursors.Arrow;
 			FailurePanel.Visibility = Visibility.Visible;
+			Height -= PasswordPanel.IsVisible ? PasswordPanel.ActualHeight + PasswordPanel.Margin.Top + PasswordPanel.Margin.Bottom : 0;
 			Message.Text = text.Get(TextKey.ProctoringFinalizationDialog_FailureMessage);
+			PasswordPanel.Visibility = Visibility.Collapsed;
 			ProgressPanel.Visibility = Visibility.Collapsed;
 
 			this.EnableCloseButton();
@@ -88,9 +133,11 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 
 			if (status.AllowCancellation && !initialized)
 			{
-				Button.Click += (o, args) => cancellationRequested = true;
-				Button.Content = text.Get(TextKey.ProctoringFinalizationDialog_Abort);
-				initialized = true;
+				InitializeCancellation();
+			}
+			else if (!status.AllowCancellation)
+			{
+				PasswordPanel.Visibility = Visibility.Collapsed;
 			}
 
 			if (status.IsWaiting)
@@ -101,8 +148,6 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			{
 				UpdateProgress(status);
 			}
-
-			status.CancellationRequested = cancellationRequested;
 		}
 
 		private void UpdateProgress(RemainingWorkUpdatedEventArgs status)
@@ -142,6 +187,19 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			else
 			{
 				Status.Text = text.Get(TextKey.ProctoringFinalizationDialog_StatusWaiting).Replace("%%_COUNT_%%", count);
+			}
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			CancellationRequested?.Invoke();
+		}
+
+		private void Password_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter)
+			{
+				CancellationRequested?.Invoke();
 			}
 		}
 	}

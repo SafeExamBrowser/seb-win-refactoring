@@ -7,18 +7,25 @@
  */
 
 using SafeExamBrowser.Proctoring.Contracts.Events;
+using SafeExamBrowser.UserInterface.Contracts.Proctoring.Events;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.UserInterface.Contracts.Proctoring
 {
 	/// <summary>
 	/// The dialog to display the status of the proctoring finalization.
 	/// </summary>
-	public interface IProctoringFinalizationDialog
+	public interface IProctoringFinalizationDialog : IWindow
 	{
 		/// <summary>
-		/// Shows the dialog as topmost window.
+		/// The quit password entered by the user.
 		/// </summary>
-		void Show();
+		string QuitPassword { get; }
+
+		/// <summary>
+		/// Event fired when the cancellation of the remaining work has been requested.
+		/// </summary>
+		event CancellationRequestedEventHandler CancellationRequested;
 
 		/// <summary>
 		/// Updates the status of the finalization.

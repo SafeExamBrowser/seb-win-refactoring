@@ -658,7 +658,7 @@
         Warte bis Runtime Verbindung trennt
     </Entry>
     <Entry key="PasswordDialog_BrowserHomePasswordRequired">
-        Beenden-/Neustart-Passwort eingeben: (Diese Funktion loggt Sie nicht aus, falls Sie sich auf einer Website eingeloggt haben)
+        Quit-/Neustart-Passwort eingeben: (Diese Funktion loggt Sie nicht aus, falls Sie sich auf einer Website eingeloggt haben)
     </Entry>
     <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
         Zurück zum Start
@@ -694,7 +694,7 @@
         Passwort erforderlich
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Abort">
-        Abbrechen
+        Beenden
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Confirm">
         Bestätigen
@@ -704,6 +704,9 @@
     </Entry>
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Bitte warten Sie, während die Bildschirmüberwachung ihre restlichen Operationen ausführt. Dies kann eine Weile dauern, je nach Status des Netzwerkes und Bildschirmüberwachungs-Dienstes.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Bitte geben Sie das Quit-Passwort ein um die Ausführung der restlichen Operationen abzubrechen:
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         Ausführen der Übertragungsoperation %%_COUNT_%% von %%_TOTAL_%%.

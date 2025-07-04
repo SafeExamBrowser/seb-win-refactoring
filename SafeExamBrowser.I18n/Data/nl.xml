@@ -705,6 +705,9 @@
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Gelieve te wachten terwijl de schermproctoring zijn resterende operaties uitvoert. Dit kan even duren, afhankelijk van het netwerk en de status van de screen proctoring service.
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Voer het wachtwoord voor afsluiten in om de uitvoering van de resterende bewerkingen te annuleren:
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         Uitvoeren van overdrachtsoperatie %%_COUNT_%% van %%_TOTAL_%%.
     </Entry>

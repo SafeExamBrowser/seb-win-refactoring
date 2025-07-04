@@ -705,6 +705,9 @@
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Por favor, espere mientras el proctoring de pantalla ejecuta sus operaciones restantes. Esto puede tardar un poco, dependiendo de la red y del estado del servicio de proctoring de pantalla.
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Por favor, introduzca la contraseña de salida para cancelar la ejecución de las operaciones restantes:
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         Ejecutando operación de transmisión %%_COUNT_%% de %%_TOTAL_%%.
     </Entry>

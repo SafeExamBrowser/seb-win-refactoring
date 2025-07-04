@@ -84,7 +84,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 				if (args.CancellationRequested)
 				{
-					logger.Warn($"The execution of the remaining work has been cancelled and {remaining} item(s) will not be transmitted!");
+					logger.Warn($"The execution of the remaining work has been canceled and {remaining} item(s) will not be transmitted!");
 
 					break;
 				}

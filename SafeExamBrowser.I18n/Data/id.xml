@@ -705,6 +705,9 @@
     <Entry key="ProctoringFinalizationDialog_InfoMessage">
         Harap tunggu sementara proktor layar menjalankan operasi yang tersisa. Hal ini mungkin memerlukan waktu beberapa saat, tergantung pada jaringan dan status layanan pemeriksaan layar.
     </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Masukkan kata sandi keluar untuk membatalkan eksekusi operasi yang tersisa:
+    </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
         Menjalankan operasi transmisi %%_COUNT_%% dari %%_TOTAL_%%.
     </Entry>

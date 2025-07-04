@@ -44,10 +44,14 @@
                 </WrapPanel>
             </Grid>
         </Grid>
-        <Grid Grid.Row="1" Name="ButtonPanel" Background="{StaticResource BackgroundBrush}">
+        <StackPanel Grid.Row="1" Name="ButtonPanel" Background="{StaticResource BackgroundBrush}" Orientation="Vertical">
+            <StackPanel Grid.Row="1" Name="PasswordPanel" Margin="20,20,20,0" Orientation="Vertical">
+                <TextBlock Name="PasswordLabel" Margin="0,0,0,5" />
+                <PasswordBox Name="Password" Height="25" VerticalContentAlignment="Center" />
+            </StackPanel>
             <WrapPanel Orientation="Horizontal" Margin="20" HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Button Name="Button" Cursor="Hand" Padding="10,5" MinWidth="75" />
             </WrapPanel>
-        </Grid>
+        </StackPanel>
     </Grid>
 </Window>

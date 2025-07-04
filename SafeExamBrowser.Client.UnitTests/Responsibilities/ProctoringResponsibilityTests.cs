@@ -11,6 +11,7 @@ using Moq;
 using SafeExamBrowser.Client.Responsibilities;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 
 namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 {
@@ -18,6 +19,8 @@ namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 	public class ProctoringResponsibilityTests
 	{
 		private ClientContext context;
+		private Mock<ILogger> logger;
+		private Mock<IMessageBox> messageBox;
 		private Mock<IUserInterfaceFactory> uiFactory;
 
 		private ProctoringResponsibility sut;
@@ -25,13 +28,12 @@ namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 		[TestInitialize]
 		public void Initialize()
 		{
-			var logger = new Mock<ILogger>();
-
 			context = new ClientContext();
 			logger = new Mock<ILogger>();
+			messageBox = new Mock<IMessageBox>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
-			sut = new ProctoringResponsibility(context, logger.Object, uiFactory.Object);
+			sut = new ProctoringResponsibility(context, logger.Object, messageBox.Object, uiFactory.Object);
 		}
 
 		[TestMethod]
