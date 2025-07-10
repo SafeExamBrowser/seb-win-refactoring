@@ -18,9 +18,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			switch (key)
 			{
-				case Keys.Proctoring.ForceRaiseHandMessage:
-					MapForceRaiseHandMessage(settings, value);
-					break;
 				case Keys.Proctoring.ScreenProctoring.CacheSize:
 					MapCacheSize(settings, value);
 					break;
@@ -63,20 +60,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Proctoring.ScreenProctoring.ServiceUrl:
 					MapServiceUrl(settings, value);
 					break;
-				case Keys.Proctoring.ShowRaiseHand:
-					MapShowRaiseHand(settings, value);
-					break;
 				case Keys.Proctoring.ShowTaskbarNotification:
 					MapShowTaskbarNotification(settings, value);
 					break;
-			}
-		}
-
-		private void MapForceRaiseHandMessage(AppSettings settings, object value)
-		{
-			if (value is bool force)
-			{
-				settings.Proctoring.ForceRaiseHandMessage = force;
 			}
 		}
 
@@ -213,14 +199,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string url)
 			{
 				settings.Proctoring.ScreenProctoring.ServiceUrl = url;
-			}
-		}
-
-		private void MapShowRaiseHand(AppSettings settings, object value)
-		{
-			if (value is bool show)
-			{
-				settings.Proctoring.ShowRaiseHandNotification = show;
 			}
 		}
 

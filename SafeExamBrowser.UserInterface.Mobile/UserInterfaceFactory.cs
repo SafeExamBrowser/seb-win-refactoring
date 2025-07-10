@@ -14,10 +14,10 @@ using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
-using SafeExamBrowser.Proctoring.Contracts;
+using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Data;
 using SafeExamBrowser.Settings.Browser;
-using SafeExamBrowser.Settings.Proctoring;
+using SafeExamBrowser.Settings.Server;
 using SafeExamBrowser.Settings.UserInterface;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
@@ -135,9 +135,9 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			return windowFactory.CreateProctoringWindow(control);
 		}
 
-		public INotificationControl CreateRaiseHandControl(IProctoringController controller, Location location, ProctoringSettings settings)
+		public INotificationControl CreateRaiseHandControl(IInvigilator invigilator, Location location, ServerSettings settings)
 		{
-			return controlFactory.CreateRaiseHandControl(controller, location, settings);
+			return controlFactory.CreateRaiseHandControl(invigilator, location, settings);
 		}
 
 		public IRuntimeWindow CreateRuntimeWindow(AppConfig appConfig)

@@ -15,8 +15,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
 using SafeExamBrowser.I18n.Contracts;
-using SafeExamBrowser.Proctoring.Contracts;
-using SafeExamBrowser.Settings.Proctoring;
+using SafeExamBrowser.Server.Contracts;
+using SafeExamBrowser.Settings.Server;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 using SafeExamBrowser.UserInterface.Shared.Utilities;
 
@@ -24,16 +24,16 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 {
 	public partial class RaiseHandControl : UserControl, INotificationControl
 	{
-		private readonly IProctoringController controller;
-		private readonly ProctoringSettings settings;
+		private readonly IInvigilator invigilator;
+		private readonly ServerSettings settings;
 		private readonly IText text;
 
 		private IconResource LoweredIcon;
 		private IconResource RaisedIcon;
 
-		public RaiseHandControl(IProctoringController controller, ProctoringSettings settings, IText text)
+		public RaiseHandControl(IInvigilator invigilator, ServerSettings settings, IText text)
 		{
-			this.controller = controller;
+			this.invigilator = invigilator;
 			this.settings = settings;
 			this.text = text;
 
@@ -43,10 +43,11 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 
 		private void InitializeRaiseHandControl()
 		{
+			var lastOpenedBySpacePress = false;
 			var originalBrush = NotificationButton.Background;
 
-			controller.HandLowered += () => Dispatcher.Invoke(ShowLowered);
-			controller.HandRaised += () => Dispatcher.Invoke(ShowRaised);
+			invigilator.HandLowered += () => Dispatcher.Invoke(ShowLowered);
+			invigilator.HandRaised += () => Dispatcher.Invoke(ShowRaised);
 
 			HandButton.Click += RaiseHandButton_Click;
 			HandButtonText.Text = text.Get(TextKey.Notification_ProctoringRaiseHand);
@@ -55,10 +56,11 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 			RaisedIcon = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/Hand_Raised.xaml") };
 			Icon.Content = IconResourceLoader.Load(LoweredIcon);
 
-			var lastOpenedBySpacePress = false;
 			NotificationButton.PreviewKeyDown += (o, args) =>
 			{
-				if (args.Key == System.Windows.Input.Key.Space)                 // for some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation, we record the space bar event and leave the popup open for at least 3 seconds
+				// For some reason, the popup immediately closes again if opened by a Space Bar key event - as a mitigation,
+				// we record the space bar event and leave the popup open for at least 3 seconds.
+				if (args.Key == Key.Space)
 				{
 					lastOpenedBySpacePress = true;
 				}
@@ -89,7 +91,6 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 				Background = Brushes.LightGray;
 				NotificationButton.Background = Brushes.LightGray;
 			};
-
 			Popup.Closed += (o, args) =>
 			{
 				Background = originalBrush;
@@ -130,13 +131,13 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.Taskbar
 
 		private void ToggleHand()
 		{
-			if (controller.IsHandRaised)
+			if (invigilator.IsHandRaised)
 			{
-				controller.LowerHand();
+				invigilator.LowerHand();
 			}
 			else
 			{
-				controller.RaiseHand(Message.Text);
+				invigilator.RaiseHand(Message.Text);
 				Message.Clear();
 			}
 		}

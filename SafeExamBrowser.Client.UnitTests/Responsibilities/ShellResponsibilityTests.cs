@@ -52,6 +52,7 @@ namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 			taskbar = new Mock<ITaskbar>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
+			context.HashAlgorithm = hashAlgorithm.Object;
 			context.MessageBox = messageBox.Object;
 			context.Responsibilities = responsibilities.Object;
 			context.Runtime = runtime.Object;

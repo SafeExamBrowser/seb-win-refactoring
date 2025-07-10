@@ -12,20 +12,37 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Shell;
 
 namespace SafeExamBrowser.Client.Operations
 {
 	internal class ServerOperation : ClientOperation
 	{
+		private readonly IActionCenter actionCenter;
+		private readonly IInvigilator invigilator;
 		private readonly ILogger logger;
 		private readonly IServerProxy server;
+		private readonly ITaskbar taskbar;
+		private readonly IUserInterfaceFactory uiFactory;
 
 		public override event StatusChangedEventHandler StatusChanged;
 
-		public ServerOperation(ClientContext context, ILogger logger, IServerProxy server) : base(context)
+		public ServerOperation(
+			IActionCenter actionCenter,
+			ClientContext context,
+			IInvigilator invigilator,
+			ILogger logger,
+			IServerProxy server,
+			ITaskbar taskbar,
+			IUserInterfaceFactory uiFactory) : base(context)
 		{
+			this.actionCenter = actionCenter;
+			this.invigilator = invigilator;
 			this.logger = logger;
 			this.server = server;
+			this.taskbar = taskbar;
+			this.uiFactory = uiFactory;
 		}
 
 		public override OperationResult Perform()
@@ -42,6 +59,14 @@ namespace SafeExamBrowser.Client.Operations
 					Context.AppConfig.ServerOauth2Token,
 					Context.Settings.Server);
 				server.StartConnectivity();
+
+				if (Context.Settings.Server.ShowRaiseHandNotification)
+				{
+					invigilator.Initialize(Context.Settings.Server);
+
+					actionCenter.AddNotificationControl(uiFactory.CreateRaiseHandControl(invigilator, Location.ActionCenter, Context.Settings.Server));
+					taskbar.AddNotificationControl(uiFactory.CreateRaiseHandControl(invigilator, Location.Taskbar, Context.Settings.Server));
+				}
 			}
 
 			return OperationResult.Success;

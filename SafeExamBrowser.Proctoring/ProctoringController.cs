@@ -34,11 +34,8 @@ namespace SafeExamBrowser.Proctoring
 
 		private IEnumerable<ProctoringImplementation> implementations;
 
-		public bool IsHandRaised { get; private set; }
 		public IEnumerable<INotification> Notifications => new List<INotification>(implementations);
 
-		public event ProctoringEventHandler HandLowered;
-		public event ProctoringEventHandler HandRaised;
 		public event RemainingWorkUpdatedEventHandler RemainingWorkUpdated
 		{
 			add { implementations.ForEach(i => i.RemainingWorkUpdated += value); }
@@ -104,7 +101,6 @@ namespace SafeExamBrowser.Proctoring
 		{
 			implementations = factory.CreateAllActive(settings);
 
-			server.HandConfirmed += Server_HandConfirmed;
 			server.ProctoringConfigurationReceived += Server_ProctoringConfigurationReceived;
 			server.ProctoringInstructionReceived += Server_ProctoringInstructionReceived;
 
@@ -121,40 +117,6 @@ namespace SafeExamBrowser.Proctoring
 			}
 		}
 
-		public void LowerHand()
-		{
-			var response = server.LowerHand();
-
-			if (response.Success)
-			{
-				IsHandRaised = false;
-				HandLowered?.Invoke();
-
-				logger.Info("Hand lowered.");
-			}
-			else
-			{
-				logger.Error($"Failed to send lower hand notification to server! Message: {response.Message}.");
-			}
-		}
-
-		public void RaiseHand(string message = null)
-		{
-			var response = server.RaiseHand(message);
-
-			if (response.Success)
-			{
-				IsHandRaised = true;
-				HandRaised?.Invoke();
-
-				logger.Info("Hand raised.");
-			}
-			else
-			{
-				logger.Error($"Failed to send raise hand notification to server! Message: {response.Message}.");
-			}
-		}
-
 		public void Terminate()
 		{
 			foreach (var implementation in implementations)
@@ -168,14 +130,6 @@ namespace SafeExamBrowser.Proctoring
 					logger.Error($"Failed to terminate proctoring implementation '{implementation.Name}'!", e);
 				}
 			}
-		}
-
-		private void Server_HandConfirmed()
-		{
-			logger.Info("Hand confirmation received.");
-
-			IsHandRaised = false;
-			HandLowered?.Invoke();
 		}
 
 		private void Server_ProctoringConfigurationReceived(bool allowChat, bool receiveAudio, bool receiveVideo)

@@ -15,6 +15,8 @@ using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Server;
+using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.Shell;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
@@ -22,26 +24,33 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 	public class ServerOperationTests
 	{
 		private AppConfig appConfig;
+		private Mock<IActionCenter> actionCenter;
 		private ClientContext context;
+		private Mock<IInvigilator> invigilator;
 		private Mock<ILogger> logger;
 		private Mock<IServerProxy> server;
 		private AppSettings settings;
-
+		private Mock<ITaskbar> taskbar;
+		private Mock<IUserInterfaceFactory> uiFactory;
 		private ServerOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
 		{
 			appConfig = new AppConfig();
+			actionCenter = new Mock<IActionCenter>();
 			context = new ClientContext();
+			invigilator = new Mock<IInvigilator>();
 			logger = new Mock<ILogger>();
 			server = new Mock<IServerProxy>();
 			settings = new AppSettings();
+			taskbar = new Mock<ITaskbar>();
+			uiFactory = new Mock<IUserInterfaceFactory>();
 
 			context.AppConfig = appConfig;
 			context.Settings = settings;
 
-			sut = new ServerOperation(context, logger.Object, server.Object);
+			sut = new ServerOperation(actionCenter.Object, context, invigilator.Object, logger.Object, server.Object, taskbar.Object, uiFactory.Object);
 		}
 
 		[TestMethod]

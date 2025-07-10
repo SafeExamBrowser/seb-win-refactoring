@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Data\ConnectionInfo.cs" />
     <Compile Include="Data\Exam.cs" />
+    <Compile Include="Events\InvigilationEventHandler.cs" />
     <Compile Include="Events\LockScreenRequestedEventHandler.cs" />
     <Compile Include="Events\Proctoring\InstructionMethod.cs" />
     <Compile Include="Events\Proctoring\JitsiMeetInstruction.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Events\Proctoring\ZoomInstruction.cs" />
     <Compile Include="Events\ServerEventHandler.cs" />
     <Compile Include="Events\TerminationRequestedEventHandler.cs" />
+    <Compile Include="IInvigilator.cs" />
     <Compile Include="IServerProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\ServerResponse.cs" />

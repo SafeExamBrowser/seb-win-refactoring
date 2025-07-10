@@ -42,6 +42,11 @@ namespace SafeExamBrowser.Settings.Server
 		public string FallbackPasswordHash { get; set; }
 
 		/// <summary>
+		/// Determines whether the message input for the raise hand notification will be forced.
+		/// </summary>
+		public bool ForceRaiseHandMessage { get; set; }
+
+		/// <summary>
 		/// The institution to be used for identification with the server.
 		/// </summary>
 		public string Institution { get; set; }
@@ -75,5 +80,10 @@ namespace SafeExamBrowser.Settings.Server
 		/// The URL of the server.
 		/// </summary>
 		public string ServerUrl { get; set; }
+
+		/// <summary>
+		/// Determines whether the raise hand notification will be shown in the shell.
+		/// </summary>
+		public bool ShowRaiseHandNotification { get; set; }
 	}
 }

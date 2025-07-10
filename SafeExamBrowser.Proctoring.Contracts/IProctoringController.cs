@@ -19,24 +19,9 @@ namespace SafeExamBrowser.Proctoring.Contracts
 	public interface IProctoringController
 	{
 		/// <summary>
-		/// Indicates whether the hand is currently raised.
-		/// </summary>
-		bool IsHandRaised { get; }
-
-		/// <summary>
 		/// The notifications for all active proctoring providers.
 		/// </summary>
 		IEnumerable<INotification> Notifications { get; }
-
-		/// <summary>
-		/// Fired when the hand has been lowered.
-		/// </summary>
-		event ProctoringEventHandler HandLowered;
-
-		/// <summary>
-		/// Fired when the hand has been raised.
-		/// </summary>
-		event ProctoringEventHandler HandRaised;
 
 		/// <summary>
 		/// Event fired when the status of the remaining work has been updated.
@@ -57,16 +42,6 @@ namespace SafeExamBrowser.Proctoring.Contracts
 		/// Initializes the given settings and starts the proctoring if the settings are valid.
 		/// </summary>
 		void Initialize(ProctoringSettings settings);
-
-		/// <summary>
-		/// Lowers the hand.
-		/// </summary>
-		void LowerHand();
-
-		/// <summary>
-		/// Raises the hand, optionally with the given message.
-		/// </summary>
-		void RaiseHand(string message = default);
 
 		/// <summary>
 		/// Stops the proctoring functionality. Make sure to call <see cref="ExecuteRemainingWork"/> beforehand if necessary.

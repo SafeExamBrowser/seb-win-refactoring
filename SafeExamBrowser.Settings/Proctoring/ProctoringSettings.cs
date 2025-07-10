@@ -22,19 +22,9 @@ namespace SafeExamBrowser.Settings.Proctoring
 		public bool Enabled { get; set; }
 
 		/// <summary>
-		/// Determines whether the message input for the raise hand notification will be forced.
-		/// </summary>
-		public bool ForceRaiseHandMessage { get; set; }
-
-		/// <summary>
 		/// All settings for the screen proctoring.
 		/// </summary>
 		public ScreenProctoringSettings ScreenProctoring { get; set; }
-
-		/// <summary>
-		/// Determines whether the raise hand notification will be shown in the shell.
-		/// </summary>
-		public bool ShowRaiseHandNotification { get; set; }
 
 		/// <summary>
 		/// Determines whether the proctoring notification will be shown in the taskbar.

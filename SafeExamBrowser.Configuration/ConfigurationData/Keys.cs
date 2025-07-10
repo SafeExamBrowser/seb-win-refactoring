@@ -230,8 +230,6 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class Proctoring
 		{
-			internal const string ForceRaiseHandMessage = "raiseHandButtonAlwaysPromptMessage";
-			internal const string ShowRaiseHand = "raiseHandButtonShow";
 			internal const string ShowTaskbarNotification = "showProctoringViewButton";
 
 			internal static class ScreenProctoring
@@ -285,6 +283,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string Configuration = "sebServerConfiguration";
 			internal const string ExamId = "exam";
 			internal const string FallbackPasswordHash = "sebServerFallbackPasswordHash";
+			internal const string ForceRaiseHandMessage = "raiseHandButtonAlwaysPromptMessage";
 			internal const string Institution = "institution";
 			internal const string PerformFallback = "sebServerFallback";
 			internal const string PingInterval = "pingInterval";
@@ -292,6 +291,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string RequestAttemptInterval = "sebServerFallbackAttemptInterval";
 			internal const string RequestTimeout = "sebServerFallbackTimeout";
 			internal const string ServerUrl = "sebServerURL";
+			internal const string ShowRaiseHand = "raiseHandButtonShow";
 		}
 
 		internal static class Service

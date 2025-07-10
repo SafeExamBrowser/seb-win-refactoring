@@ -63,6 +63,7 @@
     <Compile Include="Data\Attributes.cs" />
     <Compile Include="Data\AttributeType.cs" />
     <Compile Include="Data\Instructions.cs" />
+    <Compile Include="Invigilator.cs" />
     <Compile Include="Requests\Extensions.cs" />
     <Compile Include="FileSystem.cs" />
     <Compile Include="Parser.cs" />

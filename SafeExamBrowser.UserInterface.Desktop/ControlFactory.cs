@@ -9,8 +9,8 @@
 using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.I18n.Contracts;
-using SafeExamBrowser.Proctoring.Contracts;
-using SafeExamBrowser.Settings.Proctoring;
+using SafeExamBrowser.Server.Contracts;
+using SafeExamBrowser.Settings.Server;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.SystemComponents.Contracts.Network;
@@ -100,15 +100,15 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			}
 		}
 
-		internal INotificationControl CreateRaiseHandControl(IProctoringController controller, Location location, ProctoringSettings settings)
+		internal INotificationControl CreateRaiseHandControl(IInvigilator invigilator, Location location, ServerSettings settings)
 		{
 			if (location == Location.ActionCenter)
 			{
-				return new Controls.ActionCenter.RaiseHandControl(controller, settings, text);
+				return new Controls.ActionCenter.RaiseHandControl(invigilator, settings, text);
 			}
 			else
 			{
-				return new Controls.Taskbar.RaiseHandControl(controller, settings, text);
+				return new Controls.Taskbar.RaiseHandControl(invigilator, settings, text);
 			}
 		}
 	}
