@@ -16,7 +16,7 @@ namespace SafeExamBrowser.Browser.Handlers
 	{
 		public bool OnDragEnter(IWebBrowser chromiumWebBrowser, IBrowser browser, IDragData dragData, DragOperationsMask mask)
 		{
-			return !(dragData.IsFragment && mask == DragOperationsMask.Move);
+			return !(dragData.IsFragment && mask.HasFlag(DragOperationsMask.Move));
 		}
 
 		public void OnDraggableRegionsChanged(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IList<DraggableRegion> regions)
