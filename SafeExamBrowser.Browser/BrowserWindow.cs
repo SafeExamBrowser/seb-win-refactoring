@@ -319,8 +319,6 @@ namespace SafeExamBrowser.Browser
 				window.UpdateTitle(address);
 				TitleChanged?.Invoke(address);
 			}
-
-			AutoFind();
 		}
 
 		private void Control_LoadFailed(int errorCode, string errorText, bool isMainRequest, string url)
@@ -853,14 +851,6 @@ namespace SafeExamBrowser.Browser
 				Control.Zoom(0);
 				window.UpdateZoomLevel(CalculateZoomPercentage());
 				logger.Debug($"Reset page zoom to {CalculateZoomPercentage()}%.");
-			}
-		}
-
-		private void AutoFind()
-		{
-			if (settings.AllowFind && !string.IsNullOrEmpty(findParameters.term) && !CLEAR_FIND_TERM.Equals(findParameters.term, StringComparison.OrdinalIgnoreCase))
-			{
-				Control.Find(findParameters.term, findParameters.isInitial, findParameters.caseSensitive, findParameters.forward);
 			}
 		}
 
