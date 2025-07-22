@@ -325,7 +325,6 @@ namespace SafeExamBrowser.Browser
 
 			cefSettings.AcceptLanguageList = CultureInfo.CurrentUICulture.Name;
 			cefSettings.CachePath = appConfig.BrowserCachePath;
-			cefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
 			cefSettings.LogFile = appConfig.BrowserLogFilePath;
 			cefSettings.LogSeverity = error ? LogSeverity.Error : (warning ? LogSeverity.Warning : LogSeverity.Info);
 			cefSettings.PersistSessionCookies = !settings.DeleteCookiesOnStartup || !settings.DeleteCookiesOnShutdown;
@@ -348,6 +347,7 @@ namespace SafeExamBrowser.Browser
 
 			cefSettings.CefCommandLineArgs.Add("enable-media-stream");
 			cefSettings.CefCommandLineArgs.Add("enable-usermedia-screen-capturing");
+			cefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
 			cefSettings.CefCommandLineArgs.Add("use-fake-ui-for-media-stream");
 
 			InitializeProxySettings(cefSettings);

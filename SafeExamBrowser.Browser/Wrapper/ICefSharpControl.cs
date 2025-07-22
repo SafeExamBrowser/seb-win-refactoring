@@ -21,10 +21,13 @@ namespace SafeExamBrowser.Browser.Wrapper
 	{
 		event AuthCredentialsEventHandler AuthCredentialsRequired;
 		event BeforeBrowseEventHandler BeforeBrowse;
+		event BeforeContextMenuEventHandler BeforeContextMenu;
 		event BeforeDownloadEventHandler BeforeDownload;
 		event BeforeUnloadDialogEventHandler BeforeUnloadDialog;
 		event CanDownloadEventHandler CanDownload;
 		event ContextCreatedEventHandler ContextCreated;
+		event ContextMenuCommandEventHandler ContextMenuCommand;
+		event ContextMenuDismissedEventHandler ContextMenuDismissed;
 		event ContextReleasedEventHandler ContextReleased;
 		event DialogClosedEventHandler DialogClosed;
 		event DownloadUpdatedEventHandler DownloadUpdated;
@@ -41,6 +44,7 @@ namespace SafeExamBrowser.Browser.Wrapper
 		event PreKeyEventHandler PreKeyEvent;
 		event ResetDialogStateEventHandler ResetDialogState;
 		event ResourceRequestEventHandler ResourceRequestHandlerRequired;
+		event RunContextMenuEventHandler RunContextMenu;
 		event SetFocusEventHandler SetFocus;
 		event TakeFocusEventHandler TakeFocus;
 		event UncaughtExceptionEventHandler UncaughtExceptionEvent;
@@ -50,10 +54,13 @@ namespace SafeExamBrowser.Browser.Wrapper
 		void GetResourceRequestHandler(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, bool isNavigation, bool isDownload, string requestInitiator, ref bool disableDefaultHandling, ResourceRequestEventArgs args);
 		void Load(string address);
 		void OnBeforeBrowse(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, bool userGesture, bool isRedirect, GenericEventArgs args);
+		void OnBeforeContextMenu(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model);
 		void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback, GenericEventArgs args);
 		void OnBeforeUnloadDialog(IWebBrowser webBrowser, IBrowser browser, string message, bool isReload, IJsDialogCallback callback, GenericEventArgs args);
 		void OnCanDownload(IWebBrowser webBrowser, IBrowser browser, string url, string requestMethod, GenericEventArgs args);
 		void OnContextCreated(IWebBrowser webBrowser, IBrowser browser, IFrame frame);
+		void OnContextMenuCommand(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags, GenericEventArgs args);
+		void OnContextMenuDismissed(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame);
 		void OnContextReleased(IWebBrowser webBrowser, IBrowser browser, IFrame frame);
 		void OnDialogClosed(IWebBrowser webBrowser, IBrowser browser);
 		void OnDownloadUpdated(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IDownloadItemCallback callback);
@@ -69,6 +76,7 @@ namespace SafeExamBrowser.Browser.Wrapper
 		void OnOpenUrlFromTab(IWebBrowser webBrowser, IBrowser browser, IFrame frame, string targetUrl, WindowOpenDisposition targetDisposition, bool userGesture, GenericEventArgs args);
 		void OnPreKeyEvent(IWebBrowser webBrowser, IBrowser browser, KeyType type, int windowsKeyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey, ref bool isKeyboardShortcut, GenericEventArgs args);
 		void OnResetDialogState(IWebBrowser webBrowser, IBrowser browser);
+		void OnRunContextMenu(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback, GenericEventArgs args);
 		void OnSetFocus(IWebBrowser webBrowser, IBrowser browser, CefFocusSource source, GenericEventArgs args);
 		void OnTakeFocus(IWebBrowser webBrowser, IBrowser browser, bool next);
 		void OnUncaughtException(IWebBrowser webBrowser, IBrowser browser, IFrame frame, JavascriptException exception);

@@ -157,6 +157,7 @@ namespace SafeExamBrowser.Browser
 		{
 			var cefSharpControl = default(ICefSharpControl);
 			var controlLogger = logger.CloneFor($"{nameof(BrowserControl)} #{Id}");
+			var contextMenuHandler = new ContextMenuHandler();
 			var dialogHandler = new DialogHandler();
 			var displayHandler = new DisplayHandler();
 			var downloadLogger = logger.CloneFor($"{nameof(DownloadHandler)} #{Id}");
@@ -206,6 +207,7 @@ namespace SafeExamBrowser.Browser
 			Control = new BrowserControl(
 				clipboard,
 				cefSharpControl,
+				contextMenuHandler,
 				dialogHandler,
 				displayHandler,
 				downloadHandler,

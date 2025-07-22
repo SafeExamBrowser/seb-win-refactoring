@@ -18,10 +18,13 @@ namespace SafeExamBrowser.Browser.Wrapper
 	{
 		public event AuthCredentialsEventHandler AuthCredentialsRequired;
 		public event BeforeBrowseEventHandler BeforeBrowse;
+		public event BeforeContextMenuEventHandler BeforeContextMenu;
 		public event BeforeDownloadEventHandler BeforeDownload;
 		public event BeforeUnloadDialogEventHandler BeforeUnloadDialog;
 		public event CanDownloadEventHandler CanDownload;
 		public event ContextCreatedEventHandler ContextCreated;
+		public event ContextMenuCommandEventHandler ContextMenuCommand;
+		public event ContextMenuDismissedEventHandler ContextMenuDismissed;
 		public event ContextReleasedEventHandler ContextReleased;
 		public event DialogClosedEventHandler DialogClosed;
 		public event DownloadUpdatedEventHandler DownloadUpdated;
@@ -38,6 +41,7 @@ namespace SafeExamBrowser.Browser.Wrapper
 		public event PreKeyEventHandler PreKeyEvent;
 		public event ResetDialogStateEventHandler ResetDialogState;
 		public event ResourceRequestEventHandler ResourceRequestHandlerRequired;
+		public event RunContextMenuEventHandler RunContextMenu;
 		public event SetFocusEventHandler SetFocus;
 		public event TakeFocusEventHandler TakeFocus;
 		public event UncaughtExceptionEventHandler UncaughtExceptionEvent;
@@ -70,6 +74,11 @@ namespace SafeExamBrowser.Browser.Wrapper
 			BeforeBrowse?.Invoke(webBrowser, browser, frame, request, userGesture, isRedirect, args);
 		}
 
+		public void OnBeforeContextMenu(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
+		{
+			BeforeContextMenu?.Invoke(webBrowser, browser, frame, parameters, model);
+		}
+
 		public void OnBeforeDownload(IWebBrowser webBrowser, IBrowser browser, DownloadItem downloadItem, IBeforeDownloadCallback callback, GenericEventArgs args)
 		{
 			BeforeDownload?.Invoke(webBrowser, browser, downloadItem, callback, args);
@@ -88,6 +97,16 @@ namespace SafeExamBrowser.Browser.Wrapper
 		public void OnContextCreated(IWebBrowser webBrowser, IBrowser browser, IFrame frame)
 		{
 			ContextCreated?.Invoke(webBrowser, browser, frame);
+		}
+
+		public void OnContextMenuCommand(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags, GenericEventArgs args)
+		{
+			ContextMenuCommand?.Invoke(webBrowser, browser, frame, parameters, commandId, eventFlags, args);
+		}
+
+		public void OnContextMenuDismissed(IWebBrowser webBrowser, IBrowser browser, IFrame frame)
+		{
+			ContextMenuDismissed?.Invoke(webBrowser, browser, frame);
 		}
 
 		public void OnContextReleased(IWebBrowser webBrowser, IBrowser browser, IFrame frame)
@@ -163,6 +182,11 @@ namespace SafeExamBrowser.Browser.Wrapper
 		public void OnResetDialogState(IWebBrowser webBrowser, IBrowser browser)
 		{
 			ResetDialogState?.Invoke(webBrowser, browser);
+		}
+
+		public void OnRunContextMenu(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback, GenericEventArgs args)
+		{
+			RunContextMenu?.Invoke(webBrowser, browser, frame, parameters, model, callback, args);
 		}
 
 		public void OnSetFocus(IWebBrowser webBrowser, IBrowser browser, CefFocusSource source, GenericEventArgs args)

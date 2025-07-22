@@ -12,21 +12,21 @@ namespace SafeExamBrowser.Browser.Handlers
 {
 	internal class ContextMenuHandler : IContextMenuHandler
 	{
-		public void OnBeforeContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
+		public void OnBeforeContextMenu(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model)
 		{
 			model.Clear();
 		}
 
-		public bool OnContextMenuCommand(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
+		public bool OnContextMenuCommand(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, CefMenuCommand commandId, CefEventFlags eventFlags)
 		{
 			return false;
 		}
 
-		public void OnContextMenuDismissed(IWebBrowser browserControl, IBrowser browser, IFrame frame)
+		public void OnContextMenuDismissed(IWebBrowser webBrowser, IBrowser browser, IFrame frame)
 		{
 		}
 
-		public bool RunContextMenu(IWebBrowser browserControl, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
+		public bool RunContextMenu(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters, IMenuModel model, IRunContextMenuCallback callback)
 		{
 			return false;
 		}

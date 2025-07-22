@@ -127,10 +127,13 @@
     </Compile>
     <Compile Include="Wrapper\Events\AuthCredentialsEventHandler.cs" />
     <Compile Include="Wrapper\Events\BeforeBrowseEventHandler.cs" />
+    <Compile Include="Wrapper\Events\BeforeContextMenuEventHandler.cs" />
     <Compile Include="Wrapper\Events\BeforeDownloadEventHandler.cs" />
     <Compile Include="Wrapper\Events\BeforeUnloadDialogEventHandler.cs" />
     <Compile Include="Wrapper\Events\CanDownloadEventHandler.cs" />
     <Compile Include="Wrapper\Events\ContextCreatedEventHandler.cs" />
+    <Compile Include="Wrapper\Events\ContextMenuCommandEventHandler.cs" />
+    <Compile Include="Wrapper\Events\ContextMenuDismissedEventHandler.cs" />
     <Compile Include="Wrapper\Events\ContextReleasedEventHandler.cs" />
     <Compile Include="Wrapper\Events\DialogClosedEventHandler.cs" />
     <Compile Include="Wrapper\Events\DownloadUpdatedEventHandler.cs" />
@@ -149,10 +152,12 @@
     <Compile Include="Wrapper\Events\ResetDialogStateEventHandler.cs" />
     <Compile Include="Wrapper\Events\ResourceRequestEventArgs.cs" />
     <Compile Include="Wrapper\Events\ResourceRequestEventHandler.cs" />
+    <Compile Include="Wrapper\Events\RunContextMenuEventHandler.cs" />
     <Compile Include="Wrapper\Events\SetFocusEventHandler.cs" />
     <Compile Include="Wrapper\Events\TakeFocusEventHandler.cs" />
     <Compile Include="Wrapper\Events\UncaughtExceptionEventHandler.cs" />
     <Compile Include="Wrapper\Extensions.cs" />
+    <Compile Include="Wrapper\Handlers\ContextMenuHandlerSwitch.cs" />
     <Compile Include="Wrapper\Handlers\DialogHandlerSwitch.cs" />
     <Compile Include="Wrapper\Handlers\DisplayHandlerSwitch.cs" />
     <Compile Include="Wrapper\Handlers\DownloadHandlerSwitch.cs" />
