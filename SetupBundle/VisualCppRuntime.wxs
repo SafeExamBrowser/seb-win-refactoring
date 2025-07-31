@@ -2,27 +2,27 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
     <Fragment>
         <!-- Must be the same value as the version specified by the RemotePayload -->
-        <Variable Name="VisualCppMinimumVersion" Type="version" Value="14.26.28720.0" />
+        <Variable Name="VisualCppMinimumVersion" Type="version" Value="14.44.35211.0" />
         <util:ProductSearch Variable="VisualCppInstalledVersionX64" UpgradeCode="36F68A90-239C-34DF-B58C-64B30153CE35" Condition="VersionNT64" />
         <util:ProductSearch Variable="VisualCppInstalledVersionX86" UpgradeCode="65E5BD06-6392-3027-8C26-853107D3CF1A" Condition="NOT VersionNT64" />
         <PackageGroup Id="VisualCppRuntime">
-            <ExePackage Name="vc_redist.x64.exe" DisplayName="Microsoft Visual C++ 2015-2019 Redistributable (x64) - 14.26.28720" Cache="no"
+            <ExePackage Name="vc_redist.x64.exe" DisplayName="Microsoft Visual C++ 2015-2022 Redistributable (x64) - 14.44.35211" Cache="no"
                         Compressed="no" PerMachine="yes" Permanent="yes" Vital="yes" DetectCondition="VisualCppInstalledVersionX64 >= VisualCppMinimumVersion"
-                        DownloadUrl="https://download.visualstudio.microsoft.com/download/pr/d60aa805-26e9-47df-b4e3-cd6fcc392333/7D7105C52FCD6766BEEE1AE162AA81E278686122C1E44890712326634D0B055E/VC_redist.x64.exe" InstallCondition="VersionNT64"
-                        InstallCommand="/install /quiet /norestart" RepairCommand="/repair /quiet /norestart" UninstallCommand="/uninstall /quiet /norestart" >
+                        DownloadUrl="https://download.visualstudio.microsoft.com/download/pr/7ebf5fdb-36dc-4145-b0a0-90d3d5990a61/CC0FF0EB1DC3F5188AE6300FAEF32BF5BEEBA4BDD6E8E445A9184072096B713B/VC_redist.x64.exe"
+                        InstallCondition="VersionNT64" InstallCommand="/install /quiet /norestart" RepairCommand="/repair /quiet /norestart" UninstallCommand="/uninstall /quiet /norestart" >
                 <!-- Must be generated with the following command: "heat payload vc_redist.x64.exe -out vc_redist.x64.wxs" -->
-                <RemotePayload CertificatePublicKey="6ADD0C9D1AC70DA3668644B1C78884E82E3F3457" CertificateThumbprint="711AF71DC4C4952C8ED65BB4BA06826ED3922A32"
-                               Description="Microsoft Visual C++ 2015-2019 Redistributable (x64) - 14.26.28720" Hash="837A49F9EAACDA7C077A8BBEA149A52D766B81C0"
-                               ProductName="Microsoft Visual C++ 2015-2019 Redistributable (x64) - 14.26.28720" Size="14974616" Version="14.26.28720.3" />
+                <RemotePayload CertificatePublicKey="E1A12544F24B4CA968F37C3B8BDB839F65EE010A" CertificateThumbprint="8F985BE8FD256085C90A95D3C74580511A1DB975"
+                               Description="Microsoft Visual C++ 2015-2022 Redistributable (x64) - 14.44.35211" Hash="21CE0EE54BFF57F69FAFA741025BF2F15B356405"
+                               ProductName="Microsoft Visual C++ 2015-2022 Redistributable (x64) - 14.44.35211" Size="25635768" Version="14.44.35211.0" />
             </ExePackage>
-            <ExePackage Name="vc_redist.x86.exe" DisplayName="Microsoft Visual C++ 2015-2019 Redistributable (x86) - 14.26.28720" Cache="no"
+            <ExePackage Name="vc_redist.x86.exe" DisplayName="Microsoft Visual C++ 2015-2022 Redistributable (x86) - 14.44.35211" Cache="no"
                         Compressed="no" PerMachine="yes" Permanent="yes" Vital="yes" DetectCondition="VisualCppInstalledVersionX86 >= VisualCppMinimumVersion"
-                        DownloadUrl="https://download.visualstudio.microsoft.com/download/pr/d60aa805-26e9-47df-b4e3-cd6fcc392333/A06AAC66734A618AB33C1522920654DDFC44FC13CAFAA0F0AB85B199C3D51DC0/VC_redist.x86.exe" InstallCondition="NOT VersionNT64"
-                        InstallCommand="/install /quiet /norestart" RepairCommand="/repair /quiet /norestart" UninstallCommand="/uninstall /quiet /norestart">
+                        DownloadUrl="https://download.visualstudio.microsoft.com/download/pr/7ebf5fdb-36dc-4145-b0a0-90d3d5990a61/0C09F2611660441084CE0DF425C51C11E147E6447963C3690F97E0B25C55ED64/VC_redist.x86.exe"
+                        InstallCondition="NOT VersionNT64" InstallCommand="/install /quiet /norestart" RepairCommand="/repair /quiet /norestart" UninstallCommand="/uninstall /quiet /norestart">
                 <!-- Must be generated with the following command: "heat payload vc_redist.x86.exe -out vc_redist.x86.wxs" -->
-                <RemotePayload CertificatePublicKey="6ADD0C9D1AC70DA3668644B1C78884E82E3F3457" CertificateThumbprint="711AF71DC4C4952C8ED65BB4BA06826ED3922A32"
-                               Description="Microsoft Visual C++ 2015-2019 Redistributable (x86) - 14.26.28720" Hash="F722332172A4CF18CAB23ADC81EEAEF61E5C9B35"
-                               ProductName="Microsoft Visual C++ 2015-2019 Redistributable (x86) - 14.26.28720" Size="14413048" Version="14.26.28720.3" />
+                <RemotePayload CertificatePublicKey="233D5DBCF22E99F84BE4CE6D3F902D4A930D3653" CertificateThumbprint="245D262748012A4FE6CE8BA6C951A4C4AFBC3E5D"
+                               Description="Microsoft Visual C++ 2015-2022 Redistributable (x86) - 14.44.35211" Hash="C2743FFC36D2AF40ADE0E370BE52D6B202874114"
+                               ProductName="Microsoft Visual C++ 2015-2022 Redistributable (x86) - 14.44.35211" Size="13953392" Version="14.44.35211.0" />
             </ExePackage>
         </PackageGroup>
     </Fragment>
