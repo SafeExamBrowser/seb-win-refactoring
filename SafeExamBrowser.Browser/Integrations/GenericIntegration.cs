@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Browser.Integrations
 			if (HasChanged(id))
 			{
 				userIdentifier = id;
-				logger.Info("User identifier detected by header of response.");
+				logger.Info($"User identifier '{id}' detected by header of response.");
 			}
 
 			return userIdentifier != default;

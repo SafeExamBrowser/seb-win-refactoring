@@ -59,7 +59,7 @@ namespace SafeExamBrowser.Browser.Integrations
 			if (hasId && HasChanged(id))
 			{
 				userIdentifier = id;
-				logger.Info($"User identifier detected by request on cookie traversal ({type}).");
+				logger.Info($"User identifier '{id}' detected by request on cookie traversal ({type}).");
 			}
 
 			return userIdentifier != default;
@@ -75,7 +75,7 @@ namespace SafeExamBrowser.Browser.Integrations
 			if (TryParseLocation(location, out var id) && HasChanged(id))
 			{
 				userIdentifier = id;
-				logger.Info("User identifier detected by location header of response.");
+				logger.Info($"User identifier '{id}' detected by location header of response.");
 			}
 
 			return userIdentifier != default;
@@ -95,7 +95,7 @@ namespace SafeExamBrowser.Browser.Integrations
 			if (hasId && HasChanged(id))
 			{
 				userIdentifier = id;
-				logger.Info($"User identifier detected by request on response ({type}).");
+				logger.Info($"User identifier '{id}' detected by request on response ({type}).");
 			}
 
 			return userIdentifier != default;

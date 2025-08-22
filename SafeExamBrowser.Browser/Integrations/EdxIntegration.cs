@@ -41,7 +41,7 @@ namespace SafeExamBrowser.Browser.Integrations
 			if (TryParseCookie(userInfo, out var id) && HasChanged(id))
 			{
 				userIdentifier = id;
-				logger.Info("User identifier detected by session cookie on response.");
+				logger.Info($"User identifier '{id}' detected by session cookie on response.");
 			}
 
 			return userIdentifier != default;
