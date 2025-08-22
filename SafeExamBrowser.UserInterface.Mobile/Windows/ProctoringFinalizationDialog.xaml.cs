@@ -20,6 +20,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 {
 	public partial class ProctoringFinalizationDialog : Window, IProctoringFinalizationDialog
 	{
+		private readonly bool requiresPassword;
 		private readonly IText text;
 
 		private WindowClosedEventHandler closed;
@@ -42,8 +43,9 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			remove { closing -= value; }
 		}
 
-		public ProctoringFinalizationDialog(IText text)
+		public ProctoringFinalizationDialog(bool requiresPassword, IText text)
 		{
+			this.requiresPassword = requiresPassword;
 			this.text = text;
 
 			InitializeComponent();
@@ -96,12 +98,16 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			Button.Click += Button_Click;
 			Button.Content = text.Get(TextKey.ProctoringFinalizationDialog_Abort);
 
-			PasswordPanel.Visibility = Visibility.Visible;
-			PasswordLabel.Text = text.Get(TextKey.ProctoringFinalizationDialog_PasswordMessage);
-			Password.KeyDown += Password_KeyDown;
-			Password.Focus();
+			if (requiresPassword)
+			{
+				PasswordPanel.Visibility = Visibility.Visible;
+				PasswordLabel.Text = text.Get(TextKey.ProctoringFinalizationDialog_PasswordMessage);
+				Password.KeyDown += Password_KeyDown;
+				Password.Focus();
 
-			Height += PasswordPanel.ActualHeight + PasswordPanel.Margin.Top + PasswordPanel.Margin.Bottom;
+				Height += PasswordPanel.ActualHeight + PasswordPanel.Margin.Top + PasswordPanel.Margin.Bottom;
+			}
+
 			initialized = true;
 		}
 

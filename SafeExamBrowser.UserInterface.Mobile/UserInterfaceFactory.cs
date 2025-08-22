@@ -125,9 +125,9 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			return controlFactory.CreatePowerSupplyControl(powerSupply, location);
 		}
 
-		public IProctoringFinalizationDialog CreateProctoringFinalizationDialog()
+		public IProctoringFinalizationDialog CreateProctoringFinalizationDialog(bool requiresPassword)
 		{
-			return windowFactory.CreateProctoringFinalizationDialog();
+			return windowFactory.CreateProctoringFinalizationDialog(requiresPassword);
 		}
 
 		public IProctoringWindow CreateProctoringWindow(IProctoringControl control)

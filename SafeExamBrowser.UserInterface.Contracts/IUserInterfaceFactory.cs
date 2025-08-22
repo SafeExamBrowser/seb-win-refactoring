@@ -112,7 +112,7 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// <summary>
 		/// Creates a new dialog to display the status of the proctoring finalization.
 		/// </summary>
-		IProctoringFinalizationDialog CreateProctoringFinalizationDialog();
+		IProctoringFinalizationDialog CreateProctoringFinalizationDialog(bool requiresPassword);
 
 		/// <summary>
 		/// Creates a new proctoring window loaded with the given proctoring control.

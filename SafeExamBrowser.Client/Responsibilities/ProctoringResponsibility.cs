@@ -49,7 +49,7 @@ namespace SafeExamBrowser.Client.Responsibilities
 		{
 			if (Proctoring != default && Proctoring.HasRemainingWork())
 			{
-				var dialog = uiFactory.CreateProctoringFinalizationDialog();
+				var dialog = uiFactory.CreateProctoringFinalizationDialog(!Context.QuitPasswordValidated);
 				var handler = new RemainingWorkUpdatedEventHandler((args) => Proctoring_RemainingWorkUpdated(dialog, args));
 
 				dialog.CancellationRequested += new CancellationRequestedEventHandler(() => Dialog_CancellationRequested(dialog));
@@ -67,10 +67,12 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 		private void Dialog_CancellationRequested(IProctoringFinalizationDialog dialog)
 		{
-			if (IsValidQuitPassword(dialog.QuitPassword))
+			var alreadyValidated = Context.QuitPasswordValidated;
+
+			if (alreadyValidated || IsValidQuitPassword(dialog.QuitPassword))
 			{
 				cancel = true;
-				Logger.Info("The user entered the correct quit password, cancelling remaining work...");
+				Logger.Info($"The user {(alreadyValidated ? "already " : "")}entered the correct quit password, cancelling remaining work...");
 			}
 			else
 			{

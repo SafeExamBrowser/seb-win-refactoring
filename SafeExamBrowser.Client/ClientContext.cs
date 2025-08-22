@@ -83,6 +83,11 @@ namespace SafeExamBrowser.Client
 		internal IProctoringController Proctoring { get; set; }
 
 		/// <summary>
+		/// Indicates that the user already provided the correct quit password.
+		/// </summary>
+		internal bool QuitPasswordValidated { get; set; }
+
+		/// <summary>
 		/// The client responsibilities.
 		/// </summary>
 		internal IResponsibilityCollection<ClientTask> Responsibilities { get; set; }

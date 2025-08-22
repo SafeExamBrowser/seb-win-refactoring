@@ -100,9 +100,9 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			return Application.Current.Dispatcher.Invoke(() => Guard(new PasswordDialog(text.Get(message), text.Get(title), text)));
 		}
 
-		internal IProctoringFinalizationDialog CreateProctoringFinalizationDialog()
+		internal IProctoringFinalizationDialog CreateProctoringFinalizationDialog(bool requiresPassword)
 		{
-			return Application.Current.Dispatcher.Invoke(() => Guard(new ProctoringFinalizationDialog(text)));
+			return Application.Current.Dispatcher.Invoke(() => Guard(new ProctoringFinalizationDialog(requiresPassword, text)));
 		}
 
 		internal IProctoringWindow CreateProctoringWindow(IProctoringControl control)

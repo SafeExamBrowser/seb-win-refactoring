@@ -46,6 +46,11 @@ namespace SafeExamBrowser.Client.Responsibilities
 			var expected = Settings.Security.QuitPasswordHash;
 			var valid = expected.Equals(actual, StringComparison.OrdinalIgnoreCase);
 
+			if (valid)
+			{
+				Context.QuitPasswordValidated = true;
+			}
+
 			return valid;
 		}
 
