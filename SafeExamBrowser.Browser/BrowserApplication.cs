@@ -222,6 +222,7 @@ namespace SafeExamBrowser.Browser
 		private void DeleteCookies()
 		{
 			var callback = new TaskDeleteCookiesCallback();
+			var cookieManager = Cef.GetGlobalCookieManager();
 
 			callback.Task.ContinueWith(task =>
 			{
@@ -235,7 +236,7 @@ namespace SafeExamBrowser.Browser
 				}
 			});
 
-			if (Cef.GetGlobalCookieManager().DeleteCookies(callback: callback))
+			if (cookieManager != default && cookieManager.DeleteCookies(callback: callback))
 			{
 				logger.Debug("Successfully initiated cookie deletion.");
 			}
