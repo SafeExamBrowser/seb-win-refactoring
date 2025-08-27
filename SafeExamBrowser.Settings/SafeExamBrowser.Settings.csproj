@@ -80,6 +80,7 @@
     <Compile Include="Proctoring\ScreenProctoringSettings.cs" />
     <Compile Include="Security\ClipboardPolicy.cs" />
     <Compile Include="Security\VersionRestriction.cs" />
+    <Compile Include="Server\InvigilationSettings.cs" />
     <Compile Include="SessionMode.cs" />
     <Compile Include="Security\KioskMode.cs" />
     <Compile Include="Logging\LogLevel.cs" />

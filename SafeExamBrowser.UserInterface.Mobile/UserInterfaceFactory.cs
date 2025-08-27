@@ -135,7 +135,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			return windowFactory.CreateProctoringWindow(control);
 		}
 
-		public INotificationControl CreateRaiseHandControl(IInvigilator invigilator, Location location, ServerSettings settings)
+		public INotificationControl CreateRaiseHandControl(IInvigilator invigilator, Location location, InvigilationSettings settings)
 		{
 			return controlFactory.CreateRaiseHandControl(invigilator, location, settings);
 		}

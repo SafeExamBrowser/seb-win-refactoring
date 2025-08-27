@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Server
 		private readonly ILogger logger;
 		private readonly IServerProxy server;
 
-		private ServerSettings settings;
+		private InvigilationSettings settings;
 
 		public bool IsHandRaised { get; private set; }
 
@@ -31,7 +31,7 @@ namespace SafeExamBrowser.Server
 			this.server = server;
 		}
 
-		public void Initialize(ServerSettings settings)
+		public void Initialize(InvigilationSettings settings)
 		{
 			var raiseHand = $"Raise hand {(settings.ShowRaiseHandNotification ? "enabled" : "disabled")}";
 			var message = $"message {(settings.ForceRaiseHandMessage ? "forced" : "optional")}";

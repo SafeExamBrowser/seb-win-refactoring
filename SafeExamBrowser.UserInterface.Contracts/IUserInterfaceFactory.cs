@@ -122,7 +122,7 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// <summary>
 		/// Creates a new notification control for the raise hand functionality of a server session.
 		/// </summary>
-		INotificationControl CreateRaiseHandControl(IInvigilator invigilator, Location location, ServerSettings settings);
+		INotificationControl CreateRaiseHandControl(IInvigilator invigilator, Location location, InvigilationSettings settings);
 
 		/// <summary>
 		/// Creates a new runtime window which runs on its own thread.

@@ -60,12 +60,12 @@ namespace SafeExamBrowser.Client.Operations
 					Context.Settings.Server);
 				server.StartConnectivity();
 
-				if (Context.Settings.Server.ShowRaiseHandNotification)
+				if (Context.Settings.Server.Invigilation.ShowRaiseHandNotification)
 				{
-					invigilator.Initialize(Context.Settings.Server);
+					invigilator.Initialize(Context.Settings.Server.Invigilation);
 
-					actionCenter.AddNotificationControl(uiFactory.CreateRaiseHandControl(invigilator, Location.ActionCenter, Context.Settings.Server));
-					taskbar.AddNotificationControl(uiFactory.CreateRaiseHandControl(invigilator, Location.Taskbar, Context.Settings.Server));
+					actionCenter.AddNotificationControl(uiFactory.CreateRaiseHandControl(invigilator, Location.ActionCenter, Context.Settings.Server.Invigilation));
+					taskbar.AddNotificationControl(uiFactory.CreateRaiseHandControl(invigilator, Location.Taskbar, Context.Settings.Server.Invigilation));
 				}
 			}
 

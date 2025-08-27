@@ -266,13 +266,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Security.VerifySessionIntegrity = true;
 			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Deny;
 
-			settings.Server.ForceRaiseHandMessage = false;
+			settings.Server.Invigilation.ForceRaiseHandMessage = false;
+			settings.Server.Invigilation.ShowRaiseHandNotification = true;
 			settings.Server.PerformFallback = false;
 			settings.Server.PingInterval = 1000;
 			settings.Server.RequestAttemptInterval = 2000;
 			settings.Server.RequestAttempts = 5;
 			settings.Server.RequestTimeout = 30000;
-			settings.Server.ShowRaiseHandNotification = true;
 
 			settings.Service.DisableChromeNotifications = true;
 			settings.Service.DisableEaseOfAccessOptions = true;

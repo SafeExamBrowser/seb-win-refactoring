@@ -100,7 +100,7 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			}
 		}
 
-		internal INotificationControl CreateRaiseHandControl(IInvigilator invigilator, Location location, ServerSettings settings)
+		internal INotificationControl CreateRaiseHandControl(IInvigilator invigilator, Location location, InvigilationSettings settings)
 		{
 			if (location == Location.ActionCenter)
 			{

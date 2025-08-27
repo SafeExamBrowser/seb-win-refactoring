@@ -25,13 +25,13 @@ namespace SafeExamBrowser.UserInterface.Mobile.Controls.ActionCenter
 	public partial class RaiseHandControl : UserControl, INotificationControl
 	{
 		private readonly IInvigilator invigilator;
-		private readonly ServerSettings settings;
+		private readonly InvigilationSettings settings;
 		private readonly IText text;
 
 		private IconResource LoweredIcon;
 		private IconResource RaisedIcon;
 
-		public RaiseHandControl(IInvigilator invigilator, ServerSettings settings, IText text)
+		public RaiseHandControl(IInvigilator invigilator, InvigilationSettings settings, IText text)
 		{
 			this.invigilator = invigilator;
 			this.settings = settings;

@@ -95,7 +95,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool force)
 			{
-				settings.Server.ForceRaiseHandMessage = force;
+				settings.Server.Invigilation.ForceRaiseHandMessage = force;
 			}
 		}
 
@@ -143,7 +143,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is bool show)
 			{
-				settings.Server.ShowRaiseHandNotification = show;
+				settings.Server.Invigilation.ShowRaiseHandNotification = show;
 			}
 		}
 	}

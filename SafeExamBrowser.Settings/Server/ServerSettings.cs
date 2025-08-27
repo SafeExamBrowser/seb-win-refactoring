@@ -42,14 +42,14 @@ namespace SafeExamBrowser.Settings.Server
 		public string FallbackPasswordHash { get; set; }
 
 		/// <summary>
-		/// Determines whether the message input for the raise hand notification will be forced.
-		/// </summary>
-		public bool ForceRaiseHandMessage { get; set; }
-
-		/// <summary>
 		/// The institution to be used for identification with the server.
 		/// </summary>
 		public string Institution { get; set; }
+
+		/// <summary>
+		/// The invigilation-related settings.
+		/// </summary>
+		public InvigilationSettings Invigilation { get; set; }
 
 		/// <summary>
 		/// Indicates whether SEB will fallback to the start URL in case no connection could be established with the server.
@@ -81,9 +81,9 @@ namespace SafeExamBrowser.Settings.Server
 		/// </summary>
 		public string ServerUrl { get; set; }
 
-		/// <summary>
-		/// Determines whether the raise hand notification will be shown in the shell.
-		/// </summary>
-		public bool ShowRaiseHandNotification { get; set; }
+		public ServerSettings()
+		{
+			Invigilation = new InvigilationSettings();
+		}
 	}
 }

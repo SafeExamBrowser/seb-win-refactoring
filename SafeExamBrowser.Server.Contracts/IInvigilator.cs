@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Server.Contracts
 		/// <summary>
 		/// Initializes the invigilation functionality according to the given settings.
 		/// </summary>
-		void Initialize(ServerSettings settings);
+		void Initialize(InvigilationSettings settings);
 
 		/// <summary>
 		/// Lowers the hand.
