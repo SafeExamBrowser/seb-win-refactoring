@@ -1007,7 +1007,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableLogging, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowApplicationLog, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyShowApplicationLogButton, false);
-			SEBSettings.settingsDefault.Add(SEBSettings.KeyLogDirectoryOSX, "~/Documents");
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyLogDirectoryOSX, "");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyLogDirectoryWin, "");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAllowWLAN, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyLockOnMessageSocketClose, true);
