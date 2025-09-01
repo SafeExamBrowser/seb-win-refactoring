@@ -34,7 +34,7 @@ namespace SafeExamBrowser.Server
 		public void Initialize(InvigilationSettings settings)
 		{
 			var raiseHand = $"Raise hand {(settings.ShowRaiseHandNotification ? "enabled" : "disabled")}";
-			var message = $"message {(settings.ForceRaiseHandMessage ? "forced" : "optional")}";
+			var message = $"message {(settings.ForceRaiseHandMessage ? "required" : "disabled")}";
 
 			this.settings = settings;
 			server.HandConfirmed += Server_HandConfirmed;
