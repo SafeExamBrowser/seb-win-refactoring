@@ -187,7 +187,7 @@ namespace SafeExamBrowser.Server
 					list.Add(new Exam
 					{
 						Id = exam["examId"].Value<string>(),
-						LmsName = exam["lmsType"].Value<string>(),
+						LmsName = exam["lmsType"]?.Value<string>(),
 						Name = exam["name"].Value<string>(),
 						Url = exam["url"].Value<string>()
 					});
