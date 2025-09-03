@@ -51,17 +51,15 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters.Rules
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void MustNotAllowUndefinedExpression()
 		{
-			sut.Initialize(new FilterRuleSettings());
+			Assert.ThrowsExactly<ArgumentNullException>(() => sut.Initialize(new FilterRuleSettings()));
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentException))]
 		public void MustValidateExpression()
 		{
-			sut.Initialize(new FilterRuleSettings { Expression = "ç+\"}%&*/(+)=?{=*+¦]@#°§]`?´^¨'°[¬|¢" });
+			Assert.ThrowsExactly<ArgumentException>(() => sut.Initialize(new FilterRuleSettings { Expression = "ç+\"}%&*/(+)=?{=*+¦]@#°§]`?´^¨'°[¬|¢" }));
 		}
 	}
 }

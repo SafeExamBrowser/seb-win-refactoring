@@ -149,10 +149,9 @@ namespace SafeExamBrowser.Lockdown.UnitTests
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentException))]
 		public void MustValidateTimeout()
 		{
-			new AutoRestoreMechanism(backup.Object, logger.Object, systemConfigurationUpdate.Object, new Random().Next(int.MinValue, -1));
+			Assert.ThrowsExactly<ArgumentException>(() => new AutoRestoreMechanism(backup.Object, logger.Object, systemConfigurationUpdate.Object, new Random().Next(int.MinValue, -1)));
 		}
 	}
 }

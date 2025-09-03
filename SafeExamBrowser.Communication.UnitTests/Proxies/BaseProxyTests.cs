@@ -171,14 +171,12 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(InvalidOperationException))]
 		public void MustFailToSendIfNotConnected()
 		{
-			sut.Send(new Mock<Message>().Object);
+			Assert.ThrowsExactly<InvalidOperationException>(() => sut.Send(new Mock<Message>().Object));
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(InvalidOperationException))]
 		public void MustFailToSendIfChannelNotOpen()
 		{
 			var proxy = new Mock<IProxyObject>();
@@ -195,14 +193,14 @@ namespace SafeExamBrowser.Communication.UnitTests.Proxies
 			var token = Guid.NewGuid();
 
 			sut.Connect(token);
-			sut.Send(new Mock<Message>().Object);
+
+			Assert.ThrowsExactly<InvalidOperationException>(() => sut.Send(new Mock<Message>().Object));
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void MustNotAllowSendingNull()
 		{
-			sut.Send(null);
+			Assert.ThrowsExactly<ArgumentNullException>(() => sut.Send(null));
 		}
 
 		[TestMethod]

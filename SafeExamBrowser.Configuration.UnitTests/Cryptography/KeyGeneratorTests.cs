@@ -36,17 +36,15 @@ namespace SafeExamBrowser.Configuration.UnitTests.Cryptography
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
 		public void CalculateBrowserExamKeyHash_MustFailWithoutUrl()
 		{
-			sut.CalculateBrowserExamKeyHash(default, default, default);
+			Assert.Throws<Exception>(() => sut.CalculateBrowserExamKeyHash(default, default, default));
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
 		public void CalculateConfigurationKeyHash_MustFailWithoutUrl()
 		{
-			sut.CalculateConfigurationKeyHash(default, default);
+			Assert.Throws<Exception>(() => sut.CalculateConfigurationKeyHash(default, default));
 		}
 
 		[TestMethod]

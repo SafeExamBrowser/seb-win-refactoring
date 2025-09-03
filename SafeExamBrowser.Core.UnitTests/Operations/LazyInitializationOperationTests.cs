@@ -36,8 +36,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 				initialized = true;
 
 				return operationMock.Object;
-			}
-			;
+			};
 
 			var sut = new LazyInitializationOperation(initialize);
 
@@ -47,18 +46,16 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(NullReferenceException))]
 		public void MustNotInstantiateOperationOnRevert()
 		{
 			IOperation initialize()
 			{
 				return operationMock.Object;
-			}
-			;
+			};
 
 			var sut = new LazyInitializationOperation(initialize);
 
-			sut.Revert();
+			Assert.ThrowsExactly<NullReferenceException>(() => sut.Revert());
 		}
 
 		[TestMethod]
@@ -67,8 +64,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 			IOperation initialize()
 			{
 				return operationMock.Object;
-			}
-			;
+			};
 
 			operationMock.Setup(o => o.Perform()).Returns(OperationResult.Success);
 			operationMock.Setup(o => o.Revert()).Returns(OperationResult.Failed);
@@ -87,8 +83,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 			IOperation initialize()
 			{
 				return operationMock.Object;
-			}
-			;
+			};
 
 			var statusChanged = 0;
 			var statusChangedHandler = new StatusChangedEventHandler(t => statusChanged++);
@@ -130,8 +125,7 @@ namespace SafeExamBrowser.Core.UnitTests.Operations
 				}
 
 				return new Mock<IOperation>().Object;
-			}
-			;
+			};
 
 			var sut = new LazyInitializationOperation(initialize);
 

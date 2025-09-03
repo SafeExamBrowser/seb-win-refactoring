@@ -51,10 +51,9 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters.Rules
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void MustNotAllowUndefinedExpression()
 		{
-			sut.Initialize(new FilterRuleSettings());
+			Assert.ThrowsExactly<ArgumentNullException>(() => sut.Initialize(new FilterRuleSettings()));
 		}
 
 		[TestMethod]
@@ -73,7 +72,7 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters.Rules
 
 			foreach (var expression in invalid)
 			{
-				Assert.ThrowsException<ArgumentException>(() => sut.Initialize(new FilterRuleSettings { Expression = expression }));
+				Assert.ThrowsExactly<ArgumentException>(() => sut.Initialize(new FilterRuleSettings { Expression = expression }));
 			}
 		}
 

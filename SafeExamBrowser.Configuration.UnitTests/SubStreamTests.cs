@@ -132,56 +132,49 @@ namespace SafeExamBrowser.Configuration.UnitTests
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentException))]
 		public void MustNotAllowNonReadableStream()
 		{
 			stream.SetupGet(s => s.CanRead).Returns(false);
 
-			new SubStream(stream.Object, 0, 0);
+			Assert.ThrowsExactly<ArgumentException>(() => new SubStream(stream.Object, 0, 0));
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentException))]
 		public void MustNotAllowNonSeekableStream()
 		{
 			stream.SetupGet(s => s.CanSeek).Returns(false);
 
-			new SubStream(stream.Object, 0, 0);
+			Assert.ThrowsExactly<ArgumentException>(() => new SubStream(stream.Object, 0, 0));
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentOutOfRangeException))]
 		public void MustNotAllowOffsetSmallerThanZero()
 		{
-			new SubStream(stream.Object, -1, 100);
+			Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new SubStream(stream.Object, -1, 100));
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentOutOfRangeException))]
 		public void MustNotAllowLengthSmallerThanOne()
 		{
-			new SubStream(stream.Object, 100, 0);
+			Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => new SubStream(stream.Object, 100, 0));
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(NotSupportedException))]
 		public void MustNotSupportFlushing()
 		{
-			new SubStream(stream.Object, 100, 100).Flush();
+			Assert.ThrowsExactly<NotSupportedException>(() => new SubStream(stream.Object, 100, 100).Flush());
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(NotSupportedException))]
 		public void MustNotSupportChangingLength()
 		{
-			new SubStream(stream.Object, 100, 100).SetLength(100);
+			Assert.ThrowsExactly<NotSupportedException>(() => new SubStream(stream.Object, 100, 100).SetLength(100));
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(NotSupportedException))]
 		public void MustNotSupportWriting()
 		{
-			new SubStream(stream.Object, 100, 100).Write(new byte[0], 0, 0);
+			Assert.ThrowsExactly<NotSupportedException>(() => new SubStream(stream.Object, 100, 100).Write(new byte[0], 0, 0));
 		}
 	}
 }

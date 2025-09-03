@@ -102,13 +102,13 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(NotImplementedException))]
 		public void MustNotAllowUnsupportedResult()
 		{
 			var rule = new Mock<IRule>();
 
 			rule.SetupGet(r => r.Result).Returns((FilterResult) (-1));
-			sut.Load(rule.Object);
+
+			Assert.ThrowsExactly<NotImplementedException>(() => sut.Load(rule.Object));
 		}
 	}
 }

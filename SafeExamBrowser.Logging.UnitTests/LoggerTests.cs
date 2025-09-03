@@ -39,23 +39,23 @@ namespace SafeExamBrowser.Logging.UnitTests
 
 			var log = sut.GetLog();
 
-			Assert.IsTrue(log.Count == 7);
+			Assert.HasCount(7, log);
 
 			Assert.IsTrue(debug.Equals((log[0] as ILogMessage).Message));
-			Assert.IsTrue((log[0] as ILogMessage).Severity == LogLevel.Debug);
+			Assert.AreEqual(LogLevel.Debug, (log[0] as ILogMessage).Severity);
 
 			Assert.IsTrue(info.Equals((log[1] as ILogMessage).Message));
-			Assert.IsTrue((log[1] as ILogMessage).Severity == LogLevel.Info);
+			Assert.AreEqual(LogLevel.Info, (log[1] as ILogMessage).Severity);
 
 			Assert.IsTrue(warn.Equals((log[2] as ILogMessage).Message));
-			Assert.IsTrue((log[2] as ILogMessage).Severity == LogLevel.Warning);
+			Assert.AreEqual(LogLevel.Warning, (log[2] as ILogMessage).Severity);
 
 			Assert.IsTrue(error.Equals((log[3] as ILogMessage).Message));
-			Assert.IsTrue((log[3] as ILogMessage).Severity == LogLevel.Error);
+			Assert.AreEqual(LogLevel.Error, (log[3] as ILogMessage).Severity);
 
 			Assert.IsTrue(error.Equals((log[4] as ILogMessage).Message));
-			Assert.IsTrue((log[4] as ILogMessage).Severity == LogLevel.Error);
-			Assert.IsTrue((log[5] as ILogText).Text.Contains(exceptionMessage));
+			Assert.AreEqual(LogLevel.Error, (log[4] as ILogMessage).Severity);
+			Assert.Contains(exceptionMessage, (log[5] as ILogText).Text);
 
 			Assert.IsTrue(message.Equals((log[6] as ILogText).Text));
 		}
@@ -74,10 +74,10 @@ namespace SafeExamBrowser.Logging.UnitTests
 			var log = sut.GetLog();
 			var logText = log[1] as ILogText;
 
-			Assert.AreEqual(2, log.Count);
-			Assert.IsTrue(logText.Text.Contains(outerMessage));
-			Assert.IsTrue(logText.Text.Contains(innerMessage));
-			Assert.IsTrue(logText.Text.Contains(innerInnerMessage));
+			Assert.HasCount(2, log);
+			Assert.Contains(outerMessage, logText.Text);
+			Assert.Contains(innerMessage, logText.Text);
+			Assert.Contains(innerInnerMessage, logText.Text);
 		}
 
 		[TestMethod]
@@ -110,23 +110,22 @@ namespace SafeExamBrowser.Logging.UnitTests
 		{
 			var sut = new Logger();
 
-			Assert.ThrowsException<ArgumentNullException>(() => sut.Debug(null));
-			Assert.ThrowsException<ArgumentNullException>(() => sut.Info(null));
-			Assert.ThrowsException<ArgumentNullException>(() => sut.Warn(null));
-			Assert.ThrowsException<ArgumentNullException>(() => sut.Error(null));
-			Assert.ThrowsException<ArgumentNullException>(() => sut.Error(null, null));
-			Assert.ThrowsException<ArgumentNullException>(() => sut.Error("Hello world!", null));
-			Assert.ThrowsException<ArgumentNullException>(() => sut.Error(null, new Exception()));
-			Assert.ThrowsException<ArgumentNullException>(() => sut.Log((string) null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => sut.Debug(null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => sut.Info(null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => sut.Warn(null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => sut.Error(null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => sut.Error(null, null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => sut.Error("Hello world!", null));
+			Assert.ThrowsExactly<ArgumentNullException>(() => sut.Error(null, new Exception()));
+			Assert.ThrowsExactly<ArgumentNullException>(() => sut.Log((string) null));
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void MustNotAllowNullObserver()
 		{
 			var sut = new Logger();
 
-			sut.Subscribe(null);
+			Assert.ThrowsExactly<ArgumentNullException>(() => sut.Subscribe(null));
 		}
 
 		[TestMethod]
@@ -170,12 +169,12 @@ namespace SafeExamBrowser.Logging.UnitTests
 
 			observer.Verify(o => o.Notify(It.IsAny<ILogContent>()), Times.Exactly(2));
 
-			Assert.IsTrue(messages.Count == 2);
+			Assert.HasCount(2, messages);
 
-			Assert.IsTrue((messages[0] as ILogMessage).Severity == LogLevel.Info);
+			Assert.AreEqual(LogLevel.Info, (messages[0] as ILogMessage).Severity);
 			Assert.IsTrue(message.Equals((messages[0] as ILogMessage).Message));
 
-			Assert.IsTrue((messages[1] as ILogMessage).Severity == LogLevel.Warning);
+			Assert.AreEqual(LogLevel.Warning, (messages[1] as ILogMessage).Severity);
 			Assert.IsTrue(message.Equals((messages[1] as ILogMessage).Message));
 		}
 
@@ -189,7 +188,7 @@ namespace SafeExamBrowser.Logging.UnitTests
 			sut.Info("info");
 			sut.Warn("warn");
 
-			Assert.AreEqual(0, sut.GetLog().Count);
+			Assert.IsEmpty(sut.GetLog());
 
 			sut = new Logger();
 			sut.LogLevel = LogLevel.Warning;
@@ -197,7 +196,7 @@ namespace SafeExamBrowser.Logging.UnitTests
 			sut.Info("info");
 			sut.Warn("warn");
 
-			Assert.AreEqual(1, sut.GetLog().Count);
+			Assert.HasCount(1, sut.GetLog());
 
 			sut = new Logger();
 			sut.LogLevel = LogLevel.Info;
@@ -205,7 +204,7 @@ namespace SafeExamBrowser.Logging.UnitTests
 			sut.Info("info");
 			sut.Warn("warn");
 
-			Assert.AreEqual(2, sut.GetLog().Count);
+			Assert.HasCount(2, sut.GetLog());
 
 			sut = new Logger();
 			sut.LogLevel = LogLevel.Debug;
@@ -213,7 +212,7 @@ namespace SafeExamBrowser.Logging.UnitTests
 			sut.Info("info");
 			sut.Warn("warn");
 
-			Assert.AreEqual(3, sut.GetLog().Count);
+			Assert.HasCount(3, sut.GetLog());
 		}
 
 		[TestMethod]
@@ -233,9 +232,9 @@ namespace SafeExamBrowser.Logging.UnitTests
 
 			observer.Verify(o => o.Notify(It.IsAny<ILogContent>()), Times.Once());
 
-			Assert.IsTrue(messages.Count == 1);
+			Assert.HasCount(1, messages);
 
-			Assert.IsTrue((messages[0] as ILogMessage).Severity == LogLevel.Info);
+			Assert.AreEqual(LogLevel.Info, (messages[0] as ILogMessage).Severity);
 			Assert.IsTrue(message.Equals((messages[0] as ILogMessage).Message));
 		}
 	}

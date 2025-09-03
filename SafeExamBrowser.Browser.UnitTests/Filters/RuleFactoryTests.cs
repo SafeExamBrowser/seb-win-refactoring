@@ -33,10 +33,9 @@ namespace SafeExamBrowser.Browser.UnitTests.Filters
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(NotImplementedException))]
 		public void MustNotAllowUnsupportedFilterType()
 		{
-			sut.CreateRule((FilterRuleType) (-1));
+			Assert.ThrowsExactly<NotImplementedException>(() => sut.CreateRule((FilterRuleType) (-1)));
 		}
 	}
 }

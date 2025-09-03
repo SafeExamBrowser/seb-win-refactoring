@@ -35,7 +35,6 @@ namespace SafeExamBrowser.I18n.UnitTests
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(XmlException))]
 		public void MustFailWithInvalidData()
 		{
 			var location = Assembly.GetAssembly(typeof(XmlTextResourceTests)).Location;
@@ -43,7 +42,7 @@ namespace SafeExamBrowser.I18n.UnitTests
 			var stream = new FileStream(path, FileMode.Open, FileAccess.Read);
 			var sut = new XmlTextResource(stream);
 
-			sut.LoadText();
+			Assert.ThrowsExactly<XmlException>(() => sut.LoadText());
 		}
 
 		[TestMethod]
@@ -75,10 +74,9 @@ namespace SafeExamBrowser.I18n.UnitTests
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentNullException))]
 		public void MustNotAcceptNullAsPath()
 		{
-			new XmlTextResource(null);
+			Assert.ThrowsExactly<ArgumentNullException>(() => new XmlTextResource(null));
 		}
 
 		[TestMethod]

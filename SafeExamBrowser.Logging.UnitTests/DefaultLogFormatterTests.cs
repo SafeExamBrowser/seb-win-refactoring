@@ -16,12 +16,11 @@ namespace SafeExamBrowser.Logging.UnitTests
 	public class DefaultLogFormatterTests
 	{
 		[TestMethod]
-		[ExpectedException(typeof(NotImplementedException))]
 		public void MustReportNotYetImplementedLogContent()
 		{
 			var sut = new DefaultLogFormatter();
 
-			sut.Format(new NewLogContentType());
+			Assert.ThrowsExactly<NotImplementedException>(() => sut.Format(new NewLogContentType()));
 		}
 
 		[TestMethod]

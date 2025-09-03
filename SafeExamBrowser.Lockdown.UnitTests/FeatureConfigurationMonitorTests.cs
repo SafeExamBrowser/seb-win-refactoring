@@ -187,10 +187,9 @@ namespace SafeExamBrowser.Lockdown.UnitTests
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(ArgumentException))]
 		public void MustValidateTimeout()
 		{
-			new FeatureConfigurationMonitor(logger.Object, new Random().Next(int.MinValue, -1));
+			Assert.ThrowsExactly<ArgumentException>(() => new FeatureConfigurationMonitor(logger.Object, new Random().Next(int.MinValue, -1)));
 		}
 	}
 }

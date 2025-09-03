@@ -53,12 +53,11 @@ namespace SafeExamBrowser.Communication.UnitTests.Hosts
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(CommunicationException))]
 		public void MustCorrectlyHandleStartupException()
 		{
 			hostObject.Setup(h => h.Open()).Throws<Exception>();
 
-			sut.Start();
+			Assert.ThrowsExactly<CommunicationException>(() => sut.Start());
 		}
 
 		[TestMethod]
@@ -71,13 +70,12 @@ namespace SafeExamBrowser.Communication.UnitTests.Hosts
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(CommunicationException))]
 		public void MustCorrectlyHandleShutdownException()
 		{
 			hostObject.Setup(h => h.Close()).Throws<Exception>();
-
 			sut.Start();
-			sut.Stop();
+
+			Assert.ThrowsExactly<CommunicationException>(() => sut.Stop());
 		}
 
 		[TestMethod]
