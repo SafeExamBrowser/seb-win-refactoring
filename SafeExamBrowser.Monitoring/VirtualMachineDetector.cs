@@ -8,6 +8,7 @@
 
 using System;
 using System.Linq;
+using System.Management;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
@@ -41,6 +42,19 @@ namespace SafeExamBrowser.Monitoring
 			"PROD_VIRTUAL_DVD"
 		};
 
+		private static readonly string[] SystemHardware =
+		{
+			"CIM_Memory",
+			"CIM_NumericSensor",
+			"CIM_Sensor",
+			"CIM_TemperatureSensor",
+			"CIM_VoltageSensor",
+			"Win32_CacheMemory",
+			"Win32_Fan",
+			"Win32_PerfFormattedData_Counters_ThermalZoneInformation",
+			"Win32_VoltageProbe"
+		};
+
 		private readonly ILogger logger;
 		private readonly IRegistry registry;
 		private readonly ISystemInfo systemInfo;
@@ -56,6 +70,7 @@ namespace SafeExamBrowser.Monitoring
 		{
 			var isVirtualMachine = false;
 
+			isVirtualMachine |= HasNoSystemHardware();
 			isVirtualMachine |= HasVirtualDevice();
 			isVirtualMachine |= HasVirtualMacAddress();
 			isVirtualMachine |= IsVirtualCpu();
@@ -65,6 +80,30 @@ namespace SafeExamBrowser.Monitoring
 			logger.Debug($"Computer '{systemInfo.Name}' appears {(isVirtualMachine ? "" : "not ")}to be a virtual machine.");
 
 			return isVirtualMachine;
+		}
+
+		private bool HasNoSystemHardware()
+		{
+			var hasHardware = false;
+
+			try
+			{
+				foreach (var hardware in SystemHardware)
+				{
+					using (var searcher = new ManagementObjectSearcher($"SELECT * FROM {hardware}"))
+					using (var results = searcher.Get())
+					{
+						hasHardware |= results.Count > 0;
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				hasHardware = false;
+				logger.Error("Failed to query system hardware!", e);
+			}
+
+			return !hasHardware;
 		}
 
 		private bool HasVirtualDevice()
