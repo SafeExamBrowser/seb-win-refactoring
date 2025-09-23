@@ -42,17 +42,17 @@ namespace SafeExamBrowser.Monitoring
 			"PROD_VIRTUAL_DVD"
 		};
 
-		private static readonly string[] SystemHardware =
+		private static readonly (string hardware, bool required)[] SystemHardware =
 		{
-			"CIM_Memory",
-			"CIM_NumericSensor",
-			"CIM_Sensor",
-			"CIM_TemperatureSensor",
-			"CIM_VoltageSensor",
-			"Win32_CacheMemory",
-			"Win32_Fan",
-			"Win32_PerfFormattedData_Counters_ThermalZoneInformation",
-			"Win32_VoltageProbe"
+			("CIM_Memory", false),
+			("CIM_NumericSensor", false),
+			("CIM_Sensor", false),
+			("CIM_TemperatureSensor", false),
+			("CIM_VoltageSensor", false),
+			("Win32_CacheMemory", false),
+			("Win32_Fan", false),
+			("Win32_PerfFormattedData_Counters_ThermalZoneInformation", true),
+			("Win32_VoltageProbe", false)
 		};
 
 		private readonly ILogger logger;
@@ -84,26 +84,37 @@ namespace SafeExamBrowser.Monitoring
 
 		private bool HasNoSystemHardware()
 		{
-			var hasHardware = false;
+			var hasOther = false;
+			var hasRequired = true;
 
 			try
 			{
-				foreach (var hardware in SystemHardware)
+				foreach (var (hardware, required) in SystemHardware)
 				{
 					using (var searcher = new ManagementObjectSearcher($"SELECT * FROM {hardware}"))
 					using (var results = searcher.Get())
 					{
-						hasHardware |= results.Count > 0;
+						var hasResults = results.Count > 0;
+
+						if (required)
+						{
+							hasRequired &= hasResults;
+						}
+						else
+						{
+							hasOther |= hasResults;
+						}
 					}
 				}
 			}
 			catch (Exception e)
 			{
-				hasHardware = false;
+				hasOther = false;
+				hasRequired = false;
 				logger.Error("Failed to query system hardware!", e);
 			}
 
-			return !hasHardware;
+			return !(hasRequired && hasOther);
 		}
 
 		private bool HasVirtualDevice()
