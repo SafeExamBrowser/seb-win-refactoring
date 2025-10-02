@@ -51,7 +51,7 @@ namespace SafeExamBrowser.Monitoring
 			("CIM_VoltageSensor", false),
 			("Win32_CacheMemory", false),
 			("Win32_Fan", false),
-			("Win32_PerfFormattedData_Counters_ThermalZoneInformation", true),
+			("Win32_PerfRawData_Counters_ThermalZoneInformation", true),
 			("Win32_VoltageProbe", false)
 		};
 
