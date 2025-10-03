@@ -28,12 +28,13 @@ using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 
-namespace SafeExamBrowser.Runtime.UnitTests.Operations
+namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 {
 	[TestClass]
 	public class ConfigurationOperationTests
 	{
 		private const string FILE_NAME = "SebClientSettings.seb";
+		private static readonly string FILE_PATH = Path.Combine(Path.GetDirectoryName(typeof(ConfigurationOperationTests).Assembly.Location), nameof(Operations), nameof(Session), "Testdata", FILE_NAME);
 
 		private AppConfig appConfig;
 		private RuntimeContext context;
@@ -84,10 +85,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.Exam };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
-			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), "Testdata", FILE_NAME);
 
-			appConfig.AppDataFilePath = location;
-			appConfig.ProgramDataFilePath = location;
+			appConfig.AppDataFilePath = FILE_PATH;
+			appConfig.ProgramDataFilePath = FILE_PATH;
 
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
@@ -102,33 +102,31 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		[TestMethod]
 		public void Perform_MustUseProgramDataAs2ndPrio()
 		{
-			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), "Testdata", FILE_NAME);
 			var settings = default(AppSettings);
 
-			appConfig.ProgramDataFilePath = location;
+			appConfig.ProgramDataFilePath = FILE_PATH;
 
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
 			var sut = new ConfigurationOperation(null, dependencies, fileSystem.Object, hashAlgorithm.Object, repository.Object, uiFactory.Object);
 			var result = sut.Perform();
 
-			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(location)), out settings, It.IsAny<PasswordParameters>()), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(FILE_PATH)), out settings, It.IsAny<PasswordParameters>()), Times.Once);
 			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]
 		public void Perform_MustUseAppDataAs3rdPrio()
 		{
-			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), "Testdata", FILE_NAME);
 			var settings = default(AppSettings);
 
-			appConfig.AppDataFilePath = location;
+			appConfig.AppDataFilePath = FILE_PATH;
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 
 			var sut = new ConfigurationOperation(null, dependencies, fileSystem.Object, hashAlgorithm.Object, repository.Object, uiFactory.Object);
 			var result = sut.Perform();
 
-			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(location)), out settings, It.IsAny<PasswordParameters>()), Times.Once);
+			repository.Verify(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(FILE_PATH)), out settings, It.IsAny<PasswordParameters>()), Times.Once);
 			Assert.AreEqual(OperationResult.Success, result);
 		}
 
@@ -290,13 +288,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			appConfig.AppDataFilePath = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), "Testdata", FILE_NAME);
+			appConfig.AppDataFilePath =
 			localSettings.Security.AdminPasswordHash = "1234";
 			settings.Security.AdminPasswordHash = "9876";
 			nextSession.Settings = settings;
 
 			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(() => count++).Returns(new PasswordDialogResult { Success = true });
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.PasswordNeeded);
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.LocalPath.Contains(FILE_NAME)), out localSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			uiFactory.Setup(f => f.CreatePasswordDialog(It.IsAny<string>(), It.IsAny<string>())).Returns(dialog.Object);
 
@@ -404,17 +402,16 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		public void Perform_MustUseCurrentPasswordIfAvailable()
 		{
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
-			var location = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), "Testdata", FILE_NAME);
 			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.Exam };
 
-			appConfig.AppDataFilePath = location;
+			appConfig.AppDataFilePath = FILE_PATH;
 			settings.Security.AdminPasswordHash = "1234";
 
 			repository
 				.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>()))
 				.Returns(LoadStatus.PasswordNeeded);
 			repository
-				.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(new Uri(location))), out settings, It.IsAny<PasswordParameters>()))
+				.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(new Uri(FILE_PATH))), out settings, It.IsAny<PasswordParameters>()))
 				.Returns(LoadStatus.Success);
 			repository
 				.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.Is<PasswordParameters>(p => p.IsHash == true && p.Password == settings.Security.AdminPasswordHash)))
@@ -437,7 +434,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var nextSettings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			appConfig.AppDataFilePath = Path.Combine(Path.GetDirectoryName(GetType().Assembly.Location), nameof(Operations), "Testdata", FILE_NAME);
+			appConfig.AppDataFilePath = FILE_PATH;
 			currentSession.Settings = currentSettings;
 			currentSettings.Security.AdminPasswordHash = "1234";
 			nextSession.Settings = nextSettings;
@@ -479,7 +476,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var currentSettings = new AppSettings();
 			var location = Path.GetDirectoryName(GetType().Assembly.Location);
-			var resource = new Uri(Path.Combine(location, nameof(Operations), "Testdata", FILE_NAME));
+			var resource = new Uri(Path.Combine(location, nameof(Operations), nameof(Session), "Testdata", FILE_NAME));
 			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.Exam };
 
 			currentSession.Settings = currentSettings;
@@ -501,7 +498,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var currentSettings = new AppSettings();
 			var location = Path.GetDirectoryName(GetType().Assembly.Location);
-			var resource = new Uri(Path.Combine(location, nameof(Operations), "Testdata", FILE_NAME));
+			var resource = new Uri(Path.Combine(location, nameof(Operations), nameof(Session), "Testdata", FILE_NAME));
 			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
 
 			currentSession.Settings = currentSettings;
@@ -524,7 +521,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 		{
 			var currentSettings = new AppSettings();
 			var location = Path.GetDirectoryName(GetType().Assembly.Location);
-			var resource = new Uri(Path.Combine(location, nameof(Operations), "Testdata", FILE_NAME));
+			var resource = new Uri(Path.Combine(location, nameof(Operations), nameof(Session), "Testdata", FILE_NAME));
 			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
 			var delete = 0;
 			var configure = 0;
@@ -578,7 +575,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var currentSettings = new AppSettings();
 			var dialog = new Mock<IPasswordDialog>();
 			var location = Path.GetDirectoryName(GetType().Assembly.Location);
-			var resource = new Uri(Path.Combine(location, nameof(Operations), "Testdata", FILE_NAME));
+			var resource = new Uri(Path.Combine(location, nameof(Operations), nameof(Session), "Testdata", FILE_NAME));
 			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
 
 			currentSession.Settings = currentSettings;
@@ -601,7 +598,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations
 			var clientProxy = new Mock<IClientProxy>();
 			var currentSettings = new AppSettings();
 			var location = Path.GetDirectoryName(GetType().Assembly.Location);
-			var resource = new Uri(Path.Combine(location, nameof(Operations), "Testdata", FILE_NAME));
+			var resource = new Uri(Path.Combine(location, nameof(Operations), nameof(Session), "Testdata", FILE_NAME));
 			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
 
 			context.ClientProxy = clientProxy.Object;

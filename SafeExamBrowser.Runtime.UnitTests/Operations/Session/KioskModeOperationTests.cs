@@ -21,7 +21,7 @@ using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Windows;
 using SafeExamBrowser.WindowsApi.Contracts;
 
-namespace SafeExamBrowser.Runtime.UnitTests.Operations
+namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 {
 	[TestClass]
 	public class KioskModeOperationTests
