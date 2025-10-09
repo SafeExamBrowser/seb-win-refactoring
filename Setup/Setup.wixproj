@@ -133,29 +133,29 @@ git -C $(SolutionDir) checkout -- Setup/Components/Service.wxs</PostBuildEvent>
     <SignOutput>true</SignOutput>
   </PropertyGroup>
   <Target Name="SignCabs">
-    <Exec Command="signtool sign /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 &quot;%(SignCabs.FullPath)&quot;" />
+    <Exec Command="signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /tr http://timestamp.digicert.com /td sha256 /fd sha256 &quot;%(SignCabs.FullPath)&quot;" />
   </Target>
   <Target Name="SignMsi">
-    <Exec Command="signtool sign /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 /d &quot;Safe Exam Browser&quot; &quot;%(SignMsi.FullPath)&quot;" />
+    <Exec Command="signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /tr http://timestamp.digicert.com /td sha256 /fd sha256 /d &quot;Safe Exam Browser&quot; &quot;%(SignMsi.FullPath)&quot;" />
   </Target>
   <PropertyGroup>
     <PreBuildEvent>setlocal enabledelayedexpansion
 
 set binaries=
 FOR /F %25%25G IN (%27dir "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
-signtool sign /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
+signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
 
 set binaries=
 FOR /F %25%25G IN (%27dir "$(SolutionDir)SebWindowsConfig\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SebWindowsConfig\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
-signtool sign /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
+signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
 
 set binaries=
 FOR /F %25%25G IN (%27dir "$(SolutionDir)SafeExamBrowser.ResetUtility\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SafeExamBrowser.ResetUtility\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
-signtool sign /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
+signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
 
 set binaries=
 FOR /F %25%25G IN (%27dir "$(SolutionDir)SafeExamBrowser.Service\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SafeExamBrowser.Service\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
-signtool sign /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
+signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
 
 "$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ApplicationComponents -dr ApplicationDirectory -sfrag -var var.SafeExamBrowser.Runtime.TargetDir -out $(ProjectDir)Components\Application.wxs -t $(ProjectDir)Components\Application.xslt
 "$(WIX)bin\heat.exe" dir "$(SolutionDir)SebWindowsConfig\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ConfigurationComponents -dr ConfigurationDirectory -sfrag -var var.SebWindowsConfig.TargetDir -out $(ProjectDir)Components\Configuration.wxs -t $(ProjectDir)Components\Configuration.xslt

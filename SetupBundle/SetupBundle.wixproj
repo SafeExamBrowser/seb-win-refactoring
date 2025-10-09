@@ -83,10 +83,10 @@
     <SignOutput>true</SignOutput>
   </PropertyGroup>
   <Target Name="SignBundleEngine">
-    <Exec Command="signtool sign /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 &quot;@(SignBundleEngine)&quot;" />
+    <Exec Command="signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /tr http://timestamp.digicert.com /td sha256 /fd sha256 &quot;@(SignBundleEngine)&quot;" />
   </Target>
   <Target Name="SignBundle">
-    <Exec Command="signtool sign /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 &quot;@(SignBundle)&quot;" />
+    <Exec Command="signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /tr http://timestamp.digicert.com /td sha256 /fd sha256 &quot;@(SignBundle)&quot;" />
   </Target>
   <PropertyGroup>
     <PreBuildEvent>IF NOT EXIST "C:\Temp" (
