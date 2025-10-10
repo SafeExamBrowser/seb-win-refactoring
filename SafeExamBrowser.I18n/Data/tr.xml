@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Text>
+    <Entry key="AboutWindow_LicenseInfo">
+        Bu uygulama, Mozilla Kamu Lisansı sürüm 2.0 şartlarına tabidir. Safe Exam Browser aşağıdaki çerçeveleri ve üçüncü taraf kütüphaneleri kullanır:
+    </Entry>
+    <Entry key="AboutWindow_Title">
+        Sürüm &amp; Lisans Bilgisi
+    </Entry>
+    <Entry key="Browser_BlockedContentMessage">
+        İçerik engellendi
+    </Entry>
+    <Entry key="Browser_BlockedPageButton">
+        Önceki sayfaya dön
+    </Entry>
+    <Entry key="Browser_BlockedPageMessage">
+        Bu sayfaya erişim mevcut yapılandırmaya göre izin verilmemektedir.
+    </Entry>
+    <Entry key="Browser_BlockedPageTitle">
+        Sayfa Engellendi
+    </Entry>
+    <Entry key="Browser_LoadErrorMessage">
+        "%%URL%%" sayfası yüklenirken bir hata oluştu:
+    </Entry>
+    <Entry key="Browser_LoadErrorTitle">
+        Sayfa Yükleme Hatası
+    </Entry>
+    <Entry key="Browser_Name">
+        Tarayıcı
+    </Entry>
+    <Entry key="Browser_PrintNotAllowed">
+        Yazdırma mevcut yapılandırmaya göre izin verilmemektedir.
+    </Entry>
+    <Entry key="Browser_Tooltip">
+        Web Sayfalarını Aç
+    </Entry>
+    <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
+        Geliştirici Konsolu
+    </Entry>
+    <Entry key="BrowserWindow_Downloading">
+        İndiriliyor...
+    </Entry>
+    <Entry key="BrowserWindow_DownloadCancelled">
+        İptal edildi.
+    </Entry>
+    <Entry key="BrowserWindow_DownloadComplete">
+        İndirildi.
+    </Entry>
+    <Entry key="BrowserWindow_FindCaseSensitive">
+        Büyük/küçük harf duyarlı arama
+    </Entry>
+    <Entry key="BrowserWindow_FindMenuItem">
+        Sayfada ara...
+    </Entry>
+    <Entry key="BrowserWindow_ReloadButton">
+        Yenile
+    </Entry>
+    <Entry key="BrowserWindow_BackwardButton">
+        Geri
+    </Entry>
+    <Entry key="BrowserWindow_ForwardButton">
+        İleri
+    </Entry>
+    <Entry key="BrowserWindow_DownloadsButton">
+        İndir
+    </Entry>
+    <Entry key="BrowserWindow_HomeButton">
+        Ana Sayfa
+    </Entry>
+    <Entry key="BrowserWindow_MenuButton">
+        Menü
+    </Entry>
+    <Entry key="BrowserWindow_CloseButton">
+        Kapat
+    </Entry>
+    <Entry key="BrowserWindow_UrlTextBox">
+        URL girin
+    </Entry>
+    <Entry key="BrowserWindow_ZoomLevelReset">
+        Sayfa yakınlaştırma %%ZOOM%% %. Sıfırlamak için tıklayın.
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuItem">
+        Sayfa Yakınlaştırma
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuPlus">
+        Sayfa yakınlaştırmayı artır
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuMinus">
+        Sayfa yakınlaştırmayı azalt
+    </Entry>
+    <Entry key="BrowserWindow_SearchTextBox">
+        Aranacak metni girin
+    </Entry>
+    <Entry key="BrowserWindow_SearchNext">
+        Sonraki arama sonucu
+    </Entry>
+    <Entry key="BrowserWindow_SearchPrevious">
+        Önceki arama sonucu
+    </Entry>
+    <Entry key="Build">
+        Derleme
+    </Entry>
+    <Entry key="CredentialsDialog_PasswordLabel">
+        Şifre:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameLabel">
+        Kullanıcı adı:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameOptionalLabel">
+        Kullanıcı adı (gerekirse):
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkMessage">
+        "%%_NAME_%%" kablosuz ağına bağlanmak için gerekli kimlik bilgilerini girin.
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkTitle">
+        Ağ Kimlik Doğrulaması Gerekli
+    </Entry>
+    <Entry key="ExamSelectionDialog_Cancel">
+        İptal
+    </Entry>
+    <Entry key="ExamSelectionDialog_Message">
+        Lütfen mevcut SEB-Server sınavlarından birini seçin:
+    </Entry>
+    <Entry key="ExamSelectionDialog_Select">
+        Seç
+    </Entry>
+    <Entry key="ExamSelectionDialog_Title">
+        SEB-Server Sınavları
+    </Entry>
+    <Entry key="FileSystemDialog_Cancel">
+        İptal
+    </Entry>
+    <Entry key="FileSystemDialog_LoadError">
+        Veri yüklenemedi!
+    </Entry>
+    <Entry key="FileSystemDialog_Loading">
+        Yükleniyor...
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFileMessage">
+        Lütfen açmak için bir dosya seçin.
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFolderMessage">
+        Lütfen bir klasör seçin.
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarning">
+        Seçilen dosya zaten mevcut! Gerçekten üzerine yazmak istiyor musunuz?
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarningTitle">
+        Üzerine Yazılsın mı?
+    </Entry>
+    <Entry key="FileSystemDialog_SaveAs">
+        Farklı kaydet:
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFileMessage">
+        Lütfen dosyayı kaydetmek için bir konum seçin.
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFolderMessage">
+        Lütfen klasörü kaydetmek için bir konum seçin.
+    </Entry>
+    <Entry key="FileSystemDialog_Select">
+        Seç
+    </Entry>
+    <Entry key="FileSystemDialog_Title">
+        Dosya Sistemi Erişimi
+    </Entry>
+    <Entry key="FolderDialog_ApplicationLocation">
+        Sisteminizde "%%NAME%%" uygulaması bulunamadı! Lütfen ana çalıştırılabilir dosya "%%EXECUTABLE%%" içeren klasörü bulun.
+    </Entry>
+    <Entry key="LockScreen_ApplicationIntegrityMessage">
+        Resmi olmayan bir SEB sürümü kullanıyorsunuz! Lütfen resmi Safe Exam Browser kullanmaya dikkat edin. SEB'nin kilidini açmak için doğru kilit açma şifresini girin.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsAllowOption">
+        Kara listedeki uygulamalara geçici olarak izin ver. Bu yalnızca mevcut çalışan örnekler ve oturum için geçerlidir!
+    </Entry>
+    <Entry key="LockScreen_ApplicationsMessage">
+        Aşağıda listelenen kara listedeki uygulamalar başlatıldı ve otomatik olarak sonlandırılamadı! SEB'nin kilidini açmak için lütfen mevcut seçeneklerden birini seçin ve doğru kilit açma şifresini girin.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsTerminateOption">
+        Safe Exam Browser'ı sonlandır. UYARI: Veri kaydetme veya başka bir işlem yapma imkanı olmayacak, kapatma işlemi hemen başlatılacak!
+    </Entry>
+    <Entry key="LockScreen_CursorContinueOption">
+        İmleç yapılandırmasına geçici olarak izin ver. Bu yalnızca mevcut oturum için geçerlidir!
+    </Entry>
+    <Entry key="LockScreen_CursorMessage">
+        Yasaklanmış bir imleç yapılandırması tespit edildi. SEB'nin kilidini açmak için lütfen mevcut seçeneklerden birini seçin ve doğru kilit açma şifresini girin.
+    </Entry>
+    <Entry key="LockScreen_CursorTerminateOption">
+        Safe Exam Browser'ı sonlandır. UYARI: Veri kaydetme veya başka bir işlem yapma imkanı olmayacak, kapatma işlemi hemen başlatılacak!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationContinueOption">
+        Ekran yapılandırmasına geçici olarak izin ver. Bu yalnızca mevcut oturum için geçerlidir!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationMessage">
+        Yasaklanmış bir ekran yapılandırması tespit edildi. SEB'nin kilidini açmak için lütfen mevcut seçeneklerden birini seçin ve doğru kilit açma şifresini girin.
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationTerminateOption">
+        Safe Exam Browser'ı sonlandır. UYARI: Veri kaydetme veya başka bir işlem yapma imkanı olmayacak, kapatma işlemi hemen başlatılacak!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessContinueOption">
+        Kolay erişim yapılandırmasına geçici olarak izin ver. Bu yalnızca mevcut oturum için geçerlidir!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessMessage">
+        Windows Güvenlik Ekranı için yasaklanmış bir kolay erişim yapılandırması tespit edildi. SEB'nin kilidini açmak için lütfen mevcut seçeneklerden birini seçin ve doğru kilit açma şifresini girin.
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessTerminateOption">
+        Safe Exam Browser'ı sonlandır. UYARI: Veri kaydetme veya başka bir işlem yapma imkanı olmayacak, kapatma işlemi hemen başlatılacak!
+    </Entry>
+    <Entry key="LockScreen_SessionIntegrityMessage">
+        Mevcut yapılandırma veya başlangıç URL'si ile son oturum düzgün şekilde sonlandırılmadı! SEB'nin kilidini açmak için lütfen doğru şifreyi girin.
+    </Entry>
+    <Entry key="LockScreen_StickyKeysContinueOption">
+        Yapışkan tuşların durumuna geçici olarak izin ver. Bu yalnızca mevcut oturum için geçerlidir!
+    </Entry>
+    <Entry key="LockScreen_StickyKeysMessage">
+        Yasaklanmış bir yapışkan tuş durumu tespit edildi. SEB'nin kilidini açmak için lütfen mevcut seçeneklerden birini seçin ve doğru kilit açma şifresini girin.
+    </Entry>
+    <Entry key="LockScreen_StickyKeysTerminateOption">
+        Safe Exam Browser'ı sonlandır. UYARI: Veri kaydetme veya başka bir işlem yapma imkanı olmayacak, kapatma işlemi hemen başlatılacak!
+    </Entry>
+    <Entry key="LockScreen_Title">
+        SEB KİLİTLİ
+    </Entry>
+    <Entry key="LockScreen_UnlockButton">
+        Kilidi Aç
+    </Entry>
+    <Entry key="LockScreen_UserSessionContinueOption">
+        Safe Exam Browser'ın kilidini aç.
+    </Entry>
+    <Entry key="LockScreen_UserSessionMessage">
+        Aktif kullanıcı değişti veya bilgisayar kilitlendi! SEB'nin kilidini açmak için lütfen mevcut seçeneklerden birini seçin ve doğru kilit açma şifresini girin.
+    </Entry>
+    <Entry key="LockScreen_UserSessionTerminateOption">
+        Safe Exam Browser'ı sonlandır. UYARI: Veri kaydetme veya başka bir işlem yapma imkanı olmayacak, kapatma işlemi hemen başlatılacak!
+    </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        Aktif kullanıcı değişti! SEB'nin kilidini açmak için lütfen mevcut seçeneklerden birini seçin ve doğru kilit açma şifresini girin.
+    </Entry>
+    <Entry key="LogWindow_AlwaysOnTop">
+        Her zaman üstte
+    </Entry>
+    <Entry key="LogWindow_AutoScroll">
+        İçeriği otomatik kaydır
+    </Entry>
+    <Entry key="LogWindow_Title">
+        Uygulama Günlüğü
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestion">
+        Aşağıda listelenen uygulamaların yeni bir oturum başlatılmadan önce sonlandırılması gerekmektedir. Şimdi otomatik olarak sonlandırmak ister misiniz?
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestionTitle">
+        Çalışan Uygulamalar Tespit Edildi
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationDataLossWarning">
+        UYARI: Kaydedilmemiş uygulama verileri kaybolabilir!
+    </Entry>
+    <Entry key="MessageBox_ApplicationError">
+        Geri alınamaz bir hata oluştu! Daha fazla bilgi için günlük dosyalarına bakın. SEB şimdi kapanacak...
+    </Entry>
+    <Entry key="MessageBox_ApplicationErrorTitle">
+        Uygulama Hatası
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailure">
+        %%NAME%% uygulaması başlatılamadı ve yeni oturumda kullanılamayacak! Daha fazla bilgi için günlük dosyalarına bakın.
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailureTitle">
+        Uygulama Başlatılamadı
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFound">
+        %%NAME%% uygulaması sistemde bulunamadı ve yeni oturumda kullanılamayacak! Daha fazla bilgi için günlük dosyalarına bakın.
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFoundTitle">
+        Uygulama Bulunamadı
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailure">
+        Aşağıda listelenen uygulamalar sonlandırılamadı! Lütfen manuel olarak sonlandırıp tekrar deneyin...
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailureTitle">
+        Otomatik Sonlandırma Başarısız
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestion">
+        Emin misiniz? (Bu işlev bir web sitesinde oturum açtıysanız sizi çıkış yaptırmaz)
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestionTitle">
+        Başa Dön
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlocked">
+        "%%URL%%" adresine erişim mevcut yapılandırmaya göre izin verilmemektedir.
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlockedTitle">
+        Sayfa Engellendi
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmation">
+        Tarayıcı uygulaması bir çıkış URL'si algıladı! SEB'yi şimdi sonlandırmak ister misiniz?
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
+        Çıkış URL'si Algılandı
+    </Entry>
+    <Entry key="MessageBox_CancelButton">
+        İptal
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationError">
+        Yerel istemci yapılandırması başarısız oldu! Daha fazla bilgi için günlük dosyalarına bakın. SEB şimdi kapanacak...
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationErrorTitle">
+        Yapılandırma Hatası
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestion">
+        İstemci yapılandırması kaydedildi ve SEB'yi bir sonraki başlatışınızda kullanılacak. Şimdi çıkmak ister misiniz?
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestionTitle">
+        Yapılandırma Başarılı
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadError">
+        Yeni yapılandırma indirilemedi. Lütfen tekrar deneyin veya teknik destek ile iletişime geçin.
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
+        İndirme Hatası
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationError">
+        Aktif ekran yapılandırmasına izin verilmemektedir. %%_ALLOWED_COUNT_%% %%_TYPE_%% ekran(lar)ına izin veriliyor, ancak %%_INTERNAL_COUNT_%% dahili ve %%_EXTERNAL_COUNT_%% harici ekran tespit edildi. Daha fazla bilgi için günlük dosyalarına bakın. SEB şimdi kapanacak...
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationErrorTitle">
+        Yasaklanmış Ekran Yapılandırması
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternal">
+        dahili
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
+        dahili veya harici
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowed">
+        Dosya indirme mevcut SEB ayarlarında izin verilmemektedir. Lütfen bunu sınav sağlayıcınıza bildirin.
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowedTitle">
+        İndirmeye İzin Verilmiyor!
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationData">
+        "%%URI%%" yapılandırma kaynağı geçersiz veri içeriyor!
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationDataTitle">
+        Yapılandırma Hatası
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePassword">
+        Girdiğiniz şifre yanlış.
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePasswordTitle">
+        Geçersiz Şifre
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordError">
+        Doğru şifreyi 5 denemede giremediniz. SEB şimdi sonlandırılacak...
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordErrorTitle">
+        Geçersiz Şifre
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPassword">
+        SEB yalnızca doğru çıkış şifresi girilerek sonlandırılabilir.
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPasswordTitle">
+        Geçersiz Çıkış Şifresi
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPassword">
+        SEB yalnızca doğru şifre girilerek kilidi açılabilir.
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPasswordTitle">
+        Geçersiz Kilit Açma Şifresi
+    </Entry>
+    <Entry key="MessageBox_NoButton">
+        Hayır
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResource">
+        "%%URI%%" yapılandırma kaynağı desteklenmiyor!
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResourceTitle">
+        Yapılandırma Hatası
+    </Entry>
+    <Entry key="MessageBox_OkButton">
+        Tamam
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        Mevcut sayfadan ayrılmak ister misiniz?
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        Ayrıl?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+        Mevcut sayfayı yeniden yüklemek ister misiniz?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        Yeniden Yükle?
+    </Entry>
+    <Entry key="MessageBox_Quit">
+        SEB'den çıkmak ister misiniz?
+    </Entry>
+    <Entry key="MessageBox_QuitTitle">
+        Çık?
+    </Entry>
+    <Entry key="MessageBox_QuitError">
+        İstemci kapatma isteğini çalışma zamanına iletemedi!
+    </Entry>
+    <Entry key="MessageBox_QuitErrorTitle">
+        Çıkış Hatası
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDenied">
+        SEB'yi yeniden yapılandırmanıza izin verilmiyor.
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDeniedTitle">
+        Yeniden Yapılandırma Reddedildi
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationError">
+        İstemci yeniden yapılandırma isteğini çalışma zamanına iletemedi!
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationErrorTitle">
+        Yeniden Yapılandırma Hatası
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowed">
+        Sistem uzaktan oturumda çalışıyor gibi görünüyor. Seçilen yapılandırma SEB'nin uzaktan oturumda çalışmasına izin vermiyor.
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
+        Uzaktan Oturum Tespit Edildi
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimer">
+        Ekranınız bu sınav sırasında sınav sağlayıcınızın veri gizliliği düzenlemelerine uygun olarak kaydedilecektir. Sorularınız varsa sınav sağlayıcınıza başvurun.
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
+        Ekran Gözetimli Oturum
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableError">
+        SEB hizmeti başlatılamadı! Hizmet zorunlu olarak yapılandırıldığı için SEB şimdi sonlandırılacak.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableErrorTitle">
+        Hizmet Kullanılamıyor
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarning">
+        SEB hizmeti başlatılamadı. Hizmet isteğe bağlı olarak yapılandırıldığı için SEB başlatılmaya devam edecek.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarningTitle">
+        Hizmet Kullanılamıyor
+    </Entry>
+    <Entry key="MessageBox_SessionStartError">
+        SEB yeni bir oturum başlatamadı! Daha fazla bilgi için günlük dosyalarına bakın.
+    </Entry>
+    <Entry key="MessageBox_SessionStartErrorTitle">
+        Oturum Başlatma Hatası
+    </Entry>
+    <Entry key="MessageBox_ShutdownError">
+        Kapatma işlemi sırasında beklenmeyen bir hata oluştu! Daha fazla bilgi için günlük dosyalarına bakın.
+    </Entry>
+    <Entry key="MessageBox_ShutdownErrorTitle">
+        Kapatma Hatası
+    </Entry>
+    <Entry key="MessageBox_StartupError">
+        Başlatma işlemi sırasında beklenmeyen bir hata oluştu! Daha fazla bilgi için günlük dosyalarına bakın.
+    </Entry>
+    <Entry key="MessageBox_StartupErrorTitle">
+        Başlatma Hatası
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationError">
+        "%%URI%%" yapılandırma kaynağı yüklenirken beklenmeyen bir hata oluştu! Daha fazla bilgi için günlük dosyalarına bakın.
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
+        Yapılandırma Hatası
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowed">
+        Dosya yükleme mevcut SEB ayarlarında izin verilmemektedir. Lütfen bunu sınav sağlayıcınıza bildirin.
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowedTitle">
+        Yüklemeye İzin Verilmiyor!
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionError">
+        Yüklü SEB sürümü %%_VERSION_%% seçilen yapılandırma belirli bir sürüm gerektirdiği için kullanılamaz:%%_REQUIRED_VERSIONS_%%Lütfen gerekli sürümü resmi web sitesinden (safeexambrowser.org/download) veya SEB for Windows'un GitHub deposundan (github.com/safeexambrowser) indirip yükleyin.
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionErrorTitle">
+        Geçersiz SEB Sürümü
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionMinimum">
+        SEB %%_VERSION_%% veya daha yeni
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimer">
+        Mevcut oturum, canlı video ve ses akışı ile uzaktan gözetlenecek ve bu akış özel olarak yapılandırılmış bir sunucuya gönderilecektir. Gizlilik politikası için sınav sorumlusuna danışın. SEB merkezi bir gözetim sunucusuna bağlanmaz, sınav sağlayıcınız hangi gözetim hizmetini/sunucusunu kullanacağına karar verir.
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
+        Uzaktan Gözetimli Oturum
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowed">
+        Bu bilgisayar sanal makine gibi görünüyor. Seçilen yapılandırma SEB'nin sanal makinede çalışmasına izin vermiyor.
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
+        Sanal Makine Tespit Edildi
+    </Entry>
+    <Entry key="MessageBox_YesButton">
+        Evet
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupported">
+        Seçilen yapılandırma Zoom ile uzaktan gözetim gerektiriyor, ancak bu SEB sürümü bunu desteklemiyor. Lütfen sınav düzenleyicinizin belirttiği SEB sürümünü indirip yükleyin. Lisans sorunları nedeniyle Zoom ile uzaktan gözetim yalnızca SEB Alliance üyelerine açıktır. Daha fazla bilgi için https://safeexambrowser.org/alliance adresine bakın.
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupportedTitle">
+        Zoom Gözetimi Gerekli
+    </Entry>
+    <Entry key="Notification_AboutTooltip">
+        SEB hakkında bilgi
+    </Entry>
+    <Entry key="Notification_LogTooltip">
+        Uygulama Günlüğü
+    </Entry>
+    <Entry key="Notification_ProctoringActiveTooltip">
+        Uzaktan gözetim aktif
+    </Entry>
+    <Entry key="Notification_ProctoringHandLowered">
+        El indirildi
+    </Entry>
+    <Entry key="Notification_ProctoringHandRaised">
+        El kaldırıldı
+    </Entry>
+    <Entry key="Notification_ProctoringInactiveTooltip">
+        Uzaktan gözetim pasif
+    </Entry>
+    <Entry key="Notification_ProctoringLowerHand">
+        El indir
+    </Entry>
+    <Entry key="Notification_ProctoringRaiseHand">
+        El kaldır
+    </Entry>
+    <Entry key="OperationStatus_CloseRuntimeConnection">
+        Çalışma zamanı bağlantısı kapatılıyor
+    </Entry>
+    <Entry key="OperationStatus_FinalizeApplications">
+        Uygulamalar sonlandırılıyor
+    </Entry>
+    <Entry key="OperationStatus_FinalizeClipboard">
+        Pano sonlandırılıyor
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServer">
+        SEB-Server sonlandırılıyor
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServiceSession">
+        Hizmet oturumu sonlandırılıyor
+    </Entry>
+    <Entry key="OperationStatus_FinalizeSystemEvents">
+        Sistem olayları sonlandırılıyor
+    </Entry>
+    <Entry key="OperationStatus_InitializeApplications">
+        Uygulamalar başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_InitializeBrowser">
+        Tarayıcı başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_InitializeClipboard">
+        Pano başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_InitializeConfiguration">
+        Yapılandırma başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_InitializeKioskMode">
+        Kiosk modu başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        İzinler başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_InitializeProctoring">
+        Uzaktan gözetim başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_InitializeRuntimeConnection">
+        Çalışma zamanı bağlantısı başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_InitializeServer">
+        SEB-Server başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_InitializeServiceSession">
+        Hizmet oturumu başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_InitializeSession">
+        Yeni oturum başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_InitializeShell">
+        Kullanıcı arayüzü başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_InitializeSystemEvents">
+        Sistem olayları başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_InitializeWindowGuard">
+        Pencere koruyucu başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_InitializeWorkingArea">
+        Çalışma alanı başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_RestartCommunicationHost">
+        İletişim sunucusu yeniden başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_RestoreWorkingArea">
+        Çalışma alanı geri yükleniyor
+    </Entry>
+    <Entry key="OperationStatus_RevertKioskMode">
+        Kiosk modu geri alınıyor
+    </Entry>
+    <Entry key="OperationStatus_StartClient">
+        İstemci başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_StartCommunicationHost">
+        İletişim sunucusu başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_StartKeyboardInterception">
+        Klavye yakalama başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_StartMouseInterception">
+        Fare yakalama başlatılıyor
+    </Entry>
+    <Entry key="OperationStatus_StopClient">
+        İstemci durduruluyor
+    </Entry>
+    <Entry key="OperationStatus_StopCommunicationHost">
+        İletişim sunucusu durduruluyor
+    </Entry>
+    <Entry key="OperationStatus_StopKeyboardInterception">
+        Klavye yakalama durduruluyor
+    </Entry>
+    <Entry key="OperationStatus_StopMouseInterception">
+        Fare yakalama durduruluyor
+    </Entry>
+    <Entry key="OperationStatus_TerminateBrowser">
+        Tarayıcı sonlandırılıyor
+    </Entry>
+    <Entry key="OperationStatus_TerminateProctoring">
+        Uzaktan gözetim sonlandırılıyor
+    </Entry>
+    <Entry key="OperationStatus_TerminateShell">
+        Kullanıcı arayüzü sonlandırılıyor
+    </Entry>
+    <Entry key="OperationStatus_ValidateDisplayConfiguration">
+        Ekran yapılandırma politikası doğrulanıyor
+    </Entry>
+    <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
+        Uzaktan oturum politikası doğrulanıyor
+    </Entry>
+    <Entry key="OperationStatus_ValidateVersionRestrictions">
+        Sürüm kısıtlamaları doğrulanıyor
+    </Entry>
+    <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
+        Sanal makine politikası doğrulanıyor
+    </Entry>
+    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+        Bütünlük doğrulanıyor
+    </Entry>
+    <Entry key="OperationStatus_VerifySessionIntegrity">
+        Oturum bütünlüğü doğrulanıyor
+    </Entry>
+    <Entry key="OperationStatus_WaitDisclaimerConfirmation">
+        Feragatname onayı bekleniyor
+    </Entry>
+    <Entry key="OperationStatus_WaitErrorConfirmation">
+        Hata mesajı onayı bekleniyor
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerStartup">
+        Windows gezgini başlatılması bekleniyor
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerTermination">
+        Windows gezgini kapatılması bekleniyor
+    </Entry>
+    <Entry key="OperationStatus_WaitRuntimeDisconnection">
+        Çalışma zamanının bağlantısının kesilmesi bekleniyor
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequired">
+        Çıkış/yeni başlatma şifresini girin: (Bu işlev bir web sitesinde oturum açtıysanız sizi çıkış yaptırmaz)
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
+        Başa Dön
+    </Entry>
+    <Entry key="PasswordDialog_Cancel">
+        İptal
+    </Entry>
+    <Entry key="PasswordDialog_Confirm">
+        Onayla
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequired">
+        Yerel istemci yapılandırması için yönetici şifresini girin:
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
+        Şifre Gerekli
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
+        Yerel istemci yapılandırması için şifreyi girin:
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
+        Şifre Gerekli
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequired">
+        SEB'yi sonlandırmak için çıkış şifresini girin:
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
+        Şifre Gerekli
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequired">
+        Sınav şifresini girin:
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
+        Şifre Gerekli
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Çık
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Confirm">
+        Onayla
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_FailureMessage">
+        Ağ ve/veya ekran gözetim hizmetinde bir sorun olduğu için kalan işlemler tamamlanamadı.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_InfoMessage">
+        Lütfen ekran gözetimi kalan işlemleri yürütürken bekleyin. Bu, ağ ve ekran gözetim hizmetinin durumuna bağlı olarak biraz sürebilir.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Kalan işlemlerin yürütülmesini iptal etmek için çıkış şifresini girin:
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Status">
+        %%_TOTAL_%% işlemin %%_COUNT_%% iletimi yürütülüyor.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusAndTime">
+        %%_TIME_%%'de %%_TOTAL_%% işlemin %%_COUNT_%% iletimi yürütülmesi bekleniyor...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+        %%_COUNT_%% iletim işleminin devam etmesi bekleniyor...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
+        %%_TIME_%%'de %%_COUNT_%% iletim işleminin devam etmesi bekleniyor...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Title">
+        Ekran Gözetimi Sonlandırma
+    </Entry>
+    <Entry key="RuntimeWindow_ApplicationRunning">
+        SEB çalışıyor.
+    </Entry>
+    <Entry key="ServerFailureDialog_Abort">
+        Durdur
+    </Entry>
+    <Entry key="ServerFailureDialog_Fallback">
+        Yedek
+    </Entry>
+    <Entry key="ServerFailureDialog_Message">
+        SEB sunucusu ile iletişim kurulurken bir hata oluştu.
+    </Entry>
+    <Entry key="ServerFailureDialog_Retry">
+        Yeniden dene
+    </Entry>
+    <Entry key="ServerFailureDialog_Title">
+        SEB-Server Hatası
+    </Entry>
+    <Entry key="Shell_QuitButton">
+        Oturumu Sonlandır
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfo">
+        %%NAME%%: %%VOLUME%%%
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfoMuted">
+        %%NAME%%: Sessiz
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceMuteTooltip">
+        Sesi kapatmak için tıklayın
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceNotFound">
+        Aktif ses cihazı bulunamadı
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceUnmuteTooltip">
+        Sesi açmak için tıklayın
+    </Entry>
+    <Entry key="SystemControl_BatteryCharging">
+        Takılı, şarj oluyor... (%%CHARGE%%%))
+    </Entry>
+    <Entry key="SystemControl_BatteryCharged">
+        Tamamen şarj oldu (%%CHARGE%%%))
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeCriticalWarning">
+        Pil seviyesi kritik derecede düşük. Lütfen bilgisayarınızı bir güç kaynağına bağlayın!
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeLowInfo">
+        Pil seviyesi düşüyor. Zamanında bilgisayarınızı bir güç kaynağına bağlamayı düşünün...
+    </Entry>
+    <Entry key="SystemControl_BatteryRemainingCharge">
+        %%HOURS%%s %%MINUTES%%dk kaldı (%%CHARGE%%%))
+    </Entry>
+    <Entry key="SystemControl_KeyboardLayoutTooltip">
+        Mevcut klavye düzeni "%%LAYOUT%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkDisconnected">
+        Bağlantı kesildi
+    </Entry>
+    <Entry key="SystemControl_NetworkNotAvailable">
+        Aktif kablosuz ağ adaptörü yok veya kapalı
+    </Entry>
+    <Entry key="SystemControl_NetworkWiredConnected">
+        Bağlandı
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnected">
+        "%%NAME%%" ağına bağlandı
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnecting">
+        Bağlanıyor...
+    </Entry>
+    <Entry key="Version">
+        Sürüm
+    </Entry>
+</Text>
