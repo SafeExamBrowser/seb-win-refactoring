@@ -93,6 +93,8 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 
 		private bool TryStartClient()
 		{
+			var success = false;
+
 			var authenticationToken = Context.Next.ClientAuthenticationToken.ToString("D");
 			var executablePath = Context.Next.AppConfig.ClientExecutablePath;
 			var logFilePath = $"{'"' + Convert.ToBase64String(Encoding.UTF8.GetBytes(Context.Next.AppConfig.ClientLogFilePath)) + '"'}";
@@ -124,20 +126,14 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 
 			if (clientReady && !clientTerminated)
 			{
-				return TryStartCommunication();
+				success = TryStartCommunication();
 			}
-
-			if (!clientReady)
-			{
-				Logger.Error($"Failed to start client!");
-			}
-
-			if (clientTerminated)
+			else
 			{
 				Logger.Error("Client instance terminated unexpectedly during initialization!");
 			}
 
-			return false;
+			return success;
 		}
 
 		private bool TryStartCommunication()

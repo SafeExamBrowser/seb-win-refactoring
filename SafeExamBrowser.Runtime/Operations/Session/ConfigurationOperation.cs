@@ -105,6 +105,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 		{
 			var currentPassword = default(string);
 			var passwordParams = default(PasswordParameters);
+			var result = OperationResult.Aborted;
 			var settings = default(AppSettings);
 			var status = default(LoadStatus?);
 
@@ -135,28 +136,22 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 
 			if (status.HasValue)
 			{
-				return DetermineLoadResult(uri, source, settings, status.Value, passwordParams, currentPassword);
+				result = DetermineLoadResult(uri, source, settings, status.Value, passwordParams, currentPassword);
 			}
-			else
-			{
-				return OperationResult.Aborted;
-			}
+
+			return result;
 		}
 
 		private OperationResult LoadSettingsForReconfiguration(Uri uri)
 		{
 			var currentPassword = Context.Current.Settings.Security.AdminPasswordHash;
+			var result = OperationResult.Aborted;
 			var source = UriSource.Reconfiguration;
 			var status = TryLoadSettings(uri, source, out var passwordParams, out var settings, currentPassword);
-			var result = OperationResult.Failed;
 
 			if (status.HasValue)
 			{
 				result = DetermineLoadResult(uri, source, settings, status.Value, passwordParams, currentPassword);
-			}
-			else
-			{
-				result = OperationResult.Aborted;
 			}
 
 			if (result == OperationResult.Success && Context.Current.IsBrowserResource)

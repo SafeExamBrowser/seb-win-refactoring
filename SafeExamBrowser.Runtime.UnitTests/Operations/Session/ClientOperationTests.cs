@@ -196,7 +196,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 		[TestMethod]
 		public void Revert_MustKillClientIfStoppingFailed()
 		{
-			process.Setup(p => p.TryKill(It.IsAny<int>())).Callback(() => process.SetupGet(p => p.HasTerminated).Returns(true));
+			process.Setup(p => p.TryKill(It.IsAny<int>())).Returns(true).Callback(() => process.SetupGet(p => p.HasTerminated).Returns(true));
 
 			PerformNormally();
 			sut.Revert();

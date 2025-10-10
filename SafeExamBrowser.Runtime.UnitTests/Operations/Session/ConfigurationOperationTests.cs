@@ -136,16 +136,38 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.Exam };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
+			nextSession.IsBrowserResource = false;
 			nextSession.Settings = settings;
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.LoadWithBrowser);
 
 			var sut = new ConfigurationOperation(new[] { "abc.exe", url }, dependencies, fileSystem.Object, hashAlgorithm.Object, repository.Object, uiFactory.Object);
 			var result = sut.Perform();
 
+			Assert.IsTrue(nextSession.IsBrowserResource);
 			Assert.IsFalse(settings.Browser.DeleteCacheOnShutdown);
 			Assert.IsFalse(settings.Browser.DeleteCookiesOnShutdown);
 			Assert.IsTrue(settings.Security.AllowReconfiguration);
 			Assert.AreEqual(url, settings.Browser.StartUrl);
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Perform_MustCorrectlyHandleStartUrlQuery()
+		{
+			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.Exam };
+			var startUrlQuery = "query=abc&test=456";
+			var url = $@"http://www.safeexambrowser.org/whatever.seb?param=123??{startUrlQuery}";
+
+			appConfig.AppDataFilePath = FILE_PATH;
+			appConfig.ProgramDataFilePath = FILE_PATH;
+
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+
+			var sut = new ConfigurationOperation(new[] { "abc.exe", url }, dependencies, fileSystem.Object, hashAlgorithm.Object, repository.Object, uiFactory.Object);
+			var result = sut.Perform();
+			var resource = new Uri(url);
+
+			Assert.AreEqual($"?{startUrlQuery}", settings.Browser.StartUrlQuery);
 			Assert.AreEqual(OperationResult.Success, result);
 		}
 
@@ -229,6 +251,38 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 		}
 
 		[TestMethod]
+		public void Perform_MustInformAboutFailures()
+		{
+			var settings = default(AppSettings);
+			var text = new Mock<IText>();
+			var url = @"http://www.safeexambrowser.org/whatever.seb";
+
+			dependencies = new Dependencies(dependencies.ClientBridge, dependencies.Logger, dependencies.MessageBox, dependencies.RuntimeWindow, dependencies.RuntimeContext, text.Object);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.InvalidData);
+			text.Setup(t => t.Get(It.IsAny<TextKey>())).Returns(string.Empty);
+
+			var sut = new ConfigurationOperation(new[] { "abc.exe", url }, dependencies, fileSystem.Object, hashAlgorithm.Object, repository.Object, uiFactory.Object);
+			var result = sut.Perform();
+
+			messageBox.Verify(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()), Times.Once);
+			Assert.AreEqual(OperationResult.Failed, result);
+
+			messageBox.Reset();
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.NotSupported);
+			result = sut.Perform();
+
+			messageBox.Verify(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()), Times.Once);
+			Assert.AreEqual(OperationResult.Failed, result);
+
+			messageBox.Reset();
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.UnexpectedError);
+			result = sut.Perform();
+
+			messageBox.Verify(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()), Times.Once);
+			Assert.AreEqual(OperationResult.Failed, result);
+		}
+
+		[TestMethod]
 		public void Perform_MustNotAllowToAbortIfNotInConfigureClientMode()
 		{
 			var settings = new AppSettings();
@@ -288,13 +342,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.ConfigureClient };
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
-			appConfig.AppDataFilePath =
 			localSettings.Security.AdminPasswordHash = "1234";
-			settings.Security.AdminPasswordHash = "9876";
+			nextSession.AppConfig.AppDataFilePath = FILE_PATH;
 			nextSession.Settings = settings;
+			settings.Security.AdminPasswordHash = "9876";
 
 			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(() => count++).Returns(new PasswordDialogResult { Success = true });
-			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.PasswordNeeded);
+			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.LocalPath.Contains(FILE_NAME)), out localSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			uiFactory.Setup(f => f.CreatePasswordDialog(It.IsAny<string>(), It.IsAny<string>())).Returns(dialog.Object);
 
@@ -336,6 +390,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
 			currentSettings.Security.AdminPasswordHash = "1234";
+			nextSession.AppConfig.AppDataFilePath = FILE_PATH;
 			nextSession.Settings = nextSettings;
 			nextSettings.Security.AdminPasswordHash = "9876";
 
@@ -362,8 +417,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 			var url = @"http://www.safeexambrowser.org/whatever.seb";
 
 			currentSettings.Security.AdminPasswordHash = "1234";
+			nextSession.AppConfig.AppDataFilePath = FILE_PATH;
 			nextSession.Settings = nextSettings;
 			nextSettings.Security.AdminPasswordHash = "1234";
+
 			repository.Setup(r => r.TryLoadSettings(It.IsAny<Uri>(), out currentSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.AbsoluteUri == url), out nextSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			repository.Setup(r => r.ConfigureClientWith(It.IsAny<Uri>(), It.IsAny<PasswordParameters>())).Returns(SaveStatus.Success);
@@ -494,6 +551,28 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 		}
 
 		[TestMethod]
+		public void Repeat_MustCorrectlyHandleStartUrlQuery()
+		{
+			var currentSettings = new AppSettings();
+			var location = Path.GetDirectoryName(GetType().Assembly.Location);
+			var resource = new Uri(Path.Combine(location, nameof(Operations), nameof(Session), "Testdata", FILE_NAME));
+			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.Exam };
+			var startUrlQuery = "query=abc&test=456";
+			var url = $@"http://www.safeexambrowser.org/whatever.seb?param=123??{startUrlQuery}";
+
+			currentSession.Settings = currentSettings;
+			context.ReconfigurationFilePath = resource.LocalPath;
+			context.ReconfigurationUrl = url;
+			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+
+			var sut = new ConfigurationOperation(null, dependencies, fileSystem.Object, hashAlgorithm.Object, repository.Object, uiFactory.Object);
+			var result = sut.Repeat();
+
+			Assert.AreEqual($"?{startUrlQuery}", settings.Browser.StartUrlQuery);
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
 		public void Repeat_MustPerformForClientConfigurationWithCorrectUri()
 		{
 			var currentSettings = new AppSettings();
@@ -613,6 +692,28 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 
 			clientProxy.Verify(c => c.RequestPassword(It.IsAny<PasswordRequestPurpose>(), It.IsAny<Guid>()), Times.Once);
 			Assert.AreEqual(OperationResult.Aborted, result);
+		}
+
+		[TestMethod]
+		public void Repeat_MustCorrectlyHandleReconfigurationByBrowserResource()
+		{
+			var currentSettings = new AppSettings();
+			var location = Path.GetDirectoryName(GetType().Assembly.Location);
+			var resource = new Uri(Path.Combine(location, nameof(Operations), nameof(Session), "Testdata", FILE_NAME));
+			var settings = new AppSettings { ConfigurationMode = ConfigurationMode.Exam };
+
+			currentSession.Settings = currentSettings;
+			currentSession.IsBrowserResource = true;
+			context.ReconfigurationFilePath = resource.LocalPath;
+			nextSession.Settings = new AppSettings();
+			nextSession.Settings.Browser.DeleteCookiesOnStartup = true;
+			repository.Setup(r => r.TryLoadSettings(It.Is<Uri>(u => u.Equals(resource)), out settings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+
+			var sut = new ConfigurationOperation(null, dependencies, fileSystem.Object, hashAlgorithm.Object, repository.Object, uiFactory.Object);
+			var result = sut.Repeat();
+
+			Assert.IsFalse(nextSession.Settings.Browser.DeleteCookiesOnStartup);
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]
