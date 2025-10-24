@@ -481,6 +481,25 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 		}
 
 		[TestMethod]
+		public void Revert_MustNotFailIfNotInitialized()
+		{
+			desktopFactory.Reset();
+			nextSettings.Security.KioskMode = KioskMode.CreateNewDesktop;
+
+			try
+			{
+				sut.Perform();
+			}
+			catch
+			{
+			}
+
+			var result = sut.Revert();
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
 		public void MustDoNothingWithoutKioskMode()
 		{
 			nextSettings.Security.KioskMode = KioskMode.None;

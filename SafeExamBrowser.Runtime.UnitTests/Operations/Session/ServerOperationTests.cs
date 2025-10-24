@@ -312,6 +312,39 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 		}
 
 		[TestMethod]
+		public void Perform_MustSetCustomBrowserExamKey()
+		{
+			var connection = new ConnectionInfo { Api = "some API", ConnectionToken = "some token", Oauth2Token = "some OAuth2 token" };
+			var browserExamKey = "BEK-TEST-1234";
+			var exam = new Exam { Id = "some id", LmsName = "some LMS", Name = "some name", Url = "some URL" };
+			var examSettings = new AppSettings();
+			var serverSettings = context.Next.Settings.Server;
+			var examDialog = new Mock<IExamSelectionDialog>();
+			var serverDialog = new Mock<IServerFailureDialog>();
+
+			examDialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(Assert.Fail);
+			repository.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
+			context.Next.Settings.SessionMode = SessionMode.Server;
+			context.Next.Settings.Server.ExamId = "some id";
+			fileSystem.Setup(f => f.Delete(It.IsAny<string>()));
+			server.Setup(s => s.Connect()).Returns(new ServerResponse(true));
+			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>()));
+			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
+			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, new[] { exam }));
+			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")));
+			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, browserExamKey));
+			serverDialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(Assert.Fail);
+			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(examDialog.Object);
+			uiFactory.Setup(f => f.CreateServerFailureDialog(It.IsAny<string>(), It.IsAny<bool>())).Returns(serverDialog.Object);
+
+			var result = sut.Perform();
+
+			Assert.AreEqual(browserExamKey, context.Next.Settings.Browser.CustomBrowserExamKey);
+			Assert.AreEqual(OperationResult.Success, result);
+
+		}
+
+		[TestMethod]
 		public void Repeat_MustCorrectlyInitializeServerSession()
 		{
 			var connect = 0;
@@ -418,6 +451,43 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 			Assert.AreSame(initialSettings, context.Next.Settings);
 			Assert.AreEqual(OperationResult.Failed, result);
 			Assert.AreEqual(SessionMode.Server, context.Next.Settings.SessionMode);
+		}
+
+		[TestMethod]
+		public void Repeat_MustFailIfFinalizationOfCurrentSessionFails()
+		{
+			var connection = new ConnectionInfo { Api = "some API", ConnectionToken = "some token", Oauth2Token = "some OAuth2 token" };
+			var dialog = new Mock<IExamSelectionDialog>();
+			var exam = new Exam { Id = "some id", LmsName = "some LMS", Name = "some name", Url = "some URL" };
+			var examSettings = new AppSettings();
+			var initialSettings = context.Next.Settings;
+			var serverSettings = context.Next.Settings.Server;
+
+			dialog
+				.Setup(d => d.Show(It.IsAny<IWindow>()))
+				.Returns(new ExamSelectionDialogResult { SelectedExam = exam, Success = true });
+			repository
+				.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>()))
+				.Returns(LoadStatus.Success);
+			context.Current.Settings.SessionMode = SessionMode.Server;
+			context.Next.Settings.SessionMode = SessionMode.Server;
+			fileSystem.Setup(f => f.Delete(It.IsAny<string>()));
+			server.Setup(s => s.Connect()).Returns(new ServerResponse(true));
+			server.Setup(s => s.Disconnect()).Returns(new ServerResponse(false));
+			server.Setup(s => s.Initialize(It.IsAny<ServerSettings>()));
+			server.Setup(s => s.GetConnectionInfo()).Returns(connection);
+			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, default));
+			server
+				.Setup(s => s.GetAvailableExams(It.IsAny<string>()))
+				.Returns(new ServerResponse<IEnumerable<Exam>>(true, default));
+			server
+				.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>()))
+				.Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")));
+			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(dialog.Object);
+
+			var result = sut.Repeat();
+
+			Assert.AreEqual(OperationResult.Failed, result);
 		}
 
 		[TestMethod]
