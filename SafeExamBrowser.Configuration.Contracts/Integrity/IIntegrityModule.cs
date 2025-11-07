@@ -24,6 +24,11 @@ namespace SafeExamBrowser.Configuration.Contracts.Integrity
 		void ClearSession(string configurationKey, string startUrl);
 
 		/// <summary>
+		/// Indicates whether the computer system is a virtual machine and if so, provides its manufacturer and probability.
+		/// </summary>
+		bool IsVirtualMachine(out string manufacturer, out int probability);
+
+		/// <summary>
 		/// Attempts to calculate the app signature key.
 		/// </summary>
 		bool TryCalculateAppSignatureKey(string connectionToken, string salt, out string appSignatureKey);

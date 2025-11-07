@@ -14,7 +14,7 @@ namespace SafeExamBrowser.Monitoring.Contracts
 	public interface IVirtualMachineDetector
 	{
 		/// <summary>
-		/// Indicates whether the computer is in fact a virtual machine.
+		/// Indicates whether the computer system is in fact a virtual machine.
 		/// </summary>
 		bool IsVirtualMachine();
 	}

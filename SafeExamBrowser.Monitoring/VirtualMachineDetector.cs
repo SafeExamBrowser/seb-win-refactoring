@@ -9,6 +9,7 @@
 using System;
 using System.Linq;
 using System.Management;
+using SafeExamBrowser.Configuration.Contracts.Integrity;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
@@ -42,25 +43,26 @@ namespace SafeExamBrowser.Monitoring
 			"PROD_VIRTUAL_DVD"
 		};
 
-		private static readonly (string hardware, bool required)[] SystemHardware =
+		private static readonly string[] SystemHardware =
 		{
-			("CIM_Memory", false),
-			("CIM_NumericSensor", false),
-			("CIM_Sensor", false),
-			("CIM_TemperatureSensor", false),
-			("CIM_VoltageSensor", false),
-			("Win32_CacheMemory", false),
-			("Win32_Fan", false),
-			("Win32_PerfRawData_Counters_ThermalZoneInformation", true),
-			("Win32_VoltageProbe", false)
+			"CIM_Memory",
+			"CIM_NumericSensor",
+			"CIM_Sensor",
+			"CIM_TemperatureSensor",
+			"CIM_VoltageSensor",
+			"Win32_CacheMemory",
+			"Win32_Fan",
+			"Win32_VoltageProbe"
 		};
 
+		private readonly IIntegrityModule integrityModule;
 		private readonly ILogger logger;
 		private readonly IRegistry registry;
 		private readonly ISystemInfo systemInfo;
 
-		public VirtualMachineDetector(ILogger logger, IRegistry registry, ISystemInfo systemInfo)
+		public VirtualMachineDetector(IIntegrityModule integrityModule, ILogger logger, IRegistry registry, ISystemInfo systemInfo)
 		{
+			this.integrityModule = integrityModule;
 			this.logger = logger;
 			this.registry = registry;
 			this.systemInfo = systemInfo;
@@ -68,53 +70,43 @@ namespace SafeExamBrowser.Monitoring
 
 		public bool IsVirtualMachine()
 		{
-			var isVirtualMachine = false;
+			var isVm = false;
 
-			isVirtualMachine |= HasNoSystemHardware();
-			isVirtualMachine |= HasVirtualDevice();
-			isVirtualMachine |= HasVirtualMacAddress();
-			isVirtualMachine |= IsVirtualCpu();
-			isVirtualMachine |= IsVirtualRegistry();
-			isVirtualMachine |= IsVirtualSystem(systemInfo.BiosInfo, systemInfo.Manufacturer, systemInfo.Model);
+			isVm |= HasNoSystemHardware();
+			isVm |= HasVirtualDevice();
+			isVm |= HasVirtualMacAddress();
+			isVm |= IsVirtualCpu();
+			isVm |= IsVirtualRegistry();
+			isVm |= IsVirtualSystem(systemInfo.BiosInfo, systemInfo.Manufacturer, systemInfo.Model);
+			isVm |= integrityModule.IsVirtualMachine(out var manufacturer, out var probability);
 
-			logger.Debug($"Computer '{systemInfo.Name}' appears {(isVirtualMachine ? "" : "not ")}to be a virtual machine.");
+			logger.Debug($"Computer '{systemInfo.Name}' appears {(isVm ? "" : "not ")}to be a virtual machine{(isVm ? $" ({manufacturer}, {probability}%)" : "")}.");
 
-			return isVirtualMachine;
+			return isVm;
 		}
 
 		private bool HasNoSystemHardware()
 		{
-			var hasOther = false;
-			var hasRequired = true;
+			var hasHardware = false;
 
 			try
 			{
-				foreach (var (hardware, required) in SystemHardware)
+				foreach (var hardware in SystemHardware)
 				{
 					using (var searcher = new ManagementObjectSearcher($"SELECT * FROM {hardware}"))
 					using (var results = searcher.Get())
 					{
-						var hasResults = results.Count > 0;
-
-						if (required)
-						{
-							hasRequired &= hasResults;
-						}
-						else
-						{
-							hasOther |= hasResults;
-						}
+						hasHardware |= results.Count > 0;
 					}
 				}
 			}
 			catch (Exception e)
 			{
-				hasOther = false;
-				hasRequired = false;
+				hasHardware = false;
 				logger.Error("Failed to query system hardware!", e);
 			}
 
-			return !(hasRequired && hasOther);
+			return !hasHardware;
 		}
 
 		private bool HasVirtualDevice()

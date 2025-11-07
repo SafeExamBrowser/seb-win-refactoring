@@ -74,6 +74,35 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 		}
 
+		public bool IsVirtualMachine(out string manufacturer, out int probability)
+		{
+			var isVm = false;
+
+			manufacturer = default;
+			probability = default;
+
+			try
+			{
+				isVm = IsVirtualMachine(out IntPtr bstr, out probability);
+
+				if (bstr != IntPtr.Zero)
+				{
+					manufacturer = Marshal.PtrToStringBSTR(bstr);
+					Marshal.FreeBSTR(bstr);
+				}
+			}
+			catch (DllNotFoundException)
+			{
+				logger.Warn("Integrity module is not available!");
+			}
+			catch (Exception e)
+			{
+				logger.Error("Unexpected error while attempting to query virtual machine information!", e);
+			}
+
+			return isVm;
+		}
+
 		public bool TryCalculateAppSignatureKey(string connectionToken, string salt, out string appSignatureKey)
 		{
 			appSignatureKey = default;
@@ -241,6 +270,9 @@ namespace SafeExamBrowser.Configuration.Integrity
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.BStr)]
 		private static extern string CalculateBrowserExamKey(string configurationKey, string salt);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		private static extern bool IsVirtualMachine(out IntPtr manufacturer, out int probability);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		private static extern bool VerifyCodeSignature();

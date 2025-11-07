@@ -154,7 +154,7 @@ namespace SafeExamBrowser.Runtime
 			var remoteSessionDetector = new RemoteSessionDetector(ModuleLogger(nameof(RemoteSessionDetector)));
 			var sentinel = new SystemSentinel(ModuleLogger(nameof(SystemSentinel)), nativeMethods, registry);
 			var server = new ServerProxy(appConfig, keyGenerator, ModuleLogger(nameof(ServerProxy)), systemInfo, userInfo);
-			var virtualMachineDetector = new VirtualMachineDetector(ModuleLogger(nameof(VirtualMachineDetector)), registry, systemInfo);
+			var virtualMachineDetector = new VirtualMachineDetector(integrityModule, ModuleLogger(nameof(VirtualMachineDetector)), registry, systemInfo);
 
 			operations.Enqueue(new SessionInitializationOperation(dependencies, fileSystem, repository));
 			operations.Enqueue(new ConfigurationOperation(args, dependencies, new FileSystem(), new HashAlgorithm(), repository, uiFactory));
