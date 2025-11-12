@@ -33,7 +33,7 @@ namespace SafeExamBrowser.UserInterface.Desktop
 			}
 			else
 			{
-				result = MessageBox.Show(message, title, ToButton(action), ToImage(icon));
+				result = Application.Current.Dispatcher.Invoke(() => MessageBox.Show(message, title, ToButton(action), ToImage(icon)));
 			}
 
 			return ToResult(result);
