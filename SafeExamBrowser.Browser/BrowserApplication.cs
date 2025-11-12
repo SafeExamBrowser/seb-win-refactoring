@@ -126,7 +126,7 @@ namespace SafeExamBrowser.Browser
 			}
 			else
 			{
-				throw new Exception("Failed to initialize browser!");
+				throw new Exception($"Failed to initialize browser (exit code: {Cef.GetExitCode()})!");
 			}
 		}
 
