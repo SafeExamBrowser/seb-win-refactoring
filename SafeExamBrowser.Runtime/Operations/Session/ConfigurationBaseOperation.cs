@@ -76,7 +76,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 
 			if (ClientBridge.IsRequired())
 			{
-				ClientBridge.TryGetPassword(purpose, out password);
+				success = ClientBridge.TryGetPassword(purpose, out password);
 			}
 			else
 			{

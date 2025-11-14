@@ -125,7 +125,7 @@ namespace SafeExamBrowser.Client.Responsibilities
 			var message = default(TextKey);
 			var title = default(TextKey);
 
-			Logger.Info($"Received input request with id '{args.RequestId}' for the {args.Purpose.ToString().ToLower()} password.");
+			Logger.Info($"Received password request with id '{args.RequestId}' for the {args.Purpose.ToString().ToLower()} password.");
 
 			switch (args.Purpose)
 			{
