@@ -1,6 +1,6 @@
 # Security Policy
 
-We only support the latest official relese version with respect to security vulnerabilities. Thus, only the latest or then the upcoming next release version
+We only support the latest official release version with respect to security vulnerabilities. Thus, only the latest or then the upcoming next release version
 will receive vulnerability fixes and security updates. A vulnerability may however be reported for any version, unless it already has been fixed with a later
 release version.
 
