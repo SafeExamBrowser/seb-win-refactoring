@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Threading.Tasks;
 using System.Windows.Input;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -17,8 +18,9 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 {
 	public class TerminationActivator : KeyboardActivator, ITerminationActivator
 	{
+		private readonly ILogger logger;
+
 		private bool Q, LeftCtrl, RightCtrl;
-		private ILogger logger;
 
 		public event ActivatorEventHandler Activated;
 
@@ -57,8 +59,11 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 
 			if (Q && (LeftCtrl || RightCtrl) && changed && !modifier.HasFlag(KeyModifier.Alt))
 			{
-				logger.Debug("Detected termination sequence.");
-				Activated?.Invoke();
+				Task.Run(() =>
+				{
+					logger.Debug("Detected termination sequence.");
+					Activated?.Invoke();
+				});
 
 				return true;
 			}
