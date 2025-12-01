@@ -346,6 +346,7 @@ namespace SafeExamBrowser.Browser
 				cefSettings.CefCommandLineArgs.Add("disable-spell-checking");
 			}
 
+			cefSettings.CefCommandLineArgs.Add("do-not-de-elevate");
 			cefSettings.CefCommandLineArgs.Add("enable-media-stream");
 			cefSettings.CefCommandLineArgs.Add("enable-usermedia-screen-capturing");
 			cefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
