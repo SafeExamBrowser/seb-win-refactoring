@@ -270,7 +270,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 				var dialog = uiFactory.CreateServerFailureDialog(message, showFallback);
 				var result = dialog.Show(RuntimeWindow);
 
-				abort = result.Abort;
+				abort = result.Abort || !result.Success;
 				fallback = result.Fallback;
 				retry = result.Retry;
 			}
