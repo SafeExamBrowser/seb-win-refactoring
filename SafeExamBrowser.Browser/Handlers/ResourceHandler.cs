@@ -149,22 +149,26 @@ namespace SafeExamBrowser.Browser.Handlers
 		private bool Block(IRequest request)
 		{
 			var block = false;
-			var url = WebUtility.UrlDecode(request.Url);
-			var isValidUri = Uri.TryCreate(url, UriKind.Absolute, out _);
 
-			if (settings.Filter.ProcessContentRequests && isValidUri)
+			if (settings.Filter.ProcessContentRequests)
 			{
-				var result = filter.Process(new Request { Url = url });
+				var url = WebUtility.UrlDecode(request.Url);
+				var isValidUri = Uri.TryCreate(url, UriKind.Absolute, out _);
 
-				if (result == FilterResult.Block)
+				if (isValidUri)
 				{
-					block = true;
-					logger.Info($"Blocked content request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
+					var result = filter.Process(new Request { Url = url });
+
+					if (result == FilterResult.Block)
+					{
+						block = true;
+						logger.Info($"Blocked content request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
+					}
 				}
-			}
-			else if (!isValidUri)
-			{
-				logger.Warn($"Filter could not process request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} ({request.ResourceType}, {request.TransitionType})!");
+				else
+				{
+					logger.Warn($"Filter could not process request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} ({request.ResourceType}, {request.TransitionType})!");
+				}
 			}
 
 			return block;

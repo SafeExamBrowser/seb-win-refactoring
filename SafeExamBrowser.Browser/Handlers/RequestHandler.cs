@@ -121,7 +121,7 @@ namespace SafeExamBrowser.Browser.Handlers
 		private bool IsConfigurationFile(IRequest request, out string downloadUrl)
 		{
 			var isValidUri = Uri.TryCreate(request.Url, UriKind.RelativeOrAbsolute, out var uri);
-			var hasFileExtension = string.Equals(appConfig.ConfigurationFileExtension, Path.GetExtension(uri.AbsolutePath), StringComparison.OrdinalIgnoreCase);
+			var hasFileExtension = string.Equals(appConfig.ConfigurationFileExtension, Path.GetExtension(uri?.AbsolutePath), StringComparison.OrdinalIgnoreCase);
 			var isDataUri = request.Url.Contains(appConfig.ConfigurationFileMimeType);
 			var isConfigurationFile = isValidUri && (hasFileExtension || isDataUri);
 
@@ -183,35 +183,39 @@ namespace SafeExamBrowser.Browser.Handlers
 		private bool Block(IRequest request)
 		{
 			var block = false;
-			var url = WebUtility.UrlDecode(request.Url);
-			var isValidUrl = Uri.TryCreate(url, UriKind.Absolute, out _);
 
-			if (settings.Filter.ProcessMainRequests && request.ResourceType == ResourceType.MainFrame && isValidUrl)
+			if (settings.Filter.ProcessMainRequests || settings.Filter.ProcessContentRequests)
 			{
-				var result = filter.Process(new Request { Url = url });
+				var url = WebUtility.UrlDecode(request.Url);
+				var isValidUrl = Uri.TryCreate(url, UriKind.Absolute, out _);
 
-				// We apparently can't filter chrome extension requests, as this prevents the rendering of PDFs.
-				if (result == FilterResult.Block && !url.StartsWith("chrome-extension://"))
+				if (settings.Filter.ProcessMainRequests && request.ResourceType == ResourceType.MainFrame && isValidUrl)
 				{
-					block = true;
-					logger.Info($"Blocked main request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
+					var result = filter.Process(new Request { Url = url });
+
+					// We apparently can't filter chrome extension requests, as this prevents the rendering of PDFs.
+					if (result == FilterResult.Block && !url.StartsWith("chrome-extension://"))
+					{
+						block = true;
+						logger.Info($"Blocked main request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
+					}
 				}
-			}
 
-			if (settings.Filter.ProcessContentRequests && request.ResourceType != ResourceType.MainFrame && isValidUrl)
-			{
-				var result = filter.Process(new Request { Url = url });
-
-				if (result == FilterResult.Block)
+				if (settings.Filter.ProcessContentRequests && request.ResourceType != ResourceType.MainFrame && isValidUrl)
 				{
-					block = true;
-					logger.Info($"Blocked content request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
-				}
-			}
+					var result = filter.Process(new Request { Url = url });
 
-			if (!isValidUrl)
-			{
-				logger.Warn($"Filter could not process request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} ({request.ResourceType}, {request.TransitionType})!");
+					if (result == FilterResult.Block)
+					{
+						block = true;
+						logger.Info($"Blocked content request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} ({request.ResourceType}, {request.TransitionType}).");
+					}
+				}
+
+				if (!isValidUrl)
+				{
+					logger.Warn($"Filter could not process request{(windowSettings.UrlPolicy.CanLog() ? $" for '{url}'" : "")} ({request.ResourceType}, {request.TransitionType})!");
+				}
 			}
 
 			return block;
