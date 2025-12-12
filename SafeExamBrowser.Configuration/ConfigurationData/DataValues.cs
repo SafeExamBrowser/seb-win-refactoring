@@ -8,6 +8,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -48,7 +49,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			var temporaryFolder = Path.Combine(appDataLocalFolder, "Temp");
 			var startTime = DateTime.Now;
 			var logFolder = Path.Combine(appDataLocalFolder, "Logs");
-			var logFilePrefix = startTime.ToString("yyyy-MM-dd\\_HH\\hmm\\mss\\s");
+			var logFilePrefix = startTime.ToString("yyyy-MM-dd\\_HH\\hmm\\mss\\s", CultureInfo.InvariantCulture);
 
 			appConfig = new AppConfig();
 			appConfig.AppDataFilePath = Path.Combine(appDataRoamingFolder, DEFAULT_CONFIGURATION_NAME);

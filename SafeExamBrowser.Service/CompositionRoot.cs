@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
@@ -93,7 +94,7 @@ namespace SafeExamBrowser.Service
 		{
 			var appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), nameof(SafeExamBrowser));
 			var logFolder = Path.Combine(appDataFolder, "Logs");
-			var logFilePrefix = DateTime.Now.ToString("yyyy-MM-dd\\_HH\\hmm\\mss\\s");
+			var logFilePrefix = DateTime.Now.ToString("yyyy-MM-dd\\_HH\\hmm\\mss\\s", CultureInfo.InvariantCulture);
 			var logFilePath = Path.Combine(logFolder, $"{logFilePrefix}_Service.log");
 			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), logFilePath);
 
