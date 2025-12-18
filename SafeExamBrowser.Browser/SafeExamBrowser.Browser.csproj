@@ -79,7 +79,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrowserApplication.cs" />
+    <Compile Include="BrowserApplicationContext.cs" />
     <Compile Include="BrowserWindow.cs" />
+    <Compile Include="BrowserWindowContext.cs" />
     <Compile Include="Clipboard.cs" />
     <Compile Include="Events\ClipboardChangedEventHandler.cs" />
     <Compile Include="Events\DialogRequestedEventArgs.cs" />
@@ -119,6 +121,24 @@
     <Compile Include="Integrations\Integration.cs" />
     <Compile Include="Integrations\MoodleIntegration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Responsibilities\BrowserTask.cs" />
+    <Compile Include="Responsibilities\Browser\BrowserResponsibility.cs" />
+    <Compile Include="Responsibilities\Browser\CacheResponsibility.cs" />
+    <Compile Include="Responsibilities\Browser\ConfigurationResponsibility.cs" />
+    <Compile Include="Responsibilities\Browser\FileSystemResponsibility.cs" />
+    <Compile Include="Responsibilities\Browser\WindowHandlingResponsibility.cs" />
+    <Compile Include="Responsibilities\Browser\IntegrityResponsibility.cs" />
+    <Compile Include="Responsibilities\WindowTask.cs" />
+    <Compile Include="Responsibilities\Window\ControlResponsibility.cs" />
+    <Compile Include="Responsibilities\Window\CookieResponsibility.cs" />
+    <Compile Include="Responsibilities\Window\DialogResponsibility.cs" />
+    <Compile Include="Responsibilities\Window\DisplayResponsibility.cs" />
+    <Compile Include="Responsibilities\Window\DownloadResponsibility.cs" />
+    <Compile Include="Responsibilities\Window\KeyboardResponsibility.cs" />
+    <Compile Include="Responsibilities\Window\LifeSpanResponsibility.cs" />
+    <Compile Include="Responsibilities\Window\RequestResponsibility.cs" />
+    <Compile Include="Responsibilities\Window\WindowResponsibility.cs" />
+    <Compile Include="Responsibilities\Window\ZoomResponsibility.cs" />
     <Compile Include="Wrapper\CefSharpBrowserControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -187,6 +207,10 @@
       <Project>{fe0e1224-b447-4b14-81e7-ed7d84822aa0}</Project>
       <Name>SafeExamBrowser.Core.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Core\SafeExamBrowser.Core.csproj">
+      <Project>{3d6fdbb6-a4af-4626-bb2b-bf329d44f9cc}</Project>
+      <Name>SafeExamBrowser.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.I18n.Contracts\SafeExamBrowser.I18n.Contracts.csproj">
       <Project>{1858ddf3-bc2a-4bff-b663-4ce2ffeb8b7d}</Project>
       <Name>SafeExamBrowser.I18n.Contracts</Name>
@@ -225,6 +249,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Content\PageZoom.js" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

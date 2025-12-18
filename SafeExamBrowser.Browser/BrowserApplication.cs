@@ -8,25 +8,21 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Threading;
 using CefSharp;
-using CefSharp.WinForms;
 using SafeExamBrowser.Applications.Contracts.Events;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
-using SafeExamBrowser.Browser.Events;
-using SafeExamBrowser.Browser.Integrations;
+using SafeExamBrowser.Browser.Responsibilities;
+using SafeExamBrowser.Browser.Responsibilities.Browser;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
+using SafeExamBrowser.Core.Contracts.ResponsibilityModel;
+using SafeExamBrowser.Core.ResponsibilityModel;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings;
-using SafeExamBrowser.Settings.Browser.Proxy;
-using SafeExamBrowser.Settings.Logging;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.FileSystemDialog;
 using SafeExamBrowser.UserInterface.Contracts.MessageBox;
@@ -37,10 +33,7 @@ namespace SafeExamBrowser.Browser
 {
 	public class BrowserApplication : IBrowserApplication
 	{
-		private int windowIdCounter = default;
-
-		private readonly AppConfig appConfig;
-		private readonly Clipboard clipboard;
+		private readonly BrowserApplicationContext context;
 		private readonly IFileSystemDialog fileSystemDialog;
 		private readonly IHashAlgorithm hashAlgorithm;
 		private readonly IKeyGenerator keyGenerator;
@@ -48,10 +41,11 @@ namespace SafeExamBrowser.Browser
 		private readonly IMessageBox messageBox;
 		private readonly INativeMethods nativeMethods;
 		private readonly SessionMode sessionMode;
-		private readonly BrowserSettings settings;
 		private readonly IText text;
 		private readonly IUserInterfaceFactory uiFactory;
-		private readonly List<BrowserWindow> windows;
+
+		private IResponsibilityCollection<BrowserTask> Responsibilities => context.Responsibilities;
+		private IList<BrowserWindow> Windows => context.Windows;
 
 		public bool AutoStart { get; private set; }
 		public IconResource Icon { get; private set; }
@@ -78,8 +72,6 @@ namespace SafeExamBrowser.Browser
 			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
-			this.appConfig = appConfig;
-			this.clipboard = new Clipboard(logger.CloneFor(nameof(Clipboard)), settings);
 			this.fileSystemDialog = fileSystemDialog;
 			this.hashAlgorithm = hashAlgorithm;
 			this.keyGenerator = keyGenerator;
@@ -87,40 +79,48 @@ namespace SafeExamBrowser.Browser
 			this.messageBox = messageBox;
 			this.nativeMethods = nativeMethods;
 			this.sessionMode = sessionMode;
-			this.settings = settings;
 			this.text = text;
 			this.uiFactory = uiFactory;
-			this.windows = new List<BrowserWindow>();
+
+			context = new BrowserApplicationContext
+			{
+				AppConfig = appConfig,
+				Logger = logger,
+				Settings = settings
+			};
 		}
 
 		public void Focus(bool forward)
 		{
-			windows.ForEach(window =>
+			foreach (var window in Windows)
 			{
 				window.Focus(forward);
-			});
+			}
 		}
 
 		public IEnumerable<IBrowserWindow> GetWindows()
 		{
-			return new List<IBrowserWindow>(windows);
+			return new List<IBrowserWindow>(Windows);
 		}
 
 		public void Initialize()
 		{
 			logger.Info("Starting initialization...");
 
-			var cefSettings = InitializeCefSettings();
-			var success = Cef.Initialize(cefSettings, true, default(IApp));
+			InitializeResponsibilities();
+
+			Responsibilities.Delegate(BrowserTask.InitializeBrowserConfiguration);
+
+			var success = Cef.Initialize(context.CefSettings, true, default(IApp));
 
 			InitializeApplicationInfo();
 
 			if (success)
 			{
-				InitializeCookies();
-				InitializeDownAndUploadDirectory();
-				InitializeIntegrityKeys();
-				InitializePreferences();
+				Responsibilities.Delegate(BrowserTask.InitializeCookies);
+				Responsibilities.Delegate(BrowserTask.InitializeFileSystem);
+				Responsibilities.Delegate(BrowserTask.InitializeIntegrity);
+				Responsibilities.Delegate(BrowserTask.InitializePreferences);
 
 				logger.Info("Initialized browser.");
 			}
@@ -132,7 +132,7 @@ namespace SafeExamBrowser.Browser
 
 		public void Start()
 		{
-			CreateNewWindow();
+			Responsibilities.Delegate(BrowserTask.CreateMainWindow);
 		}
 
 		public void Terminate()
@@ -141,172 +141,24 @@ namespace SafeExamBrowser.Browser
 
 			AwaitReady();
 
-			foreach (var window in windows)
-			{
-				window.Closed -= Window_Closed;
-				window.Close();
+			Responsibilities.Delegate(BrowserTask.CloseAllWindows);
+			Responsibilities.Delegate(BrowserTask.FinalizeCookies);
+			Responsibilities.Delegate(BrowserTask.FinalizeFileSystem);
 
-				logger.Info($"Closed browser window #{window.Id}.");
-			}
-
-			FinalizeCookies();
-			FinalizeDownAndUploadDirectory();
 			Cef.Shutdown();
-			FinalizeCache();
+
+			Responsibilities.Delegate(BrowserTask.FinalizeCache);
 
 			logger.Info("Terminated browser.");
 		}
 
-		private void AwaitReady()
+		internal static void AwaitReady()
 		{
 			// We apparently need to let the browser finish any pending work before attempting to reset or terminate it, especially if the
 			// reset or termination is initiated automatically (e.g. by a quit URL). Otherwise, the engine will crash on some occasions, seemingly
 			// when it can't finish handling its events (like ChromiumWebBrowser.LoadError).
 
 			Thread.Sleep(500);
-		}
-
-		private void CreateNewWindow(PopupRequestedEventArgs args = default)
-		{
-			var id = ++windowIdCounter;
-			var integrations = new Integration[]
-			{
-				new GenericIntegration(logger.CloneFor($"{nameof(GenericIntegration)} #{id}")),
-				new EdxIntegration(logger.CloneFor($"{nameof(EdxIntegration)} #{id}")),
-				new MoodleIntegration(logger.CloneFor($"{nameof(MoodleIntegration)} #{id}"))
-			};
-			var isMainWindow = windows.Count == 0;
-			var startUrl = GenerateStartUrl();
-			var windowLogger = logger.CloneFor($"Browser Window #{id}");
-			var window = new BrowserWindow(
-				appConfig,
-				clipboard,
-				fileSystemDialog,
-				hashAlgorithm,
-				id,
-				integrations,
-				isMainWindow,
-				keyGenerator,
-				windowLogger,
-				messageBox,
-				sessionMode,
-				settings,
-				startUrl,
-				text,
-				uiFactory);
-
-			window.Closed += Window_Closed;
-			window.ConfigurationDownloadRequested += (f, a) => ConfigurationDownloadRequested?.Invoke(f, a);
-			window.PopupRequested += Window_PopupRequested;
-			window.ResetRequested += Window_ResetRequested;
-			window.UserIdentifierDetected += (i) => UserIdentifierDetected?.Invoke(i);
-			window.TerminationRequested += () => TerminationRequested?.Invoke();
-			window.LoseFocusRequested += (forward) => LoseFocusRequested?.Invoke(forward);
-
-			window.InitializeControl();
-			windows.Add(window);
-
-			if (args != default)
-			{
-				args.Window = window;
-			}
-			else
-			{
-				window.InitializeWindow();
-			}
-
-			logger.Info($"Created browser window #{window.Id}.");
-			WindowsChanged?.Invoke();
-		}
-
-		private void DeleteCookies()
-		{
-			var callback = new TaskDeleteCookiesCallback();
-			var cookieManager = Cef.GetGlobalCookieManager();
-
-			callback.Task.ContinueWith(task =>
-			{
-				if (!task.IsCompleted || task.Result == TaskDeleteCookiesCallback.InvalidNoOfCookiesDeleted)
-				{
-					logger.Warn("Failed to delete cookies!");
-				}
-				else
-				{
-					logger.Debug($"Deleted {task.Result} cookies.");
-				}
-			});
-
-			if (cookieManager != default && cookieManager.DeleteCookies(callback: callback))
-			{
-				logger.Debug("Successfully initiated cookie deletion.");
-			}
-			else
-			{
-				logger.Warn("Failed to initiate cookie deletion!");
-			}
-		}
-
-		private void FinalizeCache()
-		{
-			if (settings.DeleteCacheOnShutdown && settings.DeleteCookiesOnShutdown)
-			{
-				try
-				{
-					Directory.Delete(appConfig.BrowserCachePath, true);
-					logger.Info("Deleted browser cache.");
-				}
-				catch (Exception e)
-				{
-					logger.Error("Failed to delete browser cache!", e);
-				}
-			}
-			else
-			{
-				logger.Info("Retained browser cache.");
-			}
-		}
-
-		private void FinalizeCookies()
-		{
-			if (settings.DeleteCookiesOnShutdown)
-			{
-				DeleteCookies();
-			}
-		}
-
-		private void FinalizeDownAndUploadDirectory()
-		{
-			if (settings.UseTemporaryDownAndUploadDirectory)
-			{
-				try
-				{
-					Directory.Delete(settings.DownAndUploadDirectory, true);
-					logger.Info("Deleted temporary down- and upload directory.");
-				}
-				catch (Exception e)
-				{
-					logger.Error("Failed to delete temporary down- and upload directory!", e);
-				}
-			}
-		}
-
-		private string GenerateStartUrl()
-		{
-			var url = settings.StartUrl;
-
-			if (settings.UseQueryParameter)
-			{
-				if (url.Contains("?") && settings.StartUrlQuery?.Length > 1 && Uri.TryCreate(url, UriKind.Absolute, out var uri))
-				{
-					url = url.Replace(uri.Query, $"{uri.Query}&{settings.StartUrlQuery.Substring(1)}");
-				}
-				else
-				{
-					url = $"{url}{settings.StartUrlQuery}";
-				}
-			}
-
-			return url;
 		}
 
 		private void InitializeApplicationInfo()
@@ -318,238 +170,24 @@ namespace SafeExamBrowser.Browser
 			Tooltip = text.Get(TextKey.Browser_Tooltip);
 		}
 
-		private CefSettings InitializeCefSettings()
+		private void InitializeResponsibilities()
 		{
-			var warning = logger.LogLevel == LogLevel.Warning;
-			var error = logger.LogLevel == LogLevel.Error;
-			var cefSettings = new CefSettings();
+			var windowHandlingResponsibility = new WindowHandlingResponsibility(context, fileSystemDialog, hashAlgorithm, keyGenerator, messageBox, nativeMethods, sessionMode, text, uiFactory);
 
-			cefSettings.AcceptLanguageList = CultureInfo.CurrentUICulture.Name;
-			cefSettings.CachePath = appConfig.BrowserCachePath;
-			cefSettings.LogFile = appConfig.BrowserLogFilePath;
-			cefSettings.LogSeverity = error ? LogSeverity.Error : (warning ? LogSeverity.Warning : LogSeverity.Info);
-			cefSettings.PersistSessionCookies = !settings.DeleteCookiesOnStartup || !settings.DeleteCookiesOnShutdown;
-			cefSettings.UserAgent = InitializeUserAgent();
+			windowHandlingResponsibility.ConfigurationDownloadRequested += (f, a) => ConfigurationDownloadRequested?.Invoke(f, a);
+			windowHandlingResponsibility.LoseFocusRequested += (f) => LoseFocusRequested?.Invoke(f);
+			windowHandlingResponsibility.TerminationRequested += () => TerminationRequested?.Invoke();
+			windowHandlingResponsibility.UserIdentifierDetected += (i) => UserIdentifierDetected?.Invoke(i);
+			windowHandlingResponsibility.WindowsChanged += () => WindowsChanged.Invoke();
 
-			if (!settings.AllowPageZoom)
+			context.Responsibilities = new ResponsibilityCollection<BrowserTask>(logger, new BrowserResponsibility[]
 			{
-				cefSettings.CefCommandLineArgs.Add("disable-pinch");
-			}
-
-			if (!settings.AllowPdfReader)
-			{
-				cefSettings.CefCommandLineArgs.Add("disable-pdf-extension");
-			}
-
-			if (!settings.AllowSpellChecking)
-			{
-				cefSettings.CefCommandLineArgs.Add("disable-spell-checking");
-			}
-
-			cefSettings.CefCommandLineArgs.Add("do-not-de-elevate");
-			cefSettings.CefCommandLineArgs.Add("enable-media-stream");
-			cefSettings.CefCommandLineArgs.Add("enable-usermedia-screen-capturing");
-			cefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
-			cefSettings.CefCommandLineArgs.Add("use-fake-ui-for-media-stream");
-
-			InitializeProxySettings(cefSettings);
-
-			logger.Debug($"Accept Language: {cefSettings.AcceptLanguageList}");
-			logger.Debug($"Cache Path: {cefSettings.CachePath}");
-			logger.Debug($"Engine Version: Chromium {Cef.ChromiumVersion}, CEF {Cef.CefVersion}, CefSharp {Cef.CefSharpVersion}");
-			logger.Debug($"Log File: {cefSettings.LogFile}");
-			logger.Debug($"Log Severity: {cefSettings.LogSeverity}.");
-			logger.Debug($"PDF Reader: {(settings.AllowPdfReader ? "Enabled" : "Disabled")}.");
-			logger.Debug($"Session Persistence: {(cefSettings.PersistSessionCookies ? "Enabled" : "Disabled")}.");
-
-			return cefSettings;
-		}
-
-		private void InitializeCookies()
-		{
-			if (settings.DeleteCookiesOnStartup)
-			{
-				DeleteCookies();
-			}
-		}
-
-		private void InitializeDownAndUploadDirectory()
-		{
-			if (settings.UseTemporaryDownAndUploadDirectory)
-			{
-				InitializeTemporaryDownAndUploadDirectory();
-			}
-			else if (!string.IsNullOrEmpty(settings.DownAndUploadDirectory))
-			{
-				InitializeCustomDownAndUploadDirectory();
-			}
-		}
-
-		private void InitializeCustomDownAndUploadDirectory()
-		{
-			if (!Directory.Exists(Environment.ExpandEnvironmentVariables(settings.DownAndUploadDirectory)))
-			{
-				logger.Warn("The configured down- and upload directory does not exist! Falling back to the default directory...");
-				settings.DownAndUploadDirectory = default;
-			}
-			else
-			{
-				logger.Debug("Using custom down- and upload directory as defined in the active configuration.");
-			}
-		}
-
-		private void InitializeTemporaryDownAndUploadDirectory()
-		{
-			try
-			{
-				settings.DownAndUploadDirectory = Path.Combine(appConfig.TemporaryDirectory, Path.GetRandomFileName());
-				Directory.CreateDirectory(settings.DownAndUploadDirectory);
-				logger.Info($"Created temporary down- and upload directory.");
-			}
-			catch (Exception e)
-			{
-				logger.Error("Failed to create temporary down- and upload directory!", e);
-			}
-		}
-
-		private void InitializeIntegrityKeys()
-		{
-			logger.Debug($"Browser Exam Key (BEK) transmission is {(settings.SendBrowserExamKey ? "enabled" : "disabled")}.");
-			logger.Debug($"Configuration Key (CK) transmission is {(settings.SendConfigurationKey ? "enabled" : "disabled")}.");
-
-			if (settings.CustomBrowserExamKey != default)
-			{
-				keyGenerator.UseCustomBrowserExamKey(settings.CustomBrowserExamKey);
-				logger.Debug($"The browser application will be using a custom browser exam key.");
-			}
-			else
-			{
-				logger.Debug($"The browser application will be using the default browser exam key.");
-			}
-		}
-
-		private void InitializePreferences()
-		{
-			Cef.UIThreadTaskFactory.StartNew(() =>
-			{
-				using (var requestContext = Cef.GetGlobalRequestContext())
-				{
-					requestContext.SetPreference("autofill.credit_card_enabled", false, out _);
-					requestContext.SetPreference("autofill.profile_enabled", false, out _);
-				}
+				new CacheResponsibility(context),
+				new ConfigurationResponsibility(context),
+				new FileSystemResponsibility(context),
+				new IntegrityResponsibility(context, keyGenerator),
+				windowHandlingResponsibility
 			});
-		}
-
-		private void InitializeProxySettings(CefSettings cefSettings)
-		{
-			if (settings.Proxy.Policy == ProxyPolicy.Custom)
-			{
-				if (settings.Proxy.AutoConfigure)
-				{
-					cefSettings.CefCommandLineArgs.Add("proxy-pac-url", settings.Proxy.AutoConfigureUrl);
-				}
-
-				if (settings.Proxy.AutoDetect)
-				{
-					cefSettings.CefCommandLineArgs.Add("proxy-auto-detect", "");
-				}
-
-				if (settings.Proxy.BypassList.Any())
-				{
-					cefSettings.CefCommandLineArgs.Add("proxy-bypass-list", string.Join(";", settings.Proxy.BypassList));
-				}
-
-				if (settings.Proxy.Proxies.Any())
-				{
-					var proxies = new List<string>();
-
-					foreach (var proxy in settings.Proxy.Proxies)
-					{
-						proxies.Add($"{ToScheme(proxy.Protocol)}={proxy.Host}:{proxy.Port}");
-					}
-
-					cefSettings.CefCommandLineArgs.Add("proxy-server", string.Join(";", proxies));
-				}
-			}
-		}
-
-		private string InitializeUserAgent()
-		{
-			var osVersion = $"{Environment.OSVersion.Version.Major}.{Environment.OSVersion.Version.Minor}";
-			var sebVersion = $"SEB/{appConfig.ProgramInformationalVersion}";
-			var userAgent = default(string);
-
-			if (settings.UseCustomUserAgent)
-			{
-				userAgent = $"{settings.CustomUserAgent} {sebVersion}";
-			}
-			else
-			{
-				userAgent = $"Mozilla/5.0 (Windows NT {osVersion}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{Cef.ChromiumVersion} {sebVersion}";
-			}
-
-			if (!string.IsNullOrWhiteSpace(settings.UserAgentSuffix))
-			{
-				userAgent = $"{userAgent} {settings.UserAgentSuffix}";
-			}
-
-			return userAgent;
-		}
-
-		private string ToScheme(ProxyProtocol protocol)
-		{
-			switch (protocol)
-			{
-				case ProxyProtocol.Ftp:
-					return Uri.UriSchemeFtp;
-				case ProxyProtocol.Http:
-					return Uri.UriSchemeHttp;
-				case ProxyProtocol.Https:
-					return Uri.UriSchemeHttps;
-				case ProxyProtocol.Socks:
-					return "socks";
-			}
-
-			throw new NotImplementedException($"Mapping for proxy protocol '{protocol}' is not yet implemented!");
-		}
-
-		private void Window_Closed(int id)
-		{
-			windows.Remove(windows.First(i => i.Id == id));
-			WindowsChanged?.Invoke();
-			logger.Info($"Window #{id} has been closed.");
-		}
-
-		private void Window_PopupRequested(PopupRequestedEventArgs args)
-		{
-			logger.Info($"Received request to create new window...");
-			CreateNewWindow(args);
-		}
-
-		private void Window_ResetRequested()
-		{
-			logger.Info("Attempting to reset browser...");
-
-			AwaitReady();
-
-			foreach (var window in windows)
-			{
-				window.Closed -= Window_Closed;
-				window.Close();
-				logger.Info($"Closed browser window #{window.Id}.");
-			}
-
-			windows.Clear();
-			WindowsChanged?.Invoke();
-
-			if (settings.DeleteCookiesOnStartup && settings.DeleteCookiesOnShutdown)
-			{
-				DeleteCookies();
-			}
-
-			nativeMethods.EmptyClipboard();
-			CreateNewWindow();
-			logger.Info("Successfully reset browser.");
 		}
 	}
 }
