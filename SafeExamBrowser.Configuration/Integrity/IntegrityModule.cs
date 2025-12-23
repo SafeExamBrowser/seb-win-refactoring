@@ -201,9 +201,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 					using (var stream = new CryptoStream(file, aes.CreateDecryptor(SESSION_DATA_KEY, SESSION_DATA_IV), CryptoStreamMode.Read))
 					using (var reader = new StreamReader(stream))
 					{
-						var line = reader.ReadLine();
-
-						if (line != default)
+						for (var line = reader.ReadLine(); line != default; line = reader.ReadLine())
 						{
 							var session = line.Split(new string[] { SESSION_DATA_SEPARATOR }, StringSplitOptions.None);
 							var configurationKey = session[0];
