@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
     <Fragment>
         <util:RegistrySearchRef Id="NETFRAMEWORK45" />
         <Variable Name="DotNetMinimumVersion" Type="numeric" Value="528040" />
         <PackageGroup Id="DotNetFramework">
-            <ExePackage Id="NetFx48Web"
-                        Compressed="yes"
-                        DetectCondition="NETFRAMEWORK45 >= DotNetMinimumVersion"
-                        InstallCommand="/q /norestart /ChainingPackage &quot;[WixBundleName]&quot;"
-                        Name="ndp48-web.exe"
-                        PerMachine="yes"
-                        Permanent="yes"
-                        Protocol="netfx4"
-                        RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot;"
-                        SourceFile="C:\Temp\ndp48-web.exe"
-                        UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot;"
-                        Vital="yes">
+            <ExePackage 
+				Id="NetFx48Web" 
+				Compressed="yes" 
+				DetectCondition="NETFRAMEWORK45 &gt;= DotNetMinimumVersion" 
+				Name="ndp48-web.exe" 
+				PerMachine="yes" 
+				Permanent="yes" 
+				Protocol="netfx4" 
+				SourceFile="C:\Temp\ndp48-web.exe" 
+				Vital="yes" 
+				InstallArguments="/q /norestart /ChainingPackage &quot;[WixBundleName]&quot;" 
+				RepairArguments="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot;" 
+				UninstallArguments="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot;">
             </ExePackage>
         </PackageGroup>
     </Fragment>

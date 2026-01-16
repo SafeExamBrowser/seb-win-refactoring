@@ -1,23 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <?if $(var.Platform) = x64 ?>
-    <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
-    <?else ?>
-    <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
-    <?endif ?>
-    <Fragment>
-        <Directory Id="TARGETDIR" Name="SourceDir">
-            <Directory Id="$(var.PlatformProgramFilesFolder)">
-                <Directory Id="InstallFolder" Name="SafeExamBrowser">
-                    <Directory Id="ApplicationDirectory" Name="Application" />
-                    <Directory Id="ConfigurationDirectory" Name="Configuration" />
-                    <Directory Id="ResetDirectory" Name="Reset" />
-                    <Directory Id="ServiceDirectory" Name="Service" />
-                </Directory>
-            </Directory>
-            <Directory Id="ProgramMenuFolder">
-                <Directory Id="StartMenuDirectory" Name="SafeExamBrowser" />
-            </Directory>
-        </Directory>
-    </Fragment>
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<?if $(var.Platform) = x64 ?>
+	<?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+	<?else?>
+	<?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+	<?endif?>
+
+	<Fragment>
+		<StandardDirectory Id="$(var.PlatformProgramFilesFolder)">
+
+			<Directory Id="InstallFolder" Name="SafeExamBrowser">
+				<Directory Id="ApplicationDirectory" Name="Application" />
+				<Directory Id="ConfigurationDirectory" Name="Configuration" />
+				<Directory Id="ResetDirectory" Name="Reset" />
+				<Directory Id="ServiceDirectory" Name="Service" />
+			</Directory>
+
+		</StandardDirectory>
+
+		<StandardDirectory Id="ProgramMenuFolder">
+			<Directory Id="StartMenuDirectory" Name="SafeExamBrowser" />
+		</StandardDirectory>
+	</Fragment>
 </Wix>

@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Name="Safe Exam Browser ($(var.Platform))" Manufacturer="ETH Zürich" Language="1033" Codepage="1252"
-             Id="*" Version="!(bind.fileVersion.MainExecutable)" UpgradeCode="97A8B13E-48FB-4BE1-A7C2-DD1863F95CCB">
-        <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+    <Package Name="Safe Exam Browser ($(var.Platform))" Manufacturer="ETH Zürich" Language="1033" Codepage="1252" Version="!(bind.fileVersion.MainExecutable)" UpgradeCode="97A8B13E-48FB-4BE1-A7C2-DD1863F95CCB" InstallerVersion="200">
+        
         <MediaTemplate EmbedCab="yes" />
-        <UIRef Id="WixUI_Minimal" />
+        <ui:WixUI Id="WixUI_Minimal" />
         <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." AllowSameVersionUpgrades="yes" />
         <Icon Id="ApplicationIcon" SourceFile="Resources\Application.ico" />
         <Icon Id="ConfigurationToolIcon" SourceFile="Resources\ConfigurationTool.ico" />
@@ -24,5 +22,5 @@
         <InstallExecuteSequence>
             <Custom Action="LegacyCleanupAction" After="RemoveFiles" />
         </InstallExecuteSequence>
-    </Product>
+    </Package>
 </Wix>
