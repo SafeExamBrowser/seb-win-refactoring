@@ -14,11 +14,6 @@ namespace SafeExamBrowser.Server
 {
 	internal class Sanitizer
 	{
-		internal Uri Sanitize(string serverUrl)
-		{
-			return new Uri(serverUrl.EndsWith("/") ? serverUrl : $"{serverUrl}/");
-		}
-
 		internal void Sanitize(Api api)
 		{
 			foreach (var property in api.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
@@ -28,6 +23,16 @@ namespace SafeExamBrowser.Server
 
 				property.SetValue(api, sanitized);
 			}
+		}
+
+		internal Uri SanitizeBaseAddress(string serverUrl)
+		{
+			return new Uri(serverUrl.EndsWith("/") ? serverUrl : $"{serverUrl}/");
+		}
+
+		internal string SanitizeApiEndpoint(string apiEndpoint)
+		{
+			return apiEndpoint.TrimStart('/');
 		}
 	}
 }

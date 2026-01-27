@@ -51,9 +51,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 		{
 			if (value is IDictionary<string, object> configuration)
 			{
-				if (configuration.TryGetValue(Keys.Server.ApiUrl, out var v) && v is string url)
+				if (configuration.TryGetValue(Keys.Server.ApiEndpoint, out var v) && v is string endpoint)
 				{
-					settings.Server.ApiUrl = url;
+					settings.Server.ApiEndpoint = endpoint;
 				}
 
 				if (configuration.TryGetValue(Keys.Server.ClientName, out v) && v is string name)

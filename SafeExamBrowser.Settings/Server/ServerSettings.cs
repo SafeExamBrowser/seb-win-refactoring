@@ -17,9 +17,9 @@ namespace SafeExamBrowser.Settings.Server
 	public class ServerSettings
 	{
 		/// <summary>
-		/// The discovery URL for the API of the server.
+		/// The discovery endpoint for the API of the server.
 		/// </summary>
-		public string ApiUrl { get; set; }
+		public string ApiEndpoint { get; set; }
 
 		/// <summary>
 		/// The client name for initial authentication with the server.
@@ -77,7 +77,7 @@ namespace SafeExamBrowser.Settings.Server
 		public int RequestTimeout { get; set; }
 
 		/// <summary>
-		/// The URL of the server.
+		/// The base address of the server.
 		/// </summary>
 		public string ServerUrl { get; set; }
 

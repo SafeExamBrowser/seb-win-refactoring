@@ -277,7 +277,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class Server
 		{
-			internal const string ApiUrl = "apiDiscovery";
+			internal const string ApiEndpoint = "apiDiscovery";
 			internal const string ClientName = "clientName";
 			internal const string ClientSecret = "clientSecret";
 			internal const string Configuration = "sebServerConfiguration";

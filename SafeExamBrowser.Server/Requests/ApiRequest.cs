@@ -30,7 +30,7 @@ namespace SafeExamBrowser.Server.Requests
 
 		internal bool TryExecute(out Api api, out string message)
 		{
-			var success = TryExecute(HttpMethod.Get, settings.ApiUrl, out var response);
+			var success = TryExecute(HttpMethod.Get, settings.ApiEndpoint, out var response);
 
 			api = new Api();
 			message = response.ToLogString();
