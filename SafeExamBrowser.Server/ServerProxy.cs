@@ -204,9 +204,10 @@ namespace SafeExamBrowser.Server
 		public void Initialize(ServerSettings settings)
 		{
 			this.settings = settings;
+			this.settings.ApiEndpoint = sanitizer.SanitizeApiEndpoint(settings.ApiEndpoint);
 
 			httpClient = new HttpClient();
-			httpClient.BaseAddress = sanitizer.Sanitize(settings.ServerUrl);
+			httpClient.BaseAddress = sanitizer.SanitizeBaseAddress(settings.ServerUrl);
 
 			if (settings.RequestTimeout > 0)
 			{
