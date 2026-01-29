@@ -1,0 +1,798 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Text>
+    <Entry Key="AboutWindow_LicenseInfo">
+        このアプリケーションは、Mozilla Public License version 2.0の条項に従います。Safe Exam Browserは以下のフレームワークおよびサードパーティライブラリを使用しています:
+    </Entry>
+    <Entry Key="AboutWindow_Title">
+        バージョンとライセンス情報
+    </Entry>
+    <Entry Key="Browser_BlockedContentMessage">
+        コンテンツがブロックされました
+    </Entry>
+    <Entry Key="Browser_BlockedPageButton">
+        前のページに戻る
+    </Entry>
+    <Entry Key="Browser_BlockedPageMessage">
+        現在の設定により、このページへのアクセスは許可されていません。
+    </Entry>
+    <Entry Key="Browser_BlockedPageTitle">
+        ページがブロックされました
+    </Entry>
+    <Entry Key="Browser_LoadErrorMessage">
+        ページ「"%%URL%%" 」の読み込み中にエラーが発生しました:
+    </Entry>
+    <Entry Key="Browser_LoadErrorTitle">
+        ページ読み込みエラー
+    </Entry>
+    <Entry Key="Browser_Name">
+        ブラウザ
+    </Entry>
+    <Entry Key="Browser_PrintNotAllowed">
+        現在の設定により、印刷は許可されていません。
+    </Entry>
+    <Entry Key="Browser_Tooltip">
+        Webページを開く
+    </Entry>
+    <Entry Key="BrowserWindow_DeveloperConsoleMenuItem">
+        開発者コンソール
+    </Entry>
+    <Entry Key="BrowserWindow_Downloading">
+        ダウンロード中...
+    </Entry>
+    <Entry Key="BrowserWindow_DownloadCancelled">
+        キャンセルされました。
+    </Entry>
+    <Entry Key="BrowserWindow_DownloadComplete">
+        ダウンロード完了。
+    </Entry>
+    <Entry Key="BrowserWindow_FindCaseSensitive">
+        大文字・小文字を区別して検索
+    </Entry>
+    <Entry Key="BrowserWindow_FindMenuItem">
+        ページ内を検索...
+    </Entry>
+    <Entry Key="BrowserWindow_ReloadButton">
+        再読み込み
+    </Entry>
+    <Entry Key="BrowserWindow_BackwardButton">
+        戻る
+    </Entry>
+    <Entry Key="BrowserWindow_ForwardButton">
+        進む
+    </Entry>
+    <Entry Key="BrowserWindow_DownloadsButton">
+        ダウンロード
+    </Entry>
+    <Entry Key="BrowserWindow_HomeButton">
+        ホーム
+    </Entry>
+    <Entry Key="BrowserWindow_MenuButton">
+        メニュー
+    </Entry>
+    <Entry Key="BrowserWindow_CloseButton">
+        閉じる
+    </Entry>
+    <Entry Key="BrowserWindow_UrlTextBox">
+        URLを入力
+    </Entry>
+    <Entry Key="BrowserWindow_ZoomLevelReset">
+        ページを%%ZOOM%% %にズーム。クリックでリセット。
+    </Entry>
+    <Entry Key="BrowserWindow_ZoomMenuItem">
+        ページズーム
+    </Entry>
+    <Entry Key="BrowserWindow_ZoomMenuPlus">
+        ページを拡大
+    </Entry>
+    <Entry Key="BrowserWindow_ZoomMenuMinus">
+        ページを縮小
+    </Entry>
+    <Entry Key="BrowserWindow_SearchTextBox">
+        検索するテキストを入力
+    </Entry>
+    <Entry Key="BrowserWindow_SearchNext">
+        次の検索結果
+    </Entry>
+    <Entry Key="BrowserWindow_SearchPrevious">
+        前の検索結果
+    </Entry>
+    <Entry Key="Build">
+        ビルド
+    </Entry>
+    <Entry Key="CredentialsDialog_PasswordLabel">
+        パスワード:
+    </Entry>
+    <Entry Key="CredentialsDialog_UsernameLabel">
+        ユーザー名:
+    </Entry>
+    <Entry Key="CredentialsDialog_UsernameOptionalLabel">
+        ユーザー名（必要な場合）:
+    </Entry>
+    <Entry Key="CredentialsDialog_WirelessNetworkMessage">
+        ワイヤレスネットワーク ["%%_NAME_%%"] への接続に必要な認証情報を入力してください。
+    </Entry>
+    <Entry Key="CredentialsDialog_WirelessNetworkTitle">
+        ネットワーク認証が必要です
+    </Entry>
+    <Entry Key="ExamSelectionDialog_Cancel">
+        キャンセル
+    </Entry>
+    <Entry Key="ExamSelectionDialog_Message">
+        利用可能な試験から1つ選択してください:
+    </Entry>
+    <Entry Key="ExamSelectionDialog_Select">
+        選択
+    </Entry>
+    <Entry Key="ExamSelectionDialog_Title">
+        SEBサーバー試験
+    </Entry>
+    <Entry Key="FileSystemDialog_Cancel">
+        キャンセル
+    </Entry>
+    <Entry Key="FileSystemDialog_LoadError">
+        データの読み込みに失敗しました！
+    </Entry>
+    <Entry Key="FileSystemDialog_Loading">
+        読み込み中...
+    </Entry>
+    <Entry Key="FileSystemDialog_OpenFileMessage">
+        開くファイルを選択してください。
+    </Entry>
+    <Entry Key="FileSystemDialog_OpenFolderMessage">
+        フォルダを選択してください。
+    </Entry>
+    <Entry Key="FileSystemDialog_OverwriteWarning">
+        選択したファイルは既に存在します！本当に上書きしますか？
+    </Entry>
+    <Entry Key="FileSystemDialog_OverwriteWarningTitle">
+        上書きしますか？
+    </Entry>
+    <Entry Key="FileSystemDialog_SaveAs">
+        名前を付けて保存:
+    </Entry>
+    <Entry Key="FileSystemDialog_SaveFileMessage">
+        ファイルを保存する場所を選択してください。
+    </Entry>
+    <Entry Key="FileSystemDialog_SaveFolderMessage">
+        フォルダを保存する場所を選択してください。
+    </Entry>
+    <Entry Key="FileSystemDialog_Select">
+        選択
+    </Entry>
+    <Entry Key="FileSystemDialog_Title">
+        ファイルシステムアクセス
+    </Entry>
+    <Entry Key="FolderDialog_ApplicationLocation">
+        アプリケーション ["%%NAME%%"] がシステム上に見つかりませんでした！メイン実行ファイル ["%%EXECUTABLE%%"] を含むフォルダを指定してください。
+    </Entry>
+    <Entry Key="LockScreen_ApplicationIntegrityMessage">
+        非公式なバージョンのSEBを使用しています！公式のSafe Exam Browserを使用してください。SEBのロックを解除するには、正しいロック解除パスワードを入力してください。
+    </Entry>
+    <Entry Key="LockScreen_ApplicationsAllowOption">
+        ブラックリストに登録されたアプリケーションを一時的に許可します。これは現在実行中のインスタンスとセッションにのみ適用されます！
+    </Entry>
+    <Entry Key="LockScreen_ApplicationsMessage">
+        以下のブラックリストに登録されたアプリケーションが起動され、自動的に終了できませんでした！SEBのロックを解除するには、利用可能なオプションの1つを選択し、正しいロック解除パスワードを入力してください。
+    </Entry>
+    <Entry Key="LockScreen_ApplicationsTerminateOption">
+        Safe Exam Browserを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
+    </Entry>
+    <Entry Key="LockScreen_CursorContinueOption">
+        カーソル設定を一時的に許可します。これは現在実行中のセッションにのみ適用されます！
+    </Entry>
+    <Entry Key="LockScreen_CursorMessage">
+        禁止されたカーソル設定が検出されました。SEBのロックを解除するには、利用可能なオプションの1つを選択し、正しいロック解除パスワードを入力してください。
+    </Entry>
+    <Entry Key="LockScreen_CursorTerminateOption">
+        Safe Exam Browserを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
+    </Entry>
+    <Entry Key="LockScreen_DisplayConfigurationContinueOption">
+        ディスプレイ設定を一時的に許可します。これは現在実行中のセッションにのみ適用されます！
+    </Entry>
+    <Entry Key="LockScreen_DisplayConfigurationMessage">
+        禁止されたディスプレイ設定が検出されました。SEBのロックを解除するには、利用可能なオプションの1つを選択し、正しいロック解除パスワードを入力してください。
+    </Entry>
+    <Entry Key="LockScreen_DisplayConfigurationTerminateOption">
+        Safe Exam Browserを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
+    </Entry>
+    <Entry Key="LockScreen_EaseOfAccessContinueOption">
+        簡単操作の設定を一時的に許可します。これは現在実行中のセッションにのみ適用されます！
+    </Entry>
+    <Entry Key="LockScreen_EaseOfAccessMessage">
+        禁止されているWindowsセキュリティ画面における簡単操作設定(Ease of Access)が検出されました。SEBのロックを解除するには、利用可能なオプションの1つを選択し、正しいロック解除パスワードを入力してください。
+    </Entry>
+    <Entry Key="LockScreen_EaseOfAccessTerminateOption">
+        Safe Exam Browserを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
+    </Entry>
+    <Entry Key="LockScreen_SessionIntegrityMessage">
+        現在アクティブな設定または開始URLによる前回のセッションが正常に終了しませんでした！SEBのロックを解除するには、正しいパスワードを入力してください。
+    </Entry>
+    <Entry Key="LockScreen_StickyKeysContinueOption">
+        固定キー機能の状態を一時的に許可します。これは現在実行中のセッションにのみ適用されます！
+    </Entry>
+    <Entry Key="LockScreen_StickyKeysMessage">
+        禁止された固定キー機能の状態が検出されました。SEBのロックを解除するには、利用可能なオプションの1つを選択し、正しいロック解除パスワードを入力してください。
+    </Entry>
+    <Entry Key="LockScreen_StickyKeysTerminateOption">
+        Safe Exam Browserを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
+    </Entry>
+    <Entry Key="LockScreen_Title">
+        SEBがロックされました
+    </Entry>
+    <Entry Key="LockScreen_UnlockButton">
+        ロック解除
+    </Entry>
+    <Entry Key="LockScreen_UserSessionContinueOption">
+        Safe Exam Browserのロックを解除します。
+    </Entry>
+    <Entry Key="LockScreen_UserSessionMessage">
+        アクティブなユーザーが変更されたか、コンピューターがロックされました！SEBのロックを解除するには、利用可能なオプションの1つを選択し、正しいロック解除パスワードを入力してください。
+    </Entry>
+    <Entry Key="LockScreen_UserSessionTerminateOption">
+        Safe Exam Browserを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
+    </Entry>
+    <Entry Key="LockScreen_UserSwitchMessage">
+        アクティブなユーザーが変更されました！SEBのロックを解除するには、利用可能なオプションの1つを選択し、正しいロック解除パスワードを入力してください。
+    </Entry>
+    <Entry Key="LogWindow_AlwaysOnTop">
+        常に手前に表示
+    </Entry>
+    <Entry Key="LogWindow_AutoScroll">
+        コンテンツの自動スクロール
+    </Entry>
+    <Entry Key="LogWindow_Title">
+        アプリケーションログ
+    </Entry>
+    <Entry Key="MessageBox_ApplicationAutoTerminationQuestion">
+        新しいセッションを開始する前に、以下のアプリケーションを終了する必要があります。今すぐ自動的に終了しますか？
+    </Entry>
+    <Entry Key="MessageBox_ApplicationAutoTerminationQuestionTitle">
+        実行中のアプリケーションが検出されました
+    </Entry>
+    <Entry Key="MessageBox_ApplicationAutoTerminationDataLossWarning">
+        警告: 保存されていないアプリケーションデータが失われる可能性があります！
+    </Entry>
+    <Entry Key="MessageBox_ApplicationError">
+        回復不可能なエラーが発生しました！詳細はログファイルを確認してください。SEBは終了します...
+    </Entry>
+    <Entry Key="MessageBox_ApplicationErrorTitle">
+        アプリケーションエラー
+    </Entry>
+    <Entry Key="MessageBox_ApplicationInitializationFailure">
+        アプリケーション [%%NAME%%] を初期化できなかったため、新しいセッションでは利用できません！詳細はログファイルを確認してください。
+    </Entry>
+    <Entry Key="MessageBox_ApplicationInitializationFailureTitle">
+        アプリケーションの初期化に失敗しました
+    </Entry>
+    <Entry Key="MessageBox_ApplicationNotFound">
+        アプリケーション [%%NAME%%] がシステム上に見つからなかったため、新しいセッションでは利用できません！詳細はログファイルを確認してください。
+    </Entry>
+    <Entry Key="MessageBox_ApplicationNotFoundTitle">
+        アプリケーションが見つかりません
+    </Entry>
+    <Entry Key="MessageBox_ApplicationTerminationFailure">
+        以下のアプリケーションを終了できませんでした！手動で終了して、もう一度試してください...
+    </Entry>
+    <Entry Key="MessageBox_ApplicationTerminationFailureTitle">
+        自動終了に失敗しました
+    </Entry>
+    <Entry Key="MessageBox_BrowserHomeQuestion">
+        よろしいですか？（この機能では、Webサイトにログインしている場合でもログアウトされません）
+    </Entry>
+    <Entry Key="MessageBox_BrowserHomeQuestionTitle">
+        スタートに戻る
+    </Entry>
+    <Entry Key="MessageBox_BrowserNavigationBlocked">
+        現在の設定により、["%%URL%%"] へのアクセスは許可されていません。
+    </Entry>
+    <Entry Key="MessageBox_BrowserNavigationBlockedTitle">
+        ページがブロックされました
+    </Entry>
+    <Entry Key="MessageBox_BrowserQuitUrlConfirmation">
+        ブラウザアプリケーションが終了URLを検出しました！今すぐSEBを終了しますか？
+    </Entry>
+    <Entry Key="MessageBox_BrowserQuitUrlConfirmationTitle">
+        終了URLが検出されました
+    </Entry>
+    <Entry Key="MessageBox_CancelButton">
+        キャンセル
+    </Entry>
+    <Entry Key="MessageBox_ClientConfigurationError">
+        ローカルクライアント設定に失敗しました！詳細はログファイルを確認してください。SEBは終了します...
+    </Entry>
+    <Entry Key="MessageBox_ClientConfigurationErrorTitle">
+        設定エラー
+    </Entry>
+    <Entry Key="MessageBox_ClientConfigurationQuestion">
+        クライアント設定が保存されました。次回SEBを起動する際に使用されます。今すぐ終了しますか？
+    </Entry>
+    <Entry Key="MessageBox_ClientConfigurationQuestionTitle">
+        設定が完了しました
+    </Entry>
+    <Entry Key="MessageBox_ConfigurationDownloadError">
+        新しい設定のダウンロードに失敗しました。もう一度試すか、技術サポートに連絡してください。
+    </Entry>
+    <Entry Key="MessageBox_ConfigurationDownloadErrorTitle">
+        ダウンロードエラー
+    </Entry>
+    <Entry Key="MessageBox_DisplayConfigurationError">
+        現在のマルチディスプレイ設定は許可されていません。%%_ALLOWED_COUNT_%% 台の %%_TYPE_%% ディスプレイが許可されていますが、%%_INTERNAL_COUNT_%% 台の内蔵ディスプレイと %%_EXTERNAL_COUNT_%% 台の外部ディスプレイが検出されました。詳細はログファイルを確認してください。SEBは終了します…
+    </Entry>
+    <Entry Key="MessageBox_DisplayConfigurationErrorTitle">
+        禁止されたディスプレイ設定
+    </Entry>
+    <Entry Key="MessageBox_DisplayConfigurationInternal">
+        内蔵
+    </Entry>
+    <Entry Key="MessageBox_DisplayConfigurationInternalOrExternal">
+        内蔵または外部
+    </Entry>
+    <Entry Key="MessageBox_DownloadNotAllowed">
+        現在のSEB設定では、ファイルのダウンロードは許可されていません。試験担当者に報告してください。
+    </Entry>
+    <Entry Key="MessageBox_DownloadNotAllowedTitle">
+        ダウンロードは許可されていません！
+    </Entry>
+    <Entry Key="MessageBox_InvalidConfigurationData">
+        設定リソース ["%%URI%%"] に無効なデータが含まれています！
+    </Entry>
+    <Entry Key="MessageBox_InvalidConfigurationDataTitle">
+        設定エラー
+    </Entry>
+    <Entry Key="MessageBox_InvalidHomePassword">
+        入力されたパスワードが正しくありません。
+    </Entry>
+    <Entry Key="MessageBox_InvalidHomePasswordTitle">
+        無効なパスワード
+    </Entry>
+    <Entry Key="MessageBox_InvalidPasswordError">
+        5回以内に正しいパスワードを入力できませんでした。SEBは終了します...
+    </Entry>
+    <Entry Key="MessageBox_InvalidPasswordErrorTitle">
+        無効なパスワード
+    </Entry>
+    <Entry Key="MessageBox_InvalidQuitPassword">
+        SEBを終了するには、正しい終了パスワードを入力する必要があります。
+    </Entry>
+    <Entry Key="MessageBox_InvalidQuitPasswordTitle">
+        無効な終了パスワード
+    </Entry>
+    <Entry Key="MessageBox_InvalidUnlockPassword">
+        SEBのロックを解除するには、正しいパスワードを入力する必要があります。
+    </Entry>
+    <Entry Key="MessageBox_InvalidUnlockPasswordTitle">
+        無効なロック解除パスワード
+    </Entry>
+    <Entry Key="MessageBox_NoButton">
+        いいえ
+    </Entry>
+    <Entry Key="MessageBox_NotSupportedConfigurationResource">
+        設定リソース ["%%URI%%"] はサポートされていません！
+    </Entry>
+    <Entry Key="MessageBox_NotSupportedConfigurationResourceTitle">
+        設定エラー
+    </Entry>
+    <Entry Key="MessageBox_OkButton">
+        OK
+    </Entry>
+    <Entry Key="MessageBox_PageLeaveConfirmation">
+        現在のページを離れますか？
+    </Entry>
+    <Entry Key="MessageBox_PageLeaveConfirmationTitle">
+        ページを離れますか？
+    </Entry>
+    <Entry Key="MessageBox_PageReloadConfirmation">
+        現在のページを再読み込みしますか？
+    </Entry>
+    <Entry Key="MessageBox_PageReloadConfirmationTitle">
+        再読み込みしますか？
+    </Entry>
+    <Entry Key="MessageBox_Quit">
+        SEBを終了しますか？
+    </Entry>
+    <Entry Key="MessageBox_QuitTitle">
+        終了しますか？
+    </Entry>
+    <Entry Key="MessageBox_QuitError">
+        クライアントが実行時環境（ランタイム）にシャットダウン要求を送信できませんでした！
+    </Entry>
+    <Entry Key="MessageBox_QuitErrorTitle">
+        終了エラー
+    </Entry>
+    <Entry Key="MessageBox_ReconfigurationDenied">
+        SEBを再設定する権限がありません。
+    </Entry>
+    <Entry Key="MessageBox_ReconfigurationDeniedTitle">
+        再設定が拒否されました
+    </Entry>
+    <Entry Key="MessageBox_ReconfigurationError">
+        クライアントが実行時環境（ランタイム）に再設定要求を送信できませんでした！
+    </Entry>
+    <Entry Key="MessageBox_ReconfigurationErrorTitle">
+        再設定エラー
+    </Entry>
+    <Entry Key="MessageBox_RemoteSessionNotAllowed">
+        システムがリモートセッションで実行されているようです。選択された設定では、リモートセッションでのSEBの実行は許可されていません。
+    </Entry>
+    <Entry Key="MessageBox_RemoteSessionNotAllowedTitle">
+        リモートセッションが検出されました
+    </Entry>
+    <Entry Key="MessageBox_ScreenProctoringDisclaimer">
+        この試験中は、試験担当者の設定とデータプライバシー規則に従って、画面が記録されます。ご質問がある場合は、試験担当者にお問い合わせください。
+    </Entry>
+    <Entry Key="MessageBox_ScreenProctoringDisclaimerTitle">
+        画面監視付きセッション
+    </Entry>
+    <Entry Key="MessageBox_ServiceUnavailableError">
+        SEBサービスの初期化に失敗しました！サービスは必須として設定されているため、SEBは終了します。
+    </Entry>
+    <Entry Key="MessageBox_ServiceUnavailableErrorTitle">
+        サービスを利用できません
+    </Entry>
+    <Entry Key="MessageBox_ServiceUnavailableWarning">
+        SEBサービスの初期化に失敗しました。サービスはオプションとして設定されているため、SEBは初期化を続行します。
+    </Entry>
+    <Entry Key="MessageBox_ServiceUnavailableWarningTitle">
+        サービスを利用できません
+    </Entry>
+    <Entry Key="MessageBox_SessionStartError">
+        SEBが新しいセッションを開始できませんでした！詳細はログファイルを確認してください。
+    </Entry>
+    <Entry Key="MessageBox_SessionStartErrorTitle">
+        セッション開始エラー
+    </Entry>
+    <Entry Key="MessageBox_ShutdownError">
+        シャットダウン処理中に予期しないエラーが発生しました！詳細はログファイルを確認してください。
+    </Entry>
+    <Entry Key="MessageBox_ShutdownErrorTitle">
+        シャットダウンエラー
+    </Entry>
+    <Entry Key="MessageBox_StartupError">
+        起動処理中に予期しないエラーが発生しました！詳細はログファイルを確認してください。
+    </Entry>
+    <Entry Key="MessageBox_StartupErrorTitle">
+        起動エラー
+    </Entry>
+    <Entry Key="MessageBox_UnexpectedConfigurationError">
+        設定リソース ["%%URI%%"] の読み込み中に予期しないエラーが発生しました！詳細はログファイルを確認してください。
+    </Entry>
+    <Entry Key="MessageBox_UnexpectedConfigurationErrorTitle">
+        設定エラー
+    </Entry>
+    <Entry Key="MessageBox_UploadNotAllowed">
+        現在のSEB設定では、ファイルのアップロードは許可されていません。試験担当者に報告してください。
+    </Entry>
+    <Entry Key="MessageBox_UploadNotAllowedTitle">
+        アップロードは許可されていません！
+    </Entry>
+    <Entry Key="MessageBox_VersionRestrictionError">
+        インストールされているバージョン [%%_VERSION_%%] のSEBは使用できません。選択された設定では、特定のバージョン[%%_REQUIRED_VERSIONS_%%]の使用が必要です。公式Webサイト（safeexambrowser.org/download）またはGitHubのSEB for Windowsリポジトリ（github.com/safeexambrowser）から必要なバージョンをダウンロードしてインストールしてください。
+    </Entry>
+    <Entry Key="MessageBox_VersionRestrictionErrorTitle">
+        無効なSEBバージョン
+    </Entry>
+    <Entry Key="MessageBox_VersionRestrictionMinimum">
+        SEB [%%_VERSION_%%] 以降
+    </Entry>
+    <Entry Key="MessageBox_VideoProctoringDisclaimer">
+        現在のセッションは、個別に設定されたサーバーに送信されるライブビデオおよびオーディオストリームを使用してリモート監視されます。プライバシーポリシーについては、試験監督者にお尋ねください。SEB自体は集中型のSEB監視サーバーには接続しません。どの監視サービス/サーバーを使用するかは試験提供者が決定します。
+    </Entry>
+    <Entry Key="MessageBox_VideoProctoringDisclaimerTitle">
+        リモート監視付きセッション
+    </Entry>
+    <Entry Key="MessageBox_VirtualMachineNotAllowed">
+        このコンピューターは仮想マシンのようです。選択された設定では仮想マシンでのSEBの実行は許可されていません。
+    </Entry>
+    <Entry Key="MessageBox_VirtualMachineNotAllowedTitle">
+        仮想マシンが検出されました
+    </Entry>
+    <Entry Key="MessageBox_YesButton">
+        はい
+    </Entry>
+    <Entry Key="MessageBox_ZoomNotSupported">
+        選択された設定ではZoomによるリモート監視が必要ですが、このSEBバージョンではサポートされていません。試験担当者が指定したSEBバージョンをダウンロードしてインストールしてください。ライセンスの問題により、Zoomによるリモート監視はSEBアライアンスメンバーのみが利用できます。詳細は https://safeexambrowser.org/alliance を参照してください。
+    </Entry>
+    <Entry Key="MessageBox_ZoomNotSupportedTitle">
+        Zoom監視が必要です
+    </Entry>
+    <Entry Key="Notification_AboutTooltip">
+        SEBについて
+    </Entry>
+    <Entry Key="Notification_LogTooltip">
+        アプリケーションログ
+    </Entry>
+    <Entry Key="Notification_ProctoringActiveTooltip">
+        リモート監視がアクティブです
+    </Entry>
+    <Entry Key="Notification_ProctoringHandLowered">
+        手が下げられました
+    </Entry>
+    <Entry Key="Notification_ProctoringHandRaised">
+        手が挙げられました
+    </Entry>
+    <Entry Key="Notification_ProctoringInactiveTooltip">
+        リモート監視は非アクティブです
+    </Entry>
+    <Entry Key="Notification_ProctoringLowerHand">
+        手を下げる
+    </Entry>
+    <Entry Key="Notification_ProctoringRaiseHand">
+        手を挙げる
+    </Entry>
+    <Entry Key="OperationStatus_CloseRuntimeConnection">
+        ランタイム接続を閉じています
+    </Entry>
+    <Entry Key="OperationStatus_FinalizeApplications">
+        アプリケーションを終了しています
+    </Entry>
+    <Entry Key="OperationStatus_FinalizeClipboard">
+        クリップボードを終了しています
+    </Entry>
+    <Entry Key="OperationStatus_FinalizeServer">
+        SEBサーバーを終了しています
+    </Entry>
+    <Entry Key="OperationStatus_FinalizeServiceSession">
+        サービスセッションを終了しています
+    </Entry>
+    <Entry Key="OperationStatus_FinalizeSystemEvents">
+        システムイベントを終了しています
+    </Entry>
+    <Entry Key="OperationStatus_InitializeApplications">
+        アプリケーションを初期化しています
+    </Entry>
+    <Entry Key="OperationStatus_InitializeBrowser">
+        ブラウザを初期化しています
+    </Entry>
+    <Entry Key="OperationStatus_InitializeClipboard">
+        クリップボードを初期化しています
+    </Entry>
+    <Entry Key="OperationStatus_InitializeConfiguration">
+        設定を初期化しています
+    </Entry>
+    <Entry Key="OperationStatus_InitializeKioskMode">
+        キオスクモードを初期化しています
+    </Entry>
+    <Entry Key="OperationStatus_InitializePermissions">
+        権限を初期化しています
+    </Entry>
+    <Entry Key="OperationStatus_InitializeProctoring">
+        リモート監視を初期化しています
+    </Entry>
+    <Entry Key="OperationStatus_InitializeRuntimeConnection">
+        ランタイム接続を初期化しています
+    </Entry>
+    <Entry Key="OperationStatus_InitializeServer">
+        SEBサーバーを初期化しています
+    </Entry>
+    <Entry Key="OperationStatus_InitializeServiceSession">
+        サービスセッションを初期化しています
+    </Entry>
+    <Entry Key="OperationStatus_InitializeSession">
+        新しいセッションを初期化しています
+    </Entry>
+    <Entry Key="OperationStatus_InitializeShell">
+        ユーザーインターフェースを初期化しています
+    </Entry>
+    <Entry Key="OperationStatus_InitializeSystemEvents">
+        システムイベントを初期化しています
+    </Entry>
+    <Entry Key="OperationStatus_InitializeWindowGuard">
+        ウィンドウガードを初期化しています
+    </Entry>
+    <Entry Key="OperationStatus_InitializeWorkingArea">
+        作業領域を初期化しています
+    </Entry>
+    <Entry Key="OperationStatus_RestartCommunicationHost">
+        通信ホストを再起動しています
+    </Entry>
+    <Entry Key="OperationStatus_RestoreWorkingArea">
+        作業領域を復元しています
+    </Entry>
+    <Entry Key="OperationStatus_RevertKioskMode">
+        キオスクモードを元に戻しています
+    </Entry>
+    <Entry Key="OperationStatus_StartClient">
+        クライアントを起動しています
+    </Entry>
+    <Entry Key="OperationStatus_StartCommunicationHost">
+        通信ホストを起動しています
+    </Entry>
+    <Entry Key="OperationStatus_StartKeyboardInterception">
+        キーボード入力監視を開始しています
+    </Entry>
+    <Entry Key="OperationStatus_StartMouseInterception">
+        マウス入力監視を開始しています
+    </Entry>
+    <Entry Key="OperationStatus_StopClient">
+        クライアントを停止しています
+    </Entry>
+    <Entry Key="OperationStatus_StopCommunicationHost">
+        通信ホストを停止しています
+    </Entry>
+    <Entry Key="OperationStatus_StopKeyboardInterception">
+        キーボード入力監視を停止しています
+    </Entry>
+    <Entry Key="OperationStatus_StopMouseInterception">
+        マウス入力監視を停止しています
+    </Entry>
+    <Entry Key="OperationStatus_TerminateBrowser">
+        ブラウザを終了しています
+    </Entry>
+    <Entry Key="OperationStatus_TerminateProctoring">
+        リモート監視を終了しています
+    </Entry>
+    <Entry Key="OperationStatus_TerminateShell">
+        ユーザーインターフェースを終了しています
+    </Entry>
+    <Entry Key="OperationStatus_ValidateDisplayConfiguration">
+        ディスプレイ設定ポリシーを検証しています
+    </Entry>
+    <Entry Key="OperationStatus_ValidateRemoteSessionPolicy">
+        リモートセッションポリシーを検証しています
+    </Entry>
+    <Entry Key="OperationStatus_ValidateVersionRestrictions">
+        バージョン制限を検証しています
+    </Entry>
+    <Entry Key="OperationStatus_ValidateVirtualMachinePolicy">
+        仮想マシンポリシーを検証しています
+    </Entry>
+    <Entry Key="OperationStatus_VerifyApplicationIntegrity">
+        整合性を検証しています
+    </Entry>
+    <Entry Key="OperationStatus_VerifySessionIntegrity">
+        セッションの整合性を検証しています
+    </Entry>
+    <Entry Key="OperationStatus_WaitDisclaimerConfirmation">
+        免責事項の確認を待っています
+    </Entry>
+    <Entry Key="OperationStatus_WaitErrorConfirmation">
+        エラーメッセージの確認を待っています
+    </Entry>
+    <Entry Key="OperationStatus_WaitExplorerStartup">
+        Windowsエクスプローラーの起動を待っています
+    </Entry>
+    <Entry Key="OperationStatus_WaitExplorerTermination">
+        Windowsエクスプローラーのシャットダウンを待っています
+    </Entry>
+    <Entry Key="OperationStatus_WaitRuntimeDisconnection">
+        ランタイムの切断を待っています
+    </Entry>
+    <Entry Key="PasswordDialog_BrowserHomePasswordRequired">
+        終了/再起動パスワードを入力してください:（この機能では、Webサイトにログインしている場合でもログアウトされません）
+    </Entry>
+    <Entry Key="PasswordDialog_BrowserHomePasswordRequiredTitle">
+        スタートに戻る
+    </Entry>
+    <Entry Key="PasswordDialog_Cancel">
+        キャンセル
+    </Entry>
+    <Entry Key="PasswordDialog_Confirm">
+        確認
+    </Entry>
+    <Entry Key="PasswordDialog_LocalAdminPasswordRequired">
+        ローカルクライアント設定の管理者パスワードを入力してください:
+    </Entry>
+    <Entry Key="PasswordDialog_LocalAdminPasswordRequiredTitle">
+        パスワードが必要です
+    </Entry>
+    <Entry Key="PasswordDialog_LocalSettingsPasswordRequired">
+        ローカルクライアント設定のパスワードを入力してください:
+    </Entry>
+    <Entry Key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
+        パスワードが必要です
+    </Entry>
+    <Entry Key="PasswordDialog_QuitPasswordRequired">
+        SEBを終了するには、終了パスワードを入力してください:
+    </Entry>
+    <Entry Key="PasswordDialog_QuitPasswordRequiredTitle">
+        パスワードが必要です
+    </Entry>
+    <Entry Key="PasswordDialog_SettingsPasswordRequired">
+        試験パスワードを入力してください:
+    </Entry>
+    <Entry Key="PasswordDialog_SettingsPasswordRequiredTitle">
+        パスワードが必要です
+    </Entry>
+    <Entry Key="ProctoringFinalizationDialog_Abort">
+        終了
+    </Entry>
+    <Entry Key="ProctoringFinalizationDialog_Confirm">
+        確認
+    </Entry>
+    <Entry Key="ProctoringFinalizationDialog_FailureMessage">
+        ネットワークと画面監視サービスのいずれか、あるいは両方に問題があるため、残りの操作を完了できませんでした。
+    </Entry>
+    <Entry Key="ProctoringFinalizationDialog_InfoMessage">
+        画面監視が残りの操作を実行しているのでしばらくお待ちください。ネットワークと画面監視サービスの状態によっては、時間がかかる場合があります。
+    </Entry>
+    <Entry Key="ProctoringFinalizationDialog_PasswordMessage">
+        残りの操作の実行をキャンセルするには、終了パスワードを入力してください:
+    </Entry>
+    <Entry Key="ProctoringFinalizationDialog_Status">
+        %%_TOTAL_%% 件中 %%_COUNT_%% 件の送信操作を実行中。
+    </Entry>
+    <Entry Key="ProctoringFinalizationDialog_StatusAndTime">
+        %%_TIME_%% 現在、 %%_TOTAL_%% 件中 %%_COUNT_%% 件の送信操作の実行を待っています...
+    </Entry>
+    <Entry Key="ProctoringFinalizationDialog_StatusWaiting">
+        %%_COUNT_%% 件の送信操作の再開を待っています...
+    </Entry>
+    <Entry Key="ProctoringFinalizationDialog_StatusWaitingAndTime">
+        %%_TIME_%% 現在、 %%_COUNT_%% 件の送信操作の再開を待っています...
+    </Entry>
+    <Entry Key="ProctoringFinalizationDialog_Title">
+        画面監視の終了処理
+    </Entry>
+    <Entry Key="RuntimeWindow_ApplicationRunning">
+        SEBは実行中です。
+    </Entry>
+    <Entry Key="ServerFailureDialog_Abort">
+        中止
+    </Entry>
+    <Entry Key="ServerFailureDialog_Fallback">
+        フォールバック
+    </Entry>
+    <Entry Key="ServerFailureDialog_Message">
+        SEBサーバーとの通信中にエラーが発生しました。
+    </Entry>
+    <Entry Key="ServerFailureDialog_Retry">
+        再試行
+    </Entry>
+    <Entry Key="ServerFailureDialog_Title">
+        SEBサーバーエラー
+    </Entry>
+    <Entry Key="Shell_QuitButton">
+        セッションを終了
+    </Entry>
+    <Entry Key="SystemControl_AudioDeviceInfo">
+        %%NAME%%: %%VOLUME%%%
+    </Entry>
+    <Entry Key="SystemControl_AudioDeviceInfoMuted">
+        %%NAME%%: ミュートを設定
+    </Entry>
+    <Entry Key="SystemControl_AudioDeviceMuteTooltip">
+        クリックして音声をミュート
+    </Entry>
+    <Entry Key="SystemControl_AudioDeviceNotFound">
+        アクティブなオーディオデバイスが見つかりません
+    </Entry>
+    <Entry Key="SystemControl_AudioDeviceUnmuteTooltip">
+        クリックして音声のミュートを解除
+    </Entry>
+    <Entry Key="SystemControl_BatteryCharging">
+        電源に接続して充電中... (%%CHARGE%%%)
+    </Entry>
+    <Entry Key="SystemControl_BatteryCharged">
+        フル充電 (%%CHARGE%%%)
+    </Entry>
+    <Entry Key="SystemControl_BatteryChargeCriticalWarning">
+        バッテリー残量が極めて少なくなっています。コンピューターを電源に接続してください！
+    </Entry>
+    <Entry Key="SystemControl_BatteryChargeLowInfo">
+        バッテリー残量が少なくなってきています。早めにコンピューターを電源に接続することを検討してください...
+    </Entry>
+    <Entry Key="SystemControl_BatteryRemainingCharge">
+        残り %%HOURS%%時間 %%MINUTES%%分 (%%CHARGE%%%)
+    </Entry>
+    <Entry Key="SystemControl_KeyboardLayoutTooltip">
+        現在のキーボードレイアウトは [%%LAYOUT%%] です
+    </Entry>
+    <Entry Key="SystemControl_NetworkDisconnected">
+        切断されました
+    </Entry>
+    <Entry Key="SystemControl_NetworkNotAvailable">
+        ワイヤレスネットワークアダプターが利用できないか、オフになっています
+    </Entry>
+    <Entry Key="SystemControl_NetworkWiredConnected">
+        接続されました
+    </Entry>
+    <Entry Key="SystemControl_NetworkWirelessConnected">
+        [%%NAME%%] に接続されました
+    </Entry>
+    <Entry Key="SystemControl_NetworkWirelessConnecting">
+        接続中...
+    </Entry>
+    <Entry Key="Version">
+        バージョン
+    </Entry>
+</Text>
