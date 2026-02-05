@@ -210,6 +210,9 @@
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\ProgressIndicatorViewModel.cs" />
     <Compile Include="ViewModels\RuntimeWindowViewModel.cs" />
+    <Compile Include="Windows\VerificatorOverlay.xaml.cs">
+      <DependentUpon>VerificatorOverlay.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.Applications.Contracts\SafeExamBrowser.Applications.Contracts.csproj">
@@ -262,6 +265,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Windows\VerificatorOverlay.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Resource Include="Images\Proctoring_Inactive.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

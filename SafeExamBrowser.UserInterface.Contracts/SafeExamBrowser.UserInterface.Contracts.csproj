@@ -94,6 +94,7 @@
     <Compile Include="Shell\ITaskview.cs" />
     <Compile Include="Shell\ITaskviewActivator.cs" />
     <Compile Include="Shell\ITerminationActivator.cs" />
+    <Compile Include="Shell\IVerificatorActivator.cs" />
     <Compile Include="Shell\Location.cs" />
     <Compile Include="Windows\Data\CredentialsDialogPurpose.cs" />
     <Compile Include="Windows\Data\ExamSelectionDialogResult.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Windows\IRuntimeWindow.cs" />
     <Compile Include="Windows\IServerFailureDialog.cs" />
     <Compile Include="Windows\ISplashScreen.cs" />
+    <Compile Include="Windows\IVerificatorOverlay.cs" />
     <Compile Include="Windows\IWindow.cs" />
   </ItemGroup>
   <ItemGroup>

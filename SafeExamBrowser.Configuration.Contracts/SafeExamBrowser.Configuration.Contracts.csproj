@@ -74,7 +74,6 @@
     <Compile Include="DataResources\IResourceLoader.cs" />
     <Compile Include="DataResources\IResourceSaver.cs" />
     <Compile Include="IConfigurationRepository.cs" />
-    <Compile Include="Integrity\IIntegrityModule.cs" />
     <Compile Include="LoadStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaveStatus.cs" />
@@ -87,5 +86,6 @@
       <Name>SafeExamBrowser.Settings</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

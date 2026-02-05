@@ -165,6 +165,11 @@ namespace SafeExamBrowser.UserInterface.Mobile
 			return windowFactory.CreateTaskview();
 		}
 
+		public IVerificatorOverlay CreateVerificatorOverlay()
+		{
+			return windowFactory.CreateVerificatorOverlay();
+		}
+
 		private void InitializeFontAwesome()
 		{
 			// To be able to use FontAwesome in XAML icon resources, we need to make sure that the FontAwesome.WPF assembly is loaded into

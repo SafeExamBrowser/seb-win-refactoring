@@ -12,6 +12,7 @@ using SafeExamBrowser.Applications.Contracts;
 using SafeExamBrowser.Client.Operations;
 using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Applications;
@@ -42,6 +43,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<ITaskbar> taskbar;
 		private Mock<ITaskview> taskview;
 		private Mock<IText> text;
+		private Mock<IVerificator> verificator;
+		private Mock<INotification> verificatorNotification;
 		private Mock<IUserInterfaceFactory> uiFactory;
 		private Mock<INetworkAdapter> networkAdapter;
 
@@ -64,6 +67,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			taskbar = new Mock<ITaskbar>();
 			taskview = new Mock<ITaskview>();
 			text = new Mock<IText>();
+			verificator = new Mock<IVerificator>();
+			verificatorNotification = new Mock<INotification>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
 			context.Settings = new AppSettings();
@@ -87,7 +92,9 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 				taskbar.Object,
 				taskview.Object,
 				text.Object,
-				uiFactory.Object);
+				uiFactory.Object,
+				verificator.Object,
+				verificatorNotification.Object);
 		}
 
 		[TestMethod]

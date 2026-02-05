@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System.Threading.Tasks;
 using System.Windows.Input;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
@@ -15,25 +16,24 @@ using SafeExamBrowser.WindowsApi.Contracts.Events;
 
 namespace SafeExamBrowser.UserInterface.Shared.Activators
 {
-	public class ActionCenterKeyboardActivator : KeyboardActivator, IActionCenterActivator
+	public class VerificatorActivator : KeyboardActivator, IVerificatorActivator
 	{
 		private readonly ILogger logger;
 
-		private bool A, LeftWindows;
+		private bool Ctrl, Shift, UpArrow;
 
-		public event ActivatorEventHandler Activated { add { } remove { } }
-		public event ActivatorEventHandler Deactivated { add { } remove { } }
-		public event ActivatorEventHandler Toggled;
+		public event ActivatorEventHandler Activated;
 
-		public ActionCenterKeyboardActivator(ILogger logger, INativeMethods nativeMethods) : base(nativeMethods)
+		public VerificatorActivator(ILogger logger, INativeMethods nativeMethods) : base(nativeMethods)
 		{
 			this.logger = logger;
 		}
 
 		protected override void OnBeforeResume()
 		{
-			A = false;
-			LeftWindows = false;
+			Ctrl = false;
+			Shift = false;
+			UpArrow = false;
 		}
 
 		protected override bool Process(Key key, KeyModifier modifier, KeyState state)
@@ -43,20 +43,29 @@ namespace SafeExamBrowser.UserInterface.Shared.Activators
 
 			switch (key)
 			{
-				case Key.A:
-					changed = A != pressed;
-					A = pressed;
+				case Key.LeftCtrl:
+				case Key.RightCtrl:
+					changed = Ctrl != pressed;
+					Ctrl = pressed;
 					break;
-				case Key.LWin:
-					changed = LeftWindows != pressed;
-					LeftWindows = pressed;
+				case Key.LeftShift:
+				case Key.RightShift:
+					changed = Shift != pressed;
+					Shift = pressed;
+					break;
+				case Key.Up:
+					changed = UpArrow != pressed;
+					UpArrow = pressed;
 					break;
 			}
 
-			if (A && LeftWindows && changed)
+			if (Ctrl && Shift && UpArrow && changed)
 			{
-				logger.Debug("Detected toggle sequence for action center.");
-				Toggled?.Invoke();
+				Task.Run(() =>
+				{
+					logger.Debug("Detected activation sequence for verificator.");
+					Activated?.Invoke();
+				});
 			}
 
 			return false;

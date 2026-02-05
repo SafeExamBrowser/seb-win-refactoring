@@ -108,6 +108,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Proctoring.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Applications.UnitTests", "SafeExamBrowser.Applications.UnitTests\SafeExamBrowser.Applications.UnitTests.csproj", "{FC6D80EC-8611-4287-87E2-17C028A10858}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Integrity", "SafeExamBrowser.Integrity\SafeExamBrowser.Integrity.csproj", "{1A061CCF-D14A-4D26-AA90-8355703170EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeExamBrowser.Integrity.Contracts", "SafeExamBrowser.Integrity.Contracts\SafeExamBrowser.Integrity.Contracts.csproj", "{BD45A138-10DC-429C-9D9B-D2F527FBD7DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -481,6 +485,20 @@ Global
 		{FC6D80EC-8611-4287-87E2-17C028A10858}.Debug|x86.Build.0 = Debug|x86
 		{FC6D80EC-8611-4287-87E2-17C028A10858}.Release|x64.ActiveCfg = Release|x64
 		{FC6D80EC-8611-4287-87E2-17C028A10858}.Release|x86.ActiveCfg = Release|x86
+		{1A061CCF-D14A-4D26-AA90-8355703170EE}.Debug|x64.ActiveCfg = Debug|x64
+		{1A061CCF-D14A-4D26-AA90-8355703170EE}.Debug|x64.Build.0 = Debug|x64
+		{1A061CCF-D14A-4D26-AA90-8355703170EE}.Debug|x86.ActiveCfg = Debug|x86
+		{1A061CCF-D14A-4D26-AA90-8355703170EE}.Debug|x86.Build.0 = Debug|x86
+		{1A061CCF-D14A-4D26-AA90-8355703170EE}.Release|x64.ActiveCfg = Release|x64
+		{1A061CCF-D14A-4D26-AA90-8355703170EE}.Release|x64.Build.0 = Release|x64
+		{1A061CCF-D14A-4D26-AA90-8355703170EE}.Release|x86.ActiveCfg = Release|x86
+		{BD45A138-10DC-429C-9D9B-D2F527FBD7DE}.Debug|x64.ActiveCfg = Debug|x64
+		{BD45A138-10DC-429C-9D9B-D2F527FBD7DE}.Debug|x64.Build.0 = Debug|x64
+		{BD45A138-10DC-429C-9D9B-D2F527FBD7DE}.Debug|x86.ActiveCfg = Debug|x86
+		{BD45A138-10DC-429C-9D9B-D2F527FBD7DE}.Debug|x86.Build.0 = Debug|x86
+		{BD45A138-10DC-429C-9D9B-D2F527FBD7DE}.Release|x64.ActiveCfg = Release|x64
+		{BD45A138-10DC-429C-9D9B-D2F527FBD7DE}.Release|x64.Build.0 = Release|x64
+		{BD45A138-10DC-429C-9D9B-D2F527FBD7DE}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

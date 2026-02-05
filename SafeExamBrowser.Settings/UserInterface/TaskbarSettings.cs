@@ -50,5 +50,10 @@ namespace SafeExamBrowser.Settings.UserInterface
 		/// Determines whether the system control for the network is accessible via the taskbar.
 		/// </summary>
 		public bool ShowNetwork { get; set; }
+
+		/// <summary>
+		/// Determines whether the verificator functionality is accessible via the taskbar.
+		/// </summary>
+		public bool ShowVerificator { get; set; }
 	}
 }

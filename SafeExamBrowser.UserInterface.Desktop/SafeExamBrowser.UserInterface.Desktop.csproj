@@ -199,6 +199,13 @@
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\ProgressIndicatorViewModel.cs" />
     <Compile Include="ViewModels\RuntimeWindowViewModel.cs" />
+    <Compile Include="Windows\VerificatorOverlay.xaml.cs">
+      <DependentUpon>VerificatorOverlay.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Windows\VerificatorOverlay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Resource Include="Images\Proctoring_Inactive.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

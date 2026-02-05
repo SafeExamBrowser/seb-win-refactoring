@@ -47,6 +47,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.UserInterface.Taskbar.ShowApplicationLog:
 					MapShowApplicationLog(settings, value);
 					break;
+				case Keys.UserInterface.Taskbar.ShowVerificator:
+					MapShowVerificator(settings, value);
+					break;
 				case Keys.UserInterface.UserInterfaceMode:
 					MapUserInterfaceMode(settings, value);
 					break;
@@ -134,6 +137,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is bool show)
 			{
 				settings.UserInterface.Taskbar.ShowApplicationLog = show;
+			}
+		}
+
+		private void MapShowVerificator(AppSettings settings, object value)
+		{
+			if (value is bool show)
+			{
+				settings.UserInterface.Taskbar.ShowVerificator = show;
 			}
 		}
 

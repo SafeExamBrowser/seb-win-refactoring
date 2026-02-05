@@ -11,6 +11,7 @@ using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Audio;
@@ -39,6 +40,8 @@ namespace SafeExamBrowser.Client.Operations
 		private readonly ITaskview taskview;
 		private readonly IText text;
 		private readonly IUserInterfaceFactory uiFactory;
+		private readonly IVerificator verificator;
+		private readonly INotification verificatorNotification;
 
 		public override event StatusChangedEventHandler StatusChanged;
 
@@ -57,7 +60,9 @@ namespace SafeExamBrowser.Client.Operations
 			ITaskbar taskbar,
 			ITaskview taskview,
 			IText text,
-			IUserInterfaceFactory uiFactory) : base(context)
+			IUserInterfaceFactory uiFactory,
+			IVerificator verificator,
+			INotification verificatorNotification) : base(context)
 		{
 			this.aboutNotification = aboutNotification;
 			this.actionCenter = actionCenter;
@@ -73,6 +78,8 @@ namespace SafeExamBrowser.Client.Operations
 			this.taskbar = taskbar;
 			this.taskview = taskview;
 			this.uiFactory = uiFactory;
+			this.verificator = verificator;
+			this.verificatorNotification = verificatorNotification;
 		}
 
 		public override OperationResult Perform()
@@ -106,6 +113,12 @@ namespace SafeExamBrowser.Client.Operations
 		{
 			foreach (var activator in Context.Activators)
 			{
+				if (activator is IVerificatorActivator verificatorActivator)
+				{
+					verificator.Register(verificatorActivator);
+					verificatorActivator.Start();
+				}
+
 				if (Context.Settings.UserInterface.ActionCenter.EnableActionCenter && activator is IActionCenterActivator actionCenterActivator)
 				{
 					actionCenter.Register(actionCenterActivator);
@@ -175,6 +188,7 @@ namespace SafeExamBrowser.Client.Operations
 				InitializeApplicationsFor(Location.Taskbar);
 				InitializeAboutNotificationForTaskbar();
 				InitializeLogNotificationForTaskbar();
+				InitializeVerificatorNotificationForTaskbar();
 				InitializePowerSupplyForTaskbar();
 				InitializeNetworkForTaskbar();
 				InitializeAudioForTaskbar();
@@ -342,6 +356,14 @@ namespace SafeExamBrowser.Client.Operations
 			if (Context.Settings.UserInterface.Taskbar.ShowNetwork)
 			{
 				taskbar.AddSystemControl(uiFactory.CreateNetworkControl(networkAdapter, Location.Taskbar));
+			}
+		}
+
+		private void InitializeVerificatorNotificationForTaskbar()
+		{
+			if (Context.Settings.UserInterface.Taskbar.ShowVerificator)
+			{
+				taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(verificatorNotification, Location.Taskbar));
 			}
 		}
 

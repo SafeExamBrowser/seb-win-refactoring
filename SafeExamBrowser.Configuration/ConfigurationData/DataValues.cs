@@ -310,6 +310,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.UserInterface.Taskbar.ShowClock = true;
 			settings.UserInterface.Taskbar.ShowKeyboardLayout = true;
 			settings.UserInterface.Taskbar.ShowNetwork = false;
+			settings.UserInterface.Taskbar.ShowVerificator = true;
 
 			return settings;
 		}

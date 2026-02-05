@@ -76,6 +76,7 @@
     <Compile Include="ClientController.cs" />
     <Compile Include="Contracts\ICoordinator.cs" />
     <Compile Include="Coordinator.cs" />
+    <Compile Include="Notifications\VerificatorNotification.cs" />
     <Compile Include="Operations\ClientHostDisconnectionOperation.cs" />
     <Compile Include="Operations\ClientOperation.cs" />
     <Compile Include="Operations\ClientOperationSequence.cs" />
@@ -183,6 +184,14 @@
     <ProjectReference Include="..\SafeExamBrowser.I18n\SafeExamBrowser.I18n.csproj">
       <Project>{10c62628-8e6a-45aa-9d97-339b119ad21d}</Project>
       <Name>SafeExamBrowser.I18n</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Integrity.Contracts\SafeExamBrowser.Integrity.Contracts.csproj">
+      <Project>{bd45a138-10dc-429c-9d9b-d2f527fbd7de}</Project>
+      <Name>SafeExamBrowser.Integrity.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Integrity\SafeExamBrowser.Integrity.csproj">
+      <Project>{1a061ccf-d14a-4d26-aa90-8355703170ee}</Project>
+      <Name>SafeExamBrowser.Integrity</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
       <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>

@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
-using SafeExamBrowser.Configuration.Contracts.Integrity;
+using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Configuration.Cryptography

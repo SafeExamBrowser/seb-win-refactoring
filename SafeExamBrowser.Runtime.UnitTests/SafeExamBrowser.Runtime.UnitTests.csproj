@@ -196,6 +196,10 @@
       <Project>{1858ddf3-bc2a-4bff-b663-4ce2ffeb8b7d}</Project>
       <Name>SafeExamBrowser.I18n.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Integrity.Contracts\SafeExamBrowser.Integrity.Contracts.csproj">
+      <Project>{bd45a138-10dc-429c-9d9b-d2f527fbd7de}</Project>
+      <Name>SafeExamBrowser.Integrity.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
       <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>
       <Name>SafeExamBrowser.Logging.Contracts</Name>

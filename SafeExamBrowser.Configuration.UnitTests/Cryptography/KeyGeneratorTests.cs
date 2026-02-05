@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Integrity;
 using SafeExamBrowser.Configuration.Cryptography;
+using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Configuration.UnitTests.Cryptography

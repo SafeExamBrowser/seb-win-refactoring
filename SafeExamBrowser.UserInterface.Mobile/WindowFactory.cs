@@ -153,5 +153,10 @@ namespace SafeExamBrowser.UserInterface.Mobile
 		{
 			return Guard(new Taskview());
 		}
+
+		internal IVerificatorOverlay CreateVerificatorOverlay()
+		{
+			return Application.Current.Dispatcher.Invoke(() => Guard(new VerificatorOverlay()));
+		}
 	}
 }

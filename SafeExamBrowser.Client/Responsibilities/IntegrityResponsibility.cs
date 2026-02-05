@@ -9,8 +9,8 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using SafeExamBrowser.Configuration.Contracts.Integrity;
 using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 

@@ -366,6 +366,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			{
 				internal const string EnableTaskbar = "showTaskBar";
 				internal const string ShowApplicationLog = "showApplicationLogButton";
+				internal const string ShowVerificator = "showQRVerifyButton";
 			}
 		}
 	}

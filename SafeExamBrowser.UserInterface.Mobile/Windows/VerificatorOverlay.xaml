@@ -1,0 +1,29 @@
+﻿<Window x:Class="SafeExamBrowser.UserInterface.Mobile.Windows.VerificatorOverlay"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Mobile.Windows"
+        mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="1500"
+        Title="VerificatorOverlay" Height="450" Width="800" AllowsTransparency="True" ResizeMode="NoResize" Topmost="True" WindowState="Maximized" WindowStyle="None">
+        <Window.Background>
+            <SolidColorBrush Opacity="0.5" Color="Black"/>
+        </Window.Background>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Viewbox Grid.Row="1" Stretch="Uniform">
+            <Grid Background="White">
+                <StackPanel Name="Loading" Margin="200" VerticalAlignment="Center" >
+                    <fa:ImageAwesome Foreground="LightGray" Icon="Cog" Margin="0,20" Spin="True" SpinDuration="2" />
+                    <ProgressBar BorderThickness="0" Height="10" IsIndeterminate="True" Width="150" />
+                </StackPanel>
+                <Image Name="Code" />
+            </Grid>
+        </Viewbox>
+    </Grid>
+</Window>

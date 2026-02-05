@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace SafeExamBrowser.Configuration.Contracts.Integrity
+namespace SafeExamBrowser.Integrity.Contracts
 {
 	/// <summary>
 	/// Provides functionality related to application integrity.
@@ -37,6 +37,11 @@ namespace SafeExamBrowser.Configuration.Contracts.Integrity
 		/// Attempts to calculate the browser exam key.
 		/// </summary>
 		bool TryCalculateBrowserExamKey(string configurationKey, string salt, out string browserExamKey);
+
+		/// <summary>
+		/// Attempts to generate a verificator code.
+		/// </summary>
+		bool TryGenerateVerificatorCode(string payload, out string code);
 
 		/// <summary>
 		/// Attempts to verify the code signature.

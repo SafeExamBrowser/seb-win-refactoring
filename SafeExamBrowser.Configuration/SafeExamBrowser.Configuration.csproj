@@ -89,7 +89,6 @@
     <Compile Include="DataFormats\XmlParser.cs" />
     <Compile Include="DataFormats\XmlSerializer.cs" />
     <Compile Include="DataResources\FileResourceSaver.cs" />
-    <Compile Include="Integrity\IntegrityModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConfigurationRepository.cs" />
     <Compile Include="DataResources\FileResourceLoader.cs" />
@@ -100,6 +99,10 @@
     <ProjectReference Include="..\SafeExamBrowser.Configuration.Contracts\SafeExamBrowser.Configuration.Contracts.csproj">
       <Project>{7d74555e-63e1-4c46-bd0a-8580552368c8}</Project>
       <Name>SafeExamBrowser.Configuration.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Integrity.Contracts\SafeExamBrowser.Integrity.Contracts.csproj">
+      <Project>{bd45a138-10dc-429c-9d9b-d2f527fbd7de}</Project>
+      <Name>SafeExamBrowser.Integrity.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Logging.Contracts\SafeExamBrowser.Logging.Contracts.csproj">
       <Project>{64ea30fb-11d4-436a-9c2b-88566285363e}</Project>

@@ -9,7 +9,7 @@
 using System;
 using System.Linq;
 using System.Management;
-using SafeExamBrowser.Configuration.Contracts.Integrity;
+using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;

@@ -13,10 +13,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using SafeExamBrowser.Configuration.Contracts;
-using SafeExamBrowser.Configuration.Contracts.Integrity;
+using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 
-namespace SafeExamBrowser.Configuration.Integrity
+namespace SafeExamBrowser.Integrity
 {
 	public class IntegrityModule : IIntegrityModule
 	{
@@ -141,6 +141,34 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 
 			return browserExamKey != default;
+		}
+
+		public bool TryGenerateVerificatorCode(string payload, out string code)
+		{
+			var success = false;
+
+			code = default;
+
+			try
+			{
+				success = TryGenerateVerificatorCode(payload, out IntPtr bstr);
+
+				if (bstr != IntPtr.Zero)
+				{
+					code = Marshal.PtrToStringBSTR(bstr);
+					Marshal.FreeBSTR(bstr);
+				}
+			}
+			catch (DllNotFoundException)
+			{
+				logger.Warn("Integrity module is not available!");
+			}
+			catch (Exception e)
+			{
+				logger.Error("Unexpected error while attempting to generate verificator code!", e);
+			}
+
+			return success;
 		}
 
 		public bool TryVerifyCodeSignature(out bool isValid)
@@ -271,6 +299,9 @@ namespace SafeExamBrowser.Configuration.Integrity
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		private static extern bool IsVirtualMachine(out IntPtr manufacturer, out int probability);
+
+		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+		private static extern bool TryGenerateVerificatorCode(string payload, out IntPtr code);
 
 		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 		private static extern bool VerifyCodeSignature();

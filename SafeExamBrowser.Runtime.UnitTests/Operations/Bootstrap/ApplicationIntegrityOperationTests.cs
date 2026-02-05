@@ -8,8 +8,8 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SafeExamBrowser.Configuration.Contracts.Integrity;
 using SafeExamBrowser.Core.Contracts.OperationModel;
+using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Operations.Bootstrap;
 

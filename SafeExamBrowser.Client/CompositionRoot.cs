@@ -23,12 +23,12 @@ using SafeExamBrowser.Communication.Contracts.Proxies;
 using SafeExamBrowser.Communication.Hosts;
 using SafeExamBrowser.Communication.Proxies;
 using SafeExamBrowser.Configuration.Cryptography;
-using SafeExamBrowser.Configuration.Integrity;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Operations;
 using SafeExamBrowser.Core.ResponsibilityModel;
 using SafeExamBrowser.I18n;
 using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Integrity;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring;
@@ -356,6 +356,8 @@ namespace SafeExamBrowser.Client
 			var audio = new Audio(context.Settings.Audio, ModuleLogger(nameof(Audio)));
 			var keyboard = new Keyboard(ModuleLogger(nameof(Keyboard)));
 			var logNotification = new LogNotification(logger, text, uiFactory);
+			var verificator = new Verificator(context.AppConfig, context.IntegrityModule, ModuleLogger(nameof(Verificator)), messageBox, nativeMethods, systemInfo, uiFactory);
+			var verificatorNotification = new VerificatorNotification(text, verificator);
 			var operation = new ShellOperation(
 				actionCenter,
 				audio,
@@ -371,13 +373,16 @@ namespace SafeExamBrowser.Client
 				taskbar,
 				taskview,
 				text,
-				uiFactory);
+				uiFactory,
+				verificator,
+				verificatorNotification);
 
 			context.Activators.Add(new ActionCenterKeyboardActivator(ModuleLogger(nameof(ActionCenterKeyboardActivator)), nativeMethods));
 			context.Activators.Add(new ActionCenterTouchActivator(ModuleLogger(nameof(ActionCenterTouchActivator)), nativeMethods));
 			context.Activators.Add(new TaskbarKeyboardActivator(ModuleLogger(nameof(TaskbarKeyboardActivator)), nativeMethods));
 			context.Activators.Add(new TaskviewKeyboardActivator(ModuleLogger(nameof(TaskviewKeyboardActivator)), nativeMethods));
 			context.Activators.Add(new TerminationActivator(ModuleLogger(nameof(TerminationActivator)), nativeMethods));
+			context.Activators.Add(new VerificatorActivator(ModuleLogger(nameof(VerificatorActivator)), nativeMethods));
 
 			return operation;
 		}

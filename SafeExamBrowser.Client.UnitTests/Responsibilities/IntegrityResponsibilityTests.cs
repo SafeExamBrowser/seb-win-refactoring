@@ -9,8 +9,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Client.Responsibilities;
-using SafeExamBrowser.Configuration.Contracts.Integrity;
 using SafeExamBrowser.I18n.Contracts;
+using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Client.UnitTests.Responsibilities

@@ -148,5 +148,10 @@ namespace SafeExamBrowser.UserInterface.Contracts
 		/// Creates a new taskview.
 		/// </summary>
 		ITaskview CreateTaskview();
+
+		/// <summary>
+		/// Creates a new overlay to display verification codes.
+		/// </summary>
+		IVerificatorOverlay CreateVerificatorOverlay();
 	}
 }
