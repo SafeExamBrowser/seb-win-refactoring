@@ -465,6 +465,18 @@
     <Entry key="MessageBox_UploadNotAllowedTitle">
         Hochladen nicht erlaubt!
     </Entry>
+    <Entry key="MessageBox_VerificatorActivationLimit">
+        Bitte warten Sie aus Sicherheitsgründen bis um %%_RESUME_TIME_%% bevor Sie erneut versuchen, einen QR-Code zu generieren.
+    </Entry>
+    <Entry key="MessageBox_VerificatorActivationLimitTitle">
+        Verifizierungslimite erreicht
+    </Entry>
+    <Entry key="MessageBox_VerificatorMissingInternet">
+        Eine Verbindung zum Internet ist notwendig, um QR-Codes für die Verificator App generieren zu können.
+    </Entry>
+    <Entry key="MessageBox_VerificatorMissingInternetTitle">
+        Keine Internetverbindung
+    </Entry>
     <Entry key="MessageBox_VersionRestrictionError">
         Die installierte SEB-Version %%_VERSION_%% kann nicht verwendet werden, da die ausgewählte Konfiguration die Verwendung einer bestimmten Version erfordert:%%_REQUIRED_VERSIONS_%%Bitte laden Sie die erforderliche Version von der offiziellen Website (safeexambrowser.org/download) oder aus dem Repository von SEB für Windows auf GitHub (github.com/safeexambrowser) herunter und installieren Sie diese.
     </Entry>
@@ -518,6 +530,9 @@
     </Entry>
     <Entry key="Notification_ProctoringRaiseHand">
         Hand erheben
+    </Entry>
+    <Entry key="Notification_VerificatorTooltip">
+        QR-Code für die Verificator App generieren
     </Entry>
     <Entry key="OperationStatus_CloseRuntimeConnection">
         Schliesse Verbindung zur Runtime

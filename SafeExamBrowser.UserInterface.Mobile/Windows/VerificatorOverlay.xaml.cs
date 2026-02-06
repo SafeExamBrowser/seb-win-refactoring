@@ -87,6 +87,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			Closed += (o, args) => closed?.Invoke();
 			Closing += (o, args) => closing?.Invoke();
 			KeyDown += VerificatorOverlay_KeyDown;
+			Loaded += VerificatorOverlay_Loaded;
 			MouseDown += (o, args) => Close();
 		}
 
@@ -102,6 +103,11 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 			{
 				Close();
 			}
+		}
+
+		private void VerificatorOverlay_Loaded(object sender, RoutedEventArgs e)
+		{
+			Container.Width = Container.ActualHeight;
 		}
 	}
 }

@@ -465,6 +465,18 @@
     <Entry key="MessageBox_UploadNotAllowedTitle">
         Uploading Not Allowed!
     </Entry>
+    <Entry key="MessageBox_VerificatorActivationLimit">
+        For security reasons, please wait until %%_RESUME_TIME_%% before attempting to generate a QR code again.
+    </Entry>
+    <Entry key="MessageBox_VerificatorActivationLimitTitle">
+        Verification Limit Reached
+    </Entry>
+    <Entry key="MessageBox_VerificatorMissingInternet">
+        A connection to the internet is required in order to generate QR codes for the Verificator App.
+    </Entry>
+    <Entry key="MessageBox_VerificatorMissingInternetTitle">
+        No Internet Connection
+    </Entry>
     <Entry key="MessageBox_VersionRestrictionError">
         The installed SEB version %%_VERSION_%% cannot be used as the selected configuration requires to use a specific version:%%_REQUIRED_VERSIONS_%%Please download and install the required version from the official website (safeexambrowser.org/download) or from the repository of SEB for Windows on GitHub (github.com/safeexambrowser).
     </Entry>
@@ -518,6 +530,9 @@
     </Entry>
     <Entry key="Notification_ProctoringRaiseHand">
         Raise hand
+    </Entry>
+    <Entry key="Notification_VerificatorTooltip">
+        Generate QR Code for Verificator App
     </Entry>
     <Entry key="OperationStatus_CloseRuntimeConnection">
         Closing runtime connection

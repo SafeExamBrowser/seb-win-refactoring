@@ -33,9 +33,7 @@ namespace SafeExamBrowser.Client.Notifications
 			CanActivate = true;
 			// TODO: Load icon once available!
 			// IconResource = new BitmapIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/VerificatorNotification.ico") };
-
-			// TODO: Properly load text (see reference in issue)!
-			Tooltip = "Show QR Code for Verificator App";
+			Tooltip = text.Get(TextKey.Notification_VerificatorTooltip);
 		}
 
 		public void Activate()

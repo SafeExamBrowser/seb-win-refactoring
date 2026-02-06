@@ -16,14 +16,16 @@
             <RowDefinition Height="5*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Viewbox Grid.Row="1" Stretch="Uniform">
-            <Grid Background="White">
-                <StackPanel Name="Loading" Margin="200" VerticalAlignment="Center" >
-                    <fa:ImageAwesome Foreground="LightGray" Icon="Cog" Margin="0,20" Spin="True" SpinDuration="2" />
-                    <ProgressBar BorderThickness="0" Height="10" IsIndeterminate="True" Width="150" />
-                </StackPanel>
-                <Image Name="Code" />
-            </Grid>
-        </Viewbox>
+        <Border Grid.Row="1" Name="Container" Background="White" BorderThickness="0" CornerRadius="10" Padding="5">
+            <Viewbox Stretch="Uniform">
+                <Grid>
+                    <StackPanel Name="Loading" Margin="200" VerticalAlignment="Center" >
+                        <fa:ImageAwesome Foreground="LightGray" Icon="Cog" Margin="0,20" Spin="True" SpinDuration="2" />
+                        <ProgressBar BorderThickness="0" Height="10" IsIndeterminate="True" Width="150" />
+                    </StackPanel>
+                    <Image Name="Code" />
+                </Grid>
+            </Viewbox>
+        </Border>
     </Grid>
 </Window>

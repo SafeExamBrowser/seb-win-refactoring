@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using QRCoder;
 using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts;
@@ -39,6 +40,7 @@ namespace SafeExamBrowser.Integrity
 		private readonly IMessageBox messageBox;
 		private readonly INativeMethods nativeMethods;
 		private readonly ISystemInfo systemInfo;
+		private readonly IText text;
 		private readonly IUserInterfaceFactory uiFactory;
 
 		private int activations;
@@ -52,6 +54,7 @@ namespace SafeExamBrowser.Integrity
 			IMessageBox messageBox,
 			INativeMethods nativeMethods,
 			ISystemInfo systemInfo,
+			IText text,
 			IUserInterfaceFactory uiFactory)
 		{
 			this.appConfig = appConfig;
@@ -61,6 +64,7 @@ namespace SafeExamBrowser.Integrity
 			this.messageBox = messageBox;
 			this.nativeMethods = nativeMethods;
 			this.systemInfo = systemInfo;
+			this.text = text;
 			this.uiFactory = uiFactory;
 		}
 
@@ -75,8 +79,6 @@ namespace SafeExamBrowser.Integrity
 				{
 					CreateOverlay();
 					GenerateCodes();
-
-					logger.Info("Activated code generation.");
 				}
 				else
 				{
@@ -85,14 +87,11 @@ namespace SafeExamBrowser.Integrity
 			}
 			else if (!canActivate)
 			{
-				logger.Info($"The activation limit was reached, code generation may resume at {lastActivation.Add(WAIT_TIME):T}.");
-				// TODO: Properly load text (see reference in issue)!
-				messageBox.Show($"The activation limit was reached, please wait until {lastActivation.Add(WAIT_TIME):T} to resume.", "Information");
+				ShowActivationLimitMessage();
 			}
 			else
 			{
-				logger.Error("Cannot activate code generation due to missing internet connection!");
-				// TODO: Show message box and properly load text (see reference in issue)!
+				ShowMissingInternetMessage();
 			}
 		}
 
@@ -170,6 +169,8 @@ namespace SafeExamBrowser.Integrity
 
 				overlay?.Close();
 			});
+
+			logger.Info("Activated code generation.");
 		}
 
 		private string GeneratePayload()
@@ -198,7 +199,7 @@ namespace SafeExamBrowser.Integrity
 
 			if (success)
 			{
-				using (var qrCode = QRCodeGenerator.GenerateQrCode(code, QRCodeGenerator.ECCLevel.L))
+				using (var qrCode = QRCodeGenerator.GenerateQrCode(code, QRCodeGenerator.ECCLevel.Default))
 				using (var bitmap = new BitmapByteQRCode(qrCode))
 				{
 					var bytes = bitmap.GetGraphic(32);
@@ -208,6 +209,22 @@ namespace SafeExamBrowser.Integrity
 			}
 
 			return success;
+		}
+
+		private void ShowActivationLimitMessage()
+		{
+			var resumeTime = lastActivation.Add(WAIT_TIME).ToString("T");
+			var message = text.Get(TextKey.MessageBox_VerificatorActivationLimit).Replace("%%_RESUME_TIME_%%", resumeTime);
+			var title = text.Get(TextKey.MessageBox_VerificatorActivationLimitTitle);
+
+			logger.Info($"The activation limit was reached, code generation may resume at {resumeTime}.");
+			messageBox.Show(message, title);
+		}
+
+		private void ShowMissingInternetMessage()
+		{
+			logger.Error("Cannot activate code generation due to missing internet connection!");
+			messageBox.Show(TextKey.MessageBox_VerificatorMissingInternet, TextKey.MessageBox_VerificatorMissingInternetTitle);
 		}
 	}
 }

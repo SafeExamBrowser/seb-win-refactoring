@@ -356,7 +356,7 @@ namespace SafeExamBrowser.Client
 			var audio = new Audio(context.Settings.Audio, ModuleLogger(nameof(Audio)));
 			var keyboard = new Keyboard(ModuleLogger(nameof(Keyboard)));
 			var logNotification = new LogNotification(logger, text, uiFactory);
-			var verificator = new Verificator(context.AppConfig, context.IntegrityModule, ModuleLogger(nameof(Verificator)), messageBox, nativeMethods, systemInfo, uiFactory);
+			var verificator = new Verificator(context.AppConfig, context.IntegrityModule, ModuleLogger(nameof(Verificator)), messageBox, nativeMethods, systemInfo, text, uiFactory);
 			var verificatorNotification = new VerificatorNotification(text, verificator);
 			var operation = new ShellOperation(
 				actionCenter,
