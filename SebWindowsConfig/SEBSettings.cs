@@ -881,6 +881,10 @@ namespace SebWindowsConfig
 				"vlc.exe",
 				"sethc.exe",
 				"Guilded.exe",
+				"AnyDesk.exe",
+				"rustdesk.exe",
+				"remote_assistance_host.exe",
+				"remoting_native_messaging_host.exe"
 			};
 
 			// Default settings for group "Network - Filter"

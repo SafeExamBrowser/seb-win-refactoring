@@ -103,6 +103,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "AA_v3.exe", OriginalName = "AA_v3.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "AeroAdmin.exe", OriginalName = "AeroAdmin.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "AnyDesk.exe", OriginalName = "AnyDesk.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "beamyourscreen-host.exe", OriginalName = "beamyourscreen-host.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "CamPlay.exe", OriginalName = "CamPlay.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Camtasia.exe", OriginalName = "Camtasia.exe" });
@@ -132,10 +133,13 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "PCMonitorSrv.exe", OriginalName = "PCMonitorSrv.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "pcmontask.exe", OriginalName = "pcmontask.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "ptoneclk.exe", OriginalName = "ptoneclk.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "remote_assistance_host.exe", OriginalName = "remote_assistance_host.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "remote_assistance_host.exe", OriginalName = "remoting_native_messaging_host.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "RemotePCDesktop.exe", OriginalName = "RemotePCDesktop.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "remoting_host.exe", OriginalName = "remoting_host.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "RPCService.exe", OriginalName = "RPCService.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "RPCSuite.exe", OriginalName = "RPCSuite.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "rustdesk.exe", OriginalName = "rustdesk.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "sethc.exe", OriginalName = "sethc.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Skype.exe", OriginalName = "Skype.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "SkypeApp.exe", OriginalName = "SkypeApp.exe" });
