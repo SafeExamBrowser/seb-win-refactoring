@@ -31,7 +31,7 @@ namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 			text = new Mock<IText>();
 			integrityModule = new Mock<IIntegrityModule>();
 
-			integrityModule.Setup(m => m.TryVerifySessionIntegrity(It.IsAny<string>(), It.IsAny<string>(), out valid)).Returns(true);
+			integrityModule.Setup(m => m.TryVerifySessionIntegrity(It.IsAny<string>(), out valid)).Returns(true);
 
 			var sut = new IntegrityResponsibility(context, logger.Object, text.Object);
 		}

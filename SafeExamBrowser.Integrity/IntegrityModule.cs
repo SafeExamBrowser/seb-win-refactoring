@@ -39,7 +39,6 @@ namespace SafeExamBrowser.Integrity
 			0x01, 0x04, 0x02, 0x03, 0x14, 0x15, 0x07, 0x08,
 			0x11, 0x12, 0x16, 0x05, 0x09, 0x10, 0x12, 0x02
 		};
-		private static readonly string SESSION_DATA_SEPARATOR = "<@|--separator--|@>";
 
 		private readonly AppConfig appConfig;
 		private readonly ILogger logger;
@@ -50,9 +49,9 @@ namespace SafeExamBrowser.Integrity
 			this.logger = logger;
 		}
 
-		public void CacheSession(string configurationKey, string startUrl)
+		public void CacheSession(string configurationKey)
 		{
-			if (TryReadSessionCache(out var sessions) && TryWriteSessionCache(sessions.Append((configurationKey, startUrl))))
+			if (TryReadSessionCache(out var sessions) && TryWriteSessionCache(sessions.Append(configurationKey)))
 			{
 				logger.Debug("Successfully cached session.");
 			}
@@ -62,9 +61,9 @@ namespace SafeExamBrowser.Integrity
 			}
 		}
 
-		public void ClearSession(string configurationKey, string startUrl)
+		public void ClearSession(string configurationKey)
 		{
-			if (TryReadSessionCache(out var sessions) && TryWriteSessionCache(sessions.Where(s => s.configurationKey != configurationKey && s.startUrl != startUrl)))
+			if (TryReadSessionCache(out var sessions) && TryWriteSessionCache(sessions.Where(s => s != configurationKey)))
 			{
 				logger.Debug("Successfully cleared session.");
 			}
@@ -194,7 +193,7 @@ namespace SafeExamBrowser.Integrity
 			return success;
 		}
 
-		public bool TryVerifySessionIntegrity(string configurationKey, string startUrl, out bool isValid)
+		public bool TryVerifySessionIntegrity(string configurationKey, out bool isValid)
 		{
 			var success = false;
 
@@ -202,7 +201,7 @@ namespace SafeExamBrowser.Integrity
 
 			if (TryReadSessionCache(out var sessions))
 			{
-				isValid = sessions.All(s => s.configurationKey != configurationKey && s.startUrl != startUrl);
+				isValid = sessions.All(s => s != configurationKey);
 				success = true;
 				logger.Debug($"Successfully verified session integrity, session is {(isValid ? "valid." : "compromised!")}");
 			}
@@ -214,11 +213,11 @@ namespace SafeExamBrowser.Integrity
 			return success;
 		}
 
-		private bool TryReadSessionCache(out IList<(string configurationKey, string startUrl)> sessions)
+		private bool TryReadSessionCache(out IList<string> sessions)
 		{
 			var success = false;
 
-			sessions = new List<(string configurationKey, string startUrl)>();
+			sessions = new List<string>();
 
 			try
 			{
@@ -229,13 +228,9 @@ namespace SafeExamBrowser.Integrity
 					using (var stream = new CryptoStream(file, aes.CreateDecryptor(SESSION_DATA_KEY, SESSION_DATA_IV), CryptoStreamMode.Read))
 					using (var reader = new StreamReader(stream))
 					{
-						for (var line = reader.ReadLine(); line != default; line = reader.ReadLine())
+						for (var session = reader.ReadLine(); session != default; session = reader.ReadLine())
 						{
-							var session = line.Split(new string[] { SESSION_DATA_SEPARATOR }, StringSplitOptions.None);
-							var configurationKey = session[0];
-							var startUrl = session[1];
-
-							sessions.Add((configurationKey, startUrl));
+							sessions.Add(session);
 						}
 					}
 				}
@@ -250,7 +245,7 @@ namespace SafeExamBrowser.Integrity
 			return success;
 		}
 
-		private bool TryWriteSessionCache(IEnumerable<(string configurationKey, string startUrl)> sessions)
+		private bool TryWriteSessionCache(IEnumerable<string> sessions)
 		{
 			var success = false;
 
@@ -267,9 +262,9 @@ namespace SafeExamBrowser.Integrity
 						using (var stream = new CryptoStream(file, aes.CreateEncryptor(), CryptoStreamMode.Write))
 						using (var writer = new StreamWriter(stream))
 						{
-							foreach (var (configurationKey, startUrl) in sessions)
+							foreach (var session in sessions)
 							{
-								writer.WriteLine($"{configurationKey}{SESSION_DATA_SEPARATOR}{startUrl}");
+								writer.WriteLine(session);
 							}
 						}
 					}

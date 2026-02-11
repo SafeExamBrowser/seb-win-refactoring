@@ -62,7 +62,7 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 			if (hasQuitPassword)
 			{
-				IntegrityModule?.ClearSession(Settings.Browser.ConfigurationKey, Settings.Browser.StartUrl);
+				IntegrityModule?.ClearSession(Settings.Browser.ConfigurationKey);
 			}
 		}
 
@@ -96,12 +96,12 @@ namespace SafeExamBrowser.Client.Responsibilities
 			{
 				Logger.Info($"Attempting to verify session integrity...");
 
-				if (IntegrityModule.TryVerifySessionIntegrity(Settings.Browser.ConfigurationKey, Settings.Browser.StartUrl, out var isValid))
+				if (IntegrityModule.TryVerifySessionIntegrity(Settings.Browser.ConfigurationKey, out var isValid))
 				{
 					if (isValid)
 					{
 						Logger.Info("Session integrity successfully verified.");
-						IntegrityModule.CacheSession(Settings.Browser.ConfigurationKey, Settings.Browser.StartUrl);
+						IntegrityModule.CacheSession(Settings.Browser.ConfigurationKey);
 					}
 					else
 					{

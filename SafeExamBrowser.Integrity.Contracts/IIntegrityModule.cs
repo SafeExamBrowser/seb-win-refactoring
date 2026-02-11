@@ -16,12 +16,12 @@ namespace SafeExamBrowser.Integrity.Contracts
 		/// <summary>
 		/// Caches the specified session for later integrity verification.
 		/// </summary>
-		void CacheSession(string configurationKey, string startUrl);
+		void CacheSession(string configurationKey);
 
 		/// <summary>
 		/// Removes the specified session from the integrity verification cache.
 		/// </summary>
-		void ClearSession(string configurationKey, string startUrl);
+		void ClearSession(string configurationKey);
 
 		/// <summary>
 		/// Indicates whether the computer system is a virtual machine and if so, provides its manufacturer and probability.
@@ -51,6 +51,6 @@ namespace SafeExamBrowser.Integrity.Contracts
 		/// <summary>
 		/// Attempts to verify the integrity for the specified session.
 		/// </summary>
-		bool TryVerifySessionIntegrity(string configurationKey, string startUrl, out bool isValid);
+		bool TryVerifySessionIntegrity(string configurationKey, out bool isValid);
 	}
 }
