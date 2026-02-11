@@ -202,6 +202,10 @@
     <Compile Include="Windows\VerificatorOverlay.xaml.cs">
       <DependentUpon>VerificatorOverlay.xaml</DependentUpon>
     </Compile>
+    <Resource Include="Images\VerificatorNotification.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
     <Page Include="Windows\VerificatorOverlay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

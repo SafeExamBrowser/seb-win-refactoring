@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using SafeExamBrowser.Core.Contracts.Notifications;
 using SafeExamBrowser.Core.Contracts.Notifications.Events;
 using SafeExamBrowser.Core.Contracts.Resources.Icons;
@@ -31,8 +32,7 @@ namespace SafeExamBrowser.Client.Notifications
 			this.verificator = verificator;
 
 			CanActivate = true;
-			// TODO: Load icon once available!
-			// IconResource = new BitmapIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/VerificatorNotification.ico") };
+			IconResource = new XamlIconResource { Uri = new Uri("pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/VerificatorNotification.xaml") };
 			Tooltip = text.Get(TextKey.Notification_VerificatorTooltip);
 		}
 
