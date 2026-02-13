@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -485,6 +485,7 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.checkBoxEnableInjected = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -594,7 +595,7 @@ namespace SebWindowsConfig
 			// 
 			this.checkBoxHookKeys.AutoSize = true;
 			this.checkBoxHookKeys.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxHookKeys.Location = new System.Drawing.Point(23, 268);
+			this.checkBoxHookKeys.Location = new System.Drawing.Point(18, 306);
 			this.checkBoxHookKeys.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.checkBoxHookKeys.Name = "checkBoxHookKeys";
 			this.checkBoxHookKeys.Size = new System.Drawing.Size(127, 17);
@@ -789,6 +790,7 @@ namespace SebWindowsConfig
 			// 
 			// groupBoxSpecialKeys
 			// 
+			this.groupBoxSpecialKeys.Controls.Add(this.checkBoxEnableInjected);
 			this.groupBoxSpecialKeys.Controls.Add(this.checkBoxEnableMiddleMouse);
 			this.groupBoxSpecialKeys.Controls.Add(this.checkBoxEnableAltMouseWheel);
 			this.groupBoxSpecialKeys.Controls.Add(this.checkBoxEnablePrintScreen);
@@ -803,7 +805,7 @@ namespace SebWindowsConfig
 			this.groupBoxSpecialKeys.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.groupBoxSpecialKeys.Name = "groupBoxSpecialKeys";
 			this.groupBoxSpecialKeys.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
-			this.groupBoxSpecialKeys.Size = new System.Drawing.Size(152, 242);
+			this.groupBoxSpecialKeys.Size = new System.Drawing.Size(152, 261);
 			this.groupBoxSpecialKeys.TabIndex = 39;
 			this.groupBoxSpecialKeys.TabStop = false;
 			this.groupBoxSpecialKeys.Text = "Special Keys";
@@ -2083,8 +2085,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle9.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle9;
+			dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle3;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -4894,8 +4896,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle10;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle4;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -6293,6 +6295,20 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
+			// checkBoxEnableInjected
+			// 
+			this.checkBoxEnableInjected.AutoSize = true;
+			this.checkBoxEnableInjected.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBoxEnableInjected.Location = new System.Drawing.Point(8, 237);
+			this.checkBoxEnableInjected.Name = "checkBoxEnableInjected";
+			this.checkBoxEnableInjected.Size = new System.Drawing.Size(124, 17);
+			this.checkBoxEnableInjected.TabIndex = 10;
+			this.checkBoxEnableInjected.Text = "Enable Injected Keys";
+			this.toolTip1.SetToolTip(this.checkBoxEnableInjected, "Allows the injection of keyboard input which can be required for accessibility or rem" +
+        "ote control software.");
+			this.checkBoxEnableInjected.UseVisualStyleBackColor = true;
+			this.checkBoxEnableInjected.CheckedChanged += new System.EventHandler(this.checkBoxEnableInjected_CheckedChanged);
+			// 
 			// SebWindowsConfigForm
 			// 
 			this.AllowDrop = true;
@@ -6886,6 +6902,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.TextBox lockscreenColorTextbox;
 		private System.Windows.Forms.Label label34;
 		private System.Windows.Forms.CheckBox checkBoxAllowStickyKeys;
+		private System.Windows.Forms.CheckBox checkBoxEnableInjected;
 	}
 }
 

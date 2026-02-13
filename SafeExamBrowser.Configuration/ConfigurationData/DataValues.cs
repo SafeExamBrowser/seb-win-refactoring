@@ -235,6 +235,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Keyboard.AllowF10 = true;
 			settings.Keyboard.AllowF11 = true;
 			settings.Keyboard.AllowF12 = true;
+			settings.Keyboard.AllowInjected = false;
 			settings.Keyboard.AllowPrintScreen = false;
 			settings.Keyboard.AllowSystemKey = false;
 

@@ -77,7 +77,7 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.V && !settings.AllowCtrlV;
 			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.X && !settings.AllowCtrlX;
 
-			block |= modifier.HasFlag(KeyModifier.Injected);
+			block |= modifier.HasFlag(KeyModifier.Injected) && !settings.AllowInjected;
 
 			if (block)
 			{

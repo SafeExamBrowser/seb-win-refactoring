@@ -117,6 +117,11 @@ namespace SafeExamBrowser.Settings.Monitoring
 		public bool AllowF12 { get; set; }
 
 		/// <summary>
+		/// Determines whether injected keyboard input is allowed (e.g. for accessibility or remote control).
+		/// </summary>
+		public bool AllowInjected { get; set; }
+
+		/// <summary>
 		/// Determines whether the user may use the print screen key.
 		/// </summary>
 		public bool AllowPrintScreen { get; set; }

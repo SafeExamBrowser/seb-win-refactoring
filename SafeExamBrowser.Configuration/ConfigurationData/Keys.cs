@@ -208,6 +208,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			internal const string EnableF10 = "enableF10";
 			internal const string EnableF11 = "enableF11";
 			internal const string EnableF12 = "enableF12";
+			internal const string EnableInjected = "enableInjected";
 			internal const string EnablePrintScreen = "enablePrintScreen";
 			internal const string EnableSystemKey = "enableStartMenu";
 		}

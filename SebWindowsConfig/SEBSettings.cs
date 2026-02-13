@@ -429,6 +429,7 @@ namespace SebWindowsConfig
 		public const String KeyEnableMiddleMouse = "enableMiddleMouse";
 		public const String KeyEnableRightMouse = "enableRightMouse";
 		public const String KeyEnableAltMouseWheel = "enableAltMouseWheel";
+		public const String KeyEnableInjected = "enableInjected";
 
 		// Group "Function Keys"
 		public const String KeyEnableF1 = "enableF1";
@@ -1071,6 +1072,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableRightMouse, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnablePrintScreen, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableAltMouseWheel, false);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableInjected, false);
 
 			// Default settings for group "Function Keys"
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableF1, true);
