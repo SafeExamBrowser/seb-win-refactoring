@@ -883,6 +883,7 @@ namespace SebWindowsConfig
 			checkBoxEnableRightMouse.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnableRightMouse];
 			checkBoxEnablePrintScreen.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnablePrintScreen];
 			checkBoxEnableAltMouseWheel.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnableAltMouseWheel];
+			checkBoxEnableInjected.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnableInjected];
 
 			checkBoxEnableF1.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnableF1];
 			checkBoxEnableF2.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnableF2];
@@ -4834,6 +4835,11 @@ namespace SebWindowsConfig
 		private void checkBoxAllowStickyKeys_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyAllowStickyKeys] = checkBoxAllowStickyKeys.Checked;
+		}
+
+		private void checkBoxEnableInjected_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyEnableInjected] = checkBoxEnableInjected.Checked;
 		}
 	}
 }
