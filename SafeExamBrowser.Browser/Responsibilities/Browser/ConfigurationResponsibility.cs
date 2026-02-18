@@ -50,6 +50,13 @@ namespace SafeExamBrowser.Browser.Responsibilities.Browser
 			Context.CefSettings.PersistSessionCookies = !Settings.DeleteCookiesOnStartup || !Settings.DeleteCookiesOnShutdown;
 			Context.CefSettings.UserAgent = InitializeUserAgent();
 
+			Context.CefSettings.CefCommandLineArgs.Add("disable-extensions");
+			Context.CefSettings.CefCommandLineArgs.Add("do-not-de-elevate");
+			Context.CefSettings.CefCommandLineArgs.Add("enable-media-stream");
+			Context.CefSettings.CefCommandLineArgs.Add("enable-usermedia-screen-capturing");
+			Context.CefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
+			Context.CefSettings.CefCommandLineArgs.Add("use-fake-ui-for-media-stream");
+
 			if (!Settings.AllowPageZoom)
 			{
 				Context.CefSettings.CefCommandLineArgs.Add("disable-pinch");
@@ -64,12 +71,6 @@ namespace SafeExamBrowser.Browser.Responsibilities.Browser
 			{
 				Context.CefSettings.CefCommandLineArgs.Add("disable-spell-checking");
 			}
-
-			Context.CefSettings.CefCommandLineArgs.Add("do-not-de-elevate");
-			Context.CefSettings.CefCommandLineArgs.Add("enable-media-stream");
-			Context.CefSettings.CefCommandLineArgs.Add("enable-usermedia-screen-capturing");
-			Context.CefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
-			Context.CefSettings.CefCommandLineArgs.Add("use-fake-ui-for-media-stream");
 
 			InitializeProxySettings();
 
