@@ -127,6 +127,8 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "join.me.sentinel.exe", OriginalName = "join.me.sentinel.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Microsoft.Media.player.exe", OriginalName = "Microsoft.Media.player.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Mikogo-host.exe", OriginalName = "Mikogo-host.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "MouseWithoutBorders.exe", OriginalName = "MouseWithoutBorders.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "MouseWithoutBordersHelper.exe", OriginalName = "MouseWithoutBordersHelper.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "MS-teams.exe", OriginalName = "MS-Teams.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "obs32.exe", OriginalName = "obs32.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "obs64.exe", OriginalName = "obs64.exe" });
