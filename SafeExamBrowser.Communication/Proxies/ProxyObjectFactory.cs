@@ -19,7 +19,8 @@ namespace SafeExamBrowser.Communication.Proxies
 		public IProxyObject CreateObject(string address)
 		{
 			var endpoint = new EndpointAddress(address);
-			var channel = ChannelFactory<IProxyObject>.CreateChannel(new NetNamedPipeBinding(NetNamedPipeSecurityMode.Transport), endpoint);
+			var binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.Transport) { MaxReceivedMessageSize = 1000000 };
+			var channel = ChannelFactory<IProxyObject>.CreateChannel(binding, endpoint);
 
 			return channel;
 		}
