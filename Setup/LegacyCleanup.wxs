@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
     <Fragment>
-        <CustomAction Id="LegacyCleanupAction" Execute="deferred" Impersonate="no" Return="ignore"
-                      Directory="InstallFolder" ExeCommand="cmd.exe /C &quot;rd /S /Q SebWindowsServiceWCF&quot;" />
+        <CustomAction Id="LegacyCleanupAction" Execute="deferred" Impersonate="no" Return="ignore" Directory="InstallFolder" ExeCommand="cmd.exe /C &quot;rd /S /Q SebWindowsServiceWCF&quot;" />
     </Fragment>
 </Wix>
