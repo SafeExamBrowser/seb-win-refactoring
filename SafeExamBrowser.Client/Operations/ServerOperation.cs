@@ -6,12 +6,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Core.Contracts.OperationModel;
 using SafeExamBrowser.Core.Contracts.OperationModel.Events;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Settings;
+using SafeExamBrowser.SystemComponents.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
 
@@ -23,8 +25,11 @@ namespace SafeExamBrowser.Client.Operations
 		private readonly IInvigilator invigilator;
 		private readonly ILogger logger;
 		private readonly IServerProxy server;
+		private readonly ISystemInfo systemInfo;
 		private readonly ITaskbar taskbar;
 		private readonly IUserInterfaceFactory uiFactory;
+
+		private AppConfig AppConfig => Context.AppConfig;
 
 		public override event StatusChangedEventHandler StatusChanged;
 
@@ -34,6 +39,7 @@ namespace SafeExamBrowser.Client.Operations
 			IInvigilator invigilator,
 			ILogger logger,
 			IServerProxy server,
+			ISystemInfo systemInfo,
 			ITaskbar taskbar,
 			IUserInterfaceFactory uiFactory) : base(context)
 		{
@@ -41,6 +47,7 @@ namespace SafeExamBrowser.Client.Operations
 			this.invigilator = invigilator;
 			this.logger = logger;
 			this.server = server;
+			this.systemInfo = systemInfo;
 			this.taskbar = taskbar;
 			this.uiFactory = uiFactory;
 		}
@@ -52,13 +59,10 @@ namespace SafeExamBrowser.Client.Operations
 				logger.Info("Initializing server...");
 				StatusChanged?.Invoke(TextKey.OperationStatus_InitializeServer);
 
-				server.Initialize(
-					Context.AppConfig.ServerApi,
-					Context.AppConfig.ServerConnectionToken,
-					Context.AppConfig.ServerExamId,
-					Context.AppConfig.ServerOauth2Token,
-					Context.Settings.Server);
+				server.Initialize(AppConfig.ServerApi, AppConfig.ServerConnectionToken, AppConfig.ServerExamId, AppConfig.ServerOauth2Token, Context.Settings.Server);
 				server.StartConnectivity();
+
+				LogRuntimeInformation();
 
 				if (Context.Settings.Server.Invigilation.ShowRaiseHandNotification)
 				{
@@ -83,6 +87,13 @@ namespace SafeExamBrowser.Client.Operations
 			}
 
 			return OperationResult.Success;
+		}
+
+		private void LogRuntimeInformation()
+		{
+			logger.Info($"Machine Information: Computer '{systemInfo.Name}' is a {systemInfo.Model} manufactured by {systemInfo.Manufacturer}.");
+			logger.Info($"System Information: Running on {systemInfo.OperatingSystemInfo}.");
+			logger.Info($"Version Information: {AppConfig.ProgramTitle}, Version {AppConfig.ProgramInformationalVersion}, Build {AppConfig.ProgramBuildVersion}.");
 		}
 	}
 }

@@ -343,7 +343,7 @@ namespace SafeExamBrowser.Client
 			var keyGenerator = new KeyGenerator(context.AppConfig, context.IntegrityModule, ModuleLogger(nameof(KeyGenerator)));
 			var server = new ServerProxy(context.AppConfig, keyGenerator, ModuleLogger(nameof(ServerProxy)), systemInfo, userInfo, powerSupply, networkAdapter);
 			var invigilator = new Invigilator(ModuleLogger(nameof(Invigilator)), server);
-			var operation = new ServerOperation(actionCenter, context, invigilator, logger, server, taskbar, uiFactory);
+			var operation = new ServerOperation(actionCenter, context, invigilator, logger, server, systemInfo, taskbar, uiFactory);
 
 			context.Server = server;
 
