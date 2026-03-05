@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -52,6 +52,7 @@ namespace SebWindowsConfig
 			this.checkBoxEnableF7 = new System.Windows.Forms.CheckBox();
 			this.checkBoxEnableF8 = new System.Windows.Forms.CheckBox();
 			this.groupBoxSpecialKeys = new System.Windows.Forms.GroupBox();
+			this.checkBoxEnableInjected = new System.Windows.Forms.CheckBox();
 			this.checkBoxEnableMiddleMouse = new System.Windows.Forms.CheckBox();
 			this.checkBoxEnableAltMouseWheel = new System.Windows.Forms.CheckBox();
 			this.checkBoxEnablePrintScreen = new System.Windows.Forms.CheckBox();
@@ -485,7 +486,6 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.checkBoxEnableInjected = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -810,6 +810,20 @@ namespace SebWindowsConfig
 			this.groupBoxSpecialKeys.TabStop = false;
 			this.groupBoxSpecialKeys.Text = "Special Keys";
 			this.toolTip1.SetToolTip(this.groupBoxSpecialKeys, "Settings to enable or block (hook) keys, key combinations and mouse buttons.");
+			// 
+			// checkBoxEnableInjected
+			// 
+			this.checkBoxEnableInjected.AutoSize = true;
+			this.checkBoxEnableInjected.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.checkBoxEnableInjected.Location = new System.Drawing.Point(8, 237);
+			this.checkBoxEnableInjected.Name = "checkBoxEnableInjected";
+			this.checkBoxEnableInjected.Size = new System.Drawing.Size(126, 17);
+			this.checkBoxEnableInjected.TabIndex = 10;
+			this.checkBoxEnableInjected.Text = "Enable Injected Keys";
+			this.toolTip1.SetToolTip(this.checkBoxEnableInjected, "Allows the injection of keyboard input which can be required for accessibility or" +
+        " remote control software.");
+			this.checkBoxEnableInjected.UseVisualStyleBackColor = true;
+			this.checkBoxEnableInjected.CheckedChanged += new System.EventHandler(this.checkBoxEnableInjected_CheckedChanged);
 			// 
 			// checkBoxEnableMiddleMouse
 			// 
@@ -1380,9 +1394,9 @@ namespace SebWindowsConfig
 			this.checkBoxSebServiceIgnore.AutoSize = true;
 			this.checkBoxSebServiceIgnore.Location = new System.Drawing.Point(14, 21);
 			this.checkBoxSebServiceIgnore.Name = "checkBoxSebServiceIgnore";
-			this.checkBoxSebServiceIgnore.Size = new System.Drawing.Size(119, 17);
+			this.checkBoxSebServiceIgnore.Size = new System.Drawing.Size(98, 17);
 			this.checkBoxSebServiceIgnore.TabIndex = 104;
-			this.checkBoxSebServiceIgnore.Text = "Ignore SEB Service";
+			this.checkBoxSebServiceIgnore.Text = "Enable Service";
 			this.checkBoxSebServiceIgnore.UseVisualStyleBackColor = true;
 			this.checkBoxSebServiceIgnore.CheckedChanged += new System.EventHandler(this.checkBoxSebServiceIgnore_CheckedChanged);
 			// 
@@ -1820,10 +1834,10 @@ namespace SebWindowsConfig
 			this.radioCreateNewDesktop.Location = new System.Drawing.Point(18, 19);
 			this.radioCreateNewDesktop.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
 			this.radioCreateNewDesktop.Name = "radioCreateNewDesktop";
-			this.radioCreateNewDesktop.Size = new System.Drawing.Size(120, 17);
+			this.radioCreateNewDesktop.Size = new System.Drawing.Size(124, 17);
 			this.radioCreateNewDesktop.TabIndex = 82;
 			this.radioCreateNewDesktop.TabStop = true;
-			this.radioCreateNewDesktop.Text = "Create new desktop";
+			this.radioCreateNewDesktop.Text = "Create New Desktop";
 			this.toolTip1.SetToolTip(this.radioCreateNewDesktop, "This kiosk mode may prevent specific third party software to run correctly togeth" +
         "er with SEB, like some screen recording software or the Windows onscreen keyboar" +
         "d.");
@@ -2085,8 +2099,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle5.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle5;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -4896,8 +4910,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle6;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -6294,20 +6308,6 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Text = "Apply and Start SEB";
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
-			// 
-			// checkBoxEnableInjected
-			// 
-			this.checkBoxEnableInjected.AutoSize = true;
-			this.checkBoxEnableInjected.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.checkBoxEnableInjected.Location = new System.Drawing.Point(8, 237);
-			this.checkBoxEnableInjected.Name = "checkBoxEnableInjected";
-			this.checkBoxEnableInjected.Size = new System.Drawing.Size(124, 17);
-			this.checkBoxEnableInjected.TabIndex = 10;
-			this.checkBoxEnableInjected.Text = "Enable Injected Keys";
-			this.toolTip1.SetToolTip(this.checkBoxEnableInjected, "Allows the injection of keyboard input which can be required for accessibility or rem" +
-        "ote control software.");
-			this.checkBoxEnableInjected.UseVisualStyleBackColor = true;
-			this.checkBoxEnableInjected.CheckedChanged += new System.EventHandler(this.checkBoxEnableInjected_CheckedChanged);
 			// 
 			// SebWindowsConfigForm
 			// 

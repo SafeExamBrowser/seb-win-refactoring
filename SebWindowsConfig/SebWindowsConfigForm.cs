@@ -793,14 +793,14 @@ namespace SebWindowsConfig
 
 			// Group "Security"
 			listBoxSebServicePolicy.SelectedIndex = (int) SEBSettings.settingsCurrent[SEBSettings.KeySebServicePolicy];
-			checkBoxSebServiceIgnore.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeySebServiceIgnore];
-			labelSebServiceIgnore.Enabled = !checkBoxSebServiceIgnore.Checked;
-			labelSebServicePolicy.Enabled = !checkBoxSebServiceIgnore.Checked;
-			listBoxSebServicePolicy.Enabled = !checkBoxSebServiceIgnore.Checked;
-			groupBoxInsideSeb.Enabled = !checkBoxSebServiceIgnore.Checked;
-			checkBoxAllowWindowsUpdate.Enabled = !checkBoxSebServiceIgnore.Checked;
-			checkBoxAllowScreenSharing.Enabled = !checkBoxSebServiceIgnore.Checked;
-			checkBoxAllowChromeNotifications.Enabled = !checkBoxSebServiceIgnore.Checked;
+			checkBoxSebServiceIgnore.Checked = !(Boolean) SEBSettings.settingsCurrent[SEBSettings.KeySebServiceIgnore];
+			labelSebServiceIgnore.Enabled = checkBoxSebServiceIgnore.Checked;
+			labelSebServicePolicy.Enabled = checkBoxSebServiceIgnore.Checked;
+			listBoxSebServicePolicy.Enabled = checkBoxSebServiceIgnore.Checked;
+			groupBoxInsideSeb.Enabled = checkBoxSebServiceIgnore.Checked;
+			checkBoxAllowWindowsUpdate.Enabled = checkBoxSebServiceIgnore.Checked;
+			checkBoxAllowScreenSharing.Enabled = checkBoxSebServiceIgnore.Checked;
+			checkBoxAllowChromeNotifications.Enabled = checkBoxSebServiceIgnore.Checked;
 			checkBoxAllowVirtualMachine.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowVirtualMachine];
 			checkBoxAllowScreenSharing.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowScreenSharing];
 			checkBoxEnablePrivateClipboard.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyEnablePrivateClipboard];
@@ -4640,14 +4640,14 @@ namespace SebWindowsConfig
 
 		private void checkBoxSebServiceIgnore_CheckedChanged(object sender, EventArgs e)
 		{
-			SEBSettings.settingsCurrent[SEBSettings.KeySebServiceIgnore] = checkBoxSebServiceIgnore.Checked;
-			labelSebServiceIgnore.Enabled = !checkBoxSebServiceIgnore.Checked;
-			labelSebServicePolicy.Enabled = !checkBoxSebServiceIgnore.Checked;
-			listBoxSebServicePolicy.Enabled = !checkBoxSebServiceIgnore.Checked;
-			groupBoxInsideSeb.Enabled = !checkBoxSebServiceIgnore.Checked;
-			checkBoxAllowWindowsUpdate.Enabled = !checkBoxSebServiceIgnore.Checked;
-			checkBoxAllowScreenSharing.Enabled = !checkBoxSebServiceIgnore.Checked;
-			checkBoxAllowChromeNotifications.Enabled = !checkBoxSebServiceIgnore.Checked;
+			SEBSettings.settingsCurrent[SEBSettings.KeySebServiceIgnore] = !checkBoxSebServiceIgnore.Checked;
+			labelSebServiceIgnore.Enabled = checkBoxSebServiceIgnore.Checked;
+			labelSebServicePolicy.Enabled = checkBoxSebServiceIgnore.Checked;
+			listBoxSebServicePolicy.Enabled = checkBoxSebServiceIgnore.Checked;
+			groupBoxInsideSeb.Enabled = checkBoxSebServiceIgnore.Checked;
+			checkBoxAllowWindowsUpdate.Enabled = checkBoxSebServiceIgnore.Checked;
+			checkBoxAllowScreenSharing.Enabled = checkBoxSebServiceIgnore.Checked;
+			checkBoxAllowChromeNotifications.Enabled = checkBoxSebServiceIgnore.Checked;
 		}
 
 		private void checkBoxAllowCustomDownloadLocation_CheckedChanged(object sender, EventArgs e)
