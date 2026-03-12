@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using CefSharp;
+using CefSharp.WinForms;
 using SafeExamBrowser.Applications.Contracts.Events;
 using SafeExamBrowser.Browser.Contracts;
 using SafeExamBrowser.Browser.Contracts.Events;
@@ -109,9 +110,8 @@ namespace SafeExamBrowser.Browser
 
 			InitializeResponsibilities();
 
-			Responsibilities.Delegate(BrowserTask.InitializeBrowserConfiguration);
-
-			var success = Cef.Initialize(context.CefSettings, true, default(IApp));
+			var settings = Responsibilities.Delegate<CefSettings>(BrowserTask.InitializeBrowserConfiguration);
+			var success = Cef.Initialize(settings, true, default(IApp));
 
 			InitializeApplicationInfo();
 

@@ -12,12 +12,13 @@ using System.Globalization;
 using System.Linq;
 using CefSharp;
 using CefSharp.WinForms;
+using SafeExamBrowser.Core.Contracts.ResponsibilityModel;
 using SafeExamBrowser.Settings.Browser.Proxy;
 using SafeExamBrowser.Settings.Logging;
 
 namespace SafeExamBrowser.Browser.Responsibilities.Browser
 {
-	internal class ConfigurationResponsibility : BrowserResponsibility
+	internal class ConfigurationResponsibility : BrowserResponsibility, IFunctionalResponsibility<BrowserTask>
 	{
 		public ConfigurationResponsibility(BrowserApplicationContext context) : base(context)
 		{
@@ -27,61 +28,70 @@ namespace SafeExamBrowser.Browser.Responsibilities.Browser
 		{
 			switch (task)
 			{
-				case BrowserTask.InitializeBrowserConfiguration:
-					InitializeCefSettings();
-					break;
 				case BrowserTask.InitializePreferences:
 					InitializePreferences();
 					break;
 			}
 		}
 
-		private void InitializeCefSettings()
+		public bool TryAssume<TResult>(BrowserTask task, out TResult result) where TResult : class
+		{
+			result = default;
+
+			if (task == BrowserTask.InitializeBrowserConfiguration)
+			{
+				result = InitializeCefSettings() as TResult;
+			}
+
+			return result != default;
+		}
+
+		private CefSettings InitializeCefSettings()
 		{
 			var warning = Logger.LogLevel == LogLevel.Warning;
 			var error = Logger.LogLevel == LogLevel.Error;
+			var settings = new CefSettings();
 
-			Context.CefSettings = new CefSettings();
+			settings.AcceptLanguageList = CultureInfo.CurrentUICulture.Name;
+			settings.CachePath = AppConfig.BrowserCachePath;
+			settings.LogFile = AppConfig.BrowserLogFilePath;
+			settings.LogSeverity = error ? LogSeverity.Error : (warning ? LogSeverity.Warning : LogSeverity.Info);
+			settings.PersistSessionCookies = !Settings.DeleteCookiesOnStartup || !Settings.DeleteCookiesOnShutdown;
+			settings.UserAgent = InitializeUserAgent();
 
-			Context.CefSettings.AcceptLanguageList = CultureInfo.CurrentUICulture.Name;
-			Context.CefSettings.CachePath = AppConfig.BrowserCachePath;
-			Context.CefSettings.LogFile = AppConfig.BrowserLogFilePath;
-			Context.CefSettings.LogSeverity = error ? LogSeverity.Error : (warning ? LogSeverity.Warning : LogSeverity.Info);
-			Context.CefSettings.PersistSessionCookies = !Settings.DeleteCookiesOnStartup || !Settings.DeleteCookiesOnShutdown;
-			Context.CefSettings.UserAgent = InitializeUserAgent();
-
-			Context.CefSettings.CefCommandLineArgs.Add("disable-extensions");
-			Context.CefSettings.CefCommandLineArgs.Add("do-not-de-elevate");
-			Context.CefSettings.CefCommandLineArgs.Add("enable-media-stream");
-			Context.CefSettings.CefCommandLineArgs.Add("enable-usermedia-screen-capturing");
-			Context.CefSettings.CefCommandLineArgs.Add("touch-events", "enabled");
-			Context.CefSettings.CefCommandLineArgs.Add("use-fake-ui-for-media-stream");
+			settings.CefCommandLineArgs.Add("disable-extensions");
+			settings.CefCommandLineArgs.Add("do-not-de-elevate");
+			settings.CefCommandLineArgs.Add("enable-media-stream");
+			settings.CefCommandLineArgs.Add("enable-usermedia-screen-capturing");
+			settings.CefCommandLineArgs.Add("touch-events", "enabled");
+			settings.CefCommandLineArgs.Add("use-fake-ui-for-media-stream");
 
 			if (!Settings.AllowPageZoom)
 			{
-				Context.CefSettings.CefCommandLineArgs.Add("disable-pinch");
+				settings.CefCommandLineArgs.Add("disable-pinch");
 			}
 
 			if (!Settings.AllowPdfReader)
 			{
-				Context.CefSettings.CefCommandLineArgs.Add("disable-pdf-extension");
+				settings.CefCommandLineArgs.Add("disable-pdf-extension");
 			}
 
 			if (!Settings.AllowSpellChecking)
 			{
-				Context.CefSettings.CefCommandLineArgs.Add("disable-spell-checking");
+				settings.CefCommandLineArgs.Add("disable-spell-checking");
 			}
 
-			InitializeProxySettings();
+			InitializeProxySettings(settings);
 
-			Logger.Debug($"Accept Language: {Context.CefSettings.AcceptLanguageList}");
-			Logger.Debug($"Cache Path: {Context.CefSettings.CachePath}");
+			Logger.Debug($"Accept Language: {settings.AcceptLanguageList}");
+			Logger.Debug($"Cache Path: {settings.CachePath}");
 			Logger.Debug($"Engine Version: Chromium {Cef.ChromiumVersion}, CEF {Cef.CefVersion}, CefSharp {Cef.CefSharpVersion}");
-			Logger.Debug($"Log File: {Context.CefSettings.LogFile}");
-			Logger.Debug($"Log Severity: {Context.CefSettings.LogSeverity}.");
+			Logger.Debug($"Log File: {settings.LogFile}");
+			Logger.Debug($"Log Severity: {settings.LogSeverity}.");
 			Logger.Debug($"PDF Reader: {(Settings.AllowPdfReader ? "Enabled" : "Disabled")}.");
-			Logger.Debug($"Session Persistence: {(Context.CefSettings.PersistSessionCookies ? "Enabled" : "Disabled")}.");
+			Logger.Debug($"Session Persistence: {(settings.PersistSessionCookies ? "Enabled" : "Disabled")}.");
 
+			return settings;
 		}
 
 		private void InitializePreferences()
@@ -96,23 +106,23 @@ namespace SafeExamBrowser.Browser.Responsibilities.Browser
 			});
 		}
 
-		private void InitializeProxySettings()
+		private void InitializeProxySettings(CefSettings settings)
 		{
 			if (Settings.Proxy.Policy == ProxyPolicy.Custom)
 			{
 				if (Settings.Proxy.AutoConfigure)
 				{
-					Context.CefSettings.CefCommandLineArgs.Add("proxy-pac-url", Settings.Proxy.AutoConfigureUrl);
+					settings.CefCommandLineArgs.Add("proxy-pac-url", Settings.Proxy.AutoConfigureUrl);
 				}
 
 				if (Settings.Proxy.AutoDetect)
 				{
-					Context.CefSettings.CefCommandLineArgs.Add("proxy-auto-detect", "");
+					settings.CefCommandLineArgs.Add("proxy-auto-detect", "");
 				}
 
 				if (Settings.Proxy.BypassList.Any())
 				{
-					Context.CefSettings.CefCommandLineArgs.Add("proxy-bypass-list", string.Join(";", Settings.Proxy.BypassList));
+					settings.CefCommandLineArgs.Add("proxy-bypass-list", string.Join(";", Settings.Proxy.BypassList));
 				}
 
 				if (Settings.Proxy.Proxies.Any())
@@ -124,7 +134,7 @@ namespace SafeExamBrowser.Browser.Responsibilities.Browser
 						proxies.Add($"{ToScheme(proxy.Protocol)}={proxy.Host}:{proxy.Port}");
 					}
 
-					Context.CefSettings.CefCommandLineArgs.Add("proxy-server", string.Join(";", proxies));
+					settings.CefCommandLineArgs.Add("proxy-server", string.Join(";", proxies));
 				}
 			}
 		}

@@ -19,5 +19,11 @@ namespace SafeExamBrowser.Core.Contracts.ResponsibilityModel
 		/// Delegates the given task to all responsibilities of the collection.
 		/// </summary>
 		void Delegate(T task);
+
+		/// <summary>
+		/// Delegates the given task with the requested return value type to all functional responsibilities of the collection.
+		/// Returns <c>default(TResult)</c> in case there is no responsibility which can assume the given task.
+		/// </summary>
+		TResult Delegate<TResult>(T task) where TResult : class;
 	}
 }

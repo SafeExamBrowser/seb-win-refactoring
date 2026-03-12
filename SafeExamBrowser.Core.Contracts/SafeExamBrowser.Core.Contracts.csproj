@@ -73,6 +73,7 @@
     <Compile Include="Resources\Icons\XamlIconResource.cs" />
     <Compile Include="ResponsibilityModel\IResponsibility.cs" />
     <Compile Include="ResponsibilityModel\IResponsibilityCollection.cs" />
+    <Compile Include="ResponsibilityModel\IFunctionalResponsibility.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.I18n.Contracts\SafeExamBrowser.I18n.Contracts.csproj">

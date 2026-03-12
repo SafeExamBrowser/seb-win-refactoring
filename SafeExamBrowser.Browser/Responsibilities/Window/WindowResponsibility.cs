@@ -44,32 +44,11 @@ namespace SafeExamBrowser.Browser.Responsibilities.Window
 
 				if (Settings.HomeNavigationRequiresPassword && !string.IsNullOrWhiteSpace(Settings.HomePasswordHash))
 				{
-					var message = Context.Text.Get(TextKey.PasswordDialog_BrowserHomePasswordRequired);
-					var title = !string.IsNullOrWhiteSpace(Settings.HomeNavigationMessage) ? Settings.HomeNavigationMessage : Context.Text.Get(TextKey.PasswordDialog_BrowserHomePasswordRequiredTitle);
-					var dialog = Context.UserInterfaceFactory.CreatePasswordDialog(message, title);
-					var result = dialog.Show(Window);
-
-					if (result.Success)
-					{
-						var passwordHash = Context.HashAlgorithm.GenerateHashFor(result.Password);
-
-						if (Settings.HomePasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase))
-						{
-							navigate = true;
-						}
-						else
-						{
-							Context.MessageBox.Show(TextKey.MessageBox_InvalidHomePassword, TextKey.MessageBox_InvalidHomePasswordTitle, icon: MessageBoxIcon.Warning, parent: Window);
-						}
-					}
+					navigate = VerifyHomePassword();
 				}
 				else
 				{
-					var message = Context.Text.Get(TextKey.MessageBox_BrowserHomeQuestion);
-					var title = !string.IsNullOrWhiteSpace(Settings.HomeNavigationMessage) ? Settings.HomeNavigationMessage : Context.Text.Get(TextKey.MessageBox_BrowserHomeQuestionTitle);
-					var result = Context.MessageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question, Window);
-
-					navigate = result == MessageBoxResult.Yes;
+					navigate = ConfirmHomeNavigation();
 				}
 
 				if (navigate)
@@ -77,6 +56,15 @@ namespace SafeExamBrowser.Browser.Responsibilities.Window
 					Control.NavigateTo(url);
 				}
 			}
+		}
+
+		private bool ConfirmHomeNavigation()
+		{
+			var message = Context.Text.Get(TextKey.MessageBox_BrowserHomeQuestion);
+			var title = !string.IsNullOrWhiteSpace(Settings.HomeNavigationMessage) ? Settings.HomeNavigationMessage : Context.Text.Get(TextKey.MessageBox_BrowserHomeQuestionTitle);
+			var result = Context.MessageBox.Show(message, title, MessageBoxAction.YesNo, MessageBoxIcon.Question, Window);
+
+			return result == MessageBoxResult.Yes;
 		}
 
 		protected void ReloadRequested()
@@ -126,6 +114,29 @@ namespace SafeExamBrowser.Browser.Responsibilities.Window
 			var title = isDownload ? TextKey.MessageBox_DownloadNotAllowedTitle : TextKey.MessageBox_UploadNotAllowedTitle;
 
 			Context.MessageBox.Show(message, title, icon: MessageBoxIcon.Warning, parent: Window);
+		}
+
+		private bool VerifyHomePassword()
+		{
+			var message = Context.Text.Get(TextKey.PasswordDialog_BrowserHomePasswordRequired);
+			var title = !string.IsNullOrWhiteSpace(Settings.HomeNavigationMessage) ? Settings.HomeNavigationMessage : Context.Text.Get(TextKey.PasswordDialog_BrowserHomePasswordRequiredTitle);
+			var dialog = Context.UserInterfaceFactory.CreatePasswordDialog(message, title);
+			var result = dialog.Show(Window);
+			var valid = false;
+
+			if (result.Success)
+			{
+				var passwordHash = Context.HashAlgorithm.GenerateHashFor(result.Password);
+
+				valid = Settings.HomePasswordHash.Equals(passwordHash, StringComparison.OrdinalIgnoreCase);
+
+				if (!valid)
+				{
+					Context.MessageBox.Show(TextKey.MessageBox_InvalidHomePassword, TextKey.MessageBox_InvalidHomePasswordTitle, icon: MessageBoxIcon.Warning, parent: Window);
+				}
+			}
+
+			return valid;
 		}
 	}
 }

@@ -181,7 +181,6 @@ namespace SafeExamBrowser.Browser.Responsibilities.Browser
 
 			if (Settings.DeleteCookiesOnStartup && Settings.DeleteCookiesOnShutdown)
 			{
-				// DeleteCookies();
 				Context.Responsibilities.Delegate(BrowserTask.DeleteCookies);
 			}
 
