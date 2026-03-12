@@ -146,7 +146,11 @@ namespace SafeExamBrowser.Monitoring.System.Components
 
 		private bool IsValidCursorPath(string path)
 		{
-			return path.StartsWith(USER_PATH, StringComparison.OrdinalIgnoreCase) || path.StartsWith(SYSTEM_PATH, StringComparison.OrdinalIgnoreCase);
+			var expanded = Environment.ExpandEnvironmentVariables(path);
+			var systemPath = expanded.StartsWith(SYSTEM_PATH, StringComparison.OrdinalIgnoreCase);
+			var userPath = expanded.StartsWith(USER_PATH, StringComparison.OrdinalIgnoreCase);
+
+			return systemPath || userPath;
 		}
 	}
 }
