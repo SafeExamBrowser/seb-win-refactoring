@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Text>
+    <Entry key="AboutWindow_LicenseInfo">
+        Denna applikation är föremål för villkoren i Mozilla Public License, version 2.0. Safe Exam Browser använder följande ramverk och tredjepartsbibliotek:
+    </Entry>
+    <Entry key="AboutWindow_Title">
+        Version &amp; licensinformation
+    </Entry>
+    <Entry key="Browser_BlockedContentMessage">
+        Blockerat innehåll
+    </Entry>
+    <Entry key="Browser_BlockedPageButton">
+        Tillbaka till föregående sida
+    </Entry>
+    <Entry key="Browser_BlockedPageMessage">
+        Det är inte tillåtet att öppna den valda sidan.
+    </Entry>
+    <Entry key="Browser_BlockedPageTitle">
+        Blockerad sida
+    </Entry>
+    <Entry key="Browser_LoadErrorMessage">
+        Ett fel uppstod vid laddning av sidan "%%URL%%":
+    </Entry>
+    <Entry key="Browser_LoadErrorTitle">
+        Det gick inte att öppna sidan.
+    </Entry>
+    <Entry key="Browser_Name">
+        Webbläsare
+    </Entry>
+    <Entry key="Browser_PrintNotAllowed">
+        Det är inte tillåtet att skriva ut.
+    </Entry>
+    <Entry key="Browser_Tooltip">
+        Öppna webbsidor
+    </Entry>
+    <Entry key="BrowserWindow_DeveloperConsoleMenuItem">
+        Utvecklarkonsol
+    </Entry>
+    <Entry key="BrowserWindow_Downloading">
+        Laddar ner
+    </Entry>
+    <Entry key="BrowserWindow_DownloadCancelled">
+        Avbruten
+    </Entry>
+    <Entry key="BrowserWindow_DownloadComplete">
+        Nedladdad
+    </Entry>
+    <Entry key="BrowserWindow_FindCaseSensitive">
+        Skiftlägeskänslig sökning
+    </Entry>
+    <Entry key="BrowserWindow_FindMenuItem">
+        Sök på sidan …
+    </Entry>
+    <Entry key="BrowserWindow_ReloadButton">
+        Ladda om
+    </Entry>
+    <Entry key="BrowserWindow_BackwardButton">
+        Bakåt
+    </Entry>
+    <Entry key="BrowserWindow_ForwardButton">
+        Framåt
+    </Entry>
+    <Entry key="BrowserWindow_DownloadsButton">
+        Ladda ner
+    </Entry>
+    <Entry key="BrowserWindow_HomeButton">
+        Hem
+    </Entry>
+    <Entry key="BrowserWindow_MenuButton">
+        Meny
+    </Entry>
+    <Entry key="BrowserWindow_CloseButton">
+        Stäng
+    </Entry>
+    <Entry key="BrowserWindow_UrlTextBox">
+        Ange URL
+    </Entry>
+    <Entry key="BrowserWindow_ZoomLevelReset">
+        Zoom %%ZOOM%% %. Klicka för att återställa.
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuItem">
+        Zoom
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuPlus">
+        Zooma in
+    </Entry>
+    <Entry key="BrowserWindow_ZoomMenuMinus">
+        Zooma ut
+    </Entry>
+    <Entry key="BrowserWindow_SearchTextBox">
+        Ange sökord
+    </Entry>
+    <Entry key="BrowserWindow_SearchNext">
+        Nästa sökresultat
+    </Entry>
+    <Entry key="BrowserWindow_SearchPrevious">
+        Föregående sökresultat
+    </Entry>
+    <Entry key="Build">
+        Build
+    </Entry>
+    <Entry key="CredentialsDialog_PasswordLabel">
+        Lösenord:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameLabel">
+        Användarnamn:
+    </Entry>
+    <Entry key="CredentialsDialog_UsernameOptionalLabel">
+        Användarnamn (om nödvändigt):
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkMessage">
+        Ange de uppgifter som krävs för att ansluta till det trådlösa nätverket "%%NAME%%".
+    </Entry>
+    <Entry key="CredentialsDialog_WirelessNetworkTitle">
+        Nätverksautentisering krävs
+    </Entry>
+    <Entry key="ExamSelectionDialog_Cancel">
+        Avbryt
+    </Entry>
+    <Entry key="ExamSelectionDialog_Message">
+        Välj ett av proven tillgängliga på SEB-servern:
+    </Entry>
+    <Entry key="ExamSelectionDialog_Select">
+        Välj
+    </Entry>
+    <Entry key="ExamSelectionDialog_Title">
+        SEB-serverprov
+    </Entry>
+    <Entry key="FileSystemDialog_Cancel">
+        Avbryt
+    </Entry>
+    <Entry key="FileSystemDialog_LoadError">
+        Misslyckades med att läsa in data!
+    </Entry>
+    <Entry key="FileSystemDialog_Loading">
+        Laddar…
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFileMessage">
+        Välj en fil att öppna.
+    </Entry>
+    <Entry key="FileSystemDialog_OpenFolderMessage">
+        Välj en mapp.
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarning">
+        Den valda filen finns redan. Vill du verkligen skriva över den?
+    </Entry>
+    <Entry key="FileSystemDialog_OverwriteWarningTitle">
+        Skriva över?
+    </Entry>
+    <Entry key="FileSystemDialog_SaveAs">
+        Spara som:
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFileMessage">
+        Välj en plats för att spara filen.
+    </Entry>
+    <Entry key="FileSystemDialog_SaveFolderMessage">
+        Välj en plats för att spara mappen.
+    </Entry>
+    <Entry key="FileSystemDialog_Select">
+        Välj
+    </Entry>
+    <Entry key="FileSystemDialog_Title">
+        Åtkomst till mappstrukturen
+    </Entry>
+    <Entry key="FolderDialog_ApplicationLocation">
+        Applikationen "%%NAME%%" gick inte att hitta. Lokalisera mappen som innehåller programmets fil "%%EXECUTABLE%%".
+    </Entry>
+    <Entry key="LockScreen_ApplicationIntegrityMessage">
+        Du använder en icke officiell version av SEB. Säkerställ att du använder en officiell version av Safe Exam Browser. För att låsa upp SEB, ange rätt lösenord.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsAllowOption">
+        Tillåt blockerade applikationer temporärt. Detta gäller endast på den nuvarande instansen och den pågående sessionen.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsMessage">
+        De blockerade applikationerna som listas nedan startades, men gick inte att avsluta automatiskt. För att låsa upp SEB, välj ett av de tillgängliga alternativen och ange rätt lösenord.
+    </Entry>
+    <Entry key="LockScreen_ApplicationsTerminateOption">
+        Avsluta Safe Exam Browser. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
+    </Entry>
+    <Entry key="LockScreen_CursorContinueOption">
+        Tillåt konfiguration av pekaren temporärt. Detta gäller endast den pågende sessionen.
+    </Entry>
+    <Entry key="LockScreen_CursorMessage">
+        En otillåten konfiguration av pekaren har upptäckts. För att låsa upp SEB, välj ett av de tillgängliga alternativen och ange rätt lösenord.
+    </Entry>
+    <Entry key="LockScreen_CursorTerminateOption">
+        Avsluta Safe Exam Browser. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationContinueOption">
+        Tillåt konfiguration av bildskärm temporärt. Detta gäller endast den pågående sessionen.
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationMessage">
+        En otillåten bildskärmskonfiguration har upptäckts. För att låsa upp SEB, välj ett av de tillgängliga alternativen och ange rätt lösenord.
+    </Entry>
+    <Entry key="LockScreen_DisplayConfigurationTerminateOption">
+        Avsluta Safe Exam Browser. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessContinueOption">
+        Tillåt konfiguration av funktioner för tillgänglighet temporärt. Detta gäller endast den pågående sessionen.
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessMessage">
+        En otillåten konfiguration av hjälpmedel på Windows säkerhetsskärm har upptäckts. För att låsa upp SEB, välj ett av de tillgängliga alternativen och ange rätt lösenord.
+    </Entry>
+    <Entry key="LockScreen_EaseOfAccessTerminateOption">
+        Avsluta Safe Exam Browser. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
+    </Entry>
+    <Entry key="LockScreen_SessionIntegrityMessage">
+        Den senaste sessionen med den nu aktiva inställningen blev inte korrekt avslutad. Ange rätt lösenord för att låsa upp SEB.
+    </Entry>
+    <Entry key="LockScreen_StickyKeysContinueOption">
+        Tillåt tröga tangenter temporärt. Detta gäller endast den pågående sessionen.
+    </Entry>
+    <Entry key="LockScreen_StickyKeysMessage">
+        En otillåten inställning för tröga tangenter har upptäckts. För att låsa upp SEB, välj ett av de tillgängliga alternativen och ange rätt lösenord.
+    </Entry>
+    <Entry key="LockScreen_StickyKeysTerminateOption">
+        Avsluta Safe Exam Browser. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
+    </Entry>
+    <Entry key="LockScreen_Title">
+        SEB är låst
+    </Entry>
+    <Entry key="LockScreen_UnlockButton">
+        Lås upp
+    </Entry>
+    <Entry key="LockScreen_UserSessionContinueOption">
+        Lås upp Safe Exam Browser.
+    </Entry>
+    <Entry key="LockScreen_UserSessionMessage">
+        Den aktiva användaren är ändrad eller datorn är låst. För att låsa upp SEB, välj ett av de tillgängliga alternativen och ange rätt lösenord.
+    </Entry>
+    <Entry key="LockScreen_UserSessionTerminateOption">
+        Avsluta Safe Exam Browser. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
+    </Entry>
+    <Entry key="LockScreen_UserSwitchMessage">
+        Den aktiva användaren är ändrad eller datorn är låst. För att låsa upp SEB, välj ett av de tillgängliga alternativen och ange rätt lösenord.
+    </Entry>
+    <Entry key="LogWindow_AlwaysOnTop">
+        Alltid överst
+    </Entry>
+    <Entry key="LogWindow_AutoScroll">
+        Auto-scrolla innehåll
+    </Entry>
+    <Entry key="LogWindow_Title">
+        Applikationslogg
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestion">
+        Applikationerna som listas nedan måste avslutas innan en ny session kan startas. Vill du avsluta dem automatiskt nu?
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationQuestionTitle">
+        Aktiva applikationer är upptäckta
+    </Entry>
+    <Entry key="MessageBox_ApplicationAutoTerminationDataLossWarning">
+        VARNING: Data som ej är sparad kan försvinna.
+    </Entry>
+    <Entry key="MessageBox_ApplicationError">
+        Ett oåterkalleligt fel har inträffat. Se loggfilerna för mer information. SEB kommer nu att stängas…
+    </Entry>
+    <Entry key="MessageBox_ApplicationErrorTitle">
+        Applikationsfel
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailure">
+        Applikationen %%NAME%% gick inte att starta och kommer därför inte att vara tillgänglig för den nya sessionen! Se loggfilerna för mer information.
+    </Entry>
+    <Entry key="MessageBox_ApplicationInitializationFailureTitle">
+        Kunde inte starta applikationen
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFound">
+        Applikationen %%NAME%% gick inte att hitta och kommer därför inte att vara tillgänglig för den nya sessionen. Se loggfilerna för mer information.
+    </Entry>
+    <Entry key="MessageBox_ApplicationNotFoundTitle">
+        Kunde inte hitta applikationen
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailure">
+        Följande applikationer gick inte att avsluta. Avsluta dem manuellt och försök igen.
+    </Entry>
+    <Entry key="MessageBox_ApplicationTerminationFailureTitle">
+        Automatisk avslutning misslyckad
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestion">
+        Är du säker? (Denna funktion loggar inte ut dig om du är inloggad på en webbplats)
+    </Entry>
+    <Entry key="MessageBox_BrowserHomeQuestionTitle">
+        Tillbaka till start
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlocked">
+        Det är inte tillåtet att öppna sidan "%%URL%%".
+    </Entry>
+    <Entry key="MessageBox_BrowserNavigationBlockedTitle">
+        Blockerad sida
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmation">
+        En URL för att avsluta är upptäckt. Vill du avsluta SEB nu?
+    </Entry>
+    <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
+        URL för avslut är upptäckt
+    </Entry>
+    <Entry key="MessageBox_CancelButton">
+        Avbryt
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationError">
+        Inställningen på din enhet misslyckades. Se loggfilerna för mer information. SEB kommer nu att avslutas…
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationErrorTitle">
+        Fel vid konfiguration
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestion">
+        Inställning på din enhet är sparad och kommer att användas nästa gång du startar SEB. Vill du avsluta nu?
+    </Entry>
+    <Entry key="MessageBox_ClientConfigurationQuestionTitle">
+        Konfiguration slutförd
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadError">
+        Misslyckades med att ladda ner den nya konfigurationen. Försök igen eller kontakta teknisk support.
+    </Entry>
+    <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
+        Nedladdningsfel
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationError">
+        Du har för många bildskärmar anslutna. %%ALLOWED_COUNT%% %%TYPE%% bildskärm(ar) är tillåtna, men %%INTERNAL_COUNT%% interna och %%EXTERNAL_COUNT%% externa bildskärm(ar) är upptäckta. Se loggfilerna för mer information. SEB kommer nu att avslutas.
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationErrorTitle">
+        Ej tillåten bildskärmsinställning
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternal">
+        intern
+    </Entry>
+    <Entry key="MessageBox_DisplayConfigurationInternalOrExternal">
+        intern eller extern
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowed">
+        Nedladdning av filer är inte tillåten i de aktuella inställningarna för SEB. Rapportera detta till distributören av provet.
+    </Entry>
+    <Entry key="MessageBox_DownloadNotAllowedTitle">
+        Nedladdning ej tillåten!
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationData">
+        Konfigurationsresursen "%%URI%%" innehåller ogiltig data!
+    </Entry>
+    <Entry key="MessageBox_InvalidConfigurationDataTitle">
+        Fel vid konfiguration
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePassword">
+        Felaktigt lösenord
+    </Entry>
+    <Entry key="MessageBox_InvalidHomePasswordTitle">
+        Ogiltigt lösenord
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordError">
+        Du har angivit fel lösenord fem gånger. SEB kommer nu att avslutas…
+    </Entry>
+    <Entry key="MessageBox_InvalidPasswordErrorTitle">
+        Ogiltigt lösenord
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPassword">
+        Du måste ange rätt lösenord för att avsluta SEB.
+    </Entry>
+    <Entry key="MessageBox_InvalidQuitPasswordTitle">
+        Ogiltigt lösenord
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPassword">
+        Du måste ange rätt lösenord för att öppna SEB.
+    </Entry>
+    <Entry key="MessageBox_InvalidUnlockPasswordTitle">
+        Ogiltigt lösenord
+    </Entry>
+    <Entry key="MessageBox_NoButton">
+        Nej
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResource">
+        Konfigurationsresursen "%%URI%%" stöds inte!
+    </Entry>
+    <Entry key="MessageBox_NotSupportedConfigurationResourceTitle">
+        Fel vid konfiguration
+    </Entry>
+    <Entry key="MessageBox_OkButton">
+        OK
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmation">
+        Vill du lämna sidan?
+    </Entry>
+    <Entry key="MessageBox_PageLeaveConfirmationTitle">
+        Lämna?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmation">
+         Vill du ladda om sidan?
+    </Entry>
+    <Entry key="MessageBox_PageReloadConfirmationTitle">
+        Ladda om?
+    </Entry>
+    <Entry key="MessageBox_Quit">
+        Vill du avsluta SEB?
+    </Entry>
+    <Entry key="MessageBox_QuitTitle">
+        Avsluta?
+    </Entry>
+    <Entry key="MessageBox_QuitError">
+        Klienten misslyckades med att kommunicera avstängning till runtime.
+    </Entry>
+    <Entry key="MessageBox_QuitErrorTitle">
+        Fel vid avslutning
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDenied">
+        Du har inte tillåtelse att konfigurera om SEB.
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationDeniedTitle">
+        Omkonfiguration nekad
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationError">
+        Klienten misslyckades med att kommunicera ny konfiguration till runtime.
+    </Entry>
+    <Entry key="MessageBox_ReconfigurationErrorTitle">
+        Fel vid uppdaterad konfiguration
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowed">
+        Skärmdelning verkar vara aktivt. Den valda konfigurationen av SEB tillåter inte skärmdelning.
+    </Entry>
+    <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
+        Fjärrsession upptäckt
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimer">
+        Skärminspelning kommer att ske under provtillfället i enlighet med specifikationer och sekretessregler angivna av provdistributören. Kontakta dem om du har frågor.
+    </Entry>
+    <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
+        Provtillfälle med skärmövervakning
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableError">
+        Den lokala inställningen av SEB misslyckades. Programmet kommer nu att avslutas eftersom inställningen är obligatorisk.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableErrorTitle">
+        Tjänsten är inte tillgänglig
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarning">
+        Den lokala inställningen av SEB misslyckades. Programmet kommer att öppnas eftersom inställningen är valfri.
+    </Entry>
+    <Entry key="MessageBox_ServiceUnavailableWarningTitle">
+        Tjänsten är inte tillgänglig
+    </Entry>
+    <Entry key="MessageBox_SessionStartError">
+        SEB misslyckades med att starta en ny session. Se loggfilerna för mer information.
+    </Entry>
+    <Entry key="MessageBox_SessionStartErrorTitle">
+        Fel vid start av ny session
+    </Entry>
+    <Entry key="MessageBox_ShutdownError">
+        Ett oväntat fel inträffade under avstängningen. Se loggfilerna för mer information.
+    </Entry>
+    <Entry key="MessageBox_ShutdownErrorTitle">
+        Fel vid avstängning
+    </Entry>
+    <Entry key="MessageBox_StartupError">
+        Ett oväntat fel inträffade under uppstarten! Se loggfilerna för mer information.
+    </Entry>
+    <Entry key="MessageBox_StartupErrorTitle">
+        Fel vid start
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationError">
+        Ett oväntat fel inträffade vid försök att ladda konfigurationsresursen "%%URI%%"! Se loggfilerna för mer information.
+    </Entry>
+    <Entry key="MessageBox_UnexpectedConfigurationErrorTitle">
+        Fel vid konfiguration
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowed">
+        Uppladdning av filer är inte tillåten med de aktuella inställningarna. Rapportera detta till distributören av provet.
+    </Entry>
+    <Entry key="MessageBox_UploadNotAllowedTitle">
+        Uppladdning ej tillåten!
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionError">
+        Den installerade SEB-version %%VERSION%% kan inte användas eftersom den valda konfigurationen kräver att version:%%REQUIRED_VERSIONS%% används. Ladda ner och installera den versionen från den officiella webbplatsen (safeexambrowser.org/download) eller från SEB:s repository för Windows på GitHub (github.com/safeexambrowser).
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionErrorTitle">
+        Ogiltig version av SEB
+    </Entry>
+    <Entry key="MessageBox_VersionRestrictionMinimum">
+        SEB %%VERSION%% eller nyare
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimer">
+        Provövervakning kommer att ske via skärmdelning och data lagras på en server. Kontakta provdistributören om du har frågor rörande integritetspolicyn. SEB ansluter inte till någon central server för övervakning. Det är provdistributören som bestämmer vilka tjänster som ska användas. 
+    </Entry>
+    <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
+        Övervakning med skärmdelning
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowed">
+        Den här datorn verkar vara en virtuell maskin. Den valda konfigurationen tillåter inte att SEB körs i en virtuell maskin.
+    </Entry>
+    <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
+        Virtuell maskin upptäckt
+    </Entry>
+    <Entry key="MessageBox_YesButton">
+        Ja
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupported">
+        Den valda konfigurationen kräver fjärrövervakning med Zoom, vilket denna version av SEB inte stöder. Ladda ner och installera den version av SEB som angetts av din provorganisatör. Av licensskäl är fjärrövervakning med Zoom endast tillgänglig för medlemmar i SEB Alliance. Se https://safeexambrowser.org/alliance för mer information.
+    </Entry>
+    <Entry key="MessageBox_ZoomNotSupportedTitle">
+        Övervakning med Zoom krävs
+    </Entry>
+    <Entry key="Notification_AboutTooltip">
+        Information om SEB
+    </Entry>
+    <Entry key="Notification_LogTooltip">
+        Applikationslogg
+    </Entry>
+    <Entry key="Notification_ProctoringActiveTooltip">
+        Fjärrövervakning är aktiv
+    </Entry>
+    <Entry key="Notification_ProctoringHandLowered">
+        Handen är sänkt
+    </Entry>
+    <Entry key="Notification_ProctoringHandRaised">
+        Handen är höjd
+    </Entry>
+    <Entry key="Notification_ProctoringInactiveTooltip">
+        Fjärrövervakning är inaktiv
+    </Entry>
+    <Entry key="Notification_ProctoringLowerHand">
+        Ta ned handen
+    </Entry>
+    <Entry key="Notification_ProctoringRaiseHand">
+        Räck upp handen
+    </Entry>
+    <Entry key="OperationStatus_CloseRuntimeConnection">
+        Stänger avslutning till runtime.
+    </Entry>
+    <Entry key="OperationStatus_FinalizeApplications">
+        Avslutar applikationer
+    </Entry>
+    <Entry key="OperationStatus_FinalizeClipboard">
+        Avslutar urklipp
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServer">
+        Avslutar SEB-server
+    </Entry>
+    <Entry key="OperationStatus_FinalizeServiceSession">
+        Avslutar session
+    </Entry>
+    <Entry key="OperationStatus_FinalizeSystemEvents">
+        Avslutar systemhändelser
+    </Entry>
+    <Entry key="OperationStatus_InitializeApplications">
+        Initierar applikationer
+    </Entry>
+    <Entry key="OperationStatus_InitializeBrowser">
+        Initierar webbläsare
+    </Entry>
+    <Entry key="OperationStatus_InitializeClipboard">
+        Initierar urklipp
+    </Entry>
+    <Entry key="OperationStatus_InitializeConfiguration">
+        Initierar konfiguration
+    </Entry>
+    <Entry key="OperationStatus_InitializeKioskMode">
+        Initierar kioskläge
+    </Entry>
+    <Entry key="OperationStatus_InitializePermissions">
+        Initierar behörigheter
+    </Entry>
+    <Entry key="OperationStatus_InitializeProctoring">
+        Initierar fjärrövervakning
+    </Entry>
+    <Entry key="OperationStatus_InitializeRuntimeConnection">
+        Initierar anslutning till runtime
+    </Entry>
+    <Entry key="OperationStatus_InitializeServer">
+        Initierar SEB-Server
+    </Entry>
+    <Entry key="OperationStatus_InitializeServiceSession">
+        Initierar tjänstesession
+    </Entry>
+    <Entry key="OperationStatus_InitializeSession">
+        Initierar ny session
+    </Entry>
+    <Entry key="OperationStatus_InitializeShell">
+        Initierar användargränssnitt
+    </Entry>
+    <Entry key="OperationStatus_InitializeSystemEvents">
+        Initierar systemhändelser
+    </Entry>
+    <Entry key="OperationStatus_InitializeWindowGuard">
+        Initierar fönstervakt
+    </Entry>
+    <Entry key="OperationStatus_InitializeWorkingArea">
+        Initierar arbetsområde
+    </Entry>
+    <Entry key="OperationStatus_RestartCommunicationHost">
+        Startar om kommunikationsserver
+    </Entry>
+    <Entry key="OperationStatus_RestoreWorkingArea">
+        Återställer arbetsområde
+    </Entry>
+    <Entry key="OperationStatus_RevertKioskMode">
+        Återställer kioskläge
+    </Entry>
+    <Entry key="OperationStatus_StartClient">
+        Startar klient
+    </Entry>
+    <Entry key="OperationStatus_StartCommunicationHost">
+        Startar kommunikationsserver
+    </Entry>
+    <Entry key="OperationStatus_StartKeyboardInterception">
+        Startar övervakning av tangentbord
+    </Entry>
+    <Entry key="OperationStatus_StartMouseInterception">
+        Startar övervakning av mus
+    </Entry>
+    <Entry key="OperationStatus_StopClient">
+        Stoppar klient
+    </Entry>
+    <Entry key="OperationStatus_StopCommunicationHost">
+        Stoppar kommunikationsserver
+    </Entry>
+    <Entry key="OperationStatus_StopKeyboardInterception">
+        Stoppar övervakning av tangentbord
+    </Entry>
+    <Entry key="OperationStatus_StopMouseInterception">
+        Stoppar övervakning av mus
+    </Entry>
+    <Entry key="OperationStatus_TerminateBrowser">
+        Avslutar webbläsare
+    </Entry>
+    <Entry key="OperationStatus_TerminateProctoring">
+        Avslutar fjärrövervakning
+    </Entry>
+    <Entry key="OperationStatus_TerminateShell">
+        Avslutar användargränssnitt
+    </Entry>
+    <Entry key="OperationStatus_ValidateDisplayConfiguration">
+        Validerar policy för konfiguration av bildskärm
+    </Entry>
+    <Entry key="OperationStatus_ValidateRemoteSessionPolicy">
+        Validerar policy för fjärrövervakning
+    </Entry>
+    <Entry key="OperationStatus_ValidateVersionRestrictions">
+        Validerar versionsbegränsningar
+    </Entry>
+    <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
+        Validerar policy för virtuella maskiner
+    </Entry>
+    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+        Verifierar integritet
+    </Entry>
+    <Entry key="OperationStatus_VerifySessionIntegrity">
+        Verifierar sessionsintegritet
+    </Entry>
+    <Entry key="OperationStatus_WaitDisclaimerConfirmation">
+        Väntar på bekräftelse av ansvarsfriskrivningen
+    </Entry>
+    <Entry key="OperationStatus_WaitErrorConfirmation">
+        Väntar på bekräftelse av felmeddelandet
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerStartup">
+        Väntar på att Utforskaren i Windows ska starta
+    </Entry>
+    <Entry key="OperationStatus_WaitExplorerTermination">
+        Väntar på att Windows Utforskare ska stängas
+    </Entry>
+    <Entry key="OperationStatus_WaitRuntimeDisconnection">
+        Väntar på att runtime ska kopplas ifrån
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequired">
+        Ange lösenord för att avsluta/starta-om: (Detta loggar inte ut dig om du är inloggad på en webbplats)
+    </Entry>
+    <Entry key="PasswordDialog_BrowserHomePasswordRequiredTitle">
+        Tillbaka till start
+    </Entry>
+    <Entry key="PasswordDialog_Cancel">
+        Avbryt
+    </Entry>
+    <Entry key="PasswordDialog_Confirm">
+        Bekräfta
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequired">
+        Ange administratörslösenordet för den lokala klientkonfigurationen:
+    </Entry>
+    <Entry key="PasswordDialog_LocalAdminPasswordRequiredTitle">
+        Lösenord krävs
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequired">
+        Ange lösenordet för den lokala klientkonfigurationen:
+    </Entry>
+    <Entry key="PasswordDialog_LocalSettingsPasswordRequiredTitle">
+        Lösenord krävs
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequired">
+        Ange lösenordet för att avsluta SEB:
+    </Entry>
+    <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
+        Lösenord krävs
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequired">
+        Ange lösenord för provtillfället:
+    </Entry>
+    <Entry key="PasswordDialog_SettingsPasswordRequiredTitle">
+        Lösenord krävs
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Abort">
+        Avsluta
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Confirm">
+        Bekräfta
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_FailureMessage">
+        De återstående operationerna kunde inte slutföras eftersom det finns problem med nätverket och/eller tjänsten för fjärrövervakning.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_InfoMessage">
+        Vänta medan fjärrövervakningen slutför sina återstående operationer. Detta kan ta tid beroende på nätverkets och skärmövervakningens status.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_PasswordMessage">
+        Ange lösenordet för avslut för att avbryta de återstående operationerna:
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Status">
+        Utför överföringsoperation %%COUNT%% av %%TOTAL%%.
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusAndTime">
+        Väntar på att utföra överföringsoperation %%COUNT%% av %%TOTAL%% vid %%TIME%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaiting">
+         Väntar på att återuppta %%COUNT%% överföringsoperationer…
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
+        Väntar på att återuppta %%COUNT%% överföringsoperationer vid %%TIME%%...
+    </Entry>
+    <Entry key="ProctoringFinalizationDialog_Title">
+        Slutför övervakning av skärm.
+    </Entry>
+    <Entry key="RuntimeWindow_ApplicationRunning">
+        SEB körs
+    </Entry>
+    <Entry key="ServerFailureDialog_Abort">
+        Avbryt
+    </Entry>
+    <Entry key="ServerFailureDialog_Fallback">
+        Fallback
+    </Entry>
+    <Entry key="ServerFailureDialog_Message">
+        Ett fel uppstod vid försök att kommunicera med SEB-servern.
+    </Entry>
+    <Entry key="ServerFailureDialog_Retry">
+        Försök igen
+    </Entry>
+    <Entry key="ServerFailureDialog_Title">
+        SEB-server fel
+    </Entry>
+    <Entry key="Shell_QuitButton">
+        Avsluta session
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfo">
+        %%NAME%%: %%VOLUME%%%
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceInfoMuted">
+        %%NAME%%: Tystad
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceMuteTooltip">
+        Klicka för att stänga av ljud
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceNotFound">
+        Ingen aktiv ljudenhet hittades
+    </Entry>
+    <Entry key="SystemControl_AudioDeviceUnmuteTooltip">
+        Klicka för att slå på ljud
+    </Entry>
+    <Entry key="SystemControl_BatteryCharging">
+        Ansluten, laddar... (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryCharged">
+        Fulladdad (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeCriticalWarning">
+        Batterinivån är kritiskt låg. Anslut din dator till en strömkälla!
+    </Entry>
+    <Entry key="SystemControl_BatteryChargeLowInfo">
+        Batterinivån börjar bli låg. Överväg att ansluta din dator till en strömkälla i god tid.
+    </Entry>
+    <Entry key="SystemControl_BatteryRemainingCharge">
+        %%HOURS%% timmar och %%MINUTES%% minuter återstår (%%CHARGE%%%)
+    </Entry>
+    <Entry key="SystemControl_KeyboardLayoutTooltip">
+        Den aktuella tangentbordslayouten är "%%LAYOUT%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkDisconnected">
+        Frånkopplad
+    </Entry>
+    <Entry key="SystemControl_NetworkNotAvailable">
+        Inget trådlöst nätverkskort tillgängligt eller påslaget
+    </Entry>
+    <Entry key="SystemControl_NetworkWiredConnected">
+        Ansluten
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnected">
+        Ansluten till "%%NAME%%"
+    </Entry>
+    <Entry key="SystemControl_NetworkWirelessConnecting">
+        Ansluter…
+    </Entry>
+    <Entry key="Version">
+        Version
+    </Entry>
+</Text>
