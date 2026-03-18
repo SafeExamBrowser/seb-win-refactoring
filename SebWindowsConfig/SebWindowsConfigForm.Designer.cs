@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -486,6 +486,7 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.checkBoxShowVerificatorButton = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -2099,8 +2100,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle5.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle3;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -4910,8 +4911,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle6;
+			dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle4;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
@@ -5093,6 +5094,7 @@ namespace SebWindowsConfig
 			// 
 			// groupBox5
 			// 
+			this.groupBox5.Controls.Add(this.checkBoxShowVerificatorButton);
 			this.groupBox5.Controls.Add(this.checkBoxShowSideMenu);
 			this.groupBox5.Controls.Add(this.checkBoxShowTaskBar);
 			this.groupBox5.Controls.Add(this.checkboxAllowWlan);
@@ -5111,7 +5113,7 @@ namespace SebWindowsConfig
 			// checkBoxShowSideMenu
 			// 
 			this.checkBoxShowSideMenu.AutoSize = true;
-			this.checkBoxShowSideMenu.Location = new System.Drawing.Point(10, 40);
+			this.checkBoxShowSideMenu.Location = new System.Drawing.Point(10, 60);
 			this.checkBoxShowSideMenu.Margin = new System.Windows.Forms.Padding(2);
 			this.checkBoxShowSideMenu.Name = "checkBoxShowSideMenu";
 			this.checkBoxShowSideMenu.Size = new System.Drawing.Size(104, 17);
@@ -6309,6 +6311,18 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
+			// checkBoxShowVerificatorButton
+			// 
+			this.checkBoxShowVerificatorButton.AutoSize = true;
+			this.checkBoxShowVerificatorButton.Location = new System.Drawing.Point(29, 40);
+			this.checkBoxShowVerificatorButton.Name = "checkBoxShowVerificatorButton";
+			this.checkBoxShowVerificatorButton.Size = new System.Drawing.Size(133, 17);
+			this.checkBoxShowVerificatorButton.TabIndex = 83;
+			this.checkBoxShowVerificatorButton.Text = "Show QR verify button";
+			this.toolTip1.SetToolTip(this.checkBoxShowVerificatorButton, "Shows button to display QR code for SEB Verificator");
+			this.checkBoxShowVerificatorButton.UseVisualStyleBackColor = true;
+			this.checkBoxShowVerificatorButton.CheckedChanged += new System.EventHandler(this.checkBoxShowVerificatorButton_CheckedChanged);
+			// 
 			// SebWindowsConfigForm
 			// 
 			this.AllowDrop = true;
@@ -6903,6 +6917,7 @@ namespace SebWindowsConfig
 		private System.Windows.Forms.Label label34;
 		private System.Windows.Forms.CheckBox checkBoxAllowStickyKeys;
 		private System.Windows.Forms.CheckBox checkBoxEnableInjected;
+		private System.Windows.Forms.CheckBox checkBoxShowVerificatorButton;
 	}
 }
 

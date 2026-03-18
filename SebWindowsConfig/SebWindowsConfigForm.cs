@@ -396,6 +396,7 @@ namespace SebWindowsConfig
 			checkBoxAllowAdditionalWindowAddressBar.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyNewBrowserWindowAllowAddressBar];
 			checkBoxAllowDeveloperConsole.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyAllowDeveloperConsole];
 			checkBoxAllowDeveloperConsole.Enabled = checkBoxEnableBrowserWindowToolbar.Checked;
+			checkBoxShowVerificatorButton.Checked = (Boolean) SEBSettings.settingsCurrent[SEBSettings.KeyShowVerificatorButton];
 
 			var defaultText = "(part of application)";
 			var defaultStyle = new DataGridViewCellStyle { BackColor = Color.LightGray };
@@ -4840,6 +4841,11 @@ namespace SebWindowsConfig
 		private void checkBoxEnableInjected_CheckedChanged(object sender, EventArgs e)
 		{
 			SEBSettings.settingsCurrent[SEBSettings.KeyEnableInjected] = checkBoxEnableInjected.Checked;
+		}
+
+		private void checkBoxShowVerificatorButton_CheckedChanged(object sender, EventArgs e)
+		{
+			SEBSettings.settingsCurrent[SEBSettings.KeyShowVerificatorButton] = checkBoxShowVerificatorButton.Checked;
 		}
 	}
 }

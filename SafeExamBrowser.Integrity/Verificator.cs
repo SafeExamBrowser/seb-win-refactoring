@@ -177,14 +177,12 @@ namespace SafeExamBrowser.Integrity
 			{
 				["country"] = RegionInfo.CurrentRegion.DisplayName,
 				["desktopOS"] = "Windows",
-				["errorCode"] = 0,
 				["localTime"] = now.ToLocalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fffzzz"),
 				["osVersion"] = systemInfo.OperatingSystemInfo,
 				["sebBuild"] = appConfig.ProgramBuildVersion,
 				["sebVersion"] = appConfig.ProgramInformationalVersion,
 				["session"] = SESSION,
-				["utcTime"] = now.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fff'Z'"),
-				["warningCode"] = 0
+				["utcTime"] = now.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fff'Z'")
 			};
 
 			return payload.ToString();

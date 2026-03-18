@@ -116,6 +116,7 @@ namespace SebWindowsConfig
 		public const String KeyZoomMode = "zoomMode";
 		public const String KeyShowReloadButton = "showReloadButton";
 		public const String KeyShowTime = "showTime";
+		public const String KeyShowVerificatorButton = "showQRVerifyButton";
 		public const String KeyShowInputLanguage = "showInputLanguage";
 		public const String KeyAllowDictionaryLookup = "allowDictionaryLookup";
 		public const String KeyEnableTouchExit = "enableTouchExit";
@@ -657,6 +658,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyAdditionalDictionaries, new ListObj());
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyShowReloadButton, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyShowTime, true);
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyShowVerificatorButton, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyShowInputLanguage, true);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyEnableTouchExit, false);
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyOskBehavior, 2);
