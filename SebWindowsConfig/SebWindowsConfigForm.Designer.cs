@@ -389,6 +389,7 @@ namespace SebWindowsConfig
 			this.checkBoxHideBrowserWindowToolbar = new System.Windows.Forms.CheckBox();
 			this.checkBoxShowMenuBar = new System.Windows.Forms.CheckBox();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.checkBoxShowVerificatorButton = new System.Windows.Forms.CheckBox();
 			this.checkBoxShowSideMenu = new System.Windows.Forms.CheckBox();
 			this.checkBoxShowTaskBar = new System.Windows.Forms.CheckBox();
 			this.checkboxAllowWlan = new System.Windows.Forms.CheckBox();
@@ -486,7 +487,6 @@ namespace SebWindowsConfig
 			this.editDuplicateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.configureClientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.applyAndStartSEBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.checkBoxShowVerificatorButton = new System.Windows.Forms.CheckBox();
 			this.tabPageHookedKeys.SuspendLayout();
 			this.groupBoxFunctionKeys.SuspendLayout();
 			this.groupBoxSpecialKeys.SuspendLayout();
@@ -1395,9 +1395,9 @@ namespace SebWindowsConfig
 			this.checkBoxSebServiceIgnore.AutoSize = true;
 			this.checkBoxSebServiceIgnore.Location = new System.Drawing.Point(14, 21);
 			this.checkBoxSebServiceIgnore.Name = "checkBoxSebServiceIgnore";
-			this.checkBoxSebServiceIgnore.Size = new System.Drawing.Size(98, 17);
+			this.checkBoxSebServiceIgnore.Size = new System.Drawing.Size(179, 17);
 			this.checkBoxSebServiceIgnore.TabIndex = 104;
-			this.checkBoxSebServiceIgnore.Text = "Enable Service";
+			this.checkBoxSebServiceIgnore.Text = "Enable SEB Service Component";
 			this.checkBoxSebServiceIgnore.UseVisualStyleBackColor = true;
 			this.checkBoxSebServiceIgnore.CheckedChanged += new System.EventHandler(this.checkBoxSebServiceIgnore_CheckedChanged);
 			// 
@@ -1425,13 +1425,13 @@ namespace SebWindowsConfig
 			// 
 			// labelSebServiceIgnore
 			// 
-			this.labelSebServiceIgnore.BackColor = System.Drawing.SystemColors.Window;
-			this.labelSebServiceIgnore.ForeColor = System.Drawing.Color.Red;
+			this.labelSebServiceIgnore.BackColor = System.Drawing.Color.Transparent;
+			this.labelSebServiceIgnore.ForeColor = System.Drawing.Color.Black;
 			this.labelSebServiceIgnore.Location = new System.Drawing.Point(12, 46);
 			this.labelSebServiceIgnore.Name = "labelSebServiceIgnore";
 			this.labelSebServiceIgnore.Size = new System.Drawing.Size(514, 42);
 			this.labelSebServiceIgnore.TabIndex = 105;
-			this.labelSebServiceIgnore.Text = resources.GetString("labelSebServiceIgnore.Text");
+			this.labelSebServiceIgnore.Text = "Recommended for BYOD scenarios.";
 			// 
 			// listBoxSebServicePolicy
 			// 
@@ -5110,6 +5110,18 @@ namespace SebWindowsConfig
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Taskbar / Dock / Side Menu";
 			// 
+			// checkBoxShowVerificatorButton
+			// 
+			this.checkBoxShowVerificatorButton.AutoSize = true;
+			this.checkBoxShowVerificatorButton.Location = new System.Drawing.Point(29, 40);
+			this.checkBoxShowVerificatorButton.Name = "checkBoxShowVerificatorButton";
+			this.checkBoxShowVerificatorButton.Size = new System.Drawing.Size(133, 17);
+			this.checkBoxShowVerificatorButton.TabIndex = 83;
+			this.checkBoxShowVerificatorButton.Text = "Show QR verify button";
+			this.toolTip1.SetToolTip(this.checkBoxShowVerificatorButton, "Shows button to display QR code for SEB Verificator");
+			this.checkBoxShowVerificatorButton.UseVisualStyleBackColor = true;
+			this.checkBoxShowVerificatorButton.CheckedChanged += new System.EventHandler(this.checkBoxShowVerificatorButton_CheckedChanged);
+			// 
 			// checkBoxShowSideMenu
 			// 
 			this.checkBoxShowSideMenu.AutoSize = true;
@@ -6310,18 +6322,6 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.Text = "Apply and Start SEB";
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
-			// 
-			// checkBoxShowVerificatorButton
-			// 
-			this.checkBoxShowVerificatorButton.AutoSize = true;
-			this.checkBoxShowVerificatorButton.Location = new System.Drawing.Point(29, 40);
-			this.checkBoxShowVerificatorButton.Name = "checkBoxShowVerificatorButton";
-			this.checkBoxShowVerificatorButton.Size = new System.Drawing.Size(133, 17);
-			this.checkBoxShowVerificatorButton.TabIndex = 83;
-			this.checkBoxShowVerificatorButton.Text = "Show QR verify button";
-			this.toolTip1.SetToolTip(this.checkBoxShowVerificatorButton, "Shows button to display QR code for SEB Verificator");
-			this.checkBoxShowVerificatorButton.UseVisualStyleBackColor = true;
-			this.checkBoxShowVerificatorButton.CheckedChanged += new System.EventHandler(this.checkBoxShowVerificatorButton_CheckedChanged);
 			// 
 			// SebWindowsConfigForm
 			// 
