@@ -21,7 +21,7 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		bool IsDisabled { get; }
 
 		/// <summary>
-		/// Indicates whether the window does not get activated by the system nor when a user interacts with it.
+		/// Indicates whether the window does not get activated by the system or when a user interacts with it.
 		/// </summary>
 		bool IsNotActivatable { get; }
 
