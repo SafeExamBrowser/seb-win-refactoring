@@ -35,7 +35,7 @@ namespace SafeExamBrowser.WindowsApi
 		{
 			logger.Info("Searching for windows to be minimized...");
 
-			foreach (var handle in nativeMethods.GetOpenWindows())
+			foreach (var handle in nativeMethods.GetInteractiveWindows())
 			{
 				var window = new Window
 				{

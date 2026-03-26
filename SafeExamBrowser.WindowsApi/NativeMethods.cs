@@ -162,6 +162,27 @@ namespace SafeExamBrowser.WindowsApi
 			return success;
 		}
 
+		public IEnumerable<IntPtr> GetAllWindows()
+		{
+			var windows = new List<IntPtr>();
+
+			bool EnumWindows(IntPtr hWnd, IntPtr lParam)
+			{
+				windows.Add(hWnd);
+
+				return true;
+			}
+
+			var success = User32.EnumWindows(EnumWindows, IntPtr.Zero);
+
+			if (!success)
+			{
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
+
+			return windows;
+		}
+
 		public (int x, int y) GetCursorPosition()
 		{
 			var position = new POINT();
@@ -171,7 +192,7 @@ namespace SafeExamBrowser.WindowsApi
 			return (position.X, position.Y);
 		}
 
-		public IEnumerable<IntPtr> GetOpenWindows()
+		public IEnumerable<IntPtr> GetInteractiveWindows()
 		{
 			var windows = new List<IntPtr>();
 
@@ -246,6 +267,14 @@ namespace SafeExamBrowser.WindowsApi
 			}
 
 			return icon;
+		}
+
+		public IWindowStyle GetWindowStyle(IntPtr window)
+		{
+			var styles = (WindowStyles) User32.GetWindowLong(window, WindowLongFlags.GWL_STYLE);
+			var extendedStyles = (ExtendedWindowStyles) User32.GetWindowLong(window, WindowLongFlags.GWL_EXSTYLE);
+
+			return new WindowStyle(styles, extendedStyles);
 		}
 
 		public string GetWindowTitle(IntPtr window)

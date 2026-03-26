@@ -142,43 +142,10 @@ namespace SafeExamBrowser.Monitoring.Applications
 			}
 		}
 
-		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+		private void Timer_Elapsed(object sender, ElapsedEventArgs args)
 		{
-			var failed = new List<RunningApplication>();
-			var running = processFactory.GetAllRunning();
-			var started = running.Where(r => processes.All(p => p.Id != r.Id)).ToList();
-			var terminated = processes.Where(p => running.All(r => r.Id != p.Id)).ToList();
-
-			foreach (var process in started)
-			{
-				logger.Debug($"Process {process} has been started [{process.GetAdditionalInfo()}].");
-				processes.Add(process);
-
-				if (process.Name == "explorer.exe")
-				{
-					HandleExplorerStart(process);
-				}
-				else if (!IsAllowed(process) && !TryTerminate(process))
-				{
-					AddFailed(process, failed);
-				}
-				else if (IsWhitelisted(process, out var applicationId))
-				{
-					HandleInstanceStart(applicationId.Value, process);
-				}
-			}
-
-			foreach (var process in terminated)
-			{
-				logger.Debug($"Process {process} has been terminated.");
-				processes.Remove(process);
-			}
-
-			if (failed.Any())
-			{
-				logger.Warn($"Failed to terminate these blacklisted applications: {string.Join(", ", failed.Select(a => a.Name))}.");
-				TerminationFailed?.Invoke(failed);
-			}
+			MonitorProcesses();
+			MonitorWindows();
 
 			timer.Start();
 		}
@@ -398,6 +365,77 @@ namespace SafeExamBrowser.Monitoring.Applications
 			}
 
 			return false;
+		}
+
+		private void MonitorProcesses()
+		{
+			try
+			{
+				var failed = new List<RunningApplication>();
+				var running = processFactory.GetAllRunning();
+				var started = running.Where(r => processes.All(p => p.Id != r.Id)).ToList();
+				var terminated = processes.Where(p => running.All(r => r.Id != p.Id)).ToList();
+
+				foreach (var process in started)
+				{
+					logger.Debug($"Process {process} has been started [{process.GetAdditionalInfo()}].");
+					processes.Add(process);
+
+					if (process.Name == "explorer.exe")
+					{
+						HandleExplorerStart(process);
+					}
+					else if (!IsAllowed(process) && !TryTerminate(process))
+					{
+						AddFailed(process, failed);
+					}
+					else if (IsWhitelisted(process, out var applicationId))
+					{
+						HandleInstanceStart(applicationId.Value, process);
+					}
+				}
+
+				foreach (var process in terminated)
+				{
+					logger.Debug($"Process {process} has been terminated.");
+					processes.Remove(process);
+				}
+
+				if (failed.Any())
+				{
+					logger.Warn($"Failed to terminate these blacklisted applications: {string.Join(", ", failed.Select(a => a.Name))}.");
+					TerminationFailed?.Invoke(failed);
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to monitor processes!", e);
+			}
+		}
+
+		private void MonitorWindows()
+		{
+			try
+			{
+				var windows = nativeMethods.GetAllWindows();
+
+				foreach (var handle in windows)
+				{
+					var style = nativeMethods.GetWindowStyle(handle);
+					var isOverlay = style.IsDisabled || style.IsNotActivatable || style.IsTopmost;
+					var isVisible = style.IsVisible;
+					var window = new Window { Handle = handle, Title = nativeMethods.GetWindowTitle(handle) };
+
+					if (isOverlay && isVisible && !IsAllowed(window) && !TryHide(window))
+					{
+						Close(window);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error("Failed to monitor windows!", e);
+			}
 		}
 
 		private bool TryGetProcessFor(Window window, out IProcess process)
