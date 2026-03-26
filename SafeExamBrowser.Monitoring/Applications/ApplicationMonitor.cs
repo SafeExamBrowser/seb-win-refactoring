@@ -423,10 +423,9 @@ namespace SafeExamBrowser.Monitoring.Applications
 				{
 					var style = nativeMethods.GetWindowStyle(handle);
 					var isOverlay = style.IsDisabled || style.IsNotActivatable || style.IsTopmost;
-					var isVisible = style.IsVisible;
 					var window = new Window { Handle = handle, Title = nativeMethods.GetWindowTitle(handle) };
 
-					if (isOverlay && isVisible && !IsAllowed(window) && !TryHide(window))
+					if (isOverlay && style.IsVisible && !IsAllowed(window) && !TryHide(window))
 					{
 						Close(window);
 					}

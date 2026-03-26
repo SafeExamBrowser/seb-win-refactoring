@@ -79,7 +79,7 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		(int x, int y) GetCursorPosition();
 
 		/// <summary>
-		/// Retrieves a collection of handles to all currently open, interactive windows which are visible and have a title. See also the superset of
+		/// Retrieves a collection of handles to all currently open interactive windows which are visible and have a title. See also the superset of
 		/// <see cref="GetAllWindows"/>.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">
