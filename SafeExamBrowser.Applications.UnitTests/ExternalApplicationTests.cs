@@ -57,7 +57,7 @@ namespace SafeExamBrowser.Applications.UnitTests
 			var process2 = new Mock<IProcess>();
 			var sync = new AutoResetEvent(false);
 
-			nativeMethods.Setup(n => n.GetOpenWindows()).Returns(openWindows);
+			nativeMethods.Setup(n => n.GetInteractiveWindows()).Returns(openWindows);
 			nativeMethods.Setup(n => n.GetProcessIdFor(It.Is<IntPtr>(p => p == new IntPtr(234)))).Returns(1234);
 			nativeMethods.Setup(n => n.GetProcessIdFor(It.Is<IntPtr>(p => p == new IntPtr(345)))).Returns(1234);
 			nativeMethods.Setup(n => n.GetProcessIdFor(It.Is<IntPtr>(p => p == new IntPtr(567)))).Returns(5678);
@@ -84,7 +84,7 @@ namespace SafeExamBrowser.Applications.UnitTests
 			Assert.IsTrue(windows.Any(w => w.Handle == new IntPtr(345)));
 			Assert.IsTrue(windows.Any(w => w.Handle == new IntPtr(567)));
 
-			nativeMethods.Setup(n => n.GetOpenWindows()).Returns(openWindows.Skip(2));
+			nativeMethods.Setup(n => n.GetInteractiveWindows()).Returns(openWindows.Skip(2));
 			Task.Run(() => process2.Raise(p => p.Terminated += null, default(int)));
 
 			sync.WaitOne();
@@ -146,7 +146,7 @@ namespace SafeExamBrowser.Applications.UnitTests
 			var process = new Mock<IProcess>();
 			var sync = new AutoResetEvent(false);
 
-			nativeMethods.Setup(n => n.GetOpenWindows()).Returns(openWindows);
+			nativeMethods.Setup(n => n.GetInteractiveWindows()).Returns(openWindows);
 			nativeMethods.Setup(n => n.GetProcessIdFor(It.Is<IntPtr>(p => p == new IntPtr(234)))).Returns(1234);
 			process.Setup(p => p.TryClose(It.IsAny<int>())).Returns(false);
 			process.Setup(p => p.TryKill(It.IsAny<int>())).Returns(true);

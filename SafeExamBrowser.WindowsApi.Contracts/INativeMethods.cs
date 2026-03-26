@@ -65,20 +65,30 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		bool EnableStickyKeys();
 
 		/// <summary>
+		/// Retrieves a collection of handles to all currently existing windows including those which are not interactive (e.g. not visible or not
+		/// having a title). See also the subset of <see cref="GetInteractiveWindows"/>.
+		/// </summary>
+		/// <exception cref="System.ComponentModel.Win32Exception">
+		/// If the existing windows could not be retrieved.
+		/// </exception>
+		IEnumerable<IntPtr> GetAllWindows();
+
+		/// <summary>
 		/// Retrieves the current position of the mouse cursor.
 		/// </summary>
 		(int x, int y) GetCursorPosition();
 
 		/// <summary>
-		/// Retrieves a collection of handles to all currently open (i.e. visible) windows.
+		/// Retrieves a collection of handles to all currently open, interactive windows which are visible and have a title. See also the superset of
+		/// <see cref="GetAllWindows"/>.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">
 		/// If the open windows could not be retrieved.
 		/// </exception>
-		IEnumerable<IntPtr> GetOpenWindows();
+		IEnumerable<IntPtr> GetInteractiveWindows();
 
 		/// <summary>
-		/// Retrieves the process identifier for the specified window handle.
+		/// Retrieves the process identifier for the specified window.
 		/// </summary>
 		uint GetProcessIdFor(IntPtr window);
 
@@ -104,6 +114,11 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		/// Attempts to retrieve the icon of the given window. Returns a handle to the icon, or <see cref="IntPtr.Zero"/> if the icon could not be retrieved.
 		/// </summary>
 		IntPtr GetWindowIcon(IntPtr window);
+
+		/// <summary>
+		/// Retrieves the window style for the specified window.
+		/// </summary>
+		IWindowStyle GetWindowStyle(IntPtr window);
 
 		/// <summary>
 		/// Retrieves the title of the window with the given handle, or an empty string if the given window does not have a title.

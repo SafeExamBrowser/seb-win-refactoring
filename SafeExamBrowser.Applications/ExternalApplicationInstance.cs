@@ -113,7 +113,7 @@ namespace SafeExamBrowser.Applications
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			var changed = false;
-			var openWindows = nativeMethods.GetOpenWindows();
+			var openWindows = nativeMethods.GetInteractiveWindows();
 
 			lock (@lock)
 			{
