@@ -82,6 +82,7 @@
     <Compile Include="BrowserApplicationContext.cs" />
     <Compile Include="BrowserWindow.cs" />
     <Compile Include="BrowserWindowContext.cs" />
+    <Compile Include="TrafficMonitor.cs" />
     <Compile Include="Clipboard.cs" />
     <Compile Include="Events\ClipboardChangedEventHandler.cs" />
     <Compile Include="Events\DialogRequestedEventArgs.cs" />

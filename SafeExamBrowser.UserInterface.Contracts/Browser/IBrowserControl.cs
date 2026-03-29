@@ -54,9 +54,14 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		event LoadingStateChangedEventHandler LoadingStateChanged;
 
 		/// <summary>
-		/// Event fired when the current page (and thus the title) of the browser control changes.
+		/// Event fired when the title of the browser control changes.
 		/// </summary>
 		event TitleChangedEventHandler TitleChanged;
+
+		/// <summary>
+		/// Event fired when the monitor console is requested.
+		/// </summary>
+		event Action MonitorRequested;
 
 		/// <summary>
 		/// Finalizes the browser control (e.g. stops audio / video playback) and releases all used resources.

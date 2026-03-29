@@ -44,6 +44,7 @@ namespace SafeExamBrowser.Browser
 		public event LoadFailedEventHandler LoadFailed;
 		public event LoadingStateChangedEventHandler LoadingStateChanged;
 		public event TitleChangedEventHandler TitleChanged;
+		public event Action MonitorRequested;
 
 		public BrowserControl(
 			Clipboard clipboard,
@@ -152,6 +153,11 @@ namespace SafeExamBrowser.Browser
 			control.TakeFocus += (w, b, n) => focusHandler.OnTakeFocus(w, b, n);
 			control.TitleChanged += (o, e) => TitleChanged?.Invoke(e.Title);
 			control.UncaughtExceptionEvent += (w, b, f, e) => renderProcessMessageHandler.OnUncaughtException(w, b, f, e);
+
+			if (keyboardHandler is Handlers.KeyboardHandler handler)
+			{
+				handler.MonitorRequested += () => MonitorRequested?.Invoke();
+			}
 
 			if (control is IWebBrowser webBrowser)
 			{

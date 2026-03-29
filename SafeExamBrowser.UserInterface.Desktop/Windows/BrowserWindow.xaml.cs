@@ -42,6 +42,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		private readonly ILogger logger;
 		private readonly IBrowserControl browserControl;
 
+		private MonitoringConsole monitoringConsole;
 		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
 		private bool browserControlGetsFocusFromTaskbar;
@@ -67,6 +68,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 		public event ActionRequestedEventHandler ZoomOutRequested;
 		public event ActionRequestedEventHandler ZoomResetRequested;
 		public event LoseFocusRequestedEventHandler LoseFocusRequested;
+		public event Action MonitorRequested;
 
 		event WindowClosedEventHandler IWindow.Closed
 		{
@@ -466,6 +468,28 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			ZoomOutButton.Click += (o, args) => ZoomOutRequested?.Invoke();
 			ZoomResetButton.Click += (o, args) => ZoomResetRequested?.Invoke();
 			BrowserControlHost.GotKeyboardFocus += BrowserControlHost_GotKeyboardFocus;
+			browserControl.MonitorRequested += ToggleMonitoringConsole;
+		}
+
+		private void ToggleMonitoringConsole()
+		{
+			Dispatcher.Invoke(() =>
+			{
+				if (monitoringConsole == null)
+				{
+					monitoringConsole = new MonitoringConsole();
+				}
+
+				if (monitoringConsole.Visibility == Visibility.Visible)
+				{
+					monitoringConsole.Hide();
+				}
+				else
+				{
+					monitoringConsole.Show();
+					monitoringConsole.Activate();
+				}
+			});
 		}
 
 		private void MenuButton_Click(object sender, RoutedEventArgs e)

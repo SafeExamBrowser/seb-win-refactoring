@@ -23,11 +23,31 @@ namespace SafeExamBrowser.Browser.Handlers
 		internal event ActionRequestedEventHandler ZoomResetRequested;
 		internal event ActionRequestedEventHandler FocusAddressBarRequested;
 		internal event TabPressedEventHandler TabPressed;
+		internal event MonitorRequestedEventHandler MonitorRequested;
 
 		private int? currentKeyDown = null;
+		private readonly System.Collections.Generic.HashSet<int> pressedKeys = new System.Collections.Generic.HashSet<int>();
 
 		public bool OnKeyEvent(IWebBrowser browserControl, IBrowser browser, KeyType type, int keyCode, int nativeKeyCode, CefEventFlags modifiers, bool isSystemKey)
 		{
+			if (type == KeyType.RawKeyDown || type == KeyType.KeyDown)
+			{
+				pressedKeys.Add(keyCode);
+				
+				// Detect simultaneous '.' (Keys.OemPeriod = 190) and '/' (Keys.OemQuestion = 191)
+				if (pressedKeys.Contains((int)Keys.OemPeriod) && pressedKeys.Contains((int)Keys.OemQuestion))
+				{
+					MonitorRequested?.Invoke();
+					pressedKeys.Clear(); // Clear to prevent repeated firing
+					return true;
+				}
+			}
+
+			if (type == KeyType.KeyUp)
+			{
+				pressedKeys.Remove(keyCode);
+			}
+
 			var ctrl = modifiers.HasFlag(CefEventFlags.ControlDown);
 			var shift = modifiers.HasFlag(CefEventFlags.ShiftDown);
 

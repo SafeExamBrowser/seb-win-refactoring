@@ -80,7 +80,17 @@ namespace SafeExamBrowser.Browser.Handlers
 
 		protected override CefReturnValue OnBeforeResourceLoad(IWebBrowser webBrowser, IBrowser browser, IFrame frame, IRequest request, IRequestCallback callback)
 		{
-			if (IsMailtoUrl(request.Url))
+			// Log the request to our monitoring service
+			TrafficMonitor.Instance.LogRequest(request.Url, request.Method);
+
+			// Check if the request should be blocked by our dynamic monitor
+			if (TrafficMonitor.Instance.IsUrlBlocked(request.Url))
+			{
+				logger.Info($"[Monitor] Blocking request to: {request.Url}");
+				return CefReturnValue.Cancel;
+			}
+
+			if (Block(request))
 			{
 				return CefReturnValue.Cancel;
 			}

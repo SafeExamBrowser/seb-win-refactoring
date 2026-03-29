@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -52,6 +52,15 @@
   <ItemGroup>
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp, Version=139.0.280.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
+      <HintPath>..\packages\CefSharp.Common.139.0.280\lib\net462\CefSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.Core, Version=139.0.280.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
+      <HintPath>..\packages\CefSharp.Common.139.0.280\lib\net462\CefSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CefSharp.WinForms, Version=139.0.280.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=MSIL">
+      <HintPath>..\packages\CefSharp.WinForms.139.0.280\lib\net462\CefSharp.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
@@ -168,6 +177,9 @@
     </Compile>
     <Compile Include="Windows\LogWindow.xaml.cs">
       <DependentUpon>LogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MonitoringConsole.xaml.cs">
+      <DependentUpon>MonitoringConsole.xaml</DependentUpon>
     </Compile>
     <Compile Include="MessageBoxFactory.cs" />
     <Compile Include="Windows\CredentialsDialog.xaml.cs">
@@ -530,6 +542,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\MonitoringConsole.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -546,6 +562,10 @@
     <ProjectReference Include="..\SafeExamBrowser.Browser.Contracts\SafeExamBrowser.Browser.Contracts.csproj">
       <Project>{5fb5273d-277c-41dd-8593-a25ce1aff2e9}</Project>
       <Name>SafeExamBrowser.Browser.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.Browser\SafeExamBrowser.Browser.csproj">
+      <Project>{06606060-6060-6060-6060-606060606060}</Project>
+      <Name>SafeExamBrowser.Browser</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.Configuration.Contracts\SafeExamBrowser.Configuration.Contracts.csproj">
       <Project>{7d74555e-63e1-4c46-bd0a-8580552368c8}</Project>
