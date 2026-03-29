@@ -59,12 +59,32 @@ namespace SafeExamBrowser.Browser.Responsibilities.Browser
 			settings.PersistSessionCookies = !Settings.DeleteCookiesOnStartup || !Settings.DeleteCookiesOnShutdown;
 			settings.UserAgent = InitializeUserAgent();
 
-			settings.CefCommandLineArgs.Add("disable-extensions");
 			settings.CefCommandLineArgs.Add("do-not-de-elevate");
+			settings.CefCommandLineArgs.Add("enable-chrome-runtime", "1");
+			settings.CefCommandLineArgs.Add("enable-experimental-web-platform-features");
+			settings.CefCommandLineArgs.Add("extensions-on-chrome-urls");
 			settings.CefCommandLineArgs.Add("enable-media-stream");
 			settings.CefCommandLineArgs.Add("enable-usermedia-screen-capturing");
 			settings.CefCommandLineArgs.Add("touch-events", "enabled");
 			settings.CefCommandLineArgs.Add("use-fake-ui-for-media-stream");
+			settings.CefCommandLineArgs.Add("disable-web-security");
+			settings.CefCommandLineArgs.Add("allow-running-insecure-content");
+			settings.CefCommandLineArgs.Add("enable-blink-features", "ShadowDOMV0");
+			settings.CefCommandLineArgs.Add("disable-background-timer-throttling");
+			settings.CefCommandLineArgs.Add("disable-backgrounding-occluded-windows");
+			settings.CefCommandLineArgs.Add("disable-renderer-backgrounding");
+			settings.CefCommandLineArgs.Add("no-pings");
+
+			var extensionPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Extensions", "AST");
+			if (System.IO.Directory.Exists(extensionPath))
+			{
+				settings.CefCommandLineArgs.Add("load-extension", extensionPath);
+				Logger.Info($"[Extensions] Added 'load-extension' argument for: {extensionPath}");
+			}
+			else
+			{
+				Logger.Warn($"[Extensions] Extension NOT found for command line: {extensionPath}");
+			}
 
 			if (!Settings.AllowPageZoom)
 			{

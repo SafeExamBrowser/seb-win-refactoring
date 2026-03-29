@@ -250,6 +250,17 @@
     <EmbeddedResource Include="Content\PageZoom.js" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="Extensions\AST\manifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Extensions\AST\background.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Extensions\AST\content.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
