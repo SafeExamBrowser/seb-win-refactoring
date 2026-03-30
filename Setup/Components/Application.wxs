@@ -68,12 +68,6 @@
             <Component Id="cmp37EBEC3B95D348D3750C3B4BD61F3A10" Guid="*">
                 <File Id="filA73E4AC3D416E0D23D556750664CDFAF" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\d3dcompiler_47.dll" />
             </Component>
-            <Component Id="cmpEBEAF2A79C5BCF94E0ECD270316664FE" Guid="*">
-                <File Id="fil214DAC3092EA759797A33F1279CFB92F" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\dxcompiler.dll" />
-            </Component>
-            <Component Id="cmpB075D5EC461D02C99FB1348E68F6D805" Guid="*">
-                <File Id="fil2B81A4E26C427399447771BB52D28004" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\dxil.dll" />
-            </Component>
             <Component Id="cmp479EEF561F9D6B5B161446351F2E79A2" Guid="*">
                 <File Id="fil1C9E7420B0B64CB1044D9ADBAEF959A0" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\FontAwesome.WPF.dll" />
             </Component>
@@ -574,8 +568,6 @@
             <ComponentRef Id="cmpED81D67057FDEC4B9B9FB3DEA1BEFFC5" />
             <ComponentRef Id="cmp436AD87CACE3832A7D3676620AC281CF" />
             <ComponentRef Id="cmp37EBEC3B95D348D3750C3B4BD61F3A10" />
-            <ComponentRef Id="cmpEBEAF2A79C5BCF94E0ECD270316664FE" />
-            <ComponentRef Id="cmpB075D5EC461D02C99FB1348E68F6D805" />
             <ComponentRef Id="cmp479EEF561F9D6B5B161446351F2E79A2" />
             <ComponentRef Id="cmp547A710633169A81321600D7045FE1E0" />
             <ComponentRef Id="cmp3D03DD0AB2DAD9CC62B7BF380212EEC4" />

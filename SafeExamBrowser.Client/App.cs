@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2026 ETH Zürich, IT Services
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -27,33 +27,31 @@ namespace SafeExamBrowser.Client
 		{
 			try
 			{
-				StartApplication();
+				if (Mutex.WaitOne(TimeSpan.Zero, true))
+				{
+					var app = new App();
+					app.Run();
+				}
+				else
+				{
+					MessageBox.Show("You can only run one instance of SEB at a time.", "Startup Not Allowed", MessageBoxButton.OK, MessageBoxImage.Information);
+				}
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				MessageBox.Show(e.Message + "\n\n" + e.StackTrace, "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				try
+				{
+					var logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CRITICAL_ERROR.txt");
+					System.IO.File.WriteAllText(logPath, $"FATAL CRASH AT {DateTime.Now}\nException: {ex.Message}\nStack: {ex.StackTrace}\nInner: {ex.InnerException?.Message}");
+				}
+				catch { }
+				
+				MessageBox.Show("A critical error occurred during startup. Check CRITICAL_ERROR.txt for details.\n\n" + ex.Message, "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 			finally
 			{
 				Mutex.Close();
 			}
-		}
-
-		private static void StartApplication()
-		{
-			if (NoInstanceRunning())
-			{
-				new App().Run();
-			}
-			else
-			{
-				MessageBox.Show("You can only run one instance of SEB at a time.", "Startup Not Allowed", MessageBoxButton.OK, MessageBoxImage.Information);
-			}
-		}
-
-		private static bool NoInstanceRunning()
-		{
-			return Mutex.WaitOne(TimeSpan.Zero, true);
 		}
 
 		protected override void OnStartup(StartupEventArgs e)

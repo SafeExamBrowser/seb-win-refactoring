@@ -52,6 +52,11 @@ namespace SafeExamBrowser.Browser.Responsibilities.Browser
 			var error = Logger.LogLevel == LogLevel.Error;
 			var settings = new CefSettings();
 
+			var baseDir = System.IO.Path.GetDirectoryName(typeof(SafeExamBrowser.Browser.BrowserApplication).Assembly.Location);
+			settings.BrowserSubprocessPath = System.IO.Path.Combine(baseDir, "CefSharp.BrowserSubprocess.exe");
+			settings.LocalesDirPath = System.IO.Path.Combine(baseDir, "locales");
+			settings.ResourcesDirPath = baseDir;
+
 			settings.AcceptLanguageList = CultureInfo.CurrentUICulture.Name;
 			settings.CachePath = AppConfig.BrowserCachePath;
 			settings.LogFile = AppConfig.BrowserLogFilePath;
