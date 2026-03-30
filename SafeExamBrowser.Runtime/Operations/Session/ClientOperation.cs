@@ -116,8 +116,8 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 			ClientProcess = processFactory.StartNew(executablePath, logFilePath, logLevel, runtimeHostUri, authenticationToken, uiMode);
 			ClientProcess.Terminated += clientTerminatedEventHandler;
 
-			Logger.Info("Waiting for client to complete initialization...");
-			clientReady = clientReadyEvent.WaitOne();
+			Logger.Info("Waiting for client to complete initialization (15s watchdog)...");
+			clientReady = clientReadyEvent.WaitOne(15000);
 
 			runtimeHost.AllowConnection = false;
 			runtimeHost.AuthenticationToken = default;
@@ -130,7 +130,15 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 			}
 			else
 			{
-				Logger.Error("Client instance terminated unexpectedly during initialization!");
+				if (!clientReady)
+				{
+					Logger.Error("Client initialization timed out after 15 seconds! Killing process...");
+					TryKillClient();
+				}
+				else
+				{
+					Logger.Error("Client instance terminated unexpectedly during initialization!");
+				}
 			}
 
 			return success;

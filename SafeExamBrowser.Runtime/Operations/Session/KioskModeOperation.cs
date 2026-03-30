@@ -20,6 +20,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 		private readonly IDesktopMonitor desktopMonitor;
 		private readonly IExplorerShell explorerShell;
 		private readonly IProcessFactory processFactory;
+		private readonly RuntimeKeyboardMonitor emergencyMonitor;
 
 		private KioskMode? activeMode;
 		private IDesktop customDesktop;
@@ -32,12 +33,14 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 			IDesktopFactory desktopFactory,
 			IDesktopMonitor desktopMonitor,
 			IExplorerShell explorerShell,
-			IProcessFactory processFactory) : base(dependencies)
+			IProcessFactory processFactory,
+			RuntimeKeyboardMonitor emergencyMonitor) : base(dependencies)
 		{
 			this.desktopFactory = desktopFactory;
 			this.desktopMonitor = desktopMonitor;
 			this.explorerShell = explorerShell;
 			this.processFactory = processFactory;
+			this.emergencyMonitor = emergencyMonitor;
 		}
 
 		public override OperationResult Perform()
@@ -51,6 +54,8 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 			{
 				case KioskMode.CreateNewDesktop:
 					CreateCustomDesktop();
+					// Start emergency monitor on the new desktop
+					emergencyMonitor.Start();
 					break;
 				case KioskMode.DisableExplorerShell:
 					TerminateExplorerShell();
@@ -76,6 +81,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 				switch (activeMode)
 				{
 					case KioskMode.CreateNewDesktop:
+						emergencyMonitor.Stop();
 						CloseCustomDesktop();
 						break;
 					case KioskMode.DisableExplorerShell:
@@ -89,6 +95,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 				{
 					case KioskMode.CreateNewDesktop:
 						CreateCustomDesktop();
+						emergencyMonitor.Start();
 						break;
 					case KioskMode.DisableExplorerShell:
 						TerminateExplorerShell();
@@ -107,6 +114,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 			switch (activeMode)
 			{
 				case KioskMode.CreateNewDesktop:
+					emergencyMonitor.Stop();
 					CloseCustomDesktop();
 					break;
 				case KioskMode.DisableExplorerShell:

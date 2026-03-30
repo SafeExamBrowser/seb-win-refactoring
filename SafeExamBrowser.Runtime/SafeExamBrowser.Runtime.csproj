@@ -134,6 +134,7 @@
     <Compile Include="Responsibilities\ServiceResponsibility.cs" />
     <Compile Include="Responsibilities\SessionResponsibility.cs" />
     <Compile Include="RuntimeController.cs" />
+    <Compile Include="RuntimeKeyboardMonitor.cs" />
     <Compile Include="RuntimeContext.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

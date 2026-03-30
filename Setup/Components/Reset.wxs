@@ -1,6 +1,99 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Fragment>
-		<!-- These components will be auto-generated! -->
-	</Fragment>
+    <Fragment>
+        <DirectoryRef Id="ResetDirectory">
+            <Component Id="cmpCCBB985E3AA882B53E6FAC79B35AE6EE" Guid="*">
+                <File Id="fil324A92B0E8601FA821C209E0CA85DFDB" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\NAudio.Core.dll" />
+            </Component>
+            <Component Id="cmpDADE70A61DDB1DFB0F7843FF3AC0BA0E" Guid="*">
+                <File Id="filA711F9C2AF793F464B65BD87E6CBCBA7" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\NAudio.Wasapi.dll" />
+            </Component>
+            <Component Id="cmp9C527DFB0463BD1550D2B1F2F65C5A12" Guid="*">
+                <File Id="filDC790E689DB9A981E81DA5DACA0303AD" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.Configuration.Contracts.dll" />
+            </Component>
+            <Component Id="cmpC7EAECF3A6B263284ECEE7E8D78A842F" Guid="*">
+                <File Id="fil0F9D1D91591C93523C82C93B65093D58" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.Configuration.Contracts.pdb" />
+            </Component>
+            <Component Id="cmp04897FEF939EED9AC09E48C39A99ABC5" Guid="*">
+                <File Id="filDC509BF90D963CE6138D8B960F90E158" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.Lockdown.Contracts.dll" />
+            </Component>
+            <Component Id="cmpE99E5BB65E6B9AA263FFC4CB8F67A50D" Guid="*">
+                <File Id="fil37B083C20FC93E755156DD81C04AF927" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.Lockdown.Contracts.pdb" />
+            </Component>
+            <Component Id="cmp04603707D1EF1EA15C9A442B3A196493" Guid="*">
+                <File Id="fil768BF309DA9E8B2F059CF5BCFD3D4102" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.Lockdown.dll" />
+            </Component>
+            <Component Id="cmp4BD53FD126FF96D1492B61CD68BF2817" Guid="*">
+                <File Id="fil9BC2A9552C5914BF96E91BDAB410A8CC" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.Lockdown.pdb" />
+            </Component>
+            <Component Id="cmp48938AC6387C121262A62D320FFEF5A0" Guid="*">
+                <File Id="filF54FF6FFBA623F95392395954CBD4EF8" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.Logging.Contracts.dll" />
+            </Component>
+            <Component Id="cmpD94B04DA9979853432E8178ACC6506B5" Guid="*">
+                <File Id="fil1053374A3D72BA61325AFDD68865EC35" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.Logging.Contracts.pdb" />
+            </Component>
+            <Component Id="cmp4BB7AA4EB4C10D6B08711B672D019A82" Guid="*">
+                <File Id="fil2EA25C8477E4EB4B2B4AB3DF678E6915" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.Logging.dll" />
+            </Component>
+            <Component Id="cmpDA14D76902E57F9EEF70C4616DAF3C03" Guid="*">
+                <File Id="filBD6644EC25742E145F9475C099816B48" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.Logging.pdb" />
+            </Component>
+            <Component Id="cmp3C46078379FC5D0A0D579CD054ED4007" Guid="*">
+                <File KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.ResetUtility.exe" Id="ResetUtilityExecutable" />
+            </Component>
+            <Component Id="cmp1659398D5CACFEA7B514DFBFBF2FAD09" Guid="*">
+                <File Id="fil2E9A75EDADFA9C44BC36534E7B5D59AB" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.ResetUtility.exe.config" />
+            </Component>
+            <Component Id="cmp2DC70EBDDB196C0D7A0E31C43491CB05" Guid="*">
+                <File Id="filFD3729929B266CF07E2F1286772B8F8F" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.ResetUtility.pdb" />
+            </Component>
+            <Component Id="cmp281A0665D3A39646A35B4EDE151E3A4C" Guid="*">
+                <File Id="fil579DB8359F20557880F698A4709918E8" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.Settings.dll" />
+            </Component>
+            <Component Id="cmp671465A9E088483F4E0D24AC9573CEDE" Guid="*">
+                <File Id="fil766033635226CB9B1613BCE5BB1107CB" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.Settings.pdb" />
+            </Component>
+            <Component Id="cmp08AD9A69B13AD89C4174FFD41622DA1E" Guid="*">
+                <File Id="fil8C81B3EF83919DAD0B792E8DE857068E" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.SystemComponents.Contracts.dll" />
+            </Component>
+            <Component Id="cmp5D40E6EB390BB9F21D7A40A9BA05C357" Guid="*">
+                <File Id="fil5C281016A0539493ECC9066299280CCC" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.SystemComponents.Contracts.pdb" />
+            </Component>
+            <Component Id="cmp2E1A153480826183478F69F715E5219F" Guid="*">
+                <File Id="fil35212784A2DD87F25919EC9F549A6C92" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.SystemComponents.dll" />
+            </Component>
+            <Component Id="cmpE70A492773850E6902E900F99BAB0355" Guid="*">
+                <File Id="filA86A07A8A7ACF0541955461C5692D9F4" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.SystemComponents.dll.config" />
+            </Component>
+            <Component Id="cmpA4040DF258D0CF17381A0E7EC17F0BAB" Guid="*">
+                <File Id="filB4728E600485812AC67E6C13E96BC5E4" KeyPath="yes" Source="$(var.SafeExamBrowser.ResetUtility.TargetDir)\SafeExamBrowser.SystemComponents.pdb" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="ResetComponents">
+            <ComponentRef Id="cmpCCBB985E3AA882B53E6FAC79B35AE6EE" />
+            <ComponentRef Id="cmpDADE70A61DDB1DFB0F7843FF3AC0BA0E" />
+            <ComponentRef Id="cmp9C527DFB0463BD1550D2B1F2F65C5A12" />
+            <ComponentRef Id="cmpC7EAECF3A6B263284ECEE7E8D78A842F" />
+            <ComponentRef Id="cmp04897FEF939EED9AC09E48C39A99ABC5" />
+            <ComponentRef Id="cmpE99E5BB65E6B9AA263FFC4CB8F67A50D" />
+            <ComponentRef Id="cmp04603707D1EF1EA15C9A442B3A196493" />
+            <ComponentRef Id="cmp4BD53FD126FF96D1492B61CD68BF2817" />
+            <ComponentRef Id="cmp48938AC6387C121262A62D320FFEF5A0" />
+            <ComponentRef Id="cmpD94B04DA9979853432E8178ACC6506B5" />
+            <ComponentRef Id="cmp4BB7AA4EB4C10D6B08711B672D019A82" />
+            <ComponentRef Id="cmpDA14D76902E57F9EEF70C4616DAF3C03" />
+            <ComponentRef Id="cmp3C46078379FC5D0A0D579CD054ED4007" />
+            <ComponentRef Id="cmp1659398D5CACFEA7B514DFBFBF2FAD09" />
+            <ComponentRef Id="cmp2DC70EBDDB196C0D7A0E31C43491CB05" />
+            <ComponentRef Id="cmp281A0665D3A39646A35B4EDE151E3A4C" />
+            <ComponentRef Id="cmp671465A9E088483F4E0D24AC9573CEDE" />
+            <ComponentRef Id="cmp08AD9A69B13AD89C4174FFD41622DA1E" />
+            <ComponentRef Id="cmp5D40E6EB390BB9F21D7A40A9BA05C357" />
+            <ComponentRef Id="cmp2E1A153480826183478F69F715E5219F" />
+            <ComponentRef Id="cmpE70A492773850E6902E900F99BAB0355" />
+            <ComponentRef Id="cmpA4040DF258D0CF17381A0E7EC17F0BAB" />
+        </ComponentGroup>
+    </Fragment>
 </Wix>

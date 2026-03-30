@@ -61,6 +61,11 @@ namespace SafeExamBrowser.Browser.Responsibilities.Browser
 
 			settings.CefCommandLineArgs.Add("do-not-de-elevate");
 			settings.CefCommandLineArgs.Add("enable-chrome-runtime", "1");
+			settings.CefCommandLineArgs.Add("no-sandbox");
+			settings.CefCommandLineArgs.Add("disable-gpu");
+			settings.CefCommandLineArgs.Add("disable-gpu-compositing");
+			settings.CefCommandLineArgs.Add("disable-software-rasterizer");
+			settings.CefCommandLineArgs.Add("disable-dev-shm-usage");
 			settings.CefCommandLineArgs.Add("enable-experimental-web-platform-features");
 			settings.CefCommandLineArgs.Add("extensions-on-chrome-urls");
 			settings.CefCommandLineArgs.Add("enable-media-stream");

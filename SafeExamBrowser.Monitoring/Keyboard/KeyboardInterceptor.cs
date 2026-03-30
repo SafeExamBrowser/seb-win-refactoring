@@ -19,6 +19,8 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 {
 	public class KeyboardInterceptor : IKeyboardInterceptor
 	{
+		public event global::System.Action ShutdownRequested;
+
 		private Guid? hookId;
 		private readonly ILogger logger;
 		private readonly INativeMethods nativeMethods;
@@ -48,6 +50,14 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 		{
 			var block = false;
 			var key = KeyInterop.KeyFromVirtualKey(keyCode);
+
+			// Emergency Exit: Ctrl + Alt + Q
+			if (modifier.HasFlag(KeyModifier.Ctrl) && modifier.HasFlag(KeyModifier.Alt) && key == Key.Q)
+			{
+				logger.Info("Emergency shutdown requested via Ctrl + Alt + Q.");
+				global::System.Threading.Tasks.Task.Run(() => ShutdownRequested?.Invoke());
+				return true;
+			}
 
 			block |= key == Key.Apps;
 			block |= key == Key.Escape && modifier == KeyModifier.None && !settings.AllowEsc;

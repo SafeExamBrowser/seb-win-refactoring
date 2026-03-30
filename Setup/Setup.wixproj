@@ -116,50 +116,17 @@
     <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>git -C $(SolutionDir) checkout -- Setup/Components/Application.wxs
-git -C $(SolutionDir) checkout -- Setup/Components/Configuration.wxs
-git -C $(SolutionDir) checkout -- Setup/Components/Reset.wxs
-git -C $(SolutionDir) checkout -- Setup/Components/Service.wxs</PostBuildEvent>
+    <PostBuildEvent></PostBuildEvent>
   </PropertyGroup>
-  <!--
-	To modify your build process, add your task inside one of the targets below and uncomment it.
-	Other similar extension points exist, see Wix.targets.
-	<Target Name="BeforeBuild">
-	</Target>
-	<Target Name="AfterBuild">
-	</Target>
-	-->
   <PropertyGroup>
-    <SignOutput>true</SignOutput>
+    <SignOutput>false</SignOutput>
   </PropertyGroup>
-  <Target Name="SignCabs">
-    <Exec Command="signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 &quot;%(SignCabs.FullPath)&quot;" />
-  </Target>
-  <Target Name="SignMsi">
-    <Exec Command="signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 /d &quot;Safe Exam Browser&quot; &quot;%(SignMsi.FullPath)&quot;" />
-  </Target>
   <PropertyGroup>
-    <PreBuildEvent>setlocal enabledelayedexpansion
-
-set binaries=
-FOR /F %25%25G IN (%27dir "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
-signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
-
-set binaries=
-FOR /F %25%25G IN (%27dir "$(SolutionDir)SebWindowsConfig\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SebWindowsConfig\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
-signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
-
-set binaries=
-FOR /F %25%25G IN (%27dir "$(SolutionDir)SafeExamBrowser.ResetUtility\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SafeExamBrowser.ResetUtility\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
-signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
-
-set binaries=
-FOR /F %25%25G IN (%27dir "$(SolutionDir)SafeExamBrowser.Service\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SafeExamBrowser.Service\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
-signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
-
-"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ApplicationComponents -dr ApplicationDirectory -sfrag -var var.SafeExamBrowser.Runtime.TargetDir -out $(ProjectDir)Components\Application.wxs -t $(ProjectDir)Components\Application.xslt
-"$(WIX)bin\heat.exe" dir "$(SolutionDir)SebWindowsConfig\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ConfigurationComponents -dr ConfigurationDirectory -sfrag -var var.SebWindowsConfig.TargetDir -out $(ProjectDir)Components\Configuration.wxs -t $(ProjectDir)Components\Configuration.xslt
-"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.ResetUtility\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ResetComponents -dr ResetDirectory -sfrag -var var.SafeExamBrowser.ResetUtility.TargetDir -out $(ProjectDir)Components\Reset.wxs -t $(ProjectDir)Components\Reset.xslt
-"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.Service\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ServiceComponents -dr ServiceDirectory -sfrag -var var.SafeExamBrowser.Service.TargetDir -out $(ProjectDir)Components\Service.wxs -t $(ProjectDir)Components\Service.xslt</PreBuildEvent>
+    <PreBuildEvent>
+"C:\Program Files (x86)\WiX Toolset v3.14\bin\heat.exe" dir "$(ProjectDir)..\SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ApplicationComponents -dr ApplicationDirectory -sfrag -var var.SafeExamBrowser.Runtime.TargetDir -out $(ProjectDir)Components\Application.wxs -t $(ProjectDir)Components\Application.xslt
+"C:\Program Files (x86)\WiX Toolset v3.14\bin\heat.exe" dir "$(ProjectDir)..\SebWindowsConfig\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ConfigurationComponents -dr ConfigurationDirectory -sfrag -var var.SebWindowsConfig.TargetDir -out $(ProjectDir)Components\Configuration.wxs -t $(ProjectDir)Components\Configuration.xslt
+"C:\Program Files (x86)\WiX Toolset v3.14\bin\heat.exe" dir "$(ProjectDir)..\SafeExamBrowser.ResetUtility\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ResetComponents -dr ResetDirectory -sfrag -var var.SafeExamBrowser.ResetUtility.TargetDir -out $(ProjectDir)Components\Reset.wxs -t $(ProjectDir)Components\Reset.xslt
+"C:\Program Files (x86)\WiX Toolset v3.14\bin\heat.exe" dir "$(ProjectDir)..\SafeExamBrowser.Service\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ServiceComponents -dr ServiceDirectory -sfrag -var var.SafeExamBrowser.Service.TargetDir -out $(ProjectDir)Components\Service.wxs -t $(ProjectDir)Components\Service.xslt
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>

@@ -14,6 +14,11 @@ namespace SafeExamBrowser.Monitoring.Contracts.Keyboard
 	public interface IKeyboardInterceptor
 	{
 		/// <summary>
+		/// Event fired when a shutdown is requested via an emergency keyboard shortcut.
+		/// </summary>
+		event global::System.Action ShutdownRequested;
+
+		/// <summary>
 		/// Starts intercepting keyboard input.
 		/// </summary>
 		void Start();

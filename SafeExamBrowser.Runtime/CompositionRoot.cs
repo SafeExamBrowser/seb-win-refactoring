@@ -83,10 +83,12 @@ namespace SafeExamBrowser.Runtime
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)), Interlocutor.Runtime);
 			var splashScreen = uiFactory.CreateSplashScreen(appConfig);
 
+			var emergencyMonitor = new RuntimeKeyboardMonitor(logger, new NativeMethods(), shutdown);
+
 			systemInfo = new SystemInfo(registry);
 
 			var bootstrapSequence = BuildBootstrapOperations(integrityModule, runtimeHost, splashScreen);
-			var sessionSequence = BuildSessionOperations(integrityModule, messageBox, registry, runtimeHost, runtimeWindow, serviceProxy, context, uiFactory);
+			var sessionSequence = BuildSessionOperations(integrityModule, messageBox, registry, runtimeHost, runtimeWindow, serviceProxy, context, uiFactory, emergencyMonitor);
 			var responsibilities = BuildResponsibilities(messageBox, runtimeHost, runtimeWindow, serviceProxy, context, sessionSequence, shutdown, splashScreen);
 
 			context.Responsibilities = responsibilities;
@@ -134,7 +136,8 @@ namespace SafeExamBrowser.Runtime
 			IRuntimeWindow runtimeWindow,
 			IServiceProxy serviceProxy,
 			RuntimeContext runtimeContext,
-			IUserInterfaceFactory uiFactory)
+			IUserInterfaceFactory uiFactory,
+			RuntimeKeyboardMonitor emergencyMonitor)
 		{
 			var args = Environment.GetCommandLineArgs();
 			var fileSystem = new FileSystem();
@@ -167,7 +170,7 @@ namespace SafeExamBrowser.Runtime
 			operations.Enqueue(new DisplayMonitorOperation(dependencies, displayMonitor));
 			operations.Enqueue(new ServiceOperation(dependencies, runtimeHost, serviceProxy, THIRTY_SECONDS, userInfo));
 			operations.Enqueue(new ClientTerminationOperation(dependencies, processFactory, proxyFactory, runtimeHost, THIRTY_SECONDS));
-			operations.Enqueue(new KioskModeOperation(dependencies, desktopFactory, desktopMonitor, explorerShell, processFactory));
+			operations.Enqueue(new KioskModeOperation(dependencies, desktopFactory, desktopMonitor, explorerShell, processFactory, emergencyMonitor));
 			operations.Enqueue(new ClientOperation(dependencies, processFactory, proxyFactory, runtimeHost, THIRTY_SECONDS));
 			operations.Enqueue(new SessionActivationOperation(dependencies));
 

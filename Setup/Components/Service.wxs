@@ -1,6 +1,111 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
-        <!-- These components will be auto-generated! -->
+        <DirectoryRef Id="ServiceDirectory">
+            <Component Id="cmpABA527160EED317AFB230E3A4EA10201" Guid="*">
+                <File Id="fil13544F2069EBC959BE5D771189114888" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Communication.Contracts.dll" />
+            </Component>
+            <Component Id="cmp9E91EF44C47BB25D35A6A359B9F46B73" Guid="*">
+                <File Id="fil6EFAF492D329B22E95ED513203C45692" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Communication.Contracts.pdb" />
+            </Component>
+            <Component Id="cmpD2440DC0D728DDBB2A393D87A34F97E5" Guid="*">
+                <File Id="fil73F8462C0D0A55EE6D673D18FE4366F8" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Communication.dll" />
+            </Component>
+            <Component Id="cmp2ABF213CE0F2BDF4A7DCF4515B8FEA7A" Guid="*">
+                <File Id="fil21AEBE2AED2107B54FF6304200683096" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Communication.pdb" />
+            </Component>
+            <Component Id="cmpD36328972DC4FC0996E363756FC6D97E" Guid="*">
+                <File Id="fil87201004F1C681A21D769182AABA65FD" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Configuration.Contracts.dll" />
+            </Component>
+            <Component Id="cmp34B94B4D628CAA0C976B54AB17C8F45E" Guid="*">
+                <File Id="fil06EE1F7806911641DBA52681A05D5576" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Configuration.Contracts.pdb" />
+            </Component>
+            <Component Id="cmp9863B80BF0AAD9F7D730BEE45963524B" Guid="*">
+                <File Id="filB4A9B5A9E75C92E9569A3342762948DA" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Core.Contracts.dll" />
+            </Component>
+            <Component Id="cmpF5C935E0A8B0652B92D5A8CBBC36BCD7" Guid="*">
+                <File Id="fil58E5141723656601173ED7ED833BD6C6" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Core.Contracts.pdb" />
+            </Component>
+            <Component Id="cmp11374B436487B89EB9040165E355081E" Guid="*">
+                <File Id="fil193318214A7682F840A33B63A320DFAE" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Core.dll" />
+            </Component>
+            <Component Id="cmpF633778F8F02D364618F2C82969CD963" Guid="*">
+                <File Id="fil1B87C28BBF6A6E34C60B5B2AB7538107" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Core.pdb" />
+            </Component>
+            <Component Id="cmp85AE8E493F1AD082CB47DA731688ED27" Guid="*">
+                <File Id="fil424546B0356105C1049EC33BED7C187C" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.I18n.Contracts.dll" />
+            </Component>
+            <Component Id="cmpD4F20CB0F886387B223E6CE6228B25A8" Guid="*">
+                <File Id="fil8CDA45564C4E7E00B2D19390EB10989D" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.I18n.Contracts.pdb" />
+            </Component>
+            <Component Id="cmpDFECEF05A450C4004AABCEA58C26CB25" Guid="*">
+                <File Id="filFB111C9748F7D9FF7971D93181543478" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Lockdown.Contracts.dll" />
+            </Component>
+            <Component Id="cmp419044D56E1CFFF49573C03830103C4C" Guid="*">
+                <File Id="fil59DEC5F976DE7A70A704DA1A532699C3" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Lockdown.Contracts.pdb" />
+            </Component>
+            <Component Id="cmp12C6891709113453D14556E9E7516941" Guid="*">
+                <File Id="fil20A100FF76E51D3DB3FFF9AA568FD6A0" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Lockdown.dll" />
+            </Component>
+            <Component Id="cmp802392F2A0CB9426793C2FA596380975" Guid="*">
+                <File Id="filC29718A4547F9B63767090E9A0974E14" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Lockdown.pdb" />
+            </Component>
+            <Component Id="cmpF6EA52B2EBEA0619DF3924211A2775BE" Guid="*">
+                <File Id="fil123047FD783E30933C0CC37E1311CF86" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Logging.Contracts.dll" />
+            </Component>
+            <Component Id="cmp2FD4003C092F473399030AF24FD2CFDA" Guid="*">
+                <File Id="fil91DF68CA9057790C85FEF19A1C0A520B" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Logging.Contracts.pdb" />
+            </Component>
+            <Component Id="cmp642552DC6B40BAEF75414DDE52CFFB60" Guid="*">
+                <File Id="fil7B067C2410E0D64FD239E5326443E7E9" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Logging.dll" />
+            </Component>
+            <Component Id="cmp84D906DF43116CE29F39808C75BE4E05" Guid="*">
+                <File Id="filBB9F554E1FF63A614213380DD9B04154" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Logging.pdb" />
+            </Component>
+            <Component Id="cmpC45039DDDBB52294EBF82D20C699D93F" Guid="*">
+                <File Id="fil0AA461958439AE11194A65A26B423C54" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Service.exe" /><wix:ServiceInstall DisplayName="Safe Exam Browser Service" Name="SafeExamBrowser" Account="LocalSystem" ErrorControl="normal" Start="auto" Type="ownProcess" Vital="yes" Interactive="no" Description="Performs operations which require elevated privileges." xmlns:wix="http://schemas.microsoft.com/wix/2006/wi" /><wix:ServiceControl Id="ServiceControl" Name="SafeExamBrowser" Start="install" Stop="uninstall" Remove="uninstall" Wait="yes" xmlns:wix="http://schemas.microsoft.com/wix/2006/wi" />
+            </Component>
+            <Component Id="cmpB033B9EC2B1D3AB87E21A2127FF691C7" Guid="*">
+                <File Id="fil7022B60135F592B8ACAD050D75C1E026" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Service.exe.config" />
+            </Component>
+            <Component Id="cmp96FF3FEF17CF123573102ED4CFDD8928" Guid="*">
+                <File Id="filB5AC34CFD083293056B8626BBE5C3CC8" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Service.pdb" />
+            </Component>
+            <Component Id="cmp03D5A7F021351C3066C6CC1D50B66C9A" Guid="*">
+                <File Id="fil264428501D6ADF6FBF07143490AB9A61" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Settings.dll" />
+            </Component>
+            <Component Id="cmp96106441C7E57F28DF0E8FD8382C78C0" Guid="*">
+                <File Id="fil92C35BF340AC816C3B6C814BD9213BD5" KeyPath="yes" Source="$(var.SafeExamBrowser.Service.TargetDir)\SafeExamBrowser.Settings.pdb" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="ServiceComponents">
+            <ComponentRef Id="cmpABA527160EED317AFB230E3A4EA10201" />
+            <ComponentRef Id="cmp9E91EF44C47BB25D35A6A359B9F46B73" />
+            <ComponentRef Id="cmpD2440DC0D728DDBB2A393D87A34F97E5" />
+            <ComponentRef Id="cmp2ABF213CE0F2BDF4A7DCF4515B8FEA7A" />
+            <ComponentRef Id="cmpD36328972DC4FC0996E363756FC6D97E" />
+            <ComponentRef Id="cmp34B94B4D628CAA0C976B54AB17C8F45E" />
+            <ComponentRef Id="cmp9863B80BF0AAD9F7D730BEE45963524B" />
+            <ComponentRef Id="cmpF5C935E0A8B0652B92D5A8CBBC36BCD7" />
+            <ComponentRef Id="cmp11374B436487B89EB9040165E355081E" />
+            <ComponentRef Id="cmpF633778F8F02D364618F2C82969CD963" />
+            <ComponentRef Id="cmp85AE8E493F1AD082CB47DA731688ED27" />
+            <ComponentRef Id="cmpD4F20CB0F886387B223E6CE6228B25A8" />
+            <ComponentRef Id="cmpDFECEF05A450C4004AABCEA58C26CB25" />
+            <ComponentRef Id="cmp419044D56E1CFFF49573C03830103C4C" />
+            <ComponentRef Id="cmp12C6891709113453D14556E9E7516941" />
+            <ComponentRef Id="cmp802392F2A0CB9426793C2FA596380975" />
+            <ComponentRef Id="cmpF6EA52B2EBEA0619DF3924211A2775BE" />
+            <ComponentRef Id="cmp2FD4003C092F473399030AF24FD2CFDA" />
+            <ComponentRef Id="cmp642552DC6B40BAEF75414DDE52CFFB60" />
+            <ComponentRef Id="cmp84D906DF43116CE29F39808C75BE4E05" />
+            <ComponentRef Id="cmpC45039DDDBB52294EBF82D20C699D93F" />
+            <ComponentRef Id="cmpB033B9EC2B1D3AB87E21A2127FF691C7" />
+            <ComponentRef Id="cmp96FF3FEF17CF123573102ED4CFDD8928" />
+            <ComponentRef Id="cmp03D5A7F021351C3066C6CC1D50B66C9A" />
+            <ComponentRef Id="cmp96106441C7E57F28DF0E8FD8382C78C0" />
+        </ComponentGroup>
     </Fragment>
 </Wix>

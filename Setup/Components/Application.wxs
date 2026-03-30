@@ -1,6 +1,737 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
-        <!-- These components will be auto-generated! -->
+        <DirectoryRef Id="ApplicationDirectory">
+            <Component Id="cmp1050A2F770C54E04FC8A49AD4AB20557" Guid="*">
+                <File Id="fil322FEDD1E3E0A093C8FCBF16F6D26BD3" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\BouncyCastle.Cryptography.dll" />
+            </Component>
+            <Component Id="cmp9B35E7A495EFBFA8BE80C70B872FD690" Guid="*">
+                <File Id="filD53B1C6DA5A5AD28C1EB14E1AE4CAF5E" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\BouncyCastle.Cryptography.xml" />
+            </Component>
+            <Component Id="cmp370CFB2F7A0272CC91F84BEE9FA2551C" Guid="*">
+                <File Id="fil39749D5F1154128B6186553B52D1C2E4" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.BrowserSubprocess.Core.dll" />
+            </Component>
+            <Component Id="cmpFC3BDF7A19B3691A755CDB3B9A450E23" Guid="*">
+                <File Id="filEDF7A03217AC1FCCF7E7DA1A7D4F39F5" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.BrowserSubprocess.Core.pdb" />
+            </Component>
+            <Component Id="cmp136FB2BC80C69C1283AF208600BA05EC" Guid="*">
+                <File Id="fil07562D1B1D9592A5281B3F40FE6A1CAE" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.BrowserSubprocess.exe" />
+            </Component>
+            <Component Id="cmp06D782C1FA87764A2EAF92A6911C707C" Guid="*">
+                <File Id="fil02239EB29EC219BDE89081ECF2E4BAC0" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.BrowserSubprocess.pdb" />
+            </Component>
+            <Component Id="cmpC00DB08E7A6FFA84B765E1D58C3832AC" Guid="*">
+                <File Id="filD1D9A8BDE5048A753DC75725671B6E08" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.Core.dll" />
+            </Component>
+            <Component Id="cmpF063C6E17CE595468E569906E62990AC" Guid="*">
+                <File Id="filE70A1AA02E91D57147255171402D606B" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.Core.pdb" />
+            </Component>
+            <Component Id="cmp1B04C66E8B4047D8A4597693F0A5FFCE" Guid="*">
+                <File Id="fil866AA7BA8524D0E133D38E9E32FCED60" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.Core.Runtime.dll" />
+            </Component>
+            <Component Id="cmpB523551EDC18F7AE9ED6A4EBE539409C" Guid="*">
+                <File Id="fil030F816D78203FD6A4A28CB37D774245" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.Core.Runtime.pdb" />
+            </Component>
+            <Component Id="cmp1463E54AF3B870F57F572E39AF76D5DD" Guid="*">
+                <File Id="filE3B95F9E5E04895DE024A37E91E31088" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.Core.Runtime.xml" />
+            </Component>
+            <Component Id="cmp3C42605666820C10CCB60076015065CB" Guid="*">
+                <File Id="fil9337DE3AF7E7C5C70BE8881563CF7353" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.Core.xml" />
+            </Component>
+            <Component Id="cmpC5778F1FE9F58C4A270B298E2CBA49BB" Guid="*">
+                <File Id="filEF8697803E82A240DAAFD9114742ADFE" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.dll" />
+            </Component>
+            <Component Id="cmpFEBA465C64542D877D3AEA17525457B8" Guid="*">
+                <File Id="filB0540F2C0879428C0F1460C4D21C71AC" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.pdb" />
+            </Component>
+            <Component Id="cmpD43C8CDDA8B2E48E06FC7B476D17F43A" Guid="*">
+                <File Id="filB67E9DDC640A778937D0F9E781A9E968" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.WinForms.dll" />
+            </Component>
+            <Component Id="cmpD2D7370C5A8BA021CB0C812BB1E71D8A" Guid="*">
+                <File Id="fil3D67D847A29A73EE306253FADC6C65A5" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.WinForms.pdb" />
+            </Component>
+            <Component Id="cmp85D78E3773BF5B2CAF3004A26735BC6D" Guid="*">
+                <File Id="filCA4E6C5523BF7098B1E0E2B9F1730AB5" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.WinForms.xml" />
+            </Component>
+            <Component Id="cmp9B397662D8210F48593F969040AE7767" Guid="*">
+                <File Id="filCE00EFD3C1B0859FFD4676124339257B" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\CefSharp.xml" />
+            </Component>
+            <Component Id="cmp1176B275267246E636020B4A6FF3AB90" Guid="*">
+                <File Id="fil9EF99F37626B3E3D45720660B176D56F" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\chrome_100_percent.pak" />
+            </Component>
+            <Component Id="cmpED81D67057FDEC4B9B9FB3DEA1BEFFC5" Guid="*">
+                <File Id="fil98411C08B0247F10DEEA68C80CB4EC0E" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\chrome_200_percent.pak" />
+            </Component>
+            <Component Id="cmp436AD87CACE3832A7D3676620AC281CF" Guid="*">
+                <File Id="fil56E78754583A78754A92EE43B5D73B8E" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\chrome_elf.dll" />
+            </Component>
+            <Component Id="cmp37EBEC3B95D348D3750C3B4BD61F3A10" Guid="*">
+                <File Id="filA73E4AC3D416E0D23D556750664CDFAF" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\d3dcompiler_47.dll" />
+            </Component>
+            <Component Id="cmpEBEAF2A79C5BCF94E0ECD270316664FE" Guid="*">
+                <File Id="fil214DAC3092EA759797A33F1279CFB92F" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\dxcompiler.dll" />
+            </Component>
+            <Component Id="cmpB075D5EC461D02C99FB1348E68F6D805" Guid="*">
+                <File Id="fil2B81A4E26C427399447771BB52D28004" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\dxil.dll" />
+            </Component>
+            <Component Id="cmp479EEF561F9D6B5B161446351F2E79A2" Guid="*">
+                <File Id="fil1C9E7420B0B64CB1044D9ADBAEF959A0" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\FontAwesome.WPF.dll" />
+            </Component>
+            <Component Id="cmp547A710633169A81321600D7045FE1E0" Guid="*">
+                <File Id="filB3EAA4A5F6ABCD8DD1B38F091358D182" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\FontAwesome.WPF.xml" />
+            </Component>
+            <Component Id="cmp3D03DD0AB2DAD9CC62B7BF380212EEC4" Guid="*">
+                <File Id="filF19DCEFD98423375A336251155CF3673" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\icudtl.dat" />
+            </Component>
+            <Component Id="cmp34F8E9764ACCED6E6CE0A7A509F64230" Guid="*">
+                <File Id="fil852E2E7F89165D9D8EB8592372D6E3E8" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\KGySoft.CoreLibraries.dll" />
+            </Component>
+            <Component Id="cmp70A8CF7F0A598CD25C96B2EC2A825B02" Guid="*">
+                <File Id="filF9A04C204642452F62402CA1C292C300" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\KGySoft.CoreLibraries.xml" />
+            </Component>
+            <Component Id="cmpA1EAD81432062E6FD0453FFE1FAE6CF9" Guid="*">
+                <File Id="fil0CA824719A8E8A2DC74677F6A58A51DF" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\KGySoft.Drawing.Core.dll" />
+            </Component>
+            <Component Id="cmp9D370B2C4DE84A61BD7B04ADF73BDDB5" Guid="*">
+                <File Id="fil7A2572F9C37206E3F93BC460E26242DA" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\KGySoft.Drawing.Core.xml" />
+            </Component>
+            <Component Id="cmpCF4B226EB09BA4DACDE056D56FC1B375" Guid="*">
+                <File Id="fil2CD7EB0E57CF5D33511862A44E8AAB7A" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\KGySoft.Drawing.dll" />
+            </Component>
+            <Component Id="cmp658C99F8FD959BB0B7DDDA35A1DA21A2" Guid="*">
+                <File Id="filCBABC0DBD0A97F5F0B38CC2C9C24992F" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\KGySoft.Drawing.xml" />
+            </Component>
+            <Component Id="cmpDDFC9D00DEBBD0640DF8908A4B66003A" Guid="*">
+                <File Id="fil7D6ABD43A92CDED86244258CCA7FC123" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\libcef.dll" />
+            </Component>
+            <Component Id="cmp327B8C8B623593D2922B741C860538CB" Guid="*">
+                <File Id="fil93CD7684D2DE68D01A7FCEE9671DCEEB" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\libEGL.dll" />
+            </Component>
+            <Component Id="cmp4B54A249CE4B78EA1B0D0066A88DECF5" Guid="*">
+                <File Id="fil3E0709CDC5ABA67C8292E4F14517C908" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\libGLESv2.dll" />
+            </Component>
+            <Component Id="cmp4561E11AD054B62623E3C7BCD64442FA" Guid="*">
+                <File Id="filA50E91086966069237695095DC1CE252" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\NAudio.Core.dll" />
+            </Component>
+            <Component Id="cmpD8841734788B65CD78E5344972ECA970" Guid="*">
+                <File Id="fil987266DBAF34AC7BC468CCFD0D952B94" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\NAudio.Wasapi.dll" />
+            </Component>
+            <Component Id="cmp5CDC1BDAA8C315FD864EDEE51DA5729C" Guid="*">
+                <File Id="filF083080F284643A94B3B8E8C59C6D9FC" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\Newtonsoft.Json.dll" />
+            </Component>
+            <Component Id="cmp56F0A859D011F95E0ACBB84F82CA0F47" Guid="*">
+                <File Id="fil998A008B7A79A63F38488BE735F272B6" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\Newtonsoft.Json.xml" />
+            </Component>
+            <Component Id="cmp5141EF7FBA94B39D623CB98F72A44C45" Guid="*">
+                <File Id="fil3D41E94799EB34DF38FE59D93387014D" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\QRCoder.dll" />
+            </Component>
+            <Component Id="cmp6E4396BB9C37A3597641B270650CDF73" Guid="*">
+                <File Id="filA691120483C94F3374D8D8519E1CAF40" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\resources.pak" />
+            </Component>
+            <Component Id="cmpA8C981D696E0E768C404409ADD1C6C6A" Guid="*">
+                <File Id="fil6E7B3397C613CD8588AB6990ED349222" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Applications.Contracts.dll" />
+            </Component>
+            <Component Id="cmp04FAEAB42777B837F7B5C9FF6BB7DB70" Guid="*">
+                <File Id="fil73EC25DE8EA2253C55AE1792DEB56592" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Applications.Contracts.pdb" />
+            </Component>
+            <Component Id="cmp0E2E66D6A0252AEF890875586572C6D0" Guid="*">
+                <File Id="fil9973C8040FAD1454AC251E93FD83D312" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Applications.dll" />
+            </Component>
+            <Component Id="cmp91D77CBA06C16C9CA6DA7973436BCFE0" Guid="*">
+                <File Id="fil65D35C17FAE59943A782A80A83CB0086" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Applications.pdb" />
+            </Component>
+            <Component Id="cmp8F8C6A0BB217C6D713813C58F6FFD5A0" Guid="*">
+                <File Id="filA623DA1FBBCC9CF6BB7D8D60BD33F151" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Browser.Contracts.dll" />
+            </Component>
+            <Component Id="cmp3FC5C2DB528688E8D201E0A3E1C0C5A4" Guid="*">
+                <File Id="filC0ABD5C4C65226707A8D10ADE4035355" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Browser.Contracts.pdb" />
+            </Component>
+            <Component Id="cmpD480834DC91174A4F28ECF6E50D8A87B" Guid="*">
+                <File Id="filC2AAC5780781AD06F3A094810ADA9510" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Browser.dll" />
+            </Component>
+            <Component Id="cmp70D71CA1E5144CF64E8D2277D5EDFF79" Guid="*">
+                <File Id="fil772349994DC746C91F1323B32B13D859" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Browser.dll.config" />
+            </Component>
+            <Component Id="cmp542CF9E2A01F3A14CC9ADAA02EA993BF" Guid="*">
+                <File Id="filAB785F39DC7009F4BB14F14F29C97C21" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Browser.pdb" />
+            </Component>
+            <Component Id="cmpEBB62F51E0624B416E779D10B28FDC1D" Guid="*">
+                <File Id="fil081AC1117499373D01B613E76CFAC5A8" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Client.exe" />
+            </Component>
+            <Component Id="cmpA7988F8AA8A633E604CD0F37DB7A0BB1" Guid="*">
+                <File Id="fil0CC85005C8179F9B376BC09B6B223DED" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Client.exe.config" />
+            </Component>
+            <Component Id="cmpFACFB74F99609AC1CD1FC6219A9BFEC9" Guid="*">
+                <File Id="fil09BADCB1DEE367E430AC5075F98573C4" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Client.pdb" />
+            </Component>
+            <Component Id="cmpF4DA6CD9E9164DE59A9377B86D32DBB5" Guid="*">
+                <File Id="fil122728A59184E1368C159DB0AC3E044A" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Communication.Contracts.dll" />
+            </Component>
+            <Component Id="cmp1686DEC90B1874B475FE63FB8AE506C7" Guid="*">
+                <File Id="fil7A71DEA41611F7A836DCAEE15AE3B5D3" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Communication.Contracts.pdb" />
+            </Component>
+            <Component Id="cmp565D23E653CF52C5B0FEBB6C651308F4" Guid="*">
+                <File Id="filB9AD97C451AC50BBDC903E0B22E18C20" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Communication.dll" />
+            </Component>
+            <Component Id="cmp606FF7386C3874857613921D8740264B" Guid="*">
+                <File Id="fil79097B100B6FB2C06AF40AFA794A0DC7" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Communication.pdb" />
+            </Component>
+            <Component Id="cmpF030F4C234B405A7E8791FF9D5F44FB1" Guid="*">
+                <File Id="filD08F4E02BD675E34E260CAF6438B7E18" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Configuration.Contracts.dll" />
+            </Component>
+            <Component Id="cmpA354C3472CD77F77EC4048F31A1C4595" Guid="*">
+                <File Id="fil5A95FD2D09A45C896F08F3036590682C" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Configuration.Contracts.pdb" />
+            </Component>
+            <Component Id="cmp9457AF9370A13B99464FEE416D3AB9FC" Guid="*">
+                <File Id="fil78EFFDF2780900A7A0B075BE75F1E4BD" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Configuration.dll" />
+            </Component>
+            <Component Id="cmp193C7DC786E4AE006ACB5426B29222A7" Guid="*">
+                <File Id="fil9CDF83EC072EE1AE4F2E562382B7013B" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Configuration.pdb" />
+            </Component>
+            <Component Id="cmp8DEB8A390A4685BD5209676D493AEF5C" Guid="*">
+                <File Id="fil4CE14D470DF5D2C69C33B526DB7C87C3" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Core.Contracts.dll" />
+            </Component>
+            <Component Id="cmp120EA8363B0E0D69DA23440253D53359" Guid="*">
+                <File Id="fil9226443D0828D16BCFF43108F5125E0E" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Core.Contracts.pdb" />
+            </Component>
+            <Component Id="cmp2B98A29840B9935E3C90D33457F767FC" Guid="*">
+                <File Id="fil01C0CCDCBB6985362313DBE4B065FB36" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Core.dll" />
+            </Component>
+            <Component Id="cmp477D4D1EFA97D0179B36A0F85DA75DF5" Guid="*">
+                <File Id="fil7E30B84D168D9E0698ADE96EEF0D4412" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Core.pdb" />
+            </Component>
+            <Component Id="cmp472A35C6126384D27D755A122335EFB9" Guid="*">
+                <File KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.exe" Id="MainExecutable" /><wix:File Id="ApplicationIconFile" Source="Resources\Application.ico" xmlns:wix="http://schemas.microsoft.com/wix/2006/wi" /><wix:File Id="ConfigurationIconFile" Source="Resources\ConfigurationFile.ico" xmlns:wix="http://schemas.microsoft.com/wix/2006/wi" /><wix:ProgId Id="ConfigurationFileExtension" Description="SEB Configuration File" Icon="ConfigurationIconFile" Advertise="no" xmlns:wix="http://schemas.microsoft.com/wix/2006/wi"><wix:Extension Id="seb" ContentType="application/seb" Advertise="no"><wix:Verb Id="open" Command="Open" Argument="&quot;%1&quot;" TargetFile="MainExecutable" /></wix:Extension></wix:ProgId><wix:RegistryKey Root="HKCR" Key="seb" xmlns:wix="http://schemas.microsoft.com/wix/2006/wi"><wix:RegistryValue Value="URL:Safe Exam Browser Protocol" Type="string" /><wix:RegistryValue Name="URL Protocol" Value="" Type="string" /><wix:RegistryValue Key="DefaultIcon" Value="[#ApplicationIconFile]" Type="string" /><wix:RegistryValue Key="shell\open\command" Value="&quot;[ApplicationDirectory]$(var.SafeExamBrowser.Runtime.TargetFileName)&quot; &quot;%1&quot;" Type="string" /></wix:RegistryKey><wix:RegistryKey Root="HKCR" Key="sebs" xmlns:wix="http://schemas.microsoft.com/wix/2006/wi"><wix:RegistryValue Value="URL:Safe Exam Browser Secure Protocol" Type="string" /><wix:RegistryValue Name="URL Protocol" Value="" Type="string" /><wix:RegistryValue Key="DefaultIcon" Value="[#ApplicationIconFile]" Type="string" /><wix:RegistryValue Key="shell\open\command" Value="&quot;[ApplicationDirectory]$(var.SafeExamBrowser.Runtime.TargetFileName)&quot; &quot;%1&quot;" Type="string" /></wix:RegistryKey>
+            </Component>
+            <Component Id="cmp8839059CB90DCBFBC89B679FFC3B584F" Guid="*">
+                <File Id="filC6187A9322B17BC18B4BB0C9C409431B" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.exe.config" />
+            </Component>
+            <Component Id="cmpD1D2A4C12185D2631BFB35794CB587A6" Guid="*">
+                <File Id="fil052899241969A752609C74B27D19253F" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.I18n.Contracts.dll" />
+            </Component>
+            <Component Id="cmpE88F1621C725F999C8BF06C22E6F3B67" Guid="*">
+                <File Id="fil04FF5BE385444DC85EEFE4F9CECD600D" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.I18n.Contracts.pdb" />
+            </Component>
+            <Component Id="cmpED9850C60CAE8030E064F2A0FA8395FE" Guid="*">
+                <File Id="fil52DF6844DED4C5C70ABCFD9C71B85440" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.I18n.dll" />
+            </Component>
+            <Component Id="cmpCB02A2258F5B43A3E49F4F7ED7FB0FF8" Guid="*">
+                <File Id="fil0520998FC6BAC676B2D341C2B187E8D3" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.I18n.pdb" />
+            </Component>
+            <Component Id="cmp22F2059367F41E65E65CCBCFBCB8A58C" Guid="*">
+                <File Id="fil77F6E3FD95F986B51B910A2A6F227706" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Integrity.Contracts.dll" />
+            </Component>
+            <Component Id="cmp8D68B2E35EA257D0FA9B8FF34304FA4A" Guid="*">
+                <File Id="fil50DE79FD3312BE8C817DEE1298955DA8" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Integrity.Contracts.pdb" />
+            </Component>
+            <Component Id="cmp5CE17301D0330BF61BDD3C4190E61173" Guid="*">
+                <File Id="filCCF6C0A129D09A783A2AF36FB8E4F986" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Integrity.dll" />
+            </Component>
+            <Component Id="cmp9D4B323A9C515764A054712F612F9D24" Guid="*">
+                <File Id="fil4639621CE6BDD03219A22D998486982B" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Integrity.pdb" />
+            </Component>
+            <Component Id="cmpAA9B69C3445C16B9DF5161364EE8BB96" Guid="*">
+                <File Id="fil33DE4EEAF11F5F56080665C97D85509D" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Logging.Contracts.dll" />
+            </Component>
+            <Component Id="cmp7D7265705B6487807C76CFA8C0BADDCE" Guid="*">
+                <File Id="fil601CB328A5DE6666A570E72D36ADF95D" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Logging.Contracts.pdb" />
+            </Component>
+            <Component Id="cmpBA44A0964C6B9DFC1AEC5A09884A29FC" Guid="*">
+                <File Id="filBF8888DA18BD6CF2947084938AAF60FB" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Logging.dll" />
+            </Component>
+            <Component Id="cmp054A5CF51B6D1D90DA223786898BA44A" Guid="*">
+                <File Id="filF349E2F3B6F17C865554B1936EAEEA30" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Logging.pdb" />
+            </Component>
+            <Component Id="cmp5ACB98CEC2AC4A5DD2A10520E15F17D7" Guid="*">
+                <File Id="fil490301907DB5F1CA22BAF10525626BD8" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Monitoring.Contracts.dll" />
+            </Component>
+            <Component Id="cmp0BE106802093020A1538671B32105D55" Guid="*">
+                <File Id="fil566C887A2AA7A1427DBE0AC5E264C3F0" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Monitoring.Contracts.pdb" />
+            </Component>
+            <Component Id="cmpE7B5627CA1D1F7C382203956A4AEE6D6" Guid="*">
+                <File Id="fil5A33A95AA0407301545D7E84D8E68C26" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Monitoring.dll" />
+            </Component>
+            <Component Id="cmp3B8A1C0A360A37F9BB2C03297F65982E" Guid="*">
+                <File Id="fil2590B35E82E54219CB1CCA39EC285798" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Monitoring.pdb" />
+            </Component>
+            <Component Id="cmp8A7548E07C0BC8DED8AD4237AD8F2827" Guid="*">
+                <File Id="fil744063755BE1A5DBB385D2D80E45843E" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.pdb" />
+            </Component>
+            <Component Id="cmp332AB8411F5F990462B5522FF1A19519" Guid="*">
+                <File Id="fil910DDFBE7CCA555425F0412BE1A906AC" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Proctoring.Contracts.dll" />
+            </Component>
+            <Component Id="cmp984F2B971AE3E446FBE9596122935EC9" Guid="*">
+                <File Id="fil679FED3FD33B4B62510D2A3B22BCB9F6" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Proctoring.Contracts.pdb" />
+            </Component>
+            <Component Id="cmp12060BECEF57DB2C8D58BCA8402BB5FA" Guid="*">
+                <File Id="fil9274BB14D23A9C9517C7453214C7B756" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Proctoring.dll" />
+            </Component>
+            <Component Id="cmpCD9BF8E4112CAE840D15299BE998AB86" Guid="*">
+                <File Id="fil8C558718EDFE977205E53A1A65EF03DA" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Proctoring.dll.config" />
+            </Component>
+            <Component Id="cmp67F5CAF74872D957A9F945AEB15D134B" Guid="*">
+                <File Id="fil1E8F6F856D44E64F151AA39CE7FD1DB6" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Proctoring.pdb" />
+            </Component>
+            <Component Id="cmp8D54FC261D782E3A059537935AFAB467" Guid="*">
+                <File Id="filB80759F04C51D13FE58B9950CB51E335" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Server.Contracts.dll" />
+            </Component>
+            <Component Id="cmp12FB09E8453C618DEDC0110B5F1262EA" Guid="*">
+                <File Id="fil05A143695F885EBA785CE8FEE79124EB" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Server.Contracts.pdb" />
+            </Component>
+            <Component Id="cmpB08D9EF890F49A10F284E02EFC064837" Guid="*">
+                <File Id="fil5B3950311F08548CD4410C3FF60E4ECD" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Server.dll" />
+            </Component>
+            <Component Id="cmp90E0D7CB4C86D9CA2114C22E340749BF" Guid="*">
+                <File Id="fil6827C44335E5D7FBB0CA2E98FBA37DF4" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Server.pdb" />
+            </Component>
+            <Component Id="cmpEB6E08B7EF374AD9D118E546B97C55C5" Guid="*">
+                <File Id="fil0D7A09A18AACB40FA4AA6F2BEE64035F" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Settings.dll" />
+            </Component>
+            <Component Id="cmpB1DD9338F6676762BD41FD4B77E99F64" Guid="*">
+                <File Id="fil3C1EF9BF85B95E5951163FDE909F9ED2" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.Settings.pdb" />
+            </Component>
+            <Component Id="cmpB0C905124CCF828AA912DA2A9A80C388" Guid="*">
+                <File Id="fil46AB7659477E536C50D9CC9CB14D9208" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.SystemComponents.Contracts.dll" />
+            </Component>
+            <Component Id="cmp3096C45E7994D4855E2DECD2E94B906A" Guid="*">
+                <File Id="fil1814093121EDFE76CE9154EE9369FAB3" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.SystemComponents.Contracts.pdb" />
+            </Component>
+            <Component Id="cmpD8FCA0A3A0788B2E39EC601601AC4797" Guid="*">
+                <File Id="filDE271E17BF8D3F133FBB0FC81BE56E84" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.SystemComponents.dll" />
+            </Component>
+            <Component Id="cmp80FAD94567319AB5FD84C20BF50FD06F" Guid="*">
+                <File Id="filD6EED4D4462FD48DAF97804493D74758" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.SystemComponents.dll.config" />
+            </Component>
+            <Component Id="cmp0A042A13F09E19AD486915283BB3A105" Guid="*">
+                <File Id="fil48F7EEB5734D55530CAB6295E887C8CA" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.SystemComponents.pdb" />
+            </Component>
+            <Component Id="cmpB0B6B22FF15EB8619E3E01D23A1A4C8C" Guid="*">
+                <File Id="fil72158429A2089DBB1856E34708F35E1C" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.UserInterface.Contracts.dll" />
+            </Component>
+            <Component Id="cmpF8BA15171FA854F343FE594B70614511" Guid="*">
+                <File Id="fil37700F44CE1079E8BBB9BD7969EB9BE7" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.UserInterface.Contracts.pdb" />
+            </Component>
+            <Component Id="cmpD21B6F1FB62F78ED9137526EF08D3151" Guid="*">
+                <File Id="filB28CCA8E56B944448548CBA7D43B41C4" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.UserInterface.Desktop.dll" />
+            </Component>
+            <Component Id="cmp5A992E9E8BE0233067335F27921C39FA" Guid="*">
+                <File Id="fil37D9D1B7DC96138C2685B50DCA0D1B67" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.UserInterface.Desktop.dll.config" />
+            </Component>
+            <Component Id="cmp45195EEBECE848231AE86CEFE3A6251C" Guid="*">
+                <File Id="fil8DF5890714B35472000897705077E983" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.UserInterface.Desktop.pdb" />
+            </Component>
+            <Component Id="cmp040D4F915CA1279CDEB6F9AC41021DDB" Guid="*">
+                <File Id="fil7BF7C292D2D120BF020D3E558537E97C" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.UserInterface.Mobile.dll" />
+            </Component>
+            <Component Id="cmp973D18A032163CD1BA9337F4D2B805A6" Guid="*">
+                <File Id="filA4DC91A8D0854665D86CD02B6C67E59D" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.UserInterface.Mobile.pdb" />
+            </Component>
+            <Component Id="cmp09F97CBCD275B7F26DE29AF0C01323CF" Guid="*">
+                <File Id="fil330F3868687EC109463015B9225F636A" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.UserInterface.Shared.dll" />
+            </Component>
+            <Component Id="cmp4291116D52FE05385CF0FA839820184F" Guid="*">
+                <File Id="fil0542080E8759EDBD8FCF88AC8D2A2290" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.UserInterface.Shared.pdb" />
+            </Component>
+            <Component Id="cmp45D2B53ECE44094B8947A8C0C1606E6B" Guid="*">
+                <File Id="fil7C103EF9F99F4111474DB94CFF7EFC01" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.WindowsApi.Contracts.dll" />
+            </Component>
+            <Component Id="cmp23329CB968B5D73209E648AA71770FDD" Guid="*">
+                <File Id="fil643258401FE4E167AE905135D2072023" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.WindowsApi.Contracts.pdb" />
+            </Component>
+            <Component Id="cmpE47DAE7422CA67319C4963B2666760EB" Guid="*">
+                <File Id="fil00A09C93C9ACA61A0F6092ACC82A733C" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.WindowsApi.dll" />
+            </Component>
+            <Component Id="cmp683EAA49C409DAE15914B3D4AA3B8F64" Guid="*">
+                <File Id="filE5B4A9C87A4B5277B14EBEAF58142E59" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\SafeExamBrowser.WindowsApi.pdb" />
+            </Component>
+            <Component Id="cmp316491D6BA552A58D44BC0D1E0A99DA1" Guid="*">
+                <File Id="fil3CBE72EE18DDFA4A58715B13BAD775BF" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\Syroot.KnownFolders.dll" />
+            </Component>
+            <Component Id="cmpC554DCFF2D808887EF472A6F325542E2" Guid="*">
+                <File Id="fil20759467757D6926B2CB8818868D4211" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\Syroot.KnownFolders.xml" />
+            </Component>
+            <Component Id="cmpEDC4E4D8A66056202481CEF657292BB5" Guid="*">
+                <File Id="fil2DC56D0EBE77A7AB2DE214DEAE1357EB" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\System.Security.Principal.Windows.dll" />
+            </Component>
+            <Component Id="cmp81C614EA6721E9C94C45866574EAF887" Guid="*">
+                <File Id="fil8B3D73FEAFD1D8A372787C358C2F4012" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\System.Security.Principal.Windows.xml" />
+            </Component>
+            <Component Id="cmp14F282D8E77269A29D33183A76C8B409" Guid="*">
+                <File Id="filDA4A2559B064B2C24D7A8025BA4D175B" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\v8_context_snapshot.bin" />
+            </Component>
+            <Component Id="cmpF3977B345962292C512099983031D0A0" Guid="*">
+                <File Id="filE0987ACE739A9FB616619B9F58E2D1CE" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\vk_swiftshader.dll" />
+            </Component>
+            <Component Id="cmp091DC5252FD7D161D5CD54DD0E67B47D" Guid="*">
+                <File Id="fil360A37CB4ED464656602A6B01D6B17D4" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\vk_swiftshader_icd.json" />
+            </Component>
+            <Component Id="cmpA7F2ED3BBBD60281BDE367D904EB4420" Guid="*">
+                <File Id="filDFA4DD18172AA7F626253695EB7836C9" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\vulkan-1.dll" />
+            </Component>
+            <Directory Id="dir3F689DF149CD76D63ACC3D0F99E5BDC9" Name="Extensions">
+                <Directory Id="dir693C10A4C03F9DD2178B9E0E83B13A6E" Name="AST">
+                    <Component Id="cmp3F4E2115D5FFB47403DC0642DC772C82" Guid="*">
+                        <File Id="filE76EA072D6975E655B8FAD9DC8B1A493" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\Extensions\AST\background.js" />
+                    </Component>
+                    <Component Id="cmpD9333DD3FB532054AB8AF47B19060CFD" Guid="*">
+                        <File Id="fil48B3111960BBAC094A35BEC08E49E665" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\Extensions\AST\content.js" />
+                    </Component>
+                    <Component Id="cmpDB3F2281533DA5DC303B12A01C83A8A5" Guid="*">
+                        <File Id="filDDFCCA1FF1FC5F1DE535C17B1272580B" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\Extensions\AST\manifest.json" />
+                    </Component>
+                </Directory>
+            </Directory>
+            <Directory Id="dir6382D14C856F0E06BD343ABEF7DA8D32" Name="locales">
+                <Component Id="cmp3A733E2A30891F3675B8558F7AD18DC3" Guid="*">
+                    <File Id="filBDCC8B1D1B006C3790B9FC18AC5992C3" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\af.pak" />
+                </Component>
+                <Component Id="cmp31B41BA9A68F8EB641844C9F395119F7" Guid="*">
+                    <File Id="fil36CA79ED4922F7F11EDC0CF386AE02CB" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\am.pak" />
+                </Component>
+                <Component Id="cmp47E00E075764CB138E8DC792FD7D34C4" Guid="*">
+                    <File Id="fil6AC5595E72FA5BB376CEA6CFEE065B6F" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\ar.pak" />
+                </Component>
+                <Component Id="cmpE10022CC72A36F595F550AE4655A05EF" Guid="*">
+                    <File Id="filC6CDCEEE6718C7D78BFEEC0CA841BEBA" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\bg.pak" />
+                </Component>
+                <Component Id="cmp25B5EB6B52A6C39CDAE745318D592096" Guid="*">
+                    <File Id="fil2FA8D1639F6BB008F98541A833A93AB2" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\bn.pak" />
+                </Component>
+                <Component Id="cmp7337BCFB577A132BA16DA77119A230B2" Guid="*">
+                    <File Id="fil7FAFB233D4ADD0213494767811E95D35" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\ca.pak" />
+                </Component>
+                <Component Id="cmp4E840E8DF34DE6F2EA2E2AC1C962677C" Guid="*">
+                    <File Id="fil657184921D338A5BF1E2F425A45BDC8A" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\cs.pak" />
+                </Component>
+                <Component Id="cmpB6DDB4BD19BDDBA42A9F381E32F629DD" Guid="*">
+                    <File Id="fil9DBDEFBE77DE5086B3808BFF4F73CF02" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\da.pak" />
+                </Component>
+                <Component Id="cmpC065E52FAE2711BAF57EDC8C7543A31A" Guid="*">
+                    <File Id="fil6DEEE1245EFFC7569A6ECB41FACCB214" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\de.pak" />
+                </Component>
+                <Component Id="cmp2E50D05730016495856C264DAA980678" Guid="*">
+                    <File Id="fil06102DBF09B3104D3086990EE2EA483D" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\el.pak" />
+                </Component>
+                <Component Id="cmpDE8905B882250A6DA1803CA44B7371D5" Guid="*">
+                    <File Id="filC3F2539D6C80E2F51E011AF36C1FD2A1" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\en-GB.pak" />
+                </Component>
+                <Component Id="cmp9DD1CEA624EF1D82CBA51FC0733FE0B7" Guid="*">
+                    <File Id="fil76B8D88E3DF7442FAE0FFE235911FFA8" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\en-US.pak" />
+                </Component>
+                <Component Id="cmpB515664261EA6788E735AAAA416D611E" Guid="*">
+                    <File Id="fil3ECAEADC0C69FA3507CFAEE7FAA03B70" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\es-419.pak" />
+                </Component>
+                <Component Id="cmp90278B65C6EE18649157D9879066FE76" Guid="*">
+                    <File Id="fil1EFF564FAB63509A2582607AA9728D28" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\es.pak" />
+                </Component>
+                <Component Id="cmp2A2BB3499604028E799588B9C95DBAC1" Guid="*">
+                    <File Id="fil23D6F81F806B53F2807B979F8B216E9C" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\et.pak" />
+                </Component>
+                <Component Id="cmpE4ADE9F4E3E83F8DD7B2832CFADD6588" Guid="*">
+                    <File Id="fil725B26E2348E2A29502D270FC12CF7D9" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\fa.pak" />
+                </Component>
+                <Component Id="cmpCDB37E7ED6A534E919478D0018485D83" Guid="*">
+                    <File Id="fil1A486AC509CCCAAAAA7D7CD48697624F" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\fi.pak" />
+                </Component>
+                <Component Id="cmp75CA0C371054B9DF1F01614EBCC63DBB" Guid="*">
+                    <File Id="fil09B433160DACF9BFA4181FD6F6A24044" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\fil.pak" />
+                </Component>
+                <Component Id="cmpF46731E99A8DAD97D334EC38C0019B20" Guid="*">
+                    <File Id="filD9093A2003C3C5E4FB668FE7A2D32AA2" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\fr.pak" />
+                </Component>
+                <Component Id="cmp9985A0D40B0C7A477178B37FA3BE11EA" Guid="*">
+                    <File Id="fil9B028A7CBEFD9DAB65DDF7A388A8C0FE" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\gu.pak" />
+                </Component>
+                <Component Id="cmp690EC74B0CC59316D833C7E1DDD5CD85" Guid="*">
+                    <File Id="fil1D05377BC341DC376AE44840AE398C31" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\he.pak" />
+                </Component>
+                <Component Id="cmp2BE57B3A9E648984299AA49A4539BBBF" Guid="*">
+                    <File Id="fil96FC288CD8F5CD91D23CDEF388142C85" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\hi.pak" />
+                </Component>
+                <Component Id="cmp98DBBEF100DEA0298886AE07F0214D14" Guid="*">
+                    <File Id="filE530D95FC22D7DC4C0C8FD303275BE7E" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\hr.pak" />
+                </Component>
+                <Component Id="cmp58951AC7534FE85DD67766409FAAD795" Guid="*">
+                    <File Id="fil397EC60908D8B1B73F5B159D9F81AEF2" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\hu.pak" />
+                </Component>
+                <Component Id="cmpE57FE9DB474F19BA004395267640760E" Guid="*">
+                    <File Id="fil4E6A85B0B554BAED76E273D37E653B49" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\id.pak" />
+                </Component>
+                <Component Id="cmpB205BBC72F27D07CFD52E820ADD8A929" Guid="*">
+                    <File Id="fil67BD794FA569E9E702C449056D4FAD72" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\it.pak" />
+                </Component>
+                <Component Id="cmpEF27B03269D0A304740561F06EE392FE" Guid="*">
+                    <File Id="filF1614A8FCE1566BD96C9A5AF1F775BE8" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\ja.pak" />
+                </Component>
+                <Component Id="cmpA9D050B6DF76BC2A275985535F74ECE9" Guid="*">
+                    <File Id="filA4262628C3C20C5CA905BFB923855736" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\kn.pak" />
+                </Component>
+                <Component Id="cmpAE22AC6B3FECBAAA3A6302C94EDF26C1" Guid="*">
+                    <File Id="fil6D5D409FA1CB1C5708C3D06450DB2109" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\ko.pak" />
+                </Component>
+                <Component Id="cmp20589DE308185BA75BAF4FEDEA028CAF" Guid="*">
+                    <File Id="fil65E46EA72D1CF8D606C1C0A38D0494FC" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\lt.pak" />
+                </Component>
+                <Component Id="cmp1B7A7F618A7967A11DCF6DA1CA2AD70D" Guid="*">
+                    <File Id="fil2C68ED4681C908E60120B87159E3C11F" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\lv.pak" />
+                </Component>
+                <Component Id="cmp92ED960297AD1497D172B660BEB7DD15" Guid="*">
+                    <File Id="filA2A0394A9A6513643BA59DA99430E279" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\ml.pak" />
+                </Component>
+                <Component Id="cmp62A1FAA87FC7F2424CF26B13E9031F78" Guid="*">
+                    <File Id="fil4CA5B3A7A01EEF5F511C0646BB0D52A6" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\mr.pak" />
+                </Component>
+                <Component Id="cmp2CFEBCA61E4BD6D8200427C3D5964604" Guid="*">
+                    <File Id="filED0B0838C3B70FA1B5854D100B094A47" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\ms.pak" />
+                </Component>
+                <Component Id="cmp0B15D45A9D3788A44642E36296212D63" Guid="*">
+                    <File Id="fil863F059D8EF8C7F09290BD963B32C3E4" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\nb.pak" />
+                </Component>
+                <Component Id="cmp772A753A9366CA2CBBC5E40E1FD073E2" Guid="*">
+                    <File Id="filCD0D974DD2935839F8459FD7D60D7246" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\nl.pak" />
+                </Component>
+                <Component Id="cmpC62E756537448727B5A404F7F0788CD3" Guid="*">
+                    <File Id="fil5383BA1901F5B0A19A67CE0AA347A35F" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\pl.pak" />
+                </Component>
+                <Component Id="cmp969503920B09FE8EF946AA075A02975E" Guid="*">
+                    <File Id="fil52E28030629CEC93B37D9147D470DDD3" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\pt-BR.pak" />
+                </Component>
+                <Component Id="cmpD1298F4AF3105BEEFD8B5ECD7EA690E5" Guid="*">
+                    <File Id="fil25E548478F987DF000B58DEDC96CE206" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\pt-PT.pak" />
+                </Component>
+                <Component Id="cmp2F72F4A3F8B7ECA7C9FB810CF2E7F365" Guid="*">
+                    <File Id="fil62810C85A18BAF20116FEC4D926913B2" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\ro.pak" />
+                </Component>
+                <Component Id="cmp28F20548D233C9287265CF380308B82A" Guid="*">
+                    <File Id="filCEC46E3125302EFFC56C92E10FECF05E" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\ru.pak" />
+                </Component>
+                <Component Id="cmp5550AF6377F8E9162098EA567D92D9D2" Guid="*">
+                    <File Id="fil8736973D6979B5B02315441A3C0463EE" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\sk.pak" />
+                </Component>
+                <Component Id="cmpFC59AE7FF98D2FB5F06A8B8EA75B1D5F" Guid="*">
+                    <File Id="fil9A0803A7E03C6F35579E965AB7AEFCEC" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\sl.pak" />
+                </Component>
+                <Component Id="cmp03C173C8385DAFB3EF5785F92EDF7CEE" Guid="*">
+                    <File Id="fil85034DEE306BB43A3F66275FB4288F7A" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\sr.pak" />
+                </Component>
+                <Component Id="cmp2C7041C985769C47874574E777ED69B8" Guid="*">
+                    <File Id="fil1B07DDD2B8BCE6F9007A45C4253B209E" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\sv.pak" />
+                </Component>
+                <Component Id="cmp517357B200E62282FD354310327BE6A5" Guid="*">
+                    <File Id="fil7A878DC4C9F7E3E53F8BD68506738C0B" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\sw.pak" />
+                </Component>
+                <Component Id="cmp7C5BF344365E98F175A809B92FD15449" Guid="*">
+                    <File Id="fil6E1634976868E1345C55011EA1FD219D" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\ta.pak" />
+                </Component>
+                <Component Id="cmp8DFDF99F10B6070AA6FA62CB3EDA83FE" Guid="*">
+                    <File Id="fil52A5493CAF31E809FB9109211AA25F77" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\te.pak" />
+                </Component>
+                <Component Id="cmp24F5AA58978106DCD1D6E2A6F8656D96" Guid="*">
+                    <File Id="fil831A7E09E5F7C1FAC13C6FE32FCA2926" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\th.pak" />
+                </Component>
+                <Component Id="cmp3C4FEA298D5C0C4EE77E4DFDB0083369" Guid="*">
+                    <File Id="fil7AD2D534995267797C0B278559EFCC5E" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\tr.pak" />
+                </Component>
+                <Component Id="cmpE9FB549727B5C5F91CDB6411C20FCDD4" Guid="*">
+                    <File Id="fil7E94CAA9B614E84C9D84D5296E582EAF" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\uk.pak" />
+                </Component>
+                <Component Id="cmp8FB0AD579D55ECE2159D5B53229C494F" Guid="*">
+                    <File Id="filA04E178DAA8A09CA3AFABB063CBCED28" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\ur.pak" />
+                </Component>
+                <Component Id="cmpECA62AE3D8795F3CDCCBEBEC6C36D478" Guid="*">
+                    <File Id="filB848589131F0B78CCA2ED06809609FF7" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\vi.pak" />
+                </Component>
+                <Component Id="cmp8B2736B2441FB24D0865CA510464D57F" Guid="*">
+                    <File Id="filE19E8F8185621D85FC9E0DD2E9AB875B" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\zh-CN.pak" />
+                </Component>
+                <Component Id="cmpD80D4799AADDC072FE3FF0C0C5875C36" Guid="*">
+                    <File Id="fil512A8DE63B09AD74D75D0F7F570229E4" KeyPath="yes" Source="$(var.SafeExamBrowser.Runtime.TargetDir)\locales\zh-TW.pak" />
+                </Component>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="ApplicationComponents">
+            <ComponentRef Id="cmp1050A2F770C54E04FC8A49AD4AB20557" />
+            <ComponentRef Id="cmp9B35E7A495EFBFA8BE80C70B872FD690" />
+            <ComponentRef Id="cmp370CFB2F7A0272CC91F84BEE9FA2551C" />
+            <ComponentRef Id="cmpFC3BDF7A19B3691A755CDB3B9A450E23" />
+            <ComponentRef Id="cmp136FB2BC80C69C1283AF208600BA05EC" />
+            <ComponentRef Id="cmp06D782C1FA87764A2EAF92A6911C707C" />
+            <ComponentRef Id="cmpC00DB08E7A6FFA84B765E1D58C3832AC" />
+            <ComponentRef Id="cmpF063C6E17CE595468E569906E62990AC" />
+            <ComponentRef Id="cmp1B04C66E8B4047D8A4597693F0A5FFCE" />
+            <ComponentRef Id="cmpB523551EDC18F7AE9ED6A4EBE539409C" />
+            <ComponentRef Id="cmp1463E54AF3B870F57F572E39AF76D5DD" />
+            <ComponentRef Id="cmp3C42605666820C10CCB60076015065CB" />
+            <ComponentRef Id="cmpC5778F1FE9F58C4A270B298E2CBA49BB" />
+            <ComponentRef Id="cmpFEBA465C64542D877D3AEA17525457B8" />
+            <ComponentRef Id="cmpD43C8CDDA8B2E48E06FC7B476D17F43A" />
+            <ComponentRef Id="cmpD2D7370C5A8BA021CB0C812BB1E71D8A" />
+            <ComponentRef Id="cmp85D78E3773BF5B2CAF3004A26735BC6D" />
+            <ComponentRef Id="cmp9B397662D8210F48593F969040AE7767" />
+            <ComponentRef Id="cmp1176B275267246E636020B4A6FF3AB90" />
+            <ComponentRef Id="cmpED81D67057FDEC4B9B9FB3DEA1BEFFC5" />
+            <ComponentRef Id="cmp436AD87CACE3832A7D3676620AC281CF" />
+            <ComponentRef Id="cmp37EBEC3B95D348D3750C3B4BD61F3A10" />
+            <ComponentRef Id="cmpEBEAF2A79C5BCF94E0ECD270316664FE" />
+            <ComponentRef Id="cmpB075D5EC461D02C99FB1348E68F6D805" />
+            <ComponentRef Id="cmp479EEF561F9D6B5B161446351F2E79A2" />
+            <ComponentRef Id="cmp547A710633169A81321600D7045FE1E0" />
+            <ComponentRef Id="cmp3D03DD0AB2DAD9CC62B7BF380212EEC4" />
+            <ComponentRef Id="cmp34F8E9764ACCED6E6CE0A7A509F64230" />
+            <ComponentRef Id="cmp70A8CF7F0A598CD25C96B2EC2A825B02" />
+            <ComponentRef Id="cmpA1EAD81432062E6FD0453FFE1FAE6CF9" />
+            <ComponentRef Id="cmp9D370B2C4DE84A61BD7B04ADF73BDDB5" />
+            <ComponentRef Id="cmpCF4B226EB09BA4DACDE056D56FC1B375" />
+            <ComponentRef Id="cmp658C99F8FD959BB0B7DDDA35A1DA21A2" />
+            <ComponentRef Id="cmpDDFC9D00DEBBD0640DF8908A4B66003A" />
+            <ComponentRef Id="cmp327B8C8B623593D2922B741C860538CB" />
+            <ComponentRef Id="cmp4B54A249CE4B78EA1B0D0066A88DECF5" />
+            <ComponentRef Id="cmp4561E11AD054B62623E3C7BCD64442FA" />
+            <ComponentRef Id="cmpD8841734788B65CD78E5344972ECA970" />
+            <ComponentRef Id="cmp5CDC1BDAA8C315FD864EDEE51DA5729C" />
+            <ComponentRef Id="cmp56F0A859D011F95E0ACBB84F82CA0F47" />
+            <ComponentRef Id="cmp5141EF7FBA94B39D623CB98F72A44C45" />
+            <ComponentRef Id="cmp6E4396BB9C37A3597641B270650CDF73" />
+            <ComponentRef Id="cmpA8C981D696E0E768C404409ADD1C6C6A" />
+            <ComponentRef Id="cmp04FAEAB42777B837F7B5C9FF6BB7DB70" />
+            <ComponentRef Id="cmp0E2E66D6A0252AEF890875586572C6D0" />
+            <ComponentRef Id="cmp91D77CBA06C16C9CA6DA7973436BCFE0" />
+            <ComponentRef Id="cmp8F8C6A0BB217C6D713813C58F6FFD5A0" />
+            <ComponentRef Id="cmp3FC5C2DB528688E8D201E0A3E1C0C5A4" />
+            <ComponentRef Id="cmpD480834DC91174A4F28ECF6E50D8A87B" />
+            <ComponentRef Id="cmp70D71CA1E5144CF64E8D2277D5EDFF79" />
+            <ComponentRef Id="cmp542CF9E2A01F3A14CC9ADAA02EA993BF" />
+            <ComponentRef Id="cmpEBB62F51E0624B416E779D10B28FDC1D" />
+            <ComponentRef Id="cmpA7988F8AA8A633E604CD0F37DB7A0BB1" />
+            <ComponentRef Id="cmpFACFB74F99609AC1CD1FC6219A9BFEC9" />
+            <ComponentRef Id="cmpF4DA6CD9E9164DE59A9377B86D32DBB5" />
+            <ComponentRef Id="cmp1686DEC90B1874B475FE63FB8AE506C7" />
+            <ComponentRef Id="cmp565D23E653CF52C5B0FEBB6C651308F4" />
+            <ComponentRef Id="cmp606FF7386C3874857613921D8740264B" />
+            <ComponentRef Id="cmpF030F4C234B405A7E8791FF9D5F44FB1" />
+            <ComponentRef Id="cmpA354C3472CD77F77EC4048F31A1C4595" />
+            <ComponentRef Id="cmp9457AF9370A13B99464FEE416D3AB9FC" />
+            <ComponentRef Id="cmp193C7DC786E4AE006ACB5426B29222A7" />
+            <ComponentRef Id="cmp8DEB8A390A4685BD5209676D493AEF5C" />
+            <ComponentRef Id="cmp120EA8363B0E0D69DA23440253D53359" />
+            <ComponentRef Id="cmp2B98A29840B9935E3C90D33457F767FC" />
+            <ComponentRef Id="cmp477D4D1EFA97D0179B36A0F85DA75DF5" />
+            <ComponentRef Id="cmp472A35C6126384D27D755A122335EFB9" />
+            <ComponentRef Id="cmp8839059CB90DCBFBC89B679FFC3B584F" />
+            <ComponentRef Id="cmpD1D2A4C12185D2631BFB35794CB587A6" />
+            <ComponentRef Id="cmpE88F1621C725F999C8BF06C22E6F3B67" />
+            <ComponentRef Id="cmpED9850C60CAE8030E064F2A0FA8395FE" />
+            <ComponentRef Id="cmpCB02A2258F5B43A3E49F4F7ED7FB0FF8" />
+            <ComponentRef Id="cmp22F2059367F41E65E65CCBCFBCB8A58C" />
+            <ComponentRef Id="cmp8D68B2E35EA257D0FA9B8FF34304FA4A" />
+            <ComponentRef Id="cmp5CE17301D0330BF61BDD3C4190E61173" />
+            <ComponentRef Id="cmp9D4B323A9C515764A054712F612F9D24" />
+            <ComponentRef Id="cmpAA9B69C3445C16B9DF5161364EE8BB96" />
+            <ComponentRef Id="cmp7D7265705B6487807C76CFA8C0BADDCE" />
+            <ComponentRef Id="cmpBA44A0964C6B9DFC1AEC5A09884A29FC" />
+            <ComponentRef Id="cmp054A5CF51B6D1D90DA223786898BA44A" />
+            <ComponentRef Id="cmp5ACB98CEC2AC4A5DD2A10520E15F17D7" />
+            <ComponentRef Id="cmp0BE106802093020A1538671B32105D55" />
+            <ComponentRef Id="cmpE7B5627CA1D1F7C382203956A4AEE6D6" />
+            <ComponentRef Id="cmp3B8A1C0A360A37F9BB2C03297F65982E" />
+            <ComponentRef Id="cmp8A7548E07C0BC8DED8AD4237AD8F2827" />
+            <ComponentRef Id="cmp332AB8411F5F990462B5522FF1A19519" />
+            <ComponentRef Id="cmp984F2B971AE3E446FBE9596122935EC9" />
+            <ComponentRef Id="cmp12060BECEF57DB2C8D58BCA8402BB5FA" />
+            <ComponentRef Id="cmpCD9BF8E4112CAE840D15299BE998AB86" />
+            <ComponentRef Id="cmp67F5CAF74872D957A9F945AEB15D134B" />
+            <ComponentRef Id="cmp8D54FC261D782E3A059537935AFAB467" />
+            <ComponentRef Id="cmp12FB09E8453C618DEDC0110B5F1262EA" />
+            <ComponentRef Id="cmpB08D9EF890F49A10F284E02EFC064837" />
+            <ComponentRef Id="cmp90E0D7CB4C86D9CA2114C22E340749BF" />
+            <ComponentRef Id="cmpEB6E08B7EF374AD9D118E546B97C55C5" />
+            <ComponentRef Id="cmpB1DD9338F6676762BD41FD4B77E99F64" />
+            <ComponentRef Id="cmpB0C905124CCF828AA912DA2A9A80C388" />
+            <ComponentRef Id="cmp3096C45E7994D4855E2DECD2E94B906A" />
+            <ComponentRef Id="cmpD8FCA0A3A0788B2E39EC601601AC4797" />
+            <ComponentRef Id="cmp80FAD94567319AB5FD84C20BF50FD06F" />
+            <ComponentRef Id="cmp0A042A13F09E19AD486915283BB3A105" />
+            <ComponentRef Id="cmpB0B6B22FF15EB8619E3E01D23A1A4C8C" />
+            <ComponentRef Id="cmpF8BA15171FA854F343FE594B70614511" />
+            <ComponentRef Id="cmpD21B6F1FB62F78ED9137526EF08D3151" />
+            <ComponentRef Id="cmp5A992E9E8BE0233067335F27921C39FA" />
+            <ComponentRef Id="cmp45195EEBECE848231AE86CEFE3A6251C" />
+            <ComponentRef Id="cmp040D4F915CA1279CDEB6F9AC41021DDB" />
+            <ComponentRef Id="cmp973D18A032163CD1BA9337F4D2B805A6" />
+            <ComponentRef Id="cmp09F97CBCD275B7F26DE29AF0C01323CF" />
+            <ComponentRef Id="cmp4291116D52FE05385CF0FA839820184F" />
+            <ComponentRef Id="cmp45D2B53ECE44094B8947A8C0C1606E6B" />
+            <ComponentRef Id="cmp23329CB968B5D73209E648AA71770FDD" />
+            <ComponentRef Id="cmpE47DAE7422CA67319C4963B2666760EB" />
+            <ComponentRef Id="cmp683EAA49C409DAE15914B3D4AA3B8F64" />
+            <ComponentRef Id="cmp316491D6BA552A58D44BC0D1E0A99DA1" />
+            <ComponentRef Id="cmpC554DCFF2D808887EF472A6F325542E2" />
+            <ComponentRef Id="cmpEDC4E4D8A66056202481CEF657292BB5" />
+            <ComponentRef Id="cmp81C614EA6721E9C94C45866574EAF887" />
+            <ComponentRef Id="cmp14F282D8E77269A29D33183A76C8B409" />
+            <ComponentRef Id="cmpF3977B345962292C512099983031D0A0" />
+            <ComponentRef Id="cmp091DC5252FD7D161D5CD54DD0E67B47D" />
+            <ComponentRef Id="cmpA7F2ED3BBBD60281BDE367D904EB4420" />
+            <ComponentRef Id="cmp3F4E2115D5FFB47403DC0642DC772C82" />
+            <ComponentRef Id="cmpD9333DD3FB532054AB8AF47B19060CFD" />
+            <ComponentRef Id="cmpDB3F2281533DA5DC303B12A01C83A8A5" />
+            <ComponentRef Id="cmp3A733E2A30891F3675B8558F7AD18DC3" />
+            <ComponentRef Id="cmp31B41BA9A68F8EB641844C9F395119F7" />
+            <ComponentRef Id="cmp47E00E075764CB138E8DC792FD7D34C4" />
+            <ComponentRef Id="cmpE10022CC72A36F595F550AE4655A05EF" />
+            <ComponentRef Id="cmp25B5EB6B52A6C39CDAE745318D592096" />
+            <ComponentRef Id="cmp7337BCFB577A132BA16DA77119A230B2" />
+            <ComponentRef Id="cmp4E840E8DF34DE6F2EA2E2AC1C962677C" />
+            <ComponentRef Id="cmpB6DDB4BD19BDDBA42A9F381E32F629DD" />
+            <ComponentRef Id="cmpC065E52FAE2711BAF57EDC8C7543A31A" />
+            <ComponentRef Id="cmp2E50D05730016495856C264DAA980678" />
+            <ComponentRef Id="cmpDE8905B882250A6DA1803CA44B7371D5" />
+            <ComponentRef Id="cmp9DD1CEA624EF1D82CBA51FC0733FE0B7" />
+            <ComponentRef Id="cmpB515664261EA6788E735AAAA416D611E" />
+            <ComponentRef Id="cmp90278B65C6EE18649157D9879066FE76" />
+            <ComponentRef Id="cmp2A2BB3499604028E799588B9C95DBAC1" />
+            <ComponentRef Id="cmpE4ADE9F4E3E83F8DD7B2832CFADD6588" />
+            <ComponentRef Id="cmpCDB37E7ED6A534E919478D0018485D83" />
+            <ComponentRef Id="cmp75CA0C371054B9DF1F01614EBCC63DBB" />
+            <ComponentRef Id="cmpF46731E99A8DAD97D334EC38C0019B20" />
+            <ComponentRef Id="cmp9985A0D40B0C7A477178B37FA3BE11EA" />
+            <ComponentRef Id="cmp690EC74B0CC59316D833C7E1DDD5CD85" />
+            <ComponentRef Id="cmp2BE57B3A9E648984299AA49A4539BBBF" />
+            <ComponentRef Id="cmp98DBBEF100DEA0298886AE07F0214D14" />
+            <ComponentRef Id="cmp58951AC7534FE85DD67766409FAAD795" />
+            <ComponentRef Id="cmpE57FE9DB474F19BA004395267640760E" />
+            <ComponentRef Id="cmpB205BBC72F27D07CFD52E820ADD8A929" />
+            <ComponentRef Id="cmpEF27B03269D0A304740561F06EE392FE" />
+            <ComponentRef Id="cmpA9D050B6DF76BC2A275985535F74ECE9" />
+            <ComponentRef Id="cmpAE22AC6B3FECBAAA3A6302C94EDF26C1" />
+            <ComponentRef Id="cmp20589DE308185BA75BAF4FEDEA028CAF" />
+            <ComponentRef Id="cmp1B7A7F618A7967A11DCF6DA1CA2AD70D" />
+            <ComponentRef Id="cmp92ED960297AD1497D172B660BEB7DD15" />
+            <ComponentRef Id="cmp62A1FAA87FC7F2424CF26B13E9031F78" />
+            <ComponentRef Id="cmp2CFEBCA61E4BD6D8200427C3D5964604" />
+            <ComponentRef Id="cmp0B15D45A9D3788A44642E36296212D63" />
+            <ComponentRef Id="cmp772A753A9366CA2CBBC5E40E1FD073E2" />
+            <ComponentRef Id="cmpC62E756537448727B5A404F7F0788CD3" />
+            <ComponentRef Id="cmp969503920B09FE8EF946AA075A02975E" />
+            <ComponentRef Id="cmpD1298F4AF3105BEEFD8B5ECD7EA690E5" />
+            <ComponentRef Id="cmp2F72F4A3F8B7ECA7C9FB810CF2E7F365" />
+            <ComponentRef Id="cmp28F20548D233C9287265CF380308B82A" />
+            <ComponentRef Id="cmp5550AF6377F8E9162098EA567D92D9D2" />
+            <ComponentRef Id="cmpFC59AE7FF98D2FB5F06A8B8EA75B1D5F" />
+            <ComponentRef Id="cmp03C173C8385DAFB3EF5785F92EDF7CEE" />
+            <ComponentRef Id="cmp2C7041C985769C47874574E777ED69B8" />
+            <ComponentRef Id="cmp517357B200E62282FD354310327BE6A5" />
+            <ComponentRef Id="cmp7C5BF344365E98F175A809B92FD15449" />
+            <ComponentRef Id="cmp8DFDF99F10B6070AA6FA62CB3EDA83FE" />
+            <ComponentRef Id="cmp24F5AA58978106DCD1D6E2A6F8656D96" />
+            <ComponentRef Id="cmp3C4FEA298D5C0C4EE77E4DFDB0083369" />
+            <ComponentRef Id="cmpE9FB549727B5C5F91CDB6411C20FCDD4" />
+            <ComponentRef Id="cmp8FB0AD579D55ECE2159D5B53229C494F" />
+            <ComponentRef Id="cmpECA62AE3D8795F3CDCCBEBEC6C36D478" />
+            <ComponentRef Id="cmp8B2736B2441FB24D0865CA510464D57F" />
+            <ComponentRef Id="cmpD80D4799AADDC072FE3FF0C0C5875C36" />
+        </ComponentGroup>
     </Fragment>
 </Wix>

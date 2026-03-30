@@ -1,6 +1,101 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
-        <!-- These components will be auto-generated! -->
+        <DirectoryRef Id="ConfigurationDirectory">
+            <Component Id="cmpF5650654BD54972ECFEA5AD6280E64EB" Guid="*">
+                <File Id="fil12386B6DD2EFAE50D51BE66AA07971AA" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\ProDotNetZip.dll" />
+            </Component>
+            <Component Id="cmp8DAE70207F62799EBAD85F7A8069DB9D" Guid="*">
+                <File Id="fil0B7479CE8487A73BEB86F49DDD5BF25B" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\ProDotNetZip.xml" />
+            </Component>
+            <Component Id="cmp18B1E2FE76B1AC7BED10A474C7A497D9" Guid="*">
+                <File KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\SEBConfigTool.exe" Id="ConfigurationToolExecutable" />
+            </Component>
+            <Component Id="cmpDF2DDD90C6E05ED843A0E93E72A4A231" Guid="*">
+                <File Id="filA3A90669473A8BB934EBD98D4ECE0CD0" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\SEBConfigTool.exe.config" />
+            </Component>
+            <Component Id="cmp0937574B9A075FC4D3B16F2C0CEB78C9" Guid="*">
+                <File Id="fil110D10D58A899B1C834858BD1BFE9DFD" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\SEBConfigTool.pdb" />
+            </Component>
+            <Component Id="cmp8612FB87264B7B4A2326DF7C6028097F" Guid="*">
+                <File Id="filAEEF7D067FBF0883ED55B960F0964450" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Buffers.dll" />
+            </Component>
+            <Component Id="cmpB85BBB91C385A0FE21935AC6AAD24A69" Guid="*">
+                <File Id="fil4BCE408ADE3FE1A8D6F1F08A655EBC82" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Buffers.xml" />
+            </Component>
+            <Component Id="cmpECD56A4DBF23322CC80444F266C69BD8" Guid="*">
+                <File Id="filC7F41326CE6B9EEFABA63DDCB3AD24A4" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Memory.dll" />
+            </Component>
+            <Component Id="cmp9C361B99EE0640809F6924A17E372387" Guid="*">
+                <File Id="fil7A6CCB7DE890E6C3E90A7A18D5AEE31B" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Memory.xml" />
+            </Component>
+            <Component Id="cmp19ADC541FFFAF038C0589855308FA1AF" Guid="*">
+                <File Id="fil966787EC447E0E5B34CE462479BD2819" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Numerics.Vectors.dll" />
+            </Component>
+            <Component Id="cmpAAD645D47280D4A53DCD167C612581F4" Guid="*">
+                <File Id="fil8523E7AFA546079E6CEDC22AB6F19A1D" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Numerics.Vectors.xml" />
+            </Component>
+            <Component Id="cmpE2CAD0594B51EC578646E326488F1037" Guid="*">
+                <File Id="fil59686C6F71807949091476AF298B8C7A" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Runtime.CompilerServices.Unsafe.dll" />
+            </Component>
+            <Component Id="cmp11278D20804289AEAA29CC1041B9BAC9" Guid="*">
+                <File Id="filB7F3BB92A0FCCC8CEB0F3296225346A2" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Runtime.CompilerServices.Unsafe.xml" />
+            </Component>
+            <Component Id="cmp9DE69A897C09CE1CBF7C559515E8099E" Guid="*">
+                <File Id="fil6A8CD85A11FBA70475A61DF5D798D52C" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Security.AccessControl.dll" />
+            </Component>
+            <Component Id="cmp2E52BB09971C05F1D02C9A5CAE652E9C" Guid="*">
+                <File Id="fil7675412D6B7C5B1243A68EA55A863CBA" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Security.AccessControl.xml" />
+            </Component>
+            <Component Id="cmpD4FD13ADF5A955746F965D506D60A557" Guid="*">
+                <File Id="fil0F6249F607D07C4BF26E1D35E4CE3416" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Security.Permissions.dll" />
+            </Component>
+            <Component Id="cmp2E0924E4AA603658D3D3A1022447C1D4" Guid="*">
+                <File Id="filD96CA1BDB473F0152CF992815B160DD0" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Security.Permissions.xml" />
+            </Component>
+            <Component Id="cmp52A9045DCFA7DD4BBF5F1482156FAC9C" Guid="*">
+                <File Id="filB9A5A6C3FD6AD5DDAC1065181077548C" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Security.Principal.Windows.dll" />
+            </Component>
+            <Component Id="cmp6ACB3DD127A107948B4B010A091E6CDB" Guid="*">
+                <File Id="fil1843D4ADACCD426478892E9D926F9E14" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Security.Principal.Windows.xml" />
+            </Component>
+            <Component Id="cmp40B39BC92A21B14E367EE41BC440E54C" Guid="*">
+                <File Id="fil0FBD7AAAC6BA0AFF1970378636586350" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Text.Encoding.CodePages.dll" />
+            </Component>
+            <Component Id="cmp48146A71E4841D30B84E43498CF91C5A" Guid="*">
+                <File Id="fil5DA1C5C3AEC3EEEC7F18C759ED92F00E" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\System.Text.Encoding.CodePages.xml" />
+            </Component>
+            <Directory Id="dir0398551971E3A3E201A63509DCED2212" Name="de">
+                <Component Id="cmp0D56F27B0E1F1380E27B59422C68EECF" Guid="*">
+                    <File Id="filBD6ABE7E271385020D4ADA8D582527C5" KeyPath="yes" Source="$(var.SebWindowsConfig.TargetDir)\de\SEBConfigTool.resources.dll" />
+                </Component>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="ConfigurationComponents">
+            <ComponentRef Id="cmpF5650654BD54972ECFEA5AD6280E64EB" />
+            <ComponentRef Id="cmp8DAE70207F62799EBAD85F7A8069DB9D" />
+            <ComponentRef Id="cmp18B1E2FE76B1AC7BED10A474C7A497D9" />
+            <ComponentRef Id="cmpDF2DDD90C6E05ED843A0E93E72A4A231" />
+            <ComponentRef Id="cmp0937574B9A075FC4D3B16F2C0CEB78C9" />
+            <ComponentRef Id="cmp8612FB87264B7B4A2326DF7C6028097F" />
+            <ComponentRef Id="cmpB85BBB91C385A0FE21935AC6AAD24A69" />
+            <ComponentRef Id="cmpECD56A4DBF23322CC80444F266C69BD8" />
+            <ComponentRef Id="cmp9C361B99EE0640809F6924A17E372387" />
+            <ComponentRef Id="cmp19ADC541FFFAF038C0589855308FA1AF" />
+            <ComponentRef Id="cmpAAD645D47280D4A53DCD167C612581F4" />
+            <ComponentRef Id="cmpE2CAD0594B51EC578646E326488F1037" />
+            <ComponentRef Id="cmp11278D20804289AEAA29CC1041B9BAC9" />
+            <ComponentRef Id="cmp9DE69A897C09CE1CBF7C559515E8099E" />
+            <ComponentRef Id="cmp2E52BB09971C05F1D02C9A5CAE652E9C" />
+            <ComponentRef Id="cmpD4FD13ADF5A955746F965D506D60A557" />
+            <ComponentRef Id="cmp2E0924E4AA603658D3D3A1022447C1D4" />
+            <ComponentRef Id="cmp52A9045DCFA7DD4BBF5F1482156FAC9C" />
+            <ComponentRef Id="cmp6ACB3DD127A107948B4B010A091E6CDB" />
+            <ComponentRef Id="cmp40B39BC92A21B14E367EE41BC440E54C" />
+            <ComponentRef Id="cmp48146A71E4841D30B84E43498CF91C5A" />
+            <ComponentRef Id="cmp0D56F27B0E1F1380E27B59422C68EECF" />
+        </ComponentGroup>
     </Fragment>
 </Wix>
