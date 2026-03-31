@@ -87,7 +87,7 @@ namespace SafeExamBrowser.Browser.Responsibilities.Window
 				var title = Text.Get(TextKey.Browser_LoadErrorTitle);
 				var message = Text.Get(TextKey.Browser_LoadErrorMessage).Replace("%%URL%%", WindowSettings.UrlPolicy.CanLogError() ? url : "") + $" {requestInfo}";
 
-				Task.Run(() => MessageBox.Show(message, title, icon: MessageBoxIcon.Error, parent: Window)).ContinueWith(_ => Control.NavigateBackwards());
+				Task.Run(() => MessageBox.Show(message, title, icon: MessageBoxIcon.Error, parent: Window));
 			}
 		}
 
