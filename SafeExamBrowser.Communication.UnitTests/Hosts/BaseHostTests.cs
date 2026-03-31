@@ -29,13 +29,15 @@ namespace SafeExamBrowser.Communication.UnitTests.Hosts
 		[TestInitialize]
 		public void Initialize()
 		{
+			const int HOST_START_TIMEOUT_MS = 1000;
+
 			hostObject = new Mock<IHostObject>();
 			hostObjectFactory = new Mock<IHostObjectFactory>();
 			logger = new Mock<ILogger>();
 
 			hostObjectFactory.Setup(f => f.CreateObject(It.IsAny<string>(), It.IsAny<ICommunication>())).Returns(hostObject.Object);
 
-			sut = new BaseHostStub("net.pipe://some/address/here", hostObjectFactory.Object, logger.Object, 10);
+			sut = new BaseHostStub("net.pipe://some/address/here", hostObjectFactory.Object, logger.Object, HOST_START_TIMEOUT_MS);
 		}
 
 		[TestMethod]
