@@ -18,8 +18,8 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations
 	[Serializable]
 	internal abstract class RegistryConfiguration : FeatureConfiguration
 	{
-		private IList<RegistryDataItem> itemsToDelete;
-		private IList<RegistryDataItem> itemsToRestore;
+		private readonly IList<RegistryDataItem> itemsToDelete;
+		private readonly IList<RegistryDataItem> itemsToRestore;
 
 		protected abstract IEnumerable<RegistryConfigurationItem> Items { get; }
 		protected abstract RegistryKey RootKey { get; }
@@ -191,12 +191,7 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations
 
 					using (var key = RootKey.OpenSubKey(keyWithoutRoot, true))
 					{
-						if (key == null)
-						{
-							logger.Debug($"No need to delete registry item {item} as its key does not exist.");
-							success = true;
-						}
-						else if (key.GetValue(item.Value) != null)
+						if (key?.GetValue(item.Value) != null)
 						{
 							key.DeleteValue(item.Value);
 							logger.Debug($"Successfully deleted registry item {item}.");

@@ -29,7 +29,7 @@ namespace SafeExamBrowser.Communication.UnitTests.Hosts
 		[TestInitialize]
 		public void Initialize()
 		{
-			const int HOST_START_TIMEOUT_MS = 1000;
+			const int HOST_START_TIMEOUT_MS = 50;
 
 			hostObject = new Mock<IHostObject>();
 			hostObjectFactory = new Mock<IHostObjectFactory>();
