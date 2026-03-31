@@ -191,17 +191,22 @@ namespace SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfigurations
 
 					using (var key = RootKey.OpenSubKey(keyWithoutRoot, true))
 					{
-						if (key.GetValue(item.Value) != null)
+						if (key == null)
+						{
+							logger.Debug($"No need to delete registry item {item} as its key does not exist.");
+							success = true;
+						}
+						else if (key.GetValue(item.Value) != null)
 						{
 							key.DeleteValue(item.Value);
 							logger.Debug($"Successfully deleted registry item {item}.");
+							success = true;
 						}
 						else
 						{
 							logger.Debug($"No need to delete registry item {item} as it does not exist.");
+							success = true;
 						}
-
-						success = true;
 					}
 				}
 				else
