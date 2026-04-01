@@ -130,6 +130,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "MouseWithoutBorders.exe", OriginalName = "MouseWithoutBorders.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "MouseWithoutBordersHelper.exe", OriginalName = "MouseWithoutBordersHelper.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "MS-teams.exe", OriginalName = "MS-Teams.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "mstsc.exe", OriginalName = "mstsc.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "obs32.exe", OriginalName = "obs32.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "obs64.exe", OriginalName = "obs64.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "PCMonitorSrv.exe", OriginalName = "PCMonitorSrv.exe" });
