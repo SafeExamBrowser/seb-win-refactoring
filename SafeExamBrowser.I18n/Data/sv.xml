@@ -109,7 +109,7 @@
         Användarnamn (om nödvändigt):
     </Entry>
     <Entry key="CredentialsDialog_WirelessNetworkMessage">
-        Ange de uppgifter som krävs för att ansluta till det trådlösa nätverket "%%NAME%%".
+        Ange de uppgifter som krävs för att ansluta till det trådlösa nätverket "%%_NAME_%%".
     </Entry>
     <Entry key="CredentialsDialog_WirelessNetworkTitle">
         Nätverksautentisering krävs
@@ -316,7 +316,7 @@
         Nedladdningsfel
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationError">
-        Du har för många bildskärmar anslutna. %%ALLOWED_COUNT%% %%TYPE%% bildskärm(ar) är tillåtna, men %%INTERNAL_COUNT%% interna och %%EXTERNAL_COUNT%% externa bildskärm(ar) är upptäckta. Se loggfilerna för mer information. SEB kommer nu att avslutas.
+        Du har för många bildskärmar anslutna. %%_ALLOWED_COUNT_%% %%_TYPE_%% bildskärm(ar) är tillåtna, men %%_INTERNAL_COUNT_%% interna och %%_EXTERNAL_COUNT_%% externa bildskärm(ar) är upptäckta. Se loggfilerna för mer information. SEB kommer nu att avslutas.
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationErrorTitle">
         Ej tillåten bildskärmsinställning
@@ -466,13 +466,13 @@
         Uppladdning ej tillåten!
     </Entry>
     <Entry key="MessageBox_VersionRestrictionError">
-        Den installerade SEB-version %%VERSION%% kan inte användas eftersom den valda konfigurationen kräver att version:%%REQUIRED_VERSIONS%% används. Ladda ner och installera den versionen från den officiella webbplatsen (safeexambrowser.org/download) eller från SEB:s repository för Windows på GitHub (github.com/safeexambrowser).
+        Den installerade SEB-version %%_VERSION_%% kan inte användas eftersom den valda konfigurationen kräver att version:%%_REQUIRED_VERSIONS_%% används. Ladda ner och installera den versionen från den officiella webbplatsen (safeexambrowser.org/download) eller från SEB:s repository för Windows på GitHub (github.com/safeexambrowser).
     </Entry>
     <Entry key="MessageBox_VersionRestrictionErrorTitle">
         Ogiltig version av SEB
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
-        SEB %%VERSION%% eller nyare
+        SEB %%_VERSION_%% eller nyare
     </Entry>
     <Entry key="MessageBox_VideoProctoringDisclaimer">
         Provövervakning kommer att ske via skärmdelning och data lagras på en server. Kontakta provdistributören om du har frågor rörande integritetspolicyn. SEB ansluter inte till någon central server för övervakning. Det är provdistributören som bestämmer vilka tjänster som ska användas. 
@@ -709,16 +709,16 @@
         Ange lösenordet för avslut för att avbryta de återstående operationerna:
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Status">
-        Utför överföringsoperation %%COUNT%% av %%TOTAL%%.
+        Utför överföringsoperation %%_COUNT_%% av %%_TOTAL_%%.
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusAndTime">
-        Väntar på att utföra överföringsoperation %%COUNT%% av %%TOTAL%% vid %%TIME%%...
+        Väntar på att utföra överföringsoperation %%_COUNT_%% av %%_TOTAL_%% vid %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaiting">
-         Väntar på att återuppta %%COUNT%% överföringsoperationer…
+         Väntar på att återuppta %%_COUNT_%% överföringsoperationer…
     </Entry>
     <Entry key="ProctoringFinalizationDialog_StatusWaitingAndTime">
-        Väntar på att återuppta %%COUNT%% överföringsoperationer vid %%TIME%%...
+        Väntar på att återuppta %%_COUNT_%% överföringsoperationer vid %%_TIME_%%...
     </Entry>
     <Entry key="ProctoringFinalizationDialog_Title">
         Slutför övervakning av skärm.
