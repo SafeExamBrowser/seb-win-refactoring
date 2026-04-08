@@ -72,30 +72,36 @@ namespace SafeExamBrowser.Monitoring.Display
 			{
 				var active = displays.Where(d => d.IsActive);
 				var count = active.Count();
+				var hasAllowedCount = count <= settings.AllowedDisplays;
+				var hasAllowedTypes = !settings.InternalDisplayOnly || active.All(d => d.IsInternal);
 
 				result.ExternalDisplays = active.Count(d => !d.IsInternal);
 				result.InternalDisplays = active.Count(d => d.IsInternal);
-				result.IsAllowed = count <= settings.AllowedDisplays;
+				result.IsAllowed = hasAllowedCount && hasAllowedTypes;
 
 				if (result.IsAllowed)
 				{
-					logger.Info($"Detected {count} active displays, {settings.AllowedDisplays} are allowed.");
+					logger.Info($"Detected {count} active displays and {settings.AllowedDisplays} are allowed, display configuration is valid.");
 				}
 				else
 				{
-					logger.Warn($"Detected {count} active displays but only {settings.AllowedDisplays} are allowed!");
-				}
+					if (!hasAllowedCount)
+					{
+						logger.Warn($"Detected {count} active displays but only {settings.AllowedDisplays} are allowed!");
+					}
 
-				if (settings.InternalDisplayOnly && active.Any(d => !d.IsInternal))
-				{
-					result.IsAllowed = false;
-					logger.Warn("Detected external display but only internal displays are allowed!");
+					if (!hasAllowedTypes)
+					{
+						logger.Warn("Detected external display(s) but only internal displays are allowed!");
+					}
+
+					logger.Warn("Display configuration is not valid!");
 				}
 			}
 			else
 			{
 				result.IsAllowed = settings.IgnoreError;
-				logger.Warn($"Failed to validate display configuration, {(result.IsAllowed ? "ignoring error" : "active configuration is not allowed")}.");
+				logger.Warn($"Failed to validate display configuration{(result.IsAllowed ? ", ignoring error." : " and errors are not allowed!")}");
 			}
 
 			return result;
