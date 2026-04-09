@@ -187,6 +187,8 @@ namespace SafeExamBrowser.Client.Responsibilities
 					Logger.Info("Attempting to shutdown as requested by the user...");
 					TryRequestShutdown();
 				}
+
+				coordinator.ReleaseSessionLock();
 			}
 			else if (!allowed)
 			{
