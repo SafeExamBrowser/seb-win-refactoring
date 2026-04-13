@@ -166,7 +166,7 @@
         Toepassing "%%NAME%%" kon niet worden gevonden op het systeem! Zoek de map met het hoofdprogramma "%%EXECUTABLE%%".
     </Entry>
     <Entry key="LockScreen_ApplicationIntegrityMessage">
-        U gebruikt een onofficiële SEB-versie! Zorg ervoor dat u een officiële Safe Exam Browser gebruikt. Om SEB te ontgrendelen, moet u het juiste ontgrendelwachtwoord invoeren.
+        U gebruikt een onofficiële SEB versie! Zorg ervoor dat u een officiële Safe Exam Browser gebruikt. Om SEB te ontgrendelen, moet u het juiste ontgrendelwachtwoord invoeren.
     </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Sta tijdelijk de applicaties toe die op de zwarte lijst staan. Dit geldt alleen voor de huidige instanties en sessie!
@@ -271,7 +271,7 @@
         Applicatie niet gevonden
     </Entry>
     <Entry key="MessageBox_ApplicationTerminationFailure">
-        De onderstaande applicaties konden niet worden afgesloten! Sluit ze handmatig af en probeer het opnieuw...
+        De onderstaande applicaties konden niet afgesloten worden! Sluit ze handmatig af en probeer het opnieuw...
     </Entry>
     <Entry key="MessageBox_ApplicationTerminationFailureTitle">
         Automatische beëindiging mislukt
@@ -301,10 +301,10 @@
         De lokale clientconfiguratie is mislukt! Raadpleeg de logbestanden voor meer informatie. SEB zal nu afsluiten...
     </Entry>
     <Entry key="MessageBox_ClientConfigurationErrorTitle">
-        Er is een fout in je configuratie
+        Er is een fout in uw configuratie
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestion">
-        De clientconfiguratie is opgeslagen en zal worden gebruikt wanneer je SEB de volgende keer opstart. Wil je nu stoppen?
+        De clientconfiguratie is opgeslagen en zal worden gebruikt wanneer u SEB de volgende keer opstart. Wilt u nu stoppen?
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestionTitle">
         Configuratie succesvol
@@ -376,19 +376,19 @@
         OK
     </Entry>
     <Entry key="MessageBox_PageLeaveConfirmation">
-        Wil je de huidige pagina verlaten?
+        Wilt u de huidige pagina verlaten?
     </Entry>
     <Entry key="MessageBox_PageLeaveConfirmationTitle">
         Verlaten?
     </Entry>
     <Entry key="MessageBox_PageReloadConfirmation">
-        Wil je de huidige pagina opnieuw laden?
+        Wilt u de huidige pagina opnieuw laden?
     </Entry>
     <Entry key="MessageBox_PageReloadConfirmationTitle">
         Herladen?
     </Entry>
     <Entry key="MessageBox_Quit">
-        Wil je SEB sluiten?
+        Wilt u SEB sluiten?
     </Entry>
     <Entry key="MessageBox_QuitTitle">
         Sluiten?
@@ -418,7 +418,7 @@
         Externe sessie gedetecteerd
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimer">
-        Je scherm wordt opgenomen tijdens dit examen in overeenstemming met de specificaties en privacyregels van je examenaanbieder. Als je vragen hebt, neem dan contact op met je examenaanbieder.
+        Uw scherm wordt opgenomen tijdens dit examen in overeenstemming met de specificaties en privacyregels van uw examenaanbieder. Als u vragen heeft, neem dan contact op met uw examenaanbieder.
     </Entry>
     <Entry key="MessageBox_ScreenProctoringDisclaimerTitle">
         Sessie met schermproctor
@@ -460,10 +460,22 @@
         Configuratie fout
     </Entry>
     <Entry key="MessageBox_UploadNotAllowed">
-        Het uploaden van bestanden is niet toegestaan in de huidige SEB-instellingen. Meld dit aan je examenprovider.
+        Het uploaden van bestanden is niet toegestaan in de huidige SEB-instellingen. Meld dit aan uw examenprovider.
     </Entry>
     <Entry key="MessageBox_UploadNotAllowedTitle">
         Uploaden is niet toegestaan!
+    </Entry>
+    <Entry key="MessageBox_VerificatorActivationLimit">
+        Om veiligheidsredenen verzoeken wij u te wachten tot %%_RESUME_TIME_%% voordat u opnieuw probeert een QR-code te genereren.
+    </Entry>
+    <Entry key="MessageBox_VerificatorActivationLimitTitle">
+        Verificatie limiet bereikt
+    </Entry>
+    <Entry key="MessageBox_VerificatorMissingInternet">
+        Er is een internetverbinding nodig om QR-codes voor de Verificator-app te genereren.
+    </Entry>
+    <Entry key="MessageBox_VerificatorMissingInternetTitle">
+        Geen internet verbinding
     </Entry>
     <Entry key="MessageBox_VersionRestrictionError">
         De geïnstalleerde SEB-versie %%_VERSIE_%% kan niet worden gebruikt omdat de geselecteerde configuratie een specifieke versie vereist:%%_REQUIRED_VERSIONS_%% Download en installeer de vereiste versie van de officiële website (safeexambrowser.org/download) of van de repository van SEB op GitHub (github.com/safeexambrowser).
@@ -518,6 +530,9 @@
     </Entry>
     <Entry key="Notification_ProctoringRaiseHand">
         Hand omhoog
+    </Entry>
+    <Entry key="Notification_VerificatorTooltip">
+        QR-code voor SEB Verificator weergeven
     </Entry>
     <Entry key="OperationStatus_CloseRuntimeConnection">
         Runtime-verbinding sluiten
