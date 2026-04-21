@@ -316,6 +316,11 @@ namespace SafeExamBrowser.WindowsApi
 			return User32.ShowWindow(window, (int) ShowWindowCommand.Hide);
 		}
 
+		public bool IsExistingWindow(IntPtr window)
+		{
+			return User32.IsWindow(window);
+		}
+
 		public void MinimizeAllOpenWindows()
 		{
 			var handle = GetShellWindowHandle();
