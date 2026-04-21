@@ -75,6 +75,9 @@ namespace SafeExamBrowser.WindowsApi
 		internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
 		[DllImport("user32.dll", SetLastError = true)]
+		internal static extern bool IsWindow(IntPtr hWnd);
+
+		[DllImport("user32.dll", SetLastError = true)]
 		internal static extern bool IsWindowVisible(IntPtr hWnd);
 
 		[DllImport("user32.dll", SetLastError = true)]

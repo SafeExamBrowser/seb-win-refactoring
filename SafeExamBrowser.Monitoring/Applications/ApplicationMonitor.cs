@@ -232,8 +232,29 @@ namespace SafeExamBrowser.Monitoring.Applications
 
 		private void Close(Window window)
 		{
+			var processId = Convert.ToInt32(nativeMethods.GetProcessIdFor(window.Handle));
+
 			nativeMethods.SendCloseMessageTo(window.Handle);
 			logger.Info($"Sent close message to window {window}.");
+
+			Task.Delay(1000).ContinueWith((_) =>
+			{
+				var closed = !nativeMethods.IsExistingWindow(window.Handle) || processId != nativeMethods.GetProcessIdFor(window.Handle);
+
+				if (closed)
+				{
+					logger.Info($"Successfully closed window {window}.");
+				}
+				else
+				{
+					logger.Warn($"Failed to close window {window}! Attempting to terminate its process...");
+
+					if (TryGetProcessFor(window, out var process))
+					{
+						TryTerminate(process, gracefully: false);
+					}
+				}
+			});
 		}
 
 		private void HandleExplorerStart(IProcess process)
@@ -417,15 +438,17 @@ namespace SafeExamBrowser.Monitoring.Applications
 		{
 			try
 			{
-				var windows = nativeMethods.GetAllWindows();
-
-				foreach (var handle in windows)
+				foreach (var handle in nativeMethods.GetAllWindows())
 				{
 					var style = nativeMethods.GetWindowStyle(handle);
-					var isOverlay = style.IsDisabled || style.IsNotActivatable || style.IsTopmost;
-					var window = new Window { Handle = handle, Title = nativeMethods.GetWindowTitle(handle) };
+					var window = new Window
+					{
+						Handle = handle,
+						IsOverlay = style.IsDisabled || style.IsNotActivatable || style.IsTopmost,
+						Title = nativeMethods.GetWindowTitle(handle)
+					};
 
-					if (isOverlay && style.IsVisible && !IsAllowed(window) && !TryHide(window))
+					if (window.IsOverlay && style.IsVisible && !IsAllowed(window) && !TryHide(window))
 					{
 						Close(window);
 					}
@@ -465,20 +488,23 @@ namespace SafeExamBrowser.Monitoring.Applications
 			return success;
 		}
 
-		private bool TryTerminate(IProcess process)
+		private bool TryTerminate(IProcess process, bool gracefully = true, bool kill = true)
 		{
 			const int MAX_ATTEMPTS = 5;
 			const int TIMEOUT = 500;
 
-			for (var attempt = 0; attempt < MAX_ATTEMPTS; attempt++)
+			if (gracefully)
 			{
-				if (process.TryClose(TIMEOUT))
+				for (var attempt = 0; attempt < MAX_ATTEMPTS; attempt++)
 				{
-					break;
+					if (process.TryClose(TIMEOUT))
+					{
+						break;
+					}
 				}
 			}
 
-			if (!process.HasTerminated)
+			if (!process.HasTerminated && kill)
 			{
 				for (var attempt = 0; attempt < MAX_ATTEMPTS; attempt++)
 				{

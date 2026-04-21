@@ -145,6 +145,11 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		bool HideWindow(IntPtr window);
 
 		/// <summary>
+		/// Indicates whether a window with the given handle exists.
+		/// </summary>
+		bool IsExistingWindow(IntPtr window);
+
+		/// <summary>
 		/// Minimizes all open windows.
 		/// </summary>
 		void MinimizeAllOpenWindows();
