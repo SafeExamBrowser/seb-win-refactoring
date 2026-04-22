@@ -50,7 +50,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 			if (Context.Next.Settings.Service.DisableRemoteConnections && detector.IsRemoteSession())
 			{
 				result = OperationResult.Aborted;
-				Logger.Error("Detected remote session while SEB is not allowed to be run in a remote session! Aborting...");
+				Logger.Error("Detected remote session while SEB is not allowed to run in a remote session! Aborting...");
 				ShowMessageBox(TextKey.MessageBox_RemoteSessionNotAllowed, TextKey.MessageBox_RemoteSessionNotAllowedTitle, icon: MessageBoxIcon.Error);
 			}
 

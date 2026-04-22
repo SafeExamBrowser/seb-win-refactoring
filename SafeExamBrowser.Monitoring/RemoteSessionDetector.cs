@@ -7,6 +7,7 @@
  */
 
 using System.Windows.Forms;
+using SafeExamBrowser.Configuration.Contracts.Integrity;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring.Contracts;
 
@@ -14,18 +15,20 @@ namespace SafeExamBrowser.Monitoring
 {
 	public class RemoteSessionDetector : IRemoteSessionDetector
 	{
+		private readonly IIntegrityModule integrityModule;
 		private readonly ILogger logger;
 
-		public RemoteSessionDetector(ILogger logger)
+		public RemoteSessionDetector(IIntegrityModule integrityModule, ILogger logger)
 		{
 			this.logger = logger;
+			this.integrityModule = integrityModule;
 		}
 
 		public bool IsRemoteSession()
 		{
-			var isRemoteSession = SystemInformation.TerminalServerSession;
+			var isRemoteSession = SystemInformation.TerminalServerSession || integrityModule.IsRemoteSession();
 
-			logger.Debug($"System appears {(isRemoteSession ? "" : "not ")}to be running in a remote session.");
+			logger.Debug($"Current user session appears {(isRemoteSession ? "" : "not ")}to be a remote session.");
 
 			return isRemoteSession;
 		}
