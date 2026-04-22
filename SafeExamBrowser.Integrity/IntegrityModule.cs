@@ -73,16 +73,36 @@ namespace SafeExamBrowser.Integrity
 			}
 		}
 
+		public bool IsRemoteSession()
+		{
+			var isRemoteSession = false;
+
+			try
+			{
+				isRemoteSession = Native.IsRemoteSession();
+			}
+			catch (DllNotFoundException)
+			{
+				logger.Warn("Integrity module is not available!");
+			}
+			catch (Exception e)
+			{
+				logger.Error("Unexpected error while attempting to query remote session status!", e);
+			}
+
+			return isRemoteSession;
+		}
+
 		public bool IsVirtualMachine(out string manufacturer, out int probability)
 		{
-			var isVm = false;
+			var isVirtualMachine = false;
 
 			manufacturer = default;
 			probability = default;
 
 			try
 			{
-				isVm = IsVirtualMachine(out IntPtr bstr, out probability);
+				isVirtualMachine = Native.IsVirtualMachine(out var bstr, out probability);
 
 				if (bstr != IntPtr.Zero)
 				{
@@ -99,7 +119,7 @@ namespace SafeExamBrowser.Integrity
 				logger.Error("Unexpected error while attempting to query virtual machine information!", e);
 			}
 
-			return isVm;
+			return isVirtualMachine;
 		}
 
 		public bool TryCalculateAppSignatureKey(string connectionToken, string salt, out string appSignatureKey)
@@ -108,7 +128,7 @@ namespace SafeExamBrowser.Integrity
 
 			try
 			{
-				appSignatureKey = CalculateAppSignatureKey(connectionToken, salt);
+				appSignatureKey = Native.CalculateAppSignatureKey(connectionToken, salt);
 			}
 			catch (DllNotFoundException)
 			{
@@ -128,7 +148,7 @@ namespace SafeExamBrowser.Integrity
 
 			try
 			{
-				browserExamKey = CalculateBrowserExamKey(configurationKey, salt);
+				browserExamKey = Native.CalculateBrowserExamKey(configurationKey, salt);
 			}
 			catch (DllNotFoundException)
 			{
@@ -150,7 +170,7 @@ namespace SafeExamBrowser.Integrity
 
 			try
 			{
-				success = TryGenerateVerificatorCode(payload, out IntPtr bstr);
+				success = Native.TryGenerateVerificatorCode(payload, out var bstr);
 
 				if (bstr != IntPtr.Zero)
 				{
@@ -178,7 +198,7 @@ namespace SafeExamBrowser.Integrity
 
 			try
 			{
-				isValid = VerifyCodeSignature();
+				isValid = Native.VerifyCodeSignature();
 				success = true;
 			}
 			catch (DllNotFoundException)
@@ -284,21 +304,27 @@ namespace SafeExamBrowser.Integrity
 			return success;
 		}
 
-		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.BStr)]
-		private static extern string CalculateAppSignatureKey(string connectionToken, string salt);
+		private static class Native
+		{
+			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+			[return: MarshalAs(UnmanagedType.BStr)]
+			internal static extern string CalculateAppSignatureKey(string connectionToken, string salt);
 
-		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		[return: MarshalAs(UnmanagedType.BStr)]
-		private static extern string CalculateBrowserExamKey(string configurationKey, string salt);
+			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+			[return: MarshalAs(UnmanagedType.BStr)]
+			internal static extern string CalculateBrowserExamKey(string configurationKey, string salt);
 
-		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		private static extern bool IsVirtualMachine(out IntPtr manufacturer, out int probability);
+			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+			internal static extern bool IsRemoteSession();
 
-		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		private static extern bool TryGenerateVerificatorCode(string payload, out IntPtr code);
+			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+			internal static extern bool IsVirtualMachine(out IntPtr manufacturer, out int probability);
 
-		[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-		private static extern bool VerifyCodeSignature();
+			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+			internal static extern bool TryGenerateVerificatorCode(string payload, out IntPtr code);
+
+			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+			internal static extern bool VerifyCodeSignature();
+		}
 	}
 }

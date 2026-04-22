@@ -151,7 +151,7 @@ namespace SafeExamBrowser.Runtime
 			var keyGenerator = new KeyGenerator(appConfig, integrityModule, ModuleLogger(nameof(KeyGenerator)));
 			var processFactory = new ProcessFactory(ModuleLogger(nameof(ProcessFactory)));
 			var proxyFactory = new ProxyFactory(new ProxyObjectFactory(), ModuleLogger(nameof(ProxyFactory)));
-			var remoteSessionDetector = new RemoteSessionDetector(ModuleLogger(nameof(RemoteSessionDetector)));
+			var remoteSessionDetector = new RemoteSessionDetector(integrityModule, ModuleLogger(nameof(RemoteSessionDetector)));
 			var sentinel = new SystemSentinel(ModuleLogger(nameof(SystemSentinel)), nativeMethods, registry);
 			var server = new ServerProxy(appConfig, keyGenerator, ModuleLogger(nameof(ServerProxy)), systemInfo, userInfo);
 			var virtualMachineDetector = new VirtualMachineDetector(integrityModule, ModuleLogger(nameof(VirtualMachineDetector)), registry, systemInfo);
