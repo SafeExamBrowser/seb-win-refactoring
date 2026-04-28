@@ -154,6 +154,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Teams.exe", OriginalName = "Teams.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "TeamViewer.exe", OriginalName = "TeamViewer.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Telegram.exe", OriginalName = "Telegram.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "ToDesk.exe", OriginalName = "ToDesk.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "VLC.exe", OriginalName = "VLC.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "vncserver.exe", OriginalName = "vncserver.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "vncviewer.exe", OriginalName = "vncviewer.exe" });
