@@ -887,7 +887,8 @@ namespace SebWindowsConfig
 				"remoting_native_messaging_host.exe",
 				"MouseWithoutBorders.exe",
 				"MouseWithoutBordersHelper.exe",
-				"mstsc.exe"
+				"mstsc.exe",
+				"ToDesk.exe"
 			};
 
 			// Default settings for group "Network - Filter"
