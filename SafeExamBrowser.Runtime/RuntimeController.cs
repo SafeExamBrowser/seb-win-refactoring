@@ -67,6 +67,7 @@ namespace SafeExamBrowser.Runtime
 				logger.Subscribe(runtimeWindow);
 
 				responsibilities.Delegate(RuntimeTask.StartSession);
+				responsibilities.Delegate(RuntimeTask.StartIntegrityMonitoring);
 			}
 			else
 			{
@@ -81,6 +82,7 @@ namespace SafeExamBrowser.Runtime
 
 		internal void Terminate()
 		{
+			responsibilities.Delegate(RuntimeTask.StopIntegrityMonitoring);
 			responsibilities.Delegate(RuntimeTask.DeregisterEvents);
 
 			if (SessionIsRunning)

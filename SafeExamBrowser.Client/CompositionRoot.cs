@@ -198,7 +198,7 @@ namespace SafeExamBrowser.Client
 			responsibilities.Enqueue(new ApplicationsResponsibility(context, ModuleLogger(nameof(ApplicationsResponsibility))));
 			responsibilities.Enqueue(new BrowserResponsibility(context, coordinator, ModuleLogger(nameof(BrowserResponsibility)), messageBox, runtimeProxy, splashScreen, taskbar));
 			responsibilities.Enqueue(new CommunicationResponsibility(context, coordinator, ModuleLogger(nameof(CommunicationResponsibility)), messageBox, runtimeProxy, shutdown, splashScreen, text, uiFactory));
-			responsibilities.Enqueue(new IntegrityResponsibility(context, ModuleLogger(nameof(IntegrityResponsibility)), text));
+			responsibilities.Enqueue(new IntegrityResponsibility(context, coordinator, ModuleLogger(nameof(IntegrityResponsibility)), text));
 			responsibilities.Enqueue(new MonitoringResponsibility(actionCenter, applicationMonitor, context, coordinator, displayMonitor, explorerShell, ModuleLogger(nameof(MonitoringResponsibility)), sentinel, taskbar, text));
 			responsibilities.Enqueue(new NetworkResponsibility(context, ModuleLogger(nameof(NetworkResponsibility)), networkAdapter, text, uiFactory));
 			responsibilities.Enqueue(new ProctoringResponsibility(context, ModuleLogger(nameof(ProctoringResponsibility)), messageBox, uiFactory));

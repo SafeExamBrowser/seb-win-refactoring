@@ -341,6 +341,7 @@ namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 		{
 			var lockScreen = new Mock<ILockScreen>();
 
+			coordinator.Setup(c => c.RequestSessionLock()).Returns(true);
 			displayMonitor.Setup(m => m.ValidateConfiguration(It.IsAny<DisplaySettings>())).Returns(new ValidationResult { IsAllowed = false });
 			lockScreen.Setup(l => l.WaitForResult()).Returns(new LockScreenResult());
 			uiFactory
@@ -349,6 +350,8 @@ namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 
 			displayMonitor.Raise(d => d.DisplayChanged += null);
 
+			coordinator.Verify(c => c.RequestSessionLock(), Times.Once);
+			coordinator.Verify(c => c.ReleaseSessionLock(), Times.Once);
 			lockScreen.Verify(l => l.Show(), Times.Once);
 		}
 

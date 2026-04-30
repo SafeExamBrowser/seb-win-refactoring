@@ -86,11 +86,6 @@ namespace SafeExamBrowser.Client.Responsibilities
 			sentinel.StickyKeysChanged -= Sentinel_StickyKeysChanged;
 		}
 
-		private void StopMonitoring()
-		{
-			sentinel.StopMonitoring();
-		}
-
 		private void RegisterEvents()
 		{
 			applicationMonitor.ExplorerStarted += ApplicationMonitor_ExplorerStarted;
@@ -120,6 +115,11 @@ namespace SafeExamBrowser.Client.Responsibilities
 			{
 				sentinel.StartMonitoringEaseOfAccess();
 			}
+		}
+
+		private void StopMonitoring()
+		{
+			sentinel.StopMonitoring();
 		}
 
 		private void ApplicationMonitor_ExplorerStarted()

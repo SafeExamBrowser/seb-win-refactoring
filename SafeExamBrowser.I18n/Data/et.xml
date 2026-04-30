@@ -204,6 +204,9 @@
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
         Sulge Safe Exam Browser. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
     </Entry>
+    <Entry key="LockScreen_RuntimeIntegrityMessage">
+        Safe Exam Browser’i töökindlus on ohustatud! SEB-i lukustuse tühistamiseks sisestage palun õige parool.
+    </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         Viimast seanssi hetkel aktiivse seadistuse või algus-URL-iga ei suletud korrektselt! Palun sisestage SEB'i avamiseks õige parool.
     </Entry>

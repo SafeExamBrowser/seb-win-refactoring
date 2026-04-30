@@ -204,6 +204,9 @@
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
         Închide Safe Exam Browser. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
     </Entry>
+    <Entry key="LockScreen_RuntimeIntegrityMessage">
+        Integritatea de funcționare a Safe Exam Browser a fost compromisă! Pentru a debloca SEB, introduceți parola corectă.
+    </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         Sesiunea anterioară cu configurația activă curentă sau URL-ul de pornire nu a fost încheiată corect! Introdu parola corectă pentru a debloca SEB.
     </Entry>

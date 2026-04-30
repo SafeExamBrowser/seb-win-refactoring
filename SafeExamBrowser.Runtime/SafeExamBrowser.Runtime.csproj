@@ -129,6 +129,7 @@
     <Compile Include="Responsibilities\ClientResponsibility.cs" />
     <Compile Include="Responsibilities\CommunicationResponsibility.cs" />
     <Compile Include="Responsibilities\ErrorMessageResponsibility.cs" />
+    <Compile Include="Responsibilities\IntegrityResponsibility.cs" />
     <Compile Include="Responsibilities\RuntimeResponsibility.cs" />
     <Compile Include="Responsibilities\RuntimeTask.cs" />
     <Compile Include="Responsibilities\ServiceResponsibility.cs" />

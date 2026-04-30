@@ -8,6 +8,7 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.Client.Responsibilities;
 using SafeExamBrowser.Configuration.Contracts.Integrity;
 using SafeExamBrowser.I18n.Contracts;
@@ -25,6 +26,7 @@ namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 		public void Initialize()
 		{
 			var context = new ClientContext();
+			var coordinator = new Mock<ICoordinator>();
 			var logger = new Mock<ILogger>();
 			var valid = true;
 
@@ -33,7 +35,7 @@ namespace SafeExamBrowser.Client.UnitTests.Responsibilities
 
 			integrityModule.Setup(m => m.TryVerifySessionIntegrity(It.IsAny<string>(), It.IsAny<string>(), out valid)).Returns(true);
 
-			var sut = new IntegrityResponsibility(context, logger.Object, text.Object);
+			var sut = new IntegrityResponsibility(context, coordinator.Object, logger.Object, text.Object);
 		}
 	}
 }

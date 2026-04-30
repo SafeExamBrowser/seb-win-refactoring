@@ -44,9 +44,19 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 		ShowStartupError,
 
 		/// <summary>
+		/// Starts monitoring the application integrity.
+		/// </summary>
+		StartIntegrityMonitoring,
+
+		/// <summary>
 		/// Attempts to start a new session.
 		/// </summary>
 		StartSession,
+
+		/// <summary>
+		/// Stops monitoring the application integrity.
+		/// </summary>
+		StopIntegrityMonitoring,
 
 		/// <summary>
 		/// Stops the currently running session.
