@@ -204,6 +204,9 @@
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
         终止安全考试浏览器。警告：将没有可能保存数据或执行任何进一步的行动，关闭将立即启动!
     </Entry>
+    <Entry key="LockScreen_RuntimeIntegrityMessage">
+        Safe Exam Browser 的运行完整性已受损！请输入正确的解锁密码以解锁 SEB。
+    </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         当前激活的配置或启动URL的最后一个会话没有被正确终止! 请输入正确的密码以解锁SEB。
     </Entry>

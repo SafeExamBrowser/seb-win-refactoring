@@ -82,6 +82,7 @@ namespace SafeExamBrowser.I18n.Contracts
 		LockScreen_EaseOfAccessContinueOption,
 		LockScreen_EaseOfAccessMessage,
 		LockScreen_EaseOfAccessTerminateOption,
+		LockScreen_RuntimeIntegrityMessage,
 		LockScreen_SessionIntegrityMessage,
 		LockScreen_StickyKeysMessage,
 		LockScreen_StickyKeysContinueOption,

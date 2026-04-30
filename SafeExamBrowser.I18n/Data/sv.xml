@@ -204,6 +204,9 @@
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
         Avsluta Safe Exam Browser. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
     </Entry>
+    <Entry key="LockScreen_RuntimeIntegrityMessage">
+        Safe Exam Browsers integritet under körning har äventyrats! Ange rätt lösenord för att låsa upp SEB.
+    </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         Den senaste sessionen med den nu aktiva inställningen blev inte korrekt avslutad. Ange rätt lösenord för att låsa upp SEB.
     </Entry>

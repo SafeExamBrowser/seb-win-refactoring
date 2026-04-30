@@ -213,6 +213,29 @@ namespace SafeExamBrowser.Integrity
 			return success;
 		}
 
+		public bool TryVerifyRuntimeIntegrity(out bool isValid)
+		{
+			var success = false;
+
+			isValid = default;
+
+			try
+			{
+				isValid = Native.VerifyRuntimeIntegrity();
+				success = true;
+			}
+			catch (DllNotFoundException)
+			{
+				logger.Warn("Integrity module is not available!");
+			}
+			catch (Exception e)
+			{
+				logger.Error("Unexpected error while attempting to verify runtime integrity!", e);
+			}
+
+			return success;
+		}
+
 		public bool TryVerifySessionIntegrity(string configurationKey, out bool isValid)
 		{
 			var success = false;
@@ -325,6 +348,9 @@ namespace SafeExamBrowser.Integrity
 
 			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
 			internal static extern bool VerifyCodeSignature();
+
+			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+			internal static extern bool VerifyRuntimeIntegrity();
 		}
 	}
 }

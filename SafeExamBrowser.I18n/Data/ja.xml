@@ -204,6 +204,9 @@
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
         Safe Exam Browserを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
     </Entry>
+    <Entry key="LockScreen_RuntimeIntegrityMessage">
+        Safe Exam Browserの実行時の整合性が損なわれました！SEBのロックを解除するには、正しい解除パスワードを入力してください。
+    </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         現在アクティブな設定または開始URLによる前回のセッションが正常に終了しませんでした！SEBのロックを解除するには、正しいパスワードを入力してください。
     </Entry>

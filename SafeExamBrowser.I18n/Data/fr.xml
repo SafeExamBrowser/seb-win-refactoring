@@ -204,6 +204,9 @@
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
         Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
     </Entry>
+    <Entry key="LockScreen_RuntimeIntegrityMessage">
+        L'intégrité d'exécution de Safe Exam Browser a été compromise ! Afin de déverrouiller SEB, veuillez entrer le mot de passe de déverrouillage correct.
+    </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         La dernière session avec la configuration ou l'URL de démarrage actuellement active n'a pas été terminée correctement! Afin de déverrouiller SEB, veuillez entrer le mot de passe de déverrouillage correct.
     </Entry>

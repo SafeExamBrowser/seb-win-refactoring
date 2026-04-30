@@ -203,6 +203,9 @@
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
         Завершить работу Safe Exam Browser. ВНИМАНИЕ: Сохранить данные или выполнить какие-либо дальнейшие действия будет невозможно, завершение работы будет инициировано немедленно!
     </Entry>
+    <Entry key="LockScreen_RuntimeIntegrityMessage">
+        Целостность системы Safe Exam Browser нарушена! Чтобы разблокировать SEB, введите правильный пароль разблокировки.
+    </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         Последний сеанс с текущей активной конфигурацией или URL-адресом запуска не был завершен должным образом! Пожалуйста, введите правильный пароль, чтобы разблокировать SEB.
     </Entry>

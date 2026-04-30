@@ -54,6 +54,11 @@ namespace SafeExamBrowser.Integrity.Contracts
 		bool TryVerifyCodeSignature(out bool isValid);
 
 		/// <summary>
+		/// Attempts to verify the runtime integrity.
+		/// </summary>
+		bool TryVerifyRuntimeIntegrity(out bool isValid);
+
+		/// <summary>
 		/// Attempts to verify the integrity for the specified session.
 		/// </summary>
 		bool TryVerifySessionIntegrity(string configurationKey, out bool isValid);

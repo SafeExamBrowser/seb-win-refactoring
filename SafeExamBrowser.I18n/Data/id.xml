@@ -204,6 +204,9 @@
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
         Menghentikan Safe Exam Browser. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
     </Entry>
+    <Entry key="LockScreen_RuntimeIntegrityMessage">
+        Keamanan Safe Exam Browser telah terganggu! Untuk membuka kunci SEB, silakan masukkan kata sandi pembuka kunci yang benar.
+    </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         Sesi terakhir dengan konfigurasi yang sedang aktif atau URL awal tidak diakhiri dengan benar! Silakan masukkan kata sandi yang benar untuk membuka kunci SEB.
     </Entry>

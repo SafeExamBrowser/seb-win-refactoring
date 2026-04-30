@@ -204,6 +204,9 @@
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
         Safe Exam Browser beenden. WARNUNG: Sie werden keine Möglichkeit haben, Daten zu speichern oder weitere Aktionen auszuführen, SEB wird sofort beendet!
     </Entry>
+    <Entry key="LockScreen_RuntimeIntegrityMessage">
+        Die Laufzeitintegrität von Safe Exam Browser wurde kompromittiert! Geben Sie bitte das korrekte Passwort ein, um SEB zu entsperren.
+    </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         Die letzte Sitzung mit der momentan aktiven Konfiguration oder Start-URL wurde nicht ordnungsgemäss beendet! Geben Sie bitte das korrekte Passwort ein, um SEB zu entsperren.
     </Entry>

@@ -204,6 +204,9 @@
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
         Safe Exam Browser'ı sonlandır. UYARI: Veri kaydetme veya başka bir işlem yapma imkanı olmayacak, kapatma işlemi hemen başlatılacak!
     </Entry>
+    <Entry key="LockScreen_RuntimeIntegrityMessage">
+        Safe Exam Browser'ın çalışma zamanı bütünlüğü ihlal edildi! SEB'nin kilidini açmak için lütfen doğru şifreyi girin.
+    </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         Mevcut yapılandırma veya başlangıç URL'si ile son oturum düzgün şekilde sonlandırılmadı! SEB'nin kilidini açmak için lütfen doğru şifreyi girin.
     </Entry>

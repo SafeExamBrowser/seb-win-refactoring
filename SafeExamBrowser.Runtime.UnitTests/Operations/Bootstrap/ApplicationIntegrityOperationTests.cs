@@ -20,7 +20,6 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 	{
 		private Mock<IIntegrityModule> integrityModule;
 		private Mock<ILogger> logger;
-
 		private ApplicationIntegrityOperation sut;
 
 		[TestInitialize]
@@ -38,6 +37,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 			var isValid = true;
 
 			integrityModule.Setup(m => m.TryVerifyCodeSignature(out isValid)).Returns(true);
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out isValid)).Returns(true);
 
 			var result = sut.Perform();
 
@@ -53,28 +53,65 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 			var isValid = false;
 
 			integrityModule.Setup(m => m.TryVerifyCodeSignature(out isValid)).Returns(true);
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out isValid)).Returns(true);
 
 			var result = sut.Perform();
 
 			integrityModule.Verify(m => m.TryVerifyCodeSignature(out isValid), Times.Once);
+			logger.Verify(l => l.Error(It.IsAny<string>()), Times.Once);
+			logger.Verify(l => l.Warn(It.IsAny<string>()), Times.Once);
+
+			Assert.AreEqual(OperationResult.Failed, result);
+		}
+
+		[TestMethod]
+		public void Perform_MustLogFailure()
+		{
+			var isValid = true;
+
+			integrityModule.Setup(m => m.TryVerifyCodeSignature(out isValid)).Returns(false);
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out isValid)).Returns(false);
+
+			var result = sut.Perform();
+
+			integrityModule.Verify(m => m.TryVerifyCodeSignature(out isValid), Times.Once);
+			logger.Verify(l => l.Warn(It.IsAny<string>()), Times.Exactly(2));
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Perform_MustContinueOnCodeSignatureCompromise()
+		{
+			var codeSignature = false;
+			var runtimeIntegrity = true;
+
+			integrityModule.Setup(m => m.TryVerifyCodeSignature(out codeSignature)).Returns(true);
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out runtimeIntegrity)).Returns(true);
+
+			var result = sut.Perform();
+
+			integrityModule.Verify(m => m.TryVerifyCodeSignature(out codeSignature), Times.Once);
 			logger.Verify(l => l.Warn(It.IsAny<string>()), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]
-		public void Perform_MustLogFailure()
+		public void Perform_MustTerminateOnRuntimeIntegrityCompromise()
 		{
-			var isValid = false;
+			var codeSignature = true;
+			var runtimeIntegrity = false;
 
-			integrityModule.Setup(m => m.TryVerifyCodeSignature(out isValid)).Returns(false);
+			integrityModule.Setup(m => m.TryVerifyCodeSignature(out codeSignature)).Returns(true);
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out runtimeIntegrity)).Returns(true);
 
 			var result = sut.Perform();
 
-			integrityModule.Verify(m => m.TryVerifyCodeSignature(out isValid), Times.Once);
-			logger.Verify(l => l.Warn(It.IsAny<string>()), Times.Once);
+			integrityModule.Verify(m => m.TryVerifyCodeSignature(out codeSignature), Times.Once);
+			logger.Verify(l => l.Error(It.IsAny<string>()), Times.Once);
 
-			Assert.AreEqual(OperationResult.Success, result);
+			Assert.AreEqual(OperationResult.Failed, result);
 		}
 
 		[TestMethod]
