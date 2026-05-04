@@ -45,8 +45,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			context.Settings = new AppSettings();
 			context.Settings.UserInterface.Taskbar.EnableTaskbar = true;
 
-			displayMonitor.Setup(d => d.InitializePrimaryDisplay(It.IsAny<int>())).Callback(() => Assert.AreEqual(++order, 1));
-			displayMonitor.Setup(d => d.StartMonitoringDisplayChanges()).Callback(() => Assert.AreEqual(++order, 2));
+			displayMonitor.Setup(d => d.InitializePrimaryDisplay(It.IsAny<int>())).Callback(() => Assert.AreEqual(1, ++order));
+			displayMonitor.Setup(d => d.StartMonitoringDisplayChanges()).Callback(() => Assert.AreEqual(2, ++order));
 
 			sut.Perform();
 
@@ -89,8 +89,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		{
 			var order = 0;
 
-			displayMonitor.Setup(d => d.StopMonitoringDisplayChanges()).Callback(() => Assert.AreEqual(++order, 1));
-			displayMonitor.Setup(d => d.ResetPrimaryDisplay()).Callback(() => Assert.AreEqual(++order, 2));
+			displayMonitor.Setup(d => d.StopMonitoringDisplayChanges()).Callback(() => Assert.AreEqual(1, ++order));
+			displayMonitor.Setup(d => d.ResetPrimaryDisplay()).Callback(() => Assert.AreEqual(2, ++order));
 
 			sut.Revert();
 

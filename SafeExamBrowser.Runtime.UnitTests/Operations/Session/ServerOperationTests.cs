@@ -264,7 +264,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 			var examDialog = new Mock<IExamSelectionDialog>();
 			var serverDialog = new Mock<IServerFailureDialog>();
 
-			examDialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(Assert.Fail);
+			examDialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(() => Assert.Fail());
 			repository.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			context.Next.Settings.SessionMode = SessionMode.Server;
 			context.Next.Settings.Server.ExamId = "some id";
@@ -275,7 +275,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, new[] { exam }));
 			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")));
 			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, default));
-			serverDialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(Assert.Fail);
+			serverDialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(() => Assert.Fail());
 			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(examDialog.Object);
 			uiFactory.Setup(f => f.CreateServerFailureDialog(It.IsAny<string>(), It.IsAny<bool>())).Returns(serverDialog.Object);
 
@@ -322,7 +322,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 			var examDialog = new Mock<IExamSelectionDialog>();
 			var serverDialog = new Mock<IServerFailureDialog>();
 
-			examDialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(Assert.Fail);
+			examDialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(() => Assert.Fail());
 			repository.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			context.Next.Settings.SessionMode = SessionMode.Server;
 			context.Next.Settings.Server.ExamId = "some id";
@@ -333,7 +333,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 			server.Setup(s => s.GetAvailableExams(It.IsAny<string>())).Returns(new ServerResponse<IEnumerable<Exam>>(true, new[] { exam }));
 			server.Setup(s => s.GetConfigurationFor(It.IsAny<Exam>())).Returns(new ServerResponse<Uri>(true, new Uri("file:///configuration.seb")));
 			server.Setup(s => s.SendSelectedExam(It.IsAny<Exam>())).Returns(new ServerResponse<string>(true, browserExamKey));
-			serverDialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(Assert.Fail);
+			serverDialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(() => Assert.Fail());
 			uiFactory.Setup(f => f.CreateExamSelectionDialog(It.IsAny<IEnumerable<Exam>>())).Returns(examDialog.Object);
 			uiFactory.Setup(f => f.CreateServerFailureDialog(It.IsAny<string>(), It.IsAny<bool>())).Returns(serverDialog.Object);
 
@@ -655,7 +655,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 			var serverSettings = context.Next.Settings.Server;
 			var dialog = new Mock<IExamSelectionDialog>();
 
-			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(Assert.Fail);
+			dialog.Setup(d => d.Show(It.IsAny<IWindow>())).Callback(() => Assert.Fail());
 			repository.Setup(c => c.TryLoadSettings(It.IsAny<Uri>(), out examSettings, It.IsAny<PasswordParameters>())).Returns(LoadStatus.Success);
 			context.Next.Settings.SessionMode = SessionMode.Server;
 			context.Next.Settings.Server.ExamId = "some id";
