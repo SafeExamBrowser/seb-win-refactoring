@@ -8,8 +8,7 @@
 
 using System;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Threading;
+using System.Timers;
 using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 
@@ -19,7 +18,7 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 	{
 		private readonly IIntegrityModule integrityModule;
 		private readonly Action shutdown;
-		private readonly DispatcherTimer timer;
+		private readonly Timer timer;
 
 		public IntegrityResponsibility(
 			IIntegrityModule integrityModule,
@@ -29,7 +28,7 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 		{
 			this.integrityModule = integrityModule;
 			this.shutdown = shutdown;
-			this.timer = new DispatcherTimer(DispatcherPriority.Normal, Application.Current.Dispatcher);
+			this.timer = new Timer();
 		}
 
 		public override void Assume(RuntimeTask task)
@@ -47,18 +46,25 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 
 		private void StartIntegrityMonitoring()
 		{
-			timer.Interval = TimeSpan.FromSeconds(5);
-			timer.Tick += Timer_Tick;
+			const int FIVE_SECONDS = 5000;
+
+			timer.AutoReset = false;
+			timer.Interval = FIVE_SECONDS;
+			timer.Elapsed += Timer_Elapsed;
 			timer.Start();
+
+			Logger.Info("Started monitoring runtime integrity.");
 		}
 
 		private void StopIntegrityMonitoring()
 		{
 			timer.Stop();
-			timer.Tick -= Timer_Tick;
+			timer.Elapsed -= Timer_Elapsed;
+
+			Logger.Info("Stopped monitoring runtime integrity.");
 		}
 
-		private void Timer_Tick(object sender, EventArgs e)
+		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			Logger.Info("Attempting to verify runtime integrity...");
 
@@ -70,6 +76,8 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 			{
 				Logger.Warn("Failed to verify runtime integrity!");
 			}
+
+			timer.Start();
 		}
 
 		private void HandleRuntimeIntegrityStatus(bool isValid)
@@ -81,6 +89,8 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 			else
 			{
 				Logger.Error("Runtime integrity is compromised!");
+
+				StopIntegrityMonitoring();
 
 				Task.Run(() =>
 				{

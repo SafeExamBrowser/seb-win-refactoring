@@ -9,8 +9,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Threading;
+using System.Timers;
 using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Integrity.Contracts;
@@ -23,7 +22,7 @@ namespace SafeExamBrowser.Client.Responsibilities
 	{
 		private readonly ICoordinator coordinator;
 		private readonly IText text;
-		private readonly DispatcherTimer timer;
+		private readonly Timer timer;
 
 		private IIntegrityModule IntegrityModule => Context.IntegrityModule;
 
@@ -31,7 +30,7 @@ namespace SafeExamBrowser.Client.Responsibilities
 		{
 			this.coordinator = coordinator;
 			this.text = text;
-			this.timer = new DispatcherTimer(DispatcherPriority.Normal, Application.Current.Dispatcher);
+			this.timer = new Timer();
 		}
 
 		public override void Assume(ClientTask task)
@@ -65,18 +64,25 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 		private void StartIntegrityMonitoring()
 		{
-			timer.Interval = TimeSpan.FromSeconds(5);
-			timer.Tick += Timer_Tick;
+			const int FIVE_SECONDS = 5000;
+
+			timer.AutoReset = false;
+			timer.Interval = FIVE_SECONDS;
+			timer.Elapsed += Timer_Elapsed;
 			timer.Start();
+
+			Logger.Info("Started monitoring runtime integrity.");
 		}
 
 		private void StopIntegrityMonitoring()
 		{
 			timer.Stop();
-			timer.Tick -= Timer_Tick;
+			timer.Elapsed -= Timer_Elapsed;
+
+			Logger.Info("Stopped monitoring runtime integrity.");
 		}
 
-		private void Timer_Tick(object sender, EventArgs e)
+		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			Logger.Info("Attempting to verify runtime integrity...");
 
@@ -88,6 +94,8 @@ namespace SafeExamBrowser.Client.Responsibilities
 			{
 				Logger.Warn("Failed to verify runtime integrity!");
 			}
+
+			timer.Start();
 		}
 
 		private void UpdateSessionIntegrity()
