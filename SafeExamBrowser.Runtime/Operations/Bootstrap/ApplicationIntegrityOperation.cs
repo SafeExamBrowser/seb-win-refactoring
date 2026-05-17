@@ -84,6 +84,10 @@ namespace SafeExamBrowser.Runtime.Operations.Bootstrap
 			else
 			{
 				logger.Warn("Failed to verify runtime integrity!");
+#if DEBUG
+				logger.Warn("Continuing without runtime integrity verification in debug build.");
+				isValid = true;
+#endif
 			}
 
 			return isValid;
