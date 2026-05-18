@@ -162,6 +162,32 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "webexmta.exe", OriginalName = "webexmta.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Zoom.exe", OriginalName = "Zoom.exe" });
 
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "QuizSolverAI.exe", OriginalName = "QuizSolverAI.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "QuizSolve.exe", OriginalName = "QuizSolve.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "TestBro.exe", OriginalName = "TestBro.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "ApexVisionAI.exe", OriginalName = "ApexVisionAI.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Mindko.exe", OriginalName = "Mindko.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "CollegeTools.exe", OriginalName = "CollegeTools.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "AnswerAI.exe", OriginalName = "AnswerAI.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Quizzard.exe", OriginalName = "Quizzard.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "QuizWiz.exe", OriginalName = "QuizWiz.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "QuestionAI.exe", OriginalName = "QuestionAI.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Merlin.exe", OriginalName = "Merlin.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Sider.exe", OriginalName = "Sider.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "SnapGPT.exe", OriginalName = "SnapGPT.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "HomeworkHelper.exe", OriginalName = "HomeworkHelper.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "QuizWizard.exe", OriginalName = "QuizWizard.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "AnswersAI.exe", OriginalName = "AnswersAI.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "StudyGenie.exe", OriginalName = "StudyGenie.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "StudyPointAI.exe", OriginalName = "StudyPointAI.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Quizgecko.exe", OriginalName = "Quizgecko.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "QuizGeniusAI.exe", OriginalName = "QuizGeniusAI.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Perplexity.exe", OriginalName = "Perplexity.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Copilot.exe", OriginalName = "Copilot.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "AIHomeworkHelper.exe", OriginalName = "AIHomeworkHelper.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "CanvasQuizSolver.exe", OriginalName = "CanvasQuizSolver.exe", AutoTerminate = true });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "ChatGPT.exe", OriginalName = "ChatGPT.exe", AutoTerminate = true });
+
 			settings.Browser.AdditionalWindow.AllowAddressBar = false;
 			settings.Browser.AdditionalWindow.AllowBackwardNavigation = true;
 			settings.Browser.AdditionalWindow.AllowDeveloperConsole = false;

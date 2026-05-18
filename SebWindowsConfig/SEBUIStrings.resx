@@ -121,13 +121,13 @@
     <value>WebSocket Port Blocked</value>
   </data>
   <data name="alertWebSocketPortBlockedMessage" xml:space="preserve">
-    <value>Your TCP port 8706 is blocked. SEB uses this port to communicate with the browser. Although SEB is working without this, full functionality is not guaranteed.</value>
+    <value>Your TCP port 8706 is blocked. Xolock uses this port to communicate with the browser. Although Xolock is working without this, full functionality is not guaranteed.</value>
   </data>
   <data name="cannotOpenSEBLink" xml:space="preserve">
-    <value>Cannot Open SEB Link</value>
+    <value>Cannot Open Xolock Link</value>
   </data>
   <data name="cannotOpenSEBLinkMessage" xml:space="preserve">
-    <value>Opening the SEB link failed. Check your internet connection and try again.</value>
+    <value>Opening the Xolock link failed. Check your internet connection and try again.</value>
   </data>
   <data name="certificateNotFoundInStore" xml:space="preserve">
     <value>The certificate needed to decrypt settings has not been found in the Windows Certificate Store.</value>
@@ -136,13 +136,13 @@
     <value>Permitted or Prohibited Processes Are Running</value>
   </data>
   <data name="closeProcessesQuestion" xml:space="preserve">
-    <value>The processes below are running, they need to be closed before starting the exam. Do you want to close those processes now (this may lead to loss of data!)? Otherwise SEB will quit and you can close those applications yourself before trying to start the exam again.</value>
+    <value>The processes below are running, they need to be closed before starting the exam. Do you want to close those processes now (this may lead to loss of data!)? Otherwise Xolock will quit and you can close those applications yourself before trying to start the exam again.</value>
   </data>
   <data name="confirmQuitting" xml:space="preserve">
-    <value>Quit Safe Exam Browser</value>
+    <value>Quit Xolock</value>
   </data>
   <data name="confirmQuittingQuestion" xml:space="preserve">
-    <value>Are you sure you want to quit SEB?</value>
+    <value>Are you sure you want to quit Xolock?</value>
   </data>
   <data name="createNewDesktopFailed" xml:space="preserve">
     <value>Creating New Desktop Failed</value>
@@ -154,31 +154,31 @@
     <value>Cannot Decrypt Settings</value>
   </data>
   <data name="decryptingSettingsFailedReason" xml:space="preserve">
-    <value>You either entered the wrong password or these settings were saved with an incompatible SEB version.</value>
+    <value>You either entered the wrong password or these settings were saved with an incompatible Xolock version.</value>
   </data>
   <data name="detectedVirtualMachine" xml:space="preserve">
     <value>Virtual Machine Detected</value>
   </data>
   <data name="detectedVirtualMachineForbiddenMessage" xml:space="preserve">
-    <value>It is not allowed to run SEB on a virtual machine! SEB will quit now.</value>
+    <value>It is not allowed to run Xolock on a virtual machine! Xolock will quit now.</value>
   </data>
   <data name="detectedRemoteConnection" xml:space="preserve">
     <value>Remote Connection Detected</value>
   </data>
   <data name="detectedRemoteConnectionMessage" xml:space="preserve">
-    <value>It is not allowed to run SEB in a remote session! SEB will quit now.</value>
+    <value>It is not allowed to run Xolock in a remote session! Xolock will quit now.</value>
   </data>
   <data name="enterAdminPasswordRequired" xml:space="preserve">
-    <value>Enter the SEB administrator password used in these settings:</value>
+    <value>Enter the Xolock administrator password used in these settings:</value>
   </data>
   <data name="enterAdminPasswordRequiredAgain" xml:space="preserve">
-    <value>Wrong password! Try again to enter the correct SEB administrator password from these settings:</value>
+    <value>Wrong password! Try again to enter the correct Xolock administrator password from these settings:</value>
   </data>
   <data name="enterCurrentAdminPwdForReconfiguring" xml:space="preserve">
-    <value>You can only reconfigure SEB by entering the current SEB administrator password:</value>
+    <value>You can only reconfigure Xolock by entering the current Xolock administrator password:</value>
   </data>
   <data name="enterCurrentAdminPwdForReconfiguringAgain" xml:space="preserve">
-    <value>Wrong password! Try again to enter the correct current SEB administrator password:</value>
+    <value>Wrong password! Try again to enter the correct current Xolock administrator password:</value>
   </data>
   <data name="enterEncryptionPassword" xml:space="preserve">
     <value>Enter password used to encrypt these settings:</value>
@@ -196,13 +196,13 @@
     <value>Error Decrypting Settings</value>
   </data>
   <data name="forceSebServiceMessage" xml:space="preserve">
-    <value>SEB Windows service is stopped or the installed SEB got corrupted. Rebooting your machine or reinstalling SEB might help. Inform your exam administrator/supporter. The exam cannot be started, SEB will quit now.</value>
+    <value>Xolock Windows service is stopped or the installed Xolock got corrupted. Rebooting your machine or reinstalling Xolock might help. Inform your exam administrator/supporter. The exam cannot be started, Xolock will quit now.</value>
   </data>
   <data name="indicateMissingService" xml:space="preserve">
-    <value>SEB Windows Service Not Available</value>
+    <value>Xolock Windows Service Not Available</value>
   </data>
   <data name="indicateMissingServiceReason" xml:space="preserve">
-    <value>SEB Windows service is stopped or the installed SEB got corrupted. Rebooting your machine or reinstalling SEB might help. Inform your exam administrator/supporter. </value>
+    <value>Xolock Windows service is stopped or the installed Xolock got corrupted. Rebooting your machine or reinstalling Xolock might help. Inform your exam administrator/supporter. </value>
   </data>
   <data name="loadingSettings" xml:space="preserve">
     <value>Loading Settings</value>
@@ -217,10 +217,10 @@
     <value>If you don't enter the right administrator password from these settings you cannot open them.</value>
   </data>
   <data name="loadingSettingsNotAllowed" xml:space="preserve">
-    <value>Loading New SEB Settings Not Allowed!</value>
+    <value>Loading New Xolock Settings Not Allowed!</value>
   </data>
   <data name="loadingSettingsNotAllowedReason" xml:space="preserve">
-    <value>SEB is already running in exam mode and it is not allowed to interupt this by starting another exam. Finish the exam and quit SEB before starting another exam.</value>
+    <value>Xolock is already running in exam mode and it is not allowed to interupt this by starting another exam. Finish the exam and quit Xolock before starting another exam.</value>
   </data>
   <data name="locatePermittedApplication" xml:space="preserve">
     <value>Locate Third Party Application</value>
@@ -229,7 +229,7 @@
     <value>No Encryption Credentials Chosen</value>
   </data>
   <data name="noEncryptionChosenSaveUnencrypted" xml:space="preserve">
-    <value>You should either enter a password or choose a certificate to encrypt the settings file. Do you really want to save an unencrypted SEB file (not recommended for use in exams)?</value>
+    <value>You should either enter a password or choose a certificate to encrypt the settings file. Do you really want to save an unencrypted Xolock file (not recommended for use in exams)?</value>
   </data>
   <data name="openingSettingsFailed" xml:space="preserve">
     <value>Opening Settings Failed</value>
@@ -241,13 +241,13 @@
     <value>Third Party Application Not Found</value>
   </data>
   <data name="permittedApplicationNotFoundMessage" xml:space="preserve">
-    <value>The permitted application %s wasn't found on this system. If exam settings don't indicate a precise path, SEB can find applications installed in the Program Files or Windows System directory and those which are registered in the system.</value>
+    <value>The permitted application %s wasn't found on this system. If exam settings don't indicate a precise path, Xolock can find applications installed in the Program Files or Windows System directory and those which are registered in the system.</value>
   </data>
   <data name="quittingFailed" xml:space="preserve">
-    <value>Wrong Password: Quitting SEB Failed</value>
+    <value>Wrong Password: Quitting Xolock Failed</value>
   </data>
   <data name="quittingFailedReason" xml:space="preserve">
-    <value>You can only quit SEB by entering the correct quit password. Ask your exam supporter for the correct password. DO NOT RESET YOUR MACHINE! This may have undesired effects on your system's settings (see www.safeexambrowser.org/faq).</value>
+    <value>You can only quit Xolock by entering the correct quit password. Ask your exam supporter for the correct password. DO NOT RESET YOUR MACHINE! This may have undesired effects on your system's settings.</value>
   </data>
   <data name="reconfiguringLocalSettings" xml:space="preserve">
     <value>Opening Settings for Reconfiguring Client</value>
@@ -280,19 +280,19 @@
     <value>The configuration file could not be saved.</value>
   </data>
   <data name="sebFileTypeName" xml:space="preserve">
-    <value>SEB Configuration Files</value>
+    <value>Xolock Configuration Files</value>
   </data>
   <data name="sebReconfigured" xml:space="preserve">
-    <value>SEB Re-Configured</value>
+    <value>Xolock Re-Configured</value>
   </data>
   <data name="sebReconfiguredQuestion" xml:space="preserve">
-    <value>New settings have been saved, they will be used when you start SEB next time again. Do you want to quit SEB for now?</value>
+    <value>New settings have been saved, they will be used when you start Xolock next time again. Do you want to quit Xolock for now?</value>
   </data>
   <data name="sebReconfiguredRestartNeeded" xml:space="preserve">
-    <value>SEB Needs to be Restarted</value>
+    <value>Xolock Needs to be Restarted</value>
   </data>
   <data name="sebReconfiguredRestartNeededReason" xml:space="preserve">
-    <value>Local settings have been reconfigured, but SEB needs to be restarted for the changed "Create new desktop" setting to take effect. SEB will quit now, please restart it manually.</value>
+    <value>Local settings have been reconfigured, but Xolock needs to be restarted for the changed "Create new desktop" setting to take effect. Xolock will quit now, please restart it manually.</value>
   </data>
   <data name="settingsDuplicateSuffix" xml:space="preserve">
     <value> copy</value>
@@ -301,19 +301,19 @@
     <value>Opening New Settings Failed</value>
   </data>
   <data name="settingsNotUsableReason" xml:space="preserve">
-    <value>These settings cannot be used. They may have been created by an newer, incompatible version of SEB or are corrupted.</value>
+    <value>These settings cannot be used. They may have been created by an newer, incompatible version of Xolock or are corrupted.</value>
   </data>
   <data name="settingsRequireNewDesktop" xml:space="preserve">
     <value>Settings Require New Desktop Kiosk Mode</value>
   </data>
   <data name="settingsRequireNewDesktopReason" xml:space="preserve">
-    <value>Loaded exam settings require a new desktop, but currently SEB is running on the standard desktop. Ask your exam administrator/supporter to reconfigure local SEB client settings with the "Create new desktop" kiosk mode. SEB will quit now.</value>
+    <value>Loaded exam settings require a new desktop, but currently Xolock is running on the standard desktop. Ask your exam administrator/supporter to reconfigure local Xolock client settings with the "Create new desktop" kiosk mode. Xolock will quit now.</value>
   </data>
   <data name="settingsRequireNotNewDesktop" xml:space="preserve">
     <value>Settings Require Standard Desktop</value>
   </data>
   <data name="settingsRequireNotNewDesktopReason" xml:space="preserve">
-    <value>Loaded exam settings require the standard desktop, but currently SEB is running on a new desktop. Ask your exam administrator/supporter to reconfigure local SEB client settings with the kiosk mode set to another than "Create new desktop". SEB will quit now.</value>
+    <value>Loaded exam settings require the standard desktop, but currently Xolock is running on a new desktop. Ask your exam administrator/supporter to reconfigure local Xolock client settings with the kiosk mode set to another than "Create new desktop". Xolock will quit now.</value>
   </data>
   <data name="settingsTitleDefaultSettings" xml:space="preserve">
     <value>Default Settings</value>
@@ -379,22 +379,22 @@
     <value>Decrypting settings using a certificate and private key stored in the Windows Certificate Store failed with error: </value>
   </data>
   <data name="webSocketServerNotStarted" xml:space="preserve">
-    <value>Couldn't Establish Communication with the SEB Browser</value>
+    <value>Couldn't Establish Communication with the Xolock Browser</value>
   </data>
   <data name="webSocketServerNotStartedMessage" xml:space="preserve">
-    <value>SEB will quit, try to restart SEB, if this doesn't help restart your machine.</value>
+    <value>Xolock will quit, try to restart Xolock, if this doesn't help restart your machine.</value>
   </data>
   <data name="reconfiguringLocalSettingsFailedWrongCurrentAdminPwd" xml:space="preserve">
-    <value>You didn't enter the correct current SEB administrator password.</value>
+    <value>You didn't enter the correct current Xolock administrator password.</value>
   </data>
   <data name="savingSettingsSucceeded" xml:space="preserve">
     <value>Saved Settings Purpose</value>
   </data>
   <data name="savingSettingsSucceededMessageConfigureClient" xml:space="preserve">
-    <value>Settings have been saved, use this file to configure local settings of a SEB client.</value>
+    <value>Settings have been saved, use this file to configure local settings of a Xolock client.</value>
   </data>
   <data name="savingSettingsSucceededStartExam" xml:space="preserve">
-    <value>Settings have been saved, use this file to start an exam with SEB.</value>
+    <value>Settings have been saved, use this file to start an exam with Xolock.</value>
   </data>
   <data name="NoWLANInterface" xml:space="preserve">
     <value>No WiFi Interface found</value>
@@ -433,7 +433,7 @@
     <value>To use the on-screen-keyboard, enable tablet mode and detach the keyboard</value>
   </data>
   <data name="tableModeNotEnabledWarningText" xml:space="preserve">
-    <value>Please enable Windows Tablet Mode and start SEB again.</value>
+    <value>Please enable Windows Tablet Mode and start Xolock again.</value>
   </data>
   <data name="tableModeNotEnabledWarningTitle" xml:space="preserve">
     <value>Enable Windows Tablet Mode</value>
@@ -442,28 +442,28 @@
     <value>Opening embedded resource with permitted application failed</value>
   </data>
   <data name="prohibitedProcessDetectedQuitPassword" xml:space="preserve">
-    <value>SEB detected a prohibited process which it was unable to exit, enter the quit password to continue. </value>
+    <value>Xolock detected a prohibited process which it was unable to exit, enter the quit password to continue. </value>
   </data>
   <data name="prohibitedProcessDetectedText" xml:space="preserve">
-    <value>SEB detected a prohibited process which it was unable to exit: </value>
+    <value>Xolock detected a prohibited process which it was unable to exit: </value>
   </data>
   <data name="prohibitedProcessDetectedTitle" xml:space="preserve">
     <value>Prohibited Process detected</value>
   </data>
   <data name="unableToCloseProcessesText" xml:space="preserve">
-    <value>SEB was unable to terminate the following processes, close them manually and restart SEB afterwards</value>
+    <value>Xolock was unable to terminate the following processes, close them manually and restart Xolock afterwards</value>
   </data>
   <data name="unableToCloseProcessesTitle" xml:space="preserve">
-    <value>SEB was unable to close processes</value>
+    <value>Xolock was unable to close processes</value>
   </data>
   <data name="loadingString" xml:space="preserve">
     <value>Loading</value>
   </data>
   <data name="cannotOpenSEBConfig" xml:space="preserve">
-    <value>Cannot Open SEB Config</value>
+    <value>Cannot Open Xolock Config</value>
   </data>
   <data name="cannotOpenSEBConfigMessage" xml:space="preserve">
-    <value>Opening an external SEB config is disabled in current settings. Start the SEB application directly.</value>
+    <value>Opening an external Xolock config is disabled in current settings. Start the Xolock application directly.</value>
   </data>
   <data name="AdditionalResourceConfirmMessage" xml:space="preserve">
     <value>Would you like to open the resource "%%TITLE%%"?</value>
@@ -472,9 +472,9 @@
     <value>Open Resource?</value>
   </data>
   <data name="spareBrowserFileNamesFound" xml:space="preserve">
-    <value>SEB installation is corrupted </value>
+    <value>Xolock installation is corrupted </value>
   </data>
   <data name="spareBrowserFileNamesFoundText" xml:space="preserve">
-    <value>SEB found irregular files in its program directory. These might have been left from an older SEB version if an update failed. Uninstall SEB using the Windows Control Panel, afterwards delete the SafeExamBrowser subdirectory from the Program Files (x86) directory and re-install this SEB version freshly. List of spare files:</value>
+    <value>Xolock found irregular files in its program directory. These might have been left from an older Xolock version if an update failed. Uninstall Xolock using the Windows Control Panel, afterwards delete the Xolock subdirectory from the Program Files (x86) directory and re-install this Xolock version freshly. List of spare files:</value>
   </data>
 </root>

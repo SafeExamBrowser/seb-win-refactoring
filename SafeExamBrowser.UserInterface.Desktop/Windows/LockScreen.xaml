@@ -20,7 +20,7 @@
             <StackPanel Grid.Column="1" Orientation="Vertical">
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,10">
                     <Image Height="75" Margin="0,0,20,0" Source="../Images/SafeExamBrowser.ico" />
-                    <TextBlock Name="Heading" Foreground="White" FontSize="50" FontWeight="ExtraBold" TextAlignment="Center" Text="SEB LOCKED" />
+                    <TextBlock Name="Heading" Foreground="White" FontSize="50" FontWeight="ExtraBold" TextAlignment="Center" Text="XOLOCK LOCKED" />
                 </StackPanel>
                 <TextBlock Name="Message" Foreground="White" FontSize="16" FontWeight="DemiBold" Margin="0,10" Padding="5" TextWrapping="Wrap" />
                 <StackPanel Name="Options" Margin="0,10" Orientation="Vertical" />

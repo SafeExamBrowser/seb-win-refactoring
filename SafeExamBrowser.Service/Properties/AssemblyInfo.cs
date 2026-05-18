@@ -1,4 +1,4 @@
-ï»¿using System.Reflection;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SafeExamBrowser.Service")]
-[assembly: AssemblyDescription("Safe Exam Browser")]
-[assembly: AssemblyCompany("ETH ZÃ¼rich")]
+[assembly: AssemblyDescription("Xolock")]
+[assembly: AssemblyCompany("ETH Zürich")]
 [assembly: AssemblyProduct("SafeExamBrowser.Service")]
-[assembly: AssemblyCopyright("Copyright Â© 2026 ETH ZÃ¼rich, IT Services")]
+[assembly: AssemblyCopyright("Copyright © 2026 ETH Zürich, IT Services")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from

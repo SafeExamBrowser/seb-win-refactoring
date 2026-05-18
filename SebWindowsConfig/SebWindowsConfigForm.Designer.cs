@@ -553,12 +553,12 @@ namespace SebWindowsConfig
 			// openFileDialogSebConfigFile
 			// 
 			this.openFileDialogSebConfigFile.DefaultExt = "seb";
-			this.openFileDialogSebConfigFile.Title = "Open SEB config file";
+			this.openFileDialogSebConfigFile.Title = "Open Xolock config file";
 			// 
 			// saveFileDialogSebConfigFile
 			// 
 			this.saveFileDialogSebConfigFile.DefaultExt = "seb";
-			this.saveFileDialogSebConfigFile.Title = "Save SEB config file";
+			this.saveFileDialogSebConfigFile.Title = "Save Xolock config file";
 			// 
 			// imageListTabIcons
 			// 
@@ -995,7 +995,7 @@ namespace SebWindowsConfig
 			this.groupBoxInsideSeb.Size = new System.Drawing.Size(305, 264);
 			this.groupBoxInsideSeb.TabIndex = 25;
 			this.groupBoxInsideSeb.TabStop = false;
-			this.groupBoxInsideSeb.Text = "While running SEB";
+			this.groupBoxInsideSeb.Text = "While running Xolock";
 			// 
 			// checkBoxEnableFindPrinter
 			// 
@@ -1268,7 +1268,7 @@ namespace SebWindowsConfig
 			this.radioButtonClipboardPolicyIsolated.Size = new System.Drawing.Size(78, 17);
 			this.radioButtonClipboardPolicyIsolated.TabIndex = 6;
 			this.radioButtonClipboardPolicyIsolated.TabStop = true;
-			this.radioButtonClipboardPolicyIsolated.Text = "SEB Only";
+			this.radioButtonClipboardPolicyIsolated.Text = "Xolock Only";
 			this.radioButtonClipboardPolicyIsolated.UseVisualStyleBackColor = true;
 			this.radioButtonClipboardPolicyIsolated.CheckedChanged += new System.EventHandler(this.radioButtonClipboardPolicyIsolated_CheckedChanged);
 			// 
@@ -1327,9 +1327,9 @@ namespace SebWindowsConfig
 			this.label30.Name = "label30";
 			this.label30.Size = new System.Drawing.Size(515, 31);
 			this.label30.TabIndex = 2;
-			this.label30.Text = "Please enter one restriction per line, e.g. \"Win.3.4.min\" to allow all SEB for Wi" +
-    "ndows versions starting with 3.4 or newer, or \"Win.3.5.0.544\" to only allow SEB " +
-    "for Windows version 3.5.0.544.";
+			this.label30.Text = "Please enter one restriction per line, e.g. \"Win.3.4.min\" to allow all Xolock for" +
+    " Windows versions starting with 3.4 or newer, or \"Win.3.5.0.544\" to only allow X" +
+    "olock for Windows version 3.5.0.544.";
 			// 
 			// label29
 			// 
@@ -1347,7 +1347,7 @@ namespace SebWindowsConfig
 			this.label28.Name = "label28";
 			this.label28.Size = new System.Drawing.Size(514, 29);
 			this.label28.TabIndex = 0;
-			this.label28.Text = "Allows to specify one or more specific SEB version(s) which are required in order" +
+			this.label28.Text = "Allows to specify one or more specific Xolock version(s) which are required in order" +
     " to be able to use this configuration. A version restriction needs to have the f" +
     "ollowing format in order to be valid:";
 			// 
@@ -1388,7 +1388,7 @@ namespace SebWindowsConfig
 			this.groupBoxSebService.Size = new System.Drawing.Size(540, 212);
 			this.groupBoxSebService.TabIndex = 106;
 			this.groupBoxSebService.TabStop = false;
-			this.groupBoxSebService.Text = "SEB Service (Win)";
+			this.groupBoxSebService.Text = "Xolock Service (Win)";
 			// 
 			// checkBoxSebServiceIgnore
 			// 
@@ -1397,7 +1397,7 @@ namespace SebWindowsConfig
 			this.checkBoxSebServiceIgnore.Name = "checkBoxSebServiceIgnore";
 			this.checkBoxSebServiceIgnore.Size = new System.Drawing.Size(179, 17);
 			this.checkBoxSebServiceIgnore.TabIndex = 104;
-			this.checkBoxSebServiceIgnore.Text = "Enable SEB Service Component";
+			this.checkBoxSebServiceIgnore.Text = "Enable Xolock Service Component";
 			this.checkBoxSebServiceIgnore.UseVisualStyleBackColor = true;
 			this.checkBoxSebServiceIgnore.CheckedChanged += new System.EventHandler(this.checkBoxSebServiceIgnore_CheckedChanged);
 			// 
@@ -1419,7 +1419,7 @@ namespace SebWindowsConfig
 			this.checkBoxAllowWindowsUpdate.Name = "checkBoxAllowWindowsUpdate";
 			this.checkBoxAllowWindowsUpdate.Size = new System.Drawing.Size(265, 17);
 			this.checkBoxAllowWindowsUpdate.TabIndex = 103;
-			this.checkBoxAllowWindowsUpdate.Text = "Allow Windows Update to run while SEB is running";
+			this.checkBoxAllowWindowsUpdate.Text = "Allow Windows Update to run while Xolock is running";
 			this.checkBoxAllowWindowsUpdate.UseVisualStyleBackColor = true;
 			this.checkBoxAllowWindowsUpdate.CheckedChanged += new System.EventHandler(this.checkBoxAllowWindowsUpdate_CheckedChanged);
 			// 
@@ -1441,7 +1441,7 @@ namespace SebWindowsConfig
 			this.listBoxSebServicePolicy.Name = "listBoxSebServicePolicy";
 			this.listBoxSebServicePolicy.Size = new System.Drawing.Size(512, 43);
 			this.listBoxSebServicePolicy.TabIndex = 0;
-			this.toolTip1.SetToolTip(this.listBoxSebServicePolicy, "Policy that applies when an exam client doesn\'t have the SEB Service running.");
+			this.toolTip1.SetToolTip(this.listBoxSebServicePolicy, "Policy that applies when an exam client doesn\'t have the Xolock Service running.");
 			this.listBoxSebServicePolicy.SelectedIndexChanged += new System.EventHandler(this.listBoxSebServicePolicy_SelectedIndexChanged);
 			// 
 			// labelSebServicePolicy
@@ -1452,7 +1452,7 @@ namespace SebWindowsConfig
 			this.labelSebServicePolicy.Name = "labelSebServicePolicy";
 			this.labelSebServicePolicy.Size = new System.Drawing.Size(101, 13);
 			this.labelSebServicePolicy.TabIndex = 75;
-			this.labelSebServicePolicy.Text = "SEB Service Policy:";
+			this.labelSebServicePolicy.Text = "Xolock Service Policy:";
 			// 
 			// checkBoxAllowScreenSharing
 			// 
@@ -1575,7 +1575,7 @@ namespace SebWindowsConfig
 			this.comboBoxMinMacOSVersion.Name = "comboBoxMinMacOSVersion";
 			this.comboBoxMinMacOSVersion.Size = new System.Drawing.Size(328, 21);
 			this.comboBoxMinMacOSVersion.TabIndex = 102;
-			this.toolTip1.SetToolTip(this.comboBoxMinMacOSVersion, "SEB refuses to run on an older system version");
+			this.toolTip1.SetToolTip(this.comboBoxMinMacOSVersion, "Xolock refuses to run on an older system version");
 			this.comboBoxMinMacOSVersion.SelectedIndexChanged += new System.EventHandler(this.comboBoxMinMacOSVersion_SelectedIndexChanged);
 			this.comboBoxMinMacOSVersion.TextChanged += new System.EventHandler(this.comboBoxMinMacOSVersion_TextChanged);
 			// 
@@ -1605,7 +1605,7 @@ namespace SebWindowsConfig
 			this.checkBoxAllowDisplayMirroring.Size = new System.Drawing.Size(263, 17);
 			this.checkBoxAllowDisplayMirroring.TabIndex = 98;
 			this.checkBoxAllowDisplayMirroring.Text = "Allow display mirroring (affects also AirPlay Display)";
-			this.toolTip1.SetToolTip(this.checkBoxAllowDisplayMirroring, "If not selected, SEB prevents to mirror the main display to another (for example " +
+			this.toolTip1.SetToolTip(this.checkBoxAllowDisplayMirroring, "If not selected, Xolock prevents to mirror the main display to another (for example " +
         "an AirPlay Display)");
 			this.checkBoxAllowDisplayMirroring.UseVisualStyleBackColor = true;
 			this.checkBoxAllowDisplayMirroring.CheckedChanged += new System.EventHandler(this.checkBoxAllowDisplayMirroring_CheckedChanged);
@@ -1619,8 +1619,8 @@ namespace SebWindowsConfig
 			this.checkBoxDetectStoppedProcess.Name = "checkBoxDetectStoppedProcess";
 			this.checkBoxDetectStoppedProcess.Size = new System.Drawing.Size(214, 17);
 			this.checkBoxDetectStoppedProcess.TabIndex = 97;
-			this.checkBoxDetectStoppedProcess.Text = "Detect when SEB process was stopped";
-			this.toolTip1.SetToolTip(this.checkBoxDetectStoppedProcess, "SEB displays a lock screen (requiring to enter the quit/unlock password) if it de" +
+			this.checkBoxDetectStoppedProcess.Text = "Detect when Xolock process was stopped";
+			this.toolTip1.SetToolTip(this.checkBoxDetectStoppedProcess, "Xolock displays a lock screen (requiring to enter the quit/unlock password) if it de" +
         "tects that its process was stopped, which can indicate manipulation");
 			this.checkBoxDetectStoppedProcess.UseVisualStyleBackColor = true;
 			this.checkBoxDetectStoppedProcess.CheckedChanged += new System.EventHandler(this.checkBoxDetectStoppedProcess_CheckedChanged);
@@ -1651,7 +1651,7 @@ namespace SebWindowsConfig
 			this.checkBoxAllowUserAppFolderInstall.Size = new System.Drawing.Size(204, 17);
 			this.checkBoxAllowUserAppFolderInstall.TabIndex = 95;
 			this.checkBoxAllowUserAppFolderInstall.Text = "Allow also user\'s ~/Applications folder";
-			this.toolTip1.SetToolTip(this.checkBoxAllowUserAppFolderInstall, "SEB can also be installed in the Applications folder of the current user (~/Appli" +
+			this.toolTip1.SetToolTip(this.checkBoxAllowUserAppFolderInstall, "Xolock can also be installed in the Applications folder of the current user (~/Appli" +
         "cations)");
 			this.checkBoxAllowUserAppFolderInstall.UseVisualStyleBackColor = true;
 			this.checkBoxAllowUserAppFolderInstall.CheckedChanged += new System.EventHandler(this.checkBoxAllowUserAppFolderInstall_CheckedChanged);
@@ -1682,7 +1682,7 @@ namespace SebWindowsConfig
 			this.checkBoxForceAppFolderInstall.Size = new System.Drawing.Size(205, 17);
 			this.checkBoxForceAppFolderInstall.TabIndex = 93;
 			this.checkBoxForceAppFolderInstall.Text = "Force installation in Applications folder";
-			this.toolTip1.SetToolTip(this.checkBoxForceAppFolderInstall, "SEB enforces to be installed in the Applications folder (/Applications)");
+			this.toolTip1.SetToolTip(this.checkBoxForceAppFolderInstall, "Xolock enforces to be installed in the Applications folder (/Applications)");
 			this.checkBoxForceAppFolderInstall.UseVisualStyleBackColor = true;
 			this.checkBoxForceAppFolderInstall.CheckedChanged += new System.EventHandler(this.checkBoxForceAppFolderInstall_CheckedChanged);
 			// 
@@ -1696,8 +1696,8 @@ namespace SebWindowsConfig
 			this.checkBoxEnableAppSwitcherCheck.Size = new System.Drawing.Size(220, 17);
 			this.checkBoxEnableAppSwitcherCheck.TabIndex = 94;
 			this.checkBoxEnableAppSwitcherCheck.Text = "Disable app switcher when starting (Mac)";
-			this.toolTip1.SetToolTip(this.checkBoxEnableAppSwitcherCheck, "SEB checks for the command key being held down while SEB is starting up. This pre" +
-        "vents using the application switcher to mess with SEB\'s kiosk mode");
+			this.toolTip1.SetToolTip(this.checkBoxEnableAppSwitcherCheck, "Xolock checks for the command key being held down while Xolock is starting up. This pre" +
+        "vents using the application switcher to mess with Xolock\'s kiosk mode");
 			this.checkBoxEnableAppSwitcherCheck.UseVisualStyleBackColor = true;
 			this.checkBoxEnableAppSwitcherCheck.CheckedChanged += new System.EventHandler(this.checkBoxEnableAppSwitcherCheck_CheckedChanged);
 			// 
@@ -1825,7 +1825,7 @@ namespace SebWindowsConfig
 			this.radioNoKiosMode.TabIndex = 84;
 			this.radioNoKiosMode.TabStop = true;
 			this.radioNoKiosMode.Text = "None (for debugging only)";
-			this.toolTip1.SetToolTip(this.radioNoKiosMode, "SEB runs without kiosk mode, switching to other applications is possible. Use thi" +
+			this.toolTip1.SetToolTip(this.radioNoKiosMode, "Xolock runs without kiosk mode, switching to other applications is possible. Use thi" +
         "s for debugging purposes only.");
 			this.radioNoKiosMode.UseVisualStyleBackColor = true;
 			// 
@@ -2393,7 +2393,7 @@ namespace SebWindowsConfig
 			this.radioButtonUseSebProxySettings.Name = "radioButtonUseSebProxySettings";
 			this.radioButtonUseSebProxySettings.Size = new System.Drawing.Size(135, 17);
 			this.radioButtonUseSebProxySettings.TabIndex = 1;
-			this.radioButtonUseSebProxySettings.Text = "Use SEB proxy settings";
+			this.radioButtonUseSebProxySettings.Text = "Use Xolock proxy settings";
 			this.toolTip1.SetToolTip(this.radioButtonUseSebProxySettings, "Proxy settings provided in these SEB settings are used");
 			this.radioButtonUseSebProxySettings.UseVisualStyleBackColor = true;
 			this.radioButtonUseSebProxySettings.CheckedChanged += new System.EventHandler(this.radioButtonUseSebProxySettings_CheckedChanged);
@@ -3296,8 +3296,8 @@ namespace SebWindowsConfig
 			this.checkBoxMonitorProcesses.Name = "checkBoxMonitorProcesses";
 			this.checkBoxMonitorProcesses.Size = new System.Drawing.Size(211, 17);
 			this.checkBoxMonitorProcesses.TabIndex = 0;
-			this.checkBoxMonitorProcesses.Text = "Monitor processes while SEB is running";
-			this.toolTip1.SetToolTip(this.checkBoxMonitorProcesses, "SEB monitors which processes/applications are running during an exam. Those which" +
+			this.checkBoxMonitorProcesses.Text = "Monitor processes while Xolock is running";
+			this.toolTip1.SetToolTip(this.checkBoxMonitorProcesses, "Xolock monitors which processes/applications are running during an exam. Those which" +
         " are not permitted are hiddden, those which are prohibited will be closed/killed" +
         ".");
 			this.checkBoxMonitorProcesses.UseVisualStyleBackColor = true;
@@ -3440,7 +3440,7 @@ namespace SebWindowsConfig
 			this.checkBoxClearSessionOnEnd.Name = "checkBoxClearSessionOnEnd";
 			this.checkBoxClearSessionOnEnd.Size = new System.Drawing.Size(570, 17);
 			this.checkBoxClearSessionOnEnd.TabIndex = 1;
-			this.checkBoxClearSessionOnEnd.Text = "Clear browser session when ending an exam or terminating SEB (prevents deletion o" +
+			this.checkBoxClearSessionOnEnd.Text = "Clear browser session when ending an exam or terminating Xolock (prevents deletion o" +
     "f browser cache if deactivated!)";
 			this.checkBoxClearSessionOnEnd.UseVisualStyleBackColor = true;
 			this.checkBoxClearSessionOnEnd.CheckedChanged += new System.EventHandler(this.checkBoxClearSessionOnEnd_CheckedChanged);
@@ -3453,7 +3453,7 @@ namespace SebWindowsConfig
 			this.checkBoxClearSessionOnStart.Name = "checkBoxClearSessionOnStart";
 			this.checkBoxClearSessionOnStart.Size = new System.Drawing.Size(310, 17);
 			this.checkBoxClearSessionOnStart.TabIndex = 0;
-			this.checkBoxClearSessionOnStart.Text = "Clear browser session when starting an exam or starting SEB";
+			this.checkBoxClearSessionOnStart.Text = "Clear browser session when starting an exam or starting Xolock";
 			this.checkBoxClearSessionOnStart.UseVisualStyleBackColor = true;
 			this.checkBoxClearSessionOnStart.CheckedChanged += new System.EventHandler(this.checkBoxClearSessionOnStart_CheckedChanged);
 			// 
@@ -3565,7 +3565,7 @@ namespace SebWindowsConfig
 			this.groupBox8.Size = new System.Drawing.Size(610, 136);
 			this.groupBox8.TabIndex = 120;
 			this.groupBox8.TabStop = false;
-			this.groupBox8.Text = "Link to quit SEB after exam";
+			this.groupBox8.Text = "Link to quit Xolock after exam";
 			// 
 			// checkBoxResetOnQuitUrl
 			// 
@@ -3871,7 +3871,7 @@ namespace SebWindowsConfig
 			this.checkBoxDownloadOpenSEBFiles.Name = "checkBoxDownloadOpenSEBFiles";
 			this.checkBoxDownloadOpenSEBFiles.Size = new System.Drawing.Size(203, 17);
 			this.checkBoxDownloadOpenSEBFiles.TabIndex = 86;
-			this.checkBoxDownloadOpenSEBFiles.Text = "Download and open SEB Config Files";
+			this.checkBoxDownloadOpenSEBFiles.Text = "Download and open Xolock Config Files";
 			this.toolTip1.SetToolTip(this.checkBoxDownloadOpenSEBFiles, "Download and open .seb config files regardless if downloading and opening other f" +
         "ile types is allowed.");
 			this.checkBoxDownloadOpenSEBFiles.UseVisualStyleBackColor = true;
@@ -3916,7 +3916,7 @@ namespace SebWindowsConfig
 			this.listBoxChooseFileToUploadPolicy.Name = "listBoxChooseFileToUploadPolicy";
 			this.listBoxChooseFileToUploadPolicy.Size = new System.Drawing.Size(348, 43);
 			this.listBoxChooseFileToUploadPolicy.TabIndex = 2;
-			this.toolTip1.SetToolTip(this.listBoxChooseFileToUploadPolicy, "SEB can let users choose the file to upload or automatically use the same file wh" +
+			this.toolTip1.SetToolTip(this.listBoxChooseFileToUploadPolicy, "Xolock can let users choose the file to upload or automatically use the same file wh" +
         "ich was downloaded before. If not found, a file requester or an error is present" +
         "ed depending on this setting.");
 			this.listBoxChooseFileToUploadPolicy.SelectedIndexChanged += new System.EventHandler(this.listBoxChooseFileToUploadPolicy_SelectedIndexChanged);
@@ -4365,7 +4365,7 @@ namespace SebWindowsConfig
 			this.textBox6.ReadOnly = true;
 			this.textBox6.Size = new System.Drawing.Size(456, 22);
 			this.textBox6.TabIndex = 120;
-			this.textBox6.Text = "Custom desktop user agent string (SEB appends its version number automatically)";
+			this.textBox6.Text = "Custom desktop user agent string (Xolock appends its version number automatically)";
 			// 
 			// textBoxUserAgentDesktopModeCustom
 			// 
@@ -4514,7 +4514,7 @@ namespace SebWindowsConfig
 			this.checkBoxRemoveProfile.Name = "checkBoxRemoveProfile";
 			this.checkBoxRemoveProfile.Size = new System.Drawing.Size(481, 36);
 			this.checkBoxRemoveProfile.TabIndex = 6;
-			this.checkBoxRemoveProfile.Text = "Delete cache when re-configuring or terminating SEB (Win). This setting is ignore" +
+			this.checkBoxRemoveProfile.Text = "Delete cache when re-configuring or terminating Xolock (Win). This setting is ignore" +
     "d if \"Clear browser session when ending\" in section Exam > Session Handling is d" +
     "eactivated!";
 			this.checkBoxRemoveProfile.UseVisualStyleBackColor = true;
@@ -4613,7 +4613,7 @@ namespace SebWindowsConfig
 			this.checkBoxUseSebWithoutBrowser.Name = "checkBoxUseSebWithoutBrowser";
 			this.checkBoxUseSebWithoutBrowser.Size = new System.Drawing.Size(185, 17);
 			this.checkBoxUseSebWithoutBrowser.TabIndex = 4;
-			this.checkBoxUseSebWithoutBrowser.Text = "Use SEB without browser window";
+			this.checkBoxUseSebWithoutBrowser.Text = "Use Xolock without browser window";
 			this.toolTip1.SetToolTip(this.checkBoxUseSebWithoutBrowser, "When SEB browser is disabled, no browser window is openend. Use this option with " +
         "specific third party applications allowed.");
 			this.checkBoxUseSebWithoutBrowser.UseVisualStyleBackColor = true;
@@ -4828,7 +4828,7 @@ namespace SebWindowsConfig
 			this.spellCheckerDescriptionLabel.Name = "spellCheckerDescriptionLabel";
 			this.spellCheckerDescriptionLabel.Size = new System.Drawing.Size(675, 27);
 			this.spellCheckerDescriptionLabel.TabIndex = 2;
-			this.spellCheckerDescriptionLabel.Text = "The list below shows all dictionaries currently available for spell checking. SEB" +
+			this.spellCheckerDescriptionLabel.Text = "The list below shows all dictionaries currently available for spell checking. Xolock" +
     " comes with a list of standard dictionaries which cannot be removed, but may be " +
     "deactivated.";
 			// 
@@ -4864,7 +4864,7 @@ namespace SebWindowsConfig
 			this.addDictionaryButton.Size = new System.Drawing.Size(105, 23);
 			this.addDictionaryButton.TabIndex = 1;
 			this.addDictionaryButton.Text = "Add Dictionary...";
-			this.toolTip1.SetToolTip(this.addDictionaryButton, "SEB containts dictionaries with a compatible license, others can be embedded to c" +
+			this.toolTip1.SetToolTip(this.addDictionaryButton, "Xolock containts dictionaries with a compatible license, others can be embedded to c" +
         "onfig files.");
 			this.addDictionaryButton.UseVisualStyleBackColor = true;
 			this.addDictionaryButton.Click += new System.EventHandler(this.addDictionaryButton_Click);
@@ -5325,7 +5325,7 @@ namespace SebWindowsConfig
 			this.checkBoxEnableTouchExit.Size = new System.Drawing.Size(108, 17);
 			this.checkBoxEnableTouchExit.TabIndex = 65;
 			this.checkBoxEnableTouchExit.Text = "Enable touch exit";
-			this.toolTip1.SetToolTip(this.checkBoxEnableTouchExit, "SEB can be quit with a swipe down from the upper display edge.");
+			this.toolTip1.SetToolTip(this.checkBoxEnableTouchExit, "Xolock can be quit with a swipe down from the upper display edge.");
 			this.checkBoxEnableTouchExit.UseVisualStyleBackColor = true;
 			this.checkBoxEnableTouchExit.Visible = false;
 			this.checkBoxEnableTouchExit.CheckedChanged += new System.EventHandler(this.checkBoxEnableTouchExit_CheckedChanged);
@@ -5505,7 +5505,7 @@ namespace SebWindowsConfig
 			this.checkBoxUseOldAsymmetricOnlyEncryption.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
 			this.checkBoxUseOldAsymmetricOnlyEncryption.Size = new System.Drawing.Size(263, 17);
 			this.checkBoxUseOldAsymmetricOnlyEncryption.TabIndex = 73;
-			this.checkBoxUseOldAsymmetricOnlyEncryption.Text = "Use old asymmetric-only encryption (for SEB < 2.2)";
+			this.checkBoxUseOldAsymmetricOnlyEncryption.Text = "Use old asymmetric-only encryption (for Xolock < 2.2)";
 			this.toolTip1.SetToolTip(this.checkBoxUseOldAsymmetricOnlyEncryption, "The new asymmetric/symmetric encryption is much faster especially for large confi" +
         "g files with embedded resources.");
 			this.checkBoxUseOldAsymmetricOnlyEncryption.UseVisualStyleBackColor = true;
@@ -5555,7 +5555,7 @@ namespace SebWindowsConfig
 			this.buttonApplyAndStartSEB.Name = "buttonApplyAndStartSEB";
 			this.buttonApplyAndStartSEB.Size = new System.Drawing.Size(143, 32);
 			this.buttonApplyAndStartSEB.TabIndex = 70;
-			this.buttonApplyAndStartSEB.Text = "Apply and Start SEB";
+			this.buttonApplyAndStartSEB.Text = "Apply and Start Xolock";
 			this.toolTip1.SetToolTip(this.buttonApplyAndStartSEB, "Save current settings and start SEB using them");
 			this.buttonApplyAndStartSEB.UseVisualStyleBackColor = true;
 			this.buttonApplyAndStartSEB.Visible = false;
@@ -5666,7 +5666,7 @@ namespace SebWindowsConfig
 			this.labelCryptoIdentity.Name = "labelCryptoIdentity";
 			this.labelCryptoIdentity.Size = new System.Drawing.Size(287, 13);
 			this.labelCryptoIdentity.TabIndex = 58;
-			this.labelCryptoIdentity.Text = "Choose identity to be used for encrypting SEB settings file...";
+			this.labelCryptoIdentity.Text = "Choose identity to be used for encrypting Xolock settings file...";
 			// 
 			// comboBoxCryptoIdentity
 			// 
@@ -5738,7 +5738,7 @@ namespace SebWindowsConfig
 			this.labelUseSEBSettingsFileFor.Name = "labelUseSEBSettingsFileFor";
 			this.labelUseSEBSettingsFileFor.Size = new System.Drawing.Size(129, 13);
 			this.labelUseSEBSettingsFileFor.TabIndex = 52;
-			this.labelUseSEBSettingsFileFor.Text = "Use SEB settings file for...";
+			this.labelUseSEBSettingsFileFor.Text = "Use Xolock settings file for...";
 			// 
 			// radioButtonConfiguringAClient
 			// 
@@ -5948,8 +5948,8 @@ namespace SebWindowsConfig
 			this.checkBoxIgnoreExitKeys.Size = new System.Drawing.Size(100, 17);
 			this.checkBoxIgnoreExitKeys.TabIndex = 8;
 			this.checkBoxIgnoreExitKeys.Text = "Ignore exit keys";
-			this.toolTip1.SetToolTip(this.checkBoxIgnoreExitKeys, "SEB ignores the exit keys and can only be quit manually by entering the quit pass" +
-        "word (click Quit button in SEB taskbar, press Ctrl-Q or click the main browser w" +
+			this.toolTip1.SetToolTip(this.checkBoxIgnoreExitKeys, "Xolock ignores the exit keys and can only be quit manually by entering the quit pass" +
+        "word (click Quit button in Xolock taskbar, press Ctrl-Q or click the main browser w" +
         "indow close button).");
 			this.checkBoxIgnoreExitKeys.UseVisualStyleBackColor = true;
 			this.checkBoxIgnoreExitKeys.Visible = false;
@@ -5976,7 +5976,7 @@ namespace SebWindowsConfig
 			this.labelSebServerURL.Name = "labelSebServerURL";
 			this.labelSebServerURL.Size = new System.Drawing.Size(87, 13);
 			this.labelSebServerURL.TabIndex = 47;
-			this.labelSebServerURL.Text = "SEB Server URL";
+			this.labelSebServerURL.Text = "SEB-Server URL";
 			this.labelSebServerURL.Visible = false;
 			// 
 			// textBoxSebServerURL
@@ -6122,7 +6122,7 @@ namespace SebWindowsConfig
 			this.checkBoxAllowQuit.Name = "checkBoxAllowQuit";
 			this.checkBoxAllowQuit.Size = new System.Drawing.Size(130, 17);
 			this.checkBoxAllowQuit.TabIndex = 6;
-			this.checkBoxAllowQuit.Text = "Allow user to quit SEB";
+			this.checkBoxAllowQuit.Text = "Allow user to quit Xolock";
 			this.toolTip1.SetToolTip(this.checkBoxAllowQuit, "Users can quit SEB with Control-Q, window close or quit button. Otherwise use a q" +
         "uit link in your exam system or shutdown/restart the computer.");
 			this.checkBoxAllowQuit.UseVisualStyleBackColor = true;
@@ -6319,7 +6319,7 @@ namespace SebWindowsConfig
 			this.applyAndStartSEBToolStripMenuItem.ShortcutKeyDisplayString = "F5";
 			this.applyAndStartSEBToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
 			this.applyAndStartSEBToolStripMenuItem.Size = new System.Drawing.Size(196, 22);
-			this.applyAndStartSEBToolStripMenuItem.Text = "Apply and Start SEB";
+			this.applyAndStartSEBToolStripMenuItem.Text = "Apply and Start Xolock";
 			this.applyAndStartSEBToolStripMenuItem.Visible = false;
 			this.applyAndStartSEBToolStripMenuItem.Click += new System.EventHandler(this.applyAndStartSEBToolStripMenuItem_Click);
 			// 
@@ -6341,7 +6341,7 @@ namespace SebWindowsConfig
 			this.MaximizeBox = false;
 			this.Name = "SebWindowsConfigForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "SEB Windows Configuration Editor";
+			this.Text = "Xolock Configuration Editor";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SebWindowsConfigForm_FormClosing);
 			this.Load += new System.EventHandler(this.SebWindowsConfigForm_Load);
 			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.SebWindowsConfigForm_DragDrop);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Name="Safe Exam Browser ($(var.Platform))" Manufacturer="ETH Zürich" Language="1033" Codepage="1252"
+    <Product Name="Xolock ($(var.Platform))" Manufacturer="Xobin Technologies Pvt. Ltd." Language="1033" Codepage="1252"
              Id="*" Version="!(bind.fileVersion.MainExecutable)" UpgradeCode="97A8B13E-48FB-4BE1-A7C2-DD1863F95CCB">
         <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
         <MediaTemplate EmbedCab="yes" />
@@ -10,11 +10,11 @@
         <Icon Id="ConfigurationToolIcon" SourceFile="Resources\ConfigurationTool.ico" />
         <Icon Id="ResetUtilityIcon" SourceFile="Resources\ResetUtility.ico" />
         <Property Id="ARPPRODUCTICON" Value="ApplicationIcon" />
-        <Property Id="WIXUI_EXITDIALOGOPTIONALTEXT" Value="PLEASE NOTE: In order to run SEB, you first need to install all the required dependencies as specified under https://github.com/SafeExamBrowser/seb-win-refactoring#readme." />
+        <Property Id="WIXUI_EXITDIALOGOPTIONALTEXT" Value="PLEASE NOTE: In order to run Xolock, you first need to install all the required dependencies as specified under https://github.com/SafeExamBrowser/seb-win-refactoring#readme." />
         <WixVariable Id="WixUILicenseRtf" Value="Resources\License.rtf" />
         <WixVariable Id="WixUIBannerBmp" Value="Resources\Banner.bmp" />
         <WixVariable Id="WixUIDialogBmp" Value="Resources\Dialog.bmp" />
-        <Feature Id="ProductFeature" Title="Safe Exam Browser" Level="1">
+        <Feature Id="ProductFeature" Title="Xolock" Level="1">
             <ComponentGroupRef Id="ApplicationComponents" />
             <ComponentGroupRef Id="ConfigurationComponents" />
             <ComponentGroupRef Id="ResetComponents" />

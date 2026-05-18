@@ -22,8 +22,12 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Image Grid.ColumnSpan="2" Source="pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/SplashScreen.png" Margin="0,5,0,0" />
-        <TextBlock x:Name="VersionInfo" Grid.Row="0" Grid.Column="1" FontSize="10" Foreground="DimGray" Margin="28,72,120,10" TextWrapping="Wrap" />
+        <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="20,10,0,0">
+            <Image Source="pack://application:,,,/SafeExamBrowser.UserInterface.Desktop;component/Images/XolockLogo.png" Height="56" Stretch="Uniform" HorizontalAlignment="Left" />
+            <TextBlock Text="Xolock" FontSize="28" FontWeight="Bold" Foreground="#333333" Margin="0,6,0,0" />
+            <TextBlock Text="Secure Exam Browser" FontSize="11" Foreground="#888888" Margin="0,2,0,0" />
+        </StackPanel>
+        <TextBlock x:Name="VersionInfo" Grid.Row="0" Grid.Column="1" FontSize="10" Foreground="DimGray" Margin="10,40,20,10" TextWrapping="Wrap" VerticalAlignment="Center" />
         <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Template="{StaticResource SmallBarScrollViewer}" VerticalScrollBarVisibility="Auto">
             <TextBlock x:Name="MainText" Margin="10" FontSize="10" TextWrapping="Wrap">
                 <LineBreak />

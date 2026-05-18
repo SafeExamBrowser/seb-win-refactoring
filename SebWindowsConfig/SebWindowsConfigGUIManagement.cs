@@ -245,7 +245,7 @@ namespace SebWindowsConfig
 
 			// Define the strings for the SEB mode
 			StringSebMode[0] = "use local settings and load the start URL";
-			StringSebMode[1] = "connect to the SEB server";
+			StringSebMode[1] = "connect to the Xolock server";
 
 			// Define the strings for the Browser View Mode
 			StringBrowserViewMode[0] = "use browser window";
@@ -287,12 +287,12 @@ namespace SebWindowsConfig
 
 			// Define the strings for the Proxy Settings Policy
 			StringPolicyProxySettings[0] = "Use system proxy settings";
-			StringPolicyProxySettings[1] = "Use SEB proxy settings";
+			StringPolicyProxySettings[1] = "Use Xolock proxy settings";
 
 			// Define the strings for the SEB Service Policy
-			StringPolicySebService[0] = "allow to run SEB without service";
+			StringPolicySebService[0] = "allow to run Xolock without service";
 			StringPolicySebService[1] = "display warning when service is not running";
-			StringPolicySebService[2] = "allow to use SEB only with service";
+			StringPolicySebService[2] = "allow to use Xolock only with service";
 
 			// Define the strings for the Function Keys F1, F2, ..., F12
 			for (int i = 1; i <= 12; i++)

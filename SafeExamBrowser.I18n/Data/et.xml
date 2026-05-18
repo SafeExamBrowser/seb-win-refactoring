@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Text>
     <Entry key="AboutWindow_LicenseInfo">
-        Selle rakenduse puhul kohaldatakse Mozilla avaliku litsentsi versiooni 2.0 tingimusi. Safe Exam Browser kasutab järgmisi raamistikke ja kolmandate osapoolte teeke:
+        Selle rakenduse puhul kohaldatakse Mozilla avaliku litsentsi versiooni 2.0 tingimusi. Xolock kasutab järgmisi raamistikke ja kolmandate osapoolte teeke:
     </Entry>
     <Entry key="AboutWindow_Title">
         Versioon &amp; litsentsi teave
@@ -166,76 +166,76 @@
         Rakendust "%%NAME%%" ei leitud süsteemist. Palun otsi üles kaust, mis sisaldab käivitatavat faili "%%EXECUTABLE%%".
     </Entry>
     <Entry key="LockScreen_ApplicationIntegrityMessage">
-        Kasutate SEB mitteametlikku versiooni! Kasutage kindlasti ametlikku Safe Exam Browser'it. SEB avamiseks sisestage õige avamisparool.
+        Kasutate Xolock mitteametlikku versiooni! Kasutage kindlasti ametlikku Xolock'it. Xolock avamiseks sisestage õige avamisparool.
     </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Lubage ajutiselt musta nimekirja kantud rakendused. See kehtib ainult hetkel töös olevate juhtude ja seansi kohta!
     </Entry>
     <Entry key="LockScreen_ApplicationsMessage">
-        Allpool loetletud musta nimekirja rakendusi alustati ja neid ei saanud automaatselt lõpetada! SEB avamiseks vali üks saadaolevatest valikutest ja sisesta õige parooli avamine.
+        Allpool loetletud musta nimekirja rakendusi alustati ja neid ei saanud automaatselt lõpetada! Xolock avamiseks vali üks saadaolevatest valikutest ja sisesta õige parooli avamine.
     </Entry>
     <Entry key="LockScreen_ApplicationsTerminateOption">
-        Sulge Safe Exam Browser. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
+        Sulge Xolock. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
     </Entry>
     <Entry key="LockScreen_CursorContinueOption">
         Luba ajutiselt kursori seadistus. See kehtib ainult käimasoleva seansi kohta!
     </Entry>
     <Entry key="LockScreen_CursorMessage">
-        Tuvastati keelatud kursoriseadistus. SEB'i avamiseks vali üks saadaolevatest valikutest ja sisesta õige avamisparool.
+        Tuvastati keelatud kursoriseadistus. Xolock'i avamiseks vali üks saadaolevatest valikutest ja sisesta õige avamisparool.
     </Entry>
     <Entry key="LockScreen_CursorTerminateOption">
-        Sulge Safe Exam Browser. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
+        Sulge Xolock. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         Luba ajutiselt ekraaniseadistus. See kehtib ainult käimasoleva seansi kohta!
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationMessage">
-        Tuvastati keelatud ekraaniseadistust. SEB'i avamiseks vali üks saadaolevatest valikutest ja sisesta õige avamisparool.
+        Tuvastati keelatud ekraaniseadistust. Xolock'i avamiseks vali üks saadaolevatest valikutest ja sisesta õige avamisparool.
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationTerminateOption">
-        Sulge Safe Exam Browser. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
+        Sulge Xolock. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
     </Entry>
     <Entry key="LockScreen_EaseOfAccessContinueOption">
         Lubada ajutiselt hõlbustusseadistuse kasutamine. See kehtib ainult käimasoleva seansi kohta!
     </Entry>
     <Entry key="LockScreen_EaseOfAccessMessage">
-        Tuvastati Windowsi hõlbustusseadistuse kasutamine. Palun sisesta SEB'i avamiseks õige parool.
+        Tuvastati Windowsi hõlbustusseadistuse kasutamine. Palun sisesta Xolock'i avamiseks õige parool.
     </Entry>
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
-        Sulge Safe Exam Browser. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
+        Sulge Xolock. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
     </Entry>
     <Entry key="LockScreen_RuntimeIntegrityMessage">
-        Safe Exam Browser’i töökindlus on ohustatud! SEB-i lukustuse tühistamiseks sisestage palun õige parool.
+        Xolock’i töökindlus on ohustatud! Xolock-i lukustuse tühistamiseks sisestage palun õige parool.
     </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
-        Viimast seanssi hetkel aktiivse seadistuse või algus-URL-iga ei suletud korrektselt! Palun sisestage SEB'i avamiseks õige parool.
+        Viimast seanssi hetkel aktiivse seadistuse või algus-URL-iga ei suletud korrektselt! Palun sisestage Xolock'i avamiseks õige parool.
     </Entry>
     <Entry key="LockScreen_StickyKeysContinueOption">
         Lubab ajutiselt kleepuvate võtmete oleku. See kehtib ainult hetkel käimasoleva seansi kohta!
     </Entry>
     <Entry key="LockScreen_StickyKeysMessage">
-        Avastati kleepuvate võtmete keelatud olek. SEB avamiseks valige üks olemasolevatest võimalustest ja sisestage õige avamisparool.
+        Avastati kleepuvate võtmete keelatud olek. Xolock avamiseks valige üks olemasolevatest võimalustest ja sisestage õige avamisparool.
     </Entry>
     <Entry key="LockScreen_StickyKeysTerminateOption">
-        Sulge Safe Exam Browser. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
+        Sulge Xolock. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
     </Entry>
     <Entry key="LockScreen_Title">
-        SEB ON LUKUSTATUD
+        Xolock ON LUKUSTATUD
     </Entry>
     <Entry key="LockScreen_UnlockButton">
         Tee lukust lahti
     </Entry>
     <Entry key="LockScreen_UserSessionContinueOption">
-        Lukusta Safe Exam Browser lahti.
+        Lukusta Xolock lahti.
     </Entry>
     <Entry key="LockScreen_UserSessionMessage">
-        Aktiivne kasutaja on muutunud või arvuti on lukustatud! SEB avamiseks valige üks saadaolevatest valikutest ja sisestage õige avamisparool.
+        Aktiivne kasutaja on muutunud või arvuti on lukustatud! Xolock avamiseks valige üks saadaolevatest valikutest ja sisestage õige avamisparool.
     </Entry>
     <Entry key="LockScreen_UserSessionTerminateOption">
-        Sulge Safe Exam Browser. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
+        Sulge Xolock. HOIATUS: andmete salvestamise ega edasiste toimingute tegemise võimalust ei ole, sulgemine käivitatakse kohe!
     </Entry>
     <Entry key="LockScreen_UserSwitchMessage">
-        Aktiivne kasutaja on muutunud! SEB avamiseks valige üks olemasolevatest võimalustest ja sisestage õige avamisparool.
+        Aktiivne kasutaja on muutunud! Xolock avamiseks valige üks olemasolevatest võimalustest ja sisestage õige avamisparool.
     </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Alati peal
@@ -256,7 +256,7 @@
         HOIATUS: Kõik salvestamata rakenduse andmed võivad kaduma minna!
     </Entry>
     <Entry key="MessageBox_ApplicationError">
-        Ilmnes parandamatu viga! Lisateabe saamiseks vaata logifaile. SEB sulgub nüüd... 
+        Ilmnes parandamatu viga! Lisateabe saamiseks vaata logifaile. Xolock sulgub nüüd... 
     </Entry>
     <Entry key="MessageBox_ApplicationErrorTitle">
         Rakenduse viga
@@ -292,7 +292,7 @@
         Lehekülg on blokeeritud
     </Entry>
     <Entry key="MessageBox_BrowserQuitUrlConfirmation">
-        Brauserirakendus tuvastas sulgemise URL-i! Kas soovid SEB'i kohe sulgeda?
+        Brauserirakendus tuvastas sulgemise URL-i! Kas soovid Xolock'i kohe sulgeda?
     </Entry>
     <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
         Tuvastati väljumise URL
@@ -301,13 +301,13 @@
         Tühista
     </Entry>
     <Entry key="MessageBox_ClientConfigurationError">
-        Kohaliku kliendi seadistamine ebaõnnestus! Lisateavet leiad logifailidest. SEB sulgub nüüd ...
+        Kohaliku kliendi seadistamine ebaõnnestus! Lisateavet leiad logifailidest. Xolock sulgub nüüd ...
     </Entry>
     <Entry key="MessageBox_ClientConfigurationErrorTitle">
         Seadistusviga
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestion">
-        Kliendi seadistus on salvestatud ja seda kasutatakse järgmisel SEB käivitamisel. Kas soovid praegu lõpetada?
+        Kliendi seadistus on salvestatud ja seda kasutatakse järgmisel Xolock käivitamisel. Kas soovid praegu lõpetada?
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestionTitle">
         Seadistamine oli edukas
@@ -319,7 +319,7 @@
         Allalaadimise viga
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationError">
-        Praegune ekraaniseadistus ei ole lubatud. %%_ALLOWED_COUNT_%% %%_TYPE_%% ekraan(i) on lubatud, kuid tuvastati %%_INTERNAL_COUNT_%% sise- ja %%_EXTERNAL_COUNT_%% välisekraan(i). Lisateabe saamiseks vaadake logifaile. SEB sulgub nüüd ...
+        Praegune ekraaniseadistus ei ole lubatud. %%_ALLOWED_COUNT_%% %%_TYPE_%% ekraan(i) on lubatud, kuid tuvastati %%_INTERNAL_COUNT_%% sise- ja %%_EXTERNAL_COUNT_%% välisekraan(i). Lisateabe saamiseks vaadake logifaile. Xolock sulgub nüüd ...
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationErrorTitle">
         Keelatud ekraaniseadistus
@@ -331,7 +331,7 @@
         sisemine või välimine
     </Entry>
     <Entry key="MessageBox_DownloadNotAllowed">
-        Failide allalaadimine ei ole praeguse SEB seadistusega lubatud. Palun anna selles eksami korraldajale teada.
+        Failide allalaadimine ei ole praeguse Xolock seadistusega lubatud. Palun anna selles eksami korraldajale teada.
     </Entry>
     <Entry key="MessageBox_DownloadNotAllowedTitle">
         Allalaadimine ei ole lubatud!
@@ -349,19 +349,19 @@
         Vale parool
     </Entry>
     <Entry key="MessageBox_InvalidPasswordError">
-        Sul ei õnnestunud 5 katsega õiget parooli sisestada. SEB sulgub nüüd ...
+        Sul ei õnnestunud 5 katsega õiget parooli sisestada. Xolock sulgub nüüd ...
     </Entry>
     <Entry key="MessageBox_InvalidPasswordErrorTitle">
         Vale parool
     </Entry>
     <Entry key="MessageBox_InvalidQuitPassword">
-        SEB'i saab sulgeda ainult õige sulgemisparooli sisestamisega.
+        Xolock'i saab sulgeda ainult õige sulgemisparooli sisestamisega.
     </Entry>
     <Entry key="MessageBox_InvalidQuitPasswordTitle">
         Sobimatu sulgemisparool
     </Entry>
     <Entry key="MessageBox_InvalidUnlockPassword">
-        SEB'i saab avada ainult õige parooli sisestamisega.
+        Xolock'i saab avada ainult õige parooli sisestamisega.
     </Entry>
     <Entry key="MessageBox_InvalidUnlockPasswordTitle">
         Sobimatu avamisparool
@@ -391,7 +391,7 @@
         Kas laadida uuesti?
     </Entry>
     <Entry key="MessageBox_Quit">
-        Kas soovid SEB'ist väljuda?
+        Kas soovid Xolock'ist väljuda?
     </Entry>
     <Entry key="MessageBox_QuitTitle">
         Lõpetada?
@@ -403,7 +403,7 @@
         Väljumise viga
     </Entry>
     <Entry key="MessageBox_ReconfigurationDenied">
-        Sul ei ole lubatud SEB'i ümber seadistada.
+        Sul ei ole lubatud Xolock'i ümber seadistada.
     </Entry>
     <Entry key="MessageBox_ReconfigurationDeniedTitle">
         Ümberseadistamine keelatud
@@ -415,7 +415,7 @@
         Ümberseadistamise viga
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
-        Süsteem näib töötavat kaugseansil. Valitud seadistus ei luba SEB'i kaugseansis käivitada.
+        Süsteem näib töötavat kaugseansil. Valitud seadistus ei luba Xolock'i kaugseansis käivitada.
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
         Tuvastati kaugseanss
@@ -427,19 +427,19 @@
         Sessioon koos ekraaniprotektoriga
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
-        SEB teenuse käivitamine nurjus! SEB lõpetab nüüd tegevuse, kuna teenus on seadistatud kohustuslikuks.
+        Xolock teenuse käivitamine nurjus! Xolock lõpetab nüüd tegevuse, kuna teenus on seadistatud kohustuslikuks.
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableErrorTitle">
         Teenus ei ole kättesaadav
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableWarning">
-        SEB teenuse käivitamine ebaõnnestus. SEB jätkab käivitamist, kuna teenus on seadistatud valikuliseks.
+        Xolock teenuse käivitamine ebaõnnestus. Xolock jätkab käivitamist, kuna teenus on seadistatud valikuliseks.
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableWarningTitle">
         Teenus ei ole kättesaadav
     </Entry>
     <Entry key="MessageBox_SessionStartError">
-        SEB'il ei õnnestunud uut seanssi alustada! Lisateabe saamiseks vaata logifaile.
+        Xolock'il ei õnnestunud uut seanssi alustada! Lisateabe saamiseks vaata logifaile.
     </Entry>
     <Entry key="MessageBox_SessionStartErrorTitle">
         Seansi alustamise viga
@@ -463,28 +463,28 @@
         Seadistuse viga
     </Entry>
     <Entry key="MessageBox_UploadNotAllowed">
-        Failide üleslaadimine ei ole praeguse SEB seadistusega lubatud. Palun anna selles eksami korraldajale teada.
+        Failide üleslaadimine ei ole praeguse Xolock seadistusega lubatud. Palun anna selles eksami korraldajale teada.
     </Entry>
     <Entry key="MessageBox_UploadNotAllowedTitle">
         Üleslaadimine ei ole lubatud!
     </Entry>
     <Entry key="MessageBox_VersionRestrictionError">
-        Paigaldatud SEB versiooni %%_VERSION_%% ei saa kasutada, kuna valitud seadistusega on vaja kasutada konkreetset versiooni: %%_REQUIRED_VERSIONS_%%. Palun laadi alla ja installi vajalik versioon ametlikult veebisaidilt (safeexambrowser.org/download) või GitHubi SEB for Windows repositooriumist (github.com/safeexambrowser).
+        Paigaldatud Xolock versiooni %%_VERSION_%% ei saa kasutada, kuna valitud seadistusega on vaja kasutada konkreetset versiooni: %%_REQUIRED_VERSIONS_%%. Palun laadi alla ja installi vajalik versioon ametlikult veebisaidilt (safeexambrowser.org/download) või GitHubi Xolock for Windows repositooriumist (github.com/safeexambrowser).
     </Entry>
     <Entry key="MessageBox_VersionRestrictionErrorTitle">
-        Sobimatu SEB versioon
+        Sobimatu Xolock versioon
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
-        SEB %%_VERSION_%% või uuem
+        Xolock %%_VERSION_%% või uuem
     </Entry>
     <Entry key="MessageBox_VideoProctoringDisclaimer">
-        Praegust seanssi jälgitakse reaalajas video- ja helivoo abil, mis saadetakse eraldi seadistatud serverisse. Küsi eksamikorraldajalt nende privaatsuspoliitika kohta. SEB ise ei ole ühendatud ühegi jälgimisteenust pakkuva serveriga, eksami korraldaja otsustab, millist jälgimisteenust/serverit kasutada.
+        Praegust seanssi jälgitakse reaalajas video- ja helivoo abil, mis saadetakse eraldi seadistatud serverisse. Küsi eksamikorraldajalt nende privaatsuspoliitika kohta. Xolock ise ei ole ühendatud ühegi jälgimisteenust pakkuva serveriga, eksami korraldaja otsustab, millist jälgimisteenust/serverit kasutada.
     </Entry>
     <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
         Kaugkontrolliga seanss
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
-        See arvuti tundub olevat virtuaalmasin. Valitud seadistus ei luba SEB'i virtuaalmasinas käivitada.
+        See arvuti tundub olevat virtuaalmasin. Valitud seadistus ei luba Xolock'i virtuaalmasinas käivitada.
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
         Tuvastati virtuaalne masin
@@ -493,13 +493,13 @@
         Jah
     </Entry>
     <Entry key="MessageBox_ZoomNotSupported">
-        Valitud seadistus nõuab Zoomi kaugkontrolli, mida SEB versioon ei toeta. Palun laadi alla ja installi eksamikorraldaja poolt määratud SEB versioon. Vastavalt litsentsitingimustele on Zoom kaugkontroll kättesaadav ainult SEB Alliance'i liikmetele. Lisateavet leiate aadressilt https://safeexambrowser.org/alliance.
+        Valitud seadistus nõuab Zoomi kaugkontrolli, mida Xolock versioon ei toeta. Palun laadi alla ja installi eksamikorraldaja poolt määratud Xolock versioon. Vastavalt litsentsitingimustele on Zoom kaugkontroll kättesaadav ainult Xolock Alliance'i liikmetele. Lisateavet leiate aadressilt https://safeexambrowser.org/alliance.
     </Entry>
     <Entry key="MessageBox_ZoomNotSupportedTitle">
         Nõutav Zoomi kaugkontroll
     </Entry>
     <Entry key="Notification_AboutTooltip">
-        Teave SEB kohta
+        Teave Xolock kohta
     </Entry>
     <Entry key="Notification_LogTooltip">
         Rakenduse logi
@@ -685,7 +685,7 @@
         Parool nõutav
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequired">
-        Palun sisestage SEB sulgemiseks sulgemisparool:
+        Palun sisestage Xolock sulgemiseks sulgemisparool:
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
         Parool nõutav
@@ -727,7 +727,7 @@
         Ekraani kontrollimise lõpuleviimine
     </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
-        SEB töötab.
+        Xolock töötab.
     </Entry>
     <Entry key="ServerFailureDialog_Abort">
         Katkesta
@@ -736,7 +736,7 @@
         Varukoopia
     </Entry>
     <Entry key="ServerFailureDialog_Message">
-        SEB serveriga suhtlemisel ilmnes tõrge.
+        Xolock serveriga suhtlemisel ilmnes tõrge.
     </Entry>
     <Entry key="ServerFailureDialog_Retry">
         Proovi uuesti

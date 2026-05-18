@@ -44,7 +44,7 @@ namespace SafeExamBrowser.Runtime
 			}
 			else
 			{
-				MessageBox.Show("You can only run one instance of SEB at a time.", "Startup Not Allowed", MessageBoxButton.OK, MessageBoxImage.Information);
+				MessageBox.Show("You can only run one instance of Xolock at a time.", "Startup Not Allowed", MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 		}
 

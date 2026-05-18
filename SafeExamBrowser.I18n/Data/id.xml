@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Text>
     <Entry key="AboutWindow_LicenseInfo">
-        Aplikasi ini tunduk pada ketentuan Lisensi Publik Mozilla, versi 2.0. Safe Exam Browser menggunakan kerangka kerja dan pustaka pihak ketiga berikut ini:
+        Aplikasi ini tunduk pada ketentuan Lisensi Publik Mozilla, versi 2.0. Xolock menggunakan kerangka kerja dan pustaka pihak ketiga berikut ini:
     </Entry>
     <Entry key="AboutWindow_Title">
         Versi &amp; Informasi Lisensi
@@ -166,76 +166,76 @@
         Aplikasi "%%NAME%%" tidak dapat ditemukan di sistem! Silakan cari folder yang berisi eksekusi utama "%%EXECUTABLE%%".
     </Entry>
     <Entry key="LockScreen_ApplicationIntegrityMessage">
-        Anda menggunakan versi SEB yang tidak resmi! Pastikan Anda menggunakan Safe Exam Browser yang resmi. Untuk membuka kunci SEB, masukkan kata sandi pembuka kunci yang benar.
+        Anda menggunakan versi Xolock yang tidak resmi! Pastikan Anda menggunakan Xolock yang resmi. Untuk membuka kunci Xolock, masukkan kata sandi pembuka kunci yang benar.
     </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Izinkan aplikasi yang masuk daftar hitam untuk sementara waktu. Ini hanya berlaku untuk instance dan sesi yang sedang berjalan!
     </Entry>
     <Entry key="LockScreen_ApplicationsMessage">
-        Aplikasi yang masuk daftar hitam yang tercantum di bawah ini telah dimulai dan tidak dapat dihentikan secara otomatis! Untuk membuka kunci SEB, pilih salah satu opsi yang tersedia dan masukkan kata sandi pembuka kunci yang benar.
+        Aplikasi yang masuk daftar hitam yang tercantum di bawah ini telah dimulai dan tidak dapat dihentikan secara otomatis! Untuk membuka kunci Xolock, pilih salah satu opsi yang tersedia dan masukkan kata sandi pembuka kunci yang benar.
     </Entry>
     <Entry key="LockScreen_ApplicationsTerminateOption">
-        Menghentikan Safe Exam Browser. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
+        Menghentikan Xolock. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
     </Entry>
     <Entry key="LockScreen_CursorContinueOption">
         Izinkan konfigurasi kursor untuk sementara waktu. Ini hanya berlaku untuk sesi yang sedang berjalan!
     </Entry>
     <Entry key="LockScreen_CursorMessage">
-        Konfigurasi kursor yang dilarang telah terdeteksi. Untuk membuka kunci SEB, pilih salah satu opsi yang tersedia dan masukkan kata sandi buka kunci yang benar.
+        Konfigurasi kursor yang dilarang telah terdeteksi. Untuk membuka kunci Xolock, pilih salah satu opsi yang tersedia dan masukkan kata sandi buka kunci yang benar.
     </Entry>
     <Entry key="LockScreen_CursorTerminateOption">
-        Menghentikan Safe Exam Browser. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
+        Menghentikan Xolock. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         Izinkan konfigurasi tampilan untuk sementara waktu. Ini hanya berlaku untuk sesi yang sedang berjalan!
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationMessage">
-        Konfigurasi tampilan yang dilarang telah terdeteksi. Untuk membuka kunci SEB, pilih salah satu opsi yang tersedia dan masukkan kata sandi pembuka kunci yang benar.
+        Konfigurasi tampilan yang dilarang telah terdeteksi. Untuk membuka kunci Xolock, pilih salah satu opsi yang tersedia dan masukkan kata sandi pembuka kunci yang benar.
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationTerminateOption">
-        Menghentikan Safe Exam Browser. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
+        Menghentikan Xolock. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
     </Entry>
     <Entry key="LockScreen_EaseOfAccessContinueOption">
         Izinkan konfigurasi kemudahan akses untuk sementara waktu. Ini hanya berlaku untuk sesi yang sedang berjalan!
     </Entry>
     <Entry key="LockScreen_EaseOfAccessMessage">
-        Konfigurasi kemudahan akses yang dilarang untuk Layar Keamanan Windows telah terdeteksi. Untuk membuka kunci SEB, pilih salah satu opsi yang tersedia dan masukkan kata sandi pembuka kunci yang benar.
+        Konfigurasi kemudahan akses yang dilarang untuk Layar Keamanan Windows telah terdeteksi. Untuk membuka kunci Xolock, pilih salah satu opsi yang tersedia dan masukkan kata sandi pembuka kunci yang benar.
     </Entry>
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
-        Menghentikan Safe Exam Browser. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
+        Menghentikan Xolock. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
     </Entry>
     <Entry key="LockScreen_RuntimeIntegrityMessage">
-        Keamanan Safe Exam Browser telah terganggu! Untuk membuka kunci SEB, silakan masukkan kata sandi pembuka kunci yang benar.
+        Keamanan Xolock telah terganggu! Untuk membuka kunci Xolock, silakan masukkan kata sandi pembuka kunci yang benar.
     </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
-        Sesi terakhir dengan konfigurasi yang sedang aktif atau URL awal tidak diakhiri dengan benar! Silakan masukkan kata sandi yang benar untuk membuka kunci SEB.
+        Sesi terakhir dengan konfigurasi yang sedang aktif atau URL awal tidak diakhiri dengan benar! Silakan masukkan kata sandi yang benar untuk membuka kunci Xolock.
     </Entry>
     <Entry key="LockScreen_StickyKeysContinueOption">
         Mengizinkan status tombol tempel untuk sementara waktu. Ini hanya berlaku untuk sesi yang sedang berjalan!
     </Entry>
     <Entry key="LockScreen_StickyKeysMessage">
-        Kondisi kunci tempel yang dilarang telah terdeteksi. Untuk membuka kunci SEB, pilih salah satu opsi yang tersedia dan masukkan kata sandi buka kunci yang benar.
+        Kondisi kunci tempel yang dilarang telah terdeteksi. Untuk membuka kunci Xolock, pilih salah satu opsi yang tersedia dan masukkan kata sandi buka kunci yang benar.
     </Entry>
     <Entry key="LockScreen_StickyKeysTerminateOption">
-        Menghentikan Safe Exam Browser. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
+        Menghentikan Xolock. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
     </Entry>
     <Entry key="LockScreen_Title">
-        SEB TERKUNCI
+        Xolock TERKUNCI
     </Entry>
     <Entry key="LockScreen_UnlockButton">
         Buka Kunci
     </Entry>
     <Entry key="LockScreen_UserSessionContinueOption">
-        Buka Kunci Safe Exam Browser.
+        Buka Kunci Xolock.
     </Entry>
     <Entry key="LockScreen_UserSessionMessage">
-        Pengguna aktif telah berganti atau komputer terkunci! Untuk membuka kunci SEB, pilih salah satu opsi yang tersedia dan masukkan kata sandi pembuka kunci yang benar.
+        Pengguna aktif telah berganti atau komputer terkunci! Untuk membuka kunci Xolock, pilih salah satu opsi yang tersedia dan masukkan kata sandi pembuka kunci yang benar.
     </Entry>
     <Entry key="LockScreen_UserSessionTerminateOption">
-        Menghentikan Safe Exam Browser. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
+        Menghentikan Xolock. PERINGATAN: Tidak akan ada kemungkinan untuk menyimpan data atau melakukan tindakan lebih lanjut, penghentian akan segera dilakukan!
     </Entry>
     <Entry key="LockScreen_UserSwitchMessage">
-        Pengguna aktif telah berubah! Untuk membuka kunci SEB, pilih salah satu opsi yang tersedia dan masukkan kata sandi buka kunci yang benar.
+        Pengguna aktif telah berubah! Untuk membuka kunci Xolock, pilih salah satu opsi yang tersedia dan masukkan kata sandi buka kunci yang benar.
     </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Selalu di atas
@@ -256,7 +256,7 @@
         PERINGATAN: Data aplikasi yang belum disimpan dapat hilang!
     </Entry>
     <Entry key="MessageBox_ApplicationError">
-        Terjadi kesalahan yang tidak dapat dipulihkan! Silakan lihat file log untuk informasi lebih lanjut. SEB sekarang akan ditutup...
+        Terjadi kesalahan yang tidak dapat dipulihkan! Silakan lihat file log untuk informasi lebih lanjut. Xolock sekarang akan ditutup...
     </Entry>
     <Entry key="MessageBox_ApplicationErrorTitle">
         Kesalahan Aplikasi
@@ -292,7 +292,7 @@
         Halaman Diblokir
     </Entry>
     <Entry key="MessageBox_BrowserQuitUrlConfirmation">
-        Aplikasi peramban telah mendeteksi URL keluar! Apakah Anda ingin menghentikan SEB sekarang?
+        Aplikasi peramban telah mendeteksi URL keluar! Apakah Anda ingin menghentikan Xolock sekarang?
     </Entry>
     <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
         URL Keluar Terdeteksi
@@ -301,13 +301,13 @@
         Batal
     </Entry>
     <Entry key="MessageBox_ClientConfigurationError">
-        Konfigurasi klien lokal telah gagal! Silakan lihat file log untuk informasi lebih lanjut. SEB sekarang akan ditutup...
+        Konfigurasi klien lokal telah gagal! Silakan lihat file log untuk informasi lebih lanjut. Xolock sekarang akan ditutup...
     </Entry>
     <Entry key="MessageBox_ClientConfigurationErrorTitle">
         Kesalahan Konfigurasi
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestion">
-        Konfigurasi klien telah disimpan dan akan digunakan ketika Anda memulai SEB di lain waktu. Apakah Anda ingin keluar sekarang?
+        Konfigurasi klien telah disimpan dan akan digunakan ketika Anda memulai Xolock di lain waktu. Apakah Anda ingin keluar sekarang?
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestionTitle">
         Konfigurasi Berhasil
@@ -319,7 +319,7 @@
         Kesalahan Pengunduhan
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationError">
-        Konfigurasi tampilan aktif tidak diizinkan. %%_ALLOWED_COUNT_%% %%_TYPE_%% tampilan diperbolehkan, namun %%_INTERNAL_COUNT_%% internal dan %%_EXTERNAL_COUNT_%% tampilan eksternal terdeteksi. Silakan lihat file log untuk informasi lebih lanjut. SEB sekarang akan ditutup...
+        Konfigurasi tampilan aktif tidak diizinkan. %%_ALLOWED_COUNT_%% %%_TYPE_%% tampilan diperbolehkan, namun %%_INTERNAL_COUNT_%% internal dan %%_EXTERNAL_COUNT_%% tampilan eksternal terdeteksi. Silakan lihat file log untuk informasi lebih lanjut. Xolock sekarang akan ditutup...
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationErrorTitle">
         Konfigurasi Tampilan yang Dilarang
@@ -331,7 +331,7 @@
         internal atau eksternal
     </Entry>
     <Entry key="MessageBox_DownloadNotAllowed">
-        Mengunduh file tidak diperbolehkan dalam pengaturan SEB saat ini. Harap laporkan hal ini kepada penyedia ujian Anda.
+        Mengunduh file tidak diperbolehkan dalam pengaturan Xolock saat ini. Harap laporkan hal ini kepada penyedia ujian Anda.
     </Entry>
     <Entry key="MessageBox_DownloadNotAllowedTitle">
         Mengunduh Tidak Diizinkan!
@@ -349,19 +349,19 @@
         Kata Sandi Tidak Valid
     </Entry>
     <Entry key="MessageBox_InvalidPasswordError">
-        Anda gagal memasukkan kata sandi yang benar dalam 5 kali percobaan. SEB sekarang akan berhenti...
+        Anda gagal memasukkan kata sandi yang benar dalam 5 kali percobaan. Xolock sekarang akan berhenti...
     </Entry>
     <Entry key="MessageBox_InvalidPasswordErrorTitle">
         Kata Sandi Tidak Valid
     </Entry>
     <Entry key="MessageBox_InvalidQuitPassword">
-        SEB hanya dapat dihentikan dengan memasukkan kata sandi keluar yang benar.
+        Xolock hanya dapat dihentikan dengan memasukkan kata sandi keluar yang benar.
     </Entry>
     <Entry key="MessageBox_InvalidQuitPasswordTitle">
         Kata Sandi Keluar Tidak Valid
     </Entry>
     <Entry key="MessageBox_InvalidUnlockPassword">
-        SEB hanya dapat dibuka dengan memasukkan kata sandi yang benar.
+        Xolock hanya dapat dibuka dengan memasukkan kata sandi yang benar.
     </Entry>
     <Entry key="MessageBox_InvalidUnlockPasswordTitle">
         Kata Sandi Pembuka Kunci Tidak Valid
@@ -391,7 +391,7 @@
         Muat Ulang?
     </Entry>
     <Entry key="MessageBox_Quit">
-        Apakah Anda ingin keluar dari SEB?
+        Apakah Anda ingin keluar dari Xolock?
     </Entry>
     <Entry key="MessageBox_QuitTitle">
         Keluar?
@@ -403,7 +403,7 @@
         Kesalahan Keluar
     </Entry>
     <Entry key="MessageBox_ReconfigurationDenied">
-        Anda tidak diizinkan untuk mengkonfigurasi ulang SEB.
+        Anda tidak diizinkan untuk mengkonfigurasi ulang Xolock.
     </Entry>
     <Entry key="MessageBox_ReconfigurationDeniedTitle">
         Konfigurasi Ulang Ditolak
@@ -415,7 +415,7 @@
         Kesalahan Konfigurasi Ulang
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
-        Sistem tampaknya sedang berjalan dalam sesi jarak jauh. Konfigurasi yang dipilih tidak mengizinkan SEB untuk dijalankan dalam sesi jarak jauh.
+        Sistem tampaknya sedang berjalan dalam sesi jarak jauh. Konfigurasi yang dipilih tidak mengizinkan Xolock untuk dijalankan dalam sesi jarak jauh.
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
         Sesi Jarak Jauh Terdeteksi
@@ -427,19 +427,19 @@
         Sesi dengan Screen Proctoring
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
-        Gagal menginisialisasi layanan SEB! SEB sekarang akan dihentikan karena layanan dikonfigurasi menjadi wajib.
+        Gagal menginisialisasi layanan Xolock! Xolock sekarang akan dihentikan karena layanan dikonfigurasi menjadi wajib.
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableErrorTitle">
         Layanan Tidak Tersedia
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableWarning">
-        Gagal menginisialisasi layanan SEB. SEB akan melanjutkan inisialisasi karena layanan dikonfigurasikan sebagai opsional.
+        Gagal menginisialisasi layanan Xolock. Xolock akan melanjutkan inisialisasi karena layanan dikonfigurasikan sebagai opsional.
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableWarningTitle">
         Layanan Tidak Tersedia
     </Entry>
     <Entry key="MessageBox_SessionStartError">
-        SEB gagal memulai sesi baru! Silakan lihat file log untuk informasi lebih lanjut.
+        Xolock gagal memulai sesi baru! Silakan lihat file log untuk informasi lebih lanjut.
     </Entry>
     <Entry key="MessageBox_SessionStartErrorTitle">
         Kesalahan Mulai Sesi
@@ -463,28 +463,28 @@
         Kesalahan Konfigurasi
     </Entry>
     <Entry key="MessageBox_UploadNotAllowed">
-        Mengunggah file tidak diperbolehkan dalam pengaturan SEB saat ini. Harap laporkan hal ini ke penyedia ujian Anda.
+        Mengunggah file tidak diperbolehkan dalam pengaturan Xolock saat ini. Harap laporkan hal ini ke penyedia ujian Anda.
     </Entry>
     <Entry key="MessageBox_UploadNotAllowedTitle">
         Mengunggah Tidak Diizinkan!
     </Entry>
     <Entry key="MessageBox_VersionRestrictionError">
-        Versi SEB yang diinstal %%_VERSION_%% tidak dapat digunakan karena konfigurasi yang dipilih mengharuskan untuk menggunakan versi tertentu:%%_REQUIRED_VERSIONS_%%Silakan unduh dan instal versi yang diperlukan dari situs web resmi (safeexambrowser.org/download) atau dari repositori SEB untuk Windows di GitHub (github.com/safeexambrowser).
+        Versi Xolock yang diinstal %%_VERSION_%% tidak dapat digunakan karena konfigurasi yang dipilih mengharuskan untuk menggunakan versi tertentu:%%_REQUIRED_VERSIONS_%%Silakan unduh dan instal versi yang diperlukan dari situs web resmi (safeexambrowser.org/download) atau dari repositori Xolock untuk Windows di GitHub (github.com/safeexambrowser).
     </Entry>
     <Entry key="MessageBox_VersionRestrictionErrorTitle">
-        Versi SEB Tidak Valid
+        Versi Xolock Tidak Valid
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
-        SEB %%_VERSION_%% atau yang lebih baru
+        Xolock %%_VERSION_%% atau yang lebih baru
     </Entry>
     <Entry key="MessageBox_VideoProctoringDisclaimer">
-        Sesi saat ini akan dipantau dari jarak jauh menggunakan streaming video dan audio langsung, yang dikirim ke server yang dikonfigurasi secara individual. Tanyakan kepada penguji Anda tentang kebijakan privasi mereka. SEB sendiri tidak terhubung ke server pengawas ujian SEB terpusat, penyedia ujian Anda memutuskan layanan/server pengawas ujian mana yang akan digunakan.
+        Sesi saat ini akan dipantau dari jarak jauh menggunakan streaming video dan audio langsung, yang dikirim ke server yang dikonfigurasi secara individual. Tanyakan kepada penguji Anda tentang kebijakan privasi mereka. Xolock sendiri tidak terhubung ke server pengawas ujian Xolock terpusat, penyedia ujian Anda memutuskan layanan/server pengawas ujian mana yang akan digunakan.
     </Entry>
     <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
         Sesi dengan Pengawasan Jarak Jauh
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
-        Komputer ini tampaknya merupakan mesin virtual. Konfigurasi yang dipilih tidak mengizinkan SEB untuk dijalankan di mesin virtual.
+        Komputer ini tampaknya merupakan mesin virtual. Konfigurasi yang dipilih tidak mengizinkan Xolock untuk dijalankan di mesin virtual.
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
         Mesin Virtual Terdeteksi
@@ -493,13 +493,13 @@
         Ya
     </Entry>
     <Entry key="MessageBox_ZoomNotSupported">
-        Konfigurasi yang dipilih memerlukan pengawasan jarak jauh dengan Zoom, yang tidak didukung oleh versi SEB ini. Silakan unduh dan instal versi SEB yang ditentukan oleh penyelenggara ujian Anda. Karena masalah lisensi, pengawasan jarak jauh dengan Zoom hanya tersedia untuk anggota SEB Alliance. Silakan merujuk ke https://safeexambrowser.org/alliance untuk informasi lebih lanjut.
+        Konfigurasi yang dipilih memerlukan pengawasan jarak jauh dengan Zoom, yang tidak didukung oleh versi Xolock ini. Silakan unduh dan instal versi Xolock yang ditentukan oleh penyelenggara ujian Anda. Karena masalah lisensi, pengawasan jarak jauh dengan Zoom hanya tersedia untuk anggota Xolock Alliance. Silakan merujuk ke https://safeexambrowser.org/alliance untuk informasi lebih lanjut.
     </Entry>
     <Entry key="MessageBox_ZoomNotSupportedTitle">
         Pemeriksaan dengan Zoom Diperlukan
     </Entry>
     <Entry key="Notification_AboutTooltip">
-        Informasi tentang SEB
+        Informasi tentang Xolock
     </Entry>
     <Entry key="Notification_LogTooltip">
         Log Aplikasi
@@ -685,7 +685,7 @@
         Kata Sandi Diperlukan
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequired">
-        Masukkan kata sandi keluar untuk mengakhiri SEB:
+        Masukkan kata sandi keluar untuk mengakhiri Xolock:
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
         Kata Sandi Diperlukan
@@ -727,7 +727,7 @@
         Finalisasi Pemeriksaan Layar
     </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
-        SEB sedang berjalan.
+        Xolock sedang berjalan.
     </Entry>
     <Entry key="ServerFailureDialog_Abort">
         Batalkan
@@ -736,13 +736,13 @@
         Kembali
     </Entry>
     <Entry key="ServerFailureDialog_Message">
-        Terjadi kesalahan saat mencoba berkomunikasi dengan server SEB.
+        Terjadi kesalahan saat mencoba berkomunikasi dengan server Xolock.
     </Entry>
     <Entry key="ServerFailureDialog_Retry">
         Coba Lagi
     </Entry>
     <Entry key="ServerFailureDialog_Title">
-        Kesalahan Server SEB
+        Kesalahan Server Xolock
     </Entry>
     <Entry key="Shell_QuitButton">
         Hentikan Sesi

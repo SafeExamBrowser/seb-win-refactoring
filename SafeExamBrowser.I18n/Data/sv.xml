@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Text>
     <Entry key="AboutWindow_LicenseInfo">
-        Denna applikation är föremål för villkoren i Mozilla Public License, version 2.0. Safe Exam Browser använder följande ramverk och tredjepartsbibliotek:
+        Denna applikation är föremål för villkoren i Mozilla Public License, version 2.0. Xolock använder följande ramverk och tredjepartsbibliotek:
     </Entry>
     <Entry key="AboutWindow_Title">
         Version &amp; licensinformation
@@ -166,76 +166,76 @@
         Applikationen "%%NAME%%" gick inte att hitta. Lokalisera mappen som innehåller programmets fil "%%EXECUTABLE%%".
     </Entry>
     <Entry key="LockScreen_ApplicationIntegrityMessage">
-        Du använder en icke officiell version av SEB. Säkerställ att du använder en officiell version av Safe Exam Browser. För att låsa upp SEB, ange rätt lösenord.
+        Du använder en icke officiell version av Xolock. Säkerställ att du använder en officiell version av Xolock. För att låsa upp Xolock, ange rätt lösenord.
     </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Tillåt blockerade applikationer temporärt. Detta gäller endast på den nuvarande instansen och den pågående sessionen.
     </Entry>
     <Entry key="LockScreen_ApplicationsMessage">
-        De blockerade applikationerna som listas nedan startades, men gick inte att avsluta automatiskt. För att låsa upp SEB, välj ett av de tillgängliga alternativen och ange rätt lösenord.
+        De blockerade applikationerna som listas nedan startades, men gick inte att avsluta automatiskt. För att låsa upp Xolock, välj ett av de tillgängliga alternativen och ange rätt lösenord.
     </Entry>
     <Entry key="LockScreen_ApplicationsTerminateOption">
-        Avsluta Safe Exam Browser. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
+        Avsluta Xolock. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
     </Entry>
     <Entry key="LockScreen_CursorContinueOption">
         Tillåt konfiguration av pekaren temporärt. Detta gäller endast den pågende sessionen.
     </Entry>
     <Entry key="LockScreen_CursorMessage">
-        En otillåten konfiguration av pekaren har upptäckts. För att låsa upp SEB, välj ett av de tillgängliga alternativen och ange rätt lösenord.
+        En otillåten konfiguration av pekaren har upptäckts. För att låsa upp Xolock, välj ett av de tillgängliga alternativen och ange rätt lösenord.
     </Entry>
     <Entry key="LockScreen_CursorTerminateOption">
-        Avsluta Safe Exam Browser. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
+        Avsluta Xolock. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         Tillåt konfiguration av bildskärm temporärt. Detta gäller endast den pågående sessionen.
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationMessage">
-        En otillåten bildskärmskonfiguration har upptäckts. För att låsa upp SEB, välj ett av de tillgängliga alternativen och ange rätt lösenord.
+        En otillåten bildskärmskonfiguration har upptäckts. För att låsa upp Xolock, välj ett av de tillgängliga alternativen och ange rätt lösenord.
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationTerminateOption">
-        Avsluta Safe Exam Browser. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
+        Avsluta Xolock. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
     </Entry>
     <Entry key="LockScreen_EaseOfAccessContinueOption">
         Tillåt konfiguration av funktioner för tillgänglighet temporärt. Detta gäller endast den pågående sessionen.
     </Entry>
     <Entry key="LockScreen_EaseOfAccessMessage">
-        En otillåten konfiguration av hjälpmedel på Windows säkerhetsskärm har upptäckts. För att låsa upp SEB, välj ett av de tillgängliga alternativen och ange rätt lösenord.
+        En otillåten konfiguration av hjälpmedel på Windows säkerhetsskärm har upptäckts. För att låsa upp Xolock, välj ett av de tillgängliga alternativen och ange rätt lösenord.
     </Entry>
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
-        Avsluta Safe Exam Browser. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
+        Avsluta Xolock. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
     </Entry>
     <Entry key="LockScreen_RuntimeIntegrityMessage">
-        Safe Exam Browsers integritet under körning har äventyrats! Ange rätt lösenord för att låsa upp SEB.
+        Xolocks integritet under körning har äventyrats! Ange rätt lösenord för att låsa upp Xolock.
     </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
-        Den senaste sessionen med den nu aktiva inställningen blev inte korrekt avslutad. Ange rätt lösenord för att låsa upp SEB.
+        Den senaste sessionen med den nu aktiva inställningen blev inte korrekt avslutad. Ange rätt lösenord för att låsa upp Xolock.
     </Entry>
     <Entry key="LockScreen_StickyKeysContinueOption">
         Tillåt tröga tangenter temporärt. Detta gäller endast den pågående sessionen.
     </Entry>
     <Entry key="LockScreen_StickyKeysMessage">
-        En otillåten inställning för tröga tangenter har upptäckts. För att låsa upp SEB, välj ett av de tillgängliga alternativen och ange rätt lösenord.
+        En otillåten inställning för tröga tangenter har upptäckts. För att låsa upp Xolock, välj ett av de tillgängliga alternativen och ange rätt lösenord.
     </Entry>
     <Entry key="LockScreen_StickyKeysTerminateOption">
-        Avsluta Safe Exam Browser. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
+        Avsluta Xolock. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
     </Entry>
     <Entry key="LockScreen_Title">
-        SEB är låst
+        Xolock är låst
     </Entry>
     <Entry key="LockScreen_UnlockButton">
         Lås upp
     </Entry>
     <Entry key="LockScreen_UserSessionContinueOption">
-        Lås upp Safe Exam Browser.
+        Lås upp Xolock.
     </Entry>
     <Entry key="LockScreen_UserSessionMessage">
-        Den aktiva användaren är ändrad eller datorn är låst. För att låsa upp SEB, välj ett av de tillgängliga alternativen och ange rätt lösenord.
+        Den aktiva användaren är ändrad eller datorn är låst. För att låsa upp Xolock, välj ett av de tillgängliga alternativen och ange rätt lösenord.
     </Entry>
     <Entry key="LockScreen_UserSessionTerminateOption">
-        Avsluta Safe Exam Browser. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
+        Avsluta Xolock. VARNING: Det kommer inte att finnas någon möjlighet att spara data eller utföra ytterligare åtgärder, avstängningen kommer att ske omedelbart!
     </Entry>
     <Entry key="LockScreen_UserSwitchMessage">
-        Den aktiva användaren är ändrad eller datorn är låst. För att låsa upp SEB, välj ett av de tillgängliga alternativen och ange rätt lösenord.
+        Den aktiva användaren är ändrad eller datorn är låst. För att låsa upp Xolock, välj ett av de tillgängliga alternativen och ange rätt lösenord.
     </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Alltid överst
@@ -256,7 +256,7 @@
         VARNING: Data som ej är sparad kan försvinna.
     </Entry>
     <Entry key="MessageBox_ApplicationError">
-        Ett oåterkalleligt fel har inträffat. Se loggfilerna för mer information. SEB kommer nu att stängas…
+        Ett oåterkalleligt fel har inträffat. Se loggfilerna för mer information. Xolock kommer nu att stängas…
     </Entry>
     <Entry key="MessageBox_ApplicationErrorTitle">
         Applikationsfel
@@ -292,7 +292,7 @@
         Blockerad sida
     </Entry>
     <Entry key="MessageBox_BrowserQuitUrlConfirmation">
-        En URL för att avsluta är upptäckt. Vill du avsluta SEB nu?
+        En URL för att avsluta är upptäckt. Vill du avsluta Xolock nu?
     </Entry>
     <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
         URL för avslut är upptäckt
@@ -301,13 +301,13 @@
         Avbryt
     </Entry>
     <Entry key="MessageBox_ClientConfigurationError">
-        Inställningen på din enhet misslyckades. Se loggfilerna för mer information. SEB kommer nu att avslutas…
+        Inställningen på din enhet misslyckades. Se loggfilerna för mer information. Xolock kommer nu att avslutas…
     </Entry>
     <Entry key="MessageBox_ClientConfigurationErrorTitle">
         Fel vid konfiguration
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestion">
-        Inställning på din enhet är sparad och kommer att användas nästa gång du startar SEB. Vill du avsluta nu?
+        Inställning på din enhet är sparad och kommer att användas nästa gång du startar Xolock. Vill du avsluta nu?
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestionTitle">
         Konfiguration slutförd
@@ -319,7 +319,7 @@
         Nedladdningsfel
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationError">
-        Du har för många bildskärmar anslutna. %%_ALLOWED_COUNT_%% %%_TYPE_%% bildskärm(ar) är tillåtna, men %%_INTERNAL_COUNT_%% interna och %%_EXTERNAL_COUNT_%% externa bildskärm(ar) är upptäckta. Se loggfilerna för mer information. SEB kommer nu att avslutas.
+        Du har för många bildskärmar anslutna. %%_ALLOWED_COUNT_%% %%_TYPE_%% bildskärm(ar) är tillåtna, men %%_INTERNAL_COUNT_%% interna och %%_EXTERNAL_COUNT_%% externa bildskärm(ar) är upptäckta. Se loggfilerna för mer information. Xolock kommer nu att avslutas.
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationErrorTitle">
         Ej tillåten bildskärmsinställning
@@ -331,7 +331,7 @@
         intern eller extern
     </Entry>
     <Entry key="MessageBox_DownloadNotAllowed">
-        Nedladdning av filer är inte tillåten i de aktuella inställningarna för SEB. Rapportera detta till distributören av provet.
+        Nedladdning av filer är inte tillåten i de aktuella inställningarna för Xolock. Rapportera detta till distributören av provet.
     </Entry>
     <Entry key="MessageBox_DownloadNotAllowedTitle">
         Nedladdning ej tillåten!
@@ -349,19 +349,19 @@
         Ogiltigt lösenord
     </Entry>
     <Entry key="MessageBox_InvalidPasswordError">
-        Du har angivit fel lösenord fem gånger. SEB kommer nu att avslutas…
+        Du har angivit fel lösenord fem gånger. Xolock kommer nu att avslutas…
     </Entry>
     <Entry key="MessageBox_InvalidPasswordErrorTitle">
         Ogiltigt lösenord
     </Entry>
     <Entry key="MessageBox_InvalidQuitPassword">
-        Du måste ange rätt lösenord för att avsluta SEB.
+        Du måste ange rätt lösenord för att avsluta Xolock.
     </Entry>
     <Entry key="MessageBox_InvalidQuitPasswordTitle">
         Ogiltigt lösenord
     </Entry>
     <Entry key="MessageBox_InvalidUnlockPassword">
-        Du måste ange rätt lösenord för att öppna SEB.
+        Du måste ange rätt lösenord för att öppna Xolock.
     </Entry>
     <Entry key="MessageBox_InvalidUnlockPasswordTitle">
         Ogiltigt lösenord
@@ -391,7 +391,7 @@
         Ladda om?
     </Entry>
     <Entry key="MessageBox_Quit">
-        Vill du avsluta SEB?
+        Vill du avsluta Xolock?
     </Entry>
     <Entry key="MessageBox_QuitTitle">
         Avsluta?
@@ -403,7 +403,7 @@
         Fel vid avslutning
     </Entry>
     <Entry key="MessageBox_ReconfigurationDenied">
-        Du har inte tillåtelse att konfigurera om SEB.
+        Du har inte tillåtelse att konfigurera om Xolock.
     </Entry>
     <Entry key="MessageBox_ReconfigurationDeniedTitle">
         Omkonfiguration nekad
@@ -415,7 +415,7 @@
         Fel vid uppdaterad konfiguration
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
-        Skärmdelning verkar vara aktivt. Den valda konfigurationen av SEB tillåter inte skärmdelning.
+        Skärmdelning verkar vara aktivt. Den valda konfigurationen av Xolock tillåter inte skärmdelning.
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
         Fjärrsession upptäckt
@@ -427,19 +427,19 @@
         Provtillfälle med skärmövervakning
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
-        Den lokala inställningen av SEB misslyckades. Programmet kommer nu att avslutas eftersom inställningen är obligatorisk.
+        Den lokala inställningen av Xolock misslyckades. Programmet kommer nu att avslutas eftersom inställningen är obligatorisk.
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableErrorTitle">
         Tjänsten är inte tillgänglig
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableWarning">
-        Den lokala inställningen av SEB misslyckades. Programmet kommer att öppnas eftersom inställningen är valfri.
+        Den lokala inställningen av Xolock misslyckades. Programmet kommer att öppnas eftersom inställningen är valfri.
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableWarningTitle">
         Tjänsten är inte tillgänglig
     </Entry>
     <Entry key="MessageBox_SessionStartError">
-        SEB misslyckades med att starta en ny session. Se loggfilerna för mer information.
+        Xolock misslyckades med att starta en ny session. Se loggfilerna för mer information.
     </Entry>
     <Entry key="MessageBox_SessionStartErrorTitle">
         Fel vid start av ny session
@@ -469,22 +469,22 @@
         Uppladdning ej tillåten!
     </Entry>
     <Entry key="MessageBox_VersionRestrictionError">
-        Den installerade SEB-version %%_VERSION_%% kan inte användas eftersom den valda konfigurationen kräver att version:%%_REQUIRED_VERSIONS_%% används. Ladda ner och installera den versionen från den officiella webbplatsen (safeexambrowser.org/download) eller från SEB:s repository för Windows på GitHub (github.com/safeexambrowser).
+        Den installerade Xolock-version %%_VERSION_%% kan inte användas eftersom den valda konfigurationen kräver att version:%%_REQUIRED_VERSIONS_%% används. Ladda ner och installera den versionen från den officiella webbplatsen (safeexambrowser.org/download) eller från Xolock:s repository för Windows på GitHub (github.com/safeexambrowser).
     </Entry>
     <Entry key="MessageBox_VersionRestrictionErrorTitle">
-        Ogiltig version av SEB
+        Ogiltig version av Xolock
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
-        SEB %%_VERSION_%% eller nyare
+        Xolock %%_VERSION_%% eller nyare
     </Entry>
     <Entry key="MessageBox_VideoProctoringDisclaimer">
-        Provövervakning kommer att ske via skärmdelning och data lagras på en server. Kontakta provdistributören om du har frågor rörande integritetspolicyn. SEB ansluter inte till någon central server för övervakning. Det är provdistributören som bestämmer vilka tjänster som ska användas. 
+        Provövervakning kommer att ske via skärmdelning och data lagras på en server. Kontakta provdistributören om du har frågor rörande integritetspolicyn. Xolock ansluter inte till någon central server för övervakning. Det är provdistributören som bestämmer vilka tjänster som ska användas. 
     </Entry>
     <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
         Övervakning med skärmdelning
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
-        Den här datorn verkar vara en virtuell maskin. Den valda konfigurationen tillåter inte att SEB körs i en virtuell maskin.
+        Den här datorn verkar vara en virtuell maskin. Den valda konfigurationen tillåter inte att Xolock körs i en virtuell maskin.
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
         Virtuell maskin upptäckt
@@ -493,13 +493,13 @@
         Ja
     </Entry>
     <Entry key="MessageBox_ZoomNotSupported">
-        Den valda konfigurationen kräver fjärrövervakning med Zoom, vilket denna version av SEB inte stöder. Ladda ner och installera den version av SEB som angetts av din provorganisatör. Av licensskäl är fjärrövervakning med Zoom endast tillgänglig för medlemmar i SEB Alliance. Se https://safeexambrowser.org/alliance för mer information.
+        Den valda konfigurationen kräver fjärrövervakning med Zoom, vilket denna version av Xolock inte stöder. Ladda ner och installera den version av Xolock som angetts av din provorganisatör. Av licensskäl är fjärrövervakning med Zoom endast tillgänglig för medlemmar i Xolock Alliance. Se https://safeexambrowser.org/alliance för mer information.
     </Entry>
     <Entry key="MessageBox_ZoomNotSupportedTitle">
         Övervakning med Zoom krävs
     </Entry>
     <Entry key="Notification_AboutTooltip">
-        Information om SEB
+        Information om Xolock
     </Entry>
     <Entry key="Notification_LogTooltip">
         Applikationslogg
@@ -685,7 +685,7 @@
         Lösenord krävs
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequired">
-        Ange lösenordet för att avsluta SEB:
+        Ange lösenordet för att avsluta Xolock:
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
         Lösenord krävs
@@ -727,7 +727,7 @@
         Slutför övervakning av skärm.
     </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
-        SEB körs
+        Xolock körs
     </Entry>
     <Entry key="ServerFailureDialog_Abort">
         Avbryt

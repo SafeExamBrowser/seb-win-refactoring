@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Text>
     <Entry key="AboutWindow_LicenseInfo">
-        このアプリケーションは、Mozilla Public License version 2.0の条項に従います。Safe Exam Browserは以下のフレームワークおよびサードパーティライブラリを使用しています:
+        このアプリケーションは、Mozilla Public License version 2.0の条項に従います。Xolockは以下のフレームワークおよびサードパーティライブラリを使用しています:
     </Entry>
     <Entry key="AboutWindow_Title">
         バージョンとライセンス情報
@@ -166,7 +166,7 @@
         アプリケーション ["%%NAME%%"] がシステム上に見つかりませんでした！メイン実行ファイル ["%%EXECUTABLE%%"] を含むフォルダを指定してください。
     </Entry>
     <Entry key="LockScreen_ApplicationIntegrityMessage">
-        非公式なバージョンのSEBを使用しています！公式のSafe Exam Browserを使用してください。SEBのロックを解除するには、正しいロック解除パスワードを入力してください。
+        非公式なバージョンのSEBを使用しています！公式のXolockを使用してください。SEBのロックを解除するには、正しいロック解除パスワードを入力してください。
     </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         ブラックリストに登録されたアプリケーションを一時的に許可します。これは現在実行中のインスタンスとセッションにのみ適用されます！
@@ -175,7 +175,7 @@
         以下のブラックリストに登録されたアプリケーションが起動され、自動的に終了できませんでした！SEBのロックを解除するには、利用可能なオプションの1つを選択し、正しいロック解除パスワードを入力してください。
     </Entry>
     <Entry key="LockScreen_ApplicationsTerminateOption">
-        Safe Exam Browserを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
+        Xolockを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
     </Entry>
     <Entry key="LockScreen_CursorContinueOption">
         カーソル設定を一時的に許可します。これは現在実行中のセッションにのみ適用されます！
@@ -184,7 +184,7 @@
         禁止されたカーソル設定が検出されました。SEBのロックを解除するには、利用可能なオプションの1つを選択し、正しいロック解除パスワードを入力してください。
     </Entry>
     <Entry key="LockScreen_CursorTerminateOption">
-        Safe Exam Browserを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
+        Xolockを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         ディスプレイ設定を一時的に許可します。これは現在実行中のセッションにのみ適用されます！
@@ -193,7 +193,7 @@
         禁止されたディスプレイ設定が検出されました。SEBのロックを解除するには、利用可能なオプションの1つを選択し、正しいロック解除パスワードを入力してください。
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationTerminateOption">
-        Safe Exam Browserを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
+        Xolockを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
     </Entry>
     <Entry key="LockScreen_EaseOfAccessContinueOption">
         簡単操作の設定を一時的に許可します。これは現在実行中のセッションにのみ適用されます！
@@ -202,10 +202,10 @@
         禁止されているWindowsセキュリティ画面における簡単操作設定(Ease of Access)が検出されました。SEBのロックを解除するには、利用可能なオプションの1つを選択し、正しいロック解除パスワードを入力してください。
     </Entry>
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
-        Safe Exam Browserを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
+        Xolockを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
     </Entry>
     <Entry key="LockScreen_RuntimeIntegrityMessage">
-        Safe Exam Browserの実行時の整合性が損なわれました！SEBのロックを解除するには、正しい解除パスワードを入力してください。
+        Xolockの実行時の整合性が損なわれました！SEBのロックを解除するには、正しい解除パスワードを入力してください。
     </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         現在アクティブな設定または開始URLによる前回のセッションが正常に終了しませんでした！SEBのロックを解除するには、正しいパスワードを入力してください。
@@ -217,7 +217,7 @@
         禁止された固定キー機能の状態が検出されました。SEBのロックを解除するには、利用可能なオプションの1つを選択し、正しいロック解除パスワードを入力してください。
     </Entry>
     <Entry key="LockScreen_StickyKeysTerminateOption">
-        Safe Exam Browserを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
+        Xolockを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
     </Entry>
     <Entry key="LockScreen_Title">
         SEBがロックされました
@@ -226,13 +226,13 @@
         ロック解除
     </Entry>
     <Entry key="LockScreen_UserSessionContinueOption">
-        Safe Exam Browserのロックを解除します。
+        Xolockのロックを解除します。
     </Entry>
     <Entry key="LockScreen_UserSessionMessage">
         アクティブなユーザーが変更されたか、コンピューターがロックされました！SEBのロックを解除するには、利用可能なオプションの1つを選択し、正しいロック解除パスワードを入力してください。
     </Entry>
     <Entry key="LockScreen_UserSessionTerminateOption">
-        Safe Exam Browserを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
+        Xolockを終了します。警告: データを保存したり、その他の操作を実行する機会はなく、直ちにシャットダウンが開始されます！
     </Entry>
     <Entry key="LockScreen_UserSwitchMessage">
         アクティブなユーザーが変更されました！SEBのロックを解除するには、利用可能なオプションの1つを選択し、正しいロック解除パスワードを入力してください。
@@ -475,7 +475,7 @@
         無効なSEBバージョン
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
-        SEB [%%_VERSION_%%] 以降
+        Xolock [%%_VERSION_%%] 以降
     </Entry>
     <Entry key="MessageBox_VideoProctoringDisclaimer">
         現在のセッションは、個別に設定されたサーバーに送信されるライブビデオおよびオーディオストリームを使用してリモート監視されます。プライバシーポリシーについては、試験監督者にお尋ねください。SEB自体は集中型のSEB監視サーバーには接続しません。どの監視サービス/サーバーを使用するかは試験提供者が決定します。

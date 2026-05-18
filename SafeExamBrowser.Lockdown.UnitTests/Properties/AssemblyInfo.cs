@@ -2,10 +2,10 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("SafeExamBrowser.Lockdown.UnitTests")]
-[assembly: AssemblyDescription("Safe Exam Browser")]
-[assembly: AssemblyCompany("ETH Zürich")]
+[assembly: AssemblyDescription("Xolock")]
+[assembly: AssemblyCompany("Xobin Technologies Pvt. Ltd.")]
 [assembly: AssemblyProduct("SafeExamBrowser.Lockdown.UnitTests")]
-[assembly: AssemblyCopyright("Copyright © 2026 ETH Zürich, IT Services")]
+[assembly: AssemblyCopyright("Copyright © 2026 Xobin Technologies Pvt. Ltd.")]
 
 [assembly: ComVisible(false)]
 

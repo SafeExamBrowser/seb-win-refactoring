@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
-    <Bundle Name="Safe Exam Browser"
+    <Bundle Name="Xolock"
             IconSourceFile="$(var.Setup.ProjectDir)Resources\Application.ico"
             Manufacturer="!(bind.packageManufacturer.SetupX86)"
             UpgradeCode="26C1045A-99CC-4479-987B-376390379441"

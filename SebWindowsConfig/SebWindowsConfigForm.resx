@@ -1053,7 +1053,7 @@
   </metadata>
   <data name="comboBoxChooseIdentityToEmbed.ToolTip" xml:space="preserve">
     <value>Identity certificates (X.509 certificates with RSA public key and associated private key) from the Windows Certificate Store which can be used for encrypting and decrypting. Install the chosen identity
- on your SEB clients.</value>
+ on your Xolock clients.</value>
   </data>
   <metadata name="Type.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -1104,7 +1104,7 @@
     <value>True</value>
   </metadata>
   <data name="buttonChoosePermittedApplication.ToolTip" xml:space="preserve">
-    <value>Choose a permitted application from your drive. SEB will automatically fill in title, executable and path of the application. Path will usually be empty for applications which have been installed and properly registered in Windows App Paths.</value>
+    <value>Choose a permitted application from your drive. Xolock will automatically fill in title, executable and path of the application. Path will usually be empty for applications which have been installed and properly registered in Windows App Paths.</value>
   </data>
   <metadata name="ArgumentActive.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -1146,21 +1146,21 @@
     <value>True</value>
   </metadata>
   <data name="label23.Text" xml:space="preserve">
-    <value>The seb(s):// link to the config file can contain an additional query string, separated from the main URL by '?' or '??' (if the URL itself doesn't contain a query). SEB will then append this query string to the Start URL.</value>
+    <value>The seb(s):// link to the config file can contain an additional query string, separated from the main URL by '?' or '??' (if the URL itself doesn't contain a query). Xolock will then append this query string to the Start URL.</value>
   </data>
   <data name="label22.Text" xml:space="preserve">
-    <value>Allow reconfiguring by loading an SEB config file (while using the client config or during an exam session). If the running session is secure (has a quit password set), indicate the allowed URL of the new exam config in Reconfiguring URL (wildcard character '*' can be used).</value>
+    <value>Allow reconfiguring by loading an Xolock config file (while using the client config or during an exam session). If the running session is secure (has a quit password set), indicate the allowed URL of the new exam config in Reconfiguring URL (wildcard character '*' can be used).</value>
   </data>
   <data name="label20.Text" xml:space="preserve">
-    <value>The Configuration Key verifies that an exam client uses the correct configuration. This means that the key is different for every configuration (unless they have exactly the same values). It only changes when one or more configuration value(s) change, irrespective of the SEB version used.</value>
+    <value>The Configuration Key verifies that an exam client uses the correct configuration. This means that the key is different for every configuration (unless they have exactly the same values). It only changes when one or more configuration value(s) change, irrespective of the Xolock version used.</value>
   </data>
   <data name="label19.Text" xml:space="preserve">
-    <value>The Browser Exam Key and the Configuration Key allow to verify different aspects of an exam. They both depend on all configuration values defined for a file, i.e. they change whenever a configuration value changes. The keys can be used independently from each other, but both are sent with every HTTP request if activated. They can furthermore be queried via SEB's JavaScript API. Copy a key to the according field in your quiz settings in the exam system having support for SEB 2.0 or later built in.
+    <value>The Browser Exam Key and the Configuration Key allow to verify different aspects of an exam. They both depend on all configuration values defined for a file, i.e. they change whenever a configuration value changes. The keys can be used independently from each other, but both are sent with every HTTP request if activated. They can furthermore be queried via Xolock's JavaScript API. Copy a key to the according field in your quiz settings in the exam system having support for Xolock 2.0 or later built in.
 
 IMPORTANT: Always copy the key(s) as a last step, after the configuration file was saved!</value>
   </data>
   <data name="label18.Text" xml:space="preserve">
-    <value>The Browser Exam Key verifies the intergrity of an installed SEB version as well as the configuration used by an exam client. This means that this key is different for every configuration and SEB version used. It changes when one or more configuration value(s) change as well as when a different SEB version is used.</value>
+    <value>The Browser Exam Key verifies the intergrity of an installed Xolock version as well as the configuration used by an exam client. This means that this key is different for every configuration and Xolock version used. It changes when one or more configuration value(s) change as well as when a different Xolock version is used.</value>
   </data>
   <data name="checkBoxAllowNavigationNewWindow.ToolTip" xml:space="preserve">
     <value>Disabling browsing to previously visited pages (by Ctrl-Cursor left or the button in the browser toolbar, if enabled) might not be desired for additional resources and other content opening in additional browser windows, therefore this separate setting.</value>
@@ -1187,13 +1187,13 @@ IMPORTANT: Always copy the key(s) as a last step, after the configuration file w
     <value>True</value>
   </metadata>
   <data name="radioButtonTouchOptimized.ToolTip" xml:space="preserve">
-    <value>To be used on Windows tablets. In Window 10, Tablet Mode needs to be activated. Not working with the Create New Desktop kiosk mode, you have to reconfigure the SEB client settings to Disable Explorer Shell.</value>
+    <value>To be used on Windows tablets. In Window 10, Tablet Mode needs to be activated. Not working with the Create New Desktop kiosk mode, you have to reconfigure the Xolock client settings to Disable Explorer Shell.</value>
   </data>
   <data name="comboBoxCryptoIdentity.ToolTip" xml:space="preserve">
-    <value>Identities (X.509 certificates with RSA public key and associated private key) in the Windows Certificate Store which can be used for encrypting and decrypting. Install the chosen identity on your SEB clients.</value>
+    <value>Identities (X.509 certificates with RSA public key and associated private key) in the Windows Certificate Store which can be used for encrypting and decrypting. Install the chosen identity on your Xolock clients.</value>
   </data>
   <data name="radioButtonConfiguringAClient.ToolTip" xml:space="preserve">
-    <value>A SEB settings file saved with this option can be used to change the local settings of a SEB client. Encrypt it with an empty or the same password which is set as administrator password on the SEB client. Other passwords will be prompted.</value>
+    <value>A Xolock settings file saved with this option can be used to change the local settings of a Xolock client. Encrypt it with an empty or the same password which is set as administrator password on the Xolock client. Other passwords will be prompted.</value>
   </data>
   <metadata name="folderBrowserDialogLogDirectoryWin.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>968, 17</value>

@@ -140,7 +140,7 @@ namespace SebWindowsConfig
 
 			statusStrip.Dock = DockStyle.Bottom;
 			statusStrip.SizingGrip = false;
-			statusStrip.Items.Add($"SEB Information: Version {programVersion}, Build {programBuild}");
+			statusStrip.Items.Add($"Xolock Information: Version {programVersion}, Build {programBuild}");
 
 			Controls.Add(statusStrip);
 
@@ -1266,7 +1266,7 @@ namespace SebWindowsConfig
 			openFileDialogSebConfigFile.InitialDirectory = currentDireSebConfigFile;
 			openFileDialogSebConfigFile.FileName = "";
 			openFileDialogSebConfigFile.DefaultExt = "seb";
-			openFileDialogSebConfigFile.Filter = "SEB Files|*.seb";
+			openFileDialogSebConfigFile.Filter = "Xolock Files|*.seb";
 
 			// Get the user inputs in the File Dialog
 			DialogResult fileDialogResult = openFileDialogSebConfigFile.ShowDialog();
@@ -2818,7 +2818,7 @@ namespace SebWindowsConfig
 				catch (Exception e)
 				{
 					Logger.AddWarning($"Signature for application {filename} could not be loaded! {e.Message}", exception: e);
-					MessageBox.Show(this, "The chosen application has no signature and therefore its integrity cannot be verified when SEB is running.", "Signature Load Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					MessageBox.Show(this, "The chosen application has no signature and therefore its integrity cannot be verified when Xolock is running.", "Signature Load Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
 
 				return permittedApplicationInformation;

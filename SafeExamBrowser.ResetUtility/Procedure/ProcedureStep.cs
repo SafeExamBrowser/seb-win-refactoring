@@ -35,7 +35,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 
 		protected void InitializeConsole()
 		{
-			var title = "SEB Reset Utility";
+			var title = "Xolock Reset Utility";
 			var height = Console.LargestWindowHeight > 40 ? 40 : Console.LargestWindowHeight;
 			var width = Console.LargestWindowWidth > 160 ? 160 : Console.LargestWindowWidth;
 

@@ -56,12 +56,12 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 
 				if (Restrictions.Any(r => IsFulfilled(r)))
 				{
-					Logger.Info($"The installed SEB version '{version}' complies with the version restrictions: {requiredVersions}.");
+					Logger.Info($"The installed Xolock version '{version}' complies with the version restrictions: {requiredVersions}.");
 				}
 				else
 				{
 					result = OperationResult.Aborted;
-					Logger.Error($"The installed SEB version '{version}' does not comply with the version restrictions: {requiredVersions}.");
+					Logger.Error($"The installed Xolock version '{version}' does not comply with the version restrictions: {requiredVersions}.");
 					ShowErrorMessage(version);
 				}
 			}
@@ -144,7 +144,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 				}
 				else
 				{
-					info.AppendLine($"SEB {version}");
+					info.AppendLine($"Xolock {version}");
 				}
 			}
 

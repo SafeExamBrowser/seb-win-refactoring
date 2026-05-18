@@ -82,12 +82,12 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 
 			if (isRunning)
 			{
-				Logger.Error("SEB is currently running! Terminating...");
-				ShowError("This application must not be run while SEB is running! Press any key to exit...");
+				Logger.Error("Xolock is currently running! Terminating...");
+				ShowError("This application must not be run while Xolock is running! Press any key to exit...");
 			}
 			else
 			{
-				Logger.Info("SEB is currently not running.");
+				Logger.Info("Xolock is currently not running.");
 			}
 
 			return !isRunning;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Text>
     <Entry key="AboutWindow_LicenseInfo">
         此应用程序受Mozilla Public License, 版本 2.0 的条款约束。防作弊考试专用浏览器使用以下框架和第三方知识库：
@@ -166,7 +166,7 @@
         无法在系统中找到应用程序 "%%NAME%%" 。请查找包含主可执行文件的文件夹"%%EXECUTABLE%%"。
     </Entry>
     <Entry key="LockScreen_ApplicationIntegrityMessage">
-        您使用的是非官方 SEB 版本！ 请确保使用官方的安全考试浏览器。 要解锁 SEB，请输入正确的解锁密码。
+        您使用的是非官方 Xolock 版本！ 请确保使用官方的安全考试浏览器。 要解锁 Xolock，请输入正确的解锁密码。
     </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         暂时允许黑名单上的应用程序。这仅适用于当前正在运行的实例和会话。
@@ -181,7 +181,7 @@
         暂时允许光标配置。这仅适用于当前运行的会话！
     </Entry>
     <Entry key="LockScreen_CursorMessage">
-        已检测到禁止的光标配置。要解锁 SEB，请选择一个可用选项并输入正确的解锁密码。
+        已检测到禁止的光标配置。要解锁 Xolock，请选择一个可用选项并输入正确的解锁密码。
     </Entry>
     <Entry key="LockScreen_CursorTerminateOption">
         终止安全考试浏览器。警告：将无法保存数据或执行任何其他操作，系统将立即关闭！
@@ -190,7 +190,7 @@
         暂时允许显示配置。 这仅适用于当前正在运行的会话！
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationMessage">
-        检测到禁止的显示配置。 要解锁 SEB，请选择可用选项之一并输入正确的解锁密码。
+        检测到禁止的显示配置。 要解锁 Xolock，请选择可用选项之一并输入正确的解锁密码。
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationTerminateOption">
         终止安全考试浏览器。警告：将无法保存数据或执行任何进一步操作，将立即启动关机！
@@ -205,7 +205,7 @@
         终止安全考试浏览器。警告：将没有可能保存数据或执行任何进一步的行动，关闭将立即启动!
     </Entry>
     <Entry key="LockScreen_RuntimeIntegrityMessage">
-        Safe Exam Browser 的运行完整性已受损！请输入正确的解锁密码以解锁 SEB。
+        Xolock 的运行完整性已受损！请输入正确的解锁密码以解锁 Xolock。
     </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
         当前激活的配置或启动URL的最后一个会话没有被正确终止! 请输入正确的密码以解锁SEB。
@@ -214,7 +214,7 @@
         暂时允许粘性按键的状态。这仅适用于当前运行的会话！
     </Entry>
     <Entry key="LockScreen_StickyKeysMessage">
-        已检测到粘滞键处于禁用状态。要解锁 SEB，请选择一个可用选项并输入正确的解锁密码。
+        已检测到粘滞键处于禁用状态。要解锁 Xolock，请选择一个可用选项并输入正确的解锁密码。
     </Entry>
     <Entry key="LockScreen_StickyKeysTerminateOption">
         终止安全考试浏览器。警告：将没有可能保存数据或执行任何进一步的行动，关闭将立即启动!
@@ -229,13 +229,13 @@
         解锁安全考试浏览器。
     </Entry>
     <Entry key="LockScreen_UserSessionMessage">
-        活动用户已更改或计算机已锁定！要解锁 SEB，请选择一个可用选项并输入正确的解锁密码。
+        活动用户已更改或计算机已锁定！要解锁 Xolock，请选择一个可用选项并输入正确的解锁密码。
     </Entry>
     <Entry key="LockScreen_UserSessionTerminateOption">
         终止安全考试浏览器。警告：将无法保存数据或执行任何其他操作，系统将立即关闭！
     </Entry>
     <Entry key="LockScreen_UserSwitchMessage">
-        活动用户已更改！要解锁 SEB，请选择一个可用选项并输入正确的解锁密码。
+        活动用户已更改！要解锁 Xolock，请选择一个可用选项并输入正确的解锁密码。
     </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         置顶
@@ -331,7 +331,7 @@
         内部或外部
     </Entry>
     <Entry key="MessageBox_DownloadNotAllowed">
-        当前 SEB 设置中不允许下载文件。 请将此情况报告给您的考试提供商。
+        当前 Xolock 设置中不允许下载文件。 请将此情况报告给您的考试提供商。
     </Entry>
     <Entry key="MessageBox_DownloadNotAllowedTitle">
         不允许下载！
@@ -463,19 +463,19 @@
         配置错误
     </Entry>
     <Entry key="MessageBox_UploadNotAllowed">
-        当前 SEB 设置中不允许上传文件。 请将此情况报告给您的考试提供商。
+        当前 Xolock 设置中不允许上传文件。 请将此情况报告给您的考试提供商。
     </Entry>
     <Entry key="MessageBox_UploadNotAllowedTitle">
         不允许上传！
     </Entry>
     <Entry key="MessageBox_VersionRestrictionError">
-        已安装的 SEB 版本 %%_VERSION_%% 不能使用，因为所选配置需要使用特定的版本：%%_REQUIRED_VERSIONS_%%请从官方网站（safeexambrowser.org/download）或 GitHub 上的 SEB for Windows 仓库（github.com/safeexambrowser）下载并安装所需的版本。
+        已安装的 Xolock 版本 %%_VERSION_%% 不能使用，因为所选配置需要使用特定的版本：%%_REQUIRED_VERSIONS_%%请从官方网站（safeexambrowser.org/download）或 GitHub 上的 Xolock for Windows 仓库（github.com/safeexambrowser）下载并安装所需的版本。
     </Entry>
     <Entry key="MessageBox_VersionRestrictionErrorTitle">
-        无效的 SEB 版本
+        无效的 Xolock 版本
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
-        SEB %%_VERSION_%% 或更新的版本
+        Xolock %%_VERSION_%% 或更新的版本
     </Entry>
     <Entry key="MessageBox_VideoProctoringDisclaimer">
         当前会话将使用实时视频和音频流进行远程管理，并将其发送到单独配置的服务器。 向考官询问他们的隐私政策。 SEB本身不连接到任何集中式SEB代理服务器，您的考试提供商决定要使用哪个代理服务/服务器。
@@ -493,7 +493,7 @@
         是
     </Entry>
     <Entry key="MessageBox_ZoomNotSupported">
-        所选配置要求使用 Zoom 进行远程监考，而此 SEB 版本不支持远程监考。请下载并安装考试组织者指定的 SEB 版本。由于许可问题，只有 SEB 联盟成员才能使用 Zoom 进行远程监考。有关详细信息，请参阅 https://safeexambrowser.org/alliance。
+        所选配置要求使用 Zoom 进行远程监考，而此 Xolock 版本不支持远程监考。请下载并安装考试组织者指定的 Xolock 版本。由于许可问题，只有 Xolock 联盟成员才能使用 Zoom 进行远程监考。有关详细信息，请参阅 https://safeexambrowser.org/alliance。
     </Entry>
     <Entry key="MessageBox_ZoomNotSupportedTitle">
         需要放大监考
@@ -532,7 +532,7 @@
         剪贴板定稿
     </Entry>
     <Entry key="OperationStatus_FinalizeServer">
-        完成 SEB 服务器
+        完成 Xolock 服务器
     </Entry>
     <Entry key="OperationStatus_FinalizeServiceSession">
         完成服务会话（运行已定型）
@@ -565,7 +565,7 @@
         初始化运行时连接
     </Entry>
     <Entry key="OperationStatus_InitializeServer">
-        初始化 SEB 服务器
+        初始化 Xolock 服务器
     </Entry>
     <Entry key="OperationStatus_InitializeServiceSession">
         初始化服务会话
@@ -736,13 +736,13 @@
         倒退
     </Entry>
     <Entry key="ServerFailureDialog_Message">
-        尝试与 SEB 服务器通信时出错。
+        尝试与 Xolock 服务器通信时出错。
     </Entry>
     <Entry key="ServerFailureDialog_Retry">
         重试
     </Entry>
     <Entry key="ServerFailureDialog_Title">
-        SEB 服务器错误
+        Xolock 服务器错误
     </Entry>
     <Entry key="Shell_QuitButton">
         终止会话

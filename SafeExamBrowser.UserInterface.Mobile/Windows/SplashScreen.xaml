@@ -13,13 +13,16 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Margin="0,25">
+            <Grid Grid.Row="0" Margin="0,15">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="225" />
+                    <ColumnDefinition Width="180" />
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Grid.ColumnSpan="2" Source="pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/SplashScreen.png" />
-                <TextBlock x:Name="InfoTextBlock" Grid.Column="1" Foreground="Gray" Margin="10,85,10,10" TextWrapping="Wrap" />
+                <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="20,0,0,0">
+                    <Image Source="pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/XolockLogo.png" Height="52" Stretch="Uniform" HorizontalAlignment="Left" />
+                    <TextBlock Text="Xolock" FontSize="26" FontWeight="Bold" Foreground="#333333" Margin="0,6,0,0" />
+                </StackPanel>
+                <TextBlock x:Name="InfoTextBlock" Grid.Column="1" Foreground="Gray" Margin="10,0,10,0" TextWrapping="Wrap" VerticalAlignment="Center" />
             </Grid>
             <ProgressBar x:Name="ProgressBar" Grid.Row="1" Minimum="0" Maximum="{Binding Path=MaxProgress}" Value="{Binding Path=CurrentProgress}" IsIndeterminate="{Binding Path=IsIndeterminate}" BorderThickness="0" />
             <TextBlock x:Name="StatusTextBlock" Grid.Row="1" Text="{Binding Path=Status}" HorizontalAlignment="Center" VerticalAlignment="Center" />

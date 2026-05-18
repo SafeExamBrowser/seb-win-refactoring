@@ -51,7 +51,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 			if (Context.Next.Settings.Security.VirtualMachinePolicy == VirtualMachinePolicy.Deny && detector.IsVirtualMachine())
 			{
 				result = OperationResult.Aborted;
-				Logger.Error("Detected virtual machine while SEB is not allowed to be run in a virtual machine! Aborting...");
+				Logger.Error("Detected virtual machine while Xolock is not allowed to be run in a virtual machine! Aborting...");
 				ShowMessageBox(TextKey.MessageBox_VirtualMachineNotAllowed, TextKey.MessageBox_VirtualMachineNotAllowedTitle, icon: MessageBoxIcon.Error);
 			}
 

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Mobile"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d" Background="White" Foreground="Black" Height="500" Width="850" WindowStyle="None" WindowStartupLocation="CenterScreen"
-        Icon="../Images/SafeExamBrowser.ico" ResizeMode="NoResize" Title="Safe Exam Browser" Topmost="True">
+        Icon="../Images/SafeExamBrowser.ico" ResizeMode="NoResize" Title="Xolock" Topmost="True">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -25,10 +25,14 @@
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="400" />
+                        <ColumnDefinition Width="280" />
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Grid.ColumnSpan="2" Margin="-25,0,0,0" Source="pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/SplashScreen.png" />
-                    <TextBlock x:Name="InfoTextBlock" Grid.Column="1" FontSize="10" Foreground="DimGray" Margin="10,70,225,10" TextWrapping="Wrap" />
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="10,0,0,0">
+                        <Image Source="pack://application:,,,/SafeExamBrowser.UserInterface.Mobile;component/Images/XolockLogo.png" Height="56" Stretch="Uniform" HorizontalAlignment="Left" />
+                        <TextBlock Text="Xolock" FontSize="32" FontWeight="Bold" Foreground="#333333" Margin="0,6,0,0" />
+                        <TextBlock Text="Secure Exam Browser" FontSize="11" Foreground="#888888" Margin="0,2,0,0" />
+                    </StackPanel>
+                    <TextBlock x:Name="InfoTextBlock" Grid.Column="1" FontSize="10" Foreground="DimGray" Margin="10,40,10,10" TextWrapping="Wrap" VerticalAlignment="Center" />
                 </Grid>
                 <ProgressBar x:Name="ProgressBar" Grid.Row="1" Background="WhiteSmoke" BorderThickness="0" Foreground="DodgerBlue"
                              IsIndeterminate="{Binding IsIndeterminate}" Maximum="{Binding MaxProgress}" Value="{Binding CurrentProgress}"

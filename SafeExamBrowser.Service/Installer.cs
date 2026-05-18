@@ -24,7 +24,7 @@ namespace SafeExamBrowser.Service
 
 			service = new ServiceInstaller();
 			service.Description = "Performs operations which require elevated privileges.";
-			service.DisplayName = "Safe Exam Browser Service";
+			service.DisplayName = "Xolock Service";
 			service.ServiceName = nameof(SafeExamBrowser);
 			service.StartType = ServiceStartMode.Automatic;
 

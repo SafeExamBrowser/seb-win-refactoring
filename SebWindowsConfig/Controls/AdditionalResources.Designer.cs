@@ -206,7 +206,7 @@
 			this.checkBoxAdditionalResourceAutoOpen.Size = new System.Drawing.Size(91, 17);
 			this.checkBoxAdditionalResourceAutoOpen.TabIndex = 5;
 			this.checkBoxAdditionalResourceAutoOpen.Text = "Auto open (A)";
-			this.toolTip1.SetToolTip(this.checkBoxAdditionalResourceAutoOpen, "SEB opens the resource after starting automatically.");
+			this.toolTip1.SetToolTip(this.checkBoxAdditionalResourceAutoOpen, "Xolock opens the resource after starting automatically.");
 			this.checkBoxAdditionalResourceAutoOpen.UseVisualStyleBackColor = true;
 			this.checkBoxAdditionalResourceAutoOpen.CheckedChanged += new System.EventHandler(this.checkBoxAdditionalResourceAutoOpen_CheckedChanged);
 			// 
@@ -418,7 +418,7 @@
 			this.textBoxAdditionalResourceUrl.Name = "textBoxAdditionalResourceUrl";
 			this.textBoxAdditionalResourceUrl.Size = new System.Drawing.Size(343, 20);
 			this.textBoxAdditionalResourceUrl.TabIndex = 3;
-			this.toolTip1.SetToolTip(this.textBoxAdditionalResourceUrl, "Enter the URL of an external resource here. SEB will create a matching URL filter" +
+			this.toolTip1.SetToolTip(this.textBoxAdditionalResourceUrl, "Enter the URL of an external resource here. Xolock will create a matching URL filter" +
         " rule (see below) and activate URL filtering in the Network / Filter Pane.");
 			this.textBoxAdditionalResourceUrl.TextChanged += new System.EventHandler(this.textBoxAdditionalResourceUrl_TextChanged);
 			this.textBoxAdditionalResourceUrl.Leave += new System.EventHandler(this.textBoxAdditionalResourceUrl_Leave);
@@ -484,7 +484,7 @@
 			this.buttonAdditionalResourceChooseEmbededResource.Size = new System.Drawing.Size(100, 25);
 			this.buttonAdditionalResourceChooseEmbededResource.TabIndex = 8;
 			this.buttonAdditionalResourceChooseEmbededResource.Text = "Choose File";
-			this.toolTip1.SetToolTip(this.buttonAdditionalResourceChooseEmbededResource, "Select a single file to embed into the SEB Config File. After choosing a file, th" +
+			this.toolTip1.SetToolTip(this.buttonAdditionalResourceChooseEmbededResource, "Select a single file to embed into the Xolock Config File. After choosing a file, th" +
         "e filename and the setting Lauch with is displayed.");
 			this.buttonAdditionalResourceChooseEmbededResource.UseVisualStyleBackColor = true;
 			this.buttonAdditionalResourceChooseEmbededResource.Click += new System.EventHandler(this.buttonAdditionalResourceChooseEmbededResource_Click);

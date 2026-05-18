@@ -125,7 +125,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 
 			Console.ForegroundColor = ForegroundColor;
 			Console.WriteLine();
-			Console.WriteLine("Some configuration values may be user specific. In order to restore these values, the user who used SEB needs to be logged in.");
+			Console.WriteLine("Some configuration values may be user specific. In order to restore these values, the user who used Xolock needs to be logged in.");
 		}
 
 		private void HandleSuccess()
@@ -148,7 +148,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 			Console.WriteLine("Could not find any backup file!");
 			Console.ForegroundColor = ForegroundColor;
 			Console.WriteLine();
-			Console.WriteLine("Would you like to reset all configuration values possibly changed by SEB?");
+			Console.WriteLine("Would you like to reset all configuration values possibly changed by Xolock?");
 
 			ShowMenu(new List<MenuOption> { yes, no });
 

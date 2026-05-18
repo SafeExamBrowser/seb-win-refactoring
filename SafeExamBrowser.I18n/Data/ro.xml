@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Text>
     <Entry key="AboutWindow_LicenseInfo">
-        Această aplicație este supusă termenilor Mozilla Public License, versiunea 2.0. Safe Exam Browser utilizează următoarele cadre și biblioteci terțe:
+        Această aplicație este supusă termenilor Mozilla Public License, versiunea 2.0. Xolock utilizează următoarele cadre și biblioteci terțe:
     </Entry>
     <Entry key="AboutWindow_Title">
         Informații despre versiune și licență
@@ -118,13 +118,13 @@
         Anulează
     </Entry>
     <Entry key="ExamSelectionDialog_Message">
-        Selectează unul dintre examenele disponibile de pe serverul SEB:
+        Selectează unul dintre examenele disponibile de pe serverul Xolock:
     </Entry>
     <Entry key="ExamSelectionDialog_Select">
         Selectează
     </Entry>
     <Entry key="ExamSelectionDialog_Title">
-        Examene Server SEB
+        Examene Server Xolock
     </Entry>
     <Entry key="FileSystemDialog_Cancel">
         Anulează
@@ -166,76 +166,76 @@
         Aplicația „%%NAME%%” nu a fost găsită pe sistem! Căutați folderul care conține fișierul executabil „%%EXECUTABLE%%”.
     </Entry>
     <Entry key="LockScreen_ApplicationIntegrityMessage">
-        Utilizați o versiune neoficială a SEB! Asigurați-vă că utilizați o versiune oficială a Safe Exam Browser. Pentru a debloca SEB, introduceți parola corectă.
+        Utilizați o versiune neoficială a Xolock! Asigurați-vă că utilizați o versiune oficială a Xolock. Pentru a debloca Xolock, introduceți parola corectă.
     </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Permite temporar aplicațiile aflate pe lista neagră. Aceasta se aplică doar instanțelor și sesiunii curente!
     </Entry>
     <Entry key="LockScreen_ApplicationsMessage">
-        Aplicațiile de pe lista neagră de mai jos au fost lansate și nu au putut fi închise automat! Pentru a debloca SEB, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
+        Aplicațiile de pe lista neagră de mai jos au fost lansate și nu au putut fi închise automat! Pentru a debloca Xolock, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
     </Entry>
     <Entry key="LockScreen_ApplicationsTerminateOption">
-        Închide Safe Exam Browser. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
+        Închide Xolock. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
     </Entry>
     <Entry key="LockScreen_CursorContinueOption">
         Permite temporar configurarea cursorului. Aceasta se aplică doar sesiunii curente!
     </Entry>
     <Entry key="LockScreen_CursorMessage">
-        A fost detectată o configurare interzisă a cursorului. Pentru a debloca SEB, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
+        A fost detectată o configurare interzisă a cursorului. Pentru a debloca Xolock, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
     </Entry>
     <Entry key="LockScreen_CursorTerminateOption">
-        Închide Safe Exam Browser. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
+        Închide Xolock. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         Permite temporar configurarea afișajului. Aceasta se aplică doar sesiunii curente!
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationMessage">
-        A fost detectată o configurare interzisă a afișajului. Pentru a debloca SEB, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
+        A fost detectată o configurare interzisă a afișajului. Pentru a debloca Xolock, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationTerminateOption">
-        Închide Safe Exam Browser. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
+        Închide Xolock. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
     </Entry>
     <Entry key="LockScreen_EaseOfAccessContinueOption">
         Permite temporar configurarea de accesibilitate. Aceasta se aplică doar sesiunii curente!
     </Entry>
     <Entry key="LockScreen_EaseOfAccessMessage">
-        A fost detectată o configurare de accesibilitate nepermisă pentru ecranul de securitate Windows. Pentru a debloca SEB, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
+        A fost detectată o configurare de accesibilitate nepermisă pentru ecranul de securitate Windows. Pentru a debloca Xolock, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
     </Entry>
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
-        Închide Safe Exam Browser. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
+        Închide Xolock. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
     </Entry>
     <Entry key="LockScreen_RuntimeIntegrityMessage">
-        Integritatea de funcționare a Safe Exam Browser a fost compromisă! Pentru a debloca SEB, introduceți parola corectă.
+        Integritatea de funcționare a Xolock a fost compromisă! Pentru a debloca Xolock, introduceți parola corectă.
     </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
-        Sesiunea anterioară cu configurația activă curentă sau URL-ul de pornire nu a fost încheiată corect! Introdu parola corectă pentru a debloca SEB.
+        Sesiunea anterioară cu configurația activă curentă sau URL-ul de pornire nu a fost încheiată corect! Introdu parola corectă pentru a debloca Xolock.
     </Entry>
     <Entry key="LockScreen_StickyKeysContinueOption">
         Permite temporar starea tastele lipicioase. Aceasta se aplică doar sesiunii curente!
     </Entry>
     <Entry key="LockScreen_StickyKeysMessage">
-        A fost detectată o stare nepermisă pentru tastele lipicioase. Pentru a debloca SEB, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
+        A fost detectată o stare nepermisă pentru tastele lipicioase. Pentru a debloca Xolock, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
     </Entry>
     <Entry key="LockScreen_StickyKeysTerminateOption">
-        Închide Safe Exam Browser. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
+        Închide Xolock. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
     </Entry>
     <Entry key="LockScreen_Title">
-        SEB BLOCAT
+        Xolock BLOCAT
     </Entry>
     <Entry key="LockScreen_UnlockButton">
         Deblochează
     </Entry>
     <Entry key="LockScreen_UserSessionContinueOption">
-        Deblochează Safe Exam Browser.
+        Deblochează Xolock.
     </Entry>
     <Entry key="LockScreen_UserSessionMessage">
-        Utilizatorul activ a fost schimbat sau computerul a fost blocat! Pentru a debloca SEB, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
+        Utilizatorul activ a fost schimbat sau computerul a fost blocat! Pentru a debloca Xolock, selectează una dintre opțiunile disponibile și introdu parola corectă de deblocare.
     </Entry>
     <Entry key="LockScreen_UserSessionTerminateOption">
-        Închide Safe Exam Browser. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
+        Închide Xolock. AVERTISMENT: Nu există nicio modalitate de a salva datele sau de a efectua alte acțiuni, browserul va fi închis imediat!
     </Entry>
     <Entry key="LockScreen_UserSwitchMessage">
-        Utilizatorul activ s-a schimbat! Pentru a debloca SEB, vă rugăm să selectați una dintre opțiunile disponibile și să introduceți parola de deblocare corectă.
+        Utilizatorul activ s-a schimbat! Pentru a debloca Xolock, vă rugăm să selectați una dintre opțiunile disponibile și să introduceți parola de deblocare corectă.
     </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Întotdeauna în prim-plan
@@ -256,7 +256,7 @@
         AVERTISMENT: Orice date nesalvate pot fi pierdute!
     </Entry>
     <Entry key="MessageBox_ApplicationError">
-        A apărut o eroare ireversibilă! Verificați jurnalele pentru mai multe informații. SEB se va închide acum...
+        A apărut o eroare ireversibilă! Verificați jurnalele pentru mai multe informații. Xolock se va închide acum...
     </Entry>
     <Entry key="MessageBox_ApplicationErrorTitle">
         Eroare aplicație
@@ -292,7 +292,7 @@
         Pagină blocată
     </Entry>
     <Entry key="MessageBox_BrowserQuitUrlConfirmation">
-        Aplicația browserului a detectat un URL închis! Dorești să închizi acum SEB?
+        Aplicația browserului a detectat un URL închis! Dorești să închizi acum Xolock?
     </Entry>
     <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
         URL de ieșire detectat
@@ -301,25 +301,25 @@
         Anulează
     </Entry>
     <Entry key="MessageBox_ClientConfigurationError">
-        Configurația clientului local a eșuat! Verificați jurnalele pentru mai multe informații. SEB se va închide acum...
+        Configurația clientului local a eșuat! Verificați jurnalele pentru mai multe informații. Xolock se va închide acum...
     </Entry>
     <Entry key="MessageBox_ClientConfigurationErrorTitle">
         Eroare configurație
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestion">
-        Configurația clientului a fost salvată și va fi folosită la următoarea pornire a SEB. Dorești să oprești acum?
+        Configurația clientului a fost salvată și va fi folosită la următoarea pornire a Xolock. Dorești să oprești acum?
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestionTitle">
         Configurație reușită
     </Entry>
     <Entry key="MessageBox_ConfigurationDownloadError">
-        Configurația clientului a fost salvată și va fi folosită la următoarea pornire a SEB. Dorești să oprești acum?
+        Configurația clientului a fost salvată și va fi folosită la următoarea pornire a Xolock. Dorești să oprești acum?
     </Entry>
     <Entry key="MessageBox_ConfigurationDownloadErrorTitle">
         Eroare la descărcare
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationError">
-        Configurația activă a afișajului nu este permisă. %%_ALLOWED_COUNT_%% %%_TYPE_%% afișaj(e) sunt permise, dar %%_INTERNAL_COUNT_%% afișaje interne și %%_EXTERNAL_COUNT_%% afișaje externe au fost detectate. Verificați jurnalele pentru mai multe informații. SEB se va închide acum...
+        Configurația activă a afișajului nu este permisă. %%_ALLOWED_COUNT_%% %%_TYPE_%% afișaj(e) sunt permise, dar %%_INTERNAL_COUNT_%% afișaje interne și %%_EXTERNAL_COUNT_%% afișaje externe au fost detectate. Verificați jurnalele pentru mai multe informații. Xolock se va închide acum...
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationErrorTitle">
         Configurație afișaj interzisă
@@ -331,7 +331,7 @@
         intern sau extern
     </Entry>
     <Entry key="MessageBox_DownloadNotAllowed">
-        Descărcarea fișierelor nu este permisă în setările curente ale SEB. Raportați acest lucru furnizorului dvs. de examen.
+        Descărcarea fișierelor nu este permisă în setările curente ale Xolock. Raportați acest lucru furnizorului dvs. de examen.
     </Entry>
     <Entry key="MessageBox_DownloadNotAllowedTitle">
         Descărcarea nu este permisă!
@@ -349,19 +349,19 @@
         Parolă nevalidă
     </Entry>
     <Entry key="MessageBox_InvalidPasswordError">
-        Nu s-a reușit introducerea parolei corecte în 5 încercări. SEB se va închide acum...
+        Nu s-a reușit introducerea parolei corecte în 5 încercări. Xolock se va închide acum...
     </Entry>
     <Entry key="MessageBox_InvalidPasswordErrorTitle">
         Parolă incorectă
     </Entry>
     <Entry key="MessageBox_InvalidQuitPassword">
-        SEB poate fi închis doar prin introducerea parolei corecte pentru închidere.
+        Xolock poate fi închis doar prin introducerea parolei corecte pentru închidere.
     </Entry>
     <Entry key="MessageBox_InvalidQuitPasswordTitle">
         Parolă incorectă pentru ieșire
     </Entry>
     <Entry key="MessageBox_InvalidUnlockPassword">
-        SEB poate fi deblocat doar prin introducerea parolei corecte.
+        Xolock poate fi deblocat doar prin introducerea parolei corecte.
     </Entry>
     <Entry key="MessageBox_InvalidUnlockPasswordTitle">
         Parolă incorectă pentru deblocare
@@ -391,7 +391,7 @@
         Reîncarcă?
     </Entry>
     <Entry key="MessageBox_Quit">
-        Dorești să părăsești SEB?
+        Dorești să părăsești Xolock?
     </Entry>
     <Entry key="MessageBox_QuitTitle">
         Ieșire?
@@ -403,7 +403,7 @@
         Eroare la ieșire
     </Entry>
     <Entry key="MessageBox_ReconfigurationDenied">
-        Nu aveți permisiunea să reconfigurați SEB.
+        Nu aveți permisiunea să reconfigurați Xolock.
     </Entry>
     <Entry key="MessageBox_ReconfigurationDeniedTitle">
         Reconfigurare refuzată
@@ -415,7 +415,7 @@
         Eroare la reconfigurare
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
-        Sistemul pare să ruleze într-o sesiune la distanță. Configurația selectată nu permite rularea SEB într-o sesiune la distanță.
+        Sistemul pare să ruleze într-o sesiune la distanță. Configurația selectată nu permite rularea Xolock într-o sesiune la distanță.
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
         Sesiune la distanță detectată
@@ -427,19 +427,19 @@
         Sesiune cu supraveghere ecran
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
-        Eșec la inițializarea serviciului SEB! SEB va fi închis acum deoarece serviciul este configurat ca fiind obligatoriu.
+        Eșec la inițializarea serviciului Xolock! Xolock va fi închis acum deoarece serviciul este configurat ca fiind obligatoriu.
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableErrorTitle">
         Serviciu indisponibil
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableWarning">
-        Eșec la inițializarea serviciului SEB. SEB va continua să se inițializeze deoarece serviciul este configurat ca fiind opțional.
+        Eșec la inițializarea serviciului Xolock. Xolock va continua să se inițializeze deoarece serviciul este configurat ca fiind opțional.
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableWarningTitle">
         Serviciu indisponibil
     </Entry>
     <Entry key="MessageBox_SessionStartError">
-        SEB nu a reușit să pornească o nouă sesiune! Verificați jurnalele pentru mai multe informații.
+        Xolock nu a reușit să pornească o nouă sesiune! Verificați jurnalele pentru mai multe informații.
     </Entry>
     <Entry key="MessageBox_SessionStartErrorTitle">
         Eroare la pornirea sesiunii
@@ -463,28 +463,28 @@
         Eroare neașteptată de configurare
     </Entry>
     <Entry key="MessageBox_UploadNotAllowed">
-        Încărcarea fișierelor nu este permisă în setările curente ale SEB. Raportați acest lucru furnizorului dvs. de examen.
+        Încărcarea fișierelor nu este permisă în setările curente ale Xolock. Raportați acest lucru furnizorului dvs. de examen.
     </Entry>
     <Entry key="MessageBox_UploadNotAllowedTitle">
         Încărcarea nu este permisă!
     </Entry>
     <Entry key="MessageBox_VersionRestrictionError">
-        Versiunea instalată a SEB %%_VERSION_%% nu poate fi utilizată deoarece configurația selectată necesită o versiune specifică: %%_REQUIRED_VERSIONS_%%. Descărcați și instalați versiunea necesară de pe site-ul oficial (safeexambrowser.org/download) sau din repository-ul SEB pentru Windows pe GitHub (github.com/safeexambrowser).
+        Versiunea instalată a Xolock %%_VERSION_%% nu poate fi utilizată deoarece configurația selectată necesită o versiune specifică: %%_REQUIRED_VERSIONS_%%. Descărcați și instalați versiunea necesară de pe site-ul oficial (safeexambrowser.org/download) sau din repository-ul Xolock pentru Windows pe GitHub (github.com/safeexambrowser).
     </Entry>
     <Entry key="MessageBox_VersionRestrictionErrorTitle">
-        Versiune SEB nevalidă
+        Versiune Xolock nevalidă
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
-        SEB %%_VERSION_%% sau mai nou
+        Xolock %%_VERSION_%% sau mai nou
     </Entry>
     <Entry key="MessageBox_VideoProctoringDisclaimer">
-        Sesiunea curentă este monitorizată de la distanță cu ajutorul unui flux live video și audio, transmis către un server configurat individual. Întreabă furnizorul tău de examen despre politica lor de confidențialitate. SEB nu se conectează la un server de supraveghere centralizat, furnizorul tău de examen decide ce serviciu/server de supraveghere folosește.
+        Sesiunea curentă este monitorizată de la distanță cu ajutorul unui flux live video și audio, transmis către un server configurat individual. Întreabă furnizorul tău de examen despre politica lor de confidențialitate. Xolock nu se conectează la un server de supraveghere centralizat, furnizorul tău de examen decide ce serviciu/server de supraveghere folosește.
     </Entry>
     <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
         Sesiune cu supraveghere video la distanță
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
-        Acest computer pare a fi o mașină virtuală. Configurația selectată nu permite rularea SEB într-o mașină virtuală.
+        Acest computer pare a fi o mașină virtuală. Configurația selectată nu permite rularea Xolock într-o mașină virtuală.
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
         Mașină virtuală detectată
@@ -493,13 +493,13 @@
         Da
     </Entry>
     <Entry key="MessageBox_ZoomNotSupported">
-        Configurația selectată necesită proctoring la distanță cu Zoom, ceea ce această versiune de SEB nu suportă. Descărcați și instalați versiunea SEB specificată de organizatorul examenului. Din cauza problemelor de licență, proctoring-ul la distanță cu Zoom este disponibil doar pentru membrii SEB Alliance. Vizitați https://safeexambrowser.org/alliance pentru mai multe informații.
+        Configurația selectată necesită proctoring la distanță cu Zoom, ceea ce această versiune de Xolock nu suportă. Descărcați și instalați versiunea Xolock specificată de organizatorul examenului. Din cauza problemelor de licență, proctoring-ul la distanță cu Zoom este disponibil doar pentru membrii Xolock Alliance. Vizitați https://safeexambrowser.org/alliance pentru mai multe informații.
     </Entry>
     <Entry key="MessageBox_ZoomNotSupportedTitle">
         Proctoring Zoom necesar
     </Entry>
     <Entry key="Notification_AboutTooltip">
-        Informații despre SEB
+        Informații despre Xolock
     </Entry>
     <Entry key="Notification_LogTooltip">
         Jurnal aplicație
@@ -532,7 +532,7 @@
         Finalizează clipboard-ul
     </Entry>
     <Entry key="OperationStatus_FinalizeServer">
-        Finalizează serverul SEB
+        Finalizează serverul Xolock
     </Entry>
     <Entry key="OperationStatus_FinalizeServiceSession">
         Finalizează sesiunea de servicii
@@ -565,7 +565,7 @@
         Inițializează conexiunea runtime
     </Entry>
     <Entry key="OperationStatus_InitializeServer">
-        Inițializează serverul SEB
+        Inițializează serverul Xolock
     </Entry>
     <Entry key="OperationStatus_InitializeServiceSession">
         Inițializează sesiunea de servicii
@@ -685,7 +685,7 @@
         Parolă necesară
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequired">
-        Introdu parola pentru ieșire pentru a închide SEB:
+        Introdu parola pentru ieșire pentru a închide Xolock:
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
         Parolă necesară
@@ -727,7 +727,7 @@
         Finalizarea Supravegherii Ecranului
     </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
-        SEB este în curs de rulare.
+        Xolock este în curs de rulare.
     </Entry>
     <Entry key="ServerFailureDialog_Abort">
         Oprește
@@ -736,13 +736,13 @@
         Fallback
     </Entry>
     <Entry key="ServerFailureDialog_Message">
-        A apărut o eroare la comunicarea cu serverul SEB.
+        A apărut o eroare la comunicarea cu serverul Xolock.
     </Entry>
     <Entry key="ServerFailureDialog_Retry">
         Încearcă din nou
     </Entry>
     <Entry key="ServerFailureDialog_Title">
-        Eroare Server SEB
+        Eroare Server Xolock
     </Entry>
     <Entry key="Shell_QuitButton">
         Încheie sesiunea

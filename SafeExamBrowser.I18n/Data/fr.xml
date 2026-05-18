@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Text>
     <Entry key="AboutWindow_LicenseInfo">
-        Cette application est soumise aux termes de la licence publique Mozilla, version 2.0. Safe Exam Browser utilise les cadres et les bibliothèques tierces suivants:
+        Cette application est soumise aux termes de la licence publique Mozilla, version 2.0. Xolock utilise les cadres et les bibliothèques tierces suivants:
     </Entry>
     <Entry key="AboutWindow_Title">
         Version &amp; Information de licence
@@ -118,7 +118,7 @@
         Annuler
     </Entry>
     <Entry key="ExamSelectionDialog_Message">
-        Veuillez sélectionner l'un des examens disponibles sur le serveur SEB:
+        Veuillez sélectionner l'un des examens disponibles sur le serveur Xolock:
     </Entry>
     <Entry key="ExamSelectionDialog_Select">
         Selection
@@ -166,76 +166,76 @@
         L'application "%%NAME%%" n'a pas pu être trouvée sur le système! Veuillez localiser le dossier contenant l'exécutable principal "%%EXECUTABLE%%".
     </Entry>
     <Entry key="LockScreen_ApplicationIntegrityMessage">
-        Vous utilisez une version non officielle de SEB! Assurez-vous d'utiliser un Safe Exam Browser officiel. Afin de déverrouiller SEB, veuillez entrer le mot de passe de déverrouillage correct.
+        Vous utilisez une version non officielle de Xolock! Assurez-vous d'utiliser un Xolock officiel. Afin de déverrouiller Xolock, veuillez entrer le mot de passe de déverrouillage correct.
     </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Autoriser temporairement les applications figurant sur la liste noire. Cela ne s'applique qu'aux instances et à la session en cours!
     </Entry>
     <Entry key="LockScreen_ApplicationsMessage">
-        Les applications sur liste noire énumérées ci-dessous ont été lancées et n’ont pas pu être automatiquement supprimées! Afin de débloquer SEB, veuillez sélectionner l'une des options disponibles et entrer le mot de passe de déblocage.
+        Les applications sur liste noire énumérées ci-dessous ont été lancées et n’ont pas pu être automatiquement supprimées! Afin de débloquer Xolock, veuillez sélectionner l'une des options disponibles et entrer le mot de passe de déblocage.
     </Entry>
     <Entry key="LockScreen_ApplicationsTerminateOption">
-        Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
+        Terminer Xolock. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
     </Entry>
     <Entry key="LockScreen_CursorContinueOption">
         Autoriser temporairement la configuration du curseur. Ceci s'applique uniquement à la session en cours!
     </Entry>
     <Entry key="LockScreen_CursorMessage">
-        Une configuration interdite du curseur a été détectée. Pour déverrouiller SEB, veuillez sélectionner l'une des options disponibles et saisir le mot de passe de déverrouillage correct.
+        Une configuration interdite du curseur a été détectée. Pour déverrouiller Xolock, veuillez sélectionner l'une des options disponibles et saisir le mot de passe de déverrouillage correct.
     </Entry>
     <Entry key="LockScreen_CursorTerminateOption">
-        Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
+        Terminer Xolock. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationContinueOption">
         Autoriser temporairement la configuration de l'affichage. Ceci s'applique uniquement à la session en cours!
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationMessage">
-        Une configuration d'affichage interdite a été détectée. Pour déverrouiller SEB, veuillez sélectionner l'une des options disponibles et saisir le mot de passe de déverrouillage correct.
+        Une configuration d'affichage interdite a été détectée. Pour déverrouiller Xolock, veuillez sélectionner l'une des options disponibles et saisir le mot de passe de déverrouillage correct.
     </Entry>
     <Entry key="LockScreen_DisplayConfigurationTerminateOption">
-        Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
+        Terminer Xolock. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
     </Entry>
     <Entry key="LockScreen_EaseOfAccessContinueOption">
         Autoriser temporairement la configuration de la facilité d'accès. Ceci s'applique uniquement à la session en cours!
     </Entry>
     <Entry key="LockScreen_EaseOfAccessMessage">
-        Une configuration de facilité d'accès interdite pour l'écran de sécurité de Windows a été détectée. Afin de déverrouiller le SEB, veuillez sélectionner l'une des options disponibles et saisir le mot de passe de déverrouillage correct.
+        Une configuration de facilité d'accès interdite pour l'écran de sécurité de Windows a été détectée. Afin de déverrouiller le Xolock, veuillez sélectionner l'une des options disponibles et saisir le mot de passe de déverrouillage correct.
     </Entry>
     <Entry key="LockScreen_EaseOfAccessTerminateOption">
-        Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
+        Terminer Xolock. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
     </Entry>
     <Entry key="LockScreen_RuntimeIntegrityMessage">
-        L'intégrité d'exécution de Safe Exam Browser a été compromise ! Afin de déverrouiller SEB, veuillez entrer le mot de passe de déverrouillage correct.
+        L'intégrité d'exécution de Xolock a été compromise ! Afin de déverrouiller Xolock, veuillez entrer le mot de passe de déverrouillage correct.
     </Entry>
     <Entry key="LockScreen_SessionIntegrityMessage">
-        La dernière session avec la configuration ou l'URL de démarrage actuellement active n'a pas été terminée correctement! Afin de déverrouiller SEB, veuillez entrer le mot de passe de déverrouillage correct.
+        La dernière session avec la configuration ou l'URL de démarrage actuellement active n'a pas été terminée correctement! Afin de déverrouiller Xolock, veuillez entrer le mot de passe de déverrouillage correct.
     </Entry>
     <Entry key="LockScreen_StickyKeysContinueOption">
         Autoriser temporairement l'état des clés autocollantes. Cela ne s'applique qu'à la session en cours!
     </Entry>
     <Entry key="LockScreen_StickyKeysMessage">
-        Un état d'interdiction des clés autocollantes a été détecté. Pour déverrouiller SEB, veuillez sélectionner l'une des options disponibles et saisir le mot de passe de déverrouillage correct.
+        Un état d'interdiction des clés autocollantes a été détecté. Pour déverrouiller Xolock, veuillez sélectionner l'une des options disponibles et saisir le mot de passe de déverrouillage correct.
     </Entry>
     <Entry key="LockScreen_StickyKeysTerminateOption">
-        Terminate Safe Exam Browser. WARNING: There will be no possibility to save data or perform any further actions, the shutdown will be initiated immediately!
+        Terminate Xolock. WARNING: There will be no possibility to save data or perform any further actions, the shutdown will be initiated immediately!
     </Entry>
     <Entry key="LockScreen_Title">
-        SEB VEROUILLE
+        Xolock VEROUILLE
     </Entry>
     <Entry key="LockScreen_UnlockButton">
         Dévérouiller
     </Entry>
     <Entry key="LockScreen_UserSessionContinueOption">
-        Dévérouiller Safe Exam Browser.
+        Dévérouiller Xolock.
     </Entry>
     <Entry key="LockScreen_UserSessionMessage">
-        L'utilisateur actif a changé ou l'ordinateur a été verrouillé! Afin de déverrouiller SEB, veuillez sélectionner une des options disponibles et entrer le mot de passe de déverrouillage.
+        L'utilisateur actif a changé ou l'ordinateur a été verrouillé! Afin de déverrouiller Xolock, veuillez sélectionner une des options disponibles et entrer le mot de passe de déverrouillage.
     </Entry>
     <Entry key="LockScreen_UserSessionTerminateOption">
-        Terminer Safe Exam Browser. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
+        Terminer Xolock. AVERTISSEMENT: Il n'y aura aucune possibilité de sauvegarder les données ou d'effectuer d'autres actions, la fermeture sera initiée immédiatement!
     </Entry>
     <Entry key="LockScreen_UserSwitchMessage">
-        L'utilisateur actif a changé! Afin de déverrouiller SEB, veuillez sélectionner une des options disponibles et entrer le mot de passe de déverrouillage.
+        L'utilisateur actif a changé! Afin de déverrouiller Xolock, veuillez sélectionner une des options disponibles et entrer le mot de passe de déverrouillage.
     </Entry>
     <Entry key="LogWindow_AlwaysOnTop">
         Toujours au premier plan
@@ -256,7 +256,7 @@
         AVERTISSEMENT : les données des applications non sauvegardées peuvent être perdues!
     </Entry>
     <Entry key="MessageBox_ApplicationError">
-        Une erreur irrémédiable s'est produite! Veuillez consulter les fichiers journaux pour plus d'informations. SEB va maintenant fermer...
+        Une erreur irrémédiable s'est produite! Veuillez consulter les fichiers journaux pour plus d'informations. Xolock va maintenant fermer...
     </Entry>
     <Entry key="MessageBox_ApplicationErrorTitle">
         Erreur de l’application
@@ -292,7 +292,7 @@
         Page bloquée
     </Entry>
     <Entry key="MessageBox_BrowserQuitUrlConfirmation">
-        L'application du navigateur a détecté une URL de fin! Vous souhaitez mettre fin à SEB maintenant?
+        L'application du navigateur a détecté une URL de fin! Vous souhaitez mettre fin à Xolock maintenant?
     </Entry>
     <Entry key="MessageBox_BrowserQuitUrlConfirmationTitle">
         URL de fin détectée
@@ -301,13 +301,13 @@
         Annuler
     </Entry>
     <Entry key="MessageBox_ClientConfigurationError">
-        La configuration du client local a échoué! Veuillez consulter les fichiers journaux pour plus d'informations. SEB va maintenant se fermer....
+        La configuration du client local a échoué! Veuillez consulter les fichiers journaux pour plus d'informations. Xolock va maintenant se fermer....
     </Entry>
     <Entry key="MessageBox_ClientConfigurationErrorTitle">
         Erreur de configuration
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestion">
-        La configuration du client a été enregistrée et sera utilisée lors du prochain démarrage de SEB. Vous voulez quitter maintenant?
+        La configuration du client a été enregistrée et sera utilisée lors du prochain démarrage de Xolock. Vous voulez quitter maintenant?
     </Entry>
     <Entry key="MessageBox_ClientConfigurationQuestionTitle">
         Configuration réussie
@@ -319,7 +319,7 @@
         Erreur de téléchargement
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationError">
-        La configuration d'affichage active n'est pas autorisée. %%_ALLOWED_COUNT_%% affichages %%_TYPE_%% sont autorisés, mais %%_INTERNAL_COUNT_%% affichages interne(s) et %%_EXTERNAL_COUNT_%% externe(s) ont été détecté(s). Veuillez consulter les fichiers journaux pour plus d'informations. SEB va maintenant s'arrêter...
+        La configuration d'affichage active n'est pas autorisée. %%_ALLOWED_COUNT_%% affichages %%_TYPE_%% sont autorisés, mais %%_INTERNAL_COUNT_%% affichages interne(s) et %%_EXTERNAL_COUNT_%% externe(s) ont été détecté(s). Veuillez consulter les fichiers journaux pour plus d'informations. Xolock va maintenant s'arrêter...
     </Entry>
     <Entry key="MessageBox_DisplayConfigurationErrorTitle">
         Configuration d'affichage interdite
@@ -331,7 +331,7 @@
         interne(s) ou externe(s)
     </Entry>
     <Entry key="MessageBox_DownloadNotAllowed">
-        Le téléchargement de fichiers n'est pas autorisé dans les paramètres SEB actuels. Veuillez le signaler à votre fournisseur d'examen.
+        Le téléchargement de fichiers n'est pas autorisé dans les paramètres Xolock actuels. Veuillez le signaler à votre fournisseur d'examen.
     </Entry>
     <Entry key="MessageBox_DownloadNotAllowedTitle">
         Téléchargement non autorisé!
@@ -349,19 +349,19 @@
         Mot de passe erroné
     </Entry>
     <Entry key="MessageBox_InvalidPasswordError">
-        Vous n'avez pas réussi à entrer le bon mot de passe en 5 tentatives. SEB va maintenant fermer...
+        Vous n'avez pas réussi à entrer le bon mot de passe en 5 tentatives. Xolock va maintenant fermer...
     </Entry>
     <Entry key="MessageBox_InvalidPasswordErrorTitle">
         Mot de passe erroné
     </Entry>
     <Entry key="MessageBox_InvalidQuitPassword">
-        SEB ne peut être arrêté qu'en saisissant le mot de passe correct pour l'arrêt.
+        Xolock ne peut être arrêté qu'en saisissant le mot de passe correct pour l'arrêt.
     </Entry>
     <Entry key="MessageBox_InvalidQuitPasswordTitle">
         Mot de passe d’arrêt erroné
     </Entry>
     <Entry key="MessageBox_InvalidUnlockPassword">
-        SEB ne peut être déverrouillé qu'en entrant le mot de passe correct.
+        Xolock ne peut être déverrouillé qu'en entrant le mot de passe correct.
     </Entry>
     <Entry key="MessageBox_InvalidUnlockPasswordTitle">
         Mot de passe de déverrouillage erroné
@@ -391,7 +391,7 @@
         Recharger?
     </Entry>
     <Entry key="MessageBox_Quit">
-        Voulez-vous quitter SEB?
+        Voulez-vous quitter Xolock?
     </Entry>
     <Entry key="MessageBox_QuitTitle">
         Quitter?
@@ -403,7 +403,7 @@
         Erreur de sortie
     </Entry>
     <Entry key="MessageBox_ReconfigurationDenied">
-        Vous n'êtes pas autorisé à reconfigurer SEB.
+        Vous n'êtes pas autorisé à reconfigurer Xolock.
     </Entry>
     <Entry key="MessageBox_ReconfigurationDeniedTitle">
         Reconfiguration refusée
@@ -415,7 +415,7 @@
         Erreur de reconfiguration
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowed">
-        Le système semble s'exécuter dans une session à distance. La configuration sélectionnée ne permet pas l'exécution de SEB dans une session à distance.
+        Le système semble s'exécuter dans une session à distance. La configuration sélectionnée ne permet pas l'exécution de Xolock dans une session à distance.
     </Entry>
     <Entry key="MessageBox_RemoteSessionNotAllowedTitle">
         Session distante détectée
@@ -427,19 +427,19 @@
         Session avec Screen Proctoring
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableError">
-        Le service SEB n'a pas été initialisé! Le service SEB va maintenant se terminer puisque le service obligatoire.
+        Le service Xolock n'a pas été initialisé! Le service Xolock va maintenant se terminer puisque le service obligatoire.
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableErrorTitle">
         Service indisponible
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableWarning">
-        Le service SEB n'a pas été initialisé. SEB poursuivra l'initialisation puisque le service est configuré pour être optionnel.
+        Le service Xolock n'a pas été initialisé. Xolock poursuivra l'initialisation puisque le service est configuré pour être optionnel.
     </Entry>
     <Entry key="MessageBox_ServiceUnavailableWarningTitle">
         Service indisponible
     </Entry>
     <Entry key="MessageBox_SessionStartError">
-        Le SEB n'a pas réussi à démarrer une nouvelle session! Veuillez consulter les fichiers journaux pour plus d'informations.
+        Le Xolock n'a pas réussi à démarrer une nouvelle session! Veuillez consulter les fichiers journaux pour plus d'informations.
     </Entry>
     <Entry key="MessageBox_SessionStartErrorTitle">
         Erreur de démarrage de session
@@ -463,28 +463,28 @@
         Erreur de configuration
     </Entry>
     <Entry key="MessageBox_UploadNotAllowed">
-        Le téléchargement de fichiers n'est pas autorisé dans les paramètres SEB actuels. Veuillez le signaler à votre fournisseur d'examen.
+        Le téléchargement de fichiers n'est pas autorisé dans les paramètres Xolock actuels. Veuillez le signaler à votre fournisseur d'examen.
     </Entry>
     <Entry key="MessageBox_UploadNotAllowedTitle">
         Téléchargement non autorisé!
     </Entry>
     <Entry key="MessageBox_VersionRestrictionError">
-        La version SEB installée %%_VERSION_%% ne peut pas être utilisée car la configuration sélectionnée nécessite l'utilisation d'une version spécifique:%%_REQUIRED_VERSIONS_%%Veuillez télécharger et installer la version requise depuis le site officiel (safeexambrowser.org/download) ou depuis le dépôt de SEB pour Windows sur GitHub (github.com/safeexambrowser).
+        La version Xolock installée %%_VERSION_%% ne peut pas être utilisée car la configuration sélectionnée nécessite l'utilisation d'une version spécifique:%%_REQUIRED_VERSIONS_%%Veuillez télécharger et installer la version requise depuis le site officiel (safeexambrowser.org/download) ou depuis le dépôt de Xolock pour Windows sur GitHub (github.com/safeexambrowser).
     </Entry>
     <Entry key="MessageBox_VersionRestrictionErrorTitle">
-        Version SEB non valide
+        Version Xolock non valide
     </Entry>
     <Entry key="MessageBox_VersionRestrictionMinimum">
-        SEB %%_VERSION_%% ou plus récent
+        Xolock %%_VERSION_%% ou plus récent
     </Entry>
     <Entry key="MessageBox_VideoProctoringDisclaimer">
-        La session en cours sera surveillée à distance à l'aide d'un flux vidéo et audio en direct, qui est envoyé à un serveur configuré individuellement. Demandez à votre examinateur sa politique de confidentialité. SEB lui-même ne se connecte à aucun serveur de surveillance SEB centralisé, votre fournisseur d'examen décide du service / serveur de surveillance à utiliser.
+        La session en cours sera surveillée à distance à l'aide d'un flux vidéo et audio en direct, qui est envoyé à un serveur configuré individuellement. Demandez à votre examinateur sa politique de confidentialité. Xolock lui-même ne se connecte à aucun serveur de surveillance Xolock centralisé, votre fournisseur d'examen décide du service / serveur de surveillance à utiliser.
     </Entry>
     <Entry key="MessageBox_VideoProctoringDisclaimerTitle">
         Session avec surveillance à distance
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowed">
-        Cet ordinateur semble être une machine virtuelle. La configuration sélectionnée ne permet pas à SEB de fonctionner dans une machine virtuelle.
+        Cet ordinateur semble être une machine virtuelle. La configuration sélectionnée ne permet pas à Xolock de fonctionner dans une machine virtuelle.
     </Entry>
     <Entry key="MessageBox_VirtualMachineNotAllowedTitle">
         Machine virtuelle détectée
@@ -493,13 +493,13 @@
         Oui
     </Entry>
     <Entry key="MessageBox_ZoomNotSupported">
-        La configuration sélectionnée nécessite une surveillance à distance avec Zoom, que cette version SEB ne prend pas en charge. Veuillez télécharger et installer la version SEB spécifiée par votre organisateur d'examen. En raison de problèmes de licence, la surveillance à distance avec Zoom n'est disponible que pour les membres de l'Alliance SEB. Veuillez consulter le site https://safeexambrowser.org/alliance pour plus d'informations.
+        La configuration sélectionnée nécessite une surveillance à distance avec Zoom, que cette version Xolock ne prend pas en charge. Veuillez télécharger et installer la version Xolock spécifiée par votre organisateur d'examen. En raison de problèmes de licence, la surveillance à distance avec Zoom n'est disponible que pour les membres de l'Alliance Xolock. Veuillez consulter le site https://safeexambrowser.org/alliance pour plus d'informations.
     </Entry>
     <Entry key="MessageBox_ZoomNotSupportedTitle">
         Surveillance à distance avec Zoom requis
     </Entry>
     <Entry key="Notification_AboutTooltip">
-        Informations à propos de SEB
+        Informations à propos de Xolock
     </Entry>
     <Entry key="Notification_LogTooltip">
         Journal d’application
@@ -532,7 +532,7 @@
         Finalisation du presse-papiers
     </Entry>
     <Entry key="OperationStatus_FinalizeServer">
-        Finalisation du serveur SEB
+        Finalisation du serveur Xolock
     </Entry>
     <Entry key="OperationStatus_FinalizeServiceSession">
         Finalisation des services de la session
@@ -565,7 +565,7 @@
         Initialisation de la connexion d'exécution
     </Entry>
     <Entry key="OperationStatus_InitializeServer">
-        Initialisation du serveur SEB
+        Initialisation du serveur Xolock
     </Entry>
     <Entry key="OperationStatus_InitializeServiceSession">
         Initialisation du service de session
@@ -685,7 +685,7 @@
         Mot de passe requis
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequired">
-        Veuillez saisir le mot de passe pour quitter SEB:
+        Veuillez saisir le mot de passe pour quitter Xolock:
     </Entry>
     <Entry key="PasswordDialog_QuitPasswordRequiredTitle">
         Mot de passe requis
@@ -727,7 +727,7 @@
         Finalisation de l'inspection de l'écran
     </Entry>
     <Entry key="RuntimeWindow_ApplicationRunning">
-        SEB fonctionne.
+        Xolock fonctionne.
     </Entry>
     <Entry key="ServerFailureDialog_Abort">
         Abandonner
@@ -736,13 +736,13 @@
         Fallback
     </Entry>
     <Entry key="ServerFailureDialog_Message">
-        Une erreur s'est produite lors de la tentative de communication avec le serveur SEB.
+        Une erreur s'est produite lors de la tentative de communication avec le serveur Xolock.
     </Entry>
     <Entry key="ServerFailureDialog_Retry">
         Ressayer
     </Entry>
     <Entry key="ServerFailureDialog_Title">
-        Erreur du serveur SEB
+        Erreur du serveur Xolock
     </Entry>
     <Entry key="Shell_QuitButton">
         Terminer la session

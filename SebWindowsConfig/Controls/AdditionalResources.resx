@@ -121,18 +121,18 @@
     <value>17, 17</value>
   </metadata>
   <data name="comboBoxAdditionalResourcesChooseFileToLaunch.ToolTip" xml:space="preserve">
-    <value>Lists all files in the embedded folder (and its subfolders), you have to select one (for example an index.html file) which then is loaded by SEB or the permitted third party application selected in the Lauch with popup list.</value>
+    <value>Lists all files in the embedded folder (and its subfolders), you have to select one (for example an index.html file) which then is loaded by Xolock or the permitted third party application selected in the Lauch with popup list.</value>
   </data>
   <data name="buttonAdditionalResourcesChooseEmbeddedFolder.ToolTip" xml:space="preserve">
-    <value>Select a folder to be embedded into the SEB Config File. After choosing a folder, a setting called Filename/File to launch and the setting Lauch with is displayed. In the File to launch popup list, all files in the embedded folder (and its subfolders) are listed, you have to select one which is opened first.</value>
+    <value>Select a folder to be embedded into the Xolock Config File. After choosing a folder, a setting called Filename/File to launch and the setting Lauch with is displayed. In the File to launch popup list, all files in the embedded folder (and its subfolders) are listed, you have to select one which is opened first.</value>
   </data>
   <data name="comboBoxAdditionalResourcesResourceDataLauncher.ToolTip" xml:space="preserve">
-    <value>Select SEB (the internal SEB browser will be used to display the resource, this has to have a document type which can be displayed by the browser) or one of the permitted third party applications if there are some defined in the Permitted Processes Pane.</value>
+    <value>Select Xolock (the internal Xolock browser will be used to display the resource, this has to have a document type which can be displayed by the browser) or one of the permitted third party applications if there are some defined in the Permitted Processes Pane.</value>
   </data>
   <data name="textBoxAdditionalResourcesTitle.ToolTip" xml:space="preserve">
-    <value>Will be displayed either as a tool tip when hovering over the additional resource icon in the SEB task bar or as a menu entry in the additional resource popup menu if the resource is placed on the second or third hierarchy level.</value>
+    <value>Will be displayed either as a tool tip when hovering over the additional resource icon in the Xolock task bar or as a menu entry in the additional resource popup menu if the resource is placed on the second or third hierarchy level.</value>
   </data>
   <data name="buttonAdditionalResourcesChooseIcon.ToolTip" xml:space="preserve">
-    <value>Select a image file used as an icon for the resource. If you define an external resource using its URL (see section Behavior), then the SEB Config Tool tries to load the Favicon of the website at that URL and uses it as the icon for the resource.</value>
+    <value>Select a image file used as an icon for the resource. If you define an external resource using its URL (see section Behavior), then the Xolock Config Tool tries to load the Favicon of the website at that URL and uses it as the icon for the resource.</value>
   </data>
 </root>
