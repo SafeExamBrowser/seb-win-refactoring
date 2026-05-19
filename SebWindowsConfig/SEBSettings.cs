@@ -612,7 +612,7 @@ namespace SebWindowsConfig
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyOriginatorVersion, "SEB_Win_2.1.1");
 
 			// Default settings for group "General"
-			SEBSettings.settingsDefault.Add(SEBSettings.KeyStartURL, "https://safeexambrowser.org/start");
+			SEBSettings.settingsDefault.Add(SEBSettings.KeyStartURL, "https://xobinteam.xobin.com/");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyStartResource, "");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeySebServerURL, "");
 			SEBSettings.settingsDefault.Add(SEBSettings.KeyHashedAdminPassword, "");

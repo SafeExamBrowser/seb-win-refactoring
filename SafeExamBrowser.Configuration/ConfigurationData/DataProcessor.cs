@@ -27,9 +27,11 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 		internal void ProcessDefault(AppSettings settings)
 		{
 			AllowBrowserToolbarForReloading(settings);
+			InitializeLandingPageSettings(settings);
 			InitializeBrowserHomeFunctionality(settings);
 			InitializeClipboardSettings(settings);
 			InitializeProctoringSettings(settings);
+			InitializeTerminationSettings(settings);
 			RemoveLegacyBrowsers(settings);
 		}
 
@@ -78,9 +80,30 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Keyboard.AllowCtrlX = settings.Security.ClipboardPolicy != ClipboardPolicy.Block;
 		}
 
+		private void InitializeLandingPageSettings(AppSettings settings)
+		{
+			var startUrl = settings.Browser.StartUrl;
+			var isUnconfiguredSebStartPage =
+				string.IsNullOrWhiteSpace(startUrl) ||
+				startUrl.Equals("https://safeexambrowser.org/start", StringComparison.OrdinalIgnoreCase) ||
+				startUrl.Equals("https://www.safeexambrowser.org/start", StringComparison.OrdinalIgnoreCase) ||
+				startUrl.Equals("http://safeexambrowser.org/start", StringComparison.OrdinalIgnoreCase) ||
+				startUrl.Equals("http://www.safeexambrowser.org/start", StringComparison.OrdinalIgnoreCase);
+
+			if (isUnconfiguredSebStartPage)
+			{
+				settings.Browser.StartUrl = "https://xobinteam.xobin.com/";
+			}
+		}
+
 		private void InitializeProctoringSettings(AppSettings settings)
 		{
 			settings.Proctoring.Enabled = settings.Proctoring.ScreenProctoring.Enabled;
+		}
+
+		private void InitializeTerminationSettings(AppSettings settings)
+		{
+			settings.Security.AllowTermination = true;
 		}
 
 		private void RemoveLegacyBrowsers(AppSettings settings)
