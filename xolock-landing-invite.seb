@@ -7,13 +7,13 @@
     <key>sebConfigPurpose</key>
     <integer>0</integer>
     <key>startURL</key>
-    <string>https://xobinteam.xobin.com/wc/assessment/19TSU98PJSJC?inviteToken=A6F1D020EC27AB8BGKGL66C4499FA9BD1679B5DE96324B829AE68693DDB888BA0A1B1BA939</string>
+    <string>file:///D:/seb-win-refactoring/xolock-landing.html</string>
     <key>startURLAppendQueryParameter</key>
     <false />
     <key>enableSebBrowser</key>
     <true />
     <key>browserViewMode</key>
-    <integer>1</integer>
+    <integer>0</integer>
     <key>browserWindowAllowAddressBar</key>
     <false />
     <key>allowBrowsingBackForward</key>
@@ -25,11 +25,11 @@
     <key>hashedQuitPassword</key>
     <string />
     <key>createNewDesktop</key>
-    <true />
+    <false />
     <key>killExplorerShell</key>
     <false />
     <key>showTaskBar</key>
-    <false />
+    <true />
     <key>enableCtrlEsc</key>
     <false />
     <key>enableAltEsc</key>
@@ -67,9 +67,9 @@
     <key>newBrowserWindowAllowAddressBar</key>
     <false />
     <key>mainBrowserWindowWidth</key>
-    <string>100%</string>
+    <string>900</string>
     <key>mainBrowserWindowHeight</key>
-    <string>100%</string>
+    <string>760</string>
     <key>mainBrowserWindowPositioning</key>
     <integer>1</integer>
     <key>hideBrowserWindowToolbar</key>

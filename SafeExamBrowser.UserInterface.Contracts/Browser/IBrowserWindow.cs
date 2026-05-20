@@ -101,6 +101,11 @@ namespace SafeExamBrowser.UserInterface.Contracts.Browser
 		void FocusBrowser();
 
 		/// <summary>
+		/// Switches the browser window into fullscreen mode.
+		/// </summary>
+		void EnterFullscreenMode();
+
+		/// <summary>
 		/// Sets the focus on the toolbar of the window. If the parameter is set to true, the first focusable control on the toolbar gets focused.
 		/// If it is set to false, the last one.
 		/// </summary>

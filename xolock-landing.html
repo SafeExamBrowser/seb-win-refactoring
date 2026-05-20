@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Xolock Assessment Login</title>
+  <link rel="stylesheet" href="xolock-landing.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="card" aria-labelledby="page-title">
+      <div class="brand">
+        <div class="brand-mark">X</div>
+        <div>
+          <p class="eyebrow">Xobin Technologies</p>
+          <h1 id="page-title">Start your assessment</h1>
+        </div>
+      </div>
+
+      <p class="intro">
+        Enter your candidate details and invite information. You can also paste the complete Xobin assessment link directly.
+      </p>
+
+      <form id="landing-form" novalidate>
+        <div class="field">
+          <label for="candidate-name">Candidate name</label>
+          <input id="candidate-name" name="candidateName" type="text" autocomplete="name" required>
+        </div>
+
+        <div class="field">
+          <label for="candidate-email">Email address</label>
+          <input id="candidate-email" name="candidateEmail" type="email" autocomplete="email" required>
+        </div>
+
+        <div class="split">
+          <div class="field">
+            <label for="assessment-id">Assessment ID</label>
+            <input id="assessment-id" name="assessmentId" type="text" inputmode="latin" placeholder="19TSU98PJSJC">
+          </div>
+
+          <div class="field">
+            <label for="invite-token">Invite token</label>
+            <input id="invite-token" name="inviteToken" type="text" inputmode="latin" placeholder="A6F1D020...">
+          </div>
+        </div>
+
+        <div class="divider" role="presentation">
+          <span>or paste invite link</span>
+        </div>
+
+        <div class="field">
+          <label for="assessment-link">Assessment link</label>
+          <input id="assessment-link" name="assessmentLink" type="url" spellcheck="false" placeholder="https://xobinteam.xobin.com/wc/assessment/19TSU98PJSJC?inviteToken=...">
+          <p class="hint">Accepted format: https://xobinteam.xobin.com/wc/assessment/&lt;assessment_id&gt;?inviteToken=&lt;invite_token&gt;</p>
+        </div>
+
+        <p id="form-error" class="error" role="alert" aria-live="polite"></p>
+
+        <button type="submit">Open assessment</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="xolock-landing.js"></script>
+</body>
+</html>

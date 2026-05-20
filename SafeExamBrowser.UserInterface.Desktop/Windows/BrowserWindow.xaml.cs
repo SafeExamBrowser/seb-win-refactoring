@@ -105,6 +105,20 @@ namespace SafeExamBrowser.UserInterface.Desktop.Windows
 			});
 		}
 
+		public void EnterFullscreenMode()
+		{
+			Dispatcher.Invoke(() =>
+			{
+				WindowState = WindowState.Normal;
+				Top = 0;
+				Left = 0;
+				Height = SystemParameters.WorkArea.Height;
+				Width = SystemParameters.WorkArea.Width;
+				ResizeMode = ResizeMode.NoResize;
+				WindowStyle = WindowStyle.None;
+			});
+		}
+
 		public new void Close()
 		{
 			Dispatcher.Invoke(() =>

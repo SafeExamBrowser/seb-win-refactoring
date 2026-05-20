@@ -6,6 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+using System;
 using System.Threading.Tasks;
 using CefSharp;
 using SafeExamBrowser.Applications.Contracts.Events;
@@ -45,6 +46,7 @@ namespace SafeExamBrowser.Browser.Responsibilities.Window
 
 			Context.Url = address;
 			Window.UpdateAddress(address);
+			TryEnterFullscreenForAssessment(address);
 
 			if (WindowSettings.UrlPolicy == UrlPolicy.Always || WindowSettings.UrlPolicy == UrlPolicy.BeforeTitle)
 			{
@@ -88,6 +90,20 @@ namespace SafeExamBrowser.Browser.Responsibilities.Window
 				var message = Text.Get(TextKey.Browser_LoadErrorMessage).Replace("%%URL%%", WindowSettings.UrlPolicy.CanLogError() ? url : "") + $" {requestInfo}";
 
 				Task.Run(() => MessageBox.Show(message, title, icon: MessageBoxIcon.Error, parent: Window));
+			}
+		}
+
+		private void TryEnterFullscreenForAssessment(string address)
+		{
+			if (
+				Context.IsMainWindow &&
+				Uri.TryCreate(address, UriKind.Absolute, out var uri) &&
+				uri.Scheme == Uri.UriSchemeHttps &&
+				uri.Host.Equals("xobinteam.xobin.com", StringComparison.OrdinalIgnoreCase) &&
+				uri.AbsolutePath.StartsWith("/wc/assessment/", StringComparison.OrdinalIgnoreCase) &&
+				uri.Query.IndexOf("inviteToken=", StringComparison.OrdinalIgnoreCase) >= 0)
+			{
+				Window.EnterFullscreenMode();
 			}
 		}
 
