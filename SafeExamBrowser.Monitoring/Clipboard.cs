@@ -33,11 +33,11 @@ namespace SafeExamBrowser.Monitoring
 		{
 			this.policy = policy;
 
-			nativeMethods.EmptyClipboard();
-			logger.Debug("Cleared clipboard.");
-
 			if (policy != ClipboardPolicy.Allow)
 			{
+				nativeMethods.EmptyClipboard();
+				logger.Debug("Cleared clipboard.");
+
 				timer.Elapsed += Timer_Elapsed;
 				timer.Start();
 
@@ -53,11 +53,11 @@ namespace SafeExamBrowser.Monitoring
 
 		public void Terminate()
 		{
-			nativeMethods.EmptyClipboard();
-			logger.Debug("Cleared clipboard.");
-
 			if (policy != ClipboardPolicy.Allow)
 			{
+				nativeMethods.EmptyClipboard();
+				logger.Debug("Cleared clipboard.");
+
 				timer.Stop();
 				logger.Debug("Stopped clipboard monitoring.");
 			}

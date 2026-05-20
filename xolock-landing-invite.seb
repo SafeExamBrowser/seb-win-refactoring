@@ -1691,7 +1691,7 @@
     <key>allowScreenSharing</key>
     <false />
     <key>enablePrivateClipboard</key>
-    <true />
+    <false />
     <key>enableLogging</key>
     <true />
     <key>allowApplicationLog</key>
@@ -1735,7 +1735,7 @@
     <key>enableWindowsUpdate</key>
     <false />
     <key>clipboardPolicy</key>
-    <integer>2</integer>
+    <integer>0</integer>
     <key>disableSessionChangeLockScreen</key>
     <false />
     <key>enableCursorVerification</key>

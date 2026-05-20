@@ -596,6 +596,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\SplashScreen.png" />
+    <Resource Include="Images\XobinLogo.png" />
     <Resource Include="Images\XolockLogo.png" />
   </ItemGroup>
   <ItemGroup />
