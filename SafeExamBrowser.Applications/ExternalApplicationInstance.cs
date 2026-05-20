@@ -113,13 +113,15 @@ namespace SafeExamBrowser.Applications
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			var changed = false;
-			var openWindows = nativeMethods.GetInteractiveWindows();
-
+			var openWindows = nativeMethods.GetInteractiveWindows().ToList();
+			var openWindowHandles = new HashSet<IntPtr>(openWindows);
+			
 			lock (@lock)
 			{
-				var closedWindows = windows.Where(w => openWindows.All(ow => ow != w.Handle)).ToList();
-				var openedWindows = openWindows.Where(ow => windows.All(w => w.Handle != ow) && BelongsToInstance(ow)).ToList();
-
+				var knownWindowHandles = new HashSet<IntPtr>(windows.Select(w => w.Handle));
+			
+				var closedWindows = windows.Where(w => !openWindowHandles.Contains(w.Handle)).ToList();
+				var openedWindows = openWindows.Where(ow => !knownWindowHandles.Contains(ow) && BelongsToInstance(ow)).ToList();
 				foreach (var window in closedWindows)
 				{
 					changed = true;
