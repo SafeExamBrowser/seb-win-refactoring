@@ -45,6 +45,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		private WindowClosedEventHandler closed;
 		private WindowClosingEventHandler closing;
 		private bool browserControlGetsFocusFromTaskbar;
+		private bool isFullscreenMode;
 		private IInputElement tabKeyDownFocusElement;
 
 		private WindowSettings WindowSettings
@@ -109,13 +110,18 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 		{
 			Dispatcher.Invoke(() =>
 			{
+				isFullscreenMode = true;
 				WindowState = WindowState.Normal;
 				Top = 0;
 				Left = 0;
-				Height = SystemParameters.WorkArea.Height;
-				Width = SystemParameters.WorkArea.Width;
+				Height = SystemParameters.PrimaryScreenHeight;
+				Width = SystemParameters.PrimaryScreenWidth;
 				ResizeMode = ResizeMode.NoResize;
 				WindowStyle = WindowStyle.None;
+				ShowInTaskbar = false;
+				Topmost = true;
+				Toolbar.Visibility = Visibility.Collapsed;
+				Activate();
 			});
 		}
 
@@ -552,12 +558,12 @@ if (typeof __SEB_focusElement === 'undefined') {
 
 		private void InitializeBounds()
 		{
-			if (isMainWindow && WindowSettings.FullScreenMode)
+			if (isMainWindow && (WindowSettings.FullScreenMode || isFullscreenMode))
 			{
 				Top = 0;
 				Left = 0;
-				Height = SystemParameters.WorkArea.Height;
-				Width = SystemParameters.WorkArea.Width;
+				Height = isFullscreenMode ? SystemParameters.PrimaryScreenHeight : SystemParameters.WorkArea.Height;
+				Width = isFullscreenMode ? SystemParameters.PrimaryScreenWidth : SystemParameters.WorkArea.Width;
 				ResizeMode = ResizeMode.NoResize;
 				WindowStyle = WindowStyle.None;
 			}
