@@ -153,8 +153,12 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "strwinclt.exe", OriginalName = "strwinclt.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Teams.exe", OriginalName = "Teams.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "TeamViewer.exe", OriginalName = "TeamViewer.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "TeamViewer_Desktop.exe", OriginalName = "TeamViewer_Desktop.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "TeamViewer_Service.exe", OriginalName = "TeamViewer_Service.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "Telegram.exe", OriginalName = "Telegram.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "ToDesk.exe", OriginalName = "ToDesk.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "tv_w32.exe", OriginalName = "tv_w32.exe" });
+			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "tv_x64.exe", OriginalName = "tv_x64.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "VLC.exe", OriginalName = "VLC.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "vncserver.exe", OriginalName = "vncserver.exe" });
 			settings.Applications.Blacklist.Add(new BlacklistApplication { ExecutableName = "vncviewer.exe", OriginalName = "vncviewer.exe" });
