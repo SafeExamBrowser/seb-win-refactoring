@@ -7,7 +7,6 @@
  */
 
 using System;
-using System.Threading.Tasks;
 using System.Timers;
 using SafeExamBrowser.Configuration.Contracts.Integrity;
 using SafeExamBrowser.Logging.Contracts;
@@ -88,19 +87,7 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 			}
 			else
 			{
-				Logger.Error("Runtime integrity is compromised!");
-
-				StopIntegrityMonitoring();
-
-				Task.Run(() =>
-				{
-					if (SessionIsRunning)
-					{
-						Context.Responsibilities.Delegate(RuntimeTask.StopSession);
-					}
-
-					shutdown.Invoke();
-				});
+				Logger.Warn("Runtime integrity is compromised!");
 			}
 		}
 	}

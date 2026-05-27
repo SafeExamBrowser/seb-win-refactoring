@@ -167,19 +167,9 @@ namespace SafeExamBrowser.Client.Responsibilities
 			{
 				Logger.Info("Runtime integrity successfully verified.");
 			}
-			else if (coordinator.RequestSessionLock())
-			{
-				Logger.Warn("Runtime integrity is compromised!");
-
-				Task.Run(() =>
-				{
-					ShowLockScreen(text.Get(TextKey.LockScreen_RuntimeIntegrityMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
-					coordinator.ReleaseSessionLock();
-				});
-			}
 			else
 			{
-				Logger.Warn("Runtime integrity is compromised but lock screen is already active!");
+				Logger.Warn("Runtime integrity is compromised!");
 			}
 		}
 
