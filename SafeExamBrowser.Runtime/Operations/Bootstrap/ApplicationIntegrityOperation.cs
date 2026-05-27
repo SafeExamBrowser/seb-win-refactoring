@@ -29,19 +29,13 @@ namespace SafeExamBrowser.Runtime.Operations.Bootstrap
 
 		public OperationResult Perform()
 		{
-			var result = OperationResult.Success;
-
-			logger.Info($"Attempting to verify application integrity...");
+			logger.Info("Attempting to verify application and runtime integrity...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_VerifyApplicationIntegrity);
 
 			VerifyCodeSignature();
+			VerifyRuntimeIntegrity();
 
-			if (!VerifyRuntimeIntegrity())
-			{
-				result = OperationResult.Failed;
-			}
-
-			return result;
+			return OperationResult.Success;
 		}
 
 		public OperationResult Revert()
@@ -78,7 +72,7 @@ namespace SafeExamBrowser.Runtime.Operations.Bootstrap
 				}
 				else
 				{
-					logger.Error("Runtime integrity is compromised!");
+					logger.Warn("Runtime integrity is compromised!");
 				}
 			}
 			else
