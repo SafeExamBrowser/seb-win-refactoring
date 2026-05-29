@@ -271,7 +271,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Security.AllowWindowCapture = false;
 			settings.Security.ClipboardPolicy = ClipboardPolicy.Isolated;
 			settings.Security.DisableSessionChangeLockScreen = false;
-			settings.Security.KioskMode = KioskMode.CreateNewDesktop;
+			settings.Security.KioskMode = KioskMode.None;
 			settings.Security.VerifyCursorConfiguration = true;
 			settings.Security.VerifySessionIntegrity = true;
 			settings.Security.VirtualMachinePolicy = VirtualMachinePolicy.Deny;
@@ -290,7 +290,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Service.DisableNetworkOptions = true;
 			settings.Service.DisablePasswordChange = true;
 			settings.Service.DisablePowerOptions = true;
-			settings.Service.DisableRemoteConnections = true;
+			settings.Service.DisableRemoteConnections = false;
 			settings.Service.DisableSignout = true;
 			settings.Service.DisableTaskManager = true;
 			settings.Service.DisableUserLock = true;
