@@ -221,7 +221,20 @@ namespace SafeExamBrowser.Integrity
 
 			try
 			{
-				isValid = Native.VerifyRuntimeIntegrity();
+				isValid = Native.VerifyRuntimeIntegrity(out var data, out var count);
+
+				for (var index = 0; index < count; index++)
+				{
+					var pointer = Marshal.ReadIntPtr(data, index * IntPtr.Size);
+					var raw = Marshal.PtrToStringBSTR(pointer);
+					var item = string.Join(" ", raw.ToCharArray().Select(c => Convert.ToInt32(c)));
+
+					logger.Warn($"Runtime Integrity Violation #{index}: {item}");
+
+					Marshal.FreeBSTR(pointer);
+				}
+
+				Marshal.FreeCoTaskMem(data);
 				success = true;
 			}
 			catch (DllNotFoundException)
@@ -350,7 +363,7 @@ namespace SafeExamBrowser.Integrity
 			internal static extern bool VerifyCodeSignature();
 
 			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-			internal static extern bool VerifyRuntimeIntegrity();
+			internal static extern bool VerifyRuntimeIntegrity(out IntPtr data, out int count);
 		}
 	}
 }
