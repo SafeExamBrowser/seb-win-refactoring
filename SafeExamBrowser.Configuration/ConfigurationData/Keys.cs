@@ -230,6 +230,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		internal static class Proctoring
 		{
+			internal const string ShowDisclaimer = "showProctoringDisclaimer";
 			internal const string ShowTaskbarNotification = "showProctoringViewButton";
 
 			internal static class ScreenProctoring

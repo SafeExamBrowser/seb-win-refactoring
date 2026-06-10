@@ -25,7 +25,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 		{
 			var result = OperationResult.Success;
 
-			if (Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
+			if (Context.Next.Settings.Proctoring.ScreenProctoring.Enabled && Context.Next.Settings.Proctoring.ShowDisclaimer)
 			{
 				result = ShowScreenProctoringDisclaimer();
 			}
@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 		{
 			var result = OperationResult.Success;
 
-			if (Context.Next.Settings.Proctoring.ScreenProctoring.Enabled)
+			if (Context.Next.Settings.Proctoring.ScreenProctoring.Enabled && Context.Next.Settings.Proctoring.ShowDisclaimer)
 			{
 				result = ShowScreenProctoringDisclaimer();
 			}

@@ -60,6 +60,9 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 				case Keys.Proctoring.ScreenProctoring.ServiceUrl:
 					MapServiceUrl(settings, value);
 					break;
+				case Keys.Proctoring.ShowDisclaimer:
+					MapShowDisclaimer(settings, value);
+					break;
 				case Keys.Proctoring.ShowTaskbarNotification:
 					MapShowTaskbarNotification(settings, value);
 					break;
@@ -199,6 +202,14 @@ namespace SafeExamBrowser.Configuration.ConfigurationData.DataMapping
 			if (value is string url)
 			{
 				settings.Proctoring.ScreenProctoring.ServiceUrl = url;
+			}
+		}
+
+		private void MapShowDisclaimer(AppSettings settings, object value)
+		{
+			if (value is bool show)
+			{
+				settings.Proctoring.ShowDisclaimer = show;
 			}
 		}
 

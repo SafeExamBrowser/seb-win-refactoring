@@ -27,6 +27,11 @@ namespace SafeExamBrowser.Settings.Proctoring
 		public ScreenProctoringSettings ScreenProctoring { get; set; }
 
 		/// <summary>
+		/// Determines whether the proctoring disclaimer will be shown during session initialization.
+		/// </summary>
+		public bool ShowDisclaimer { get; set; }
+
+		/// <summary>
 		/// Determines whether the proctoring notification will be shown in the taskbar.
 		/// </summary>
 		public bool ShowTaskbarNotification { get; set; }
