@@ -158,7 +158,7 @@ namespace SafeExamBrowser.Configuration
 			var hasKey = data.TryGetValue(Keys.ConfigurationFile.KeepClientConfigEncryption, out var value);
 			var useDefaultEncryption = value is bool keepEncryption && !keepEncryption;
 
-			if (!hasKey || (hasKey && useDefaultEncryption))
+			if (!hasKey || useDefaultEncryption)
 			{
 				encryption = new PasswordParameters { Password = string.Empty, IsHash = true };
 			}

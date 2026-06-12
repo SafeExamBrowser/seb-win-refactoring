@@ -296,7 +296,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 						{
 							AddForTermination(application.ExecutableName, process, result);
 						}
-						else if (application.AutoTerminate && !TryTerminate(process))
+						else if (!TryTerminate(process))
 						{
 							AddFailed(application.ExecutableName, process, result);
 						}

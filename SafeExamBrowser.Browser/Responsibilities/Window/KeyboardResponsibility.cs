@@ -56,7 +56,7 @@ namespace SafeExamBrowser.Browser.Responsibilities.Window
 		{
 			Control.ExecuteJavaScript("document.activeElement.tagName", result =>
 			{
-				if (result.Result is string tagName && tagName?.ToUpper() == "BODY")
+				if (result.Result is string tagName && tagName.ToUpper() == "BODY")
 				{
 					// This means the user is now at the start of the focus / tabIndex chain in the website.
 					if (shiftPressed)
