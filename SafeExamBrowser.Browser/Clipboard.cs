@@ -45,7 +45,7 @@ namespace SafeExamBrowser.Browser
 				}
 				catch (Exception e)
 				{
-					logger.Error($"Failed to process browser message '{message}'!", e);
+					logger.Error($"Failed to process browser message '{message?.Message}'!", e);
 				}
 			}
 		}
