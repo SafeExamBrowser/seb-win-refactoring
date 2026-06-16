@@ -321,6 +321,11 @@ namespace SafeExamBrowser.WindowsApi
 			return User32.IsWindow(window);
 		}
 
+		public bool IsMinimizedWindow(IntPtr window)
+		{
+			return User32.IsIconic(window);
+		}
+
 		public void MinimizeAllOpenWindows()
 		{
 			var handle = GetShellWindowHandle();

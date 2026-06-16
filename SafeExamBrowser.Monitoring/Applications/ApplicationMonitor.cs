@@ -444,11 +444,12 @@ namespace SafeExamBrowser.Monitoring.Applications
 					var window = new Window
 					{
 						Handle = handle,
+						IsMinimized = nativeMethods.IsMinimizedWindow(handle),
 						IsOverlay = style.IsDisabled || style.IsNotActivatable || style.IsTopmost,
 						Title = nativeMethods.GetWindowTitle(handle)
 					};
 
-					if (window.IsOverlay && style.IsVisible && !IsAllowed(window) && !TryHide(window))
+					if (style.IsVisible && !window.IsMinimized && !IsAllowed(window) && !TryHide(window))
 					{
 						Close(window);
 					}
