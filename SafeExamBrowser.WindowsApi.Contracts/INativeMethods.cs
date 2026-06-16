@@ -150,6 +150,11 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		bool IsExistingWindow(IntPtr window);
 
 		/// <summary>
+		/// Indicates whether the window with the given handle is minimized.
+		/// </summary>
+		bool IsMinimizedWindow(IntPtr window);
+
+		/// <summary>
 		/// Minimizes all open windows.
 		/// </summary>
 		void MinimizeAllOpenWindows();

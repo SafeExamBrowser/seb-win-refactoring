@@ -13,6 +13,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 {
 	internal class Window : IWindow
 	{
+		internal bool IsMinimized { get; set; }
 		internal bool IsOverlay { get; set; }
 
 		public IntPtr Handle { get; set; }
