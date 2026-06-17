@@ -145,11 +145,13 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring.Imaging
 		private void SerializeJpg(MemoryStream memoryStream)
 		{
 			var codec = ImageCodecInfo.GetImageEncoders().First(c => c.FormatID == System.Drawing.Imaging.ImageFormat.Jpeg.Guid);
-			var parameters = new EncoderParameters(1);
 			var quality = 100;
 
-			parameters.Param[0] = new EncoderParameter(Encoder.Quality, quality);
-			bitmap.Save(memoryStream, codec, parameters);
+			using (var parameters = new EncoderParameters(1))
+			{
+				parameters.Param[0] = new EncoderParameter(Encoder.Quality, quality);
+				bitmap.Save(memoryStream, codec, parameters);
+			}
 		}
 
 		private string ToReducedString()
