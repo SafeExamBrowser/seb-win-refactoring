@@ -17,14 +17,14 @@ namespace SafeExamBrowser.Configuration.Contracts.Cryptography
 	public interface ICertificateStore
 	{
 		/// <summary>
+		/// Extracts all identity certificates from the given configuration data and installs them on the computer.
+		/// </summary>
+		void ExtractAndImportIdentities(IDictionary<string, object> data);
+
+		/// <summary>
 		/// Attempts to retrieve the certificate which matches the specified public key hash value.
 		/// Returns <c>true</c> if the certificate was found, otherwise <c>false</c>.
 		/// </summary>
 		bool TryGetCertificateWith(byte[] keyHash, out X509Certificate2 certificate);
-
-		/// <summary>
-		/// Extracts all identity certificates from the given configuration data and installs them on the computer.
-		/// </summary>
-		void ExtractAndImportIdentities(IDictionary<string, object> data);
 	}
 }

@@ -17,9 +17,9 @@ using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Configuration.Cryptography
 {
-	public class CertificateStore : ICertificateStore
+	public class CertificateStore : ICertificateStore, IDisposable
 	{
-		private ILogger logger;
+		private readonly ILogger logger;
 
 		private readonly X509Store[] stores = new[]
 		{
@@ -33,9 +33,45 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			this.logger = logger;
 		}
 
+		public void Dispose()
+		{
+			foreach (var store in stores)
+			{
+				store.Dispose();
+			}
+		}
+
+		public void ExtractAndImportIdentities(IDictionary<string, object> data)
+		{
+			const int IDENTITY_CERTIFICATE = 1;
+			var hasCertificates = data.TryGetValue(Keys.Network.Certificates.EmbeddedCertificates, out var value);
+
+			if (hasCertificates && value is IList<IDictionary<string, object>> certificates)
+			{
+				var toRemove = new List<IDictionary<string, object>>();
+
+				foreach (var certificate in certificates)
+				{
+					var hasData = certificate.TryGetValue(Keys.Network.Certificates.CertificateData, out var dataValue);
+					var hasType = certificate.TryGetValue(Keys.Network.Certificates.CertificateType, out var typeValue);
+					var isIdentity = typeValue is int type && type == IDENTITY_CERTIFICATE;
+
+					if (hasData && hasType && isIdentity && dataValue is byte[] certificateData)
+					{
+						ImportIdentityCertificate(certificateData, new X509Store(StoreLocation.CurrentUser));
+						ImportIdentityCertificate(certificateData, new X509Store(StoreName.TrustedPeople, StoreLocation.LocalMachine));
+
+						toRemove.Add(certificate);
+					}
+				}
+
+				toRemove.ForEach(c => certificates.Remove(c));
+			}
+		}
+
 		public bool TryGetCertificateWith(byte[] keyHash, out X509Certificate2 certificate)
 		{
-			certificate = default(X509Certificate2);
+			certificate = default;
 
 			using (var algorithm = new SHA1CryptoServiceProvider())
 			{
@@ -66,34 +102,6 @@ namespace SafeExamBrowser.Configuration.Cryptography
 			}
 
 			return false;
-		}
-
-		public void ExtractAndImportIdentities(IDictionary<string, object> data)
-		{
-			const int IDENTITY_CERTIFICATE = 1;
-			var hasCertificates = data.TryGetValue(Keys.Network.Certificates.EmbeddedCertificates, out var value);
-
-			if (hasCertificates && value is IList<IDictionary<string, object>> certificates)
-			{
-				var toRemove = new List<IDictionary<string, object>>();
-
-				foreach (var certificate in certificates)
-				{
-					var hasData = certificate.TryGetValue(Keys.Network.Certificates.CertificateData, out var dataValue);
-					var hasType = certificate.TryGetValue(Keys.Network.Certificates.CertificateType, out var typeValue);
-					var isIdentity = typeValue is int type && type == IDENTITY_CERTIFICATE;
-
-					if (hasData && hasType && isIdentity && dataValue is byte[] certificateData)
-					{
-						ImportIdentityCertificate(certificateData, new X509Store(StoreLocation.CurrentUser));
-						ImportIdentityCertificate(certificateData, new X509Store(StoreName.TrustedPeople, StoreLocation.LocalMachine));
-
-						toRemove.Add(certificate);
-					}
-				}
-
-				toRemove.ForEach(c => certificates.Remove(c));
-			}
 		}
 
 		private void ImportIdentityCertificate(byte[] certificateData, X509Store store)
