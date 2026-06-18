@@ -18,11 +18,12 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 {
 	internal partial class PowerSupplyControl : UserControl, ISystemControl
 	{
+		private readonly IPowerSupply powerSupply;
+		private readonly IText text;
+
 		private Brush initialBrush;
 		private bool infoShown, warningShown;
 		private double maxWidth;
-		private IPowerSupply powerSupply;
-		private IText text;
 
 		internal PowerSupplyControl(IPowerSupply powerSupply, IText text)
 		{
@@ -57,7 +58,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 
 		private void UpdateStatus(IPowerSupplyStatus status)
 		{
-			var percentage = Math.Round(status.BatteryCharge * 100);
+			var percentage = Convert.ToInt32(Math.Round(status.BatteryCharge * 100));
 			var tooltip = string.Empty;
 
 			RenderCharge(status.BatteryCharge, status.BatteryChargeStatus);
