@@ -37,7 +37,7 @@ namespace SafeExamBrowser.UserInterface.Mobile.Windows
 
 			if (parent is Window)
 			{
-				Owner = parent as Window;
+				Owner = parent;
 			}
 
 			InitializeBounds();
