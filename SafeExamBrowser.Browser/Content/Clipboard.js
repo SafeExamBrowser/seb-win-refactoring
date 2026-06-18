@@ -158,6 +158,15 @@ if (typeof pasteContent === 'undefined') {
 	}
 }
 
+if (typeof notifyInput === 'undefined') {
+	// Programmatic value changes (setRangeText/insertNode) emit no input event; notify frameworks explicitly.
+	function notifyInput(target, inputType) {
+		if (target && typeof target.dispatchEvent === 'function') {
+			target.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: inputType }));
+		}
+	}
+}
+
 if (typeof onCopy === 'undefined') {
 	function onCopy(e) {
 		try {
@@ -185,6 +194,8 @@ if (typeof onCut === 'undefined') {
 			cutSelection(e);
 
 			CefSharp.PostMessage({ Type: "Clipboard", Id: SafeExamBrowser.clipboard.id, Content: SafeExamBrowser.clipboard.getContentEncoded() });
+
+			notifyInput(e.target, "deleteByCut");
 		} finally {
 			e.preventDefault();
 		}
@@ -200,6 +211,8 @@ if (typeof onPaste === 'undefined') {
 	function onPaste(e) {
 		try {
 			pasteContent(e);
+
+			notifyInput(e.target, "insertFromPaste");
 		} finally {
 			e.preventDefault();
 		}
