@@ -135,7 +135,7 @@ namespace SafeExamBrowser.ResetUtility.Procedure
 
 			foreach (var option in options)
 			{
-				Console.WriteLine(option.ToString());
+				Console.WriteLine(option);
 			}
 
 			if (showInstructions)
