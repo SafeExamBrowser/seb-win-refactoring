@@ -49,7 +49,7 @@ namespace SafeExamBrowser.ResetUtility
 			logger?.Log($"# Application terminated at {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")}");
 		}
 
-		private IList<MainMenuOption> BuildMainMenu(ProcedureContext context)
+		private IList<MainMenuOption> BuildMainMenu()
 		{
 			return new List<MainMenuOption>
 			{
@@ -72,7 +72,7 @@ namespace SafeExamBrowser.ResetUtility
 			context.ConfigurationFactory = new FeatureConfigurationFactory(new ModuleLogger(logger, nameof(FeatureConfigurationFactory)));
 			context.CreateBackup = CreateBackup;
 			context.Logger = logger;
-			context.MainMenu = BuildMainMenu(context);
+			context.MainMenu = BuildMainMenu();
 			context.Update = new SystemConfigurationUpdate(new ModuleLogger(logger, nameof(SystemConfigurationUpdate)));
 			context.UserInfo = new UserInfo(new ModuleLogger(logger, nameof(UserInfo)));
 		}
