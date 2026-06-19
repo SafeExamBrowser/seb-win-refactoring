@@ -352,9 +352,9 @@ namespace SafeExamBrowser.Server
 				SessionId = attributesJson["screenProctoringClientSessionId"].Value<string>()
 			};
 
-			if (attributesJson.ContainsKey("screenProctoringEncryptSecret"))
+			if (attributesJson.TryGetValue("screenProctoringEncryptSecret", out var secret))
 			{
-				instruction.EncryptionSecret = attributesJson["screenProctoringEncryptSecret"].Value<string>();
+				instruction.EncryptionSecret = secret.Value<string>();
 			}
 
 			return instruction;
