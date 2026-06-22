@@ -126,8 +126,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 		{
 			if (handle != IntPtr.Zero && activeWindow?.Handle != handle)
 			{
-				var title = nativeMethods.GetWindowTitle(handle);
-				var window = new Window { Handle = handle, Title = title };
+				var window = CreateWindowFor(handle);
 
 				logger.Debug($"Window has changed from {activeWindow} to {window}.");
 				activeWindow = window;
@@ -255,6 +254,21 @@ namespace SafeExamBrowser.Monitoring.Applications
 					}
 				}
 			});
+		}
+
+		private Window CreateWindowFor(IntPtr handle)
+		{
+			var style = nativeMethods.GetWindowStyle(handle);
+			var window = new Window
+			{
+				Handle = handle,
+				IsMinimized = nativeMethods.IsMinimizedWindow(handle),
+				IsOverlay = style.IsDisabled || style.IsNotActivatable || style.IsTopmost,
+				IsVisible = style.IsVisible,
+				Title = nativeMethods.GetWindowTitle(handle)
+			};
+
+			return window;
 		}
 
 		private void HandleExplorerStart(IProcess process)
@@ -440,16 +454,9 @@ namespace SafeExamBrowser.Monitoring.Applications
 			{
 				foreach (var handle in nativeMethods.GetAllWindows())
 				{
-					var style = nativeMethods.GetWindowStyle(handle);
-					var window = new Window
-					{
-						Handle = handle,
-						IsMinimized = nativeMethods.IsMinimizedWindow(handle),
-						IsOverlay = style.IsDisabled || style.IsNotActivatable || style.IsTopmost,
-						Title = nativeMethods.GetWindowTitle(handle)
-					};
+					var window = CreateWindowFor(handle);
 
-					if (style.IsVisible && !window.IsMinimized && !IsAllowed(window) && !TryHide(window))
+					if (window.IsVisible && !window.IsMinimized && !IsAllowed(window) && !TryHide(window))
 					{
 						Close(window);
 					}

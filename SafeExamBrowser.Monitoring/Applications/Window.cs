@@ -15,6 +15,7 @@ namespace SafeExamBrowser.Monitoring.Applications
 	{
 		internal bool IsMinimized { get; set; }
 		internal bool IsOverlay { get; set; }
+		internal bool IsVisible { get; set; }
 
 		public IntPtr Handle { get; set; }
 		public string Title { get; set; }
