@@ -258,6 +258,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 			settings.Proctoring.ScreenProctoring.MetaData.CaptureApplicationData = true;
 			settings.Proctoring.ScreenProctoring.MetaData.CaptureBrowserData = true;
 			settings.Proctoring.ScreenProctoring.MetaData.CaptureWindowTitle = true;
+			settings.Proctoring.ShowDisclaimer = true;
 			settings.Proctoring.ShowTaskbarNotification = true;
 
 			settings.Security.AllowApplicationLogAccess = false;
