@@ -1,103 +1,81 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" InitialTargets="EnsureWixToolsetInstalled" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>3.10</ProductVersion>
-    <ProjectGuid>95b68cbf-c483-4824-bb39-663e840519a0</ProjectGuid>
-    <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>SetupBundle</OutputName>
-    <OutputType>Bundle</OutputType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
-    <DefineConstants>Debug</DefineConstants>
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Bundle.wxs" />
-    <Compile Include="DotNetFramework.wxs" />
-    <Compile Include="VisualCppRuntime.wxs" />
-  </ItemGroup>
-  <ItemGroup>
-    <WixExtension Include="WixNetFxExtension">
-      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
-      <Name>WixNetFxExtension</Name>
-    </WixExtension>
-    <WixExtension Include="WixUtilExtension">
-      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
-      <Name>WixUtilExtension</Name>
-    </WixExtension>
-    <WixExtension Include="WixBalExtension">
-      <HintPath>$(WixExtDir)\WixBalExtension.dll</HintPath>
-      <Name>WixBalExtension</Name>
-    </WixExtension>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Setup\Setup.wixproj">
-      <Name>Setup</Name>
-      <Project>{0e14d163-557e-469e-9112-96936af43a7b}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\Logo.png" />
-    <Content Include="Resources\Theme.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Theme.wxl" />
-  </ItemGroup>
-  <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
-  <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
-    <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
-  </Target>
-  <!--
-	To modify your build process, add your task inside one of the targets below and uncomment it.
-	Other similar extension points exist, see Wix.targets.
-	<Target Name="BeforeBuild">
-	</Target>
-	<Target Name="AfterBuild">
-	</Target>
-	-->
-  <PropertyGroup>
-    <SignOutput>true</SignOutput>
-  </PropertyGroup>
-  <Target Name="SignBundleEngine">
-    <Exec Command="signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 &quot;@(SignBundleEngine)&quot;" />
-  </Target>
-  <Target Name="SignBundle">
-    <Exec Command="signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 &quot;@(SignBundle)&quot;" />
-  </Target>
-  <PropertyGroup>
-    <PreBuildEvent>IF NOT EXIST "C:\Temp" (
-    mkdir "C:\Temp"
-)
+﻿<Project Sdk="WixToolset.Sdk/6.0.2">
+	<PropertyGroup>
+		<OutputType>Bundle</OutputType>
+		<SignOutput>false</SignOutput>
+	</PropertyGroup>
 
-curl "https://go.microsoft.com/fwlink/%3fLinkId=2085155" -L -o "C:\Temp\ndp48-web.exe"
-curl "https://go.microsoft.com/fwlink/%3fLinkId=2124703" -L -o "C:\Temp\MicrosoftEdgeWebview2Setup.exe"</PreBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>del "C:\Temp\ndp48-web.exe"
-del "C:\Temp\MicrosoftEdgeWebview2Setup.exe"</PostBuildEvent>
-  </PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+		<IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+		<DefineConstants>Debug</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+		<IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+		<DefineConstants>Debug</DefineConstants>
+		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+		<IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+		<OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+		<IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="WixToolset.Bal.wixext" Version="6.0.2" />
+
+		<PackageReference Include="WixToolset.NetFx.wixext" Version="6.0.2" />
+		<PackageReference Include="WixToolset.Util.wixext" Version="6.0.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Setup\Setup.wixproj">
+			<Name>Setup</Name>
+			<Project>{0e14d163-557e-469e-9112-96936af43a7b}</Project>
+			<Private>True</Private>
+			<DoNotHarvest>True</DoNotHarvest>
+			<RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+			<RefTargetDir>INSTALLFOLDER</RefTargetDir>
+			<Properties>Configuration=$(Configuration);Platform=$(Platform)</Properties>
+		</ProjectReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Resources" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Resources\Logo.png" />
+		<Content Include="Resources\Theme.xml" />
+	</ItemGroup>
+
+	<Target Name="FindSignTool">
+		<PropertyGroup>
+			<WindowsKitsRoot>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Kits\Installed Roots', 'KitsRoot10', null, RegistryView.Registry32))</WindowsKitsRoot>
+			<WindowsKitsBinDir>$(WindowsKitsRoot)bin\</WindowsKitsBinDir>
+		</PropertyGroup>
+		<ItemGroup>
+			<SignToolArray Include="$(WindowsKitsBinDir)*\x64\signtool.exe" />
+		</ItemGroup>
+		<PropertyGroup>
+			<SignToolPath>@(SignToolArray->Last())</SignToolPath>
+		</PropertyGroup>
+	</Target>
+
+	<Target Name="SignBundleEngine" DependsOnTargets="FindSignTool" Condition="'$(SignOutput)' == 'true'">
+		<Exec Command="&quot;$(SignToolPath)&quot; sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 &quot;@(SignBundleEngine)&quot;" />
+	</Target>
+
+	<Target Name="SignBundle" DependsOnTargets="FindSignTool" Condition="'$(SignOutput)' == 'true'">
+		<Exec Command="&quot;$(SignToolPath)&quot; sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 &quot;@(SignBundle)&quot;" />
+	</Target>
+
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+		<Exec Command="IF NOT EXIST &quot;C:\Temp&quot; ( mkdir &quot;C:\Temp&quot; )&#xD;&#xA;curl &quot;https://go.microsoft.com/fwlink/%3fLinkId=2085155&quot; -L -o &quot;C:\Temp\ndp48-web.exe&quot;&#xD;&#xA;curl &quot;https://go.microsoft.com/fwlink/%3fLinkId=2124703&quot; -L -o &quot;C:\Temp\MicrosoftEdgeWebview2Setup.exe&quot;" />
+	</Target>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="del &quot;C:\Temp\ndp48-web.exe&quot;&#xD;&#xA;del &quot;C:\Temp\MicrosoftEdgeWebview2Setup.exe&quot;" />
+	</Target>
+
 </Project>

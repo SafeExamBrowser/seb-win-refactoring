@@ -1,165 +1,131 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" InitialTargets="EnsureWixToolsetInstalled" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>3.10</ProductVersion>
-    <ProjectGuid>0e14d163-557e-469e-9112-96936af43a7b</ProjectGuid>
-    <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Setup</OutputName>
-    <OutputType>Package</OutputType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug</DefineConstants>
-    <SuppressIces>ICE61</SuppressIces>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
-    <SuppressIces>ICE61</SuppressIces>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
-    <DefineConstants>Debug</DefineConstants>
-    <SuppressIces>ICE61</SuppressIces>
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
-    <SuppressIces>ICE61</SuppressIces>
-    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Components\Application.wxs" />
-    <Compile Include="Components\Configuration.wxs" />
-    <Compile Include="Components\Reset.wxs" />
-    <Compile Include="Components\Service.wxs" />
-    <Compile Include="Directories.wxs" />
-    <Compile Include="LegacyCleanup.wxs" />
-    <Compile Include="Product.wxs" />
-    <Compile Include="Shortcuts.wxs" />
-  </ItemGroup>
-  <ItemGroup>
-    <WixExtension Include="WixUIExtension">
-      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
-      <Name>WixUIExtension</Name>
-    </WixExtension>
-    <WixExtension Include="WixNetFxExtension">
-      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
-      <Name>WixNetFxExtension</Name>
-    </WixExtension>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Components" />
-    <Folder Include="Resources" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SafeExamBrowser.Client\SafeExamBrowser.Client.csproj">
-      <Name>SafeExamBrowser.Client</Name>
-      <Project>{7cc5a895-e0d3-4e43-9b39-ccec05a5a6a7}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\SafeExamBrowser.ResetUtility\SafeExamBrowser.ResetUtility.csproj">
-      <Name>SafeExamBrowser.ResetUtility</Name>
-      <Project>{bc229e80-ff93-424f-9930-d9c07d9b57b4}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\SafeExamBrowser.Runtime\SafeExamBrowser.Runtime.csproj">
-      <Name>SafeExamBrowser.Runtime</Name>
-      <Project>{e3aed2f8-b5df-45d1-ac19-48066923d6d8}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\SafeExamBrowser.Service\SafeExamBrowser.Service.csproj">
-      <Name>SafeExamBrowser.Service</Name>
-      <Project>{fa3c6692-dfed-4afa-bd58-9a3da2753c78}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\SebWindowsConfig\SebWindowsConfig.csproj">
-      <Name>SebWindowsConfig</Name>
-      <Project>{bef73897-0d04-4f40-ad89-62e24d260cd0}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Components\Application.xslt" />
-    <Content Include="Components\Configuration.xslt" />
-    <Content Include="Components\Service.xslt" />
-    <Content Include="Components\Reset.xslt" />
-    <Content Include="Resources\Banner.bmp" />
-    <Content Include="Resources\ConfigurationTool.ico" />
-    <Content Include="Resources\Dialog.bmp" />
-    <Content Include="Resources\License.rtf" />
-    <Content Include="Resources\Application.ico" />
-    <Content Include="Resources\ConfigurationFile.ico" />
-    <Content Include="Resources\ResetUtility.ico" />
-  </ItemGroup>
-  <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
-  <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">
-    <Error Text="The WiX Toolset v3.11 (or newer) build tools must be installed to build this project. To download the WiX Toolset, see http://wixtoolset.org/releases/" />
-  </Target>
-  <PropertyGroup>
-    <PostBuildEvent>git -C $(SolutionDir) checkout -- Setup/Components/Application.wxs
-git -C $(SolutionDir) checkout -- Setup/Components/Configuration.wxs
-git -C $(SolutionDir) checkout -- Setup/Components/Reset.wxs
-git -C $(SolutionDir) checkout -- Setup/Components/Service.wxs</PostBuildEvent>
-  </PropertyGroup>
-  <!--
-	To modify your build process, add your task inside one of the targets below and uncomment it.
-	Other similar extension points exist, see Wix.targets.
-	<Target Name="BeforeBuild">
+﻿<Project Sdk="WixToolset.Sdk/6.0.2">
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+		<OutputName>Setup</OutputName>
+		<OutputType>Package</OutputType>
+		<TargetName>$(OutputName)-$(Configuration)-$(Platform)</TargetName>
+		<NoWarn>HEAT5149</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+		<DefineConstants>Debug</DefineConstants>
+		<SuppressIces>ICE61</SuppressIces>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+		<SuppressIces>ICE61</SuppressIces>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<BinDir>bin\$(Platform)\$(Configuration)</BinDir>
+		<RuntimePath>$(SolutionDir)SafeExamBrowser.Runtime\$(BinDir)</RuntimePath>
+		<ConfigPath>$(SolutionDir)SebWindowsConfig\$(BinDir)</ConfigPath>
+		<ResetPath>$(SolutionDir)SafeExamBrowser.ResetUtility\$(BinDir)</ResetPath>
+		<ServicePath>$(SolutionDir)SafeExamBrowser.Service\$(BinDir)</ServicePath>
+
+		<SignOutput>false</SignOutput>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="WixToolset.UI.wixext" Version="6.0.2" />
+		<PackageReference Include="WixToolset.NetFx.wixext" Version="6.0.2" />
+		<PackageReference Include="WixToolset.Heat" Version="6.0.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<HarvestDirectory Include="$(RuntimePath)">
+			<ComponentGroupName>ApplicationComponents</ComponentGroupName>
+			<DirectoryRefId>ApplicationDirectory</DirectoryRefId>
+			<SuppressCom>true</SuppressCom>
+			<SuppressRegistry>true</SuppressRegistry>
+			<SuppressRootDirectory>true</SuppressRootDirectory>
+			<PreprocessorVariable>var.SafeExamBrowser.Runtime.TargetDir</PreprocessorVariable>
+			<Transforms>Components\Application.xslt</Transforms>
+		</HarvestDirectory>
+		<HarvestDirectory Include="$(ConfigPath)">
+			<ComponentGroupName>ConfigurationComponents</ComponentGroupName>
+			<DirectoryRefId>ConfigurationDirectory</DirectoryRefId>
+			<SuppressCom>true</SuppressCom>
+			<SuppressRegistry>true</SuppressRegistry>
+			<SuppressRootDirectory>true</SuppressRootDirectory>
+			<PreprocessorVariable>var.SebWindowsConfig.TargetDir</PreprocessorVariable>
+			<Transforms>Components\Configuration.xslt</Transforms>
+		</HarvestDirectory>
+		<HarvestDirectory Include="$(ResetPath)">
+			<ComponentGroupName>ResetComponents</ComponentGroupName>
+			<DirectoryRefId>ResetDirectory</DirectoryRefId>
+			<SuppressCom>true</SuppressCom>
+			<SuppressRegistry>true</SuppressRegistry>
+			<SuppressRootDirectory>true</SuppressRootDirectory>
+			<PreprocessorVariable>var.SafeExamBrowser.ResetUtility.TargetDir</PreprocessorVariable>
+			<Transforms>Components\Reset.xslt</Transforms>
+		</HarvestDirectory>
+		<HarvestDirectory Include="$(ServicePath)">
+			<ComponentGroupName>ServiceComponents</ComponentGroupName>
+			<DirectoryRefId>ServiceDirectory</DirectoryRefId>
+			<SuppressCom>true</SuppressCom>
+			<SuppressRegistry>true</SuppressRegistry>
+			<SuppressRootDirectory>true</SuppressRootDirectory>
+			<PreprocessorVariable>var.SafeExamBrowser.Service.TargetDir</PreprocessorVariable>
+			<Transforms>Components\Service.xslt</Transforms>
+		</HarvestDirectory>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Components" />
+		<Folder Include="Resources" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\SafeExamBrowser.Client\SafeExamBrowser.Client.csproj">
+			<Properties>Configuration=$(Configuration);Platform=x64;RuntimeIdentifier=win-x64</Properties>
+		</ProjectReference>
+		<ProjectReference Include="..\SafeExamBrowser.ResetUtility\SafeExamBrowser.ResetUtility.csproj">
+			<Properties>Configuration=$(Configuration);Platform=x64;RuntimeIdentifier=win-x64</Properties>
+		</ProjectReference>
+		<ProjectReference Include="..\SafeExamBrowser.Runtime\SafeExamBrowser.Runtime.csproj">
+			<Properties>Configuration=$(Configuration);Platform=x64;RuntimeIdentifier=win-x64</Properties>
+		</ProjectReference>
+		<ProjectReference Include="..\SafeExamBrowser.Service\SafeExamBrowser.Service.csproj">
+			<Properties>Configuration=$(Configuration);Platform=x64;RuntimeIdentifier=win-x64</Properties>
+		</ProjectReference>
+		<ProjectReference Include="..\SebWindowsConfig\SebWindowsConfig.csproj">
+			<Properties>Configuration=$(Configuration);Platform=x64;RuntimeIdentifier=win-x64</Properties>
+		</ProjectReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Components\*.xslt" />
+		<Content Include="Resources\*.bmp" />
+		<Content Include="Resources\*.ico" />
+		<Content Include="Resources\License.rtf" />
+	</ItemGroup>
+
+	<Target Name="FindSignTool">
+		<PropertyGroup>
+			<WindowsKitsRoot>$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Kits\Installed Roots', 'KitsRoot10', null, RegistryView.Registry32))</WindowsKitsRoot>
+			<WindowsKitsBinDir>$(WindowsKitsRoot)bin\</WindowsKitsBinDir>
+		</PropertyGroup>
+
+		<ItemGroup>
+			<SignToolArray Include="$(WindowsKitsBinDir)*\x64\signtool.exe" />
+		</ItemGroup>
+
+		<PropertyGroup>
+			<SignToolPath>@(SignToolArray->Last())</SignToolPath>
+		</PropertyGroup>
+
+		<Message Text="--- Auto-detected SignTool path: $(SignToolPath) ---" Importance="high" />
 	</Target>
-	<Target Name="AfterBuild">
+
+	<Target Name="SignCabs" Condition="'$(SignOutput)' == 'true'" DependsOnTargets="FindSignTool">
+		<Error Text="Could not find signtool.exe. Please ensure Windows SDK is installed via Visual Studio Installer." Condition="!Exists('$(SignToolPath)')" />
+		<Exec Command="&quot;$(SignToolPath)&quot; sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 &quot;%(SignCabs.FullPath)&quot;" />
 	</Target>
-	-->
-  <PropertyGroup>
-    <SignOutput>true</SignOutput>
-  </PropertyGroup>
-  <Target Name="SignCabs">
-    <Exec Command="signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 &quot;%(SignCabs.FullPath)&quot;" />
-  </Target>
-  <Target Name="SignMsi">
-    <Exec Command="signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 /d &quot;Safe Exam Browser&quot; &quot;%(SignMsi.FullPath)&quot;" />
-  </Target>
-  <PropertyGroup>
-    <PreBuildEvent>setlocal enabledelayedexpansion
 
-set binaries=
-FOR /F %25%25G IN (%27dir "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
-signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
+	<Target Name="SignMsi" Condition="'$(SignOutput)' == 'true'" DependsOnTargets="FindSignTool">
+		<Error Text="Could not find signtool.exe. Please ensure Windows SDK is installed via Visual Studio Installer." Condition="!Exists('$(SignToolPath)')" />
+		<Exec Command="&quot;$(SignToolPath)&quot; sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 /d &quot;Safe Exam Browser&quot; &quot;%(SignMsi.FullPath)&quot;" />
+	</Target>
 
-set binaries=
-FOR /F %25%25G IN (%27dir "$(SolutionDir)SebWindowsConfig\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SebWindowsConfig\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
-signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
-
-set binaries=
-FOR /F %25%25G IN (%27dir "$(SolutionDir)SafeExamBrowser.ResetUtility\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SafeExamBrowser.ResetUtility\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
-signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
-
-set binaries=
-FOR /F %25%25G IN (%27dir "$(SolutionDir)SafeExamBrowser.Service\bin\$(PlatformName)\$(ConfigurationName)\%2a.exe" "$(SolutionDir)SafeExamBrowser.Service\bin\$(PlatformName)\$(ConfigurationName)\%2a.dll" /s /b%27) DO set binaries=!binaries! %25%25G
-signtool sign /sha1 ecac9df025f5d208f6190fc4d6f9d329576598c7 /sm /tr http://timestamp.digicert.com /td sha256 /fd sha256 %25binaries%25
-
-"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.Runtime\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ApplicationComponents -dr ApplicationDirectory -sfrag -var var.SafeExamBrowser.Runtime.TargetDir -out $(ProjectDir)Components\Application.wxs -t $(ProjectDir)Components\Application.xslt
-"$(WIX)bin\heat.exe" dir "$(SolutionDir)SebWindowsConfig\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ConfigurationComponents -dr ConfigurationDirectory -sfrag -var var.SebWindowsConfig.TargetDir -out $(ProjectDir)Components\Configuration.wxs -t $(ProjectDir)Components\Configuration.xslt
-"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.ResetUtility\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ResetComponents -dr ResetDirectory -sfrag -var var.SafeExamBrowser.ResetUtility.TargetDir -out $(ProjectDir)Components\Reset.wxs -t $(ProjectDir)Components\Reset.xslt
-"$(WIX)bin\heat.exe" dir "$(SolutionDir)SafeExamBrowser.Service\bin\$(PlatformName)\$(ConfigurationName)" -nologo -ag -g1 -scom -srd -sreg -cg ServiceComponents -dr ServiceDirectory -sfrag -var var.SafeExamBrowser.Service.TargetDir -out $(ProjectDir)Components\Service.wxs -t $(ProjectDir)Components\Service.xslt</PreBuildEvent>
-  </PropertyGroup>
 </Project>
