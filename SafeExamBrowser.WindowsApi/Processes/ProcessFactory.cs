@@ -33,24 +33,24 @@ namespace SafeExamBrowser.WindowsApi.Processes
 			this.logger = logger;
 		}
 
-		public IList<IProcess> GetAllRunning()
+	public IList<IProcess> GetAllRunning()
+	{
+		var processes = new List<IProcess>();
+		var running = System.Diagnostics.Process.GetProcesses();
+		var namesById = LoadAllProcessNames().ToDictionary(n => n.processId);
+	
+		foreach (var process in running)
 		{
-			var processes = new List<IProcess>();
-			var running = System.Diagnostics.Process.GetProcesses();
-			var names = LoadAllProcessNames();
-
-			foreach (var process in running)
+			if (namesById.TryGetValue(process.Id, out var info))
 			{
-				if (names.Any(n => n.processId == process.Id))
-				{
-					var (_, name, originalName, path, signature) = names.First(n => n.processId == process.Id);
-
-					processes.Add(new Process(process, name, originalName, LoggerFor(process, name), path, signature));
-				}
+				var (_, name, originalName, path, signature) = info;
+	
+				processes.Add(new Process(process, name, originalName, LoggerFor(process, name), path, signature));
 			}
-
-			return processes;
 		}
+	
+		return processes;
+	}
 
 		public IProcess StartNew(string path, params string[] args)
 		{

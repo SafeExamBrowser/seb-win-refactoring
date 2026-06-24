@@ -408,8 +408,11 @@ namespace SafeExamBrowser.Monitoring.Applications
 			{
 				var failed = new List<RunningApplication>();
 				var running = processFactory.GetAllRunning();
-				var started = running.Where(r => processes.All(p => p.Id != r.Id)).ToList();
-				var terminated = processes.Where(p => running.All(r => r.Id != p.Id)).ToList();
+				var knownProcessIds = new HashSet<int>(processes.Select(p => p.Id));
+				var runningProcessIds = new HashSet<int>(running.Select(p => p.Id));
+				
+				var started = running.Where(r => !knownProcessIds.Contains(r.Id)).ToList();
+				var terminated = processes.Where(p => !runningProcessIds.Contains(p.Id)).ToList();
 
 				foreach (var process in started)
 				{

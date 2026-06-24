@@ -22,19 +22,38 @@ namespace SafeExamBrowser.Monitoring
 		private const string MANIPULATED = "000000000000";
 		private const string QEMU_MAC_PREFIX = "525400";
 		private const string VIRTUALBOX_MAC_PREFIX = "080027";
-
 		private static readonly string[] DeviceBlacklist =
 		{
 			// Hyper-V
-			"PROD_VIRTUAL", "HYPER_V",
-			// QEMU
-			"qemu", "ven_1af4", "ven_1b36", "subsys_11001af4",
+			"HYPER_V",
+			"VMBUS",
+			"VEN_1414",
+		
+			// QEMU / KVM / VirtIO / QXL
+			"QEMU",
+			"KVM",
+			"VIRTIO",
+			"VEN_1AF4",
+			"VEN_1B36",
+			"SUBSYS_11001AF4",
+			"QXL",
+		
 			// VirtualBox
-			"VEN_VBOX", "vid_80ee",
+			"VBOX",
+			"VEN_VBOX",
+			"VID_80EE",
+		
 			// VMware
-			"PROD_VMWARE", "VEN_VMWARE", "VMWARE_IDE"
+			"VMWARE",
+			"PROD_VMWARE",
+			"VEN_VMWARE",
+			"VMWARE_IDE",
+			"VEN_15AD",
+		
+			// Xen
+			"XEN",
+			"VEN_5853"
 		};
-
 		private static readonly string[] DeviceWhitelist =
 		{
 			// Microsoft Virtual Disk Device
