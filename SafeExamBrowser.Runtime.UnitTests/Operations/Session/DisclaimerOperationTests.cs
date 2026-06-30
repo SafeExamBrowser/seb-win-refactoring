@@ -57,6 +57,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 			var count = 0;
 
 			settings.Proctoring.ScreenProctoring.Enabled = true;
+			settings.Proctoring.ShowDisclaimer = true;
 			messageBox
 				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => count++)
@@ -74,6 +75,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 			var disclaimerShown = false;
 
 			settings.Proctoring.ScreenProctoring.Enabled = true;
+			settings.Proctoring.ShowDisclaimer = true;
 			messageBox
 				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => disclaimerShown = true)
@@ -102,11 +104,31 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 		}
 
 		[TestMethod]
+		public void Perform_MustDoNothingIfDisclaimerNotEnabled()
+		{
+			var disclaimerShown = false;
+
+			settings.Proctoring.ScreenProctoring.Enabled = true;
+			settings.Proctoring.ShowDisclaimer = false;
+
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => disclaimerShown = true)
+				.Returns(MessageBoxResult.Cancel);
+
+			var result = sut.Perform();
+
+			Assert.IsFalse(disclaimerShown);
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
 		public void Repeat_MustShowDisclaimerWhenProctoringEnabled()
 		{
 			var count = 0;
 
 			settings.Proctoring.ScreenProctoring.Enabled = true;
+			settings.Proctoring.ShowDisclaimer = true;
 			messageBox
 				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => count++)
@@ -124,6 +146,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 			var disclaimerShown = false;
 
 			settings.Proctoring.ScreenProctoring.Enabled = true;
+			settings.Proctoring.ShowDisclaimer = true;
 			messageBox
 				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
 				.Callback(() => disclaimerShown = true)
@@ -139,6 +162,25 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 		public void Repeat_MustDoNothingIfProctoringNotEnabled()
 		{
 			var disclaimerShown = false;
+
+			messageBox
+				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
+				.Callback(() => disclaimerShown = true)
+				.Returns(MessageBoxResult.Cancel);
+
+			var result = sut.Repeat();
+
+			Assert.IsFalse(disclaimerShown);
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Repeat_MustDoNothingIfDisclaimerNotEnabled()
+		{
+			var disclaimerShown = false;
+
+			settings.Proctoring.ScreenProctoring.Enabled = true;
+			settings.Proctoring.ShowDisclaimer = false;
 
 			messageBox
 				.Setup(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()))
