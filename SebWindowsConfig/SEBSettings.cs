@@ -892,7 +892,9 @@ namespace SebWindowsConfig
 				"MouseWithoutBorders.exe",
 				"MouseWithoutBordersHelper.exe",
 				"mstsc.exe",
-				"ToDesk.exe"
+				"ToDesk.exe",
+				"UltraViewer_Desktop.exe",
+				"UltraViewer_Service.exe"
 			};
 
 			// Default settings for group "Network - Filter"
