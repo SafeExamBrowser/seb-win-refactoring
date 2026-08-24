@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using SafeExamBrowser.Configuration.ConfigurationData;
 using SafeExamBrowser.Configuration.Contracts;
 using SafeExamBrowser.Configuration.Contracts.Cryptography;
@@ -173,6 +175,18 @@ namespace SafeExamBrowser.Configuration
 
 			data = default;
 
+			// Security fix (CWE-73): Validate that local config files are not writable by the
+			// current user. Without this, a student can pre-place a crafted SebClientSettings.seb
+			// in %APPDATA%\SafeExamBrowser\ with all lockdown disabled, and SEB will load it.
+			if (resource.IsFile && File.Exists(resource.LocalPath))
+			{
+				if (!IsConfigFileSecure(resource.LocalPath))
+				{
+					logger.Warn($"Refused to load configuration file '{resource.LocalPath}' — file is writable by the current user (potential config injection)!");
+					return LoadStatus.UnexpectedError;
+				}
+			}
+
 			if (resourceLoader != null)
 			{
 				status = resourceLoader.TryLoad(resource, out data);
@@ -184,6 +198,49 @@ namespace SafeExamBrowser.Configuration
 			}
 
 			return status;
+		}
+
+		/// <summary>
+		/// Security fix (CWE-73): Checks whether a local config file is secure enough to load.
+		/// A file is considered insecure if the current user has write access to it, which would
+		/// allow a student to replace the file with a crafted config that disables all lockdown.
+		/// </summary>
+		private bool IsConfigFileSecure(string filePath)
+		{
+			try
+			{
+				var security = File.GetAccessControl(filePath);
+				var rules = security.GetAccessRules(true, true, typeof(NTAccount));
+				var currentUser = WindowsIdentity.GetCurrent().User;
+
+				foreach (FileSystemAccessRule rule in rules)
+				{
+					// Check if the rule applies to the current user or to "Users" / "Everyone"
+					var appliesToUser = false;
+
+					if (rule.IdentityReference is NTAccount account)
+					{
+						var sid = account.Translate(typeof(SecurityIdentifier));
+						appliesToUser = sid.Equals(currentUser) ||
+							account.Value.Equals("Everyone", StringComparison.OrdinalIgnoreCase) ||
+							account.Value.EndsWith("\\Users", StringComparison.OrdinalIgnoreCase);
+					}
+
+					if (appliesToUser && (rule.FileSystemRights & FileSystemRights.Write) == FileSystemRights.Write)
+					{
+						logger.Warn($"Config file '{filePath}' is writable by '{rule.IdentityReference}' — potential security risk!");
+						return false;
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to validate ACL for config file '{filePath}'!", e);
+				// Fail open: if we can't verify ACLs, don't load the file
+				return false;
+			}
+
+			return true;
 		}
 
 		private LoadStatus TryParseData(Stream data, out EncryptionParameters encryption, out FormatType format, out IDictionary<string, object> rawData, PasswordParameters password = null)
