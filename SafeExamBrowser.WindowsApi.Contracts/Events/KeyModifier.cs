@@ -19,6 +19,8 @@ namespace SafeExamBrowser.WindowsApi.Contracts.Events
 		None = 0,
 		Alt = 0b1,
 		Ctrl = 0b10,
-		Injected = 0b100
+		Injected = 0b100,
+		// Security fix: Added Shift modifier to detect Ctrl+Shift+Escape (Task Manager shortcut)
+		Shift = 0b1000
 	}
 }

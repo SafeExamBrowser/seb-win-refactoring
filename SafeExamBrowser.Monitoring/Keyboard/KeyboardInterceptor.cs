@@ -76,6 +76,13 @@ namespace SafeExamBrowser.Monitoring.Keyboard
 			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.Escape && !settings.AllowCtrlEsc;
 			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.V && !settings.AllowCtrlV;
 			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.X && !settings.AllowCtrlX;
+			// Security fix: Block Ctrl+Shift+Escape (opens Task Manager) which was previously
+			// not intercepted, allowing students to access the Task Manager even while SEB
+			// lockdown is active. Also block Ctrl+P (print) and Ctrl+S (save page) in browser
+			// context to prevent accessing the file system via save/print dialogs.
+			block |= modifier.HasFlag(KeyModifier.Ctrl) && modifier.HasFlag(KeyModifier.Shift) && key == Key.Escape;
+			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.P && !settings.AllowCtrlP;
+			block |= modifier.HasFlag(KeyModifier.Ctrl) && key == Key.S && !settings.AllowCtrlS;
 
 			block |= modifier.HasFlag(KeyModifier.Injected) && !settings.AllowInjected;
 

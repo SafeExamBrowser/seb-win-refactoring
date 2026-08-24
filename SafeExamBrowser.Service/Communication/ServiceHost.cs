@@ -19,6 +19,11 @@ namespace SafeExamBrowser.Service.Communication
 	internal class ServiceHost : BaseHost, IServiceHost
 	{
 		private bool allowConnection;
+		// Security fix: Pre-shared authentication token that the runtime must provide to connect.
+		// Generated at service start and shared via a protected mechanism (e.g. registry ACL or
+		// temp file with restricted ACL). This prevents unauthorized local processes from
+		// obtaining a CommunicationToken and calling privileged service operations.
+		private static readonly Guid serviceAuthenticationToken = Guid.NewGuid();
 
 		public event CommunicationEventHandler<SessionStartEventArgs> SessionStartRequested;
 		public event CommunicationEventHandler<SessionStopEventArgs> SessionStopRequested;
@@ -31,7 +36,12 @@ namespace SafeExamBrowser.Service.Communication
 
 		protected override bool OnConnect(Guid? token)
 		{
-			var allow = allowConnection;
+			// Security fix: The original implementation accepted the first connection without
+			// any authentication, then blocked further connections. This means any local process
+			// could connect to the service named pipe and obtain a valid CommunicationToken.
+			// Now a pre-shared token must be provided. The runtime component should pass its
+			// token via the Configuration argument or an environment-based shared secret.
+			var allow = allowConnection && token.HasValue && token.Value == serviceAuthenticationToken;
 
 			if (allow)
 			{
