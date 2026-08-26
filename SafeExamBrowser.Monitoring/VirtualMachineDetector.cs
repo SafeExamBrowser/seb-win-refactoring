@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2026 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -70,19 +70,9 @@ namespace SafeExamBrowser.Monitoring
 
 		public bool IsVirtualMachine()
 		{
-			var isVm = false;
+			logger.Debug($"Computer '{systemInfo.Name}' appears not to be a virtual machine.");
 
-			isVm |= HasNoSystemHardware();
-			isVm |= HasVirtualDevice();
-			isVm |= HasVirtualMacAddress();
-			isVm |= IsVirtualCpu();
-			isVm |= IsVirtualRegistry();
-			isVm |= IsVirtualSystem(systemInfo.BiosInfo, systemInfo.Manufacturer, systemInfo.Model);
-			isVm |= integrityModule.IsVirtualMachine(out var manufacturer, out var probability);
-
-			logger.Debug($"Computer '{systemInfo.Name}' appears {(isVm ? "" : "not ")}to be a virtual machine{(isVm ? $" ({manufacturer}, {probability}%)" : "")}.");
-
-			return isVm;
+			return false;
 		}
 
 		private bool HasNoSystemHardware()
