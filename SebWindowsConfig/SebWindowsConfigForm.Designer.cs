@@ -30,8 +30,8 @@ namespace SebWindowsConfig
         {
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SebWindowsConfigForm));
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.openFileDialogSebConfigFile = new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialogSebConfigFile = new System.Windows.Forms.SaveFileDialog();
 			this.imageListTabIcons = new System.Windows.Forms.ImageList(this.components);
@@ -1378,9 +1378,9 @@ namespace SebWindowsConfig
 			this.checkBoxSebServiceIgnore.AutoSize = true;
 			this.checkBoxSebServiceIgnore.Location = new System.Drawing.Point(14, 21);
 			this.checkBoxSebServiceIgnore.Name = "checkBoxSebServiceIgnore";
-			this.checkBoxSebServiceIgnore.Size = new System.Drawing.Size(98, 17);
+			this.checkBoxSebServiceIgnore.Size = new System.Drawing.Size(179, 17);
 			this.checkBoxSebServiceIgnore.TabIndex = 104;
-			this.checkBoxSebServiceIgnore.Text = "Enable Service";
+			this.checkBoxSebServiceIgnore.Text = "Enable SEB Service Component";
 			this.checkBoxSebServiceIgnore.UseVisualStyleBackColor = true;
 			this.checkBoxSebServiceIgnore.CheckedChanged += new System.EventHandler(this.checkBoxSebServiceIgnore_CheckedChanged);
 			// 
@@ -1408,13 +1408,13 @@ namespace SebWindowsConfig
 			// 
 			// labelSebServiceIgnore
 			// 
-			this.labelSebServiceIgnore.BackColor = System.Drawing.SystemColors.Window;
-			this.labelSebServiceIgnore.ForeColor = System.Drawing.Color.Red;
+			this.labelSebServiceIgnore.BackColor = System.Drawing.Color.Transparent;
+			this.labelSebServiceIgnore.ForeColor = System.Drawing.Color.Black;
 			this.labelSebServiceIgnore.Location = new System.Drawing.Point(12, 46);
 			this.labelSebServiceIgnore.Name = "labelSebServiceIgnore";
 			this.labelSebServiceIgnore.Size = new System.Drawing.Size(514, 42);
 			this.labelSebServiceIgnore.TabIndex = 105;
-			this.labelSebServiceIgnore.Text = resources.GetString("labelSebServiceIgnore.Text");
+			this.labelSebServiceIgnore.Text = "Recommended for BYOD scenarios.";
 			// 
 			// listBoxSebServicePolicy
 			// 
@@ -2083,8 +2083,8 @@ namespace SebWindowsConfig
 			// 
 			// Type
 			// 
-			dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
-			this.Type.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle5.BackColor = System.Drawing.Color.Silver;
+			this.Type.DefaultCellStyle = dataGridViewCellStyle5;
 			this.Type.HeaderText = "Type";
 			this.Type.Name = "Type";
 			this.Type.ReadOnly = true;
@@ -4894,8 +4894,8 @@ namespace SebWindowsConfig
 			// spellCheckerDictionaryFilesColumn
 			// 
 			this.spellCheckerDictionaryFilesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+			this.spellCheckerDictionaryFilesColumn.DefaultCellStyle = dataGridViewCellStyle6;
 			this.spellCheckerDictionaryFilesColumn.HeaderText = "Files";
 			this.spellCheckerDictionaryFilesColumn.Name = "spellCheckerDictionaryFilesColumn";
 			this.spellCheckerDictionaryFilesColumn.ReadOnly = true;
