@@ -378,9 +378,6 @@
     <Entry key="MessageBox_OkButton">
         确定
     </Entry>
-    <Entry key="MessageBox_Quit">
-        您想要退出防作弊考试专用浏览器吗？
-    </Entry>
     <Entry key="MessageBox_PageLeaveConfirmation">
         您想离开当前页面吗？
     </Entry>
@@ -398,6 +395,9 @@
     </Entry>
     <Entry key="MessageBox_ProctoringInitializationFailureTitle">
         监考初始化失败
+    </Entry>
+    <Entry key="MessageBox_Quit">
+        您想要退出防作弊考试专用浏览器吗？
     </Entry>
     <Entry key="MessageBox_QuitTitle">
         退出？
