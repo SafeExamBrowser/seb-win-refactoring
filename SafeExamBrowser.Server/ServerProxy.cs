@@ -374,7 +374,7 @@ namespace SafeExamBrowser.Server
 		{
 			try
 			{
-				while (!logContent.IsEmpty)
+				for (var count = 0; !logContent.IsEmpty && count < 10; count++)
 				{
 					if (logContent.TryDequeue(out var c) && c is ILogMessage message)
 					{
