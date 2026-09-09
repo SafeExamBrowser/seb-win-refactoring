@@ -325,13 +325,11 @@ namespace SafeExamBrowser.Client
 				context.AppConfig,
 				applicationMonitor,
 				context.Browser,
-				new FileSystem(),
 				ModuleLogger(nameof(ProctoringController)),
 				nativeMethods,
 				context.Server,
-				text,
-				uiFactory);
-			var operation = new ProctoringOperation(actionCenter, context, controller, logger, taskbar, uiFactory);
+				text);
+			var operation = new ProctoringOperation(actionCenter, context, controller, logger, messageBox, splashScreen, taskbar, uiFactory);
 
 			context.Proctoring = controller;
 

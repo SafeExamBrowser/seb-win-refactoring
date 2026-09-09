@@ -39,10 +39,23 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 		public override void Assume(ClientTask task)
 		{
-			if (task == ClientTask.PrepareShutdown_Wave1)
+			switch (task)
 			{
-				FinalizeProctoring();
+				case ClientTask.DeregisterEvents:
+					DeregisterEvents();
+					break;
+				case ClientTask.PrepareShutdown_Wave1:
+					FinalizeProctoring();
+					break;
+				case ClientTask.RegisterEvents:
+					RegisterEvents();
+					break;
 			}
+		}
+
+		private void DeregisterEvents()
+		{
+			Proctoring.InitializationFailed -= Proctoring_InitializationFailed;
 		}
 
 		private void FinalizeProctoring()
@@ -65,6 +78,11 @@ namespace SafeExamBrowser.Client.Responsibilities
 			}
 		}
 
+		private void RegisterEvents()
+		{
+			Proctoring.InitializationFailed += Proctoring_InitializationFailed;
+		}
+
 		private void Dialog_CancellationRequested(IProctoringFinalizationDialog dialog)
 		{
 			var alreadyValidated = Context.QuitPasswordValidated;
@@ -80,6 +98,17 @@ namespace SafeExamBrowser.Client.Responsibilities
 				Logger.Info("The user entered the wrong quit password, remaining work will continue.");
 				messageBox.Show(TextKey.MessageBox_InvalidQuitPassword, TextKey.MessageBox_InvalidQuitPasswordTitle, icon: MessageBoxIcon.Warning, parent: dialog);
 			}
+		}
+
+		private void Proctoring_InitializationFailed()
+		{
+			var message = TextKey.MessageBox_ProctoringInitializationFailure;
+			var title = TextKey.MessageBox_ProctoringInitializationFailureTitle;
+
+			messageBox.Show(message, title, icon: MessageBoxIcon.Error);
+			Logger.Info("Attempting to shutdown due to proctoring initialization failure...");
+
+			TryRequestShutdown();
 		}
 
 		private void Proctoring_RemainingWorkUpdated(IProctoringFinalizationDialog dialog, RemainingWorkUpdatedEventArgs args)

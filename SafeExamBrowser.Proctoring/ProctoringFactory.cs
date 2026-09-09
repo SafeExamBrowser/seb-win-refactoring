@@ -15,8 +15,6 @@ using SafeExamBrowser.Monitoring.Contracts.Applications;
 using SafeExamBrowser.Proctoring.ScreenProctoring;
 using SafeExamBrowser.Proctoring.ScreenProctoring.Service;
 using SafeExamBrowser.Settings.Proctoring;
-using SafeExamBrowser.SystemComponents.Contracts;
-using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Proctoring
@@ -26,30 +24,24 @@ namespace SafeExamBrowser.Proctoring
 		private readonly AppConfig appConfig;
 		private readonly IApplicationMonitor applicationMonitor;
 		private readonly IBrowserApplication browser;
-		private readonly IFileSystem fileSystem;
 		private readonly IModuleLogger logger;
 		private readonly INativeMethods nativeMethods;
 		private readonly IText text;
-		private readonly IUserInterfaceFactory uiFactory;
 
-		public ProctoringFactory(
+		internal ProctoringFactory(
 			AppConfig appConfig,
 			IApplicationMonitor applicationMonitor,
 			IBrowserApplication browser,
-			IFileSystem fileSystem,
 			IModuleLogger logger,
 			INativeMethods nativeMethods,
-			IText text,
-			IUserInterfaceFactory uiFactory)
+			IText text)
 		{
 			this.appConfig = appConfig;
 			this.applicationMonitor = applicationMonitor;
 			this.browser = browser;
-			this.fileSystem = fileSystem;
 			this.logger = logger;
 			this.nativeMethods = nativeMethods;
 			this.text = text;
-			this.uiFactory = uiFactory;
 		}
 
 		internal IEnumerable<ProctoringImplementation> CreateAllActive(ProctoringSettings settings)

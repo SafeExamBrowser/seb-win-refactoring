@@ -55,9 +55,9 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\ProctoringEventHandler.cs" />
     <Compile Include="Events\RemainingWorkUpdatedEventArgs.cs" />
     <Compile Include="Events\RemainingWorkUpdatedEventHandler.cs" />
+    <Compile Include="Events\InitializationFailedEventHandler.cs" />
     <Compile Include="IProctoringController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

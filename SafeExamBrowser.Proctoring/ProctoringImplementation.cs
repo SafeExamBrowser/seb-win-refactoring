@@ -22,7 +22,9 @@ namespace SafeExamBrowser.Proctoring
 		public string Tooltip { get; protected set; }
 		public IconResource IconResource { get; protected set; }
 
+		internal event InitializationFailedEventHandler InitializationFailed;
 		internal event RemainingWorkUpdatedEventHandler RemainingWorkUpdated;
+
 		public event NotificationChangedEventHandler NotificationChanged;
 
 		void INotification.Activate()
@@ -35,7 +37,7 @@ namespace SafeExamBrowser.Proctoring
 			TerminateNotification();
 		}
 
-		internal abstract void Initialize();
+		internal abstract bool Initialize();
 		internal abstract void ProctoringConfigurationReceived(bool allowChat, bool receiveAudio, bool receiveVideo);
 		internal abstract void ProctoringInstructionReceived(InstructionEventArgs args);
 		internal abstract void Start();
@@ -47,6 +49,11 @@ namespace SafeExamBrowser.Proctoring
 
 		protected virtual void ActivateNotification() { }
 		protected virtual void TerminateNotification() { }
+
+		protected void InvokeInitializationFailed()
+		{
+			InitializationFailed?.Invoke();
+		}
 
 		protected void InvokeNotificationChanged()
 		{
