@@ -28,6 +28,7 @@ namespace SafeExamBrowser.Configuration
 		private readonly DataMapper dataMapper;
 		private readonly DataProcessor dataProcessor;
 		private readonly DataValues dataValues;
+		private readonly DataValidator dataValidator;
 		private readonly ILogger logger;
 		private readonly IList<IResourceLoader> resourceLoaders;
 		private readonly IList<IResourceSaver> resourceSavers;
@@ -42,6 +43,7 @@ namespace SafeExamBrowser.Configuration
 			dataMapper = new DataMapper();
 			dataProcessor = new DataProcessor();
 			dataValues = new DataValues();
+			dataValidator = new DataValidator(logger.CloneFor(nameof(DataValidator)));
 			resourceLoaders = new List<IResourceLoader>();
 			resourceSavers = new List<IResourceSaver>();
 		}
@@ -135,6 +137,11 @@ namespace SafeExamBrowser.Configuration
 					if (status == LoadStatus.Success)
 					{
 						status = TryParseData(stream, out _, out _, out var data, password);
+
+						if (status == LoadStatus.Success)
+						{
+							status = dataValidator.Validate(data) ? LoadStatus.Success : LoadStatus.InvalidData;
+						}
 
 						if (status == LoadStatus.Success)
 						{
