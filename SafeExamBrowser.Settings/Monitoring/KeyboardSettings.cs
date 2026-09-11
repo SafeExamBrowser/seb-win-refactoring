@@ -52,6 +52,18 @@ namespace SafeExamBrowser.Settings.Monitoring
 		public bool AllowCtrlX { get; set; }
 
 		/// <summary>
+		/// Determines whether the user may use the CTRL+P (print) shortcut.
+		/// Security fix: Prevents accessing the file system via print dialogs.
+		/// </summary>
+		public bool AllowCtrlP { get; set; }
+
+		/// <summary>
+		/// Determines whether the user may use the CTRL+S (save) shortcut.
+		/// Security fix: Prevents accessing the file system via save dialogs.
+		/// </summary>
+		public bool AllowCtrlS { get; set; }
+
+		/// <summary>
 		/// Determines whether the user may use the escape key.
 		/// </summary>
 		public bool AllowEsc { get; set; }

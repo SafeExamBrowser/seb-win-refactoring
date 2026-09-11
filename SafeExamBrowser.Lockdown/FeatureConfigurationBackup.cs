@@ -17,6 +17,40 @@ using SafeExamBrowser.Logging.Contracts;
 
 namespace SafeExamBrowser.Lockdown
 {
+	/// <summary>
+	/// Security fix (CWE-502): Restricts BinaryFormatter deserialization to only known, safe types.
+	/// Without this binder, an attacker who can replace the backup file could craft a malicious
+	/// payload that executes arbitrary code during deserialization (e.g. via gadget chains).
+	/// </summary>
+	internal sealed class SafeConfigurationBinder : SerializationBinder
+	{
+		private static readonly HashSet<string> AllowedTypeNames = new HashSet<string>(StringComparer.Ordinal)
+		{
+			// Only allow the base configuration types that are legitimately serialized
+			"SafeExamBrowser.Lockdown.FeatureConfigurations.FeatureConfiguration",
+			"SafeExamBrowser.Lockdown.FeatureConfigurations.RegistryConfiguration",
+			"SafeExamBrowser.Lockdown.FeatureConfigurations.ServiceConfiguration",
+			// Allow lists and dictionaries used by the configuration types
+			"System.Collections.Generic.List`1",
+			"System.Collections.Generic.Dictionary`2",
+			// Allow primitive types that appear in configuration data
+			"System.String",
+			"System.Int32",
+			"System.Boolean",
+			"System.Guid"
+		};
+
+		public override Type BindToType(string assemblyName, string typeName)
+		{
+			if (AllowedTypeNames.Contains(typeName))
+			{
+				return Type.GetType($"{typeName}, {assemblyName}");
+			}
+
+			// Reject any type not on the whitelist
+			return null;
+		}
+	}
 	public class FeatureConfigurationBackup : IFeatureConfigurationBackup
 	{
 		private readonly object @lock = new object();
@@ -90,9 +124,17 @@ namespace SafeExamBrowser.Lockdown
 
 					logger.Debug($"Attempting to load backup data from '{filePath}'...");
 
+					// Security fix (CWE-502): Use a SerializationBinder to restrict deserialization
+					// to only known, safe types. Without this, BinaryFormatter can instantiate
+					// arbitrary types, allowing code execution if the backup file is tampered with.
+					var formatter = new BinaryFormatter(null, context)
+					{
+						Binder = new SafeConfigurationBinder()
+					};
+
 					using (var stream = File.Open(filePath, FileMode.Open))
 					{
-						configurations = (List<IFeatureConfiguration>) new BinaryFormatter(null, context).Deserialize(stream);
+						configurations = (List<IFeatureConfiguration>) formatter.Deserialize(stream);
 					}
 
 					logger.Debug($"Backup data successfully loaded, found {configurations.Count} items.");

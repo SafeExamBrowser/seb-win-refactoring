@@ -20,6 +20,9 @@ namespace SafeExamBrowser.WindowsApi.Constants
 		LeftControl = 0xA2,
 		LeftWindows = 0x5B,
 		RightAlt = 0xA5,
-		RightControl = 0xA3
+		RightControl = 0xA3,
+		// Security fix: Added Shift key codes for Ctrl+Shift+Escape detection
+		LeftShift = 0xA0,
+		RightShift = 0xA1
 	}
 }
