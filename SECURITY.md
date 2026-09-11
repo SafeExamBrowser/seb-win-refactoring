@@ -1,5 +1,13 @@
 # Security Policy
 
+> [!CAUTION]
+> While we certainly allow the usage of LLMs / AI as a tool for vulnerability research, we do reserve the right to reject security advisories which are clearly
+> auto-generated and which do not meet the following criteria:
+>
+> - You MUST disclose whether AI has been used.
+> - You MUST specify where and how AI was involved in the process.
+> - You MUST write the security advisory yourself.
+
 We only support the latest official release version with respect to security vulnerabilities. Thus, only the latest or then the upcoming next release version
 will receive vulnerability fixes and security updates. A vulnerability may however be reported for any version, unless it already has been fixed with a later
 release version.
