@@ -94,7 +94,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 					break;
 				case string text:
 					stream.Write('"');
-					stream.Write(text);
+					stream.Write(text?.Replace("\"", "\\\""));
 					stream.Write('"');
 					break;
 				case null:
