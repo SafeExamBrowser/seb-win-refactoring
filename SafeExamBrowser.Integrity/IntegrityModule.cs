@@ -83,7 +83,11 @@ namespace SafeExamBrowser.Integrity
 			}
 			catch (DllNotFoundException)
 			{
-				logger.Warn("Integrity module is not available!");
+				// Security fix (CWE-755): Fail closed — if the integrity module is not available,
+				// treat this as a potential tampering attempt and report a remote session
+				// (which will be blocked by the caller), rather than silently allowing access.
+				logger.Error("Integrity module not available — treating as potential tampering (reporting remote session)!");
+				isRemoteSession = true;
 			}
 			catch (Exception e)
 			{
@@ -112,7 +116,11 @@ namespace SafeExamBrowser.Integrity
 			}
 			catch (DllNotFoundException)
 			{
-				logger.Warn("Integrity module is not available!");
+				// Security fix (CWE-755): Fail closed — if the integrity module is not available,
+				// treat as a potential VM (will be blocked by caller if VMs are not allowed).
+				logger.Error("Integrity module not available — treating as potential tampering (reporting VM)!");
+				isVirtualMachine = true;
+				probability = 100;
 			}
 			catch (Exception e)
 			{
@@ -120,7 +128,7 @@ namespace SafeExamBrowser.Integrity
 			}
 
 			return isVirtualMachine;
-		}
+			}
 
 		public bool TryCalculateAppSignatureKey(string connectionToken, string salt, out string appSignatureKey)
 		{
@@ -203,7 +211,10 @@ namespace SafeExamBrowser.Integrity
 			}
 			catch (DllNotFoundException)
 			{
-				logger.Warn("Integrity module is not available!");
+				// Security fix (CWE-755): Fail closed — if the integrity module is not available,
+				// report the code signature as invalid to prevent running a tampered binary.
+				logger.Error("Integrity module not available — treating as potential tampering (code signature invalid)!");
+				isValid = false;
 			}
 			catch (Exception e)
 			{
@@ -211,10 +222,10 @@ namespace SafeExamBrowser.Integrity
 			}
 
 			return success;
-		}
+			}
 
-		public bool TryVerifyRuntimeIntegrity(out bool isValid)
-		{
+			public bool TryVerifyRuntimeIntegrity(out bool isValid)
+			{
 			var success = false;
 
 			isValid = default;
@@ -239,7 +250,10 @@ namespace SafeExamBrowser.Integrity
 			}
 			catch (DllNotFoundException)
 			{
-				logger.Warn("Integrity module is not available!");
+				// Security fix (CWE-755): Fail closed — if the integrity module is not available,
+				// report runtime integrity as compromised.
+				logger.Error("Integrity module not available — treating as potential tampering (runtime integrity compromised)!");
+				isValid = false;
 			}
 			catch (Exception e)
 			{
@@ -247,7 +261,7 @@ namespace SafeExamBrowser.Integrity
 			}
 
 			return success;
-		}
+			}
 
 		public bool TryVerifySessionIntegrity(string configurationKey, out bool isValid)
 		{
