@@ -193,7 +193,10 @@ namespace SafeExamBrowser.Browser
 		{
 			try
 			{
-				var script = $"SafeExamBrowser.clipboard.update('{id}', '{clipboard.Content}');";
+				// Security fix (CWE-79): Escape clipboard content before interpolating into
+				// JavaScript to prevent JS injection via single quotes in clipboard content.
+				var escaped = clipboard.Content.Replace("\\", "\\\\").Replace("'", "\\'");
+				var script = $"SafeExamBrowser.clipboard.update('{id}', '{escaped}');";
 
 				foreach (var frame in control.BrowserCore?.GetAllFrames() ?? Enumerable.Empty<IFrame>())
 				{
