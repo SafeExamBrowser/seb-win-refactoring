@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\MSTest.TestAdapter.4.3.2\build\net462\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.4.3.2\build\net462\MSTest.TestAdapter.props')" />
   <Import Project="..\packages\Microsoft.Testing.Extensions.Telemetry.2.3.2\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props" Condition="Exists('..\packages\Microsoft.Testing.Extensions.Telemetry.2.3.2\build\netstandard2.0\Microsoft.Testing.Extensions.Telemetry.props')" />
@@ -58,6 +58,14 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Azure.Core, Version=1.60.0.0, Culture=neutral, PublicKeyToken=92742159e12e44c8, processorArchitecture=MSIL">
@@ -277,6 +285,7 @@
     <Compile Include="Operations\DisplayMonitorOperationTests.cs" />
     <Compile Include="Operations\KeyboardInterceptorOperationTests.cs" />
     <Compile Include="Operations\MouseInterceptorOperationTests.cs" />
+    <Compile Include="Operations\PreExamCheckTests.cs" />
     <Compile Include="Operations\ProctoringOperationTests.cs" />
     <Compile Include="Operations\RuntimeConnectionOperationTests.cs" />
     <Compile Include="Operations\ServerOperationTests.cs" />
@@ -367,6 +376,10 @@
     <ProjectReference Include="..\SafeExamBrowser.SystemComponents.Contracts\SafeExamBrowser.SystemComponents.Contracts.csproj">
       <Project>{903129c6-e236-493b-9ad6-c6a57f647a3a}</Project>
       <Name>SafeExamBrowser.SystemComponents.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SafeExamBrowser.SystemComponents\SafeExamBrowser.SystemComponents.csproj">
+      <Project>{acee2ef1-14d2-4b52-8994-5c053055bb51}</Project>
+      <Name>SafeExamBrowser.SystemComponents</Name>
     </ProjectReference>
     <ProjectReference Include="..\SafeExamBrowser.UserInterface.Contracts\SafeExamBrowser.UserInterface.Contracts.csproj">
       <Project>{c7889e97-6ff6-4a58-b7cb-521ed276b316}</Project>

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2026 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -46,7 +46,7 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 
 		private void InitializeAudioControl()
 		{
-			var originalBrush = Grid.Background;
+			var originalBrush = this.Grid.Background;
 
 			audio.VolumeChanged += Audio_VolumeChanged;
 			Button.Click += (o, args) => Popup.IsOpen = !Popup.IsOpen;
@@ -79,10 +79,10 @@ namespace SafeExamBrowser.UserInterface.Desktop.Controls.ActionCenter
 				}
 				Popup.IsOpen = IsMouseOver;
 			}));
-			Popup.Opened += (o, args) => Grid.Background = Brushes.Gray;
+			Popup.Opened += (o, args) => this.Grid.Background = Brushes.Gray;
 			Popup.Closed += (o, args) =>
 			{
-				Grid.Background = originalBrush;
+				this.Grid.Background = originalBrush;
 				lastOpenedBySpacePress = false;
 			};
 			Volume.ValueChanged += Volume_ValueChanged;
