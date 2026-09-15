@@ -8,6 +8,7 @@
 
 using System;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Modes;
@@ -25,7 +26,9 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		internal Encryptor(ScreenProctoringSettings settings)
 		{
-			encryptionSecret = new Lazy<byte[]>(() => Encoding.UTF8.GetBytes(settings.EncryptionSecret));
+			// Security fix (CWE-321): Use PBKDF2 to derive a proper 256-bit AES key from the
+			// password instead of directly using the UTF-8 bytes, which may be too short.
+			encryptionSecret = new Lazy<byte[]>(() => DeriveKey(settings.EncryptionSecret));
 		}
 
 		internal byte[] Decrypt(byte[] data)
@@ -66,12 +69,34 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 		private byte[] GenerateInitializationVector()
 		{
+			// Security fix (CWE-338): Use cryptographically secure RNG instead of System.Random.
+			// System.Random is time-seeded and predictable — AES-GCM requires unpredictable IVs.
 			var vector = new byte[IV_BYTES];
-			var random = new Random();
 
-			random.NextBytes(vector);
+			using (var rng = RandomNumberGenerator.Create())
+			{
+				rng.GetBytes(vector);
+			}
 
 			return vector;
+		}
+
+		/// <summary>
+		/// Security fix (CWE-321): Derives a 256-bit AES key from a password using PBKDF2.
+		/// This prevents weak keys when the password is shorter than 32 bytes.
+		/// Uses a fixed salt derived from the SEB proctoring context — in production, a
+		/// proper random salt should be stored alongside the encrypted data.
+		/// </summary>
+		private static byte[] DeriveKey(string password)
+		{
+			const int KEY_BYTES = 32; // 256-bit AES key
+			const int ITERATIONS = 100_000;
+			var salt = Encoding.UTF8.GetBytes("SEB.ScreenProctoring.v1");
+
+			using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, ITERATIONS, HashAlgorithmName.SHA256))
+			{
+				return pbkdf2.GetBytes(KEY_BYTES);
+			}
 		}
 
 		private byte[] Merge(byte[] iv, byte[] encrypted)
