@@ -32,11 +32,7 @@ try
 	$root = (Resolve-Path -LiteralPath $Directory).ProviderPath.TrimEnd('\')
 	$binaries = @(Get-ChildItem -LiteralPath $root -Recurse -File | Where-Object { $_.Extension -eq '.exe' -or $_.Extension -eq '.dll' })
 
-	if ($binaries.Count -gt 0)
-	{
-		Write-Host "Attempting to sign $($binaries.Count) binaries in '$root'..."
-	}
-	else
+	if ($binaries.Count -eq 0)
 	{
 		throw "Could not find any binaries to sign in directory '$root'!"
 	}
@@ -51,6 +47,8 @@ try
 
 		Push-Location -LiteralPath $root
 		[System.Environment]::CurrentDirectory = $root
+
+		Write-Host "Attempting to sign $($binaries.Count) binaries in '$root'..."
 
 		& $signtool sign /sha1 $thumbprint /sm /tr $timestampServer /td sha256 /fd sha256 $paths
 
