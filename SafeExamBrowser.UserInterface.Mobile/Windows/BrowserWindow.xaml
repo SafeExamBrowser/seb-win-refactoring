@@ -1,4 +1,4 @@
-﻿<Window x:Class="SafeExamBrowser.UserInterface.Mobile.Windows.BrowserWindow" x:ClassModifier="internal"
+<Window x:Class="SafeExamBrowser.UserInterface.Mobile.Windows.BrowserWindow" x:ClassModifier="internal"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -117,10 +117,10 @@
                     <Button x:Name="FindNextButton" Cursor="Hand" Padding="5" VerticalContentAlignment="Center" Width="50">
                         <fa:ImageAwesome Icon="AngleDown" />
                     </Button>
-                    <CheckBox Grid.Column="1" x:Name="FindCaseSensitiveCheckBox" Cursor="Hand" Margin="10,0" Padding="5,0" VerticalContentAlignment="Center" />
+                    <CheckBox x:Name="FindCaseSensitiveCheckBox" Cursor="Hand" Margin="10,0" Padding="5,0" VerticalContentAlignment="Center" />
                 </StackPanel>
-                <Button Grid.Column="4" x:Name="FindbarCloseButton" Height="50" HorizontalAlignment="Center" Margin="5" Padding="10" Template="{StaticResource BrowserButton}" VerticalAlignment="Center">
-                    <fa:ImageAwesome Icon="Close" />
+                <Button Grid.Column="2" x:Name="FindbarCloseButton" Height="50" HorizontalAlignment="Center" Margin="5" Padding="10" Template="{StaticResource BrowserButton}" VerticalAlignment="Center">
+                    <fa:ImageAwesome Icon="Times" />
                 </Button>
             </Grid>
         </Border>

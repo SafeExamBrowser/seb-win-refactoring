@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2026 ETH Zürich, IT Services
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -29,19 +29,13 @@ namespace SafeExamBrowser.Runtime.Operations.Bootstrap
 
 		public OperationResult Perform()
 		{
-			var result = OperationResult.Success;
-
 			logger.Info($"Attempting to verify application integrity...");
 			StatusChanged?.Invoke(TextKey.OperationStatus_VerifyApplicationIntegrity);
 
 			VerifyCodeSignature();
+			VerifyRuntimeIntegrity();
 
-			if (!VerifyRuntimeIntegrity())
-			{
-				result = OperationResult.Failed;
-			}
-
-			return result;
+			return OperationResult.Success;
 		}
 
 		public OperationResult Revert()

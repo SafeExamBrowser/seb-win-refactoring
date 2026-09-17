@@ -1,0 +1,70 @@
+<Window x:Class="SafeExamBrowser.UserInterface.Desktop.Windows.PreExamCheckDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SafeExamBrowser.UserInterface.Desktop.Windows"
+        mc:Ignorable="d" Title="Safe Exam Browser - Pre-Exam Check" Height="520" Width="680" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Templates/Colors.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="#1E293B" CornerRadius="6" Padding="15" Margin="0,0,0,15">
+            <StackPanel Orientation="Horizontal">
+                <fa:ImageAwesome Icon="Desktop" Foreground="#38BDF8" Width="36" Height="36" VerticalAlignment="Center" Margin="0,0,15,0" />
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="PRE-EXAM SYSTEM CHECK" FontWeight="Bold" FontSize="18" Foreground="White" />
+                    <TextBlock Text="Computer hardware &amp; OS verification prior to starting exam session" FontSize="12" Foreground="#94A3B8" Margin="0,3,0,0" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Results DataGrid -->
+        <DataGrid Grid.Row="1" x:Name="ResultsDataGrid" AutoGenerateColumns="False" IsReadOnly="True" 
+                  GridLinesVisibility="Horizontal" HeadersVisibility="Column" HorizontalGridLinesBrush="#E2E8F0"
+                  CanUserReorderColumns="False" CanUserResizeRows="False" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Check Item" Binding="{Binding Title}" Width="160" FontWeight="SemiBold" />
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100" FontWeight="Bold" />
+                <DataGridTextColumn Header="Actual Value" Binding="{Binding ActualValue}" Width="140" />
+                <DataGridTextColumn Header="Required Spec" Binding="{Binding RequiredValue}" Width="110" />
+                <DataGridTextColumn Header="Details / Remarks" Binding="{Binding Message}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Status Summary Banner -->
+        <Border Grid.Row="2" x:Name="StatusBanner" CornerRadius="4" Padding="10" Margin="0,10,0,15" Background="#F8FAFC" BorderBrush="#CBD5E1" BorderThickness="1">
+            <TextBlock x:Name="StatusSummaryText" TextWrapping="Wrap" FontWeight="SemiBold" FontSize="13" Foreground="#334155" />
+        </Border>
+
+        <!-- Buttons -->
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" x:Name="ExportCsvButton" Content="📄 Export Report (CSV)" Click="ExportCsvButton_Click" Padding="12,6" MinWidth="130" Cursor="Hand" />
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <Button x:Name="RetryButton" Content="🔄 Re-check" Click="RetryButton_Click" Padding="12,6" MinWidth="110" Margin="0,0,10,0" Cursor="Hand" />
+                <Button x:Name="StartExamButton" Content="▶️ Start Exam" Click="StartExamButton_Click" Padding="12,6" MinWidth="110" Margin="0,0,10,0" FontWeight="Bold" Cursor="Hand" />
+                <Button x:Name="AbortButton" Content="❌ Abort" Click="AbortButton_Click" Padding="12,6" MinWidth="80" Cursor="Hand" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
