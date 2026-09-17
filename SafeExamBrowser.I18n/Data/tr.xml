@@ -408,6 +408,12 @@
     <Entry key="MessageBox_PageReloadConfirmationTitle">
         Yeniden Yükle?
     </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailure">
+        Sınav gözetimi işlevinin başlatılması başarısız oldu (örneğin, bir bağlantı hatası nedeniyle). Daha fazla bilgi için lütfen günlük dosyalarına bakın. SEB şimdi kapanacak...
+    </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailureTitle">
+        Gözetim Başlatma Hatası
+    </Entry>
     <Entry key="MessageBox_Quit">
         SEB'den çıkmak ister misiniz?
     </Entry>

@@ -32,7 +32,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 				if (process)
 				{
 					stream.Write('"');
-					stream.Write(kvp.Key);
+					stream.Write(kvp.Key?.Replace("\"", "\\\""));
 					stream.Write('"');
 					stream.Write(':');
 
@@ -94,7 +94,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 					break;
 				case string text:
 					stream.Write('"');
-					stream.Write(text);
+					stream.Write(text?.Replace("\"", "\\\""));
 					stream.Write('"');
 					break;
 				case null:

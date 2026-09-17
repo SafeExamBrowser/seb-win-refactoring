@@ -74,9 +74,10 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			return hasWork;
 		}
 
-		internal override void Initialize()
+		internal override bool Initialize()
 		{
 			var start = true;
+			var success = true;
 
 			start &= !string.IsNullOrWhiteSpace(settings.ClientId);
 			start &= !string.IsNullOrWhiteSpace(settings.ClientSecret);
@@ -85,16 +86,24 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 
 			if (start)
 			{
-				logger.Info($"Initialized proctoring: All settings are valid, starting automatically...");
+				logger.Info($"Initialized proctoring: All settings are valid, attempting to start automatically...");
 
-				Connect();
-				Start();
+				if (Connect())
+				{
+					Start();
+				}
+				else
+				{
+					success = false;
+				}
 			}
 			else
 			{
 				UpdateNotification(false);
 				logger.Info($"Initialized proctoring: Not all settings are valid or a server session is active, not starting automatically.");
 			}
+
+			return success;
 		}
 
 		internal override void ProctoringConfigurationReceived(bool allowChat, bool receiveAudio, bool receiveVideo)
@@ -116,8 +125,14 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 					settings.GroupId = instruction.GroupId;
 					settings.ServiceUrl = instruction.ServiceUrl;
 
-					Connect(instruction.SessionId);
-					Start();
+					if (Connect(instruction.SessionId))
+					{
+						Start();
+					}
+					else
+					{
+						InvokeInitializationFailed();
+					}
 				}
 				else
 				{
@@ -163,24 +178,28 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			spooler.Add(metaData, screenShot);
 		}
 
-		private void Connect(string sessionId = default)
+		private bool Connect(string sessionId = default)
 		{
 			logger.Info("Connecting to service...");
 
 			var connect = service.Connect(settings.ClientId, settings.ClientSecret, settings.ServiceUrl);
+			var success = false;
 
 			if (connect.Success)
 			{
 				if (sessionId == default)
 				{
 					logger.Info("Creating session...");
-					service.CreateSession(settings.GroupId);
+					success = service.CreateSession(settings.GroupId).Success;
 				}
 				else
 				{
 					service.SessionId = sessionId;
+					success = true;
 				}
 			}
+
+			return success;
 		}
 
 		private void TerminateSession()

@@ -16,7 +16,9 @@ using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.Settings;
 using SafeExamBrowser.Settings.Proctoring;
 using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
@@ -27,9 +29,11 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private ClientContext context;
 		private Mock<IProctoringController> controller;
 		private Mock<ILogger> logger;
+		private Mock<IMessageBox> messageBox;
 		private Mock<INotification> notification1;
 		private Mock<INotification> notification2;
 		private AppSettings settings;
+		private Mock<ISplashScreen> splashScreen;
 		private Mock<ITaskbar> taskbar;
 		private Mock<IUserInterfaceFactory> uiFactory;
 
@@ -42,15 +46,17 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			context = new ClientContext();
 			controller = new Mock<IProctoringController>();
 			logger = new Mock<ILogger>();
+			messageBox = new Mock<IMessageBox>();
 			notification1 = new Mock<INotification>();
 			notification2 = new Mock<INotification>();
 			settings = new AppSettings();
+			splashScreen = new Mock<ISplashScreen>();
 			taskbar = new Mock<ITaskbar>();
 			uiFactory = new Mock<IUserInterfaceFactory>();
 
 			context.Settings = settings;
 			controller.SetupGet(c => c.Notifications).Returns(new[] { notification1.Object, notification2.Object });
-			sut = new ProctoringOperation(actionCenter.Object, context, controller.Object, logger.Object, taskbar.Object, uiFactory.Object);
+			sut = new ProctoringOperation(actionCenter.Object, context, controller.Object, logger.Object, messageBox.Object, splashScreen.Object, taskbar.Object, uiFactory.Object);
 		}
 
 		[TestMethod]

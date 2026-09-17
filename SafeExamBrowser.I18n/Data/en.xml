@@ -423,6 +423,12 @@
     <Entry key="MessageBox_PageReloadConfirmationTitle">
         Reload?
     </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailure">
+        The initialization of the proctoring functionality has failed (e.g. due to a connection error). Please consult the log files for more information. SEB will now shut down...
+    </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailureTitle">
+        Proctoring Initialization Failure
+    </Entry>
     <Entry key="MessageBox_Quit">
         Do you want to quit SEB?
     </Entry>

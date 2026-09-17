@@ -24,6 +24,11 @@ namespace SafeExamBrowser.Proctoring.Contracts
 		IEnumerable<INotification> Notifications { get; }
 
 		/// <summary>
+		/// Event fired when the proctoring initialization failed.
+		/// </summary>
+		event InitializationFailedEventHandler InitializationFailed;
+
+		/// <summary>
 		/// Event fired when the status of the remaining work has been updated.
 		/// </summary>
 		event RemainingWorkUpdatedEventHandler RemainingWorkUpdated;
@@ -39,9 +44,9 @@ namespace SafeExamBrowser.Proctoring.Contracts
 		bool HasRemainingWork();
 
 		/// <summary>
-		/// Initializes the given settings and starts the proctoring if the settings are valid.
+		/// Initializes the given settings and starts the proctoring if the settings are valid. Returns <c>true</c> if successful, otherwise <c>false</c>.
 		/// </summary>
-		void Initialize(ProctoringSettings settings);
+		bool Initialize(ProctoringSettings settings);
 
 		/// <summary>
 		/// Stops the proctoring functionality. Make sure to call <see cref="ExecuteRemainingWork"/> beforehand if necessary.

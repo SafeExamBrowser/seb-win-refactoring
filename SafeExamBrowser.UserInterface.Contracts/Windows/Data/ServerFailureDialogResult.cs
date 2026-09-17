@@ -19,7 +19,7 @@ namespace SafeExamBrowser.UserInterface.Contracts.Windows.Data
 		public bool Abort { get; set; }
 
 		/// <summary>
-		/// Indicates whether the user wants to performa a fallback.
+		/// Indicates whether the user wants to perform a fallback.
 		/// </summary>
 		public bool Fallback { get; set; }
 

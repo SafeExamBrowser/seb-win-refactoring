@@ -84,7 +84,7 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			Logger.Info("Attempting to verify runtime integrity...");
+			Logger.Debug("Attempting to verify runtime integrity...");
 
 			if (IntegrityModule.TryVerifyRuntimeIntegrity(out var isValid))
 			{
@@ -165,7 +165,7 @@ namespace SafeExamBrowser.Client.Responsibilities
 		{
 			if (isValid)
 			{
-				Logger.Info("Runtime integrity successfully verified.");
+				Logger.Debug("Runtime integrity successfully verified.");
 			}
 			else if (coordinator.RequestSessionLock())
 			{

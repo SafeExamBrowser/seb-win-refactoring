@@ -408,6 +408,12 @@
     <Entry key="MessageBox_PageReloadConfirmationTitle">
         Kas laadida uuesti?
     </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailure">
+        Eksamijärelevalve funktsiooni algseadistamine ebaõnnestus (nt ühendusvea tõttu). Lisateabe saamiseks vaadake palun logifaile. SEB sulgeb nüüd süsteemi...
+    </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailureTitle">
+        Järelevalve algatamise ebaõnnestumine
+    </Entry>
     <Entry key="MessageBox_Quit">
         Kas soovid SEB'ist väljuda?
     </Entry>

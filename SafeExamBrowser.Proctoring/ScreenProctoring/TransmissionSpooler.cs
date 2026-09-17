@@ -348,13 +348,15 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				var response = service.Send(metaData, screenShot);
 				var value = response.Success ? response.Value : BAD;
 
-				health = UpdateHealth(value);
+				UpdateHealth(value);
+
 				networkIssue = !response.Success;
 				success = response.Success;
 			}
 			else
 			{
 				logger.Warn("Cannot send screen shot as service is disconnected!");
+				UpdateHealth(BAD);
 			}
 
 			return success;
@@ -367,7 +369,8 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				var response = service.GetHealth();
 				var value = response.Success ? response.Value : BAD;
 
-				health = UpdateHealth(value);
+				UpdateHealth(value);
+
 				networkIssue = !response.Success;
 			}
 			else
@@ -381,7 +384,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 			}
 		}
 
-		private int UpdateHealth(int value)
+		private void UpdateHealth(int value)
 		{
 			const int THREE_MINUTES = 180;
 
@@ -413,7 +416,7 @@ namespace SafeExamBrowser.Proctoring.ScreenProctoring
 				}
 			}
 
-			return current;
+			health = current;
 		}
 
 		private RemainingWorkUpdatedEventArgs UpdateStatus(Action<RemainingWorkUpdatedEventArgs> handler, int progress, DateTime start, int total)

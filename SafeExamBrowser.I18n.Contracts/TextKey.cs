@@ -156,6 +156,8 @@ namespace SafeExamBrowser.I18n.Contracts
 		MessageBox_PageLeaveConfirmationTitle,
 		MessageBox_PageReloadConfirmation,
 		MessageBox_PageReloadConfirmationTitle,
+		MessageBox_ProctoringInitializationFailure,
+		MessageBox_ProctoringInitializationFailureTitle,
 		MessageBox_Quit,
 		MessageBox_QuitTitle,
 		MessageBox_QuitError,

@@ -396,9 +396,6 @@
     <Entry key="MessageBox_OkButton">
         确定
     </Entry>
-    <Entry key="MessageBox_Quit">
-        您想要退出防作弊考试专用浏览器吗？
-    </Entry>
     <Entry key="MessageBox_PageLeaveConfirmation">
         您想离开当前页面吗？
     </Entry>
@@ -410,6 +407,15 @@
     </Entry>
     <Entry key="MessageBox_PageReloadConfirmationTitle">
         刷新？
+    </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailure">
+        监考功能的初始化失败（例如，由于连接错误）。请查阅日志文件以获取更多信息。SEB 现在将关闭……
+    </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailureTitle">
+        监考初始化失败
+    </Entry>
+    <Entry key="MessageBox_Quit">
+        您想要退出防作弊考试专用浏览器吗？
     </Entry>
     <Entry key="MessageBox_QuitTitle">
         退出？

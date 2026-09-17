@@ -408,6 +408,12 @@
     <Entry key="MessageBox_PageReloadConfirmationTitle">
         Ricaricare?
     </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailure">
+        L'inizializzazione della funzionalità di sorveglianza non è andata a buon fine (ad esempio a causa di un errore di connessione). Per ulteriori informazioni, consultare i file di log. SEB si spegnerà ora...
+    </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailureTitle">
+        Errore di inizializzazione del sistema di sorveglianza
+    </Entry>
     <Entry key="MessageBox_Quit">
         Vuoi uscire da SEB?
     </Entry>

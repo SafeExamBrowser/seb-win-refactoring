@@ -408,6 +408,12 @@
     <Entry key="MessageBox_PageReloadConfirmationTitle">
         Muat Ulang?
     </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailure">
+        Inisialisasi fungsi pengawasan telah gagal (misalnya karena kesalahan koneksi). Silakan periksa berkas log untuk informasi lebih lanjut. SEB sekarang akan dimatikan...
+    </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailureTitle">
+        Kegagalan Inisialisasi Pengawasan
+    </Entry>
     <Entry key="MessageBox_Quit">
         Apakah Anda ingin keluar dari SEB?
     </Entry>

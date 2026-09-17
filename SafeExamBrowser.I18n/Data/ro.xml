@@ -408,6 +408,12 @@
     <Entry key="MessageBox_PageReloadConfirmationTitle">
         Reîncarcă?
     </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailure">
+        Inițializarea funcționalității de supraveghere a eșuat (de exemplu, din cauza unei erori de conexiune). Vă rugăm să consultați fișierele jurnal pentru mai multe informații. SEB se va închide acum...
+    </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailureTitle">
+        Eșecul inițializării supravegherii
+    </Entry>
     <Entry key="MessageBox_Quit">
         Dorești să părăsești SEB?
     </Entry>

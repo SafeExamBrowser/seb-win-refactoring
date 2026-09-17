@@ -408,6 +408,12 @@
     <Entry key="MessageBox_PageReloadConfirmationTitle">
         ¿Recargar?
     </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailure">
+        La inicialización de la función de supervisión ha fallado (por ejemplo, debido a un error de conexión). Consulta los archivos de registro para obtener más información. SEB se va a cerrar ahora...
+    </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailureTitle">
+        Error en la inicialización de la supervisión
+    </Entry>
     <Entry key="MessageBox_Quit">
         ¿Quiere terminar SEB?
     </Entry>

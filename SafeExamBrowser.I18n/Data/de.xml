@@ -423,6 +423,12 @@
     <Entry key="MessageBox_PageReloadConfirmationTitle">
         Neu laden?
     </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailure">
+        Die Initialisierung der Fernüberwachung ist fehlgeschlagen (z. B. aufgrund eines Verbindungsfehlers). Bitte konsultieren Sie das Applikations-Protokoll für mehr Informationen. SEB wird sich nun beenden...
+    </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailureTitle">
+        Initialisierungsfehler der Fernüberwachung
+    </Entry>
     <Entry key="MessageBox_Quit">
         Möchten Sie SEB beenden?
     </Entry>

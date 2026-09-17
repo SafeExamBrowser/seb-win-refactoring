@@ -12,7 +12,9 @@ using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Proctoring.Contracts;
 using SafeExamBrowser.UserInterface.Contracts;
+using SafeExamBrowser.UserInterface.Contracts.MessageBox;
 using SafeExamBrowser.UserInterface.Contracts.Shell;
+using SafeExamBrowser.UserInterface.Contracts.Windows;
 
 namespace SafeExamBrowser.Client.Operations
 {
@@ -21,6 +23,8 @@ namespace SafeExamBrowser.Client.Operations
 		private readonly IActionCenter actionCenter;
 		private readonly IProctoringController controller;
 		private readonly ILogger logger;
+		private readonly IMessageBox messageBox;
+		private readonly ISplashScreen splashScreen;
 		private readonly ITaskbar taskbar;
 		private readonly IUserInterfaceFactory uiFactory;
 
@@ -31,37 +35,43 @@ namespace SafeExamBrowser.Client.Operations
 			ClientContext context,
 			IProctoringController controller,
 			ILogger logger,
+			IMessageBox messageBox,
+			ISplashScreen splashScreen,
 			ITaskbar taskbar,
 			IUserInterfaceFactory uiFactory) : base(context)
 		{
 			this.actionCenter = actionCenter;
 			this.controller = controller;
 			this.logger = logger;
+			this.messageBox = messageBox;
+			this.splashScreen = splashScreen;
 			this.taskbar = taskbar;
 			this.uiFactory = uiFactory;
 		}
 
 		public override OperationResult Perform()
 		{
+			var result = OperationResult.Success;
+
 			if (Context.Settings.Proctoring.Enabled)
 			{
 				logger.Info("Initializing proctoring...");
 				StatusChanged?.Invoke(TextKey.OperationStatus_InitializeProctoring);
 
-				controller.Initialize(Context.Settings.Proctoring);
+				var success = controller.Initialize(Context.Settings.Proctoring);
+				result = success ? OperationResult.Success : OperationResult.Failed;
 
-				foreach (var notification in controller.Notifications)
+				if (success)
 				{
-					actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(notification, Location.ActionCenter));
-
-					if (Context.Settings.Proctoring.ShowTaskbarNotification)
-					{
-						taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(notification, Location.Taskbar));
-					}
+					AddNotificationControls();
+				}
+				else
+				{
+					InformAboutInitializationFailure();
 				}
 			}
 
-			return OperationResult.Success;
+			return result;
 		}
 
 		public override OperationResult Revert()
@@ -80,6 +90,27 @@ namespace SafeExamBrowser.Client.Operations
 			}
 
 			return OperationResult.Success;
+		}
+
+		private void AddNotificationControls()
+		{
+			foreach (var notification in controller.Notifications)
+			{
+				actionCenter.AddNotificationControl(uiFactory.CreateNotificationControl(notification, Location.ActionCenter));
+
+				if (Context.Settings.Proctoring.ShowTaskbarNotification)
+				{
+					taskbar.AddNotificationControl(uiFactory.CreateNotificationControl(notification, Location.Taskbar));
+				}
+			}
+		}
+
+		private void InformAboutInitializationFailure()
+		{
+			var message = TextKey.MessageBox_ProctoringInitializationFailure;
+			var title = TextKey.MessageBox_ProctoringInitializationFailureTitle;
+
+			messageBox.Show(message, title, icon: MessageBoxIcon.Error, parent: splashScreen);
 		}
 	}
 }

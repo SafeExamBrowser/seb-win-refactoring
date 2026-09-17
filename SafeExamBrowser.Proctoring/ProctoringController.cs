@@ -20,8 +20,6 @@ using SafeExamBrowser.Proctoring.Contracts.Events;
 using SafeExamBrowser.Server.Contracts;
 using SafeExamBrowser.Server.Contracts.Events.Proctoring;
 using SafeExamBrowser.Settings.Proctoring;
-using SafeExamBrowser.SystemComponents.Contracts;
-using SafeExamBrowser.UserInterface.Contracts;
 using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.Proctoring
@@ -36,6 +34,12 @@ namespace SafeExamBrowser.Proctoring
 
 		public IEnumerable<INotification> Notifications => new List<INotification>(implementations);
 
+		public event InitializationFailedEventHandler InitializationFailed
+		{
+			add { implementations.ForEach(i => i.InitializationFailed += value); }
+			remove { implementations.ForEach(i => i.InitializationFailed -= value); }
+		}
+
 		public event RemainingWorkUpdatedEventHandler RemainingWorkUpdated
 		{
 			add { implementations.ForEach(i => i.RemainingWorkUpdated += value); }
@@ -46,17 +50,15 @@ namespace SafeExamBrowser.Proctoring
 			AppConfig appConfig,
 			IApplicationMonitor applicationMonitor,
 			IBrowserApplication browser,
-			IFileSystem fileSystem,
 			IModuleLogger logger,
 			INativeMethods nativeMethods,
 			IServerProxy server,
-			IText text,
-			IUserInterfaceFactory uiFactory)
+			IText text)
 		{
 			this.logger = logger;
 			this.server = server;
 
-			factory = new ProctoringFactory(appConfig, applicationMonitor, browser, fileSystem, logger, nativeMethods, text, uiFactory);
+			factory = new ProctoringFactory(appConfig, applicationMonitor, browser, logger, nativeMethods, text);
 			implementations = new List<ProctoringImplementation>();
 		}
 
@@ -97,10 +99,11 @@ namespace SafeExamBrowser.Proctoring
 			return hasWork;
 		}
 
-		public void Initialize(ProctoringSettings settings)
+		public bool Initialize(ProctoringSettings settings)
 		{
-			implementations = factory.CreateAllActive(settings);
+			var success = true;
 
+			implementations = factory.CreateAllActive(settings);
 			server.ProctoringConfigurationReceived += Server_ProctoringConfigurationReceived;
 			server.ProctoringInstructionReceived += Server_ProctoringInstructionReceived;
 
@@ -108,13 +111,23 @@ namespace SafeExamBrowser.Proctoring
 			{
 				try
 				{
-					implementation.Initialize();
+					if (!implementation.Initialize())
+					{
+						success = false;
+
+						break;
+					}
 				}
 				catch (Exception e)
 				{
 					logger.Error($"Failed to initialize proctoring implementation '{implementation.Name}'!", e);
+					success = false;
+
+					break;
 				}
 			}
+
+			return success;
 		}
 
 		public void Terminate()

@@ -408,6 +408,12 @@
     <Entry key="MessageBox_PageReloadConfirmationTitle">
         Перезарядить?
     </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailure">
+        Инициализация функции контроля прохождения экзамена завершилась неудачно (например, из-за ошибки соединения). Для получения дополнительной информации ознакомьтесь с файлами журналов. SEB сейчас завершит работу...
+    </Entry>
+    <Entry key="MessageBox_ProctoringInitializationFailureTitle">
+        Сбой инициализации системы контроля
+    </Entry>
     <Entry key="MessageBox_Quit">
         Вы хотите выйти из SEB?
     </Entry>
