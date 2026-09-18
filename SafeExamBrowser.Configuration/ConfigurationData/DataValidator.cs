@@ -95,17 +95,17 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 
 		private bool ValidateString(string key, string value = default)
 		{
-			const string DOUBLE_QUOTE = "\"";
+			var regex = new Regex(@"""\s*,");
 			var validateKey = value == default;
-			var valid = validateKey ? !key.Contains(DOUBLE_QUOTE) : !value.Contains(DOUBLE_QUOTE);
+			var valid = validateKey ? !regex.IsMatch(key) : !regex.IsMatch(value);
 
 			if (!valid && validateKey)
 			{
-				logger.Warn($"The configuration key '{key}' contains the invalid character '{DOUBLE_QUOTE}'!");
+				logger.Warn($"The configuration key '{key}' contains the invalid character sequence '\",'!");
 			}
 			else if (!valid)
 			{
-				logger.Warn($"The configuration value with key '{key}' contains the invalid character '{DOUBLE_QUOTE}' ('{value}')!");
+				logger.Warn($"The configuration value with key '{key}' contains the invalid character sequence '\",' ('{value}')!");
 			}
 
 			return valid;
