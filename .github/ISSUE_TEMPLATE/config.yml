@@ -1,11 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Bugs & Feature Requests
-    url: https://github.com/SafeExamBrowser/seb-win-refactoring/issues
-    about: Please report bugs and place feature requests here.
   - name: Community Support
     url: https://github.com/SafeExamBrowser/seb-win-refactoring/discussions
-    about: Please ask and answer questions here.
-  - name: Security Advisories
-    url: https://github.com/SafeExamBrowser/seb-win-refactoring/security/advisories
-    about: Please report security vulnerabilities here.
+    about: Discuss topics or ask and answer questions related to Safe Exam Browser.
