@@ -22,6 +22,9 @@ release version.
 **Describe the Vulnerability**
 A clear and concise description of what the vulnerability is.
 
+**Proof of Concept**
+Please provide a proof-of-concept implementation in a _private_ repository or as attachment.
+
 **Steps to Reproduce**
 Steps to reproduce the behavior:
 1. Go to '...'
