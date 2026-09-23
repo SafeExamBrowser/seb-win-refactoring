@@ -38,7 +38,7 @@ namespace SafeExamBrowser.Browser.Integrations
 				}
 			}
 
-			return false;
+			return userIdentifier != default;
 		}
 
 		internal bool TrySearchUserIdentifier(IRequest request, IResponse response, out string userIdentifier)
