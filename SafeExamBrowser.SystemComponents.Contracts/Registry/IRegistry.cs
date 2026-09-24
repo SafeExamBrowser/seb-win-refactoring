@@ -42,6 +42,16 @@ namespace SafeExamBrowser.SystemComponents.Contracts.Registry
 		bool TryRead(string key, string name, out object value);
 
 		/// <summary>
+		/// Attempts to write the value of the given name under the specified registry key.
+		/// </summary>
+		bool TryWrite(string key, string name, object value);
+
+		/// <summary>
+		/// Attempts to delete the value of the given name under the specified registry key.
+		/// </summary>
+		bool TryDelete(string key, string name);
+
+		/// <summary>
 		/// Attempts to read the value names of the given registry key.
 		/// </summary>
 		bool TryGetNames(string key, out IEnumerable<string> names);

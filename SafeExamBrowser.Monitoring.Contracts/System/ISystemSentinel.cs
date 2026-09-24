@@ -84,5 +84,16 @@ namespace SafeExamBrowser.Monitoring.Contracts.System
 		/// Verifies the ease of access configuration. Returns <c>true</c> if permitted, otherwise <c>false</c>.
 		/// </summary>
 		bool VerifyEaseOfAccess();
+
+		/// <summary>
+		/// Attempts to remove an unexpected Utilman IFEO debugger so the session can start.
+		/// The original value is kept and can be restored via <see cref="RestoreEaseOfAccess"/>.
+		/// </summary>
+		bool NeutralizeEaseOfAccess();
+
+		/// <summary>
+		/// Restores the Utilman IFEO debugger saved by <see cref="NeutralizeEaseOfAccess"/>.
+		/// </summary>
+		bool RestoreEaseOfAccess();
 	}
 }

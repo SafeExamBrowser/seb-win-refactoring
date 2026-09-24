@@ -92,6 +92,50 @@ namespace SafeExamBrowser.SystemComponents.Registry
 			return value != default && value != defaultValue;
 		}
 
+		public bool TryWrite(string key, string name, object value)
+		{
+			try
+			{
+				Microsoft.Win32.Registry.SetValue(key, name, value);
+				logger.Debug($"Wrote value '{name}' = '{value}' to registry key '{key}'.");
+
+				return true;
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to write value '{name}' to registry key '{key}'!", e);
+
+				return false;
+			}
+		}
+
+		public bool TryDelete(string key, string name)
+		{
+			if (TryOpenKey(key, out var registryKey, writable: true))
+			{
+				using (registryKey)
+				{
+					try
+					{
+						registryKey.DeleteValue(name, throwOnMissingValue: false);
+						logger.Debug($"Deleted value '{name}' from registry key '{key}'.");
+
+						return true;
+					}
+					catch (Exception e)
+					{
+						logger.Error($"Failed to delete value '{name}' from registry key '{key}'!", e);
+					}
+				}
+			}
+			else
+			{
+				logger.Warn($"Failed to open registry key '{key}' for deletion of '{name}'.");
+			}
+
+			return false;
+		}
+
 		public bool TryGetNames(string keyName, out IEnumerable<string> names)
 		{
 			names = default;
@@ -183,7 +227,7 @@ namespace SafeExamBrowser.SystemComponents.Registry
 			}
 		}
 
-		private bool TryOpenKey(string keyName, out RegistryKey key)
+		private bool TryOpenKey(string keyName, out RegistryKey key, bool writable = false)
 		{
 			key = default;
 
@@ -197,7 +241,7 @@ namespace SafeExamBrowser.SystemComponents.Registry
 					}
 					else
 					{
-						key = hive.OpenSubKey(keyName.Replace($@"{hive.Name}\", ""));
+						key = hive.OpenSubKey(keyName.Replace($@"{hive.Name}\", ""), writable);
 					}
 				}
 				else
