@@ -16,7 +16,7 @@ namespace SafeExamBrowser.Configuration.ConfigurationData
 	{
 		private readonly ILogger logger;
 
-		public DataValidator(ILogger logger)
+		internal DataValidator(ILogger logger)
 		{
 			this.logger = logger;
 		}

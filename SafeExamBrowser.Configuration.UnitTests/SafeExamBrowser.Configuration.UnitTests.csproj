@@ -263,6 +263,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationData\DataProcessorTests.cs" />
+    <Compile Include="ConfigurationData\DataValidatorTests.cs" />
     <Compile Include="ConfigurationRepositoryTests.cs" />
     <Compile Include="Cryptography\HashAlgorithmTests.cs" />
     <Compile Include="Cryptography\PasswordEncryptionTests.cs" />
