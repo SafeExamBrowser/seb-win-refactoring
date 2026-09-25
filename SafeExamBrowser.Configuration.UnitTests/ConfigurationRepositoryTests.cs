@@ -50,6 +50,7 @@ namespace SafeExamBrowser.Configuration.UnitTests
 
 			fileLoader.Setup(f => f.CanLoad(It.IsAny<Uri>())).Returns<Uri>(u => u.IsFile);
 			fileSaver.Setup(f => f.CanSave(It.IsAny<Uri>())).Returns<Uri>(u => u.IsFile);
+			logger.Setup(l => l.CloneFor(It.IsAny<string>())).Returns(logger.Object);
 			networkLoader.Setup(n => n.CanLoad(It.IsAny<Uri>())).Returns<Uri>(u => u.Scheme.Equals("http") || u.Scheme.Equals("seb"));
 
 			SetEntryAssembly();

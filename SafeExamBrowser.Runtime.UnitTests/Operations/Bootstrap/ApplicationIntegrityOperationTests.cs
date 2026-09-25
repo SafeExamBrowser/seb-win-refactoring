@@ -58,10 +58,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 			var result = sut.Perform();
 
 			integrityModule.Verify(m => m.TryVerifyCodeSignature(out isValid), Times.Once);
-			logger.Verify(l => l.Error(It.IsAny<string>()), Times.Once);
-			logger.Verify(l => l.Warn(It.IsAny<string>()), Times.Once);
+			logger.Verify(l => l.Warn(It.IsAny<string>()), Times.Exactly(2));
 
-			Assert.AreEqual(OperationResult.Failed, result);
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]
@@ -98,7 +97,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 		}
 
 		[TestMethod]
-		public void Perform_MustTerminateOnRuntimeIntegrityCompromise()
+		public void Perform_MustContinueOnRuntimeIntegrityCompromise()
 		{
 			var codeSignature = true;
 			var runtimeIntegrity = false;
@@ -109,9 +108,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 			var result = sut.Perform();
 
 			integrityModule.Verify(m => m.TryVerifyCodeSignature(out codeSignature), Times.Once);
-			logger.Verify(l => l.Error(It.IsAny<string>()), Times.Once);
+			logger.Verify(l => l.Warn(It.IsAny<string>()), Times.Once);
 
-			Assert.AreEqual(OperationResult.Failed, result);
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]

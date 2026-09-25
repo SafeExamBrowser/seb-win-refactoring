@@ -92,14 +92,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 
 			sut.Assume(RuntimeTask.StartSession);
 
-			messageBox.Verify(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()), Times.AtLeastOnce);
-			messageBox.Reset();
+			responsibilities.Verify(r => r.Delegate(It.Is<RuntimeTask>(t => t == RuntimeTask.ShowSessionStartError)), Times.Once);
+			responsibilities.Reset();
 			sessionSequence.Reset();
 			sessionSequence.Setup(b => b.TryRepeat()).Returns(OperationResult.Failed);
 
 			sut.Assume(RuntimeTask.StartSession);
 
-			messageBox.Verify(m => m.Show(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<MessageBoxAction>(), It.IsAny<MessageBoxIcon>(), It.IsAny<IWindow>()), Times.AtLeastOnce);
+			responsibilities.Verify(r => r.Delegate(It.Is<RuntimeTask>(t => t == RuntimeTask.ShowSessionStartError)), Times.Once);
 		}
 
 		[TestMethod]
