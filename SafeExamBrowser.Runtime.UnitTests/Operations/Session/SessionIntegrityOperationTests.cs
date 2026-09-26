@@ -332,11 +332,54 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Session
 		}
 
 		[TestMethod]
+		public void Perform_MustSucceedWhenCompromisedEaseOfAccessCanBeNeutralized()
+		{
+			currentSettings.Service.IgnoreService = true;
+			nextSettings.Service.IgnoreService = true;
+			sentinel.SetupSequence(s => s.VerifyEaseOfAccess()).Returns(false).Returns(true);
+			sentinel.Setup(s => s.NeutralizeEaseOfAccess()).Returns(true);
+
+			var result = sut.Perform();
+
+			sentinel.Verify(s => s.NeutralizeEaseOfAccess(), Times.Once);
+			sentinel.Verify(s => s.VerifyEaseOfAccess(), Times.Exactly(2));
+			logger.Verify(l => l.Error(It.IsAny<string>()), Times.Never);
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Perform_MustFailWhenCompromisedEaseOfAccessCannotBeNeutralized()
+		{
+			currentSettings.Service.IgnoreService = true;
+			nextSettings.Service.IgnoreService = true;
+			sentinel.Setup(s => s.VerifyEaseOfAccess()).Returns(false);
+			sentinel.Setup(s => s.NeutralizeEaseOfAccess()).Returns(false);
+
+			var result = sut.Perform();
+
+			sentinel.Verify(s => s.NeutralizeEaseOfAccess(), Times.Once);
+			logger.Verify(l => l.Error(It.IsAny<string>()), Times.Once);
+
+			Assert.AreEqual(OperationResult.Failed, result);
+		}
+
+		[TestMethod]
 		public void Revert_MustRevertStickyKeys()
 		{
 			var result = sut.Revert();
 
 			sentinel.Verify(s => s.RevertStickyKeys(), Times.Once);
+
+			Assert.AreEqual(OperationResult.Success, result);
+		}
+
+		[TestMethod]
+		public void Revert_MustRestoreEaseOfAccess()
+		{
+			var result = sut.Revert();
+
+			sentinel.Verify(s => s.RestoreEaseOfAccess(), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
 		}

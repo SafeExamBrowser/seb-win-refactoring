@@ -56,6 +56,7 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 
 		public override OperationResult Revert()
 		{
+			FinalizeEaseOfAccess();
 			FinalizeStickyKeys();
 
 			return OperationResult.Success;
@@ -64,6 +65,11 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 		private void FinalizeStickyKeys()
 		{
 			sentinel.RevertStickyKeys();
+		}
+
+		private void FinalizeEaseOfAccess()
+		{
+			sentinel.RestoreEaseOfAccess();
 		}
 
 		private bool InitializeStickyKeys()
@@ -122,6 +128,11 @@ namespace SafeExamBrowser.Runtime.Operations.Session
 				else if (!Context.Next.Settings.Service.IgnoreService)
 				{
 					Logger.Info($"Ease of access configuration is compromised but service will be active in the next session.");
+					success = true;
+				}
+				else if (sentinel.NeutralizeEaseOfAccess() && sentinel.VerifyEaseOfAccess())
+				{
+					Logger.Info("Ease of access configuration was neutralized for the current session.");
 					success = true;
 				}
 			}

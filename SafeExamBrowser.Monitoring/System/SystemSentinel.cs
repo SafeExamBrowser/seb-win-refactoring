@@ -91,5 +91,15 @@ namespace SafeExamBrowser.Monitoring.System
 		{
 			return easeOfAccess.Verify();
 		}
+
+		public bool NeutralizeEaseOfAccess()
+		{
+			return easeOfAccess.Neutralize();
+		}
+
+		public bool RestoreEaseOfAccess()
+		{
+			return easeOfAccess.Restore();
+		}
 	}
 }
