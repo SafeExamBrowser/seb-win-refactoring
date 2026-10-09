@@ -64,13 +64,13 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 		[TestMethod]
 		public void MustNotVerifyIntegrityBeforeIntervalElapsed()
 		{
-			var isValid = true;
+			var violations = default(RuntimeIntegrityViolation);
 
-			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out isValid)).Returns(true);
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out violations)).Returns(true);
 
 			sut.Assume(RuntimeTask.StartIntegrityMonitoring);
 
-			integrityModule.Verify(m => m.TryVerifyRuntimeIntegrity(out isValid), Times.Never);
+			integrityModule.Verify(m => m.TryVerifyRuntimeIntegrity(out violations), Times.Never);
 			logger.Verify(l => l.Info(It.IsAny<string>()), Times.Once);
 			logger.VerifyNoOtherCalls();
 		}
@@ -79,10 +79,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 		public void MustVerifyIntegrityPeriodicallyOnceStarted()
 		{
 			var count = 0;
-			var isValid = true;
 			var sync = new ManualResetEvent(false);
+			var violations = default(RuntimeIntegrityViolation);
 
-			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out isValid)).Returns(true).Callback(() =>
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out violations)).Returns(true).Callback(() =>
 			{
 				if (Interlocked.Increment(ref count) >= 3)
 				{
@@ -93,17 +93,17 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 			sut.Assume(RuntimeTask.StartIntegrityMonitoring);
 
 			Assert.IsTrue(sync.WaitOne(10 * INTERVAL_MS), "Runtime integrity was not verified repeatedly within the expected time.");
-			integrityModule.Verify(m => m.TryVerifyRuntimeIntegrity(out isValid), Times.AtLeast(3));
+			integrityModule.Verify(m => m.TryVerifyRuntimeIntegrity(out violations), Times.AtLeast(3));
 		}
 
 		[TestMethod]
 		public void MustContinueMonitoringWhenVerificationFails()
 		{
 			var count = 0;
-			var isValid = false;
 			var sync = new ManualResetEvent(false);
+			var violations = default(RuntimeIntegrityViolation);
 
-			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out isValid)).Returns(false).Callback(() =>
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out violations)).Returns(false).Callback(() =>
 			{
 				if (Interlocked.Increment(ref count) >= 3)
 				{
@@ -114,16 +114,16 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 			sut.Assume(RuntimeTask.StartIntegrityMonitoring);
 
 			Assert.IsTrue(sync.WaitOne(10 * INTERVAL_MS), "Monitoring did not continue after a failed verification attempt.");
-			integrityModule.Verify(m => m.TryVerifyRuntimeIntegrity(out isValid), Times.AtLeast(3));
+			integrityModule.Verify(m => m.TryVerifyRuntimeIntegrity(out violations), Times.AtLeast(3));
 		}
 
 		[TestMethod]
 		public void MustOnlyLogInformationWhenIntegrityIsValid()
 		{
-			var isValid = true;
 			var sync = new AutoResetEvent(false);
+			var violations = default(RuntimeIntegrityViolation);
 
-			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out isValid)).Returns(true).Callback(() => sync.Set());
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out violations)).Returns(true).Callback(() => sync.Set());
 
 			sut.Assume(RuntimeTask.StartIntegrityMonitoring);
 
@@ -139,10 +139,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 		[TestMethod]
 		public void MustLogWarningWhenIntegrityIsCompromised()
 		{
-			var isValid = false;
 			var sync = new AutoResetEvent(false);
+			var violations = RuntimeIntegrityViolation.Behavior;
 
-			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out isValid)).Returns(true).Callback(() => sync.Set());
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out violations)).Returns(true).Callback(() => sync.Set());
 
 			sut.Assume(RuntimeTask.StartIntegrityMonitoring);
 
@@ -158,10 +158,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 		[TestMethod]
 		public void MustLogWarningWhenVerificationFails()
 		{
-			var isValid = true;
 			var sync = new AutoResetEvent(false);
+			var violations = default(RuntimeIntegrityViolation);
 
-			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out isValid)).Returns(false).Callback(() => sync.Set());
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out violations)).Returns(false).Callback(() => sync.Set());
 
 			sut.Assume(RuntimeTask.StartIntegrityMonitoring);
 
@@ -179,10 +179,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 		public void MustStopVerifyingIntegrityWhenStopped()
 		{
 			var count = 0;
-			var isValid = true;
 			var sync = new AutoResetEvent(false);
+			var violations = default(RuntimeIntegrityViolation);
 
-			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out isValid)).Returns(true).Callback(() =>
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out violations)).Returns(true).Callback(() =>
 			{
 				Interlocked.Increment(ref count);
 				sync.Set();
@@ -203,10 +203,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 		[TestMethod]
 		public void MustAllowToRestartMonitoring()
 		{
-			var isValid = true;
 			var sync = new AutoResetEvent(false);
+			var violations = default(RuntimeIntegrityViolation);
 
-			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out isValid)).Returns(true).Callback(() => sync.Set());
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out violations)).Returns(true).Callback(() => sync.Set());
 
 			sut.Assume(RuntimeTask.StartIntegrityMonitoring);
 

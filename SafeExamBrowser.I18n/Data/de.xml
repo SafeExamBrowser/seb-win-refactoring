@@ -675,7 +675,7 @@
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Validiere Richtlinie für virtuelle Maschinen
     </Entry>
-    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+    <Entry key="OperationStatus_VerifyIntegrity">
         Überprüfe Integrität
     </Entry>
     <Entry key="OperationStatus_VerifySessionIntegrity">

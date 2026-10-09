@@ -646,7 +646,7 @@
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Проверка политики виртуальной машины
     </Entry>
-    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+    <Entry key="OperationStatus_VerifyIntegrity">
         Проверка целостности
     </Entry>
     <Entry key="OperationStatus_VerifySessionIntegrity">

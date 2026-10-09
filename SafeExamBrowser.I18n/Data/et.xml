@@ -645,7 +645,7 @@
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Virtuaalmasina poliitika kinnitamine
     </Entry>
-    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+    <Entry key="OperationStatus_VerifyIntegrity">
         Terviklikkuse kontrollimine
     </Entry>
     <Entry key="OperationStatus_VerifySessionIntegrity">

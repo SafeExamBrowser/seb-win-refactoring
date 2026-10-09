@@ -244,7 +244,7 @@ namespace SafeExamBrowser.I18n.Contracts
 		OperationStatus_ValidateRemoteSessionPolicy,
 		OperationStatus_ValidateVersionRestrictions,
 		OperationStatus_ValidateVirtualMachinePolicy,
-		OperationStatus_VerifyApplicationIntegrity,
+		OperationStatus_VerifyIntegrity,
 		OperationStatus_VerifySessionIntegrity,
 		OperationStatus_WaitDisclaimerConfirmation,
 		OperationStatus_WaitErrorConfirmation,

@@ -645,7 +645,7 @@
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Convalida dei criteri della macchina virtuale
     </Entry>
-    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+    <Entry key="OperationStatus_VerifyIntegrity">
         Verifica dell'integrità
     </Entry>
     <Entry key="OperationStatus_VerifySessionIntegrity">

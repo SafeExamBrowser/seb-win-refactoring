@@ -645,7 +645,7 @@
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Sanal makine politikası doğrulanıyor
     </Entry>
-    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+    <Entry key="OperationStatus_VerifyIntegrity">
         Bütünlük doğrulanıyor
     </Entry>
     <Entry key="OperationStatus_VerifySessionIntegrity">

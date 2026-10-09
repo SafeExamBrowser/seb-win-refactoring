@@ -57,6 +57,7 @@
     <Compile Include="IIntegrityModule.cs" />
     <Compile Include="IVerificator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuntimeIntegrityViolation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SafeExamBrowser.UserInterface.Contracts\SafeExamBrowser.UserInterface.Contracts.csproj">
