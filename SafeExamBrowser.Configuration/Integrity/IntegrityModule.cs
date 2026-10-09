@@ -197,8 +197,6 @@ namespace SafeExamBrowser.Configuration.Integrity
 				var behaviorValid = Native.VerifyRuntimeBehavior(out var details);
 				var componentsValid = Native.VerifyRuntimeComponents(out var data, out var count);
 
-				logger.Warn($"Behavior Valid: {behaviorValid}, Components Valid: {componentsValid}");
-
 				LogRuntimeBehaviorViolation(details);
 				LogRuntimeComponentsViolation(data, count);
 
