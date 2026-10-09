@@ -65,6 +65,8 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			settings.Proctoring.Enabled = true;
 			settings.Proctoring.ShowTaskbarNotification = true;
 
+			controller.Setup(c => c.Initialize(It.IsAny<ProctoringSettings>())).Returns(true);
+
 			Assert.AreEqual(OperationResult.Success, sut.Perform());
 
 			actionCenter.Verify(a => a.AddNotificationControl(It.IsAny<INotificationControl>()), Times.Exactly(2));

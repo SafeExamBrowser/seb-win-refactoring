@@ -52,7 +52,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 		public void Perform_MustLogCompromise()
 		{
 			var isValid = false;
-			var violations = RuntimeIntegrityViolation.None;
+			var violations = RuntimeIntegrityViolation.Behavior;
 
 			integrityModule.Setup(m => m.TryVerifyApplicationIntegrity(out isValid)).Returns(true);
 			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out violations)).Returns(true);
@@ -60,10 +60,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 			var result = sut.Perform();
 
 			integrityModule.Verify(m => m.TryVerifyApplicationIntegrity(out isValid), Times.Once);
-			logger.Verify(l => l.Error(It.IsAny<string>()), Times.Once);
-			logger.Verify(l => l.Warn(It.IsAny<string>()), Times.Once);
+			logger.Verify(l => l.Warn(It.IsAny<string>()), Times.Exactly(2));
 
-			Assert.AreEqual(OperationResult.Failed, result);
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]
@@ -101,10 +100,10 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 		}
 
 		[TestMethod]
-		public void Perform_MustTerminateOnRuntimeIntegrityCompromise()
+		public void Perform_MustNotTerminateOnRuntimeIntegrityCompromise()
 		{
 			var codeSignature = true;
-			var violations = RuntimeIntegrityViolation.None;
+			var violations = RuntimeIntegrityViolation.Components;
 
 			integrityModule.Setup(m => m.TryVerifyApplicationIntegrity(out codeSignature)).Returns(true);
 			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out violations)).Returns(true);
@@ -112,9 +111,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 			var result = sut.Perform();
 
 			integrityModule.Verify(m => m.TryVerifyApplicationIntegrity(out codeSignature), Times.Once);
-			logger.Verify(l => l.Error(It.IsAny<string>()), Times.Once);
+			logger.Verify(l => l.Warn(It.IsAny<string>()), Times.Once);
 
-			Assert.AreEqual(OperationResult.Failed, result);
+			Assert.AreEqual(OperationResult.Success, result);
 		}
 
 		[TestMethod]
