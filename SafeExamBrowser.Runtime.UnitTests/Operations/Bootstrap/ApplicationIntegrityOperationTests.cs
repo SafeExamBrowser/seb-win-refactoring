@@ -20,7 +20,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 	{
 		private Mock<IIntegrityModule> integrityModule;
 		private Mock<ILogger> logger;
-		private ApplicationIntegrityOperation sut;
+		private IntegrityOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
@@ -28,20 +28,21 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 			integrityModule = new Mock<IIntegrityModule>();
 			logger = new Mock<ILogger>();
 
-			sut = new ApplicationIntegrityOperation(integrityModule.Object, logger.Object);
+			sut = new IntegrityOperation(integrityModule.Object, logger.Object);
 		}
 
 		[TestMethod]
 		public void Perform_MustVerifyCodeSignature()
 		{
 			var isValid = true;
+			var violations = RuntimeIntegrityViolation.None;
 
-			integrityModule.Setup(m => m.TryVerifyCodeSignature(out isValid)).Returns(true);
-			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out isValid)).Returns(true);
+			integrityModule.Setup(m => m.TryVerifyApplicationIntegrity(out isValid)).Returns(true);
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out violations)).Returns(true);
 
 			var result = sut.Perform();
 
-			integrityModule.Verify(m => m.TryVerifyCodeSignature(out isValid), Times.Once);
+			integrityModule.Verify(m => m.TryVerifyApplicationIntegrity(out isValid), Times.Once);
 			logger.Verify(l => l.Info(It.IsAny<string>()), Times.AtLeastOnce);
 
 			Assert.AreEqual(OperationResult.Success, result);
@@ -51,13 +52,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 		public void Perform_MustLogCompromise()
 		{
 			var isValid = false;
+			var violations = RuntimeIntegrityViolation.None;
 
-			integrityModule.Setup(m => m.TryVerifyCodeSignature(out isValid)).Returns(true);
-			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out isValid)).Returns(true);
+			integrityModule.Setup(m => m.TryVerifyApplicationIntegrity(out isValid)).Returns(true);
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out violations)).Returns(true);
 
 			var result = sut.Perform();
 
-			integrityModule.Verify(m => m.TryVerifyCodeSignature(out isValid), Times.Once);
+			integrityModule.Verify(m => m.TryVerifyApplicationIntegrity(out isValid), Times.Once);
 			logger.Verify(l => l.Error(It.IsAny<string>()), Times.Once);
 			logger.Verify(l => l.Warn(It.IsAny<string>()), Times.Once);
 
@@ -68,13 +70,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 		public void Perform_MustLogFailure()
 		{
 			var isValid = true;
+			var violations = RuntimeIntegrityViolation.None;
 
-			integrityModule.Setup(m => m.TryVerifyCodeSignature(out isValid)).Returns(false);
-			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out isValid)).Returns(false);
+			integrityModule.Setup(m => m.TryVerifyApplicationIntegrity(out isValid)).Returns(false);
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out violations)).Returns(false);
 
 			var result = sut.Perform();
 
-			integrityModule.Verify(m => m.TryVerifyCodeSignature(out isValid), Times.Once);
+			integrityModule.Verify(m => m.TryVerifyApplicationIntegrity(out isValid), Times.Once);
 			logger.Verify(l => l.Warn(It.IsAny<string>()), Times.Exactly(2));
 
 			Assert.AreEqual(OperationResult.Success, result);
@@ -84,14 +87,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 		public void Perform_MustContinueOnCodeSignatureCompromise()
 		{
 			var codeSignature = false;
-			var runtimeIntegrity = true;
+			var violations = RuntimeIntegrityViolation.None;
 
-			integrityModule.Setup(m => m.TryVerifyCodeSignature(out codeSignature)).Returns(true);
-			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out runtimeIntegrity)).Returns(true);
+			integrityModule.Setup(m => m.TryVerifyApplicationIntegrity(out codeSignature)).Returns(true);
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out violations)).Returns(true);
 
 			var result = sut.Perform();
 
-			integrityModule.Verify(m => m.TryVerifyCodeSignature(out codeSignature), Times.Once);
+			integrityModule.Verify(m => m.TryVerifyApplicationIntegrity(out codeSignature), Times.Once);
 			logger.Verify(l => l.Warn(It.IsAny<string>()), Times.Once);
 
 			Assert.AreEqual(OperationResult.Success, result);
@@ -101,14 +104,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Operations.Bootstrap
 		public void Perform_MustTerminateOnRuntimeIntegrityCompromise()
 		{
 			var codeSignature = true;
-			var runtimeIntegrity = false;
+			var violations = RuntimeIntegrityViolation.None;
 
-			integrityModule.Setup(m => m.TryVerifyCodeSignature(out codeSignature)).Returns(true);
-			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out runtimeIntegrity)).Returns(true);
+			integrityModule.Setup(m => m.TryVerifyApplicationIntegrity(out codeSignature)).Returns(true);
+			integrityModule.Setup(m => m.TryVerifyRuntimeIntegrity(out violations)).Returns(true);
 
 			var result = sut.Perform();
 
-			integrityModule.Verify(m => m.TryVerifyCodeSignature(out codeSignature), Times.Once);
+			integrityModule.Verify(m => m.TryVerifyApplicationIntegrity(out codeSignature), Times.Once);
 			logger.Verify(l => l.Error(It.IsAny<string>()), Times.Once);
 
 			Assert.AreEqual(OperationResult.Failed, result);

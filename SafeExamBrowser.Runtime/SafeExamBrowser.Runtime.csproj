@@ -98,7 +98,7 @@
     <Compile Include="Operations\Session\ConfigurationOperation.cs" />
     <Compile Include="Operations\Session\DisclaimerOperation.cs" />
     <Compile Include="Operations\Session\DisplayMonitorOperation.cs" />
-    <Compile Include="Operations\Bootstrap\ApplicationIntegrityOperation.cs" />
+    <Compile Include="Operations\Bootstrap\IntegrityOperation.cs" />
     <Compile Include="Operations\Session\KioskModeOperation.cs" />
     <Compile Include="Operations\Session\RemoteSessionOperation.cs" />
     <Compile Include="Operations\Session\SessionOperationSequence.cs" />

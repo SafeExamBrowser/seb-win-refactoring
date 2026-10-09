@@ -645,7 +645,7 @@
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Validează politica pentru mașini virtuale
     </Entry>
-    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+    <Entry key="OperationStatus_VerifyIntegrity">
         Verifică integritatea aplicației
     </Entry>
     <Entry key="OperationStatus_VerifySessionIntegrity">

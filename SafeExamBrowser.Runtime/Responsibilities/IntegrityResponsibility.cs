@@ -52,7 +52,7 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 			timer.Elapsed += Timer_Elapsed;
 			timer.Start();
 
-			Logger.Info("Started monitoring runtime integrity.");
+			Logger.Info("Started monitoring integrity.");
 		}
 
 		private void StopIntegrityMonitoring()
@@ -60,34 +60,38 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 			timer.Stop();
 			timer.Elapsed -= Timer_Elapsed;
 
-			Logger.Info("Stopped monitoring runtime integrity.");
+			Logger.Info("Stopped monitoring integrity.");
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
 		{
+			VerifyRuntimeIntegrity();
+			timer.Start();
+		}
+
+		private void VerifyRuntimeIntegrity()
+		{
 			Logger.Info("Attempting to verify runtime integrity...");
 
-			if (integrityModule.TryVerifyRuntimeIntegrity(out var isValid))
+			if (integrityModule.TryVerifyRuntimeIntegrity(out var violations))
 			{
-				HandleRuntimeIntegrityStatus(isValid);
+				HandleRuntimeIntegrityStatus(violations);
 			}
 			else
 			{
 				Logger.Warn("Failed to verify runtime integrity!");
 			}
-
-			timer.Start();
 		}
 
-		private void HandleRuntimeIntegrityStatus(bool isValid)
+		private void HandleRuntimeIntegrityStatus(RuntimeIntegrityViolation violations)
 		{
-			if (isValid)
+			if (violations == RuntimeIntegrityViolation.None)
 			{
 				Logger.Info("Runtime integrity successfully verified.");
 			}
 			else
 			{
-				Logger.Warn("Runtime integrity is compromised!");
+				Logger.Warn($"Runtime integrity is compromised ({violations:G})!");
 			}
 		}
 	}

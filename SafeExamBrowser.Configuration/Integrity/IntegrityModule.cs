@@ -163,7 +163,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 			return browserExamKey != default;
 		}
 
-		public bool TryVerifyCodeSignature(out bool isValid)
+		public bool TryVerifyApplicationIntegrity(out bool isValid)
 		{
 			var success = false;
 
@@ -171,7 +171,7 @@ namespace SafeExamBrowser.Configuration.Integrity
 
 			try
 			{
-				isValid = Native.VerifyCodeSignature();
+				isValid = Native.VerifyApplicationIntegrity();
 				success = true;
 			}
 			catch (DllNotFoundException)
@@ -186,28 +186,25 @@ namespace SafeExamBrowser.Configuration.Integrity
 			return success;
 		}
 
-		public bool TryVerifyRuntimeIntegrity(out bool isValid)
+		public bool TryVerifyRuntimeIntegrity(out RuntimeIntegrityViolation violations)
 		{
 			var success = false;
 
-			isValid = default;
+			violations = default;
 
 			try
 			{
-				isValid = Native.VerifyRuntimeIntegrity(out var data, out var count);
+				var behaviorValid = Native.VerifyRuntimeBehavior(out var details);
+				var componentsValid = Native.VerifyRuntimeComponents(out var data, out var count);
 
-				for (var index = 0; index < count; index++)
-				{
-					var pointer = Marshal.ReadIntPtr(data, index * IntPtr.Size);
-					var raw = Marshal.PtrToStringBSTR(pointer);
-					var item = string.Join(" ", raw.ToCharArray().Select(c => Convert.ToInt32(c)));
+				logger.Warn($"Behavior Valid: {behaviorValid}, Components Valid: {componentsValid}");
 
-					logger.Warn($"Runtime Integrity Violation #{index}: {item}");
+				LogRuntimeBehaviorViolation(details);
+				LogRuntimeComponentsViolation(data, count);
 
-					Marshal.FreeBSTR(pointer);
-				}
+				violations |= !behaviorValid ? RuntimeIntegrityViolation.Behavior : violations;
+				violations |= !componentsValid ? RuntimeIntegrityViolation.Components : violations;
 
-				Marshal.FreeCoTaskMem(data);
 				success = true;
 			}
 			catch (DllNotFoundException)
@@ -240,6 +237,35 @@ namespace SafeExamBrowser.Configuration.Integrity
 			}
 
 			return success;
+		}
+
+		private void LogRuntimeBehaviorViolation(IntPtr details)
+		{
+			if (details != IntPtr.Zero)
+			{
+				var raw = Marshal.PtrToStringBSTR(details);
+				var item = string.Join(" ", raw.ToCharArray().Select(c => Convert.ToInt32(c)));
+
+				logger.Warn($"Runtime Behavior Violation: {item}");
+
+				Marshal.FreeBSTR(details);
+			}
+		}
+
+		private void LogRuntimeComponentsViolation(IntPtr data, int count)
+		{
+			for (var index = 0; index < count; index++)
+			{
+				var pointer = Marshal.ReadIntPtr(data, index * IntPtr.Size);
+				var raw = Marshal.PtrToStringBSTR(pointer);
+				var item = string.Join(" ", raw.ToCharArray().Select(c => Convert.ToInt32(c)));
+
+				logger.Warn($"Runtime Component Violation #{index}: {item}");
+
+				Marshal.FreeBSTR(pointer);
+			}
+
+			Marshal.FreeCoTaskMem(data);
 		}
 
 		private bool TryReadSessionCache(out IList<(string configurationKey, string startUrl)> sessions)
@@ -336,10 +362,13 @@ namespace SafeExamBrowser.Configuration.Integrity
 			internal static extern bool IsVirtualMachine(out IntPtr manufacturer, out int probability);
 
 			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-			internal static extern bool VerifyCodeSignature();
+			internal static extern bool VerifyApplicationIntegrity();
 
 			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-			internal static extern bool VerifyRuntimeIntegrity(out IntPtr data, out int count);
+			internal static extern bool VerifyRuntimeBehavior(out IntPtr details);
+
+			[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+			internal static extern bool VerifyRuntimeComponents(out IntPtr data, out int count);
 		}
 	}
 }

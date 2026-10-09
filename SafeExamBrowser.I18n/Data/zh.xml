@@ -645,7 +645,7 @@
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         验证虚拟机策略
     </Entry>
-    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+    <Entry key="OperationStatus_VerifyIntegrity">
         验证完整性
     </Entry>
     <Entry key="OperationStatus_VerifySessionIntegrity">

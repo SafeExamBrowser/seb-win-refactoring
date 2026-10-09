@@ -100,7 +100,7 @@ namespace SafeExamBrowser.Runtime
 
 			operations.Enqueue(new I18nOperation(logger, text));
 			operations.Enqueue(new CommunicationHostOperation(runtimeHost, logger));
-			operations.Enqueue(new ApplicationIntegrityOperation(integrityModule, logger));
+			operations.Enqueue(new IntegrityOperation(integrityModule, logger));
 
 			return new BootstrapOperationSequence(logger, operations, splashScreen);
 		}

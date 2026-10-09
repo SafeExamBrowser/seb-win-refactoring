@@ -645,7 +645,7 @@
     <Entry key="OperationStatus_ValidateVirtualMachinePolicy">
         Memvalidasi kebijakan mesin virtual
     </Entry>
-    <Entry key="OperationStatus_VerifyApplicationIntegrity">
+    <Entry key="OperationStatus_VerifyIntegrity">
         Memverifikasi integritas
     </Entry>
     <Entry key="OperationStatus_VerifySessionIntegrity">

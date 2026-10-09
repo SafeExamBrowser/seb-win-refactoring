@@ -75,6 +75,7 @@
     <Compile Include="DataResources\IResourceSaver.cs" />
     <Compile Include="IConfigurationRepository.cs" />
     <Compile Include="Integrity\IIntegrityModule.cs" />
+    <Compile Include="Integrity\RuntimeIntegrityViolation.cs" />
     <Compile Include="LoadStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaveStatus.cs" />
