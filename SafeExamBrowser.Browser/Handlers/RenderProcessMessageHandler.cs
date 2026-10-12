@@ -60,7 +60,10 @@ namespace SafeExamBrowser.Browser.Handlers
 
 				if (clipboard.Content != default)
 				{
-					frame.ExecuteJavaScriptAsync($"SafeExamBrowser.clipboard.update('', '{clipboard.Content}');");
+					// Security fix (CWE-79): Escape clipboard content before interpolating into
+					// JavaScript to prevent JS injection via single quotes in clipboard content.
+					var escaped = clipboard.Content.Replace("\\", "\\\\").Replace("'", "\\'");
+					frame.ExecuteJavaScriptAsync($"SafeExamBrowser.clipboard.update('', '{escaped}');");
 				}
 			}
 		}
