@@ -71,7 +71,7 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 
 		private void VerifyRuntimeIntegrity()
 		{
-			Logger.Info("Attempting to verify runtime integrity...");
+			Logger.Debug("Attempting to verify runtime integrity...");
 
 			if (integrityModule.TryVerifyRuntimeIntegrity(out var violations))
 			{
@@ -87,7 +87,7 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 		{
 			if (violations == RuntimeIntegrityViolation.None)
 			{
-				Logger.Info("Runtime integrity successfully verified.");
+				Logger.Debug("Runtime integrity successfully verified.");
 			}
 			else
 			{
