@@ -170,7 +170,7 @@ namespace SafeExamBrowser.Client.Responsibilities
 		{
 			if (violations == RuntimeIntegrityViolation.None)
 			{
-				Logger.Info("Runtime integrity successfully verified.");
+				Logger.Debug("Runtime integrity successfully verified.");
 			}
 			else if (coordinator.RequestSessionLock())
 			{
