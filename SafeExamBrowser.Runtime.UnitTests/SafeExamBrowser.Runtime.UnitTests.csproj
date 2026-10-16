@@ -264,6 +264,7 @@
     <Compile Include="Communication\ClientBridgeTests.cs" />
     <Compile Include="Operations\Bootstrap\ApplicationIntegrityOperationTests.cs" />
     <Compile Include="Operations\Bootstrap\BootstrapOperationSequenceTests.cs" />
+    <Compile Include="Operations\Bootstrap\CrashLogOperationTests.cs" />
     <Compile Include="Operations\Session\ClientTerminationOperationTests.cs" />
     <Compile Include="Operations\Session\ConfigurationOperationTests.cs" />
     <Compile Include="Operations\Session\DisclaimerOperationTests.cs" />
