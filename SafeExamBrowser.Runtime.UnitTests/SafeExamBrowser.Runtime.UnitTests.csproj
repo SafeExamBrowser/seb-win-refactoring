@@ -278,6 +278,7 @@
     <Compile Include="Operations\Session\SessionInitializationOperationTests.cs" />
     <Compile Include="Operations\Session\SessionIntegrityOperationTests.cs" />
     <Compile Include="Operations\Session\SessionOperationSequenceTests.cs" />
+    <Compile Include="Operations\Session\SessionOperationTests.cs" />
     <Compile Include="Operations\Session\VersionRestrictionOperationTests.cs" />
     <Compile Include="Operations\Session\VirtualMachineOperationTests.cs" />
     <Compile Include="Responsibilities\ClientResponsibilityTests.cs" />
