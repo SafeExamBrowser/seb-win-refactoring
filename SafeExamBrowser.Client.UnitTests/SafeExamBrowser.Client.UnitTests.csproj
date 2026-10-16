@@ -269,7 +269,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Operations\ApplicationOperationTests.cs" />
+    <Compile Include="Operations\ApplicationsOperationTests.cs" />
     <Compile Include="Operations\BrowserOperationTests.cs" />
     <Compile Include="Operations\ClientHostDisconnectionOperationTests.cs" />
     <Compile Include="Operations\ClipboardOperationTests.cs" />
@@ -287,7 +287,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ClientControllerTests.cs" />
     <Compile Include="CoordinatorTests.cs" />
-    <Compile Include="Responsibilities\ApplicationResponsibilityTests.cs" />
+    <Compile Include="Responsibilities\ApplicationsResponsibilityTests.cs" />
     <Compile Include="Responsibilities\BrowserResponsibilityTests.cs" />
     <Compile Include="Responsibilities\CommunicationResponsibilityTests.cs" />
     <Compile Include="Responsibilities\IntegrityResponsibilityTests.cs" />

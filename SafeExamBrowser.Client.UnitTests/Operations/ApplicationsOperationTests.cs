@@ -26,7 +26,7 @@ using IWindow = SafeExamBrowser.UserInterface.Contracts.Windows.IWindow;
 namespace SafeExamBrowser.Client.UnitTests.Operations
 {
 	[TestClass]
-	public class ApplicationOperationTests
+	public class ApplicationsOperationTests
 	{
 		private ClientContext context;
 		private Mock<IApplicationFactory> factory;
@@ -37,7 +37,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 		private Mock<ILogger> logger;
 		private Mock<IText> text;
 
-		private ApplicationOperation sut;
+		private ApplicationsOperation sut;
 
 		[TestInitialize]
 		public void Initialize()
@@ -54,7 +54,7 @@ namespace SafeExamBrowser.Client.UnitTests.Operations
 			context.Settings = new AppSettings();
 			text.Setup(t => t.Get(It.IsAny<TextKey>())).Returns(string.Empty);
 
-			sut = new ApplicationOperation(context, factory.Object, fileSystemDialog.Object, logger.Object, messageBox.Object, monitor.Object, splashScreen.Object, text.Object);
+			sut = new ApplicationsOperation(context, factory.Object, fileSystemDialog.Object, logger.Object, messageBox.Object, monitor.Object, splashScreen.Object, text.Object);
 		}
 
 		[TestMethod]
