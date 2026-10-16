@@ -21,13 +21,14 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 
 		public IntegrityResponsibility(
 			IIntegrityModule integrityModule,
+			int interval_ms,
 			ILogger logger,
 			RuntimeContext runtimeContext,
 			Action shutdown) : base(logger, runtimeContext)
 		{
 			this.integrityModule = integrityModule;
 			this.shutdown = shutdown;
-			this.timer = new Timer();
+			this.timer = new Timer(interval_ms);
 		}
 
 		public override void Assume(RuntimeTask task)
@@ -45,10 +46,7 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 
 		private void StartIntegrityMonitoring()
 		{
-			const int FIVE_SECONDS = 5000;
-
 			timer.AutoReset = false;
-			timer.Interval = FIVE_SECONDS;
 			timer.Elapsed += Timer_Elapsed;
 			timer.Start();
 

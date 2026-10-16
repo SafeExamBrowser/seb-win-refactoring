@@ -11,6 +11,8 @@ using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Communication.Contracts.Proxies;
+using SafeExamBrowser.Configuration.Contracts;
+using SafeExamBrowser.Core.Contracts.ResponsibilityModel;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Runtime.Responsibilities;
@@ -26,6 +28,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 		private Mock<IRuntimeWindow> runtimeWindow;
 		private Mock<ILogger> logger;
 		private Mock<IMessageBox> messageBox;
+		private Mock<IResponsibilityCollection<RuntimeTask>> responsibilities;
 		private RuntimeContext context;
 		private Mock<Action> shutdown;
 		private Mock<IProcess> clientProcess;
@@ -41,11 +44,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 			context = new RuntimeContext();
 			logger = new Mock<ILogger>();
 			messageBox = new Mock<IMessageBox>();
+			responsibilities = new Mock<IResponsibilityCollection<RuntimeTask>>();
 			runtimeWindow = new Mock<IRuntimeWindow>();
 			shutdown = new Mock<Action>();
 
 			context.ClientProcess = clientProcess.Object;
 			context.ClientProxy = clientProxy.Object;
+			context.Current = new SessionConfiguration();
+			context.Responsibilities = responsibilities.Object;
 
 			sut = new ClientResponsibility(logger.Object, messageBox.Object, context, runtimeWindow.Object, shutdown.Object);
 		}
@@ -62,6 +68,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 				It.IsAny<MessageBoxAction>(),
 				It.Is<MessageBoxIcon>(i => i == MessageBoxIcon.Error),
 				It.IsAny<IWindow>()), Times.Once);
+			responsibilities.Verify(r => r.Delegate(RuntimeTask.StopSession), Times.Once);
 			shutdown.Verify(s => s(), Times.Once);
 		}
 
@@ -77,7 +84,30 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 				It.IsAny<MessageBoxAction>(),
 				It.Is<MessageBoxIcon>(i => i == MessageBoxIcon.Error),
 				It.IsAny<IWindow>()), Times.Once);
+			responsibilities.Verify(r => r.Delegate(RuntimeTask.StopSession), Times.Once);
 			shutdown.Verify(s => s(), Times.Once);
+		}
+
+		[TestMethod]
+		public void MustCorrectlyDeregisterEvents()
+		{
+			sut.Assume(RuntimeTask.DeregisterSessionEvents);
+
+			clientProcess.Raise(c => c.Terminated += null);
+			clientProxy.Raise(c => c.ConnectionLost += null);
+
+			messageBox.VerifyNoOtherCalls();
+			responsibilities.VerifyNoOtherCalls();
+			shutdown.VerifyNoOtherCalls();
+		}
+
+		[TestMethod]
+		public void MustNotFailToDeregisterEventsIfDependenciesNull()
+		{
+			context.ClientProcess = null;
+			context.ClientProxy = null;
+
+			sut.Assume(RuntimeTask.DeregisterSessionEvents);
 		}
 	}
 }

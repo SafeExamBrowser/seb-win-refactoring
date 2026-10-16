@@ -130,7 +130,7 @@ namespace SafeExamBrowser.Runtime
 			responsibilities.Enqueue(new ClientResponsibility(ModuleLogger(nameof(ClientResponsibility)), messageBox, runtimeContext, runtimeWindow, shutdown));
 			responsibilities.Enqueue(new CommunicationResponsibility(ModuleLogger(nameof(CommunicationResponsibility)), runtimeContext, runtimeHost, shutdown));
 			responsibilities.Enqueue(new ErrorMessageResponsibility(appConfig, ModuleLogger(nameof(ErrorMessageResponsibility)), mailClient, runtimeContext, runtimeWindow, splashScreen, text, factory));
-			responsibilities.Enqueue(new IntegrityResponsibility(integrityModule, ModuleLogger(nameof(IntegrityResponsibility)), runtimeContext, shutdown));
+			responsibilities.Enqueue(new IntegrityResponsibility(integrityModule, FIVE_SECONDS, ModuleLogger(nameof(IntegrityResponsibility)), runtimeContext, shutdown));
 			responsibilities.Enqueue(new ServiceResponsibility(ModuleLogger(nameof(ServiceResponsibility)), messageBox, runtimeContext, runtimeWindow, serviceProxy, shutdown));
 			responsibilities.Enqueue(new SessionResponsibility(appConfig, ModuleLogger(nameof(SessionResponsibility)), messageBox, runtimeContext, runtimeWindow, sessionSequence, shutdown, text));
 

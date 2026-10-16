@@ -284,6 +284,7 @@
     <Compile Include="Responsibilities\ClientResponsibilityTests.cs" />
     <Compile Include="Responsibilities\CommunicationResponsibilityTests.cs" />
     <Compile Include="Responsibilities\ErrorMessageResponsibilityTests.cs" />
+    <Compile Include="Responsibilities\IntegrityResponsibilityTests.cs" />
     <Compile Include="Responsibilities\ServiceResponsibilityTests.cs" />
     <Compile Include="Responsibilities\SessionResponsibilityTests.cs" />
     <Compile Include="RuntimeControllerTests.cs" />

@@ -88,13 +88,14 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 		public void MustShowMessageBoxOnFailure()
 		{
 			context.Current = default;
-			sessionSequence.Setup(b => b.TryPerform()).Callback(() => context.Current = currentSession).Returns(OperationResult.Failed);
+			sessionSequence.Setup(b => b.TryPerform()).Returns(OperationResult.Failed);
 
 			sut.Assume(RuntimeTask.StartSession);
 
 			responsibilities.Verify(r => r.Delegate(It.Is<RuntimeTask>(t => t == RuntimeTask.ShowSessionStartError)), Times.Once);
 			responsibilities.Reset();
 			sessionSequence.Reset();
+			context.Current = currentSession;
 			sessionSequence.Setup(b => b.TryRepeat()).Returns(OperationResult.Failed);
 
 			sut.Assume(RuntimeTask.StartSession);
@@ -107,6 +108,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 		{
 			context.Current = default;
 			sessionSequence.Setup(b => b.TryPerform()).Callback(() => context.Current = currentSession).Returns(OperationResult.Failed);
+			sessionSequence.Setup(b => b.TryRevert()).Returns(OperationResult.Success);
 
 			sut.Assume(RuntimeTask.StartSession);
 
