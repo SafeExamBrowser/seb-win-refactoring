@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2026 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -24,6 +24,7 @@ namespace SafeExamBrowser.Browser.Responsibilities.Browser
 {
 	internal class WindowHandlingResponsibility : BrowserResponsibility
 	{
+		private readonly Clipboard clipboard;
 		private readonly IFileSystemDialog fileSystemDialog;
 		private readonly IHashAlgorithm hashAlgorithm;
 		private readonly IKeyGenerator keyGenerator;
@@ -54,6 +55,7 @@ namespace SafeExamBrowser.Browser.Responsibilities.Browser
 			IText text,
 			IUserInterfaceFactory uiFactory) : base(context)
 		{
+			this.clipboard = new Clipboard(Logger.CloneFor(nameof(Clipboard)), context.Settings);
 			this.fileSystemDialog = fileSystemDialog;
 			this.hashAlgorithm = hashAlgorithm;
 			this.keyGenerator = keyGenerator;
@@ -94,6 +96,7 @@ namespace SafeExamBrowser.Browser.Responsibilities.Browser
 			var startUrl = GenerateStartUrl();
 			var windowContext = new BrowserWindowContext
 			{
+				Clipboard = clipboard,
 				Logger = Logger.CloneFor($"Browser Window #{id}"),
 				HashAlgorithm = hashAlgorithm,
 				Icon = new BrowserIconResource(),
@@ -185,6 +188,7 @@ namespace SafeExamBrowser.Browser.Responsibilities.Browser
 			}
 
 			nativeMethods.EmptyClipboard();
+			clipboard.Clear();
 			CreateNewWindow();
 
 			Logger.Info("Successfully reset browser.");
