@@ -131,6 +131,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 
 			sut.Assume(RuntimeTask.StopIntegrityMonitoring);
 
+			logger.Verify(l => l.Debug(It.IsAny<string>()), Times.AtLeastOnce);
 			logger.Verify(l => l.Info(It.IsAny<string>()), Times.AtLeastOnce);
 			logger.VerifyNoOtherCalls();
 			shutdown.Verify(s => s(), Times.Never);

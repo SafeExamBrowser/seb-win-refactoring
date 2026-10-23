@@ -74,7 +74,7 @@ namespace SafeExamBrowser.Runtime
 
 			var context = new RuntimeContext();
 			var crashLog = new CrashLog(appConfig, new FileSystem(), ModuleLogger(nameof(CrashLog)));
-			var factory = new UserInterfaceFactory(text);
+			var factory = CreateUserInterfaceFactory();
 			var integrityModule = new IntegrityModule(appConfig, ModuleLogger(nameof(IntegrityModule)));
 			var mailClient = new MailClient(appConfig, ModuleLogger(nameof(MailClient)));
 			var messageBox = new MessageBoxFactory(text);
@@ -84,7 +84,7 @@ namespace SafeExamBrowser.Runtime
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)), Interlocutor.Runtime);
 			var splashScreen = factory.CreateSplashScreen(appConfig);
 
-			systemInfo = new SystemInfo(registry);
+			systemInfo = CreateSystemInfo(registry);
 
 			var bootstrapSequence = BuildBootstrapOperations(crashLog, integrityModule, context, runtimeHost, splashScreen);
 			var sessionSequence = BuildSessionOperations(integrityModule, messageBox, registry, runtimeHost, runtimeWindow, serviceProxy, context, factory);
@@ -204,6 +204,42 @@ namespace SafeExamBrowser.Runtime
 			logger?.Log($"# Application terminated at {DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}");
 		}
 
+		/// <summary>
+		/// Virtual to allow bypassing the WMI queries of the system information in unit tests.
+		/// </summary>
+		protected virtual ISystemInfo CreateSystemInfo(IRegistry registry)
+		{
+			return new SystemInfo(registry);
+		}
+
+		/// <summary>
+		/// Virtual to allow bypassing the instantiation of the WPF user interface in unit tests.
+		/// </summary>
+		protected virtual IUserInterfaceFactory CreateUserInterfaceFactory()
+		{
+			return new UserInterfaceFactory(text);
+		}
+
+		/// <summary>
+		/// Virtual to allow bypassing the dependency on the entry assembly and the environment in unit tests.
+		/// </summary>
+		protected virtual AppConfig InitializeAppConfig()
+		{
+			return repository.InitializeAppConfig();
+		}
+
+		/// <summary>
+		/// Virtual to allow bypassing the file system access in unit tests.
+		/// </summary>
+		protected virtual void InitializeLogging()
+		{
+			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), appConfig.RuntimeLogFilePath);
+
+			logFileWriter.Initialize();
+			logger.LogLevel = LogLevel.Debug;
+			logger.Subscribe(logFileWriter);
+		}
+
 		private void InitializeConfiguration()
 		{
 			var certificateStore = new CertificateStore(ModuleLogger(nameof(CertificateStore)));
@@ -216,7 +252,7 @@ namespace SafeExamBrowser.Runtime
 			var xmlSerializer = new XmlSerializer(ModuleLogger(nameof(XmlSerializer)));
 
 			repository = new ConfigurationRepository(certificateStore, repositoryLogger);
-			appConfig = repository.InitializeAppConfig();
+			appConfig = InitializeAppConfig();
 
 			repository.Register(new BinaryParser(
 				compressor,
@@ -237,15 +273,6 @@ namespace SafeExamBrowser.Runtime
 			repository.Register(new FileResourceLoader(ModuleLogger(nameof(FileResourceLoader))));
 			repository.Register(new FileResourceSaver(ModuleLogger(nameof(FileResourceSaver))));
 			repository.Register(new NetworkResourceLoader(appConfig, new ModuleLogger(logger, nameof(NetworkResourceLoader))));
-		}
-
-		private void InitializeLogging()
-		{
-			var logFileWriter = new LogFileWriter(new DefaultLogFormatter(), appConfig.RuntimeLogFilePath);
-
-			logFileWriter.Initialize();
-			logger.LogLevel = LogLevel.Debug;
-			logger.Subscribe(logFileWriter);
 		}
 
 		private void InitializeText()
