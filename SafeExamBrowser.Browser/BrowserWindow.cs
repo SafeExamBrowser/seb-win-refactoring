@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2026 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -119,7 +119,7 @@ namespace SafeExamBrowser.Browser
 			};
 
 			var cefSharpControl = default(ICefSharpControl);
-			var clipboard = new Clipboard(logger.CloneFor(nameof(Clipboard)), Settings);
+			var clipboard = context.Clipboard ?? new Clipboard(logger.CloneFor(nameof(Clipboard)), Settings);
 			var controlLogger = logger.CloneFor($"{nameof(BrowserControl)} #{Id}");
 			var contextMenuHandler = new ContextMenuHandler();
 			var dialogHandler = new DialogHandler();
