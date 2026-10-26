@@ -172,26 +172,25 @@ namespace SafeExamBrowser.Client.Responsibilities
 			{
 				Logger.Debug("Runtime integrity successfully verified.");
 			}
-			else if (coordinator.RequestSessionLock())
+			else if (violations.HasFlag(RuntimeIntegrityViolation.Behavior) && coordinator.RequestSessionLock())
 			{
-				Logger.Warn($"Runtime integrity is compromised ({violations:G})!");
-
 				Task.Run(() =>
 				{
 					ShowLockScreen(text.Get(TextKey.LockScreen_RuntimeIntegrityMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
 
-					if (violations.HasFlag(RuntimeIntegrityViolation.Behavior))
-					{
-						Logger.Info("Attempting to shutdown due to runtime integrity violation...");
-						TryRequestShutdown();
-					}
+					Logger.Info("Attempting to shutdown due to runtime integrity violation...");
+					TryRequestShutdown();
 
 					coordinator.ReleaseSessionLock();
 				});
 			}
-			else
+			else if (coordinator.IsSessionLocked())
 			{
 				Logger.Warn($"Runtime integrity is compromised ({violations:G}) but lock screen is already active!");
+			}
+			else
+			{
+				Logger.Warn($"Runtime integrity is compromised ({violations:G})!");
 			}
 		}
 
