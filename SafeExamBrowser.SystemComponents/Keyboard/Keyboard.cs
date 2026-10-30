@@ -8,29 +8,32 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Windows.Forms;
-using System.Windows.Input;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard.Events;
+using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.SystemComponents.Keyboard
 {
+	/// <summary>
+	/// IMPORTANT: All members must be used on the same (STA) thread which performed the instantiation and initialization, see <see cref="ITextService"/>.
+	/// </summary>
 	public class Keyboard : IKeyboard
 	{
 		private readonly IList<KeyboardLayout> layouts;
 		private readonly ILogger logger;
 
-		private InputLanguage originalLanguage;
+		private KeyboardLayout original;
+		private readonly ITextService textService;
 
 		public event LayoutChangedEventHandler LayoutChanged;
 
-		public Keyboard(ILogger logger)
+		public Keyboard(ILogger logger, ITextService textService)
 		{
 			this.layouts = new List<KeyboardLayout>();
 			this.logger = logger;
+			this.textService = textService;
 		}
 
 		public void ActivateLayout(Guid layoutId)
@@ -38,33 +41,25 @@ namespace SafeExamBrowser.SystemComponents.Keyboard
 			var layout = layouts.First(l => l.Id == layoutId);
 
 			logger.Info($"Changing keyboard layout to {layout}...");
-			InputLanguage.CurrentInputLanguage = layout.InputLanguage;
 
-			layout.IsCurrent = true;
-			LayoutChanged?.Invoke(layout);
+			try
+			{
+				textService.ActivateProfile(layout.Profile);
+				SetCurrent(layout);
+			}
+			catch (Exception e)
+			{
+				logger.Error($"Failed to change keyboard layout to {layout}!", e);
+			}
 		}
 
 		public void Initialize()
 		{
-			originalLanguage = InputLanguage.CurrentInputLanguage;
-			logger.Info($"Saved current keyboard layout {ToString(originalLanguage)}.");
+			InitializeLayouts();
+			InitializeOriginal();
 
-			foreach (InputLanguage language in InputLanguage.InstalledInputLanguages)
-			{
-				var layout = new KeyboardLayout
-				{
-					CultureCode = language.Culture.ThreeLetterISOLanguageName.ToUpper(),
-					CultureName = language.Culture.NativeName,
-					InputLanguage = language,
-					IsCurrent = originalLanguage.Equals(language),
-					LayoutName = language.LayoutName
-				};
-
-				layouts.Add(layout);
-				logger.Info($"Detected keyboard layout {layout}.");
-			}
-
-			InputLanguageManager.Current.InputLanguageChanged += InputLanguageManager_InputLanguageChanged;
+			textService.ProfileActivated += TextService_ProfileActivated;
+			textService.StartMonitoring();
 		}
 
 		public IEnumerable<IKeyboardLayout> GetLayouts()
@@ -74,32 +69,125 @@ namespace SafeExamBrowser.SystemComponents.Keyboard
 
 		public void Terminate()
 		{
-			InputLanguageManager.Current.InputLanguageChanged -= InputLanguageManager_InputLanguageChanged;
+			textService.ProfileActivated -= TextService_ProfileActivated;
+			textService.StopMonitoring();
 
-			if (originalLanguage != null)
+			if (original != null)
 			{
-				InputLanguage.CurrentInputLanguage = originalLanguage;
-				logger.Info($"Restored original keyboard layout {ToString(originalLanguage)}.");
+				try
+				{
+					textService.ActivateProfile(original.Profile);
+					logger.Info($"Restored original keyboard layout {original}.");
+				}
+				catch (Exception e)
+				{
+					logger.Error($"Failed to restore original keyboard layout {original}!", e);
+				}
+			}
+
+			textService.Dispose();
+		}
+
+		private void InitializeLayouts()
+		{
+			foreach (var profile in textService.GetProfiles())
+			{
+				if (profile.IsEnabled && profile.IsKeyboard && !profile.IsSubstituted)
+				{
+					var layout = CreateLayout(profile);
+
+					layouts.Add(layout);
+					logger.Info($"Detected keyboard layout {layout}.");
+				}
+				else
+				{
+					logger.Debug($"Ignoring input profile '{profile}' (enabled: {profile.IsEnabled}, keyboard: {profile.IsKeyboard}, substituted: {profile.IsSubstituted}).");
+				}
 			}
 		}
 
-		private void InputLanguageManager_InputLanguageChanged(object sender, InputLanguageEventArgs e)
+		private void InitializeOriginal()
 		{
-			var layout = layouts.First(l => l.InputLanguage.Culture.Equals(e.NewLanguage));
+			if (textService.TryGetActiveProfile(out var active))
+			{
+				original = layouts.FirstOrDefault(l => l.Profile.Equals(active));
+			}
 
-			logger.Info($"Detected keyboard layout change from {ToString(e.PreviousLanguage)} to {ToString(e.NewLanguage)}.");
-			layout.IsCurrent = true;
+			if (original == default(KeyboardLayout))
+			{
+				original = layouts.FirstOrDefault(l => l.Profile.IsActive);
+			}
+
+			if (original != default(KeyboardLayout))
+			{
+				original.IsCurrent = true;
+				logger.Info($"Saved current keyboard layout {original}.");
+			}
+			else
+			{
+				logger.Warn("Failed to determine the current keyboard layout!");
+			}
+		}
+
+		private KeyboardLayout CreateLayout(IInputProfile profile)
+		{
+			var layout = new KeyboardLayout { Profile = profile };
+
+			if (textService.TryGetCulture(profile.LanguageId, out var culture))
+			{
+				layout.CultureCode = culture.ThreeLetterISOLanguageName.ToUpper();
+				layout.CultureName = culture.NativeName;
+			}
+			else
+			{
+				layout.CultureCode = $"{profile.LanguageId:X4}";
+				layout.CultureName = $"0x{profile.LanguageId:X4}";
+				logger.Warn($"Failed to determine culture of input profile '{profile}'!");
+			}
+
+			if (profile.IsTextService)
+			{
+				try
+				{
+					layout.LayoutName = textService.GetDescription(profile);
+				}
+				catch (Exception e)
+				{
+					layout.LayoutName = "-";
+					logger.Error($"Failed to retrieve description of input profile '{profile}'!", e);
+				}
+			}
+			else
+			{
+				layout.LayoutName = textService.GetKeyboardLayoutName(profile.Hkl);
+			}
+
+			return layout;
+		}
+
+		private void SetCurrent(KeyboardLayout layout)
+		{
+			foreach (var l in layouts)
+			{
+				l.IsCurrent = l == layout;
+			}
+
 			LayoutChanged?.Invoke(layout);
 		}
 
-		private string ToString(InputLanguage language)
+		private void TextService_ProfileActivated(IInputProfile profile)
 		{
-			return $"'{language.Culture.NativeName}' [{language.Culture.ThreeLetterISOLanguageName.ToUpper()}, {language.LayoutName}]";
-		}
+			var layout = layouts.FirstOrDefault(l => l.Profile.Equals(profile));
 
-		private string ToString(CultureInfo culture)
-		{
-			return $"'{culture.NativeName}' [{culture.ThreeLetterISOLanguageName.ToUpper()}]";
+			if (layout != default(KeyboardLayout))
+			{
+				logger.Info($"Detected keyboard layout change to {layout}.");
+				SetCurrent(layout);
+			}
+			else
+			{
+				logger.Warn($"Detected activation of unknown input profile '{profile}'!");
+			}
 		}
 	}
 }

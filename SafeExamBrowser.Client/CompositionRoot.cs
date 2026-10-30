@@ -63,6 +63,7 @@ using SafeExamBrowser.UserInterface.Shared.Activators;
 using SafeExamBrowser.WindowsApi;
 using SafeExamBrowser.WindowsApi.Contracts;
 using SafeExamBrowser.WindowsApi.Processes;
+using SafeExamBrowser.WindowsApi.TextServices;
 using Desktop = SafeExamBrowser.UserInterface.Desktop;
 using Mobile = SafeExamBrowser.UserInterface.Mobile;
 
@@ -352,7 +353,7 @@ namespace SafeExamBrowser.Client
 		{
 			var aboutNotification = new AboutNotification(context.AppConfig, text, uiFactory);
 			var audio = new Audio(context.Settings.Audio, ModuleLogger(nameof(Audio)));
-			var keyboard = new Keyboard(ModuleLogger(nameof(Keyboard)));
+			var keyboard = new Keyboard(ModuleLogger(nameof(Keyboard)), new TextService());
 			var logNotification = new LogNotification(logger, text, uiFactory);
 			var verificator = new Verificator(context.AppConfig, context.IntegrityModule, ModuleLogger(nameof(Verificator)), messageBox, systemInfo, text, uiFactory);
 			var verificatorNotification = new VerificatorNotification(text, verificator);

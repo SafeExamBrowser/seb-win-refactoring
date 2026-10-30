@@ -74,9 +74,15 @@
     <Compile Include="ExplorerShell.cs" />
     <Compile Include="Hooks\MouseHook.cs" />
     <Compile Include="Hooks\SystemHook.cs" />
+    <Compile Include="Msctf.cs" />
     <Compile Include="Processes\Process.cs" />
     <Compile Include="Processes\ProcessFactory.cs" />
     <Compile Include="Constants\AccessMask.cs" />
+    <Compile Include="Shlwapi.cs" />
+    <Compile Include="TextServices\ActivationSink.cs" />
+    <Compile Include="TextServices\InputProfile.cs" />
+    <Compile Include="TextServices\TextService.cs" />
+    <Compile Include="Constants\TextServicesFramework.cs" />
     <Compile Include="Types\Bounds.cs" />
     <Compile Include="Types\EXECUTION_STATE.cs" />
     <Compile Include="Types\KBDLLHOOKSTRUCT.cs" />
@@ -112,5 +118,6 @@
       <Name>SafeExamBrowser.WindowsApi.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

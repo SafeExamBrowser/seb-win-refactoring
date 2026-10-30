@@ -7,14 +7,14 @@
  */
 
 using System;
-using System.Windows.Forms;
 using SafeExamBrowser.SystemComponents.Contracts.Keyboard;
+using SafeExamBrowser.WindowsApi.Contracts;
 
 namespace SafeExamBrowser.SystemComponents.Keyboard
 {
 	internal class KeyboardLayout : IKeyboardLayout
 	{
-		internal InputLanguage InputLanguage { get; set; }
+		internal IInputProfile Profile { get; set; }
 
 		public string CultureCode { get; set; }
 		public string CultureName { get; set; }
@@ -29,7 +29,7 @@ namespace SafeExamBrowser.SystemComponents.Keyboard
 
 		public override string ToString()
 		{
-			return $"'{CultureName}' [{CultureCode}, {LayoutName}]";
+			return $"'{CultureName}' ({CultureCode}, {LayoutName}, Profile: {Profile})";
 		}
 	}
 }
