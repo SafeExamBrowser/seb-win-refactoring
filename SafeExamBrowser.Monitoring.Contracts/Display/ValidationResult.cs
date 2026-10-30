@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2026 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -22,6 +22,11 @@ namespace SafeExamBrowser.Monitoring.Contracts.Display
 		/// Specifies the count of internal displays detected.
 		/// </summary>
 		public int InternalDisplays { get; set; }
+
+		/// <summary>
+		/// Indicates whether a virtual display (e.g. MiraCast, IndirectWired) is detected.
+		/// </summary>
+		public bool HasVirtualDisplay { get; set; }
 
 		/// <summary>
 		/// Indicates whether the active display configuration is allowed.
