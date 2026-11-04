@@ -174,6 +174,8 @@ namespace SafeExamBrowser.Client.Responsibilities
 			}
 			else if (violations.HasFlag(RuntimeIntegrityViolation.Behavior) && coordinator.RequestSessionLock())
 			{
+				Logger.Warn($"Runtime integrity is compromised ({violations:G})!");
+
 				Task.Run(() =>
 				{
 					ShowLockScreen(text.Get(TextKey.LockScreen_RuntimeIntegrityMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
