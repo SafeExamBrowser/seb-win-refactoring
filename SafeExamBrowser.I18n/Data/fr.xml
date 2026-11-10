@@ -186,6 +186,9 @@
     <Entry key="LockScreen_ApplicationIntegrityMessage">
         Vous utilisez une version non officielle de SEB! Assurez-vous d'utiliser un Safe Exam Browser officiel. Afin de déverrouiller SEB, veuillez entrer le mot de passe de déverrouillage correct.
     </Entry>
+    <Entry key="LockScreen_ApplicationSuspensionMessage">
+        Safe Exam Browser a été suspendu! Afin de déverrouiller SEB, veuillez entrer le mot de passe de déverrouillage correct.
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Autoriser temporairement les applications figurant sur la liste noire. Cela ne s'applique qu'aux instances et à la session en cours!
     </Entry>

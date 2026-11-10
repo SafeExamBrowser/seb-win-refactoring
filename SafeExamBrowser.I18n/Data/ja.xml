@@ -186,6 +186,9 @@
     <Entry key="LockScreen_ApplicationIntegrityMessage">
         非公式なバージョンのSEBを使用しています！公式のSafe Exam Browserを使用してください。SEBのロックを解除するには、正しいロック解除パスワードを入力してください。
     </Entry>
+    <Entry key="LockScreen_ApplicationSuspensionMessage">
+        Safe Exam Browserが一時停止されました！SEBのロックを解除するには、正しいロック解除パスワードを入力してください。
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         ブラックリストに登録されたアプリケーションを一時的に許可します。これは現在実行中のインスタンスとセッションにのみ適用されます！
     </Entry>

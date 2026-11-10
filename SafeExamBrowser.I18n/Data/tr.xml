@@ -186,6 +186,9 @@
     <Entry key="LockScreen_ApplicationIntegrityMessage">
         Resmi olmayan bir SEB sürümü kullanıyorsunuz! Lütfen resmi Safe Exam Browser kullanmaya dikkat edin. SEB'nin kilidini açmak için doğru kilit açma şifresini girin.
     </Entry>
+    <Entry key="LockScreen_ApplicationSuspensionMessage">
+        Safe Exam Browser askıya alındı! SEB'nin kilidini açmak için lütfen doğru kilit açma şifresini girin.
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Kara listedeki uygulamalara geçici olarak izin ver. Bu yalnızca mevcut çalışan örnekler ve oturum için geçerlidir!
     </Entry>

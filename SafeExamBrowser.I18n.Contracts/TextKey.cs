@@ -82,6 +82,7 @@ namespace SafeExamBrowser.I18n.Contracts
 		FileSystemDialog_Title,
 		FolderDialog_ApplicationLocation,
 		LockScreen_ApplicationIntegrityMessage,
+		LockScreen_ApplicationSuspensionMessage,
 		LockScreen_ApplicationsAllowOption,
 		LockScreen_ApplicationsMessage,
 		LockScreen_ApplicationsTerminateOption,

@@ -186,6 +186,9 @@
     <Entry key="LockScreen_ApplicationIntegrityMessage">
         Utilizați o versiune neoficială a SEB! Asigurați-vă că utilizați o versiune oficială a Safe Exam Browser. Pentru a debloca SEB, introduceți parola corectă.
     </Entry>
+    <Entry key="LockScreen_ApplicationSuspensionMessage">
+        Safe Exam Browser a fost suspendat! Pentru a debloca SEB, introduceți parola corectă.
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Permite temporar aplicațiile aflate pe lista neagră. Aceasta se aplică doar instanțelor și sesiunii curente!
     </Entry>

@@ -186,6 +186,9 @@
     <Entry key="LockScreen_ApplicationIntegrityMessage">
         U gebruikt een onofficiële SEB versie! Zorg ervoor dat u een officiële Safe Exam Browser gebruikt. Om SEB te ontgrendelen, moet u het juiste ontgrendelwachtwoord invoeren.
     </Entry>
+    <Entry key="LockScreen_ApplicationSuspensionMessage">
+        Safe Exam Browser is onderbroken! Om SEB te ontgrendelen, moet u het juiste ontgrendelwachtwoord invoeren.
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Sta tijdelijk de applicaties toe die op de zwarte lijst staan. Dit geldt alleen voor de huidige instanties en sessie!
     </Entry>

@@ -186,6 +186,9 @@
     <Entry key="LockScreen_ApplicationIntegrityMessage">
         您使用的是非官方 SEB 版本！ 请确保使用官方的安全考试浏览器。 要解锁 SEB，请输入正确的解锁密码。
     </Entry>
+    <Entry key="LockScreen_ApplicationSuspensionMessage">
+        Safe Exam Browser 已被暂停！要解锁 SEB，请输入正确的解锁密码。
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         暂时允许黑名单上的应用程序。这仅适用于当前正在运行的实例和会话。
     </Entry>

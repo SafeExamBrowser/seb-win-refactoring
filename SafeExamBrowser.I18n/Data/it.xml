@@ -186,6 +186,9 @@
     <Entry key="LockScreen_ApplicationIntegrityMessage">
         Stai usando una versione SEB non ufficiale! Assicurati di utilizzare un Safe Exam Browser ufficiale. Per sbloccare SEB, inserisci la password di sblocco corretta.
     </Entry>
+    <Entry key="LockScreen_ApplicationSuspensionMessage">
+        Safe Exam Browser è stato sospeso! Per sbloccare SEB, inserisci la password di sblocco corretta.
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Consenti temporaneamente le applicazioni nella lista nera. Ciò si applica solo alle istanze e alla sessione attualmente in esecuzione!
     </Entry>

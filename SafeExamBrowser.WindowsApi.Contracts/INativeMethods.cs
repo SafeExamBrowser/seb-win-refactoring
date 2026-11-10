@@ -23,6 +23,24 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		void ActivateWindow(IntPtr handle);
 
 		/// <summary>
+		/// Closes the handle for the specified thread.
+		/// </summary>
+		void CloseThread(IntPtr handle);
+
+		/// <summary>
+		/// Closes the handle for the specified timer.
+		/// </summary>
+		void CloseTimer(IntPtr timer);
+
+		/// <summary>
+		/// Creates a waitable timer and returns the handle to it.
+		/// </summary>
+		/// <exception cref="System.ComponentModel.Win32Exception">
+		/// If the timer could not be created.
+		/// </exception>
+		IntPtr CreateWaitableTimer();
+
+		/// <summary>
 		/// Deregisters a previously registered keyboard hook.
 		/// </summary>
 		/// <exception cref="System.ComponentModel.Win32Exception">
@@ -155,9 +173,19 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		bool IsMinimizedWindow(IntPtr window);
 
 		/// <summary>
+		/// Indicates whether the specified thread is currently suspended.
+		/// </summary>
+		bool IsThreadSuspended(IntPtr handle);
+
+		/// <summary>
 		/// Minimizes all open windows.
 		/// </summary>
 		void MinimizeAllOpenWindows();
+
+		/// <summary>
+		/// Opens a handle for the thread with the specified identifier.
+		/// </summary>
+		IntPtr OpenThread(int id);
 
 		/// <summary>
 		/// Instructs the main Windows explorer process to shut down.
@@ -166,6 +194,14 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		/// If the message could not be successfully posted. Does not apply if the process isn't running!
 		/// </exception>
 		void PostCloseMessageToShell();
+
+		/// <summary>
+		/// Returns the current unbiased interrupt time in clock ticks.
+		/// </summary>
+		/// <exception cref="System.ComponentModel.Win32Exception">
+		/// If the time could not be queried.
+		/// </exception>
+		long QueryUnbiasedInterruptTime();
 
 		/// <summary>
 		/// Registers a keyboard hook for the given callback. Returns the identifier of the newly registered hook.
@@ -218,6 +254,14 @@ namespace SafeExamBrowser.WindowsApi.Contracts
 		/// and/or prevents Windows from entering sleep mode or standby when set to <c>true</c> respectively.
 		/// </summary>
 		void SetAlwaysOnState(bool display = true, bool system = true);
+
+		/// <summary>
+		/// Sets the specified timer to the given due time and waits for its completion.
+		/// </summary>
+		/// <exception cref="System.ComponentModel.Win32Exception">
+		/// If the timer could not be set.
+		/// </exception>
+		void SetAndWait(IntPtr timer, long dueTime);
 
 		/// <summary>
 		/// Sets the wallpaper to the image located at the specified file path.

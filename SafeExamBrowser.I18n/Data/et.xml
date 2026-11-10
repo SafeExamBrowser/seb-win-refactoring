@@ -186,6 +186,9 @@
     <Entry key="LockScreen_ApplicationIntegrityMessage">
         Kasutate SEB mitteametlikku versiooni! Kasutage kindlasti ametlikku Safe Exam Browser'it. SEB avamiseks sisestage õige avamisparool.
     </Entry>
+    <Entry key="LockScreen_ApplicationSuspensionMessage">
+        Safe Exam Browser on peatatud! SEB avamiseks sisestage õige avamisparool.
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Lubage ajutiselt musta nimekirja kantud rakendused. See kehtib ainult hetkel töös olevate juhtude ja seansi kohta!
     </Entry>

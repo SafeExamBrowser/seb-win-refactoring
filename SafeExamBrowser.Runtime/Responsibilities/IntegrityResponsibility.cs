@@ -10,6 +10,7 @@ using System;
 using System.Timers;
 using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
 
 namespace SafeExamBrowser.Runtime.Responsibilities
 {
@@ -17,6 +18,7 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 	{
 		private readonly IIntegrityModule integrityModule;
 		private readonly Action shutdown;
+		private readonly ISuspensionMonitor suspensionMonitor;
 		private readonly Timer timer;
 
 		public IntegrityResponsibility(
@@ -24,10 +26,12 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 			int interval_ms,
 			ILogger logger,
 			RuntimeContext runtimeContext,
-			Action shutdown) : base(logger, runtimeContext)
+			Action shutdown,
+			ISuspensionMonitor suspensionMonitor) : base(logger, runtimeContext)
 		{
 			this.integrityModule = integrityModule;
 			this.shutdown = shutdown;
+			this.suspensionMonitor = suspensionMonitor;
 			this.timer = new Timer(interval_ms);
 		}
 
@@ -46,6 +50,9 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 
 		private void StartIntegrityMonitoring()
 		{
+			suspensionMonitor.SuspensionDetected += SuspensionMonitor_SuspensionDetected;
+			suspensionMonitor.Start();
+
 			timer.AutoReset = false;
 			timer.Elapsed += Timer_Elapsed;
 			timer.Start();
@@ -55,10 +62,19 @@ namespace SafeExamBrowser.Runtime.Responsibilities
 
 		private void StopIntegrityMonitoring()
 		{
+			suspensionMonitor.Stop();
+			suspensionMonitor.SuspensionDetected -= SuspensionMonitor_SuspensionDetected;
+
 			timer.Stop();
 			timer.Elapsed -= Timer_Elapsed;
 
 			Logger.Info("Stopped monitoring integrity.");
+		}
+
+		private void SuspensionMonitor_SuspensionDetected()
+		{
+			Logger.Info("Initiating shutdown due to application suspension...");
+			shutdown.Invoke();
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)

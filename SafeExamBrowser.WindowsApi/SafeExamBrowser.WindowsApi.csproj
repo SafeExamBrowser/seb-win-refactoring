@@ -75,6 +75,7 @@
     <Compile Include="Hooks\MouseHook.cs" />
     <Compile Include="Hooks\SystemHook.cs" />
     <Compile Include="Msctf.cs" />
+    <Compile Include="Ntdll.cs" />
     <Compile Include="Processes\Process.cs" />
     <Compile Include="Processes\ProcessFactory.cs" />
     <Compile Include="Constants\AccessMask.cs" />

@@ -186,6 +186,9 @@
     <Entry key="LockScreen_ApplicationIntegrityMessage">
         Anda menggunakan versi SEB yang tidak resmi! Pastikan Anda menggunakan Safe Exam Browser yang resmi. Untuk membuka kunci SEB, masukkan kata sandi pembuka kunci yang benar.
     </Entry>
+    <Entry key="LockScreen_ApplicationSuspensionMessage">
+        Safe Exam Browser telah ditangguhkan! Untuk membuka kunci SEB, silakan masukkan kata sandi pembuka kunci yang benar.
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Izinkan aplikasi yang masuk daftar hitam untuk sementara waktu. Ini hanya berlaku untuk instance dan sesi yang sedang berjalan!
     </Entry>

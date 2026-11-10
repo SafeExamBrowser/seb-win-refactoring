@@ -65,6 +65,28 @@ namespace SafeExamBrowser.WindowsApi
 			}
 		}
 
+		public void CloseThread(IntPtr handle)
+		{
+			Kernel32.CloseHandle(handle);
+		}
+
+		public void CloseTimer(IntPtr handle)
+		{
+			Kernel32.CloseHandle(handle);
+		}
+
+		public IntPtr CreateWaitableTimer()
+		{
+			var timer = Kernel32.CreateWaitableTimerEx(IntPtr.Zero, null, Kernel32.CREATE_WAITABLE_TIMER_HIGH_RESOLUTION, Kernel32.TIMER_ALL_ACCESS);
+
+			if (timer == IntPtr.Zero)
+			{
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
+
+			return timer;
+		}
+
 		public void DeregisterKeyboardHook(Guid hookId)
 		{
 			var hook = KeyboardHooks.Values.FirstOrDefault(h => h.Id == hookId);
@@ -326,11 +348,24 @@ namespace SafeExamBrowser.WindowsApi
 			return User32.IsIconic(window);
 		}
 
+		public bool IsThreadSuspended(IntPtr handle)
+		{
+			const int SUCCESS = 0;
+			var status = Ntdll.NtQueryInformationThread(handle, Ntdll.ThreadSuspendCount, out var count, sizeof(uint), IntPtr.Zero);
+
+			return status == SUCCESS && count > 0;
+		}
+
 		public void MinimizeAllOpenWindows()
 		{
 			var handle = GetShellWindowHandle();
 
 			User32.SendMessage(handle, Constant.WM_COMMAND, (IntPtr) Constant.MIN_ALL, IntPtr.Zero);
+		}
+
+		public IntPtr OpenThread(int id)
+		{
+			return Kernel32.OpenThread(ThreadAccess.QUERY_LIMITED_INFORMATION, false, (uint) id);
 		}
 
 		public void PostCloseMessageToShell()
@@ -345,6 +380,16 @@ namespace SafeExamBrowser.WindowsApi
 			{
 				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
+		}
+
+		public long QueryUnbiasedInterruptTime()
+		{
+			if (!Kernel32.QueryUnbiasedInterruptTime(out var ticks))
+			{
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
+
+			return (long) ticks;
 		}
 
 		public Guid RegisterKeyboardHook(KeyboardHookCallback callback)
@@ -488,6 +533,16 @@ namespace SafeExamBrowser.WindowsApi
 
 				Kernel32.SetThreadExecutionState(state);
 			}
+		}
+
+		public void SetAndWait(IntPtr timer, long dueTime)
+		{
+			if (!Kernel32.SetWaitableTimer(timer, ref dueTime, 0, IntPtr.Zero, IntPtr.Zero, false))
+			{
+				throw new Win32Exception(Marshal.GetLastWin32Error());
+			}
+
+			Kernel32.WaitForSingleObject(timer, Kernel32.INFINITE);
 		}
 
 		public void SetWallpaper(string filePath)

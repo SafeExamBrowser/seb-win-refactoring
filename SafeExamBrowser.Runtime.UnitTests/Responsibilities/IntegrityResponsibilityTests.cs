@@ -13,6 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
 using SafeExamBrowser.Runtime.Responsibilities;
 
 namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
@@ -26,6 +27,7 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 		private Mock<IIntegrityModule> integrityModule;
 		private Mock<ILogger> logger;
 		private Mock<Action> shutdown;
+		private Mock<ISuspensionMonitor> suspensionMonitor;
 
 		private IntegrityResponsibility sut;
 
@@ -36,8 +38,9 @@ namespace SafeExamBrowser.Runtime.UnitTests.Responsibilities
 			integrityModule = new Mock<IIntegrityModule>();
 			logger = new Mock<ILogger>();
 			shutdown = new Mock<Action>();
+			suspensionMonitor = new Mock<ISuspensionMonitor>();
 
-			sut = new IntegrityResponsibility(integrityModule.Object, INTERVAL_MS, logger.Object, context, shutdown.Object);
+			sut = new IntegrityResponsibility(integrityModule.Object, INTERVAL_MS, logger.Object, context, shutdown.Object, suspensionMonitor.Object);
 		}
 
 		[TestCleanup]

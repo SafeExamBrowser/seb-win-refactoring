@@ -201,6 +201,9 @@
     <Entry key="LockScreen_ApplicationIntegrityMessage">
         You are using an unofficial SEB version! Please make sure to use an official Safe Exam Browser. In order to unlock SEB, please enter the correct unlock password.
     </Entry>
+    <Entry key="LockScreen_ApplicationSuspensionMessage">
+        Safe Exam Browser has been suspended! In order to unlock SEB, please enter the correct unlock password.
+    </Entry>
     <Entry key="LockScreen_ApplicationsAllowOption">
         Temporarily allow the blacklisted applications. This applies only to the currently running instances and session!
     </Entry>

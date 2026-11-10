@@ -29,7 +29,9 @@ using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging;
 using SafeExamBrowser.Logging.Contracts;
 using SafeExamBrowser.Monitoring;
+using SafeExamBrowser.Monitoring.Contracts;
 using SafeExamBrowser.Monitoring.Display;
+using SafeExamBrowser.Monitoring.Suspension;
 using SafeExamBrowser.Monitoring.System;
 using SafeExamBrowser.Runtime.Communication;
 using SafeExamBrowser.Runtime.Operations.Bootstrap;
@@ -83,12 +85,13 @@ namespace SafeExamBrowser.Runtime
 			var runtimeWindow = factory.CreateRuntimeWindow(appConfig);
 			var serviceProxy = new ServiceProxy(appConfig.ServiceAddress, new ProxyObjectFactory(), ModuleLogger(nameof(ServiceProxy)), Interlocutor.Runtime);
 			var splashScreen = factory.CreateSplashScreen(appConfig);
+			var suspensionMonitor = new SuspensionMonitor(ModuleLogger(nameof(SuspensionMonitor)), new NativeMethods());
 
 			systemInfo = CreateSystemInfo(registry);
 
 			var bootstrapSequence = BuildBootstrapOperations(crashLog, integrityModule, context, runtimeHost, splashScreen);
 			var sessionSequence = BuildSessionOperations(integrityModule, messageBox, registry, runtimeHost, runtimeWindow, serviceProxy, context, factory);
-			var responsibilities = BuildResponsibilities(integrityModule, mailClient, messageBox, context, runtimeHost, runtimeWindow, serviceProxy, sessionSequence, shutdown, splashScreen, factory);
+			var responsibilities = BuildResponsibilities(integrityModule, mailClient, messageBox, context, runtimeHost, runtimeWindow, serviceProxy, sessionSequence, shutdown, splashScreen, suspensionMonitor, factory);
 
 			context.Responsibilities = responsibilities;
 
@@ -123,6 +126,7 @@ namespace SafeExamBrowser.Runtime
 			SessionOperationSequence sessionSequence,
 			Action shutdown,
 			ISplashScreen splashScreen,
+			ISuspensionMonitor suspensionMonitor,
 			IUserInterfaceFactory factory)
 		{
 			var responsibilities = new Queue<RuntimeResponsibility>();
@@ -130,7 +134,7 @@ namespace SafeExamBrowser.Runtime
 			responsibilities.Enqueue(new ClientResponsibility(ModuleLogger(nameof(ClientResponsibility)), messageBox, runtimeContext, runtimeWindow, shutdown));
 			responsibilities.Enqueue(new CommunicationResponsibility(ModuleLogger(nameof(CommunicationResponsibility)), runtimeContext, runtimeHost, shutdown));
 			responsibilities.Enqueue(new ErrorMessageResponsibility(appConfig, ModuleLogger(nameof(ErrorMessageResponsibility)), mailClient, runtimeContext, runtimeWindow, splashScreen, text, factory));
-			responsibilities.Enqueue(new IntegrityResponsibility(integrityModule, FIVE_SECONDS, ModuleLogger(nameof(IntegrityResponsibility)), runtimeContext, shutdown));
+			responsibilities.Enqueue(new IntegrityResponsibility(integrityModule, FIVE_SECONDS, ModuleLogger(nameof(IntegrityResponsibility)), runtimeContext, shutdown, suspensionMonitor));
 			responsibilities.Enqueue(new ServiceResponsibility(ModuleLogger(nameof(ServiceResponsibility)), messageBox, runtimeContext, runtimeWindow, serviceProxy, shutdown));
 			responsibilities.Enqueue(new SessionResponsibility(appConfig, ModuleLogger(nameof(SessionResponsibility)), messageBox, runtimeContext, runtimeWindow, sessionSequence, shutdown, text));
 

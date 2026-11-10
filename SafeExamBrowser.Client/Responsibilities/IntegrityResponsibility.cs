@@ -14,6 +14,7 @@ using SafeExamBrowser.Client.Contracts;
 using SafeExamBrowser.I18n.Contracts;
 using SafeExamBrowser.Integrity.Contracts;
 using SafeExamBrowser.Logging.Contracts;
+using SafeExamBrowser.Monitoring.Contracts;
 using SafeExamBrowser.UserInterface.Contracts.Windows.Data;
 
 namespace SafeExamBrowser.Client.Responsibilities
@@ -21,16 +22,24 @@ namespace SafeExamBrowser.Client.Responsibilities
 	internal class IntegrityResponsibility : ClientResponsibility
 	{
 		private readonly ICoordinator coordinator;
+		private readonly ISuspensionMonitor suspensionMonitor;
 		private readonly IText text;
 		private readonly Timer timer;
 
 		private IIntegrityModule IntegrityModule => Context.IntegrityModule;
 
-		public IntegrityResponsibility(ClientContext context, ICoordinator coordinator, ILogger logger, IText text) : base(context, logger)
+		public IntegrityResponsibility(
+			ClientContext context,
+			ICoordinator coordinator,
+			int interval_ms,
+			ILogger logger,
+			ISuspensionMonitor suspensionMonitor,
+			IText text) : base(context, logger)
 		{
 			this.coordinator = coordinator;
+			this.suspensionMonitor = suspensionMonitor;
 			this.text = text;
-			this.timer = new Timer();
+			this.timer = new Timer(interval_ms);
 		}
 
 		public override void Assume(ClientTask task)
@@ -65,10 +74,10 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 		private void StartIntegrityMonitoring()
 		{
-			const int FIVE_SECONDS = 5000;
+			suspensionMonitor.SuspensionDetected += SuspensionMonitor_SuspensionDetected;
+			suspensionMonitor.Start();
 
 			timer.AutoReset = false;
-			timer.Interval = FIVE_SECONDS;
 			timer.Elapsed += Timer_Elapsed;
 			timer.Start();
 
@@ -77,10 +86,32 @@ namespace SafeExamBrowser.Client.Responsibilities
 
 		private void StopIntegrityMonitoring()
 		{
+			suspensionMonitor.Stop();
+			suspensionMonitor.SuspensionDetected -= SuspensionMonitor_SuspensionDetected;
+
 			timer.Stop();
 			timer.Elapsed -= Timer_Elapsed;
 
 			Logger.Info("Stopped monitoring integrity.");
+		}
+
+		private void SuspensionMonitor_SuspensionDetected()
+		{
+			if (coordinator.RequestSessionLock())
+			{
+				Logger.Warn("Application has been suspended!");
+
+				ShowLockScreen(text.Get(TextKey.LockScreen_ApplicationSuspensionMessage), text.Get(TextKey.LockScreen_Title), Enumerable.Empty<LockScreenOption>());
+
+				Logger.Info("Attempting to shutdown due to application suspension...");
+				TryRequestShutdown();
+
+				coordinator.ReleaseSessionLock();
+			}
+			else
+			{
+				Logger.Warn($"Application has been suspended but lock screen is already active!");
+			}
 		}
 
 		private void Timer_Elapsed(object sender, ElapsedEventArgs e)
