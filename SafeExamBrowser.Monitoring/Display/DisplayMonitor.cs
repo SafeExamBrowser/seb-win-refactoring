@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2026 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -74,10 +74,12 @@ namespace SafeExamBrowser.Monitoring.Display
 				var count = active.Count();
 				var hasAllowedCount = count <= settings.AllowedDisplays;
 				var hasAllowedTypes = !settings.InternalDisplayOnly || active.All(d => d.IsInternal);
+				var hasVirtualDisplay = active.Any(d => d.IsVirtual);
 
 				result.ExternalDisplays = active.Count(d => !d.IsInternal);
 				result.InternalDisplays = active.Count(d => d.IsInternal);
-				result.IsAllowed = hasAllowedCount && hasAllowedTypes;
+				result.HasVirtualDisplay = hasVirtualDisplay;
+				result.IsAllowed = hasAllowedCount && hasAllowedTypes && !hasVirtualDisplay;
 
 				if (result.IsAllowed)
 				{
@@ -85,6 +87,11 @@ namespace SafeExamBrowser.Monitoring.Display
 				}
 				else
 				{
+					if (hasVirtualDisplay)
+					{
+						logger.Warn("Detected active virtual display(s) which are not allowed!");
+					}
+
 					if (!hasAllowedCount)
 					{
 						logger.Warn($"Detected {count} active displays but only {settings.AllowedDisplays} are allowed!");
