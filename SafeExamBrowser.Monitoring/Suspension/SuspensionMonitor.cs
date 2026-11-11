@@ -112,6 +112,10 @@ namespace SafeExamBrowser.Monitoring.Suspension
 					}
 				}
 			}
+			catch (ThreadAbortException)
+			{
+				logger.Debug("Monitoring has been aborted.");
+			}
 			catch (Exception e)
 			{
 				logger.Error($"An unexpected error occurred while monitoring!", e);
@@ -137,7 +141,7 @@ namespace SafeExamBrowser.Monitoring.Suspension
 
 			if (detected)
 			{
-				resume = monotonicTime.Now + +SUSPENSION_LIMIT;
+				resume = monotonicTime.Now + TWO_SECONDS + SUSPENSION_LIMIT;
 				samples.Clear();
 
 				Task.Run(() => SuspensionDetected?.Invoke());

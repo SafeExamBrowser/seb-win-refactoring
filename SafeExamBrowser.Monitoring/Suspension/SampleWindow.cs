@@ -18,7 +18,7 @@ namespace SafeExamBrowser.Monitoring.Suspension
 		private readonly Queue<Sample> samples;
 
 		internal int Count => samples.Count;
-		internal TimeSpan Duration => Count == 0 ? TimeSpan.Zero : samples.First().Time - samples.Peek().Time;
+		internal TimeSpan Duration => Count == 0 ? TimeSpan.Zero : samples.Last().Time - samples.Peek().Time;
 		internal double Ratio => Count == 0 ? 0 : (double) Suspended / Count;
 		internal int Suspended => samples.Where(s => s.Suspended).Count();
 
