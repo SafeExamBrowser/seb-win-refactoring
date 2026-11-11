@@ -111,6 +111,7 @@ namespace SafeExamBrowser.Client.Responsibilities
 			else
 			{
 				Logger.Warn($"Application has been suspended but lock screen is already active!");
+				Task.Delay(TimeSpan.FromMinutes(1)).ContinueWith(_ => SuspensionMonitor_SuspensionDetected());
 			}
 		}
 

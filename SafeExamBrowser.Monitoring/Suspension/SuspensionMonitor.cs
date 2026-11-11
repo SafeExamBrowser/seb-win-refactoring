@@ -79,35 +79,43 @@ namespace SafeExamBrowser.Monitoring.Suspension
 
 		private void Run()
 		{
-			var last = monotonicTime.Now;
-			var lastRefresh = last - REFRESH_INTERVAL;
-			var resume = TimeSpan.Zero;
-			var samples = new SampleWindow(TWO_SECONDS);
-
-			using (var threads = new ThreadMonitor(nativeMethods))
-			using (var timeout = new RandomTimeout(nativeMethods))
+			try
 			{
-				while (!stop.IsSet)
+				var last = monotonicTime.Now;
+				var lastRefresh = last - REFRESH_INTERVAL;
+				var resume = TimeSpan.Zero;
+				var samples = new SampleWindow(TWO_SECONDS);
+
+				using (var threads = new ThreadMonitor(nativeMethods))
+				using (var timeout = new RandomTimeout(nativeMethods))
 				{
-					var expected = timeout.Wait();
-					var now = monotonicTime.Now;
-					var actual = now - last - expected;
-
-					last = now;
-
-					if (now - lastRefresh >= REFRESH_INTERVAL)
+					while (!stop.IsSet)
 					{
-						threads.Refresh();
-						lastRefresh = now;
-					}
+						var expected = timeout.Wait();
+						var now = monotonicTime.Now;
+						var actual = now - last - expected;
 
-					samples.Add(now, threads.IsAnySuspended());
+						last = now;
 
-					if (now >= resume)
-					{
-						Detect(actual, ref resume, samples);
+						if (now - lastRefresh >= REFRESH_INTERVAL)
+						{
+							threads.Refresh();
+							lastRefresh = now;
+						}
+
+						samples.Add(now, threads.IsAnySuspended());
+
+						if (now >= resume)
+						{
+							Detect(actual, ref resume, samples);
+						}
 					}
 				}
+			}
+			catch (Exception e)
+			{
+				logger.Error($"An unexpected error occurred while monitoring!", e);
+				Task.Run(() => SuspensionDetected?.Invoke());
 			}
 		}
 
@@ -118,7 +126,7 @@ namespace SafeExamBrowser.Monitoring.Suspension
 			if (actual > SUSPENSION_LIMIT)
 			{
 				detected = true;
-				logger.Warn($"The process was suspended for {actual:hh\\:mm\\:ss\\.fff} since {DateTime.Now - actual:HH:mm:ss}!");
+				logger.Warn($"The process was suspended for at least {actual:hh\\:mm\\:ss\\.fff} since about {DateTime.Now - actual:HH:mm:ss}!");
 			}
 
 			if (samples.Suspended >= SUSPENSION_MINIMUM && samples.Ratio > RATIO_MAXIMUM)
@@ -129,7 +137,7 @@ namespace SafeExamBrowser.Monitoring.Suspension
 
 			if (detected)
 			{
-				resume = monotonicTime.Now + samples.Duration + SUSPENSION_LIMIT;
+				resume = monotonicTime.Now + +SUSPENSION_LIMIT;
 				samples.Clear();
 
 				Task.Run(() => SuspensionDetected?.Invoke());
