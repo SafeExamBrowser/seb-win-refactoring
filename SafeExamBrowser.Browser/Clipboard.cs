@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2026 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -17,10 +17,31 @@ namespace SafeExamBrowser.Browser
 {
 	internal class Clipboard
 	{
+		private const int MaxContentLength = 16 * 1024 * 1024;
+
+		private readonly object syncLock = new object();
 		private readonly ILogger logger;
 		private readonly BrowserSettings settings;
 
-		internal string Content { get; private set; }
+		private string content;
+
+		internal string Content
+		{
+			get
+			{
+				lock (syncLock)
+				{
+					return content;
+				}
+			}
+			private set
+			{
+				lock (syncLock)
+				{
+					content = value;
+				}
+			}
+		}
 
 		internal event ClipboardChangedEventHandler Changed;
 
@@ -28,6 +49,14 @@ namespace SafeExamBrowser.Browser
 		{
 			this.logger = logger;
 			this.settings = settings;
+		}
+
+		internal void Clear()
+		{
+			lock (syncLock)
+			{
+				content = default;
+			}
 		}
 
 		internal void Update(JavascriptMessageReceivedEventArgs message)
@@ -52,14 +81,19 @@ namespace SafeExamBrowser.Browser
 
 		private bool TrySetContent(object value)
 		{
-			var text = value as string;
-
-			if (text != default)
+			if (value is string text)
 			{
+				if (text.Length > MaxContentLength)
+				{
+					logger.Warn($"Clipboard content of {text.Length} characters exceeds maximum allowed length of {MaxContentLength} characters; ignored.");
+					return false;
+				}
+
 				Content = text;
+				return true;
 			}
 
-			return text != default;
+			return false;
 		}
 
 		private class Data
