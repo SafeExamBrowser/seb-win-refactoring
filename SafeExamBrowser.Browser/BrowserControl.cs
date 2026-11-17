@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2026 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -77,6 +77,8 @@ namespace SafeExamBrowser.Browser
 
 		public void Destroy()
 		{
+			clipboard.Changed -= Clipboard_Changed;
+
 			if (!control.IsDisposed)
 			{
 				control.CloseDevTools();
@@ -193,6 +195,11 @@ namespace SafeExamBrowser.Browser
 		{
 			try
 			{
+				if (control.IsDisposed)
+				{
+					return;
+				}
+
 				var script = $"SafeExamBrowser.clipboard.update('{id}', '{clipboard.Content}');";
 
 				foreach (var frame in control.BrowserCore?.GetAllFrames() ?? Enumerable.Empty<IFrame>())

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2026 ETH Zürich, IT Services
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -19,6 +19,7 @@ namespace SafeExamBrowser.Browser
 {
 	internal class BrowserWindowContext
 	{
+		internal Clipboard Clipboard { get; set; }
 		internal IBrowserControl Control { get; set; }
 		internal IHashAlgorithm HashAlgorithm { get; set; }
 		internal BrowserIconResource Icon { get; set; }
